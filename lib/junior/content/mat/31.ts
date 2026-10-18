@@ -1,6 +1,10 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. İki kesenin oluşturduğu dörtgenler. */
+/**
+ * 6. Sınıf Matematik. İki kesenin oluşturduğu dörtgenler.
+ * Film `resolveJuniorPlayback` grafiğidir. Yamuk ve paralelkenar parametredir.
+ * `AnglesScene` bu dersi çizmez.
+ */
 export const JUNIOR_MAT_31_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-31",
   title: "İki kesenin oluşturduğu dörtgenler",

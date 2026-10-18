@@ -180,10 +180,10 @@ export function resolveAcademyCatalogCardCta(input: {
   }
   const money = academyStorefrontMoneyLabel(input.priceLabel);
   const display = money ? stripZeroKurusFromTryLabel(money) : null;
-  const saleClosed =
-    input.purchasable === false ||
-    (input.slug === ACADEMY_OFF201_STOREFRONT_SLUG && !academyCourseSaleListed(input.slug));
-  if (!input.owned && saleClosed) {
+  const purchaseOpen =
+    input.purchasable === true &&
+    !(input.slug === ACADEMY_OFF201_STOREFRONT_SLUG && !academyCourseSaleListed(input.slug));
+  if (!input.owned && !purchaseOpen) {
     if (input.studioPreview) {
       return {
         priceLabel: display ?? copy.catalog.priceMissing,

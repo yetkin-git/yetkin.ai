@@ -1,6 +1,10 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Fen Bilimleri. Bileşke kuvvet. */
+/**
+ * 6. Sınıf Fen Bilimleri. Bileşke kuvvet.
+ * Film `resolveJuniorPlayback` grafiğidir. Newton ve yön parametredir.
+ * `ForceScene` bu dersi çizmez.
+ */
 export const JUNIOR_FEN_9_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_fen-9",
   title: "Bileşke kuvvet",

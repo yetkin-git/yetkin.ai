@@ -5,7 +5,9 @@ import { edgeSecurityHeaderEntriesForPath } from "./lib/kernel/security/edge-sec
 /**
  * yetkin_muze müze klasörü build, webpack ve izleme kapsamı dışındadır (OPS; Anayasa maddesi değildir).
  * Git ve indeks: kök `.gitignore` + `.cursorindexingignore`.
- * apps/** (Rail İş dron) Amiral derlemesinden dışarıdadır — Faz 1 kapanana kadar yayın hattı donuk.
+ * apps/** (tek native istemci `apps/rail-is`) Pragmatik Monolit fonksiyon izinden dışarıdadır.
+ * Aynı `/api/v1` hop sicilini tüketen ikinci süreçtir; ayrı deploy değildir.
+ * `publishFrozenUntilFaz1Close` kapalıdır. CI binary basmaz.
  * İnce alias seti anayasa §2.1 — donmuş oda (`/yetkinx`, `/yetkinilan`, `/market`, `/corporate`)
  * canlı yola rewrite edilmez; kenar 410. KAPAT oda yönlendirmesi yazılmaz.
  * §2.5 `/kayit` CEO tedavi kilidi ile ince alias'tır (`/giris` çifti).

@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactElement } from "react";
 import { JuniorHintBox } from "@/components/junior/hint-box";
+import { JuniorPilotPlayer } from "@/components/junior/pilot-player/JuniorPilotPlayer";
 import { JuniorPlayerControls } from "@/components/junior/player/controls";
+import { resolveJuniorPlayback } from "@/lib/junior/pilot-engine/playback";
 import { JuniorLessonDecision } from "@/components/junior/player/lesson-decision";
 import { JuniorPauseBanner, JuniorStarQuestion } from "@/components/junior/player/pause-banner";
 import { JuniorStepArt } from "@/components/junior/player/step-art";
@@ -21,6 +23,7 @@ import {
 } from "@/lib/junior/content-rules";
 import {
   completeMicroStep,
+  mergeWatchedScenes,
   readMicroProgress,
   writeMicroProgress,
   type MicroProgressRecord,
@@ -464,6 +467,50 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Söz hakkı ve dinleme sorumluluğu yan yanadır." },
     { caption: "Dikkat Noktası! Hak, sorumluluğu silmez." },
   ],
+  family: [
+    { caption: "Family Life: aile üyeleri bir arada duruyor." },
+    { caption: "Mother anne, father baba demektir." },
+    { caption: "Sister kız kardeş, brother erkek kardeştir." },
+    { caption: "I, you, we, they ile have got kullanılır." },
+    { caption: "He, she, it ile has got kullanılır." },
+    { caption: "I have got a sister." },
+    { caption: "She has got a brother." },
+    { caption: "Aile üyeleri ve sahiplik birlikte söylenir." },
+    { caption: "Altın İpucu! Özneye göre have got veya has got seçilir." },
+  ],
+  universe: [
+    { caption: "Universe: Güneş, Ay, yıldız ve gezegenler duruyor." },
+    { caption: "Sun Güneş, Moon Ay demektir." },
+    { caption: "Star yıldız, planet gezegendir." },
+    { caption: "Tekil varlıkta there is kullanılır." },
+    { caption: "Çoğul varlıklarda there are kullanılır." },
+    { caption: "There is one Sun. There are eight planets." },
+    { caption: "Gelecek tahmini will ve won't ile kurulur." },
+    { caption: "We will visit the planetarium." },
+    { caption: "Altın İpucu! Tekilde there is, çoğulda there are seçilir." },
+  ],
+  world: [
+    { caption: "World and Culture: ülke ve milliyet kartları duruyor." },
+    { caption: "Turkey ülke, Turkish milliyettir." },
+    { caption: "Japan ülke, Japanese milliyettir." },
+    { caption: "England ülke, English milliyettir." },
+    { caption: "Ülke adının önüne from gelir." },
+    { caption: "I am from Turkey. I am Turkish." },
+    { caption: "She is from Japan. She is Japanese." },
+    { caption: "He is from England. He is English." },
+    { caption: "Altın İpucu! from + Ülke, I am + Milliyet kalıbı karıştırılmaz." },
+  ],
+  rules: [
+    { caption: "Classroom Rules: hak ve sorumluluk tablosu duruyor." },
+    { caption: "Right hak, responsibility sorumluluktur." },
+    { caption: "Speak in turn söz hakkıdır." },
+    { caption: "Raise hand parmak kaldırmaktır." },
+    { caption: "Listen and respect dinlemek ve saygı duymaktır." },
+    { caption: "Keep the class clean sınıfı temiz tutmaktır." },
+    { caption: "I have the right to speak." },
+    { caption: "We listen to our friends." },
+    { caption: "Altın İpucu! Hak ve sorumluluk sınıfta yan yana durur." },
+  ],
   elective: [
     { caption: "Seçmeli ders açıldı." },
     { caption: "Kavram söylendi." },
@@ -507,7 +554,85 @@ type VectorPlayerProps = {
   microQuestion?: string;
 };
 
-export function VectorPlayer({
+/**
+ * Pilot dalı pre-roll shell: ısınma kaseti PCM saatine ofset yazmaz.
+ * gate finish → anlatı timeline 0 ms'den başlar (sealed ile aynı sözleşme).
+ */
+function PilotPlayerWithWarmupShell(props: VectorPlayerProps): ReactElement {
+  const playback = resolveJuniorPlayback(props.lessonKey ?? "");
+  const startNarrationRef = useRef<() => void>(() => undefined);
+  const watchedRef = useRef<string>("");
+  const warmup = useJuniorWarmupGate(
+    props.lessonKey ?? "",
+    () => startNarrationRef.current(),
+    props.grantedWarmupUrl ?? null,
+    props.lockPublicMedia ?? false,
+  );
+
+  const persistWatchedCues = useCallback(
+    (watchedIndices: readonly number[]) => {
+      const lessonKey = props.lessonKey ?? "";
+      if (!lessonKey || watchedIndices.length === 0) {
+        return;
+      }
+      const token = watchedIndices.join(",");
+      if (token === watchedRef.current) {
+        return;
+      }
+      watchedRef.current = token;
+      const profileId = props.profileId ?? "";
+      const current = readMicroProgress("junior", profileId, lessonKey);
+      const next = mergeWatchedScenes(current, watchedIndices);
+      if (next === current) {
+        return;
+      }
+      writeMicroProgress("junior", profileId, lessonKey, next);
+    },
+    [props.lessonKey, props.profileId],
+  );
+
+  return (
+    <div
+      className={`relative flex min-h-0 w-full flex-1 flex-col ${props.fill ? "h-full" : "h-auto"}`}
+      data-junior-warmup-gate={warmup.gate}
+      data-junior-pilot-warmup-shell=""
+    >
+      <JuniorPilotPlayer
+        timeline={playback.timeline}
+        grantedAudioUrl={props.grantedAudioUrl}
+        fill={props.fill}
+        onBindStop={props.onBindStop}
+        onPlaybackComplete={props.onPlaybackComplete}
+        onReadyToTell={props.onReadyToTell}
+        narrationHold={warmup.gate === "cassette"}
+        controlsLocked={warmup.orienting}
+        onBindStartNarration={(start) => {
+          startNarrationRef.current = start;
+        }}
+        onWatchedCuesChange={persistWatchedCues}
+      />
+      {warmup.src && warmup.gate !== "scene" ? (
+        <JuniorWarmupCassette
+          src={warmup.src}
+          fading={warmup.gate === "fade"}
+          onEnded={warmup.onEnded}
+          onSkip={warmup.onSkip}
+          onError={warmup.onError}
+        />
+      ) : null}
+    </div>
+  );
+}
+
+export function VectorPlayer(props: VectorPlayerProps) {
+  const playback = resolveJuniorPlayback(props.lessonKey ?? "");
+  if (playback.engine === "pilot") {
+    return <PilotPlayerWithWarmupShell {...props} />;
+  }
+  return <SealedVectorPlayer {...props} />;
+}
+
+function SealedVectorPlayer({
   scene,
   mebNote,
   lifeUse,

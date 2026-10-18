@@ -10,6 +10,8 @@ import { microLessonPlan, microStepBadge, MICRO_LESSON_MAX_MS, MICRO_LESSON_MIN_
 import {
   completeMicroStep,
   holdMicroStep,
+  mergeWatchedScenes,
+  microCompletionPercent,
   microProgressStorageKey,
   readMicroProgress,
   resumeCursor,
@@ -153,6 +155,17 @@ describe("mikro-ders ve sert durak", () => {
       holding: false,
       done: false,
     });
+  });
+
+  it("% Kaç Bitirdim? yüzdesini izlenen sahnelerden hesaplar", () => {
+    expect(microCompletionPercent({ completed: [], holding: null }, 12)).toBe(0);
+    expect(microCompletionPercent({ completed: [0, 1, 2], holding: null }, 12)).toBe(25);
+    expect(microCompletionPercent({ completed: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], holding: null }, 12)).toBe(
+      100,
+    );
+    const merged = mergeWatchedScenes({ completed: [0], holding: null }, [0, 1, 2]);
+    expect(merged.completed).toEqual([0, 1, 2]);
+    expect(microCompletionPercent(merged, 12)).toBe(25);
   });
 });
 

@@ -1,6 +1,9 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. Ortak bölenler ve ortak katlar. */
+/**
+ * 6. Sınıf Matematik. Ortak bölenler ve ortak katlar.
+ * Film `resolveJuniorPlayback` grafiğidir. EBOB ve EKOK sayıları grafiğin parametresidir.
+ */
 export const JUNIOR_MAT_7_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-7",
   title: "Ortak bölen ve ortak kat",

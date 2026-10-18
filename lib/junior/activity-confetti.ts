@@ -4,6 +4,7 @@
  */
 
 const COLORS = ["#f472b6", "#38bdf8", "#facc15", "#34d399", "#a78bfa", "#fb7185", "#fdba74"];
+const SPARK_COLORS = ["#34d399", "#6ee7b7", "#4ade80", "#a7f3d0", "#86efac", "#facc15"];
 
 type Particle = {
   x: number;
@@ -17,7 +18,13 @@ type Particle = {
   life: number;
 };
 
-function burstFrom(particles: Particle[], x: number, y: number, count: number): void {
+function burstFrom(
+  particles: Particle[],
+  x: number,
+  y: number,
+  count: number,
+  colors: readonly string[] = COLORS,
+): void {
   for (let index = 0; index < count; index += 1) {
     const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.15;
     const speed = 5 + Math.random() * 8;
@@ -27,7 +34,7 @@ function burstFrom(particles: Particle[], x: number, y: number, count: number): 
       vx: Math.cos(angle) * speed,
       vy: Math.sin(angle) * speed - 2,
       size: 7 + Math.random() * 7,
-      color: COLORS[index % COLORS.length] ?? "#facc15",
+      color: colors[index % colors.length] ?? "#34d399",
       rot: Math.random() * Math.PI,
       spin: (Math.random() - 0.5) * 0.28,
       life: 1,
@@ -35,7 +42,7 @@ function burstFrom(particles: Particle[], x: number, y: number, count: number): 
   }
 }
 
-export function burstJuniorActivityConfetti(): void {
+export function burstJuniorActivityConfetti(kind: "cheer" | "spark" = "cheer"): void {
   if (typeof document === "undefined" || typeof window === "undefined") {
     return;
   }
@@ -63,9 +70,15 @@ export function burstJuniorActivityConfetti(): void {
   };
   fit();
   const particles: Particle[] = [];
-  burstFrom(particles, canvas.width * 0.5, canvas.height * 0.38, 70);
-  burstFrom(particles, canvas.width * 0.18, canvas.height * 0.62, 36);
-  burstFrom(particles, canvas.width * 0.82, canvas.height * 0.62, 36);
+  if (kind === "spark") {
+    burstFrom(particles, canvas.width * 0.5, canvas.height * 0.46, 46, SPARK_COLORS);
+    burstFrom(particles, canvas.width * 0.32, canvas.height * 0.58, 18, SPARK_COLORS);
+    burstFrom(particles, canvas.width * 0.68, canvas.height * 0.58, 18, SPARK_COLORS);
+  } else {
+    burstFrom(particles, canvas.width * 0.5, canvas.height * 0.38, 70);
+    burstFrom(particles, canvas.width * 0.18, canvas.height * 0.62, 36);
+    burstFrom(particles, canvas.width * 0.82, canvas.height * 0.62, 36);
+  }
 
   let frame = 0;
   const tick = () => {

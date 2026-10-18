@@ -29,7 +29,7 @@ describe("Junior ders uç noktası ses yolu kapısı (T-01)", () => {
     expect(juniorLessonAccess("jr_06_mat-1")).toBe("missing");
     const opener = await readCard("jr_06_mat-5");
     expect(opener.lessonKey).toBe("jr_06_mat-5");
-    expect(opener.title).toBe("Çarpanlar, katlar ve bölünebilme");
+    expect(opener.title).toBe("Çarpanlar, Katlar ve Bölünebilme");
     expect(opener.subject).toBe("Matematik");
 
     expect(juniorLessonAccess("jr_06_mat-6")).toBe("locked");

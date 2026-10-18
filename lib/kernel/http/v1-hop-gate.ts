@@ -5,7 +5,11 @@
  */
 
 import { isApiV1Pathname } from "@/lib/kernel/http/api-v1";
-import { RAIL_V1_HOPS_META, isRailV1HopMetaDronForbidden } from "@/lib/kernel/http/v1-hops-meta";
+import {
+  RAIL_V1_HOPS_META,
+  isRailV1HopMetaDronForbidden,
+  type RailV1HopMethod,
+} from "@/lib/kernel/http/v1-hops-meta";
 import { EDGE_API_NOT_FOUND_ERROR } from "@/lib/kernel/security/edge-api-auth";
 import { normalizePathname } from "@/lib/kernel/security/edge-guard";
 
@@ -15,7 +19,7 @@ export const RAIL_V1_HOP_DRON_FORBIDDEN = "Akademi satın alma native istemciden
 
 export type RailV1HopGate = {
   id: string;
-  method: "GET" | "POST" | "PATCH";
+  method: RailV1HopMethod;
   v1PathTemplate: string;
   dronForbidden: boolean;
 };
@@ -28,6 +32,9 @@ export type RailV1HopGateDecision =
 /**
  * Kenar allowlist — `RAIL_V1_HOPS_META` id / method / v1PathTemplate / dronForbidden.
  * Yeni hop yalnız meta siciline yazılır; sözleşme Zod bindirir, kenar türetir.
+ * Junior kasa (`/api/v1/junior-pilot/checkout`) ve sınıf (`grade`) satır değildir: sicil dışı 404.
+ * Misafir profil masasının 410’u bu kapıda değil, donmuş oda kenarındadır.
+ * Profil yazma fiilleri aynı yolda method ile ayrılır.
  */
 export const RAIL_V1_HOP_GATES: readonly RailV1HopGate[] = RAIL_V1_HOPS_META.map((hop) => ({
   id: hop.id,

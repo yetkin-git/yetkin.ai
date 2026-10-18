@@ -9,7 +9,6 @@
  */
 
 import { isJuniorCoverKey } from "@/lib/junior/covers";
-import { juniorLessonMediaIsPublicPreview } from "@/lib/junior/media-visibility";
 import { resolvePublicMediaUrl } from "@/lib/media/public-url";
 
 export const JUNIOR_SCENE_PUBLIC_DIR = "/media/junior/scenes" as const;
@@ -470,9 +469,9 @@ export type JuniorSceneBeatMedia = {
 /** Beat 0…8 öğretimdir. Özet (beat ≥ 9) plaka ve video almaz. */
 export function juniorSceneMediaForBeat(lessonKey: string, beat: number): JuniorSceneBeatMedia {
   const key = lessonKey.trim();
-  // Sahne medyası yalnız ücretsiz önizleme derslerine verilir. Kilitli dersin görseli kamu CDN'e çıkmaz;
-  // oynatıcı vektör sahneye düşer. Dosya CDN'de yoksa JuniorScenePlate bir alt kata iner.
-  if (!key || beat < 0 || beat >= 9 || !juniorLessonMediaIsPublicPreview(key)) {
+  // Oynatıcıya erişim juniorLessonGate tarafından kontrol edilir (ücretsiz önizleme, aktif paket veya Super Admin denetim).
+  // Dosya CDN'de yoksa JuniorScenePlate onError ile vektör sahneye düşer.
+  if (!key || beat < 0 || beat >= 9) {
     return { videoSrc: null, imageSrc: null };
   }
   const step = beat + 1;

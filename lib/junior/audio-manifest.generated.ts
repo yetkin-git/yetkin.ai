@@ -2,7 +2,7 @@
 import type { JuniorAudioManifest } from "@/lib/junior/audio-manifest";
 
 export const JUNIOR_AUDIO_MANIFEST: JuniorAudioManifest = {
-  "jr_06_mat-5": { sha256: "90ce1a963777e5c58951301c279d438bba0bbf91df5919912a64abe5a40c1930", bytes: 12010605 },
+  "jr_06_mat-5": { sha256: "a8f13023f85c4ac8f1bc96557906261b3e4eaa81ea4e39f97d036fb68dd4660f", bytes: 8817645 },
   "jr_06_mat-6": { sha256: "0344ec810bffed63c7070454351bee50fbb5629b1d0df9650efbf395ad4c3039", bytes: 11322285 },
   "jr_06_mat-7": { sha256: "5a791e172d1163c9024b7fb645cc15bb12f36f0e078adb58a0f54e76d3087d8d", bytes: 11193645 },
   "jr_06_mat-11": { sha256: "0d1b7b53e096814a48fca08cbf8753ca35f92b9f9c36808ae980fb6c064bc4a3", bytes: 11273325 },

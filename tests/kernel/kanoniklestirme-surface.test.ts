@@ -64,9 +64,9 @@ describe("Faz 1 kanonikleştirme yüzeyi", () => {
     expect(existsSync(join(ROOT, "app/api/v1"))).toBe(false);
   });
 
-  it("v1 hop sicili 20 kayıt ve kenar kapısı 1:1 kilitler (API-First yazmalar açık)", () => {
+  it("v1 hop sicili 29 kayıt ve kenar kapısı 1:1 kilitler (API-First yazmalar açık)", () => {
     expect(RAIL_V1_HOPS.map((hop) => hop.id)).toEqual(RAIL_V1_HOP_GATES.map((hop) => hop.id));
-    expect(RAIL_V1_HOPS).toHaveLength(20);
+    expect(RAIL_V1_HOPS).toHaveLength(29);
     expect(RAIL_V1_HOPS.map((hop) => hop.id)).toEqual([
       "health",
       "academy-certificate",
@@ -88,8 +88,21 @@ describe("Faz 1 kanonikleştirme yüzeyi", () => {
       "junior-lesson-play",
       "junior-lesson-progress",
       "junior-lesson-practice",
+      "junior-profile",
+      "junior-profile-create",
+      "junior-profile-select",
+      "junior-profile-consent",
+      "junior-profile-erase",
+      "junior-electives",
+      "junior-tell",
+      "junior-practice",
+      "junior-quiz",
     ]);
-    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(20);
+    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(29);
+    expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).not.toContain("/api/v1/junior-pilot/checkout");
+    expect(RAIL_V1_HOPS.some((hop) => hop.v1PathTemplate.includes("junior-pilot/checkout"))).toBe(
+      false,
+    );
     expect(RAIL_V1_HOPS.some((hop) => hop.id === "freelancer-refund")).toBe(false);
     expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).not.toContain("refund");
     expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).toContain("/api/v1/academy");

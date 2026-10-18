@@ -9,19 +9,19 @@
 export const JUNIOR_PLAYER_BEAT_MS = 3600;
 
 /**
- * Yerel okuma hızına göre yaklaşık karakter/saniye.
+ * Yerel okuma hızına göre yaklaşık karakter/saniye (tane tane çocuk anlatım temposu).
  * Saat sesten yavaş akar; vurgu cümleyi kesmeden önce bitirmez.
  */
-export const JUNIOR_PLAYER_CHARS_PER_SEC = 12;
+export const JUNIOR_PLAYER_CHARS_PER_SEC = 7;
 
 /** Kısa cümle bir anda geçilmesin. */
 export const JUNIOR_PLAYER_MIN_WINDOW_MS = 1400;
 
 /**
- * Anlatım bandı. Saat saniyede 12 karakter sayar.
- * Alt sınır 5 dakika, hedef 7,5 dakika (7–8 dakika), üst sınır 12 dakika.
+ * Anlatım bandı. Süre yapay metinle değil, tane tane konuşma temposuyla sağlanır.
+ * Alt sınır 3 dakika (180 sn), hedef 7,5 dakika, üst sınır 12 dakika.
  */
-export const JUNIOR_NARRATION_MIN_MS = 300_000;
+export const JUNIOR_NARRATION_MIN_MS = 180_000;
 export const JUNIOR_NARRATION_MAX_MS = 720_000;
 export const JUNIOR_NARRATION_AIM_MS = 450_000;
 

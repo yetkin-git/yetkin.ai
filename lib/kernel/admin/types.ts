@@ -63,4 +63,8 @@ export const FUNNEL_READ_PATH = "/api/admin/funnel" as const;
 /** Admin sığınak yönlendirmeleri — canlı CTA hedefleri. */
 export const ADMIN_DASHBOARD_SHELTER_PATH = "/dashboard" as const;
 export const ADMIN_ACADEMY_SHELTER_PATH = "/academy" as const;
+/**
+ * Kilitli Freelancer kamu yolu. Admin ve kamu CTA bunu basmaz.
+ * Yüzey kilitliyken kenar 410 döner. Sabit, kapının adı olarak durur.
+ */
 export const ADMIN_FREELANCER_SHELTER_PATH = "/freelancer" as const;

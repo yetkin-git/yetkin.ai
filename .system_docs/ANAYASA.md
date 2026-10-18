@@ -4,11 +4,11 @@
 
 Bu belge iki katmandan oluşur:
 - **A Katmanı (A1–A5) — tek dokunulmaz katman:** Yasal, finansal ve temel güvenlik zorunluluklarıdır. Değişmez ve taviz verilemez.
-- **B Katmanı (B1–B5) — yaşayan ilkeler:** Mimari ve ürün rehberliğidir. Ürünle birlikte güncellenir. Operasyonel sayılar, env bayrakları ve HTTP kod tabloları burada durmaz; tek yaşayan kesit `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir.
+- **B Katmanı (B1–B6) — yaşayan ilkeler:** Mimari ve ürün rehberliğidir. Ürünle birlikte güncellenir. Operasyonel sayılar, env bayrakları ve HTTP kod tabloları burada durmaz; tek yaşayan kesit `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir.
 
 | Alan | Değer |
 |------|--------|
-| Tarih | 9 Ekim 2026 |
+| Tarih | 17 Ekim 2026 |
 | Kamu markası / domain | `yetkin.ai` |
 | Kalıcı belgeler | `/.system_docs` |
 | Ops | `.system_docs/OPS_RUNBOOK.md` (db / paytr / inngest / dron) |
@@ -77,7 +77,7 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 * **Kamu kanıt URL’si oda değildir:** `/vize` ve `/academy/dogrula` kanıt çıkışıdır; yeni oda açmaz.
 * **Çekirdek yetenekler (eski “sığınak” kavramı emeklidir):** Kimlik (`/profil`), fatura/cüzdan (`/cuzdan`), pasaport (`/pasaport`) ve idare (`/admin`) çekirdek yeteneklerdir; yan alan değildir.
 * **Genişleme:** Meşru ürün ihtiyaçları kayıt + bayrak + hop checklist’i ile monolit içinde açılır. Arşiv (`yetkin_muze/`, `archived/`) ana akışı kirletmez.
-* **Yetkin Junior:** Müstakil odadır. Kapı ve erişim B6 ve `lib/kernel/security/junior-gate.ts` içindedir. Bu madde o kapıyı ikinci kez yazmaz.
+* **Yetkin Junior:** Müstakil odadır. Panel, Akademi ve Kariyer vitrininin dördüncü odası değildir. Kapı ve erişim B6 ve `lib/kernel/security/junior-gate.ts` içindedir. Bu madde o kapıyı ikinci kez yazmaz. Young bu vitrinde yoktur; kayıt defterinde kapalıdır.
 
 ## B3. Geliştirici Dostu Test ve CI Politikası
 
@@ -89,19 +89,11 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 
 ## B4. Müfredat ve Yayın Formatı
 
-* **1 Eğitim Kodu = 1 Ses:** Bir kurs kodu tek bir `courseMasterVoice` stringi taşır. Ders bazlı ses haritası yoktur. Persona (dil ve üslup) ile anlatıcı adı (ses) ayrıdır. Persona Tezgâh / Anlatıcı yapısıdır; her kursta aynıdır (`.system_docs/PEDAGOJI.md` §2.2). Anlatıcı adı kursun sesidir. OFF-101 (`01_office_ai`) mührü Callirrhoe (Gözde) dir. OFF-201 (`01_office_ai_ileri`) mührü Kore (Aylin) dir (`ACADEMY_OFF201_COURSE_MASTER_VOICE`). OFF-201 eğitmeni Gözde olamaz. EC-102 (`02_ecommerce_ai`) anlatıcısı Kaan (Puck) dir. Selam «Merhaba, ben Kaan». Cinsiyet erkektir. Kart hitabı «Kaan Bey». Bu kursta usta unvanı yoktur. Deniz, Zephyr sicil adıdır; Selin, Aoede sicil adıdır. EC-102 o ağızlara bağlanmaz. Ev `lib/academy/instructors.ts`. Fırın modeli `lib/kernel/ai/model-roles.ts` içindeki `ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS` dir.
+* **1 Eğitim Kodu = 1 Ses:** Bir kurs kodu tek bir `courseMasterVoice` stringi taşır. Ders bazlı ses haritası yoktur. Persona (dil ve üslup) ile anlatıcı adı (ses) ayrıdır. Persona Tezgâh / Anlatıcı yapısıdır; her kursta aynıdır (`.system_docs/PEDAGOJI.md` §2.2). Anlatıcı adlarının tek yazı evi o maddedir. Çalışma zamanı evi `lib/academy/instructors.ts` dir. Bu madde o adları ikinci kez yazmaz. Fırın modeli `lib/kernel/ai/model-roles.ts` içindeki `ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS` dir.
 * **Ses modeli:** Çağrı kimliği yalnız `lib/kernel/ai/model-roles.ts` içindeki `ACADEMY_SEALED_MEDIA_MODEL` nesnesindedir. Fırın ve gümrük `VOICE_TTS` aynı kimliği okur. Gemini 2.5 ve alt modeller yasaktır. Kota yoksa işlem durur. Kota açılınca aynı rol ve aynı kurs sesi kullanılır. Konuşma temposu `ACADEMY_BAKE_ATEMPO`, ölçülen hedef `ACADEMY_INSTRUCTOR_SPEECH_RATE` dir. Ev `lib/academy/tts-loudnorm.ts` ve `lib/academy/instructors.ts`. Tempo, kodun yazdığı katsayının üzerine yükseltilmez. Bu maddede model kimliği, tempo ve desibel tekrarlanmaz.
 * **Süre ve sayısal sınır:** Tabanlar ve TTS bütçe tavanı `lib/academy/production-standard.ts` içindeki `ACADEMY_AI_LESSON_DURATION_MIN_MINUTES`, `ACADEMY_AI_LESSON_COUNT_MIN` ve `ACADEMY_MATCH_WHISTLE_MAX` sabitlerindedir. Ders istek bandı `lib/academy/tts-breath-chunks.ts` içindedir (`ACADEMY_TTS_LESSON_REQUEST_MIN`, `ACADEMY_TTS_LESSON_REQUEST_MAX`). Bu sabitlerin kilitlendiği test `tests/academy/production-standard.test.ts` dir. Ses modeli kimliği `lib/kernel/ai/model-roles.ts` içindeki `ACADEMY_SEALED_MEDIA_MODEL` dir. Bu maddede o sayılar ve model kimliği tekrarlanmaz. Metin kırpılmaz, tempo yükseltilmez. İstek bandına sığmayan metin yeniden paketlenir; bütçe tavanı konunun hakkını kesmek için gerekçe değildir.
-* **5 medya katmanı zorunluluğu:** Bu sıra yetişkin Akademi videosudur. Üretim sırası sabittir. Hiçbir yetişkin eğitim videosu bu katmanlardan biri eksikken fırınlanamaz ve mühürlenemez. Junior okul dersi bu listeye girmez. Junior kapısı `assertJuniorProductionSeal` dir. Ayrıntı `.system_docs/PEDAGOJI.md` Ek-J.
-  1. **Metin** — vatandaş dili, tek iş tek cümle.
-  2. **Ses** — Fırın ve gümrük `ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS` okur. Ev `lib/kernel/ai/model-roles.ts`. Tempo `lib/academy/tts-loudnorm.ts`. Seviye EBU R128 `loudnorm`.
-  3. **Video** — Yerel ısınma kaseti. Otomatik Veo 3.1 API video üretimi maliyet sızıntısı yarattığı için iptal edilmiştir. Dosya adı `-warmup.mp4` ile biter. Yol `lib/academy/lesson-veo.ts`. Canlı `VIDEO_GEN` mühürlü-ölüdür.
-  4. **Görsel** — `ACADEMY_SEALED_MEDIA_MODEL.IMAGE_GEN`. Ev `lib/kernel/ai/model-roles.ts`.
-  5. **Müzik** — `ACADEMY_SEALED_MEDIA_MODEL.MUSIC_GEN`. Vokalsiz fon müziği yatağı. Ducking `lib/academy/lesson-bed-duck.ts` (`ACADEMY_BED_BREATH_DB`).
-* **3 aşamalı kontrol kapısı:** Anlatının tek evi `.system_docs/PEDAGOJI.md` §B’dir. Bu madde o listeyi ikinci kez açmaz.
-  1. **Taslak metin** — operatör ve süreç kontrolü. Kod fail-closed zorlamaz.
-  2. **Gözden geçirme** — operatör ve süreç kontrolü. Kod fail-closed zorlamaz.
-  3. **Son kontrol** — kod seviyesinde fail-closed zorunluluk: beş katmanın tamamı teyit edilmeden `--seal` basılamaz. Kapı `assertAcademyProductionSeal` içindedir. Video yerel `-warmup.mp4` ve müzik yatağı bu kapının parçasıdır. Müzik rolü `ACADEMY_SEALED_MEDIA_MODEL.MUSIC_GEN`.
+* **5 medya katmanı zorunluluğu:** Bu sıra yetişkin Akademi videosudur. Üretim sırası sabittir. Hiçbir yetişkin eğitim videosu bu katmanlardan biri eksikken fırınlanamaz ve mühürlenemez. Katman listesinin tek tanımı `.system_docs/PEDAGOJI.md` §B «Zorunlu üretim sırası» altındadır. Bu madde o beş maddeyi ikinci kez açmaz. Otomatik Veo 3.1 API video üretimi maliyet sızıntısı yarattığı için iptal edilmiştir. Junior okul dersi bu listeye girmez. Junior kapısı `assertJuniorProductionSeal` dir. Ayrıntı `.system_docs/PEDAGOJI.md` Ek-J.
+* **3 aşamalı kontrol kapısı:** Anlatının tek evi `.system_docs/PEDAGOJI.md` §B’dir. Bu madde o listeyi ikinci kez açmaz. Son kontrol kod seviyesinde fail-closed zorunluluktur: beş katmanın tamamı teyit edilmeden `--seal` basılamaz. Kapı `assertAcademyProductionSeal` içindedir.
 * Cue ve karaoke rozeti konuşmayla akar; beş katmanın yerine geçmez. İzlemede canlı üretici çağrısı yoktur. Makale katmanı, ses yokken dürüst boşluktur; satış yüzeyi değildir.
 * **Konunun Hakkı:** Ders makaleye veya okuma dökümanına indirgenmez. Süre bantları üretim standardıdır; müfredatın hakkını kesmek için gerekçe gösterilemez.
 * **Müfredat ilkesi `.system_docs/PEDAGOJI.md` içindedir.** Haftalık SKU envanteri ve kaset listesi Anayasa maddesi değildir; sayılar ve müfredat koddadır.
@@ -111,7 +103,7 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 
 | Soru | SSOT |
 |------|------|
-| Yayın formatı (5 medya katmanı; son kontrol olmadan `--seal` yok) | Bu madde (B4) ve `.system_docs/PEDAGOJI.md` |
+| Yayın formatı (5 medya katmanı; son kontrol olmadan `--seal` yok) | `.system_docs/PEDAGOJI.md` §B; son kontrol bu madde ve `assertAcademyProductionSeal` |
 | 1 Eğitim Kodu = 1 Ses | `lib/academy/instructors.ts` (`courseMasterVoice`, `ACADEMY_OFF201_COURSE_MASTER_VOICE`) |
 | Model ve rol kimliği (ses, görsel, müzik, metin, canlı sohbet) | `lib/kernel/ai/model-roles.ts` (`ACADEMY_SEALED_MEDIA_MODEL`); Super Admin haritası `.system_docs/AKADEMI_URETIM_ANAYASASI.md` ile hizalı |
 | Ses modeli | `lib/kernel/ai/model-roles.ts` (`ACADEMY_SEALED_MEDIA_MODEL`) |
@@ -133,7 +125,7 @@ Bu bölüm **dokunulmaz değildir.** Operasyonel, mimari ve ürün geliştirme r
 ## B6. Yetkin Junior
 
 * **Yetkin Junior:** Junior modülü veli hesabı altında müstakil bir odadır. Doğum yılı penceresi `juniorBirthYearBounds` ve sınıf aralığı `JUNIOR_GRADE_MIN`–`JUNIOR_GRADE_MAX` kodundadır (`lib/junior/limits.ts`). Bu madde yaş sayısını ve kart slug’larını ikinci kez yazmaz. Pilot sınıf `JUNIOR_PILOT_GRADE` dir. Çekirdek ve seçmeli kart listeleri `JUNIOR_PILOT_SLUGS` ve `JUNIOR_ELECTIVE_SLUGS` içindedir. Ev `lib/junior/catalog.ts`. Sahte bakiye tutmaz. Her dersin ilk konusu ücretsizdir.
-* **Kapı:** Bu oda Akademi’nin iç kanalı değildir. Panel, Akademi ve Kariyer vitrini B2’de durur. Sol menüde Junior herkese açıktır. `/junior` ders listesi ve her dersin ilk konusu ziyaretçiye açıktır. İkinci konu, anlatış kaydı ve konu testi veli girişi ile yıllık paket ister. Sınıf seçici yalnız pilot sınıfı gösterir. Soru arşivi olmayan konuda test adımı hazırlık aşamasındadır. Seçmeli ders `assertJuniorProductionSeal` (`lib/junior/production-seal.ts`) geçmeden çekirdek kartla aynı tam ders sayılmaz; vitrin bu kartları hazır ders diye sunmaz. Para akışı kapalıdır: kasa `isJuniorCheckoutLocked` ile kilitli kalır, ikinci konu ve anlatış `canEnterJunior` kapalı betasına bağlıdır. Deneme mağaza anahtarı satışı açmaz. Yetişkin Akademi vitrinindeki kurslar durur; altında Junior tanıtım şeridi vardır. Teknik kaynak `canEnterJunior` (`lib/kernel/security/junior-gate.ts`) dir. Başka belge bu kapıyı yeniden yazmaz.
+* **Kapı:** Bu oda Akademi’nin iç kanalı değildir. Panel, Akademi ve Kariyer vitrini B2’de durur. Sol menüde Junior herkese açıktır. `/junior` ders listesi ve her dersin ilk konusu ziyaretçiye açıktır. İkinci konu, anlatış kaydı ve konu testi veli girişi ile yıllık paket ister. Sınıf seçici yalnız pilot sınıfı gösterir. Soru arşivi olmayan konuda test adımı hazırlık aşamasındadır. Seçmeli ders `assertJuniorProductionSeal` (`lib/junior/production-seal.ts`) geçmeden çekirdek kartla aynı tam ders sayılmaz; vitrin bu kartları hazır ders diye sunmaz. Para akışı kapalıdır: kasa `isJuniorCheckoutLocked` ile kilitli kalır, ikinci konu ve anlatış `canEnterJunior` kapalı betasına bağlıdır. Deneme mağaza anahtarı satışı açmaz. Junior müstakil bir odadır; Yetişkin Akademi vitrininde tanıtım şeridi taşımaz. Modüller arası geçiş yalnızca ana navigasyon (sol menü) ve doğrudan `/junior` rotası üzerinden sağlanır. Teknik kaynak `canEnterJunior` (`lib/kernel/security/junior-gate.ts`) dir. Başka belge bu kapıyı yeniden yazmaz.
 * **Pasaport:** Junior kursu Kariyer vizesine girmez. Kayıt defterinde `passportListed` kapalıdır. Ev `packages/kernel/src/catalog-ids/course-registry.ts`.
 * **Denetim sınırı:** İçerik yazımı maker-checker denetim izli yapıyla yürütülür; kasa ve fiyat yetkisi ayrılır. Super Admin kilitli dersleri, anlatışları ve testleri denetim amacıyla izleyebilir. Kapalı kasayı denetim hesabı açamaz. Yönetim kutusu `lib/kernel/auth/super-admin.ts` içindedir; kamu destek adresi bu maddeye yazılmaz.
 * **Öğretme:** Dinle ve Anlat ile veli modeli `.system_docs/PEDAGOJI.md` ve `.system_docs/MANIFESTO.md` Ek-J bölümlerindedir. Bu madde o metni ikinci kez yazmaz.

@@ -3,7 +3,7 @@
   "info": {
     "title": "yetkin.ai API v1",
     "version": "1",
-    "description": "yetkin.ai Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci — Proof / Payments. Faz 1 kamu sözleşmesi B2C'dir; Marketplace tag'i ve freelancer path'leri yayınlanmaz (iç bounded-context adı durur). Kopya `app/api/v1` handler ağacı yoktur; kenar soyar. Zarf: { ok, error, requestId, apiVersion, data }. X-Rail-Min-Version API sözleşme sürümüdür; mağaza uygulama build'i değildir (X-Rail-App-Build ayrı, v1'de kapı değil). Amiral ve Dron aynı v1 zarfı konuşur. Versiyonsuz `{ ok, ...data }` serimi kapalıdır. Yayınlanmış alan sessizce düşmez. CORS joker ve Allow-Credentials yoktur. SHA-256 akademi kaydı kriptografik imza değildir; içerik özeti / bütünlük kaydıdır."
+    "description": "yetkin.ai Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci — Proof / Payments. Faz 1 kamu sözleşmesi B2C'dir; Marketplace tag'i ve freelancer path'leri yayınlanmaz (iç bounded-context adı durur). Kopya `app/api/v1` handler ağacı yoktur; kenar soyar. Zarf: { ok, error, requestId, apiVersion, data }. X-Rail-Min-Version API sözleşme sürümüdür; mağaza uygulama build'i değildir (X-Rail-App-Build ayrı, v1'de kapı değil). Pragmatik Monolit ve tek native istemci aynı v1 zarfı konuşur. Versiyonsuz `{ ok, ...data }` serimi kapalıdır. Yayınlanmış alan sessizce düşmez. CORS joker ve Allow-Credentials yoktur. SHA-256 akademi kaydı kriptografik imza değildir; içerik özeti / bütünlük kaydıdır."
   },
   "servers": [
     {
@@ -4074,7 +4074,7 @@
           "Kernel"
         ],
         "summary": "/api/v1/junior/lessons/{key}/play",
-        "description": "Kanonik yol: /api/junior/lessons/{key}/play. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: lesson, media, practice, progress.",
+        "description": "Kanonik yol: /api/junior/lessons/{key}/play. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: lesson, media, practice, progress, graphic.",
         "security": [
           {
             "BearerAuth": []
@@ -4367,6 +4367,515 @@
                             "status"
                           ],
                           "additionalProperties": false
+                        },
+                        "graphic": {
+                          "nullable": true,
+                          "type": "object",
+                          "properties": {
+                            "schemaVersion": {
+                              "type": "string",
+                              "enum": [
+                                "2.0.0"
+                              ]
+                            },
+                            "layout": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "title": {
+                              "type": "string"
+                            },
+                            "subtitle": {
+                              "type": "string"
+                            },
+                            "fraction": {
+                              "nullable": true,
+                              "type": "object",
+                              "properties": {
+                                "operation": {
+                                  "type": "string"
+                                },
+                                "leftNumerator": {
+                                  "type": "number"
+                                },
+                                "leftDenominator": {
+                                  "type": "number"
+                                },
+                                "rightNumerator": {
+                                  "type": "number"
+                                },
+                                "rightDenominator": {
+                                  "type": "number"
+                                },
+                                "equivalentNumerator": {
+                                  "type": "number"
+                                },
+                                "equivalentDenominator": {
+                                  "type": "number"
+                                },
+                                "resultNumerator": {
+                                  "type": "number"
+                                },
+                                "resultDenominator": {
+                                  "type": "number"
+                                },
+                                "differenceNumerator": {
+                                  "type": "number"
+                                },
+                                "differenceDenominator": {
+                                  "type": "number"
+                                },
+                                "productNumerator": {
+                                  "type": "number"
+                                },
+                                "productDenominator": {
+                                  "type": "number"
+                                },
+                                "simplifiedNumerator": {
+                                  "type": "number"
+                                },
+                                "simplifiedDenominator": {
+                                  "type": "number"
+                                },
+                                "quotient": {
+                                  "type": "number"
+                                },
+                                "parts": {
+                                  "type": "number"
+                                },
+                                "filled": {
+                                  "type": "number"
+                                },
+                                "trap": {
+                                  "type": "string"
+                                },
+                                "note": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "operation",
+                                "leftNumerator",
+                                "leftDenominator",
+                                "rightNumerator",
+                                "rightDenominator",
+                                "equivalentNumerator",
+                                "equivalentDenominator",
+                                "resultNumerator",
+                                "resultDenominator",
+                                "differenceNumerator",
+                                "differenceDenominator",
+                                "productNumerator",
+                                "productDenominator",
+                                "simplifiedNumerator",
+                                "simplifiedDenominator",
+                                "quotient",
+                                "parts",
+                                "filled",
+                                "trap",
+                                "note"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "numberLine": {
+                              "nullable": true,
+                              "type": "object",
+                              "properties": {
+                                "unit": {
+                                  "type": "string"
+                                },
+                                "focus": {
+                                  "type": "number"
+                                },
+                                "focusLabel": {
+                                  "type": "string"
+                                },
+                                "relations": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              "required": [
+                                "unit",
+                                "focus",
+                                "focusLabel",
+                                "relations"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "angle": {
+                              "nullable": true,
+                              "type": "object",
+                              "properties": {
+                                "kind": {
+                                  "type": "string"
+                                },
+                                "acute": {
+                                  "type": "number"
+                                },
+                                "corresponding": {
+                                  "type": "number"
+                                },
+                                "alternate": {
+                                  "type": "number"
+                                },
+                                "supplementary": {
+                                  "type": "number"
+                                },
+                                "straight": {
+                                  "type": "number"
+                                },
+                                "complement": {
+                                  "type": "number"
+                                },
+                                "adjacentLabel": {
+                                  "type": "string"
+                                },
+                                "triangle": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "number"
+                                  }
+                                },
+                                "triangleSum": {
+                                  "type": "number"
+                                },
+                                "triangleMissing": {
+                                  "type": "number"
+                                },
+                                "quadrilateral": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "number"
+                                  }
+                                },
+                                "quadrilateralSum": {
+                                  "type": "number"
+                                },
+                                "quadrilateralKnown": {
+                                  "type": "number"
+                                },
+                                "quadrilateralMissing": {
+                                  "type": "number"
+                                },
+                                "diagonalLong": {
+                                  "type": "number"
+                                },
+                                "diagonalShort": {
+                                  "type": "number"
+                                },
+                                "halfLong": {
+                                  "type": "number"
+                                },
+                                "halfShort": {
+                                  "type": "number"
+                                },
+                                "names": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "note": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "kind",
+                                "acute",
+                                "corresponding",
+                                "alternate",
+                                "supplementary",
+                                "straight",
+                                "complement",
+                                "adjacentLabel",
+                                "triangle",
+                                "triangleSum",
+                                "triangleMissing",
+                                "quadrilateral",
+                                "quadrilateralSum",
+                                "quadrilateralKnown",
+                                "quadrilateralMissing",
+                                "diagonalLong",
+                                "diagonalShort",
+                                "halfLong",
+                                "halfShort",
+                                "names",
+                                "note"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "area": {
+                              "nullable": true,
+                              "type": "object",
+                              "properties": {
+                                "base": {
+                                  "type": "number"
+                                },
+                                "height": {
+                                  "type": "number"
+                                },
+                                "slant": {
+                                  "type": "number"
+                                },
+                                "parallelogram": {
+                                  "type": "number"
+                                },
+                                "triangle": {
+                                  "type": "number"
+                                },
+                                "divisor": {
+                                  "type": "number"
+                                },
+                                "unit": {
+                                  "type": "string"
+                                },
+                                "formula": {
+                                  "type": "string"
+                                },
+                                "squareSide": {
+                                  "type": "number"
+                                },
+                                "squareArea": {
+                                  "type": "number"
+                                },
+                                "squareCm2": {
+                                  "type": "number"
+                                },
+                                "cm2PerM2": {
+                                  "type": "number"
+                                },
+                                "donumCount": {
+                                  "type": "number"
+                                },
+                                "donumM2": {
+                                  "type": "number"
+                                },
+                                "hectareCount": {
+                                  "type": "number"
+                                },
+                                "hectareDonum": {
+                                  "type": "number"
+                                },
+                                "donumPerHectare": {
+                                  "type": "number"
+                                },
+                                "note": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "base",
+                                "height",
+                                "slant",
+                                "parallelogram",
+                                "triangle",
+                                "divisor",
+                                "unit",
+                                "formula",
+                                "squareSide",
+                                "squareArea",
+                                "squareCm2",
+                                "cm2PerM2",
+                                "donumCount",
+                                "donumM2",
+                                "hectareCount",
+                                "hectareDonum",
+                                "donumPerHectare",
+                                "note"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "force": {
+                              "nullable": true,
+                              "type": "object",
+                              "properties": {
+                                "unit": {
+                                  "type": "string"
+                                },
+                                "sameA": {
+                                  "type": "number"
+                                },
+                                "sameB": {
+                                  "type": "number"
+                                },
+                                "sameResult": {
+                                  "type": "number"
+                                },
+                                "sameWay": {
+                                  "type": "string"
+                                },
+                                "oppositeA": {
+                                  "type": "number"
+                                },
+                                "oppositeB": {
+                                  "type": "number"
+                                },
+                                "oppositeResult": {
+                                  "type": "number"
+                                },
+                                "oppositeWay": {
+                                  "type": "string"
+                                },
+                                "balanceA": {
+                                  "type": "number"
+                                },
+                                "balanceB": {
+                                  "type": "number"
+                                },
+                                "balanceResult": {
+                                  "type": "number"
+                                },
+                                "showBalance": {
+                                  "type": "boolean"
+                                },
+                                "unbalancedA": {
+                                  "type": "number"
+                                },
+                                "unbalancedB": {
+                                  "type": "number"
+                                },
+                                "unbalancedResult": {
+                                  "type": "number"
+                                },
+                                "unbalancedWay": {
+                                  "type": "string"
+                                },
+                                "note": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "unit",
+                                "sameA",
+                                "sameB",
+                                "sameResult",
+                                "sameWay",
+                                "oppositeA",
+                                "oppositeB",
+                                "oppositeResult",
+                                "oppositeWay",
+                                "balanceA",
+                                "balanceB",
+                                "balanceResult",
+                                "showBalance",
+                                "unbalancedA",
+                                "unbalancedB",
+                                "unbalancedResult",
+                                "unbalancedWay",
+                                "note"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "speed": {
+                              "nullable": true,
+                              "type": "object",
+                              "properties": {
+                                "distance": {
+                                  "type": "number"
+                                },
+                                "time": {
+                                  "type": "number"
+                                },
+                                "speed": {
+                                  "type": "number"
+                                },
+                                "distanceUnit": {
+                                  "type": "string"
+                                },
+                                "timeUnit": {
+                                  "type": "string"
+                                },
+                                "speedUnit": {
+                                  "type": "string"
+                                },
+                                "spanDistance": {
+                                  "type": "number"
+                                },
+                                "spanTime": {
+                                  "type": "number"
+                                },
+                                "laterDistance": {
+                                  "type": "number"
+                                },
+                                "laterTime": {
+                                  "type": "number"
+                                },
+                                "otherDistance": {
+                                  "type": "number"
+                                },
+                                "otherTime": {
+                                  "type": "number"
+                                },
+                                "otherSpeed": {
+                                  "type": "number"
+                                },
+                                "path": {
+                                  "type": "number"
+                                },
+                                "displacement": {
+                                  "type": "number"
+                                },
+                                "showDisplacement": {
+                                  "type": "boolean"
+                                },
+                                "direction": {
+                                  "type": "string"
+                                },
+                                "pathSum": {
+                                  "type": "number"
+                                },
+                                "displacementNet": {
+                                  "type": "number"
+                                },
+                                "straight": {
+                                  "type": "number"
+                                },
+                                "note": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "distance",
+                                "time",
+                                "speed",
+                                "distanceUnit",
+                                "timeUnit",
+                                "speedUnit",
+                                "spanDistance",
+                                "spanTime",
+                                "laterDistance",
+                                "laterTime",
+                                "otherDistance",
+                                "otherTime",
+                                "otherSpeed",
+                                "path",
+                                "displacement",
+                                "showDisplacement",
+                                "direction",
+                                "pathSum",
+                                "displacementNet",
+                                "straight",
+                                "note"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "required": [
+                            "schemaVersion",
+                            "layout",
+                            "title",
+                            "subtitle",
+                            "fraction",
+                            "numberLine",
+                            "angle",
+                            "area",
+                            "force",
+                            "speed"
+                          ],
+                          "additionalProperties": false
                         }
                       },
                       "required": [
@@ -4444,7 +4953,18 @@
           "practice[].kind",
           "practice[].prompt",
           "progress",
-          "progress.status"
+          "progress.status",
+          "graphic",
+          "graphic.schemaVersion",
+          "graphic.layout",
+          "graphic.title",
+          "graphic.subtitle",
+          "graphic.fraction",
+          "graphic.numberLine",
+          "graphic.angle",
+          "graphic.area",
+          "graphic.force",
+          "graphic.speed"
         ]
       }
     },
@@ -4964,6 +5484,2331 @@
                 },
                 "required": [
                   "profileId",
+                  "answers"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/junior-pilot/profiles": {
+      "get": {
+        "operationId": "junior-profile",
+        "tags": [
+          "Kernel"
+        ],
+        "summary": "/api/v1/junior-pilot/profiles",
+        "description": "Kanonik yol: /api/junior-pilot/profiles. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: profiles, selectedId, xp, courses.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "profiles": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "nickname": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "grade": {
+                                "type": "integer",
+                                "minimum": 5,
+                                "maximum": 8
+                              },
+                              "birthYear": {
+                                "nullable": true,
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              },
+                              "selected": {
+                                "type": "boolean"
+                              },
+                              "selectedElectives": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "gradeSwitchRights": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "nickname",
+                              "grade",
+                              "birthYear",
+                              "selected",
+                              "selectedElectives",
+                              "gradeSwitchRights"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "selectedId": {
+                          "nullable": true,
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "xp": {
+                          "type": "object",
+                          "properties": {
+                            "points": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "badges": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "required": [
+                            "points",
+                            "badges"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "courses": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "slug": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "subject": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "grade": {
+                                "type": "integer",
+                                "minimum": 5,
+                                "maximum": 8
+                              },
+                              "track": {
+                                "type": "string",
+                                "enum": [
+                                  "core",
+                                  "elective"
+                                ]
+                              },
+                              "labels": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "lessons": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "key": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "title": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "teaser": {
+                                      "type": "string"
+                                    },
+                                    "access": {
+                                      "type": "string",
+                                      "enum": [
+                                        "free",
+                                        "locked"
+                                      ]
+                                    },
+                                    "thisWeek": {
+                                      "type": "boolean"
+                                    },
+                                    "status": {
+                                      "type": "string",
+                                      "enum": [
+                                        "done",
+                                        "going",
+                                        "fresh",
+                                        "preparing"
+                                      ]
+                                    },
+                                    "weekHeading": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "archiveLabel": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "starterLabel": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "unitCode": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "unitIndex": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "exclusiveMinimum": true,
+                                      "maximum": 9007199254740991
+                                    },
+                                    "unitTitle": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "required": [
+                                    "key",
+                                    "title",
+                                    "teaser",
+                                    "access",
+                                    "thisWeek",
+                                    "status"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              },
+                              "outcomeWritten": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "outcomeTotal": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              }
+                            },
+                            "required": [
+                              "slug",
+                              "title",
+                              "subject",
+                              "grade",
+                              "track",
+                              "labels",
+                              "lessons"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "profiles",
+                        "selectedId",
+                        "xp",
+                        "courses"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "profiles",
+          "profiles[].id",
+          "profiles[].nickname",
+          "profiles[].grade",
+          "profiles[].birthYear",
+          "profiles[].selected",
+          "profiles[].selectedElectives",
+          "profiles[].gradeSwitchRights",
+          "selectedId",
+          "xp",
+          "xp.points",
+          "xp.badges",
+          "courses",
+          "courses[].slug",
+          "courses[].title",
+          "courses[].subject",
+          "courses[].grade",
+          "courses[].track",
+          "courses[].labels",
+          "courses[].lessons",
+          "courses[].lessons[].key",
+          "courses[].lessons[].title",
+          "courses[].lessons[].access",
+          "courses[].lessons[].status"
+        ]
+      },
+      "post": {
+        "operationId": "junior-profile-create",
+        "tags": [
+          "Kernel"
+        ],
+        "summary": "/api/v1/junior-pilot/profiles",
+        "description": "Kanonik yol: /api/junior-pilot/profiles. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: profile.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "profile": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "nickname": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "grade": {
+                              "type": "integer",
+                              "minimum": 5,
+                              "maximum": 8
+                            },
+                            "birthYear": {
+                              "nullable": true,
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            },
+                            "selected": {
+                              "type": "boolean"
+                            },
+                            "selectedElectives": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "gradeSwitchRights": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "nickname",
+                            "grade",
+                            "birthYear",
+                            "selected",
+                            "selectedElectives",
+                            "gradeSwitchRights"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "profile"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "profile",
+          "profile.id",
+          "profile.nickname",
+          "profile.grade",
+          "profile.birthYear",
+          "profile.selected",
+          "profile.selectedElectives",
+          "profile.gradeSwitchRights"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nickname": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 20
+                  },
+                  "grade": {
+                    "type": "number",
+                    "enum": [
+                      6
+                    ]
+                  },
+                  "birthYear": {
+                    "type": "integer",
+                    "minimum": 1900,
+                    "maximum": 2100
+                  },
+                  "consent": {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  },
+                  "consentVersion": {
+                    "type": "string",
+                    "pattern": "^junior-notice-\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "guardianBirthYear": {
+                    "type": "integer",
+                    "minimum": 1900,
+                    "maximum": 2100
+                  }
+                },
+                "required": [
+                  "nickname",
+                  "grade",
+                  "birthYear",
+                  "consent",
+                  "consentVersion",
+                  "guardianBirthYear"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "junior-profile-select",
+        "tags": [
+          "Kernel"
+        ],
+        "summary": "/api/v1/junior-pilot/profiles",
+        "description": "Kanonik yol: /api/junior-pilot/profiles. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: profile.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "profile": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "nickname": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "grade": {
+                              "type": "integer",
+                              "minimum": 5,
+                              "maximum": 8
+                            },
+                            "birthYear": {
+                              "nullable": true,
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            },
+                            "selected": {
+                              "type": "boolean"
+                            },
+                            "selectedElectives": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "gradeSwitchRights": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "nickname",
+                            "grade",
+                            "birthYear",
+                            "selected",
+                            "selectedElectives",
+                            "gradeSwitchRights"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "profile"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "profile",
+          "profile.id",
+          "profile.nickname",
+          "profile.grade",
+          "profile.birthYear",
+          "profile.selected",
+          "profile.selectedElectives",
+          "profile.gradeSwitchRights"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profileId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  }
+                },
+                "required": [
+                  "profileId"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "junior-profile-consent",
+        "tags": [
+          "Kernel"
+        ],
+        "summary": "/api/v1/junior-pilot/profiles",
+        "description": "Kanonik yol: /api/junior-pilot/profiles. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: profile.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "profile": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "nickname": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "grade": {
+                              "type": "integer",
+                              "minimum": 5,
+                              "maximum": 8
+                            },
+                            "birthYear": {
+                              "nullable": true,
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            },
+                            "selected": {
+                              "type": "boolean"
+                            },
+                            "selectedElectives": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "gradeSwitchRights": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "nickname",
+                            "grade",
+                            "birthYear",
+                            "selected",
+                            "selectedElectives",
+                            "gradeSwitchRights"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "profile"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "profile",
+          "profile.id",
+          "profile.nickname",
+          "profile.grade",
+          "profile.birthYear",
+          "profile.selected",
+          "profile.selectedElectives",
+          "profile.gradeSwitchRights"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profileId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  },
+                  "consent": {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  },
+                  "consentVersion": {
+                    "type": "string",
+                    "pattern": "^junior-notice-\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "guardianBirthYear": {
+                    "type": "integer",
+                    "minimum": 1900,
+                    "maximum": 2100
+                  }
+                },
+                "required": [
+                  "profileId",
+                  "consent",
+                  "consentVersion",
+                  "guardianBirthYear"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "junior-profile-erase",
+        "tags": [
+          "Kernel"
+        ],
+        "summary": "/api/v1/junior-pilot/profiles",
+        "description": "Kanonik yol: /api/junior-pilot/profiles. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: erased, profileId.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "erased": {
+                          "type": "boolean",
+                          "enum": [
+                            true
+                          ]
+                        },
+                        "profileId": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "erased",
+                        "profileId"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "erased",
+          "profileId"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profileId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  }
+                },
+                "required": [
+                  "profileId"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/junior-pilot/electives": {
+      "post": {
+        "operationId": "junior-electives",
+        "tags": [
+          "Kernel"
+        ],
+        "summary": "/api/v1/junior-pilot/electives",
+        "description": "Kanonik yol: /api/junior-pilot/electives. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: profile.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "profile": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "nickname": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "grade": {
+                              "type": "integer",
+                              "minimum": 5,
+                              "maximum": 8
+                            },
+                            "birthYear": {
+                              "nullable": true,
+                              "type": "integer",
+                              "minimum": -9007199254740991,
+                              "maximum": 9007199254740991
+                            },
+                            "selected": {
+                              "type": "boolean"
+                            },
+                            "selectedElectives": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "gradeSwitchRights": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "nickname",
+                            "grade",
+                            "birthYear",
+                            "selected",
+                            "selectedElectives",
+                            "gradeSwitchRights"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "profile"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "profile",
+          "profile.id",
+          "profile.nickname",
+          "profile.grade",
+          "profile.birthYear",
+          "profile.selected",
+          "profile.selectedElectives",
+          "profile.gradeSwitchRights"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profileId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  },
+                  "slugs": {
+                    "maxItems": 3,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 40
+                    }
+                  }
+                },
+                "required": [
+                  "profileId",
+                  "slugs"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/junior-pilot/tell": {
+      "post": {
+        "operationId": "junior-tell",
+        "tags": [
+          "Kernel"
+        ],
+        "summary": "/api/v1/junior-pilot/tell",
+        "description": "Kanonik yol: /api/junior-pilot/tell. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: praised, missing, advice, score, xpAwarded, points, badges.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "praised": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "missing": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "advice": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "score": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 100
+                        },
+                        "xpAwarded": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "points": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "badges": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "praised",
+                        "missing",
+                        "advice",
+                        "score",
+                        "xpAwarded",
+                        "points",
+                        "badges"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "praised",
+          "missing",
+          "advice",
+          "score",
+          "xpAwarded",
+          "points",
+          "badges"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profileId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  },
+                  "lessonKey": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "speak"
+                    ]
+                  },
+                  "audioBase64": {
+                    "type": "string",
+                    "maxLength": 1200000
+                  },
+                  "mimeType": {
+                    "type": "string",
+                    "maxLength": 80
+                  },
+                  "durationSec": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "profileId",
+                  "lessonKey",
+                  "mode"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/junior-pilot/practice": {
+      "post": {
+        "operationId": "junior-practice",
+        "tags": [
+          "Kernel"
+        ],
+        "summary": "/api/v1/junior-pilot/practice",
+        "description": "Kanonik yol: /api/junior-pilot/practice. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: praised, missing, advice, score, xpAwarded, points, badges, correct, total, notes.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "praised": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "missing": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "advice": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "score": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 100
+                        },
+                        "xpAwarded": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "points": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "badges": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "correct": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "total": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "exclusiveMinimum": true,
+                          "maximum": 9007199254740991
+                        },
+                        "notes": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "ok": {
+                                "type": "boolean"
+                              },
+                              "explanation": {
+                                "type": "string"
+                              },
+                              "answer": {
+                                "type": "string"
+                              },
+                              "cards": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "ok": {
+                                      "type": "boolean"
+                                    },
+                                    "answer": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "ok"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "ok",
+                              "explanation"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "praised",
+                        "missing",
+                        "advice",
+                        "score",
+                        "xpAwarded",
+                        "points",
+                        "badges",
+                        "correct",
+                        "total",
+                        "notes"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "praised",
+          "missing",
+          "advice",
+          "score",
+          "xpAwarded",
+          "points",
+          "badges",
+          "correct",
+          "total",
+          "notes",
+          "notes[].id",
+          "notes[].ok",
+          "notes[].explanation"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profileId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  },
+                  "lessonKey": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "answers": {
+                    "maxItems": 12,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 40
+                        },
+                        "choiceIndex": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 8
+                        },
+                        "matches": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string",
+                            "maxLength": 40
+                          }
+                        },
+                        "cloze": {
+                          "type": "string",
+                          "maxLength": 40
+                        },
+                        "clozes": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string",
+                            "maxLength": 40
+                          }
+                        },
+                        "order": {
+                          "maxItems": 8,
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 40
+                          }
+                        },
+                        "placements": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string",
+                            "maxLength": 40
+                          }
+                        }
+                      },
+                      "required": [
+                        "id"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "profileId",
+                  "lessonKey",
+                  "answers"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/junior-pilot/quiz": {
+      "post": {
+        "operationId": "junior-quiz",
+        "tags": [
+          "Kernel"
+        ],
+        "summary": "/api/v1/junior-pilot/quiz",
+        "description": "Kanonik yol: /api/junior-pilot/quiz. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: praised, missing, advice, score, xpAwarded, points, badges, correct, total, completed, notes.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "praised": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "missing": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "advice": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "score": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 100
+                        },
+                        "xpAwarded": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "points": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "badges": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "correct": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "total": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "exclusiveMinimum": true,
+                          "maximum": 9007199254740991
+                        },
+                        "completed": {
+                          "type": "boolean"
+                        },
+                        "notes": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "ok": {
+                                "type": "boolean"
+                              },
+                              "explanation": {
+                                "type": "string"
+                              },
+                              "answer": {
+                                "type": "string"
+                              },
+                              "cards": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "ok": {
+                                      "type": "boolean"
+                                    },
+                                    "answer": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "ok"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "ok",
+                              "explanation"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "praised",
+                        "missing",
+                        "advice",
+                        "score",
+                        "xpAwarded",
+                        "points",
+                        "badges",
+                        "correct",
+                        "total",
+                        "completed",
+                        "notes"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "praised",
+          "missing",
+          "advice",
+          "score",
+          "xpAwarded",
+          "points",
+          "badges",
+          "correct",
+          "total",
+          "completed",
+          "notes",
+          "notes[].id",
+          "notes[].ok",
+          "notes[].explanation"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profileId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  },
+                  "lessonKey": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  "answers": {
+                    "maxItems": 16,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 40
+                        },
+                        "choiceIndex": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 8
+                        }
+                      },
+                      "required": [
+                        "id"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "profileId",
+                  "lessonKey",
                   "answers"
                 ],
                 "additionalProperties": false
@@ -7476,6 +10321,515 @@
               "status"
             ],
             "additionalProperties": false
+          },
+          "graphic": {
+            "nullable": true,
+            "type": "object",
+            "properties": {
+              "schemaVersion": {
+                "type": "string",
+                "enum": [
+                  "2.0.0"
+                ]
+              },
+              "layout": {
+                "type": "string",
+                "minLength": 1
+              },
+              "title": {
+                "type": "string"
+              },
+              "subtitle": {
+                "type": "string"
+              },
+              "fraction": {
+                "nullable": true,
+                "type": "object",
+                "properties": {
+                  "operation": {
+                    "type": "string"
+                  },
+                  "leftNumerator": {
+                    "type": "number"
+                  },
+                  "leftDenominator": {
+                    "type": "number"
+                  },
+                  "rightNumerator": {
+                    "type": "number"
+                  },
+                  "rightDenominator": {
+                    "type": "number"
+                  },
+                  "equivalentNumerator": {
+                    "type": "number"
+                  },
+                  "equivalentDenominator": {
+                    "type": "number"
+                  },
+                  "resultNumerator": {
+                    "type": "number"
+                  },
+                  "resultDenominator": {
+                    "type": "number"
+                  },
+                  "differenceNumerator": {
+                    "type": "number"
+                  },
+                  "differenceDenominator": {
+                    "type": "number"
+                  },
+                  "productNumerator": {
+                    "type": "number"
+                  },
+                  "productDenominator": {
+                    "type": "number"
+                  },
+                  "simplifiedNumerator": {
+                    "type": "number"
+                  },
+                  "simplifiedDenominator": {
+                    "type": "number"
+                  },
+                  "quotient": {
+                    "type": "number"
+                  },
+                  "parts": {
+                    "type": "number"
+                  },
+                  "filled": {
+                    "type": "number"
+                  },
+                  "trap": {
+                    "type": "string"
+                  },
+                  "note": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "operation",
+                  "leftNumerator",
+                  "leftDenominator",
+                  "rightNumerator",
+                  "rightDenominator",
+                  "equivalentNumerator",
+                  "equivalentDenominator",
+                  "resultNumerator",
+                  "resultDenominator",
+                  "differenceNumerator",
+                  "differenceDenominator",
+                  "productNumerator",
+                  "productDenominator",
+                  "simplifiedNumerator",
+                  "simplifiedDenominator",
+                  "quotient",
+                  "parts",
+                  "filled",
+                  "trap",
+                  "note"
+                ],
+                "additionalProperties": false
+              },
+              "numberLine": {
+                "nullable": true,
+                "type": "object",
+                "properties": {
+                  "unit": {
+                    "type": "string"
+                  },
+                  "focus": {
+                    "type": "number"
+                  },
+                  "focusLabel": {
+                    "type": "string"
+                  },
+                  "relations": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "unit",
+                  "focus",
+                  "focusLabel",
+                  "relations"
+                ],
+                "additionalProperties": false
+              },
+              "angle": {
+                "nullable": true,
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string"
+                  },
+                  "acute": {
+                    "type": "number"
+                  },
+                  "corresponding": {
+                    "type": "number"
+                  },
+                  "alternate": {
+                    "type": "number"
+                  },
+                  "supplementary": {
+                    "type": "number"
+                  },
+                  "straight": {
+                    "type": "number"
+                  },
+                  "complement": {
+                    "type": "number"
+                  },
+                  "adjacentLabel": {
+                    "type": "string"
+                  },
+                  "triangle": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "triangleSum": {
+                    "type": "number"
+                  },
+                  "triangleMissing": {
+                    "type": "number"
+                  },
+                  "quadrilateral": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  },
+                  "quadrilateralSum": {
+                    "type": "number"
+                  },
+                  "quadrilateralKnown": {
+                    "type": "number"
+                  },
+                  "quadrilateralMissing": {
+                    "type": "number"
+                  },
+                  "diagonalLong": {
+                    "type": "number"
+                  },
+                  "diagonalShort": {
+                    "type": "number"
+                  },
+                  "halfLong": {
+                    "type": "number"
+                  },
+                  "halfShort": {
+                    "type": "number"
+                  },
+                  "names": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "note": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "acute",
+                  "corresponding",
+                  "alternate",
+                  "supplementary",
+                  "straight",
+                  "complement",
+                  "adjacentLabel",
+                  "triangle",
+                  "triangleSum",
+                  "triangleMissing",
+                  "quadrilateral",
+                  "quadrilateralSum",
+                  "quadrilateralKnown",
+                  "quadrilateralMissing",
+                  "diagonalLong",
+                  "diagonalShort",
+                  "halfLong",
+                  "halfShort",
+                  "names",
+                  "note"
+                ],
+                "additionalProperties": false
+              },
+              "area": {
+                "nullable": true,
+                "type": "object",
+                "properties": {
+                  "base": {
+                    "type": "number"
+                  },
+                  "height": {
+                    "type": "number"
+                  },
+                  "slant": {
+                    "type": "number"
+                  },
+                  "parallelogram": {
+                    "type": "number"
+                  },
+                  "triangle": {
+                    "type": "number"
+                  },
+                  "divisor": {
+                    "type": "number"
+                  },
+                  "unit": {
+                    "type": "string"
+                  },
+                  "formula": {
+                    "type": "string"
+                  },
+                  "squareSide": {
+                    "type": "number"
+                  },
+                  "squareArea": {
+                    "type": "number"
+                  },
+                  "squareCm2": {
+                    "type": "number"
+                  },
+                  "cm2PerM2": {
+                    "type": "number"
+                  },
+                  "donumCount": {
+                    "type": "number"
+                  },
+                  "donumM2": {
+                    "type": "number"
+                  },
+                  "hectareCount": {
+                    "type": "number"
+                  },
+                  "hectareDonum": {
+                    "type": "number"
+                  },
+                  "donumPerHectare": {
+                    "type": "number"
+                  },
+                  "note": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "base",
+                  "height",
+                  "slant",
+                  "parallelogram",
+                  "triangle",
+                  "divisor",
+                  "unit",
+                  "formula",
+                  "squareSide",
+                  "squareArea",
+                  "squareCm2",
+                  "cm2PerM2",
+                  "donumCount",
+                  "donumM2",
+                  "hectareCount",
+                  "hectareDonum",
+                  "donumPerHectare",
+                  "note"
+                ],
+                "additionalProperties": false
+              },
+              "force": {
+                "nullable": true,
+                "type": "object",
+                "properties": {
+                  "unit": {
+                    "type": "string"
+                  },
+                  "sameA": {
+                    "type": "number"
+                  },
+                  "sameB": {
+                    "type": "number"
+                  },
+                  "sameResult": {
+                    "type": "number"
+                  },
+                  "sameWay": {
+                    "type": "string"
+                  },
+                  "oppositeA": {
+                    "type": "number"
+                  },
+                  "oppositeB": {
+                    "type": "number"
+                  },
+                  "oppositeResult": {
+                    "type": "number"
+                  },
+                  "oppositeWay": {
+                    "type": "string"
+                  },
+                  "balanceA": {
+                    "type": "number"
+                  },
+                  "balanceB": {
+                    "type": "number"
+                  },
+                  "balanceResult": {
+                    "type": "number"
+                  },
+                  "showBalance": {
+                    "type": "boolean"
+                  },
+                  "unbalancedA": {
+                    "type": "number"
+                  },
+                  "unbalancedB": {
+                    "type": "number"
+                  },
+                  "unbalancedResult": {
+                    "type": "number"
+                  },
+                  "unbalancedWay": {
+                    "type": "string"
+                  },
+                  "note": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "unit",
+                  "sameA",
+                  "sameB",
+                  "sameResult",
+                  "sameWay",
+                  "oppositeA",
+                  "oppositeB",
+                  "oppositeResult",
+                  "oppositeWay",
+                  "balanceA",
+                  "balanceB",
+                  "balanceResult",
+                  "showBalance",
+                  "unbalancedA",
+                  "unbalancedB",
+                  "unbalancedResult",
+                  "unbalancedWay",
+                  "note"
+                ],
+                "additionalProperties": false
+              },
+              "speed": {
+                "nullable": true,
+                "type": "object",
+                "properties": {
+                  "distance": {
+                    "type": "number"
+                  },
+                  "time": {
+                    "type": "number"
+                  },
+                  "speed": {
+                    "type": "number"
+                  },
+                  "distanceUnit": {
+                    "type": "string"
+                  },
+                  "timeUnit": {
+                    "type": "string"
+                  },
+                  "speedUnit": {
+                    "type": "string"
+                  },
+                  "spanDistance": {
+                    "type": "number"
+                  },
+                  "spanTime": {
+                    "type": "number"
+                  },
+                  "laterDistance": {
+                    "type": "number"
+                  },
+                  "laterTime": {
+                    "type": "number"
+                  },
+                  "otherDistance": {
+                    "type": "number"
+                  },
+                  "otherTime": {
+                    "type": "number"
+                  },
+                  "otherSpeed": {
+                    "type": "number"
+                  },
+                  "path": {
+                    "type": "number"
+                  },
+                  "displacement": {
+                    "type": "number"
+                  },
+                  "showDisplacement": {
+                    "type": "boolean"
+                  },
+                  "direction": {
+                    "type": "string"
+                  },
+                  "pathSum": {
+                    "type": "number"
+                  },
+                  "displacementNet": {
+                    "type": "number"
+                  },
+                  "straight": {
+                    "type": "number"
+                  },
+                  "note": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "distance",
+                  "time",
+                  "speed",
+                  "distanceUnit",
+                  "timeUnit",
+                  "speedUnit",
+                  "spanDistance",
+                  "spanTime",
+                  "laterDistance",
+                  "laterTime",
+                  "otherDistance",
+                  "otherTime",
+                  "otherSpeed",
+                  "path",
+                  "displacement",
+                  "showDisplacement",
+                  "direction",
+                  "pathSum",
+                  "displacementNet",
+                  "straight",
+                  "note"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "schemaVersion",
+              "layout",
+              "title",
+              "subtitle",
+              "fraction",
+              "numberLine",
+              "angle",
+              "area",
+              "force",
+              "speed"
+            ],
+            "additionalProperties": false
           }
         },
         "required": [
@@ -7662,6 +11016,911 @@
         },
         "required": [
           "result"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorProfileData": {
+        "type": "object",
+        "properties": {
+          "profiles": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "nickname": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "grade": {
+                  "type": "integer",
+                  "minimum": 5,
+                  "maximum": 8
+                },
+                "birthYear": {
+                  "nullable": true,
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "selected": {
+                  "type": "boolean"
+                },
+                "selectedElectives": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "gradeSwitchRights": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "id",
+                "nickname",
+                "grade",
+                "birthYear",
+                "selected",
+                "selectedElectives",
+                "gradeSwitchRights"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "selectedId": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 1
+          },
+          "xp": {
+            "type": "object",
+            "properties": {
+              "points": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "badges": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "points",
+              "badges"
+            ],
+            "additionalProperties": false
+          },
+          "courses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "slug": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "subject": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "grade": {
+                  "type": "integer",
+                  "minimum": 5,
+                  "maximum": 8
+                },
+                "track": {
+                  "type": "string",
+                  "enum": [
+                    "core",
+                    "elective"
+                  ]
+                },
+                "labels": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "lessons": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "key": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "title": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "teaser": {
+                        "type": "string"
+                      },
+                      "access": {
+                        "type": "string",
+                        "enum": [
+                          "free",
+                          "locked"
+                        ]
+                      },
+                      "thisWeek": {
+                        "type": "boolean"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "done",
+                          "going",
+                          "fresh",
+                          "preparing"
+                        ]
+                      },
+                      "weekHeading": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "archiveLabel": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "starterLabel": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "unitCode": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "unitIndex": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "exclusiveMinimum": true,
+                        "maximum": 9007199254740991
+                      },
+                      "unitTitle": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "key",
+                      "title",
+                      "teaser",
+                      "access",
+                      "thisWeek",
+                      "status"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "outcomeWritten": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "outcomeTotal": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "slug",
+                "title",
+                "subject",
+                "grade",
+                "track",
+                "labels",
+                "lessons"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "profiles",
+          "selectedId",
+          "xp",
+          "courses"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorProfileCreateRequest": {
+        "type": "object",
+        "properties": {
+          "nickname": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 20
+          },
+          "grade": {
+            "type": "number",
+            "enum": [
+              6
+            ]
+          },
+          "birthYear": {
+            "type": "integer",
+            "minimum": 1900,
+            "maximum": 2100
+          },
+          "consent": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "consentVersion": {
+            "type": "string",
+            "pattern": "^junior-notice-\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "guardianBirthYear": {
+            "type": "integer",
+            "minimum": 1900,
+            "maximum": 2100
+          }
+        },
+        "required": [
+          "nickname",
+          "grade",
+          "birthYear",
+          "consent",
+          "consentVersion",
+          "guardianBirthYear"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorProfileSelectRequest": {
+        "type": "object",
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          }
+        },
+        "required": [
+          "profileId"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorProfileConsentRequest": {
+        "type": "object",
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "consent": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "consentVersion": {
+            "type": "string",
+            "pattern": "^junior-notice-\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "guardianBirthYear": {
+            "type": "integer",
+            "minimum": 1900,
+            "maximum": 2100
+          }
+        },
+        "required": [
+          "profileId",
+          "consent",
+          "consentVersion",
+          "guardianBirthYear"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorProfileMutationData": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "nickname": {
+                "type": "string",
+                "minLength": 1
+              },
+              "grade": {
+                "type": "integer",
+                "minimum": 5,
+                "maximum": 8
+              },
+              "birthYear": {
+                "nullable": true,
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "selected": {
+                "type": "boolean"
+              },
+              "selectedElectives": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "gradeSwitchRights": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "id",
+              "nickname",
+              "grade",
+              "birthYear",
+              "selected",
+              "selectedElectives",
+              "gradeSwitchRights"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "profile"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorProfileEraseData": {
+        "type": "object",
+        "properties": {
+          "erased": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "profileId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "erased",
+          "profileId"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorElectivesRequest": {
+        "type": "object",
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "slugs": {
+            "maxItems": 3,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40
+            }
+          }
+        },
+        "required": [
+          "profileId",
+          "slugs"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorElectivesData": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "nickname": {
+                "type": "string",
+                "minLength": 1
+              },
+              "grade": {
+                "type": "integer",
+                "minimum": 5,
+                "maximum": 8
+              },
+              "birthYear": {
+                "nullable": true,
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "selected": {
+                "type": "boolean"
+              },
+              "selectedElectives": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "gradeSwitchRights": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "id",
+              "nickname",
+              "grade",
+              "birthYear",
+              "selected",
+              "selectedElectives",
+              "gradeSwitchRights"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "profile"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorTellRequest": {
+        "type": "object",
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "lessonKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "speak"
+            ]
+          },
+          "audioBase64": {
+            "type": "string",
+            "maxLength": 1200000
+          },
+          "mimeType": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "durationSec": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "profileId",
+          "lessonKey",
+          "mode"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorTellData": {
+        "type": "object",
+        "properties": {
+          "praised": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing": {
+            "type": "string",
+            "minLength": 1
+          },
+          "advice": {
+            "type": "string",
+            "minLength": 1
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "xpAwarded": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "points": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "badges": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "praised",
+          "missing",
+          "advice",
+          "score",
+          "xpAwarded",
+          "points",
+          "badges"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorPilotPracticeRequest": {
+        "type": "object",
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "lessonKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "answers": {
+            "maxItems": 12,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "choiceIndex": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 8
+                },
+                "matches": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string",
+                    "maxLength": 40
+                  }
+                },
+                "cloze": {
+                  "type": "string",
+                  "maxLength": 40
+                },
+                "clozes": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string",
+                    "maxLength": 40
+                  }
+                },
+                "order": {
+                  "maxItems": 8,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  }
+                },
+                "placements": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string",
+                    "maxLength": 40
+                  }
+                }
+              },
+              "required": [
+                "id"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "profileId",
+          "lessonKey",
+          "answers"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorPilotPracticeData": {
+        "type": "object",
+        "properties": {
+          "praised": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing": {
+            "type": "string",
+            "minLength": 1
+          },
+          "advice": {
+            "type": "string",
+            "minLength": 1
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "xpAwarded": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "points": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "badges": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "correct": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0,
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "ok": {
+                  "type": "boolean"
+                },
+                "explanation": {
+                  "type": "string"
+                },
+                "answer": {
+                  "type": "string"
+                },
+                "cards": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "ok": {
+                        "type": "boolean"
+                      },
+                      "answer": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "ok"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "ok",
+                "explanation"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "praised",
+          "missing",
+          "advice",
+          "score",
+          "xpAwarded",
+          "points",
+          "badges",
+          "correct",
+          "total",
+          "notes"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorQuizRequest": {
+        "type": "object",
+        "properties": {
+          "profileId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 40
+          },
+          "lessonKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "answers": {
+            "maxItems": 16,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 40
+                },
+                "choiceIndex": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 8
+                }
+              },
+              "required": [
+                "id"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "profileId",
+          "lessonKey",
+          "answers"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorQuizData": {
+        "type": "object",
+        "properties": {
+          "praised": {
+            "type": "string",
+            "minLength": 1
+          },
+          "missing": {
+            "type": "string",
+            "minLength": 1
+          },
+          "advice": {
+            "type": "string",
+            "minLength": 1
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "xpAwarded": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "points": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "badges": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "correct": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0,
+            "exclusiveMinimum": true,
+            "maximum": 9007199254740991
+          },
+          "completed": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "ok": {
+                  "type": "boolean"
+                },
+                "explanation": {
+                  "type": "string"
+                },
+                "answer": {
+                  "type": "string"
+                },
+                "cards": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "ok": {
+                        "type": "boolean"
+                      },
+                      "answer": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "ok"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "ok",
+                "explanation"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "praised",
+          "missing",
+          "advice",
+          "score",
+          "xpAwarded",
+          "points",
+          "badges",
+          "correct",
+          "total",
+          "completed",
+          "notes"
         ],
         "additionalProperties": false
       },

@@ -75,9 +75,10 @@ function motif(scene: JuniorVectorScene, caption: string): "pie" | "bars" | "blo
   if (scene === "book") return "book";
   if (scene === "main-idea") return "page";
   if (scene === "support-idea") return "cards";
-  if (scene === "place") return "schema";
-  if (scene === "culture") return "hands";
+  if (scene === "place" || scene === "family" || scene === "rules") return "schema";
+  if (scene === "culture" || scene === "world") return "hands";
   if (scene === "globe") return "globe";
+  if (scene === "universe") return "orbit";
   if (scene === "grid") return "grid";
   if (scene === "history") return "history";
   if (scene === "caravan") return "caravan";
@@ -85,16 +86,6 @@ function motif(scene: JuniorVectorScene, caption: string): "pie" | "bars" | "blo
   if (/komut|satır|kod|hata|musluk/.test(text)) return "code";
   if (/harita|konum|sağdan|yön|enlem|boylam/.test(text)) return "map";
   return "chat";
-}
-
-function LocationPin({ cx, cy }: { cx: number; cy: number }) {
-  return (
-    <g data-junior-pin="konum">
-      <line x1={cx} y1={cy + 5} x2={cx} y2={cy + 20} stroke="#0f172a" strokeWidth="2.5" strokeLinecap="round" />
-      <circle cx={cx} cy={cy} r="8" fill="#f97316" stroke="#0f172a" strokeWidth="2" />
-      <circle cx={cx} cy={cy} r="3" fill="#fff7ed" />
-    </g>
-  );
 }
 
 /**
@@ -139,16 +130,16 @@ export function JuniorStepArt({ scene, beat, caption, captionTrail, lessonKey = 
   if (media.videoSrc || media.imageSrc) {
     return (
       <JuniorScenePlate videoSrc={media.videoSrc} imageSrc={media.imageSrc}>
-        <JuniorVectorStepArt scene={scene} beat={beat} caption={caption} captionTrail={captionTrail} />
+        <JuniorVectorStepArt lessonKey={lessonKey} scene={scene} beat={beat} caption={caption} captionTrail={captionTrail} />
       </JuniorScenePlate>
     );
   }
   return (
-    <JuniorVectorStepArt scene={scene} beat={beat} caption={caption} captionTrail={captionTrail} />
+    <JuniorVectorStepArt lessonKey={lessonKey} scene={scene} beat={beat} caption={caption} captionTrail={captionTrail} />
   );
 }
 
-function JuniorVectorStepArt({ scene, beat, caption, captionTrail }: ArtProps) {
+function JuniorVectorStepArt({ lessonKey, scene, beat, caption, captionTrail }: ArtProps) {
   if (isEnglishJuniorScene(scene)) {
     return <EnglishSceneArt scene={scene} beat={beat} caption={caption} />;
   }
@@ -160,7 +151,13 @@ function JuniorVectorStepArt({ scene, beat, caption, captionTrail }: ArtProps) {
   }
   if (isScienceJuniorScene(scene)) {
     return (
-      <ScienceSceneArt scene={scene} beat={Math.min(8, beat)} caption={caption} captionTrail={captionTrail} />
+      <ScienceSceneArt
+        scene={scene}
+        beat={Math.min(8, beat)}
+        caption={caption}
+        captionTrail={captionTrail}
+        lessonKey={lessonKey}
+      />
     );
   }
   if (isTurkishJuniorScene(scene)) {
@@ -171,11 +168,11 @@ function JuniorVectorStepArt({ scene, beat, caption, captionTrail }: ArtProps) {
   if (isSocialJuniorScene(scene)) {
     return <SocialSceneArt scene={scene} beat={Math.min(8, beat)} caption={caption} />;
   }
+  if (scene === "elective") {
+    return <ElectiveMotif lessonKey={lessonKey} beat={beat} caption={caption} captionTrail={captionTrail} />;
+  }
   if (beat <= 1) {
     return <WelcomeArt scene={scene} beat={beat} caption={caption} />;
-  }
-  if (scene === "elective") {
-    return <ElectiveMotif beat={beat} caption={caption} />;
   }
   return <WelcomeArt scene={scene} beat={Math.min(1, beat)} caption={caption} />;
 }
@@ -325,62 +322,319 @@ function RecapArt({ beat, caption }: ArtProps) {
   );
 }
 
-function ElectiveMotif({ beat, caption }: { beat: number; caption: string }) {
-  const kind = motif("elective", caption);
-  const step = Math.max(0, beat - 2);
-  if (kind === "code") {
+function ElectiveMotif({
+  lessonKey = "",
+  beat,
+  caption,
+  captionTrail,
+}: {
+  lessonKey?: string;
+  beat: number;
+  caption: string;
+  captionTrail?: readonly string[];
+}) {
+  const key = lessonKey.trim();
+  const joined = [...(captionTrail ?? []), caption].join(" ").toLocaleLowerCase("tr-TR");
+  const live = caption.toLocaleLowerCase("tr-TR");
+  const step = Math.max(0, beat);
+
+  const isSiyer = key.startsWith("jr_06_siyer") || /peygamber|siyer|emanet|merhamet|doğru söz|şefkat/.test(joined);
+  const isCode = key.startsWith("jr_06_kod") || /komut|satır|kod|hata|algoritma|musluk/.test(joined);
+  const isGerman = key.startsWith("jr_06_alm") || /guten morgen|guten tag|guten abend|heiße|heißt|almanca/.test(joined);
+  const isFrench = key.startsWith("jr_06_fra") || /bonjour|bonsoir|salut|m'appelle|t'appelles|fransızca/.test(joined);
+  const isArabic = key.startsWith("jr_06_arp") || /selamün aleyküm|aleyküm selam|sağdan sola|arapça|ب/.test(joined);
+
+  if (isSiyer) {
+    const isMercy = key === "jr_06_siyer-2" || /merhamet|şefkat|yardım|kuş/.test(joined);
+    const cards = isMercy
+      ? [
+          { title: "Merhamet", sub: "Canlıya şefkatle yaklaşmak", badge: "Şefkat ✓" },
+          { title: "Yardımlaşma", sub: "Zor anında arkadaşının yanında olmak", badge: "Paylaşım ✓" },
+          { title: "Nezaket", sub: "Kırmadan, gönül alarak konuşmak", badge: "Örnek Ahlak ✓" },
+        ]
+      : [
+          { title: "Doğru Söz (Sıdk)", sub: "Şaka bile olsa gerçeği söylemek", badge: "Güven ✓" },
+          { title: "Emanet Bilinci", sub: "Verilen sözü ve eşyayı korumak", badge: "El-Emin ✓" },
+          { title: "Özü Sözü Bir", sub: "Davranış ile sözün uyumu", badge: "Dürüstlük ✓" },
+        ];
     return (
       <Frame>
-        {[0, 1, 2].map((index) => (
-          <rect
-            key={index}
-            x="48"
-            y={48 + index * 40}
-            width="260"
-            height="30"
-            rx="6"
-            fill={index === step % 3 ? "#fde68a" : "#f8fafc"}
-            stroke="#0f172a"
-            strokeWidth="2"
-          />
+        <text x="20" y="24" fill="#065f46" fontSize="14" fontFamily="inherit" fontWeight="700">
+          {isMercy ? "Siyer · Merhamet ve Yardımlaşma" : "Siyer · Doğru Söz ve Güven"}
+        </text>
+        {cards.map((c, idx) => {
+          const hi = idx === step % 3;
+          const y = 38 + idx * 42;
+          return (
+            <g key={c.title}>
+              <rect
+                x="20"
+                y={y}
+                width="320"
+                height="36"
+                rx="8"
+                fill={hi ? "#dcfce7" : "#f8fafc"}
+                stroke={hi ? "#15803d" : "#cbd5e1"}
+                strokeWidth="1.75"
+              />
+              <text x="32" y={y + 15} fill="#0f172a" fontSize="11.5" fontFamily="inherit" fontWeight="700">
+                {c.title}
+              </text>
+              <text x="32" y={y + 29} fill="#475569" fontSize="10" fontFamily="inherit">
+                {c.sub}
+              </text>
+              <text x="262" y={y + 22} fill="#15803d" fontSize="10.5" fontFamily="inherit" fontWeight="700">
+                {c.badge}
+              </text>
+            </g>
+          );
+        })}
+        <text x="20" y="182" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="600">
+          {isMercy ? "Merhamet, kalpteki iyiliği davranışa dönüştürmektir." : "Doğru söz güven kurar; verilen söz emanettir."}
+        </text>
+      </Frame>
+    );
+  }
+
+  if (isCode) {
+    const isDebug = key === "jr_06_kod-2" || /hatalı|hata|düzelt|yanlış sıra/.test(joined);
+    const rows = isDebug
+      ? [
+          { cmd: "1. Adım: Sabunu eline al", status: "✓ Doğru", ok: true },
+          { cmd: "2. Adım: Durulamadan musluğu kapat", status: "✗ Hatalı adım!", ok: false },
+          { cmd: "Düzeltme: Önce durula → sonra kapat", status: "✓ Onarıldı", ok: true },
+        ]
+      : [
+          { cmd: "1. Komut: Musluğu aç", status: "Başla →", ok: true },
+          { cmd: "2. Komut: Ellerini sabunla ve durula", status: "İşlem →", ok: true },
+          { cmd: "3. Komut: Musluğu kapat", status: "Bitir ✓", ok: true },
+        ];
+    return (
+      <Frame>
+        <text x="20" y="24" fill="#3730a3" fontSize="14" fontFamily="inherit" fontWeight="700">
+          {isDebug ? "Bilgisayar Bilimi · Hatalı Adımı Bulmak (Debug)" : "Bilgisayar Bilimi · Komut Sırası ve Algoritma"}
+        </text>
+        {rows.map((row, index) => {
+          const hi = index === step % 3;
+          const y = 38 + index * 42;
+          return (
+            <g key={row.cmd}>
+              <rect
+                x="20"
+                y={y}
+                width="320"
+                height="36"
+                rx="8"
+                fill={!row.ok ? "#fee2e2" : hi ? "#fde68a" : "#f8fafc"}
+                stroke={!row.ok ? "#dc2626" : hi ? "#4f46e5" : "#cbd5e1"}
+                strokeWidth="1.75"
+              />
+              <text x="32" y={y + 22} fill="#0f172a" fontSize="11.5" fontFamily="inherit" fontWeight="700">
+                {row.cmd}
+              </text>
+              <text
+                x="246"
+                y={y + 22}
+                fill={!row.ok ? "#b91c1c" : "#15803d"}
+                fontSize="10.5"
+                fontFamily="inherit"
+                fontWeight="700"
+              >
+                {row.status}
+              </text>
+            </g>
+          );
+        })}
+        <text x="20" y="182" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="600">
+          {isDebug ? "Hata ayıklama: Yanlış sıradaki adımı bulup doğru yere taşımaktır." : "Algoritma: Komutların eksiksiz ve doğru sırayla çalışmasıdır."}
+        </text>
+      </Frame>
+    );
+  }
+
+  if (isGerman) {
+    const isIntro = key === "jr_06_alm-2" || /heiße|heißt|adın/.test(live);
+    return (
+      <Frame>
+        <text x="20" y="24" fill="#991b1b" fontSize="14" fontFamily="inherit" fontWeight="700">
+          {isIntro ? "Almanca · Kendini Tanıtma (Vorstellung)" : "Almanca · Selamlaşma (Begrüßung)"}
+        </text>
+        {(isIntro
+          ? [
+              { de: "Hallo! Wie heißt du?", tr: "Merhaba! Adın ne?" },
+              { de: "Ich heiße Efe.", tr: "Benim adım Efe." },
+              { de: "Freut mich!", tr: "Tanıştığıma memnun oldum!" },
+            ]
+          : [
+              { de: "Guten Morgen", tr: "Günaydın (Sabah)" },
+              { de: "Guten Tag", tr: "İyi günler (Gün ortası)" },
+              { de: "Guten Abend", tr: "İyi akşamlar (Akşam)" },
+            ]
+        ).map((item, idx) => (
+          <g key={item.de}>
+            <rect
+              x="20"
+              y={38 + idx * 42}
+              width="320"
+              height="36"
+              rx="8"
+              fill={idx === step % 3 ? "#fef3c7" : "#f8fafc"}
+              stroke={idx === step % 3 ? "#b45309" : "#cbd5e1"}
+              strokeWidth="1.75"
+            />
+            <text x="32" y={60 + idx * 42} fill="#0f172a" fontSize="12" fontFamily="inherit" fontWeight="700">
+              {item.de}
+            </text>
+            <text x="196" y={60 + idx * 42} fill="#475569" fontSize="11" fontFamily="inherit">
+              {`→ ${item.tr}`}
+            </text>
+          </g>
         ))}
-        <text x="60" y="68" fill="#0f172a" fontSize="13" fontFamily="inherit">
-          1. komut
-        </text>
-        <text x="60" y="108" fill="#0f172a" fontSize="13" fontFamily="inherit">
-          2. komut
-        </text>
-        <text x="60" y="148" fill="#0f172a" fontSize="13" fontFamily="inherit">
-          3. komut
+        <text x="20" y="182" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="600">
+          Almanca selamlaşma günün saatine göre seçilir.
         </text>
       </Frame>
     );
   }
-  if (kind === "map") {
+
+  if (isFrench) {
+    const isIntro = key === "jr_06_fra-2" || /appelle|appelles|adın/.test(live);
     return (
       <Frame>
-        <ellipse cx="150" cy="100" rx="70" ry="70" fill="#bae6fd" stroke="#cbd5e1" strokeWidth="2" />
-        <ellipse cx="150" cy="100" rx="70" ry="16" fill="none" stroke="#b45309" strokeWidth="2" />
-        <ellipse cx="150" cy="78" rx="52" ry="10" fill="none" stroke="#0369a1" strokeWidth="2" />
-        <ellipse cx="150" cy="122" rx="52" ry="10" fill="none" stroke="#0369a1" strokeWidth="2" />
-        <ellipse cx="150" cy="100" rx="22" ry="70" fill="none" stroke="#7c3aed" strokeWidth="2" />
-        <LocationPin cx={148} cy={78} />
-        <text x="250" y="104" fill="#0f172a" fontSize="14" fontFamily="inherit" fontWeight="700">
-          {step % 2 === 0 ? "Sağ" : "Sol"}
+        <text x="20" y="24" fill="#9d174d" fontSize="14" fontFamily="inherit" fontWeight="700">
+          {isIntro ? "Fransızca · Kendini Tanıtma" : "Fransızca · Selamlaşma (Bonjour & Salut)"}
+        </text>
+        {(isIntro
+          ? [
+              { fr: "Comment tu t'appelles ?", tr: "Adın ne?" },
+              { fr: "Je m'appelle Ece.", tr: "Benim adım Ece." },
+              { fr: "Enchanté(e) !", tr: "Memnun oldum!" },
+            ]
+          : [
+              { fr: "Bonjour", tr: "Günaydın / İyi günler" },
+              { fr: "Bonsoir", tr: "İyi akşamlar" },
+              { fr: "Salut", tr: "Selam (Arkadaşlar arasında)" },
+            ]
+        ).map((item, idx) => (
+          <g key={item.fr}>
+            <rect
+              x="20"
+              y={38 + idx * 42}
+              width="320"
+              height="36"
+              rx="8"
+              fill={idx === step % 3 ? "#fce7f3" : "#f8fafc"}
+              stroke={idx === step % 3 ? "#be185d" : "#cbd5e1"}
+              strokeWidth="1.75"
+            />
+            <text x="32" y={60 + idx * 42} fill="#0f172a" fontSize="12" fontFamily="inherit" fontWeight="700">
+              {item.fr}
+            </text>
+            <text x="196" y={60 + idx * 42} fill="#475569" fontSize="11" fontFamily="inherit">
+              {`→ ${item.tr}`}
+            </text>
+          </g>
+        ))}
+        <text x="20" y="182" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="600">
+          Fransızcada gündüz Bonjour, akşam Bonsoir kullanılır.
         </text>
       </Frame>
     );
   }
-  const leftOn = step % 2 === 0;
+
+  if (isArabic) {
+    const isRtl = key === "jr_06_arp-2" || /sağdan sola|harf|ب|elif/.test(joined);
+    return (
+      <Frame>
+        <text x="20" y="24" fill="#92400e" fontSize="14" fontFamily="inherit" fontWeight="700">
+          {isRtl ? "Arapça · Sağdan Sola Harf ve Okuma Yönü" : "Arapça · Selamlaşma ve Karşılık"}
+        </text>
+        {isRtl ? (
+          <g>
+            <rect x="20" y="42" width="320" height="44" rx="10" fill="#fef3c7" stroke="#d97706" strokeWidth="1.75" />
+            <text x="180" y="68" textAnchor="middle" fill="#0f172a" fontSize="14" fontFamily="inherit" fontWeight="700">
+              ← Okuma Yönü: Sağdan Sola (ب  —  ا  —  ب)
+            </text>
+            <rect x="20" y="96" width="152" height="58" rx="10" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="1.5" />
+            <text x="96" y="120" textAnchor="middle" fill="#0f172a" fontSize="15" fontFamily="inherit" fontWeight="700">
+              ب (Be) · ا (Elif)
+            </text>
+            <text x="96" y="140" textAnchor="middle" fill="#475569" fontSize="10.5" fontFamily="inherit">
+              Ayrı harfler
+            </text>
+            <rect x="188" y="96" width="152" height="58" rx="10" fill="#dcfce7" stroke="#15803d" strokeWidth="1.5" />
+            <text x="264" y="120" textAnchor="middle" fill="#15803d" fontSize="16" fontFamily="inherit" fontWeight="700">
+              باب (Bâb)
+            </text>
+            <text x="264" y="140" textAnchor="middle" fill="#0f172a" fontSize="10.5" fontFamily="inherit">
+              Birleşik: Kapı
+            </text>
+          </g>
+        ) : (
+          <g>
+            <rect x="20" y="46" width="320" height="48" rx="10" fill="#e0f2fe" stroke="#0284c7" strokeWidth="1.75" />
+            <text x="32" y="68" fill="#0f172a" fontSize="13" fontFamily="inherit" fontWeight="700">
+              Esselamü aleyküm (السلام عليكم)
+            </text>
+            <text x="32" y="84" fill="#475569" fontSize="10.5" fontFamily="inherit">
+              Barış ve esenlik üzerinize olsun
+            </text>
+            <rect x="20" y="104" width="320" height="48" rx="10" fill="#fef3c7" stroke="#d97706" strokeWidth="1.75" />
+            <text x="32" y="126" fill="#0f172a" fontSize="13" fontFamily="inherit" fontWeight="700">
+              Ve aleyküm selam (وعليكم السلام)
+            </text>
+            <text x="32" y="142" fill="#475569" fontSize="10.5" fontFamily="inherit">
+              Sizin de üzerinize barış ve esenlik olsun
+            </text>
+          </g>
+        )}
+        <text x="20" y="182" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="600">
+          Arapça satır sağdan başlar ve sola doğru okunur.
+        </text>
+      </Frame>
+    );
+  }
+
+  // Seçmeli İngilizce (jr_06_ing-1..2) veya genel dil diyaloğu
+  const isEngIntro = key === "jr_06_ing-2" || /what's your name|my name is|tanıt/.test(live);
   return (
     <Frame>
-      <rect x="28" y="48" width="140" height="48" rx="14" fill={leftOn ? "#e0f2fe" : "#f8fafc"} stroke="#0f172a" strokeWidth="2" />
-      <rect x="190" y="108" width="140" height="48" rx="14" fill={leftOn ? "#f8fafc" : "#fde68a"} stroke="#0f172a" strokeWidth="2" />
-      <text x="44" y="78" fill="#0f172a" fontSize="14" fontFamily="inherit" fontWeight="700">
-        {leftOn ? "Merhaba" : "Soru"}
+      <text x="20" y="24" fill="#1e40af" fontSize="14" fontFamily="inherit" fontWeight="700">
+        {isEngIntro ? "Seçmeli İngilizce · What's your name?" : "Seçmeli İngilizce · Günün Selamları"}
       </text>
-      <text x="206" y="138" fill="#0f172a" fontSize="14" fontFamily="inherit" fontWeight="700">
-        {leftOn ? "Karşılık" : "Cevap"}
+      {(isEngIntro
+        ? [
+            { en: "What's your name?", tr: "Adın ne?" },
+            { en: "My name is Ali.", tr: "Benim adım Ali." },
+            { en: "Nice to meet you!", tr: "Tanıştığıma memnun oldum!" },
+          ]
+        : [
+            { en: "Good morning", tr: "Günaydın (Sabah)" },
+            { en: "Good afternoon", tr: "Tünaydın (Öğleden sonra)" },
+            { en: "Good evening", tr: "İyi akşamlar (Akşam)" },
+          ]
+      ).map((row, idx) => (
+        <g key={row.en}>
+          <rect
+            x="20"
+            y={38 + idx * 42}
+            width="320"
+            height="36"
+            rx="8"
+            fill={idx === step % 3 ? "#dbeafe" : "#f8fafc"}
+            stroke={idx === step % 3 ? "#2563eb" : "#cbd5e1"}
+            strokeWidth="1.75"
+          />
+          <text x="32" y={60 + idx * 42} fill="#0f172a" fontSize="12" fontFamily="inherit" fontWeight="700">
+            {row.en}
+          </text>
+          <text x="196" y={60 + idx * 42} fill="#475569" fontSize="11" fontFamily="inherit">
+            {`→ ${row.tr}`}
+          </text>
+        </g>
+      ))}
+      <text x="20" y="182" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="600">
+        Selam ve tanışma cümleleri karşılıklı diyalogla kurulur.
       </text>
     </Frame>
   );

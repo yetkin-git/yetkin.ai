@@ -9,6 +9,8 @@ import { createHash } from "node:crypto";
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
+import { JUNIOR_AUDIO_MANIFEST } from "@/lib/junior/audio-manifest.generated";
+
 const COVER_KEY_RE = /^jr_[a-z0-9_]+-\d+$/u;
 const root = process.cwd();
 const coverDir = join(root, "public", "media", "junior", "covers");
@@ -17,7 +19,7 @@ const outFile = join(root, "lib", "junior", "cover-manifest.generated.ts");
 const keys = readdirSync(coverDir)
   .filter((name) => name.endsWith(".jpg"))
   .map((name) => name.slice(0, -4))
-  .filter((key) => COVER_KEY_RE.test(key))
+  .filter((key) => COVER_KEY_RE.test(key) && key in JUNIOR_AUDIO_MANIFEST)
   .sort((left, right) => left.localeCompare(right));
 
 const lines = keys.map((key) => {

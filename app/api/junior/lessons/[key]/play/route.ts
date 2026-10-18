@@ -1,14 +1,16 @@
 import { requireSession } from "@/lib/kernel/auth/session";
-import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
+import { GENERIC_INTERNAL_ERROR, jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { RAIL_V1_JUNIOR_LESSON_MISSING } from "@/lib/kernel/http/v1-contract";
 import { JUNIOR_MEDIA_UNAVAILABLE, issueJuniorLessonMedia } from "@/lib/junior/media-grant";
 import { createPrismaJuniorStore } from "@/lib/junior/load";
+import { buildJuniorLessonPlayData } from "@/lib/junior/play-wire";
 import { openJuniorLessonPlay } from "@/lib/junior/service";
 
 export const auth = "session" as const;
 
 /**
- * Ders gövdesi ve medya adresi.
+ * Ders gövdesi ve medya adresi. Hop `junior-lesson-play` aynı kalır.
+ * Pilot dersin metni mühürlü konuşmadır. Bilye ve dedektif sahnesi cevapta yoktur.
  * Kilitli ders, paket kararı geçmeden adres taşımaz. İmza yoksa kamu yola düşülmez.
  */
 export async function GET(
@@ -43,27 +45,17 @@ export async function GET(
     if (grant.kind !== "public" && grant.kind !== "signed") {
       return jsonFail(RAIL_V1_JUNIOR_LESSON_MISSING, 404, undefined, request);
     }
-    const lesson = opened.lesson;
-    return jsonOk(
-      {
-        lesson: {
-          lessonKey,
-          title: lesson.title,
-          courseTitle: lesson.courseTitle,
-          access: opened.catalogAccess,
-          script: lesson.script,
-          scene: lesson.scene,
-          steps: lesson.steps ? [...lesson.steps] : [],
-          preparing: lesson.preparing,
-        },
-        media: grant.urls,
-        practice: lesson.practice,
-        progress: opened.progress,
-      },
-      200,
-      undefined,
-      request,
-    );
+    const data = buildJuniorLessonPlayData({
+      lessonKey,
+      catalogAccess: opened.catalogAccess,
+      lesson: opened.lesson,
+      media: grant.urls,
+      progress: opened.progress,
+    });
+    if (!data) {
+      return jsonFail(GENERIC_INTERNAL_ERROR, 500, undefined, request);
+    }
+    return jsonOk(data, 200, undefined, request);
   } catch (error) {
     return jsonFromUnknown(error, 400, undefined, request);
   }

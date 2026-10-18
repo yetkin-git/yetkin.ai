@@ -18,12 +18,13 @@
     "node": ">=20.19.0"
   },
   "dependencies": {
-    "@yetkin/kernel": "file:../../packages/kernel",
     "@supabase/supabase-js": "^2.112.3",
+    "@yetkin/junior-graphic": "file:../../packages/junior-graphic",
+    "@yetkin/kernel": "file:../../packages/kernel",
     "expo": "~57.0.14",
     "expo-secure-store": "~57.0.1",
     "expo-status-bar": "~57.0.1",
-    "react": "19.2.3",
+    "react": "19.2.8",
     "react-native": "0.86.2"
   },
   "devDependencies": {

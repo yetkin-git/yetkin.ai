@@ -1,6 +1,10 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. Çember uzunluğu ile çap. */
+/**
+ * 6. Sınıf Matematik. Çember uzunluğu ile çap.
+ * Film `resolveJuniorPlayback` grafiğidir. r, R, π ve çevre parametredir.
+ * `CircleGeoScene` bu dersi çizmez.
+ */
 export const JUNIOR_MAT_34_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-34",
   title: "Çember uzunluğu ile çap",

@@ -20,7 +20,7 @@ const HANDLER_COOKIE_BAN = [
 
 export type RailV1HopShieldView = {
   id: string;
-  method: "GET" | "POST" | "PATCH";
+  method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
   routeAuthPattern: string;
   v1Auth: "none" | "bearer";
   idempotency: boolean;
@@ -63,7 +63,10 @@ export function requireRailV1IdempotencyKey(
   return { ok: true, key: read.key };
 }
 
-export function extractRailRouteHandler(source: string, method: "GET" | "POST" | "PATCH"): string {
+export function extractRailRouteHandler(
+  source: string,
+  method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE",
+): string {
   const needle = `export async function ${method}`;
   const start = source.indexOf(needle);
   if (start < 0) {

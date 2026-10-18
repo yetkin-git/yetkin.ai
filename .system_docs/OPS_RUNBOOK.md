@@ -41,7 +41,7 @@ Akademi makbuzu `academy-receipt-mail.ts` üzerinden SMTP env’ine bağlıdır.
 
 Faz 0: Akademi Canlı T3 Testi Prosedürü `ops-db.md` içindedir. PayTR Bildirim URL: `https://yetkin.ai/api/paytr/callback`. Kanonik handler: `/api/payments/webhooks/paytr`.
 
-v1 hop SSOT: `RAIL_V1_HOPS`, **20 kayıt** (`@yetkin/kernel` hop meta + Amiral Zod). Yazma hop’ları dron Bearer ile tüketilebilir; native IAP yoktur. Cüzdan yükleme HMAC `/kasa` pasaportudur. Junior ders gövdesi, ilerleme ve pekiştirme hop’ları da bu sicildedir.
+v1 hop SSOT: `RAIL_V1_HOPS`, **29 kayıt** (`@yetkin/kernel` hop meta + gövde Zod). Yazma hop’ları dron Bearer ile tüketilebilir; native IAP yoktur. Cüzdan yükleme HMAC `/kasa` pasaportudur. Junior ders gövdesi, ilerleme, ders pekiştirme, profil masası (GET, POST, PATCH, PUT, DELETE), seçmeli, anlatış, konu pekiştirme ve konu testi bu sicildedir. Junior kasa (`checkout`) ve sınıf (`grade`) sicilde yoktur.
 
 Closed Testing reçetesi T3 B2C (`ops-dron.md`). Tezgâh yüzeyi izole; Split ayrı idari kapıdır. Mağaza binary: `apps/rail-is/eas.json` (CI eas yok). İnceleme: `.system_docs/DRON_CLIENT_SPEC.md` + `.system_docs/ops/ops-dron.md`.
 

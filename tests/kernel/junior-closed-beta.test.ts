@@ -174,7 +174,9 @@ describe("Junior kapalı beta kapısı", () => {
     expect(isFrozenRoomApi("/api/junior-pilot/profiles")).toBe(true);
     expect(isFrozenRoomApi("/api/junior-pilot/profiles", PARENT)).toBe(false);
     expect(isFrozenRoomApi("/api/v1/junior-pilot/profiles", PARENT)).toBe(false);
-    expect(isFrozenRoomApi("/api/junior-pilot/electives", PARENT)).toBe(true);
+    expect(isFrozenRoomApi("/api/junior-pilot/electives")).toBe(true);
+    expect(isFrozenRoomApi("/api/junior-pilot/electives", PARENT)).toBe(false);
+    expect(isFrozenRoomApi("/api/v1/junior-pilot/electives", PARENT)).toBe(false);
     expect(isFrozenRoomApi("/api/junior-pilot/grade", PARENT)).toBe(true);
     expect(isFrozenRoomApi("/api/junior-pilot/checkout", PARENT)).toBe(true);
 
@@ -204,6 +206,11 @@ describe("Junior kapalı beta kapısı", () => {
     const denied = juniorLockedResponse("r1", request, PARENT, "profile", { planCovers: false });
     expect(denied?.status).toBe(403);
     expect(await denied?.json()).toMatchObject({ ok: false, error: JUNIOR_PROFILE_PLAN_ERROR });
+
+    const electivesRoute = readFileSync(join(process.cwd(), "app/api/junior-pilot/electives/route.ts"), "utf8");
+    expect(electivesRoute).toContain("isJuniorPlanActive");
+    expect(electivesRoute).toContain("planCovers");
+    expect(electivesRoute).not.toContain("juniorLockedResponse(requestId, request, user)");
   });
 
   it("DRON_JUNIOR_OPEN profil masasını oturumlu veliye açar; kasayı açmaz", () => {

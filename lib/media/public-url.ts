@@ -44,6 +44,9 @@ export function resolvePublicMediaUrl(publicPath: string): string {
   if (!pathPart.startsWith("/media/") || pathPart.includes("..") || pathPart.includes("\\")) {
     throw new Error("Medya yolu /media/ ile başlamalı.");
   }
+  if (process.env.NODE_ENV === "development") {
+    return publicPath;
+  }
   const base = readMediaPublicBaseUrl();
   if (!base) {
     return publicPath;

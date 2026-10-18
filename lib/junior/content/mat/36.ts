@@ -1,6 +1,9 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. Merkez açı ve gördüğü yay. */
+/**
+ * 6. Sınıf Matematik. Merkez açı ve gördüğü yay.
+ * Film `resolveJuniorPlayback` grafiğidir. Dereceler parametredir.
+ */
 export const JUNIOR_MAT_36_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-36",
   title: "Merkez açı ve gördüğü yay",

@@ -13,6 +13,8 @@
     "verbatimModuleSyntax": true,
     "resolveJsonModule": true,
     "paths": {
+      "@yetkin/junior-graphic": ["../../packages/junior-graphic/src/index.ts"],
+      "@yetkin/junior-graphic/*": ["../../packages/junior-graphic/src/*"],
       "@yetkin/kernel": ["../../packages/kernel/src/index.ts"],
       "@yetkin/kernel/*": ["../../packages/kernel/src/*"]
     }

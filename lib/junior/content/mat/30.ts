@@ -1,6 +1,10 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. İki paralel doğru ve bir kesenin açıları. */
+/**
+ * 6. Sınıf Matematik. İki paralel doğru ve bir kesenin açıları.
+ * Film `resolveJuniorPlayback` grafiğidir. 70° ve 110° parametredir.
+ * `AnglesScene` bu dersi çizmez.
+ */
 export const JUNIOR_MAT_30_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-30",
   title: "İki paralel doğru ve bir kesenin açıları",

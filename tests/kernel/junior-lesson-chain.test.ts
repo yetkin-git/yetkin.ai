@@ -178,9 +178,9 @@ describe("Junior seçmeli ders kataloğu", () => {
       const lesson = juniorLessonByKey(course.lessons[0]?.key ?? "");
       expect(lesson?.scene).toBe("elective");
       expect(lesson?.steps).toHaveLength(12);
-      expect(lesson?.listenText).toContain("Kavramsal Anlayış");
-      expect(lesson?.listenText).toContain("İfade Gücü");
-      expect(lesson?.mebNote).toContain("Kavramsal Anlayış");
+      expect(lesson?.listenText).not.toContain("Kavramsal Anlayış");
+      expect(lesson?.listenText).not.toContain("İfade Gücü");
+      expect(lesson?.mebNote).not.toContain("Kavramsal Anlayış");
       expect(lesson?.lifeUse.length).toBeGreaterThan(40);
     }
     const chosen = juniorPersonalizedShelves(["jr_06_ing", "yok"], NOW);
@@ -211,7 +211,7 @@ describe("Junior ders notu", () => {
       "işte tam bu noktada dikkat etmen gereken kilit nokta",
     );
     expect(lesson.listenText).toContain("Tebrikler çocuklar! Harika bir iş çıkardık.");
-    expect(lesson.steps?.every((step) => step.endsWith("Tebrikler çocuklar! Harika bir iş çıkardık."))).toBe(
+    expect(lesson.steps?.every((step) => !step.endsWith("Tebrikler çocuklar! Harika bir iş çıkardık."))).toBe(
       true,
     );
     expect(lesson.listenText).not.toContain("yüksek sesle say");
@@ -221,8 +221,8 @@ describe("Junior ders notu", () => {
     expect(lesson.listenText).toContain("Ben Matematik öğretmenin Selim.");
     expect(startsWithJuniorWarmOpening(lesson.mebNote)).toBe(true);
     expect(juniorColdGreeting(lesson.mebNote)).toBe(false);
-    expect(lesson.mebNote).toContain(`${juniorTeacherCueStem(JUNIOR_TEACHER_CUES[0])}:`);
-    expect(lesson.mebNote).toContain(`${juniorTeacherCueStem(JUNIOR_TEACHER_CUES[1])}:`);
+    expect(lesson.mebNote).not.toContain(`${juniorTeacherCueStem(JUNIOR_TEACHER_CUES[0])}:`);
+    expect(lesson.mebNote).not.toContain(`${juniorTeacherCueStem(JUNIOR_TEACHER_CUES[1])}:`);
     expect(lesson.mebNote).not.toContain(JUNIOR_TEACHER_CUES[0]);
     expect(lesson.mebNote).not.toContain(JUNIOR_TEACHER_CUES[1]);
     expect(lesson.listenText).not.toContain("…");
@@ -419,8 +419,8 @@ describe("Junior Sosyal Bilgiler ve öğretmen mührü", () => {
       expect(lesson.steps).toHaveLength(12);
       expect(startsWithJuniorWarmOpening(lesson.listenText)).toBe(true);
       expect(juniorColdGreeting(lesson.listenText)).toBe(false);
-      expect(lesson.listenText).toContain(`${juniorTeacherCueStem(JUNIOR_TEACHER_CUES[0])}:`);
-      expect(lesson.listenText).toContain(`${juniorTeacherCueStem(JUNIOR_TEACHER_CUES[1])}:`);
+      expect(lesson.listenText).not.toContain(`${juniorTeacherCueStem(JUNIOR_TEACHER_CUES[0])}:`);
+      expect(lesson.listenText).not.toContain(`${juniorTeacherCueStem(JUNIOR_TEACHER_CUES[1])}:`);
       expect(lesson.listenText).not.toContain(JUNIOR_TEACHER_CUES[0]);
       expect(lesson.listenText).not.toContain(JUNIOR_TEACHER_CUES[1]);
       expect(lesson.listenText).not.toContain("…");
@@ -431,7 +431,7 @@ describe("Junior Sosyal Bilgiler ve öğretmen mührü", () => {
       expect(lesson.listenText.endsWith(JUNIOR_TELL_CLOSE)).toBe(true);
       expect(lesson.listenText).not.toMatch(/(^|[^\p{L}])siz(?:in|e|de|den|ler(?:e)?)?(?=[^\p{L}]|$)/u);
       expect(lesson.lifeUse.length).toBeGreaterThan(40);
-      expect(lesson.mebNote).toContain("Kavramsal Anlayış");
+      expect(lesson.mebNote).not.toContain("Kavramsal Anlayış");
       expect(juniorWarningHasHarshPhrase(lesson.listenText)).toBe(false);
       expect(
         lesson.listenText.includes("Tuzaklara Düşme!") || lesson.listenText.includes("Altın İpucu!"),
@@ -471,29 +471,29 @@ describe("Junior İngilizce ve öğretmen mührü", () => {
     expect(first?.title).toBe("Daily routines ve saati söylemek");
     expect(second?.title).toBe("Family Life: ailem ve have got");
     expect(first?.scene).toBe("clock");
-    expect(second?.scene).toBe("place");
+    expect(second?.scene).toBe("family");
     expect(course?.lessons.map((lesson) => lesson.scene)).toEqual([
       "clock",
-      "place",
+      "family",
       "tray",
       "clock",
       "skyline",
-      "globe",
+      "universe",
       "weather",
       "weather",
-      "globe",
-      "culture",
+      "universe",
+      "world",
       "holiday",
       "shelf",
       "recycle",
-      "ballot",
+      "rules",
     ]);
     for (const lesson of course?.lessons ?? []) {
       expect(lesson.steps).toHaveLength(12);
       expect(startsWithJuniorWarmOpening(lesson.listenText)).toBe(true);
       expect(juniorColdGreeting(lesson.listenText)).toBe(false);
-      expect(lesson.listenText).toContain(`${juniorTeacherCueStem(JUNIOR_TEACHER_CUES[0])}:`);
-      expect(lesson.listenText).toContain(`${juniorTeacherCueStem(JUNIOR_TEACHER_CUES[1])}:`);
+      expect(lesson.listenText).not.toContain(`${juniorTeacherCueStem(JUNIOR_TEACHER_CUES[0])}:`);
+      expect(lesson.listenText).not.toContain(`${juniorTeacherCueStem(JUNIOR_TEACHER_CUES[1])}:`);
       expect(lesson.listenText).not.toContain(JUNIOR_TEACHER_CUES[0]);
       expect(lesson.listenText).not.toContain(JUNIOR_TEACHER_CUES[1]);
       expect(lesson.listenText).not.toContain("…");
@@ -504,7 +504,7 @@ describe("Junior İngilizce ve öğretmen mührü", () => {
       expect(lesson.listenText.endsWith(JUNIOR_TELL_CLOSE)).toBe(true);
       expect(lesson.listenText).not.toContain("siz");
       expect(lesson.lifeUse.length).toBeGreaterThan(40);
-      expect(lesson.mebNote).toContain("Kavramsal Anlayış");
+      expect(lesson.mebNote).not.toContain("Kavramsal Anlayış");
       expect(juniorWarningHasHarshPhrase(lesson.listenText)).toBe(false);
       expect(
         lesson.listenText.includes("Tuzaklara Düşme!") || lesson.listenText.includes("Altın İpucu!"),
@@ -655,7 +655,7 @@ describe("Junior pilot öğretmen sesi", () => {
     for (const key of JUNIOR_BAKED_AUDIO_KEYS) {
       if (freeKeys.has(key)) {
         const sha = JUNIOR_AUDIO_MANIFEST[key as keyof typeof JUNIOR_AUDIO_MANIFEST]?.sha256.slice(0, 12);
-        expect(juniorLessonAudioSrc(key)).toBe(`${juniorLessonAudioPublicPath(key)}?v=${sha}`);
+        expect(juniorLessonAudioSrc(key)).toBe(`${juniorLessonAudioPublicPath(key)}?v=v2-${sha}`);
       } else {
         expect(juniorLessonAudioSrc(key)).toBeNull();
       }
@@ -699,7 +699,7 @@ describe("Junior üretim mühürü", () => {
         }
         expect(card.status).toBe("preparing");
         const gaps = juniorProductionSealGaps(lesson);
-        expect(gaps).toEqual(expect.arrayContaining(["text", "audio", "warmup", "quiz"]));
+        expect(gaps).toEqual(expect.arrayContaining(["audio", "warmup", "quiz"]));
         expect(() => assertJuniorProductionSeal(lesson)).toThrow(/Junior mühürü eksik/);
       }
     }

@@ -1,6 +1,9 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. Asal sayılar ve asal çarpanlar. */
+/**
+ * 6. Sınıf Matematik. Asal sayılar ve asal çarpanlar.
+ * Film `resolveJuniorPlayback` grafiğidir. `NumberOpsScene` bu dersi çizmez.
+ */
 export const JUNIOR_MAT_6_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-6",
   title: "Asal sayılar ve asal çarpanlar",

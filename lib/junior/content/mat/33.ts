@@ -1,6 +1,10 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. Üçgen ve dörtgenlerin açı problemleri. */
+/**
+ * 6. Sınıf Matematik. Üçgen ve dörtgenlerin açı problemleri.
+ * Film `resolveJuniorPlayback` grafiğidir. 180° ve 360° parametredir.
+ * `AnglesScene` bu dersi çizmez.
+ */
 export const JUNIOR_MAT_33_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-33",
   title: "Üçgen ve dörtgenlerin açı problemleri",

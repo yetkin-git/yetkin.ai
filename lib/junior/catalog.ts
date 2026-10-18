@@ -144,7 +144,7 @@ export function juniorElectiveCategory(): {
   };
 }
 
-/** Seçmeli ders: on iki adım, sıcak öğretmen girişi, Kavramsal Anlayış ve İfade Gücü. */
+/** Seçmeli ders: on iki adım, sıcak öğretmen girişi ve kapanış sözleşmesi. */
 export function juniorElectiveLessonsSharePlayerContract(): boolean {
   return JUNIOR_ELECTIVE_COURSES.every((course) =>
     course.lessons.every(
@@ -153,8 +153,6 @@ export function juniorElectiveLessonsSharePlayerContract(): boolean {
         lesson.steps?.length === JUNIOR_VECTOR_STEP_COUNT &&
         startsWithJuniorWarmOpening(lesson.listenText) &&
         lesson.listenText.includes("Bugün Neler Öğrendik?") &&
-        lesson.listenText.includes("Kavramsal Anlayış") &&
-        lesson.listenText.includes("İfade Gücü") &&
         lesson.listenText.includes(JUNIOR_TELL_CLOSE),
     ),
   );

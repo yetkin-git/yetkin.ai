@@ -76,6 +76,15 @@ export const RAIL_IS_DAY0_HOPS = {
     method: "POST",
     pathTemplate: "/api/v1/junior/lessons/{key}/practice",
   },
+  juniorProfile: { method: "GET", path: "/api/v1/junior-pilot/profiles" },
+  juniorProfileCreate: { method: "POST", path: "/api/v1/junior-pilot/profiles" },
+  juniorProfileSelect: { method: "PATCH", path: "/api/v1/junior-pilot/profiles" },
+  juniorProfileConsent: { method: "PUT", path: "/api/v1/junior-pilot/profiles" },
+  juniorProfileErase: { method: "DELETE", path: "/api/v1/junior-pilot/profiles" },
+  juniorElectives: { method: "POST", path: "/api/v1/junior-pilot/electives" },
+  juniorTell: { method: "POST", path: "/api/v1/junior-pilot/tell" },
+  juniorPilotPractice: { method: "POST", path: "/api/v1/junior-pilot/practice" },
+  juniorQuiz: { method: "POST", path: "/api/v1/junior-pilot/quiz" },
 } as const;
 
 /**
@@ -147,6 +156,26 @@ export function juniorLessonProgressPath(lessonKey: string): string {
 
 export function juniorLessonPracticePath(lessonKey: string): string {
   return `${juniorLessonPath(lessonKey)}/practice`;
+}
+
+export function juniorPilotProfilesPath(): string {
+  return "/api/v1/junior-pilot/profiles";
+}
+
+export function juniorPilotElectivesPath(): string {
+  return "/api/v1/junior-pilot/electives";
+}
+
+export function juniorPilotTellPath(): string {
+  return "/api/v1/junior-pilot/tell";
+}
+
+export function juniorPilotPracticePath(): string {
+  return "/api/v1/junior-pilot/practice";
+}
+
+export function juniorPilotQuizPath(): string {
+  return "/api/v1/junior-pilot/quiz";
 }
 
 export function academyCertificatePath(hash: string): string {

@@ -3,6 +3,7 @@
  * JuniorProgress kazanım satırıdır; defter ve ses oraya yazılmaz.
  * Tamamlanan adım bu yerel izde yeşil onay olarak durur. Ertesi gün aynı adımdan açılır.
  * Young bandı aynı biçimi `yetkin.young.micro.v1` anahtarında tutar.
+ * `% Kaç Bitirdim?` yüzdesi aynı kayıttan `microCompletionPercent` ile okunur.
  */
 
 export type MicroLessonBand = "junior" | "young";
@@ -13,6 +14,15 @@ export type MicroProgressRecord = {
 };
 
 const EMPTY: MicroProgressRecord = { completed: [], holding: null };
+
+/** Aynı sekmede canlı yüzde güncellemesi için. */
+export const JUNIOR_MICRO_PROGRESS_EVENT = "yetkin.junior.micro-progress" as const;
+
+export type JuniorMicroProgressEventDetail = {
+  band: MicroLessonBand;
+  profileId: string;
+  lessonKey: string;
+};
 
 export function microProgressStorageKey(
   band: MicroLessonBand,
@@ -81,9 +91,45 @@ export function writeMicroProgress(
       microProgressStorageKey(band, profileId, lessonKey),
       JSON.stringify({ completed: record.completed, holding: record.holding }),
     );
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent<JuniorMicroProgressEventDetail>(JUNIOR_MICRO_PROGRESS_EVENT, {
+          detail: { band, profileId, lessonKey },
+        }),
+      );
+    }
   } catch {
     /* gizli pencere veya dolu disk izi düşürmez */
   }
+}
+
+/** İzlenen sahne / biten mikro-adım sayısından %0–100. */
+export function microCompletionPercent(record: MicroProgressRecord, total: number): number {
+  const count = Math.max(1, Math.floor(total));
+  const done = new Set(
+    record.completed.filter((index) => Number.isInteger(index) && index >= 0 && index < count),
+  ).size;
+  return Math.min(100, Math.round((done / count) * 100));
+}
+
+/** Verilen indeksleri tamamlandı olarak birleştirir (sıralı, tekil). */
+export function mergeWatchedScenes(
+  record: MicroProgressRecord,
+  watchedIndices: readonly number[],
+): MicroProgressRecord {
+  const completed = [
+    ...new Set([
+      ...record.completed,
+      ...watchedIndices.filter((index) => Number.isInteger(index) && index >= 0),
+    ]),
+  ].sort((left, right) => left - right);
+  if (
+    completed.length === record.completed.length &&
+    completed.every((value, index) => value === record.completed[index])
+  ) {
+    return record;
+  }
+  return { completed, holding: record.holding };
 }
 
 export function holdMicroStep(record: MicroProgressRecord, stepIndex: number): MicroProgressRecord {

@@ -121,7 +121,6 @@ export const ADMIN_SEN = {
   revisionsCta: "Müfredat revizyonları",
   dashboardCta: "Panele dön",
   academyCta: "Akademi kataloğu",
-  freelancerCta: "İlan tahtası",
   confirm: {
     eyebrow: "Onay",
     amountTitle: "Fiyatı güncelle?",

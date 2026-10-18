@@ -1,6 +1,10 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Fen Bilimleri. Alınan yol ve yer değiştirme. FB.6.2.2 fiil cümlesi pakette unverified kalır. */
+/**
+ * 6. Sınıf Fen Bilimleri. Alınan yol ve yer değiştirme. FB.6.2.2 fiil cümlesi pakette unverified kalır.
+ * Film `resolveJuniorPlayback` grafiğidir. Yol ve yer değiştirme parametredir.
+ * `SpeedScene` bu dersi çizmez.
+ */
 export const JUNIOR_FEN_21_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_fen-21",
   title: "Alınan yol ve yer değiştirme",

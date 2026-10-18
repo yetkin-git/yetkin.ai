@@ -1,6 +1,10 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. Kesirlerde çarpma ve bölme. */
+/**
+ * 6. Sınıf Matematik. Kesirlerde çarpma ve bölme.
+ * Film `resolveJuniorPlayback` grafiğidir. Çarpım ve bölüm parametredir.
+ * `FractionPieScene` bu dersi çizmez.
+ */
 export const JUNIOR_MAT_13_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-13",
   title: "Kesirlerde çarpma ve bölme",

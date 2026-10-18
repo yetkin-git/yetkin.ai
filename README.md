@@ -13,7 +13,7 @@ Vatandaş ve dış dünya markası **yetkin.ai**. npm paketi `yetkin.ai`. Lab ve
 | Kariyer | `/career` | Akademi mühründen vize; nakit taşımaz |
 | Kamu kanıt (oda değil) | `/vize` | Oturumsuz mühür kartı; huninin çıkışı |
 
-**Motor 4 / Kamu Vitrini 3 Oda.** `/vize` 5. oda değildir. Freelancer (`/freelancer`) sicilde durur, kamu **410 Gone**; nakit iddiası taşımaz. Lisanslı Split bağlı değilken accept **503**. Junior (`/junior`) 18 yaş altı / veli odasıdır, üretim kilitli **410**. Sahte bakiye veya sahte CREDIT yazılmaz (fail-closed). Faz 1 tek nakit kanalı **PayTR Merchant** (B2C eğitim satışı). Dron T3 Akademi halkası bağlıdır; Tezgâh izole durur. Saf sözleşmeler `@yetkin/kernel` paketindedir.
+**Motor 4 / Kamu Vitrini 3 Oda.** `/vize` 5. oda değildir. Freelancer (`/freelancer`) sicilde durur, kamu **410 Gone**; nakit iddiası taşımaz. Lisanslı Split bağlı değilken accept **503**. Junior (`/junior`) 18 yaş altı / veli odasıdır. Oda kapısı `lib/dronlar/kayit.ts` içinde `kapali: false`dır. Kasa `isJuniorCheckoutLocked` iken **410** kalır. Sahte bakiye veya sahte CREDIT yazılmaz (fail-closed). Faz 1 tek nakit kanalı **PayTR Merchant** (B2C eğitim satışı). Dron T3 Akademi halkası bağlıdır; Tezgâh izole durur. Saf sözleşmeler `@yetkin/kernel` paketindedir.
 
 Kimlik Supabase Auth, nakit tek `amountMinor` defteri, dış sözleşme `/api/v1`. Gövde **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci**dir (Anayasa B1). İnce sözleşme paketi `@yetkin/kernel`dir. Tek native istemci `apps/rail-is`tir.
 
@@ -28,4 +28,4 @@ npm run ops:migrate
 npm run dev
 ```
 
-Dron (Diyar B, `apps/rail-is`, paket `yetkin.ai-is`) mağaza ve vatandaş yüzünde **yetkin.ai** yazar. Faz 1 kapanana kadar yayın hattı donuktur.
+Tek native istemci (`apps/rail-is`, paket `yetkin.ai-is`) mağaza ve vatandaş yüzünde **yetkin.ai** yazar. Yayın kilidi `publishFrozenUntilFaz1Close: false`dır. CI binary basmaz; operatör `apps/rail-is/eas.json` ile basar.

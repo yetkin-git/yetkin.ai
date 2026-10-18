@@ -1,6 +1,10 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. Standart uzunluk ölçü birimleri. */
+/**
+ * 6. Sınıf Matematik. Standart uzunluk ölçü birimleri.
+ * Film `resolveJuniorPlayback` grafiğidir. Santimetre, metre ve kilometre parametredir.
+ * `NumberLineScene` bu dersi çizmez.
+ */
 export const JUNIOR_MAT_27_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-27",
   title: "Standart uzunluk ölçü birimleri",

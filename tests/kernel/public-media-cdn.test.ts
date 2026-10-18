@@ -37,7 +37,7 @@ describe("kamu medya adresi", () => {
       "/media/junior/audio/jr_06_mat-1.mp3",
     );
     expect(juniorLessonAudioSrc("jr_06_mat-14")).toBe(
-      `${juniorLessonAudioPublicPath("jr_06_mat-14")}?v=${JUNIOR_AUDIO_MANIFEST["jr_06_mat-14"]?.sha256.slice(0, 12)}`,
+      `${juniorLessonAudioPublicPath("jr_06_mat-14")}?v=v2-${JUNIOR_AUDIO_MANIFEST["jr_06_mat-14"]?.sha256.slice(0, 12)}`,
     );
     expect(juniorBgmSrc()).toBe("/media/junior/audio/bgm-light-learning.mp3");
     expect(juniorCoverSrc("jr_06_mat-14")).toBe(
@@ -54,7 +54,7 @@ describe("kamu medya adresi", () => {
     );
     expect(juniorLessonAudioSrc("jr_06_fen-2")).toBeNull();
     expect(juniorLessonAudioSrc("jr_06_mat-14")).toBe(
-      `https://cdn.yetkin.ai/media/junior/audio/jr_06_mat-14.mp3?v=${JUNIOR_AUDIO_MANIFEST["jr_06_mat-14"]?.sha256.slice(0, 12)}`,
+      `https://cdn.yetkin.ai/media/junior/audio/jr_06_mat-14.mp3?v=v2-${JUNIOR_AUDIO_MANIFEST["jr_06_mat-14"]?.sha256.slice(0, 12)}`,
     );
     expect(juniorCoverSrc("jr_06_mat-14")).toBe(
       `https://cdn.yetkin.ai/media/junior/covers/jr_06_mat-14.jpg?v=${juniorCoverManifestHash("jr_06_mat-14")}`,

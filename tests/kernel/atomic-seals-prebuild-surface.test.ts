@@ -26,7 +26,7 @@ describe("prebuild güvenlik kapısı ve nightly grep kovası — yazma yüzeyi"
     expect(pkg.scripts["verify:sen-axis"]).toBe("tsx scripts/verify-sen-axis.ts");
     expect(pkg.scripts["verify:no-secrets"]).toBe("tsx scripts/verify-no-secrets.ts");
     expect(pkg.scripts["test:surface"]).toBe(
-      "vitest run surface.test.ts constitution-surfaces.test.ts",
+      "vitest run surface.test.ts tests/kernel/constitution-surfaces.test.ts",
     );
     expect(prebuild).not.toContain("verify:atomic-seals");
     expect(grepSeals).toContain("verify:atomic-seals");

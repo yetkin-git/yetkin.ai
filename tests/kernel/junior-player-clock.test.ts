@@ -210,7 +210,7 @@ describe("Junior oynatıcı saati", () => {
         expect(juniorPlayerLiveCaption(ms, timeline)).toContain("kalansız");
       }
     }
-    expect(JUNIOR_NARRATION_MIN_MS).toBe(300_000);
+    expect(JUNIOR_NARRATION_MIN_MS).toBe(180_000);
     expect(JUNIOR_NARRATION_AIM_MS).toBe(450_000);
     expect(JUNIOR_NARRATION_MAX_MS).toBe(720_000);
     expect(timeline.durationMs).toBeGreaterThanOrEqual(JUNIOR_NARRATION_MIN_MS);
@@ -323,10 +323,10 @@ describe("Junior oynatıcı saati", () => {
     expect(
       juniorPlayerNeighborStepMs({ beat: 0, beatCount: 12, delta: -1, anchors }),
     ).toBeNull();
-    // Örnek bloğunun açılış cümlesi; yaşam bölümündeki "2 üssü 3, 8 eder" aynı çapayı değil ilk tabloyu gösterir.
-    const example = timeline.pieces.find((piece) => /24 sayısını/u.test(piece.text));
+    // Örnek bloğunun açılış cümlesi filmdeki «24 sayısına bakalım» ile aynıdır.
+    const example = timeline.pieces.find((piece) => /24 sayısına/u.test(piece.text));
     expect(example).toBeDefined();
-    const exampleAnchor = anchors.find((anchor) => /24 sayısını/u.test(anchor.text));
+    const exampleAnchor = anchors.find((anchor) => /24 sayısına/u.test(anchor.text));
     if (example && exampleAnchor) {
       expect(exampleAnchor.beat).toBeGreaterThanOrEqual(draw.beat);
       expect(exampleAnchor.startMs).toBeGreaterThanOrEqual(draw.startMs);
@@ -563,6 +563,30 @@ describe("Junior oynatıcı yüzü", () => {
     expect(player).toContain("data-junior-warmup-gate");
     expect(player).toContain("onError={warmup.onError}");
     expect(player).toContain("onStep={warmup.orienting ? undefined : playback.stepBy}");
+    // Pilot dalı: sealed ile aynı pre-roll shell; grantedWarmupUrl / lockPublicMedia iletilir.
+    expect(player).toContain("PilotPlayerWithWarmupShell");
+    expect(player).toContain("data-junior-pilot-warmup-shell");
+    expect(player).toContain("grantedWarmupUrl");
+    expect(player).toContain("lockPublicMedia");
+    expect(player).toContain("narrationHold={warmup.gate === \"cassette\"}");
+    expect(player).toContain("controlsLocked={warmup.orienting}");
+    const pilotPlayer = readFileSync(
+      join(root, "components/junior/pilot-player/JuniorPilotPlayer.tsx"),
+      "utf8",
+    );
+    expect(pilotPlayer).toContain("narrationHold");
+    expect(pilotPlayer).toContain("onBindStartNarration");
+    expect(pilotPlayer).toContain("seekToMs(0, { force: true })");
+    // Altyazı aktif kelime: font-weight sabit; vurgu yalnızca amber arka plan + renk (layout shift yok).
+    expect(pilotPlayer).toContain('data-junior-caption-word={isActiveWord ? "active"');
+    expect(pilotPlayer).toContain("bg-amber-400/30 text-amber-300");
+    expect(pilotPlayer).toMatch(/font-medium/);
+    expect(pilotPlayer).not.toMatch(
+      /isActiveWord[\s\S]{0,220}font-(?:black|bold|semibold|extrabold)/,
+    );
+    expect(pilotPlayer).not.toMatch(
+      /isActiveWord[\s\S]{0,220}underline/,
+    );
     expect(player).toContain("data-junior-profile-missing");
     expect(player).toContain("Profil seçilmedi. Ders kilitlenmeden oynar.");
     const listenTell = readFileSync(join(root, "components/junior/listen-and-tell.tsx"), "utf8");
@@ -667,7 +691,7 @@ describe("Junior oynatıcı yüzü", () => {
     expect(mathArt).toContain('scene="exponent"');
     expect(mathArt).toContain("SoftCard");
     expect(mathArt).toContain("stickyExponentParams");
-    expect(mathArt).toContain("stickyFractionParams");
+    expect(mathArt).not.toContain("stickyFractionParams");
     expect(mathArt).toContain("Sticky Scene");
     expect(player).toContain("captionTrail");
     expect(player).toContain("openedMarker?.kind === \"notebook\"");
@@ -753,6 +777,7 @@ describe("Junior oynatıcı yüzü", () => {
     expect(sceneUi).toContain("parseExponentParams");
     expect(sceneUi).toContain("tryParseExponentParams");
     expect(sceneUi).toContain("stickyExponentParams");
+    expect(sceneUi).toContain("stickyFractionParams");
     expect(sceneUi).toContain("stickyRetainParams");
     expect(sceneUi).toContain("base: 2, exp: 3, product: 8");
     expect(sceneUi).toContain("parseSpeedParams");
@@ -772,9 +797,11 @@ describe("Junior oynatıcı yüzü", () => {
     expect(scienceArt).toContain("CircuitScene");
     expect(scienceArt).toContain("SoftStage");
     expect(scienceArt).toContain("Yoğunluk kulesi");
-    expect(scienceArt).toContain("Bileşke");
     expect(scienceArt).toContain('scene="speed"');
-    expect(scienceArt).toContain("stickySpeedParams");
+    expect(scienceArt).not.toContain("stickySpeedParams");
+    expect(sceneUi).toContain("stickySpeedParams");
+    const graphic = readFileSync(join(root, "components/junior/pilot-player/GraphicOpStage.tsx"), "utf8");
+    expect(graphic).toContain("Bileşke");
     expect(scienceArt).toContain("#cbd5e1");
     expect(scienceArt).not.toContain('stroke="#0f172a"');
     const fen10 = readFileSync(join(root, "lib/junior/content/fen/10.ts"), "utf8");
@@ -855,7 +882,7 @@ describe("Junior oynatıcı yüzü", () => {
     expect(ing16).toContain('scene: "shelf"');
     expect(ing16).not.toContain('scene: "badge"');
     const ing20 = readFileSync(join(root, "lib/junior/content/ing/20.ts"), "utf8");
-    expect(ing20).toContain('scene: "ballot"');
+    expect(ing20).toContain('scene: "rules"');
     expect(player).toContain("data-junior-step-art");
     expect(player).toContain("key={beat >= 9 ? `${scene}-recap` : scene}");
     expect(player).not.toContain("key={`${scene}-${beat}`}");

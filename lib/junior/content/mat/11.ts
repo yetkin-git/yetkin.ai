@@ -1,6 +1,10 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. Paydası aynı kesirlerde toplama ve çıkarma. */
+/**
+ * 6. Sınıf Matematik. Paydası aynı kesirlerde toplama ve çıkarma.
+ * Film `resolveJuniorPlayback` grafiğidir. Pay ve payda parametredir.
+ * `FractionBarsScene` bu dersi çizmez.
+ */
 export const JUNIOR_MAT_11_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-11",
   title: "Payda aynıyken toplama",

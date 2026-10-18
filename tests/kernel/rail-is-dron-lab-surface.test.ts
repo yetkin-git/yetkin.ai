@@ -55,7 +55,7 @@ const TEST_URL = "https://edge-test.supabase.co";
 
 type RailIsLabHop = {
   v1: string;
-  method: "GET" | "POST" | "PATCH";
+  method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
   canonical: string;
   auth: "public" | "session";
   idempotency: boolean;
@@ -649,7 +649,7 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
   it("Dron Gün 0 istemci allowlist'i donuk durur; server sicili freelancer basmaz (PayTR B2C)", () => {
     expect([...DRON_ENVELOPE_KEYS]).toEqual([...RAIL_V1_ENVELOPE_KEYS]);
     expect(DRON_ACCEPT_INSUFFICIENT).toBe(RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE);
-    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(20);
+    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(29);
     expect(assertPublishedRailV1Hop(RAIL_IS_DAY0_HOPS.session.path, "GET").id).toBe("auth-session");
     expect(assertPublishedRailV1Hop(RAIL_IS_DAY0_HOPS.walletStrip.path, "GET").id).toBe(
       "wallet-strip",

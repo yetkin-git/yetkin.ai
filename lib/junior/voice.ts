@@ -138,7 +138,7 @@ export function juniorLessonAudioPublicPath(lessonKey: string): string {
 function juniorPublicAudioCacheQuery(lessonKey: string): string {
   const row = JUNIOR_AUDIO_MANIFEST[lessonKey as keyof typeof JUNIOR_AUDIO_MANIFEST];
   const sha = row?.sha256 ?? "";
-  return sha.length >= 12 ? `?v=${sha.slice(0, 12)}` : "";
+  return sha.length >= 12 ? `?v=v2-${sha.slice(0, 12)}` : "";
 }
 
 /**
@@ -164,7 +164,7 @@ export function juniorLessonLocalLockedAudioPath(lessonKey: string): string | nu
   if (!juniorLessonHasBakedAudio(key) || juniorLessonMediaIsPublicPreview(key)) {
     return null;
   }
-  return juniorLessonAudioPublicPath(key);
+  return `${juniorLessonAudioPublicPath(key)}${juniorPublicAudioCacheQuery(key)}`;
 }
 
 /**

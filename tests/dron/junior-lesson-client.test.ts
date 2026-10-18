@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createV1HttpClient } from "../../apps/rail-is/src/api/client";
 import { assertRailIsDay0Path, juniorLessonPlayPath, juniorLessonPracticePath, juniorLessonProgressPath } from "../../apps/rail-is/src/api/hops";
-import { presentJuniorLessonPlay, presentJuniorProgressStatus } from "../../apps/rail-is/src/ui/present-junior-lesson";
+import { juniorNativeSpeech, presentJuniorLessonPlay, presentJuniorProgressStatus } from "../../apps/rail-is/src/ui/present-junior-lesson";
 
 function envelope(data: Record<string, unknown>, status = 200): Response {
   return new Response(
@@ -108,5 +108,53 @@ describe("Native Junior ders akışı", () => {
     expect(practiced.data.result).toMatchObject({ score: 100, status: "going" });
     expect(calls.map((row) => row.split(" ")[0])).toEqual(["GET", "POST", "POST"]);
     expect(calls[0]).toContain("profileId=jp_1");
+  });
+
+  it("jr_06_mat-5 sahne grafiği sızsa da hop gövdesini düz metin olarak açar", () => {
+    const play = presentJuniorLessonPlay({
+      lesson: {
+        lessonKey: "jr_06_mat-5",
+        title: "Çarpanlar, Katlar ve Bölünebilme",
+        courseTitle: "Matematik",
+        access: "free",
+        script:
+          "Masadaki şu {@spawnMarbles} 12 renkli bilyeye bak! {@groupBy2} İkişer dizelim.",
+        scene: "number-ops",
+        steps: ["12 Bilye Deneyi ve Çarpan"],
+        preparing: false,
+      },
+      media: {
+        audioUrl: "/media/junior/audio/jr_06_mat-5.mp3",
+        warmupUrl: null,
+        coverUrl: null,
+        expiresAt: null,
+      },
+      practice: [
+        {
+          id: "q1",
+          kind: "choice",
+          prompt: "Bir sayının çarpanı nedir?",
+          choices: ["Onu kalansız bölen sayı", "Ondan büyük her sayı"],
+        },
+      ],
+      progress: { status: "fresh" },
+      timeline: { cues: [{ keyframes: [{ op: "SPAWN_MARBLES" }] }] },
+      graphic: {
+        schemaVersion: "2.0.0",
+        layout: "fraction",
+        title: "Kesir",
+        subtitle: "",
+        keyframes: [{ op: "SHOW_FRACTION" }],
+      },
+      activities: [{ kind: "order", puzzle: { rockets: [] } }],
+    });
+    expect(play?.lessonKey).toBe("jr_06_mat-5");
+    expect(play?.script).toBe("Masadaki şu 12 renkli bilyeye bak! İkişer dizelim.");
+    expect(play?.script).not.toContain("{@");
+    expect(play?.steps).toEqual(["12 Bilye Deneyi ve Çarpan"]);
+    expect(play?.audioUrl).toContain("jr_06_mat-5.mp3");
+    expect(play && "timeline" in play).toBe(false);
+    expect(play?.graphic).toBeNull();
+    expect(juniorNativeSpeech("{@showGoldTrap}")).toBe("");
   });
 });

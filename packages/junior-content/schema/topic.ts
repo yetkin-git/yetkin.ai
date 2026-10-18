@@ -25,7 +25,49 @@ export type TopicCalendar = z.infer<typeof topicCalendarSchema>;
 
 const lessonKeySchema = z.string().regex(/^jr_06_(?:mat|fen|turkce|ing_main|sosyal)-\d+$/u);
 
-/** Mevcut senaryo alanları. Yeni pedagojik alan yoktur. */
+const juniorActivityMatchItemSchema = z.object({
+  id: z.string().min(1),
+  left: z.string().min(1),
+  right: z.string().min(1),
+});
+
+const juniorActivityGapItemSchema = z.object({
+  id: z.string().min(1),
+  before: z.string().min(1),
+  after: z.string().min(1),
+  answer: z.string().min(1),
+  accepts: z.array(z.string().min(1)).min(1),
+});
+
+const juniorActivityPuzzleSchema = z.object({
+  prompt: z.string().min(1),
+  rockets: z
+    .array(
+      z.object({
+        id: z.string().min(1),
+        label: z.string().min(1),
+        ruleHint: z.string().min(1),
+      }),
+    )
+    .min(2),
+  numbers: z
+    .array(
+      z.object({
+        id: z.string().min(1),
+        label: z.string().min(1),
+        validRockets: z.array(z.string().min(1)).min(1),
+      }),
+    )
+    .min(2),
+});
+
+export const juniorScenarioActivitiesSchema = z.object({
+  matching: z.array(juniorActivityMatchItemSchema).min(2),
+  fillGaps: z.array(juniorActivityGapItemSchema).min(1),
+  puzzle: juniorActivityPuzzleSchema,
+});
+
+/** Senaryo alanları. Hero kart pedagojik SSOT sahne/cue metninden ayrıdır. */
 export const juniorScenarioSchema = z.object({
   key: lessonKeySchema,
   title: z.string().min(1),
@@ -34,6 +76,10 @@ export const juniorScenarioSchema = z.object({
   concept: z.string().min(1),
   example: z.string().min(1),
   warning: z.string().min(1),
+  /** Ders Notu hero ana sorusu. Sahne anlatımından türetilmez. */
+  heroQuestion: z.string().min(1).optional(),
+  /** Ders Notu hero odak cümlesi. */
+  heroFocus: z.string().min(1).optional(),
   hint: z.enum(["trap", "gold"]).optional(),
   life: z.string().min(1),
   recap: z.tuple([z.string().min(1), z.string().min(1), z.string().min(1)]),
@@ -44,6 +90,7 @@ export const juniorScenarioSchema = z.object({
   scene: z.string().min(1),
   parentNote: z.string().min(1).optional(),
   band: z.literal("draft").optional(),
+  activities: juniorScenarioActivitiesSchema.optional(),
 });
 
 export type JuniorScenarioFile = z.infer<typeof juniorScenarioSchema>;

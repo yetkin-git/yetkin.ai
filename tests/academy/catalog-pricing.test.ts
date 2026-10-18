@@ -56,6 +56,8 @@ describe("akademi katalog fiyat haritası — KDV dahil, PayTR hizası", () => {
         slug: row.slug,
         owned: false,
         priceLabel: money,
+        purchasable: true,
+        isPublished: true,
       });
       expect(locked.priceLabel).toBe(compact);
       expect(locked.priceLabel).not.toContain(",00");

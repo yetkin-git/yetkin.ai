@@ -4,9 +4,10 @@ import { useEffect, useRef, useState, type RefObject } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { burstJuniorActivityConfetti } from "@/lib/junior/activity-confetti";
-import { playJuniorActivityMiss, playJuniorHintEffect, primeJuniorHintAudio } from "@/lib/junior/hint-effect";
+import { playApplauseSound, playOopsSound, primeActivityAudio } from "@/lib/junior/activity-sound";
 import { juniorNextLesson } from "@/lib/junior/lesson-nav";
 import { JUNIOR_QUIZ_CONTROL_LABEL, JUNIOR_QUIZ_PATH } from "@/lib/junior/limits";
+import { recordQuizScore } from "@/lib/junior/progress-tracker";
 import type { JuniorPracticeChoice } from "@/lib/junior/types";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
@@ -50,9 +51,13 @@ function optionLetter(index: number): string {
 }
 
 function optionClass(index: number, selected: boolean): string {
-  const face = OPTION_FACE[index % OPTION_FACE.length];
-  const picked = selected ? "scale-[1.02] ring-2 ring-violet-500 shadow-md" : "shadow-sm hover:-translate-y-0.5";
-  return `flex w-full items-center gap-3 rounded-2xl border-2 px-4 py-3 text-left text-base font-semibold transition ${face} ${picked}`;
+  const face = selected
+    ? "border-emerald-400 bg-emerald-50 text-emerald-950"
+    : OPTION_FACE[index % OPTION_FACE.length];
+  const picked = selected
+    ? "ring-2 ring-emerald-500/55 shadow-sm"
+    : "shadow-sm hover:-translate-y-0.5";
+  return `relative my-1.5 flex w-full items-center gap-2.5 rounded-xl border px-3.5 py-2.5 text-left text-xs font-semibold leading-snug transition sm:text-sm ${face} ${picked}`;
 }
 
 export function TopicQuiz({
@@ -93,7 +98,7 @@ export function TopicQuiz({
   }, [report]);
 
   async function onSubmit() {
-    primeJuniorHintAudio();
+    primeActivityAudio();
     setPending(true);
     setError("");
     setReport(null);
@@ -124,11 +129,12 @@ export function TopicQuiz({
       const percent = typeof body.data.score === "number" ? body.data.score : total > 0 ? Math.round((correct / total) * 100) : 0;
       const notes = body.data.notes ?? [];
       setReport({ correct, total, percent, notes });
+      recordQuizScore(profileId, lessonKey, percent);
       if (percent >= 50) {
         burstJuniorActivityConfetti();
-        playJuniorHintEffect("grasped");
+        playApplauseSound();
       } else {
-        playJuniorActivityMiss();
+        playOopsSound();
       }
       if (body.data.completed) {
         onCompleted?.();
@@ -157,10 +163,14 @@ export function TopicQuiz({
       <p className="mt-1 text-sm text-[var(--muted)]">
         Kavram, uygulama ve beceri testleri ayrı durur. Doğrular birikince ders tamamlanır. Puan sunucuda hesaplanır.
       </p>
-      <div className="mt-4 grid gap-5">
+      <div className="mt-3 grid gap-3">
         {groups.map((group) => (
-          <div key={group.title ?? "bank"} className="grid gap-4">
-            {group.title ? <h4 className="text-sm font-semibold text-[var(--safir-deep)]">{group.title}</h4> : null}
+          <div key={group.title ?? "bank"} className="grid gap-3">
+            {group.title ? (
+              <span className="inline-flex w-fit items-center rounded-full border border-violet-200 bg-violet-50 px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-violet-800">
+                {group.title}
+              </span>
+            ) : null}
             {group.items.map((item) => {
               const number = numberById.get(item.id) ?? 0;
               const picked = choices[item.id];
@@ -168,15 +178,15 @@ export function TopicQuiz({
                 <article
                   key={item.id}
                   data-junior-quiz-card=""
-                  className="rounded-2xl border-2 border-violet-200 bg-white p-4 shadow-sm"
+                  className="rounded-xl border border-violet-200 bg-white p-3 shadow-sm"
                 >
-                  <p id={`junior-quiz-${item.id}`} className="text-base font-extrabold leading-6 text-slate-900">
-                    <span className="mr-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-violet-500 text-sm text-white">
+                  <p id={`junior-quiz-${item.id}`} className="text-sm font-extrabold leading-5 text-slate-900 sm:text-[15px] sm:leading-6">
+                    <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-violet-500 text-xs text-white">
                       {number}
                     </span>
                     {item.prompt}
                   </p>
-                  <div role="radiogroup" aria-labelledby={`junior-quiz-${item.id}`} className="mt-3 grid gap-2">
+                  <div role="radiogroup" aria-labelledby={`junior-quiz-${item.id}`} className="mt-2 grid gap-0">
                     {item.choices.map((choice, index) => {
                       const selected = picked === index;
                       return (
@@ -186,13 +196,23 @@ export function TopicQuiz({
                           role="radio"
                           aria-checked={selected}
                           data-junior-quiz-choice=""
+                          data-junior-quiz-selected={selected ? "true" : "false"}
                           className={optionClass(index, selected)}
                           onClick={() => setChoices((current) => ({ ...current, [item.id]: index }))}
                         >
-                          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/80 text-sm font-extrabold">
+                          <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/80 text-[11px] font-extrabold sm:h-7 sm:w-7 sm:text-xs">
                             {optionLetter(index)}
                           </span>
-                          {choice}
+                          <span className="min-w-0 flex-1 pr-1">{choice}</span>
+                          {selected ? (
+                            <span
+                              data-junior-quiz-check=""
+                              aria-hidden="true"
+                              className="ml-auto inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500 p-1 text-[11px] font-black leading-none text-white shadow-sm sm:h-6 sm:w-6 sm:text-xs"
+                            >
+                              ✓
+                            </span>
+                          ) : null}
                         </button>
                       );
                     })}

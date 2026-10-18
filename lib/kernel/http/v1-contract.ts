@@ -1,5 +1,5 @@
 /**
- * `/api/v1` sözleşme sicili — API-First dron sözleşmesi (20 hop).
+ * `/api/v1` sözleşme sicili — API-First dron sözleşmesi (29 hop).
  * Anayasa: yayınlanmış alan sessizce düşmez. Bu dosyadaki DTO / OpenAPI
  * kısaltması major sürüm ister. Kernel dikey oda import etmez; alanlar
  * burada dondurulur.
@@ -9,6 +9,7 @@
  * hata metinleri BİLİNÇLİ durur. OpenAPI `Marketplace` tag'i yok.
  */
 
+import { juniorGraphicHopSchema } from "@yetkin/junior-graphic/hop-schema";
 import { z } from "zod";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { SHA256_HEX_PATTERN } from "@/lib/kernel/crypto/sha256";
@@ -32,7 +33,12 @@ import {
   WALLET_TOP_UP_MIN_MINOR,
 } from "@/lib/kernel/payments/wallet-top-up";
 import { PASSPORT_STAMP_SOURCE_KINDS } from "@/lib/kernel/passport/types";
+import { JUNIOR_SCHOOL_SEGMENT } from "@/lib/kernel/catalog-ids/school-segments";
 import { EDGE_API_SESSION_ERROR } from "@/lib/kernel/security/edge-api-auth";
+import {
+  JUNIOR_CLOSED_BETA_ERROR,
+  JUNIOR_PROFILE_PLAN_ERROR,
+} from "@/lib/kernel/security/junior-gate";
 import {
   RAIL_V1_API_VERSION_LABEL,
   RAIL_V1_ENVELOPE_KEYS,
@@ -657,6 +663,7 @@ export const railV1JuniorLessonPlayDataSchema = z.strictObject({
       status: z.enum(["fresh", "going", "done"]),
     })
     .nullable(),
+  graphic: juniorGraphicHopSchema.nullable().optional(),
 });
 
 export const railV1JuniorLessonProgressRequestSchema = z.strictObject({
@@ -700,10 +707,182 @@ export const railV1JuniorLessonPracticeDataSchema = z.strictObject({
   }),
 });
 
+const railV1JuniorProfileViewSchema = z.strictObject({
+  id: z.string().min(1),
+  nickname: z.string().min(1),
+  grade: z.int().min(JUNIOR_SCHOOL_SEGMENT.gradeMin).max(JUNIOR_SCHOOL_SEGMENT.gradeMax),
+  birthYear: z.int().nullable(),
+  selected: z.boolean(),
+  selectedElectives: z.array(z.string()),
+  gradeSwitchRights: z.int().nonnegative(),
+});
+
+const railV1JuniorShelfLessonSchema = z.strictObject({
+  key: z.string().min(1),
+  title: z.string().min(1),
+  teaser: z.string(),
+  access: z.enum(["free", "locked"]),
+  thisWeek: z.boolean(),
+  status: z.enum(["done", "going", "fresh", "preparing"]),
+  weekHeading: z.string().min(1).optional(),
+  archiveLabel: z.string().min(1).optional(),
+  starterLabel: z.string().min(1).optional(),
+  unitCode: z.string().min(1).optional(),
+  unitIndex: z.int().positive().optional(),
+  unitTitle: z.string().min(1).optional(),
+});
+
+const railV1JuniorCourseShelfSchema = z.strictObject({
+  slug: z.string().min(1),
+  title: z.string().min(1),
+  subject: z.string().min(1),
+  grade: z.int().min(JUNIOR_SCHOOL_SEGMENT.gradeMin).max(JUNIOR_SCHOOL_SEGMENT.gradeMax),
+  track: z.enum(["core", "elective"]),
+  labels: z.array(z.string()),
+  lessons: z.array(railV1JuniorShelfLessonSchema),
+  outcomeWritten: z.int().nonnegative().optional(),
+  outcomeTotal: z.int().nonnegative().optional(),
+});
+
+export const railV1JuniorProfileDataSchema = z.strictObject({
+  profiles: z.array(railV1JuniorProfileViewSchema),
+  selectedId: z.string().min(1).nullable(),
+  xp: z.strictObject({
+    points: z.int().nonnegative(),
+    badges: z.array(z.string()),
+  }),
+  courses: z.array(railV1JuniorCourseShelfSchema),
+});
+
+export const railV1JuniorElectivesRequestSchema = z.strictObject({
+  profileId: z.string().trim().min(1).max(40),
+  slugs: z.array(z.string().trim().min(1).max(40)).max(3),
+});
+
+export const railV1JuniorElectivesDataSchema = z.strictObject({
+  profile: railV1JuniorProfileViewSchema,
+});
+
+const railV1JuniorFeedbackFields = {
+  praised: z.string().min(1),
+  missing: z.string().min(1),
+  advice: z.string().min(1),
+  score: z.int().min(0).max(100),
+  xpAwarded: z.int().nonnegative(),
+  points: z.int().nonnegative(),
+  badges: z.array(z.string()),
+} as const;
+
+const railV1JuniorPilotNoteSchema = z.strictObject({
+  id: z.string().min(1),
+  ok: z.boolean(),
+  explanation: z.string(),
+  answer: z.string().optional(),
+  cards: z
+    .array(
+      z.strictObject({
+        id: z.string().min(1),
+        ok: z.boolean(),
+        answer: z.string().optional(),
+      }),
+    )
+    .optional(),
+});
+
+export const railV1JuniorTellRequestSchema = z.strictObject({
+  profileId: z.string().trim().min(1).max(40),
+  lessonKey: z.string().trim().min(1).max(80),
+  mode: z.literal("speak"),
+  audioBase64: z.string().max(1_200_000).optional(),
+  mimeType: z.string().max(80).optional(),
+  durationSec: z.number().finite().optional(),
+});
+
+export const railV1JuniorTellDataSchema = z.strictObject(railV1JuniorFeedbackFields);
+
+const railV1JuniorPilotAnswerSchema = z.strictObject({
+  id: z.string().trim().min(1).max(40),
+  choiceIndex: z.int().min(0).max(8).optional(),
+  matches: z.record(z.string().max(40), z.string().max(40)).optional(),
+  cloze: z.string().trim().max(40).optional(),
+  clozes: z.record(z.string().max(40), z.string().trim().max(40)).optional(),
+  order: z.array(z.string().trim().min(1).max(40)).max(8).optional(),
+  placements: z.record(z.string().max(40), z.string().max(40)).optional(),
+});
+
+export const railV1JuniorPilotPracticeRequestSchema = z.strictObject({
+  profileId: z.string().trim().min(1).max(40),
+  lessonKey: z.string().trim().min(1).max(80),
+  answers: z.array(railV1JuniorPilotAnswerSchema).max(12),
+});
+
+export const railV1JuniorPilotPracticeDataSchema = z.strictObject({
+  ...railV1JuniorFeedbackFields,
+  correct: z.int().nonnegative(),
+  total: z.int().positive(),
+  notes: z.array(railV1JuniorPilotNoteSchema),
+});
+
+export const railV1JuniorQuizRequestSchema = z.strictObject({
+  profileId: z.string().trim().min(1).max(40),
+  lessonKey: z.string().trim().min(1).max(80),
+  answers: z
+    .array(
+      z.strictObject({
+        id: z.string().trim().min(1).max(40),
+        choiceIndex: z.int().min(0).max(8).optional(),
+      }),
+    )
+    .max(16),
+});
+
+export const railV1JuniorQuizDataSchema = z.strictObject({
+  ...railV1JuniorFeedbackFields,
+  correct: z.int().nonnegative(),
+  total: z.int().positive(),
+  completed: z.boolean(),
+  notes: z.array(railV1JuniorPilotNoteSchema),
+});
+
 export const RAIL_V1_JUNIOR_LESSON_MISSING = "Bu ders yok.";
 export const RAIL_V1_JUNIOR_MEDIA_UNAVAILABLE = "Bu dersin medyası şu an açılamıyor.";
 export const RAIL_V1_JUNIOR_PROGRESS_INVALID = "İlerleme kaydı okunamadı.";
 export const RAIL_V1_JUNIOR_PRACTICE_INVALID = "Cevaplar okunamadı.";
+export const RAIL_V1_JUNIOR_TELL_INVALID = "Anlatış gönderilemedi. Süreyi kontrol et.";
+/** Kota cümlesi `juniorElectiveQuotaLimitError`. Sayı `JUNIOR_ELECTIVE_QUOTA`. */
+export const RAIL_V1_JUNIOR_ELECTIVES_INVALID = "En fazla 3 seçmeli ders seçilir.";
+export const RAIL_V1_JUNIOR_PROFILE_SELECT_INVALID = "Profil seçilemedi.";
+
+const RAIL_V1_JUNIOR_NOTICE_VERSION = /^junior-notice-\d{4}-\d{2}-\d{2}$/;
+
+export const railV1JuniorProfileCreateRequestSchema = z.strictObject({
+  nickname: z.string().trim().min(2).max(20),
+  grade: z.literal(6),
+  birthYear: z.int().min(1900).max(2100),
+  consent: z.literal(true),
+  consentVersion: z.string().regex(RAIL_V1_JUNIOR_NOTICE_VERSION),
+  guardianBirthYear: z.int().min(1900).max(2100),
+});
+
+export const railV1JuniorProfileSelectRequestSchema = z.strictObject({
+  profileId: z.string().trim().min(1).max(40),
+});
+
+export const railV1JuniorProfileConsentRequestSchema = z.strictObject({
+  profileId: z.string().trim().min(1).max(40),
+  consent: z.literal(true),
+  consentVersion: z.string().regex(RAIL_V1_JUNIOR_NOTICE_VERSION),
+  guardianBirthYear: z.int().min(1900).max(2100),
+});
+
+export const railV1JuniorProfileMutationDataSchema = z.strictObject({
+  profile: railV1JuniorProfileViewSchema,
+});
+
+export const railV1JuniorProfileEraseDataSchema = z.strictObject({
+  erased: z.literal(true),
+  profileId: z.string().min(1),
+});
 
 export const railV1ProfilePatchRequestSchema = z.strictObject({
   displayName: z.string(),
@@ -1226,7 +1405,7 @@ const RAIL_V1_HOP_CONTRACTS = {
     idempotency: false,
     minVersionHeaderRequired: true,
     successStatus: 200,
-    dataKeys: ["lesson", "media", "practice", "progress"],
+    dataKeys: ["lesson", "media", "practice", "progress", "graphic"],
     publishedDataPaths: [
       "lesson",
       "lesson.lessonKey",
@@ -1248,6 +1427,17 @@ const RAIL_V1_HOP_CONTRACTS = {
       "practice[].prompt",
       "progress",
       "progress.status",
+      "graphic",
+      "graphic.schemaVersion",
+      "graphic.layout",
+      "graphic.title",
+      "graphic.subtitle",
+      "graphic.fraction",
+      "graphic.numberLine",
+      "graphic.angle",
+      "graphic.area",
+      "graphic.force",
+      "graphic.speed",
     ],
     dataSchema: railV1JuniorLessonPlayDataSchema,
     exampleParams: { key: "jr_06_mat-5" },
@@ -1298,6 +1488,250 @@ const RAIL_V1_HOP_CONTRACTS = {
     requestSchema: railV1JuniorLessonPracticeRequestSchema,
     exampleParams: { key: "jr_06_mat-5" },
     errors: [...WRITE_ERRORS, RAIL_V1_JUNIOR_PRACTICE_INVALID, RAIL_V1_JUNIOR_LESSON_MISSING],
+  },
+  "junior-profile": {
+    canonicalPathTemplate: "/api/junior-pilot/profiles",
+    routeAuthPattern: "/api/junior-pilot/profiles",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["profiles", "selectedId", "xp", "courses"],
+    publishedDataPaths: [
+      "profiles",
+      "profiles[].id",
+      "profiles[].nickname",
+      "profiles[].grade",
+      "profiles[].birthYear",
+      "profiles[].selected",
+      "profiles[].selectedElectives",
+      "profiles[].gradeSwitchRights",
+      "selectedId",
+      "xp",
+      "xp.points",
+      "xp.badges",
+      "courses",
+      "courses[].slug",
+      "courses[].title",
+      "courses[].subject",
+      "courses[].grade",
+      "courses[].track",
+      "courses[].labels",
+      "courses[].lessons",
+      "courses[].lessons[].key",
+      "courses[].lessons[].title",
+      "courses[].lessons[].access",
+      "courses[].lessons[].status",
+    ],
+    dataSchema: railV1JuniorProfileDataSchema,
+    errors: [...SESSION_ERRORS, JUNIOR_PROFILE_PLAN_ERROR, JUNIOR_CLOSED_BETA_ERROR],
+  },
+  "junior-profile-create": {
+    canonicalPathTemplate: "/api/junior-pilot/profiles",
+    routeAuthPattern: "/api/junior-pilot/profiles",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["profile"],
+    publishedDataPaths: [
+      "profile",
+      "profile.id",
+      "profile.nickname",
+      "profile.grade",
+      "profile.birthYear",
+      "profile.selected",
+      "profile.selectedElectives",
+      "profile.gradeSwitchRights",
+    ],
+    dataSchema: railV1JuniorProfileMutationDataSchema,
+    requestSchema: railV1JuniorProfileCreateRequestSchema,
+    errors: [...SESSION_ERRORS, JUNIOR_PROFILE_PLAN_ERROR, JUNIOR_CLOSED_BETA_ERROR],
+  },
+  "junior-profile-select": {
+    canonicalPathTemplate: "/api/junior-pilot/profiles",
+    routeAuthPattern: "/api/junior-pilot/profiles",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["profile"],
+    publishedDataPaths: [
+      "profile",
+      "profile.id",
+      "profile.nickname",
+      "profile.grade",
+      "profile.birthYear",
+      "profile.selected",
+      "profile.selectedElectives",
+      "profile.gradeSwitchRights",
+    ],
+    dataSchema: railV1JuniorProfileMutationDataSchema,
+    requestSchema: railV1JuniorProfileSelectRequestSchema,
+    errors: [
+      ...SESSION_ERRORS,
+      JUNIOR_PROFILE_PLAN_ERROR,
+      JUNIOR_CLOSED_BETA_ERROR,
+      RAIL_V1_JUNIOR_PROFILE_SELECT_INVALID,
+    ],
+  },
+  "junior-profile-consent": {
+    canonicalPathTemplate: "/api/junior-pilot/profiles",
+    routeAuthPattern: "/api/junior-pilot/profiles",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["profile"],
+    publishedDataPaths: [
+      "profile",
+      "profile.id",
+      "profile.nickname",
+      "profile.grade",
+      "profile.birthYear",
+      "profile.selected",
+      "profile.selectedElectives",
+      "profile.gradeSwitchRights",
+    ],
+    dataSchema: railV1JuniorProfileMutationDataSchema,
+    requestSchema: railV1JuniorProfileConsentRequestSchema,
+    errors: [...SESSION_ERRORS, JUNIOR_PROFILE_PLAN_ERROR, JUNIOR_CLOSED_BETA_ERROR],
+  },
+  "junior-profile-erase": {
+    canonicalPathTemplate: "/api/junior-pilot/profiles",
+    routeAuthPattern: "/api/junior-pilot/profiles",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["erased", "profileId"],
+    publishedDataPaths: ["erased", "profileId"],
+    dataSchema: railV1JuniorProfileEraseDataSchema,
+    requestSchema: railV1JuniorProfileSelectRequestSchema,
+    errors: [
+      ...SESSION_ERRORS,
+      JUNIOR_PROFILE_PLAN_ERROR,
+      JUNIOR_CLOSED_BETA_ERROR,
+      RAIL_V1_JUNIOR_PROFILE_SELECT_INVALID,
+    ],
+  },
+  "junior-electives": {
+    canonicalPathTemplate: "/api/junior-pilot/electives",
+    routeAuthPattern: "/api/junior-pilot/electives",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["profile"],
+    publishedDataPaths: [
+      "profile",
+      "profile.id",
+      "profile.nickname",
+      "profile.grade",
+      "profile.birthYear",
+      "profile.selected",
+      "profile.selectedElectives",
+      "profile.gradeSwitchRights",
+    ],
+    dataSchema: railV1JuniorElectivesDataSchema,
+    requestSchema: railV1JuniorElectivesRequestSchema,
+    errors: [
+      ...SESSION_ERRORS,
+      RAIL_V1_JUNIOR_ELECTIVES_INVALID,
+      JUNIOR_PROFILE_PLAN_ERROR,
+      JUNIOR_CLOSED_BETA_ERROR,
+    ],
+  },
+  "junior-tell": {
+    canonicalPathTemplate: "/api/junior-pilot/tell",
+    routeAuthPattern: "/api/junior-pilot/tell",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["praised", "missing", "advice", "score", "xpAwarded", "points", "badges"],
+    publishedDataPaths: ["praised", "missing", "advice", "score", "xpAwarded", "points", "badges"],
+    dataSchema: railV1JuniorTellDataSchema,
+    requestSchema: railV1JuniorTellRequestSchema,
+    errors: [...SESSION_ERRORS, RAIL_V1_JUNIOR_TELL_INVALID, RAIL_V1_JUNIOR_LESSON_MISSING],
+  },
+  "junior-practice": {
+    canonicalPathTemplate: "/api/junior-pilot/practice",
+    routeAuthPattern: "/api/junior-pilot/practice",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: [
+      "praised",
+      "missing",
+      "advice",
+      "score",
+      "xpAwarded",
+      "points",
+      "badges",
+      "correct",
+      "total",
+      "notes",
+    ],
+    publishedDataPaths: [
+      "praised",
+      "missing",
+      "advice",
+      "score",
+      "xpAwarded",
+      "points",
+      "badges",
+      "correct",
+      "total",
+      "notes",
+      "notes[].id",
+      "notes[].ok",
+      "notes[].explanation",
+    ],
+    dataSchema: railV1JuniorPilotPracticeDataSchema,
+    requestSchema: railV1JuniorPilotPracticeRequestSchema,
+    errors: [...SESSION_ERRORS, RAIL_V1_JUNIOR_PRACTICE_INVALID, RAIL_V1_JUNIOR_LESSON_MISSING],
+  },
+  "junior-quiz": {
+    canonicalPathTemplate: "/api/junior-pilot/quiz",
+    routeAuthPattern: "/api/junior-pilot/quiz",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: [
+      "praised",
+      "missing",
+      "advice",
+      "score",
+      "xpAwarded",
+      "points",
+      "badges",
+      "correct",
+      "total",
+      "completed",
+      "notes",
+    ],
+    publishedDataPaths: [
+      "praised",
+      "missing",
+      "advice",
+      "score",
+      "xpAwarded",
+      "points",
+      "badges",
+      "correct",
+      "total",
+      "completed",
+      "notes",
+      "notes[].id",
+      "notes[].ok",
+      "notes[].explanation",
+    ],
+    dataSchema: railV1JuniorQuizDataSchema,
+    requestSchema: railV1JuniorQuizRequestSchema,
+    errors: [...SESSION_ERRORS, RAIL_V1_JUNIOR_PRACTICE_INVALID, RAIL_V1_JUNIOR_LESSON_MISSING],
   },
   "profile-patch": {
     canonicalPathTemplate: "/api/profile",
@@ -1564,7 +1998,7 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
         "Kopya `app/api/v1` handler ağacı yoktur; kenar soyar.",
         "Zarf: { ok, error, requestId, apiVersion, data }.",
         "X-Rail-Min-Version API sözleşme sürümüdür; mağaza uygulama build'i değildir (X-Rail-App-Build ayrı, v1'de kapı değil).",
-        "Amiral ve Dron aynı v1 zarfı konuşur. Versiyonsuz `{ ok, ...data }` serimi kapalıdır.",
+        "Pragmatik Monolit ve tek native istemci aynı v1 zarfı konuşur. Versiyonsuz `{ ok, ...data }` serimi kapalıdır.",
         "Yayınlanmış alan sessizce düşmez. CORS joker ve Allow-Credentials yoktur.",
         "SHA-256 akademi kaydı kriptografik imza değildir; içerik özeti / bütünlük kaydıdır.",
       ].join(" "),
@@ -1586,7 +2020,7 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
         },
       },
       schemas: {
-        // Freelancer DTO aynası BİLİNÇLİ durur. Yayınlanan hop 16, unique path 14; Marketplace tag yoktur.
+        // Freelancer DTO aynası BİLİNÇLİ durur. Yayınlanan hop 29, unique path 23; Marketplace tag yoktur.
         RailV1FailEnvelope: toOpenApiSchema(railV1FailEnvelopeSchema),
         RailV1OkEnvelope: toOpenApiSchema(railV1OkEnvelopeSchema),
         RailV1SessionUser: toOpenApiSchema(railV1SessionUserSchema),
@@ -1627,6 +2061,20 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
         RailV1JuniorLessonProgressData: toOpenApiSchema(railV1JuniorLessonProgressDataSchema),
         RailV1JuniorLessonPracticeRequest: toOpenApiSchema(railV1JuniorLessonPracticeRequestSchema),
         RailV1JuniorLessonPracticeData: toOpenApiSchema(railV1JuniorLessonPracticeDataSchema),
+        RailV1JuniorProfileData: toOpenApiSchema(railV1JuniorProfileDataSchema),
+        RailV1JuniorProfileCreateRequest: toOpenApiSchema(railV1JuniorProfileCreateRequestSchema),
+        RailV1JuniorProfileSelectRequest: toOpenApiSchema(railV1JuniorProfileSelectRequestSchema),
+        RailV1JuniorProfileConsentRequest: toOpenApiSchema(railV1JuniorProfileConsentRequestSchema),
+        RailV1JuniorProfileMutationData: toOpenApiSchema(railV1JuniorProfileMutationDataSchema),
+        RailV1JuniorProfileEraseData: toOpenApiSchema(railV1JuniorProfileEraseDataSchema),
+        RailV1JuniorElectivesRequest: toOpenApiSchema(railV1JuniorElectivesRequestSchema),
+        RailV1JuniorElectivesData: toOpenApiSchema(railV1JuniorElectivesDataSchema),
+        RailV1JuniorTellRequest: toOpenApiSchema(railV1JuniorTellRequestSchema),
+        RailV1JuniorTellData: toOpenApiSchema(railV1JuniorTellDataSchema),
+        RailV1JuniorPilotPracticeRequest: toOpenApiSchema(railV1JuniorPilotPracticeRequestSchema),
+        RailV1JuniorPilotPracticeData: toOpenApiSchema(railV1JuniorPilotPracticeDataSchema),
+        RailV1JuniorQuizRequest: toOpenApiSchema(railV1JuniorQuizRequestSchema),
+        RailV1JuniorQuizData: toOpenApiSchema(railV1JuniorQuizDataSchema),
         RailV1SessionData: toOpenApiSchema(railV1SessionDataSchema),
         RailV1WalletStripData: toOpenApiSchema(railV1WalletStripDataSchema),
         RailV1JobsData: toOpenApiSchema(railV1JobsDataSchema),

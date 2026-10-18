@@ -6,9 +6,13 @@
  * Tedavi + Faz 2 hazırlık (Eylül 2026): yazma hop'ları ve cüzdan yükleme
  * API-First yayınlanır. Müfredat/sınav GET okuma hop'ları T3 halkası içindir.
  * Freelancer hop'ları Split + kamu kilidi kalkınca geri yazılır.
+ * Junior pilot ağızları aynı handler'a soyulur. Kasa (`checkout`) bu sicilde yoktur;
+ * `isJuniorCheckoutLocked` fail-closed kalır. Sınıf (`grade`) satır değildir.
+ * Profil masası GET ile birlikte oluşturma (POST), seçme (PATCH), veli onayı (PUT)
+ * ve silme (DELETE) aynı kanonik handler'a soyulur.
  */
 
-export type RailV1HopMethod = "GET" | "POST" | "PATCH";
+export type RailV1HopMethod = "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
 export type RailV1WireAuth = "none" | "bearer";
 
 export type RailV1HopMeta = {
@@ -159,6 +163,69 @@ export const RAIL_V1_HOPS_META = [
     id: "junior-lesson-practice",
     method: "POST",
     v1PathTemplate: "/api/v1/junior/lessons/{key}/practice",
+    v1Auth: "bearer",
+    cookieAuth: false,
+  },
+  {
+    id: "junior-profile",
+    method: "GET",
+    v1PathTemplate: "/api/v1/junior-pilot/profiles",
+    v1Auth: "bearer",
+    cookieAuth: false,
+  },
+  {
+    id: "junior-profile-create",
+    method: "POST",
+    v1PathTemplate: "/api/v1/junior-pilot/profiles",
+    v1Auth: "bearer",
+    cookieAuth: false,
+  },
+  {
+    id: "junior-profile-select",
+    method: "PATCH",
+    v1PathTemplate: "/api/v1/junior-pilot/profiles",
+    v1Auth: "bearer",
+    cookieAuth: false,
+  },
+  {
+    id: "junior-profile-consent",
+    method: "PUT",
+    v1PathTemplate: "/api/v1/junior-pilot/profiles",
+    v1Auth: "bearer",
+    cookieAuth: false,
+  },
+  {
+    id: "junior-profile-erase",
+    method: "DELETE",
+    v1PathTemplate: "/api/v1/junior-pilot/profiles",
+    v1Auth: "bearer",
+    cookieAuth: false,
+  },
+  {
+    id: "junior-electives",
+    method: "POST",
+    v1PathTemplate: "/api/v1/junior-pilot/electives",
+    v1Auth: "bearer",
+    cookieAuth: false,
+  },
+  {
+    id: "junior-tell",
+    method: "POST",
+    v1PathTemplate: "/api/v1/junior-pilot/tell",
+    v1Auth: "bearer",
+    cookieAuth: false,
+  },
+  {
+    id: "junior-practice",
+    method: "POST",
+    v1PathTemplate: "/api/v1/junior-pilot/practice",
+    v1Auth: "bearer",
+    cookieAuth: false,
+  },
+  {
+    id: "junior-quiz",
+    method: "POST",
+    v1PathTemplate: "/api/v1/junior-pilot/quiz",
     v1Auth: "bearer",
     cookieAuth: false,
   },

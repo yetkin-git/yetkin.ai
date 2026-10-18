@@ -2,6 +2,7 @@
 
 import { Fragment, useState } from "react";
 import { LessonCover } from "@/components/junior/lesson-covers";
+import { JuniorLessonCompletionBar } from "@/components/junior/lesson-completion-bar";
 import { PackageInfoModal } from "@/components/junior/package-info-modal";
 import { IconLock } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/link-button";
@@ -131,10 +132,13 @@ export function VisualCourseCards({
   courses,
   checkoutHref,
   priceLabel = null,
+  profileId = "",
 }: {
   courses: JuniorCourseShelf[];
   checkoutHref: string;
   priceLabel?: string | null;
+  /** LocalStorage ilerleme yüzdesi için aktif profil. */
+  profileId?: string;
 }) {
   const grouped = courses.length > 1;
   const [packageOpen, setPackageOpen] = useState(false);
@@ -235,6 +239,11 @@ export function VisualCourseCards({
                       <p className="line-clamp-2 text-xs leading-4 text-[var(--muted)]">
                         {juniorOneSentence(lesson.teaser)}
                       </p>
+                      <JuniorLessonCompletionBar
+                        profileId={profileId}
+                        lessonKey={lesson.key}
+                        compact
+                      />
                     </div>
                     {face.action ? (
                       <div className="px-3 pb-2">

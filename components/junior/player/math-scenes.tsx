@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import {
   Ink,
-  pieSlicePath,
   SceneFoot as Foot,
   SceneTitle as Title,
   SceneReveal,
@@ -9,14 +8,15 @@ import {
   SoftFocus,
   SoftStage,
   stickyExponentParams,
-  stickyFractionParams,
   useJuniorSceneProps,
 } from "@/components/junior/player/scene-ui";
 import {
+  detectDivisibilityBoard,
   numberOpsFactorSubject,
   positiveFactors,
   spokenFactorProduct,
   stickyNumberOpsMode,
+  type DivisibilityBoardState,
 } from "@/lib/junior/scene-sync";
 import type { JuniorVectorScene } from "@/lib/junior/types";
 
@@ -324,10 +324,27 @@ export function ExponentScene({ beat, caption = "", captionTrail }: SceneCaption
   );
 }
 
-export function OpsOrderScene({ beat }: { beat: number }) {
+export function OpsOrderScene({ beat, caption = "", captionTrail }: SceneCaptionProps) {
+  const trailText = captionTrailOrLive(caption, captionTrail).join(" ");
+  const exprMatch = /(\d+)\s*\+\s*(\d+)\s*[×x*·]\s*(\d+)/u.exec(caption) ?? /(\d+)\s*\+\s*(\d+)\s*[×x*·]\s*(\d+)/u.exec(trailText);
+  const a = exprMatch ? Number(exprMatch[1]) : 3;
+  const b = exprMatch ? Number(exprMatch[2]) : 4;
+  const c = exprMatch ? Number(exprMatch[3]) : 2;
+  const mulResult = b * c;
+  const rightResult = a + mulResult;
+  const wrongResult = (a + b) * c;
   const steps = ["( )", "üs", "× ÷", "+ −"];
-  const active = Math.min(3, Math.max(0, beat - 1));
-  const wrong = beat >= 7;
+  const lower = caption.toLocaleLowerCase("tr-TR");
+  const active = /parantez/.test(lower)
+    ? 0
+    : /\büs\b|kuvvet/.test(lower)
+      ? 1
+      : /çarp|böl/.test(lower)
+        ? 2
+        : /topla|çıkar/.test(lower)
+          ? 3
+          : Math.min(3, Math.max(0, beat - 1));
+  const wrong = beat >= 7 || /tuzak|yanlış|değil/.test(lower);
   return (
     <Stage scene="ops-order">
       <Title>İşlem önceliği</Title>
@@ -348,15 +365,15 @@ export function OpsOrderScene({ beat }: { beat: number }) {
         </g>
       ))}
       <text x="22" y={128} fill={Ink.text} fontSize="18" fontFamily="inherit" fontWeight="700">
-        3 + 4 × 2
+        {`${a} + ${b} × ${c} = ${a} + ${mulResult} = ${rightResult}`}
       </text>
       {wrong ? (
         <g>
           <text x="22" y={164} fill={Ink.roseInk} fontSize="15" fontFamily="inherit" fontWeight="700">
-            14 değil
+            {`${wrongResult} değil`}
           </text>
           <text x="118" y={164} fill={Ink.greenInk} fontSize="15" fontFamily="inherit" fontWeight="700">
-            3 + 8 = 11
+            {`${a} + ${mulResult} = ${rightResult}`}
           </text>
         </g>
       ) : (
@@ -368,28 +385,36 @@ export function OpsOrderScene({ beat }: { beat: number }) {
   );
 }
 
-export function DistributeScene({ beat }: { beat: number }) {
-  const open = beat >= 3;
+export function DistributeScene({ beat, caption = "", captionTrail }: SceneCaptionProps) {
+  const trailText = captionTrailOrLive(caption, captionTrail).join(" ");
+  const distMatch =
+    /(\d+)\s*[×x*·]\s*\(\s*(\d+)\s*\+\s*(\d+)\s*\)/u.exec(caption) ??
+    /(\d+)\s*[×x*·]\s*\(\s*(\d+)\s*\+\s*(\d+)\s*\)/u.exec(trailText);
+  const factor = distMatch ? Number(distMatch[1]) : 6;
+  const left = distMatch ? Number(distMatch[2]) : 5;
+  const right = distMatch ? Number(distMatch[3]) : 3;
+  const total = factor * (left + right);
+  const open = beat >= 3 || /dağıl|ortak çarpan/.test(caption.toLocaleLowerCase("tr-TR"));
   return (
     <Stage scene="distribute">
       <Title>Ortak çarpan ve dağılma</Title>
       <SoftCard x={22} y={52} w={50} h={50} fill={Ink.amber} hot />
       <text x="47" y={86} textAnchor="middle" fill={Ink.text} fontSize="22" fontFamily="inherit" fontWeight="700">
-        6
+        {factor}
       </text>
       <text x="86" y={86} fill={Ink.muted} fontSize="22" fontFamily="inherit" fontWeight="700">
         ×
       </text>
       <SoftCard x={108} y={46} w={124} h={62} fill={Ink.sky} hot={open} />
       <text x="170" y={86} textAnchor="middle" fill={Ink.text} fontSize="18" fontFamily="inherit" fontWeight="700">
-        5 + 3
+        {`${left} + ${right}`}
       </text>
       <text x={248} y={72} fill={Ink.text} fontSize="14" fontFamily="inherit" fontWeight="700" opacity={open ? 1 : 0.45}>
-        6×5 + 6×3
+        {`${factor}×${left} + ${factor}×${right}`}
       </text>
       <SoftCard x={248} y={84} w={88} h={28} fill={Ink.green} rx={10} hot={open} />
       <text x={260} y={104} fill={Ink.greenInk} fontSize="14" fontFamily="inherit" fontWeight="700">
-        = 48
+        {`= ${total}`}
       </text>
       <Foot>{beat >= 6 ? "Ortak çarpan parantezin önüne çıkar." : "Çarpım, toplamanın üzerine dağılır."}</Foot>
     </Stage>
@@ -437,14 +462,201 @@ function FactorChips({ beat, factors, subject }: { beat: number; factors: readon
   );
 }
 
+export function DivisibilityBoard({
+  state,
+  product,
+}: {
+  state: DivisibilityBoardState;
+  product: { left: number; right: number; product: number } | null;
+}) {
+  if (state.kind === "last-digit") {
+    const cards = [
+      { num: 24, tens: "2", ones: "4", bracket: "2[4]", note: "Çift rakam" },
+      { num: 15, tens: "1", ones: "5", bracket: "1[5]", note: "Sonu 0 veya 5" },
+      { num: 30, tens: "3", ones: "0", bracket: "3[0]", note: "Sonu 0" },
+    ] as const;
+    const allBadges = ["✓ 2'ye Bölünür", "✓ 5'e Bölünür", "✓ 10'a Bölünür"] as const;
+    return (
+      <g data-junior-divisibility-board="last-digit" data-active-number={state.subject}>
+        {cards.map((card, idx) => {
+          const active = card.num === state.subject;
+          const x = 18 + idx * 110;
+          return (
+            <g key={card.num}>
+              <SoftCard
+                x={x}
+                y={44}
+                w={102}
+                h={70}
+                fill={active ? Ink.skyFill : Ink.white}
+                hot={active}
+                rx={12}
+              />
+              {/* Onlar basamağı */}
+              <text
+                x={x + 28}
+                y={82}
+                textAnchor="middle"
+                fill={Ink.text}
+                fontSize="22"
+                fontFamily="inherit"
+                fontWeight="800"
+              >
+                {card.tens}
+              </text>
+              {/* Neon Birler Basamağı Kutusu */}
+              <rect
+                x={x + 46}
+                y={54}
+                width="38"
+                height="36"
+                rx="8"
+                fill={active ? "#ecfeff" : Ink.amber}
+                stroke={active ? "#06b6d4" : Ink.strokeHot}
+                strokeWidth={active ? "2.5" : "1.8"}
+                data-divisibility-ones={card.ones}
+              />
+              <text
+                x={x + 65}
+                y={79}
+                textAnchor="middle"
+                fill={active ? "#0e7490" : Ink.text}
+                fontSize="20"
+                fontFamily="inherit"
+                fontWeight="800"
+              >
+                {card.ones}
+              </text>
+              <text
+                x={x + 51}
+                y={105}
+                textAnchor="middle"
+                fill={active ? Ink.accent : Ink.muted}
+                fontSize="10"
+                fontFamily="inherit"
+                fontWeight="700"
+              >
+                {`${card.bracket} · ${card.note}`}
+              </text>
+            </g>
+          );
+        })}
+        {allBadges.map((badge, idx) => {
+          const lit = state.badges.includes(badge);
+          const bx = 18 + idx * 110;
+          return (
+            <g key={badge}>
+              <SoftCard
+                x={bx}
+                y={122}
+                w={102}
+                h={26}
+                fill={lit ? Ink.green : Ink.white}
+                hot={lit}
+                rx={8}
+              />
+              <text
+                x={bx + 51}
+                y={139}
+                textAnchor="middle"
+                fill={lit ? Ink.greenInk : Ink.muted}
+                fontSize="10.5"
+                fontFamily="inherit"
+                fontWeight="700"
+              >
+                {badge}
+              </text>
+            </g>
+          );
+        })}
+        <Foot y={168} fill={Ink.accent}>
+          {product
+            ? `${product.left} × ${product.right} = ${product.product}`
+            : `Son basamak: ${state.bracketed} → ${state.badges.join(" · ")}`}
+        </Foot>
+      </g>
+    );
+  }
+
+  const isNine = state.rule === 9;
+  const d1 = isNine ? "1" : "2";
+  const d2 = isNine ? "8" : "4";
+  const sum = isNine ? "9" : "6";
+  const sumBadges = ["✓ 3'e Bölünür", "✓ 9'a Bölünür"] as const;
+
+  return (
+    <g data-junior-divisibility-board="digit-sum" data-active-number={state.subject}>
+      {/* Rakam toplama kutuları ve toplama oku */}
+      <SoftCard x={22} y={48} w={48} h={48} fill={Ink.amber} hot rx={12} />
+      <text x={46} y={79} textAnchor="middle" fill={Ink.text} fontSize="22" fontFamily="inherit" fontWeight="800">
+        {d1}
+      </text>
+      <text x={82} y={78} textAnchor="middle" fill={Ink.accent} fontSize="20" fontFamily="inherit" fontWeight="800">
+        +
+      </text>
+      <SoftCard x={94} y={48} w={48} h={48} fill={Ink.amber} hot rx={12} />
+      <text x={118} y={79} textAnchor="middle" fill={Ink.text} fontSize="22" fontFamily="inherit" fontWeight="800">
+        {d2}
+      </text>
+      {/* Toplama oku */}
+      <line x1={150} y1={72} x2={182} y2={72} stroke={Ink.accent} strokeWidth="2.5" strokeLinecap="round" />
+      <polygon points="182,67 192,72 182,77" fill={Ink.accent} />
+      <SoftCard x={198} y={48} w={54} h={48} fill={Ink.green} hot rx={12} />
+      <text x={225} y={79} textAnchor="middle" fill={Ink.greenInk} fontSize="22" fontFamily="inherit" fontWeight="800">
+        {sum}
+      </text>
+      <text x={264} y={68} fill={Ink.text} fontSize="12" fontFamily="inherit" fontWeight="800">
+        2 + 4 = 6
+      </text>
+      <text x={264} y={86} fill={Ink.muted} fontSize="10.5" fontFamily="inherit" fontWeight="700">
+        {isNine ? "1 + 8 = 9 (9'un katı)" : "6, 3'ün katıdır!"}
+      </text>
+      {sumBadges.map((badge, idx) => {
+        const lit = state.badges.includes(badge);
+        const bx = 22 + idx * 156;
+        return (
+          <g key={badge}>
+            <SoftCard x={bx} y={110} w={144} h={30} fill={lit ? Ink.green : Ink.white} hot={lit} rx={10} />
+            <text
+              x={bx + 72}
+              y={129}
+              textAnchor="middle"
+              fill={lit ? Ink.greenInk : Ink.muted}
+              fontSize="12"
+              fontFamily="inherit"
+              fontWeight="700"
+            >
+              {badge}
+            </text>
+          </g>
+        );
+      })}
+      <Foot y={164} fill={Ink.accent}>
+        {product
+          ? `${product.left} × ${product.right} = ${product.product}`
+          : `Rakamları topla: ${state.sumExpression} → ${state.badges.join(" · ")}`}
+      </Foot>
+    </g>
+  );
+}
+
 export function NumberOpsScene({ beat, caption = "", captionTrail }: SceneCaptionProps) {
   const trail = captionTrailOrLive(caption, captionTrail);
   const mode = stickyNumberOpsMode(trail);
   const subject = numberOpsFactorSubject(trail);
   const factors = positiveFactors(subject);
   const product = spokenFactorProduct(caption);
+  const divisibility = detectDivisibilityBoard(caption);
   const title =
-    mode === "prime" ? "Asal sayılar" : mode === "gcd" ? "Ortak bölen ve kat" : mode === "factor" ? "Çarpan ve kat" : "Doğal sayı problemi";
+    mode === "prime"
+      ? "Asal sayılar"
+      : mode === "gcd"
+        ? "Ortak bölen ve kat"
+        : mode === "factor"
+          ? divisibility
+            ? "Bölünebilme tahtası"
+            : "Çarpan ve kat"
+          : "Doğal sayı problemi";
   return (
     <Stage scene="number-ops">
       <Title>{title}</Title>
@@ -473,45 +685,21 @@ export function NumberOpsScene({ beat, caption = "", captionTrail }: SceneCaptio
         </>
       ) : null}
       {mode === "factor" ? (
-        <>
-          <FactorChips beat={beat} factors={factors} subject={subject} />
-          <Foot y={156} fill={Ink.accent}>
-            {product
-              ? `${product.left} × ${product.right} = ${product.product}`
-              : `${subject} sayısının çarpanları kalansız böler.`}
-          </Foot>
-        </>
+        divisibility ? (
+          <DivisibilityBoard state={divisibility} product={product} />
+        ) : (
+          <>
+            <FactorChips beat={beat} factors={factors} subject={subject} />
+            <Foot y={156} fill={Ink.accent}>
+              {product
+                ? `${product.left} × ${product.right} = ${product.product}`
+                : `${subject} sayısının çarpanları kalansız böler.`}
+            </Foot>
+          </>
+        )
       ) : null}
-      {mode === "prime" ? (
-        <>
-          {[2, 3, 5, 7, 11, 13].map((n, index) => (
-            <g key={n}>
-              <SoftCard x={26 + index * 54} y={66} w={46} h={46} fill={index <= beat ? Ink.greenFill : Ink.white} rx={12} />
-              <text x={49 + index * 54} y={96} textAnchor="middle" fill={Ink.text} fontSize="16" fontFamily="inherit" fontWeight="700">
-                {n}
-              </text>
-            </g>
-          ))}
-          <Foot>{beat >= 5 ? "1 asal değildir. 12 = 2 × 2 × 3" : "Yalnız 1 ve kendisi."}</Foot>
-        </>
-      ) : null}
-      {mode === "gcd" ? (
-        <>
-          <text x="22" y={68} fill={Ink.text} fontSize="15" fontFamily="inherit" fontWeight="700">
-            8 ve 12
-          </text>
-          <SoftCard x={22} y={84} w={148} h={42} fill={Ink.sky} />
-          <text x="40" y={112} fill={Ink.text} fontSize="14" fontFamily="inherit" fontWeight="700">
-            EBOB = 4
-          </text>
-          <SoftCard x={190} y={84} w={148} h={42} fill={Ink.amber} />
-          <text x="208" y={112} fill={Ink.text} fontSize="14" fontFamily="inherit" fontWeight="700">
-            EKOK = 24
-          </text>
-          <Foot y={168} fill={Ink.accent}>
-            Bölen küçük listede, kat büyük listede.
-          </Foot>
-        </>
+      {mode === "prime" || mode === "gcd" ? (
+        <Foot>çizim yok</Foot>
       ) : null}
     </Stage>
   );
@@ -539,219 +727,220 @@ export function SetsScene({ beat }: { beat: number }) {
   );
 }
 
-export function NumberLineScene({ beat }: { beat: number }) {
-  const marks = [-4, -2, 0, 2, 4];
+export function NumberLineScene(_props: SceneCaptionProps) {
   return (
     <Stage scene="number-line">
-      <Title>Tam sayılar ve mutlak değer</Title>
-      <line x1="40" y1="100" x2="320" y2="100" stroke={Ink.strokeHot} strokeWidth="2.5" strokeLinecap="round" />
-      <polygon points="320,100 308,94 308,106" fill={Ink.strokeHot} />
-      {marks.map((n, index) => (
-        <g key={n}>
-          <line x1={60 + index * 60} y1="92" x2={60 + index * 60} y2="108" stroke={Ink.strokeHot} strokeWidth="2" />
-          <text x={60 + index * 60} y={128} textAnchor="middle" fill={Ink.text} fontSize="13" fontFamily="inherit" fontWeight="700">
-            {n}
-          </text>
-        </g>
-      ))}
-      {beat >= 3 ? (
+      <Title>Sayı doğrusu</Title>
+      <Foot>çizim yok</Foot>
+    </Stage>
+  );
+}
+
+export function FractionPieScene(_props: SceneCaptionProps) {
+  return (
+    <Stage scene="fraction">
+      <Title>Kesir</Title>
+      <Foot>çizim yok</Foot>
+    </Stage>
+  );
+}
+
+export function FractionBarsScene(_props: SceneCaptionProps) {
+  return (
+    <Stage scene="fraction-sum">
+      <Title>Kesir</Title>
+      <Foot>çizim yok</Foot>
+    </Stage>
+  );
+}
+
+export function DecimalScene({ beat: _beat, caption = "", captionTrail }: SceneCaptionProps) {
+  const trail = captionTrailOrLive(caption, captionTrail);
+  const joined = trail.join(" ").toLocaleLowerCase("tr-TR");
+  const live = caption.toLocaleLowerCase("tr-TR");
+
+  const isOpsMode = /2,40|1,35|3,75|37,5|4,8|2,4|alt alta|tahmin|yuvarla/.test(joined);
+  const isRepeatingMode = /devirli|0,333|1\/3|0,25|1\/4|5\/10|25\/100/.test(joined);
+
+  if (isOpsMode) {
+    const isMul10 = /37,5|10 ile çarp|sağa kay/.test(live);
+    const isDiv2 = /4,8|2,4|ikiye böl|böl/.test(live);
+    return (
+      <Stage scene="decimal">
+        <Title>Ondalık gösterimlerle işlem ve tahmin</Title>
+        <SoftCard x={18} y={44} w={164} h={96} fill={Ink.white} hot={!isMul10 && !isDiv2} rx={12} />
+        <text x="32" y={66} fill={Ink.muted} fontSize="11" fontFamily="inherit" fontWeight="700">
+          Virgüller alt alta:
+        </text>
+        <text x="52" y={88} fill={Ink.text} fontSize="16" fontFamily="inherit" fontWeight="700">
+          {"  2 , 40"}
+        </text>
+        <text x="36" y={108} fill={Ink.text} fontSize="16" fontFamily="inherit" fontWeight="700">
+          {"+ 1 , 35"}
+        </text>
+        <line x1="34" y1="114" x2="148" y2="114" stroke={Ink.strokeHot} strokeWidth="2" />
+        <text x="52" y={132} fill={Ink.greenInk} fontSize="17" fontFamily="inherit" fontWeight="700">
+          {"  3 , 75"}
+        </text>
+
+        <SoftCard x={194} y={44} w={148} h={44} fill={isMul10 ? Ink.amber : Ink.sky} hot={isMul10} rx={10} />
+        <text x="268" y={63} textAnchor="middle" fill={Ink.text} fontSize="11" fontFamily="inherit" fontWeight="700">
+          10 ile çarpım (virgül sağa)
+        </text>
+        <text x="268" y={80} textAnchor="middle" fill={Ink.accent} fontSize="13.5" fontFamily="inherit" fontWeight="700">
+          3,75 × 10 = 37,5
+        </text>
+
+        <SoftCard x={194} y={96} w={148} h={44} fill={isDiv2 ? Ink.amber : Ink.green} hot={isDiv2} rx={10} />
+        <text x="268" y={115} textAnchor="middle" fill={Ink.text} fontSize="11" fontFamily="inherit" fontWeight="700">
+          Bölme ve Tahmin
+        </text>
+        <text x="268" y={132} textAnchor="middle" fill={Ink.greenInk} fontSize="13.5" fontFamily="inherit" fontWeight="700">
+          4,8 ÷ 2 = 2,4
+        </text>
+
+        <Foot y={176} fill={Ink.accent}>
+          {isMul10 ? "10 ile çarpınca virgül 1 basamak sağa kayar." : "Toplamada virgüller aynı hizada durur."}
+        </Foot>
+      </Stage>
+    );
+  }
+
+  if (isRepeatingMode) {
+    const focusThird = /1\/3|0,333|devirli|üçte bir/.test(live);
+    const focusQuarter = /1\/4|0,25|25\/100|dörtte bir/.test(live);
+    return (
+      <Stage scene="decimal">
+        <Title>Kesir, ondalık ve devirli gösterim</Title>
+        {[
+          { frac: "1/2 = 5/10", dec: "= 0,5", note: "Sonlu ondalık", hot: !focusThird && !focusQuarter },
+          { frac: "1/4 = 25/100", dec: "= 0,25", note: "Payda 100", hot: focusQuarter },
+          { frac: "1/3 = 1 ÷ 3", dec: "= 0,333… (0,3̄)", note: "Devirli ondalık", hot: focusThird },
+        ].map((row, idx) => (
+          <g key={row.frac}>
+            <SoftCard
+              x={18}
+              y={42 + idx * 40}
+              w={324}
+              h={34}
+              fill={row.hot ? Ink.amber : Ink.white}
+              hot={row.hot}
+              rx={10}
+            />
+            <text x="30" y={64 + idx * 40} fill={Ink.text} fontSize="13.5" fontFamily="inherit" fontWeight="700">
+              {row.frac}
+            </text>
+            <text x="150" y={64 + idx * 40} fill={Ink.greenInk} fontSize="14" fontFamily="inherit" fontWeight="700">
+              {row.dec}
+            </text>
+            <text x="262" y={64 + idx * 40} fill={Ink.muted} fontSize="11" fontFamily="inherit" fontWeight="600">
+              {row.note}
+            </text>
+          </g>
+        ))}
+        <Foot y={180} fill={Ink.accent}>
+          {focusThird ? "Tekrar eden rakamın üstüne devir çizgisi konur." : "Payda 10 veya 100 yapılınca ondalık doğrudan yazılır."}
+        </Foot>
+      </Stage>
+    );
+  }
+
+  // jr_06_mat-14: Basamak değeri (3,25) ve karşılaştırma (0,4 = 0,40 > 0,35, 12,50 = 12,5)
+  const compareFocus = /0,4|0,35|0,40|12,50|12,5|büyük|karşılaştır/.test(live);
+  const decMatch = /(\d+),(\d+)/u.exec(caption) ?? /(\d+),(\d+)/u.exec(joined);
+  const wholePart = decMatch?.[1] ?? "3";
+  const fracPart = decMatch?.[2] ?? "25";
+  const tenths = fracPart[0] ?? "2";
+  const hundredths = fracPart[1] ?? "";
+
+  return (
+    <Stage scene="decimal">
+      <Title>Ondalık gösterim ve basamak değeri</Title>
+      <SoftCard x={24} y={48} w={64} h={54} fill={Ink.amber} hot={!compareFocus} />
+      <text x="56" y={84} textAnchor="middle" fill={Ink.text} fontSize="26" fontFamily="inherit" fontWeight="700">
+        {wholePart}
+      </text>
+      <text x="98" y={88} fill={Ink.text} fontSize="32" fontFamily="inherit" fontWeight="700">
+        ,
+      </text>
+      <SoftCard x={114} y={48} w={56} h={54} fill={Ink.sky} hot={!compareFocus} />
+      <text x="142" y={84} textAnchor="middle" fill={Ink.text} fontSize="26" fontFamily="inherit" fontWeight="700">
+        {tenths}
+      </text>
+      {hundredths ? (
         <>
-          <circle cx="60" cy="100" r="8" fill={Ink.roseInk} stroke={Ink.stroke} strokeWidth="1.5" />
-          <path d="M60 70 H180" stroke={Ink.accent} strokeWidth="3" strokeLinecap="round" />
-          <text x="100" y={62} fill={Ink.accent} fontSize="13" fontFamily="inherit" fontWeight="700">
-            |−4| = 4
+          <SoftCard x={178} y={48} w={56} h={54} fill={Ink.green} hot={!compareFocus} />
+          <text x="206" y={84} textAnchor="middle" fill={Ink.text} fontSize="26" fontFamily="inherit" fontWeight="700">
+            {hundredths}
           </text>
         </>
       ) : null}
-      <Foot>{beat >= 5 ? "Sağdaki tam sayı daha büyüktür." : "Mutlak değer 0'a uzaklıktır."}</Foot>
-    </Stage>
-  );
-}
-
-export function FractionPieScene({ beat, caption = "", captionTrail }: SceneCaptionProps) {
-  const { num, den } = stickyFractionParams(captionTrailOrLive(caption, captionTrail));
-  const fill = beat >= 4;
-  const filledCount = fill ? Math.min(num, den) : 0;
-  const hotCuts = beat >= 2 && beat < 5;
-  const hotLabel = beat >= 5;
-  const hotTrap = beat >= 8;
-  return (
-    <Stage scene="fraction">
-      <Title>Kesir modeli</Title>
-      <circle cx="108" cy="104" r="58" fill="#fff7ed" stroke={Ink.strokeHot} strokeWidth="2" />
-      {Array.from({ length: den }, (_, index) => (
-        <path
-          key={index}
-          d={pieSlicePath(108, 104, 58, index, den)}
-          fill={index < filledCount ? Ink.skyFill : "transparent"}
-          stroke={hotCuts || hotLabel ? Ink.accent : Ink.strokeHot}
-          strokeWidth={hotCuts || index < filledCount ? 2 : 1.5}
-        />
-      ))}
-      <text x="196" y={80} fill={Ink.text} fontSize="15" fontFamily="inherit" fontWeight="700">
-        {den} eşit parça
-      </text>
-      <SoftFocus active={hotLabel}>
-        <SoftCard x={196} y={96} w={72} h={40} fill={Ink.sky} rx={12} hot={hotLabel} />
-        <text x="232" y={124} textAnchor="middle" fill={Ink.accent} fontSize="26" fontFamily="inherit" fontWeight="700">
-          {num}/{den}
-        </text>
-      </SoftFocus>
-      <text
-        x="196"
-        y={160}
-        fill={hotTrap ? Ink.roseInk : Ink.muted}
-        fontSize="12"
-        fontFamily="inherit"
-        fontWeight={hotTrap ? "700" : "500"}
-      >
-        {hotTrap ? "Eşit değilse kesir olmaz" : beat >= 6 ? "Pay üstte, payda altta." : "Seçilen parça paydır."}
-      </text>
-    </Stage>
-  );
-}
-
-export function FractionBarsScene({ beat, caption = "", captionTrail }: SceneCaptionProps) {
-  const parsed = stickyFractionParams(captionTrailOrLive(caption, captionTrail));
-  const den = 4;
-  const left = 1;
-  const right = Math.min(den - 1, Math.max(1, parsed.num || 2));
-  const sum = Math.min(den, left + right);
-  const equalize = beat >= 4 && beat <= 6;
-  const hotResult = beat >= 6;
-  const trap = beat >= 8;
-  return (
-    <Stage scene="fraction-sum">
-      <Title>Kesir blokları</Title>
-      <BarRow x={16} den={den} filled={left} label={`${left}/${den}`} hot={equalize} />
-      <text x="148" y={70} fill={Ink.muted} fontSize="22" fontFamily="inherit" fontWeight="700">
-        +
-      </text>
-      <BarRow x={188} den={den} filled={right} label={`${right}/${den}`} hot={equalize} />
-      <SoftFocus active={hotResult}>
-        <BarRow x={100} y={118} den={den} filled={sum} label={`${sum}/${den}`} hot={hotResult} />
-      </SoftFocus>
-      <text
-        x="16"
-        y={178}
-        fill={trap ? Ink.roseInk : Ink.accent}
-        fontSize="12"
-        fontFamily="inherit"
-        fontWeight="700"
-      >
-        {trap
-          ? `Paydalar toplanmaz. Doğru: ${sum}/${den}`
-          : equalize
-            ? "Payda aynı kalır. Paylar toplanır."
-            : "Aynı paydada bloklar birleşir."}
-      </text>
-    </Stage>
-  );
-}
-
-function BarRow({
-  x,
-  y = 40,
-  den,
-  filled,
-  label,
-  hot = false,
-}: {
-  x: number;
-  y?: number;
-  den: number;
-  filled: number;
-  label: string;
-  hot?: boolean;
-}) {
-  const cell = Math.min(26, Math.floor(100 / den));
-  return (
-    <g>
-      {Array.from({ length: den }, (_, index) => (
-        <rect
-          key={index}
-          x={x + index * cell}
-          y={y}
-          width={cell - 2}
-          height="32"
-          rx="8"
-          fill={index < filled ? Ink.skyFill : Ink.white}
-          stroke={hot ? Ink.amberInk : Ink.stroke}
-          strokeWidth={hot ? 2 : 1.5}
-        />
-      ))}
-      <text x={x} y={y + 52} fill={Ink.text} fontSize="13" fontFamily="inherit" fontWeight="600">
-        {label}
-      </text>
-    </g>
-  );
-}
-
-export function DecimalScene({ beat }: { beat: number }) {
-  return (
-    <Stage scene="decimal">
-      <Title>Ondalık gösterim</Title>
-      <SoftCard x={40} y={56} w={64} h={56} fill={Ink.amber} />
-      <text x="72" y={94} textAnchor="middle" fill={Ink.text} fontSize="28" fontFamily="inherit" fontWeight="700">
-        0
-      </text>
-      <text x="118" y={98} fill={Ink.text} fontSize="36" fontFamily="inherit" fontWeight="700">
-        ,
-      </text>
-      <SoftCard x={140} y={56} w={64} h={56} fill={Ink.sky} />
-      <text x="172" y={94} textAnchor="middle" fill={Ink.text} fontSize="28" fontFamily="inherit" fontWeight="700">
-        5
-      </text>
-      <text x="72" y={144} textAnchor="middle" fill={Ink.accent} fontSize="12" fontFamily="inherit" fontWeight="700">
+      <text x="56" y={120} textAnchor="middle" fill={Ink.accent} fontSize="11" fontFamily="inherit" fontWeight="700">
         Tam
       </text>
-      <text x="172" y={144} textAnchor="middle" fill={Ink.accent} fontSize="12" fontFamily="inherit" fontWeight="700">
-        Kesir
+      <text x="142" y={120} textAnchor="middle" fill={Ink.accent} fontSize="11" fontFamily="inherit" fontWeight="700">
+        Onda bir
       </text>
-      <SoftCard x={230} y={66} w={96} h={36} fill={Ink.green} rx={12} />
-      <text x="278" y={90} textAnchor="middle" fill={Ink.greenInk} fontSize="16" fontFamily="inherit" fontWeight="700">
-        {beat >= 4 ? "= 1/2" : "0,5"}
+      {hundredths ? (
+        <text x="206" y={120} textAnchor="middle" fill={Ink.accent} fontSize="11" fontFamily="inherit" fontWeight="700">
+          Yüzde bir
+        </text>
+      ) : null}
+      <SoftCard x={244} y={48} w={102} h={54} fill={compareFocus ? Ink.amber : Ink.panel} rx={12} hot={compareFocus} />
+      <text x="295" y={72} textAnchor="middle" fill={Ink.text} fontSize="12" fontFamily="inherit" fontWeight="700">
+        0,4 = 0,40
       </text>
-      <Foot>{beat >= 6 ? "Virgüller alt alta gelir." : "Virgülün solu tam, sağı kesirdir."}</Foot>
+      <text x="295" y={92} textAnchor="middle" fill={Ink.greenInk} fontSize="12.5" fontFamily="inherit" fontWeight="700">
+        0,40 &gt; 0,35
+      </text>
+      <Foot y={168}>
+        {compareFocus
+          ? "0,4 = 0,40 olduğu için 0,35'ten büyüktür · 12,50 = 12,5"
+          : `${wholePart},${fracPart} · Virgülün solu tam, sağı onda bir ve yüzde birdir.`}
+      </Foot>
     </Stage>
   );
 }
 
-export function RatioScene({ beat }: { beat: number }) {
-  const simplified = beat >= 4;
-  const left = 2;
-  const right = 3;
+export function RatioScene({ beat, caption = "", captionTrail }: SceneCaptionProps) {
+  const trail = captionTrailOrLive(caption, captionTrail).join(" ");
+  const ratioMatch = /(\d+)\s*[:/]\s*(\d+)/u.exec(caption) ?? /(\d+)\s*[:/]\s*(\d+)/u.exec(trail);
+  const parsedLeft = ratioMatch ? Math.min(6, Math.max(1, Number(ratioMatch[1]))) : 2;
+  const parsedRight = ratioMatch ? Math.min(6, Math.max(1, Number(ratioMatch[2]))) : 3;
+  const simplified = beat >= 4 || /sadeleş|en sade|2\s*[:/]\s*3/.test(caption.toLocaleLowerCase("tr-TR"));
+  const left = parsedLeft;
+  const right = parsedRight;
   return (
     <Stage scene="ratio">
       <Title>Oran</Title>
       {Array.from({ length: left }, (_, i) => (
         <circle
           key={`l${i}`}
-          cx={80 + i * 40}
-          cy="90"
-          r="14"
+          cx={44 + i * Math.min(34, Math.floor(110 / left))}
+          cy="86"
+          r="12"
           fill={Ink.skyFill}
           stroke={simplified ? Ink.accent : Ink.stroke}
           strokeWidth={simplified ? 2.5 : 1.5}
         />
       ))}
-      <text x="170" y={98} fill={Ink.muted} fontSize="28" fontFamily="inherit" fontWeight="700">
+      <text x="170" y={94} fill={Ink.muted} fontSize="28" fontFamily="inherit" fontWeight="700">
         :
       </text>
       {Array.from({ length: right }, (_, i) => (
         <circle
           key={`r${i}`}
-          cx={210 + i * 36}
-          cy="90"
-          r="14"
+          cx={198 + i * Math.min(30, Math.floor(130 / right))}
+          cy="86"
+          r="12"
           fill={Ink.amberFill}
           stroke={simplified ? Ink.accent : Ink.stroke}
           strokeWidth={simplified ? 2.5 : 1.5}
         />
       ))}
-      <SoftCard x={16} y={128} w={88} h={32} fill={Ink.panel} rx={12} hot={simplified} />
-      <text x="60" y={150} textAnchor="middle" fill={Ink.text} fontSize="16" fontFamily="inherit" fontWeight="700">
-        {left} : {right}
+      <SoftCard x={16} y={124} w={144} h={34} fill={Ink.panel} rx={12} hot={simplified} />
+      <text x="88" y={146} textAnchor="middle" fill={Ink.text} fontSize="15" fontFamily="inherit" fontWeight="700">
+        {`${left} : ${right} = ${left * 2} : ${right * 2}`}
       </text>
       <Foot y={178} fill={Ink.accent}>
         {beat >= 5 ? "Sadeleşince sıra korunur." : "Oran sırayı korur."}
@@ -760,37 +949,137 @@ export function RatioScene({ beat }: { beat: number }) {
   );
 }
 
-export function AlgebraScene({ beat }: { beat: number }) {
+export function AlgebraScene({ beat, caption = "", captionTrail }: SceneCaptionProps) {
+  const trail = captionTrailOrLive(caption, captionTrail);
+  const joined = trail.join(" ").toLocaleLowerCase("tr-TR");
+  const live = caption.toLocaleLowerCase("tr-TR");
+
+  const isPatternMode = /örüntü|adım sayısı|4, 7, 10|3, 6, 9|2, 4, 6/.test(joined);
+  const isAlgorithmMode = /algoritma|girdi|çıktı|2x \+ 6|x yerine 4|x yerine 5/.test(joined);
+
+  if (isPatternMode) {
+    const is369 = /3, 6, 9|üçer/.test(live);
+    const is246 = /2, 4, 6|ikişer/.test(live);
+    const terms = is369 ? [3, 6, 9, 12, 15] : is246 ? [2, 4, 6, 8, 10] : [4, 7, 10, 13, 16];
+    const stepDiff = is369 ? "+3" : is246 ? "+2" : "+3";
+    const ruleLabel = is369 ? "Kural: 3n (3 × adım)" : is246 ? "Kural: 2n (2 × adım)" : "Kural: +3 artış (5. adım = 16)";
+    return (
+      <Stage scene="algebra">
+        <Title>Sayı ve şekil örüntüleri</Title>
+        {terms.map((val, idx) => (
+          <g key={`${val}-${idx}`}>
+            <SoftCard
+              x={18 + idx * 66}
+              y={48}
+              w={54}
+              h={56}
+              fill={idx === 4 ? Ink.green : idx === beat % 5 ? Ink.amber : Ink.white}
+              hot={idx === 4 || idx === beat % 5}
+              rx={10}
+            />
+            <text x={45 + idx * 66} y={66} textAnchor="middle" fill={Ink.muted} fontSize="9.5" fontFamily="inherit" fontWeight="700">
+              {`${idx + 1}. adım`}
+            </text>
+            <text x={45 + idx * 66} y={92} textAnchor="middle" fill={Ink.text} fontSize="18" fontFamily="inherit" fontWeight="700">
+              {val}
+            </text>
+            {idx < 4 ? (
+              <text x={78 + idx * 66} y={120} textAnchor="middle" fill={Ink.accent} fontSize="11" fontFamily="inherit" fontWeight="700">
+                {stepDiff}
+              </text>
+            ) : null}
+          </g>
+        ))}
+        <SoftCard x={18} y={132} w={320} h={32} fill={Ink.panel} rx={10} />
+        <text x="178" y={153} textAnchor="middle" fill={Ink.text} fontSize="13" fontFamily="inherit" fontWeight="700">
+          {ruleLabel}
+        </text>
+        <Foot y={182} fill={Ink.accent}>
+          Sabit artış kuralı her adımda aynı kalır.
+        </Foot>
+      </Stage>
+    );
+  }
+
+  if (isAlgorithmMode) {
+    const xVal = /x yerine 5|5 koy|16/.test(live) ? 5 : 4;
+    const midVal = 2 * xVal;
+    const outVal = midVal + 6;
+    return (
+      <Stage scene="algebra">
+        <Title>Cebirsel ifadede algoritma (Girdi → Kural → Çıktı)</Title>
+        <SoftCard x={16} y={48} w={74} h={52} fill={Ink.sky} hot rx={10} />
+        <text x="53" y={68} textAnchor="middle" fill={Ink.muted} fontSize="10" fontFamily="inherit" fontWeight="700">
+          Girdi (x)
+        </text>
+        <text x="53" y={88} textAnchor="middle" fill={Ink.text} fontSize="17" fontFamily="inherit" fontWeight="700">
+          {`x = ${xVal}`}
+        </text>
+        <text x="98" y={78} fill={Ink.muted} fontSize="16" fontFamily="inherit" fontWeight="700">
+          →
+        </text>
+        <SoftCard x={112} y={48} w={112} h={52} fill={Ink.amber} hot rx={10} />
+        <text x="168" y={68} textAnchor="middle" fill={Ink.muted} fontSize="10" fontFamily="inherit" fontWeight="700">
+          İşlem Sırası
+        </text>
+        <text x="168" y={88} textAnchor="middle" fill={Ink.text} fontSize="13.5" fontFamily="inherit" fontWeight="700">
+          {`2×${xVal} = ${midVal} → +6`}
+        </text>
+        <text x="232" y={78} fill={Ink.muted} fontSize="16" fontFamily="inherit" fontWeight="700">
+          →
+        </text>
+        <SoftCard x={246} y={48} w={98} h={52} fill={Ink.green} hot rx={10} />
+        <text x="295" y={68} textAnchor="middle" fill={Ink.greenInk} fontSize="10" fontFamily="inherit" fontWeight="700">
+          Çıktı (2x + 6)
+        </text>
+        <text x="295" y={88} textAnchor="middle" fill={Ink.greenInk} fontSize="18" fontFamily="inherit" fontWeight="700">
+          {`= ${outVal}`}
+        </text>
+        <SoftCard x={16} y={114} w={328} h={34} fill={Ink.panel} rx={10} />
+        <text x="180" y={136} textAnchor="middle" fill={Ink.text} fontSize="12.5" fontFamily="inherit" fontWeight="700">
+          x = 4 için 2(4) + 6 = 14 · x = 5 için 2(5) + 6 = 16
+        </text>
+        <Foot y={176} fill={Ink.accent}>
+          Önce katsayı ile çarpılır (2x), sonra sabit terim (+6) eklenir.
+        </Foot>
+      </Stage>
+    );
+  }
+
   const hotSum = beat >= 3;
-  const trap = beat >= 7;
+  const trap = beat >= 7 || /9x|tuzak|birleşmez/.test(live);
+  const is4x10 = /4x \+ 10|kırtasiye/.test(live);
+  const leftTerm = is4x10 ? "4x" : "3x";
+  const rightTerm = is4x10 ? "10" : "2x";
+  const resultTerm = is4x10 ? "4x+10" : "5x";
   return (
     <Stage scene="algebra">
       <Title>Cebirsel ifadeler</Title>
       <SoftCard x={28} y={52} w={70} h={56} fill={Ink.amber} hot={!hotSum} />
       <text x="63" y={88} textAnchor="middle" fill={Ink.text} fontSize="22" fontFamily="inherit" fontWeight="700">
-        3x
+        {leftTerm}
       </text>
       <text x="116" y={88} fill={Ink.muted} fontSize="24" fontFamily="inherit" fontWeight="700">
         +
       </text>
-      <SoftCard x={140} y={52} w={70} h={56} fill={Ink.amber} hot={!hotSum} />
+      <SoftCard x={140} y={52} w={70} h={56} fill={is4x10 ? Ink.sky : Ink.amber} hot={!hotSum} />
       <text x="175" y={88} textAnchor="middle" fill={Ink.text} fontSize="22" fontFamily="inherit" fontWeight="700">
-        2x
+        {rightTerm}
       </text>
       <SoftFocus active={hotSum}>
         <text x="230" y={72} fill={Ink.muted} fontSize="18" fontFamily="inherit" fontWeight="700">
           =
         </text>
-        <SoftCard x={252} y={52} w={70} h={56} fill={Ink.green} hot={hotSum} />
-        <text x="287" y={88} textAnchor="middle" fill={Ink.text} fontSize="22" fontFamily="inherit" fontWeight="700">
-          5x
+        <SoftCard x={252} y={52} w={84} h={56} fill={Ink.green} hot={hotSum} />
+        <text x="294" y={88} textAnchor="middle" fill={Ink.text} fontSize={is4x10 ? "17" : "22"} fontFamily="inherit" fontWeight="700">
+          {resultTerm}
         </text>
       </SoftFocus>
       <Foot y={148} fill={Ink.accent}>
-        x değişken kutusudur
+        x değişken kutusudur · Katsayı öndeki çarpandır
       </Foot>
       <text x="28" y={176} fill={trap ? Ink.roseInk : Ink.text} fontSize="13" fontFamily="inherit" fontWeight="700">
-        {trap ? "5x + 4 ≠ 9x" : "Yalnız benzer terimler toplanır."}
+        {trap ? "5x + 4 ≠ 9x (Sabit terim x'li terime eklenmez)" : "Yalnız benzer terimler toplanır: 3x + 2x = 5x"}
       </text>
     </Stage>
   );
@@ -835,87 +1124,29 @@ export function ChartScene({ beat, caption }: { beat: number; caption: string })
   );
 }
 
-export function AnglesScene({ beat }: { beat: number }) {
+export function AnglesScene(_props: SceneCaptionProps) {
   return (
     <Stage scene="angles">
       <Title>Açılar</Title>
-      <line x1="40" y1="140" x2="200" y2="140" stroke={Ink.strokeHot} strokeWidth="2.5" strokeLinecap="round" />
-      <line x1="120" y1="140" x2="120" y2="50" stroke={Ink.strokeHot} strokeWidth="2.5" strokeLinecap="round" />
-      <line x1="120" y1="140" x2="200" y2="70" stroke={Ink.accent} strokeWidth="2.5" strokeLinecap="round" />
-      <path d="M148 140 A28 28 0 0 0 120 112" fill="none" stroke={Ink.amberInk} strokeWidth="2.5" />
-      <text x="148" y={128} fill={Ink.amberInk} fontSize="13" fontFamily="inherit" fontWeight="700">
-        {beat >= 4 ? "30°" : "α"}
-      </text>
-      <SoftCard x={214} y={60} w={124} h={64} fill={Ink.panel} rx={12} />
-      <text x="228" y={86} fill={Ink.text} fontSize="12" fontFamily="inherit" fontWeight="700">
-        {beat >= 5 ? "Tümler 60°" : "Komşu açı"}
-      </text>
-      <text x="228" y={110} fill={Ink.text} fontSize="12" fontFamily="inherit" fontWeight="700">
-        {beat >= 6 ? "Bütünler 150°" : "Ters açılar eşit"}
-      </text>
-      <Foot y={176} fill={Ink.accent}>
-        Tümler 90, bütünler 180.
-      </Foot>
+      <Foot>çizim yok</Foot>
     </Stage>
   );
 }
 
-export function AreaScene({ beat, caption }: { beat: number; caption: string }) {
-  const units = /dönüm|hektar|metre kare|ölçü/iu.test(caption);
+export function AreaScene(_props: { beat: number; caption: string }) {
   return (
     <Stage scene="area">
-      <Title>{units ? "Alan ölçü birimleri" : "Paralelkenar ve üçgen"}</Title>
-      {units ? (
-        <>
-          <SoftCard x={40} y={52} w={120} h={80} fill={Ink.sky} />
-          <text x="100" y={100} textAnchor="middle" fill={Ink.text} fontSize="14" fontFamily="inherit" fontWeight="700">
-            1 m²
-          </text>
-          <text x="180" y={80} fill={Ink.text} fontSize="13" fontFamily="inherit" fontWeight="700">
-            1 dönüm = 1000 m²
-          </text>
-          <text x="180" y={108} fill={Ink.text} fontSize="13" fontFamily="inherit" fontWeight="700">
-            1 hektar = 10 dönüm
-          </text>
-        </>
-      ) : (
-        <>
-          <polygon points="40,140 160,140 140,60 20,60" fill={Ink.sky} stroke={Ink.strokeHot} strokeWidth="2" />
-          <line x1="40" y1="140" x2="40" y2="60" stroke={Ink.roseInk} strokeWidth="2.5" strokeDasharray="5 4" />
-          <text x="48" y={100} fill={Ink.roseInk} fontSize="12" fontFamily="inherit" fontWeight="700">
-            h
-          </text>
-          <polygon points="200,140 320,140 260,60" fill={Ink.amber} stroke={Ink.strokeHot} strokeWidth="2" />
-          <Foot y={176}>
-            {beat >= 5 ? "Alan = taban × yükseklik / 2" : "Alan = taban × yükseklik"}
-          </Foot>
-        </>
-      )}
+      <Title>Alan</Title>
+      <Foot>çizim yok</Foot>
     </Stage>
   );
 }
 
-export function CircleGeoScene({ beat }: { beat: number }) {
+export function CircleGeoScene(_props: { beat: number }) {
   return (
     <Stage scene="circle">
       <Title>Çember</Title>
-      <circle cx="130" cy="110" r="60" fill={beat >= 4 ? Ink.sky : "none"} stroke={Ink.strokeHot} strokeWidth="2" />
-      <circle cx="130" cy="110" r="4" fill={Ink.accent} />
-      <line x1="130" y1="110" x2="190" y2="110" stroke={Ink.accent} strokeWidth="2.5" strokeLinecap="round" />
-      <text x="150" y={100} fill={Ink.accent} fontSize="13" fontFamily="inherit" fontWeight="700">
-        r
-      </text>
-      {beat >= 3 ? (
-        <>
-          <line x1="70" y1="110" x2="190" y2="110" stroke={Ink.amberInk} strokeWidth="2" strokeDasharray="4 3" />
-          <text x="200" y={80} fill={Ink.amberInk} fontSize="14" fontFamily="inherit" fontWeight="700">
-            çap = 2r
-          </text>
-        </>
-      ) : null}
-      <text x="200" y={120} fill={Ink.muted} fontSize="12" fontFamily="inherit">
-        {beat >= 5 ? "Çember çizgi, daire iç bölge" : "Yarıçap merkeze bağlıdır"}
-      </text>
+      <Foot>çizim yok</Foot>
     </Stage>
   );
 }
@@ -968,20 +1199,20 @@ export function MathSceneArt({
   /** Clean Stage: özet beat'te ExponentScene / Üs / Taban SoftStage çocukları mount edilmez. */
   if (beat >= 9) return null;
   if (scene === "exponent") return <ExponentScene beat={beat} caption={caption} captionTrail={captionTrail} />;
-  if (scene === "ops-order") return <OpsOrderScene beat={beat} />;
-  if (scene === "distribute") return <DistributeScene beat={beat} />;
+  if (scene === "ops-order") return <OpsOrderScene beat={beat} caption={caption} captionTrail={captionTrail} />;
+  if (scene === "distribute") return <DistributeScene beat={beat} caption={caption} captionTrail={captionTrail} />;
   if (scene === "number-ops") {
     return <NumberOpsScene beat={beat} caption={caption} captionTrail={captionTrail} />;
   }
   if (scene === "sets") return <SetsScene beat={beat} />;
-  if (scene === "number-line") return <NumberLineScene beat={beat} />;
+  if (scene === "number-line") return <NumberLineScene beat={beat} caption={caption} captionTrail={captionTrail} />;
   if (scene === "fraction") return <FractionPieScene beat={beat} caption={caption} captionTrail={captionTrail} />;
   if (scene === "fraction-sum") return <FractionBarsScene beat={beat} caption={caption} captionTrail={captionTrail} />;
-  if (scene === "decimal") return <DecimalScene beat={beat} />;
-  if (scene === "ratio") return <RatioScene beat={beat} />;
-  if (scene === "algebra") return <AlgebraScene beat={beat} />;
+  if (scene === "decimal") return <DecimalScene beat={beat} caption={caption} captionTrail={captionTrail} />;
+  if (scene === "ratio") return <RatioScene beat={beat} caption={caption} captionTrail={captionTrail} />;
+  if (scene === "algebra") return <AlgebraScene beat={beat} caption={caption} captionTrail={captionTrail} />;
   if (scene === "chart") return <ChartScene beat={beat} caption={caption} />;
-  if (scene === "angles") return <AnglesScene beat={beat} />;
+  if (scene === "angles") return <AnglesScene beat={beat} caption={caption} captionTrail={captionTrail} />;
   if (scene === "area") return <AreaScene beat={beat} caption={caption} />;
   if (scene === "circle") return <CircleGeoScene beat={beat} />;
   return <PrismScene beat={beat} caption={caption} />;

@@ -19,6 +19,7 @@ import {
 import { loadJuniorLessonPage } from "@/lib/junior/load";
 import { juniorLessonPageMetadata, juniorPublicLessonJsonLd } from "@/lib/junior/seo";
 import { juniorWebPlaybackMedia } from "@/lib/junior/media-grant";
+import { isJuniorPilotPlaybackLesson } from "@/lib/junior/pilot-engine/playback-key";
 import { readJuniorLesson } from "@/lib/junior/service";
 
 export const dynamic = "force-dynamic";
@@ -77,8 +78,18 @@ export default async function JuniorLessonPage({
     opened: lesson.access === "free",
   });
 
+  const studioFlow = isJuniorPilotPlaybackLesson(lessonKey);
+
   return (
-    <RoomFrame cinema className="flex h-full min-h-0 w-full flex-1 flex-col gap-1.5 space-y-0 overflow-hidden pb-0">
+    <RoomFrame
+      cinema
+      data-junior-lesson-layout={studioFlow ? "studio-flow" : "rail"}
+      className={
+        studioFlow
+          ? "flex w-full flex-col gap-3 space-y-0 pb-6"
+          : "flex h-full min-h-0 w-full flex-1 flex-col gap-1.5 space-y-0 overflow-hidden pb-0"
+      }
+    >
       {structured ? <JsonLd data={structured} /> : null}
       <BreadcrumbPageLabel href="/junior" label={courseLabel} />
       <BreadcrumbPageLabel href={`/junior/ders/${lessonKey}`} label={lesson.title} />

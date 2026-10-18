@@ -15,11 +15,15 @@ import {
 } from "@/lib/kernel/http/v1-hop-gate";
 import {
   isRailV1HopForbiddenOnDron,
-  RAIL_V1_HOPS,
   parseRailV1Envelope,
+  RAIL_V1_HOPS,
+  railV1JuniorPilotPracticeDataSchema,
+  railV1JuniorProfileDataSchema,
   resolveRailV1HopPaths,
 } from "@/lib/kernel/http/v1-contract";
-import { EDGE_API_FROZEN_ROOM_ERROR, EDGE_API_NOT_FOUND_ERROR, isFrozenRoomApi } from "@/lib/kernel/security/edge-api-auth";
+import { EDGE_API_FROZEN_ROOM_ERROR, EDGE_API_NOT_FOUND_ERROR, EDGE_API_SESSION_ERROR, isFrozenRoomApi } from "@/lib/kernel/security/edge-api-auth";
+import { JUNIOR_CHECKOUT_LOCKED_ERROR } from "@/lib/kernel/security/junior-gate";
+import { juniorShelvesForGrade } from "@/lib/junior/catalog";
 import { isRailV1SuccessStatus } from "@/lib/kernel/http/v1-runtime-shield";
 
 const TEST_SECRET = "rail-edge-jwt-test-secret-32bytes-min";
@@ -64,7 +68,7 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     vi.unstubAllEnvs();
   });
 
-  it("RAIL_V1_HOP_GATES, RAIL_V1_HOPS ile 1:1 kilitlenir; 20 hop (API-First)", () => {
+  it("RAIL_V1_HOP_GATES, RAIL_V1_HOPS ile 1:1 kilitlenir; 29 hop (API-First)", () => {
     const gateSrc = readFileSync(join(process.cwd(), "lib/kernel/http/v1-hop-gate.ts"), "utf8");
     const proxySrc = readFileSync(join(process.cwd(), "proxy.ts"), "utf8");
     expect(gateSrc).not.toContain("v1-contract");
@@ -73,8 +77,8 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     expect(gateSrc).not.toContain("v1PathTemplate: \"/api/v1/health\"");
     expect(proxySrc).toContain("decideRailV1HopGate");
     expect(proxySrc).toContain("hopGate.kind === \"fail\"");
-    expect(RAIL_V1_HOPS).toHaveLength(20);
-    expect(RAIL_V1_HOP_GATES).toHaveLength(20);
+    expect(RAIL_V1_HOPS).toHaveLength(29);
+    expect(RAIL_V1_HOP_GATES).toHaveLength(29);
     expect(
       RAIL_V1_HOP_GATES.map((hop) => ({
         id: hop.id,
@@ -230,7 +234,8 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
           headers,
         }),
       );
-      if (isFrozenRoomApi(paths.canonical) || isFrozenRoomApi(paths.v1)) {
+      const bearerActor = { id: TEST_USER };
+      if (isFrozenRoomApi(paths.canonical, bearerActor) || isFrozenRoomApi(paths.v1, bearerActor)) {
         expect(response.status, hop.id).toBe(410);
         expect(response.headers.get("x-middleware-rewrite"), hop.id).toBeNull();
         expect(await response.json()).toMatchObject({
@@ -266,6 +271,146 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     );
     expect(list.status).toBe(410);
     expect(list.headers.get("x-middleware-rewrite")).toBeNull();
+  });
+
+  it("Junior pilot: misafir profil ve kasa 410, sicil dışı yazma 404, anlatış oturumsuz 401", async () => {
+    vi.stubEnv("JUNIOR_CHECKOUT_OPEN", "");
+    expect(findRailV1Hop("/api/v1/junior-pilot/profiles", "GET")?.id).toBe("junior-profile");
+    expect(findRailV1Hop("/api/v1/junior-pilot/profiles", "POST")?.id).toBe("junior-profile-create");
+    expect(findRailV1Hop("/api/v1/junior-pilot/profiles", "PATCH")?.id).toBe("junior-profile-select");
+    expect(findRailV1Hop("/api/v1/junior-pilot/profiles", "PUT")?.id).toBe("junior-profile-consent");
+    expect(findRailV1Hop("/api/v1/junior-pilot/profiles", "DELETE")?.id).toBe("junior-profile-erase");
+    expect(findRailV1Hop("/api/v1/junior-pilot/electives", "POST")?.id).toBe("junior-electives");
+    expect(findRailV1Hop("/api/v1/junior-pilot/tell", "POST")?.id).toBe("junior-tell");
+    expect(findRailV1Hop("/api/v1/junior-pilot/practice", "POST")?.id).toBe("junior-practice");
+    expect(findRailV1Hop("/api/v1/junior-pilot/quiz", "POST")?.id).toBe("junior-quiz");
+    expect(findRailV1Hop("/api/v1/junior-pilot/checkout", "POST")).toBeNull();
+    expect(findRailV1Hop("/api/v1/junior-pilot/grade", "POST")).toBeNull();
+    expect(
+      decideRailV1HopGate({ pathname: "/api/v1/junior-pilot/checkout", method: "POST" }),
+    ).toEqual({ kind: "fail", status: 404, error: RAIL_V1_HOP_NOT_FOUND });
+    expect(
+      decideRailV1HopGate({ pathname: "/api/v1/junior-pilot/grade", method: "POST" }),
+    ).toEqual({ kind: "fail", status: 404, error: RAIL_V1_HOP_NOT_FOUND });
+    expect(
+      decideRailV1HopGate({ pathname: "/api/v1/junior-pilot/profiles", method: "POST" }),
+    ).toEqual({ kind: "next" });
+
+    const guestProfiles = await proxy(
+      edgeRequest("/api/v1/junior-pilot/profiles", {
+        headers: { "X-Rail-Min-Version": "1" },
+      }),
+    );
+    expect(guestProfiles.status).toBe(410);
+    const guestProfileWrite = await proxy(
+      edgeRequest("/api/v1/junior-pilot/profiles", {
+        method: "POST",
+        headers: { "X-Rail-Min-Version": "1" },
+      }),
+    );
+    expect(guestProfileWrite.status).toBe(410);
+    const guestElectives = await proxy(
+      edgeRequest("/api/v1/junior-pilot/electives", {
+        method: "POST",
+        headers: { "X-Rail-Min-Version": "1" },
+      }),
+    );
+    expect(guestElectives.status).toBe(410);
+    expect(guestProfiles.headers.get("x-middleware-rewrite")).toBeNull();
+    expect(await guestProfiles.json()).toMatchObject({
+      ok: false,
+      error: EDGE_API_FROZEN_ROOM_ERROR,
+      apiVersion: "1",
+      data: null,
+    });
+
+    const guestCheckout = await proxy(
+      edgeRequest("/api/v1/junior-pilot/checkout", {
+        method: "POST",
+        headers: { "X-Rail-Min-Version": "1" },
+      }),
+    );
+    expect(guestCheckout.status).toBe(410);
+    expect(guestCheckout.headers.get("x-middleware-rewrite")).toBeNull();
+    expect(await guestCheckout.json()).toMatchObject({
+      ok: false,
+      error: JUNIOR_CHECKOUT_LOCKED_ERROR,
+      apiVersion: "1",
+      data: null,
+    });
+
+    const guestTell = await proxy(
+      edgeRequest("/api/v1/junior-pilot/tell", {
+        method: "POST",
+        headers: { "X-Rail-Min-Version": "1" },
+      }),
+    );
+    expect(guestTell.status).toBe(401);
+    expect(await guestTell.json()).toMatchObject({
+      ok: false,
+      error: EDGE_API_SESSION_ERROR,
+      apiVersion: "1",
+      data: null,
+    });
+
+    const unknown = await proxy(
+      edgeRequest("/api/v1/academy/courses", {
+        headers: { "X-Rail-Min-Version": "1" },
+      }),
+    );
+    expect(unknown.status).toBe(404);
+    expect(await unknown.json()).toMatchObject({
+      ok: false,
+      error: EDGE_API_NOT_FOUND_ERROR,
+      apiVersion: "1",
+      data: null,
+    });
+
+    const shelves = juniorShelvesForGrade(6, null);
+    const home = railV1JuniorProfileDataSchema.safeParse(
+      JSON.parse(
+        JSON.stringify({
+          profiles: [
+            {
+              id: "jp_1",
+              nickname: "Ada",
+              grade: 6,
+              birthYear: null,
+              selected: true,
+              selectedElectives: [],
+              gradeSwitchRights: 1,
+            },
+          ],
+          selectedId: "jp_1",
+          xp: { points: 0, badges: [] },
+          courses: shelves,
+        }),
+      ),
+    );
+    expect(home.success, home.success ? "" : JSON.stringify(home.error.issues.slice(0, 4))).toBe(
+      true,
+    );
+
+    const practice = railV1JuniorPilotPracticeDataSchema.safeParse({
+      praised: "Bir kısmını bağladın.",
+      missing: "Eksik kalan bağı bir kez daha dene.",
+      advice: "Doğru bağı kendi cümlenle bir kez söyle.",
+      score: 50,
+      xpAwarded: 0,
+      points: 0,
+      badges: [],
+      correct: 1,
+      total: 2,
+      notes: [
+        {
+          id: "card-1",
+          ok: false,
+          explanation: "",
+          cards: [{ id: "gap-1", ok: false, answer: "" }],
+        },
+      ],
+    });
+    expect(practice.success).toBe(true);
   });
 
   it("kanonik Amiral GET /api/freelancer/jobs/{id} kamu kilidi 410", async () => {

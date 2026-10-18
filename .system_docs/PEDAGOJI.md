@@ -4,7 +4,7 @@ Bu belge platformun **kalıcı eğitim felsefesini**, Google AI Studio medya fab
 
 Çelişkide `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır. Hedef yayın Anayasa B4 karar tablosudur. Beş medya katmanının bu belgedeki tek tanımı §B «Zorunlu üretim sırası» altındadır. Üç kontrol kapısının tek tanımı aynı bölümdeki «3 aşamalı kontrol kapısı» altındadır. Süre ve sayısal sınırın tek evi koddur.
 
-Mimari ad Anayasa B1’dir: **Pragmatik Monolit + `@yetkin/kernel` + Tek Native İstemci (`apps/rail-is`)**. «Amiral Gemi + Sürü Dron» eski anlatım dilidir; karşılığı bu yapıdır (Amiral Gemi bu Next.js gövdesi, Sürü Dron monolit içindeki kayıtlı oda, Shared Kernel `@yetkin/kernel`, tek native istemci `apps/rail-is`). Bu belge öğretme kuralını ve yayın formatını tutar. İkinci bir ürün mimarisi, sürü veya ayrı servis hikâyesi açmaz.
+Mimari ad Anayasa B1’dir. Bu belge öğretme kuralını ve yayın formatını tutar. İkinci bir ürün mimarisi açmaz.
 
 ---
 
@@ -242,6 +242,10 @@ Bu ek, yetişkin ofis dersinin kurallarını değiştirmez. Deniz usta, tezgâh 
 Yanıt, o dersin kazanımına bağlıdır. Serbest sohbet yoktur. Konu dışındaki söz geri çevrilir. Sistem emin değilse «emin değilim» der. Uydurma puan basılmaz.
 
 Dinle ve Anlat öğretir. Sertifika, mühür ve kariyer vizesi vermez. Resmî sınav sunucuda puanlanır. Sesli anlatış bu kapının yerine geçmez.
+
+### Oynatıcı
+
+Web ders yüzeyi tek kapıdan açılır: `VectorPlayer`. Kapı `resolveJuniorPlayback` (`lib/junior/pilot-engine/playback.ts`) dir. `jr_06_mat-5` mühürlü zaman çizelgesiyle `JuniorPilotPlayer` çizer. Diğer mühürlü dersler dinle-anlat vektör oynatıcısındadır. Aynı ders iki motorla açılmaz. Pilot konuşmasının yazarı `lib/junior/pilot-engine/mat-5.choreography.ts` dir. Zaman damgası `packages/junior-content/timelines/jr_06_mat-5.timeline.json` bu yazardan türetilir; konuşma sapması `verify:junior-content` kapısında reddedilir. Taslak hece saati oynatıcı kaynağı değildir. Ders kartı, kazanım ve dışa aktarım `lib/junior/content` borusunda kalır. Süre bandı ve dört bölüm bu ekteki sözleşmedir. Pilot sahnesi o bandın yerine ikinci bir pedagoji yazmaz. Native istemci aynı dersi bu sahne grafiğiyle çizmez; hop sözleşmesi bu ekte ikinci kez yazılmaz.
 
 Değerlendirme üslubu çocuğun yaş grubuna göre değişir. Sistem istemi, profildeki doğum yılından grubu okur. Üç üslup vardır. Biri seçilir. Üçü birden aynı anlatışa yazılmaz.
 

@@ -1,6 +1,10 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Fen Bilimleri. Biyoçeşitlilik ve tehditler. FB.6.7.1 ve FB.6.7.2. */
+/**
+ * 6. Sınıf Fen Bilimleri. Biyoçeşitlilik ve tehditler. FB.6.7.1 ve FB.6.7.2.
+ * Film `resolveJuniorPlayback` grafiğidir. Tür sayıları parametredir.
+ * `BodyScene` bu dersi çizmez.
+ */
 export const JUNIOR_FEN_37_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_fen-37",
   title: "Biyoçeşitlilik ve tehditler",

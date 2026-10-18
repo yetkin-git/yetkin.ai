@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -11,6 +12,7 @@ import {
 import { DRON_TEZGAH_STORE_ISOLATED } from "./src/api/hops";
 import { AcademyPlayerScreen } from "./src/screens/AcademyPlayerScreen";
 import { JuniorLessonScreen } from "./src/screens/JuniorLessonScreen";
+import { JuniorProfileScreen } from "./src/screens/JuniorProfileScreen";
 import { BenchScreen } from "./src/screens/BenchScreen";
 import { CertificateScreen } from "./src/screens/CertificateScreen";
 import { ExamScreen } from "./src/screens/ExamScreen";
@@ -38,6 +40,7 @@ import { colors } from "./src/ui/theme";
 export default function App() {
   const app = useDronApp();
   const { state, screen } = app;
+  const [juniorProfileId, setJuniorProfileId] = useState("");
   const homeReady =
     screen === "jobs" ||
     screen === "bench" ||
@@ -149,7 +152,18 @@ export default function App() {
             ) : null}
             {tezgahLocked ? <Phase2LockScreen /> : null}
             {app.api && (screen === "academy" || screen === "player") ? (
-              <JuniorLessonScreen api={app.api} />
+              <>
+                <JuniorProfileScreen
+                  api={app.api}
+                  selectedId={juniorProfileId}
+                  onSelectedId={setJuniorProfileId}
+                />
+                <JuniorLessonScreen
+                  api={app.api}
+                  profileId={juniorProfileId}
+                  onProfileIdChange={setJuniorProfileId}
+                />
+              </>
             ) : null}
             {screen === "academy" || screen === "player" ? (
               <AcademyPlayerScreen

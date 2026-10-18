@@ -13,6 +13,7 @@ import {
   juniorLicenseMerchantOid,
 } from "@/lib/junior/paytr-license-bridge";
 import { createPrismaJuniorStore } from "@/lib/junior/load";
+import { createPrismaLedgerStore } from "@/lib/kernel/ledger/prisma-store";
 import { persistCheckoutBilling } from "@/lib/kernel/identity/billing-info-write";
 import { createPrismaBillingInfoStore } from "@/lib/kernel/identity/prisma-billing-info-store";
 import { paytrUserFromBilling } from "@/lib/kernel/identity/billing-info";
@@ -116,10 +117,26 @@ export async function placeJuniorPaytrOrder(
     if (order.currencyCode !== "TRY") {
       return { ok: false, status: 503, error: JUNIOR_CHECKOUT_PAYTR_MESSAGE };
     }
-    const fulfilled = await fulfillJuniorLicenseFromClearedOrder(
-      createPrismaJuniorStore(),
-      toSnapshot({ ...order, status: "CLEARED", currencyCode: "TRY" }),
-    );
+    let fulfilled: Awaited<ReturnType<typeof fulfillJuniorLicenseFromClearedOrder>>;
+    try {
+      fulfilled = await fulfillJuniorLicenseFromClearedOrder(
+        createPrismaJuniorStore(),
+        toSnapshot({ ...order, status: "CLEARED", currencyCode: "TRY" }),
+        createPrismaLedgerStore(),
+      );
+    } catch (error) {
+      logEvent({
+        level: "error",
+        event: "junior.checkout.cleared_debit",
+        userId: draft.userId,
+        merchantOid: order.merchantOid,
+        orderId: order.id,
+        amountMinor: order.amountMinor,
+        errorName: error instanceof Error ? error.name : "unknown",
+        applied: false,
+      });
+      return { ok: false, status: 503, error: JUNIOR_CHECKOUT_PAYTR_MESSAGE };
+    }
     return {
       ok: true,
       kind: "settled",

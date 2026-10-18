@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { CourseList } from "@/components/academy/course-list";
-import { JuniorCrossSellBanner } from "@/components/academy/junior-cross-sell";
 import { AcademyContinuePanel } from "@/components/academy/continue-panel";
 import { LegalColophonStrip } from "@/components/legal/legal-colophon-strip";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -32,6 +31,7 @@ export const metadata: Metadata = pageMetadata(PAGE_SEO.academy);
  * EC-102 (`02_ecommerce_ai`) kamu kapısı açıktır; kartın yeşil düğmesi birinci dersi `/oyna` yolunda açar. Satın alma ikincildir.
  * `03_social_media_ai`, `04_chatbot_nocode` ve `05_prompt_practice` aynı kabuktadır.
  * Hayali oynatıcı basılmaz.
+ * Junior müstakil odadır; bu vitrinde tanıtım şeridi yoktur. Geçiş sol menü / `/junior` üzerinden.
  */
 export default async function AcademyPage() {
   const copy = SEN_VOICE.academy.catalog;
@@ -75,7 +75,6 @@ export default async function AcademyPage() {
         }
         footer={<LegalColophonStrip />}
       />
-      <JuniorCrossSellBanner />
       <LandingFaq heading={copy.faqHeading} items={ACADEMY_LANDING_FAQ} />
     </RoomFrame>
   );

@@ -59,10 +59,10 @@ const MUTATING_HTTP_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 export function isFrozenRoomApi(pathname: string, actor: JuniorActor | null = null): boolean {
   const path = canonicalApiPathname(pathname);
   if (isJuniorPilotApiPath(path) && !isJuniorPaidActionApiPath(path)) {
-    // Profil masası: oturumlu veli kenarda 410 yemez. Geçerli paket ve 6. sınıf
-    // kuralı handler'da `canEnterJunior` ile okunur. Misafir bu dalda kalır.
-    const profileDeskSession = isJuniorProfileDeskApi(path) && Boolean(actor?.id);
-    if (!profileDeskSession) {
+    // Profil masası ve seçmeli: oturumlu veli kenarda 410 yemez. Geçerli paket
+    // handler'da `planCovers` ile okunur. Misafir, sınıf ve kasa bu dalda kalır.
+    const sessionOwnsPlan = isJuniorSessionPlanHandler(path) && Boolean(actor?.id);
+    if (!sessionOwnsPlan) {
       const intent = path === "/api/junior-pilot/checkout" ? "checkout" : "profile";
       if (!canEnterJunior(actor, null, { intent }).allow) {
         return true;
@@ -96,9 +96,17 @@ export function isFrozenRoomApi(pathname: string, actor: JuniorActor | null = nu
   });
 }
 
-/** Profil oluşturma, seçme ve silme. Seçmeli ve sınıf değiştirme bu yolda değildir. */
-function isJuniorProfileDeskApi(path: string): boolean {
-  return path === "/api/junior-pilot/profiles" || path.startsWith("/api/junior-pilot/profiles/");
+/**
+ * Paket kuralı handler'dadır. Kenar aboneliği okumaz.
+ * Profil masası (oluşturma, seçme, onay, silme) ve seçmeli ders buradadır.
+ * Sınıf değiştirme ve kasa bu yolda değildir.
+ */
+function isJuniorSessionPlanHandler(path: string): boolean {
+  return (
+    path === "/api/junior-pilot/profiles" ||
+    path.startsWith("/api/junior-pilot/profiles/") ||
+    path === "/api/junior-pilot/electives"
+  );
 }
 
 /** Kart, oyun, ilerleme ve pekiştirme. Profil masası ve kasa bu önekte değildir. */

@@ -5,6 +5,8 @@ import { JUNIOR_AUDIO_MANIFEST } from "@/lib/junior/audio-manifest.generated";
 import { JUNIOR_QUIZ_MIN_ITEMS } from "@/lib/junior/limits";
 import { JUNIOR_NARRATION_MAX_MS, JUNIOR_NARRATION_MIN_MS } from "@/lib/junior/player-clock";
 import { juniorQuizDistributionOk, juniorTopicEndQuestions } from "@/lib/junior/quiz";
+
+export { JUNIOR_NARRATION_MAX_MS, JUNIOR_NARRATION_MIN_MS };
 import { juniorNarrationDurationMs } from "@/lib/junior/scenario";
 import { JUNIOR_VECTOR_SCENES, type JuniorLessonScript } from "@/lib/junior/types";
 import {

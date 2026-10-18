@@ -3,7 +3,7 @@ import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
 /** 6. Sınıf Matematik — konu sonu soru arşivi (5/25). */
 export const JUNIOR_MAT_QUIZ_5 = {
   lessonKey: "jr_06_mat-5",
-  title: "Çarpanlar, katlar ve bölünebilme",
+  title: "Çarpanlar, Katlar ve Bölünebilme",
   tellGuides: [
     "Çarpan ile kat arasındaki farkı bir örnekle anlatabilir misin?",
     "2, 5 ve 10 ile 3 ve 9 kurallarını nasıl ayırırsın?",

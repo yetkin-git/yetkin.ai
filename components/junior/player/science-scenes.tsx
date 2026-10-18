@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import {
   Ink,
-  stickySpeedParams,
   SceneFoot,
   SceneTitle,
   SoftCard,
@@ -91,101 +90,30 @@ function Arrow({
   );
 }
 
-/** Bileşke kuvvet: sabit sahne; yalnız ok vurgusu kayar (kutunun yeri oynamaz). */
-export function ForceScene({ beat }: { beat: number }) {
-  const balanced = beat >= 7;
-  const hotPush = beat >= 1 && beat <= 3;
-  const hotPull = beat >= 4 && beat <= 6;
-  const title = balanced ? "Dengelenmiş kuvvet" : hotPull ? "Zıt yön — fark alınır" : "Aynı yön toplanır";
-
+/** Kuvvet dersi grafik saatindedir. Bu sahne newton basmaz. */
+export function ForceScene(_props: { beat: number }) {
   return (
     <Stage scene="force">
       <text x="16" y="28" fill="#0f172a" fontSize="15" fontFamily="inherit" fontWeight="700">
-        {title}
+        Kuvvet
       </text>
-      <line x1="24" y1="156" x2="336" y2="156" stroke="#94a3b8" strokeWidth="3" />
-      <rect x={156} y="84" width="64" height="52" rx="8" fill="#fde68a" stroke="#0284c7" strokeWidth="2" />
-      <SoftFocus active={hotPush || balanced}>
-        <Arrow x1={28} x2={120} y={108} color="#e11d48" label={balanced ? "6 N" : "Sağa"} />
-      </SoftFocus>
-      <SoftFocus active={hotPull || balanced}>
-        <Arrow x1={148} x2={36} y={128} color="#2563eb" label={balanced ? "6 N" : "Sola"} />
-      </SoftFocus>
-      <text
-        x="200"
-        y="108"
-        fill="#15803d"
-        fontSize="14"
-        fontFamily="inherit"
-        fontWeight="700"
-        opacity={balanced ? 1 : 0.25}
-      >
-        Bileşke 0
-      </text>
-      <text x="24" y="176" fill="#0f172a" fontSize="13" fontFamily="inherit">
-        {balanced ? "Eşit zıt oklar dengelenir." : hotPull ? "Zıt yönlerde fark alınır." : "Aynı yönlü oklar toplanır."}
+      <text x="16" y="176" fill="#0f172a" fontSize="13" fontFamily="inherit">
+        çizim yok
       </text>
     </Stage>
   );
 }
 
-/** Sabit sürat: yol-zaman ve sürat-zaman; mesafe/zaman yapışkan izden. */
-export function SpeedScene({
-  beat,
-  caption = "",
-  captionTrail,
-}: {
+/** Sürat dersi grafik saatindedir. Bu sahne yol ve zamanı caption'dan okumaz. */
+export function SpeedScene(_props: {
   beat: number;
   caption?: string;
   captionTrail?: readonly string[];
 }) {
-  const trail = captionTrail && captionTrail.length > 0 ? captionTrail : caption.trim() ? [caption] : [];
-  const { distance, time, speed } = stickySpeedParams(trail);
-  const speedLabel = Number.isInteger(speed) ? String(speed) : speed.toFixed(1);
-  const showSpeedGraph = beat >= 5;
-  const trap = beat >= 7;
-  const title = trap
-    ? "Yolla zamanı çarpma"
-    : showSpeedGraph
-      ? "Sürat yatay kalır"
-      : beat >= 3
-        ? "Yol zamanla artar"
-        : "Sürat = yol ÷ zaman";
-
   return (
     <Stage scene="speed">
-      <SceneTitle>{title}</SceneTitle>
-      <line x1="48" y1="160" x2="300" y2="160" stroke={Ink.strokeHot} strokeWidth="2" />
-      <line x1="48" y1="160" x2="48" y2="48" stroke={Ink.strokeHot} strokeWidth="2" />
-      <text x="304" y="164" fill={Ink.muted} fontSize="12" fontFamily="inherit">
-        zaman
-      </text>
-      <text x="16" y="44" fill={Ink.muted} fontSize="12" fontFamily="inherit">
-        {showSpeedGraph ? "sürat" : "yol"}
-      </text>
-      {showSpeedGraph ? (
-        <line x1="48" y1="96" x2="280" y2="96" stroke={Ink.roseInk} strokeWidth="4" />
-      ) : (
-        <line x1="48" y1="150" x2="260" y2={beat >= 2 ? 70 : 120} stroke={Ink.accent} strokeWidth="4" />
-      )}
-      {beat >= 4 && !showSpeedGraph ? (
-        <SoftCard x={150} y={82} w={180} h={28} fill={Ink.sky} rx={10} />
-      ) : null}
-      {beat >= 4 && !showSpeedGraph ? (
-        <text x="240" y="102" textAnchor="middle" fill={Ink.accent} fontSize="13" fontFamily="inherit" fontWeight="700">
-          {distance} m ÷ {time} s = {speedLabel} m/s
-        </text>
-      ) : null}
-      {trap ? (
-        <>
-          <text x="160" y="176" fill={Ink.roseInk} fontSize="14" fontFamily="inherit" fontWeight="700">
-            {distance} × {time} değil
-          </text>
-          <line x1="158" y1="170" x2="268" y2="182" stroke={Ink.roseInk} strokeWidth="2" />
-        </>
-      ) : (
-        <SceneFoot y={184}>Sabit süratte eşit zamanda eşit yol.</SceneFoot>
-      )}
+      <SceneTitle>Sürat</SceneTitle>
+      <SceneFoot y={184}>çizim yok</SceneFoot>
     </Stage>
   );
 }
@@ -370,19 +298,57 @@ export function EclipseScene({ beat }: { beat: number }) {
 
 type BodyMode = "skeleton" | "digest" | "breath" | "kidney" | "nerve" | "sense" | "aid";
 
+const ECOLOGY_LESSON_KEYS = new Set(["jr_06_fen-37", "jr_06_fen-38"]);
+
+function hasWholeWord(text: string, word: string): boolean {
+  return text.split(/[^\p{L}\p{N}]+/u).includes(word);
+}
+
+/** Biyoçeşitlilik ve yakıt cümlesi organ sahnesine girmez. «gözlemlemek» göz değildir. */
+export function bodyOrganDrawingSuppressed(input: {
+  caption: string;
+  captionTrail?: readonly string[];
+  lessonKey?: string;
+}): boolean {
+  if (input.lessonKey && ECOLOGY_LESSON_KEYS.has(input.lessonKey)) {
+    return true;
+  }
+  const text = [input.caption, ...(input.captionTrail ?? [])].join(" ").toLocaleLowerCase("tr-TR");
+  return /biyoçeşit|yakıt|fosil|çevre problem|baca|orman|kuş tür|bitki tür|güneş paneli/u.test(text);
+}
+
 function bodyMode(caption: string): BodyMode {
   const text = caption.toLocaleLowerCase("tr-TR");
   if (/sindir|enzim|safra|bağırsak|mide|çiğne|villus/.test(text)) return "digest";
   if (/soluk|akciğer|diyafram|alveol|nefes/.test(text)) return "breath";
   if (/böbrek|idrar|ter|boşalt|süz/.test(text)) return "kidney";
   if (/sinir|hormon|refleks|omurilik|denet/.test(text)) return "nerve";
-  if (/göz|kulak|dil|deri|tat|duyu|burun|ışık/.test(text)) return "sense";
+  if (
+    hasWholeWord(text, "göz") ||
+    hasWholeWord(text, "kulak") ||
+    /dil|deri|tat|duyu|burun|ışık/.test(text)
+  ) {
+    return "sense";
+  }
   if (/112|kanama|yardım|güven|bilinç/.test(text)) return "aid";
   return "skeleton";
 }
 
+function NoBodyDrawing() {
+  return (
+    <Stage scene="body">
+      <text x="16" y="28" fill="#0f172a" fontSize="15" fontFamily="inherit" fontWeight="700">
+        çizim yok
+      </text>
+    </Stage>
+  );
+}
+
 /** Vücut sistemleri: caption ile iskelet / sindirim / solunum / boşaltım / sinir / duyu / ilk yardım. */
 export function BodyScene({ beat, caption }: { beat: number; caption: string }) {
+  if (bodyOrganDrawingSuppressed({ caption })) {
+    return <NoBodyDrawing />;
+  }
   const mode = bodyMode(caption);
   const title =
     mode === "digest"
@@ -875,11 +841,13 @@ export function ScienceSceneArt({
   beat,
   caption,
   captionTrail,
+  lessonKey,
 }: {
   scene: ScienceJuniorScene;
   beat: number;
   caption: string;
   captionTrail?: readonly string[];
+  lessonKey?: string;
 }) {
   if (scene === "force") return <ForceScene beat={beat} />;
   if (scene === "speed") return <SpeedScene beat={beat} caption={caption} captionTrail={captionTrail} />;
@@ -887,7 +855,12 @@ export function ScienceSceneArt({
   if (scene === "planets") return <PlanetScene beat={beat} />;
   if (scene === "eclipse") return <EclipseScene beat={beat} />;
   if (scene === "blood") return <BloodScene beat={beat} caption={caption} />;
-  if (scene === "body") return <BodyScene beat={beat} caption={caption} />;
+  if (scene === "body") {
+    if (bodyOrganDrawingSuppressed({ caption, captionTrail, lessonKey })) {
+      return <NoBodyDrawing />;
+    }
+    return <BodyScene beat={beat} caption={caption} />;
+  }
   if (scene === "particles") return <ParticleScene beat={beat} caption={caption} />;
   if (scene === "sound") return <SoundScene beat={beat} caption={caption} />;
   if (scene === "mirror") return <MirrorScene beat={beat} />;

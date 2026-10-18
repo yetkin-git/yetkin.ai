@@ -76,8 +76,8 @@ export function isV1JsonRequest(request: Request): boolean {
 export const isV1PathRequest = isV1JsonRequest;
 
 /**
- * Dron `/api/v1` hop'ları çerez oturumu kabul etmez (Bearer zorunlu).
- * Amiral `/api/...` aynı origin çağrıları sürüm başlığı taşısa da çerez okur —
+ * Tek native istemci `/api/v1` hop'ları çerez oturumu kabul etmez (Bearer zorunlu).
+ * Pragmatik Monolit `/api/...` aynı origin çağrıları sürüm başlığı taşısa da çerez okur —
  * `x-rail-api-version` yalnız zarf sözleşmesidir, çerez kilidi değildir.
  */
 export function isV1CookieSessionBlocked(request: Request): boolean {

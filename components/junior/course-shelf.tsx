@@ -110,6 +110,7 @@ export function CourseShelf({
           courses={visible}
           checkoutHref={checkoutHref}
           priceLabel={priceLabel}
+          profileId={quota?.profileId ?? ""}
         />
       )}
     </div>

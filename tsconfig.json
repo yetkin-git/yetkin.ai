@@ -28,6 +28,12 @@
       "@/*": [
         "./*"
       ],
+      "@yetkin/junior-graphic": [
+        "./packages/junior-graphic/src/index.ts"
+      ],
+      "@yetkin/junior-graphic/*": [
+        "./packages/junior-graphic/src/*"
+      ],
       "@yetkin/kernel": [
         "./packages/kernel/src/index.ts"
       ],
@@ -105,6 +111,6 @@
     "tests/e2e/studio-happy-path.spec.ts",
     "tests/e2e/yetkinilan-happy-path.spec.ts",
     "scripts/ops-storage-cors-check.ts",
-    "scripts/archive/repair-office-ai-05-silence-hole.ts"
+    "scripts/archive/**"
   ]
 }

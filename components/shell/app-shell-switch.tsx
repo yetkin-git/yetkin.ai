@@ -40,7 +40,7 @@ export function AppShellSwitch({
             academyPlayer
               ? "relative mt-0 px-3 pt-0 pb-3 sm:px-4 lg:px-5"
               : juniorLesson
-                ? "relative flex h-[calc(100dvh-3rem)] max-h-[calc(100dvh-3rem)] min-h-0 flex-col overflow-hidden px-3 pt-1 pb-1 sm:px-4"
+                ? "relative flex h-[calc(100dvh-3rem)] max-h-[calc(100dvh-3rem)] min-h-0 flex-col overflow-x-hidden overflow-y-auto px-3 pt-1 pb-1 sm:px-4"
                 : juniorVitrine
                   ? "relative px-4 pt-3 pb-6 sm:px-6 lg:px-8"
                   : "relative px-4 py-8 sm:px-6 lg:px-8"

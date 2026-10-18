@@ -12,7 +12,11 @@ export type EnglishJuniorScene =
   | "shelf"
   | "holiday"
   | "recycle"
-  | "ballot";
+  | "ballot"
+  | "family"
+  | "universe"
+  | "world"
+  | "rules";
 
 export function isEnglishJuniorScene(scene: JuniorVectorScene): scene is EnglishJuniorScene {
   return (
@@ -25,7 +29,11 @@ export function isEnglishJuniorScene(scene: JuniorVectorScene): scene is English
     scene === "shelf" ||
     scene === "holiday" ||
     scene === "recycle" ||
-    scene === "ballot"
+    scene === "ballot" ||
+    scene === "family" ||
+    scene === "universe" ||
+    scene === "world" ||
+    scene === "rules"
   );
 }
 
@@ -40,6 +48,10 @@ export function englishRecapName(scene: JuniorVectorScene): string | null {
   if (scene === "holiday") return "Geçmiş";
   if (scene === "recycle") return "Dönüşüm";
   if (scene === "ballot") return "Oy";
+  if (scene === "family") return "Aile";
+  if (scene === "universe") return "Uzay";
+  if (scene === "world") return "Ülkeler";
+  if (scene === "rules") return "Sınıf Kuralları";
   return null;
 }
 
@@ -760,11 +772,14 @@ export function RecycleScene({ beat, caption }: { beat: number; caption: string 
   );
 }
 
-/** Oy sandığı vs sınıf kuralı puan tablosu. */
-function ballotMode(caption: string): "vote" | "rules" {
+/** Oy sandığı, dijital vatandaşlık veya sınıf kuralı puan tablosu. */
+function ballotMode(caption: string): "vote" | "rules" | "digital" {
   const text = lower(caption);
+  if (/dijital|ekran|paylaşım|fotoğraf|vatandaşlık|izinsiz|hakaret/.test(text)) {
+    return "digital";
+  }
   if (
-    /right|responsibility|hak|sorumluluk|raise our|respect your|i have the right|sınıf kural|puan tablosu/.test(
+    /right|responsibility|hak|sorumluluk|raise our|respect your|i have the right|sınıf kural|puan tablosu|listen|clean/.test(
       text,
     )
   ) {
@@ -775,45 +790,47 @@ function ballotMode(caption: string): "vote" | "rules" {
 
 export function BallotScene({ beat, caption }: { beat: number; caption: string }) {
   const mode = ballotMode(caption);
-  if (mode === "rules") {
+  if (mode === "digital") {
     return (
       <Stage scene="ballot">
-        <text x="16" y="24" fill="#0f172a" fontSize="15" fontFamily="inherit" fontWeight="700">
-          right and responsibility
-        </text>
-        <rect x="28" y="48" width="300" height="28" rx="6" fill="#0f172a" />
-        <text x="40" y="68" fill="#fff" fontSize="12" fontFamily="inherit" fontWeight="700">
-          Sınıf kuralları puan tablosu
+        <text x="16" y="24" fill="#0f172a" fontSize="14" fontFamily="inherit" fontWeight="700">
+          Dijital Vatandaşlık · İzin ve Söz Hakkı
         </text>
         {[
-          { label: "raise hand", score: "✓" },
-          { label: "listen", score: "✓" },
-          { label: "respect", score: "✓" },
-        ].map((row, index) => (
-          <g key={row.label}>
+          { title: "İzin Hakkı", detail: "Fotoğraf ve özel not izinsiz paylaşılmaz", badge: "Sor → Paylaş", fill: "#e0f2fe" },
+          { title: "Söz Hakkı", detail: "Düşünce söylenir; hakaret hak değildir", badge: "Saygılı Dil", fill: "#fef3c7" },
+          { title: "Ekran Sorumluluğu", detail: "Çekimde olmak ≠ yayında olmak", badge: "Önce İzin ✓", fill: "#dcfce7" },
+        ].map((card, index) => (
+          <g key={card.title}>
             <rect
-              x="28"
-              y={88 + index * 28}
-              width="300"
-              height="24"
-              rx="4"
-              fill={index === beat % 3 ? "#fde68a" : "#f8fafc"}
-              stroke="#cbd5e1"
+              x="20"
+              y={42 + index * 42}
+              width="320"
+              height="36"
+              rx="8"
+              fill={index === beat % 3 ? "#fde68a" : card.fill}
+              stroke={index === beat % 3 ? "#b45309" : "#cbd5e1"}
               strokeWidth="1.5"
             />
-            <text x="40" y={105 + index * 28} fill="#0f172a" fontSize="12" fontFamily="inherit">
-              {row.label}
+            <text x="32" y={58 + index * 42} fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="700">
+              {card.title}
             </text>
-            <text x="290" y={105 + index * 28} fill="#15803d" fontSize="12" fontFamily="inherit" fontWeight="700">
-              {row.score}
+            <text x="32" y={72 + index * 42} fill="#334155" fontSize="10" fontFamily="inherit">
+              {card.detail}
+            </text>
+            <text x="254" y={64 + index * 42} fill="#0f172a" fontSize="10" fontFamily="inherit" fontWeight="700">
+              {card.badge}
             </text>
           </g>
         ))}
-        <text x="16" y="188" fill="#0f172a" fontSize="11" fontFamily="inherit">
-          Söz hakkı vardır. Dinlemek sorumluluktur.
+        <text x="20" y="186" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="600">
+          Göndermeden önce sor: Bu paylaşım kimin hakkını etkiler?
         </text>
       </Stage>
     );
+  }
+  if (mode === "rules") {
+    return <ClassroomRulesScene beat={beat} caption={caption} />;
   }
 
   return (
@@ -839,6 +856,285 @@ export function BallotScene({ beat, caption }: { beat: number; caption: string }
   );
 }
 
+export function FamilyScene({ beat, caption }: { beat: number; caption: string }) {
+  const text = lower(caption);
+  const hasGotFocus = /has got|\bhe\b|\bshe\b/.test(text);
+  const members = [
+    { en: "mother", tr: "anne", active: /mother|anne/.test(text) },
+    { en: "father", tr: "baba", active: /father|baba/.test(text) },
+    { en: "sister", tr: "kız kardeş", active: /sister|kız kardeş/.test(text) },
+    { en: "brother", tr: "erkek kardeş", active: /brother|erkek kardeş/.test(text) },
+  ];
+  return (
+    <Stage scene="family">
+      <text x="16" y="24" fill="#0f172a" fontSize="14" fontFamily="inherit" fontWeight="700">
+        Family Life · have got / has got
+      </text>
+      {members.map((m, idx) => {
+        const x = 16 + idx * 82;
+        const hi = m.active || (!members.some((item) => item.active) && idx === beat % 4);
+        return (
+          <g key={m.en}>
+            <rect
+              x={x}
+              y="36"
+              width="76"
+              height="68"
+              rx="10"
+              fill={hi ? "#fef3c7" : "#f8fafc"}
+              stroke={hi ? "#b45309" : "#cbd5e1"}
+              strokeWidth={hi ? "2" : "1.5"}
+            />
+            <circle cx={x + 38} cy="56" r="11" fill={hi ? "#fde68a" : "#e0f2fe"} stroke="#64748b" strokeWidth="1.5" />
+            <text x={x + 38} y="82" textAnchor="middle" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="700">
+              {m.en}
+            </text>
+            <text x={x + 38} y="96" textAnchor="middle" fill="#475569" fontSize="9.5" fontFamily="inherit">
+              ({m.tr})
+            </text>
+          </g>
+        );
+      })}
+      <rect
+        x="16"
+        y="114"
+        width="156"
+        height="46"
+        rx="8"
+        fill={!hasGotFocus ? "#dcfce7" : "#f8fafc"}
+        stroke={!hasGotFocus ? "#15803d" : "#cbd5e1"}
+        strokeWidth="1.5"
+      />
+      <text x="26" y="132" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="700">
+        I / you / we / they → have got
+      </text>
+      <text x="26" y="148" fill="#15803d" fontSize="10.5" fontFamily="inherit" fontWeight="600">
+        &quot;I have got a sister.&quot;
+      </text>
+      <rect
+        x="184"
+        y="114"
+        width="160"
+        height="46"
+        rx="8"
+        fill={hasGotFocus ? "#dcfce7" : "#f8fafc"}
+        stroke={hasGotFocus ? "#15803d" : "#cbd5e1"}
+        strokeWidth="1.5"
+      />
+      <text x="194" y="132" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="700">
+        he / she / it → has got
+      </text>
+      <text x="194" y="148" fill="#15803d" fontSize="10.5" fontFamily="inherit" fontWeight="600">
+        &quot;She has got a brother.&quot;
+      </text>
+      <text x="16" y="182" fill="#0f172a" fontSize="11" fontFamily="inherit">
+        Sahiplik: özneye göre have got veya has got seçilir.
+      </text>
+    </Stage>
+  );
+}
+
+export function UniverseScene({ beat, caption }: { beat: number; caption: string }) {
+  const text = lower(caption);
+  const isFutureMode = /will|won't|planetarium|space museum|planetaryum|uzay müzesi|gelecek|yarın/.test(text);
+  return (
+    <Stage scene="universe">
+      <rect x="14" y="12" width="332" height="172" rx="12" fill="#0f172a" />
+      <text x="26" y="32" fill="#f8fafc" fontSize="13.5" fontFamily="inherit" fontWeight="700">
+        {isFutureMode ? "Universe · will / won't & Planetarium" : "Universe · Sun, Moon, Star, Planet"}
+      </text>
+      {/* Sun */}
+      <circle cx="62" cy="88" r="24" fill="#fbbf24" stroke="#fde68a" strokeWidth="2.5" />
+      <text x="62" y="92" textAnchor="middle" fill="#0f172a" fontSize="10.5" fontFamily="inherit" fontWeight="700">
+        Sun
+      </text>
+      {/* Orbit & Planet */}
+      <ellipse cx="148" cy="88" rx="52" ry="30" fill="none" stroke="#38bdf8" strokeWidth="1.2" strokeDasharray="4 3" />
+      <circle cx="136" cy="72" r="13" fill="#38bdf8" stroke="#bae6fd" strokeWidth="2" />
+      <text x="136" y="76" textAnchor="middle" fill="#0f172a" fontSize="9" fontFamily="inherit" fontWeight="700">
+        Planet
+      </text>
+      {/* Moon */}
+      <circle cx="176" cy="64" r="8" fill="#e2e8f0" stroke="#94a3b8" strokeWidth="1.5" />
+      <text x="176" y="50" textAnchor="middle" fill="#e2e8f0" fontSize="9" fontFamily="inherit" fontWeight="700">
+        Moon
+      </text>
+      {/* Stars */}
+      <circle cx="106" cy="48" r="2.5" fill="#fde68a" />
+      <circle cx="192" cy="96" r="2.5" fill="#fde68a" />
+      <text x="192" y="110" textAnchor="middle" fill="#fde68a" fontSize="9" fontFamily="inherit">
+        stars ★
+      </text>
+      {isFutureMode ? (
+        <g>
+          <rect x="212" y="42" width="124" height="44" rx="8" fill="#1e293b" stroke="#38bdf8" strokeWidth="1.5" />
+          <text x="220" y="58" fill="#bae6fd" fontSize="10" fontFamily="inherit" fontWeight="700">
+            will (gelecek plan)
+          </text>
+          <text x="220" y="74" fill="#f8fafc" fontSize="9.5" fontFamily="inherit">
+            We will visit planetarium
+          </text>
+          <rect x="212" y="94" width="124" height="44" rx="8" fill="#1e293b" stroke="#fbbf24" strokeWidth="1.5" />
+          <text x="220" y="110" fill="#fde68a" fontSize="10" fontFamily="inherit" fontWeight="700">
+            won&apos;t (will not)
+          </text>
+          <text x="220" y="126" fill="#f8fafc" fontSize="9.5" fontFamily="inherit">
+            space museum · {beat % 2 === 0 ? "tomorrow" : "next week"}
+          </text>
+        </g>
+      ) : (
+        <g>
+          <rect x="212" y="42" width="124" height="44" rx="8" fill="#1e293b" stroke="#fde68a" strokeWidth="1.5" />
+          <text x="220" y="58" fill="#fde68a" fontSize="10" fontFamily="inherit" fontWeight="700">
+            Tekil → there is
+          </text>
+          <text x="220" y="74" fill="#f8fafc" fontSize="9.5" fontFamily="inherit">
+            There is one Sun.
+          </text>
+          <rect x="212" y="94" width="124" height="44" rx="8" fill="#1e293b" stroke="#38bdf8" strokeWidth="1.5" />
+          <text x="220" y="110" fill="#bae6fd" fontSize="10" fontFamily="inherit" fontWeight="700">
+            Çoğul → there are
+          </text>
+          <text x="220" y="126" fill="#f8fafc" fontSize="9.5" fontFamily="inherit">
+            There are eight planets.
+          </text>
+        </g>
+      )}
+      <text x="26" y="168" fill="#cbd5e1" fontSize="10.5" fontFamily="inherit">
+        {isFutureMode
+          ? "Gelecek tahmini: will + yalın fiil · Olumsuz: won't"
+          : "Sun (Güneş) · Moon (Ay) · Star (Yıldız) · Planet (Gezegen)"}
+      </text>
+    </Stage>
+  );
+}
+
+export function WorldCultureScene({ beat, caption }: { beat: number; caption: string }) {
+  const text = lower(caption);
+  const rows = [
+    {
+      country: "Turkey",
+      nationality: "Turkish",
+      sentence: "I am from Turkey. I am Turkish.",
+      active: /turkey|turkish|türkiye|türk/.test(text),
+    },
+    {
+      country: "Japan",
+      nationality: "Japanese",
+      sentence: "She is from Japan. She is Japanese.",
+      active: /japan|japanese|japon/.test(text),
+    },
+    {
+      country: "England",
+      nationality: "English",
+      sentence: "He is from England. He is English.",
+      active: /england|english|ingiltere|ingiliz/.test(text),
+    },
+  ];
+  return (
+    <Stage scene="world">
+      <text x="16" y="24" fill="#0f172a" fontSize="14" fontFamily="inherit" fontWeight="700">
+        World &amp; Culture · Country → Nationality
+      </text>
+      {rows.map((row, index) => {
+        const hi = row.active || (!rows.some((r) => r.active) && index === beat % 3);
+        const y = 36 + index * 42;
+        return (
+          <g key={row.country}>
+            <rect
+              x="16"
+              y={y}
+              width="328"
+              height="36"
+              rx="8"
+              fill={hi ? "#fef3c7" : "#f8fafc"}
+              stroke={hi ? "#b45309" : "#cbd5e1"}
+              strokeWidth={hi ? "2" : "1.5"}
+            />
+            <rect x="24" y={y + 6} width="74" height="24" rx="5" fill="#e0f2fe" />
+            <text x="61" y={y + 22} textAnchor="middle" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="700">
+              {row.country}
+            </text>
+            <text x="108" y={y + 22} fill="#64748b" fontSize="12" fontFamily="inherit" fontWeight="700">
+              →
+            </text>
+            <rect x="122" y={y + 6} width="82" height="24" rx="5" fill="#dcfce7" />
+            <text x="163" y={y + 22} textAnchor="middle" fill="#15803d" fontSize="11" fontFamily="inherit" fontWeight="700">
+              {row.nationality}
+            </text>
+            <text x="212" y={y + 22} fill="#334155" fontSize="9.5" fontFamily="inherit">
+              {row.sentence}
+            </text>
+          </g>
+        );
+      })}
+      <text x="16" y="182" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="600">
+        from + Country (Ülke) · I am + Nationality (Milliyet)
+      </text>
+    </Stage>
+  );
+}
+
+export function ClassroomRulesScene({ beat, caption }: { beat: number; caption: string }) {
+  const text = lower(caption);
+  const rules = [
+    { label: "raise hand", tr: "parmak kaldır", kind: "responsibility", active: /raise|parmak/.test(text) },
+    { label: "listen & respect", tr: "dinle ve saygı duy", kind: "responsibility", active: /listen|respect|dinle|saygı/.test(text) },
+    { label: "keep class clean", tr: "sınıfı temiz tut", kind: "responsibility", active: /clean|temiz/.test(text) },
+  ];
+  return (
+    <Stage scene="rules">
+      <text x="16" y="24" fill="#0f172a" fontSize="14" fontFamily="inherit" fontWeight="700">
+        Classroom Rules · Right &amp; Responsibility
+      </text>
+      <rect x="16" y="34" width="154" height="32" rx="7" fill="#e0f2fe" stroke="#0284c7" strokeWidth="1.5" />
+      <text x="26" y="48" fill="#0369a1" fontSize="10.5" fontFamily="inherit" fontWeight="700">
+        Right (Hak)
+      </text>
+      <text x="26" y="61" fill="#0f172a" fontSize="10" fontFamily="inherit">
+        speak in turn · safe class
+      </text>
+      <rect x="178" y="34" width="166" height="32" rx="7" fill="#dcfce7" stroke="#15803d" strokeWidth="1.5" />
+      <text x="188" y="48" fill="#15803d" fontSize="10.5" fontFamily="inherit" fontWeight="700">
+        Responsibility (Sorumluluk)
+      </text>
+      <text x="188" y="61" fill="#0f172a" fontSize="10" fontFamily="inherit">
+        we listen &amp; follow rules
+      </text>
+      {rules.map((row, index) => {
+        const hi = row.active || (!rules.some((r) => r.active) && index === beat % 3);
+        const y = 74 + index * 30;
+        return (
+          <g key={row.label}>
+            <rect
+              x="16"
+              y={y}
+              width="328"
+              height="25"
+              rx="6"
+              fill={hi ? "#fde68a" : "#f8fafc"}
+              stroke={hi ? "#b45309" : "#cbd5e1"}
+              strokeWidth="1.5"
+            />
+            <text x="28" y={y + 17} fill="#0f172a" fontSize="11.5" fontFamily="inherit" fontWeight="700">
+              {row.label}
+            </text>
+            <text x="168" y={y + 17} fill="#475569" fontSize="10.5" fontFamily="inherit">
+              ({row.tr})
+            </text>
+            <text x="318" y={y + 17} fill="#15803d" fontSize="12" fontFamily="inherit" fontWeight="700">
+              ✓
+            </text>
+          </g>
+        );
+      })}
+      <text x="16" y="182" fill="#0f172a" fontSize="10.5" fontFamily="inherit" fontWeight="600">
+        Sınıf kuralları puan tablosu · I have the right to speak, and I listen to my friends.
+      </text>
+    </Stage>
+  );
+}
+
 export function EnglishSceneArt({
   scene,
   beat,
@@ -857,5 +1153,9 @@ export function EnglishSceneArt({
   if (scene === "shelf") return <ShelfScene beat={beat} caption={caption} />;
   if (scene === "holiday") return <HolidayScene beat={beat} caption={caption} />;
   if (scene === "recycle") return <RecycleScene beat={beat} caption={caption} />;
+  if (scene === "family") return <FamilyScene beat={beat} caption={caption} />;
+  if (scene === "universe") return <UniverseScene beat={beat} caption={caption} />;
+  if (scene === "world") return <WorldCultureScene beat={beat} caption={caption} />;
+  if (scene === "rules") return <ClassroomRulesScene beat={beat} caption={caption} />;
   return <BallotScene beat={beat} caption={caption} />;
 }

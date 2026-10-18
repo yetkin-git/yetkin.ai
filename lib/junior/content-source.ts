@@ -29,6 +29,8 @@ function toLessonScenario(input: {
   concept: string;
   example: string;
   warning: string;
+  heroQuestion?: string;
+  heroFocus?: string;
   hint?: "trap" | "gold";
   life: string;
   recap: readonly [string, string, string];

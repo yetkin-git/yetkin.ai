@@ -1,3 +1,5 @@
+import { readJuniorGraphicHop, type JuniorGraphicHop } from "./junior-graphic";
+
 function asRecord(value: unknown): Record<string, unknown> | null {
   if (value && typeof value === "object" && !Array.isArray(value)) {
     return value as Record<string, unknown>;
@@ -7,6 +9,17 @@ function asRecord(value: unknown): Record<string, unknown> | null {
 
 function asString(value: unknown): string | null {
   return typeof value === "string" && value.trim() ? value : null;
+}
+
+/** Web sahne kancası. Hop metninde beklenmez; sızarsa ekrana yazılmaz. */
+const VISUAL_HOOK = /\{@[a-zA-Z0-9_]+\}/gu;
+
+export function juniorNativeSpeech(script: string): string {
+  return script
+    .replace(VISUAL_HOOK, " ")
+    .replace(/[^\S\n]+/gu, " ")
+    .replace(/ *\n */gu, "\n")
+    .trim();
 }
 
 export type JuniorPlayPractice = {
@@ -28,6 +41,7 @@ export type JuniorPlayView = {
   expiresAt: string | null;
   practice: JuniorPlayPractice[];
   progressStatus: "fresh" | "going" | "done" | null;
+  graphic: JuniorGraphicHop | null;
 };
 
 export function presentJuniorLessonPlay(data: unknown): JuniorPlayView | null {
@@ -40,7 +54,7 @@ export function presentJuniorLessonPlay(data: unknown): JuniorPlayView | null {
   const lessonKey = asString(lesson.lessonKey);
   const title = asString(lesson.title);
   const courseTitle = asString(lesson.courseTitle);
-  const script = asString(lesson.script);
+  const script = juniorNativeSpeech(asString(lesson.script) ?? "");
   const access = lesson.access === "locked" ? "locked" : lesson.access === "free" ? "free" : null;
   if (!lessonKey || !title || !courseTitle || !script || !access) {
     return null;
@@ -80,6 +94,7 @@ export function presentJuniorLessonPlay(data: unknown): JuniorPlayView | null {
     expiresAt: typeof media.expiresAt === "string" ? media.expiresAt : null,
     practice,
     progressStatus,
+    graphic: readJuniorGraphicHop(root?.graphic),
   };
 }
 

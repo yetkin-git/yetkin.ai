@@ -1,8 +1,10 @@
 /**
  * Junior ipucu kutusu sesi.
  * Harita `JUNIOR_HINT_EFFECTS` içindedir. Çalma yereldir. Dış API yoktur.
+ * Etkinlik / simülasyon geri bildirimi → `lib/junior/activity-sound.ts`.
  */
 
+import { playApplauseSound, playOopsSound } from "@/lib/junior/activity-sound";
 import {
   juniorHintEffectForMoment,
   type JuniorHintMoment,
@@ -92,30 +94,17 @@ export function playJuniorHintEffect(moment: JuniorHintMoment): void {
   void ctx.resume().then(() => sound(ctx)).catch(() => undefined);
 }
 
-/** Yanlış veya eksik etkinlik. İki kısa iniş. Yerel sentez; dış çağrı yok. */
+/** Yanlış veya eksik etkinlik → sevimli «Ooooo!». */
 export function playJuniorActivityMiss(): void {
-  const ctx = audioContext();
-  if (!ctx) {
-    return;
-  }
-  void ctx
-    .resume()
-    .then(() => {
-      const now = ctx.currentTime;
-      [196, 146.83].forEach((freq, index) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = "triangle";
-        osc.frequency.value = freq;
-        const start = now + index * 0.14;
-        gain.gain.setValueAtTime(0.0001, start);
-        gain.gain.exponentialRampToValueAtTime(0.05, start + 0.015);
-        gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.12);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(start);
-        osc.stop(start + 0.13);
-      });
-    })
-    .catch(() => undefined);
+  playOopsSound();
+}
+
+/** Artan bilye / dengesiz terazi → «Ooooo!». */
+export function playJuniorSimBounce(): void {
+  playOopsSound();
+}
+
+/** Tam bölünme / terazi denge → alkış. */
+export function playJuniorSimSettle(): void {
+  playApplauseSound();
 }

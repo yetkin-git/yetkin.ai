@@ -24,11 +24,20 @@ function failMessage(error: unknown): string {
 
 /**
  * Junior dersi: gövde, imzalı medya adresi, dinleme kaydı ve pekiştirme.
+ * Varsayılan anahtar mühürlü pilot derstir. Okuma `GET /api/v1/junior/lessons/{key}/play` hop'udur.
+ * Bilye tepsisi ve dedektif tahtası bu ekranda çizilmez; hop o sahneyi şart koşmaz.
  * Adres istemci tarafından kurulmaz; oyun hop'unun verdiği alan kullanılır.
  */
-export function JuniorLessonScreen({ api }: { api: V1HttpClient }) {
+export function JuniorLessonScreen({
+  api,
+  profileId,
+  onProfileIdChange,
+}: {
+  api: V1HttpClient;
+  profileId: string;
+  onProfileIdChange: (value: string) => void;
+}) {
   const [lessonKey, setLessonKey] = useState(DEFAULT_LESSON);
-  const [profileId, setProfileId] = useState("");
   const [view, setView] = useState<JuniorPlayView | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -125,7 +134,7 @@ export function JuniorLessonScreen({ api }: { api: V1HttpClient }) {
       <TextInput
         testID="dron-junior-profile-id"
         value={profileId}
-        onChangeText={setProfileId}
+        onChangeText={onProfileIdChange}
         autoCapitalize="none"
         placeholder="Çocuk profil kimliği"
         placeholderTextColor={colors.muted}

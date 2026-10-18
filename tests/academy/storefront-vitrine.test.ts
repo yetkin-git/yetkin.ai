@@ -122,6 +122,37 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     const noPrice = academyVitrineShellCourses([{ ...priced, priceMinor: null }]);
     expect(noPrice.find((row) => row.slug === "02_ecommerce_ai")?.purchasable).toBe(false);
     expect(noPrice.find((row) => row.slug === "02_ecommerce_ai")?.isPublished).toBe(true);
+    const closedCard = resolveAcademyCatalogCardCta({
+      slug: "02_ecommerce_ai",
+      owned: false,
+      priceLabel: "₺990,00",
+      purchasable: noPrice.find((row) => row.slug === "02_ecommerce_ai")?.purchasable,
+      isPublished: true,
+    });
+    expect(closedCard.secondaryCta).toBeUndefined();
+    expect(closedCard.secondaryHref).toBeUndefined();
+    expect(closedCard.cta).not.toMatch(/Satın Al/);
+    expect(closedCard.href).not.toContain("#satin-al");
+    expect(closedCard.ctaDisabled).toBe(true);
+  });
+
+  it("satın alma bayrağı yoksa veya yanlışsa kart satın alma aksiyonu basmaz", () => {
+    for (const slug of ACADEMY_VITRINE_SHELL_SKU_SLUGS) {
+      for (const purchasable of [false, undefined] as const) {
+        const card = resolveAcademyCatalogCardCta({
+          slug,
+          owned: false,
+          priceLabel: "₺990,00",
+          purchasable,
+          isPublished: true,
+        });
+        expect(card.cta, slug).not.toMatch(/Satın Al/);
+        expect(card.secondaryCta ?? "", slug).not.toMatch(/Satın Al/);
+        expect(card.href, slug).not.toContain("#satin-al");
+        expect(card.secondaryHref ?? "", slug).not.toContain("#satin-al");
+        expect(card.ctaDisabled, slug).toBe(true);
+      }
+    }
   });
 
   it("katalog viewport kilidi html taşmasını kesmez; künye kaydırma gövdesindedir", () => {

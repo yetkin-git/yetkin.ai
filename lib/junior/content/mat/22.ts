@@ -1,6 +1,10 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. Alan ölçü birimleri ve arazi ölçüsü. */
+/**
+ * 6. Sınıf Matematik. Alan ölçü birimleri ve arazi ölçüsü.
+ * Film `resolveJuniorPlayback` grafiğidir. Dönüm ve hektar parametredir.
+ * `AreaScene` bu dersi çizmez.
+ */
 export const JUNIOR_MAT_22_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-22",
   title: "Alan ölçü birimleri ve arazi",

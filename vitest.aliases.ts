@@ -27,6 +27,14 @@ export function railVitestAliases(
       },
     ]),
     {
+      find: /^@yetkin\/junior-graphic\/(.*)$/,
+      replacement: path.join(rootDir, "packages/junior-graphic/src/$1"),
+    },
+    {
+      find: /^@yetkin\/junior-graphic$/,
+      replacement: path.join(rootDir, "packages/junior-graphic/src/index.ts"),
+    },
+    {
       find: /^@yetkin\/kernel\/(.*)$/,
       replacement: path.join(rootDir, "packages/kernel/src/$1"),
     },

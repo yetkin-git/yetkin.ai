@@ -4,19 +4,14 @@ import {
   JUNIOR_NARRATION_MAX_MS,
   JUNIOR_NARRATION_MIN_MS,
   JUNIOR_RECAP_TITLE,
-  JUNIOR_TEACHER_CUES,
   JUNIOR_TELL_CLOSE,
   assertJuniorDailySceneVariety,
   assertJuniorExampleRepeatLimit,
   assertJuniorHintVoice,
-  assertJuniorImperativeVariety,
   assertJuniorNoCannedCoach,
   assertJuniorNoCliche,
-  bindJuniorTeacherCue,
   ensureJuniorHybridHint,
   juniorHintCue,
-  juniorSentencesShareImperativeStem,
-  juniorSpeechSentences,
   sealJuniorWarmWelcome,
   stripJuniorCliches,
   type JuniorHintKind,
@@ -49,6 +44,13 @@ export type JuniorLessonScenario = {
   concept: string;
   example: string;
   warning: string;
+  /**
+   * Ders Notu hero kartının pedagojik ana sorusu.
+   * Sahne / cue / life cümlelerinden türetilmez; bütüncül ders sorusudur.
+   */
+  heroQuestion?: string;
+  /** Hero kart alt bant. Odak cümlesi; geçici anlatım değildir. */
+  heroFocus?: string;
   /** Üçüncü bölümün çocuk yüzü. Boşsa tuzak kutusu. */
   hint?: JuniorHintKind;
   life: string;
@@ -71,25 +73,8 @@ export type JuniorLessonScenario = {
   band?: "draft";
 };
 
-/**
- * Mühürlü kaset cümlesi.
- * echoPrompt yıldız panelindedir; sese yazılmaz.
- */
-function sealedCassettePrompt(_source: JuniorLessonScenario): string {
-  return "Şimdi bunu kendi cümlenle tek bir cümleyle söyle.";
-}
-
 function seal(conceptSeal: string, voiceSeal: string): string {
-  return `Buna Kavramsal Anlayış deriz. ${conceptSeal} Anlatışına İfade Gücü deriz. ${voiceSeal} ${JUNIOR_HYBRID_STEP_CLOSE} ${JUNIOR_TELL_CLOSE}`;
-}
-
-/** Adım metninin sonuna birlikte başarma cümlesini bir kez bağlar. */
-function closeStep(text: string, max: number): string {
-  const body = wholeSentences(text, max);
-  if (body.includes(JUNIOR_HYBRID_STEP_CLOSE)) {
-    return body;
-  }
-  return `${body} ${JUNIOR_HYBRID_STEP_CLOSE}`.trim();
+  return `${conceptSeal.trim()} ${voiceSeal.trim()} ${JUNIOR_HYBRID_STEP_CLOSE} ${JUNIOR_TELL_CLOSE}`.trim();
 }
 
 /** Cümleyi kelimenin ortasından kesmez. Sığmazsa son tam cümlede durur. */
@@ -130,90 +115,11 @@ export function juniorNarrationDurationMs(mebNote: string, lifeUse: string): num
 }
 
 /**
- * 5 dakikanın altındaki çekirdeği, konunun kendi cümleleriyle hikâye gibi kapatır.
- * Kalem, bardak ve benzeri basmakalıp koç satırı üretmez. 7,5 dakikaya şişmez.
+ * Yapay metin şişirme mekanizması devre dışı bırakıldı.
+ * Süre, yapay dolgu cümleleriyle değil tane tane konuşma temposuyla sağlanır.
  */
-function storySpine(input: JuniorLessonScenario): string[] {
-  const title = input.title.replace(/\s+/g, " ").trim();
-  const chapters = (input.outcomes.length >= 3 ? input.outcomes : input.recap)
-    .map((line) => line.replace(/\s+/g, " ").trim())
-    .filter((line) => line.length > 0);
-  const frames: readonly ((line: string, n: number) => string)[] = [
-    (line, n) =>
-      `Hikâyenin ${n}. odasında ${title} konusu şu cümleyle durur: ${line} Bir an orada kal, sonra kapıyı arala.`,
-    (line, n) =>
-      `${n}. odanın duvarında aynı konunun yeni bir parçası var. ${line} Bunu günlük sahnenle yan yana koy ve nefes al.`,
-    (line, n) =>
-      `Şimdi ${n}. adımda yürüyoruz. ${title} burada şunu söyler: ${line} Cümleyi acele etmeden bir kez daha gözünde tut.`,
-    (line, n) =>
-      `Öğretmenin yanındaki yerde ${n}. durak açılıyor. ${line} Bu durak yeni bir kural değildir; konunun kendi cümlesidir.`,
-    (line, n) =>
-      `${title} hikâyesinde ${n}. sahne sakin başlar. ${line} Sahne bitince bir sonraki cümleye geçersin, elin boş kalmaz.`,
-    (line, n) =>
-      `Birlikte ${n}. cümleyi hikâyenin içine oturtalım. ${line} Oturunca başını kaldır, sıradaki oda ışığını bekler.`,
-    (line, n) =>
-      `${n}. ışık yandığında okunan cümle budur. ${line} Işık sönmeden önce cümleyi ${title} konusuna bağla.`,
-    (line, n) =>
-      `Hikâye ${n}. köşeyi dönüyor. ${line} Köşe dönünce özet kartına bir adım daha yaklaşırsın.`,
-    (line, n) =>
-      `${title} için ${n}. hatırlatma kendi cümlesinden gelir. ${line} Hatırlatma bitince sesini alçalt, düşünmeye yer kalsın.`,
-    (line, n) =>
-      `Son odalardan ${n}. sırasında şunu bırakıyorum. ${line} Bırakılan cümle yarınki işin değil, bugünkü konunun parçasıdır.`,
-    (line, n) =>
-      `${n}. pencereden ${title} konusuna bak. ${line} Pencere kapanmadan önce cümleyi kendi günündeki bir anın yanına bırak.`,
-    (line, n) =>
-      `Hikâye ${n}. nefeste toparlanır. ${line} Toparlanınca özet kartındaki sırayı bozmadan ilerle.`,
-  ];
-  const used = new Map<string, number>();
-  const numeric = new Map<string, number>();
-  const lines: string[] = [];
-  const numericKeys = (line: string) => {
-    const folded = line.toLocaleLowerCase("tr-TR");
-    return [...folded.matchAll(/(\d+)\s*üssü\s*(\d+)/gu)].map((match) => `${match[1]} üssü ${match[2]}`);
-  };
-  for (let index = 0; index < frames.length; index += 1) {
-    let chosen: string | null = null;
-    for (let hop = 0; hop < chapters.length; hop += 1) {
-      const line = chapters[(index + hop) % chapters.length] ?? title;
-      const count = used.get(line) ?? 0;
-      if (count >= 2) {
-        continue;
-      }
-      const keys = numericKeys(line);
-      if (keys.some((key) => (numeric.get(key) ?? 0) >= 2)) {
-        continue;
-      }
-      chosen = line;
-      used.set(line, count + 1);
-      for (const key of keys) {
-        numeric.set(key, (numeric.get(key) ?? 0) + 1);
-      }
-      break;
-    }
-    const frame = frames[index];
-    if (!chosen || !frame) {
-      break;
-    }
-    lines.push(frame(chosen, lines.length + 1));
-  }
-  const bridges: readonly ((n: number) => string)[] = [
-    (n) =>
-      `Hikâye ${n}. kapıda durur. ${title} burada yeni bir kural açmaz; az önce kurulan resmi gözünde tutarsın.`,
-    (n) =>
-      `${n}. adımda sesini yavaşlat. ${title} konusunu kendi gününden bir sahneye yaslarsın ve nefes alırsın.`,
-    (n) =>
-      `Pencereden ${n}. kez bakmak zorunda değilsin. ${title} cümlesi zaten yerinde; sadece sırayı bozmadan ilerlersin.`,
-    (n) =>
-      `${title} için ${n}. ara, düşünmeye ayrılmış kısa bir boşluktur. Boşluk bitince özet kartına bir adım yaklaşırsın.`,
-    (n) =>
-      `Oda ışığı ${n}. kez değişmez. ${title} aynı kapıda durur; sen sadece cümleyi ağır ağır içinden geçirirsin.`,
-    (n) =>
-      `${n}. köşede acele yoktur. ${title} konusunun son cümlesi yaklaşırken elin boş kalmaz, kulağın açık kalır.`,
-  ];
-  for (const bridge of bridges) {
-    lines.push(bridge(lines.length + 1));
-  }
-  return lines;
+function storySpine(_input: JuniorLessonScenario): string[] {
+  return [];
 }
 
 const JUNIOR_PARROT_FRAMES = [
@@ -240,16 +146,30 @@ function firstSpoken(text: string): string {
   return spokenStepLines(text)[0] ?? text.replace(/\s+/g, " ").trim();
 }
 
+function uniqueStepLines(text: string): string[] {
+  const out: string[] = [];
+  const seen = new Set<string>();
+  for (const line of spokenStepLines(text)) {
+    const key = stepKey(line);
+    if (key.length < 8 || seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+    out.push(line.replace(/\s+/g, " ").trim());
+  }
+  return out;
+}
+
 /**
- * 12 SoftStage adımı kaset sırasındadır (Giriş → Gelişme → Sonuç).
- * Kasetten kopuk köprü cümlesi adım olmaz; her adımın açılışı dinlenen metinde ileriye doğru durur.
+ * 12 SoftStage adımı kaset sırasındadır (Giriş 0..1 → Kavram 2..3 → Çizim 4 → Örnek 5..7 → Uyarı 8 → Özet 9..11).
+ * Her adımın açılışı dinlenen metinde ileriye doğru durur; otomatik kalıp cümle yapıştırılmaz.
  */
 function buildSteps(input: JuniorLessonScenario, kind: JuniorHintKind): JuniorPlayerSteps {
-  const concept = bindJuniorTeacherCue(JUNIOR_TEACHER_CUES[0], input.concept.trim());
+  const concept = input.concept.trim();
   const hintLead = juniorHintCue(kind);
   const [first, second, third] = input.recap;
   const draw = "Hadi şimdi ekrandaki çizime birlikte bakalım!";
-  const recap1 = `1. ${bindJuniorTeacherCue(JUNIOR_TEACHER_CUES[1], first.trim())}`;
+  const recap1 = `1. ${first.trim()}`;
   const recap2 = `2. ${second.trim()}`;
   const recap3 = `3. ${third.trim()}`;
   const ordered = [
@@ -275,43 +195,41 @@ function buildSteps(input: JuniorLessonScenario, kind: JuniorHintKind): JuniorPl
     seen.add(key);
     unique.push(line.replace(/\s+/g, " ").trim());
   }
-  const pins = [
+  const cLines = uniqueStepLines(concept);
+  const eLines = uniqueStepLines(input.example);
+  const cMid = cLines[Math.min(cLines.length - 1, Math.max(1, Math.floor(cLines.length / 2)))] ?? cLines[0] ?? concept;
+  const eSecond = eLines[Math.min(eLines.length - 1, Math.max(1, Math.floor(eLines.length / 3)))] ?? eLines[0] ?? input.example;
+  const eThird =
+    eLines[Math.min(eLines.length - 1, Math.max(2, Math.floor((2 * eLines.length) / 3)))] ?? eSecond;
+
+  const targetBeats = [
     firstSpoken(input.welcome),
     firstSpoken(input.life),
-    firstSpoken(concept),
+    cLines[0] ?? firstSpoken(concept),
+    cMid,
     draw,
-    firstSpoken(input.example),
-    firstSpoken(hintLead),
+    eLines[0] ?? firstSpoken(input.example),
+    eSecond,
+    eThird,
     firstSpoken(input.warning),
-    JUNIOR_RECAP_TITLE,
     firstSpoken(recap1),
     firstSpoken(recap2),
     firstSpoken(recap3),
   ];
-  const pinKeys = new Set(pins.map(stepKey));
-  const conceptAt = unique.findIndex((line) => stepKey(line) === stepKey(firstSpoken(concept)));
-  const recapAt = unique.findIndex((line) => stepKey(line) === stepKey(JUNIOR_RECAP_TITLE));
-  const pinned = unique.filter((line) => pinKeys.has(stepKey(line)));
-  const middle = unique.filter(
-    (line, index) => index > conceptAt && recapAt >= 0 && index < recapAt && !pinKeys.has(stepKey(line)),
-  );
-  const need = 12 - pinned.length;
-  const extras: string[] = [];
-  if (need > 0) {
-    const pool = middle.length > 0 ? middle : unique.filter((line) => !pinKeys.has(stepKey(line)));
-    for (const line of pool) {
-      if (extras.length >= need) {
+  const targetKeys = new Set(targetBeats.map(stepKey));
+  if (targetKeys.size < JUNIOR_VECTOR_STEP_COUNT) {
+    for (const line of unique) {
+      if (targetKeys.size >= JUNIOR_VECTOR_STEP_COUNT) {
         break;
       }
-      extras.push(line);
+      targetKeys.add(stepKey(line));
     }
   }
-  const chosen = new Set([...pinned, ...extras].map(stepKey));
-  const merged = unique.filter((line) => chosen.has(stepKey(line))).slice(0, 12);
+  const merged = unique.filter((line) => targetKeys.has(stepKey(line))).slice(0, JUNIOR_VECTOR_STEP_COUNT);
   if (merged.length !== JUNIOR_VECTOR_STEP_COUNT) {
     throw new Error(`${input.key} görsel adım seçimi ${merged.length}. Kaset sırasında 12 cümle gerekir.`);
   }
-  return merged.map((line) => closeStep(line, 220)) as unknown as JuniorPlayerSteps;
+  return merged.map((line) => wholeSentences(line, 220)) as unknown as JuniorPlayerSteps;
 }
 
 export function juniorLessonFromScenario(input: JuniorLessonScenario): JuniorLessonScript {
@@ -338,55 +256,19 @@ export function juniorLessonFromScenario(input: JuniorLessonScenario): JuniorLes
     sealJuniorWarmWelcome(source.welcome.trim(), source.key),
     source.key,
   );
-  const important = JUNIOR_TEACHER_CUES[0];
-  const keep = JUNIOR_TEACHER_CUES[1];
-  const concept = bindJuniorTeacherCue(important, source.concept.trim());
+  const concept = source.concept.trim();
   const recapBlock = `${JUNIOR_RECAP_TITLE} ${source.recap
-    .map((line, index) => `${index + 1}. ${index === 0 ? bindJuniorTeacherCue(keep, line.trim()) : line.trim()}`)
+    .map((line, index) => `${index + 1}. ${line.trim()}`)
     .join(" ")}`;
   const draw = "Hadi şimdi ekrandaki çizime birlikte bakalım!";
   const life = source.life.trim();
   // listenText (kaset) ile mebNote aynı cümle sırasını taşır — cue haritası birebir kalsın.
-  // Üç evre: Giriş (welcome + life) → Gelişme (concept → örnek → uyarı) → Sonuç (özet).
+  // Üç evre: Giriş (welcome + life) → Gelişme (concept → örnek → uyarı) → Sonuç (özet + kapanış).
   const hintBlock = `${juniorHintCue(kind)} ${warning}`;
-  const prompt = sealedCassettePrompt(source);
-  const base = [welcome, life, concept, draw, source.example.trim(), hintBlock, recapBlock, prompt];
+  const base = [welcome, life, concept, draw, source.example.trim(), hintBlock, recapBlock];
   const steps = buildSteps({ ...source, welcome, warning }, kind);
-  // Taslak bant şişmez. Çekirdek 5 dakikanın altındaysa konunun kendi cümlesi hikâye gibi eklenir.
-  // Hedef 7,5 dakika koç kalıbıyla doldurulmaz. Aynı cümle omurgada en fazla iki kez durur.
-  const pool = source.band === "draft" ? [] : storySpine(source);
-  const extras: string[] = [];
-  const compose = () => `${[...base, ...extras].join("\n\n")}\n\n${closing}`;
-  let mebNote = compose();
-  let spineCursor = 0;
-  let previousSentence = juniorSpeechSentences(prompt).at(-1) ?? prompt;
-  while (spokenMs(mebNote, life) < JUNIOR_NARRATION_MIN_MS && spineCursor < pool.length) {
-    const next = pool[spineCursor];
-    spineCursor += 1;
-    if (!next) {
-      break;
-    }
-    const sentences = juniorSpeechSentences(next);
-    const clashes = sentences.some((sentence, index) => {
-      const prior = index === 0 ? previousSentence : (sentences[index - 1] ?? previousSentence);
-      return juniorSentencesShareImperativeStem(prior, sentence);
-    });
-    if (clashes) {
-      continue;
-    }
-    extras.push(next);
-    previousSentence = sentences.at(-1) ?? previousSentence;
-    mebNote = compose();
-    if (spokenMs(mebNote, life) > JUNIOR_NARRATION_MAX_MS) {
-      extras.pop();
-      mebNote = compose();
-      break;
-    }
-  }
-  const spineSentences = extras.flatMap((line) => juniorSpeechSentences(line));
-  if (spineSentences.length > 0) {
-    assertJuniorImperativeVariety([prompt, ...spineSentences]);
-  }
+  const extras = storySpine(source);
+  const mebNote = `${[...base, ...extras].join("\n\n")}\n\n${closing}`;
   const durationMs = spokenMs(mebNote, life);
   if (source.band === "draft") {
     if (durationMs > JUNIOR_NARRATION_MAX_MS) {
@@ -395,7 +277,7 @@ export function juniorLessonFromScenario(input: JuniorLessonScenario): JuniorLes
     }
   } else if (durationMs < JUNIOR_NARRATION_MIN_MS || durationMs > JUNIOR_NARRATION_MAX_MS) {
     const minutes = (durationMs / 60000).toFixed(2);
-    throw new Error(`${source.key} anlatımı ${minutes} dk. Bant 5 ile 12 dakika. Hedef 7 ile 8 dakika.`);
+    throw new Error(`${source.key} anlatımı ${minutes} dk. Bant 3 ile 12 dakika.`);
   }
   const listenText = [
     welcome,
@@ -406,7 +288,6 @@ export function juniorLessonFromScenario(input: JuniorLessonScenario): JuniorLes
     juniorHintCue(kind),
     warning,
     recapBlock,
-    prompt,
     ...extras,
     closing,
   ].join(" ");
@@ -437,8 +318,8 @@ export function juniorLessonFromScenario(input: JuniorLessonScenario): JuniorLes
   if (!listenText.includes(JUNIOR_HYBRID_STEP_CLOSE) || !mebNote.includes(JUNIOR_HYBRID_STEP_CLOSE)) {
     throw new Error(`${source.key} birlikte kapanış yok.`);
   }
-  if (steps.some((step) => !step.endsWith(JUNIOR_HYBRID_STEP_CLOSE))) {
-    throw new Error(`${source.key} adım kapanışı eksik.`);
+  if (steps.some((step) => step.trim().length === 0)) {
+    throw new Error(`${source.key} boş adım taşıyor.`);
   }
   if (listenText.includes("yüksek sesle say") || mebNote.includes("yüksek sesle say")) {
     throw new Error(`${source.key} konu dışı süre dolgusu taşıyor.`);

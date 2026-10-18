@@ -19,12 +19,19 @@ import { JUNIOR_SEALED_ROSTER, juniorSealedScenarioCount } from "../packages/jun
 import { mebCourseFileSchema } from "../packages/junior-content/schema/meb-outcome";
 import {
   juniorQuizFileSchema,
+  juniorScenarioActivitiesSchema,
   juniorScenarioSchema,
   juniorShellSchema,
   schoolWeekSchema,
   topicCalendarSchema,
 } from "../packages/junior-content/schema/topic";
-import { canonicalScenario } from "./export-junior-content";
+import { MAT_5_DRAFT_TIMELINE } from "@/lib/junior/pilot-engine/mat-5.choreography";
+import { JR_06_MAT_5_TIMELINE } from "@/lib/junior/pilot-engine/mat-5-timeline-loader";
+import {
+  assertSealedPilotTimeline,
+  pilotTimelineUsesDraftClock,
+} from "@/lib/junior/pilot-engine/timeline-seal";
+import { canonicalScenario, exportedScenario } from "./export-junior-content";
 
 const ROOT = join(import.meta.dirname, "..");
 const PACKAGE_ROOT = join(ROOT, "packages", "junior-content");
@@ -231,7 +238,16 @@ async function main() {
       const content = (await import(`../lib/junior/content/${course.dir}/${n}.ts`)) as Record<string, unknown>;
       const scenario = Object.values(content).find(isScenario);
       const onDisk = scenarioKeys.has(key) ? juniorScenarioSchema.parse(readJson(join(PACKAGE_ROOT, "topics", `${key}.json`))) : null;
-      if (!scenario || !onDisk || !same(canonicalScenario(scenario), canonicalScenario(onDisk))) {
+      const expected = scenario ? exportedScenario(scenario) : null;
+      const actual = onDisk
+        ? {
+            ...canonicalScenario(onDisk),
+            ...(onDisk.activities
+              ? { activities: juniorScenarioActivitiesSchema.parse(onDisk.activities) }
+              : {}),
+          }
+        : null;
+      if (!scenario || !onDisk || !expected || !actual || !same(expected, actual)) {
         issues.push(`${key} senaryosu TypeScript ile aynı değil.`);
       }
       const quizMod = (await import(`../lib/junior/quiz/${course.quizDir}/${n}.ts`)) as Record<string, unknown>;
@@ -262,6 +278,15 @@ async function main() {
     if (!topicKeys.has(key)) {
       issues.push(`ses manifesti ${key} JSON konusunda yok.`);
     }
+  }
+
+  try {
+    assertSealedPilotTimeline(JR_06_MAT_5_TIMELINE);
+  } catch (error) {
+    issues.push(error instanceof Error ? error.message : "pilot zaman çizelgesi mühürlenemedi.");
+  }
+  if (pilotTimelineUsesDraftClock(JR_06_MAT_5_TIMELINE, MAT_5_DRAFT_TIMELINE)) {
+    issues.push("jr_06_mat-5 zaman çizelgesi taslak saatte. Oynatıcı mühürlü PCM saatini okur.");
   }
 
   if (issues.length > 0) {

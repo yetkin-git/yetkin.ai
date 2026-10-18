@@ -16,9 +16,11 @@
  *   npx tsx scripts/bake-junior-pilot-tts.ts --dry-run --course=jr_06_mat --force
  *   npx tsx scripts/bake-junior-pilot-tts.ts --confirm-gemini-spend --course=jr_06_mat --force
  *   npx tsx scripts/bake-junior-pilot-tts.ts --confirm-gemini-spend --course=jr_06_mat --key=jr_06_mat-1
- * Genç erkek numunesi: yalnız tek anahtar `jr_06_mat-5`. Kurs ve matris bu kapıyı açmaz. Süre bandı 300–330 sn.
- *   npx tsx scripts/bake-junior-pilot-tts.ts --dry-run --key=jr_06_mat-5
- *   npx tsx scripts/bake-junior-pilot-tts.ts --confirm-gemini-spend --key=jr_06_mat-5
+ * `jr_06_mat-5` numune yolu kapalıdır. `--key=jr_06_mat-5` 300–330 sn bandına ve senaryo metnine yazmaz.
+ * Pilot fırın yalnız şu kapıyla açılır; tempo JUNIOR_BAKE_ATEMPO (0.94), saat timeline JSON'dur.
+ * PCM hizalama ham WAV üzerinde yapılır; atempo sonrası `lockTimelineToExactAudioMs` final MP3'e kilitler:
+ *   npx tsx scripts/bake-junior-pilot-tts.ts --dry-run --lesson=jr_06_mat-5 --force
+ *   npx tsx scripts/bake-junior-pilot-tts.ts --confirm-gemini-spend --lesson=jr_06_mat-5 --force
  */
 import "./load-academy-bake-env";
 
@@ -29,16 +31,6 @@ import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { GoogleGenAI } from "@google/genai";
 import { juniorBakeCandidateLessons, juniorSealedCourseLessons } from "@/lib/junior/content-source";
-import { juniorLessonNote } from "@/lib/junior/lesson-note";
-import {
-  juniorPlayerBeatIndex,
-  juniorPlayerCueAt,
-  juniorPlayerLiveCaption,
-  juniorPlayerStepAnchors,
-  juniorPlayerTimeline,
-  scaleJuniorPlayerTimeline,
-} from "@/lib/junior/player-clock";
-import { chunkJuniorLocalSpeech } from "@/lib/junior/speech";
 import { JUNIOR_FEN_1 } from "@/lib/junior/content/fen/1";
 import { JUNIOR_ING_MAIN_1 } from "@/lib/junior/content/ing/1";
 import { JUNIOR_MAT_5 } from "@/lib/junior/content/mat/5";
@@ -72,15 +64,28 @@ import { masterAcademySpeechWav } from "@/lib/academy/tts-loudnorm";
 import { assertAcademySpeechQuality } from "@/lib/academy/tts-quality-gate";
 import { academyBakeVoiceModelId, assertAcademySealedMediaModel } from "@/lib/kernel/ai/model-roles";
 import { pcmWavDurationSec } from "@/lib/kernel/ai/pcm-wav";
+import {
+  MAT_5_AUTHORED_CUES,
+  MAT_5_DRAFT_TIMELINE,
+  parseMarkedCueText,
+} from "@/lib/junior/pilot-engine/mat-5.choreography";
+import {
+  alignSingleWavToMat5Cues,
+  lockTimelineToExactAudioMs,
+} from "@/lib/junior/pilot-engine/pcm-cue-aligner";
 import { transcodeAcademyWavToMp3 } from "./transcode-academy-lesson-audio";
 
-/** Yayındaki matematik açılışı. Yalnız `--key=jr_06_mat-5` ve kurs/matris yokken üzerine yazılır. */
+/** Pilot ders. Eski `--key=jr_06_mat-5` numune bandı bu anahtara yazamaz. */
 const SAMPLE_REBAKE_KEY = "jr_06_mat-5";
-/** Numune. 5:20 ortası; bant 5:00–5:30. */
-const SAMPLE_TARGET_SEC = 320;
-const SAMPLE_MIN_SEC = 300;
-const SAMPLE_MAX_SEC = 330;
-
+const MAT5_SAMPLE_PATH_CLOSED =
+  "jr_06_mat-5 numune yolu kapatıldı. --key=jr_06_mat-5 senaryo metnini 300–330 sn bandına yazmaz. Pilot fırın yalnız --lesson=jr_06_mat-5 --force ile açılır.";
+const PILOT_V2_TIMELINE_PATH = join(
+  process.cwd(),
+  "packages",
+  "junior-content",
+  "timelines",
+  "jr_06_mat-5.timeline.json",
+);
 const require = createRequire(import.meta.url);
 
 const PILOT_LESSONS = [
@@ -197,14 +202,18 @@ function wordCount(text: string): number {
   return text.split(/\s+/u).filter(Boolean).length;
 }
 
-function planLesson(lesson: JuniorLessonScript): LessonPlan {
+function planLesson(lesson: JuniorLessonScript, isPilotV2 = false): LessonPlan {
   const teacher = juniorTeacherForLesson(lesson.key);
-  const listenText = lesson.listenText.trim();
+  const pilotCuesText =
+    isPilotV2 && lesson.key === SAMPLE_REBAKE_KEY
+      ? MAT_5_AUTHORED_CUES.map((c) => parseMarkedCueText(c.markedText).cleanText).join(" ")
+      : null;
+  const listenText = (pilotCuesText ?? lesson.listenText).trim();
   if (listenText.length < 200) {
     throw new Error(`${lesson.key} listenText çok kısa. Fırın açılmaz.`);
   }
   const intro = juniorTeacherSelfIntro(lesson.key);
-  if (!listenText.includes(intro)) {
+  if (!isPilotV2 && !listenText.includes(intro)) {
     throw new Error(`${lesson.key} listenText öğretmen tanıtımı taşımıyor: «${intro}»`);
   }
   const transcript = juniorVoiceDesignTranscript(listenText);
@@ -224,8 +233,19 @@ function planLesson(lesson: JuniorLessonScript): LessonPlan {
   };
 }
 
+function lessonArg(argv: readonly string[]): string | undefined {
+  return argv.find((part) => part.startsWith("--lesson="))?.slice("--lesson=".length)?.trim();
+}
+
+function isPilotV2LessonRebake(argv: readonly string[]): boolean {
+  const lesson = lessonArg(argv);
+  return lesson === SAMPLE_REBAKE_KEY && (argv.includes("--force") || argv.includes("--overwrite"));
+}
+
 function requestedKeys(argv: readonly string[]): string[] {
-  const raw = argv.find((part) => part.startsWith("--key="))?.slice("--key=".length)?.trim();
+  const raw =
+    argv.find((part) => part.startsWith("--key="))?.slice("--key=".length)?.trim() ??
+    lessonArg(argv);
   if (!raw) {
     return [];
   }
@@ -246,6 +266,9 @@ function lessonNumber(lessonKey: string): number {
  * `--force` ve `--overwrite` aynı kapıdır. Yalnız `--course=jr_06_mat`.
  */
 function isMathForceOverwrite(argv: readonly string[]): boolean {
+  if (isPilotV2LessonRebake(argv)) {
+    return false;
+  }
   const force = argv.includes("--force") || argv.includes("--overwrite");
   if (!force) {
     return false;
@@ -268,13 +291,20 @@ function mathAuthoredLessons(): JuniorLessonScript[] {
   return [...byKey.values()].sort((left, right) => lessonNumber(left.key) - lessonNumber(right.key));
 }
 
-/** Tek numune anahtarı. `--course` ve `--matrix` fırınlı korumayı açmaz. */
-function isSampleRebake(argv: readonly string[]): boolean {
-  if (argv.includes("--matrix") || argv.some((part) => part.startsWith("--course="))) {
-    return false;
+/**
+ * Eski 300–330 sn numune kapısı. `jr_06_mat-5` artık pilot motordadır; bu kapı hiç açılmaz.
+ */
+function isSampleRebake(_argv: readonly string[]): boolean {
+  return false;
+}
+
+function assertMat5SamplePathClosed(argv: readonly string[]): void {
+  if (isPilotV2LessonRebake(argv)) {
+    return;
   }
-  const keys = requestedKeys(argv);
-  return keys.length === 1 && keys[0] === SAMPLE_REBAKE_KEY;
+  if (requestedKeys(argv).includes(SAMPLE_REBAKE_KEY)) {
+    throw new Error(MAT5_SAMPLE_PATH_CLOSED);
+  }
 }
 
 function pickKeys(
@@ -282,13 +312,18 @@ function pickKeys(
   argv: readonly string[],
   allowBaked = false,
 ): JuniorLessonScript[] {
-  const raw = argv.find((part) => part.startsWith("--key="))?.slice("--key=".length)?.trim();
+  const raw =
+    argv.find((part) => part.startsWith("--key="))?.slice("--key=".length)?.trim() ??
+    lessonArg(argv);
   if (!raw) {
     return [...pool];
   }
   const keys = raw.split(",").map((part) => part.trim()).filter(Boolean);
   const sample = isSampleRebake(argv);
-  const baked = keys.filter((key) => juniorLessonHasBakedAudio(key) && !(sample && key === SAMPLE_REBAKE_KEY));
+  const pilot = isPilotV2LessonRebake(argv);
+  const baked = keys.filter(
+    (key) => juniorLessonHasBakedAudio(key) && !(sample && key === SAMPLE_REBAKE_KEY) && !(pilot && key === SAMPLE_REBAKE_KEY),
+  );
   if (baked.length > 0 && !allowBaked) {
     throw new Error(`${baked.join(", ")} zaten fırınlı (manifestte). Bu betik yayındaki sesi yeniden üretmez.`);
   }
@@ -315,13 +350,14 @@ function lessonBatches(argv: readonly string[]): JuniorLessonScript[][] {
       .filter((batch) => batch.length > 0);
   }
   if (!course) {
-    const sample = isSampleRebake(argv);
+    const pilot = isPilotV2LessonRebake(argv);
     const pool = PILOT_LESSONS.filter(
-      (lesson) => (sample && lesson.key === SAMPLE_REBAKE_KEY) || !juniorLessonHasBakedAudio(lesson.key),
+      (lesson) => (pilot && lesson.key === SAMPLE_REBAKE_KEY) || !juniorLessonHasBakedAudio(lesson.key),
     );
     return [pickKeys(pool, argv)];
   }
-  const lessons = forceMath ? mathAuthoredLessons() : COURSE_LESSONS[course];
+  const authored = forceMath ? mathAuthoredLessons() : COURSE_LESSONS[course];
+  const lessons = authored?.filter((lesson) => lesson.key !== SAMPLE_REBAKE_KEY);
   if (!lessons) {
     const known = Object.keys(COURSE_LESSONS).join(", ");
     throw new Error(`--course= bilinmeyen kurs. Bilinen: ${known}. Gelen: ${course}`);
@@ -341,7 +377,7 @@ function wavPathFor(lessonKey: string): string {
   return join(WAV_DIR, `${lessonKey}.wav`);
 }
 
-function writeReceipt(plan: LessonPlan, model: string): void {
+function writeReceipt(plan: LessonPlan, model: string, tempo = JUNIOR_BAKE_ATEMPO): void {
   const path = receiptPath(plan.lessonKey);
   mkdirSync(dirname(path), { recursive: true });
   writeFileSync(
@@ -356,7 +392,7 @@ function writeReceipt(plan: LessonPlan, model: string): void {
       voicePromptHash: plan.voicePromptHash,
       teacher: plan.teacherName,
       languageCode: CATALOG_LANGUAGE,
-      tempo: JUNIOR_BAKE_ATEMPO,
+      tempo,
       requests: 1,
       textHash: plan.textHash,
       wordCount: plan.wordCount,
@@ -368,7 +404,7 @@ function writeReceipt(plan: LessonPlan, model: string): void {
   );
 }
 
-function assertReceipt(plan: LessonPlan, model: string): void {
+function assertReceipt(plan: LessonPlan, model: string, tempo = JUNIOR_BAKE_ATEMPO): void {
   const path = receiptPath(plan.lessonKey);
   if (!existsSync(path)) {
     throw new Error(`${plan.lessonKey} dry-run fişi yok. Önce --dry-run. API çağrısı yok.`);
@@ -394,7 +430,7 @@ function assertReceipt(plan: LessonPlan, model: string): void {
     raw.voicePromptSent !== false ||
     raw.voicePromptHash !== plan.voicePromptHash ||
     raw.languageCode !== CATALOG_LANGUAGE ||
-    raw.tempo !== JUNIOR_BAKE_ATEMPO ||
+    raw.tempo !== tempo ||
     raw.textHash !== plan.textHash ||
     raw.requests !== 1 ||
     raw.transcriptMode !== "verbatim"
@@ -538,42 +574,6 @@ async function synthesize(input: {
   }
 }
 
-function inSampleBand(sec: number): boolean {
-  return sec >= SAMPLE_MIN_SEC && sec <= SAMPLE_MAX_SEC;
-}
-
-/**
- * Katalog atempo'sundan sonra kaseti 5:20 bandına çeker.
- * Ek katsayı 1 ise dosya zaten banttadır. ffmpeg atempo 0.5–2 aralığında zincirlenir.
- */
-function fitSampleDuration(
-  wav: Buffer,
-  durationSec: number,
-): { wav: Buffer; durationSec: number; paceTempo: number } {
-  let current = wav;
-  let sec = durationSec;
-  let applied = 1;
-  for (let pass = 0; pass < 3 && !inSampleBand(sec); pass += 1) {
-    let tempo = sec / SAMPLE_TARGET_SEC;
-    if (!Number.isFinite(tempo) || tempo <= 0) {
-      throw new Error("Numune temposu hesaplanamadı.");
-    }
-    const steps: number[] = [];
-    while (tempo < 0.5 || tempo > 2) {
-      const step = tempo < 0.5 ? 0.5 : 2;
-      steps.push(step);
-      tempo /= step;
-    }
-    steps.push(tempo);
-    for (const step of steps) {
-      current = masterAcademySpeechWav(current, { atempo: true, tempo: step });
-      applied *= step;
-    }
-    sec = pcmWavDurationSec(current);
-  }
-  return { wav: current, durationSec: sec, paceTempo: applied };
-}
-
 function probeMediaDurationSec(path: string): number {
   const ffmpegPath = require("ffmpeg-static") as string | null;
   if (!ffmpegPath) {
@@ -588,67 +588,6 @@ function probeMediaDurationSec(path: string): number {
   return Number(match[1]) * 3600 + Number(match[2]) * 60 + Number(match[3]);
 }
 
-/** Adım çapaları kaset süresine orantılı kayar. Cümle metni yerinde kalır. */
-function assertSampleBeatSync(durationMs: number): { beat: number; startMs: number; text: string }[] {
-  const lesson = JUNIOR_MAT_5;
-  const steps = lesson.steps ?? [];
-  if (steps.length === 0) {
-    throw new Error("jr_06_mat-5 adım listesi boş. Beat hizası yazılmadı.");
-  }
-  const note = juniorLessonNote(lesson.mebNote, lesson.lifeUse);
-  const base = juniorPlayerTimeline(note, chunkJuniorLocalSpeech(note), steps.length);
-  const scaled = scaleJuniorPlayerTimeline(base, durationMs);
-  if (scaled.pieces !== base.pieces) {
-    throw new Error("Beat hizası parça metnini değiştirdi.");
-  }
-  if (scaled.durationMs !== durationMs) {
-    throw new Error(`Beat hizası süreye oturmadı: ${scaled.durationMs} ≠ ${durationMs}.`);
-  }
-  const baseAnchors = juniorPlayerStepAnchors(steps, base);
-  const anchors = juniorPlayerStepAnchors(steps, scaled);
-  if (anchors.map((anchor) => anchor.beat).join(",") !== baseAnchors.map((anchor) => anchor.beat).join(",")) {
-    throw new Error("Beat hizası adım sırasını değiştirdi.");
-  }
-  const factor = scaled.durationMs / base.durationMs;
-  for (let index = 0; index < anchors.length; index += 1) {
-    const expected = Math.round((baseAnchors[index]?.startMs ?? 0) * factor);
-    if (Math.abs((anchors[index]?.startMs ?? 0) - expected) > 8) {
-      throw new Error(`Adım ${anchors[index]?.beat} çapası kaset süresiyle orantılı kaymadı.`);
-    }
-  }
-  const fold = scaled.pieces.find((piece) => piece.text.includes("kalansız"));
-  if (!fold) {
-    throw new Error("Bölünebilme cümlesi saatte yok.");
-  }
-  const at = fold.collapsedStart + 1;
-  const window = scaled.windows.find((row) => at >= row.noteStart && at < row.noteEnd) ?? scaled.windows[0];
-  if (!window) {
-    throw new Error("Bölünebilme cümlesinin penceresi yok.");
-  }
-  const span = window.endMs - window.startMs;
-  const ratio = (at - window.noteStart) / Math.max(1, window.noteEnd - window.noteStart);
-  const ms = window.startMs + ratio * span;
-  if (!juniorPlayerLiveCaption(ms, scaled).includes("kalansız")) {
-    throw new Error("Ölçeklenen saatte bölünebilme cümlesi kaydı.");
-  }
-  if (juniorPlayerCueAt(ms, scaled)?.text.includes("kalansız") !== true) {
-    throw new Error("Ölçeklenen cue bölünebilmeyi kaçırdı.");
-  }
-  const beat = juniorPlayerBeatIndex(
-    ms,
-    scaled.durationMs,
-    steps.length,
-    scaled.windows,
-    0,
-    scaled.pieces.length,
-    anchors,
-  );
-  if (beat < 0 || beat >= steps.length) {
-    throw new Error("Adım indeksi ders boyunun dışında.");
-  }
-  return anchors.map((anchor) => ({ beat: anchor.beat, startMs: anchor.startMs, text: anchor.text }));
-}
-
 function formatClock(sec: number): string {
   const total = Math.round(sec);
   const minutes = Math.floor(total / 60);
@@ -659,7 +598,66 @@ function formatClock(sec: number): string {
 /** Kalite kapısı tek istek. Geçilemezse aynı ders yeniden sentezlenmez. */
 const QUALITY_RETRY_MAX = 1;
 
+async function bakePilotV2Lesson(client: GoogleGenAI, model: string, plan: LessonPlan): Promise<void> {
+  const voiceName = canonicalizeGeminiTtsVoiceName(plan.catalogVoice);
+  process.stdout.write(
+    `  [JuniorCinemaEngine v2 Pilot] ${plan.lessonKey}  ${plan.teacherName}/${voiceName}  atempo=${JUNIOR_BAKE_ATEMPO}  12 sekans PCM hizalama  ${plan.wordCount} kelime\n`,
+  );
+  const rawWav = await synthesize({
+    client,
+    model,
+    text: plan.listenText,
+    voiceName,
+  });
+
+  // 1) Akustik vadi araması + pedagojik es (createSilentPcmWav) enjeksiyonu + kesin PCM sample sayımı
+  //    Hizalama ham (doğal) tempoda yapılır; WSOLA oranı tüm dosyaya eşit uygulanır.
+  const aligned = alignSingleWavToMat5Cues(rawWav, MAT_5_AUTHORED_CUES);
+
+  // 2) %94 tempo (JUNIOR_BAKE_ATEMPO) + EBU R128 loudnorm ve 48 kHz mastering
+  const mastered = masterAcademySpeechWav(aligned.combinedWav, {
+    atempo: true,
+    tempo: JUNIOR_BAKE_ATEMPO,
+  });
+  const quality = assertAcademySpeechQuality(mastered);
+
+  const wavPath = wavPathFor(plan.lessonKey);
+  const mp3Path = mp3PathFor(plan.lessonKey);
+  mkdirSync(dirname(wavPath), { recursive: true });
+  writeFileSync(wavPath, mastered);
+  transcodeAcademyWavToMp3(wavPath, mp3Path);
+
+  const mp3Bytes = statSync(mp3Path).size;
+  if (mp3Bytes < MIN_MP3_BYTES) {
+    throw new Error(`${plan.lessonKey} MP3 çok küçük: ${mp3Bytes} bayt.`);
+  }
+  const mp3Sec = probeMediaDurationSec(mp3Path);
+  const exactAudioMs = Math.round(mp3Sec * 1000);
+
+  // 3) Timeline JSON'u gerçek MP3 milisaniyesine kilitle (atempo sonrası süre kayması dahil)
+  const tempoLocked = {
+    ...aligned.timeline,
+    teacher: { ...aligned.timeline.teacher, atempo: JUNIOR_BAKE_ATEMPO },
+  };
+  const finalTimeline = lockTimelineToExactAudioMs(tempoLocked, exactAudioMs);
+  mkdirSync(dirname(PILOT_V2_TIMELINE_PATH), { recursive: true });
+  writeFileSync(PILOT_V2_TIMELINE_PATH, `${JSON.stringify(finalTimeline, null, 2)}\n`, "utf8");
+
+  for (const cue of finalTimeline.cues) {
+    process.stdout.write(
+      `    • ${cue.id.padEnd(6)} [${String(cue.startMs).padStart(6)}ms -> ${String(cue.endMs).padStart(6)}ms] (${((cue.endMs - cue.startMs) / 1000).toFixed(2)}s, es=${cue.pauseAfterMs}ms, keyframes=${cue.keyframes.length})\n`,
+    );
+  }
+  process.stdout.write(
+    `  yazıldı ${formatClock(mp3Sec)} (${mp3Sec.toFixed(2)}s / ${exactAudioMs}ms)  atempo=${JUNIOR_BAKE_ATEMPO}  ${mp3Bytes} bayt  LUFS ${quality.integratedLufs.toFixed(1)} → ${mp3Path}\n`,
+  );
+  process.stdout.write(`  timeline mühürlendi → ${PILOT_V2_TIMELINE_PATH}\n`);
+}
+
 async function bakeLesson(client: GoogleGenAI, model: string, plan: LessonPlan): Promise<void> {
+  if (plan.lessonKey === SAMPLE_REBAKE_KEY) {
+    throw new Error(MAT5_SAMPLE_PATH_CLOSED);
+  }
   const voiceName = canonicalizeGeminiTtsVoiceName(plan.catalogVoice);
   process.stdout.write(
     `  ${plan.lessonKey}  ${plan.teacherName}/${voiceName}  katalog sesi  voicePrompt gönderilmez  1 istek  atempo=${JUNIOR_BAKE_ATEMPO}  ${plan.wordCount} kelime\n`,
@@ -680,17 +678,6 @@ async function bakeLesson(client: GoogleGenAI, model: string, plan: LessonPlan):
     let candidate = masterAcademySpeechWav(rawWav, { atempo: true, tempo: JUNIOR_BAKE_ATEMPO });
     durationSec = pcmWavDurationSec(candidate);
     paceNote = `atempo=${JUNIOR_BAKE_ATEMPO}`;
-    if (plan.lessonKey === SAMPLE_REBAKE_KEY) {
-      const fitted = fitSampleDuration(candidate, durationSec);
-      candidate = fitted.wav;
-      durationSec = fitted.durationSec;
-      paceNote = `katalog atempo=${JUNIOR_BAKE_ATEMPO}, bant katsayısı=${fitted.paceTempo.toFixed(4)}`;
-      if (!inSampleBand(durationSec)) {
-        throw new Error(
-          `${plan.lessonKey} süre bandı dışında: ${durationSec.toFixed(1)}s. Hedef ${SAMPLE_TARGET_SEC}s, bant ${SAMPLE_MIN_SEC}–${SAMPLE_MAX_SEC}s. Dosya yazılmadı.`,
-        );
-      }
-    }
     const completeFloorSec = plan.wordCount * 0.4;
     if (durationSec > maxSec || durationSec < completeFloorSec) {
       throw new Error(
@@ -729,20 +716,6 @@ async function bakeLesson(client: GoogleGenAI, model: string, plan: LessonPlan):
     throw new Error(`${plan.lessonKey} MP3 çok küçük: ${mp3Bytes} bayt.`);
   }
   const mp3Sec = probeMediaDurationSec(mp3Path);
-  if (plan.lessonKey === SAMPLE_REBAKE_KEY) {
-    if (!inSampleBand(mp3Sec)) {
-      throw new Error(
-        `${plan.lessonKey} MP3 süre bandı dışında: ${mp3Sec.toFixed(2)}s. Bant ${SAMPLE_MIN_SEC}–${SAMPLE_MAX_SEC}s.`,
-      );
-    }
-    const anchors = assertSampleBeatSync(Math.round(mp3Sec * 1000));
-    process.stdout.write(
-      `  beat hizası ${anchors.length} adım, kaset ${mp3Sec.toFixed(2)}s\n`,
-    );
-    process.stdout.write(
-      `  BEAT_JSON ${JSON.stringify(anchors.map((anchor) => ({ beat: anchor.beat, startMs: anchor.startMs, text: anchor.text.slice(0, 90) })))}\n`,
-    );
-  }
   process.stdout.write(
     `  yazıldı ${formatClock(mp3Sec)} (${mp3Sec.toFixed(2)}s)  ${paceNote}  ${mp3Bytes} bayt  LUFS ${quality.integratedLufs.toFixed(1)} → ${mp3Path}\n`,
   );
@@ -758,6 +731,7 @@ function sanitizeKey(raw: string | undefined): string | null {
 
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
+  assertMat5SamplePathClosed(argv);
   const dryRun = argv.includes("--dry-run") || !argv.includes("--confirm-gemini-spend");
   const model = academyBakeVoiceModelId();
   assertAcademySealedMediaModel("VOICE_TTS", model);
@@ -770,9 +744,10 @@ async function main(): Promise<void> {
       "Mühürlü derslerin tamamı tek maça alınmaz. Kurs kurs çalıştır: --course=jr_06_mat ve kardeşleri.",
     );
   }
+  const pilotV2 = isPilotV2LessonRebake(argv);
   const forceMath = isMathForceOverwrite(argv);
   const batches = lessonBatches(argv);
-  const plans = batches.flat().map((lesson) => planLesson(lesson));
+  const plans = batches.flat().map((lesson) => planLesson(lesson, pilotV2));
   if (plans.length === 0) {
     throw new Error("Seçilen kapsamda fırınlanacak ders yok: tümü yayında ya da kapsam boş.");
   }
@@ -780,7 +755,7 @@ async function main(): Promise<void> {
   const alreadyBaked = plans.filter(
     (plan) => juniorLessonHasBakedAudio(plan.lessonKey) && !(sample && plan.lessonKey === SAMPLE_REBAKE_KEY),
   );
-  if (alreadyBaked.length > 0 && !forceMath) {
+  if (alreadyBaked.length > 0 && !forceMath && !pilotV2) {
     throw new Error(`Fırınlı dersler yeniden fırınlanmaz: ${alreadyBaked.map((plan) => plan.lessonKey).join(", ")}.`);
   }
   if (forceMath) {
@@ -798,14 +773,18 @@ async function main(): Promise<void> {
     assertAcademyMatchWhistleBudget(batch.length);
   }
   process.stdout.write(
-    `Junior katalog sesi fırını — ${plans.length} ders, model=${model}, tempo=${JUNIOR_BAKE_ATEMPO}, voicePrompt gönderilmez${dryRun ? " (dry-run)" : ""}\n`,
+    `Junior katalog sesi fırını — ${plans.length} ders, model=${model}, tempo=${JUNIOR_BAKE_ATEMPO}${pilotV2 ? " (v2 pilot)" : ""}, voicePrompt gönderilmez${dryRun ? " (dry-run)" : ""}\n`,
   );
   for (const plan of plans) {
     process.stdout.write(
       `  ${plan.lessonKey}  ${plan.teacherName}/${plan.catalogVoice}  katalog sesi  ${plan.wordCount} kelime  ${plan.charCount} karakter  ${plan.title}\n`,
     );
-    if (dryRun) {
-      writeReceipt(plan, model);
+    if (dryRun || pilotV2) {
+      writeReceipt(plan, model, JUNIOR_BAKE_ATEMPO);
+    }
+    if (dryRun && pilotV2 && !existsSync(PILOT_V2_TIMELINE_PATH)) {
+      mkdirSync(dirname(PILOT_V2_TIMELINE_PATH), { recursive: true });
+      writeFileSync(PILOT_V2_TIMELINE_PATH, `${JSON.stringify(MAT_5_DRAFT_TIMELINE, null, 2)}\n`, "utf8");
     }
   }
   if (dryRun) {
@@ -813,7 +792,7 @@ async function main(): Promise<void> {
     return;
   }
   for (const plan of plans) {
-    assertReceipt(plan, model);
+    assertReceipt(plan, model, JUNIOR_BAKE_ATEMPO);
   }
   const apiKey = sanitizeKey(process.env.GEMINI_API_KEY);
   if (!apiKey) {
@@ -822,7 +801,11 @@ async function main(): Promise<void> {
   const client = createBakeClient(apiKey);
   for (let index = 0; index < plans.length; index += 1) {
     const plan = plans[index]!;
-    await bakeLesson(client, model, plan);
+    if (pilotV2 && plan.lessonKey === SAMPLE_REBAKE_KEY) {
+      await bakePilotV2Lesson(client, model, plan);
+    } else {
+      await bakeLesson(client, model, plan);
+    }
     if (index < plans.length - 1) {
       await sleep(ACADEMY_TTS_RPM_GAP_MS);
     }

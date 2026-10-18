@@ -5,7 +5,6 @@ import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import {
   ADMIN_ACADEMY_SHELTER_PATH,
   ADMIN_DASHBOARD_SHELTER_PATH,
-  ADMIN_FREELANCER_SHELTER_PATH,
   ADMIN_SURFACE_PATH,
 } from "@/lib/kernel/admin/types";
 import { resolveSuperAdminAccess } from "@/lib/kernel/auth/session";
@@ -24,9 +23,6 @@ function RevisionShelterActions() {
       </LinkButton>
       <LinkButton href={ADMIN_ACADEMY_SHELTER_PATH} variant="outline" size="sm">
         {copy.academyCta}
-      </LinkButton>
-      <LinkButton href={ADMIN_FREELANCER_SHELTER_PATH} variant="outline" size="sm">
-        {copy.freelancerCta}
       </LinkButton>
       <LinkButton href={ADMIN_DASHBOARD_SHELTER_PATH} variant="ghost" size="sm">
         {copy.dashboardCta}

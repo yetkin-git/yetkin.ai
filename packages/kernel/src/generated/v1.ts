@@ -519,6 +519,126 @@ export type RailV1JuniorLessonPlayData = {
   "progress": {
     "status": "fresh" | "going" | "done";
   } | null;
+  "graphic"?: {
+    "schemaVersion": "2.0.0";
+    "layout": string;
+    "title": string;
+    "subtitle": string;
+    "fraction": {
+      "operation": string;
+      "leftNumerator": number;
+      "leftDenominator": number;
+      "rightNumerator": number;
+      "rightDenominator": number;
+      "equivalentNumerator": number;
+      "equivalentDenominator": number;
+      "resultNumerator": number;
+      "resultDenominator": number;
+      "differenceNumerator": number;
+      "differenceDenominator": number;
+      "productNumerator": number;
+      "productDenominator": number;
+      "simplifiedNumerator": number;
+      "simplifiedDenominator": number;
+      "quotient": number;
+      "parts": number;
+      "filled": number;
+      "trap": string;
+      "note": string;
+    } | null;
+    "numberLine": {
+      "unit": string;
+      "focus": number;
+      "focusLabel": string;
+      "relations": Array<string>;
+    } | null;
+    "angle": {
+      "kind": string;
+      "acute": number;
+      "corresponding": number;
+      "alternate": number;
+      "supplementary": number;
+      "straight": number;
+      "complement": number;
+      "adjacentLabel": string;
+      "triangle": Array<number>;
+      "triangleSum": number;
+      "triangleMissing": number;
+      "quadrilateral": Array<number>;
+      "quadrilateralSum": number;
+      "quadrilateralKnown": number;
+      "quadrilateralMissing": number;
+      "diagonalLong": number;
+      "diagonalShort": number;
+      "halfLong": number;
+      "halfShort": number;
+      "names": Array<string>;
+      "note": string;
+    } | null;
+    "area": {
+      "base": number;
+      "height": number;
+      "slant": number;
+      "parallelogram": number;
+      "triangle": number;
+      "divisor": number;
+      "unit": string;
+      "formula": string;
+      "squareSide": number;
+      "squareArea": number;
+      "squareCm2": number;
+      "cm2PerM2": number;
+      "donumCount": number;
+      "donumM2": number;
+      "hectareCount": number;
+      "hectareDonum": number;
+      "donumPerHectare": number;
+      "note": string;
+    } | null;
+    "force": {
+      "unit": string;
+      "sameA": number;
+      "sameB": number;
+      "sameResult": number;
+      "sameWay": string;
+      "oppositeA": number;
+      "oppositeB": number;
+      "oppositeResult": number;
+      "oppositeWay": string;
+      "balanceA": number;
+      "balanceB": number;
+      "balanceResult": number;
+      "showBalance": boolean;
+      "unbalancedA": number;
+      "unbalancedB": number;
+      "unbalancedResult": number;
+      "unbalancedWay": string;
+      "note": string;
+    } | null;
+    "speed": {
+      "distance": number;
+      "time": number;
+      "speed": number;
+      "distanceUnit": string;
+      "timeUnit": string;
+      "speedUnit": string;
+      "spanDistance": number;
+      "spanTime": number;
+      "laterDistance": number;
+      "laterTime": number;
+      "otherDistance": number;
+      "otherTime": number;
+      "otherSpeed": number;
+      "path": number;
+      "displacement": number;
+      "showDisplacement": boolean;
+      "direction": string;
+      "pathSum": number;
+      "displacementNet": number;
+      "straight": number;
+      "note": string;
+    } | null;
+  } | null;
 };
 
 export type RailV1JuniorLessonProgressRequest = {
@@ -556,6 +676,190 @@ export type RailV1JuniorLessonPracticeData = {
     "total": number;
     "status": "fresh" | "going" | "done";
   };
+};
+
+export type RailV1JuniorProfileData = {
+  "profiles": Array<{
+    "id": string;
+    "nickname": string;
+    "grade": number;
+    "birthYear": number | null;
+    "selected": boolean;
+    "selectedElectives": Array<string>;
+    "gradeSwitchRights": number;
+  }>;
+  "selectedId": string | null;
+  "xp": {
+    "points": number;
+    "badges": Array<string>;
+  };
+  "courses": Array<{
+    "slug": string;
+    "title": string;
+    "subject": string;
+    "grade": number;
+    "track": "core" | "elective";
+    "labels": Array<string>;
+    "lessons": Array<{
+      "key": string;
+      "title": string;
+      "teaser": string;
+      "access": "free" | "locked";
+      "thisWeek": boolean;
+      "status": "done" | "going" | "fresh" | "preparing";
+      "weekHeading"?: string;
+      "archiveLabel"?: string;
+      "starterLabel"?: string;
+      "unitCode"?: string;
+      "unitIndex"?: number;
+      "unitTitle"?: string;
+    }>;
+    "outcomeWritten"?: number;
+    "outcomeTotal"?: number;
+  }>;
+};
+
+export type RailV1JuniorProfileCreateRequest = {
+  "nickname": string;
+  "grade": 6;
+  "birthYear": number;
+  "consent": true;
+  "consentVersion": string;
+  "guardianBirthYear": number;
+};
+
+export type RailV1JuniorProfileSelectRequest = {
+  "profileId": string;
+};
+
+export type RailV1JuniorProfileConsentRequest = {
+  "profileId": string;
+  "consent": true;
+  "consentVersion": string;
+  "guardianBirthYear": number;
+};
+
+export type RailV1JuniorProfileMutationData = {
+  "profile": {
+    "id": string;
+    "nickname": string;
+    "grade": number;
+    "birthYear": number | null;
+    "selected": boolean;
+    "selectedElectives": Array<string>;
+    "gradeSwitchRights": number;
+  };
+};
+
+export type RailV1JuniorProfileEraseData = {
+  "erased": true;
+  "profileId": string;
+};
+
+export type RailV1JuniorElectivesRequest = {
+  "profileId": string;
+  "slugs": Array<string>;
+};
+
+export type RailV1JuniorElectivesData = {
+  "profile": {
+    "id": string;
+    "nickname": string;
+    "grade": number;
+    "birthYear": number | null;
+    "selected": boolean;
+    "selectedElectives": Array<string>;
+    "gradeSwitchRights": number;
+  };
+};
+
+export type RailV1JuniorTellRequest = {
+  "profileId": string;
+  "lessonKey": string;
+  "mode": "speak";
+  "audioBase64"?: string;
+  "mimeType"?: string;
+  "durationSec"?: number;
+};
+
+export type RailV1JuniorTellData = {
+  "praised": string;
+  "missing": string;
+  "advice": string;
+  "score": number;
+  "xpAwarded": number;
+  "points": number;
+  "badges": Array<string>;
+};
+
+export type RailV1JuniorPilotPracticeRequest = {
+  "profileId": string;
+  "lessonKey": string;
+  "answers": Array<{
+    "id": string;
+    "choiceIndex"?: number;
+    "matches"?: Record<string, unknown>;
+    "cloze"?: string;
+    "clozes"?: Record<string, unknown>;
+    "order"?: Array<string>;
+    "placements"?: Record<string, unknown>;
+  }>;
+};
+
+export type RailV1JuniorPilotPracticeData = {
+  "praised": string;
+  "missing": string;
+  "advice": string;
+  "score": number;
+  "xpAwarded": number;
+  "points": number;
+  "badges": Array<string>;
+  "correct": number;
+  "total": number;
+  "notes": Array<{
+    "id": string;
+    "ok": boolean;
+    "explanation": string;
+    "answer"?: string;
+    "cards"?: Array<{
+      "id": string;
+      "ok": boolean;
+      "answer"?: string;
+    }>;
+  }>;
+};
+
+export type RailV1JuniorQuizRequest = {
+  "profileId": string;
+  "lessonKey": string;
+  "answers": Array<{
+    "id": string;
+    "choiceIndex"?: number;
+  }>;
+};
+
+export type RailV1JuniorQuizData = {
+  "praised": string;
+  "missing": string;
+  "advice": string;
+  "score": number;
+  "xpAwarded": number;
+  "points": number;
+  "badges": Array<string>;
+  "correct": number;
+  "total": number;
+  "completed": boolean;
+  "notes": Array<{
+    "id": string;
+    "ok": boolean;
+    "explanation": string;
+    "answer"?: string;
+    "cards"?: Array<{
+      "id": string;
+      "ok": boolean;
+      "answer"?: string;
+    }>;
+  }>;
 };
 
 export type RailV1SessionData = {

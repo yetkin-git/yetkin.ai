@@ -1,6 +1,10 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Fen Bilimleri. Sabit süratli hareket. */
+/**
+ * 6. Sınıf Fen Bilimleri. Sabit süratli hareket.
+ * Film `resolveJuniorPlayback` grafiğidir. Yol, zaman ve sürat parametredir.
+ * `SpeedScene` bu dersi çizmez.
+ */
 export const JUNIOR_FEN_10_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_fen-10",
   title: "Sabit süratli hareket",

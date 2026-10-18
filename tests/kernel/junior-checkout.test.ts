@@ -21,6 +21,7 @@ import {
 } from "@/lib/junior/checkout";
 import { JUNIOR_GUARDIAN_NOTICE } from "@/lib/junior/guardian-notice";
 import { fulfillJuniorLicenseFromClearedOrder, JUNIOR_LICENSE_ORDER_PURPOSE } from "@/lib/junior/paytr-license-bridge";
+import { createMemoryLedgerStore } from "../helpers/memory-money";
 import {
   JUNIOR_ELECTIVE_DRAFT_PRICE_ERROR,
   JUNIOR_ELECTIVE_QUOTA,
@@ -383,20 +384,26 @@ describe("Junior PayTR iframe kapısı", () => {
     expect(drafts[0]?.consent.consentVersion).toBe(CHECKOUT_LEGAL_CONSENT_PAYLOAD.consentVersion);
     expect(await store.getSubscription(PARENT)).toBeNull();
 
-    const fulfilled = await fulfillJuniorLicenseFromClearedOrder(store, {
-      id: "order-1",
-      userId: PARENT,
-      merchantOid: "JRCHECKOUT01",
-      amountMinor: JUNIOR_FIXTURE_PRICE_MINOR,
-      currencyCode: "TRY",
-      status: "CLEARED",
-      createdAt: NOW,
-      purpose: JUNIOR_LICENSE_ORDER_PURPOSE,
-      consentVersion: CHECKOUT_LEGAL_CONSENT_PAYLOAD.consentVersion,
-      distanceContractAccepted: true,
-      digitalImmediatePerformanceAccepted: true,
-    });
+    const ledger = createMemoryLedgerStore([{ userId: PARENT, amountMinor: JUNIOR_FIXTURE_PRICE_MINOR }]);
+    const fulfilled = await fulfillJuniorLicenseFromClearedOrder(
+      store,
+      {
+        id: "order-1",
+        userId: PARENT,
+        merchantOid: "JRCHECKOUT01",
+        amountMinor: JUNIOR_FIXTURE_PRICE_MINOR,
+        currencyCode: "TRY",
+        status: "CLEARED",
+        createdAt: NOW,
+        purpose: JUNIOR_LICENSE_ORDER_PURPOSE,
+        consentVersion: CHECKOUT_LEGAL_CONSENT_PAYLOAD.consentVersion,
+        distanceContractAccepted: true,
+        digitalImmediatePerformanceAccepted: true,
+      },
+      ledger,
+    );
     expect(fulfilled.applied).toBe(true);
+    expect(ledger.snapshot(PARENT).amountMinor).toBe(0);
     expect(fulfilled.reason).toBe("settled");
     const row = await store.getSubscription(PARENT);
     expect(row?.status).toBe("ACTIVE");

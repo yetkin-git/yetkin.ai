@@ -5,7 +5,6 @@ import { ADMIN_SEN } from "@/lib/copy/sen-voice/admin";
 import {
   ADMIN_ACADEMY_SHELTER_PATH,
   ADMIN_DASHBOARD_SHELTER_PATH,
-  ADMIN_FREELANCER_SHELTER_PATH,
 } from "@/lib/kernel/admin/types";
 
 /** Müfredat · ilan · sığınak denetim paneli — pasif metin yerine canlı LinkButton. */
@@ -25,9 +24,6 @@ export function AdminAuditChambers() {
         </LinkButton>
         <LinkButton href={ADMIN_ACADEMY_SHELTER_PATH} variant="secondary" size="sm">
           {copy.academyCta}
-        </LinkButton>
-        <LinkButton href={ADMIN_FREELANCER_SHELTER_PATH} variant="outline" size="sm">
-          {copy.freelancerCta}
         </LinkButton>
         <LinkButton href={ADMIN_DASHBOARD_SHELTER_PATH} variant="ghost" size="sm">
           {copy.dashboardCta}

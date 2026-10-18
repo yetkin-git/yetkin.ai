@@ -1,6 +1,10 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Fen Bilimleri. Yakıt ve çevre problemi. FB.6.7.3 ve FB.6.7.4. */
+/**
+ * 6. Sınıf Fen Bilimleri. Yakıt ve çevre problemi. FB.6.7.3 ve FB.6.7.4.
+ * Film `resolveJuniorPlayback` grafiğidir. Kilometre ve litre parametredir.
+ * `BodyScene` bu dersi çizmez.
+ */
 export const JUNIOR_FEN_38_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_fen-38",
   title: "Yakıt ve çevre problemi",

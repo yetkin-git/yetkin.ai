@@ -1,6 +1,10 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. Paralelkenar ve üçgenin alanı. */
+/**
+ * 6. Sınıf Matematik. Paralelkenar ve üçgenin alanı.
+ * Film `resolveJuniorPlayback` grafiğidir. Taban, yükseklik ve alan parametredir.
+ * `AreaScene` bu dersi çizmez.
+ */
 export const JUNIOR_MAT_21_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-21",
   title: "Paralelkenar ve üçgenin alanı",

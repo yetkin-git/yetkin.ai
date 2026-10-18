@@ -19,7 +19,7 @@
     "Milliyet sıfatı is ile söylenir.",
     "Where are you from ülke sorusudur."
   ],
-  "scene": "culture",
+  "scene": "world",
   "hint": "gold",
   "parentNote": "Çocuğunuz I am from Turkey ile I am Turkish ayrımını kurar. Where are you from sorusuna ülke adıyla cevap verir. Harita başında iki cümle yeter."
 }

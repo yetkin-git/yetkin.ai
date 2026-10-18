@@ -1,25 +1,144 @@
 {
   "key": "jr_06_mat-5",
-  "title": "Çarpanlar, katlar ve bölünebilme",
-  "teaser": "Çarpan, bir sayıyı kalansız bölen sayıdır. Kat, o sayının çarpımla büyüyen hâlidir. Kavramsal Anlayış, 2, 5, 10, 3 ve 9 kurallarını sayının sonundan ya da rakam toplamından okumandır. İfade Gücü, 24'ün bir çarpanını ve bir katını ayrı söylemektir.",
-  "welcome": "Merhaba sevgili çocuklar! Bugün sayılar arasındaki gizli kuralları keşfedeceğiz. Hiç bir kutudaki bilyeleri ikişer ikişer dizdiğinde açıkta kalan bilye olup olmadığına baktın mı? Kalan yoksa o sayı ikiye tam bölünüyor demektir. Çarpanı, katı ve bölünebilme kurallarını eğlenceli bir dille tanıyacağız.",
-  "concept": "Bir doğal sayının çarpanı, onu kalansız bölen doğal sayıdır. Kat ise o sayının 1, 2, 3 gibi sayılarla çarpılmış katlarıdır. Örneğin 6'nın çarpanları 1, 2, 3 ve 6'dır; katları ise 6, 12, 18 diye sonsuza uzanır. Pratik kural: Son rakamı 0 veya 5 olan sayılar 5'e tam bölünür. Son rakamı çift olanlar 2'ye, sonu 0 olanlar ise 10'a da bölünür. Rakamları toplamı 3'ün katıysa sayı 3'e, 9'un katıysa 9'a kalansız bölünür.",
-  "example": "24 sayısını ele alalım. Son rakamı 4'tür ve çifttir, bu yüzden 24 sayısı 2'ye bölünür: 2 çarpı 12, 24 eder. Rakamlarını toplayalım: 2 artı 4, 6 eder. 6 sayısı 3'e tam bölündüğü için 24 de 3'e tam bölünür: 3 çarpı 8, 24 eder. 24'ün çarpanları 1, 2, 3, 4, 6, 8, 12 ve 24'tür. 24'ün bir katı 48'dir çünkü 24 çarpı 2, 48 eder. 15'in son rakamı 5 olduğu için 5'e bölünür ama tek sayı olduğu için 2'ye bölünmez. 30 ise hem 2'ye, hem 5'e, hem de 10'a tam bölünür.",
-  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Son rakama bakmak 2, 5 ve 10 ile bölünebilmede harika bir pratikliktir. Fakat 3 ve 9 için son rakam yetmez, mutlaka rakamların toplamına bakmalısın. Örneğin 15 sayısı 5'e tam bölünür ama 2'ye bölünmez. Çarpan ile katı da birbiriyle karıştırma. 3 sayısı 12'nin çarpanıdır; 12 sayısı ise 3'ün katıdır.",
-  "life": "Bunu sıra olurken de kullanırsın. 24 kişiyi ikişerli dizince kimse açıkta kalmaz. Üçerli dizince de kalmaz. Beşerli dizince 4 kişi artar çünkü 24, 5'e bölünmez. Bahçedeki 10'luk sıralar ise sonu 0 olan sayılarda tam biter.",
+  "title": "Çarpanlar, Katlar ve Bölünebilme",
+  "teaser": "Çarpan, bir sayıyı kalansız bölen sayıdır. Kat, o sayının katlanarak büyüyen hâlidir. MEB 6. sınıf dedektifleri 2, 3, 4, 5, 6, 9 ve 10 kurallarını dört ekiple şıp diye çözer.",
+  "welcome": "Merhaba sevgili çocuklar! Ben Matematik öğretmenin Selim. Bugün seninle sayıları hiç işlem yapmadan, tek bakışta çözebilen bölünebilme dedektifleri olacağız. Masadaki şu 12 renkli bilyeye bak!",
+  "concept": "Çarpan, bir sayıyı kalansız bölen sayıdır; şimdi Çarpan ile Kat farkını 6 sayısıyla yan yana görelim. 6'yı kalansız bölen sayılar hangileri? 1, 2, 3 ve 6. Bunlar 6'nın içindeki küçük parçalardır, yani 6'nın çarpanlarıdır. Peki 6'yı birer, ikişer, üçer katlayarak yukarı doğru büyütürsek? 6, 12, 18, 24 diye yükselen bu kuledeki sayılara ise 6'nın Katları deriz. Unutma: Çarpan böler ve küçültür, kat ise çarpar ve büyütür! İlk ekibimiz Son Basamak Dedektifleri: 2, 5 ve 10 kuralları! Bu üç kuralda sayının tamamına değil, büyüteçle sadece en sağdaki birler basamağına bakarız. İkinci ekibimiz Son İki Basamak Dedektifi: 4 kuralı; burada son iki basamağa bakarız — 00 veya 4'ün katı olmalı. Üçüncü ekibimiz Rakam Toplamı Dedektifleri: 3 ve 9 kurallarıdır; bütün basamaklardaki rakamları toplarız. Dördüncü ekibimiz Çifte Koşul Dedektifi: 6 kuralı; sayı hem 2'ye hem 3'e bölünüyorsa 6'ya da bölünür.",
+  "example": "24 sayısına bakalım: Son rakamı 4, yani çift! O halde 24 sayısı 2'ye tam bölünür. Şimdi 5 kuralı için 15 sayısını inceleyelim. Son rakamı 0 veya 5 olan her sayı 5'e tam bölünür. 15'in son rakamı 5 olduğu için 5'e tam bölünür! Peki 15 sayısı 2'ye bölünür mü? Hayır, çünkü 5 tek sayıdır! 10 kuralı ise en kolayı! Bir sayının son rakamı 0 ise 10'a tam bölünür. Bak, 30 sayısının sonu 0. Sıfır hem çift sayıdır, hem 5 kuralına uyar, hem de 10 kuralına! Yani 30 sayısı 2'ye, 5'e ve 10'a aynı anda tam bölünür! 4 kuralı için 116'ya bakalım: Son iki basamak 16; 16, 4'ün katıdır, o halde 116 sayısı 4'e tam bölünür! 24 sayısına geri dönelim: 2 artı 4 eşittir 6 eder. 6 sayısı 3'ün katı olduğu için 24 de 3'e tam bölünür! 9 kuralı da 3 kuralının ağabeyidir: Rakamları topladığımızda sonuç 9 veya 9'un katıysa sayı 9'a tam bölünür. Örneğin 18 sayısında 1 artı 8 eşittir 9 eder! Toplam 9 olduğu için 18 sayısı hem 9'a hem de 3'e kalansız bölünür. 6 kuralı için yine 24: çifttir yani 2'ye bölünür, rakam toplamı 6 olduğu için 3'e de bölünür — hem 2 hem 3 sağlandığı için 24, 6'ya da tam bölünür!",
+  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. 2, 5 ve 10 için sadece son rakama bak; 4 için son iki basamağa bak; 3 ve 9 içinse son rakama aldanma, mutlaka bütün rakamları topla; 6 için hem 2 hem 3 kuralını birlikte ara! Örneğin 14'ün sonu çifttir ama rakamları toplamı 5 olduğu için 3'e bölünmez. Çarpan ile katı da birbiriyle karıştırma. 3 sayısı 12'nin çarpanıdır; 12 sayısı ise 3'ün katıdır.",
+  "life": "Bu 12 bilyeyi kutulara ikişer ikişer dizelim. Bak, tam 6 eşit kutu oldu ve dışarıda hiç bilye artmadı! Üçer üçer dizsek? Yine hiç bilye artmaz, 4 eşit kutu olur. Peki beşer beşer dizmeye çalışırsak ne olur? 2 kutu dolar ama 2 bilye dışarıda artar! İşte bir sayıyı hiç kalan bırakmadan tam bölen sayılara o sayının Çarpanı diyoruz.",
   "recap": [
-    "Çarpan, sayıyı kalansız böler. Kat, sayının çarpımla elde edilen büyüğüdür.",
-    "2, 5 ve 10 için son rakama bakılır. 3 ve 9 için rakamlar toplanır.",
-    "24, 2'ye ve 3'e bölünür. 15, 5'e bölünür ama 2'ye bölünmez."
+    "Çarpan, sayıyı kalansız böler; 6'yı bölen 1, 2, 3 ve 6 çarpanlarıdır, 6, 12, 18 ve 24 ise katlarıdır.",
+    "2, 5 ve 10 için son rakama bakılır: 24 sayısı 2'ye, 15 sayısı 5'e, 30 sayısı ise hem 2'ye hem 5'e hem 10'a bölünür. 4 için son iki basamağa bakılır.",
+    "3 ve 9 için rakamlar toplanır; 2 artı 4 eşittir 6 olduğu için 24, 2'ye ve 3'e bölünür, 18 ise 9'a bölünür. 6 için hem 2 hem 3 kuralı birlikte aranır."
   ],
-  "conceptSeal": "Bölünebilme kuralı, bölmeyi yapmadan kalan olup olmayacağını söyler.",
-  "voiceSeal": "Bir çarpanı ve bir katı ayrı cümleyle adlandırırsın.",
+  "conceptSeal": "Bugün çarpanın kalansız bölen, katın ise katlanarak büyüyen sayı olduğunu ve 7 dedektif kuralımızı (2, 3, 4, 5, 6, 9, 10) öğrendik.",
+  "voiceSeal": "24 ve 30 sayılarının hangi kurallara uyduğunu kendi cümlenle anlatırsın.",
   "outcomes": [
-    "Çarpan kalansız böler. Kat, çarpımla bulunur.",
-    "2, 5 ve 10 kuralları son rakama bakar.",
-    "3 ve 9 kuralları rakam toplamına bakar."
+    "Son Basamak Dedektifleri (2, 5, 10): Birler basamağına bak!",
+    "Son İki Basamak Dedektifi (4): Son iki basamak 00 veya 4'ün katı!",
+    "Rakam Toplamı Dedektifleri (3, 9): Rakamları topla, kata bak!",
+    "Çifte Koşul Dedektifi (6): Hem 2'ye hem 3'e bölünen çift sayılar!"
   ],
   "scene": "number-ops",
+  "heroQuestion": "Bir sayının çarpanı ve katı nedir; bölünebilirliği uzun bölme yapmadan nasıl anlarız?",
+  "heroFocus": "Bölünebilme dedektifleri (2, 3, 4, 5, 6, 9, 10) ile sayılara tek bakışta karar verme yöntemleri.",
   "hint": "gold",
-  "parentNote": "Çocuğunuz 24'ün 2 ve 3 ile kalansız bölündüğünü, 15'in 5'e bölünüp 2'ye bölünmediğini anlatır. Çarpan ile katı yer değiştirmeyin. 3, 12'nin çarpanıdır."
+  "echoPrompt": "24 ve 30 sayılarının hangi kurallara uyduğunu kendi cümlenle anlat!",
+  "parentNote": "Çocuğunuz 12 bilye örneğiyle çarpanı, 6'nın çarpanları ve katlarını, ayrıca MEB 6. sınıf kuralları 2, 3, 4, 5, 6, 9 ve 10 üzerinden bölünebilmeyi dört dedektif ekibiyle anlatır.",
+  "activities": {
+    "matching": [
+      {
+        "id": "m1",
+        "left": "2, 5 ve 10 Kuralları",
+        "right": "Son basamağa (birler basamağına) bakar."
+      },
+      {
+        "id": "m2",
+        "left": "3 ve 9 Kuralları",
+        "right": "Rakamların toplamına bakar."
+      },
+      {
+        "id": "m3",
+        "left": "Çarpan (= Bölen)",
+        "right": "Sayıyı kalansız bölen küçük parçadır."
+      },
+      {
+        "id": "m4",
+        "left": "Kat",
+        "right": "Sayıyı katlayarak büyüten kule basamağıdır."
+      }
+    ],
+    "fillGaps": [
+      {
+        "id": "g1",
+        "before": "Bir sayının son rakamı 0 veya 5 ise bu sayı",
+        "after": "'e tam bölünür.",
+        "answer": "5",
+        "accepts": [
+          "5",
+          "beş",
+          "5'e"
+        ]
+      },
+      {
+        "id": "g2",
+        "before": "24 sayısının rakamları toplamı 6 olduğu için",
+        "after": "ile tam bölünür.",
+        "answer": "3",
+        "accepts": [
+          "3",
+          "üç",
+          "3'e"
+        ]
+      },
+      {
+        "id": "g3",
+        "before": "12 sayısını kalansız bölen 1, 2, 3, 4, 6 ve 12 sayılarına 12'nin",
+        "after": "denir.",
+        "answer": "çarpanları",
+        "accepts": [
+          "çarpanları",
+          "çarpanı",
+          "bölenleri",
+          "carpanlari"
+        ]
+      }
+    ],
+    "puzzle": {
+      "prompt": "24, 15, 30 ve 18 sayılarını doğru dedektif roketlerine yerleştir.",
+      "rockets": [
+        {
+          "id": "r2",
+          "label": "2'ye Bölünenler",
+          "ruleHint": "Son basamağı çift (0, 2, 4, 6, 8)"
+        },
+        {
+          "id": "r5",
+          "label": "5'e Bölünenler",
+          "ruleHint": "Son basamağı 0 veya 5"
+        },
+        {
+          "id": "r3",
+          "label": "3'e Bölünenler",
+          "ruleHint": "Rakamları toplamı 3'ün katı"
+        }
+      ],
+      "numbers": [
+        {
+          "id": "n24",
+          "label": "24",
+          "validRockets": [
+            "r2",
+            "r3"
+          ]
+        },
+        {
+          "id": "n15",
+          "label": "15",
+          "validRockets": [
+            "r5",
+            "r3"
+          ]
+        },
+        {
+          "id": "n30",
+          "label": "30",
+          "validRockets": [
+            "r2",
+            "r5",
+            "r3"
+          ]
+        },
+        {
+          "id": "n18",
+          "label": "18",
+          "validRockets": [
+            "r3",
+            "r2"
+          ]
+        }
+      ]
+    }
+  }
 }

@@ -29,6 +29,7 @@ import {
 } from "@/lib/junior/catalog";
 import { juniorPlanCoversLesson } from "@/lib/junior/enter";
 import { juniorProductionSealGaps } from "@/lib/junior/production-seal";
+import { mat5FullListenText } from "@/lib/junior/pilot-engine/mat-5.choreography";
 import { canEnterJunior, isJuniorAuditActor, type JuniorActor } from "@/lib/kernel/security/junior-gate";
 import {
   JUNIOR_AUDIO_MAX_BYTES,
@@ -395,7 +396,7 @@ export function readJuniorLesson(lessonKey: string, plan: JuniorPlanAccess | nul
     access: "free",
     title: lesson.title,
     courseTitle,
-    script: lesson.listenText,
+    script: lesson.key === "jr_06_mat-5" ? mat5FullListenText() : lesson.listenText,
     scene: lesson.scene,
     steps: lesson.steps ? [...lesson.steps] : undefined,
     mebNote: lesson.mebNote,

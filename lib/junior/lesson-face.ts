@@ -4,7 +4,7 @@
  * Yenile: npx tsx scripts/sync-junior-lesson-face.ts
  */
 export const JUNIOR_LESSON_FACE = [
-  { key: "jr_06_mat-5", title: "Çarpanlar, katlar ve bölünebilme" },
+  { key: "jr_06_mat-5", title: "Çarpanlar, Katlar ve Bölünebilme" },
   { key: "jr_06_mat-6", title: "Asal sayılar ve asal çarpanlar" },
   { key: "jr_06_mat-7", title: "Ortak bölen ve ortak kat" },
   { key: "jr_06_mat-11", title: "Payda aynıyken toplama" },

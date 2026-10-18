@@ -29,7 +29,7 @@ export const JUNIOR_ING_MAIN_6_SCENARIO: JuniorLessonScenario = {
     "There is tekili, there are çoğulu söyler.",
     "Güneş yıldızdır, gezegen değildir.",
   ],
-  scene: "globe",
+  scene: "universe",
   parentNote:
     "Çocuğunuz Güneş'in yıldız, Ay'ın uydu olduğunu İngilizce söyler. There is ile there are ayrımını kurar. Akşam pencereden bir cümle yeter.",
 };

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "yetkin.ai Shared Kernel — Prisma/Supabase bağımsız para, katalog kimliği, v1 hop ve zarf sözleşmesi.",
+  "description": "yetkin.ai @yetkin/kernel — Prisma ve Supabase taşımaz. Para, katalog kimliği, v1 hop ve JSON zarfı.",
   "exports": {
     ".": "./src/index.ts",
     "./money": "./src/money/index.ts",

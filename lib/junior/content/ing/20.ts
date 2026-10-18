@@ -29,7 +29,7 @@ export const JUNIOR_ING_MAIN_20_SCENARIO: JuniorLessonScenario = {
     "El kaldırmak ve dinlemek sınıf kuralıdır.",
     "Hak ile sorumluluk birlikte durur.",
   ],
-  scene: "ballot",
+  scene: "rules",
   parentNote:
     "Çocuğunuz hakkı right, sorumluluğu responsibility ile ayırır. Konuşmak hak, dinlemek sorumluluktur. Evde bir kuralı bu iki sözle kurdurabilirsiniz.",
 

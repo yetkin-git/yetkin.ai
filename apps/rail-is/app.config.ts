@@ -7,7 +7,9 @@ import type { ExpoConfig } from "expo/config";
  * T3 Akademi oynatıcı / sınav / mühür Dron UI'dadır.
  * Closed Testing: Tezgâh yüzeyi izole (`tezgahStoreIsolated`).
  * EAS profilleri `apps/rail-is/eas.json`. CI eas/eas-cli koşmaz; binary operatör basar.
- * extra.eas.projectId uydurulmaz — `eas init` bağlar.
+ * Play Closed Testing: production submit `track: internal`.
+ * TestFlight: production profili store IPA basar. `extra.eas.projectId` uydurulmaz — `eas init` bağlar.
+ * Özel şifreleme yok: `ITSAppUsesNonExemptEncryption` false.
  */
 const config: ExpoConfig = {
   name: "yetkin.ai",
@@ -19,9 +21,14 @@ const config: ExpoConfig = {
   ios: {
     supportsTablet: false,
     bundleIdentifier: "rail.yetkin.is",
+    buildNumber: "1",
+    infoPlist: {
+      ITSAppUsesNonExemptEncryption: false,
+    },
   },
   android: {
     package: "rail.yetkin.is",
+    versionCode: 1,
     predictiveBackGestureEnabled: false,
   },
   plugins: ["expo-secure-store"],

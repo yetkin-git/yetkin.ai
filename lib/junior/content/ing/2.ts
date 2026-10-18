@@ -29,7 +29,7 @@ export const JUNIOR_ING_MAIN_2_SCENARIO: JuniorLessonScenario = {
     "Have got ve has got özneye göre ayrılır.",
     "Have you got sorusu aile bağını sorar.",
   ],
-  scene: "place",
+  scene: "family",
   parentNote:
     "Çocuğunuz aile bireylerini İngilizce adlarıyla söyler. I have got ile She has got ayrımını kurar. Evde bir fotoğrafın yanında bu cümleyi kurdurabilirsiniz.",
 };

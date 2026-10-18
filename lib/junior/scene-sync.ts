@@ -112,3 +112,115 @@ export function positiveFactors(value: number): number[] {
   }
   return factors.slice(0, 8);
 }
+
+export type DivisibilityBoardKind = "last-digit" | "digit-sum";
+
+export type DivisibilityBoardState = {
+  kind: DivisibilityBoardKind;
+  subject: number;
+  prefix: string;
+  onesDigit: string;
+  bracketed: string;
+  sumExpression: string;
+  rule: 2 | 5 | 10 | 3 | 9;
+  badges: readonly string[];
+};
+
+/**
+ * Hoca 2, 5, 10 (Son Basamak Dedektifleri) veya 3, 9 (Rakam Toplama Dedektifleri)
+ * kurallarını anlatırken Bölünebilme Tahtası (`DivisibilityBoard`) durumunu döner.
+ */
+export function detectDivisibilityBoard(caption: string): DivisibilityBoardState | null {
+  const text = caption.toLocaleLowerCase("tr-TR");
+  if (!text) {
+    return null;
+  }
+
+  const hasDigitSumCue =
+    /rakam(?:ları|larını|lar)?\s*topla/u.test(text) ||
+    /2\s*(?:artı|\+)\s*4/u.test(text) ||
+    /1\s*(?:artı|\+)\s*8/u.test(text) ||
+    /\b(?:3|9)\s*kural/u.test(text) ||
+    /\b3\s*ve\s*9\b/u.test(text) ||
+    /\b(?:3'ün|9'un)\s*katı/u.test(text) ||
+    /\b9'a\s*(?:tam\s+|kalansız\s+)?bölün/u.test(text) ||
+    (/\b3'e\s*(?:tam\s+|kalansız\s+)?bölün/u.test(text) && !/\b30\b/u.test(text) && !/son\s*rakam/u.test(text));
+
+  const hasLastDigitCue =
+    /son\s*rakam|son\s*basamak|birler\s*basama|sonu\s*[024568]/u.test(text) ||
+    /\b(?:2|5|10)\s*kural/u.test(text) ||
+    /\b2\s*,\s*5\s*ve\s*10\b/u.test(text) ||
+    /\b(?:2'ye|5'e|10'a)\s*(?:tam\s+|kalansız\s+)?bölün/u.test(text);
+
+  if (hasDigitSumCue && !/^2\s*,\s*5\s*ve\s*10/u.test(text)) {
+    const isNineFocus =
+      (/\b18\b/u.test(text) || /\b9\s*kural/u.test(text) || /\b9'a\s*(?:tam\s+|kalansız\s+)?bölün/u.test(text)) &&
+      !/2\s*(?:artı|\+)\s*4/u.test(text);
+    if (isNineFocus) {
+      return {
+        kind: "digit-sum",
+        subject: 18,
+        prefix: "1",
+        onesDigit: "8",
+        bracketed: "1[8]",
+        sumExpression: "1 + 8 = 9",
+        rule: 9,
+        badges: ["✓ 3'e Bölünür", "✓ 9'a Bölünür"],
+      };
+    }
+    const mentionsNine = /\b9\b/u.test(text);
+    return {
+      kind: "digit-sum",
+      subject: 24,
+      prefix: "2",
+      onesDigit: "4",
+      bracketed: "2[4]",
+      sumExpression: "2 + 4 = 6",
+      rule: 3,
+      badges: mentionsNine ? ["✓ 3'e Bölünür", "✓ 9'a Bölünür"] : ["✓ 3'e Bölünür"],
+    };
+  }
+
+  if (hasLastDigitCue) {
+    if (/\b30\b/u.test(text) || /\b10\s*kural/u.test(text) || /\b10'a\s*(?:tam\s+|kalansız\s+)?bölün/u.test(text)) {
+      return {
+        kind: "last-digit",
+        subject: 30,
+        prefix: "3",
+        onesDigit: "0",
+        bracketed: "3[0]",
+        sumExpression: "3 + 0 = 3",
+        rule: 10,
+        badges: ["✓ 2'ye Bölünür", "✓ 5'e Bölünür", "✓ 10'a Bölünür"],
+      };
+    }
+    if (
+      /\b15\b/u.test(text) ||
+      /\b5\s*kural/u.test(text) ||
+      (/\b5'e\s*(?:tam\s+|kalansız\s+)?bölün/u.test(text) && !/\b24\s*sayısı\s*2'ye/u.test(text))
+    ) {
+      return {
+        kind: "last-digit",
+        subject: 15,
+        prefix: "1",
+        onesDigit: "5",
+        bracketed: "1[5]",
+        sumExpression: "1 + 5 = 6",
+        rule: 5,
+        badges: ["✓ 5'e Bölünür"],
+      };
+    }
+    return {
+      kind: "last-digit",
+      subject: 24,
+      prefix: "2",
+      onesDigit: "4",
+      bracketed: "2[4]",
+      sumExpression: "2 + 4 = 6",
+      rule: 2,
+      badges: ["✓ 2'ye Bölünür", "✗ 5'e Bölünmez"],
+    };
+  }
+
+  return null;
+}

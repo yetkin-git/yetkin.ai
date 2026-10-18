@@ -29,7 +29,7 @@ export const JUNIOR_ING_MAIN_9_SCENARIO: JuniorLessonScenario = {
     "Will'den sonra fiil yalın kalır.",
     "Alışkanlık will ile söylenmez.",
   ],
-  scene: "globe",
+  scene: "universe",
   parentNote:
     "Çocuğunuz gelecek planını I will ile kurar. Will'den sonra fiilin yalın kaldığını bilir. Bir müze gezisini bu kalıpla söyletmek yeter.",
 };

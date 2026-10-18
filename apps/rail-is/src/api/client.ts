@@ -34,6 +34,8 @@ import {
   juniorLessonPlayPath,
   juniorLessonPracticePath,
   juniorLessonProgressPath,
+  juniorPilotElectivesPath,
+  juniorPilotProfilesPath,
 } from "./hops";
 
 const WRITE_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
@@ -120,6 +122,27 @@ export type V1HttpClient = {
     body: { profileId: string; answers: ReadonlyArray<{ id: string; choiceIndex?: number }> },
     options?: { idempotencyKey?: string },
   ): Promise<RailV1OkBody<Record<string, unknown>>>;
+  getJuniorProfiles(): Promise<RailV1OkBody<Record<string, unknown>>>;
+  createJuniorProfile(body: {
+    nickname: string;
+    grade: 6;
+    birthYear: number;
+    consent: true;
+    consentVersion: string;
+    guardianBirthYear: number;
+  }): Promise<RailV1OkBody<Record<string, unknown>>>;
+  selectJuniorProfile(body: { profileId: string }): Promise<RailV1OkBody<Record<string, unknown>>>;
+  confirmJuniorProfileConsent(body: {
+    profileId: string;
+    consent: true;
+    consentVersion: string;
+    guardianBirthYear: number;
+  }): Promise<RailV1OkBody<Record<string, unknown>>>;
+  eraseJuniorProfile(body: { profileId: string }): Promise<RailV1OkBody<Record<string, unknown>>>;
+  saveJuniorElectives(body: {
+    profileId: string;
+    slugs: string[];
+  }): Promise<RailV1OkBody<Record<string, unknown>>>;
   /** Faz 2 — HTTP atmaz; `DRON_FAZ2_FROZEN`. */
   listOpenJobs(): Promise<RailV1OkBody<RailV1JobsData>>;
   listContracts(): Promise<RailV1OkBody<RailV1ContractsData>>;
@@ -437,6 +460,47 @@ export function createV1HttpClient(options: V1HttpClientOptions): V1HttpClient {
         method: "POST",
         body,
         idempotencyKey: options?.idempotencyKey,
+      });
+    },
+    async getJuniorProfiles() {
+      return request<Record<string, unknown>>({
+        path: juniorPilotProfilesPath(),
+        method: "GET",
+      });
+    },
+    async createJuniorProfile(body) {
+      return request<Record<string, unknown>>({
+        path: juniorPilotProfilesPath(),
+        method: "POST",
+        body,
+      });
+    },
+    async selectJuniorProfile(body) {
+      return request<Record<string, unknown>>({
+        path: juniorPilotProfilesPath(),
+        method: "PATCH",
+        body,
+      });
+    },
+    async confirmJuniorProfileConsent(body) {
+      return request<Record<string, unknown>>({
+        path: juniorPilotProfilesPath(),
+        method: "PUT",
+        body,
+      });
+    },
+    async eraseJuniorProfile(body) {
+      return request<Record<string, unknown>>({
+        path: juniorPilotProfilesPath(),
+        method: "DELETE",
+        body,
+      });
+    },
+    async saveJuniorElectives(body) {
+      return request<Record<string, unknown>>({
+        path: juniorPilotElectivesPath(),
+        method: "POST",
+        body,
       });
     },
     async listOpenJobs() {

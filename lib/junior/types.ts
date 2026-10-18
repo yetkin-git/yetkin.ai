@@ -67,6 +67,10 @@ export const JUNIOR_VECTOR_SCENES = [
   "holiday",
   "recycle",
   "ballot",
+  "family",
+  "universe",
+  "world",
+  "rules",
   "elective",
 ] as const;
 
@@ -183,8 +187,12 @@ export type JuniorPracticeAnswer = {
   choiceIndex?: number;
   matches?: Record<string, string>;
   cloze?: string;
+  /** Çoklu boşluk doldurma yanıtları (boşluk kimliği -> öğrenci cevabı). */
+  clozes?: Record<string, string>;
   /** Sıralama etkinliğinde karo kimliklerinin öğrenci sırası. */
   order?: string[];
+  /** Dedektif bulmacasında sayı kartlarının yerleştirildiği roket kimlikleri. */
+  placements?: Record<string, string>;
 };
 
 export type JuniorTellMode = "speak" | "write";

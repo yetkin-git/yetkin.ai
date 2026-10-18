@@ -6,12 +6,11 @@ import {
   ADMIN_ACADEMY_SHELTER_PATH,
   ADMIN_CATALOG_SURFACE_PATH,
   ADMIN_DASHBOARD_SHELTER_PATH,
-  ADMIN_FREELANCER_SHELTER_PATH,
 } from "@/lib/kernel/admin/types";
 
 type ShelterSize = "sm" | "md";
 
-/** Admin sığınak CTA şeridi — Quiet Luxury hiyerarşi: müfredat → akademi → ilan → panel. */
+/** Admin sığınak CTA şeridi — müfredat, akademi, panel. Kilitli Freelancer yolu basılmaz. */
 export function AdminShelterActions({
   soft = false,
   size,
@@ -31,9 +30,6 @@ export function AdminShelterActions({
       </LinkButton>
       <LinkButton href={ADMIN_ACADEMY_SHELTER_PATH} variant="outline" size={resolved}>
         {copy.academyCta}
-      </LinkButton>
-      <LinkButton href={ADMIN_FREELANCER_SHELTER_PATH} variant="outline" size={resolved}>
-        {copy.freelancerCta}
       </LinkButton>
       <LinkButton href={ADMIN_DASHBOARD_SHELTER_PATH} variant="ghost" size={resolved}>
         {copy.dashboardCta}

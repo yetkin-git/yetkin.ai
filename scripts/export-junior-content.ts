@@ -10,9 +10,13 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 
+import { scenarioActivitiesForLesson } from "../lib/junior/activity-source";
 import { buildJuniorContentPlan, plannedShellCount } from "../packages/junior-content/src/plan";
 import { JUNIOR_SEALED_ROSTER, juniorSealedScenarioCount } from "../packages/junior-content/src/sealed-roster";
-import type { JuniorScenarioFile } from "../packages/junior-content/schema/topic";
+import {
+  juniorScenarioActivitiesSchema,
+  type JuniorScenarioFile,
+} from "../packages/junior-content/schema/topic";
 
 const ROOT = join(import.meta.dirname, "..");
 const PACKAGE_ROOT = join(ROOT, "packages", "junior-content");
@@ -30,6 +34,8 @@ export function canonicalScenario(input: {
   concept: string;
   example: string;
   warning: string;
+  heroQuestion?: string;
+  heroFocus?: string;
   hint?: "trap" | "gold";
   life: string;
   recap: readonly [string, string, string];
@@ -56,6 +62,12 @@ export function canonicalScenario(input: {
     outcomes: [...input.outcomes],
     scene: input.scene,
   };
+  if (input.heroQuestion?.trim()) {
+    scenario.heroQuestion = input.heroQuestion.trim();
+  }
+  if (input.heroFocus?.trim()) {
+    scenario.heroFocus = input.heroFocus.trim();
+  }
   if (input.hint) {
     scenario.hint = input.hint;
   }
@@ -69,6 +81,23 @@ export function canonicalScenario(input: {
     scenario.band = input.band;
   }
   return scenario;
+}
+
+/**
+ * Senaryo artı etkinlik ihracı.
+ * Etkinliği olan ders `activity-source` nesnesini konu dosyasına basar.
+ * Etkinliği olmayan ders `activities` alanı taşımaz.
+ */
+export function exportedScenario(input: Parameters<typeof canonicalScenario>[0]): JuniorScenarioFile {
+  const scenario = canonicalScenario(input);
+  const activities = scenarioActivitiesForLesson(input.key);
+  if (!activities) {
+    return scenario;
+  }
+  return {
+    ...scenario,
+    activities: juniorScenarioActivitiesSchema.parse(activities),
+  };
 }
 
 function isScenario(value: unknown): value is Parameters<typeof canonicalScenario>[0] {
@@ -114,7 +143,7 @@ async function main() {
       if (!scenario || scenario.key !== key) {
         throw new Error(`${key} senaryosu okunamadı.`);
       }
-      writeJson(join(PACKAGE_ROOT, "topics", `${key}.json`), canonicalScenario(scenario));
+      writeJson(join(PACKAGE_ROOT, "topics", `${key}.json`), exportedScenario(scenario));
       scenarios += 1;
       const quizMod = (await import(`../lib/junior/quiz/${course.quizDir}/${n}.ts`)) as Record<string, unknown>;
       const quiz = Object.values(quizMod).find(isQuiz);

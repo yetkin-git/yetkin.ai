@@ -1,0 +1,18 @@
+{
+  "name": "@yetkin/junior-graphic",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Junior ders grafiği. Saf indirgeyici ve zaman çizelgesi. Next ve Prisma taşımaz.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./runtime": "./src/runtime.ts",
+    "./schema": "./src/schema.ts"
+  },
+  "files": [
+    "src"
+  ],
+  "peerDependencies": {
+    "zod": "^4.0.0"
+  }
+}

@@ -1,6 +1,10 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. Köşegenleri birbirini ortalayan dörtgenler. */
+/**
+ * 6. Sınıf Matematik. Köşegenleri birbirini ortalayan dörtgenler.
+ * Film `resolveJuniorPlayback` grafiğidir. 10 cm ve 6 cm parametredir.
+ * `AnglesScene` bu dersi çizmez.
+ */
 export const JUNIOR_MAT_32_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-32",
   title: "Köşegenleri birbirini ortalayan dörtgenler",

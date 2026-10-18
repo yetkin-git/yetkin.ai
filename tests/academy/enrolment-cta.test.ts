@@ -230,6 +230,7 @@ describe("vitrin kartı CTA", () => {
       slug: "python-temel",
       owned: false,
       priceLabel: "₺890,00",
+      purchasable: true,
     });
     expect(locked.cta).toBe(ACADEMY_SEN.catalog.cardCtaBuy);
     expect(locked.cta).not.toMatch(/₺/);
@@ -319,6 +320,8 @@ describe("vitrin kartı CTA", () => {
       slug: "01_office_ai_ileri",
       owned: false,
       priceLabel: "₺1.290,00",
+      purchasable: true,
+      isPublished: true,
     });
     expect(off201Priced.cta).toBe(ACADEMY_SEN.catalog.cardCtaFreePreview);
     expect(off201Priced.href).toBe("/academy/01_office_ai_ileri/oyna");
@@ -364,6 +367,7 @@ describe("vitrin kartı CTA", () => {
         slug,
         owned: false,
         priceLabel: "₺1.090,00",
+        purchasable: true,
       });
       expect(buy.cta).toBe(ACADEMY_SEN.catalog.cardCtaBuy);
       expect(buy.priceLabel).toBe("₺1.090");

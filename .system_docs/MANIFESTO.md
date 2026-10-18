@@ -4,7 +4,7 @@
 
 | Alan | Değer |
 |------|--------|
-| Tarih | 9 Ekim 2026 |
+| Tarih | 17 Ekim 2026 |
 | Statü | Vizyon ve Strateji Belgesi. Anayasa'nın ruhunu, iş modelini ve büyüme hedeflerini açıklar. Mimari paragraf Anayasa B1’dedir; bu belge pazar, vizyon ve gelir modelinde kalır. |
 | Yer | `/.system_docs/MANIFESTO.md` |
 | Çelişki | Bir cümle Anayasa ile çatışırsa `.system_docs/ANAYASA.md` bağlayıcıdır. |
@@ -59,13 +59,13 @@ Platformdaki her sertifika, sunucu tarafında SHA-256 içerik özetiyle sicile b
 Faz 1 kamu vitrini kilidi **Anayasa B2**’dedir; Manifesto o kilidi ikinci kez yazmaz.
 
 ### Kilit
-**Faz 1 çalışan vitrin 3 odadır** (Panel, Akademi, Kariyer); **4. oda (Freelancer) kilitli motordur.** Omurga hedefinin parçasıdır, eşit canlılık iddiası yoktur. **Faz 1’de yeni oda açılmaz** (CEO + Super Admin çift imza olmadan).
+**Faz 1 çalışan vitrin 3 odadır** (Panel, Akademi, Kariyer); **4. oda (Freelancer) kilitli motordur.** Yetkin Junior bu üç vitrinin dördüncü odası değildir; müstakil odadır ve kapısı Anayasa B6’dadır. Young kayıt defterinde kapalıdır. Yeni oda, B2 checklist’i ve CEO + Super Admin çifti olmadan açılmaz.
 
 ### Kayıt kuralı
 **Oda tavanı esnektir** cümlesi Faz 2 checklist’idir, Faz 1 kilidini gevşetmez: yeni oda/dron = kayıt + sözleşme + bayrak. Kamu kanıt URL’si (`/vize`) yeni oda açmaz.
 
 ### Dron durumu
-Mimari ad, ince sözleşme paketi ve native istemci sınırı **Anayasa B1**’dedir: **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci (`apps/rail-is`)**. Bu belge o paragrafı ikinci kez yazmaz. «Amiral Gemi + Sürü Dron» ve «Core + Micro-Apps» eski anlatım dilidir; karşılığı bu yapıdır: Amiral Gemi bu Next.js gövdesidir, Sürü Dron monolit içindeki kayıtlı yetenek ve odadır (ayrı dağıtım değildir), Shared Kernel Anayasa B1’deki ince sözleşme paketidir, tek native istemci `apps/rail-is` dir. Model ve rol kimliği bu belgede durmaz; çalışma zamanı tek evi `lib/kernel/ai/model-roles.ts` dosyasıdır ve belgeler bu kodla hizalıdır. Haftalık istemci kesiti `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir.
+Mimari ad Anayasa B1’dedir. Bu belge o paragrafı ikinci kez yazmaz. Model ve rol kimliği bu belgede durmaz; çalışma zamanı tek evi `lib/kernel/ai/model-roles.ts` dosyasıdır.
 
 ### Kesit kuralı
 Haftalık kesit `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir.
@@ -135,6 +135,6 @@ Junior, Akademi’nin iç kanalı değildir. Kendi odasıdır. Kapı ve erişim 
 
 Alıcı velidir. Kullanan öğrencidir. Hesap veliye aittir. Çocuk profili veli rızasıyla açılır. Değerlendirme üslubu yaş grubuna göre değişir. Öğretme ayrıntısı Pedagoji Ek-J’dedir.
 
-**Dinle ve Anlat:** Çocuk dersi dinler, sonra kendi sözüyle anlatır. Anlatış seslidir. Mikrofon yoksa yazarak anlatır. Bu anlatış öğretir. Mühür ve iş vizesi üretmez.
+**Dinle ve Anlat:** Çocuk dersi dinler, sonra kendi sözüyle anlatır. Anlatış seslidir. Mikrofon yoksa yazarak anlatır. Bu anlatış öğretir. Mühür ve iş vizesi üretmez. Web oynatıcısının tek kapısı Pedagoji Ek-J «Oynatıcı» maddesindedir. Bu ek o motoru ikinci kez yazmaz.
 
 **Çocuk güvenliği:** Sahte bakiye, harçlık ve kredi yoktur. Oyun puanı para değildir. Çocuğun sesi saklanmaz. Çocuk başkasıyla yazışamaz. Reklam ve paralı ödül yoktur. Ayrıntı Pedagoji Ek-J’dedir.

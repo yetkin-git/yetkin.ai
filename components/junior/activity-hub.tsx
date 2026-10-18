@@ -8,12 +8,13 @@ import type { JuniorActivityPublic } from "@/lib/junior/activity-public";
 import { JUNIOR_PAID_ACTION_ERROR, JUNIOR_QUIZ_PREPARING_LABEL } from "@/lib/junior/limits";
 import type { JuniorPracticeChoice, JuniorVectorScene } from "@/lib/junior/types";
 
-export type JuniorHubModule = "activities" | "tests" | "notes";
+export type JuniorHubModule = "activities" | "tests" | "notes" | "tutor";
 
 const MODULES = [
   { id: "activities", label: "🎮 Etkinlikler ve Bulmacalar" },
   { id: "tests", label: "📝 Soru Bankası ve Testler" },
   { id: "notes", label: "📘 Ders Notu ve Zihin Haritası" },
+  { id: "tutor", label: "👨‍🏫 Selim Öğretmen'e Sor" },
 ] as const satisfies readonly { id: JuniorHubModule; label: string }[];
 
 export function ActivityHub({
@@ -31,6 +32,7 @@ export function ActivityHub({
   quizSlot,
   tellPassed,
   onQuizCompleted,
+  chrome = "tabs",
 }: {
   module: JuniorHubModule;
   onModule: (next: JuniorHubModule) => void;
@@ -46,12 +48,19 @@ export function ActivityHub({
   quizSlot: "ready" | "preparing" | "locked";
   tellPassed: boolean;
   onQuizCompleted?: () => void;
+  /** `panel` stüdyo düzeninde sekmeyi sağ raya bırakır. Diğer dersler `tabs` kalır. */
+  chrome?: "tabs" | "panel";
 }) {
   const active = MODULES.find((item) => item.id === module) ?? MODULES[0];
   const panelId = `junior-hub-${active.id}`;
 
   return (
-    <section id="junior-activity-hub" data-junior-activity-hub="" className="grid gap-3">
+    <section
+      id={chrome === "tabs" ? "junior-activity-hub" : undefined}
+      data-junior-activity-hub=""
+      className="grid gap-3"
+    >
+      {chrome === "tabs" ? (
       <div role="tablist" aria-label="Konu içerik modülleri" className="flex flex-wrap gap-2">
         {MODULES.map((item) => {
           const selected = item.id === active.id;
@@ -75,6 +84,7 @@ export function ActivityHub({
           );
         })}
       </div>
+      ) : null}
       <div role="tabpanel" id={panelId} aria-labelledby={`junior-hub-tab-${active.id}`} className="grid gap-3">
         {active.id === "activities" ? (
           activities.length > 0 ? (
@@ -104,7 +114,14 @@ export function ActivityHub({
             lifeUse={lifeUse}
             outcomes={outcomes}
             hint={booklet.hint}
+            heroQuestion={booklet.heroQuestion}
+            heroFocus={booklet.heroFocus}
           />
+        ) : null}
+        {active.id === "tutor" ? (
+          <p className="rounded-2xl border border-sky-200 bg-sky-50 px-3.5 py-3 text-sm font-semibold text-sky-950">
+            Selim Öğretmen stüdyo derslerinde sağ raydan açılır.
+          </p>
         ) : null}
       </div>
     </section>

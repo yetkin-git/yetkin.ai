@@ -1,6 +1,9 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. Çember uzunluğu problemleri. */
+/**
+ * 6. Sınıf Matematik. Çember uzunluğu problemleri.
+ * Film `resolveJuniorPlayback` grafiğidir. Tur ve çevre sayıları parametredir.
+ */
 export const JUNIOR_MAT_35_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-35",
   title: "Çember uzunluğu problemleri",

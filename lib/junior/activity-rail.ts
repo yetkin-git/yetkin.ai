@@ -1,5 +1,6 @@
 import "server-only";
 
+import { AUTHORED_ACTIVITY_RAILS } from "@/lib/junior/activity-source";
 import type { JuniorActivityPublic } from "@/lib/junior/activity-public";
 import { juniorLessonByKey } from "@/lib/junior/catalog";
 import type { JuniorLessonScript, JuniorPracticeAnswer } from "@/lib/junior/types";
@@ -14,6 +15,13 @@ type MatchKey = {
   explanation: string;
 };
 
+type ClozeGapKey = {
+  id: string;
+  before: string;
+  after: string;
+  accepts: readonly string[];
+};
+
 type ClozeKey = {
   id: string;
   kind: "cloze";
@@ -21,7 +29,16 @@ type ClozeKey = {
   before: string;
   after: string;
   accepts: readonly string[];
+  gaps?: readonly ClozeGapKey[];
+  wordBank?: readonly string[];
   explanation: string;
+};
+
+type PuzzleKey = {
+  title: string;
+  prompt: string;
+  rockets: readonly { id: string; label: string; ruleHint: string }[];
+  validRockets: Readonly<Record<string, readonly string[]>>;
 };
 
 type OrderKey = {
@@ -30,6 +47,7 @@ type OrderKey = {
   prompt: string;
   tiles: readonly { id: string; label: string }[];
   sequence: readonly string[];
+  puzzle?: PuzzleKey;
   explanation: string;
 };
 
@@ -37,6 +55,9 @@ type ActivityKey = MatchKey | ClozeKey | OrderKey;
 
 /** Doğru sıra istemciye gitmesin diye bir tur kaydırılır. */
 function rotatedTiles(row: OrderKey): { id: string; label: string }[] {
+  if (row.puzzle) {
+    return row.tiles.map((tile) => ({ ...tile }));
+  }
   const byId = new Map(row.tiles.map((tile) => [tile.id, tile]));
   const ordered = row.sequence.map((id) => byId.get(id)).filter((tile) => tile !== undefined);
   const [first, ...rest] = ordered;
@@ -45,8 +66,6 @@ function rotatedTiles(row: OrderKey): { id: string; label: string }[] {
   }
   return [...rest, first].map((tile) => ({ ...tile }));
 }
-
-const RAIL_BY_LESSON: Readonly<Record<string, readonly ActivityKey[]>> = {};
 
 const CLOZE_SKIP = new Set([
   "bir",
@@ -201,7 +220,7 @@ function generatedKeys(lesson: JuniorLessonScript): ActivityKey[] {
 const generatedCache = new Map<string, readonly ActivityKey[]>();
 
 function keysFor(lessonKey: string): readonly ActivityKey[] {
-  const authored = RAIL_BY_LESSON[lessonKey];
+  const authored = AUTHORED_ACTIVITY_RAILS[lessonKey];
   if (authored) {
     return authored;
   }
@@ -233,6 +252,16 @@ export function publicJuniorActivityRail(lessonKey: string): JuniorActivityPubli
         prompt: row.prompt,
         before: row.before,
         after: row.after,
+        ...(row.gaps
+          ? {
+              gaps: row.gaps.map((g) => ({
+                id: g.id,
+                before: g.before,
+                after: g.after,
+              })),
+            }
+          : {}),
+        ...(row.wordBank ? { wordBank: [...row.wordBank] } : {}),
       };
     }
     return {
@@ -240,6 +269,15 @@ export function publicJuniorActivityRail(lessonKey: string): JuniorActivityPubli
       kind: "order",
       prompt: row.prompt,
       tiles: rotatedTiles(row),
+      ...(row.puzzle
+        ? {
+            puzzle: {
+              title: row.puzzle.title,
+              prompt: row.puzzle.prompt,
+              rockets: row.puzzle.rockets.map((r) => ({ ...r })),
+            },
+          }
+        : {}),
     };
   });
 }
@@ -299,11 +337,28 @@ function cardMarks(key: ActivityKey, answer: JuniorPracticeAnswer | undefined): 
     });
   }
   if (key.kind === "cloze") {
+    if (key.gaps && key.gaps.length > 0 && answer?.clozes) {
+      return key.gaps.map((gap) => {
+        const written = foldCloze(answer.clozes?.[gap.id] ?? "");
+        const ok = written.length > 0 && gap.accepts.some((acc) => foldCloze(acc) === written);
+        if (ok) {
+          return { id: gap.id, ok: true };
+        }
+        return { id: gap.id, ok: false, answer: gap.accepts[0] ?? "" };
+      });
+    }
     const ok = answer ? activityMatches(key, answer) : false;
     if (ok) {
       return [{ id: key.id, ok: true }];
     }
     return [{ id: key.id, ok: false, answer: key.accepts[0] ?? "" }];
+  }
+  if (key.puzzle && answer?.placements) {
+    return key.tiles.map((tile) => {
+      const rocketId = answer.placements?.[tile.id] ?? "";
+      const allowed = key.puzzle?.validRockets[tile.id] ?? [];
+      return { id: tile.id, ok: Boolean(rocketId && allowed.includes(rocketId)) };
+    });
   }
   const given = answer?.order ?? [];
   return key.tiles.map((tile) => {
@@ -318,11 +373,27 @@ function activityMatches(key: ActivityKey, answer: JuniorPracticeAnswer): boolea
     return Object.keys(key.pairs).every((leftId) => matches[leftId] === key.pairs[leftId]);
   }
   if (key.kind === "cloze") {
+    if (key.gaps && key.gaps.length > 0) {
+      if (answer.clozes) {
+        return key.gaps.every((gap) => {
+          const written = foldCloze(answer.clozes?.[gap.id] ?? "");
+          return written.length > 0 && gap.accepts.some((acc) => foldCloze(acc) === written);
+        });
+      }
+      return false;
+    }
     const written = foldCloze(answer.cloze ?? "");
     if (!written) {
       return false;
     }
     return key.accepts.some((accept) => foldCloze(accept) === written);
+  }
+  if (key.puzzle && answer.placements) {
+    return key.tiles.every((tile) => {
+      const rocketId = answer.placements?.[tile.id] ?? "";
+      const allowed = key.puzzle?.validRockets[tile.id] ?? [];
+      return Boolean(rocketId && allowed.includes(rocketId));
+    });
   }
   const given = answer.order ?? [];
   return key.sequence.length === given.length && key.sequence.every((id, index) => given[index] === id);
