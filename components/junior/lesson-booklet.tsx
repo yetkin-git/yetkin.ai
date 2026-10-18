@@ -29,6 +29,12 @@ const NODE_TONE = [
   },
 ] as const;
 
+type NodeTone = (typeof NODE_TONE)[number];
+
+function pickNodeTone(index: number): NodeTone {
+  return NODE_TONE[index % NODE_TONE.length] ?? NODE_TONE[0]!;
+}
+
 function firstSentence(text: string): string {
   const clean = text.replace(/\s+/g, " ").trim();
   const match = clean.match(/^[\s\S]*?[.!?](?=\s|$)/u);
@@ -279,7 +285,7 @@ function DetectiveMindMap({ title }: { title: string }) {
         <div className="mb-1 h-0.5 w-[min(100%,18rem)] rounded-full bg-indigo-200" aria-hidden />
         <ul className="grid w-full gap-3 sm:grid-cols-2">
           {MEB_DIVISION_DETECTIVES.map((row, index) => {
-            const tone = NODE_TONE[index % NODE_TONE.length];
+            const tone = pickNodeTone(index);
             return (
               <li key={row.title} className={`px-4 py-3 text-center ${tone.card}`}>
                 <span
@@ -463,7 +469,7 @@ function ExponentMindMap({ title }: { title: string }) {
         <div className="mb-1 h-0.5 w-[min(100%,18rem)] rounded-full bg-indigo-200" aria-hidden />
         <ul className="grid w-full gap-3 sm:grid-cols-2">
           {nodes.map((node, index) => {
-            const tone = NODE_TONE[index % NODE_TONE.length];
+            const tone = pickNodeTone(index);
             return (
               <li
                 key={node.label}
@@ -509,7 +515,7 @@ function MindMap({ title, nodes }: { title: string; nodes: readonly string[] }) 
         <div className="mb-1 h-0.5 w-[min(100%,18rem)] rounded-full bg-indigo-200" aria-hidden />
         <ul className="grid w-full gap-3 sm:grid-cols-2">
           {nodes.map((node, index) => {
-            const tone = NODE_TONE[index % NODE_TONE.length];
+            const tone = pickNodeTone(index);
             const example = mindMapExample(node);
             return (
               <li

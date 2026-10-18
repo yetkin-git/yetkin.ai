@@ -1,15 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { getPilotTimelineForLesson } from "@/lib/junior/pilot-engine/mat-5-timeline-loader";
+import { JR_06_MAT_5_TIMELINE } from "@/lib/junior/pilot-engine/mat-5-timeline-loader";
 import { reduceSceneState } from "@/lib/junior/pilot-engine/state-reducer";
 import {
   resolveStickyFrame,
   sceneHasRenderableContent,
 } from "@/lib/junior/pilot-engine/sticky-frame";
 
-const TIMELINE = getPilotTimelineForLesson("jr_06_mat-5");
-if (!TIMELINE) {
-  throw new Error("jr_06_mat-5 timeline yok");
-}
+const TIMELINE = JR_06_MAT_5_TIMELINE;
 
 function cueById(id: string) {
   const cue = TIMELINE.cues.find((row) => row.id === id);

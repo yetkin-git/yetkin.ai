@@ -591,6 +591,10 @@ function PilotPlayerWithWarmupShell(props: VectorPlayerProps): ReactElement {
     [props.lessonKey, props.profileId],
   );
 
+  if (playback.engine !== "pilot") {
+    return <SealedVectorPlayer {...props} />;
+  }
+
   return (
     <div
       className={`relative flex min-h-0 w-full flex-1 flex-col ${props.fill ? "h-full" : "h-auto"}`}

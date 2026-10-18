@@ -46,7 +46,7 @@ export function LiveTutorPanel({
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   const [guestHint, setGuestHint] = useState(false);
-  const [remaining, setRemaining] = useState(JUNIOR_LIVE_TUTOR_QUESTION_LIMIT);
+  const [remaining, setRemaining] = useState<number>(JUNIOR_LIVE_TUTOR_QUESTION_LIMIT);
   const [scene, setScene] = useState<JuniorTutorSceneContext | null>(sceneProp);
   const [messages, setMessages] = useState<ChatTurn[]>(() => [
     newTurn("assistant", JUNIOR_LIVE_TUTOR_WELCOME),
