@@ -1,7 +1,7 @@
 import type { FunnelCohortBucketId, FunnelRange, FunnelStepId } from "@/lib/kernel/admin/funnel-constants";
 
 export type FunnelStepUnit = "unique_users" | "impressions";
-export type FunnelConversionKind = "unique_user" | "impressions_per_stamp";
+export type FunnelConversionKind = "unique_user" | "impression" | "impressions_per_stamp";
 
 export type FunnelWindow = {
   range: FunnelRange;

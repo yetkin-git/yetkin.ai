@@ -28,10 +28,35 @@ import { formatMinorCompact } from "@/lib/kernel/money/format";
 import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 import { academyCheckoutHref } from "@/lib/academy/storefront-cta";
 import type { AcademyCourseWithPrice } from "@/lib/academy/types";
+import { FUNNEL_FREE_LESSON_STEP } from "@/lib/kernel/admin/funnel-constants";
+import { recordFunnelDailyDocumentStep } from "@/lib/kernel/admin/funnel-document-hit";
 
 function academyPlayerCheckoutHref(slug: string, signedIn: boolean): string {
   const checkout = academyCheckoutHref(slug);
   return signedIn ? checkout : buildCitizenLoginHref(checkout);
+}
+
+async function renderAcademyFreePreview(course: AcademyCourseWithPrice, signedIn: boolean) {
+  await recordFunnelDailyDocumentStep(FUNNEL_FREE_LESSON_STEP);
+  const freePreviewAudio = await loadAcademyFreePreviewAudioGrants(course.slug);
+  return (
+    <RoomFrame cinema className="flex flex-col gap-0 space-y-0 px-4 py-0 sm:px-6">
+      <div className="flex min-h-0 flex-1 flex-col">
+        <CurriculumPlayer
+          courseId={course.id}
+          courseSlug={course.slug}
+          lessons={academyPaywallLockedLessonShells(course.slug)}
+          curriculumComplete={false}
+          workTasksComplete={false}
+          paywallLocked
+          paywallPriceLabel={academyPlayerPaywallPrice(course)}
+          freePreviewAudio={freePreviewAudio}
+          checkoutHref={academyPlayerCheckoutHref(course.slug, signedIn)}
+          media={loadAcademyLessonMediaPrime(course.slug, { paywallLocked: true })}
+        />
+      </div>
+    </RoomFrame>
+  );
 }
 
 function academyPlayerPaywallPrice(course: AcademyCourseWithPrice): string | null {
@@ -86,25 +111,7 @@ export default async function AcademyCurriculumPlayerPage({
     if (!board || (!board.course.isPublished && !offersPreview)) {
       notFound();
     }
-    const freePreviewAudio = await loadAcademyFreePreviewAudioGrants(board.course.slug);
-    return (
-      <RoomFrame cinema className="flex flex-col gap-0 space-y-0 px-4 py-0 sm:px-6">
-        <div className="flex min-h-0 flex-1 flex-col">
-          <CurriculumPlayer
-            courseId={board.course.id}
-            courseSlug={board.course.slug}
-            lessons={academyPaywallLockedLessonShells(board.course.slug)}
-            curriculumComplete={false}
-            workTasksComplete={false}
-            paywallLocked
-            paywallPriceLabel={academyPlayerPaywallPrice(board.course)}
-            freePreviewAudio={freePreviewAudio}
-            checkoutHref={academyPlayerCheckoutHref(board.course.slug, false)}
-            media={loadAcademyLessonMediaPrime(board.course.slug, { paywallLocked: true })}
-          />
-        </div>
-      </RoomFrame>
-    );
+    return renderAcademyFreePreview(board.course, false);
   }
   const userEmail = session.email;
   const board = await loadCourseBySlug(slug);
@@ -129,25 +136,7 @@ export default async function AcademyCurriculumPlayerPage({
     if (!academyCourseOffersFreePreview(board.course.slug)) {
       redirect(`/academy/${board.course.slug}`);
     }
-    const freePreviewAudio = await loadAcademyFreePreviewAudioGrants(board.course.slug);
-    return (
-      <RoomFrame cinema className="flex flex-col gap-0 space-y-0 px-4 py-0 sm:px-6">
-        <div className="flex min-h-0 flex-1 flex-col">
-          <CurriculumPlayer
-            courseId={board.course.id}
-            courseSlug={board.course.slug}
-            lessons={academyPaywallLockedLessonShells(board.course.slug)}
-            curriculumComplete={false}
-            workTasksComplete={false}
-            paywallLocked
-            paywallPriceLabel={academyPlayerPaywallPrice(board.course)}
-            freePreviewAudio={freePreviewAudio}
-            checkoutHref={academyPlayerCheckoutHref(board.course.slug, true)}
-            media={loadAcademyLessonMediaPrime(board.course.slug, { paywallLocked: true })}
-          />
-        </div>
-      </RoomFrame>
-    );
+    return renderAcademyFreePreview(board.course, true);
   }
 
   const player = await loadAcademyCurriculum(

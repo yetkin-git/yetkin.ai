@@ -1,7 +1,8 @@
 import type { AcademyCourseTitleSlug } from "@/lib/academy/course-titles";
 
 /**
- * Antre öğrenim çıktıları — taze ingest bekler.
+ * Antre öğrenim çıktıları. EC-102 ders kapanışlarından okunur.
+ * Diğer mühürlü büyüme kursları taze ingest bekler.
  * Client-safe: sınav şıkkı yok.
  */
 
@@ -20,7 +21,14 @@ export const ACADEMY_LEARNING_OUTCOMES: Record<AcademyCourseTitleSlug, readonly 
     "Word dosyasını ataş ile yükleyip sözleşme, dilekçe ve rapor işini ayrı istemle çözersin.",
     "Cuma 30 dakikayı 10 Excel + 10 slayt + 10 kutu olarak takvime bağlar; kapanışta kısa bir Word ve hata kontrolü yaparsın.",
   ],
-  "02_ecommerce_ai": AWAITING_INGEST_OUTCOMES,
+  "02_ecommerce_ai": [
+    "Başlığı ürün türü, renk, ölçü ve adetle kurarsın; övgü cümlesini Listing'e koymazsın.",
+    "Ana görseli düz beyaz, bire bir ve filigransız kurarsın; arkası mutfak masası kalan kareyi yayınlamazsın.",
+    "Yorum ve iade gerekçesini saydırır, en kalabalık hatayı kutuda, fotoğrafta veya Listing yazısında kesersin.",
+    "Mal, paket, kargo ve komisyonu ayrı yazarsın; maliyetin altındaki fiyata inmez, tabanın üstündeki fiyatı sen koyarsın.",
+    "Aynı şablonla listedeki her satırın başlığını, açıklamasını ve özelliğini çıkarırsın; listede olmayan kelimeyi siler, ölçüyü satırla karşılaştırırsın.",
+    "Müşteri mesajının taslağını ürün satırına sadık kurarsın; kesin teslim ve kutuda olmayan rengi yazmaz, mesajı sen gönderirsin.",
+  ],
   "03_social_media_ai": AWAITING_INGEST_OUTCOMES,
   "04_chatbot_nocode": AWAITING_INGEST_OUTCOMES,
   "05_prompt_practice": AWAITING_INGEST_OUTCOMES,

@@ -16,6 +16,8 @@ import {
 import { ACADEMY_FLAGSHIP_CHAPTER_ONE_DURATION_MIN } from "@/lib/academy/course-cover";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { academyAntreVisaPromise } from "@/lib/academy/antre-visa";
+import { academyFocusSalePitch } from "@/lib/academy/focus-sale-pitch";
+import { academyInstructorBySlug } from "@/lib/academy/instructors";
 import { academyLearningOutcomesForSlug } from "@/lib/academy/learning-outcomes";
 
 describe("akademi müfredat özeti — modül, tür, süre", () => {
@@ -229,6 +231,31 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
     expect(items[1]).toMatch(/maskele/iu);
     expect(items[7]).toMatch(/Cuma 30/u);
     expect(items.join(" ")).not.toContain("stajyer");
+  });
+
+  it("EC-102 öğrenim çıktısı ingest bekleyen cümleyi taşımaz", () => {
+    const items = academyLearningOutcomesForSlug("02_ecommerce_ai");
+    expect(items).toHaveLength(6);
+    expect(items.join(" ")).not.toContain("Taze ingest");
+    expect(items[0]).toMatch(/Başlığı/u);
+    expect(items[2]).toMatch(/iade/iu);
+    expect(items[4]).toMatch(/şablon/iu);
+    expect(items[5]).toMatch(/mesaj/iu);
+    expect(academyLearningOutcomesForSlug("03_social_media_ai").join(" ")).toContain("Taze ingest");
+  });
+
+  it("OFF-101 ve EC-102 antresi sonuç, içerik, somut çıktı, iade sırasındadır", () => {
+    for (const slug of ["01_office_ai", "02_ecommerce_ai"] as const) {
+      const rows = academyFocusSalePitch(slug);
+      expect(rows?.map((row) => row.id)).toEqual(["result", "content", "output", "refund"]);
+      expect(rows?.map((row) => row.label)).toEqual(["Sonuç", "İçerik", "Somut çıktı", "İade"]);
+      expect(rows?.[1]?.text).toContain(academyInstructorBySlug(slug).name);
+      expect(rows?.[3]?.text).toMatch(/bedel iade edilmez/u);
+      expect(rows?.[3]?.text).not.toMatch(/14 gün/u);
+    }
+    expect(academyFocusSalePitch("01_office_ai")?.[1]?.text).toContain("8 ders");
+    expect(academyFocusSalePitch("02_ecommerce_ai")?.[1]?.text).toContain("6 ders");
+    expect(academyFocusSalePitch("03_social_media_ai")).toBeNull();
   });
 
   it("amiral compact makale her derste el kitabı üçlüsü taşır", () => {

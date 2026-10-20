@@ -2,20 +2,24 @@ import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
 import { StatGrid } from "@/components/ui/stat-grid";
 import {
+  IconBolt,
   IconCheck,
   IconCoin,
   IconEye,
   IconPassport,
+  IconPlay,
   IconPulse,
+  IconStore,
   IconUser,
   IconWallet,
 } from "@/components/ui/icons";
 import { ADMIN_SEN } from "@/lib/copy/sen-voice/admin";
 import {
+  FUNNEL_ACQUISITION_STEP_IDS,
   FUNNEL_COHORT_BUCKET_IDS,
+  FUNNEL_COMMERCIAL_STEP_IDS,
   FUNNEL_DEFAULT_RANGE,
   FUNNEL_RANGES,
-  FUNNEL_STEP_IDS,
   type FunnelCohortBucketId,
   type FunnelRange,
   type FunnelStepId,
@@ -28,11 +32,20 @@ import {
   formatFunnelHours,
   formatLeakPercent,
 } from "@/lib/kernel/admin/funnel-display";
-import type { AdminFunnelBoard, FunnelCohortMetric, FunnelLeakMetric } from "@/lib/kernel/admin/funnel-types";
+import type {
+  AdminFunnelBoard,
+  FunnelCohortMetric,
+  FunnelLeakMetric,
+  FunnelStepMetric,
+} from "@/lib/kernel/admin/funnel-types";
 import { ADMIN_SURFACE_PATH } from "@/lib/kernel/admin/types";
 import type { ReactNode } from "react";
 
 const STEP_ICONS: Record<FunnelStepId, ReactNode> = {
+  vitrine_visit: <IconStore />,
+  free_lesson: <IconPlay />,
+  checkout_intent: <IconBolt />,
+  settled_purchase: <IconCoin />,
   register: <IconUser />,
   wallet_cleared: <IconWallet />,
   purchase_settled: <IconCoin />,
@@ -49,6 +62,42 @@ const RANGE_LABEL: Record<FunnelRange, string> = {
 
 function rangeHref(range: FunnelRange): string {
   return range === FUNNEL_DEFAULT_RANGE ? ADMIN_SURFACE_PATH : `${ADMIN_SURFACE_PATH}?range=${range}`;
+}
+
+function FunnelStepGrid({
+  ids,
+  steps,
+  columns,
+}: {
+  ids: readonly FunnelStepId[];
+  steps: readonly FunnelStepMetric[];
+  columns: 2 | 3;
+}) {
+  const copy = ADMIN_SEN.funnel;
+  return (
+    <StatGrid
+      columns={columns}
+      items={ids.map((id) => {
+        const step = steps.find((row) => row.id === id);
+        const count = step?.count ?? 0;
+        const conversion = step ? formatFunnelConversion(step) : "—";
+        const dropOff = step ? formatFunnelDropOff(step) : "—";
+        const unit = step?.unit === "impressions" ? copy.unitImpressions : copy.unitUsers;
+        const ratioHint =
+          id === "vitrine_visit" || id === "register"
+            ? copy.steps[id].hint
+            : id === "vize_hit"
+              ? `${copy.impressionsHint} ${conversion}`
+              : `${copy.conversionHint} ${conversion} · ${copy.dropOffLabel} ${dropOff}`;
+        return {
+          label: copy.steps[id].label,
+          value: formatFunnelCount(count),
+          hint: `${unit} · ${ratioHint}`,
+          icon: STEP_ICONS[id],
+        };
+      })}
+    />
+  );
 }
 
 const BUCKET_TONE: Record<FunnelCohortBucketId, string> = {
@@ -163,29 +212,22 @@ export function AdminFunnelBoard({
           <p className="mb-3 text-xs text-[var(--muted)]">
             {copy.windowHint} {board.snapshot.window.fromYmd} → {board.snapshot.window.toYmdExclusive}
           </p>
-          <StatGrid
-            columns={3}
-            items={FUNNEL_STEP_IDS.map((id) => {
-              const step = board.snapshot.steps.find((row) => row.id === id);
-              const count = step?.count ?? 0;
-              const conversion = step ? formatFunnelConversion(step) : "—";
-              const dropOff = step ? formatFunnelDropOff(step) : "—";
-              const unit = id === "vize_hit" ? copy.unitImpressions : copy.unitUsers;
-              const ratioHint =
-                id === "register"
-                  ? copy.steps.register.hint
-                  : id === "vize_hit"
-                    ? `${copy.impressionsHint} ${conversion}`
-                    : `${copy.conversionHint} ${conversion} · ${copy.dropOffLabel} ${dropOff}`;
-              return {
-                label: copy.steps[id].label,
-                value: formatFunnelCount(count),
-                hint: `${unit} · ${ratioHint}`,
-                icon: STEP_ICONS[id],
-              };
-            })}
+          <p className="mb-2 text-xs font-semibold text-[var(--foreground)]">{copy.acquisitionTitle}</p>
+          <FunnelStepGrid
+            ids={FUNNEL_ACQUISITION_STEP_IDS}
+            steps={board.snapshot.steps}
+            columns={2}
           />
-          <p className="mt-3 text-xs text-[var(--muted)]">{copy.vizeHint}</p>
+          <p className="mt-3 text-xs text-[var(--muted)]">{copy.acquisitionHint}</p>
+          <p className="mb-2 mt-5 text-xs font-semibold text-[var(--foreground)]">{copy.commercialTitle}</p>
+          <FunnelStepGrid
+            ids={FUNNEL_COMMERCIAL_STEP_IDS}
+            steps={board.snapshot.steps}
+            columns={3}
+          />
+          <p className="mt-3 text-xs text-[var(--muted)]">
+            {copy.commercialHint} {copy.vizeHint}
+          </p>
           <CohortLeakSection cohort={board.snapshot.cohort} leak={board.snapshot.leak} />
         </>
       )}

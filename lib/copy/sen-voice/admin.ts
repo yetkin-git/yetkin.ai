@@ -12,15 +12,20 @@ export const ADMIN_SEN = {
     "Katalog şu an okunamadı. Bağlantı kurulunca PriceCatalogEntry satırları burada durur; uydurma fiyat basılmaz.",
   funnel: {
     eyebrow: "B2C kazanım hunisi",
-    title: "Kayıttan vize kartına",
+    title: "Ziyaretten vize kartına",
     intro:
-      "Sayılar Postgres iş tablolarından okunur. Bağış (sa_grant) ve freelancer damgası ticari hunide yoktur.",
+      "Öndeki dört adım pazar doğrulamadır. Vitrin, ücretsiz ders ve ödeme niyeti anonim gösterimdir. Satın alma SETTLED, alttaki lisans adımıyla aynı tekil kişidir. Kazanım adımları iş tablolarından okunur. Bağış (sa_grant) ve freelancer damgası ticari hunide yoktur. Üçüncü taraf çerez yoktur.",
     loadSoft:
       "Huni şu an okunamadı. Bağlantı kurulunca oranlar burada durur; uydurma yüzde basılmaz.",
     rangeToday: "Bugün",
     range7d: "7 gün",
     range30d: "30 gün",
-    windowHint: "Europe/Istanbul takvim penceresi. Payda penceredeki tekil vatandaşdır.",
+    windowHint: "Europe/Istanbul takvim penceresi.",
+    acquisitionTitle: "Pazar doğrulama",
+    acquisitionHint:
+      "Vitrin, ders ve niyet gösterimdir; tekil kişi değildir. Ön yükleme sayılmaz. Bot sayfayı çekerse sayılır. Satın alma tekil kişidir. Bakiyesi yeten alım, PayTR niyetine yazılmaz.",
+    commercialTitle: "Kayıttan vize kartına",
+    commercialHint: "Payda penceredeki tekil kişidir.",
     countLabel: "Sayı",
     conversionLabel: "Önceki adıma oran",
     dropOffLabel: "Düşüş",
@@ -49,6 +54,22 @@ export const ADMIN_SEN = {
       still_open: "Açık",
     },
     steps: {
+      vitrine_visit: {
+        label: "Vitrin ziyareti",
+        hint: "Katalog ve kurs antresi. Tekil kişi değildir.",
+      },
+      free_lesson: {
+        label: "Ücretsiz ders",
+        hint: "1. ders oynatıcısı. Lisansı olmayan açılış.",
+      },
+      checkout_intent: {
+        label: "Ödeme niyeti",
+        hint: "Akademi kasasında PayTR iframe veya ödeme pasaportu.",
+      },
+      settled_purchase: {
+        label: "Satın alma SETTLED",
+        hint: "Ticari lisans, tekil kişi. Alttaki adımla aynı sayı.",
+      },
       register: { label: "Kayıt", hint: "users.created_at" },
       wallet_cleared: { label: "Cüzdan CLEARED", hint: "PayTR valör" },
       purchase_settled: { label: "Satın alma SETTLED", hint: "Ticari lisans" },

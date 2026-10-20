@@ -22,6 +22,8 @@ import { ACADEMY_LANDING_FAQ } from "@/lib/copy/sem-keywords";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { getSession } from "@/lib/kernel/auth/session";
 import { isSuperAdminActor } from "@/lib/kernel/auth/super-admin";
+import { FUNNEL_VITRINE_VISIT_STEP } from "@/lib/kernel/admin/funnel-constants";
+import { recordFunnelDailyDocumentStep } from "@/lib/kernel/admin/funnel-document-hit";
 
 export const metadata: Metadata = pageMetadata(PAGE_SEO.academy);
 
@@ -49,6 +51,7 @@ export default async function AcademyPage() {
       .filter((course) => isAcademyStorefrontSlug(course.slug))
       .map((course) => [course.slug, publishedLessonCount(course.slug)] as const),
   );
+  await recordFunnelDailyDocumentStep(FUNNEL_VITRINE_VISIT_STEP);
   const signedIn = Boolean(session);
   const buyHrefs = Object.fromEntries(
     courses.map((course) => {

@@ -10,6 +10,7 @@ import { AcademyContinuePanel } from "@/components/academy/continue-panel";
 import { SettlementSteps } from "@/components/academy/settlement-steps";
 import { CurriculumOutline } from "@/components/academy/curriculum-outline";
 import { CurriculumOutcomes } from "@/components/academy/curriculum-outcomes";
+import { FocusSalePitch } from "@/components/academy/focus-sale-pitch";
 import { AcademyProgressBar } from "@/components/academy/progress-bar";
 import {
   loadAcademyHolderName,
@@ -35,6 +36,8 @@ import { ACADEMY_EXAM_DURATION_MS } from "@/lib/academy/exam-duration";
 import { OFF_101_EXEMPTION_ENTRY_LABEL } from "@/lib/academy/off101-exemption";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { getSession } from "@/lib/kernel/auth/session";
+import { FUNNEL_VITRINE_VISIT_STEP } from "@/lib/kernel/admin/funnel-constants";
+import { recordFunnelDailyDocumentStep } from "@/lib/kernel/admin/funnel-document-hit";
 import { walletAvailableMinor } from "@/lib/kernel/ledger/load";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { CourseHeroActions } from "@/components/academy/course-hero-actions";
@@ -166,6 +169,7 @@ export default async function AcademyCoursePage({
   if (actor && hasAcademyAdminBypass(actor)) {
     redirect(`/academy/${board.course.slug}/oyna`);
   }
+  await recordFunnelDailyDocumentStep(FUNNEL_VITRINE_VISIT_STEP);
   const adminPlayer = actor != null && hasAcademyAdminBypass(actor);
   const labPlayer =
     process.env.NODE_ENV !== "production" &&
@@ -201,6 +205,7 @@ export default async function AcademyCoursePage({
     : null;
   const level = academyCourseLevelBySlug(board.course.slug);
   const isOff201 = board.course.slug === ACADEMY_OFF201_STOREFRONT_SLUG;
+  const eightLessonShield = board.course.slug === "01_office_ai";
   const seo = academyCourseSeoOverride(board.course.slug);
   const completedKeys = examGate?.certificate
     ? syllabus.lessons.map((lesson) => lesson.key)
@@ -314,6 +319,7 @@ export default async function AcademyCoursePage({
           />
         }
       />
+      <FocusSalePitch slug={board.course.slug} />
       {hasAccess && syllabus.lessonCount > 0 ? (
         <AcademyProgressBar
           value={progressPercent}
@@ -387,7 +393,7 @@ export default async function AcademyCoursePage({
       ) : board.course.purchasable ? (
         <div className="scroll-mt-24" id={ACADEMY_CHECKOUT_HASH}>
           <Card title={copy.purchaseEyebrow}>
-            <p>{isOff201 ? copy.purchaseBodyPlain : copy.purchaseBody}</p>
+            <p>{eightLessonShield ? copy.purchaseBody : copy.purchaseBodyPlain}</p>
             {board.course.slug === ACADEMY_OFF201_STOREFRONT_SLUG ? (
               <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]" data-academy-advisory="">
                 {SEN_VOICE.academy.catalog.off201Advisory}
@@ -467,7 +473,7 @@ export default async function AcademyCoursePage({
         showProgress={hasAccess}
         visaPromise={visaPromise}
         showKind={!isOff201}
-        showExamShield={!isOff201}
+        showExamShield={eightLessonShield}
         freemium={showFreePreview}
       />
       {prepStrip ? <PrepStripTeaser strip={prepStrip} /> : null}

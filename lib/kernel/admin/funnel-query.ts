@@ -8,6 +8,9 @@ import {
   FUNNEL_PENDING_STATUS,
   FUNNEL_TIME_ZONE,
   FUNNEL_VISA_SOURCE_KIND,
+  FUNNEL_CHECKOUT_INTENT_STEP,
+  FUNNEL_FREE_LESSON_STEP,
+  FUNNEL_VITRINE_VISIT_STEP,
   FUNNEL_VIZE_HIT_STEP,
   FUNNEL_WALLET_PURPOSE,
   PAYTR_PENDING_TIMEOUT_MS,
@@ -90,7 +93,8 @@ async function countDistinct(query: Promise<CountRow[]>): Promise<number> {
 }
 
 /**
- * Altı adım — 1–5 COUNT(DISTINCT user_id), 6 günlük gösterim toplamı.
+ * On adım. Pazar: üç sayaç + ticari SETTLED tekil kişi.
+ * Kazanım: beş COUNT(DISTINCT user_id) ve vize gösterimi.
  * Pencere Europe/Istanbul takvim günüdür. sa_grant: bağışı ve freelancer damgası süzülür.
  */
 export async function queryFunnelSnapshot(
@@ -110,9 +114,23 @@ export async function queryFunnelSnapshot(
   const paid = FUNNEL_PAID_STATUS;
   const failed = FUNNEL_FAILED_STATUS;
   const vizeStep = FUNNEL_VIZE_HIT_STEP;
+  const vitrineStep = FUNNEL_VITRINE_VISIT_STEP;
+  const freeLessonStep = FUNNEL_FREE_LESSON_STEP;
+  const checkoutStep = FUNNEL_CHECKOUT_INTENT_STEP;
   const staleBefore = new Date(now.getTime() - PAYTR_PENDING_TIMEOUT_MS);
 
-  const [register, walletCleared, purchaseSettled, examPass, visaStamp, vizeHit, cohortLeakRows] = await Promise.all([
+  const [
+    register,
+    walletCleared,
+    purchaseSettled,
+    examPass,
+    visaStamp,
+    vizeHit,
+    vitrineVisit,
+    freeLesson,
+    checkoutIntent,
+    cohortLeakRows,
+  ] = await Promise.all([
     countDistinct(
       db.$queryRaw<CountRow[]>`
         SELECT COUNT(DISTINCT id)::bigint AS n
@@ -167,6 +185,33 @@ export async function queryFunnelSnapshot(
         SELECT COALESCE(SUM(count), 0)::bigint AS n
         FROM funnel_daily_counters
         WHERE step = ${vizeStep}
+          AND day >= ${fromYmd}::date
+          AND day < ${toYmdExclusive}::date
+      `,
+    ),
+    countDistinct(
+      db.$queryRaw<CountRow[]>`
+        SELECT COALESCE(SUM(count), 0)::bigint AS n
+        FROM funnel_daily_counters
+        WHERE step = ${vitrineStep}
+          AND day >= ${fromYmd}::date
+          AND day < ${toYmdExclusive}::date
+      `,
+    ),
+    countDistinct(
+      db.$queryRaw<CountRow[]>`
+        SELECT COALESCE(SUM(count), 0)::bigint AS n
+        FROM funnel_daily_counters
+        WHERE step = ${freeLessonStep}
+          AND day >= ${fromYmd}::date
+          AND day < ${toYmdExclusive}::date
+      `,
+    ),
+    countDistinct(
+      db.$queryRaw<CountRow[]>`
+        SELECT COALESCE(SUM(count), 0)::bigint AS n
+        FROM funnel_daily_counters
+        WHERE step = ${checkoutStep}
           AND day >= ${fromYmd}::date
           AND day < ${toYmdExclusive}::date
       `,
@@ -259,6 +304,10 @@ export async function queryFunnelSnapshot(
   ]);
 
   const counts: Record<FunnelStepId, number> = {
+    vitrine_visit: vitrineVisit,
+    free_lesson: freeLesson,
+    checkout_intent: checkoutIntent,
+    settled_purchase: purchaseSettled,
     register,
     wallet_cleared: walletCleared,
     purchase_settled: purchaseSettled,

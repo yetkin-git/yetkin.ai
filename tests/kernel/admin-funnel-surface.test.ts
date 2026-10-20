@@ -3,8 +3,11 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { ACADEMY_GRANT_LOCK_PREFIX } from "@/lib/academy/enrolment";
 import {
+  FUNNEL_ACQUISITION_STEP_IDS,
+  FUNNEL_CHECKOUT_INTENT_STEP,
   FUNNEL_CLEARED_STATUS,
   FUNNEL_COHORT_BUCKET_IDS,
+  FUNNEL_COMMERCIAL_STEP_IDS,
   FUNNEL_DEFAULT_RANGE,
   FUNNEL_EXCLUDED_VISA_SOURCE_KIND,
   FUNNEL_FAILED_STATUS,
@@ -105,7 +108,6 @@ describe("admin B2C kazanım hunisi", () => {
       },
     };
     const snapshot = await queryFunnelSnapshot("7d", new Date("2026-09-12T12:00:00.000Z"), db);
-    expect(captured).toHaveLength(7);
     const purchaseSql = captured.find((row) => row.sql.includes("academy_purchases"));
     expect(purchaseSql?.values).toContain(FUNNEL_GRANT_LOCK_LIKE);
     expect(purchaseSql?.sql).toContain("NOT LIKE");
@@ -114,13 +116,21 @@ describe("admin B2C kazanım hunisi", () => {
     const visaSql = captured.find((row) => row.sql.includes("career_visa_stamps"));
     expect(visaSql?.values).toContain(FUNNEL_VISA_SOURCE_KIND);
     expect(visaSql?.values).not.toContain(FUNNEL_EXCLUDED_VISA_SOURCE_KIND);
+    expect(captured).toHaveLength(10);
     expect(snapshot.steps.find((step) => step.id === "purchase_settled")?.count).toBe(2);
+    expect(snapshot.steps.find((step) => step.id === "settled_purchase")?.count).toBe(2);
+    const counterSql = captured.filter((row) => row.sql.includes("funnel_daily_counters"));
+    expect(counterSql).toHaveLength(4);
+    expect(counterSql.some((row) => row.values.includes("vitrine_visit"))).toBe(true);
+    expect(counterSql.some((row) => row.values.includes("free_lesson"))).toBe(true);
+    expect(counterSql.some((row) => row.values.includes(FUNNEL_CHECKOUT_INTENT_STEP))).toBe(true);
   });
 
   it("metadata /vize sayacını tetiklemez; hit yalnız found gövdesindedir", () => {
     const page = readSrc("app/(public)/vize/[id]/page.tsx");
     const load = readSrc("lib/career/public-talent-load.ts");
     const hit = readSrc("lib/career/public-talent-hit.ts");
+    const counter = readSrc("lib/kernel/admin/funnel-counter.ts");
     const alias = readSrc("app/(public)/p/[id]/page.tsx");
     const generateBlock = page.slice(
       page.indexOf("export async function generateMetadata"),
@@ -133,11 +143,17 @@ describe("admin B2C kazanım hunisi", () => {
     expect(bodyBlock).toContain('status === "missing"');
     expect(load).not.toContain("recordPublicTalentCardHit");
     expect(load).not.toContain("funnel_daily_counters");
-    expect(hit).toContain("funnel_daily_counters");
-    expect(hit).toContain("ON CONFLICT");
-    expect(hit).toContain("counter_failed");
+    expect(hit).toContain("recordFunnelDailyStep");
+    expect(hit).toContain("FUNNEL_VIZE_HIT_STEP");
+    expect(hit).toContain("career.vize.hit");
     expect(hit).not.toContain("source_ip");
     expect(hit).not.toContain("userAgent");
+    expect(counter).toContain("funnel_daily_counters");
+    expect(counter).toContain("ON CONFLICT");
+    expect(counter).toContain("counter_failed");
+    expect(counter).not.toContain("source_ip");
+    expect(counter).not.toContain("userAgent");
+    expect(counter).not.toContain("email");
     expect(alias).toContain("permanentRedirect");
     expect(alias).not.toContain("recordPublicTalentCardHit");
   });
@@ -153,6 +169,12 @@ describe("admin B2C kazanım hunisi", () => {
       "components/kernel/admin-funnel-board.tsx",
       "app/api/(kernel)/admin/funnel/route.ts",
       "app/(kernel)/admin/page.tsx",
+      "lib/kernel/admin/funnel-counter.ts",
+      "lib/kernel/admin/funnel-document-hit.ts",
+      "app/academy/page.tsx",
+      "app/academy/[slug]/page.tsx",
+      "app/academy/[slug]/oyna/page.tsx",
+      "app/api/(kernel)/wallet/top-up/route.ts",
     ];
     for (const relative of files) {
       const source = readSrc(relative);
@@ -204,7 +226,25 @@ describe("admin B2C kazanım hunisi", () => {
     expect(ADMIN_SEN.funnel.vizeHint).toContain("Tekil işveren değildir");
     expect(ADMIN_SEN.funnel.inFlightHint).toContain("kaçak sayılmaz");
     expect(FUNNEL_READ_PATH).toBe("/api/admin/funnel");
-    expect(FUNNEL_STEP_IDS).toHaveLength(6);
+    expect(FUNNEL_COMMERCIAL_STEP_IDS).toEqual([
+      "register",
+      "wallet_cleared",
+      "purchase_settled",
+      "exam_pass",
+      "visa_stamp",
+      "vize_hit",
+    ]);
+    expect(FUNNEL_ACQUISITION_STEP_IDS).toEqual([
+      "vitrine_visit",
+      "free_lesson",
+      "checkout_intent",
+      "settled_purchase",
+    ]);
+    expect(FUNNEL_STEP_IDS).toEqual([...FUNNEL_ACQUISITION_STEP_IDS, ...FUNNEL_COMMERCIAL_STEP_IDS]);
+    expect(FUNNEL_STEP_IDS).toHaveLength(10);
+    for (const id of FUNNEL_STEP_IDS) {
+      expect(ADMIN_SEN.funnel.steps[id].label.length).toBeGreaterThan(0);
+    }
     expect(FUNNEL_COHORT_BUCKET_IDS).toEqual([
       "same_day",
       "d1_3",
@@ -233,6 +273,10 @@ describe("admin B2C kazanım hunisi", () => {
     expect(() => parseFunnelRangeParam("nope")).toThrow(FUNNEL_RANGE_INVALID);
 
     const metrics = buildFunnelStepMetrics({
+      vitrine_visit: 100,
+      free_lesson: 40,
+      checkout_intent: 10,
+      settled_purchase: 4,
       register: 10,
       wallet_cleared: 4,
       purchase_settled: 0,
@@ -240,21 +284,31 @@ describe("admin B2C kazanım hunisi", () => {
       visa_stamp: 2,
       vize_hit: 5,
     });
-    expect(metrics[0]?.conversionFromPrevious).toBeNull();
-    expect(metrics[1]?.conversionFromPrevious).toBe(0.4);
-    expect(metrics[1]?.dropOffFromPrevious).toBe(0.6);
-    expect(metrics[2]?.conversionFromPrevious).toBe(0);
-    expect(metrics[2]?.dropOffFromPrevious).toBe(1);
-    expect(metrics[3]?.conversionFromPrevious).toBeNull();
-    expect(metrics[3]?.dropOffFromPrevious).toBeNull();
-    const vize = metrics.find((row) => row.id === "vize_hit");
+    const byId = (id: (typeof metrics)[number]["id"]) => metrics.find((row) => row.id === id);
+    expect(byId("vitrine_visit")?.conversionFromPrevious).toBeNull();
+    expect(byId("free_lesson")?.unit).toBe("impressions");
+    expect(byId("free_lesson")?.conversionKind).toBe("impression");
+    expect(byId("free_lesson")?.conversionFromPrevious).toBe(0.4);
+    expect(byId("free_lesson")?.dropOffFromPrevious).toBeCloseTo(0.6);
+    expect(byId("checkout_intent")?.conversionFromPrevious).toBe(0.25);
+    expect(byId("settled_purchase")?.conversionFromPrevious).toBe(0.4);
+    expect(byId("settled_purchase")?.unit).toBe("unique_users");
+    expect(byId("register")?.conversionFromPrevious).toBeNull();
+    expect(byId("wallet_cleared")?.conversionFromPrevious).toBe(0.4);
+    expect(byId("wallet_cleared")?.dropOffFromPrevious).toBe(0.6);
+    expect(byId("purchase_settled")?.conversionFromPrevious).toBe(0);
+    expect(byId("purchase_settled")?.dropOffFromPrevious).toBe(1);
+    expect(byId("exam_pass")?.conversionFromPrevious).toBeNull();
+    expect(byId("exam_pass")?.dropOffFromPrevious).toBeNull();
+    const vize = byId("vize_hit");
     expect(vize?.unit).toBe("impressions");
     expect(vize?.conversionKind).toBe("impressions_per_stamp");
     expect(vize?.conversionFromPrevious).toBe(2.5);
     expect(vize?.dropOffFromPrevious).toBeNull();
     expect(formatFunnelCount(12)).toBe("12");
-    expect(formatFunnelConversion(metrics[1]!)).toBe("%40");
-    expect(formatFunnelDropOff(metrics[1]!)).toBe("%60");
+    expect(formatFunnelConversion(byId("wallet_cleared")!)).toBe("%40");
+    expect(formatFunnelDropOff(byId("wallet_cleared")!)).toBe("%60");
+    expect(formatFunnelConversion(byId("free_lesson")!)).toBe("%40");
     expect(formatFunnelConversion(vize!)).toContain("×");
 
     const emptyLeak = buildLeakMetrics({
@@ -408,5 +462,43 @@ describe("admin B2C kazanım hunisi", () => {
     expect(paidLeak.checkoutLeak).toBe(0);
     expect(paidLeak.cashLeakMinor).toBe(1500);
     expect(paidLeak.clearedRate).toBe(0.4);
+  });
+
+  it("pazar adımları birinci taraf sayaçtır; metadata ve lisanslı oynatıcı yazmaz", () => {
+    const catalog = readSrc("app/academy/page.tsx");
+    expect(catalog).toContain("recordFunnelDailyDocumentStep");
+    expect(catalog).toContain("FUNNEL_VITRINE_VISIT_STEP");
+    expect(catalog).not.toContain("gtag");
+
+    const antre = readSrc("app/academy/[slug]/page.tsx");
+    expect(antre).toContain("FocusSalePitch");
+    expect(antre).toContain("eightLessonShield");
+    expect(antre).toContain("FUNNEL_VITRINE_VISIT_STEP");
+    const meta = antre.slice(antre.indexOf("export async function generateMetadata"), antre.indexOf("export default"));
+    expect(meta).not.toContain("recordFunnelDailyDocumentStep");
+
+    const player = readSrc("app/academy/[slug]/oyna/page.tsx");
+    expect(player).toContain("renderAcademyFreePreview");
+    expect(player).toContain("FUNNEL_FREE_LESSON_STEP");
+    const paid = player.slice(player.lastIndexOf("loadAcademyCurriculum"));
+    expect(paid).not.toContain("recordFunnelDailyDocumentStep");
+    expect(paid).not.toContain("FUNNEL_FREE_LESSON_STEP");
+
+    const topUp = readSrc("app/api/(kernel)/wallet/top-up/route.ts");
+    const iframeAt = topUp.indexOf("const iframeUrl");
+    const intentAt = topUp.indexOf("recordFunnelDailyStep(FUNNEL_CHECKOUT_INTENT_STEP)");
+    expect(iframeAt).toBeGreaterThan(-1);
+    expect(intentAt).toBeGreaterThan(iframeAt);
+    expect(topUp).toContain("courseSlug && (iframeUrl || checkoutPassportUrl)");
+    const mockAt = topUp.indexOf("shouldFailCloseMockTopUp(checkout.mockCheckout)");
+    expect(mockAt).toBeGreaterThan(-1);
+    expect(mockAt).toBeLessThan(intentAt);
+
+    const documentHit = readSrc("lib/kernel/admin/funnel-document-hit.ts");
+    expect(documentHit).toContain("prefetch");
+    expect(documentHit).not.toContain("cookies(");
+    expect(documentHit).not.toContain("gtag");
+    expect(readSrc("components/kernel/admin-funnel-board.tsx")).toContain("acquisitionTitle");
+    expect(readSrc("lib/kernel/sem/conversion.ts")).not.toContain("gtag.js");
   });
 });

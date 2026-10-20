@@ -38,6 +38,8 @@ import {
   mintWalletCheckoutPassport,
 } from "@/lib/kernel/payments/wallet-checkout-passport";
 import { tryGetPaytrIframeUrl } from "@/lib/kernel/payments/paytr/iframe-embed";
+import { FUNNEL_CHECKOUT_INTENT_STEP } from "@/lib/kernel/admin/funnel-constants";
+import { recordFunnelDailyStep } from "@/lib/kernel/admin/funnel-counter";
 import {
   applyHttpRateLimit,
   HTTP_RATE_LIMITS,
@@ -375,6 +377,9 @@ export async function POST(request: Request) {
             merchantOid,
             route: WALLET_TOP_UP_ROUTE,
           });
+        }
+        if (courseSlug && (iframeUrl || checkoutPassportUrl)) {
+          await recordFunnelDailyStep(FUNNEL_CHECKOUT_INTENT_STEP);
         }
         logEvent({
           level: "info",

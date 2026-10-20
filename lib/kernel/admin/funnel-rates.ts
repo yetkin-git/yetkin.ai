@@ -14,6 +14,10 @@ import type {
 } from "@/lib/kernel/admin/funnel-types";
 
 const STEP_UNIT: Record<FunnelStepId, FunnelStepUnit> = {
+  vitrine_visit: "impressions",
+  free_lesson: "impressions",
+  checkout_intent: "impressions",
+  settled_purchase: "unique_users",
   register: "unique_users",
   wallet_cleared: "unique_users",
   purchase_settled: "unique_users",
@@ -23,12 +27,28 @@ const STEP_UNIT: Record<FunnelStepId, FunnelStepUnit> = {
 };
 
 const STEP_CONVERSION_KIND: Record<FunnelStepId, FunnelConversionKind> = {
+  vitrine_visit: "impression",
+  free_lesson: "impression",
+  checkout_intent: "impression",
+  settled_purchase: "unique_user",
   register: "unique_user",
   wallet_cleared: "unique_user",
   purchase_settled: "unique_user",
   exam_pass: "unique_user",
   visa_stamp: "unique_user",
   vize_hit: "impressions_per_stamp",
+};
+
+/** İki ayrı zincir. Kayıt, satın alma gösterimine bölünmez. */
+const STEP_PREVIOUS: Partial<Record<FunnelStepId, FunnelStepId>> = {
+  free_lesson: "vitrine_visit",
+  checkout_intent: "free_lesson",
+  settled_purchase: "checkout_intent",
+  wallet_cleared: "register",
+  purchase_settled: "wallet_cleared",
+  exam_pass: "purchase_settled",
+  visa_stamp: "exam_pass",
+  vize_hit: "visa_stamp",
 };
 
 function ratio(current: number, previous: number): number | null {
@@ -38,18 +58,23 @@ function ratio(current: number, previous: number): number | null {
   return current / previous;
 }
 
+function allowsDropOff(kind: FunnelConversionKind): boolean {
+  return kind === "unique_user" || kind === "impression";
+}
+
 /**
- * Adım 1–5: tekil kişi dönüşümü. Adım 6: gösterim / damga — kişi %'si değildir.
- * Payda 0 iken sahte %100 basılmaz.
+ * Pazar zinciri gösterim oranıdır. Kazanım zinciri tekil kişidir.
+ * Vize gösterimi damgaya kat olarak okunur. Payda 0 iken sahte %100 basılmaz.
+ * Pay, paydadan büyükse düşüş basılmaz.
  */
 export function buildFunnelStepMetrics(counts: Record<FunnelStepId, number>): FunnelStepMetric[] {
-  return FUNNEL_STEP_IDS.map((id, index) => {
-    const previousId = index === 0 ? null : FUNNEL_STEP_IDS[index - 1];
+  return FUNNEL_STEP_IDS.map((id) => {
+    const previousId = STEP_PREVIOUS[id] ?? null;
     const previous = previousId ? counts[previousId] : null;
     const count = Math.max(0, Math.trunc(counts[id] || 0));
     const conversionFromPrevious = previous == null ? null : ratio(count, previous);
     const dropOffFromPrevious =
-      conversionFromPrevious == null || STEP_CONVERSION_KIND[id] !== "unique_user"
+      conversionFromPrevious == null || !allowsDropOff(STEP_CONVERSION_KIND[id]) || conversionFromPrevious > 1
         ? null
         : 1 - conversionFromPrevious;
     return {
