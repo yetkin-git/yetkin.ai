@@ -247,7 +247,7 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
 
   const startNarration = useCallback(() => {
     clearStickyHold();
-    seekToMs(0, { force: true, clearSticky: false });
+    seekToMs(0, { force: true });
     setComplete(false);
     setDecisionTaken(false);
     const audio = audioRef.current;

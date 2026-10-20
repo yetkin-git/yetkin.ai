@@ -14,7 +14,11 @@ export type JuniorProgressGameId =
   | "sim-marble"
   | "sim-balance"
   | "sim-chicken"
-  | "sim-egg";
+  | "sim-egg"
+  | "sim-exponent-tower"
+  | "sim-ops-priority"
+  | "sim-distribute-area"
+  | "sim-problem-steps";
 
 export type JuniorLessonProgress = {
   completedGames: JuniorProgressGameId[];
@@ -55,6 +59,10 @@ const GAME_IDS = new Set<string>([
   "sim-balance",
   "sim-chicken",
   "sim-egg",
+  "sim-exponent-tower",
+  "sim-ops-priority",
+  "sim-distribute-area",
+  "sim-problem-steps",
 ]);
 
 export function juniorLessonProgressStorageKey(profileId: string, lessonKey: string): string {
@@ -265,5 +273,9 @@ export function simModeToGameId(mode: string): JuniorProgressGameId | null {
   if (mode === "balance") return "sim-balance";
   if (mode === "chicken") return "sim-chicken";
   if (mode === "egg") return "sim-egg";
+  if (mode === "exponent-tower") return "sim-exponent-tower";
+  if (mode === "ops-priority") return "sim-ops-priority";
+  if (mode === "distribute-area") return "sim-distribute-area";
+  if (mode === "problem-steps") return "sim-problem-steps";
   return null;
 }

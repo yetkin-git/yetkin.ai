@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
+import { getJuniorLessonBlueprint } from "@/lib/junior/lesson-engine";
+
 export function ActivityBadgeModal({
   open,
   lessonKey,
@@ -30,11 +32,9 @@ export function ActivityBadgeModal({
     return null;
   }
 
-  const isMat5 = lessonKey === "jr_06_mat-5";
-  const badgeTitle = isMat5 ? "Bölünebilme Dedektifi Rozeti" : "Süper Kaşif Rozeti";
-  const badgeSubtitle = isMat5
-    ? "2, 5, 10 son basamak ve 3, 9 rakam toplama görevlerini kusursuz çözdün!"
-    : "Tüm etkinlikleri ve bulmacaları hatasız tamamladın!";
+  const blueprint = getJuniorLessonBlueprint(lessonKey);
+  const badgeTitle = blueprint.badge.modalTitle;
+  const badgeSubtitle = blueprint.badge.modalSubtitle;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-violet-950/45 p-4 backdrop-blur-xs">
@@ -49,7 +49,7 @@ export function ActivityBadgeModal({
         {/* Parlayan Rozet Madalyonu */}
         <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full border-4 border-amber-400 bg-gradient-to-br from-amber-200 via-yellow-300 to-amber-500 shadow-[0_0_32px_rgba(251,191,36,0.75)]">
           <span className="text-5xl" aria-hidden="true">
-            {isMat5 ? "🕵️‍♂️" : "🏅"}
+            {blueprint.badge.icon}
           </span>
         </div>
 
@@ -68,7 +68,7 @@ export function ActivityBadgeModal({
           <span className="rounded-full bg-emerald-100 px-3 py-1 text-emerald-800">✓ 1. Eşleştir</span>
           <span className="rounded-full bg-emerald-100 px-3 py-1 text-emerald-800">✓ 2. Boşluk Doldur</span>
           <span className="rounded-full bg-emerald-100 px-3 py-1 text-emerald-800">
-            ✓ {isMat5 ? "3. Dedektif Bulmacası" : "3. Sıraya Diz"}
+            ✓ {blueprint.badge.thirdStepLabel}
           </span>
         </div>
 

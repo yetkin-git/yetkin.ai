@@ -17,7 +17,17 @@ import {
   playOopsSound,
   primeActivityAudio,
 } from "@/lib/junior/activity-sound";
+import {
+  getJuniorLessonBlueprint,
+  type JuniorSimulationModeId,
+} from "@/lib/junior/lesson-engine";
 import { markGameComplete, simModeToGameId } from "@/lib/junior/progress-tracker";
+import {
+  DistributeAreaSim,
+  ExponentTowerSim,
+  OperationPrioritySim,
+  ProblemStepsSim,
+} from "@/components/junior/lesson-engine/mat-topic-simulations";
 
 const MARBLE_TOTAL = 12;
 const GROUP_OPTIONS = [2, 3, 4, 5] as const;
@@ -40,7 +50,7 @@ const CHICKEN_COUNTS = [2, 3, 5, 10] as const;
 const EGG_TOTAL = 24;
 const EGG_CARTON_SIZES = [2, 3, 4, 5, 6, 7, 8] as const;
 
-type SimMode = "marble" | "balance" | "chicken" | "egg";
+type SimMode = JuniorSimulationModeId;
 type GroupSize = (typeof GROUP_OPTIONS)[number];
 type FeedTotal = (typeof FEED_TOTALS)[number];
 type ChickenCount = (typeof CHICKEN_COUNTS)[number];
@@ -1205,14 +1215,25 @@ export function AnimatedSimulationStudio({
   profileId?: string;
   onSimSuccess?: () => void;
 }): ReactElement {
-  const [mode, setMode] = useState<SimMode>("marble");
-  const isMat5 = lessonKey === "jr_06_mat-5";
+  const blueprint = getJuniorLessonBlueprint(lessonKey);
+  const tabs = blueprint.simulations.length > 0 ? blueprint.simulations : SIM_TABS;
+  const defaultMode: SimMode = tabs[0]?.id ?? "marble";
+  const [mode, setMode] = useState<SimMode>(defaultMode);
+
+  useEffect(() => {
+    const nextDefault = tabs[0]?.id ?? "marble";
+    if (!tabs.some((t) => t.id === mode)) {
+      setMode(nextDefault);
+    }
+  }, [lessonKey, mode, tabs]);
+
+  const hasSimulations = blueprint.simulations.length > 0;
   const simProps = { profileId, lessonKey, onSuccess: onSimSuccess };
 
   return (
     <div data-junior-animated-sim="" className="flex flex-col gap-3">
       <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="Simülasyon türü">
-        {SIM_TABS.map((tab) => (
+        {tabs.map((tab) => (
           <button
             key={tab.id}
             type="button"
@@ -1233,40 +1254,88 @@ export function AnimatedSimulationStudio({
         ))}
       </div>
 
-      {isMat5 ? (
+      {hasSimulations ? (
         <>
-          <div
-            id="junior-sim-panel-marble"
-            role="tabpanel"
-            aria-labelledby="junior-sim-tab-marble"
-            className={mode === "marble" ? "block" : "hidden"}
-          >
-            <MarbleDistributionSim {...simProps} />
-          </div>
-          <div
-            id="junior-sim-panel-balance"
-            role="tabpanel"
-            aria-labelledby="junior-sim-tab-balance"
-            className={mode === "balance" ? "block" : "hidden"}
-          >
-            <DivisibilityBalanceSim {...simProps} />
-          </div>
-          <div
-            id="junior-sim-panel-chicken"
-            role="tabpanel"
-            aria-labelledby="junior-sim-tab-chicken"
-            className={mode === "chicken" ? "block" : "hidden"}
-          >
-            <ChickenFeedSimulation {...simProps} />
-          </div>
-          <div
-            id="junior-sim-panel-egg"
-            role="tabpanel"
-            aria-labelledby="junior-sim-tab-egg"
-            className={mode === "egg" ? "block" : "hidden"}
-          >
-            <EggCartonSimulation {...simProps} />
-          </div>
+          {tabs.some((t) => t.id === "exponent-tower") ? (
+            <div
+              id="junior-sim-panel-exponent-tower"
+              role="tabpanel"
+              aria-labelledby="junior-sim-tab-exponent-tower"
+              className={mode === "exponent-tower" ? "block" : "hidden"}
+            >
+              <ExponentTowerSim {...simProps} />
+            </div>
+          ) : null}
+          {tabs.some((t) => t.id === "ops-priority") ? (
+            <div
+              id="junior-sim-panel-ops-priority"
+              role="tabpanel"
+              aria-labelledby="junior-sim-tab-ops-priority"
+              className={mode === "ops-priority" ? "block" : "hidden"}
+            >
+              <OperationPrioritySim {...simProps} />
+            </div>
+          ) : null}
+          {tabs.some((t) => t.id === "distribute-area") ? (
+            <div
+              id="junior-sim-panel-distribute-area"
+              role="tabpanel"
+              aria-labelledby="junior-sim-tab-distribute-area"
+              className={mode === "distribute-area" ? "block" : "hidden"}
+            >
+              <DistributeAreaSim {...simProps} />
+            </div>
+          ) : null}
+          {tabs.some((t) => t.id === "problem-steps") ? (
+            <div
+              id="junior-sim-panel-problem-steps"
+              role="tabpanel"
+              aria-labelledby="junior-sim-tab-problem-steps"
+              className={mode === "problem-steps" ? "block" : "hidden"}
+            >
+              <ProblemStepsSim {...simProps} />
+            </div>
+          ) : null}
+          {tabs.some((t) => t.id === "marble") ? (
+            <div
+              id="junior-sim-panel-marble"
+              role="tabpanel"
+              aria-labelledby="junior-sim-tab-marble"
+              className={mode === "marble" ? "block" : "hidden"}
+            >
+              <MarbleDistributionSim {...simProps} />
+            </div>
+          ) : null}
+          {tabs.some((t) => t.id === "balance") ? (
+            <div
+              id="junior-sim-panel-balance"
+              role="tabpanel"
+              aria-labelledby="junior-sim-tab-balance"
+              className={mode === "balance" ? "block" : "hidden"}
+            >
+              <DivisibilityBalanceSim {...simProps} />
+            </div>
+          ) : null}
+          {tabs.some((t) => t.id === "chicken") ? (
+            <div
+              id="junior-sim-panel-chicken"
+              role="tabpanel"
+              aria-labelledby="junior-sim-tab-chicken"
+              className={mode === "chicken" ? "block" : "hidden"}
+            >
+              <ChickenFeedSimulation {...simProps} />
+            </div>
+          ) : null}
+          {tabs.some((t) => t.id === "egg") ? (
+            <div
+              id="junior-sim-panel-egg"
+              role="tabpanel"
+              aria-labelledby="junior-sim-tab-egg"
+              className={mode === "egg" ? "block" : "hidden"}
+            >
+              <EggCartonSimulation {...simProps} />
+            </div>
+          ) : null}
         </>
       ) : (
         <p className="rounded-2xl border border-slate-200 bg-white p-4 text-sm font-semibold text-slate-600">

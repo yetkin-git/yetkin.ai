@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
+import { getJuniorLessonBlueprint } from "@/lib/junior/lesson-engine";
 import {
   JUNIOR_LIVE_TUTOR_LOGIN_HINT,
   JUNIOR_LIVE_TUTOR_PATH,
@@ -48,8 +49,10 @@ export function LiveTutorPanel({
   const [guestHint, setGuestHint] = useState(false);
   const [remaining, setRemaining] = useState<number>(JUNIOR_LIVE_TUTOR_QUESTION_LIMIT);
   const [scene, setScene] = useState<JuniorTutorSceneContext | null>(sceneProp);
+  const blueprint = getJuniorLessonBlueprint(lessonKey);
+  const welcome = blueprint.tutor.welcomeMessage?.trim() || JUNIOR_LIVE_TUTOR_WELCOME;
   const [messages, setMessages] = useState<ChatTurn[]>(() => [
-    newTurn("assistant", JUNIOR_LIVE_TUTOR_WELCOME),
+    newTurn("assistant", welcome),
   ]);
 
   useEffect(() => {
@@ -86,7 +89,7 @@ export function LiveTutorPanel({
     setInput("");
 
     const history = messages
-      .filter((turn) => turn.content !== JUNIOR_LIVE_TUTOR_WELCOME)
+      .filter((turn) => turn.content !== welcome)
       .slice(-6)
       .map((turn) => ({ role: turn.role, content: turn.content }));
 
@@ -153,6 +156,12 @@ export function LiveTutorPanel({
     }
   }
 
+  const quickChips =
+    blueprint.tutor.quickChips.length > 0
+      ? blueprint.tutor.quickChips
+      : JUNIOR_LIVE_TUTOR_QUICK_CHIPS;
+  const teacherTitle = blueprint.tutor.teacherName || JUNIOR_LIVE_TUTOR_TEACHER;
+
   const sceneLabel = scene?.title
     ? scene.subtitle
       ? `${scene.title} · ${scene.subtitle}`
@@ -170,11 +179,11 @@ export function LiveTutorPanel({
           aria-hidden="true"
           className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-sky-500 to-emerald-500 text-base font-black text-white shadow-sm ring-2 ring-white"
         >
-          S
+          {teacherTitle.slice(0, 1).toLocaleUpperCase("tr-TR")}
         </span>
         <div className="min-w-0 flex-1">
           <h2 id={titleId} className="truncate text-sm font-extrabold text-slate-900 sm:text-base">
-            {JUNIOR_LIVE_TUTOR_TEACHER}
+            {teacherTitle}
           </h2>
           <p className="truncate text-[11px] font-semibold text-sky-800" data-junior-tutor-scene="">
             {sceneLabel}
@@ -224,7 +233,7 @@ export function LiveTutorPanel({
 
       <div className="border-t border-sky-100 bg-white/90 px-3 py-2.5">
         <div className="mb-2 flex flex-wrap gap-1.5" data-junior-tutor-chips="">
-          {JUNIOR_LIVE_TUTOR_QUICK_CHIPS.map((chip) => (
+          {quickChips.map((chip) => (
             <button
               key={chip.id}
               type="button"

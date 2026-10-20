@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState, type ReactElement, type ReactNode } from "react";
 import { ActivityBadgeModal } from "@/components/junior/activity-modal";
 import { useJuniorLessonCompletionPercent } from "@/components/junior/lesson-completion-bar";
+import { getJuniorLessonBlueprint } from "@/lib/junior/lesson-engine";
 import {
   badgeProgressCount,
   combinedReportScore,
@@ -94,7 +95,7 @@ export function QuickTools({
   const total = status?.total ?? JUNIOR_BADGE_UNLOCK_THRESHOLD;
   const badge = progress.badgeUnlocked || Boolean(status?.badge);
   const reportScore = combinedReportScore(progress);
-  const isMat5 = lessonKey === "jr_06_mat-5";
+  const blueprint = getJuniorLessonBlueprint(lessonKey);
 
   function closeCelebrate() {
     setCelebrate(false);
@@ -171,9 +172,7 @@ export function QuickTools({
           data-junior-badge-label=""
         >
           {badge
-            ? isMat5
-              ? "🏅 Bölünebilme Dedektifi"
-              : "🏅 Süper Kaşif"
+            ? blueprint.badge.chipLabel
             : `Rozet ${JUNIOR_BADGE_UNLOCK_THRESHOLD} oyunda açılır`}
         </p>
       </div>

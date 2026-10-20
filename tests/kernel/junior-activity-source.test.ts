@@ -25,7 +25,21 @@ describe("etkinlik tek yazarı", () => {
     expect(withActivities).toEqual(["jr_06_mat-5.json"]);
     expect(scenarioActivitiesForLesson("jr_06_mat-6")).toBeNull();
     expect(scenarioActivitiesForLesson("jr_06_mat-34")).toBeNull();
-    expect(Object.keys(AUTHORED_ACTIVITY_RAILS)).toEqual(["jr_06_mat-5"]);
+    expect(Object.keys(AUTHORED_ACTIVITY_RAILS)).toEqual(["jr_06_mat-5", "jr_06_mat-1"]);
+  });
+
+  it("jr_06_mat-1 üslü ifade rayı üç etkinliği yazar ve cevabı sızdırmaz", () => {
+    const authored = scenarioActivitiesForLesson("jr_06_mat-1");
+    expect(authored).not.toBeNull();
+    const rail = publicJuniorActivityRail("jr_06_mat-1");
+    expect(rail.map((row) => row.kind)).toEqual(["match", "cloze", "order"]);
+    const blob = JSON.stringify(rail);
+    expect(blob).not.toContain("accepts");
+    expect(blob).not.toContain("validRockets");
+    expect(blob).not.toContain("pairs");
+    expect(blob).toContain("2³");
+    expect(blob).toContain("10³");
+    expect(blob).toContain("7⁰");
   });
 
   it("ray, ihracın eşleştirme ve boşluk cevaplarını okur", () => {

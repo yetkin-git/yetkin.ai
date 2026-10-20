@@ -4,16 +4,16 @@ import { useState } from "react";
 import { ActivityHub, type JuniorHubModule } from "@/components/junior/activity-hub";
 import {
   ActivityStudio,
-  Mat5FocusedLayout,
+  JuniorLessonEngineShell,
   type ActivityStudioStatus,
 } from "@/components/junior/activity-studio";
 import type { JuniorBookletCopy } from "@/lib/junior/booklet-copy";
 import { ListenAndTell } from "@/components/junior/listen-and-tell";
 import { LiveTutorPanel } from "@/components/junior/live-tutor-panel";
 import type { JuniorActivityPublic } from "@/lib/junior/activity-public";
+import { hasJuniorLessonBlueprint, resolveJuniorEngineTimeline } from "@/lib/junior/lesson-engine";
 import { JUNIOR_TELL_PASS_SCORE } from "@/lib/junior/limits";
 import { isJuniorPilotPlaybackLesson } from "@/lib/junior/pilot-engine/playback-key";
-import { getPilotTimelineForLesson } from "@/lib/junior/pilot-engine/mat-5-timeline-loader";
 import { JUNIOR_VECTOR_STEP_COUNT, type JuniorPracticeChoice, type JuniorVectorScene } from "@/lib/junior/types";
 
 export function LessonChain({
@@ -72,8 +72,9 @@ export function LessonChain({
     total: 3,
     badge: false,
   });
-  const studioLesson = isJuniorPilotPlaybackLesson(lessonKey);
-  const pilotTimeline = studioLesson ? getPilotTimelineForLesson(lessonKey) : null;
+  const studioLesson =
+    isJuniorPilotPlaybackLesson(lessonKey) || hasJuniorLessonBlueprint(lessonKey);
+  const pilotTimeline = studioLesson ? resolveJuniorEngineTimeline(lessonKey) : null;
   const totalScenes = pilotTimeline?.cues.length ?? JUNIOR_VECTOR_STEP_COUNT;
 
   function openTests() {
@@ -115,7 +116,7 @@ export function LessonChain({
 
   if (studioLesson) {
     return (
-      <Mat5FocusedLayout
+      <JuniorLessonEngineShell
         lessonKey={lessonKey}
         profileId={profileId}
         totalScenes={totalScenes}

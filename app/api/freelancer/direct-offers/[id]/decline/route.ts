@@ -1,14 +1,12 @@
-import { jsonFail } from "@/lib/kernel/http/json";
 import { FREELANCER_SATELLITE_GONE } from "@/lib/freelancer/satellite-gone";
+import { closedSurfaceGone } from "@/lib/kernel/http/closed-surface-route";
 
 /**
  * Doğrudan teklif red — bu fazda kapalı. Kenar oturum istemez; her yöntem 410.
  */
 export const auth = "public" as const;
 
-async function gone(request: Request) {
-  return jsonFail(FREELANCER_SATELLITE_GONE.directOffer, 410, undefined, request);
-}
+const gone = closedSurfaceGone(FREELANCER_SATELLITE_GONE.directOffer);
 
 export const GET = gone;
 export const POST = gone;

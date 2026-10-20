@@ -54,6 +54,17 @@ describe("junior live tutor policy", () => {
       activeSceneSubtitle: "",
     });
     expect(digit).toMatch(/3|9/);
+    const tower = resolveJuniorLiveTutorLocalReply(
+      "Üs ne işe yarar? Tabanla karıştırmadan anlatır mısın?",
+      { activeSceneTitle: "Üslü İfadeler", activeSceneSubtitle: "" },
+    );
+    expect(tower).toContain("2³");
+    const zeros = resolveJuniorLiveTutorLocalReply(
+      "10'un kuvvetlerinde kaç tane sıfır olduğunu nasıl bulurum?",
+      { activeSceneTitle: "Üs Kulesi", activeSceneSubtitle: "" },
+    );
+    expect(zeros).toContain("10²");
+    expect(zeros).not.toContain("son basamak mı");
   });
 });
 

@@ -1,6 +1,10 @@
 "use client";
 
-import { useId, useLayoutEffect, useRef, useState } from "react";
+import { createContext, useContext, useId, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import {
+  resolveJuniorTactileRules,
+  type JuniorTactileActivityRules,
+} from "@/lib/junior/lesson-engine";
 import { ActivityBadgeModal, ActivityModal } from "@/components/junior/activity-modal";
 import type {
   JuniorActivityClozeGapPublic,
@@ -70,31 +74,61 @@ const MAT5_ROCKET_RULES: Readonly<Record<string, readonly string[]>> = {
   n18: ["r3", "r2"],
 };
 
+const MAT5_TACTILE_RULES: JuniorTactileActivityRules = {
+  matchTargets: MAT5_MATCH_TARGET,
+  gapAnswers: MAT5_GAP_ANSWERS,
+  rocketRules: MAT5_ROCKET_RULES,
+};
+
+const TactileRulesContext = createContext<JuniorTactileActivityRules | null>(null);
+
+export function JuniorTactileRulesScope({
+  lessonKey,
+  children,
+}: {
+  lessonKey: string;
+  children: ReactNode;
+}) {
+  const rules = resolveJuniorTactileRules(lessonKey);
+  return <TactileRulesContext.Provider value={rules}>{children}</TactileRulesContext.Provider>;
+}
+
+function useTactileRules(): JuniorTactileActivityRules {
+  return useContext(TactileRulesContext) ?? MAT5_TACTILE_RULES;
+}
+
 function foldText(value: string): string {
   return value.replace(/\s+/g, "").trim().toLocaleLowerCase("tr-TR");
 }
 
-function isMat5GapOk(gapId: string, raw: string): boolean {
-  const clean = foldText(raw);
-  if (!clean) {
-    return false;
-  }
-  const allowed = MAT5_GAP_ANSWERS[gapId] ?? [];
-  return allowed.some((item) => foldText(item) === clean);
+export function mat5MatchReady(
+  pairs: Record<string, string>,
+  rules: JuniorTactileActivityRules = MAT5_TACTILE_RULES,
+): boolean {
+  const target = rules.matchTargets ?? MAT5_MATCH_TARGET;
+  return Object.entries(target).every(([leftId, rightId]) => pairs[leftId] === rightId);
 }
 
-export function mat5MatchReady(pairs: Record<string, string>): boolean {
-  return Object.entries(MAT5_MATCH_TARGET).every(([leftId, rightId]) => pairs[leftId] === rightId);
+export function mat5ClozeReady(
+  gaps: Record<string, string>,
+  rules: JuniorTactileActivityRules = MAT5_TACTILE_RULES,
+): boolean {
+  const table = rules.gapAnswers ?? MAT5_GAP_ANSWERS;
+  return Object.keys(table).every((gapId) => {
+    const clean = foldText(gaps[gapId] ?? "");
+    if (!clean) {
+      return false;
+    }
+    return (table[gapId] ?? []).some((item) => foldText(item) === clean);
+  });
 }
 
-export function mat5ClozeReady(gaps: Record<string, string>): boolean {
-  return Object.keys(MAT5_GAP_ANSWERS).every((gapId) => isMat5GapOk(gapId, gaps[gapId] ?? ""));
-}
-
-export function mat5PuzzleReady(placements: Record<string, string>): boolean {
-  return Object.entries(MAT5_ROCKET_RULES).every(([tileId, allowed]) =>
-    allowed.includes(placements[tileId] ?? ""),
-  );
+export function mat5PuzzleReady(
+  placements: Record<string, string>,
+  rules: JuniorTactileActivityRules = MAT5_TACTILE_RULES,
+): boolean {
+  const table = rules.rocketRules ?? MAT5_ROCKET_RULES;
+  return Object.entries(table).every(([tileId, allowed]) => allowed.includes(placements[tileId] ?? ""));
 }
 
 function gameCardClass(
@@ -304,6 +338,7 @@ export function MatchBoard({
   const boardRef = useRef<HTMLDivElement>(null);
   const leftNodes = useRef(new Map<string, HTMLButtonElement>());
   const rightNodes = useRef(new Map<string, HTMLButtonElement>());
+  const tactileRules = useTactileRules();
   const [picked, setPicked] = useState<string | null>(null);
   const [aimRightId, setAimRightId] = useState<string | null>(null);
   const [tactileMarks, setTactileMarks] = useState<Record<string, Mark>>({});
@@ -322,7 +357,7 @@ export function MatchBoard({
   function connectPair(leftId: string, rightId: string) {
     primeActivityAudio();
     clearAim();
-    const expectedRight = MAT5_MATCH_TARGET[leftId];
+    const expectedRight = tactileRules.matchTargets?.[leftId];
     if (expectedRight) {
       if (expectedRight === rightId) {
         const fresh = value[leftId] !== rightId;
@@ -619,6 +654,7 @@ export function OrderBoard({
   layout?: BoardLayout;
   onHit?: (ok: boolean) => void;
 }) {
+  const tactileRules = useTactileRules();
   const [pickedTileId, setPickedTileId] = useState<string | null>(null);
   const [shakeRocketId, setShakeRocketId] = useState<string | null>(null);
   const [puzzleHint, setPuzzleHint] = useState<string>("");
@@ -626,7 +662,7 @@ export function OrderBoard({
   if (puzzle && onPlacementsChange) {
     function assignNumberToRocket(tileId: string, rocketId: string) {
       primeActivityAudio();
-      const allowed = MAT5_ROCKET_RULES[tileId];
+      const allowed = tactileRules.rocketRules?.[tileId];
       const tileLabel = tiles.find((t) => t.id === tileId)?.label ?? tileId;
       const rocketLabel = puzzle?.rockets.find((r) => r.id === rocketId)?.label ?? rocketId;
       if (allowed && !allowed.includes(rocketId)) {
@@ -936,8 +972,18 @@ export function ClozeLine({
   layout?: BoardLayout;
   onHit?: (ok: boolean) => void;
 }) {
+  const tactileRules = useTactileRules();
   const [activeGapId, setActiveGapId] = useState<string | null>(null);
   const [tactileGapMarks, setTactileGapMarks] = useState<Record<string, Mark>>({});
+
+  function gapOk(gapId: string, raw: string): boolean {
+    const clean = foldText(raw);
+    if (!clean) {
+      return false;
+    }
+    const allowed = tactileRules.gapAnswers?.[gapId] ?? [];
+    return allowed.some((item) => foldText(item) === clean);
+  }
 
   if (gaps && gaps.length > 0 && onGapChange) {
     function updateGap(gapId: string, text: string, fromChip = false) {
@@ -957,7 +1003,7 @@ export function ClozeLine({
         });
         return;
       }
-      if (isMat5GapOk(gapId, text)) {
+      if (gapOk(gapId, text)) {
         primeActivityAudio();
         setTactileGapMarks((curr) => ({ ...curr, [gapId]: "ok" }));
         playApplauseSound();
@@ -1041,7 +1087,7 @@ export function ClozeLine({
             const effectiveMark =
               serverState.mark ??
               tactileGapMarks[gap.id] ??
-              (isMat5GapOk(gap.id, currentVal) ? "ok" : null);
+              (gapOk(gap.id, currentVal) ? "ok" : null);
             const blankStyle =
               effectiveMark === "ok"
                 ? "border-solid border-emerald-500 bg-emerald-50 text-emerald-950"
@@ -1148,12 +1194,16 @@ export function evaluateLocalRail(
   multiClozes: Record<string, Record<string, string>>,
   orders: Record<string, string[]>,
   placements: Record<string, Record<string, string>>,
+  rules: JuniorTactileActivityRules = MAT5_TACTILE_RULES,
 ): { correct: number; total: number; notes: Note[] } {
+  const matchTargets = rules.matchTargets ?? MAT5_MATCH_TARGET;
+  const gapAnswers = rules.gapAnswers ?? MAT5_GAP_ANSWERS;
+  const rocketRules = rules.rocketRules ?? MAT5_ROCKET_RULES;
   const notes: Note[] = items.map((item) => {
     if (item.kind === "match") {
       const m = matches[item.id] ?? {};
       const cards: CardNote[] = item.left.map((l) => {
-        const expected = MAT5_MATCH_TARGET[l.id];
+        const expected = matchTargets[l.id];
         const ok = expected ? m[l.id] === expected : Boolean(m[l.id]);
         const ansLabel = expected ? item.right.find((r) => r.id === expected)?.label : undefined;
         return ok ? { id: l.id, ok: true } : { id: l.id, ok: false, answer: ansLabel };
@@ -1163,6 +1213,7 @@ export function evaluateLocalRail(
         id: item.id,
         ok,
         explanation:
+          rules.explanations?.match ??
           "2, 5 ve 10 kuralları son basamağa; 3 ve 9 kuralları rakamların toplamına bakar. Çarpan böler, kat büyütür.",
         cards,
       };
@@ -1171,8 +1222,10 @@ export function evaluateLocalRail(
       if (item.gaps && item.gaps.length > 0) {
         const gMap = multiClozes[item.id] ?? {};
         const cards: CardNote[] = item.gaps.map((g) => {
-          const ok = isMat5GapOk(g.id, gMap[g.id] ?? "");
-          const fallbackAns = MAT5_GAP_ANSWERS[g.id]?.[0] ?? "";
+          const written = foldText(gMap[g.id] ?? "");
+          const allowed = gapAnswers[g.id] ?? [];
+          const ok = written.length > 0 && allowed.some((item) => foldText(item) === written);
+          const fallbackAns = allowed[0] ?? "";
           return ok ? { id: g.id, ok: true } : { id: g.id, ok: false, answer: fallbackAns };
         });
         const ok = cards.every((c) => c.ok);
@@ -1180,6 +1233,7 @@ export function evaluateLocalRail(
           id: item.id,
           ok,
           explanation:
+            rules.explanations?.cloze ??
             "Son rakamı 0 veya 5 olan sayılar 5'e; rakamları toplamı 6 olan 24 sayısı 3'e tam bölünür. 12'yi kalansız bölen sayılara 12'nin çarpanları denir.",
           cards,
         };
@@ -1197,7 +1251,7 @@ export function evaluateLocalRail(
       const pMap = placements[item.id] ?? {};
       const cards: CardNote[] = item.tiles.map((t) => {
         const rId = pMap[t.id] ?? "";
-        const allowed = MAT5_ROCKET_RULES[t.id] ?? [];
+        const allowed = rocketRules[t.id] ?? [];
         return { id: t.id, ok: Boolean(rId && allowed.includes(rId)) };
       });
       const ok = cards.every((c) => c.ok);
@@ -1205,6 +1259,7 @@ export function evaluateLocalRail(
         id: item.id,
         ok,
         explanation:
+          rules.explanations?.puzzle ??
           "24, 15, 30 ve 18 sayıları bölünebilme dedektifi kurallarına göre roketlere yerleşti.",
         cards,
       };
@@ -1230,6 +1285,7 @@ export function ActivityRail({
   lessonKey: string;
   items: JuniorActivityPublic[];
 }) {
+  const tactileRules = resolveJuniorTactileRules(lessonKey);
   const [matches, setMatches] = useState<Record<string, Record<string, string>>>({});
   const [clozes, setClozes] = useState<Record<string, string>>({});
   const [multiClozes, setMultiClozes] = useState<Record<string, Record<string, string>>>({});
@@ -1270,7 +1326,7 @@ export function ActivityRail({
     setCelebrate(false);
     try {
       if (!profileId) {
-        const local = evaluateLocalRail(items, matches, clozes, multiClozes, orders, placements);
+        const local = evaluateLocalRail(items, matches, clozes, multiClozes, orders, placements, tactileRules);
         applyGradeOutcome(local.notes, local.correct, local.total);
         return;
       }
@@ -1306,7 +1362,15 @@ export function ActivityRail({
         data?: { correct?: number; total?: number; notes?: Note[] };
       } | null;
       if (!response.ok || !body?.data) {
-        const local = evaluateLocalRail(items, matches, clozes, multiClozes, orders, placements);
+        const local = evaluateLocalRail(
+          items,
+          matches,
+          clozes,
+          multiClozes,
+          orders,
+          placements,
+          tactileRules,
+        );
         applyGradeOutcome(local.notes, local.correct, local.total);
         return;
       }
@@ -1400,6 +1464,7 @@ export function ActivityRail({
   }
 
   return (
+    <JuniorTactileRulesScope lessonKey={lessonKey}>
     <section
       className="rounded-[2rem] border-2 border-fuchsia-200 bg-gradient-to-b from-fuchsia-50 via-white to-sky-50 p-3.5 shadow-sm sm:p-4"
       data-junior-activity-rail=""
@@ -1474,5 +1539,6 @@ export function ActivityRail({
         onClose={() => setCelebrate(false)}
       />
     </section>
+    </JuniorTactileRulesScope>
   );
 }

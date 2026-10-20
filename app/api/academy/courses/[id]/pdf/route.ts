@@ -1,17 +1,12 @@
-import { jsonFail } from "@/lib/kernel/http/json";
-
-const ACADEMY_STUDIO_GONE = {
-  pdf: "Ders notu PDF kapalı.",
-} as const;
+import { ACADEMY_STUDIO_GONE } from "@/lib/academy/studio-gone";
+import { closedSurfaceGone } from "@/lib/kernel/http/closed-surface-route";
 
 /**
  * Ders notu PDF — not fabrikası arşivde. Kenar oturum istemez; her yöntem 410.
  */
 export const auth = "public" as const;
 
-async function gone(request: Request) {
-  return jsonFail(ACADEMY_STUDIO_GONE.pdf, 410, undefined, request);
-}
+const gone = closedSurfaceGone(ACADEMY_STUDIO_GONE.pdf);
 
 export const GET = gone;
 export const POST = gone;

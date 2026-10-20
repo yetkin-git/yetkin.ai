@@ -162,6 +162,100 @@ export const AUTHORED_ACTIVITY_RAILS: Readonly<Record<string, readonly AuthoredA
         "24 çift olduğu için 2'ye (ve rakamları toplamı 6 olduğu için 3'e), 15 sonu 5 olduğu için 5'e (ve 3'e), 30 hem 2'ye hem 5'e hem 3'e, 18 ise rakamları toplamı 9 olduğu için 3'e (ve çift olduğu için 2'ye) tam bölünür.",
     },
   ],
+  "jr_06_mat-1": [
+    {
+      id: "rail-jr_06_mat-1-match",
+      kind: "match",
+      prompt: "Üslü ifadede kavramı doğru açıklamayla eşleştir.",
+      left: [
+        { id: "m1", label: "Taban" },
+        { id: "m2", label: "Üs (kuvvet)" },
+        { id: "m3", label: "5¹" },
+        { id: "m4", label: "10²" },
+      ],
+      right: [
+        { id: "r2", label: "Tabanın kaç kez çarpılacağını söyler." },
+        { id: "r4", label: "100 eder; sonda 2 sıfır vardır." },
+        { id: "r1", label: "Tekrar tekrar çarpılan sayıdır." },
+        { id: "r3", label: "Tabanın kendisine eşittir." },
+      ],
+      pairs: { m1: "r1", m2: "r2", m3: "r3", m4: "r4" },
+      explanation:
+        "Taban tekrar çarpılan sayıdır. Üs, kaç kez çarpılacağını söyler. 5¹ tabanın kendisidir. 10² = 100 olduğu için sonda 2 sıfır vardır.",
+    },
+    {
+      id: "rail-jr_06_mat-1-cloze",
+      kind: "cloze",
+      prompt: "Üslü ifadelerdeki boşlukları doldur.",
+      before: "2³ = 2 × 2 × 2 =",
+      after: ".",
+      accepts: ["8", "sekiz"],
+      wordBank: ["8", "1", "3"],
+      gaps: [
+        {
+          id: "g1",
+          before: "2³ = 2 × 2 × 2 =",
+          after: ".",
+          accepts: ["8", "sekiz"],
+        },
+        {
+          id: "g2",
+          before: "Sıfırdan farklı bir sayının 0. kuvveti",
+          after: "eder.",
+          accepts: ["1", "bir"],
+        },
+        {
+          id: "g3",
+          before: "10³ ifadesinin sonunda",
+          after: "tane sıfır vardır.",
+          accepts: ["3", "üç", "uc"],
+        },
+      ],
+      explanation:
+        "2³ = 2 × 2 × 2 = 8. Sıfırdan farklı bir sayının 0. kuvveti 1'dir. 10³ ifadesinin sonunda 3 sıfır vardır.",
+    },
+    {
+      id: "rail-jr_06_mat-1-order",
+      kind: "order",
+      prompt: "2³, 7⁰, 1⁴ ve 10³ kartlarını doğru üs kulesine yerleştir.",
+      tiles: [
+        { id: "e23", label: "2³" },
+        { id: "e70", label: "7⁰" },
+        { id: "e14", label: "1⁴" },
+        { id: "e103", label: "10³" },
+      ],
+      sequence: ["e23", "e70", "e14", "e103"],
+      puzzle: {
+        title: "3. ÜS DEDEKTİFİ",
+        prompt: "2³, 7⁰, 1⁴ ve 10³ kartlarını doğru üs kulesine yerleştir.",
+        rockets: [
+          {
+            id: "r-mul",
+            label: "Tekrarlı çarpım",
+            ruleHint: "Taban, üs kadar yan yana çarpılır",
+          },
+          {
+            id: "r-unit",
+            label: "Sonucu 1",
+            ruleHint: "0. kuvvet veya 1'in kuvveti",
+          },
+          {
+            id: "r-ten",
+            label: "10'un kuvveti",
+            ruleHint: "Sondaki sıfır sayısı üsse eşittir",
+          },
+        ],
+        validRockets: {
+          e23: ["r-mul"],
+          e70: ["r-unit"],
+          e14: ["r-unit"],
+          e103: ["r-ten"],
+        },
+      },
+      explanation:
+        "2³ tekrarlı çarpımdır. 7⁰ ve 1⁴ sonucu 1'dir. 10³, 10'un kuvvetidir; sonda 3 sıfır bulunur.",
+    },
+  ],
 };
 
 /** Konu JSON'undaki etkinlik şekli. Cevap sırası ve roket eşlemesi raydan gelir. */

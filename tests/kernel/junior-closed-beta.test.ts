@@ -21,7 +21,9 @@ import { completeJuniorCheckout, JUNIOR_CHECKOUT_CLOSED_MESSAGE } from "@/lib/ju
 import { juniorLessonGate } from "@/lib/junior/enter";
 import { JUNIOR_FREE_LESSON_KEY, JUNIOR_PAID_ACTION_ERROR } from "@/lib/junior/limits";
 import {
+  isJuniorEngineProductionKey,
   isUnknownJuniorLessonPath,
+  JUNIOR_ENGINE_PRODUCTION_KEYS,
   JUNIOR_KNOWN_LESSON_KEYS,
   juniorLessonKeyFromPath,
 } from "@/lib/junior/lesson-index";
@@ -271,11 +273,16 @@ describe("Junior fiyatı katalog satırındandır", () => {
 });
 
 describe("Junior bilinmeyen ders adresi", () => {
-  it("katalog anahtarları ile kenar listesi aynıdır; olmayan anahtar 404 adayıdır", () => {
+  it("katalog anahtarları ile kenar listesi aynıdır; üretim rotası açıktır, olmayan anahtar 404 adayıdır", () => {
     expect([...JUNIOR_KNOWN_LESSON_KEYS].sort()).toEqual([...juniorCatalogLessonKeys()].sort());
     expect(juniorLessonAccess("jr_06_mat-99")).toBe("missing");
     expect(isUnknownJuniorLessonPath("/junior/ders/jr_06_mat-99")).toBe(true);
-    expect(isUnknownJuniorLessonPath("/junior/ders/jr_06_mat-1")).toBe(true);
+    expect(isUnknownJuniorLessonPath("/junior/ders/jr_06_mat-1")).toBe(false);
+    expect(isUnknownJuniorLessonPath("/junior/ders/jr_06_mat-4")).toBe(false);
+    expect(isJuniorEngineProductionKey("jr_06_mat-5")).toBe(false);
+    expect(JUNIOR_ENGINE_PRODUCTION_KEYS.every((key) => !JUNIOR_KNOWN_LESSON_KEYS.includes(key))).toBe(
+      true,
+    );
     expect(juniorLessonKeyFromPath("/junior/ders/jr_06_mat-1")).toBeNull();
     expect(juniorLessonKeyFromPath("/junior/ders/jr_06_mat-99")).toBeNull();
     expect(juniorPrevLesson("jr_06_mat-5")).toBeNull();

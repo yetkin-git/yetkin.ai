@@ -19,7 +19,10 @@ import {
   scrubJuniorLiveTutorReply,
   type JuniorLiveTutorPromptContext,
 } from "@/lib/junior/live-tutor-policy";
-import { getPilotTimelineForLesson } from "@/lib/junior/pilot-engine/mat-5-timeline-loader";
+import {
+  peekJuniorLessonBlueprint,
+  resolveJuniorEngineTimeline,
+} from "@/lib/junior/lesson-engine/registry";
 import { invokeLlm, type InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import type { LlmChatTurn } from "@/lib/kernel/ai/types";
@@ -93,7 +96,8 @@ export function loadJuniorLiveTutorContext(
 ): JuniorLiveTutorPromptContext | null {
   const scenario = juniorScenarioIfPresent(lessonKey);
   const booklet = juniorBookletCopy(lessonKey);
-  const timeline = getPilotTimelineForLesson(lessonKey);
+  const blueprint = peekJuniorLessonBlueprint(lessonKey);
+  const timeline = resolveJuniorEngineTimeline(lessonKey);
   if (!scenario && !timeline && !booklet.concept) {
     return null;
   }
@@ -115,11 +119,11 @@ export function loadJuniorLiveTutorContext(
 
   return {
     lessonKey,
-    lessonTitle: timeline?.title ?? scenario?.title ?? lessonKey,
+    lessonTitle: timeline?.title ?? scenario?.title ?? blueprint?.title ?? lessonKey,
     teacherName: timeline?.teacher.name ?? JUNIOR_LIVE_TUTOR_TEACHER.replace(" Öğretmen", ""),
     activeSceneTitle,
     activeSceneSubtitle,
-    conceptSeal: scenario?.conceptSeal?.trim() ?? "",
+    conceptSeal: scenario?.conceptSeal?.trim() || blueprint?.content.conceptSummary || "",
     notesDigest: clipDigest([
       booklet.heroQuestion,
       booklet.heroFocus,
@@ -128,7 +132,7 @@ export function loadJuniorLiveTutorContext(
       booklet.warning,
       ...(booklet.recap ?? []),
     ]),
-    outcomesDigest: clipDigest(scenario?.outcomes ?? []),
+    outcomesDigest: clipDigest(scenario?.outcomes ?? blueprint?.content.outcomes ?? []),
   };
 }
 

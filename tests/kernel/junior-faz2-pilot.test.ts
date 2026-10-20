@@ -457,7 +457,9 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     // Mikro-adım izi yalnız tamamlanan adım numaralarını tarayıcıda tutar; puan, ses ya da cüzdan yazmaz.
     // Bu tek dosyada localStorage yasağı gevşer. Puan, ses ve cüzdan yasakları bu dosyada da aynen geçerlidir.
     const stepTraceFile = join(root, "lib", "junior", "micro-progress.ts");
+    const progressTrackerFile = join(root, "lib", "junior", "progress-tracker.ts");
     const stepTraceBanned = /\bWallet\b|\bLedgerEntry\b|audio_base64|indexedDB|\bscore\b/;
+    const progressTrackerBanned = /\bWallet\b|\bLedgerEntry\b|audio_base64|indexedDB/;
     const catalogPriceFiles = new Set([
       join(root, "lib", "junior", "price.ts"),
       join(root, "lib", "junior", "paytr.ts"),
@@ -467,7 +469,13 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     ]);
     for (const file of files) {
       const source = readFileSync(file, "utf8");
-      expect(source, file).not.toMatch(file === stepTraceFile ? stepTraceBanned : banned);
+      const rule =
+        file === stepTraceFile
+          ? stepTraceBanned
+          : file === progressTrackerFile
+            ? progressTrackerBanned
+            : banned;
+      expect(source, file).not.toMatch(rule);
       if (!catalogPriceFiles.has(file)) {
         expect(source, file).not.toMatch(/amountMinor/);
       }

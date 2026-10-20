@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type ComponentProps, type ReactNode } from "react";
 import {
   ClozeLine,
+  JuniorTactileRulesScope,
   MatchBoard,
   OrderBoard,
   evaluateLocalRail,
@@ -13,8 +14,11 @@ import {
 } from "@/components/junior/activity-rail";
 import type { JuniorHubModule } from "@/components/junior/activity-hub";
 import { AnimatedSimulationStudio } from "@/components/junior/animated-simulations";
-import { LiveTutorPanel } from "@/components/junior/live-tutor-panel";
-import { QuickTools, type QuickToolsStatus } from "@/components/junior/quick-tools";
+import {
+  JuniorLessonEngine,
+  JuniorLessonEngineShell,
+} from "@/components/junior/lesson-engine/JuniorLessonEngine";
+import type { QuickToolsStatus } from "@/components/junior/quick-tools";
 import type { JuniorActivityPublic } from "@/lib/junior/activity-public";
 import { burstJuniorActivityConfetti } from "@/lib/junior/activity-confetti";
 import { playApplauseSound, playOopsSound, primeActivityAudio } from "@/lib/junior/activity-sound";
@@ -29,6 +33,7 @@ import {
   recordActivityScore,
   type JuniorLessonProgressEventDetail,
 } from "@/lib/junior/progress-tracker";
+import { resolveJuniorTactileRules } from "@/lib/junior/lesson-engine";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
 export type ActivityStudioStatus = QuickToolsStatus;
@@ -41,13 +46,6 @@ const GAMES = [
 ] as const;
 
 type GameId = (typeof GAMES)[number]["id"];
-
-const TOOLS = [
-  { id: "activities", label: "Etkinlikler" },
-  { id: "tests", label: "Soru Bankası" },
-  { id: "notes", label: "Ders Notu" },
-  { id: "tutor", label: "Selim Öğretmen'e Sor" },
-] as const satisfies readonly { id: JuniorHubModule; label: string }[];
 
 type MatchProps = Omit<ComponentProps<typeof MatchBoard>, "layout">;
 type ClozeProps = Omit<ComponentProps<typeof ClozeLine>, "layout">;
@@ -70,13 +68,16 @@ export function ActivityStudio({
   lessonKey,
   items,
   onStatus,
+  initialGame = "match",
 }: {
   profileId: string;
   lessonKey: string;
   items: JuniorActivityPublic[];
   onStatus?: (status: ActivityStudioStatus) => void;
+  initialGame?: GameId;
 }) {
-  const [game, setGame] = useState<GameId>("match");
+  const tactileRules = resolveJuniorTactileRules(lessonKey);
+  const [game, setGame] = useState<GameId>(initialGame);
   const [matches, setMatches] = useState<Record<string, Record<string, string>>>({});
   const [clozes, setClozes] = useState<Record<string, string>>({});
   const [multiClozes, setMultiClozes] = useState<Record<string, Record<string, string>>>({});
@@ -94,9 +95,9 @@ export function ActivityStudio({
   const matchItem = items.find((item) => item.kind === "match");
   const clozeItem = items.find((item) => item.kind === "cloze");
   const puzzleItem = items.find((item) => item.kind === "order");
-  const matchReady = matchItem ? mat5MatchReady(matches[matchItem.id] ?? {}) : false;
-  const clozeReady = clozeItem ? mat5ClozeReady(multiClozes[clozeItem.id] ?? {}) : false;
-  const puzzleReady = puzzleItem ? mat5PuzzleReady(placements[puzzleItem.id] ?? {}) : false;
+  const matchReady = matchItem ? mat5MatchReady(matches[matchItem.id] ?? {}, tactileRules) : false;
+  const clozeReady = clozeItem ? mat5ClozeReady(multiClozes[clozeItem.id] ?? {}, tactileRules) : false;
+  const puzzleReady = puzzleItem ? mat5PuzzleReady(placements[puzzleItem.id] ?? {}, tactileRules) : false;
   const readyCount = [matchReady, clozeReady, puzzleReady].filter(Boolean).length;
 
   const pushStatus = useCallback(() => {
@@ -190,7 +191,15 @@ export function ActivityStudio({
     setCelebrate(false);
     try {
       if (!profileId) {
-        const local = evaluateLocalRail(items, matches, clozes, multiClozes, orders, placements);
+        const local = evaluateLocalRail(
+          items,
+          matches,
+          clozes,
+          multiClozes,
+          orders,
+          placements,
+          tactileRules,
+        );
         applyGradeOutcome(local.notes, local.correct, local.total);
         return;
       }
@@ -224,7 +233,15 @@ export function ActivityStudio({
         data?: { correct?: number; total?: number; notes?: Note[] };
       } | null;
       if (!response.ok || !body?.data) {
-        const local = evaluateLocalRail(items, matches, clozes, multiClozes, orders, placements);
+        const local = evaluateLocalRail(
+          items,
+          matches,
+          clozes,
+          multiClozes,
+          orders,
+          placements,
+          tactileRules,
+        );
         applyGradeOutcome(local.notes, local.correct, local.total);
         return;
       }
@@ -247,6 +264,7 @@ export function ActivityStudio({
   const isSim = game === "sim";
 
   return (
+    <JuniorTactileRulesScope lessonKey={lessonKey}>
     <section
       data-junior-activity-studio=""
       className={`relative flex w-full flex-col gap-2 rounded-[2rem] border-2 bg-gradient-to-b from-fuchsia-50 via-white to-sky-50 p-3 shadow-sm transition-shadow sm:p-4 ${
@@ -424,22 +442,13 @@ export function ActivityStudio({
         ) : null}
       </div>
     </section>
+    </JuniorTactileRulesScope>
   );
 }
 
-export function Mat5FocusedLayout({
-  lessonKey,
-  profileId = "",
-  module,
-  onModule,
-  status,
-  player,
-  studio,
-  tests,
-  notes,
-  tutor,
-  totalScenes,
-}: {
+export { JuniorLessonEngine, JuniorLessonEngineShell };
+
+export function Mat5FocusedLayout(props: {
   lessonKey: string;
   profileId?: string;
   module: JuniorHubModule;
@@ -453,67 +462,5 @@ export function Mat5FocusedLayout({
   /** Pilot timeline cue sayısı; kart/yüzde hesabı için. */
   totalScenes?: number;
 }) {
-  function choose(next: JuniorHubModule) {
-    onModule(next);
-    window.requestAnimationFrame(() => {
-      document.getElementById("junior-activity-hub")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  }
-
-  return (
-    <div
-      data-junior-studio-flow={lessonKey}
-      data-junior-fold="flow"
-      className="flex w-full min-w-0 flex-col gap-6 xl:grid xl:grid-cols-[minmax(0,1fr)_14.5rem] xl:items-start xl:gap-6"
-    >
-      <div className="flex min-w-0 flex-col gap-3">
-        <div
-          data-junior-player-shell=""
-          className="flex h-[min(48rem,calc(100dvh-6.5rem))] min-h-[28rem] w-full min-w-0 flex-col"
-        >
-          {player}
-        </div>
-        <div id="junior-activity-hub" className="min-w-0">
-          <div className={module === "activities" ? "block" : "hidden"}>{studio}</div>
-          {module === "tests" ? <div>{tests}</div> : null}
-          {module === "notes" ? <div>{notes}</div> : null}
-          {module === "tutor" ? <div data-junior-tutor-slot="">{tutor ?? <LiveTutorPanel lessonKey={lessonKey} />}</div> : null}
-        </div>
-      </div>
-      <QuickTools
-        lessonKey={lessonKey}
-        profileId={profileId}
-        totalScenes={totalScenes}
-        status={status}
-        tools={
-          <div
-            role="tablist"
-            aria-label="Ders araçları"
-            className="grid min-w-0 flex-1 grid-cols-2 gap-1.5 sm:grid-cols-4 xl:mt-3 xl:grid-cols-1 xl:gap-2"
-          >
-            {TOOLS.map((tool) => {
-              const selected = tool.id === module;
-              return (
-                <button
-                  key={tool.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={selected}
-                  data-junior-studio-tool={tool.id}
-                  className={`min-w-0 whitespace-normal rounded-xl border px-1.5 py-2 text-center text-xs font-extrabold leading-tight xl:px-3 xl:py-2.5 xl:text-left xl:text-sm ${
-                    selected
-                      ? "border-[var(--safir)] bg-[var(--safir-soft)] text-[var(--safir-deep)]"
-                      : "border-[var(--border)] bg-white text-slate-800"
-                  }`}
-                  onClick={() => choose(tool.id)}
-                >
-                  {tool.label}
-                </button>
-              );
-            })}
-          </div>
-        }
-      />
-    </div>
-  );
+  return <JuniorLessonEngineShell {...props} />;
 }

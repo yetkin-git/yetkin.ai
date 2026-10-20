@@ -101,6 +101,9 @@ export function isJuniorLiveTutorOffTopic(question: string, corpus = ""): boolea
   if (OFF_TOPIC_RE.test(question)) {
     return true;
   }
+  if (/(üs|kuvvet|taban|üslü)/iu.test(question)) {
+    return false;
+  }
   const body = corpus.trim();
   if (!body) {
     return !HERE_RE.test(question);
@@ -166,6 +169,20 @@ export function resolveJuniorLiveTutorLocalReply(
   const sceneHint = ctx.activeSceneTitle.trim()
     ? `Şu an «${ctx.activeSceneTitle}» sahnesindesin.`
     : "Önce ekrandaki sahne başlığına bir bak.";
+
+  if (q.includes("10") && (q.includes("kuvvet") || q.includes("üs") || q.includes("sıfır"))) {
+    return `${sceneHint} 10² yaz. Sonda kaç sıfır duruyor? Üs ile o sayıyı karşılaştır — aynı mı? 10³ için bir kez daha say.`;
+  }
+  if (
+    (q.includes("0") || q.includes("sıfır")) &&
+    q.includes("1") &&
+    (q.includes("kuvvet") || q.includes("üs"))
+  ) {
+    return `${sceneHint} 5¹ tabanı bir kez yazar. 5⁰ ise tabanı hiç çarpmaz; boş çarpımın değeri neydi? 1⁵ ile de aynı soruyu sor.`;
+  }
+  if (q.includes("üs") || q.includes("kuvvet") || q.includes("taban")) {
+    return `${sceneHint} Taban çarpılan sayıdır, üs kaç kez yan yana yazılacağını söyler. 2³ için 2'yi üç kez çarp. Bu, 2 × 3 ile aynı şey mi?`;
+  }
 
   if (q.includes("örnekle açıkla") || q.includes("bir örnekle")) {
     return `${sceneHint} Küçük bir örnek düşün: 24. Son rakamı çift mi? Evet — o zaman 2 kuralı için ne dersin? Sen söyle, ben yanında duruyorum.`;

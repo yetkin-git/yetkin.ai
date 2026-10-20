@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LessonChain } from "@/components/junior/lesson-chain";
+import { JuniorEngineProductionLesson } from "@/components/junior/lesson-engine/JuniorEngineProductionLesson";
 import { JsonLd } from "@/components/seo/json-ld";
 import { BreadcrumbPageLabel } from "@/components/shell/header-breadcrumb";
 import { LinkButton } from "@/components/ui/link-button";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 import { getSession } from "@/lib/kernel/auth/session";
+import { publicJuniorActivityRail } from "@/lib/junior/activity-rail";
 import { juniorBookletCopy, juniorLessonMicroQuestion } from "@/lib/junior/booklet";
 import { juniorCourseByLessonKey, juniorLessonAccess } from "@/lib/junior/catalog";
 import { juniorLessonGate } from "@/lib/junior/enter";
 import { juniorCourseTitleFromLessonKey } from "@/lib/junior/human-titles";
+import { isJuniorEngineProductionKey, isKnownJuniorLessonKey } from "@/lib/junior/lesson-index";
+import { peekJuniorLessonBlueprint } from "@/lib/junior/lesson-engine/registry";
 import {
   JUNIOR_QUIZ_CONTROL_LABEL,
   JUNIOR_QUIZ_MIN_ITEMS,
@@ -30,7 +34,60 @@ export async function generateMetadata({
   params: Promise<{ lessonKey: string }>;
 }): Promise<Metadata> {
   const { lessonKey } = await params;
+  if (isJuniorEngineProductionKey(lessonKey) && !isKnownJuniorLessonKey(lessonKey)) {
+    const blueprint = peekJuniorLessonBlueprint(lessonKey);
+    return {
+      title: blueprint?.title ?? "Ders",
+      robots: { index: false, follow: false },
+    };
+  }
   return juniorLessonPageMetadata(lessonKey);
+}
+
+function JuniorEngineProductionFrame({ lessonKey }: { lessonKey: string }) {
+  const blueprint = peekJuniorLessonBlueprint(lessonKey);
+  if (!blueprint) {
+    notFound();
+  }
+  const booklet = juniorBookletCopy(lessonKey);
+  const activities = publicJuniorActivityRail(lessonKey);
+  const courseLabel = juniorCourseTitleFromLessonKey(lessonKey) ?? `6. Sınıf ${blueprint.subject}`;
+
+  return (
+    <RoomFrame
+      cinema
+      data-junior-lesson-layout="studio-flow"
+      data-junior-lesson-contract="engine-production"
+      className="flex w-full flex-col gap-3 space-y-0 pb-6"
+    >
+      <BreadcrumbPageLabel href="/junior" label={courseLabel} />
+      <BreadcrumbPageLabel href={`/junior/ders/${lessonKey}`} label={blueprint.title} />
+      <PageHeader
+        tight
+        className="shrink-0"
+        titleClassName="text-lg leading-tight sm:text-xl"
+        title={blueprint.title}
+        actions={
+          <>
+            <span className="ml-auto inline-flex h-8 max-w-full items-center rounded-full border border-[color-mix(in_srgb,var(--safir)_35%,var(--border))] bg-[var(--safir-soft)] px-2.5 text-xs font-semibold text-[var(--safir-deep)]">
+              {courseLabel}
+            </span>
+            <LinkButton href="/junior" variant="outline" size="sm" className="shrink-0">
+              Ders listesi
+            </LinkButton>
+          </>
+        }
+      />
+      <JuniorEngineProductionLesson
+        lessonKey={lessonKey}
+        title={blueprint.title}
+        outcomes={blueprint.content.outcomes}
+        lifeUse={blueprint.notes?.lifeUse ?? booklet.concept}
+        booklet={booklet}
+        activities={activities}
+      />
+    </RoomFrame>
+  );
 }
 
 export default async function JuniorLessonPage({
@@ -38,8 +95,11 @@ export default async function JuniorLessonPage({
 }: {
   params: Promise<{ lessonKey: string }>;
 }) {
-  const session = await getSession();
   const { lessonKey } = await params;
+  if (isJuniorEngineProductionKey(lessonKey) && !isKnownJuniorLessonKey(lessonKey)) {
+    return <JuniorEngineProductionFrame lessonKey={lessonKey} />;
+  }
+  const session = await getSession();
   const actor = session
     ? { id: session.id, email: session.email, emailConfirmedAt: session.emailConfirmedAt ?? null }
     : null;
@@ -84,6 +144,7 @@ export default async function JuniorLessonPage({
     <RoomFrame
       cinema
       data-junior-lesson-layout={studioFlow ? "studio-flow" : "rail"}
+      data-junior-lesson-contract="catalog"
       className={
         studioFlow
           ? "flex w-full flex-col gap-3 space-y-0 pb-6"
