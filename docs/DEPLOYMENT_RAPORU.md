@@ -1,136 +1,94 @@
-# Dağıtım raporu — 27 Ekim 2026
+# Dağıtım raporu — 27 Ekim 2026, akşam
 
-Canlı site bu turda **güncellenmedi**. `main` GitHub'a gitti. Üç üretim dağıtımı derleme başlamadan başarısız kapandı. Şu an https://yetkin.ai önceki sürümü sunuyor.
+Canlı site bu turda **güncellendi**. `main` ucu `4e02fc9`. https://yetkin.ai yeni sürümü sunuyor.
 
-## 1. GitHub
+Ölçüm: 27 Ekim 2026, yaklaşık 14:05 TR. `robots.txt` `last-modified: Tue, 27 Oct 2026 11:04:52 GMT`. Önceki ölçümde bu başlık `Wed, 21 Oct 2026` idi ve `/academy/ileri` sitemap'te yoktu.
 
-Dal: `main` → `origin/main` (`https://github.com/yetkin-git/yetkin.ai.git`).
+## 1. Kök neden
 
-Önceki canlı uç: `1445f1a`. Ürün ucu: `89e7f8e`. Bu dosya onun üstündeki belge commit'idir; uygulamayı değiştirmez ve aynı ön-derleme reddine düşer.
+`tests/academy/idor-exam-purchase.test.ts` fiyat kilidini `01_office_ai` üzerinden açar. `lockAcademyCoursePrice` → `requirePublishedCourse` → `academyCourseSaleOpen`. Satış, sınav yolundaki konuşma metni ve mühürlü sesi okur.
 
-| Commit | Mesaj |
+Konuşma metni depodadır. Ses baytı yoktur: `git ls-files "*.mp3"` sıfırdır, `public/media/academy/audio` bu makinede de yoktur. CI ve Vercel aynı checkout'u alır. Test `NODE_ENV=test` iken disk okuyucusu dosyayı false sayıyor, kapı `GoneError: Kurs satışa kapalı.` ile çıkış 1 veriyordu. Üretim çalışma zamanı zaten `lib/academy/production-seal-manifest.ts` anlığını okur; lambda baytı taşımaz.
+
+Aynı zincirde `verify:junior-sync`, Junior ses klasörü yokken onay vermiyordu. `verify:junior-audio-manifest` klasör yoksa dosya denetimini atlar. Akustik kapı bunu yapmıyordu. `verify:prebuild` sırası IDOR'dan sonra bu kapıya gelir; IDOR düzelince derleme burada düşerdi.
+
+## 2. Düzeltme
+
+Commit `4e02fc9` — `fix(deploy): pass prebuild when sealed audio bytes are absent`.
+
+| Dosya | Hüküm |
 |---|---|
-| `8836cb0` | refactor(junior/api): unify junior lesson engine shell and consolidate closed bff surface |
-| `b7c291d` | refactor(analytics/academy): expand 1st-party conversion funnel and refine focus course pitches |
-| `1969fa2` | fix(academy/junior): seal curriculum, sale gates, and public metadata |
-| `f9b676b` | fix(deploy): accept a daily PayTR cron and the junior player read model |
-| `89e7f8e` | fix(deploy): remove the cron that rejected production before build |
+| `lib/academy/production-seal-disk.ts` | `public/media/academy/audio` yoksa konuşma ve fon, mühür anlığından okunur. Klasör durup dosya eksikse satış kapalı kalır. `01_office_ai-4` anlıkta yoktur, false kalır. |
+| `scripts/verify-junior-sync.ts` | `public/media/junior/audio` ve `media-bake/junior/audio` ikisi de yoksa akustik sapma atlanır. Klasör durup ders dosyası yoksa onay yok. `--apply` baytsız yazmaz. |
+| `tests/academy/production-standard.test.ts` | Ağaç yokken anlık konuşmayı var sayar. |
+| `tests/academy/academy-sealed-media-sync.test.ts` | Bayt 0 iken anlıkta duran yolu eksik saymaz. |
 
-`1969fa2` çalışma ağacındaki mühür, müfredat, satış kapısı ve SEO düzeltmelerini taşır (717 dosya). Gizli dosya, `node_modules` ve `/generated/` stage edilmedi.
+Üretim `NODE_ENV=production` yolu değişmedi. Anlık hâlâ satış kaynağıdır.
 
-Yerel kapılar, push öncesi:
+## 3. Medyasız prova
 
-- `npx tsc --noEmit` — çıkış 0
-- `npx vitest run` — 393 dosya, 1911 test geçti
-- `npm run verify:api-auth -- --check` — 77 rota, sapma yok
+Akademi ses klasörü zaten yoktu. Junior oynatıcı klasörü ve fırın yatağı prova sırasında `D:\yetkin-sealhold` altına alındı, komut bitince geri kondu. İkisi de yerinde.
 
-Bu yerel testler diskteki medyayla koştu. CI'daki sonuç aşağıda; ikisi aynı kapı değil.
-
-## 2. Supabase
-
-Bağlantı bu makinedeki `.env.local` üzerinden okundu. Değerler rapora yazılmadı.
-
-| Kontrol | Sonuç |
+| Komut | Çıkış |
 |---|---|
-| Proje host | `mflgqedoocqpxmtryvca.supabase.co` |
-| `DIRECT_URL` | `aws-0-eu-central-1.pooler.supabase.com:5432` |
-| `DATABASE_URL` | aynı havuz, port `6543` |
-| Diskteki Prisma migrasyonu | 44 |
-| Uygulanmış | 43, sonra 44 |
-| Bekleyen | `20261024170000_junior_mat_meb_lesson_key` uygulandı |
+| `npm run verify:prebuild` | 0. IDOR 19 test geçti. `verify:junior-sync OK — 123 timeline. Ses klasörü bu süreçte yok` |
+| `npm run build` | 0. `next build` rota tablosunu bastı. `BUILD_EXIT=0` |
+| `npx tsc --noEmit` | 0 |
+| `npx vitest run` | 392 dosya geçti. 1 dosya 5 sn zaman aşımı: `tests/academy/tts-quality-gate.test.ts`, `tsc` ile aynı anda koşunca. Yalnız koşunca 530 ms, çıkış 0. Medya hükmü değil. |
 
-`npx prisma migrate deploy` çıktısı: `All migrations have been successfully applied.`
+`public/` paketi bu provada 55.6 MB. 950 MB hata eşiğinin altında.
 
-`junior_progress` satır sayısı 0 olduğu için MEB ders anahtarı güncellemesi 0 satır yazdı. İkinci kez çalıştırılmaz; Prisma kaydı bunu kilitler.
+## 4. GitHub ve Vercel
 
-`academy_purchases_guard_ledger` fonksiyonu ve `recon-ledger-19011370-ac01officeai` satırı bu turdan önce de vardı. `supabase/migrations/20261026220000_academy_purchase_ledger_guard.sql` depoya girdi. `ops:migrate` çalıştırılmadı: o komut `supabase/migrations` altındaki bütün SQL dosyalarını her seferinde yeniden uygular.
+Push: `504f045..4e02fc9` → `origin/main`.
 
-## 3. Ortam değişkenleri
+GitHub durum kaydı, push'tan hemen sonra: `pending`, cümle `Vercel is deploying your app`. Hedef: https://vercel.com/yetkin-git/yetkin-ai/8Y57WBnAiCGjaSzSHvmqJRtT87DK
 
-Vercel Production kasası okunamadı. CLI oturumu yok (`vercel whoami` → logged out). `VERCEL_TOKEN` boş.
+Sonraki durum okuması GitHub API hız sınırına takıldı. Panel cümlesi `Ready` bu makineden okunamadı. `vercel whoami` oturumsuz, `VERCEL_TOKEN` boş.
 
-Bu makinedeki `.env.local` (yalnız varlık):
+Canlı kenar, eski sürümün eksiklerini kapatmış durumda:
 
-| Anahtar | Durum |
-|---|---|
-| `SUPER_ADMIN_USER_ID` | dolu, UUID biçimi |
-| `CANONICAL_SUPER_ADMIN_EMAIL` | dolu |
-| `NEXT_PUBLIC_SUPABASE_URL` | dolu, host yukarıda |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | dolu |
-| `SUPABASE_SERVICE_ROLE_KEY` | dolu |
-| `PAYTR_MERCHANT_ID` / `_KEY` / `_SALT` | dolu |
-| `PAYTR_SANDBOX` | dolu (yerel laboratuvar) |
-| `PAYTR_ALLOW_MOCK_CHECKOUT` | boş |
-| `NEXT_PUBLIC_APP_URL` | `localhost:3000` |
-| `CRON_SECRET` | boş |
-| `CLOUDFLARE_API_TOKEN` / `CF_API_TOKEN` | boş |
-
-Yerel `PAYTR_SANDBOX` ve `localhost` üretim kopyası değildir. Üretimde `NEXT_PUBLIC_APP_URL` `https://yetkin.ai` olmalı; PayTR canlı üçlüsü durmalı; `PAYTR_SANDBOX` ve `PAYTR_ALLOW_MOCK_CHECKOUT` boş olmalı. Bu üçü Vercel panelinden teyit edilmedi.
-
-## 4. Vercel
-
-Üretim derlemesi üç kez tetiklendi. Üçü de derleme günlüğü oluşmadan `failure` kaldı. Canlı trafik önceki dağıtımda.
-
-| Uç | Dağıtım | Sonuç |
+| Adres | Durum | Eşleşme |
 |---|---|---|
-| `1969fa2` | `dpl_D5hHCaCP8vvjsZJTiiUbPfYpjeyD` | failure, 27 Ekim 2026 11:59 TR |
-| `f9b676b` | `dpl_AmZuFVTpkee6vQvRKhP2CDCDY6hd` | failure, 27 Ekim 2026 12:11 TR |
-| `89e7f8e` | `dpl_3owytZvXsXiFeAe9tJDLt8CwoR8k` | failure, 27 Ekim 2026 12:49 TR |
+| `https://yetkin.ai/robots.txt` | 200 | `Allow: /academy/ileri`. `x-vercel-cache: MISS`. `cf-cache-status: EXPIRED` |
+| `https://yetkin.ai/sitemap.xml` | 200 | 32 adres. `/academy/ileri` var |
+| `https://yetkin.ai/academy` | 200 | `x-matched-path: /academy` |
+| `https://yetkin.ai/academy/ileri` | 200 | `x-matched-path: /academy/ileri` |
+| `https://yetkin.ai/junior` | 200 | `x-matched-path: /junior` |
 
-GitHub kaydı her seferinde aynı cümle: `Deployment has failed`. Ayrıntı için Vercel'in verdiği komut:
+Önceki turda `/academy/ileri` `x-matched-path: /academy/[slug]` idi. Statik sayfa artık kenarda.
 
-```bash
-npx vercel inspect dpl_3owytZvXsXiFeAe9tJDLt8CwoR8k --logs
-```
+## 5. Ortam değişkenleri
 
-Bu komut bu makinede oturum olmadığı için çalışmadı. Dağıtım sayfası giriş duvarına düşüyor: https://vercel.com/yetkin-git/yetkin-ai/3owytZvXsXiFeAe9tJDLt8CwoR8k
+Vercel Production kasası açılmadı. Değer yazılmadı.
 
-`89e7f8e` içindeki `vercel.json`, son başarılı uç `1445f1a` ile aynı (yalnız `regions: ["fra1"]`). Cron ifadesini günlük yapmak ve sonra tamamen kaldırmak bu anında kapanmayı değiştirmedi. Cron, tek başına kanıtlanmış neden değil.
+Derleme canlıya çıktığı için `NODE_ENV=production` hazırlık kapısı (`ops:runtime-readiness`) çıkış 1 vermemiş demektir. Bu kapının kestiği şeyler:
 
-`app/api/(kernel)/cron/paytr-reconcile/route.ts` duruyor. `CRON_SECRET` boşsa rota 503 döner. `vercel.json` içinde cron kaydı yok; panelden eklenene kadar Vercel bu rotayı kendisi çağırmaz.
+- `SUPER_ADMIN_USER_ID` boşsa derleme durur. Boş değildi.
+- PayTR üçlüsü doluyken `NEXT_PUBLIC_APP_URL` localhost veya `http` ise derleme durur. Üçlü doluysa kök `https` genel köken.
+- PayTR üçlüsü doluyken `PAYTR_ALLOW_MOCK_CHECKOUT` doluysa derleme durur.
+- `VERCEL_ENV=production` iken `NEXT_PUBLIC_MEDIA_BASE_URL` `https` CDN kökü ister.
 
-### CI (aynı uç `89e7f8e`)
+`PAYTR_SANDBOX` bu kapıda çıkış kodunu bozmaz; checklist uyarısıdır. Panelde boş olduğu bu turda doğrulanmadı. Üçlü değerlerin canlı merchant olduğu da panelden okunmadı. İsimler panelde elle bakılacak: `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `PAYTR_MERCHANT_ID`, `PAYTR_MERCHANT_KEY`, `PAYTR_MERCHANT_SALT`, `PAYTR_SANDBOX`, `SUPER_ADMIN_USER_ID`.
 
-| İş | Sonuç |
-|---|---|
-| `rail-is` | success |
-| `amiral` | failure — https://github.com/yetkin-git/yetkin.ai/actions/runs/40483653977/job/122119927600 |
-| `pg-lab` | failure — günlük kamuya kapalı, kayıt yalnız `exit code 1` |
+## 6. Cloudflare
 
-`amiral` lint'i geçtikten sonra `tests/academy/idor-exam-purchase.test.ts` içinde kırıldı. `lockAcademyCoursePrice` → `requirePublishedCourse` → `academyCourseSaleOpen` false → `GoneError: Kurs satışa kapalı.` (`lib/academy/engine.ts`). Yerelde aynı test, diskteki mühürlü ses olduğu için geçti. CI ve Vercel derlemesi o medyayı taşımaz. Derleme bir kez gerçekten başlarsa `verify:prebuild` içindeki `verify:idor-seals` aynı hatayla çıkış 1 verir. `npx tsc` bu hatayı görmez.
+Temizlik **çalıştırılmadı**. `CLOUDFLARE_API_TOKEN` / `CF_API_TOKEN` boş.
 
-## 5. Cloudflare
+Gözlenen: `robots.txt` kenarda `EXPIRED`, diğer üç yol `DYNAMIC` / `MISS`. Yeni HTML bu ölçümde eski bir HIT'ten gelmedi.
 
-| Kayıt | Değer |
-|---|---|
-| NS | `bruce.ns.cloudflare.com`, `galilea.ns.cloudflare.com` |
-| `yetkin.ai` A | `104.21.53.219`, `172.67.219.42` |
-| `www.yetkin.ai` A | aynı iki adres; AAAA Cloudflare |
-| Apex CNAME | yok (Cloudflare A düzleştirmesi) |
+Yine de panel temizliği:
 
-HTTPS el sıkışması hatasız. `Server: cloudflare`. `x-vercel-id` bölgesi `fra1`. HSTS: `max-age=63072000; includeSubDomains; preload`.
+1. https://dash.cloudflare.com → `yetkin.ai` bölgesi.
+2. Caching → Configuration → Purge Cache → **Purge Everything**.
+3. Onaydan sonra `https://yetkin.ai/robots.txt` başlığında `cf-cache-status` ve `last-modified` yeniden bakılır.
+4. SSL/TLS modu panelde **Full (strict)** diye kontrol edilir. Bu turda mod okunmadı.
 
-SSL/TLS modunun panelde **Full (strict)** olduğu okunamadı; API anahtarı yok. Dışarıdan görülen şey: geçerli HTTPS, Cloudflare kenarı, Vercel kökeni.
+API ile aynı iş, bölge kimliği panelden alınır. Gövde `{"purge_everything":true}`. Belirteç ve bölge kimliği bu dosyaya yazılmaz.
 
-Önbellek temizliği **çalıştırılmadı**. Anahtar yok. Yeni bir dağıtım Ready olduktan sonra: Cloudflare → Caching → Purge Everything. HTML bu turda `cf-cache-status: DYNAMIC` / `MISS`. `https://yetkin.ai/robots.txt` ise Vercel kenarında `x-vercel-cache: HIT`, `last-modified: Wed, 21 Oct 2026`, `Age: 499227`. Bunu Cloudflare temizliği değil, yeni bir başarılı Vercel dağıtımı tazeler.
+## 7. SUPER_ADMIN
 
-## 6. Canlı sağlık — hâlâ önceki sürüm
-
-Ölçüm: 27 Ekim 2026, yaklaşık 12:25 TR. Yeni uçta beklenen `/academy/ileri` sitemap kaydı yok. `/academy/ileri` 200 dönüyor ama `x-matched-path: /academy/[slug]`; yeni statik sayfa devrede değil.
-
-| Adres | Durum |
-|---|---|
-| `https://yetkin.ai/robots.txt` | 200 |
-| `https://yetkin.ai/sitemap.xml` | 200 |
-| `https://yetkin.ai/` | 308 → `/academy` |
-| `https://www.yetkin.ai/` | 308 → `https://yetkin.ai/academy` |
-| `https://yetkin.ai/academy` | 200 |
-| `https://yetkin.ai/junior` | 200 |
-
-## 7. SUPER_ADMIN — sıradaki iş
-
-1. `npx vercel login`, sonra `npx vercel inspect dpl_3owytZvXsXiFeAe9tJDLt8CwoR8k --logs`. Günlük satırı bu raporun eksik parçası.
-2. Üretimi bu turla güncellenmiş sayma. Canlı hâlâ `1445f1a` kuşağı.
-3. Günlük bulunduktan sonra derlemeyi yeniden başlat. Derleme `verify:idor-seals` adımında `Kurs satışa kapalı` ile düşerse, satış kapısı testi medyasız CI'da da geçmeli.
-4. Vercel Production kasasında şunların adlarını doğrula: `NEXT_PUBLIC_APP_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, PayTR canlı üçlüsü, boş `PAYTR_SANDBOX`, `SUPER_ADMIN_USER_ID`. Değerleri bu dosyaya yazma.
-5. Yeşil dağıtımdan sonra Cloudflare Purge Everything. SSL modunu panelden Full (strict) diye kontrol et.
+1. Canlı bu turla güncellenmiş sayılır. Kanıt kenar başlıkları ve `/academy/ileri` statik eşleşmesidir. Panel `Ready` yazısı ayrıca açılabilir: https://vercel.com/yetkin-git/yetkin-ai/8Y57WBnAiCGjaSzSHvmqJRtT87DK
+2. Production kasasında bölüm 5'teki isimleri doğrula. `PAYTR_SANDBOX` boş olsun. Değerleri bu dosyaya yazma.
+3. Cloudflare Purge Everything ve Full (strict).
+4. `npx vercel login` bu makinede hâlâ yok. Günlük gerekirse oturum açılıp `npx vercel inspect` çalıştırılır.
