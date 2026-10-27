@@ -229,6 +229,29 @@ const eslintConfig = defineConfig([
       }),
     },
   },
+  {
+    // verify-boundaries.ts: lesson-engine istemci ders planı varilidir.
+    // pilot-engine altındaki okuma modülünün dosya adı `-engine` ile bitmez.
+    files: ["components/junior/**/*.{ts,tsx}", "app/junior/**/*.{ts,tsx}"],
+    rules: {
+      "no-restricted-imports": restrictedImports({
+        paths: uiServerPaths,
+        patterns: [
+          {
+            group: [
+              "@/generated/prisma",
+              "@/generated/prisma/*",
+              "@/lib/**/prisma-store",
+              "@/lib/**/prisma-*",
+              "@/lib/**/runtime",
+              "@/lib/**/engine",
+            ],
+            message: UI_SERVER_MSG,
+          },
+        ],
+      }),
+    },
+  },
   globalIgnores([
     ".next/**",
     "out/**",

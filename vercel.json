@@ -4,7 +4,7 @@
   "crons": [
     {
       "path": "/api/cron/paytr-reconcile",
-      "schedule": "*/30 * * * *"
+      "schedule": "0 4 * * *"
     }
   ]
 }

@@ -68,7 +68,7 @@ export function PrimeSieve({ limit = PRIME_SIEVE_LIMIT }: { limit?: number }): R
         </p>
       </div>
       <p className="text-sm text-indigo-950">
-        1 asal değildir, baştan elenir. Sırayla 2, 3, 5 ve 7'nin katlarını ele. Üstü çizilmeyen sayılar asaldır.
+        1 asal değildir, baştan elenir. Sırayla 2, 3, 5 ve 7 sayısının katlarını ele. Üstü çizilmeyen sayılar asaldır.
       </p>
       <div className="flex flex-wrap gap-1.5" role="group" aria-label="Kalbur adımları">
         {PRIME_SIEVE_STEPS.map((prime) => (
