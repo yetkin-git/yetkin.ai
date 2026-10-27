@@ -151,7 +151,7 @@ function juniorCoverImage(lessonKey: string): string | undefined {
  * teklifi (tıklama nedeni). Teklif cümlesi **her zaman** korunur; teaser tarafı
  * kalan bütçeye tam cümlelerle sığdırılır. İkisi de tam cümle kalır.
  */
-function juniorFreeLessonDescription(lesson: { teaser: string }, subject: string): string {
+function juniorFreeLessonDescription(lesson: { teaser: string }): string {
   const offer = JUNIOR_FREE_LESSON_META_OFFER;
   const budget = JUNIOR_DESCRIPTION_MAX - offer.length - 1;
   const body = budget >= JUNIOR_DESCRIPTION_MIN / 2 ? completeSentences(lesson.teaser, budget) : "";
@@ -171,7 +171,7 @@ export function juniorLessonPageMetadata(lessonKey: string): Metadata {
   }
   return pageMetadata({
     title: juniorLessonSeoTitle(lesson.title, course.subject),
-    description: juniorFreeLessonDescription(lesson, course.subject),
+    description: juniorFreeLessonDescription(lesson),
     path: `/junior/ders/${lesson.key}`,
     keywords: juniorLessonKeywords(course.subject),
     image: juniorCoverImage(lesson.key),
@@ -201,7 +201,7 @@ export function juniorPublicLessonJsonLd(lessonKey: string): JsonLdDocument | nu
   return jsonLdDocument([
     juniorOnlineCourseJsonLd({
       name: lesson.title,
-      description: juniorFreeLessonDescription(lesson, course.subject),
+      description: juniorFreeLessonDescription(lesson),
       path: `/junior/ders/${lesson.key}`,
       subject: course.subject,
       imagePath: juniorCoverImage(lesson.key) ?? null,

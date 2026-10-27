@@ -173,8 +173,8 @@ function emit(name: Ga4FunnelEventName, params: Record<string, unknown>): void {
   }
   const queue = target.dataLayer;
   if (typeof target.gtag !== "function") {
-    target.gtag = function gtag() {
-      queue.push(arguments);
+    target.gtag = function gtag(...args: unknown[]) {
+      queue.push(args);
     };
   }
   target.gtag("event", name, params);

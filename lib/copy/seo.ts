@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { LEGAL_PAGE_TITLE } from "@/lib/copy/legal-launch";
-import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
 import { PUBLIC_SEN } from "@/lib/copy/sen-voice/public";
 

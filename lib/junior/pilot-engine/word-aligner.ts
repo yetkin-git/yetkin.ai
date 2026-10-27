@@ -502,7 +502,6 @@ function alignPhonesInWindow(
   if (sampleRate <= 0 || windowEndMs <= windowStartMs) {
     throw new Error("Akustik hizalama için ses penceresi yok.");
   }
-  const hop = Math.max(1, Math.round((sampleRate * ALIGNER_FRAME_MS) / 1000));
   const startSample = Math.max(0, Math.min(samples.length, Math.round((windowStartMs / 1000) * sampleRate)));
   const endSample = Math.max(startSample, Math.min(samples.length, Math.round((windowEndMs / 1000) * sampleRate)));
   const slice = samples.subarray(startSample, endSample);

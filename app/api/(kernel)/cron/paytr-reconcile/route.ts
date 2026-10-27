@@ -20,7 +20,7 @@ import { REQUEST_ID_HEADER, resolveRequestId } from "@/lib/kernel/http/request-i
  * `CRON_SECRET` boşsa rota fail-closed 503 döner (Inngest gibi).
  *
  * Tavan: tek tetiklemede en fazla `BATCH_LIMIT` sipariş.
- * Zaman: günde bir, 04:00 UTC. Daha sık cron ifadesi Vercel Hobby dağıtımını reddeder.
+ * Zaman: Vercel proje cron'u. Sub-daily ifade `vercel.json` dağıtımını derlemeden reddeder.
  */
 export const auth = "public" as const;
 

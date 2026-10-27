@@ -9,7 +9,6 @@ import {
   juniorCourseByLessonKey,
   juniorCourseSealed,
   juniorLessonAccess,
-  juniorLessonAccessForPlan,
   juniorPaidElectives,
   type JuniorPlanAccess,
 } from "@/lib/junior/catalog";

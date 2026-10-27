@@ -8,21 +8,15 @@ import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import type { AcademyCourseWithPrice } from "@/lib/academy/types";
 
-vi.mock("next/link", () => {
-  const React = require("react") as typeof import("react");
-  return {
-    default: (props: { href: string; children?: ReactNode; className?: string }) =>
-      React.createElement("a", { href: props.href, className: props.className }, props.children),
-  };
-});
+vi.mock("next/link", () => ({
+  default: (props: { href: string; children?: ReactNode; className?: string }) =>
+    createElement("a", { href: props.href, className: props.className }, props.children),
+}));
 
-vi.mock("next/image", () => {
-  const React = require("react") as typeof import("react");
-  return {
-    default: (props: { alt?: string; src?: string }) =>
-      React.createElement("img", { alt: props.alt ?? "", src: props.src ?? "" }),
-  };
-});
+vi.mock("next/image", () => ({
+  default: (props: { alt?: string; src?: string }) =>
+    createElement("img", { alt: props.alt ?? "", src: props.src ?? "" }),
+}));
 
 function course(slug: string, title: string): AcademyCourseWithPrice {
   const now = new Date("2026-10-26T12:00:00.000Z");
@@ -42,16 +36,6 @@ function course(slug: string, title: string): AcademyCourseWithPrice {
     currencyCode: SETTLEMENT_CURRENCY,
     purchasable: true,
   };
-}
-
-function render(node: ReactNode) {
-  const host = document.createElement("div");
-  document.body.appendChild(host);
-  const root = createRoot(host);
-  act(() => {
-    root.render(node);
-  });
-  return { root, host };
 }
 
 describe("Akademi vitrin rafları — tek kahraman stratejisi", () => {

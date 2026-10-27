@@ -11,13 +11,10 @@ vi.mock("next/navigation", () => ({
   useRouter: () => ({ refresh: vi.fn(), push: vi.fn(), replace: vi.fn() }),
 }));
 
-vi.mock("next/link", () => {
-  const React = require("react") as typeof import("react");
-  return {
-    default: (props: { href: string; children?: ReactNode; className?: string }) =>
-      React.createElement("a", { href: props.href, className: props.className }, props.children),
-  };
-});
+vi.mock("next/link", () => ({
+  default: (props: { href: string; children?: ReactNode; className?: string }) =>
+    createElement("a", { href: props.href, className: props.className }, props.children),
+}));
 
 const CHILD: JuniorProfileView = {
   id: "profile-ege",
