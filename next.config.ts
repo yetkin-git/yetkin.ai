@@ -151,6 +151,29 @@ const nextConfig: NextConfig = {
         destination: "https://yetkin.ai/legal/mesafeli-satis",
         permanent: true,
       },
+      // Eski /en önek. Site haritası bu yolları yazmaz.
+      // Search Console'da kalmış 404 indeksleri tek hopta kanoniğe 301 iner.
+      // `statusCode` `permanent` ile birlikte yazılmaz (Next 308 basardı).
+      {
+        source: "/en/legal/mesafeli-satis-sozlesmesi",
+        destination: "https://yetkin.ai/legal/mesafeli-satis",
+        statusCode: 301,
+      },
+      {
+        source: "/en/legal/cerez-politikasi",
+        destination: "https://yetkin.ai/legal/cerez",
+        statusCode: 301,
+      },
+      {
+        source: "/en/legal/gizlilik-politikasi",
+        destination: "https://yetkin.ai/legal/gizlilik",
+        statusCode: 301,
+      },
+      {
+        source: "/en/fiyatlandirma",
+        destination: "https://yetkin.ai/academy",
+        statusCode: 301,
+      },
       // Eski 13+ vitrin SKU — 301 katalog (antre, oynatıcı, courses alias).
       // SUPER ADMIN: gerçekleşmiş satın alma yok; lisans bekletmesi yok. API 410.
       // Bu blok, genel `/academy/courses/:slug` alias'ından önce durur (tek hop).

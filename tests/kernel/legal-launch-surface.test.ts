@@ -409,6 +409,33 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(config).toContain('destination: "https://yetkin.ai/legal/mesafeli-satis"');
   });
 
+  it("eski /en önekli GSC adresleri 301 ile kanoniğe iner ve site haritasında yoktur", async () => {
+    const { default: nextConfig } = await import("../../next.config");
+    const rules = await nextConfig.redirects();
+    const bySource = new Map(rules.map((rule) => [rule.source, rule]));
+    const expected = [
+      ["/en/legal/mesafeli-satis-sozlesmesi", "https://yetkin.ai/legal/mesafeli-satis"],
+      ["/en/legal/cerez-politikasi", "https://yetkin.ai/legal/cerez"],
+      ["/en/legal/gizlilik-politikasi", "https://yetkin.ai/legal/gizlilik"],
+      ["/en/fiyatlandirma", "https://yetkin.ai/academy"],
+    ] as const;
+    const wwwIndex = rules.findIndex((rule) => rule.source === "/:path*");
+    expect(wwwIndex).toBeGreaterThan(-1);
+    for (const [source, destination] of expected) {
+      const rule = bySource.get(source);
+      expect(rule).toMatchObject({ destination, statusCode: 301 });
+      expect(rule).not.toHaveProperty("permanent");
+      expect(rules.findIndex((row) => row.source === source)).toBeLessThan(wwwIndex);
+    }
+    const { default: sitemap } = await import("@/app/sitemap");
+    const urls = (await sitemap()).map((entry) => entry.url);
+    for (const [source] of expected) {
+      expect(urls).not.toContain(`https://yetkin.ai${source}`);
+    }
+    expect(urls.some((url) => new URL(url).pathname.startsWith("/en"))).toBe(false);
+    expect(urls).not.toContain("https://yetkin.ai/fiyatlandirma");
+  });
+
   it("sitemap loc alanları https://yetkin.ai mutlak adresidir", async () => {
     vi.stubEnv("NEXT_PUBLIC_APP_URL", "http://localhost:3000");
     const { default: sitemap } = await import("@/app/sitemap");
@@ -425,6 +452,11 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(urls).toContain("https://yetkin.ai/vize");
     expect(urls).toContain("https://yetkin.ai/hakkimizda");
     expect(urls).not.toContain("https://yetkin.ai/freelancer");
+    expect(urls).not.toContain("https://yetkin.ai/en/fiyatlandirma");
+    expect(urls).not.toContain("https://yetkin.ai/en/legal/gizlilik-politikasi");
+    expect(urls).not.toContain("https://yetkin.ai/en/legal/cerez-politikasi");
+    expect(urls).not.toContain("https://yetkin.ai/en/legal/mesafeli-satis-sozlesmesi");
+    expect(urls.some((url) => url.includes("/en/"))).toBe(false);
     for (const url of urls) {
       expect(url.startsWith("https://yetkin.ai")).toBe(true);
       expect(url.startsWith("/")).toBe(false);
