@@ -6,7 +6,7 @@ Canlı site bu turda **güncellenmedi**. `main` GitHub'a gitti. Üç üretim da�
 
 Dal: `main` → `origin/main` (`https://github.com/yetkin-git/yetkin.ai.git`).
 
-Önceki canlı uç: `1445f1a`. Bu turda gönderilen uç: `89e7f8e`.
+Önceki canlı uç: `1445f1a`. Ürün ucu: `89e7f8e`. Bu dosya onun üstündeki belge commit'idir; uygulamayı değiştirmez ve aynı ön-derleme reddine düşer.
 
 | Commit | Mesaj |
 |---|---|
