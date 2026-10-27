@@ -143,11 +143,13 @@ export function VisualCourseCards({
   courses,
   checkoutHref,
   priceLabel = null,
+  checkoutOpen = true,
   profileId = "",
 }: {
   courses: JuniorCourseShelf[];
   checkoutHref: string;
   priceLabel?: string | null;
+  checkoutOpen?: boolean;
   /** LocalStorage ilerleme yüzdesi için aktif profil. */
   profileId?: string;
 }) {
@@ -294,6 +296,7 @@ export function VisualCourseCards({
         onClose={() => setPackageOpen(false)}
         checkoutHref={checkoutHref}
         priceLabel={priceLabel}
+        checkoutOpen={checkoutOpen}
       />
     </div>
   );

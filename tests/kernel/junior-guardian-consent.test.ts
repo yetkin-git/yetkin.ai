@@ -122,6 +122,7 @@ describe("Junior veli rızası ve fiyat tohumu", () => {
   it("mühürlü aydınlatma özeti metinle aynıdır; boş metin sürüm alanını reddeder", async () => {
     expect(isJuniorNoticeUsable(JUNIOR_GUARDIAN_NOTICE)).toBe(true);
     expect(JUNIOR_GUARDIAN_NOTICE.version).toBe("junior-notice-2026-10-09");
+    expect(juniorGuardianNoticeCanonical()).toContain("yazılı istisnasıdır");
     expect(sha256Hex(juniorGuardianNoticeCanonical())).toBe(JUNIOR_GUARDIAN_NOTICE_SHA256);
     expect(isJuniorCheckoutLocked({} as NodeJS.ProcessEnv)).toBe(true);
     expect(JUNIOR_CHECKOUT_NOT_CONFIGURED).toBe("not_configured");

@@ -30,7 +30,7 @@ export function dashboardWelcomeTitle(input: {
 }
 
 export const DASHBOARD_SEN = {
-  eyebrow: "Anasayfa",
+  eyebrow: "Genel Bakış",
   title: WELCOME_TITLE,
   overviewTitle: OVERVIEW_TITLE,
   welcomeTitle: dashboardWelcomeTitle,
@@ -40,7 +40,7 @@ export const DASHBOARD_SEN = {
     "Kariyer yolculuğuna başlamak için Akademi'den sana uygun eğitimi seçebilir veya Kariyer odasından hedefini belirleyebilirsin.",
   /** Oturumsuz Anasayfa — kişisel nabız yok. */
   publicPanel: {
-    eyebrow: "Anasayfa",
+    eyebrow: "Öğrenci paneli",
     title: OVERVIEW_TITLE,
     lead: `${YETKIN_BRAND} eğitim, sınav ve kariyer vizesini bir arada tutar. Giriş yapmadan bu özeti görürsün. Giriş yapınca kişisel özetin açılır.`,
     featuresTitle: "Öne çıkanlar",
@@ -59,7 +59,7 @@ export const DASHBOARD_SEN = {
       },
       {
         title: "Sertifika doğrulama",
-        body: "Sertifika özetini açık sicilden kontrol edersin. Oturum istenmez.",
+        body: "Paylaşılabilir bağ veya QR ile açık sicilden kontrol edersin. 64 karakterlik özet yedek yoldur. Oturum istenmez.",
         href: "/academy/dogrula",
         cta: "Sertifika doğrula",
       },

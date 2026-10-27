@@ -19,7 +19,11 @@ import {
   resolveStickyFrame,
   sceneHasRenderableContent,
 } from "@/lib/junior/pilot-engine/sticky-frame";
-import { juniorLessonAudioSrc } from "@/lib/junior/voice";
+import {
+  juniorPilotMediaRejected,
+  juniorPilotPlayRejection,
+} from "@/lib/junior/pilot-play-error";
+import { JUNIOR_VOICE_PREPARING_LABEL, juniorLessonAudioSrc } from "@/lib/junior/voice";
 
 export type CaptionSentenceWindow = {
   startIndex: number;
@@ -260,6 +264,8 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
   const [currentTimeMs, setCurrentTimeMs] = useState(0);
   const [durationMs, setDurationMs] = useState(timeline.audio.durationMs);
   const [playing, setPlaying] = useState(false);
+  /** Kaynak 404 / desteklenmiyor. Jest kilidi bu yazıyı basmaz. */
+  const [voiceNotice, setVoiceNotice] = useState<string | null>(null);
   const [complete, setComplete] = useState(false);
   const [decisionTaken, setDecisionTaken] = useState(false);
   /** Canlı altyazı bandı. Varsayılan açık; CC düğmesi kapatınca sahne ferahlar. */
@@ -304,6 +310,7 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
     }
     setDurationMs(measured ?? timeline.audio.durationMs);
     setCurrentTimeMs(0);
+    setVoiceNotice(null);
     heldSceneRef.current = null;
     setStickyEpoch((n) => n + 1);
   }, [timeline]);
@@ -409,6 +416,23 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
     [clearStickyHold, controlsLocked, durationMs],
   );
 
+  const settlePlay = useCallback((audio: HTMLAudioElement) => {
+    void audio.play().then(() => {
+      setPlaying(true);
+      setVoiceNotice(null);
+    }).catch((error: unknown) => {
+      setPlaying(false);
+      if (
+        juniorPilotPlayRejection(error, {
+          errorCode: audio.error?.code ?? null,
+          networkState: audio.networkState,
+        }) === "preparing"
+      ) {
+        setVoiceNotice(JUNIOR_VOICE_PREPARING_LABEL);
+      }
+    });
+  }, []);
+
   const startNarration = useCallback(() => {
     clearStickyHold();
     seekToMs(0, { force: true });
@@ -418,11 +442,8 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
     if (!audio) {
       return;
     }
-    void audio
-      .play()
-      .then(() => setPlaying(true))
-      .catch(() => setPlaying(false));
-  }, [clearStickyHold, seekToMs]);
+    settlePlay(audio);
+  }, [clearStickyHold, seekToMs, settlePlay]);
 
   useEffect(() => {
     onBindStartNarration?.(startNarration);
@@ -443,16 +464,12 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
         setComplete(false);
         setDecisionTaken(false);
       }
-      void audio.play().then(() => {
-        setPlaying(true);
-      }).catch(() => {
-        setPlaying(false);
-      });
+      settlePlay(audio);
     } else {
       audio.pause();
       setPlaying(false);
     }
-  }, [complete, controlsLocked, narrationHold]);
+  }, [complete, controlsLocked, narrationHold, settlePlay]);
 
   const stepCue = useCallback(
     (delta: number) => {
@@ -481,9 +498,9 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
     setDecisionTaken(false);
     const audio = audioRef.current;
     if (audio) {
-      void audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+      settlePlay(audio);
     }
-  }, [clearStickyHold, controlsLocked, narrationHold, seekToMs]);
+  }, [clearStickyHold, controlsLocked, narrationHold, seekToMs, settlePlay]);
 
   const toggleFullscreen = useCallback(() => {
     const node = stageContainerRef.current;
@@ -574,7 +591,22 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
           }
           setCurrentTimeMs(Math.round(e.currentTarget.currentTime * 1000));
         }}
-        onPlay={() => setPlaying(true)}
+        onError={(event) => {
+          const audio = event.currentTarget;
+          setPlaying(false);
+          if (
+            juniorPilotMediaRejected({
+              errorCode: audio.error?.code ?? null,
+              networkState: audio.networkState,
+            })
+          ) {
+            setVoiceNotice(JUNIOR_VOICE_PREPARING_LABEL);
+          }
+        }}
+        onPlay={() => {
+          setPlaying(true);
+          setVoiceNotice(null);
+        }}
         onPause={() => setPlaying(false)}
         onEnded={() => {
           setPlaying(false);
@@ -759,8 +791,11 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
           data-junior-control-bar=""
         >
           <div className="flex shrink-0 items-center gap-3">
-            <span className="w-11 text-right font-mono text-xs font-bold text-slate-300">
-              {formatClockMs(currentTimeMs)}
+            <span
+              className="w-11 text-right font-mono text-xs font-bold text-slate-300"
+              data-junior-elapsed={voiceNotice && currentTimeMs === 0 ? "held" : "running"}
+            >
+              {voiceNotice && currentTimeMs === 0 ? "–:–" : formatClockMs(currentTimeMs)}
             </span>
 
             <div className="relative flex-1">
@@ -785,6 +820,12 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
             </span>
           </div>
 
+          {voiceNotice ? (
+            <p role="status" data-junior-voice-preparing="" className="text-xs font-bold text-amber-200">
+              {voiceNotice}
+            </p>
+          ) : null}
+
           {/* Kontrol Düğmeleri */}
           <div className="flex min-w-0 items-center justify-between gap-2">
             <div className="scrollbar-none flex min-w-0 flex-1 flex-nowrap items-center gap-2 overflow-x-auto">
@@ -794,7 +835,15 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
                 disabled={controlsLocked || narrationHold}
                 className="flex shrink-0 items-center gap-1.5 rounded-xl bg-cyan-400 px-4 py-1.5 text-xs font-black text-slate-950 shadow hover:bg-cyan-300 disabled:opacity-40"
               >
-                <span>{playing ? "⏸ Duraklat" : complete ? "↻ Tekrar Dinle" : "▶ Oynat"}</span>
+                <span>
+                  {voiceNotice && !playing
+                    ? voiceNotice
+                    : playing
+                      ? "⏸ Duraklat"
+                      : complete
+                        ? "↻ Tekrar Dinle"
+                        : "▶ Oynat"}
+                </span>
               </button>
 
               {acousticKaraoke ? (

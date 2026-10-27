@@ -460,6 +460,7 @@ describe("Junior SEO — 6. sınıf başlık, schema ve kapak", () => {
     expect(readSrc("components/junior/lesson-covers.tsx")).toContain("juniorCoverSrc");
     expect(readSrc("components/junior/lesson-covers.tsx")).not.toContain('alt=""');
     expect(readSrc("components/junior/lesson-covers.tsx")).toContain("onError");
+    expect(readSrc("components/junior/lesson-covers.tsx")).toContain("juniorCoverDecodeFailed");
     expect(readSrc("components/junior/lesson-covers.tsx")).toContain("FallbackLessonCover");
     expect(juniorCoverAlt({ title: "Üslü ifadede taban ve üs", subject: "Matematik", grade: 6 })).toBe(
       "Üslü ifadede taban ve üs - 6. Sınıf Matematik",

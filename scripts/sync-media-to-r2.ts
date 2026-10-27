@@ -4,6 +4,11 @@
  *
  *   npx tsx scripts/sync-media-to-r2.ts                           kuru sayım: yerel dosya ve manifest denetimi, ağ yok
  *   npx tsx scripts/sync-media-to-r2.ts --apply                   yükle (aynıysa atla), sonra her nesneyi indirip doğrula
+ *   npx tsx scripts/sync-media-to-r2.ts --apply --only=jr_06_mat-1
+ *                                                                 yalnız bu dersin sesi ve kapağı (fon müziği ve sahne yok)
+ *   npx tsx scripts/sync-media-to-r2.ts --covers                  kapak kuru sayımı: manifest SHA-256, ses yok, ağ yok
+ *   npx tsx scripts/sync-media-to-r2.ts --covers --apply          yalnız kamu `media/junior/covers/{ders}.jpg`
+ *   npx tsx scripts/sync-media-to-r2.ts --covers --verify         kovayı ve CDN gövdesini indirip SHA-256 karşılaştır
  *   npx tsx scripts/sync-media-to-r2.ts --verify                  yalnız doğrula: her nesneyi indir, boyut ve SHA-256 karşılaştır
  *   npx tsx scripts/sync-media-to-r2.ts --delete-retired          emekli dersleri ve kova adaylarını listele (kuru sayım)
  *   npx tsx scripts/sync-media-to-r2.ts --delete-retired --apply  bulunan emekli nesneleri sil, sonra 404 doğrula
@@ -14,11 +19,13 @@
  * NEXT_PUBLIC_MEDIA_BASE_URL. Değerler `.env.local` dosyasından okunur; konsola ya da dosyaya yazılmaz.
  */
 
+import { statSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import dotenv from "dotenv";
 import { JUNIOR_AUDIO_MANIFEST } from "@/lib/junior/audio-manifest.generated";
 import { JUNIOR_COVER_MANIFEST } from "@/lib/junior/cover-manifest.generated";
+import { juniorCoverCacheQuery, juniorCoverCdnIssue, juniorCoverPublicPath } from "@/lib/junior/covers";
 import { readR2MediaConfig, type R2MediaConfig } from "@/lib/media/r2-config";
 import {
   contentTypeForObjectKey,
@@ -45,7 +52,13 @@ const SEALED_KEYS = Object.keys(JUNIOR_AUDIO_MANIFEST).sort();
 const KNOWN_KEYS = Object.keys(JUNIOR_COVER_MANIFEST);
 const MIB = 1024 * 1024;
 
-type Flags = { apply: boolean; verify: boolean; deleteRetired: boolean };
+type Flags = {
+  apply: boolean;
+  verify: boolean;
+  deleteRetired: boolean;
+  covers: boolean;
+  only: readonly string[] | null;
+};
 type Planned = { item: R2SyncItem; sha256: string };
 type Head = { status: number; length: number | null; sha256: string | null };
 
@@ -63,20 +76,45 @@ function errorText(error: unknown): string {
 }
 
 function parseFlags(argv: readonly string[]): Flags {
-  const known = new Set(["--apply", "--verify", "--delete-retired", "--dry-run"]);
+  const known = new Set(["--apply", "--verify", "--delete-retired", "--dry-run", "--covers"]);
+  const only: string[] = [];
+  const rest: string[] = [];
   for (const flag of argv) {
+    if (flag.startsWith("--only=")) {
+      const value = flag.slice("--only=".length).trim();
+      if (!/^[a-z0-9_-]+$/u.test(value)) {
+        fail(`Geçersiz ders anahtarı: ${flag}`);
+      }
+      only.push(value);
+      continue;
+    }
+    rest.push(flag);
+  }
+  for (const flag of rest) {
     if (!known.has(flag)) {
       fail(`Bilinmeyen bayrak: ${flag}`);
     }
   }
-  const has = (flag: string): boolean => argv.includes(flag);
+  const has = (flag: string): boolean => rest.includes(flag);
   if (has("--dry-run") && has("--apply")) {
     fail("Kuru sayım ve yazma birlikte verilmez.");
   }
   if (has("--verify") && (has("--apply") || has("--delete-retired"))) {
     fail("--verify yalnız başına verilir.");
   }
-  return { apply: has("--apply"), verify: has("--verify"), deleteRetired: has("--delete-retired") };
+  if (has("--covers") && has("--delete-retired")) {
+    fail("--covers emekli silme ile birlikte verilmez.");
+  }
+  if (only.length > 0 && has("--delete-retired")) {
+    fail("--only emekli silme ile birlikte verilmez.");
+  }
+  return {
+    apply: has("--apply"),
+    verify: has("--verify"),
+    deleteRetired: has("--delete-retired"),
+    covers: has("--covers"),
+    only: only.length > 0 ? only : null,
+  };
 }
 
 function loadConfig(): R2MediaConfig {
@@ -397,9 +435,110 @@ async function retiredFlow(
   say(`silinen: ${present.length}; silme sonrası tüm ${candidates.length} aday nesne 404`);
 }
 
+/** Manifest kapağının kamu anahtarı. Ses, sahne, `private/` ve emekli dosya girmez. */
+function publicCoverItems(keys: readonly string[]): R2SyncItem[] {
+  const items: R2SyncItem[] = [];
+  for (const key of keys) {
+    const diskRelative = `public/media/junior/covers/${key}.jpg`;
+    const stat = statSync(resolve(ROOT, diskRelative), { throwIfNoEntry: false });
+    if (!stat || !stat.isFile() || stat.size <= 0) {
+      fail(`Kapak dosyası yok veya boş: ${diskRelative}`);
+    }
+    items.push({
+      category: "junior-covers",
+      diskRelative,
+      objectKey: `media/junior/covers/${key}.jpg`,
+      bytes: stat.size,
+    });
+  }
+  items.sort((left, right) => left.objectKey.localeCompare(right.objectKey));
+  return items;
+}
+
+/** Katalog adresinden gövde indirir. Durum, Content-Length ve SHA-256 manifest ile aynı olmalı. */
+async function verifyPublicCoverCdn(config: R2MediaConfig, planned: readonly Planned[]): Promise<void> {
+  const root = config.mediaBaseUrl.replace(/\/+$/u, "");
+  const math: string[] = [];
+  const problems = await mapPool(planned, async ({ item, sha256 }) => {
+    const name = lessonNameOf(item);
+    const url = `${root}${juniorCoverPublicPath(name)}${juniorCoverCacheQuery(name)}`;
+    try {
+      const response = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(60_000) });
+      const body = Buffer.from(await response.arrayBuffer());
+      const digest = response.ok ? hashPayload(body) : "";
+      const issue = juniorCoverCdnIssue(name, { sha256 }, {
+        status: response.status,
+        contentLength: response.headers.get("content-length"),
+        bytes: body.length,
+        sha256: digest,
+      });
+      if (name.startsWith("jr_06_mat-") && !issue) {
+        math.push(`${name} 200 ${body.length} ${digest.slice(0, 12)}`);
+      }
+      return issue;
+    } catch (error) {
+      return `CDN hatası: ${name}.jpg (${errorText(error)})`;
+    }
+  });
+  const issues = problems.filter((problem): problem is string => problem !== null);
+  if (issues.length > 0) {
+    fail([`CDN kapak doğrulaması BAŞARISIZ (${issues.length}):`, ...issues.slice(0, 20)].join("\n"));
+  }
+  say(`CDN doğrulandı (200, Content-Length, SHA-256): ${planned.length}/${planned.length}`);
+  math.sort();
+  for (const line of math) {
+    say(`  ${line}`);
+  }
+}
+
+async function coverFlow(flags: Flags): Promise<void> {
+  const keys = [...(flags.only ?? Object.keys(JUNIOR_COVER_MANIFEST))].sort((left, right) =>
+    left.localeCompare(right),
+  );
+  const unknown = keys.filter((key) => !Object.prototype.hasOwnProperty.call(JUNIOR_COVER_MANIFEST, key));
+  if (unknown.length > 0) {
+    fail(`Kapak manifestinde yok: ${unknown.join(", ")}`);
+  }
+  if (keys.length === 0) {
+    fail("Kapak manifesti boş.");
+  }
+  const items = publicCoverItems(keys);
+  say(flags.apply ? "mod: kapak yaz ve doğrula" : flags.verify ? "mod: kapak yalnız doğrula" : "mod: kapak kuru sayım (ağ yok)");
+  say(`kapsam: kamu kapak ${items.length}; ses, sahne ve private/ yok`);
+  summarize(items);
+  const planned = await planLocal(items);
+  say(`yerel denetim tamam: ${planned.length} kapak; SHA-256 manifest ile eşleşti`);
+  if (!flags.apply && !flags.verify) {
+    say("Kovaya yazılmadı. Yazmak için --covers --apply.");
+    return;
+  }
+  const config = loadConfig();
+  if (flags.apply) {
+    await applyAll(config, planned);
+  } else {
+    await verifyOnly(config, planned);
+  }
+  await verifyPublicCoverCdn(config, planned);
+  say("Bitti. Ses dosyalarına ve emekli kapaklara dokunulmadı. Yerel dosyalar duruyor.");
+}
+
 async function main(): Promise<void> {
   const flags = parseFlags(process.argv.slice(2));
-  const items = [...listR2SealedJuniorMedia(ROOT, SEALED_KEYS), ...listR2FreeSceneMedia(ROOT)];
+  if (flags.covers) {
+    await coverFlow(flags);
+    return;
+  }
+  if (flags.only) {
+    const unknown = flags.only.filter((key) => !SEALED_KEYS.includes(key));
+    if (unknown.length > 0) {
+      fail(`Manifestte yok: ${unknown.join(", ")}`);
+    }
+  }
+  const sealedKeys = flags.only ?? SEALED_KEYS;
+  const sealedItems = listR2SealedJuniorMedia(ROOT, sealedKeys);
+  const items = flags.only
+    ? sealedItems.filter((item) => !item.diskRelative.endsWith(`/${BGM_NAME}.mp3`))
+    : [...sealedItems, ...listR2FreeSceneMedia(ROOT)];
   const sealedObjectKeys = new Set(items.map((item) => item.objectKey));
 
   if (flags.deleteRetired) {
@@ -409,6 +548,12 @@ async function main(): Promise<void> {
   }
 
   say(flags.apply ? "mod: yaz ve doğrula" : flags.verify ? "mod: yalnız doğrula" : "mod: kuru sayım (ağ yok)");
+  if (flags.only) {
+    say(`kapsam: ${flags.only.join(", ")}`);
+    for (const item of items) {
+      say(`  ${item.objectKey}`);
+    }
+  }
   summarize(items);
   const planned = await planLocal(items);
   say(`yerel denetim tamam: ${planned.length} nesne; manifestli dosyalar SHA-256 ve bayt ile eşleşti`);

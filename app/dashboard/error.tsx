@@ -14,10 +14,10 @@ export default function DashboardError({
     <RoomErrorView
       error={error}
       retry={retry}
-      eyebrow="Anasayfa"
+      eyebrow="Genel Bakış"
       description={PUBLIC_SEN.error.rooms.dashboard}
       backHref="/dashboard"
-      backLabel="Anasayfaya dön"
+      backLabel="Genel Bakışa dön"
     />
   );
 }

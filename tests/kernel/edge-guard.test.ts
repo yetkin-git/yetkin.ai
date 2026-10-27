@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { VERTICAL_ROOMS } from "@/lib/dronlar/kayit";
 import {
   applyEdgeSecurityHeaders,
   buildEdgeCsp,
@@ -146,12 +147,15 @@ describe("korumalı yazma yolları", () => {
 });
 
 describe("kenar kararları", () => {
-  it("müze yolunu 404, /kayit yolunu 308, kökü akademi 308 yapar", () => {
+  it("müze yolunu 404, /kayit yolunu 308, kökü akademi 308 yapar; panel Genel Bakış'tır", () => {
     expect(decideEdgeAction("/yetkin.ai", false)).toEqual({ kind: "museum-404" });
     expect(decideEdgeAction("/kayit/", false)).toEqual({ kind: "kayit-308" });
     expect(decideEdgeAction("/", false)).toEqual({ kind: "root-308" });
     expect(decideEdgeAction("/", true)).toEqual({ kind: "root-308" });
     expect(decideEdgeAction("/academy", false)).toEqual({ kind: "next" });
+    expect(decideEdgeAction("/dashboard", false)).toEqual({ kind: "next" });
+    expect(VERTICAL_ROOMS.find((room) => room.id === "dashboard")?.label).toBe("Genel Bakış");
+    expect(VERTICAL_ROOMS.find((room) => room.id === "dashboard")?.label).not.toBe("Anasayfa");
   });
 
   it("oturumsuz korumalı yolu /login 307 yapar; oturum ipucu varsa geçirir", () => {

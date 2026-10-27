@@ -58,6 +58,7 @@ export function CourseShelf({
   tab,
   checkoutHref,
   priceLabel = null,
+  checkoutOpen = true,
   electiveNote,
   quota,
   audit = false,
@@ -67,6 +68,7 @@ export function CourseShelf({
   tab: JuniorShelfTab;
   checkoutHref: string;
   priceLabel?: string | null;
+  checkoutOpen?: boolean;
   /** `juniorElectiveOpenable` sonucundan kurulmuş vitrin cümlesi. */
   electiveNote?: string;
   /** Super Admin veya denetçi. Seçmeli kilitli kartın incele düğmesini açar. */
@@ -110,6 +112,7 @@ export function CourseShelf({
                 planActive={quota.planActive}
                 picks={quota.picks}
                 priceLabel={quota.priceLabel}
+                checkoutOpen={checkoutOpen}
               />
             ) : null}
           </div>
@@ -120,6 +123,7 @@ export function CourseShelf({
           courses={visible}
           checkoutHref={checkoutHref}
           priceLabel={priceLabel}
+          checkoutOpen={checkoutOpen}
           profileId={quota?.profileId ?? ""}
         />
       )}

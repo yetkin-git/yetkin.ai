@@ -15,7 +15,7 @@ export type JuniorGuardianNotice = {
 
 /** `juniorGuardianNoticeCanonical()` gövdesinin SHA-256 özeti. Metin değişince bu da değişir. */
 export const JUNIOR_GUARDIAN_NOTICE_SHA256 =
-  "b5c875b2b40e5b0e1204771b3551cc4ba43d4931a8468d294a343f71e32d88c9" as const;
+  "dbb9d2309af77ec0d1ffbcab4a67373fbf41c9948a77006a84e139fdbffb0771" as const;
 
 export const JUNIOR_GUARDIAN_NOTICE: JuniorGuardianNotice = {
   version: JUNIOR_GUARDIAN_NOTICE_VERSION,

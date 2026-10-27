@@ -576,6 +576,13 @@ describe("Junior oynatıcı yüzü", () => {
     expect(pilotPlayer).toContain("narrationHold");
     expect(pilotPlayer).toContain("onBindStartNarration");
     expect(pilotPlayer).toContain("seekToMs(0, { force: true })");
+    expect(pilotPlayer).toContain("onError=");
+    expect(pilotPlayer).toContain("JUNIOR_VOICE_PREPARING_LABEL");
+    expect(pilotPlayer).toContain("juniorPilotPlayRejection");
+    expect(pilotPlayer).toContain('data-junior-voice-preparing=""');
+    expect(pilotPlayer).toContain('data-junior-elapsed={voiceNotice && currentTimeMs === 0 ? "held" : "running"}');
+    expect(pilotPlayer).not.toContain(".catch(() => setPlaying(false))");
+    expect(pilotPlayer).not.toContain(".catch(() => {\n        setPlaying(false);\n      })");
     // Altyazı aktif kelime: font-weight sabit; vurgu yalnızca amber arka plan + renk (layout shift yok).
     expect(pilotPlayer).toContain('data-junior-caption-word={isActiveWord ? "active"');
     expect(pilotPlayer).toContain("bg-amber-400/30 text-amber-300");

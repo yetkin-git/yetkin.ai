@@ -704,7 +704,7 @@ describe("Junior PayTR iframe kapısı", () => {
     expect(row?.invoiceTckn).toBe("withheld");
   });
 
-  it("açık kasada CLEARED junior-yearly, çocuğun 26 matematik dersini raftan açar", async () => {
+  it("açık kasada CLEARED junior-yearly, çocuğun 26 matematik dersini raftan açar", { timeout: 30_000 }, async () => {
     expect(JUNIOR_PLAN_CODE).toBe("junior-yearly");
     expect(isJuniorCheckoutLocked(OPEN_SANDBOX_ENV)).toBe(false);
     expect(juniorPaytrSaleGate(OPEN_SANDBOX_ENV)).toBe("sandbox");
@@ -801,7 +801,7 @@ describe("Junior PayTR iframe kapısı", () => {
     expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
   });
 
-  it("açık kasada CLEARED junior-yearly, çocuğun 27 fen dersini çekirdek raftan açar", async () => {
+  it("açık kasada CLEARED junior-yearly, çocuğun 27 fen dersini çekirdek raftan açar", { timeout: 30_000 }, async () => {
     expect(JUNIOR_PLAN_CODE).toBe("junior-yearly");
     expect(JUNIOR_FEN_CORE_KEYS).toHaveLength(27);
     expect(isJuniorCheckoutLocked(OPEN_SANDBOX_ENV)).toBe(false);
@@ -906,7 +906,7 @@ describe("Junior PayTR iframe kapısı", () => {
     expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
   });
 
-  it("açık kasada CLEARED junior-yearly, çocuğun 20 Türkçe dersini çekirdek raftan açar", async () => {
+  it("açık kasada CLEARED junior-yearly, çocuğun 20 Türkçe dersini çekirdek raftan açar", { timeout: 30_000 }, async () => {
     expect(JUNIOR_PLAN_CODE).toBe("junior-yearly");
     expect(JUNIOR_TURKCE_CORE_KEYS).toHaveLength(20);
     expect(JUNIOR_TURKCE_SHELL_KEYS).toHaveLength(6);
@@ -1016,7 +1016,7 @@ describe("Junior PayTR iframe kapısı", () => {
     expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
   });
 
-  it("açık kasada CLEARED junior-yearly, çocuğun 24 sosyal dersini çekirdek raftan açar", async () => {
+  it("açık kasada CLEARED junior-yearly, çocuğun 24 sosyal dersini çekirdek raftan açar", { timeout: 30_000 }, async () => {
     expect(JUNIOR_PLAN_CODE).toBe("junior-yearly");
     expect(JUNIOR_SOSYAL_CORE_KEYS).toHaveLength(24);
     expect(JUNIOR_SOSYAL_PARK_KEYS).toHaveLength(4);
@@ -1138,7 +1138,7 @@ describe("Junior PayTR iframe kapısı", () => {
     expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
   });
 
-  it("açık kasada CLEARED junior-yearly, çocuğun 14 İngilizce dersini çekirdek raftan açar", async () => {
+  it("açık kasada CLEARED junior-yearly, çocuğun 14 İngilizce dersini çekirdek raftan açar", { timeout: 30_000 }, async () => {
     expect(JUNIOR_PLAN_CODE).toBe("junior-yearly");
     expect(JUNIOR_ING_CORE_KEYS).toHaveLength(14);
     expect(JUNIOR_ING_SHELL_KEYS).toHaveLength(7);

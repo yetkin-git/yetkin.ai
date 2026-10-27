@@ -7,6 +7,7 @@ import { WeeklyReport } from "@/components/junior/weekly-report";
 import { Button } from "@/components/ui/button";
 import { LinkButton } from "@/components/ui/link-button";
 import { JUNIOR_ELECTIVE_QUOTA } from "@/lib/junior/limits";
+import { juniorPackageCta } from "@/lib/junior/storefront-price";
 import type { JuniorWeeklyReport } from "@/lib/junior/report";
 import {
   JUNIOR_ELECTIVE_CATEGORY,
@@ -31,6 +32,7 @@ export function JuniorRoom({
   weeklyReport,
   picks,
   priceLabel,
+  checkoutOpen = true,
   electiveNote,
   audit,
   planOpened = false,
@@ -49,6 +51,8 @@ export function JuniorRoom({
   weeklyReport: JuniorWeeklyReport | null;
   picks: readonly ElectivePick[];
   priceLabel: string | null;
+  /** `JUNIOR_CHECKOUT_OPEN` boşken false. Liste fiyatı tahsilat vaadi olmaz. */
+  checkoutOpen?: boolean;
   electiveNote?: string;
   audit: boolean;
   planOpened?: boolean;
@@ -112,7 +116,7 @@ export function JuniorRoom({
               variant={planActive ? "outline" : "primary"}
               className="rounded-full !shadow-none"
             >
-              {priceLabel ? `Paketi Al (${priceLabel})` : "Paketi Al"}
+              {juniorPackageCta(priceLabel, checkoutOpen)}
             </LinkButton>
         </div>
       </div>
@@ -127,6 +131,7 @@ export function JuniorRoom({
         tab={tab}
         checkoutHref={checkoutHref}
         priceLabel={priceLabel}
+        checkoutOpen={checkoutOpen}
         electiveNote={electiveNote}
         audit={audit}
         quota={

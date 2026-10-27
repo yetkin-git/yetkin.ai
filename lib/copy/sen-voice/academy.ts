@@ -766,7 +766,9 @@ export const ACADEMY_SEN = {
     privacyA4: "Vatandaş kimliği Anayasa A4 uyarınca bu sayfada gizlenir",
     landingTitle: "Sertifika doğrula",
     landingLead:
-      "Üçüncü şahıs veya kurum, 64 hex SHA-256 özetini yazar. Oturum istenmez; vatandaş kimliği gösterilmez.",
+      "Birincil yol, sertifikadaki paylaşılabilir bağdır (/academy/dogrula/özet) veya aynı adresi açan QR koddur. Bu bir kriptografik imza değildir; sicil bütünlük kaydıdır. İşe yerleşmeyi veya gelir elde etmeyi garanti etmez.",
+    backupLead:
+      "Yedek yol: paylaşılabilir bağ veya QR yoksa 64 karakterlik SHA-256 özetini aşağıya yapıştır. Oturum istenmez. Uydurma geçerli damga basılmaz.",
     hashFieldLabel: "SHA-256 içerik özeti",
     hashPlaceholder: "64 karakter hex",
     submitCta: "Özeti doğrula",

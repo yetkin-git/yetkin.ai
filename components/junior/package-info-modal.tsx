@@ -5,17 +5,20 @@ import { Button } from "@/components/ui/button";
 import { IconClose, IconLock } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/link-button";
 import { JUNIOR_ELECTIVE_INTRO_LABEL } from "@/lib/junior/limits";
+import { juniorPackageCta } from "@/lib/junior/storefront-price";
 
 export function PackageInfoModal({
   open,
   onClose,
   checkoutHref,
   priceLabel,
+  checkoutOpen = true,
 }: {
   open: boolean;
   onClose: () => void;
   checkoutHref: string;
   priceLabel: string | null;
+  checkoutOpen?: boolean;
 }) {
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
@@ -68,8 +71,9 @@ export function PackageInfoModal({
                 Yıllık Junior Paketi
               </h2>
               <p className="mt-1 text-sm leading-6 text-[var(--muted)]">
-                Kilitli konular tek bir yıllık paketle açılır. Her hafta ayrı satılmaz; vitrindeki tek
-                «Paketi Al» kapısı tüm çekirdek dersleri kapsar.
+                {checkoutOpen
+                  ? "Kilitli konular tek bir yıllık paketle açılır. Her hafta ayrı satılmaz; vitrindeki tek «Paketi Al» kapısı tüm çekirdek dersleri kapsar."
+                  : "Kilitli konular yıllık paketle açılır. Satış kapısı kapalıyken liste fiyatı tahsil edilmez."}
               </p>
             </div>
           </div>
@@ -84,14 +88,22 @@ export function PackageInfoModal({
             Seçmeli kart «{JUNIOR_ELECTIVE_INTRO_LABEL}» olarak durur. Yıllık seçmeli müfredat değildir.
             Seçmeli İngilizce paket fiyatına girmez.
           </li>
-          {priceLabel ? <li>Yıllık paket: {priceLabel}.</li> : null}
+          {priceLabel ? (
+            <li>
+              {checkoutOpen
+                ? `Yıllık paket: ${priceLabel}.`
+                : `Liste fiyatı: ${priceLabel}. Satış kapalıdır; bu tutar tahsil edilmez.`}
+            </li>
+          ) : checkoutOpen ? null : (
+            <li>Satış kapalıdır. Liste fiyatı katalogda yoksa tutar uydurulmaz.</li>
+          )}
         </ul>
         <div className="flex flex-wrap justify-end gap-2">
           <Button type="button" variant="outline" size="sm" onClick={onClose}>
             Kapat
           </Button>
           <LinkButton href={checkoutHref} size="sm" variant="primary">
-            {priceLabel ? `Paketi Al (${priceLabel})` : "Paketi Al"}
+            {juniorPackageCta(priceLabel, checkoutOpen)}
           </LinkButton>
         </div>
       </div>

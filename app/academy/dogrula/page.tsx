@@ -19,6 +19,7 @@ export default function AcademyCertificateVerifyLandingPage() {
         actions={<CertificateVerifyNav />}
       />
       <Card variant="featured">
+        <p className="mb-4 text-sm text-[var(--muted)]">{copy.backupLead}</p>
         <p className="mb-4 text-sm text-[var(--muted)]">{copy.privacy}</p>
         <CertificateVerifyForm />
       </Card>

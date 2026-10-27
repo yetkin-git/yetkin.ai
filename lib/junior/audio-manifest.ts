@@ -1,4 +1,5 @@
 import { JUNIOR_ELECTIVE_TTS_MODEL_ID, juniorLessonUsesElectiveTts } from "@/lib/junior/elective-tts";
+import { JUNIOR_FREE_LESSON_KEY } from "@/lib/junior/limits";
 
 /**
  * Junior ses manifesti (T-04). Saf modül: disk okumaz, ağ çağırmaz.
@@ -90,4 +91,38 @@ export function juniorAudioCdnIssue(
     return `CDN boyutu uyuşmuyor: ${lessonKey}.mp3 (${head.contentLength ?? "yok"} ≠ ${entry.bytes})`;
   }
   return null;
+}
+
+/**
+ * Dağıtım kapısı. Açılış 200 olmalı.
+ * Ücretsiz matematik kapısının baytı manifestle aynı olmalı.
+ * Diğer açılışların boyut sapması bu fonksiyonu düşürmez; uyarı ayrı yazılır.
+ */
+export function juniorPilotOpenerDeployIssue(
+  lessonKey: string,
+  entry: JuniorAudioManifestEntry | null,
+  head: { status: number; contentLength: string | null },
+): string | null {
+  if (!entry) {
+    return `manifest kaydı yok: ${lessonKey}`;
+  }
+  if (head.status !== 200) {
+    return `CDN yanıtı ${head.status}: ${lessonKey}.mp3`;
+  }
+  if (lessonKey === JUNIOR_FREE_LESSON_KEY) {
+    return juniorAudioCdnIssue(lessonKey, entry, head);
+  }
+  return null;
+}
+
+/** 200 dönen, matematik kapısı olmayan açılışta mühür baytı sapması. Dağıtımı düşürmez. */
+export function juniorPilotOpenerByteWarning(
+  lessonKey: string,
+  entry: JuniorAudioManifestEntry | null,
+  head: { status: number; contentLength: string | null },
+): string | null {
+  if (!entry || head.status !== 200 || lessonKey === JUNIOR_FREE_LESSON_KEY) {
+    return null;
+  }
+  return juniorAudioCdnIssue(lessonKey, entry, head);
 }

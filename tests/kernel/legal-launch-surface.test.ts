@@ -114,8 +114,11 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(body).toContain(
       "Ödeme işlemleri Yetkili Ödeme Kuruluşu altyapısı üzerinden güvenle gerçekleştirilir. Kart tahsilatları ve cüzdan bakiyeleri Türk Lirası (TL) cinsinden işlenir. Kurs bedelleri kataloğumuzda ilan edilen güncel fiyatlar üzerinden tahsil edilir.",
     );
+    expect(body).toContain("Junior bölümü");
+    expect(body).toContain("velinin açık aydınlatma onayıyla");
+    expect(body).toContain("ikinci bir satın alma adımı istenmez");
+    expect(body).not.toContain("ayrıca satın alınması gerekir");
     expect(body).not.toContain("PayTR");
-    expect(body).not.toContain("Junior");
     expect(body).not.toContain("amountMinor");
     expect(body).not.toContain("PriceCatalogEntry");
     expect(body).toContain(`MERSİS No: ${LEGAL_ENTITY.mersis}`);
@@ -207,6 +210,17 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(copy).not.toContain("mükellefiyeti açık değildir");
     expect(copy).not.toMatch(/\bPayTR\b/);
     expect(copy).not.toContain("Junior odası");
+    expect(copy).not.toContain("İkinci nakit yazıcı");
+    expect(copy).not.toContain("müze yolları");
+    expect(copy).not.toContain("Diskte duran diğer odalar");
+    expect(copy).not.toContain("Uydurma unvan yazılmaz");
+    expect(copy).not.toContain("reşit olmayanların kullanımı");
+    expect(copy).not.toContain("ayrıca satın alınması gerekir");
+    expect(copy).toContain("Kapalı bölümler vitrinde yer almaz");
+    expect(copy).toContain("Platform bakiyesi banka hesabına çekilmez");
+    expect(copy).toContain("Junior bölümü");
+    expect(copy).toContain("velinin açık aydınlatma onayıyla");
+    expect(copy).toContain("ikinci bir satın alma adımı istenmez");
     expect(copy).not.toContain("amountMinor");
     expect(copy).not.toContain("PriceCatalogEntry");
     expect(copy).not.toContain("hukuk@yetkin.ai");

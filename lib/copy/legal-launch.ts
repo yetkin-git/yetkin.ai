@@ -37,8 +37,15 @@ export const LEGAL_PAGE_TITLE = "Gizlilik ve yasal çerçeve";
 export const LEGAL_HOME_HREF = "/" as const;
 export const LEGAL_HOME_CTA = "Ana Sayfaya Dön" as const;
 
+/**
+ * Yetişkin hesap 18+ beyanıdır. Junior, ayrı çocuk üyeliği değildir:
+ * veli hesabının altındaki profil, veli aydınlatması onaylanmadan açılmaz.
+ */
+export const LEGAL_AGE_POLICY_BODY =
+  "Yetişkin hesap, kayıt sırasında 18 yaşından büyük olma beyanı ile açılır. Çocuk ayrı üye olmaz ve ayrı giriş almaz. Junior bölümü, veli hesabının altında bir çocuk profili olarak ve velinin açık aydınlatma onayıyla kullanılabilir. Bu istisna dışında platform hizmetleri 18 yaş ve üzerindeki kullanıcılar içindir.";
+
 export const LEGAL_HONESTY_BODY =
-  `İşbu platform hizmetleri ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}) tarafından sunulmaktadır. Platform kullanımı 18 yaş ve üzerindeki kullanıcılar içindir.`;
+  `İşbu platform hizmetleri ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}) tarafından sunulmaktadır. ${LEGAL_AGE_POLICY_BODY}`;
 
 /**
  * Faaliyet konusu şeffaflığı — sicil unvanı «gayrimenkul ve e-ticaret» taşır;
@@ -51,7 +58,7 @@ export const LEGAL_ACTIVITY_SCOPE_BODY =
 
 /** Cüzdan iadesi — S43 dürüst metin. Otomatik karta dönüş vaadi yok. */
 export const LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH =
-  "Platform cüzdanına yüklenen bakiyeler yalnızca platform içi hizmetlerde kullanılabilir; farklı bir banka hesabına nakit transferi yapılamaz. Kullanılmamış bakiye otomatik olarak karta dönmez; nakit çekim bu gövdede yoktur. İade talepleri destek kanalından alınır ve henüz harcanmamış yükleme, ödeme kuruluşu takası ile operatör tarafından değerlendirilir.";
+  "Platform cüzdanına yüklenen bakiyeler yalnızca platform içi hizmetlerde kullanılabilir; farklı bir banka hesabına nakit transferi veya çekim yapılamaz. Kullanılmamış bakiye otomatik olarak karta dönmez. İade talepleri destek kanalından alınır ve henüz harcanmamış yükleme, ödeme kuruluşu takası ile değerlendirilir.";
 
 export const LEGAL_UPDATED_LABEL = "Yürürlük: 8 Eylül 2026";
 
@@ -139,7 +146,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "aktarim",
         heading: "4. Veriler kimlerle paylaşılır?",
         paragraphs: [
-          "Hesap ve verileriniz, kimlik doğrulama ve veritabanı hizmetleri sağlayan bulut altyapısında tutulur. Sunucuların bulunduğu ülke, ilgili hizmet sağlayıcısının kayıtlarında yer alır; bu metinde uydurma bir konum yazılmaz.",
+          "Hesap ve verileriniz, kimlik doğrulama ve veritabanı hizmetleri sağlayan bulut altyapısında tutulur. Sunucuların bulunduğu ülke, ilgili hizmet sağlayıcısının kayıtlarında yer alır.",
           "Kart ödemesinde Yetkili Ödeme Kuruluşuna e-posta adresiniz, bağlantı IP’niz, sipariş numarası ve sepet tutarı iletilir.",
           "Hesap bildirimleri e-posta ile gönderilebilir. E-posta altyapısı yoksa bildirim atlanır; ödeme işleminiz durmaz. Üçüncü taraf pazarlama e-posta hizmeti kullanılmaz.",
         ],
@@ -212,7 +219,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         heading: "2. Cüzdan / bakiye yükleme",
         paragraphs: [
           LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH,
-          "Kart ile yapılan yüklemeler platform cüzdanına ön ödeme mahiyetindedir. Ödeme dökümünde işlem 'Cüzdan Yükleme' olarak yer alır. Bakiye yükleme işlemi ders erişimini doğrudan açmaz; eğitimin cüzdan bakiyesiyle ayrıca satın alınması gerekir.",
+          "Akademi lisansı tek işlemle alınır. Eksik tutar Yetkili Ödeme Kuruluşu üzerinden tahsil edilir; platform defteri bu tahsilatı arka planda bakiyeye yazar ve aynı tutarı lisans kaydına bağlar. Kullanıcıdan ikinci bir satın alma adımı istenmez. Ödeme dökümünde işlem 'Cüzdan Yükleme' olarak görünebilir; bu satır akademi lisansının defter karşılığıdır. Bakiyesi kurs bedelini karşılayan hesapta kart ekranı açılmaz ve lisans mevcut bakiyeden kapanır. Lisans yazılamazsa tahsil edilen tutar bakiyede kalır ve kendiliğinden karta dönmez.",
           "Kullanılmamış bakiye kendiliğinden karta dönmez. Ödeme sağlayıcısı iadesi yalnız henüz harcanmamış yükleme ve sağlayıcı/operatör takası ile yürür; valör bankaya bağlıdır.",
         ],
       },
@@ -235,10 +242,10 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "on-bilgilendirme",
         heading: "A. Ön Bilgilendirme Formu",
         paragraphs: [
-          `Satıcı / sağlayıcı: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}), marka: ${LEGAL_ENTITY.brandName}. Adres: ${LEGAL_ENTITY.address}. Destek: ${LEGAL_SUPPORT_EMAIL}, WhatsApp ${LEGAL_ENTITY.whatsappDisplay} ve /iletisim. Platform kullanımı 18 yaş ve üzeri içindir. ${LEGAL_ACTIVITY_SCOPE_BODY}`,
+          `Satıcı / sağlayıcı: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}), marka: ${LEGAL_ENTITY.brandName}. Adres: ${LEGAL_ENTITY.address}. Destek: ${LEGAL_SUPPORT_EMAIL}, WhatsApp ${LEGAL_ENTITY.whatsappDisplay} ve /iletisim. ${LEGAL_AGE_POLICY_BODY} ${LEGAL_ACTIVITY_SCOPE_BODY}`,
           "Hizmetin niteliği: (1) Akademi — dijital eğitim içeriği (metin, diyagram, varsa ses/video), 365 gün lisans, sunucu sınavı, baraj 70, dijital sertifika kodu. Satın alma belge basmaz. (2) Kariyer — mühürden türetilen vize projeksiyonu; ücretli ilan tahtası değildir.",
           "Ödeme işlemleri Yetkili Ödeme Kuruluşu altyapısı üzerinden güvenle gerçekleştirilir. Kart tahsilatları ve cüzdan bakiyeleri Türk Lirası (TL) cinsinden işlenir. Kurs bedelleri kataloğumuzda ilan edilen güncel fiyatlar üzerinden tahsil edilir.",
-          "İfa: Akademide bakiye yükleme / tahsilat işlemi tamamlandığında ders gövdesi açılır. Bu, 6502 sayılı Kanun uyarınca elektronik ortamda anında ifa edilen hizmet / maddi ortamda sunulmayan dijital içeriktir. Teslimat adresi veya kargo yoktur.",
+          "İfa: Akademi lisansında tahsilat tamamlandığında ders gövdesi açılır. Defter hareketi arka plandadır; ayrıca bir satın alma adımı yoktur. Bu, 6502 sayılı Kanun uyarınca elektronik ortamda anında ifa edilen hizmet / maddi ortamda sunulmayan dijital içeriktir. Teslimat adresi veya kargo yoktur.",
           "Cayma: Ön bilgi ve mesafeli sözleşme kasa tikleriyle kabul edilir. Akademi erişimi açılınca cayma hakkı istisna kapsamındadır (aşağıda B.5). Kullanılmamış cüzdan bakiyesi otomatik karta dönmez.",
         ],
       },
@@ -256,7 +263,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         paragraphs: [
           "Akademi kurslarında ödeme (bakiye yükleme / tahsilat işlemi) yapılıp ders içeriklerine erişim açıldığı anda ifa başlamış olur. 6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği’nin «elektronik ortamda anında ifa edilen hizmetler» ile maddi ortamda sunulmayan dijital içeriğe ilişkin istisnası bu anda işler.",
           "Tüketici, kasa tikinde «Dijital içeriğin anında ifa edileceğini kabul ediyorum» ifadesiyle ifanın derhal başlayacağını ve bu durumda cayma hakkının istisna kapsamında sona ereceğini kabul eder. İfa başlamadan önce tik verilmezse satın alma ve kart yükleme isteği reddedilir.",
-          "Cüzdan yükleme tek başına ders açmaz; yüklenen bakiye platformun dijital hizmetleri içindir. Akademi tahsilat işlemi ile erişim açılınca istisna işler. 14 günlük yasal cayma süresi dijital ifa istisnası ile birlikte okunur — çifte iade yoktur.",
+          "Kurs seçilmeden yapılan bakiye yüklemesi dersi kendiliğinden açmaz; bakiye platformun dijital hizmetleri içindir. Akademi lisansında tahsilat ile erişim aynı işlemde açılır. Erişim açılınca istisna işler. 14 günlük yasal cayma süresi dijital ifa istisnası ile birlikte okunur — çifte iade yoktur.",
         ],
       },
       {
@@ -287,7 +294,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "kapsam",
         heading: "1. Kapsam ve odalar",
         paragraphs: [
-          `${LEGAL_ACTIVITY_SCOPE_BODY} Platform üç çalışan oda (Panel, Akademi, Kariyer) ile çalışır. Diskte duran diğer odalar pazarlanmaz. İkinci nakit yazıcı, platform cüzdanından banka çekimi, GİB canlı fatura ve müze yolları bu gövdede yoktur.`,
+          `${LEGAL_ACTIVITY_SCOPE_BODY} Kamuya açık çalışan bölümler Genel Bakış, Akademi ve Kariyer'dir. Kapalı bölümler vitrinde yer almaz ve satışa sunulmaz. Tahsilatın tek kanalı Yetkili Ödeme Kuruluşudur. Platform bakiyesi banka hesabına çekilmez.`,
           "Vatandaş hesap e-posta ve şifre ile açılır; oturum çerezi kimlik ipucudur, para işlemi sunucuda JWT ile bağlanır. Native mağaza (IAP) akademi satmaz.",
         ],
       },
@@ -303,7 +310,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "yasak-yas",
         heading: "3. Yasaklar ve yaş",
         paragraphs: [
-          "Yasak: yasa dışı iş, reşit olmayanların kullanımı, sahte kimlik, ödeme sistemini dolanma. Platform hizmetleri 18 yaş ve üzeri içindir.",
+          `Yasak: yasa dışı iş, sahte kimlik, ödeme sistemini dolanma ve veli aydınlatması olmadan çocuk profili açmak. ${LEGAL_AGE_POLICY_BODY}`,
           "Metin değişiklikleri durumunda yürürlük tarihi bu sayfada güncellenir. İşbu şartlar platform kullanımına ilişkin genel kuralları kapsar.",
         ],
       },
@@ -330,9 +337,9 @@ export const LEGAL_ABOUT_LEAD =
   `${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}) bünyesinde yürütülen ${LEGAL_ENTITY.brandName}, vatandaşa dijital eğitim, sunucu sınavı ve sertifikasyon sunan bir B2C yetkinlik platformudur.`;
 
 export const LEGAL_ABOUT_STORY = [
-  "Şirket sicil unvanı gayrimenkul ve e-ticaret faaliyetlerini taşır. yetkin.ai üzerindeki tek ve ana faaliyet konusu dijital eğitim, yetkinlik sınavı ve sertifikasyondur. Uydurma unvan yazılmaz; unvan-faaliyet farkı bu sayfada dürüstçe belirtilir.",
-  "Vatandaş kayıt olur, Akademi kataloğundan kurs satın alır, müfredatı tamamlar, sunucuda değerlendirilen sınavı geçer ve belgesini kamu hash ile doğrulatır. Kariyer odası bu mühürden türetilen belge vitrinidir; ücretli ilan tahtası değildir.",
-  "Platform bir ödeme veya finans kuruluşu değildir. Kart tahsilatı Yetkili Ödeme Kuruluşu altyapısı üzerinden yürür; kart numarası platform sunucularında tutulmaz. Hizmet 18 yaş ve üzeri içindir.",
+  "Şirket sicil unvanı gayrimenkul ve e-ticaret faaliyetlerini taşır. yetkin.ai üzerindeki tek ve ana faaliyet konusu dijital eğitim, yetkinlik sınavı ve sertifikasyondur. Sicildeki unvan ile platformdaki faaliyet bu sayfada açıkça yazılır.",
+  "Kayıt olan kişi Akademi kataloğundan kursu tek işlemle satın alır, müfredatı tamamlar, sunucuda değerlendirilen sınavı geçer ve belgesini paylaşılabilir doğrulama bağı ile kontrol ettirir. Kariyer bölümü bu kayıttan türeyen belge vitrinidir; ücretli ilan tahtası değildir. Belge, işe yerleşmeyi veya gelir elde etmeyi garanti etmez.",
+  `Platform bir ödeme veya finans kuruluşu değildir. Kart tahsilatı Yetkili Ödeme Kuruluşu altyapısı üzerinden yürür; kart numarası platform sunucularında tutulmaz. Platform bakiyesi banka hesabına çekilmez. ${LEGAL_AGE_POLICY_BODY}`,
 ] as const;
 
 /** Vitrin şeridi — tam hukuki başlık `title`, tek satır etiket `label`. */
@@ -374,5 +381,5 @@ export const LEGAL_CHECKOUT_CONSENT_COPY = {
   digitalHref: "/legal/mesafeli-satis#dijital-ifa-istisnasi",
   required: "Mesafeli Satış Sözleşmesi, Ön Bilgilendirme Formu ve dijital içeriğin anında ifası için açık rıza zorunludur.",
   walletHint:
-    "Yüklenen bakiye platformun dijital hizmetleri içindir. Akademi kursu alınır ve ders erişimi açılır açılmaz ifa başlar; cayma hakkı 6502 istisnasına tabidir.",
+    "Akademi lisansı tek işlemde açılır. Kurs seçilmeden yüklenen bakiye dersi kendiliğinden açmaz. Erişim açılınca cayma hakkı 6502 istisnasına tabidir.",
 } as const;

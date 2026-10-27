@@ -132,10 +132,10 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     expect(widget).toContain("invisible");
   });
 
-  it("sol menü Anasayfa açıklaması Genel Bakış'tır; kaldığın yer yoktur", () => {
+  it("sol menü etiketi Genel Bakış'tır; kaldığın yer yoktur", () => {
     const dashboard = VERTICAL_ROOMS.find((room) => room.id === "dashboard");
-    expect(dashboard?.label).toBe("Anasayfa");
-    expect(dashboard?.blurb).toBe("Genel bakış");
+    expect(dashboard?.label).toBe("Genel Bakış");
+    expect(dashboard?.blurb).toBe("Öğrenci paneli");
     expect(dashboard?.blurb).not.toContain("Kaldığın yer");
     expect(readSrc("lib/kernel/modules.ts")).not.toContain("Kaldığın yer");
     expect(existsSync(join(ROOT, "app/dashboard/error.tsx"))).toBe(true);

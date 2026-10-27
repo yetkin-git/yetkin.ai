@@ -122,7 +122,7 @@ export const PAGE_SEO = {
   academyVerify: {
     title: "Sertifika doğrula — SHA-256 sicil kaydı",
     description:
-      "Akademi sertifikasının SHA-256 sicil bütünlük kaydını doğrula. Oturum istenmez; vatandaş kimliği gösterilmez. Müfredat özeti sicile bağlıdır. Uydurma geçerli damga basılmaz.",
+      "Paylaşılabilir bağ ve QR birincil doğrulama yoludur. SHA-256 sicil bütünlük kaydını doğrula. Oturum istenmez; vatandaş kimliği gösterilmez. Müfredat özeti sicile bağlıdır. Kriptografik imza değildir. Uydurma geçerli damga basılmaz.",
     path: "/academy/dogrula",
     image: DEFAULT_OG_IMAGE,
   },

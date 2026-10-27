@@ -7,7 +7,7 @@ import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { JUNIOR_LANDING_FAQ, juniorLandingJsonLd } from "@/lib/junior/seo";
 import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 import { getSession } from "@/lib/kernel/auth/session";
-import { isJuniorAuditActor } from "@/lib/kernel/security/junior-gate";
+import { isJuniorAuditActor, isJuniorCheckoutLocked } from "@/lib/kernel/security/junior-gate";
 import { carryJuniorLessonStatus } from "@/lib/junior/chain";
 import {
   juniorElectiveOpenBySlug,
@@ -90,6 +90,7 @@ export default async function JuniorHomePage({
         weeklyReport={home?.weeklyReport ?? null}
         picks={juniorElectivePicks()}
         priceLabel={priceLabel}
+        checkoutOpen={!isJuniorCheckoutLocked()}
         electiveNote={formatJuniorElectiveShelfNote(
           electiveCourses
             .filter((course) => course.slug !== "jr_06_ing")

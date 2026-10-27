@@ -14,7 +14,14 @@ import {
 import { R2_EMPTY_PAYLOAD_HASH, signR2Request } from "@/lib/media/r2-s3";
 import { buildEdgeCsp } from "@/lib/kernel/security/edge-guard";
 import { JUNIOR_COVER_MANIFEST } from "@/lib/junior/cover-manifest.generated";
-import { juniorCoverManifestHash, juniorCoverPublicPath, juniorCoverSrc } from "@/lib/junior/covers";
+import {
+  juniorCoverCdnIssue,
+  juniorCoverDecodeFailed,
+  juniorCoverFrame,
+  juniorCoverManifestHash,
+  juniorCoverPublicPath,
+  juniorCoverSrc,
+} from "@/lib/junior/covers";
 import { JUNIOR_AUDIO_MANIFEST } from "@/lib/junior/audio-manifest.generated";
 import { juniorBgmSrc, juniorLessonAudioPublicPath, juniorLessonAudioSrc } from "@/lib/junior/voice";
 import { juniorWarmupSrc } from "@/lib/junior/warmup";
@@ -42,7 +49,7 @@ describe("kamu medya adresi", () => {
     expect(juniorLessonAudioSrc("jr_06_mat-4")).toBeNull();
     expect(juniorBgmSrc()).toBe("/media/junior/audio/bgm-light-learning.mp3");
     expect(juniorCoverSrc("jr_06_mat-4")).toBe(
-      `${juniorCoverPublicPath("jr_06_mat-4")}?v=${juniorCoverManifestHash("jr_06_mat-4")}`,
+      `${juniorCoverPublicPath("jr_06_mat-4")}?v=v2-${juniorCoverManifestHash("jr_06_mat-4")}`,
     );
     expect(juniorWarmupSrc("jr_06_mat-4")).toBe("/media/junior/warmup/jr_06_mat-warmup.mp4");
   });
@@ -59,11 +66,57 @@ describe("kamu medya adresi", () => {
       `https://cdn.yetkin.ai/media/junior/audio/jr_06_mat-1.mp3?v=v2-${JUNIOR_AUDIO_MANIFEST["jr_06_mat-1"]?.sha256.slice(0, 12)}`,
     );
     expect(juniorCoverSrc("jr_06_mat-4")).toBe(
-      `https://cdn.yetkin.ai/media/junior/covers/jr_06_mat-4.jpg?v=${juniorCoverManifestHash("jr_06_mat-4")}`,
+      `https://cdn.yetkin.ai/media/junior/covers/jr_06_mat-4.jpg?v=v2-${juniorCoverManifestHash("jr_06_mat-4")}`,
     );
     expect(juniorCoverSrc("jr_06_fen-2")).toBe(
-      `https://cdn.yetkin.ai/media/junior/covers/jr_06_fen-2.jpg?v=${juniorCoverManifestHash("jr_06_fen-2")}`,
+      `https://cdn.yetkin.ai/media/junior/covers/jr_06_fen-2.jpg?v=v2-${juniorCoverManifestHash("jr_06_fen-2")}`,
     );
+  });
+
+  it("kırık kapak SVG'ye düşer; önbellekte bitmiş 404 naturalWidth 0 ile yakalanır", () => {
+    expect(juniorCoverFrame({ inManifest: false, failed: false, ready: false })).toBe("fallback");
+    expect(juniorCoverFrame({ inManifest: true, failed: true, ready: false })).toBe("fallback");
+    expect(juniorCoverFrame({ inManifest: true, failed: false, ready: false })).toBe("pending");
+    expect(juniorCoverFrame({ inManifest: true, failed: false, ready: true })).toBe("photo");
+    expect(juniorCoverDecodeFailed({ complete: true, naturalWidth: 0 })).toBe(true);
+    expect(juniorCoverDecodeFailed({ complete: true, naturalWidth: 1280 })).toBe(false);
+    expect(juniorCoverDecodeFailed({ complete: false, naturalWidth: 0 })).toBe(false);
+  });
+
+  it("CDN kapak kapısı 200, bayt ve SHA-256 ister", () => {
+    const expected = { sha256: "a".repeat(64) };
+    expect(
+      juniorCoverCdnIssue("jr_06_mat-2", expected, {
+        status: 404,
+        contentLength: "12",
+        bytes: 12,
+        sha256: expected.sha256,
+      }),
+    ).toContain("404");
+    expect(
+      juniorCoverCdnIssue("jr_06_mat-5", expected, {
+        status: 200,
+        contentLength: "4",
+        bytes: 9,
+        sha256: expected.sha256,
+      }),
+    ).toContain("CDN boyutu");
+    expect(
+      juniorCoverCdnIssue("jr_06_mat-5", expected, {
+        status: 200,
+        contentLength: "9",
+        bytes: 9,
+        sha256: "b".repeat(64),
+      }),
+    ).toContain("SHA-256");
+    expect(
+      juniorCoverCdnIssue("jr_06_mat-1", expected, {
+        status: 200,
+        contentLength: "9",
+        bytes: 9,
+        sha256: expected.sha256,
+      }),
+    ).toBeNull();
   });
 
   it("mühürlü 111 çekirdek ders kapağı disk jpeg adresine önbellek kırıcı ekler", () => {
@@ -75,7 +128,7 @@ describe("kamu medya adresi", () => {
       expect(audioKeys.has(key), key).toBe(true);
       const hash = JUNIOR_COVER_MANIFEST[key]?.sha256.slice(0, 12) ?? "";
       expect(hash, key).toMatch(/^[0-9a-f]{12}$/u);
-      expect(juniorCoverSrc(key)).toBe(`/media/junior/covers/${key}.jpg?v=${hash}`);
+      expect(juniorCoverSrc(key)).toBe(`/media/junior/covers/${key}.jpg?v=v2-${hash}`);
     }
   });
 

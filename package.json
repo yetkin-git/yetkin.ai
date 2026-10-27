@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && npm run generate:v1-client && npm run verify:prebuild && npm run generate:production-seal-manifest && next build",
+    "build": "prisma generate && npm run generate:v1-client && npm run verify:prebuild && npm run verify:junior-audio-cdn && npm run generate:production-seal-manifest && next build",
     "start": "next start",
     "lint": "eslint .",
     "postinstall": "prisma generate",
@@ -103,7 +103,8 @@
     "verify:junior-content": "tsx scripts/verify-junior-content.ts",
     "verify:content-quality": "tsx packages/junior-content/src/verify-content-quality.ts",
     "verify:junior-audio-manifest": "tsx scripts/verify-junior-audio-manifest.ts --check",
-    "verify:junior-audio-cdn": "tsx scripts/verify-junior-audio-manifest.ts --cdn",
+    "verify:junior-audio-cdn": "tsx scripts/verify-junior-audio-manifest.ts --cdn-openers",
+    "verify:junior-audio-cdn-full": "tsx scripts/verify-junior-audio-manifest.ts --cdn",
     "verify:prebuild": "npm run verify:no-secrets && npm run verify:amount-minor && npm run verify:rls-status && npm run verify:v1-contract-artifacts && npm run verify:idor-seals && npm run ops:runtime-readiness && tsx scripts/verify-api-auth.ts --check && npm run verify:public-size && npm run verify:academy-curriculum && npm run verify:junior-content && npm run verify:junior-audio-manifest && npm run verify:junior-sync",
     "verify:nightly": "npm run verify:grep-seals && npm run verify:ai-gateway && npm run verify:web-security-seals && npm run verify:paytr-reconciliation-seals && npm run test:surface"
   },

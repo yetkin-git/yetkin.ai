@@ -86,11 +86,12 @@ export const CAREER_SEN = {
     sampleScore: "82",
     sampleStatus: "Örnek mühür",
     stepsTitle: "Sertifika doğrulama",
-    stepsLead: "Canlı belgeyi üç adımda kontrol edersin.",
+    stepsLead:
+      "Birincil yol paylaşılabilir bağ ve QR koddur. 64 karakterlik özet yedek yoldur. Bu bir kriptografik imza değildir; sicil bütünlük kaydıdır. İşe yerleşmeyi veya gelir elde etmeyi garanti etmez.",
     steps: [
-      "Sertifikandaki SHA-256 özetini kopyala.",
-      "Doğrulama sayfasını aç.",
-      "Özeti yapıştır. Sicilde varsa mühür görünür. Yoksa uydurma geçerli damga basılmaz.",
+      "Sertifikadaki paylaşılabilir bağı aç veya QR kodu okut. Adres /academy/dogrula/özet biçimindedir.",
+      "Sicilde kayıt varsa mühür görünür. Yoksa uydurma geçerli damga basılmaz.",
+      "Yedek yol: 64 karakterlik SHA-256 özetini kopyalayıp doğrulama formuna yapıştır.",
     ],
     verifyCta: "Sertifika doğrula",
     academyCta: "Akademiye git",

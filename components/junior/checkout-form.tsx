@@ -61,8 +61,8 @@ export function CheckoutForm({
       <section className="grid gap-2 rounded-2xl border border-[var(--border)] bg-white p-4 text-sm leading-6">
         <h2 className="text-lg font-semibold">Ödeme hattı kapalı</h2>
         <p>
-          Gerçek PayTR mağaza hattı bağlanana kadar yıllık paket satışı açılmaz. Deneme mağaza anahtarı satışı açmaz.
-          Canlı ödeme anahtarı olmadan tahsilat yoktur. Kart bilgisi bu ekranda yazılmaz.
+          Gerçek ödeme hattı bağlanana kadar yıllık paket satışı açılmaz. Vitrindeki liste fiyatı tahsilat vaadi değildir.
+          Deneme mağaza anahtarı satışı açmaz. Canlı ödeme anahtarı olmadan tahsilat yoktur. Kart bilgisi bu ekranda yazılmaz.
         </p>
       </section>
     );

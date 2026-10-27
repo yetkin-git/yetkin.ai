@@ -7,8 +7,12 @@ import {
   juniorAudioFileIssue,
   juniorAudioManifestEntry,
   juniorAudioManifestIssues,
+  juniorPilotOpenerByteWarning,
+  juniorPilotOpenerDeployIssue,
   type JuniorAudioManifest,
 } from "@/lib/junior/audio-manifest";
+import { JUNIOR_FREE_LESSON_KEY, JUNIOR_FREE_PILOT_CDN_OPENERS } from "@/lib/junior/limits";
+import { juniorLessonMediaIsPublicPreview } from "@/lib/junior/media-visibility";
 import { JUNIOR_AUDIO_MANIFEST } from "@/lib/junior/audio-manifest.generated";
 import { juniorBakedAudioSealed } from "@/lib/junior/production-seal";
 import { JUNIOR_ELECTIVE_TTS_MODEL_ID } from "@/lib/junior/elective-tts";
@@ -84,6 +88,38 @@ describe("Junior ses manifesti (T-04)", () => {
     expect(juniorAudioCdnIssue("jr_06_x-1", entry, { status: 200, contentLength: "3" })).toBeNull();
   });
 
+  it("ücretsiz pilot açılışları dağıtım kapısında 200 ister; matematik baytı mühürlüdür", () => {
+    expect([...JUNIOR_FREE_PILOT_CDN_OPENERS]).toEqual([
+      "jr_06_mat-1",
+      "jr_06_fen-1",
+      "jr_06_turkce-1",
+      "jr_06_sosyal-1",
+    ]);
+    const entry = { sha256: VALID_SHA, bytes: 11_994_285 };
+    for (const key of JUNIOR_FREE_PILOT_CDN_OPENERS) {
+      expect(juniorLessonMediaIsPublicPreview(key), key).toBe(true);
+      expect(juniorPilotOpenerDeployIssue(key, entry, { status: 404, contentLength: null })).toContain("404");
+    }
+    expect(
+      juniorPilotOpenerDeployIssue(JUNIOR_FREE_LESSON_KEY, entry, { status: 200, contentLength: "1" }),
+    ).toContain("CDN boyutu");
+    expect(
+      juniorPilotOpenerDeployIssue(JUNIOR_FREE_LESSON_KEY, entry, {
+        status: 200,
+        contentLength: "11994285",
+      }),
+    ).toBeNull();
+    expect(
+      juniorPilotOpenerDeployIssue("jr_06_fen-1", entry, { status: 200, contentLength: "1" }),
+    ).toBeNull();
+    expect(juniorPilotOpenerByteWarning("jr_06_fen-1", entry, { status: 200, contentLength: "1" })).toContain(
+      "CDN boyutu",
+    );
+    expect(
+      juniorPilotOpenerByteWarning(JUNIOR_FREE_LESSON_KEY, entry, { status: 200, contentLength: "1" }),
+    ).toBeNull();
+  });
+
   it("fırınlanmış ses kapısı: manifest kaydı yoksa ses ağacı olmasa bile kapalı kalır", () => {
     const noTree = { filePresent: () => true, treePresent: () => false };
     expect(juniorBakedAudioSealed("jr_06_mat-1", noTree, {})).toBe(false);
@@ -120,7 +156,16 @@ describe("Junior ses manifesti (T-04)", () => {
     };
     expect(pkg.scripts["generate:junior-audio-manifest"]).toContain("--write");
     expect(pkg.scripts["verify:junior-audio-manifest"]).toContain("--check");
-    expect(pkg.scripts["verify:junior-audio-cdn"]).toContain("--cdn");
+    expect(pkg.scripts["verify:junior-audio-cdn"]).toContain("--cdn-openers");
+    expect(pkg.scripts["verify:junior-audio-cdn-full"]).toContain("--cdn");
     expect(pkg.scripts["verify:prebuild"]).toContain("npm run verify:junior-audio-manifest");
+    expect(pkg.scripts.build).toContain("npm run verify:junior-audio-cdn");
+    const ci = readFileSync(join(process.cwd(), ".github/workflows/ci.yml"), "utf8");
+    expect(ci).toContain("npm run verify:junior-audio-cdn");
+    expect(ci).toContain("https://cdn.yetkin.ai");
+    const gate = readFileSync(join(process.cwd(), "scripts/verify-junior-audio-manifest.ts"), "utf8");
+    expect(gate).toContain("checkManifestCovers");
+    expect(gate).toContain("JUNIOR_COVER_MANIFEST");
+    expect(gate).not.toContain("covers/${JUNIOR_FREE_LESSON_KEY}.jpg");
   });
 });

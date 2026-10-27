@@ -6,8 +6,12 @@
  *             Manifestte olmayan, yazılmış ve sesi yeni inmiş ders anahtarı da sicile girer.
  *   --check   Build kapısı. Anahtar listesi ile manifest birebir olmalı. Ses klasörü bu süreçte varsa
  *             her MP3 manifestle eşleşmeli. Klasör yoksa (Vercel paketi, git) dosya denetimi atlanır.
- *   --cdn     Dağıtım sonrası. Ön izlemeler NEXT_PUBLIC_MEDIA_BASE_URL üzerinde HEAD ile boyutla denetlenir.
- *             Kilitli dersler kamu yolunda 200 dönerse başarısız sayılır (ücretli ses açık demektir).
+ *   --cdn          Tam denetim. Her ön izleme HEAD ile manifest boyutuyla eşleşmeli.
+ *                  Kilitli dersler kamu yolunda 200 dönerse başarısız sayılır (ücretli ses açık demektir).
+ *   --cdn-openers  Dağıtım kapısı. Dört ücretsiz açılış 200 olmalı; `jr_06_mat-1` baytı manifestle aynı olmalı.
+ *                  Kapak manifestindeki her JPEG kamu yolda 200 olmalı; Content-Length ve SHA-256 eşleşmeli.
+ *                  Kilitli sızıntı ve diğer ön izleme sapmaları uyarıdır.
+ *                  Kilitli dersin kamu 200'ü tam denetimde (`--cdn`) hâlâ başarısız sayılır.
  *
  * Yazılan dosya: lib/junior/audio-manifest.generated.ts
  */
@@ -20,9 +24,14 @@ import {
   juniorAudioCdnIssue,
   juniorAudioFileIssue,
   juniorAudioManifestIssues,
+  juniorPilotOpenerByteWarning,
+  juniorPilotOpenerDeployIssue,
   type JuniorAudioManifest,
 } from "@/lib/junior/audio-manifest";
+import { JUNIOR_FREE_PILOT_CDN_OPENERS } from "@/lib/junior/limits";
 import { JUNIOR_AUDIO_MANIFEST } from "@/lib/junior/audio-manifest.generated";
+import { JUNIOR_COVER_MANIFEST } from "@/lib/junior/cover-manifest.generated";
+import { juniorCoverCacheQuery, juniorCoverCdnIssue, juniorCoverPublicPath } from "@/lib/junior/covers";
 import { juniorBakeCandidateLessons } from "@/lib/junior/content-source";
 import { JUNIOR_ELECTIVE_TTS_MODEL_ID, juniorLessonUsesElectiveTts } from "@/lib/junior/elective-tts";
 import { juniorLessonMediaIsPublicPreview } from "@/lib/junior/media-visibility";
@@ -98,9 +107,12 @@ function writeKeys(): string[] {
   });
 }
 
-function mode(): "write" | "check" | "cdn" {
+function mode(): "write" | "check" | "cdn" | "cdn-openers" {
   if (process.argv.includes("--write")) {
     return "write";
+  }
+  if (process.argv.includes("--cdn-openers")) {
+    return "cdn-openers";
   }
   if (process.argv.includes("--cdn")) {
     return "cdn";
@@ -128,6 +140,62 @@ function audioTreePresent(): boolean {
 function fail(title: string, lines: readonly string[]): never {
   console.error([title, ...lines.map((line) => `  ✗ ${line}`)].join("\n"));
   process.exit(1);
+}
+
+const COVER_WORKERS = 6;
+
+/** Sınırlı eşzamanlılık. Kapak gövdeleri sırayla 111 kez inmesin. */
+async function mapCoverPool<T>(items: readonly T[], work: (item: T) => Promise<void>): Promise<void> {
+  let cursor = 0;
+  const lanes = Array.from({ length: Math.min(COVER_WORKERS, Math.max(items.length, 1)) }, async () => {
+    for (;;) {
+      const index = cursor;
+      cursor += 1;
+      if (index >= items.length) {
+        return;
+      }
+      const item = items[index];
+      if (item === undefined) {
+        return;
+      }
+      await work(item);
+    }
+  });
+  await Promise.all(lanes);
+}
+
+/**
+ * Manifestteki her kapak. 404 veya gövde sapması çıkış kodunu 1 yapar.
+ * Adres katalogla aynıdır: `juniorCoverCacheQuery` (`?v=v2-` ve manifest özeti).
+ */
+async function checkManifestCovers(root: string): Promise<string[]> {
+  const keys = Object.keys(JUNIOR_COVER_MANIFEST);
+  const issues: string[] = [];
+  await mapCoverPool(keys, async (key) => {
+    const entry = JUNIOR_COVER_MANIFEST[key];
+    if (!entry) {
+      issues.push(`kapak manifest kaydı yok: ${key}`);
+      return;
+    }
+    const url = `${root}${juniorCoverPublicPath(key)}${juniorCoverCacheQuery(key)}`;
+    try {
+      const response = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(60_000) });
+      const body = Buffer.from(await response.arrayBuffer());
+      const issue = juniorCoverCdnIssue(key, entry, {
+        status: response.status,
+        contentLength: response.headers.get("content-length"),
+        bytes: body.length,
+        sha256: response.ok ? createHash("sha256").update(body).digest("hex") : "",
+      });
+      if (issue) {
+        issues.push(issue);
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      issues.push(`CDN hatası: ${key}.jpg (${message})`);
+    }
+  });
+  return issues;
 }
 
 function writeManifest(): void {
@@ -209,15 +277,117 @@ function checkManifest(): void {
  * Dağıtım sonrası denetim. Ücretsiz önizleme CDN'de manifest boyutuyla durmalı.
  * Kilitli ders kamu yolunda 200 dönmemeli. Dönerse ücretli ses herkese açıktır ve bu bir güvenlik hatasıdır.
  */
-async function checkCdn(): Promise<void> {
+function httpsMediaRoot(): string {
   const base = readMediaPublicBaseUrl(process.env.NEXT_PUBLIC_MEDIA_BASE_URL);
   if (!base || !base.startsWith("https://")) {
     fail("verify:junior-audio-cdn BAŞARISIZ — NEXT_PUBLIC_MEDIA_BASE_URL https kök olmalı.", []);
   }
-  const root = base.replace(/\/+$/u, "");
+  return base.replace(/\/+$/u, "");
+}
+
+/**
+ * Derleme ve CI kapısı. Dört ücretsiz açılış 200 olmadan çıkış 1.
+ * Matematik kapısının `Content-Length` değeri manifest baytıdır.
+ * Kilitli dersin kamu 200'ü burada uyarıdır; silme bu kapının işi değildir.
+ * Aynı sızıntı `--cdn` tam denetiminde çıkış kodunu 1 yapar.
+ */
+async function checkOpenerDeploy(): Promise<void> {
+  const root = httpsMediaRoot();
+  const issues: string[] = [];
+  const warnings: string[] = [];
+  const openerSet = new Set<string>(JUNIOR_FREE_PILOT_CDN_OPENERS);
+
+  for (const key of JUNIOR_FREE_PILOT_CDN_OPENERS) {
+    if (!KEYS.includes(key)) {
+      issues.push(`ücretsiz açılış manifest anahtarlarında yok: ${key}`);
+      continue;
+    }
+    if (!juniorLessonMediaIsPublicPreview(key)) {
+      issues.push(`ücretsiz açılış kamu önizlemesi değil: ${key}`);
+      continue;
+    }
+    const entry = JUNIOR_AUDIO_MANIFEST[key] ?? null;
+    const response = await fetch(`${root}${juniorLessonAudioPublicPath(key)}`, { method: "HEAD" });
+    const head = { status: response.status, contentLength: response.headers.get("content-length") };
+    const issue = juniorPilotOpenerDeployIssue(key, entry, head);
+    if (issue) {
+      issues.push(issue);
+    }
+    const warning = juniorPilotOpenerByteWarning(key, entry, head);
+    if (warning) {
+      warnings.push(warning);
+    }
+  }
+
+  const coverIssues = await checkManifestCovers(root);
+  issues.push(...coverIssues);
+
+  const exposed: string[] = [];
+  for (const key of KEYS) {
+    if (openerSet.has(key)) {
+      continue;
+    }
+    const response = await fetch(`${root}${juniorLessonAudioPublicPath(key)}`, { method: "HEAD" });
+    if (juniorLessonMediaIsPublicPreview(key)) {
+      const entry = JUNIOR_AUDIO_MANIFEST[key];
+      if (!entry) {
+        warnings.push(`manifest kaydı yok: ${key}`);
+        continue;
+      }
+      if (response.status !== 200) {
+        warnings.push(`ön izleme CDN yanıtı ${response.status}: ${key}.mp3`);
+        continue;
+      }
+      const drift = juniorAudioCdnIssue(key, entry, {
+        status: response.status,
+        contentLength: response.headers.get("content-length"),
+      });
+      if (drift) {
+        warnings.push(drift);
+      }
+      continue;
+    }
+    if (response.status === 200) {
+      exposed.push(key);
+    }
+  }
+  if (exposed.length > 0) {
+    warnings.push(
+      `kilitli ders kamu CDN'de açık (HTTP 200): ${exposed.length} ders; örnek: ${exposed.slice(0, 5).join(", ")}`,
+    );
+  }
+
+  const bgm = await fetch(`${root}/media/junior/audio/bgm-light-learning.mp3`, { method: "HEAD" });
+  if (bgm.status !== 200) {
+    issues.push(`fon müziği CDN yanıtı ${bgm.status}`);
+  }
+
+  for (const warning of warnings) {
+    console.warn(`  ! ${warning}`);
+  }
+  if (issues.length > 0) {
+    const coverNote = coverIssues.length > 0 ? ` Kapak: ${coverIssues.length}.` : "";
+    fail(`verify:junior-audio-cdn BAŞARISIZ — ücretsiz açılış CDN kapısı.${coverNote}`, issues.slice(0, 30));
+  }
+  const warningNote = warnings.length > 0 ? ` Uyarı: ${warnings.length}.` : "";
+  console.log(
+    `verify:junior-audio-cdn OK — ${JUNIOR_FREE_PILOT_CDN_OPENERS.join(", ")} CDN'de 200; matematik kapısı manifest baytında. Kapak: ${Object.keys(JUNIOR_COVER_MANIFEST).length} manifest anahtarı 200, Content-Length ve SHA-256 eşleşti.${warningNote}`,
+  );
+}
+
+async function checkCdn(): Promise<void> {
+  const root = httpsMediaRoot();
   const issues: string[] = [];
   const exposed: string[] = [];
   let preview = 0;
+  for (const key of JUNIOR_FREE_PILOT_CDN_OPENERS) {
+    if (!juniorLessonMediaIsPublicPreview(key)) {
+      issues.push(`ücretsiz açılış kamu önizlemesi değil: ${key}`);
+    }
+    if (!JUNIOR_AUDIO_MANIFEST[key]) {
+      issues.push(`ücretsiz açılış manifest kaydı yok: ${key}`);
+    }
+  }
   for (const key of KEYS) {
     const entry = JUNIOR_AUDIO_MANIFEST[key];
     if (!entry) {
@@ -244,16 +414,19 @@ async function checkCdn(): Promise<void> {
   if (bgm.status !== 200) {
     issues.push(`fon müziği CDN yanıtı ${bgm.status}`);
   }
+  const coverIssues = await checkManifestCovers(root);
+  issues.push(...coverIssues);
   if (exposed.length > 0) {
     issues.push(
       `kilitli ders kamu CDN'de açık (HTTP 200): ${exposed.length} ders; örnek: ${exposed.slice(0, 5).join(", ")}`,
     );
   }
   if (issues.length > 0) {
-    fail("verify:junior-audio-cdn BAŞARISIZ — CDN denetimi.", issues);
+    const coverNote = coverIssues.length > 0 ? ` Kapak: ${coverIssues.length}.` : "";
+    fail(`verify:junior-audio-cdn BAŞARISIZ — CDN denetimi.${coverNote}`, issues.slice(0, 30));
   }
   console.log(
-    `verify:junior-audio-cdn OK — ${preview} ön izleme manifest boyutuyla CDN'de; kilitli dersler kamu yolunda kapalı.`,
+    `verify:junior-audio-cdn OK — ${preview} ön izleme manifest boyutuyla CDN'de; kilitli dersler kamu yolunda kapalı. Kapak: ${Object.keys(JUNIOR_COVER_MANIFEST).length} manifest anahtarı 200, Content-Length ve SHA-256 eşleşti.`,
   );
 }
 
@@ -261,6 +434,10 @@ async function main(): Promise<void> {
   const current = mode();
   if (current === "write") {
     writeManifest();
+    return;
+  }
+  if (current === "cdn-openers") {
+    await checkOpenerDeploy();
     return;
   }
   if (current === "cdn") {

@@ -31,12 +31,14 @@ export function ElectiveQuotaModal({
   planActive,
   picks,
   priceLabel,
+  checkoutOpen = true,
 }: {
   profileId: string;
   selected: readonly string[];
   planActive: boolean;
   picks: readonly Pick[];
   priceLabel: string | null;
+  checkoutOpen?: boolean;
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -116,9 +118,13 @@ export function ElectiveQuotaModal({
                   {draft.length} / {JUNIOR_ELECTIVE_QUOTA}. {juniorElectiveQuotaFullHint()}
                   {planActive
                     ? " Paket açık. Seçtiğin derslerin kilitli konuları açılır."
-                    : priceLabel
-                      ? ` Kilit, yıllık paket (${priceLabel}) açılınca kalkar.`
-                      : " Kilit, yıllık paket açılınca kalkar."}
+                    : !checkoutOpen
+                      ? priceLabel
+                        ? ` Liste fiyatı ${priceLabel}. Satış kapalı; bu fiyattan kilit açılmaz.`
+                        : " Satış kapalı. Yıllık paket şu an alınamaz."
+                      : priceLabel
+                        ? ` Kilit, yıllık paket (${priceLabel}) açılınca kalkar.`
+                        : " Kilit, yıllık paket açılınca kalkar."}
                 </p>
               </div>
               <Button type="button" variant="ghost" size="sm" onClick={() => setOpen(false)}>

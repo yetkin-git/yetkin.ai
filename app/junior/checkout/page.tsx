@@ -45,9 +45,13 @@ export default async function JuniorCheckoutPage() {
       emailConfirmedAt: session.emailConfirmedAt ?? null,
     });
   const checkoutOpen = !isJuniorCheckoutLocked();
-  const priceSentence = priceLabel
-    ? `${priceLabel} karşılığında çekirdek derslerin kilitli konuları açılır.`
-    : "Liste fiyatı katalogda yok. Tutar uydurulmaz.";
+  const priceSentence = !checkoutOpen
+    ? priceLabel
+      ? `${priceLabel} liste fiyatıdır. Satış kapalıdır; bu tutar tahsil edilmez.`
+      : "Liste fiyatı katalogda yok. Satış kapalıdır. Tutar uydurulmaz."
+    : priceLabel
+      ? `${priceLabel} karşılığında çekirdek derslerin kilitli konuları açılır.`
+      : "Liste fiyatı katalogda yok. Tutar uydurulmaz.";
   const doorSentence = checkoutOpen
     ? "Ödeme ekranı, üç onay tamamlanmadan yüklenmez."
     : "Ödeme hattı henüz bağlanmadı.";
@@ -76,7 +80,10 @@ export default async function JuniorCheckoutPage() {
       ) : null}
       <section className="rounded-2xl border border-[var(--border)] bg-white px-4 py-3 text-sm leading-6">
         <p className="font-semibold">Sepet</p>
-        <p>Junior yıllık paket — {priceLabel ?? "fiyat katalogda yok"}</p>
+        <p>
+          Junior yıllık paket — {priceLabel ?? "fiyat katalogda yok"}
+          {checkoutOpen ? "" : " · satış kapalı"}
+        </p>
         <p className="text-[var(--muted)]">
           {titles.length > 0
             ? `Seçili dersler: ${titles.join(", ")}.`

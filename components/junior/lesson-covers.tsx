@@ -1,10 +1,15 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { juniorCoverAlt } from "@/lib/junior/cover-alt";
-import { juniorCoverManifestHash, juniorCoverSrc } from "@/lib/junior/covers";
+import {
+  juniorCoverDecodeFailed,
+  juniorCoverFrame,
+  juniorCoverManifestHash,
+  juniorCoverSrc,
+} from "@/lib/junior/covers";
 
 type CoverProps = {
   lessonKey: string;
@@ -140,23 +145,60 @@ export function FallbackLessonCover({
 
 /** Katalog kapağı. Diskteki/CDN'deki 1280×720 JPEG; manifestte olmayan seçmeli derslerde veya yükleme hatasında SVG branş kartına düşer. */
 export function LessonCover({ lessonKey, subject, title, grade }: CoverProps) {
-  const [failedKey, setFailedKey] = useState<string | null>(null);
   const alt = juniorCoverAlt({ title, subject, grade });
   const inManifest = Boolean(juniorCoverManifestHash(lessonKey));
-  if (!inManifest || failedKey === lessonKey) {
+  const src = inManifest ? juniorCoverSrc(lessonKey) : "";
+  const [paint, setPaint] = useState({ lessonKey, ready: false, failed: false });
+  const view = paint.lessonKey === lessonKey ? paint : { lessonKey, ready: false, failed: false };
+  const imgRef = useRef<HTMLImageElement>(null);
+  const frame = juniorCoverFrame({ inManifest, failed: view.failed, ready: view.ready });
+
+  useEffect(() => {
+    const img = imgRef.current;
+    if (!img?.complete) {
+      return;
+    }
+    if (juniorCoverDecodeFailed(img)) {
+      setPaint({ lessonKey, ready: false, failed: true });
+      return;
+    }
+    setPaint({ lessonKey, ready: true, failed: false });
+  }, [lessonKey, src]);
+
+  if (frame === "fallback") {
     return <FallbackLessonCover lessonKey={lessonKey} subject={subject} title={title} grade={grade} alt={alt} />;
   }
-  const src = juniorCoverSrc(lessonKey);
+
+  const photo = frame === "photo";
   return (
-    <img
-      src={src}
-      alt={alt}
-      width={1280}
-      height={720}
-      decoding="async"
-      onError={() => setFailedKey(lessonKey)}
-      className="h-full w-full object-cover"
-    />
+    <div className="relative h-full w-full" data-junior-cover-frame={frame}>
+      <div
+        className={`h-full w-full transition-opacity duration-200 ${photo ? "opacity-0" : "opacity-100"}`}
+        aria-hidden={photo}
+      >
+        <FallbackLessonCover lessonKey={lessonKey} subject={subject} title={title} grade={grade} alt={alt} />
+      </div>
+      <img
+        ref={imgRef}
+        src={src}
+        alt={alt}
+        width={1280}
+        height={720}
+        decoding="async"
+        aria-hidden={photo ? undefined : true}
+        onLoad={(event) => {
+          if (juniorCoverDecodeFailed(event.currentTarget)) {
+            setPaint({ lessonKey, ready: false, failed: true });
+            return;
+          }
+          setPaint({ lessonKey, ready: true, failed: false });
+        }}
+        onError={() => setPaint({ lessonKey, ready: false, failed: true })}
+        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-200 ${
+          photo ? "opacity-100" : "pointer-events-none invisible opacity-0"
+        }`}
+      />
+    </div>
   );
 }
 

@@ -117,6 +117,18 @@ export const JUNIOR_QUOTA_FULL_LABEL = "Paket Kotası Doldu / Düzenle";
 export const JUNIOR_FREE_LESSON_KEY = "jr_06_mat-1";
 
 /**
+ * Çekirdek pilotun ücretsiz açılış dersleri.
+ * Dağıtım kapısı bu dört nesne CDN'de 200 olmadan tamamlanmaz.
+ * İngilizce açılışı `JUNIOR_ING_FREE_LESSON_KEY` bu dörtlünün dışındadır.
+ */
+export const JUNIOR_FREE_PILOT_CDN_OPENERS = [
+  JUNIOR_FREE_LESSON_KEY,
+  "jr_06_fen-1",
+  "jr_06_turkce-1",
+  "jr_06_sosyal-1",
+] as const;
+
+/**
  * İngilizce ücretsiz kapısı. 1–5. hafta: hak, sorumluluk ve sınıf kuralı.
  * Dosya sırasındaki `jr_06_ing_main-1` 35–36. haftadadır ve yıllık pakettedir.
  */

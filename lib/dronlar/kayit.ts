@@ -7,7 +7,7 @@
  */
 
 export const VERTICAL_ROOMS = [
-  { id: "dashboard", path: "/dashboard", label: "Anasayfa", blurb: "Genel bakış" },
+  { id: "dashboard", path: "/dashboard", label: "Genel Bakış", blurb: "Öğrenci paneli" },
   { id: "academy", path: "/academy", label: "Akademi", blurb: "Kurs, ödeme onayı, sertifika" },
   { id: "career", path: "/career", label: "Kariyer", blurb: "Sertifika ve ilanlar" },
   { id: "freelancer", path: "/freelancer", label: "Freelancer", blurb: "Arka plan · modül pasif" },
@@ -84,8 +84,8 @@ export const DRON_KAYIT: readonly DronKayitSatiri[] = [
   {
     id: "dashboard",
     path: "/dashboard",
-    label: "Anasayfa",
-    blurb: "Genel bakış",
+    label: "Genel Bakış",
+    blurb: "Öğrenci paneli",
     hops: ["wallet-strip"],
     sahipEkip: "gövde",
     kapali: false,
