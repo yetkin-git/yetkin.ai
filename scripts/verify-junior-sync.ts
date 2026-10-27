@@ -6,8 +6,12 @@
  *   npm run verify:junior-sync
  *   npx tsx scripts/verify-junior-sync.ts --lesson=jr_06_mat-1
  *   npx tsx scripts/verify-junior-sync.ts --lesson=jr_06_mat-1 --apply
+ *
+ * Ses klasörü bu süreçte yoksa (git, CI, Vercel paketi) akustik sapma atlanır.
+ * Manifest kapısı `verify:junior-audio-manifest` ile aynı hükümdür. Klasör durup
+ * ders dosyası yoksa onay verilmez.
  */
-import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 import { MAT_5_AUTHORED_CUES, type AuthoredCueSpec } from "@/lib/junior/pilot-engine/mat-1.choreography";
@@ -28,6 +32,20 @@ const AUTHORED_CUES: Readonly<Record<string, readonly AuthoredCueSpec[]>> = {
 function lessonArg(argv: readonly string[]): string | null {
   const value = argv.find((part) => part.startsWith("--lesson="))?.slice("--lesson=".length)?.trim();
   return value || null;
+}
+
+function directoryPresent(relative: string): boolean {
+  const absolute = join(ROOT, relative);
+  try {
+    return existsSync(absolute) && statSync(absolute).isDirectory();
+  } catch {
+    return false;
+  }
+}
+
+/** Oynatıcının veya fırın yatağının durduğu klasör. İkisi de yoksa bayt bu derlemede yoktur. */
+function juniorAudioBytesPresent(): boolean {
+  return directoryPresent("public/media/junior/audio") || directoryPresent("media-bake/junior/audio");
 }
 
 /** Oynatıcının çaldığı dosya. MP3, fırın WAV'ından önce gelir. */
@@ -122,6 +140,15 @@ function main(): void {
   const keys = lessonKeys(lessonArg(argv));
   if (keys.length === 0) {
     throw new Error("Mühürlü timeline yok. Kapı onay vermez.");
+  }
+  if (!juniorAudioBytesPresent()) {
+    if (apply) {
+      throw new Error("Ses klasörü yok. --apply akustik saati yazamaz.");
+    }
+    process.stdout.write(
+      `verify:junior-sync OK — ${keys.length} timeline. Ses klasörü bu süreçte yok (paket veya git); akustik sapma atlandı.\n`,
+    );
+    return;
   }
   for (const lessonKey of keys) {
     checkLesson(lessonKey, apply);

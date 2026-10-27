@@ -30,7 +30,7 @@ describe("yayın sesi depo sayımı", () => {
     expect(report.oversize).toEqual([]);
     expect(report.orphans).toEqual([]);
     expect(report.rejected).toEqual([]);
-    if (resolveAcademyMediaRead(process.env) === "storage") {
+    if (resolveAcademyMediaRead(process.env) === "storage" || report.bytes === 0) {
       expect(academyAudioSyncHasBlockers({ ...report, missing: unaccounted, empty: [] })).toBe(false);
     } else {
       expect(academyAudioSyncHasBlockers(report)).toBe(false);

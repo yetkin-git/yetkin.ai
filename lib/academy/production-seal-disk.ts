@@ -7,6 +7,9 @@
  * Geliştirme ve test `turbopackIgnore` ile yalnız istenen dosyaya bakar.
  * `ACADEMY_MEDIA_READ=storage` iken ses ve fon yatağı diskte aranmaz.
  * Manifestodaki yol, ya da mühürlü hazırlık şeridi, kovadaki kopya sayılır.
+ * `public/media/academy/audio` git ve Vercel paketinde yoktur. Ağaç bu süreçte
+ * yoksa konuşma ve fon, üretimle aynı mühür anlığından okunur. Ağaç duruyorsa
+ * eksik dosya fail-closed kalır; IDOR ve fiyat kilidi `Kurs satışa kapalı` ile düşmez.
  */
 
 import { existsSync, statSync } from "node:fs";
@@ -75,7 +78,35 @@ function storageAudioCounts(normalized: string): boolean {
   return ACADEMY_PRODUCTION_SEAL_MANIFEST[normalized] === true || sealedPrepAudioRelative(normalized);
 }
 
-/** Test ve satış kapısı aynı hükmü okur. Dosya yoksa false. */
+/** Yayın ses ağacı bu checkout'ta yok. Boş klasör fail-closed'dur; klasörün kendisi yoksa anlık okunur. */
+export function academyAudioTreePresent(root: string = process.cwd()): boolean {
+  try {
+    const audioRoot = join(root, "public/media/academy/audio");
+    return existsSync(audioRoot) && statSync(audioRoot).isDirectory();
+  } catch {
+    return false;
+  }
+}
+
+function attestedAudioCounts(normalized: string): boolean {
+  if (!normalized.startsWith(AUDIO_RELATIVE_PREFIX)) {
+    return false;
+  }
+  return ACADEMY_PRODUCTION_SEAL_MANIFEST[normalized] === true || sealedPrepAudioRelative(normalized);
+}
+
+/**
+ * Git checkout ve Vercel derlemesi ses baytını taşımaz.
+ * Ağaç yokken mühür anlığı üretimle aynı hükmü verir. Ağaç varken diske bakılır.
+ */
+function checkoutSealAudioCounts(normalized: string): boolean {
+  if (academyAudioTreePresent()) {
+    return false;
+  }
+  return attestedAudioCounts(normalized);
+}
+
+/** Test ve satış kapısı aynı hükmü okur. Ağaç varken dosya yoksa false. */
 export function academyProductionFilePresent(relativePath: string): boolean {
   const normalized = relativePath.replaceAll("\\", "/");
   if (!isSafeSealRelative(normalized)) {
@@ -84,7 +115,7 @@ export function academyProductionFilePresent(relativePath: string): boolean {
   if (process.env.NODE_ENV === "production") {
     return ACADEMY_PRODUCTION_SEAL_MANIFEST[normalized] === true;
   }
-  if (storageAudioCounts(normalized)) {
+  if (storageAudioCounts(normalized) || checkoutSealAudioCounts(normalized)) {
     return true;
   }
   const absolute = join(/*turbopackIgnore: true*/ process.cwd(), normalized);
