@@ -1,10 +1,14 @@
 /**
  * Önceki / sonraki konu.
  * Sıra, ders rafının hafta aralığıdır. Dosya numarası komşu sayılmaz.
- * Zincir yalnız fırınlanmış ve katalogda açık derslerdir.
- * Kilitli veya sesi fırınlanmamış anahtar düğmeye girmez.
+ * Zincir fırınlanmış derslerdir. Açık kapı her zaman girer.
+ * 1. tema devamı (`jr_06_mat-2`, `jr_06_mat-3`) kilitli olsa da sonraki konu düğmesine girer.
+ * Sesi fırınlanmamış anahtar düğmeye girmez.
  * Bu dosya `server-only` değildir; ders gövdesini taşımaz.
  */
+
+/** MEB 1. tema sırası. Ücretsiz kapı `jr_06_mat-1`; devamı kilitli sayfaya gider. */
+const THEME_ONE_CHAIN_KEYS = new Set(["jr_06_mat-1", "jr_06_mat-2", "jr_06_mat-3"]);
 
 import type { JuniorCourseSlug } from "@yetkin/junior-content";
 import { juniorCourseSlugFromLessonKey } from "@/lib/junior/human-titles";
@@ -20,9 +24,12 @@ function pilotSlug(slug: string): JuniorCourseSlug | null {
   return (JUNIOR_PILOT_SLUGS as readonly string[]).includes(slug) ? (slug as JuniorCourseSlug) : null;
 }
 
-/** Raf düğmesi: mühürlü ses var ve konu ücretsiz kapıdadır. */
+/** Raf düğmesi: mühürlü ses var. Açık kapı veya 1. tema devamı. */
 function onNavChain(lessonKey: string): boolean {
-  return juniorLessonHasBakedAudio(lessonKey) && juniorLessonMediaIsPublicPreview(lessonKey);
+  if (!juniorLessonHasBakedAudio(lessonKey)) {
+    return false;
+  }
+  return juniorLessonMediaIsPublicPreview(lessonKey) || THEME_ONE_CHAIN_KEYS.has(lessonKey);
 }
 
 function buildNavChains(): Map<string, JuniorNavLesson[]> {

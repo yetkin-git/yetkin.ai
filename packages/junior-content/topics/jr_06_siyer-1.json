@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_siyer-1",
+  "title": "Doğru söz",
+  "teaser": "Doğru söz, söylenen ile yapılanın aynı olmasıdır. Kavramsal Anlayış, doğru sözü işine geleni söylemekten ayırır. İfade Gücü, bir örnekte söz ile işin nasıl birleştiğini anlatmandır.",
+  "welcome": "Bugün seninle siyerde doğru sözü öğreneceğiz.",
+  "concept": "Bugün seninle doğru sözü tanımlıyoruz. Siyer, Peygamberimizin hayatını anlatan derstir. Doğru söz, söylenen cümle ile yapılan işin aynı olmasıdır. Söz tutulursa doğru söz durur. Söz tutulmazsa doğru söz bozulur.\n\nHatırlarsan, emanet geri verilmişti. Hadi şimdi ekrandaki çizime birlikte bakalım! Kalem sana bırakıldı. Kalemi sahibine geri verdin. Sözün ile işin birleşti.\n\nTuzaklara Düşme! Birlikte bakalım. Doğru söz, hoşa giden cümle değildir. Emaneti saklamak doğru sözü bozar. Başkasının eşyasını kendininki gibi tutma.",
+  "example": "Siyer, Peygamberimizin hayatını güvenilir haberlerle anlatan derstir. Bu derste bir huyu adıyla öğreniriz. Doğru söz, ağzından çıkan ile elinin yaptığı aynı olunca durur. Söz başka, iş başka olursa doğru söz bozulur. Hadi şimdi ekrandaki çizime birlikte bakalım! Bir kalem sana emanet edildi. Sözün şudur. Kalemi sahibine geri vereceğim. İşi de budur. Kalemi sahibine verirsin. Söz ile iş birleşir. Hatırlarsan, doğru söz bu birleşmeydi. Tuzaklara Düşme! Birlikte bakalım. İşine gelen cümle, doğru söz sayılmaz. Emaneti gizlersen sözün bozulur.",
+  "warning": "İşine gelen cümle, doğru söz sayılmaz.",
+  "life": "Arkadaşının silgisini ödünç aldıysan geri verirsin. Veririm dediysen o gün getirirsin. Hatırlarsan, söz ile iş aynı olmalıydı. Evde de aynı kural durur. Tuzaklara Düşme! Birlikte bakalım. Unuttum demek, tutmadığın sözü doğru yapmaz.",
+  "recap": [
+    "Siyer, Peygamberimizin hayatını anlatan derstir.",
+    "Doğru söz, söylenen ile yapılanın aynı olmasıdır.",
+    "Emanet, sahibine geri verilir."
+  ],
+  "conceptSeal": "Doğru söz, söylenen ile yapılanın aynı olmasıdır.",
+  "voiceSeal": "Örnekte söz ile işin nasıl birleştiğini adım adım söylersin.",
+  "outcomes": [
+    "Siyer, Peygamberimizin hayatını anlatan derstir.",
+    "Doğru söz, söylenen ile yapılanın aynı olmasıdır.",
+    "Emanet, sahibine geri verilir."
+  ],
+  "scene": "elective",
+  "hint": "trap",
+  "band": "draft"
+}

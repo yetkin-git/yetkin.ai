@@ -2,7 +2,7 @@ import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { createPrismaAcademyPorts } from "@/lib/academy/runtime";
 import { academyCatalogPurchasable } from "@/lib/academy/pilot-sku";
-import { mergePublishedAcademyCatalog, overlaySeedCatalogPrice } from "@/lib/academy/published-catalog";
+import { academyVitrineShellCourses, overlaySeedCatalogPrice } from "@/lib/academy/published-catalog";
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 
@@ -28,7 +28,7 @@ export async function GET(request: Request) {
         });
       }),
     );
-    return jsonOk({ courses: mergePublishedAcademyCatalog(withPrice) });
+    return jsonOk({ courses: academyVitrineShellCourses(withPrice) });
   } catch (error) {
     return jsonFromUnknown(error);
   }

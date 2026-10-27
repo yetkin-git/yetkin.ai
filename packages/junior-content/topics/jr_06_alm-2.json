@@ -1,0 +1,24 @@
+{
+  "key": "jr_06_alm-2",
+  "title": "Adını söylemek",
+  "teaser": "Wie heißt du, adını sorar. Ich heiße, adını söyler. Kavramsal Anlayış, soru cümlesi ile cevap cümlesini ayırır. İfade Gücü, adını Ich heiße ile kurmandır.",
+  "welcome": "Bugün seninle Almancada ad sormayı öğreneceğiz.",
+  "concept": "Bugün seninle Almanca ad kalıbı var. Wie heißt du, adın ne demektir. Cevap Ich heiße ile kurulur. Ad, kalıbın ardına gelir. Selam, sorudan önce durur.\n\nHatırlarsan, Guten Tag gün içinin selamıydı. Hadi şimdi ekrandaki çizime birlikte bakalım! Önce Guten Tag. Sonra Wie heißt du. Cevap Ich heiße ve ad.\n\nTuzaklara Düşme! Birlikte bakalım. Heiße sözünü yalnız bırakma. Ich düşerse cümle eksik kalır. Soruyu aynen tekrar etmek ad söylemek değildir.",
+  "example": "Wie heißt du sorusu, adın ne demektir. Cevap Ich heiße ile başlar. Ardından adın gelir. Hadi şimdi ekrandaki çizime birlikte bakalım! Arkadaşın Wie heißt du diyor. Sen Ich heiße ile kendi adını söylüyorsun. Soru bekler. Cevap adı koyar. Hatırlarsan, önce selam verilmişti. Guten Tag dedikten sonra adı sorarsın. Tuzaklara Düşme! Birlikte bakalım. Heiße tek başına cevap olmaz. Ich heiße ile başla. Sorudaki du sözünü cevapta kullanma.",
+  "warning": "Heiße tek başına cevap olmaz.",
+  "life": "Yaz kursunda yeni bir arkadaşla karşılaşırsın. Önce selam verirsin. Sonra Wie heißt du diye sorarsın. O da Ich heiße ile adını söyler. Hatırlarsan, soru ile cevap ayrıydı. Sen de kendi adını aynı kalıpla söylersin. Tuzaklara Düşme! Birlikte bakalım. Yalnız adını söylemek kalıbı eksik bırakır.",
+  "recap": [
+    "Wie heißt du, adını sorar.",
+    "Ich heiße, adını söyler.",
+    "Wie heißt du adı sorar. Ich heiße adı söyler."
+  ],
+  "conceptSeal": "Wie heißt du adı sorar. Ich heiße adı söyler.",
+  "voiceSeal": "Adını Ich heiße kalıbıyla nasıl kurduğunu söylersin.",
+  "outcomes": [
+    "Wie heißt du, adını sorar.",
+    "Ich heiße, adını söyler."
+  ],
+  "scene": "elective",
+  "hint": "trap",
+  "band": "draft"
+}

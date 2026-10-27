@@ -1,0 +1,2662 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_turkce-10",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Paragrafın yapısı",
+  "grade": 6,
+  "subject": "Türkçe",
+  "teacher": {
+    "name": "Elif",
+    "voice": "Aoede",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_turkce-10.mp3",
+    "durationMs": 397649,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 96690
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 96690,
+      "endMs": 331990
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 331990,
+      "endMs": 397649
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 5740,
+      "pauseAfterMs": 630,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 250,
+          "endMs": 790
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 1410,
+          "endMs": 2670
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 3500,
+          "endMs": 4040
+        },
+        {
+          "word": "hoş",
+          "startMs": 4040,
+          "endMs": 4200
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 4350,
+          "endMs": 5110
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Paragrafın yapısı",
+            "subtitle": "Türkçe",
+            "ruleBadges": [],
+            "echoPrompt": "Bir paragrafta üç bölümü adlandırırsın ve akışı bozan cümleyi gösterirsin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Giriş konuyu tanıtır, gelişme örnekler verir, sonuç toparlar."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Giriş cümlesi kendinden önce bir cümle varmış gibi bağlaçla başlamaz."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Akışı bozan cümle çıkarıldığında paragrafın anlam bütünlüğü düzelir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 5740,
+      "endMs": 7250,
+      "pauseAfterMs": 0,
+      "text": "Ben Türkçe öğretmenin Elif",
+      "markedText": "Ben Türkçe öğretmenin Elif",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 5740,
+          "endMs": 5890
+        },
+        {
+          "word": "Türkçe",
+          "startMs": 5890,
+          "endMs": 6110
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6110,
+          "endMs": 6890
+        },
+        {
+          "word": "Elif",
+          "startMs": 6980,
+          "endMs": 7250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 7250,
+      "endMs": 15840,
+      "pauseAfterMs": 470,
+      "text": "Bugün kelimelerin ve cümlelerin bir araya gelerek nasıl kusursuz bir mimari oluşturduğunu göreceğiz.",
+      "markedText": "Bugün kelimelerin ve cümlelerin bir araya gelerek nasıl kusursuz bir mimari oluşturduğunu göreceğiz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 7250,
+          "endMs": 7530
+        },
+        {
+          "word": "kelimelerin",
+          "startMs": 7530,
+          "endMs": 8300
+        },
+        {
+          "word": "ve",
+          "startMs": 8430,
+          "endMs": 8550
+        },
+        {
+          "word": "cümlelerin",
+          "startMs": 8650,
+          "endMs": 9130
+        },
+        {
+          "word": "bir",
+          "startMs": 9220,
+          "endMs": 9400
+        },
+        {
+          "word": "araya",
+          "startMs": 9400,
+          "endMs": 9760
+        },
+        {
+          "word": "gelerek",
+          "startMs": 9760,
+          "endMs": 10230
+        },
+        {
+          "word": "nasıl",
+          "startMs": 10370,
+          "endMs": 10710
+        },
+        {
+          "word": "kusursuz",
+          "startMs": 10770,
+          "endMs": 11210
+        },
+        {
+          "word": "bir",
+          "startMs": 12280,
+          "endMs": 12350
+        },
+        {
+          "word": "mimari",
+          "startMs": 12510,
+          "endMs": 13300
+        },
+        {
+          "word": "oluşturduğunu",
+          "startMs": 13560,
+          "endMs": 14900
+        },
+        {
+          "word": "göreceğiz.",
+          "startMs": 15100,
+          "endMs": 15370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 15840,
+      "endMs": 33390,
+      "pauseAfterMs": 950,
+      "text": "Hiç güzel bir kompozisyonun başının konuyu tanıttığını, ortasının örneklerle zenginleştiğini ve sonunun etkileyici bir karara bağlandığını hissettin mi?",
+      "markedText": "Hiç güzel bir kompozisyonun başının konuyu tanıttığını, ortasının örneklerle zenginleştiğini ve sonunun etkileyici bir karara bağlandığını hissettin mi?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 15840,
+          "endMs": 15970
+        },
+        {
+          "word": "güzel",
+          "startMs": 16040,
+          "endMs": 16410
+        },
+        {
+          "word": "bir",
+          "startMs": 16480,
+          "endMs": 16720
+        },
+        {
+          "word": "kompozisyonun",
+          "startMs": 16820,
+          "endMs": 17610
+        },
+        {
+          "word": "başının",
+          "startMs": 18340,
+          "endMs": 18890
+        },
+        {
+          "word": "konuyu",
+          "startMs": 18990,
+          "endMs": 19510
+        },
+        {
+          "word": "tanıttığını,",
+          "startMs": 19680,
+          "endMs": 21370
+        },
+        {
+          "word": "ortasının",
+          "startMs": 22290,
+          "endMs": 22920
+        },
+        {
+          "word": "örneklerle",
+          "startMs": 23020,
+          "endMs": 24170
+        },
+        {
+          "word": "zenginleştiğini",
+          "startMs": 25050,
+          "endMs": 27050
+        },
+        {
+          "word": "ve",
+          "startMs": 27100,
+          "endMs": 27310
+        },
+        {
+          "word": "sonunun",
+          "startMs": 27470,
+          "endMs": 28040
+        },
+        {
+          "word": "etkileyici",
+          "startMs": 28350,
+          "endMs": 29040
+        },
+        {
+          "word": "bir",
+          "startMs": 29090,
+          "endMs": 29190
+        },
+        {
+          "word": "karara",
+          "startMs": 29340,
+          "endMs": 29830
+        },
+        {
+          "word": "bağlandığını",
+          "startMs": 29880,
+          "endMs": 31170
+        },
+        {
+          "word": "hissettin",
+          "startMs": 31410,
+          "endMs": 32120
+        },
+        {
+          "word": "mi?",
+          "startMs": 32210,
+          "endMs": 32440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 33390,
+      "endMs": 39540,
+      "pauseAfterMs": 880,
+      "text": "İşte bu düzen paragrafın yapısıdır.",
+      "markedText": "İşte bu düzen paragrafın yapısıdır.",
+      "words": [
+        {
+          "word": "İşte",
+          "startMs": 33390,
+          "endMs": 34190
+        },
+        {
+          "word": "bu",
+          "startMs": 34710,
+          "endMs": 34860
+        },
+        {
+          "word": "düzen",
+          "startMs": 35020,
+          "endMs": 35560
+        },
+        {
+          "word": "paragrafın",
+          "startMs": 36230,
+          "endMs": 36920
+        },
+        {
+          "word": "yapısıdır.",
+          "startMs": 37160,
+          "endMs": 38660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 39540,
+      "endMs": 54200,
+      "pauseAfterMs": 860,
+      "text": "Giriş, gelişme ve sonuç bölümlerini ve araya sızıp akışı bozan yabancı cümleleri tespit etmeyi öğreneceğiz.",
+      "markedText": "Giriş, gelişme ve sonuç bölümlerini ve araya sızıp akışı bozan yabancı cümleleri tespit etmeyi öğreneceğiz.",
+      "words": [
+        {
+          "word": "Giriş,",
+          "startMs": 39540,
+          "endMs": 40320
+        },
+        {
+          "word": "gelişme",
+          "startMs": 40670,
+          "endMs": 41370
+        },
+        {
+          "word": "ve",
+          "startMs": 41370,
+          "endMs": 41590
+        },
+        {
+          "word": "sonuç",
+          "startMs": 41670,
+          "endMs": 42390
+        },
+        {
+          "word": "bölümlerini",
+          "startMs": 42690,
+          "endMs": 43450
+        },
+        {
+          "word": "ve",
+          "startMs": 43660,
+          "endMs": 44040
+        },
+        {
+          "word": "araya",
+          "startMs": 44400,
+          "endMs": 44650
+        },
+        {
+          "word": "sızıp",
+          "startMs": 44770,
+          "endMs": 45130
+        },
+        {
+          "word": "akışı",
+          "startMs": 45270,
+          "endMs": 46160
+        },
+        {
+          "word": "bozan",
+          "startMs": 46760,
+          "endMs": 47410
+        },
+        {
+          "word": "yabancı",
+          "startMs": 47580,
+          "endMs": 48190
+        },
+        {
+          "word": "cümleleri",
+          "startMs": 48410,
+          "endMs": 48920
+        },
+        {
+          "word": "tespit",
+          "startMs": 49700,
+          "endMs": 50320
+        },
+        {
+          "word": "etmeyi",
+          "startMs": 50760,
+          "endMs": 51710
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 51860,
+          "endMs": 53340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 54200,
+      "endMs": 63780,
+      "pauseAfterMs": 290,
+      "text": "Günlüğüne bugün okulda çok heyecanlı bir deney yaptık diye başlarsın; bu giriştir.",
+      "markedText": "Günlüğüne bugün okulda çok heyecanlı bir deney yaptık diye başlarsın; bu giriştir.",
+      "words": [
+        {
+          "word": "Günlüğüne",
+          "startMs": 54200,
+          "endMs": 55110
+        },
+        {
+          "word": "bugün",
+          "startMs": 55430,
+          "endMs": 55890
+        },
+        {
+          "word": "okulda",
+          "startMs": 56180,
+          "endMs": 56560
+        },
+        {
+          "word": "çok",
+          "startMs": 56560,
+          "endMs": 56690
+        },
+        {
+          "word": "heyecanlı",
+          "startMs": 56970,
+          "endMs": 57680
+        },
+        {
+          "word": "bir",
+          "startMs": 58010,
+          "endMs": 58350
+        },
+        {
+          "word": "deney",
+          "startMs": 58470,
+          "endMs": 58970
+        },
+        {
+          "word": "yaptık",
+          "startMs": 59040,
+          "endMs": 59710
+        },
+        {
+          "word": "diye",
+          "startMs": 59920,
+          "endMs": 60410
+        },
+        {
+          "word": "başlarsın;",
+          "startMs": 60570,
+          "endMs": 61700
+        },
+        {
+          "word": "bu",
+          "startMs": 62580,
+          "endMs": 62750
+        },
+        {
+          "word": "giriştir.",
+          "startMs": 62900,
+          "endMs": 63490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 63780,
+      "endMs": 73760,
+      "pauseAfterMs": 740,
+      "text": "Deneyin aşamalarını ve renkli sıvıları anlatırsın; bu gelişmedir.",
+      "markedText": "Deneyin aşamalarını ve renkli sıvıları anlatırsın; bu gelişmedir.",
+      "words": [
+        {
+          "word": "Deneyin",
+          "startMs": 63780,
+          "endMs": 65020
+        },
+        {
+          "word": "aşamalarını",
+          "startMs": 65310,
+          "endMs": 66120
+        },
+        {
+          "word": "ve",
+          "startMs": 66810,
+          "endMs": 67610
+        },
+        {
+          "word": "renkli",
+          "startMs": 67970,
+          "endMs": 68580
+        },
+        {
+          "word": "sıvıları",
+          "startMs": 68970,
+          "endMs": 69650
+        },
+        {
+          "word": "anlatırsın;",
+          "startMs": 70070,
+          "endMs": 70620
+        },
+        {
+          "word": "bu",
+          "startMs": 71040,
+          "endMs": 71170
+        },
+        {
+          "word": "gelişmedir.",
+          "startMs": 71220,
+          "endMs": 73020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 73760,
+      "endMs": 83450,
+      "pauseAfterMs": 570,
+      "text": "Bilim insanı olmayı şimdiden çok istiyorum dersin; bu sonuçtur.",
+      "markedText": "Bilim insanı olmayı şimdiden çok istiyorum dersin; bu sonuçtur.",
+      "words": [
+        {
+          "word": "Bilim",
+          "startMs": 73760,
+          "endMs": 74290
+        },
+        {
+          "word": "insanı",
+          "startMs": 74330,
+          "endMs": 74930
+        },
+        {
+          "word": "olmayı",
+          "startMs": 75090,
+          "endMs": 75980
+        },
+        {
+          "word": "şimdiden",
+          "startMs": 76020,
+          "endMs": 77460
+        },
+        {
+          "word": "çok",
+          "startMs": 77810,
+          "endMs": 78030
+        },
+        {
+          "word": "istiyorum",
+          "startMs": 78070,
+          "endMs": 79250
+        },
+        {
+          "word": "dersin;",
+          "startMs": 79510,
+          "endMs": 80560
+        },
+        {
+          "word": "bu",
+          "startMs": 81200,
+          "endMs": 81390
+        },
+        {
+          "word": "sonuçtur.",
+          "startMs": 81490,
+          "endMs": 82880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 83450,
+      "endMs": 96690,
+      "pauseAfterMs": 1050,
+      "text": "Araya akşam yediğin yemeği eklersen anlatımın akışı bölünür; onu ayrı bir paragrafa yazarsın.",
+      "markedText": "Araya akşam yediğin yemeği eklersen anlatımın akışı bölünür; onu ayrı bir paragrafa yazarsın.",
+      "words": [
+        {
+          "word": "Araya",
+          "startMs": 83450,
+          "endMs": 83830
+        },
+        {
+          "word": "akşam",
+          "startMs": 83890,
+          "endMs": 84440
+        },
+        {
+          "word": "yediğin",
+          "startMs": 84550,
+          "endMs": 85220
+        },
+        {
+          "word": "yemeği",
+          "startMs": 85490,
+          "endMs": 86220
+        },
+        {
+          "word": "eklersen",
+          "startMs": 86570,
+          "endMs": 87270
+        },
+        {
+          "word": "anlatımın",
+          "startMs": 87470,
+          "endMs": 88210
+        },
+        {
+          "word": "akışı",
+          "startMs": 88380,
+          "endMs": 88770
+        },
+        {
+          "word": "bölünür;",
+          "startMs": 88770,
+          "endMs": 89600
+        },
+        {
+          "word": "onu",
+          "startMs": 90760,
+          "endMs": 90950
+        },
+        {
+          "word": "ayrı",
+          "startMs": 91230,
+          "endMs": 91490
+        },
+        {
+          "word": "bir",
+          "startMs": 91560,
+          "endMs": 91820
+        },
+        {
+          "word": "paragrafa",
+          "startMs": 91950,
+          "endMs": 93040
+        },
+        {
+          "word": "yazarsın.",
+          "startMs": 94010,
+          "endMs": 95640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 96690,
+      "endMs": 102440,
+      "pauseAfterMs": 850,
+      "text": "Bir paragraf üç ana yapı taşından oluşur.",
+      "markedText": "Bir paragraf üç ana yapı taşından oluşur.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 96690,
+          "endMs": 96930
+        },
+        {
+          "word": "paragraf",
+          "startMs": 97010,
+          "endMs": 97750
+        },
+        {
+          "word": "üç",
+          "startMs": 97820,
+          "endMs": 98040
+        },
+        {
+          "word": "ana",
+          "startMs": 98160,
+          "endMs": 98640
+        },
+        {
+          "word": "yapı",
+          "startMs": 98740,
+          "endMs": 99510
+        },
+        {
+          "word": "taşından",
+          "startMs": 99940,
+          "endMs": 100650
+        },
+        {
+          "word": "oluşur.",
+          "startMs": 100760,
+          "endMs": 101590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 102440,
+      "endMs": 124630,
+      "pauseAfterMs": 500,
+      "text": "Giriş bölümü, konuyu okuyucunun önüne koyan, genellikle tek cümlelik merak uyandırıcı başlangıçtır; kendinden önce bir cümle varmış hissi vermez.",
+      "markedText": "Giriş bölümü, konuyu okuyucunun önüne koyan, genellikle tek cümlelik merak uyandırıcı başlangıçtır; kendinden önce bir cümle varmış hissi vermez.",
+      "words": [
+        {
+          "word": "Giriş",
+          "startMs": 102440,
+          "endMs": 103030
+        },
+        {
+          "word": "bölümü,",
+          "startMs": 103240,
+          "endMs": 104040
+        },
+        {
+          "word": "konuyu",
+          "startMs": 104330,
+          "endMs": 105080
+        },
+        {
+          "word": "okuyucunun",
+          "startMs": 105230,
+          "endMs": 107480
+        },
+        {
+          "word": "önüne",
+          "startMs": 107940,
+          "endMs": 108510
+        },
+        {
+          "word": "koyan,",
+          "startMs": 108590,
+          "endMs": 109140
+        },
+        {
+          "word": "genellikle",
+          "startMs": 110130,
+          "endMs": 110990
+        },
+        {
+          "word": "tek",
+          "startMs": 111250,
+          "endMs": 111480
+        },
+        {
+          "word": "cümlelik",
+          "startMs": 111530,
+          "endMs": 112460
+        },
+        {
+          "word": "merak",
+          "startMs": 112920,
+          "endMs": 113320
+        },
+        {
+          "word": "uyandırıcı",
+          "startMs": 113430,
+          "endMs": 114890
+        },
+        {
+          "word": "başlangıçtır;",
+          "startMs": 115380,
+          "endMs": 117110
+        },
+        {
+          "word": "kendinden",
+          "startMs": 117580,
+          "endMs": 118140
+        },
+        {
+          "word": "önce",
+          "startMs": 118480,
+          "endMs": 119510
+        },
+        {
+          "word": "bir",
+          "startMs": 120390,
+          "endMs": 120600
+        },
+        {
+          "word": "cümle",
+          "startMs": 120600,
+          "endMs": 120930
+        },
+        {
+          "word": "varmış",
+          "startMs": 121080,
+          "endMs": 121640
+        },
+        {
+          "word": "hissi",
+          "startMs": 122310,
+          "endMs": 122630
+        },
+        {
+          "word": "vermez.",
+          "startMs": 122830,
+          "endMs": 124130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 124630,
+      "endMs": 131840,
+      "pauseAfterMs": 910,
+      "text": "Bu yüzden, çünkü gibi bağlaçlarla giriş cümlesi başlamaz.",
+      "markedText": "Bu yüzden, çünkü gibi bağlaçlarla giriş cümlesi başlamaz.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 124630,
+          "endMs": 124890
+        },
+        {
+          "word": "yüzden,",
+          "startMs": 125140,
+          "endMs": 125720
+        },
+        {
+          "word": "çünkü",
+          "startMs": 125820,
+          "endMs": 126000
+        },
+        {
+          "word": "gibi",
+          "startMs": 126130,
+          "endMs": 126680
+        },
+        {
+          "word": "bağlaçlarla",
+          "startMs": 127540,
+          "endMs": 128990
+        },
+        {
+          "word": "giriş",
+          "startMs": 129130,
+          "endMs": 129270
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 129500,
+          "endMs": 130100
+        },
+        {
+          "word": "başlamaz.",
+          "startMs": 130260,
+          "endMs": 130930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 131840,
+      "endMs": 142050,
+      "pauseAfterMs": 630,
+      "text": "Gelişme bölümü, konunun açıklandığı, örneklerin, benzetmelerin ve ayrıntıların sıralandığı en geniş gövdedir.",
+      "markedText": "Gelişme bölümü, konunun açıklandığı, örneklerin, benzetmelerin ve ayrıntıların sıralandığı en geniş gövdedir.",
+      "words": [
+        {
+          "word": "Gelişme",
+          "startMs": 131840,
+          "endMs": 132050
+        },
+        {
+          "word": "bölümü,",
+          "startMs": 132140,
+          "endMs": 132740
+        },
+        {
+          "word": "konunun",
+          "startMs": 133890,
+          "endMs": 134350
+        },
+        {
+          "word": "açıklandığı,",
+          "startMs": 134960,
+          "endMs": 136270
+        },
+        {
+          "word": "örneklerin,",
+          "startMs": 136980,
+          "endMs": 137520
+        },
+        {
+          "word": "benzetmelerin",
+          "startMs": 137610,
+          "endMs": 138460
+        },
+        {
+          "word": "ve",
+          "startMs": 138460,
+          "endMs": 138540
+        },
+        {
+          "word": "ayrıntıların",
+          "startMs": 138630,
+          "endMs": 139250
+        },
+        {
+          "word": "sıralandığı",
+          "startMs": 139320,
+          "endMs": 140030
+        },
+        {
+          "word": "en",
+          "startMs": 140030,
+          "endMs": 140300
+        },
+        {
+          "word": "geniş",
+          "startMs": 140420,
+          "endMs": 140630
+        },
+        {
+          "word": "gövdedir.",
+          "startMs": 140720,
+          "endMs": 141420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 142050,
+      "endMs": 160880,
+      "pauseAfterMs": 1000,
+      "text": "Sonuç bölümü ise söyleneni toparlayan, ana fikri özetleyen ve genellikle özetle, bu nedenle, sonuç olarak gibi ifadelerle bağlanan final cümlesidir.",
+      "markedText": "Sonuç bölümü ise söyleneni toparlayan, ana fikri özetleyen ve genellikle özetle, bu nedenle, sonuç olarak gibi ifadelerle bağlanan final cümlesidir.",
+      "words": [
+        {
+          "word": "Sonuç",
+          "startMs": 142050,
+          "endMs": 142510
+        },
+        {
+          "word": "bölümü",
+          "startMs": 142830,
+          "endMs": 143400
+        },
+        {
+          "word": "ise",
+          "startMs": 143400,
+          "endMs": 143710
+        },
+        {
+          "word": "söyleneni",
+          "startMs": 143710,
+          "endMs": 145060
+        },
+        {
+          "word": "toparlayan,",
+          "startMs": 145320,
+          "endMs": 147120
+        },
+        {
+          "word": "ana",
+          "startMs": 147450,
+          "endMs": 147720
+        },
+        {
+          "word": "fikri",
+          "startMs": 148020,
+          "endMs": 148320
+        },
+        {
+          "word": "özetleyen",
+          "startMs": 148320,
+          "endMs": 148990
+        },
+        {
+          "word": "ve",
+          "startMs": 149240,
+          "endMs": 149400
+        },
+        {
+          "word": "genellikle",
+          "startMs": 149630,
+          "endMs": 150560
+        },
+        {
+          "word": "özetle,",
+          "startMs": 150660,
+          "endMs": 151350
+        },
+        {
+          "word": "bu",
+          "startMs": 152180,
+          "endMs": 152360
+        },
+        {
+          "word": "nedenle,",
+          "startMs": 152440,
+          "endMs": 153420
+        },
+        {
+          "word": "sonuç",
+          "startMs": 153720,
+          "endMs": 154020
+        },
+        {
+          "word": "olarak",
+          "startMs": 154020,
+          "endMs": 154630
+        },
+        {
+          "word": "gibi",
+          "startMs": 155160,
+          "endMs": 155360
+        },
+        {
+          "word": "ifadelerle",
+          "startMs": 155780,
+          "endMs": 156700
+        },
+        {
+          "word": "bağlanan",
+          "startMs": 156800,
+          "endMs": 157590
+        },
+        {
+          "word": "final",
+          "startMs": 157770,
+          "endMs": 158250
+        },
+        {
+          "word": "cümlesidir.",
+          "startMs": 158620,
+          "endMs": 159880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 160880,
+      "endMs": 177470,
+      "pauseAfterMs": 290,
+      "text": "Akışı bozan cümle ise bu uyumlu zincirin arasına karışmış, konudan ve ana fikirden kopuk yabancı bir cümledir.",
+      "markedText": "Akışı bozan cümle ise bu uyumlu zincirin arasına karışmış, konudan ve ana fikirden kopuk yabancı bir cümledir.",
+      "words": [
+        {
+          "word": "Akışı",
+          "startMs": 160880,
+          "endMs": 161380
+        },
+        {
+          "word": "bozan",
+          "startMs": 161380,
+          "endMs": 161840
+        },
+        {
+          "word": "cümle",
+          "startMs": 162570,
+          "endMs": 162790
+        },
+        {
+          "word": "ise",
+          "startMs": 163220,
+          "endMs": 163580
+        },
+        {
+          "word": "bu",
+          "startMs": 163690,
+          "endMs": 163890
+        },
+        {
+          "word": "uyumlu",
+          "startMs": 163970,
+          "endMs": 164750
+        },
+        {
+          "word": "zincirin",
+          "startMs": 165200,
+          "endMs": 166400
+        },
+        {
+          "word": "arasına",
+          "startMs": 166700,
+          "endMs": 167490
+        },
+        {
+          "word": "karışmış,",
+          "startMs": 167600,
+          "endMs": 168070
+        },
+        {
+          "word": "konudan",
+          "startMs": 168960,
+          "endMs": 169440
+        },
+        {
+          "word": "ve",
+          "startMs": 170190,
+          "endMs": 170310
+        },
+        {
+          "word": "ana",
+          "startMs": 170770,
+          "endMs": 171310
+        },
+        {
+          "word": "fikirden",
+          "startMs": 171540,
+          "endMs": 172350
+        },
+        {
+          "word": "kopuk",
+          "startMs": 172420,
+          "endMs": 173110
+        },
+        {
+          "word": "yabancı",
+          "startMs": 173290,
+          "endMs": 174480
+        },
+        {
+          "word": "bir",
+          "startMs": 175050,
+          "endMs": 175290
+        },
+        {
+          "word": "cümledir.",
+          "startMs": 175940,
+          "endMs": 177180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 177470,
+      "endMs": 194550,
+      "pauseAfterMs": 290,
+      "text": "Pratik kural: Akışı bozan cümleyi cımbızla çekip çıkardığında paragrafın ritmi ve mantığı anında yerine oturur.",
+      "markedText": "Pratik kural: Akışı bozan cümleyi cımbızla çekip çıkardığında paragrafın ritmi ve mantığı anında yerine oturur.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 177470,
+          "endMs": 178320
+        },
+        {
+          "word": "kural:",
+          "startMs": 178910,
+          "endMs": 179120
+        },
+        {
+          "word": "Akışı",
+          "startMs": 179530,
+          "endMs": 180290
+        },
+        {
+          "word": "bozan",
+          "startMs": 180960,
+          "endMs": 181980
+        },
+        {
+          "word": "cümleyi",
+          "startMs": 182360,
+          "endMs": 183630
+        },
+        {
+          "word": "cımbızla",
+          "startMs": 184610,
+          "endMs": 185590
+        },
+        {
+          "word": "çekip",
+          "startMs": 186300,
+          "endMs": 186540
+        },
+        {
+          "word": "çıkardığında",
+          "startMs": 186920,
+          "endMs": 188500
+        },
+        {
+          "word": "paragrafın",
+          "startMs": 188950,
+          "endMs": 190140
+        },
+        {
+          "word": "ritmi",
+          "startMs": 190440,
+          "endMs": 190870
+        },
+        {
+          "word": "ve",
+          "startMs": 190990,
+          "endMs": 191220
+        },
+        {
+          "word": "mantığı",
+          "startMs": 191340,
+          "endMs": 191850
+        },
+        {
+          "word": "anında",
+          "startMs": 192200,
+          "endMs": 192390
+        },
+        {
+          "word": "yerine",
+          "startMs": 192710,
+          "endMs": 193230
+        },
+        {
+          "word": "oturur.",
+          "startMs": 193780,
+          "endMs": 194260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 194550,
+      "endMs": 199370,
+      "pauseAfterMs": 760,
+      "text": "Birlikte bir paragrafı inceleyelim.",
+      "markedText": "Birlikte bir paragrafı inceleyelim.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 194550,
+          "endMs": 195160
+        },
+        {
+          "word": "bir",
+          "startMs": 195340,
+          "endMs": 195690
+        },
+        {
+          "word": "paragrafı",
+          "startMs": 195690,
+          "endMs": 196990
+        },
+        {
+          "word": "inceleyelim.",
+          "startMs": 197200,
+          "endMs": 198610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 199370,
+      "endMs": 208570,
+      "pauseAfterMs": 790,
+      "text": "Kitaplar bize bilmediğimiz dünyaların kapılarını aralar; bu harika bir giriş cümlesidir.",
+      "markedText": "Kitaplar bize bilmediğimiz dünyaların kapılarını aralar; bu harika bir giriş cümlesidir.",
+      "words": [
+        {
+          "word": "Kitaplar",
+          "startMs": 199370,
+          "endMs": 199960
+        },
+        {
+          "word": "bize",
+          "startMs": 200140,
+          "endMs": 200330
+        },
+        {
+          "word": "bilmediğimiz",
+          "startMs": 200580,
+          "endMs": 201200
+        },
+        {
+          "word": "dünyaların",
+          "startMs": 202240,
+          "endMs": 203030
+        },
+        {
+          "word": "kapılarını",
+          "startMs": 203240,
+          "endMs": 203920
+        },
+        {
+          "word": "aralar;",
+          "startMs": 204000,
+          "endMs": 204320
+        },
+        {
+          "word": "bu",
+          "startMs": 205150,
+          "endMs": 205270
+        },
+        {
+          "word": "harika",
+          "startMs": 205350,
+          "endMs": 205850
+        },
+        {
+          "word": "bir",
+          "startMs": 206160,
+          "endMs": 206260
+        },
+        {
+          "word": "giriş",
+          "startMs": 206430,
+          "endMs": 206750
+        },
+        {
+          "word": "cümlesidir.",
+          "startMs": 206910,
+          "endMs": 207780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 208570,
+      "endMs": 221290,
+      "pauseAfterMs": 660,
+      "text": "Sayfalar arasında gezinirken tarihin derinliklerini veya evrenin sırlarını keşfederiz; bu gelişme cümlesidir.",
+      "markedText": "Sayfalar arasında gezinirken tarihin derinliklerini veya evrenin sırlarını keşfederiz; bu gelişme cümlesidir.",
+      "words": [
+        {
+          "word": "Sayfalar",
+          "startMs": 208570,
+          "endMs": 209400
+        },
+        {
+          "word": "arasında",
+          "startMs": 209820,
+          "endMs": 210460
+        },
+        {
+          "word": "gezinirken",
+          "startMs": 210550,
+          "endMs": 211620
+        },
+        {
+          "word": "tarihin",
+          "startMs": 211910,
+          "endMs": 212500
+        },
+        {
+          "word": "derinliklerini",
+          "startMs": 212880,
+          "endMs": 214050
+        },
+        {
+          "word": "veya",
+          "startMs": 214170,
+          "endMs": 215050
+        },
+        {
+          "word": "evrenin",
+          "startMs": 215630,
+          "endMs": 216240
+        },
+        {
+          "word": "sırlarını",
+          "startMs": 216240,
+          "endMs": 216980
+        },
+        {
+          "word": "keşfederiz;",
+          "startMs": 217390,
+          "endMs": 217920
+        },
+        {
+          "word": "bu",
+          "startMs": 218800,
+          "endMs": 219000
+        },
+        {
+          "word": "gelişme",
+          "startMs": 219130,
+          "endMs": 219310
+        },
+        {
+          "word": "cümlesidir.",
+          "startMs": 219540,
+          "endMs": 220630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 221290,
+      "endMs": 236620,
+      "pauseAfterMs": 780,
+      "text": "Dün akşam oynanan futbol maçı berabere bitti; bu cümle bir anda ortaya çıkmıştır ve kitap konusuyla hiçbir bağı yoktur.",
+      "markedText": "Dün akşam oynanan futbol maçı berabere bitti; bu cümle bir anda ortaya çıkmıştır ve kitap konusuyla hiçbir bağı yoktur.",
+      "words": [
+        {
+          "word": "Dün",
+          "startMs": 221290,
+          "endMs": 221510
+        },
+        {
+          "word": "akşam",
+          "startMs": 221640,
+          "endMs": 222120
+        },
+        {
+          "word": "oynanan",
+          "startMs": 222330,
+          "endMs": 222870
+        },
+        {
+          "word": "futbol",
+          "startMs": 223760,
+          "endMs": 224370
+        },
+        {
+          "word": "maçı",
+          "startMs": 224480,
+          "endMs": 224890
+        },
+        {
+          "word": "berabere",
+          "startMs": 224960,
+          "endMs": 225820
+        },
+        {
+          "word": "bitti;",
+          "startMs": 226290,
+          "endMs": 226800
+        },
+        {
+          "word": "bu",
+          "startMs": 227640,
+          "endMs": 227770
+        },
+        {
+          "word": "cümle",
+          "startMs": 227820,
+          "endMs": 228070
+        },
+        {
+          "word": "bir",
+          "startMs": 228140,
+          "endMs": 228290
+        },
+        {
+          "word": "anda",
+          "startMs": 228710,
+          "endMs": 229190
+        },
+        {
+          "word": "ortaya",
+          "startMs": 230100,
+          "endMs": 230700
+        },
+        {
+          "word": "çıkmıştır",
+          "startMs": 230870,
+          "endMs": 231420
+        },
+        {
+          "word": "ve",
+          "startMs": 231610,
+          "endMs": 231810
+        },
+        {
+          "word": "kitap",
+          "startMs": 232180,
+          "endMs": 232690
+        },
+        {
+          "word": "konusuyla",
+          "startMs": 232690,
+          "endMs": 233490
+        },
+        {
+          "word": "hiçbir",
+          "startMs": 233790,
+          "endMs": 234090
+        },
+        {
+          "word": "bağı",
+          "startMs": 234170,
+          "endMs": 234560
+        },
+        {
+          "word": "yoktur.",
+          "startMs": 234770,
+          "endMs": 235840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 236620,
+      "endMs": 240890,
+      "pauseAfterMs": 860,
+      "text": "İşte bu akışı bozan cümledir.",
+      "markedText": "İşte bu akışı bozan cümledir.",
+      "words": [
+        {
+          "word": "İşte",
+          "startMs": 236620,
+          "endMs": 236980
+        },
+        {
+          "word": "bu",
+          "startMs": 236980,
+          "endMs": 237040
+        },
+        {
+          "word": "akışı",
+          "startMs": 237090,
+          "endMs": 237820
+        },
+        {
+          "word": "bozan",
+          "startMs": 238790,
+          "endMs": 239110
+        },
+        {
+          "word": "cümledir.",
+          "startMs": 239530,
+          "endMs": 240030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 240890,
+      "endMs": 255540,
+      "pauseAfterMs": 860,
+      "text": "Sonuç olarak kitap okumak zihnimizi büyüten en değerli yolculuktur; bu da toparlayıcı sonuç cümlesidir.",
+      "markedText": "Sonuç olarak kitap okumak zihnimizi büyüten en değerli yolculuktur; bu da toparlayıcı sonuç cümlesidir.",
+      "words": [
+        {
+          "word": "Sonuç",
+          "startMs": 240890,
+          "endMs": 241140
+        },
+        {
+          "word": "olarak",
+          "startMs": 241250,
+          "endMs": 241730
+        },
+        {
+          "word": "kitap",
+          "startMs": 241900,
+          "endMs": 242520
+        },
+        {
+          "word": "okumak",
+          "startMs": 242580,
+          "endMs": 243340
+        },
+        {
+          "word": "zihnimizi",
+          "startMs": 243740,
+          "endMs": 244860
+        },
+        {
+          "word": "büyüten",
+          "startMs": 245630,
+          "endMs": 246400
+        },
+        {
+          "word": "en",
+          "startMs": 246470,
+          "endMs": 246570
+        },
+        {
+          "word": "değerli",
+          "startMs": 247190,
+          "endMs": 247430
+        },
+        {
+          "word": "yolculuktur;",
+          "startMs": 248350,
+          "endMs": 249770
+        },
+        {
+          "word": "bu",
+          "startMs": 250560,
+          "endMs": 250640
+        },
+        {
+          "word": "da",
+          "startMs": 250730,
+          "endMs": 251080
+        },
+        {
+          "word": "toparlayıcı",
+          "startMs": 251080,
+          "endMs": 252480
+        },
+        {
+          "word": "sonuç",
+          "startMs": 252810,
+          "endMs": 253150
+        },
+        {
+          "word": "cümlesidir.",
+          "startMs": 253420,
+          "endMs": 254680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 255540,
+      "endMs": 262540,
+      "pauseAfterMs": 230,
+      "text": "Yabancı cümleyi çıkardığımızda metin pürüzsüzce akar.",
+      "markedText": "Yabancı cümleyi çıkardığımızda metin pürüzsüzce akar.",
+      "words": [
+        {
+          "word": "Yabancı",
+          "startMs": 255540,
+          "endMs": 256220
+        },
+        {
+          "word": "cümleyi",
+          "startMs": 256840,
+          "endMs": 257670
+        },
+        {
+          "word": "çıkardığımızda",
+          "startMs": 258540,
+          "endMs": 259470
+        },
+        {
+          "word": "metin",
+          "startMs": 259570,
+          "endMs": 260080
+        },
+        {
+          "word": "pürüzsüzce",
+          "startMs": 260790,
+          "endMs": 261450
+        },
+        {
+          "word": "akar.",
+          "startMs": 262040,
+          "endMs": 262310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 262540,
+      "endMs": 264300,
+      "pauseAfterMs": 290,
+      "text": "Tuzaklara Düşme",
+      "markedText": "Tuzaklara Düşme",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 262540,
+          "endMs": 263520
+        },
+        {
+          "word": "Düşme",
+          "startMs": 263580,
+          "endMs": 264010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 264300,
+      "endMs": 267170,
+      "pauseAfterMs": 880,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 264300,
+          "endMs": 264940
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 265670,
+          "endMs": 266290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 267170,
+      "endMs": 270650,
+      "pauseAfterMs": 570,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 267170,
+          "endMs": 267370
+        },
+        {
+          "word": "noktayı",
+          "startMs": 267370,
+          "endMs": 268160
+        },
+        {
+          "word": "sen",
+          "startMs": 268560,
+          "endMs": 268860
+        },
+        {
+          "word": "de",
+          "startMs": 268930,
+          "endMs": 269020
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 269110,
+          "endMs": 270080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 270650,
+      "endMs": 282740,
+      "pauseAfterMs": 610,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 270650,
+          "endMs": 271410
+        },
+        {
+          "word": "sevgili",
+          "startMs": 272330,
+          "endMs": 273270
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 273450,
+          "endMs": 274990
+        },
+        {
+          "word": "işte",
+          "startMs": 275600,
+          "endMs": 275880
+        },
+        {
+          "word": "tam",
+          "startMs": 275880,
+          "endMs": 276300
+        },
+        {
+          "word": "bu",
+          "startMs": 277270,
+          "endMs": 277370
+        },
+        {
+          "word": "noktada",
+          "startMs": 277370,
+          "endMs": 277740
+        },
+        {
+          "word": "dikkat",
+          "startMs": 278090,
+          "endMs": 278330
+        },
+        {
+          "word": "etmen",
+          "startMs": 278660,
+          "endMs": 279200
+        },
+        {
+          "word": "gereken",
+          "startMs": 279300,
+          "endMs": 280180
+        },
+        {
+          "word": "kilit",
+          "startMs": 280750,
+          "endMs": 281460
+        },
+        {
+          "word": "nokta.",
+          "startMs": 281720,
+          "endMs": 282130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 282740,
+      "endMs": 293470,
+      "pauseAfterMs": 740,
+      "text": "Giriş cümlesinin kendinden önceki bir cümleye bağlı gibi durmamasına dikkat etmelisin.",
+      "markedText": "Giriş cümlesinin kendinden önceki bir cümleye bağlı gibi durmamasına dikkat etmelisin.",
+      "words": [
+        {
+          "word": "Giriş",
+          "startMs": 282740,
+          "endMs": 283060
+        },
+        {
+          "word": "cümlesinin",
+          "startMs": 283060,
+          "endMs": 283780
+        },
+        {
+          "word": "kendinden",
+          "startMs": 283990,
+          "endMs": 284790
+        },
+        {
+          "word": "önceki",
+          "startMs": 285390,
+          "endMs": 286030
+        },
+        {
+          "word": "bir",
+          "startMs": 286370,
+          "endMs": 286650
+        },
+        {
+          "word": "cümleye",
+          "startMs": 287000,
+          "endMs": 287730
+        },
+        {
+          "word": "bağlı",
+          "startMs": 288410,
+          "endMs": 288980
+        },
+        {
+          "word": "gibi",
+          "startMs": 289110,
+          "endMs": 289420
+        },
+        {
+          "word": "durmamasına",
+          "startMs": 289580,
+          "endMs": 290760
+        },
+        {
+          "word": "dikkat",
+          "startMs": 291000,
+          "endMs": 291200
+        },
+        {
+          "word": "etmelisin.",
+          "startMs": 291380,
+          "endMs": 292730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 293470,
+      "endMs": 312300,
+      "pauseAfterMs": 750,
+      "text": "Örneğin bu nedenle ormanları korumalıyız cümlesi bir paragrafın ilk cümlesi olamaz; çünkü bu nedenle sözü öncesinde bir açıklama olduğunu gösterir.",
+      "markedText": "Örneğin bu nedenle ormanları korumalıyız cümlesi bir paragrafın ilk cümlesi olamaz; çünkü bu nedenle sözü öncesinde bir açıklama olduğunu gösterir.",
+      "words": [
+        {
+          "word": "Örneğin",
+          "startMs": 293470,
+          "endMs": 293900
+        },
+        {
+          "word": "bu",
+          "startMs": 293970,
+          "endMs": 294090
+        },
+        {
+          "word": "nedenle",
+          "startMs": 294250,
+          "endMs": 294990
+        },
+        {
+          "word": "ormanları",
+          "startMs": 295310,
+          "endMs": 296020
+        },
+        {
+          "word": "korumalıyız",
+          "startMs": 296260,
+          "endMs": 297120
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 297950,
+          "endMs": 298640
+        },
+        {
+          "word": "bir",
+          "startMs": 298880,
+          "endMs": 299020
+        },
+        {
+          "word": "paragrafın",
+          "startMs": 299810,
+          "endMs": 301060
+        },
+        {
+          "word": "ilk",
+          "startMs": 301430,
+          "endMs": 301820
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 301910,
+          "endMs": 302890
+        },
+        {
+          "word": "olamaz;",
+          "startMs": 303250,
+          "endMs": 304110
+        },
+        {
+          "word": "çünkü",
+          "startMs": 304810,
+          "endMs": 305400
+        },
+        {
+          "word": "bu",
+          "startMs": 305830,
+          "endMs": 306030
+        },
+        {
+          "word": "nedenle",
+          "startMs": 306160,
+          "endMs": 306600
+        },
+        {
+          "word": "sözü",
+          "startMs": 306740,
+          "endMs": 307080
+        },
+        {
+          "word": "öncesinde",
+          "startMs": 307080,
+          "endMs": 307900
+        },
+        {
+          "word": "bir",
+          "startMs": 307900,
+          "endMs": 308150
+        },
+        {
+          "word": "açıklama",
+          "startMs": 308530,
+          "endMs": 309610
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 310080,
+          "endMs": 310720
+        },
+        {
+          "word": "gösterir.",
+          "startMs": 310780,
+          "endMs": 311550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 312300,
+      "endMs": 331990,
+      "pauseAfterMs": 650,
+      "text": "Akışı bozan cümlenin ise tamamen yanlış bir bilgi değil, sadece o paragrafın konusuna ait olmayan bir bilgi olduğunu unutmamalısın.",
+      "markedText": "Akışı bozan cümlenin ise tamamen yanlış bir bilgi değil, sadece o paragrafın konusuna ait olmayan bir bilgi olduğunu unutmamalısın.",
+      "words": [
+        {
+          "word": "Akışı",
+          "startMs": 312300,
+          "endMs": 312750
+        },
+        {
+          "word": "bozan",
+          "startMs": 312750,
+          "endMs": 313180
+        },
+        {
+          "word": "cümlenin",
+          "startMs": 313650,
+          "endMs": 314730
+        },
+        {
+          "word": "ise",
+          "startMs": 315010,
+          "endMs": 315360
+        },
+        {
+          "word": "tamamen",
+          "startMs": 315650,
+          "endMs": 316380
+        },
+        {
+          "word": "yanlış",
+          "startMs": 317480,
+          "endMs": 317880
+        },
+        {
+          "word": "bir",
+          "startMs": 317940,
+          "endMs": 318200
+        },
+        {
+          "word": "bilgi",
+          "startMs": 319030,
+          "endMs": 319850
+        },
+        {
+          "word": "değil,",
+          "startMs": 320220,
+          "endMs": 320670
+        },
+        {
+          "word": "sadece",
+          "startMs": 321400,
+          "endMs": 321950
+        },
+        {
+          "word": "o",
+          "startMs": 322190,
+          "endMs": 322280
+        },
+        {
+          "word": "paragrafın",
+          "startMs": 322370,
+          "endMs": 323600
+        },
+        {
+          "word": "konusuna",
+          "startMs": 323690,
+          "endMs": 324290
+        },
+        {
+          "word": "ait",
+          "startMs": 324290,
+          "endMs": 324600
+        },
+        {
+          "word": "olmayan",
+          "startMs": 325050,
+          "endMs": 325810
+        },
+        {
+          "word": "bir",
+          "startMs": 325900,
+          "endMs": 326080
+        },
+        {
+          "word": "bilgi",
+          "startMs": 326230,
+          "endMs": 326820
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 327560,
+          "endMs": 328390
+        },
+        {
+          "word": "unutmamalısın.",
+          "startMs": 329190,
+          "endMs": 331340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 331990,
+      "endMs": 335040,
+      "pauseAfterMs": 570,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 331990,
+          "endMs": 332680
+        },
+        {
+          "word": "Neler",
+          "startMs": 332950,
+          "endMs": 333500
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 333670,
+          "endMs": 334470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 335040,
+      "endMs": 335820,
+      "pauseAfterMs": 310,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 335040,
+          "endMs": 335510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 335820,
+      "endMs": 343440,
+      "pauseAfterMs": 680,
+      "text": "Giriş konuyu tanıtır, gelişme örnekler verir, sonuç toparlar.",
+      "markedText": "Giriş konuyu tanıtır, gelişme örnekler verir, sonuç toparlar.",
+      "words": [
+        {
+          "word": "Giriş",
+          "startMs": 335820,
+          "endMs": 336150
+        },
+        {
+          "word": "konuyu",
+          "startMs": 336450,
+          "endMs": 337020
+        },
+        {
+          "word": "tanıtır,",
+          "startMs": 337130,
+          "endMs": 338060
+        },
+        {
+          "word": "gelişme",
+          "startMs": 338610,
+          "endMs": 339070
+        },
+        {
+          "word": "örnekler",
+          "startMs": 339180,
+          "endMs": 339540
+        },
+        {
+          "word": "verir,",
+          "startMs": 339680,
+          "endMs": 340200
+        },
+        {
+          "word": "sonuç",
+          "startMs": 340910,
+          "endMs": 341670
+        },
+        {
+          "word": "toparlar.",
+          "startMs": 341750,
+          "endMs": 342760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 343440,
+      "endMs": 344370,
+      "pauseAfterMs": 360,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 343440,
+          "endMs": 344010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 344370,
+      "endMs": 352370,
+      "pauseAfterMs": 440,
+      "text": "Giriş cümlesi kendinden önce bir cümle varmış gibi bağlaçla başlamaz.",
+      "markedText": "Giriş cümlesi kendinden önce bir cümle varmış gibi bağlaçla başlamaz.",
+      "words": [
+        {
+          "word": "Giriş",
+          "startMs": 344370,
+          "endMs": 344720
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 344810,
+          "endMs": 345430
+        },
+        {
+          "word": "kendinden",
+          "startMs": 345500,
+          "endMs": 346320
+        },
+        {
+          "word": "önce",
+          "startMs": 346610,
+          "endMs": 346880
+        },
+        {
+          "word": "bir",
+          "startMs": 347000,
+          "endMs": 347390
+        },
+        {
+          "word": "cümle",
+          "startMs": 347860,
+          "endMs": 348530
+        },
+        {
+          "word": "varmış",
+          "startMs": 349210,
+          "endMs": 349670
+        },
+        {
+          "word": "gibi",
+          "startMs": 349670,
+          "endMs": 350030
+        },
+        {
+          "word": "bağlaçla",
+          "startMs": 350030,
+          "endMs": 350670
+        },
+        {
+          "word": "başlamaz.",
+          "startMs": 350960,
+          "endMs": 351930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 352370,
+      "endMs": 352520,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 352370,
+          "endMs": 352520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 352520,
+      "endMs": 358180,
+      "pauseAfterMs": 520,
+      "text": "Akışı bozan cümle çıkarıldığında paragrafın anlam bütünlüğü düzelir.",
+      "markedText": "Akışı bozan cümle çıkarıldığında paragrafın anlam bütünlüğü düzelir.",
+      "words": [
+        {
+          "word": "Akışı",
+          "startMs": 352520,
+          "endMs": 353160
+        },
+        {
+          "word": "bozan",
+          "startMs": 353760,
+          "endMs": 353910
+        },
+        {
+          "word": "cümle",
+          "startMs": 353910,
+          "endMs": 354180
+        },
+        {
+          "word": "çıkarıldığında",
+          "startMs": 354260,
+          "endMs": 354770
+        },
+        {
+          "word": "paragrafın",
+          "startMs": 354820,
+          "endMs": 355360
+        },
+        {
+          "word": "anlam",
+          "startMs": 355480,
+          "endMs": 355560
+        },
+        {
+          "word": "bütünlüğü",
+          "startMs": 355840,
+          "endMs": 356560
+        },
+        {
+          "word": "düzelir.",
+          "startMs": 356940,
+          "endMs": 357660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 358180,
+      "endMs": 362760,
+      "pauseAfterMs": 350,
+      "text": "Paragraf giriş, gelişme ve sonuçtan kurulur.",
+      "markedText": "Paragraf giriş, gelişme ve sonuçtan kurulur.",
+      "words": [
+        {
+          "word": "Paragraf",
+          "startMs": 358180,
+          "endMs": 358710
+        },
+        {
+          "word": "giriş,",
+          "startMs": 358830,
+          "endMs": 359230
+        },
+        {
+          "word": "gelişme",
+          "startMs": 359400,
+          "endMs": 359980
+        },
+        {
+          "word": "ve",
+          "startMs": 360620,
+          "endMs": 360820
+        },
+        {
+          "word": "sonuçtan",
+          "startMs": 361220,
+          "endMs": 361540
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 361640,
+          "endMs": 362410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 362760,
+      "endMs": 366280,
+      "pauseAfterMs": 770,
+      "text": "Yabancı cümle akışı bozar.",
+      "markedText": "Yabancı cümle akışı bozar.",
+      "words": [
+        {
+          "word": "Yabancı",
+          "startMs": 362760,
+          "endMs": 363500
+        },
+        {
+          "word": "cümle",
+          "startMs": 363620,
+          "endMs": 364100
+        },
+        {
+          "word": "akışı",
+          "startMs": 364560,
+          "endMs": 364750
+        },
+        {
+          "word": "bozar.",
+          "startMs": 364950,
+          "endMs": 365510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 366280,
+      "endMs": 378690,
+      "pauseAfterMs": 680,
+      "text": "Bir paragrafta üç bölümü adlandırırsın ve akışı bozan cümleyi gösterirsin.",
+      "markedText": "Bir paragrafta üç bölümü adlandırırsın ve akışı bozan cümleyi gösterirsin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 366280,
+          "endMs": 366380
+        },
+        {
+          "word": "paragrafta",
+          "startMs": 366820,
+          "endMs": 367420
+        },
+        {
+          "word": "üç",
+          "startMs": 367690,
+          "endMs": 367860
+        },
+        {
+          "word": "bölümü",
+          "startMs": 367860,
+          "endMs": 368380
+        },
+        {
+          "word": "adlandırırsın",
+          "startMs": 368640,
+          "endMs": 370720
+        },
+        {
+          "word": "ve",
+          "startMs": 371320,
+          "endMs": 371570
+        },
+        {
+          "word": "akışı",
+          "startMs": 371950,
+          "endMs": 372660
+        },
+        {
+          "word": "bozan",
+          "startMs": 373120,
+          "endMs": 373720
+        },
+        {
+          "word": "cümleyi",
+          "startMs": 373900,
+          "endMs": 374890
+        },
+        {
+          "word": "gösterirsin.",
+          "startMs": 376440,
+          "endMs": 378010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 378690,
+      "endMs": 382170,
+      "pauseAfterMs": 570,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 378690,
+          "endMs": 379170
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 380030,
+          "endMs": 381600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 382170,
+      "endMs": 386770,
+      "pauseAfterMs": 680,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 382170,
+          "endMs": 382920
+        },
+        {
+          "word": "bir",
+          "startMs": 383330,
+          "endMs": 383710
+        },
+        {
+          "word": "iş",
+          "startMs": 384290,
+          "endMs": 384530
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 384690,
+          "endMs": 386090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 386770,
+      "endMs": 389310,
+      "pauseAfterMs": 210,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 386770,
+          "endMs": 387340
+        },
+        {
+          "word": "sıra",
+          "startMs": 387910,
+          "endMs": 388300
+        },
+        {
+          "word": "sende.",
+          "startMs": 388390,
+          "endMs": 389100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 389310,
+      "endMs": 397649,
+      "pauseAfterMs": 379,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 389310,
+          "endMs": 390330
+        },
+        {
+          "word": "bu",
+          "startMs": 390330,
+          "endMs": 391190
+        },
+        {
+          "word": "notları",
+          "startMs": 391690,
+          "endMs": 392480
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 393080,
+          "endMs": 393970
+        },
+        {
+          "word": "kendi",
+          "startMs": 394440,
+          "endMs": 395150
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 395290,
+          "endMs": 396600
+        },
+        {
+          "word": "anlat.",
+          "startMs": 396660,
+          "endMs": 397270
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

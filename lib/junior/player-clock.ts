@@ -1,8 +1,8 @@
 /**
  * Junior ders oynatıcısının saati.
- * Süre, anlatım parçalarının karakter uzunluğundan gelir.
+ * Pencere tahmini karakter uzunluğundandır. Bu tahmin mühürlü pilotun kapısı değildir.
+ * Pilot mühür süresi MP3 başlığından okunur (`juniorPilotNarrationMs`).
  * MP3 kasetinde pencereler gerçek duration’a ölçeklenir; adım currentTime + cümle penceresine kilitlenir.
- * Orantılı süre tahmini yedektir (pencere yokken).
  */
 
 /** Anlatım metni yokken bir adımın süresi. */

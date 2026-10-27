@@ -10,12 +10,14 @@ import { getSession } from "@/lib/kernel/auth/session";
 import { isJuniorAuditActor } from "@/lib/kernel/security/junior-gate";
 import { carryJuniorLessonStatus } from "@/lib/junior/chain";
 import {
+  juniorElectiveOpenBySlug,
   juniorElectivePicks,
   juniorPaidElectives,
   juniorPersonalizedShelves,
   juniorShelvesForGrade,
   stampJuniorPlanAccess,
 } from "@/lib/junior/catalog";
+import { formatJuniorElectiveShelfNote } from "@/lib/junior/elective-shelf-note";
 import { JUNIOR_ELECTIVE_SLUGS, JUNIOR_PILOT_GRADE } from "@/lib/junior/limits";
 import { loadJuniorHome } from "@/lib/junior/load";
 import { readJuniorYearlyPrice } from "@/lib/junior/price";
@@ -88,6 +90,14 @@ export default async function JuniorHomePage({
         weeklyReport={home?.weeklyReport ?? null}
         picks={juniorElectivePicks()}
         priceLabel={priceLabel}
+        electiveNote={formatJuniorElectiveShelfNote(
+          electiveCourses
+            .filter((course) => course.slug !== "jr_06_ing")
+            .map((course) => ({
+              title: course.title,
+              packageOpen: juniorElectiveOpenBySlug(course.slug),
+            })),
+        )}
         audit={audit}
       />
       <LandingFaq heading="Sık sorulanlar" items={JUNIOR_LANDING_FAQ} />

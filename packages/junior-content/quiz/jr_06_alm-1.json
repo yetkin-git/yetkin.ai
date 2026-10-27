@@ -1,0 +1,53 @@
+{
+  "lessonKey": "jr_06_alm-1",
+  "title": "Günün selamı",
+  "tellGuides": [
+    "Guten Morgen ile Guten Abend farkını söyle.",
+    "Hallo hangi saatte durur?",
+    "Gute Nacht neden ilk karşılaşmanın sözü değildir?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Guten Morgen hangi selamdır?",
+      "options": [
+        "Sabah selamı",
+        "Akşam selamı",
+        "İyi geceler vedası",
+        "Ad sorma kalıbı"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Bu söz günaydın demektir.",
+      "explanation": "Adım 1: Guten Morgen sabah selamıdır. Adım 2: Günaydın demektir. Adım 3: Gute Nacht ile aynı işi görmez."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Öğle vakti bir arkadaşa hangi selamı seçersin?",
+      "options": [
+        "Gute Nacht",
+        "Guten Tag",
+        "Guten Abend",
+        "Ich heiße"
+      ],
+      "correctAnswerIndex": 1,
+      "hint": "Gün içinin selamı ayrıdır.",
+      "explanation": "Adım 1: Guten Tag gün içinin selamıdır. Adım 2: İyi günler demektir. Adım 3: Öğle vakti ilk söz Gute Nacht olmaz."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Akşam bakkala ilk giriyorsun. Doğru söz hangisidir?",
+      "options": [
+        "Gute Nacht",
+        "Guten Morgen",
+        "Guten Abend",
+        "Wie heißt du"
+      ],
+      "correctAnswerIndex": 2,
+      "hint": "Akşam ilk görüşün selamı vedadan ayrıdır.",
+      "explanation": "Adım 1: Akşam ilk selam Guten Abenddir. Adım 2: Gute Nacht uyku vaktinde vedadır. Adım 3: Kapıdaki ilk söz Guten Abend olur."
+    }
+  ]
+}

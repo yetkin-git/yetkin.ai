@@ -21,7 +21,7 @@ import {
   isQuickTopUpMinLift,
   suggestQuickTopUpAmountMinor,
 } from "@/lib/kernel/payments/quick-top-up";
-import { PaytrCheckoutIframe } from "@/components/kernel/paytr-checkout-iframe";
+import { PaytrCheckoutIframe, type PaytrIframeReturnEvent } from "@/components/kernel/paytr-checkout-iframe";
 import { readPaytrIframeSrcFromCheckout } from "@/lib/kernel/payments/paytr/iframe-embed";
 import { SecurePaymentMarks } from "@/components/legal/secure-payment-marks";
 import { CHECKOUT_LEGAL_CONSENT_VERSION } from "@/lib/kernel/legal/checkout-consent";
@@ -40,6 +40,7 @@ export function QuickTopUpModal({
   presetBilling = null,
   onClose,
   onFunded,
+  onReturn,
 }: {
   open: boolean;
   requiredMinor: number;
@@ -54,6 +55,8 @@ export function QuickTopUpModal({
   presetBilling?: CheckoutBillingInfo | null;
   onClose: () => void;
   onFunded: () => void;
+  /** PayTR iFrame `/cuzdan` veya `/kasa/donus` adresine döndüğünde otomatik kapanma kancası. */
+  onReturn?: (event: PaytrIframeReturnEvent) => void;
 }) {
   if (!open) {
     return null;
@@ -68,6 +71,7 @@ export function QuickTopUpModal({
       presetBilling={presetBilling}
       onClose={onClose}
       onFunded={onFunded}
+      onReturn={onReturn}
     />
   );
 }
@@ -81,6 +85,7 @@ function QuickTopUpDialog({
   presetBilling,
   onClose,
   onFunded,
+  onReturn,
 }: {
   requiredMinor: number;
   currencyCode: CurrencyCode;
@@ -90,6 +95,7 @@ function QuickTopUpDialog({
   presetBilling: CheckoutBillingInfo | null;
   onClose: () => void;
   onFunded: () => void;
+  onReturn?: (event: PaytrIframeReturnEvent) => void;
 }) {
   const titleId = useId();
   const copy = UX_SEN.topUp;
@@ -295,6 +301,13 @@ function QuickTopUpDialog({
               src={liveIframe}
               title={copy.iframeTitle}
               className="mt-4 min-h-[24rem] w-full rounded-xl border border-[var(--border)]"
+              onReturn={(event) => {
+                if (onReturn) {
+                  onReturn(event);
+                  return;
+                }
+                onClose();
+              }}
             />
             <div className="mt-3">
               <SecurePaymentMarks compact />

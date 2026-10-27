@@ -11,6 +11,7 @@ import {
   academyLockIntentId,
   academyLessonIntentId,
   academyPurchaseIntentId,
+  dronAcademyPriceLabelsFromCatalog,
 } from "../ui/academy-catalog";
 import { dronAppReducer, initialDronAppState, isOwnerJob, visibleScreen } from "../ui/dron-app-state";
 import { assertBidAmountMinor, assertCoverNote, parseMajorToAmountMinor } from "../ui/money";
@@ -48,6 +49,7 @@ export function useDronApp() {
   const [topUpError, setTopUpError] = useState<string | null>(null);
   const [purchasePending, setPurchasePending] = useState(false);
   const [purchaseError, setPurchaseError] = useState<string | null>(null);
+  const [academyPriceLabels, setAcademyPriceLabels] = useState<Record<string, string | null> | null>(null);
   const generation = useRef(0);
   const phaseRef = useRef(state.phase);
   phaseRef.current = state.phase;
@@ -69,11 +71,12 @@ export function useDronApp() {
       dispatch({ type: "WALLET_LOADING" });
       dispatch({ type: "ACADEMY_PULSE_LOADING" });
     }
-    const [walletOutcome, pulseOutcome, jobsOutcome, contractsOutcome] = await Promise.all([
+    const [walletOutcome, pulseOutcome, jobsOutcome, contractsOutcome, catalogOutcome] = await Promise.all([
       settleCall(api.getWalletStrip()),
       settleCall(api.getAcademyPulse()),
       skipTezgah ? Promise.resolve(null) : settleCall(api.listOpenJobs()),
       skipTezgah ? Promise.resolve(null) : settleCall(api.listContracts()),
+      settleCall(api.getAcademyCatalog()),
     ]);
     if (token !== generation.current) {
       return;
@@ -147,6 +150,9 @@ export function useDronApp() {
       dispatch({ type: "ACADEMY_PULSE_OK", data: pulseOutcome.value.data });
     } else if (pulseError && classifyV1Failure(pulseError).kind !== "session") {
       dispatch({ type: "ACADEMY_PULSE_FAIL", error: pulseError });
+    }
+    if (catalogOutcome.status === "fulfilled") {
+      setAcademyPriceLabels(dronAcademyPriceLabelsFromCatalog(catalogOutcome.value.data));
     }
   }, [runtime]);
 
@@ -922,6 +928,7 @@ export function useDronApp() {
     topUpError,
     purchasePending,
     purchaseError,
+    academyPriceLabels,
     openAcademyCourse,
     completeAcademyLesson,
     openAcademyExam,

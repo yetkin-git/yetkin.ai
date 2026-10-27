@@ -12,6 +12,7 @@ import { resolveAcademySeedMoney, isAcademyCourseLevel } from "@/lib/academy/cou
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import { ACADEMY_EXAM_PASS_SCORE, serializeAcademyExamQuestions } from "@/lib/academy/exam";
 import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
+import { academyStorefrontSeedBoard } from "@/lib/academy/published-catalog";
 
 const ROOT = process.cwd();
 
@@ -119,7 +120,7 @@ describe("akademi kurs tohumu yüzeyi", () => {
     expect(load).toContain("listPublishedCourses");
     expect(load).toContain("mergePublishedAcademyCatalog");
     expect(readSrc("lib/academy/prisma-store.ts")).toContain("orderAcademyCatalogByCurriculum");
-    expect(readSrc("lib/academy/prisma-store.ts")).toContain("filterAcademyGrowthCatalog");
+    expect(readSrc("lib/academy/prisma-store.ts")).toContain("filterAcademyVitrineCatalog");
     expect(readSrc("lib/academy/published-catalog.ts")).toContain("orderAcademyCatalogByCurriculum");
     expect(readSrc("lib/academy/published-catalog.ts")).not.toContain("byTrendScoreAsc");
     expect(readSrc("lib/academy/published-catalog.ts")).not.toContain("ACADEMY_SHOWCASE_PINNED_SLUGS");
@@ -197,6 +198,18 @@ describe("akademi kurs tohumu yüzeyi", () => {
     expect(detail).toContain("/oyna");
     expect(readSrc("app/academy/[slug]/oyna/page.tsx")).toContain("CurriculumPlayer");
     expect(readSrc("lib/academy/index.ts")).toContain("curriculum");
+  });
+
+  it("vitrin slug'u katalog gecikince yayında kalır ve kasa çapası durur", () => {
+    const board = academyStorefrontSeedBoard("01_office_ai");
+    expect(board?.isPublished).toBe(true);
+    expect(board?.slug).toBe("01_office_ai");
+    expect(board?.purchasable).toBe(true);
+    const load = readSrc("lib/academy/load.ts");
+    expect(load).toContain("academyStorefrontSeedBoard");
+    expect(load).toContain("ACADEMY_COURSE_OVERLAY_TIMEOUT_MS = ACADEMY_CATALOG_READ_TIMEOUT_MS");
+    expect(readSrc("app/academy/[slug]/page.tsx")).toContain("AcademyCheckoutAnchor");
+    expect(readSrc("components/academy/checkout-anchor.tsx")).toContain("ACADEMY_CHECKOUT_HASH");
   });
 });
 

@@ -1,0 +1,2320 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_fen-30",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Ayna çeşitleri",
+  "grade": 6,
+  "subject": "Fen Bilimleri",
+  "teacher": {
+    "name": "Deniz",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_fen-30.mp3",
+    "durationMs": 269281,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 65030
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 65030,
+      "endMs": 225170
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 225170,
+      "endMs": 269281
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 2890,
+      "pauseAfterMs": 520,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 220,
+          "endMs": 580
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 620,
+          "endMs": 1100
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 1440,
+          "endMs": 1770
+        },
+        {
+          "word": "hoş",
+          "startMs": 1770,
+          "endMs": 1950
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 1990,
+          "endMs": 2370
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Ayna çeşitleri",
+            "subtitle": "Fen Bilimleri",
+            "ruleBadges": [],
+            "echoPrompt": "Bir aracı düz, çukur ya da tümsek aynayla eşlersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Düz ayna görüntüyü aynı boyda verir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Çukur ayna yakın cismi büyütebilir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Tümsek ayna görüntüyü küçültür ve görüş alanını genişletir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 2890,
+      "endMs": 5710,
+      "pauseAfterMs": 1050,
+      "text": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "markedText": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 2890,
+          "endMs": 3100
+        },
+        {
+          "word": "Fen",
+          "startMs": 3220,
+          "endMs": 3410
+        },
+        {
+          "word": "Bilimleri",
+          "startMs": 3410,
+          "endMs": 3960
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 4090,
+          "endMs": 4400
+        },
+        {
+          "word": "Deniz.",
+          "startMs": 4400,
+          "endMs": 4660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 5710,
+      "endMs": 15680,
+      "pauseAfterMs": 0,
+      "text": "Banyo aynasında boyun değişmez, makyaj aynası yüzünü büyük gösterebilir, otomobilin yan aynası ise arkadaki yolu geniş tutar",
+      "markedText": "Banyo aynasında boyun değişmez, makyaj aynası yüzünü büyük gösterebilir, otomobilin yan aynası ise arkadaki yolu geniş tutar",
+      "words": [
+        {
+          "word": "Banyo",
+          "startMs": 5710,
+          "endMs": 5940
+        },
+        {
+          "word": "aynasında",
+          "startMs": 5940,
+          "endMs": 6550
+        },
+        {
+          "word": "boyun",
+          "startMs": 6550,
+          "endMs": 6760
+        },
+        {
+          "word": "değişmez,",
+          "startMs": 6760,
+          "endMs": 7410
+        },
+        {
+          "word": "makyaj",
+          "startMs": 7780,
+          "endMs": 8100
+        },
+        {
+          "word": "aynası",
+          "startMs": 8100,
+          "endMs": 8530
+        },
+        {
+          "word": "yüzünü",
+          "startMs": 8530,
+          "endMs": 8910
+        },
+        {
+          "word": "büyük",
+          "startMs": 8990,
+          "endMs": 9450
+        },
+        {
+          "word": "gösterebilir,",
+          "startMs": 9570,
+          "endMs": 10270
+        },
+        {
+          "word": "otomobilin",
+          "startMs": 10890,
+          "endMs": 11500
+        },
+        {
+          "word": "yan",
+          "startMs": 11500,
+          "endMs": 11750
+        },
+        {
+          "word": "aynası",
+          "startMs": 12110,
+          "endMs": 12310
+        },
+        {
+          "word": "ise",
+          "startMs": 12400,
+          "endMs": 12550
+        },
+        {
+          "word": "arkadaki",
+          "startMs": 12640,
+          "endMs": 13570
+        },
+        {
+          "word": "yolu",
+          "startMs": 14270,
+          "endMs": 14780
+        },
+        {
+          "word": "geniş",
+          "startMs": 15090,
+          "endMs": 15430
+        },
+        {
+          "word": "tutar",
+          "startMs": 15430,
+          "endMs": 15680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 15680,
+      "endMs": 20060,
+      "pauseAfterMs": 50,
+      "text": "Üçü de aynadır ama yüzeyleri aynı değildir",
+      "markedText": "Üçü de aynadır ama yüzeyleri aynı değildir",
+      "words": [
+        {
+          "word": "Üçü",
+          "startMs": 15680,
+          "endMs": 16360
+        },
+        {
+          "word": "de",
+          "startMs": 16870,
+          "endMs": 16990
+        },
+        {
+          "word": "aynadır",
+          "startMs": 17200,
+          "endMs": 17550
+        },
+        {
+          "word": "ama",
+          "startMs": 17720,
+          "endMs": 18140
+        },
+        {
+          "word": "yüzeyleri",
+          "startMs": 18570,
+          "endMs": 19190
+        },
+        {
+          "word": "aynı",
+          "startMs": 19260,
+          "endMs": 19590
+        },
+        {
+          "word": "değildir",
+          "startMs": 19590,
+          "endMs": 20010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 20060,
+      "endMs": 26410,
+      "pauseAfterMs": 670,
+      "text": "Bugün düz, çukur ve tümsek aynayı bir deney masasında ayıracağız.",
+      "markedText": "Bugün düz, çukur ve tümsek aynayı bir deney masasında ayıracağız.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 20060,
+          "endMs": 20440
+        },
+        {
+          "word": "düz,",
+          "startMs": 20710,
+          "endMs": 21350
+        },
+        {
+          "word": "çukur",
+          "startMs": 22210,
+          "endMs": 22420
+        },
+        {
+          "word": "ve",
+          "startMs": 22480,
+          "endMs": 22540
+        },
+        {
+          "word": "tümsek",
+          "startMs": 22540,
+          "endMs": 22790
+        },
+        {
+          "word": "aynayı",
+          "startMs": 22850,
+          "endMs": 23240
+        },
+        {
+          "word": "bir",
+          "startMs": 23580,
+          "endMs": 23640
+        },
+        {
+          "word": "deney",
+          "startMs": 23640,
+          "endMs": 23940
+        },
+        {
+          "word": "masasında",
+          "startMs": 23940,
+          "endMs": 24360
+        },
+        {
+          "word": "ayıracağız.",
+          "startMs": 24360,
+          "endMs": 25740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 26410,
+      "endMs": 34870,
+      "pauseAfterMs": 680,
+      "text": "Görüntüyü gözlemlemek, hangi yüzeyin ne işe yaradığını söyler.",
+      "markedText": "Görüntüyü gözlemlemek, hangi yüzeyin ne işe yaradığını söyler.",
+      "words": [
+        {
+          "word": "Görüntüyü",
+          "startMs": 26410,
+          "endMs": 27140
+        },
+        {
+          "word": "gözlemlemek,",
+          "startMs": 27960,
+          "endMs": 29710
+        },
+        {
+          "word": "hangi",
+          "startMs": 30390,
+          "endMs": 30680
+        },
+        {
+          "word": "yüzeyin",
+          "startMs": 30810,
+          "endMs": 31330
+        },
+        {
+          "word": "ne",
+          "startMs": 31730,
+          "endMs": 31900
+        },
+        {
+          "word": "işe",
+          "startMs": 32260,
+          "endMs": 32540
+        },
+        {
+          "word": "yaradığını",
+          "startMs": 32620,
+          "endMs": 33040
+        },
+        {
+          "word": "söyler.",
+          "startMs": 33170,
+          "endMs": 34190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 34870,
+      "endMs": 39360,
+      "pauseAfterMs": 760,
+      "text": "Bunu evdeki düz aynada ve kapı dürbününde kullanırsın.",
+      "markedText": "Bunu evdeki düz aynada ve kapı dürbününde kullanırsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 34870,
+          "endMs": 35110
+        },
+        {
+          "word": "evdeki",
+          "startMs": 35240,
+          "endMs": 35550
+        },
+        {
+          "word": "düz",
+          "startMs": 36150,
+          "endMs": 36240
+        },
+        {
+          "word": "aynada",
+          "startMs": 36240,
+          "endMs": 36530
+        },
+        {
+          "word": "ve",
+          "startMs": 36580,
+          "endMs": 36730
+        },
+        {
+          "word": "kapı",
+          "startMs": 36950,
+          "endMs": 37120
+        },
+        {
+          "word": "dürbününde",
+          "startMs": 37120,
+          "endMs": 37650
+        },
+        {
+          "word": "kullanırsın.",
+          "startMs": 37650,
+          "endMs": 38600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 39360,
+      "endMs": 48420,
+      "pauseAfterMs": 560,
+      "text": "Market koridorunun köşesindeki tümsek ayna geniş bakış içindir.",
+      "markedText": "Market koridorunun köşesindeki tümsek ayna geniş bakış içindir.",
+      "words": [
+        {
+          "word": "Market",
+          "startMs": 39360,
+          "endMs": 39930
+        },
+        {
+          "word": "koridorunun",
+          "startMs": 40020,
+          "endMs": 40970
+        },
+        {
+          "word": "köşesindeki",
+          "startMs": 41250,
+          "endMs": 42380
+        },
+        {
+          "word": "tümsek",
+          "startMs": 42680,
+          "endMs": 43700
+        },
+        {
+          "word": "ayna",
+          "startMs": 44770,
+          "endMs": 45150
+        },
+        {
+          "word": "geniş",
+          "startMs": 45490,
+          "endMs": 46110
+        },
+        {
+          "word": "bakış",
+          "startMs": 46620,
+          "endMs": 46960
+        },
+        {
+          "word": "içindir.",
+          "startMs": 46960,
+          "endMs": 47860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 48420,
+      "endMs": 57460,
+      "pauseAfterMs": 960,
+      "text": "Diş hekiminin küçük çukur aynası dişin yakından görünmesini sağlar.",
+      "markedText": "Diş hekiminin küçük çukur aynası dişin yakından görünmesini sağlar.",
+      "words": [
+        {
+          "word": "Diş",
+          "startMs": 48420,
+          "endMs": 48640
+        },
+        {
+          "word": "hekiminin",
+          "startMs": 48710,
+          "endMs": 49480
+        },
+        {
+          "word": "küçük",
+          "startMs": 49810,
+          "endMs": 50130
+        },
+        {
+          "word": "çukur",
+          "startMs": 50240,
+          "endMs": 50890
+        },
+        {
+          "word": "aynası",
+          "startMs": 51350,
+          "endMs": 51480
+        },
+        {
+          "word": "dişin",
+          "startMs": 51840,
+          "endMs": 52360
+        },
+        {
+          "word": "yakından",
+          "startMs": 52580,
+          "endMs": 53770
+        },
+        {
+          "word": "görünmesini",
+          "startMs": 54750,
+          "endMs": 55580
+        },
+        {
+          "word": "sağlar.",
+          "startMs": 55790,
+          "endMs": 56500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 57460,
+      "endMs": 65030,
+      "pauseAfterMs": 940,
+      "text": "Okul çantandaki metal kaşık da iç ve dış yüzüyle iki yüzeyi hatırlatır.",
+      "markedText": "Okul çantandaki metal kaşık da iç ve dış yüzüyle iki yüzeyi hatırlatır.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 57460,
+          "endMs": 57740
+        },
+        {
+          "word": "çantandaki",
+          "startMs": 57740,
+          "endMs": 58330
+        },
+        {
+          "word": "metal",
+          "startMs": 58450,
+          "endMs": 58880
+        },
+        {
+          "word": "kaşık",
+          "startMs": 59290,
+          "endMs": 59820
+        },
+        {
+          "word": "da",
+          "startMs": 60330,
+          "endMs": 60500
+        },
+        {
+          "word": "iç",
+          "startMs": 60580,
+          "endMs": 60760
+        },
+        {
+          "word": "ve",
+          "startMs": 60900,
+          "endMs": 61040
+        },
+        {
+          "word": "dış",
+          "startMs": 61160,
+          "endMs": 61380
+        },
+        {
+          "word": "yüzüyle",
+          "startMs": 61380,
+          "endMs": 62010
+        },
+        {
+          "word": "iki",
+          "startMs": 62120,
+          "endMs": 62420
+        },
+        {
+          "word": "yüzeyi",
+          "startMs": 62420,
+          "endMs": 62810
+        },
+        {
+          "word": "hatırlatır.",
+          "startMs": 63150,
+          "endMs": 64090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 65030,
+      "endMs": 67940,
+      "pauseAfterMs": 750,
+      "text": "Düz aynada yüzey düzdür.",
+      "markedText": "Düz aynada yüzey düzdür.",
+      "words": [
+        {
+          "word": "Düz",
+          "startMs": 65030,
+          "endMs": 65260
+        },
+        {
+          "word": "aynada",
+          "startMs": 65340,
+          "endMs": 66080
+        },
+        {
+          "word": "yüzey",
+          "startMs": 66150,
+          "endMs": 66560
+        },
+        {
+          "word": "düzdür.",
+          "startMs": 66560,
+          "endMs": 67190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 67940,
+      "endMs": 77130,
+      "pauseAfterMs": 370,
+      "text": "Görüntü sanaldır, boyu cismin boyuna eşittir ve ayna düzlemine göre simetriktir.",
+      "markedText": "Görüntü sanaldır, boyu cismin boyuna eşittir ve ayna düzlemine göre simetriktir.",
+      "words": [
+        {
+          "word": "Görüntü",
+          "startMs": 67940,
+          "endMs": 68740
+        },
+        {
+          "word": "sanaldır,",
+          "startMs": 69090,
+          "endMs": 70380
+        },
+        {
+          "word": "boyu",
+          "startMs": 70960,
+          "endMs": 71110
+        },
+        {
+          "word": "cismin",
+          "startMs": 71210,
+          "endMs": 71490
+        },
+        {
+          "word": "boyuna",
+          "startMs": 71760,
+          "endMs": 72030
+        },
+        {
+          "word": "eşittir",
+          "startMs": 72120,
+          "endMs": 72320
+        },
+        {
+          "word": "ve",
+          "startMs": 72450,
+          "endMs": 72610
+        },
+        {
+          "word": "ayna",
+          "startMs": 72610,
+          "endMs": 72880
+        },
+        {
+          "word": "düzlemine",
+          "startMs": 72940,
+          "endMs": 73770
+        },
+        {
+          "word": "göre",
+          "startMs": 74610,
+          "endMs": 75150
+        },
+        {
+          "word": "simetriktir.",
+          "startMs": 75700,
+          "endMs": 76760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 77130,
+      "endMs": 81960,
+      "pauseAfterMs": 1330,
+      "text": "Çukur aynada yüzey içeri doğru çöküktür.",
+      "markedText": "Çukur aynada yüzey içeri doğru çöküktür.",
+      "words": [
+        {
+          "word": "Çukur",
+          "startMs": 77130,
+          "endMs": 77470
+        },
+        {
+          "word": "aynada",
+          "startMs": 77470,
+          "endMs": 78000
+        },
+        {
+          "word": "yüzey",
+          "startMs": 78480,
+          "endMs": 78630
+        },
+        {
+          "word": "içeri",
+          "startMs": 79070,
+          "endMs": 79330
+        },
+        {
+          "word": "doğru",
+          "startMs": 79380,
+          "endMs": 79720
+        },
+        {
+          "word": "çöküktür.",
+          "startMs": 79890,
+          "endMs": 80630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 81960,
+      "endMs": 94740,
+      "pauseAfterMs": 870,
+      "text": "Cisim çok yakınsa görüntü büyük görünebilir; bu yüzden diş hekimi ve bazı makyaj aynaları çukur yüzey kullanır.",
+      "markedText": "Cisim çok yakınsa görüntü büyük görünebilir; bu yüzden diş hekimi ve bazı makyaj aynaları çukur yüzey kullanır.",
+      "words": [
+        {
+          "word": "Cisim",
+          "startMs": 81960,
+          "endMs": 82420
+        },
+        {
+          "word": "çok",
+          "startMs": 82510,
+          "endMs": 82710
+        },
+        {
+          "word": "yakınsa",
+          "startMs": 83030,
+          "endMs": 83830
+        },
+        {
+          "word": "görüntü",
+          "startMs": 84600,
+          "endMs": 85490
+        },
+        {
+          "word": "büyük",
+          "startMs": 86110,
+          "endMs": 86350
+        },
+        {
+          "word": "görünebilir;",
+          "startMs": 86350,
+          "endMs": 87490
+        },
+        {
+          "word": "bu",
+          "startMs": 88290,
+          "endMs": 88380
+        },
+        {
+          "word": "yüzden",
+          "startMs": 88380,
+          "endMs": 88870
+        },
+        {
+          "word": "diş",
+          "startMs": 88920,
+          "endMs": 89060
+        },
+        {
+          "word": "hekimi",
+          "startMs": 89060,
+          "endMs": 89530
+        },
+        {
+          "word": "ve",
+          "startMs": 89530,
+          "endMs": 89980
+        },
+        {
+          "word": "bazı",
+          "startMs": 90750,
+          "endMs": 90940
+        },
+        {
+          "word": "makyaj",
+          "startMs": 90940,
+          "endMs": 91250
+        },
+        {
+          "word": "aynaları",
+          "startMs": 91360,
+          "endMs": 91930
+        },
+        {
+          "word": "çukur",
+          "startMs": 92030,
+          "endMs": 92190
+        },
+        {
+          "word": "yüzey",
+          "startMs": 92280,
+          "endMs": 92610
+        },
+        {
+          "word": "kullanır.",
+          "startMs": 92690,
+          "endMs": 93870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 94740,
+      "endMs": 100730,
+      "pauseAfterMs": 950,
+      "text": "Tümsek aynada yüzey dışarı doğru bombedir.",
+      "markedText": "Tümsek aynada yüzey dışarı doğru bombedir.",
+      "words": [
+        {
+          "word": "Tümsek",
+          "startMs": 94740,
+          "endMs": 95120
+        },
+        {
+          "word": "aynada",
+          "startMs": 95370,
+          "endMs": 95880
+        },
+        {
+          "word": "yüzey",
+          "startMs": 96000,
+          "endMs": 96800
+        },
+        {
+          "word": "dışarı",
+          "startMs": 97180,
+          "endMs": 98170
+        },
+        {
+          "word": "doğru",
+          "startMs": 98570,
+          "endMs": 98790
+        },
+        {
+          "word": "bombedir.",
+          "startMs": 99030,
+          "endMs": 99780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 100730,
+      "endMs": 113020,
+      "pauseAfterMs": 610,
+      "text": "Görüntü küçük olur ama görüş alanı geniştir; market köşesi ve araç yan aynası buna örnektir.",
+      "markedText": "Görüntü küçük olur ama görüş alanı geniştir; market köşesi ve araç yan aynası buna örnektir.",
+      "words": [
+        {
+          "word": "Görüntü",
+          "startMs": 100730,
+          "endMs": 101250
+        },
+        {
+          "word": "küçük",
+          "startMs": 101300,
+          "endMs": 101720
+        },
+        {
+          "word": "olur",
+          "startMs": 102390,
+          "endMs": 102780
+        },
+        {
+          "word": "ama",
+          "startMs": 102970,
+          "endMs": 103280
+        },
+        {
+          "word": "görüş",
+          "startMs": 103400,
+          "endMs": 103610
+        },
+        {
+          "word": "alanı",
+          "startMs": 103760,
+          "endMs": 104340
+        },
+        {
+          "word": "geniştir;",
+          "startMs": 104540,
+          "endMs": 105220
+        },
+        {
+          "word": "market",
+          "startMs": 107060,
+          "endMs": 107490
+        },
+        {
+          "word": "köşesi",
+          "startMs": 107490,
+          "endMs": 107980
+        },
+        {
+          "word": "ve",
+          "startMs": 108240,
+          "endMs": 108370
+        },
+        {
+          "word": "araç",
+          "startMs": 108700,
+          "endMs": 109150
+        },
+        {
+          "word": "yan",
+          "startMs": 109730,
+          "endMs": 109860
+        },
+        {
+          "word": "aynası",
+          "startMs": 109860,
+          "endMs": 110400
+        },
+        {
+          "word": "buna",
+          "startMs": 110820,
+          "endMs": 111330
+        },
+        {
+          "word": "örnektir.",
+          "startMs": 111450,
+          "endMs": 112410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 113020,
+      "endMs": 123160,
+      "pauseAfterMs": 950,
+      "text": "Pratik kural: Düz ayna boyu korur, çukur ayna yakını büyütebilir, tümsek ayna alanı genişletir.",
+      "markedText": "Pratik kural: Düz ayna boyu korur, çukur ayna yakını büyütebilir, tümsek ayna alanı genişletir.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 113020,
+          "endMs": 113230
+        },
+        {
+          "word": "kural:",
+          "startMs": 113300,
+          "endMs": 113800
+        },
+        {
+          "word": "Düz",
+          "startMs": 114430,
+          "endMs": 114620
+        },
+        {
+          "word": "ayna",
+          "startMs": 114710,
+          "endMs": 115090
+        },
+        {
+          "word": "boyu",
+          "startMs": 115750,
+          "endMs": 115970
+        },
+        {
+          "word": "korur,",
+          "startMs": 116090,
+          "endMs": 116980
+        },
+        {
+          "word": "çukur",
+          "startMs": 117600,
+          "endMs": 117860
+        },
+        {
+          "word": "ayna",
+          "startMs": 117860,
+          "endMs": 118630
+        },
+        {
+          "word": "yakını",
+          "startMs": 119170,
+          "endMs": 119400
+        },
+        {
+          "word": "büyütebilir,",
+          "startMs": 119600,
+          "endMs": 120160
+        },
+        {
+          "word": "tümsek",
+          "startMs": 120290,
+          "endMs": 120520
+        },
+        {
+          "word": "ayna",
+          "startMs": 120710,
+          "endMs": 120900
+        },
+        {
+          "word": "alanı",
+          "startMs": 121000,
+          "endMs": 121350
+        },
+        {
+          "word": "genişletir.",
+          "startMs": 121450,
+          "endMs": 122210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 123160,
+      "endMs": 129260,
+      "pauseAfterMs": 930,
+      "text": "Masada 1 düz, 1 çukur ve 1 tümsek ayna olsun.",
+      "markedText": "Masada 1 düz, 1 çukur ve 1 tümsek ayna olsun.",
+      "words": [
+        {
+          "word": "Masada",
+          "startMs": 123160,
+          "endMs": 123540
+        },
+        {
+          "word": "1",
+          "startMs": 123540,
+          "endMs": 123640
+        },
+        {
+          "word": "düz,",
+          "startMs": 123640,
+          "endMs": 124050
+        },
+        {
+          "word": "1",
+          "startMs": 124870,
+          "endMs": 124980
+        },
+        {
+          "word": "çukur",
+          "startMs": 125060,
+          "endMs": 125520
+        },
+        {
+          "word": "ve",
+          "startMs": 125580,
+          "endMs": 125710
+        },
+        {
+          "word": "1",
+          "startMs": 125830,
+          "endMs": 126040
+        },
+        {
+          "word": "tümsek",
+          "startMs": 126130,
+          "endMs": 126420
+        },
+        {
+          "word": "ayna",
+          "startMs": 126530,
+          "endMs": 127000
+        },
+        {
+          "word": "olsun.",
+          "startMs": 127360,
+          "endMs": 128330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 129260,
+      "endMs": 134960,
+      "pauseAfterMs": 870,
+      "text": "Kalemin boyu düz aynada aynı kalır.",
+      "markedText": "Kalemin boyu düz aynada aynı kalır.",
+      "words": [
+        {
+          "word": "Kalemin",
+          "startMs": 129260,
+          "endMs": 130400
+        },
+        {
+          "word": "boyu",
+          "startMs": 130530,
+          "endMs": 131000
+        },
+        {
+          "word": "düz",
+          "startMs": 131370,
+          "endMs": 131650
+        },
+        {
+          "word": "aynada",
+          "startMs": 131650,
+          "endMs": 132220
+        },
+        {
+          "word": "aynı",
+          "startMs": 132340,
+          "endMs": 132830
+        },
+        {
+          "word": "kalır.",
+          "startMs": 132980,
+          "endMs": 134090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 134960,
+      "endMs": 140440,
+      "pauseAfterMs": 980,
+      "text": "Çukur aynaya 5 santimetre yaklaştırdığında kalem büyük görünür.",
+      "markedText": "Çukur aynaya 5 santimetre yaklaştırdığında kalem büyük görünür.",
+      "words": [
+        {
+          "word": "Çukur",
+          "startMs": 134960,
+          "endMs": 135400
+        },
+        {
+          "word": "aynaya",
+          "startMs": 135680,
+          "endMs": 136010
+        },
+        {
+          "word": "5",
+          "startMs": 136130,
+          "endMs": 136290
+        },
+        {
+          "word": "santimetre",
+          "startMs": 136410,
+          "endMs": 136710
+        },
+        {
+          "word": "yaklaştırdığında",
+          "startMs": 136780,
+          "endMs": 137530
+        },
+        {
+          "word": "kalem",
+          "startMs": 137700,
+          "endMs": 138100
+        },
+        {
+          "word": "büyük",
+          "startMs": 138470,
+          "endMs": 138620
+        },
+        {
+          "word": "görünür.",
+          "startMs": 138740,
+          "endMs": 139460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 140440,
+      "endMs": 152620,
+      "pauseAfterMs": 700,
+      "text": "Tümsek aynada aynı kalem küçük durur ama arkasındaki 2 kapı birden kadraja girer.",
+      "markedText": "Tümsek aynada aynı kalem küçük durur ama arkasındaki 2 kapı birden kadraja girer.",
+      "words": [
+        {
+          "word": "Tümsek",
+          "startMs": 140440,
+          "endMs": 140760
+        },
+        {
+          "word": "aynada",
+          "startMs": 140760,
+          "endMs": 141350
+        },
+        {
+          "word": "aynı",
+          "startMs": 142080,
+          "endMs": 142280
+        },
+        {
+          "word": "kalem",
+          "startMs": 142870,
+          "endMs": 143120
+        },
+        {
+          "word": "küçük",
+          "startMs": 143260,
+          "endMs": 143760
+        },
+        {
+          "word": "durur",
+          "startMs": 143830,
+          "endMs": 144390
+        },
+        {
+          "word": "ama",
+          "startMs": 145190,
+          "endMs": 145670
+        },
+        {
+          "word": "arkasındaki",
+          "startMs": 145760,
+          "endMs": 147200
+        },
+        {
+          "word": "2",
+          "startMs": 147990,
+          "endMs": 148190
+        },
+        {
+          "word": "kapı",
+          "startMs": 148910,
+          "endMs": 149430
+        },
+        {
+          "word": "birden",
+          "startMs": 149550,
+          "endMs": 149970
+        },
+        {
+          "word": "kadraja",
+          "startMs": 150110,
+          "endMs": 150770
+        },
+        {
+          "word": "girer.",
+          "startMs": 151700,
+          "endMs": 151920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 152620,
+      "endMs": 165650,
+      "pauseAfterMs": 560,
+      "text": "Araçtaki uyarı yazısı, tümsek aynadaki uzaklığın olduğundan farklı görünebileceğini hatırlatır.",
+      "markedText": "Araçtaki uyarı yazısı, tümsek aynadaki uzaklığın olduğundan farklı görünebileceğini hatırlatır.",
+      "words": [
+        {
+          "word": "Araçtaki",
+          "startMs": 152620,
+          "endMs": 153700
+        },
+        {
+          "word": "uyarı",
+          "startMs": 154410,
+          "endMs": 154920
+        },
+        {
+          "word": "yazısı,",
+          "startMs": 155030,
+          "endMs": 155940
+        },
+        {
+          "word": "tümsek",
+          "startMs": 156840,
+          "endMs": 157460
+        },
+        {
+          "word": "aynadaki",
+          "startMs": 157650,
+          "endMs": 158460
+        },
+        {
+          "word": "uzaklığın",
+          "startMs": 158910,
+          "endMs": 159670
+        },
+        {
+          "word": "olduğundan",
+          "startMs": 160730,
+          "endMs": 161820
+        },
+        {
+          "word": "farklı",
+          "startMs": 161990,
+          "endMs": 162410
+        },
+        {
+          "word": "görünebileceğini",
+          "startMs": 162760,
+          "endMs": 164000
+        },
+        {
+          "word": "hatırlatır.",
+          "startMs": 164170,
+          "endMs": 165090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 165650,
+      "endMs": 175030,
+      "pauseAfterMs": 1070,
+      "text": "Deneyde değişen değişken ayna türü, gözlenen sonuç görüntünün boyu ve alanıdır.",
+      "markedText": "Deneyde değişen değişken ayna türü, gözlenen sonuç görüntünün boyu ve alanıdır.",
+      "words": [
+        {
+          "word": "Deneyde",
+          "startMs": 165650,
+          "endMs": 166220
+        },
+        {
+          "word": "değişen",
+          "startMs": 166370,
+          "endMs": 166920
+        },
+        {
+          "word": "değişken",
+          "startMs": 167750,
+          "endMs": 168590
+        },
+        {
+          "word": "ayna",
+          "startMs": 169010,
+          "endMs": 169350
+        },
+        {
+          "word": "türü,",
+          "startMs": 169450,
+          "endMs": 169880
+        },
+        {
+          "word": "gözlenen",
+          "startMs": 170990,
+          "endMs": 171560
+        },
+        {
+          "word": "sonuç",
+          "startMs": 171560,
+          "endMs": 171780
+        },
+        {
+          "word": "görüntünün",
+          "startMs": 171780,
+          "endMs": 172470
+        },
+        {
+          "word": "boyu",
+          "startMs": 172530,
+          "endMs": 172780
+        },
+        {
+          "word": "ve",
+          "startMs": 172780,
+          "endMs": 172950
+        },
+        {
+          "word": "alanıdır.",
+          "startMs": 172950,
+          "endMs": 173960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 175030,
+      "endMs": 177340,
+      "pauseAfterMs": 870,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 175030,
+          "endMs": 175890
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 175930,
+          "endMs": 176470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 177340,
+      "endMs": 180810,
+      "pauseAfterMs": 940,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 177340,
+          "endMs": 178530
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 178610,
+          "endMs": 179870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 180810,
+      "endMs": 183040,
+      "pauseAfterMs": 670,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 180810,
+          "endMs": 180860
+        },
+        {
+          "word": "noktayı",
+          "startMs": 180860,
+          "endMs": 181280
+        },
+        {
+          "word": "sen",
+          "startMs": 181330,
+          "endMs": 181510
+        },
+        {
+          "word": "de",
+          "startMs": 181510,
+          "endMs": 181680
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 181680,
+          "endMs": 182370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 183040,
+      "endMs": 191810,
+      "pauseAfterMs": 1050,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 183040,
+          "endMs": 183320
+        },
+        {
+          "word": "sevgili",
+          "startMs": 183360,
+          "endMs": 183850
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 183930,
+          "endMs": 184830
+        },
+        {
+          "word": "işte",
+          "startMs": 185560,
+          "endMs": 185850
+        },
+        {
+          "word": "tam",
+          "startMs": 185910,
+          "endMs": 186090
+        },
+        {
+          "word": "bu",
+          "startMs": 186090,
+          "endMs": 186310
+        },
+        {
+          "word": "noktada",
+          "startMs": 186440,
+          "endMs": 187330
+        },
+        {
+          "word": "dikkat",
+          "startMs": 188200,
+          "endMs": 188600
+        },
+        {
+          "word": "etmen",
+          "startMs": 188600,
+          "endMs": 189000
+        },
+        {
+          "word": "gereken",
+          "startMs": 189140,
+          "endMs": 189470
+        },
+        {
+          "word": "kilit",
+          "startMs": 189700,
+          "endMs": 190130
+        },
+        {
+          "word": "nokta.",
+          "startMs": 190130,
+          "endMs": 190760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 191810,
+      "endMs": 201880,
+      "pauseAfterMs": 980,
+      "text": "Tümsek aynanın her şeyi büyüttüğünü sanmak tuzaktır; o ayna küçültür ama alanı açar.",
+      "markedText": "Tümsek aynanın her şeyi büyüttüğünü sanmak tuzaktır; o ayna küçültür ama alanı açar.",
+      "words": [
+        {
+          "word": "Tümsek",
+          "startMs": 191810,
+          "endMs": 192040
+        },
+        {
+          "word": "aynanın",
+          "startMs": 192160,
+          "endMs": 192740
+        },
+        {
+          "word": "her",
+          "startMs": 192870,
+          "endMs": 193030
+        },
+        {
+          "word": "şeyi",
+          "startMs": 193030,
+          "endMs": 193250
+        },
+        {
+          "word": "büyüttüğünü",
+          "startMs": 193340,
+          "endMs": 194460
+        },
+        {
+          "word": "sanmak",
+          "startMs": 195270,
+          "endMs": 195870
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 195940,
+          "endMs": 196540
+        },
+        {
+          "word": "o",
+          "startMs": 197530,
+          "endMs": 197590
+        },
+        {
+          "word": "ayna",
+          "startMs": 197590,
+          "endMs": 197880
+        },
+        {
+          "word": "küçültür",
+          "startMs": 198030,
+          "endMs": 199130
+        },
+        {
+          "word": "ama",
+          "startMs": 199630,
+          "endMs": 199950
+        },
+        {
+          "word": "alanı",
+          "startMs": 200130,
+          "endMs": 200350
+        },
+        {
+          "word": "açar.",
+          "startMs": 200420,
+          "endMs": 200900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 201880,
+      "endMs": 205930,
+      "pauseAfterMs": 730,
+      "text": "Çukur aynayı her uzaklıkta aynı büyüteç sanmak da eksiktir.",
+      "markedText": "Çukur aynayı her uzaklıkta aynı büyüteç sanmak da eksiktir.",
+      "words": [
+        {
+          "word": "Çukur",
+          "startMs": 201880,
+          "endMs": 202090
+        },
+        {
+          "word": "aynayı",
+          "startMs": 202250,
+          "endMs": 202710
+        },
+        {
+          "word": "her",
+          "startMs": 202870,
+          "endMs": 203040
+        },
+        {
+          "word": "uzaklıkta",
+          "startMs": 203040,
+          "endMs": 203430
+        },
+        {
+          "word": "aynı",
+          "startMs": 203430,
+          "endMs": 203670
+        },
+        {
+          "word": "büyüteç",
+          "startMs": 203770,
+          "endMs": 204070
+        },
+        {
+          "word": "sanmak",
+          "startMs": 204070,
+          "endMs": 204350
+        },
+        {
+          "word": "da",
+          "startMs": 204460,
+          "endMs": 204590
+        },
+        {
+          "word": "eksiktir.",
+          "startMs": 204730,
+          "endMs": 205200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 205930,
+      "endMs": 216430,
+      "pauseAfterMs": 920,
+      "text": "Düz aynada sağ ile solun yer değiştirmesini boy değişimi sanmak ayrı bir karışıklıktır.",
+      "markedText": "Düz aynada sağ ile solun yer değiştirmesini boy değişimi sanmak ayrı bir karışıklıktır.",
+      "words": [
+        {
+          "word": "Düz",
+          "startMs": 205930,
+          "endMs": 206030
+        },
+        {
+          "word": "aynada",
+          "startMs": 206130,
+          "endMs": 206730
+        },
+        {
+          "word": "sağ",
+          "startMs": 206810,
+          "endMs": 207000
+        },
+        {
+          "word": "ile",
+          "startMs": 207050,
+          "endMs": 207540
+        },
+        {
+          "word": "solun",
+          "startMs": 208350,
+          "endMs": 208780
+        },
+        {
+          "word": "yer",
+          "startMs": 208910,
+          "endMs": 209210
+        },
+        {
+          "word": "değiştirmesini",
+          "startMs": 209360,
+          "endMs": 210290
+        },
+        {
+          "word": "boy",
+          "startMs": 210340,
+          "endMs": 210640
+        },
+        {
+          "word": "değişimi",
+          "startMs": 211100,
+          "endMs": 212020
+        },
+        {
+          "word": "sanmak",
+          "startMs": 212920,
+          "endMs": 213140
+        },
+        {
+          "word": "ayrı",
+          "startMs": 213270,
+          "endMs": 213580
+        },
+        {
+          "word": "bir",
+          "startMs": 213670,
+          "endMs": 213880
+        },
+        {
+          "word": "karışıklıktır.",
+          "startMs": 213970,
+          "endMs": 215510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 216430,
+      "endMs": 225170,
+      "pauseAfterMs": 570,
+      "text": "Ayna çeşitleri konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Ayna çeşitleri konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Ayna",
+          "startMs": 216430,
+          "endMs": 216720
+        },
+        {
+          "word": "çeşitleri",
+          "startMs": 216770,
+          "endMs": 217130
+        },
+        {
+          "word": "konusunda",
+          "startMs": 217230,
+          "endMs": 218100
+        },
+        {
+          "word": "kuralın",
+          "startMs": 219010,
+          "endMs": 219620
+        },
+        {
+          "word": "tersini",
+          "startMs": 219700,
+          "endMs": 220330
+        },
+        {
+          "word": "sanmak",
+          "startMs": 220620,
+          "endMs": 220960
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 221040,
+          "endMs": 222050
+        },
+        {
+          "word": "ters",
+          "startMs": 223060,
+          "endMs": 223290
+        },
+        {
+          "word": "cümle",
+          "startMs": 223290,
+          "endMs": 223650
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 223650,
+          "endMs": 224600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 225170,
+      "endMs": 228160,
+      "pauseAfterMs": 660,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 225170,
+          "endMs": 225610
+        },
+        {
+          "word": "Neler",
+          "startMs": 225850,
+          "endMs": 226070
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 226220,
+          "endMs": 227500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 228160,
+      "endMs": 228310,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 228160,
+          "endMs": 228310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 228310,
+      "endMs": 231240,
+      "pauseAfterMs": 840,
+      "text": "Düz ayna görüntüyü aynı boyda verir.",
+      "markedText": "Düz ayna görüntüyü aynı boyda verir.",
+      "words": [
+        {
+          "word": "Düz",
+          "startMs": 228310,
+          "endMs": 228420
+        },
+        {
+          "word": "ayna",
+          "startMs": 228420,
+          "endMs": 228600
+        },
+        {
+          "word": "görüntüyü",
+          "startMs": 228710,
+          "endMs": 229150
+        },
+        {
+          "word": "aynı",
+          "startMs": 229330,
+          "endMs": 229610
+        },
+        {
+          "word": "boyda",
+          "startMs": 229650,
+          "endMs": 229860
+        },
+        {
+          "word": "verir.",
+          "startMs": 230070,
+          "endMs": 230400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 231240,
+      "endMs": 231470,
+      "pauseAfterMs": 170,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 231240,
+          "endMs": 231300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 231470,
+      "endMs": 234670,
+      "pauseAfterMs": 1250,
+      "text": "Çukur ayna yakın cismi büyütebilir.",
+      "markedText": "Çukur ayna yakın cismi büyütebilir.",
+      "words": [
+        {
+          "word": "Çukur",
+          "startMs": 231470,
+          "endMs": 231640
+        },
+        {
+          "word": "ayna",
+          "startMs": 231640,
+          "endMs": 231820
+        },
+        {
+          "word": "yakın",
+          "startMs": 232060,
+          "endMs": 232210
+        },
+        {
+          "word": "cismi",
+          "startMs": 232550,
+          "endMs": 232840
+        },
+        {
+          "word": "büyütebilir.",
+          "startMs": 232840,
+          "endMs": 233420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 234670,
+      "endMs": 234790,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 234670,
+          "endMs": 234790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 234790,
+      "endMs": 240120,
+      "pauseAfterMs": 940,
+      "text": "Tümsek ayna görüntüyü küçültür ve görüş alanını genişletir.",
+      "markedText": "Tümsek ayna görüntüyü küçültür ve görüş alanını genişletir.",
+      "words": [
+        {
+          "word": "Tümsek",
+          "startMs": 234790,
+          "endMs": 235190
+        },
+        {
+          "word": "ayna",
+          "startMs": 235390,
+          "endMs": 235520
+        },
+        {
+          "word": "görüntüyü",
+          "startMs": 235630,
+          "endMs": 236060
+        },
+        {
+          "word": "küçültür",
+          "startMs": 236280,
+          "endMs": 236800
+        },
+        {
+          "word": "ve",
+          "startMs": 236800,
+          "endMs": 236910
+        },
+        {
+          "word": "görüş",
+          "startMs": 237020,
+          "endMs": 237360
+        },
+        {
+          "word": "alanını",
+          "startMs": 237360,
+          "endMs": 238140
+        },
+        {
+          "word": "genişletir.",
+          "startMs": 238470,
+          "endMs": 239180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 240120,
+      "endMs": 248280,
+      "pauseAfterMs": 720,
+      "text": "Ayna türü, görüntünün boyunu ve görüş alanını değiştirir.",
+      "markedText": "Ayna türü, görüntünün boyunu ve görüş alanını değiştirir.",
+      "words": [
+        {
+          "word": "Ayna",
+          "startMs": 240120,
+          "endMs": 240630
+        },
+        {
+          "word": "türü,",
+          "startMs": 240760,
+          "endMs": 241130
+        },
+        {
+          "word": "görüntünün",
+          "startMs": 241290,
+          "endMs": 242590
+        },
+        {
+          "word": "boyunu",
+          "startMs": 243120,
+          "endMs": 243550
+        },
+        {
+          "word": "ve",
+          "startMs": 244330,
+          "endMs": 244550
+        },
+        {
+          "word": "görüş",
+          "startMs": 244620,
+          "endMs": 245160
+        },
+        {
+          "word": "alanını",
+          "startMs": 245750,
+          "endMs": 246330
+        },
+        {
+          "word": "değiştirir.",
+          "startMs": 246330,
+          "endMs": 247560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 248280,
+      "endMs": 255080,
+      "pauseAfterMs": 780,
+      "text": "Bir aracı düz, çukur ya da tümsek aynayla eşlersin.",
+      "markedText": "Bir aracı düz, çukur ya da tümsek aynayla eşlersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 248280,
+          "endMs": 248470
+        },
+        {
+          "word": "aracı",
+          "startMs": 248850,
+          "endMs": 249380
+        },
+        {
+          "word": "düz,",
+          "startMs": 249380,
+          "endMs": 250120
+        },
+        {
+          "word": "çukur",
+          "startMs": 250860,
+          "endMs": 251160
+        },
+        {
+          "word": "ya",
+          "startMs": 251380,
+          "endMs": 251500
+        },
+        {
+          "word": "da",
+          "startMs": 251710,
+          "endMs": 251830
+        },
+        {
+          "word": "tümsek",
+          "startMs": 251830,
+          "endMs": 252230
+        },
+        {
+          "word": "aynayla",
+          "startMs": 252340,
+          "endMs": 252970
+        },
+        {
+          "word": "eşlersin.",
+          "startMs": 253070,
+          "endMs": 254300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 255080,
+      "endMs": 257700,
+      "pauseAfterMs": 770,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 255080,
+          "endMs": 255720
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 256100,
+          "endMs": 256930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 257700,
+      "endMs": 259180,
+      "pauseAfterMs": 400,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 257700,
+          "endMs": 258030
+        },
+        {
+          "word": "bir",
+          "startMs": 258080,
+          "endMs": 258150
+        },
+        {
+          "word": "iş",
+          "startMs": 258150,
+          "endMs": 258210
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 258470,
+          "endMs": 258780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 259180,
+      "endMs": 261930,
+      "pauseAfterMs": 1020,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 259180,
+          "endMs": 259580
+        },
+        {
+          "word": "sıra",
+          "startMs": 259690,
+          "endMs": 259930
+        },
+        {
+          "word": "sende.",
+          "startMs": 259990,
+          "endMs": 260910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 261930,
+      "endMs": 269281,
+      "pauseAfterMs": 331,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 261930,
+          "endMs": 262760
+        },
+        {
+          "word": "bu",
+          "startMs": 263230,
+          "endMs": 263420
+        },
+        {
+          "word": "notları",
+          "startMs": 263570,
+          "endMs": 264230
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 264770,
+          "endMs": 265590
+        },
+        {
+          "word": "kendi",
+          "startMs": 266110,
+          "endMs": 266820
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 267000,
+          "endMs": 267790
+        },
+        {
+          "word": "anlat.",
+          "startMs": 267910,
+          "endMs": 268950
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

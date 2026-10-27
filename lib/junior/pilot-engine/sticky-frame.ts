@@ -19,6 +19,8 @@ export function sceneHasRenderableContent(state: SceneGraphState): boolean {
       return state.detective.revealed === true;
     case "summary-board":
       return state.summaryCards.length > 0;
+    case "concept-list":
+      return state.conceptList.visible && state.conceptList.revealed > 0;
     case "prime-factor-tree": {
       const card = state.primeFactor;
       return (

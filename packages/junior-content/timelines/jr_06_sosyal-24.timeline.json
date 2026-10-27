@@ -1,0 +1,1955 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_sosyal-24",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Dijitalleşme ve vatandaşlık",
+  "grade": 6,
+  "subject": "Sosyal Bilgiler",
+  "teacher": {
+    "name": "Murat",
+    "voice": "Achird",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_sosyal-24.mp3",
+    "durationMs": 245375,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 63770
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 63770,
+      "endMs": 197330
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 197330,
+      "endMs": 245375
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4630,
+      "pauseAfterMs": 1150,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 210,
+          "endMs": 1280
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1930,
+          "endMs": 2460
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2530,
+          "endMs": 3480
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Dijitalleşme ve vatandaşlık",
+            "subtitle": "Sosyal Bilgiler",
+            "ruleBadges": [],
+            "echoPrompt": "Bir paylaşımın hangi vatandaşlık hakkını etkilediğini söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Dijitalleşme, sözün ve görüntünün ekranda çoğalmasıdır."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Vatandaşlık hakkı ekranda da aranır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "İzinsiz paylaşım, hakkın etkisidir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4630,
+      "endMs": 8510,
+      "pauseAfterMs": 820,
+      "text": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "markedText": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4630,
+          "endMs": 4780
+        },
+        {
+          "word": "Sosyal",
+          "startMs": 4830,
+          "endMs": 5110
+        },
+        {
+          "word": "Bilgiler",
+          "startMs": 5420,
+          "endMs": 5900
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6380,
+          "endMs": 6970
+        },
+        {
+          "word": "Murat.",
+          "startMs": 7070,
+          "endMs": 7690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8510,
+      "endMs": 14180,
+      "pauseAfterMs": 900,
+      "text": "Sınıfın ortak fotoğrafı bir anda bir grupta dolaşabilir.",
+      "markedText": "Sınıfın ortak fotoğrafı bir anda bir grupta dolaşabilir.",
+      "words": [
+        {
+          "word": "Sınıfın",
+          "startMs": 8510,
+          "endMs": 8920
+        },
+        {
+          "word": "ortak",
+          "startMs": 8920,
+          "endMs": 9240
+        },
+        {
+          "word": "fotoğrafı",
+          "startMs": 9430,
+          "endMs": 10120
+        },
+        {
+          "word": "bir",
+          "startMs": 10990,
+          "endMs": 11090
+        },
+        {
+          "word": "anda",
+          "startMs": 11150,
+          "endMs": 11400
+        },
+        {
+          "word": "bir",
+          "startMs": 11610,
+          "endMs": 11710
+        },
+        {
+          "word": "grupta",
+          "startMs": 11830,
+          "endMs": 12300
+        },
+        {
+          "word": "dolaşabilir.",
+          "startMs": 12510,
+          "endMs": 13280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 14180,
+      "endMs": 18380,
+      "pauseAfterMs": 270,
+      "text": "Dijitalleşme bu hızı getirir.",
+      "markedText": "Dijitalleşme bu hızı getirir.",
+      "words": [
+        {
+          "word": "Dijitalleşme",
+          "startMs": 14180,
+          "endMs": 15390
+        },
+        {
+          "word": "bu",
+          "startMs": 15550,
+          "endMs": 15860
+        },
+        {
+          "word": "hızı",
+          "startMs": 15930,
+          "endMs": 17040
+        },
+        {
+          "word": "getirir.",
+          "startMs": 17880,
+          "endMs": 18110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 18380,
+      "endMs": 23730,
+      "pauseAfterMs": 470,
+      "text": "Vatandaşlık hakları ise ekranda da durur.",
+      "markedText": "Vatandaşlık hakları ise ekranda da durur.",
+      "words": [
+        {
+          "word": "Vatandaşlık",
+          "startMs": 18380,
+          "endMs": 19160
+        },
+        {
+          "word": "hakları",
+          "startMs": 19250,
+          "endMs": 20010
+        },
+        {
+          "word": "ise",
+          "startMs": 20830,
+          "endMs": 21160
+        },
+        {
+          "word": "ekranda",
+          "startMs": 21250,
+          "endMs": 22200
+        },
+        {
+          "word": "da",
+          "startMs": 22400,
+          "endMs": 22610
+        },
+        {
+          "word": "durur.",
+          "startMs": 22710,
+          "endMs": 23260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 23730,
+      "endMs": 31060,
+      "pauseAfterMs": 850,
+      "text": "Bir oyu andıran söz hakkını ve izin hakkını tartışacağız.",
+      "markedText": "Bir oyu andıran söz hakkını ve izin hakkını tartışacağız.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 23730,
+          "endMs": 23840
+        },
+        {
+          "word": "oyu",
+          "startMs": 24190,
+          "endMs": 24410
+        },
+        {
+          "word": "andıran",
+          "startMs": 24490,
+          "endMs": 25150
+        },
+        {
+          "word": "söz",
+          "startMs": 25250,
+          "endMs": 25360
+        },
+        {
+          "word": "hakkını",
+          "startMs": 25440,
+          "endMs": 26200
+        },
+        {
+          "word": "ve",
+          "startMs": 26940,
+          "endMs": 27300
+        },
+        {
+          "word": "izin",
+          "startMs": 27520,
+          "endMs": 27950
+        },
+        {
+          "word": "hakkını",
+          "startMs": 28340,
+          "endMs": 28890
+        },
+        {
+          "word": "tartışacağız.",
+          "startMs": 29270,
+          "endMs": 30210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 31060,
+      "endMs": 36820,
+      "pauseAfterMs": 770,
+      "text": "Bunu evde bir grup konuşmasında da görürsün.",
+      "markedText": "Bunu evde bir grup konuşmasında da görürsün.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 31060,
+          "endMs": 31210
+        },
+        {
+          "word": "evde",
+          "startMs": 31390,
+          "endMs": 31680
+        },
+        {
+          "word": "bir",
+          "startMs": 31970,
+          "endMs": 32290
+        },
+        {
+          "word": "grup",
+          "startMs": 32390,
+          "endMs": 32530
+        },
+        {
+          "word": "konuşmasında",
+          "startMs": 32630,
+          "endMs": 33940
+        },
+        {
+          "word": "da",
+          "startMs": 34840,
+          "endMs": 34980
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 34980,
+          "endMs": 36050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 36820,
+      "endMs": 48400,
+      "pauseAfterMs": 340,
+      "text": "Arkadaşının defterindeki bir notu izinsiz iletmek, sınıftaki fotoğrafın izinsiz gitmesiyle aynı etkidir.",
+      "markedText": "Arkadaşının defterindeki bir notu izinsiz iletmek, sınıftaki fotoğrafın izinsiz gitmesiyle aynı etkidir.",
+      "words": [
+        {
+          "word": "Arkadaşının",
+          "startMs": 36820,
+          "endMs": 37570
+        },
+        {
+          "word": "defterindeki",
+          "startMs": 37920,
+          "endMs": 38290
+        },
+        {
+          "word": "bir",
+          "startMs": 38790,
+          "endMs": 39050
+        },
+        {
+          "word": "notu",
+          "startMs": 39140,
+          "endMs": 39580
+        },
+        {
+          "word": "izinsiz",
+          "startMs": 39760,
+          "endMs": 40160
+        },
+        {
+          "word": "iletmek,",
+          "startMs": 40290,
+          "endMs": 41190
+        },
+        {
+          "word": "sınıftaki",
+          "startMs": 42000,
+          "endMs": 42970
+        },
+        {
+          "word": "fotoğrafın",
+          "startMs": 43180,
+          "endMs": 44200
+        },
+        {
+          "word": "izinsiz",
+          "startMs": 45080,
+          "endMs": 45640
+        },
+        {
+          "word": "gitmesiyle",
+          "startMs": 45880,
+          "endMs": 46640
+        },
+        {
+          "word": "aynı",
+          "startMs": 46700,
+          "endMs": 47030
+        },
+        {
+          "word": "etkidir.",
+          "startMs": 47330,
+          "endMs": 48060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 48400,
+      "endMs": 56280,
+      "pauseAfterMs": 300,
+      "text": "Okulda bir duyuru panosu dijital olsa da izin ve saygı durur.",
+      "markedText": "Okulda bir duyuru panosu dijital olsa da izin ve saygı durur.",
+      "words": [
+        {
+          "word": "Okulda",
+          "startMs": 48400,
+          "endMs": 48550
+        },
+        {
+          "word": "bir",
+          "startMs": 48730,
+          "endMs": 48820
+        },
+        {
+          "word": "duyuru",
+          "startMs": 48940,
+          "endMs": 49560
+        },
+        {
+          "word": "panosu",
+          "startMs": 50440,
+          "endMs": 51180
+        },
+        {
+          "word": "dijital",
+          "startMs": 51790,
+          "endMs": 52170
+        },
+        {
+          "word": "olsa",
+          "startMs": 52290,
+          "endMs": 52710
+        },
+        {
+          "word": "da",
+          "startMs": 53010,
+          "endMs": 53180
+        },
+        {
+          "word": "izin",
+          "startMs": 53350,
+          "endMs": 53650
+        },
+        {
+          "word": "ve",
+          "startMs": 53650,
+          "endMs": 53730
+        },
+        {
+          "word": "saygı",
+          "startMs": 54060,
+          "endMs": 54620
+        },
+        {
+          "word": "durur.",
+          "startMs": 55470,
+          "endMs": 55980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 56280,
+      "endMs": 63770,
+      "pauseAfterMs": 950,
+      "text": "Tartışırken hangi hakkın etkilendiğini adıyla söylersin.",
+      "markedText": "Tartışırken hangi hakkın etkilendiğini adıyla söylersin.",
+      "words": [
+        {
+          "word": "Tartışırken",
+          "startMs": 56280,
+          "endMs": 57540
+        },
+        {
+          "word": "hangi",
+          "startMs": 57680,
+          "endMs": 58710
+        },
+        {
+          "word": "hakkın",
+          "startMs": 59360,
+          "endMs": 59880
+        },
+        {
+          "word": "etkilendiğini",
+          "startMs": 60260,
+          "endMs": 61530
+        },
+        {
+          "word": "adıyla",
+          "startMs": 61870,
+          "endMs": 62140
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 62270,
+          "endMs": 62820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 63770,
+      "endMs": 73590,
+      "pauseAfterMs": 810,
+      "text": "Dijitalleşme, yazının, sesin ve görüntünün ekranda hızla çoğalmasıdır.",
+      "markedText": "Dijitalleşme, yazının, sesin ve görüntünün ekranda hızla çoğalmasıdır.",
+      "words": [
+        {
+          "word": "Dijitalleşme,",
+          "startMs": 63770,
+          "endMs": 64440
+        },
+        {
+          "word": "yazının,",
+          "startMs": 64590,
+          "endMs": 65430
+        },
+        {
+          "word": "sesin",
+          "startMs": 66900,
+          "endMs": 67380
+        },
+        {
+          "word": "ve",
+          "startMs": 67440,
+          "endMs": 67540
+        },
+        {
+          "word": "görüntünün",
+          "startMs": 67710,
+          "endMs": 68960
+        },
+        {
+          "word": "ekranda",
+          "startMs": 69730,
+          "endMs": 70340
+        },
+        {
+          "word": "hızla",
+          "startMs": 70560,
+          "endMs": 70850
+        },
+        {
+          "word": "çoğalmasıdır.",
+          "startMs": 71280,
+          "endMs": 72780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 73590,
+      "endMs": 78970,
+      "pauseAfterMs": 710,
+      "text": "Vatandaşlık hakları bu çoğalmada silinmez.",
+      "markedText": "Vatandaşlık hakları bu çoğalmada silinmez.",
+      "words": [
+        {
+          "word": "Vatandaşlık",
+          "startMs": 73590,
+          "endMs": 74740
+        },
+        {
+          "word": "hakları",
+          "startMs": 75540,
+          "endMs": 76160
+        },
+        {
+          "word": "bu",
+          "startMs": 76260,
+          "endMs": 76430
+        },
+        {
+          "word": "çoğalmada",
+          "startMs": 76560,
+          "endMs": 77150
+        },
+        {
+          "word": "silinmez.",
+          "startMs": 77280,
+          "endMs": 78260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 78970,
+      "endMs": 87880,
+      "pauseAfterMs": 210,
+      "text": "Kişinin görüntüsü ve özel sözü izinsiz paylaşılamaz; bu, hakların etkisidir.",
+      "markedText": "Kişinin görüntüsü ve özel sözü izinsiz paylaşılamaz; bu, hakların etkisidir.",
+      "words": [
+        {
+          "word": "Kişinin",
+          "startMs": 78970,
+          "endMs": 79470
+        },
+        {
+          "word": "görüntüsü",
+          "startMs": 79470,
+          "endMs": 80130
+        },
+        {
+          "word": "ve",
+          "startMs": 80130,
+          "endMs": 80340
+        },
+        {
+          "word": "özel",
+          "startMs": 80630,
+          "endMs": 81170
+        },
+        {
+          "word": "sözü",
+          "startMs": 81800,
+          "endMs": 82020
+        },
+        {
+          "word": "izinsiz",
+          "startMs": 82140,
+          "endMs": 82730
+        },
+        {
+          "word": "paylaşılamaz;",
+          "startMs": 83320,
+          "endMs": 83870
+        },
+        {
+          "word": "bu,",
+          "startMs": 84120,
+          "endMs": 84350
+        },
+        {
+          "word": "hakların",
+          "startMs": 84650,
+          "endMs": 85750
+        },
+        {
+          "word": "etkisidir.",
+          "startMs": 86520,
+          "endMs": 87670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 87880,
+      "endMs": 97020,
+      "pauseAfterMs": 1030,
+      "text": "Söz hakkı da durur: düşünce söylenir, fakat hakaret hak değildir.",
+      "markedText": "Söz hakkı da durur: düşünce söylenir, fakat hakaret hak değildir.",
+      "words": [
+        {
+          "word": "Söz",
+          "startMs": 87880,
+          "endMs": 87970
+        },
+        {
+          "word": "hakkı",
+          "startMs": 88120,
+          "endMs": 88410
+        },
+        {
+          "word": "da",
+          "startMs": 88450,
+          "endMs": 88680
+        },
+        {
+          "word": "durur:",
+          "startMs": 88910,
+          "endMs": 89150
+        },
+        {
+          "word": "düşünce",
+          "startMs": 89660,
+          "endMs": 89940
+        },
+        {
+          "word": "söylenir,",
+          "startMs": 90070,
+          "endMs": 90980
+        },
+        {
+          "word": "fakat",
+          "startMs": 92170,
+          "endMs": 92890
+        },
+        {
+          "word": "hakaret",
+          "startMs": 93430,
+          "endMs": 94050
+        },
+        {
+          "word": "hak",
+          "startMs": 94710,
+          "endMs": 94900
+        },
+        {
+          "word": "değildir.",
+          "startMs": 95030,
+          "endMs": 95990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 97020,
+      "endMs": 106200,
+      "pauseAfterMs": 940,
+      "text": "Tartışma, bir paylaşımın hangi hakkı etkilediğini sormaktır.",
+      "markedText": "Tartışma, bir paylaşımın hangi hakkı etkilediğini sormaktır.",
+      "words": [
+        {
+          "word": "Tartışma,",
+          "startMs": 97020,
+          "endMs": 97920
+        },
+        {
+          "word": "bir",
+          "startMs": 98650,
+          "endMs": 98740
+        },
+        {
+          "word": "paylaşımın",
+          "startMs": 98870,
+          "endMs": 99830
+        },
+        {
+          "word": "hangi",
+          "startMs": 100070,
+          "endMs": 100550
+        },
+        {
+          "word": "hakkı",
+          "startMs": 100550,
+          "endMs": 101560
+        },
+        {
+          "word": "etkilediğini",
+          "startMs": 102600,
+          "endMs": 104070
+        },
+        {
+          "word": "sormaktır.",
+          "startMs": 104210,
+          "endMs": 105260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 106200,
+      "endMs": 112260,
+      "pauseAfterMs": 600,
+      "text": "Pratik kural: Göndermeden önce sor, kimin hakkı etkilenecek.",
+      "markedText": "Pratik kural: Göndermeden önce sor, kimin hakkı etkilenecek.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 106200,
+          "endMs": 106490
+        },
+        {
+          "word": "kural:",
+          "startMs": 106730,
+          "endMs": 107140
+        },
+        {
+          "word": "Göndermeden",
+          "startMs": 107420,
+          "endMs": 107870
+        },
+        {
+          "word": "önce",
+          "startMs": 107990,
+          "endMs": 108180
+        },
+        {
+          "word": "sor,",
+          "startMs": 108310,
+          "endMs": 108810
+        },
+        {
+          "word": "kimin",
+          "startMs": 109530,
+          "endMs": 109900
+        },
+        {
+          "word": "hakkı",
+          "startMs": 110120,
+          "endMs": 110390
+        },
+        {
+          "word": "etkilenecek.",
+          "startMs": 110510,
+          "endMs": 111660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 112260,
+      "endMs": 119160,
+      "pauseAfterMs": 890,
+      "text": "Okul sınıfı bir gezi fotoğrafını çekmiştir.",
+      "markedText": "Okul sınıfı bir gezi fotoğrafını çekmiştir.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 112260,
+          "endMs": 112460
+        },
+        {
+          "word": "sınıfı",
+          "startMs": 112990,
+          "endMs": 113730
+        },
+        {
+          "word": "bir",
+          "startMs": 113780,
+          "endMs": 114360
+        },
+        {
+          "word": "gezi",
+          "startMs": 115070,
+          "endMs": 115470
+        },
+        {
+          "word": "fotoğrafını",
+          "startMs": 116180,
+          "endMs": 116950
+        },
+        {
+          "word": "çekmiştir.",
+          "startMs": 117020,
+          "endMs": 118270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 119160,
+      "endMs": 126010,
+      "pauseAfterMs": 880,
+      "text": "Bir öğrenci fotoğrafı, sorulmadan akşam grubuna atar.",
+      "markedText": "Bir öğrenci fotoğrafı, sorulmadan akşam grubuna atar.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 119160,
+          "endMs": 119250
+        },
+        {
+          "word": "öğrenci",
+          "startMs": 119810,
+          "endMs": 120240
+        },
+        {
+          "word": "fotoğrafı,",
+          "startMs": 120240,
+          "endMs": 120750
+        },
+        {
+          "word": "sorulmadan",
+          "startMs": 120830,
+          "endMs": 121550
+        },
+        {
+          "word": "akşam",
+          "startMs": 122410,
+          "endMs": 122640
+        },
+        {
+          "word": "grubuna",
+          "startMs": 123240,
+          "endMs": 124160
+        },
+        {
+          "word": "atar.",
+          "startMs": 124270,
+          "endMs": 125130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 126010,
+      "endMs": 134280,
+      "pauseAfterMs": 670,
+      "text": "Tartışmada iki hak ayrılır: çekimde olmak ile yayında olmak aynı şey değildir.",
+      "markedText": "Tartışmada iki hak ayrılır: çekimde olmak ile yayında olmak aynı şey değildir.",
+      "words": [
+        {
+          "word": "Tartışmada",
+          "startMs": 126010,
+          "endMs": 126950
+        },
+        {
+          "word": "iki",
+          "startMs": 126950,
+          "endMs": 127180
+        },
+        {
+          "word": "hak",
+          "startMs": 127250,
+          "endMs": 127330
+        },
+        {
+          "word": "ayrılır:",
+          "startMs": 127430,
+          "endMs": 128230
+        },
+        {
+          "word": "çekimde",
+          "startMs": 129390,
+          "endMs": 129680
+        },
+        {
+          "word": "olmak",
+          "startMs": 129680,
+          "endMs": 130140
+        },
+        {
+          "word": "ile",
+          "startMs": 130140,
+          "endMs": 130410
+        },
+        {
+          "word": "yayında",
+          "startMs": 130530,
+          "endMs": 131200
+        },
+        {
+          "word": "olmak",
+          "startMs": 131320,
+          "endMs": 131640
+        },
+        {
+          "word": "aynı",
+          "startMs": 131720,
+          "endMs": 131970
+        },
+        {
+          "word": "şey",
+          "startMs": 132280,
+          "endMs": 132420
+        },
+        {
+          "word": "değildir.",
+          "startMs": 132760,
+          "endMs": 133610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 134280,
+      "endMs": 137260,
+      "pauseAfterMs": 800,
+      "text": "İzin vermeyen arkadaşın görüntüsü geri çekilir.",
+      "markedText": "İzin vermeyen arkadaşın görüntüsü geri çekilir.",
+      "words": [
+        {
+          "word": "İzin",
+          "startMs": 134280,
+          "endMs": 134440
+        },
+        {
+          "word": "vermeyen",
+          "startMs": 134510,
+          "endMs": 134810
+        },
+        {
+          "word": "arkadaşın",
+          "startMs": 134890,
+          "endMs": 135320
+        },
+        {
+          "word": "görüntüsü",
+          "startMs": 135400,
+          "endMs": 135560
+        },
+        {
+          "word": "geri",
+          "startMs": 135670,
+          "endMs": 135940
+        },
+        {
+          "word": "çekilir.",
+          "startMs": 136000,
+          "endMs": 136460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 137260,
+      "endMs": 144070,
+      "pauseAfterMs": 750,
+      "text": "Söz hakkı da masadadır; «paylaşma» demek hakarete izin vermez.",
+      "markedText": "Söz hakkı da masadadır; «paylaşma» demek hakarete izin vermez.",
+      "words": [
+        {
+          "word": "Söz",
+          "startMs": 137260,
+          "endMs": 137510
+        },
+        {
+          "word": "hakkı",
+          "startMs": 137510,
+          "endMs": 138020
+        },
+        {
+          "word": "da",
+          "startMs": 138610,
+          "endMs": 138750
+        },
+        {
+          "word": "masadadır;",
+          "startMs": 138750,
+          "endMs": 139480
+        },
+        {
+          "word": "«paylaşma»",
+          "startMs": 140470,
+          "endMs": 141030
+        },
+        {
+          "word": "demek",
+          "startMs": 141030,
+          "endMs": 141460
+        },
+        {
+          "word": "hakarete",
+          "startMs": 141550,
+          "endMs": 142220
+        },
+        {
+          "word": "izin",
+          "startMs": 142220,
+          "endMs": 142510
+        },
+        {
+          "word": "vermez.",
+          "startMs": 142510,
+          "endMs": 143320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 144070,
+      "endMs": 151960,
+      "pauseAfterMs": 730,
+      "text": "Dijitalleşmenin etkisi, hakkın kaybolması değil, hakkın ekranda da aranmasıdır.",
+      "markedText": "Dijitalleşmenin etkisi, hakkın kaybolması değil, hakkın ekranda da aranmasıdır.",
+      "words": [
+        {
+          "word": "Dijitalleşmenin",
+          "startMs": 144070,
+          "endMs": 145020
+        },
+        {
+          "word": "etkisi,",
+          "startMs": 145110,
+          "endMs": 145810
+        },
+        {
+          "word": "hakkın",
+          "startMs": 146750,
+          "endMs": 147290
+        },
+        {
+          "word": "kaybolması",
+          "startMs": 147410,
+          "endMs": 148320
+        },
+        {
+          "word": "değil,",
+          "startMs": 148420,
+          "endMs": 149090
+        },
+        {
+          "word": "hakkın",
+          "startMs": 149930,
+          "endMs": 150110
+        },
+        {
+          "word": "ekranda",
+          "startMs": 150110,
+          "endMs": 150420
+        },
+        {
+          "word": "da",
+          "startMs": 150420,
+          "endMs": 150500
+        },
+        {
+          "word": "aranmasıdır.",
+          "startMs": 150500,
+          "endMs": 151230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 151960,
+      "endMs": 155060,
+      "pauseAfterMs": 680,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 151960,
+          "endMs": 153220
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 153480,
+          "endMs": 154380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 155060,
+      "endMs": 157340,
+      "pauseAfterMs": 740,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 155060,
+          "endMs": 155610
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 155700,
+          "endMs": 156600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 157340,
+      "endMs": 160530,
+      "pauseAfterMs": 890,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 157340,
+          "endMs": 157560
+        },
+        {
+          "word": "noktayı",
+          "startMs": 157560,
+          "endMs": 158160
+        },
+        {
+          "word": "sen",
+          "startMs": 158290,
+          "endMs": 158600
+        },
+        {
+          "word": "de",
+          "startMs": 158600,
+          "endMs": 158680
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 158790,
+          "endMs": 159640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 160530,
+      "endMs": 168870,
+      "pauseAfterMs": 540,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 160530,
+          "endMs": 160950
+        },
+        {
+          "word": "sevgili",
+          "startMs": 160950,
+          "endMs": 161450
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 161580,
+          "endMs": 163100
+        },
+        {
+          "word": "işte",
+          "startMs": 163840,
+          "endMs": 164000
+        },
+        {
+          "word": "tam",
+          "startMs": 164070,
+          "endMs": 164270
+        },
+        {
+          "word": "bu",
+          "startMs": 164270,
+          "endMs": 164350
+        },
+        {
+          "word": "noktada",
+          "startMs": 164470,
+          "endMs": 164880
+        },
+        {
+          "word": "dikkat",
+          "startMs": 164990,
+          "endMs": 165360
+        },
+        {
+          "word": "etmen",
+          "startMs": 165360,
+          "endMs": 165980
+        },
+        {
+          "word": "gereken",
+          "startMs": 166820,
+          "endMs": 167130
+        },
+        {
+          "word": "kilit",
+          "startMs": 167230,
+          "endMs": 167570
+        },
+        {
+          "word": "nokta.",
+          "startMs": 167680,
+          "endMs": 168330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 168870,
+      "endMs": 175480,
+      "pauseAfterMs": 820,
+      "text": "Ekranda her görüntünün serbest olduğunu sanmak tuzaktır.",
+      "markedText": "Ekranda her görüntünün serbest olduğunu sanmak tuzaktır.",
+      "words": [
+        {
+          "word": "Ekranda",
+          "startMs": 168870,
+          "endMs": 169180
+        },
+        {
+          "word": "her",
+          "startMs": 169280,
+          "endMs": 170010
+        },
+        {
+          "word": "görüntünün",
+          "startMs": 170870,
+          "endMs": 171790
+        },
+        {
+          "word": "serbest",
+          "startMs": 171860,
+          "endMs": 172270
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 172490,
+          "endMs": 173190
+        },
+        {
+          "word": "sanmak",
+          "startMs": 173240,
+          "endMs": 173740
+        },
+        {
+          "word": "tuzaktır.",
+          "startMs": 173740,
+          "endMs": 174660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 175480,
+      "endMs": 182420,
+      "pauseAfterMs": 810,
+      "text": "İzinsiz fotoğraf, vatandaşlık hakkını etkiler.",
+      "markedText": "İzinsiz fotoğraf, vatandaşlık hakkını etkiler.",
+      "words": [
+        {
+          "word": "İzinsiz",
+          "startMs": 175480,
+          "endMs": 175900
+        },
+        {
+          "word": "fotoğraf,",
+          "startMs": 176010,
+          "endMs": 177340
+        },
+        {
+          "word": "vatandaşlık",
+          "startMs": 178280,
+          "endMs": 179090
+        },
+        {
+          "word": "hakkını",
+          "startMs": 179170,
+          "endMs": 180350
+        },
+        {
+          "word": "etkiler.",
+          "startMs": 180800,
+          "endMs": 181610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 182420,
+      "endMs": 185720,
+      "pauseAfterMs": 810,
+      "text": "Hakareti söz hakkı sanmak da yanlıştır.",
+      "markedText": "Hakareti söz hakkı sanmak da yanlıştır.",
+      "words": [
+        {
+          "word": "Hakareti",
+          "startMs": 182420,
+          "endMs": 182640
+        },
+        {
+          "word": "söz",
+          "startMs": 182740,
+          "endMs": 182840
+        },
+        {
+          "word": "hakkı",
+          "startMs": 182910,
+          "endMs": 183080
+        },
+        {
+          "word": "sanmak",
+          "startMs": 183160,
+          "endMs": 183590
+        },
+        {
+          "word": "da",
+          "startMs": 183590,
+          "endMs": 183720
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 183900,
+          "endMs": 184910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 185720,
+      "endMs": 197330,
+      "pauseAfterMs": 570,
+      "text": "Dijitalleşme ve vatandaşlıkta kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Dijitalleşme ve vatandaşlıkta kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Dijitalleşme",
+          "startMs": 185720,
+          "endMs": 186570
+        },
+        {
+          "word": "ve",
+          "startMs": 186620,
+          "endMs": 187190
+        },
+        {
+          "word": "vatandaşlıkta",
+          "startMs": 188210,
+          "endMs": 189290
+        },
+        {
+          "word": "kuralın",
+          "startMs": 189590,
+          "endMs": 190070
+        },
+        {
+          "word": "tersini",
+          "startMs": 190070,
+          "endMs": 190850
+        },
+        {
+          "word": "sanmak",
+          "startMs": 191860,
+          "endMs": 192290
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 192290,
+          "endMs": 193140
+        },
+        {
+          "word": "ters",
+          "startMs": 193890,
+          "endMs": 194380
+        },
+        {
+          "word": "cümle",
+          "startMs": 194440,
+          "endMs": 195080
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 195380,
+          "endMs": 196760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 197330,
+      "endMs": 200240,
+      "pauseAfterMs": 940,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 197330,
+          "endMs": 197730
+        },
+        {
+          "word": "Neler",
+          "startMs": 197820,
+          "endMs": 198250
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 198370,
+          "endMs": 199300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 200240,
+      "endMs": 200380,
+      "pauseAfterMs": 70,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 200240,
+          "endMs": 200310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 200380,
+      "endMs": 208180,
+      "pauseAfterMs": 830,
+      "text": "Dijitalleşme, sözün ve görüntünün ekranda çoğalmasıdır.",
+      "markedText": "Dijitalleşme, sözün ve görüntünün ekranda çoğalmasıdır.",
+      "words": [
+        {
+          "word": "Dijitalleşme,",
+          "startMs": 200380,
+          "endMs": 201830
+        },
+        {
+          "word": "sözün",
+          "startMs": 202520,
+          "endMs": 203030
+        },
+        {
+          "word": "ve",
+          "startMs": 203130,
+          "endMs": 203270
+        },
+        {
+          "word": "görüntünün",
+          "startMs": 203270,
+          "endMs": 204440
+        },
+        {
+          "word": "ekranda",
+          "startMs": 204580,
+          "endMs": 205430
+        },
+        {
+          "word": "çoğalmasıdır.",
+          "startMs": 205580,
+          "endMs": 207350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 208180,
+      "endMs": 208400,
+      "pauseAfterMs": 40,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 208180,
+          "endMs": 208360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 208400,
+      "endMs": 211170,
+      "pauseAfterMs": 680,
+      "text": "Vatandaşlık hakkı ekranda da aranır.",
+      "markedText": "Vatandaşlık hakkı ekranda da aranır.",
+      "words": [
+        {
+          "word": "Vatandaşlık",
+          "startMs": 208400,
+          "endMs": 208840
+        },
+        {
+          "word": "hakkı",
+          "startMs": 208910,
+          "endMs": 209110
+        },
+        {
+          "word": "ekranda",
+          "startMs": 209110,
+          "endMs": 209530
+        },
+        {
+          "word": "da",
+          "startMs": 209620,
+          "endMs": 209710
+        },
+        {
+          "word": "aranır.",
+          "startMs": 209830,
+          "endMs": 210490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 211170,
+      "endMs": 211410,
+      "pauseAfterMs": 90,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 211170,
+          "endMs": 211320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 211410,
+      "endMs": 217610,
+      "pauseAfterMs": 1300,
+      "text": "İzinsiz paylaşım, hakkın etkisidir.",
+      "markedText": "İzinsiz paylaşım, hakkın etkisidir.",
+      "words": [
+        {
+          "word": "İzinsiz",
+          "startMs": 211410,
+          "endMs": 212440
+        },
+        {
+          "word": "paylaşım,",
+          "startMs": 212980,
+          "endMs": 213890
+        },
+        {
+          "word": "hakkın",
+          "startMs": 214190,
+          "endMs": 214750
+        },
+        {
+          "word": "etkisidir.",
+          "startMs": 214910,
+          "endMs": 216310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 217610,
+      "endMs": 220480,
+      "pauseAfterMs": 370,
+      "text": "Dijitalleşme hakkı silmez",
+      "markedText": "Dijitalleşme hakkı silmez",
+      "words": [
+        {
+          "word": "Dijitalleşme",
+          "startMs": 217610,
+          "endMs": 218830
+        },
+        {
+          "word": "hakkı",
+          "startMs": 219140,
+          "endMs": 219530
+        },
+        {
+          "word": "silmez",
+          "startMs": 219530,
+          "endMs": 220110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 220480,
+      "endMs": 225520,
+      "pauseAfterMs": 390,
+      "text": "İzin ve söz hakkı ekranda da durur.",
+      "markedText": "İzin ve söz hakkı ekranda da durur.",
+      "words": [
+        {
+          "word": "İzin",
+          "startMs": 220480,
+          "endMs": 221130
+        },
+        {
+          "word": "ve",
+          "startMs": 221380,
+          "endMs": 222130
+        },
+        {
+          "word": "söz",
+          "startMs": 222550,
+          "endMs": 222650
+        },
+        {
+          "word": "hakkı",
+          "startMs": 222930,
+          "endMs": 223350
+        },
+        {
+          "word": "ekranda",
+          "startMs": 223480,
+          "endMs": 223880
+        },
+        {
+          "word": "da",
+          "startMs": 224020,
+          "endMs": 224160
+        },
+        {
+          "word": "durur.",
+          "startMs": 224230,
+          "endMs": 225130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 225520,
+      "endMs": 232720,
+      "pauseAfterMs": 950,
+      "text": "Bir paylaşımın hangi vatandaşlık hakkını etkilediğini söylersin.",
+      "markedText": "Bir paylaşımın hangi vatandaşlık hakkını etkilediğini söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 225520,
+          "endMs": 225770
+        },
+        {
+          "word": "paylaşımın",
+          "startMs": 226180,
+          "endMs": 226650
+        },
+        {
+          "word": "hangi",
+          "startMs": 226650,
+          "endMs": 227270
+        },
+        {
+          "word": "vatandaşlık",
+          "startMs": 227910,
+          "endMs": 228600
+        },
+        {
+          "word": "hakkını",
+          "startMs": 228890,
+          "endMs": 229670
+        },
+        {
+          "word": "etkilediğini",
+          "startMs": 230160,
+          "endMs": 230810
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 230970,
+          "endMs": 231770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 232720,
+      "endMs": 234610,
+      "pauseAfterMs": 340,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 232720,
+          "endMs": 233290
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 233410,
+          "endMs": 234270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 234610,
+      "endMs": 238550,
+      "pauseAfterMs": 1030,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 234610,
+          "endMs": 235250
+        },
+        {
+          "word": "bir",
+          "startMs": 235440,
+          "endMs": 235860
+        },
+        {
+          "word": "iş",
+          "startMs": 235940,
+          "endMs": 236180
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 236560,
+          "endMs": 237520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 238550,
+      "endMs": 241470,
+      "pauseAfterMs": 670,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 238550,
+          "endMs": 239380
+        },
+        {
+          "word": "sıra",
+          "startMs": 239750,
+          "endMs": 240030
+        },
+        {
+          "word": "sende.",
+          "startMs": 240100,
+          "endMs": 240800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 241470,
+      "endMs": 245375,
+      "pauseAfterMs": 315,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 241470,
+          "endMs": 241850
+        },
+        {
+          "word": "bu",
+          "startMs": 241890,
+          "endMs": 241950
+        },
+        {
+          "word": "notları",
+          "startMs": 241950,
+          "endMs": 242180
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 242580,
+          "endMs": 243510
+        },
+        {
+          "word": "kendi",
+          "startMs": 243590,
+          "endMs": 243920
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 244150,
+          "endMs": 244580
+        },
+        {
+          "word": "anlat.",
+          "startMs": 244580,
+          "endMs": 245060
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

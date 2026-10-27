@@ -3,12 +3,25 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { DetectiveBoardStage } from "@/components/junior/pilot-player/DetectiveBoardStage";
 import { FactorMultipleStage } from "@/components/junior/pilot-player/FactorMultipleStage";
+import {
+  JuniorPilotPlayer,
+  resolveCaptionSentenceWindow,
+} from "@/components/junior/pilot-player/JuniorPilotPlayer";
 import { MarbleTrayStage } from "@/components/junior/pilot-player/MarbleTrayStage";
 import { juniorBookletCopy } from "@/lib/junior/booklet";
 import { juniorLessonByKey } from "@/lib/junior/catalog";
-import { JR_06_MAT_5_TIMELINE } from "@/lib/junior/pilot-engine/mat-5-timeline-loader";
+import {
+  MAT_5_AUTHORED_CUES,
+  buildCueTimingFromBounds,
+  parseMarkedCueText,
+} from "@/lib/junior/pilot-engine/mat-1.choreography";
+import {
+  JR_06_MAT_5_TIMELINE,
+  loadPilotTimelineForLesson,
+} from "@/lib/junior/pilot-engine/mat-5-timeline-loader";
 import { lockTimelineToExactAudioMs } from "@/lib/junior/pilot-engine/pcm-cue-aligner";
 import { reduceSceneState, type SceneGraphState } from "@/lib/junior/pilot-engine/state-reducer";
+import type { TimelineJSON, WordTimestamp } from "@/lib/junior/pilot-engine/schema";
 import { detectDivisibilityBoard } from "@/lib/junior/scene-sync";
 
 function pilotTranscript(): string {
@@ -36,21 +49,26 @@ function cueById(id: string) {
   return cue!;
 }
 
-describe("jr_06_mat-5 pilot sözleşmesi", () => {
+describe("jr_06_mat-1 pilot sözleşmesi", () => {
   it("Ders Notu hero kartı sahne cümlesi değil pedagojik ana soruyu taşır", () => {
-    const booklet = juniorBookletCopy("jr_06_mat-5");
+    const booklet = juniorBookletCopy("jr_06_mat-1");
     expect(booklet.heroQuestion).toBe(
       "Bir sayının çarpanı ve katı nedir; bölünebilirliği uzun bölme yapmadan nasıl anlarız?",
     );
     expect(booklet.heroFocus).toBe(
-      "Bölünebilme dedektifleri (2, 3, 4, 5, 6, 9, 10) ile sayılara tek bakışta karar verme yöntemleri.",
+      "Yedi kural (2, 3, 4, 5, 6, 9 ve 10) ile çarpan ve kat: uzun bölme yapmadan karar verme.",
     );
+    expect(booklet.heroFocus).toContain("4, 5, 6");
     expect(booklet.heroQuestion).not.toContain("beşer beşer");
     expect(booklet.concept).toContain("beşer beşer");
+    expect(booklet.recap).toHaveLength(3);
+    expect(booklet.recap[0]).toContain("Çarpan sayıya eşit ya da küçüktür");
+    expect(booklet.recap[1]).toContain("4 için son iki basamak yeter");
+    expect(booklet.recap[2]).toContain("hem 2'ye hem 3'e aynı anda");
   });
 
   it("not kartı örneğinin her cümlesi film transkriptinde durur", () => {
-    const example = juniorBookletCopy("jr_06_mat-5").example;
+    const example = juniorBookletCopy("jr_06_mat-1").example;
     const film = pilotTranscript();
     const sentences = bookletSentences(example);
     expect(sentences.length).toBeGreaterThan(3);
@@ -64,7 +82,7 @@ describe("jr_06_mat-5 pilot sözleşmesi", () => {
   });
 
   it("yaşam paragrafının her cümlesi film transkriptindedir", () => {
-    const life = juniorLessonByKey("jr_06_mat-5")?.lifeUse ?? "";
+    const life = juniorLessonByKey("jr_06_mat-1")?.lifeUse ?? "";
     const film = pilotTranscript();
     const sentences = bookletSentences(life);
     expect(sentences.length).toBeGreaterThan(2);
@@ -117,6 +135,10 @@ describe("jr_06_mat-5 pilot sözleşmesi", () => {
     );
     expect(html).toContain("7 × 1");
     expect(html).not.toContain("6 × 1");
+    expect(html).toContain("Kalansız Böler (≤ Sayı)");
+    expect(html).toContain("Katlanarak Büyür (≥ Sayı)");
+    expect(html).not.toContain("Böler &amp; Küçültür");
+    expect(html).not.toContain("Çarpar &amp; Büyütür");
   });
 
   it("24 sayısı 5'e bölünmez; eski tahta 5'e bölünür damgası basmaz", () => {
@@ -216,4 +238,176 @@ describe("jr_06_mat-5 pilot sözleşmesi", () => {
     expect(other).toContain("2 + 8 = 10");
     expect(other).not.toContain("14 sayısının sonu 4");
   });
+
+  it("ÇARPAN kartı Çarpanı kelimesinin startMs anında açılır", () => {
+    const cue = cueById("cue-03");
+    const spec = MAT_5_AUTHORED_CUES.find((row) => row.id === "cue-03");
+    expect(spec?.markedText).toBe(cue.markedText);
+    expect(cue.markedText).toContain("sayının {@showConceptCallout} Çarpanı");
+    expect(cue.markedText).toContain("{@groupBy5} beşer");
+
+    const carpan = cue.words?.find((word) => word.word === "Çarpanı");
+    const kalan = cue.words?.find((word) => word.word === "kalan");
+    const iste = cue.words?.find((word) => word.word === "İşte");
+    expect(carpan).toBeDefined();
+    expect(kalan).toBeDefined();
+    expect(iste).toBeDefined();
+    expect(iste!.startMs).toBeLessThan(kalan!.startMs);
+    expect(kalan!.startMs).toBeLessThan(carpan!.startMs);
+
+    const callout = cue.keyframes.find((keyframe) => keyframe.hook === "showConceptCallout");
+    expect(callout?.atMs).toBe(carpan?.startMs);
+    const parsed = parseMarkedCueText(spec!.markedText);
+    expect(parsed.hookWordIndices.showConceptCallout).toBe(parsed.words.indexOf("Çarpanı"));
+
+    const rebuilt = buildCueTimingFromBounds(spec!, cue.startMs, cue.endMs - cue.startMs, cue.words);
+    expect(rebuilt.keyframes.find((keyframe) => keyframe.hook === "showConceptCallout")?.atMs).toBe(
+      carpan?.startMs,
+    );
+
+    const kalanMid = Math.round((kalan!.startMs + kalan!.endMs) / 2);
+    const duringKalan = reduceSceneState(JR_06_MAT_5_TIMELINE, kalanMid);
+    expect(duringKalan.activeWord?.word).toBe("kalan");
+    expect(duringKalan.callout).toBeNull();
+
+    const atCarpan = reduceSceneState(JR_06_MAT_5_TIMELINE, carpan!.startMs);
+    expect(atCarpan.activeWord?.word).toBe("Çarpanı");
+    expect(atCarpan.callout?.badge).toBe("ÇARPAN (= BÖLEN)");
+
+    const justBefore = reduceSceneState(JR_06_MAT_5_TIMELINE, carpan!.startMs - 1);
+    expect(justBefore.callout).toBeNull();
+    expect(justBefore.activeWord?.word).not.toBe("Çarpanı");
+    const sayinin = cue.words?.find((word) => word.word === "sayının");
+    if (sayinin && carpan!.startMs - 1 >= sayinin.startMs && carpan!.startMs - 1 <= sayinin.endMs) {
+      expect(justBefore.activeWord?.word).toBe("sayının");
+    } else {
+      expect(justBefore.activeWordIndex).toBe(-1);
+    }
+  });
+
+  it("0:35 saniyesinde amber kelime dışarıdadır", () => {
+    const cue = cueById("cue-03");
+    const ne = cue.words?.find((word) => word.word === "ne");
+    const disarida = cue.words?.find((word) => word.word === "dışarıda");
+    expect(ne).toBeDefined();
+    expect(disarida).toBeDefined();
+    expect(ne!.startMs).toBeLessThan(33_000);
+    const spokenMid = Math.round((disarida!.startMs + disarida!.endMs) / 2);
+    expect(spokenMid).toBeGreaterThan(34_500);
+    expect(spokenMid).toBeLessThan(37_000);
+    expect(reduceSceneState(JR_06_MAT_5_TIMELINE, spokenMid).activeWord?.word).toBe("dışarıda");
+    expect(reduceSceneState(JR_06_MAT_5_TIMELINE, 35_881).activeWord?.word).toBe("dışarıda");
+    expect(reduceSceneState(JR_06_MAT_5_TIMELINE, ne!.startMs + 20).activeWord?.word).toBe("ne");
+    expect(cueById("cue-01").words?.[0]?.startMs).toBeLessThan(400);
+  });
+
+  it("150 ms ve uzun sessizlikte amber kelime indeksi -1 olur", () => {
+    const cue = cueById("cue-03");
+    const olur = cue.words?.find((word) => word.word === "olur?");
+    const two = cue.words?.find((word) => word.word === "2");
+    expect(olur).toBeDefined();
+    expect(two).toBeDefined();
+    expect(two!.startMs - olur!.endMs).toBeGreaterThanOrEqual(150);
+    const gapMid = Math.round((olur!.endMs + two!.startMs) / 2);
+    const silence = reduceSceneState(JR_06_MAT_5_TIMELINE, gapMid);
+    expect(silence.activeWordIndex).toBe(-1);
+    expect(silence.activeWord).toBeNull();
+    expect(reduceSceneState(JR_06_MAT_5_TIMELINE, olur!.endMs).activeWord?.word).toBe("olur?");
+    expect(reduceSceneState(JR_06_MAT_5_TIMELINE, olur!.endMs + 1).activeWordIndex).toBe(-1);
+
+    const shortGap = captionProbe([
+      { word: "bir", startMs: 0, endMs: 100 },
+      { word: "sayı", startMs: 150, endMs: 300 },
+    ]);
+    expect(reduceSceneState(shortGap, 100).activeWord?.word).toBe("bir");
+    expect(reduceSceneState(shortGap, 101).activeWordIndex).toBe(-1);
+    expect(reduceSceneState(shortGap, 120).activeWordIndex).toBe(-1);
+    expect(reduceSceneState(shortGap, 150).activeWord?.word).toBe("sayı");
+
+    const mediumGap = captionProbe([
+      { word: "hiç", startMs: 0, endMs: 100 },
+      { word: "kalan", startMs: 250, endMs: 400 },
+    ]);
+    expect(reduceSceneState(mediumGap, 100).activeWord?.word).toBe("hiç");
+    expect(reduceSceneState(mediumGap, 101).activeWordIndex).toBe(-1);
+    expect(reduceSceneState(mediumGap, 249).activeWordIndex).toBe(-1);
+    expect(reduceSceneState(mediumGap, 250).activeWord?.word).toBe("kalan");
+
+    const longGap = captionProbe([
+      { word: "bırakmadan", startMs: 0, endMs: 400 },
+      { word: "tam", startMs: 1_620, endMs: 1_800 },
+    ]);
+    expect(reduceSceneState(longGap, 400).activeWord?.word).toBe("bırakmadan");
+    expect(reduceSceneState(longGap, 401).activeWordIndex).toBe(-1);
+    expect(reduceSceneState(longGap, 1_000).activeWordIndex).toBe(-1);
+    expect(reduceSceneState(longGap, 1_620).activeWord?.word).toBe("tam");
+
+    const lastWord = captionProbe([{ word: "diyoruz.", startMs: 0, endMs: 400 }]);
+    expect(reduceSceneState(lastWord, 400).activeWord?.word).toBe("diyoruz.");
+    expect(reduceSceneState(lastWord, 401).activeWordIndex).toBe(-1);
+    expect(reduceSceneState(lastWord, 520).activeWordIndex).toBe(-1);
+  });
+
+  it("0 ms açılışında 'Sahne hazırlanıyor' yerine Dedektif Masası konsept görseli ve uzun sekanslarda cümle bazlı altyazı penceresi gösterir", async () => {
+    const playerHtml = renderToStaticMarkup(
+      createElement(JuniorPilotPlayer, { timeline: JR_06_MAT_5_TIMELINE }),
+    );
+    expect(playerHtml).not.toContain("Sahne hazırlanıyor");
+    expect(playerHtml).toContain("BÖLÜNEBİLME DEDEKTİFLERİ MASASI");
+    expect(playerHtml).toContain("data-junior-detective-welcome-desk");
+
+    const cue13 = cueById("cue-13");
+    const cue14 = cueById("cue-14");
+    const words13 = cue13.words ?? [];
+    const words14 = cue14.words ?? [];
+    expect(words13.length).toBeGreaterThan(30);
+    expect(words14.length).toBeGreaterThan(40);
+
+    const lastIdx13 = words13.length - 1;
+    const win13End = resolveCaptionSentenceWindow(
+      words13,
+      lastIdx13,
+      words13[lastIdx13]!.startMs + 10,
+    );
+    expect(win13End.words.some((item) => item.originalIndex === lastIdx13)).toBe(true);
+    expect(win13End.words.length).toBeLessThanOrEqual(18);
+
+    const lastIdx14 = words14.length - 1;
+    const win14End = resolveCaptionSentenceWindow(
+      words14,
+      lastIdx14,
+      words14[lastIdx14]!.startMs + 10,
+    );
+    expect(win14End.words.some((item) => item.originalIndex === lastIdx14)).toBe(true);
+    expect(win14End.words.length).toBeLessThanOrEqual(18);
+
+    const dynamicMat5 = await loadPilotTimelineForLesson("jr_06_mat-1");
+    expect(dynamicMat5?.lessonKey).toBe("jr_06_mat-1");
+  });
 });
+
+function captionProbe(words: readonly WordTimestamp[]): TimelineJSON {
+  const endMs = Math.max(...words.map((word) => word.endMs), 1);
+  return {
+    schemaVersion: "2.0.0",
+    lessonKey: "jr_06_mat-1",
+    title: "Altyazı sondası",
+    grade: 6,
+    subject: "Matematik",
+    teacher: { name: "Selim", voice: "Fenrir", atempo: 0.94 },
+    audio: { publicPath: "/media/junior/audio/probe.mp3", durationMs: endMs + 5_000, sampleRateHz: 48_000 },
+    chapters: [{ id: "ch-1", title: "Sonda", startMs: 0, endMs: endMs + 5_000 }],
+    cues: [
+      {
+        id: "cue-probe",
+        chapterId: "ch-1",
+        startMs: 0,
+        endMs: endMs + 5_000,
+        pauseAfterMs: 0,
+        text: words.map((word) => word.word).join(" "),
+        words: [...words],
+        keyframes: [],
+      },
+    ],
+  };
+}

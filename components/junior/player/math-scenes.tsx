@@ -845,7 +845,7 @@ export function DecimalScene({ beat: _beat, caption = "", captionTrail }: SceneC
     );
   }
 
-  // jr_06_mat-14: Basamak değeri (3,25) ve karşılaştırma (0,4 = 0,40 > 0,35, 12,50 = 12,5)
+  // jr_06_mat-4: Basamak değeri (3,25) ve karşılaştırma (0,4 = 0,40 > 0,35, 12,50 = 12,5)
   const compareFocus = /0,4|0,35|0,40|12,50|12,5|büyük|karşılaştır/.test(live);
   const decMatch = /(\d+),(\d+)/u.exec(caption) ?? /(\d+),(\d+)/u.exec(joined);
   const wholePart = decMatch?.[1] ?? "3";
@@ -1085,7 +1085,47 @@ export function AlgebraScene({ beat, caption = "", captionTrail }: SceneCaptionP
   );
 }
 
-export function ChartScene({ beat, caption }: { beat: number; caption: string }) {
+export function ChartScene({
+  beat,
+  caption,
+  lessonKey,
+}: {
+  beat: number;
+  caption: string;
+  lessonKey?: string;
+}) {
+  const probability =
+    lessonKey === "jr_06_mat-26" || /olasılık|tura|atış|yirmide beş/iu.test(caption);
+  if (probability) {
+    const heads = 5;
+    return (
+      <Stage scene="chart">
+        <Title>Gözleme dayalı olasılık</Title>
+        {Array.from({ length: 20 }, (_, index) => {
+          const col = index % 10;
+          const row = Math.floor(index / 10);
+          const head = index < heads;
+          return (
+            <circle
+              key={index}
+              cx={36 + col * 30}
+              cy={78 + row * 36}
+              r="11"
+              fill={head ? Ink.amberFill : Ink.skyFill}
+              stroke={head ? Ink.accent : Ink.stroke}
+              strokeWidth="1.5"
+            />
+          );
+        })}
+        <Foot y={168} fill={Ink.accent}>
+          {beat >= 3 ? "20 atışta 5 tura · yirmide beş" : "Pay istenen sonuç, payda deneme sayısı"}
+        </Foot>
+        <text x="28" y="190" fill={Ink.text} fontSize="12" fontFamily="inherit" fontWeight="700">
+          5 kez gelmek, olasılığın 5 olması demek değildir
+        </text>
+      </Stage>
+    );
+  }
   const analysis = /ortalama|açıklık|analiz/iu.test(caption);
   const heights = analysis ? [40, 60, 80] : [80, 64, 48];
   const labels = analysis ? ["4", "6", "8"] : ["Elma", "Muz", "Üzüm"];
@@ -1190,11 +1230,13 @@ export function MathSceneArt({
   beat,
   caption,
   captionTrail,
+  lessonKey,
 }: {
   scene: MathJuniorScene;
   beat: number;
   caption: string;
   captionTrail?: readonly string[];
+  lessonKey?: string;
 }) {
   /** Clean Stage: özet beat'te ExponentScene / Üs / Taban SoftStage çocukları mount edilmez. */
   if (beat >= 9) return null;
@@ -1211,7 +1253,7 @@ export function MathSceneArt({
   if (scene === "decimal") return <DecimalScene beat={beat} caption={caption} captionTrail={captionTrail} />;
   if (scene === "ratio") return <RatioScene beat={beat} caption={caption} captionTrail={captionTrail} />;
   if (scene === "algebra") return <AlgebraScene beat={beat} caption={caption} captionTrail={captionTrail} />;
-  if (scene === "chart") return <ChartScene beat={beat} caption={caption} />;
+  if (scene === "chart") return <ChartScene beat={beat} caption={caption} lessonKey={lessonKey} />;
   if (scene === "angles") return <AnglesScene beat={beat} caption={caption} captionTrail={captionTrail} />;
   if (scene === "area") return <AreaScene beat={beat} caption={caption} />;
   if (scene === "circle") return <CircleGeoScene beat={beat} />;

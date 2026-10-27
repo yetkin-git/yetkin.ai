@@ -1,0 +1,2534 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_fen-21",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Alınan yol ve yer değiştirme",
+  "grade": 6,
+  "subject": "Fen Bilimleri",
+  "teacher": {
+    "name": "Deniz",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_fen-21.mp3",
+    "durationMs": 269266,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 121770
+    },
+    {
+      "id": "ch-2",
+      "title": "Yer değiştirme",
+      "startMs": 121770,
+      "endMs": 170520
+    },
+    {
+      "id": "ch-3",
+      "title": "Kapanış",
+      "startMs": 170520,
+      "endMs": 269266
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 2000,
+      "pauseAfterMs": 540,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 190,
+          "endMs": 560
+        },
+        {
+          "word": "sevgili",
+          "startMs": 560,
+          "endMs": 840
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 1070,
+          "endMs": 1460
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "speed",
+            "title": "Yol ve yer değiştirme",
+            "subtitle": "İz ve net uzaklık"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 2000,
+      "endMs": 4680,
+      "pauseAfterMs": 1050,
+      "text": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "markedText": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 2000,
+          "endMs": 2190
+        },
+        {
+          "word": "Fen",
+          "startMs": 2270,
+          "endMs": 2460
+        },
+        {
+          "word": "Bilimleri",
+          "startMs": 2460,
+          "endMs": 2850
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 2850,
+          "endMs": 3340
+        },
+        {
+          "word": "Deniz.",
+          "startMs": 3340,
+          "endMs": 3630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 4680,
+      "endMs": 12690,
+      "pauseAfterMs": 350,
+      "text": "Parkta bir tur atıp yine aynı banka oturduğunda çok yol yürümüşsündür; ama yerin değişmemiştir.",
+      "markedText": "Parkta bir tur atıp yine aynı banka oturduğunda çok yol yürümüşsündür; ama yerin değişmemiştir.",
+      "words": [
+        {
+          "word": "Parkta",
+          "startMs": 4680,
+          "endMs": 5030
+        },
+        {
+          "word": "bir",
+          "startMs": 5110,
+          "endMs": 5190
+        },
+        {
+          "word": "tur",
+          "startMs": 5350,
+          "endMs": 5700
+        },
+        {
+          "word": "atıp",
+          "startMs": 6150,
+          "endMs": 6360
+        },
+        {
+          "word": "yine",
+          "startMs": 6400,
+          "endMs": 6700
+        },
+        {
+          "word": "aynı",
+          "startMs": 6740,
+          "endMs": 7120
+        },
+        {
+          "word": "banka",
+          "startMs": 7430,
+          "endMs": 7740
+        },
+        {
+          "word": "oturduğunda",
+          "startMs": 7860,
+          "endMs": 8450
+        },
+        {
+          "word": "çok",
+          "startMs": 8490,
+          "endMs": 8610
+        },
+        {
+          "word": "yol",
+          "startMs": 8650,
+          "endMs": 8850
+        },
+        {
+          "word": "yürümüşsündür;",
+          "startMs": 9360,
+          "endMs": 10560
+        },
+        {
+          "word": "ama",
+          "startMs": 11270,
+          "endMs": 11320
+        },
+        {
+          "word": "yerin",
+          "startMs": 11400,
+          "endMs": 11680
+        },
+        {
+          "word": "değişmemiştir.",
+          "startMs": 11680,
+          "endMs": 12340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 12690,
+      "endMs": 20620,
+      "pauseAfterMs": 980,
+      "text": "Okula giderken ise ev ile okul kapısı arasındaki düz uzaklık başka bir sayıdır.",
+      "markedText": "Okula giderken ise ev ile okul kapısı arasındaki düz uzaklık başka bir sayıdır.",
+      "words": [
+        {
+          "word": "Okula",
+          "startMs": 12690,
+          "endMs": 13110
+        },
+        {
+          "word": "giderken",
+          "startMs": 13780,
+          "endMs": 14240
+        },
+        {
+          "word": "ise",
+          "startMs": 14550,
+          "endMs": 14800
+        },
+        {
+          "word": "ev",
+          "startMs": 14880,
+          "endMs": 14990
+        },
+        {
+          "word": "ile",
+          "startMs": 15110,
+          "endMs": 15180
+        },
+        {
+          "word": "okul",
+          "startMs": 15530,
+          "endMs": 15700
+        },
+        {
+          "word": "kapısı",
+          "startMs": 15760,
+          "endMs": 16340
+        },
+        {
+          "word": "arasındaki",
+          "startMs": 17030,
+          "endMs": 17620
+        },
+        {
+          "word": "düz",
+          "startMs": 17620,
+          "endMs": 17820
+        },
+        {
+          "word": "uzaklık",
+          "startMs": 17820,
+          "endMs": 18300
+        },
+        {
+          "word": "başka",
+          "startMs": 18300,
+          "endMs": 18480
+        },
+        {
+          "word": "bir",
+          "startMs": 18550,
+          "endMs": 18730
+        },
+        {
+          "word": "sayıdır.",
+          "startMs": 18800,
+          "endMs": 19640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 20620,
+      "endMs": 25180,
+      "pauseAfterMs": 680,
+      "text": "Bugün alınan yol ile yer değiştirmeyi ölçeceğiz.",
+      "markedText": "Bugün alınan yol ile yer değiştirmeyi ölçeceğiz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 20620,
+          "endMs": 20870
+        },
+        {
+          "word": "alınan",
+          "startMs": 20870,
+          "endMs": 21400
+        },
+        {
+          "word": "yol",
+          "startMs": 21450,
+          "endMs": 21670
+        },
+        {
+          "word": "ile",
+          "startMs": 21670,
+          "endMs": 21880
+        },
+        {
+          "word": "yer",
+          "startMs": 22320,
+          "endMs": 22420
+        },
+        {
+          "word": "değiştirmeyi",
+          "startMs": 22550,
+          "endMs": 23310
+        },
+        {
+          "word": "ölçeceğiz.",
+          "startMs": 23520,
+          "endMs": 24500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 25180,
+      "endMs": 31080,
+      "pauseAfterMs": 300,
+      "text": "Bir yürüyüşü gözlemlemek, toplam iz ile net sonucu ayırır.",
+      "markedText": "Bir yürüyüşü gözlemlemek, toplam iz ile net sonucu ayırır.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 25180,
+          "endMs": 25410
+        },
+        {
+          "word": "yürüyüşü",
+          "startMs": 25510,
+          "endMs": 26240
+        },
+        {
+          "word": "gözlemlemek,",
+          "startMs": 26440,
+          "endMs": 28040
+        },
+        {
+          "word": "toplam",
+          "startMs": 28760,
+          "endMs": 29210
+        },
+        {
+          "word": "iz",
+          "startMs": 29210,
+          "endMs": 29390
+        },
+        {
+          "word": "ile",
+          "startMs": 29390,
+          "endMs": 29570
+        },
+        {
+          "word": "net",
+          "startMs": 29670,
+          "endMs": 29800
+        },
+        {
+          "word": "sonucu",
+          "startMs": 29910,
+          "endMs": 30220
+        },
+        {
+          "word": "ayırır.",
+          "startMs": 30610,
+          "endMs": 30780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 31080,
+      "endMs": 37590,
+      "pauseAfterMs": 740,
+      "text": "Bunu sabah evden okul kapısına yürürken deneyebilirsin.",
+      "markedText": "Bunu sabah evden okul kapısına yürürken deneyebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 31080,
+          "endMs": 31470
+        },
+        {
+          "word": "sabah",
+          "startMs": 31470,
+          "endMs": 32100
+        },
+        {
+          "word": "evden",
+          "startMs": 32940,
+          "endMs": 33310
+        },
+        {
+          "word": "okul",
+          "startMs": 33310,
+          "endMs": 33630
+        },
+        {
+          "word": "kapısına",
+          "startMs": 33740,
+          "endMs": 34490
+        },
+        {
+          "word": "yürürken",
+          "startMs": 34820,
+          "endMs": 35650
+        },
+        {
+          "word": "deneyebilirsin.",
+          "startMs": 35930,
+          "endMs": 36850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 37590,
+      "endMs": 42480,
+      "pauseAfterMs": 770,
+      "text": "Adımlarını sayıp metreye çevirirsen alınan yolu bulursun.",
+      "markedText": "Adımlarını sayıp metreye çevirirsen alınan yolu bulursun.",
+      "words": [
+        {
+          "word": "Adımlarını",
+          "startMs": 37590,
+          "endMs": 38360
+        },
+        {
+          "word": "sayıp",
+          "startMs": 38450,
+          "endMs": 38770
+        },
+        {
+          "word": "metreye",
+          "startMs": 38770,
+          "endMs": 39230
+        },
+        {
+          "word": "çevirirsen",
+          "startMs": 39390,
+          "endMs": 39850
+        },
+        {
+          "word": "alınan",
+          "startMs": 40010,
+          "endMs": 40150
+        },
+        {
+          "word": "yolu",
+          "startMs": 40500,
+          "endMs": 40840
+        },
+        {
+          "word": "bulursun.",
+          "startMs": 40990,
+          "endMs": 41710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 42480,
+      "endMs": 49330,
+      "pauseAfterMs": 690,
+      "text": "Aynı yoldan eve dönünce yer değiştirmen yine eve göredir.",
+      "markedText": "Aynı yoldan eve dönünce yer değiştirmen yine eve göredir.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 42480,
+          "endMs": 42590
+        },
+        {
+          "word": "yoldan",
+          "startMs": 42710,
+          "endMs": 42990
+        },
+        {
+          "word": "eve",
+          "startMs": 43430,
+          "endMs": 43750
+        },
+        {
+          "word": "dönünce",
+          "startMs": 43750,
+          "endMs": 44320
+        },
+        {
+          "word": "yer",
+          "startMs": 44860,
+          "endMs": 44990
+        },
+        {
+          "word": "değiştirmen",
+          "startMs": 45410,
+          "endMs": 46540
+        },
+        {
+          "word": "yine",
+          "startMs": 47300,
+          "endMs": 47600
+        },
+        {
+          "word": "eve",
+          "startMs": 47600,
+          "endMs": 47930
+        },
+        {
+          "word": "göredir.",
+          "startMs": 47970,
+          "endMs": 48640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 49330,
+      "endMs": 56270,
+      "pauseAfterMs": 380,
+      "text": "Bisikletle parkın çevresini dönüp başa gelirsen yer değiştirme sıfırdır.",
+      "markedText": "Bisikletle parkın çevresini dönüp başa gelirsen yer değiştirme sıfırdır.",
+      "words": [
+        {
+          "word": "Bisikletle",
+          "startMs": 49330,
+          "endMs": 49970
+        },
+        {
+          "word": "parkın",
+          "startMs": 50390,
+          "endMs": 50760
+        },
+        {
+          "word": "çevresini",
+          "startMs": 50890,
+          "endMs": 51660
+        },
+        {
+          "word": "dönüp",
+          "startMs": 52180,
+          "endMs": 52350
+        },
+        {
+          "word": "başa",
+          "startMs": 52430,
+          "endMs": 52570
+        },
+        {
+          "word": "gelirsen",
+          "startMs": 52680,
+          "endMs": 53020
+        },
+        {
+          "word": "yer",
+          "startMs": 53290,
+          "endMs": 53500
+        },
+        {
+          "word": "değiştirme",
+          "startMs": 53610,
+          "endMs": 54540
+        },
+        {
+          "word": "sıfırdır.",
+          "startMs": 55230,
+          "endMs": 55890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 56270,
+      "endMs": 64410,
+      "pauseAfterMs": 280,
+      "text": "Defterine küçük bir yol zaman grafiği çizmek iki sayıyı yan yana tutar.",
+      "markedText": "Defterine küçük bir yol zaman grafiği çizmek iki sayıyı yan yana tutar.",
+      "words": [
+        {
+          "word": "Defterine",
+          "startMs": 56270,
+          "endMs": 57120
+        },
+        {
+          "word": "küçük",
+          "startMs": 57300,
+          "endMs": 57870
+        },
+        {
+          "word": "bir",
+          "startMs": 58590,
+          "endMs": 58910
+        },
+        {
+          "word": "yol",
+          "startMs": 58910,
+          "endMs": 59100
+        },
+        {
+          "word": "zaman",
+          "startMs": 59200,
+          "endMs": 59730
+        },
+        {
+          "word": "grafiği",
+          "startMs": 60060,
+          "endMs": 60800
+        },
+        {
+          "word": "çizmek",
+          "startMs": 60910,
+          "endMs": 61320
+        },
+        {
+          "word": "iki",
+          "startMs": 61750,
+          "endMs": 62000
+        },
+        {
+          "word": "sayıyı",
+          "startMs": 62000,
+          "endMs": 62550
+        },
+        {
+          "word": "yan",
+          "startMs": 62930,
+          "endMs": 63140
+        },
+        {
+          "word": "yana",
+          "startMs": 63370,
+          "endMs": 63800
+        },
+        {
+          "word": "tutar.",
+          "startMs": 63900,
+          "endMs": 64130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 64410,
+      "endMs": 69370,
+      "pauseAfterMs": 370,
+      "text": "Alınan yol, hareket boyunca gidilen bütün parçaların uzunluklarının toplamıdır.",
+      "markedText": "Alınan yol, hareket boyunca gidilen bütün parçaların uzunluklarının toplamıdır.",
+      "words": [
+        {
+          "word": "Alınan",
+          "startMs": 64410,
+          "endMs": 64760
+        },
+        {
+          "word": "yol,",
+          "startMs": 64760,
+          "endMs": 65070
+        },
+        {
+          "word": "hareket",
+          "startMs": 65830,
+          "endMs": 65990
+        },
+        {
+          "word": "boyunca",
+          "startMs": 66040,
+          "endMs": 66380
+        },
+        {
+          "word": "gidilen",
+          "startMs": 66380,
+          "endMs": 66810
+        },
+        {
+          "word": "bütün",
+          "startMs": 66910,
+          "endMs": 67070
+        },
+        {
+          "word": "parçaların",
+          "startMs": 67190,
+          "endMs": 67780
+        },
+        {
+          "word": "uzunluklarının",
+          "startMs": 68070,
+          "endMs": 68500
+        },
+        {
+          "word": "toplamıdır.",
+          "startMs": 68560,
+          "endMs": 69000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-1",
+      "startMs": 69370,
+      "endMs": 73620,
+      "pauseAfterMs": 370,
+      "text": "Yön aramaz; metre cinsinden bir uzunluktur.",
+      "markedText": "Yön aramaz; metre cinsinden bir uzunluktur.",
+      "words": [
+        {
+          "word": "Yön",
+          "startMs": 69370,
+          "endMs": 69720
+        },
+        {
+          "word": "aramaz;",
+          "startMs": 69870,
+          "endMs": 70680
+        },
+        {
+          "word": "metre",
+          "startMs": 71450,
+          "endMs": 71820
+        },
+        {
+          "word": "cinsinden",
+          "startMs": 71970,
+          "endMs": 72400
+        },
+        {
+          "word": "bir",
+          "startMs": 72450,
+          "endMs": 72570
+        },
+        {
+          "word": "uzunluktur.",
+          "startMs": 72690,
+          "endMs": 73250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-1",
+      "startMs": 73620,
+      "endMs": 85820,
+      "pauseAfterMs": 620,
+      "text": "Yer değiştirme ise başlangıç noktası ile bitiş noktası arasındaki en kısa doğrultudur ve yönü vardır.",
+      "markedText": "Yer değiştirme ise başlangıç noktası ile bitiş noktası arasındaki en kısa doğrultudur ve yönü vardır.",
+      "words": [
+        {
+          "word": "Yer",
+          "startMs": 73620,
+          "endMs": 73850
+        },
+        {
+          "word": "değiştirme",
+          "startMs": 73850,
+          "endMs": 74540
+        },
+        {
+          "word": "ise",
+          "startMs": 74680,
+          "endMs": 75000
+        },
+        {
+          "word": "başlangıç",
+          "startMs": 75210,
+          "endMs": 76510
+        },
+        {
+          "word": "noktası",
+          "startMs": 77470,
+          "endMs": 77930
+        },
+        {
+          "word": "ile",
+          "startMs": 77930,
+          "endMs": 78180
+        },
+        {
+          "word": "bitiş",
+          "startMs": 78340,
+          "endMs": 78600
+        },
+        {
+          "word": "noktası",
+          "startMs": 78900,
+          "endMs": 79600
+        },
+        {
+          "word": "arasındaki",
+          "startMs": 79910,
+          "endMs": 80370
+        },
+        {
+          "word": "en",
+          "startMs": 81190,
+          "endMs": 81340
+        },
+        {
+          "word": "kısa",
+          "startMs": 81710,
+          "endMs": 82070
+        },
+        {
+          "word": "doğrultudur",
+          "startMs": 82310,
+          "endMs": 83200
+        },
+        {
+          "word": "ve",
+          "startMs": 83200,
+          "endMs": 83290
+        },
+        {
+          "word": "yönü",
+          "startMs": 83450,
+          "endMs": 83850
+        },
+        {
+          "word": "vardır.",
+          "startMs": 84700,
+          "endMs": 85200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-1",
+      "startMs": 85820,
+      "endMs": 94790,
+      "pauseAfterMs": 830,
+      "text": "Başladığın yere dönersen alınan yol sıfırdan büyük olabilir, yer değiştirme ise sıfırdır.",
+      "markedText": "Başladığın yere dönersen alınan yol sıfırdan büyük olabilir, yer değiştirme ise sıfırdır.",
+      "words": [
+        {
+          "word": "Başladığın",
+          "startMs": 85820,
+          "endMs": 86430
+        },
+        {
+          "word": "yere",
+          "startMs": 86560,
+          "endMs": 86840
+        },
+        {
+          "word": "dönersen",
+          "startMs": 86840,
+          "endMs": 87380
+        },
+        {
+          "word": "alınan",
+          "startMs": 87930,
+          "endMs": 88320
+        },
+        {
+          "word": "yol",
+          "startMs": 88490,
+          "endMs": 88760
+        },
+        {
+          "word": "sıfırdan",
+          "startMs": 89030,
+          "endMs": 89440
+        },
+        {
+          "word": "büyük",
+          "startMs": 89670,
+          "endMs": 89880
+        },
+        {
+          "word": "olabilir,",
+          "startMs": 90290,
+          "endMs": 91460
+        },
+        {
+          "word": "yer",
+          "startMs": 92190,
+          "endMs": 92290
+        },
+        {
+          "word": "değiştirme",
+          "startMs": 92290,
+          "endMs": 92650
+        },
+        {
+          "word": "ise",
+          "startMs": 92730,
+          "endMs": 92940
+        },
+        {
+          "word": "sıfırdır.",
+          "startMs": 93180,
+          "endMs": 93960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-1",
+      "startMs": 94790,
+      "endMs": 102090,
+      "pauseAfterMs": 770,
+      "text": "Yön değiştirmeden düz gidersen alınan yol ile yer değiştirmenin büyüklüğü eşit olur.",
+      "markedText": "Yön değiştirmeden düz gidersen alınan yol ile yer değiştirmenin büyüklüğü eşit olur.",
+      "words": [
+        {
+          "word": "Yön",
+          "startMs": 94790,
+          "endMs": 94930
+        },
+        {
+          "word": "değiştirmeden",
+          "startMs": 95030,
+          "endMs": 95860
+        },
+        {
+          "word": "düz",
+          "startMs": 95980,
+          "endMs": 96280
+        },
+        {
+          "word": "gidersen",
+          "startMs": 96460,
+          "endMs": 96900
+        },
+        {
+          "word": "alınan",
+          "startMs": 96980,
+          "endMs": 97600
+        },
+        {
+          "word": "yol",
+          "startMs": 97910,
+          "endMs": 98110
+        },
+        {
+          "word": "ile",
+          "startMs": 98110,
+          "endMs": 98540
+        },
+        {
+          "word": "yer",
+          "startMs": 98540,
+          "endMs": 98760
+        },
+        {
+          "word": "değiştirmenin",
+          "startMs": 99020,
+          "endMs": 99540
+        },
+        {
+          "word": "büyüklüğü",
+          "startMs": 99830,
+          "endMs": 100210
+        },
+        {
+          "word": "eşit",
+          "startMs": 100420,
+          "endMs": 100720
+        },
+        {
+          "word": "olur.",
+          "startMs": 100800,
+          "endMs": 101320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-1",
+      "startMs": 102090,
+      "endMs": 110350,
+      "pauseAfterMs": 730,
+      "text": "Yol zaman grafiğinde alınan yol zaman geçtikçe artar; yer değiştirme yön değişince küçülebilir.",
+      "markedText": "Yol zaman grafiğinde alınan yol zaman geçtikçe artar; yer değiştirme yön değişince küçülebilir.",
+      "words": [
+        {
+          "word": "Yol",
+          "startMs": 102090,
+          "endMs": 102170
+        },
+        {
+          "word": "zaman",
+          "startMs": 102250,
+          "endMs": 102750
+        },
+        {
+          "word": "grafiğinde",
+          "startMs": 102930,
+          "endMs": 103420
+        },
+        {
+          "word": "alınan",
+          "startMs": 103540,
+          "endMs": 103990
+        },
+        {
+          "word": "yol",
+          "startMs": 104390,
+          "endMs": 104680
+        },
+        {
+          "word": "zaman",
+          "startMs": 104920,
+          "endMs": 105200
+        },
+        {
+          "word": "geçtikçe",
+          "startMs": 105290,
+          "endMs": 105690
+        },
+        {
+          "word": "artar;",
+          "startMs": 105690,
+          "endMs": 106190
+        },
+        {
+          "word": "yer",
+          "startMs": 106570,
+          "endMs": 106680
+        },
+        {
+          "word": "değiştirme",
+          "startMs": 106680,
+          "endMs": 107200
+        },
+        {
+          "word": "yön",
+          "startMs": 107450,
+          "endMs": 107530
+        },
+        {
+          "word": "değişince",
+          "startMs": 107650,
+          "endMs": 108430
+        },
+        {
+          "word": "küçülebilir.",
+          "startMs": 108710,
+          "endMs": 109620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-1",
+      "startMs": 110350,
+      "endMs": 118190,
+      "pauseAfterMs": 380,
+      "text": "Pratik kural: Alınan yol izlerin toplamı, yer değiştirme başlangıçtan bitişe oklu uzaklıktır.",
+      "markedText": "Pratik kural: Alınan yol izlerin toplamı, yer değiştirme başlangıçtan bitişe oklu uzaklıktır.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 110350,
+          "endMs": 110720
+        },
+        {
+          "word": "kural:",
+          "startMs": 111010,
+          "endMs": 111170
+        },
+        {
+          "word": "Alınan",
+          "startMs": 111510,
+          "endMs": 111880
+        },
+        {
+          "word": "yol",
+          "startMs": 112300,
+          "endMs": 112500
+        },
+        {
+          "word": "izlerin",
+          "startMs": 112790,
+          "endMs": 113090
+        },
+        {
+          "word": "toplamı,",
+          "startMs": 113300,
+          "endMs": 114200
+        },
+        {
+          "word": "yer",
+          "startMs": 114900,
+          "endMs": 115200
+        },
+        {
+          "word": "değiştirme",
+          "startMs": 115290,
+          "endMs": 115890
+        },
+        {
+          "word": "başlangıçtan",
+          "startMs": 115990,
+          "endMs": 116620
+        },
+        {
+          "word": "bitişe",
+          "startMs": 116740,
+          "endMs": 116850
+        },
+        {
+          "word": "oklu",
+          "startMs": 116920,
+          "endMs": 117150
+        },
+        {
+          "word": "uzaklıktır.",
+          "startMs": 117300,
+          "endMs": 117810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-1",
+      "startMs": 118190,
+      "endMs": 121770,
+      "pauseAfterMs": 510,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 118190,
+          "endMs": 118310
+        },
+        {
+          "word": "şimdi",
+          "startMs": 118310,
+          "endMs": 118570
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 118570,
+          "endMs": 119090
+        },
+        {
+          "word": "çizime",
+          "startMs": 119310,
+          "endMs": 119700
+        },
+        {
+          "word": "birlikte",
+          "startMs": 119980,
+          "endMs": 120440
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 120500,
+          "endMs": 121260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 121770,
+      "endMs": 170520,
+      "pauseAfterMs": 520,
+      "text": "Parkta 400 metre tur atıp aynı banka dönersen alınan yol 400 metredir, yer değiştirme 0 metredir. Okula doğru 80 metre doğu, sonra 30 metre batı yürürsen alınan yol 80 artı 30, yani 110 metredir. Yer değiştirme 80 eksi 30, yani 50 metre doğudur. Düz bir koridorda 120 metre yürüyüp durursan alınan yol da yer değiştirme de 120 metredir; yön koridorun doğrultusudur. Cetvelle ölçmek bu üç durumu sayıya bağlar.",
+      "markedText": "Parkta {@showSpeed} 400 metre tur atıp aynı banka dönersen alınan yol 400 metredir, yer değiştirme 0 metredir. Okula doğru 80 metre doğu, sonra 30 metre batı yürürsen alınan yol 80 artı 30, yani 110 metredir. Yer değiştirme 80 eksi 30, yani 50 metre doğudur. Düz bir koridorda 120 metre yürüyüp durursan alınan yol da yer değiştirme de 120 metredir; yön koridorun doğrultusudur. Cetvelle ölçmek bu üç durumu sayıya bağlar.",
+      "words": [
+        {
+          "word": "Parkta",
+          "startMs": 121770,
+          "endMs": 122040
+        },
+        {
+          "word": "400",
+          "startMs": 122220,
+          "endMs": 122510
+        },
+        {
+          "word": "metre",
+          "startMs": 122550,
+          "endMs": 123290
+        },
+        {
+          "word": "tur",
+          "startMs": 124150,
+          "endMs": 124270
+        },
+        {
+          "word": "atıp",
+          "startMs": 124390,
+          "endMs": 124660
+        },
+        {
+          "word": "aynı",
+          "startMs": 124660,
+          "endMs": 125030
+        },
+        {
+          "word": "banka",
+          "startMs": 125320,
+          "endMs": 125550
+        },
+        {
+          "word": "dönersen",
+          "startMs": 125710,
+          "endMs": 126230
+        },
+        {
+          "word": "alınan",
+          "startMs": 126230,
+          "endMs": 126680
+        },
+        {
+          "word": "yol",
+          "startMs": 127500,
+          "endMs": 127710
+        },
+        {
+          "word": "400",
+          "startMs": 127810,
+          "endMs": 128320
+        },
+        {
+          "word": "metredir,",
+          "startMs": 128860,
+          "endMs": 129490
+        },
+        {
+          "word": "yer",
+          "startMs": 130220,
+          "endMs": 130410
+        },
+        {
+          "word": "değiştirme",
+          "startMs": 130520,
+          "endMs": 131440
+        },
+        {
+          "word": "0",
+          "startMs": 132220,
+          "endMs": 132480
+        },
+        {
+          "word": "metredir.",
+          "startMs": 132540,
+          "endMs": 133270
+        },
+        {
+          "word": "Okula",
+          "startMs": 133820,
+          "endMs": 134090
+        },
+        {
+          "word": "doğru",
+          "startMs": 134170,
+          "endMs": 134600
+        },
+        {
+          "word": "80",
+          "startMs": 134750,
+          "endMs": 135320
+        },
+        {
+          "word": "metre",
+          "startMs": 135450,
+          "endMs": 136030
+        },
+        {
+          "word": "doğu,",
+          "startMs": 136160,
+          "endMs": 136700
+        },
+        {
+          "word": "sonra",
+          "startMs": 137380,
+          "endMs": 137790
+        },
+        {
+          "word": "30",
+          "startMs": 137790,
+          "endMs": 137980
+        },
+        {
+          "word": "metre",
+          "startMs": 137980,
+          "endMs": 138440
+        },
+        {
+          "word": "batı",
+          "startMs": 138500,
+          "endMs": 138720
+        },
+        {
+          "word": "yürürsen",
+          "startMs": 138870,
+          "endMs": 139330
+        },
+        {
+          "word": "alınan",
+          "startMs": 139330,
+          "endMs": 139760
+        },
+        {
+          "word": "yol",
+          "startMs": 139760,
+          "endMs": 139890
+        },
+        {
+          "word": "80",
+          "startMs": 139890,
+          "endMs": 140060
+        },
+        {
+          "word": "artı",
+          "startMs": 140210,
+          "endMs": 140400
+        },
+        {
+          "word": "30,",
+          "startMs": 140560,
+          "endMs": 141000
+        },
+        {
+          "word": "yani",
+          "startMs": 141560,
+          "endMs": 142070
+        },
+        {
+          "word": "110",
+          "startMs": 142140,
+          "endMs": 142510
+        },
+        {
+          "word": "metredir.",
+          "startMs": 142710,
+          "endMs": 143360
+        },
+        {
+          "word": "Yer",
+          "startMs": 144250,
+          "endMs": 144620
+        },
+        {
+          "word": "değiştirme",
+          "startMs": 144770,
+          "endMs": 145980
+        },
+        {
+          "word": "80",
+          "startMs": 145980,
+          "endMs": 146540
+        },
+        {
+          "word": "eksi",
+          "startMs": 146660,
+          "endMs": 146830
+        },
+        {
+          "word": "30,",
+          "startMs": 147150,
+          "endMs": 147440
+        },
+        {
+          "word": "yani",
+          "startMs": 148240,
+          "endMs": 148460
+        },
+        {
+          "word": "50",
+          "startMs": 148700,
+          "endMs": 149300
+        },
+        {
+          "word": "metre",
+          "startMs": 149830,
+          "endMs": 150300
+        },
+        {
+          "word": "doğudur.",
+          "startMs": 150300,
+          "endMs": 151460
+        },
+        {
+          "word": "Düz",
+          "startMs": 151920,
+          "endMs": 152030
+        },
+        {
+          "word": "bir",
+          "startMs": 152030,
+          "endMs": 152160
+        },
+        {
+          "word": "koridorda",
+          "startMs": 152160,
+          "endMs": 152560
+        },
+        {
+          "word": "120",
+          "startMs": 152700,
+          "endMs": 153620
+        },
+        {
+          "word": "metre",
+          "startMs": 154290,
+          "endMs": 154500
+        },
+        {
+          "word": "yürüyüp",
+          "startMs": 154500,
+          "endMs": 154950
+        },
+        {
+          "word": "durursan",
+          "startMs": 154990,
+          "endMs": 155560
+        },
+        {
+          "word": "alınan",
+          "startMs": 155650,
+          "endMs": 156050
+        },
+        {
+          "word": "yol",
+          "startMs": 156180,
+          "endMs": 156420
+        },
+        {
+          "word": "da",
+          "startMs": 156580,
+          "endMs": 156760
+        },
+        {
+          "word": "yer",
+          "startMs": 156760,
+          "endMs": 156910
+        },
+        {
+          "word": "değiştirme",
+          "startMs": 156970,
+          "endMs": 158290
+        },
+        {
+          "word": "de",
+          "startMs": 158760,
+          "endMs": 158920
+        },
+        {
+          "word": "120",
+          "startMs": 159110,
+          "endMs": 159970
+        },
+        {
+          "word": "metredir;",
+          "startMs": 160830,
+          "endMs": 161750
+        },
+        {
+          "word": "yön",
+          "startMs": 162630,
+          "endMs": 162790
+        },
+        {
+          "word": "koridorun",
+          "startMs": 163360,
+          "endMs": 163830
+        },
+        {
+          "word": "doğrultusudur.",
+          "startMs": 163970,
+          "endMs": 164830
+        },
+        {
+          "word": "Cetvelle",
+          "startMs": 165480,
+          "endMs": 166140
+        },
+        {
+          "word": "ölçmek",
+          "startMs": 166400,
+          "endMs": 166900
+        },
+        {
+          "word": "bu",
+          "startMs": 166990,
+          "endMs": 167100
+        },
+        {
+          "word": "üç",
+          "startMs": 167170,
+          "endMs": 167300
+        },
+        {
+          "word": "durumu",
+          "startMs": 167420,
+          "endMs": 168150
+        },
+        {
+          "word": "sayıya",
+          "startMs": 168280,
+          "endMs": 168800
+        },
+        {
+          "word": "bağlar.",
+          "startMs": 169750,
+          "endMs": 170000
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 122220,
+          "op": "SHOW_SPEED",
+          "hook": "showSpeed",
+          "params": {
+            "path": 400,
+            "displacement": 0,
+            "showDisplacement": true,
+            "pathSum": 110,
+            "displacementNet": 50,
+            "direction": "doğu",
+            "straight": 120,
+            "distanceUnit": "m",
+            "note": "yer değiştirme",
+            "marks": [
+              {
+                "slot": "loop",
+                "value": 400,
+                "atMs": 122220
+              },
+              {
+                "slot": "loop-again",
+                "value": 400,
+                "atMs": 127810
+              },
+              {
+                "slot": "back",
+                "value": 0,
+                "atMs": 132220
+              },
+              {
+                "slot": "east",
+                "value": 80,
+                "atMs": 134750
+              },
+              {
+                "slot": "west",
+                "value": 30,
+                "atMs": 137790
+              },
+              {
+                "slot": "east-b",
+                "value": 80,
+                "atMs": 139890
+              },
+              {
+                "slot": "west-b",
+                "value": 30,
+                "atMs": 140560
+              },
+              {
+                "slot": "path-sum",
+                "value": 110,
+                "atMs": 142140
+              },
+              {
+                "slot": "east-c",
+                "value": 80,
+                "atMs": 145980
+              },
+              {
+                "slot": "west-c",
+                "value": 30,
+                "atMs": 147150
+              },
+              {
+                "slot": "net",
+                "value": 50,
+                "atMs": 148700
+              },
+              {
+                "slot": "straight",
+                "value": 120,
+                "atMs": 152700
+              },
+              {
+                "slot": "straight-again",
+                "value": 120,
+                "atMs": 159110
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-3",
+      "startMs": 170520,
+      "endMs": 172490,
+      "pauseAfterMs": 250,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 170520,
+          "endMs": 171560
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 171680,
+          "endMs": 172240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-3",
+      "startMs": 172490,
+      "endMs": 175330,
+      "pauseAfterMs": 880,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 172490,
+          "endMs": 173220
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 173330,
+          "endMs": 174450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-3",
+      "startMs": 175330,
+      "endMs": 179670,
+      "pauseAfterMs": 790,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 175330,
+          "endMs": 175550
+        },
+        {
+          "word": "noktayı",
+          "startMs": 176040,
+          "endMs": 176650
+        },
+        {
+          "word": "sen",
+          "startMs": 176940,
+          "endMs": 177490
+        },
+        {
+          "word": "de",
+          "startMs": 177590,
+          "endMs": 177800
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 178170,
+          "endMs": 178880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-3",
+      "startMs": 179670,
+      "endMs": 188220,
+      "pauseAfterMs": 640,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 179670,
+          "endMs": 180090
+        },
+        {
+          "word": "sevgili",
+          "startMs": 180190,
+          "endMs": 180920
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 181060,
+          "endMs": 182020
+        },
+        {
+          "word": "işte",
+          "startMs": 183020,
+          "endMs": 183200
+        },
+        {
+          "word": "tam",
+          "startMs": 183200,
+          "endMs": 183340
+        },
+        {
+          "word": "bu",
+          "startMs": 183340,
+          "endMs": 183480
+        },
+        {
+          "word": "noktada",
+          "startMs": 183530,
+          "endMs": 184010
+        },
+        {
+          "word": "dikkat",
+          "startMs": 184140,
+          "endMs": 184410
+        },
+        {
+          "word": "etmen",
+          "startMs": 184590,
+          "endMs": 185070
+        },
+        {
+          "word": "gereken",
+          "startMs": 185070,
+          "endMs": 185850
+        },
+        {
+          "word": "kilit",
+          "startMs": 186130,
+          "endMs": 186700
+        },
+        {
+          "word": "nokta.",
+          "startMs": 186800,
+          "endMs": 187580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-3",
+      "startMs": 188220,
+      "endMs": 197800,
+      "pauseAfterMs": 760,
+      "text": "Başa dönünce yer değiştirmeyi alınan yola eşitlemek tuzaktır; o durumda yer değiştirme 0 olur.",
+      "markedText": "Başa dönünce yer değiştirmeyi alınan yola eşitlemek tuzaktır; o durumda yer değiştirme 0 olur.",
+      "words": [
+        {
+          "word": "Başa",
+          "startMs": 188220,
+          "endMs": 188450
+        },
+        {
+          "word": "dönünce",
+          "startMs": 188450,
+          "endMs": 188870
+        },
+        {
+          "word": "yer",
+          "startMs": 189260,
+          "endMs": 189490
+        },
+        {
+          "word": "değiştirmeyi",
+          "startMs": 189580,
+          "endMs": 190490
+        },
+        {
+          "word": "alınan",
+          "startMs": 191370,
+          "endMs": 191830
+        },
+        {
+          "word": "yola",
+          "startMs": 191920,
+          "endMs": 192070
+        },
+        {
+          "word": "eşitlemek",
+          "startMs": 192350,
+          "endMs": 192670
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 192770,
+          "endMs": 193250
+        },
+        {
+          "word": "o",
+          "startMs": 194180,
+          "endMs": 194310
+        },
+        {
+          "word": "durumda",
+          "startMs": 194310,
+          "endMs": 194940
+        },
+        {
+          "word": "yer",
+          "startMs": 194940,
+          "endMs": 195200
+        },
+        {
+          "word": "değiştirme",
+          "startMs": 195300,
+          "endMs": 196280
+        },
+        {
+          "word": "0",
+          "startMs": 196460,
+          "endMs": 196790
+        },
+        {
+          "word": "olur.",
+          "startMs": 196830,
+          "endMs": 197040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-3",
+      "startMs": 197800,
+      "endMs": 205400,
+      "pauseAfterMs": 930,
+      "text": "Yer değiştirmeyi söylerken yönü yazmamak da eksik bırakır.",
+      "markedText": "Yer değiştirmeyi söylerken yönü yazmamak da eksik bırakır.",
+      "words": [
+        {
+          "word": "Yer",
+          "startMs": 197800,
+          "endMs": 198180
+        },
+        {
+          "word": "değiştirmeyi",
+          "startMs": 198450,
+          "endMs": 199180
+        },
+        {
+          "word": "söylerken",
+          "startMs": 199350,
+          "endMs": 200290
+        },
+        {
+          "word": "yönü",
+          "startMs": 200380,
+          "endMs": 201110
+        },
+        {
+          "word": "yazmamak",
+          "startMs": 201920,
+          "endMs": 202680
+        },
+        {
+          "word": "da",
+          "startMs": 202790,
+          "endMs": 203080
+        },
+        {
+          "word": "eksik",
+          "startMs": 203080,
+          "endMs": 203710
+        },
+        {
+          "word": "bırakır.",
+          "startMs": 204000,
+          "endMs": 204470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-3",
+      "startMs": 205400,
+      "endMs": 213760,
+      "pauseAfterMs": 910,
+      "text": "Grafikte yükselen çizgi her zaman yer değiştirme değildir; alınan yol birikerek artar.",
+      "markedText": "Grafikte yükselen çizgi her zaman yer değiştirme değildir; alınan yol birikerek artar.",
+      "words": [
+        {
+          "word": "Grafikte",
+          "startMs": 205400,
+          "endMs": 205970
+        },
+        {
+          "word": "yükselen",
+          "startMs": 205970,
+          "endMs": 206860
+        },
+        {
+          "word": "çizgi",
+          "startMs": 207520,
+          "endMs": 207740
+        },
+        {
+          "word": "her",
+          "startMs": 207740,
+          "endMs": 207890
+        },
+        {
+          "word": "zaman",
+          "startMs": 207890,
+          "endMs": 208260
+        },
+        {
+          "word": "yer",
+          "startMs": 208260,
+          "endMs": 208400
+        },
+        {
+          "word": "değiştirme",
+          "startMs": 208400,
+          "endMs": 209340
+        },
+        {
+          "word": "değildir;",
+          "startMs": 209410,
+          "endMs": 210150
+        },
+        {
+          "word": "alınan",
+          "startMs": 210740,
+          "endMs": 211310
+        },
+        {
+          "word": "yol",
+          "startMs": 211310,
+          "endMs": 211490
+        },
+        {
+          "word": "birikerek",
+          "startMs": 211610,
+          "endMs": 212310
+        },
+        {
+          "word": "artar.",
+          "startMs": 212440,
+          "endMs": 212850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-3",
+      "startMs": 213760,
+      "endMs": 223300,
+      "pauseAfterMs": 800,
+      "text": "Alınan yol ve yer değiştirme konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Alınan yol ve yer değiştirme konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Alınan",
+          "startMs": 213760,
+          "endMs": 214250
+        },
+        {
+          "word": "yol",
+          "startMs": 214250,
+          "endMs": 214530
+        },
+        {
+          "word": "ve",
+          "startMs": 214640,
+          "endMs": 214760
+        },
+        {
+          "word": "yer",
+          "startMs": 214760,
+          "endMs": 214950
+        },
+        {
+          "word": "değiştirme",
+          "startMs": 215130,
+          "endMs": 215860
+        },
+        {
+          "word": "konusunda",
+          "startMs": 216960,
+          "endMs": 217550
+        },
+        {
+          "word": "kuralın",
+          "startMs": 217550,
+          "endMs": 217940
+        },
+        {
+          "word": "tersini",
+          "startMs": 218030,
+          "endMs": 218710
+        },
+        {
+          "word": "sanmak",
+          "startMs": 218760,
+          "endMs": 219160
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 219230,
+          "endMs": 219620
+        },
+        {
+          "word": "ters",
+          "startMs": 220340,
+          "endMs": 220540
+        },
+        {
+          "word": "cümle",
+          "startMs": 220540,
+          "endMs": 220980
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 221330,
+          "endMs": 222500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-3",
+      "startMs": 223300,
+      "endMs": 225230,
+      "pauseAfterMs": 500,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 223300,
+          "endMs": 223620
+        },
+        {
+          "word": "Neler",
+          "startMs": 223740,
+          "endMs": 224010
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 224130,
+          "endMs": 224730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 225230,
+      "endMs": 225350,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 225230,
+          "endMs": 225350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 225350,
+      "endMs": 231630,
+      "pauseAfterMs": 470,
+      "text": "Alınan yol, gidilen bütün parçaların uzunluk toplamıdır.",
+      "markedText": "Alınan yol, gidilen bütün parçaların uzunluk toplamıdır.",
+      "words": [
+        {
+          "word": "Alınan",
+          "startMs": 225350,
+          "endMs": 225900
+        },
+        {
+          "word": "yol,",
+          "startMs": 225950,
+          "endMs": 226440
+        },
+        {
+          "word": "gidilen",
+          "startMs": 227290,
+          "endMs": 227970
+        },
+        {
+          "word": "bütün",
+          "startMs": 227970,
+          "endMs": 228310
+        },
+        {
+          "word": "parçaların",
+          "startMs": 228360,
+          "endMs": 229200
+        },
+        {
+          "word": "uzunluk",
+          "startMs": 229460,
+          "endMs": 229950
+        },
+        {
+          "word": "toplamıdır.",
+          "startMs": 229990,
+          "endMs": 231160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 231630,
+      "endMs": 232100,
+      "pauseAfterMs": 300,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 231630,
+          "endMs": 231800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 232100,
+      "endMs": 236160,
+      "pauseAfterMs": 680,
+      "text": "Yer değiştirme, başlangıçtan bitişe yönlü en kısa uzaklıktır.",
+      "markedText": "Yer değiştirme, başlangıçtan bitişe yönlü en kısa uzaklıktır.",
+      "words": [
+        {
+          "word": "Yer",
+          "startMs": 232100,
+          "endMs": 232320
+        },
+        {
+          "word": "değiştirme,",
+          "startMs": 232360,
+          "endMs": 232920
+        },
+        {
+          "word": "başlangıçtan",
+          "startMs": 232920,
+          "endMs": 233540
+        },
+        {
+          "word": "bitişe",
+          "startMs": 233540,
+          "endMs": 233910
+        },
+        {
+          "word": "yönlü",
+          "startMs": 233950,
+          "endMs": 234190
+        },
+        {
+          "word": "en",
+          "startMs": 234330,
+          "endMs": 234480
+        },
+        {
+          "word": "kısa",
+          "startMs": 234650,
+          "endMs": 234910
+        },
+        {
+          "word": "uzaklıktır.",
+          "startMs": 234910,
+          "endMs": 235480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 236160,
+      "endMs": 236250,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 236160,
+          "endMs": 236250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 236250,
+      "endMs": 243020,
+      "pauseAfterMs": 690,
+      "text": "Başlangıç noktasına dönünce yer değiştirme sıfır olur.",
+      "markedText": "Başlangıç noktasına dönünce yer değiştirme sıfır olur.",
+      "words": [
+        {
+          "word": "Başlangıç",
+          "startMs": 236250,
+          "endMs": 237000
+        },
+        {
+          "word": "noktasına",
+          "startMs": 237050,
+          "endMs": 237820
+        },
+        {
+          "word": "dönünce",
+          "startMs": 238180,
+          "endMs": 239180
+        },
+        {
+          "word": "yer",
+          "startMs": 239770,
+          "endMs": 239980
+        },
+        {
+          "word": "değiştirme",
+          "startMs": 240100,
+          "endMs": 241100
+        },
+        {
+          "word": "sıfır",
+          "startMs": 241210,
+          "endMs": 241640
+        },
+        {
+          "word": "olur.",
+          "startMs": 241700,
+          "endMs": 242330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 243020,
+      "endMs": 249030,
+      "pauseAfterMs": 570,
+      "text": "Alınan yol toplam iz, yer değiştirme yönlü net sonuçtur.",
+      "markedText": "Alınan yol toplam iz, yer değiştirme yönlü net sonuçtur.",
+      "words": [
+        {
+          "word": "Alınan",
+          "startMs": 243020,
+          "endMs": 243540
+        },
+        {
+          "word": "yol",
+          "startMs": 243600,
+          "endMs": 244110
+        },
+        {
+          "word": "toplam",
+          "startMs": 244280,
+          "endMs": 244910
+        },
+        {
+          "word": "iz,",
+          "startMs": 244980,
+          "endMs": 245190
+        },
+        {
+          "word": "yer",
+          "startMs": 245830,
+          "endMs": 246130
+        },
+        {
+          "word": "değiştirme",
+          "startMs": 246130,
+          "endMs": 246750
+        },
+        {
+          "word": "yönlü",
+          "startMs": 247000,
+          "endMs": 247220
+        },
+        {
+          "word": "net",
+          "startMs": 247310,
+          "endMs": 247540
+        },
+        {
+          "word": "sonuçtur.",
+          "startMs": 247660,
+          "endMs": 248460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 249030,
+      "endMs": 255300,
+      "pauseAfterMs": 340,
+      "text": "Aynı yürüyüşte alınan yolu ve yer değiştirmeyi sayı ve yönle ayrı söylersin.",
+      "markedText": "Aynı yürüyüşte alınan yolu ve yer değiştirmeyi sayı ve yönle ayrı söylersin.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 249030,
+          "endMs": 249200
+        },
+        {
+          "word": "yürüyüşte",
+          "startMs": 249320,
+          "endMs": 249880
+        },
+        {
+          "word": "alınan",
+          "startMs": 249880,
+          "endMs": 250220
+        },
+        {
+          "word": "yolu",
+          "startMs": 250370,
+          "endMs": 250650
+        },
+        {
+          "word": "ve",
+          "startMs": 251440,
+          "endMs": 251550
+        },
+        {
+          "word": "yer",
+          "startMs": 251590,
+          "endMs": 251860
+        },
+        {
+          "word": "değiştirmeyi",
+          "startMs": 251860,
+          "endMs": 252800
+        },
+        {
+          "word": "sayı",
+          "startMs": 253040,
+          "endMs": 253230
+        },
+        {
+          "word": "ve",
+          "startMs": 253300,
+          "endMs": 253410
+        },
+        {
+          "word": "yönle",
+          "startMs": 253570,
+          "endMs": 254020
+        },
+        {
+          "word": "ayrı",
+          "startMs": 254020,
+          "endMs": 254350
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 254500,
+          "endMs": 254960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 255300,
+      "endMs": 257640,
+      "pauseAfterMs": 800,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 255300,
+          "endMs": 255850
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 256050,
+          "endMs": 256840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 257640,
+      "endMs": 262360,
+      "pauseAfterMs": 600,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 257640,
+          "endMs": 258170
+        },
+        {
+          "word": "bir",
+          "startMs": 258490,
+          "endMs": 259080
+        },
+        {
+          "word": "iş",
+          "startMs": 259130,
+          "endMs": 259420
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 260170,
+          "endMs": 261760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 262360,
+      "endMs": 265320,
+      "pauseAfterMs": 620,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 262360,
+          "endMs": 262780
+        },
+        {
+          "word": "sıra",
+          "startMs": 263660,
+          "endMs": 264030
+        },
+        {
+          "word": "sende.",
+          "startMs": 264440,
+          "endMs": 264700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 265320,
+      "endMs": 269266,
+      "pauseAfterMs": 396,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 265320,
+          "endMs": 265970
+        },
+        {
+          "word": "bu",
+          "startMs": 265970,
+          "endMs": 266080
+        },
+        {
+          "word": "notları",
+          "startMs": 266510,
+          "endMs": 267070
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 267190,
+          "endMs": 267800
+        },
+        {
+          "word": "kendi",
+          "startMs": 267890,
+          "endMs": 268070
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 268070,
+          "endMs": 268600
+        },
+        {
+          "word": "anlat.",
+          "startMs": 268600,
+          "endMs": 268870
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

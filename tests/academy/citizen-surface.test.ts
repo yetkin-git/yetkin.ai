@@ -76,7 +76,10 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(copy.catalog.description).toContain("Dersler ödeme sonrası açılır");
     expect(copy.catalog.description).toContain("yayındadır");
     expect(copy.catalog.description).not.toContain("fırın");
-    expect(copy.catalog.stats).toBe("6 eğitim yayında");
+    // Vitrin istatistiği altı kartı saymaz: tek kahraman + ileri raf ayrımını söyler.
+    // (Faz 3, Adım 1 — "6 eğitim yayında" cümlesi 'hangisini seçeyim?' sorusunu üretiyordu.)
+    expect(copy.catalog.stats).toBe("Tek öne çıkan eğitim · 5 ileri modül ayrı rafta");
+    expect(copy.catalog.stats).not.toContain("6 eğitim");
     expect(copy.catalog.description).not.toContain("13 eğitim");
     expect(copy.catalog.description).not.toMatch(ledgerLeak);
     expect(copy.catalog.cardCtaBuy).toBe("Satın Al");
@@ -132,7 +135,8 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     const catalog = readSrc("app/academy/page.tsx");
     expect(catalog).toContain("CourseList");
     expect(catalog).toContain("loadAcademyVitrineCourses");
-    expect(catalog).toContain("01_office_ai-1");
+    // Vitrin boş iskelet basmaz: yüklenen kurslar prop olarak geçer.
+    expect(catalog).toContain("courses={courses}");
     expect(catalog).not.toContain("courses={[]}");
     expect(catalog).not.toContain("Siber Güvenlik");
     expect(catalog).not.toContain("Full-Stack");
@@ -186,7 +190,7 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(readSrc("components/academy/course-hero-actions.tsx")).toContain("data-academy-hero-paytr");
     expect(readSrc("components/academy/course-hero-actions.tsx")).toContain("buyPriced");
     expect(readSrc("components/academy/course-hero-actions.tsx")).toContain('size="lg"');
-    expect(readSrc("components/academy/course-hero-actions.tsx")).not.toMatch(/<p[\s\S]*data-academy-hero-price/);
+    expect(readSrc("components/academy/course-hero-actions.tsx")).toContain("data-academy-price-lead");
     expect(readSrc("components/academy/course-card.tsx")).toContain("audioBadgeHint");
     expect(readSrc("components/academy/course-card.tsx")).not.toContain("hasAudio = true");
     expect(readSrc("components/academy/course-list.tsx")).not.toContain("Sesli");

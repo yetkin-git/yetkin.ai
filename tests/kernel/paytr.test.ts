@@ -2,7 +2,10 @@ import { createHmac } from "node:crypto";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   formatPaytrPaymentAmount,
+  assertPaytrLiveUserIp,
   assertPaytrProductionSafety,
+  getPaytrCheckoutCredentials,
+  isPaytrSandboxEnabled,
   requestPaytrCheckoutToken,
   buildPaytrMockCheckoutToken,
   buildPaytrTokenHash,
@@ -225,7 +228,7 @@ describe("PayTR port", () => {
     );
     vi.stubEnv("PAYTR_ALLOW_MOCK_CHECKOUT", "");
     vi.stubEnv("PAYTR_SANDBOX", "true");
-    expect(() => assertPaytrProductionSafety("webhook")).toThrow(/PAYTR_SANDBOX üretimde yasak/);
+    expect(() => assertPaytrProductionSafety("webhook")).not.toThrow();
     errorSpy.mockRestore();
   });
 
@@ -427,6 +430,35 @@ describe("PayTR port", () => {
     if (!result.ok) {
       expect(result.reason).toBe("missing_credentials");
     }
+  });
+
+  it("üretimde sandbox bayrağı canlı kipi ve IP kalkanını bozmaz", () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("PAYTR_SANDBOX", "1");
+    vi.stubEnv("PAYTR_MERCHANT_ID", "111111");
+    vi.stubEnv("PAYTR_MERCHANT_KEY", "key-secret");
+    vi.stubEnv("PAYTR_MERCHANT_SALT", "salt-secret");
+    expect(isPaytrSandboxEnabled()).toBe(false);
+    expect(getPaytrCheckoutCredentials()?.testMode).toBe(false);
+    expect(
+      readPaytrRuntimeMode({
+        NODE_ENV: "production",
+        PAYTR_MERCHANT_ID: "id",
+        PAYTR_MERCHANT_KEY: "key",
+        PAYTR_MERCHANT_SALT: "salt",
+        PAYTR_SANDBOX: "1",
+      }),
+    ).toBe("sandbox");
+    expect(
+      readPaytrRuntimeMode({
+        NODE_ENV: "production",
+        PAYTR_ALLOW_MOCK_CHECKOUT: "true",
+      }),
+    ).toBe("unconfigured");
+    expect(() => assertPaytrLiveUserIp("127.0.0.1", "production-sandbox")).toThrow(/user_ip/);
+    expect(() => assertPaytrLiveUserIp("85.105.141.10", "production-sandbox")).not.toThrow();
+    errorSpy.mockRestore();
   });
 
   it("fail-closed / sandbox sicili CREDIT yazmaz; yalnız sandbox veya canlı üçlü bakiyeye yol açar", () => {

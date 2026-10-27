@@ -16,7 +16,7 @@ Kanonik bildirim yolu: `{NEXT_PUBLIC_APP_URL}/api/payments/webhooks/paytr`. PayT
 ## Canlı üçlü
 
 1. `PAYTR_MERCHANT_ID` / `_KEY` / `_SALT` canlı değerler.
-2. Üretimde `PAYTR_SANDBOX` **boş**. `"1"` throw eder.
+2. Üretimde `PAYTR_SANDBOX` **yok sayılır**. Bayrak doluysa tahsilat canlı moda alınır; fonksiyon throw etmez. `test_mode` üretimde `0` kalır.
 3. `PAYTR_ALLOW_MOCK_CHECKOUT` üretimde boş. CREDIT yazmaz.
 4. `NEXT_PUBLIC_APP_URL` üretimde `https://` genel köken.
 5. `PAYTR_WEBHOOK_IP_ALLOWLIST` isteğe bağlı. Kod env doluyken resmi host’ları birleştirir.

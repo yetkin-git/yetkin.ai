@@ -1,5 +1,5 @@
 /**
- * `/api/v1` sözleşme sicili — API-First dron sözleşmesi (29 hop).
+ * `/api/v1` sözleşme sicili — API-First dron sözleşmesi (33 hop).
  * Anayasa: yayınlanmış alan sessizce düşmez. Bu dosyadaki DTO / OpenAPI
  * kısaltması major sürüm ister. Kernel dikey oda import etmez; alanlar
  * burada dondurulur.
@@ -27,7 +27,11 @@ import {
   FREELANCER_JOB_MAX_MINOR,
   FREELANCER_JOB_MIN_MINOR,
 } from "@/lib/kernel/pricing/freelancer-job-band";
-import { CHECKOUT_LEGAL_CONSENT_VERSION } from "@/lib/kernel/legal/checkout-consent";
+import {
+  CHECKOUT_LEGAL_CONSENT_REQUIRED,
+  CHECKOUT_LEGAL_CONSENT_VERSION,
+} from "@/lib/kernel/legal/checkout-consent";
+import { juniorIframeCheckoutSchema } from "@/lib/kernel/legal/junior-iframe-checkout";
 import {
   WALLET_TOP_UP_MAX_MINOR,
   WALLET_TOP_UP_MIN_MINOR,
@@ -36,6 +40,7 @@ import { PASSPORT_STAMP_SOURCE_KINDS } from "@/lib/kernel/passport/types";
 import { JUNIOR_SCHOOL_SEGMENT } from "@/lib/kernel/catalog-ids/school-segments";
 import { EDGE_API_SESSION_ERROR } from "@/lib/kernel/security/edge-api-auth";
 import {
+  JUNIOR_CHECKOUT_LOCKED_ERROR,
   JUNIOR_CLOSED_BETA_ERROR,
   JUNIOR_PROFILE_PLAN_ERROR,
 } from "@/lib/kernel/security/junior-gate";
@@ -90,8 +95,7 @@ export const RAIL_V1_ACADEMY_CERTIFICATE_MISMATCH =
 export const RAIL_V1_ACADEMY_CERTIFICATE_INCOMPLETE =
   "Kayıt var; deneme, puan veya müfredat özeti eksik olduğu için bütünlük kaydı yeniden hesaplanamaz.";
 
-/** Akademi HTML mührü ile aynı kapsama cümleleri — kernel oda import etmez. */
-export const RAIL_V1_ACADEMY_CERTIFICATE_HASHED_FIELDS = [
+/** Akademi HTML mührü ile aynı kapsama cümleleri — kernel oda import etmez. */export const RAIL_V1_ACADEMY_CERTIFICATE_HASHED_FIELDS = [
   "vatandaş kimliği",
   "kurs kimliği",
   "sınav denemesi",
@@ -664,6 +668,16 @@ export const railV1JuniorLessonPlayDataSchema = z.strictObject({
     })
     .nullable(),
   graphic: juniorGraphicHopSchema.nullable().optional(),
+  beats: z
+    .array(
+      z.strictObject({
+        title: z.string().min(1),
+        startMs: z.number().int().nonnegative(),
+        endMs: z.number().int().positive(),
+      }),
+    )
+    .optional()
+    .default([]),
 });
 
 export const railV1JuniorLessonProgressRequestSchema = z.strictObject({
@@ -730,6 +744,9 @@ const railV1JuniorShelfLessonSchema = z.strictObject({
   unitCode: z.string().min(1).optional(),
   unitIndex: z.int().positive().optional(),
   unitTitle: z.string().min(1).optional(),
+  curriculumLabel: z.string().min(1).optional(),
+  shortTopicLabel: z.string().min(1).optional(),
+  narrationShort: z.boolean().optional(),
 });
 
 const railV1JuniorCourseShelfSchema = z.strictObject({
@@ -898,6 +915,173 @@ export const railV1ProfilePatchDataSchema = z.strictObject({
     createdAt: railV1IsoDateTimeSchema,
   }),
 });
+
+export const railV1JuniorCheckoutDataSchema = z.strictObject({
+  status: z.enum(["ACTIVE", "PENDING"]),
+  electiveQuota: z.number().int(),
+  alreadyActive: z.boolean(),
+  expiresAt: z.string().nullable(),
+  merchantOid: z.string(),
+  embedIframe: z.boolean(),
+  iframeUrl: z.string().min(1).optional(),
+});
+
+/* ---------------------------------------------------------------- */
+/* Faz 3 — v1 okuma yolu: shelves / progress / catalog               */
+/* ---------------------------------------------------------------- */
+
+/**
+ * İstemci sözleşme bloğu. Üç okuma hop'u da aynı bloğu basar.
+ * `timelineSchemaVersion` sahne sözleşmesidir; native istemci altındaysa kapıyı kapatır.
+ * `mediaTtlSec` yalnız hop'un kendi oynatma yolunda anlamlıdır (shelves bunu duyurur).
+ */
+const railV1ClientSchemaBase = {
+  timelineSchemaVersion: z.string().min(1),
+  minTimelineSchemaVersion: z.string().min(1),
+} as const;
+
+export const railV1JuniorShelvesClientSchema = z.strictObject({
+  ...railV1ClientSchemaBase,
+  mediaTtlSec: z.int().positive(),
+  mediaRefreshAfterSec: z.int().positive(),
+});
+
+export const railV1ReadClientSchema = z.strictObject({ ...railV1ClientSchemaBase });
+
+/** Ders durumu tek evden (`juniorLessonStatus`). `preparing` raf kartının kendi bayrağıdır. */
+const RAIL_V1_JUNIOR_LESSON_STATUSES = ["fresh", "going", "done", "preparing"] as const;
+
+export const railV1JuniorShelvesDataSchema = z.strictObject({
+  profiles: z.array(railV1JuniorProfileViewSchema),
+  selectedId: z.string().min(1).nullable(),
+  xp: z.strictObject({
+    points: z.int().nonnegative(),
+    badges: z.array(z.string()),
+  }),
+  plan: z.strictObject({
+    status: z.enum(["ACTIVE", "NONE"]),
+    electiveQuota: z.int().nonnegative(),
+    expiresAt: z.string().nullable(),
+    gradeSwitchRights: z.int().nonnegative(),
+  }),
+  courses: z.array(
+    z.strictObject({
+      slug: z.string().min(1),
+      title: z.string().min(1),
+      subject: z.string().min(1),
+      grade: z.int(),
+      track: z.enum(["core", "elective"]),
+      labels: z.array(z.string()),
+      lessons: z.array(
+        z.strictObject({
+          key: z.string().min(1),
+          title: z.string().min(1),
+          teaser: z.string(),
+          access: z.enum(["free", "locked"]),
+          thisWeek: z.boolean(),
+          status: z.enum(RAIL_V1_JUNIOR_LESSON_STATUSES),
+          weekHeading: z.string().optional(),
+          archiveLabel: z.string().optional(),
+          starterLabel: z.string().optional(),
+          unitCode: z.string().optional(),
+          unitIndex: z.int().optional(),
+          unitTitle: z.string().optional(),
+          curriculumLabel: z.string().optional(),
+          shortTopicLabel: z.string().optional(),
+          narrationShort: z.boolean().optional(),
+        }),
+      ),
+      outcomeWritten: z.int().nonnegative().optional(),
+      outcomeTotal: z.int().nonnegative().optional(),
+    }),
+  ),
+  sealedLessonCount: z.int().nonnegative(),
+  clientSchema: railV1JuniorShelvesClientSchema,
+});
+
+export const railV1JuniorProgressDataSchema = z.strictObject({
+  profileId: z.string().min(1).nullable(),
+  profiles: z.array(
+    z.strictObject({
+      id: z.string().min(1),
+      nickname: z.string().min(1),
+      grade: z.int(),
+      selected: z.boolean(),
+    }),
+  ),
+  xp: z.strictObject({
+    points: z.int().nonnegative(),
+    badges: z.array(z.string()),
+  }),
+  lessons: z.array(
+    z.strictObject({
+      lessonKey: z.string().min(1),
+      /** Katalogda karşılığı yoksa boş dize — uydurma başlık basılmaz. */
+      title: z.string(),
+      modes: z.array(z.string()),
+      bestScore: z.int(),
+      updatedAt: railV1IsoDateTimeSchema,
+      status: z.enum(["fresh", "going", "done"]),
+    }),
+  ),
+  totals: z.strictObject({
+    started: z.int().nonnegative(),
+    done: z.int().nonnegative(),
+    going: z.int().nonnegative(),
+  }),
+  /** Haftalık rapor şekli `lib/junior/report` sahibindedir; hop onu aynen taşır. */
+  weeklyReport: z.record(z.string(), z.unknown()).nullable(),
+  clientSchema: railV1ReadClientSchema,
+});
+
+export const railV1AcademyCatalogCourseSchema = z
+  .strictObject({
+    slug: z.string().min(1),
+    title: z.string().min(1),
+    summary: z.string(),
+    shelf: z.enum(["hero", "advanced"]),
+    level: z.string().min(1).nullable(),
+    moduleCode: z.string().min(1).nullable(),
+    isPublished: z.boolean(),
+    purchasable: z.boolean(),
+    priceMinor: z.int().nonnegative().nullable(),
+    currencyCode: railV1CurrencySchema.nullable(),
+    lessonCount: z.int().nonnegative(),
+    durationMin: z.int().nonnegative(),
+    modules: z.array(
+      z.strictObject({
+        title: z.string().min(1),
+        lessonCount: z.int().nonnegative(),
+        durationMin: z.int().nonnegative(),
+      }),
+    ),
+    saleHold: z.string().nullable(),
+    owned: z.boolean(),
+    learnerStatus: z.enum(["continue", "completed"]).nullable(),
+    checkoutPath: z.string().min(1),
+    outcomeLead: z.string().min(1).nullable(),
+    outputLead: z.string().min(1).nullable(),
+  })
+  /**
+   * Tutar ve para birimi birlikte dolaşır. Fiyat varsa para birimi zorunlu;
+   * ikisi de yoksa kart fiyatsızdır. Yarım çift (tutar var, birim yok) geçmez —
+   * istemci `89.000` yazıp birim uyduramaz.
+   */
+  .refine(
+    (row) => (row.priceMinor === null) === (row.currencyCode === null),
+    { message: "Tutar ve para birimi birlikte dolu veya birlikte boş olmalıdır.", path: ["currencyCode"] },
+  );
+
+export const railV1AcademyCatalogDataSchema = z.strictObject({
+  /** Tek kahraman kart. Vitrinde hero yoksa null — uydurma kart basılmaz. */
+  heroSlug: z.string().min(1).nullable(),
+  courses: z.array(railV1AcademyCatalogCourseSchema),
+  examPassScore: z.int().min(0).max(100),
+  ownedSlugs: z.array(z.string()),
+  clientSchema: railV1ReadClientSchema,
+});
+
+export type RailV1AcademyCatalogCourse = z.infer<typeof railV1AcademyCatalogCourseSchema>;
 
 export type RailV1RouteAuth = "public" | "session";
 
@@ -1389,7 +1573,7 @@ const RAIL_V1_HOP_CONTRACTS = {
       "card.coverPath",
     ],
     dataSchema: railV1JuniorLessonReadDataSchema,
-    exampleParams: { key: "jr_06_mat-5" },
+    exampleParams: { key: "jr_06_mat-1" },
     errors: [
       RAIL_VERSION_HEADER_REQUIRED,
       RAIL_VERSION_HEADER_INVALID,
@@ -1405,7 +1589,7 @@ const RAIL_V1_HOP_CONTRACTS = {
     idempotency: false,
     minVersionHeaderRequired: true,
     successStatus: 200,
-    dataKeys: ["lesson", "media", "practice", "progress", "graphic"],
+    dataKeys: ["lesson", "media", "practice", "progress", "graphic", "beats"],
     publishedDataPaths: [
       "lesson",
       "lesson.lessonKey",
@@ -1438,9 +1622,13 @@ const RAIL_V1_HOP_CONTRACTS = {
       "graphic.area",
       "graphic.force",
       "graphic.speed",
+      "beats",
+      "beats[].title",
+      "beats[].startMs",
+      "beats[].endMs",
     ],
     dataSchema: railV1JuniorLessonPlayDataSchema,
-    exampleParams: { key: "jr_06_mat-5" },
+    exampleParams: { key: "jr_06_mat-1" },
     errors: [...SESSION_ERRORS, RAIL_V1_JUNIOR_LESSON_MISSING, RAIL_V1_JUNIOR_MEDIA_UNAVAILABLE],
   },
   "junior-lesson-progress": {
@@ -1461,7 +1649,7 @@ const RAIL_V1_HOP_CONTRACTS = {
     ],
     dataSchema: railV1JuniorLessonProgressDataSchema,
     requestSchema: railV1JuniorLessonProgressRequestSchema,
-    exampleParams: { key: "jr_06_mat-5" },
+    exampleParams: { key: "jr_06_mat-1" },
     errors: [...WRITE_ERRORS, RAIL_V1_JUNIOR_PROGRESS_INVALID, RAIL_V1_JUNIOR_LESSON_MISSING],
   },
   "junior-lesson-practice": {
@@ -1486,7 +1674,7 @@ const RAIL_V1_HOP_CONTRACTS = {
     ],
     dataSchema: railV1JuniorLessonPracticeDataSchema,
     requestSchema: railV1JuniorLessonPracticeRequestSchema,
-    exampleParams: { key: "jr_06_mat-5" },
+    exampleParams: { key: "jr_06_mat-1" },
     errors: [...WRITE_ERRORS, RAIL_V1_JUNIOR_PRACTICE_INVALID, RAIL_V1_JUNIOR_LESSON_MISSING],
   },
   "junior-profile": {
@@ -1642,6 +1830,140 @@ const RAIL_V1_HOP_CONTRACTS = {
       JUNIOR_CLOSED_BETA_ERROR,
     ],
   },
+  "junior-shelves": {
+    canonicalPathTemplate: "/api/junior/shelves",
+    routeAuthPattern: "/api/junior/shelves",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: [
+      "profiles",
+      "selectedId",
+      "xp",
+      "plan",
+      "courses",
+      "sealedLessonCount",
+      "clientSchema",
+    ],
+    publishedDataPaths: [
+      "profiles",
+      "profiles[].id",
+      "profiles[].nickname",
+      "profiles[].grade",
+      "profiles[].selected",
+      "selectedId",
+      "xp",
+      "xp.points",
+      "xp.badges",
+      "plan",
+      "plan.status",
+      "plan.electiveQuota",
+      "plan.expiresAt",
+      "plan.gradeSwitchRights",
+      "courses",
+      "courses[].slug",
+      "courses[].title",
+      "courses[].subject",
+      "courses[].grade",
+      "courses[].track",
+      "courses[].labels",
+      "courses[].lessons",
+      "courses[].lessons[].key",
+      "courses[].lessons[].title",
+      "courses[].lessons[].teaser",
+      "courses[].lessons[].access",
+      "courses[].lessons[].thisWeek",
+      "courses[].lessons[].status",
+      "sealedLessonCount",
+      "clientSchema",
+      "clientSchema.timelineSchemaVersion",
+      "clientSchema.minTimelineSchemaVersion",
+      "clientSchema.mediaTtlSec",
+      "clientSchema.mediaRefreshAfterSec",
+    ],
+    dataSchema: railV1JuniorShelvesDataSchema,
+    errors: [...SESSION_ERRORS, JUNIOR_CLOSED_BETA_ERROR],
+  },
+  "junior-progress-read": {
+    canonicalPathTemplate: "/api/junior/progress",
+    routeAuthPattern: "/api/junior/progress",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["profileId", "profiles", "xp", "lessons", "totals", "weeklyReport", "clientSchema"],
+    publishedDataPaths: [
+      "profileId",
+      "profiles",
+      "profiles[].id",
+      "profiles[].nickname",
+      "profiles[].grade",
+      "profiles[].selected",
+      "xp",
+      "xp.points",
+      "xp.badges",
+      "lessons",
+      "lessons[].lessonKey",
+      "lessons[].title",
+      "lessons[].modes",
+      "lessons[].bestScore",
+      "lessons[].updatedAt",
+      "lessons[].status",
+      "totals",
+      "totals.started",
+      "totals.done",
+      "totals.going",
+      "weeklyReport",
+      "clientSchema",
+      "clientSchema.timelineSchemaVersion",
+      "clientSchema.minTimelineSchemaVersion",
+    ],
+    dataSchema: railV1JuniorProgressDataSchema,
+    errors: [...SESSION_ERRORS, JUNIOR_CLOSED_BETA_ERROR],
+  },
+  "academy-catalog": {
+    canonicalPathTemplate: "/api/academy/catalog",
+    routeAuthPattern: "/api/academy/catalog",
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["heroSlug", "courses", "examPassScore", "ownedSlugs", "clientSchema"],
+    publishedDataPaths: [
+      "heroSlug",
+      "courses",
+      "courses[].slug",
+      "courses[].title",
+      "courses[].summary",
+      "courses[].shelf",
+      "courses[].level",
+      "courses[].moduleCode",
+      "courses[].isPublished",
+      "courses[].purchasable",
+      "courses[].priceMinor",
+      "courses[].currencyCode",
+      "courses[].lessonCount",
+      "courses[].durationMin",
+      "courses[].modules",
+      "courses[].modules[].title",
+      "courses[].modules[].lessonCount",
+      "courses[].modules[].durationMin",
+      "courses[].saleHold",
+      "courses[].owned",
+      "courses[].learnerStatus",
+      "courses[].checkoutPath",
+      "courses[].outcomeLead",
+      "courses[].outputLead",
+      "examPassScore",
+      "ownedSlugs",
+      "clientSchema",
+      "clientSchema.timelineSchemaVersion",
+      "clientSchema.minTimelineSchemaVersion",
+    ],
+    dataSchema: railV1AcademyCatalogDataSchema,
+    errors: SESSION_ERRORS,
+  },
   "junior-tell": {
     canonicalPathTemplate: "/api/junior-pilot/tell",
     routeAuthPattern: "/api/junior-pilot/tell",
@@ -1732,6 +2054,35 @@ const RAIL_V1_HOP_CONTRACTS = {
     dataSchema: railV1JuniorQuizDataSchema,
     requestSchema: railV1JuniorQuizRequestSchema,
     errors: [...SESSION_ERRORS, RAIL_V1_JUNIOR_PRACTICE_INVALID, RAIL_V1_JUNIOR_LESSON_MISSING],
+  },
+  "junior-pilot-checkout": {
+    canonicalPathTemplate: "/api/junior-pilot/checkout",
+    routeAuthPattern: "/api/junior-pilot/checkout",
+    routeAuth: "session",
+    idempotency: true,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: [
+      "status",
+      "electiveQuota",
+      "alreadyActive",
+      "expiresAt",
+      "merchantOid",
+      "embedIframe",
+      "iframeUrl",
+    ],
+    publishedDataPaths: [
+      "status",
+      "electiveQuota",
+      "alreadyActive",
+      "expiresAt",
+      "merchantOid",
+      "embedIframe",
+      "iframeUrl",
+    ],
+    dataSchema: railV1JuniorCheckoutDataSchema,
+    requestSchema: juniorIframeCheckoutSchema,
+    errors: [...WRITE_ERRORS, CHECKOUT_LEGAL_CONSENT_REQUIRED, JUNIOR_CHECKOUT_LOCKED_ERROR],
   },
   "profile-patch": {
     canonicalPathTemplate: "/api/profile",
@@ -1839,7 +2190,20 @@ export type RailV1OpenApiDocument = {
 };
 
 function toOpenApiSchema(schema: z.ZodType): Record<string, unknown> {
-  return z.toJSONSchema(schema, { target: "openapi-3.0" }) as Record<string, unknown>;
+  try {
+    return z.toJSONSchema(schema, { target: "openapi-3.0" }) as Record<string, unknown>;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "";
+    if (!message.includes("Transforms cannot be represented")) {
+      throw error;
+    }
+    // Fatura alanı normalize dönüşümü taşır. Sözleşme istemcinin gönderdiği giriş şeklini yazar.
+    return z.toJSONSchema(schema, {
+      target: "openapi-3.0",
+      io: "input",
+      unrepresentable: "any",
+    }) as Record<string, unknown>;
+  }
 }
 
 function headerParameter(name: string, required: boolean, description: string, extra: Record<string, unknown> = {}) {
@@ -1856,7 +2220,7 @@ function hopTag(hop: RailV1Hop): string[] {
   if (hop.id.startsWith("academy") || hop.id.startsWith("career")) {
     return ["Proof"];
   }
-  if (hop.id === "wallet-strip" || hop.id === "wallet-top-up") {
+  if (hop.id === "wallet-strip" || hop.id === "wallet-top-up" || hop.id === "junior-pilot-checkout") {
     return ["Payments"];
   }
   return ["Kernel"];
@@ -2007,7 +2371,11 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
     tags: [
       { name: "Kernel", description: "Health ve oturum." },
       { name: "Proof", description: "Akademi pulse/satın alma, kariyer vizesi, kamu içerik özeti doğrulama." },
-      { name: "Payments", description: "Cüzdan şeridi ve POST /api/v1/wallet/top-up (PayTR Merchant iFrame + HMAC kasa pasaportu). Pazaryeri Split ve freelancer hop'ları yayınlanmaz." },
+      {
+        name: "Payments",
+        description:
+          "Cüzdan şeridi, POST /api/v1/wallet/top-up ve POST /api/v1/junior-pilot/checkout (PayTR Merchant iFrame). Junior kasa hop'u yayınlanır; JUNIOR_CHECKOUT_OPEN boşken satış fail-closed kalır. Pazaryeri Split ve freelancer hop'ları yayınlanmaz.",
+      },
     ],
     paths,
     components: {
@@ -2020,7 +2388,7 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
         },
       },
       schemas: {
-        // Freelancer DTO aynası BİLİNÇLİ durur. Yayınlanan hop 29, unique path 23; Marketplace tag yoktur.
+        // Freelancer DTO aynası BİLİNÇLİ durur. Yayınlanan hop 30, unique path 24; Marketplace tag yoktur.
         RailV1FailEnvelope: toOpenApiSchema(railV1FailEnvelopeSchema),
         RailV1OkEnvelope: toOpenApiSchema(railV1OkEnvelopeSchema),
         RailV1SessionUser: toOpenApiSchema(railV1SessionUserSchema),
@@ -2075,6 +2443,12 @@ export function buildRailV1OpenApiDocument(): RailV1OpenApiDocument {
         RailV1JuniorPilotPracticeData: toOpenApiSchema(railV1JuniorPilotPracticeDataSchema),
         RailV1JuniorQuizRequest: toOpenApiSchema(railV1JuniorQuizRequestSchema),
         RailV1JuniorQuizData: toOpenApiSchema(railV1JuniorQuizDataSchema),
+        RailV1JuniorCheckoutRequest: toOpenApiSchema(juniorIframeCheckoutSchema),
+        RailV1JuniorCheckoutData: toOpenApiSchema(railV1JuniorCheckoutDataSchema),
+        RailV1JuniorShelvesData: toOpenApiSchema(railV1JuniorShelvesDataSchema),
+        RailV1JuniorProgressData: toOpenApiSchema(railV1JuniorProgressDataSchema),
+        RailV1AcademyCatalogData: toOpenApiSchema(railV1AcademyCatalogDataSchema),
+        RailV1AcademyCatalogCourse: toOpenApiSchema(railV1AcademyCatalogCourseSchema),
         RailV1SessionData: toOpenApiSchema(railV1SessionDataSchema),
         RailV1WalletStripData: toOpenApiSchema(railV1WalletStripDataSchema),
         RailV1JobsData: toOpenApiSchema(railV1JobsDataSchema),

@@ -20,6 +20,7 @@ import {
   juniorLessonAccess,
   juniorLessonAccessForPlan,
   juniorCourseByLessonKey,
+  juniorCourseSealed,
   juniorElectiveOpenable,
   juniorLessonByKey,
   juniorPaidElectives,
@@ -28,8 +29,7 @@ import {
   type JuniorPlanAccess,
 } from "@/lib/junior/catalog";
 import { juniorPlanCoversLesson } from "@/lib/junior/enter";
-import { juniorProductionSealGaps } from "@/lib/junior/production-seal";
-import { mat5FullListenText } from "@/lib/junior/pilot-engine/mat-5.choreography";
+import { juniorContentSealGaps } from "@/lib/junior/production-seal";
 import { canEnterJunior, isJuniorAuditActor, type JuniorActor } from "@/lib/kernel/security/junior-gate";
 import {
   JUNIOR_AUDIO_MAX_BYTES,
@@ -42,6 +42,8 @@ import {
   JUNIOR_GRADE_SWITCH_EXHAUSTED,
   JUNIOR_GRADE_SWITCH_RIGHTS,
   JUNIOR_PAID_ACTION_ERROR,
+  JUNIOR_TELL_UNHEARD_ERROR,
+  juniorPaidActionError,
   JUNIOR_PILOT_GRADE,
   JUNIOR_PILOT_SHELF_LINE,
   JUNIOR_PRACTICE_XP,
@@ -55,6 +57,7 @@ import {
   JUNIOR_TELLS_PER_DAY,
   JUNIOR_TEXT_MAX,
   JUNIOR_TEXT_MIN,
+  isJuniorPilotTrialLesson,
   juniorAudioDecodedBytes,
   normalizeJuniorMime,
 } from "@/lib/junior/limits";
@@ -102,6 +105,7 @@ import type {
   JuniorVectorScene,
   JuniorXpView,
 } from "@/lib/junior/types";
+import { juniorQuizPack } from "@/lib/junior/quiz";
 import { awardJuniorXp, juniorBadges, nextJuniorPoints, xpUsedSince } from "@/lib/junior/xp-rules";
 
 export type JuniorFail = {
@@ -360,43 +364,43 @@ export async function switchJuniorGrade(
   return { ok: true, data: { profile: toProfileView(applied.profile) } };
 }
 
-export function readJuniorLesson(lessonKey: string, plan: JuniorPlanAccess | null = null):
-  | {
-      access: "free";
-      title: string;
-      courseTitle: string;
-      script: string;
-      scene: JuniorVectorScene;
-      steps?: readonly string[];
-      mebNote: string;
-      lifeUse: string;
-      parentNote?: string;
-      practice: JuniorPracticeItem[];
-      quiz: JuniorPracticeChoice[];
-      activities: JuniorActivityPublic[];
-      outcomes: string[];
-      /** «Hazırım, Sana Anlatayım!» yönlendirme kontrol soruları. */
-      tellGuides: string[];
-      preparing: boolean;
-    }
-  | { access: "locked"; title: string; courseTitle: string; teaser: string; preparing: boolean }
-  | { access: "missing" } {
+type JuniorLessonFreeFace = {
+  access: "free";
+  title: string;
+  courseTitle: string;
+  script: string;
+  scene: JuniorVectorScene;
+  steps?: readonly string[];
+  mebNote: string;
+  lifeUse: string;
+  parentNote?: string;
+  practice: JuniorPracticeItem[];
+  quiz: JuniorPracticeChoice[];
+  activities: JuniorActivityPublic[];
+  outcomes: string[];
+  /** «Hazırım, Sana Anlatayım!» yönlendirme kontrol soruları. */
+  tellGuides: string[];
+  preparing: boolean;
+};
+
+function juniorCourseTitleForLesson(lessonKey: string): string {
+  return (
+    juniorCourseShelves().find((course) => course.lessons.some((row) => row.key === lessonKey))?.title ??
+    "6. Sınıf"
+  );
+}
+
+/** Katalog kilidinden bağımsız ders gövdesi. Plan kararı `readJuniorLesson` içindedir. */
+function juniorLessonFreeFace(lessonKey: string): JuniorLessonFreeFace | { access: "missing" } {
   const lesson = juniorLessonByKey(lessonKey);
   if (!lesson) {
     return { access: "missing" };
   }
-  const courseTitle = juniorCourseShelves().find((course) =>
-    course.lessons.some((row) => row.key === lesson.key),
-  )?.title ?? "6. Sınıf";
-  const preparing = juniorProductionSealGaps(lesson).length > 0;
-  if (juniorLessonAccessForPlan(lesson.key, plan) !== "free") {
-    return { access: "locked", title: lesson.title, courseTitle, teaser: lesson.teaser, preparing };
-  }
   return {
     access: "free",
     title: lesson.title,
-    courseTitle,
-    script: lesson.key === "jr_06_mat-5" ? mat5FullListenText() : lesson.listenText,
+    courseTitle: juniorCourseTitleForLesson(lesson.key),
+    script: lesson.listenText,
     scene: lesson.scene,
     steps: lesson.steps ? [...lesson.steps] : undefined,
     mebNote: lesson.mebNote,
@@ -407,8 +411,45 @@ export function readJuniorLesson(lessonKey: string, plan: JuniorPlanAccess | nul
     activities: publicJuniorActivityRail(lesson.key),
     outcomes: [...lesson.outcomes],
     tellGuides: [...juniorTellGuides(lesson.key)],
-    preparing,
+    preparing: juniorContentSealGaps(lesson).length > 0,
   };
+}
+
+export function readJuniorLesson(lessonKey: string, plan: JuniorPlanAccess | null = null):
+  | JuniorLessonFreeFace
+  | { access: "locked"; title: string; courseTitle: string; teaser: string; preparing: boolean }
+  | { access: "missing" } {
+  const lesson = juniorLessonByKey(lessonKey);
+  if (!lesson) {
+    return { access: "missing" };
+  }
+  const preparing = juniorContentSealGaps(lesson).length > 0;
+  if (juniorLessonAccessForPlan(lesson.key, plan) !== "free") {
+    return {
+      access: "locked",
+      title: lesson.title,
+      courseTitle: juniorCourseTitleForLesson(lesson.key),
+      teaser: lesson.teaser,
+      preparing,
+    };
+  }
+  const face = juniorLessonFreeFace(lesson.key);
+  if (face.access !== "free") {
+    return { access: "missing" };
+  }
+  return face;
+}
+
+/**
+ * Kilitli 1. tema dersinin deneme yüzü. Katalog `locked` kalır.
+ * `jr_06_mat-1` zaten ücretsiz açılıştır; bu fonksiyon onu ikinci kez açmaz.
+ */
+export function readJuniorPilotTrialFace(lessonKey: string): JuniorLessonFreeFace | null {
+  if (!isJuniorPilotTrialLesson(lessonKey) || juniorLessonAccess(lessonKey) !== "locked") {
+    return null;
+  }
+  const face = juniorLessonFreeFace(lessonKey);
+  return face.access === "free" ? face : null;
 }
 
 const LISTEN_PROGRESS = {
@@ -506,6 +547,10 @@ export async function openJuniorLessonPlay(
   if (catalogAccess === "missing" || !juniorLessonByKey(lessonKey)) {
     return { ok: false, status: 404, error: "Bu ders yok." };
   }
+  const draftElective = juniorCourseByLessonKey(lessonKey);
+  if (draftElective?.track === "elective" && !juniorCourseSealed(draftElective)) {
+    return { ok: false, status: 403, error: JUNIOR_ELECTIVE_SOON_LESSON_ERROR };
+  }
   const profiles = await store.listProfiles(input.userId);
   const profileId =
     input.profileId?.trim() ||
@@ -581,12 +626,26 @@ export async function submitJuniorTell(
       })
     : null;
   try {
-    const gate = await gateLesson(store, input.userId, input.profileId, input.lessonKey, input.actor ?? null);
+    const now = input.now ?? new Date();
+    const prior = await store.listProgress(input.userId, input.profileId);
+    const allowPilotFreeTrial =
+      isJuniorPilotTrialLesson(input.lessonKey) &&
+      (input.mode === "speak" || input.mode === "write") &&
+      !prior.some(
+        (row) =>
+          row.lessonKey === input.lessonKey && (row.mode === "speak" || row.mode === "write"),
+      );
+    const gate = await gateLesson(
+      store,
+      input.userId,
+      input.profileId,
+      input.lessonKey,
+      input.actor ?? null,
+      allowPilotFreeTrial,
+    );
     if (!gate.ok) {
       return gate;
     }
-    const now = input.now ?? new Date();
-    const prior = await store.listProgress(input.userId, input.profileId);
     const day = startOfEuropeIstanbulDay(now);
     const tellsToday = prior.filter(
       (row) => (row.mode === "speak" || row.mode === "write") && row.createdAt >= day,
@@ -599,6 +658,10 @@ export async function submitJuniorTell(
       return clipError;
     }
     const lesson = gate.lesson;
+    const toldCourse = juniorCourseByLessonKey(lesson.key);
+    if (toldCourse?.track === "elective" && !juniorCourseSealed(toldCourse)) {
+      return { ok: false, status: 403, error: JUNIOR_ELECTIVE_SOON_LESSON_ERROR };
+    }
     const invoke = deps.invoke ?? invokeLlm;
     const llm = await invoke({
       provider: "gemini",
@@ -762,12 +825,22 @@ export async function submitJuniorQuiz(
     >
   | JuniorFail
 > {
-  const gate = await gateLesson(store, input.userId, input.profileId, input.lessonKey, input.actor ?? null);
+  const now = input.now ?? new Date();
+  const prior = await store.listProgress(input.userId, input.profileId);
+  const allowPilotFreeTrial =
+    isJuniorPilotTrialLesson(input.lessonKey) &&
+    !prior.some((row) => row.lessonKey === input.lessonKey && row.mode === "quiz");
+  const gate = await gateLesson(
+    store,
+    input.userId,
+    input.profileId,
+    input.lessonKey,
+    input.actor ?? null,
+    allowPilotFreeTrial,
+  );
   if (!gate.ok) {
     return gate;
   }
-  const now = input.now ?? new Date();
-  const prior = await store.listProgress(input.userId, input.profileId);
   const graded = gradeJuniorTopicQuiz(input.lessonKey, input.answers);
   if (!graded) {
     return { ok: false, status: 403, error: JUNIOR_QUIZ_PREPARING_LABEL };
@@ -820,6 +893,7 @@ async function gateLesson(
   profileId: string,
   lessonKey: string,
   actor: JuniorActor | null,
+  allowPilotFreeTrial = false,
 ): Promise<
   | { ok: true; lesson: NonNullable<ReturnType<typeof juniorLessonByKey>>; profile: { birthYear: number } }
   | JuniorFail
@@ -850,12 +924,24 @@ async function gateLesson(
   if (access === "missing" || (!decision.allow && decision.reason === "missing")) {
     return { ok: false, status: 404, error: "Bu ders yok." };
   }
-  if (!decision.allow) {
+  const trialBypass = allowPilotFreeTrial && isJuniorPilotTrialLesson(lessonKey);
+  const sealedCourse = juniorCourseByLessonKey(lessonKey);
+  if (sealedCourse?.track === "elective" && !juniorCourseSealed(sealedCourse)) {
+    return { ok: false, status: 403, error: JUNIOR_ELECTIVE_SOON_LESSON_ERROR };
+  }
+  if (!decision.allow && !trialBypass) {
     if (access === "locked") {
       // Mühürü tamamlanmamış seçmeli paket kapsamında açılmaz (T-06 / T-15).
       const course = juniorCourseByLessonKey(lessonKey);
       if (course?.track === "elective" && !juniorElectiveOpenable(course)) {
         return { ok: false, status: 403, error: JUNIOR_ELECTIVE_SOON_LESSON_ERROR };
+      }
+      if (isJuniorPilotTrialLesson(lessonKey)) {
+        return {
+          ok: false,
+          status: 403,
+          error: juniorPaidActionError(juniorQuizPack(lessonKey)?.questions.length) || JUNIOR_PAID_ACTION_ERROR,
+        };
       }
       return {
         ok: false,
@@ -865,7 +951,11 @@ async function gateLesson(
           : "Bu konu veli girişi ve yıllık paket ister.",
       };
     }
-    return { ok: false, status: 403, error: JUNIOR_PAID_ACTION_ERROR };
+    return {
+      ok: false,
+      status: 403,
+      error: juniorPaidActionError(juniorQuizPack(lessonKey)?.questions.length) || JUNIOR_PAID_ACTION_ERROR,
+    };
   }
   const lesson = juniorLessonByKey(lessonKey);
   if (!lesson) {
@@ -958,6 +1048,158 @@ async function commitFeedback(
       xpAwarded: saved.progress.xpAwarded,
       points: saved.xp.points,
       badges: saved.xp.badges,
+    },
+  };
+}
+
+/**
+ * 1. tema deneme kancası için misafir/ücretsiz kullanıcıya 1 defalık sesli anlatış.
+ * Ses saklanmaz (`wipeAudioCarrier`), yaş grubu 10-12 (6. sınıf pilot) varsayılır.
+ */
+export async function evaluateJuniorGuestPilotTrialTell(
+  input: {
+    userId: string;
+    lessonKey: string;
+    mode?: JuniorTellMode;
+    text?: string;
+    audioBase64?: string;
+    mimeType?: string;
+    durationSec?: number;
+    now?: Date;
+  },
+  deps: { invoke?: InvokeTell } = {},
+): Promise<JuniorOk<JuniorFeedback & { trial: true }> | JuniorFail> {
+  const mode: JuniorTellMode = input.mode ?? "speak";
+  const audioCarrier = { audioBase64: input.audioBase64 ?? "" };
+  const inline =
+    mode === "speak" && input.audioBase64
+      ? juniorInlineAudio({
+          mimeType: normalizeJuniorMime(input.mimeType ?? ""),
+          dataBase64: input.audioBase64,
+        })
+      : null;
+  try {
+    if (!isJuniorPilotTrialLesson(input.lessonKey)) {
+      return {
+        ok: false,
+        status: 403,
+        error:
+          juniorPaidActionError(juniorQuizPack(input.lessonKey)?.questions.length) || JUNIOR_PAID_ACTION_ERROR,
+      };
+    }
+    const lesson = juniorLessonByKey(input.lessonKey);
+    if (!lesson) {
+      return { ok: false, status: 404, error: "Bu ders yok." };
+    }
+    const clipError = validateTellClip({
+      mode,
+      text: input.text,
+      audioBase64: input.audioBase64,
+      mimeType: input.mimeType,
+      durationSec: input.durationSec,
+    });
+    if (clipError) {
+      return clipError;
+    }
+    const now = input.now ?? new Date();
+    const invoke = deps.invoke ?? invokeLlm;
+    let reading: { praised: string; missing: string; advice: string; score: number } | null = null;
+    try {
+      const llm = await invoke({
+        provider: "gemini",
+        role: JUNIOR_TELL_ROLE,
+        model: juniorTellModelId(),
+        system: juniorTellSystemPrompt({
+          title: lesson.title,
+          outcomes: lesson.outcomes,
+          birthYear: now.getFullYear() - 11,
+          now,
+          tellGuides: juniorTellGuides(lesson.key),
+        }),
+        user: juniorTellUserText({ mode, text: input.text }),
+        inlineMedia: inline ? [inline] : undefined,
+        temperature: 0.2,
+        maxOutputTokens: 400,
+        responseJson: true,
+        rateLimit: {
+          identifier: input.userId,
+          scope: "junior-tell-trial",
+          limit: 2,
+          windowMs: 24 * 60 * 60 * 1000,
+        },
+        billing: {
+          userId: input.userId,
+          source: AI_TOKEN_SOURCES.JUNIOR,
+          recordUsage: false,
+        },
+      });
+      if (llm) {
+        reading = parseJuniorTellJson(llm.text);
+      }
+    } catch {
+      reading = null;
+    }
+    if (!reading) {
+      return { ok: false, status: 503, error: JUNIOR_TELL_UNHEARD_ERROR };
+    }
+    return {
+      ok: true,
+      data: {
+        praised: reading.praised,
+        missing: reading.missing,
+        advice: reading.advice,
+        score: reading.score,
+        xpAwarded: JUNIOR_TELL_XP,
+        points: JUNIOR_TELL_XP,
+        badges: ["ilk-anlatis"],
+        trial: true,
+      },
+    };
+  } finally {
+    wipeAudioCarrier(audioCarrier);
+    wipeAudioCarrier(inline);
+    input.audioBase64 = "";
+  }
+}
+
+/**
+ * 1. tema deneme kancası için misafir/ücretsiz kullanıcıya 1 defalık konu kontrolü.
+ * Puanlama sunucuda yapılır; cevap anahtarı istemciye sızmaz (A4).
+ */
+export function evaluateJuniorGuestPilotTrialQuiz(input: {
+  lessonKey: string;
+  answers: readonly JuniorPracticeAnswer[];
+}):
+  | JuniorOk<{
+      correct: number;
+      total: number;
+      score: number;
+      completed: boolean;
+      notes: JuniorTopicQuizNote[];
+      trial: true;
+    }>
+  | JuniorFail {
+  if (!isJuniorPilotTrialLesson(input.lessonKey)) {
+    return {
+      ok: false,
+      status: 403,
+      error: juniorPaidActionError(juniorQuizPack(input.lessonKey)?.questions.length) || JUNIOR_PAID_ACTION_ERROR,
+    };
+  }
+  const graded = gradeJuniorTopicQuiz(input.lessonKey, input.answers);
+  if (!graded) {
+    return { ok: false, status: 403, error: JUNIOR_QUIZ_PREPARING_LABEL };
+  }
+  const completed = graded.score >= JUNIOR_QUIZ_PASS_SCORE;
+  return {
+    ok: true,
+    data: {
+      correct: graded.correct,
+      total: graded.total,
+      score: graded.score,
+      completed,
+      notes: graded.notes,
+      trial: true,
     },
   };
 }

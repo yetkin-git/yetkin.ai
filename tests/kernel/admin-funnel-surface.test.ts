@@ -486,13 +486,16 @@ describe("admin B2C kazanım hunisi", () => {
 
     const topUp = readSrc("app/api/(kernel)/wallet/top-up/route.ts");
     const iframeAt = topUp.indexOf("const iframeUrl");
-    const intentAt = topUp.indexOf("recordFunnelDailyStep(FUNNEL_CHECKOUT_INTENT_STEP)");
+    // Niyet tek evden yazılır: `recordCheckoutIntentStep` (içi `recordFunnelDailyStep`).
+    const intentAt = topUp.indexOf("recordCheckoutIntentStep({");
     expect(iframeAt).toBeGreaterThan(-1);
     expect(intentAt).toBeGreaterThan(iframeAt);
-    expect(topUp).toContain("courseSlug && (iframeUrl || checkoutPassportUrl)");
+    expect(topUp).toContain("iframeUrl || checkoutPassportUrl");
     const mockAt = topUp.indexOf("shouldFailCloseMockTopUp(checkout.mockCheckout)");
     expect(mockAt).toBeGreaterThan(-1);
     expect(mockAt).toBeLessThan(intentAt);
+    // İkinci INSERT yok: sayaç `recordFunnelDailyStep` üzerinden gider.
+    expect(topUp).not.toContain("INSERT INTO funnel_daily_counters");
 
     const documentHit = readSrc("lib/kernel/admin/funnel-document-hit.ts");
     expect(documentHit).toContain("prefetch");

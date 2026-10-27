@@ -1,0 +1,24 @@
+{
+  "key": "jr_06_fra-2",
+  "title": "Adını sormak",
+  "teaser": "Comment tu t'appelles, adını sorar. Je m'appelle, adını söyler. Kavramsal Anlayış, soru ile cevabı ayırır. İfade Gücü, adını Je m'appelle ile kurmandır.",
+  "welcome": "Bugün seninle Fransızcada ad sormayı öğreneceğiz.",
+  "concept": "Bugün seninle Fransızca ad kalıbı var. Comment tu t'appelles, adın ne demektir. Cevap Je m'appelle ile kurulur. Ad, kalıbın ardına gelir. Selam, sorudan önce durur.\n\nHatırlarsan, Bonjour gün içinin selamıydı. Hadi şimdi ekrandaki çizime birlikte bakalım! Önce Bonjour. Sonra Comment tu t'appelles. Cevap Je m'appelle ve ad.\n\nTuzaklara Düşme! Birlikte bakalım. M'appelle sözünü yalnız bırakma. Je düşerse cümle eksik kalır. Soruyu tekrar etmek, adını söylemek değildir.",
+  "example": "Comment tu t'appelles sorusu, adın ne demektir. Cevap Je m'appelle ile başlar. Ardından adın gelir. Hadi şimdi ekrandaki çizime birlikte bakalım! Arkadaşın soruyu soruyor. Sen Je m'appelle ile kendi adını söylüyorsun. Soru ad bekler. Cevap adı koyar. Hatırlarsan, önce Bonjour denmişti. Selamdan sonra adı sorarsın. Tuzaklara Düşme! Birlikte bakalım. Appelle tek başına cevap olmaz. Je m'appelle ile başla. Sorudaki tu sözünü cevapta bırakma.",
+  "warning": "Appelle tek başına cevap olmaz.",
+  "life": "Yeni bir grupta önce Bonjour dersin. Sonra Comment tu t'appelles diye sorarsın. Karşındaki Je m'appelle ile adını söyler. Hatırlarsan, soru ile cevap ayrıydı. Sen de kendi adını aynı kalıpla söylersin. Tuzaklara Düşme! Birlikte bakalım. Yalnız adını söylemek cümleyi eksik bırakır.",
+  "recap": [
+    "Comment tu t'appelles, adını sorar.",
+    "Je m'appelle, adını söyler.",
+    "Soru adı ister. Je m'appelle adı söyler."
+  ],
+  "conceptSeal": "Soru adı ister. Je m'appelle adı söyler.",
+  "voiceSeal": "Adını Je m'appelle kalıbıyla nasıl kurduğunu söylersin.",
+  "outcomes": [
+    "Comment tu t'appelles, adını sorar.",
+    "Je m'appelle, adını söyler."
+  ],
+  "scene": "elective",
+  "hint": "trap",
+  "band": "draft"
+}

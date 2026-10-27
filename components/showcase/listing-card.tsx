@@ -14,6 +14,7 @@ export function ListingCard({
   title,
   summary,
   footnote,
+  hold,
   price,
   priceCaption,
   badge,
@@ -40,6 +41,7 @@ export function ListingCard({
   summaryClamp = 2,
   hitAriaExtra,
   coverSrc,
+  coverAlt,
   coverComingSoon = false,
   comingSoonLabel,
   coverPriority = false,
@@ -51,6 +53,8 @@ export function ListingCard({
   summary: string;
   /** Kart gövdesinde özetin altında, satır tavanına takılmayan not. */
   footnote?: string;
+  /** Kapalı kaydın nedeni. Satın alınabilir kartta boştur. */
+  hold?: string | null;
   price?: string;
   /** Fiyatın altında küçük ipucu (örn. KDV dahil). */
   priceCaption?: string;
@@ -89,6 +93,12 @@ export function ListingCard({
   hitAriaExtra?: string;
   /** Tur 3 kapak posteri — ızgara kartında üst plaka. */
   coverSrc?: string | null;
+  /**
+   * Kapak `alt` metni. Boş bırakılırsa başlıktan türetilir: kart başlığı aynı
+   * kartta H3 olarak durur, ama kapak ayrı bir görseldir ve arama görsellerinde
+   * başlıksız indekslenmemelidir. `alt=""` yalnız gerçek süs görseller içindir.
+   */
+  coverAlt?: string;
   /** Taze ingest yok — şeffaf Yakında plakası; marka Y mührü basılmaz. */
   coverComingSoon?: boolean;
   comingSoonLabel?: string;
@@ -174,6 +184,11 @@ export function ListingCard({
           {footnote}
         </p>
       ) : null}
+      {hold ? (
+        <p className="mt-2 text-sm font-medium leading-5 text-[var(--foreground)]" data-academy-sale-hold="">
+          {hold}
+        </p>
+      ) : null}
       {meta ? <p className="mt-3 text-xs text-[var(--muted)] sm:mt-2">{meta}</p> : null}
     </div>
   );
@@ -218,7 +233,12 @@ export function ListingCard({
           {cta}
         </LinkButton>
       ) : hit === "card" && cta ? (
-        <div className="flex shrink-0 flex-col items-stretch gap-2 sm:items-end">
+        <div
+          className={cn(
+            "flex shrink-0 flex-col items-stretch gap-2 sm:items-end",
+            secondaryHref && secondaryCta && "sm:flex-row sm:flex-wrap sm:items-center sm:justify-end",
+          )}
+        >
           <span
             className={buttonClassName(
               ctaVariant,
@@ -285,7 +305,7 @@ export function ListingCard({
           {cinemaCover && coverSrc ? (
             <CourseCoverImage
               src={coverSrc}
-              alt=""
+              alt={coverAlt?.trim() || title}
               fill
               eager={coverPriority}
               highPriority={coverPriority}

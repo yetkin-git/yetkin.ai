@@ -6,6 +6,7 @@ import { createPrismaHttpIdempotencyStore } from "@/lib/kernel/http/prisma-idemp
 import { requireRailV1IdempotencyKey } from "@/lib/kernel/http/v1-runtime-shield";
 import { railV1JuniorLessonPracticeRequestSchema } from "@/lib/kernel/http/v1-contract";
 import { juniorLessonStatus } from "@/lib/junior/chain";
+import { canonicalJuniorLessonKey } from "@/lib/junior/lesson-key-alias";
 import { createPrismaJuniorStore } from "@/lib/junior/load";
 import { submitJuniorPractice } from "@/lib/junior/service";
 
@@ -24,7 +25,7 @@ export async function POST(
       return idempotency.response;
     }
     const { key } = await context.params;
-    const lessonKey = key.trim();
+    const lessonKey = canonicalJuniorLessonKey(key);
     const parsed = railV1JuniorLessonPracticeRequestSchema.safeParse(await request.json().catch(() => ({})));
     if (!parsed.success) {
       return jsonFail("Cevaplar okunamadı.", 400, requestId, request);

@@ -1,0 +1,2479 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_turkce-8",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Paragrafta ana fikir ve konu",
+  "grade": 6,
+  "subject": "Türkçe",
+  "teacher": {
+    "name": "Elif",
+    "voice": "Aoede",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_turkce-8.mp3",
+    "durationMs": 419293,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 105320
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 105320,
+      "endMs": 344870
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 344870,
+      "endMs": 419293
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4850,
+      "pauseAfterMs": 100,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 250,
+          "endMs": 850
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 1360,
+          "endMs": 2600
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 3190,
+          "endMs": 3500
+        },
+        {
+          "word": "hoş",
+          "startMs": 3620,
+          "endMs": 3940
+        },
+        {
+          "word": "geldiniz",
+          "startMs": 4060,
+          "endMs": 4750
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Paragrafta ana fikir ve konu",
+            "subtitle": "Türkçe",
+            "ruleBadges": [],
+            "echoPrompt": "Bir paragrafta konuyu ve ana fikri ayrı cümlelerle söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Konu, metinde ne anlatıldığını söyler ve yargı taşımaz."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Ana fikir, yazarın okura vermek istediği asıl mesajdır ve tam bir cümledir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Örnekler ve ayrıntılar ana fikri destekler ama onun yerine geçemez."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4850,
+      "endMs": 8700,
+      "pauseAfterMs": 900,
+      "text": "Ben Türkçe öğretmenin Elif.",
+      "markedText": "Ben Türkçe öğretmenin Elif.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4850,
+          "endMs": 5160
+        },
+        {
+          "word": "Türkçe",
+          "startMs": 5450,
+          "endMs": 6170
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6360,
+          "endMs": 7370
+        },
+        {
+          "word": "Elif.",
+          "startMs": 7450,
+          "endMs": 7800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8700,
+      "endMs": 22790,
+      "pauseAfterMs": 840,
+      "text": "Bir paragrafın kalbine inmeyi ve yazarın asıl mesajını tek bir hamlede yakalamayı öğreneceğiz.",
+      "markedText": "Bir paragrafın kalbine inmeyi ve yazarın asıl mesajını tek bir hamlede yakalamayı öğreneceğiz.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 8700,
+          "endMs": 9000
+        },
+        {
+          "word": "paragrafın",
+          "startMs": 9120,
+          "endMs": 10250
+        },
+        {
+          "word": "kalbine",
+          "startMs": 10930,
+          "endMs": 11480
+        },
+        {
+          "word": "inmeyi",
+          "startMs": 12740,
+          "endMs": 13380
+        },
+        {
+          "word": "ve",
+          "startMs": 13380,
+          "endMs": 13540
+        },
+        {
+          "word": "yazarın",
+          "startMs": 13620,
+          "endMs": 14530
+        },
+        {
+          "word": "asıl",
+          "startMs": 15510,
+          "endMs": 16100
+        },
+        {
+          "word": "mesajını",
+          "startMs": 16450,
+          "endMs": 17020
+        },
+        {
+          "word": "tek",
+          "startMs": 17380,
+          "endMs": 17510
+        },
+        {
+          "word": "bir",
+          "startMs": 17590,
+          "endMs": 18050
+        },
+        {
+          "word": "hamlede",
+          "startMs": 18370,
+          "endMs": 19200
+        },
+        {
+          "word": "yakalamayı",
+          "startMs": 19310,
+          "endMs": 20300
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 20720,
+          "endMs": 21950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 22790,
+      "endMs": 40760,
+      "pauseAfterMs": 290,
+      "text": "Hiç uzun bir yazıyı okuduktan sonra arkadaşın bu yazı ne anlatıyor diye sorduğunda tek bir cümleyle özetledin mi?",
+      "markedText": "Hiç uzun bir yazıyı okuduktan sonra arkadaşın bu yazı ne anlatıyor diye sorduğunda tek bir cümleyle özetledin mi?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 22790,
+          "endMs": 22960
+        },
+        {
+          "word": "uzun",
+          "startMs": 22960,
+          "endMs": 23520
+        },
+        {
+          "word": "bir",
+          "startMs": 23710,
+          "endMs": 24860
+        },
+        {
+          "word": "yazıyı",
+          "startMs": 25260,
+          "endMs": 25800
+        },
+        {
+          "word": "okuduktan",
+          "startMs": 26060,
+          "endMs": 27130
+        },
+        {
+          "word": "sonra",
+          "startMs": 27360,
+          "endMs": 28060
+        },
+        {
+          "word": "arkadaşın",
+          "startMs": 28770,
+          "endMs": 29500
+        },
+        {
+          "word": "bu",
+          "startMs": 29690,
+          "endMs": 29930
+        },
+        {
+          "word": "yazı",
+          "startMs": 29930,
+          "endMs": 30350
+        },
+        {
+          "word": "ne",
+          "startMs": 30800,
+          "endMs": 31190
+        },
+        {
+          "word": "anlatıyor",
+          "startMs": 31190,
+          "endMs": 32430
+        },
+        {
+          "word": "diye",
+          "startMs": 32550,
+          "endMs": 33500
+        },
+        {
+          "word": "sorduğunda",
+          "startMs": 34500,
+          "endMs": 35310
+        },
+        {
+          "word": "tek",
+          "startMs": 35880,
+          "endMs": 36060
+        },
+        {
+          "word": "bir",
+          "startMs": 36280,
+          "endMs": 36850
+        },
+        {
+          "word": "cümleyle",
+          "startMs": 37410,
+          "endMs": 38510
+        },
+        {
+          "word": "özetledin",
+          "startMs": 38730,
+          "endMs": 39310
+        },
+        {
+          "word": "mi?",
+          "startMs": 39800,
+          "endMs": 40470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 40760,
+      "endMs": 51670,
+      "pauseAfterMs": 760,
+      "text": "Yazarın anlattığı alan konudur; bize vermek istediği asıl ders ise ana fikirdir.",
+      "markedText": "Yazarın anlattığı alan konudur; bize vermek istediği asıl ders ise ana fikirdir.",
+      "words": [
+        {
+          "word": "Yazarın",
+          "startMs": 40760,
+          "endMs": 41270
+        },
+        {
+          "word": "anlattığı",
+          "startMs": 41350,
+          "endMs": 42410
+        },
+        {
+          "word": "alan",
+          "startMs": 42680,
+          "endMs": 43010
+        },
+        {
+          "word": "konudur;",
+          "startMs": 43010,
+          "endMs": 43940
+        },
+        {
+          "word": "bize",
+          "startMs": 44610,
+          "endMs": 45010
+        },
+        {
+          "word": "vermek",
+          "startMs": 45010,
+          "endMs": 45530
+        },
+        {
+          "word": "istediği",
+          "startMs": 46120,
+          "endMs": 46890
+        },
+        {
+          "word": "asıl",
+          "startMs": 47200,
+          "endMs": 47660
+        },
+        {
+          "word": "ders",
+          "startMs": 48430,
+          "endMs": 48760
+        },
+        {
+          "word": "ise",
+          "startMs": 48890,
+          "endMs": 49160
+        },
+        {
+          "word": "ana",
+          "startMs": 49220,
+          "endMs": 49690
+        },
+        {
+          "word": "fikirdir.",
+          "startMs": 49990,
+          "endMs": 50910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 51670,
+      "endMs": 61930,
+      "pauseAfterMs": 530,
+      "text": "Konu ile ana fikri birbirinden ayıran altın anahtarları keşfedeceğiz.",
+      "markedText": "Konu ile ana fikri birbirinden ayıran altın anahtarları keşfedeceğiz.",
+      "words": [
+        {
+          "word": "Konu",
+          "startMs": 51670,
+          "endMs": 51960
+        },
+        {
+          "word": "ile",
+          "startMs": 52370,
+          "endMs": 52920
+        },
+        {
+          "word": "ana",
+          "startMs": 53170,
+          "endMs": 53680
+        },
+        {
+          "word": "fikri",
+          "startMs": 54390,
+          "endMs": 54980
+        },
+        {
+          "word": "birbirinden",
+          "startMs": 55140,
+          "endMs": 56520
+        },
+        {
+          "word": "ayıran",
+          "startMs": 56840,
+          "endMs": 57400
+        },
+        {
+          "word": "altın",
+          "startMs": 57730,
+          "endMs": 58240
+        },
+        {
+          "word": "anahtarları",
+          "startMs": 58510,
+          "endMs": 59770
+        },
+        {
+          "word": "keşfedeceğiz.",
+          "startMs": 60060,
+          "endMs": 61400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 61930,
+      "endMs": 80230,
+      "pauseAfterMs": 410,
+      "text": "Bir arkadaşınla izlediğin bir filmi konuşurken konusu uzay yolculuğudur dersin; ana fikri ise dostluk her engeli aşar yargısıdır.",
+      "markedText": "Bir arkadaşınla izlediğin bir filmi konuşurken konusu uzay yolculuğudur dersin; ana fikri ise dostluk her engeli aşar yargısıdır.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 61930,
+          "endMs": 62110
+        },
+        {
+          "word": "arkadaşınla",
+          "startMs": 62160,
+          "endMs": 63930
+        },
+        {
+          "word": "izlediğin",
+          "startMs": 64220,
+          "endMs": 65490
+        },
+        {
+          "word": "bir",
+          "startMs": 65780,
+          "endMs": 65970
+        },
+        {
+          "word": "filmi",
+          "startMs": 66560,
+          "endMs": 67050
+        },
+        {
+          "word": "konuşurken",
+          "startMs": 67400,
+          "endMs": 68320
+        },
+        {
+          "word": "konusu",
+          "startMs": 68540,
+          "endMs": 69750
+        },
+        {
+          "word": "uzay",
+          "startMs": 70650,
+          "endMs": 71160
+        },
+        {
+          "word": "yolculuğudur",
+          "startMs": 71350,
+          "endMs": 72640
+        },
+        {
+          "word": "dersin;",
+          "startMs": 72900,
+          "endMs": 73770
+        },
+        {
+          "word": "ana",
+          "startMs": 74590,
+          "endMs": 74950
+        },
+        {
+          "word": "fikri",
+          "startMs": 75060,
+          "endMs": 75430
+        },
+        {
+          "word": "ise",
+          "startMs": 75700,
+          "endMs": 76050
+        },
+        {
+          "word": "dostluk",
+          "startMs": 76590,
+          "endMs": 77050
+        },
+        {
+          "word": "her",
+          "startMs": 77130,
+          "endMs": 77200
+        },
+        {
+          "word": "engeli",
+          "startMs": 77270,
+          "endMs": 78050
+        },
+        {
+          "word": "aşar",
+          "startMs": 78140,
+          "endMs": 78440
+        },
+        {
+          "word": "yargısıdır.",
+          "startMs": 78540,
+          "endMs": 79820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 80230,
+      "endMs": 105320,
+      "pauseAfterMs": 220,
+      "text": "Bir kompozisyon yazarken önce konunu belirler, sonra okuyucuna vermek istediğin ana fikri zihninde netleştirirsen yazdığın her satır etkileyici olur.",
+      "markedText": "Bir kompozisyon yazarken önce konunu belirler, sonra okuyucuna vermek istediğin ana fikri zihninde netleştirirsen yazdığın her satır etkileyici olur.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 80230,
+          "endMs": 80570
+        },
+        {
+          "word": "kompozisyon",
+          "startMs": 80850,
+          "endMs": 82010
+        },
+        {
+          "word": "yazarken",
+          "startMs": 82320,
+          "endMs": 83020
+        },
+        {
+          "word": "önce",
+          "startMs": 83180,
+          "endMs": 83850
+        },
+        {
+          "word": "konunu",
+          "startMs": 84420,
+          "endMs": 85300
+        },
+        {
+          "word": "belirler,",
+          "startMs": 85640,
+          "endMs": 86540
+        },
+        {
+          "word": "sonra",
+          "startMs": 87850,
+          "endMs": 88550
+        },
+        {
+          "word": "okuyucuna",
+          "startMs": 88550,
+          "endMs": 89910
+        },
+        {
+          "word": "vermek",
+          "startMs": 90590,
+          "endMs": 91140
+        },
+        {
+          "word": "istediğin",
+          "startMs": 91300,
+          "endMs": 92890
+        },
+        {
+          "word": "ana",
+          "startMs": 93410,
+          "endMs": 93690
+        },
+        {
+          "word": "fikri",
+          "startMs": 93770,
+          "endMs": 94350
+        },
+        {
+          "word": "zihninde",
+          "startMs": 94600,
+          "endMs": 95650
+        },
+        {
+          "word": "netleştirirsen",
+          "startMs": 95890,
+          "endMs": 97780
+        },
+        {
+          "word": "yazdığın",
+          "startMs": 98240,
+          "endMs": 99100
+        },
+        {
+          "word": "her",
+          "startMs": 99640,
+          "endMs": 100690
+        },
+        {
+          "word": "satır",
+          "startMs": 101270,
+          "endMs": 102430
+        },
+        {
+          "word": "etkileyici",
+          "startMs": 103030,
+          "endMs": 104340
+        },
+        {
+          "word": "olur.",
+          "startMs": 104740,
+          "endMs": 105100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-2",
+      "startMs": 105320,
+      "endMs": 120580,
+      "pauseAfterMs": 880,
+      "text": "Paragrafın konusu, yazarın yazısında ele aldığı, üzerinde durduğu olay, durum veya kavramdır.",
+      "markedText": "Paragrafın konusu, yazarın yazısında ele aldığı, üzerinde durduğu olay, durum veya kavramdır.",
+      "words": [
+        {
+          "word": "Paragrafın",
+          "startMs": 105320,
+          "endMs": 106170
+        },
+        {
+          "word": "konusu,",
+          "startMs": 106600,
+          "endMs": 107830
+        },
+        {
+          "word": "yazarın",
+          "startMs": 108470,
+          "endMs": 109240
+        },
+        {
+          "word": "yazısında",
+          "startMs": 110190,
+          "endMs": 111070
+        },
+        {
+          "word": "ele",
+          "startMs": 111250,
+          "endMs": 111620
+        },
+        {
+          "word": "aldığı,",
+          "startMs": 111720,
+          "endMs": 112940
+        },
+        {
+          "word": "üzerinde",
+          "startMs": 113620,
+          "endMs": 115090
+        },
+        {
+          "word": "durduğu",
+          "startMs": 115500,
+          "endMs": 116250
+        },
+        {
+          "word": "olay,",
+          "startMs": 116500,
+          "endMs": 117390
+        },
+        {
+          "word": "durum",
+          "startMs": 117900,
+          "endMs": 118020
+        },
+        {
+          "word": "veya",
+          "startMs": 118060,
+          "endMs": 118350
+        },
+        {
+          "word": "kavramdır.",
+          "startMs": 118350,
+          "endMs": 119700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-2",
+      "startMs": 120580,
+      "endMs": 139140,
+      "pauseAfterMs": 290,
+      "text": "Yazar ne anlatıyor sorusunun cevabıdır ve genellikle birkaç kelimelik bir söz öbeğidir; yargı bildirmez.",
+      "markedText": "Yazar ne anlatıyor sorusunun cevabıdır ve genellikle birkaç kelimelik bir söz öbeğidir; yargı bildirmez.",
+      "words": [
+        {
+          "word": "Yazar",
+          "startMs": 120580,
+          "endMs": 121290
+        },
+        {
+          "word": "ne",
+          "startMs": 121840,
+          "endMs": 122000
+        },
+        {
+          "word": "anlatıyor",
+          "startMs": 122200,
+          "endMs": 123770
+        },
+        {
+          "word": "sorusunun",
+          "startMs": 124610,
+          "endMs": 126070
+        },
+        {
+          "word": "cevabıdır",
+          "startMs": 126270,
+          "endMs": 127620
+        },
+        {
+          "word": "ve",
+          "startMs": 127920,
+          "endMs": 128110
+        },
+        {
+          "word": "genellikle",
+          "startMs": 128340,
+          "endMs": 130200
+        },
+        {
+          "word": "birkaç",
+          "startMs": 130800,
+          "endMs": 131190
+        },
+        {
+          "word": "kelimelik",
+          "startMs": 131530,
+          "endMs": 132550
+        },
+        {
+          "word": "bir",
+          "startMs": 132620,
+          "endMs": 133050
+        },
+        {
+          "word": "söz",
+          "startMs": 133820,
+          "endMs": 134550
+        },
+        {
+          "word": "öbeğidir;",
+          "startMs": 134800,
+          "endMs": 135740
+        },
+        {
+          "word": "yargı",
+          "startMs": 136610,
+          "endMs": 137710
+        },
+        {
+          "word": "bildirmez.",
+          "startMs": 138070,
+          "endMs": 138850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 139140,
+      "endMs": 147350,
+      "pauseAfterMs": 530,
+      "text": "Kitap okumanın yararları bir konudur.",
+      "markedText": "Kitap okumanın yararları bir konudur.",
+      "words": [
+        {
+          "word": "Kitap",
+          "startMs": 139140,
+          "endMs": 139840
+        },
+        {
+          "word": "okumanın",
+          "startMs": 140370,
+          "endMs": 141840
+        },
+        {
+          "word": "yararları",
+          "startMs": 142750,
+          "endMs": 143620
+        },
+        {
+          "word": "bir",
+          "startMs": 144610,
+          "endMs": 144840
+        },
+        {
+          "word": "konudur.",
+          "startMs": 145370,
+          "endMs": 146820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 147350,
+      "endMs": 162620,
+      "pauseAfterMs": 1180,
+      "text": "Ana fikir yani ana düşünce ise yazarın okuyucuya iletmek istediği asıl mesaj, vermek istediği derstir.",
+      "markedText": "Ana fikir yani ana düşünce ise yazarın okuyucuya iletmek istediği asıl mesaj, vermek istediği derstir.",
+      "words": [
+        {
+          "word": "Ana",
+          "startMs": 147350,
+          "endMs": 147630
+        },
+        {
+          "word": "fikir",
+          "startMs": 147880,
+          "endMs": 148670
+        },
+        {
+          "word": "yani",
+          "startMs": 148770,
+          "endMs": 149110
+        },
+        {
+          "word": "ana",
+          "startMs": 149210,
+          "endMs": 149510
+        },
+        {
+          "word": "düşünce",
+          "startMs": 149730,
+          "endMs": 150620
+        },
+        {
+          "word": "ise",
+          "startMs": 151310,
+          "endMs": 151540
+        },
+        {
+          "word": "yazarın",
+          "startMs": 152120,
+          "endMs": 152710
+        },
+        {
+          "word": "okuyucuya",
+          "startMs": 152980,
+          "endMs": 153980
+        },
+        {
+          "word": "iletmek",
+          "startMs": 154260,
+          "endMs": 155200
+        },
+        {
+          "word": "istediği",
+          "startMs": 155680,
+          "endMs": 156650
+        },
+        {
+          "word": "asıl",
+          "startMs": 157260,
+          "endMs": 157510
+        },
+        {
+          "word": "mesaj,",
+          "startMs": 157860,
+          "endMs": 158420
+        },
+        {
+          "word": "vermek",
+          "startMs": 158420,
+          "endMs": 159020
+        },
+        {
+          "word": "istediği",
+          "startMs": 159600,
+          "endMs": 160120
+        },
+        {
+          "word": "derstir.",
+          "startMs": 160350,
+          "endMs": 161440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 162620,
+      "endMs": 181100,
+      "pauseAfterMs": 810,
+      "text": "Yazar bu metni ne amaçla yazdı veya yazar ne demek istiyor sorusunun cevabıdır ve mutlaka tam bir yargı cümlesidir.",
+      "markedText": "Yazar bu metni ne amaçla yazdı veya yazar ne demek istiyor sorusunun cevabıdır ve mutlaka tam bir yargı cümlesidir.",
+      "words": [
+        {
+          "word": "Yazar",
+          "startMs": 162620,
+          "endMs": 163070
+        },
+        {
+          "word": "bu",
+          "startMs": 163150,
+          "endMs": 163400
+        },
+        {
+          "word": "metni",
+          "startMs": 163400,
+          "endMs": 163840
+        },
+        {
+          "word": "ne",
+          "startMs": 163920,
+          "endMs": 164860
+        },
+        {
+          "word": "amaçla",
+          "startMs": 165180,
+          "endMs": 165500
+        },
+        {
+          "word": "yazdı",
+          "startMs": 165610,
+          "endMs": 167000
+        },
+        {
+          "word": "veya",
+          "startMs": 167560,
+          "endMs": 168370
+        },
+        {
+          "word": "yazar",
+          "startMs": 168650,
+          "endMs": 169020
+        },
+        {
+          "word": "ne",
+          "startMs": 169220,
+          "endMs": 169510
+        },
+        {
+          "word": "demek",
+          "startMs": 169510,
+          "endMs": 170850
+        },
+        {
+          "word": "istiyor",
+          "startMs": 171570,
+          "endMs": 172090
+        },
+        {
+          "word": "sorusunun",
+          "startMs": 172180,
+          "endMs": 174130
+        },
+        {
+          "word": "cevabıdır",
+          "startMs": 174410,
+          "endMs": 175420
+        },
+        {
+          "word": "ve",
+          "startMs": 176040,
+          "endMs": 176210
+        },
+        {
+          "word": "mutlaka",
+          "startMs": 176480,
+          "endMs": 177170
+        },
+        {
+          "word": "tam",
+          "startMs": 177540,
+          "endMs": 177710
+        },
+        {
+          "word": "bir",
+          "startMs": 177830,
+          "endMs": 178010
+        },
+        {
+          "word": "yargı",
+          "startMs": 178330,
+          "endMs": 178850
+        },
+        {
+          "word": "cümlesidir.",
+          "startMs": 179000,
+          "endMs": 180290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 181100,
+      "endMs": 186810,
+      "pauseAfterMs": 290,
+      "text": "Kitap okumak insanı zenginleştirir bir ana fikirdir.",
+      "markedText": "Kitap okumak insanı zenginleştirir bir ana fikirdir.",
+      "words": [
+        {
+          "word": "Kitap",
+          "startMs": 181100,
+          "endMs": 181560
+        },
+        {
+          "word": "okumak",
+          "startMs": 181740,
+          "endMs": 182020
+        },
+        {
+          "word": "insanı",
+          "startMs": 182150,
+          "endMs": 183050
+        },
+        {
+          "word": "zenginleştirir",
+          "startMs": 183560,
+          "endMs": 184690
+        },
+        {
+          "word": "bir",
+          "startMs": 184910,
+          "endMs": 185050
+        },
+        {
+          "word": "ana",
+          "startMs": 185050,
+          "endMs": 185460
+        },
+        {
+          "word": "fikirdir.",
+          "startMs": 185670,
+          "endMs": 186520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 186810,
+      "endMs": 210100,
+      "pauseAfterMs": 1410,
+      "text": "Pratik kural: Metindeki örnekler ve ayrıntılar ana fikir değildir; onlar sadece ana fikri destekleyen yardımcı kanatlardır.",
+      "markedText": "Pratik kural: Metindeki örnekler ve ayrıntılar ana fikir değildir; onlar sadece ana fikri destekleyen yardımcı kanatlardır.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 186810,
+          "endMs": 187820
+        },
+        {
+          "word": "kural:",
+          "startMs": 188090,
+          "endMs": 188430
+        },
+        {
+          "word": "Metindeki",
+          "startMs": 189220,
+          "endMs": 190080
+        },
+        {
+          "word": "örnekler",
+          "startMs": 190580,
+          "endMs": 191560
+        },
+        {
+          "word": "ve",
+          "startMs": 192110,
+          "endMs": 192660
+        },
+        {
+          "word": "ayrıntılar",
+          "startMs": 192900,
+          "endMs": 194500
+        },
+        {
+          "word": "ana",
+          "startMs": 194780,
+          "endMs": 195410
+        },
+        {
+          "word": "fikir",
+          "startMs": 195860,
+          "endMs": 196610
+        },
+        {
+          "word": "değildir;",
+          "startMs": 198350,
+          "endMs": 198850
+        },
+        {
+          "word": "onlar",
+          "startMs": 200890,
+          "endMs": 201650
+        },
+        {
+          "word": "sadece",
+          "startMs": 201650,
+          "endMs": 202280
+        },
+        {
+          "word": "ana",
+          "startMs": 202390,
+          "endMs": 202810
+        },
+        {
+          "word": "fikri",
+          "startMs": 203410,
+          "endMs": 204000
+        },
+        {
+          "word": "destekleyen",
+          "startMs": 204140,
+          "endMs": 205600
+        },
+        {
+          "word": "yardımcı",
+          "startMs": 206430,
+          "endMs": 207400
+        },
+        {
+          "word": "kanatlardır.",
+          "startMs": 207480,
+          "endMs": 208690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 210100,
+      "endMs": 218780,
+      "pauseAfterMs": 1110,
+      "text": "Gözümüzün önünde bir paragraf canlandıralım.",
+      "markedText": "Gözümüzün önünde bir paragraf canlandıralım.",
+      "words": [
+        {
+          "word": "Gözümüzün",
+          "startMs": 210100,
+          "endMs": 211780
+        },
+        {
+          "word": "önünde",
+          "startMs": 212390,
+          "endMs": 213460
+        },
+        {
+          "word": "bir",
+          "startMs": 213590,
+          "endMs": 213900
+        },
+        {
+          "word": "paragraf",
+          "startMs": 214180,
+          "endMs": 215400
+        },
+        {
+          "word": "canlandıralım.",
+          "startMs": 216720,
+          "endMs": 217670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 218780,
+      "endMs": 225220,
+      "pauseAfterMs": 830,
+      "text": "Ormanlar yeryüzünün akciğerleridir.",
+      "markedText": "Ormanlar yeryüzünün akciğerleridir.",
+      "words": [
+        {
+          "word": "Ormanlar",
+          "startMs": 218780,
+          "endMs": 220140
+        },
+        {
+          "word": "yeryüzünün",
+          "startMs": 220850,
+          "endMs": 221860
+        },
+        {
+          "word": "akciğerleridir.",
+          "startMs": 223010,
+          "endMs": 224390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 225220,
+      "endMs": 236500,
+      "pauseAfterMs": 850,
+      "text": "Havayı temizler, erozyonu önler ve binlerce canlıya yuva sağlar.",
+      "markedText": "Havayı temizler, erozyonu önler ve binlerce canlıya yuva sağlar.",
+      "words": [
+        {
+          "word": "Havayı",
+          "startMs": 225220,
+          "endMs": 225890
+        },
+        {
+          "word": "temizler,",
+          "startMs": 226210,
+          "endMs": 227390
+        },
+        {
+          "word": "erozyonu",
+          "startMs": 227830,
+          "endMs": 228740
+        },
+        {
+          "word": "önler",
+          "startMs": 228920,
+          "endMs": 229660
+        },
+        {
+          "word": "ve",
+          "startMs": 229760,
+          "endMs": 230170
+        },
+        {
+          "word": "binlerce",
+          "startMs": 231030,
+          "endMs": 232020
+        },
+        {
+          "word": "canlıya",
+          "startMs": 232170,
+          "endMs": 232990
+        },
+        {
+          "word": "yuva",
+          "startMs": 234090,
+          "endMs": 234640
+        },
+        {
+          "word": "sağlar.",
+          "startMs": 234860,
+          "endMs": 235650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 236500,
+      "endMs": 245110,
+      "pauseAfterMs": 890,
+      "text": "Bu yüzden ormanları korumak her insanın görevidir.",
+      "markedText": "Bu yüzden ormanları korumak her insanın görevidir.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 236500,
+          "endMs": 236790
+        },
+        {
+          "word": "yüzden",
+          "startMs": 236920,
+          "endMs": 237670
+        },
+        {
+          "word": "ormanları",
+          "startMs": 238190,
+          "endMs": 239420
+        },
+        {
+          "word": "korumak",
+          "startMs": 239640,
+          "endMs": 240680
+        },
+        {
+          "word": "her",
+          "startMs": 240680,
+          "endMs": 241050
+        },
+        {
+          "word": "insanın",
+          "startMs": 242050,
+          "endMs": 242820
+        },
+        {
+          "word": "görevidir.",
+          "startMs": 242940,
+          "endMs": 244220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 245110,
+      "endMs": 247950,
+      "pauseAfterMs": 1310,
+      "text": "Bu metnin konusu nedir?",
+      "markedText": "Bu metnin konusu nedir?",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 245110,
+          "endMs": 245210
+        },
+        {
+          "word": "metnin",
+          "startMs": 245210,
+          "endMs": 245680
+        },
+        {
+          "word": "konusu",
+          "startMs": 245760,
+          "endMs": 245990
+        },
+        {
+          "word": "nedir?",
+          "startMs": 246100,
+          "endMs": 246640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 247950,
+      "endMs": 253650,
+      "pauseAfterMs": 780,
+      "text": "Ormanların faydalarıdır; kısa ve yargısızdır.",
+      "markedText": "Ormanların faydalarıdır; kısa ve yargısızdır.",
+      "words": [
+        {
+          "word": "Ormanların",
+          "startMs": 247950,
+          "endMs": 248770
+        },
+        {
+          "word": "faydalarıdır;",
+          "startMs": 249050,
+          "endMs": 250550
+        },
+        {
+          "word": "kısa",
+          "startMs": 250940,
+          "endMs": 251140
+        },
+        {
+          "word": "ve",
+          "startMs": 251580,
+          "endMs": 251730
+        },
+        {
+          "word": "yargısızdır.",
+          "startMs": 251730,
+          "endMs": 252870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 253650,
+      "endMs": 258080,
+      "pauseAfterMs": 1050,
+      "text": "Peki ana fikri nedir?",
+      "markedText": "Peki ana fikri nedir?",
+      "words": [
+        {
+          "word": "Peki",
+          "startMs": 253650,
+          "endMs": 254030
+        },
+        {
+          "word": "ana",
+          "startMs": 254170,
+          "endMs": 254550
+        },
+        {
+          "word": "fikri",
+          "startMs": 254920,
+          "endMs": 255320
+        },
+        {
+          "word": "nedir?",
+          "startMs": 255550,
+          "endMs": 257030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 258080,
+      "endMs": 270790,
+      "pauseAfterMs": 1070,
+      "text": "Ormanlar yaşam için vazgeçilmez olduğundan onları korumalıyız yargısıdır.",
+      "markedText": "Ormanlar yaşam için vazgeçilmez olduğundan onları korumalıyız yargısıdır.",
+      "words": [
+        {
+          "word": "Ormanlar",
+          "startMs": 258080,
+          "endMs": 258890
+        },
+        {
+          "word": "yaşam",
+          "startMs": 259880,
+          "endMs": 260530
+        },
+        {
+          "word": "için",
+          "startMs": 261170,
+          "endMs": 261550
+        },
+        {
+          "word": "vazgeçilmez",
+          "startMs": 261830,
+          "endMs": 263100
+        },
+        {
+          "word": "olduğundan",
+          "startMs": 264010,
+          "endMs": 265180
+        },
+        {
+          "word": "onları",
+          "startMs": 265500,
+          "endMs": 266540
+        },
+        {
+          "word": "korumalıyız",
+          "startMs": 267130,
+          "endMs": 268640
+        },
+        {
+          "word": "yargısıdır.",
+          "startMs": 268950,
+          "endMs": 269720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 270790,
+      "endMs": 282310,
+      "pauseAfterMs": 980,
+      "text": "Havayı temizlemesi bir örnektir, erozyonu önlemesi bir ayrıntıdır.",
+      "markedText": "Havayı temizlemesi bir örnektir, erozyonu önlemesi bir ayrıntıdır.",
+      "words": [
+        {
+          "word": "Havayı",
+          "startMs": 270790,
+          "endMs": 271380
+        },
+        {
+          "word": "temizlemesi",
+          "startMs": 271730,
+          "endMs": 272510
+        },
+        {
+          "word": "bir",
+          "startMs": 272980,
+          "endMs": 273260
+        },
+        {
+          "word": "örnektir,",
+          "startMs": 273420,
+          "endMs": 274480
+        },
+        {
+          "word": "erozyonu",
+          "startMs": 275420,
+          "endMs": 276690
+        },
+        {
+          "word": "önlemesi",
+          "startMs": 277710,
+          "endMs": 278700
+        },
+        {
+          "word": "bir",
+          "startMs": 278790,
+          "endMs": 279100
+        },
+        {
+          "word": "ayrıntıdır.",
+          "startMs": 280230,
+          "endMs": 281330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 282310,
+      "endMs": 286740,
+      "pauseAfterMs": 880,
+      "text": "Asıl yargı metnin çatısını kurar.",
+      "markedText": "Asıl yargı metnin çatısını kurar.",
+      "words": [
+        {
+          "word": "Asıl",
+          "startMs": 282310,
+          "endMs": 282660
+        },
+        {
+          "word": "yargı",
+          "startMs": 282970,
+          "endMs": 283270
+        },
+        {
+          "word": "metnin",
+          "startMs": 283270,
+          "endMs": 283890
+        },
+        {
+          "word": "çatısını",
+          "startMs": 284450,
+          "endMs": 285240
+        },
+        {
+          "word": "kurar.",
+          "startMs": 285410,
+          "endMs": 285860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 286740,
+      "endMs": 288910,
+      "pauseAfterMs": 270,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 286740,
+          "endMs": 287370
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 287930,
+          "endMs": 288640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 288910,
+      "endMs": 293740,
+      "pauseAfterMs": 820,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 288910,
+          "endMs": 289220
+        },
+        {
+          "word": "bir",
+          "startMs": 289220,
+          "endMs": 289520
+        },
+        {
+          "word": "kez",
+          "startMs": 289710,
+          "endMs": 290110
+        },
+        {
+          "word": "görünce",
+          "startMs": 290390,
+          "endMs": 290850
+        },
+        {
+          "word": "kolayca",
+          "startMs": 290970,
+          "endMs": 291490
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 291650,
+          "endMs": 292920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 293740,
+      "endMs": 303720,
+      "pauseAfterMs": 1060,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 293740,
+          "endMs": 294160
+        },
+        {
+          "word": "sevgili",
+          "startMs": 294160,
+          "endMs": 294960
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 295810,
+          "endMs": 296610
+        },
+        {
+          "word": "işte",
+          "startMs": 296710,
+          "endMs": 297040
+        },
+        {
+          "word": "tam",
+          "startMs": 297220,
+          "endMs": 297450
+        },
+        {
+          "word": "bu",
+          "startMs": 297590,
+          "endMs": 297810
+        },
+        {
+          "word": "noktada",
+          "startMs": 298060,
+          "endMs": 298350
+        },
+        {
+          "word": "dikkat",
+          "startMs": 298490,
+          "endMs": 298880
+        },
+        {
+          "word": "etmen",
+          "startMs": 299190,
+          "endMs": 299900
+        },
+        {
+          "word": "gereken",
+          "startMs": 299900,
+          "endMs": 300610
+        },
+        {
+          "word": "kilit",
+          "startMs": 301630,
+          "endMs": 302110
+        },
+        {
+          "word": "nokta.",
+          "startMs": 302210,
+          "endMs": 302660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 303720,
+      "endMs": 318710,
+      "pauseAfterMs": 1060,
+      "text": "Metindeki ilginç bir örneği veya yardımcı düşünceyi ana fikirle karıştırmamaya dikkat edebilirsin.",
+      "markedText": "Metindeki ilginç bir örneği veya yardımcı düşünceyi ana fikirle karıştırmamaya dikkat edebilirsin.",
+      "words": [
+        {
+          "word": "Metindeki",
+          "startMs": 303720,
+          "endMs": 304680
+        },
+        {
+          "word": "ilginç",
+          "startMs": 304790,
+          "endMs": 305640
+        },
+        {
+          "word": "bir",
+          "startMs": 305680,
+          "endMs": 305920
+        },
+        {
+          "word": "örneği",
+          "startMs": 306820,
+          "endMs": 307750
+        },
+        {
+          "word": "veya",
+          "startMs": 307880,
+          "endMs": 308210
+        },
+        {
+          "word": "yardımcı",
+          "startMs": 308380,
+          "endMs": 308980
+        },
+        {
+          "word": "düşünceyi",
+          "startMs": 309610,
+          "endMs": 310580
+        },
+        {
+          "word": "ana",
+          "startMs": 310940,
+          "endMs": 311190
+        },
+        {
+          "word": "fikirle",
+          "startMs": 311290,
+          "endMs": 312030
+        },
+        {
+          "word": "karıştırmamaya",
+          "startMs": 312350,
+          "endMs": 314140
+        },
+        {
+          "word": "dikkat",
+          "startMs": 314820,
+          "endMs": 315280
+        },
+        {
+          "word": "edebilirsin.",
+          "startMs": 315370,
+          "endMs": 317650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 318710,
+      "endMs": 332680,
+      "pauseAfterMs": 610,
+      "text": "Örneğin ağaçlar kuşlara yuva olur cümlesi bir ayrıntıdır, ana fikir değildir.",
+      "markedText": "Örneğin ağaçlar kuşlara yuva olur cümlesi bir ayrıntıdır, ana fikir değildir.",
+      "words": [
+        {
+          "word": "Örneğin",
+          "startMs": 318710,
+          "endMs": 319980
+        },
+        {
+          "word": "ağaçlar",
+          "startMs": 320520,
+          "endMs": 321380
+        },
+        {
+          "word": "kuşlara",
+          "startMs": 322140,
+          "endMs": 322670
+        },
+        {
+          "word": "yuva",
+          "startMs": 322850,
+          "endMs": 323180
+        },
+        {
+          "word": "olur",
+          "startMs": 323690,
+          "endMs": 324270
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 324790,
+          "endMs": 326010
+        },
+        {
+          "word": "bir",
+          "startMs": 326370,
+          "endMs": 326930
+        },
+        {
+          "word": "ayrıntıdır,",
+          "startMs": 327250,
+          "endMs": 328350
+        },
+        {
+          "word": "ana",
+          "startMs": 328880,
+          "endMs": 329490
+        },
+        {
+          "word": "fikir",
+          "startMs": 329610,
+          "endMs": 330470
+        },
+        {
+          "word": "değildir.",
+          "startMs": 330710,
+          "endMs": 332070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 332680,
+      "endMs": 344870,
+      "pauseAfterMs": 390,
+      "text": "Konu bir başlık gibidir, ana fikir ise o başlığın altındaki en güçlü sonuç cümlesidir.",
+      "markedText": "Konu bir başlık gibidir, ana fikir ise o başlığın altındaki en güçlü sonuç cümlesidir.",
+      "words": [
+        {
+          "word": "Konu",
+          "startMs": 332680,
+          "endMs": 333000
+        },
+        {
+          "word": "bir",
+          "startMs": 333240,
+          "endMs": 333760
+        },
+        {
+          "word": "başlık",
+          "startMs": 334370,
+          "endMs": 334970
+        },
+        {
+          "word": "gibidir,",
+          "startMs": 335310,
+          "endMs": 335890
+        },
+        {
+          "word": "ana",
+          "startMs": 336520,
+          "endMs": 336850
+        },
+        {
+          "word": "fikir",
+          "startMs": 337310,
+          "endMs": 337970
+        },
+        {
+          "word": "ise",
+          "startMs": 337970,
+          "endMs": 338310
+        },
+        {
+          "word": "o",
+          "startMs": 338490,
+          "endMs": 338740
+        },
+        {
+          "word": "başlığın",
+          "startMs": 339450,
+          "endMs": 340120
+        },
+        {
+          "word": "altındaki",
+          "startMs": 340300,
+          "endMs": 341350
+        },
+        {
+          "word": "en",
+          "startMs": 341450,
+          "endMs": 341630
+        },
+        {
+          "word": "güçlü",
+          "startMs": 342120,
+          "endMs": 342600
+        },
+        {
+          "word": "sonuç",
+          "startMs": 342600,
+          "endMs": 342860
+        },
+        {
+          "word": "cümlesidir.",
+          "startMs": 343040,
+          "endMs": 344480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 344870,
+      "endMs": 347490,
+      "pauseAfterMs": 490,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 344870,
+          "endMs": 345120
+        },
+        {
+          "word": "Neler",
+          "startMs": 345480,
+          "endMs": 346030
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 346120,
+          "endMs": 347000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 347490,
+      "endMs": 348000,
+      "pauseAfterMs": 160,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 347490,
+          "endMs": 347840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 348000,
+      "endMs": 354130,
+      "pauseAfterMs": 630,
+      "text": "Konu, metinde ne anlatıldığını söyler ve yargı taşımaz.",
+      "markedText": "Konu, metinde ne anlatıldığını söyler ve yargı taşımaz.",
+      "words": [
+        {
+          "word": "Konu,",
+          "startMs": 348000,
+          "endMs": 348410
+        },
+        {
+          "word": "metinde",
+          "startMs": 348750,
+          "endMs": 348910
+        },
+        {
+          "word": "ne",
+          "startMs": 349070,
+          "endMs": 349150
+        },
+        {
+          "word": "anlatıldığını",
+          "startMs": 349390,
+          "endMs": 350230
+        },
+        {
+          "word": "söyler",
+          "startMs": 350230,
+          "endMs": 351240
+        },
+        {
+          "word": "ve",
+          "startMs": 351860,
+          "endMs": 352150
+        },
+        {
+          "word": "yargı",
+          "startMs": 352270,
+          "endMs": 352820
+        },
+        {
+          "word": "taşımaz.",
+          "startMs": 352930,
+          "endMs": 353500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 354130,
+      "endMs": 355150,
+      "pauseAfterMs": 780,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 354130,
+          "endMs": 354370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 355150,
+      "endMs": 363980,
+      "pauseAfterMs": 1140,
+      "text": "Ana fikir, yazarın okura vermek istediği asıl mesajdır ve tam bir cümledir",
+      "markedText": "Ana fikir, yazarın okura vermek istediği asıl mesajdır ve tam bir cümledir",
+      "words": [
+        {
+          "word": "Ana",
+          "startMs": 355150,
+          "endMs": 355490
+        },
+        {
+          "word": "fikir,",
+          "startMs": 355780,
+          "endMs": 355940
+        },
+        {
+          "word": "yazarın",
+          "startMs": 356030,
+          "endMs": 356510
+        },
+        {
+          "word": "okura",
+          "startMs": 356570,
+          "endMs": 356830
+        },
+        {
+          "word": "vermek",
+          "startMs": 356910,
+          "endMs": 357280
+        },
+        {
+          "word": "istediği",
+          "startMs": 357280,
+          "endMs": 357890
+        },
+        {
+          "word": "asıl",
+          "startMs": 358110,
+          "endMs": 358480
+        },
+        {
+          "word": "mesajdır",
+          "startMs": 358550,
+          "endMs": 359170
+        },
+        {
+          "word": "ve",
+          "startMs": 359980,
+          "endMs": 360100
+        },
+        {
+          "word": "tam",
+          "startMs": 360790,
+          "endMs": 360990
+        },
+        {
+          "word": "bir",
+          "startMs": 361250,
+          "endMs": 361400
+        },
+        {
+          "word": "cümledir",
+          "startMs": 361720,
+          "endMs": 362840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 363980,
+      "endMs": 364650,
+      "pauseAfterMs": 260,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 363980,
+          "endMs": 364390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 364650,
+      "endMs": 377730,
+      "pauseAfterMs": 530,
+      "text": "Örnekler ve ayrıntılar ana fikri destekler ama onun yerine geçemez.",
+      "markedText": "Örnekler ve ayrıntılar ana fikri destekler ama onun yerine geçemez.",
+      "words": [
+        {
+          "word": "Örnekler",
+          "startMs": 364650,
+          "endMs": 365800
+        },
+        {
+          "word": "ve",
+          "startMs": 366410,
+          "endMs": 366690
+        },
+        {
+          "word": "ayrıntılar",
+          "startMs": 367250,
+          "endMs": 368230
+        },
+        {
+          "word": "ana",
+          "startMs": 368540,
+          "endMs": 369090
+        },
+        {
+          "word": "fikri",
+          "startMs": 369910,
+          "endMs": 370410
+        },
+        {
+          "word": "destekler",
+          "startMs": 370490,
+          "endMs": 371600
+        },
+        {
+          "word": "ama",
+          "startMs": 372320,
+          "endMs": 372540
+        },
+        {
+          "word": "onun",
+          "startMs": 373240,
+          "endMs": 373690
+        },
+        {
+          "word": "yerine",
+          "startMs": 374310,
+          "endMs": 375200
+        },
+        {
+          "word": "geçemez.",
+          "startMs": 375540,
+          "endMs": 377200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 377730,
+      "endMs": 380460,
+      "pauseAfterMs": 770,
+      "text": "Konu alandır.",
+      "markedText": "Konu alandır.",
+      "words": [
+        {
+          "word": "Konu",
+          "startMs": 377730,
+          "endMs": 378280
+        },
+        {
+          "word": "alandır.",
+          "startMs": 378360,
+          "endMs": 379690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 380460,
+      "endMs": 385050,
+      "pauseAfterMs": 530,
+      "text": "Ana fikir yargıdır.",
+      "markedText": "Ana fikir yargıdır.",
+      "words": [
+        {
+          "word": "Ana",
+          "startMs": 380460,
+          "endMs": 380720
+        },
+        {
+          "word": "fikir",
+          "startMs": 381510,
+          "endMs": 382370
+        },
+        {
+          "word": "yargıdır.",
+          "startMs": 382580,
+          "endMs": 384520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 385050,
+      "endMs": 387750,
+      "pauseAfterMs": 770,
+      "text": "Örnek, yargının yerine geçmez.",
+      "markedText": "Örnek, yargının yerine geçmez.",
+      "words": [
+        {
+          "word": "Örnek,",
+          "startMs": 385050,
+          "endMs": 385250
+        },
+        {
+          "word": "yargının",
+          "startMs": 385350,
+          "endMs": 386010
+        },
+        {
+          "word": "yerine",
+          "startMs": 386010,
+          "endMs": 386400
+        },
+        {
+          "word": "geçmez.",
+          "startMs": 386520,
+          "endMs": 386980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 387750,
+      "endMs": 397900,
+      "pauseAfterMs": 1040,
+      "text": "Bir paragrafta konuyu ve ana fikri ayrı cümlelerle söylersin.",
+      "markedText": "Bir paragrafta konuyu ve ana fikri ayrı cümlelerle söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 387750,
+          "endMs": 388010
+        },
+        {
+          "word": "paragrafta",
+          "startMs": 388720,
+          "endMs": 389550
+        },
+        {
+          "word": "konuyu",
+          "startMs": 389960,
+          "endMs": 390970
+        },
+        {
+          "word": "ve",
+          "startMs": 391500,
+          "endMs": 391750
+        },
+        {
+          "word": "ana",
+          "startMs": 391940,
+          "endMs": 392340
+        },
+        {
+          "word": "fikri",
+          "startMs": 392880,
+          "endMs": 393270
+        },
+        {
+          "word": "ayrı",
+          "startMs": 393490,
+          "endMs": 394380
+        },
+        {
+          "word": "cümlelerle",
+          "startMs": 394860,
+          "endMs": 396080
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 396140,
+          "endMs": 396860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 397900,
+      "endMs": 401740,
+      "pauseAfterMs": 620,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 397900,
+          "endMs": 399650
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 400240,
+          "endMs": 401120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 401740,
+      "endMs": 406340,
+      "pauseAfterMs": 700,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 401740,
+          "endMs": 402310
+        },
+        {
+          "word": "bir",
+          "startMs": 402440,
+          "endMs": 402960
+        },
+        {
+          "word": "iş",
+          "startMs": 403540,
+          "endMs": 403900
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 404310,
+          "endMs": 405640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 406340,
+      "endMs": 409200,
+      "pauseAfterMs": 870,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 406340,
+          "endMs": 407030
+        },
+        {
+          "word": "sıra",
+          "startMs": 407270,
+          "endMs": 407710
+        },
+        {
+          "word": "sende.",
+          "startMs": 407890,
+          "endMs": 408330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 409200,
+      "endMs": 419293,
+      "pauseAfterMs": 353,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 409200,
+          "endMs": 410400
+        },
+        {
+          "word": "bu",
+          "startMs": 410520,
+          "endMs": 410730
+        },
+        {
+          "word": "notları",
+          "startMs": 411240,
+          "endMs": 412760
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 413360,
+          "endMs": 414130
+        },
+        {
+          "word": "kendi",
+          "startMs": 414550,
+          "endMs": 415450
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 416030,
+          "endMs": 417120
+        },
+        {
+          "word": "anlat.",
+          "startMs": 417570,
+          "endMs": 418940
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

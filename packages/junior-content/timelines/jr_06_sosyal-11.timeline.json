@@ -1,0 +1,3035 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_sosyal-11",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Türkiye'nin yeryüzü şekilleri ve bitki örtüsü",
+  "grade": 6,
+  "subject": "Sosyal Bilgiler",
+  "teacher": {
+    "name": "Murat",
+    "voice": "Achird",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_sosyal-11.mp3",
+    "durationMs": 407354,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 99000
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 99000,
+      "endMs": 342880
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 342880,
+      "endMs": 407354
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4060,
+      "pauseAfterMs": 690,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 180,
+          "endMs": 1290
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1680,
+          "endMs": 2300
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2370,
+          "endMs": 3370
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Türkiye'nin yeryüzü şekilleri ve bitki örtüsü",
+            "subtitle": "Sosyal Bilgiler",
+            "ruleBadges": [],
+            "echoPrompt": "Bir yerin şeklini ve oradaki bitki örtüsünü ayrı cümleyle söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Kuzey Anadolu Dağları ve Toroslar kıyıya paralel uzanır. İçeride plato vardır."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Karadeniz'de orman, Akdeniz'de maki, iç kesimde bozkır görülür."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Yükselti artınca sıcaklık düşer. Maki orman, bozkır çöl değildir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4060,
+      "endMs": 7510,
+      "pauseAfterMs": 350,
+      "text": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "markedText": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4060,
+          "endMs": 4140
+        },
+        {
+          "word": "Sosyal",
+          "startMs": 4290,
+          "endMs": 4660
+        },
+        {
+          "word": "Bilgiler",
+          "startMs": 4790,
+          "endMs": 5740
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6020,
+          "endMs": 6720
+        },
+        {
+          "word": "Murat.",
+          "startMs": 6840,
+          "endMs": 7160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 7510,
+      "endMs": 21130,
+      "pauseAfterMs": 490,
+      "text": "Hiç yüksek bir dağ geçidini aştıktan hemen sonra havanın ve etrafındaki ağaçların birdenbire değiştiğini fark ettin mi?",
+      "markedText": "Hiç yüksek bir dağ geçidini aştıktan hemen sonra havanın ve etrafındaki ağaçların birdenbire değiştiğini fark ettin mi?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 7510,
+          "endMs": 7630
+        },
+        {
+          "word": "yüksek",
+          "startMs": 7630,
+          "endMs": 8120
+        },
+        {
+          "word": "bir",
+          "startMs": 8230,
+          "endMs": 8520
+        },
+        {
+          "word": "dağ",
+          "startMs": 8580,
+          "endMs": 8760
+        },
+        {
+          "word": "geçidini",
+          "startMs": 8830,
+          "endMs": 9450
+        },
+        {
+          "word": "aştıktan",
+          "startMs": 9710,
+          "endMs": 10850
+        },
+        {
+          "word": "hemen",
+          "startMs": 11130,
+          "endMs": 11330
+        },
+        {
+          "word": "sonra",
+          "startMs": 12100,
+          "endMs": 12730
+        },
+        {
+          "word": "havanın",
+          "startMs": 12850,
+          "endMs": 13680
+        },
+        {
+          "word": "ve",
+          "startMs": 13760,
+          "endMs": 13890
+        },
+        {
+          "word": "etrafındaki",
+          "startMs": 14240,
+          "endMs": 15240
+        },
+        {
+          "word": "ağaçların",
+          "startMs": 15470,
+          "endMs": 16120
+        },
+        {
+          "word": "birdenbire",
+          "startMs": 16700,
+          "endMs": 17720
+        },
+        {
+          "word": "değiştiğini",
+          "startMs": 17960,
+          "endMs": 19270
+        },
+        {
+          "word": "fark",
+          "startMs": 19570,
+          "endMs": 19770
+        },
+        {
+          "word": "ettin",
+          "startMs": 19980,
+          "endMs": 20310
+        },
+        {
+          "word": "mi?",
+          "startMs": 20310,
+          "endMs": 20640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 21130,
+      "endMs": 35300,
+      "pauseAfterMs": 370,
+      "text": "Yeryüzündeki heybetli dağlar yalnızca birer kaya kütlesi değildir; bulutları tutar, rüzgârı yönlendirir ve bitki örtüsünü belirler.",
+      "markedText": "Yeryüzündeki heybetli dağlar yalnızca birer kaya kütlesi değildir; bulutları tutar, rüzgârı yönlendirir ve bitki örtüsünü belirler.",
+      "words": [
+        {
+          "word": "Yeryüzündeki",
+          "startMs": 21130,
+          "endMs": 22590
+        },
+        {
+          "word": "heybetli",
+          "startMs": 22590,
+          "endMs": 23460
+        },
+        {
+          "word": "dağlar",
+          "startMs": 23720,
+          "endMs": 24200
+        },
+        {
+          "word": "yalnızca",
+          "startMs": 24430,
+          "endMs": 25120
+        },
+        {
+          "word": "birer",
+          "startMs": 25260,
+          "endMs": 25570
+        },
+        {
+          "word": "kaya",
+          "startMs": 25570,
+          "endMs": 25890
+        },
+        {
+          "word": "kütlesi",
+          "startMs": 26210,
+          "endMs": 26830
+        },
+        {
+          "word": "değildir;",
+          "startMs": 26940,
+          "endMs": 28010
+        },
+        {
+          "word": "bulutları",
+          "startMs": 28160,
+          "endMs": 28990
+        },
+        {
+          "word": "tutar,",
+          "startMs": 28990,
+          "endMs": 29660
+        },
+        {
+          "word": "rüzgârı",
+          "startMs": 30410,
+          "endMs": 31100
+        },
+        {
+          "word": "yönlendirir",
+          "startMs": 31580,
+          "endMs": 32520
+        },
+        {
+          "word": "ve",
+          "startMs": 33030,
+          "endMs": 33150
+        },
+        {
+          "word": "bitki",
+          "startMs": 33150,
+          "endMs": 33530
+        },
+        {
+          "word": "örtüsünü",
+          "startMs": 33790,
+          "endMs": 34320
+        },
+        {
+          "word": "belirler.",
+          "startMs": 34320,
+          "endMs": 34930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 35300,
+      "endMs": 49650,
+      "pauseAfterMs": 610,
+      "text": "Güzel ülkemizin yeryüzü şekillerini, dağlarını, ovalarını ve onların kucağında yeşeren bitki örtüsünü yakından tanıyacağız.",
+      "markedText": "Güzel ülkemizin yeryüzü şekillerini, dağlarını, ovalarını ve onların kucağında yeşeren bitki örtüsünü yakından tanıyacağız.",
+      "words": [
+        {
+          "word": "Güzel",
+          "startMs": 35300,
+          "endMs": 35890
+        },
+        {
+          "word": "ülkemizin",
+          "startMs": 36090,
+          "endMs": 36760
+        },
+        {
+          "word": "yeryüzü",
+          "startMs": 36910,
+          "endMs": 37900
+        },
+        {
+          "word": "şekillerini,",
+          "startMs": 38460,
+          "endMs": 39310
+        },
+        {
+          "word": "dağlarını,",
+          "startMs": 39440,
+          "endMs": 40410
+        },
+        {
+          "word": "ovalarını",
+          "startMs": 40770,
+          "endMs": 42040
+        },
+        {
+          "word": "ve",
+          "startMs": 42080,
+          "endMs": 42300
+        },
+        {
+          "word": "onların",
+          "startMs": 42480,
+          "endMs": 43150
+        },
+        {
+          "word": "kucağında",
+          "startMs": 43340,
+          "endMs": 43760
+        },
+        {
+          "word": "yeşeren",
+          "startMs": 43850,
+          "endMs": 44770
+        },
+        {
+          "word": "bitki",
+          "startMs": 45350,
+          "endMs": 45780
+        },
+        {
+          "word": "örtüsünü",
+          "startMs": 46090,
+          "endMs": 46790
+        },
+        {
+          "word": "yakından",
+          "startMs": 46790,
+          "endMs": 47590
+        },
+        {
+          "word": "tanıyacağız.",
+          "startMs": 47870,
+          "endMs": 49040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 49650,
+      "endMs": 56490,
+      "pauseAfterMs": 620,
+      "text": "Bunu ailenle tatile giderken karayolunda kolayca gözlemleyebilirsin.",
+      "markedText": "Bunu ailenle tatile giderken karayolunda kolayca gözlemleyebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 49650,
+          "endMs": 50260
+        },
+        {
+          "word": "ailenle",
+          "startMs": 50480,
+          "endMs": 50920
+        },
+        {
+          "word": "tatile",
+          "startMs": 50990,
+          "endMs": 51690
+        },
+        {
+          "word": "giderken",
+          "startMs": 52160,
+          "endMs": 52930
+        },
+        {
+          "word": "karayolunda",
+          "startMs": 53110,
+          "endMs": 53710
+        },
+        {
+          "word": "kolayca",
+          "startMs": 53860,
+          "endMs": 54260
+        },
+        {
+          "word": "gözlemleyebilirsin.",
+          "startMs": 54340,
+          "endMs": 55870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 56490,
+      "endMs": 68530,
+      "pauseAfterMs": 500,
+      "text": "Akdeniz kıyısında arabayla ilerlerken yol kenarındaki bodur çalıları ve defne ağaçlarını izlersin.",
+      "markedText": "Akdeniz kıyısında arabayla ilerlerken yol kenarındaki bodur çalıları ve defne ağaçlarını izlersin.",
+      "words": [
+        {
+          "word": "Akdeniz",
+          "startMs": 56490,
+          "endMs": 57090
+        },
+        {
+          "word": "kıyısında",
+          "startMs": 57350,
+          "endMs": 58170
+        },
+        {
+          "word": "arabayla",
+          "startMs": 58360,
+          "endMs": 59070
+        },
+        {
+          "word": "ilerlerken",
+          "startMs": 59160,
+          "endMs": 60010
+        },
+        {
+          "word": "yol",
+          "startMs": 60230,
+          "endMs": 60560
+        },
+        {
+          "word": "kenarındaki",
+          "startMs": 61250,
+          "endMs": 62130
+        },
+        {
+          "word": "bodur",
+          "startMs": 62270,
+          "endMs": 62660
+        },
+        {
+          "word": "çalıları",
+          "startMs": 62660,
+          "endMs": 63600
+        },
+        {
+          "word": "ve",
+          "startMs": 64520,
+          "endMs": 64680
+        },
+        {
+          "word": "defne",
+          "startMs": 64910,
+          "endMs": 65170
+        },
+        {
+          "word": "ağaçlarını",
+          "startMs": 65770,
+          "endMs": 66640
+        },
+        {
+          "word": "izlersin.",
+          "startMs": 66780,
+          "endMs": 68030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 68530,
+      "endMs": 78620,
+      "pauseAfterMs": 830,
+      "text": "Uzun bir tünelden geçip dağın öteki yamacına çıktığında ise bir anda geniş sarı bozkır tarlaları seni karşılar.",
+      "markedText": "Uzun bir tünelden geçip dağın öteki yamacına çıktığında ise bir anda geniş sarı bozkır tarlaları seni karşılar.",
+      "words": [
+        {
+          "word": "Uzun",
+          "startMs": 68530,
+          "endMs": 68940
+        },
+        {
+          "word": "bir",
+          "startMs": 69000,
+          "endMs": 69150
+        },
+        {
+          "word": "tünelden",
+          "startMs": 69240,
+          "endMs": 70020
+        },
+        {
+          "word": "geçip",
+          "startMs": 70020,
+          "endMs": 70200
+        },
+        {
+          "word": "dağın",
+          "startMs": 70510,
+          "endMs": 70620
+        },
+        {
+          "word": "öteki",
+          "startMs": 70730,
+          "endMs": 71160
+        },
+        {
+          "word": "yamacına",
+          "startMs": 71470,
+          "endMs": 72190
+        },
+        {
+          "word": "çıktığında",
+          "startMs": 72280,
+          "endMs": 72960
+        },
+        {
+          "word": "ise",
+          "startMs": 72960,
+          "endMs": 73190
+        },
+        {
+          "word": "bir",
+          "startMs": 73320,
+          "endMs": 73440
+        },
+        {
+          "word": "anda",
+          "startMs": 73810,
+          "endMs": 74080
+        },
+        {
+          "word": "geniş",
+          "startMs": 74200,
+          "endMs": 74740
+        },
+        {
+          "word": "sarı",
+          "startMs": 75080,
+          "endMs": 75500
+        },
+        {
+          "word": "bozkır",
+          "startMs": 75580,
+          "endMs": 75960
+        },
+        {
+          "word": "tarlaları",
+          "startMs": 76180,
+          "endMs": 76490
+        },
+        {
+          "word": "seni",
+          "startMs": 76530,
+          "endMs": 76790
+        },
+        {
+          "word": "karşılar.",
+          "startMs": 76790,
+          "endMs": 77790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 78620,
+      "endMs": 84430,
+      "pauseAfterMs": 270,
+      "text": "Aynı gün içinde iki farklı bitki örtüsünün içinden geçersin.",
+      "markedText": "Aynı gün içinde iki farklı bitki örtüsünün içinden geçersin.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 78620,
+          "endMs": 78970
+        },
+        {
+          "word": "gün",
+          "startMs": 79060,
+          "endMs": 79270
+        },
+        {
+          "word": "içinde",
+          "startMs": 79360,
+          "endMs": 80060
+        },
+        {
+          "word": "iki",
+          "startMs": 80650,
+          "endMs": 80870
+        },
+        {
+          "word": "farklı",
+          "startMs": 80870,
+          "endMs": 81440
+        },
+        {
+          "word": "bitki",
+          "startMs": 81570,
+          "endMs": 82080
+        },
+        {
+          "word": "örtüsünün",
+          "startMs": 82500,
+          "endMs": 83080
+        },
+        {
+          "word": "içinden",
+          "startMs": 83080,
+          "endMs": 83400
+        },
+        {
+          "word": "geçersin.",
+          "startMs": 83880,
+          "endMs": 84160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 84430,
+      "endMs": 99000,
+      "pauseAfterMs": 1170,
+      "text": "Pencereden dışarı bakarken önce yer şeklini, sonra da bitki örtüsünü kendi kendine neşeyle tarif edebilirsin.",
+      "markedText": "Pencereden dışarı bakarken önce yer şeklini, sonra da bitki örtüsünü kendi kendine neşeyle tarif edebilirsin.",
+      "words": [
+        {
+          "word": "Pencereden",
+          "startMs": 84430,
+          "endMs": 85540
+        },
+        {
+          "word": "dışarı",
+          "startMs": 85920,
+          "endMs": 86640
+        },
+        {
+          "word": "bakarken",
+          "startMs": 87270,
+          "endMs": 87630
+        },
+        {
+          "word": "önce",
+          "startMs": 87730,
+          "endMs": 87850
+        },
+        {
+          "word": "yer",
+          "startMs": 88110,
+          "endMs": 88220
+        },
+        {
+          "word": "şeklini,",
+          "startMs": 88410,
+          "endMs": 89310
+        },
+        {
+          "word": "sonra",
+          "startMs": 90510,
+          "endMs": 90930
+        },
+        {
+          "word": "da",
+          "startMs": 91020,
+          "endMs": 91200
+        },
+        {
+          "word": "bitki",
+          "startMs": 91350,
+          "endMs": 91640
+        },
+        {
+          "word": "örtüsünü",
+          "startMs": 91790,
+          "endMs": 92340
+        },
+        {
+          "word": "kendi",
+          "startMs": 93770,
+          "endMs": 94210
+        },
+        {
+          "word": "kendine",
+          "startMs": 94320,
+          "endMs": 95150
+        },
+        {
+          "word": "neşeyle",
+          "startMs": 95620,
+          "endMs": 96300
+        },
+        {
+          "word": "tarif",
+          "startMs": 96300,
+          "endMs": 96740
+        },
+        {
+          "word": "edebilirsin.",
+          "startMs": 96790,
+          "endMs": 97830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 99000,
+      "endMs": 107220,
+      "pauseAfterMs": 1070,
+      "text": "Kuzeyde Kuzey Anadolu Dağları, güneyde ise Toros Dağları kıyıya paralel uzanır.",
+      "markedText": "Kuzeyde Kuzey Anadolu Dağları, güneyde ise Toros Dağları kıyıya paralel uzanır.",
+      "words": [
+        {
+          "word": "Kuzeyde",
+          "startMs": 99000,
+          "endMs": 99690
+        },
+        {
+          "word": "Kuzey",
+          "startMs": 99820,
+          "endMs": 100120
+        },
+        {
+          "word": "Anadolu",
+          "startMs": 100320,
+          "endMs": 101230
+        },
+        {
+          "word": "Dağları,",
+          "startMs": 101230,
+          "endMs": 102730
+        },
+        {
+          "word": "güneyde",
+          "startMs": 103780,
+          "endMs": 104140
+        },
+        {
+          "word": "ise",
+          "startMs": 104140,
+          "endMs": 104320
+        },
+        {
+          "word": "Toros",
+          "startMs": 104420,
+          "endMs": 104620
+        },
+        {
+          "word": "Dağları",
+          "startMs": 104710,
+          "endMs": 104900
+        },
+        {
+          "word": "kıyıya",
+          "startMs": 104900,
+          "endMs": 105110
+        },
+        {
+          "word": "paralel",
+          "startMs": 105200,
+          "endMs": 105460
+        },
+        {
+          "word": "uzanır.",
+          "startMs": 105460,
+          "endMs": 106150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 107220,
+      "endMs": 120750,
+      "pauseAfterMs": 1180,
+      "text": "Dağların kıyıya paralel uzanması, denizden gelen nemli havanın iç kesimlere kolayca girmesini engeller.",
+      "markedText": "Dağların kıyıya paralel uzanması, denizden gelen nemli havanın iç kesimlere kolayca girmesini engeller.",
+      "words": [
+        {
+          "word": "Dağların",
+          "startMs": 107220,
+          "endMs": 108090
+        },
+        {
+          "word": "kıyıya",
+          "startMs": 108220,
+          "endMs": 108810
+        },
+        {
+          "word": "paralel",
+          "startMs": 108960,
+          "endMs": 109630
+        },
+        {
+          "word": "uzanması,",
+          "startMs": 109780,
+          "endMs": 110560
+        },
+        {
+          "word": "denizden",
+          "startMs": 112790,
+          "endMs": 113220
+        },
+        {
+          "word": "gelen",
+          "startMs": 113450,
+          "endMs": 113930
+        },
+        {
+          "word": "nemli",
+          "startMs": 114050,
+          "endMs": 114520
+        },
+        {
+          "word": "havanın",
+          "startMs": 115280,
+          "endMs": 115670
+        },
+        {
+          "word": "iç",
+          "startMs": 115870,
+          "endMs": 116000
+        },
+        {
+          "word": "kesimlere",
+          "startMs": 116160,
+          "endMs": 116640
+        },
+        {
+          "word": "kolayca",
+          "startMs": 117110,
+          "endMs": 117530
+        },
+        {
+          "word": "girmesini",
+          "startMs": 117680,
+          "endMs": 118440
+        },
+        {
+          "word": "engeller.",
+          "startMs": 118920,
+          "endMs": 119570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 120750,
+      "endMs": 127250,
+      "pauseAfterMs": 860,
+      "text": "Bu yüzden kıyılar bol yağış alırken iç kesimler kurak kalır.",
+      "markedText": "Bu yüzden kıyılar bol yağış alırken iç kesimler kurak kalır.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 120750,
+          "endMs": 121000
+        },
+        {
+          "word": "yüzden",
+          "startMs": 121070,
+          "endMs": 121710
+        },
+        {
+          "word": "kıyılar",
+          "startMs": 121990,
+          "endMs": 122390
+        },
+        {
+          "word": "bol",
+          "startMs": 122450,
+          "endMs": 122600
+        },
+        {
+          "word": "yağış",
+          "startMs": 122670,
+          "endMs": 122970
+        },
+        {
+          "word": "alırken",
+          "startMs": 123050,
+          "endMs": 123670
+        },
+        {
+          "word": "iç",
+          "startMs": 124040,
+          "endMs": 124250
+        },
+        {
+          "word": "kesimler",
+          "startMs": 124250,
+          "endMs": 124940
+        },
+        {
+          "word": "kurak",
+          "startMs": 125130,
+          "endMs": 125340
+        },
+        {
+          "word": "kalır.",
+          "startMs": 125500,
+          "endMs": 126390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 127250,
+      "endMs": 138020,
+      "pauseAfterMs": 670,
+      "text": "İç Anadolu geniş platolardan oluşur; Doğu Anadolu ise ortalama yükseltisi en fazla olan bölgemizdir.",
+      "markedText": "İç Anadolu geniş platolardan oluşur; Doğu Anadolu ise ortalama yükseltisi en fazla olan bölgemizdir.",
+      "words": [
+        {
+          "word": "İç",
+          "startMs": 127250,
+          "endMs": 127310
+        },
+        {
+          "word": "Anadolu",
+          "startMs": 127310,
+          "endMs": 127900
+        },
+        {
+          "word": "geniş",
+          "startMs": 128190,
+          "endMs": 128490
+        },
+        {
+          "word": "platolardan",
+          "startMs": 128730,
+          "endMs": 129200
+        },
+        {
+          "word": "oluşur;",
+          "startMs": 129380,
+          "endMs": 130670
+        },
+        {
+          "word": "Doğu",
+          "startMs": 131880,
+          "endMs": 132040
+        },
+        {
+          "word": "Anadolu",
+          "startMs": 132210,
+          "endMs": 132320
+        },
+        {
+          "word": "ise",
+          "startMs": 132810,
+          "endMs": 133030
+        },
+        {
+          "word": "ortalama",
+          "startMs": 133030,
+          "endMs": 134170
+        },
+        {
+          "word": "yükseltisi",
+          "startMs": 134450,
+          "endMs": 135060
+        },
+        {
+          "word": "en",
+          "startMs": 135060,
+          "endMs": 135190
+        },
+        {
+          "word": "fazla",
+          "startMs": 135330,
+          "endMs": 135680
+        },
+        {
+          "word": "olan",
+          "startMs": 135910,
+          "endMs": 136240
+        },
+        {
+          "word": "bölgemizdir.",
+          "startMs": 136490,
+          "endMs": 137350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 138020,
+      "endMs": 149980,
+      "pauseAfterMs": 1180,
+      "text": "Ovalar ise akarsuların taşıdığı verimli topraklarla kaplı düzlüklerdir; Çukurova ve Bafra buna en güzel örneklerdir.",
+      "markedText": "Ovalar ise akarsuların taşıdığı verimli topraklarla kaplı düzlüklerdir; Çukurova ve Bafra buna en güzel örneklerdir.",
+      "words": [
+        {
+          "word": "Ovalar",
+          "startMs": 138020,
+          "endMs": 138520
+        },
+        {
+          "word": "ise",
+          "startMs": 139420,
+          "endMs": 139570
+        },
+        {
+          "word": "akarsuların",
+          "startMs": 139800,
+          "endMs": 140720
+        },
+        {
+          "word": "taşıdığı",
+          "startMs": 140980,
+          "endMs": 141320
+        },
+        {
+          "word": "verimli",
+          "startMs": 141420,
+          "endMs": 141780
+        },
+        {
+          "word": "topraklarla",
+          "startMs": 141860,
+          "endMs": 142350
+        },
+        {
+          "word": "kaplı",
+          "startMs": 142470,
+          "endMs": 142870
+        },
+        {
+          "word": "düzlüklerdir;",
+          "startMs": 142960,
+          "endMs": 144150
+        },
+        {
+          "word": "Çukurova",
+          "startMs": 144960,
+          "endMs": 145820
+        },
+        {
+          "word": "ve",
+          "startMs": 146100,
+          "endMs": 146180
+        },
+        {
+          "word": "Bafra",
+          "startMs": 146180,
+          "endMs": 146460
+        },
+        {
+          "word": "buna",
+          "startMs": 146570,
+          "endMs": 146660
+        },
+        {
+          "word": "en",
+          "startMs": 146760,
+          "endMs": 146830
+        },
+        {
+          "word": "güzel",
+          "startMs": 146830,
+          "endMs": 147240
+        },
+        {
+          "word": "örneklerdir.",
+          "startMs": 147470,
+          "endMs": 148800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 149980,
+      "endMs": 172520,
+      "pauseAfterMs": 580,
+      "text": "Bitki örtüsü ise iklime ve yükseltiye doğrudan bağlıdır; Karadeniz'de gür ormanlar, Akdeniz'de kısa boylu çalılıklardan oluşan maki, iç kesimlerde ise ilkbaharda yeşerip yazın sararan bozkır görülür.",
+      "markedText": "Bitki örtüsü ise iklime ve yükseltiye doğrudan bağlıdır; Karadeniz'de gür ormanlar, Akdeniz'de kısa boylu çalılıklardan oluşan maki, iç kesimlerde ise ilkbaharda yeşerip yazın sararan bozkır görülür.",
+      "words": [
+        {
+          "word": "Bitki",
+          "startMs": 149980,
+          "endMs": 150680
+        },
+        {
+          "word": "örtüsü",
+          "startMs": 151770,
+          "endMs": 152380
+        },
+        {
+          "word": "ise",
+          "startMs": 153780,
+          "endMs": 153950
+        },
+        {
+          "word": "iklime",
+          "startMs": 154050,
+          "endMs": 154460
+        },
+        {
+          "word": "ve",
+          "startMs": 154500,
+          "endMs": 154840
+        },
+        {
+          "word": "yükseltiye",
+          "startMs": 156050,
+          "endMs": 156460
+        },
+        {
+          "word": "doğrudan",
+          "startMs": 156680,
+          "endMs": 157280
+        },
+        {
+          "word": "bağlıdır;",
+          "startMs": 157280,
+          "endMs": 157930
+        },
+        {
+          "word": "Karadeniz'de",
+          "startMs": 158200,
+          "endMs": 159460
+        },
+        {
+          "word": "gür",
+          "startMs": 159600,
+          "endMs": 159860
+        },
+        {
+          "word": "ormanlar,",
+          "startMs": 160260,
+          "endMs": 161600
+        },
+        {
+          "word": "Akdeniz'de",
+          "startMs": 162400,
+          "endMs": 163280
+        },
+        {
+          "word": "kısa",
+          "startMs": 163490,
+          "endMs": 163730
+        },
+        {
+          "word": "boylu",
+          "startMs": 164300,
+          "endMs": 164740
+        },
+        {
+          "word": "çalılıklardan",
+          "startMs": 165170,
+          "endMs": 166110
+        },
+        {
+          "word": "oluşan",
+          "startMs": 166240,
+          "endMs": 166540
+        },
+        {
+          "word": "maki,",
+          "startMs": 166540,
+          "endMs": 166990
+        },
+        {
+          "word": "iç",
+          "startMs": 168290,
+          "endMs": 168350
+        },
+        {
+          "word": "kesimlerde",
+          "startMs": 168350,
+          "endMs": 168500
+        },
+        {
+          "word": "ise",
+          "startMs": 168500,
+          "endMs": 168640
+        },
+        {
+          "word": "ilkbaharda",
+          "startMs": 168740,
+          "endMs": 169080
+        },
+        {
+          "word": "yeşerip",
+          "startMs": 169230,
+          "endMs": 169370
+        },
+        {
+          "word": "yazın",
+          "startMs": 169560,
+          "endMs": 169910
+        },
+        {
+          "word": "sararan",
+          "startMs": 169990,
+          "endMs": 170450
+        },
+        {
+          "word": "bozkır",
+          "startMs": 170550,
+          "endMs": 170770
+        },
+        {
+          "word": "görülür.",
+          "startMs": 170870,
+          "endMs": 171940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 172520,
+      "endMs": 189250,
+      "pauseAfterMs": 740,
+      "text": "Pratik kural: Yeryüzünde yükselti arttıkça hava sıcaklığı her iki yüz metrede yaklaşık bir derece düşer; sıcaklık düştükçe bitki örtüsü de değişir.",
+      "markedText": "Pratik kural: Yeryüzünde yükselti arttıkça hava sıcaklığı her iki yüz metrede yaklaşık bir derece düşer; sıcaklık düştükçe bitki örtüsü de değişir.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 172520,
+          "endMs": 172920
+        },
+        {
+          "word": "kural:",
+          "startMs": 173040,
+          "endMs": 173240
+        },
+        {
+          "word": "Yeryüzünde",
+          "startMs": 173770,
+          "endMs": 174630
+        },
+        {
+          "word": "yükselti",
+          "startMs": 174730,
+          "endMs": 175300
+        },
+        {
+          "word": "arttıkça",
+          "startMs": 175300,
+          "endMs": 176090
+        },
+        {
+          "word": "hava",
+          "startMs": 177170,
+          "endMs": 177410
+        },
+        {
+          "word": "sıcaklığı",
+          "startMs": 177410,
+          "endMs": 178260
+        },
+        {
+          "word": "her",
+          "startMs": 178430,
+          "endMs": 178590
+        },
+        {
+          "word": "iki",
+          "startMs": 178680,
+          "endMs": 179030
+        },
+        {
+          "word": "yüz",
+          "startMs": 179170,
+          "endMs": 179380
+        },
+        {
+          "word": "metrede",
+          "startMs": 179530,
+          "endMs": 179950
+        },
+        {
+          "word": "yaklaşık",
+          "startMs": 180110,
+          "endMs": 180810
+        },
+        {
+          "word": "bir",
+          "startMs": 181060,
+          "endMs": 181430
+        },
+        {
+          "word": "derece",
+          "startMs": 181640,
+          "endMs": 182130
+        },
+        {
+          "word": "düşer;",
+          "startMs": 182250,
+          "endMs": 182980
+        },
+        {
+          "word": "sıcaklık",
+          "startMs": 184030,
+          "endMs": 184430
+        },
+        {
+          "word": "düştükçe",
+          "startMs": 184430,
+          "endMs": 184900
+        },
+        {
+          "word": "bitki",
+          "startMs": 186020,
+          "endMs": 186250
+        },
+        {
+          "word": "örtüsü",
+          "startMs": 186940,
+          "endMs": 187550
+        },
+        {
+          "word": "de",
+          "startMs": 187630,
+          "endMs": 187770
+        },
+        {
+          "word": "değişir.",
+          "startMs": 188140,
+          "endMs": 188510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 189250,
+      "endMs": 198430,
+      "pauseAfterMs": 980,
+      "text": "Deniz kıyısından başlayıp iç kısımlara doğru bir yolculuğa çıktığını hayal edelim.",
+      "markedText": "Deniz kıyısından başlayıp iç kısımlara doğru bir yolculuğa çıktığını hayal edelim.",
+      "words": [
+        {
+          "word": "Deniz",
+          "startMs": 189250,
+          "endMs": 189640
+        },
+        {
+          "word": "kıyısından",
+          "startMs": 190230,
+          "endMs": 191250
+        },
+        {
+          "word": "başlayıp",
+          "startMs": 191590,
+          "endMs": 192180
+        },
+        {
+          "word": "iç",
+          "startMs": 192180,
+          "endMs": 192640
+        },
+        {
+          "word": "kısımlara",
+          "startMs": 192910,
+          "endMs": 193620
+        },
+        {
+          "word": "doğru",
+          "startMs": 193760,
+          "endMs": 194280
+        },
+        {
+          "word": "bir",
+          "startMs": 195030,
+          "endMs": 195280
+        },
+        {
+          "word": "yolculuğa",
+          "startMs": 195740,
+          "endMs": 196290
+        },
+        {
+          "word": "çıktığını",
+          "startMs": 196290,
+          "endMs": 196680
+        },
+        {
+          "word": "hayal",
+          "startMs": 196730,
+          "endMs": 196980
+        },
+        {
+          "word": "edelim.",
+          "startMs": 197250,
+          "endMs": 197450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 198430,
+      "endMs": 206940,
+      "pauseAfterMs": 1160,
+      "text": "Kıyıdaki bereketli ovada zeytinlikler ve narenciye bahçeleri uzanır.",
+      "markedText": "Kıyıdaki bereketli ovada zeytinlikler ve narenciye bahçeleri uzanır.",
+      "words": [
+        {
+          "word": "Kıyıdaki",
+          "startMs": 198430,
+          "endMs": 199250
+        },
+        {
+          "word": "bereketli",
+          "startMs": 199560,
+          "endMs": 200590
+        },
+        {
+          "word": "ovada",
+          "startMs": 201520,
+          "endMs": 201760
+        },
+        {
+          "word": "zeytinlikler",
+          "startMs": 202230,
+          "endMs": 203500
+        },
+        {
+          "word": "ve",
+          "startMs": 203610,
+          "endMs": 203750
+        },
+        {
+          "word": "narenciye",
+          "startMs": 203970,
+          "endMs": 204480
+        },
+        {
+          "word": "bahçeleri",
+          "startMs": 204570,
+          "endMs": 205090
+        },
+        {
+          "word": "uzanır.",
+          "startMs": 205090,
+          "endMs": 205780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 206940,
+      "endMs": 221020,
+      "pauseAfterMs": 980,
+      "text": "Ardından Toros Dağları'na tırmanmaya başlarsın; denize bakan yamaçlarda Akdeniz ikliminin simgesi olan maki toplulukları yer alır.",
+      "markedText": "Ardından Toros Dağları'na tırmanmaya başlarsın; denize bakan yamaçlarda Akdeniz ikliminin simgesi olan maki toplulukları yer alır.",
+      "words": [
+        {
+          "word": "Ardından",
+          "startMs": 206940,
+          "endMs": 207500
+        },
+        {
+          "word": "Toros",
+          "startMs": 207590,
+          "endMs": 208070
+        },
+        {
+          "word": "Dağları'na",
+          "startMs": 208070,
+          "endMs": 208950
+        },
+        {
+          "word": "tırmanmaya",
+          "startMs": 209390,
+          "endMs": 210530
+        },
+        {
+          "word": "başlarsın;",
+          "startMs": 210690,
+          "endMs": 212610
+        },
+        {
+          "word": "denize",
+          "startMs": 213580,
+          "endMs": 214000
+        },
+        {
+          "word": "bakan",
+          "startMs": 214130,
+          "endMs": 214640
+        },
+        {
+          "word": "yamaçlarda",
+          "startMs": 214970,
+          "endMs": 215370
+        },
+        {
+          "word": "Akdeniz",
+          "startMs": 215470,
+          "endMs": 215900
+        },
+        {
+          "word": "ikliminin",
+          "startMs": 216190,
+          "endMs": 216720
+        },
+        {
+          "word": "simgesi",
+          "startMs": 217090,
+          "endMs": 217340
+        },
+        {
+          "word": "olan",
+          "startMs": 217340,
+          "endMs": 217600
+        },
+        {
+          "word": "maki",
+          "startMs": 217670,
+          "endMs": 217940
+        },
+        {
+          "word": "toplulukları",
+          "startMs": 218280,
+          "endMs": 219100
+        },
+        {
+          "word": "yer",
+          "startMs": 219100,
+          "endMs": 219280
+        },
+        {
+          "word": "alır.",
+          "startMs": 219430,
+          "endMs": 220040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 221020,
+      "endMs": 235680,
+      "pauseAfterMs": 770,
+      "text": "Maki, yaz kuraklığına dayanıklı, yaprakları sert ve parlak kısa boylu çalılıklardır; orman değildir.",
+      "markedText": "Maki, yaz kuraklığına dayanıklı, yaprakları sert ve parlak kısa boylu çalılıklardır; orman değildir.",
+      "words": [
+        {
+          "word": "Maki,",
+          "startMs": 221020,
+          "endMs": 221490
+        },
+        {
+          "word": "yaz",
+          "startMs": 221640,
+          "endMs": 221920
+        },
+        {
+          "word": "kuraklığına",
+          "startMs": 222250,
+          "endMs": 223200
+        },
+        {
+          "word": "dayanıklı,",
+          "startMs": 223360,
+          "endMs": 224350
+        },
+        {
+          "word": "yaprakları",
+          "startMs": 225360,
+          "endMs": 226500
+        },
+        {
+          "word": "sert",
+          "startMs": 226910,
+          "endMs": 227290
+        },
+        {
+          "word": "ve",
+          "startMs": 227290,
+          "endMs": 228040
+        },
+        {
+          "word": "parlak",
+          "startMs": 228470,
+          "endMs": 228860
+        },
+        {
+          "word": "kısa",
+          "startMs": 228990,
+          "endMs": 229520
+        },
+        {
+          "word": "boylu",
+          "startMs": 229850,
+          "endMs": 230300
+        },
+        {
+          "word": "çalılıklardır;",
+          "startMs": 230380,
+          "endMs": 231970
+        },
+        {
+          "word": "orman",
+          "startMs": 233120,
+          "endMs": 233740
+        },
+        {
+          "word": "değildir.",
+          "startMs": 234130,
+          "endMs": 234910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 235680,
+      "endMs": 252410,
+      "pauseAfterMs": 1100,
+      "text": "Dağın zirvesini aşıp İç Anadolu tarafına indiğinde ise dağların nemi kestiğini hemen fark edersin; yağış azalır ve uçsuz bucaksız bozkır örtüsü başlar.",
+      "markedText": "Dağın zirvesini aşıp İç Anadolu tarafına indiğinde ise dağların nemi kestiğini hemen fark edersin; yağış azalır ve uçsuz bucaksız bozkır örtüsü başlar.",
+      "words": [
+        {
+          "word": "Dağın",
+          "startMs": 235680,
+          "endMs": 236120
+        },
+        {
+          "word": "zirvesini",
+          "startMs": 236340,
+          "endMs": 236870
+        },
+        {
+          "word": "aşıp",
+          "startMs": 236940,
+          "endMs": 237090
+        },
+        {
+          "word": "İç",
+          "startMs": 237270,
+          "endMs": 237400
+        },
+        {
+          "word": "Anadolu",
+          "startMs": 237850,
+          "endMs": 238520
+        },
+        {
+          "word": "tarafına",
+          "startMs": 238780,
+          "endMs": 239500
+        },
+        {
+          "word": "indiğinde",
+          "startMs": 239740,
+          "endMs": 240480
+        },
+        {
+          "word": "ise",
+          "startMs": 240660,
+          "endMs": 240810
+        },
+        {
+          "word": "dağların",
+          "startMs": 241710,
+          "endMs": 242470
+        },
+        {
+          "word": "nemi",
+          "startMs": 242600,
+          "endMs": 242940
+        },
+        {
+          "word": "kestiğini",
+          "startMs": 243090,
+          "endMs": 243630
+        },
+        {
+          "word": "hemen",
+          "startMs": 243950,
+          "endMs": 244470
+        },
+        {
+          "word": "fark",
+          "startMs": 244470,
+          "endMs": 244840
+        },
+        {
+          "word": "edersin;",
+          "startMs": 244840,
+          "endMs": 245530
+        },
+        {
+          "word": "yağış",
+          "startMs": 245750,
+          "endMs": 245920
+        },
+        {
+          "word": "azalır",
+          "startMs": 245990,
+          "endMs": 246480
+        },
+        {
+          "word": "ve",
+          "startMs": 246600,
+          "endMs": 246720
+        },
+        {
+          "word": "uçsuz",
+          "startMs": 246720,
+          "endMs": 247060
+        },
+        {
+          "word": "bucaksız",
+          "startMs": 247120,
+          "endMs": 247990
+        },
+        {
+          "word": "bozkır",
+          "startMs": 249200,
+          "endMs": 249450
+        },
+        {
+          "word": "örtüsü",
+          "startMs": 249940,
+          "endMs": 250200
+        },
+        {
+          "word": "başlar.",
+          "startMs": 250440,
+          "endMs": 251310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 252410,
+      "endMs": 264960,
+      "pauseAfterMs": 1000,
+      "text": "Bozkır, ilkbahar yağmurlarıyla yeşeren, yaz sıcağında kuruyan seyrek ot topluluğudur; çöl değildir.",
+      "markedText": "Bozkır, ilkbahar yağmurlarıyla yeşeren, yaz sıcağında kuruyan seyrek ot topluluğudur; çöl değildir.",
+      "words": [
+        {
+          "word": "Bozkır,",
+          "startMs": 252410,
+          "endMs": 252850
+        },
+        {
+          "word": "ilkbahar",
+          "startMs": 252960,
+          "endMs": 253710
+        },
+        {
+          "word": "yağmurlarıyla",
+          "startMs": 254100,
+          "endMs": 255500
+        },
+        {
+          "word": "yeşeren,",
+          "startMs": 255760,
+          "endMs": 256440
+        },
+        {
+          "word": "yaz",
+          "startMs": 257480,
+          "endMs": 257690
+        },
+        {
+          "word": "sıcağında",
+          "startMs": 257770,
+          "endMs": 258750
+        },
+        {
+          "word": "kuruyan",
+          "startMs": 259090,
+          "endMs": 259530
+        },
+        {
+          "word": "seyrek",
+          "startMs": 259680,
+          "endMs": 260090
+        },
+        {
+          "word": "ot",
+          "startMs": 260090,
+          "endMs": 260210
+        },
+        {
+          "word": "topluluğudur;",
+          "startMs": 260210,
+          "endMs": 261430
+        },
+        {
+          "word": "çöl",
+          "startMs": 262710,
+          "endMs": 262900
+        },
+        {
+          "word": "değildir.",
+          "startMs": 263280,
+          "endMs": 263960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 264960,
+      "endMs": 272920,
+      "pauseAfterMs": 1020,
+      "text": "Doğuya doğru ilerledikçe yükselti daha da artar ve hava iyice serinler.",
+      "markedText": "Doğuya doğru ilerledikçe yükselti daha da artar ve hava iyice serinler.",
+      "words": [
+        {
+          "word": "Doğuya",
+          "startMs": 264960,
+          "endMs": 265310
+        },
+        {
+          "word": "doğru",
+          "startMs": 265420,
+          "endMs": 266000
+        },
+        {
+          "word": "ilerledikçe",
+          "startMs": 266420,
+          "endMs": 267450
+        },
+        {
+          "word": "yükselti",
+          "startMs": 267840,
+          "endMs": 268330
+        },
+        {
+          "word": "daha",
+          "startMs": 268330,
+          "endMs": 268560
+        },
+        {
+          "word": "da",
+          "startMs": 268690,
+          "endMs": 269090
+        },
+        {
+          "word": "artar",
+          "startMs": 270070,
+          "endMs": 270330
+        },
+        {
+          "word": "ve",
+          "startMs": 270420,
+          "endMs": 270590
+        },
+        {
+          "word": "hava",
+          "startMs": 270590,
+          "endMs": 270860
+        },
+        {
+          "word": "iyice",
+          "startMs": 270860,
+          "endMs": 271250
+        },
+        {
+          "word": "serinler.",
+          "startMs": 271250,
+          "endMs": 271900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 272920,
+      "endMs": 281060,
+      "pauseAfterMs": 1050,
+      "text": "Her yer şekli, doğanın o köşesine ayrı bir örtü armağan eder.",
+      "markedText": "Her yer şekli, doğanın o köşesine ayrı bir örtü armağan eder.",
+      "words": [
+        {
+          "word": "Her",
+          "startMs": 272920,
+          "endMs": 273200
+        },
+        {
+          "word": "yer",
+          "startMs": 273260,
+          "endMs": 273390
+        },
+        {
+          "word": "şekli,",
+          "startMs": 273750,
+          "endMs": 274210
+        },
+        {
+          "word": "doğanın",
+          "startMs": 274920,
+          "endMs": 275290
+        },
+        {
+          "word": "o",
+          "startMs": 275370,
+          "endMs": 275530
+        },
+        {
+          "word": "köşesine",
+          "startMs": 275630,
+          "endMs": 276130
+        },
+        {
+          "word": "ayrı",
+          "startMs": 276420,
+          "endMs": 276700
+        },
+        {
+          "word": "bir",
+          "startMs": 277550,
+          "endMs": 277690
+        },
+        {
+          "word": "örtü",
+          "startMs": 277800,
+          "endMs": 278440
+        },
+        {
+          "word": "armağan",
+          "startMs": 278700,
+          "endMs": 278880
+        },
+        {
+          "word": "eder.",
+          "startMs": 279260,
+          "endMs": 280010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 281060,
+      "endMs": 283920,
+      "pauseAfterMs": 1020,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 281060,
+          "endMs": 281730
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 281820,
+          "endMs": 282900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 283920,
+      "endMs": 286350,
+      "pauseAfterMs": 1030,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 283920,
+          "endMs": 284430
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 284430,
+          "endMs": 285320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 286350,
+      "endMs": 291470,
+      "pauseAfterMs": 930,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 286350,
+          "endMs": 286580
+        },
+        {
+          "word": "noktayı",
+          "startMs": 287030,
+          "endMs": 288220
+        },
+        {
+          "word": "sen",
+          "startMs": 288690,
+          "endMs": 288980
+        },
+        {
+          "word": "de",
+          "startMs": 288980,
+          "endMs": 289190
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 289310,
+          "endMs": 290540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 291470,
+      "endMs": 298200,
+      "pauseAfterMs": 1150,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 291470,
+          "endMs": 291790
+        },
+        {
+          "word": "sevgili",
+          "startMs": 291910,
+          "endMs": 292370
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 292460,
+          "endMs": 293550
+        },
+        {
+          "word": "işte",
+          "startMs": 293930,
+          "endMs": 294120
+        },
+        {
+          "word": "tam",
+          "startMs": 294220,
+          "endMs": 294550
+        },
+        {
+          "word": "bu",
+          "startMs": 294550,
+          "endMs": 294610
+        },
+        {
+          "word": "noktada",
+          "startMs": 294700,
+          "endMs": 295050
+        },
+        {
+          "word": "dikkat",
+          "startMs": 295200,
+          "endMs": 295530
+        },
+        {
+          "word": "etmen",
+          "startMs": 295530,
+          "endMs": 295830
+        },
+        {
+          "word": "gereken",
+          "startMs": 295930,
+          "endMs": 296350
+        },
+        {
+          "word": "kilit",
+          "startMs": 296480,
+          "endMs": 296710
+        },
+        {
+          "word": "nokta.",
+          "startMs": 296800,
+          "endMs": 297050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 298200,
+      "endMs": 307060,
+      "pauseAfterMs": 980,
+      "text": "Maki örtüsünü dev ormanlarla, bozkırı ise kumlu bir çölle karıştırmak yaygın bir yanılgıdır.",
+      "markedText": "Maki örtüsünü dev ormanlarla, bozkırı ise kumlu bir çölle karıştırmak yaygın bir yanılgıdır.",
+      "words": [
+        {
+          "word": "Maki",
+          "startMs": 298200,
+          "endMs": 298400
+        },
+        {
+          "word": "örtüsünü",
+          "startMs": 298400,
+          "endMs": 298830
+        },
+        {
+          "word": "dev",
+          "startMs": 298940,
+          "endMs": 299060
+        },
+        {
+          "word": "ormanlarla,",
+          "startMs": 299200,
+          "endMs": 299690
+        },
+        {
+          "word": "bozkırı",
+          "startMs": 300650,
+          "endMs": 301080
+        },
+        {
+          "word": "ise",
+          "startMs": 301360,
+          "endMs": 301470
+        },
+        {
+          "word": "kumlu",
+          "startMs": 302140,
+          "endMs": 302490
+        },
+        {
+          "word": "bir",
+          "startMs": 302630,
+          "endMs": 302780
+        },
+        {
+          "word": "çölle",
+          "startMs": 302860,
+          "endMs": 303240
+        },
+        {
+          "word": "karıştırmak",
+          "startMs": 304180,
+          "endMs": 304820
+        },
+        {
+          "word": "yaygın",
+          "startMs": 304910,
+          "endMs": 305200
+        },
+        {
+          "word": "bir",
+          "startMs": 305280,
+          "endMs": 305350
+        },
+        {
+          "word": "yanılgıdır.",
+          "startMs": 305420,
+          "endMs": 306080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 307060,
+      "endMs": 314850,
+      "pauseAfterMs": 910,
+      "text": "Makinin kısa boylu çalı, bozkırın ise ilkbahar otu olduğunu her zaman hatırla.",
+      "markedText": "Makinin kısa boylu çalı, bozkırın ise ilkbahar otu olduğunu her zaman hatırla.",
+      "words": [
+        {
+          "word": "Makinin",
+          "startMs": 307060,
+          "endMs": 307990
+        },
+        {
+          "word": "kısa",
+          "startMs": 308360,
+          "endMs": 308570
+        },
+        {
+          "word": "boylu",
+          "startMs": 308840,
+          "endMs": 309080
+        },
+        {
+          "word": "çalı,",
+          "startMs": 309080,
+          "endMs": 309570
+        },
+        {
+          "word": "bozkırın",
+          "startMs": 310420,
+          "endMs": 310790
+        },
+        {
+          "word": "ise",
+          "startMs": 310790,
+          "endMs": 310950
+        },
+        {
+          "word": "ilkbahar",
+          "startMs": 311090,
+          "endMs": 311470
+        },
+        {
+          "word": "otu",
+          "startMs": 311540,
+          "endMs": 311750
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 311830,
+          "endMs": 312250
+        },
+        {
+          "word": "her",
+          "startMs": 312420,
+          "endMs": 312650
+        },
+        {
+          "word": "zaman",
+          "startMs": 312750,
+          "endMs": 313260
+        },
+        {
+          "word": "hatırla.",
+          "startMs": 313410,
+          "endMs": 313940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 314850,
+      "endMs": 328360,
+      "pauseAfterMs": 930,
+      "text": "Dağlara tırmandıkça havanın ısındığını düşünmek de yanıltıcı bir tuzaktır; tam tersine yükseldikçe sıcaklık düzenli olarak azalır.",
+      "markedText": "Dağlara tırmandıkça havanın ısındığını düşünmek de yanıltıcı bir tuzaktır; tam tersine yükseldikçe sıcaklık düzenli olarak azalır.",
+      "words": [
+        {
+          "word": "Dağlara",
+          "startMs": 314850,
+          "endMs": 315280
+        },
+        {
+          "word": "tırmandıkça",
+          "startMs": 315330,
+          "endMs": 315990
+        },
+        {
+          "word": "havanın",
+          "startMs": 315990,
+          "endMs": 316360
+        },
+        {
+          "word": "ısındığını",
+          "startMs": 316490,
+          "endMs": 316780
+        },
+        {
+          "word": "düşünmek",
+          "startMs": 316910,
+          "endMs": 317250
+        },
+        {
+          "word": "de",
+          "startMs": 317340,
+          "endMs": 317460
+        },
+        {
+          "word": "yanıltıcı",
+          "startMs": 317560,
+          "endMs": 318120
+        },
+        {
+          "word": "bir",
+          "startMs": 319230,
+          "endMs": 319370
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 319370,
+          "endMs": 320220
+        },
+        {
+          "word": "tam",
+          "startMs": 321590,
+          "endMs": 322010
+        },
+        {
+          "word": "tersine",
+          "startMs": 322010,
+          "endMs": 322900
+        },
+        {
+          "word": "yükseldikçe",
+          "startMs": 323200,
+          "endMs": 324100
+        },
+        {
+          "word": "sıcaklık",
+          "startMs": 324400,
+          "endMs": 324710
+        },
+        {
+          "word": "düzenli",
+          "startMs": 324820,
+          "endMs": 325560
+        },
+        {
+          "word": "olarak",
+          "startMs": 326500,
+          "endMs": 326730
+        },
+        {
+          "word": "azalır.",
+          "startMs": 326820,
+          "endMs": 327430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 328360,
+      "endMs": 342880,
+      "pauseAfterMs": 1170,
+      "text": "Dağların kıyı ile iç kesimler arasında koruyucu dev bir set oluşturduğunu güvenle aklında tutabilirsin.",
+      "markedText": "Dağların kıyı ile iç kesimler arasında koruyucu dev bir set oluşturduğunu güvenle aklında tutabilirsin.",
+      "words": [
+        {
+          "word": "Dağların",
+          "startMs": 328360,
+          "endMs": 328880
+        },
+        {
+          "word": "kıyı",
+          "startMs": 329010,
+          "endMs": 329400
+        },
+        {
+          "word": "ile",
+          "startMs": 329900,
+          "endMs": 330070
+        },
+        {
+          "word": "iç",
+          "startMs": 330460,
+          "endMs": 330550
+        },
+        {
+          "word": "kesimler",
+          "startMs": 330650,
+          "endMs": 331520
+        },
+        {
+          "word": "arasında",
+          "startMs": 332010,
+          "endMs": 333010
+        },
+        {
+          "word": "koruyucu",
+          "startMs": 334150,
+          "endMs": 334810
+        },
+        {
+          "word": "dev",
+          "startMs": 334870,
+          "endMs": 335190
+        },
+        {
+          "word": "bir",
+          "startMs": 336360,
+          "endMs": 336500
+        },
+        {
+          "word": "set",
+          "startMs": 336550,
+          "endMs": 336760
+        },
+        {
+          "word": "oluşturduğunu",
+          "startMs": 336820,
+          "endMs": 338190
+        },
+        {
+          "word": "güvenle",
+          "startMs": 339090,
+          "endMs": 339630
+        },
+        {
+          "word": "aklında",
+          "startMs": 339630,
+          "endMs": 340090
+        },
+        {
+          "word": "tutabilirsin.",
+          "startMs": 340500,
+          "endMs": 341710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 342880,
+      "endMs": 345150,
+      "pauseAfterMs": 1390,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 342880,
+          "endMs": 343060
+        },
+        {
+          "word": "Neler",
+          "startMs": 343130,
+          "endMs": 343330
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 343400,
+          "endMs": 343760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 345150,
+      "endMs": 345470,
+      "pauseAfterMs": 110,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 345150,
+          "endMs": 345360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 345470,
+      "endMs": 349730,
+      "pauseAfterMs": 1060,
+      "text": "Kuzey Anadolu Dağları ve Toroslar kıyıya paralel uzanır.",
+      "markedText": "Kuzey Anadolu Dağları ve Toroslar kıyıya paralel uzanır.",
+      "words": [
+        {
+          "word": "Kuzey",
+          "startMs": 345470,
+          "endMs": 345760
+        },
+        {
+          "word": "Anadolu",
+          "startMs": 345760,
+          "endMs": 346050
+        },
+        {
+          "word": "Dağları",
+          "startMs": 346160,
+          "endMs": 346290
+        },
+        {
+          "word": "ve",
+          "startMs": 346390,
+          "endMs": 346460
+        },
+        {
+          "word": "Toroslar",
+          "startMs": 346580,
+          "endMs": 347030
+        },
+        {
+          "word": "kıyıya",
+          "startMs": 347030,
+          "endMs": 347330
+        },
+        {
+          "word": "paralel",
+          "startMs": 347330,
+          "endMs": 347750
+        },
+        {
+          "word": "uzanır.",
+          "startMs": 347980,
+          "endMs": 348670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 349730,
+      "endMs": 354750,
+      "pauseAfterMs": 1150,
+      "text": "İçeride plato vardır.",
+      "markedText": "İçeride plato vardır.",
+      "words": [
+        {
+          "word": "İçeride",
+          "startMs": 349730,
+          "endMs": 350440
+        },
+        {
+          "word": "plato",
+          "startMs": 350570,
+          "endMs": 351150
+        },
+        {
+          "word": "vardır.",
+          "startMs": 352000,
+          "endMs": 353600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 354750,
+      "endMs": 356710,
+      "pauseAfterMs": 1400,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 354750,
+          "endMs": 355310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 356710,
+      "endMs": 365970,
+      "pauseAfterMs": 1100,
+      "text": "Karadeniz'de orman, Akdeniz'de maki, iç kesimde bozkır görülür.",
+      "markedText": "Karadeniz'de orman, Akdeniz'de maki, iç kesimde bozkır görülür.",
+      "words": [
+        {
+          "word": "Karadeniz'de",
+          "startMs": 356710,
+          "endMs": 357550
+        },
+        {
+          "word": "orman,",
+          "startMs": 357750,
+          "endMs": 358670
+        },
+        {
+          "word": "Akdeniz'de",
+          "startMs": 359750,
+          "endMs": 360630
+        },
+        {
+          "word": "maki,",
+          "startMs": 360630,
+          "endMs": 361650
+        },
+        {
+          "word": "iç",
+          "startMs": 362120,
+          "endMs": 362340
+        },
+        {
+          "word": "kesimde",
+          "startMs": 362380,
+          "endMs": 363080
+        },
+        {
+          "word": "bozkır",
+          "startMs": 363240,
+          "endMs": 363730
+        },
+        {
+          "word": "görülür.",
+          "startMs": 363900,
+          "endMs": 364870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 365970,
+      "endMs": 366890,
+      "pauseAfterMs": 680,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 365970,
+          "endMs": 366210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 366890,
+      "endMs": 371570,
+      "pauseAfterMs": 1160,
+      "text": "Yükselti artınca sıcaklık düşer.",
+      "markedText": "Yükselti artınca sıcaklık düşer.",
+      "words": [
+        {
+          "word": "Yükselti",
+          "startMs": 366890,
+          "endMs": 367380
+        },
+        {
+          "word": "artınca",
+          "startMs": 368370,
+          "endMs": 368770
+        },
+        {
+          "word": "sıcaklık",
+          "startMs": 369360,
+          "endMs": 369650
+        },
+        {
+          "word": "düşer.",
+          "startMs": 369780,
+          "endMs": 370410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 371570,
+      "endMs": 374420,
+      "pauseAfterMs": 1260,
+      "text": "Maki orman, bozkır çöl değildir.",
+      "markedText": "Maki orman, bozkır çöl değildir.",
+      "words": [
+        {
+          "word": "Maki",
+          "startMs": 371570,
+          "endMs": 371690
+        },
+        {
+          "word": "orman,",
+          "startMs": 371690,
+          "endMs": 371820
+        },
+        {
+          "word": "bozkır",
+          "startMs": 371820,
+          "endMs": 372050
+        },
+        {
+          "word": "çöl",
+          "startMs": 372120,
+          "endMs": 372230
+        },
+        {
+          "word": "değildir.",
+          "startMs": 372320,
+          "endMs": 373160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 374420,
+      "endMs": 379190,
+      "pauseAfterMs": 1020,
+      "text": "Yeryüzü şekli iklimi böler.",
+      "markedText": "Yeryüzü şekli iklimi böler.",
+      "words": [
+        {
+          "word": "Yeryüzü",
+          "startMs": 374420,
+          "endMs": 375430
+        },
+        {
+          "word": "şekli",
+          "startMs": 375530,
+          "endMs": 375890
+        },
+        {
+          "word": "iklimi",
+          "startMs": 376000,
+          "endMs": 376770
+        },
+        {
+          "word": "böler.",
+          "startMs": 376900,
+          "endMs": 378170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 379190,
+      "endMs": 385430,
+      "pauseAfterMs": 1100,
+      "text": "Bitki örtüsü iklim ve yükseltiye uyar.",
+      "markedText": "Bitki örtüsü iklim ve yükseltiye uyar.",
+      "words": [
+        {
+          "word": "Bitki",
+          "startMs": 379190,
+          "endMs": 379980
+        },
+        {
+          "word": "örtüsü",
+          "startMs": 379980,
+          "endMs": 380830
+        },
+        {
+          "word": "iklim",
+          "startMs": 380940,
+          "endMs": 381390
+        },
+        {
+          "word": "ve",
+          "startMs": 381470,
+          "endMs": 381660
+        },
+        {
+          "word": "yükseltiye",
+          "startMs": 382110,
+          "endMs": 383020
+        },
+        {
+          "word": "uyar.",
+          "startMs": 383110,
+          "endMs": 384330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 385430,
+      "endMs": 393890,
+      "pauseAfterMs": 1140,
+      "text": "Bir yerin şeklini ve oradaki bitki örtüsünü ayrı cümleyle söylersin.",
+      "markedText": "Bir yerin şeklini ve oradaki bitki örtüsünü ayrı cümleyle söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 385430,
+          "endMs": 385710
+        },
+        {
+          "word": "yerin",
+          "startMs": 386070,
+          "endMs": 386450
+        },
+        {
+          "word": "şeklini",
+          "startMs": 386520,
+          "endMs": 386980
+        },
+        {
+          "word": "ve",
+          "startMs": 387120,
+          "endMs": 387440
+        },
+        {
+          "word": "oradaki",
+          "startMs": 388370,
+          "endMs": 388690
+        },
+        {
+          "word": "bitki",
+          "startMs": 388690,
+          "endMs": 388970
+        },
+        {
+          "word": "örtüsünü",
+          "startMs": 389110,
+          "endMs": 389860
+        },
+        {
+          "word": "ayrı",
+          "startMs": 390810,
+          "endMs": 391000
+        },
+        {
+          "word": "cümleyle",
+          "startMs": 391230,
+          "endMs": 391450
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 391710,
+          "endMs": 392750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 393890,
+      "endMs": 396550,
+      "pauseAfterMs": 890,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 393890,
+          "endMs": 394500
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 394660,
+          "endMs": 395660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 396550,
+      "endMs": 401210,
+      "pauseAfterMs": 1070,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 396550,
+          "endMs": 397070
+        },
+        {
+          "word": "bir",
+          "startMs": 397400,
+          "endMs": 397870
+        },
+        {
+          "word": "iş",
+          "startMs": 398350,
+          "endMs": 398500
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 398720,
+          "endMs": 400140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-3",
+      "startMs": 401210,
+      "endMs": 404610,
+      "pauseAfterMs": 890,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 401210,
+          "endMs": 401920
+        },
+        {
+          "word": "sıra",
+          "startMs": 402890,
+          "endMs": 403150
+        },
+        {
+          "word": "sende.",
+          "startMs": 403230,
+          "endMs": 403720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-3",
+      "startMs": 404610,
+      "endMs": 407354,
+      "pauseAfterMs": 394,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 404610,
+          "endMs": 405130
+        },
+        {
+          "word": "bu",
+          "startMs": 405130,
+          "endMs": 405210
+        },
+        {
+          "word": "notları",
+          "startMs": 405290,
+          "endMs": 405540
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 405630,
+          "endMs": 405920
+        },
+        {
+          "word": "kendi",
+          "startMs": 406030,
+          "endMs": 406190
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 406190,
+          "endMs": 406680
+        },
+        {
+          "word": "anlat.",
+          "startMs": 406680,
+          "endMs": 406960
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

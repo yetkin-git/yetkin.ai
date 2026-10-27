@@ -89,9 +89,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const url = canonicalUrl(`/academy/${slug}/oyna`);
   return {
+    title: "Ders oynatıcı",
+    description: "Bu oynatıcı arama dizinine kapalıdır. Eğitim kataloğu /academy adresindedir.",
     robots: { index: false, follow: false },
     alternates: { canonical: url },
-    openGraph: { url },
+    openGraph: { url, title: "Ders oynatıcı" },
   };
 }
 

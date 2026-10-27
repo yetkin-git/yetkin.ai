@@ -1,3 +1,5 @@
+import { migrateJuniorLessonStores } from "@/lib/junior/lesson-key-alias";
+
 /**
  * Mikro-adım izi.
  * JuniorProgress kazanım satırıdır; defter ve ses oraya yazılmaz.
@@ -34,12 +36,12 @@ export function microProgressStorageKey(
   return `yetkin.${band}.micro.v1:${profile}:${lesson}`;
 }
 
-function storageOrNull(): Pick<Storage, "getItem" | "setItem"> | null {
+function storageOrNull(profileId = ""): Pick<Storage, "getItem" | "setItem"> | null {
   if (typeof window === "undefined") {
     return null;
   }
   try {
-    return window.localStorage;
+    return profileId.trim() ? window.localStorage : window.sessionStorage;
   } catch {
     return null;
   }
@@ -68,8 +70,9 @@ export function readMicroProgress(
   band: MicroLessonBand,
   profileId: string,
   lessonKey: string,
-  storage: Pick<Storage, "getItem"> | null = storageOrNull(),
+  storage: Pick<Storage, "getItem"> | null = storageOrNull(profileId),
 ): MicroProgressRecord {
+  migrateJuniorLessonStores(storage);
   if (!storage) {
     return { ...EMPTY, completed: [] };
   }
@@ -81,8 +84,9 @@ export function writeMicroProgress(
   profileId: string,
   lessonKey: string,
   record: MicroProgressRecord,
-  storage: Pick<Storage, "setItem"> | null = storageOrNull(),
+  storage: Pick<Storage, "setItem"> | null = storageOrNull(profileId),
 ): void {
+  migrateJuniorLessonStores(storage);
   if (!storage) {
     return;
   }

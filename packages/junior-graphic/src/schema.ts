@@ -35,6 +35,7 @@ export const stageLayoutSchema = z.enum([
   "area",
   "force",
   "speed",
+  "concept-list",
 ]);
 
 export type StageLayout = z.infer<typeof stageLayoutSchema>;
@@ -62,6 +63,7 @@ export const visualKeyframeOpSchema = z.enum([
   "SHOW_AREA",
   "SHOW_FORCE",
   "SHOW_SPEED",
+  "SHOW_CONCEPT_LIST",
 ]);
 
 export type VisualKeyframeOp = z.infer<typeof visualKeyframeOpSchema>;
@@ -98,9 +100,15 @@ export const chapterSchema = z.object({
 
 export type ChapterItem = z.infer<typeof chapterSchema>;
 
+export const timelineProductionSchema = z.object({
+  status: z.literal("locked"),
+  readiness: z.literal("ready"),
+});
+
 export const timelineJsonSchema = z.object({
   schemaVersion: z.literal("2.0.0"),
   lessonKey: z.string().min(1),
+  production: timelineProductionSchema.optional(),
   title: z.string().min(1),
   grade: z.number().int().positive(),
   subject: z.string().min(1),

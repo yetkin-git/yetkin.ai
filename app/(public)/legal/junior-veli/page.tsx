@@ -7,12 +7,14 @@ import {
   JUNIOR_GUARDIAN_NOTICE_VERSION,
   juniorGuardianNoticeParagraphs,
 } from "@/lib/copy/junior-guardian-notice";
-import { pageMetadata } from "@/lib/copy/seo";
+import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 
 export const metadata: Metadata = pageMetadata({
   title: JUNIOR_GUARDIAN_NOTICE_TITLE,
-  description: "Yetkin Junior çocuk profili için veli aydınlatması. Ödeme sözleşmesinden ayrıdır.",
+  description:
+    "Yetkin Junior çocuk profili için veli aydınlatması: hangi veri işlenir, ses neden saklanmaz, profil kapatılınca ne silinir. Ödeme sözleşmesinden ayrıdır.",
   path: "/legal/junior-veli",
+  image: PAGE_SEO.legal.image,
 });
 
 export default function JuniorGuardianNoticePage() {

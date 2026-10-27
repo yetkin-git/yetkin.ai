@@ -16,6 +16,7 @@ import {
 } from "@/lib/junior/catalog";
 import {
   JUNIOR_ELECTIVE_CATEGORY,
+  JUNIOR_ELECTIVE_NOT_YEAR_TAG,
   JUNIOR_ELECTIVE_TAG,
   JUNIOR_MAARIF_SKILL_TAGS,
   JUNIOR_PERSONAL_CURRICULUM_TAG,
@@ -159,6 +160,7 @@ describe("Junior seçmeli ders kataloğu", () => {
       "Seçmeli Arapça",
     ]);
     expect(JUNIOR_PERSONAL_CURRICULUM_TAG).toBe("Kişiye Özel Müfredat");
+    expect(JUNIOR_ELECTIVE_NOT_YEAR_TAG).toBe("İki konu taslak · yıllık müfredat değil");
     expect(JUNIOR_ELECTIVE_TAG).toBe("Seçmeli Ders");
     expect(JUNIOR_ELECTIVE_CATEGORY).toBe("Seçmeli Dersler");
     expect(juniorElectiveCategory().title).toBe("Seçmeli Dersler");
@@ -166,15 +168,21 @@ describe("Junior seçmeli ders kataloğu", () => {
     expect(juniorElectiveLessonsSharePlayerContract()).toBe(true);
     for (const course of electives) {
       expect(course.labels).toEqual([
-        JUNIOR_QUIZ_PREPARING_LABEL,
-        JUNIOR_PERSONAL_CURRICULUM_TAG,
+        JUNIOR_ELECTIVE_NOT_YEAR_TAG,
         JUNIOR_ELECTIVE_TAG,
         ...JUNIOR_MAARIF_SKILL_TAGS,
       ]);
-      expect(course.lessons.every((lesson) => lesson.status === "preparing")).toBe(true);
+      expect(course.lessons.every((lesson) => lesson.status === "fresh")).toBe(true);
+      expect(course.lessons.every((lesson) => lesson.shortTopicLabel === "Kısa Konu / Özet Ders")).toBe(true);
       expect(course.grade).toBe(6);
+      // Her seçmeli kartta 1. konu ücretsiz açılış, 2. konu paket vaadine kilitli.
       expect(course.lessons[0]?.access).toBe("free");
       expect(course.lessons[1]?.access).toBe("locked");
+      expect(juniorTopicCardFace(course.lessons[0]!, true)).toMatchObject({
+        badge: "Kısa anlatım",
+        action: "Ücretsiz Başla",
+        destination: "lesson",
+      });
       const lesson = juniorLessonByKey(course.lessons[0]?.key ?? "");
       expect(lesson?.scene).toBe("elective");
       expect(lesson?.steps).toHaveLength(12);
@@ -195,7 +203,7 @@ describe("Junior seçmeli ders kataloğu", () => {
 
 describe("Junior ders notu", () => {
   it("okul cümlesi ile günlük kullanımı tek anlatımda birleştirir", () => {
-    const lesson = juniorLessonByKey("jr_06_mat-5");
+    const lesson = juniorLessonByKey("jr_06_mat-1");
     expect(lesson).not.toBeNull();
     if (!lesson) {
       return;
@@ -216,8 +224,9 @@ describe("Junior ders notu", () => {
     );
     expect(lesson.listenText).not.toContain("yüksek sesle say");
     expect(lesson.steps).toHaveLength(12);
-    expect(lesson.steps?.[2]).toContain("kalansız");
-    expect(lesson.listenText).toContain(juniorTeacherSelfIntro("jr_06_mat-5"));
+    expect(lesson.steps?.[2]).toContain("6 sayısıyla");
+    expect(lesson.listenText).toContain("kalansız bölen");
+    expect(lesson.listenText).toContain(juniorTeacherSelfIntro("jr_06_mat-1"));
     expect(lesson.listenText).toContain("Ben Matematik öğretmenin Selim.");
     expect(startsWithJuniorWarmOpening(lesson.mebNote)).toBe(true);
     expect(juniorColdGreeting(lesson.mebNote)).toBe(false);
@@ -244,7 +253,7 @@ describe("Junior müfredat zinciri", () => {
     expect(juniorSchoolWeek(NOW)).toBe(3);
     expect(juniorSchoolWeek(new Date("2026-09-14T08:00:00+03:00"))).toBe(1);
     expect(juniorSchoolWeek(new Date("2026-09-13T21:00:00+03:00"))).toBe(null);
-    expect(juniorActiveLessonKeys("jr_06_mat", NOW)).toEqual(["jr_06_mat-6", "jr_06_mat-7"]);
+    expect(juniorActiveLessonKeys("jr_06_mat", NOW)).toEqual(["jr_06_mat-2", "jr_06_mat-3"]);
     expect(juniorActiveLessonKeys("jr_06_fen", NOW)).toEqual(["jr_06_fen-2"]);
     expect(juniorActiveLessonKeys("jr_06_mat", new Date("2026-11-16T12:00:00+03:00"))).toEqual([]);
     const shelves = juniorCourseShelves(NOW);
@@ -263,10 +272,8 @@ describe("Junior müfredat zinciri", () => {
     ]);
     for (const course of shelves) {
       expect(course.grade).toBe(6);
-      expect(course.lessons[0]?.status).toBe(course.track === "elective" ? "preparing" : "fresh");
-      expect(
-        course.lessons.every((lesson) => lesson.status === (course.track === "elective" ? "preparing" : "fresh")),
-      ).toBe(true);
+      expect(course.lessons[0]?.status).toBe("fresh");
+      expect(course.lessons.every((lesson) => lesson.status === "fresh")).toBe(true);
       if (course.track === "elective") {
         expect(course.lessons.every((lesson) => lesson.thisWeek === false)).toBe(true);
       }
@@ -274,32 +281,31 @@ describe("Junior müfredat zinciri", () => {
     const mat = shelves.find((course) => course.slug === "jr_06_mat");
     const fen = shelves.find((course) => course.slug === "jr_06_fen");
     expect(mat?.lessons.filter((lesson) => lesson.thisWeek).map((lesson) => lesson.key)).toEqual([
-      "jr_06_mat-6",
-      "jr_06_mat-7",
+      "jr_06_mat-2",
+      "jr_06_mat-3",
     ]);
-    expect(mat?.lessons[0]?.key).toBe("jr_06_mat-5");
+    expect(mat?.lessons[0]?.key).toBe("jr_06_mat-1");
     expect(mat?.lessons[0]?.archiveLabel).toBeUndefined();
     expect(mat?.lessons[0]?.unitTitle).toBe("Sayılar ve nicelikler");
-    expect(mat?.lessons[0]?.starterLabel).toBeUndefined();
-    expect(mat?.lessons.find((lesson) => lesson.key === JUNIOR_FREE_LESSON_KEY)?.starterLabel).toBe(
-      "Ücretsiz ilk ders",
-    );
-    expect(juniorLessonWeekHeading("jr_06_mat", "jr_06_mat-6")).toBe("3. Hafta: Asal sayı ve asal çarpan");
-    expect(juniorLessonWeekHeading("jr_06_mat", "jr_06_mat-7")).toBe("3. Hafta: Ortak kat ve ortak bölen");
-    expect(mat?.lessons.find((lesson) => lesson.key === "jr_06_mat-6")?.weekHeading).toBe(
+    expect(mat?.lessons[0]?.starterLabel).toBe("Ücretsiz ilk ders");
+    expect(mat?.lessons.find((lesson) => lesson.key === "jr_06_mat-4")?.starterLabel).toBeUndefined();
+    expect(mat?.lessons.find((lesson) => lesson.key === "jr_06_mat-4")?.access).toBe("locked");
+    expect(juniorLessonWeekHeading("jr_06_mat", "jr_06_mat-2")).toBe("3. Hafta: Asal sayı ve asal çarpan");
+    expect(juniorLessonWeekHeading("jr_06_mat", "jr_06_mat-3")).toBe("3. Hafta: Ortak kat ve ortak bölen");
+    expect(mat?.lessons.find((lesson) => lesson.key === "jr_06_mat-2")?.weekHeading).toBe(
       "3. Hafta: Asal sayı ve asal çarpan",
     );
-    expect(mat?.lessons.find((lesson) => lesson.key === "jr_06_mat-7")?.weekHeading).toBe(
+    expect(mat?.lessons.find((lesson) => lesson.key === "jr_06_mat-3")?.weekHeading).toBe(
       "3. Hafta (B Bölümü): Ortak kat ve ortak bölen",
     );
-    expect(mat?.lessons.find((lesson) => lesson.key === "jr_06_mat-14")?.weekHeading).toBe(
+    expect(mat?.lessons.find((lesson) => lesson.key === "jr_06_mat-4")?.weekHeading).toBe(
       "4. Hafta: Ondalık gösterimin basamak değeri",
     );
     const matKeys = mat?.lessons.map((lesson) => lesson.key) ?? [];
-    const week3a = matKeys.indexOf("jr_06_mat-6");
-    const week3b = matKeys.indexOf("jr_06_mat-7");
-    const week4 = matKeys.indexOf("jr_06_mat-14");
-    const week7 = matKeys.indexOf("jr_06_mat-11");
+    const week3a = matKeys.indexOf("jr_06_mat-2");
+    const week3b = matKeys.indexOf("jr_06_mat-3");
+    const week4 = matKeys.indexOf("jr_06_mat-4");
+    const week7 = matKeys.indexOf("jr_06_mat-7");
     expect(week3a).toBeGreaterThanOrEqual(0);
     expect(week3b).toBe(week3a + 1);
     expect(week4).toBe(week3b + 1);
@@ -328,7 +334,7 @@ describe("Junior müfredat zinciri", () => {
     });
     expect(preparing.ok).toBe(false);
     if (!preparing.ok) {
-      expect(preparing.error).toBe(JUNIOR_QUIZ_PREPARING_LABEL);
+      expect(preparing.error).toBe("Konu testi kilitli. Önce dinle ve anlat. Geçer puanı alınca yeniden dene.");
     }
     const items = publicJuniorTopicQuiz(JUNIOR_FREE_LESSON_KEY);
     expect(items.length).toBeGreaterThanOrEqual(JUNIOR_QUIZ_MIN_ITEMS);
@@ -356,18 +362,18 @@ describe("Junior müfredat zinciri", () => {
 
     const passed = await narrate(store, profile.id, 80);
     expect(passed.ok).toBe(true);
+    const served = juniorTopicEndQuestions(JUNIOR_FREE_LESSON_KEY);
     const short = await submitJuniorQuiz(store, {
       userId: PARENT,
       profileId: profile.id,
       lessonKey: JUNIOR_FREE_LESSON_KEY,
       now: NOW,
-      answers: juniorTopicQuizAnswers(JUNIOR_FREE_LESSON_KEY, 2) ?? [],
+      answers: juniorTopicQuizAnswers(JUNIOR_FREE_LESSON_KEY, 5) ?? [],
     });
     expect(short.ok).toBe(true);
     if (short.ok) {
       expect(short.data.completed).toBe(false);
-      expect(short.data.score).toBe(67);
-      const served = juniorTopicEndQuestions(JUNIOR_FREE_LESSON_KEY);
+      expect(short.data.score).toBe(63);
       const miss = short.data.notes.find((note) => !note.ok);
       const missKey = served.find((row) => row.id === miss?.id);
       expect(miss?.answer).toBe(missKey ? missKey.options[missKey.correctAnswerIndex] : "");
@@ -382,12 +388,12 @@ describe("Junior müfredat zinciri", () => {
       profileId: profile.id,
       lessonKey: JUNIOR_FREE_LESSON_KEY,
       now: NOW,
-      answers: juniorTopicQuizAnswers(JUNIOR_FREE_LESSON_KEY, JUNIOR_QUIZ_MIN_ITEMS) ?? [],
+      answers: juniorTopicQuizAnswers(JUNIOR_FREE_LESSON_KEY, served.length) ?? [],
     });
     expect(done.ok).toBe(true);
     if (done.ok) {
       expect(done.data.completed).toBe(true);
-      expect(done.data.total).toBe(JUNIOR_QUIZ_MIN_ITEMS);
+      expect(done.data.total).toBe(served.length);
       expect(done.data.praised).toBe("Tamamlandı.");
     }
     const rows = await store.listProgress(PARENT, profile.id);
@@ -395,7 +401,7 @@ describe("Junior müfredat zinciri", () => {
     expect(juniorLessonStatus(rows, JUNIOR_FREE_LESSON_KEY)).toBe("done");
     const shelves = stampJuniorLessonStatus(juniorCourseShelves(NOW), rows);
     expect(shelves[0]?.lessons.find((lesson) => lesson.key === JUNIOR_FREE_LESSON_KEY)?.status).toBe("done");
-    expect(shelves[0]?.lessons.find((lesson) => lesson.key === "jr_06_mat-6")?.thisWeek).toBe(true);
+    expect(shelves[0]?.lessons.find((lesson) => lesson.key === "jr_06_mat-2")?.thisWeek).toBe(true);
     expect(shelves[0]?.lessons[3]?.thisWeek).toBe(false);
   });
 });
@@ -547,7 +553,12 @@ describe("Junior gelişimsel ipucu kutusu", () => {
       expect(juniorWarningHasHarshPhrase(lesson.mebNote)).toBe(false);
       expect(juniorWarningHasHarshPhrase(lesson.lifeUse)).toBe(false);
       expect(
-        lesson.listenText.includes("Tuzaklara Düşme!") || lesson.listenText.includes("Altın İpucu!"),
+        lesson.listenText.includes("Tuzaklara Düşme") ||
+          lesson.listenText.includes("Altın İpucu") ||
+          lesson.listenText.includes("işte tam bu noktada dikkat etmen gereken kilit nokta"),
+      ).toBe(true);
+      expect(
+        lesson.mebNote.includes("Tuzaklara Düşme!") || lesson.mebNote.includes("Altın İpucu!"),
       ).toBe(true);
     }
   });
@@ -563,7 +574,7 @@ describe("Junior konu kartı ilerleme yüzü", () => {
     ]);
     // Kapı dersi (güncel hafta) mat kartında arşiv başının yerinde değil; indeksi katalogdan okunur.
     const gateAt = done[0]!.lessons.findIndex((lesson) => lesson.key === JUNIOR_FREE_LESSON_KEY);
-    expect(gateAt).toBeGreaterThan(0);
+    expect(gateAt).toBe(0);
     expect(juniorTopicCardFace(done[0]!.lessons[gateAt]!, true)).toEqual({
       badge: "Tamamlandı ✅",
       tone: "emerald",
@@ -587,11 +598,11 @@ describe("Junior konu kartı ilerleme yüzü", () => {
     });
     expect(juniorTopicCardFace({ access: "free", status: "preparing" }, true)).toMatchObject({
       badge: JUNIOR_QUIZ_PREPARING_LABEL,
-      action: "Taslağı gör",
-      destination: "lesson",
+      action: null,
+      destination: "locked",
     });
     expect(juniorTopicCardFace({ access: "locked", status: "preparing" }, false)).toMatchObject({
-      badge: "Kilitli",
+      badge: JUNIOR_QUIZ_PREPARING_LABEL,
       action: null,
       destination: "locked",
     });
@@ -639,16 +650,12 @@ describe("Junior pilot öğretmen sesi", () => {
       name: "Selin",
       voice: "Kore",
     });
-    expect(juniorLessonAudioPublicPath("jr_06_mat-5")).toBe("/media/junior/audio/jr_06_mat-5.mp3");
+    expect(juniorLessonAudioPublicPath("jr_06_mat-1")).toBe("/media/junior/audio/jr_06_mat-1.mp3");
     expect(juniorLessonAudioPublicPath("jr_06_ing_main-1")).toBe(
       "/media/junior/audio/jr_06_ing_main-1.mp3",
     );
     expect(new Set(JUNIOR_BAKED_AUDIO_KEYS)).toEqual(
-      new Set(
-        juniorCourseShelves(NOW)
-          .filter((course) => course.track === "core")
-          .flatMap((course) => course.lessons.map((lesson) => lesson.key)),
-      ),
+      new Set(juniorCourseShelves(NOW).flatMap((course) => course.lessons.map((lesson) => lesson.key))),
     );
     // Ses kaynağı yalnız ücretsiz kümede (açılış konuları ve ilk ders kapısı) açılır; arşiv ve kilitli konu boş kalır.
     const freeKeys = new Set(juniorFreeLessonKeys());
@@ -660,13 +667,15 @@ describe("Junior pilot öğretmen sesi", () => {
         expect(juniorLessonAudioSrc(key)).toBeNull();
       }
     }
-    expect(juniorLessonAudioSrc("jr_06_mat-6")).toBeNull();
-    expect(juniorLessonAudioSrc("jr_06_mat-11")).toBeNull();
+    expect(juniorLessonAudioSrc("jr_06_mat-2")).toBeNull();
+    expect(juniorLessonAudioSrc("jr_06_mat-7")).toBeNull();
     expect(juniorLessonAudioSrc("jr_06_fen-2")).toBeNull();
     expect(juniorLessonAudioSrc("jr_06_turkce-2")).toBeNull();
     expect(juniorLessonAudioSrc("jr_06_sosyal-2")).toBeNull();
     expect(juniorLessonAudioSrc("jr_06_ing_main-3")).toBeNull();
-    expect(juniorLessonAudioSrc("jr_06_ing-1")).toBeNull();
+    // Fiyat dışı seçmeli kartın 1. konusu kamuya açık tanıtım olduğu için ses adresi taşır.
+    expect(juniorLessonAudioSrc("jr_06_ing-1")).not.toBeNull();
+    expect(juniorLessonAudioSrc("jr_06_ing-2")).toBeNull();
   });
 });
 
@@ -684,8 +693,17 @@ describe("Junior üretim mühürü", () => {
         if (!lesson) {
           continue;
         }
-        expect(juniorProductionSealGaps(lesson)).toEqual([]);
-        expect(() => assertJuniorProductionSeal(lesson)).not.toThrow();
+        const gaps = juniorProductionSealGaps(lesson);
+        const content = gaps.filter((gap) => gap !== "duration");
+        expect(content, lesson.key).toEqual([]);
+        if (lesson.key === "jr_06_mat-6") {
+          expect(gaps, lesson.key).toContain("duration");
+          expect(card.narrationShort, lesson.key).toBe(true);
+          expect(() => assertJuniorProductionSeal(lesson)).toThrow(/duration/);
+        } else {
+          expect(gaps, lesson.key).toEqual([]);
+          expect(() => assertJuniorProductionSeal(lesson)).not.toThrow();
+        }
         expect(lesson.listenText).not.toContain("Girişteki sahneyi aklında tut");
         expect(lesson.listenText).not.toContain("Aynı örneği yavaşça");
       }
@@ -697,25 +715,40 @@ describe("Junior üretim mühürü", () => {
         if (!lesson) {
           continue;
         }
-        expect(card.status).toBe("preparing");
         const gaps = juniorProductionSealGaps(lesson);
-        expect(gaps).toEqual(expect.arrayContaining(["audio", "warmup", "quiz"]));
-        expect(() => assertJuniorProductionSeal(lesson)).toThrow(/Junior mühürü eksik/);
+        const baked = (JUNIOR_BAKED_AUDIO_KEYS as readonly string[]).includes(lesson.key);
+        if (baked) {
+          expect(gaps.filter((gap) => gap !== "duration"), lesson.key).toEqual([]);
+          expect(gaps, lesson.key).toContain("duration");
+          expect(card.narrationShort, lesson.key).toBe(true);
+          expect(card.status, lesson.key).not.toBe("preparing");
+          expect(() => assertJuniorProductionSeal(lesson)).toThrow(/duration/);
+        } else {
+          expect(card.status, lesson.key).toBe("preparing");
+          expect(gaps, lesson.key).toEqual(expect.arrayContaining(["audio", "quiz"]));
+          expect(gaps, lesson.key).not.toContain("warmup");
+          expect(() => assertJuniorProductionSeal(lesson)).toThrow(/Junior mühürü eksik/);
+        }
       }
     }
     const absent = { filePresent: () => false, treePresent: () => true };
-    expect(juniorBakedAudioSealed("jr_06_mat-6", absent)).toBe(false);
-    expect(juniorProductionSealGaps(juniorLessonByKey("jr_06_mat-6")!, absent)).toContain("audio");
-    expect(juniorBakedAudioSealed("jr_06_mat-6", { filePresent: () => false, treePresent: () => false })).toBe(
+    expect(juniorBakedAudioSealed("jr_06_mat-2", absent)).toBe(false);
+    expect(juniorProductionSealGaps(juniorLessonByKey("jr_06_mat-2")!, absent)).toContain("audio");
+    expect(juniorBakedAudioSealed("jr_06_mat-2", { filePresent: () => false, treePresent: () => false })).toBe(
       true,
     );
-    expect(juniorBakedAudioSealed("jr_06_ing-1", { filePresent: () => true, treePresent: () => true })).toBe(false);
+    expect(juniorBakedAudioSealed("jr_06_yok-1", { filePresent: () => true, treePresent: () => true })).toBe(false);
+    const loader = readFileSync(join(process.cwd(), "lib/junior/pilot-engine/mat-5-timeline-loader.ts"), "utf8");
+    expect(loader).toContain("JR_06_MAT_1_TIMELINE");
+    expect(loader).not.toContain("mat-27.graph");
     const disk = readFileSync(join(process.cwd(), "lib/junior/production-seal-disk.ts"), "utf8");
     expect(disk).toContain("statSync");
     const bake = readFileSync(join(process.cwd(), "scripts/bake-junior-pilot-tts.ts"), "utf8");
     expect(bake).not.toContain('model !== "gemini-3.8-flash-tts"');
     expect(bake).not.toContain("JUNIOR_BAKE_ATEMPO !== 0.94");
     expect(bake).toContain("academyBakeVoiceModelId");
+    expect(bake).toContain("JUNIOR_ELECTIVE_TTS_MODEL_ID");
+    expect(bake).toContain("Standart modele geçilmez");
     expect(bake).toContain("JUNIOR_BAKE_ATEMPO");
     const bed = readFileSync(join(process.cwd(), "scripts/bake-junior-bgm-light-learning.ts"), "utf8");
     expect(bed).not.toContain("sine=frequency");
@@ -748,23 +781,31 @@ describe("Junior konu düğmesi", () => {
     expect(juniorNextLesson("jr_06_ing_main-20")).toBeNull();
   });
 
-  it("düğme zinciri raf sırasındaki fırınlanmış ve açık derslerle sınırlıdır", () => {
+  it("düğme zinciri fırınlanmış açık dersler ve 1. tema devamıdır", () => {
     const shelves = juniorCourseShelves(NOW);
     for (const course of shelves) {
       const shelfKeys = course.lessons.map((lesson) => lesson.key);
       const chain = juniorNavChain(course.slug);
+      const themeBridge = new Set(["jr_06_mat-2", "jr_06_mat-3"]);
       let cursor = -1;
       for (const row of chain) {
         const at = shelfKeys.indexOf(row.key);
         expect(at, row.key).toBeGreaterThan(cursor);
         cursor = at;
-        expect(juniorLessonAccess(row.key), row.key).toBe("free");
         expect(juniorLessonHasBakedAudio(row.key), row.key).toBe(true);
-        expect(course.lessons.find((lesson) => lesson.key === row.key)?.access, row.key).toBe("free");
+        if (themeBridge.has(row.key)) {
+          expect(juniorLessonAccess(row.key), row.key).toBe("locked");
+        } else {
+          expect(juniorLessonAccess(row.key), row.key).toBe("free");
+          expect(course.lessons.find((lesson) => lesson.key === row.key)?.access, row.key).toBe("free");
+        }
       }
+      expect(juniorNextLesson("jr_06_mat-1")?.key).toBe("jr_06_mat-2");
+      expect(juniorNextLesson("jr_06_mat-2")?.key).toBe("jr_06_mat-3");
+      expect(juniorNextLesson("jr_06_mat-3")).toBeNull();
       for (const card of course.lessons) {
         const lockedOrRaw = card.access === "locked" || !juniorLessonHasBakedAudio(card.key);
-        if (lockedOrRaw) {
+        if (lockedOrRaw && !themeBridge.has(card.key)) {
           expect(chain.some((row) => row.key === card.key), card.key).toBe(false);
           expect(juniorPrevLesson(card.key), card.key).toBeNull();
           expect(juniorNextLesson(card.key), card.key).toBeNull();

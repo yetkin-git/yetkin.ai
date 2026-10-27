@@ -1,9 +1,9 @@
-import { JUNIOR_MAT_35, JUNIOR_MAT_35_SCENARIO } from "@/lib/junior/content/mat/35";
+import { JUNIOR_MAT_35, JUNIOR_MAT_35_SCENARIO } from "@/lib/junior/content/mat/21";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
 /**
- * `jr_06_mat-35` çember yol problemi.
+ * `jr_06_mat-21` çember yol problemi.
  * Çap 2 m, yarıçap 1 m, bir tur 6,28 m, iki tur 12,56 m.
  * Sayılar bu grafikten okunur.
  */
@@ -11,12 +11,12 @@ const example = JUNIOR_MAT_35_SCENARIO.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "çapı 2", "showWheel");
 
 export const JR_06_MAT_35_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
-  lessonKey: "jr_06_mat-35",
+  lessonKey: "jr_06_mat-21",
   title: JUNIOR_MAT_35_SCENARIO.title,
   listenText: JUNIOR_MAT_35.listenText,
   example,
   exampleMarked,
-  audioPath: "/media/junior/audio/jr_06_mat-35.mp3",
+  audioPath: "/media/junior/audio/jr_06_mat-21.mp3",
   layout: "circle-measure",
   stageTitle: "Çember yolu",
   stageSubtitle: "Tur ve çevre",

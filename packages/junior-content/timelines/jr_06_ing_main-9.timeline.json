@@ -1,0 +1,2564 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_ing_main-9",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Universe: gelecekte will",
+  "grade": 6,
+  "subject": "İngilizce",
+  "teacher": {
+    "name": "Selin",
+    "voice": "Kore",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_ing_main-9.mp3",
+    "durationMs": 303702,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 81910
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 81910,
+      "endMs": 253760
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 253760,
+      "endMs": 303702
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 6020,
+      "pauseAfterMs": 1530,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 230,
+          "endMs": 770
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 990,
+          "endMs": 2520
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 3010,
+          "endMs": 3520
+        },
+        {
+          "word": "hoş",
+          "startMs": 3560,
+          "endMs": 3810
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 3910,
+          "endMs": 4490
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Universe: gelecekte will",
+            "subtitle": "İngilizce",
+            "ruleBadges": [],
+            "echoPrompt": "Uzayla ilgili bir gelecek planını will ile söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Gelecek iş will ve yalın fiille kurulur."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Olumsuz won't, soru Will you diye başlar."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Her gün olan alışkanlık will almaz."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 6020,
+      "endMs": 8200,
+      "pauseAfterMs": 430,
+      "text": "Ben İngilizce öğretmenin Selin.",
+      "markedText": "Ben İngilizce öğretmenin Selin.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 6020,
+          "endMs": 6150
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 6250,
+          "endMs": 6610
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6740,
+          "endMs": 7330
+        },
+        {
+          "word": "Selin.",
+          "startMs": 7330,
+          "endMs": 7770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8200,
+      "endMs": 22190,
+      "pauseAfterMs": 990,
+      "text": "Gökyüzündeki yıldızlara bakıp bir gün bir uzay müzesini gezmeyi ya da bir teleskop almayı düşündün mü?",
+      "markedText": "Gökyüzündeki yıldızlara bakıp bir gün bir uzay müzesini gezmeyi ya da bir teleskop almayı düşündün mü?",
+      "words": [
+        {
+          "word": "Gökyüzündeki",
+          "startMs": 8200,
+          "endMs": 9550
+        },
+        {
+          "word": "yıldızlara",
+          "startMs": 9660,
+          "endMs": 10780
+        },
+        {
+          "word": "bakıp",
+          "startMs": 10930,
+          "endMs": 11390
+        },
+        {
+          "word": "bir",
+          "startMs": 11630,
+          "endMs": 12120
+        },
+        {
+          "word": "gün",
+          "startMs": 13340,
+          "endMs": 13530
+        },
+        {
+          "word": "bir",
+          "startMs": 13610,
+          "endMs": 13750
+        },
+        {
+          "word": "uzay",
+          "startMs": 13790,
+          "endMs": 14100
+        },
+        {
+          "word": "müzesini",
+          "startMs": 14260,
+          "endMs": 15450
+        },
+        {
+          "word": "gezmeyi",
+          "startMs": 15750,
+          "endMs": 16400
+        },
+        {
+          "word": "ya",
+          "startMs": 16400,
+          "endMs": 16900
+        },
+        {
+          "word": "da",
+          "startMs": 17820,
+          "endMs": 18070
+        },
+        {
+          "word": "bir",
+          "startMs": 18070,
+          "endMs": 18320
+        },
+        {
+          "word": "teleskop",
+          "startMs": 18450,
+          "endMs": 19030
+        },
+        {
+          "word": "almayı",
+          "startMs": 19110,
+          "endMs": 19640
+        },
+        {
+          "word": "düşündün",
+          "startMs": 19860,
+          "endMs": 20530
+        },
+        {
+          "word": "mü?",
+          "startMs": 20930,
+          "endMs": 21200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 22190,
+      "endMs": 27140,
+      "pauseAfterMs": 1530,
+      "text": "Bu düşünce henüz bugünün işi değildir; geleceğe aittir.",
+      "markedText": "Bu düşünce henüz bugünün işi değildir; geleceğe aittir.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 22190,
+          "endMs": 22300
+        },
+        {
+          "word": "düşünce",
+          "startMs": 22300,
+          "endMs": 22650
+        },
+        {
+          "word": "henüz",
+          "startMs": 22650,
+          "endMs": 22930
+        },
+        {
+          "word": "bugünün",
+          "startMs": 22990,
+          "endMs": 23320
+        },
+        {
+          "word": "işi",
+          "startMs": 23320,
+          "endMs": 23410
+        },
+        {
+          "word": "değildir;",
+          "startMs": 23480,
+          "endMs": 23980
+        },
+        {
+          "word": "geleceğe",
+          "startMs": 24130,
+          "endMs": 24540
+        },
+        {
+          "word": "aittir.",
+          "startMs": 24540,
+          "endMs": 25610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 27140,
+      "endMs": 32100,
+      "pauseAfterMs": 1510,
+      "text": "Universe konusunda geleceği will ile kuracağız.",
+      "markedText": "Universe konusunda geleceği will ile kuracağız.",
+      "words": [
+        {
+          "word": "Universe",
+          "startMs": 27140,
+          "endMs": 27890
+        },
+        {
+          "word": "konusunda",
+          "startMs": 28030,
+          "endMs": 28490
+        },
+        {
+          "word": "geleceği",
+          "startMs": 28570,
+          "endMs": 28940
+        },
+        {
+          "word": "will",
+          "startMs": 29070,
+          "endMs": 29300
+        },
+        {
+          "word": "ile",
+          "startMs": 29410,
+          "endMs": 29790
+        },
+        {
+          "word": "kuracağız.",
+          "startMs": 29900,
+          "endMs": 30590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 32100,
+      "endMs": 40150,
+      "pauseAfterMs": 1350,
+      "text": "Bir hayali gözlemlemek, onu şimdiki zamandan ayırmana yardım eder.",
+      "markedText": "Bir hayali gözlemlemek, onu şimdiki zamandan ayırmana yardım eder.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 32100,
+          "endMs": 32310
+        },
+        {
+          "word": "hayali",
+          "startMs": 32350,
+          "endMs": 32960
+        },
+        {
+          "word": "gözlemlemek,",
+          "startMs": 33160,
+          "endMs": 34940
+        },
+        {
+          "word": "onu",
+          "startMs": 35910,
+          "endMs": 36140
+        },
+        {
+          "word": "şimdiki",
+          "startMs": 36300,
+          "endMs": 36440
+        },
+        {
+          "word": "zamandan",
+          "startMs": 36570,
+          "endMs": 36950
+        },
+        {
+          "word": "ayırmana",
+          "startMs": 36950,
+          "endMs": 37400
+        },
+        {
+          "word": "yardım",
+          "startMs": 37530,
+          "endMs": 37990
+        },
+        {
+          "word": "eder.",
+          "startMs": 38090,
+          "endMs": 38800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 40150,
+      "endMs": 47220,
+      "pauseAfterMs": 520,
+      "text": "Bunu akşam defterine bir gelecek cümlesi yazarak deneyebilirsin.",
+      "markedText": "Bunu akşam defterine bir gelecek cümlesi yazarak deneyebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 40150,
+          "endMs": 40230
+        },
+        {
+          "word": "akşam",
+          "startMs": 40310,
+          "endMs": 40580
+        },
+        {
+          "word": "defterine",
+          "startMs": 40580,
+          "endMs": 41230
+        },
+        {
+          "word": "bir",
+          "startMs": 41800,
+          "endMs": 41980
+        },
+        {
+          "word": "gelecek",
+          "startMs": 41980,
+          "endMs": 42480
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 42610,
+          "endMs": 43140
+        },
+        {
+          "word": "yazarak",
+          "startMs": 43350,
+          "endMs": 44200
+        },
+        {
+          "word": "deneyebilirsin.",
+          "startMs": 45580,
+          "endMs": 46700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 47220,
+      "endMs": 58170,
+      "pauseAfterMs": 1330,
+      "text": "I will learn ten space words this week, bu hafta on uzay sözcüğü öğreneceğim demektir.",
+      "markedText": "I will learn ten space words this week, bu hafta on uzay sözcüğü öğreneceğim demektir.",
+      "words": [
+        {
+          "word": "I",
+          "startMs": 47220,
+          "endMs": 47350
+        },
+        {
+          "word": "will",
+          "startMs": 47350,
+          "endMs": 47810
+        },
+        {
+          "word": "learn",
+          "startMs": 48010,
+          "endMs": 48500
+        },
+        {
+          "word": "ten",
+          "startMs": 48600,
+          "endMs": 48810
+        },
+        {
+          "word": "space",
+          "startMs": 48870,
+          "endMs": 49250
+        },
+        {
+          "word": "words",
+          "startMs": 49320,
+          "endMs": 49500
+        },
+        {
+          "word": "this",
+          "startMs": 49940,
+          "endMs": 50160
+        },
+        {
+          "word": "week,",
+          "startMs": 50230,
+          "endMs": 50760
+        },
+        {
+          "word": "bu",
+          "startMs": 52050,
+          "endMs": 52160
+        },
+        {
+          "word": "hafta",
+          "startMs": 52160,
+          "endMs": 52400
+        },
+        {
+          "word": "on",
+          "startMs": 52540,
+          "endMs": 52770
+        },
+        {
+          "word": "uzay",
+          "startMs": 53290,
+          "endMs": 53710
+        },
+        {
+          "word": "sözcüğü",
+          "startMs": 54220,
+          "endMs": 54530
+        },
+        {
+          "word": "öğreneceğim",
+          "startMs": 54650,
+          "endMs": 55640
+        },
+        {
+          "word": "demektir.",
+          "startMs": 55850,
+          "endMs": 56840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 58170,
+      "endMs": 66400,
+      "pauseAfterMs": 1180,
+      "text": "Okul gezisi varsa I will visit the science centre dersin.",
+      "markedText": "Okul gezisi varsa I will visit the science centre dersin.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 58170,
+          "endMs": 58590
+        },
+        {
+          "word": "gezisi",
+          "startMs": 58650,
+          "endMs": 59670
+        },
+        {
+          "word": "varsa",
+          "startMs": 60650,
+          "endMs": 60990
+        },
+        {
+          "word": "I",
+          "startMs": 61110,
+          "endMs": 61290
+        },
+        {
+          "word": "will",
+          "startMs": 61390,
+          "endMs": 61660
+        },
+        {
+          "word": "visit",
+          "startMs": 61920,
+          "endMs": 62640
+        },
+        {
+          "word": "the",
+          "startMs": 63110,
+          "endMs": 63480
+        },
+        {
+          "word": "science",
+          "startMs": 63700,
+          "endMs": 64240
+        },
+        {
+          "word": "centre",
+          "startMs": 64360,
+          "endMs": 64660
+        },
+        {
+          "word": "dersin.",
+          "startMs": 64770,
+          "endMs": 65220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 66400,
+      "endMs": 74020,
+      "pauseAfterMs": 790,
+      "text": "Pencereden Ay'a bakıp I will watch the Moon on Saturday diye bir gün seç.",
+      "markedText": "Pencereden Ay'a bakıp I will watch the Moon on Saturday diye bir gün seç.",
+      "words": [
+        {
+          "word": "Pencereden",
+          "startMs": 66400,
+          "endMs": 67160
+        },
+        {
+          "word": "Ay'a",
+          "startMs": 67210,
+          "endMs": 67410
+        },
+        {
+          "word": "bakıp",
+          "startMs": 67640,
+          "endMs": 68140
+        },
+        {
+          "word": "I",
+          "startMs": 68810,
+          "endMs": 68920
+        },
+        {
+          "word": "will",
+          "startMs": 68920,
+          "endMs": 69090
+        },
+        {
+          "word": "watch",
+          "startMs": 69090,
+          "endMs": 69200
+        },
+        {
+          "word": "the",
+          "startMs": 69200,
+          "endMs": 69340
+        },
+        {
+          "word": "Moon",
+          "startMs": 69340,
+          "endMs": 69760
+        },
+        {
+          "word": "on",
+          "startMs": 69960,
+          "endMs": 70660
+        },
+        {
+          "word": "Saturday",
+          "startMs": 71860,
+          "endMs": 72220
+        },
+        {
+          "word": "diye",
+          "startMs": 72220,
+          "endMs": 72450
+        },
+        {
+          "word": "bir",
+          "startMs": 72650,
+          "endMs": 72770
+        },
+        {
+          "word": "gün",
+          "startMs": 72950,
+          "endMs": 73160
+        },
+        {
+          "word": "seç.",
+          "startMs": 73160,
+          "endMs": 73230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 74020,
+      "endMs": 81910,
+      "pauseAfterMs": 990,
+      "text": "Gelecek cümlesi bir sözdür; abartılı bir roket vaadi kurmana gerek yoktur.",
+      "markedText": "Gelecek cümlesi bir sözdür; abartılı bir roket vaadi kurmana gerek yoktur.",
+      "words": [
+        {
+          "word": "Gelecek",
+          "startMs": 74020,
+          "endMs": 74420
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 74500,
+          "endMs": 74930
+        },
+        {
+          "word": "bir",
+          "startMs": 75050,
+          "endMs": 75190
+        },
+        {
+          "word": "sözdür;",
+          "startMs": 75190,
+          "endMs": 75900
+        },
+        {
+          "word": "abartılı",
+          "startMs": 77140,
+          "endMs": 77650
+        },
+        {
+          "word": "bir",
+          "startMs": 77700,
+          "endMs": 77840
+        },
+        {
+          "word": "roket",
+          "startMs": 78200,
+          "endMs": 78720
+        },
+        {
+          "word": "vaadi",
+          "startMs": 78890,
+          "endMs": 79120
+        },
+        {
+          "word": "kurmana",
+          "startMs": 79230,
+          "endMs": 79830
+        },
+        {
+          "word": "gerek",
+          "startMs": 80140,
+          "endMs": 80430
+        },
+        {
+          "word": "yoktur.",
+          "startMs": 80630,
+          "endMs": 80920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 81910,
+      "endMs": 89280,
+      "pauseAfterMs": 350,
+      "text": "Gelecekte yapmayı düşündüğümüz iş will ve yalın fiille söylenir.",
+      "markedText": "Gelecekte yapmayı düşündüğümüz iş will ve yalın fiille söylenir.",
+      "words": [
+        {
+          "word": "Gelecekte",
+          "startMs": 81910,
+          "endMs": 82320
+        },
+        {
+          "word": "yapmayı",
+          "startMs": 82520,
+          "endMs": 82780
+        },
+        {
+          "word": "düşündüğümüz",
+          "startMs": 82920,
+          "endMs": 83280
+        },
+        {
+          "word": "iş",
+          "startMs": 83280,
+          "endMs": 83500
+        },
+        {
+          "word": "will",
+          "startMs": 85050,
+          "endMs": 85320
+        },
+        {
+          "word": "ve",
+          "startMs": 85990,
+          "endMs": 86190
+        },
+        {
+          "word": "yalın",
+          "startMs": 86190,
+          "endMs": 86760
+        },
+        {
+          "word": "fiille",
+          "startMs": 86880,
+          "endMs": 87650
+        },
+        {
+          "word": "söylenir.",
+          "startMs": 88240,
+          "endMs": 88930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 89280,
+      "endMs": 96360,
+      "pauseAfterMs": 460,
+      "text": "I will learn about planets, gezegenleri öğreneceğim demektir.",
+      "markedText": "I will learn about planets, gezegenleri öğreneceğim demektir.",
+      "words": [
+        {
+          "word": "I",
+          "startMs": 89280,
+          "endMs": 89430
+        },
+        {
+          "word": "will",
+          "startMs": 89430,
+          "endMs": 89550
+        },
+        {
+          "word": "learn",
+          "startMs": 89930,
+          "endMs": 90550
+        },
+        {
+          "word": "about",
+          "startMs": 90730,
+          "endMs": 91130
+        },
+        {
+          "word": "planets,",
+          "startMs": 91130,
+          "endMs": 92060
+        },
+        {
+          "word": "gezegenleri",
+          "startMs": 93410,
+          "endMs": 94070
+        },
+        {
+          "word": "öğreneceğim",
+          "startMs": 94070,
+          "endMs": 94780
+        },
+        {
+          "word": "demektir.",
+          "startMs": 95080,
+          "endMs": 95900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 96360,
+      "endMs": 102650,
+      "pauseAfterMs": 390,
+      "text": "She will watch the sky, o gökyüzünü izleyecek demektir.",
+      "markedText": "She will watch the sky, o gökyüzünü izleyecek demektir.",
+      "words": [
+        {
+          "word": "She",
+          "startMs": 96360,
+          "endMs": 96510
+        },
+        {
+          "word": "will",
+          "startMs": 96510,
+          "endMs": 96680
+        },
+        {
+          "word": "watch",
+          "startMs": 96790,
+          "endMs": 97050
+        },
+        {
+          "word": "the",
+          "startMs": 97150,
+          "endMs": 97390
+        },
+        {
+          "word": "sky,",
+          "startMs": 97580,
+          "endMs": 97990
+        },
+        {
+          "word": "o",
+          "startMs": 99400,
+          "endMs": 99490
+        },
+        {
+          "word": "gökyüzünü",
+          "startMs": 99570,
+          "endMs": 100000
+        },
+        {
+          "word": "izleyecek",
+          "startMs": 100400,
+          "endMs": 101090
+        },
+        {
+          "word": "demektir.",
+          "startMs": 101220,
+          "endMs": 102260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 102650,
+      "endMs": 111990,
+      "pauseAfterMs": 920,
+      "text": "Olumsuzda will not ya da kısa biçimi won't gelir: I won't travel to Mars.",
+      "markedText": "Olumsuzda will not ya da kısa biçimi won't gelir: I won't travel to Mars.",
+      "words": [
+        {
+          "word": "Olumsuzda",
+          "startMs": 102650,
+          "endMs": 103430
+        },
+        {
+          "word": "will",
+          "startMs": 103560,
+          "endMs": 103800
+        },
+        {
+          "word": "not",
+          "startMs": 103920,
+          "endMs": 104380
+        },
+        {
+          "word": "ya",
+          "startMs": 105400,
+          "endMs": 105510
+        },
+        {
+          "word": "da",
+          "startMs": 105510,
+          "endMs": 105600
+        },
+        {
+          "word": "kısa",
+          "startMs": 105600,
+          "endMs": 105930
+        },
+        {
+          "word": "biçimi",
+          "startMs": 106010,
+          "endMs": 106270
+        },
+        {
+          "word": "won't",
+          "startMs": 106600,
+          "endMs": 107030
+        },
+        {
+          "word": "gelir:",
+          "startMs": 107140,
+          "endMs": 107570
+        },
+        {
+          "word": "I",
+          "startMs": 108690,
+          "endMs": 108800
+        },
+        {
+          "word": "won't",
+          "startMs": 108800,
+          "endMs": 109100
+        },
+        {
+          "word": "travel",
+          "startMs": 109100,
+          "endMs": 109760
+        },
+        {
+          "word": "to",
+          "startMs": 109910,
+          "endMs": 110150
+        },
+        {
+          "word": "Mars.",
+          "startMs": 110230,
+          "endMs": 111070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 111990,
+      "endMs": 115700,
+      "pauseAfterMs": 1340,
+      "text": "Soru Will you visit a planetarium?",
+      "markedText": "Soru Will you visit a planetarium?",
+      "words": [
+        {
+          "word": "Soru",
+          "startMs": 111990,
+          "endMs": 112380
+        },
+        {
+          "word": "Will",
+          "startMs": 112380,
+          "endMs": 112730
+        },
+        {
+          "word": "you",
+          "startMs": 113030,
+          "endMs": 113240
+        },
+        {
+          "word": "visit",
+          "startMs": 113350,
+          "endMs": 113640
+        },
+        {
+          "word": "a",
+          "startMs": 113800,
+          "endMs": 113890
+        },
+        {
+          "word": "planetarium?",
+          "startMs": 114130,
+          "endMs": 114360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 115700,
+      "endMs": 123300,
+      "pauseAfterMs": 730,
+      "text": "diye kurulur; cevap Yes, I will ya da No, I won't olur.",
+      "markedText": "diye kurulur; cevap Yes, I will ya da No, I won't olur.",
+      "words": [
+        {
+          "word": "diye",
+          "startMs": 115700,
+          "endMs": 116080
+        },
+        {
+          "word": "kurulur;",
+          "startMs": 116170,
+          "endMs": 117140
+        },
+        {
+          "word": "cevap",
+          "startMs": 117830,
+          "endMs": 118160
+        },
+        {
+          "word": "Yes,",
+          "startMs": 118280,
+          "endMs": 118840
+        },
+        {
+          "word": "I",
+          "startMs": 120060,
+          "endMs": 120130
+        },
+        {
+          "word": "will",
+          "startMs": 120130,
+          "endMs": 120580
+        },
+        {
+          "word": "ya",
+          "startMs": 120810,
+          "endMs": 121090
+        },
+        {
+          "word": "da",
+          "startMs": 121090,
+          "endMs": 121150
+        },
+        {
+          "word": "No,",
+          "startMs": 121150,
+          "endMs": 121310
+        },
+        {
+          "word": "I",
+          "startMs": 121410,
+          "endMs": 121510
+        },
+        {
+          "word": "won't",
+          "startMs": 121510,
+          "endMs": 121880
+        },
+        {
+          "word": "olur.",
+          "startMs": 121990,
+          "endMs": 122570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 123300,
+      "endMs": 132150,
+      "pauseAfterMs": 630,
+      "text": "Her gece olan alışkanlık will almaz; o iş simple present ile durur.",
+      "markedText": "Her gece olan alışkanlık will almaz; o iş simple present ile durur.",
+      "words": [
+        {
+          "word": "Her",
+          "startMs": 123300,
+          "endMs": 123660
+        },
+        {
+          "word": "gece",
+          "startMs": 123660,
+          "endMs": 123950
+        },
+        {
+          "word": "olan",
+          "startMs": 124180,
+          "endMs": 124880
+        },
+        {
+          "word": "alışkanlık",
+          "startMs": 125320,
+          "endMs": 126190
+        },
+        {
+          "word": "will",
+          "startMs": 126190,
+          "endMs": 126480
+        },
+        {
+          "word": "almaz;",
+          "startMs": 126960,
+          "endMs": 127150
+        },
+        {
+          "word": "o",
+          "startMs": 128040,
+          "endMs": 128230
+        },
+        {
+          "word": "iş",
+          "startMs": 128460,
+          "endMs": 128600
+        },
+        {
+          "word": "simple",
+          "startMs": 128600,
+          "endMs": 129000
+        },
+        {
+          "word": "present",
+          "startMs": 129610,
+          "endMs": 130540
+        },
+        {
+          "word": "ile",
+          "startMs": 130670,
+          "endMs": 130970
+        },
+        {
+          "word": "durur.",
+          "startMs": 131110,
+          "endMs": 131520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 132150,
+      "endMs": 141490,
+      "pauseAfterMs": 370,
+      "text": "Pratik kural: Will'den sonra fiil yalın kalır, s ya da ing eklenmez.",
+      "markedText": "Pratik kural: Will'den sonra fiil yalın kalır, s ya da ing eklenmez.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 132150,
+          "endMs": 132960
+        },
+        {
+          "word": "kural:",
+          "startMs": 133430,
+          "endMs": 134170
+        },
+        {
+          "word": "Will'den",
+          "startMs": 134470,
+          "endMs": 135340
+        },
+        {
+          "word": "sonra",
+          "startMs": 136400,
+          "endMs": 136650
+        },
+        {
+          "word": "fiil",
+          "startMs": 136720,
+          "endMs": 137150
+        },
+        {
+          "word": "yalın",
+          "startMs": 137150,
+          "endMs": 137510
+        },
+        {
+          "word": "kalır,",
+          "startMs": 137870,
+          "endMs": 138340
+        },
+        {
+          "word": "s",
+          "startMs": 138910,
+          "endMs": 138950
+        },
+        {
+          "word": "ya",
+          "startMs": 138950,
+          "endMs": 139140
+        },
+        {
+          "word": "da",
+          "startMs": 139140,
+          "endMs": 139290
+        },
+        {
+          "word": "ing",
+          "startMs": 139750,
+          "endMs": 140020
+        },
+        {
+          "word": "eklenmez.",
+          "startMs": 140170,
+          "endMs": 141120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 141490,
+      "endMs": 152640,
+      "pauseAfterMs": 1050,
+      "text": "Ece gelecek ay bir planetaryuma gidecek: I will visit the planetarium next month.",
+      "markedText": "Ece gelecek ay bir planetaryuma gidecek: I will visit the planetarium next month.",
+      "words": [
+        {
+          "word": "Ece",
+          "startMs": 141490,
+          "endMs": 141710
+        },
+        {
+          "word": "gelecek",
+          "startMs": 141800,
+          "endMs": 142370
+        },
+        {
+          "word": "ay",
+          "startMs": 143140,
+          "endMs": 143330
+        },
+        {
+          "word": "bir",
+          "startMs": 143430,
+          "endMs": 143880
+        },
+        {
+          "word": "planetaryuma",
+          "startMs": 144470,
+          "endMs": 145350
+        },
+        {
+          "word": "gidecek:",
+          "startMs": 145350,
+          "endMs": 145850
+        },
+        {
+          "word": "I",
+          "startMs": 147110,
+          "endMs": 147280
+        },
+        {
+          "word": "will",
+          "startMs": 147390,
+          "endMs": 147780
+        },
+        {
+          "word": "visit",
+          "startMs": 148390,
+          "endMs": 148900
+        },
+        {
+          "word": "the",
+          "startMs": 148940,
+          "endMs": 149170
+        },
+        {
+          "word": "planetarium",
+          "startMs": 149300,
+          "endMs": 150430
+        },
+        {
+          "word": "next",
+          "startMs": 150520,
+          "endMs": 150750
+        },
+        {
+          "word": "month.",
+          "startMs": 150960,
+          "endMs": 151590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 152640,
+      "endMs": 160960,
+      "pauseAfterMs": 1010,
+      "text": "Arkadaşı da onunla gelecek: She will come with me.",
+      "markedText": "Arkadaşı da onunla gelecek: She will come with me.",
+      "words": [
+        {
+          "word": "Arkadaşı",
+          "startMs": 152640,
+          "endMs": 153840
+        },
+        {
+          "word": "da",
+          "startMs": 154120,
+          "endMs": 154280
+        },
+        {
+          "word": "onunla",
+          "startMs": 154590,
+          "endMs": 155480
+        },
+        {
+          "word": "gelecek:",
+          "startMs": 156050,
+          "endMs": 156740
+        },
+        {
+          "word": "She",
+          "startMs": 157540,
+          "endMs": 157710
+        },
+        {
+          "word": "will",
+          "startMs": 157710,
+          "endMs": 158260
+        },
+        {
+          "word": "come",
+          "startMs": 158550,
+          "endMs": 158890
+        },
+        {
+          "word": "with",
+          "startMs": 158890,
+          "endMs": 159140
+        },
+        {
+          "word": "me.",
+          "startMs": 159230,
+          "endMs": 159950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 160960,
+      "endMs": 171200,
+      "pauseAfterMs": 970,
+      "text": "Uzay gemisi kullanmayı bugünden iddia etmez; I will not fly a rocket der ve hayali ölçülü tutar.",
+      "markedText": "Uzay gemisi kullanmayı bugünden iddia etmez; I will not fly a rocket der ve hayali ölçülü tutar.",
+      "words": [
+        {
+          "word": "Uzay",
+          "startMs": 160960,
+          "endMs": 161240
+        },
+        {
+          "word": "gemisi",
+          "startMs": 161340,
+          "endMs": 161710
+        },
+        {
+          "word": "kullanmayı",
+          "startMs": 162070,
+          "endMs": 162880
+        },
+        {
+          "word": "bugünden",
+          "startMs": 163030,
+          "endMs": 163770
+        },
+        {
+          "word": "iddia",
+          "startMs": 164300,
+          "endMs": 164690
+        },
+        {
+          "word": "etmez;",
+          "startMs": 164790,
+          "endMs": 165580
+        },
+        {
+          "word": "I",
+          "startMs": 166730,
+          "endMs": 166900
+        },
+        {
+          "word": "will",
+          "startMs": 166970,
+          "endMs": 167220
+        },
+        {
+          "word": "not",
+          "startMs": 167310,
+          "endMs": 167590
+        },
+        {
+          "word": "fly",
+          "startMs": 167590,
+          "endMs": 167720
+        },
+        {
+          "word": "a",
+          "startMs": 167720,
+          "endMs": 167840
+        },
+        {
+          "word": "rocket",
+          "startMs": 167940,
+          "endMs": 168210
+        },
+        {
+          "word": "der",
+          "startMs": 168210,
+          "endMs": 168320
+        },
+        {
+          "word": "ve",
+          "startMs": 168370,
+          "endMs": 168480
+        },
+        {
+          "word": "hayali",
+          "startMs": 168480,
+          "endMs": 168800
+        },
+        {
+          "word": "ölçülü",
+          "startMs": 169130,
+          "endMs": 169680
+        },
+        {
+          "word": "tutar.",
+          "startMs": 169680,
+          "endMs": 170230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 171200,
+      "endMs": 176720,
+      "pauseAfterMs": 1090,
+      "text": "Öğretmen Will you read a book about the Moon?",
+      "markedText": "Öğretmen Will you read a book about the Moon?",
+      "words": [
+        {
+          "word": "Öğretmen",
+          "startMs": 171200,
+          "endMs": 171890
+        },
+        {
+          "word": "Will",
+          "startMs": 172320,
+          "endMs": 172700
+        },
+        {
+          "word": "you",
+          "startMs": 172790,
+          "endMs": 172950
+        },
+        {
+          "word": "read",
+          "startMs": 173070,
+          "endMs": 173240
+        },
+        {
+          "word": "a",
+          "startMs": 173320,
+          "endMs": 173420
+        },
+        {
+          "word": "book",
+          "startMs": 173460,
+          "endMs": 173600
+        },
+        {
+          "word": "about",
+          "startMs": 173760,
+          "endMs": 174220
+        },
+        {
+          "word": "the",
+          "startMs": 174620,
+          "endMs": 174770
+        },
+        {
+          "word": "Moon?",
+          "startMs": 174920,
+          "endMs": 175630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 176720,
+      "endMs": 181700,
+      "pauseAfterMs": 550,
+      "text": "diye sorarsa Yes, I will diye cevap verir.",
+      "markedText": "diye sorarsa Yes, I will diye cevap verir.",
+      "words": [
+        {
+          "word": "diye",
+          "startMs": 176720,
+          "endMs": 177010
+        },
+        {
+          "word": "sorarsa",
+          "startMs": 177010,
+          "endMs": 177300
+        },
+        {
+          "word": "Yes,",
+          "startMs": 177300,
+          "endMs": 177690
+        },
+        {
+          "word": "I",
+          "startMs": 178770,
+          "endMs": 178970
+        },
+        {
+          "word": "will",
+          "startMs": 179530,
+          "endMs": 179780
+        },
+        {
+          "word": "diye",
+          "startMs": 179910,
+          "endMs": 180060
+        },
+        {
+          "word": "cevap",
+          "startMs": 180280,
+          "endMs": 180600
+        },
+        {
+          "word": "verir.",
+          "startMs": 180600,
+          "endMs": 181150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 181700,
+      "endMs": 198390,
+      "pauseAfterMs": 1210,
+      "text": "Her akşam yıldız bakan biri ise I watch the stars every night der; bu cümlede will yoktur çünkü iş alışkanlıktır.",
+      "markedText": "Her akşam yıldız bakan biri ise I watch the stars every night der; bu cümlede will yoktur çünkü iş alışkanlıktır.",
+      "words": [
+        {
+          "word": "Her",
+          "startMs": 181700,
+          "endMs": 181830
+        },
+        {
+          "word": "akşam",
+          "startMs": 181830,
+          "endMs": 182420
+        },
+        {
+          "word": "yıldız",
+          "startMs": 182770,
+          "endMs": 183240
+        },
+        {
+          "word": "bakan",
+          "startMs": 183240,
+          "endMs": 183560
+        },
+        {
+          "word": "biri",
+          "startMs": 183660,
+          "endMs": 184300
+        },
+        {
+          "word": "ise",
+          "startMs": 185350,
+          "endMs": 185660
+        },
+        {
+          "word": "I",
+          "startMs": 186100,
+          "endMs": 186240
+        },
+        {
+          "word": "watch",
+          "startMs": 186240,
+          "endMs": 186640
+        },
+        {
+          "word": "the",
+          "startMs": 186850,
+          "endMs": 187270
+        },
+        {
+          "word": "stars",
+          "startMs": 187730,
+          "endMs": 188070
+        },
+        {
+          "word": "every",
+          "startMs": 188200,
+          "endMs": 188650
+        },
+        {
+          "word": "night",
+          "startMs": 188730,
+          "endMs": 188910
+        },
+        {
+          "word": "der;",
+          "startMs": 188910,
+          "endMs": 189330
+        },
+        {
+          "word": "bu",
+          "startMs": 190230,
+          "endMs": 190500
+        },
+        {
+          "word": "cümlede",
+          "startMs": 190940,
+          "endMs": 191700
+        },
+        {
+          "word": "will",
+          "startMs": 191840,
+          "endMs": 192110
+        },
+        {
+          "word": "yoktur",
+          "startMs": 192400,
+          "endMs": 193140
+        },
+        {
+          "word": "çünkü",
+          "startMs": 194300,
+          "endMs": 194820
+        },
+        {
+          "word": "iş",
+          "startMs": 194950,
+          "endMs": 195210
+        },
+        {
+          "word": "alışkanlıktır.",
+          "startMs": 195260,
+          "endMs": 197180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 198390,
+      "endMs": 200170,
+      "pauseAfterMs": 300,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 198390,
+          "endMs": 199390
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 199390,
+          "endMs": 199870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 200170,
+      "endMs": 201280,
+      "pauseAfterMs": 130,
+      "text": "Birlikte bakalım",
+      "markedText": "Birlikte bakalım",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 200170,
+          "endMs": 200560
+        },
+        {
+          "word": "bakalım",
+          "startMs": 200780,
+          "endMs": 201150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 201280,
+      "endMs": 206440,
+      "pauseAfterMs": 1040,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 201280,
+          "endMs": 201510
+        },
+        {
+          "word": "noktayı",
+          "startMs": 202200,
+          "endMs": 203030
+        },
+        {
+          "word": "sen",
+          "startMs": 203810,
+          "endMs": 204020
+        },
+        {
+          "word": "de",
+          "startMs": 204270,
+          "endMs": 204390
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 204390,
+          "endMs": 205400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 206440,
+      "endMs": 215920,
+      "pauseAfterMs": 820,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 206440,
+          "endMs": 206890
+        },
+        {
+          "word": "sevgili",
+          "startMs": 206890,
+          "endMs": 207220
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 207500,
+          "endMs": 208430
+        },
+        {
+          "word": "işte",
+          "startMs": 209380,
+          "endMs": 209720
+        },
+        {
+          "word": "tam",
+          "startMs": 209760,
+          "endMs": 209950
+        },
+        {
+          "word": "bu",
+          "startMs": 210070,
+          "endMs": 210270
+        },
+        {
+          "word": "noktada",
+          "startMs": 210480,
+          "endMs": 211040
+        },
+        {
+          "word": "dikkat",
+          "startMs": 211170,
+          "endMs": 211780
+        },
+        {
+          "word": "etmen",
+          "startMs": 211780,
+          "endMs": 212640
+        },
+        {
+          "word": "gereken",
+          "startMs": 213220,
+          "endMs": 213980
+        },
+        {
+          "word": "kilit",
+          "startMs": 214120,
+          "endMs": 214330
+        },
+        {
+          "word": "nokta.",
+          "startMs": 214470,
+          "endMs": 215100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 215920,
+      "endMs": 227830,
+      "pauseAfterMs": 990,
+      "text": "Will'den sonra fiile s ya da ing eklemek kalıbı bozar; will visits ve will visiting yanlıştır.",
+      "markedText": "Will'den sonra fiile s ya da ing eklemek kalıbı bozar; will visits ve will visiting yanlıştır.",
+      "words": [
+        {
+          "word": "Will'den",
+          "startMs": 215920,
+          "endMs": 216420
+        },
+        {
+          "word": "sonra",
+          "startMs": 216470,
+          "endMs": 216920
+        },
+        {
+          "word": "fiile",
+          "startMs": 216920,
+          "endMs": 217350
+        },
+        {
+          "word": "s",
+          "startMs": 217390,
+          "endMs": 217450
+        },
+        {
+          "word": "ya",
+          "startMs": 217570,
+          "endMs": 217720
+        },
+        {
+          "word": "da",
+          "startMs": 218000,
+          "endMs": 218060
+        },
+        {
+          "word": "ing",
+          "startMs": 218060,
+          "endMs": 218550
+        },
+        {
+          "word": "eklemek",
+          "startMs": 219600,
+          "endMs": 220000
+        },
+        {
+          "word": "kalıbı",
+          "startMs": 220040,
+          "endMs": 220540
+        },
+        {
+          "word": "bozar;",
+          "startMs": 220540,
+          "endMs": 221140
+        },
+        {
+          "word": "will",
+          "startMs": 221810,
+          "endMs": 222210
+        },
+        {
+          "word": "visits",
+          "startMs": 222430,
+          "endMs": 222800
+        },
+        {
+          "word": "ve",
+          "startMs": 222950,
+          "endMs": 223200
+        },
+        {
+          "word": "will",
+          "startMs": 223360,
+          "endMs": 224260
+        },
+        {
+          "word": "visiting",
+          "startMs": 224850,
+          "endMs": 225440
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 225770,
+          "endMs": 226840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 227830,
+      "endMs": 235300,
+      "pauseAfterMs": 880,
+      "text": "Olumsuzda won't ile not bir kez yeter, will not not yazılmaz.",
+      "markedText": "Olumsuzda won't ile not bir kez yeter, will not not yazılmaz.",
+      "words": [
+        {
+          "word": "Olumsuzda",
+          "startMs": 227830,
+          "endMs": 228500
+        },
+        {
+          "word": "won't",
+          "startMs": 228500,
+          "endMs": 228660
+        },
+        {
+          "word": "ile",
+          "startMs": 228770,
+          "endMs": 229020
+        },
+        {
+          "word": "not",
+          "startMs": 229210,
+          "endMs": 229280
+        },
+        {
+          "word": "bir",
+          "startMs": 229350,
+          "endMs": 229520
+        },
+        {
+          "word": "kez",
+          "startMs": 229560,
+          "endMs": 229650
+        },
+        {
+          "word": "yeter,",
+          "startMs": 229650,
+          "endMs": 230310
+        },
+        {
+          "word": "will",
+          "startMs": 231480,
+          "endMs": 231960
+        },
+        {
+          "word": "not",
+          "startMs": 231960,
+          "endMs": 232300
+        },
+        {
+          "word": "not",
+          "startMs": 232610,
+          "endMs": 233000
+        },
+        {
+          "word": "yazılmaz.",
+          "startMs": 233210,
+          "endMs": 234420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 235300,
+      "endMs": 243240,
+      "pauseAfterMs": 130,
+      "text": "Her gün yapılan işi will ile söylemek onu geleceğe atar",
+      "markedText": "Her gün yapılan işi will ile söylemek onu geleceğe atar",
+      "words": [
+        {
+          "word": "Her",
+          "startMs": 235300,
+          "endMs": 235510
+        },
+        {
+          "word": "gün",
+          "startMs": 235760,
+          "endMs": 235900
+        },
+        {
+          "word": "yapılan",
+          "startMs": 235900,
+          "endMs": 236910
+        },
+        {
+          "word": "işi",
+          "startMs": 237740,
+          "endMs": 238060
+        },
+        {
+          "word": "will",
+          "startMs": 238190,
+          "endMs": 238500
+        },
+        {
+          "word": "ile",
+          "startMs": 238620,
+          "endMs": 239310
+        },
+        {
+          "word": "söylemek",
+          "startMs": 239690,
+          "endMs": 240090
+        },
+        {
+          "word": "onu",
+          "startMs": 240190,
+          "endMs": 241060
+        },
+        {
+          "word": "geleceğe",
+          "startMs": 242170,
+          "endMs": 242580
+        },
+        {
+          "word": "atar",
+          "startMs": 242780,
+          "endMs": 243110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 243240,
+      "endMs": 253760,
+      "pauseAfterMs": 1040,
+      "text": "Universe konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Universe konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Universe",
+          "startMs": 243240,
+          "endMs": 243850
+        },
+        {
+          "word": "konusunda",
+          "startMs": 244160,
+          "endMs": 245010
+        },
+        {
+          "word": "kuralın",
+          "startMs": 246570,
+          "endMs": 247270
+        },
+        {
+          "word": "tersini",
+          "startMs": 247420,
+          "endMs": 248410
+        },
+        {
+          "word": "sanmak",
+          "startMs": 249040,
+          "endMs": 249470
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 249560,
+          "endMs": 250320
+        },
+        {
+          "word": "ters",
+          "startMs": 250530,
+          "endMs": 250820
+        },
+        {
+          "word": "cümle",
+          "startMs": 250860,
+          "endMs": 251390
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 251840,
+          "endMs": 252720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 253760,
+      "endMs": 257790,
+      "pauseAfterMs": 910,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 253760,
+          "endMs": 254310
+        },
+        {
+          "word": "Neler",
+          "startMs": 254440,
+          "endMs": 254970
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 255050,
+          "endMs": 256880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 257790,
+      "endMs": 258650,
+      "pauseAfterMs": 290,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 257790,
+          "endMs": 258360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 258650,
+      "endMs": 264880,
+      "pauseAfterMs": 1120,
+      "text": "Gelecek iş will ve yalın fiille kurulur.",
+      "markedText": "Gelecek iş will ve yalın fiille kurulur.",
+      "words": [
+        {
+          "word": "Gelecek",
+          "startMs": 258650,
+          "endMs": 259320
+        },
+        {
+          "word": "iş",
+          "startMs": 259320,
+          "endMs": 259770
+        },
+        {
+          "word": "will",
+          "startMs": 260580,
+          "endMs": 261170
+        },
+        {
+          "word": "ve",
+          "startMs": 261170,
+          "endMs": 261370
+        },
+        {
+          "word": "yalın",
+          "startMs": 261470,
+          "endMs": 261830
+        },
+        {
+          "word": "fiille",
+          "startMs": 262210,
+          "endMs": 262820
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 262860,
+          "endMs": 263760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 264880,
+      "endMs": 265110,
+      "pauseAfterMs": 0,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 264880,
+          "endMs": 265110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 265110,
+      "endMs": 269620,
+      "pauseAfterMs": 300,
+      "text": "Olumsuz won't, soru Will you diye başlar.",
+      "markedText": "Olumsuz won't, soru Will you diye başlar.",
+      "words": [
+        {
+          "word": "Olumsuz",
+          "startMs": 265110,
+          "endMs": 265750
+        },
+        {
+          "word": "won't,",
+          "startMs": 265980,
+          "endMs": 266440
+        },
+        {
+          "word": "soru",
+          "startMs": 267540,
+          "endMs": 267890
+        },
+        {
+          "word": "Will",
+          "startMs": 267890,
+          "endMs": 268140
+        },
+        {
+          "word": "you",
+          "startMs": 268250,
+          "endMs": 268380
+        },
+        {
+          "word": "diye",
+          "startMs": 268380,
+          "endMs": 268640
+        },
+        {
+          "word": "başlar.",
+          "startMs": 268810,
+          "endMs": 269320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 269620,
+      "endMs": 269720,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 269620,
+          "endMs": 269720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 269720,
+      "endMs": 274780,
+      "pauseAfterMs": 770,
+      "text": "Her gün olan alışkanlık will almaz.",
+      "markedText": "Her gün olan alışkanlık will almaz.",
+      "words": [
+        {
+          "word": "Her",
+          "startMs": 269720,
+          "endMs": 269980
+        },
+        {
+          "word": "gün",
+          "startMs": 269980,
+          "endMs": 270280
+        },
+        {
+          "word": "olan",
+          "startMs": 270410,
+          "endMs": 271290
+        },
+        {
+          "word": "alışkanlık",
+          "startMs": 271580,
+          "endMs": 272770
+        },
+        {
+          "word": "will",
+          "startMs": 272920,
+          "endMs": 273450
+        },
+        {
+          "word": "almaz.",
+          "startMs": 273630,
+          "endMs": 274010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 274780,
+      "endMs": 282760,
+      "pauseAfterMs": 610,
+      "text": "Gelecek cümlesi will ve yalın fiille kurulur.",
+      "markedText": "Gelecek cümlesi will ve yalın fiille kurulur.",
+      "words": [
+        {
+          "word": "Gelecek",
+          "startMs": 274780,
+          "endMs": 275580
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 275580,
+          "endMs": 276550
+        },
+        {
+          "word": "will",
+          "startMs": 277330,
+          "endMs": 277940
+        },
+        {
+          "word": "ve",
+          "startMs": 278300,
+          "endMs": 278670
+        },
+        {
+          "word": "yalın",
+          "startMs": 278850,
+          "endMs": 279520
+        },
+        {
+          "word": "fiille",
+          "startMs": 280130,
+          "endMs": 280880
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 280880,
+          "endMs": 282150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 282760,
+      "endMs": 290070,
+      "pauseAfterMs": 680,
+      "text": "Uzayla ilgili bir gelecek planını will ile söylersin.",
+      "markedText": "Uzayla ilgili bir gelecek planını will ile söylersin.",
+      "words": [
+        {
+          "word": "Uzayla",
+          "startMs": 282760,
+          "endMs": 283660
+        },
+        {
+          "word": "ilgili",
+          "startMs": 284370,
+          "endMs": 284940
+        },
+        {
+          "word": "bir",
+          "startMs": 284940,
+          "endMs": 285160
+        },
+        {
+          "word": "gelecek",
+          "startMs": 285220,
+          "endMs": 286100
+        },
+        {
+          "word": "planını",
+          "startMs": 286690,
+          "endMs": 287120
+        },
+        {
+          "word": "will",
+          "startMs": 287250,
+          "endMs": 287540
+        },
+        {
+          "word": "ile",
+          "startMs": 287680,
+          "endMs": 288050
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 288120,
+          "endMs": 289390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 290070,
+      "endMs": 292510,
+      "pauseAfterMs": 730,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 290070,
+          "endMs": 290830
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 290890,
+          "endMs": 291780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 292510,
+      "endMs": 296310,
+      "pauseAfterMs": 750,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 292510,
+          "endMs": 293070
+        },
+        {
+          "word": "bir",
+          "startMs": 293390,
+          "endMs": 293870
+        },
+        {
+          "word": "iş",
+          "startMs": 294100,
+          "endMs": 294260
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 294320,
+          "endMs": 295560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 296310,
+      "endMs": 299320,
+      "pauseAfterMs": 830,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 296310,
+          "endMs": 296790
+        },
+        {
+          "word": "sıra",
+          "startMs": 296850,
+          "endMs": 297310
+        },
+        {
+          "word": "sende.",
+          "startMs": 297530,
+          "endMs": 298490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 299320,
+      "endMs": 303702,
+      "pauseAfterMs": 312,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 299320,
+          "endMs": 300080
+        },
+        {
+          "word": "bu",
+          "startMs": 300080,
+          "endMs": 300150
+        },
+        {
+          "word": "notları",
+          "startMs": 300580,
+          "endMs": 301230
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 301370,
+          "endMs": 302040
+        },
+        {
+          "word": "kendi",
+          "startMs": 302130,
+          "endMs": 302370
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 302370,
+          "endMs": 303070
+        },
+        {
+          "word": "anlat.",
+          "startMs": 303070,
+          "endMs": 303390
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

@@ -4,6 +4,7 @@
  */
 export const ROUTE_AUTH_MAP = {
   "/api/_gone/[...path]": "public",
+  "/api/academy/catalog": "session",
   "/api/academy/certificates": "session",
   "/api/academy/certificates/[hash]": "public",
   "/api/academy/courses": "session",
@@ -37,6 +38,7 @@ export const ROUTE_AUTH_MAP = {
   "/api/career/pulse": "session",
   "/api/career/visas": "session",
   "/api/client/jobs/[id]/bids": "session",
+  "/api/cron/paytr-reconcile": "public",
   "/api/dashboard/pulse": "session",
   "/api/dashboard/wallet-strip": "session",
   "/api/freelancer/contracts": "session",
@@ -69,6 +71,8 @@ export const ROUTE_AUTH_MAP = {
   "/api/junior/lessons/[key]/practice": "session",
   "/api/junior/lessons/[key]/progress": "session",
   "/api/junior/live-tutor": "public",
+  "/api/junior/progress": "session",
+  "/api/junior/shelves": "session",
   "/api/payments/webhooks/paytr": "webhook",
   "/api/paytr/callback": "webhook",
   "/api/profile": "session",

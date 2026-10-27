@@ -3,9 +3,15 @@ import { join } from "node:path";
 
 import { juniorCalendarBundle } from "@yetkin/junior-content/calendar";
 import type { JuniorCourseSlug } from "@yetkin/junior-content";
-import { juniorQuizFileSchema, juniorScenarioSchema, juniorShellSchema } from "@yetkin/junior-content/schema/topic";
+import {
+  JUNIOR_ELECTIVE_LESSON_KEY_PATTERN,
+  juniorQuizFileSchema,
+  juniorScenarioSchema,
+  juniorShellSchema,
+} from "@yetkin/junior-content/schema/topic";
 import type { JuniorContentSource } from "@/lib/junior/meb";
 import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
+import { readLockedJuniorCueCassette } from "@/lib/junior/cue-cassette";
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 import { JUNIOR_VECTOR_SCENES, type JuniorLessonScript, type JuniorVectorScene } from "@/lib/junior/types";
 import { juniorLessonHasBakedAudio } from "@/lib/junior/voice";
@@ -110,7 +116,9 @@ function scriptFor(lessonKey: string): JuniorLessonScript {
   if (cached) {
     return cached;
   }
-  const lesson = juniorLessonFromScenario(state.scenarios.get(lessonKey) ?? missingScenario(lessonKey));
+  const assembled = juniorLessonFromScenario(state.scenarios.get(lessonKey) ?? missingScenario(lessonKey));
+  const spoken = readLockedJuniorCueCassette(lessonKey);
+  const lesson = spoken ? { ...assembled, listenText: spoken } : assembled;
   state.scripts.set(lessonKey, lesson);
   return lesson;
 }
@@ -146,7 +154,7 @@ export function juniorContentSource(): JuniorContentSource {
   };
 }
 
-/** Mühürlü senaryo. Kablar bu diziye girmez. Sıra dosya numarasıdır; matematik `jr_06_mat-5` ile açılır. */
+/** Mühürlü senaryo. Kablar bu diziye girmez. Sıra dosya numarasıdır; matematik `jr_06_mat-1` ile açılır. */
 export function juniorSealedCourseLessons(slug: JuniorCourseSlug): readonly JuniorLessonScript[] {
   return sealedKeys(slug).map((key) => scriptFor(key));
 }
@@ -158,14 +166,56 @@ export function juniorBakeCandidateLessons(slug: JuniorCourseSlug): readonly Jun
     .map((key) => scriptFor(key));
 }
 
-/** Mühürlü derslerin soru paketleri. Kapı, quiz JSON'unu okur. */
+/**
+ * Mühürlü derslerin soru paketleri. Kapı, quiz JSON'unu okur.
+ * JSON, TypeScript yazar dosyasının tek yönlü ihracıdır; ikinci bir düzenleme evi değildir.
+ */
 export function juniorSealedQuizPacks(slug: JuniorCourseSlug): readonly JuniorLessonQuizPack[] {
   const source = juniorContentSource();
   return sealedKeys(slug).map((key) => source.quiz(key));
 }
 
+/**
+ * Ses manifestine girmiş seçmeli derslerin soru paketleri.
+ * Manifestte olmayan taslak, çalışma zamanı dizinine girmez.
+ */
+export function juniorElectiveQuizPacks(): readonly JuniorLessonQuizPack[] {
+  const state = load();
+  return [...state.quizzes.keys()]
+    .filter((key) => JUNIOR_ELECTIVE_LESSON_KEY_PATTERN.test(key) && juniorLessonHasBakedAudio(key))
+    .sort((left, right) => {
+      const leftSlug = left.slice(0, left.lastIndexOf("-"));
+      const rightSlug = right.slice(0, right.lastIndexOf("-"));
+      if (leftSlug !== rightSlug) {
+        return leftSlug < rightSlug ? -1 : 1;
+      }
+      return lessonNumber(left) - lessonNumber(right);
+    })
+    .map((key) => {
+      const quiz = state.quizzes.get(key);
+      if (!quiz) {
+        throw new Error(`${key} quiz paketi yok.`);
+      }
+      return quiz;
+    });
+}
+
 export function juniorTopicIsShell(lessonKey: string): boolean {
   return load().shells.has(lessonKey);
+}
+
+/** Kab (yer tutucu, ~235 bayt) konu anahtarları. Envanter sayımına girmez. */
+export function juniorShellLessonKeys(): readonly string[] {
+  return [...load().shells].sort();
+}
+
+/**
+ * Envanter sayımı (Görev Paketi #02): yalnız mühürlü/senaryolu dersler sayılır.
+ * `shell: true` yer tutucuları veliye "kaç ders var?" cevabına dahil edilmez;
+ * katalog rafı da yalnız `juniorSealedCourseLessons` üzerinden kurulur.
+ */
+export function juniorSealedLessonInventoryCount(slug: JuniorCourseSlug): number {
+  return sealedKeys(slug).length;
 }
 
 /** Mühürlü senaryo. Kab ve pakette olmayan seçmeli konuda yoktur. */

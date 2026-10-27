@@ -56,6 +56,10 @@
     "ops:set-auth-password": "tsx scripts/ops-set-auth-password.ts",
     "ops:reset-citizen-academy-license": "tsx scripts/ops-reset-citizen-academy-license.ts",
     "ops:list-payment-anomalies": "tsx scripts/ops-list-payment-anomalies.ts",
+    "ops:list-paytr-pending": "tsx scripts/ops-list-paytr-pending.ts",
+    "ops:reconcile-paytr-pending": "tsx scripts/ops-reconcile-paytr-pending.ts",
+    "ops:audit-academy-ledger": "tsx scripts/ops-audit-academy-ledger.ts",
+    "ops:inspect-ledger": "tsx scripts/ops-inspect-ledger.ts",
     "ops:lab-postgres": "tsx scripts/ops-lab-postgres.ts",
     "ops:init": "npm run ops:migrate",
     "ops:storage-cors": "tsx scripts/ops-storage-cors-check.ts",
@@ -90,6 +94,8 @@
     "verify:sen-axis": "tsx scripts/verify-sen-axis.ts",
     "test:surface": "vitest run surface.test.ts tests/kernel/constitution-surfaces.test.ts",
     "verify:junior-sync": "tsx scripts/verify-junior-sync.ts",
+    "verify:junior-visual-ops": "tsx scripts/verify-junior-visual-ops.ts",
+    "author:visual-ops": "tsx scripts/author-topic-visual-ops.ts",
     "verify:grep-seals": "npm run verify:api-auth && npm run verify:boundaries && npm run verify:atomic-seals && npm run verify:sen-axis",
     "verify:public-size": "tsx scripts/verify-public-size.ts",
     "verify:academy-curriculum": "tsx scripts/verify-academy-curriculum.ts",
@@ -98,7 +104,7 @@
     "verify:content-quality": "tsx packages/junior-content/src/verify-content-quality.ts",
     "verify:junior-audio-manifest": "tsx scripts/verify-junior-audio-manifest.ts --check",
     "verify:junior-audio-cdn": "tsx scripts/verify-junior-audio-manifest.ts --cdn",
-    "verify:prebuild": "npm run verify:no-secrets && npm run verify:amount-minor && npm run verify:rls-status && npm run verify:v1-contract-artifacts && npm run verify:idor-seals && npm run ops:runtime-readiness && tsx scripts/verify-api-auth.ts --check && npm run verify:public-size && npm run verify:academy-curriculum && npm run verify:junior-content && npm run verify:junior-audio-manifest",
+    "verify:prebuild": "npm run verify:no-secrets && npm run verify:amount-minor && npm run verify:rls-status && npm run verify:v1-contract-artifacts && npm run verify:idor-seals && npm run ops:runtime-readiness && tsx scripts/verify-api-auth.ts --check && npm run verify:public-size && npm run verify:academy-curriculum && npm run verify:junior-content && npm run verify:junior-audio-manifest && npm run verify:junior-sync",
     "verify:nightly": "npm run verify:grep-seals && npm run verify:ai-gateway && npm run verify:web-security-seals && npm run verify:paytr-reconciliation-seals && npm run test:surface"
   },
   "engines": {

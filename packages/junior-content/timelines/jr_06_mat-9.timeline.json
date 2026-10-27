@@ -1,0 +1,2493 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_mat-9",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Kesirlerde çarpma ve bölme",
+  "grade": 6,
+  "subject": "Matematik",
+  "teacher": {
+    "name": "Selim",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_mat-9.mp3",
+    "durationMs": 278922,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 107120
+    },
+    {
+      "id": "ch-2",
+      "title": "Kesir işlemi",
+      "startMs": 107120,
+      "endMs": 175710
+    },
+    {
+      "id": "ch-3",
+      "title": "Kapanış",
+      "startMs": 175710,
+      "endMs": 278922
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4400,
+      "pauseAfterMs": 800,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 280,
+          "endMs": 1520
+        },
+        {
+          "word": "sevgili",
+          "startMs": 2090,
+          "endMs": 2680
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2830,
+          "endMs": 3600
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "fraction",
+            "title": "Çarpma ve bölme",
+            "subtitle": "Pay payda ile çarpılır"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4400,
+      "endMs": 9000,
+      "pauseAfterMs": 1080,
+      "text": "Ben Matematik öğretmenin Selim.",
+      "markedText": "Ben Matematik öğretmenin Selim.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4400,
+          "endMs": 4540
+        },
+        {
+          "word": "Matematik",
+          "startMs": 4540,
+          "endMs": 5220
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 5370,
+          "endMs": 6260
+        },
+        {
+          "word": "Selim.",
+          "startMs": 6760,
+          "endMs": 7920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 9000,
+      "endMs": 16470,
+      "pauseAfterMs": 720,
+      "text": "Kesirlerle çarpma ve bölmenin mantığını adım adım kavrayacağız.",
+      "markedText": "Kesirlerle çarpma ve bölmenin mantığını adım adım kavrayacağız.",
+      "words": [
+        {
+          "word": "Kesirlerle",
+          "startMs": 9000,
+          "endMs": 10170
+        },
+        {
+          "word": "çarpma",
+          "startMs": 10510,
+          "endMs": 11120
+        },
+        {
+          "word": "ve",
+          "startMs": 11120,
+          "endMs": 11250
+        },
+        {
+          "word": "bölmenin",
+          "startMs": 11250,
+          "endMs": 11870
+        },
+        {
+          "word": "mantığını",
+          "startMs": 11950,
+          "endMs": 12740
+        },
+        {
+          "word": "adım",
+          "startMs": 13510,
+          "endMs": 13980
+        },
+        {
+          "word": "adım",
+          "startMs": 14280,
+          "endMs": 14660
+        },
+        {
+          "word": "kavrayacağız.",
+          "startMs": 14850,
+          "endMs": 15750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 16470,
+      "endMs": 28280,
+      "pauseAfterMs": 1000,
+      "text": "Hiç bir çikolatanın yarısını alıp o yarımın da yarısını bir arkadaşına verdin mi?",
+      "markedText": "Hiç bir çikolatanın yarısını alıp o yarımın da yarısını bir arkadaşına verdin mi?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 16470,
+          "endMs": 16610
+        },
+        {
+          "word": "bir",
+          "startMs": 16610,
+          "endMs": 17000
+        },
+        {
+          "word": "çikolatanın",
+          "startMs": 17080,
+          "endMs": 18020
+        },
+        {
+          "word": "yarısını",
+          "startMs": 18230,
+          "endMs": 19090
+        },
+        {
+          "word": "alıp",
+          "startMs": 19310,
+          "endMs": 19720
+        },
+        {
+          "word": "o",
+          "startMs": 19910,
+          "endMs": 20480
+        },
+        {
+          "word": "yarımın",
+          "startMs": 20880,
+          "endMs": 21520
+        },
+        {
+          "word": "da",
+          "startMs": 21600,
+          "endMs": 22040
+        },
+        {
+          "word": "yarısını",
+          "startMs": 22840,
+          "endMs": 23720
+        },
+        {
+          "word": "bir",
+          "startMs": 23720,
+          "endMs": 24570
+        },
+        {
+          "word": "arkadaşına",
+          "startMs": 25150,
+          "endMs": 25900
+        },
+        {
+          "word": "verdin",
+          "startMs": 26070,
+          "endMs": 26830
+        },
+        {
+          "word": "mi?",
+          "startMs": 26910,
+          "endMs": 27280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 28280,
+      "endMs": 31990,
+      "pauseAfterMs": 800,
+      "text": "Elinde bütün çikolatanın dörtte biri kalır.",
+      "markedText": "Elinde bütün çikolatanın dörtte biri kalır.",
+      "words": [
+        {
+          "word": "Elinde",
+          "startMs": 28280,
+          "endMs": 28730
+        },
+        {
+          "word": "bütün",
+          "startMs": 28870,
+          "endMs": 29220
+        },
+        {
+          "word": "çikolatanın",
+          "startMs": 29310,
+          "endMs": 29880
+        },
+        {
+          "word": "dörtte",
+          "startMs": 30040,
+          "endMs": 30140
+        },
+        {
+          "word": "biri",
+          "startMs": 30430,
+          "endMs": 30560
+        },
+        {
+          "word": "kalır.",
+          "startMs": 30720,
+          "endMs": 31190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 31990,
+      "endMs": 40170,
+      "pauseAfterMs": 940,
+      "text": "Kesirlerde çarpma ve bölmeyi en pratik ve kalıcı şekilde öğreneceğiz.",
+      "markedText": "Kesirlerde çarpma ve bölmeyi en pratik ve kalıcı şekilde öğreneceğiz.",
+      "words": [
+        {
+          "word": "Kesirlerde",
+          "startMs": 31990,
+          "endMs": 32870
+        },
+        {
+          "word": "çarpma",
+          "startMs": 33080,
+          "endMs": 33410
+        },
+        {
+          "word": "ve",
+          "startMs": 33670,
+          "endMs": 33780
+        },
+        {
+          "word": "bölmeyi",
+          "startMs": 33950,
+          "endMs": 34700
+        },
+        {
+          "word": "en",
+          "startMs": 34860,
+          "endMs": 34970
+        },
+        {
+          "word": "pratik",
+          "startMs": 35500,
+          "endMs": 35900
+        },
+        {
+          "word": "ve",
+          "startMs": 36020,
+          "endMs": 36260
+        },
+        {
+          "word": "kalıcı",
+          "startMs": 36850,
+          "endMs": 37270
+        },
+        {
+          "word": "şekilde",
+          "startMs": 37950,
+          "endMs": 38240
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 38330,
+          "endMs": 39230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 40170,
+      "endMs": 42520,
+      "pauseAfterMs": 980,
+      "text": "Bunu mutfakta da kullanırsın.",
+      "markedText": "Bunu mutfakta da kullanırsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 40170,
+          "endMs": 40420
+        },
+        {
+          "word": "mutfakta",
+          "startMs": 40420,
+          "endMs": 40830
+        },
+        {
+          "word": "da",
+          "startMs": 40830,
+          "endMs": 40870
+        },
+        {
+          "word": "kullanırsın.",
+          "startMs": 40870,
+          "endMs": 41540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 42520,
+      "endMs": 49980,
+      "pauseAfterMs": 500,
+      "text": "Yarım limonun yarısını sıkarsan bütün limonun dörtte birini kullanmış olursun.",
+      "markedText": "Yarım limonun yarısını sıkarsan bütün limonun dörtte birini kullanmış olursun.",
+      "words": [
+        {
+          "word": "Yarım",
+          "startMs": 42520,
+          "endMs": 42920
+        },
+        {
+          "word": "limonun",
+          "startMs": 42980,
+          "endMs": 43700
+        },
+        {
+          "word": "yarısını",
+          "startMs": 44040,
+          "endMs": 44410
+        },
+        {
+          "word": "sıkarsan",
+          "startMs": 44520,
+          "endMs": 45200
+        },
+        {
+          "word": "bütün",
+          "startMs": 45240,
+          "endMs": 45650
+        },
+        {
+          "word": "limonun",
+          "startMs": 45870,
+          "endMs": 46210
+        },
+        {
+          "word": "dörtte",
+          "startMs": 46670,
+          "endMs": 47090
+        },
+        {
+          "word": "birini",
+          "startMs": 47250,
+          "endMs": 47680
+        },
+        {
+          "word": "kullanmış",
+          "startMs": 47780,
+          "endMs": 48360
+        },
+        {
+          "word": "olursun.",
+          "startMs": 48610,
+          "endMs": 49480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 49980,
+      "endMs": 54480,
+      "pauseAfterMs": 390,
+      "text": "Bir bölü 2 çarpı bir bölü 2, dörtte birdir.",
+      "markedText": "Bir bölü 2 çarpı bir bölü 2, dörtte birdir.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 49980,
+          "endMs": 50210
+        },
+        {
+          "word": "bölü",
+          "startMs": 50210,
+          "endMs": 50390
+        },
+        {
+          "word": "2",
+          "startMs": 50630,
+          "endMs": 50770
+        },
+        {
+          "word": "çarpı",
+          "startMs": 50770,
+          "endMs": 50960
+        },
+        {
+          "word": "bir",
+          "startMs": 51160,
+          "endMs": 51250
+        },
+        {
+          "word": "bölü",
+          "startMs": 51300,
+          "endMs": 51580
+        },
+        {
+          "word": "2,",
+          "startMs": 51680,
+          "endMs": 52040
+        },
+        {
+          "word": "dörtte",
+          "startMs": 52980,
+          "endMs": 53590
+        },
+        {
+          "word": "birdir.",
+          "startMs": 53590,
+          "endMs": 54090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 54480,
+      "endMs": 59190,
+      "pauseAfterMs": 250,
+      "text": "Yarım litre sütü çeyrek litrelik bardaklara bölersen 2 bardak dolar.",
+      "markedText": "Yarım litre sütü çeyrek litrelik bardaklara bölersen 2 bardak dolar.",
+      "words": [
+        {
+          "word": "Yarım",
+          "startMs": 54480,
+          "endMs": 54710
+        },
+        {
+          "word": "litre",
+          "startMs": 54760,
+          "endMs": 55020
+        },
+        {
+          "word": "sütü",
+          "startMs": 55260,
+          "endMs": 55980
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 56340,
+          "endMs": 56650
+        },
+        {
+          "word": "litrelik",
+          "startMs": 56950,
+          "endMs": 57180
+        },
+        {
+          "word": "bardaklara",
+          "startMs": 57300,
+          "endMs": 57890
+        },
+        {
+          "word": "bölersen",
+          "startMs": 57890,
+          "endMs": 58210
+        },
+        {
+          "word": "2",
+          "startMs": 58210,
+          "endMs": 58390
+        },
+        {
+          "word": "bardak",
+          "startMs": 58390,
+          "endMs": 58580
+        },
+        {
+          "word": "dolar.",
+          "startMs": 58690,
+          "endMs": 58940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 59190,
+      "endMs": 63200,
+      "pauseAfterMs": 640,
+      "text": "Bölme, kaç çeyrek sığdığını söyler.",
+      "markedText": "Bölme, kaç çeyrek sığdığını söyler.",
+      "words": [
+        {
+          "word": "Bölme,",
+          "startMs": 59190,
+          "endMs": 59690
+        },
+        {
+          "word": "kaç",
+          "startMs": 59990,
+          "endMs": 60060
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 60060,
+          "endMs": 60200
+        },
+        {
+          "word": "sığdığını",
+          "startMs": 60360,
+          "endMs": 61110
+        },
+        {
+          "word": "söyler.",
+          "startMs": 62030,
+          "endMs": 62560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 63200,
+      "endMs": 77500,
+      "pauseAfterMs": 730,
+      "text": "İki kesir çarpılırken paylar kendi arasında çarpılıp paya, paydalar kendi arasında çarpılıp paydaya yazılır; payda eşitlemeye hiç gerek yoktur!",
+      "markedText": "İki kesir çarpılırken paylar kendi arasında çarpılıp paya, paydalar kendi arasında çarpılıp paydaya yazılır; payda eşitlemeye hiç gerek yoktur!",
+      "words": [
+        {
+          "word": "İki",
+          "startMs": 63200,
+          "endMs": 63260
+        },
+        {
+          "word": "kesir",
+          "startMs": 63360,
+          "endMs": 63490
+        },
+        {
+          "word": "çarpılırken",
+          "startMs": 63540,
+          "endMs": 64190
+        },
+        {
+          "word": "paylar",
+          "startMs": 64560,
+          "endMs": 64870
+        },
+        {
+          "word": "kendi",
+          "startMs": 64870,
+          "endMs": 65200
+        },
+        {
+          "word": "arasında",
+          "startMs": 65340,
+          "endMs": 65610
+        },
+        {
+          "word": "çarpılıp",
+          "startMs": 65870,
+          "endMs": 66750
+        },
+        {
+          "word": "paya,",
+          "startMs": 67360,
+          "endMs": 67660
+        },
+        {
+          "word": "paydalar",
+          "startMs": 68690,
+          "endMs": 69200
+        },
+        {
+          "word": "kendi",
+          "startMs": 69200,
+          "endMs": 69690
+        },
+        {
+          "word": "arasında",
+          "startMs": 69940,
+          "endMs": 70690
+        },
+        {
+          "word": "çarpılıp",
+          "startMs": 71490,
+          "endMs": 71860
+        },
+        {
+          "word": "paydaya",
+          "startMs": 71860,
+          "endMs": 72290
+        },
+        {
+          "word": "yazılır;",
+          "startMs": 72610,
+          "endMs": 73340
+        },
+        {
+          "word": "payda",
+          "startMs": 74310,
+          "endMs": 74800
+        },
+        {
+          "word": "eşitlemeye",
+          "startMs": 74930,
+          "endMs": 75800
+        },
+        {
+          "word": "hiç",
+          "startMs": 76050,
+          "endMs": 76230
+        },
+        {
+          "word": "gerek",
+          "startMs": 76230,
+          "endMs": 76500
+        },
+        {
+          "word": "yoktur!",
+          "startMs": 76500,
+          "endMs": 76770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-1",
+      "startMs": 77500,
+      "endMs": 91050,
+      "pauseAfterMs": 650,
+      "text": "Bölme işleminde ise ikinci kesir ters çevrilir; yani pay ile paydanın yeri değiştirilir ve işlem çarpmaya dönüştürülür.",
+      "markedText": "Bölme işleminde ise ikinci kesir ters çevrilir; yani pay ile paydanın yeri değiştirilir ve işlem çarpmaya dönüştürülür.",
+      "words": [
+        {
+          "word": "Bölme",
+          "startMs": 77500,
+          "endMs": 77840
+        },
+        {
+          "word": "işleminde",
+          "startMs": 78090,
+          "endMs": 78900
+        },
+        {
+          "word": "ise",
+          "startMs": 79220,
+          "endMs": 79650
+        },
+        {
+          "word": "ikinci",
+          "startMs": 80330,
+          "endMs": 80750
+        },
+        {
+          "word": "kesir",
+          "startMs": 81220,
+          "endMs": 81640
+        },
+        {
+          "word": "ters",
+          "startMs": 81790,
+          "endMs": 81910
+        },
+        {
+          "word": "çevrilir;",
+          "startMs": 82200,
+          "endMs": 82740
+        },
+        {
+          "word": "yani",
+          "startMs": 83280,
+          "endMs": 83620
+        },
+        {
+          "word": "pay",
+          "startMs": 83900,
+          "endMs": 84070
+        },
+        {
+          "word": "ile",
+          "startMs": 84190,
+          "endMs": 84610
+        },
+        {
+          "word": "paydanın",
+          "startMs": 85230,
+          "endMs": 85880
+        },
+        {
+          "word": "yeri",
+          "startMs": 85980,
+          "endMs": 86140
+        },
+        {
+          "word": "değiştirilir",
+          "startMs": 86470,
+          "endMs": 86970
+        },
+        {
+          "word": "ve",
+          "startMs": 86970,
+          "endMs": 87160
+        },
+        {
+          "word": "işlem",
+          "startMs": 87160,
+          "endMs": 87570
+        },
+        {
+          "word": "çarpmaya",
+          "startMs": 88430,
+          "endMs": 88970
+        },
+        {
+          "word": "dönüştürülür.",
+          "startMs": 89280,
+          "endMs": 90400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-1",
+      "startMs": 91050,
+      "endMs": 99040,
+      "pauseAfterMs": 740,
+      "text": "Pratik kural: Bir kesri 1'den küçük bir kesirle çarptığında elde ettiğin sonuç küçülür.",
+      "markedText": "Pratik kural: Bir kesri 1'den küçük bir kesirle çarptığında elde ettiğin sonuç küçülür.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 91050,
+          "endMs": 91460
+        },
+        {
+          "word": "kural:",
+          "startMs": 91690,
+          "endMs": 91780
+        },
+        {
+          "word": "Bir",
+          "startMs": 91900,
+          "endMs": 92100
+        },
+        {
+          "word": "kesri",
+          "startMs": 92180,
+          "endMs": 92600
+        },
+        {
+          "word": "1'den",
+          "startMs": 92760,
+          "endMs": 93200
+        },
+        {
+          "word": "küçük",
+          "startMs": 93630,
+          "endMs": 94060
+        },
+        {
+          "word": "bir",
+          "startMs": 94320,
+          "endMs": 94480
+        },
+        {
+          "word": "kesirle",
+          "startMs": 94640,
+          "endMs": 95270
+        },
+        {
+          "word": "çarptığında",
+          "startMs": 95570,
+          "endMs": 96070
+        },
+        {
+          "word": "elde",
+          "startMs": 96520,
+          "endMs": 96790
+        },
+        {
+          "word": "ettiğin",
+          "startMs": 96790,
+          "endMs": 97200
+        },
+        {
+          "word": "sonuç",
+          "startMs": 97420,
+          "endMs": 97590
+        },
+        {
+          "word": "küçülür.",
+          "startMs": 97680,
+          "endMs": 98300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-1",
+      "startMs": 99040,
+      "endMs": 102920,
+      "pauseAfterMs": 840,
+      "text": "Yarının yarısı, dörtte birdir.",
+      "markedText": "Yarının yarısı, dörtte birdir.",
+      "words": [
+        {
+          "word": "Yarının",
+          "startMs": 99040,
+          "endMs": 99290
+        },
+        {
+          "word": "yarısı,",
+          "startMs": 99290,
+          "endMs": 99810
+        },
+        {
+          "word": "dörtte",
+          "startMs": 100690,
+          "endMs": 101140
+        },
+        {
+          "word": "birdir.",
+          "startMs": 101260,
+          "endMs": 102080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-1",
+      "startMs": 102920,
+      "endMs": 107120,
+      "pauseAfterMs": 720,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 102920,
+          "endMs": 103100
+        },
+        {
+          "word": "şimdi",
+          "startMs": 103180,
+          "endMs": 103500
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 103500,
+          "endMs": 104250
+        },
+        {
+          "word": "çizime",
+          "startMs": 104500,
+          "endMs": 104850
+        },
+        {
+          "word": "birlikte",
+          "startMs": 104850,
+          "endMs": 105220
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 105610,
+          "endMs": 106400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 107120,
+      "endMs": 175710,
+      "pauseAfterMs": 690,
+      "text": "Bir bölü 2 çarpı bir bölü 2 işlemine bakalım. Paylar 1 çarpı 1, 1 eder; paydalar 2 çarpı 2, 4 eder; sonuç dörtte birdir. Üç bölü 4 ile 2 tam sayısını çarpalım. 2 sayısı iki bölü 1 olarak yazılır; paylar 3 çarpı 2'den 6, paydalar 4 çarpı 1'den 4 eder; sadeleşince üç bölü 2 olur. Şimdi bölme yapalım: Bir bölü 2 bölü bir bölü 4. İkinci kesir olan bir bölü 4'ü ters çevirirsek dört bölü 1 olur. Bir bölü 2 çarpı dört bölü 1 işleminden sonuç 2 çıkar. Çünkü bir yarımın içinde tam iki tane çeyrek vardır.",
+      "markedText": "Bir bölü 2 çarpı bir bölü 2 işlemine bakalım. {@showFraction} Paylar 1 çarpı 1, 1 eder; paydalar 2 çarpı 2, 4 eder; sonuç dörtte birdir. Üç bölü 4 ile 2 tam sayısını çarpalım. 2 sayısı iki bölü 1 olarak yazılır; paylar 3 çarpı 2'den 6, paydalar 4 çarpı 1'den 4 eder; sadeleşince üç bölü 2 olur. Şimdi bölme yapalım: Bir bölü 2 bölü bir bölü 4. İkinci kesir olan bir bölü 4'ü ters çevirirsek dört bölü 1 olur. Bir bölü 2 çarpı dört bölü 1 işleminden sonuç 2 çıkar. Çünkü bir yarımın içinde tam iki tane çeyrek vardır.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 107120,
+          "endMs": 107340
+        },
+        {
+          "word": "bölü",
+          "startMs": 107340,
+          "endMs": 107570
+        },
+        {
+          "word": "2",
+          "startMs": 107670,
+          "endMs": 107720
+        },
+        {
+          "word": "çarpı",
+          "startMs": 107760,
+          "endMs": 108090
+        },
+        {
+          "word": "bir",
+          "startMs": 108140,
+          "endMs": 108300
+        },
+        {
+          "word": "bölü",
+          "startMs": 108400,
+          "endMs": 108590
+        },
+        {
+          "word": "2",
+          "startMs": 108590,
+          "endMs": 108670
+        },
+        {
+          "word": "işlemine",
+          "startMs": 108880,
+          "endMs": 109240
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 109410,
+          "endMs": 110460
+        },
+        {
+          "word": "Paylar",
+          "startMs": 111110,
+          "endMs": 111560
+        },
+        {
+          "word": "1",
+          "startMs": 111820,
+          "endMs": 112150
+        },
+        {
+          "word": "çarpı",
+          "startMs": 112150,
+          "endMs": 112530
+        },
+        {
+          "word": "1,",
+          "startMs": 112860,
+          "endMs": 113040
+        },
+        {
+          "word": "1",
+          "startMs": 113450,
+          "endMs": 113710
+        },
+        {
+          "word": "eder;",
+          "startMs": 113810,
+          "endMs": 114440
+        },
+        {
+          "word": "paydalar",
+          "startMs": 115480,
+          "endMs": 115980
+        },
+        {
+          "word": "2",
+          "startMs": 115980,
+          "endMs": 116230
+        },
+        {
+          "word": "çarpı",
+          "startMs": 116570,
+          "endMs": 116750
+        },
+        {
+          "word": "2,",
+          "startMs": 116830,
+          "endMs": 117200
+        },
+        {
+          "word": "4",
+          "startMs": 118330,
+          "endMs": 118520
+        },
+        {
+          "word": "eder;",
+          "startMs": 118620,
+          "endMs": 119470
+        },
+        {
+          "word": "sonuç",
+          "startMs": 120370,
+          "endMs": 120720
+        },
+        {
+          "word": "dörtte",
+          "startMs": 120720,
+          "endMs": 120880
+        },
+        {
+          "word": "birdir.",
+          "startMs": 120880,
+          "endMs": 121380
+        },
+        {
+          "word": "Üç",
+          "startMs": 122010,
+          "endMs": 122120
+        },
+        {
+          "word": "bölü",
+          "startMs": 122290,
+          "endMs": 122500
+        },
+        {
+          "word": "4",
+          "startMs": 122630,
+          "endMs": 122740
+        },
+        {
+          "word": "ile",
+          "startMs": 122740,
+          "endMs": 122960
+        },
+        {
+          "word": "2",
+          "startMs": 123070,
+          "endMs": 123250
+        },
+        {
+          "word": "tam",
+          "startMs": 123340,
+          "endMs": 123500
+        },
+        {
+          "word": "sayısını",
+          "startMs": 123500,
+          "endMs": 124390
+        },
+        {
+          "word": "çarpalım.",
+          "startMs": 124820,
+          "endMs": 125610
+        },
+        {
+          "word": "2",
+          "startMs": 126420,
+          "endMs": 126760
+        },
+        {
+          "word": "sayısı",
+          "startMs": 127610,
+          "endMs": 128010
+        },
+        {
+          "word": "iki",
+          "startMs": 128160,
+          "endMs": 128490
+        },
+        {
+          "word": "bölü",
+          "startMs": 128670,
+          "endMs": 129170
+        },
+        {
+          "word": "1",
+          "startMs": 129460,
+          "endMs": 129590
+        },
+        {
+          "word": "olarak",
+          "startMs": 129880,
+          "endMs": 130460
+        },
+        {
+          "word": "yazılır;",
+          "startMs": 130540,
+          "endMs": 131180
+        },
+        {
+          "word": "paylar",
+          "startMs": 131790,
+          "endMs": 132180
+        },
+        {
+          "word": "3",
+          "startMs": 132510,
+          "endMs": 132720
+        },
+        {
+          "word": "çarpı",
+          "startMs": 132790,
+          "endMs": 133890
+        },
+        {
+          "word": "2'den",
+          "startMs": 134100,
+          "endMs": 134870
+        },
+        {
+          "word": "6,",
+          "startMs": 134870,
+          "endMs": 135660
+        },
+        {
+          "word": "paydalar",
+          "startMs": 136450,
+          "endMs": 136950
+        },
+        {
+          "word": "4",
+          "startMs": 137320,
+          "endMs": 137710
+        },
+        {
+          "word": "çarpı",
+          "startMs": 137840,
+          "endMs": 138470
+        },
+        {
+          "word": "1'den",
+          "startMs": 138780,
+          "endMs": 139280
+        },
+        {
+          "word": "4",
+          "startMs": 139710,
+          "endMs": 139870
+        },
+        {
+          "word": "eder;",
+          "startMs": 140220,
+          "endMs": 140490
+        },
+        {
+          "word": "sadeleşince",
+          "startMs": 141230,
+          "endMs": 142220
+        },
+        {
+          "word": "üç",
+          "startMs": 142650,
+          "endMs": 143010
+        },
+        {
+          "word": "bölü",
+          "startMs": 143410,
+          "endMs": 144170
+        },
+        {
+          "word": "2",
+          "startMs": 144610,
+          "endMs": 144800
+        },
+        {
+          "word": "olur.",
+          "startMs": 144920,
+          "endMs": 145290
+        },
+        {
+          "word": "Şimdi",
+          "startMs": 145550,
+          "endMs": 145960
+        },
+        {
+          "word": "bölme",
+          "startMs": 146040,
+          "endMs": 146650
+        },
+        {
+          "word": "yapalım:",
+          "startMs": 147830,
+          "endMs": 148620
+        },
+        {
+          "word": "Bir",
+          "startMs": 149660,
+          "endMs": 149860
+        },
+        {
+          "word": "bölü",
+          "startMs": 150430,
+          "endMs": 150650
+        },
+        {
+          "word": "2",
+          "startMs": 150790,
+          "endMs": 151210
+        },
+        {
+          "word": "bölü",
+          "startMs": 151210,
+          "endMs": 151890
+        },
+        {
+          "word": "bir",
+          "startMs": 152390,
+          "endMs": 152830
+        },
+        {
+          "word": "bölü",
+          "startMs": 152960,
+          "endMs": 153320
+        },
+        {
+          "word": "4.",
+          "startMs": 153630,
+          "endMs": 154170
+        },
+        {
+          "word": "İkinci",
+          "startMs": 154500,
+          "endMs": 154910
+        },
+        {
+          "word": "kesir",
+          "startMs": 155030,
+          "endMs": 155370
+        },
+        {
+          "word": "olan",
+          "startMs": 155490,
+          "endMs": 156060
+        },
+        {
+          "word": "bir",
+          "startMs": 157180,
+          "endMs": 157300
+        },
+        {
+          "word": "bölü",
+          "startMs": 157800,
+          "endMs": 158260
+        },
+        {
+          "word": "4'ü",
+          "startMs": 158470,
+          "endMs": 158790
+        },
+        {
+          "word": "ters",
+          "startMs": 158840,
+          "endMs": 158950
+        },
+        {
+          "word": "çevirirsek",
+          "startMs": 159070,
+          "endMs": 159450
+        },
+        {
+          "word": "dört",
+          "startMs": 159450,
+          "endMs": 159760
+        },
+        {
+          "word": "bölü",
+          "startMs": 160010,
+          "endMs": 160240
+        },
+        {
+          "word": "1",
+          "startMs": 160240,
+          "endMs": 160290
+        },
+        {
+          "word": "olur.",
+          "startMs": 160390,
+          "endMs": 160800
+        },
+        {
+          "word": "Bir",
+          "startMs": 161610,
+          "endMs": 161870
+        },
+        {
+          "word": "bölü",
+          "startMs": 162270,
+          "endMs": 162690
+        },
+        {
+          "word": "2",
+          "startMs": 162690,
+          "endMs": 163110
+        },
+        {
+          "word": "çarpı",
+          "startMs": 163210,
+          "endMs": 163930
+        },
+        {
+          "word": "dört",
+          "startMs": 164400,
+          "endMs": 164860
+        },
+        {
+          "word": "bölü",
+          "startMs": 165000,
+          "endMs": 165250
+        },
+        {
+          "word": "1",
+          "startMs": 165670,
+          "endMs": 166010
+        },
+        {
+          "word": "işleminden",
+          "startMs": 166890,
+          "endMs": 167720
+        },
+        {
+          "word": "sonuç",
+          "startMs": 167780,
+          "endMs": 168220
+        },
+        {
+          "word": "2",
+          "startMs": 168790,
+          "endMs": 169010
+        },
+        {
+          "word": "çıkar.",
+          "startMs": 169010,
+          "endMs": 169610
+        },
+        {
+          "word": "Çünkü",
+          "startMs": 170460,
+          "endMs": 170750
+        },
+        {
+          "word": "bir",
+          "startMs": 170750,
+          "endMs": 171060
+        },
+        {
+          "word": "yarımın",
+          "startMs": 171060,
+          "endMs": 171970
+        },
+        {
+          "word": "içinde",
+          "startMs": 172320,
+          "endMs": 172840
+        },
+        {
+          "word": "tam",
+          "startMs": 172930,
+          "endMs": 173060
+        },
+        {
+          "word": "iki",
+          "startMs": 173140,
+          "endMs": 173340
+        },
+        {
+          "word": "tane",
+          "startMs": 173390,
+          "endMs": 173650
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 173730,
+          "endMs": 174080
+        },
+        {
+          "word": "vardır.",
+          "startMs": 174160,
+          "endMs": 175020
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 111110,
+          "op": "SHOW_FRACTION",
+          "hook": "showFraction",
+          "params": {
+            "operation": "çarpma",
+            "leftNumerator": 1,
+            "leftDenominator": 2,
+            "rightNumerator": 1,
+            "rightDenominator": 2,
+            "resultNumerator": 1,
+            "resultDenominator": 4,
+            "productNumerator": 6,
+            "productDenominator": 4,
+            "simplifiedNumerator": 3,
+            "simplifiedDenominator": 2,
+            "quotient": 2,
+            "note": "ters çevirirsek",
+            "marks": [
+              {
+                "slot": "pay",
+                "value": 1,
+                "atMs": 111820
+              },
+              {
+                "slot": "pay-b",
+                "value": 1,
+                "atMs": 112860
+              },
+              {
+                "slot": "pay-product",
+                "value": 1,
+                "atMs": 113450
+              },
+              {
+                "slot": "left-den",
+                "value": 2,
+                "atMs": 115980
+              },
+              {
+                "slot": "right-den",
+                "value": 2,
+                "atMs": 116830
+              },
+              {
+                "slot": "product-den",
+                "value": 4,
+                "atMs": 118330
+              },
+              {
+                "slot": "whole",
+                "value": 2,
+                "atMs": 123070
+              },
+              {
+                "slot": "unsimplified",
+                "value": 6,
+                "atMs": 134870
+              },
+              {
+                "slot": "simplified",
+                "value": 2,
+                "atMs": 144610
+              },
+              {
+                "slot": "divide",
+                "value": 2,
+                "atMs": 150790
+              },
+              {
+                "slot": "divide-again",
+                "value": 2,
+                "atMs": 162690
+              },
+              {
+                "slot": "quotient",
+                "value": 2,
+                "atMs": 168790
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-3",
+      "startMs": 175710,
+      "endMs": 178930,
+      "pauseAfterMs": 950,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 175710,
+          "endMs": 176490
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 176790,
+          "endMs": 177980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-3",
+      "startMs": 178930,
+      "endMs": 182130,
+      "pauseAfterMs": 1370,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 178930,
+          "endMs": 179640
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 180020,
+          "endMs": 180760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-3",
+      "startMs": 182130,
+      "endMs": 185900,
+      "pauseAfterMs": 600,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 182130,
+          "endMs": 182220
+        },
+        {
+          "word": "noktayı",
+          "startMs": 182300,
+          "endMs": 183240
+        },
+        {
+          "word": "sen",
+          "startMs": 183520,
+          "endMs": 183820
+        },
+        {
+          "word": "de",
+          "startMs": 183920,
+          "endMs": 184010
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 184010,
+          "endMs": 185300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-3",
+      "startMs": 185900,
+      "endMs": 192920,
+      "pauseAfterMs": 1490,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 185900,
+          "endMs": 186280
+        },
+        {
+          "word": "sevgili",
+          "startMs": 186670,
+          "endMs": 187280
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 187380,
+          "endMs": 188270
+        },
+        {
+          "word": "işte",
+          "startMs": 189040,
+          "endMs": 189240
+        },
+        {
+          "word": "tam",
+          "startMs": 189320,
+          "endMs": 189520
+        },
+        {
+          "word": "bu",
+          "startMs": 189640,
+          "endMs": 189790
+        },
+        {
+          "word": "noktada",
+          "startMs": 189790,
+          "endMs": 190020
+        },
+        {
+          "word": "dikkat",
+          "startMs": 190020,
+          "endMs": 190230
+        },
+        {
+          "word": "etmen",
+          "startMs": 190230,
+          "endMs": 190500
+        },
+        {
+          "word": "gereken",
+          "startMs": 190570,
+          "endMs": 190760
+        },
+        {
+          "word": "kilit",
+          "startMs": 190910,
+          "endMs": 191140
+        },
+        {
+          "word": "nokta.",
+          "startMs": 191210,
+          "endMs": 191430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-3",
+      "startMs": 192920,
+      "endMs": 195020,
+      "pauseAfterMs": 660,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 192920,
+          "endMs": 193680
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 193730,
+          "endMs": 194360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-3",
+      "startMs": 195020,
+      "endMs": 201240,
+      "pauseAfterMs": 860,
+      "text": "Bölme işleminde ikinci kesri ters çevirmeden çarpmak en sık yapılan hatadır.",
+      "markedText": "Bölme işleminde ikinci kesri ters çevirmeden çarpmak en sık yapılan hatadır.",
+      "words": [
+        {
+          "word": "Bölme",
+          "startMs": 195020,
+          "endMs": 195520
+        },
+        {
+          "word": "işleminde",
+          "startMs": 195630,
+          "endMs": 196270
+        },
+        {
+          "word": "ikinci",
+          "startMs": 196270,
+          "endMs": 196560
+        },
+        {
+          "word": "kesri",
+          "startMs": 196560,
+          "endMs": 196850
+        },
+        {
+          "word": "ters",
+          "startMs": 196900,
+          "endMs": 197160
+        },
+        {
+          "word": "çevirmeden",
+          "startMs": 197750,
+          "endMs": 198230
+        },
+        {
+          "word": "çarpmak",
+          "startMs": 198440,
+          "endMs": 198990
+        },
+        {
+          "word": "en",
+          "startMs": 199050,
+          "endMs": 199270
+        },
+        {
+          "word": "sık",
+          "startMs": 199410,
+          "endMs": 199530
+        },
+        {
+          "word": "yapılan",
+          "startMs": 199640,
+          "endMs": 199790
+        },
+        {
+          "word": "hatadır.",
+          "startMs": 199910,
+          "endMs": 200380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-3",
+      "startMs": 201240,
+      "endMs": 208190,
+      "pauseAfterMs": 670,
+      "text": "Bir bölü 2 bölü bir bölü 4 işlemi asla bir bölü 8 etmez!",
+      "markedText": "Bir bölü 2 bölü bir bölü 4 işlemi asla bir bölü 8 etmez!",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 201240,
+          "endMs": 201570
+        },
+        {
+          "word": "bölü",
+          "startMs": 201680,
+          "endMs": 201910
+        },
+        {
+          "word": "2",
+          "startMs": 201910,
+          "endMs": 202030
+        },
+        {
+          "word": "bölü",
+          "startMs": 202140,
+          "endMs": 202450
+        },
+        {
+          "word": "bir",
+          "startMs": 202590,
+          "endMs": 202720
+        },
+        {
+          "word": "bölü",
+          "startMs": 202820,
+          "endMs": 203190
+        },
+        {
+          "word": "4",
+          "startMs": 203190,
+          "endMs": 203630
+        },
+        {
+          "word": "işlemi",
+          "startMs": 205040,
+          "endMs": 205460
+        },
+        {
+          "word": "asla",
+          "startMs": 205460,
+          "endMs": 205710
+        },
+        {
+          "word": "bir",
+          "startMs": 205710,
+          "endMs": 205910
+        },
+        {
+          "word": "bölü",
+          "startMs": 206020,
+          "endMs": 206360
+        },
+        {
+          "word": "8",
+          "startMs": 206480,
+          "endMs": 206680
+        },
+        {
+          "word": "etmez!",
+          "startMs": 206720,
+          "endMs": 207520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-3",
+      "startMs": 208190,
+      "endMs": 215310,
+      "pauseAfterMs": 1060,
+      "text": "İkinci kesir ters dönünce 4 olur ve yarım çarpı 4, 2 eder.",
+      "markedText": "İkinci kesir ters dönünce 4 olur ve yarım çarpı 4, 2 eder.",
+      "words": [
+        {
+          "word": "İkinci",
+          "startMs": 208190,
+          "endMs": 208720
+        },
+        {
+          "word": "kesir",
+          "startMs": 208850,
+          "endMs": 209400
+        },
+        {
+          "word": "ters",
+          "startMs": 209400,
+          "endMs": 209810
+        },
+        {
+          "word": "dönünce",
+          "startMs": 209960,
+          "endMs": 210340
+        },
+        {
+          "word": "4",
+          "startMs": 211120,
+          "endMs": 211430
+        },
+        {
+          "word": "olur",
+          "startMs": 211640,
+          "endMs": 211940
+        },
+        {
+          "word": "ve",
+          "startMs": 212040,
+          "endMs": 212100
+        },
+        {
+          "word": "yarım",
+          "startMs": 212100,
+          "endMs": 212620
+        },
+        {
+          "word": "çarpı",
+          "startMs": 212950,
+          "endMs": 213140
+        },
+        {
+          "word": "4,",
+          "startMs": 213140,
+          "endMs": 213320
+        },
+        {
+          "word": "2",
+          "startMs": 213490,
+          "endMs": 213650
+        },
+        {
+          "word": "eder.",
+          "startMs": 213650,
+          "endMs": 214250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-3",
+      "startMs": 215310,
+      "endMs": 226430,
+      "pauseAfterMs": 1060,
+      "text": "Çarpma işleminde ise sakın payda eşitlemeye kalkışma; payı payla, paydayı paydayla çarp.",
+      "markedText": "Çarpma işleminde ise sakın payda eşitlemeye kalkışma; payı payla, paydayı paydayla çarp.",
+      "words": [
+        {
+          "word": "Çarpma",
+          "startMs": 215310,
+          "endMs": 216000
+        },
+        {
+          "word": "işleminde",
+          "startMs": 216100,
+          "endMs": 216890
+        },
+        {
+          "word": "ise",
+          "startMs": 217120,
+          "endMs": 217530
+        },
+        {
+          "word": "sakın",
+          "startMs": 217700,
+          "endMs": 218690
+        },
+        {
+          "word": "payda",
+          "startMs": 219380,
+          "endMs": 219730
+        },
+        {
+          "word": "eşitlemeye",
+          "startMs": 220080,
+          "endMs": 220630
+        },
+        {
+          "word": "kalkışma;",
+          "startMs": 220710,
+          "endMs": 221560
+        },
+        {
+          "word": "payı",
+          "startMs": 222340,
+          "endMs": 222670
+        },
+        {
+          "word": "payla,",
+          "startMs": 222760,
+          "endMs": 223270
+        },
+        {
+          "word": "paydayı",
+          "startMs": 223340,
+          "endMs": 224190
+        },
+        {
+          "word": "paydayla",
+          "startMs": 224620,
+          "endMs": 224920
+        },
+        {
+          "word": "çarp.",
+          "startMs": 225060,
+          "endMs": 225370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-3",
+      "startMs": 226430,
+      "endMs": 229700,
+      "pauseAfterMs": 800,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 226430,
+          "endMs": 226850
+        },
+        {
+          "word": "Neler",
+          "startMs": 226960,
+          "endMs": 227720
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 227960,
+          "endMs": 228900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-3",
+      "startMs": 229700,
+      "endMs": 229910,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 229700,
+          "endMs": 229910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-3",
+      "startMs": 229910,
+      "endMs": 236330,
+      "pauseAfterMs": 800,
+      "text": "Çarpmada paylar kendi arasında, paydalar kendi arasında çarpılır.",
+      "markedText": "Çarpmada paylar kendi arasında, paydalar kendi arasında çarpılır.",
+      "words": [
+        {
+          "word": "Çarpmada",
+          "startMs": 229910,
+          "endMs": 230530
+        },
+        {
+          "word": "paylar",
+          "startMs": 230630,
+          "endMs": 230930
+        },
+        {
+          "word": "kendi",
+          "startMs": 230930,
+          "endMs": 231160
+        },
+        {
+          "word": "arasında,",
+          "startMs": 231300,
+          "endMs": 232110
+        },
+        {
+          "word": "paydalar",
+          "startMs": 232910,
+          "endMs": 233600
+        },
+        {
+          "word": "kendi",
+          "startMs": 233670,
+          "endMs": 234080
+        },
+        {
+          "word": "arasında",
+          "startMs": 234390,
+          "endMs": 234930
+        },
+        {
+          "word": "çarpılır.",
+          "startMs": 235000,
+          "endMs": 235530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 236330,
+      "endMs": 236930,
+      "pauseAfterMs": 230,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 236330,
+          "endMs": 236700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 236930,
+      "endMs": 242650,
+      "pauseAfterMs": 450,
+      "text": "Bölmede ikinci kesir ters çevrilir, sonra çarpılır.",
+      "markedText": "Bölmede ikinci kesir ters çevrilir, sonra çarpılır.",
+      "words": [
+        {
+          "word": "Bölmede",
+          "startMs": 236930,
+          "endMs": 237480
+        },
+        {
+          "word": "ikinci",
+          "startMs": 237570,
+          "endMs": 238000
+        },
+        {
+          "word": "kesir",
+          "startMs": 238990,
+          "endMs": 239420
+        },
+        {
+          "word": "ters",
+          "startMs": 239460,
+          "endMs": 239760
+        },
+        {
+          "word": "çevrilir,",
+          "startMs": 239900,
+          "endMs": 240560
+        },
+        {
+          "word": "sonra",
+          "startMs": 240900,
+          "endMs": 241400
+        },
+        {
+          "word": "çarpılır.",
+          "startMs": 241590,
+          "endMs": 242200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 242650,
+      "endMs": 242780,
+      "pauseAfterMs": 40,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 242650,
+          "endMs": 242740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 242780,
+      "endMs": 246020,
+      "pauseAfterMs": 1400,
+      "text": "Yarının yarısı dörtte birdir.",
+      "markedText": "Yarının yarısı dörtte birdir.",
+      "words": [
+        {
+          "word": "Yarının",
+          "startMs": 242780,
+          "endMs": 243030
+        },
+        {
+          "word": "yarısı",
+          "startMs": 243200,
+          "endMs": 243790
+        },
+        {
+          "word": "dörtte",
+          "startMs": 243790,
+          "endMs": 244140
+        },
+        {
+          "word": "birdir.",
+          "startMs": 244340,
+          "endMs": 244620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 246020,
+      "endMs": 249090,
+      "pauseAfterMs": 1470,
+      "text": "Yarım bölü çeyrek, 2 eder.",
+      "markedText": "Yarım bölü çeyrek, 2 eder.",
+      "words": [
+        {
+          "word": "Yarım",
+          "startMs": 246020,
+          "endMs": 246230
+        },
+        {
+          "word": "bölü",
+          "startMs": 246230,
+          "endMs": 246550
+        },
+        {
+          "word": "çeyrek,",
+          "startMs": 246600,
+          "endMs": 247010
+        },
+        {
+          "word": "2",
+          "startMs": 247090,
+          "endMs": 247350
+        },
+        {
+          "word": "eder.",
+          "startMs": 247350,
+          "endMs": 247620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 249090,
+      "endMs": 251400,
+      "pauseAfterMs": 400,
+      "text": "Kesirde çarpma alanı daraltır.",
+      "markedText": "Kesirde çarpma alanı daraltır.",
+      "words": [
+        {
+          "word": "Kesirde",
+          "startMs": 249090,
+          "endMs": 249530
+        },
+        {
+          "word": "çarpma",
+          "startMs": 249580,
+          "endMs": 249860
+        },
+        {
+          "word": "alanı",
+          "startMs": 249950,
+          "endMs": 250470
+        },
+        {
+          "word": "daraltır.",
+          "startMs": 250830,
+          "endMs": 251000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 251400,
+      "endMs": 255240,
+      "pauseAfterMs": 1080,
+      "text": "Bölme, ters kesirle çarpmaya döner.",
+      "markedText": "Bölme, ters kesirle çarpmaya döner.",
+      "words": [
+        {
+          "word": "Bölme,",
+          "startMs": 251400,
+          "endMs": 251920
+        },
+        {
+          "word": "ters",
+          "startMs": 251920,
+          "endMs": 252230
+        },
+        {
+          "word": "kesirle",
+          "startMs": 252230,
+          "endMs": 252710
+        },
+        {
+          "word": "çarpmaya",
+          "startMs": 252760,
+          "endMs": 253220
+        },
+        {
+          "word": "döner.",
+          "startMs": 253410,
+          "endMs": 254160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 255240,
+      "endMs": 263840,
+      "pauseAfterMs": 1490,
+      "text": "Çarpmada pay ve paydayı, bölmede ters çevirmeyi ayrı söylersin.",
+      "markedText": "Çarpmada pay ve paydayı, bölmede ters çevirmeyi ayrı söylersin.",
+      "words": [
+        {
+          "word": "Çarpmada",
+          "startMs": 255240,
+          "endMs": 255450
+        },
+        {
+          "word": "pay",
+          "startMs": 255670,
+          "endMs": 255780
+        },
+        {
+          "word": "ve",
+          "startMs": 255780,
+          "endMs": 255940
+        },
+        {
+          "word": "paydayı,",
+          "startMs": 256030,
+          "endMs": 256830
+        },
+        {
+          "word": "bölmede",
+          "startMs": 257780,
+          "endMs": 258160
+        },
+        {
+          "word": "ters",
+          "startMs": 258210,
+          "endMs": 258390
+        },
+        {
+          "word": "çevirmeyi",
+          "startMs": 258490,
+          "endMs": 259390
+        },
+        {
+          "word": "ayrı",
+          "startMs": 260160,
+          "endMs": 260510
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 260910,
+          "endMs": 262350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 263840,
+      "endMs": 266280,
+      "pauseAfterMs": 840,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 263840,
+          "endMs": 264550
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 264650,
+          "endMs": 265440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 266280,
+      "endMs": 268020,
+      "pauseAfterMs": 390,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 266280,
+          "endMs": 266680
+        },
+        {
+          "word": "bir",
+          "startMs": 266780,
+          "endMs": 266990
+        },
+        {
+          "word": "iş",
+          "startMs": 266990,
+          "endMs": 267060
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 267160,
+          "endMs": 267630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 268020,
+      "endMs": 271470,
+      "pauseAfterMs": 1530,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 268020,
+          "endMs": 268390
+        },
+        {
+          "word": "sıra",
+          "startMs": 268510,
+          "endMs": 268830
+        },
+        {
+          "word": "sende.",
+          "startMs": 268870,
+          "endMs": 269940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 271470,
+      "endMs": 278922,
+      "pauseAfterMs": 422,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 271470,
+          "endMs": 272320
+        },
+        {
+          "word": "bu",
+          "startMs": 272750,
+          "endMs": 272930
+        },
+        {
+          "word": "notları",
+          "startMs": 273090,
+          "endMs": 273700
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 274420,
+          "endMs": 275190
+        },
+        {
+          "word": "kendi",
+          "startMs": 275960,
+          "endMs": 276390
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 276440,
+          "endMs": 277400
+        },
+        {
+          "word": "anlat.",
+          "startMs": 277500,
+          "endMs": 278500
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

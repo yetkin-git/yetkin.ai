@@ -18,7 +18,13 @@ Bu klasör kalıcı anayasa ve sistem belgeleridir. Ürün kodu buradaki markdow
 | `STORAGE_CONTRACT.md` | Vatandaş/Studio nesne deposu yok. Akademi mühürlü yayın **6** eğitim. |
 | `README.md` | Bu klasörün kendisini tarif eder. |
 
-İstemci ops: `DRON_CLIENT_SPEC.md` — Bearer, JWT yenileme, Idempotency-Key, 401/426. Shared Kernel `@yetkin/kernel` paketidir.
+Yardımcı belgeler: `PEDAGOJI.md` (pedagoji ve Junior eki), `AKADEMI_URETIM_ANAYASASI.md`
+(model haritası ve üretim aşamaları), `DRON_CLIENT_SPEC.md` (native istemci sözleşmesi).
+
+Geçmiş değerleme notları `docs/archive/PLATFORM_DEGERLEME.md` içinde tek dosyaya indirildi.
+Klasörde mükerrer ev tutulmaz: aynı bilgiyi ikinci kez yazan dosya açılmaz, var olan kısaltılır.
+
+İstemci ops: `DRON_CLIENT_SPEC.md` — Bearer, JWT yenileme, Idempotency-Key, 401/426. Sözleşme paketi `@yetkin/kernel` dir. Yeni oda ayrı repo değildir; `lib/dronlar/kayit.ts` kaydı ve bayraktır.
 
 Eğitim: `PEDAGOJI.md` — Yayın = beş medya katmanı (Anayasa B4). Sayılar `lib/academy/pilot-sku.ts`, `lib/academy/curricula/lesson-index.ts` ve `lib/academy/production-standard.ts` içindedir. Bake kapısı aynı üretim standardındadır.
 

@@ -323,6 +323,13 @@ export function gradeJuniorActivityRail(
   return { score, correct, total: keys.length, notes };
 }
 
+function parsePlacedRockets(raw: string | undefined): string[] {
+  if (!raw) {
+    return [];
+  }
+  return [...new Set(raw.split(",").map((item) => item.trim()).filter(Boolean))];
+}
+
 function cardMarks(key: ActivityKey, answer: JuniorPracticeAnswer | undefined): JuniorActivityCardMark[] {
   if (key.kind === "match") {
     const matches = answer?.matches ?? {};
@@ -355,9 +362,12 @@ function cardMarks(key: ActivityKey, answer: JuniorPracticeAnswer | undefined): 
   }
   if (key.puzzle && answer?.placements) {
     return key.tiles.map((tile) => {
-      const rocketId = answer.placements?.[tile.id] ?? "";
+      const placed = parsePlacedRockets(answer.placements?.[tile.id]);
       const allowed = key.puzzle?.validRockets[tile.id] ?? [];
-      return { id: tile.id, ok: Boolean(rocketId && allowed.includes(rocketId)) };
+      return {
+        id: tile.id,
+        ok: placed.length > 0 && placed.every((rocketId) => allowed.includes(rocketId)),
+      };
     });
   }
   const given = answer?.order ?? [];
@@ -390,9 +400,9 @@ function activityMatches(key: ActivityKey, answer: JuniorPracticeAnswer): boolea
   }
   if (key.puzzle && answer.placements) {
     return key.tiles.every((tile) => {
-      const rocketId = answer.placements?.[tile.id] ?? "";
+      const placed = parsePlacedRockets(answer.placements?.[tile.id]);
       const allowed = key.puzzle?.validRockets[tile.id] ?? [];
-      return Boolean(rocketId && allowed.includes(rocketId));
+      return placed.length > 0 && placed.every((rocketId) => allowed.includes(rocketId));
     });
   }
   const given = answer.order ?? [];

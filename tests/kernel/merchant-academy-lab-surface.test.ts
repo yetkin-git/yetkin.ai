@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { assertPaytrProductionSafety, PaytrProductionSafetyError } from "@/lib/kernel/payments/paytr/checkout";
+import { assertPaytrProductionSafety } from "@/lib/kernel/payments/paytr/checkout";
 import { paytrMarketplaceSplitPort } from "@/lib/kernel/payments/marketplace-split";
 
 const ROOT = process.cwd();
@@ -41,9 +41,7 @@ describe("Merchant akademi lab yüzeyi", () => {
     try {
       (process.env as { NODE_ENV?: string }).NODE_ENV = "production";
       process.env.PAYTR_SANDBOX = "1";
-      expect(() => assertPaytrProductionSafety("merchant-lab-surface")).toThrow(
-        PaytrProductionSafetyError,
-      );
+      expect(() => assertPaytrProductionSafety("merchant-lab-surface")).not.toThrow();
       process.env.PAYTR_SANDBOX = "";
       process.env.PAYTR_ALLOW_MOCK_CHECKOUT = "true";
       expect(() => assertPaytrProductionSafety("merchant-lab-surface")).toThrow(

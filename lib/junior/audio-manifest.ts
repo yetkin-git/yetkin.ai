@@ -1,13 +1,18 @@
+import { JUNIOR_ELECTIVE_TTS_MODEL_ID, juniorLessonUsesElectiveTts } from "@/lib/junior/elective-tts";
+
 /**
  * Junior ses manifesti (T-04). Saf modül: disk okumaz, ağ çağırmaz.
  * Her fırınlanmış ders için SHA-256 ve bayt sayısı `audio-manifest.generated.ts` içinde durur.
  * Manifest Vercel paketinde bulunur; ses klasörü ise git ve paket dışındadır (`.gitignore`, `.vercelignore`).
  * Kayıt yazımı ve dosya denetimi `scripts/verify-junior-audio-manifest.ts` içindedir.
+ * Seçmeli anahtar yalnız `JUNIOR_ELECTIVE_TTS_MODEL_ID` ile geçerlidir.
  */
 
 export type JuniorAudioManifestEntry = {
   readonly sha256: string;
   readonly bytes: number;
+  /** Seçmeli kaset zorunlu kılar. Çekirdek kayıt bu alanı taşımaz. */
+  readonly model?: string;
 };
 
 export type JuniorAudioManifest = Readonly<Record<string, JuniorAudioManifestEntry>>;
@@ -25,6 +30,9 @@ export function juniorAudioManifestEntry(
   }
   const entry = manifest[key];
   if (!entry || !SHA256_HEX.test(entry.sha256) || !Number.isInteger(entry.bytes) || entry.bytes <= 0) {
+    return null;
+  }
+  if (juniorLessonUsesElectiveTts(key) && entry.model !== JUNIOR_ELECTIVE_TTS_MODEL_ID) {
     return null;
   }
   return entry;

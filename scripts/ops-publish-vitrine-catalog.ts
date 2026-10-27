@@ -1,8 +1,9 @@
 #!/usr/bin/env tsx
 /**
  * Vitrin kataloğu yayını.
- * Üretim mührü (beş katman anlığı) açık olan SKU için:
+ * Ses ve metin kapısı (`academyCourseSaleOpen`) açık olan SKU için:
  * academy_courses.is_published = true ve PriceCatalogEntry.is_active = true.
+ * Beş katman stüdyo mührü bu kararı vermez. Isınma, görsel ve müzik satış şartı değildir.
  * Super Admin tutarı (updated_by dolu) ezilmez. Tutar değişirse karar defterine düşer.
  *
  *   npm run ops:publish-vitrine-catalog
@@ -96,7 +97,7 @@ async function reportSuperAdmin(prisma: PrismaClient): Promise<void> {
 
 async function publishSlug(prisma: PrismaClient, slug: string): Promise<"published" | "skipped"> {
   if (!academyCourseSaleOpen(slug)) {
-    console.log(`  ${slug}: bes katman muhuru kapali — yayinlanmadi`);
+    console.log(`  ${slug}: ses ve metin kapisi kapali — yayinlanmadi`);
     return "skipped";
   }
   const card = courseRegistryBySlug(slug);

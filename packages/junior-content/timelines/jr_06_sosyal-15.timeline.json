@@ -1,0 +1,3051 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_sosyal-15",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Nitelikli insan gücü ve meslek seçimi",
+  "grade": 6,
+  "subject": "Sosyal Bilgiler",
+  "teacher": {
+    "name": "Murat",
+    "voice": "Achird",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_sosyal-15.mp3",
+    "durationMs": 409729,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 114550
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 114550,
+      "endMs": 354120
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 354120,
+      "endMs": 409729
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4610,
+      "pauseAfterMs": 1060,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 250,
+          "endMs": 770
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1610,
+          "endMs": 2180
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2420,
+          "endMs": 3550
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Nitelikli insan gücü ve meslek seçimi",
+            "subtitle": "Sosyal Bilgiler",
+            "ruleBadges": [],
+            "echoPrompt": "Bir mesleğin kime hangi işi yaptığını tek cümleyle söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Nitelikli insan, işini öğrenmiş ve özenle yapandır."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Meslek seçiminde ilgi, yetenek ve toplumun ihtiyacı birlikte durur."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Her meslek bir iş görür. Biri diğerinin yerine geçmez."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4610,
+      "endMs": 7470,
+      "pauseAfterMs": 670,
+      "text": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "markedText": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4610,
+          "endMs": 4700
+        },
+        {
+          "word": "Sosyal",
+          "startMs": 4700,
+          "endMs": 5340
+        },
+        {
+          "word": "Bilgiler",
+          "startMs": 5420,
+          "endMs": 5980
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6180,
+          "endMs": 6600
+        },
+        {
+          "word": "Murat.",
+          "startMs": 6660,
+          "endMs": 6800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 7470,
+      "endMs": 18170,
+      "pauseAfterMs": 480,
+      "text": "Bugün hayallerini gerçeğe dönüştürecek ve geleceğini aydınlatacak harika bir konuyu konuşacağız.",
+      "markedText": "Bugün hayallerini gerçeğe dönüştürecek ve geleceğini aydınlatacak harika bir konuyu konuşacağız.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 7470,
+          "endMs": 8060
+        },
+        {
+          "word": "hayallerini",
+          "startMs": 8340,
+          "endMs": 9470
+        },
+        {
+          "word": "gerçeğe",
+          "startMs": 9640,
+          "endMs": 9930
+        },
+        {
+          "word": "dönüştürecek",
+          "startMs": 10490,
+          "endMs": 11600
+        },
+        {
+          "word": "ve",
+          "startMs": 11760,
+          "endMs": 11890
+        },
+        {
+          "word": "geleceğini",
+          "startMs": 12170,
+          "endMs": 12450
+        },
+        {
+          "word": "aydınlatacak",
+          "startMs": 12530,
+          "endMs": 13640
+        },
+        {
+          "word": "harika",
+          "startMs": 15230,
+          "endMs": 15660
+        },
+        {
+          "word": "bir",
+          "startMs": 15660,
+          "endMs": 15840
+        },
+        {
+          "word": "konuyu",
+          "startMs": 15840,
+          "endMs": 16450
+        },
+        {
+          "word": "konuşacağız.",
+          "startMs": 16560,
+          "endMs": 17690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 18170,
+      "endMs": 33150,
+      "pauseAfterMs": 1140,
+      "text": "Hiç büyüyünce ne olacaksın sorusuyla karşılaştığında, aklından geçen mesleğin bir gününü ve o işin topluma kattığı faydayı merak ettin mi?",
+      "markedText": "Hiç büyüyünce ne olacaksın sorusuyla karşılaştığında, aklından geçen mesleğin bir gününü ve o işin topluma kattığı faydayı merak ettin mi?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 18170,
+          "endMs": 18260
+        },
+        {
+          "word": "büyüyünce",
+          "startMs": 18360,
+          "endMs": 19160
+        },
+        {
+          "word": "ne",
+          "startMs": 19310,
+          "endMs": 19550
+        },
+        {
+          "word": "olacaksın",
+          "startMs": 19680,
+          "endMs": 20290
+        },
+        {
+          "word": "sorusuyla",
+          "startMs": 20740,
+          "endMs": 21620
+        },
+        {
+          "word": "karşılaştığında,",
+          "startMs": 21670,
+          "endMs": 23280
+        },
+        {
+          "word": "aklından",
+          "startMs": 24650,
+          "endMs": 25150
+        },
+        {
+          "word": "geçen",
+          "startMs": 25430,
+          "endMs": 25810
+        },
+        {
+          "word": "mesleğin",
+          "startMs": 25910,
+          "endMs": 26430
+        },
+        {
+          "word": "bir",
+          "startMs": 26430,
+          "endMs": 26640
+        },
+        {
+          "word": "gününü",
+          "startMs": 26640,
+          "endMs": 26910
+        },
+        {
+          "word": "ve",
+          "startMs": 27070,
+          "endMs": 27170
+        },
+        {
+          "word": "o",
+          "startMs": 27170,
+          "endMs": 27520
+        },
+        {
+          "word": "işin",
+          "startMs": 28280,
+          "endMs": 28560
+        },
+        {
+          "word": "topluma",
+          "startMs": 28690,
+          "endMs": 29280
+        },
+        {
+          "word": "kattığı",
+          "startMs": 29580,
+          "endMs": 30320
+        },
+        {
+          "word": "faydayı",
+          "startMs": 30540,
+          "endMs": 30750
+        },
+        {
+          "word": "merak",
+          "startMs": 30890,
+          "endMs": 31290
+        },
+        {
+          "word": "ettin",
+          "startMs": 31290,
+          "endMs": 31570
+        },
+        {
+          "word": "mi?",
+          "startMs": 31660,
+          "endMs": 32010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 33150,
+      "endMs": 46130,
+      "pauseAfterMs": 690,
+      "text": "Meslek, gösterişli bir unvandan ibaret değildir; bir işi severek, öğrenerek ve hakkını vererek yapmaktır.",
+      "markedText": "Meslek, gösterişli bir unvandan ibaret değildir; bir işi severek, öğrenerek ve hakkını vererek yapmaktır.",
+      "words": [
+        {
+          "word": "Meslek,",
+          "startMs": 33150,
+          "endMs": 33900
+        },
+        {
+          "word": "gösterişli",
+          "startMs": 34160,
+          "endMs": 35050
+        },
+        {
+          "word": "bir",
+          "startMs": 35120,
+          "endMs": 35440
+        },
+        {
+          "word": "unvandan",
+          "startMs": 35440,
+          "endMs": 36240
+        },
+        {
+          "word": "ibaret",
+          "startMs": 36990,
+          "endMs": 37590
+        },
+        {
+          "word": "değildir;",
+          "startMs": 37690,
+          "endMs": 38400
+        },
+        {
+          "word": "bir",
+          "startMs": 38770,
+          "endMs": 39130
+        },
+        {
+          "word": "işi",
+          "startMs": 39130,
+          "endMs": 39430
+        },
+        {
+          "word": "severek,",
+          "startMs": 39520,
+          "endMs": 40120
+        },
+        {
+          "word": "öğrenerek",
+          "startMs": 40120,
+          "endMs": 40880
+        },
+        {
+          "word": "ve",
+          "startMs": 40880,
+          "endMs": 41020
+        },
+        {
+          "word": "hakkını",
+          "startMs": 41020,
+          "endMs": 41860
+        },
+        {
+          "word": "vererek",
+          "startMs": 43050,
+          "endMs": 43910
+        },
+        {
+          "word": "yapmaktır.",
+          "startMs": 44320,
+          "endMs": 45440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 46130,
+      "endMs": 61850,
+      "pauseAfterMs": 760,
+      "text": "Nitelikli insan gücünün ne olduğunu, ilgi ve yeteneklerimize göre doğru meslek seçimini nasıl yapabileceğimizi öğreneceğiz.",
+      "markedText": "Nitelikli insan gücünün ne olduğunu, ilgi ve yeteneklerimize göre doğru meslek seçimini nasıl yapabileceğimizi öğreneceğiz.",
+      "words": [
+        {
+          "word": "Nitelikli",
+          "startMs": 46130,
+          "endMs": 46710
+        },
+        {
+          "word": "insan",
+          "startMs": 46810,
+          "endMs": 47370
+        },
+        {
+          "word": "gücünün",
+          "startMs": 47710,
+          "endMs": 48180
+        },
+        {
+          "word": "ne",
+          "startMs": 48280,
+          "endMs": 48410
+        },
+        {
+          "word": "olduğunu,",
+          "startMs": 48410,
+          "endMs": 49290
+        },
+        {
+          "word": "ilgi",
+          "startMs": 49680,
+          "endMs": 50170
+        },
+        {
+          "word": "ve",
+          "startMs": 50270,
+          "endMs": 50560
+        },
+        {
+          "word": "yeteneklerimize",
+          "startMs": 50670,
+          "endMs": 52520
+        },
+        {
+          "word": "göre",
+          "startMs": 52980,
+          "endMs": 53260
+        },
+        {
+          "word": "doğru",
+          "startMs": 53400,
+          "endMs": 53890
+        },
+        {
+          "word": "meslek",
+          "startMs": 54260,
+          "endMs": 54510
+        },
+        {
+          "word": "seçimini",
+          "startMs": 54580,
+          "endMs": 55180
+        },
+        {
+          "word": "nasıl",
+          "startMs": 55270,
+          "endMs": 56180
+        },
+        {
+          "word": "yapabileceğimizi",
+          "startMs": 57060,
+          "endMs": 58670
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 59130,
+          "endMs": 61090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 61850,
+      "endMs": 72420,
+      "pauseAfterMs": 1110,
+      "text": "Bunu bu hafta kendin için hazırlayacağın küçük bir meslek rehberiyle keşfedebilirsin.",
+      "markedText": "Bunu bu hafta kendin için hazırlayacağın küçük bir meslek rehberiyle keşfedebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 61850,
+          "endMs": 62050
+        },
+        {
+          "word": "bu",
+          "startMs": 62050,
+          "endMs": 62140
+        },
+        {
+          "word": "hafta",
+          "startMs": 62210,
+          "endMs": 62380
+        },
+        {
+          "word": "kendin",
+          "startMs": 62710,
+          "endMs": 63260
+        },
+        {
+          "word": "için",
+          "startMs": 63590,
+          "endMs": 63960
+        },
+        {
+          "word": "hazırlayacağın",
+          "startMs": 64130,
+          "endMs": 65770
+        },
+        {
+          "word": "küçük",
+          "startMs": 66960,
+          "endMs": 67280
+        },
+        {
+          "word": "bir",
+          "startMs": 67390,
+          "endMs": 67520
+        },
+        {
+          "word": "meslek",
+          "startMs": 68310,
+          "endMs": 68730
+        },
+        {
+          "word": "rehberiyle",
+          "startMs": 69140,
+          "endMs": 70040
+        },
+        {
+          "word": "keşfedebilirsin.",
+          "startMs": 70210,
+          "endMs": 71310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 72420,
+      "endMs": 87120,
+      "pauseAfterMs": 710,
+      "text": "Bir kâğıda en çok merak ettiğin konuları, yapmaktan keyif aldığın işleri ve etrafında gördüğün meslekleri yazabilirsin.",
+      "markedText": "Bir kâğıda en çok merak ettiğin konuları, yapmaktan keyif aldığın işleri ve etrafında gördüğün meslekleri yazabilirsin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 72420,
+          "endMs": 72510
+        },
+        {
+          "word": "kâğıda",
+          "startMs": 72510,
+          "endMs": 72990
+        },
+        {
+          "word": "en",
+          "startMs": 73520,
+          "endMs": 73560
+        },
+        {
+          "word": "çok",
+          "startMs": 73560,
+          "endMs": 73740
+        },
+        {
+          "word": "merak",
+          "startMs": 73740,
+          "endMs": 74080
+        },
+        {
+          "word": "ettiğin",
+          "startMs": 74180,
+          "endMs": 74750
+        },
+        {
+          "word": "konuları,",
+          "startMs": 74810,
+          "endMs": 75820
+        },
+        {
+          "word": "yapmaktan",
+          "startMs": 76820,
+          "endMs": 77300
+        },
+        {
+          "word": "keyif",
+          "startMs": 77790,
+          "endMs": 78290
+        },
+        {
+          "word": "aldığın",
+          "startMs": 78370,
+          "endMs": 79220
+        },
+        {
+          "word": "işleri",
+          "startMs": 79330,
+          "endMs": 79900
+        },
+        {
+          "word": "ve",
+          "startMs": 79970,
+          "endMs": 80430
+        },
+        {
+          "word": "etrafında",
+          "startMs": 81290,
+          "endMs": 81790
+        },
+        {
+          "word": "gördüğün",
+          "startMs": 82220,
+          "endMs": 83030
+        },
+        {
+          "word": "meslekleri",
+          "startMs": 83380,
+          "endMs": 84620
+        },
+        {
+          "word": "yazabilirsin.",
+          "startMs": 84680,
+          "endMs": 86410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 87120,
+      "endMs": 105610,
+      "pauseAfterMs": 1460,
+      "text": "Bir fırıncı ustasını, bir hemşireyi veya bir mühendisi iş başında gözlemlemek ve onlara mesleklerinin güzel yanlarını sormak harika bir adımdır.",
+      "markedText": "Bir fırıncı ustasını, bir hemşireyi veya bir mühendisi iş başında gözlemlemek ve onlara mesleklerinin güzel yanlarını sormak harika bir adımdır.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 87120,
+          "endMs": 87320
+        },
+        {
+          "word": "fırıncı",
+          "startMs": 87320,
+          "endMs": 88000
+        },
+        {
+          "word": "ustasını,",
+          "startMs": 88100,
+          "endMs": 88560
+        },
+        {
+          "word": "bir",
+          "startMs": 89690,
+          "endMs": 89920
+        },
+        {
+          "word": "hemşireyi",
+          "startMs": 89920,
+          "endMs": 90730
+        },
+        {
+          "word": "veya",
+          "startMs": 90910,
+          "endMs": 91400
+        },
+        {
+          "word": "bir",
+          "startMs": 91480,
+          "endMs": 92050
+        },
+        {
+          "word": "mühendisi",
+          "startMs": 92920,
+          "endMs": 93700
+        },
+        {
+          "word": "iş",
+          "startMs": 93860,
+          "endMs": 94090
+        },
+        {
+          "word": "başında",
+          "startMs": 94130,
+          "endMs": 94760
+        },
+        {
+          "word": "gözlemlemek",
+          "startMs": 95000,
+          "endMs": 96250
+        },
+        {
+          "word": "ve",
+          "startMs": 96290,
+          "endMs": 96390
+        },
+        {
+          "word": "onlara",
+          "startMs": 96530,
+          "endMs": 97080
+        },
+        {
+          "word": "mesleklerinin",
+          "startMs": 97420,
+          "endMs": 98770
+        },
+        {
+          "word": "güzel",
+          "startMs": 98870,
+          "endMs": 99430
+        },
+        {
+          "word": "yanlarını",
+          "startMs": 99430,
+          "endMs": 100280
+        },
+        {
+          "word": "sormak",
+          "startMs": 100400,
+          "endMs": 101070
+        },
+        {
+          "word": "harika",
+          "startMs": 102310,
+          "endMs": 102780
+        },
+        {
+          "word": "bir",
+          "startMs": 102850,
+          "endMs": 103070
+        },
+        {
+          "word": "adımdır.",
+          "startMs": 103260,
+          "endMs": 104150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 105610,
+      "endMs": 114550,
+      "pauseAfterMs": 760,
+      "text": "Kendi geleceğini tanımak, bugünden atacağın meraklı adımlarla başlar.",
+      "markedText": "Kendi geleceğini tanımak, bugünden atacağın meraklı adımlarla başlar.",
+      "words": [
+        {
+          "word": "Kendi",
+          "startMs": 105610,
+          "endMs": 106020
+        },
+        {
+          "word": "geleceğini",
+          "startMs": 106020,
+          "endMs": 106810
+        },
+        {
+          "word": "tanımak,",
+          "startMs": 106920,
+          "endMs": 107640
+        },
+        {
+          "word": "bugünden",
+          "startMs": 108950,
+          "endMs": 109410
+        },
+        {
+          "word": "atacağın",
+          "startMs": 109690,
+          "endMs": 110240
+        },
+        {
+          "word": "meraklı",
+          "startMs": 110360,
+          "endMs": 111060
+        },
+        {
+          "word": "adımlarla",
+          "startMs": 111470,
+          "endMs": 112560
+        },
+        {
+          "word": "başlar.",
+          "startMs": 112980,
+          "endMs": 113790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 114550,
+      "endMs": 133520,
+      "pauseAfterMs": 320,
+      "text": "Nitelikli insan gücü, alanında iyi eğitim almış, bilgi ve becerisini işine katarak verimli çalışan, yeniliklere açık ve vatanına değer katan insanlardır.",
+      "markedText": "Nitelikli insan gücü, alanında iyi eğitim almış, bilgi ve becerisini işine katarak verimli çalışan, yeniliklere açık ve vatanına değer katan insanlardır.",
+      "words": [
+        {
+          "word": "Nitelikli",
+          "startMs": 114550,
+          "endMs": 115190
+        },
+        {
+          "word": "insan",
+          "startMs": 115280,
+          "endMs": 115810
+        },
+        {
+          "word": "gücü,",
+          "startMs": 115870,
+          "endMs": 116840
+        },
+        {
+          "word": "alanında",
+          "startMs": 117570,
+          "endMs": 118470
+        },
+        {
+          "word": "iyi",
+          "startMs": 118470,
+          "endMs": 118860
+        },
+        {
+          "word": "eğitim",
+          "startMs": 119130,
+          "endMs": 119810
+        },
+        {
+          "word": "almış,",
+          "startMs": 119930,
+          "endMs": 120670
+        },
+        {
+          "word": "bilgi",
+          "startMs": 121390,
+          "endMs": 121690
+        },
+        {
+          "word": "ve",
+          "startMs": 121770,
+          "endMs": 121910
+        },
+        {
+          "word": "becerisini",
+          "startMs": 122250,
+          "endMs": 123700
+        },
+        {
+          "word": "işine",
+          "startMs": 123810,
+          "endMs": 124400
+        },
+        {
+          "word": "katarak",
+          "startMs": 124480,
+          "endMs": 125010
+        },
+        {
+          "word": "verimli",
+          "startMs": 125190,
+          "endMs": 125820
+        },
+        {
+          "word": "çalışan,",
+          "startMs": 125900,
+          "endMs": 126720
+        },
+        {
+          "word": "yeniliklere",
+          "startMs": 127510,
+          "endMs": 128530
+        },
+        {
+          "word": "açık",
+          "startMs": 128970,
+          "endMs": 129080
+        },
+        {
+          "word": "ve",
+          "startMs": 129260,
+          "endMs": 129380
+        },
+        {
+          "word": "vatanına",
+          "startMs": 129380,
+          "endMs": 129820
+        },
+        {
+          "word": "değer",
+          "startMs": 129930,
+          "endMs": 130690
+        },
+        {
+          "word": "katan",
+          "startMs": 131590,
+          "endMs": 131990
+        },
+        {
+          "word": "insanlardır.",
+          "startMs": 132080,
+          "endMs": 133200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 133520,
+      "endMs": 146830,
+      "pauseAfterMs": 1010,
+      "text": "Yalnızca bir diplomaya sahip olmak insanı tam anlamıyla nitelikli yapmaz; işini büyük bir sevgi, ahlak ve özenle yürütmek de şarttır.",
+      "markedText": "Yalnızca bir diplomaya sahip olmak insanı tam anlamıyla nitelikli yapmaz; işini büyük bir sevgi, ahlak ve özenle yürütmek de şarttır.",
+      "words": [
+        {
+          "word": "Yalnızca",
+          "startMs": 133520,
+          "endMs": 134000
+        },
+        {
+          "word": "bir",
+          "startMs": 134280,
+          "endMs": 134510
+        },
+        {
+          "word": "diplomaya",
+          "startMs": 135360,
+          "endMs": 136170
+        },
+        {
+          "word": "sahip",
+          "startMs": 136420,
+          "endMs": 136800
+        },
+        {
+          "word": "olmak",
+          "startMs": 136860,
+          "endMs": 137270
+        },
+        {
+          "word": "insanı",
+          "startMs": 137700,
+          "endMs": 138100
+        },
+        {
+          "word": "tam",
+          "startMs": 138200,
+          "endMs": 138320
+        },
+        {
+          "word": "anlamıyla",
+          "startMs": 138320,
+          "endMs": 139170
+        },
+        {
+          "word": "nitelikli",
+          "startMs": 139520,
+          "endMs": 140540
+        },
+        {
+          "word": "yapmaz;",
+          "startMs": 140540,
+          "endMs": 141060
+        },
+        {
+          "word": "işini",
+          "startMs": 141400,
+          "endMs": 141790
+        },
+        {
+          "word": "büyük",
+          "startMs": 141870,
+          "endMs": 142080
+        },
+        {
+          "word": "bir",
+          "startMs": 142080,
+          "endMs": 142250
+        },
+        {
+          "word": "sevgi,",
+          "startMs": 142320,
+          "endMs": 142850
+        },
+        {
+          "word": "ahlak",
+          "startMs": 143530,
+          "endMs": 143630
+        },
+        {
+          "word": "ve",
+          "startMs": 143770,
+          "endMs": 143930
+        },
+        {
+          "word": "özenle",
+          "startMs": 143930,
+          "endMs": 144250
+        },
+        {
+          "word": "yürütmek",
+          "startMs": 144350,
+          "endMs": 144880
+        },
+        {
+          "word": "de",
+          "startMs": 144880,
+          "endMs": 144990
+        },
+        {
+          "word": "şarttır.",
+          "startMs": 144990,
+          "endMs": 145820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 146830,
+      "endMs": 152590,
+      "pauseAfterMs": 270,
+      "text": "Gelecekte bir meslek seçerken üç temel soru birbiriyle buluşmalıdır.",
+      "markedText": "Gelecekte bir meslek seçerken üç temel soru birbiriyle buluşmalıdır.",
+      "words": [
+        {
+          "word": "Gelecekte",
+          "startMs": 146830,
+          "endMs": 147450
+        },
+        {
+          "word": "bir",
+          "startMs": 147530,
+          "endMs": 147700
+        },
+        {
+          "word": "meslek",
+          "startMs": 147800,
+          "endMs": 148320
+        },
+        {
+          "word": "seçerken",
+          "startMs": 148520,
+          "endMs": 149010
+        },
+        {
+          "word": "üç",
+          "startMs": 149070,
+          "endMs": 149160
+        },
+        {
+          "word": "temel",
+          "startMs": 149720,
+          "endMs": 150330
+        },
+        {
+          "word": "soru",
+          "startMs": 150610,
+          "endMs": 150870
+        },
+        {
+          "word": "birbiriyle",
+          "startMs": 151020,
+          "endMs": 151490
+        },
+        {
+          "word": "buluşmalıdır.",
+          "startMs": 151490,
+          "endMs": 152320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 152590,
+      "endMs": 157340,
+      "pauseAfterMs": 290,
+      "text": "Birincisi, neyi merak ediyor ve neye ilgi duyuyorsun?",
+      "markedText": "Birincisi, neyi merak ediyor ve neye ilgi duyuyorsun?",
+      "words": [
+        {
+          "word": "Birincisi,",
+          "startMs": 152590,
+          "endMs": 153390
+        },
+        {
+          "word": "neyi",
+          "startMs": 154110,
+          "endMs": 154310
+        },
+        {
+          "word": "merak",
+          "startMs": 154360,
+          "endMs": 154680
+        },
+        {
+          "word": "ediyor",
+          "startMs": 154860,
+          "endMs": 155600
+        },
+        {
+          "word": "ve",
+          "startMs": 155650,
+          "endMs": 155790
+        },
+        {
+          "word": "neye",
+          "startMs": 155880,
+          "endMs": 156220
+        },
+        {
+          "word": "ilgi",
+          "startMs": 156360,
+          "endMs": 156570
+        },
+        {
+          "word": "duyuyorsun?",
+          "startMs": 156710,
+          "endMs": 157050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 157340,
+      "endMs": 164890,
+      "pauseAfterMs": 920,
+      "text": "İkincisi, hangi alanlarda doğal yetenek ve becerin var?",
+      "markedText": "İkincisi, hangi alanlarda doğal yetenek ve becerin var?",
+      "words": [
+        {
+          "word": "İkincisi,",
+          "startMs": 157340,
+          "endMs": 158760
+        },
+        {
+          "word": "hangi",
+          "startMs": 159630,
+          "endMs": 160080
+        },
+        {
+          "word": "alanlarda",
+          "startMs": 160160,
+          "endMs": 160820
+        },
+        {
+          "word": "doğal",
+          "startMs": 160930,
+          "endMs": 161050
+        },
+        {
+          "word": "yetenek",
+          "startMs": 161180,
+          "endMs": 161640
+        },
+        {
+          "word": "ve",
+          "startMs": 161640,
+          "endMs": 162000
+        },
+        {
+          "word": "becerin",
+          "startMs": 163230,
+          "endMs": 163790
+        },
+        {
+          "word": "var?",
+          "startMs": 163890,
+          "endMs": 163970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 164890,
+      "endMs": 175690,
+      "pauseAfterMs": 750,
+      "text": "Üçüncüsü, vatanının ve toplumun hangi alanlarda nitelikli insanlara ihtiyacı var?",
+      "markedText": "Üçüncüsü, vatanının ve toplumun hangi alanlarda nitelikli insanlara ihtiyacı var?",
+      "words": [
+        {
+          "word": "Üçüncüsü,",
+          "startMs": 164890,
+          "endMs": 165590
+        },
+        {
+          "word": "vatanının",
+          "startMs": 166630,
+          "endMs": 167480
+        },
+        {
+          "word": "ve",
+          "startMs": 167480,
+          "endMs": 167890
+        },
+        {
+          "word": "toplumun",
+          "startMs": 168950,
+          "endMs": 169750
+        },
+        {
+          "word": "hangi",
+          "startMs": 169750,
+          "endMs": 170380
+        },
+        {
+          "word": "alanlarda",
+          "startMs": 170750,
+          "endMs": 171660
+        },
+        {
+          "word": "nitelikli",
+          "startMs": 172040,
+          "endMs": 172600
+        },
+        {
+          "word": "insanlara",
+          "startMs": 172710,
+          "endMs": 173440
+        },
+        {
+          "word": "ihtiyacı",
+          "startMs": 173630,
+          "endMs": 174410
+        },
+        {
+          "word": "var?",
+          "startMs": 174510,
+          "endMs": 174940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 175690,
+      "endMs": 193000,
+      "pauseAfterMs": 330,
+      "text": "Pratik kural: Her meşru meslek son derece kıymetlidir; çiftçi, doktor, mühendis, öğretmen, fırıncı ve tamirci aynı toplumun birbirini tamamlayan vazgeçilmez parçalarıdır.",
+      "markedText": "Pratik kural: Her meşru meslek son derece kıymetlidir; çiftçi, doktor, mühendis, öğretmen, fırıncı ve tamirci aynı toplumun birbirini tamamlayan vazgeçilmez parçalarıdır.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 175690,
+          "endMs": 176330
+        },
+        {
+          "word": "kural:",
+          "startMs": 176440,
+          "endMs": 177510
+        },
+        {
+          "word": "Her",
+          "startMs": 178030,
+          "endMs": 178150
+        },
+        {
+          "word": "meşru",
+          "startMs": 178200,
+          "endMs": 178520
+        },
+        {
+          "word": "meslek",
+          "startMs": 178700,
+          "endMs": 179080
+        },
+        {
+          "word": "son",
+          "startMs": 179140,
+          "endMs": 179320
+        },
+        {
+          "word": "derece",
+          "startMs": 179490,
+          "endMs": 179680
+        },
+        {
+          "word": "kıymetlidir;",
+          "startMs": 179800,
+          "endMs": 180940
+        },
+        {
+          "word": "çiftçi,",
+          "startMs": 181880,
+          "endMs": 182680
+        },
+        {
+          "word": "doktor,",
+          "startMs": 182680,
+          "endMs": 183120
+        },
+        {
+          "word": "mühendis,",
+          "startMs": 183290,
+          "endMs": 183910
+        },
+        {
+          "word": "öğretmen,",
+          "startMs": 184210,
+          "endMs": 184800
+        },
+        {
+          "word": "fırıncı",
+          "startMs": 184910,
+          "endMs": 185700
+        },
+        {
+          "word": "ve",
+          "startMs": 185740,
+          "endMs": 185940
+        },
+        {
+          "word": "tamirci",
+          "startMs": 186050,
+          "endMs": 186610
+        },
+        {
+          "word": "aynı",
+          "startMs": 186820,
+          "endMs": 186910
+        },
+        {
+          "word": "toplumun",
+          "startMs": 187060,
+          "endMs": 188000
+        },
+        {
+          "word": "birbirini",
+          "startMs": 188800,
+          "endMs": 189540
+        },
+        {
+          "word": "tamamlayan",
+          "startMs": 189610,
+          "endMs": 190490
+        },
+        {
+          "word": "vazgeçilmez",
+          "startMs": 190490,
+          "endMs": 191160
+        },
+        {
+          "word": "parçalarıdır.",
+          "startMs": 191420,
+          "endMs": 192670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 193000,
+      "endMs": 198630,
+      "pauseAfterMs": 260,
+      "text": "Sofrana gelen sıcacık bir ekmeği düşünelim.",
+      "markedText": "Sofrana gelen sıcacık bir ekmeği düşünelim.",
+      "words": [
+        {
+          "word": "Sofrana",
+          "startMs": 193000,
+          "endMs": 193800
+        },
+        {
+          "word": "gelen",
+          "startMs": 194890,
+          "endMs": 195090
+        },
+        {
+          "word": "sıcacık",
+          "startMs": 195530,
+          "endMs": 195910
+        },
+        {
+          "word": "bir",
+          "startMs": 196000,
+          "endMs": 196320
+        },
+        {
+          "word": "ekmeği",
+          "startMs": 196440,
+          "endMs": 196920
+        },
+        {
+          "word": "düşünelim.",
+          "startMs": 197400,
+          "endMs": 198370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 198630,
+      "endMs": 210130,
+      "pauseAfterMs": 510,
+      "text": "Çiftçi buğdayı toprağa eker, sular ve hasat eder; bu tarım emeğidir.",
+      "markedText": "Çiftçi buğdayı toprağa eker, sular ve hasat eder; bu tarım emeğidir.",
+      "words": [
+        {
+          "word": "Çiftçi",
+          "startMs": 198630,
+          "endMs": 198940
+        },
+        {
+          "word": "buğdayı",
+          "startMs": 199050,
+          "endMs": 199580
+        },
+        {
+          "word": "toprağa",
+          "startMs": 199730,
+          "endMs": 200720
+        },
+        {
+          "word": "eker,",
+          "startMs": 201590,
+          "endMs": 201890
+        },
+        {
+          "word": "sular",
+          "startMs": 202680,
+          "endMs": 203610
+        },
+        {
+          "word": "ve",
+          "startMs": 204300,
+          "endMs": 204660
+        },
+        {
+          "word": "hasat",
+          "startMs": 204790,
+          "endMs": 205410
+        },
+        {
+          "word": "eder;",
+          "startMs": 205540,
+          "endMs": 206440
+        },
+        {
+          "word": "bu",
+          "startMs": 207480,
+          "endMs": 207770
+        },
+        {
+          "word": "tarım",
+          "startMs": 208510,
+          "endMs": 208810
+        },
+        {
+          "word": "emeğidir.",
+          "startMs": 208910,
+          "endMs": 209620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 210130,
+      "endMs": 213000,
+      "pauseAfterMs": 1270,
+      "text": "Değirmenci o buğdayı un haline getirir.",
+      "markedText": "Değirmenci o buğdayı un haline getirir.",
+      "words": [
+        {
+          "word": "Değirmenci",
+          "startMs": 210130,
+          "endMs": 210560
+        },
+        {
+          "word": "o",
+          "startMs": 210560,
+          "endMs": 210690
+        },
+        {
+          "word": "buğdayı",
+          "startMs": 210690,
+          "endMs": 210980
+        },
+        {
+          "word": "un",
+          "startMs": 210980,
+          "endMs": 211090
+        },
+        {
+          "word": "haline",
+          "startMs": 211090,
+          "endMs": 211280
+        },
+        {
+          "word": "getirir.",
+          "startMs": 211280,
+          "endMs": 211730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 213000,
+      "endMs": 217690,
+      "pauseAfterMs": 770,
+      "text": "Fırıncı unu yoğurur, mayalar ve fırında pişirir.",
+      "markedText": "Fırıncı unu yoğurur, mayalar ve fırında pişirir.",
+      "words": [
+        {
+          "word": "Fırıncı",
+          "startMs": 213000,
+          "endMs": 213630
+        },
+        {
+          "word": "unu",
+          "startMs": 213730,
+          "endMs": 214000
+        },
+        {
+          "word": "yoğurur,",
+          "startMs": 214110,
+          "endMs": 214720
+        },
+        {
+          "word": "mayalar",
+          "startMs": 214980,
+          "endMs": 215470
+        },
+        {
+          "word": "ve",
+          "startMs": 215540,
+          "endMs": 215620
+        },
+        {
+          "word": "fırında",
+          "startMs": 215690,
+          "endMs": 216140
+        },
+        {
+          "word": "pişirir.",
+          "startMs": 216200,
+          "endMs": 216920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 217690,
+      "endMs": 226590,
+      "pauseAfterMs": 420,
+      "text": "Şoför ise sabahın erken saatinde o taze ekmekleri bakkallara ve marketlere ulaştırır.",
+      "markedText": "Şoför ise sabahın erken saatinde o taze ekmekleri bakkallara ve marketlere ulaştırır.",
+      "words": [
+        {
+          "word": "Şoför",
+          "startMs": 217690,
+          "endMs": 218150
+        },
+        {
+          "word": "ise",
+          "startMs": 218310,
+          "endMs": 218600
+        },
+        {
+          "word": "sabahın",
+          "startMs": 218700,
+          "endMs": 219090
+        },
+        {
+          "word": "erken",
+          "startMs": 219190,
+          "endMs": 219720
+        },
+        {
+          "word": "saatinde",
+          "startMs": 219940,
+          "endMs": 220490
+        },
+        {
+          "word": "o",
+          "startMs": 220610,
+          "endMs": 220750
+        },
+        {
+          "word": "taze",
+          "startMs": 220830,
+          "endMs": 221210
+        },
+        {
+          "word": "ekmekleri",
+          "startMs": 221360,
+          "endMs": 222250
+        },
+        {
+          "word": "bakkallara",
+          "startMs": 222250,
+          "endMs": 223100
+        },
+        {
+          "word": "ve",
+          "startMs": 223100,
+          "endMs": 223570
+        },
+        {
+          "word": "marketlere",
+          "startMs": 224240,
+          "endMs": 225160
+        },
+        {
+          "word": "ulaştırır.",
+          "startMs": 225540,
+          "endMs": 226170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 226590,
+      "endMs": 233050,
+      "pauseAfterMs": 780,
+      "text": "Dört farklı meslek, tek bir ekmek diliminde buluşur.",
+      "markedText": "Dört farklı meslek, tek bir ekmek diliminde buluşur.",
+      "words": [
+        {
+          "word": "Dört",
+          "startMs": 226590,
+          "endMs": 226850
+        },
+        {
+          "word": "farklı",
+          "startMs": 226850,
+          "endMs": 227260
+        },
+        {
+          "word": "meslek,",
+          "startMs": 227710,
+          "endMs": 228610
+        },
+        {
+          "word": "tek",
+          "startMs": 229040,
+          "endMs": 229440
+        },
+        {
+          "word": "bir",
+          "startMs": 229440,
+          "endMs": 229670
+        },
+        {
+          "word": "ekmek",
+          "startMs": 229780,
+          "endMs": 230220
+        },
+        {
+          "word": "diliminde",
+          "startMs": 230320,
+          "endMs": 231320
+        },
+        {
+          "word": "buluşur.",
+          "startMs": 231450,
+          "endMs": 232270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 233050,
+      "endMs": 237570,
+      "pauseAfterMs": 1100,
+      "text": "Bu mesleklerden biri aksarsa soframız eksik kalır.",
+      "markedText": "Bu mesleklerden biri aksarsa soframız eksik kalır.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 233050,
+          "endMs": 233220
+        },
+        {
+          "word": "mesleklerden",
+          "startMs": 233220,
+          "endMs": 234070
+        },
+        {
+          "word": "biri",
+          "startMs": 234390,
+          "endMs": 234630
+        },
+        {
+          "word": "aksarsa",
+          "startMs": 234630,
+          "endMs": 235010
+        },
+        {
+          "word": "soframız",
+          "startMs": 235010,
+          "endMs": 235530
+        },
+        {
+          "word": "eksik",
+          "startMs": 235630,
+          "endMs": 236070
+        },
+        {
+          "word": "kalır.",
+          "startMs": 236070,
+          "endMs": 236470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 237570,
+      "endMs": 250550,
+      "pauseAfterMs": 1130,
+      "text": "Hastanede de doktor bakar, hemşire tedavi uygular, laborant tahlilleri yapar, görevli ise odayı temiz tutar.",
+      "markedText": "Hastanede de doktor bakar, hemşire tedavi uygular, laborant tahlilleri yapar, görevli ise odayı temiz tutar.",
+      "words": [
+        {
+          "word": "Hastanede",
+          "startMs": 237570,
+          "endMs": 238310
+        },
+        {
+          "word": "de",
+          "startMs": 238510,
+          "endMs": 238620
+        },
+        {
+          "word": "doktor",
+          "startMs": 238780,
+          "endMs": 239160
+        },
+        {
+          "word": "bakar,",
+          "startMs": 239160,
+          "endMs": 239470
+        },
+        {
+          "word": "hemşire",
+          "startMs": 240520,
+          "endMs": 241710
+        },
+        {
+          "word": "tedavi",
+          "startMs": 242000,
+          "endMs": 242460
+        },
+        {
+          "word": "uygular,",
+          "startMs": 242560,
+          "endMs": 243390
+        },
+        {
+          "word": "laborant",
+          "startMs": 243980,
+          "endMs": 244470
+        },
+        {
+          "word": "tahlilleri",
+          "startMs": 244540,
+          "endMs": 245420
+        },
+        {
+          "word": "yapar,",
+          "startMs": 245540,
+          "endMs": 246290
+        },
+        {
+          "word": "görevli",
+          "startMs": 246820,
+          "endMs": 247300
+        },
+        {
+          "word": "ise",
+          "startMs": 247300,
+          "endMs": 247610
+        },
+        {
+          "word": "odayı",
+          "startMs": 247820,
+          "endMs": 248250
+        },
+        {
+          "word": "temiz",
+          "startMs": 248250,
+          "endMs": 248540
+        },
+        {
+          "word": "tutar.",
+          "startMs": 248610,
+          "endMs": 249420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 250550,
+      "endMs": 256310,
+      "pauseAfterMs": 1230,
+      "text": "Hepsi nitelikli insan gücünün bir parçasıdır.",
+      "markedText": "Hepsi nitelikli insan gücünün bir parçasıdır.",
+      "words": [
+        {
+          "word": "Hepsi",
+          "startMs": 250550,
+          "endMs": 250770
+        },
+        {
+          "word": "nitelikli",
+          "startMs": 250890,
+          "endMs": 251730
+        },
+        {
+          "word": "insan",
+          "startMs": 251730,
+          "endMs": 252160
+        },
+        {
+          "word": "gücünün",
+          "startMs": 253170,
+          "endMs": 253820
+        },
+        {
+          "word": "bir",
+          "startMs": 253980,
+          "endMs": 254220
+        },
+        {
+          "word": "parçasıdır.",
+          "startMs": 254320,
+          "endMs": 255080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 256310,
+      "endMs": 268380,
+      "pauseAfterMs": 1310,
+      "text": "Sen resim yapmayı seviyorsan bu bir ilgidir; boyaları ve çizgileri kolayca birleştiriyorsan bu bir yetenektir.",
+      "markedText": "Sen resim yapmayı seviyorsan bu bir ilgidir; boyaları ve çizgileri kolayca birleştiriyorsan bu bir yetenektir.",
+      "words": [
+        {
+          "word": "Sen",
+          "startMs": 256310,
+          "endMs": 256460
+        },
+        {
+          "word": "resim",
+          "startMs": 256590,
+          "endMs": 257030
+        },
+        {
+          "word": "yapmayı",
+          "startMs": 257120,
+          "endMs": 257800
+        },
+        {
+          "word": "seviyorsan",
+          "startMs": 258060,
+          "endMs": 258780
+        },
+        {
+          "word": "bu",
+          "startMs": 258780,
+          "endMs": 258900
+        },
+        {
+          "word": "bir",
+          "startMs": 258900,
+          "endMs": 259030
+        },
+        {
+          "word": "ilgidir;",
+          "startMs": 259370,
+          "endMs": 260140
+        },
+        {
+          "word": "boyaları",
+          "startMs": 261230,
+          "endMs": 261720
+        },
+        {
+          "word": "ve",
+          "startMs": 261720,
+          "endMs": 261860
+        },
+        {
+          "word": "çizgileri",
+          "startMs": 261960,
+          "endMs": 262700
+        },
+        {
+          "word": "kolayca",
+          "startMs": 262700,
+          "endMs": 263480
+        },
+        {
+          "word": "birleştiriyorsan",
+          "startMs": 264390,
+          "endMs": 265460
+        },
+        {
+          "word": "bu",
+          "startMs": 265730,
+          "endMs": 265960
+        },
+        {
+          "word": "bir",
+          "startMs": 265960,
+          "endMs": 266120
+        },
+        {
+          "word": "yetenektir.",
+          "startMs": 266250,
+          "endMs": 267070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 268380,
+      "endMs": 277310,
+      "pauseAfterMs": 1160,
+      "text": "İlgine yeteneğin ve eğitimin eşlik ettiğinde harika bir mimar olabilirsin.",
+      "markedText": "İlgine yeteneğin ve eğitimin eşlik ettiğinde harika bir mimar olabilirsin.",
+      "words": [
+        {
+          "word": "İlgine",
+          "startMs": 268380,
+          "endMs": 268730
+        },
+        {
+          "word": "yeteneğin",
+          "startMs": 268890,
+          "endMs": 269560
+        },
+        {
+          "word": "ve",
+          "startMs": 270100,
+          "endMs": 270220
+        },
+        {
+          "word": "eğitimin",
+          "startMs": 270320,
+          "endMs": 270990
+        },
+        {
+          "word": "eşlik",
+          "startMs": 271170,
+          "endMs": 271590
+        },
+        {
+          "word": "ettiğinde",
+          "startMs": 271880,
+          "endMs": 272950
+        },
+        {
+          "word": "harika",
+          "startMs": 273060,
+          "endMs": 273530
+        },
+        {
+          "word": "bir",
+          "startMs": 273610,
+          "endMs": 273910
+        },
+        {
+          "word": "mimar",
+          "startMs": 274650,
+          "endMs": 275060
+        },
+        {
+          "word": "olabilirsin.",
+          "startMs": 275060,
+          "endMs": 276150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 277310,
+      "endMs": 283420,
+      "pauseAfterMs": 1120,
+      "text": "Sevdiğin işi özenle yapmak toplumu yüceltir.",
+      "markedText": "Sevdiğin işi özenle yapmak toplumu yüceltir.",
+      "words": [
+        {
+          "word": "Sevdiğin",
+          "startMs": 277310,
+          "endMs": 277830
+        },
+        {
+          "word": "işi",
+          "startMs": 278000,
+          "endMs": 278630
+        },
+        {
+          "word": "özenle",
+          "startMs": 279200,
+          "endMs": 279640
+        },
+        {
+          "word": "yapmak",
+          "startMs": 279730,
+          "endMs": 280220
+        },
+        {
+          "word": "toplumu",
+          "startMs": 280790,
+          "endMs": 281430
+        },
+        {
+          "word": "yüceltir.",
+          "startMs": 281430,
+          "endMs": 282300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 283420,
+      "endMs": 285730,
+      "pauseAfterMs": 560,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 283420,
+          "endMs": 284320
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 284360,
+          "endMs": 285170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 285730,
+      "endMs": 288020,
+      "pauseAfterMs": 1030,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 285730,
+          "endMs": 286420
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 286420,
+          "endMs": 286990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 288020,
+      "endMs": 292790,
+      "pauseAfterMs": 810,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 288020,
+          "endMs": 288260
+        },
+        {
+          "word": "noktayı",
+          "startMs": 288370,
+          "endMs": 289120
+        },
+        {
+          "word": "sen",
+          "startMs": 289650,
+          "endMs": 289890
+        },
+        {
+          "word": "de",
+          "startMs": 290320,
+          "endMs": 290520
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 290630,
+          "endMs": 291980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 292790,
+      "endMs": 299870,
+      "pauseAfterMs": 840,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 292790,
+          "endMs": 293100
+        },
+        {
+          "word": "sevgili",
+          "startMs": 293240,
+          "endMs": 293880
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 293960,
+          "endMs": 294710
+        },
+        {
+          "word": "işte",
+          "startMs": 295080,
+          "endMs": 295340
+        },
+        {
+          "word": "tam",
+          "startMs": 295430,
+          "endMs": 295600
+        },
+        {
+          "word": "bu",
+          "startMs": 295660,
+          "endMs": 295810
+        },
+        {
+          "word": "noktada",
+          "startMs": 295880,
+          "endMs": 296570
+        },
+        {
+          "word": "dikkat",
+          "startMs": 296930,
+          "endMs": 297290
+        },
+        {
+          "word": "etmen",
+          "startMs": 297360,
+          "endMs": 297790
+        },
+        {
+          "word": "gereken",
+          "startMs": 297790,
+          "endMs": 298230
+        },
+        {
+          "word": "kilit",
+          "startMs": 298290,
+          "endMs": 298550
+        },
+        {
+          "word": "nokta.",
+          "startMs": 298550,
+          "endMs": 299030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-2",
+      "startMs": 299870,
+      "endMs": 311920,
+      "pauseAfterMs": 1670,
+      "text": "Yalnızca bazı meslekleri üstün ve değerli görüp diğer meslekleri küçümsemek çok yanıltıcı bir tuzaktır.",
+      "markedText": "Yalnızca bazı meslekleri üstün ve değerli görüp diğer meslekleri küçümsemek çok yanıltıcı bir tuzaktır.",
+      "words": [
+        {
+          "word": "Yalnızca",
+          "startMs": 299870,
+          "endMs": 300200
+        },
+        {
+          "word": "bazı",
+          "startMs": 300390,
+          "endMs": 300840
+        },
+        {
+          "word": "meslekleri",
+          "startMs": 300960,
+          "endMs": 302070
+        },
+        {
+          "word": "üstün",
+          "startMs": 302520,
+          "endMs": 302880
+        },
+        {
+          "word": "ve",
+          "startMs": 303220,
+          "endMs": 303290
+        },
+        {
+          "word": "değerli",
+          "startMs": 303400,
+          "endMs": 304030
+        },
+        {
+          "word": "görüp",
+          "startMs": 304890,
+          "endMs": 305300
+        },
+        {
+          "word": "diğer",
+          "startMs": 305360,
+          "endMs": 305820
+        },
+        {
+          "word": "meslekleri",
+          "startMs": 306000,
+          "endMs": 306630
+        },
+        {
+          "word": "küçümsemek",
+          "startMs": 307680,
+          "endMs": 308370
+        },
+        {
+          "word": "çok",
+          "startMs": 308450,
+          "endMs": 308630
+        },
+        {
+          "word": "yanıltıcı",
+          "startMs": 308740,
+          "endMs": 309120
+        },
+        {
+          "word": "bir",
+          "startMs": 309460,
+          "endMs": 309670
+        },
+        {
+          "word": "tuzaktır.",
+          "startMs": 309670,
+          "endMs": 310250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-2",
+      "startMs": 311920,
+      "endMs": 322440,
+      "pauseAfterMs": 1660,
+      "text": "Unvanın büyüklüğü insanı büyütmez; işini hakkıyla ve dürüstçe yapmak insanı yüceltir.",
+      "markedText": "Unvanın büyüklüğü insanı büyütmez; işini hakkıyla ve dürüstçe yapmak insanı yüceltir.",
+      "words": [
+        {
+          "word": "Unvanın",
+          "startMs": 311920,
+          "endMs": 312810
+        },
+        {
+          "word": "büyüklüğü",
+          "startMs": 312920,
+          "endMs": 313570
+        },
+        {
+          "word": "insanı",
+          "startMs": 313780,
+          "endMs": 314270
+        },
+        {
+          "word": "büyütmez;",
+          "startMs": 314430,
+          "endMs": 315360
+        },
+        {
+          "word": "işini",
+          "startMs": 316860,
+          "endMs": 317320
+        },
+        {
+          "word": "hakkıyla",
+          "startMs": 317320,
+          "endMs": 317980
+        },
+        {
+          "word": "ve",
+          "startMs": 318020,
+          "endMs": 318140
+        },
+        {
+          "word": "dürüstçe",
+          "startMs": 318140,
+          "endMs": 318770
+        },
+        {
+          "word": "yapmak",
+          "startMs": 318940,
+          "endMs": 319330
+        },
+        {
+          "word": "insanı",
+          "startMs": 319500,
+          "endMs": 319850
+        },
+        {
+          "word": "yüceltir.",
+          "startMs": 319900,
+          "endMs": 320780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-2",
+      "startMs": 322440,
+      "endMs": 337590,
+      "pauseAfterMs": 1290,
+      "text": "Kendi ilgi ve becerilerini bir kenara bırakıp yalnızca başkalarının yönlendirmesiyle meslek seçmemeye özen göster.",
+      "markedText": "Kendi ilgi ve becerilerini bir kenara bırakıp yalnızca başkalarının yönlendirmesiyle meslek seçmemeye özen göster.",
+      "words": [
+        {
+          "word": "Kendi",
+          "startMs": 322440,
+          "endMs": 322680
+        },
+        {
+          "word": "ilgi",
+          "startMs": 322740,
+          "endMs": 323020
+        },
+        {
+          "word": "ve",
+          "startMs": 323020,
+          "endMs": 323460
+        },
+        {
+          "word": "becerilerini",
+          "startMs": 324730,
+          "endMs": 325750
+        },
+        {
+          "word": "bir",
+          "startMs": 326150,
+          "endMs": 326480
+        },
+        {
+          "word": "kenara",
+          "startMs": 326540,
+          "endMs": 327110
+        },
+        {
+          "word": "bırakıp",
+          "startMs": 327490,
+          "endMs": 327940
+        },
+        {
+          "word": "yalnızca",
+          "startMs": 327940,
+          "endMs": 328750
+        },
+        {
+          "word": "başkalarının",
+          "startMs": 330110,
+          "endMs": 330770
+        },
+        {
+          "word": "yönlendirmesiyle",
+          "startMs": 331850,
+          "endMs": 333380
+        },
+        {
+          "word": "meslek",
+          "startMs": 333590,
+          "endMs": 334100
+        },
+        {
+          "word": "seçmemeye",
+          "startMs": 334320,
+          "endMs": 334980
+        },
+        {
+          "word": "özen",
+          "startMs": 335110,
+          "endMs": 335540
+        },
+        {
+          "word": "göster.",
+          "startMs": 335630,
+          "endMs": 336300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-2",
+      "startMs": 337590,
+      "endMs": 354120,
+      "pauseAfterMs": 360,
+      "text": "Sevdiğin ve yeteneğine uygun olan meslekte hem çok mutlu olursun hem de milletine en yüksek faydayı sağlarsın.",
+      "markedText": "Sevdiğin ve yeteneğine uygun olan meslekte hem çok mutlu olursun hem de milletine en yüksek faydayı sağlarsın.",
+      "words": [
+        {
+          "word": "Sevdiğin",
+          "startMs": 337590,
+          "endMs": 338170
+        },
+        {
+          "word": "ve",
+          "startMs": 338350,
+          "endMs": 338690
+        },
+        {
+          "word": "yeteneğine",
+          "startMs": 340010,
+          "endMs": 341190
+        },
+        {
+          "word": "uygun",
+          "startMs": 341840,
+          "endMs": 342160
+        },
+        {
+          "word": "olan",
+          "startMs": 342370,
+          "endMs": 342760
+        },
+        {
+          "word": "meslekte",
+          "startMs": 342760,
+          "endMs": 343480
+        },
+        {
+          "word": "hem",
+          "startMs": 344960,
+          "endMs": 345110
+        },
+        {
+          "word": "çok",
+          "startMs": 345230,
+          "endMs": 345410
+        },
+        {
+          "word": "mutlu",
+          "startMs": 345490,
+          "endMs": 345830
+        },
+        {
+          "word": "olursun",
+          "startMs": 347320,
+          "endMs": 347990
+        },
+        {
+          "word": "hem",
+          "startMs": 348160,
+          "endMs": 348420
+        },
+        {
+          "word": "de",
+          "startMs": 348620,
+          "endMs": 348750
+        },
+        {
+          "word": "milletine",
+          "startMs": 348860,
+          "endMs": 349380
+        },
+        {
+          "word": "en",
+          "startMs": 350670,
+          "endMs": 350910
+        },
+        {
+          "word": "yüksek",
+          "startMs": 350970,
+          "endMs": 351470
+        },
+        {
+          "word": "faydayı",
+          "startMs": 351570,
+          "endMs": 352230
+        },
+        {
+          "word": "sağlarsın.",
+          "startMs": 352550,
+          "endMs": 353760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 354120,
+      "endMs": 356310,
+      "pauseAfterMs": 1020,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 354120,
+          "endMs": 354370
+        },
+        {
+          "word": "Neler",
+          "startMs": 354600,
+          "endMs": 354770
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 354770,
+          "endMs": 355290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 356310,
+      "endMs": 356590,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 356310,
+          "endMs": 356590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 356590,
+      "endMs": 364360,
+      "pauseAfterMs": 1520,
+      "text": "Nitelikli insan, işini öğrenmiş ve özenle yapandır.",
+      "markedText": "Nitelikli insan, işini öğrenmiş ve özenle yapandır.",
+      "words": [
+        {
+          "word": "Nitelikli",
+          "startMs": 356590,
+          "endMs": 357480
+        },
+        {
+          "word": "insan,",
+          "startMs": 357610,
+          "endMs": 358630
+        },
+        {
+          "word": "işini",
+          "startMs": 359760,
+          "endMs": 360110
+        },
+        {
+          "word": "öğrenmiş",
+          "startMs": 360180,
+          "endMs": 360900
+        },
+        {
+          "word": "ve",
+          "startMs": 361230,
+          "endMs": 361280
+        },
+        {
+          "word": "özenle",
+          "startMs": 361280,
+          "endMs": 361750
+        },
+        {
+          "word": "yapandır.",
+          "startMs": 361960,
+          "endMs": 362840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 364360,
+      "endMs": 366040,
+      "pauseAfterMs": 1040,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 364360,
+          "endMs": 365000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 366040,
+      "endMs": 372970,
+      "pauseAfterMs": 340,
+      "text": "Meslek seçiminde ilgi, yetenek ve toplumun ihtiyacı birlikte durur.",
+      "markedText": "Meslek seçiminde ilgi, yetenek ve toplumun ihtiyacı birlikte durur.",
+      "words": [
+        {
+          "word": "Meslek",
+          "startMs": 366040,
+          "endMs": 366740
+        },
+        {
+          "word": "seçiminde",
+          "startMs": 367000,
+          "endMs": 367420
+        },
+        {
+          "word": "ilgi,",
+          "startMs": 367670,
+          "endMs": 368170
+        },
+        {
+          "word": "yetenek",
+          "startMs": 369510,
+          "endMs": 369830
+        },
+        {
+          "word": "ve",
+          "startMs": 369930,
+          "endMs": 370100
+        },
+        {
+          "word": "toplumun",
+          "startMs": 370170,
+          "endMs": 370690
+        },
+        {
+          "word": "ihtiyacı",
+          "startMs": 370920,
+          "endMs": 371450
+        },
+        {
+          "word": "birlikte",
+          "startMs": 371570,
+          "endMs": 372220
+        },
+        {
+          "word": "durur.",
+          "startMs": 372360,
+          "endMs": 372630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 372970,
+      "endMs": 373200,
+      "pauseAfterMs": 70,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 372970,
+          "endMs": 373130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 373200,
+      "endMs": 376120,
+      "pauseAfterMs": 320,
+      "text": "Her meslek bir iş görür.",
+      "markedText": "Her meslek bir iş görür.",
+      "words": [
+        {
+          "word": "Her",
+          "startMs": 373200,
+          "endMs": 373380
+        },
+        {
+          "word": "meslek",
+          "startMs": 373430,
+          "endMs": 373950
+        },
+        {
+          "word": "bir",
+          "startMs": 374150,
+          "endMs": 374440
+        },
+        {
+          "word": "iş",
+          "startMs": 374530,
+          "endMs": 374710
+        },
+        {
+          "word": "görür.",
+          "startMs": 374900,
+          "endMs": 375800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 376120,
+      "endMs": 380340,
+      "pauseAfterMs": 1130,
+      "text": "Biri diğerinin yerine geçmez.",
+      "markedText": "Biri diğerinin yerine geçmez.",
+      "words": [
+        {
+          "word": "Biri",
+          "startMs": 376120,
+          "endMs": 376440
+        },
+        {
+          "word": "diğerinin",
+          "startMs": 376560,
+          "endMs": 377480
+        },
+        {
+          "word": "yerine",
+          "startMs": 377550,
+          "endMs": 378190
+        },
+        {
+          "word": "geçmez.",
+          "startMs": 378280,
+          "endMs": 379210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 380340,
+      "endMs": 383930,
+      "pauseAfterMs": 950,
+      "text": "Nitelik öğrenmek ve özen göstermektir.",
+      "markedText": "Nitelik öğrenmek ve özen göstermektir.",
+      "words": [
+        {
+          "word": "Nitelik",
+          "startMs": 380340,
+          "endMs": 380700
+        },
+        {
+          "word": "öğrenmek",
+          "startMs": 380850,
+          "endMs": 381490
+        },
+        {
+          "word": "ve",
+          "startMs": 381720,
+          "endMs": 381820
+        },
+        {
+          "word": "özen",
+          "startMs": 381870,
+          "endMs": 382220
+        },
+        {
+          "word": "göstermektir.",
+          "startMs": 382220,
+          "endMs": 382980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 383930,
+      "endMs": 386630,
+      "pauseAfterMs": 1210,
+      "text": "Meslek, toplumun bir işidir.",
+      "markedText": "Meslek, toplumun bir işidir.",
+      "words": [
+        {
+          "word": "Meslek,",
+          "startMs": 383930,
+          "endMs": 384300
+        },
+        {
+          "word": "toplumun",
+          "startMs": 384480,
+          "endMs": 384950
+        },
+        {
+          "word": "bir",
+          "startMs": 384950,
+          "endMs": 385120
+        },
+        {
+          "word": "işidir.",
+          "startMs": 385120,
+          "endMs": 385420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-3",
+      "startMs": 386630,
+      "endMs": 395410,
+      "pauseAfterMs": 1060,
+      "text": "Bir mesleğin kime hangi işi yaptığını tek cümleyle söylersin.",
+      "markedText": "Bir mesleğin kime hangi işi yaptığını tek cümleyle söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 386630,
+          "endMs": 386820
+        },
+        {
+          "word": "mesleğin",
+          "startMs": 386960,
+          "endMs": 387300
+        },
+        {
+          "word": "kime",
+          "startMs": 387380,
+          "endMs": 388190
+        },
+        {
+          "word": "hangi",
+          "startMs": 389380,
+          "endMs": 389970
+        },
+        {
+          "word": "işi",
+          "startMs": 389970,
+          "endMs": 390360
+        },
+        {
+          "word": "yaptığını",
+          "startMs": 390610,
+          "endMs": 391190
+        },
+        {
+          "word": "tek",
+          "startMs": 391330,
+          "endMs": 391830
+        },
+        {
+          "word": "cümleyle",
+          "startMs": 392650,
+          "endMs": 393070
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 393390,
+          "endMs": 394350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-3",
+      "startMs": 395410,
+      "endMs": 398470,
+      "pauseAfterMs": 1220,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 395410,
+          "endMs": 396150
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 396480,
+          "endMs": 397250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-51",
+      "chapterId": "ch-3",
+      "startMs": 398470,
+      "endMs": 403110,
+      "pauseAfterMs": 1200,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 398470,
+          "endMs": 399340
+        },
+        {
+          "word": "bir",
+          "startMs": 399470,
+          "endMs": 399690
+        },
+        {
+          "word": "iş",
+          "startMs": 399990,
+          "endMs": 400160
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 400980,
+          "endMs": 401910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-52",
+      "chapterId": "ch-3",
+      "startMs": 403110,
+      "endMs": 406550,
+      "pauseAfterMs": 1000,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 403110,
+          "endMs": 403730
+        },
+        {
+          "word": "sıra",
+          "startMs": 404720,
+          "endMs": 404950
+        },
+        {
+          "word": "sende.",
+          "startMs": 404990,
+          "endMs": 405550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-53",
+      "chapterId": "ch-3",
+      "startMs": 406550,
+      "endMs": 409729,
+      "pauseAfterMs": 369,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 406550,
+          "endMs": 407150
+        },
+        {
+          "word": "bu",
+          "startMs": 407150,
+          "endMs": 407250
+        },
+        {
+          "word": "notları",
+          "startMs": 407370,
+          "endMs": 407690
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 407770,
+          "endMs": 408110
+        },
+        {
+          "word": "kendi",
+          "startMs": 408320,
+          "endMs": 408560
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 408640,
+          "endMs": 409110
+        },
+        {
+          "word": "anlat.",
+          "startMs": 409110,
+          "endMs": 409360
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

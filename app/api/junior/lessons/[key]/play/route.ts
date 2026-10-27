@@ -4,6 +4,7 @@ import { RAIL_V1_JUNIOR_LESSON_MISSING } from "@/lib/kernel/http/v1-contract";
 import { JUNIOR_MEDIA_UNAVAILABLE, issueJuniorLessonMedia } from "@/lib/junior/media-grant";
 import { createPrismaJuniorStore } from "@/lib/junior/load";
 import { buildJuniorLessonPlayData } from "@/lib/junior/play-wire";
+import { canonicalJuniorLessonKey } from "@/lib/junior/lesson-key-alias";
 import { openJuniorLessonPlay } from "@/lib/junior/service";
 
 export const auth = "session" as const;
@@ -20,7 +21,7 @@ export async function GET(
   try {
     const user = await requireSession(request);
     const { key } = await context.params;
-    const lessonKey = key.trim();
+    const lessonKey = canonicalJuniorLessonKey(key);
     const profileId = new URL(request.url).searchParams.get("profileId");
     const opened = await openJuniorLessonPlay(createPrismaJuniorStore(), {
       userId: user.id,

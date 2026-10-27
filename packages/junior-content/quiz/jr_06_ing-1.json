@@ -1,0 +1,53 @@
+{
+  "lessonKey": "jr_06_ing-1",
+  "title": "Saate göre selam",
+  "tellGuides": [
+    "Good morning ile Good evening hangi saatlere aittir?",
+    "Hello her saatte söylenebilir mi? Bir örnekle anlat.",
+    "Good night neden ilk selam değildir?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Good morning ne zaman söylenir?",
+      "options": [
+        "Sabah selamı olarak",
+        "Akşam ilk görüşte",
+        "Uykuya giderken veda olarak",
+        "Yalnızca öğle yemeğinde"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Bu söz günaydın yerindedir.",
+      "explanation": "Adım 1: Good morning sabah selamıdır. Adım 2: Günaydın demektir. Adım 3: Akşam veda sözü değildir."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Akşam komşuyu ilk gördüğünde hangi sözü seçersin?",
+      "options": [
+        "Good night",
+        "Good evening",
+        "Good afternoon",
+        "Good morning"
+      ],
+      "correctAnswerIndex": 1,
+      "hint": "İlk görüş ile uyku vedası ayrıdır.",
+      "explanation": "Adım 1: Akşam ilk selam Good eveningdir. Adım 2: Good night ayrılırken söylenen iyi gecelerdir. Adım 3: Kapıdaki ilk söz Good night olmaz."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Sabah okul kapısında arkadaşın Good morning diyor. Doğru karşılık hangisidir?",
+      "options": [
+        "Good night",
+        "Good evening",
+        "Good morning",
+        "Good afternoon"
+      ],
+      "correctAnswerIndex": 2,
+      "hint": "Selamın karşılığı aynı selamdır.",
+      "explanation": "Adım 1: Sabah selamı Good morningdir. Adım 2: Karşılık, duyulan selamın aynısıdır. Adım 3: Sen de Good morning dersin."
+    }
+  ]
+}

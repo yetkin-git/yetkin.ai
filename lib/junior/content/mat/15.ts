@@ -1,38 +1,37 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. Ondalık sayılarla toplama, çıkarma ve 10 ile çarpma. */
-export const JUNIOR_MAT_15_SCENARIO: JuniorLessonScenario = {
+/**
+ * 6. Sınıf Matematik. İki kesenin oluşturduğu dörtgenler.
+ * Film `resolveJuniorPlayback` grafiğidir. Yamuk ve paralelkenar parametredir.
+ * `AnglesScene` bu dersi çizmez.
+ */
+export const JUNIOR_MAT_31_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-15",
-  title: "Ondalık sayılarla işlem",
-  teaser:
-    "Ondalık toplamada virgüller alt alta gelir. 10 ile çarpınca virgül bir basamak sağa kayar. Kavramsal Anlayış, kuruşu kuruşun altına yazmandır. İfade Gücü, 2,40 artı 1,35'in neden 3,75 ettiğini söylemektir.",
-  welcome:
-    "Merhaba sevgili çocuklar! Bugün ondalık sayılarla toplama ve çıkarma yapacağız. Hiç alışveriş yaparken etiketlerdeki lira ve kuruş kısımlarını alt alta toplayıp hesapladın mı? Virgülleri aynı hizaya getirdiğinde işlem bir anda çok kolaylaşır. Ondalık sayılarda toplama, çıkarma ve 10 ile kısa yoldan çarpmayı öğreneceğiz.",
-  concept:
-    "Ondalık sayılarla toplama ve çıkarma yaparken virgüller mutlaka tam olarak alt alta gelmelidir. Tam kısım tam kısmın, onda birler onda birlerin, yüzde birler yüzde birlerin altına yazılır. Boş basamaklar olursa yerine sıfır koyabilirsin. Bir ondalık sayıyı 10 ile çarpmak ise virgülü tam bir basamak sağa kaydırır. Pratik kural: Sayıyı 10'a bölmek virgülü bir basamak sola kaydırır; 10 ile çarpmak ise sağa taşır.",
-  example:
-    "2,40 ile 1,35 sayılarını alt alta toplayalım. Virgüller aynı hizada. Yüzde birlerde 0 artı 5, 5 eder; onda birlerde 4 artı 3, 7 eder; tam kısımda 2 artı 1, 3 eder; sonuç 3,75'tir. Şimdi 3,75'ten 1,35'i çıkarırsak geriye 2,40 kalır. Bir de 3,75'i 10 ile çarpalım: Virgül bir basamak sağa kayar ve sonuç 37,5 olur. 37,5 sayısını 10'a bölersek virgül yeniden sola kayar ve 3,75 değerine geri döner.",
-  hint: "trap",
-  warning:
-    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Tuzaklara Düşme! Virgülleri alt alta hizalamadan sayıları sağa dayayarak toplamak en büyük tuzaktır. 2,4 ile 1,35 toplanırken 4 rakamı 5'in üstüne gelmez! Çünkü 2,4 aslında 2,40 demektir ve 4 rakamı onda birdir. Virgülleri aynı çizgiye dizdiğinde hiçbir işlem karışmaz.",
-  life:
-    "Bunu harçlık defterinde de kullanırsın. 2 lira 40 kuruş ekmek ve 1 lira 35 kuruş süt, 3 lira 75 kuruş eder. On tane 3,75 liralık defter alırsan 37,5 lira ödersin. Virgül bir basamak sağa kaymıştır. Kuruşu liranın altına yazmadığın gün hesap şaşar.",
+  title: "İki kesenin oluşturduğu dörtgenler",
+  teaser: "İki paralel doğruyu iki kesen kesince arada bir dörtgen durur. Kavramsal Anlayış, bir çift kenarın paralel kaldığını görmektir. İfade Gücü, bu dörtgene yamuk demektir.",
+  welcome: "Merhaba sevgili çocuklar! Bugün iki kesenin arasında kalan dörtgeni modelleyeceğiz. Okul defterinde iki yatay çizgiyi iki eğik çizgi keser. Arada kalan şeklin adı rastgele değildir.",
+  concept: "İki paralel doğru ve iki kesen, aralarında bir dörtgen sınırlar. Paralel kalan kenar çifti bu dörtgeni yamuk yapar. Dört kenar da paralel çiftlere ayrılırsa model paralelkenara döner. Köşeler dört tanedir. İç açılar toplanınca 360 derece eder.",
+  example: "Deftere iki paralel doğru çizelim. Üstüne iki kesen ekleyelim. Kesişen dört nokta bir dörtgen verir. Alt ve üst kenar paraleldir. Bu yüzden şekil yamuktur. Kesenler de birbirine paralel olursa karşılıklı iki çift birden paralel olur ve dörtgen paralelkenardır.",
+  hint: "gold",
+  warning: "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Her dörtgen yamuk değildir. Yamukta en az bir kenar çifti paraleldir. Hiçbir kenarı paralel olmayan dörtgen bu modelin dışındadır. Köşe sayısını 3 sanırsan üçgen çizersin.",
+  life: "Bunu okul bahçesindeki iki kaldırım ve iki patika kesişiminde görürsün. Kutunun kapağında paralel kenarlar duruyorsa dörtgen yamuktur. Patikalar da paralel giderse kapak paralelkenara benzer.",
   recap: [
-    "Toplama ve çıkarmada virgüller alt alta gelir.",
-    "2,40 artı 1,35, 3,75 eder. 3,75 eksi 1,35, 2,40 kalır.",
-    "10 ile çarpınca virgül bir basamak sağa, 10'a bölününce bir basamak sola kayar.",
+    "İki paralel doğru ve iki kesen bir dörtgen sınırlar.",
+    "Bir kenar çifti paralel ise dörtgen yamuktur.",
+    "İki çift birden paralel ise dörtgen paralelkenardır.",
   ],
-  conceptSeal: "Virgül hizası, lira ile kuruşu birbirine karıştırmaz.",
-  voiceSeal: "Hangi basamağı hangisinin altına yazdığını söylersin.",
+  conceptSeal: "Kesişen doğruların arası, paralel kenara göre adlandırılır.",
+  voiceSeal: "Bir çift kenarı paralel olan dörtgene yamuk dersin.",
   outcomes: [
-    "Ondalık toplamada virgüller alt alta yazılır.",
-    "Eksik basamak 0 ile doldurulabilir.",
-    "10 ile çarpma virgülü sağa kaydırır.",
+    "İki kesen, paralellerin arasında dörtgen kurar.",
+    "Tek paralel çift yamuktur.",
+    "İki paralel çift paralelkenardır.",
+    "İki kesenin oluşturduğu dörtgenler kuralı bu derste yeni bir istisna açmaz.",
+    "31 numaralı örnek, ikinci bir kurala dönüşmez.",
+    "Okul defterindeki adım, bahçedeki ölçümle aynı kuralı taşır.",
   ],
-  scene: "decimal",
-  parentNote:
-    "Çocuğunuz 2,40 artı 1,35'i virgülleri hizalayarak 3,75 bulur. 3,75 çarpı 10, 37,5 eder. Evde ekmek ve süt hesabı yeter.",
-
+  scene: "angles",
+  parentNote: "Çocuğunuz iki paralel çizgi ve iki kesenin arasını yamuk diye adlandırır. İkinci çift de paralelse paralelkenar der. Her dörtgene yamuk demez.",
 };
 
-export const JUNIOR_MAT_15 = juniorLessonFromScenario(JUNIOR_MAT_15_SCENARIO);
+export const JUNIOR_MAT_31 = juniorLessonFromScenario(JUNIOR_MAT_31_SCENARIO);

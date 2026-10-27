@@ -34,8 +34,8 @@ export type AcademySeedMoney = {
  */
 
 /**
- * @deprecated Maktu bant yok. Geriye dönük import için soft hint; canlı fiyat kilidi değildir.
- * Yeni kod `resolveAcademySeedMoney` kullanır.
+ * @deprecated Tutar üretmez. Canlı kilit `PriceCatalogEntry`, tohum `COURSE_REGISTRY.priceSeedMinor`.
+ * Yeni kod bu bandı okumaz.
  */
 export const ACADEMY_LEVEL_PRICE_BANDS: Record<
   AcademyCommonLevelLabel,
@@ -50,24 +50,22 @@ export const ACADEMY_LEVEL_PRICE_BANDS: Record<
 /**
  * Serbest tohum / katalog tutarı — seviye enum’una kilitli değildir.
  * `amountMinor` pozitif tam sayı (kuruş); min/max opsiyonel penceredir.
- * Bilinen etiketlerde soft hint yalnız tutar verilmediğinde kullanılır.
+ * Tutar çağırandan gelir. Seviye bandı tutar üretmez.
  */
 export function resolveAcademySeedMoney(input: {
-  amountMinor?: number;
+  amountMinor: number;
   minMinor?: number;
   maxMinor?: number;
+  /** Seviye etiketi tutar üretmez. Canlı kilit `PriceCatalogEntry`, tohum `priceSeedMinor`. */
   level?: string;
 }): AcademySeedMoney {
-  const soft =
-    input.level && isAcademyCommonLevelLabel(input.level)
-      ? ACADEMY_LEVEL_PRICE_BANDS[input.level]
-      : undefined;
-  const amountMinor = input.amountMinor ?? soft?.amountMinor ?? 49_000;
+  void input.level;
+  const amountMinor = input.amountMinor;
   if (!Number.isInteger(amountMinor) || amountMinor <= 0) {
     throw new Error("seedAmountMinor pozitif tam sayı (kuruş) olmalıdır.");
   }
-  const minMinor = input.minMinor ?? soft?.minMinor ?? 1;
-  const maxMinor = input.maxMinor ?? soft?.maxMinor ?? Math.max(amountMinor, 50_000_000);
+  const minMinor = input.minMinor ?? 1;
+  const maxMinor = input.maxMinor ?? Math.max(amountMinor, 50_000_000);
   if (!Number.isInteger(minMinor) || !Number.isInteger(maxMinor)) {
     throw new Error("seedMinMinor / seedMaxMinor tam sayı olmalıdır.");
   }

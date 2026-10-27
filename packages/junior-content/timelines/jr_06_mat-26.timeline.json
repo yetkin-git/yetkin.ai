@@ -1,0 +1,1964 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_mat-26",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Gözleme dayalı olasılık",
+  "grade": 6,
+  "subject": "Matematik",
+  "teacher": {
+    "name": "Selim",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_mat-26.mp3",
+    "durationMs": 292499,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 67020
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 67020,
+      "endMs": 224200
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 224200,
+      "endMs": 292499
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4590,
+      "pauseAfterMs": 1170,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 270,
+          "endMs": 1440
+        },
+        {
+          "word": "sevgili",
+          "startMs": 2040,
+          "endMs": 2580
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2690,
+          "endMs": 3420
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Gözleme dayalı olasılık",
+            "subtitle": "Matematik",
+            "ruleBadges": [],
+            "echoPrompt": "20 atışta 5 tura için yirmide beş dersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Gözlem olasılığı, sıklığın denemeye bölümüdür."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Pay istenen sonuç, payda bütün denemedir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Az deneme oranı oynatır ve kesinlik vermez."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4590,
+      "endMs": 9320,
+      "pauseAfterMs": 1290,
+      "text": "Ben Matematik öğretmenin Selim.",
+      "markedText": "Ben Matematik öğretmenin Selim.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4590,
+          "endMs": 4690
+        },
+        {
+          "word": "Matematik",
+          "startMs": 4770,
+          "endMs": 5310
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 5820,
+          "endMs": 6660
+        },
+        {
+          "word": "Selim.",
+          "startMs": 7000,
+          "endMs": 8030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 9320,
+      "endMs": 15130,
+      "pauseAfterMs": 820,
+      "text": "Bugün olasılığı tahminle değil gözlemle kuracağız.",
+      "markedText": "Bugün olasılığı tahminle değil gözlemle kuracağız.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 9320,
+          "endMs": 9720
+        },
+        {
+          "word": "olasılığı",
+          "startMs": 9990,
+          "endMs": 11110
+        },
+        {
+          "word": "tahminle",
+          "startMs": 11810,
+          "endMs": 12460
+        },
+        {
+          "word": "değil",
+          "startMs": 12570,
+          "endMs": 12970
+        },
+        {
+          "word": "gözlemle",
+          "startMs": 13130,
+          "endMs": 13460
+        },
+        {
+          "word": "kuracağız.",
+          "startMs": 13570,
+          "endMs": 14310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 15130,
+      "endMs": 27840,
+      "pauseAfterMs": 1190,
+      "text": "Okul bahçesinde 20 kez atılan bir pul, her seferinde aynı yüzü getirmek zorunda değildir.",
+      "markedText": "Okul bahçesinde 20 kez atılan bir pul, her seferinde aynı yüzü getirmek zorunda değildir.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 15130,
+          "endMs": 15530
+        },
+        {
+          "word": "bahçesinde",
+          "startMs": 15680,
+          "endMs": 17280
+        },
+        {
+          "word": "20",
+          "startMs": 17970,
+          "endMs": 18400
+        },
+        {
+          "word": "kez",
+          "startMs": 18510,
+          "endMs": 18760
+        },
+        {
+          "word": "atılan",
+          "startMs": 19270,
+          "endMs": 19790
+        },
+        {
+          "word": "bir",
+          "startMs": 19910,
+          "endMs": 20070
+        },
+        {
+          "word": "pul,",
+          "startMs": 20130,
+          "endMs": 20870
+        },
+        {
+          "word": "her",
+          "startMs": 21930,
+          "endMs": 22560
+        },
+        {
+          "word": "seferinde",
+          "startMs": 22980,
+          "endMs": 23350
+        },
+        {
+          "word": "aynı",
+          "startMs": 23510,
+          "endMs": 23830
+        },
+        {
+          "word": "yüzü",
+          "startMs": 23910,
+          "endMs": 24080
+        },
+        {
+          "word": "getirmek",
+          "startMs": 24330,
+          "endMs": 24920
+        },
+        {
+          "word": "zorunda",
+          "startMs": 25350,
+          "endMs": 25680
+        },
+        {
+          "word": "değildir.",
+          "startMs": 25900,
+          "endMs": 26650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 27840,
+      "endMs": 34550,
+      "pauseAfterMs": 1140,
+      "text": "Saydığımız sonuç, gördüğümüz sıklıktır.",
+      "markedText": "Saydığımız sonuç, gördüğümüz sıklıktır.",
+      "words": [
+        {
+          "word": "Saydığımız",
+          "startMs": 27840,
+          "endMs": 29130
+        },
+        {
+          "word": "sonuç,",
+          "startMs": 29540,
+          "endMs": 30410
+        },
+        {
+          "word": "gördüğümüz",
+          "startMs": 30860,
+          "endMs": 32120
+        },
+        {
+          "word": "sıklıktır.",
+          "startMs": 32330,
+          "endMs": 33410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 34550,
+      "endMs": 42390,
+      "pauseAfterMs": 1100,
+      "text": "Bunu okul bahçesindeki taş-kâğıt oyununda görürsün.",
+      "markedText": "Bunu okul bahçesindeki taş-kâğıt oyununda görürsün.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 34550,
+          "endMs": 35180
+        },
+        {
+          "word": "okul",
+          "startMs": 35370,
+          "endMs": 35930
+        },
+        {
+          "word": "bahçesindeki",
+          "startMs": 36800,
+          "endMs": 37940
+        },
+        {
+          "word": "taş-kâğıt",
+          "startMs": 38380,
+          "endMs": 38780
+        },
+        {
+          "word": "oyununda",
+          "startMs": 38910,
+          "endMs": 39910
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 40110,
+          "endMs": 41290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 42390,
+      "endMs": 51560,
+      "pauseAfterMs": 910,
+      "text": "Yirmi elde beş kez aynı işareti saydıysan oran yirmide beştir.",
+      "markedText": "Yirmi elde beş kez aynı işareti saydıysan oran yirmide beştir.",
+      "words": [
+        {
+          "word": "Yirmi",
+          "startMs": 42390,
+          "endMs": 42940
+        },
+        {
+          "word": "elde",
+          "startMs": 43250,
+          "endMs": 43460
+        },
+        {
+          "word": "beş",
+          "startMs": 43930,
+          "endMs": 44050
+        },
+        {
+          "word": "kez",
+          "startMs": 44140,
+          "endMs": 44290
+        },
+        {
+          "word": "aynı",
+          "startMs": 44290,
+          "endMs": 45400
+        },
+        {
+          "word": "işareti",
+          "startMs": 46710,
+          "endMs": 47180
+        },
+        {
+          "word": "saydıysan",
+          "startMs": 47180,
+          "endMs": 47830
+        },
+        {
+          "word": "oran",
+          "startMs": 47970,
+          "endMs": 48740
+        },
+        {
+          "word": "yirmide",
+          "startMs": 49120,
+          "endMs": 49840
+        },
+        {
+          "word": "beştir.",
+          "startMs": 49840,
+          "endMs": 50650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 51560,
+      "endMs": 67020,
+      "pauseAfterMs": 950,
+      "text": "Kutuyu bir kez daha sallamak yeni bir gözlemdir, eski oranı silmez ama yeni çetele ekler.",
+      "markedText": "Kutuyu bir kez daha sallamak yeni bir gözlemdir, eski oranı silmez ama yeni çetele ekler.",
+      "words": [
+        {
+          "word": "Kutuyu",
+          "startMs": 51560,
+          "endMs": 52270
+        },
+        {
+          "word": "bir",
+          "startMs": 52380,
+          "endMs": 52540
+        },
+        {
+          "word": "kez",
+          "startMs": 52580,
+          "endMs": 52790
+        },
+        {
+          "word": "daha",
+          "startMs": 52860,
+          "endMs": 53260
+        },
+        {
+          "word": "sallamak",
+          "startMs": 53490,
+          "endMs": 54240
+        },
+        {
+          "word": "yeni",
+          "startMs": 55300,
+          "endMs": 55650
+        },
+        {
+          "word": "bir",
+          "startMs": 55930,
+          "endMs": 56100
+        },
+        {
+          "word": "gözlemdir,",
+          "startMs": 56560,
+          "endMs": 57470
+        },
+        {
+          "word": "eski",
+          "startMs": 58230,
+          "endMs": 58910
+        },
+        {
+          "word": "oranı",
+          "startMs": 59240,
+          "endMs": 60010
+        },
+        {
+          "word": "silmez",
+          "startMs": 60970,
+          "endMs": 61440
+        },
+        {
+          "word": "ama",
+          "startMs": 61510,
+          "endMs": 61720
+        },
+        {
+          "word": "yeni",
+          "startMs": 62000,
+          "endMs": 62760
+        },
+        {
+          "word": "çetele",
+          "startMs": 64220,
+          "endMs": 64730
+        },
+        {
+          "word": "ekler.",
+          "startMs": 65010,
+          "endMs": 66070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-2",
+      "startMs": 67020,
+      "endMs": 79840,
+      "pauseAfterMs": 910,
+      "text": "Gözleme dayalı olasılık, deneyde sayılan sonucun deneme sayısına bölümüdür.",
+      "markedText": "Gözleme dayalı olasılık, deneyde sayılan sonucun deneme sayısına bölümüdür.",
+      "words": [
+        {
+          "word": "Gözleme",
+          "startMs": 67020,
+          "endMs": 68120
+        },
+        {
+          "word": "dayalı",
+          "startMs": 69060,
+          "endMs": 69500
+        },
+        {
+          "word": "olasılık,",
+          "startMs": 69660,
+          "endMs": 70540
+        },
+        {
+          "word": "deneyde",
+          "startMs": 71400,
+          "endMs": 71950
+        },
+        {
+          "word": "sayılan",
+          "startMs": 71950,
+          "endMs": 72920
+        },
+        {
+          "word": "sonucun",
+          "startMs": 73350,
+          "endMs": 74370
+        },
+        {
+          "word": "deneme",
+          "startMs": 75280,
+          "endMs": 75860
+        },
+        {
+          "word": "sayısına",
+          "startMs": 76590,
+          "endMs": 76760
+        },
+        {
+          "word": "bölümüdür.",
+          "startMs": 77170,
+          "endMs": 78930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-2",
+      "startMs": 79840,
+      "endMs": 86010,
+      "pauseAfterMs": 1200,
+      "text": "İstenen sonuç pay, bütün denemeler paydadır.",
+      "markedText": "İstenen sonuç pay, bütün denemeler paydadır.",
+      "words": [
+        {
+          "word": "İstenen",
+          "startMs": 79840,
+          "endMs": 80790
+        },
+        {
+          "word": "sonuç",
+          "startMs": 81000,
+          "endMs": 81150
+        },
+        {
+          "word": "pay,",
+          "startMs": 81150,
+          "endMs": 81590
+        },
+        {
+          "word": "bütün",
+          "startMs": 82510,
+          "endMs": 82940
+        },
+        {
+          "word": "denemeler",
+          "startMs": 83180,
+          "endMs": 83730
+        },
+        {
+          "word": "paydadır.",
+          "startMs": 83870,
+          "endMs": 84810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 86010,
+      "endMs": 95610,
+      "pauseAfterMs": 810,
+      "text": "20 atışta 5 kez tura geldiyse gözlem oranı yirmide beş eder.",
+      "markedText": "20 atışta 5 kez tura geldiyse gözlem oranı yirmide beş eder.",
+      "words": [
+        {
+          "word": "20",
+          "startMs": 86010,
+          "endMs": 86680
+        },
+        {
+          "word": "atışta",
+          "startMs": 87380,
+          "endMs": 87810
+        },
+        {
+          "word": "5",
+          "startMs": 87890,
+          "endMs": 88020
+        },
+        {
+          "word": "kez",
+          "startMs": 88120,
+          "endMs": 88400
+        },
+        {
+          "word": "tura",
+          "startMs": 88540,
+          "endMs": 89470
+        },
+        {
+          "word": "geldiyse",
+          "startMs": 90350,
+          "endMs": 91540
+        },
+        {
+          "word": "gözlem",
+          "startMs": 91890,
+          "endMs": 92130
+        },
+        {
+          "word": "oranı",
+          "startMs": 92220,
+          "endMs": 92740
+        },
+        {
+          "word": "yirmide",
+          "startMs": 93260,
+          "endMs": 93860
+        },
+        {
+          "word": "beş",
+          "startMs": 93950,
+          "endMs": 94100
+        },
+        {
+          "word": "eder.",
+          "startMs": 94260,
+          "endMs": 94800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 95610,
+      "endMs": 101950,
+      "pauseAfterMs": 830,
+      "text": "Bu, sıklığı sadeleştirince dörtte bir olur.",
+      "markedText": "Bu, sıklığı sadeleştirince dörtte bir olur.",
+      "words": [
+        {
+          "word": "Bu,",
+          "startMs": 95610,
+          "endMs": 95760
+        },
+        {
+          "word": "sıklığı",
+          "startMs": 95900,
+          "endMs": 96460
+        },
+        {
+          "word": "sadeleştirince",
+          "startMs": 96780,
+          "endMs": 98800
+        },
+        {
+          "word": "dörtte",
+          "startMs": 99590,
+          "endMs": 99950
+        },
+        {
+          "word": "bir",
+          "startMs": 100230,
+          "endMs": 100360
+        },
+        {
+          "word": "olur.",
+          "startMs": 100360,
+          "endMs": 101120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 101950,
+      "endMs": 108600,
+      "pauseAfterMs": 730,
+      "text": "Cetvelle değil, çeteleyle ölçülür.",
+      "markedText": "Cetvelle değil, çeteleyle ölçülür.",
+      "words": [
+        {
+          "word": "Cetvelle",
+          "startMs": 101950,
+          "endMs": 102860
+        },
+        {
+          "word": "değil,",
+          "startMs": 103090,
+          "endMs": 104310
+        },
+        {
+          "word": "çeteleyle",
+          "startMs": 105210,
+          "endMs": 106300
+        },
+        {
+          "word": "ölçülür.",
+          "startMs": 106600,
+          "endMs": 107870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 108600,
+      "endMs": 113690,
+      "pauseAfterMs": 810,
+      "text": "Az deneme, oranı oynatır.",
+      "markedText": "Az deneme, oranı oynatır.",
+      "words": [
+        {
+          "word": "Az",
+          "startMs": 108600,
+          "endMs": 108770
+        },
+        {
+          "word": "deneme,",
+          "startMs": 109300,
+          "endMs": 109950
+        },
+        {
+          "word": "oranı",
+          "startMs": 110070,
+          "endMs": 110870
+        },
+        {
+          "word": "oynatır.",
+          "startMs": 111970,
+          "endMs": 112880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 113690,
+      "endMs": 120050,
+      "pauseAfterMs": 770,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 113690,
+          "endMs": 113870
+        },
+        {
+          "word": "şimdi",
+          "startMs": 114400,
+          "endMs": 114630
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 114780,
+          "endMs": 115900
+        },
+        {
+          "word": "çizime",
+          "startMs": 116620,
+          "endMs": 117580
+        },
+        {
+          "word": "birlikte",
+          "startMs": 118090,
+          "endMs": 118640
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 118640,
+          "endMs": 119280
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 113690,
+          "op": "SET_STAGE",
+          "hook": "cizim-daveti",
+          "params": {
+            "layout": "summary-board",
+            "title": "Yirmi atış, beş tura",
+            "subtitle": "Gözlem oranı çeteleyle ölçülür",
+            "ruleBadges": [
+              "Pay = istenen sonuç",
+              "Payda = bütün deneme"
+            ],
+            "echoPrompt": "20 atışta 5 tura için yirmide beş dersin."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 120050,
+      "endMs": 124900,
+      "pauseAfterMs": 620,
+      "text": "Bir kutudan 20 kez çekiliş yapalım.",
+      "markedText": "Bir kutudan 20 kez çekiliş yapalım.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 120050,
+          "endMs": 120270
+        },
+        {
+          "word": "kutudan",
+          "startMs": 121000,
+          "endMs": 121250
+        },
+        {
+          "word": "20",
+          "startMs": 121730,
+          "endMs": 122000
+        },
+        {
+          "word": "kez",
+          "startMs": 122140,
+          "endMs": 122450
+        },
+        {
+          "word": "çekiliş",
+          "startMs": 122840,
+          "endMs": 123210
+        },
+        {
+          "word": "yapalım.",
+          "startMs": 123520,
+          "endMs": 124280
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 120050,
+          "op": "SHOW_FRACTION",
+          "params": {
+            "operation": "gozlem",
+            "leftNumerator": 5,
+            "leftDenominator": 20,
+            "parts": 20,
+            "filled": 5,
+            "note": "Yirmi çekilişin beşi kırmızı"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 124900,
+      "endMs": 127100,
+      "pauseAfterMs": 110,
+      "text": "Kırmızı 5 kez gelsin",
+      "markedText": "Kırmızı 5 kez gelsin",
+      "words": [
+        {
+          "word": "Kırmızı",
+          "startMs": 124900,
+          "endMs": 125370
+        },
+        {
+          "word": "5",
+          "startMs": 125540,
+          "endMs": 125700
+        },
+        {
+          "word": "kez",
+          "startMs": 125810,
+          "endMs": 126250
+        },
+        {
+          "word": "gelsin",
+          "startMs": 126370,
+          "endMs": 126990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 127100,
+      "endMs": 133610,
+      "pauseAfterMs": 1540,
+      "text": "Gözlem oranı yirmide beştir.",
+      "markedText": "Gözlem oranı yirmide beştir.",
+      "words": [
+        {
+          "word": "Gözlem",
+          "startMs": 127100,
+          "endMs": 127360
+        },
+        {
+          "word": "oranı",
+          "startMs": 129570,
+          "endMs": 130240
+        },
+        {
+          "word": "yirmide",
+          "startMs": 130410,
+          "endMs": 131150
+        },
+        {
+          "word": "beştir.",
+          "startMs": 131350,
+          "endMs": 132070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 133610,
+      "endMs": 141080,
+      "pauseAfterMs": 950,
+      "text": "5 ve 20'yi 5'e bölersek dörtte bir elde ederiz.",
+      "markedText": "5 ve 20'yi 5'e bölersek dörtte bir elde ederiz.",
+      "words": [
+        {
+          "word": "5",
+          "startMs": 133610,
+          "endMs": 133730
+        },
+        {
+          "word": "ve",
+          "startMs": 133730,
+          "endMs": 133820
+        },
+        {
+          "word": "20'yi",
+          "startMs": 133820,
+          "endMs": 134430
+        },
+        {
+          "word": "5'e",
+          "startMs": 134870,
+          "endMs": 135040
+        },
+        {
+          "word": "bölersek",
+          "startMs": 135220,
+          "endMs": 136050
+        },
+        {
+          "word": "dörtte",
+          "startMs": 136990,
+          "endMs": 137770
+        },
+        {
+          "word": "bir",
+          "startMs": 138520,
+          "endMs": 138700
+        },
+        {
+          "word": "elde",
+          "startMs": 138750,
+          "endMs": 138970
+        },
+        {
+          "word": "ederiz.",
+          "startMs": 139130,
+          "endMs": 140130
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 133610,
+          "op": "SHOW_FRACTION",
+          "params": {
+            "operation": "sadelestir",
+            "leftNumerator": 5,
+            "leftDenominator": 20,
+            "equivalentNumerator": 1,
+            "equivalentDenominator": 4,
+            "simplifiedNumerator": 1,
+            "simplifiedDenominator": 4,
+            "note": "5 ve 20'yi 5'e bölersek dörtte bir"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 141080,
+      "endMs": 150920,
+      "pauseAfterMs": 1050,
+      "text": "Mavi 15 kez geldiyse mavi oranı yirmide on beş eder.",
+      "markedText": "Mavi 15 kez geldiyse mavi oranı yirmide on beş eder.",
+      "words": [
+        {
+          "word": "Mavi",
+          "startMs": 141080,
+          "endMs": 141660
+        },
+        {
+          "word": "15",
+          "startMs": 142230,
+          "endMs": 142400
+        },
+        {
+          "word": "kez",
+          "startMs": 142600,
+          "endMs": 142960
+        },
+        {
+          "word": "geldiyse",
+          "startMs": 144480,
+          "endMs": 145630
+        },
+        {
+          "word": "mavi",
+          "startMs": 145770,
+          "endMs": 146080
+        },
+        {
+          "word": "oranı",
+          "startMs": 146230,
+          "endMs": 146810
+        },
+        {
+          "word": "yirmide",
+          "startMs": 146850,
+          "endMs": 147580
+        },
+        {
+          "word": "on",
+          "startMs": 148660,
+          "endMs": 148820
+        },
+        {
+          "word": "beş",
+          "startMs": 148860,
+          "endMs": 148980
+        },
+        {
+          "word": "eder.",
+          "startMs": 149030,
+          "endMs": 149870
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 141080,
+          "op": "SHOW_FRACTION",
+          "params": {
+            "operation": "iki-gozlem",
+            "leftNumerator": 5,
+            "leftDenominator": 20,
+            "rightNumerator": 15,
+            "rightDenominator": 20,
+            "simplifiedNumerator": 1,
+            "simplifiedDenominator": 4,
+            "note": "Mavi yirmide on beş · 15 + 5 = 20"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 150920,
+      "endMs": 157090,
+      "pauseAfterMs": 1090,
+      "text": "15 artı 5, 20 eder.",
+      "markedText": "15 artı 5, 20 eder.",
+      "words": [
+        {
+          "word": "15",
+          "startMs": 150920,
+          "endMs": 151580
+        },
+        {
+          "word": "artı",
+          "startMs": 151710,
+          "endMs": 152460
+        },
+        {
+          "word": "5,",
+          "startMs": 152610,
+          "endMs": 153220
+        },
+        {
+          "word": "20",
+          "startMs": 154650,
+          "endMs": 155170
+        },
+        {
+          "word": "eder.",
+          "startMs": 155210,
+          "endMs": 156000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 157090,
+      "endMs": 162860,
+      "pauseAfterMs": 1110,
+      "text": "İki oran denemelerin tamamını paylaşır.",
+      "markedText": "İki oran denemelerin tamamını paylaşır.",
+      "words": [
+        {
+          "word": "İki",
+          "startMs": 157090,
+          "endMs": 157500
+        },
+        {
+          "word": "oran",
+          "startMs": 157560,
+          "endMs": 157980
+        },
+        {
+          "word": "denemelerin",
+          "startMs": 158310,
+          "endMs": 159280
+        },
+        {
+          "word": "tamamını",
+          "startMs": 159970,
+          "endMs": 160600
+        },
+        {
+          "word": "paylaşır.",
+          "startMs": 160740,
+          "endMs": 161750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 162860,
+      "endMs": 166000,
+      "pauseAfterMs": 1110,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 162860,
+          "endMs": 163490
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 164180,
+          "endMs": 164890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 166000,
+      "endMs": 173940,
+      "pauseAfterMs": 960,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 166000,
+          "endMs": 166570
+        },
+        {
+          "word": "bir",
+          "startMs": 166570,
+          "endMs": 166900
+        },
+        {
+          "word": "kez",
+          "startMs": 167010,
+          "endMs": 167260
+        },
+        {
+          "word": "görünce",
+          "startMs": 167350,
+          "endMs": 168640
+        },
+        {
+          "word": "kolayca",
+          "startMs": 169740,
+          "endMs": 170790
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 171130,
+          "endMs": 172980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 173940,
+      "endMs": 187420,
+      "pauseAfterMs": 1240,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 173940,
+          "endMs": 174250
+        },
+        {
+          "word": "sevgili",
+          "startMs": 174450,
+          "endMs": 175460
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 175890,
+          "endMs": 177170
+        },
+        {
+          "word": "işte",
+          "startMs": 178580,
+          "endMs": 178970
+        },
+        {
+          "word": "tam",
+          "startMs": 179030,
+          "endMs": 179330
+        },
+        {
+          "word": "bu",
+          "startMs": 179330,
+          "endMs": 179720
+        },
+        {
+          "word": "noktada",
+          "startMs": 179940,
+          "endMs": 180600
+        },
+        {
+          "word": "dikkat",
+          "startMs": 180710,
+          "endMs": 181430
+        },
+        {
+          "word": "etmen",
+          "startMs": 181580,
+          "endMs": 182360
+        },
+        {
+          "word": "gereken",
+          "startMs": 183750,
+          "endMs": 184570
+        },
+        {
+          "word": "kilit",
+          "startMs": 184960,
+          "endMs": 185270
+        },
+        {
+          "word": "nokta.",
+          "startMs": 185380,
+          "endMs": 186180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 187420,
+      "endMs": 200320,
+      "pauseAfterMs": 970,
+      "text": "5 kez gelmek, olasılığın 5 olması demek değildir.",
+      "markedText": "5 kez gelmek, olasılığın 5 olması demek değildir.",
+      "words": [
+        {
+          "word": "5",
+          "startMs": 187420,
+          "endMs": 187840
+        },
+        {
+          "word": "kez",
+          "startMs": 187910,
+          "endMs": 189170
+        },
+        {
+          "word": "gelmek,",
+          "startMs": 189470,
+          "endMs": 190260
+        },
+        {
+          "word": "olasılığın",
+          "startMs": 191830,
+          "endMs": 193100
+        },
+        {
+          "word": "5",
+          "startMs": 193300,
+          "endMs": 194310
+        },
+        {
+          "word": "olması",
+          "startMs": 195610,
+          "endMs": 196850
+        },
+        {
+          "word": "demek",
+          "startMs": 197200,
+          "endMs": 197620
+        },
+        {
+          "word": "değildir.",
+          "startMs": 197700,
+          "endMs": 199350
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 187420,
+          "op": "SHOW_ANGLE",
+          "params": {
+            "kind": "tuzak-karsilastirma",
+            "names": [
+              "5 kez gelmek",
+              "olasılığın 5 olması değildir"
+            ],
+            "note": "Payda deneme sayısıdır: yirmide beş ile 5 aynı şey değildir."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 200320,
+      "endMs": 204520,
+      "pauseAfterMs": 1650,
+      "text": "Payda deneme sayısıdır.",
+      "markedText": "Payda deneme sayısıdır.",
+      "words": [
+        {
+          "word": "Payda",
+          "startMs": 200320,
+          "endMs": 200800
+        },
+        {
+          "word": "deneme",
+          "startMs": 200900,
+          "endMs": 201380
+        },
+        {
+          "word": "sayısıdır.",
+          "startMs": 201580,
+          "endMs": 202870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 204520,
+      "endMs": 210500,
+      "pauseAfterMs": 1340,
+      "text": "yirmide beş ile 5 aynı şey değildir.",
+      "markedText": "yirmide beş ile 5 aynı şey değildir.",
+      "words": [
+        {
+          "word": "yirmide",
+          "startMs": 204520,
+          "endMs": 204980
+        },
+        {
+          "word": "beş",
+          "startMs": 205190,
+          "endMs": 205400
+        },
+        {
+          "word": "ile",
+          "startMs": 205470,
+          "endMs": 206030
+        },
+        {
+          "word": "5",
+          "startMs": 206110,
+          "endMs": 206630
+        },
+        {
+          "word": "aynı",
+          "startMs": 207620,
+          "endMs": 207780
+        },
+        {
+          "word": "şey",
+          "startMs": 207910,
+          "endMs": 208030
+        },
+        {
+          "word": "değildir.",
+          "startMs": 208140,
+          "endMs": 209160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 210500,
+      "endMs": 217750,
+      "pauseAfterMs": 1040,
+      "text": "Az atışta oran bir sonraki avuçta değişebilir.",
+      "markedText": "Az atışta oran bir sonraki avuçta değişebilir.",
+      "words": [
+        {
+          "word": "Az",
+          "startMs": 210500,
+          "endMs": 210660
+        },
+        {
+          "word": "atışta",
+          "startMs": 210830,
+          "endMs": 211440
+        },
+        {
+          "word": "oran",
+          "startMs": 211530,
+          "endMs": 211910
+        },
+        {
+          "word": "bir",
+          "startMs": 212040,
+          "endMs": 212220
+        },
+        {
+          "word": "sonraki",
+          "startMs": 212280,
+          "endMs": 212920
+        },
+        {
+          "word": "avuçta",
+          "startMs": 213230,
+          "endMs": 213860
+        },
+        {
+          "word": "değişebilir.",
+          "startMs": 215340,
+          "endMs": 216710
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 210500,
+          "op": "SHOW_ANGLE",
+          "params": {
+            "kind": "az-deneme",
+            "names": [
+              "az atış",
+              "oran oynar",
+              "kesinlik yok"
+            ],
+            "note": "Gözlem, kesin gelecek diye söz vermez."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 217750,
+      "endMs": 224200,
+      "pauseAfterMs": 1320,
+      "text": "Gözlem, kesin gelecek diye söz vermez.",
+      "markedText": "Gözlem, kesin gelecek diye söz vermez.",
+      "words": [
+        {
+          "word": "Gözlem,",
+          "startMs": 217750,
+          "endMs": 218870
+        },
+        {
+          "word": "kesin",
+          "startMs": 220230,
+          "endMs": 220480
+        },
+        {
+          "word": "gelecek",
+          "startMs": 220480,
+          "endMs": 220940
+        },
+        {
+          "word": "diye",
+          "startMs": 221060,
+          "endMs": 221510
+        },
+        {
+          "word": "söz",
+          "startMs": 221620,
+          "endMs": 221760
+        },
+        {
+          "word": "vermez.",
+          "startMs": 221830,
+          "endMs": 222880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 224200,
+      "endMs": 228870,
+      "pauseAfterMs": 910,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 224200,
+          "endMs": 225030
+        },
+        {
+          "word": "Neler",
+          "startMs": 225520,
+          "endMs": 226480
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 226820,
+          "endMs": 227960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 228870,
+      "endMs": 229230,
+      "pauseAfterMs": 40,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 228870,
+          "endMs": 229190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 229230,
+      "endMs": 238770,
+      "pauseAfterMs": 1010,
+      "text": "Gözlem olasılığı, sıklığın denemeye bölümüdür.",
+      "markedText": "Gözlem olasılığı, sıklığın denemeye bölümüdür.",
+      "words": [
+        {
+          "word": "Gözlem",
+          "startMs": 229230,
+          "endMs": 230480
+        },
+        {
+          "word": "olasılığı,",
+          "startMs": 231710,
+          "endMs": 234040
+        },
+        {
+          "word": "sıklığın",
+          "startMs": 235430,
+          "endMs": 236260
+        },
+        {
+          "word": "denemeye",
+          "startMs": 236350,
+          "endMs": 236900
+        },
+        {
+          "word": "bölümüdür.",
+          "startMs": 237000,
+          "endMs": 237760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 238770,
+      "endMs": 239210,
+      "pauseAfterMs": 50,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 238770,
+          "endMs": 239160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 239210,
+      "endMs": 247430,
+      "pauseAfterMs": 1130,
+      "text": "Pay istenen sonuç, payda bütün denemedir.",
+      "markedText": "Pay istenen sonuç, payda bütün denemedir.",
+      "words": [
+        {
+          "word": "Pay",
+          "startMs": 239210,
+          "endMs": 239620
+        },
+        {
+          "word": "istenen",
+          "startMs": 240030,
+          "endMs": 240560
+        },
+        {
+          "word": "sonuç,",
+          "startMs": 240690,
+          "endMs": 241940
+        },
+        {
+          "word": "payda",
+          "startMs": 242600,
+          "endMs": 243480
+        },
+        {
+          "word": "bütün",
+          "startMs": 243580,
+          "endMs": 244610
+        },
+        {
+          "word": "denemedir.",
+          "startMs": 244880,
+          "endMs": 246300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 247430,
+      "endMs": 247740,
+      "pauseAfterMs": 50,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 247430,
+          "endMs": 247690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 247740,
+      "endMs": 255450,
+      "pauseAfterMs": 1150,
+      "text": "Az deneme oranı oynatır ve kesinlik vermez.",
+      "markedText": "Az deneme oranı oynatır ve kesinlik vermez.",
+      "words": [
+        {
+          "word": "Az",
+          "startMs": 247740,
+          "endMs": 247920
+        },
+        {
+          "word": "deneme",
+          "startMs": 247980,
+          "endMs": 248580
+        },
+        {
+          "word": "oranı",
+          "startMs": 248720,
+          "endMs": 249360
+        },
+        {
+          "word": "oynatır",
+          "startMs": 249360,
+          "endMs": 250420
+        },
+        {
+          "word": "ve",
+          "startMs": 251370,
+          "endMs": 251440
+        },
+        {
+          "word": "kesinlik",
+          "startMs": 251670,
+          "endMs": 252650
+        },
+        {
+          "word": "vermez.",
+          "startMs": 253100,
+          "endMs": 254300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 255450,
+      "endMs": 267500,
+      "pauseAfterMs": 990,
+      "text": "Gözleme dayalı olasılık, sayılan sonucun deneme sayısına oranıdır.",
+      "markedText": "Gözleme dayalı olasılık, sayılan sonucun deneme sayısına oranıdır.",
+      "words": [
+        {
+          "word": "Gözleme",
+          "startMs": 255450,
+          "endMs": 256460
+        },
+        {
+          "word": "dayalı",
+          "startMs": 256790,
+          "endMs": 257870
+        },
+        {
+          "word": "olasılık,",
+          "startMs": 258050,
+          "endMs": 259030
+        },
+        {
+          "word": "sayılan",
+          "startMs": 260210,
+          "endMs": 260710
+        },
+        {
+          "word": "sonucun",
+          "startMs": 260820,
+          "endMs": 262210
+        },
+        {
+          "word": "deneme",
+          "startMs": 263200,
+          "endMs": 263910
+        },
+        {
+          "word": "sayısına",
+          "startMs": 264230,
+          "endMs": 265250
+        },
+        {
+          "word": "oranıdır.",
+          "startMs": 265370,
+          "endMs": 266510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 267500,
+      "endMs": 275690,
+      "pauseAfterMs": 440,
+      "text": "20 atışta 5 tura için yirmide beş dersin.",
+      "markedText": "20 atışta 5 tura için yirmide beş dersin.",
+      "words": [
+        {
+          "word": "20",
+          "startMs": 267500,
+          "endMs": 268240
+        },
+        {
+          "word": "atışta",
+          "startMs": 268350,
+          "endMs": 269050
+        },
+        {
+          "word": "5",
+          "startMs": 269290,
+          "endMs": 269490
+        },
+        {
+          "word": "tura",
+          "startMs": 269590,
+          "endMs": 270440
+        },
+        {
+          "word": "için",
+          "startMs": 271430,
+          "endMs": 271670
+        },
+        {
+          "word": "yirmide",
+          "startMs": 271830,
+          "endMs": 272990
+        },
+        {
+          "word": "beş",
+          "startMs": 274090,
+          "endMs": 274290
+        },
+        {
+          "word": "dersin.",
+          "startMs": 274420,
+          "endMs": 275250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 275690,
+      "endMs": 278690,
+      "pauseAfterMs": 970,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 275690,
+          "endMs": 276800
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 276800,
+          "endMs": 277720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 278690,
+      "endMs": 281420,
+      "pauseAfterMs": 970,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 278690,
+          "endMs": 279050
+        },
+        {
+          "word": "bir",
+          "startMs": 279140,
+          "endMs": 279350
+        },
+        {
+          "word": "iş",
+          "startMs": 279560,
+          "endMs": 279620
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 279670,
+          "endMs": 280450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 281420,
+      "endMs": 285160,
+      "pauseAfterMs": 1050,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 281420,
+          "endMs": 281780
+        },
+        {
+          "word": "sıra",
+          "startMs": 281860,
+          "endMs": 282310
+        },
+        {
+          "word": "sende.",
+          "startMs": 283180,
+          "endMs": 284110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 285160,
+      "endMs": 292499,
+      "pauseAfterMs": 449,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 285160,
+          "endMs": 285900
+        },
+        {
+          "word": "bu",
+          "startMs": 286380,
+          "endMs": 286570
+        },
+        {
+          "word": "notları",
+          "startMs": 286570,
+          "endMs": 287340
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 288120,
+          "endMs": 288980
+        },
+        {
+          "word": "kendi",
+          "startMs": 289510,
+          "endMs": 290160
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 290270,
+          "endMs": 291210
+        },
+        {
+          "word": "anlat.",
+          "startMs": 291350,
+          "endMs": 292050
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

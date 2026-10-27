@@ -1,148 +1,106 @@
-# yetkin.ai — Agent / Composer bağlam kuralları
+# yetkin.ai — Ajan davranış kuralları
 
-Bu dosya, ajan taraması ve kod analizinde bağlamı şişirmemek için zorunlu dışlama kurallarını tanımlar.
-
----
-
-## CRITICAL FILE EXCLUSION RULES
-
-Aşağıdaki klasör ve dosyalar **kesinlikle taranmamalı**, aranmamalı, okunmamalı ve yanıtlara dahil edilmemelidir — kullanıcı açıkça istemedikçe.
-
-### Bağımlılıklar ve paket yöneticisi çıktıları
-- `node_modules/`
-- `apps/*/node_modules/`
-- `.pnp`, `.pnp.js`
-
-### Next.js ajan kılavuzu (tek okuma istisnası)
-- `node_modules/next/dist/docs/` okunabilir. `AGENTS.md` kod yazmadan önce bu kılavuzu şart koşar; o blok `next dev` tarafından yönetilir ve buradan silinmez.
-- İstisna yalnız o klasör içindir. `node_modules/` geri kalanı taranmaz, listelenmez ve okunmaz.
-
-### Derleme, test ve dağıtım çıktıları
-- `.next/`
-- `out/`
-- `dist/`
-- `coverage/`
-- `*.tsbuildinfo` (ör. `tsconfig.tsbuildinfo`)
-- `/generated/` (kök Prisma istemci çıktısı)
-- `apps/*/dist/`
-- `apps/*/web-build/`
-- `apps/*/.expo/`
-- `apps/*/.kotlin/`
-
-### Otomatik üretilmiş kaynak (git'te olabilir; yine de tarama dışı)
-- `apps/rail-is/src/generated/`
-
-### Geçici, önbellek ve operatör kalıntıları
-- `.tmp/`, `temp/`, `tmp/`
-- `.cache/`
-- `.eslintcache`
-- `logs/`
-- `*.log`, `npm-debug.log*`
-- `gitstatus.txt`
-- `supabase/.temp/`
-
-### IDE, araç ve dağıtım meta
-- `.cursor/`
-- `.vercel/`
-- `.vscode/`
-- `.idea/`
-- `*.swp`, `*.swo`, `*~`
-
-### Test artefaktları
-- `test-results/`
-- `playwright-report/`
-
-### Arşiv, müze ve dondurulmuş kod
-- `archived/` (pazaryeri, studio, devlabs, junior, arena, hibe, kurumsal, social vb. eski odalar). İptal edilmiş Akademi sesi (`archived/academy-audio-revoked`) depoda durmaz; ürün yolu değildir.
-- `yetkin_muze/` (nested müze; Rail git'ine girmez)
-
-### Ortam ve kimlik dosyaları (gizli)
-- `.env`, `.env.local`, `.env.*.local`
-- `.env.development`, `.env.test`, `.env.production`, `.env.museum-backup.local`
-- `*.pem`, `*.p12`, `*.pfx`, `*.p8`, `*.jks`, `*.mobileprovision`
-- `credentials.json`, `serviceAccount.json`
-
-### Git ve sistem dosyaları
-- `.git/`
-- `.DS_Store`, `Thumbs.db`, `Desktop.ini`
-
-### Toplu medya ve statik varlıklar (bağlam şişirici)
-- `public/media/` (1900+ SVG, WAV ve benzeri academy medyası)
-- `public/media/academy/diagrams/`
-- `public/media/academy/micro/`
-- `public/media/academy/audio/`
+Bu dosya **davranış** söyler: nereye dokunulmaz, hangi komut çalışır, ne taranmaz.
+Bilgi tekrarı, sayı, model kimliği, terminoloji tablosu ve anayasa maddesi burada **yazılmaz**;
+evleri aşağıdaki tablodadır.
 
 ---
 
-## Tarama ve analiz talimatları
+## 1. Taranmayacak yollar
 
-1. Kod arama, sembol çözümleme, dosya okuma ve yanıt üretiminde yukarıdaki yollar **tamamen göz ardı edilir**.
-2. Bu yolları taramak veya içeriklerini özetlemek yasaktır; yalnızca kullanıcı açıkça bir yol belirtirse ve o görev için zorunluysa istisna uygulanır. Ayrıca `node_modules/next/dist/docs/` ajan kılavuzu her zaman okunabilir.
-3. Geniş glob aramaları (`**/*`) yapılmadan önce dışlama listesi uygulanır; sonuçlar bu listeyle filtrelenir.
-4. `archived/` ve `yetkin_muze/` aktif ürün kodu değildir; canlı davranış için referans alınmaz.
-5. `public/media/` altındaki dosyalar kod değildir; medya üretim scriptleri (`scripts/render-academy-lesson-media.ts` vb.) üzerinden anlaşılır.
+Aşağıdaki yollar **kesinlikle taranmaz**, aranmaz, okunmaz ve yanıta dahil edilmez —
+kullanıcı açıkça istemedikçe.
 
----
+**Bağımlılıklar:** `node_modules/`, `apps/*/node_modules/`, `.pnp`, `.pnp.js`
+- Tek istisna: `node_modules/next/dist/docs/` — `AGENTS.md` bu kılavuzu şart koşar. Diğer her şey kapalı.
 
-## Bağımlılık kontrolü
+**Derleme / test / dağıtım çıktısı:** `.next/`, `out/`, `dist/`, `coverage/`, `*.tsbuildinfo`,
+`/generated/`, `apps/*/dist/`, `apps/*/web-build/`, `apps/*/.expo/`, `apps/*/.kotlin/`
 
-- Paket sürümleri, script'ler ve bağımlılık listesi için **yalnızca** kök `package.json` ve gerektiğinde `apps/rail-is/package.json` okunur.
-- `node_modules/` içindeki dosyalar **asla** okunmaz veya listelenmez. Tek istisna: `node_modules/next/dist/docs/` (`AGENTS.md` Next.js kılavuzu).
-- `package-lock.json` / `apps/rail-is/package-lock.json` yalnızca kilit çakışması veya sürüm tutarlılığı sorulduğunda, minimal diff için kullanılır.
+**Otomatik üretilmiş kaynak:** `apps/rail-is/src/generated/`
 
----
+**Geçici / önbellek / operatör kalıntısı:** `.tmp/`, `temp/`, `tmp/`, `.cache/`, `.eslintcache`,
+`logs/`, `*.log`, `npm-debug.log*`, `gitstatus.txt`, `supabase/.temp/`
 
-## Aktif kaynak kod odak alanları
+**IDE / araç / dağıtım meta:** `.cursor/`, `.vercel/`, `.vscode/`, `.idea/`, `*.swp`, `*.swo`, `*~`
 
-Öncelikli tarama ve düzenleme alanları:
+**Test artefaktı:** `test-results/`, `playwright-report/`
 
-| Dizin | Açıklama |
-|-------|----------|
-| `app/` | Next.js App Router — sayfalar, layout, API route'ları |
-| `components/` | React UI bileşenleri |
-| `lib/` | İş mantığı, kernel, academy, freelancer, career |
-| `prisma/` | Şema (`schema/`), migration'lar, seed |
-| `middleware/` | API auth ve ara katman |
-| `tests/` | Vitest ve Playwright testleri (aktif suite) |
-| `scripts/` | Ops, verify ve generate script'leri |
-| `supabase/migrations/` | RLS ve DB migration SQL |
-| `apps/rail-is/src/` | Dron (React Native) kaynak — `generated/` hariç |
-| `docs/` | Günlük rapor ve müfredat dokümantasyonu |
-| `.system_docs/` | Anayasa, manifesto, ops runbook |
+**Arşiv ve müze:** `archived/`, `yetkin_muze/` — canlı ürün kodu değildir, davranış için referans alınmaz.
 
-Kök yapılandırma dosyaları gerektiğinde okunabilir: `next.config.ts`, `tsconfig.json`, `eslint.config.mjs`, `vitest*.config.ts`, `playwright.config.ts`, `prisma.config.ts`, `proxy.ts`, `instrumentation.ts`, `.env.example`.
+**Ortam ve kimlik (gizli):** `.env`, `.env.local`, `.env.*.local`, `.env.development`, `.env.test`,
+`.env.production`, `.env.museum-backup.local`, `*.pem`, `*.p12`, `*.pfx`, `*.p8`, `*.jks`,
+`*.mobileprovision`, `credentials.json`, `serviceAccount.json`
 
-`public/` altında yalnızca `media/` dışındaki küçük statik dosyalar (favicon, manifest vb.) gerektiğinde okunur.
+**Git / sistem:** `.git/`, `.DS_Store`, `Thumbs.db`, `Desktop.ini`
+
+**Toplu medya:** `public/media/` (1900+ dosya) ve alt klasörleri.
+Medya koddan değil, üretim script'lerinden (`scripts/render-academy-lesson-media.ts` vb.) anlaşılır.
 
 ---
 
-## Özet ilke
+## 2. Çalışma ilkeleri
 
-Bağlamı canlı ürün koduna sıkıştır: **app → components → lib → prisma → middleware → tests → scripts**. Derleme çıktısı, bağımlılık, arşiv, müze ve toplu medya dosyalarına girme.
-
----
-
-## Dokunulmaz referans kartı
-
-AKADEMI_URETIM_ANAYASASI.md dosyası Yetkin.ai Akademi Eğitim Hazırlama Prosedürüdür. Ajan, Kilitli Model Haritasındaki güncel model isimlerini (Gemini 3.8 v.s.) kendi bilgi sınırına dayanarak değiştiremez, silemez, eski modellere düşüremez. Kod tarafı (lib/kernel/ai/model-roles.ts) bu prosedürdeki güncel modellere uymak zorundadır.
-
-Model tablosu ve beş aşama kapısı silinmez, eski modele çekilmez, refactor edilmez.
-
-SUPER_ADMIN model tercihlerini .system_docs/AKADEMI_URETIM_ANAYASASI.md üzerinden yönetir. Ajan bu dokümandaki model haritasını veya metinleri asla silemez. Bir uyumsuzluk varsa ajan dokümanı değil, kod dosyasını (lib/kernel/ai/model-roles.ts) dokümana eşitlemekle yükümlüdür.
-
-SSOT hizası: Model ve rol kimliğinin çalışma zamanı tek evi `lib/kernel/ai/model-roles.ts` dosyasıdır. `ANAYASA.md`, `MANIFESTO.md`, `PEDAGOJI.md` ve bu dosya o kodla hizalıdır; kimliği kendi içlerinde tekrarlamaz. Kilitli model haritası yukarıdaki kartta anılan SOP belgesindedir ve kod ona eşittir. Hizayı bozan taraf koddur; düzeltilen taraf kod olur, harita silinmez.
-
-Terminoloji: «Amiral Gemi + Sürü Dron» eski anlatım dilidir. Canlı mimari ad **Pragmatik Monolit + `@yetkin/kernel` + Tek Native İstemci (`apps/rail-is`)** dir. Amiral Gemi bu Next.js gövdesidir (`app/`, `lib/`). Sürü Dron `lib/dronlar/kayit.ts` satırı, bayrak ve yoldur; ayrı dağıtım değildir. Shared Kernel `@yetkin/kernel` paketidir. Tek native istemci `apps/rail-is` dir ve aynı `/api/v1` hop sicilini tüketir. Yeni kod, yorum ve belge bu adı kullanır. Karşılık tablosunun evi `.system_docs/ANAYASA.md` B1 dir; bu dosya o tabloyu ikinci kez yazmaz.
+1. Geniş glob (`**/*`) çağrılmadan önce bölüm 1 listesi uygulanır.
+2. Bağlamı canlı ürün koduna sıkıştır: **app → components → lib → prisma → middleware → tests → scripts**.
+3. Paket sürümü ve script listesi için yalnız kök `package.json` (ve gerekirse `apps/rail-is/package.json`) okunur.
+   `package-lock.json` yalnız kilit çakışması sorulduğunda, minimal diff için açılır.
+4. Kök yapılandırma dosyaları gerektiğinde okunabilir: `next.config.ts`, `tsconfig.json`,
+   `eslint.config.mjs`, `vitest*.config.ts`, `playwright.config.ts`, `prisma.config.ts`,
+   `proxy.ts`, `instrumentation.ts`, `.env.example`.
+5. `public/` altında yalnız küçük statik dosyalar (favicon, manifest) okunur.
+6. Bir sayı, fiyat, model kimliği veya liste **kodda** okunur; belgeden kopyalanmaz.
 
 ---
 
-## Akademi üretim işaretçileri
+## 3. Dokunulmaz dosyalar
 
-Sayı, model kimliği, tempo, beş katman sırası ve ses mührü bu dosyada tekrarlanmaz. Sabit saparsa ev düzeltilir; bu liste ikinci ev değildir.
+| Dosya | Kural |
+|---|---|
+| `.system_docs/ANAYASA.md` **A katmanı (A1–A5)** | Değiştirilemez. Gevşetilemez. |
+| `.system_docs/AKADEMI_URETIM_ANAYASASI.md` | Silinemez. Model haritası ve üretim aşama kapısı (0–5, altı adım) silinmez, eski modele çekilmez. Beş medya katmanı ayrı nesnedir. |
+| `lib/kernel/ai/model-roles.ts` | Çalışma zamanı kimliği. Belgeyle **uyumsuzluk varsa bu dosya belgeye eşitlenir.** |
 
-- Yetişkin mühür: `lib/academy/production-standard.ts` (`assertAcademyProductionSeal`). Yayın ve satış: `.system_docs/ANAYASA.md` B3 ve B4.
-- Junior mühür: `lib/junior/production-seal.ts` (`assertJuniorProductionSeal`). Kapı: `.system_docs/ANAYASA.md` B6.
-- Model kimliği: `lib/kernel/ai/model-roles.ts`. Harita `.system_docs/AKADEMI_URETIM_ANAYASASI.md` içindedir.
-- Ses, tempo, önizleme ve pedagoji: `lib/academy/instructors.ts`, `lib/academy/pilot-sku.ts`, `lib/kernel/catalog-ids/exam-path.ts`, `.system_docs/PEDAGOJI.md`.
-- Mimari ad: `.system_docs/ANAYASA.md` B1.
+Model kimliği, tempo, katman sırası, ses mührü ve anayasa maddeleri bu dosyada tekrarlanmaz —
+evleri tablo hâlinde `.system_docs/README.md` içindedir.
 
+---
+
+## 4. Bitirmeden önce çalıştırılacak komutlar
+
+```bash
+npx tsc --noEmit                 # tip
+npx vitest run                   # testler
+npm run verify:api-auth -- --check   # rota → auth haritası sapması
+```
+
+İçerik veya şablon değiştiyse ayrıca:
+
+```bash
+npm run verify:junior-content    # Junior senaryo/müfredat
+npm run verify:junior-sync       # akustik altyazı kapısı (ses varsa)
+tsx scripts/verify-junior-visual-ops.ts   # A5 görsel op kapısı
+npm run verify:boundaries        # kernel ↔ dikey sınırı
+```
+
+Kasa / ödeme dokunulduysa:
+
+```bash
+npm run verify:paytr-reconciliation-seals
+npm run ops:list-paytr-pending            # yalnız okuma
+npm run ops:audit-academy-ledger          # yalnız okuma
+```
+
+---
+
+## 5. Bilgi evleri (burada tekrar yazılmaz)
+
+| Bilgi | Ev |
+|---|---|
+| Anayasa A + B | `.system_docs/ANAYASA.md` |
+| Model haritası ve üretim aşamaları | `.system_docs/AKADEMI_URETIM_ANAYASASI.md` |
+| Pedagoji, yaş grubu, Junior eki | `.system_docs/PEDAGOJI.md` |
+| Vizyon ve neden | `.system_docs/MANIFESTO.md` |
+| Operasyon (db / paytr / inngest / dron) | `.system_docs/OPS_RUNBOOK.md`, `ops/` |
+| Native istemci sözleşmesi | `.system_docs/DRON_CLIENT_SPEC.md` |
+| Mimari ad ve karşılık tablosu | `.system_docs/ANAYASA.md` B1 |

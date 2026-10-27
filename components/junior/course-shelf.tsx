@@ -3,11 +3,7 @@
 import { ElectiveGrid } from "@/components/junior/elective-grid";
 import { ElectiveQuotaModal } from "@/components/junior/elective-quota-modal";
 import { VisualCourseCards } from "@/components/junior/visual-course-cards";
-import {
-  JUNIOR_ELECTIVE_DEVELOPING_LABEL,
-  JUNIOR_ELECTIVE_QUOTA,
-  JUNIOR_ELECTIVE_SOON_LABEL,
-} from "@/lib/junior/limits";
+import { formatJuniorElectiveShelfNote } from "@/lib/junior/elective-shelf-note";
 import { JUNIOR_ELECTIVE_CATEGORY, type JuniorCourseShelf } from "@/lib/junior/types";
 
 export const JUNIOR_SHELF_TABS = [
@@ -62,13 +58,19 @@ export function CourseShelf({
   tab,
   checkoutHref,
   priceLabel = null,
+  electiveNote,
   quota,
+  audit = false,
 }: {
   courses: JuniorCourseShelf[];
   electiveCourses: JuniorCourseShelf[];
   tab: JuniorShelfTab;
   checkoutHref: string;
   priceLabel?: string | null;
+  /** `juniorElectiveOpenable` sonucundan kurulmuş vitrin cümlesi. */
+  electiveNote?: string;
+  /** Super Admin veya denetçi. Seçmeli kilitli kartın incele düğmesini açar. */
+  audit?: boolean;
   quota: {
     profileId: string;
     selected: readonly string[];
@@ -81,18 +83,26 @@ export function CourseShelf({
   const visible =
     tab === "Tüm Dersler" ? core : tab === JUNIOR_ELECTIVE_CATEGORY ? [] : core.filter((course) => course.subject === tab);
   const electiveOpen = tab === JUNIOR_ELECTIVE_CATEGORY;
+  const shelfElectives = electiveCourses.filter((course) => course.slug !== "jr_06_ing");
+  const electiveCopy =
+    electiveNote ??
+    formatJuniorElectiveShelfNote(
+      shelfElectives.map((course) => ({
+        title: course.title,
+        packageOpen:
+          course.track === "elective" &&
+          course.slug !== "jr_06_ing" &&
+          course.lessons.length > 0 &&
+          course.lessons.every((lesson) => lesson.status === "fresh"),
+      })),
+    );
 
   return (
     <div className="grid gap-3">
       {electiveOpen ? (
         <div className="grid gap-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <p className="text-sm leading-6 text-[var(--muted)]">
-              {JUNIOR_ELECTIVE_SOON_LABEL} · {JUNIOR_ELECTIVE_DEVELOPING_LABEL}. Bu altı kartın sesi, sorusu ve
-              ısınması henüz yok; vitrine hazır ders olarak yazılmaz. Seçmeli İngilizce taslağı çekirdek
-              İngilizcenin yerine geçmez ve paket fiyatına girmez. Hazır olan kartlardan en fazla{" "}
-              {JUNIOR_ELECTIVE_QUOTA} ders pakete yazılır.
-            </p>
+            <p className="text-sm leading-6 text-[var(--muted)]">{electiveCopy}</p>
             {quota ? (
               <ElectiveQuotaModal
                 profileId={quota.profileId}
@@ -103,7 +113,7 @@ export function CourseShelf({
               />
             ) : null}
           </div>
-          <ElectiveGrid courses={electiveCourses} />
+          <ElectiveGrid courses={shelfElectives} audit={audit} />
         </div>
       ) : (
         <VisualCourseCards

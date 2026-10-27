@@ -4,8 +4,8 @@ import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
 /**
  * Konuya özel interaktif simülasyon kimlikleri.
- * `jr_06_mat-5` amiral gemisi: marble, balance, chicken, egg
- * `jr_06_mat-1..4` seri üretim modülleri: exponent-tower, ops-priority, distribute-area, problem-steps
+ * `jr_06_mat-1` pilotu: marble, balance. chicken ve egg bu derste açılmaz.
+ * `jr_06_mat-1..4` katalog dışıdır; kamu adresi 404 döner. Şablon kodu durur.
  */
 export type JuniorSimulationModeId =
   | "marble"
@@ -81,11 +81,12 @@ export type JuniorLessonContentSpec = {
 
 /**
  * `JuniorLessonEngine` için ders şablonu (Boilerplate) tanımı.
- * Yeni bir 6. sınıf dersini (`jr_06_mat-1..4` ve devamı) devreye almak için
- * yalnızca bu yapı üzerinden içerik, timeline ve simülasyon kayıtları tanımlanır.
+ * Canlı şablon kayıt defterine girer. `jr_06_mat-1..4` karantinadadır; kamu adresi açılmaz.
  */
 export type JuniorLessonBlueprint = {
   lessonKey: string;
+  /** Sahte kazanım kodu taşıyan taslak. Kayıt defterine girmez. */
+  quarantined?: boolean;
   title: string;
   grade: 6;
   subject: "Matematik" | "Fen Bilimleri" | "Türkçe" | "İngilizce" | "Sosyal Bilgiler";

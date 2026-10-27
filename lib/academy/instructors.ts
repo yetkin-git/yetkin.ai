@@ -4,7 +4,10 @@
  * Client-safe: sınav şıkları ve GEMINI_API_KEY yoktur.
  * Faz 3: pusula / Koray montajı `archived/lib/academy-studio/` (field-voice, studio-cast).
  * Bu dosya vitrin biyografisi ve ses mührüdür; fabrika import etmez.
- * Master Voice: Erinome — net, berrak, yakın mikrofon; teknik anlatım 0.93 tempo.
+ * Kurs sesi ders anahtarına yazılmaz. Bir eğitim kodu tek `courseMasterVoice` taşır.
+ * Vitrin anlatıcıları: OFF-101 Gözde (Callirrhoe), OFF-201 Aylin (Kore),
+ * EC-102 Kaan (Puck), SM-103 Selin (Aoede), BOT-104 Mert (Achird), PR-105 Oğuz (Fenrir).
+ * `ACADEMY_MASTER_VOICE` Erinome (Maya) stüdyo mühür sesidir. Bu altı kursun anlatıcısı değildir.
  */
 
 import { YETKIN_BRAND } from "@/lib/copy/brand";
@@ -171,8 +174,17 @@ export function isAcademyDigitalSkillsSlug(slug: string): boolean {
  */
 export const ACADEMY_INSTRUCTOR_SPEECH_RATE = 0.93 as const;
 
-/** Gemini TTS Master Voice — yüksek frekans, berrak, yakın mikrofon. */
+/**
+ * Stüdyo mühür sesi (Maya). Vitrin kursunun anlatıcısı değildir.
+ * Kurs ağzı `academyCourseMasterVoice` ve `COURSE_REGISTRY.voice` satırındadır.
+ */
 export const ACADEMY_MASTER_VOICE = "Erinome" as const satisfies AcademyInstructorTtsVoice;
+
+/**
+ * Akademi Zephyr sicil adı. Yetişkin vitrin personasıdır.
+ * Junior fen öğretmeni (`JUNIOR_SCIENCE_TEACHER_NAME`, oda `jr_06_fen`, ağız Fenrir) ile aynı kişi değildir.
+ */
+export const ACADEMY_ZEPHYR_REGISTER_NAME = "Deniz" as const;
 
 /** PEDAGOJI.md Koray: Temel %100, Orta %98, İleri %96. */
 export const ACADEMY_MODERATOR_SPEECH_RATE_ORTA = 0.98 as const;
@@ -308,7 +320,7 @@ export const ACADEMY_INSTRUCTORS_BY_VOICE: Record<AcademyInstructorTtsVoice, Aca
   Zephyr: {
     voice: "Zephyr",
     voiceFingerprint: academyVoiceFingerprint("Zephyr"),
-    name: "Deniz",
+    name: ACADEMY_ZEPHYR_REGISTER_NAME,
     title: "Kıdemli Sosyal Medya ve Görsel Fabrika Eğitmeni",
     gender: "erkek",
     tone: "pratik",
@@ -853,6 +865,37 @@ export function academyLessonNameOpenForSlug(slug: string): string {
   return academyLessonMiddleOpenForSlug(slug);
 }
 
-/** Zephyr mühürü — geriye dönük vitrin sabiti. Diğer sesler slug’dan okunur. */
+/** Zephyr sicil adı — geriye dönük vitrin sabiti. Kurs anlatıcısı slug’dan okunur. Erinome bu sabit değildir. */
 export const ACADEMY_INSTRUCTOR_NAME = ACADEMY_INSTRUCTORS_BY_VOICE.Zephyr.name;
 export const ACADEMY_INSTRUCTOR_TITLE = ACADEMY_INSTRUCTORS_BY_VOICE.Zephyr.title;
+
+const ACADEMY_VITRINE_NARRATOR_LOCK = [
+  ["01_office_ai", "Callirrhoe", "Gözde"],
+  ["01_office_ai_ileri", "Kore", "Aylin"],
+  ["02_ecommerce_ai", "Puck", "Kaan"],
+  ["03_social_media_ai", "Aoede", "Selin"],
+  ["04_chatbot_nocode", "Achird", "Mert"],
+  ["05_prompt_practice", "Fenrir", "Oğuz"],
+] as const;
+
+type VitrineLockVoice = (typeof ACADEMY_VITRINE_NARRATOR_LOCK)[number][1];
+type VitrineLockForbidsMaster = Extract<VitrineLockVoice, typeof ACADEMY_MASTER_VOICE> extends never
+  ? true
+  : "Erinome vitrin kilidine yazılamaz";
+
+function assertNarratorIsNotMasterVoice(slug: string, voice: string): void {
+  const seal: VitrineLockForbidsMaster = true;
+  void seal;
+  if (voice === ACADEMY_MASTER_VOICE) {
+    throw new Error(`Erinome vitrin anlatıcısı olamaz: ${slug}.`);
+  }
+}
+
+for (const [slug, voice, name] of ACADEMY_VITRINE_NARRATOR_LOCK) {
+  assertNarratorIsNotMasterVoice(slug, voice);
+  const instructor = academyInstructorBySlug(slug);
+  assertNarratorIsNotMasterVoice(slug, instructor.voice);
+  if (instructor.voice !== voice || instructor.name !== name) {
+    throw new Error(`Vitrin anlatıcısı sapması: ${slug}. Mühür ${voice} / ${name}.`);
+  }
+}

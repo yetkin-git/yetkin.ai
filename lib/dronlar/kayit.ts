@@ -1,5 +1,7 @@
 /**
  * Dron / dikey kayıt defteri — tek SSOT.
+ * Yeni oda bu gövdede bir satırdır: kayıt, bayrak, hop. Ayrı repo, ayrı veritabanı
+ * veya ayrı kimlik açılmaz. Mimari ad Anayasa B1’dedir: Pragmatik Monolit + `@yetkin/kernel`.
  * Yeni dron `npm run dron:new` ile buraya yazılır; eslint ve kenar buradan türer.
  * Kapalı doğar: `DronBayrakları.isKapali(id)` true iken kamu yüzeyi 410.
  */
@@ -22,7 +24,7 @@ export const INDEPENDENT_ROOMS = [
     id: "junior",
     path: "/junior",
     label: "Junior",
-    blurb: "5–8. Sınıf ortaokul",
+    blurb: "6. Sınıf Pilot",
   },
   {
     id: "young",
@@ -100,6 +102,7 @@ export const DRON_KAYIT: readonly DronKayitSatiri[] = [
       "academy-lock",
       "academy-curriculum",
       "academy-exam",
+      "academy-catalog",
     ],
     sahipEkip: "gövde",
     kapali: false,
@@ -127,12 +130,14 @@ export const DRON_KAYIT: readonly DronKayitSatiri[] = [
     id: "junior",
     path: "/junior",
     label: "Junior",
-    blurb: "5–8. Sınıf ortaokul",
+    blurb: "6. Sınıf Pilot",
     hops: [
       "junior-lesson-read",
       "junior-lesson-play",
       "junior-lesson-progress",
       "junior-lesson-practice",
+      "junior-shelves",
+      "junior-progress-read",
       "junior-profile",
       "junior-profile-create",
       "junior-profile-select",
@@ -142,6 +147,7 @@ export const DRON_KAYIT: readonly DronKayitSatiri[] = [
       "junior-tell",
       "junior-practice",
       "junior-quiz",
+      "junior-pilot-checkout",
     ],
     sahipEkip: "gövde",
     kapali: false,

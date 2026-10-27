@@ -16,6 +16,7 @@ import {
   stripJuniorCliches,
   type JuniorHintKind,
 } from "@/lib/junior/content-rules";
+import { juniorDrawCue } from "@/lib/junior/drawing-cue";
 import { juniorLessonNote } from "@/lib/junior/lesson-note";
 import { juniorPlayerTimeline } from "@/lib/junior/player-clock";
 import { chunkJuniorLocalSpeech } from "@/lib/junior/speech";
@@ -109,7 +110,10 @@ function spokenMs(mebNote: string, lifeUse: string): number {
   return juniorPlayerTimeline(note, chunks, JUNIOR_VECTOR_STEP_COUNT).durationMs;
 }
 
-/** Oynatıcı saati. Mühür, metin bandını bu süreden okur. */
+/**
+ * Karakter saati. Ölçülmüş sesi olmayan konunun yedeğidir.
+ * Mühürlü pilot bu sayıyı kapı yapmaz; süre MP3 başlığından okunur.
+ */
 export function juniorNarrationDurationMs(mebNote: string, lifeUse: string): number {
   return spokenMs(mebNote, lifeUse);
 }
@@ -168,7 +172,7 @@ function buildSteps(input: JuniorLessonScenario, kind: JuniorHintKind): JuniorPl
   const concept = input.concept.trim();
   const hintLead = juniorHintCue(kind);
   const [first, second, third] = input.recap;
-  const draw = "Hadi şimdi ekrandaki çizime birlikte bakalım!";
+  const draw = juniorDrawCue(input.key);
   const recap1 = `1. ${first.trim()}`;
   const recap2 = `2. ${second.trim()}`;
   const recap3 = `3. ${third.trim()}`;
@@ -176,7 +180,7 @@ function buildSteps(input: JuniorLessonScenario, kind: JuniorHintKind): JuniorPl
     ...spokenStepLines(input.welcome),
     ...spokenStepLines(input.life),
     ...spokenStepLines(concept),
-    draw,
+    ...(draw ? [draw] : []),
     ...spokenStepLines(input.example),
     ...spokenStepLines(hintLead),
     ...spokenStepLines(input.warning),
@@ -207,7 +211,7 @@ function buildSteps(input: JuniorLessonScenario, kind: JuniorHintKind): JuniorPl
     firstSpoken(input.life),
     cLines[0] ?? firstSpoken(concept),
     cMid,
-    draw,
+    draw ?? eLines[0] ?? firstSpoken(input.example),
     eLines[0] ?? firstSpoken(input.example),
     eSecond,
     eThird,
@@ -260,12 +264,12 @@ export function juniorLessonFromScenario(input: JuniorLessonScenario): JuniorLes
   const recapBlock = `${JUNIOR_RECAP_TITLE} ${source.recap
     .map((line, index) => `${index + 1}. ${line.trim()}`)
     .join(" ")}`;
-  const draw = "Hadi şimdi ekrandaki çizime birlikte bakalım!";
+  const draw = juniorDrawCue(source.key);
   const life = source.life.trim();
   // listenText (kaset) ile mebNote aynı cümle sırasını taşır — cue haritası birebir kalsın.
   // Üç evre: Giriş (welcome + life) → Gelişme (concept → örnek → uyarı) → Sonuç (özet + kapanış).
   const hintBlock = `${juniorHintCue(kind)} ${warning}`;
-  const base = [welcome, life, concept, draw, source.example.trim(), hintBlock, recapBlock];
+  const base = [welcome, life, concept, ...(draw ? [draw] : []), source.example.trim(), hintBlock, recapBlock];
   const steps = buildSteps({ ...source, welcome, warning }, kind);
   const extras = storySpine(source);
   const mebNote = `${[...base, ...extras].join("\n\n")}\n\n${closing}`;
@@ -283,7 +287,7 @@ export function juniorLessonFromScenario(input: JuniorLessonScenario): JuniorLes
     welcome,
     life,
     concept,
-    draw,
+    ...(draw ? [draw] : []),
     source.example.trim(),
     juniorHintCue(kind),
     warning,

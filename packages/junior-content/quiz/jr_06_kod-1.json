@@ -1,0 +1,53 @@
+{
+  "lessonKey": "jr_06_kod-1",
+  "title": "Komut sırası",
+  "tellGuides": [
+    "Bilgisayar komutları hangi yönde çalıştırır?",
+    "Bardak örneğinde ilk komut neden bardağı tutmaktır?",
+    "Sıra değişince sonuç neden değişir?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Bilgisayar komutları nasıl çalıştırır?",
+      "options": [
+        "Yukarıdan aşağı, yazıldıkları sırayla",
+        "En alttan başlayarak",
+        "Karışık seçerek",
+        "Yalnızca son satırı okuyarak"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "İlk satır önce çalışır.",
+      "explanation": "Adım 1: Komut, tek bir iştir. Adım 2: Bilgisayar işleri yukarıdan aşağı yapar. Adım 3: Son satır en son çalışır."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Suyu bardağa koymak istiyorsun. İlk komut hangisi olmalıdır?",
+      "options": [
+        "Musluğu aç",
+        "Bardağı tut",
+        "Musluğu kapat",
+        "Bardağı bırak"
+      ],
+      "correctAnswerIndex": 1,
+      "hint": "Bardak tutulmadan su dökülür.",
+      "explanation": "Adım 1: Önce bardak tutulur. Adım 2: Sonra musluk açılır. Adım 3: Musluğu ilk adım yapmak suyu yere döker."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Üç komut şöyledir: bardağı tut, musluğu aç, musluğu kapat. Hangisi doğrudur?",
+      "options": [
+        "Musluğu önce açmak suyu bardakta tutar",
+        "Ortadaki adımı atlamak sonucu bozmaz",
+        "Bu sıra suyu bardakta tutar",
+        "Komutlar ezberlenince sıra önemsiz olur"
+      ],
+      "correctAnswerIndex": 2,
+      "hint": "Sıra sonucu belirler.",
+      "explanation": "Adım 1: Birinci komut bardağı tutar. Adım 2: İkinci komut musluğu açar, üçüncü kapatır. Adım 3: Su bardakta kalır. Atlanan adım sırayı bozar."
+    }
+  ]
+}

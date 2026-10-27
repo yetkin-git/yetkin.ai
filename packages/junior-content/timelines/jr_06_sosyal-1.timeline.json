@@ -1,0 +1,3033 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_sosyal-1",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Değerlerimiz ve toplumdaki roller",
+  "grade": 6,
+  "subject": "Sosyal Bilgiler",
+  "teacher": {
+    "name": "Murat",
+    "voice": "Achird",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_sosyal-1.mp3",
+    "durationMs": 384803,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 112750
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 112750,
+      "endMs": 325630
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 325630,
+      "endMs": 384803
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4990,
+      "pauseAfterMs": 1070,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 240,
+          "endMs": 1670
+        },
+        {
+          "word": "sevgili",
+          "startMs": 2450,
+          "endMs": 2940
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 3000,
+          "endMs": 3920
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Değerlerimiz ve toplumdaki roller",
+            "subtitle": "Sosyal Bilgiler",
+            "ruleBadges": [],
+            "echoPrompt": "Aynı kişinin rollerini ve o rolleri dolduran değeri ayrı cümlelerle söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Değer, birlikte yaşamayı kolaylaştıran ilkedir. Saygı ve dürüstlük bu taraftadır."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Rol, bir yerde üstlendiğin görevdir. Aynı kişi birden fazla rol taşır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Rol değişir, değer yanında kalır. Rolün adı, değerin yerine geçmez."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4990,
+      "endMs": 7730,
+      "pauseAfterMs": 230,
+      "text": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "markedText": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4990,
+          "endMs": 5060
+        },
+        {
+          "word": "Sosyal",
+          "startMs": 5290,
+          "endMs": 5760
+        },
+        {
+          "word": "Bilgiler",
+          "startMs": 5900,
+          "endMs": 6280
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6500,
+          "endMs": 7050
+        },
+        {
+          "word": "Murat.",
+          "startMs": 7130,
+          "endMs": 7500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 7730,
+      "endMs": 16970,
+      "pauseAfterMs": 990,
+      "text": "Hiç aynı gün içinde hem kardeş hem öğrenci hem de takım arkadaşı olduğunu fark ettin mi?",
+      "markedText": "Hiç aynı gün içinde hem kardeş hem öğrenci hem de takım arkadaşı olduğunu fark ettin mi?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 7730,
+          "endMs": 7900
+        },
+        {
+          "word": "aynı",
+          "startMs": 8050,
+          "endMs": 8420
+        },
+        {
+          "word": "gün",
+          "startMs": 8570,
+          "endMs": 8720
+        },
+        {
+          "word": "içinde",
+          "startMs": 8870,
+          "endMs": 9310
+        },
+        {
+          "word": "hem",
+          "startMs": 9370,
+          "endMs": 9620
+        },
+        {
+          "word": "kardeş",
+          "startMs": 9680,
+          "endMs": 10100
+        },
+        {
+          "word": "hem",
+          "startMs": 10100,
+          "endMs": 10250
+        },
+        {
+          "word": "öğrenci",
+          "startMs": 10330,
+          "endMs": 11020
+        },
+        {
+          "word": "hem",
+          "startMs": 11890,
+          "endMs": 12200
+        },
+        {
+          "word": "de",
+          "startMs": 12390,
+          "endMs": 12560
+        },
+        {
+          "word": "takım",
+          "startMs": 12690,
+          "endMs": 12960
+        },
+        {
+          "word": "arkadaşı",
+          "startMs": 13300,
+          "endMs": 13860
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 13860,
+          "endMs": 14370
+        },
+        {
+          "word": "fark",
+          "startMs": 14520,
+          "endMs": 14900
+        },
+        {
+          "word": "ettin",
+          "startMs": 15070,
+          "endMs": 15450
+        },
+        {
+          "word": "mi?",
+          "startMs": 15450,
+          "endMs": 15980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 16970,
+      "endMs": 24900,
+      "pauseAfterMs": 1040,
+      "text": "Bunların her biri, bulunduğun yere göre üstlendiğin farklı bir roldür.",
+      "markedText": "Bunların her biri, bulunduğun yere göre üstlendiğin farklı bir roldür.",
+      "words": [
+        {
+          "word": "Bunların",
+          "startMs": 16970,
+          "endMs": 17600
+        },
+        {
+          "word": "her",
+          "startMs": 17840,
+          "endMs": 18060
+        },
+        {
+          "word": "biri,",
+          "startMs": 18240,
+          "endMs": 18360
+        },
+        {
+          "word": "bulunduğun",
+          "startMs": 18560,
+          "endMs": 19740
+        },
+        {
+          "word": "yere",
+          "startMs": 20160,
+          "endMs": 20710
+        },
+        {
+          "word": "göre",
+          "startMs": 20890,
+          "endMs": 21250
+        },
+        {
+          "word": "üstlendiğin",
+          "startMs": 21520,
+          "endMs": 22480
+        },
+        {
+          "word": "farklı",
+          "startMs": 22550,
+          "endMs": 23110
+        },
+        {
+          "word": "bir",
+          "startMs": 23110,
+          "endMs": 23300
+        },
+        {
+          "word": "roldür.",
+          "startMs": 23410,
+          "endMs": 23860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 24900,
+      "endMs": 36860,
+      "pauseAfterMs": 990,
+      "text": "Saygı, dürüstlük ve yardımlaşma ise rolün değişse bile her zaman seninle kalan değerli ilkelerdir.",
+      "markedText": "Saygı, dürüstlük ve yardımlaşma ise rolün değişse bile her zaman seninle kalan değerli ilkelerdir.",
+      "words": [
+        {
+          "word": "Saygı,",
+          "startMs": 24900,
+          "endMs": 25120
+        },
+        {
+          "word": "dürüstlük",
+          "startMs": 25210,
+          "endMs": 25620
+        },
+        {
+          "word": "ve",
+          "startMs": 25840,
+          "endMs": 25970
+        },
+        {
+          "word": "yardımlaşma",
+          "startMs": 25970,
+          "endMs": 26810
+        },
+        {
+          "word": "ise",
+          "startMs": 27240,
+          "endMs": 27380
+        },
+        {
+          "word": "rolün",
+          "startMs": 27670,
+          "endMs": 28790
+        },
+        {
+          "word": "değişse",
+          "startMs": 29720,
+          "endMs": 30020
+        },
+        {
+          "word": "bile",
+          "startMs": 30250,
+          "endMs": 30800
+        },
+        {
+          "word": "her",
+          "startMs": 30890,
+          "endMs": 31080
+        },
+        {
+          "word": "zaman",
+          "startMs": 31120,
+          "endMs": 31900
+        },
+        {
+          "word": "seninle",
+          "startMs": 32330,
+          "endMs": 33130
+        },
+        {
+          "word": "kalan",
+          "startMs": 33310,
+          "endMs": 33750
+        },
+        {
+          "word": "değerli",
+          "startMs": 33840,
+          "endMs": 34490
+        },
+        {
+          "word": "ilkelerdir.",
+          "startMs": 34650,
+          "endMs": 35870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 36860,
+      "endMs": 44630,
+      "pauseAfterMs": 800,
+      "text": "Değer ile rol arasındaki farkı adım adım keşfedeceğiz.",
+      "markedText": "Değer ile rol arasındaki farkı adım adım keşfedeceğiz.",
+      "words": [
+        {
+          "word": "Değer",
+          "startMs": 36860,
+          "endMs": 37170
+        },
+        {
+          "word": "ile",
+          "startMs": 37260,
+          "endMs": 37570
+        },
+        {
+          "word": "rol",
+          "startMs": 37750,
+          "endMs": 37830
+        },
+        {
+          "word": "arasındaki",
+          "startMs": 37980,
+          "endMs": 38810
+        },
+        {
+          "word": "farkı",
+          "startMs": 39400,
+          "endMs": 39750
+        },
+        {
+          "word": "adım",
+          "startMs": 40450,
+          "endMs": 40940
+        },
+        {
+          "word": "adım",
+          "startMs": 41040,
+          "endMs": 41500
+        },
+        {
+          "word": "keşfedeceğiz.",
+          "startMs": 41680,
+          "endMs": 43830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 44630,
+      "endMs": 54180,
+      "pauseAfterMs": 570,
+      "text": "Rolün bulunduğun ortama göre değişir; değerlerin ise toplumla paylaştığın en güçlü pusulandır.",
+      "markedText": "Rolün bulunduğun ortama göre değişir; değerlerin ise toplumla paylaştığın en güçlü pusulandır.",
+      "words": [
+        {
+          "word": "Rolün",
+          "startMs": 44630,
+          "endMs": 44910
+        },
+        {
+          "word": "bulunduğun",
+          "startMs": 45000,
+          "endMs": 45560
+        },
+        {
+          "word": "ortama",
+          "startMs": 46030,
+          "endMs": 46590
+        },
+        {
+          "word": "göre",
+          "startMs": 46720,
+          "endMs": 46960
+        },
+        {
+          "word": "değişir;",
+          "startMs": 47120,
+          "endMs": 47620
+        },
+        {
+          "word": "değerlerin",
+          "startMs": 47830,
+          "endMs": 48530
+        },
+        {
+          "word": "ise",
+          "startMs": 48640,
+          "endMs": 48950
+        },
+        {
+          "word": "toplumla",
+          "startMs": 48950,
+          "endMs": 49650
+        },
+        {
+          "word": "paylaştığın",
+          "startMs": 50520,
+          "endMs": 51220
+        },
+        {
+          "word": "en",
+          "startMs": 51340,
+          "endMs": 51510
+        },
+        {
+          "word": "güçlü",
+          "startMs": 51690,
+          "endMs": 52170
+        },
+        {
+          "word": "pusulandır.",
+          "startMs": 52300,
+          "endMs": 53610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 54180,
+      "endMs": 60610,
+      "pauseAfterMs": 740,
+      "text": "Bunu sıradan bir günün içinde rahatlıkla fark edebilirsin.",
+      "markedText": "Bunu sıradan bir günün içinde rahatlıkla fark edebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 54180,
+          "endMs": 54570
+        },
+        {
+          "word": "sıradan",
+          "startMs": 54660,
+          "endMs": 55330
+        },
+        {
+          "word": "bir",
+          "startMs": 55410,
+          "endMs": 55530
+        },
+        {
+          "word": "günün",
+          "startMs": 55820,
+          "endMs": 56120
+        },
+        {
+          "word": "içinde",
+          "startMs": 56250,
+          "endMs": 56560
+        },
+        {
+          "word": "rahatlıkla",
+          "startMs": 56690,
+          "endMs": 57690
+        },
+        {
+          "word": "fark",
+          "startMs": 58060,
+          "endMs": 58260
+        },
+        {
+          "word": "edebilirsin.",
+          "startMs": 58300,
+          "endMs": 59870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 60610,
+      "endMs": 70980,
+      "pauseAfterMs": 920,
+      "text": "Sabah kardeş, öğlen öğrenci, akşam mahallede oyun arkadaşı olursun.",
+      "markedText": "Sabah kardeş, öğlen öğrenci, akşam mahallede oyun arkadaşı olursun.",
+      "words": [
+        {
+          "word": "Sabah",
+          "startMs": 60610,
+          "endMs": 61380
+        },
+        {
+          "word": "kardeş,",
+          "startMs": 61660,
+          "endMs": 62160
+        },
+        {
+          "word": "öğlen",
+          "startMs": 62270,
+          "endMs": 62630
+        },
+        {
+          "word": "öğrenci,",
+          "startMs": 62700,
+          "endMs": 64130
+        },
+        {
+          "word": "akşam",
+          "startMs": 65050,
+          "endMs": 65840
+        },
+        {
+          "word": "mahallede",
+          "startMs": 66190,
+          "endMs": 67110
+        },
+        {
+          "word": "oyun",
+          "startMs": 67810,
+          "endMs": 68010
+        },
+        {
+          "word": "arkadaşı",
+          "startMs": 68170,
+          "endMs": 68970
+        },
+        {
+          "word": "olursun.",
+          "startMs": 68970,
+          "endMs": 70060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 70980,
+      "endMs": 79910,
+      "pauseAfterMs": 880,
+      "text": "Bu rollerin hepsi sana aittir ve topluma zenginlik katar.",
+      "markedText": "Bu rollerin hepsi sana aittir ve topluma zenginlik katar.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 70980,
+          "endMs": 71150
+        },
+        {
+          "word": "rollerin",
+          "startMs": 71230,
+          "endMs": 71900
+        },
+        {
+          "word": "hepsi",
+          "startMs": 72130,
+          "endMs": 72530
+        },
+        {
+          "word": "sana",
+          "startMs": 73090,
+          "endMs": 73480
+        },
+        {
+          "word": "aittir",
+          "startMs": 73930,
+          "endMs": 74740
+        },
+        {
+          "word": "ve",
+          "startMs": 74800,
+          "endMs": 75020
+        },
+        {
+          "word": "topluma",
+          "startMs": 75060,
+          "endMs": 76210
+        },
+        {
+          "word": "zenginlik",
+          "startMs": 76730,
+          "endMs": 77580
+        },
+        {
+          "word": "katar.",
+          "startMs": 77790,
+          "endMs": 79030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 79910,
+      "endMs": 86730,
+      "pauseAfterMs": 920,
+      "text": "Markette sıranı sabırla beklemek saygı değeridir.",
+      "markedText": "Markette sıranı sabırla beklemek saygı değeridir.",
+      "words": [
+        {
+          "word": "Markette",
+          "startMs": 79910,
+          "endMs": 80840
+        },
+        {
+          "word": "sıranı",
+          "startMs": 81020,
+          "endMs": 81970
+        },
+        {
+          "word": "sabırla",
+          "startMs": 82580,
+          "endMs": 83250
+        },
+        {
+          "word": "beklemek",
+          "startMs": 83330,
+          "endMs": 84020
+        },
+        {
+          "word": "saygı",
+          "startMs": 84070,
+          "endMs": 84510
+        },
+        {
+          "word": "değeridir.",
+          "startMs": 84810,
+          "endMs": 85810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 86730,
+      "endMs": 91140,
+      "pauseAfterMs": 610,
+      "text": "Arkadaşına doğruyu söylemen dürüstlüktür.",
+      "markedText": "Arkadaşına doğruyu söylemen dürüstlüktür.",
+      "words": [
+        {
+          "word": "Arkadaşına",
+          "startMs": 86730,
+          "endMs": 87590
+        },
+        {
+          "word": "doğruyu",
+          "startMs": 87940,
+          "endMs": 88910
+        },
+        {
+          "word": "söylemen",
+          "startMs": 89060,
+          "endMs": 89570
+        },
+        {
+          "word": "dürüstlüktür.",
+          "startMs": 89750,
+          "endMs": 90530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-1",
+      "startMs": 91140,
+      "endMs": 99310,
+      "pauseAfterMs": 1000,
+      "text": "Verilen bir görevi zamanında tamamlaman ise sorumluluktur.",
+      "markedText": "Verilen bir görevi zamanında tamamlaman ise sorumluluktur.",
+      "words": [
+        {
+          "word": "Verilen",
+          "startMs": 91140,
+          "endMs": 92030
+        },
+        {
+          "word": "bir",
+          "startMs": 92460,
+          "endMs": 92570
+        },
+        {
+          "word": "görevi",
+          "startMs": 92670,
+          "endMs": 93120
+        },
+        {
+          "word": "zamanında",
+          "startMs": 93250,
+          "endMs": 94330
+        },
+        {
+          "word": "tamamlaman",
+          "startMs": 94940,
+          "endMs": 95870
+        },
+        {
+          "word": "ise",
+          "startMs": 96270,
+          "endMs": 96520
+        },
+        {
+          "word": "sorumluluktur.",
+          "startMs": 96760,
+          "endMs": 98310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-1",
+      "startMs": 99310,
+      "endMs": 112750,
+      "pauseAfterMs": 680,
+      "text": "Roller ortamla birlikte değişir; güzel erdemlerin ise her yeni role seninle birlikte taşınır.",
+      "markedText": "Roller ortamla birlikte değişir; güzel erdemlerin ise her yeni role seninle birlikte taşınır.",
+      "words": [
+        {
+          "word": "Roller",
+          "startMs": 99310,
+          "endMs": 99730
+        },
+        {
+          "word": "ortamla",
+          "startMs": 99810,
+          "endMs": 100200
+        },
+        {
+          "word": "birlikte",
+          "startMs": 100300,
+          "endMs": 101370
+        },
+        {
+          "word": "değişir;",
+          "startMs": 101910,
+          "endMs": 102770
+        },
+        {
+          "word": "güzel",
+          "startMs": 103210,
+          "endMs": 103520
+        },
+        {
+          "word": "erdemlerin",
+          "startMs": 103840,
+          "endMs": 105130
+        },
+        {
+          "word": "ise",
+          "startMs": 105990,
+          "endMs": 106350
+        },
+        {
+          "word": "her",
+          "startMs": 106500,
+          "endMs": 106850
+        },
+        {
+          "word": "yeni",
+          "startMs": 107080,
+          "endMs": 107460
+        },
+        {
+          "word": "role",
+          "startMs": 107590,
+          "endMs": 108090
+        },
+        {
+          "word": "seninle",
+          "startMs": 108910,
+          "endMs": 109710
+        },
+        {
+          "word": "birlikte",
+          "startMs": 109970,
+          "endMs": 110580
+        },
+        {
+          "word": "taşınır.",
+          "startMs": 110710,
+          "endMs": 112070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 112750,
+      "endMs": 123500,
+      "pauseAfterMs": 530,
+      "text": "Değer, birlikte yaşamayı güzelleştiren ve kolaylaştıran temel ilkedir.",
+      "markedText": "Değer, birlikte yaşamayı güzelleştiren ve kolaylaştıran temel ilkedir.",
+      "words": [
+        {
+          "word": "Değer,",
+          "startMs": 112750,
+          "endMs": 113560
+        },
+        {
+          "word": "birlikte",
+          "startMs": 113670,
+          "endMs": 114640
+        },
+        {
+          "word": "yaşamayı",
+          "startMs": 115360,
+          "endMs": 116920
+        },
+        {
+          "word": "güzelleştiren",
+          "startMs": 117590,
+          "endMs": 118750
+        },
+        {
+          "word": "ve",
+          "startMs": 119030,
+          "endMs": 119110
+        },
+        {
+          "word": "kolaylaştıran",
+          "startMs": 119110,
+          "endMs": 119990
+        },
+        {
+          "word": "temel",
+          "startMs": 120210,
+          "endMs": 121450
+        },
+        {
+          "word": "ilkedir.",
+          "startMs": 122160,
+          "endMs": 122970
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 112750,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Değer nedir?",
+            "subtitle": "Birlikte yaşamı kolaylaştıran ilke",
+            "rows": [
+              {
+                "title": "Değer",
+                "body": "Birlikte yaşamayı güzelleştiren ve kolaylaştıran temel ilkedir.",
+                "tone": "concept"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 123500,
+      "endMs": 134900,
+      "pauseAfterMs": 460,
+      "text": "Saygı, dürüstlük, yardımlaşma ve sorumluluk bu değerli ilkeler arasında yer alır.",
+      "markedText": "Saygı, dürüstlük, yardımlaşma ve sorumluluk bu değerli ilkeler arasında yer alır.",
+      "words": [
+        {
+          "word": "Saygı,",
+          "startMs": 123500,
+          "endMs": 124170
+        },
+        {
+          "word": "dürüstlük,",
+          "startMs": 124800,
+          "endMs": 126160
+        },
+        {
+          "word": "yardımlaşma",
+          "startMs": 126840,
+          "endMs": 127950
+        },
+        {
+          "word": "ve",
+          "startMs": 127950,
+          "endMs": 128100
+        },
+        {
+          "word": "sorumluluk",
+          "startMs": 128100,
+          "endMs": 128950
+        },
+        {
+          "word": "bu",
+          "startMs": 129210,
+          "endMs": 129310
+        },
+        {
+          "word": "değerli",
+          "startMs": 129420,
+          "endMs": 130720
+        },
+        {
+          "word": "ilkeler",
+          "startMs": 131460,
+          "endMs": 132170
+        },
+        {
+          "word": "arasında",
+          "startMs": 132230,
+          "endMs": 133020
+        },
+        {
+          "word": "yer",
+          "startMs": 133020,
+          "endMs": 133380
+        },
+        {
+          "word": "alır.",
+          "startMs": 133500,
+          "endMs": 134440
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 123500,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Değerlerimiz",
+            "rows": [
+              {
+                "title": "Saygı · dürüstlük · yardımlaşma · sorumluluk",
+                "body": "Bu dört ilke her rolde seninle yürür.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 134900,
+      "endMs": 140610,
+      "pauseAfterMs": 1190,
+      "text": "Rol ise bir grupta ya da toplumda üstlendiğin görevdir.",
+      "markedText": "Rol ise bir grupta ya da toplumda üstlendiğin görevdir.",
+      "words": [
+        {
+          "word": "Rol",
+          "startMs": 134900,
+          "endMs": 135120
+        },
+        {
+          "word": "ise",
+          "startMs": 135120,
+          "endMs": 135280
+        },
+        {
+          "word": "bir",
+          "startMs": 135550,
+          "endMs": 135730
+        },
+        {
+          "word": "grupta",
+          "startMs": 135730,
+          "endMs": 136110
+        },
+        {
+          "word": "ya",
+          "startMs": 136190,
+          "endMs": 136350
+        },
+        {
+          "word": "da",
+          "startMs": 136410,
+          "endMs": 136530
+        },
+        {
+          "word": "toplumda",
+          "startMs": 136990,
+          "endMs": 137640
+        },
+        {
+          "word": "üstlendiğin",
+          "startMs": 137760,
+          "endMs": 138690
+        },
+        {
+          "word": "görevdir.",
+          "startMs": 138690,
+          "endMs": 139420
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 134900,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Rol nedir?",
+            "rows": [
+              {
+                "title": "Rol",
+                "body": "Bir grupta ya da toplumda üstlendiğin görevdir.",
+                "tone": "concept"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 140610,
+      "endMs": 154570,
+      "pauseAfterMs": 780,
+      "text": "Okulda öğrenci rolü, evde kardeş ya da evlat rolü, sahada ise takım oyuncusu rolün vardır.",
+      "markedText": "Okulda öğrenci rolü, evde kardeş ya da evlat rolü, sahada ise takım oyuncusu rolün vardır.",
+      "words": [
+        {
+          "word": "Okulda",
+          "startMs": 140610,
+          "endMs": 141670
+        },
+        {
+          "word": "öğrenci",
+          "startMs": 141840,
+          "endMs": 142610
+        },
+        {
+          "word": "rolü,",
+          "startMs": 142810,
+          "endMs": 143990
+        },
+        {
+          "word": "evde",
+          "startMs": 144880,
+          "endMs": 145250
+        },
+        {
+          "word": "kardeş",
+          "startMs": 145300,
+          "endMs": 145870
+        },
+        {
+          "word": "ya",
+          "startMs": 145980,
+          "endMs": 146280
+        },
+        {
+          "word": "da",
+          "startMs": 146280,
+          "endMs": 146450
+        },
+        {
+          "word": "evlat",
+          "startMs": 146550,
+          "endMs": 147050
+        },
+        {
+          "word": "rolü,",
+          "startMs": 147050,
+          "endMs": 147800
+        },
+        {
+          "word": "sahada",
+          "startMs": 148530,
+          "endMs": 149320
+        },
+        {
+          "word": "ise",
+          "startMs": 149440,
+          "endMs": 149650
+        },
+        {
+          "word": "takım",
+          "startMs": 150020,
+          "endMs": 150790
+        },
+        {
+          "word": "oyuncusu",
+          "startMs": 150940,
+          "endMs": 151800
+        },
+        {
+          "word": "rolün",
+          "startMs": 151800,
+          "endMs": 152320
+        },
+        {
+          "word": "vardır.",
+          "startMs": 152490,
+          "endMs": 153790
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 140610,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Bir gün, üç rol",
+            "rows": [
+              {
+                "title": "Evde kardeş",
+                "body": "Aile içinde üstlendiğin rol.",
+                "tone": "example"
+              },
+              {
+                "title": "Okulda öğrenci",
+                "body": "Sınıfta üstlendiğin rol.",
+                "tone": "example"
+              },
+              {
+                "title": "Sahada oyuncu",
+                "body": "Takımda üstlendiğin rol.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 154570,
+      "endMs": 162740,
+      "pauseAfterMs": 850,
+      "text": "Aynı insan, gün içinde birden fazla rolü başarıyla taşır.",
+      "markedText": "Aynı insan, gün içinde birden fazla rolü başarıyla taşır.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 154570,
+          "endMs": 154910
+        },
+        {
+          "word": "insan,",
+          "startMs": 154910,
+          "endMs": 155660
+        },
+        {
+          "word": "gün",
+          "startMs": 156210,
+          "endMs": 156420
+        },
+        {
+          "word": "içinde",
+          "startMs": 157220,
+          "endMs": 157830
+        },
+        {
+          "word": "birden",
+          "startMs": 158270,
+          "endMs": 158600
+        },
+        {
+          "word": "fazla",
+          "startMs": 159390,
+          "endMs": 159700
+        },
+        {
+          "word": "rolü",
+          "startMs": 159930,
+          "endMs": 160120
+        },
+        {
+          "word": "başarıyla",
+          "startMs": 160230,
+          "endMs": 161090
+        },
+        {
+          "word": "taşır.",
+          "startMs": 161270,
+          "endMs": 161890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 162740,
+      "endMs": 175240,
+      "pauseAfterMs": 640,
+      "text": "Bulunduğun yer değiştikçe rolün de değişir; fakat sen aynı değerli birey olarak kalırsın.",
+      "markedText": "Bulunduğun yer değiştikçe rolün de değişir; fakat sen aynı değerli birey olarak kalırsın.",
+      "words": [
+        {
+          "word": "Bulunduğun",
+          "startMs": 162740,
+          "endMs": 164300
+        },
+        {
+          "word": "yer",
+          "startMs": 165420,
+          "endMs": 165520
+        },
+        {
+          "word": "değiştikçe",
+          "startMs": 166340,
+          "endMs": 166600
+        },
+        {
+          "word": "rolün",
+          "startMs": 166740,
+          "endMs": 167020
+        },
+        {
+          "word": "de",
+          "startMs": 167070,
+          "endMs": 167170
+        },
+        {
+          "word": "değişir;",
+          "startMs": 167310,
+          "endMs": 168260
+        },
+        {
+          "word": "fakat",
+          "startMs": 168980,
+          "endMs": 169270
+        },
+        {
+          "word": "sen",
+          "startMs": 169400,
+          "endMs": 169560
+        },
+        {
+          "word": "aynı",
+          "startMs": 169680,
+          "endMs": 170010
+        },
+        {
+          "word": "değerli",
+          "startMs": 170090,
+          "endMs": 170890
+        },
+        {
+          "word": "birey",
+          "startMs": 171740,
+          "endMs": 171950
+        },
+        {
+          "word": "olarak",
+          "startMs": 172740,
+          "endMs": 173430
+        },
+        {
+          "word": "kalırsın.",
+          "startMs": 173650,
+          "endMs": 174600
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 162740,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Yer değişir, sen kalırsın",
+            "rows": [
+              {
+                "title": "Rol ortamla değişir",
+                "body": "Bulunduğun yer değiştikçe rolün de değişir; sen aynı kişisin.",
+                "tone": "concept"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 175240,
+      "endMs": 186090,
+      "pauseAfterMs": 720,
+      "text": "Pratik kural: Değer, üstlendiğin rolün içini güzellikle doldurur; rolün adı ise değerin kendisi değildir.",
+      "markedText": "Pratik kural: Değer, üstlendiğin rolün içini güzellikle doldurur; rolün adı ise değerin kendisi değildir.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 175240,
+          "endMs": 175660
+        },
+        {
+          "word": "kural:",
+          "startMs": 175660,
+          "endMs": 176060
+        },
+        {
+          "word": "Değer,",
+          "startMs": 176060,
+          "endMs": 176860
+        },
+        {
+          "word": "üstlendiğin",
+          "startMs": 177780,
+          "endMs": 178570
+        },
+        {
+          "word": "rolün",
+          "startMs": 178570,
+          "endMs": 178800
+        },
+        {
+          "word": "içini",
+          "startMs": 178940,
+          "endMs": 179210
+        },
+        {
+          "word": "güzellikle",
+          "startMs": 179210,
+          "endMs": 179690
+        },
+        {
+          "word": "doldurur;",
+          "startMs": 179760,
+          "endMs": 180530
+        },
+        {
+          "word": "rolün",
+          "startMs": 181190,
+          "endMs": 181450
+        },
+        {
+          "word": "adı",
+          "startMs": 181600,
+          "endMs": 181970
+        },
+        {
+          "word": "ise",
+          "startMs": 182360,
+          "endMs": 182530
+        },
+        {
+          "word": "değerin",
+          "startMs": 182530,
+          "endMs": 183080
+        },
+        {
+          "word": "kendisi",
+          "startMs": 183540,
+          "endMs": 184110
+        },
+        {
+          "word": "değildir.",
+          "startMs": 184170,
+          "endMs": 185370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 186090,
+      "endMs": 193050,
+      "pauseAfterMs": 1450,
+      "text": "Sabah evde kardeşine yardım eder, çantasını uzatırsın.",
+      "markedText": "Sabah evde kardeşine yardım eder, çantasını uzatırsın.",
+      "words": [
+        {
+          "word": "Sabah",
+          "startMs": 186090,
+          "endMs": 186400
+        },
+        {
+          "word": "evde",
+          "startMs": 186500,
+          "endMs": 186890
+        },
+        {
+          "word": "kardeşine",
+          "startMs": 187040,
+          "endMs": 187820
+        },
+        {
+          "word": "yardım",
+          "startMs": 188260,
+          "endMs": 188550
+        },
+        {
+          "word": "eder,",
+          "startMs": 188550,
+          "endMs": 188990
+        },
+        {
+          "word": "çantasını",
+          "startMs": 189550,
+          "endMs": 190330
+        },
+        {
+          "word": "uzatırsın.",
+          "startMs": 190330,
+          "endMs": 191600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 193050,
+      "endMs": 199540,
+      "pauseAfterMs": 370,
+      "text": "Burada kardeş rolündesindir ve yardımlaşma değeri seninle parlar.",
+      "markedText": "Burada kardeş rolündesindir ve yardımlaşma değeri seninle parlar.",
+      "words": [
+        {
+          "word": "Burada",
+          "startMs": 193050,
+          "endMs": 193570
+        },
+        {
+          "word": "kardeş",
+          "startMs": 193610,
+          "endMs": 193980
+        },
+        {
+          "word": "rolündesindir",
+          "startMs": 193980,
+          "endMs": 195020
+        },
+        {
+          "word": "ve",
+          "startMs": 195020,
+          "endMs": 195060
+        },
+        {
+          "word": "yardımlaşma",
+          "startMs": 195170,
+          "endMs": 196020
+        },
+        {
+          "word": "değeri",
+          "startMs": 197260,
+          "endMs": 197640
+        },
+        {
+          "word": "seninle",
+          "startMs": 197810,
+          "endMs": 198510
+        },
+        {
+          "word": "parlar.",
+          "startMs": 198610,
+          "endMs": 199170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 199540,
+      "endMs": 207100,
+      "pauseAfterMs": 1070,
+      "text": "Okula vardığında dersi dikkatle dinler, söz alarak konuşursun.",
+      "markedText": "Okula vardığında dersi dikkatle dinler, söz alarak konuşursun.",
+      "words": [
+        {
+          "word": "Okula",
+          "startMs": 199540,
+          "endMs": 199930
+        },
+        {
+          "word": "vardığında",
+          "startMs": 199990,
+          "endMs": 200680
+        },
+        {
+          "word": "dersi",
+          "startMs": 200820,
+          "endMs": 201250
+        },
+        {
+          "word": "dikkatle",
+          "startMs": 201250,
+          "endMs": 201980
+        },
+        {
+          "word": "dinler,",
+          "startMs": 201980,
+          "endMs": 202730
+        },
+        {
+          "word": "söz",
+          "startMs": 204050,
+          "endMs": 204320
+        },
+        {
+          "word": "alarak",
+          "startMs": 204430,
+          "endMs": 204770
+        },
+        {
+          "word": "konuşursun.",
+          "startMs": 205050,
+          "endMs": 206030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 207100,
+      "endMs": 212710,
+      "pauseAfterMs": 370,
+      "text": "Burada öğrenci rolündesindir ve saygı değeri davranışına yansır.",
+      "markedText": "Burada öğrenci rolündesindir ve saygı değeri davranışına yansır.",
+      "words": [
+        {
+          "word": "Burada",
+          "startMs": 207100,
+          "endMs": 207500
+        },
+        {
+          "word": "öğrenci",
+          "startMs": 207910,
+          "endMs": 208530
+        },
+        {
+          "word": "rolündesindir",
+          "startMs": 208530,
+          "endMs": 209230
+        },
+        {
+          "word": "ve",
+          "startMs": 209330,
+          "endMs": 209400
+        },
+        {
+          "word": "saygı",
+          "startMs": 209400,
+          "endMs": 209710
+        },
+        {
+          "word": "değeri",
+          "startMs": 209790,
+          "endMs": 210150
+        },
+        {
+          "word": "davranışına",
+          "startMs": 210250,
+          "endMs": 211270
+        },
+        {
+          "word": "yansır.",
+          "startMs": 211890,
+          "endMs": 212340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 212710,
+      "endMs": 224990,
+      "pauseAfterMs": 1300,
+      "text": "Okul bahçesinde arkadaşına pas verirsin; bu kez oyuncu rolündesindir ve sorumluluk duygusu öne çıkar.",
+      "markedText": "Okul bahçesinde arkadaşına pas verirsin; bu kez oyuncu rolündesindir ve sorumluluk duygusu öne çıkar.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 212710,
+          "endMs": 213220
+        },
+        {
+          "word": "bahçesinde",
+          "startMs": 213570,
+          "endMs": 214420
+        },
+        {
+          "word": "arkadaşına",
+          "startMs": 214420,
+          "endMs": 215160
+        },
+        {
+          "word": "pas",
+          "startMs": 215390,
+          "endMs": 215740
+        },
+        {
+          "word": "verirsin;",
+          "startMs": 215740,
+          "endMs": 216890
+        },
+        {
+          "word": "bu",
+          "startMs": 217920,
+          "endMs": 218040
+        },
+        {
+          "word": "kez",
+          "startMs": 218040,
+          "endMs": 218160
+        },
+        {
+          "word": "oyuncu",
+          "startMs": 218330,
+          "endMs": 218860
+        },
+        {
+          "word": "rolündesindir",
+          "startMs": 219000,
+          "endMs": 219910
+        },
+        {
+          "word": "ve",
+          "startMs": 220050,
+          "endMs": 220140
+        },
+        {
+          "word": "sorumluluk",
+          "startMs": 220140,
+          "endMs": 220980
+        },
+        {
+          "word": "duygusu",
+          "startMs": 221860,
+          "endMs": 222100
+        },
+        {
+          "word": "öne",
+          "startMs": 222300,
+          "endMs": 222500
+        },
+        {
+          "word": "çıkar.",
+          "startMs": 222600,
+          "endMs": 223690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 224990,
+      "endMs": 228500,
+      "pauseAfterMs": 750,
+      "text": "Üç farklı yer, üç farklı rol gördün.",
+      "markedText": "Üç farklı yer, üç farklı rol gördün.",
+      "words": [
+        {
+          "word": "Üç",
+          "startMs": 224990,
+          "endMs": 225100
+        },
+        {
+          "word": "farklı",
+          "startMs": 225100,
+          "endMs": 225470
+        },
+        {
+          "word": "yer,",
+          "startMs": 225550,
+          "endMs": 225770
+        },
+        {
+          "word": "üç",
+          "startMs": 225880,
+          "endMs": 225990
+        },
+        {
+          "word": "farklı",
+          "startMs": 225990,
+          "endMs": 226570
+        },
+        {
+          "word": "rol",
+          "startMs": 226890,
+          "endMs": 227040
+        },
+        {
+          "word": "gördün.",
+          "startMs": 227040,
+          "endMs": 227750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 228500,
+      "endMs": 232990,
+      "pauseAfterMs": 1190,
+      "text": "Değerlerin ise her adımda seninle birlikte yolculuk etti.",
+      "markedText": "Değerlerin ise her adımda seninle birlikte yolculuk etti.",
+      "words": [
+        {
+          "word": "Değerlerin",
+          "startMs": 228500,
+          "endMs": 229140
+        },
+        {
+          "word": "ise",
+          "startMs": 229230,
+          "endMs": 229340
+        },
+        {
+          "word": "her",
+          "startMs": 229820,
+          "endMs": 229920
+        },
+        {
+          "word": "adımda",
+          "startMs": 230050,
+          "endMs": 230200
+        },
+        {
+          "word": "seninle",
+          "startMs": 230200,
+          "endMs": 230610
+        },
+        {
+          "word": "birlikte",
+          "startMs": 230720,
+          "endMs": 231020
+        },
+        {
+          "word": "yolculuk",
+          "startMs": 231020,
+          "endMs": 231390
+        },
+        {
+          "word": "etti.",
+          "startMs": 231390,
+          "endMs": 231800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 232990,
+      "endMs": 242320,
+      "pauseAfterMs": 1250,
+      "text": "Bir ortamda doğruyu söylemekten vazgeçmemek, dürüstlük değerinin bir parçasıdır.",
+      "markedText": "Bir ortamda doğruyu söylemekten vazgeçmemek, dürüstlük değerinin bir parçasıdır.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 232990,
+          "endMs": 233320
+        },
+        {
+          "word": "ortamda",
+          "startMs": 233320,
+          "endMs": 233950
+        },
+        {
+          "word": "doğruyu",
+          "startMs": 234290,
+          "endMs": 234700
+        },
+        {
+          "word": "söylemekten",
+          "startMs": 234830,
+          "endMs": 235530
+        },
+        {
+          "word": "vazgeçmemek,",
+          "startMs": 235780,
+          "endMs": 236760
+        },
+        {
+          "word": "dürüstlük",
+          "startMs": 237440,
+          "endMs": 237760
+        },
+        {
+          "word": "değerinin",
+          "startMs": 237890,
+          "endMs": 238640
+        },
+        {
+          "word": "bir",
+          "startMs": 239240,
+          "endMs": 239370
+        },
+        {
+          "word": "parçasıdır.",
+          "startMs": 239500,
+          "endMs": 241070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 242320,
+      "endMs": 252490,
+      "pauseAfterMs": 910,
+      "text": "Rolün süresi bitse de taşıdığın erdemler daima seninle kalır.",
+      "markedText": "Rolün süresi bitse de taşıdığın erdemler daima seninle kalır.",
+      "words": [
+        {
+          "word": "Rolün",
+          "startMs": 242320,
+          "endMs": 242680
+        },
+        {
+          "word": "süresi",
+          "startMs": 242840,
+          "endMs": 243520
+        },
+        {
+          "word": "bitse",
+          "startMs": 244410,
+          "endMs": 244720
+        },
+        {
+          "word": "de",
+          "startMs": 244970,
+          "endMs": 245310
+        },
+        {
+          "word": "taşıdığın",
+          "startMs": 245310,
+          "endMs": 246530
+        },
+        {
+          "word": "erdemler",
+          "startMs": 247380,
+          "endMs": 248230
+        },
+        {
+          "word": "daima",
+          "startMs": 248270,
+          "endMs": 249010
+        },
+        {
+          "word": "seninle",
+          "startMs": 249640,
+          "endMs": 250610
+        },
+        {
+          "word": "kalır.",
+          "startMs": 250610,
+          "endMs": 251580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 252490,
+      "endMs": 254520,
+      "pauseAfterMs": 740,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 252490,
+          "endMs": 252990
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 253160,
+          "endMs": 253780
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 252490,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Tuzaklara Düşme!",
+            "rows": [
+              {
+                "title": "Rolü kişiliğin tamamı sanma",
+                "body": "Bir insanın rolü onun bütün kişiliği değildir.",
+                "tone": "trap"
+              },
+              {
+                "title": "Rolün adını değerle karıştırma",
+                "body": "Saygı bir rol değil, her rolü güzelleştiren değerdir.",
+                "tone": "trap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 254520,
+      "endMs": 257370,
+      "pauseAfterMs": 810,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 254520,
+          "endMs": 255270
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 255580,
+          "endMs": 256560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 257370,
+      "endMs": 260010,
+      "pauseAfterMs": 690,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 257370,
+          "endMs": 257570
+        },
+        {
+          "word": "noktayı",
+          "startMs": 257570,
+          "endMs": 257980
+        },
+        {
+          "word": "sen",
+          "startMs": 258130,
+          "endMs": 258360
+        },
+        {
+          "word": "de",
+          "startMs": 258360,
+          "endMs": 258500
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 258500,
+          "endMs": 259320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-2",
+      "startMs": 260010,
+      "endMs": 269080,
+      "pauseAfterMs": 310,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 260010,
+          "endMs": 260240
+        },
+        {
+          "word": "sevgili",
+          "startMs": 260240,
+          "endMs": 260760
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 260840,
+          "endMs": 261910
+        },
+        {
+          "word": "işte",
+          "startMs": 262560,
+          "endMs": 262820
+        },
+        {
+          "word": "tam",
+          "startMs": 262880,
+          "endMs": 263100
+        },
+        {
+          "word": "bu",
+          "startMs": 263180,
+          "endMs": 263880
+        },
+        {
+          "word": "noktada",
+          "startMs": 264750,
+          "endMs": 265380
+        },
+        {
+          "word": "dikkat",
+          "startMs": 265380,
+          "endMs": 265840
+        },
+        {
+          "word": "etmen",
+          "startMs": 265940,
+          "endMs": 266320
+        },
+        {
+          "word": "gereken",
+          "startMs": 266570,
+          "endMs": 267340
+        },
+        {
+          "word": "kilit",
+          "startMs": 267890,
+          "endMs": 268130
+        },
+        {
+          "word": "nokta.",
+          "startMs": 268280,
+          "endMs": 268770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-2",
+      "startMs": 269080,
+      "endMs": 280820,
+      "pauseAfterMs": 1110,
+      "text": "Bir insanın üstlendiği rolü onun bütün kişiliği sanmak yanıltıcı olabilir.",
+      "markedText": "Bir insanın üstlendiği rolü onun bütün kişiliği sanmak yanıltıcı olabilir.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 269080,
+          "endMs": 269280
+        },
+        {
+          "word": "insanın",
+          "startMs": 269280,
+          "endMs": 270030
+        },
+        {
+          "word": "üstlendiği",
+          "startMs": 270320,
+          "endMs": 271150
+        },
+        {
+          "word": "rolü",
+          "startMs": 271150,
+          "endMs": 272080
+        },
+        {
+          "word": "onun",
+          "startMs": 273240,
+          "endMs": 273830
+        },
+        {
+          "word": "bütün",
+          "startMs": 274140,
+          "endMs": 274500
+        },
+        {
+          "word": "kişiliği",
+          "startMs": 274710,
+          "endMs": 275130
+        },
+        {
+          "word": "sanmak",
+          "startMs": 275300,
+          "endMs": 276310
+        },
+        {
+          "word": "yanıltıcı",
+          "startMs": 277750,
+          "endMs": 278520
+        },
+        {
+          "word": "olabilir.",
+          "startMs": 279100,
+          "endMs": 279710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-2",
+      "startMs": 280820,
+      "endMs": 296010,
+      "pauseAfterMs": 1330,
+      "text": "Okulda öğrenci rolün tamamlandığında sen yok olmazsın; evde sevgi dolu bir kardeş, sahada gayretli bir sporcu olmaya devam edersin.",
+      "markedText": "Okulda öğrenci rolün tamamlandığında sen yok olmazsın; evde sevgi dolu bir kardeş, sahada gayretli bir sporcu olmaya devam edersin.",
+      "words": [
+        {
+          "word": "Okulda",
+          "startMs": 280820,
+          "endMs": 281080
+        },
+        {
+          "word": "öğrenci",
+          "startMs": 281080,
+          "endMs": 281670
+        },
+        {
+          "word": "rolün",
+          "startMs": 282370,
+          "endMs": 282590
+        },
+        {
+          "word": "tamamlandığında",
+          "startMs": 282890,
+          "endMs": 283910
+        },
+        {
+          "word": "sen",
+          "startMs": 284490,
+          "endMs": 284850
+        },
+        {
+          "word": "yok",
+          "startMs": 284930,
+          "endMs": 285100
+        },
+        {
+          "word": "olmazsın;",
+          "startMs": 285210,
+          "endMs": 286380
+        },
+        {
+          "word": "evde",
+          "startMs": 287070,
+          "endMs": 287370
+        },
+        {
+          "word": "sevgi",
+          "startMs": 287370,
+          "endMs": 287670
+        },
+        {
+          "word": "dolu",
+          "startMs": 288230,
+          "endMs": 288380
+        },
+        {
+          "word": "bir",
+          "startMs": 288750,
+          "endMs": 289070
+        },
+        {
+          "word": "kardeş,",
+          "startMs": 289070,
+          "endMs": 289410
+        },
+        {
+          "word": "sahada",
+          "startMs": 290180,
+          "endMs": 290580
+        },
+        {
+          "word": "gayretli",
+          "startMs": 290670,
+          "endMs": 291240
+        },
+        {
+          "word": "bir",
+          "startMs": 291240,
+          "endMs": 291440
+        },
+        {
+          "word": "sporcu",
+          "startMs": 291660,
+          "endMs": 292280
+        },
+        {
+          "word": "olmaya",
+          "startMs": 292330,
+          "endMs": 293150
+        },
+        {
+          "word": "devam",
+          "startMs": 293280,
+          "endMs": 293600
+        },
+        {
+          "word": "edersin.",
+          "startMs": 293690,
+          "endMs": 294680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-2",
+      "startMs": 296010,
+      "endMs": 302430,
+      "pauseAfterMs": 420,
+      "text": "Erdemli değerlerin bu geçişlerde daima seninle kalır.",
+      "markedText": "Erdemli değerlerin bu geçişlerde daima seninle kalır.",
+      "words": [
+        {
+          "word": "Erdemli",
+          "startMs": 296010,
+          "endMs": 296460
+        },
+        {
+          "word": "değerlerin",
+          "startMs": 296530,
+          "endMs": 297410
+        },
+        {
+          "word": "bu",
+          "startMs": 297940,
+          "endMs": 298040
+        },
+        {
+          "word": "geçişlerde",
+          "startMs": 298580,
+          "endMs": 299040
+        },
+        {
+          "word": "daima",
+          "startMs": 299130,
+          "endMs": 299430
+        },
+        {
+          "word": "seninle",
+          "startMs": 300260,
+          "endMs": 301170
+        },
+        {
+          "word": "kalır.",
+          "startMs": 301700,
+          "endMs": 302010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-2",
+      "startMs": 302430,
+      "endMs": 310870,
+      "pauseAfterMs": 620,
+      "text": "Rolün adını değer kavramıyla karıştırmamaya özen göster.",
+      "markedText": "Rolün adını değer kavramıyla karıştırmamaya özen göster.",
+      "words": [
+        {
+          "word": "Rolün",
+          "startMs": 302430,
+          "endMs": 302900
+        },
+        {
+          "word": "adını",
+          "startMs": 302990,
+          "endMs": 303630
+        },
+        {
+          "word": "değer",
+          "startMs": 303760,
+          "endMs": 304370
+        },
+        {
+          "word": "kavramıyla",
+          "startMs": 305040,
+          "endMs": 306580
+        },
+        {
+          "word": "karıştırmamaya",
+          "startMs": 307400,
+          "endMs": 308580
+        },
+        {
+          "word": "özen",
+          "startMs": 308800,
+          "endMs": 309330
+        },
+        {
+          "word": "göster.",
+          "startMs": 309450,
+          "endMs": 310250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-2",
+      "startMs": 310870,
+      "endMs": 325630,
+      "pauseAfterMs": 710,
+      "text": "Saygının bir rol değil, her rolü güzelleştiren yüce bir değer olduğunu güvenle aklında tutabilirsin.",
+      "markedText": "Saygının bir rol değil, her rolü güzelleştiren yüce bir değer olduğunu güvenle aklında tutabilirsin.",
+      "words": [
+        {
+          "word": "Saygının",
+          "startMs": 310870,
+          "endMs": 311680
+        },
+        {
+          "word": "bir",
+          "startMs": 311780,
+          "endMs": 312510
+        },
+        {
+          "word": "rol",
+          "startMs": 313180,
+          "endMs": 313610
+        },
+        {
+          "word": "değil,",
+          "startMs": 313610,
+          "endMs": 314190
+        },
+        {
+          "word": "her",
+          "startMs": 315010,
+          "endMs": 315230
+        },
+        {
+          "word": "rolü",
+          "startMs": 315280,
+          "endMs": 315690
+        },
+        {
+          "word": "güzelleştiren",
+          "startMs": 316110,
+          "endMs": 317060
+        },
+        {
+          "word": "yüce",
+          "startMs": 317720,
+          "endMs": 317990
+        },
+        {
+          "word": "bir",
+          "startMs": 318090,
+          "endMs": 318370
+        },
+        {
+          "word": "değer",
+          "startMs": 318540,
+          "endMs": 319570
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 320520,
+          "endMs": 321380
+        },
+        {
+          "word": "güvenle",
+          "startMs": 322210,
+          "endMs": 322900
+        },
+        {
+          "word": "aklında",
+          "startMs": 322960,
+          "endMs": 323800
+        },
+        {
+          "word": "tutabilirsin.",
+          "startMs": 324050,
+          "endMs": 324920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 325630,
+      "endMs": 327560,
+      "pauseAfterMs": 610,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 325630,
+          "endMs": 325870
+        },
+        {
+          "word": "Neler",
+          "startMs": 325970,
+          "endMs": 326260
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 326350,
+          "endMs": 326950
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 325630,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Bugün Neler Öğrendik?",
+            "subtitle": "Üç nokta",
+            "rows": [
+              {
+                "title": "1. Değer bir ilkedir",
+                "body": "Birlikte yaşamayı kolaylaştırır.",
+                "tone": "recap"
+              },
+              {
+                "title": "2. Rol bir görevdir",
+                "body": "Aynı kişi birden fazla rol taşır.",
+                "tone": "recap"
+              },
+              {
+                "title": "3. Rol değişir, değer kalır",
+                "body": "Rolün adı değerin yerine geçmez.",
+                "tone": "recap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 327560,
+      "endMs": 327920,
+      "pauseAfterMs": 50,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 327560,
+          "endMs": 327870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 327920,
+      "endMs": 334840,
+      "pauseAfterMs": 1080,
+      "text": "Değer, birlikte yaşamayı kolaylaştıran ilkedir.",
+      "markedText": "Değer, birlikte yaşamayı kolaylaştıran ilkedir.",
+      "words": [
+        {
+          "word": "Değer,",
+          "startMs": 327920,
+          "endMs": 328520
+        },
+        {
+          "word": "birlikte",
+          "startMs": 328660,
+          "endMs": 329310
+        },
+        {
+          "word": "yaşamayı",
+          "startMs": 330210,
+          "endMs": 331170
+        },
+        {
+          "word": "kolaylaştıran",
+          "startMs": 331420,
+          "endMs": 332580
+        },
+        {
+          "word": "ilkedir.",
+          "startMs": 332950,
+          "endMs": 333760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 334840,
+      "endMs": 339430,
+      "pauseAfterMs": 740,
+      "text": "Saygı ve dürüstlük bu taraftadır.",
+      "markedText": "Saygı ve dürüstlük bu taraftadır.",
+      "words": [
+        {
+          "word": "Saygı",
+          "startMs": 334840,
+          "endMs": 335090
+        },
+        {
+          "word": "ve",
+          "startMs": 335090,
+          "endMs": 335430
+        },
+        {
+          "word": "dürüstlük",
+          "startMs": 336620,
+          "endMs": 337220
+        },
+        {
+          "word": "bu",
+          "startMs": 337680,
+          "endMs": 337740
+        },
+        {
+          "word": "taraftadır.",
+          "startMs": 337860,
+          "endMs": 338690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 339430,
+      "endMs": 340110,
+      "pauseAfterMs": 320,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 339430,
+          "endMs": 339790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 340110,
+      "endMs": 345550,
+      "pauseAfterMs": 200,
+      "text": "Rol, bir yerde üstlendiğin görevdir.",
+      "markedText": "Rol, bir yerde üstlendiğin görevdir.",
+      "words": [
+        {
+          "word": "Rol,",
+          "startMs": 340110,
+          "endMs": 340320
+        },
+        {
+          "word": "bir",
+          "startMs": 340410,
+          "endMs": 340560
+        },
+        {
+          "word": "yerde",
+          "startMs": 340610,
+          "endMs": 341260
+        },
+        {
+          "word": "üstlendiğin",
+          "startMs": 341460,
+          "endMs": 343320
+        },
+        {
+          "word": "görevdir.",
+          "startMs": 344140,
+          "endMs": 345350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 345550,
+      "endMs": 350680,
+      "pauseAfterMs": 620,
+      "text": "Aynı kişi birden fazla rol taşır.",
+      "markedText": "Aynı kişi birden fazla rol taşır.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 345550,
+          "endMs": 346320
+        },
+        {
+          "word": "kişi",
+          "startMs": 346450,
+          "endMs": 346840
+        },
+        {
+          "word": "birden",
+          "startMs": 347120,
+          "endMs": 347960
+        },
+        {
+          "word": "fazla",
+          "startMs": 348140,
+          "endMs": 348570
+        },
+        {
+          "word": "rol",
+          "startMs": 349290,
+          "endMs": 349550
+        },
+        {
+          "word": "taşır.",
+          "startMs": 349600,
+          "endMs": 350060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 350680,
+      "endMs": 351200,
+      "pauseAfterMs": 310,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 350680,
+          "endMs": 350890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-3",
+      "startMs": 351200,
+      "endMs": 355470,
+      "pauseAfterMs": 910,
+      "text": "Rol değişir, değer yanında kalır.",
+      "markedText": "Rol değişir, değer yanında kalır.",
+      "words": [
+        {
+          "word": "Rol",
+          "startMs": 351200,
+          "endMs": 351590
+        },
+        {
+          "word": "değişir,",
+          "startMs": 351660,
+          "endMs": 352170
+        },
+        {
+          "word": "değer",
+          "startMs": 353130,
+          "endMs": 353420
+        },
+        {
+          "word": "yanında",
+          "startMs": 353480,
+          "endMs": 353970
+        },
+        {
+          "word": "kalır.",
+          "startMs": 354070,
+          "endMs": 354560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-3",
+      "startMs": 355470,
+      "endMs": 358770,
+      "pauseAfterMs": 820,
+      "text": "Rolün adı, değerin yerine geçmez.",
+      "markedText": "Rolün adı, değerin yerine geçmez.",
+      "words": [
+        {
+          "word": "Rolün",
+          "startMs": 355470,
+          "endMs": 355630
+        },
+        {
+          "word": "adı,",
+          "startMs": 355790,
+          "endMs": 355960
+        },
+        {
+          "word": "değerin",
+          "startMs": 355960,
+          "endMs": 356480
+        },
+        {
+          "word": "yerine",
+          "startMs": 356590,
+          "endMs": 356910
+        },
+        {
+          "word": "geçmez.",
+          "startMs": 357130,
+          "endMs": 357950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-51",
+      "chapterId": "ch-3",
+      "startMs": 358770,
+      "endMs": 360980,
+      "pauseAfterMs": 330,
+      "text": "Değer bir ilkedir.",
+      "markedText": "Değer bir ilkedir.",
+      "words": [
+        {
+          "word": "Değer",
+          "startMs": 358770,
+          "endMs": 359320
+        },
+        {
+          "word": "bir",
+          "startMs": 359320,
+          "endMs": 359600
+        },
+        {
+          "word": "ilkedir.",
+          "startMs": 359800,
+          "endMs": 360650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-52",
+      "chapterId": "ch-3",
+      "startMs": 360980,
+      "endMs": 363350,
+      "pauseAfterMs": 730,
+      "text": "Rol, bir yerdeki görevdir.",
+      "markedText": "Rol, bir yerdeki görevdir.",
+      "words": [
+        {
+          "word": "Rol,",
+          "startMs": 360980,
+          "endMs": 361060
+        },
+        {
+          "word": "bir",
+          "startMs": 361170,
+          "endMs": 361330
+        },
+        {
+          "word": "yerdeki",
+          "startMs": 361330,
+          "endMs": 362000
+        },
+        {
+          "word": "görevdir.",
+          "startMs": 362060,
+          "endMs": 362620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-53",
+      "chapterId": "ch-3",
+      "startMs": 363350,
+      "endMs": 372710,
+      "pauseAfterMs": 780,
+      "text": "Aynı kişinin rollerini ve o rolleri dolduran değeri ayrı cümlelerle söylersin.",
+      "markedText": "Aynı kişinin rollerini ve o rolleri dolduran değeri ayrı cümlelerle söylersin.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 363350,
+          "endMs": 363760
+        },
+        {
+          "word": "kişinin",
+          "startMs": 364120,
+          "endMs": 364610
+        },
+        {
+          "word": "rollerini",
+          "startMs": 364730,
+          "endMs": 366070
+        },
+        {
+          "word": "ve",
+          "startMs": 366700,
+          "endMs": 366910
+        },
+        {
+          "word": "o",
+          "startMs": 367220,
+          "endMs": 367380
+        },
+        {
+          "word": "rolleri",
+          "startMs": 367380,
+          "endMs": 368340
+        },
+        {
+          "word": "dolduran",
+          "startMs": 369060,
+          "endMs": 369660
+        },
+        {
+          "word": "değeri",
+          "startMs": 369740,
+          "endMs": 370040
+        },
+        {
+          "word": "ayrı",
+          "startMs": 370470,
+          "endMs": 370710
+        },
+        {
+          "word": "cümlelerle",
+          "startMs": 370920,
+          "endMs": 371330
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 371380,
+          "endMs": 371930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-54",
+      "chapterId": "ch-3",
+      "startMs": 372710,
+      "endMs": 374820,
+      "pauseAfterMs": 680,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 372710,
+          "endMs": 373310
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 373370,
+          "endMs": 374140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-55",
+      "chapterId": "ch-3",
+      "startMs": 374820,
+      "endMs": 379430,
+      "pauseAfterMs": 740,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 374820,
+          "endMs": 375790
+        },
+        {
+          "word": "bir",
+          "startMs": 375970,
+          "endMs": 376490
+        },
+        {
+          "word": "iş",
+          "startMs": 376640,
+          "endMs": 376790
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 376890,
+          "endMs": 378690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-56",
+      "chapterId": "ch-3",
+      "startMs": 379430,
+      "endMs": 381980,
+      "pauseAfterMs": 600,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 379430,
+          "endMs": 380000
+        },
+        {
+          "word": "sıra",
+          "startMs": 380730,
+          "endMs": 381130
+        },
+        {
+          "word": "sende.",
+          "startMs": 381130,
+          "endMs": 381380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-57",
+      "chapterId": "ch-3",
+      "startMs": 381980,
+      "endMs": 384803,
+      "pauseAfterMs": 403,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 381980,
+          "endMs": 382440
+        },
+        {
+          "word": "bu",
+          "startMs": 382440,
+          "endMs": 382530
+        },
+        {
+          "word": "notları",
+          "startMs": 382640,
+          "endMs": 382890
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 382990,
+          "endMs": 383440
+        },
+        {
+          "word": "kendi",
+          "startMs": 383510,
+          "endMs": 383680
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 383740,
+          "endMs": 384160
+        },
+        {
+          "word": "anlat.",
+          "startMs": 384160,
+          "endMs": 384400
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

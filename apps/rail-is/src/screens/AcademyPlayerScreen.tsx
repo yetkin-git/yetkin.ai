@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import type { DronAcademyCatalogItem } from "../ui/academy-catalog";
+import { DRON_PRICE_PENDING_LABEL, type DronAcademyCatalogItem } from "../ui/academy-catalog";
 import { RAIL_IS_COPY } from "../ui/copy";
 import type { AcademyPlayerView } from "../ui/present-academy-player";
 import type { AcademyPulseView } from "../ui/present-academy-pulse";
@@ -68,7 +68,7 @@ export function AcademyPlayerScreen({
           >
             <Text style={styles.rowTitle}>{item.title}</Text>
             <Text style={styles.muted}>{item.slug}</Text>
-            {item.priceLabel ? <Text style={styles.meta}>{item.priceLabel}</Text> : null}
+            <Text style={styles.meta}>{item.priceLabel ?? DRON_PRICE_PENDING_LABEL}</Text>
             <Text style={styles.meta}>{copy.open}</Text>
           </Pressable>
         ))}
@@ -134,7 +134,7 @@ export function AcademyPlayerScreen({
           onPress={() => onSelectLesson(lesson.key)}
           style={[styles.row, lesson.key === view.selectedLessonKey ? styles.rowActive : null]}
         >
-          <Text style={styles.rowTitle}>{lesson.title}</Text>
+            <Text style={styles.rowTitle}>{`${lesson.order}. ${lesson.title}`}</Text>
           <Text style={styles.muted}>
             {dronLessonDeliveryLabel(lesson.key)}
             {" · "}

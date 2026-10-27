@@ -1,0 +1,3030 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_fen-1",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Güneş sistemindeki gezegenler",
+  "grade": 6,
+  "subject": "Fen Bilimleri",
+  "teacher": {
+    "name": "Deniz",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_fen-1.mp3",
+    "durationMs": 403731,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 85170
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 85170,
+      "endMs": 339200
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 339200,
+      "endMs": 403731
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4370,
+      "pauseAfterMs": 840,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 190,
+          "endMs": 1550
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1740,
+          "endMs": 2480
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2480,
+          "endMs": 3530
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Güneş sistemindeki gezegenler",
+            "subtitle": "Fen Bilimleri",
+            "ruleBadges": [],
+            "echoPrompt": "Güneş sistemindeki gezegenleri kendi cümlelerinle sırayla tekrarla.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Güneş sistemin merkezindeki yıldızdır; gezegen değildir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Sekiz gezegen Güneş'ten dışa doğru Merkür, Venüs, Dünya, Mars, Jüpiter, Satürn, Uranüs ve Neptün'dür."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Ay bir uydudur, Plüton ise cüce gezegendir; ikisi de sekiz ana gezegenin yerine geçmez."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4370,
+      "endMs": 10130,
+      "pauseAfterMs": 640,
+      "text": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "markedText": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4370,
+          "endMs": 4760
+        },
+        {
+          "word": "Fen",
+          "startMs": 5320,
+          "endMs": 5590
+        },
+        {
+          "word": "Bilimleri",
+          "startMs": 6150,
+          "endMs": 7310
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 7440,
+          "endMs": 8410
+        },
+        {
+          "word": "Deniz.",
+          "startMs": 8460,
+          "endMs": 9490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 10130,
+      "endMs": 19040,
+      "pauseAfterMs": 590,
+      "text": "Hiç gece gökyüzünde parlayan bir ışığın yıldız mı, yoksa bir gezegen mi olduğunu merak ettin mi?",
+      "markedText": "Hiç gece gökyüzünde parlayan bir ışığın yıldız mı, yoksa bir gezegen mi olduğunu merak ettin mi?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 10130,
+          "endMs": 10250
+        },
+        {
+          "word": "gece",
+          "startMs": 10250,
+          "endMs": 10570
+        },
+        {
+          "word": "gökyüzünde",
+          "startMs": 10570,
+          "endMs": 11210
+        },
+        {
+          "word": "parlayan",
+          "startMs": 12010,
+          "endMs": 12610
+        },
+        {
+          "word": "bir",
+          "startMs": 12700,
+          "endMs": 12920
+        },
+        {
+          "word": "ışığın",
+          "startMs": 13000,
+          "endMs": 13280
+        },
+        {
+          "word": "yıldız",
+          "startMs": 13350,
+          "endMs": 13860
+        },
+        {
+          "word": "mı,",
+          "startMs": 14230,
+          "endMs": 14360
+        },
+        {
+          "word": "yoksa",
+          "startMs": 14550,
+          "endMs": 14770
+        },
+        {
+          "word": "bir",
+          "startMs": 14770,
+          "endMs": 14850
+        },
+        {
+          "word": "gezegen",
+          "startMs": 15190,
+          "endMs": 15650
+        },
+        {
+          "word": "mi",
+          "startMs": 15780,
+          "endMs": 16000
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 16000,
+          "endMs": 16580
+        },
+        {
+          "word": "merak",
+          "startMs": 16930,
+          "endMs": 17260
+        },
+        {
+          "word": "ettin",
+          "startMs": 17450,
+          "endMs": 17750
+        },
+        {
+          "word": "mi?",
+          "startMs": 17830,
+          "endMs": 18450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 19040,
+      "endMs": 26070,
+      "pauseAfterMs": 430,
+      "text": "Güneş sistemimizin muhteşem ailesini yakından tanıyacağız.",
+      "markedText": "Güneş sistemimizin muhteşem ailesini yakından tanıyacağız.",
+      "words": [
+        {
+          "word": "Güneş",
+          "startMs": 19040,
+          "endMs": 19520
+        },
+        {
+          "word": "sistemimizin",
+          "startMs": 19860,
+          "endMs": 21060
+        },
+        {
+          "word": "muhteşem",
+          "startMs": 21060,
+          "endMs": 22170
+        },
+        {
+          "word": "ailesini",
+          "startMs": 22880,
+          "endMs": 23550
+        },
+        {
+          "word": "yakından",
+          "startMs": 23780,
+          "endMs": 24370
+        },
+        {
+          "word": "tanıyacağız.",
+          "startMs": 24580,
+          "endMs": 25640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 26070,
+      "endMs": 31920,
+      "pauseAfterMs": 660,
+      "text": "Güneş, sistemin tam merkezinde parıldayan dev bir yıldızdır.",
+      "markedText": "Güneş, sistemin tam merkezinde parıldayan dev bir yıldızdır.",
+      "words": [
+        {
+          "word": "Güneş,",
+          "startMs": 26070,
+          "endMs": 26300
+        },
+        {
+          "word": "sistemin",
+          "startMs": 26300,
+          "endMs": 26870
+        },
+        {
+          "word": "tam",
+          "startMs": 26870,
+          "endMs": 27020
+        },
+        {
+          "word": "merkezinde",
+          "startMs": 27020,
+          "endMs": 28110
+        },
+        {
+          "word": "parıldayan",
+          "startMs": 28740,
+          "endMs": 29490
+        },
+        {
+          "word": "dev",
+          "startMs": 29540,
+          "endMs": 29600
+        },
+        {
+          "word": "bir",
+          "startMs": 29650,
+          "endMs": 29770
+        },
+        {
+          "word": "yıldızdır.",
+          "startMs": 29980,
+          "endMs": 31260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 31920,
+      "endMs": 37180,
+      "pauseAfterMs": 520,
+      "text": "Gezegenler ise onun çevresinde belirli yörüngelerde yol alır.",
+      "markedText": "Gezegenler ise onun çevresinde belirli yörüngelerde yol alır.",
+      "words": [
+        {
+          "word": "Gezegenler",
+          "startMs": 31920,
+          "endMs": 32490
+        },
+        {
+          "word": "ise",
+          "startMs": 33000,
+          "endMs": 33130
+        },
+        {
+          "word": "onun",
+          "startMs": 33220,
+          "endMs": 33490
+        },
+        {
+          "word": "çevresinde",
+          "startMs": 33560,
+          "endMs": 33950
+        },
+        {
+          "word": "belirli",
+          "startMs": 34100,
+          "endMs": 34940
+        },
+        {
+          "word": "yörüngelerde",
+          "startMs": 35270,
+          "endMs": 35950
+        },
+        {
+          "word": "yol",
+          "startMs": 35950,
+          "endMs": 36130
+        },
+        {
+          "word": "alır.",
+          "startMs": 36130,
+          "endMs": 36660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 37180,
+      "endMs": 47230,
+      "pauseAfterMs": 700,
+      "text": "Güzel dünyamız bu ailedeki üçüncü gezegendir; Ay ise Dünya'mızın sadık uydusudur.",
+      "markedText": "Güzel dünyamız bu ailedeki üçüncü gezegendir; Ay ise Dünya'mızın sadık uydusudur.",
+      "words": [
+        {
+          "word": "Güzel",
+          "startMs": 37180,
+          "endMs": 37860
+        },
+        {
+          "word": "dünyamız",
+          "startMs": 38660,
+          "endMs": 39180
+        },
+        {
+          "word": "bu",
+          "startMs": 39240,
+          "endMs": 39340
+        },
+        {
+          "word": "ailedeki",
+          "startMs": 39620,
+          "endMs": 40460
+        },
+        {
+          "word": "üçüncü",
+          "startMs": 41140,
+          "endMs": 41610
+        },
+        {
+          "word": "gezegendir;",
+          "startMs": 41690,
+          "endMs": 42430
+        },
+        {
+          "word": "Ay",
+          "startMs": 42680,
+          "endMs": 42940
+        },
+        {
+          "word": "ise",
+          "startMs": 43030,
+          "endMs": 43510
+        },
+        {
+          "word": "Dünya'mızın",
+          "startMs": 43660,
+          "endMs": 44560
+        },
+        {
+          "word": "sadık",
+          "startMs": 44660,
+          "endMs": 45010
+        },
+        {
+          "word": "uydusudur.",
+          "startMs": 45010,
+          "endMs": 46530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 47230,
+      "endMs": 53400,
+      "pauseAfterMs": 1140,
+      "text": "Bunu açık bir gecede gökyüzüne bakarken de kullanırsın.",
+      "markedText": "Bunu açık bir gecede gökyüzüne bakarken de kullanırsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 47230,
+          "endMs": 47670
+        },
+        {
+          "word": "açık",
+          "startMs": 47970,
+          "endMs": 48260
+        },
+        {
+          "word": "bir",
+          "startMs": 48320,
+          "endMs": 48560
+        },
+        {
+          "word": "gecede",
+          "startMs": 48640,
+          "endMs": 48990
+        },
+        {
+          "word": "gökyüzüne",
+          "startMs": 49370,
+          "endMs": 49770
+        },
+        {
+          "word": "bakarken",
+          "startMs": 49830,
+          "endMs": 50340
+        },
+        {
+          "word": "de",
+          "startMs": 50680,
+          "endMs": 50890
+        },
+        {
+          "word": "kullanırsın.",
+          "startMs": 51400,
+          "endMs": 52260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 53400,
+      "endMs": 61670,
+      "pauseAfterMs": 420,
+      "text": "Gökyüzünde kırpışmadan sabit parlayan ışıklar çoğu kez birer gezegendir.",
+      "markedText": "Gökyüzünde kırpışmadan sabit parlayan ışıklar çoğu kez birer gezegendir.",
+      "words": [
+        {
+          "word": "Gökyüzünde",
+          "startMs": 53400,
+          "endMs": 53840
+        },
+        {
+          "word": "kırpışmadan",
+          "startMs": 53840,
+          "endMs": 54770
+        },
+        {
+          "word": "sabit",
+          "startMs": 55320,
+          "endMs": 56170
+        },
+        {
+          "word": "parlayan",
+          "startMs": 56490,
+          "endMs": 57330
+        },
+        {
+          "word": "ışıklar",
+          "startMs": 57430,
+          "endMs": 58080
+        },
+        {
+          "word": "çoğu",
+          "startMs": 58080,
+          "endMs": 58550
+        },
+        {
+          "word": "kez",
+          "startMs": 58650,
+          "endMs": 58800
+        },
+        {
+          "word": "birer",
+          "startMs": 58850,
+          "endMs": 59680
+        },
+        {
+          "word": "gezegendir.",
+          "startMs": 60200,
+          "endMs": 61250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 61670,
+      "endMs": 68170,
+      "pauseAfterMs": 670,
+      "text": "Dünya senin evindir ve üçüncü sırada sakince döner.",
+      "markedText": "Dünya senin evindir ve üçüncü sırada sakince döner.",
+      "words": [
+        {
+          "word": "Dünya",
+          "startMs": 61670,
+          "endMs": 61750
+        },
+        {
+          "word": "senin",
+          "startMs": 61830,
+          "endMs": 62110
+        },
+        {
+          "word": "evindir",
+          "startMs": 62230,
+          "endMs": 63250
+        },
+        {
+          "word": "ve",
+          "startMs": 63920,
+          "endMs": 64120
+        },
+        {
+          "word": "üçüncü",
+          "startMs": 64740,
+          "endMs": 65200
+        },
+        {
+          "word": "sırada",
+          "startMs": 65250,
+          "endMs": 65730
+        },
+        {
+          "word": "sakince",
+          "startMs": 65730,
+          "endMs": 66210
+        },
+        {
+          "word": "döner.",
+          "startMs": 66440,
+          "endMs": 67500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 68170,
+      "endMs": 77900,
+      "pauseAfterMs": 640,
+      "text": "Gökyüzündeki Ay'ı görünce, onun Dünya'nın etrafında dönen bir uydu olduğunu sevgiyle hatırlarsın.",
+      "markedText": "Gökyüzündeki Ay'ı görünce, onun Dünya'nın etrafında dönen bir uydu olduğunu sevgiyle hatırlarsın.",
+      "words": [
+        {
+          "word": "Gökyüzündeki",
+          "startMs": 68170,
+          "endMs": 69250
+        },
+        {
+          "word": "Ay'ı",
+          "startMs": 69660,
+          "endMs": 69810
+        },
+        {
+          "word": "görünce,",
+          "startMs": 70130,
+          "endMs": 70780
+        },
+        {
+          "word": "onun",
+          "startMs": 71030,
+          "endMs": 71450
+        },
+        {
+          "word": "Dünya'nın",
+          "startMs": 71670,
+          "endMs": 72780
+        },
+        {
+          "word": "etrafında",
+          "startMs": 73340,
+          "endMs": 73640
+        },
+        {
+          "word": "dönen",
+          "startMs": 73790,
+          "endMs": 73940
+        },
+        {
+          "word": "bir",
+          "startMs": 74120,
+          "endMs": 74280
+        },
+        {
+          "word": "uydu",
+          "startMs": 74430,
+          "endMs": 74710
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 74770,
+          "endMs": 75250
+        },
+        {
+          "word": "sevgiyle",
+          "startMs": 75530,
+          "endMs": 76070
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 76140,
+          "endMs": 77260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 77900,
+      "endMs": 85170,
+      "pauseAfterMs": 920,
+      "text": "Şimdi Güneş'ten dışa doğru sekiz gezegeni derin bir nefes alıp sırayla say.",
+      "markedText": "Şimdi Güneş'ten dışa doğru sekiz gezegeni derin bir nefes alıp sırayla say.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 77900,
+          "endMs": 78410
+        },
+        {
+          "word": "Güneş'ten",
+          "startMs": 78530,
+          "endMs": 79180
+        },
+        {
+          "word": "dışa",
+          "startMs": 79240,
+          "endMs": 79460
+        },
+        {
+          "word": "doğru",
+          "startMs": 79460,
+          "endMs": 79790
+        },
+        {
+          "word": "sekiz",
+          "startMs": 79940,
+          "endMs": 80210
+        },
+        {
+          "word": "gezegeni",
+          "startMs": 80210,
+          "endMs": 80750
+        },
+        {
+          "word": "derin",
+          "startMs": 81050,
+          "endMs": 81680
+        },
+        {
+          "word": "bir",
+          "startMs": 81990,
+          "endMs": 82150
+        },
+        {
+          "word": "nefes",
+          "startMs": 82300,
+          "endMs": 82550
+        },
+        {
+          "word": "alıp",
+          "startMs": 82820,
+          "endMs": 82940
+        },
+        {
+          "word": "sırayla",
+          "startMs": 82940,
+          "endMs": 83280
+        },
+        {
+          "word": "say.",
+          "startMs": 83520,
+          "endMs": 84250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 85170,
+      "endMs": 94160,
+      "pauseAfterMs": 350,
+      "text": "Güneş sistemi, Güneş ve onun çevresinde dolanan gök cisimlerinden oluşur.",
+      "markedText": "Güneş sistemi, Güneş ve onun çevresinde dolanan gök cisimlerinden oluşur.",
+      "words": [
+        {
+          "word": "Güneş",
+          "startMs": 85170,
+          "endMs": 85540
+        },
+        {
+          "word": "sistemi,",
+          "startMs": 85610,
+          "endMs": 86070
+        },
+        {
+          "word": "Güneş",
+          "startMs": 87070,
+          "endMs": 87600
+        },
+        {
+          "word": "ve",
+          "startMs": 87690,
+          "endMs": 87800
+        },
+        {
+          "word": "onun",
+          "startMs": 87910,
+          "endMs": 88410
+        },
+        {
+          "word": "çevresinde",
+          "startMs": 89360,
+          "endMs": 90260
+        },
+        {
+          "word": "dolanan",
+          "startMs": 90510,
+          "endMs": 90880
+        },
+        {
+          "word": "gök",
+          "startMs": 91570,
+          "endMs": 91810
+        },
+        {
+          "word": "cisimlerinden",
+          "startMs": 91810,
+          "endMs": 93190
+        },
+        {
+          "word": "oluşur.",
+          "startMs": 93280,
+          "endMs": 93810
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 85170,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Güneş sistemi nedir?",
+            "subtitle": "Merkezde yıldız, çevresinde gezegenler",
+            "rows": [
+              {
+                "title": "Güneş bir yıldızdır",
+                "body": "Sistemin merkezinde durur ve gezegen değildir.",
+                "tone": "concept"
+              },
+              {
+                "title": "Gezegen nedir?",
+                "body": "Bir yıldızın çevresinde dolanan büyük gök cismidir.",
+                "tone": "concept"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 94160,
+      "endMs": 101070,
+      "pauseAfterMs": 1120,
+      "text": "Güneş bir yıldızdır, kesinlikle gezegen değildir.",
+      "markedText": "Güneş bir yıldızdır, kesinlikle gezegen değildir.",
+      "words": [
+        {
+          "word": "Güneş",
+          "startMs": 94160,
+          "endMs": 94420
+        },
+        {
+          "word": "bir",
+          "startMs": 94520,
+          "endMs": 94610
+        },
+        {
+          "word": "yıldızdır,",
+          "startMs": 94710,
+          "endMs": 95760
+        },
+        {
+          "word": "kesinlikle",
+          "startMs": 96470,
+          "endMs": 97420
+        },
+        {
+          "word": "gezegen",
+          "startMs": 97680,
+          "endMs": 98500
+        },
+        {
+          "word": "değildir.",
+          "startMs": 99020,
+          "endMs": 99950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 101070,
+      "endMs": 108280,
+      "pauseAfterMs": 650,
+      "text": "Gezegen ise bir yıldızın çevresinde dolanan büyük gök cismidir.",
+      "markedText": "Gezegen ise bir yıldızın çevresinde dolanan büyük gök cismidir.",
+      "words": [
+        {
+          "word": "Gezegen",
+          "startMs": 101070,
+          "endMs": 101550
+        },
+        {
+          "word": "ise",
+          "startMs": 101630,
+          "endMs": 101840
+        },
+        {
+          "word": "bir",
+          "startMs": 101920,
+          "endMs": 101970
+        },
+        {
+          "word": "yıldızın",
+          "startMs": 102020,
+          "endMs": 103090
+        },
+        {
+          "word": "çevresinde",
+          "startMs": 103860,
+          "endMs": 104430
+        },
+        {
+          "word": "dolanan",
+          "startMs": 104590,
+          "endMs": 105120
+        },
+        {
+          "word": "büyük",
+          "startMs": 105270,
+          "endMs": 105810
+        },
+        {
+          "word": "gök",
+          "startMs": 106620,
+          "endMs": 106840
+        },
+        {
+          "word": "cismidir.",
+          "startMs": 107130,
+          "endMs": 107630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 108280,
+      "endMs": 115130,
+      "pauseAfterMs": 370,
+      "text": "Güneş'e en yakın dört gezegen; Merkür, Venüs, Dünya ve Mars'tır.",
+      "markedText": "Güneş'e en yakın dört gezegen; Merkür, Venüs, Dünya ve Mars'tır.",
+      "words": [
+        {
+          "word": "Güneş'e",
+          "startMs": 108280,
+          "endMs": 108620
+        },
+        {
+          "word": "en",
+          "startMs": 108910,
+          "endMs": 109110
+        },
+        {
+          "word": "yakın",
+          "startMs": 109110,
+          "endMs": 109430
+        },
+        {
+          "word": "dört",
+          "startMs": 109950,
+          "endMs": 110280
+        },
+        {
+          "word": "gezegen;",
+          "startMs": 110570,
+          "endMs": 111110
+        },
+        {
+          "word": "Merkür,",
+          "startMs": 111530,
+          "endMs": 111770
+        },
+        {
+          "word": "Venüs,",
+          "startMs": 112250,
+          "endMs": 112680
+        },
+        {
+          "word": "Dünya",
+          "startMs": 113540,
+          "endMs": 113840
+        },
+        {
+          "word": "ve",
+          "startMs": 114100,
+          "endMs": 114240
+        },
+        {
+          "word": "Mars'tır.",
+          "startMs": 114330,
+          "endMs": 114760
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 108280,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "İç gezegenler",
+            "subtitle": "Güneş'e en yakın dörtlü",
+            "rows": [
+              {
+                "title": "Merkür · Venüs · Dünya · Mars",
+                "body": "Bu dörtlüye iç gezegenler veya karasal gezegenler denir.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 115130,
+      "endMs": 124860,
+      "pauseAfterMs": 690,
+      "text": "Bu ilk dörtlüye iç gezegenler veya karasal gezegenler denir.",
+      "markedText": "Bu ilk dörtlüye iç gezegenler veya karasal gezegenler denir.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 115130,
+          "endMs": 115320
+        },
+        {
+          "word": "ilk",
+          "startMs": 115470,
+          "endMs": 115560
+        },
+        {
+          "word": "dörtlüye",
+          "startMs": 115900,
+          "endMs": 116330
+        },
+        {
+          "word": "iç",
+          "startMs": 116790,
+          "endMs": 117130
+        },
+        {
+          "word": "gezegenler",
+          "startMs": 117380,
+          "endMs": 117820
+        },
+        {
+          "word": "veya",
+          "startMs": 119010,
+          "endMs": 119450
+        },
+        {
+          "word": "karasal",
+          "startMs": 120590,
+          "endMs": 121670
+        },
+        {
+          "word": "gezegenler",
+          "startMs": 121760,
+          "endMs": 122860
+        },
+        {
+          "word": "denir.",
+          "startMs": 122990,
+          "endMs": 124170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 124860,
+      "endMs": 135640,
+      "pauseAfterMs": 1000,
+      "text": "Daha uzakta yer alan diğer dört gezegen ise Jüpiter, Satürn, Uranüs ve Neptün'dür.",
+      "markedText": "Daha uzakta yer alan diğer dört gezegen ise Jüpiter, Satürn, Uranüs ve Neptün'dür.",
+      "words": [
+        {
+          "word": "Daha",
+          "startMs": 124860,
+          "endMs": 125140
+        },
+        {
+          "word": "uzakta",
+          "startMs": 125240,
+          "endMs": 126060
+        },
+        {
+          "word": "yer",
+          "startMs": 126230,
+          "endMs": 126740
+        },
+        {
+          "word": "alan",
+          "startMs": 126880,
+          "endMs": 127310
+        },
+        {
+          "word": "diğer",
+          "startMs": 128000,
+          "endMs": 128450
+        },
+        {
+          "word": "dört",
+          "startMs": 128450,
+          "endMs": 128780
+        },
+        {
+          "word": "gezegen",
+          "startMs": 128900,
+          "endMs": 129400
+        },
+        {
+          "word": "ise",
+          "startMs": 129580,
+          "endMs": 129820
+        },
+        {
+          "word": "Jüpiter,",
+          "startMs": 130010,
+          "endMs": 131170
+        },
+        {
+          "word": "Satürn,",
+          "startMs": 131970,
+          "endMs": 132420
+        },
+        {
+          "word": "Uranüs",
+          "startMs": 132420,
+          "endMs": 132980
+        },
+        {
+          "word": "ve",
+          "startMs": 132980,
+          "endMs": 133260
+        },
+        {
+          "word": "Neptün'dür.",
+          "startMs": 133370,
+          "endMs": 134640
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 124860,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Dış gezegenler",
+            "subtitle": "Gaz devleri",
+            "rows": [
+              {
+                "title": "Jüpiter · Satürn · Uranüs · Neptün",
+                "body": "Daha uzakta duran bu dörtlüye gaz devleri denir.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 135640,
+      "endMs": 144450,
+      "pauseAfterMs": 1030,
+      "text": "Bunlara da dış gezegenler veya gaz devleri denir.",
+      "markedText": "Bunlara da dış gezegenler veya gaz devleri denir.",
+      "words": [
+        {
+          "word": "Bunlara",
+          "startMs": 135640,
+          "endMs": 136250
+        },
+        {
+          "word": "da",
+          "startMs": 136390,
+          "endMs": 136740
+        },
+        {
+          "word": "dış",
+          "startMs": 136800,
+          "endMs": 137110
+        },
+        {
+          "word": "gezegenler",
+          "startMs": 137920,
+          "endMs": 138880
+        },
+        {
+          "word": "veya",
+          "startMs": 140520,
+          "endMs": 140940
+        },
+        {
+          "word": "gaz",
+          "startMs": 141050,
+          "endMs": 141260
+        },
+        {
+          "word": "devleri",
+          "startMs": 141370,
+          "endMs": 141880
+        },
+        {
+          "word": "denir.",
+          "startMs": 142070,
+          "endMs": 143420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 144450,
+      "endMs": 154690,
+      "pauseAfterMs": 700,
+      "text": "Pratik kural: Güneş'ten dışa doğru sıraladığımızda tam sekiz gezegen vardır.",
+      "markedText": "Pratik kural: Güneş'ten dışa doğru sıraladığımızda tam sekiz gezegen vardır.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 144450,
+          "endMs": 144600
+        },
+        {
+          "word": "kural:",
+          "startMs": 144780,
+          "endMs": 144970
+        },
+        {
+          "word": "Güneş'ten",
+          "startMs": 145360,
+          "endMs": 146110
+        },
+        {
+          "word": "dışa",
+          "startMs": 146700,
+          "endMs": 146890
+        },
+        {
+          "word": "doğru",
+          "startMs": 147170,
+          "endMs": 147460
+        },
+        {
+          "word": "sıraladığımızda",
+          "startMs": 147570,
+          "endMs": 148590
+        },
+        {
+          "word": "tam",
+          "startMs": 149030,
+          "endMs": 149870
+        },
+        {
+          "word": "sekiz",
+          "startMs": 150820,
+          "endMs": 151500
+        },
+        {
+          "word": "gezegen",
+          "startMs": 152200,
+          "endMs": 153000
+        },
+        {
+          "word": "vardır.",
+          "startMs": 153060,
+          "endMs": 153990
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 144450,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Sıra tam sekiz",
+            "note": "Sıra her zaman Güneş'ten dışa doğru sayılır.",
+            "rows": [
+              {
+                "title": "Bir · iki · üç… sekiz",
+                "body": "Güneş'ten dışa doğru sıraladığımızda tam sekiz gezegen çıkar.",
+                "tone": "recap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 154690,
+      "endMs": 163700,
+      "pauseAfterMs": 760,
+      "text": "Ay bir uydudur ve gezegenler sırasına dahil edilmez.",
+      "markedText": "Ay bir uydudur ve gezegenler sırasına dahil edilmez.",
+      "words": [
+        {
+          "word": "Ay",
+          "startMs": 154690,
+          "endMs": 154850
+        },
+        {
+          "word": "bir",
+          "startMs": 155230,
+          "endMs": 155430
+        },
+        {
+          "word": "uydudur",
+          "startMs": 155570,
+          "endMs": 156390
+        },
+        {
+          "word": "ve",
+          "startMs": 156930,
+          "endMs": 157060
+        },
+        {
+          "word": "gezegenler",
+          "startMs": 157360,
+          "endMs": 158370
+        },
+        {
+          "word": "sırasına",
+          "startMs": 159270,
+          "endMs": 159620
+        },
+        {
+          "word": "dahil",
+          "startMs": 161220,
+          "endMs": 161790
+        },
+        {
+          "word": "edilmez.",
+          "startMs": 161950,
+          "endMs": 162940
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 154690,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Ay listede yok",
+            "rows": [
+              {
+                "title": "Ay bir uydudur",
+                "body": "Gezegenler sırasına dahil edilmez.",
+                "tone": "trap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 163700,
+      "endMs": 170170,
+      "pauseAfterMs": 920,
+      "text": "Parmağınla sırayı tek tek sayalım.",
+      "markedText": "Parmağınla sırayı tek tek sayalım.",
+      "words": [
+        {
+          "word": "Parmağınla",
+          "startMs": 163700,
+          "endMs": 165120
+        },
+        {
+          "word": "sırayı",
+          "startMs": 165270,
+          "endMs": 166560
+        },
+        {
+          "word": "tek",
+          "startMs": 166750,
+          "endMs": 167020
+        },
+        {
+          "word": "tek",
+          "startMs": 167060,
+          "endMs": 167300
+        },
+        {
+          "word": "sayalım.",
+          "startMs": 168310,
+          "endMs": 169250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 170170,
+      "endMs": 176950,
+      "pauseAfterMs": 760,
+      "text": "Bir, Merkür; iki, Venüs; üç, Dünya; dört, Mars.",
+      "markedText": "Bir, Merkür; iki, Venüs; üç, Dünya; dört, Mars.",
+      "words": [
+        {
+          "word": "Bir,",
+          "startMs": 170170,
+          "endMs": 170390
+        },
+        {
+          "word": "Merkür;",
+          "startMs": 170950,
+          "endMs": 171710
+        },
+        {
+          "word": "iki,",
+          "startMs": 171980,
+          "endMs": 172370
+        },
+        {
+          "word": "Venüs;",
+          "startMs": 172890,
+          "endMs": 173160
+        },
+        {
+          "word": "üç,",
+          "startMs": 173450,
+          "endMs": 173860
+        },
+        {
+          "word": "Dünya;",
+          "startMs": 173970,
+          "endMs": 175060
+        },
+        {
+          "word": "dört,",
+          "startMs": 175290,
+          "endMs": 175550
+        },
+        {
+          "word": "Mars.",
+          "startMs": 175550,
+          "endMs": 176190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 176950,
+      "endMs": 184300,
+      "pauseAfterMs": 400,
+      "text": "Beş, Jüpiter; altı, Satürn; yedi, Uranüs ve sekiz, Neptün.",
+      "markedText": "Beş, Jüpiter; altı, Satürn; yedi, Uranüs ve sekiz, Neptün.",
+      "words": [
+        {
+          "word": "Beş,",
+          "startMs": 176950,
+          "endMs": 177170
+        },
+        {
+          "word": "Jüpiter;",
+          "startMs": 178120,
+          "endMs": 179230
+        },
+        {
+          "word": "altı,",
+          "startMs": 179340,
+          "endMs": 179820
+        },
+        {
+          "word": "Satürn;",
+          "startMs": 180110,
+          "endMs": 180710
+        },
+        {
+          "word": "yedi,",
+          "startMs": 180920,
+          "endMs": 181440
+        },
+        {
+          "word": "Uranüs",
+          "startMs": 181720,
+          "endMs": 182090
+        },
+        {
+          "word": "ve",
+          "startMs": 182090,
+          "endMs": 182240
+        },
+        {
+          "word": "sekiz,",
+          "startMs": 182520,
+          "endMs": 182970
+        },
+        {
+          "word": "Neptün.",
+          "startMs": 183340,
+          "endMs": 183900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 184300,
+      "endMs": 191700,
+      "pauseAfterMs": 930,
+      "text": "Dünya üçüncü sıradadır ve üzerinde yaşam olan yuvamızdır.",
+      "markedText": "Dünya üçüncü sıradadır ve üzerinde yaşam olan yuvamızdır.",
+      "words": [
+        {
+          "word": "Dünya",
+          "startMs": 184300,
+          "endMs": 184730
+        },
+        {
+          "word": "üçüncü",
+          "startMs": 185080,
+          "endMs": 185450
+        },
+        {
+          "word": "sıradadır",
+          "startMs": 185720,
+          "endMs": 186400
+        },
+        {
+          "word": "ve",
+          "startMs": 187310,
+          "endMs": 187540
+        },
+        {
+          "word": "üzerinde",
+          "startMs": 188050,
+          "endMs": 189010
+        },
+        {
+          "word": "yaşam",
+          "startMs": 189300,
+          "endMs": 189730
+        },
+        {
+          "word": "olan",
+          "startMs": 189790,
+          "endMs": 190020
+        },
+        {
+          "word": "yuvamızdır.",
+          "startMs": 190020,
+          "endMs": 190770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 191700,
+      "endMs": 197540,
+      "pauseAfterMs": 550,
+      "text": "Jüpiter sistemin en büyük devidir.",
+      "markedText": "Jüpiter sistemin en büyük devidir.",
+      "words": [
+        {
+          "word": "Jüpiter",
+          "startMs": 191700,
+          "endMs": 192480
+        },
+        {
+          "word": "sistemin",
+          "startMs": 192550,
+          "endMs": 193760
+        },
+        {
+          "word": "en",
+          "startMs": 194640,
+          "endMs": 195000
+        },
+        {
+          "word": "büyük",
+          "startMs": 195090,
+          "endMs": 195790
+        },
+        {
+          "word": "devidir.",
+          "startMs": 196010,
+          "endMs": 196990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 197540,
+      "endMs": 205930,
+      "pauseAfterMs": 1010,
+      "text": "Satürn'ün çevresinde göz kamaştıran halkalar uzanır.",
+      "markedText": "Satürn'ün çevresinde göz kamaştıran halkalar uzanır.",
+      "words": [
+        {
+          "word": "Satürn'ün",
+          "startMs": 197540,
+          "endMs": 198330
+        },
+        {
+          "word": "çevresinde",
+          "startMs": 198330,
+          "endMs": 199030
+        },
+        {
+          "word": "göz",
+          "startMs": 199120,
+          "endMs": 199890
+        },
+        {
+          "word": "kamaştıran",
+          "startMs": 200800,
+          "endMs": 201770
+        },
+        {
+          "word": "halkalar",
+          "startMs": 202060,
+          "endMs": 203280
+        },
+        {
+          "word": "uzanır.",
+          "startMs": 204050,
+          "endMs": 204920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 205930,
+      "endMs": 213300,
+      "pauseAfterMs": 1140,
+      "text": "Ay ise Dünya'mızın çevresinde dolanan bir uydudur.",
+      "markedText": "Ay ise Dünya'mızın çevresinde dolanan bir uydudur.",
+      "words": [
+        {
+          "word": "Ay",
+          "startMs": 205930,
+          "endMs": 206140
+        },
+        {
+          "word": "ise",
+          "startMs": 206140,
+          "endMs": 206420
+        },
+        {
+          "word": "Dünya'mızın",
+          "startMs": 206590,
+          "endMs": 207940
+        },
+        {
+          "word": "çevresinde",
+          "startMs": 208910,
+          "endMs": 209740
+        },
+        {
+          "word": "dolanan",
+          "startMs": 210670,
+          "endMs": 211160
+        },
+        {
+          "word": "bir",
+          "startMs": 211160,
+          "endMs": 211250
+        },
+        {
+          "word": "uydudur.",
+          "startMs": 211390,
+          "endMs": 212160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 213300,
+      "endMs": 224090,
+      "pauseAfterMs": 810,
+      "text": "Plüton eskiden gezegen sayılırdı, bugün ise cüce gezegen sınıfındadır.",
+      "markedText": "Plüton eskiden gezegen sayılırdı, bugün ise cüce gezegen sınıfındadır.",
+      "words": [
+        {
+          "word": "Plüton",
+          "startMs": 213300,
+          "endMs": 213710
+        },
+        {
+          "word": "eskiden",
+          "startMs": 213850,
+          "endMs": 214560
+        },
+        {
+          "word": "gezegen",
+          "startMs": 215600,
+          "endMs": 216270
+        },
+        {
+          "word": "sayılırdı,",
+          "startMs": 216320,
+          "endMs": 217620
+        },
+        {
+          "word": "bugün",
+          "startMs": 218440,
+          "endMs": 218910
+        },
+        {
+          "word": "ise",
+          "startMs": 218980,
+          "endMs": 219450
+        },
+        {
+          "word": "cüce",
+          "startMs": 220150,
+          "endMs": 220330
+        },
+        {
+          "word": "gezegen",
+          "startMs": 220330,
+          "endMs": 221120
+        },
+        {
+          "word": "sınıfındadır.",
+          "startMs": 221810,
+          "endMs": 223280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 224090,
+      "endMs": 231890,
+      "pauseAfterMs": 750,
+      "text": "Bu yüzden sekiz gezegenlik sıraya onu eklemiyoruz.",
+      "markedText": "Bu yüzden sekiz gezegenlik sıraya onu eklemiyoruz.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 224090,
+          "endMs": 224280
+        },
+        {
+          "word": "yüzden",
+          "startMs": 224440,
+          "endMs": 225050
+        },
+        {
+          "word": "sekiz",
+          "startMs": 225150,
+          "endMs": 225600
+        },
+        {
+          "word": "gezegenlik",
+          "startMs": 225840,
+          "endMs": 227090
+        },
+        {
+          "word": "sıraya",
+          "startMs": 227890,
+          "endMs": 228680
+        },
+        {
+          "word": "onu",
+          "startMs": 229150,
+          "endMs": 229410
+        },
+        {
+          "word": "eklemiyoruz.",
+          "startMs": 229480,
+          "endMs": 231140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 231890,
+      "endMs": 242490,
+      "pauseAfterMs": 710,
+      "text": "İlk dört iç gezegen kayaç yapılıyken, dıştaki dört dev gaz bakımından zengindir.",
+      "markedText": "İlk dört iç gezegen kayaç yapılıyken, dıştaki dört dev gaz bakımından zengindir.",
+      "words": [
+        {
+          "word": "İlk",
+          "startMs": 231890,
+          "endMs": 232010
+        },
+        {
+          "word": "dört",
+          "startMs": 232190,
+          "endMs": 232340
+        },
+        {
+          "word": "iç",
+          "startMs": 233140,
+          "endMs": 233290
+        },
+        {
+          "word": "gezegen",
+          "startMs": 233350,
+          "endMs": 233820
+        },
+        {
+          "word": "kayaç",
+          "startMs": 233820,
+          "endMs": 234410
+        },
+        {
+          "word": "yapılıyken,",
+          "startMs": 234950,
+          "endMs": 235860
+        },
+        {
+          "word": "dıştaki",
+          "startMs": 236420,
+          "endMs": 237080
+        },
+        {
+          "word": "dört",
+          "startMs": 237120,
+          "endMs": 237510
+        },
+        {
+          "word": "dev",
+          "startMs": 238280,
+          "endMs": 238450
+        },
+        {
+          "word": "gaz",
+          "startMs": 238450,
+          "endMs": 238620
+        },
+        {
+          "word": "bakımından",
+          "startMs": 238770,
+          "endMs": 240190
+        },
+        {
+          "word": "zengindir.",
+          "startMs": 240910,
+          "endMs": 241780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 242490,
+      "endMs": 258910,
+      "pauseAfterMs": 460,
+      "text": "Sınıfta bir gezegen modeli kurarız: masa lambası Güneş olur, sekiz top Güneş'ten dışa doğru dizilir.",
+      "markedText": "Sınıfta bir gezegen modeli kurarız: masa lambası Güneş olur, sekiz top Güneş'ten dışa doğru dizilir.",
+      "words": [
+        {
+          "word": "Sınıfta",
+          "startMs": 242490,
+          "endMs": 243010
+        },
+        {
+          "word": "bir",
+          "startMs": 243060,
+          "endMs": 243570
+        },
+        {
+          "word": "gezegen",
+          "startMs": 244290,
+          "endMs": 245010
+        },
+        {
+          "word": "modeli",
+          "startMs": 245250,
+          "endMs": 245630
+        },
+        {
+          "word": "kurarız:",
+          "startMs": 245740,
+          "endMs": 246570
+        },
+        {
+          "word": "masa",
+          "startMs": 247370,
+          "endMs": 248100
+        },
+        {
+          "word": "lambası",
+          "startMs": 248200,
+          "endMs": 248860
+        },
+        {
+          "word": "Güneş",
+          "startMs": 249190,
+          "endMs": 249810
+        },
+        {
+          "word": "olur,",
+          "startMs": 250020,
+          "endMs": 251430
+        },
+        {
+          "word": "sekiz",
+          "startMs": 252050,
+          "endMs": 252750
+        },
+        {
+          "word": "top",
+          "startMs": 253580,
+          "endMs": 253700
+        },
+        {
+          "word": "Güneş'ten",
+          "startMs": 253700,
+          "endMs": 254710
+        },
+        {
+          "word": "dışa",
+          "startMs": 255040,
+          "endMs": 255170
+        },
+        {
+          "word": "doğru",
+          "startMs": 255290,
+          "endMs": 256110
+        },
+        {
+          "word": "dizilir.",
+          "startMs": 256900,
+          "endMs": 258450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 258910,
+      "endMs": 264810,
+      "pauseAfterMs": 350,
+      "text": "Bu model, uzaklık sırasını gözle gösterir.",
+      "markedText": "Bu model, uzaklık sırasını gözle gösterir.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 258910,
+          "endMs": 258990
+        },
+        {
+          "word": "model,",
+          "startMs": 259050,
+          "endMs": 259340
+        },
+        {
+          "word": "uzaklık",
+          "startMs": 260100,
+          "endMs": 260780
+        },
+        {
+          "word": "sırasını",
+          "startMs": 260900,
+          "endMs": 261370
+        },
+        {
+          "word": "gözle",
+          "startMs": 262000,
+          "endMs": 262600
+        },
+        {
+          "word": "gösterir.",
+          "startMs": 263390,
+          "endMs": 264460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-2",
+      "startMs": 264810,
+      "endMs": 267270,
+      "pauseAfterMs": 780,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 264810,
+          "endMs": 265450
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 265670,
+          "endMs": 266490
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 264810,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Altın İpucu",
+            "rows": [
+              {
+                "title": "Ay'ı sekizlerin arasına yazma",
+                "body": "Ay uydudur, Plüton cüce gezegendir.",
+                "tone": "gold"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-2",
+      "startMs": 267270,
+      "endMs": 273470,
+      "pauseAfterMs": 710,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 267270,
+          "endMs": 267530
+        },
+        {
+          "word": "bir",
+          "startMs": 267530,
+          "endMs": 267900
+        },
+        {
+          "word": "kez",
+          "startMs": 268540,
+          "endMs": 268760
+        },
+        {
+          "word": "görünce",
+          "startMs": 268820,
+          "endMs": 269510
+        },
+        {
+          "word": "kolayca",
+          "startMs": 269910,
+          "endMs": 270750
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 271540,
+          "endMs": 272760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-2",
+      "startMs": 273470,
+      "endMs": 282730,
+      "pauseAfterMs": 640,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 273470,
+          "endMs": 273600
+        },
+        {
+          "word": "sevgili",
+          "startMs": 273820,
+          "endMs": 274880
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 275470,
+          "endMs": 276150
+        },
+        {
+          "word": "işte",
+          "startMs": 276890,
+          "endMs": 277330
+        },
+        {
+          "word": "tam",
+          "startMs": 277330,
+          "endMs": 277630
+        },
+        {
+          "word": "bu",
+          "startMs": 277630,
+          "endMs": 277690
+        },
+        {
+          "word": "noktada",
+          "startMs": 277760,
+          "endMs": 278240
+        },
+        {
+          "word": "dikkat",
+          "startMs": 278970,
+          "endMs": 279370
+        },
+        {
+          "word": "etmen",
+          "startMs": 279590,
+          "endMs": 279980
+        },
+        {
+          "word": "gereken",
+          "startMs": 280670,
+          "endMs": 281170
+        },
+        {
+          "word": "kilit",
+          "startMs": 281270,
+          "endMs": 281450
+        },
+        {
+          "word": "nokta.",
+          "startMs": 281520,
+          "endMs": 282090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-2",
+      "startMs": 282730,
+      "endMs": 299190,
+      "pauseAfterMs": 680,
+      "text": "İçteki dört gezegeni kayaç yüzeyli, dıştaki dev gezegenleri ise gaz yapılı diye gruplarsan sıra aklında çok daha kolay kalır.",
+      "markedText": "İçteki dört gezegeni kayaç yüzeyli, dıştaki dev gezegenleri ise gaz yapılı diye gruplarsan sıra aklında çok daha kolay kalır.",
+      "words": [
+        {
+          "word": "İçteki",
+          "startMs": 282730,
+          "endMs": 283030
+        },
+        {
+          "word": "dört",
+          "startMs": 283030,
+          "endMs": 283260
+        },
+        {
+          "word": "gezegeni",
+          "startMs": 283260,
+          "endMs": 284080
+        },
+        {
+          "word": "kayaç",
+          "startMs": 284840,
+          "endMs": 285090
+        },
+        {
+          "word": "yüzeyli,",
+          "startMs": 285200,
+          "endMs": 285940
+        },
+        {
+          "word": "dıştaki",
+          "startMs": 286640,
+          "endMs": 287090
+        },
+        {
+          "word": "dev",
+          "startMs": 287170,
+          "endMs": 287680
+        },
+        {
+          "word": "gezegenleri",
+          "startMs": 288490,
+          "endMs": 289340
+        },
+        {
+          "word": "ise",
+          "startMs": 289420,
+          "endMs": 289680
+        },
+        {
+          "word": "gaz",
+          "startMs": 290180,
+          "endMs": 290490
+        },
+        {
+          "word": "yapılı",
+          "startMs": 291300,
+          "endMs": 291490
+        },
+        {
+          "word": "diye",
+          "startMs": 291740,
+          "endMs": 292040
+        },
+        {
+          "word": "gruplarsan",
+          "startMs": 292240,
+          "endMs": 293170
+        },
+        {
+          "word": "sıra",
+          "startMs": 293170,
+          "endMs": 293920
+        },
+        {
+          "word": "aklında",
+          "startMs": 294720,
+          "endMs": 295240
+        },
+        {
+          "word": "çok",
+          "startMs": 295240,
+          "endMs": 295490
+        },
+        {
+          "word": "daha",
+          "startMs": 295590,
+          "endMs": 296450
+        },
+        {
+          "word": "kolay",
+          "startMs": 297240,
+          "endMs": 297730
+        },
+        {
+          "word": "kalır.",
+          "startMs": 297800,
+          "endMs": 298510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-2",
+      "startMs": 299190,
+      "endMs": 308400,
+      "pauseAfterMs": 1060,
+      "text": "Merkür Güneş'e en yakın, Neptün ise en uzak gezegendir.",
+      "markedText": "Merkür Güneş'e en yakın, Neptün ise en uzak gezegendir.",
+      "words": [
+        {
+          "word": "Merkür",
+          "startMs": 299190,
+          "endMs": 299820
+        },
+        {
+          "word": "Güneş'e",
+          "startMs": 299940,
+          "endMs": 300820
+        },
+        {
+          "word": "en",
+          "startMs": 301540,
+          "endMs": 301750
+        },
+        {
+          "word": "yakın,",
+          "startMs": 301750,
+          "endMs": 302600
+        },
+        {
+          "word": "Neptün",
+          "startMs": 303350,
+          "endMs": 303870
+        },
+        {
+          "word": "ise",
+          "startMs": 303870,
+          "endMs": 304070
+        },
+        {
+          "word": "en",
+          "startMs": 304250,
+          "endMs": 304360
+        },
+        {
+          "word": "uzak",
+          "startMs": 304700,
+          "endMs": 305080
+        },
+        {
+          "word": "gezegendir.",
+          "startMs": 305960,
+          "endMs": 307340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-2",
+      "startMs": 308400,
+      "endMs": 326320,
+      "pauseAfterMs": 550,
+      "text": "Ay'ı bu listeye asla bir gezegen olarak eklememeyi her zaman hatırla; çünkü Ay, Dünya'mızın etrafında dolanan sadık bir uydudur.",
+      "markedText": "Ay'ı bu listeye asla bir gezegen olarak eklememeyi her zaman hatırla; çünkü Ay, Dünya'mızın etrafında dolanan sadık bir uydudur.",
+      "words": [
+        {
+          "word": "Ay'ı",
+          "startMs": 308400,
+          "endMs": 308610
+        },
+        {
+          "word": "bu",
+          "startMs": 308690,
+          "endMs": 308840
+        },
+        {
+          "word": "listeye",
+          "startMs": 308840,
+          "endMs": 309590
+        },
+        {
+          "word": "asla",
+          "startMs": 309880,
+          "endMs": 310580
+        },
+        {
+          "word": "bir",
+          "startMs": 311180,
+          "endMs": 311440
+        },
+        {
+          "word": "gezegen",
+          "startMs": 311530,
+          "endMs": 312340
+        },
+        {
+          "word": "olarak",
+          "startMs": 312480,
+          "endMs": 313120
+        },
+        {
+          "word": "eklememeyi",
+          "startMs": 313760,
+          "endMs": 314980
+        },
+        {
+          "word": "her",
+          "startMs": 315770,
+          "endMs": 316000
+        },
+        {
+          "word": "zaman",
+          "startMs": 316090,
+          "endMs": 316350
+        },
+        {
+          "word": "hatırla;",
+          "startMs": 316860,
+          "endMs": 317630
+        },
+        {
+          "word": "çünkü",
+          "startMs": 317810,
+          "endMs": 318300
+        },
+        {
+          "word": "Ay,",
+          "startMs": 318340,
+          "endMs": 318750
+        },
+        {
+          "word": "Dünya'mızın",
+          "startMs": 319570,
+          "endMs": 320790
+        },
+        {
+          "word": "etrafında",
+          "startMs": 320900,
+          "endMs": 322010
+        },
+        {
+          "word": "dolanan",
+          "startMs": 322900,
+          "endMs": 323640
+        },
+        {
+          "word": "sadık",
+          "startMs": 323700,
+          "endMs": 324120
+        },
+        {
+          "word": "bir",
+          "startMs": 324430,
+          "endMs": 324660
+        },
+        {
+          "word": "uydudur.",
+          "startMs": 324790,
+          "endMs": 325770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-2",
+      "startMs": 326320,
+      "endMs": 339200,
+      "pauseAfterMs": 670,
+      "text": "Güneş sistemindeki gezegenler konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Güneş sistemindeki gezegenler konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Güneş",
+          "startMs": 326320,
+          "endMs": 326950
+        },
+        {
+          "word": "sistemindeki",
+          "startMs": 327600,
+          "endMs": 328460
+        },
+        {
+          "word": "gezegenler",
+          "startMs": 328990,
+          "endMs": 330330
+        },
+        {
+          "word": "konusunda",
+          "startMs": 331220,
+          "endMs": 331870
+        },
+        {
+          "word": "kuralın",
+          "startMs": 332000,
+          "endMs": 332610
+        },
+        {
+          "word": "tersini",
+          "startMs": 332710,
+          "endMs": 333450
+        },
+        {
+          "word": "sanmak",
+          "startMs": 334050,
+          "endMs": 334770
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 335050,
+          "endMs": 335620
+        },
+        {
+          "word": "ters",
+          "startMs": 336480,
+          "endMs": 336580
+        },
+        {
+          "word": "cümle",
+          "startMs": 336690,
+          "endMs": 337260
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 337260,
+          "endMs": 338530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 339200,
+      "endMs": 341890,
+      "pauseAfterMs": 800,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 339200,
+          "endMs": 339770
+        },
+        {
+          "word": "Neler",
+          "startMs": 340060,
+          "endMs": 340200
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 340350,
+          "endMs": 341090
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 339200,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Bugün Neler Öğrendik?",
+            "subtitle": "Üç nokta",
+            "rows": [
+              {
+                "title": "1. Güneş yıldızdır",
+                "body": "Merkezdeki yıldız gezegen sayılmaz.",
+                "tone": "recap"
+              },
+              {
+                "title": "2. Sekiz gezegen",
+                "body": "Merkür'den Neptün'e kadar sekiz gezegen vardır.",
+                "tone": "recap"
+              },
+              {
+                "title": "3. Ay uydu, Plüton cüce gezegen",
+                "body": "İkisi de sekiz ana gezegenin yerine geçmez.",
+                "tone": "recap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 341890,
+      "endMs": 342350,
+      "pauseAfterMs": 260,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 341890,
+          "endMs": 342090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 342350,
+      "endMs": 349520,
+      "pauseAfterMs": 430,
+      "text": "Güneş sistemin merkezindeki yıldızdır; gezegen değildir.",
+      "markedText": "Güneş sistemin merkezindeki yıldızdır; gezegen değildir.",
+      "words": [
+        {
+          "word": "Güneş",
+          "startMs": 342350,
+          "endMs": 342640
+        },
+        {
+          "word": "sistemin",
+          "startMs": 342830,
+          "endMs": 343290
+        },
+        {
+          "word": "merkezindeki",
+          "startMs": 343290,
+          "endMs": 344230
+        },
+        {
+          "word": "yıldızdır;",
+          "startMs": 344860,
+          "endMs": 345900
+        },
+        {
+          "word": "gezegen",
+          "startMs": 346650,
+          "endMs": 347240
+        },
+        {
+          "word": "değildir.",
+          "startMs": 348140,
+          "endMs": 349090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 349520,
+      "endMs": 349810,
+      "pauseAfterMs": 50,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 349520,
+          "endMs": 349760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 349810,
+      "endMs": 362470,
+      "pauseAfterMs": 680,
+      "text": "Sekiz gezegen Güneş'ten dışa doğru Merkür, Venüs, Dünya, Mars, Jüpiter, Satürn, Uranüs ve Neptün'dür.",
+      "markedText": "Sekiz gezegen Güneş'ten dışa doğru Merkür, Venüs, Dünya, Mars, Jüpiter, Satürn, Uranüs ve Neptün'dür.",
+      "words": [
+        {
+          "word": "Sekiz",
+          "startMs": 349810,
+          "endMs": 350020
+        },
+        {
+          "word": "gezegen",
+          "startMs": 350080,
+          "endMs": 351070
+        },
+        {
+          "word": "Güneş'ten",
+          "startMs": 351740,
+          "endMs": 352330
+        },
+        {
+          "word": "dışa",
+          "startMs": 352410,
+          "endMs": 352780
+        },
+        {
+          "word": "doğru",
+          "startMs": 353400,
+          "endMs": 353840
+        },
+        {
+          "word": "Merkür,",
+          "startMs": 353970,
+          "endMs": 354580
+        },
+        {
+          "word": "Venüs,",
+          "startMs": 355320,
+          "endMs": 356130
+        },
+        {
+          "word": "Dünya,",
+          "startMs": 357010,
+          "endMs": 357290
+        },
+        {
+          "word": "Mars,",
+          "startMs": 357400,
+          "endMs": 357800
+        },
+        {
+          "word": "Jüpiter,",
+          "startMs": 358120,
+          "endMs": 358540
+        },
+        {
+          "word": "Satürn,",
+          "startMs": 359240,
+          "endMs": 359960
+        },
+        {
+          "word": "Uranüs",
+          "startMs": 360400,
+          "endMs": 360720
+        },
+        {
+          "word": "ve",
+          "startMs": 360720,
+          "endMs": 360870
+        },
+        {
+          "word": "Neptün'dür.",
+          "startMs": 360870,
+          "endMs": 361790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 362470,
+      "endMs": 362580,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 362470,
+          "endMs": 362580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 362580,
+      "endMs": 373560,
+      "pauseAfterMs": 870,
+      "text": "Ay bir uydudur, Plüton ise cüce gezegendir; ikisi de sekiz ana gezegenin yerine geçmez.",
+      "markedText": "Ay bir uydudur, Plüton ise cüce gezegendir; ikisi de sekiz ana gezegenin yerine geçmez.",
+      "words": [
+        {
+          "word": "Ay",
+          "startMs": 362580,
+          "endMs": 362880
+        },
+        {
+          "word": "bir",
+          "startMs": 363000,
+          "endMs": 363240
+        },
+        {
+          "word": "uydudur,",
+          "startMs": 363370,
+          "endMs": 364170
+        },
+        {
+          "word": "Plüton",
+          "startMs": 364880,
+          "endMs": 365360
+        },
+        {
+          "word": "ise",
+          "startMs": 365960,
+          "endMs": 366050
+        },
+        {
+          "word": "cüce",
+          "startMs": 366430,
+          "endMs": 366510
+        },
+        {
+          "word": "gezegendir;",
+          "startMs": 366830,
+          "endMs": 367930
+        },
+        {
+          "word": "ikisi",
+          "startMs": 368660,
+          "endMs": 368920
+        },
+        {
+          "word": "de",
+          "startMs": 369050,
+          "endMs": 369210
+        },
+        {
+          "word": "sekiz",
+          "startMs": 369280,
+          "endMs": 369660
+        },
+        {
+          "word": "ana",
+          "startMs": 369720,
+          "endMs": 369940
+        },
+        {
+          "word": "gezegenin",
+          "startMs": 370160,
+          "endMs": 370570
+        },
+        {
+          "word": "yerine",
+          "startMs": 370570,
+          "endMs": 371350
+        },
+        {
+          "word": "geçmez.",
+          "startMs": 372010,
+          "endMs": 372690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-3",
+      "startMs": 373560,
+      "endMs": 383280,
+      "pauseAfterMs": 670,
+      "text": "Güneş sisteminde merkezde bir yıldız ve çevresinde sekiz gezegen vardır.",
+      "markedText": "Güneş sisteminde merkezde bir yıldız ve çevresinde sekiz gezegen vardır.",
+      "words": [
+        {
+          "word": "Güneş",
+          "startMs": 373560,
+          "endMs": 373860
+        },
+        {
+          "word": "sisteminde",
+          "startMs": 373860,
+          "endMs": 374360
+        },
+        {
+          "word": "merkezde",
+          "startMs": 374480,
+          "endMs": 375780
+        },
+        {
+          "word": "bir",
+          "startMs": 376500,
+          "endMs": 376710
+        },
+        {
+          "word": "yıldız",
+          "startMs": 376710,
+          "endMs": 377530
+        },
+        {
+          "word": "ve",
+          "startMs": 378280,
+          "endMs": 378380
+        },
+        {
+          "word": "çevresinde",
+          "startMs": 378380,
+          "endMs": 380010
+        },
+        {
+          "word": "sekiz",
+          "startMs": 380630,
+          "endMs": 381080
+        },
+        {
+          "word": "gezegen",
+          "startMs": 381440,
+          "endMs": 381830
+        },
+        {
+          "word": "vardır.",
+          "startMs": 381900,
+          "endMs": 382610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-3",
+      "startMs": 383280,
+      "endMs": 390820,
+      "pauseAfterMs": 740,
+      "text": "Gezegen sırasını Güneş'ten dışa doğru kendi sözlerinle sayarsın.",
+      "markedText": "Gezegen sırasını Güneş'ten dışa doğru kendi sözlerinle sayarsın.",
+      "words": [
+        {
+          "word": "Gezegen",
+          "startMs": 383280,
+          "endMs": 383520
+        },
+        {
+          "word": "sırasını",
+          "startMs": 383690,
+          "endMs": 385010
+        },
+        {
+          "word": "Güneş'ten",
+          "startMs": 385850,
+          "endMs": 386250
+        },
+        {
+          "word": "dışa",
+          "startMs": 386350,
+          "endMs": 386590
+        },
+        {
+          "word": "doğru",
+          "startMs": 386590,
+          "endMs": 387030
+        },
+        {
+          "word": "kendi",
+          "startMs": 387110,
+          "endMs": 387790
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 388150,
+          "endMs": 388960
+        },
+        {
+          "word": "sayarsın.",
+          "startMs": 389210,
+          "endMs": 390080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-51",
+      "chapterId": "ch-3",
+      "startMs": 390820,
+      "endMs": 393250,
+      "pauseAfterMs": 930,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 390820,
+          "endMs": 391060
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 391220,
+          "endMs": 392320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-52",
+      "chapterId": "ch-3",
+      "startMs": 393250,
+      "endMs": 397560,
+      "pauseAfterMs": 900,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 393250,
+          "endMs": 393900
+        },
+        {
+          "word": "bir",
+          "startMs": 394000,
+          "endMs": 394350
+        },
+        {
+          "word": "iş",
+          "startMs": 394480,
+          "endMs": 394710
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 394940,
+          "endMs": 396660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-53",
+      "chapterId": "ch-3",
+      "startMs": 397560,
+      "endMs": 400530,
+      "pauseAfterMs": 720,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 397560,
+          "endMs": 398310
+        },
+        {
+          "word": "sıra",
+          "startMs": 399000,
+          "endMs": 399420
+        },
+        {
+          "word": "sende.",
+          "startMs": 399510,
+          "endMs": 399810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-54",
+      "chapterId": "ch-3",
+      "startMs": 400530,
+      "endMs": 403731,
+      "pauseAfterMs": 471,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 400530,
+          "endMs": 400830
+        },
+        {
+          "word": "bu",
+          "startMs": 400960,
+          "endMs": 401130
+        },
+        {
+          "word": "notları",
+          "startMs": 401130,
+          "endMs": 401630
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 401780,
+          "endMs": 402080
+        },
+        {
+          "word": "kendi",
+          "startMs": 402220,
+          "endMs": 402390
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 402450,
+          "endMs": 403040
+        },
+        {
+          "word": "anlat.",
+          "startMs": 403040,
+          "endMs": 403260
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

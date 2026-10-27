@@ -1,0 +1,2247 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_mat-19",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Paralelkenar ve üçgenin alanı",
+  "grade": 6,
+  "subject": "Matematik",
+  "teacher": {
+    "name": "Selim",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_mat-19.mp3",
+    "durationMs": 295817,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 141520
+    },
+    {
+      "id": "ch-2",
+      "title": "Alan hesabı",
+      "startMs": 141520,
+      "endMs": 194890
+    },
+    {
+      "id": "ch-3",
+      "title": "Kapanış",
+      "startMs": 194890,
+      "endMs": 295817
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 5290,
+      "pauseAfterMs": 1370,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 220,
+          "endMs": 1440
+        },
+        {
+          "word": "sevgili",
+          "startMs": 2300,
+          "endMs": 2840
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 3010,
+          "endMs": 3920
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "area",
+            "title": "Alan",
+            "subtitle": "Taban ve yükseklik"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 5290,
+      "endMs": 8020,
+      "pauseAfterMs": 440,
+      "text": "Ben Matematik öğretmenin Selim.",
+      "markedText": "Ben Matematik öğretmenin Selim.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 5290,
+          "endMs": 5360
+        },
+        {
+          "word": "Matematik",
+          "startMs": 5660,
+          "endMs": 6300
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6480,
+          "endMs": 7130
+        },
+        {
+          "word": "Selim.",
+          "startMs": 7250,
+          "endMs": 7580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8020,
+      "endMs": 17720,
+      "pauseAfterMs": 1190,
+      "text": "Hiç masadaki bir kâğıt paralelkenarı tam köşegeninden kesip iki eş üçgen elde ettin mi?",
+      "markedText": "Hiç masadaki bir kâğıt paralelkenarı tam köşegeninden kesip iki eş üçgen elde ettin mi?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 8020,
+          "endMs": 8240
+        },
+        {
+          "word": "masadaki",
+          "startMs": 8340,
+          "endMs": 9040
+        },
+        {
+          "word": "bir",
+          "startMs": 9130,
+          "endMs": 9330
+        },
+        {
+          "word": "kâğıt",
+          "startMs": 9720,
+          "endMs": 10120
+        },
+        {
+          "word": "paralelkenarı",
+          "startMs": 10330,
+          "endMs": 11120
+        },
+        {
+          "word": "tam",
+          "startMs": 12410,
+          "endMs": 12610
+        },
+        {
+          "word": "köşegeninden",
+          "startMs": 12690,
+          "endMs": 13320
+        },
+        {
+          "word": "kesip",
+          "startMs": 13600,
+          "endMs": 13930
+        },
+        {
+          "word": "iki",
+          "startMs": 14000,
+          "endMs": 14230
+        },
+        {
+          "word": "eş",
+          "startMs": 14230,
+          "endMs": 14340
+        },
+        {
+          "word": "üçgen",
+          "startMs": 14480,
+          "endMs": 14860
+        },
+        {
+          "word": "elde",
+          "startMs": 15020,
+          "endMs": 15230
+        },
+        {
+          "word": "ettin",
+          "startMs": 15230,
+          "endMs": 15760
+        },
+        {
+          "word": "mi?",
+          "startMs": 15880,
+          "endMs": 16530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 17720,
+      "endMs": 25190,
+      "pauseAfterMs": 830,
+      "text": "Bu iki üçgeni üst üste koyduğunda alanın tam yarıya indiğini görürsün.",
+      "markedText": "Bu iki üçgeni üst üste koyduğunda alanın tam yarıya indiğini görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 17720,
+          "endMs": 17820
+        },
+        {
+          "word": "iki",
+          "startMs": 17820,
+          "endMs": 18100
+        },
+        {
+          "word": "üçgeni",
+          "startMs": 18190,
+          "endMs": 18640
+        },
+        {
+          "word": "üst",
+          "startMs": 18960,
+          "endMs": 19060
+        },
+        {
+          "word": "üste",
+          "startMs": 19060,
+          "endMs": 19300
+        },
+        {
+          "word": "koyduğunda",
+          "startMs": 19300,
+          "endMs": 19840
+        },
+        {
+          "word": "alanın",
+          "startMs": 19970,
+          "endMs": 20330
+        },
+        {
+          "word": "tam",
+          "startMs": 20450,
+          "endMs": 20670
+        },
+        {
+          "word": "yarıya",
+          "startMs": 20750,
+          "endMs": 21730
+        },
+        {
+          "word": "indiğini",
+          "startMs": 22880,
+          "endMs": 23410
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 23520,
+          "endMs": 24360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 25190,
+      "endMs": 34310,
+      "pauseAfterMs": 1250,
+      "text": "Paralelkenarın ve üçgenin alanını hesaplamanın pratik yollarını keşfedeceğiz.",
+      "markedText": "Paralelkenarın ve üçgenin alanını hesaplamanın pratik yollarını keşfedeceğiz.",
+      "words": [
+        {
+          "word": "Paralelkenarın",
+          "startMs": 25190,
+          "endMs": 26360
+        },
+        {
+          "word": "ve",
+          "startMs": 26360,
+          "endMs": 26580
+        },
+        {
+          "word": "üçgenin",
+          "startMs": 26940,
+          "endMs": 27430
+        },
+        {
+          "word": "alanını",
+          "startMs": 27890,
+          "endMs": 28360
+        },
+        {
+          "word": "hesaplamanın",
+          "startMs": 28630,
+          "endMs": 29670
+        },
+        {
+          "word": "pratik",
+          "startMs": 30440,
+          "endMs": 30670
+        },
+        {
+          "word": "yollarını",
+          "startMs": 30720,
+          "endMs": 31510
+        },
+        {
+          "word": "keşfedeceğiz.",
+          "startMs": 31760,
+          "endMs": 33060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 34310,
+      "endMs": 39820,
+      "pauseAfterMs": 1140,
+      "text": "Bunu bir uçurtmada da kullanırsın.",
+      "markedText": "Bunu bir uçurtmada da kullanırsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 34310,
+          "endMs": 34720
+        },
+        {
+          "word": "bir",
+          "startMs": 34980,
+          "endMs": 35340
+        },
+        {
+          "word": "uçurtmada",
+          "startMs": 35430,
+          "endMs": 36540
+        },
+        {
+          "word": "da",
+          "startMs": 36690,
+          "endMs": 36820
+        },
+        {
+          "word": "kullanırsın.",
+          "startMs": 37290,
+          "endMs": 38680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 39820,
+      "endMs": 52020,
+      "pauseAfterMs": 1370,
+      "text": "Uçurtmanın bir parçası üçgen ise tabanı ve dik yüksekliği ölçersin.",
+      "markedText": "Uçurtmanın bir parçası üçgen ise tabanı ve dik yüksekliği ölçersin.",
+      "words": [
+        {
+          "word": "Uçurtmanın",
+          "startMs": 39820,
+          "endMs": 40940
+        },
+        {
+          "word": "bir",
+          "startMs": 41230,
+          "endMs": 41580
+        },
+        {
+          "word": "parçası",
+          "startMs": 41650,
+          "endMs": 42260
+        },
+        {
+          "word": "üçgen",
+          "startMs": 42320,
+          "endMs": 42940
+        },
+        {
+          "word": "ise",
+          "startMs": 44060,
+          "endMs": 44450
+        },
+        {
+          "word": "tabanı",
+          "startMs": 44530,
+          "endMs": 45180
+        },
+        {
+          "word": "ve",
+          "startMs": 45240,
+          "endMs": 45580
+        },
+        {
+          "word": "dik",
+          "startMs": 46540,
+          "endMs": 46930
+        },
+        {
+          "word": "yüksekliği",
+          "startMs": 47590,
+          "endMs": 48630
+        },
+        {
+          "word": "ölçersin.",
+          "startMs": 49540,
+          "endMs": 50650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 52020,
+      "endMs": 60420,
+      "pauseAfterMs": 990,
+      "text": "Çarpımın yarısı, kâğıdın kapladığı alandır.",
+      "markedText": "Çarpımın yarısı, kâğıdın kapladığı alandır.",
+      "words": [
+        {
+          "word": "Çarpımın",
+          "startMs": 52020,
+          "endMs": 52880
+        },
+        {
+          "word": "yarısı,",
+          "startMs": 53120,
+          "endMs": 54800
+        },
+        {
+          "word": "kâğıdın",
+          "startMs": 56070,
+          "endMs": 56950
+        },
+        {
+          "word": "kapladığı",
+          "startMs": 57430,
+          "endMs": 58210
+        },
+        {
+          "word": "alandır.",
+          "startMs": 58330,
+          "endMs": 59430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 60420,
+      "endMs": 69300,
+      "pauseAfterMs": 1510,
+      "text": "Bahçedeki paralelkenar tarhın alanı ise taban çarpı yüksekliktir.",
+      "markedText": "Bahçedeki paralelkenar tarhın alanı ise taban çarpı yüksekliktir.",
+      "words": [
+        {
+          "word": "Bahçedeki",
+          "startMs": 60420,
+          "endMs": 60750
+        },
+        {
+          "word": "paralelkenar",
+          "startMs": 60950,
+          "endMs": 61550
+        },
+        {
+          "word": "tarhın",
+          "startMs": 61700,
+          "endMs": 63190
+        },
+        {
+          "word": "alanı",
+          "startMs": 64370,
+          "endMs": 64690
+        },
+        {
+          "word": "ise",
+          "startMs": 64790,
+          "endMs": 65080
+        },
+        {
+          "word": "taban",
+          "startMs": 65210,
+          "endMs": 65560
+        },
+        {
+          "word": "çarpı",
+          "startMs": 66030,
+          "endMs": 66620
+        },
+        {
+          "word": "yüksekliktir.",
+          "startMs": 66730,
+          "endMs": 67790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 69300,
+      "endMs": 76390,
+      "pauseAfterMs": 1630,
+      "text": "Çiti eğik ölçersen tarhı olduğundan büyük sanırsın.",
+      "markedText": "Çiti eğik ölçersen tarhı olduğundan büyük sanırsın.",
+      "words": [
+        {
+          "word": "Çiti",
+          "startMs": 69300,
+          "endMs": 69760
+        },
+        {
+          "word": "eğik",
+          "startMs": 70090,
+          "endMs": 70220
+        },
+        {
+          "word": "ölçersen",
+          "startMs": 70670,
+          "endMs": 71620
+        },
+        {
+          "word": "tarhı",
+          "startMs": 71710,
+          "endMs": 72280
+        },
+        {
+          "word": "olduğundan",
+          "startMs": 72420,
+          "endMs": 73380
+        },
+        {
+          "word": "büyük",
+          "startMs": 73490,
+          "endMs": 73830
+        },
+        {
+          "word": "sanırsın.",
+          "startMs": 74040,
+          "endMs": 74760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 76390,
+      "endMs": 83440,
+      "pauseAfterMs": 930,
+      "text": "Alan, bir geometrik şeklin düzlemde kapladığı yüzey ölçüsüdür.",
+      "markedText": "Alan, bir geometrik şeklin düzlemde kapladığı yüzey ölçüsüdür.",
+      "words": [
+        {
+          "word": "Alan,",
+          "startMs": 76390,
+          "endMs": 76870
+        },
+        {
+          "word": "bir",
+          "startMs": 77710,
+          "endMs": 77850
+        },
+        {
+          "word": "geometrik",
+          "startMs": 77910,
+          "endMs": 78680
+        },
+        {
+          "word": "şeklin",
+          "startMs": 78730,
+          "endMs": 79130
+        },
+        {
+          "word": "düzlemde",
+          "startMs": 79330,
+          "endMs": 79820
+        },
+        {
+          "word": "kapladığı",
+          "startMs": 80050,
+          "endMs": 80810
+        },
+        {
+          "word": "yüzey",
+          "startMs": 81050,
+          "endMs": 81500
+        },
+        {
+          "word": "ölçüsüdür.",
+          "startMs": 81590,
+          "endMs": 82510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 83440,
+      "endMs": 100560,
+      "pauseAfterMs": 1100,
+      "text": "Paralelkenarda taban seçilen alt kenardır; yükseklik ise o tabana karşı kenardan dik inen doğru parçasıdır.",
+      "markedText": "Paralelkenarda taban seçilen alt kenardır; yükseklik ise o tabana karşı kenardan dik inen doğru parçasıdır.",
+      "words": [
+        {
+          "word": "Paralelkenarda",
+          "startMs": 83440,
+          "endMs": 85100
+        },
+        {
+          "word": "taban",
+          "startMs": 85290,
+          "endMs": 86050
+        },
+        {
+          "word": "seçilen",
+          "startMs": 87220,
+          "endMs": 87910
+        },
+        {
+          "word": "alt",
+          "startMs": 88040,
+          "endMs": 88400
+        },
+        {
+          "word": "kenardır;",
+          "startMs": 88500,
+          "endMs": 89430
+        },
+        {
+          "word": "yükseklik",
+          "startMs": 90560,
+          "endMs": 91420
+        },
+        {
+          "word": "ise",
+          "startMs": 91850,
+          "endMs": 91950
+        },
+        {
+          "word": "o",
+          "startMs": 92520,
+          "endMs": 92600
+        },
+        {
+          "word": "tabana",
+          "startMs": 92760,
+          "endMs": 93590
+        },
+        {
+          "word": "karşı",
+          "startMs": 93710,
+          "endMs": 94160
+        },
+        {
+          "word": "kenardan",
+          "startMs": 94230,
+          "endMs": 95280
+        },
+        {
+          "word": "dik",
+          "startMs": 96350,
+          "endMs": 96760
+        },
+        {
+          "word": "inen",
+          "startMs": 97100,
+          "endMs": 97440
+        },
+        {
+          "word": "doğru",
+          "startMs": 97520,
+          "endMs": 98030
+        },
+        {
+          "word": "parçasıdır.",
+          "startMs": 98340,
+          "endMs": 99460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-1",
+      "startMs": 100560,
+      "endMs": 105680,
+      "pauseAfterMs": 540,
+      "text": "Yandaki eğik kenar asla yükseklik değildir!",
+      "markedText": "Yandaki eğik kenar asla yükseklik değildir!",
+      "words": [
+        {
+          "word": "Yandaki",
+          "startMs": 100560,
+          "endMs": 101240
+        },
+        {
+          "word": "eğik",
+          "startMs": 101240,
+          "endMs": 101480
+        },
+        {
+          "word": "kenar",
+          "startMs": 101550,
+          "endMs": 102160
+        },
+        {
+          "word": "asla",
+          "startMs": 102300,
+          "endMs": 102760
+        },
+        {
+          "word": "yükseklik",
+          "startMs": 103270,
+          "endMs": 104100
+        },
+        {
+          "word": "değildir!",
+          "startMs": 104460,
+          "endMs": 105140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-1",
+      "startMs": 105680,
+      "endMs": 111740,
+      "pauseAfterMs": 1260,
+      "text": "Paralelkenarın alanı, taban ile yüksekliğin çarpımıdır.",
+      "markedText": "Paralelkenarın alanı, taban ile yüksekliğin çarpımıdır.",
+      "words": [
+        {
+          "word": "Paralelkenarın",
+          "startMs": 105680,
+          "endMs": 106610
+        },
+        {
+          "word": "alanı,",
+          "startMs": 106690,
+          "endMs": 107320
+        },
+        {
+          "word": "taban",
+          "startMs": 107930,
+          "endMs": 108150
+        },
+        {
+          "word": "ile",
+          "startMs": 108330,
+          "endMs": 108520
+        },
+        {
+          "word": "yüksekliğin",
+          "startMs": 108680,
+          "endMs": 109520
+        },
+        {
+          "word": "çarpımıdır.",
+          "startMs": 109750,
+          "endMs": 110480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-1",
+      "startMs": 111740,
+      "endMs": 119600,
+      "pauseAfterMs": 290,
+      "text": "Üçgenin alanı ise aynı taban ve aynı yüksekliğe sahip paralelkenarın tam yarısıdır.",
+      "markedText": "Üçgenin alanı ise aynı taban ve aynı yüksekliğe sahip paralelkenarın tam yarısıdır.",
+      "words": [
+        {
+          "word": "Üçgenin",
+          "startMs": 111740,
+          "endMs": 112070
+        },
+        {
+          "word": "alanı",
+          "startMs": 112170,
+          "endMs": 112530
+        },
+        {
+          "word": "ise",
+          "startMs": 112640,
+          "endMs": 112780
+        },
+        {
+          "word": "aynı",
+          "startMs": 112970,
+          "endMs": 113470
+        },
+        {
+          "word": "taban",
+          "startMs": 113590,
+          "endMs": 114080
+        },
+        {
+          "word": "ve",
+          "startMs": 114170,
+          "endMs": 114340
+        },
+        {
+          "word": "aynı",
+          "startMs": 114470,
+          "endMs": 114830
+        },
+        {
+          "word": "yüksekliğe",
+          "startMs": 115320,
+          "endMs": 115970
+        },
+        {
+          "word": "sahip",
+          "startMs": 116080,
+          "endMs": 116410
+        },
+        {
+          "word": "paralelkenarın",
+          "startMs": 116510,
+          "endMs": 117500
+        },
+        {
+          "word": "tam",
+          "startMs": 117870,
+          "endMs": 118130
+        },
+        {
+          "word": "yarısıdır.",
+          "startMs": 118340,
+          "endMs": 119310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-1",
+      "startMs": 119600,
+      "endMs": 136560,
+      "pauseAfterMs": 940,
+      "text": "Pratik kural: Üçgende alanı bulurken taban ile yüksekliği çarpıp mutlaka ikiye bölersin; eğik kenarı ise yükseklik yerine asla kullanmazsın.",
+      "markedText": "Pratik kural: Üçgende alanı bulurken taban ile yüksekliği çarpıp mutlaka ikiye bölersin; eğik kenarı ise yükseklik yerine asla kullanmazsın.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 119600,
+          "endMs": 119990
+        },
+        {
+          "word": "kural:",
+          "startMs": 120630,
+          "endMs": 120940
+        },
+        {
+          "word": "Üçgende",
+          "startMs": 121300,
+          "endMs": 121840
+        },
+        {
+          "word": "alanı",
+          "startMs": 121950,
+          "endMs": 122310
+        },
+        {
+          "word": "bulurken",
+          "startMs": 122350,
+          "endMs": 123320
+        },
+        {
+          "word": "taban",
+          "startMs": 124500,
+          "endMs": 125030
+        },
+        {
+          "word": "ile",
+          "startMs": 125170,
+          "endMs": 125290
+        },
+        {
+          "word": "yüksekliği",
+          "startMs": 125800,
+          "endMs": 126620
+        },
+        {
+          "word": "çarpıp",
+          "startMs": 127000,
+          "endMs": 127240
+        },
+        {
+          "word": "mutlaka",
+          "startMs": 127360,
+          "endMs": 128290
+        },
+        {
+          "word": "ikiye",
+          "startMs": 129010,
+          "endMs": 129300
+        },
+        {
+          "word": "bölersin;",
+          "startMs": 129380,
+          "endMs": 130230
+        },
+        {
+          "word": "eğik",
+          "startMs": 130720,
+          "endMs": 130970
+        },
+        {
+          "word": "kenarı",
+          "startMs": 131160,
+          "endMs": 131720
+        },
+        {
+          "word": "ise",
+          "startMs": 131880,
+          "endMs": 132060
+        },
+        {
+          "word": "yükseklik",
+          "startMs": 132290,
+          "endMs": 132930
+        },
+        {
+          "word": "yerine",
+          "startMs": 133340,
+          "endMs": 133520
+        },
+        {
+          "word": "asla",
+          "startMs": 133630,
+          "endMs": 133910
+        },
+        {
+          "word": "kullanmazsın.",
+          "startMs": 134770,
+          "endMs": 135620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-1",
+      "startMs": 136560,
+      "endMs": 141520,
+      "pauseAfterMs": 610,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 136560,
+          "endMs": 136820
+        },
+        {
+          "word": "şimdi",
+          "startMs": 136910,
+          "endMs": 137200
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 137390,
+          "endMs": 138040
+        },
+        {
+          "word": "çizime",
+          "startMs": 138740,
+          "endMs": 139510
+        },
+        {
+          "word": "birlikte",
+          "startMs": 139700,
+          "endMs": 140200
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 140280,
+          "endMs": 140910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 141520,
+      "endMs": 194890,
+      "pauseAfterMs": 1650,
+      "text": "Tabanı 8 santimetre, yüksekliği 5 santimetre olan bir paralelkenar düşünelim. Alanı 8 çarpı 5'ten 40 santimetrekaredir. Aynı tabana ve aynı yüksekliğe sahip bir üçgenin alanı ise 40'ın yarısı, yani 20 santimetrekaredir; bunu 8 çarpı 5 bölü 2 diye yazarız. Paralelkenarın eğik kenarı 6 santimetre olsa bile, 8 ile 6'yı çarpmak alanı vermez; çünkü 6 dik yükseklik değildir. Yükseklik daima dik inen 5 santimetredir.",
+      "markedText": "{@showArea} Tabanı 8 santimetre, yüksekliği 5 santimetre olan bir paralelkenar düşünelim. Alanı 8 çarpı 5'ten 40 santimetrekaredir. Aynı tabana ve aynı yüksekliğe sahip bir üçgenin alanı ise 40'ın yarısı, yani 20 santimetrekaredir; bunu 8 çarpı 5 bölü 2 diye yazarız. Paralelkenarın eğik kenarı 6 santimetre olsa bile, 8 ile 6'yı çarpmak alanı vermez; çünkü 6 dik yükseklik değildir. Yükseklik daima dik inen 5 santimetredir.",
+      "words": [
+        {
+          "word": "Tabanı",
+          "startMs": 141520,
+          "endMs": 142010
+        },
+        {
+          "word": "8",
+          "startMs": 142210,
+          "endMs": 142370
+        },
+        {
+          "word": "santimetre,",
+          "startMs": 142510,
+          "endMs": 143240
+        },
+        {
+          "word": "yüksekliği",
+          "startMs": 143310,
+          "endMs": 143950
+        },
+        {
+          "word": "5",
+          "startMs": 144810,
+          "endMs": 145050
+        },
+        {
+          "word": "santimetre",
+          "startMs": 145280,
+          "endMs": 146050
+        },
+        {
+          "word": "olan",
+          "startMs": 146170,
+          "endMs": 146480
+        },
+        {
+          "word": "bir",
+          "startMs": 146560,
+          "endMs": 146710
+        },
+        {
+          "word": "paralelkenar",
+          "startMs": 146970,
+          "endMs": 147900
+        },
+        {
+          "word": "düşünelim.",
+          "startMs": 147970,
+          "endMs": 148610
+        },
+        {
+          "word": "Alanı",
+          "startMs": 149670,
+          "endMs": 150110
+        },
+        {
+          "word": "8",
+          "startMs": 150340,
+          "endMs": 150630
+        },
+        {
+          "word": "çarpı",
+          "startMs": 150720,
+          "endMs": 151020
+        },
+        {
+          "word": "5'ten",
+          "startMs": 151060,
+          "endMs": 151520
+        },
+        {
+          "word": "40",
+          "startMs": 152160,
+          "endMs": 152320
+        },
+        {
+          "word": "santimetrekaredir.",
+          "startMs": 152370,
+          "endMs": 154300
+        },
+        {
+          "word": "Aynı",
+          "startMs": 156160,
+          "endMs": 156440
+        },
+        {
+          "word": "tabana",
+          "startMs": 156440,
+          "endMs": 157020
+        },
+        {
+          "word": "ve",
+          "startMs": 158100,
+          "endMs": 158290
+        },
+        {
+          "word": "aynı",
+          "startMs": 158860,
+          "endMs": 159090
+        },
+        {
+          "word": "yüksekliğe",
+          "startMs": 159500,
+          "endMs": 160340
+        },
+        {
+          "word": "sahip",
+          "startMs": 161080,
+          "endMs": 161420
+        },
+        {
+          "word": "bir",
+          "startMs": 161520,
+          "endMs": 161810
+        },
+        {
+          "word": "üçgenin",
+          "startMs": 161920,
+          "endMs": 162730
+        },
+        {
+          "word": "alanı",
+          "startMs": 162820,
+          "endMs": 163340
+        },
+        {
+          "word": "ise",
+          "startMs": 163590,
+          "endMs": 163700
+        },
+        {
+          "word": "40'ın",
+          "startMs": 164630,
+          "endMs": 164860
+        },
+        {
+          "word": "yarısı,",
+          "startMs": 165520,
+          "endMs": 166400
+        },
+        {
+          "word": "yani",
+          "startMs": 166530,
+          "endMs": 166800
+        },
+        {
+          "word": "20",
+          "startMs": 166910,
+          "endMs": 167390
+        },
+        {
+          "word": "santimetrekaredir;",
+          "startMs": 167900,
+          "endMs": 169450
+        },
+        {
+          "word": "bunu",
+          "startMs": 170550,
+          "endMs": 170760
+        },
+        {
+          "word": "8",
+          "startMs": 171300,
+          "endMs": 171760
+        },
+        {
+          "word": "çarpı",
+          "startMs": 171880,
+          "endMs": 172240
+        },
+        {
+          "word": "5",
+          "startMs": 172460,
+          "endMs": 172540
+        },
+        {
+          "word": "bölü",
+          "startMs": 172850,
+          "endMs": 173030
+        },
+        {
+          "word": "2",
+          "startMs": 173240,
+          "endMs": 173350
+        },
+        {
+          "word": "diye",
+          "startMs": 173720,
+          "endMs": 174040
+        },
+        {
+          "word": "yazarız.",
+          "startMs": 174170,
+          "endMs": 174680
+        },
+        {
+          "word": "Paralelkenarın",
+          "startMs": 175020,
+          "endMs": 176190
+        },
+        {
+          "word": "eğik",
+          "startMs": 176400,
+          "endMs": 176710
+        },
+        {
+          "word": "kenarı",
+          "startMs": 178400,
+          "endMs": 178800
+        },
+        {
+          "word": "6",
+          "startMs": 178950,
+          "endMs": 179160
+        },
+        {
+          "word": "santimetre",
+          "startMs": 179210,
+          "endMs": 179810
+        },
+        {
+          "word": "olsa",
+          "startMs": 180060,
+          "endMs": 180350
+        },
+        {
+          "word": "bile,",
+          "startMs": 180460,
+          "endMs": 180640
+        },
+        {
+          "word": "8",
+          "startMs": 182180,
+          "endMs": 182610
+        },
+        {
+          "word": "ile",
+          "startMs": 182680,
+          "endMs": 182890
+        },
+        {
+          "word": "6'yı",
+          "startMs": 182950,
+          "endMs": 183570
+        },
+        {
+          "word": "çarpmak",
+          "startMs": 183920,
+          "endMs": 184290
+        },
+        {
+          "word": "alanı",
+          "startMs": 184400,
+          "endMs": 184590
+        },
+        {
+          "word": "vermez;",
+          "startMs": 184590,
+          "endMs": 184840
+        },
+        {
+          "word": "çünkü",
+          "startMs": 185120,
+          "endMs": 185310
+        },
+        {
+          "word": "6",
+          "startMs": 185410,
+          "endMs": 185650
+        },
+        {
+          "word": "dik",
+          "startMs": 185770,
+          "endMs": 185930
+        },
+        {
+          "word": "yükseklik",
+          "startMs": 186050,
+          "endMs": 186550
+        },
+        {
+          "word": "değildir.",
+          "startMs": 186550,
+          "endMs": 187060
+        },
+        {
+          "word": "Yükseklik",
+          "startMs": 187790,
+          "endMs": 188920
+        },
+        {
+          "word": "daima",
+          "startMs": 189060,
+          "endMs": 189550
+        },
+        {
+          "word": "dik",
+          "startMs": 189620,
+          "endMs": 190330
+        },
+        {
+          "word": "inen",
+          "startMs": 191370,
+          "endMs": 191820
+        },
+        {
+          "word": "5",
+          "startMs": 191950,
+          "endMs": 192210
+        },
+        {
+          "word": "santimetredir.",
+          "startMs": 192490,
+          "endMs": 193240
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 141520,
+          "op": "SHOW_AREA",
+          "hook": "showArea",
+          "params": {
+            "base": 8,
+            "height": 5,
+            "slant": 6,
+            "parallelogram": 40,
+            "triangle": 20,
+            "divisor": 2,
+            "unit": "cm²",
+            "formula": "taban × yükseklik",
+            "note": "dik yükseklik değildir",
+            "marks": [
+              {
+                "slot": "base",
+                "value": 8,
+                "atMs": 142210
+              },
+              {
+                "slot": "height",
+                "value": 5,
+                "atMs": 144810
+              },
+              {
+                "slot": "base-again",
+                "value": 8,
+                "atMs": 150340
+              },
+              {
+                "slot": "height-product",
+                "value": 5,
+                "token": "5'ten",
+                "atMs": 151060
+              },
+              {
+                "slot": "parallelogram",
+                "value": 40,
+                "atMs": 152160
+              },
+              {
+                "slot": "half-source",
+                "value": 40,
+                "token": "40'ın",
+                "atMs": 164630
+              },
+              {
+                "slot": "triangle",
+                "value": 20,
+                "atMs": 166910
+              },
+              {
+                "slot": "slant",
+                "value": 6,
+                "atMs": 178950
+              },
+              {
+                "slot": "height-true",
+                "value": 5,
+                "atMs": 191950
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-3",
+      "startMs": 194890,
+      "endMs": 199120,
+      "pauseAfterMs": 1250,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 194890,
+          "endMs": 196370
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 196500,
+          "endMs": 197870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-3",
+      "startMs": 199120,
+      "endMs": 202320,
+      "pauseAfterMs": 1210,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 199120,
+          "endMs": 200050
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 200110,
+          "endMs": 201110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-3",
+      "startMs": 202320,
+      "endMs": 205830,
+      "pauseAfterMs": 1200,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 202320,
+          "endMs": 202490
+        },
+        {
+          "word": "noktayı",
+          "startMs": 202590,
+          "endMs": 203310
+        },
+        {
+          "word": "sen",
+          "startMs": 203310,
+          "endMs": 203660
+        },
+        {
+          "word": "de",
+          "startMs": 203660,
+          "endMs": 203810
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 203910,
+          "endMs": 204630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-3",
+      "startMs": 205830,
+      "endMs": 214620,
+      "pauseAfterMs": 1080,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 205830,
+          "endMs": 206090
+        },
+        {
+          "word": "sevgili",
+          "startMs": 206270,
+          "endMs": 206700
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 206700,
+          "endMs": 207280
+        },
+        {
+          "word": "işte",
+          "startMs": 208480,
+          "endMs": 208810
+        },
+        {
+          "word": "tam",
+          "startMs": 208930,
+          "endMs": 209200
+        },
+        {
+          "word": "bu",
+          "startMs": 209290,
+          "endMs": 209380
+        },
+        {
+          "word": "noktada",
+          "startMs": 209650,
+          "endMs": 210200
+        },
+        {
+          "word": "dikkat",
+          "startMs": 210260,
+          "endMs": 210530
+        },
+        {
+          "word": "etmen",
+          "startMs": 210620,
+          "endMs": 211120
+        },
+        {
+          "word": "gereken",
+          "startMs": 211850,
+          "endMs": 212050
+        },
+        {
+          "word": "kilit",
+          "startMs": 212220,
+          "endMs": 212940
+        },
+        {
+          "word": "nokta.",
+          "startMs": 213180,
+          "endMs": 213540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-3",
+      "startMs": 214620,
+      "endMs": 218230,
+      "pauseAfterMs": 1550,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 214620,
+          "endMs": 215730
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 215940,
+          "endMs": 216680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-3",
+      "startMs": 218230,
+      "endMs": 225910,
+      "pauseAfterMs": 1190,
+      "text": "Yandaki eğik kenarı yükseklik sanıp tabanla çarpmak en sık yapılan hatadır.",
+      "markedText": "Yandaki eğik kenarı yükseklik sanıp tabanla çarpmak en sık yapılan hatadır.",
+      "words": [
+        {
+          "word": "Yandaki",
+          "startMs": 218230,
+          "endMs": 218820
+        },
+        {
+          "word": "eğik",
+          "startMs": 218820,
+          "endMs": 219110
+        },
+        {
+          "word": "kenarı",
+          "startMs": 219220,
+          "endMs": 219620
+        },
+        {
+          "word": "yükseklik",
+          "startMs": 219680,
+          "endMs": 220280
+        },
+        {
+          "word": "sanıp",
+          "startMs": 220470,
+          "endMs": 220780
+        },
+        {
+          "word": "tabanla",
+          "startMs": 222160,
+          "endMs": 222500
+        },
+        {
+          "word": "çarpmak",
+          "startMs": 222600,
+          "endMs": 222930
+        },
+        {
+          "word": "en",
+          "startMs": 223030,
+          "endMs": 223240
+        },
+        {
+          "word": "sık",
+          "startMs": 223240,
+          "endMs": 223330
+        },
+        {
+          "word": "yapılan",
+          "startMs": 223450,
+          "endMs": 223940
+        },
+        {
+          "word": "hatadır.",
+          "startMs": 224030,
+          "endMs": 224720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-3",
+      "startMs": 225910,
+      "endMs": 230340,
+      "pauseAfterMs": 1570,
+      "text": "Yükseklik mutlaka tabana dik inmelidir.",
+      "markedText": "Yükseklik mutlaka tabana dik inmelidir.",
+      "words": [
+        {
+          "word": "Yükseklik",
+          "startMs": 225910,
+          "endMs": 226250
+        },
+        {
+          "word": "mutlaka",
+          "startMs": 226370,
+          "endMs": 226910
+        },
+        {
+          "word": "tabana",
+          "startMs": 226990,
+          "endMs": 227330
+        },
+        {
+          "word": "dik",
+          "startMs": 227550,
+          "endMs": 227760
+        },
+        {
+          "word": "inmelidir.",
+          "startMs": 227760,
+          "endMs": 228770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-3",
+      "startMs": 230340,
+      "endMs": 243580,
+      "pauseAfterMs": 1340,
+      "text": "Bir de üçgenin alanını hesaplarken ikiye bölmeyi her zaman hatırla; 8 çarpı 5 paralelkenarın alanıdır, üçgen için bu sonucu 2'ye bölmek şarttır.",
+      "markedText": "Bir de üçgenin alanını hesaplarken ikiye bölmeyi her zaman hatırla; 8 çarpı 5 paralelkenarın alanıdır, üçgen için bu sonucu 2'ye bölmek şarttır.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 230340,
+          "endMs": 230430
+        },
+        {
+          "word": "de",
+          "startMs": 230430,
+          "endMs": 230540
+        },
+        {
+          "word": "üçgenin",
+          "startMs": 230540,
+          "endMs": 230700
+        },
+        {
+          "word": "alanını",
+          "startMs": 230790,
+          "endMs": 231200
+        },
+        {
+          "word": "hesaplarken",
+          "startMs": 231470,
+          "endMs": 232080
+        },
+        {
+          "word": "ikiye",
+          "startMs": 232190,
+          "endMs": 232410
+        },
+        {
+          "word": "bölmeyi",
+          "startMs": 232550,
+          "endMs": 232910
+        },
+        {
+          "word": "her",
+          "startMs": 232960,
+          "endMs": 233200
+        },
+        {
+          "word": "zaman",
+          "startMs": 233200,
+          "endMs": 233590
+        },
+        {
+          "word": "hatırla;",
+          "startMs": 233670,
+          "endMs": 234340
+        },
+        {
+          "word": "8",
+          "startMs": 235630,
+          "endMs": 235790
+        },
+        {
+          "word": "çarpı",
+          "startMs": 235840,
+          "endMs": 236030
+        },
+        {
+          "word": "5",
+          "startMs": 236120,
+          "endMs": 236250
+        },
+        {
+          "word": "paralelkenarın",
+          "startMs": 236250,
+          "endMs": 236820
+        },
+        {
+          "word": "alanıdır,",
+          "startMs": 236910,
+          "endMs": 237570
+        },
+        {
+          "word": "üçgen",
+          "startMs": 238990,
+          "endMs": 239310
+        },
+        {
+          "word": "için",
+          "startMs": 239430,
+          "endMs": 239850
+        },
+        {
+          "word": "bu",
+          "startMs": 239960,
+          "endMs": 240120
+        },
+        {
+          "word": "sonucu",
+          "startMs": 240330,
+          "endMs": 240900
+        },
+        {
+          "word": "2'ye",
+          "startMs": 241060,
+          "endMs": 241170
+        },
+        {
+          "word": "bölmek",
+          "startMs": 241350,
+          "endMs": 241760
+        },
+        {
+          "word": "şarttır.",
+          "startMs": 241870,
+          "endMs": 242240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-3",
+      "startMs": 243580,
+      "endMs": 247540,
+      "pauseAfterMs": 1360,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 243580,
+          "endMs": 244250
+        },
+        {
+          "word": "Neler",
+          "startMs": 244360,
+          "endMs": 244940
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 245160,
+          "endMs": 246180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-3",
+      "startMs": 247540,
+      "endMs": 247880,
+      "pauseAfterMs": 160,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 247540,
+          "endMs": 247720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-3",
+      "startMs": 247880,
+      "endMs": 254620,
+      "pauseAfterMs": 1260,
+      "text": "Paralelkenarın alanı taban çarpı yüksekliktir.",
+      "markedText": "Paralelkenarın alanı taban çarpı yüksekliktir.",
+      "words": [
+        {
+          "word": "Paralelkenarın",
+          "startMs": 247880,
+          "endMs": 249180
+        },
+        {
+          "word": "alanı",
+          "startMs": 250360,
+          "endMs": 250930
+        },
+        {
+          "word": "taban",
+          "startMs": 251030,
+          "endMs": 251480
+        },
+        {
+          "word": "çarpı",
+          "startMs": 251970,
+          "endMs": 252260
+        },
+        {
+          "word": "yüksekliktir.",
+          "startMs": 252340,
+          "endMs": 253360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 254620,
+      "endMs": 254820,
+      "pauseAfterMs": 0,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 254620,
+          "endMs": 254820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 254820,
+      "endMs": 263520,
+      "pauseAfterMs": 1150,
+      "text": "Üçgenin alanı, aynı taban ve yükseklikteki paralelkenarın yarısıdır.",
+      "markedText": "Üçgenin alanı, aynı taban ve yükseklikteki paralelkenarın yarısıdır.",
+      "words": [
+        {
+          "word": "Üçgenin",
+          "startMs": 254820,
+          "endMs": 255320
+        },
+        {
+          "word": "alanı,",
+          "startMs": 255390,
+          "endMs": 255920
+        },
+        {
+          "word": "aynı",
+          "startMs": 256540,
+          "endMs": 256900
+        },
+        {
+          "word": "taban",
+          "startMs": 256990,
+          "endMs": 257520
+        },
+        {
+          "word": "ve",
+          "startMs": 257560,
+          "endMs": 257860
+        },
+        {
+          "word": "yükseklikteki",
+          "startMs": 257990,
+          "endMs": 259250
+        },
+        {
+          "word": "paralelkenarın",
+          "startMs": 259470,
+          "endMs": 260760
+        },
+        {
+          "word": "yarısıdır.",
+          "startMs": 260870,
+          "endMs": 262370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 263520,
+      "endMs": 263690,
+      "pauseAfterMs": 90,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 263520,
+          "endMs": 263600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 263690,
+      "endMs": 273870,
+      "pauseAfterMs": 1370,
+      "text": "Taban 8 ve yükseklik 5 ise paralelkenar 40, üçgen 20 santimetrekaredir.",
+      "markedText": "Taban 8 ve yükseklik 5 ise paralelkenar 40, üçgen 20 santimetrekaredir.",
+      "words": [
+        {
+          "word": "Taban",
+          "startMs": 263690,
+          "endMs": 264260
+        },
+        {
+          "word": "8",
+          "startMs": 264300,
+          "endMs": 264670
+        },
+        {
+          "word": "ve",
+          "startMs": 264670,
+          "endMs": 265280
+        },
+        {
+          "word": "yükseklik",
+          "startMs": 266850,
+          "endMs": 267620
+        },
+        {
+          "word": "5",
+          "startMs": 267660,
+          "endMs": 267770
+        },
+        {
+          "word": "ise",
+          "startMs": 267860,
+          "endMs": 268000
+        },
+        {
+          "word": "paralelkenar",
+          "startMs": 268070,
+          "endMs": 268650
+        },
+        {
+          "word": "40,",
+          "startMs": 269080,
+          "endMs": 269260
+        },
+        {
+          "word": "üçgen",
+          "startMs": 269400,
+          "endMs": 269660
+        },
+        {
+          "word": "20",
+          "startMs": 269750,
+          "endMs": 270240
+        },
+        {
+          "word": "santimetrekaredir.",
+          "startMs": 270350,
+          "endMs": 272500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 273870,
+      "endMs": 279930,
+      "pauseAfterMs": 1040,
+      "text": "Yükseklik, tabana dik inen uzunluktur.",
+      "markedText": "Yükseklik, tabana dik inen uzunluktur.",
+      "words": [
+        {
+          "word": "Yükseklik,",
+          "startMs": 273870,
+          "endMs": 275450
+        },
+        {
+          "word": "tabana",
+          "startMs": 276600,
+          "endMs": 277170
+        },
+        {
+          "word": "dik",
+          "startMs": 277410,
+          "endMs": 277550
+        },
+        {
+          "word": "inen",
+          "startMs": 277550,
+          "endMs": 277820
+        },
+        {
+          "word": "uzunluktur.",
+          "startMs": 277870,
+          "endMs": 278890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 279930,
+      "endMs": 288310,
+      "pauseAfterMs": 970,
+      "text": "Üçgende neden ikiye böldüğünü ve eğik kenarı neden kullanmadığını söylersin.",
+      "markedText": "Üçgende neden ikiye böldüğünü ve eğik kenarı neden kullanmadığını söylersin.",
+      "words": [
+        {
+          "word": "Üçgende",
+          "startMs": 279930,
+          "endMs": 280340
+        },
+        {
+          "word": "neden",
+          "startMs": 280450,
+          "endMs": 280770
+        },
+        {
+          "word": "ikiye",
+          "startMs": 280860,
+          "endMs": 281670
+        },
+        {
+          "word": "böldüğünü",
+          "startMs": 282680,
+          "endMs": 283500
+        },
+        {
+          "word": "ve",
+          "startMs": 283500,
+          "endMs": 283650
+        },
+        {
+          "word": "eğik",
+          "startMs": 283940,
+          "endMs": 284340
+        },
+        {
+          "word": "kenarı",
+          "startMs": 284560,
+          "endMs": 284980
+        },
+        {
+          "word": "neden",
+          "startMs": 285060,
+          "endMs": 285250
+        },
+        {
+          "word": "kullanmadığını",
+          "startMs": 285400,
+          "endMs": 286030
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 286150,
+          "endMs": 287340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 288310,
+      "endMs": 289650,
+      "pauseAfterMs": 380,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 288310,
+          "endMs": 288850
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 288850,
+          "endMs": 289270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 289650,
+      "endMs": 291270,
+      "pauseAfterMs": 460,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 289650,
+          "endMs": 289910
+        },
+        {
+          "word": "bir",
+          "startMs": 289990,
+          "endMs": 290200
+        },
+        {
+          "word": "iş",
+          "startMs": 290240,
+          "endMs": 290370
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 290370,
+          "endMs": 290810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 291270,
+      "endMs": 292640,
+      "pauseAfterMs": 580,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 291270,
+          "endMs": 291470
+        },
+        {
+          "word": "sıra",
+          "startMs": 291470,
+          "endMs": 291750
+        },
+        {
+          "word": "sende.",
+          "startMs": 291750,
+          "endMs": 292060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 292640,
+      "endMs": 295817,
+      "pauseAfterMs": 397,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 292640,
+          "endMs": 293130
+        },
+        {
+          "word": "bu",
+          "startMs": 293130,
+          "endMs": 293330
+        },
+        {
+          "word": "notları",
+          "startMs": 293600,
+          "endMs": 293880
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 293960,
+          "endMs": 294290
+        },
+        {
+          "word": "kendi",
+          "startMs": 294390,
+          "endMs": 294550
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 294550,
+          "endMs": 295110
+        },
+        {
+          "word": "anlat.",
+          "startMs": 295110,
+          "endMs": 295420
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

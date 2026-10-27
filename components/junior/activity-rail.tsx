@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useId, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { tactileRulesForLesson } from "@/lib/junior/activity-source";
 import {
   resolveJuniorTactileRules,
   type JuniorTactileActivityRules,
@@ -53,32 +54,15 @@ const SECTION = {
   },
 } as const;
 
-/** Pilot `jr_06_mat-5` dokunsal geri bildirim kuralları. */
-const MAT5_MATCH_TARGET: Readonly<Record<string, string>> = {
-  m1: "r1",
-  m2: "r2",
-  m3: "r3",
-  m4: "r4",
+/** Boş anahtar. `jr_06_mat-1` altın kuralları başka derse düşmez. */
+const EMPTY_TACTILE_RULES: JuniorTactileActivityRules = {
+  matchTargets: {},
+  gapAnswers: {},
+  rocketRules: {},
 };
 
-const MAT5_GAP_ANSWERS: Readonly<Record<string, readonly string[]>> = {
-  g1: ["5", "beş", "5'e"],
-  g2: ["3", "üç", "3'e"],
-  g3: ["çarpanları", "çarpanı", "bölenleri", "carpanlari"],
-};
-
-const MAT5_ROCKET_RULES: Readonly<Record<string, readonly string[]>> = {
-  n24: ["r2", "r3"],
-  n15: ["r5", "r3"],
-  n30: ["r2", "r5", "r3"],
-  n18: ["r3", "r2"],
-};
-
-const MAT5_TACTILE_RULES: JuniorTactileActivityRules = {
-  matchTargets: MAT5_MATCH_TARGET,
-  gapAnswers: MAT5_GAP_ANSWERS,
-  rocketRules: MAT5_ROCKET_RULES,
-};
+const GOLD_TACTILE_RULES: JuniorTactileActivityRules =
+  tactileRulesForLesson("jr_06_mat-1") ?? EMPTY_TACTILE_RULES;
 
 const TactileRulesContext = createContext<JuniorTactileActivityRules | null>(null);
 
@@ -94,26 +78,32 @@ export function JuniorTactileRulesScope({
 }
 
 function useTactileRules(): JuniorTactileActivityRules {
-  return useContext(TactileRulesContext) ?? MAT5_TACTILE_RULES;
+  return useContext(TactileRulesContext) ?? EMPTY_TACTILE_RULES;
 }
 
 function foldText(value: string): string {
   return value.replace(/\s+/g, "").trim().toLocaleLowerCase("tr-TR");
 }
 
-export function mat5MatchReady(
+export function juniorMatchReady(
   pairs: Record<string, string>,
-  rules: JuniorTactileActivityRules = MAT5_TACTILE_RULES,
+  rules: JuniorTactileActivityRules = EMPTY_TACTILE_RULES,
 ): boolean {
-  const target = rules.matchTargets ?? MAT5_MATCH_TARGET;
+  const target = rules.matchTargets ?? {};
+  if (Object.keys(target).length === 0) {
+    return false;
+  }
   return Object.entries(target).every(([leftId, rightId]) => pairs[leftId] === rightId);
 }
 
-export function mat5ClozeReady(
+export function juniorClozeReady(
   gaps: Record<string, string>,
-  rules: JuniorTactileActivityRules = MAT5_TACTILE_RULES,
+  rules: JuniorTactileActivityRules = EMPTY_TACTILE_RULES,
 ): boolean {
-  const table = rules.gapAnswers ?? MAT5_GAP_ANSWERS;
+  const table = rules.gapAnswers ?? {};
+  if (Object.keys(table).length === 0) {
+    return false;
+  }
   return Object.keys(table).every((gapId) => {
     const clean = foldText(gaps[gapId] ?? "");
     if (!clean) {
@@ -123,13 +113,40 @@ export function mat5ClozeReady(
   });
 }
 
-export function mat5PuzzleReady(
-  placements: Record<string, string>,
-  rules: JuniorTactileActivityRules = MAT5_TACTILE_RULES,
-): boolean {
-  const table = rules.rocketRules ?? MAT5_ROCKET_RULES;
-  return Object.entries(table).every(([tileId, allowed]) => allowed.includes(placements[tileId] ?? ""));
+export function parsePlacedRockets(raw: string | undefined): string[] {
+  if (!raw) {
+    return [];
+  }
+  return [...new Set(raw.split(",").map((item) => item.trim()).filter(Boolean))];
 }
+
+export function juniorPuzzleReady(
+  placements: Record<string, string>,
+  rules: JuniorTactileActivityRules = EMPTY_TACTILE_RULES,
+): boolean {
+  const table = rules.rocketRules ?? {};
+  if (Object.keys(table).length === 0) {
+    return false;
+  }
+  return Object.entries(table).every(([tileId, allowed]) => {
+    const placed = parsePlacedRockets(placements[tileId]);
+    return placed.length > 0 && placed.every((rocketId) => allowed.includes(rocketId));
+  });
+}
+
+/** `jr_06_mat-1` altın anahtarı. Başka ders bu takma adı kullanmaz. */
+export const mat5MatchReady = (
+  pairs: Record<string, string>,
+  rules: JuniorTactileActivityRules = GOLD_TACTILE_RULES,
+) => juniorMatchReady(pairs, rules);
+export const mat5ClozeReady = (
+  gaps: Record<string, string>,
+  rules: JuniorTactileActivityRules = GOLD_TACTILE_RULES,
+) => juniorClozeReady(gaps, rules);
+export const mat5PuzzleReady = (
+  placements: Record<string, string>,
+  rules: JuniorTactileActivityRules = GOLD_TACTILE_RULES,
+) => juniorPuzzleReady(placements, rules);
 
 function gameCardClass(
   index: number,
@@ -677,17 +694,32 @@ export function OrderBoard({
         }, 650);
         return;
       }
-      if (placements[tileId] === rocketId) {
-        setPickedTileId(null);
+      const currentRockets = parsePlacedRockets(placements[tileId]);
+      if (currentRockets.includes(rocketId)) {
+        setPuzzleHint(
+          `${tileLabel} sayısı zaten "${rocketLabel}" roketinde yer alıyor! Uyumlu diğer roketlere de yerleştirebilirsin.`,
+        );
         return;
       }
-      setPuzzleHint(`${tileLabel} sayısı "${rocketLabel}" roketine başarıyla yerleşti! 🚀`);
+      const nextRockets = [...currentRockets, rocketId];
+      const totalAllowed = allowed?.length ?? nextRockets.length;
+      setPuzzleHint(
+        totalAllowed > 1
+          ? `${tileLabel} sayısı "${rocketLabel}" roketine başarıyla yerleşti! 🚀 (${nextRockets.length} / ${totalAllowed} uyumlu roket eşleşti — diğer uyumlu roketlere de ekleyebilirsin)`
+          : `${tileLabel} sayısı "${rocketLabel}" roketine başarıyla yerleşti! 🚀`,
+      );
       setShakeRocketId(null);
-      onPlacementsChange?.({ ...placements, [tileId]: rocketId });
-      setPickedTileId(null);
+      onPlacementsChange?.({ ...placements, [tileId]: nextRockets.join(",") });
       playApplauseSound();
       onHit?.(true);
     }
+
+    const rocketGridClass =
+      layout === "studio"
+        ? puzzle.rockets.length <= 3
+          ? "grid grid-cols-1 gap-2 sm:grid-cols-3"
+          : "grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7"
+        : "grid gap-2.5";
 
     return (
       <section
@@ -700,21 +732,25 @@ export function OrderBoard({
         <div className="flex flex-wrap items-center justify-between gap-2">
           {layout === "studio" ? null : <GameHeading kind="puzzle" />}
           <span className="ml-auto rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-bold text-emerald-900">
-            Sayıyı rokete sürükle veya dokun
+            Sayıyı uyduğu tüm roketlere sürükle veya dokun
           </span>
         </div>
         <p className={`font-semibold text-slate-700 ${layout === "studio" ? "text-[11px] leading-snug" : "text-xs"}`}>
-          {puzzle.prompt}
+          {puzzle.prompt}{" "}
+          <span className="font-bold text-emerald-800">
+            (Bir sayı birden fazla rokete bölünebilir; en az 1 doğru rokete veya uyduğu tüm roketlere yerleştirebilirsin!)
+          </span>
         </p>
 
-        {/* Dedektif Sayı Çipleri (`24`, `15`, `30`, `18`) — studio: tek satır kompakt rozet */}
-        <div className={layout === "studio" ? "grid grid-cols-4 gap-2" : "flex flex-wrap gap-2"}>
+        {/* Dedektif Sayı Çipleri (`24`, `15`, `30`, `18`, `116`) — studio: 5'li tam uyumlu ızgara */}
+        <div className={layout === "studio" ? "grid grid-cols-5 gap-2" : "flex flex-wrap gap-2"}>
           {tiles.map((tile, index) => {
-            const assignedRocketId = placements[tile.id];
-            const assignedRocket = puzzle.rockets.find((r) => r.id === assignedRocketId);
+            const assignedRocketIds = parsePlacedRockets(placements[tile.id]);
+            const assignedRockets = puzzle.rockets.filter((r) => assignedRocketIds.includes(r.id));
+            const validCount = tactileRules.rocketRules?.[tile.id]?.length ?? 1;
             const serverState = cardState(cards, tile.id);
             const tileMark: Mark | null =
-              serverState.mark ?? (assignedRocketId ? "ok" : null);
+              serverState.mark ?? (assignedRockets.length > 0 ? "ok" : null);
             const isPicked = pickedTileId === tile.id;
             return (
               <button
@@ -728,14 +764,14 @@ export function OrderBoard({
                   event.dataTransfer.setData("text/plain", tile.id);
                   event.dataTransfer.effectAllowed = "move";
                 }}
-                onClick={() => setPickedTileId(tile.id)}
+                onClick={() => setPickedTileId((curr) => (curr === tile.id ? null : tile.id))}
                 className={`flex cursor-grab border-2 font-bold transition active:cursor-grabbing ${
                   layout === "studio"
                     ? "flex-col items-center justify-center gap-0.5 rounded-2xl px-2 py-2 text-sm shadow-sm sm:px-4 sm:text-base"
                     : "items-center justify-center gap-2 rounded-2xl px-3.5 py-2 text-sm font-black"
                 } ${
                   tileMark === "ok"
-                    ? "border-emerald-500 bg-emerald-50 text-emerald-950 shadow-[0_0_12px_rgba(16,185,129,0.35)]"
+                    ? `border-emerald-500 bg-emerald-50 text-emerald-950 shadow-[0_0_12px_rgba(16,185,129,0.35)] ${isPicked ? "ring-2 ring-violet-500" : ""}`
                     : tileMark === "miss"
                       ? "animate-shake border-rose-500 bg-rose-50 text-rose-950"
                       : `${PASTEL[index % PASTEL.length]} ${isPicked ? "scale-105 ring-2 ring-violet-500" : ""}`
@@ -743,15 +779,20 @@ export function OrderBoard({
               >
                 {layout === "studio" ? (
                   <>
-                    <span className="text-[9px] font-bold uppercase tracking-wide text-slate-500">Sayı</span>
+                    <span className="text-[9px] font-bold uppercase tracking-wide text-slate-500">
+                      Sayı {validCount > 1 ? `(${validCount} kural)` : ""}
+                    </span>
                     <span className="leading-none">{tile.label}</span>
                   </>
                 ) : (
                   <span className="text-base">🔢 {tile.label}</span>
                 )}
-                {assignedRocket ? (
+                {assignedRockets.length > 0 ? (
                   <span className="max-w-full truncate rounded-full bg-emerald-600 px-1.5 py-0.5 text-[9px] font-extrabold text-white sm:px-2 sm:text-[10px]">
-                    ✓ {assignedRocket.label}
+                    ✓{" "}
+                    {validCount > 1
+                      ? `${assignedRockets.length}/${validCount} roket`
+                      : assignedRockets[0]!.label}
                   </span>
                 ) : null}
               </button>
@@ -759,13 +800,15 @@ export function OrderBoard({
           })}
         </div>
 
-        {/* 3 Dedektif Roketi — studio: yan yana 3 sütun, düşük min-h */}
+        {/* Dedektif Roketleri — simetrik yerleşim ve çoklu sayı kabulü */}
         <div
-          className={layout === "studio" ? "grid grid-cols-3 gap-2" : "grid gap-2.5"}
+          className={rocketGridClass}
           data-junior-category-rockets={layout === "studio" ? "wide" : undefined}
         >
           {puzzle.rockets.map((rocket) => {
-            const dockedTiles = tiles.filter((t) => placements[t.id] === rocket.id);
+            const dockedTiles = tiles.filter((t) =>
+              parsePlacedRockets(placements[t.id]).includes(rocket.id),
+            );
             const isShaking = shakeRocketId === rocket.id;
             const hasDocked = dockedTiles.length > 0;
             return (
@@ -1194,11 +1237,11 @@ export function evaluateLocalRail(
   multiClozes: Record<string, Record<string, string>>,
   orders: Record<string, string[]>,
   placements: Record<string, Record<string, string>>,
-  rules: JuniorTactileActivityRules = MAT5_TACTILE_RULES,
+  rules: JuniorTactileActivityRules = EMPTY_TACTILE_RULES,
 ): { correct: number; total: number; notes: Note[] } {
-  const matchTargets = rules.matchTargets ?? MAT5_MATCH_TARGET;
-  const gapAnswers = rules.gapAnswers ?? MAT5_GAP_ANSWERS;
-  const rocketRules = rules.rocketRules ?? MAT5_ROCKET_RULES;
+  const matchTargets = rules.matchTargets ?? {};
+  const gapAnswers = rules.gapAnswers ?? {};
+  const rocketRules = rules.rocketRules ?? {};
   const notes: Note[] = items.map((item) => {
     if (item.kind === "match") {
       const m = matches[item.id] ?? {};
@@ -1212,9 +1255,7 @@ export function evaluateLocalRail(
       return {
         id: item.id,
         ok,
-        explanation:
-          rules.explanations?.match ??
-          "2, 5 ve 10 kuralları son basamağa; 3 ve 9 kuralları rakamların toplamına bakar. Çarpan böler, kat büyütür.",
+        explanation: rules.explanations?.match ?? item.prompt,
         cards,
       };
     }
@@ -1232,9 +1273,7 @@ export function evaluateLocalRail(
         return {
           id: item.id,
           ok,
-          explanation:
-            rules.explanations?.cloze ??
-            "Son rakamı 0 veya 5 olan sayılar 5'e; rakamları toplamı 6 olan 24 sayısı 3'e tam bölünür. 12'yi kalansız bölen sayılara 12'nin çarpanları denir.",
+          explanation: rules.explanations?.cloze ?? item.prompt,
           cards,
         };
       }
@@ -1250,17 +1289,18 @@ export function evaluateLocalRail(
     if (item.puzzle) {
       const pMap = placements[item.id] ?? {};
       const cards: CardNote[] = item.tiles.map((t) => {
-        const rId = pMap[t.id] ?? "";
+        const placed = parsePlacedRockets(pMap[t.id]);
         const allowed = rocketRules[t.id] ?? [];
-        return { id: t.id, ok: Boolean(rId && allowed.includes(rId)) };
+        return {
+          id: t.id,
+          ok: placed.length > 0 && placed.every((rId) => allowed.includes(rId)),
+        };
       });
       const ok = cards.every((c) => c.ok);
       return {
         id: item.id,
         ok,
-        explanation:
-          rules.explanations?.puzzle ??
-          "24, 15, 30 ve 18 sayıları bölünebilme dedektifi kurallarına göre roketlere yerleşti.",
+        explanation: rules.explanations?.puzzle ?? item.prompt,
         cards,
       };
     }

@@ -7,9 +7,9 @@ import {
   MatchBoard,
   OrderBoard,
   evaluateLocalRail,
-  mat5ClozeReady,
-  mat5MatchReady,
-  mat5PuzzleReady,
+  juniorClozeReady,
+  juniorMatchReady,
+  juniorPuzzleReady,
   type Note,
 } from "@/components/junior/activity-rail";
 import type { JuniorHubModule } from "@/components/junior/activity-hub";
@@ -33,7 +33,7 @@ import {
   recordActivityScore,
   type JuniorLessonProgressEventDetail,
 } from "@/lib/junior/progress-tracker";
-import { resolveJuniorTactileRules } from "@/lib/junior/lesson-engine";
+import { peekJuniorLessonBlueprint, resolveJuniorTactileRules } from "@/lib/junior/lesson-engine";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
 export type ActivityStudioStatus = QuickToolsStatus;
@@ -77,7 +77,11 @@ export function ActivityStudio({
   initialGame?: GameId;
 }) {
   const tactileRules = resolveJuniorTactileRules(lessonKey);
-  const [game, setGame] = useState<GameId>(initialGame);
+  const ownSimulation = (peekJuniorLessonBlueprint(lessonKey)?.simulations.length ?? 0) > 0;
+  const games = ownSimulation ? GAMES : GAMES.filter((item) => item.id !== "sim");
+  const [game, setGame] = useState<GameId>(
+    !ownSimulation && initialGame === "sim" ? "match" : initialGame,
+  );
   const [matches, setMatches] = useState<Record<string, Record<string, string>>>({});
   const [clozes, setClozes] = useState<Record<string, string>>({});
   const [multiClozes, setMultiClozes] = useState<Record<string, Record<string, string>>>({});
@@ -90,20 +94,22 @@ export function ActivityStudio({
   const [celebrate, setCelebrate] = useState(false);
   const [cheer, setCheer] = useState(0);
   const [glow, setGlow] = useState(false);
+  const [doneCount, setDoneCount] = useState(0);
   const glowTimer = useRef(0);
   const noteById = new Map(notes.map((note) => [note.id, note]));
   const matchItem = items.find((item) => item.kind === "match");
   const clozeItem = items.find((item) => item.kind === "cloze");
   const puzzleItem = items.find((item) => item.kind === "order");
-  const matchReady = matchItem ? mat5MatchReady(matches[matchItem.id] ?? {}, tactileRules) : false;
-  const clozeReady = clozeItem ? mat5ClozeReady(multiClozes[clozeItem.id] ?? {}, tactileRules) : false;
-  const puzzleReady = puzzleItem ? mat5PuzzleReady(placements[puzzleItem.id] ?? {}, tactileRules) : false;
-  const readyCount = [matchReady, clozeReady, puzzleReady].filter(Boolean).length;
+  const matchReady = matchItem ? juniorMatchReady(matches[matchItem.id] ?? {}, tactileRules) : false;
+  const clozeReady = clozeItem ? juniorClozeReady(multiClozes[clozeItem.id] ?? {}, tactileRules) : false;
+  const puzzleReady = puzzleItem ? juniorPuzzleReady(placements[puzzleItem.id] ?? {}, tactileRules) : false;
 
   const pushStatus = useCallback(() => {
     const progress = readLessonProgress(profileId, lessonKey);
+    const solved = badgeProgressCount(progress);
+    setDoneCount(solved);
     onStatus?.({
-      solved: badgeProgressCount(progress),
+      solved,
       total: JUNIOR_BADGE_UNLOCK_THRESHOLD,
       badge: progress.badgeUnlocked,
     });
@@ -122,8 +128,10 @@ export function ActivityStudio({
       if ((detail.profileId.trim() || "anon") !== (profileId.trim() || "anon")) {
         return;
       }
+      const solved = badgeProgressCount(detail.progress);
+      setDoneCount(solved);
       onStatus?.({
-        solved: badgeProgressCount(detail.progress),
+        solved,
         total: JUNIOR_BADGE_UNLOCK_THRESHOLD,
         badge: detail.progress.badgeUnlocked,
       });
@@ -281,7 +289,9 @@ export function ActivityStudio({
           ) : isSim ? (
             <span className="font-semibold text-cyan-700">Dokunarak dene</span>
           ) : (
-            <span className="font-semibold text-slate-500">{readyCount} / 3 oyun hazır</span>
+            <span className="font-semibold text-slate-500">
+              {doneCount} / {JUNIOR_BADGE_UNLOCK_THRESHOLD} etkinlik
+            </span>
           )}
         </p>
       </header>
@@ -293,7 +303,7 @@ export function ActivityStudio({
       ) : null}
 
       <div role="tablist" aria-label="Etkinlik oyunları" className="grid shrink-0 grid-cols-2 gap-1.5 sm:grid-cols-4">
-        {GAMES.map((item) => {
+        {games.map((item) => {
           const selected = item.id === game;
           const ready = readyByGame[item.id];
           return (
@@ -406,6 +416,7 @@ export function ActivityStudio({
         </div>
       ) : null}
 
+      {ownSimulation ? (
       <div
         className={isSim ? "block" : "hidden"}
         id="junior-studio-panel-sim"
@@ -418,6 +429,7 @@ export function ActivityStudio({
           onSimSuccess={pushStatus}
         />
       </div>
+      ) : null}
 
         {!isSim ? (
           <div className="sticky bottom-0 z-10 mt-3 flex justify-center bg-gradient-to-t from-white via-white/95 to-transparent py-2">
@@ -448,7 +460,7 @@ export function ActivityStudio({
 
 export { JuniorLessonEngine, JuniorLessonEngineShell };
 
-export function Mat5FocusedLayout(props: {
+export function JuniorFocusedLessonLayout(props: {
   lessonKey: string;
   profileId?: string;
   module: JuniorHubModule;
@@ -464,3 +476,5 @@ export function Mat5FocusedLayout(props: {
 }) {
   return <JuniorLessonEngineShell {...props} />;
 }
+
+export const Mat5FocusedLayout = JuniorFocusedLessonLayout;

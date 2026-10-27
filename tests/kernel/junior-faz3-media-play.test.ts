@@ -49,7 +49,7 @@ describe("Faz 3 kilitli medya", () => {
     const url = presignR2GetUrl({
       endpoint: "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.r2.cloudflarestorage.com",
       bucket: "yetkin-media",
-      objectKey: `${JUNIOR_LOCKED_MEDIA_PREFIX}/audio/jr_06_mat-6.mp3`,
+      objectKey: `${JUNIOR_LOCKED_MEDIA_PREFIX}/audio/jr_06_mat-2.mp3`,
       accessKeyId: "access-key",
       secretAccessKey: "secret-key",
       expiresSec: JUNIOR_MEDIA_GRANT_TTL_SEC,
@@ -58,7 +58,7 @@ describe("Faz 3 kilitli medya", () => {
     expect(url).toContain("X-Amz-Algorithm=AWS4-HMAC-SHA256");
     expect(url).toContain("X-Amz-Expires=600");
     expect(url).toContain("X-Amz-Signature=");
-    expect(url).toContain(`${JUNIOR_LOCKED_MEDIA_PREFIX}/audio/jr_06_mat-6.mp3`);
+    expect(url).toContain(`${JUNIOR_LOCKED_MEDIA_PREFIX}/audio/jr_06_mat-2.mp3`);
     expect(url).not.toContain("secret-key");
     expect(url).not.toContain("/media/junior/");
     expect(() =>
@@ -76,7 +76,7 @@ describe("Faz 3 kilitli medya", () => {
       presignR2GetUrl({
         endpoint: "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.r2.cloudflarestorage.com",
         bucket: "yetkin-media",
-        objectKey: "media/junior/audio/jr_06_mat-6.mp3",
+        objectKey: "media/junior/audio/jr_06_mat-2.mp3",
         accessKeyId: "access-key",
         secretAccessKey: "secret-key",
         expiresSec: 600,
@@ -95,13 +95,13 @@ describe("Faz 3 kilitli medya", () => {
       expect(free.urls.expiresAt).toBeNull();
     }
 
-    const denied = issueJuniorLessonMedia({ lessonKey: "jr_06_mat-6", entitled: false, now: NOW });
+    const denied = issueJuniorLessonMedia({ lessonKey: "jr_06_mat-2", entitled: false, now: NOW });
     expect(denied.kind).toBe("denied");
     expect(JSON.stringify(denied)).not.toContain(".mp3");
     expect(JSON.stringify(denied)).not.toContain("private/junior");
 
     const missingConfig = issueJuniorLessonMedia({
-      lessonKey: "jr_06_mat-6",
+      lessonKey: "jr_06_mat-2",
       entitled: true,
       now: NOW,
       env: {},
@@ -110,17 +110,17 @@ describe("Faz 3 kilitli medya", () => {
     expect(JSON.stringify(missingConfig)).not.toContain("/media/junior/");
 
     const signed = issueJuniorLessonMedia({
-      lessonKey: "jr_06_mat-6",
+      lessonKey: "jr_06_mat-2",
       entitled: true,
       now: NOW,
       env: SIGNING,
     });
     expect(signed.kind).toBe("signed");
     if (signed.kind === "signed") {
-      expect(signed.urls.audioUrl).toContain(`${JUNIOR_LOCKED_MEDIA_PREFIX}/audio/jr_06_mat-6.mp3`);
+      expect(signed.urls.audioUrl).toContain(`${JUNIOR_LOCKED_MEDIA_PREFIX}/audio/jr_06_mat-2.mp3`);
       expect(signed.urls.audioUrl).toContain("X-Amz-Signature=");
       expect(signed.urls.warmupUrl).toContain(`${JUNIOR_LOCKED_MEDIA_PREFIX}/warmup/jr_06_mat-warmup.mp4`);
-      expect(signed.urls.coverUrl).toContain(`${JUNIOR_LOCKED_MEDIA_PREFIX}/covers/jr_06_mat-6.jpg`);
+      expect(signed.urls.coverUrl).toContain(`${JUNIOR_LOCKED_MEDIA_PREFIX}/covers/jr_06_mat-2.jpg`);
       expect(signed.urls.audioUrl).not.toContain("/media/junior/");
       expect(signed.urls.expiresAt).toBe("2026-10-09T12:10:00.000Z");
     }
@@ -188,7 +188,7 @@ describe("Faz 3 ders gövdesi ve ilerleme", () => {
     const denied = await openJuniorLessonPlay(store, {
       userId: PARENT,
       profileId: profile.id,
-      lessonKey: "jr_06_mat-6",
+      lessonKey: "jr_06_mat-2",
       actor: { id: PARENT },
     });
     expect(denied.ok).toBe(false);
@@ -219,7 +219,7 @@ describe("Faz 3 ders gövdesi ve ilerleme", () => {
     const opened = await openJuniorLessonPlay(store, {
       userId: PARENT,
       profileId: profile.id,
-      lessonKey: "jr_06_mat-6",
+      lessonKey: "jr_06_mat-2",
       actor: { id: PARENT },
     });
     expect(opened.ok).toBe(true);
@@ -229,11 +229,11 @@ describe("Faz 3 ders gövdesi ve ilerleme", () => {
     expect(opened.catalogAccess).toBe("locked");
     expect(opened.lesson.script.length).toBeGreaterThan(20);
 
-    const questions = juniorTopicEndQuestions("jr_06_mat-6");
+    const questions = juniorTopicEndQuestions("jr_06_mat-2");
     const practiced = await submitJuniorPractice(store, {
       userId: PARENT,
       profileId: profile.id,
-      lessonKey: "jr_06_mat-6",
+      lessonKey: "jr_06_mat-2",
       answers: questions.map((row) => ({ id: row.id, choiceIndex: row.correctAnswerIndex })),
       now: NOW,
       actor: { id: PARENT },

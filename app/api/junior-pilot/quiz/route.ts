@@ -2,6 +2,7 @@ import { z } from "zod";
 import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
+import { canonicalJuniorLessonKey } from "@/lib/junior/lesson-key-alias";
 import { createPrismaJuniorStore } from "@/lib/junior/load";
 import { submitJuniorQuiz } from "@/lib/junior/service";
 
@@ -10,7 +11,7 @@ export const auth = "session" as const;
 const quizSchema = z
   .object({
     profileId: z.string().trim().min(1).max(40),
-    lessonKey: z.string().trim().min(1).max(80),
+    lessonKey: z.string().trim().min(1).max(80).transform(canonicalJuniorLessonKey),
     answers: z
       .array(
         z

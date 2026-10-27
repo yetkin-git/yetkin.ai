@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_kod-2",
+  "title": "Hatalı adımı bulmak",
+  "teaser": "Hata, beklenen sonuç ile olan sonucun ayrıldığı yerdir. Kavramsal Anlayış, yanlış adımı bütün listeden ayırır. İfade Gücü, hangi satırın bozuk olduğunu söylemendir.",
+  "welcome": "Bugün seninle hatalı adımı bulmayı öğreneceğiz.",
+  "concept": "Bugün seninle hatalı adımı arıyoruz. Beklenen sonuç ile olan sonuç farklıysa hata vardır. Satırlar tek tek okunur. Bozuk satır işaretlenir. Sağlam satır durur.\n\nHatırlarsan, bardak önce tutulmalıydı. Hadi şimdi ekrandaki çizime birlikte bakalım! İkinci satır bardağı bırak diyor. Su dökülüyor. Hata ikinci satırdadır. Düzeltme şudur. Bardağı tut.\n\nTuzaklara Düşme! Birlikte bakalım. Bütün komutları silme. İlk satır sağlamsa ona dokunma. Hatayı göstermeden düzeltme olmaz.",
+  "example": "Beklediğin sonuç ile ekrandaki sonuç aynı değilse bir hata vardır. Hatayı bulmak için satırları tek tek okursun. Bozuk olan satırı işaretlersin. Sağlam satırı silmezsin. Hadi şimdi ekrandaki çizime birlikte bakalım! Üç komut var. Bardağı tut. Bardağı bırak. Musluğu aç. Su yere dökülür. Hata ikinci satırdadır. Bardağı bırakmak, suyu tutmaz. O satır bardağı tut olarak düzelir. Hatırlarsan, sıra yukarıdan aşağıydı. Tuzaklara Düşme! Birlikte bakalım. Bütün listeyi silmek ilk iş değildir. Önce yanlış satırı göster. Sonra o satırı düzelt.",
+  "warning": "Bütün listeyi silmek ilk iş değildir.",
+  "life": "Kek tarifi sırasını okursun. Şeker unutulmuşsa hata o satırdadır. Bütün tarifi çöpe atmazsın. Eksik satırı eklersin. Hatırlarsan, sağlam adım duruyordu. Ödev adımlarında da aynı işi yaparsın. Tuzaklara Düşme! Birlikte bakalım. Sonucu beğenmemek yetmez. Bozuk adımı adıyla söyle.",
+  "recap": [
+    "Hata, beklenen sonuç ile olan sonuç aynı değilse aranır.",
+    "Bozuk satır işaretlenir.",
+    "Sağlam satır silinmez."
+  ],
+  "conceptSeal": "Hata, beklenen sonuç ile olan sonucun ayrıldığı satırdır.",
+  "voiceSeal": "Hangi satırın bozuk olduğunu ve nedenini söylersin.",
+  "outcomes": [
+    "Hata, beklenen sonuç ile olan sonuç aynı değilse aranır.",
+    "Bozuk satır işaretlenir.",
+    "Sağlam satır silinmez."
+  ],
+  "scene": "elective",
+  "hint": "trap",
+  "band": "draft"
+}

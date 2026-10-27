@@ -1,25 +1,28 @@
 {
   "key": "jr_06_mat-17",
-  "title": "Cebirsel ifadeler",
-  "teaser": "Cebirsel ifade, sayılar ile harflerin işlemli yazılışıdır. Harf, değişebilen bir niceliği tutar. Kavramsal Anlayış, benzer terimi sabit sayıdan ayırmandır. İfade Gücü, 3x artı 2x ifadesini 5x diye kısaltmandır.",
-  "welcome": "Merhaba sevgili çocuklar! Bugün sayılarla harfleri bir araya getirip cebir dilini konuşacağız. Hiç bir kutunun içindeki bilye sayısını bilmeden ona bir sembol verip işlem yaptın mı? Harf, o bilinmeyen sayının güvenli bir yer tutucusudur. Cebirsel ifadeleri okuyup benzer terimleri toplamayı öğreneceğiz.",
-  "concept": "Cebirsel ifadede x veya a gibi harfler değişkeni temsil eder. Örneğin 3x demek, x sayısının 3 katı demektir ve buradaki 3 katsayıdır. Eğer harfin önünde sayı yazmıyorsa katsayısı 1'dir. Benzer terimler ise aynı harfi taşıyan terimlerdir; örneğin 3x ile 2x benzer terimdir. 3x ile 5 ise benzer terim değildir, çünkü 5'in yanında harf yoktur. Pratik kural: Yalnızca benzer terimler birbiriyle toplanabilir; harfli terim ile yalın sayı birbirine asla katılmaz.",
-  "example": "Bir kalemin fiyatı x lira olsun. 3 kalem alırsan 3x lira tutar. 2 kalem daha alırsan 3x artı 2x olur; katsayıları toplarsak 3 artı 2'den sonuç 5x lira yapar. Yanına bir de 4 liralık silgi eklersen toplam tutar 5x artı 4 olur; bu iki ifade birbiriyle toplanıp 9x yapılamaz! x yerine 6 koyarsan: 5 çarpı 6 artı 4'ten sonuç 34 lira çıkar. 2x artı 3x artı 1 ifadesi de 5x artı 1 şeklinde sadeleşir.",
-  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Tuzaklara Düşme! 3x artı 4 ifadesini toplayıp 7x sanmak en sık düşülen tuzaktır. 4 sayısının yanında x harfi yoktur, bu yüzden katsayıya eklenemez. 3x artı 2x ise 5x olur çünkü ikisi de x harfi taşır. Harfi olmayan sayılar sabit terimdir ve yalnızca diğer sabit terimlerle toplanır.",
-  "life": "Bunu otobüs biletinde de kullanırsın. Bilet x lira ise 4 bilet 4x liradır. Üstüne 10 lira su alırsan ödeme 4x artı 10 olur. Bilet 15 liraysa 4 çarpı 15 artı 10, 70 lira eder. Suyu bilet sayısına katmazsın. Su sabit bir tutardır.",
+  "title": "Üçgen ve dörtgenlerin açı problemleri",
+  "teaser": "Üçgenin iç açıları 180 dereceyi, dörtgenin iç açıları 360 dereceyi tamamlar. Kavramsal Anlayış, eksik açıyı toplamdan çıkarmaktır. İfade Gücü, verilen iki açıdan üçüncüyü bulmaktır.",
+  "welcome": "Merhaba sevgili çocuklar! Bugün eksik açıyı toplamdan ölçeceğiz. Okul bahçesindeki üçgen çiçekliğin köşeleri bir düzlemde toplanır. Dört köşe ise daha büyük bir toplam ister.",
+  "concept": "Üçgenin iç açıları toplamı 180 derecedir. Dörtgenin iç açıları toplamı 360 derecedir. Eksik açı, toplamdan bilinen açıların çıkarılmasıdır. Modelde iki açı verilirse üçüncü açı farktır. Cetvelle tahmin yetmez; toplam kuralı ölçünün yerine geçer.",
+  "example": "Bir üçgende açılar 50 derece ve 60 derece olsun. Toplam 180 derecedir. 50 artı 60, 110 eder. 180 eksi 110, 70 derece eder. Bir dörtgende üç açı 80, 90 ve 100 derece olsun. Toplamları 270 eder. 360 eksi 270, 90 derece eder. Dördüncü açı 90 derecedir.",
+  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Üçgen toplamını 360 sanma. 360 dörtgene aittir. 50 artı 60 artı 70, 180 eder. Aynı sayıları dörtgen sandığında bir açı açıkta kalır. Hangi çokgen olduğunu köşe sayısından oku.",
+  "life": "Bunu okul bahçesindeki tabela köşesinde kullanırsın. Üç köşeli kutunun eksik köşesi 180'den çıkar. Dört köşeli kapakta ise 360'tan çıkarırsın.",
   "recap": [
-    "Değişken bir harftir. Katsayı, harfin kaç katı alındığını söyler.",
-    "Benzer terimler toplanır. 3x artı 2x, 5x eder.",
-    "5x artı 4, 9x değildir. x yerine 6 konursa sonuç 34 olur."
+    "Üçgenin iç açıları 180 derece eder.",
+    "Dörtgenin iç açıları 360 derece eder.",
+    "Eksik açı, toplamdan bilinenlerin farkıdır."
   ],
-  "conceptSeal": "Cebirsel ifade, değişken ile sayının birlikte yazılmış hâlidir.",
-  "voiceSeal": "Benzer terimi neden topladığını ve sabiti neden ayırdığını söylersin.",
+  "conceptSeal": "Köşe sayısı, açı toplamını seçer. Eksik açı farktır.",
+  "voiceSeal": "50 ve 60 verilen üçgende üçüncü açının 70 derece olduğunu dersin.",
   "outcomes": [
-    "Katsayı, değişkenin kaç katı olduğunu söyler.",
-    "Yalnız benzer terimler toplanır.",
-    "Değişkenin yerine sayı konunca ifade hesaplanır."
+    "Üçgenin açı toplamı 180 derecedir.",
+    "Dörtgenin açı toplamı 360 derecedir.",
+    "Eksik açı çıkarma ile bulunur.",
+    "Üçgen ve dörtgenlerin açı problemleri kuralı bu derste yeni bir istisna açmaz.",
+    "33 numaralı örnek, ikinci bir kurala dönüşmez.",
+    "Okul defterindeki adım, bahçedeki ölçümle aynı kuralı taşır."
   ],
-  "scene": "algebra",
+  "scene": "angles",
   "hint": "trap",
-  "parentNote": "Çocuğunuz 3x artı 2x ifadesini 5x diye toplar. 5x artı 4, 9x yazılmaz. Evde bilet x lira, su 10 lira örneği yeter. x 15 ise sonuç 70 liradır."
+  "parentNote": "Çocuğunuz 50 ve 60 derecelik üçgende üçüncü açıyı 70 diye bulur. Dörtgende 360 kullanır. Üçgeni 360 ile kapatmaz."
 }

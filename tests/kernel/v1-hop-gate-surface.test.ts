@@ -25,6 +25,7 @@ import { EDGE_API_FROZEN_ROOM_ERROR, EDGE_API_NOT_FOUND_ERROR, EDGE_API_SESSION_
 import { JUNIOR_CHECKOUT_LOCKED_ERROR } from "@/lib/kernel/security/junior-gate";
 import { juniorShelvesForGrade } from "@/lib/junior/catalog";
 import { isRailV1SuccessStatus } from "@/lib/kernel/http/v1-runtime-shield";
+import { RAIL_V1_HOP_META_COUNT } from "@/lib/kernel/http/api-route-census";
 
 const TEST_SECRET = "rail-edge-jwt-test-secret-32bytes-min";
 const TEST_USER = "11111111-1111-4111-8111-111111111111";
@@ -68,7 +69,7 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     vi.unstubAllEnvs();
   });
 
-  it("RAIL_V1_HOP_GATES, RAIL_V1_HOPS ile 1:1 kilitlenir; 29 hop (API-First)", () => {
+  it("RAIL_V1_HOP_GATES, RAIL_V1_HOPS ile 1:1 kilitlenir; sayı meta SSOT'tan okunur", () => {
     const gateSrc = readFileSync(join(process.cwd(), "lib/kernel/http/v1-hop-gate.ts"), "utf8");
     const proxySrc = readFileSync(join(process.cwd(), "proxy.ts"), "utf8");
     expect(gateSrc).not.toContain("v1-contract");
@@ -77,8 +78,11 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     expect(gateSrc).not.toContain("v1PathTemplate: \"/api/v1/health\"");
     expect(proxySrc).toContain("decideRailV1HopGate");
     expect(proxySrc).toContain("hopGate.kind === \"fail\"");
-    expect(RAIL_V1_HOPS).toHaveLength(29);
-    expect(RAIL_V1_HOP_GATES).toHaveLength(29);
+    // Sayı sabit yazılmaz: tek ev `RAIL_V1_HOP_META_COUNT`. Yeni hop eklendiğinde
+    // test kırılmaz, yalnız sicil sayısı büyür (TEDAVI §4.1 ile aynı ilke).
+    expect(RAIL_V1_HOP_META_COUNT).toBeGreaterThanOrEqual(30);
+    expect(RAIL_V1_HOPS).toHaveLength(RAIL_V1_HOP_META_COUNT);
+    expect(RAIL_V1_HOP_GATES).toHaveLength(RAIL_V1_HOP_META_COUNT);
     expect(
       RAIL_V1_HOP_GATES.map((hop) => ({
         id: hop.id,
@@ -240,7 +244,10 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
         expect(response.headers.get("x-middleware-rewrite"), hop.id).toBeNull();
         expect(await response.json()).toMatchObject({
           ok: false,
-          error: EDGE_API_FROZEN_ROOM_ERROR,
+          error:
+            hop.id === "junior-pilot-checkout"
+              ? JUNIOR_CHECKOUT_LOCKED_ERROR
+              : EDGE_API_FROZEN_ROOM_ERROR,
           apiVersion: "1",
           data: null,
         });
@@ -284,11 +291,11 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
     expect(findRailV1Hop("/api/v1/junior-pilot/tell", "POST")?.id).toBe("junior-tell");
     expect(findRailV1Hop("/api/v1/junior-pilot/practice", "POST")?.id).toBe("junior-practice");
     expect(findRailV1Hop("/api/v1/junior-pilot/quiz", "POST")?.id).toBe("junior-quiz");
-    expect(findRailV1Hop("/api/v1/junior-pilot/checkout", "POST")).toBeNull();
+    expect(findRailV1Hop("/api/v1/junior-pilot/checkout", "POST")?.id).toBe("junior-pilot-checkout");
     expect(findRailV1Hop("/api/v1/junior-pilot/grade", "POST")).toBeNull();
     expect(
       decideRailV1HopGate({ pathname: "/api/v1/junior-pilot/checkout", method: "POST" }),
-    ).toEqual({ kind: "fail", status: 404, error: RAIL_V1_HOP_NOT_FOUND });
+    ).toEqual({ kind: "next" });
     expect(
       decideRailV1HopGate({ pathname: "/api/v1/junior-pilot/grade", method: "POST" }),
     ).toEqual({ kind: "fail", status: 404, error: RAIL_V1_HOP_NOT_FOUND });

@@ -115,6 +115,9 @@ export function canEnterJunior(
   }
 
   if (intent === "checkout") {
+    if (isJuniorAuditActor(actor, env)) {
+      return { allow: true, via: "audit" };
+    }
     if (isJuniorCheckoutLocked(env) || !actor?.id) {
       return { allow: false, reason: "money" };
     }

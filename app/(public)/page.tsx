@@ -7,18 +7,23 @@ import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
 import { BrandIcon } from "@/components/ui/brand-icon";
 import { HomeAccountNav } from "@/components/public/home-account-nav";
-import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { JsonLd } from "@/components/seo/json-ld";
 import { LandingFaq } from "@/components/seo/landing-faq";
 import { faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
 import { HOME_LANDING_FAQ } from "@/lib/copy/sem-keywords";
 
 /**
- * Soğuk iniş gövdesi. Canlı kök bu dosyayı basmaz.
- * `next.config.ts` ve `proxy.ts` kalıcı 308 ile `/academy` kataloğuna alır.
- * Bu gövde yalnız yönlendirme katmanı düşerse durur.
+ * Temiz iniş katmanı (Görev Paketi #02).
+ * Canlı kök, CEO kilidi gereği `next.config.ts` + `proxy.ts` 308'i ile
+ * `/academy` kataloğuna iner; bu gövde o kilit açık kaldıkça basılmaz.
+ * Gövde ölü bileşen taşımaz: tek işi, kilit kalkarsa trafiği karşılayan
+ * yalın iniş olmaktır (hero + güven + tek Akademi CTA + SSS).
+ * Kilit kalkışı ürün kararıdır; kod sessizce yönlendirmeyi silmez.
  */
-export const metadata: Metadata = pageMetadata(PAGE_SEO.home);
+export const metadata: Metadata = pageMetadata({
+  ...PAGE_SEO.home,
+  robots: { index: false, follow: true },
+});
 
 export default function PublicHomePage() {
   const copy = SEN_VOICE.public.home;
@@ -63,8 +68,7 @@ export default function PublicHomePage() {
           </h2>
           <p className="mb-3 text-sm text-[var(--muted)]">{copy.cinemaHint}</p>
           <Card variant="default" className="border-dashed p-5" data-academy-production-band="">
-            <p className="text-base font-semibold text-[var(--foreground)]">{ACADEMY_SEN.catalog.empty}</p>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--muted)]">{copy.cinemaHint}</p>
+            <p className="text-base font-semibold text-[var(--foreground)]">{copy.cinemaTitle}</p>
             <div className="mt-4">
               <LinkButton href="/academy">{copy.academyCta}</LinkButton>
             </div>

@@ -1,0 +1,2846 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_sosyal-7",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Türklerin İslamiyet'i kabulü ve ilk Türk-İslam devletleri",
+  "grade": 6,
+  "subject": "Sosyal Bilgiler",
+  "teacher": {
+    "name": "Murat",
+    "voice": "Achird",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_sosyal-7.mp3",
+    "durationMs": 384980,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 91030
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 91030,
+      "endMs": 326430
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 326430,
+      "endMs": 384980
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4070,
+      "pauseAfterMs": 830,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 190,
+          "endMs": 660
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1470,
+          "endMs": 2180
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2280,
+          "endMs": 3240
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Türklerin İslamiyet'i kabulü ve ilk Türk-İslam devletleri",
+            "subtitle": "Sosyal Bilgiler",
+            "ruleBadges": [],
+            "echoPrompt": "Talas, Karahanlı, Gazneli ve Malazgirt'i ayrı duraklar olarak söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "751 Talas Savaşı, Türklerin İslamiyet'i yakından tanıdığı eşiktir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Karahanlılar ilk Müslüman Türk devletidir. Gazneliler ve Selçuklular onu izler."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "1071 Malazgirt Anadolu'nun kapısıdır. Kabul tarihi değildir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4070,
+      "endMs": 9820,
+      "pauseAfterMs": 510,
+      "text": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "markedText": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4070,
+          "endMs": 4510
+        },
+        {
+          "word": "Sosyal",
+          "startMs": 4750,
+          "endMs": 5650
+        },
+        {
+          "word": "Bilgiler",
+          "startMs": 6240,
+          "endMs": 7290
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 7440,
+          "endMs": 8450
+        },
+        {
+          "word": "Murat.",
+          "startMs": 8550,
+          "endMs": 9310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 9820,
+      "endMs": 14730,
+      "pauseAfterMs": 940,
+      "text": "Türk ve İslam tarihinin en önemli buluşmasını keşfedeceğiz.",
+      "markedText": "Türk ve İslam tarihinin en önemli buluşmasını keşfedeceğiz.",
+      "words": [
+        {
+          "word": "Türk",
+          "startMs": 9820,
+          "endMs": 10000
+        },
+        {
+          "word": "ve",
+          "startMs": 10060,
+          "endMs": 10150
+        },
+        {
+          "word": "İslam",
+          "startMs": 10380,
+          "endMs": 10740
+        },
+        {
+          "word": "tarihinin",
+          "startMs": 10890,
+          "endMs": 11500
+        },
+        {
+          "word": "en",
+          "startMs": 11500,
+          "endMs": 11660
+        },
+        {
+          "word": "önemli",
+          "startMs": 11880,
+          "endMs": 12130
+        },
+        {
+          "word": "buluşmasını",
+          "startMs": 12170,
+          "endMs": 12710
+        },
+        {
+          "word": "keşfedeceğiz.",
+          "startMs": 12810,
+          "endMs": 13790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 14730,
+      "endMs": 25980,
+      "pauseAfterMs": 440,
+      "text": "Hiç bir tarihi karşılaşmanın, ticaret yollarında kurulan dostluklarla büyük bir medeniyet değişimini başlattığını duymuş muydun?",
+      "markedText": "Hiç bir tarihi karşılaşmanın, ticaret yollarında kurulan dostluklarla büyük bir medeniyet değişimini başlattığını duymuş muydun?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 14730,
+          "endMs": 14830
+        },
+        {
+          "word": "bir",
+          "startMs": 15050,
+          "endMs": 15150
+        },
+        {
+          "word": "tarihi",
+          "startMs": 15240,
+          "endMs": 15630
+        },
+        {
+          "word": "karşılaşmanın,",
+          "startMs": 15700,
+          "endMs": 16470
+        },
+        {
+          "word": "ticaret",
+          "startMs": 16850,
+          "endMs": 17220
+        },
+        {
+          "word": "yollarında",
+          "startMs": 17310,
+          "endMs": 18330
+        },
+        {
+          "word": "kurulan",
+          "startMs": 18600,
+          "endMs": 19000
+        },
+        {
+          "word": "dostluklarla",
+          "startMs": 19220,
+          "endMs": 19860
+        },
+        {
+          "word": "büyük",
+          "startMs": 19860,
+          "endMs": 20100
+        },
+        {
+          "word": "bir",
+          "startMs": 20200,
+          "endMs": 20350
+        },
+        {
+          "word": "medeniyet",
+          "startMs": 20450,
+          "endMs": 20990
+        },
+        {
+          "word": "değişimini",
+          "startMs": 21120,
+          "endMs": 21960
+        },
+        {
+          "word": "başlattığını",
+          "startMs": 22830,
+          "endMs": 24040
+        },
+        {
+          "word": "duymuş",
+          "startMs": 24110,
+          "endMs": 24640
+        },
+        {
+          "word": "muydun?",
+          "startMs": 25060,
+          "endMs": 25540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 25980,
+      "endMs": 36690,
+      "pauseAfterMs": 1020,
+      "text": "Türkler İslamiyet'i bir günde değil; ticaret, komşuluk ve ortak değerlerle adım adım tanıdı.",
+      "markedText": "Türkler İslamiyet'i bir günde değil; ticaret, komşuluk ve ortak değerlerle adım adım tanıdı.",
+      "words": [
+        {
+          "word": "Türkler",
+          "startMs": 25980,
+          "endMs": 26520
+        },
+        {
+          "word": "İslamiyet'i",
+          "startMs": 26660,
+          "endMs": 27710
+        },
+        {
+          "word": "bir",
+          "startMs": 27850,
+          "endMs": 28000
+        },
+        {
+          "word": "günde",
+          "startMs": 28050,
+          "endMs": 28300
+        },
+        {
+          "word": "değil;",
+          "startMs": 28360,
+          "endMs": 28830
+        },
+        {
+          "word": "ticaret,",
+          "startMs": 29800,
+          "endMs": 30630
+        },
+        {
+          "word": "komşuluk",
+          "startMs": 30770,
+          "endMs": 31280
+        },
+        {
+          "word": "ve",
+          "startMs": 31460,
+          "endMs": 31660
+        },
+        {
+          "word": "ortak",
+          "startMs": 31970,
+          "endMs": 32340
+        },
+        {
+          "word": "değerlerle",
+          "startMs": 32340,
+          "endMs": 33340
+        },
+        {
+          "word": "adım",
+          "startMs": 33600,
+          "endMs": 33880
+        },
+        {
+          "word": "adım",
+          "startMs": 34010,
+          "endMs": 34430
+        },
+        {
+          "word": "tanıdı.",
+          "startMs": 34530,
+          "endMs": 35670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 36690,
+      "endMs": 46980,
+      "pauseAfterMs": 800,
+      "text": "Bu kutlu tanışmayı ve ardından kurulan ilk Türk-İslam devletlerini yakından göreceğiz.",
+      "markedText": "Bu kutlu tanışmayı ve ardından kurulan ilk Türk-İslam devletlerini yakından göreceğiz.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 36690,
+          "endMs": 36870
+        },
+        {
+          "word": "kutlu",
+          "startMs": 36870,
+          "endMs": 37420
+        },
+        {
+          "word": "tanışmayı",
+          "startMs": 37900,
+          "endMs": 38710
+        },
+        {
+          "word": "ve",
+          "startMs": 39330,
+          "endMs": 39560
+        },
+        {
+          "word": "ardından",
+          "startMs": 39610,
+          "endMs": 40370
+        },
+        {
+          "word": "kurulan",
+          "startMs": 40620,
+          "endMs": 41100
+        },
+        {
+          "word": "ilk",
+          "startMs": 41210,
+          "endMs": 41500
+        },
+        {
+          "word": "Türk-İslam",
+          "startMs": 41750,
+          "endMs": 42640
+        },
+        {
+          "word": "devletlerini",
+          "startMs": 42890,
+          "endMs": 44010
+        },
+        {
+          "word": "yakından",
+          "startMs": 44010,
+          "endMs": 45070
+        },
+        {
+          "word": "göreceğiz.",
+          "startMs": 45290,
+          "endMs": 46180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 46980,
+      "endMs": 54330,
+      "pauseAfterMs": 1210,
+      "text": "Bunu yeni bir şehre taşınma sırasına benzetebilirsin.",
+      "markedText": "Bunu yeni bir şehre taşınma sırasına benzetebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 46980,
+          "endMs": 47530
+        },
+        {
+          "word": "yeni",
+          "startMs": 47610,
+          "endMs": 48000
+        },
+        {
+          "word": "bir",
+          "startMs": 48140,
+          "endMs": 48300
+        },
+        {
+          "word": "şehre",
+          "startMs": 48610,
+          "endMs": 49030
+        },
+        {
+          "word": "taşınma",
+          "startMs": 49260,
+          "endMs": 50010
+        },
+        {
+          "word": "sırasına",
+          "startMs": 50190,
+          "endMs": 51210
+        },
+        {
+          "word": "benzetebilirsin.",
+          "startMs": 51320,
+          "endMs": 53120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 54330,
+      "endMs": 69890,
+      "pauseAfterMs": 490,
+      "text": "Önce bir kapıda yeni insanlarla tanışırsın; ardından bu dostluk evinde kalıcı bir düzene dönüşür; en sonunda da yeni ve geniş bir odaya adım atarsın.",
+      "markedText": "Önce bir kapıda yeni insanlarla tanışırsın; ardından bu dostluk evinde kalıcı bir düzene dönüşür; en sonunda da yeni ve geniş bir odaya adım atarsın.",
+      "words": [
+        {
+          "word": "Önce",
+          "startMs": 54330,
+          "endMs": 54730
+        },
+        {
+          "word": "bir",
+          "startMs": 54730,
+          "endMs": 54930
+        },
+        {
+          "word": "kapıda",
+          "startMs": 55230,
+          "endMs": 55600
+        },
+        {
+          "word": "yeni",
+          "startMs": 55700,
+          "endMs": 55860
+        },
+        {
+          "word": "insanlarla",
+          "startMs": 55970,
+          "endMs": 56720
+        },
+        {
+          "word": "tanışırsın;",
+          "startMs": 56850,
+          "endMs": 57860
+        },
+        {
+          "word": "ardından",
+          "startMs": 58470,
+          "endMs": 59140
+        },
+        {
+          "word": "bu",
+          "startMs": 59140,
+          "endMs": 59360
+        },
+        {
+          "word": "dostluk",
+          "startMs": 59360,
+          "endMs": 59860
+        },
+        {
+          "word": "evinde",
+          "startMs": 60040,
+          "endMs": 60590
+        },
+        {
+          "word": "kalıcı",
+          "startMs": 60720,
+          "endMs": 61160
+        },
+        {
+          "word": "bir",
+          "startMs": 61230,
+          "endMs": 61330
+        },
+        {
+          "word": "düzene",
+          "startMs": 61330,
+          "endMs": 61760
+        },
+        {
+          "word": "dönüşür;",
+          "startMs": 61890,
+          "endMs": 62640
+        },
+        {
+          "word": "en",
+          "startMs": 63730,
+          "endMs": 63890
+        },
+        {
+          "word": "sonunda",
+          "startMs": 63940,
+          "endMs": 64510
+        },
+        {
+          "word": "da",
+          "startMs": 64610,
+          "endMs": 64680
+        },
+        {
+          "word": "yeni",
+          "startMs": 64860,
+          "endMs": 65190
+        },
+        {
+          "word": "ve",
+          "startMs": 65430,
+          "endMs": 65800
+        },
+        {
+          "word": "geniş",
+          "startMs": 66100,
+          "endMs": 66480
+        },
+        {
+          "word": "bir",
+          "startMs": 66480,
+          "endMs": 66830
+        },
+        {
+          "word": "odaya",
+          "startMs": 66960,
+          "endMs": 67600
+        },
+        {
+          "word": "adım",
+          "startMs": 67750,
+          "endMs": 68390
+        },
+        {
+          "word": "atarsın.",
+          "startMs": 68480,
+          "endMs": 69400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 69890,
+      "endMs": 78540,
+      "pauseAfterMs": 1020,
+      "text": "Tanışmak, düzene geçmek ve yeni kapılardan geçmek farklı adımlardır.",
+      "markedText": "Tanışmak, düzene geçmek ve yeni kapılardan geçmek farklı adımlardır.",
+      "words": [
+        {
+          "word": "Tanışmak,",
+          "startMs": 69890,
+          "endMs": 71320
+        },
+        {
+          "word": "düzene",
+          "startMs": 72360,
+          "endMs": 72930
+        },
+        {
+          "word": "geçmek",
+          "startMs": 73000,
+          "endMs": 73340
+        },
+        {
+          "word": "ve",
+          "startMs": 73400,
+          "endMs": 73560
+        },
+        {
+          "word": "yeni",
+          "startMs": 73560,
+          "endMs": 73930
+        },
+        {
+          "word": "kapılardan",
+          "startMs": 74160,
+          "endMs": 74800
+        },
+        {
+          "word": "geçmek",
+          "startMs": 75110,
+          "endMs": 75570
+        },
+        {
+          "word": "farklı",
+          "startMs": 75670,
+          "endMs": 76060
+        },
+        {
+          "word": "adımlardır.",
+          "startMs": 76350,
+          "endMs": 77520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 78540,
+      "endMs": 91030,
+      "pauseAfterMs": 1830,
+      "text": "Tarihimizde de Talas Savaşı tanışma eşiği, Karahanlılar devlet düzeni, Malazgirt ise Anadolu'ya açılan kutlu kapıdır.",
+      "markedText": "Tarihimizde de Talas Savaşı tanışma eşiği, Karahanlılar devlet düzeni, Malazgirt ise Anadolu'ya açılan kutlu kapıdır.",
+      "words": [
+        {
+          "word": "Tarihimizde",
+          "startMs": 78540,
+          "endMs": 79290
+        },
+        {
+          "word": "de",
+          "startMs": 79350,
+          "endMs": 79510
+        },
+        {
+          "word": "Talas",
+          "startMs": 79860,
+          "endMs": 80210
+        },
+        {
+          "word": "Savaşı",
+          "startMs": 80740,
+          "endMs": 81230
+        },
+        {
+          "word": "tanışma",
+          "startMs": 81350,
+          "endMs": 81820
+        },
+        {
+          "word": "eşiği,",
+          "startMs": 81980,
+          "endMs": 82520
+        },
+        {
+          "word": "Karahanlılar",
+          "startMs": 82840,
+          "endMs": 84260
+        },
+        {
+          "word": "devlet",
+          "startMs": 84590,
+          "endMs": 85090
+        },
+        {
+          "word": "düzeni,",
+          "startMs": 85240,
+          "endMs": 86260
+        },
+        {
+          "word": "Malazgirt",
+          "startMs": 86700,
+          "endMs": 87190
+        },
+        {
+          "word": "ise",
+          "startMs": 87460,
+          "endMs": 87600
+        },
+        {
+          "word": "Anadolu'ya",
+          "startMs": 87600,
+          "endMs": 88150
+        },
+        {
+          "word": "açılan",
+          "startMs": 88250,
+          "endMs": 88540
+        },
+        {
+          "word": "kutlu",
+          "startMs": 88540,
+          "endMs": 88750
+        },
+        {
+          "word": "kapıdır.",
+          "startMs": 88750,
+          "endMs": 89200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 91030,
+      "endMs": 101370,
+      "pauseAfterMs": 570,
+      "text": "751 yılındaki Talas Savaşı'nda Karluk Türkleri, Abbasi ordusunun yanında yer aldı ve Çin ordusu yenildi.",
+      "markedText": "751 yılındaki Talas Savaşı'nda Karluk Türkleri, Abbasi ordusunun yanında yer aldı ve Çin ordusu yenildi.",
+      "words": [
+        {
+          "word": "751",
+          "startMs": 91030,
+          "endMs": 91820
+        },
+        {
+          "word": "yılındaki",
+          "startMs": 91990,
+          "endMs": 92870
+        },
+        {
+          "word": "Talas",
+          "startMs": 93550,
+          "endMs": 93840
+        },
+        {
+          "word": "Savaşı'nda",
+          "startMs": 93840,
+          "endMs": 94360
+        },
+        {
+          "word": "Karluk",
+          "startMs": 94600,
+          "endMs": 95020
+        },
+        {
+          "word": "Türkleri,",
+          "startMs": 95020,
+          "endMs": 95480
+        },
+        {
+          "word": "Abbasi",
+          "startMs": 97020,
+          "endMs": 97330
+        },
+        {
+          "word": "ordusunun",
+          "startMs": 97410,
+          "endMs": 97920
+        },
+        {
+          "word": "yanında",
+          "startMs": 97920,
+          "endMs": 98250
+        },
+        {
+          "word": "yer",
+          "startMs": 98340,
+          "endMs": 98550
+        },
+        {
+          "word": "aldı",
+          "startMs": 98710,
+          "endMs": 98790
+        },
+        {
+          "word": "ve",
+          "startMs": 98950,
+          "endMs": 99020
+        },
+        {
+          "word": "Çin",
+          "startMs": 99100,
+          "endMs": 99290
+        },
+        {
+          "word": "ordusu",
+          "startMs": 99290,
+          "endMs": 99740
+        },
+        {
+          "word": "yenildi.",
+          "startMs": 99740,
+          "endMs": 100800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 101370,
+      "endMs": 111560,
+      "pauseAfterMs": 1340,
+      "text": "Bu tarihi karşılaşma, Türklerin İslamiyet'i çok daha yakından tanıyıp benimsediği kritik bir eşiktir.",
+      "markedText": "Bu tarihi karşılaşma, Türklerin İslamiyet'i çok daha yakından tanıyıp benimsediği kritik bir eşiktir.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 101370,
+          "endMs": 101580
+        },
+        {
+          "word": "tarihi",
+          "startMs": 101670,
+          "endMs": 102020
+        },
+        {
+          "word": "karşılaşma,",
+          "startMs": 102190,
+          "endMs": 103970
+        },
+        {
+          "word": "Türklerin",
+          "startMs": 105180,
+          "endMs": 105500
+        },
+        {
+          "word": "İslamiyet'i",
+          "startMs": 105580,
+          "endMs": 106280
+        },
+        {
+          "word": "çok",
+          "startMs": 106370,
+          "endMs": 106530
+        },
+        {
+          "word": "daha",
+          "startMs": 106530,
+          "endMs": 106870
+        },
+        {
+          "word": "yakından",
+          "startMs": 106870,
+          "endMs": 107380
+        },
+        {
+          "word": "tanıyıp",
+          "startMs": 107570,
+          "endMs": 108160
+        },
+        {
+          "word": "benimsediği",
+          "startMs": 108160,
+          "endMs": 108730
+        },
+        {
+          "word": "kritik",
+          "startMs": 108730,
+          "endMs": 109050
+        },
+        {
+          "word": "bir",
+          "startMs": 109090,
+          "endMs": 109290
+        },
+        {
+          "word": "eşiktir.",
+          "startMs": 109290,
+          "endMs": 110220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 111560,
+      "endMs": 127990,
+      "pauseAfterMs": 1350,
+      "text": "Karahanlılar, Orta Asya'da kurulan ilk Müslüman Türk devletidir; Satuk Buğra Han döneminde İslamiyet devletin dini olarak kabul edilmiştir.",
+      "markedText": "Karahanlılar, Orta Asya'da kurulan ilk Müslüman Türk devletidir; Satuk Buğra Han döneminde İslamiyet devletin dini olarak kabul edilmiştir.",
+      "words": [
+        {
+          "word": "Karahanlılar,",
+          "startMs": 111560,
+          "endMs": 112180
+        },
+        {
+          "word": "Orta",
+          "startMs": 112230,
+          "endMs": 112530
+        },
+        {
+          "word": "Asya'da",
+          "startMs": 112530,
+          "endMs": 113010
+        },
+        {
+          "word": "kurulan",
+          "startMs": 113250,
+          "endMs": 113720
+        },
+        {
+          "word": "ilk",
+          "startMs": 113720,
+          "endMs": 113980
+        },
+        {
+          "word": "Müslüman",
+          "startMs": 114110,
+          "endMs": 114550
+        },
+        {
+          "word": "Türk",
+          "startMs": 114780,
+          "endMs": 115010
+        },
+        {
+          "word": "devletidir;",
+          "startMs": 115010,
+          "endMs": 116290
+        },
+        {
+          "word": "Satuk",
+          "startMs": 117490,
+          "endMs": 118060
+        },
+        {
+          "word": "Buğra",
+          "startMs": 118440,
+          "endMs": 118830
+        },
+        {
+          "word": "Han",
+          "startMs": 118900,
+          "endMs": 119020
+        },
+        {
+          "word": "döneminde",
+          "startMs": 119580,
+          "endMs": 120620
+        },
+        {
+          "word": "İslamiyet",
+          "startMs": 120620,
+          "endMs": 121570
+        },
+        {
+          "word": "devletin",
+          "startMs": 121760,
+          "endMs": 123060
+        },
+        {
+          "word": "dini",
+          "startMs": 123720,
+          "endMs": 124060
+        },
+        {
+          "word": "olarak",
+          "startMs": 124180,
+          "endMs": 124780
+        },
+        {
+          "word": "kabul",
+          "startMs": 124830,
+          "endMs": 125250
+        },
+        {
+          "word": "edilmiştir.",
+          "startMs": 125370,
+          "endMs": 126640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 127990,
+      "endMs": 142660,
+      "pauseAfterMs": 1020,
+      "text": "Gazneliler ise güçlü bir ordu kurmuş, Gazneli Mahmud liderliğinde Hindistan'a seferler düzenleyerek İslamiyet'i oraya taşımıştır.",
+      "markedText": "Gazneliler ise güçlü bir ordu kurmuş, Gazneli Mahmud liderliğinde Hindistan'a seferler düzenleyerek İslamiyet'i oraya taşımıştır.",
+      "words": [
+        {
+          "word": "Gazneliler",
+          "startMs": 127990,
+          "endMs": 128660
+        },
+        {
+          "word": "ise",
+          "startMs": 128820,
+          "endMs": 128960
+        },
+        {
+          "word": "güçlü",
+          "startMs": 129050,
+          "endMs": 129440
+        },
+        {
+          "word": "bir",
+          "startMs": 129440,
+          "endMs": 129700
+        },
+        {
+          "word": "ordu",
+          "startMs": 129820,
+          "endMs": 130330
+        },
+        {
+          "word": "kurmuş,",
+          "startMs": 130330,
+          "endMs": 131210
+        },
+        {
+          "word": "Gazneli",
+          "startMs": 132370,
+          "endMs": 133210
+        },
+        {
+          "word": "Mahmud",
+          "startMs": 133510,
+          "endMs": 133850
+        },
+        {
+          "word": "liderliğinde",
+          "startMs": 133970,
+          "endMs": 135290
+        },
+        {
+          "word": "Hindistan'a",
+          "startMs": 135400,
+          "endMs": 136030
+        },
+        {
+          "word": "seferler",
+          "startMs": 136410,
+          "endMs": 136870
+        },
+        {
+          "word": "düzenleyerek",
+          "startMs": 137000,
+          "endMs": 138240
+        },
+        {
+          "word": "İslamiyet'i",
+          "startMs": 138240,
+          "endMs": 139240
+        },
+        {
+          "word": "oraya",
+          "startMs": 139380,
+          "endMs": 139920
+        },
+        {
+          "word": "taşımıştır.",
+          "startMs": 140050,
+          "endMs": 141640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 142660,
+      "endMs": 152220,
+      "pauseAfterMs": 1180,
+      "text": "Büyük Selçuklu Devleti'nde ise Tuğrul Bey ve Sultan Alparslan gibi büyük liderler öne çıkar.",
+      "markedText": "Büyük Selçuklu Devleti'nde ise Tuğrul Bey ve Sultan Alparslan gibi büyük liderler öne çıkar.",
+      "words": [
+        {
+          "word": "Büyük",
+          "startMs": 142660,
+          "endMs": 142740
+        },
+        {
+          "word": "Selçuklu",
+          "startMs": 142890,
+          "endMs": 143400
+        },
+        {
+          "word": "Devleti'nde",
+          "startMs": 143400,
+          "endMs": 144110
+        },
+        {
+          "word": "ise",
+          "startMs": 144230,
+          "endMs": 144750
+        },
+        {
+          "word": "Tuğrul",
+          "startMs": 145270,
+          "endMs": 145800
+        },
+        {
+          "word": "Bey",
+          "startMs": 145800,
+          "endMs": 145960
+        },
+        {
+          "word": "ve",
+          "startMs": 146050,
+          "endMs": 146210
+        },
+        {
+          "word": "Sultan",
+          "startMs": 146210,
+          "endMs": 146450
+        },
+        {
+          "word": "Alparslan",
+          "startMs": 146520,
+          "endMs": 147010
+        },
+        {
+          "word": "gibi",
+          "startMs": 147010,
+          "endMs": 147170
+        },
+        {
+          "word": "büyük",
+          "startMs": 147260,
+          "endMs": 147690
+        },
+        {
+          "word": "liderler",
+          "startMs": 149090,
+          "endMs": 149880
+        },
+        {
+          "word": "öne",
+          "startMs": 150430,
+          "endMs": 150610
+        },
+        {
+          "word": "çıkar.",
+          "startMs": 150690,
+          "endMs": 151040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 152220,
+      "endMs": 168030,
+      "pauseAfterMs": 600,
+      "text": "Pratik kural: 1071 yılındaki Malazgirt Zaferi Anadolu'nun kapılarını Türklere açan şanlı bir zaferdir; Türklerin İslamiyet'i kabul tarihi değildir.",
+      "markedText": "Pratik kural: 1071 yılındaki Malazgirt Zaferi Anadolu'nun kapılarını Türklere açan şanlı bir zaferdir; Türklerin İslamiyet'i kabul tarihi değildir.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 152220,
+          "endMs": 152690
+        },
+        {
+          "word": "kural:",
+          "startMs": 152750,
+          "endMs": 153420
+        },
+        {
+          "word": "1071",
+          "startMs": 154620,
+          "endMs": 155230
+        },
+        {
+          "word": "yılındaki",
+          "startMs": 155230,
+          "endMs": 155720
+        },
+        {
+          "word": "Malazgirt",
+          "startMs": 155830,
+          "endMs": 156240
+        },
+        {
+          "word": "Zaferi",
+          "startMs": 156540,
+          "endMs": 156860
+        },
+        {
+          "word": "Anadolu'nun",
+          "startMs": 156980,
+          "endMs": 157330
+        },
+        {
+          "word": "kapılarını",
+          "startMs": 157580,
+          "endMs": 157970
+        },
+        {
+          "word": "Türklere",
+          "startMs": 158110,
+          "endMs": 158390
+        },
+        {
+          "word": "açan",
+          "startMs": 158510,
+          "endMs": 158910
+        },
+        {
+          "word": "şanlı",
+          "startMs": 159000,
+          "endMs": 159290
+        },
+        {
+          "word": "bir",
+          "startMs": 159410,
+          "endMs": 159650
+        },
+        {
+          "word": "zaferdir;",
+          "startMs": 159750,
+          "endMs": 160480
+        },
+        {
+          "word": "Türklerin",
+          "startMs": 161560,
+          "endMs": 162760
+        },
+        {
+          "word": "İslamiyet'i",
+          "startMs": 162830,
+          "endMs": 164180
+        },
+        {
+          "word": "kabul",
+          "startMs": 164740,
+          "endMs": 165110
+        },
+        {
+          "word": "tarihi",
+          "startMs": 165250,
+          "endMs": 165960
+        },
+        {
+          "word": "değildir.",
+          "startMs": 165960,
+          "endMs": 167430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 168030,
+      "endMs": 171850,
+      "pauseAfterMs": 120,
+      "text": "Tarihi durakları sırayla hayal edelim.",
+      "markedText": "Tarihi durakları sırayla hayal edelim.",
+      "words": [
+        {
+          "word": "Tarihi",
+          "startMs": 168030,
+          "endMs": 168600
+        },
+        {
+          "word": "durakları",
+          "startMs": 168810,
+          "endMs": 169820
+        },
+        {
+          "word": "sırayla",
+          "startMs": 169900,
+          "endMs": 170660
+        },
+        {
+          "word": "hayal",
+          "startMs": 170750,
+          "endMs": 171040
+        },
+        {
+          "word": "edelim.",
+          "startMs": 171140,
+          "endMs": 171730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 171850,
+      "endMs": 185930,
+      "pauseAfterMs": 1330,
+      "text": "751 yılındaki Talas'ta iki büyük ordu karşı karşıya gelir; Karlukların desteği savaşın seyrini değiştirir.",
+      "markedText": "751 yılındaki Talas'ta iki büyük ordu karşı karşıya gelir; Karlukların desteği savaşın seyrini değiştirir.",
+      "words": [
+        {
+          "word": "751",
+          "startMs": 171850,
+          "endMs": 173230
+        },
+        {
+          "word": "yılındaki",
+          "startMs": 173360,
+          "endMs": 174740
+        },
+        {
+          "word": "Talas'ta",
+          "startMs": 176100,
+          "endMs": 176390
+        },
+        {
+          "word": "iki",
+          "startMs": 176390,
+          "endMs": 176500
+        },
+        {
+          "word": "büyük",
+          "startMs": 176500,
+          "endMs": 176990
+        },
+        {
+          "word": "ordu",
+          "startMs": 177950,
+          "endMs": 178140
+        },
+        {
+          "word": "karşı",
+          "startMs": 178600,
+          "endMs": 178930
+        },
+        {
+          "word": "karşıya",
+          "startMs": 179050,
+          "endMs": 179400
+        },
+        {
+          "word": "gelir;",
+          "startMs": 179680,
+          "endMs": 180050
+        },
+        {
+          "word": "Karlukların",
+          "startMs": 180460,
+          "endMs": 181450
+        },
+        {
+          "word": "desteği",
+          "startMs": 182190,
+          "endMs": 182500
+        },
+        {
+          "word": "savaşın",
+          "startMs": 182630,
+          "endMs": 183220
+        },
+        {
+          "word": "seyrini",
+          "startMs": 183320,
+          "endMs": 183710
+        },
+        {
+          "word": "değiştirir.",
+          "startMs": 183770,
+          "endMs": 184600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 185930,
+      "endMs": 194710,
+      "pauseAfterMs": 520,
+      "text": "Bu tanışmanın ardından kervansaraylarda, pazarlarda ve şehirlerde yeni inanç konuşulur.",
+      "markedText": "Bu tanışmanın ardından kervansaraylarda, pazarlarda ve şehirlerde yeni inanç konuşulur.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 185930,
+          "endMs": 186140
+        },
+        {
+          "word": "tanışmanın",
+          "startMs": 186690,
+          "endMs": 187170
+        },
+        {
+          "word": "ardından",
+          "startMs": 187170,
+          "endMs": 187610
+        },
+        {
+          "word": "kervansaraylarda,",
+          "startMs": 187700,
+          "endMs": 188850
+        },
+        {
+          "word": "pazarlarda",
+          "startMs": 189180,
+          "endMs": 189930
+        },
+        {
+          "word": "ve",
+          "startMs": 190010,
+          "endMs": 190150
+        },
+        {
+          "word": "şehirlerde",
+          "startMs": 190400,
+          "endMs": 191160
+        },
+        {
+          "word": "yeni",
+          "startMs": 191770,
+          "endMs": 192050
+        },
+        {
+          "word": "inanç",
+          "startMs": 193080,
+          "endMs": 193500
+        },
+        {
+          "word": "konuşulur.",
+          "startMs": 193560,
+          "endMs": 194190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 194710,
+      "endMs": 204940,
+      "pauseAfterMs": 550,
+      "text": "Karahanlılar döneminde bu inanç köklü bir devlet düzenine ve zengin bir kültüre dönüşür.",
+      "markedText": "Karahanlılar döneminde bu inanç köklü bir devlet düzenine ve zengin bir kültüre dönüşür.",
+      "words": [
+        {
+          "word": "Karahanlılar",
+          "startMs": 194710,
+          "endMs": 195780
+        },
+        {
+          "word": "döneminde",
+          "startMs": 196530,
+          "endMs": 197230
+        },
+        {
+          "word": "bu",
+          "startMs": 197230,
+          "endMs": 197540
+        },
+        {
+          "word": "inanç",
+          "startMs": 198560,
+          "endMs": 198790
+        },
+        {
+          "word": "köklü",
+          "startMs": 198940,
+          "endMs": 199250
+        },
+        {
+          "word": "bir",
+          "startMs": 199330,
+          "endMs": 199540
+        },
+        {
+          "word": "devlet",
+          "startMs": 199580,
+          "endMs": 199920
+        },
+        {
+          "word": "düzenine",
+          "startMs": 200000,
+          "endMs": 200550
+        },
+        {
+          "word": "ve",
+          "startMs": 200620,
+          "endMs": 201070
+        },
+        {
+          "word": "zengin",
+          "startMs": 201860,
+          "endMs": 202260
+        },
+        {
+          "word": "bir",
+          "startMs": 202570,
+          "endMs": 202730
+        },
+        {
+          "word": "kültüre",
+          "startMs": 202960,
+          "endMs": 203710
+        },
+        {
+          "word": "dönüşür.",
+          "startMs": 204220,
+          "endMs": 204390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 204940,
+      "endMs": 225310,
+      "pauseAfterMs": 1050,
+      "text": "Bilge yazar Kaşgarlı Mahmud, Türkçenin zenginliğini dünyaya duyurmak için ilk Türkçe sözlüğü yazar; Yusuf Has Hacib ise adaletli devlet yönetimini anlatır.",
+      "markedText": "Bilge yazar Kaşgarlı Mahmud, Türkçenin zenginliğini dünyaya duyurmak için ilk Türkçe sözlüğü yazar; Yusuf Has Hacib ise adaletli devlet yönetimini anlatır.",
+      "words": [
+        {
+          "word": "Bilge",
+          "startMs": 204940,
+          "endMs": 205390
+        },
+        {
+          "word": "yazar",
+          "startMs": 205390,
+          "endMs": 205780
+        },
+        {
+          "word": "Kaşgarlı",
+          "startMs": 205960,
+          "endMs": 206610
+        },
+        {
+          "word": "Mahmud,",
+          "startMs": 206660,
+          "endMs": 207610
+        },
+        {
+          "word": "Türkçenin",
+          "startMs": 208260,
+          "endMs": 208820
+        },
+        {
+          "word": "zenginliğini",
+          "startMs": 208870,
+          "endMs": 210670
+        },
+        {
+          "word": "dünyaya",
+          "startMs": 211680,
+          "endMs": 212110
+        },
+        {
+          "word": "duyurmak",
+          "startMs": 212500,
+          "endMs": 213210
+        },
+        {
+          "word": "için",
+          "startMs": 213720,
+          "endMs": 214140
+        },
+        {
+          "word": "ilk",
+          "startMs": 214230,
+          "endMs": 214440
+        },
+        {
+          "word": "Türkçe",
+          "startMs": 214860,
+          "endMs": 215220
+        },
+        {
+          "word": "sözlüğü",
+          "startMs": 215320,
+          "endMs": 215670
+        },
+        {
+          "word": "yazar;",
+          "startMs": 215670,
+          "endMs": 215750
+        },
+        {
+          "word": "Yusuf",
+          "startMs": 216950,
+          "endMs": 217770
+        },
+        {
+          "word": "Has",
+          "startMs": 217980,
+          "endMs": 218190
+        },
+        {
+          "word": "Hacib",
+          "startMs": 218340,
+          "endMs": 218670
+        },
+        {
+          "word": "ise",
+          "startMs": 218740,
+          "endMs": 219520
+        },
+        {
+          "word": "adaletli",
+          "startMs": 220050,
+          "endMs": 221080
+        },
+        {
+          "word": "devlet",
+          "startMs": 221300,
+          "endMs": 221560
+        },
+        {
+          "word": "yönetimini",
+          "startMs": 222120,
+          "endMs": 222760
+        },
+        {
+          "word": "anlatır.",
+          "startMs": 222930,
+          "endMs": 224260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 225310,
+      "endMs": 233340,
+      "pauseAfterMs": 330,
+      "text": "Gazneli Mahmud ordularıyla Hindistan yollarında fetihler yapar.",
+      "markedText": "Gazneli Mahmud ordularıyla Hindistan yollarında fetihler yapar.",
+      "words": [
+        {
+          "word": "Gazneli",
+          "startMs": 225310,
+          "endMs": 225970
+        },
+        {
+          "word": "Mahmud",
+          "startMs": 226440,
+          "endMs": 227200
+        },
+        {
+          "word": "ordularıyla",
+          "startMs": 228090,
+          "endMs": 229050
+        },
+        {
+          "word": "Hindistan",
+          "startMs": 229220,
+          "endMs": 230110
+        },
+        {
+          "word": "yollarında",
+          "startMs": 230550,
+          "endMs": 231650
+        },
+        {
+          "word": "fetihler",
+          "startMs": 231780,
+          "endMs": 232660
+        },
+        {
+          "word": "yapar.",
+          "startMs": 232660,
+          "endMs": 233010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 233340,
+      "endMs": 253480,
+      "pauseAfterMs": 820,
+      "text": "Selçuklular ise 1040 yılındaki Dandanakan Savaşı ile güçlenir, 1071 Malazgirt Zaferi ile de Anadolu'yu Türk yurdu yapacak kapıyı ardına kadar açar.",
+      "markedText": "Selçuklular ise 1040 yılındaki Dandanakan Savaşı ile güçlenir, 1071 Malazgirt Zaferi ile de Anadolu'yu Türk yurdu yapacak kapıyı ardına kadar açar.",
+      "words": [
+        {
+          "word": "Selçuklular",
+          "startMs": 233340,
+          "endMs": 234350
+        },
+        {
+          "word": "ise",
+          "startMs": 235040,
+          "endMs": 235330
+        },
+        {
+          "word": "1040",
+          "startMs": 235830,
+          "endMs": 236230
+        },
+        {
+          "word": "yılındaki",
+          "startMs": 236470,
+          "endMs": 237380
+        },
+        {
+          "word": "Dandanakan",
+          "startMs": 237640,
+          "endMs": 238730
+        },
+        {
+          "word": "Savaşı",
+          "startMs": 238840,
+          "endMs": 239010
+        },
+        {
+          "word": "ile",
+          "startMs": 239130,
+          "endMs": 239330
+        },
+        {
+          "word": "güçlenir,",
+          "startMs": 239510,
+          "endMs": 240320
+        },
+        {
+          "word": "1071",
+          "startMs": 241230,
+          "endMs": 242790
+        },
+        {
+          "word": "Malazgirt",
+          "startMs": 243560,
+          "endMs": 244280
+        },
+        {
+          "word": "Zaferi",
+          "startMs": 244430,
+          "endMs": 245250
+        },
+        {
+          "word": "ile",
+          "startMs": 246030,
+          "endMs": 246240
+        },
+        {
+          "word": "de",
+          "startMs": 246280,
+          "endMs": 246420
+        },
+        {
+          "word": "Anadolu'yu",
+          "startMs": 246420,
+          "endMs": 247610
+        },
+        {
+          "word": "Türk",
+          "startMs": 248190,
+          "endMs": 248450
+        },
+        {
+          "word": "yurdu",
+          "startMs": 248540,
+          "endMs": 248970
+        },
+        {
+          "word": "yapacak",
+          "startMs": 249170,
+          "endMs": 249770
+        },
+        {
+          "word": "kapıyı",
+          "startMs": 250510,
+          "endMs": 251110
+        },
+        {
+          "word": "ardına",
+          "startMs": 251260,
+          "endMs": 251760
+        },
+        {
+          "word": "kadar",
+          "startMs": 251860,
+          "endMs": 252090
+        },
+        {
+          "word": "açar.",
+          "startMs": 252090,
+          "endMs": 252660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 253480,
+      "endMs": 262400,
+      "pauseAfterMs": 210,
+      "text": "Üç devlet de Müslüman Türk devletidir; her birinin tarihe kattığı değer büyüktür.",
+      "markedText": "Üç devlet de Müslüman Türk devletidir; her birinin tarihe kattığı değer büyüktür.",
+      "words": [
+        {
+          "word": "Üç",
+          "startMs": 253480,
+          "endMs": 253570
+        },
+        {
+          "word": "devlet",
+          "startMs": 253620,
+          "endMs": 254190
+        },
+        {
+          "word": "de",
+          "startMs": 254330,
+          "endMs": 254580
+        },
+        {
+          "word": "Müslüman",
+          "startMs": 254870,
+          "endMs": 255650
+        },
+        {
+          "word": "Türk",
+          "startMs": 255730,
+          "endMs": 255900
+        },
+        {
+          "word": "devletidir;",
+          "startMs": 256280,
+          "endMs": 257020
+        },
+        {
+          "word": "her",
+          "startMs": 257230,
+          "endMs": 257320
+        },
+        {
+          "word": "birinin",
+          "startMs": 257380,
+          "endMs": 257830
+        },
+        {
+          "word": "tarihe",
+          "startMs": 257830,
+          "endMs": 258870
+        },
+        {
+          "word": "kattığı",
+          "startMs": 259660,
+          "endMs": 260010
+        },
+        {
+          "word": "değer",
+          "startMs": 260190,
+          "endMs": 260830
+        },
+        {
+          "word": "büyüktür.",
+          "startMs": 261620,
+          "endMs": 262190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 262400,
+      "endMs": 264430,
+      "pauseAfterMs": 680,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 262400,
+          "endMs": 263010
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 263270,
+          "endMs": 263750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 264430,
+      "endMs": 266960,
+      "pauseAfterMs": 600,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 264430,
+          "endMs": 265510
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 265760,
+          "endMs": 266360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 266960,
+      "endMs": 269290,
+      "pauseAfterMs": 620,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 266960,
+          "endMs": 267140
+        },
+        {
+          "word": "noktayı",
+          "startMs": 267290,
+          "endMs": 267780
+        },
+        {
+          "word": "sen",
+          "startMs": 267780,
+          "endMs": 267890
+        },
+        {
+          "word": "de",
+          "startMs": 267980,
+          "endMs": 268060
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 268060,
+          "endMs": 268670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 269290,
+      "endMs": 278470,
+      "pauseAfterMs": 930,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 269290,
+          "endMs": 269760
+        },
+        {
+          "word": "sevgili",
+          "startMs": 269950,
+          "endMs": 270530
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 271250,
+          "endMs": 272300
+        },
+        {
+          "word": "işte",
+          "startMs": 272500,
+          "endMs": 272830
+        },
+        {
+          "word": "tam",
+          "startMs": 272830,
+          "endMs": 273100
+        },
+        {
+          "word": "bu",
+          "startMs": 273270,
+          "endMs": 273490
+        },
+        {
+          "word": "noktada",
+          "startMs": 274160,
+          "endMs": 274660
+        },
+        {
+          "word": "dikkat",
+          "startMs": 274660,
+          "endMs": 275160
+        },
+        {
+          "word": "etmen",
+          "startMs": 275790,
+          "endMs": 276020
+        },
+        {
+          "word": "gereken",
+          "startMs": 276020,
+          "endMs": 276440
+        },
+        {
+          "word": "kilit",
+          "startMs": 276520,
+          "endMs": 276760
+        },
+        {
+          "word": "nokta.",
+          "startMs": 276850,
+          "endMs": 277540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 278470,
+      "endMs": 289760,
+      "pauseAfterMs": 600,
+      "text": "1071 Malazgirt Zaferi'ni Türklerin İslamiyet'i ilk kez kabul ettiği tarih sanmak yanıltıcı bir tuzaktır.",
+      "markedText": "1071 Malazgirt Zaferi'ni Türklerin İslamiyet'i ilk kez kabul ettiği tarih sanmak yanıltıcı bir tuzaktır.",
+      "words": [
+        {
+          "word": "1071",
+          "startMs": 278470,
+          "endMs": 279790
+        },
+        {
+          "word": "Malazgirt",
+          "startMs": 280650,
+          "endMs": 281330
+        },
+        {
+          "word": "Zaferi'ni",
+          "startMs": 281330,
+          "endMs": 281990
+        },
+        {
+          "word": "Türklerin",
+          "startMs": 282300,
+          "endMs": 283110
+        },
+        {
+          "word": "İslamiyet'i",
+          "startMs": 283820,
+          "endMs": 284490
+        },
+        {
+          "word": "ilk",
+          "startMs": 284490,
+          "endMs": 284740
+        },
+        {
+          "word": "kez",
+          "startMs": 284740,
+          "endMs": 284880
+        },
+        {
+          "word": "kabul",
+          "startMs": 284980,
+          "endMs": 285350
+        },
+        {
+          "word": "ettiği",
+          "startMs": 285870,
+          "endMs": 286010
+        },
+        {
+          "word": "tarih",
+          "startMs": 286510,
+          "endMs": 286880
+        },
+        {
+          "word": "sanmak",
+          "startMs": 286880,
+          "endMs": 287270
+        },
+        {
+          "word": "yanıltıcı",
+          "startMs": 287550,
+          "endMs": 288180
+        },
+        {
+          "word": "bir",
+          "startMs": 288180,
+          "endMs": 288350
+        },
+        {
+          "word": "tuzaktır.",
+          "startMs": 288500,
+          "endMs": 289160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 289760,
+      "endMs": 310750,
+      "pauseAfterMs": 660,
+      "text": "İslamiyet'in kabulü 751 yılındaki Talas'tan sonra başlamış ve Karahanlılar ile devlet inancına dönüşmüştür; Malazgirt ise Anadolu'nun kapılarını açan büyük bir zaferdir.",
+      "markedText": "İslamiyet'in kabulü 751 yılındaki Talas'tan sonra başlamış ve Karahanlılar ile devlet inancına dönüşmüştür; Malazgirt ise Anadolu'nun kapılarını açan büyük bir zaferdir.",
+      "words": [
+        {
+          "word": "İslamiyet'in",
+          "startMs": 289760,
+          "endMs": 290520
+        },
+        {
+          "word": "kabulü",
+          "startMs": 290520,
+          "endMs": 291100
+        },
+        {
+          "word": "751",
+          "startMs": 291240,
+          "endMs": 292140
+        },
+        {
+          "word": "yılındaki",
+          "startMs": 293190,
+          "endMs": 293880
+        },
+        {
+          "word": "Talas'tan",
+          "startMs": 293990,
+          "endMs": 295150
+        },
+        {
+          "word": "sonra",
+          "startMs": 295900,
+          "endMs": 296300
+        },
+        {
+          "word": "başlamış",
+          "startMs": 296510,
+          "endMs": 296860
+        },
+        {
+          "word": "ve",
+          "startMs": 297110,
+          "endMs": 297350
+        },
+        {
+          "word": "Karahanlılar",
+          "startMs": 298040,
+          "endMs": 298750
+        },
+        {
+          "word": "ile",
+          "startMs": 298860,
+          "endMs": 299120
+        },
+        {
+          "word": "devlet",
+          "startMs": 299190,
+          "endMs": 299490
+        },
+        {
+          "word": "inancına",
+          "startMs": 299670,
+          "endMs": 300270
+        },
+        {
+          "word": "dönüşmüştür;",
+          "startMs": 300950,
+          "endMs": 302260
+        },
+        {
+          "word": "Malazgirt",
+          "startMs": 302700,
+          "endMs": 303400
+        },
+        {
+          "word": "ise",
+          "startMs": 304200,
+          "endMs": 304660
+        },
+        {
+          "word": "Anadolu'nun",
+          "startMs": 305300,
+          "endMs": 305860
+        },
+        {
+          "word": "kapılarını",
+          "startMs": 306500,
+          "endMs": 307130
+        },
+        {
+          "word": "açan",
+          "startMs": 307540,
+          "endMs": 308040
+        },
+        {
+          "word": "büyük",
+          "startMs": 308130,
+          "endMs": 308490
+        },
+        {
+          "word": "bir",
+          "startMs": 308620,
+          "endMs": 309130
+        },
+        {
+          "word": "zaferdir.",
+          "startMs": 309240,
+          "endMs": 310090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 310750,
+      "endMs": 326430,
+      "pauseAfterMs": 770,
+      "text": "Karahanlı, Gazneli ve Büyük Selçuklu devletlerinin her birinin ayrı birer devlet olduğunu da güvenle aklında tutabilirsin.",
+      "markedText": "Karahanlı, Gazneli ve Büyük Selçuklu devletlerinin her birinin ayrı birer devlet olduğunu da güvenle aklında tutabilirsin.",
+      "words": [
+        {
+          "word": "Karahanlı,",
+          "startMs": 310750,
+          "endMs": 311400
+        },
+        {
+          "word": "Gazneli",
+          "startMs": 311570,
+          "endMs": 312310
+        },
+        {
+          "word": "ve",
+          "startMs": 312430,
+          "endMs": 312660
+        },
+        {
+          "word": "Büyük",
+          "startMs": 312800,
+          "endMs": 313190
+        },
+        {
+          "word": "Selçuklu",
+          "startMs": 313380,
+          "endMs": 314220
+        },
+        {
+          "word": "devletlerinin",
+          "startMs": 315040,
+          "endMs": 316080
+        },
+        {
+          "word": "her",
+          "startMs": 316950,
+          "endMs": 317100
+        },
+        {
+          "word": "birinin",
+          "startMs": 317100,
+          "endMs": 317680
+        },
+        {
+          "word": "ayrı",
+          "startMs": 317840,
+          "endMs": 318610
+        },
+        {
+          "word": "birer",
+          "startMs": 319380,
+          "endMs": 319620
+        },
+        {
+          "word": "devlet",
+          "startMs": 319840,
+          "endMs": 320170
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 320270,
+          "endMs": 321110
+        },
+        {
+          "word": "da",
+          "startMs": 321110,
+          "endMs": 321780
+        },
+        {
+          "word": "güvenle",
+          "startMs": 322570,
+          "endMs": 323020
+        },
+        {
+          "word": "aklında",
+          "startMs": 323120,
+          "endMs": 323800
+        },
+        {
+          "word": "tutabilirsin.",
+          "startMs": 324180,
+          "endMs": 325660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 326430,
+      "endMs": 329100,
+      "pauseAfterMs": 740,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 326430,
+          "endMs": 326910
+        },
+        {
+          "word": "Neler",
+          "startMs": 326910,
+          "endMs": 327410
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 327610,
+          "endMs": 328360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 329100,
+      "endMs": 329300,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 329100,
+          "endMs": 329300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 329300,
+      "endMs": 340520,
+      "pauseAfterMs": 780,
+      "text": "751 Talas Savaşı, Türklerin İslamiyet'i yakından tanıdığı eşiktir.",
+      "markedText": "751 Talas Savaşı, Türklerin İslamiyet'i yakından tanıdığı eşiktir.",
+      "words": [
+        {
+          "word": "751",
+          "startMs": 329300,
+          "endMs": 330140
+        },
+        {
+          "word": "Talas",
+          "startMs": 330960,
+          "endMs": 331240
+        },
+        {
+          "word": "Savaşı,",
+          "startMs": 331520,
+          "endMs": 332150
+        },
+        {
+          "word": "Türklerin",
+          "startMs": 332980,
+          "endMs": 333950
+        },
+        {
+          "word": "İslamiyet'i",
+          "startMs": 334630,
+          "endMs": 335710
+        },
+        {
+          "word": "yakından",
+          "startMs": 336470,
+          "endMs": 337310
+        },
+        {
+          "word": "tanıdığı",
+          "startMs": 338040,
+          "endMs": 338580
+        },
+        {
+          "word": "eşiktir.",
+          "startMs": 338700,
+          "endMs": 339740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 340520,
+      "endMs": 340790,
+      "pauseAfterMs": 0,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 340520,
+          "endMs": 340790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 340790,
+      "endMs": 345080,
+      "pauseAfterMs": 750,
+      "text": "Karahanlılar ilk Müslüman Türk devletidir.",
+      "markedText": "Karahanlılar ilk Müslüman Türk devletidir.",
+      "words": [
+        {
+          "word": "Karahanlılar",
+          "startMs": 340790,
+          "endMs": 341540
+        },
+        {
+          "word": "ilk",
+          "startMs": 341740,
+          "endMs": 342280
+        },
+        {
+          "word": "Müslüman",
+          "startMs": 342770,
+          "endMs": 343400
+        },
+        {
+          "word": "Türk",
+          "startMs": 343440,
+          "endMs": 343660
+        },
+        {
+          "word": "devletidir.",
+          "startMs": 343750,
+          "endMs": 344330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 345080,
+      "endMs": 349490,
+      "pauseAfterMs": 770,
+      "text": "Gazneliler ve Selçuklular onu izler.",
+      "markedText": "Gazneliler ve Selçuklular onu izler.",
+      "words": [
+        {
+          "word": "Gazneliler",
+          "startMs": 345080,
+          "endMs": 345750
+        },
+        {
+          "word": "ve",
+          "startMs": 345870,
+          "endMs": 345990
+        },
+        {
+          "word": "Selçuklular",
+          "startMs": 346030,
+          "endMs": 347330
+        },
+        {
+          "word": "onu",
+          "startMs": 348130,
+          "endMs": 348250
+        },
+        {
+          "word": "izler.",
+          "startMs": 348250,
+          "endMs": 348720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 349490,
+      "endMs": 349830,
+      "pauseAfterMs": 200,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 349490,
+          "endMs": 349630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 349830,
+      "endMs": 354490,
+      "pauseAfterMs": 470,
+      "text": "1071 Malazgirt Anadolu'nun kapısıdır.",
+      "markedText": "1071 Malazgirt Anadolu'nun kapısıdır.",
+      "words": [
+        {
+          "word": "1071",
+          "startMs": 349830,
+          "endMs": 350680
+        },
+        {
+          "word": "Malazgirt",
+          "startMs": 350870,
+          "endMs": 351350
+        },
+        {
+          "word": "Anadolu'nun",
+          "startMs": 351950,
+          "endMs": 352990
+        },
+        {
+          "word": "kapısıdır.",
+          "startMs": 353190,
+          "endMs": 354020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 354490,
+      "endMs": 357250,
+      "pauseAfterMs": 340,
+      "text": "Kabul tarihi değildir.",
+      "markedText": "Kabul tarihi değildir.",
+      "words": [
+        {
+          "word": "Kabul",
+          "startMs": 354490,
+          "endMs": 354740
+        },
+        {
+          "word": "tarihi",
+          "startMs": 355050,
+          "endMs": 355820
+        },
+        {
+          "word": "değildir.",
+          "startMs": 356020,
+          "endMs": 356910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 357250,
+      "endMs": 361890,
+      "pauseAfterMs": 720,
+      "text": "Kabul Talas ve Karahanlılarla ilerler.",
+      "markedText": "Kabul Talas ve Karahanlılarla ilerler.",
+      "words": [
+        {
+          "word": "Kabul",
+          "startMs": 357250,
+          "endMs": 357740
+        },
+        {
+          "word": "Talas",
+          "startMs": 357930,
+          "endMs": 358250
+        },
+        {
+          "word": "ve",
+          "startMs": 358310,
+          "endMs": 358360
+        },
+        {
+          "word": "Karahanlılarla",
+          "startMs": 359190,
+          "endMs": 360440
+        },
+        {
+          "word": "ilerler.",
+          "startMs": 360440,
+          "endMs": 361170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 361890,
+      "endMs": 363780,
+      "pauseAfterMs": 470,
+      "text": "Malazgirt Anadolu kapısıdır.",
+      "markedText": "Malazgirt Anadolu kapısıdır.",
+      "words": [
+        {
+          "word": "Malazgirt",
+          "startMs": 361890,
+          "endMs": 362370
+        },
+        {
+          "word": "Anadolu",
+          "startMs": 362480,
+          "endMs": 362790
+        },
+        {
+          "word": "kapısıdır.",
+          "startMs": 362880,
+          "endMs": 363310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 363780,
+      "endMs": 370890,
+      "pauseAfterMs": 620,
+      "text": "Talas, Karahanlı, Gazneli ve Malazgirt'i ayrı duraklar olarak söylersin.",
+      "markedText": "Talas, Karahanlı, Gazneli ve Malazgirt'i ayrı duraklar olarak söylersin.",
+      "words": [
+        {
+          "word": "Talas,",
+          "startMs": 363780,
+          "endMs": 364020
+        },
+        {
+          "word": "Karahanlı,",
+          "startMs": 364140,
+          "endMs": 365390
+        },
+        {
+          "word": "Gazneli",
+          "startMs": 366110,
+          "endMs": 366430
+        },
+        {
+          "word": "ve",
+          "startMs": 366540,
+          "endMs": 366650
+        },
+        {
+          "word": "Malazgirt'i",
+          "startMs": 366650,
+          "endMs": 367150
+        },
+        {
+          "word": "ayrı",
+          "startMs": 367150,
+          "endMs": 367490
+        },
+        {
+          "word": "duraklar",
+          "startMs": 367490,
+          "endMs": 368140
+        },
+        {
+          "word": "olarak",
+          "startMs": 368890,
+          "endMs": 369380
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 369450,
+          "endMs": 370270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 370890,
+      "endMs": 373320,
+      "pauseAfterMs": 680,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 370890,
+          "endMs": 371530
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 371820,
+          "endMs": 372640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 373320,
+      "endMs": 376820,
+      "pauseAfterMs": 580,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 373320,
+          "endMs": 373770
+        },
+        {
+          "word": "bir",
+          "startMs": 374480,
+          "endMs": 374810
+        },
+        {
+          "word": "iş",
+          "startMs": 374810,
+          "endMs": 375080
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 375700,
+          "endMs": 376240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 376820,
+      "endMs": 379880,
+      "pauseAfterMs": 750,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 376820,
+          "endMs": 377230
+        },
+        {
+          "word": "sıra",
+          "startMs": 377740,
+          "endMs": 378180
+        },
+        {
+          "word": "sende.",
+          "startMs": 378300,
+          "endMs": 379130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 379880,
+      "endMs": 384980,
+      "pauseAfterMs": 320,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 379880,
+          "endMs": 380480
+        },
+        {
+          "word": "bu",
+          "startMs": 381060,
+          "endMs": 381200
+        },
+        {
+          "word": "notları",
+          "startMs": 381200,
+          "endMs": 381760
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 382370,
+          "endMs": 382940
+        },
+        {
+          "word": "kendi",
+          "startMs": 383040,
+          "endMs": 383270
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 383350,
+          "endMs": 384110
+        },
+        {
+          "word": "anlat.",
+          "startMs": 384190,
+          "endMs": 384660
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

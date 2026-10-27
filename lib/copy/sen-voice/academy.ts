@@ -3,10 +3,10 @@ import { ACADEMY_COURSE_TITLES } from "@/lib/academy/course-titles";
 export const ACADEMY_SEN = {
   catalog: {
     eyebrow: "Akademi",
-    title: "Yapay zeka eğitimi ve online kurslar",
+    title: "Yapay Zekâyı Öğren. Gerçek İşlerinde Kullan.",
     description:
-      "Yapay zeka eğitimi ve online kurs vitrini. Ofiste Yapay Zekâ, İleri Ofis, E-Ticaret, Sosyal Medya, Chatbot ve Prompt eğitimi yayındadır. İlk ders ücretsiz izlenir. Eğitimi incele. Dersler ödeme sonrası açılır. Sertifika doğrulama ve mevcut lisanslar çalışır.",
-    stats: "6 eğitim yayında",
+      "Vitrinin merkezinde tek eğitim var: Ofiste Yapay Zekâ. Sekiz sesli ders, gerçek dosyalarla uygulama, 70+ barajlı test ve sertifika. İlk dersi ücretsiz izle, içeriği gör, sonra karar ver. İleri modüller temel eğitimden sonra ayrı rafta durur. Yapay zeka eğitimi ve online kurs vitrini: Ofiste Yapay Zekâ, İleri Ofis, E-Ticaret, Sosyal Medya, Chatbot ve Prompt eğitimi yayındadır. Eğitimi incele. Dersler ödeme sonrası açılır.",
+    stats: "Tek öne çıkan eğitim · 5 ileri modül ayrı rafta",
     certificatesCta: "Sertifikalar",
     verifyCta: "Doğrula",
     live: (count: number) => (count > 0 ? "Eğitimler — ders, test ve yetkinlik" : ""),
@@ -16,6 +16,8 @@ export const ACADEMY_SEN = {
     cardCtaOpen: "Eğitimi Gör",
     /** Vitrin kartı — satın alma yokken birincil eylem. Fiyat butonda yazılmaz. */
     cardCtaBuy: "Satın Al",
+    /** Vitrin kartı — fiyatlı kartın birincil eylemi. Ücretsiz ders yanında durur. */
+    cardCtaJoin: "Hemen Katıl",
     /** Vitrin kartı — ilk ders herkese açık. Doğrudan oynatıcı. */
     cardCtaFreePreview: "► 1. Dersi Ücretsiz İzle",
     /** PEDAGOJI §D — kardeş kabuk; satın alma ve hayali oynatıcı yok. */
@@ -85,6 +87,10 @@ export const ACADEMY_SEN = {
       return label || code;
     },
     priceMissing: "Fiyat yok",
+    /** Fiyat satırı yok. Ses mührü eksiği bu cümle değildir. */
+    priceAwaiting: "Fiyat Bekleniyor",
+    /** Konuşma metni veya mühürlü ses eksik. */
+    voiceSealMissing: "Ses Mührü Eksik",
     /** Fiyat yok veya disk mührü eksik — kartta tek durum cümlesi. */
     pricePending: "Kayıt Kapalı / Fiyat Bekleniyor",
     /** Anlatım duruyor; veritabanı yayını yok. Satın Al basılmaz. */
@@ -102,7 +108,27 @@ export const ACADEMY_SEN = {
         ? "Eğitimler · Test barajı 70+ · Sertifika Kariyer sayfasına işlenir"
         : "",
     seriesPath: "Seviye Yolu",
-    boardTitle: "Online kurs kataloğu",
+    boardTitle: "İşinde kullanacağın eğitimler",
+    flagshipBadge: "Öne Çıkan / Temel Akademi Eğitimi",
+    flagshipShelfTitle: "Öne Çıkan / Temel Akademi Eğitimi",
+    flagshipShelfNote:
+      "Temel ofis eğitimi. Alış kararı tek bu karttan başlar; sonuç, çıktı ve ücretsiz ders aynı yerde.",
+    advancedShelfTitle: "İleri Düzey Modüller",
+    advancedShelfNote:
+      "Temel ofis eğitiminden sonra bakılacak modüller. Her kart ayrı bir iştir; vitrinin ana kararı değildir.",
+    /** İleri raf kapısı — ana akıştan çıkarılan beş modül ayrı sayfada durur. */
+    advancedDoorCta: (count: number) => `${count} ileri modülü ayrı rafta gör`,
+    advancedDoorLead:
+      "Beş ileri modül vitrinin ana kararından çıkarıldı. Temel eğitimden sonra bu raftan bakılır.",
+    advancedRoomTitle: "İleri Düzey Modüller",
+    /** `/academy/ileri` kart ızgarasının H2'si — kart başlıkları H3 olduğu için ara katman. */
+    advancedListHeading: "İleri modül listesi: beş ayrı iş",
+    advancedRoomLead:
+      "Bu raftaki eğitimler temel ofis eğitiminin üstüne biner. Her biri ayrı bir iştir; biri diğerinin ön koşulu değildir.",
+    advancedRoomBackCta: "Öne çıkan eğitime dön",
+    /** Sonuç odaklı CTA — `FocusSalePitch` "result" basamağı ile aynı işi söyler. */
+    cardCtaOutcome: (priceLabel: string) => `Eğitime Başla ve Sertifikana Ulaş — ${priceLabel}`,
+    cardCtaOutcomeIdle: "Eğitime Başla ve Sertifikana Ulaş",
     faqHeading: "Sık sorulanlar",
     tabCatalog: "Tüm Katalog",
     tabOwned: "Aldığım Eğitimler",
@@ -138,9 +164,12 @@ export const ACADEMY_SEN = {
     /** Antre hero — DURUM A. Fiyat yalnız bu CTA içinde; bağımsız ₺ satırı yok. */
     heroBuyCta: (priceLabel: string) => `Eğitimi Satın Al — ${priceLabel}`,
     heroBuyCtaIdle: "Satın Al",
+    /** Süresi dolmuş lisans. Satış kapısı açıksa aynı kasa yeniden açılır. */
+    renewCta: "Yenile",
+    rebuyCta: "Yeniden Satın Al",
     /** Anayasa B4 — satın alma duvarının yanında birincil önizleme. Oynatıcı `/oyna`. */
     heroPreviewCta: "1. Dersi Ücretsiz İzle",
-    previewLead: "İlk ders herkese açık. Karar vermeden önce izle.",
+    previewLead: "İlk dersi ücretsiz izle. İçeriği gör, sonra karar ver.",
     /** Antre / vitrin fiyat yerine — DURUM B (satın alındı). */
     accessOpen: "Erişim Açık",
     purchasedBadge: "Satın Alındı",
@@ -197,8 +226,8 @@ export const ACADEMY_SEN = {
     prepKind: "Hazırlık",
   },
   outcomes: {
-    eyebrow: "Öğrenim çıktıları",
-    title: "Bu yolda ne kazanırsın",
+    eyebrow: "Ders ders kazanım",
+    title: "Eğitim bitince yapabildiğin işler",
     empty: "Çıktı sicili yok.",
   },
   settlement: {
@@ -213,7 +242,7 @@ export const ACADEMY_SEN = {
         {
           key: "settle",
           label: "Erişim",
-          detail: "Ders erişimi açılınca ifa başlar; 6502 cayma istisnası işler. Lisans 365 gündür.",
+          detail: "Lisans 365 gündür. İade koşulları satın alma düğmesinin altındaki bağlantıdadır.",
         },
         {
           key: "record",
@@ -233,12 +262,36 @@ export const ACADEMY_SEN = {
       "Ödeme henüz bağlanmadı / pasif. Kart ile yükleme bağlı değil. Cüzdanında harç varsa eğitimi başlat; yoksa kayıt bekler. Sahte bakiye yazılmaz.",
     pendingCta: "Kaydediliyor…",
     locking: (lockMinutes: number) => `Fiyat onaylanıyor — ${lockMinutes} dakika geçerli.`,
-    settling: "Ödeme onaylanıyor.",
+    settling: "Bakiye onaylanıyor. Onay gelince lisans yazılır. Bu ekranı kapatma.",
     lockFail: "Fiyat onayı alınamadı.",
     buyFail: "Satın alma tamamlanamadı.",
     licenseDuration: "365_DAYS",
+    refundLink: "İade koşulları",
+    refundFootnote: "Ders açılınca dijital içerik ifası başlar. Ayrıntı bu bağlantıdadır.",
+    creditPending:
+      "Ödeme bildirimi henüz cüzdana yazılmadı. Bakiye düşünce eğitim açılır. Bu ekran sahte bakiye yazmaz.",
+    creditConfirming: "1. Bakiye bildirimi bekleniyor. 2. Lisans, bakiye düşünce yazılır. Bu ekranı kapatma.",
+    paytrBridgeTitle: "Ödeme sürüyor. Bu ekranı kapatma.",
+    paytrBridgeBalanceWait: "Bakiye: PayTR bildirimi bekleniyor.",
+    paytrBridgeBalanceDone: "Bakiye adımı geçildi.",
+    paytrBridgeLicenseWait: "Lisans: bakiye onaylanınca eğitim kaydı yazılır.",
+    paytrBridgeLicenseNow: "Lisans yazılıyor.",
+    creditStillPending:
+      "Ödemeniz alındıysa bildirimi hâlâ işleniyor olabilir. Birkaç dakika içinde bakiyeniz ve dersiniz kendiliğinden güncellenir; sayfayı yenileyerek kontrol edebilirsiniz.",
+    licenseUnwrittenTitle: "Lisans henüz yazılmadı",
+    licenseUnwritten:
+      "Ödeme cüzdana yazılmış olabilir. Eğitim lisansı açılmadıysa bu siparişin tutarı karta iade edilmeye çalışılır. Bakiye siparişi karşılamıyorsa iade talep olarak kalır; cüzdan ekranından bakiyeyi kontrol et. Sahte lisans basılmaz.",
+    refundBalanceShort:
+      "Lisans yazılamadı ve cüzdan bakiyesi bu siparişi karşılamıyor. Kart iadesi talep satırı olarak durur. Cüzdanı kontrol edip destek kanalına yaz.",
+    refundPaytrDown:
+      "Lisans yazılamadı. Kart iadesi şu an ödeme hattına iletilemedi. Talep satırı durur; biraz sonra cüzdanı yenile veya destek kanalına yaz.",
+    debitFailed:
+      "Bakiyeden düşüm tamamlanamadı. Lisans açılmadı. Sayfayı yenile; tutar cüzdanda duruyorsa satın almayı yeniden dene.",
+    licenseUnwrittenBalance: (label: string) => `Cüzdan bakiyesi: ${label}.`,
+    licenseUnwrittenBalanceUnread: "Cüzdan satırı bu ekranda canlı değil.",
+    licenseUnwrittenNext: "Lisans satırı yazılınca oynatıcı açılır. Para, lisanssız derse harcanmış sayılmaz.",
     licenseNote:
-      "Lisans 365 gün. Gösterilen tutar KDV dahildir. Ders erişimi açılınca dijital içerik ifası başlar; cayma hakkı 6502 istisnasına tabidir. Sertifika yalnız testi 70+ ile geçince basılır.",
+      "Lisans 365 gün. Gösterilen tutar KDV dahildir. İade koşulları bağlantıdadır. Sertifika yalnız testi 70+ ile geçince basılır.",
   },
   exam: {
     barajHint: (passScore: number) => `Baraj ${passScore}. Satın alma sertifika basmaz.`,
@@ -382,7 +435,8 @@ export const ACADEMY_SEN = {
     curriculumPdfCta: "Müfredat Notunu İndir (PDF)",
     pdfLessonLocked: "Ders tamamlanmadan not basılmaz.",
     pdfCurriculumLocked: "Müfredat tamamlanmadan toplu not basılmaz.",
-    licenseEnded: "Lisans süresi doldu. Ders notları durur.",
+    licenseEnded: "Lisans süresi doldu. Ders notları durur. Satış kapısı açıksa aynı eğitimi yenileyebilirsin.",
+    licenseEndedClosed: "Lisans süresi doldu. Satış kapısı şu an kapalı; nedeni kartta yazılır.",
     /** İkincil aksiyonlar — ana sahnede değil, Araçlar menüsünde. */
     toolsMenu: "Araçlar",
     toolsMenuHint: "Ders notu ve uygulama görevi",

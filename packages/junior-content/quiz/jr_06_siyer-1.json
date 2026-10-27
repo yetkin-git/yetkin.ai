@@ -1,0 +1,53 @@
+{
+  "lessonKey": "jr_06_siyer-1",
+  "title": "Doğru söz",
+  "tellGuides": [
+    "Doğru sözü kendi cümlenle tanımla.",
+    "Emanet bir kalemde söz ile iş nasıl birleşir?",
+    "İşine gelen cümle neden doğru söz sayılmaz?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Bu derste doğru söz ne demektir?",
+      "options": [
+        "Söylenen ile yapılanın aynı olması",
+        "Hoşa giden her cümle",
+        "En uzun cümle",
+        "Söylenmeyen bir sır"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Ağızdan çıkan ile elin yaptığı birleşir.",
+      "explanation": "Adım 1: Doğru söz, söylenen ile yapılanın aynı olmasıdır. Adım 2: Söz tutulursa doğru söz durur. Adım 3: Hoşa giden cümle tek başına doğru söz değildir."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Sana emanet bir kalem verildi. Veririm dedin. Doğru iş hangisidir?",
+      "options": [
+        "Kalemi gizlersin",
+        "Kalemi sahibine geri verirsin",
+        "Kalemi kendininki gibi tutarsın",
+        "Unuttum deyip bırakırsın"
+      ],
+      "correctAnswerIndex": 1,
+      "hint": "Emanet sahibine döner.",
+      "explanation": "Adım 1: Söz, kalemi geri vermektir. Adım 2: İş de kalemi sahibine vermektir. Adım 3: Emaneti saklamak sözü bozar."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Arkadaşının silgisini ödünç aldın ve getireceğim dedin. Hangisi doğru sözü tutar?",
+      "options": [
+        "Silgiyi çantanda bırakmak",
+        "Unuttum deyip konuyu kapatmak",
+        "Söylediğin gün silgiyi geri getirmek",
+        "Başka bir silgiymiş gibi kullanmak"
+      ],
+      "correctAnswerIndex": 2,
+      "hint": "Söz ile iş aynı günde birleşir.",
+      "explanation": "Adım 1: Getireceğim sözdür. Adım 2: O gün getirmek iştir. Adım 3: Unuttum demek, tutmadığın sözü doğru yapmaz."
+    }
+  ]
+}

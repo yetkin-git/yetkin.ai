@@ -1,0 +1,2122 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_sosyal-23",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "İslam medeniyetinin ortak mirası",
+  "grade": 6,
+  "subject": "Sosyal Bilgiler",
+  "teacher": {
+    "name": "Murat",
+    "voice": "Achird",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_sosyal-23.mp3",
+    "durationMs": 253275,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 52070
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 52070,
+      "endMs": 199470
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 199470,
+      "endMs": 253275
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 2070,
+      "pauseAfterMs": 670,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 180,
+          "endMs": 470
+        },
+        {
+          "word": "sevgili",
+          "startMs": 470,
+          "endMs": 890
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 940,
+          "endMs": 1400
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "İslam medeniyetinin ortak mirası",
+            "subtitle": "Sosyal Bilgiler",
+            "ruleBadges": [],
+            "echoPrompt": "Bir eserin adını, işini ve bugünkü izini ayrı söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Ortak miras, yedinci ile on üçüncü yüzyıl arasındaki İslam medeniyetinin birlikte büyüttüğü eserdir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Kütüphane, hastane ve sayı düzeni bu mirastadır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Yorum, eserin bugün de işe yaradığını söyler."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 2070,
+      "endMs": 6260,
+      "pauseAfterMs": 340,
+      "text": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "markedText": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 2070,
+          "endMs": 2290
+        },
+        {
+          "word": "Sosyal",
+          "startMs": 2290,
+          "endMs": 2830
+        },
+        {
+          "word": "Bilgiler",
+          "startMs": 2830,
+          "endMs": 3830
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 4650,
+          "endMs": 5440
+        },
+        {
+          "word": "Murat.",
+          "startMs": 5530,
+          "endMs": 5920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 6260,
+      "endMs": 13750,
+      "pauseAfterMs": 100,
+      "text": "Bir kitabın sayfası, bir hastanenin koğuşu ve defterdeki sayı düzeni aynı yüzyıllarda büyümüş olabilir",
+      "markedText": "Bir kitabın sayfası, bir hastanenin koğuşu ve defterdeki sayı düzeni aynı yüzyıllarda büyümüş olabilir",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 6260,
+          "endMs": 6550
+        },
+        {
+          "word": "kitabın",
+          "startMs": 6690,
+          "endMs": 7110
+        },
+        {
+          "word": "sayfası,",
+          "startMs": 7250,
+          "endMs": 7790
+        },
+        {
+          "word": "bir",
+          "startMs": 8050,
+          "endMs": 8240
+        },
+        {
+          "word": "hastanenin",
+          "startMs": 8360,
+          "endMs": 8840
+        },
+        {
+          "word": "koğuşu",
+          "startMs": 9110,
+          "endMs": 9570
+        },
+        {
+          "word": "ve",
+          "startMs": 9570,
+          "endMs": 9690
+        },
+        {
+          "word": "defterdeki",
+          "startMs": 10030,
+          "endMs": 10600
+        },
+        {
+          "word": "sayı",
+          "startMs": 10600,
+          "endMs": 10880
+        },
+        {
+          "word": "düzeni",
+          "startMs": 10950,
+          "endMs": 11520
+        },
+        {
+          "word": "aynı",
+          "startMs": 12110,
+          "endMs": 12450
+        },
+        {
+          "word": "yüzyıllarda",
+          "startMs": 12670,
+          "endMs": 13140
+        },
+        {
+          "word": "büyümüş",
+          "startMs": 13140,
+          "endMs": 13380
+        },
+        {
+          "word": "olabilir",
+          "startMs": 13380,
+          "endMs": 13650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 13750,
+      "endMs": 22950,
+      "pauseAfterMs": 1200,
+      "text": "yedinci yüzyıldan on üçüncü yüzyıla uzanan İslam medeniyetinin ortak mirasını bir tarih sahnesinde araştıracağız.",
+      "markedText": "yedinci yüzyıldan on üçüncü yüzyıla uzanan İslam medeniyetinin ortak mirasını bir tarih sahnesinde araştıracağız.",
+      "words": [
+        {
+          "word": "yedinci",
+          "startMs": 13750,
+          "endMs": 14120
+        },
+        {
+          "word": "yüzyıldan",
+          "startMs": 14120,
+          "endMs": 14510
+        },
+        {
+          "word": "on",
+          "startMs": 14510,
+          "endMs": 14650
+        },
+        {
+          "word": "üçüncü",
+          "startMs": 14650,
+          "endMs": 14900
+        },
+        {
+          "word": "yüzyıla",
+          "startMs": 15010,
+          "endMs": 15400
+        },
+        {
+          "word": "uzanan",
+          "startMs": 15400,
+          "endMs": 15710
+        },
+        {
+          "word": "İslam",
+          "startMs": 15800,
+          "endMs": 16000
+        },
+        {
+          "word": "medeniyetinin",
+          "startMs": 16050,
+          "endMs": 16710
+        },
+        {
+          "word": "ortak",
+          "startMs": 16820,
+          "endMs": 17050
+        },
+        {
+          "word": "mirasını",
+          "startMs": 17180,
+          "endMs": 17700
+        },
+        {
+          "word": "bir",
+          "startMs": 17820,
+          "endMs": 18560
+        },
+        {
+          "word": "tarih",
+          "startMs": 19250,
+          "endMs": 19550
+        },
+        {
+          "word": "sahnesinde",
+          "startMs": 19800,
+          "endMs": 20350
+        },
+        {
+          "word": "araştıracağız.",
+          "startMs": 20570,
+          "endMs": 21750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 22950,
+      "endMs": 27160,
+      "pauseAfterMs": 680,
+      "text": "Bunu okul defterindeki sayılara bakarak da görebilirsin.",
+      "markedText": "Bunu okul defterindeki sayılara bakarak da görebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 22950,
+          "endMs": 23150
+        },
+        {
+          "word": "okul",
+          "startMs": 23260,
+          "endMs": 23470
+        },
+        {
+          "word": "defterindeki",
+          "startMs": 23520,
+          "endMs": 23980
+        },
+        {
+          "word": "sayılara",
+          "startMs": 24180,
+          "endMs": 24890
+        },
+        {
+          "word": "bakarak",
+          "startMs": 24980,
+          "endMs": 25470
+        },
+        {
+          "word": "da",
+          "startMs": 25530,
+          "endMs": 25640
+        },
+        {
+          "word": "görebilirsin.",
+          "startMs": 25720,
+          "endMs": 26480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 27160,
+      "endMs": 35720,
+      "pauseAfterMs": 930,
+      "text": "Kitaplıktaki bir kitap, yüzyıllar önce çoğaltılan sayfanın izini taşır.",
+      "markedText": "Kitaplıktaki bir kitap, yüzyıllar önce çoğaltılan sayfanın izini taşır.",
+      "words": [
+        {
+          "word": "Kitaplıktaki",
+          "startMs": 27160,
+          "endMs": 28370
+        },
+        {
+          "word": "bir",
+          "startMs": 28550,
+          "endMs": 28880
+        },
+        {
+          "word": "kitap,",
+          "startMs": 28950,
+          "endMs": 29310
+        },
+        {
+          "word": "yüzyıllar",
+          "startMs": 29650,
+          "endMs": 30420
+        },
+        {
+          "word": "önce",
+          "startMs": 30550,
+          "endMs": 31010
+        },
+        {
+          "word": "çoğaltılan",
+          "startMs": 31080,
+          "endMs": 31910
+        },
+        {
+          "word": "sayfanın",
+          "startMs": 32620,
+          "endMs": 33050
+        },
+        {
+          "word": "izini",
+          "startMs": 33210,
+          "endMs": 33800
+        },
+        {
+          "word": "taşır.",
+          "startMs": 33800,
+          "endMs": 34790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 35720,
+      "endMs": 46820,
+      "pauseAfterMs": 410,
+      "text": "Şehirde bir hastanenin kapısından geçerken bakım işinin eski bir miras olduğunu hatırlarsın.",
+      "markedText": "Şehirde bir hastanenin kapısından geçerken bakım işinin eski bir miras olduğunu hatırlarsın.",
+      "words": [
+        {
+          "word": "Şehirde",
+          "startMs": 35720,
+          "endMs": 36430
+        },
+        {
+          "word": "bir",
+          "startMs": 36520,
+          "endMs": 37090
+        },
+        {
+          "word": "hastanenin",
+          "startMs": 37670,
+          "endMs": 38480
+        },
+        {
+          "word": "kapısından",
+          "startMs": 38720,
+          "endMs": 39450
+        },
+        {
+          "word": "geçerken",
+          "startMs": 39550,
+          "endMs": 40380
+        },
+        {
+          "word": "bakım",
+          "startMs": 40440,
+          "endMs": 40970
+        },
+        {
+          "word": "işinin",
+          "startMs": 41110,
+          "endMs": 42100
+        },
+        {
+          "word": "eski",
+          "startMs": 42930,
+          "endMs": 43200
+        },
+        {
+          "word": "bir",
+          "startMs": 43200,
+          "endMs": 43480
+        },
+        {
+          "word": "miras",
+          "startMs": 43530,
+          "endMs": 43990
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 44200,
+          "endMs": 45380
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 45630,
+          "endMs": 46410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 46820,
+      "endMs": 52070,
+      "pauseAfterMs": 690,
+      "text": "Yorumun, eserin bugün de durduğunu söyler.",
+      "markedText": "Yorumun, eserin bugün de durduğunu söyler.",
+      "words": [
+        {
+          "word": "Yorumun,",
+          "startMs": 46820,
+          "endMs": 47410
+        },
+        {
+          "word": "eserin",
+          "startMs": 47730,
+          "endMs": 48360
+        },
+        {
+          "word": "bugün",
+          "startMs": 48640,
+          "endMs": 49210
+        },
+        {
+          "word": "de",
+          "startMs": 49350,
+          "endMs": 49520
+        },
+        {
+          "word": "durduğunu",
+          "startMs": 49590,
+          "endMs": 50540
+        },
+        {
+          "word": "söyler.",
+          "startMs": 50540,
+          "endMs": 51380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-2",
+      "startMs": 52070,
+      "endMs": 59830,
+      "pauseAfterMs": 590,
+      "text": "Ortak miras, birçok şehrin aynı yüzyıllarda birlikte büyüttüğü eser ve bilgidir.",
+      "markedText": "Ortak miras, birçok şehrin aynı yüzyıllarda birlikte büyüttüğü eser ve bilgidir.",
+      "words": [
+        {
+          "word": "Ortak",
+          "startMs": 52070,
+          "endMs": 52430
+        },
+        {
+          "word": "miras,",
+          "startMs": 52800,
+          "endMs": 52940
+        },
+        {
+          "word": "birçok",
+          "startMs": 52990,
+          "endMs": 53250
+        },
+        {
+          "word": "şehrin",
+          "startMs": 53400,
+          "endMs": 53690
+        },
+        {
+          "word": "aynı",
+          "startMs": 53690,
+          "endMs": 54040
+        },
+        {
+          "word": "yüzyıllarda",
+          "startMs": 54180,
+          "endMs": 55130
+        },
+        {
+          "word": "birlikte",
+          "startMs": 55880,
+          "endMs": 56500
+        },
+        {
+          "word": "büyüttüğü",
+          "startMs": 56720,
+          "endMs": 57340
+        },
+        {
+          "word": "eser",
+          "startMs": 57480,
+          "endMs": 57830
+        },
+        {
+          "word": "ve",
+          "startMs": 57880,
+          "endMs": 58150
+        },
+        {
+          "word": "bilgidir.",
+          "startMs": 58150,
+          "endMs": 59240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-2",
+      "startMs": 59830,
+      "endMs": 73790,
+      "pauseAfterMs": 960,
+      "text": "yedinci yüzyıl ile on üçüncü yüzyıl arasında İslam medeniyeti kütüphane, hastane, gözlem ve sayı düzenini şehirden şehre taşımıştır.",
+      "markedText": "yedinci yüzyıl ile on üçüncü yüzyıl arasında İslam medeniyeti kütüphane, hastane, gözlem ve sayı düzenini şehirden şehre taşımıştır.",
+      "words": [
+        {
+          "word": "yedinci",
+          "startMs": 59830,
+          "endMs": 60250
+        },
+        {
+          "word": "yüzyıl",
+          "startMs": 60350,
+          "endMs": 60600
+        },
+        {
+          "word": "ile",
+          "startMs": 60720,
+          "endMs": 60920
+        },
+        {
+          "word": "on",
+          "startMs": 61020,
+          "endMs": 61200
+        },
+        {
+          "word": "üçüncü",
+          "startMs": 61260,
+          "endMs": 61720
+        },
+        {
+          "word": "yüzyıl",
+          "startMs": 61840,
+          "endMs": 62170
+        },
+        {
+          "word": "arasında",
+          "startMs": 62470,
+          "endMs": 62950
+        },
+        {
+          "word": "İslam",
+          "startMs": 63120,
+          "endMs": 63290
+        },
+        {
+          "word": "medeniyeti",
+          "startMs": 63390,
+          "endMs": 64140
+        },
+        {
+          "word": "kütüphane,",
+          "startMs": 64190,
+          "endMs": 65070
+        },
+        {
+          "word": "hastane,",
+          "startMs": 65800,
+          "endMs": 66480
+        },
+        {
+          "word": "gözlem",
+          "startMs": 66740,
+          "endMs": 67150
+        },
+        {
+          "word": "ve",
+          "startMs": 67270,
+          "endMs": 67690
+        },
+        {
+          "word": "sayı",
+          "startMs": 67960,
+          "endMs": 68370
+        },
+        {
+          "word": "düzenini",
+          "startMs": 68610,
+          "endMs": 69410
+        },
+        {
+          "word": "şehirden",
+          "startMs": 69530,
+          "endMs": 70460
+        },
+        {
+          "word": "şehre",
+          "startMs": 71040,
+          "endMs": 71500
+        },
+        {
+          "word": "taşımıştır.",
+          "startMs": 71590,
+          "endMs": 72830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 73790,
+      "endMs": 79420,
+      "pauseAfterMs": 240,
+      "text": "Bağdat, Kurtuba ve Semerkant bu ağın duraklarıdır.",
+      "markedText": "Bağdat, Kurtuba ve Semerkant bu ağın duraklarıdır.",
+      "words": [
+        {
+          "word": "Bağdat,",
+          "startMs": 73790,
+          "endMs": 74010
+        },
+        {
+          "word": "Kurtuba",
+          "startMs": 74310,
+          "endMs": 74870
+        },
+        {
+          "word": "ve",
+          "startMs": 74870,
+          "endMs": 74940
+        },
+        {
+          "word": "Semerkant",
+          "startMs": 75260,
+          "endMs": 75830
+        },
+        {
+          "word": "bu",
+          "startMs": 75970,
+          "endMs": 76240
+        },
+        {
+          "word": "ağın",
+          "startMs": 76320,
+          "endMs": 77170
+        },
+        {
+          "word": "duraklarıdır.",
+          "startMs": 78040,
+          "endMs": 79180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 79420,
+      "endMs": 85500,
+      "pauseAfterMs": 910,
+      "text": "Araştırma, bir eserin hangi işe yaradığını kaynakta aramaktır.",
+      "markedText": "Araştırma, bir eserin hangi işe yaradığını kaynakta aramaktır.",
+      "words": [
+        {
+          "word": "Araştırma,",
+          "startMs": 79420,
+          "endMs": 80360
+        },
+        {
+          "word": "bir",
+          "startMs": 81100,
+          "endMs": 81210
+        },
+        {
+          "word": "eserin",
+          "startMs": 81340,
+          "endMs": 81790
+        },
+        {
+          "word": "hangi",
+          "startMs": 81930,
+          "endMs": 82090
+        },
+        {
+          "word": "işe",
+          "startMs": 82230,
+          "endMs": 82360
+        },
+        {
+          "word": "yaradığını",
+          "startMs": 82620,
+          "endMs": 83330
+        },
+        {
+          "word": "kaynakta",
+          "startMs": 83410,
+          "endMs": 83920
+        },
+        {
+          "word": "aramaktır.",
+          "startMs": 84030,
+          "endMs": 84590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 85500,
+      "endMs": 96950,
+      "pauseAfterMs": 580,
+      "text": "Yorumlamak ise o eserin bugünkü defterde, kitapta ya da çizimde hâlâ durduğunu söylemektir.",
+      "markedText": "Yorumlamak ise o eserin bugünkü defterde, kitapta ya da çizimde hâlâ durduğunu söylemektir.",
+      "words": [
+        {
+          "word": "Yorumlamak",
+          "startMs": 85500,
+          "endMs": 86610
+        },
+        {
+          "word": "ise",
+          "startMs": 86610,
+          "endMs": 87080
+        },
+        {
+          "word": "o",
+          "startMs": 87720,
+          "endMs": 87770
+        },
+        {
+          "word": "eserin",
+          "startMs": 87860,
+          "endMs": 88280
+        },
+        {
+          "word": "bugünkü",
+          "startMs": 88400,
+          "endMs": 89380
+        },
+        {
+          "word": "defterde,",
+          "startMs": 89620,
+          "endMs": 90460
+        },
+        {
+          "word": "kitapta",
+          "startMs": 91320,
+          "endMs": 91790
+        },
+        {
+          "word": "ya",
+          "startMs": 91790,
+          "endMs": 92010
+        },
+        {
+          "word": "da",
+          "startMs": 92010,
+          "endMs": 92100
+        },
+        {
+          "word": "çizimde",
+          "startMs": 92210,
+          "endMs": 92890
+        },
+        {
+          "word": "hâlâ",
+          "startMs": 93080,
+          "endMs": 93440
+        },
+        {
+          "word": "durduğunu",
+          "startMs": 93440,
+          "endMs": 94670
+        },
+        {
+          "word": "söylemektir.",
+          "startMs": 95500,
+          "endMs": 96370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 96950,
+      "endMs": 104910,
+      "pauseAfterMs": 390,
+      "text": "Pratik kural: Eserin adını, işini ve bugünkü izini ayrı cümleyle söyle.",
+      "markedText": "Pratik kural: Eserin adını, işini ve bugünkü izini ayrı cümleyle söyle.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 96950,
+          "endMs": 97190
+        },
+        {
+          "word": "kural:",
+          "startMs": 97280,
+          "endMs": 97660
+        },
+        {
+          "word": "Eserin",
+          "startMs": 98040,
+          "endMs": 98470
+        },
+        {
+          "word": "adını,",
+          "startMs": 98540,
+          "endMs": 99150
+        },
+        {
+          "word": "işini",
+          "startMs": 100250,
+          "endMs": 100870
+        },
+        {
+          "word": "ve",
+          "startMs": 100930,
+          "endMs": 101070
+        },
+        {
+          "word": "bugünkü",
+          "startMs": 101460,
+          "endMs": 102250
+        },
+        {
+          "word": "izini",
+          "startMs": 102390,
+          "endMs": 102600
+        },
+        {
+          "word": "ayrı",
+          "startMs": 102940,
+          "endMs": 103110
+        },
+        {
+          "word": "cümleyle",
+          "startMs": 103210,
+          "endMs": 103800
+        },
+        {
+          "word": "söyle.",
+          "startMs": 103950,
+          "endMs": 104520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 104910,
+      "endMs": 111070,
+      "pauseAfterMs": 1100,
+      "text": "Sınıf, bir çizimde kütüphane ile hastaneyi yan yana araştırır.",
+      "markedText": "Sınıf, bir çizimde kütüphane ile hastaneyi yan yana araştırır.",
+      "words": [
+        {
+          "word": "Sınıf,",
+          "startMs": 104910,
+          "endMs": 105040
+        },
+        {
+          "word": "bir",
+          "startMs": 105040,
+          "endMs": 105170
+        },
+        {
+          "word": "çizimde",
+          "startMs": 105170,
+          "endMs": 105560
+        },
+        {
+          "word": "kütüphane",
+          "startMs": 105560,
+          "endMs": 105990
+        },
+        {
+          "word": "ile",
+          "startMs": 106260,
+          "endMs": 106580
+        },
+        {
+          "word": "hastaneyi",
+          "startMs": 106580,
+          "endMs": 107650
+        },
+        {
+          "word": "yan",
+          "startMs": 108420,
+          "endMs": 108550
+        },
+        {
+          "word": "yana",
+          "startMs": 108550,
+          "endMs": 108760
+        },
+        {
+          "word": "araştırır.",
+          "startMs": 108960,
+          "endMs": 109970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 111070,
+      "endMs": 115470,
+      "pauseAfterMs": 1040,
+      "text": "Kütüphanede kitap çoğaltılır ve başka şehre gider.",
+      "markedText": "Kütüphanede kitap çoğaltılır ve başka şehre gider.",
+      "words": [
+        {
+          "word": "Kütüphanede",
+          "startMs": 111070,
+          "endMs": 111790
+        },
+        {
+          "word": "kitap",
+          "startMs": 112420,
+          "endMs": 112500
+        },
+        {
+          "word": "çoğaltılır",
+          "startMs": 112590,
+          "endMs": 113280
+        },
+        {
+          "word": "ve",
+          "startMs": 113280,
+          "endMs": 113350
+        },
+        {
+          "word": "başka",
+          "startMs": 113420,
+          "endMs": 113640
+        },
+        {
+          "word": "şehre",
+          "startMs": 113730,
+          "endMs": 113960
+        },
+        {
+          "word": "gider.",
+          "startMs": 113960,
+          "endMs": 114430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 115470,
+      "endMs": 122280,
+      "pauseAfterMs": 1410,
+      "text": "Hastanede hasta bakılır ve bu bilgi de şehirler arasında dolaşır.",
+      "markedText": "Hastanede hasta bakılır ve bu bilgi de şehirler arasında dolaşır.",
+      "words": [
+        {
+          "word": "Hastanede",
+          "startMs": 115470,
+          "endMs": 116150
+        },
+        {
+          "word": "hasta",
+          "startMs": 116240,
+          "endMs": 116650
+        },
+        {
+          "word": "bakılır",
+          "startMs": 116730,
+          "endMs": 117220
+        },
+        {
+          "word": "ve",
+          "startMs": 117260,
+          "endMs": 117420
+        },
+        {
+          "word": "bu",
+          "startMs": 117420,
+          "endMs": 117470
+        },
+        {
+          "word": "bilgi",
+          "startMs": 117610,
+          "endMs": 117930
+        },
+        {
+          "word": "de",
+          "startMs": 118030,
+          "endMs": 118170
+        },
+        {
+          "word": "şehirler",
+          "startMs": 118250,
+          "endMs": 118810
+        },
+        {
+          "word": "arasında",
+          "startMs": 119000,
+          "endMs": 119510
+        },
+        {
+          "word": "dolaşır.",
+          "startMs": 119890,
+          "endMs": 120870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 122280,
+      "endMs": 133600,
+      "pauseAfterMs": 940,
+      "text": "Öğrenciler iki eseri yorumlar: ikisi de tek bir evin süsü değildir, ortak mirastır.",
+      "markedText": "Öğrenciler iki eseri yorumlar: ikisi de tek bir evin süsü değildir, ortak mirastır.",
+      "words": [
+        {
+          "word": "Öğrenciler",
+          "startMs": 122280,
+          "endMs": 123140
+        },
+        {
+          "word": "iki",
+          "startMs": 124080,
+          "endMs": 124240
+        },
+        {
+          "word": "eseri",
+          "startMs": 124800,
+          "endMs": 125260
+        },
+        {
+          "word": "yorumlar:",
+          "startMs": 125360,
+          "endMs": 126080
+        },
+        {
+          "word": "ikisi",
+          "startMs": 126900,
+          "endMs": 127190
+        },
+        {
+          "word": "de",
+          "startMs": 127300,
+          "endMs": 127610
+        },
+        {
+          "word": "tek",
+          "startMs": 127930,
+          "endMs": 128270
+        },
+        {
+          "word": "bir",
+          "startMs": 128330,
+          "endMs": 128620
+        },
+        {
+          "word": "evin",
+          "startMs": 128690,
+          "endMs": 129320
+        },
+        {
+          "word": "süsü",
+          "startMs": 129390,
+          "endMs": 129940
+        },
+        {
+          "word": "değildir,",
+          "startMs": 130280,
+          "endMs": 130870
+        },
+        {
+          "word": "ortak",
+          "startMs": 130970,
+          "endMs": 131480
+        },
+        {
+          "word": "mirastır.",
+          "startMs": 131600,
+          "endMs": 132660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 133600,
+      "endMs": 142180,
+      "pauseAfterMs": 980,
+      "text": "Sayı düzeninin deftere girmesi de aynı mirasın bugünkü izidir.",
+      "markedText": "Sayı düzeninin deftere girmesi de aynı mirasın bugünkü izidir.",
+      "words": [
+        {
+          "word": "Sayı",
+          "startMs": 133600,
+          "endMs": 133820
+        },
+        {
+          "word": "düzeninin",
+          "startMs": 134340,
+          "endMs": 134920
+        },
+        {
+          "word": "deftere",
+          "startMs": 135180,
+          "endMs": 135790
+        },
+        {
+          "word": "girmesi",
+          "startMs": 135970,
+          "endMs": 137280
+        },
+        {
+          "word": "de",
+          "startMs": 138190,
+          "endMs": 138390
+        },
+        {
+          "word": "aynı",
+          "startMs": 138850,
+          "endMs": 139120
+        },
+        {
+          "word": "mirasın",
+          "startMs": 139300,
+          "endMs": 139740
+        },
+        {
+          "word": "bugünkü",
+          "startMs": 139890,
+          "endMs": 140340
+        },
+        {
+          "word": "izidir.",
+          "startMs": 140430,
+          "endMs": 141200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 142180,
+      "endMs": 146170,
+      "pauseAfterMs": 1660,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 142180,
+          "endMs": 143390
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 143530,
+          "endMs": 144510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 146170,
+      "endMs": 148350,
+      "pauseAfterMs": 100,
+      "text": "Birlikte bakalım",
+      "markedText": "Birlikte bakalım",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 146170,
+          "endMs": 147470
+        },
+        {
+          "word": "bakalım",
+          "startMs": 147730,
+          "endMs": 148250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 148350,
+      "endMs": 151650,
+      "pauseAfterMs": 940,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 148350,
+          "endMs": 148500
+        },
+        {
+          "word": "noktayı",
+          "startMs": 148610,
+          "endMs": 149260
+        },
+        {
+          "word": "sen",
+          "startMs": 149500,
+          "endMs": 149660
+        },
+        {
+          "word": "de",
+          "startMs": 149780,
+          "endMs": 149880
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 150050,
+          "endMs": 150710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 151650,
+      "endMs": 161630,
+      "pauseAfterMs": 930,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 151650,
+          "endMs": 152380
+        },
+        {
+          "word": "sevgili",
+          "startMs": 152740,
+          "endMs": 153250
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 153370,
+          "endMs": 153990
+        },
+        {
+          "word": "işte",
+          "startMs": 155010,
+          "endMs": 155260
+        },
+        {
+          "word": "tam",
+          "startMs": 155260,
+          "endMs": 155540
+        },
+        {
+          "word": "bu",
+          "startMs": 155630,
+          "endMs": 155760
+        },
+        {
+          "word": "noktada",
+          "startMs": 155860,
+          "endMs": 156630
+        },
+        {
+          "word": "dikkat",
+          "startMs": 157870,
+          "endMs": 158180
+        },
+        {
+          "word": "etmen",
+          "startMs": 158180,
+          "endMs": 158770
+        },
+        {
+          "word": "gereken",
+          "startMs": 158770,
+          "endMs": 159280
+        },
+        {
+          "word": "kilit",
+          "startMs": 159370,
+          "endMs": 159760
+        },
+        {
+          "word": "nokta.",
+          "startMs": 159800,
+          "endMs": 160700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 161630,
+      "endMs": 168450,
+      "pauseAfterMs": 1230,
+      "text": "Ortak mirası tek bir şehrin süsü sanmak tuzaktır.",
+      "markedText": "Ortak mirası tek bir şehrin süsü sanmak tuzaktır.",
+      "words": [
+        {
+          "word": "Ortak",
+          "startMs": 161630,
+          "endMs": 161980
+        },
+        {
+          "word": "mirası",
+          "startMs": 161980,
+          "endMs": 162350
+        },
+        {
+          "word": "tek",
+          "startMs": 162510,
+          "endMs": 162800
+        },
+        {
+          "word": "bir",
+          "startMs": 162880,
+          "endMs": 163140
+        },
+        {
+          "word": "şehrin",
+          "startMs": 163140,
+          "endMs": 164010
+        },
+        {
+          "word": "süsü",
+          "startMs": 164970,
+          "endMs": 165370
+        },
+        {
+          "word": "sanmak",
+          "startMs": 165490,
+          "endMs": 166250
+        },
+        {
+          "word": "tuzaktır.",
+          "startMs": 166500,
+          "endMs": 167220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 168450,
+      "endMs": 180870,
+      "pauseAfterMs": 1280,
+      "text": "Eserin yalnız eski kaldığını sanmak da eksiktir; sayı ve kitap bugün de iş görür.",
+      "markedText": "Eserin yalnız eski kaldığını sanmak da eksiktir; sayı ve kitap bugün de iş görür.",
+      "words": [
+        {
+          "word": "Eserin",
+          "startMs": 168450,
+          "endMs": 169000
+        },
+        {
+          "word": "yalnız",
+          "startMs": 169000,
+          "endMs": 169640
+        },
+        {
+          "word": "eski",
+          "startMs": 170560,
+          "endMs": 171080
+        },
+        {
+          "word": "kaldığını",
+          "startMs": 171200,
+          "endMs": 172120
+        },
+        {
+          "word": "sanmak",
+          "startMs": 172240,
+          "endMs": 173240
+        },
+        {
+          "word": "da",
+          "startMs": 173980,
+          "endMs": 174240
+        },
+        {
+          "word": "eksiktir;",
+          "startMs": 174490,
+          "endMs": 175120
+        },
+        {
+          "word": "sayı",
+          "startMs": 175470,
+          "endMs": 175940
+        },
+        {
+          "word": "ve",
+          "startMs": 175980,
+          "endMs": 176140
+        },
+        {
+          "word": "kitap",
+          "startMs": 176250,
+          "endMs": 176610
+        },
+        {
+          "word": "bugün",
+          "startMs": 177520,
+          "endMs": 178250
+        },
+        {
+          "word": "de",
+          "startMs": 178370,
+          "endMs": 178600
+        },
+        {
+          "word": "iş",
+          "startMs": 178750,
+          "endMs": 178850
+        },
+        {
+          "word": "görür.",
+          "startMs": 178920,
+          "endMs": 179590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 180870,
+      "endMs": 187650,
+      "pauseAfterMs": 950,
+      "text": "Araştırmadan «hepsi aynı binadır» demek yorumu bozar.",
+      "markedText": "Araştırmadan «hepsi aynı binadır» demek yorumu bozar.",
+      "words": [
+        {
+          "word": "Araştırmadan",
+          "startMs": 180870,
+          "endMs": 181660
+        },
+        {
+          "word": "«hepsi",
+          "startMs": 181770,
+          "endMs": 182120
+        },
+        {
+          "word": "aynı",
+          "startMs": 182240,
+          "endMs": 183290
+        },
+        {
+          "word": "binadır»",
+          "startMs": 184270,
+          "endMs": 185030
+        },
+        {
+          "word": "demek",
+          "startMs": 185380,
+          "endMs": 185490
+        },
+        {
+          "word": "yorumu",
+          "startMs": 185600,
+          "endMs": 185880
+        },
+        {
+          "word": "bozar.",
+          "startMs": 186170,
+          "endMs": 186700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 187650,
+      "endMs": 199470,
+      "pauseAfterMs": 820,
+      "text": "İslam medeniyetinin ortak mirasında kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "İslam medeniyetinin ortak mirasında kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "İslam",
+          "startMs": 187650,
+          "endMs": 188180
+        },
+        {
+          "word": "medeniyetinin",
+          "startMs": 188280,
+          "endMs": 189450
+        },
+        {
+          "word": "ortak",
+          "startMs": 189600,
+          "endMs": 190370
+        },
+        {
+          "word": "mirasında",
+          "startMs": 191560,
+          "endMs": 192060
+        },
+        {
+          "word": "kuralın",
+          "startMs": 192150,
+          "endMs": 192680
+        },
+        {
+          "word": "tersini",
+          "startMs": 192790,
+          "endMs": 193500
+        },
+        {
+          "word": "sanmak",
+          "startMs": 193650,
+          "endMs": 194000
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 194370,
+          "endMs": 195460
+        },
+        {
+          "word": "ters",
+          "startMs": 196590,
+          "endMs": 197080
+        },
+        {
+          "word": "cümle",
+          "startMs": 197230,
+          "endMs": 197790
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 197870,
+          "endMs": 198650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-3",
+      "startMs": 199470,
+      "endMs": 203570,
+      "pauseAfterMs": 1180,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 199470,
+          "endMs": 200050
+        },
+        {
+          "word": "Neler",
+          "startMs": 200300,
+          "endMs": 201050
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 201700,
+          "endMs": 202390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 203570,
+      "endMs": 203850,
+      "pauseAfterMs": 90,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 203570,
+          "endMs": 203760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 203850,
+      "endMs": 213730,
+      "pauseAfterMs": 1070,
+      "text": "Ortak miras, yedinci ile on üçüncü yüzyıl arasındaki İslam medeniyetinin birlikte büyüttüğü eserdir.",
+      "markedText": "Ortak miras, yedinci ile on üçüncü yüzyıl arasındaki İslam medeniyetinin birlikte büyüttüğü eserdir.",
+      "words": [
+        {
+          "word": "Ortak",
+          "startMs": 203850,
+          "endMs": 204590
+        },
+        {
+          "word": "miras,",
+          "startMs": 204710,
+          "endMs": 205670
+        },
+        {
+          "word": "yedinci",
+          "startMs": 206750,
+          "endMs": 207000
+        },
+        {
+          "word": "ile",
+          "startMs": 207310,
+          "endMs": 207600
+        },
+        {
+          "word": "on",
+          "startMs": 207790,
+          "endMs": 207870
+        },
+        {
+          "word": "üçüncü",
+          "startMs": 208240,
+          "endMs": 208540
+        },
+        {
+          "word": "yüzyıl",
+          "startMs": 208540,
+          "endMs": 209210
+        },
+        {
+          "word": "arasındaki",
+          "startMs": 210260,
+          "endMs": 210690
+        },
+        {
+          "word": "İslam",
+          "startMs": 210690,
+          "endMs": 210960
+        },
+        {
+          "word": "medeniyetinin",
+          "startMs": 211020,
+          "endMs": 211340
+        },
+        {
+          "word": "birlikte",
+          "startMs": 211440,
+          "endMs": 211680
+        },
+        {
+          "word": "büyüttüğü",
+          "startMs": 211750,
+          "endMs": 212080
+        },
+        {
+          "word": "eserdir.",
+          "startMs": 212080,
+          "endMs": 212660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 213730,
+      "endMs": 214170,
+      "pauseAfterMs": 80,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 213730,
+          "endMs": 214090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 214170,
+      "endMs": 219630,
+      "pauseAfterMs": 510,
+      "text": "Kütüphane, hastane ve sayı düzeni bu mirastadır.",
+      "markedText": "Kütüphane, hastane ve sayı düzeni bu mirastadır.",
+      "words": [
+        {
+          "word": "Kütüphane,",
+          "startMs": 214170,
+          "endMs": 215170
+        },
+        {
+          "word": "hastane",
+          "startMs": 216110,
+          "endMs": 216570
+        },
+        {
+          "word": "ve",
+          "startMs": 216730,
+          "endMs": 216820
+        },
+        {
+          "word": "sayı",
+          "startMs": 216950,
+          "endMs": 217240
+        },
+        {
+          "word": "düzeni",
+          "startMs": 217350,
+          "endMs": 217950
+        },
+        {
+          "word": "bu",
+          "startMs": 217950,
+          "endMs": 218090
+        },
+        {
+          "word": "mirastadır.",
+          "startMs": 218150,
+          "endMs": 219120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 219630,
+      "endMs": 219710,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 219630,
+          "endMs": 219710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 219710,
+      "endMs": 224650,
+      "pauseAfterMs": 760,
+      "text": "Yorum, eserin bugün de işe yaradığını söyler.",
+      "markedText": "Yorum, eserin bugün de işe yaradığını söyler.",
+      "words": [
+        {
+          "word": "Yorum,",
+          "startMs": 219710,
+          "endMs": 219980
+        },
+        {
+          "word": "eserin",
+          "startMs": 220100,
+          "endMs": 220500
+        },
+        {
+          "word": "bugün",
+          "startMs": 220590,
+          "endMs": 220830
+        },
+        {
+          "word": "de",
+          "startMs": 220830,
+          "endMs": 220970
+        },
+        {
+          "word": "işe",
+          "startMs": 221200,
+          "endMs": 221470
+        },
+        {
+          "word": "yaradığını",
+          "startMs": 222440,
+          "endMs": 223140
+        },
+        {
+          "word": "söyler.",
+          "startMs": 223220,
+          "endMs": 223890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 224650,
+      "endMs": 231260,
+      "pauseAfterMs": 530,
+      "text": "Ortak miras, birçok şehrin birlikte büyüttüğü eser ve bilgidir.",
+      "markedText": "Ortak miras, birçok şehrin birlikte büyüttüğü eser ve bilgidir.",
+      "words": [
+        {
+          "word": "Ortak",
+          "startMs": 224650,
+          "endMs": 225240
+        },
+        {
+          "word": "miras,",
+          "startMs": 225350,
+          "endMs": 225970
+        },
+        {
+          "word": "birçok",
+          "startMs": 226090,
+          "endMs": 226450
+        },
+        {
+          "word": "şehrin",
+          "startMs": 226680,
+          "endMs": 227170
+        },
+        {
+          "word": "birlikte",
+          "startMs": 227400,
+          "endMs": 228020
+        },
+        {
+          "word": "büyüttüğü",
+          "startMs": 228020,
+          "endMs": 228700
+        },
+        {
+          "word": "eser",
+          "startMs": 228700,
+          "endMs": 229370
+        },
+        {
+          "word": "ve",
+          "startMs": 229790,
+          "endMs": 229940
+        },
+        {
+          "word": "bilgidir.",
+          "startMs": 229990,
+          "endMs": 230730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 231260,
+      "endMs": 238790,
+      "pauseAfterMs": 910,
+      "text": "Bir eserin adını, işini ve bugünkü izini ayrı söylersin.",
+      "markedText": "Bir eserin adını, işini ve bugünkü izini ayrı söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 231260,
+          "endMs": 231500
+        },
+        {
+          "word": "eserin",
+          "startMs": 231740,
+          "endMs": 232090
+        },
+        {
+          "word": "adını,",
+          "startMs": 232170,
+          "endMs": 233000
+        },
+        {
+          "word": "işini",
+          "startMs": 233730,
+          "endMs": 234360
+        },
+        {
+          "word": "ve",
+          "startMs": 234360,
+          "endMs": 234490
+        },
+        {
+          "word": "bugünkü",
+          "startMs": 234880,
+          "endMs": 235420
+        },
+        {
+          "word": "izini",
+          "startMs": 235460,
+          "endMs": 235910
+        },
+        {
+          "word": "ayrı",
+          "startMs": 236040,
+          "endMs": 236330
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 236530,
+          "endMs": 237880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 238790,
+      "endMs": 241180,
+      "pauseAfterMs": 740,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 238790,
+          "endMs": 239430
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 239650,
+          "endMs": 240440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 241180,
+      "endMs": 242750,
+      "pauseAfterMs": 380,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 241180,
+          "endMs": 241360
+        },
+        {
+          "word": "bir",
+          "startMs": 241460,
+          "endMs": 241560
+        },
+        {
+          "word": "iş",
+          "startMs": 241560,
+          "endMs": 241690
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 241810,
+          "endMs": 242370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 242750,
+      "endMs": 246010,
+      "pauseAfterMs": 890,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 242750,
+          "endMs": 243370
+        },
+        {
+          "word": "sıra",
+          "startMs": 243510,
+          "endMs": 243780
+        },
+        {
+          "word": "sende.",
+          "startMs": 244130,
+          "endMs": 245120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 246010,
+      "endMs": 253275,
+      "pauseAfterMs": 395,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 246010,
+          "endMs": 246600
+        },
+        {
+          "word": "bu",
+          "startMs": 246690,
+          "endMs": 246840
+        },
+        {
+          "word": "notları",
+          "startMs": 247120,
+          "endMs": 247950
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 248750,
+          "endMs": 249680
+        },
+        {
+          "word": "kendi",
+          "startMs": 250190,
+          "endMs": 250840
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 250970,
+          "endMs": 252040
+        },
+        {
+          "word": "anlat.",
+          "startMs": 252200,
+          "endMs": 252880
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

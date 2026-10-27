@@ -107,10 +107,16 @@ describe("proxy.ts kenar mühürleri", () => {
     expect(kariyer.status).toBe(307);
     expect(kariyer.headers.get("location")).toBe("http://localhost:3000/career");
 
-    for (const path of ["/cuzdan", "/profil", "/pasaport", "/admin", "/academy/certificates"]) {
+    for (const path of ["/cuzdan", "/profil", "/pasaport", "/academy/certificates"]) {
       const response = await proxy(request(path));
       expect(response.status).toBe(307);
       expect(response.headers.get("location")).toBe(loginLocation(path));
+      expectNonceCsp(response);
+    }
+    for (const path of ["/admin", "/admin/catalog"]) {
+      const response = await proxy(request(path));
+      expect(response.status).toBe(307);
+      expect(response.headers.get("location")).toBe(loginLocation("/admin/catalog"));
       expectNonceCsp(response);
     }
   });

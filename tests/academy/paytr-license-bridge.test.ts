@@ -120,6 +120,37 @@ describe("PayTR CLEARED → akademi SETTLED lisansı", () => {
     expect(ports.ledger.snapshot(BUYER).amountMinor).toBe(0);
   });
 
+  it("K1: ödeme sonrası kurs yayından kalksa bile CLEARED sipariş lisansa döner", async () => {
+    const ports = world(order({ status: "CLEARED" }));
+    // Kapı ödeme ile bildirim arasında kapanmış: kurs artık yayında değil.
+    await ports.academy.insertCourse({ ...SKU.course, isPublished: false });
+    // Cüzdan, webhook CREDIT'i ile dolmuş kabul edilir.
+    const { appendLedgerEntry } = await import("@/lib/kernel/ledger/engine");
+    const { toPositiveAmountMinor } = await import("@/lib/kernel/money/amount-minor");
+    await appendLedgerEntry(ports.ledger, {
+      userId: BUYER,
+      currencyCode: "TRY",
+      amountMinor: toPositiveAmountMinor(PRICE),
+      direction: "CREDIT",
+      label: "test credit",
+      purpose: "wallet-top-up",
+      idempotencyKey: "k1-test-credit",
+    });
+    const result = await fulfillAcademyLicenseFromClearedOrder(
+      {
+        ledger: ports.ledger,
+        catalog: ports.catalog,
+        locks: ports.locks,
+        academy: ports.academy,
+      },
+      { ...order(), status: "CLEARED" },
+      new Date("2026-09-25T08:05:00.000Z"),
+    );
+    expect(result.reason).toBe("settled");
+    const purchase = await ports.academy.getPurchaseByUserAndCourse(BUYER, SKU.course.id);
+    expect(purchase?.status).toBe("SETTLED");
+  });
+
   it("düz cüzdan yüklemesi lisans açmaz", async () => {
     const ports = world(order({ purpose: "wallet-top-up" }));
     await ports.academy.insertCourse(SKU.course);

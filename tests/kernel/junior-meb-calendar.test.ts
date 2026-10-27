@@ -1,8 +1,12 @@
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import { VisualCourseCards } from "@/components/junior/visual-course-cards";
 
 import { JUNIOR_FREE_LESSON_KEY } from "@/lib/junior/limits";
 import { JUNIOR_FREE_STARTER_LABEL, JUNIOR_LEGACY_ARCHIVE_LABEL } from "@/lib/junior/meb";
 import { juniorCourseShelves, juniorLessonAccess } from "@/lib/junior/catalog";
+import { juniorLessonCurriculumLabel } from "@/lib/junior/curriculum-label";
 import { juniorTopicCardFace } from "@/lib/junior/topic-face";
 import { juniorCourseUnits, juniorLessonUnit, juniorShelfJumpTargets } from "@/lib/junior/units";
 import {
@@ -21,7 +25,7 @@ function weekNoon(week: number): Date {
 describe("Junior MEB takvimi", () => {
   it("3. haftada asal sayı ve ortak kat yan yana durur", () => {
     expect(juniorSchoolWeek(WEEK_3)).toBe(3);
-    expect(juniorActiveLessonKeys("jr_06_mat", WEEK_3)).toEqual(["jr_06_mat-6", "jr_06_mat-7"]);
+    expect(juniorActiveLessonKeys("jr_06_mat", WEEK_3)).toEqual(["jr_06_mat-2", "jr_06_mat-3"]);
     expect(juniorActiveLessonKeys("jr_06_fen", WEEK_3)).toEqual(["jr_06_fen-2"]);
   });
 
@@ -34,7 +38,7 @@ describe("Junior MEB takvimi", () => {
   });
 
   it("müfredat dışı arşiv takvimde ve rafta yoktur; kapı etiketi durur", () => {
-    const retired = ["jr_06_mat-1", "jr_06_fen-3", "jr_06_sosyal-14", "jr_06_ing_main-12"];
+    const retired = ["jr_06_fen-3", "jr_06_sosyal-14", "jr_06_ing_main-12"];
     for (let week = 1; week <= 41; week += 1) {
       const keys = [
         ...juniorActiveLessonKeys("jr_06_mat", weekNoon(week)),
@@ -47,18 +51,24 @@ describe("Junior MEB takvimi", () => {
       }
     }
     const mat = juniorCourseShelves(WEEK_3).find((course) => course.slug === "jr_06_mat");
-    expect(mat?.lessons[0]?.key).toBe("jr_06_mat-5");
+    expect(mat?.lessons[0]?.key).toBe("jr_06_mat-1");
     expect(mat?.lessons).toHaveLength(26);
-    expect(mat?.lessons.some((lesson) => lesson.key === "jr_06_mat-26")).toBe(true);
+    expect(mat?.lessons.some((lesson) => lesson.key === "jr_06_mat-5")).toBe(true);
     expect(mat?.lessons[0]?.archiveLabel).toBeUndefined();
-    expect(mat?.lessons[0]?.starterLabel).toBeUndefined();
+    expect(mat?.lessons[0]?.starterLabel).toBe(JUNIOR_FREE_STARTER_LABEL);
     expect(mat?.lessons[0]?.unitIndex).toBe(1);
     const gate = mat?.lessons.find((lesson) => lesson.key === JUNIOR_FREE_LESSON_KEY);
     expect(gate?.starterLabel).toBe(JUNIOR_FREE_STARTER_LABEL);
     expect(mat?.lessons.some((lesson) => lesson.archiveLabel === JUNIOR_LEGACY_ARCHIVE_LABEL)).toBe(false);
     expect(mat?.lessons[0]?.thisWeek).toBe(false);
-    expect(mat?.outcomeWritten).toBe(11);
+    expect(mat?.outcomeWritten).toBe(24);
     expect(mat?.outcomeTotal).toBe(24);
+    expect(mat?.lessons.find((lesson) => lesson.key === "jr_06_mat-6")?.shortTopicLabel).toBe(
+      "Kısa Konu / Özet Ders",
+    );
+    const fen = juniorCourseShelves(WEEK_3).find((course) => course.slug === "jr_06_fen");
+    expect(fen?.outcomeTotal).toBe(36);
+    expect(fen?.outcomeWritten).toBe(36);
     const sosyal = juniorCourseShelves(WEEK_3).find((course) => course.slug === "jr_06_sosyal");
     expect(sosyal?.track).toBe("core");
     expect(sosyal?.subject).toBe("Sosyal Bilgiler");
@@ -77,16 +87,15 @@ describe("Junior MEB takvimi", () => {
       "Veri",
       "Olasılık",
     ]);
-    expect(juniorLessonUnit("jr_06_mat", "jr_06_mat-5")?.index).toBe(1);
-    expect(juniorLessonUnit("jr_06_mat", "jr_06_mat-1")).toBeNull();
+    expect(juniorLessonUnit("jr_06_mat", "jr_06_mat-1")?.index).toBe(1);
     expect(juniorCourseUnits("jr_06_ing_main")[0]?.title).toBe("Sınıf yaşamı");
     const mat = juniorCourseShelves(WEEK_3).find((course) => course.slug === "jr_06_mat");
     const jumps = juniorShelfJumpTargets("jr_06_mat", mat?.lessons ?? []);
     expect(jumps.some((jump) => jump.chip === "Arşiv")).toBe(false);
     expect(jumps[0]?.chip).toBe("1. Ünite: Sayılar ve nicelikler");
-    expect(jumps[0]?.lessonKey).toBe("jr_06_mat-5");
-    expect(jumps[0]?.lessonKey).not.toBe(JUNIOR_FREE_LESSON_KEY);
-    expect(mat?.lessons.find((lesson) => lesson.key === "jr_06_mat-5")?.unitTitle).toBe(
+    expect(jumps[0]?.lessonKey).toBe("jr_06_mat-1");
+    expect(jumps[0]?.lessonKey).toBe(JUNIOR_FREE_LESSON_KEY);
+    expect(mat?.lessons.find((lesson) => lesson.key === "jr_06_mat-1")?.unitTitle).toBe(
       "Sayılar ve nicelikler",
     );
   });
@@ -141,32 +150,32 @@ describe("Junior MEB takvimi", () => {
     const mat = juniorCourseShelves(WEEK_3).find((course) => course.slug === "jr_06_mat");
     expect(mat?.lessons).toHaveLength(26);
     expect(mat?.lessons.map((lesson) => lesson.key)).toEqual([
+      "jr_06_mat-1",
+      "jr_06_mat-2",
+      "jr_06_mat-3",
+      "jr_06_mat-4",
       "jr_06_mat-5",
-      "jr_06_mat-6",
       "jr_06_mat-7",
-      "jr_06_mat-14",
-      "jr_06_mat-26",
-      "jr_06_mat-27",
+      "jr_06_mat-8",
+      "jr_06_mat-9",
+      "jr_06_mat-10",
+      "jr_06_mat-6",
       "jr_06_mat-11",
       "jr_06_mat-12",
       "jr_06_mat-13",
+      "jr_06_mat-14",
       "jr_06_mat-15",
+      "jr_06_mat-16",
       "jr_06_mat-17",
-      "jr_06_mat-28",
-      "jr_06_mat-29",
-      "jr_06_mat-30",
-      "jr_06_mat-31",
-      "jr_06_mat-32",
-      "jr_06_mat-33",
-      "jr_06_mat-22",
-      "jr_06_mat-21",
-      "jr_06_mat-34",
-      "jr_06_mat-35",
-      "jr_06_mat-36",
       "jr_06_mat-18",
       "jr_06_mat-19",
-      "jr_06_mat-37",
-      "jr_06_mat-38",
+      "jr_06_mat-20",
+      "jr_06_mat-21",
+      "jr_06_mat-22",
+      "jr_06_mat-23",
+      "jr_06_mat-24",
+      "jr_06_mat-25",
+      "jr_06_mat-26",
     ]);
   });
 
@@ -252,6 +261,25 @@ describe("Junior MEB takvimi", () => {
     expect(ing?.lessons.filter((lesson) => lesson.thisWeek).map((lesson) => lesson.key)).toEqual([
       "jr_06_ing_main-20",
     ]);
+  });
+
+  it("plan ve unit-split resmi MEB saati diye yazılmaz", () => {
+    expect(juniorLessonCurriculumLabel("jr_06_mat", "jr_06_mat-1")).toBeNull();
+    expect(juniorLessonCurriculumLabel("jr_06_fen", "jr_06_fen-37")).toBe("Müfredat Destek · Ek Tema");
+    expect(juniorLessonCurriculumLabel("jr_06_turkce", "jr_06_turkce-19")).toBe("Müfredat Destek · Ek Tema");
+    expect(juniorLessonCurriculumLabel("jr_06_sosyal", "jr_06_sosyal-1")).toBe("Müfredat Destek");
+    const shelves = juniorCourseShelves(WEEK_3);
+    expect(JSON.stringify(shelves)).not.toContain("Resmi MEB Saati");
+    const html = renderToStaticMarkup(
+      createElement(VisualCourseCards, { courses: shelves, checkoutHref: "/junior/checkout" }),
+    );
+    expect(html).toContain("Müfredat Destek · Ek Tema");
+    expect(html).toContain("Müfredat Destek");
+    expect(html).not.toContain("Resmi MEB Saati");
+    expect(
+      shelves.find((course) => course.slug === "jr_06_fen")?.lessons.find((lesson) => lesson.key === "jr_06_fen-37")
+        ?.curriculumLabel,
+    ).toBe("Müfredat Destek · Ek Tema");
   });
 
   it("saat dolunca ders tamam sayılır; dosya sonu tamam değildir", () => {

@@ -33,6 +33,56 @@ function isTimedOut(order: PaymentOrderSnapshot, now: Date): boolean {
   return now.getTime() - order.createdAt.getTime() >= PAYTR_PENDING_TIMEOUT_MS;
 }
 
+/**
+ * PENDING siparişin neden CLEARED olmadığı.
+ * Yetersiz bakiye lisansı bu sınıfta değildir; o durum CLEARED sonrası `academy.license.unlicensed_credit` olayıdır.
+ */
+export const PAYTR_PENDING_DIAGNOSIS = {
+  webhook_pending_within_window:
+    "Webhook henüz düşmedi veya alıcı iFrame içinde. Süre dolmadı. CREDIT yazılmaz.",
+  webhook_timeout:
+    "PENDING tavanı doldu. Webhook gelmedi veya ödeme terk edildi. Sipariş FAILED olur. CREDIT yazılmaz.",
+  psp_declined_or_cancelled:
+    "PayTR başarısız. Kart reddi, kart bakiyesinin yetmemesi veya alıcı iptali. CREDIT yazılmaz.",
+  amount_mismatch_no_credit: "Bildirilen tutar sipariş tutarıyla uyuşmuyor. CREDIT yazılmaz.",
+  psp_status_unavailable: "Durum sorgusu yok veya yanıt okunamadı. PENDING durur. CREDIT yazılmaz.",
+  order_missing: "merchantOid için sipariş satırı yok.",
+} as const;
+
+export type PaytrPendingDiagnosisCode = keyof typeof PAYTR_PENDING_DIAGNOSIS;
+
+export function paytrPendingDiagnosisCode(reason: string): PaytrPendingDiagnosisCode | null {
+  if (reason === "still_pending") return "webhook_pending_within_window";
+  if (reason === "pending_timeout") return "webhook_timeout";
+  if (reason === "psp_failed") return "psp_declined_or_cancelled";
+  if (reason === "amount_mismatch") return "amount_mismatch_no_credit";
+  if (reason.startsWith("psp_unavailable:")) return "psp_status_unavailable";
+  if (reason === "not_found") return "order_missing";
+  return null;
+}
+
+function logPaytrPendingDiagnosis(
+  reason: string,
+  merchantOid: string,
+  order: PaymentOrderSnapshot | null,
+): void {
+  const code = paytrPendingDiagnosisCode(reason);
+  if (!code) {
+    return;
+  }
+  logEvent({
+    level: code === "webhook_pending_within_window" ? "info" : "warn",
+    event: "paytr.pending.diagnosis",
+    userId: order?.userId,
+    merchantOid: order?.merchantOid ?? merchantOid,
+    orderId: order?.id,
+    amountMinor: order?.amountMinor,
+    purpose: order?.purpose,
+    reason: code,
+    applied: false,
+  });
+}
+
 async function persistReconcileAnomaly(
   ports: PaytrReconcilePorts,
   input: {
@@ -85,6 +135,7 @@ export async function reconcilePaytrPaymentOrder(
       kind: "order_not_found",
       merchantOid,
     });
+    logPaytrPendingDiagnosis("not_found", merchantOid, null);
     return { action: "skipped", applied: false, reason: "not_found", orderId: null };
   }
   if (order.status === "CLEARED") {
@@ -105,6 +156,7 @@ export async function reconcilePaytrPaymentOrder(
         reportedMinor: psp.amountMinor,
         orderId: order.id,
       });
+      logPaytrPendingDiagnosis("amount_mismatch", merchantOid, order);
       return {
         action: "skipped",
         applied: false,
@@ -140,6 +192,7 @@ export async function reconcilePaytrPaymentOrder(
     }
     try {
       const failed = await ports.orders.markFailed(order.id, now);
+      logPaytrPendingDiagnosis("psp_failed", merchantOid, failed);
       return { action: "failed", applied: true, reason: "psp_failed", orderId: failed.id };
     } catch (error) {
       if (!isPaymentOrderCasError(error)) {
@@ -155,10 +208,12 @@ export async function reconcilePaytrPaymentOrder(
   }
 
   if (psp.kind === "unavailable") {
+    const reason = `psp_unavailable:${psp.reason}`;
+    logPaytrPendingDiagnosis(reason, merchantOid, order);
     return {
       action: "skipped",
       applied: false,
-      reason: `psp_unavailable:${psp.reason}`,
+      reason,
       orderId: order.id,
     };
   }
@@ -166,6 +221,7 @@ export async function reconcilePaytrPaymentOrder(
   if (order.status === "PENDING" && isTimedOut(order, now)) {
     try {
       const failed = await ports.orders.markFailed(order.id, now);
+      logPaytrPendingDiagnosis("pending_timeout", merchantOid, failed);
       return { action: "failed", applied: true, reason: "pending_timeout", orderId: failed.id };
     } catch (error) {
       if (!isPaymentOrderCasError(error)) {
@@ -180,5 +236,6 @@ export async function reconcilePaytrPaymentOrder(
     }
   }
 
+  logPaytrPendingDiagnosis("still_pending", merchantOid, order);
   return { action: "skipped", applied: false, reason: "still_pending", orderId: order.id };
 }

@@ -15,9 +15,12 @@ import { juniorLessonFromScenario, juniorNarrationDurationMs, type JuniorLessonS
 import { JUNIOR_VECTOR_SCENES, type JuniorVectorScene } from "@/lib/junior/types";
 import { activeLessonKeys } from "../packages/junior-content/src/place";
 import { buildJuniorContentPlan, plannedShellCount } from "../packages/junior-content/src/plan";
+import { JUNIOR_ELECTIVE_QUIZ_ROSTER } from "../packages/junior-content/src/elective-roster";
 import { JUNIOR_SEALED_ROSTER, juniorSealedScenarioCount } from "../packages/junior-content/src/sealed-roster";
 import { mebCourseFileSchema } from "../packages/junior-content/schema/meb-outcome";
 import {
+  JUNIOR_ELECTIVE_LESSON_KEY_PATTERN,
+  JUNIOR_LESSON_KEY_PATTERN,
   juniorQuizFileSchema,
   juniorScenarioActivitiesSchema,
   juniorScenarioSchema,
@@ -25,17 +28,21 @@ import {
   schoolWeekSchema,
   topicCalendarSchema,
 } from "../packages/junior-content/schema/topic";
-import { MAT_5_DRAFT_TIMELINE } from "@/lib/junior/pilot-engine/mat-5.choreography";
-import { JR_06_MAT_5_TIMELINE } from "@/lib/junior/pilot-engine/mat-5-timeline-loader";
+import { MAT_5_DRAFT_TIMELINE } from "@/lib/junior/pilot-engine/mat-1.choreography";
+import { MAT_6_DRAFT_TIMELINE } from "@/lib/junior/pilot-engine/mat-6.choreography";
+import { JR_06_MAT_5_TIMELINE, JR_06_MAT_6_TIMELINE } from "@/lib/junior/pilot-engine/mat-5-timeline-loader";
 import {
+  assertSealedMat6Timeline,
   assertSealedPilotTimeline,
   pilotTimelineUsesDraftClock,
 } from "@/lib/junior/pilot-engine/timeline-seal";
+import { collapseJuniorSpeech, readLockedJuniorCueCassette } from "@/lib/junior/cue-cassette";
+import { juniorSealedCourseLessons } from "@/lib/junior/content-source";
 import { canonicalScenario, exportedScenario } from "./export-junior-content";
 
 const ROOT = join(import.meta.dirname, "..");
 const PACKAGE_ROOT = join(ROOT, "packages", "junior-content");
-const KEY = /^jr_06_(?:mat|fen|turkce|ing_main|sosyal)-\d+$/u;
+const KEY = JUNIOR_LESSON_KEY_PATTERN;
 
 const issues: string[] = [];
 
@@ -162,8 +169,9 @@ async function main() {
     issues.push(`kab sayısı ${shells}, plan ${expectedShells}.`);
   }
   const expectedScenarios = juniorSealedScenarioCount();
-  if (scenarioKeys.size !== expectedScenarios) {
-    issues.push(`senaryo sayısı ${scenarioKeys.size}, ${expectedScenarios} beklenir.`);
+  const coreScenarioCount = [...scenarioKeys].filter((key) => !JUNIOR_ELECTIVE_LESSON_KEY_PATTERN.test(key)).length;
+  if (coreScenarioCount !== expectedScenarios) {
+    issues.push(`senaryo sayısı ${coreScenarioCount}, ${expectedScenarios} beklenir.`);
   }
 
   for (const course of JUNIOR_SEALED_ROSTER) {
@@ -264,6 +272,44 @@ async function main() {
     }
   }
 
+  const { juniorElectiveScenarios } = await import("../lib/junior/elective-catalog");
+  const electiveScenarios = juniorElectiveScenarios();
+  const electiveKeys = new Set(electiveScenarios.map((scenario) => scenario.key));
+  const diskElective = [...scenarioKeys].filter((key) => JUNIOR_ELECTIVE_LESSON_KEY_PATTERN.test(key));
+  if (diskElective.length !== electiveKeys.size || diskElective.some((key) => !electiveKeys.has(key))) {
+    issues.push("seçmeli senaryo anahtarları katalogla aynı değil.");
+  }
+  for (const scenario of electiveScenarios) {
+    const quizPath = join(PACKAGE_ROOT, "quiz", `${scenario.key}.json`);
+    const topicPath = join(PACKAGE_ROOT, "topics", `${scenario.key}.json`);
+    const onDisk = juniorScenarioSchema.safeParse(readJson(topicPath));
+    if (!onDisk.success) {
+      issues.push(`${scenario.key} seçmeli senaryo şeması: ${onDisk.error.issues[0]?.message ?? "bozuk"}`);
+      continue;
+    }
+    if (!same(canonicalScenario(scenario), canonicalScenario(onDisk.data))) {
+      issues.push(`${scenario.key} seçmeli senaryosu katalogla aynı değil.`);
+    }
+    const quizJson = juniorQuizFileSchema.safeParse(readJson(quizPath));
+    if (!quizJson.success) {
+      issues.push(`${scenario.key} seçmeli quiz şeması: ${quizJson.error.issues[0]?.message ?? "bozuk"}`);
+    }
+  }
+  for (const course of JUNIOR_ELECTIVE_QUIZ_ROSTER) {
+    for (const n of course.numbers) {
+      const key = `${course.prefix}-${n}`;
+      const quizMod = (await import(`../lib/junior/quiz/elective/${course.dir}/${n}.ts`)) as Record<string, unknown>;
+      const quiz = Object.values(quizMod).find(isQuiz);
+      const quizPath = join(PACKAGE_ROOT, "quiz", `${key}.json`);
+      const quizJson = juniorQuizFileSchema.safeParse(readJson(quizPath));
+      if (!quizJson.success) {
+        issues.push(`${key} seçmeli quiz şeması: ${quizJson.error.issues[0]?.message ?? "bozuk"}`);
+      } else if (!quiz || !same(canonicalQuiz(quiz), canonicalQuiz(quizJson.data))) {
+        issues.push(`${key} seçmeli quiz TypeScript ile aynı değil.`);
+      }
+    }
+  }
+
   for (const name of readdirSync(join(PACKAGE_ROOT, "quiz"))) {
     if (!name.endsWith(".json")) {
       continue;
@@ -286,7 +332,27 @@ async function main() {
     issues.push(error instanceof Error ? error.message : "pilot zaman çizelgesi mühürlenemedi.");
   }
   if (pilotTimelineUsesDraftClock(JR_06_MAT_5_TIMELINE, MAT_5_DRAFT_TIMELINE)) {
-    issues.push("jr_06_mat-5 zaman çizelgesi taslak saatte. Oynatıcı mühürlü PCM saatini okur.");
+    issues.push("jr_06_mat-1 zaman çizelgesi taslak saatte. Oynatıcı mühürlü PCM saatini okur.");
+  }
+  try {
+    assertSealedMat6Timeline(JR_06_MAT_6_TIMELINE);
+  } catch (error) {
+    issues.push(error instanceof Error ? error.message : "jr_06_mat-2 zaman çizelgesi mühürlenemedi.");
+  }
+  if (pilotTimelineUsesDraftClock(JR_06_MAT_6_TIMELINE, MAT_6_DRAFT_TIMELINE)) {
+    issues.push("jr_06_mat-2 zaman çizelgesi taslak saatte. Oynatıcı mühürlü PCM saatini okur.");
+  }
+
+  for (const course of JUNIOR_SEALED_ROSTER) {
+    for (const lesson of juniorSealedCourseLessons(course.slug)) {
+      const spoken = readLockedJuniorCueCassette(lesson.key);
+      if (!spoken) {
+        continue;
+      }
+      if (collapseJuniorSpeech(lesson.listenText) !== spoken) {
+        issues.push(`${lesson.key} kaseti kilitli altyazı ile aynı değil.`);
+      }
+    }
   }
 
   if (issues.length > 0) {

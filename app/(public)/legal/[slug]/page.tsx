@@ -23,7 +23,7 @@ import {
   jsonLdDocument,
   legalSectionBreadcrumbs,
 } from "@/lib/copy/json-ld";
-import { pageMetadata } from "@/lib/copy/seo";
+import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 
 export function generateStaticParams() {
   return LEGAL_LAUNCH_SECTIONS.map((section) => ({ slug: section.slug }));
@@ -46,6 +46,7 @@ export async function generateMetadata({
     title: section.title,
     description: legalSectionLead(section),
     path: `/legal/${section.slug}`,
+    image: PAGE_SEO.legal.image,
   });
 }
 

@@ -1,0 +1,2504 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_mat-4",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Ondalık gösterimi okumak",
+  "grade": 6,
+  "subject": "Matematik",
+  "teacher": {
+    "name": "Selim",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_mat-4.mp3",
+    "durationMs": 284831,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 69740
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 69740,
+      "endMs": 233760
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 233760,
+      "endMs": 284831
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 6830,
+      "pauseAfterMs": 830,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 160,
+          "endMs": 740
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 920,
+          "endMs": 2240
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 2850,
+          "endMs": 3630
+        },
+        {
+          "word": "hoş",
+          "startMs": 3970,
+          "endMs": 4270
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 5120,
+          "endMs": 6000
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Ondalık gösterimi okumak",
+            "subtitle": "Matematik",
+            "ruleBadges": [],
+            "echoPrompt": "Basamak adını söyleyip hangi sayının büyük olduğunu gerekçelendirirsin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Virgülün solu tam, sağı kesir kısmıdır. İlk sağ basamak onda birdir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "0,5 yarım, 0,25 dörtte birdir. Sona yazılan 0 miktarı değiştirmez."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "0,4, 0,35'ten büyüktür. Uzun yazılmış olmak büyük olmak demek değildir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 6830,
+      "endMs": 12460,
+      "pauseAfterMs": 1020,
+      "text": "Ben Matematik öğretmenin Selim.",
+      "markedText": "Ben Matematik öğretmenin Selim.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 6830,
+          "endMs": 7080
+        },
+        {
+          "word": "Matematik",
+          "startMs": 7210,
+          "endMs": 8170
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 8610,
+          "endMs": 9940
+        },
+        {
+          "word": "Selim.",
+          "startMs": 10520,
+          "endMs": 11440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 12460,
+      "endMs": 14290,
+      "pauseAfterMs": 300,
+      "text": "Birlikte keşfedelim.",
+      "markedText": "Birlikte keşfedelim.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 12460,
+          "endMs": 13320
+        },
+        {
+          "word": "keşfedelim.",
+          "startMs": 13470,
+          "endMs": 13990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 14290,
+      "endMs": 23710,
+      "pauseAfterMs": 560,
+      "text": "Hiç bir cetvelle ölçüm yaparken tam sayının yanında kalan küçük çizgileri fark ettin mi?",
+      "markedText": "Hiç bir cetvelle ölçüm yaparken tam sayının yanında kalan küçük çizgileri fark ettin mi?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 14290,
+          "endMs": 14500
+        },
+        {
+          "word": "bir",
+          "startMs": 14500,
+          "endMs": 14630
+        },
+        {
+          "word": "cetvelle",
+          "startMs": 14750,
+          "endMs": 15760
+        },
+        {
+          "word": "ölçüm",
+          "startMs": 16450,
+          "endMs": 16730
+        },
+        {
+          "word": "yaparken",
+          "startMs": 16820,
+          "endMs": 17400
+        },
+        {
+          "word": "tam",
+          "startMs": 17630,
+          "endMs": 18020
+        },
+        {
+          "word": "sayının",
+          "startMs": 18210,
+          "endMs": 18870
+        },
+        {
+          "word": "yanında",
+          "startMs": 18910,
+          "endMs": 19550
+        },
+        {
+          "word": "kalan",
+          "startMs": 19630,
+          "endMs": 20010
+        },
+        {
+          "word": "küçük",
+          "startMs": 20180,
+          "endMs": 20920
+        },
+        {
+          "word": "çizgileri",
+          "startMs": 21530,
+          "endMs": 22080
+        },
+        {
+          "word": "fark",
+          "startMs": 22210,
+          "endMs": 22270
+        },
+        {
+          "word": "ettin",
+          "startMs": 22360,
+          "endMs": 22590
+        },
+        {
+          "word": "mi?",
+          "startMs": 22690,
+          "endMs": 23150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 23710,
+      "endMs": 29640,
+      "pauseAfterMs": 710,
+      "text": "İşte o tam olmayan kısımları virgül kullanarak gösteririz.",
+      "markedText": "İşte o tam olmayan kısımları virgül kullanarak gösteririz.",
+      "words": [
+        {
+          "word": "İşte",
+          "startMs": 23710,
+          "endMs": 23830
+        },
+        {
+          "word": "o",
+          "startMs": 23830,
+          "endMs": 23900
+        },
+        {
+          "word": "tam",
+          "startMs": 24010,
+          "endMs": 24300
+        },
+        {
+          "word": "olmayan",
+          "startMs": 24410,
+          "endMs": 24930
+        },
+        {
+          "word": "kısımları",
+          "startMs": 25340,
+          "endMs": 25880
+        },
+        {
+          "word": "virgül",
+          "startMs": 25930,
+          "endMs": 26580
+        },
+        {
+          "word": "kullanarak",
+          "startMs": 27270,
+          "endMs": 27650
+        },
+        {
+          "word": "gösteririz.",
+          "startMs": 27850,
+          "endMs": 28930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 29640,
+      "endMs": 37360,
+      "pauseAfterMs": 500,
+      "text": "Ondalık gösterimleri okumayı ve bu sayıları birbiriyle güvenle karşılaştırmayı öğreneceğiz.",
+      "markedText": "Ondalık gösterimleri okumayı ve bu sayıları birbiriyle güvenle karşılaştırmayı öğreneceğiz.",
+      "words": [
+        {
+          "word": "Ondalık",
+          "startMs": 29640,
+          "endMs": 30110
+        },
+        {
+          "word": "gösterimleri",
+          "startMs": 30370,
+          "endMs": 31210
+        },
+        {
+          "word": "okumayı",
+          "startMs": 31360,
+          "endMs": 31690
+        },
+        {
+          "word": "ve",
+          "startMs": 31780,
+          "endMs": 31890
+        },
+        {
+          "word": "bu",
+          "startMs": 31940,
+          "endMs": 32020
+        },
+        {
+          "word": "sayıları",
+          "startMs": 32020,
+          "endMs": 32380
+        },
+        {
+          "word": "birbiriyle",
+          "startMs": 32480,
+          "endMs": 32880
+        },
+        {
+          "word": "güvenle",
+          "startMs": 33280,
+          "endMs": 33800
+        },
+        {
+          "word": "karşılaştırmayı",
+          "startMs": 33940,
+          "endMs": 34860
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 35550,
+          "endMs": 36860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 37360,
+      "endMs": 42070,
+      "pauseAfterMs": 940,
+      "text": "Bunu market etiketinde de kullanırsın.",
+      "markedText": "Bunu market etiketinde de kullanırsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 37360,
+          "endMs": 37760
+        },
+        {
+          "word": "market",
+          "startMs": 37840,
+          "endMs": 38290
+        },
+        {
+          "word": "etiketinde",
+          "startMs": 38460,
+          "endMs": 39490
+        },
+        {
+          "word": "de",
+          "startMs": 39490,
+          "endMs": 39680
+        },
+        {
+          "word": "kullanırsın.",
+          "startMs": 39910,
+          "endMs": 41130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 42070,
+      "endMs": 46980,
+      "pauseAfterMs": 370,
+      "text": "12,50 lira, 12 lira 50 kuruştur.",
+      "markedText": "12,50 lira, 12 lira 50 kuruştur.",
+      "words": [
+        {
+          "word": "12,50",
+          "startMs": 42070,
+          "endMs": 42960
+        },
+        {
+          "word": "lira,",
+          "startMs": 42960,
+          "endMs": 43300
+        },
+        {
+          "word": "12",
+          "startMs": 43890,
+          "endMs": 44360
+        },
+        {
+          "word": "lira",
+          "startMs": 44600,
+          "endMs": 45230
+        },
+        {
+          "word": "50",
+          "startMs": 45400,
+          "endMs": 45780
+        },
+        {
+          "word": "kuruştur.",
+          "startMs": 46030,
+          "endMs": 46610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 46980,
+      "endMs": 51740,
+      "pauseAfterMs": 410,
+      "text": "12,5 lira da aynı tutardır.",
+      "markedText": "12,5 lira da aynı tutardır.",
+      "words": [
+        {
+          "word": "12,5",
+          "startMs": 46980,
+          "endMs": 48420
+        },
+        {
+          "word": "lira",
+          "startMs": 49010,
+          "endMs": 49400
+        },
+        {
+          "word": "da",
+          "startMs": 49520,
+          "endMs": 49690
+        },
+        {
+          "word": "aynı",
+          "startMs": 50110,
+          "endMs": 50470
+        },
+        {
+          "word": "tutardır.",
+          "startMs": 50580,
+          "endMs": 51330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 51740,
+      "endMs": 60510,
+      "pauseAfterMs": 270,
+      "text": "9,80 lira ile 10,10 lirayı karşılaştırırken önce tam kısma bakarsın.",
+      "markedText": "9,80 lira ile 10,10 lirayı karşılaştırırken önce tam kısma bakarsın.",
+      "words": [
+        {
+          "word": "9,80",
+          "startMs": 51740,
+          "endMs": 53160
+        },
+        {
+          "word": "lira",
+          "startMs": 53660,
+          "endMs": 53940
+        },
+        {
+          "word": "ile",
+          "startMs": 54020,
+          "endMs": 54200
+        },
+        {
+          "word": "10,10",
+          "startMs": 54360,
+          "endMs": 55830
+        },
+        {
+          "word": "lirayı",
+          "startMs": 56400,
+          "endMs": 56740
+        },
+        {
+          "word": "karşılaştırırken",
+          "startMs": 57110,
+          "endMs": 58450
+        },
+        {
+          "word": "önce",
+          "startMs": 58770,
+          "endMs": 58990
+        },
+        {
+          "word": "tam",
+          "startMs": 59050,
+          "endMs": 59250
+        },
+        {
+          "word": "kısma",
+          "startMs": 59250,
+          "endMs": 59540
+        },
+        {
+          "word": "bakarsın.",
+          "startMs": 59540,
+          "endMs": 60240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 60510,
+      "endMs": 62990,
+      "pauseAfterMs": 860,
+      "text": "10, 9'dan büyüktür.",
+      "markedText": "10, 9'dan büyüktür.",
+      "words": [
+        {
+          "word": "10,",
+          "startMs": 60510,
+          "endMs": 60740
+        },
+        {
+          "word": "9'dan",
+          "startMs": 60910,
+          "endMs": 61340
+        },
+        {
+          "word": "büyüktür.",
+          "startMs": 61440,
+          "endMs": 62130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 62990,
+      "endMs": 69740,
+      "pauseAfterMs": 360,
+      "text": "Virgülden sonrasına hiç bakmadan büyük olan 10,10 liradır.",
+      "markedText": "Virgülden sonrasına hiç bakmadan büyük olan 10,10 liradır.",
+      "words": [
+        {
+          "word": "Virgülden",
+          "startMs": 62990,
+          "endMs": 63480
+        },
+        {
+          "word": "sonrasına",
+          "startMs": 64300,
+          "endMs": 65210
+        },
+        {
+          "word": "hiç",
+          "startMs": 65340,
+          "endMs": 65480
+        },
+        {
+          "word": "bakmadan",
+          "startMs": 65910,
+          "endMs": 66430
+        },
+        {
+          "word": "büyük",
+          "startMs": 66530,
+          "endMs": 66690
+        },
+        {
+          "word": "olan",
+          "startMs": 66900,
+          "endMs": 67700
+        },
+        {
+          "word": "10,10",
+          "startMs": 68150,
+          "endMs": 68930
+        },
+        {
+          "word": "liradır.",
+          "startMs": 69250,
+          "endMs": 69380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 69740,
+      "endMs": 80370,
+      "pauseAfterMs": 430,
+      "text": "Ondalık gösterimde virgülün sol tarafı tam kısım, sağ tarafı ise kesir kısmıdır.",
+      "markedText": "Ondalık gösterimde virgülün sol tarafı tam kısım, sağ tarafı ise kesir kısmıdır.",
+      "words": [
+        {
+          "word": "Ondalık",
+          "startMs": 69740,
+          "endMs": 70590
+        },
+        {
+          "word": "gösterimde",
+          "startMs": 70630,
+          "endMs": 71460
+        },
+        {
+          "word": "virgülün",
+          "startMs": 71520,
+          "endMs": 72890
+        },
+        {
+          "word": "sol",
+          "startMs": 73710,
+          "endMs": 73850
+        },
+        {
+          "word": "tarafı",
+          "startMs": 73890,
+          "endMs": 74450
+        },
+        {
+          "word": "tam",
+          "startMs": 74790,
+          "endMs": 75130
+        },
+        {
+          "word": "kısım,",
+          "startMs": 75230,
+          "endMs": 75640
+        },
+        {
+          "word": "sağ",
+          "startMs": 76780,
+          "endMs": 76860
+        },
+        {
+          "word": "tarafı",
+          "startMs": 76990,
+          "endMs": 77330
+        },
+        {
+          "word": "ise",
+          "startMs": 77330,
+          "endMs": 77510
+        },
+        {
+          "word": "kesir",
+          "startMs": 77550,
+          "endMs": 78460
+        },
+        {
+          "word": "kısmıdır.",
+          "startMs": 79010,
+          "endMs": 79940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 80370,
+      "endMs": 92830,
+      "pauseAfterMs": 990,
+      "text": "Virgülden sonraki ilk basamak onda birler, ikinci basamak yüzde birler, üçüncü basamak ise binde birler basamağıdır.",
+      "markedText": "Virgülden sonraki ilk basamak onda birler, ikinci basamak yüzde birler, üçüncü basamak ise binde birler basamağıdır.",
+      "words": [
+        {
+          "word": "Virgülden",
+          "startMs": 80370,
+          "endMs": 81030
+        },
+        {
+          "word": "sonraki",
+          "startMs": 81030,
+          "endMs": 81910
+        },
+        {
+          "word": "ilk",
+          "startMs": 82160,
+          "endMs": 82350
+        },
+        {
+          "word": "basamak",
+          "startMs": 82350,
+          "endMs": 82860
+        },
+        {
+          "word": "onda",
+          "startMs": 82980,
+          "endMs": 83360
+        },
+        {
+          "word": "birler,",
+          "startMs": 83360,
+          "endMs": 83910
+        },
+        {
+          "word": "ikinci",
+          "startMs": 84310,
+          "endMs": 84950
+        },
+        {
+          "word": "basamak",
+          "startMs": 85120,
+          "endMs": 85660
+        },
+        {
+          "word": "yüzde",
+          "startMs": 85660,
+          "endMs": 85970
+        },
+        {
+          "word": "birler,",
+          "startMs": 86070,
+          "endMs": 86850
+        },
+        {
+          "word": "üçüncü",
+          "startMs": 87690,
+          "endMs": 88090
+        },
+        {
+          "word": "basamak",
+          "startMs": 88160,
+          "endMs": 88680
+        },
+        {
+          "word": "ise",
+          "startMs": 88860,
+          "endMs": 89060
+        },
+        {
+          "word": "binde",
+          "startMs": 89150,
+          "endMs": 89800
+        },
+        {
+          "word": "birler",
+          "startMs": 90010,
+          "endMs": 90490
+        },
+        {
+          "word": "basamağıdır.",
+          "startMs": 90730,
+          "endMs": 91840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 92830,
+      "endMs": 99500,
+      "pauseAfterMs": 520,
+      "text": "Örneğin 0,5 sayısı 5 tane onda bir demektir ve bu tam olarak yarıma eşittir.",
+      "markedText": "Örneğin 0,5 sayısı 5 tane onda bir demektir ve bu tam olarak yarıma eşittir.",
+      "words": [
+        {
+          "word": "Örneğin",
+          "startMs": 92830,
+          "endMs": 93150
+        },
+        {
+          "word": "0,5",
+          "startMs": 93290,
+          "endMs": 94170
+        },
+        {
+          "word": "sayısı",
+          "startMs": 94260,
+          "endMs": 94540
+        },
+        {
+          "word": "5",
+          "startMs": 94730,
+          "endMs": 94820
+        },
+        {
+          "word": "tane",
+          "startMs": 94900,
+          "endMs": 95120
+        },
+        {
+          "word": "onda",
+          "startMs": 95180,
+          "endMs": 95330
+        },
+        {
+          "word": "bir",
+          "startMs": 95420,
+          "endMs": 95660
+        },
+        {
+          "word": "demektir",
+          "startMs": 95760,
+          "endMs": 96110
+        },
+        {
+          "word": "ve",
+          "startMs": 96170,
+          "endMs": 96290
+        },
+        {
+          "word": "bu",
+          "startMs": 96410,
+          "endMs": 96520
+        },
+        {
+          "word": "tam",
+          "startMs": 96700,
+          "endMs": 96880
+        },
+        {
+          "word": "olarak",
+          "startMs": 97550,
+          "endMs": 97940
+        },
+        {
+          "word": "yarıma",
+          "startMs": 98010,
+          "endMs": 98180
+        },
+        {
+          "word": "eşittir.",
+          "startMs": 98400,
+          "endMs": 98980
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 92830,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "konu-anlati",
+          "params": {
+            "heading": "Ondalık gösterimi okumak · örnek",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Örnek",
+                "body": "3,25 sayısını okuyalım: Tam kısmı 3'tür; onda birler basamağında 2, yüzde birler basamağında 5 vardır.",
+                "tone": "example"
+              },
+              {
+                "title": "Örnek",
+                "body": "Yani bu sayı 3 tam ve yüzde 25 demektir; 0,25 çeyrek olduğu için 3 tam bir çeyrek diye de düşünebilirsin.",
+                "tone": "example"
+              },
+              {
+                "title": "Şimdi 0,4 ile 0,35 sayılarını karşılaştıralım.",
+                "body": "Şimdi 0,4 ile 0,35 sayılarını karşılaştıralım.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 99500,
+      "endMs": 107810,
+      "pauseAfterMs": 890,
+      "text": "Pratik kural: İki ondalık sayıyı karşılaştırırken önce tam kısımlarına bakarsın.",
+      "markedText": "Pratik kural: İki ondalık sayıyı karşılaştırırken önce tam kısımlarına bakarsın.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 99500,
+          "endMs": 100130
+        },
+        {
+          "word": "kural:",
+          "startMs": 100240,
+          "endMs": 100680
+        },
+        {
+          "word": "İki",
+          "startMs": 100820,
+          "endMs": 100990
+        },
+        {
+          "word": "ondalık",
+          "startMs": 101130,
+          "endMs": 101530
+        },
+        {
+          "word": "sayıyı",
+          "startMs": 101640,
+          "endMs": 101830
+        },
+        {
+          "word": "karşılaştırırken",
+          "startMs": 102230,
+          "endMs": 103290
+        },
+        {
+          "word": "önce",
+          "startMs": 103730,
+          "endMs": 104120
+        },
+        {
+          "word": "tam",
+          "startMs": 104380,
+          "endMs": 104560
+        },
+        {
+          "word": "kısımlarına",
+          "startMs": 105030,
+          "endMs": 105930
+        },
+        {
+          "word": "bakarsın.",
+          "startMs": 106120,
+          "endMs": 106920
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 99500,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "konu-anlati",
+          "params": {
+            "heading": "Ondalık gösterimi okumak · kavram",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Onda bir, virgülden sonraki ilk basamaktır.",
+                "body": "Onda bir, virgülden sonraki ilk basamaktır.",
+                "tone": "concept"
+              },
+              {
+                "title": "0,5 ile bir bölü 2 aynı miktardır.",
+                "body": "0,5 ile bir bölü 2 aynı miktardır.",
+                "tone": "concept"
+              },
+              {
+                "title": "Kavram",
+                "body": "Ondalık gösterimde virgülün sol tarafı tam kısım, sağ tarafı ise kesir kısmıdır.",
+                "tone": "concept"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 107810,
+      "endMs": 118020,
+      "pauseAfterMs": 580,
+      "text": "Tam kısımlar eşitse sırasıyla onda birler ve yüzde birler basamaklarını incelersin.",
+      "markedText": "Tam kısımlar eşitse sırasıyla onda birler ve yüzde birler basamaklarını incelersin.",
+      "words": [
+        {
+          "word": "Tam",
+          "startMs": 107810,
+          "endMs": 108160
+        },
+        {
+          "word": "kısımlar",
+          "startMs": 108490,
+          "endMs": 108940
+        },
+        {
+          "word": "eşitse",
+          "startMs": 109690,
+          "endMs": 109860
+        },
+        {
+          "word": "sırasıyla",
+          "startMs": 110110,
+          "endMs": 111230
+        },
+        {
+          "word": "onda",
+          "startMs": 111750,
+          "endMs": 111980
+        },
+        {
+          "word": "birler",
+          "startMs": 112080,
+          "endMs": 112340
+        },
+        {
+          "word": "ve",
+          "startMs": 112610,
+          "endMs": 112900
+        },
+        {
+          "word": "yüzde",
+          "startMs": 112900,
+          "endMs": 113800
+        },
+        {
+          "word": "birler",
+          "startMs": 114370,
+          "endMs": 115030
+        },
+        {
+          "word": "basamaklarını",
+          "startMs": 115420,
+          "endMs": 116340
+        },
+        {
+          "word": "incelersin.",
+          "startMs": 116500,
+          "endMs": 117440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 118020,
+      "endMs": 132500,
+      "pauseAfterMs": 320,
+      "text": "3,25 sayısını okuyalım: Tam kısmı 3'tür; onda birler basamağında 2, yüzde birler basamağında 5 vardır.",
+      "markedText": "3,25 sayısını okuyalım: Tam kısmı 3'tür; onda birler basamağında 2, yüzde birler basamağında 5 vardır.",
+      "words": [
+        {
+          "word": "3,25",
+          "startMs": 118020,
+          "endMs": 119390
+        },
+        {
+          "word": "sayısını",
+          "startMs": 119470,
+          "endMs": 120140
+        },
+        {
+          "word": "okuyalım:",
+          "startMs": 120620,
+          "endMs": 122170
+        },
+        {
+          "word": "Tam",
+          "startMs": 122400,
+          "endMs": 122670
+        },
+        {
+          "word": "kısmı",
+          "startMs": 122750,
+          "endMs": 123190
+        },
+        {
+          "word": "3'tür;",
+          "startMs": 123190,
+          "endMs": 123610
+        },
+        {
+          "word": "onda",
+          "startMs": 124700,
+          "endMs": 125190
+        },
+        {
+          "word": "birler",
+          "startMs": 125520,
+          "endMs": 125860
+        },
+        {
+          "word": "basamağında",
+          "startMs": 126320,
+          "endMs": 127020
+        },
+        {
+          "word": "2,",
+          "startMs": 127540,
+          "endMs": 127650
+        },
+        {
+          "word": "yüzde",
+          "startMs": 128100,
+          "endMs": 128880
+        },
+        {
+          "word": "birler",
+          "startMs": 129080,
+          "endMs": 129690
+        },
+        {
+          "word": "basamağında",
+          "startMs": 130390,
+          "endMs": 131340
+        },
+        {
+          "word": "5",
+          "startMs": 131650,
+          "endMs": 131790
+        },
+        {
+          "word": "vardır.",
+          "startMs": 131920,
+          "endMs": 132180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 132500,
+      "endMs": 146160,
+      "pauseAfterMs": 1080,
+      "text": "Yani bu sayı 3 tam ve yüzde 25 demektir; 0,25 çeyrek olduğu için 3 tam bir çeyrek diye de düşünebilirsin.",
+      "markedText": "Yani bu sayı 3 tam ve yüzde 25 demektir; 0,25 çeyrek olduğu için 3 tam bir çeyrek diye de düşünebilirsin.",
+      "words": [
+        {
+          "word": "Yani",
+          "startMs": 132500,
+          "endMs": 132650
+        },
+        {
+          "word": "bu",
+          "startMs": 132820,
+          "endMs": 132920
+        },
+        {
+          "word": "sayı",
+          "startMs": 132920,
+          "endMs": 133220
+        },
+        {
+          "word": "3",
+          "startMs": 133220,
+          "endMs": 133300
+        },
+        {
+          "word": "tam",
+          "startMs": 133300,
+          "endMs": 133410
+        },
+        {
+          "word": "ve",
+          "startMs": 133410,
+          "endMs": 134040
+        },
+        {
+          "word": "yüzde",
+          "startMs": 134650,
+          "endMs": 134930
+        },
+        {
+          "word": "25",
+          "startMs": 134930,
+          "endMs": 135340
+        },
+        {
+          "word": "demektir;",
+          "startMs": 135440,
+          "endMs": 136100
+        },
+        {
+          "word": "0,25",
+          "startMs": 136450,
+          "endMs": 137540
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 137980,
+          "endMs": 138680
+        },
+        {
+          "word": "olduğu",
+          "startMs": 138820,
+          "endMs": 139330
+        },
+        {
+          "word": "için",
+          "startMs": 140080,
+          "endMs": 140270
+        },
+        {
+          "word": "3",
+          "startMs": 140270,
+          "endMs": 140400
+        },
+        {
+          "word": "tam",
+          "startMs": 140400,
+          "endMs": 140620
+        },
+        {
+          "word": "bir",
+          "startMs": 141230,
+          "endMs": 141370
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 141460,
+          "endMs": 141740
+        },
+        {
+          "word": "diye",
+          "startMs": 142060,
+          "endMs": 142470
+        },
+        {
+          "word": "de",
+          "startMs": 142540,
+          "endMs": 142770
+        },
+        {
+          "word": "düşünebilirsin.",
+          "startMs": 144090,
+          "endMs": 145080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 146160,
+      "endMs": 153610,
+      "pauseAfterMs": 210,
+      "text": "Şimdi 0,4 ile 0,35 sayılarını karşılaştıralım.",
+      "markedText": "Şimdi 0,4 ile 0,35 sayılarını karşılaştıralım.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 146160,
+          "endMs": 146350
+        },
+        {
+          "word": "0,4",
+          "startMs": 146950,
+          "endMs": 148280
+        },
+        {
+          "word": "ile",
+          "startMs": 148280,
+          "endMs": 148500
+        },
+        {
+          "word": "0,35",
+          "startMs": 149180,
+          "endMs": 150350
+        },
+        {
+          "word": "sayılarını",
+          "startMs": 150650,
+          "endMs": 151760
+        },
+        {
+          "word": "karşılaştıralım.",
+          "startMs": 152480,
+          "endMs": 153400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 153610,
+      "endMs": 157850,
+      "pauseAfterMs": 400,
+      "text": "İkisinin de tam kısmı 0'dır.",
+      "markedText": "İkisinin de tam kısmı 0'dır.",
+      "words": [
+        {
+          "word": "İkisinin",
+          "startMs": 153610,
+          "endMs": 154230
+        },
+        {
+          "word": "de",
+          "startMs": 155280,
+          "endMs": 155370
+        },
+        {
+          "word": "tam",
+          "startMs": 156160,
+          "endMs": 156260
+        },
+        {
+          "word": "kısmı",
+          "startMs": 156330,
+          "endMs": 156570
+        },
+        {
+          "word": "0'dır.",
+          "startMs": 156670,
+          "endMs": 157450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 157850,
+      "endMs": 175520,
+      "pauseAfterMs": 1290,
+      "text": "Onda birler basamağına baktığımızda 4 sayısı 3'ten büyük olduğu için 0,4 sayısı 0,35'ten büyüktür.",
+      "markedText": "Onda birler basamağına baktığımızda 4 sayısı 3'ten büyük olduğu için 0,4 sayısı 0,35'ten büyüktür.",
+      "words": [
+        {
+          "word": "Onda",
+          "startMs": 157850,
+          "endMs": 158100
+        },
+        {
+          "word": "birler",
+          "startMs": 158300,
+          "endMs": 158730
+        },
+        {
+          "word": "basamağına",
+          "startMs": 158780,
+          "endMs": 159790
+        },
+        {
+          "word": "baktığımızda",
+          "startMs": 160480,
+          "endMs": 162650
+        },
+        {
+          "word": "4",
+          "startMs": 163650,
+          "endMs": 163870
+        },
+        {
+          "word": "sayısı",
+          "startMs": 164450,
+          "endMs": 164860
+        },
+        {
+          "word": "3'ten",
+          "startMs": 165180,
+          "endMs": 165320
+        },
+        {
+          "word": "büyük",
+          "startMs": 165700,
+          "endMs": 166200
+        },
+        {
+          "word": "olduğu",
+          "startMs": 166560,
+          "endMs": 166990
+        },
+        {
+          "word": "için",
+          "startMs": 167080,
+          "endMs": 167450
+        },
+        {
+          "word": "0,4",
+          "startMs": 167960,
+          "endMs": 169030
+        },
+        {
+          "word": "sayısı",
+          "startMs": 169320,
+          "endMs": 170590
+        },
+        {
+          "word": "0,35'ten",
+          "startMs": 171540,
+          "endMs": 173280
+        },
+        {
+          "word": "büyüktür.",
+          "startMs": 173410,
+          "endMs": 174230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 175520,
+      "endMs": 185590,
+      "pauseAfterMs": 330,
+      "text": "0,40 ile 0,4 tamamen aynı değerdir; sona eklenen sıfırlar değeri değiştirmez.",
+      "markedText": "0,40 ile 0,4 tamamen aynı değerdir; sona eklenen sıfırlar değeri değiştirmez.",
+      "words": [
+        {
+          "word": "0,40",
+          "startMs": 175520,
+          "endMs": 176300
+        },
+        {
+          "word": "ile",
+          "startMs": 176300,
+          "endMs": 177000
+        },
+        {
+          "word": "0,4",
+          "startMs": 177350,
+          "endMs": 177940
+        },
+        {
+          "word": "tamamen",
+          "startMs": 178070,
+          "endMs": 178620
+        },
+        {
+          "word": "aynı",
+          "startMs": 179100,
+          "endMs": 179210
+        },
+        {
+          "word": "değerdir;",
+          "startMs": 179430,
+          "endMs": 180290
+        },
+        {
+          "word": "sona",
+          "startMs": 180890,
+          "endMs": 181440
+        },
+        {
+          "word": "eklenen",
+          "startMs": 181690,
+          "endMs": 182220
+        },
+        {
+          "word": "sıfırlar",
+          "startMs": 182330,
+          "endMs": 182820
+        },
+        {
+          "word": "değeri",
+          "startMs": 182920,
+          "endMs": 183470
+        },
+        {
+          "word": "değiştirmez.",
+          "startMs": 184270,
+          "endMs": 185260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 185590,
+      "endMs": 187990,
+      "pauseAfterMs": 1380,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 185590,
+          "endMs": 185850
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 185990,
+          "endMs": 186610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 187990,
+      "endMs": 191820,
+      "pauseAfterMs": 730,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 187990,
+          "endMs": 188320
+        },
+        {
+          "word": "bir",
+          "startMs": 188320,
+          "endMs": 188440
+        },
+        {
+          "word": "kez",
+          "startMs": 188440,
+          "endMs": 188570
+        },
+        {
+          "word": "görünce",
+          "startMs": 189000,
+          "endMs": 189140
+        },
+        {
+          "word": "kolayca",
+          "startMs": 189490,
+          "endMs": 189950
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 189950,
+          "endMs": 191090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 191820,
+      "endMs": 200220,
+      "pauseAfterMs": 380,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 191820,
+          "endMs": 192580
+        },
+        {
+          "word": "sevgili",
+          "startMs": 193140,
+          "endMs": 193570
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 193790,
+          "endMs": 194920
+        },
+        {
+          "word": "işte",
+          "startMs": 195360,
+          "endMs": 195540
+        },
+        {
+          "word": "tam",
+          "startMs": 195710,
+          "endMs": 195920
+        },
+        {
+          "word": "bu",
+          "startMs": 196050,
+          "endMs": 196140
+        },
+        {
+          "word": "noktada",
+          "startMs": 196350,
+          "endMs": 196560
+        },
+        {
+          "word": "dikkat",
+          "startMs": 196560,
+          "endMs": 196730
+        },
+        {
+          "word": "etmen",
+          "startMs": 196730,
+          "endMs": 197050
+        },
+        {
+          "word": "gereken",
+          "startMs": 197220,
+          "endMs": 197650
+        },
+        {
+          "word": "kilit",
+          "startMs": 197650,
+          "endMs": 198040
+        },
+        {
+          "word": "nokta.",
+          "startMs": 199510,
+          "endMs": 199840
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 191820,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "konu-anlati",
+          "params": {
+            "heading": "Altın İpucu",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Dikkat",
+                "body": "Virgülden sonra daha çok rakam bulunan sayıyı hemen daha büyük sanmak yaygın bir yanılgıdır.",
+                "tone": "gold"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 200220,
+      "endMs": 201870,
+      "pauseAfterMs": 590,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 200220,
+          "endMs": 200720
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 200720,
+          "endMs": 201280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 201870,
+      "endMs": 211560,
+      "pauseAfterMs": 1300,
+      "text": "Virgülden sonra daha çok rakam bulunan sayıyı hemen daha büyük sanmak yaygın bir yanılgıdır.",
+      "markedText": "Virgülden sonra daha çok rakam bulunan sayıyı hemen daha büyük sanmak yaygın bir yanılgıdır.",
+      "words": [
+        {
+          "word": "Virgülden",
+          "startMs": 201870,
+          "endMs": 202420
+        },
+        {
+          "word": "sonra",
+          "startMs": 203040,
+          "endMs": 203160
+        },
+        {
+          "word": "daha",
+          "startMs": 203480,
+          "endMs": 203730
+        },
+        {
+          "word": "çok",
+          "startMs": 203770,
+          "endMs": 204190
+        },
+        {
+          "word": "rakam",
+          "startMs": 204850,
+          "endMs": 205240
+        },
+        {
+          "word": "bulunan",
+          "startMs": 205410,
+          "endMs": 205700
+        },
+        {
+          "word": "sayıyı",
+          "startMs": 205940,
+          "endMs": 206090
+        },
+        {
+          "word": "hemen",
+          "startMs": 206240,
+          "endMs": 206930
+        },
+        {
+          "word": "daha",
+          "startMs": 207650,
+          "endMs": 208010
+        },
+        {
+          "word": "büyük",
+          "startMs": 208120,
+          "endMs": 208410
+        },
+        {
+          "word": "sanmak",
+          "startMs": 208410,
+          "endMs": 208640
+        },
+        {
+          "word": "yaygın",
+          "startMs": 208770,
+          "endMs": 209100
+        },
+        {
+          "word": "bir",
+          "startMs": 209320,
+          "endMs": 209400
+        },
+        {
+          "word": "yanılgıdır.",
+          "startMs": 209480,
+          "endMs": 210260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 211560,
+      "endMs": 218330,
+      "pauseAfterMs": 470,
+      "text": "0,35 sayısı daha uzun görünse de 0,4 ondan büyüktür!",
+      "markedText": "0,35 sayısı daha uzun görünse de 0,4 ondan büyüktür!",
+      "words": [
+        {
+          "word": "0,35",
+          "startMs": 211560,
+          "endMs": 213200
+        },
+        {
+          "word": "sayısı",
+          "startMs": 213460,
+          "endMs": 213640
+        },
+        {
+          "word": "daha",
+          "startMs": 213690,
+          "endMs": 213920
+        },
+        {
+          "word": "uzun",
+          "startMs": 213990,
+          "endMs": 214630
+        },
+        {
+          "word": "görünse",
+          "startMs": 215370,
+          "endMs": 215710
+        },
+        {
+          "word": "de",
+          "startMs": 215760,
+          "endMs": 215890
+        },
+        {
+          "word": "0,4",
+          "startMs": 216150,
+          "endMs": 216920
+        },
+        {
+          "word": "ondan",
+          "startMs": 217020,
+          "endMs": 217200
+        },
+        {
+          "word": "büyüktür!",
+          "startMs": 217290,
+          "endMs": 217860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 218330,
+      "endMs": 228900,
+      "pauseAfterMs": 220,
+      "text": "Çünkü 0,4 demek 4 tane onda bir demektir; 0,35 ise 3 tane onda bir ve 5 tane yüzde bir demektir.",
+      "markedText": "Çünkü 0,4 demek 4 tane onda bir demektir; 0,35 ise 3 tane onda bir ve 5 tane yüzde bir demektir.",
+      "words": [
+        {
+          "word": "Çünkü",
+          "startMs": 218330,
+          "endMs": 218630
+        },
+        {
+          "word": "0,4",
+          "startMs": 219020,
+          "endMs": 219900
+        },
+        {
+          "word": "demek",
+          "startMs": 220020,
+          "endMs": 220170
+        },
+        {
+          "word": "4",
+          "startMs": 220480,
+          "endMs": 220600
+        },
+        {
+          "word": "tane",
+          "startMs": 220600,
+          "endMs": 220690
+        },
+        {
+          "word": "onda",
+          "startMs": 220690,
+          "endMs": 220840
+        },
+        {
+          "word": "bir",
+          "startMs": 221020,
+          "endMs": 221130
+        },
+        {
+          "word": "demektir;",
+          "startMs": 221130,
+          "endMs": 221680
+        },
+        {
+          "word": "0,35",
+          "startMs": 222940,
+          "endMs": 224130
+        },
+        {
+          "word": "ise",
+          "startMs": 224360,
+          "endMs": 224500
+        },
+        {
+          "word": "3",
+          "startMs": 224880,
+          "endMs": 224990
+        },
+        {
+          "word": "tane",
+          "startMs": 225270,
+          "endMs": 225390
+        },
+        {
+          "word": "onda",
+          "startMs": 225500,
+          "endMs": 225720
+        },
+        {
+          "word": "bir",
+          "startMs": 225800,
+          "endMs": 225980
+        },
+        {
+          "word": "ve",
+          "startMs": 225980,
+          "endMs": 226080
+        },
+        {
+          "word": "5",
+          "startMs": 226200,
+          "endMs": 226340
+        },
+        {
+          "word": "tane",
+          "startMs": 226440,
+          "endMs": 226860
+        },
+        {
+          "word": "yüzde",
+          "startMs": 227530,
+          "endMs": 227820
+        },
+        {
+          "word": "bir",
+          "startMs": 227820,
+          "endMs": 227980
+        },
+        {
+          "word": "demektir.",
+          "startMs": 227980,
+          "endMs": 228680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 228900,
+      "endMs": 233760,
+      "pauseAfterMs": 400,
+      "text": "Onda birler basamağı büyük olan her zaman kazanır.",
+      "markedText": "Onda birler basamağı büyük olan her zaman kazanır.",
+      "words": [
+        {
+          "word": "Onda",
+          "startMs": 228900,
+          "endMs": 229300
+        },
+        {
+          "word": "birler",
+          "startMs": 229530,
+          "endMs": 229660
+        },
+        {
+          "word": "basamağı",
+          "startMs": 229810,
+          "endMs": 230620
+        },
+        {
+          "word": "büyük",
+          "startMs": 231190,
+          "endMs": 231530
+        },
+        {
+          "word": "olan",
+          "startMs": 231640,
+          "endMs": 231910
+        },
+        {
+          "word": "her",
+          "startMs": 232030,
+          "endMs": 232130
+        },
+        {
+          "word": "zaman",
+          "startMs": 232130,
+          "endMs": 232420
+        },
+        {
+          "word": "kazanır.",
+          "startMs": 232500,
+          "endMs": 233360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 233760,
+      "endMs": 235730,
+      "pauseAfterMs": 1060,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 233760,
+          "endMs": 233870
+        },
+        {
+          "word": "Neler",
+          "startMs": 233870,
+          "endMs": 234220
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 234310,
+          "endMs": 234670
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 233760,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "konu-anlati",
+          "params": {
+            "heading": "Bugün Neler Öğrendik?",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Virgülün solu tam, sağı kesir kısmıdır.",
+                "body": "İlk sağ basamak onda birdir.",
+                "tone": "recap"
+              },
+              {
+                "title": "0,5 yarım, 0,25 dörtte birdir.",
+                "body": "Sona yazılan 0 miktarı değiştirmez.",
+                "tone": "recap"
+              },
+              {
+                "title": "0,4, 0,35'ten büyüktür.",
+                "body": "Uzun yazılmış olmak büyük olmak demek değildir.",
+                "tone": "recap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 235730,
+      "endMs": 236080,
+      "pauseAfterMs": 130,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 235730,
+          "endMs": 235950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 236080,
+      "endMs": 239350,
+      "pauseAfterMs": 780,
+      "text": "Virgülün solu tam, sağı kesir kısmıdır.",
+      "markedText": "Virgülün solu tam, sağı kesir kısmıdır.",
+      "words": [
+        {
+          "word": "Virgülün",
+          "startMs": 236080,
+          "endMs": 236580
+        },
+        {
+          "word": "solu",
+          "startMs": 236660,
+          "endMs": 236920
+        },
+        {
+          "word": "tam,",
+          "startMs": 236920,
+          "endMs": 237100
+        },
+        {
+          "word": "sağı",
+          "startMs": 237100,
+          "endMs": 237290
+        },
+        {
+          "word": "kesir",
+          "startMs": 237530,
+          "endMs": 237770
+        },
+        {
+          "word": "kısmıdır.",
+          "startMs": 237770,
+          "endMs": 238570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 239350,
+      "endMs": 241970,
+      "pauseAfterMs": 570,
+      "text": "İlk sağ basamak onda birdir.",
+      "markedText": "İlk sağ basamak onda birdir.",
+      "words": [
+        {
+          "word": "İlk",
+          "startMs": 239350,
+          "endMs": 239500
+        },
+        {
+          "word": "sağ",
+          "startMs": 239500,
+          "endMs": 239750
+        },
+        {
+          "word": "basamak",
+          "startMs": 239910,
+          "endMs": 240150
+        },
+        {
+          "word": "onda",
+          "startMs": 240380,
+          "endMs": 240500
+        },
+        {
+          "word": "birdir.",
+          "startMs": 240750,
+          "endMs": 241400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 241970,
+      "endMs": 242110,
+      "pauseAfterMs": 80,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 241970,
+          "endMs": 242030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 242110,
+      "endMs": 248000,
+      "pauseAfterMs": 560,
+      "text": "0,5 yarım, 0,25 dörtte birdir.",
+      "markedText": "0,5 yarım, 0,25 dörtte birdir.",
+      "words": [
+        {
+          "word": "0,5",
+          "startMs": 242110,
+          "endMs": 242980
+        },
+        {
+          "word": "yarım,",
+          "startMs": 243120,
+          "endMs": 243450
+        },
+        {
+          "word": "0,25",
+          "startMs": 243860,
+          "endMs": 245210
+        },
+        {
+          "word": "dörtte",
+          "startMs": 245990,
+          "endMs": 246530
+        },
+        {
+          "word": "birdir.",
+          "startMs": 246590,
+          "endMs": 247440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 248000,
+      "endMs": 251140,
+      "pauseAfterMs": 360,
+      "text": "Sona yazılan 0 miktarı değiştirmez.",
+      "markedText": "Sona yazılan 0 miktarı değiştirmez.",
+      "words": [
+        {
+          "word": "Sona",
+          "startMs": 248000,
+          "endMs": 248340
+        },
+        {
+          "word": "yazılan",
+          "startMs": 248490,
+          "endMs": 249060
+        },
+        {
+          "word": "0",
+          "startMs": 249160,
+          "endMs": 249300
+        },
+        {
+          "word": "miktarı",
+          "startMs": 249470,
+          "endMs": 249910
+        },
+        {
+          "word": "değiştirmez.",
+          "startMs": 249910,
+          "endMs": 250780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 251140,
+      "endMs": 251480,
+      "pauseAfterMs": 220,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 251140,
+          "endMs": 251260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 251480,
+      "endMs": 257150,
+      "pauseAfterMs": 890,
+      "text": "0,4, 0,35'ten büyüktür.",
+      "markedText": "0,4, 0,35'ten büyüktür.",
+      "words": [
+        {
+          "word": "0,4,",
+          "startMs": 251480,
+          "endMs": 253480
+        },
+        {
+          "word": "0,35'ten",
+          "startMs": 254490,
+          "endMs": 255580
+        },
+        {
+          "word": "büyüktür.",
+          "startMs": 255670,
+          "endMs": 256260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 257150,
+      "endMs": 263380,
+      "pauseAfterMs": 1180,
+      "text": "Uzun yazılmış olmak büyük olmak demek değildir.",
+      "markedText": "Uzun yazılmış olmak büyük olmak demek değildir.",
+      "words": [
+        {
+          "word": "Uzun",
+          "startMs": 257150,
+          "endMs": 257480
+        },
+        {
+          "word": "yazılmış",
+          "startMs": 257590,
+          "endMs": 258370
+        },
+        {
+          "word": "olmak",
+          "startMs": 258500,
+          "endMs": 258910
+        },
+        {
+          "word": "büyük",
+          "startMs": 259070,
+          "endMs": 259350
+        },
+        {
+          "word": "olmak",
+          "startMs": 259450,
+          "endMs": 259990
+        },
+        {
+          "word": "demek",
+          "startMs": 260100,
+          "endMs": 261100
+        },
+        {
+          "word": "değildir.",
+          "startMs": 261460,
+          "endMs": 262200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 263380,
+      "endMs": 270090,
+      "pauseAfterMs": 1030,
+      "text": "Ondalık gösterim, kesrin virgülle yazılmış hâlidir.",
+      "markedText": "Ondalık gösterim, kesrin virgülle yazılmış hâlidir.",
+      "words": [
+        {
+          "word": "Ondalık",
+          "startMs": 263380,
+          "endMs": 264120
+        },
+        {
+          "word": "gösterim,",
+          "startMs": 264120,
+          "endMs": 264990
+        },
+        {
+          "word": "kesrin",
+          "startMs": 265900,
+          "endMs": 266240
+        },
+        {
+          "word": "virgülle",
+          "startMs": 266360,
+          "endMs": 266770
+        },
+        {
+          "word": "yazılmış",
+          "startMs": 267180,
+          "endMs": 267860
+        },
+        {
+          "word": "hâlidir.",
+          "startMs": 267950,
+          "endMs": 269060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 270090,
+      "endMs": 277550,
+      "pauseAfterMs": 1220,
+      "text": "Basamak adını söyleyip hangi sayının büyük olduğunu gerekçelendirirsin.",
+      "markedText": "Basamak adını söyleyip hangi sayının büyük olduğunu gerekçelendirirsin.",
+      "words": [
+        {
+          "word": "Basamak",
+          "startMs": 270090,
+          "endMs": 270330
+        },
+        {
+          "word": "adını",
+          "startMs": 270400,
+          "endMs": 270710
+        },
+        {
+          "word": "söyleyip",
+          "startMs": 270840,
+          "endMs": 271720
+        },
+        {
+          "word": "hangi",
+          "startMs": 272600,
+          "endMs": 272920
+        },
+        {
+          "word": "sayının",
+          "startMs": 272980,
+          "endMs": 273650
+        },
+        {
+          "word": "büyük",
+          "startMs": 273930,
+          "endMs": 274100
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 274140,
+          "endMs": 274580
+        },
+        {
+          "word": "gerekçelendirirsin.",
+          "startMs": 274710,
+          "endMs": 276330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 277550,
+      "endMs": 278770,
+      "pauseAfterMs": 410,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 277550,
+          "endMs": 277980
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 277980,
+          "endMs": 278360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 278770,
+      "endMs": 280270,
+      "pauseAfterMs": 570,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 278770,
+          "endMs": 279010
+        },
+        {
+          "word": "bir",
+          "startMs": 279090,
+          "endMs": 279200
+        },
+        {
+          "word": "iş",
+          "startMs": 279200,
+          "endMs": 279340
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 279340,
+          "endMs": 279700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 280270,
+      "endMs": 281620,
+      "pauseAfterMs": 540,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 280270,
+          "endMs": 280520
+        },
+        {
+          "word": "sıra",
+          "startMs": 280520,
+          "endMs": 280750
+        },
+        {
+          "word": "sende.",
+          "startMs": 280750,
+          "endMs": 281080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 281620,
+      "endMs": 284831,
+      "pauseAfterMs": 301,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 281620,
+          "endMs": 282080
+        },
+        {
+          "word": "bu",
+          "startMs": 282120,
+          "endMs": 282300
+        },
+        {
+          "word": "notları",
+          "startMs": 282430,
+          "endMs": 282620
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 282880,
+          "endMs": 283380
+        },
+        {
+          "word": "kendi",
+          "startMs": 283480,
+          "endMs": 283640
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 283640,
+          "endMs": 284230
+        },
+        {
+          "word": "anlat.",
+          "startMs": 284230,
+          "endMs": 284530
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

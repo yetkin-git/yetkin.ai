@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { AdminConfirmDialog } from "@/components/kernel/admin-confirm-dialog";
 import { Input } from "@/components/ui/input";
+import { rememberAdminCatalogFlash } from "@/components/kernel/admin-catalog-flash";
 import { ADMIN_SEN } from "@/lib/copy/sen-voice/admin";
 import { COURSE_PUBLISH_PATH } from "@/lib/kernel/admin/types";
 import { parseRailClientJson } from "@/lib/ui/parse-rail-json";
@@ -40,27 +41,33 @@ export function AdminCoursePublishSwitch({
     }
     setPending(true);
     setError(null);
-    const response = await fetch(
-      COURSE_PUBLISH_PATH,
-      withRailApiVersion({
-        method: "PATCH",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          slug,
-          published: nextPublished,
-          reason: reason.trim(),
+    try {
+      const response = await fetch(
+        COURSE_PUBLISH_PATH,
+        withRailApiVersion({
+          method: "PATCH",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            slug,
+            published: nextPublished,
+            reason: reason.trim(),
+          }),
         }),
-      }),
-    );
-    const parsed = parseRailClientJson<Record<string, unknown>>(await response.json());
-    setPending(false);
-    if (!parsed.ok) {
-      setError(parsed.error ?? copy.publishFail);
-      return;
+      );
+      const parsed = parseRailClientJson<Record<string, unknown>>(await response.json());
+      setPending(false);
+      if (!parsed.ok) {
+        setError(parsed.error ?? copy.publishFail);
+        return;
+      }
+      setConfirmOpen(false);
+      setReason("");
+      rememberAdminCatalogFlash(copy.publishSaved);
+      router.refresh();
+    } catch {
+      setPending(false);
+      setError(copy.publishFail);
     }
-    setConfirmOpen(false);
-    setReason("");
-    router.refresh();
   }
 
   return (

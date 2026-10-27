@@ -4,7 +4,7 @@
  */
 
 import { PASSWORD_RECOVERY_PATH } from "@/lib/kernel/auth/password";
-import { CITIZEN_LOGIN_PATH } from "@/lib/kernel/security/edge-guard";
+import { ADMIN_CATALOG_LOGIN_NEXT, CITIZEN_LOGIN_PATH } from "@/lib/kernel/security/edge-guard";
 
 export const AUTH_CALLBACK_PATH = "/auth/callback";
 export const AUTH_CALLBACK_ERROR_PATH = "/login";
@@ -31,7 +31,7 @@ const NEXT_EXACT = new Set([
   "/register",
 ]);
 
-/** Vatandaş odaları + sığınaklar. `/admin` yok — Super Admin sığınağına dönüş yok. Donmuş oda next değil. Junior ders listesi dönüş yoludur. */
+/** Vatandaş odaları + sığınaklar. `/admin` kökü dönüş değildir. Satış kataloğu ayrı durur. Donmuş oda next değil. Junior ders listesi dönüş yoludur. */
 const NEXT_PREFIXES = [
   "/dashboard",
   "/cuzdan",
@@ -77,7 +77,7 @@ export function isSafeAuthNextPath(raw: string | null | undefined): boolean {
   if (!pathname) {
     return false;
   }
-  if (NEXT_EXACT.has(pathname)) {
+  if (NEXT_EXACT.has(pathname) || pathname === ADMIN_CATALOG_LOGIN_NEXT) {
     return true;
   }
   return NEXT_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
@@ -90,6 +90,16 @@ export function buildCitizenLoginHref(nextPath?: string | null): string {
   }
   const next = `${parsed.pathname}${parsed.hash}`;
   return `${CITIZEN_LOGIN_PATH}?next=${encodeURIComponent(next)}`;
+}
+
+/** Kayıt formu `next` okur. Allowlist giriş ile aynıdır. */
+export function buildCitizenRegisterHref(nextPath?: string | null): string {
+  const parsed = parseSafeAuthNext(nextPath);
+  if (!parsed || !isSafeAuthNextPath(parsed.pathname)) {
+    return "/register";
+  }
+  const next = `${parsed.pathname}${parsed.hash}`;
+  return `/register?next=${encodeURIComponent(next)}`;
 }
 
 export function resolvePostLoginPath(rawNext?: string | null): string {

@@ -21,7 +21,7 @@
     },
     {
       "name": "Payments",
-      "description": "Cüzdan şeridi ve POST /api/v1/wallet/top-up (PayTR Merchant iFrame + HMAC kasa pasaportu). Pazaryeri Split ve freelancer hop'ları yayınlanmaz."
+      "description": "Cüzdan şeridi, POST /api/v1/wallet/top-up ve POST /api/v1/junior-pilot/checkout (PayTR Merchant iFrame). Junior kasa hop'u yayınlanır; JUNIOR_CHECKOUT_OPEN boşken satış fail-closed kalır. Pazaryeri Split ve freelancer hop'ları yayınlanmaz."
     }
   ],
   "paths": {
@@ -4074,7 +4074,7 @@
           "Kernel"
         ],
         "summary": "/api/v1/junior/lessons/{key}/play",
-        "description": "Kanonik yol: /api/junior/lessons/{key}/play. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: lesson, media, practice, progress, graphic.",
+        "description": "Kanonik yol: /api/junior/lessons/{key}/play. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: lesson, media, practice, progress, graphic, beats.",
         "security": [
           {
             "BearerAuth": []
@@ -4876,13 +4876,44 @@
                             "speed"
                           ],
                           "additionalProperties": false
+                        },
+                        "beats": {
+                          "default": [],
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "startMs": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "endMs": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "exclusiveMinimum": true,
+                                "maximum": 9007199254740991
+                              }
+                            },
+                            "required": [
+                              "title",
+                              "startMs",
+                              "endMs"
+                            ],
+                            "additionalProperties": false
+                          }
                         }
                       },
                       "required": [
                         "lesson",
                         "media",
                         "practice",
-                        "progress"
+                        "progress",
+                        "beats"
                       ],
                       "additionalProperties": false
                     }
@@ -4964,7 +4995,11 @@
           "graphic.angle",
           "graphic.area",
           "graphic.force",
-          "graphic.speed"
+          "graphic.speed",
+          "beats",
+          "beats[].title",
+          "beats[].startMs",
+          "beats[].endMs"
         ]
       }
     },
@@ -5745,6 +5780,17 @@
                                     "unitTitle": {
                                       "type": "string",
                                       "minLength": 1
+                                    },
+                                    "curriculumLabel": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "shortTopicLabel": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "narrationShort": {
+                                      "type": "boolean"
                                     }
                                   },
                                   "required": [
@@ -6943,6 +6989,1135 @@
         }
       }
     },
+    "/api/v1/junior/shelves": {
+      "get": {
+        "operationId": "junior-shelves",
+        "tags": [
+          "Kernel"
+        ],
+        "summary": "/api/v1/junior/shelves",
+        "description": "Kanonik yol: /api/junior/shelves. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: profiles, selectedId, xp, plan, courses, sealedLessonCount, clientSchema.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "profiles": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "nickname": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "grade": {
+                                "type": "integer",
+                                "minimum": 5,
+                                "maximum": 8
+                              },
+                              "birthYear": {
+                                "nullable": true,
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              },
+                              "selected": {
+                                "type": "boolean"
+                              },
+                              "selectedElectives": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "gradeSwitchRights": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "nickname",
+                              "grade",
+                              "birthYear",
+                              "selected",
+                              "selectedElectives",
+                              "gradeSwitchRights"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "selectedId": {
+                          "nullable": true,
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "xp": {
+                          "type": "object",
+                          "properties": {
+                            "points": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "badges": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "required": [
+                            "points",
+                            "badges"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "plan": {
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "type": "string",
+                              "enum": [
+                                "ACTIVE",
+                                "NONE"
+                              ]
+                            },
+                            "electiveQuota": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "expiresAt": {
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "gradeSwitchRights": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "status",
+                            "electiveQuota",
+                            "expiresAt",
+                            "gradeSwitchRights"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "courses": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "slug": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "subject": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "grade": {
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              },
+                              "track": {
+                                "type": "string",
+                                "enum": [
+                                  "core",
+                                  "elective"
+                                ]
+                              },
+                              "labels": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "lessons": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "key": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "title": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "teaser": {
+                                      "type": "string"
+                                    },
+                                    "access": {
+                                      "type": "string",
+                                      "enum": [
+                                        "free",
+                                        "locked"
+                                      ]
+                                    },
+                                    "thisWeek": {
+                                      "type": "boolean"
+                                    },
+                                    "status": {
+                                      "type": "string",
+                                      "enum": [
+                                        "fresh",
+                                        "going",
+                                        "done",
+                                        "preparing"
+                                      ]
+                                    },
+                                    "weekHeading": {
+                                      "type": "string"
+                                    },
+                                    "archiveLabel": {
+                                      "type": "string"
+                                    },
+                                    "starterLabel": {
+                                      "type": "string"
+                                    },
+                                    "unitCode": {
+                                      "type": "string"
+                                    },
+                                    "unitIndex": {
+                                      "type": "integer",
+                                      "minimum": -9007199254740991,
+                                      "maximum": 9007199254740991
+                                    },
+                                    "unitTitle": {
+                                      "type": "string"
+                                    },
+                                    "curriculumLabel": {
+                                      "type": "string"
+                                    },
+                                    "shortTopicLabel": {
+                                      "type": "string"
+                                    },
+                                    "narrationShort": {
+                                      "type": "boolean"
+                                    }
+                                  },
+                                  "required": [
+                                    "key",
+                                    "title",
+                                    "teaser",
+                                    "access",
+                                    "thisWeek",
+                                    "status"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              },
+                              "outcomeWritten": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "outcomeTotal": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              }
+                            },
+                            "required": [
+                              "slug",
+                              "title",
+                              "subject",
+                              "grade",
+                              "track",
+                              "labels",
+                              "lessons"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "sealedLessonCount": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "clientSchema": {
+                          "type": "object",
+                          "properties": {
+                            "timelineSchemaVersion": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "minTimelineSchemaVersion": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "mediaTtlSec": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "exclusiveMinimum": true,
+                              "maximum": 9007199254740991
+                            },
+                            "mediaRefreshAfterSec": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "exclusiveMinimum": true,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "timelineSchemaVersion",
+                            "minTimelineSchemaVersion",
+                            "mediaTtlSec",
+                            "mediaRefreshAfterSec"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "profiles",
+                        "selectedId",
+                        "xp",
+                        "plan",
+                        "courses",
+                        "sealedLessonCount",
+                        "clientSchema"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "profiles",
+          "profiles[].id",
+          "profiles[].nickname",
+          "profiles[].grade",
+          "profiles[].selected",
+          "selectedId",
+          "xp",
+          "xp.points",
+          "xp.badges",
+          "plan",
+          "plan.status",
+          "plan.electiveQuota",
+          "plan.expiresAt",
+          "plan.gradeSwitchRights",
+          "courses",
+          "courses[].slug",
+          "courses[].title",
+          "courses[].subject",
+          "courses[].grade",
+          "courses[].track",
+          "courses[].labels",
+          "courses[].lessons",
+          "courses[].lessons[].key",
+          "courses[].lessons[].title",
+          "courses[].lessons[].teaser",
+          "courses[].lessons[].access",
+          "courses[].lessons[].thisWeek",
+          "courses[].lessons[].status",
+          "sealedLessonCount",
+          "clientSchema",
+          "clientSchema.timelineSchemaVersion",
+          "clientSchema.minTimelineSchemaVersion",
+          "clientSchema.mediaTtlSec",
+          "clientSchema.mediaRefreshAfterSec"
+        ]
+      }
+    },
+    "/api/v1/junior/progress": {
+      "get": {
+        "operationId": "junior-progress-read",
+        "tags": [
+          "Kernel"
+        ],
+        "summary": "/api/v1/junior/progress",
+        "description": "Kanonik yol: /api/junior/progress. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: profileId, profiles, xp, lessons, totals, weeklyReport, clientSchema.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "profileId": {
+                          "nullable": true,
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "profiles": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "nickname": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "grade": {
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              },
+                              "selected": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "nickname",
+                              "grade",
+                              "selected"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "xp": {
+                          "type": "object",
+                          "properties": {
+                            "points": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "badges": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "required": [
+                            "points",
+                            "badges"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "lessons": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "lessonKey": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "modes": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "bestScore": {
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              },
+                              "updatedAt": {
+                                "type": "string",
+                                "format": "date-time",
+                                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                              },
+                              "status": {
+                                "type": "string",
+                                "enum": [
+                                  "fresh",
+                                  "going",
+                                  "done"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "lessonKey",
+                              "title",
+                              "modes",
+                              "bestScore",
+                              "updatedAt",
+                              "status"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "totals": {
+                          "type": "object",
+                          "properties": {
+                            "started": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "done": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            },
+                            "going": {
+                              "type": "integer",
+                              "minimum": 0,
+                              "maximum": 9007199254740991
+                            }
+                          },
+                          "required": [
+                            "started",
+                            "done",
+                            "going"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "weeklyReport": {
+                          "nullable": true,
+                          "type": "object",
+                          "additionalProperties": {}
+                        },
+                        "clientSchema": {
+                          "type": "object",
+                          "properties": {
+                            "timelineSchemaVersion": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "minTimelineSchemaVersion": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "timelineSchemaVersion",
+                            "minTimelineSchemaVersion"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "profileId",
+                        "profiles",
+                        "xp",
+                        "lessons",
+                        "totals",
+                        "weeklyReport",
+                        "clientSchema"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "profileId",
+          "profiles",
+          "profiles[].id",
+          "profiles[].nickname",
+          "profiles[].grade",
+          "profiles[].selected",
+          "xp",
+          "xp.points",
+          "xp.badges",
+          "lessons",
+          "lessons[].lessonKey",
+          "lessons[].title",
+          "lessons[].modes",
+          "lessons[].bestScore",
+          "lessons[].updatedAt",
+          "lessons[].status",
+          "totals",
+          "totals.started",
+          "totals.done",
+          "totals.going",
+          "weeklyReport",
+          "clientSchema",
+          "clientSchema.timelineSchemaVersion",
+          "clientSchema.minTimelineSchemaVersion"
+        ]
+      }
+    },
+    "/api/v1/academy/catalog": {
+      "get": {
+        "operationId": "academy-catalog",
+        "tags": [
+          "Proof"
+        ],
+        "summary": "/api/v1/academy/catalog",
+        "description": "Kanonik yol: /api/academy/catalog. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key yok. Yayınlanmış data kökleri: heroSlug, courses, examPassScore, ownedSlugs, clientSchema.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "heroSlug": {
+                          "nullable": true,
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "courses": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "slug": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "summary": {
+                                "type": "string"
+                              },
+                              "shelf": {
+                                "type": "string",
+                                "enum": [
+                                  "hero",
+                                  "advanced"
+                                ]
+                              },
+                              "level": {
+                                "nullable": true,
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "moduleCode": {
+                                "nullable": true,
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "isPublished": {
+                                "type": "boolean"
+                              },
+                              "purchasable": {
+                                "type": "boolean"
+                              },
+                              "priceMinor": {
+                                "nullable": true,
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "currencyCode": {
+                                "nullable": true,
+                                "type": "string",
+                                "enum": [
+                                  "TRY",
+                                  "USD",
+                                  "EUR"
+                                ]
+                              },
+                              "lessonCount": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "durationMin": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 9007199254740991
+                              },
+                              "modules": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "title": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "lessonCount": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 9007199254740991
+                                    },
+                                    "durationMin": {
+                                      "type": "integer",
+                                      "minimum": 0,
+                                      "maximum": 9007199254740991
+                                    }
+                                  },
+                                  "required": [
+                                    "title",
+                                    "lessonCount",
+                                    "durationMin"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              },
+                              "saleHold": {
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "owned": {
+                                "type": "boolean"
+                              },
+                              "learnerStatus": {
+                                "nullable": true,
+                                "type": "string",
+                                "enum": [
+                                  "continue",
+                                  "completed"
+                                ]
+                              },
+                              "checkoutPath": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "outcomeLead": {
+                                "nullable": true,
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "outputLead": {
+                                "nullable": true,
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "slug",
+                              "title",
+                              "summary",
+                              "shelf",
+                              "level",
+                              "moduleCode",
+                              "isPublished",
+                              "purchasable",
+                              "priceMinor",
+                              "currencyCode",
+                              "lessonCount",
+                              "durationMin",
+                              "modules",
+                              "saleHold",
+                              "owned",
+                              "learnerStatus",
+                              "checkoutPath",
+                              "outcomeLead",
+                              "outputLead"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "examPassScore": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 100
+                        },
+                        "ownedSlugs": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "clientSchema": {
+                          "type": "object",
+                          "properties": {
+                            "timelineSchemaVersion": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "minTimelineSchemaVersion": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "timelineSchemaVersion",
+                            "minTimelineSchemaVersion"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "required": [
+                        "heroSlug",
+                        "courses",
+                        "examPassScore",
+                        "ownedSlugs",
+                        "clientSchema"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": false,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "heroSlug",
+          "courses",
+          "courses[].slug",
+          "courses[].title",
+          "courses[].summary",
+          "courses[].shelf",
+          "courses[].level",
+          "courses[].moduleCode",
+          "courses[].isPublished",
+          "courses[].purchasable",
+          "courses[].priceMinor",
+          "courses[].currencyCode",
+          "courses[].lessonCount",
+          "courses[].durationMin",
+          "courses[].modules",
+          "courses[].modules[].title",
+          "courses[].modules[].lessonCount",
+          "courses[].modules[].durationMin",
+          "courses[].saleHold",
+          "courses[].owned",
+          "courses[].learnerStatus",
+          "courses[].checkoutPath",
+          "courses[].outcomeLead",
+          "courses[].outputLead",
+          "examPassScore",
+          "ownedSlugs",
+          "clientSchema",
+          "clientSchema.timelineSchemaVersion",
+          "clientSchema.minTimelineSchemaVersion"
+        ]
+      }
+    },
     "/api/v1/junior-pilot/tell": {
       "post": {
         "operationId": "junior-tell",
@@ -7810,6 +8985,292 @@
                   "profileId",
                   "lessonKey",
                   "answers"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/junior-pilot/checkout": {
+      "post": {
+        "operationId": "junior-pilot-checkout",
+        "tags": [
+          "Payments"
+        ],
+        "summary": "/api/v1/junior-pilot/checkout",
+        "description": "Kanonik yol: /api/junior-pilot/checkout. Auth: Bearer JWT. Çerez oturumu yok sayılır (cookieAuth=false). Idempotency-Key UUID zorunlu (Idempotency-Key). Yayınlanmış data kökleri: status, electiveQuota, alreadyActive, expiresAt, merchantOid, embedIframe, iframeUrl.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-rail-min-version",
+            "in": "header",
+            "required": true,
+            "description": "Asgari API sürümü. Health dışında zorunlu. Eski istemci 426 alır.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[1-9]\\d*$"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "description": "İsteğe bağlı korelasyon UUID.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer JWT. v1 çerez oturumunu yok sayar.",
+            "schema": {
+              "type": "string",
+              "pattern": "^Bearer\\s+\\S+"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "UUID. Aynı anahtar ikinci debit doğurmaz.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "v1 başarı zarfı. Yayınlanmış data alanları sessizce düşmez.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "error": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        null
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                    },
+                    "apiVersion": {
+                      "type": "string",
+                      "enum": [
+                        "1"
+                      ]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "ACTIVE",
+                            "PENDING"
+                          ]
+                        },
+                        "electiveQuota": {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        "alreadyActive": {
+                          "type": "boolean"
+                        },
+                        "expiresAt": {
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "merchantOid": {
+                          "type": "string"
+                        },
+                        "embedIframe": {
+                          "type": "boolean"
+                        },
+                        "iframeUrl": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "electiveQuota",
+                        "alreadyActive",
+                        "expiresAt",
+                        "merchantOid",
+                        "embedIframe"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "error",
+                    "requestId",
+                    "apiVersion",
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sürüm başlığı / doğrulama / Idempotency-Key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Oturum gerekli.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency-Key aynı anahtarla farklı gövde kullanılamaz.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          },
+          "426": {
+            "description": "Bu uygulama güncel değil. yetkin.ai uygulamasını mağazadan güncelle.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RailV1FailEnvelope"
+                }
+              }
+            }
+          }
+        },
+        "x-rail-cookie-auth": false,
+        "x-rail-idempotency": true,
+        "x-rail-route-auth": "session",
+        "x-rail-published-data-paths": [
+          "status",
+          "electiveQuota",
+          "alreadyActive",
+          "expiresAt",
+          "merchantOid",
+          "embedIframe",
+          "iframeUrl"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "distanceContractAccepted": {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  },
+                  "digitalImmediatePerformanceAccepted": {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  },
+                  "consentVersion": {
+                    "type": "string",
+                    "enum": [
+                      "2026-09-05"
+                    ]
+                  },
+                  "guardianConsentAccepted": {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  },
+                  "guardianNoticeVersion": {
+                    "type": "string",
+                    "enum": [
+                      "junior-notice-2026-10-09"
+                    ]
+                  },
+                  "billing": {
+                    "type": "object",
+                    "properties": {
+                      "invoiceType": {
+                        "type": "string",
+                        "enum": [
+                          "individual",
+                          "corporate"
+                        ]
+                      },
+                      "fullName": {
+                        "type": "string"
+                      },
+                      "tckn": {
+                        "nullable": true,
+                        "type": "string"
+                      },
+                      "companyTitle": {
+                        "type": "string"
+                      },
+                      "taxOffice": {
+                        "type": "string"
+                      },
+                      "vkn": {
+                        "type": "string"
+                      },
+                      "phone": {
+                        "type": "string"
+                      },
+                      "address": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "invoiceType"
+                    ]
+                  }
+                },
+                "required": [
+                  "distanceContractAccepted",
+                  "digitalImmediatePerformanceAccepted",
+                  "consentVersion",
+                  "guardianConsentAccepted",
+                  "guardianNoticeVersion",
+                  "billing"
                 ],
                 "additionalProperties": false
               }
@@ -10830,13 +12291,44 @@
               "speed"
             ],
             "additionalProperties": false
+          },
+          "beats": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "startMs": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "endMs": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "exclusiveMinimum": true,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "title",
+                "startMs",
+                "endMs"
+              ],
+              "additionalProperties": false
+            }
           }
         },
         "required": [
           "lesson",
           "media",
           "practice",
-          "progress"
+          "progress",
+          "beats"
         ],
         "additionalProperties": false
       },
@@ -11194,6 +12686,17 @@
                       "unitTitle": {
                         "type": "string",
                         "minLength": 1
+                      },
+                      "curriculumLabel": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "shortTopicLabel": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "narrationShort": {
+                        "type": "boolean"
                       }
                     },
                     "required": [
@@ -11921,6 +13424,931 @@
           "total",
           "completed",
           "notes"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorCheckoutRequest": {
+        "type": "object",
+        "properties": {
+          "distanceContractAccepted": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "digitalImmediatePerformanceAccepted": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "consentVersion": {
+            "type": "string",
+            "enum": [
+              "2026-09-05"
+            ]
+          },
+          "guardianConsentAccepted": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "guardianNoticeVersion": {
+            "type": "string",
+            "enum": [
+              "junior-notice-2026-10-09"
+            ]
+          },
+          "billing": {
+            "type": "object",
+            "properties": {
+              "invoiceType": {
+                "type": "string",
+                "enum": [
+                  "individual",
+                  "corporate"
+                ]
+              },
+              "fullName": {
+                "type": "string"
+              },
+              "tckn": {
+                "nullable": true,
+                "type": "string"
+              },
+              "companyTitle": {
+                "type": "string"
+              },
+              "taxOffice": {
+                "type": "string"
+              },
+              "vkn": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "address": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "invoiceType"
+            ]
+          }
+        },
+        "required": [
+          "distanceContractAccepted",
+          "digitalImmediatePerformanceAccepted",
+          "consentVersion",
+          "guardianConsentAccepted",
+          "guardianNoticeVersion",
+          "billing"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorCheckoutData": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "PENDING"
+            ]
+          },
+          "electiveQuota": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          },
+          "alreadyActive": {
+            "type": "boolean"
+          },
+          "expiresAt": {
+            "nullable": true,
+            "type": "string"
+          },
+          "merchantOid": {
+            "type": "string"
+          },
+          "embedIframe": {
+            "type": "boolean"
+          },
+          "iframeUrl": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "status",
+          "electiveQuota",
+          "alreadyActive",
+          "expiresAt",
+          "merchantOid",
+          "embedIframe"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorShelvesData": {
+        "type": "object",
+        "properties": {
+          "profiles": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "nickname": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "grade": {
+                  "type": "integer",
+                  "minimum": 5,
+                  "maximum": 8
+                },
+                "birthYear": {
+                  "nullable": true,
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "selected": {
+                  "type": "boolean"
+                },
+                "selectedElectives": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "gradeSwitchRights": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "id",
+                "nickname",
+                "grade",
+                "birthYear",
+                "selected",
+                "selectedElectives",
+                "gradeSwitchRights"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "selectedId": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 1
+          },
+          "xp": {
+            "type": "object",
+            "properties": {
+              "points": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "badges": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "points",
+              "badges"
+            ],
+            "additionalProperties": false
+          },
+          "plan": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "ACTIVE",
+                  "NONE"
+                ]
+              },
+              "electiveQuota": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "expiresAt": {
+                "nullable": true,
+                "type": "string"
+              },
+              "gradeSwitchRights": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "status",
+              "electiveQuota",
+              "expiresAt",
+              "gradeSwitchRights"
+            ],
+            "additionalProperties": false
+          },
+          "courses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "slug": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "subject": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "grade": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "track": {
+                  "type": "string",
+                  "enum": [
+                    "core",
+                    "elective"
+                  ]
+                },
+                "labels": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "lessons": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "key": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "title": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "teaser": {
+                        "type": "string"
+                      },
+                      "access": {
+                        "type": "string",
+                        "enum": [
+                          "free",
+                          "locked"
+                        ]
+                      },
+                      "thisWeek": {
+                        "type": "boolean"
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "fresh",
+                          "going",
+                          "done",
+                          "preparing"
+                        ]
+                      },
+                      "weekHeading": {
+                        "type": "string"
+                      },
+                      "archiveLabel": {
+                        "type": "string"
+                      },
+                      "starterLabel": {
+                        "type": "string"
+                      },
+                      "unitCode": {
+                        "type": "string"
+                      },
+                      "unitIndex": {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      },
+                      "unitTitle": {
+                        "type": "string"
+                      },
+                      "curriculumLabel": {
+                        "type": "string"
+                      },
+                      "shortTopicLabel": {
+                        "type": "string"
+                      },
+                      "narrationShort": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "key",
+                      "title",
+                      "teaser",
+                      "access",
+                      "thisWeek",
+                      "status"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "outcomeWritten": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "outcomeTotal": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "slug",
+                "title",
+                "subject",
+                "grade",
+                "track",
+                "labels",
+                "lessons"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "sealedLessonCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "clientSchema": {
+            "type": "object",
+            "properties": {
+              "timelineSchemaVersion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minTimelineSchemaVersion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "mediaTtlSec": {
+                "type": "integer",
+                "minimum": 0,
+                "exclusiveMinimum": true,
+                "maximum": 9007199254740991
+              },
+              "mediaRefreshAfterSec": {
+                "type": "integer",
+                "minimum": 0,
+                "exclusiveMinimum": true,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "timelineSchemaVersion",
+              "minTimelineSchemaVersion",
+              "mediaTtlSec",
+              "mediaRefreshAfterSec"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "profiles",
+          "selectedId",
+          "xp",
+          "plan",
+          "courses",
+          "sealedLessonCount",
+          "clientSchema"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1JuniorProgressData": {
+        "type": "object",
+        "properties": {
+          "profileId": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 1
+          },
+          "profiles": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "nickname": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "grade": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "selected": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "id",
+                "nickname",
+                "grade",
+                "selected"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "xp": {
+            "type": "object",
+            "properties": {
+              "points": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "badges": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "points",
+              "badges"
+            ],
+            "additionalProperties": false
+          },
+          "lessons": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "lessonKey": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "title": {
+                  "type": "string"
+                },
+                "modes": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "bestScore": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "fresh",
+                    "going",
+                    "done"
+                  ]
+                }
+              },
+              "required": [
+                "lessonKey",
+                "title",
+                "modes",
+                "bestScore",
+                "updatedAt",
+                "status"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "totals": {
+            "type": "object",
+            "properties": {
+              "started": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "done": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "going": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              }
+            },
+            "required": [
+              "started",
+              "done",
+              "going"
+            ],
+            "additionalProperties": false
+          },
+          "weeklyReport": {
+            "nullable": true,
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "clientSchema": {
+            "type": "object",
+            "properties": {
+              "timelineSchemaVersion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minTimelineSchemaVersion": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "timelineSchemaVersion",
+              "minTimelineSchemaVersion"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "profileId",
+          "profiles",
+          "xp",
+          "lessons",
+          "totals",
+          "weeklyReport",
+          "clientSchema"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1AcademyCatalogData": {
+        "type": "object",
+        "properties": {
+          "heroSlug": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 1
+          },
+          "courses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "slug": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "shelf": {
+                  "type": "string",
+                  "enum": [
+                    "hero",
+                    "advanced"
+                  ]
+                },
+                "level": {
+                  "nullable": true,
+                  "type": "string",
+                  "minLength": 1
+                },
+                "moduleCode": {
+                  "nullable": true,
+                  "type": "string",
+                  "minLength": 1
+                },
+                "isPublished": {
+                  "type": "boolean"
+                },
+                "purchasable": {
+                  "type": "boolean"
+                },
+                "priceMinor": {
+                  "nullable": true,
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "currencyCode": {
+                  "nullable": true,
+                  "type": "string",
+                  "enum": [
+                    "TRY",
+                    "USD",
+                    "EUR"
+                  ]
+                },
+                "lessonCount": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "durationMin": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "modules": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "lessonCount": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      },
+                      "durationMin": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "title",
+                      "lessonCount",
+                      "durationMin"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "saleHold": {
+                  "nullable": true,
+                  "type": "string"
+                },
+                "owned": {
+                  "type": "boolean"
+                },
+                "learnerStatus": {
+                  "nullable": true,
+                  "type": "string",
+                  "enum": [
+                    "continue",
+                    "completed"
+                  ]
+                },
+                "checkoutPath": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "outcomeLead": {
+                  "nullable": true,
+                  "type": "string",
+                  "minLength": 1
+                },
+                "outputLead": {
+                  "nullable": true,
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "slug",
+                "title",
+                "summary",
+                "shelf",
+                "level",
+                "moduleCode",
+                "isPublished",
+                "purchasable",
+                "priceMinor",
+                "currencyCode",
+                "lessonCount",
+                "durationMin",
+                "modules",
+                "saleHold",
+                "owned",
+                "learnerStatus",
+                "checkoutPath",
+                "outcomeLead",
+                "outputLead"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "examPassScore": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "ownedSlugs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "clientSchema": {
+            "type": "object",
+            "properties": {
+              "timelineSchemaVersion": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minTimelineSchemaVersion": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "timelineSchemaVersion",
+              "minTimelineSchemaVersion"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "heroSlug",
+          "courses",
+          "examPassScore",
+          "ownedSlugs",
+          "clientSchema"
+        ],
+        "additionalProperties": false
+      },
+      "RailV1AcademyCatalogCourse": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "summary": {
+            "type": "string"
+          },
+          "shelf": {
+            "type": "string",
+            "enum": [
+              "hero",
+              "advanced"
+            ]
+          },
+          "level": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 1
+          },
+          "moduleCode": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 1
+          },
+          "isPublished": {
+            "type": "boolean"
+          },
+          "purchasable": {
+            "type": "boolean"
+          },
+          "priceMinor": {
+            "nullable": true,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "currencyCode": {
+            "nullable": true,
+            "type": "string",
+            "enum": [
+              "TRY",
+              "USD",
+              "EUR"
+            ]
+          },
+          "lessonCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "durationMin": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "modules": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "lessonCount": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                },
+                "durationMin": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "title",
+                "lessonCount",
+                "durationMin"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "saleHold": {
+            "nullable": true,
+            "type": "string"
+          },
+          "owned": {
+            "type": "boolean"
+          },
+          "learnerStatus": {
+            "nullable": true,
+            "type": "string",
+            "enum": [
+              "continue",
+              "completed"
+            ]
+          },
+          "checkoutPath": {
+            "type": "string",
+            "minLength": 1
+          },
+          "outcomeLead": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 1
+          },
+          "outputLead": {
+            "nullable": true,
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "slug",
+          "title",
+          "summary",
+          "shelf",
+          "level",
+          "moduleCode",
+          "isPublished",
+          "purchasable",
+          "priceMinor",
+          "currencyCode",
+          "lessonCount",
+          "durationMin",
+          "modules",
+          "saleHold",
+          "owned",
+          "learnerStatus",
+          "checkoutPath",
+          "outcomeLead",
+          "outputLead"
         ],
         "additionalProperties": false
       },

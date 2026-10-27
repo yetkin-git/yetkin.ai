@@ -36,14 +36,15 @@ describe("kamu medya adresi", () => {
     expect(resolvePublicMediaUrl("/media/junior/audio/jr_06_mat-1.mp3")).toBe(
       "/media/junior/audio/jr_06_mat-1.mp3",
     );
-    expect(juniorLessonAudioSrc("jr_06_mat-14")).toBe(
-      `${juniorLessonAudioPublicPath("jr_06_mat-14")}?v=v2-${JUNIOR_AUDIO_MANIFEST["jr_06_mat-14"]?.sha256.slice(0, 12)}`,
+    expect(juniorLessonAudioSrc("jr_06_mat-1")).toBe(
+      `${juniorLessonAudioPublicPath("jr_06_mat-1")}?v=v2-${JUNIOR_AUDIO_MANIFEST["jr_06_mat-1"]?.sha256.slice(0, 12)}`,
     );
+    expect(juniorLessonAudioSrc("jr_06_mat-4")).toBeNull();
     expect(juniorBgmSrc()).toBe("/media/junior/audio/bgm-light-learning.mp3");
-    expect(juniorCoverSrc("jr_06_mat-14")).toBe(
-      `${juniorCoverPublicPath("jr_06_mat-14")}?v=${juniorCoverManifestHash("jr_06_mat-14")}`,
+    expect(juniorCoverSrc("jr_06_mat-4")).toBe(
+      `${juniorCoverPublicPath("jr_06_mat-4")}?v=${juniorCoverManifestHash("jr_06_mat-4")}`,
     );
-    expect(juniorWarmupSrc("jr_06_mat-14")).toBe("/media/junior/warmup/jr_06_mat-warmup.mp4");
+    expect(juniorWarmupSrc("jr_06_mat-4")).toBe("/media/junior/warmup/jr_06_mat-warmup.mp4");
   });
 
   it("https kökü CDN adresini bağlar ve sorguyu korur", () => {
@@ -53,24 +54,25 @@ describe("kamu medya adresi", () => {
       "https://cdn.yetkin.ai/media/academy/micro/01_office_ai_ileri-warmup.mp4?v=8000",
     );
     expect(juniorLessonAudioSrc("jr_06_fen-2")).toBeNull();
-    expect(juniorLessonAudioSrc("jr_06_mat-14")).toBe(
-      `https://cdn.yetkin.ai/media/junior/audio/jr_06_mat-14.mp3?v=v2-${JUNIOR_AUDIO_MANIFEST["jr_06_mat-14"]?.sha256.slice(0, 12)}`,
+    expect(juniorLessonAudioSrc("jr_06_mat-4")).toBeNull();
+    expect(juniorLessonAudioSrc("jr_06_mat-1")).toBe(
+      `https://cdn.yetkin.ai/media/junior/audio/jr_06_mat-1.mp3?v=v2-${JUNIOR_AUDIO_MANIFEST["jr_06_mat-1"]?.sha256.slice(0, 12)}`,
     );
-    expect(juniorCoverSrc("jr_06_mat-14")).toBe(
-      `https://cdn.yetkin.ai/media/junior/covers/jr_06_mat-14.jpg?v=${juniorCoverManifestHash("jr_06_mat-14")}`,
+    expect(juniorCoverSrc("jr_06_mat-4")).toBe(
+      `https://cdn.yetkin.ai/media/junior/covers/jr_06_mat-4.jpg?v=${juniorCoverManifestHash("jr_06_mat-4")}`,
     );
-    // Arşiv ilk ders (jr_06_mat-1) kamu CDN'ine çıkmaz. Kapak posteri CDN'de kalır.
-    expect(juniorLessonAudioSrc("jr_06_mat-1")).toBeNull();
     expect(juniorCoverSrc("jr_06_fen-2")).toBe(
       `https://cdn.yetkin.ai/media/junior/covers/jr_06_fen-2.jpg?v=${juniorCoverManifestHash("jr_06_fen-2")}`,
     );
   });
 
-  it("mühürlü 111 ders kapağı disk jpeg adresine önbellek kırıcı ekler", () => {
+  it("mühürlü 111 çekirdek ders kapağı disk jpeg adresine önbellek kırıcı ekler", () => {
     delete process.env.NEXT_PUBLIC_MEDIA_BASE_URL;
-    const keys = Object.keys(JUNIOR_AUDIO_MANIFEST);
+    const audioKeys = new Set(Object.keys(JUNIOR_AUDIO_MANIFEST));
+    const keys = Object.keys(JUNIOR_COVER_MANIFEST);
     expect(keys).toHaveLength(111);
     for (const key of keys) {
+      expect(audioKeys.has(key), key).toBe(true);
       const hash = JUNIOR_COVER_MANIFEST[key]?.sha256.slice(0, 12) ?? "";
       expect(hash, key).toMatch(/^[0-9a-f]{12}$/u);
       expect(juniorCoverSrc(key)).toBe(`/media/junior/covers/${key}.jpg?v=${hash}`);
@@ -119,8 +121,12 @@ describe("R2 ayarı ve sayım", () => {
   });
 
   it("kilitli kapak katalog CDN anahtarına da yazılır", () => {
-    expect(storageObjectKeysFromDiskRelative("public/media/junior/covers/jr_06_mat-14.jpg")).toEqual([
-      "media/junior/covers/jr_06_mat-14.jpg",
+    expect(storageObjectKeysFromDiskRelative("public/media/junior/covers/jr_06_mat-1.jpg")).toEqual([
+      "media/junior/covers/jr_06_mat-1.jpg",
+    ]);
+    expect(storageObjectKeysFromDiskRelative("public/media/junior/covers/jr_06_mat-4.jpg")).toEqual([
+      "media/junior/covers/jr_06_mat-4.jpg",
+      "private/junior/covers/jr_06_mat-4.jpg",
     ]);
     expect(storageObjectKeysFromDiskRelative("public/media/junior/covers/jr_06_sosyal-21.jpg")).toEqual([
       "media/junior/covers/jr_06_sosyal-21.jpg",
@@ -148,8 +154,8 @@ describe("R2 ayarı ve sayım", () => {
     const micro = join(root, "public", "media", "academy", "micro");
     mkdirSync(audio, { recursive: true });
     mkdirSync(micro, { recursive: true });
-    writeFileSync(join(audio, "jr_06_mat-14.mp3"), Buffer.from("mp3"));
-    writeFileSync(join(audio, "jr_06_mat-1.mp3"), Buffer.from("archived"));
+    writeFileSync(join(audio, "jr_06_mat-1.mp3"), Buffer.from("mp3"));
+    writeFileSync(join(audio, "jr_06_mat-4.mp3"), Buffer.from("paid"));
     writeFileSync(join(audio, "jr_06_mat-2.mp3"), Buffer.from("paid"));
     writeFileSync(join(audio, "draft.wav"), Buffer.from("wav"));
     writeFileSync(join(micro, "01_office_ai-1-warmup.mp4"), Buffer.from("mp4"));
@@ -157,9 +163,9 @@ describe("R2 ayarı ve sayım", () => {
     const items = listR2PublicMedia(root);
     expect(items.map((item) => item.objectKey)).toEqual([
       "media/academy/micro/01_office_ai-1-warmup.mp4",
-      "media/junior/audio/jr_06_mat-14.mp3",
-      "private/junior/audio/jr_06_mat-1.mp3",
+      "media/junior/audio/jr_06_mat-1.mp3",
       "private/junior/audio/jr_06_mat-2.mp3",
+      "private/junior/audio/jr_06_mat-4.mp3",
     ]);
   });
 

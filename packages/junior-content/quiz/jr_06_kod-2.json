@@ -1,0 +1,53 @@
+{
+  "lessonKey": "jr_06_kod-2",
+  "title": "Hatalı adımı bulmak",
+  "tellGuides": [
+    "Hata nedir? Beklenen sonuçla olan sonucu karşılaştır.",
+    "Bardağı bırak satırı neden bozuktur?",
+    "Sağlam satıra neden dokunulmaz?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Hata bu derste nerede aranır?",
+      "options": [
+        "Beklenen sonuç ile olan sonuç ayrıldığı satırda",
+        "Bütün listenin silindiği yerde",
+        "Yalnızca ilk satırda",
+        "Sonucu beğenmediğin her yerde, satır aramadan"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Satırlar tek tek okunur.",
+      "explanation": "Adım 1: Beklenen sonuç ile olan sonuç farklıysa hata vardır. Adım 2: Bozuk satır işaretlenir. Adım 3: Sağlam satır durur."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Komutlar: bardağı tut, bardağı bırak, musluğu aç. Su yere dökülüyor. Hata hangi satırdadır?",
+      "options": [
+        "Birinci satır",
+        "İkinci satır",
+        "Üçüncü satır",
+        "Hiçbir satır"
+      ],
+      "correctAnswerIndex": 1,
+      "hint": "Bardağı bırakmak suyu tutmaz.",
+      "explanation": "Adım 1: Birinci satır bardağı tutar ve sağlamdır. Adım 2: İkinci satır bardağı bırakır. Adım 3: Su bu yüzden dökülür. Düzeltme, bardağı tut demektir."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Kek tarifinde şeker satırı unutulmuş. Doğru iş hangisidir?",
+      "options": [
+        "Bütün tarifi çöpe atmak",
+        "Sağlam adımları da silmek",
+        "Eksik satırı eklemek",
+        "Sonucu beğenip adımı söylememek"
+      ],
+      "correctAnswerIndex": 2,
+      "hint": "Sağlam adım durur.",
+      "explanation": "Adım 1: Hata, unutulan şeker satırındadır. Adım 2: Sağlam satırlar silinmez. Adım 3: Eksik satır eklenir."
+    }
+  ]
+}

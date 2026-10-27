@@ -1,7 +1,11 @@
 {
   "schemaVersion": "2.0.0",
   "lessonKey": "jr_06_mat-5",
-  "title": "Çarpanlar, Katlar ve Bölünebilme",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Kesir ile bölme, sonlu ve devirli ondalık",
   "grade": 6,
   "subject": "Matematik",
   "teacher": {
@@ -11,39 +15,27 @@
   },
   "audio": {
     "publicPath": "/media/junior/audio/jr_06_mat-5.mp3",
-    "durationMs": 220420,
+    "durationMs": 290608,
     "sampleRateHz": 48000
   },
   "chapters": [
     {
       "id": "ch-1",
-      "title": "12 Bilye Deneyi ve Çarpan",
+      "title": "Giriş",
       "startMs": 0,
-      "endMs": 43846
+      "endMs": 61120
     },
     {
       "id": "ch-2",
-      "title": "Çarpan mı, Kat mı?",
-      "startMs": 43846,
-      "endMs": 77765
+      "title": "Gelişme",
+      "startMs": 61120,
+      "endMs": 216450
     },
     {
       "id": "ch-3",
-      "title": "Son Basamak Dedektifleri (2, 5, 10)",
-      "startMs": 77765,
-      "endMs": 136399
-    },
-    {
-      "id": "ch-4",
-      "title": "Rakam Toplama Dedektifleri (3 ve 9)",
-      "startMs": 136399,
-      "endMs": 178255
-    },
-    {
-      "id": "ch-5",
-      "title": "Altın İpucu ve Özet",
-      "startMs": 178255,
-      "endMs": 220420
+      "title": "Sonuç",
+      "startMs": 216450,
+      "endMs": 290608
     }
   ],
   "cues": [
@@ -51,135 +43,25 @@
       "id": "cue-01",
       "chapterId": "ch-1",
       "startMs": 0,
-      "endMs": 14981,
-      "pauseAfterMs": 650,
-      "text": "Merhaba sevgili çocuklar! Ben Matematik öğretmenin Selim. Bugün seninle sayıları hiç işlem yapmadan, tek bakışta çözebilen bölünebilme dedektifleri olacağız. Masadaki şu 12 renkli bilyeye bak!",
-      "markedText": "Merhaba sevgili çocuklar! Ben Matematik öğretmenin Selim. Bugün seninle sayıları hiç işlem yapmadan, tek bakışta çözebilen bölünebilme dedektifleri olacağız. {@spawnMarbles} Masadaki şu 12 renkli bilyeye bak!",
+      "endMs": 4370,
+      "pauseAfterMs": 1100,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
       "words": [
         {
           "word": "Merhaba",
-          "startMs": 213,
-          "endMs": 542
+          "startMs": 150,
+          "endMs": 770
         },
         {
           "word": "sevgili",
-          "startMs": 542,
-          "endMs": 870
+          "startMs": 1000,
+          "endMs": 1440
         },
         {
           "word": "çocuklar!",
-          "startMs": 870,
-          "endMs": 1330
-        },
-        {
-          "word": "Ben",
-          "startMs": 1947,
-          "endMs": 2070
-        },
-        {
-          "word": "Matematik",
-          "startMs": 2070,
-          "endMs": 2562
-        },
-        {
-          "word": "öğretmenin",
-          "startMs": 2562,
-          "endMs": 3054
-        },
-        {
-          "word": "Selim.",
-          "startMs": 3054,
-          "endMs": 3447
-        },
-        {
-          "word": "Bugün",
-          "startMs": 4373,
-          "endMs": 4655
-        },
-        {
-          "word": "seninle",
-          "startMs": 4655,
-          "endMs": 5078
-        },
-        {
-          "word": "sayıları",
-          "startMs": 5078,
-          "endMs": 5642
-        },
-        {
-          "word": "hiç",
-          "startMs": 5642,
-          "endMs": 5783
-        },
-        {
-          "word": "işlem",
-          "startMs": 5783,
-          "endMs": 6065
-        },
-        {
-          "word": "yapmadan,",
-          "startMs": 6065,
-          "endMs": 6572
-        },
-        {
-          "word": "tek",
-          "startMs": 6572,
-          "endMs": 6714
-        },
-        {
-          "word": "bakışta",
-          "startMs": 6714,
-          "endMs": 7136
-        },
-        {
-          "word": "çözebilen",
-          "startMs": 7136,
-          "endMs": 7700
-        },
-        {
-          "word": "bölünebilme",
-          "startMs": 7700,
-          "endMs": 8405
-        },
-        {
-          "word": "dedektifleri",
-          "startMs": 8895,
-          "endMs": 9745
-        },
-        {
-          "word": "olacağız.",
-          "startMs": 9745,
-          "endMs": 10629
-        },
-        {
-          "word": "Masadaki",
-          "startMs": 12001,
-          "endMs": 12547
-        },
-        {
-          "word": "şu",
-          "startMs": 12547,
-          "endMs": 12683
-        },
-        {
-          "word": "12",
-          "startMs": 12683,
-          "endMs": 13093
-        },
-        {
-          "word": "renkli",
-          "startMs": 13093,
-          "endMs": 13366
-        },
-        {
-          "word": "bilyeye",
-          "startMs": 13366,
-          "endMs": 13776
-        },
-        {
-          "word": "bak!",
-          "startMs": 13776,
-          "endMs": 14076
+          "startMs": 1860,
+          "endMs": 3270
         }
       ],
       "keyframes": [
@@ -187,19 +69,28 @@
           "atMs": 0,
           "op": "SET_STAGE",
           "params": {
-            "layout": "marble-tray",
-            "title": "Bölünebilme Dedektifleri",
-            "subtitle": "12 Bilye Deneyi"
-          }
-        },
-        {
-          "atMs": 12001,
-          "op": "SPAWN_MARBLES",
-          "hook": "spawnMarbles",
-          "params": {
-            "count": 12,
-            "arrangement": "scattered",
-            "palette": "vibrant"
+            "layout": "summary-board",
+            "title": "Kesir ile bölme, sonlu ve devirli ondalık",
+            "subtitle": "Matematik",
+            "ruleBadges": [],
+            "echoPrompt": "Bir bölü iki için 0,5 dersin. Bir bölü üç için devreden 3 dersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Kesir, payın paydaya bölünmesiyle ondalık olur."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Kalan 0 ise ondalık sonludur."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Aynı kalan dönerse ondalık devirlidir."
+              }
+            ]
           }
         }
       ]
@@ -207,2650 +98,1788 @@
     {
       "id": "cue-02",
       "chapterId": "ch-1",
-      "startMs": 15672,
-      "endMs": 28227,
-      "pauseAfterMs": 750,
-      "text": "Bu 12 bilyeyi kutulara ikişer ikişer dizelim. Bak, tam 6 eşit kutu oldu ve dışarıda hiç bilye artmadı! Üçer üçer dizsek? Yine hiç bilye artmaz, 4 eşit kutu olur.",
-      "markedText": "Bu 12 bilyeyi kutulara {@groupBy2} ikişer ikişer dizelim. Bak, tam 6 eşit kutu oldu ve dışarıda hiç bilye artmadı! {@groupBy3} Üçer üçer dizsek? Yine hiç bilye artmaz, 4 eşit kutu olur.",
+      "startMs": 4370,
+      "endMs": 7670,
+      "pauseAfterMs": 1140,
+      "text": "Ben Matematik öğretmenin Selim.",
+      "markedText": "Ben Matematik öğretmenin Selim.",
       "words": [
         {
-          "word": "Bu",
-          "startMs": 15821,
-          "endMs": 15941
+          "word": "Ben",
+          "startMs": 4370,
+          "endMs": 4480
         },
         {
-          "word": "12",
-          "startMs": 15941,
-          "endMs": 16301
+          "word": "Matematik",
+          "startMs": 4480,
+          "endMs": 4840
         },
         {
-          "word": "bilyeyi",
-          "startMs": 16301,
-          "endMs": 16661
+          "word": "öğretmenin",
+          "startMs": 4980,
+          "endMs": 5510
         },
         {
-          "word": "kutulara",
-          "startMs": 16661,
-          "endMs": 17140
-        },
-        {
-          "word": "ikişer",
-          "startMs": 17619,
-          "endMs": 17922
-        },
-        {
-          "word": "ikişer",
-          "startMs": 17922,
-          "endMs": 18227
-        },
-        {
-          "word": "dizelim.",
-          "startMs": 18227,
-          "endMs": 18651
-        },
-        {
-          "word": "Bak,",
-          "startMs": 19364,
-          "endMs": 19536
-        },
-        {
-          "word": "tam",
-          "startMs": 19536,
-          "endMs": 19644
-        },
-        {
-          "word": "6",
-          "startMs": 19644,
-          "endMs": 19859
-        },
-        {
-          "word": "eşit",
-          "startMs": 19859,
-          "endMs": 20075
-        },
-        {
-          "word": "kutu",
-          "startMs": 20075,
-          "endMs": 20290
-        },
-        {
-          "word": "oldu",
-          "startMs": 20481,
-          "endMs": 20733
-        },
-        {
-          "word": "ve",
-          "startMs": 20733,
-          "endMs": 20859
-        },
-        {
-          "word": "dışarıda",
-          "startMs": 20859,
-          "endMs": 21362
-        },
-        {
-          "word": "hiç",
-          "startMs": 21362,
-          "endMs": 21488
-        },
-        {
-          "word": "bilye",
-          "startMs": 21488,
-          "endMs": 21740
-        },
-        {
-          "word": "artmadı!",
-          "startMs": 21740,
-          "endMs": 22269
-        },
-        {
-          "word": "Üçer",
-          "startMs": 23460,
-          "endMs": 23673
-        },
-        {
-          "word": "üçer",
-          "startMs": 23673,
-          "endMs": 23886
-        },
-        {
-          "word": "dizsek?",
-          "startMs": 23886,
-          "endMs": 24226
-        },
-        {
-          "word": "Yine",
-          "startMs": 25258,
-          "endMs": 25493
-        },
-        {
-          "word": "hiç",
-          "startMs": 25493,
-          "endMs": 25612
-        },
-        {
-          "word": "bilye",
-          "startMs": 25612,
-          "endMs": 25847
-        },
-        {
-          "word": "artmaz,",
-          "startMs": 25847,
-          "endMs": 26152
-        },
-        {
-          "word": "4",
-          "startMs": 26759,
-          "endMs": 26848
-        },
-        {
-          "word": "eşit",
-          "startMs": 26848,
-          "endMs": 27027
-        },
-        {
-          "word": "kutu",
-          "startMs": 27027,
-          "endMs": 27205
-        },
-        {
-          "word": "olur.",
-          "startMs": 27408,
-          "endMs": 27705
+          "word": "Selim.",
+          "startMs": 5660,
+          "endMs": 6530
         }
       ],
-      "keyframes": [
-        {
-          "atMs": 17619,
-          "op": "GROUP_MARBLES",
-          "hook": "groupBy2",
-          "params": {
-            "total": 12,
-            "groupSize": 2,
-            "groups": 6,
-            "remainder": 0,
-            "equation": "12 ÷ 2 = 6 (Kalan 0 ✓)"
-          }
-        },
-        {
-          "atMs": 23460,
-          "op": "GROUP_MARBLES",
-          "hook": "groupBy3",
-          "params": {
-            "total": 12,
-            "groupSize": 3,
-            "groups": 4,
-            "remainder": 0,
-            "equation": "12 ÷ 3 = 4 (Kalan 0 ✓)"
-          }
-        }
-      ]
+      "keyframes": []
     },
     {
       "id": "cue-03",
       "chapterId": "ch-1",
-      "startMs": 29025,
-      "endMs": 42941,
-      "pauseAfterMs": 850,
-      "text": "Peki beşer beşer dizmeye çalışırsak ne olur? 2 kutu dolar ama 2 bilye dışarıda artar! İşte bir sayıyı hiç kalan bırakmadan tam bölen sayılara o sayının Çarpanı diyoruz.",
-      "markedText": "Peki {@groupBy5} beşer beşer dizmeye çalışırsak ne olur? 2 kutu dolar ama 2 bilye dışarıda artar! {@showConceptCallout} İşte bir sayıyı hiç kalan bırakmadan tam bölen sayılara o sayının Çarpanı diyoruz.",
-      "words": [
-        {
-          "word": "Peki",
-          "startMs": 29397,
-          "endMs": 29695
-        },
-        {
-          "word": "beşer",
-          "startMs": 29961,
-          "endMs": 30231
-        },
-        {
-          "word": "beşer",
-          "startMs": 30231,
-          "endMs": 30502
-        },
-        {
-          "word": "dizmeye",
-          "startMs": 30502,
-          "endMs": 30907
-        },
-        {
-          "word": "çalışırsak",
-          "startMs": 30907,
-          "endMs": 31447
-        },
-        {
-          "word": "ne",
-          "startMs": 31447,
-          "endMs": 31583
-        },
-        {
-          "word": "olur?",
-          "startMs": 31583,
-          "endMs": 32014
-        },
-        {
-          "word": "2",
-          "startMs": 33004,
-          "endMs": 33273
-        },
-        {
-          "word": "kutu",
-          "startMs": 33273,
-          "endMs": 33541
-        },
-        {
-          "word": "dolar",
-          "startMs": 33541,
-          "endMs": 33810
-        },
-        {
-          "word": "ama",
-          "startMs": 33810,
-          "endMs": 34079
-        },
-        {
-          "word": "2",
-          "startMs": 34504,
-          "endMs": 34741
-        },
-        {
-          "word": "bilye",
-          "startMs": 34741,
-          "endMs": 34979
-        },
-        {
-          "word": "dışarıda",
-          "startMs": 34979,
-          "endMs": 35454
-        },
-        {
-          "word": "artar!",
-          "startMs": 35454,
-          "endMs": 35834
-        },
-        {
-          "word": "İşte",
-          "startMs": 36653,
-          "endMs": 36909
-        },
-        {
-          "word": "bir",
-          "startMs": 37164,
-          "endMs": 37337
-        },
-        {
-          "word": "sayıyı",
-          "startMs": 37337,
-          "endMs": 37857
-        },
-        {
-          "word": "hiç",
-          "startMs": 37857,
-          "endMs": 38030
-        },
-        {
-          "word": "kalan",
-          "startMs": 38030,
-          "endMs": 38376
-        },
-        {
-          "word": "bırakmadan",
-          "startMs": 38376,
-          "endMs": 39070
-        },
-        {
-          "word": "tam",
-          "startMs": 39070,
-          "endMs": 39242
-        },
-        {
-          "word": "bölen",
-          "startMs": 39242,
-          "endMs": 39589
-        },
-        {
-          "word": "sayılara",
-          "startMs": 39589,
-          "endMs": 40281
-        },
-        {
-          "word": "o",
-          "startMs": 40579,
-          "endMs": 40756
-        },
-        {
-          "word": "sayının",
-          "startMs": 40756,
-          "endMs": 41285
-        },
-        {
-          "word": "Çarpanı",
-          "startMs": 41285,
-          "endMs": 41814
-        },
-        {
-          "word": "diyoruz.",
-          "startMs": 42048,
-          "endMs": 42388
-        }
-      ],
-      "keyframes": [
-        {
-          "atMs": 29961,
-          "op": "GROUP_MARBLES",
-          "hook": "groupBy5",
-          "params": {
-            "total": 12,
-            "groupSize": 5,
-            "groups": 2,
-            "remainder": 2,
-            "highlightRemainder": "rose",
-            "equation": "12 ÷ 5 = 2 (Kalan 2 ✗)"
-          }
-        },
-        {
-          "atMs": 36653,
-          "op": "SHOW_CALLOUT",
-          "hook": "showConceptCallout",
-          "params": {
-            "kind": "concept",
-            "badge": "ÇARPAN (= BÖLEN)",
-            "text": "2 ve 3 sayısı 12'yi kalansız böldüğü için 12'nin çarpanıdır. 5 ise çarpanı değildir."
-          }
-        }
-      ]
-    },
-    {
-      "id": "cue-04",
-      "chapterId": "ch-2",
-      "startMs": 43846,
-      "endMs": 59911,
-      "pauseAfterMs": 750,
-      "text": "Şimdi en çok karıştırılan ikiliyi, Çarpan ile Kat farkını 6 sayısıyla yan yana görelim. 6'yı kalansız bölen sayılar hangileri? 1, 2, 3 ve 6. Bunlar 6'nın içindeki küçük parçalardır, yani 6'nın çarpanlarıdır.",
-      "markedText": "Şimdi en çok karıştırılan ikiliyi, Çarpan ile Kat farkını 6 sayısıyla yan yana görelim. 6'yı kalansız bölen sayılar hangileri? {@showFactorTree} 1, 2, 3 ve 6. Bunlar 6'nın içindeki küçük parçalardır, yani 6'nın çarpanlarıdır.",
-      "words": [
-        {
-          "word": "Şimdi",
-          "startMs": 44271,
-          "endMs": 44516
-        },
-        {
-          "word": "en",
-          "startMs": 44803,
-          "endMs": 44956
-        },
-        {
-          "word": "çok",
-          "startMs": 44956,
-          "endMs": 45111
-        },
-        {
-          "word": "karıştırılan",
-          "startMs": 45111,
-          "endMs": 45878
-        },
-        {
-          "word": "ikiliyi,",
-          "startMs": 46080,
-          "endMs": 46452
-        },
-        {
-          "word": "Çarpan",
-          "startMs": 46814,
-          "endMs": 47019
-        },
-        {
-          "word": "ile",
-          "startMs": 47019,
-          "endMs": 47224
-        },
-        {
-          "word": "Kat",
-          "startMs": 47224,
-          "endMs": 47326
-        },
-        {
-          "word": "farkını",
-          "startMs": 47326,
-          "endMs": 47633
-        },
-        {
-          "word": "6",
-          "startMs": 48006,
-          "endMs": 48165
-        },
-        {
-          "word": "sayısıyla",
-          "startMs": 48421,
-          "endMs": 49117
-        },
-        {
-          "word": "yan",
-          "startMs": 49117,
-          "endMs": 49290
-        },
-        {
-          "word": "yana",
-          "startMs": 49290,
-          "endMs": 49638
-        },
-        {
-          "word": "görelim.",
-          "startMs": 49638,
-          "endMs": 50368
-        },
-        {
-          "word": "6'yı",
-          "startMs": 51506,
-          "endMs": 51871
-        },
-        {
-          "word": "kalansız",
-          "startMs": 51871,
-          "endMs": 52235
-        },
-        {
-          "word": "bölen",
-          "startMs": 52235,
-          "endMs": 52479
-        },
-        {
-          "word": "sayılar",
-          "startMs": 52479,
-          "endMs": 52842
-        },
-        {
-          "word": "hangileri?",
-          "startMs": 52842,
-          "endMs": 53474
-        },
-        {
-          "word": "1,",
-          "startMs": 54113,
-          "endMs": 54475
-        },
-        {
-          "word": "2,",
-          "startMs": 55028,
-          "endMs": 55422
-        },
-        {
-          "word": "3",
-          "startMs": 55900,
-          "endMs": 56017
-        },
-        {
-          "word": "ve",
-          "startMs": 56517,
-          "endMs": 56626
-        },
-        {
-          "word": "6.",
-          "startMs": 56626,
-          "endMs": 56975
-        },
-        {
-          "word": "Bunlar",
-          "startMs": 57709,
-          "endMs": 57854
-        },
-        {
-          "word": "6'nın",
-          "startMs": 57854,
-          "endMs": 58071
-        },
-        {
-          "word": "içindeki",
-          "startMs": 58071,
-          "endMs": 58359
-        },
-        {
-          "word": "küçük",
-          "startMs": 58359,
-          "endMs": 58504
-        },
-        {
-          "word": "parçalardır,",
-          "startMs": 58504,
-          "endMs": 58836
-        },
-        {
-          "word": "yani",
-          "startMs": 58836,
-          "endMs": 58980
-        },
-        {
-          "word": "6'nın",
-          "startMs": 58980,
-          "endMs": 59198
-        },
-        {
-          "word": "çarpanlarıdır.",
-          "startMs": 59198,
-          "endMs": 59645
-        }
-      ],
-      "keyframes": [
-        {
-          "atMs": 43846,
-          "op": "SET_STAGE",
-          "params": {
-            "layout": "factor-vs-multiple",
-            "title": "Çarpan (Bölen) ile Kat Farkı",
-            "subtitle": "Parçalar mı, yükselen kule mi?",
-            "subject": 6
-          }
-        },
-        {
-          "atMs": 54113,
-          "op": "SHOW_FACTOR_TREE",
-          "hook": "showFactorTree",
-          "params": {
-            "number": 6,
-            "factors": [
-              1,
-              2,
-              3,
-              6
-            ],
-            "pairs": [
-              "1 × 6 = 6",
-              "2 × 3 = 6"
-            ],
-            "label": "Çarpanlar: Sayıyı bölen parçalar"
-          }
-        }
-      ]
-    },
-    {
-      "id": "cue-05",
-      "chapterId": "ch-2",
-      "startMs": 60709,
-      "endMs": 76860,
-      "pauseAfterMs": 850,
-      "text": "Peki 6'yı birer, ikişer, üçer katlayarak yukarı doğru büyütürsek? 6, 12, 18, 24 diye yükselen bu kuledeki sayılara ise 6'nın Katları deriz. Unutma: Çarpan böler ve küçültür, kat ise çarpar ve büyütür!",
-      "markedText": "Peki 6'yı {@buildTower} birer, ikişer, üçer katlayarak yukarı doğru büyütürsek? 6, 12, 18, 24 diye yükselen bu kuledeki sayılara ise 6'nın Katları deriz. {@highlightCompare} Unutma: Çarpan böler ve küçültür, kat ise çarpar ve büyütür!",
-      "words": [
-        {
-          "word": "Peki",
-          "startMs": 60858,
-          "endMs": 61208
-        },
-        {
-          "word": "6'yı",
-          "startMs": 61208,
-          "endMs": 61733
-        },
-        {
-          "word": "birer,",
-          "startMs": 61733,
-          "endMs": 62188
-        },
-        {
-          "word": "ikişer,",
-          "startMs": 63082,
-          "endMs": 63625
-        },
-        {
-          "word": "üçer",
-          "startMs": 63625,
-          "endMs": 63926
-        },
-        {
-          "word": "katlayarak",
-          "startMs": 63926,
-          "endMs": 64529
-        },
-        {
-          "word": "yukarı",
-          "startMs": 64784,
-          "endMs": 65274
-        },
-        {
-          "word": "doğru",
-          "startMs": 65540,
-          "endMs": 65812
-        },
-        {
-          "word": "büyütürsek?",
-          "startMs": 65812,
-          "endMs": 66519
-        },
-        {
-          "word": "6,",
-          "startMs": 66774,
-          "endMs": 67203
-        },
-        {
-          "word": "12,",
-          "startMs": 67203,
-          "endMs": 67795
-        },
-        {
-          "word": "18,",
-          "startMs": 68593,
-          "endMs": 69157
-        },
-        {
-          "word": "24",
-          "startMs": 69391,
-          "endMs": 69891
-        },
-        {
-          "word": "diye",
-          "startMs": 70232,
-          "endMs": 70474
-        },
-        {
-          "word": "yükselen",
-          "startMs": 70474,
-          "endMs": 70838
-        },
-        {
-          "word": "bu",
-          "startMs": 71083,
-          "endMs": 71213
-        },
-        {
-          "word": "kuledeki",
-          "startMs": 71213,
-          "endMs": 71733
-        },
-        {
-          "word": "sayılara",
-          "startMs": 71733,
-          "endMs": 72253
-        },
-        {
-          "word": "ise",
-          "startMs": 72551,
-          "endMs": 72795
-        },
-        {
-          "word": "6'nın",
-          "startMs": 72795,
-          "endMs": 73159
-        },
-        {
-          "word": "Katları",
-          "startMs": 73159,
-          "endMs": 73524
-        },
-        {
-          "word": "deriz.",
-          "startMs": 73524,
-          "endMs": 73913
-        },
-        {
-          "word": "Unutma:",
-          "startMs": 74232,
-          "endMs": 74525
-        },
-        {
-          "word": "Çarpan",
-          "startMs": 74525,
-          "endMs": 74688
-        },
-        {
-          "word": "böler",
-          "startMs": 74688,
-          "endMs": 74849
-        },
-        {
-          "word": "ve",
-          "startMs": 74849,
-          "endMs": 74931
-        },
-        {
-          "word": "küçültür,",
-          "startMs": 74931,
-          "endMs": 75224
-        },
-        {
-          "word": "kat",
-          "startMs": 75224,
-          "endMs": 75305
-        },
-        {
-          "word": "ise",
-          "startMs": 75305,
-          "endMs": 75468
-        },
-        {
-          "word": "çarpar",
-          "startMs": 75468,
-          "endMs": 75630
-        },
-        {
-          "word": "ve",
-          "startMs": 75630,
-          "endMs": 75711
-        },
-        {
-          "word": "büyütür!",
-          "startMs": 76318,
-          "endMs": 76669
-        }
-      ],
-      "keyframes": [
-        {
-          "atMs": 61733,
-          "op": "BUILD_MULTIPLE_TOWER",
-          "hook": "buildTower",
-          "params": {
-            "base": 6,
-            "multiples": [
-              {
-                "step": 1,
-                "value": 6,
-                "atMs": 66774
-              },
-              {
-                "step": 2,
-                "value": 12,
-                "atMs": 67203
-              },
-              {
-                "step": 3,
-                "value": 18,
-                "atMs": 68593
-              },
-              {
-                "step": 4,
-                "value": 24,
-                "atMs": 69391
-              }
-            ],
-            "label": "Katlar: Katlanarak büyüyen kule"
-          }
-        },
-        {
-          "atMs": 74232,
-          "op": "HIGHLIGHT_COMPARISON",
-          "hook": "highlightCompare",
-          "params": {
-            "leftRule": "Çarpan ≤ Sayı (1, 2, 3, 6)",
-            "rightRule": "Kat ≥ Sayı (6, 12, 18, 24...)"
-          }
-        }
-      ]
-    },
-    {
-      "id": "cue-06",
-      "chapterId": "ch-3",
-      "startMs": 77765,
-      "endMs": 100789,
-      "pauseAfterMs": 750,
-      "text": "Peki büyük bir sayıyı uzun uzun bölmeden nasıl çözeceğiz? İlk ekibimiz Son Basamak Dedektifleri: 2, 5 ve 10 kuralları! Bu üç kuralda sayının tamamına değil, büyüteçle sadece en sağdaki birler basamağına bakarız. 24 sayısına bakalım: Son rakamı 4, yani çift! O halde 24 sayısı 2'ye tam bölünür.",
-      "markedText": "Peki büyük bir sayıyı uzun uzun bölmeden nasıl çözeceğiz? İlk ekibimiz Son Basamak Dedektifleri: 2, 5 ve 10 kuralları! Bu üç kuralda sayının tamamına değil, büyüteçle sadece en sağdaki birler basamağına bakarız. {@inspect24} 24 sayısına bakalım: {@focusOnes} Son rakamı 4, yani çift! {@stamp24} O halde 24 sayısı 2'ye tam bölünür.",
-      "words": [
-        {
-          "word": "Peki",
-          "startMs": 77871,
-          "endMs": 78040
-        },
-        {
-          "word": "büyük",
-          "startMs": 78040,
-          "endMs": 78210
-        },
-        {
-          "word": "bir",
-          "startMs": 78210,
-          "endMs": 78296
-        },
-        {
-          "word": "sayıyı",
-          "startMs": 78296,
-          "endMs": 78550
-        },
-        {
-          "word": "uzun",
-          "startMs": 78550,
-          "endMs": 78719
-        },
-        {
-          "word": "uzun",
-          "startMs": 78719,
-          "endMs": 78889
-        },
-        {
-          "word": "bölmeden",
-          "startMs": 78889,
-          "endMs": 79144
-        },
-        {
-          "word": "nasıl",
-          "startMs": 79144,
-          "endMs": 79313
-        },
-        {
-          "word": "çözeceğiz?",
-          "startMs": 79313,
-          "endMs": 79754
-        },
-        {
-          "word": "İlk",
-          "startMs": 80137,
-          "endMs": 80268
-        },
-        {
-          "word": "ekibimiz",
-          "startMs": 80268,
-          "endMs": 80793
-        },
-        {
-          "word": "Son",
-          "startMs": 80793,
-          "endMs": 80925
-        },
-        {
-          "word": "Basamak",
-          "startMs": 80925,
-          "endMs": 81318
-        },
-        {
-          "word": "Dedektifleri:",
-          "startMs": 81318,
-          "endMs": 82052
-        },
-        {
-          "word": "2,",
-          "startMs": 82914,
-          "endMs": 83180
-        },
-        {
-          "word": "5",
-          "startMs": 83478,
-          "endMs": 83575
-        },
-        {
-          "word": "ve",
-          "startMs": 83575,
-          "endMs": 83673
-        },
-        {
-          "word": "10",
-          "startMs": 83673,
-          "endMs": 83770
-        },
-        {
-          "word": "kuralları!",
-          "startMs": 83770,
-          "endMs": 84276
-        },
-        {
-          "word": "Bu",
-          "startMs": 84542,
-          "endMs": 84779
-        },
-        {
-          "word": "üç",
-          "startMs": 84779,
-          "endMs": 85015
-        },
-        {
-          "word": "kuralda",
-          "startMs": 85015,
-          "endMs": 85726
-        },
-        {
-          "word": "sayının",
-          "startMs": 85726,
-          "endMs": 86436
-        },
-        {
-          "word": "tamamına",
-          "startMs": 87234,
-          "endMs": 87698
-        },
-        {
-          "word": "değil,",
-          "startMs": 87698,
-          "endMs": 88000
-        },
-        {
-          "word": "büyüteçle",
-          "startMs": 88191,
-          "endMs": 88835
-        },
-        {
-          "word": "sadece",
-          "startMs": 88835,
-          "endMs": 89318
-        },
-        {
-          "word": "en",
-          "startMs": 89318,
-          "endMs": 89479
-        },
-        {
-          "word": "sağdaki",
-          "startMs": 90064,
-          "endMs": 90458
-        },
-        {
-          "word": "birler",
-          "startMs": 90873,
-          "endMs": 91256
-        },
-        {
-          "word": "basamağına",
-          "startMs": 91500,
-          "endMs": 92027
-        },
-        {
-          "word": "bakarız.",
-          "startMs": 92027,
-          "endMs": 92469
-        },
-        {
-          "word": "24",
-          "startMs": 93075,
-          "endMs": 93671
-        },
-        {
-          "word": "sayısına",
-          "startMs": 93671,
-          "endMs": 94467
-        },
-        {
-          "word": "bakalım:",
-          "startMs": 94467,
-          "endMs": 95182
-        },
-        {
-          "word": "Son",
-          "startMs": 95480,
-          "endMs": 95663
-        },
-        {
-          "word": "rakamı",
-          "startMs": 95663,
-          "endMs": 96214
-        },
-        {
-          "word": "4,",
-          "startMs": 96214,
-          "endMs": 96507
-        },
-        {
-          "word": "yani",
-          "startMs": 96507,
-          "endMs": 96874
-        },
-        {
-          "word": "çift!",
-          "startMs": 96874,
-          "endMs": 97278
-        },
-        {
-          "word": "O",
-          "startMs": 97480,
-          "endMs": 97612
-        },
-        {
-          "word": "halde",
-          "startMs": 97612,
-          "endMs": 97877
-        },
-        {
-          "word": "24",
-          "startMs": 97877,
-          "endMs": 98275
-        },
-        {
-          "word": "sayısı",
-          "startMs": 98275,
-          "endMs": 98671
-        },
-        {
-          "word": "2'ye",
-          "startMs": 99150,
-          "endMs": 99544
-        },
-        {
-          "word": "tam",
-          "startMs": 99544,
-          "endMs": 99675
-        },
-        {
-          "word": "bölünür.",
-          "startMs": 99675,
-          "endMs": 100225
-        }
-      ],
-      "keyframes": [
-        {
-          "atMs": 77765,
-          "op": "SET_STAGE",
-          "params": {
-            "layout": "detective-last-digit",
-            "title": "Son Basamak Dedektifleri: 2, 5 ve 10",
-            "subtitle": "Büyüteçle sadece birler basamağına bak!",
-            "ruleBadges": [
-              "2 Kuralı: Çift (0,2,4,6,8)",
-              "5 Kuralı: 0 veya 5",
-              "10 Kuralı: Sonu 0"
-            ]
-          }
-        },
-        {
-          "atMs": 93075,
-          "op": "INSPECT_NUMBER",
-          "hook": "inspect24",
-          "params": {
-            "value": 24,
-            "digits": [
-              "2",
-              "4"
-            ],
-            "mode": "last-digit"
-          }
-        },
-        {
-          "atMs": 95480,
-          "op": "HIGHLIGHT_DIGIT",
-          "hook": "focusOnes",
-          "params": {
-            "target": "ones",
-            "digit": "4",
-            "color": "cyan",
-            "magnifyingGlass": true,
-            "dimOthers": true
-          }
-        },
-        {
-          "atMs": 97480,
-          "op": "STAMP_VERDICT",
-          "hook": "stamp24",
-          "params": {
-            "subject": 24,
-            "verdicts": [
-              {
-                "rule": 2,
-                "pass": true,
-                "label": "✓ 2'ye Bölünür (Sonu 4 - Çift)"
-              },
-              {
-                "rule": 5,
-                "pass": false,
-                "label": "✗ 5'e Bölünmez (0 veya 5 değil)"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "id": "cue-07",
-      "chapterId": "ch-3",
-      "startMs": 101587,
-      "endMs": 117972,
-      "pauseAfterMs": 750,
-      "text": "Şimdi 5 kuralı için 15 sayısını inceleyelim. Son rakamı 0 veya 5 olan her sayı 5'e tam bölünür. 15'in son rakamı 5 olduğu için 5'e tam bölünür! Peki 15 sayısı 2'ye bölünür mü? Hayır, çünkü 5 tek sayıdır!",
-      "markedText": "Şimdi 5 kuralı için {@inspect15} 15 sayısını inceleyelim. Son rakamı 0 veya 5 olan her sayı 5'e tam bölünür. {@focusOnes15} 15'in son rakamı 5 olduğu için {@stamp15Pass} 5'e tam bölünür! Peki 15 sayısı 2'ye bölünür mü? {@stamp15Fail} Hayır, çünkü 5 tek sayıdır!",
-      "words": [
-        {
-          "word": "Şimdi",
-          "startMs": 101661,
-          "endMs": 101927
-        },
-        {
-          "word": "5",
-          "startMs": 101927,
-          "endMs": 102060
-        },
-        {
-          "word": "kuralı",
-          "startMs": 102060,
-          "endMs": 102459
-        },
-        {
-          "word": "için",
-          "startMs": 102757,
-          "endMs": 102991
-        },
-        {
-          "word": "15",
-          "startMs": 102991,
-          "endMs": 103225
-        },
-        {
-          "word": "sayısını",
-          "startMs": 103842,
-          "endMs": 104331
-        },
-        {
-          "word": "inceleyelim.",
-          "startMs": 104331,
-          "endMs": 105087
-        },
-        {
-          "word": "Son",
-          "startMs": 105396,
-          "endMs": 105531
-        },
-        {
-          "word": "rakamı",
-          "startMs": 105531,
-          "endMs": 105935
-        },
-        {
-          "word": "0",
-          "startMs": 105935,
-          "endMs": 106204
-        },
-        {
-          "word": "veya",
-          "startMs": 106981,
-          "endMs": 107247
-        },
-        {
-          "word": "5",
-          "startMs": 107449,
-          "endMs": 107611
-        },
-        {
-          "word": "olan",
-          "startMs": 107611,
-          "endMs": 107935
-        },
-        {
-          "word": "her",
-          "startMs": 107935,
-          "endMs": 108097
-        },
-        {
-          "word": "sayı",
-          "startMs": 108097,
-          "endMs": 108421
-        },
-        {
-          "word": "5'e",
-          "startMs": 108421,
-          "endMs": 108745
-        },
-        {
-          "word": "tam",
-          "startMs": 108745,
-          "endMs": 108907
-        },
-        {
-          "word": "bölünür.",
-          "startMs": 108907,
-          "endMs": 109588
-        },
-        {
-          "word": "15'in",
-          "startMs": 110386,
-          "endMs": 110946
-        },
-        {
-          "word": "son",
-          "startMs": 110946,
-          "endMs": 111134
-        },
-        {
-          "word": "rakamı",
-          "startMs": 111134,
-          "endMs": 111694
-        },
-        {
-          "word": "5",
-          "startMs": 111694,
-          "endMs": 111881
-        },
-        {
-          "word": "olduğu",
-          "startMs": 111881,
-          "endMs": 112442
-        },
-        {
-          "word": "için",
-          "startMs": 112442,
-          "endMs": 112817
-        },
-        {
-          "word": "5'e",
-          "startMs": 112817,
-          "endMs": 113190
-        },
-        {
-          "word": "tam",
-          "startMs": 113190,
-          "endMs": 113377
-        },
-        {
-          "word": "bölünür!",
-          "startMs": 113377,
-          "endMs": 114163
-        },
-        {
-          "word": "Peki",
-          "startMs": 114705,
-          "endMs": 114974
-        },
-        {
-          "word": "15",
-          "startMs": 114974,
-          "endMs": 115243
-        },
-        {
-          "word": "sayısı",
-          "startMs": 115243,
-          "endMs": 115646
-        },
-        {
-          "word": "2'ye",
-          "startMs": 115646,
-          "endMs": 116049
-        },
-        {
-          "word": "bölünür",
-          "startMs": 116049,
-          "endMs": 116452
-        },
-        {
-          "word": "mü?",
-          "startMs": 116452,
-          "endMs": 116748
-        },
-        {
-          "word": "Hayır,",
-          "startMs": 117067,
-          "endMs": 117213
-        },
-        {
-          "word": "çünkü",
-          "startMs": 117213,
-          "endMs": 117326
-        },
-        {
-          "word": "5",
-          "startMs": 117326,
-          "endMs": 117382
-        },
-        {
-          "word": "tek",
-          "startMs": 117382,
-          "endMs": 117437
-        },
-        {
-          "word": "sayıdır!",
-          "startMs": 117437,
-          "endMs": 117674
-        }
-      ],
-      "keyframes": [
-        {
-          "atMs": 102991,
-          "op": "INSPECT_NUMBER",
-          "hook": "inspect15",
-          "params": {
-            "value": 15,
-            "digits": [
-              "1",
-              "5"
-            ],
-            "mode": "last-digit"
-          }
-        },
-        {
-          "atMs": 110386,
-          "op": "HIGHLIGHT_DIGIT",
-          "hook": "focusOnes15",
-          "params": {
-            "target": "ones",
-            "digit": "5",
-            "color": "amber",
-            "magnifyingGlass": true,
-            "dimOthers": true
-          }
-        },
-        {
-          "atMs": 112817,
-          "op": "STAMP_VERDICT",
-          "hook": "stamp15Pass",
-          "params": {
-            "subject": 15,
-            "verdicts": [
-              {
-                "rule": 5,
-                "pass": true,
-                "label": "✓ 5'e Bölünür (Sonu 5)"
-              }
-            ]
-          }
-        },
-        {
-          "atMs": 117067,
-          "op": "STAMP_VERDICT",
-          "hook": "stamp15Fail",
-          "params": {
-            "subject": 15,
-            "verdicts": [
-              {
-                "rule": 5,
-                "pass": true,
-                "label": "✓ 5'e Bölünür (Sonu 5)"
-              },
-              {
-                "rule": 2,
-                "pass": false,
-                "label": "✗ 2'ye Bölünmez (5 Tek Sayı)"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "id": "cue-08",
-      "chapterId": "ch-3",
-      "startMs": 118770,
-      "endMs": 135495,
-      "pauseAfterMs": 850,
-      "text": "10 kuralı ise en kolayı! Bir sayının son rakamı 0 ise 10'a tam bölünür. Bak, 30 sayısının sonu 0. Sıfır hem çift sayıdır, hem 5 kuralına uyar, hem de 10 kuralına! Yani 30 sayısı 2'ye, 5'e ve 10'a aynı anda tam bölünür!",
-      "markedText": "10 kuralı ise en kolayı! Bir sayının son rakamı 0 ise 10'a tam bölünür. {@inspect30} Bak, 30 sayısının {@focusOnes30} sonu 0. Sıfır hem çift sayıdır, hem 5 kuralına uyar, hem de 10 kuralına! {@stamp30} Yani 30 sayısı 2'ye, 5'e ve 10'a aynı anda tam bölünür!",
-      "words": [
-        {
-          "word": "10",
-          "startMs": 119259,
-          "endMs": 119430
-        },
-        {
-          "word": "kuralı",
-          "startMs": 119430,
-          "endMs": 119943
-        },
-        {
-          "word": "ise",
-          "startMs": 119943,
-          "endMs": 120285
-        },
-        {
-          "word": "en",
-          "startMs": 120285,
-          "endMs": 120456
-        },
-        {
-          "word": "kolayı!",
-          "startMs": 120456,
-          "endMs": 121174
-        },
-        {
-          "word": "Bir",
-          "startMs": 121908,
-          "endMs": 122089
-        },
-        {
-          "word": "sayının",
-          "startMs": 122366,
-          "endMs": 122714
-        },
-        {
-          "word": "son",
-          "startMs": 122714,
-          "endMs": 122830
-        },
-        {
-          "word": "rakamı",
-          "startMs": 122830,
-          "endMs": 123176
-        },
-        {
-          "word": "0",
-          "startMs": 123176,
-          "endMs": 123408
-        },
-        {
-          "word": "ise",
-          "startMs": 124281,
-          "endMs": 124533
-        },
-        {
-          "word": "10'a",
-          "startMs": 124533,
-          "endMs": 124785
-        },
-        {
-          "word": "tam",
-          "startMs": 124785,
-          "endMs": 124911
-        },
-        {
-          "word": "bölünür.",
-          "startMs": 124911,
-          "endMs": 125441
-        },
-        {
-          "word": "Bak,",
-          "startMs": 125951,
-          "endMs": 126173
-        },
-        {
-          "word": "30",
-          "startMs": 126173,
-          "endMs": 126448
-        },
-        {
-          "word": "sayısının",
-          "startMs": 126448,
-          "endMs": 127000
-        },
-        {
-          "word": "sonu",
-          "startMs": 127000,
-          "endMs": 127276
-        },
-        {
-          "word": "0.",
-          "startMs": 127276,
-          "endMs": 127717
-        },
-        {
-          "word": "Sıfır",
-          "startMs": 128026,
-          "endMs": 128236
-        },
-        {
-          "word": "hem",
-          "startMs": 128236,
-          "endMs": 128341
-        },
-        {
-          "word": "çift",
-          "startMs": 128341,
-          "endMs": 128446
-        },
-        {
-          "word": "sayıdır,",
-          "startMs": 128446,
-          "endMs": 128824
-        },
-        {
-          "word": "hem",
-          "startMs": 129388,
-          "endMs": 129494
-        },
-        {
-          "word": "5",
-          "startMs": 129952,
-          "endMs": 130044
-        },
-        {
-          "word": "kuralına",
-          "startMs": 130044,
-          "endMs": 130417
-        },
-        {
-          "word": "uyar,",
-          "startMs": 130417,
-          "endMs": 130658
-        },
-        {
-          "word": "hem",
-          "startMs": 130658,
-          "endMs": 130751
-        },
-        {
-          "word": "de",
-          "startMs": 130751,
-          "endMs": 130843
-        },
-        {
-          "word": "10",
-          "startMs": 130843,
-          "endMs": 130937
-        },
-        {
-          "word": "kuralına!",
-          "startMs": 130937,
-          "endMs": 131420
-        },
-        {
-          "word": "Yani",
-          "startMs": 131931,
-          "endMs": 132266
-        },
-        {
-          "word": "30",
-          "startMs": 132266,
-          "endMs": 132601
-        },
-        {
-          "word": "sayısı",
-          "startMs": 132601,
-          "endMs": 133104
-        },
-        {
-          "word": "2'ye,",
-          "startMs": 133104,
-          "endMs": 133707
-        },
-        {
-          "word": "5'e",
-          "startMs": 133963,
-          "endMs": 134150
-        },
-        {
-          "word": "ve",
-          "startMs": 134150,
-          "endMs": 134244
-        },
-        {
-          "word": "10'a",
-          "startMs": 134244,
-          "endMs": 134431
-        },
-        {
-          "word": "aynı",
-          "startMs": 134431,
-          "endMs": 134618
-        },
-        {
-          "word": "anda",
-          "startMs": 134618,
-          "endMs": 134805
-        },
-        {
-          "word": "tam",
-          "startMs": 134805,
-          "endMs": 134899
-        },
-        {
-          "word": "bölünür!",
-          "startMs": 134899,
-          "endMs": 135293
-        }
-      ],
-      "keyframes": [
-        {
-          "atMs": 125951,
-          "op": "INSPECT_NUMBER",
-          "hook": "inspect30",
-          "params": {
-            "value": 30,
-            "digits": [
-              "3",
-              "0"
-            ],
-            "mode": "last-digit"
-          }
-        },
-        {
-          "atMs": 127000,
-          "op": "HIGHLIGHT_DIGIT",
-          "hook": "focusOnes30",
-          "params": {
-            "target": "ones",
-            "digit": "0",
-            "color": "emerald",
-            "magnifyingGlass": true,
-            "dimOthers": true
-          }
-        },
-        {
-          "atMs": 131931,
-          "op": "STAMP_VERDICT",
-          "hook": "stamp30",
-          "params": {
-            "subject": 30,
-            "verdicts": [
-              {
-                "rule": 2,
-                "pass": true,
-                "label": "✓ 2'ye Bölünür"
-              },
-              {
-                "rule": 5,
-                "pass": true,
-                "label": "✓ 5'e Bölünür"
-              },
-              {
-                "rule": 10,
-                "pass": true,
-                "label": "✓ 10'a Bölünür (Üçlü Şampiyon!)"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "id": "cue-09",
-      "chapterId": "ch-4",
-      "startMs": 136399,
-      "endMs": 159806,
-      "pauseAfterMs": 750,
-      "text": "Şimdi ikinci ekibimiz olan Rakam Toplama Dedektiflerine, yani 3 ve 9 kurallarına geçelim! Burada sadece son rakama bakmak büyük bir tuzaktır; bütün basamaklardaki rakamları toplarız. 24 sayısına geri dönelim: 2 artı 4 eşittir 6 eder. 6 sayısı 3'ün katı olduğu için 24 de 3'e tam bölünür!",
-      "markedText": "Şimdi ikinci ekibimiz olan Rakam Toplama Dedektiflerine, yani 3 ve 9 kurallarına geçelim! Burada sadece son rakama bakmak büyük bir tuzaktır; bütün basamaklardaki rakamları toplarız. {@inspectSum24} 24 sayısına geri dönelim: {@animateSum24} 2 artı 4 eşittir 6 eder. {@stampSum24} 6 sayısı 3'ün katı olduğu için 24 de 3'e tam bölünür!",
-      "words": [
-        {
-          "word": "Şimdi",
-          "startMs": 136495,
-          "endMs": 136722
-        },
-        {
-          "word": "ikinci",
-          "startMs": 136722,
-          "endMs": 137062
-        },
-        {
-          "word": "ekibimiz",
-          "startMs": 137062,
-          "endMs": 137516
-        },
-        {
-          "word": "olan",
-          "startMs": 138070,
-          "endMs": 138336
-        },
-        {
-          "word": "Rakam",
-          "startMs": 138336,
-          "endMs": 138602
-        },
-        {
-          "word": "Toplama",
-          "startMs": 138602,
-          "endMs": 139001
-        },
-        {
-          "word": "Dedektiflerine,",
-          "startMs": 139001,
-          "endMs": 139878
-        },
-        {
-          "word": "yani",
-          "startMs": 139878,
-          "endMs": 140144
-        },
-        {
-          "word": "3",
-          "startMs": 140144,
-          "endMs": 140277
-        },
-        {
-          "word": "ve",
-          "startMs": 140277,
-          "endMs": 140410
-        },
-        {
-          "word": "9",
-          "startMs": 140410,
-          "endMs": 140676
-        },
-        {
-          "word": "kurallarına",
-          "startMs": 140676,
-          "endMs": 141341
-        },
-        {
-          "word": "geçelim!",
-          "startMs": 141341,
-          "endMs": 141900
-        },
-        {
-          "word": "Burada",
-          "startMs": 143102,
-          "endMs": 143584
-        },
-        {
-          "word": "sadece",
-          "startMs": 143584,
-          "endMs": 144066
-        },
-        {
-          "word": "son",
-          "startMs": 144066,
-          "endMs": 144228
-        },
-        {
-          "word": "rakama",
-          "startMs": 144228,
-          "endMs": 144710
-        },
-        {
-          "word": "bakmak",
-          "startMs": 144710,
-          "endMs": 145031
-        },
-        {
-          "word": "büyük",
-          "startMs": 145031,
-          "endMs": 145353
-        },
-        {
-          "word": "bir",
-          "startMs": 145353,
-          "endMs": 145513
-        },
-        {
-          "word": "tuzaktır;",
-          "startMs": 145513,
-          "endMs": 146092
-        },
-        {
-          "word": "bütün",
-          "startMs": 146347,
-          "endMs": 146584
-        },
-        {
-          "word": "basamaklardaki",
-          "startMs": 146584,
-          "endMs": 147293
-        },
-        {
-          "word": "rakamları",
-          "startMs": 147293,
-          "endMs": 147766
-        },
-        {
-          "word": "toplarız.",
-          "startMs": 147766,
-          "endMs": 148262
-        },
-        {
-          "word": "24",
-          "startMs": 149337,
-          "endMs": 149924
-        },
-        {
-          "word": "sayısına",
-          "startMs": 149924,
-          "endMs": 150708
-        },
-        {
-          "word": "geri",
-          "startMs": 150708,
-          "endMs": 151100
-        },
-        {
-          "word": "dönelim:",
-          "startMs": 151100,
-          "endMs": 151805
-        },
-        {
-          "word": "2",
-          "startMs": 152412,
-          "endMs": 152740
-        },
-        {
-          "word": "artı",
-          "startMs": 152740,
-          "endMs": 153066
-        },
-        {
-          "word": "4",
-          "startMs": 153066,
-          "endMs": 153230
-        },
-        {
-          "word": "eşittir",
-          "startMs": 153230,
-          "endMs": 153721
-        },
-        {
-          "word": "6",
-          "startMs": 153721,
-          "endMs": 154048
-        },
-        {
-          "word": "eder.",
-          "startMs": 154048,
-          "endMs": 154572
-        },
-        {
-          "word": "6",
-          "startMs": 155465,
-          "endMs": 155746
-        },
-        {
-          "word": "sayısı",
-          "startMs": 155746,
-          "endMs": 156169
-        },
-        {
-          "word": "3'ün",
-          "startMs": 156169,
-          "endMs": 156451
-        },
-        {
-          "word": "katı",
-          "startMs": 156451,
-          "endMs": 156732
-        },
-        {
-          "word": "olduğu",
-          "startMs": 157423,
-          "endMs": 157837
-        },
-        {
-          "word": "için",
-          "startMs": 157837,
-          "endMs": 158113
-        },
-        {
-          "word": "24",
-          "startMs": 158113,
-          "endMs": 158526
-        },
-        {
-          "word": "de",
-          "startMs": 158526,
-          "endMs": 158665
-        },
-        {
-          "word": "3'e",
-          "startMs": 158665,
-          "endMs": 158940
-        },
-        {
-          "word": "tam",
-          "startMs": 158940,
-          "endMs": 159079
-        },
-        {
-          "word": "bölünür!",
-          "startMs": 159079,
-          "endMs": 159657
-        }
-      ],
-      "keyframes": [
-        {
-          "atMs": 136399,
-          "op": "SET_STAGE",
-          "params": {
-            "layout": "detective-digit-sum",
-            "title": "Rakam Toplama Dedektifleri: 3 ve 9",
-            "subtitle": "Tüm basamaklardaki rakamları topla!",
-            "ruleBadges": [
-              "3 Kuralı: Rakamlar Toplamı 3'ün Katı",
-              "9 Kuralı: Rakamlar Toplamı 9'un Katı"
-            ]
-          }
-        },
-        {
-          "atMs": 149337,
-          "op": "INSPECT_NUMBER",
-          "hook": "inspectSum24",
-          "params": {
-            "value": 24,
-            "digits": [
-              "2",
-              "4"
-            ],
-            "mode": "digit-sum"
-          }
-        },
-        {
-          "atMs": 152412,
-          "op": "ANIMATE_DIGIT_SUM",
-          "hook": "animateSum24",
-          "params": {
-            "digits": [
-              2,
-              4
-            ],
-            "expression": "2 + 4 = 6",
-            "sum": 6,
-            "divisor": 3
-          }
-        },
-        {
-          "atMs": 155465,
-          "op": "STAMP_VERDICT",
-          "hook": "stampSum24",
-          "params": {
-            "subject": 24,
-            "verdicts": [
-              {
-                "rule": 3,
-                "pass": true,
-                "label": "✓ 3'e Bölünür (6, 3'ün katıdır)"
-              },
-              {
-                "rule": 9,
-                "pass": false,
-                "label": "✗ 9'a Bölünmez (6, 9'un katı değil)"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "id": "cue-10",
-      "chapterId": "ch-4",
-      "startMs": 160604,
-      "endMs": 177351,
-      "pauseAfterMs": 850,
-      "text": "9 kuralı da 3 kuralının ağabeyidir: Rakamları topladığımızda sonuç 9 veya 9'un katıysa sayı 9'a tam bölünür. Örneğin 18 sayısında 1 artı 8 eşittir 9 eder! Toplam 9 olduğu için 18 sayısı hem 9'a hem de 3'e kalansız bölünür.",
-      "markedText": "9 kuralı da 3 kuralının ağabeyidir: Rakamları topladığımızda sonuç 9 veya 9'un katıysa sayı 9'a tam bölünür. {@inspect18} Örneğin 18 sayısında {@animateSum18} 1 artı 8 eşittir 9 eder! {@stamp18} Toplam 9 olduğu için 18 sayısı hem 9'a hem de 3'e kalansız bölünür.",
-      "words": [
-        {
-          "word": "9",
-          "startMs": 161190,
-          "endMs": 161408
-        },
-        {
-          "word": "kuralı",
-          "startMs": 161408,
-          "endMs": 161733
-        },
-        {
-          "word": "da",
-          "startMs": 161733,
-          "endMs": 161843
-        },
-        {
-          "word": "3",
-          "startMs": 161843,
-          "endMs": 161951
-        },
-        {
-          "word": "kuralının",
-          "startMs": 161951,
-          "endMs": 162386
-        },
-        {
-          "word": "ağabeyidir:",
-          "startMs": 162386,
-          "endMs": 162996
-        },
-        {
-          "word": "Rakamları",
-          "startMs": 162996,
-          "endMs": 163431
-        },
-        {
-          "word": "topladığımızda",
-          "startMs": 163431,
-          "endMs": 164085
-        },
-        {
-          "word": "sonuç",
-          "startMs": 164085,
-          "endMs": 164302
-        },
-        {
-          "word": "9",
-          "startMs": 164302,
-          "endMs": 164520
-        },
-        {
-          "word": "veya",
-          "startMs": 165467,
-          "endMs": 165688
-        },
-        {
-          "word": "9'un",
-          "startMs": 165688,
-          "endMs": 166019
-        },
-        {
-          "word": "katıysa",
-          "startMs": 166019,
-          "endMs": 166351
-        },
-        {
-          "word": "sayı",
-          "startMs": 166351,
-          "endMs": 166571
-        },
-        {
-          "word": "9'a",
-          "startMs": 166571,
-          "endMs": 166903
-        },
-        {
-          "word": "tam",
-          "startMs": 166903,
-          "endMs": 167014
-        },
-        {
-          "word": "bölünür.",
-          "startMs": 167014,
-          "endMs": 167477
-        },
-        {
-          "word": "Örneğin",
-          "startMs": 167892,
-          "endMs": 168465
-        },
-        {
-          "word": "18",
-          "startMs": 168465,
-          "endMs": 169037
-        },
-        {
-          "word": "sayısında",
-          "startMs": 169037,
-          "endMs": 169800
-        },
-        {
-          "word": "1",
-          "startMs": 169800,
-          "endMs": 169991
-        },
-        {
-          "word": "artı",
-          "startMs": 169991,
-          "endMs": 170373
-        },
-        {
-          "word": "8",
-          "startMs": 170373,
-          "endMs": 170754
-        },
-        {
-          "word": "eşittir",
-          "startMs": 170754,
-          "endMs": 171327
-        },
-        {
-          "word": "9",
-          "startMs": 171327,
-          "endMs": 171708
-        },
-        {
-          "word": "eder!",
-          "startMs": 171708,
-          "endMs": 172318
-        },
-        {
-          "word": "Toplam",
-          "startMs": 172957,
-          "endMs": 173243
-        },
-        {
-          "word": "9",
-          "startMs": 173243,
-          "endMs": 173529
-        },
-        {
-          "word": "olduğu",
-          "startMs": 173529,
-          "endMs": 173959
-        },
-        {
-          "word": "için",
-          "startMs": 173959,
-          "endMs": 174246
-        },
-        {
-          "word": "18",
-          "startMs": 174246,
-          "endMs": 174675
-        },
-        {
-          "word": "sayısı",
-          "startMs": 174675,
-          "endMs": 175105
-        },
-        {
-          "word": "hem",
-          "startMs": 175105,
-          "endMs": 175249
-        },
-        {
-          "word": "9'a",
-          "startMs": 175249,
-          "endMs": 175678
-        },
-        {
-          "word": "hem",
-          "startMs": 175678,
-          "endMs": 175821
-        },
-        {
-          "word": "de",
-          "startMs": 175821,
-          "endMs": 175965
-        },
-        {
-          "word": "3'e",
-          "startMs": 175965,
-          "endMs": 176251
-        },
-        {
-          "word": "kalansız",
-          "startMs": 176251,
-          "endMs": 176681
-        },
-        {
-          "word": "bölünür.",
-          "startMs": 177181,
-          "endMs": 177319
-        }
-      ],
-      "keyframes": [
-        {
-          "atMs": 167892,
-          "op": "INSPECT_NUMBER",
-          "hook": "inspect18",
-          "params": {
-            "value": 18,
-            "digits": [
-              "1",
-              "8"
-            ],
-            "mode": "digit-sum"
-          }
-        },
-        {
-          "atMs": 169800,
-          "op": "ANIMATE_DIGIT_SUM",
-          "hook": "animateSum18",
-          "params": {
-            "digits": [
-              1,
-              8
-            ],
-            "expression": "1 + 8 = 9",
-            "sum": 9,
-            "divisor": 9
-          }
-        },
-        {
-          "atMs": 172957,
-          "op": "STAMP_VERDICT",
-          "hook": "stamp18",
-          "params": {
-            "subject": 18,
-            "verdicts": [
-              {
-                "rule": 9,
-                "pass": true,
-                "label": "✓ 9'a Bölünür (1 + 8 = 9)"
-              },
-              {
-                "rule": 3,
-                "pass": true,
-                "label": "✓ 3'e de Bölünür"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "id": "cue-11",
-      "chapterId": "ch-5",
-      "startMs": 178255,
-      "endMs": 199428,
-      "pauseAfterMs": 650,
-      "text": "Altın İpucu! Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta: 2, 5 ve 10 için sadece son rakama bak; 3 ve 9 içinse son rakama aldanma, mutlaka bütün rakamları topla! Örneğin 14'ün sonu çifttir ama rakamları toplamı 5 olduğu için 3'e bölünmez.",
-      "markedText": "Altın İpucu! Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta: 2, 5 ve 10 için sadece son rakama bak; 3 ve 9 içinse son rakama aldanma, mutlaka bütün rakamları topla! {@showGoldTrap} Örneğin 14'ün sonu çifttir ama rakamları toplamı 5 olduğu için 3'e bölünmez.",
-      "words": [
-        {
-          "word": "Altın",
-          "startMs": 178298,
-          "endMs": 178551
-        },
-        {
-          "word": "İpucu!",
-          "startMs": 178551,
-          "endMs": 179084
-        },
-        {
-          "word": "Şimdi",
-          "startMs": 179084,
-          "endMs": 179337
-        },
-        {
-          "word": "sevgili",
-          "startMs": 179337,
-          "endMs": 179718
-        },
-        {
-          "word": "arkadaşım,",
-          "startMs": 179718,
-          "endMs": 180301
-        },
-        {
-          "word": "işte",
-          "startMs": 180301,
-          "endMs": 180556
-        },
-        {
-          "word": "tam",
-          "startMs": 180556,
-          "endMs": 180682
-        },
-        {
-          "word": "bu",
-          "startMs": 180682,
-          "endMs": 180809
-        },
-        {
-          "word": "noktada",
-          "startMs": 180809,
-          "endMs": 181189
-        },
-        {
-          "word": "dikkat",
-          "startMs": 181189,
-          "endMs": 181443
-        },
-        {
-          "word": "etmen",
-          "startMs": 181443,
-          "endMs": 181696
-        },
-        {
-          "word": "gereken",
-          "startMs": 181696,
-          "endMs": 182077
-        },
-        {
-          "word": "kilit",
-          "startMs": 182077,
-          "endMs": 182330
-        },
-        {
-          "word": "nokta:",
-          "startMs": 182330,
-          "endMs": 182660
-        },
-        {
-          "word": "2,",
-          "startMs": 183735,
-          "endMs": 184405
-        },
-        {
-          "word": "5",
-          "startMs": 185395,
-          "endMs": 185536
-        },
-        {
-          "word": "ve",
-          "startMs": 185536,
-          "endMs": 185676
-        },
-        {
-          "word": "10",
-          "startMs": 185676,
-          "endMs": 185818
-        },
-        {
-          "word": "için",
-          "startMs": 185818,
-          "endMs": 186100
-        },
-        {
-          "word": "sadece",
-          "startMs": 186100,
-          "endMs": 186523
-        },
-        {
-          "word": "son",
-          "startMs": 186523,
-          "endMs": 186665
-        },
-        {
-          "word": "rakama",
-          "startMs": 186665,
-          "endMs": 187087
-        },
-        {
-          "word": "bak;",
-          "startMs": 187087,
-          "endMs": 187314
-        },
-        {
-          "word": "3",
-          "startMs": 187314,
-          "endMs": 187454
-        },
-        {
-          "word": "ve",
-          "startMs": 187454,
-          "endMs": 187596
-        },
-        {
-          "word": "9",
-          "startMs": 187596,
-          "endMs": 187878
-        },
-        {
-          "word": "içinse",
-          "startMs": 187878,
-          "endMs": 188301
-        },
-        {
-          "word": "son",
-          "startMs": 188301,
-          "endMs": 188443
-        },
-        {
-          "word": "rakama",
-          "startMs": 188443,
-          "endMs": 188866
-        },
-        {
-          "word": "aldanma,",
-          "startMs": 188866,
-          "endMs": 189374
-        },
-        {
-          "word": "mutlaka",
-          "startMs": 189959,
-          "endMs": 190629
-        },
-        {
-          "word": "bütün",
-          "startMs": 190629,
-          "endMs": 191075
-        },
-        {
-          "word": "rakamları",
-          "startMs": 191075,
-          "endMs": 191969
-        },
-        {
-          "word": "topla!",
-          "startMs": 191969,
-          "endMs": 192683
-        },
-        {
-          "word": "Örneğin",
-          "startMs": 193257,
-          "endMs": 193787
-        },
-        {
-          "word": "14'ün",
-          "startMs": 193787,
-          "endMs": 194318
-        },
-        {
-          "word": "sonu",
-          "startMs": 194318,
-          "endMs": 194671
-        },
-        {
-          "word": "çifttir",
-          "startMs": 194671,
-          "endMs": 195024
-        },
-        {
-          "word": "ama",
-          "startMs": 195024,
-          "endMs": 195378
-        },
-        {
-          "word": "rakamları",
-          "startMs": 195378,
-          "endMs": 196084
-        },
-        {
-          "word": "toplamı",
-          "startMs": 196084,
-          "endMs": 196615
-        },
-        {
-          "word": "5",
-          "startMs": 196615,
-          "endMs": 196792
-        },
-        {
-          "word": "olduğu",
-          "startMs": 196792,
-          "endMs": 197321
-        },
-        {
-          "word": "için",
-          "startMs": 197885,
-          "endMs": 198248
-        },
-        {
-          "word": "3'e",
-          "startMs": 198248,
-          "endMs": 198612
-        },
-        {
-          "word": "bölünmez.",
-          "startMs": 198612,
-          "endMs": 199375
-        }
-      ],
-      "keyframes": [
-        {
-          "atMs": 178255,
-          "op": "SET_STAGE",
-          "params": {
-            "layout": "trap-vs-truth",
-            "title": "Altın İpucu: Son Rakam Tuzağına Düşme!",
-            "subtitle": "2, 5, 10 → Son Basamak · 3 ve 9 → Rakamlar Toplamı",
-            "subject": 14,
-            "digits": [
-              "1",
-              "4"
-            ],
-            "digitSum": 5,
-            "sumExpression": "1 + 4 = 5"
-          }
-        },
-        {
-          "atMs": 193257,
-          "op": "SHOW_CALLOUT",
-          "hook": "showGoldTrap",
-          "params": {
-            "kind": "gold",
-            "badge": "ALTIN İPUCU",
-            "text": "14 → Sonu 4 (2'ye bölünür ✓) AMA 1 + 4 = 5 (3'e bölünmez ✗)"
-          }
-        }
-      ]
-    },
-    {
-      "id": "cue-12",
-      "chapterId": "ch-5",
-      "startMs": 200120,
-      "endMs": 220420,
-      "pauseAfterMs": 0,
-      "text": "Bugün Neler Öğrendik? Çarpanın kalansız bölen, katın ise katlanarak büyüyen sayı olduğunu ve 5 dedektif kuralımızı öğrendik. Tebrikler çocuklar! Harika bir iş çıkardık. Şimdi sıra sende. Aldığın bu notları mikrofona kendi sözlerinle anlat.",
-      "markedText": "Bugün Neler Öğrendik? Çarpanın kalansız bölen, katın ise katlanarak büyüyen sayı olduğunu ve 5 dedektif kuralımızı öğrendik. Tebrikler çocuklar! Harika bir iş çıkardık. Şimdi sıra sende. Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "startMs": 7670,
+      "endMs": 11860,
+      "pauseAfterMs": 1250,
+      "text": "Bugün bir kesri bölüp ondalık yazacağız.",
+      "markedText": "Bugün bir kesri bölüp ondalık yazacağız.",
       "words": [
         {
           "word": "Bugün",
-          "startMs": 200184,
-          "endMs": 200926
-        },
-        {
-          "word": "Neler",
-          "startMs": 200926,
-          "endMs": 201668
-        },
-        {
-          "word": "Öğrendik?",
-          "startMs": 201668,
-          "endMs": 203226
-        },
-        {
-          "word": "Çarpanın",
-          "startMs": 204195,
-          "endMs": 204511
-        },
-        {
-          "word": "kalansız",
-          "startMs": 204511,
-          "endMs": 204826
-        },
-        {
-          "word": "bölen,",
-          "startMs": 204826,
-          "endMs": 205099
-        },
-        {
-          "word": "katın",
-          "startMs": 206184,
-          "endMs": 206567
-        },
-        {
-          "word": "ise",
-          "startMs": 206567,
-          "endMs": 206950
-        },
-        {
-          "word": "katlanarak",
-          "startMs": 206950,
-          "endMs": 207716
-        },
-        {
-          "word": "büyüyen",
-          "startMs": 207961,
-          "endMs": 208454
-        },
-        {
-          "word": "sayı",
-          "startMs": 208454,
-          "endMs": 208781
-        },
-        {
-          "word": "olduğunu",
-          "startMs": 208781,
-          "endMs": 209439
-        },
-        {
-          "word": "ve",
-          "startMs": 209439,
-          "endMs": 209603
-        },
-        {
-          "word": "5",
-          "startMs": 209603,
-          "endMs": 209767
-        },
-        {
-          "word": "dedektif",
-          "startMs": 209767,
-          "endMs": 210259
-        },
-        {
-          "word": "kuralımızı",
-          "startMs": 210536,
-          "endMs": 211548
-        },
-        {
-          "word": "öğrendik.",
-          "startMs": 211548,
-          "endMs": 212398
-        },
-        {
-          "word": "Tebrikler",
-          "startMs": 213483,
-          "endMs": 213843
-        },
-        {
-          "word": "çocuklar!",
-          "startMs": 213843,
-          "endMs": 214345
-        },
-        {
-          "word": "Harika",
-          "startMs": 214653,
-          "endMs": 214994
+          "startMs": 7670,
+          "endMs": 8140
         },
         {
           "word": "bir",
-          "startMs": 214994,
-          "endMs": 215107
+          "startMs": 8230,
+          "endMs": 8520
         },
         {
-          "word": "iş",
-          "startMs": 215107,
-          "endMs": 215220
+          "word": "kesri",
+          "startMs": 8650,
+          "endMs": 8910
         },
         {
-          "word": "çıkardık.",
-          "startMs": 215220,
-          "endMs": 215696
+          "word": "bölüp",
+          "startMs": 9080,
+          "endMs": 9250
         },
         {
-          "word": "Şimdi",
-          "startMs": 216185,
-          "endMs": 216416
+          "word": "ondalık",
+          "startMs": 9550,
+          "endMs": 9890
         },
         {
-          "word": "sıra",
-          "startMs": 216416,
-          "endMs": 216646
+          "word": "yazacağız.",
+          "startMs": 9990,
+          "endMs": 10610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 11860,
+      "endMs": 21360,
+      "pauseAfterMs": 970,
+      "text": "Okul kantininde yarım dilim 0,5 diye durur.",
+      "markedText": "Okul kantininde yarım dilim 0,5 diye durur.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 11860,
+          "endMs": 12130
         },
         {
-          "word": "sende.",
-          "startMs": 216646,
-          "endMs": 217015
+          "word": "kantininde",
+          "startMs": 12400,
+          "endMs": 13470
         },
         {
-          "word": "Aldığın",
-          "startMs": 217505,
-          "endMs": 217879
+          "word": "yarım",
+          "startMs": 13800,
+          "endMs": 14240
         },
         {
-          "word": "bu",
-          "startMs": 217879,
-          "endMs": 218004
+          "word": "dilim",
+          "startMs": 14530,
+          "endMs": 14700
         },
         {
-          "word": "notları",
-          "startMs": 218004,
-          "endMs": 218378
+          "word": "0,5",
+          "startMs": 15090,
+          "endMs": 16970
         },
         {
-          "word": "mikrofona",
-          "startMs": 218378,
-          "endMs": 218878
+          "word": "diye",
+          "startMs": 18000,
+          "endMs": 18630
         },
         {
-          "word": "kendi",
-          "startMs": 218878,
-          "endMs": 219127
+          "word": "durur.",
+          "startMs": 19370,
+          "endMs": 20390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 21360,
+      "endMs": 32500,
+      "pauseAfterMs": 1340,
+      "text": "Pay paydaya bölününce sayı ya biter ya da bir rakam halkası yeniden başlar.",
+      "markedText": "Pay paydaya bölününce sayı ya biter ya da bir rakam halkası yeniden başlar.",
+      "words": [
+        {
+          "word": "Pay",
+          "startMs": 21360,
+          "endMs": 21670
         },
         {
-          "word": "sözlerinle",
-          "startMs": 219127,
-          "endMs": 219627
+          "word": "paydaya",
+          "startMs": 21930,
+          "endMs": 23140
         },
         {
-          "word": "anlat.",
-          "startMs": 219627,
-          "endMs": 220026
+          "word": "bölününce",
+          "startMs": 23450,
+          "endMs": 23860
+        },
+        {
+          "word": "sayı",
+          "startMs": 24050,
+          "endMs": 24410
+        },
+        {
+          "word": "ya",
+          "startMs": 24500,
+          "endMs": 24900
+        },
+        {
+          "word": "biter",
+          "startMs": 25300,
+          "endMs": 25870
+        },
+        {
+          "word": "ya",
+          "startMs": 26950,
+          "endMs": 27210
+        },
+        {
+          "word": "da",
+          "startMs": 27490,
+          "endMs": 27640
+        },
+        {
+          "word": "bir",
+          "startMs": 27820,
+          "endMs": 28070
+        },
+        {
+          "word": "rakam",
+          "startMs": 28340,
+          "endMs": 28710
+        },
+        {
+          "word": "halkası",
+          "startMs": 28710,
+          "endMs": 29140
+        },
+        {
+          "word": "yeniden",
+          "startMs": 29510,
+          "endMs": 30050
+        },
+        {
+          "word": "başlar.",
+          "startMs": 30190,
+          "endMs": 31160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 32500,
+      "endMs": 39680,
+      "pauseAfterMs": 1220,
+      "text": "Bunu okul bahçesindeki sulama işinde de görürsün.",
+      "markedText": "Bunu okul bahçesindeki sulama işinde de görürsün.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 32500,
+          "endMs": 33140
+        },
+        {
+          "word": "okul",
+          "startMs": 33350,
+          "endMs": 33630
+        },
+        {
+          "word": "bahçesindeki",
+          "startMs": 34790,
+          "endMs": 35740
+        },
+        {
+          "word": "sulama",
+          "startMs": 35910,
+          "endMs": 36510
+        },
+        {
+          "word": "işinde",
+          "startMs": 36940,
+          "endMs": 37250
+        },
+        {
+          "word": "de",
+          "startMs": 37450,
+          "endMs": 37610
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 37650,
+          "endMs": 38460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 39680,
+      "endMs": 49410,
+      "pauseAfterMs": 1540,
+      "text": "Kutuyu iki eşit paya bölersen her pay 0,5 olur ve su biter.",
+      "markedText": "Kutuyu iki eşit paya bölersen her pay 0,5 olur ve su biter.",
+      "words": [
+        {
+          "word": "Kutuyu",
+          "startMs": 39680,
+          "endMs": 39990
+        },
+        {
+          "word": "iki",
+          "startMs": 40190,
+          "endMs": 40570
+        },
+        {
+          "word": "eşit",
+          "startMs": 40740,
+          "endMs": 40980
+        },
+        {
+          "word": "paya",
+          "startMs": 41410,
+          "endMs": 41750
+        },
+        {
+          "word": "bölersen",
+          "startMs": 41940,
+          "endMs": 42820
+        },
+        {
+          "word": "her",
+          "startMs": 43810,
+          "endMs": 44090
+        },
+        {
+          "word": "pay",
+          "startMs": 44220,
+          "endMs": 44310
+        },
+        {
+          "word": "0,5",
+          "startMs": 44380,
+          "endMs": 45450
+        },
+        {
+          "word": "olur",
+          "startMs": 45570,
+          "endMs": 46200
+        },
+        {
+          "word": "ve",
+          "startMs": 46560,
+          "endMs": 46720
+        },
+        {
+          "word": "su",
+          "startMs": 47040,
+          "endMs": 47270
+        },
+        {
+          "word": "biter.",
+          "startMs": 47520,
+          "endMs": 47870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 49410,
+      "endMs": 61120,
+      "pauseAfterMs": 2080,
+      "text": "Aynı kutuyu üç eşit paya bölersen her payda 3 rakamı devreder.",
+      "markedText": "Aynı kutuyu üç eşit paya bölersen her payda 3 rakamı devreder.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 49410,
+          "endMs": 49990
+        },
+        {
+          "word": "kutuyu",
+          "startMs": 50740,
+          "endMs": 51130
+        },
+        {
+          "word": "üç",
+          "startMs": 51680,
+          "endMs": 51790
+        },
+        {
+          "word": "eşit",
+          "startMs": 52130,
+          "endMs": 52440
+        },
+        {
+          "word": "paya",
+          "startMs": 52510,
+          "endMs": 53270
+        },
+        {
+          "word": "bölersen",
+          "startMs": 54250,
+          "endMs": 55010
+        },
+        {
+          "word": "her",
+          "startMs": 55340,
+          "endMs": 55530
+        },
+        {
+          "word": "payda",
+          "startMs": 55920,
+          "endMs": 56480
+        },
+        {
+          "word": "3",
+          "startMs": 56650,
+          "endMs": 56750
+        },
+        {
+          "word": "rakamı",
+          "startMs": 57500,
+          "endMs": 58020
+        },
+        {
+          "word": "devreder.",
+          "startMs": 58160,
+          "endMs": 59040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-2",
+      "startMs": 61120,
+      "endMs": 70070,
+      "pauseAfterMs": 820,
+      "text": "Kesrin ondalık karşılığı, payın paydaya bölünmesidir.",
+      "markedText": "Kesrin ondalık karşılığı, payın paydaya bölünmesidir.",
+      "words": [
+        {
+          "word": "Kesrin",
+          "startMs": 61120,
+          "endMs": 61580
+        },
+        {
+          "word": "ondalık",
+          "startMs": 61670,
+          "endMs": 62980
+        },
+        {
+          "word": "karşılığı,",
+          "startMs": 64360,
+          "endMs": 64730
+        },
+        {
+          "word": "payın",
+          "startMs": 65910,
+          "endMs": 66530
+        },
+        {
+          "word": "paydaya",
+          "startMs": 66790,
+          "endMs": 67420
+        },
+        {
+          "word": "bölünmesidir.",
+          "startMs": 67820,
+          "endMs": 69250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-2",
+      "startMs": 70070,
+      "endMs": 77680,
+      "pauseAfterMs": 1320,
+      "text": "Bölüm bir yerde kalansız biterse ondalık sonludur.",
+      "markedText": "Bölüm bir yerde kalansız biterse ondalık sonludur.",
+      "words": [
+        {
+          "word": "Bölüm",
+          "startMs": 70070,
+          "endMs": 70420
+        },
+        {
+          "word": "bir",
+          "startMs": 70670,
+          "endMs": 70970
+        },
+        {
+          "word": "yerde",
+          "startMs": 71050,
+          "endMs": 71410
+        },
+        {
+          "word": "kalansız",
+          "startMs": 72730,
+          "endMs": 73120
+        },
+        {
+          "word": "biterse",
+          "startMs": 73180,
+          "endMs": 73690
+        },
+        {
+          "word": "ondalık",
+          "startMs": 74060,
+          "endMs": 75270
+        },
+        {
+          "word": "sonludur.",
+          "startMs": 75700,
+          "endMs": 76360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 77680,
+      "endMs": 87800,
+      "pauseAfterMs": 1810,
+      "text": "Kalan hiç sıfırlanmaz ve aynı halka dönerse ondalık devirlidir.",
+      "markedText": "Kalan hiç sıfırlanmaz ve aynı halka dönerse ondalık devirlidir.",
+      "words": [
+        {
+          "word": "Kalan",
+          "startMs": 77680,
+          "endMs": 78130
+        },
+        {
+          "word": "hiç",
+          "startMs": 78310,
+          "endMs": 78390
+        },
+        {
+          "word": "sıfırlanmaz",
+          "startMs": 78520,
+          "endMs": 79450
+        },
+        {
+          "word": "ve",
+          "startMs": 80250,
+          "endMs": 80360
+        },
+        {
+          "word": "aynı",
+          "startMs": 80440,
+          "endMs": 80700
+        },
+        {
+          "word": "halka",
+          "startMs": 80850,
+          "endMs": 81310
+        },
+        {
+          "word": "dönerse",
+          "startMs": 81650,
+          "endMs": 82490
+        },
+        {
+          "word": "ondalık",
+          "startMs": 83240,
+          "endMs": 84090
+        },
+        {
+          "word": "devirlidir.",
+          "startMs": 84330,
+          "endMs": 85990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 87800,
+      "endMs": 98990,
+      "pauseAfterMs": 1270,
+      "text": "Cetvelle ölçtüğün bir bölü iki metre 0,5 metredir.",
+      "markedText": "Cetvelle ölçtüğün bir bölü iki metre 0,5 metredir.",
+      "words": [
+        {
+          "word": "Cetvelle",
+          "startMs": 87800,
+          "endMs": 88710
+        },
+        {
+          "word": "ölçtüğün",
+          "startMs": 90200,
+          "endMs": 90850
+        },
+        {
+          "word": "bir",
+          "startMs": 91350,
+          "endMs": 91700
+        },
+        {
+          "word": "bölü",
+          "startMs": 91800,
+          "endMs": 92540
+        },
+        {
+          "word": "iki",
+          "startMs": 93520,
+          "endMs": 93890
+        },
+        {
+          "word": "metre",
+          "startMs": 93950,
+          "endMs": 94350
+        },
+        {
+          "word": "0,5",
+          "startMs": 94730,
+          "endMs": 95850
+        },
+        {
+          "word": "metredir.",
+          "startMs": 96140,
+          "endMs": 97720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 98990,
+      "endMs": 108130,
+      "pauseAfterMs": 1180,
+      "text": "Bir bölü üç metre ise 0,333 diye uzar ve 3 devreder.",
+      "markedText": "Bir bölü üç metre ise 0,333 diye uzar ve 3 devreder.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 98990,
+          "endMs": 99090
+        },
+        {
+          "word": "bölü",
+          "startMs": 99200,
+          "endMs": 99490
+        },
+        {
+          "word": "üç",
+          "startMs": 99620,
+          "endMs": 99790
+        },
+        {
+          "word": "metre",
+          "startMs": 99980,
+          "endMs": 100340
+        },
+        {
+          "word": "ise",
+          "startMs": 100680,
+          "endMs": 100980
+        },
+        {
+          "word": "0,333",
+          "startMs": 101080,
+          "endMs": 102500
+        },
+        {
+          "word": "diye",
+          "startMs": 103340,
+          "endMs": 103840
+        },
+        {
+          "word": "uzar",
+          "startMs": 104100,
+          "endMs": 104610
+        },
+        {
+          "word": "ve",
+          "startMs": 104690,
+          "endMs": 104860
+        },
+        {
+          "word": "3",
+          "startMs": 105250,
+          "endMs": 105510
+        },
+        {
+          "word": "devreder.",
+          "startMs": 105860,
+          "endMs": 106950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 108130,
+      "endMs": 122070,
+      "pauseAfterMs": 1400,
+      "text": "1 bölü 2 işleminde 10'un içine 2 tam 5 kez girer ve kalan 0 olur.",
+      "markedText": "1 bölü 2 işleminde 10'un içine 2 tam 5 kez girer ve kalan 0 olur.",
+      "words": [
+        {
+          "word": "1",
+          "startMs": 108130,
+          "endMs": 108410
+        },
+        {
+          "word": "bölü",
+          "startMs": 108590,
+          "endMs": 109020
+        },
+        {
+          "word": "2",
+          "startMs": 109150,
+          "endMs": 109950
+        },
+        {
+          "word": "işleminde",
+          "startMs": 110750,
+          "endMs": 111520
+        },
+        {
+          "word": "10'un",
+          "startMs": 111690,
+          "endMs": 112150
+        },
+        {
+          "word": "içine",
+          "startMs": 112610,
+          "endMs": 113210
+        },
+        {
+          "word": "2",
+          "startMs": 114180,
+          "endMs": 114510
+        },
+        {
+          "word": "tam",
+          "startMs": 114920,
+          "endMs": 115190
+        },
+        {
+          "word": "5",
+          "startMs": 115350,
+          "endMs": 115660
+        },
+        {
+          "word": "kez",
+          "startMs": 115730,
+          "endMs": 115860
+        },
+        {
+          "word": "girer",
+          "startMs": 116030,
+          "endMs": 116940
+        },
+        {
+          "word": "ve",
+          "startMs": 117700,
+          "endMs": 117960
+        },
+        {
+          "word": "kalan",
+          "startMs": 118290,
+          "endMs": 118890
+        },
+        {
+          "word": "0",
+          "startMs": 119030,
+          "endMs": 119540
+        },
+        {
+          "word": "olur.",
+          "startMs": 119750,
+          "endMs": 120670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 122070,
+      "endMs": 125200,
+      "pauseAfterMs": 670,
+      "text": "Sonuç 0,5'tir.",
+      "markedText": "Sonuç 0,5'tir.",
+      "words": [
+        {
+          "word": "Sonuç",
+          "startMs": 122070,
+          "endMs": 122440
+        },
+        {
+          "word": "0,5'tir.",
+          "startMs": 122550,
+          "endMs": 124530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 125200,
+      "endMs": 135400,
+      "pauseAfterMs": 970,
+      "text": "1 bölü 4 ise 0,25 eder; iki basamakta biter.",
+      "markedText": "1 bölü 4 ise 0,25 eder; iki basamakta biter.",
+      "words": [
+        {
+          "word": "1",
+          "startMs": 125200,
+          "endMs": 125740
+        },
+        {
+          "word": "bölü",
+          "startMs": 125830,
+          "endMs": 126820
+        },
+        {
+          "word": "4",
+          "startMs": 127220,
+          "endMs": 127500
+        },
+        {
+          "word": "ise",
+          "startMs": 127500,
+          "endMs": 128170
+        },
+        {
+          "word": "0,25",
+          "startMs": 128480,
+          "endMs": 129700
+        },
+        {
+          "word": "eder;",
+          "startMs": 130490,
+          "endMs": 131290
+        },
+        {
+          "word": "iki",
+          "startMs": 132100,
+          "endMs": 132300
+        },
+        {
+          "word": "basamakta",
+          "startMs": 132430,
+          "endMs": 133510
+        },
+        {
+          "word": "biter.",
+          "startMs": 133690,
+          "endMs": 134430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 135400,
+      "endMs": 142980,
+      "pauseAfterMs": 1080,
+      "text": "1 bölü 3'te kalan 0 olmaz.",
+      "markedText": "1 bölü 3'te kalan 0 olmaz.",
+      "words": [
+        {
+          "word": "1",
+          "startMs": 135400,
+          "endMs": 136050
+        },
+        {
+          "word": "bölü",
+          "startMs": 136800,
+          "endMs": 137680
+        },
+        {
+          "word": "3'te",
+          "startMs": 138670,
+          "endMs": 139240
+        },
+        {
+          "word": "kalan",
+          "startMs": 139300,
+          "endMs": 139820
+        },
+        {
+          "word": "0",
+          "startMs": 140030,
+          "endMs": 140770
+        },
+        {
+          "word": "olmaz.",
+          "startMs": 140980,
+          "endMs": 141900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 142980,
+      "endMs": 149820,
+      "pauseAfterMs": 1070,
+      "text": "0'dan sonra 3 rakamı tekrar eder.",
+      "markedText": "0'dan sonra 3 rakamı tekrar eder.",
+      "words": [
+        {
+          "word": "0'dan",
+          "startMs": 142980,
+          "endMs": 143930
+        },
+        {
+          "word": "sonra",
+          "startMs": 143990,
+          "endMs": 144880
+        },
+        {
+          "word": "3",
+          "startMs": 145830,
+          "endMs": 146040
+        },
+        {
+          "word": "rakamı",
+          "startMs": 146180,
+          "endMs": 147010
+        },
+        {
+          "word": "tekrar",
+          "startMs": 147140,
+          "endMs": 147840
+        },
+        {
+          "word": "eder.",
+          "startMs": 148130,
+          "endMs": 148750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 149820,
+      "endMs": 156920,
+      "pauseAfterMs": 910,
+      "text": "Bunu 0,3'ün üzerine bir çizgiyle gösteririz.",
+      "markedText": "Bunu 0,3'ün üzerine bir çizgiyle gösteririz.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 149820,
+          "endMs": 150140
+        },
+        {
+          "word": "0,3'ün",
+          "startMs": 150270,
+          "endMs": 151480
+        },
+        {
+          "word": "üzerine",
+          "startMs": 152390,
+          "endMs": 153340
+        },
+        {
+          "word": "bir",
+          "startMs": 153750,
+          "endMs": 154180
+        },
+        {
+          "word": "çizgiyle",
+          "startMs": 154240,
+          "endMs": 154950
+        },
+        {
+          "word": "gösteririz.",
+          "startMs": 155170,
+          "endMs": 156010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 156920,
+      "endMs": 160090,
+      "pauseAfterMs": 900,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 156920,
+          "endMs": 158330
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 158600,
+          "endMs": 159190
         }
       ],
       "keyframes": [
         {
-          "atMs": 200120,
-          "op": "SET_STAGE",
+          "atMs": 156920,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "konu-anlati",
           "params": {
-            "layout": "summary-board",
-            "title": "Özet Kartı ve Sıra Sende",
-            "subtitle": "5 Dedektif Kuralı Cebimizde!",
-            "cards": [
+            "heading": "Tuzaklara Düşme!",
+            "reset": true,
+            "rows": [
               {
-                "icon": "puzzle",
-                "title": "Çarpan & Kat",
-                "body": "Çarpan böler (1,2,3,6) · Kat büyütür (6,12,18,24)"
-              },
-              {
-                "icon": "search",
-                "title": "Son Basamak (2, 5, 10)",
-                "body": "2: Çift · 5: 0 veya 5 · 10: Sonu 0"
-              },
-              {
-                "icon": "plus",
-                "title": "Rakam Toplamı (3 ve 9)",
-                "body": "Rakamları topla → 3'ün veya 9'un katı mı?"
+                "title": "Birkaç basamak yazıp kesmek, devirli kesrin kendisi değildir.",
+                "body": "Birkaç basamak yazıp kesmek, devirli kesrin kendisi değildir.",
+                "tone": "trap"
               }
-            ],
-            "echoPrompt": "24 ve 30 sayılarının hangi kurallara uyduğunu kendi cümlenle anlat!"
+            ]
           }
         }
       ]
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 160090,
+      "endMs": 163480,
+      "pauseAfterMs": 830,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 160090,
+          "endMs": 161310
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 161670,
+          "endMs": 162650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 163480,
+      "endMs": 168560,
+      "pauseAfterMs": 440,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 163480,
+          "endMs": 163720
+        },
+        {
+          "word": "noktayı",
+          "startMs": 163840,
+          "endMs": 164760
+        },
+        {
+          "word": "sen",
+          "startMs": 165220,
+          "endMs": 165570
+        },
+        {
+          "word": "de",
+          "startMs": 165570,
+          "endMs": 166320
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 167130,
+          "endMs": 168120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 168560,
+      "endMs": 180490,
+      "pauseAfterMs": 250,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 168560,
+          "endMs": 169200
+        },
+        {
+          "word": "sevgili",
+          "startMs": 169200,
+          "endMs": 170160
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 170560,
+          "endMs": 172520
+        },
+        {
+          "word": "işte",
+          "startMs": 173320,
+          "endMs": 173670
+        },
+        {
+          "word": "tam",
+          "startMs": 173880,
+          "endMs": 174150
+        },
+        {
+          "word": "bu",
+          "startMs": 174260,
+          "endMs": 174330
+        },
+        {
+          "word": "noktada",
+          "startMs": 174330,
+          "endMs": 175050
+        },
+        {
+          "word": "dikkat",
+          "startMs": 175520,
+          "endMs": 175910
+        },
+        {
+          "word": "etmen",
+          "startMs": 176050,
+          "endMs": 176880
+        },
+        {
+          "word": "gereken",
+          "startMs": 177710,
+          "endMs": 178670
+        },
+        {
+          "word": "kilit",
+          "startMs": 179060,
+          "endMs": 179480
+        },
+        {
+          "word": "nokta.",
+          "startMs": 179540,
+          "endMs": 180240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 180490,
+      "endMs": 191950,
+      "pauseAfterMs": 880,
+      "text": "Birkaç basamak yazıp kesmek, devirli kesrin kendisi değildir.",
+      "markedText": "Birkaç basamak yazıp kesmek, devirli kesrin kendisi değildir.",
+      "words": [
+        {
+          "word": "Birkaç",
+          "startMs": 180490,
+          "endMs": 181430
+        },
+        {
+          "word": "basamak",
+          "startMs": 181660,
+          "endMs": 182890
+        },
+        {
+          "word": "yazıp",
+          "startMs": 183730,
+          "endMs": 184400
+        },
+        {
+          "word": "kesmek,",
+          "startMs": 184400,
+          "endMs": 184980
+        },
+        {
+          "word": "devirli",
+          "startMs": 185510,
+          "endMs": 186700
+        },
+        {
+          "word": "kesrin",
+          "startMs": 187490,
+          "endMs": 187890
+        },
+        {
+          "word": "kendisi",
+          "startMs": 188000,
+          "endMs": 188790
+        },
+        {
+          "word": "değildir.",
+          "startMs": 190180,
+          "endMs": 191070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 191950,
+      "endMs": 203960,
+      "pauseAfterMs": 880,
+      "text": "0,33 sayısı bir bölü üçten biraz küçüktür.",
+      "markedText": "0,33 sayısı bir bölü üçten biraz küçüktür.",
+      "words": [
+        {
+          "word": "0,33",
+          "startMs": 191950,
+          "endMs": 194700
+        },
+        {
+          "word": "sayısı",
+          "startMs": 195570,
+          "endMs": 196690
+        },
+        {
+          "word": "bir",
+          "startMs": 196880,
+          "endMs": 197170
+        },
+        {
+          "word": "bölü",
+          "startMs": 197370,
+          "endMs": 197950
+        },
+        {
+          "word": "üçten",
+          "startMs": 198100,
+          "endMs": 199090
+        },
+        {
+          "word": "biraz",
+          "startMs": 199910,
+          "endMs": 201160
+        },
+        {
+          "word": "küçüktür.",
+          "startMs": 201680,
+          "endMs": 203080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 203960,
+      "endMs": 210730,
+      "pauseAfterMs": 1150,
+      "text": "Sonlu ondalıkta kalan 0'dır.",
+      "markedText": "Sonlu ondalıkta kalan 0'dır.",
+      "words": [
+        {
+          "word": "Sonlu",
+          "startMs": 203960,
+          "endMs": 204480
+        },
+        {
+          "word": "ondalıkta",
+          "startMs": 205150,
+          "endMs": 206430
+        },
+        {
+          "word": "kalan",
+          "startMs": 207250,
+          "endMs": 207920
+        },
+        {
+          "word": "0'dır.",
+          "startMs": 207920,
+          "endMs": 209580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 210730,
+      "endMs": 216450,
+      "pauseAfterMs": 880,
+      "text": "Devirli ondalıkta aynı kalan döner.",
+      "markedText": "Devirli ondalıkta aynı kalan döner.",
+      "words": [
+        {
+          "word": "Devirli",
+          "startMs": 210730,
+          "endMs": 211960
+        },
+        {
+          "word": "ondalıkta",
+          "startMs": 212180,
+          "endMs": 213090
+        },
+        {
+          "word": "aynı",
+          "startMs": 213580,
+          "endMs": 214000
+        },
+        {
+          "word": "kalan",
+          "startMs": 214050,
+          "endMs": 214320
+        },
+        {
+          "word": "döner.",
+          "startMs": 214320,
+          "endMs": 215570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-3",
+      "startMs": 216450,
+      "endMs": 220440,
+      "pauseAfterMs": 360,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 216450,
+          "endMs": 217120
+        },
+        {
+          "word": "Neler",
+          "startMs": 217200,
+          "endMs": 218210
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 218920,
+          "endMs": 220080
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 216450,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "konu-anlati",
+          "params": {
+            "heading": "Bugün Neler Öğrendik?",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Kesir, payın paydaya bölünmesiyle ondalık olur.",
+                "body": "Kesir, payın paydaya bölünmesiyle ondalık olur.",
+                "tone": "recap"
+              },
+              {
+                "title": "Kalan 0 ise ondalık sonludur.",
+                "body": "Kalan 0 ise ondalık sonludur.",
+                "tone": "recap"
+              },
+              {
+                "title": "Aynı kalan dönerse ondalık devirlidir.",
+                "body": "Aynı kalan dönerse ondalık devirlidir.",
+                "tone": "recap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 220440,
+      "endMs": 221860,
+      "pauseAfterMs": 990,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 220440,
+          "endMs": 220870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 221860,
+      "endMs": 231830,
+      "pauseAfterMs": 880,
+      "text": "Kesir, payın paydaya bölünmesiyle ondalık olur.",
+      "markedText": "Kesir, payın paydaya bölünmesiyle ondalık olur.",
+      "words": [
+        {
+          "word": "Kesir,",
+          "startMs": 221860,
+          "endMs": 222680
+        },
+        {
+          "word": "payın",
+          "startMs": 223340,
+          "endMs": 224530
+        },
+        {
+          "word": "paydaya",
+          "startMs": 225440,
+          "endMs": 226390
+        },
+        {
+          "word": "bölünmesiyle",
+          "startMs": 226830,
+          "endMs": 228030
+        },
+        {
+          "word": "ondalık",
+          "startMs": 228830,
+          "endMs": 229670
+        },
+        {
+          "word": "olur.",
+          "startMs": 229840,
+          "endMs": 230950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 231830,
+      "endMs": 232270,
+      "pauseAfterMs": 120,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 231830,
+          "endMs": 232150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 232270,
+      "endMs": 239100,
+      "pauseAfterMs": 950,
+      "text": "Kalan 0 ise ondalık sonludur.",
+      "markedText": "Kalan 0 ise ondalık sonludur.",
+      "words": [
+        {
+          "word": "Kalan",
+          "startMs": 232270,
+          "endMs": 233230
+        },
+        {
+          "word": "0",
+          "startMs": 233570,
+          "endMs": 234130
+        },
+        {
+          "word": "ise",
+          "startMs": 234990,
+          "endMs": 235440
+        },
+        {
+          "word": "ondalık",
+          "startMs": 235540,
+          "endMs": 236630
+        },
+        {
+          "word": "sonludur.",
+          "startMs": 237120,
+          "endMs": 238150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 239100,
+      "endMs": 239380,
+      "pauseAfterMs": 50,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 239100,
+          "endMs": 239330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 239380,
+      "endMs": 245730,
+      "pauseAfterMs": 340,
+      "text": "Aynı kalan dönerse ondalık devirlidir.",
+      "markedText": "Aynı kalan dönerse ondalık devirlidir.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 239380,
+          "endMs": 239870
+        },
+        {
+          "word": "kalan",
+          "startMs": 240000,
+          "endMs": 240560
+        },
+        {
+          "word": "dönerse",
+          "startMs": 240710,
+          "endMs": 241610
+        },
+        {
+          "word": "ondalık",
+          "startMs": 242370,
+          "endMs": 243330
+        },
+        {
+          "word": "devirlidir.",
+          "startMs": 243790,
+          "endMs": 245390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 245730,
+      "endMs": 248350,
+      "pauseAfterMs": 700,
+      "text": "Sonlu ondalık biter.",
+      "markedText": "Sonlu ondalık biter.",
+      "words": [
+        {
+          "word": "Sonlu",
+          "startMs": 245730,
+          "endMs": 246000
+        },
+        {
+          "word": "ondalık",
+          "startMs": 246170,
+          "endMs": 246700
+        },
+        {
+          "word": "biter.",
+          "startMs": 247060,
+          "endMs": 247650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 248350,
+      "endMs": 258340,
+      "pauseAfterMs": 930,
+      "text": "Devirli ondalık bir rakam halkasını sürdürür.",
+      "markedText": "Devirli ondalık bir rakam halkasını sürdürür.",
+      "words": [
+        {
+          "word": "Devirli",
+          "startMs": 248350,
+          "endMs": 249240
+        },
+        {
+          "word": "ondalık",
+          "startMs": 249510,
+          "endMs": 249770
+        },
+        {
+          "word": "bir",
+          "startMs": 250740,
+          "endMs": 251050
+        },
+        {
+          "word": "rakam",
+          "startMs": 252900,
+          "endMs": 253410
+        },
+        {
+          "word": "halkasını",
+          "startMs": 253520,
+          "endMs": 255070
+        },
+        {
+          "word": "sürdürür.",
+          "startMs": 255520,
+          "endMs": 257410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 258340,
+      "endMs": 266850,
+      "pauseAfterMs": 1100,
+      "text": "Bir bölü iki için 0,5 dersin.",
+      "markedText": "Bir bölü iki için 0,5 dersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 258340,
+          "endMs": 258680
+        },
+        {
+          "word": "bölü",
+          "startMs": 258770,
+          "endMs": 259500
+        },
+        {
+          "word": "iki",
+          "startMs": 259870,
+          "endMs": 260070
+        },
+        {
+          "word": "için",
+          "startMs": 260300,
+          "endMs": 261100
+        },
+        {
+          "word": "0,5",
+          "startMs": 262160,
+          "endMs": 263710
+        },
+        {
+          "word": "dersin.",
+          "startMs": 264800,
+          "endMs": 265750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 266850,
+      "endMs": 274410,
+      "pauseAfterMs": 1010,
+      "text": "Bir bölü üç için devreden 3 dersin.",
+      "markedText": "Bir bölü üç için devreden 3 dersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 266850,
+          "endMs": 267050
+        },
+        {
+          "word": "bölü",
+          "startMs": 267200,
+          "endMs": 268360
+        },
+        {
+          "word": "üç",
+          "startMs": 269340,
+          "endMs": 269520
+        },
+        {
+          "word": "için",
+          "startMs": 269520,
+          "endMs": 270330
+        },
+        {
+          "word": "devreden",
+          "startMs": 271130,
+          "endMs": 271800
+        },
+        {
+          "word": "3",
+          "startMs": 271960,
+          "endMs": 272130
+        },
+        {
+          "word": "dersin.",
+          "startMs": 272250,
+          "endMs": 273400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 274410,
+      "endMs": 277330,
+      "pauseAfterMs": 1160,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 274410,
+          "endMs": 275080
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 275220,
+          "endMs": 276170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 277330,
+      "endMs": 280670,
+      "pauseAfterMs": 910,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 277330,
+          "endMs": 278210
+        },
+        {
+          "word": "bir",
+          "startMs": 278580,
+          "endMs": 278680
+        },
+        {
+          "word": "iş",
+          "startMs": 278760,
+          "endMs": 278880
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 278920,
+          "endMs": 279760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 280670,
+      "endMs": 283500,
+      "pauseAfterMs": 710,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 280670,
+          "endMs": 281440
+        },
+        {
+          "word": "sıra",
+          "startMs": 281750,
+          "endMs": 282020
+        },
+        {
+          "word": "sende.",
+          "startMs": 282070,
+          "endMs": 282790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 283500,
+      "endMs": 290608,
+      "pauseAfterMs": 368,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 283500,
+          "endMs": 284330
+        },
+        {
+          "word": "bu",
+          "startMs": 284740,
+          "endMs": 284920
+        },
+        {
+          "word": "notları",
+          "startMs": 284920,
+          "endMs": 285640
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 286300,
+          "endMs": 287050
+        },
+        {
+          "word": "kendi",
+          "startMs": 287510,
+          "endMs": 287910
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 287980,
+          "endMs": 289090
+        },
+        {
+          "word": "anlat.",
+          "startMs": 289260,
+          "endMs": 290240
+        }
+      ],
+      "keyframes": []
     }
   ]
 }

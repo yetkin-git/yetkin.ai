@@ -109,6 +109,8 @@ export type JuniorLessonScript = {
 export type JuniorCourseTrack = "core" | "elective";
 
 export const JUNIOR_PERSONAL_CURRICULUM_TAG = "Kişiye Özel Müfredat";
+/** Seçmeli raf. Yıllık müfredat cümlesi bu etikette durmaz. */
+export const JUNIOR_ELECTIVE_NOT_YEAR_TAG = "İki konu taslak · yıllık müfredat değil";
 export const JUNIOR_ELECTIVE_TAG = "Seçmeli Ders";
 export const JUNIOR_ELECTIVE_CATEGORY = "Seçmeli Dersler";
 
@@ -131,6 +133,8 @@ export type JuniorLessonCard = {
   access: "free" | "locked";
   thisWeek: boolean;
   status: JuniorLessonStatus;
+  /** Ölçülmüş ses 180 sn altındadır. Yeşil tam ders rozeti basılmaz. */
+  narrationShort?: boolean;
   /** MEB haftası ve çıktı adı. Takvim şeridinde olmayan konuda yoktur. */
   weekHeading?: string;
   /** 2018 kalıntısı. Raf rozeti MEB penceresinden almaz. */
@@ -143,6 +147,13 @@ export type JuniorLessonCard = {
   unitIndex?: number;
   /** Vitrin ünite adı. İngilizce tema kodları Türkçe etikete çevrilir. */
   unitTitle?: string;
+  /**
+   * `plan` / `unit-split` saati ve kamu dizininde olmayan tema.
+   * Resmi MEB saati bu alanda yazılmaz.
+   */
+  curriculumLabel?: string;
+  /** Kilitli kaset 180 saniyenin altındaysa. Depo anahtarı bu yazının yerine geçmez. */
+  shortTopicLabel?: string;
 };
 
 export type JuniorCourseShelf = {

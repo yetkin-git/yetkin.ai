@@ -1,0 +1,26 @@
+{
+  "key": "jr_06_alm-1",
+  "title": "Günün selamı",
+  "teaser": "Almanca selam da saate bakar. Kavramsal Anlayış, Guten Morgen ile Guten Abend farkını söyler. İfade Gücü, seçtiğin selamı neden o saate bağladığını anlatmandır.",
+  "welcome": "Bugün seninle Almancada selamlaşmayı öğreneceğiz.",
+  "concept": "Bugün seninle Almanca selamı saate bağlıyoruz. Guten Morgen sabah selamıdır. Guten Tag gün içinin selamıdır. Guten Abend akşam selamıdır. Hallo her saatte kullanılır. Karşılık, duyulan selamın aynısıdır.\n\nHatırlarsan, saat sözü seçiyordu. Hadi şimdi ekrandaki çizime birlikte bakalım! Öğle vakti bir arkadaş duruyor. Sen Guten Tag dersin.\n\nTuzaklara Düşme! Birlikte bakalım. Gute Nacht ilk selam değildir. Ayrılırken söylenir. Akşam ilk görüşte Guten Abend dersin.",
+  "example": "Sabah Guten Morgen dersin. Bu söz, günaydın demektir. Gün içinde Guten Tag dersin. Bu söz, iyi günler demektir. Akşam Guten Abend dersin. Hallo, her saatte söylenebilir. Hallo, merhaba demektir. Hadi şimdi ekrandaki çizime birlikte bakalım! Sabah bir komşu duruyor. Sen Guten Morgen diyorsun. O da aynı sözle karşılık veriyor. Hatırlarsan, selam saati gösteriyordu. Tuzaklara Düşme! Birlikte bakalım. Gute Nacht, iyi geceler demektir. Bu söz vedadır. İlk karşılaşmada Gute Nacht deme.",
+  "warning": "Gute Nacht, iyi geceler demektir.",
+  "life": "Sabah serviste Guten Morgen dersin. Okul günü içinde Guten Tag dersin. Akşam bakkala girerken Guten Abend dersin. Hatırlarsan, Hallo her saatte duruyordu. Tuzaklara Düşme! Birlikte bakalım. Uyku vaktinde Gute Nacht dersin. O söz, kapıdaki ilk selamın yerine geçmez.",
+  "recap": [
+    "Guten Morgen sabah selamıdır.",
+    "Guten Tag gün içinin selamıdır.",
+    "Guten Abend akşam selamıdır."
+  ],
+  "conceptSeal": "Almanca selam, günün saatine göre seçilir.",
+  "voiceSeal": "Seçtiğin selamı hangi saate bağladığını söylersin.",
+  "outcomes": [
+    "Guten Morgen sabah selamıdır.",
+    "Guten Tag gün içinin selamıdır.",
+    "Guten Abend akşam selamıdır.",
+    "Gute Nacht vedadır."
+  ],
+  "scene": "elective",
+  "hint": "trap",
+  "band": "draft"
+}

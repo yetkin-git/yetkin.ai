@@ -1,0 +1,2476 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_turkce-13",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Deyimler ve atasözleri",
+  "grade": 6,
+  "subject": "Türkçe",
+  "teacher": {
+    "name": "Elif",
+    "voice": "Aoede",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_turkce-13.mp3",
+    "durationMs": 409519,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 97620
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 97620,
+      "endMs": 343640
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 343640,
+      "endMs": 409519
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 3590,
+      "pauseAfterMs": 670,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 210,
+          "endMs": 880
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1280,
+          "endMs": 1780
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 1890,
+          "endMs": 2920
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Deyimler ve atasözleri",
+            "subtitle": "Türkçe",
+            "ruleBadges": [],
+            "echoPrompt": "Bir sözün deyim mi atasözü mü olduğunu ve gerçek anlamını değil, kalıp anlamını söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Deyimler kalıplaşmıştır, durum bildirir ve öğüt içermez."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Atasözleri geçmiş deneyimlerden doğan, öğüt veren tam cümlelerdir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Deyim ve atasözlerindeki kelimeler değiştirilemez, kalıp bozulamaz."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 3590,
+      "endMs": 9490,
+      "pauseAfterMs": 780,
+      "text": "Ben Türkçe öğretmenin Elif.",
+      "markedText": "Ben Türkçe öğretmenin Elif.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 3590,
+          "endMs": 3980
+        },
+        {
+          "word": "Türkçe",
+          "startMs": 4260,
+          "endMs": 5040
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 5180,
+          "endMs": 6010
+        },
+        {
+          "word": "Elif.",
+          "startMs": 7220,
+          "endMs": 8710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 9490,
+      "endMs": 24240,
+      "pauseAfterMs": 250,
+      "text": "Yüzyılların birikiminden süzülen en bilge ve en renkli söz hazinelerimize odaklanacağız.",
+      "markedText": "Yüzyılların birikiminden süzülen en bilge ve en renkli söz hazinelerimize odaklanacağız.",
+      "words": [
+        {
+          "word": "Yüzyılların",
+          "startMs": 9490,
+          "endMs": 10460
+        },
+        {
+          "word": "birikiminden",
+          "startMs": 10460,
+          "endMs": 12050
+        },
+        {
+          "word": "süzülen",
+          "startMs": 12390,
+          "endMs": 13120
+        },
+        {
+          "word": "en",
+          "startMs": 13340,
+          "endMs": 13450
+        },
+        {
+          "word": "bilge",
+          "startMs": 13550,
+          "endMs": 13950
+        },
+        {
+          "word": "ve",
+          "startMs": 14620,
+          "endMs": 14950
+        },
+        {
+          "word": "en",
+          "startMs": 15170,
+          "endMs": 16000
+        },
+        {
+          "word": "renkli",
+          "startMs": 17330,
+          "endMs": 18140
+        },
+        {
+          "word": "söz",
+          "startMs": 18250,
+          "endMs": 18640
+        },
+        {
+          "word": "hazinelerimize",
+          "startMs": 18950,
+          "endMs": 21430
+        },
+        {
+          "word": "odaklanacağız.",
+          "startMs": 23050,
+          "endMs": 23990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 24240,
+      "endMs": 36790,
+      "pauseAfterMs": 1030,
+      "text": "Hiç burnu havada dendiğinde birinin gerçekten burnunun yukarıya doğru kalktığını düşündün mü?",
+      "markedText": "Hiç burnu havada dendiğinde birinin gerçekten burnunun yukarıya doğru kalktığını düşündün mü?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 24240,
+          "endMs": 24470
+        },
+        {
+          "word": "burnu",
+          "startMs": 24760,
+          "endMs": 25380
+        },
+        {
+          "word": "havada",
+          "startMs": 25620,
+          "endMs": 26630
+        },
+        {
+          "word": "dendiğinde",
+          "startMs": 26940,
+          "endMs": 28300
+        },
+        {
+          "word": "birinin",
+          "startMs": 28980,
+          "endMs": 29770
+        },
+        {
+          "word": "gerçekten",
+          "startMs": 30020,
+          "endMs": 30630
+        },
+        {
+          "word": "burnunun",
+          "startMs": 30710,
+          "endMs": 31430
+        },
+        {
+          "word": "yukarıya",
+          "startMs": 31470,
+          "endMs": 32930
+        },
+        {
+          "word": "doğru",
+          "startMs": 33230,
+          "endMs": 33820
+        },
+        {
+          "word": "kalktığını",
+          "startMs": 34260,
+          "endMs": 34890
+        },
+        {
+          "word": "düşündün",
+          "startMs": 34890,
+          "endMs": 35520
+        },
+        {
+          "word": "mü?",
+          "startMs": 35610,
+          "endMs": 35760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 36790,
+      "endMs": 39570,
+      "pauseAfterMs": 510,
+      "text": "Elbette hayır!",
+      "markedText": "Elbette hayır!",
+      "words": [
+        {
+          "word": "Elbette",
+          "startMs": 36790,
+          "endMs": 37640
+        },
+        {
+          "word": "hayır!",
+          "startMs": 38130,
+          "endMs": 39060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 39570,
+      "endMs": 46120,
+      "pauseAfterMs": 300,
+      "text": "O söz, kendini beğenmiş kibirli bir tutumu anlatır.",
+      "markedText": "O söz, kendini beğenmiş kibirli bir tutumu anlatır.",
+      "words": [
+        {
+          "word": "O",
+          "startMs": 39570,
+          "endMs": 39760
+        },
+        {
+          "word": "söz,",
+          "startMs": 39760,
+          "endMs": 40190
+        },
+        {
+          "word": "kendini",
+          "startMs": 40390,
+          "endMs": 41200
+        },
+        {
+          "word": "beğenmiş",
+          "startMs": 41410,
+          "endMs": 41990
+        },
+        {
+          "word": "kibirli",
+          "startMs": 42070,
+          "endMs": 42900
+        },
+        {
+          "word": "bir",
+          "startMs": 43280,
+          "endMs": 43630
+        },
+        {
+          "word": "tutumu",
+          "startMs": 43970,
+          "endMs": 44590
+        },
+        {
+          "word": "anlatır.",
+          "startMs": 44700,
+          "endMs": 45820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 46120,
+      "endMs": 60150,
+      "pauseAfterMs": 310,
+      "text": "Deyimler ile atasözlerini ayıran ince çizgiyi ve dilimize kattıkları derin anlamları göreceğiz.",
+      "markedText": "Deyimler ile atasözlerini ayıran ince çizgiyi ve dilimize kattıkları derin anlamları göreceğiz.",
+      "words": [
+        {
+          "word": "Deyimler",
+          "startMs": 46120,
+          "endMs": 46920
+        },
+        {
+          "word": "ile",
+          "startMs": 47120,
+          "endMs": 47330
+        },
+        {
+          "word": "atasözlerini",
+          "startMs": 47630,
+          "endMs": 49290
+        },
+        {
+          "word": "ayıran",
+          "startMs": 50040,
+          "endMs": 50880
+        },
+        {
+          "word": "ince",
+          "startMs": 51370,
+          "endMs": 51930
+        },
+        {
+          "word": "çizgiyi",
+          "startMs": 52090,
+          "endMs": 52870
+        },
+        {
+          "word": "ve",
+          "startMs": 52920,
+          "endMs": 53240
+        },
+        {
+          "word": "dilimize",
+          "startMs": 53730,
+          "endMs": 54260
+        },
+        {
+          "word": "kattıkları",
+          "startMs": 54380,
+          "endMs": 55560
+        },
+        {
+          "word": "derin",
+          "startMs": 56010,
+          "endMs": 56850
+        },
+        {
+          "word": "anlamları",
+          "startMs": 57170,
+          "endMs": 57960
+        },
+        {
+          "word": "göreceğiz.",
+          "startMs": 58750,
+          "endMs": 59840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 60150,
+      "endMs": 70170,
+      "pauseAfterMs": 760,
+      "text": "Çok sevindiğinde eteklerim zil çaldı dersen hissettiğin coşkuyu tek bir sözle anlatırsın.",
+      "markedText": "Çok sevindiğinde eteklerim zil çaldı dersen hissettiğin coşkuyu tek bir sözle anlatırsın.",
+      "words": [
+        {
+          "word": "Çok",
+          "startMs": 60150,
+          "endMs": 60510
+        },
+        {
+          "word": "sevindiğinde",
+          "startMs": 60510,
+          "endMs": 61600
+        },
+        {
+          "word": "eteklerim",
+          "startMs": 61600,
+          "endMs": 62450
+        },
+        {
+          "word": "zil",
+          "startMs": 62450,
+          "endMs": 62690
+        },
+        {
+          "word": "çaldı",
+          "startMs": 62730,
+          "endMs": 63110
+        },
+        {
+          "word": "dersen",
+          "startMs": 63620,
+          "endMs": 64060
+        },
+        {
+          "word": "hissettiğin",
+          "startMs": 64060,
+          "endMs": 64900
+        },
+        {
+          "word": "coşkuyu",
+          "startMs": 65260,
+          "endMs": 65930
+        },
+        {
+          "word": "tek",
+          "startMs": 66140,
+          "endMs": 66370
+        },
+        {
+          "word": "bir",
+          "startMs": 66510,
+          "endMs": 66830
+        },
+        {
+          "word": "sözle",
+          "startMs": 66830,
+          "endMs": 67540
+        },
+        {
+          "word": "anlatırsın.",
+          "startMs": 67990,
+          "endMs": 69410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 70170,
+      "endMs": 81740,
+      "pauseAfterMs": 600,
+      "text": "Bir arkadaşın sabırsızlandığında acele işe şeytan karışır diyerek ona sakinliği öğütlersin.",
+      "markedText": "Bir arkadaşın sabırsızlandığında acele işe şeytan karışır diyerek ona sakinliği öğütlersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 70170,
+          "endMs": 70380
+        },
+        {
+          "word": "arkadaşın",
+          "startMs": 70380,
+          "endMs": 71030
+        },
+        {
+          "word": "sabırsızlandığında",
+          "startMs": 71100,
+          "endMs": 72510
+        },
+        {
+          "word": "acele",
+          "startMs": 73150,
+          "endMs": 73560
+        },
+        {
+          "word": "işe",
+          "startMs": 73690,
+          "endMs": 74010
+        },
+        {
+          "word": "şeytan",
+          "startMs": 74110,
+          "endMs": 75060
+        },
+        {
+          "word": "karışır",
+          "startMs": 75800,
+          "endMs": 76460
+        },
+        {
+          "word": "diyerek",
+          "startMs": 76940,
+          "endMs": 77330
+        },
+        {
+          "word": "ona",
+          "startMs": 77880,
+          "endMs": 78190
+        },
+        {
+          "word": "sakinliği",
+          "startMs": 78450,
+          "endMs": 79930
+        },
+        {
+          "word": "öğütlersin.",
+          "startMs": 80130,
+          "endMs": 81140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 81740,
+      "endMs": 97620,
+      "pauseAfterMs": 950,
+      "text": "Deyim ve atasözlerini yerinde kullanmak seni dinleyenlerin zihninde harika resimler oluşturur.",
+      "markedText": "Deyim ve atasözlerini yerinde kullanmak seni dinleyenlerin zihninde harika resimler oluşturur.",
+      "words": [
+        {
+          "word": "Deyim",
+          "startMs": 81740,
+          "endMs": 82300
+        },
+        {
+          "word": "ve",
+          "startMs": 82500,
+          "endMs": 82630
+        },
+        {
+          "word": "atasözlerini",
+          "startMs": 82950,
+          "endMs": 84220
+        },
+        {
+          "word": "yerinde",
+          "startMs": 84580,
+          "endMs": 85420
+        },
+        {
+          "word": "kullanmak",
+          "startMs": 85560,
+          "endMs": 87160
+        },
+        {
+          "word": "seni",
+          "startMs": 87970,
+          "endMs": 88530
+        },
+        {
+          "word": "dinleyenlerin",
+          "startMs": 88630,
+          "endMs": 90560
+        },
+        {
+          "word": "zihninde",
+          "startMs": 91100,
+          "endMs": 92050
+        },
+        {
+          "word": "harika",
+          "startMs": 92770,
+          "endMs": 93510
+        },
+        {
+          "word": "resimler",
+          "startMs": 93930,
+          "endMs": 94620
+        },
+        {
+          "word": "oluşturur.",
+          "startMs": 96010,
+          "endMs": 96670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 97620,
+      "endMs": 118730,
+      "pauseAfterMs": 620,
+      "text": "Deyimler, genellikle gerçek anlamından uzaklaşmış, birden çok sözcüğün kalıplaşmasıyla oluşan ve özel bir durumu, bir duyguyu anlatan kalıplardır.",
+      "markedText": "Deyimler, genellikle gerçek anlamından uzaklaşmış, birden çok sözcüğün kalıplaşmasıyla oluşan ve özel bir durumu, bir duyguyu anlatan kalıplardır.",
+      "words": [
+        {
+          "word": "Deyimler,",
+          "startMs": 97620,
+          "endMs": 98690
+        },
+        {
+          "word": "genellikle",
+          "startMs": 99320,
+          "endMs": 101000
+        },
+        {
+          "word": "gerçek",
+          "startMs": 101450,
+          "endMs": 101940
+        },
+        {
+          "word": "anlamından",
+          "startMs": 102140,
+          "endMs": 104050
+        },
+        {
+          "word": "uzaklaşmış,",
+          "startMs": 104810,
+          "endMs": 106940
+        },
+        {
+          "word": "birden",
+          "startMs": 107130,
+          "endMs": 107950
+        },
+        {
+          "word": "çok",
+          "startMs": 108540,
+          "endMs": 108930
+        },
+        {
+          "word": "sözcüğün",
+          "startMs": 109170,
+          "endMs": 110050
+        },
+        {
+          "word": "kalıplaşmasıyla",
+          "startMs": 110210,
+          "endMs": 111710
+        },
+        {
+          "word": "oluşan",
+          "startMs": 112350,
+          "endMs": 113110
+        },
+        {
+          "word": "ve",
+          "startMs": 113160,
+          "endMs": 113280
+        },
+        {
+          "word": "özel",
+          "startMs": 113280,
+          "endMs": 113750
+        },
+        {
+          "word": "bir",
+          "startMs": 113920,
+          "endMs": 114070
+        },
+        {
+          "word": "durumu,",
+          "startMs": 114210,
+          "endMs": 115040
+        },
+        {
+          "word": "bir",
+          "startMs": 115500,
+          "endMs": 115820
+        },
+        {
+          "word": "duyguyu",
+          "startMs": 115820,
+          "endMs": 116370
+        },
+        {
+          "word": "anlatan",
+          "startMs": 116500,
+          "endMs": 116980
+        },
+        {
+          "word": "kalıplardır.",
+          "startMs": 116980,
+          "endMs": 118110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 118730,
+      "endMs": 132670,
+      "pauseAfterMs": 920,
+      "text": "Göz gezdirmek, kulak kabartmak birer deyimdir ve genellikle mastar ekiyle biter; öğüt vermez, durumu betimler.",
+      "markedText": "Göz gezdirmek, kulak kabartmak birer deyimdir ve genellikle mastar ekiyle biter; öğüt vermez, durumu betimler.",
+      "words": [
+        {
+          "word": "Göz",
+          "startMs": 118730,
+          "endMs": 118960
+        },
+        {
+          "word": "gezdirmek,",
+          "startMs": 119060,
+          "endMs": 120350
+        },
+        {
+          "word": "kulak",
+          "startMs": 120690,
+          "endMs": 121110
+        },
+        {
+          "word": "kabartmak",
+          "startMs": 121600,
+          "endMs": 122030
+        },
+        {
+          "word": "birer",
+          "startMs": 122090,
+          "endMs": 122520
+        },
+        {
+          "word": "deyimdir",
+          "startMs": 122570,
+          "endMs": 123400
+        },
+        {
+          "word": "ve",
+          "startMs": 124120,
+          "endMs": 124320
+        },
+        {
+          "word": "genellikle",
+          "startMs": 124500,
+          "endMs": 125370
+        },
+        {
+          "word": "mastar",
+          "startMs": 125690,
+          "endMs": 125960
+        },
+        {
+          "word": "ekiyle",
+          "startMs": 126050,
+          "endMs": 126350
+        },
+        {
+          "word": "biter;",
+          "startMs": 126490,
+          "endMs": 127300
+        },
+        {
+          "word": "öğüt",
+          "startMs": 128010,
+          "endMs": 128450
+        },
+        {
+          "word": "vermez,",
+          "startMs": 128550,
+          "endMs": 128770
+        },
+        {
+          "word": "durumu",
+          "startMs": 129410,
+          "endMs": 130290
+        },
+        {
+          "word": "betimler.",
+          "startMs": 130630,
+          "endMs": 131750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 132670,
+      "endMs": 156300,
+      "pauseAfterMs": 690,
+      "text": "Atasözleri ise atalarımızın uzun deneyim ve gözlemlerine dayanan, topluma yol gösteren, ders ve öğüt veren genel yargılardır ve tamamlanmış birer cümledir.",
+      "markedText": "Atasözleri ise atalarımızın uzun deneyim ve gözlemlerine dayanan, topluma yol gösteren, ders ve öğüt veren genel yargılardır ve tamamlanmış birer cümledir.",
+      "words": [
+        {
+          "word": "Atasözleri",
+          "startMs": 132670,
+          "endMs": 134840
+        },
+        {
+          "word": "ise",
+          "startMs": 134990,
+          "endMs": 135400
+        },
+        {
+          "word": "atalarımızın",
+          "startMs": 135630,
+          "endMs": 137180
+        },
+        {
+          "word": "uzun",
+          "startMs": 138940,
+          "endMs": 139420
+        },
+        {
+          "word": "deneyim",
+          "startMs": 139420,
+          "endMs": 140200
+        },
+        {
+          "word": "ve",
+          "startMs": 140440,
+          "endMs": 140960
+        },
+        {
+          "word": "gözlemlerine",
+          "startMs": 141140,
+          "endMs": 142220
+        },
+        {
+          "word": "dayanan,",
+          "startMs": 142270,
+          "endMs": 143190
+        },
+        {
+          "word": "topluma",
+          "startMs": 143860,
+          "endMs": 144760
+        },
+        {
+          "word": "yol",
+          "startMs": 144850,
+          "endMs": 145350
+        },
+        {
+          "word": "gösteren,",
+          "startMs": 145970,
+          "endMs": 146880
+        },
+        {
+          "word": "ders",
+          "startMs": 147290,
+          "endMs": 147420
+        },
+        {
+          "word": "ve",
+          "startMs": 147420,
+          "endMs": 147730
+        },
+        {
+          "word": "öğüt",
+          "startMs": 147730,
+          "endMs": 148360
+        },
+        {
+          "word": "veren",
+          "startMs": 148640,
+          "endMs": 149140
+        },
+        {
+          "word": "genel",
+          "startMs": 150050,
+          "endMs": 150620
+        },
+        {
+          "word": "yargılardır",
+          "startMs": 150740,
+          "endMs": 151990
+        },
+        {
+          "word": "ve",
+          "startMs": 152420,
+          "endMs": 152770
+        },
+        {
+          "word": "tamamlanmış",
+          "startMs": 153310,
+          "endMs": 154060
+        },
+        {
+          "word": "birer",
+          "startMs": 154200,
+          "endMs": 154620
+        },
+        {
+          "word": "cümledir.",
+          "startMs": 154690,
+          "endMs": 155610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 156300,
+      "endMs": 165320,
+      "pauseAfterMs": 690,
+      "text": "Damlaya damlaya göl olur bir atasözüdür; küçük birikimlerin önemini öğütler.",
+      "markedText": "Damlaya damlaya göl olur bir atasözüdür; küçük birikimlerin önemini öğütler.",
+      "words": [
+        {
+          "word": "Damlaya",
+          "startMs": 156300,
+          "endMs": 156840
+        },
+        {
+          "word": "damlaya",
+          "startMs": 156840,
+          "endMs": 157350
+        },
+        {
+          "word": "göl",
+          "startMs": 158150,
+          "endMs": 158410
+        },
+        {
+          "word": "olur",
+          "startMs": 159000,
+          "endMs": 159310
+        },
+        {
+          "word": "bir",
+          "startMs": 159400,
+          "endMs": 159610
+        },
+        {
+          "word": "atasözüdür;",
+          "startMs": 159700,
+          "endMs": 160500
+        },
+        {
+          "word": "küçük",
+          "startMs": 160970,
+          "endMs": 161200
+        },
+        {
+          "word": "birikimlerin",
+          "startMs": 161200,
+          "endMs": 162210
+        },
+        {
+          "word": "önemini",
+          "startMs": 162720,
+          "endMs": 163420
+        },
+        {
+          "word": "öğütler.",
+          "startMs": 163670,
+          "endMs": 164630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 165320,
+      "endMs": 183970,
+      "pauseAfterMs": 610,
+      "text": "Pratik kural: Deyim bir anlık durumu resmeder ve öğüt taşımaz; atasözü ise herkes için geçerli genel bir hayat dersi ve öğüt fısıldar.",
+      "markedText": "Pratik kural: Deyim bir anlık durumu resmeder ve öğüt taşımaz; atasözü ise herkes için geçerli genel bir hayat dersi ve öğüt fısıldar.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 165320,
+          "endMs": 165660
+        },
+        {
+          "word": "kural:",
+          "startMs": 166220,
+          "endMs": 167030
+        },
+        {
+          "word": "Deyim",
+          "startMs": 167330,
+          "endMs": 168060
+        },
+        {
+          "word": "bir",
+          "startMs": 168060,
+          "endMs": 168260
+        },
+        {
+          "word": "anlık",
+          "startMs": 168320,
+          "endMs": 168870
+        },
+        {
+          "word": "durumu",
+          "startMs": 169180,
+          "endMs": 169820
+        },
+        {
+          "word": "resmeder",
+          "startMs": 170020,
+          "endMs": 170940
+        },
+        {
+          "word": "ve",
+          "startMs": 171690,
+          "endMs": 171960
+        },
+        {
+          "word": "öğüt",
+          "startMs": 172620,
+          "endMs": 173130
+        },
+        {
+          "word": "taşımaz;",
+          "startMs": 173360,
+          "endMs": 173870
+        },
+        {
+          "word": "atasözü",
+          "startMs": 174090,
+          "endMs": 174810
+        },
+        {
+          "word": "ise",
+          "startMs": 175110,
+          "endMs": 175490
+        },
+        {
+          "word": "herkes",
+          "startMs": 175810,
+          "endMs": 176000
+        },
+        {
+          "word": "için",
+          "startMs": 176160,
+          "endMs": 176710
+        },
+        {
+          "word": "geçerli",
+          "startMs": 177540,
+          "endMs": 178410
+        },
+        {
+          "word": "genel",
+          "startMs": 179100,
+          "endMs": 179610
+        },
+        {
+          "word": "bir",
+          "startMs": 179720,
+          "endMs": 179910
+        },
+        {
+          "word": "hayat",
+          "startMs": 180090,
+          "endMs": 180570
+        },
+        {
+          "word": "dersi",
+          "startMs": 181010,
+          "endMs": 181430
+        },
+        {
+          "word": "ve",
+          "startMs": 181480,
+          "endMs": 181600
+        },
+        {
+          "word": "öğüt",
+          "startMs": 181770,
+          "endMs": 182140
+        },
+        {
+          "word": "fısıldar.",
+          "startMs": 182290,
+          "endMs": 183360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 183970,
+      "endMs": 186590,
+      "pauseAfterMs": 240,
+      "text": "Birlikte tartalım.",
+      "markedText": "Birlikte tartalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 183970,
+          "endMs": 184800
+        },
+        {
+          "word": "tartalım.",
+          "startMs": 184890,
+          "endMs": 186350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 186590,
+      "endMs": 214180,
+      "pauseAfterMs": 320,
+      "text": "Ali dersi dikkatle dinlemek için kulak kesildi cümlesinde kulak kesilmek bir deyimdir; kulağı fiziksel olarak kesilmez, sadece pür dikkat dinlemek durumunu anlatır.",
+      "markedText": "Ali dersi dikkatle dinlemek için kulak kesildi cümlesinde kulak kesilmek bir deyimdir; kulağı fiziksel olarak kesilmez, sadece pür dikkat dinlemek durumunu anlatır.",
+      "words": [
+        {
+          "word": "Ali",
+          "startMs": 186590,
+          "endMs": 187200
+        },
+        {
+          "word": "dersi",
+          "startMs": 187280,
+          "endMs": 188040
+        },
+        {
+          "word": "dikkatle",
+          "startMs": 188270,
+          "endMs": 189790
+        },
+        {
+          "word": "dinlemek",
+          "startMs": 190750,
+          "endMs": 191600
+        },
+        {
+          "word": "için",
+          "startMs": 192470,
+          "endMs": 193380
+        },
+        {
+          "word": "kulak",
+          "startMs": 193980,
+          "endMs": 194580
+        },
+        {
+          "word": "kesildi",
+          "startMs": 194930,
+          "endMs": 195760
+        },
+        {
+          "word": "cümlesinde",
+          "startMs": 195990,
+          "endMs": 197520
+        },
+        {
+          "word": "kulak",
+          "startMs": 197930,
+          "endMs": 198730
+        },
+        {
+          "word": "kesilmek",
+          "startMs": 199370,
+          "endMs": 200110
+        },
+        {
+          "word": "bir",
+          "startMs": 200320,
+          "endMs": 200500
+        },
+        {
+          "word": "deyimdir;",
+          "startMs": 200820,
+          "endMs": 202010
+        },
+        {
+          "word": "kulağı",
+          "startMs": 202250,
+          "endMs": 203030
+        },
+        {
+          "word": "fiziksel",
+          "startMs": 203110,
+          "endMs": 203990
+        },
+        {
+          "word": "olarak",
+          "startMs": 204600,
+          "endMs": 205180
+        },
+        {
+          "word": "kesilmez,",
+          "startMs": 205450,
+          "endMs": 206670
+        },
+        {
+          "word": "sadece",
+          "startMs": 207540,
+          "endMs": 208510
+        },
+        {
+          "word": "pür",
+          "startMs": 208990,
+          "endMs": 209260
+        },
+        {
+          "word": "dikkat",
+          "startMs": 209530,
+          "endMs": 209880
+        },
+        {
+          "word": "dinlemek",
+          "startMs": 210090,
+          "endMs": 210340
+        },
+        {
+          "word": "durumunu",
+          "startMs": 211000,
+          "endMs": 212820
+        },
+        {
+          "word": "anlatır.",
+          "startMs": 213160,
+          "endMs": 213860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 214180,
+      "endMs": 228800,
+      "pauseAfterMs": 540,
+      "text": "Damlaya damlaya göl olur sözü ise bir atasözüdür; sabırla tasarruf etmeyi öğütleyen tam bir cümledir.",
+      "markedText": "Damlaya damlaya göl olur sözü ise bir atasözüdür; sabırla tasarruf etmeyi öğütleyen tam bir cümledir.",
+      "words": [
+        {
+          "word": "Damlaya",
+          "startMs": 214180,
+          "endMs": 214950
+        },
+        {
+          "word": "damlaya",
+          "startMs": 215070,
+          "endMs": 215760
+        },
+        {
+          "word": "göl",
+          "startMs": 216270,
+          "endMs": 216550
+        },
+        {
+          "word": "olur",
+          "startMs": 216980,
+          "endMs": 217390
+        },
+        {
+          "word": "sözü",
+          "startMs": 217750,
+          "endMs": 218010
+        },
+        {
+          "word": "ise",
+          "startMs": 218480,
+          "endMs": 218890
+        },
+        {
+          "word": "bir",
+          "startMs": 219030,
+          "endMs": 219240
+        },
+        {
+          "word": "atasözüdür;",
+          "startMs": 219370,
+          "endMs": 220930
+        },
+        {
+          "word": "sabırla",
+          "startMs": 222100,
+          "endMs": 222490
+        },
+        {
+          "word": "tasarruf",
+          "startMs": 222900,
+          "endMs": 223480
+        },
+        {
+          "word": "etmeyi",
+          "startMs": 224120,
+          "endMs": 224810
+        },
+        {
+          "word": "öğütleyen",
+          "startMs": 225120,
+          "endMs": 226250
+        },
+        {
+          "word": "tam",
+          "startMs": 226560,
+          "endMs": 226790
+        },
+        {
+          "word": "bir",
+          "startMs": 226930,
+          "endMs": 227240
+        },
+        {
+          "word": "cümledir.",
+          "startMs": 227330,
+          "endMs": 228260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 228800,
+      "endMs": 239130,
+      "pauseAfterMs": 1250,
+      "text": "Ayağını yorganına göre uzat bir atasözüdür; harcamalarını bütçene göre ayarla öğüdü verir.",
+      "markedText": "Ayağını yorganına göre uzat bir atasözüdür; harcamalarını bütçene göre ayarla öğüdü verir.",
+      "words": [
+        {
+          "word": "Ayağını",
+          "startMs": 228800,
+          "endMs": 229180
+        },
+        {
+          "word": "yorganına",
+          "startMs": 229180,
+          "endMs": 229680
+        },
+        {
+          "word": "göre",
+          "startMs": 229820,
+          "endMs": 230010
+        },
+        {
+          "word": "uzat",
+          "startMs": 230360,
+          "endMs": 230640
+        },
+        {
+          "word": "bir",
+          "startMs": 231200,
+          "endMs": 231380
+        },
+        {
+          "word": "atasözüdür;",
+          "startMs": 231620,
+          "endMs": 233130
+        },
+        {
+          "word": "harcamalarını",
+          "startMs": 233780,
+          "endMs": 234990
+        },
+        {
+          "word": "bütçene",
+          "startMs": 235210,
+          "endMs": 235700
+        },
+        {
+          "word": "göre",
+          "startMs": 235770,
+          "endMs": 235910
+        },
+        {
+          "word": "ayarla",
+          "startMs": 236110,
+          "endMs": 236590
+        },
+        {
+          "word": "öğüdü",
+          "startMs": 236970,
+          "endMs": 237340
+        },
+        {
+          "word": "verir.",
+          "startMs": 237430,
+          "endMs": 237880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 239130,
+      "endMs": 250790,
+      "pauseAfterMs": 730,
+      "text": "Etekleri zil çalmak ise çok sevinmek durumunu anlatan neşeli bir deyimdir.",
+      "markedText": "Etekleri zil çalmak ise çok sevinmek durumunu anlatan neşeli bir deyimdir.",
+      "words": [
+        {
+          "word": "Etekleri",
+          "startMs": 239130,
+          "endMs": 240380
+        },
+        {
+          "word": "zil",
+          "startMs": 240440,
+          "endMs": 241070
+        },
+        {
+          "word": "çalmak",
+          "startMs": 241640,
+          "endMs": 241930
+        },
+        {
+          "word": "ise",
+          "startMs": 242390,
+          "endMs": 242620
+        },
+        {
+          "word": "çok",
+          "startMs": 242880,
+          "endMs": 243360
+        },
+        {
+          "word": "sevinmek",
+          "startMs": 244280,
+          "endMs": 245240
+        },
+        {
+          "word": "durumunu",
+          "startMs": 245560,
+          "endMs": 246800
+        },
+        {
+          "word": "anlatan",
+          "startMs": 247070,
+          "endMs": 247660
+        },
+        {
+          "word": "neşeli",
+          "startMs": 247780,
+          "endMs": 248360
+        },
+        {
+          "word": "bir",
+          "startMs": 248510,
+          "endMs": 248830
+        },
+        {
+          "word": "deyimdir.",
+          "startMs": 249100,
+          "endMs": 250060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 250790,
+      "endMs": 255100,
+      "pauseAfterMs": 280,
+      "text": "Deyim durum bildirir, atasözü yol gösterir.",
+      "markedText": "Deyim durum bildirir, atasözü yol gösterir.",
+      "words": [
+        {
+          "word": "Deyim",
+          "startMs": 250790,
+          "endMs": 251050
+        },
+        {
+          "word": "durum",
+          "startMs": 251140,
+          "endMs": 251320
+        },
+        {
+          "word": "bildirir,",
+          "startMs": 252060,
+          "endMs": 252760
+        },
+        {
+          "word": "atasözü",
+          "startMs": 253170,
+          "endMs": 253790
+        },
+        {
+          "word": "yol",
+          "startMs": 253830,
+          "endMs": 254030
+        },
+        {
+          "word": "gösterir.",
+          "startMs": 254100,
+          "endMs": 254820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 255100,
+      "endMs": 257890,
+      "pauseAfterMs": 860,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 255100,
+          "endMs": 255870
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 256010,
+          "endMs": 257030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 257890,
+      "endMs": 264220,
+      "pauseAfterMs": 630,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 257890,
+          "endMs": 258180
+        },
+        {
+          "word": "bir",
+          "startMs": 258360,
+          "endMs": 259050
+        },
+        {
+          "word": "kez",
+          "startMs": 259370,
+          "endMs": 259740
+        },
+        {
+          "word": "görünce",
+          "startMs": 259830,
+          "endMs": 260970
+        },
+        {
+          "word": "kolayca",
+          "startMs": 261430,
+          "endMs": 262110
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 262150,
+          "endMs": 263590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 264220,
+      "endMs": 274290,
+      "pauseAfterMs": 1050,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 264220,
+          "endMs": 264960
+        },
+        {
+          "word": "sevgili",
+          "startMs": 265040,
+          "endMs": 265660
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 266060,
+          "endMs": 266850
+        },
+        {
+          "word": "işte",
+          "startMs": 267700,
+          "endMs": 268000
+        },
+        {
+          "word": "tam",
+          "startMs": 268000,
+          "endMs": 268370
+        },
+        {
+          "word": "bu",
+          "startMs": 268370,
+          "endMs": 268550
+        },
+        {
+          "word": "noktada",
+          "startMs": 268550,
+          "endMs": 269190
+        },
+        {
+          "word": "dikkat",
+          "startMs": 269260,
+          "endMs": 269980
+        },
+        {
+          "word": "etmen",
+          "startMs": 270240,
+          "endMs": 270570
+        },
+        {
+          "word": "gereken",
+          "startMs": 270790,
+          "endMs": 271540
+        },
+        {
+          "word": "kilit",
+          "startMs": 271870,
+          "endMs": 272370
+        },
+        {
+          "word": "nokta.",
+          "startMs": 272660,
+          "endMs": 273240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 274290,
+      "endMs": 288710,
+      "pauseAfterMs": 320,
+      "text": "Deyimleri gerçek anlamlarıyla yorumlamaktan ve atasözlerinin kalıbını bozmaktan uzak durmalısın.",
+      "markedText": "Deyimleri gerçek anlamlarıyla yorumlamaktan ve atasözlerinin kalıbını bozmaktan uzak durmalısın.",
+      "words": [
+        {
+          "word": "Deyimleri",
+          "startMs": 274290,
+          "endMs": 274990
+        },
+        {
+          "word": "gerçek",
+          "startMs": 275170,
+          "endMs": 275970
+        },
+        {
+          "word": "anlamlarıyla",
+          "startMs": 276490,
+          "endMs": 277750
+        },
+        {
+          "word": "yorumlamaktan",
+          "startMs": 278640,
+          "endMs": 279950
+        },
+        {
+          "word": "ve",
+          "startMs": 280750,
+          "endMs": 280870
+        },
+        {
+          "word": "atasözlerinin",
+          "startMs": 280870,
+          "endMs": 282210
+        },
+        {
+          "word": "kalıbını",
+          "startMs": 282510,
+          "endMs": 283180
+        },
+        {
+          "word": "bozmaktan",
+          "startMs": 283370,
+          "endMs": 284380
+        },
+        {
+          "word": "uzak",
+          "startMs": 285240,
+          "endMs": 285800
+        },
+        {
+          "word": "durmalısın.",
+          "startMs": 286480,
+          "endMs": 288390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 288710,
+      "endMs": 315480,
+      "pauseAfterMs": 1190,
+      "text": "Damlaya damlaya göl olur yerine damlaya damlaya havuz olur diyemeyiz; çünkü atasözlerinin ve deyimlerin sözcükleri değiştirilemez, eş anlamlıları dahi konulamaz.",
+      "markedText": "Damlaya damlaya göl olur yerine damlaya damlaya havuz olur diyemeyiz; çünkü atasözlerinin ve deyimlerin sözcükleri değiştirilemez, eş anlamlıları dahi konulamaz.",
+      "words": [
+        {
+          "word": "Damlaya",
+          "startMs": 288710,
+          "endMs": 289410
+        },
+        {
+          "word": "damlaya",
+          "startMs": 289510,
+          "endMs": 290050
+        },
+        {
+          "word": "göl",
+          "startMs": 290050,
+          "endMs": 290440
+        },
+        {
+          "word": "olur",
+          "startMs": 291350,
+          "endMs": 291800
+        },
+        {
+          "word": "yerine",
+          "startMs": 291800,
+          "endMs": 292630
+        },
+        {
+          "word": "damlaya",
+          "startMs": 293410,
+          "endMs": 294710
+        },
+        {
+          "word": "damlaya",
+          "startMs": 294940,
+          "endMs": 296320
+        },
+        {
+          "word": "havuz",
+          "startMs": 296670,
+          "endMs": 296860
+        },
+        {
+          "word": "olur",
+          "startMs": 297010,
+          "endMs": 297620
+        },
+        {
+          "word": "diyemeyiz;",
+          "startMs": 298680,
+          "endMs": 299500
+        },
+        {
+          "word": "çünkü",
+          "startMs": 300340,
+          "endMs": 301300
+        },
+        {
+          "word": "atasözlerinin",
+          "startMs": 302040,
+          "endMs": 303550
+        },
+        {
+          "word": "ve",
+          "startMs": 303990,
+          "endMs": 304770
+        },
+        {
+          "word": "deyimlerin",
+          "startMs": 305060,
+          "endMs": 305710
+        },
+        {
+          "word": "sözcükleri",
+          "startMs": 306070,
+          "endMs": 307570
+        },
+        {
+          "word": "değiştirilemez,",
+          "startMs": 308020,
+          "endMs": 309720
+        },
+        {
+          "word": "eş",
+          "startMs": 310220,
+          "endMs": 310500
+        },
+        {
+          "word": "anlamlıları",
+          "startMs": 310800,
+          "endMs": 311740
+        },
+        {
+          "word": "dahi",
+          "startMs": 311880,
+          "endMs": 312700
+        },
+        {
+          "word": "konulamaz.",
+          "startMs": 313640,
+          "endMs": 314290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 315480,
+      "endMs": 329120,
+      "pauseAfterMs": 1460,
+      "text": "Bir sözün öğüt verip vermediğine bakarak deyim mi atasözü mü olduğuna kolayca karar verebilirsin.",
+      "markedText": "Bir sözün öğüt verip vermediğine bakarak deyim mi atasözü mü olduğuna kolayca karar verebilirsin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 315480,
+          "endMs": 315820
+        },
+        {
+          "word": "sözün",
+          "startMs": 315860,
+          "endMs": 316280
+        },
+        {
+          "word": "öğüt",
+          "startMs": 316530,
+          "endMs": 316990
+        },
+        {
+          "word": "verip",
+          "startMs": 317160,
+          "endMs": 317770
+        },
+        {
+          "word": "vermediğine",
+          "startMs": 318400,
+          "endMs": 319490
+        },
+        {
+          "word": "bakarak",
+          "startMs": 319490,
+          "endMs": 320030
+        },
+        {
+          "word": "deyim",
+          "startMs": 320120,
+          "endMs": 320760
+        },
+        {
+          "word": "mi",
+          "startMs": 320870,
+          "endMs": 321690
+        },
+        {
+          "word": "atasözü",
+          "startMs": 321980,
+          "endMs": 322730
+        },
+        {
+          "word": "mü",
+          "startMs": 322840,
+          "endMs": 323010
+        },
+        {
+          "word": "olduğuna",
+          "startMs": 323320,
+          "endMs": 324430
+        },
+        {
+          "word": "kolayca",
+          "startMs": 324740,
+          "endMs": 325360
+        },
+        {
+          "word": "karar",
+          "startMs": 325460,
+          "endMs": 325830
+        },
+        {
+          "word": "verebilirsin.",
+          "startMs": 326000,
+          "endMs": 327660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 329120,
+      "endMs": 343640,
+      "pauseAfterMs": 730,
+      "text": "Deyimler ve atasözleri konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Deyimler ve atasözleri konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Deyimler",
+          "startMs": 329120,
+          "endMs": 330300
+        },
+        {
+          "word": "ve",
+          "startMs": 331130,
+          "endMs": 331360
+        },
+        {
+          "word": "atasözleri",
+          "startMs": 331460,
+          "endMs": 333090
+        },
+        {
+          "word": "konusunda",
+          "startMs": 334090,
+          "endMs": 335060
+        },
+        {
+          "word": "kuralın",
+          "startMs": 335220,
+          "endMs": 336210
+        },
+        {
+          "word": "tersini",
+          "startMs": 337260,
+          "endMs": 338230
+        },
+        {
+          "word": "sanmak",
+          "startMs": 338510,
+          "endMs": 339280
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 339380,
+          "endMs": 340230
+        },
+        {
+          "word": "ters",
+          "startMs": 340430,
+          "endMs": 340700
+        },
+        {
+          "word": "cümle",
+          "startMs": 340820,
+          "endMs": 341180
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 341580,
+          "endMs": 342910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 343640,
+      "endMs": 345820,
+      "pauseAfterMs": 330,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 343640,
+          "endMs": 344250
+        },
+        {
+          "word": "Neler",
+          "startMs": 344350,
+          "endMs": 344760
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 344830,
+          "endMs": 345490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 345820,
+      "endMs": 346520,
+      "pauseAfterMs": 100,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 345820,
+          "endMs": 346420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 346520,
+      "endMs": 353460,
+      "pauseAfterMs": 1190,
+      "text": "Deyimler kalıplaşmıştır, durum bildirir ve öğüt içermez.",
+      "markedText": "Deyimler kalıplaşmıştır, durum bildirir ve öğüt içermez.",
+      "words": [
+        {
+          "word": "Deyimler",
+          "startMs": 346520,
+          "endMs": 347670
+        },
+        {
+          "word": "kalıplaşmıştır,",
+          "startMs": 347890,
+          "endMs": 349420
+        },
+        {
+          "word": "durum",
+          "startMs": 350530,
+          "endMs": 350820
+        },
+        {
+          "word": "bildirir",
+          "startMs": 350910,
+          "endMs": 351500
+        },
+        {
+          "word": "ve",
+          "startMs": 351630,
+          "endMs": 351750
+        },
+        {
+          "word": "öğüt",
+          "startMs": 351750,
+          "endMs": 351980
+        },
+        {
+          "word": "içermez.",
+          "startMs": 352090,
+          "endMs": 352270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 353460,
+      "endMs": 354260,
+      "pauseAfterMs": 550,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 353460,
+          "endMs": 353710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 354260,
+      "endMs": 364850,
+      "pauseAfterMs": 1080,
+      "text": "Atasözleri geçmiş deneyimlerden doğan, öğüt veren tam cümlelerdir.",
+      "markedText": "Atasözleri geçmiş deneyimlerden doğan, öğüt veren tam cümlelerdir.",
+      "words": [
+        {
+          "word": "Atasözleri",
+          "startMs": 354260,
+          "endMs": 355180
+        },
+        {
+          "word": "geçmiş",
+          "startMs": 355290,
+          "endMs": 355700
+        },
+        {
+          "word": "deneyimlerden",
+          "startMs": 355920,
+          "endMs": 357100
+        },
+        {
+          "word": "doğan,",
+          "startMs": 357270,
+          "endMs": 357800
+        },
+        {
+          "word": "öğüt",
+          "startMs": 358980,
+          "endMs": 359150
+        },
+        {
+          "word": "veren",
+          "startMs": 359880,
+          "endMs": 360540
+        },
+        {
+          "word": "tam",
+          "startMs": 361200,
+          "endMs": 361730
+        },
+        {
+          "word": "cümlelerdir.",
+          "startMs": 362150,
+          "endMs": 363770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 364850,
+      "endMs": 365740,
+      "pauseAfterMs": 580,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 364850,
+          "endMs": 365160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 365740,
+      "endMs": 372840,
+      "pauseAfterMs": 700,
+      "text": "Deyim ve atasözlerindeki kelimeler değiştirilemez, kalıp bozulamaz.",
+      "markedText": "Deyim ve atasözlerindeki kelimeler değiştirilemez, kalıp bozulamaz.",
+      "words": [
+        {
+          "word": "Deyim",
+          "startMs": 365740,
+          "endMs": 366280
+        },
+        {
+          "word": "ve",
+          "startMs": 366340,
+          "endMs": 366410
+        },
+        {
+          "word": "atasözlerindeki",
+          "startMs": 366490,
+          "endMs": 367850
+        },
+        {
+          "word": "kelimeler",
+          "startMs": 368030,
+          "endMs": 368550
+        },
+        {
+          "word": "değiştirilemez,",
+          "startMs": 368840,
+          "endMs": 369770
+        },
+        {
+          "word": "kalıp",
+          "startMs": 370780,
+          "endMs": 371020
+        },
+        {
+          "word": "bozulamaz.",
+          "startMs": 371590,
+          "endMs": 372140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 372840,
+      "endMs": 375580,
+      "pauseAfterMs": 510,
+      "text": "Deyim durum adıdır.",
+      "markedText": "Deyim durum adıdır.",
+      "words": [
+        {
+          "word": "Deyim",
+          "startMs": 372840,
+          "endMs": 373190
+        },
+        {
+          "word": "durum",
+          "startMs": 373250,
+          "endMs": 373870
+        },
+        {
+          "word": "adıdır.",
+          "startMs": 374080,
+          "endMs": 375070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 375580,
+      "endMs": 378600,
+      "pauseAfterMs": 920,
+      "text": "Atasözü öğüt ve yargıdır.",
+      "markedText": "Atasözü öğüt ve yargıdır.",
+      "words": [
+        {
+          "word": "Atasözü",
+          "startMs": 375580,
+          "endMs": 376130
+        },
+        {
+          "word": "öğüt",
+          "startMs": 376210,
+          "endMs": 376640
+        },
+        {
+          "word": "ve",
+          "startMs": 376750,
+          "endMs": 376860
+        },
+        {
+          "word": "yargıdır.",
+          "startMs": 376970,
+          "endMs": 377680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 378600,
+      "endMs": 394590,
+      "pauseAfterMs": 900,
+      "text": "Bir sözün deyim mi atasözü mü olduğunu ve gerçek anlamını değil, kalıp anlamını söylersin.",
+      "markedText": "Bir sözün deyim mi atasözü mü olduğunu ve gerçek anlamını değil, kalıp anlamını söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 378600,
+          "endMs": 378930
+        },
+        {
+          "word": "sözün",
+          "startMs": 379650,
+          "endMs": 379980
+        },
+        {
+          "word": "deyim",
+          "startMs": 380170,
+          "endMs": 380990
+        },
+        {
+          "word": "mi",
+          "startMs": 381070,
+          "endMs": 381220
+        },
+        {
+          "word": "atasözü",
+          "startMs": 381320,
+          "endMs": 382510
+        },
+        {
+          "word": "mü",
+          "startMs": 382760,
+          "endMs": 383650
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 384510,
+          "endMs": 385550
+        },
+        {
+          "word": "ve",
+          "startMs": 385660,
+          "endMs": 385780
+        },
+        {
+          "word": "gerçek",
+          "startMs": 385860,
+          "endMs": 386530
+        },
+        {
+          "word": "anlamını",
+          "startMs": 387430,
+          "endMs": 388130
+        },
+        {
+          "word": "değil,",
+          "startMs": 388250,
+          "endMs": 389120
+        },
+        {
+          "word": "kalıp",
+          "startMs": 390120,
+          "endMs": 390450
+        },
+        {
+          "word": "anlamını",
+          "startMs": 390640,
+          "endMs": 391280
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 392040,
+          "endMs": 393690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 394590,
+      "endMs": 397380,
+      "pauseAfterMs": 970,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 394590,
+          "endMs": 395300
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 395460,
+          "endMs": 396410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 397380,
+      "endMs": 401300,
+      "pauseAfterMs": 310,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 397380,
+          "endMs": 398360
+        },
+        {
+          "word": "bir",
+          "startMs": 398690,
+          "endMs": 399130
+        },
+        {
+          "word": "iş",
+          "startMs": 399390,
+          "endMs": 399550
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 399660,
+          "endMs": 400990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 401300,
+      "endMs": 403580,
+      "pauseAfterMs": 950,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 401300,
+          "endMs": 401600
+        },
+        {
+          "word": "sıra",
+          "startMs": 401600,
+          "endMs": 401950
+        },
+        {
+          "word": "sende.",
+          "startMs": 402010,
+          "endMs": 402630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 403580,
+      "endMs": 409519,
+      "pauseAfterMs": 379,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 403580,
+          "endMs": 404340
+        },
+        {
+          "word": "bu",
+          "startMs": 404960,
+          "endMs": 405220
+        },
+        {
+          "word": "notları",
+          "startMs": 405320,
+          "endMs": 405870
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 406390,
+          "endMs": 407060
+        },
+        {
+          "word": "kendi",
+          "startMs": 407160,
+          "endMs": 407440
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 407540,
+          "endMs": 408450
+        },
+        {
+          "word": "anlat.",
+          "startMs": 408530,
+          "endMs": 409140
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

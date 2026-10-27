@@ -57,7 +57,7 @@ export function isPrivateOrLoopbackIp(ip: string): boolean {
   if (!trimmed || trimmed === UNKNOWN_REQUEST_IP) {
     return true;
   }
-  if (trimmed === "localhost" || trimmed === "::1" || trimmed === "0.0.0.0") {
+  if (trimmed === "localhost" || trimmed === "::1" || trimmed === "::" || trimmed === "0.0.0.0") {
     return true;
   }
   if (trimmed.startsWith("127.") || trimmed.startsWith("10.")) {
@@ -66,7 +66,19 @@ export function isPrivateOrLoopbackIp(ip: string): boolean {
   if (trimmed.startsWith("192.168.") || trimmed.startsWith("169.254.")) {
     return true;
   }
-  return /^172\.(1[6-9]|2\d|3[0-1])\./.test(trimmed);
+  if (/^172\.(1[6-9]|2\d|3[0-1])\./.test(trimmed)) {
+    return true;
+  }
+  if (
+    trimmed.startsWith("fe80:") ||
+    /^f[cd][0-9a-f]{0,2}:/.test(trimmed) ||
+    trimmed.startsWith("::ffff:127.") ||
+    trimmed.startsWith("::ffff:10.") ||
+    trimmed.startsWith("::ffff:192.168.")
+  ) {
+    return true;
+  }
+  return false;
 }
 
 export function classifyForwardedIp(ip: string): ForwardedIpKind {
@@ -77,7 +89,7 @@ export function classifyForwardedIp(ip: string): ForwardedIpKind {
   if (isPrivateOrLoopbackIp(trimmed)) {
     return "private";
   }
-  if (trimmed.includes(":")) {
+  if (trimmed.includes(":") && isPlausibleForwardedIp(trimmed)) {
     return "ipv6";
   }
   if (IPV4_PATTERN.test(trimmed) && isPlausibleForwardedIp(trimmed)) {

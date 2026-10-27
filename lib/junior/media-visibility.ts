@@ -7,6 +7,7 @@
 
 import {
   JUNIOR_ARCHIVED_OPENER_KEYS,
+  JUNIOR_ELECTIVE_PUBLIC_OPENERS,
   JUNIOR_ELECTIVE_SLUGS,
   JUNIOR_FREE_LESSON_KEY,
   JUNIOR_FREE_OPENER_OVERRIDE,
@@ -28,13 +29,17 @@ const DISPLACED_FILE_OPENERS = new Set(
 const OVERRIDE_OPENERS = new Set(Object.values(JUNIOR_FREE_OPENER_OVERRIDE));
 
 /**
- * Ücretsiz ilk ders kapısı (`JUNIOR_FREE_LESSON_KEY`) ve her kartın arşive alınmamış ilk konusu.
- * Matematik 1. ünite açılışı `jr_06_mat-5` dir. İngilizce 1. hafta `JUNIOR_FREE_OPENER_OVERRIDE` içindedir.
- * Diğer kartlar `{slug}-1` ile açılır.
+ * Ücretsiz ilk ders kapısı (`JUNIOR_FREE_LESSON_KEY`) ve çekirdek kartın arşive alınmamış ilk konusu.
+ * Matematik açılışı `JUNIOR_FREE_LESSON_KEY` (`jr_06_mat-1`) dir. İngilizce 1. hafta `JUNIOR_FREE_OPENER_OVERRIDE` içindedir.
+ * Diğer çekirdek kartlar `{slug}-1` ile açılır. Mühürsüz seçmeli açılış kamu önizlemesi değildir.
  * Katalogdaki `juniorFreeLessonKeys` ile aynı kümeyi verir.
  */
 export function juniorLessonMediaIsPublicPreview(lessonKey: string): boolean {
   const key = lessonKey.trim();
+  const elective = /^(jr_[a-z0-9_]+)-\d+$/u.exec(key);
+  if (elective && (JUNIOR_ELECTIVE_SLUGS as readonly string[]).includes(elective[1] ?? "")) {
+    return (JUNIOR_ELECTIVE_PUBLIC_OPENERS as readonly string[]).includes(key);
+  }
   if (key === JUNIOR_FREE_LESSON_KEY) {
     return true;
   }
@@ -44,11 +49,8 @@ export function juniorLessonMediaIsPublicPreview(lessonKey: string): boolean {
   if (OVERRIDE_OPENERS.has(key)) {
     return true;
   }
-  if (key === "jr_06_mat-5") {
-    return true;
-  }
   const match = /^(jr_[a-z0-9_]+)-1$/u.exec(key);
-  if (!match || match[1] === "jr_06_mat") {
+  if (!match) {
     return false;
   }
   return COURSE_SLUGS.has(match[1] ?? "");

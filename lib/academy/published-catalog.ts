@@ -13,10 +13,12 @@ import {
   ACADEMY_VITRINE_SHELL_SKU_SLUGS,
   academyCatalogPurchasable,
   academyCourseNarrationPublished,
+  isAcademyStorefrontSlug,
 } from "@/lib/academy/pilot-sku";
 import { ACADEMY_OFF201_DEFAULT_COVER } from "@/lib/academy/course-cover";
 import { OFF_201_TITLE } from "@/lib/academy/curricula/office_ai/off-201";
 import type { AcademyCourseRecord, AcademyCourseWithPrice } from "@/lib/academy/types";
+import { OFF_201_LAUNCH_PRICE_MINOR } from "@/lib/academy/catalog-pricing";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 
 const SEED_STAMP = new Date("2026-08-21T15:00:00.000Z");
@@ -94,6 +96,32 @@ export function publishedCoursesFromSeed(): AcademyCourseWithPrice[] {
 }
 
 /**
+ * Katalog okuması yetişmezse antre tahtası.
+ * Boş vitrin kabuğu `isPublished: false` basar ve sayfa 404'e düşer.
+ * Vitrin slug'u burada yayında kalır. Canlı satır gelince o satır bu tahtanın yerine geçer.
+ */
+export function academyStorefrontSeedBoard(slug: string): AcademyCourseWithPrice | null {
+  if (!isAcademyStorefrontSlug(slug)) {
+    return null;
+  }
+  const seeded = publishedCoursesFromSeed().find((row) => row.slug === slug);
+  if (seeded) {
+    return seeded;
+  }
+  if (slug === ACADEMY_OFF201_STOREFRONT_SLUG && academyCourseNarrationPublished(slug)) {
+    return withCardHonesty({
+      ...off201StorefrontCourseRecord(),
+      priceMinor: null,
+      currencyCode: ACADEMY_SEED_CURRENCY,
+      purchasable: false,
+      level: "İleri",
+      coverImage: ACADEMY_OFF201_DEFAULT_COVER,
+    });
+  }
+  return null;
+}
+
+/**
  * Canlı satırın tutarı katalogdadır. Tutar yoksa tohum haritası kartı doldurmaz.
  */
 export function overlaySeedCatalogPrice(course: AcademyCourseWithPrice): AcademyCourseWithPrice {
@@ -113,21 +141,32 @@ export function mergePublishedAcademyCatalog(
 }
 
 /**
- * Anlatımı bitmiş ama bu çağrıda doğrulanmış satırı olmayan kart.
- * Satın Al basılmaz. Tohum tutarı kasa fiyatı değildir.
+ * Anlatımı bitmiş, bu çağrıda kurs satırı olmayan kart.
+ * Liste fiyatı vitrin tohumudur. Canlı `PriceCatalogEntry` varsa o tutar bunu ezer.
+ * Satır sonradan kapatılırsa bu fonksiyon çalışmaz; kapalı satır kapalı kalır.
  */
-function unpublishedNarratedCard(row: AcademyCatalogSeed): AcademyCourseWithPrice {
+function narratedVitrineSeedCard(row: AcademyCatalogSeed): AcademyCourseWithPrice {
+  return publishedAcademyCourseFromSeed(row);
+}
+
+/** OFF-201 anlatımı bitmiş, satır yok. Tutar kayıt defterindeki tohumdur. */
+function off201NarratedSeedCard(): AcademyCourseWithPrice {
   return withCardHonesty({
-    ...academyCourseRecordFromSeed(row),
-    isPublished: false,
-    priceMinor: null,
+    ...off201StorefrontCourseRecord(),
+    priceMinor: toAmountMinor(OFF_201_LAUNCH_PRICE_MINOR),
     currencyCode: ACADEMY_SEED_CURRENCY,
-    purchasable: false,
+    purchasable: academyCatalogPurchasable({
+      courseSlug: ACADEMY_OFF201_STOREFRONT_SLUG,
+      catalogRowPresent: true,
+      isPublished: true,
+    }),
+    level: "İleri",
+    coverImage: ACADEMY_OFF201_DEFAULT_COVER,
   });
 }
 
 /**
- * Doğrulanmış satır. Satın Al yalnız üçü birden varken: yayın, aktif fiyat, disk mührü.
+ * Doğrulanmış satır. Satın Al yalnız üçü birden varken: yayın, aktif fiyat, ses ve metin.
  * `priceMinor` aktif katalog satırından gelir; tohum tutarı buraya yazılmaz.
  */
 function confirmedVitrineCard(row: AcademyCourseWithPrice): AcademyCourseWithPrice {
@@ -144,7 +183,7 @@ function confirmedVitrineCard(row: AcademyCourseWithPrice): AcademyCourseWithPri
 /**
  * PEDAGOJI §D 5'li Vitrin Karması.
  * `live` yalnız veritabanından okunmuş kurs satırlarıdır. Boş dizi, yayın teyidi yok demektir.
- * Satın Al: `is_published`, aktif fiyat ve beş katman disk mührü. Biri eksikse kart satın al demez.
+ * Satın Al: `is_published`, aktif fiyat ve ses ile metin. Biri eksikse kart satın al demez.
  * Anlatımı bitmemiş kardeş «Çok Yakında»dır. Anlatımı bitmiş kursun yayın hükmü satırdaki `is_published` değeridir.
  * Satırı kapalı kurs «Yayında Değil»dir.
  */
@@ -160,7 +199,7 @@ export function academyVitrineShellCourses(
         next.push(off201ClosedVitrineCourse());
         continue;
       }
-      const row = liveRow ? confirmedVitrineCard(liveRow) : off201ClosedVitrineCourse();
+      const row = liveRow ? confirmedVitrineCard(liveRow) : off201NarratedSeedCard();
       next.push({
         ...row,
         coverImage: row.coverImage ?? ACADEMY_OFF201_DEFAULT_COVER,
@@ -176,7 +215,7 @@ export function academyVitrineShellCourses(
       next.push(comingSoonAcademyCourseFromSeed(seed));
       continue;
     }
-    next.push(liveRow ? confirmedVitrineCard(liveRow) : unpublishedNarratedCard(seed));
+    next.push(liveRow ? confirmedVitrineCard(liveRow) : narratedVitrineSeedCard(seed));
   }
   return next;
 }

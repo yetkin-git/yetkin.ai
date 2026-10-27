@@ -1,0 +1,3027 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_ing_main-8",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Happy, anxious ve scared",
+  "grade": 6,
+  "subject": "İngilizce",
+  "teacher": {
+    "name": "Selin",
+    "voice": "Kore",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_ing_main-8.mp3",
+    "durationMs": 420058,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 107610
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 107610,
+      "endMs": 356950
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 356950,
+      "endMs": 420058
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 3800,
+      "pauseAfterMs": 600,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 290,
+          "endMs": 750
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 750,
+          "endMs": 1080
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 1540,
+          "endMs": 2150
+        },
+        {
+          "word": "hoş",
+          "startMs": 2190,
+          "endMs": 2470
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 2560,
+          "endMs": 3200
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Happy, anxious ve scared",
+            "subtitle": "İngilizce",
+            "ruleBadges": [],
+            "echoPrompt": "O anki halini happy, anxious ya da scared ile söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "I am happy mutlu, I am anxious kaygılı, I am scared korkmuş anlamına gelir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "How do you feel sorusuna I feel happy veya I am happy ile cevap verilir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Scary korkutucu olan şeydir; scared ise o duyguyu hisseden kişidir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 3800,
+      "endMs": 8740,
+      "pauseAfterMs": 500,
+      "text": "Ben İngilizce öğretmenin Selin.",
+      "markedText": "Ben İngilizce öğretmenin Selin.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 3800,
+          "endMs": 4100
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 4160,
+          "endMs": 5010
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 5120,
+          "endMs": 6340
+        },
+        {
+          "word": "Selin.",
+          "startMs": 6770,
+          "endMs": 8240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8740,
+      "endMs": 19360,
+      "pauseAfterMs": 250,
+      "text": "Üstelik bu kez duygularımızın o derin ve renkli dünyasına yolculuk yapacağız!",
+      "markedText": "Üstelik bu kez duygularımızın o derin ve renkli dünyasına yolculuk yapacağız!",
+      "words": [
+        {
+          "word": "Üstelik",
+          "startMs": 8740,
+          "endMs": 9370
+        },
+        {
+          "word": "bu",
+          "startMs": 9440,
+          "endMs": 9570
+        },
+        {
+          "word": "kez",
+          "startMs": 9640,
+          "endMs": 9990
+        },
+        {
+          "word": "duygularımızın",
+          "startMs": 9990,
+          "endMs": 11920
+        },
+        {
+          "word": "o",
+          "startMs": 12460,
+          "endMs": 12640
+        },
+        {
+          "word": "derin",
+          "startMs": 13430,
+          "endMs": 13870
+        },
+        {
+          "word": "ve",
+          "startMs": 13870,
+          "endMs": 14070
+        },
+        {
+          "word": "renkli",
+          "startMs": 14300,
+          "endMs": 14950
+        },
+        {
+          "word": "dünyasına",
+          "startMs": 15240,
+          "endMs": 16030
+        },
+        {
+          "word": "yolculuk",
+          "startMs": 16400,
+          "endMs": 17160
+        },
+        {
+          "word": "yapacağız!",
+          "startMs": 17690,
+          "endMs": 19110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 19360,
+      "endMs": 45350,
+      "pauseAfterMs": 540,
+      "text": "Bazen güneşli bir havada kalbin sevinçle dolar, bazen tahtaya kalkıp şiir okumadan önce içinde tatlı bir heyecan ve kıpırtı hissedersin; bazen de gök gürültüsü duyduğunda yastığına biraz daha sıkı sarılırsın.",
+      "markedText": "Bazen güneşli bir havada kalbin sevinçle dolar, bazen tahtaya kalkıp şiir okumadan önce içinde tatlı bir heyecan ve kıpırtı hissedersin; bazen de gök gürültüsü duyduğunda yastığına biraz daha sıkı sarılırsın.",
+      "words": [
+        {
+          "word": "Bazen",
+          "startMs": 19360,
+          "endMs": 19920
+        },
+        {
+          "word": "güneşli",
+          "startMs": 20140,
+          "endMs": 21070
+        },
+        {
+          "word": "bir",
+          "startMs": 21480,
+          "endMs": 21750
+        },
+        {
+          "word": "havada",
+          "startMs": 21750,
+          "endMs": 22360
+        },
+        {
+          "word": "kalbin",
+          "startMs": 22700,
+          "endMs": 23060
+        },
+        {
+          "word": "sevinçle",
+          "startMs": 23060,
+          "endMs": 23600
+        },
+        {
+          "word": "dolar,",
+          "startMs": 24400,
+          "endMs": 25190
+        },
+        {
+          "word": "bazen",
+          "startMs": 26240,
+          "endMs": 26720
+        },
+        {
+          "word": "tahtaya",
+          "startMs": 26780,
+          "endMs": 27330
+        },
+        {
+          "word": "kalkıp",
+          "startMs": 27430,
+          "endMs": 28280
+        },
+        {
+          "word": "şiir",
+          "startMs": 28950,
+          "endMs": 29240
+        },
+        {
+          "word": "okumadan",
+          "startMs": 29280,
+          "endMs": 30190
+        },
+        {
+          "word": "önce",
+          "startMs": 30540,
+          "endMs": 30980
+        },
+        {
+          "word": "içinde",
+          "startMs": 31480,
+          "endMs": 32030
+        },
+        {
+          "word": "tatlı",
+          "startMs": 32180,
+          "endMs": 32560
+        },
+        {
+          "word": "bir",
+          "startMs": 32610,
+          "endMs": 32990
+        },
+        {
+          "word": "heyecan",
+          "startMs": 32990,
+          "endMs": 33740
+        },
+        {
+          "word": "ve",
+          "startMs": 34090,
+          "endMs": 34510
+        },
+        {
+          "word": "kıpırtı",
+          "startMs": 34820,
+          "endMs": 35170
+        },
+        {
+          "word": "hissedersin;",
+          "startMs": 35330,
+          "endMs": 36870
+        },
+        {
+          "word": "bazen",
+          "startMs": 37550,
+          "endMs": 37810
+        },
+        {
+          "word": "de",
+          "startMs": 37960,
+          "endMs": 38050
+        },
+        {
+          "word": "gök",
+          "startMs": 38220,
+          "endMs": 38340
+        },
+        {
+          "word": "gürültüsü",
+          "startMs": 38810,
+          "endMs": 39710
+        },
+        {
+          "word": "duyduğunda",
+          "startMs": 40110,
+          "endMs": 40960
+        },
+        {
+          "word": "yastığına",
+          "startMs": 41180,
+          "endMs": 41820
+        },
+        {
+          "word": "biraz",
+          "startMs": 42190,
+          "endMs": 42660
+        },
+        {
+          "word": "daha",
+          "startMs": 42730,
+          "endMs": 43240
+        },
+        {
+          "word": "sıkı",
+          "startMs": 43410,
+          "endMs": 43670
+        },
+        {
+          "word": "sarılırsın.",
+          "startMs": 43800,
+          "endMs": 44810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 45350,
+      "endMs": 49850,
+      "pauseAfterMs": 630,
+      "text": "İşte tüm bunlar bizim kıymetli duygularımızdır.",
+      "markedText": "İşte tüm bunlar bizim kıymetli duygularımızdır.",
+      "words": [
+        {
+          "word": "İşte",
+          "startMs": 45350,
+          "endMs": 45850
+        },
+        {
+          "word": "tüm",
+          "startMs": 45960,
+          "endMs": 46080
+        },
+        {
+          "word": "bunlar",
+          "startMs": 46300,
+          "endMs": 46850
+        },
+        {
+          "word": "bizim",
+          "startMs": 47250,
+          "endMs": 47530
+        },
+        {
+          "word": "kıymetli",
+          "startMs": 47530,
+          "endMs": 47980
+        },
+        {
+          "word": "duygularımızdır.",
+          "startMs": 48230,
+          "endMs": 49220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 49850,
+      "endMs": 62820,
+      "pauseAfterMs": 580,
+      "text": "'happy', 'anxious' ve 'scared' gibi hislerimizi İngilizce anlatmayı ve birine 'How do you feel?' diye sormayı öğreneceğiz.",
+      "markedText": "'happy', 'anxious' ve 'scared' gibi hislerimizi İngilizce anlatmayı ve birine 'How do you feel?' diye sormayı öğreneceğiz.",
+      "words": [
+        {
+          "word": "'happy',",
+          "startMs": 49850,
+          "endMs": 50410
+        },
+        {
+          "word": "'anxious'",
+          "startMs": 50770,
+          "endMs": 51310
+        },
+        {
+          "word": "ve",
+          "startMs": 51310,
+          "endMs": 51510
+        },
+        {
+          "word": "'scared'",
+          "startMs": 51870,
+          "endMs": 52300
+        },
+        {
+          "word": "gibi",
+          "startMs": 52350,
+          "endMs": 52620
+        },
+        {
+          "word": "hislerimizi",
+          "startMs": 52760,
+          "endMs": 54120
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 54370,
+          "endMs": 54960
+        },
+        {
+          "word": "anlatmayı",
+          "startMs": 55100,
+          "endMs": 56270
+        },
+        {
+          "word": "ve",
+          "startMs": 56570,
+          "endMs": 56830
+        },
+        {
+          "word": "birine",
+          "startMs": 56830,
+          "endMs": 57590
+        },
+        {
+          "word": "'How",
+          "startMs": 57590,
+          "endMs": 58340
+        },
+        {
+          "word": "do",
+          "startMs": 58710,
+          "endMs": 58810
+        },
+        {
+          "word": "you",
+          "startMs": 59080,
+          "endMs": 59340
+        },
+        {
+          "word": "feel?'",
+          "startMs": 59580,
+          "endMs": 59890
+        },
+        {
+          "word": "diye",
+          "startMs": 60060,
+          "endMs": 60470
+        },
+        {
+          "word": "sormayı",
+          "startMs": 60620,
+          "endMs": 61210
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 61210,
+          "endMs": 62240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 62820,
+      "endMs": 72840,
+      "pauseAfterMs": 400,
+      "text": "Akşam eve geldiğinde ailen sana gününü sorduğunda 'I am very happy today' diyerek sarıl.",
+      "markedText": "Akşam eve geldiğinde ailen sana gününü sorduğunda 'I am very happy today' diyerek sarıl.",
+      "words": [
+        {
+          "word": "Akşam",
+          "startMs": 62820,
+          "endMs": 63500
+        },
+        {
+          "word": "eve",
+          "startMs": 63500,
+          "endMs": 64050
+        },
+        {
+          "word": "geldiğinde",
+          "startMs": 64360,
+          "endMs": 65290
+        },
+        {
+          "word": "ailen",
+          "startMs": 65450,
+          "endMs": 65970
+        },
+        {
+          "word": "sana",
+          "startMs": 65970,
+          "endMs": 66440
+        },
+        {
+          "word": "gününü",
+          "startMs": 66830,
+          "endMs": 67120
+        },
+        {
+          "word": "sorduğunda",
+          "startMs": 67280,
+          "endMs": 68330
+        },
+        {
+          "word": "'I",
+          "startMs": 68330,
+          "endMs": 68470
+        },
+        {
+          "word": "am",
+          "startMs": 68570,
+          "endMs": 68810
+        },
+        {
+          "word": "very",
+          "startMs": 68810,
+          "endMs": 69410
+        },
+        {
+          "word": "happy",
+          "startMs": 69990,
+          "endMs": 70380
+        },
+        {
+          "word": "today'",
+          "startMs": 70380,
+          "endMs": 70760
+        },
+        {
+          "word": "diyerek",
+          "startMs": 70850,
+          "endMs": 71450
+        },
+        {
+          "word": "sarıl.",
+          "startMs": 71570,
+          "endMs": 72440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 72840,
+      "endMs": 88790,
+      "pauseAfterMs": 780,
+      "text": "Sınavdan veya önemli bir maçtan önce kalbin hızla çarpıyorsa kendine 'I am a little anxious, but I can do this!' diyerek özgüven ver.",
+      "markedText": "Sınavdan veya önemli bir maçtan önce kalbin hızla çarpıyorsa kendine 'I am a little anxious, but I can do this!' diyerek özgüven ver.",
+      "words": [
+        {
+          "word": "Sınavdan",
+          "startMs": 72840,
+          "endMs": 73630
+        },
+        {
+          "word": "veya",
+          "startMs": 73710,
+          "endMs": 74100
+        },
+        {
+          "word": "önemli",
+          "startMs": 74680,
+          "endMs": 75440
+        },
+        {
+          "word": "bir",
+          "startMs": 75520,
+          "endMs": 75700
+        },
+        {
+          "word": "maçtan",
+          "startMs": 75800,
+          "endMs": 76420
+        },
+        {
+          "word": "önce",
+          "startMs": 76870,
+          "endMs": 77400
+        },
+        {
+          "word": "kalbin",
+          "startMs": 77590,
+          "endMs": 77940
+        },
+        {
+          "word": "hızla",
+          "startMs": 78030,
+          "endMs": 78650
+        },
+        {
+          "word": "çarpıyorsa",
+          "startMs": 78940,
+          "endMs": 80600
+        },
+        {
+          "word": "kendine",
+          "startMs": 81220,
+          "endMs": 81830
+        },
+        {
+          "word": "'I",
+          "startMs": 82100,
+          "endMs": 82260
+        },
+        {
+          "word": "am",
+          "startMs": 82260,
+          "endMs": 82410
+        },
+        {
+          "word": "a",
+          "startMs": 82490,
+          "endMs": 82620
+        },
+        {
+          "word": "little",
+          "startMs": 82750,
+          "endMs": 83150
+        },
+        {
+          "word": "anxious,",
+          "startMs": 83760,
+          "endMs": 84320
+        },
+        {
+          "word": "but",
+          "startMs": 84950,
+          "endMs": 85030
+        },
+        {
+          "word": "I",
+          "startMs": 85100,
+          "endMs": 85190
+        },
+        {
+          "word": "can",
+          "startMs": 85190,
+          "endMs": 85450
+        },
+        {
+          "word": "do",
+          "startMs": 85600,
+          "endMs": 85850
+        },
+        {
+          "word": "this!'",
+          "startMs": 85850,
+          "endMs": 86130
+        },
+        {
+          "word": "diyerek",
+          "startMs": 86320,
+          "endMs": 86870
+        },
+        {
+          "word": "özgüven",
+          "startMs": 87010,
+          "endMs": 87520
+        },
+        {
+          "word": "ver.",
+          "startMs": 87600,
+          "endMs": 88010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 88790,
+      "endMs": 99930,
+      "pauseAfterMs": 760,
+      "text": "Bir arkadaşının yüzü asıksa yanına gidip şefkatle 'How do you feel?' diye sor.",
+      "markedText": "Bir arkadaşının yüzü asıksa yanına gidip şefkatle 'How do you feel?' diye sor.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 88790,
+          "endMs": 89040
+        },
+        {
+          "word": "arkadaşının",
+          "startMs": 89040,
+          "endMs": 90890
+        },
+        {
+          "word": "yüzü",
+          "startMs": 91670,
+          "endMs": 92030
+        },
+        {
+          "word": "asıksa",
+          "startMs": 92030,
+          "endMs": 92790
+        },
+        {
+          "word": "yanına",
+          "startMs": 92920,
+          "endMs": 93720
+        },
+        {
+          "word": "gidip",
+          "startMs": 94370,
+          "endMs": 94590
+        },
+        {
+          "word": "şefkatle",
+          "startMs": 94830,
+          "endMs": 95400
+        },
+        {
+          "word": "'How",
+          "startMs": 95490,
+          "endMs": 96560
+        },
+        {
+          "word": "do",
+          "startMs": 96840,
+          "endMs": 97030
+        },
+        {
+          "word": "you",
+          "startMs": 97140,
+          "endMs": 97520
+        },
+        {
+          "word": "feel?'",
+          "startMs": 97640,
+          "endMs": 97800
+        },
+        {
+          "word": "diye",
+          "startMs": 97950,
+          "endMs": 98560
+        },
+        {
+          "word": "sor.",
+          "startMs": 98780,
+          "endMs": 99170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 99930,
+      "endMs": 107610,
+      "pauseAfterMs": 790,
+      "text": "Gökyüzünde yağmur yağsa bile kendi içindeki güneşi 'I am happy' diyerek koru.",
+      "markedText": "Gökyüzünde yağmur yağsa bile kendi içindeki güneşi 'I am happy' diyerek koru.",
+      "words": [
+        {
+          "word": "Gökyüzünde",
+          "startMs": 99930,
+          "endMs": 100690
+        },
+        {
+          "word": "yağmur",
+          "startMs": 100780,
+          "endMs": 101390
+        },
+        {
+          "word": "yağsa",
+          "startMs": 101390,
+          "endMs": 101860
+        },
+        {
+          "word": "bile",
+          "startMs": 101960,
+          "endMs": 102190
+        },
+        {
+          "word": "kendi",
+          "startMs": 102530,
+          "endMs": 103110
+        },
+        {
+          "word": "içindeki",
+          "startMs": 103400,
+          "endMs": 104020
+        },
+        {
+          "word": "güneşi",
+          "startMs": 104020,
+          "endMs": 104580
+        },
+        {
+          "word": "'I",
+          "startMs": 104670,
+          "endMs": 104740
+        },
+        {
+          "word": "am",
+          "startMs": 104810,
+          "endMs": 104960
+        },
+        {
+          "word": "happy'",
+          "startMs": 105170,
+          "endMs": 105540
+        },
+        {
+          "word": "diyerek",
+          "startMs": 105730,
+          "endMs": 106240
+        },
+        {
+          "word": "koru.",
+          "startMs": 106360,
+          "endMs": 106820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 107610,
+      "endMs": 114720,
+      "pauseAfterMs": 300,
+      "text": "Duygularımızı anlatırken cümleye 'I am' veya 'I feel' kalıbıyla başlarız.",
+      "markedText": "Duygularımızı anlatırken cümleye 'I am' veya 'I feel' kalıbıyla başlarız.",
+      "words": [
+        {
+          "word": "Duygularımızı",
+          "startMs": 107610,
+          "endMs": 108970
+        },
+        {
+          "word": "anlatırken",
+          "startMs": 109050,
+          "endMs": 109840
+        },
+        {
+          "word": "cümleye",
+          "startMs": 110150,
+          "endMs": 110440
+        },
+        {
+          "word": "'I",
+          "startMs": 110580,
+          "endMs": 110680
+        },
+        {
+          "word": "am'",
+          "startMs": 110680,
+          "endMs": 110910
+        },
+        {
+          "word": "veya",
+          "startMs": 111070,
+          "endMs": 111410
+        },
+        {
+          "word": "'I",
+          "startMs": 111680,
+          "endMs": 111840
+        },
+        {
+          "word": "feel'",
+          "startMs": 111980,
+          "endMs": 112270
+        },
+        {
+          "word": "kalıbıyla",
+          "startMs": 113130,
+          "endMs": 113680
+        },
+        {
+          "word": "başlarız.",
+          "startMs": 113760,
+          "endMs": 114420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 114720,
+      "endMs": 120800,
+      "pauseAfterMs": 700,
+      "text": "'I am happy' mutluyum, 'I am sad' üzgünüm demektir.",
+      "markedText": "'I am happy' mutluyum, 'I am sad' üzgünüm demektir.",
+      "words": [
+        {
+          "word": "'I",
+          "startMs": 114720,
+          "endMs": 114850
+        },
+        {
+          "word": "am",
+          "startMs": 114940,
+          "endMs": 115060
+        },
+        {
+          "word": "happy'",
+          "startMs": 115150,
+          "endMs": 115670
+        },
+        {
+          "word": "mutluyum,",
+          "startMs": 115870,
+          "endMs": 116670
+        },
+        {
+          "word": "'I",
+          "startMs": 117000,
+          "endMs": 117080
+        },
+        {
+          "word": "am",
+          "startMs": 117080,
+          "endMs": 117230
+        },
+        {
+          "word": "sad'",
+          "startMs": 117230,
+          "endMs": 117630
+        },
+        {
+          "word": "üzgünüm",
+          "startMs": 117840,
+          "endMs": 118650
+        },
+        {
+          "word": "demektir.",
+          "startMs": 118980,
+          "endMs": 120100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 120800,
+      "endMs": 139910,
+      "pauseAfterMs": 710,
+      "text": "'I am anxious' dediğinde ise henüz gerçekleşmemiş bir olay öncesinde içinde hissettiğin tatlı kaygıyı veya meraklı telaşı anlatırsın.",
+      "markedText": "'I am anxious' dediğinde ise henüz gerçekleşmemiş bir olay öncesinde içinde hissettiğin tatlı kaygıyı veya meraklı telaşı anlatırsın.",
+      "words": [
+        {
+          "word": "'I",
+          "startMs": 120800,
+          "endMs": 120880
+        },
+        {
+          "word": "am",
+          "startMs": 120880,
+          "endMs": 121230
+        },
+        {
+          "word": "anxious'",
+          "startMs": 121650,
+          "endMs": 123060
+        },
+        {
+          "word": "dediğinde",
+          "startMs": 123300,
+          "endMs": 124400
+        },
+        {
+          "word": "ise",
+          "startMs": 124620,
+          "endMs": 124910
+        },
+        {
+          "word": "henüz",
+          "startMs": 125350,
+          "endMs": 126610
+        },
+        {
+          "word": "gerçekleşmemiş",
+          "startMs": 126880,
+          "endMs": 127720
+        },
+        {
+          "word": "bir",
+          "startMs": 127990,
+          "endMs": 128170
+        },
+        {
+          "word": "olay",
+          "startMs": 128280,
+          "endMs": 128610
+        },
+        {
+          "word": "öncesinde",
+          "startMs": 129560,
+          "endMs": 130450
+        },
+        {
+          "word": "içinde",
+          "startMs": 130980,
+          "endMs": 131680
+        },
+        {
+          "word": "hissettiğin",
+          "startMs": 132540,
+          "endMs": 133830
+        },
+        {
+          "word": "tatlı",
+          "startMs": 134720,
+          "endMs": 135080
+        },
+        {
+          "word": "kaygıyı",
+          "startMs": 135210,
+          "endMs": 136080
+        },
+        {
+          "word": "veya",
+          "startMs": 136490,
+          "endMs": 136750
+        },
+        {
+          "word": "meraklı",
+          "startMs": 136980,
+          "endMs": 137620
+        },
+        {
+          "word": "telaşı",
+          "startMs": 137780,
+          "endMs": 138240
+        },
+        {
+          "word": "anlatırsın.",
+          "startMs": 138240,
+          "endMs": 139200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 139910,
+      "endMs": 146400,
+      "pauseAfterMs": 600,
+      "text": "'I am scared' ise korktuğunu samimiyetle dile getirir.",
+      "markedText": "'I am scared' ise korktuğunu samimiyetle dile getirir.",
+      "words": [
+        {
+          "word": "'I",
+          "startMs": 139910,
+          "endMs": 140130
+        },
+        {
+          "word": "am",
+          "startMs": 140350,
+          "endMs": 140640
+        },
+        {
+          "word": "scared'",
+          "startMs": 140900,
+          "endMs": 141330
+        },
+        {
+          "word": "ise",
+          "startMs": 141630,
+          "endMs": 141800
+        },
+        {
+          "word": "korktuğunu",
+          "startMs": 142230,
+          "endMs": 142810
+        },
+        {
+          "word": "samimiyetle",
+          "startMs": 143130,
+          "endMs": 144140
+        },
+        {
+          "word": "dile",
+          "startMs": 144310,
+          "endMs": 144540
+        },
+        {
+          "word": "getirir.",
+          "startMs": 144730,
+          "endMs": 145800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 146400,
+      "endMs": 160150,
+      "pauseAfterMs": 310,
+      "text": "Bir macera öncesinde 'I am excited' diyerek heyecanını, 'I am calm' diyerek huzurunu paylaşabilirsin.",
+      "markedText": "Bir macera öncesinde 'I am excited' diyerek heyecanını, 'I am calm' diyerek huzurunu paylaşabilirsin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 146400,
+          "endMs": 146810
+        },
+        {
+          "word": "macera",
+          "startMs": 147120,
+          "endMs": 148180
+        },
+        {
+          "word": "öncesinde",
+          "startMs": 148440,
+          "endMs": 149660
+        },
+        {
+          "word": "'I",
+          "startMs": 149950,
+          "endMs": 150160
+        },
+        {
+          "word": "am",
+          "startMs": 150350,
+          "endMs": 150580
+        },
+        {
+          "word": "excited'",
+          "startMs": 150660,
+          "endMs": 151360
+        },
+        {
+          "word": "diyerek",
+          "startMs": 152270,
+          "endMs": 153170
+        },
+        {
+          "word": "heyecanını,",
+          "startMs": 153350,
+          "endMs": 154190
+        },
+        {
+          "word": "'I",
+          "startMs": 154510,
+          "endMs": 154630
+        },
+        {
+          "word": "am",
+          "startMs": 154630,
+          "endMs": 154900
+        },
+        {
+          "word": "calm'",
+          "startMs": 155000,
+          "endMs": 155310
+        },
+        {
+          "word": "diyerek",
+          "startMs": 155620,
+          "endMs": 156590
+        },
+        {
+          "word": "huzurunu",
+          "startMs": 156680,
+          "endMs": 157760
+        },
+        {
+          "word": "paylaşabilirsin.",
+          "startMs": 158010,
+          "endMs": 159840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 160150,
+      "endMs": 171450,
+      "pauseAfterMs": 1330,
+      "text": "Bir arkadaşına nasıl hissettiğini sormak için 'How do you feel?' dersin",
+      "markedText": "Bir arkadaşına nasıl hissettiğini sormak için 'How do you feel?' dersin",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 160150,
+          "endMs": 160510
+        },
+        {
+          "word": "arkadaşına",
+          "startMs": 160640,
+          "endMs": 161760
+        },
+        {
+          "word": "nasıl",
+          "startMs": 161910,
+          "endMs": 162180
+        },
+        {
+          "word": "hissettiğini",
+          "startMs": 162500,
+          "endMs": 163170
+        },
+        {
+          "word": "sormak",
+          "startMs": 165150,
+          "endMs": 165710
+        },
+        {
+          "word": "için",
+          "startMs": 165710,
+          "endMs": 166250
+        },
+        {
+          "word": "'How",
+          "startMs": 166810,
+          "endMs": 167010
+        },
+        {
+          "word": "do",
+          "startMs": 167480,
+          "endMs": 167670
+        },
+        {
+          "word": "you",
+          "startMs": 167750,
+          "endMs": 168220
+        },
+        {
+          "word": "feel?'",
+          "startMs": 168730,
+          "endMs": 169170
+        },
+        {
+          "word": "dersin",
+          "startMs": 169620,
+          "endMs": 170120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 171450,
+      "endMs": 190090,
+      "pauseAfterMs": 1150,
+      "text": "Pratik kural: 'Anxious' gelecekteki bir durum için duyulan kaygı ve heyecandır; 'scared' ise o an karşılaşılan bir şeyden korkmaktır.",
+      "markedText": "Pratik kural: 'Anxious' gelecekteki bir durum için duyulan kaygı ve heyecandır; 'scared' ise o an karşılaşılan bir şeyden korkmaktır.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 171450,
+          "endMs": 172350
+        },
+        {
+          "word": "kural:",
+          "startMs": 172580,
+          "endMs": 173140
+        },
+        {
+          "word": "'Anxious'",
+          "startMs": 173550,
+          "endMs": 174270
+        },
+        {
+          "word": "gelecekteki",
+          "startMs": 174610,
+          "endMs": 176060
+        },
+        {
+          "word": "bir",
+          "startMs": 176850,
+          "endMs": 177160
+        },
+        {
+          "word": "durum",
+          "startMs": 177640,
+          "endMs": 178010
+        },
+        {
+          "word": "için",
+          "startMs": 178120,
+          "endMs": 178880
+        },
+        {
+          "word": "duyulan",
+          "startMs": 179140,
+          "endMs": 179600
+        },
+        {
+          "word": "kaygı",
+          "startMs": 179720,
+          "endMs": 180040
+        },
+        {
+          "word": "ve",
+          "startMs": 180320,
+          "endMs": 180570
+        },
+        {
+          "word": "heyecandır;",
+          "startMs": 180880,
+          "endMs": 181670
+        },
+        {
+          "word": "'scared'",
+          "startMs": 181860,
+          "endMs": 182790
+        },
+        {
+          "word": "ise",
+          "startMs": 183550,
+          "endMs": 183820
+        },
+        {
+          "word": "o",
+          "startMs": 184330,
+          "endMs": 184430
+        },
+        {
+          "word": "an",
+          "startMs": 184430,
+          "endMs": 184710
+        },
+        {
+          "word": "karşılaşılan",
+          "startMs": 184910,
+          "endMs": 185700
+        },
+        {
+          "word": "bir",
+          "startMs": 186030,
+          "endMs": 186150
+        },
+        {
+          "word": "şeyden",
+          "startMs": 186580,
+          "endMs": 187120
+        },
+        {
+          "word": "korkmaktır.",
+          "startMs": 187360,
+          "endMs": 188940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 190090,
+      "endMs": 196550,
+      "pauseAfterMs": 960,
+      "text": "İkisi de tamamen insani ve çok doğal hislerdir.",
+      "markedText": "İkisi de tamamen insani ve çok doğal hislerdir.",
+      "words": [
+        {
+          "word": "İkisi",
+          "startMs": 190090,
+          "endMs": 190680
+        },
+        {
+          "word": "de",
+          "startMs": 190780,
+          "endMs": 191020
+        },
+        {
+          "word": "tamamen",
+          "startMs": 191100,
+          "endMs": 191860
+        },
+        {
+          "word": "insani",
+          "startMs": 191930,
+          "endMs": 192900
+        },
+        {
+          "word": "ve",
+          "startMs": 193240,
+          "endMs": 193410
+        },
+        {
+          "word": "çok",
+          "startMs": 193410,
+          "endMs": 193660
+        },
+        {
+          "word": "doğal",
+          "startMs": 193660,
+          "endMs": 194670
+        },
+        {
+          "word": "hislerdir.",
+          "startMs": 194920,
+          "endMs": 195590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 196550,
+      "endMs": 213010,
+      "pauseAfterMs": 1490,
+      "text": "Farklı anları birlikte canlandıralım: Teneffüste en sevdiğin oyunu oynarken 'I feel happy and energetic!' dersin.",
+      "markedText": "Farklı anları birlikte canlandıralım: Teneffüste en sevdiğin oyunu oynarken 'I feel happy and energetic!' dersin.",
+      "words": [
+        {
+          "word": "Farklı",
+          "startMs": 196550,
+          "endMs": 197450
+        },
+        {
+          "word": "anları",
+          "startMs": 197550,
+          "endMs": 198190
+        },
+        {
+          "word": "birlikte",
+          "startMs": 198370,
+          "endMs": 199540
+        },
+        {
+          "word": "canlandıralım:",
+          "startMs": 200720,
+          "endMs": 201980
+        },
+        {
+          "word": "Teneffüste",
+          "startMs": 202310,
+          "endMs": 203730
+        },
+        {
+          "word": "en",
+          "startMs": 204110,
+          "endMs": 204270
+        },
+        {
+          "word": "sevdiğin",
+          "startMs": 204310,
+          "endMs": 205360
+        },
+        {
+          "word": "oyunu",
+          "startMs": 206590,
+          "endMs": 207200
+        },
+        {
+          "word": "oynarken",
+          "startMs": 207200,
+          "endMs": 208100
+        },
+        {
+          "word": "'I",
+          "startMs": 208170,
+          "endMs": 208300
+        },
+        {
+          "word": "feel",
+          "startMs": 208430,
+          "endMs": 208690
+        },
+        {
+          "word": "happy",
+          "startMs": 208780,
+          "endMs": 209190
+        },
+        {
+          "word": "and",
+          "startMs": 209340,
+          "endMs": 209770
+        },
+        {
+          "word": "energetic!'",
+          "startMs": 209990,
+          "endMs": 210570
+        },
+        {
+          "word": "dersin.",
+          "startMs": 210850,
+          "endMs": 211520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 213010,
+      "endMs": 229190,
+      "pauseAfterMs": 1090,
+      "text": "Yarın okulda önemli bir İngilizce projesi sunacaksan 'I am a little anxious about tomorrow' demen çok doğaldır.",
+      "markedText": "Yarın okulda önemli bir İngilizce projesi sunacaksan 'I am a little anxious about tomorrow' demen çok doğaldır.",
+      "words": [
+        {
+          "word": "Yarın",
+          "startMs": 213010,
+          "endMs": 213500
+        },
+        {
+          "word": "okulda",
+          "startMs": 213690,
+          "endMs": 214230
+        },
+        {
+          "word": "önemli",
+          "startMs": 214470,
+          "endMs": 215020
+        },
+        {
+          "word": "bir",
+          "startMs": 215650,
+          "endMs": 216270
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 216320,
+          "endMs": 217640
+        },
+        {
+          "word": "projesi",
+          "startMs": 217840,
+          "endMs": 218230
+        },
+        {
+          "word": "sunacaksan",
+          "startMs": 218520,
+          "endMs": 219140
+        },
+        {
+          "word": "'I",
+          "startMs": 219310,
+          "endMs": 219490
+        },
+        {
+          "word": "am",
+          "startMs": 219600,
+          "endMs": 219760
+        },
+        {
+          "word": "a",
+          "startMs": 219940,
+          "endMs": 220590
+        },
+        {
+          "word": "little",
+          "startMs": 221290,
+          "endMs": 221800
+        },
+        {
+          "word": "anxious",
+          "startMs": 222310,
+          "endMs": 222720
+        },
+        {
+          "word": "about",
+          "startMs": 223370,
+          "endMs": 224070
+        },
+        {
+          "word": "tomorrow'",
+          "startMs": 224280,
+          "endMs": 225270
+        },
+        {
+          "word": "demen",
+          "startMs": 226300,
+          "endMs": 226770
+        },
+        {
+          "word": "çok",
+          "startMs": 226960,
+          "endMs": 227170
+        },
+        {
+          "word": "doğaldır.",
+          "startMs": 227210,
+          "endMs": 228100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 229190,
+      "endMs": 237930,
+      "pauseAfterMs": 950,
+      "text": "Şimşek çaktığında pencere kenarındaysan 'I am scared of thunder' diyebilirsin.",
+      "markedText": "Şimşek çaktığında pencere kenarındaysan 'I am scared of thunder' diyebilirsin.",
+      "words": [
+        {
+          "word": "Şimşek",
+          "startMs": 229190,
+          "endMs": 229500
+        },
+        {
+          "word": "çaktığında",
+          "startMs": 229500,
+          "endMs": 230920
+        },
+        {
+          "word": "pencere",
+          "startMs": 232020,
+          "endMs": 232860
+        },
+        {
+          "word": "kenarındaysan",
+          "startMs": 233000,
+          "endMs": 234050
+        },
+        {
+          "word": "'I",
+          "startMs": 234150,
+          "endMs": 234240
+        },
+        {
+          "word": "am",
+          "startMs": 234580,
+          "endMs": 234740
+        },
+        {
+          "word": "scared",
+          "startMs": 234850,
+          "endMs": 235060
+        },
+        {
+          "word": "of",
+          "startMs": 235220,
+          "endMs": 235320
+        },
+        {
+          "word": "thunder'",
+          "startMs": 235420,
+          "endMs": 235790
+        },
+        {
+          "word": "diyebilirsin.",
+          "startMs": 235860,
+          "endMs": 236980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 237930,
+      "endMs": 250220,
+      "pauseAfterMs": 330,
+      "text": "Arkadaşın sana yaklaşıp 'How do you feel today?' diye sorduğunda gülümseyerek 'I feel great!' diyerek cevap verirsin.",
+      "markedText": "Arkadaşın sana yaklaşıp 'How do you feel today?' diye sorduğunda gülümseyerek 'I feel great!' diyerek cevap verirsin.",
+      "words": [
+        {
+          "word": "Arkadaşın",
+          "startMs": 237930,
+          "endMs": 238630
+        },
+        {
+          "word": "sana",
+          "startMs": 238700,
+          "endMs": 239080
+        },
+        {
+          "word": "yaklaşıp",
+          "startMs": 239140,
+          "endMs": 239770
+        },
+        {
+          "word": "'How",
+          "startMs": 239880,
+          "endMs": 240010
+        },
+        {
+          "word": "do",
+          "startMs": 240050,
+          "endMs": 240130
+        },
+        {
+          "word": "you",
+          "startMs": 240590,
+          "endMs": 240700
+        },
+        {
+          "word": "feel",
+          "startMs": 240800,
+          "endMs": 241220
+        },
+        {
+          "word": "today?'",
+          "startMs": 241410,
+          "endMs": 241960
+        },
+        {
+          "word": "diye",
+          "startMs": 241960,
+          "endMs": 242210
+        },
+        {
+          "word": "sorduğunda",
+          "startMs": 242210,
+          "endMs": 243010
+        },
+        {
+          "word": "gülümseyerek",
+          "startMs": 243200,
+          "endMs": 244110
+        },
+        {
+          "word": "'I",
+          "startMs": 244250,
+          "endMs": 244720
+        },
+        {
+          "word": "feel",
+          "startMs": 246060,
+          "endMs": 246260
+        },
+        {
+          "word": "great!'",
+          "startMs": 246630,
+          "endMs": 246770
+        },
+        {
+          "word": "diyerek",
+          "startMs": 246880,
+          "endMs": 247470
+        },
+        {
+          "word": "cevap",
+          "startMs": 248520,
+          "endMs": 248910
+        },
+        {
+          "word": "verirsin.",
+          "startMs": 249020,
+          "endMs": 249890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 250220,
+      "endMs": 264520,
+      "pauseAfterMs": 580,
+      "text": "Unutma: Hava durumu gökyüzündedir ve 'It is rainy' denir; duygu ise senin içindedir ve 'I am happy' diye kurulur.",
+      "markedText": "Unutma: Hava durumu gökyüzündedir ve 'It is rainy' denir; duygu ise senin içindedir ve 'I am happy' diye kurulur.",
+      "words": [
+        {
+          "word": "Unutma:",
+          "startMs": 250220,
+          "endMs": 251210
+        },
+        {
+          "word": "Hava",
+          "startMs": 251450,
+          "endMs": 251770
+        },
+        {
+          "word": "durumu",
+          "startMs": 251960,
+          "endMs": 252430
+        },
+        {
+          "word": "gökyüzündedir",
+          "startMs": 252550,
+          "endMs": 253510
+        },
+        {
+          "word": "ve",
+          "startMs": 254150,
+          "endMs": 254290
+        },
+        {
+          "word": "'It",
+          "startMs": 254420,
+          "endMs": 254660
+        },
+        {
+          "word": "is",
+          "startMs": 254660,
+          "endMs": 254810
+        },
+        {
+          "word": "rainy'",
+          "startMs": 254810,
+          "endMs": 255410
+        },
+        {
+          "word": "denir;",
+          "startMs": 255550,
+          "endMs": 256140
+        },
+        {
+          "word": "duygu",
+          "startMs": 257170,
+          "endMs": 257720
+        },
+        {
+          "word": "ise",
+          "startMs": 257920,
+          "endMs": 258030
+        },
+        {
+          "word": "senin",
+          "startMs": 258140,
+          "endMs": 258700
+        },
+        {
+          "word": "içindedir",
+          "startMs": 259500,
+          "endMs": 259830
+        },
+        {
+          "word": "ve",
+          "startMs": 259980,
+          "endMs": 260110
+        },
+        {
+          "word": "'I",
+          "startMs": 260450,
+          "endMs": 260620
+        },
+        {
+          "word": "am",
+          "startMs": 261180,
+          "endMs": 261330
+        },
+        {
+          "word": "happy'",
+          "startMs": 261780,
+          "endMs": 262020
+        },
+        {
+          "word": "diye",
+          "startMs": 262280,
+          "endMs": 262700
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 262780,
+          "endMs": 263940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 264520,
+      "endMs": 267940,
+      "pauseAfterMs": 1230,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 264520,
+          "endMs": 265770
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 265870,
+          "endMs": 266710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 267940,
+      "endMs": 270530,
+      "pauseAfterMs": 1040,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 267940,
+          "endMs": 268790
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 268790,
+          "endMs": 269490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 270530,
+      "endMs": 273910,
+      "pauseAfterMs": 210,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 270530,
+          "endMs": 270630
+        },
+        {
+          "word": "noktayı",
+          "startMs": 270710,
+          "endMs": 271370
+        },
+        {
+          "word": "sen",
+          "startMs": 271630,
+          "endMs": 272020
+        },
+        {
+          "word": "de",
+          "startMs": 272020,
+          "endMs": 272170
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 272260,
+          "endMs": 273700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 273910,
+      "endMs": 287320,
+      "pauseAfterMs": 1420,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 273910,
+          "endMs": 274370
+        },
+        {
+          "word": "sevgili",
+          "startMs": 274370,
+          "endMs": 274770
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 275170,
+          "endMs": 276050
+        },
+        {
+          "word": "işte",
+          "startMs": 277310,
+          "endMs": 278130
+        },
+        {
+          "word": "tam",
+          "startMs": 278250,
+          "endMs": 278860
+        },
+        {
+          "word": "bu",
+          "startMs": 279030,
+          "endMs": 279250
+        },
+        {
+          "word": "noktada",
+          "startMs": 279480,
+          "endMs": 280260
+        },
+        {
+          "word": "dikkat",
+          "startMs": 280360,
+          "endMs": 281010
+        },
+        {
+          "word": "etmen",
+          "startMs": 281450,
+          "endMs": 281910
+        },
+        {
+          "word": "gereken",
+          "startMs": 282100,
+          "endMs": 283050
+        },
+        {
+          "word": "kilit",
+          "startMs": 283900,
+          "endMs": 284440
+        },
+        {
+          "word": "nokta.",
+          "startMs": 284740,
+          "endMs": 285900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 287320,
+      "endMs": 294640,
+      "pauseAfterMs": 610,
+      "text": "Kendi hissini söylerken 'scared' kelimesini seçmeye özen gösterebilirsin.",
+      "markedText": "Kendi hissini söylerken 'scared' kelimesini seçmeye özen gösterebilirsin.",
+      "words": [
+        {
+          "word": "Kendi",
+          "startMs": 287320,
+          "endMs": 287760
+        },
+        {
+          "word": "hissini",
+          "startMs": 287910,
+          "endMs": 288080
+        },
+        {
+          "word": "söylerken",
+          "startMs": 288080,
+          "endMs": 288850
+        },
+        {
+          "word": "'scared'",
+          "startMs": 289530,
+          "endMs": 289820
+        },
+        {
+          "word": "kelimesini",
+          "startMs": 290030,
+          "endMs": 291000
+        },
+        {
+          "word": "seçmeye",
+          "startMs": 291690,
+          "endMs": 292120
+        },
+        {
+          "word": "özen",
+          "startMs": 292210,
+          "endMs": 292600
+        },
+        {
+          "word": "gösterebilirsin.",
+          "startMs": 292600,
+          "endMs": 294030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 294640,
+      "endMs": 317480,
+      "pauseAfterMs": 580,
+      "text": "Çünkü 'scared' korkan kişiyi, 'scary' ise korkutucu olan nesneyi veya filmi anlatır; örneğin 'The film is scary, but I am not scared!' demek harika bir ayrımdır.",
+      "markedText": "Çünkü 'scared' korkan kişiyi, 'scary' ise korkutucu olan nesneyi veya filmi anlatır; örneğin 'The film is scary, but I am not scared!' demek harika bir ayrımdır.",
+      "words": [
+        {
+          "word": "Çünkü",
+          "startMs": 294640,
+          "endMs": 295040
+        },
+        {
+          "word": "'scared'",
+          "startMs": 295040,
+          "endMs": 295420
+        },
+        {
+          "word": "korkan",
+          "startMs": 295860,
+          "endMs": 296230
+        },
+        {
+          "word": "kişiyi,",
+          "startMs": 296350,
+          "endMs": 297130
+        },
+        {
+          "word": "'scary'",
+          "startMs": 297900,
+          "endMs": 298200
+        },
+        {
+          "word": "ise",
+          "startMs": 298680,
+          "endMs": 298890
+        },
+        {
+          "word": "korkutucu",
+          "startMs": 299190,
+          "endMs": 300070
+        },
+        {
+          "word": "olan",
+          "startMs": 300440,
+          "endMs": 300670
+        },
+        {
+          "word": "nesneyi",
+          "startMs": 300880,
+          "endMs": 301860
+        },
+        {
+          "word": "veya",
+          "startMs": 302780,
+          "endMs": 303050
+        },
+        {
+          "word": "filmi",
+          "startMs": 303130,
+          "endMs": 303520
+        },
+        {
+          "word": "anlatır;",
+          "startMs": 303700,
+          "endMs": 304490
+        },
+        {
+          "word": "örneğin",
+          "startMs": 304940,
+          "endMs": 305630
+        },
+        {
+          "word": "'The",
+          "startMs": 305970,
+          "endMs": 306340
+        },
+        {
+          "word": "film",
+          "startMs": 306400,
+          "endMs": 306930
+        },
+        {
+          "word": "is",
+          "startMs": 307980,
+          "endMs": 308050
+        },
+        {
+          "word": "scary,",
+          "startMs": 308120,
+          "endMs": 309120
+        },
+        {
+          "word": "but",
+          "startMs": 310010,
+          "endMs": 310220
+        },
+        {
+          "word": "I",
+          "startMs": 310220,
+          "endMs": 310330
+        },
+        {
+          "word": "am",
+          "startMs": 310440,
+          "endMs": 310830
+        },
+        {
+          "word": "not",
+          "startMs": 311100,
+          "endMs": 311510
+        },
+        {
+          "word": "scared!'",
+          "startMs": 312180,
+          "endMs": 313170
+        },
+        {
+          "word": "demek",
+          "startMs": 313430,
+          "endMs": 313920
+        },
+        {
+          "word": "harika",
+          "startMs": 314540,
+          "endMs": 315270
+        },
+        {
+          "word": "bir",
+          "startMs": 315600,
+          "endMs": 315730
+        },
+        {
+          "word": "ayrımdır.",
+          "startMs": 316130,
+          "endMs": 316900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 317480,
+      "endMs": 343800,
+      "pauseAfterMs": 970,
+      "text": "Ayrıca duygularını ifade ederken 'I am happy' şeklinde yardımcı fiilini kullanmayı ve arkadaşına halini sorarken 'How do you feel?' kalıbını tercih etmeyi sevgiyle aklında tutabilirsin.",
+      "markedText": "Ayrıca duygularını ifade ederken 'I am happy' şeklinde yardımcı fiilini kullanmayı ve arkadaşına halini sorarken 'How do you feel?' kalıbını tercih etmeyi sevgiyle aklında tutabilirsin.",
+      "words": [
+        {
+          "word": "Ayrıca",
+          "startMs": 317480,
+          "endMs": 318240
+        },
+        {
+          "word": "duygularını",
+          "startMs": 318570,
+          "endMs": 319960
+        },
+        {
+          "word": "ifade",
+          "startMs": 320390,
+          "endMs": 320600
+        },
+        {
+          "word": "ederken",
+          "startMs": 320730,
+          "endMs": 321460
+        },
+        {
+          "word": "'I",
+          "startMs": 322010,
+          "endMs": 322140
+        },
+        {
+          "word": "am",
+          "startMs": 322140,
+          "endMs": 322380
+        },
+        {
+          "word": "happy'",
+          "startMs": 322750,
+          "endMs": 323290
+        },
+        {
+          "word": "şeklinde",
+          "startMs": 323400,
+          "endMs": 324420
+        },
+        {
+          "word": "yardımcı",
+          "startMs": 325270,
+          "endMs": 326500
+        },
+        {
+          "word": "fiilini",
+          "startMs": 327410,
+          "endMs": 327800
+        },
+        {
+          "word": "kullanmayı",
+          "startMs": 328070,
+          "endMs": 328900
+        },
+        {
+          "word": "ve",
+          "startMs": 329250,
+          "endMs": 329430
+        },
+        {
+          "word": "arkadaşına",
+          "startMs": 330000,
+          "endMs": 330590
+        },
+        {
+          "word": "halini",
+          "startMs": 330810,
+          "endMs": 331330
+        },
+        {
+          "word": "sorarken",
+          "startMs": 331430,
+          "endMs": 332370
+        },
+        {
+          "word": "'How",
+          "startMs": 333310,
+          "endMs": 333550
+        },
+        {
+          "word": "do",
+          "startMs": 333620,
+          "endMs": 333790
+        },
+        {
+          "word": "you",
+          "startMs": 333890,
+          "endMs": 334320
+        },
+        {
+          "word": "feel?'",
+          "startMs": 335120,
+          "endMs": 335280
+        },
+        {
+          "word": "kalıbını",
+          "startMs": 335360,
+          "endMs": 336900
+        },
+        {
+          "word": "tercih",
+          "startMs": 337690,
+          "endMs": 338300
+        },
+        {
+          "word": "etmeyi",
+          "startMs": 338440,
+          "endMs": 339160
+        },
+        {
+          "word": "sevgiyle",
+          "startMs": 339160,
+          "endMs": 340120
+        },
+        {
+          "word": "aklında",
+          "startMs": 340430,
+          "endMs": 341120
+        },
+        {
+          "word": "tutabilirsin.",
+          "startMs": 341250,
+          "endMs": 342830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 343800,
+      "endMs": 356950,
+      "pauseAfterMs": 530,
+      "text": "Happy, anxious ve scared konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Happy, anxious ve scared konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Happy,",
+          "startMs": 343800,
+          "endMs": 344550
+        },
+        {
+          "word": "anxious",
+          "startMs": 345490,
+          "endMs": 345990
+        },
+        {
+          "word": "ve",
+          "startMs": 346090,
+          "endMs": 346230
+        },
+        {
+          "word": "scared",
+          "startMs": 346280,
+          "endMs": 347400
+        },
+        {
+          "word": "konusunda",
+          "startMs": 347880,
+          "endMs": 348790
+        },
+        {
+          "word": "kuralın",
+          "startMs": 349370,
+          "endMs": 349860
+        },
+        {
+          "word": "tersini",
+          "startMs": 350020,
+          "endMs": 350500
+        },
+        {
+          "word": "sanmak",
+          "startMs": 350730,
+          "endMs": 351070
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 351250,
+          "endMs": 352780
+        },
+        {
+          "word": "ters",
+          "startMs": 353570,
+          "endMs": 354290
+        },
+        {
+          "word": "cümle",
+          "startMs": 354680,
+          "endMs": 355270
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 355770,
+          "endMs": 356420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 356950,
+      "endMs": 359470,
+      "pauseAfterMs": 210,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 356950,
+          "endMs": 357420
+        },
+        {
+          "word": "Neler",
+          "startMs": 357630,
+          "endMs": 358090
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 358870,
+          "endMs": 359260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 359470,
+      "endMs": 359890,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 359470,
+          "endMs": 359890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 359890,
+      "endMs": 369130,
+      "pauseAfterMs": 410,
+      "text": "I am happy mutlu, I am anxious kaygılı, I am scared korkmuş anlamına gelir.",
+      "markedText": "I am happy mutlu, I am anxious kaygılı, I am scared korkmuş anlamına gelir.",
+      "words": [
+        {
+          "word": "I",
+          "startMs": 359890,
+          "endMs": 359990
+        },
+        {
+          "word": "am",
+          "startMs": 360130,
+          "endMs": 360450
+        },
+        {
+          "word": "happy",
+          "startMs": 361010,
+          "endMs": 361260
+        },
+        {
+          "word": "mutlu,",
+          "startMs": 361600,
+          "endMs": 362500
+        },
+        {
+          "word": "I",
+          "startMs": 363180,
+          "endMs": 363300
+        },
+        {
+          "word": "am",
+          "startMs": 363300,
+          "endMs": 363530
+        },
+        {
+          "word": "anxious",
+          "startMs": 363760,
+          "endMs": 364290
+        },
+        {
+          "word": "kaygılı,",
+          "startMs": 364330,
+          "endMs": 364910
+        },
+        {
+          "word": "I",
+          "startMs": 365320,
+          "endMs": 365470
+        },
+        {
+          "word": "am",
+          "startMs": 365660,
+          "endMs": 365770
+        },
+        {
+          "word": "scared",
+          "startMs": 365770,
+          "endMs": 366210
+        },
+        {
+          "word": "korkmuş",
+          "startMs": 366250,
+          "endMs": 366860
+        },
+        {
+          "word": "anlamına",
+          "startMs": 366860,
+          "endMs": 367970
+        },
+        {
+          "word": "gelir.",
+          "startMs": 368080,
+          "endMs": 368720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 369130,
+      "endMs": 369630,
+      "pauseAfterMs": 0,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 369130,
+          "endMs": 369630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 369630,
+      "endMs": 385170,
+      "pauseAfterMs": 1430,
+      "text": "How do you feel sorusuna I feel happy veya I am happy ile cevap verilir.",
+      "markedText": "How do you feel sorusuna I feel happy veya I am happy ile cevap verilir.",
+      "words": [
+        {
+          "word": "How",
+          "startMs": 369630,
+          "endMs": 370330
+        },
+        {
+          "word": "do",
+          "startMs": 370690,
+          "endMs": 370800
+        },
+        {
+          "word": "you",
+          "startMs": 370800,
+          "endMs": 371350
+        },
+        {
+          "word": "feel",
+          "startMs": 372280,
+          "endMs": 372760
+        },
+        {
+          "word": "sorusuna",
+          "startMs": 372820,
+          "endMs": 373980
+        },
+        {
+          "word": "I",
+          "startMs": 374870,
+          "endMs": 375060
+        },
+        {
+          "word": "feel",
+          "startMs": 375880,
+          "endMs": 376620
+        },
+        {
+          "word": "happy",
+          "startMs": 377150,
+          "endMs": 377610
+        },
+        {
+          "word": "veya",
+          "startMs": 378390,
+          "endMs": 378670
+        },
+        {
+          "word": "I",
+          "startMs": 378790,
+          "endMs": 378920
+        },
+        {
+          "word": "am",
+          "startMs": 379150,
+          "endMs": 379400
+        },
+        {
+          "word": "happy",
+          "startMs": 379890,
+          "endMs": 380470
+        },
+        {
+          "word": "ile",
+          "startMs": 381140,
+          "endMs": 381790
+        },
+        {
+          "word": "cevap",
+          "startMs": 382350,
+          "endMs": 382500
+        },
+        {
+          "word": "verilir.",
+          "startMs": 382980,
+          "endMs": 383740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 385170,
+      "endMs": 385940,
+      "pauseAfterMs": 710,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 385170,
+          "endMs": 385230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 385940,
+      "endMs": 392340,
+      "pauseAfterMs": 980,
+      "text": "Scary korkutucu olan şeydir; scared ise o duyguyu hisseden kişidir.",
+      "markedText": "Scary korkutucu olan şeydir; scared ise o duyguyu hisseden kişidir.",
+      "words": [
+        {
+          "word": "Scary",
+          "startMs": 385940,
+          "endMs": 386330
+        },
+        {
+          "word": "korkutucu",
+          "startMs": 386710,
+          "endMs": 387190
+        },
+        {
+          "word": "olan",
+          "startMs": 387680,
+          "endMs": 387870
+        },
+        {
+          "word": "şeydir;",
+          "startMs": 387940,
+          "endMs": 388510
+        },
+        {
+          "word": "scared",
+          "startMs": 389000,
+          "endMs": 389320
+        },
+        {
+          "word": "ise",
+          "startMs": 389530,
+          "endMs": 389670
+        },
+        {
+          "word": "o",
+          "startMs": 389670,
+          "endMs": 389740
+        },
+        {
+          "word": "duyguyu",
+          "startMs": 389740,
+          "endMs": 390050
+        },
+        {
+          "word": "hisseden",
+          "startMs": 390460,
+          "endMs": 390910
+        },
+        {
+          "word": "kişidir.",
+          "startMs": 391030,
+          "endMs": 391360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 392340,
+      "endMs": 395780,
+      "pauseAfterMs": 630,
+      "text": "Duygu I am ile kurulur.",
+      "markedText": "Duygu I am ile kurulur.",
+      "words": [
+        {
+          "word": "Duygu",
+          "startMs": 392340,
+          "endMs": 392580
+        },
+        {
+          "word": "I",
+          "startMs": 393300,
+          "endMs": 393460
+        },
+        {
+          "word": "am",
+          "startMs": 393460,
+          "endMs": 393620
+        },
+        {
+          "word": "ile",
+          "startMs": 393840,
+          "endMs": 393980
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 394090,
+          "endMs": 395150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 395780,
+      "endMs": 398920,
+      "pauseAfterMs": 850,
+      "text": "Hava It is ile kurulur.",
+      "markedText": "Hava It is ile kurulur.",
+      "words": [
+        {
+          "word": "Hava",
+          "startMs": 395780,
+          "endMs": 396010
+        },
+        {
+          "word": "It",
+          "startMs": 396240,
+          "endMs": 396350
+        },
+        {
+          "word": "is",
+          "startMs": 396550,
+          "endMs": 396680
+        },
+        {
+          "word": "ile",
+          "startMs": 396720,
+          "endMs": 397050
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 397130,
+          "endMs": 398070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 398920,
+      "endMs": 406100,
+      "pauseAfterMs": 1050,
+      "text": "O anki halini happy, anxious ya da scared ile söylersin.",
+      "markedText": "O anki halini happy, anxious ya da scared ile söylersin.",
+      "words": [
+        {
+          "word": "O",
+          "startMs": 398920,
+          "endMs": 398960
+        },
+        {
+          "word": "anki",
+          "startMs": 398960,
+          "endMs": 399140
+        },
+        {
+          "word": "halini",
+          "startMs": 399350,
+          "endMs": 399690
+        },
+        {
+          "word": "happy,",
+          "startMs": 399690,
+          "endMs": 400580
+        },
+        {
+          "word": "anxious",
+          "startMs": 401300,
+          "endMs": 401680
+        },
+        {
+          "word": "ya",
+          "startMs": 401980,
+          "endMs": 402100
+        },
+        {
+          "word": "da",
+          "startMs": 402100,
+          "endMs": 402200
+        },
+        {
+          "word": "scared",
+          "startMs": 402200,
+          "endMs": 402950
+        },
+        {
+          "word": "ile",
+          "startMs": 403570,
+          "endMs": 403840
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 404210,
+          "endMs": 405050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 406100,
+      "endMs": 408720,
+      "pauseAfterMs": 750,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 406100,
+          "endMs": 406750
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 407010,
+          "endMs": 407970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 408720,
+      "endMs": 410820,
+      "pauseAfterMs": 410,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 408720,
+          "endMs": 409040
+        },
+        {
+          "word": "bir",
+          "startMs": 409110,
+          "endMs": 409260
+        },
+        {
+          "word": "iş",
+          "startMs": 409260,
+          "endMs": 409740
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 410010,
+          "endMs": 410410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 410820,
+      "endMs": 414080,
+      "pauseAfterMs": 920,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 410820,
+          "endMs": 411040
+        },
+        {
+          "word": "sıra",
+          "startMs": 411610,
+          "endMs": 411850
+        },
+        {
+          "word": "sende.",
+          "startMs": 412070,
+          "endMs": 413160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 414080,
+      "endMs": 420058,
+      "pauseAfterMs": 408,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 414080,
+          "endMs": 414750
+        },
+        {
+          "word": "bu",
+          "startMs": 415180,
+          "endMs": 415370
+        },
+        {
+          "word": "notları",
+          "startMs": 415460,
+          "endMs": 415990
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 416710,
+          "endMs": 417490
+        },
+        {
+          "word": "kendi",
+          "startMs": 417630,
+          "endMs": 417950
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 418040,
+          "endMs": 418950
+        },
+        {
+          "word": "anlat.",
+          "startMs": 419040,
+          "endMs": 419650
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

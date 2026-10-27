@@ -26,13 +26,39 @@ export const JUNIOR_ELECTIVE_SLUGS = [
 ] as const;
 
 /**
- * Çekirdek İngilizce (`jr_06_ing_main`) dururken bu taslak paket fiyatına girmez.
- * Katalogda kalır. Rozet `JUNIOR_QUIZ_PREPARING_LABEL` dir.
+ * Çekirdek İngilizce (`jr_06_ing_main`) 6. sınıf dersidir.
+ * `jr_06_ing` paket fiyatına girmez ve seçmeli rafta ikinci kart olarak basılmaz.
+ * Ders adresi durur; vitrin kartı durmaz.
  */
 export const JUNIOR_ELECTIVE_PRICE_EXCLUDED = ["jr_06_ing"] as const;
 
+/**
+ * Seçmeli kart iki konudur. İlk konu ücretsiz, ikinci konu kilitlidir.
+ * Rozet, kartın tam yıl dersi sanılmasını kapatır.
+ */
+export const JUNIOR_ELECTIVE_PREVIEW_BADGE = "İki Konu / İlk Konu Ücretsiz" as const;
+export const JUNIOR_ELECTIVE_INTRO_LABEL = JUNIOR_ELECTIVE_PREVIEW_BADGE;
+
+/**
+ * Seçmeli kartın ücretsiz açılışı: her kartın yalnız 1. konusu.
+ * Kart başına iki konu bedava olunca yıllık paketin seçmeli vaadi boşalıyordu
+ * (altı kartın beşi tamamen bedava, `plan+bought` hiçbir ders açmıyordu).
+ * 2. konu kilitli kalır; yıllık paket + seçim onu açar.
+ * `jr_06_ing` paket fiyatının dışındadır; kartın 1. konusu yine de kamuya açıktır,
+ * aksi hâlde kart hiçbir yoldan açılmıyordu (erişilemez kart).
+ * Mühür düşerse `juniorFreeLessonKeys` anahtarı ücretsiz kümeden çıkarır.
+ */
+export const JUNIOR_ELECTIVE_PUBLIC_OPENERS: readonly string[] = [
+  "jr_06_ing-1",
+  "jr_06_alm-1",
+  "jr_06_fra-1",
+  "jr_06_siyer-1",
+  "jr_06_kod-1",
+  "jr_06_arp-1",
+];
+
 export const JUNIOR_ELECTIVE_DRAFT_PRICE_ERROR =
-  "Bu ders hazırlık aşamasındadır. Yıllık paket vaadine girmez.";
+  "Bu kart 6. Sınıf İngilizce dersinin yanında durmaz ve paket vaadine girmez.";
 
 /**
  * Mühür kapısını geçmeyen seçmeli ders paket seçimine eklenmez ve paketinde açılmaz (T-06).
@@ -84,10 +110,11 @@ export const JUNIOR_PLAN_CODE = "junior-yearly";
 export const JUNIOR_QUOTA_FULL_LABEL = "Paket Kotası Doldu / Düzenle";
 
 /**
- * Ücretsiz ilk ders kapısı: güncel haftanın (2026-2027 Maarif takvimi) ilk matematik dersi.
- * Hafta değişince bu sabit elle taşınır; `juniorFreeLessonKeys` listesi bu anahtarı her zaman içerir.
+ * Ücretsiz matematik kapısı. Kartın ilk mühürlü dersi `jr_06_mat-1`.
+ * Takvim haftası bu sabite ikinci bir bedava ders eklemez.
+ * `juniorFreeLessonKeys` bu anahtarı kart açılışıyla aynı tutar.
  */
-export const JUNIOR_FREE_LESSON_KEY = "jr_06_mat-14";
+export const JUNIOR_FREE_LESSON_KEY = "jr_06_mat-1";
 
 /**
  * İngilizce ücretsiz kapısı. 1–5. hafta: hak, sorumluluk ve sınıf kuralı.
@@ -105,19 +132,65 @@ export const JUNIOR_FREE_OPENER_OVERRIDE: Readonly<Record<string, string>> = {
 
 /**
  * Kart başı ücretsiz açılıştan çıkarılan anahtarlar.
- * Müfredat dışı arşiv silindi; liste boştur. Matematik kartı `jr_06_mat-5` ile açılır.
+ * Müfredat dışı arşiv silindi; liste boştur. Matematik kartı `jr_06_mat-1` ile açılır.
  */
 export const JUNIOR_ARCHIVED_OPENER_KEYS: readonly string[] = [];
-
-/** Anlatış kaydı ve üç soruluk kontrol. İlk konunun metni bu cümleye girmez. */
-export const JUNIOR_PAID_ACTION_ERROR =
-  "Anlatış kaydı ve 3 soruluk hızlı konu kontrolü veli girişi ile yıllık paket ister.";
 
 /** Mühür geçmeyen konu. On soruluk vaat değildir. */
 export const JUNIOR_QUIZ_PREPARING_LABEL = "Hazırlık Aşamasında";
 
-/** Çekirdek konu kontrolünün adı. Paket boyu üçtür (`JUNIOR_QUIZ_MIN_ITEMS`). */
-export const JUNIOR_QUIZ_CONTROL_LABEL = "3 Soruluk Hızlı Konu Kontrolü";
+/** Çekirdek konu kontrolünün varsayılan adı (`jr_06_mat-1` 8 soruluk pilot). */
+export const JUNIOR_QUIZ_CONTROL_LABEL = "Hızlı Konu Kontrolü (8 Soru)";
+
+/** Soru sayısına göre dinamik konu kontrolü başlığı üretir (SSOT). */
+export function juniorQuizControlLabel(questionCount?: number | null): string {
+  if (typeof questionCount === "number" && Number.isInteger(questionCount) && questionCount > 0) {
+    return `Hızlı Konu Kontrolü (${questionCount} Soru)`;
+  }
+  return JUNIOR_QUIZ_CONTROL_LABEL;
+}
+
+/**
+ * Paket kapısı. Soru sayısı bilinince başlık o sayıyı taşır.
+ * Bilinmeyince sabit «3 soru» uydurulmaz.
+ */
+export function juniorPaidActionError(questionCount?: number | null): string {
+  if (typeof questionCount === "number" && Number.isInteger(questionCount) && questionCount > 0) {
+    return `Anlatış kaydı ve ${juniorQuizControlLabel(questionCount)} veli girişi ile yıllık paket ister.`;
+  }
+  return "Anlatış kaydı ve hızlı konu kontrolü veli girişi ile yıllık paket ister.";
+}
+
+/** Soru sayısı olmayan kapı cümlesi. Ders belli ise `juniorPaidActionError(adet)` kullanılır. */
+export const JUNIOR_PAID_ACTION_ERROR = juniorPaidActionError();
+
+/** Model susunca sahte puan yazılmaz. Çocuk aynı denemeyi yeniden açabilir. */
+export const JUNIOR_TELL_UNHEARD_ERROR = "Sesin tam anlaşılamadı, tekrar dener misin?";
+
+/**
+ * 1. tema misafir kancası. Her ders bir kez anlatış ve bir kez konu testi açar.
+ * `JUNIOR_FREE_LESSON_KEY` yalnız `jr_06_mat-1` katalog açılışıdır; bu dizi ikinci bedava ders eklemez.
+ */
+export const JUNIOR_PILOT_TRIAL_LESSON_KEYS = ["jr_06_mat-1", "jr_06_mat-2", "jr_06_mat-3"] as const;
+
+export type JuniorPilotTrialLessonKey = (typeof JUNIOR_PILOT_TRIAL_LESSON_KEYS)[number];
+
+/** Dizinin ilk dersi. Eski tek anahtar bu sabitte durur. */
+export const JUNIOR_PILOT_TRIAL_LESSON_KEY: JuniorPilotTrialLessonKey = JUNIOR_PILOT_TRIAL_LESSON_KEYS[0];
+
+/**
+ * Vitrin başlığı. İlk ders `jr_06_mat-1`: çarpanlar, katlar ve bölünebilme.
+ */
+export const JUNIOR_PILOT_PUBLIC_TITLE =
+  "6. Sınıf Matematik: Çarpanlar ve Katlar (Pilot Ders)";
+
+export const JUNIOR_PILOT_PUBLIC_NOTE =
+  "Bu, 6. sınıf matematiğin ilk açık pilot dersidir. Konu çarpanlar ve katlarla başlar.";
+
+export function isJuniorPilotTrialLesson(lessonKey: string): boolean {
+  const key = lessonKey.trim();
+  return (JUNIOR_PILOT_TRIAL_LESSON_KEYS as readonly string[]).includes(key);
+}
 
 /** Ortaokul bandı. 9–12 ve YKS `YOUNG_SCHOOL_SEGMENT` içindedir. */
 export const JUNIOR_GRADE_MIN = JUNIOR_SCHOOL_SEGMENT.gradeMin;

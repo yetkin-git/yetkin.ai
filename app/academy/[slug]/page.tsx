@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
+import { AcademyViewItem } from "@/components/academy/academy-view-item";
+import { BeginCheckoutLink } from "@/components/academy/begin-checkout-link";
 import { AcademyCheckoutAutostart } from "@/components/academy/checkout-autostart";
+import { AcademyCheckoutAnchor } from "@/components/academy/checkout-anchor";
 import { PurchaseButton } from "@/components/academy/purchase-button";
 import { ExamStartGate } from "@/components/academy/exam-start-gate";
 import { CertificateSeal } from "@/components/academy/certificate-seal";
@@ -11,6 +14,8 @@ import { SettlementSteps } from "@/components/academy/settlement-steps";
 import { CurriculumOutline } from "@/components/academy/curriculum-outline";
 import { CurriculumOutcomes } from "@/components/academy/curriculum-outcomes";
 import { FocusSalePitch } from "@/components/academy/focus-sale-pitch";
+import { academyFocusSalePitch } from "@/lib/academy/focus-sale-pitch";
+import { academyPublicSaleHold } from "@/lib/academy/sale-hold";
 import { AcademyProgressBar } from "@/components/academy/progress-bar";
 import {
   loadAcademyHolderName,
@@ -23,7 +28,7 @@ import {
   loadPurchaseForUserCourse,
 } from "@/lib/academy/load";
 import { academyStorefrontAccess, hasCommercialAcademyEnrolment } from "@/lib/academy/enrolment";
-import { resolveAcademyAntreHeroCta, academyCheckoutHref, ACADEMY_CHECKOUT_HASH } from "@/lib/academy/storefront-cta";
+import { resolveAcademyAntreHeroCta, academyCheckoutHref } from "@/lib/academy/storefront-cta";
 import { academyActorFromSession, hasAcademyAdminBypass, hasAcademyOynaAccess, hasAcademyPlayerAccess } from "@/lib/academy/access";
 import { resolveAcademyContinueBoard } from "@/lib/academy/continue-board";
 import { LinkButton } from "@/components/ui/link-button";
@@ -166,17 +171,17 @@ export default async function AcademyCoursePage({
     notFound();
   }
   const actor = session ? academyActorFromSession(session) : null;
-  if (actor && hasAcademyAdminBypass(actor)) {
+  const isAdminBypass = actor != null && hasAcademyAdminBypass(actor);
+  if (isAdminBypass && !gate) {
     redirect(`/academy/${board.course.slug}/oyna`);
   }
   await recordFunnelDailyDocumentStep(FUNNEL_VITRINE_VISIT_STEP);
-  const adminPlayer = actor != null && hasAcademyAdminBypass(actor);
   const labPlayer =
     process.env.NODE_ENV !== "production" &&
     actor != null &&
     hasAcademyPlayerAccess(purchase, actor);
   const enrolled = hasCommercialAcademyEnrolment(purchase);
-  const hasAccess = enrolled || labPlayer || adminPlayer;
+  const hasAccess = enrolled || labPlayer || isAdminBypass;
   const access = hasAccess ? "enrolled" : academyStorefrontAccess(artifact);
   const [examGate, wallet, player] = await Promise.all([
     session && enrolled
@@ -234,6 +239,8 @@ export default async function AcademyCoursePage({
     courseSlug: board.course.slug,
     loginHref: buildCitizenLoginHref(academyCheckoutHref(board.course.slug)),
   });
+  const saleHold =
+    !hasAccess && !board.course.purchasable ? academyPublicSaleHold(board.course) : null;
   const playLabel =
     continueBoard && continueBoard.completedCount > 0
       ? playerCopy.resumeCta
@@ -241,9 +248,16 @@ export default async function AcademyCoursePage({
   const progressPercent = academyProgressPercent(completedKeys.length, syllabus.lessonCount);
   const showFreePreview = !hasAccess && academyCourseOffersFreePreview(board.course.slug);
   const previewHref = showFreePreview ? `/academy/${board.course.slug}/oyna` : null;
+  const outcomeLead = academyFocusSalePitch(board.course.slug)?.find((row) => row.id === "result")?.text;
 
   return (
     <RoomFrame className="space-y-5" data-academy-lab-player={labPlayer ? "true" : undefined}>
+      <AcademyViewItem
+        itemId={board.course.slug}
+        itemName={board.course.title}
+        valueMinor={board.course.priceMinor}
+        currency={board.course.currencyCode}
+      />
       <JsonLd
         data={jsonLdDocument([
           courseJsonLd({
@@ -289,12 +303,10 @@ export default async function AcademyCoursePage({
       <PageHeader
         eyebrow={copy.eyebrow}
         title={seo?.h1 ?? board.course.title}
-        description={board.course.summary}
+        description={outcomeLead ?? board.course.summary}
         actions={
           <CourseHeroActions
-            priceLabel={
-              isOff201 && hero.priceLabel !== copy.accessOpen ? "" : hero.priceLabel
-            }
+            priceLabel={saleHold ?? hero.priceLabel}
             level={isOff201 ? null : level}
             moduleCode={academyModuleCodeBySlug(board.course.slug)}
             hasSealedAudio={academyCourseHasSealedAudio(board.course.slug)}
@@ -312,6 +324,10 @@ export default async function AcademyCoursePage({
             primaryHref={hero.primaryHref}
             primaryLabel={hero.primaryLabel}
             primaryAction={hero.action}
+            itemId={board.course.slug}
+            itemName={board.course.title}
+            valueMinor={board.course.priceMinor}
+            currency={board.course.currencyCode}
             paytrCheckout={Boolean(session) && hero.action === "buy" && paymentsReady}
             previewHref={previewHref}
             catalogHref={"/academy" as Route}
@@ -319,7 +335,12 @@ export default async function AcademyCoursePage({
           />
         }
       />
-      <FocusSalePitch slug={board.course.slug} />
+      <FocusSalePitch slug={board.course.slug} previewHref={previewHref} />
+      {saleHold ? (
+        <p className="text-sm font-medium leading-6 text-[var(--foreground)]" data-academy-sale-hold="">
+          {saleHold}
+        </p>
+      ) : null}
       {hasAccess && syllabus.lessonCount > 0 ? (
         <AcademyProgressBar
           value={progressPercent}
@@ -380,9 +401,10 @@ export default async function AcademyCoursePage({
             </div>
           </Card>
         )
-      ) : access === "expired" ? (
+      ) : access === "expired" && !board.course.purchasable ? (
         <Card title={copy.eyebrow}>
-          <p>{playerCopy.licenseEnded}</p>
+          <p>{playerCopy.licenseEndedClosed}</p>
+          {saleHold ? <p className="mt-2 text-sm text-[var(--muted)]">{saleHold}</p> : null}
           {previewHref ? (
             <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
               <FreePreviewLink href={previewHref} surface="expired" className="w-full sm:w-auto" />
@@ -391,9 +413,12 @@ export default async function AcademyCoursePage({
           ) : null}
         </Card>
       ) : board.course.purchasable ? (
-        <div className="scroll-mt-24" id={ACADEMY_CHECKOUT_HASH}>
+        <AcademyCheckoutAnchor>
           <Card title={copy.purchaseEyebrow}>
-            <p>{eightLessonShield ? copy.purchaseBody : copy.purchaseBodyPlain}</p>
+            {access === "expired" ? <p>{playerCopy.licenseEnded}</p> : null}
+            <p className={access === "expired" ? "mt-2" : undefined}>
+              {eightLessonShield ? copy.purchaseBody : copy.purchaseBodyPlain}
+            </p>
             {board.course.slug === ACADEMY_OFF201_STOREFRONT_SLUG ? (
               <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]" data-academy-advisory="">
                 {SEN_VOICE.academy.catalog.off201Advisory}
@@ -428,6 +453,7 @@ export default async function AcademyCoursePage({
                   trainingHref={`/academy/${board.course.slug}/oyna`}
                   courseLevel={level}
                   paymentsReady={paymentsReady}
+                  renew={access === "expired"}
                 />
               </div>
             ) : (
@@ -441,14 +467,18 @@ export default async function AcademyCoursePage({
                     />
                   ) : null}
                   {hero.primaryHref && hero.primaryLabel ? (
-                    <LinkButton
+                    <BeginCheckoutLink
                       href={hero.primaryHref as Route}
                       size="lg"
                       className="w-full sm:w-auto"
                       data-academy-checkout-cta={hero.action}
+                      itemId={board.course.slug}
+                      itemName={board.course.title}
+                      valueMinor={board.course.priceMinor}
+                      currency={board.course.currencyCode}
                     >
                       {hero.primaryLabel}
-                    </LinkButton>
+                    </BeginCheckoutLink>
                   ) : null}
                 </div>
                 <p>
@@ -461,7 +491,7 @@ export default async function AcademyCoursePage({
               </div>
             )}
           </Card>
-        </div>
+        </AcademyCheckoutAnchor>
       ) : (
         <Card>{copy.notPurchasable}</Card>
       )}

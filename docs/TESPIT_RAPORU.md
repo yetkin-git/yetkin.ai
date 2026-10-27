@@ -1,356 +1,313 @@
-# TESPİT RAPORU — yetkin.ai teknik röntgen
+# Yetkin.ai — Tespit Raporu
 
-Tarih: 20 Ekim 2026  
-Kapsam: çalışma ağacının statik okuması. Ürün kodu bu turda değiştirilmedi.
+Tarih: 27 Ekim 2026  
+Kapsam: çalışma ağacı (commit edilmemiş değişiklikler dahil). Kod düzeltilmedi.  
+Okuyucu: SUPER_ADMIN
 
-Bu rapor çalışan süreç, veritabanı veya test koşusu değildir. Kaynak, şema, kenar kapısı ve sözleşme dosyaları okundu. `node_modules/`, derleme çıktısı, `public/media/` ve müze ağacı taranmadı. Canlı satışın açık olup olmadığı veritabanı satırına bağlıdır; o satır bu turda sorgulanmadı. Diskteki ses mührünün ders ders envanteri de çıkarılmadı.
+Bu rapor ürün kodunu, mühür JSON’unu ve strateji belgelerini okuyarak yazıldı. Canlı Postgres fiyat satırları okunmadı. Lighthouse çalıştırılmadı. `juniorProductionSealGaps` bu oturumda yürütülmedi. `.env` açılmadı; üretimdeki `SUPER_ADMIN_USER_ID` değeri bu yüzden doğrulanamaz.
 
 ---
 
-## Mevcut Durum Özeti
+## 0. Tek cümlelik hüküm
 
-Canlı mimari ad **Pragmatik Monolit + `@yetkin/kernel` + Tek Native İstemci**dir. Evi `.system_docs/ANAYASA.md` B1 ve kök `next.config.ts` yorumudur.
+6. sınıf matematik çekirdeği kendi 2026-2027 kazanım dosyasına göre yazılıdır; süre mührü ise duyulan sesi değil, iki ders dışında karakter saatini yeşil sayar. Seçmeli dersler yıllık müfredat değildir. Akademi vitrini satın almayı üç kapının aynı anda açık olmasına bağlamıştır; kapılardan biri kapanınca düğme kaybolur. `yapinet360@gmail.com` üretimde e-posta adıyla tek başına her yere girmez. Belgelerdeki mimari ad, istemdeki «Amiral Gemi + Sürü Dron» cümlesinden daha dardır ve kod o dar tanıma daha yakındır.
 
-Eski «Amiral Gemi + Sürü Dron / Core + Micro-Apps» cümlesi ayrı bir hedef sistem tarif etmez. Kodda karşılığı şudur:
+---
 
-| Eski anlatım | Kodda duran şey |
-|---|---|
-| Amiral Gemi | Bu Next.js gövdesi: `app/`, `components/`, `lib/` |
-| Shared Kernel | İnce paket `@yetkin/kernel` (`packages/kernel`). Para, katalog kimliği, v1 hop metası, JSON zarfı. Prisma ve Supabase taşımaz. |
-| Çalışma zamanı çekirdeği | `lib/kernel`. Kimlik, Postgres, ödeme, kenar güvenlik, AI geçidi, iş kuyruğu. Ayrı süreç değildir. |
-| Sürü Dron | `lib/dronlar/kayit.ts` satırı, `DronBayrakları` ve route öneki. Ayrı uygulama veya ayrı dağıtım açmaz. |
-| Tek native istemci | `apps/rail-is` (paket adı `yetkin.ai-is`, Expo). Aynı `/api/v1` sicilini tüketir. Kök npm workspace’ine dahil değildir. |
+## 1. Junior — 6. sınıf
 
-Tek veritabanı PostgreSQL’tir. Kimlik Supabase Auth’tur. Prisma `User.id` kendi UUID’sini üretmez; Auth UUID’sini saklar. Ayrı API Gateway süreci yoktur. Next 16 kenarı `proxy.ts`tir. Kök `middleware.ts` yoktur.
+Sınıf seçici yalnız 6. sınıf pilotunu gösterir (`lib/junior/limits.ts`, `JUNIOR_PILOT_GRADE = 6`). Başka sınıfın metni yoktur. Çekirdek kartlar: matematik, fen, Türkçe, İngilizce (`jr_06_ing_main`), sosyal.
 
-### Kök yerleşim
+İçerik sayımı (yazarlık `.ts` dosyaları, `index.ts` hariç):
 
-| Yer | Rol |
-|---|---|
-| `app/` | App Router sayfaları ve `app/api/**/route.ts` handler’ları |
-| `components/` | Web arayüzü |
-| `lib/` | Oda motorları ve `lib/kernel` çalışma zamanı |
-| `packages/kernel` | `@yetkin/kernel` |
-| `packages/junior-content` | 6. sınıf içeriğinin türetilmiş JSON’u |
-| `packages/junior-graphic` | Junior grafik indirgeyicisi. Next ve Prisma taşımaz |
-| `apps/rail-is` | Tek native istemci. Kendi `package-lock.json` dosyası var |
-| `prisma/schema/` | Canlı şema: `base`, `kernel`, `academy`, `career`, `freelancer`, `junior` |
-| `prisma/migrations/` | 43 Prisma migration |
-| `supabase/migrations/` | 16 SQL dosyası: RLS, auth tetikleyicisi, katalog tohumu |
-| `proxy.ts` | Tek kenar girişi |
-| `scripts/` | Mühür, ops, OpenAPI ve v1 tip üretimi |
-| `tests/` | Vitest ve Playwright |
-| `.system_docs/` | Anayasa, pedagoji, operasyon. Ürün kodu bu markdown’ı import etmez |
-
-Kök `package.json` workspace’i yalnız `packages/*` dir. Next `^16.2.9`, React `^19.2.7`, Prisma `^7.8.0`, Zod `^4.4.3`, Inngest `^4.11.0`, Tailwind `^4.3.1`. Node `>=20.19.0`. Native istemci Expo `~57` ve React Native `0.86.2` kullanır; `@yetkin/kernel` ve `@yetkin/junior-graphic` bağlantısı `file:` iledir.
-
-### Çalışan kamu yüzeyi
-
-Kayıt defteri `lib/dronlar/kayit.ts`.
-
-Açık odalar: Anasayfa (`/dashboard`), Akademi (`/academy`), Kariyer (`/career`), Junior (`/junior`). Kök `/` kenarda `/academy` adresine 308 döner.
-
-Çekirdek yetenekler oda değildir: `/profil`, `/cuzdan`, `/pasaport`, `/admin`. Kanıt çıkışı `/vize` ve `/academy/dogrula` yeni oda açmaz.
-
-Junior müstakil odadır. Ders listesi ve her dersin ilk konusu ziyaretçiye açıktır. İkinci konu, anlatış ve konu testi veli oturumu ve yıllık paket ister. Kasa varsayılan kilitlidir (`JUNIOR_CHECKOUT_OPEN` boşken `isJuniorCheckoutLocked` doğrudur). Profil masası kapalı betadır; `DRON_JUNIOR_OPEN`, geçerli paket veya izin listesi açar. `DRON_JUNIOR_OPEN` odayı 410 yapmaz. Oda kapısı ayrıdır: `DRON_JUNIOR_ROOM_OPEN`.
-
-### Bilinçli kapalı yüzey
-
-Bunlar bozuk kurulum değildir. Kod kapıyı fail-closed tutar.
-
-| Yüzey | Kapı | HTTP |
+| Ders | Yazarlık dosyası | Kendi takvimindeki boşluk |
 |---|---|---|
-| Freelancer kamu sayfası ve `/api/freelancer`, `/api/client/jobs` | `FREELANCER_PUBLIC_SURFACE_LOCKED = true` ve `MARKETPLACE_SPLIT_LIVE = false`. `DRON_FREELANCER_OPEN` tek başına açmaz | 410 |
-| Young `/young` | Kayıt satırı `kapali: true`. Açılış `DRON_YOUNG_OPEN` | Kapalıyken 410. Açılırsa sayfa boş raf basar: «İçerik kartı henüz yok.» |
-| Studio, DevLabs, Kurumsal, Hibe, Arena, Pazaryeri, Social | `FROZEN_DISK_ROOMS`. Canlı şemada tabloları yok. `20260822010000_drop_frozen_room_tables` düşürmüş | 410. Alias’lar `/yetkinx`, `/corporate`, `/market` canlı odaya rewrite edilmez |
-| EİDS emlak/vasıta kamu ilanı | `EIDS_PUBLIC_LISTING_LOCKED = true` | İlan LISTED olamaz |
-| Motor 2 / kurumsal vitrin | Anayasa B5: keşif. Kurumsal oda arşivde | Kamu vitrini yok |
-| Junior kasa | `JUNIOR_CHECKOUT_OPEN` boş | Checkout 410 |
+| Matematik | 26 (`mat/1.ts`–`26.ts`) | 26 kilitli zaman çizelgesi var. Eski 27–38 içerik dosyası yok. |
+| Fen | 27 | Numaralar atlıyor: 3–8, 11, 13–15, 17 yok. Kazanım dosyasında 36 satır var. |
+| Türkçe | 20 (`1`–`20`) | Konu JSON’u 26’ya kadar. `jr_06_turkce-21` kabı: «Anlatım, soru ve ses henüz yazılmadı.» 21–26 aynı kab ailesi. |
+| İngilizce | 14 | Konu JSON’u 21 dosya; 21–27 kab. Ücretsiz açılış `jr_06_ing_main-20` (`limits.ts`). Dosya sırasındaki 1. ders değil. |
+| Sosyal | 24 | Saat notu «çerçeve PDF’sinden yeniden ölçülmemiştir» (`sosyal.json`). |
 
-Freelancer motoru silinmemiştir. `lib/freelancer` ve `prisma/schema/freelancer.prisma` durur. `app/freelancer/page.tsx` hâlâ ilan panosu çizer; kenar kilitliyken bu sayfa çalışmaz. Kilit kalkmadan bu sayfa vatandaşa ulaşmaz.
+### 1.1 Müfredat uyumu
 
-### Veri modeli
+Resmi dayanak repoda bir gazete PDF’i değildir. Dayanak `packages/junior-content/meb/2026-2027/*.json` dosyalarıdır. Okul yılı etiketi bugünün öğretim yılıyla aynıdır: 2026-2027.
 
-Canlı Prisma modelleri, arşiv şemaları hariç:
+Matematik temaları, dosyanın kendi adlarıyla: Sayılar ve nicelikler, Cebir, Geometri, Ölçme, Veri, Olasılık. 24 kazanım satırı ders 1–26 ile eşlenmiştir. Bu listedeki 26 matematik konusu, dosyanın kendi haritasına göre bir ünite eksik bırakmaz.
 
-- Çekirdek (15): `User`, `UserBillingInfo`, `Wallet`, `LedgerEntry`, `EscrowHold`, `PaymentOrder`, `WalletCardRefund`, `PaymentAnomaly`, `PriceCatalogEntry`, `PriceCatalogDecisionLedger`, `CheckoutPriceLock`, `AiTokenUsage`, `HttpIdempotencyRecord`, `PaidCommandReservation`, `FunnelDailyCounter`
-- Akademi (9): kurs, satın alma, sınav, oturum, sertifika, muafiyet mührü, ders tamamlama, ses önbelleği
-- Kariyer (2): `CareerVisaStamp`, `CareerPortfolioItem`
-- Freelancer (7): ilan, teklif, sözleşme, uyuşmazlık, mesaj, takım, takım üyesi
-- Junior (5): `JuniorProfile`, `JuniorGuardianConsent`, `JuniorProgress`, `JuniorXp`, `JuniorSubscription`
+Saat dürüstlüğü ayrıdır. `mat.json` üst notu: «MAT.6.1.1–MAT.6.1.4 saatleri onaylı rapordaki yıllık plandandır. Diğer matematik saatleri planlama payıdır.» Yalnız ilk dört kazanım `hoursBasis: "meb"`. Geri kalanı `"plan"`. `processOpen: true` olan satırlar, saat yazılmış olsa da süreç bileşeni açık sayılır. Kod bunu vitrinde «Müfredat Destek» diye ayırır (`lib/junior/curriculum-label.ts`).
 
-Para birimi `amountMinor` + `currencyCode`. Şema yorumu `amountKurus` kolon adını yasaklar. Prisma 7 istemcisi `generated/prisma` altına çıkar; sorgu motoru `engineType = "client"`.
+Fen saatleri «onaylı rapordaki 2026 fen tablosu» diye işaretlenir; aynı not `FB.6.2.2` fiil cümlesinin doğrulanmadığını söyler. Türkçe saatleri «çerçeve planından yeniden ölçülmedi»; tema kabının saati 0’dır. Sosyal saatleri «ikincil derleme»dir.
 
-İki SQL akışı vardır ve ikisi de aynı Postgres’e gider. Şema evrimi `prisma/migrations`. RLS, auth senkron tetikleyicisi ve bazı katalog tohumları `supabase/migrations`. İkinci veritabanı değildir. Operatörün yalnız bir akışı uygulaması şema ile satır güvenliğini ayırır.
+`FB.6.7` ve `T.6.6` kodun kendi cümlesiyle «kamu dizininde olmayan ek tema»dır. Vitrin bunları «Ek Tema» diye ayırabilir. MEB akreditasyonu hiçbir belgede iddia edilmez. Pedagoji «okul kitabı metni kopyalanmaz, kazanım anlatılır» der. Bu, tema adlarının Maarif modeli başlıklarına benzemesini resmi birebirlik yapmaz.
 
-### Katalog
+Eksik olan, matematik ünite listesi değil:
 
-`packages/kernel` kurs kayıt defterinde 14 yetişkin kart vardır: kanon `01_`–`13_` ve kanon dışı `01_office_ai_ileri` (OFF-201). Junior ve Young bu deftere girmez.
+- Fen kazanım satırı (36) ile yazarlık dosyası (27) aynı sayı değildir.
+- Türkçe 21–26 ve İngilizce çekirdek 21–27 anlatımsız kabdır.
+- İngilizce ücretsiz ders, yılın başı değil `jr_06_ing_main-20`’dir.
+- Sosyal saatleri birincil program metninden yeniden ölçülmemiştir.
+- Seçmeli raflar (aşağıda) 6. sınıf seçmeli yıllık planı değildir.
 
-`vitrineOrder` dolu kartlar: `02_ecommerce_ai`, `03_social_media_ai`, `05_prompt_practice`, `04_chatbot_nocode`, `01_office_ai`, `01_office_ai_ileri`. `06_`–`13_` ders yolu boş, kapak yok, vitrin sırası yok; kayıt özeti «Hazırlanıyor»dur.
+### 1.2 Anlatım ve görsel
 
-Satış niyeti kodda üç kapı ister: veritabanında yayın, aktif fiyat satırı, diskte beş katman. Kod listesi tek başına satın al açmaz. Bu turda canlı fiyat satırı okunmadı.
+Oynatıcı kilitli zaman çizelgesini okur. `production.status === "locked"` ve `readiness === "ready"` ise motor `"pilot"` olur; değilse zaman çizelgesiz `"sealed"` (`lib/junior/pilot-engine/playback.ts`). Matematikte 26 çizelgenin hepsi kilitli ve hazırdır. `jr_06_mat-6.timeline.json` süresi **142204 ms** (2 dakika 22 saniye). Ürün bandı 180–720 saniyedir (`lib/junior/player-clock.ts`).
 
-Junior pilot sınıfı 6’dır. Çekirdek kartlar `jr_06_mat`, `jr_06_fen`, `jr_06_turkce`, `jr_06_ing_main`, `jr_06_sosyal`. Seçmeli kartlar ayrı listededir ve mühürsüz olanlar tam ders sayılmaz.
+Mühür bu süreyi yeşil bırakacak şekilde yazılmıştır:
 
-### API yüzeyi
+- `lib/junior/narration-band.ts`: ölçülen kaset 180 sn altındaysa `below_narration_band` uyarısı döner. «Mühür boşluğu açılmaz; oynatıcı kapanmaz.» Uyarı yalnız `jr_06_mat-6` içindir.
+- `lib/junior/production-seal.ts`: «`jr_06_mat-6` kilitli PCM 180 sn altındadır. Karakter saati bu dersi yeşil bırakır.» Gerçek MP3 / çizelge süresi yalnız `jr_06_mat-1` ve `jr_06_mat-2` için okunur. Diğer derslerde süre `juniorNarrationDurationMs(mebNote, lifeUse)` ile, yani metin uzunluğundan gelir.
 
-`app/api` altında 73 `route.ts` vardır. `/api/v1` için ikinci bir handler ağacı yoktur. `proxy.ts`, sicildeki `/api/v1/...` yolunu kanonik `/api/...` handler’ına rewrite eder. Sicil dışı v1 yolu 404’tür ve kanonik handler’a düşmez.
+Görsel kip, zaman koduna değil kelimeye bakar. `lib/junior/scene-sync.ts`: «Görsel kip, canlı cümlenin tek başına sıçramasına bırakılmaz. Konu cümlesi kipi değiştirir. Genel cümle son kipi tutar.» Sayı sahnesi `asal`, `ortak bölen`, `çarpan` gibi kalıplarla seçilir. `sticky-frame.ts` boş kareyi atlar ve son çizilebilir kareyi yeni bir görsel işaret gelene kadar ekranda tutar. Sonuç: altyazı akarken sahne, o cümlenin konusuna yapışır; cümle genel konuşmaya dönerse çizim değişmez. Bu, kare kare koreografi değildir.
 
-Yayınlanmış hop sicili `packages/kernel/src/http/v1-hops-meta.ts` içindedir. `lib/kernel/http/v1-hops-meta.ts` bu dosyayı yeniden export eder. Zod şeması `lib/kernel/http/v1-contract.ts` üzerindedir. Sayı: **29 hop**.
+Eski grafik modülleri oynatıcının saati değildir. `graph-timeline-fallback.ts` başlığı «Eski numaralı grafik saat. Oynatıcı bu dosyayı okumaz» der. Dosya adları canlı anahtarla çakışır: `mat-27.graph.ts` içeriği `jr_06_mat-6`’dan alır; `mat-11.graph.ts` ders 11 değil ders 7 tarafına bağlanır. Yönlendirme tablosu `lib/junior/lesson-key-alias.ts` içindedir (27→6, 28→12, … 38→26).
 
-| Hop | Yöntem | Yol | Kimlik |
+İsim çarpışması mühür sabitlerindedir. `JUNIOR_PILOT_PLAYBACK_LESSON_KEY` değeri `jr_06_mat-1` iken sabit adı `JR_06_MAT_5_PRODUCTION`’dır. `JR_06_MAT_6_PRODUCTION` ise `jr_06_mat-2` içindir (`playback-key.ts`). Canlı `jr_06_mat-5` kesir ile bölme, canlı `jr_06_mat-6` uzunluk ölçüleridir. Bir sonraki fırın, dosya adına bakarak yanlış dersi mühürleyebilir.
+
+Cümle kapısı da metni eğebilir. `listen-cue-fit.ts`: cümle sonu ölçülen sessizlikten 400 ms uzaktaysa o kelimenin cümle işareti düşer, en fazla 8 geçiş. Ses dosyası ve `production` yazılmaz. Kapı, noktalama silinerek geçebilir.
+
+### 1.3 Anlatım ve altyazı
+
+Çocuğun gördüğü yazı, kilitli çizelgedeki cue metnidir (`lib/junior/cue-cassette.ts`). Çizelge kilitli ve hazır değilse kaset dönmez. Matematik çizelgeleri kilitlidir; örnek süreler mat-1 299799 ms, mat-5 290608 ms, mat-6 142204 ms, mat-11 293264 ms, mat-26 292499 ms.
+
+Kelime zamanı 10 ms RMS / Viterbi ile kurulur (`word-aligner.ts`). Cümle sonu kapısı: p90 &lt; 250 ms ve en büyük sapma &lt; 400 ms (`sync-gate.ts`). Kelime kapısı orta nokta sapması 80 ms, örtüşme 0.55 ve yeterli konuşma enerjisi ister. PCM yolu süre iddiasını örnek sayısından alır.
+
+Karakter uzunluğundan pencere tahmini «mühürlü pilotun kapısı değildir» (`player-clock.ts`). Buna rağmen üretim mührü, mat-1 ve mat-2 dışında o tahmini süre kapısı yapar. Çizelgedeki zaman kodu ile mühürdeki süre hesabı aynı şey değildir. Çocuk kilitli çizelgeyi duyar; yeşil mühür çoğu derste metin uzunluğuna bakar.
+
+### 1.4 Anlatım ve etkinlik
+
+Matematik soru paketleri 1–26 için hem yazarlık dosyasında hem `packages/junior-content/quiz` JSON’unda vardır. Mühür en az üç soru, dolu kök, açıklama ve en az iki seçenek ister. Kab derslerin sorusu yoktur.
+
+Etkileşimli şablon ayrı bir katmandır ve neredeyse boştur. `lib/junior/lesson-engine/registry.ts` yalnız iki şablon kaydeder: `jr_06_mat-1` ve `jr_06_mat-2`. `getJuniorLessonBlueprint` diğer her anahtar için yedek üretir: `mebCode: "MEB.6"`, başlık ham anahtar, kahraman soru «Bu konunun temel kuralını günlük yaşamda nasıl kullanırız?», rozet «Süper Kaşif», `simulations: []`. `listJuniorMatLessonBlueprints` yalnız mat-1 şablonunu döner.
+
+Teorik metin ve üç soruluk quiz, konu başlığıyla aynı pakettedir. Dokunsal etkinlik, simülasyon ve rozet metni dersin kazanımına kilitli değildir; iki ders dışında jenerik kabuktur. Bu, «anlatılan teori ile etkinlik örtüşmüyor» bulgusunun kod karşılığıdır.
+
+### 1.5 Seçmeli dersler — canlıya hazır değil
+
+Altı kart, kart başına iki konu. Rozet metni «İki Konu / İlk Konu Ücretsiz» (`limits.ts`). Raf notu: «Yıllık seçmeli müfredat değildir. İngilizce, 6. Sınıf İngilizce kartındadır.» (`elective-shelf-note.ts`).
+
+| Slug | Konu çifti | Paket |
+|---|---|---|
+| `jr_06_ing` | Selam / ad sorma | Fiyatın dışında. Rafta ikinci İngilizce kartı basılmaz. |
+| `jr_06_alm` | Günün selamı / adını söylemek | Mühür açıksa seçilebilir |
+| `jr_06_fra` | Bonjour / adını sormak | Aynı |
+| `jr_06_siyer` | Doğru söz / merhamet | Aynı |
+| `jr_06_kod` | Komut sırası / hatalı adım | Aynı |
+| `jr_06_arp` | Selam / sağdan sola okumak | Aynı |
+
+Her senaryo `scene: "elective"`, `band: "draft"` (`elective-catalog.ts` ve 12 konu JSON’u). Taslak bandı 3 dakika tabanını atlar. Ölçülen MP3’lerin hepsi 180 saniyenin altındadır (en kısası `jr_06_fra-2` 133308 ms, en uzunu `jr_06_ing-1` 167392 ms). Mühür seçmelide ısınma kaseti aramaz ve süreyi yine karakter saatinden okuyabilir. Ses modeli manifestte `gemini-3.8-flash-lite-tts`.
+
+Veritabanında seçmeli kurs tablosu yoktur. `JuniorProfile.selectedElectives`, `JuniorSubscription.electiveQuota` (kota 3) ve genel `JuniorProgress` vardır. Kayıt `POST /api/junior-pilot/electives`.
+
+UI kapıları:
+
+- 1. konu, mühür açıksa kamuya açık. 2. konu yıllık plan ve kota seçimi olmadan kilitli.
+- Mühür boşluğu olan kart `preparing`; düğme yok; oynat / anlat / öğretmen 403.
+- Kota dolunca sonraki tıklama değiştirmedir.
+- Denetim hesabı kartta «Admin İncele» görür.
+
+Canlıya %100 hazır sayılmasını engelleyenler: iki konu, taslak bandı, üç dakikanın altındaki ses, İngilizce kartının paket dışına alınması, ortak `ElectiveMotif` sahnesi, karakter saatiyle açılabilecek mühür.
+
+---
+
+## 2. Akademi — satış
+
+Erişim modeli `AcademyPurchase` satırıdır (`status` yalnız `SETTLED`, `userId + courseId` tekil). Ayrı `Enrollment` veya `License` tablosu yoktur. Süre, `settledAt` artı 365 gündür (`lib/academy/license.ts`). Fiyat kolonu kurs satırında değildir. Canlı tutar `PriceCatalogEntry.amountMinor` ve `isActive` olur. Aşağıdaki tutarlar kod tohumudur; canlı katalog satırı bu oturumda okunmadı.
+
+### 2.1 Teknik kapılar
+
+Satın alınabilirlik üç şartın kesişimidir (`academyCatalogPurchasable`, `pilot-sku.ts`):
+
+1. Aktif fiyat satırı var.
+2. `isPublished`.
+3. `academyCourseSaleOpen`: sınav yolundaki her derste konuşma metni ve mühürlü ses. Isınma klibi, sabit görsel ve fon müziği bu kapıyı kapatmaz.
+
+Biri eksikse kart CTA’sı satın alma bağlantısı basmaz (`storefront-cta.ts`):
+
+- Üretim hattı SKU’su satış listesinde değilse «Çok Yakında», `href: ""`.
+- `isPublished === false` ise «Yayında Değil», düğme kapalı.
+- `purchasable` değilse «Kayıt Kapalı / Fiyat Bekleniyor», düğme kapalı.
+- Kurs sayfası `PurchaseButton`’ı yalnız `purchasable` iken kurar.
+
+Misafir PayTR’ye gitmez. Oturum yoksa kahraman bağlantı giriş adresidir.
+
+Kart tahsilatı cüzdan yüklemesidir. Amaç kodu `academy-license:{slug}` (`paytr-license-bridge.ts`). Düz cüzdan yüklemesi lisans açmaz. PayTR yapılandırılmamışsa top-up 503 döner ve iframe açılmaz. CLEARED olunca kanca cüzdandan düşer ve `AcademyPurchase` yazar. Düşüm tutmazsa lisans yazılmaz; `refundUnlicensedAcademyCredit` aynı siparişin tutarını karta geri göndermeyi dener. Var olan bir satın alma satırını silmez. Bakiye siparişin altındaysa PayTR çağrılmaz, REQUESTED iade satırı durur.
+
+`app/api/(kernel)/cron/paytr-reconcile/route.ts` bayat PENDING siparişleri kapatır. Erişim vermez. `CRON_SECRET` boşsa 503. Dosya yorumu, bir dönemde 16 siparişin 48 gün açık kaldığını tarihçe olarak yazar; bugünkü açık sipariş sayısı bu raporda yoktur.
+
+Tohum kartı, veritabanı kurs satırı yokken vitrinde satın alınabilir görünebilir (`published-catalog.ts`). Satın alma o anda «Kayıt satırı henüz yazılmadı» diye düşer (`engine.ts`).
+
+Süresi dolmuş lisans «bitti» gösterir ve yeniden satın alma düğmesi koymaz (`storefront-cta.ts`, `access === "expired"` → `primaryLabel: null`).
+
+İlerleme kapısı katalogdaki Satın Al’ı gizlemez. İlk ders bittikten sonra oynatıcıda kasaya bağlanan bir karttır (`progress-gate.ts`).
+
+RBAC satın almada ek rol aramaz. Oturum yeter. Ayrı bir sepet nesnesi yoktur; niyet tek kurs lisansıdır.
+
+### 2.2 Kurgu ve fiyat
+
+Vitrin tohumları (`packages/kernel/src/catalog-ids/course-registry.ts`, kuruş):
+
+| Slug | Kod | Tohum | Vitrin sırası |
 |---|---|---|---|
-| health | GET | `/api/v1/health` | yok |
-| academy-certificate | GET | `/api/v1/academy/certificates/{hash}` | yok |
-| academy-pulse | GET | `/api/v1/academy/pulse` | Bearer |
-| academy-purchase | POST | `/api/v1/academy/courses/{id}/purchase` | Bearer |
-| academy-lock | POST | `/api/v1/academy/courses/{id}/lock` | Bearer |
-| academy-curriculum | POST | `/api/v1/academy/courses/{id}/curriculum` | Bearer |
-| academy-curriculum-read | GET | aynı | Bearer |
-| academy-exam | POST | `/api/v1/academy/courses/{id}/exam` | Bearer |
-| academy-exam-read | GET | aynı | Bearer |
-| auth-session | GET | `/api/v1/auth/session` | Bearer |
-| wallet-strip | GET | `/api/v1/dashboard/wallet-strip` | Bearer |
-| wallet-top-up | POST | `/api/v1/wallet/top-up` | Bearer |
-| career-pulse | GET | `/api/v1/career/pulse` | Bearer |
-| career-visas | GET | `/api/v1/career/visas` | Bearer |
-| career-portfolio | POST | `/api/v1/career/portfolio` | Bearer |
-| profile-patch | PATCH | `/api/v1/profile` | Bearer |
-| junior-lesson-read | GET | `/api/v1/junior/lessons/{key}` | yok |
-| junior-lesson-play | GET | `/api/v1/junior/lessons/{key}/play` | Bearer |
-| junior-lesson-progress | POST | `/api/v1/junior/lessons/{key}/progress` | Bearer |
-| junior-lesson-practice | POST | `/api/v1/junior/lessons/{key}/practice` | Bearer |
-| junior-profile ve create/select/consent/erase | GET POST PATCH PUT DELETE | `/api/v1/junior-pilot/profiles` | Bearer |
-| junior-electives | POST | `/api/v1/junior-pilot/electives` | Bearer |
-| junior-tell | POST | `/api/v1/junior-pilot/tell` | Bearer |
-| junior-practice | POST | `/api/v1/junior-pilot/practice` | Bearer |
-| junior-quiz | POST | `/api/v1/junior-pilot/quiz` | Bearer |
+| `01_office_ai` | OFF-101 | 89.000 (₺890) | 1 — ana kahraman |
+| `02_ecommerce_ai` | EC-102 | 99.000 (₺990) | 2 |
+| `03_social_media_ai` | SM-103 | 89.000 (₺890) | 3 |
+| `05_prompt_practice` | PR-105 | 129.000 (₺1.290) | 4 |
+| `04_chatbot_nocode` | BOT-104 | 129.000 (₺1.290) | 5 |
+| `01_office_ai_ileri` | OFF-201 | 129.000 (₺1.290) | 6 |
 
-Zarf `{ ok, error, requestId, apiVersion, data }`. `apiVersion` `"1"`. Native çağrı çerez oturumu kabul etmez. Ayrı `/api/v1/auth/refresh` ucu yoktur; istemci Supabase Auth JWT’sini yeniler. `X-Rail-Min-Version` health dışında zorunludur. Uyumsuz sürüm 426 döner.
+`/academy` yorumu vitrini tek kahramana indirmiştir. Kalan beş modül `/academy/ileri` üzerindedir; satın alma kapısı aynı çözücüdür (`app/academy/ileri/page.tsx`). Karar yorgunluğu azaltılmıştır. Kahraman kartın üç kapısından biri kapanırsa mağazanın görünen yüzü kapanır.
 
-Freelancer hop’ları sicilde yoktur. Yorum ve test bunu bilinçli tutar: Split ve kamu kilidi kalkınca geri yazılır.
+`06_`–`13_` kanon kabuktur: `vitrineOrder: null`, ders yolu boş, satış listesi kapalı. Tohumları ₺3.490 ile ₺19.000 arasındadır (`10_data_analytics_ai` 349.000 kuruş, `12_onprem_finetune` 1.900.000 kuruş). Rafta yoktur. «13 eğitim» vaadi kodda 6 dolu kart artı 8 boş kabuktur.
 
-### Kimlik, para, AI, kuyruk
+İkinci fiyat bandı `lib/academy/course-level.ts` içindedir (Temel 49.000, Orta 109.000, İleri 289.000 kuruş). Tutar boşsa yumuşak banttır. Vitrin tohumu değildir. İki fiyat evinin durması, «bilgi tek yerde» kuralını fiyat için deler. Canlı kilit yine `PriceCatalogEntry`’dir; tohum satırı ezer denmez.
 
-- Kimlik: Supabase Auth. Web çerez, native Bearer. Süper yönetici `lib/kernel/auth/super-admin.ts`.
-- Tahsilat: PayTR Merchant portu (`PaymentProviderId = "merchant"`). Bildirim ağızları `/api/paytr/callback` ve `/api/payments/webhooks/paytr`. HMAC handler’dadır. Pazaryeri Split kapalıdır.
-- Defter: cüzdan, `LedgerEntry`, emanet. Emanet zaman aşımı ve PayTR valör taraması Inngest fonksiyonlarındadır (`lib/kernel/jobs/inngest.ts`). Inngest anahtarı yoksa fonksiyon yine kodda durur; sahte başarı basılmaz.
-- AI: `lib/kernel/ai/llm-gateway.ts`. Gemini, OpenAI, Anthropic ve sovereign adaptörü. Model kimliği `lib/kernel/ai/model-roles.ts`. İzlemede canlı video/TTS üretimi anayasa B4 ile kapalıdır; fırın ayrı script’tedir.
-- Hız tavanı: Redis REST URL ve token birlikte doluysa paylaşılan depo. Biri dolu biri boşsa fail-closed. İkisi de boşsa süreç içi bellek. Çok örnekli üretimde boş Redis, limitin örnekler arasında paylaşılmaması demektir.
-- Medya: Akademi sesi ve sinema dosyası R2 / CDN kapısına bağlıdır. Vatandaş nesne deposu yoktur.
+Değer önerisi metni iş çıktısı anlatır (Excel tablosu, ürün başlığı, istem). Güven cümlesi lisansı 365 gün sayar ve şunu yazar (`focus-sale-pitch.ts`): «Ders erişimi açılınca bedel iade edilmez; henüz harcanmamış cüzdan yüklemesi kendiliğinden karta dönmez.» Katalog düğmesi ise «Eğitime Başla ve Sertifikana Ulaş — {fiyat}» der. Aynı güven cümlesi «satın alma tek başına belge basmaz» der. Sertifika eşiği 70’tir. Düğme belge vaat eder, gövde belgeyi teste bağlar ve iadeyi kapatır.
 
-### Native istemci
-
-`apps/rail-is` Akademi oynatıcı, sınav, sertifika, cüzdan yükleme, Junior ders ve profil ekranlarını taşır. Tezgâh ekranları durur; `DRON_TEZGAH_STORE_ISOLATED = true` iken açık işler sekmesi hop çağırmaz. `eas.json` mağaza profilini tutar. `next.config.ts` bu uygulamayı Next fonksiyon izinden çıkarır ve CI’nin binary basmadığını yazar. `package.json` içindeki `publishFrozenUntilFaz1Close` false’tur. Yani istemci repo’da derlenebilir durumdadır; mağaza binary’si bu Next gövdesinin build kapısı değildir.
+Hedef kitle kodda «işinde yapay zekâ kullanan yetişkin»dir. Ulaşım kanalı bu repoda bir büyüme yüzeyi değildir: ana sayfa 308 ile `/academy`’ye gider, sitemap kurs URL’lerini yalnız yayımlı adaylara koyar. Satmama şikâyetinin kodda görünen kökü pazarlama hunisi değil, düğmenin üç kapıdan birinde ölmesidir. Hangi kapının üretimde kırmızı olduğu veritabanı ve disk mührü okunmadan bilinmez. Bu, raporun bilerek açık bıraktığı tek satış gerçeğidir.
 
 ---
 
-## Teknik Röntgensel Tespitler (Artılar / Eksikler / Riskler)
+## 3. Yetki, atıl yüzey, SEO
 
-### Artılar
+### 3.1 `yapinet360@gmail.com`
 
-1. Mimari ad ile kod aynı cümlededir. Ayrı çekirdek servisi, ayrı dron veritabanı ve kopya `/api/v1` handler ağacı yoktur.
-2. Import duvarı ESLint’te durur. `lib/kernel` dikey oda motorunu import etmez. Kariyer ve freelancer `lib/academy` import etmez. Müze importu yasaktır. ESLint oda listesini `lib/dronlar/kayit.ts` dosyasından okur; ikinci bir oda dizisi tutmaz.
-3. Para, katalog kimliği ve hop metası Prisma’sız pakettedir. Native istemci bu paketi tüketir. Web `lib/kernel/http/v1-hops-meta.ts` aynı metayı export eder.
-4. Kapalı ürün sahte yeşil basmaz. Freelancer, Young, donmuş odalar, Split ve Junior kasa 410 veya fail-closed’tur.
-5. Kenar tek yerden karar verir: müze 404, donmuş oda 410, oturumsuz çekirdek sayfa 307, v1 allowlist, sürüm, Origin, hız tavanı, JWT. Route auth türü `export const auth` ile `route-auth-map.ts` içindedir ve `verify:api-auth --check` prebuild’e bağlıdır.
-6. Ön derleme kapısı sır, tamsayı para, RLS beyanı, v1 sözleşme artefaktı, IDOR mühürleri, public boyut ve Junior içerik kontrolünü `verify:prebuild` altında toplar.
-7. Akademi satış kapısı ile önizleme kapısı ayrılmıştır. İlk ders herkese açıktır; mühür ve fiyat satırı satış için ayrıca gerekir.
+Prisma `User` satırında rol kolonu yoktur. Tek kapı `isSuperAdminActor` (`lib/kernel/auth/super-admin.ts`).
 
-### Eksikler
+- Geliştirmede doğrulanmış yerleşik kutu UUID beklemez. Varsayılan adres bu e-postadır.
+- Üretimde `SUPER_ADMIN_USER_ID` boşsa yerleşik kutu dahil kimse admin olmaz.
+- Üretimde yerleşik kutu, oturum UUID’si bu değişkenle birebir aynıysa açılır. `email_confirmed_at` token’da yoksa aynı eşleşme yedek olarak yeter.
+- Başka bir adres üretimde hem `CANONICAL_SUPER_ADMIN_EMAIL` hem UUID ister.
+- `yetkin.vision@gmail.com` env’e yazılsa da admin olamaz.
 
-1. Native istemcinin konuştuğu sözleşme 29 hop’tur. Web’in konuştuğu yüzey daha geniştir. Aşağıdaki yazma veya sohbet uçları hop sicilinde yoktur. `apps/rail-is/src` bu yolları çağırmaz:
-   - `POST /api/ai/chat`
-   - `POST /api/academy/lesson-assistant`
-   - `POST /api/junior/live-tutor`
-   - `POST /api/junior-pilot/checkout`
-   - `POST /api/junior-pilot/grade`
-   - cüzdan iadesi, fatura profili, hesap kapatma, kayıt ve parola uçları
-   Checkout ve sınıf satırı hop yorumunda bilinçli olarak yoktur. Canlı koç ve ders asistanı telefon ürününde yoktur.
-2. Handler dosyası durup her metotta 410 dönen uçlar vardır. Ürün değildirler:
-   - Akademi stüdyo artığı: `generateSpeech`, `discussion`, `reviews`, `courses/[id]/listen`, `courses/[id]/pdf`, `admin/curriculum-revisions`
-   - Freelancer uydusu: `squad`, `direct-offers` ve kabul/red
-3. `06_`–`13_` yetişkin kartları kayıt defterinde kabuktur. Ders, kapak ve vitrin sırası yoktur.
-4. Young’un konu listesi `lib/kernel/catalog-ids/school-segments.ts` içindedir. Ders kartı yoktur.
-5. Junior yıllık paket satışı kodda vardır, kasa kilitlidir. Hukuki metin ve `JUNIOR_CHECKOUT_OPEN` açılmadan nakit hattı çalışmaz.
-6. Native binary CI’da üretilmez. Sözleşme tipi `generate:v1-client` ile kontrol edilir; mağaza çıktısı ayrı bir operatör adımıdır.
-7. `apps/rail-is` kök workspace’te değildir ve kendi kilit dosyasını taşır. `@yetkin/kernel` sürümü `file:` ile gider; Expo bağımlılıkları monolit `npm install` ağacından ayrı çözülür.
+Admin sayfaları: `/admin`, `/admin/catalog`, `/admin/curriculum-revisions`. API `auth: "admin"`: katalog, yayın, huni. Akademi izleme bypass’ı aynı aktördür. Üretimde `hasUnlimitedAcademyAccess` kapalıdır: süper yönetici ders izler, sınavı ve sertifikayı bu fonksiyonla atlamaz (`lib/academy/access.ts`).
 
-### Riskler
+Kısıtlar, «tüm modüllere kısıtsız» cümlesini bozar:
 
-1. İki SQL akışı. Prisma migration uygulanıp Supabase RLS/tohum atlanırsa tablo vardır, satır politikası veya katalog satırı eksik kalır. Tersi de geçerlidir.
-2. Redis boşken hız tavanı süreç belleğindedir. Birden fazla Next örneğinde limit paylaşılmaz. Kısmi Redis config’i ise tüm limiti kapatır. Üretimde ikisinin de dolu olması gerekir; bu turda canlı env okunmadı.
-3. Freelancer sayfası kilit arkasında tam ilan panosu taşır. Kenar kapısı kalkarsa vatandaş, Split hâlâ kapalıyken o panoyu görür. Asıl açılış üç koşulu birlikte ister; sayfa bileşeni bu üç koşulu kendi içinde tekrar etmez.
-4. Çalışma ağacında Junior oynatıcı iki motor arasında dikiş halindedir. Ayrıntı bir sonraki bölümde.
-5. `POST /api/junior/live-tutor` kenar türü `public`tir. Handler misafire LLM çağırmaz; yerel pedagojik yanıt verir. Oturumlu çağrı modele gider ve kota vardır. Uç hop sicilinde olmadığı için native sürüm kapısı ve Bearer zorunluluğu bu yola uygulanmaz. Web çerezi ve misafir yolu aynı handler’dadır.
-6. Donmuş oda kodu `archived/` altındadır ve canlı şemadan düşmüştür. Orayı yeniden import etmek build duvarına çarpar. Eski tabloları geri almak ayrı bir migration kararıdır; dosyayı geri taşımak yetmez.
+- Junior kasası denetim hesabına 403 verir. Metin: «Denetim hesabı ödeme kaydı yazmaz.» (`lib/junior/checkout.ts`).
+- Donmuş odalar admin kontrolünden önce kapanır: studio, devlabs, kurumsal, hibe, arena, pazaryeri, social (`lib/dronlar/kayit.ts`). Süper yönetici istisnası yoktur.
+- Bakım bypass’ı `SITE_MAINTENANCE_BYPASS_TOKEN` / `MAINTENANCE_BYPASS_SECRET` ile olur, UUID ile değil.
+- PayTR cron oturum tanımaz; `CRON_SECRET` ister.
+- Cüzdan top-up ve iade oturum ister. Ayrı bir admin kasa paneli yoktur.
+- Junior metni panelden düzenlenmez. Metin kod ve JSON’dur.
 
-### Çalışma ağacında doğrulanan Junior ayrışması
+Üretimde bu kutunun gerçekten açık olup olmadığı `SUPER_ADMIN_USER_ID` değerine bağlıdır. Bu dosya okunmadı. Kod, adresin tek başına üretim anahtarı olmadığını söyler.
 
-Bu tur başındaki git durumunda Junior ders motoru dosyaları değişmiş veya izlenmeyen dosya olarak durur. Kaynak okuması şunu gösterir:
+### 3.2 Atıl ve çift ev
 
-- Kalıcı ders sayfası `app/junior/ders/[lessonKey]/page.tsx` `LessonChain` çizer.
-- Aynı ağaçta `app/junior/ders/jr_06_mat-1/page.tsx` vardır ve `JuniorEngineProductionLesson` çizer.
-- Next.js’te statik segment dinamik segmentten önce gelir. `jr_06_mat-1` adresi `LessonChain` sayfasına düşmez.
-- `LessonChain`, etkinlik rayı ve simülasyonlar `lib/junior/lesson-engine` kayıt defterini de çağırır. Bu kayıt şu an matematik 1–5 blueprint’ini taşır (`lib/junior/lesson-engine/modules/mat-1-to-5.ts`).
-- Eski oynatıcı grafikleri `lib/junior/pilot-engine/` altındadır ve durur.
+Güçlü olanlar:
 
-Sonuç: 6. sınıf matematik 1, diğer derslerden farklı bir sayfa bileşeniyle açılır. Bu bir üretim kilidi değildir. İki oynatıcının aynı derste birleşmeden büyümesidir. Commit edilmeden «yayındaki ürün» sayılmamalıdır; diskte ise etkindir.
+- `lib/junior/pilot-engine/mat-27.graph.ts` ve `mat-30`–`mat-36` grafik dosyaları duruyor. Karşılık gelen `content/mat/27.ts`–`38.ts` yok. Oynatıcı bunları okumaz. Mühür betikleri okur. Dosya adı ile canlı anahtar farklı dersi gösterir.
+- `JR_06_MAT_5_*` adı `jr_06_mat-1` içeriğini, `JR_06_MAT_6_*` adı `jr_06_mat-2` içeriğini taşır. İki saat dili (koreografi ve grafik) aynı numarayı iki anlama çeker.
+- Akademi kurs sayfası üç satın alma yüzeyi birden kurar: `PurchaseButton`, `BeginCheckoutLink`, `CourseHeroActions`, üstüne `FocusSalePitch` ve `FreePreviewLink`. Hepsi hâlâ import edilir. Ölü değiller; aynı kararı üst üste basarlar.
+- `app/(public)/page.tsx` bir karşılama belgesidir. `next.config.ts` `/` adresini `/academy`’ye 308 ile çevirir. Başlık metni `lib/copy/sen-voice/public.ts` ve `academy.ts` içinde aynı cümledir: «Yapay Zekâyı Öğren. Gerçek İşlerinde Kullan.»
+- Fiyat: `PriceCatalogEntry`, `priceSeedMinor`, `course-level.ts` yumuşak bandı.
+- Hop sayısı: kod `RAIL_V1_HOP_META_COUNT = 33`. `OPS_RUNBOOK.md` 33 der. `ops/ops-dron.md` 30 der.
+- Model kimliği: Anayasa «uyumsuzlukta kod haritaya çekilir» der. `.cursorrules` «bu dosya belgeye eşitlenir» der. Pedagoji «belge değil, kod düzeltilir» der. Bugün örtüşen kimlikler uyumludur. Bir sonraki değişiklik için kural üç yönlüdür.
 
----
+Slug kataloğu ikiye bölünmemiştir. `COURSE_REGISTRY` (`packages/kernel`) hem web hem `apps/rail-is` tarafından süzülür. `academy-catalog.ts` fiyat etiketini API’den ekler.
 
-## Shared Kernel ve API-First Uyum Durumu
+`components/junior/lesson-engine/JuniorEngineProductionLesson.tsx` silinmiştir. Test dosyanın yokluğunu bekler.
 
-Uyum yüksektir ve mikro servis haritasına uyum diye okunmamalıdır. Uyum, B1’in tarif ettiği ince pakete göredir.
+### 3.3 SEO
 
-| Beklenti | Durum |
-|---|---|
-| Tek gövde, tek veritabanı, tek kimlik | Sağlanmış |
-| Paylaşılan paket Prisma’sız | Sağlanmış. `@yetkin/kernel` para, katalog, zarf, hop metası |
-| Native aynı hop sicilini tüketir | Sağlanmış. `apps/rail-is/src/api/hops.ts` `RAIL_V1_HOPS_META` ile eşleşen çağrı süzgeci kurar |
-| Yeni yetenek önce hop | Kısmi. Akademi satın alma, sınav, müfredat, cüzdan yükleme, kariyer portföyü, profil yaması ve Junior ders/profil yazmaları hop’tadır. Canlı koç, ders asistanı, genel sohbet, Junior kasa ve sınıf değişimi web BFF’de kalır |
-| Kopya v1 handler yok | Sağlanmış. Kenar soyar ve rewrite eder |
-| Oda = ayrı deploy | Bilinçli olarak yok. Kayıt satırı + bayrak + hop checklist’i var |
-| Freelancer v1’de | Bilinçli olarak yok |
-| İkinci native istemci | Yok. Doğması için aynı paket ve aynı hop şart |
+Lighthouse çalıştırılmadı. Aşağısı kod riskidir.
 
-`lib/kernel` ile `packages/kernel` iki farklı büyüklüktedir. İlki süreç içi işletim sistemidir. İkincisi istemcinin import edebildiği sözleşmedir. İkisini tek «Shared Kernel servisi» sanmak uyumu bozar. Servis ayırmak bu repoda yapılmamıştır ve B1 bunu istemez.
+Sitemap (`app/sitemap.ts`, `force-dynamic`) şunları basar: `/academy`, `/academy/ileri`, `/career`, `/junior`, doğrulama, vize, yasal yollar, yayımlı akademi kursları, Junior’da yalnız herkese açık ilk konular ve seçmeli açılışlar. Kilitli haftalar bilerek dışarıdadır. `/` sitemap’te yoktur çünkü 308’dir. Oynatıcı, çıkış paketi, kasa, profil, admin, giriş sitemap’te yoktur.
 
-API-First burada «her HTTP yolu dış ürün sözleşmesidir» demek değildir. Dış sözleşme 29 hop ve zarftır. RSC, `lib/` üzerinden okuyabilir. Yazmanın sessizce yalnız tarayıcıda kalması, telefonun da kullanacağı yetenek için yasaktır. Telefonun kullanmadığı yetenek web’de kalabilir. Canlı koç bu ikinci gruptadır; ürün kararı olarak telefon sözleşmesine alınmamıştır.
+`robots.ts` bu özel yolları ve `/api/` yolunu kapatır. Canlı yayın kapanışı açıksa izin yasal sayfalara iner. Sitemap adresi `https://yetkin.ai/sitemap.xml` olarak sabittir.
+
+Kök `layout.tsx` başlık ve Open Graph taşır, kanonik taşımaz; çocuk sayfalar `/` kanoniğini miras almasın diye. OG görseli kök, `/junior` ve doğrulama hash’i için üretilir. Kilitli Junior dersi `noindex` ve kanoniksizdir. Oynatıcı `noindex` basar, başlık ve açıklama basmaz; kök başlık noindex URL’ye sızabilir.
+
+`app/layout.tsx` `connection()` ile belgeyi dinamik ve önbelleksiz kılar. `/junior` ve ders sayfası `force-dynamic`. `/junior` ve katalog gövdesi `"use client"` bileşenlerdir; Next onları sunucuda da basar, salt istemci SPA değildir. Ders zinciri `JuniorLessonEngine`’i `next/dynamic` ile bölmez.
+
+Ana sayfa ile katalog aynı title dizesini paylaşır. Açıklamalar ayrıdır.
 
 ---
 
-## Doğrulanmış Hata ve İyileştirme Listesi
+## 4. Belgeler — eleştirel okuma
 
-«Hata» ile «bilinçli kilit» ayrıldı. Kilit satırları yukarıdaki tabloda. Aşağıdakiler koddan doğrulanan iyileştirme ve tutarlılık işleridir. Canlı 500 veya düşen test iddiası yoktur; test çalıştırılmadı.
+Okunanlar: `.system_docs/ANAYASA.md`, `MANIFESTO.md`, `PEDAGOJI.md`, `AKADEMI_URETIM_ANAYASASI.md`, `README.md`, `OPS_RUNBOOK.md` başlıkları, `.cursorrules`, `AGENTS.md`, `lib/kernel/ai/model-roles.ts`.
 
-1. **İki Junior oynatıcı.** `pilot-engine` duruyor, `lesson-engine` matematik 1–5 için bağlı, `jr_06_mat-1` ayrı sayfa. Tek ders kabuğu seçilmeden yeni konu eklenmemeli.
-2. **Hayalet 410 route’ları.** Stüdyo ve freelancer uydusu handler’ları ürün haritasını şişirir. `app/api/_gone/[...path]` zaten donmuş oda yakalayıcısıdır. Kalıcı kapalı uçlar ya bu yakalayıcıda toplanmalı ya da dosya olarak «kapalı» diye hop dışı bir listede tutulmalıdır. Şu an ikisi birden vardır: gerçek handler dosyası ve 410 gövdesi.
-3. **Freelancer sayfa gövdesi.** Kenar 410 basarken sayfa ilan listesi import eder. Kilit kalkmadan bu gövde ya kenarla aynı üç koşulu okumalı ya da kilit süresince boş 410 kabuğuna inmelidir.
-4. **Hop dışı ürün yazmaları.** Telefon Junior’da anlatış, quiz ve profil vardır; kasa ve sınıf değişimi yoktur. Web’de kasa kilitli de olsa handler durur. Açılacağı gün hop’a yazılmazsa native ile web kasası ayrılır. Açılış anının checklist’ine hop maddesi konmalıdır. Aynı şey, telefonda istenirse, canlı koç için de geçerlidir.
-5. **İki migration akışı.** Operatör runbook’unda hangi değişikliğin Prisma, hangisinin Supabase SQL olduğu tek bakışta seçilmelidir. Bu raporda o runbook yeniden yazılmadı. Risk kod yerleşiminden okunur.
-6. **Redis koşulu.** Üretimde URL ve token çifti dolu olmalıdır. Boş çift lab içindir. Kısmi çift siteyi fail-closed keser.
-7. **Native kilit dosyası.** `apps/rail-is/package-lock.json` monolit ağacından ayrıdır. Kernel `file:` bağı temizdir. Expo sürüm kayması ancak o dizinde `npm install` ile görünür. `typecheck:rail-is` kök script’te vardır; kök `npm install` bu kilidi güncellemez.
-8. **Kabuk katalog.** `06_`–`13_` satın alınabilir ders gibi durmamalı. Kod bunu boş `lessonKeys` ve `vitrineOrder: null` ile tutar. Vitrin metni bu alanları ezmemelidir.
-9. **Young.** Bayrak açılırsa boş kart rafı yayınlanır. İçerik mühürü olmadan `DRON_YOUNG_OPEN` açılmamalıdır.
-10. **Çalışma ağacı temizliği.** Bu turda ürün kodu yazılmadı. Junior ders motoru diff’i commitlenmeden «tespit edildi, bitti» sayılmamalıdır.
+A1–A5 ile kod uyumludur ve gevşetilmemelidir: para tamsayı ve `Wallet.amountMinor`, çekim rotası yok, satış fiyatı katalog satırında, sınav eşiği 70, doğrulama rotası var. Bu katman hantallık değil, kasa kilididir.
 
-Doğrulanmayanlar, bu yüzden hata listesine yazılmayanlar: canlı PayTR kimlik bilgisi, Supabase proje sağlığı, R2’de hangi WAV’ın durduğu, Inngest Cloud cron’unun işlediği, Vercel örnek sayısı, Redis’in üretimde dolu olup olmadığı.
+Geliştirmeyi yavaşlatan ve kendi içinde çelişen yerler:
 
----
+1. **Modelin tek evi üç cümleyle üç yerdir.** Anayasa kodu haritaya çeker. `.cursorrules` belgeyi koda eşitler ve «beş aşama kapısı»nı dondurur. Pedagoji çelişkide belgeyi değil kodu düzeltir. `AKADEMI_URETIM_ANAYASASI.md` prosedürü «6 sıralı aşama» (0–5) diye yazar. Pedagoji «beş aşama»yı ders senaryosuna, «5 medya katmanı»nı dosyaya kullanır. Aynı sözcük üç nesnedir.
+2. **Satış ile stüdyo mührü başlıkta birleşir, gövdede ayrılır.** Anayasa B3: Satın Al, yayın + aktif fiyat + ses ve metin ile açılır; beş katman stüdyo notudur. Üretim anayasasının 5. aşama başlığı «FİZİKİ DİSK MÜHRÜ VE SATIŞ MANDALI (5 Katman Doğrulaması)» der. Alt paragraf B3 ile uyumludur. Başlık, satışı beş dosyaya bağlar gibi okunur. Kod B3’ü uygular: ısınma, sabit görsel ve müzik satış kapısını kapatmaz.
+3. **Junior kapısı iki belgede iki türlüdür.** Pedagoji Ek-J: ders veli rızası olmadan açılmaz; çekirdek dersin ilk konusu ücretsizdir; 10–18 yaş ve 5–12. sınıf aynı dersi farklı sesle dinler. Anayasa B6 ve kod: `/junior` ve kartların tanımlı açılışları kamuya açıktır; İngilizce açılışı 20. derstir; sınıf seçici yalnız 6. sınıfı gösterir; Young vitrinde yoktur. Kod B6’yı izler. Yaş penceresi `year - 18` … `year - 9` ve persona bantları `10-12` / `13-14` / `15-18` hâlâ `persona.ts` içindedir. Raf «sadece 6. Sınıf Pilot» der.
+4. **«Çekirdek 105 konu kapağı» ile dosya sayımı ayrıdır.** Kapak manifestinde 100 `jr_` kaydı sayıldı. Çekirdek yazarlık dosyaları 26+27+20+14+24 = 111’dir. Kablar ve seçmeliler bu sayıya dahil değildir.
+5. **Belgeler üründe olup adını koymadıkları şeyler:** `sale-hold.ts` cümleleri, lisans düşümü tutmayınca PayTR iadesi, `paytr-reconcile` cron’u (runbook Inngest taramasını anlatır), seçmeli kota 3 ve «iki konu» rozeti. `apps/rail-is` belgelerde vardır; eksik olan hop sayısının `ops-dron.md` içinde 30 kalmasıdır.
+6. **Bitiş kapısı her işe tam takımdır.** `.cursorrules` içerik veya kasa dokunuşunda `tsc`, tüm vitest, API auth haritası, Junior içerik, akustik kapı, görsel op ve PayTR mühürlerini ister. Bu bir yayın kapısı olarak doğrudur. Her küçük tespit turunda aynı takımı koşturmak, tespit ile tedaviyi birbirine bağlar ve ajanı ya kuralı delen ya da günlerce mühür kovalayan konuma iter.
 
-## SEN OLSAYDIN NE YAPARDIN?
-
-Mikro servise bölmezdim. Bu gövde zaten doğru radikal kararı vermiş: tek süreç, tek defter, ince sözleşme, bayraklı oda. Şimdi yapılacak radikal iş bölmek değil, yüzeyi sözleşme kadar inceltmektir.
-
-Yapacağım sıra:
-
-1. Ürün cümlesini dondururdum. Yeni oda, yeni repo veya yeni veritabanı açılmaz. İkinci telefon ancak aynı paketi ve aynı 29 hop’u tüketerek doğar.
-2. Junior’da tek oynatıcı bırakırdım. `jr_06_mat-1` özel sayfası ya tüm çekirdek derslerin kabuğu olur ya da silinir. `pilot-engine` grafiklerinin `lesson-engine` blueprint’ine nasıl bağlandığı bir tabloda biter. İki motor yan yana konu üretmez.
-3. Hayalet 410 dosyalarını tek kapalı listeye indirirdim. API haritası vatandaşın çağırabildiği uçlarla aynı görünür.
-4. Freelancer’a dokunmazdım. Motor ve şema laboratuvarda kalır. Açılış ancak B5 checklist’i gerçekken olur: lisanslı Pazaryeri sözleşmesi, alt satıcı onboard, hop’ların sicile geri yazımı, kapalı test halkası, `DronBayrakları.isKapali("freelancer") === false`. `DRON_FREELANCER_OPEN` bu beşlinin yerine geçmez.
-5. `@yetkin/kernel`i şişirmezdim. Prisma, Supabase ve LLM oraya girmez. Yeni telefon yeteneği önce hop metası, sonra Zod, sonra mevcut handler, sonra `apps/rail-is` çağrısıdır.
-6. Ölçmeden servis ayırmam. Ayırma gerekirse adaylar bellidir: medya CDN’i zaten ayrı, AI çağrısı zaten geçitten, valör taraması zaten Inngest’te. Bunlar süreç içi modüldür. Ayrı Node servisine çıkarmak ancak havuz, süre veya maliyet sayısı bunu zorlarsa konuşulur.
-7. Üretim env’ini kod kilidi gibi okurdum: Redis çifti dolu, PayTR sandbox kapalı, Junior kasa kapalı, Split kapalı. Boş env’yi «çalışıyor» saymam.
-
-Bu yaklaşım yeni bir platform kurmaz. Durmakta olan kapıları ürün kararı haline getirir.
+README «kamu vitrini Panel + Akademi + Kariyer» der. Junior müstakil odadır, dördüncü vitrin odası değildir. Cümle, Junior’ın kapalı olduğu şeklinde okunabilir. Kodda `/junior` açıktır; Young kapalı doğar.
 
 ---
 
-## Platform Kurgusu Doğru mu?
+## 5. Dört soru
 
-Evet. Doğru kurgu, eski slayt cümlesinin birebir mikro uygulama karşılığı değildir. Doğru kurgu B1’dir ve kod o cümleye oturur.
+### 5.1 Bu platformun mimarı olsam ilk üç adım
 
-Örtüşme:
+1. **Bir akademi kartını uçtan uca satılır hale getirmek.** Kahraman `01_office_ai` için canlıda üç kapının hangisinin kırmızı olduğunu okumak (yayın, fiyat satırı, ses-metin mührü). Kırmızı olanı kapatmak. Misafirin girdiği duvarda düğmenin neden durmadığını aynı ekranda yazmak («Yayında değil» ile «fiyat bekleniyor» ile «ses mührü eksik» aynı ölü düğmeye düşmesin). Süresi dolmuş lisansa yeniden satın alma koymak. Bunu yapmadan yeni kurs, yeni dron ve yeni belge maddesi yazmam.
 
-- Tek Next.js gövde, tek Postgres, tek Supabase Auth vardır.
-- Paylaşılan çekirdek bir paket olarak vardır ve istemci onu import eder.
-- Odalar kayıt defteri ve bayrakla açılır. Kapalı oda 410 döner, sahte veri basmaz.
-- Native istemci aynı hop zarfını konuşur. Ayrı kimlik sistemi kurmamıştır.
-- Akademi, Kariyer, Panel ve kanıt URL’si kamu vitrinidir. Junior dördüncü vitrin odası değildir. Freelancer kilitli motordur. Young kapalıdır. Bu, anayasa B2 ve B6 ile aynıdır.
+2. **Junior mühür saatini duyulan sese bağlamak.** `jr_06_mat-6` ya 180 saniyeye çıkar ya da rafta kısa diye işaretlenir. mat-1 ve mat-2 dışındaki dersler karakter saatiyle yeşil kalamaz. `JR_06_MAT_5` / `mat-27.graph` adlandırma borcu, bir sonraki fırının yanlış dersi kilitlememesi için aynı turda sökülür. Etkinlik şablonu olmayan derse «Süper Kaşif / MEB.6» basılmaz; şablon yoksa jenerik rozet de basılmaz.
 
-Örtüşmeyen tek şey, «sürü» kelimesinin çağrıştırdığı ayrı deploy edilebilir uygulamalardır. O uygulamalar bu repoda yoktur. `archived/` altındaki studio, pazaryeri, arena, hibe, kurumsal, social ve devlabs denemeleri canlı şemadan düşmüştür. Onları yeniden mikro uygulama yapmak, çalışan defteri ve RLS’i ikiye böler.
+3. **Seçmeli ve 8 boş akademi kabuğunu vitrin vaadinden çıkarmak.** İki dakikalık taslak, yıllık seçmeli diye durmaz. `06`–`13` tohum fiyatları rafta yoktur; belgeler ve konuşma dili hâlâ «katalog» diyorsa kabuk sayısı ile satılan sayı ayrı yazılır. Genişletme, bu üç adım yeşil olduktan sonra başlar.
 
-Eksik olan kurgunun kendisi değildir. Eksik olan, telefon sözleşmesinin web’deki her yeteneği taşıması ve Junior oynatıcının tek kabuğa inmesidir. İkisi de mevcut temelin üstüne eklenir.
+### 5.2 Platform kurgusu doğru mu?
 
----
+İstemdeki hedef cümle «Amiral Gemi + Sürü Dron (Core + Micro-Apps / Shared Kernel / API-First)»dir. Anayasa B1 bu cümleyi emekli takma ad sayar. Canlı ad: **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci.**
 
-## Gelecek MASTER PLANI
+Kod bu ada uyar:
 
-Amaç ölçeklenebilir bir sürü kurmak değildir. Amaç bu monolitin ikinci ve üçüncü istemciyi aynı hop ile taşıyacak kadar sıkı kalmasıdır.
+- Gövde tek Next.js uygulamasıdır (`app/`, `lib/`). Ayrı veritabanı ve ayrı kimlik yoktur.
+- `@yetkin/kernel` para, katalog kimliği, hop ve zarfı taşır. Prisma taşımaz.
+- `apps/rail-is` aynı `/api/v1` hop sicilini tüketen tek native istemcidir.
+- «Dron» ayrı mikro uygulama değildir. `lib/dronlar/kayit.ts` içinde bir satır, bir bayrak ve bir yol önekidir. Yedi oda donmuştur.
 
-### Adım 0 — Sözlük ve kapı
+Kayma şuradadır:
 
-Yeni belge ve kod B1 adını kullanır. Yeni oda checklist’i: `lib/dronlar/kayit.ts` satırı, bayrak, hop, test. Repo açılmaz.
+- Ürün yüzeyi iki büyük dikeydir (Junior ve Akademi) ve bir pasif kariyer/freelancer odasıdır. Donmuş yedi oda mimari seçenek olarak durur, ürün olarak durmaz. İsimleri roadmap sanılırsa çekirdek şişer.
+- Junior, kernel’den çok `lib/junior` ve `packages/junior-content` içine gömülüdür. Hop’lar (`junior-shelves`, `junior-progress-read`) sonradan eklenmiştir. Native istemci bu yüzden ince sözleşmeyi tüketebilir; içerik fabrikasının kendisi hâlâ monolit dosyalarıdır. Bu, B1 ile çelişmez. «Her dikey kendi deploy’u» hayaliyle çelişir. O hayali belge bilinçli olarak öldürmüştür.
+- API-first, vitrin sayfaları için geçerli değildir. Vitrin sunucu bileşeninden kataloğu okur. Mobil, hop’tan okur. İki kapı aynı kayıt defterine bakıyorsa bu doğrudur. Fiyat ve satış kapısı iki kapıda da `academyCatalogPurchasable` ise doğrudur. Bu raporda ikinci bir slug kataloğu bulunmadı.
 
-### Adım 1 — Junior tek kabuk
+Hüküm: mikro uygulama sürüsü inşa edilmemiştir ve edilmemesi, güncel anayasa ile uyumludur. Eski adla yeni kodu yargılamak yanlış kapı arar. Asıl kayma, donmuş odaların ve boş SKU’ların hâlâ «platform genişliği» gibi durmasıdır.
 
-- `jr_06_mat-1` özel sayfası ile `[lessonKey]` tek bileşende birleşir.
-- Blueprint kayıt defteri hangi derslerin yeni kabukta olduğu liste olur. Bugün bu liste matematik 1–5’tir.
-- `pilot-engine` ya bu kaydın zaman çizelgesi kaynağı olarak kalır ya da ders ders taşınıp silinir. İkisi birden «asıl oynatıcı» olmaz.
-- İçerik yolu değişmez: metin `lib/junior` TypeScript’inde, çalışma zamanı `packages/junior-content` JSON’unda, JSON `export:junior-content` ile türer.
-- Seçmeli ders `assertJuniorProductionSeal` geçmeden çekirdek kart gibi sunulmaz.
+### 5.3 Tedavi sırası
 
-### Adım 2 — Sözleşmeyi ürünle eşitle
+1. Üretim okuması, kod yazmadan: kahraman kurs için `isPublished`, aktif `PriceCatalogEntry`, ses-metin mührü, PayTR yapılandırması, son 30 günde PENDING kalan sipariş. Hangi kapı kırmızıysa tedavi ona gider.
+2. Satış yolu: ölü düğmenin nedenini ayırmak, süresi dolmuş lisansın yeniden satın alınması, düşüm tutmayınca kullanıcının gördüğü cümle (sessiz iade satırı yetmez).
+3. Junior süre mührü: ölçülen MP3, mat-6 kararı, karakter saati yedeğinin kapatılması.
+4. İsim borcu: grafik dosyası ve `MAT_5` / `MAT_6` sabitleri canlı anahtarla aynı adı taşısın ya da mühür betiğinin yolundan çıksın.
+5. Jenerik «Süper Kaşif» şablonunun çocuk ekranına düşmesinin kapatılması. Şablon yazılmadan rozet vaadi yok.
+6. Seçmeli: ya «iki konu taslak» diye kalır ve paket fiyatı onu yıl vaadi saymaz (bugün metin bunu söylüyor; vitrin hâlâ ders kartı gibi duruyor) ya da yıl planı yazılmadan satış kopyasından çıkar.
+7. SEO: kamu katalogda `force-dynamic` ihtiyacını ölçmek, title çiftini ayırmak, oynatıcı noindex sayfasına kendi başlığını vermek. Lighthouse ancak bundan sonra.
+8. Belgeler: model kuralını tek cümleye indirmek, «beş aşama» ile «altı aşama»yı ayırmak, Pedagoji Ek-J’yi B6 ve koda çekmek, `ops-dron.md` hop sayısını 33 yapmak, cron’u runbook’a yazmak.
 
-- Hayalet 410 route’ları tek kapalı yüzeye iner.
-- Telefonda kalacak her yazma, açılmadan önce `RAIL_V1_HOPS_META` satırı olur. Junior kasa bu listenin başına yazılır; env açmak hop yazmanın yerine geçmez.
-- Freelancer hop’ları Split checklist’inden önce sicile eklenmez.
-- `verify:v1-contract-artifacts` yeşil kalmadan native ekran eklenmez.
+A1–A5 bu sıranın hiçbir adımında gevşetilmez.
 
-### Adım 3 — Operasyon tek bakış
+### 5.4 Uzun vadeli master plan
 
-- Prisma migration ve Supabase SQL için tek operatör sırası yazılır. Şema, RLS, auth tetikleyicisi, fiyat tohumu hangi komutla uygulanır, bu sıra `OPS_RUNBOOK` içinde seçilir.
-- Üretim Redis çifti, PayTR sandbox, bakım bayrağı ve Junior kasa bayrağı readiness çıktısında yan yana okunur. `ops:runtime-readiness` bu işin mevcut kancasıdır.
-- Native için CI’da en az `typecheck:rail-is` ve v1 artefakt kontrolü kalır. Mağaza binary’si ancak sürüm kararıyla EAS’ten basılır. Next build o binary’yi üretmez.
+Çekirdek motor şu sözleşmelerden ibaret kalır: kimlik, tamsayı cüzdan, katalog fiyatı, 365 gün lisans, ilerleme, mühürlü medya, `/api/v1` hop. Dikeyler bu sözleşmeyi tüketir. Yeni ülke, yeni sınıf veya yeni mobil kabuk yeni veritabanı açmaz.
 
-### Adım 4 — Akademi satış hattı
+Ürün sırası:
 
-- Vitrindeki her kart için üç kapı birlikte okunur: `is_published`, aktif fiyat, disk mührü.
-- `06_`–`13_` ders yolu dolmadan vitrin sırası almaz.
-- İzleme yolu canlı TTS/video çağırmaz. Fırın script’leri ayrı kalır.
+- **Kama:** 6. sınıf, beş çekirdek ders, ölçülmüş ses, kazanım koduyla birebir soru. Türkiye’de ödeyen kişi velidir. Seçmeli, çekirdek yıl dolmadan «yıllık paket» cümlesine girmez.
+- **İkinci ürün:** Akademi’de az sayıda, sesi mühürlü, tek iş vaat eden kurs. Boş `06`–`13` kartları ya dersle dolar ya kayıt defterinden «hazırlanıyor» kabuğu olarak kalır ve fiyat tohumu vitrin konuşmasına sızmaz.
+- **Üçüncü:** Young, `DRON_YOUNG_OPEN` ile, Junior şemasının lise bantına taşınmasıyla. Aynı dersi 8. sınıf ve lise öğrencisine farklı sesle okutma vaadi, bant gerçekten yazılmadan belgede durmaz.
+- **İstemci:** `rail-is` kalıbı. Her dikey mobil uygulama aynı hop sicilini tüketir. İçerik fabrikasının çıktısı JSON + mühürlü ses + zaman çizelgesidir; uygulama o paketi çalar, müfredatı gömmez.
+- **Fabrika:** Bir dersin yeşil sayılması için tek süre kaynağı ölçülen ses olur. Çizelge kilitli değilse ders rafta «hazırlanıyor» durur. Jenerik rozet ve `MEB.6` yedeği kalkar. Görsel kip, kelime avı yerine çizelgedeki görsel işarete bağlanır.
+- **Coğrafya:** Çekirdek müfredattan bağımsızdır (kimlik, para, mühür, hop). Müfredat paketleri ülkeye özeldir. İkinci ülke, 6. sınıf Türkiye paketinin mühür disiplini bir yıl dönmeden açılmaz. Aksi halde global çekirdek, iki yarım katalog olur.
 
-### Adım 5 — Faz 2 yalnızca checklist ile
-
-Sıra değişmez:
-
-1. Lisanslı Pazaryeri sözleşmesi.
-2. Alt satıcı onboard.
-3. Freelancer hop’larının v1 siciline yazılması ve kenar 410’un kalkması.
-4. Kapalı test halkası.
-5. `isKapali("freelancer") === false` ve `FREELANCER_PUBLIC_SURFACE_LOCKED` ile `MARKETPLACE_SPLIT_LIVE` aynı anda açılır. Biri tek başına vitrin açmaz.
-
-Kurumsal oda ilk pilot müşteri profili olmadan açılmaz.
-
-### Adım 6 — Young
-
-`DRON_YOUNG_OPEN` içerik kartı ve mühür olmadan açılmaz. Açıldığında Junior’ın kapı modeli kopyalanır: kayıt satırı, katalog paketi, hop, yaş penceresi. Akademi kayıt defterine Young kartı eklenmez.
-
-### Adım 7 — Ölçülen ayrışma
-
-Ancak bundan sonra, sayı varsa:
-
-- Medya zaten R2’dedir.
-- AI maliyeti `AiTokenUsage` ve günlük tavan ile izlenir.
-- Valör ve emanet Inngest’tedir.
-
-Bu üçü ayrı ürün servisi yapılmaz. Darboğaz ölçülürse ilgili modül süreç dışına alınır. Defter ve kimlik gövdede kalır.
+Donmuş odalar (pazaryeri, arena, sosyal, hibe, kurumsal) master planın parçası değildir. Açılmaları ayrı bir ürün kararıdır ve çekirdeğe yeni tablo eklemeden, aynı cüzdan ve aynı hop ile yapılır. Açılmadan önce silinmiş sayılırlar: kodda 410, yol haritasında yok.
 
 ---
 
-## Bir Sonraki Aşamada Ne Yapılmalı?
+## 6. Bilerek doğrulanmayanlar
 
-CEO ve SUPER_ADMIN için sıradaki odak ürün bölmek değildir. Sıradaki odak Junior kabuğunu tekleştirmek ve kasayı hop’suz açmamaktır.
-
-Yapılacaklar:
-
-1. Çalışma ağacındaki Junior ders motorunu bitirin veya geri alın. `jr_06_mat-1` ile diğer dersler aynı sayfa sözleşmesini kullanmadan yeni matematik konusu eklemeyin.
-2. Junior kasasını kapalı tutun. Açılış kararı hukuki metin, fatura mührü, PayTR siparişi ve v1 hop satırı birlikte gelince verilir. `JUNIOR_CHECKOUT_OPEN=1` tek başına yeterli karar değildir.
-3. Freelancer ve Young bayraklarını açmayın. İkisi de içerik veya sözleşme olmadan vitrin vaadi üretir.
-4. Üretimde Redis URL ve token çiftini doğrulayın. Kısmi config hız limitini kapatır. Boş çift limiti örnek belleğine bırakır.
-5. Prisma ve Supabase SQL akışının ikisinin de son uygulanan sürümünü yan yana yazın. Bu rapor o sürümü canlı veritabanından okumadı.
-6. Telefon sözleşmesine eklenecek ilk yetenek, canlı koç değil, kasadır. Koç web’de kalmaya devam edebilir. Kasa açılacaksa önce hop olur.
-7. `06_`–`13_` kabuklarını vitrine taşamayın. Satış kapısı üçlüdür; kayıt defterindeki fiyat tohumu satış değildir.
-
-Bu adımlar bitmeden yeni oda, yeni repo veya ikinci veritabanı açılmamalıdır.
+- Canlı `PriceCatalogEntry` tutarları ve `academy_courses.is_published` değerleri.
+- Kahraman kurstaki ses dosyalarının diskte gerçekten mühürlü olup olmadığı (`public/media` taranmadı).
+- Üretim `SUPER_ADMIN_USER_ID` eşleşmesi.
+- `juniorProductionSealGaps` çalıştırıldığında hangi derslerin kırmızı döndüğü. Mat-6’nın karakter saatiyle yeşil kalacağı, fonksiyonun kendi yorumundan okunur.
+- Lighthouse puanı.
+- RLS politikalarının her tabloyu hâlâ örtüp örtmediği. Migration dosyaları vardır; tam kaplama sayılmadı.
+- Çocuk ekranında yedek «Süper Kaşif» şablonunun hangi bileşenden basıldığı. `getJuniorLessonBlueprint` yedeği üretir; bu oturumda oynatıcı ağacı tıklanarak doğrulanmadı.

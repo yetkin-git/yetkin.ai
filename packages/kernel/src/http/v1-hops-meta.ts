@@ -6,8 +6,9 @@
  * Tedavi + Faz 2 hazırlık (Eylül 2026): yazma hop'ları ve cüzdan yükleme
  * API-First yayınlanır. Müfredat/sınav GET okuma hop'ları T3 halkası içindir.
  * Freelancer hop'ları Split + kamu kilidi kalkınca geri yazılır.
- * Junior pilot ağızları aynı handler'a soyulur. Kasa (`checkout`) bu sicilde yoktur;
- * `isJuniorCheckoutLocked` fail-closed kalır. Sınıf (`grade`) satır değildir.
+ * Junior pilot ağızları aynı handler'a soyulur. Kasa (`junior-pilot-checkout`)
+ * bu sicildedir; satış kapısı `JUNIOR_CHECKOUT_OPEN` boşken fail-closed kalır.
+ * Sınıf (`grade`) satır değildir.
  * Profil masası GET ile birlikte oluşturma (POST), seçme (PATCH), veli onayı (PUT)
  * ve silme (DELETE) aynı kanonik handler'a soyulur.
  */
@@ -209,6 +210,39 @@ export const RAIL_V1_HOPS_META = [
     cookieAuth: false,
   },
   {
+    /**
+     * 123 mühürlü dersin raf kapısı. Native istemci katalogu RSC'siz çizer.
+     * Profil seçilmemişse raflar paket kapısı kapalı basılır; karar handler'dadır.
+     */
+    id: "junior-shelves",
+    method: "GET",
+    v1PathTemplate: "/api/v1/junior/shelves",
+    v1Auth: "bearer",
+    cookieAuth: false,
+  },
+  {
+    /**
+     * Öğrenci ilerlemesi. `junior_progress` yazımı vardı; okuma boardu yoktu.
+     * Profil seçilmemişse boş tahta döner, uydurma ilerleme basılmaz.
+     */
+    id: "junior-progress-read",
+    method: "GET",
+    v1PathTemplate: "/api/v1/junior/progress",
+    v1Auth: "bearer",
+    cookieAuth: false,
+  },
+  {
+    /**
+     * Akademi vitrin + katalog okuması. Satın alma kapısı ve fiyat aynı kaynaktan
+     * (`academyCatalogPurchasable`) okunur; uydurma fiyat basılmaz.
+     */
+    id: "academy-catalog",
+    method: "GET",
+    v1PathTemplate: "/api/v1/academy/catalog",
+    v1Auth: "bearer",
+    cookieAuth: false,
+  },
+  {
     id: "junior-tell",
     method: "POST",
     v1PathTemplate: "/api/v1/junior-pilot/tell",
@@ -226,6 +260,13 @@ export const RAIL_V1_HOPS_META = [
     id: "junior-quiz",
     method: "POST",
     v1PathTemplate: "/api/v1/junior-pilot/quiz",
+    v1Auth: "bearer",
+    cookieAuth: false,
+  },
+  {
+    id: "junior-pilot-checkout",
+    method: "POST",
+    v1PathTemplate: "/api/v1/junior-pilot/checkout",
     v1Auth: "bearer",
     cookieAuth: false,
   },

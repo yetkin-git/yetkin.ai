@@ -72,6 +72,7 @@ export type WalletCardRefundStore = {
   listClearedOrders(userId: string): Promise<RefundableCardOrder[]>;
   sumReservedByOid(userId: string): Promise<Record<string, number>>;
   listOpen(userId: string): Promise<WalletCardRefundRow[]>;
+  findByIdempotencyKey(idempotencyKey: string): Promise<WalletCardRefundRow | null>;
   insert(input: {
     userId: string;
     merchantOid: string | null;
@@ -108,7 +109,7 @@ function assertNoOpenRefund(open: readonly WalletCardRefundRow[]): void {
   }
 }
 
-async function debitAccepted(
+export async function settleWalletCardRefundDebit(
   ports: WalletCardRefundPorts,
   userId: string,
   row: WalletCardRefundRow,
@@ -136,7 +137,7 @@ export async function refundUnusedWalletBalance(
   const open = await ports.refunds.listOpen(userId);
   const accepted = open.filter((row) => row.status === "ACCEPTED");
   for (const row of accepted) {
-    await debitAccepted(ports, userId, row);
+    await settleWalletCardRefundDebit(ports, userId, row);
   }
   assertNoOpenRefund(await ports.refunds.listOpen(userId));
 
@@ -187,7 +188,7 @@ export async function refundUnusedWalletBalance(
       break;
     }
     await ports.refunds.mark(row.id, "ACCEPTED", paytr.returnAmount, false);
-    await debitAccepted(ports, userId, { ...row, status: "ACCEPTED" });
+    await settleWalletCardRefundDebit(ports, userId, { ...row, status: "ACCEPTED" });
     refundedMinor += slice.amountMinor;
   }
 

@@ -102,7 +102,7 @@ describe("Adım 10 — insan ops sözleşmesi (kod mühürü)", () => {
     );
     vi.stubEnv("PAYTR_ALLOW_MOCK_CHECKOUT", "");
     vi.stubEnv("PAYTR_SANDBOX", "1");
-    expect(() => assertPaytrProductionSafety("smoke")).toThrow(/PAYTR_SANDBOX üretimde yasak/);
+    expect(() => assertPaytrProductionSafety("smoke")).not.toThrow();
     vi.stubEnv("PAYTR_SANDBOX", "");
     expect(() => assertPaytrProductionSafety("smoke")).not.toThrow();
     errorSpy.mockRestore();

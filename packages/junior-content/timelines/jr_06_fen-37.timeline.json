@@ -1,0 +1,2284 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_fen-37",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Biyoçeşitlilik ve tehditler",
+  "grade": 6,
+  "subject": "Fen Bilimleri",
+  "teacher": {
+    "name": "Deniz",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_fen-37.mp3",
+    "durationMs": 269175,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 133420
+    },
+    {
+      "id": "ch-2",
+      "title": "Tür sayımı",
+      "startMs": 133420,
+      "endMs": 174850
+    },
+    {
+      "id": "ch-3",
+      "title": "Kapanış",
+      "startMs": 174850,
+      "endMs": 269175
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 1890,
+      "pauseAfterMs": 570,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 150,
+          "endMs": 410
+        },
+        {
+          "word": "sevgili",
+          "startMs": 410,
+          "endMs": 680
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 920,
+          "endMs": 1320
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "habitat",
+            "title": "Biyoçeşitlilik",
+            "subtitle": "Tür ve tehdit"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 1890,
+      "endMs": 4540,
+      "pauseAfterMs": 960,
+      "text": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "markedText": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 1890,
+          "endMs": 2110
+        },
+        {
+          "word": "Fen",
+          "startMs": 2180,
+          "endMs": 2370
+        },
+        {
+          "word": "Bilimleri",
+          "startMs": 2370,
+          "endMs": 2680
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 2680,
+          "endMs": 3250
+        },
+        {
+          "word": "Deniz.",
+          "startMs": 3250,
+          "endMs": 3580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 4540,
+      "endMs": 8980,
+      "pauseAfterMs": 830,
+      "text": "Ormanda kuş, böcek, mantar ve ağaç bir arada yaşar.",
+      "markedText": "Ormanda kuş, böcek, mantar ve ağaç bir arada yaşar.",
+      "words": [
+        {
+          "word": "Ormanda",
+          "startMs": 4540,
+          "endMs": 4950
+        },
+        {
+          "word": "kuş,",
+          "startMs": 5120,
+          "endMs": 5430
+        },
+        {
+          "word": "böcek,",
+          "startMs": 5680,
+          "endMs": 5990
+        },
+        {
+          "word": "mantar",
+          "startMs": 6220,
+          "endMs": 6780
+        },
+        {
+          "word": "ve",
+          "startMs": 6830,
+          "endMs": 6920
+        },
+        {
+          "word": "ağaç",
+          "startMs": 7010,
+          "endMs": 7250
+        },
+        {
+          "word": "bir",
+          "startMs": 7440,
+          "endMs": 7540
+        },
+        {
+          "word": "arada",
+          "startMs": 7540,
+          "endMs": 7890
+        },
+        {
+          "word": "yaşar.",
+          "startMs": 7890,
+          "endMs": 8150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 8980,
+      "endMs": 15100,
+      "pauseAfterMs": 510,
+      "text": "Parkta yalnız tek bir çim türü varsa çeşitlilik azalmıştır.",
+      "markedText": "Parkta yalnız tek bir çim türü varsa çeşitlilik azalmıştır.",
+      "words": [
+        {
+          "word": "Parkta",
+          "startMs": 8980,
+          "endMs": 9380
+        },
+        {
+          "word": "yalnız",
+          "startMs": 9680,
+          "endMs": 10160
+        },
+        {
+          "word": "tek",
+          "startMs": 10240,
+          "endMs": 10340
+        },
+        {
+          "word": "bir",
+          "startMs": 10470,
+          "endMs": 10570
+        },
+        {
+          "word": "çim",
+          "startMs": 10730,
+          "endMs": 10980
+        },
+        {
+          "word": "türü",
+          "startMs": 11070,
+          "endMs": 11430
+        },
+        {
+          "word": "varsa",
+          "startMs": 11520,
+          "endMs": 12000
+        },
+        {
+          "word": "çeşitlilik",
+          "startMs": 12230,
+          "endMs": 13000
+        },
+        {
+          "word": "azalmıştır.",
+          "startMs": 13850,
+          "endMs": 14590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 15100,
+      "endMs": 22800,
+      "pauseAfterMs": 780,
+      "text": "Biyoçeşitlilik, canlıların ve yaşadıkları ortamın zenginliğidir.",
+      "markedText": "Biyoçeşitlilik, canlıların ve yaşadıkları ortamın zenginliğidir.",
+      "words": [
+        {
+          "word": "Biyoçeşitlilik,",
+          "startMs": 15100,
+          "endMs": 16140
+        },
+        {
+          "word": "canlıların",
+          "startMs": 16240,
+          "endMs": 17500
+        },
+        {
+          "word": "ve",
+          "startMs": 18320,
+          "endMs": 18420
+        },
+        {
+          "word": "yaşadıkları",
+          "startMs": 18460,
+          "endMs": 19500
+        },
+        {
+          "word": "ortamın",
+          "startMs": 19700,
+          "endMs": 20660
+        },
+        {
+          "word": "zenginliğidir.",
+          "startMs": 21000,
+          "endMs": 22020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 22800,
+      "endMs": 31280,
+      "pauseAfterMs": 900,
+      "text": "Bu zenginliğe yönelik tehditleri araştırınca koruma cümlesi de kurulur.",
+      "markedText": "Bu zenginliğe yönelik tehditleri araştırınca koruma cümlesi de kurulur.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 22800,
+          "endMs": 22950
+        },
+        {
+          "word": "zenginliğe",
+          "startMs": 22950,
+          "endMs": 23670
+        },
+        {
+          "word": "yönelik",
+          "startMs": 23770,
+          "endMs": 24510
+        },
+        {
+          "word": "tehditleri",
+          "startMs": 25020,
+          "endMs": 25740
+        },
+        {
+          "word": "araştırınca",
+          "startMs": 25740,
+          "endMs": 26910
+        },
+        {
+          "word": "koruma",
+          "startMs": 27780,
+          "endMs": 28090
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 28170,
+          "endMs": 28420
+        },
+        {
+          "word": "de",
+          "startMs": 28620,
+          "endMs": 28770
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 28940,
+          "endMs": 30380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 31280,
+      "endMs": 38890,
+      "pauseAfterMs": 990,
+      "text": "Bir orman fotoğrafını gözlemlemek, tür sayısının neden önemli olduğunu gösterir.",
+      "markedText": "Bir orman fotoğrafını gözlemlemek, tür sayısının neden önemli olduğunu gösterir.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 31280,
+          "endMs": 31510
+        },
+        {
+          "word": "orman",
+          "startMs": 31590,
+          "endMs": 31940
+        },
+        {
+          "word": "fotoğrafını",
+          "startMs": 31990,
+          "endMs": 32770
+        },
+        {
+          "word": "gözlemlemek,",
+          "startMs": 33100,
+          "endMs": 33900
+        },
+        {
+          "word": "tür",
+          "startMs": 34800,
+          "endMs": 34920
+        },
+        {
+          "word": "sayısının",
+          "startMs": 34920,
+          "endMs": 35490
+        },
+        {
+          "word": "neden",
+          "startMs": 35490,
+          "endMs": 35780
+        },
+        {
+          "word": "önemli",
+          "startMs": 35780,
+          "endMs": 36250
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 36450,
+          "endMs": 36870
+        },
+        {
+          "word": "gösterir.",
+          "startMs": 36990,
+          "endMs": 37900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 38890,
+      "endMs": 44050,
+      "pauseAfterMs": 830,
+      "text": "Bunu okul bahçesindeki canlıları sayarak kullanırsın.",
+      "markedText": "Bunu okul bahçesindeki canlıları sayarak kullanırsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 38890,
+          "endMs": 39170
+        },
+        {
+          "word": "okul",
+          "startMs": 39170,
+          "endMs": 39450
+        },
+        {
+          "word": "bahçesindeki",
+          "startMs": 39500,
+          "endMs": 40380
+        },
+        {
+          "word": "canlıları",
+          "startMs": 40630,
+          "endMs": 41680
+        },
+        {
+          "word": "sayarak",
+          "startMs": 41930,
+          "endMs": 42040
+        },
+        {
+          "word": "kullanırsın.",
+          "startMs": 42400,
+          "endMs": 43220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 44050,
+      "endMs": 49590,
+      "pauseAfterMs": 280,
+      "text": "Dere kenarına çöp bırakmamak bir koruma cümlesidir.",
+      "markedText": "Dere kenarına çöp bırakmamak bir koruma cümlesidir.",
+      "words": [
+        {
+          "word": "Dere",
+          "startMs": 44050,
+          "endMs": 44470
+        },
+        {
+          "word": "kenarına",
+          "startMs": 44590,
+          "endMs": 45130
+        },
+        {
+          "word": "çöp",
+          "startMs": 45190,
+          "endMs": 45390
+        },
+        {
+          "word": "bırakmamak",
+          "startMs": 46090,
+          "endMs": 46840
+        },
+        {
+          "word": "bir",
+          "startMs": 47390,
+          "endMs": 47790
+        },
+        {
+          "word": "koruma",
+          "startMs": 47790,
+          "endMs": 48230
+        },
+        {
+          "word": "cümlesidir.",
+          "startMs": 48480,
+          "endMs": 49310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 49590,
+      "endMs": 56700,
+      "pauseAfterMs": 990,
+      "text": "Belgeselde yanan orman, tehdidin somut görüntüsüdür.",
+      "markedText": "Belgeselde yanan orman, tehdidin somut görüntüsüdür.",
+      "words": [
+        {
+          "word": "Belgeselde",
+          "startMs": 49590,
+          "endMs": 50490
+        },
+        {
+          "word": "yanan",
+          "startMs": 50550,
+          "endMs": 51190
+        },
+        {
+          "word": "orman,",
+          "startMs": 51300,
+          "endMs": 52090
+        },
+        {
+          "word": "tehdidin",
+          "startMs": 53080,
+          "endMs": 53780
+        },
+        {
+          "word": "somut",
+          "startMs": 53970,
+          "endMs": 54420
+        },
+        {
+          "word": "görüntüsüdür.",
+          "startMs": 54420,
+          "endMs": 55710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 56700,
+      "endMs": 65140,
+      "pauseAfterMs": 800,
+      "text": "Ailenle hangi davranışın tür sayısını koruduğunu tartışmak dersi eve taşır.",
+      "markedText": "Ailenle hangi davranışın tür sayısını koruduğunu tartışmak dersi eve taşır.",
+      "words": [
+        {
+          "word": "Ailenle",
+          "startMs": 56700,
+          "endMs": 57580
+        },
+        {
+          "word": "hangi",
+          "startMs": 57580,
+          "endMs": 58080
+        },
+        {
+          "word": "davranışın",
+          "startMs": 58300,
+          "endMs": 58960
+        },
+        {
+          "word": "tür",
+          "startMs": 59330,
+          "endMs": 59750
+        },
+        {
+          "word": "sayısını",
+          "startMs": 59870,
+          "endMs": 60480
+        },
+        {
+          "word": "koruduğunu",
+          "startMs": 60930,
+          "endMs": 61930
+        },
+        {
+          "word": "tartışmak",
+          "startMs": 62330,
+          "endMs": 63060
+        },
+        {
+          "word": "dersi",
+          "startMs": 63060,
+          "endMs": 63520
+        },
+        {
+          "word": "eve",
+          "startMs": 63670,
+          "endMs": 63910
+        },
+        {
+          "word": "taşır.",
+          "startMs": 63910,
+          "endMs": 64340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 65140,
+      "endMs": 75880,
+      "pauseAfterMs": 1030,
+      "text": "Biyoçeşitlilik, belirli bir alandaki tür çeşitliliği ve bu türlerin birbirleriyle kurduğu ilişkidir.",
+      "markedText": "Biyoçeşitlilik, belirli bir alandaki tür çeşitliliği ve bu türlerin birbirleriyle kurduğu ilişkidir.",
+      "words": [
+        {
+          "word": "Biyoçeşitlilik,",
+          "startMs": 65140,
+          "endMs": 65950
+        },
+        {
+          "word": "belirli",
+          "startMs": 66260,
+          "endMs": 66930
+        },
+        {
+          "word": "bir",
+          "startMs": 67110,
+          "endMs": 67200
+        },
+        {
+          "word": "alandaki",
+          "startMs": 67200,
+          "endMs": 67940
+        },
+        {
+          "word": "tür",
+          "startMs": 68900,
+          "endMs": 69240
+        },
+        {
+          "word": "çeşitliliği",
+          "startMs": 69620,
+          "endMs": 70280
+        },
+        {
+          "word": "ve",
+          "startMs": 70280,
+          "endMs": 70420
+        },
+        {
+          "word": "bu",
+          "startMs": 70420,
+          "endMs": 70480
+        },
+        {
+          "word": "türlerin",
+          "startMs": 70590,
+          "endMs": 71140
+        },
+        {
+          "word": "birbirleriyle",
+          "startMs": 71610,
+          "endMs": 72730
+        },
+        {
+          "word": "kurduğu",
+          "startMs": 73120,
+          "endMs": 73450
+        },
+        {
+          "word": "ilişkidir.",
+          "startMs": 73570,
+          "endMs": 74850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-1",
+      "startMs": 75880,
+      "endMs": 81550,
+      "pauseAfterMs": 990,
+      "text": "Farklı bitkiler farklı hayvanlara yuva ve besin olur.",
+      "markedText": "Farklı bitkiler farklı hayvanlara yuva ve besin olur.",
+      "words": [
+        {
+          "word": "Farklı",
+          "startMs": 75880,
+          "endMs": 76370
+        },
+        {
+          "word": "bitkiler",
+          "startMs": 76930,
+          "endMs": 77320
+        },
+        {
+          "word": "farklı",
+          "startMs": 77480,
+          "endMs": 77680
+        },
+        {
+          "word": "hayvanlara",
+          "startMs": 78080,
+          "endMs": 78610
+        },
+        {
+          "word": "yuva",
+          "startMs": 78610,
+          "endMs": 78920
+        },
+        {
+          "word": "ve",
+          "startMs": 79020,
+          "endMs": 79130
+        },
+        {
+          "word": "besin",
+          "startMs": 79240,
+          "endMs": 79720
+        },
+        {
+          "word": "olur.",
+          "startMs": 79850,
+          "endMs": 80560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-1",
+      "startMs": 81550,
+      "endMs": 95360,
+      "pauseAfterMs": 940,
+      "text": "Biyoçeşitliliğe yönelik tehditler arasında ormanın kesilmesi, suyun kirletilmesi, aşırı avlanma ve yangın sayılabilir.",
+      "markedText": "Biyoçeşitliliğe yönelik tehditler arasında ormanın kesilmesi, suyun kirletilmesi, aşırı avlanma ve yangın sayılabilir.",
+      "words": [
+        {
+          "word": "Biyoçeşitliliğe",
+          "startMs": 81550,
+          "endMs": 82170
+        },
+        {
+          "word": "yönelik",
+          "startMs": 82740,
+          "endMs": 83240
+        },
+        {
+          "word": "tehditler",
+          "startMs": 83350,
+          "endMs": 84100
+        },
+        {
+          "word": "arasında",
+          "startMs": 84780,
+          "endMs": 85650
+        },
+        {
+          "word": "ormanın",
+          "startMs": 86000,
+          "endMs": 86420
+        },
+        {
+          "word": "kesilmesi,",
+          "startMs": 86480,
+          "endMs": 87010
+        },
+        {
+          "word": "suyun",
+          "startMs": 88010,
+          "endMs": 88460
+        },
+        {
+          "word": "kirletilmesi,",
+          "startMs": 88530,
+          "endMs": 89800
+        },
+        {
+          "word": "aşırı",
+          "startMs": 90720,
+          "endMs": 91240
+        },
+        {
+          "word": "avlanma",
+          "startMs": 91300,
+          "endMs": 91870
+        },
+        {
+          "word": "ve",
+          "startMs": 92200,
+          "endMs": 92350
+        },
+        {
+          "word": "yangın",
+          "startMs": 92430,
+          "endMs": 92700
+        },
+        {
+          "word": "sayılabilir.",
+          "startMs": 92890,
+          "endMs": 94420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-1",
+      "startMs": 95360,
+      "endMs": 102280,
+      "pauseAfterMs": 1060,
+      "text": "Bir tür azalınca ona bağlı başka türler de zorlanır.",
+      "markedText": "Bir tür azalınca ona bağlı başka türler de zorlanır.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 95360,
+          "endMs": 95540
+        },
+        {
+          "word": "tür",
+          "startMs": 95690,
+          "endMs": 96190
+        },
+        {
+          "word": "azalınca",
+          "startMs": 96420,
+          "endMs": 97020
+        },
+        {
+          "word": "ona",
+          "startMs": 97390,
+          "endMs": 97730
+        },
+        {
+          "word": "bağlı",
+          "startMs": 97730,
+          "endMs": 98070
+        },
+        {
+          "word": "başka",
+          "startMs": 98170,
+          "endMs": 98610
+        },
+        {
+          "word": "türler",
+          "startMs": 98890,
+          "endMs": 99230
+        },
+        {
+          "word": "de",
+          "startMs": 99370,
+          "endMs": 99590
+        },
+        {
+          "word": "zorlanır.",
+          "startMs": 99630,
+          "endMs": 101220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-1",
+      "startMs": 102280,
+      "endMs": 113360,
+      "pauseAfterMs": 370,
+      "text": "Koruma, yaşam alanını bütün bırakmak, atığı suya vermemek ve av kurallarına uymakla başlar.",
+      "markedText": "Koruma, yaşam alanını bütün bırakmak, atığı suya vermemek ve av kurallarına uymakla başlar.",
+      "words": [
+        {
+          "word": "Koruma,",
+          "startMs": 102280,
+          "endMs": 103290
+        },
+        {
+          "word": "yaşam",
+          "startMs": 103660,
+          "endMs": 103960
+        },
+        {
+          "word": "alanını",
+          "startMs": 103960,
+          "endMs": 104760
+        },
+        {
+          "word": "bütün",
+          "startMs": 105430,
+          "endMs": 105840
+        },
+        {
+          "word": "bırakmak,",
+          "startMs": 105840,
+          "endMs": 107210
+        },
+        {
+          "word": "atığı",
+          "startMs": 108130,
+          "endMs": 108280
+        },
+        {
+          "word": "suya",
+          "startMs": 108350,
+          "endMs": 108700
+        },
+        {
+          "word": "vermemek",
+          "startMs": 108830,
+          "endMs": 109060
+        },
+        {
+          "word": "ve",
+          "startMs": 109060,
+          "endMs": 109200
+        },
+        {
+          "word": "av",
+          "startMs": 109200,
+          "endMs": 109250
+        },
+        {
+          "word": "kurallarına",
+          "startMs": 109390,
+          "endMs": 110600
+        },
+        {
+          "word": "uymakla",
+          "startMs": 111570,
+          "endMs": 112380
+        },
+        {
+          "word": "başlar.",
+          "startMs": 112610,
+          "endMs": 112990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-1",
+      "startMs": 113360,
+      "endMs": 120210,
+      "pauseAfterMs": 1460,
+      "text": "Tartışma, suçlu aramak değil hangi davranışın tehdidi azalttığını seçmektir.",
+      "markedText": "Tartışma, suçlu aramak değil hangi davranışın tehdidi azalttığını seçmektir.",
+      "words": [
+        {
+          "word": "Tartışma,",
+          "startMs": 113360,
+          "endMs": 114160
+        },
+        {
+          "word": "suçlu",
+          "startMs": 114890,
+          "endMs": 115100
+        },
+        {
+          "word": "aramak",
+          "startMs": 115270,
+          "endMs": 115660
+        },
+        {
+          "word": "değil",
+          "startMs": 115770,
+          "endMs": 116010
+        },
+        {
+          "word": "hangi",
+          "startMs": 116010,
+          "endMs": 116120
+        },
+        {
+          "word": "davranışın",
+          "startMs": 116270,
+          "endMs": 116810
+        },
+        {
+          "word": "tehdidi",
+          "startMs": 117130,
+          "endMs": 117410
+        },
+        {
+          "word": "azalttığını",
+          "startMs": 117510,
+          "endMs": 118060
+        },
+        {
+          "word": "seçmektir.",
+          "startMs": 118060,
+          "endMs": 118750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-1",
+      "startMs": 120210,
+      "endMs": 129950,
+      "pauseAfterMs": 580,
+      "text": "Pratik kural: Çeşitlilik ilişki demektir; bir halka kopunca komşu halka da etkilenir.",
+      "markedText": "Pratik kural: Çeşitlilik ilişki demektir; bir halka kopunca komşu halka da etkilenir.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 120210,
+          "endMs": 120430
+        },
+        {
+          "word": "kural:",
+          "startMs": 120530,
+          "endMs": 121130
+        },
+        {
+          "word": "Çeşitlilik",
+          "startMs": 121840,
+          "endMs": 122470
+        },
+        {
+          "word": "ilişki",
+          "startMs": 123130,
+          "endMs": 123550
+        },
+        {
+          "word": "demektir;",
+          "startMs": 123660,
+          "endMs": 124330
+        },
+        {
+          "word": "bir",
+          "startMs": 125220,
+          "endMs": 125510
+        },
+        {
+          "word": "halka",
+          "startMs": 125510,
+          "endMs": 125870
+        },
+        {
+          "word": "kopunca",
+          "startMs": 126410,
+          "endMs": 126740
+        },
+        {
+          "word": "komşu",
+          "startMs": 126900,
+          "endMs": 127320
+        },
+        {
+          "word": "halka",
+          "startMs": 127430,
+          "endMs": 127750
+        },
+        {
+          "word": "da",
+          "startMs": 127850,
+          "endMs": 128040
+        },
+        {
+          "word": "etkilenir.",
+          "startMs": 128140,
+          "endMs": 129370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-1",
+      "startMs": 129950,
+      "endMs": 133420,
+      "pauseAfterMs": 460,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 129950,
+          "endMs": 130240
+        },
+        {
+          "word": "şimdi",
+          "startMs": 130280,
+          "endMs": 130520
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 130630,
+          "endMs": 131160
+        },
+        {
+          "word": "çizime",
+          "startMs": 131160,
+          "endMs": 131640
+        },
+        {
+          "word": "birlikte",
+          "startMs": 131720,
+          "endMs": 132250
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 132250,
+          "endMs": 132960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 133420,
+      "endMs": 174850,
+      "pauseAfterMs": 210,
+      "text": "Bir orman modelinde 12 kuş türü ve 30 bitki türü vardır. Ağaçların yarısı kesilirse yuva olan dal azalır ve kuş türlerinden 4'ü bölgeyi terk eder. Dereye bırakılan atık, sudaki böceği azaltır; böceği yiyen balık da besinsiz kalır. Bu iki örnek biyoçeşitliliğe yönelik tehdittir. Aynı dereyi temiz tutan köy, tür sayısını korur. Araştırmada önce türü sayar, sonra tehdidin adını yazarsın.",
+      "markedText": "Bir orman modelinde {@showHabitat} 12 kuş türü ve 30 bitki türü vardır. Ağaçların yarısı kesilirse yuva olan dal azalır ve kuş türlerinden 4'ü bölgeyi terk eder. Dereye bırakılan atık, sudaki böceği azaltır; böceği yiyen balık da besinsiz kalır. Bu iki örnek biyoçeşitliliğe yönelik tehdittir. Aynı dereyi temiz tutan köy, tür sayısını korur. Araştırmada önce türü sayar, sonra tehdidin adını yazarsın.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 133420,
+          "endMs": 133660
+        },
+        {
+          "word": "orman",
+          "startMs": 133770,
+          "endMs": 133980
+        },
+        {
+          "word": "modelinde",
+          "startMs": 134130,
+          "endMs": 134830
+        },
+        {
+          "word": "12",
+          "startMs": 134830,
+          "endMs": 135630
+        },
+        {
+          "word": "kuş",
+          "startMs": 136500,
+          "endMs": 136620
+        },
+        {
+          "word": "türü",
+          "startMs": 136730,
+          "endMs": 137030
+        },
+        {
+          "word": "ve",
+          "startMs": 137030,
+          "endMs": 137110
+        },
+        {
+          "word": "30",
+          "startMs": 137110,
+          "endMs": 137290
+        },
+        {
+          "word": "bitki",
+          "startMs": 137390,
+          "endMs": 137720
+        },
+        {
+          "word": "türü",
+          "startMs": 137800,
+          "endMs": 138040
+        },
+        {
+          "word": "vardır.",
+          "startMs": 138100,
+          "endMs": 139070
+        },
+        {
+          "word": "Ağaçların",
+          "startMs": 139640,
+          "endMs": 140240
+        },
+        {
+          "word": "yarısı",
+          "startMs": 140380,
+          "endMs": 140810
+        },
+        {
+          "word": "kesilirse",
+          "startMs": 141240,
+          "endMs": 141640
+        },
+        {
+          "word": "yuva",
+          "startMs": 142650,
+          "endMs": 143000
+        },
+        {
+          "word": "olan",
+          "startMs": 143060,
+          "endMs": 143360
+        },
+        {
+          "word": "dal",
+          "startMs": 143450,
+          "endMs": 143570
+        },
+        {
+          "word": "azalır",
+          "startMs": 143670,
+          "endMs": 144130
+        },
+        {
+          "word": "ve",
+          "startMs": 144200,
+          "endMs": 144350
+        },
+        {
+          "word": "kuş",
+          "startMs": 144470,
+          "endMs": 144630
+        },
+        {
+          "word": "türlerinden",
+          "startMs": 144800,
+          "endMs": 145950
+        },
+        {
+          "word": "4'ü",
+          "startMs": 146100,
+          "endMs": 146570
+        },
+        {
+          "word": "bölgeyi",
+          "startMs": 146880,
+          "endMs": 147420
+        },
+        {
+          "word": "terk",
+          "startMs": 147420,
+          "endMs": 147480
+        },
+        {
+          "word": "eder.",
+          "startMs": 147480,
+          "endMs": 147930
+        },
+        {
+          "word": "Dereye",
+          "startMs": 148900,
+          "endMs": 149270
+        },
+        {
+          "word": "bırakılan",
+          "startMs": 149270,
+          "endMs": 149830
+        },
+        {
+          "word": "atık,",
+          "startMs": 150730,
+          "endMs": 150910
+        },
+        {
+          "word": "sudaki",
+          "startMs": 151350,
+          "endMs": 151790
+        },
+        {
+          "word": "böceği",
+          "startMs": 151900,
+          "endMs": 152300
+        },
+        {
+          "word": "azaltır;",
+          "startMs": 152300,
+          "endMs": 152790
+        },
+        {
+          "word": "böceği",
+          "startMs": 153380,
+          "endMs": 153750
+        },
+        {
+          "word": "yiyen",
+          "startMs": 153970,
+          "endMs": 154140
+        },
+        {
+          "word": "balık",
+          "startMs": 154300,
+          "endMs": 154650
+        },
+        {
+          "word": "da",
+          "startMs": 154700,
+          "endMs": 154880
+        },
+        {
+          "word": "besinsiz",
+          "startMs": 155060,
+          "endMs": 155590
+        },
+        {
+          "word": "kalır.",
+          "startMs": 155780,
+          "endMs": 156680
+        },
+        {
+          "word": "Bu",
+          "startMs": 157570,
+          "endMs": 157800
+        },
+        {
+          "word": "iki",
+          "startMs": 158350,
+          "endMs": 158650
+        },
+        {
+          "word": "örnek",
+          "startMs": 159000,
+          "endMs": 159450
+        },
+        {
+          "word": "biyoçeşitliliğe",
+          "startMs": 159970,
+          "endMs": 161130
+        },
+        {
+          "word": "yönelik",
+          "startMs": 161280,
+          "endMs": 161580
+        },
+        {
+          "word": "tehdittir.",
+          "startMs": 161580,
+          "endMs": 162100
+        },
+        {
+          "word": "Aynı",
+          "startMs": 162900,
+          "endMs": 163150
+        },
+        {
+          "word": "dereyi",
+          "startMs": 163710,
+          "endMs": 164130
+        },
+        {
+          "word": "temiz",
+          "startMs": 164320,
+          "endMs": 164760
+        },
+        {
+          "word": "tutan",
+          "startMs": 164860,
+          "endMs": 165190
+        },
+        {
+          "word": "köy,",
+          "startMs": 165300,
+          "endMs": 165420
+        },
+        {
+          "word": "tür",
+          "startMs": 165540,
+          "endMs": 165640
+        },
+        {
+          "word": "sayısını",
+          "startMs": 165780,
+          "endMs": 166450
+        },
+        {
+          "word": "korur.",
+          "startMs": 166560,
+          "endMs": 167180
+        },
+        {
+          "word": "Araştırmada",
+          "startMs": 168230,
+          "endMs": 168710
+        },
+        {
+          "word": "önce",
+          "startMs": 168930,
+          "endMs": 169430
+        },
+        {
+          "word": "türü",
+          "startMs": 169430,
+          "endMs": 169700
+        },
+        {
+          "word": "sayar,",
+          "startMs": 170270,
+          "endMs": 170990
+        },
+        {
+          "word": "sonra",
+          "startMs": 171880,
+          "endMs": 172420
+        },
+        {
+          "word": "tehdidin",
+          "startMs": 172480,
+          "endMs": 173000
+        },
+        {
+          "word": "adını",
+          "startMs": 173160,
+          "endMs": 173700
+        },
+        {
+          "word": "yazarsın.",
+          "startMs": 174110,
+          "endMs": 174640
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 134830,
+          "op": "SHOW_HABITAT",
+          "hook": "showHabitat",
+          "params": {
+            "birds": 12,
+            "plants": 30,
+            "birdsLost": 4,
+            "threats": [
+              "Ağaçların yarısı kesilirse",
+              "Dereye bırakılan atık"
+            ],
+            "protection": "dereyi temiz tutan",
+            "marks": [
+              {
+                "slot": "birds",
+                "value": 12,
+                "atMs": 134830
+              },
+              {
+                "slot": "plants",
+                "value": 30,
+                "atMs": 137110
+              },
+              {
+                "slot": "lost",
+                "value": 4,
+                "token": "4'ü",
+                "atMs": 146100
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-3",
+      "startMs": 174850,
+      "endMs": 177060,
+      "pauseAfterMs": 730,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 174850,
+          "endMs": 175430
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 175660,
+          "endMs": 176330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-3",
+      "startMs": 177060,
+      "endMs": 179750,
+      "pauseAfterMs": 740,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 177060,
+          "endMs": 177830
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 178110,
+          "endMs": 179010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-3",
+      "startMs": 179750,
+      "endMs": 182480,
+      "pauseAfterMs": 720,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 179750,
+          "endMs": 179960
+        },
+        {
+          "word": "noktayı",
+          "startMs": 179960,
+          "endMs": 180510
+        },
+        {
+          "word": "sen",
+          "startMs": 180870,
+          "endMs": 181090
+        },
+        {
+          "word": "de",
+          "startMs": 181170,
+          "endMs": 181240
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 181310,
+          "endMs": 181760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-3",
+      "startMs": 182480,
+      "endMs": 190220,
+      "pauseAfterMs": 960,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 182480,
+          "endMs": 182910
+        },
+        {
+          "word": "sevgili",
+          "startMs": 182910,
+          "endMs": 183620
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 183830,
+          "endMs": 185610
+        },
+        {
+          "word": "işte",
+          "startMs": 186510,
+          "endMs": 186680
+        },
+        {
+          "word": "tam",
+          "startMs": 186720,
+          "endMs": 186870
+        },
+        {
+          "word": "bu",
+          "startMs": 186910,
+          "endMs": 186960
+        },
+        {
+          "word": "noktada",
+          "startMs": 187060,
+          "endMs": 187410
+        },
+        {
+          "word": "dikkat",
+          "startMs": 187410,
+          "endMs": 187630
+        },
+        {
+          "word": "etmen",
+          "startMs": 187820,
+          "endMs": 188040
+        },
+        {
+          "word": "gereken",
+          "startMs": 188150,
+          "endMs": 188320
+        },
+        {
+          "word": "kilit",
+          "startMs": 188630,
+          "endMs": 188880
+        },
+        {
+          "word": "nokta.",
+          "startMs": 188880,
+          "endMs": 189260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-3",
+      "startMs": 190220,
+      "endMs": 201470,
+      "pauseAfterMs": 730,
+      "text": "Biyoçeşitliliği yalnız büyük hayvan sanmak tuzaktır; böcek ve bitki de bu zenginliğin parçasıdır.",
+      "markedText": "Biyoçeşitliliği yalnız büyük hayvan sanmak tuzaktır; böcek ve bitki de bu zenginliğin parçasıdır.",
+      "words": [
+        {
+          "word": "Biyoçeşitliliği",
+          "startMs": 190220,
+          "endMs": 191470
+        },
+        {
+          "word": "yalnız",
+          "startMs": 191470,
+          "endMs": 191920
+        },
+        {
+          "word": "büyük",
+          "startMs": 192130,
+          "endMs": 192750
+        },
+        {
+          "word": "hayvan",
+          "startMs": 193490,
+          "endMs": 193930
+        },
+        {
+          "word": "sanmak",
+          "startMs": 193970,
+          "endMs": 194280
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 194280,
+          "endMs": 194940
+        },
+        {
+          "word": "böcek",
+          "startMs": 195710,
+          "endMs": 196050
+        },
+        {
+          "word": "ve",
+          "startMs": 196050,
+          "endMs": 196180
+        },
+        {
+          "word": "bitki",
+          "startMs": 196270,
+          "endMs": 196610
+        },
+        {
+          "word": "de",
+          "startMs": 196730,
+          "endMs": 196820
+        },
+        {
+          "word": "bu",
+          "startMs": 197090,
+          "endMs": 197230
+        },
+        {
+          "word": "zenginliğin",
+          "startMs": 197450,
+          "endMs": 198290
+        },
+        {
+          "word": "parçasıdır.",
+          "startMs": 198980,
+          "endMs": 200740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-3",
+      "startMs": 201470,
+      "endMs": 204970,
+      "pauseAfterMs": 1110,
+      "text": "Tehdidi yalnız uzak ülkelerde aramak da eksiktir.",
+      "markedText": "Tehdidi yalnız uzak ülkelerde aramak da eksiktir.",
+      "words": [
+        {
+          "word": "Tehdidi",
+          "startMs": 201470,
+          "endMs": 201880
+        },
+        {
+          "word": "yalnız",
+          "startMs": 201960,
+          "endMs": 202200
+        },
+        {
+          "word": "uzak",
+          "startMs": 202200,
+          "endMs": 202390
+        },
+        {
+          "word": "ülkelerde",
+          "startMs": 202510,
+          "endMs": 202970
+        },
+        {
+          "word": "aramak",
+          "startMs": 203070,
+          "endMs": 203490
+        },
+        {
+          "word": "da",
+          "startMs": 203490,
+          "endMs": 203530
+        },
+        {
+          "word": "eksiktir.",
+          "startMs": 203530,
+          "endMs": 203860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-3",
+      "startMs": 204970,
+      "endMs": 211120,
+      "pauseAfterMs": 920,
+      "text": "Parktaki çöp de yerel bir tehdit olabilir.",
+      "markedText": "Parktaki çöp de yerel bir tehdit olabilir.",
+      "words": [
+        {
+          "word": "Parktaki",
+          "startMs": 204970,
+          "endMs": 205900
+        },
+        {
+          "word": "çöp",
+          "startMs": 206000,
+          "endMs": 206230
+        },
+        {
+          "word": "de",
+          "startMs": 206310,
+          "endMs": 206400
+        },
+        {
+          "word": "yerel",
+          "startMs": 206520,
+          "endMs": 207600
+        },
+        {
+          "word": "bir",
+          "startMs": 208240,
+          "endMs": 208420
+        },
+        {
+          "word": "tehdit",
+          "startMs": 208470,
+          "endMs": 209000
+        },
+        {
+          "word": "olabilir.",
+          "startMs": 209330,
+          "endMs": 210200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-3",
+      "startMs": 211120,
+      "endMs": 219750,
+      "pauseAfterMs": 950,
+      "text": "Biyoçeşitlilik ve tehditler konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Biyoçeşitlilik ve tehditler konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Biyoçeşitlilik",
+          "startMs": 211120,
+          "endMs": 212420
+        },
+        {
+          "word": "ve",
+          "startMs": 212480,
+          "endMs": 212550
+        },
+        {
+          "word": "tehditler",
+          "startMs": 212840,
+          "endMs": 213190
+        },
+        {
+          "word": "konusunda",
+          "startMs": 213300,
+          "endMs": 214090
+        },
+        {
+          "word": "kuralın",
+          "startMs": 214970,
+          "endMs": 215460
+        },
+        {
+          "word": "tersini",
+          "startMs": 215540,
+          "endMs": 216040
+        },
+        {
+          "word": "sanmak",
+          "startMs": 216300,
+          "endMs": 216720
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 216930,
+          "endMs": 217360
+        },
+        {
+          "word": "ters",
+          "startMs": 217450,
+          "endMs": 217750
+        },
+        {
+          "word": "cümle",
+          "startMs": 217750,
+          "endMs": 218020
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 218150,
+          "endMs": 218800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-3",
+      "startMs": 219750,
+      "endMs": 221420,
+      "pauseAfterMs": 250,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 219750,
+          "endMs": 219960
+        },
+        {
+          "word": "Neler",
+          "startMs": 220360,
+          "endMs": 220660
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 220660,
+          "endMs": 221170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 221420,
+      "endMs": 221850,
+      "pauseAfterMs": 260,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 221420,
+          "endMs": 221590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 221850,
+      "endMs": 227800,
+      "pauseAfterMs": 1020,
+      "text": "Biyoçeşitlilik, bir bölgedeki canlı çeşitliliği ve ilişkisidir.",
+      "markedText": "Biyoçeşitlilik, bir bölgedeki canlı çeşitliliği ve ilişkisidir.",
+      "words": [
+        {
+          "word": "Biyoçeşitlilik,",
+          "startMs": 221850,
+          "endMs": 222650
+        },
+        {
+          "word": "bir",
+          "startMs": 223520,
+          "endMs": 223640
+        },
+        {
+          "word": "bölgedeki",
+          "startMs": 223640,
+          "endMs": 224140
+        },
+        {
+          "word": "canlı",
+          "startMs": 224250,
+          "endMs": 224510
+        },
+        {
+          "word": "çeşitliliği",
+          "startMs": 224510,
+          "endMs": 225070
+        },
+        {
+          "word": "ve",
+          "startMs": 225480,
+          "endMs": 225620
+        },
+        {
+          "word": "ilişkisidir.",
+          "startMs": 225880,
+          "endMs": 226780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 227800,
+      "endMs": 228110,
+      "pauseAfterMs": 100,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 227800,
+          "endMs": 228010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 228110,
+      "endMs": 235790,
+      "pauseAfterMs": 540,
+      "text": "Biyoçeşitliliğe yönelik tehditler yaşam alanını ve türleri azaltır.",
+      "markedText": "Biyoçeşitliliğe yönelik tehditler yaşam alanını ve türleri azaltır.",
+      "words": [
+        {
+          "word": "Biyoçeşitliliğe",
+          "startMs": 228110,
+          "endMs": 229380
+        },
+        {
+          "word": "yönelik",
+          "startMs": 229480,
+          "endMs": 230610
+        },
+        {
+          "word": "tehditler",
+          "startMs": 231050,
+          "endMs": 231620
+        },
+        {
+          "word": "yaşam",
+          "startMs": 231850,
+          "endMs": 232190
+        },
+        {
+          "word": "alanını",
+          "startMs": 232190,
+          "endMs": 232790
+        },
+        {
+          "word": "ve",
+          "startMs": 232840,
+          "endMs": 233150
+        },
+        {
+          "word": "türleri",
+          "startMs": 233910,
+          "endMs": 234720
+        },
+        {
+          "word": "azaltır.",
+          "startMs": 234820,
+          "endMs": 235250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 235790,
+      "endMs": 235840,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 235790,
+          "endMs": 235840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 235840,
+      "endMs": 242460,
+      "pauseAfterMs": 340,
+      "text": "Koruma, alanı bütün bırakmak ve kirliliği azaltmakla başlar.",
+      "markedText": "Koruma, alanı bütün bırakmak ve kirliliği azaltmakla başlar.",
+      "words": [
+        {
+          "word": "Koruma,",
+          "startMs": 235840,
+          "endMs": 236240
+        },
+        {
+          "word": "alanı",
+          "startMs": 236300,
+          "endMs": 236680
+        },
+        {
+          "word": "bütün",
+          "startMs": 236680,
+          "endMs": 237290
+        },
+        {
+          "word": "bırakmak",
+          "startMs": 238030,
+          "endMs": 238580
+        },
+        {
+          "word": "ve",
+          "startMs": 238670,
+          "endMs": 238750
+        },
+        {
+          "word": "kirliliği",
+          "startMs": 238810,
+          "endMs": 239710
+        },
+        {
+          "word": "azaltmakla",
+          "startMs": 240440,
+          "endMs": 241440
+        },
+        {
+          "word": "başlar.",
+          "startMs": 241580,
+          "endMs": 242120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 242460,
+      "endMs": 249880,
+      "pauseAfterMs": 770,
+      "text": "Biyoçeşitlilik ilişki zenginliğidir ve tehditler bu ilişkiyi koparır.",
+      "markedText": "Biyoçeşitlilik ilişki zenginliğidir ve tehditler bu ilişkiyi koparır.",
+      "words": [
+        {
+          "word": "Biyoçeşitlilik",
+          "startMs": 242460,
+          "endMs": 243140
+        },
+        {
+          "word": "ilişki",
+          "startMs": 243290,
+          "endMs": 243930
+        },
+        {
+          "word": "zenginliğidir",
+          "startMs": 244500,
+          "endMs": 245380
+        },
+        {
+          "word": "ve",
+          "startMs": 245380,
+          "endMs": 245480
+        },
+        {
+          "word": "tehditler",
+          "startMs": 245620,
+          "endMs": 246590
+        },
+        {
+          "word": "bu",
+          "startMs": 247350,
+          "endMs": 247620
+        },
+        {
+          "word": "ilişkiyi",
+          "startMs": 247840,
+          "endMs": 248180
+        },
+        {
+          "word": "koparır.",
+          "startMs": 248180,
+          "endMs": 249110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 249880,
+      "endMs": 255130,
+      "pauseAfterMs": 820,
+      "text": "Bir tehdidi ve ona karşı bir davranışı söylersin.",
+      "markedText": "Bir tehdidi ve ona karşı bir davranışı söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 249880,
+          "endMs": 250100
+        },
+        {
+          "word": "tehdidi",
+          "startMs": 250100,
+          "endMs": 250660
+        },
+        {
+          "word": "ve",
+          "startMs": 250860,
+          "endMs": 251020
+        },
+        {
+          "word": "ona",
+          "startMs": 251300,
+          "endMs": 251460
+        },
+        {
+          "word": "karşı",
+          "startMs": 251830,
+          "endMs": 252000
+        },
+        {
+          "word": "bir",
+          "startMs": 252320,
+          "endMs": 252470
+        },
+        {
+          "word": "davranışı",
+          "startMs": 252560,
+          "endMs": 253110
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 253290,
+          "endMs": 254310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 255130,
+      "endMs": 258400,
+      "pauseAfterMs": 1240,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 255130,
+          "endMs": 255840
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 256130,
+          "endMs": 257160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 258400,
+      "endMs": 261700,
+      "pauseAfterMs": 1020,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 258400,
+          "endMs": 258520
+        },
+        {
+          "word": "bir",
+          "startMs": 258760,
+          "endMs": 259110
+        },
+        {
+          "word": "iş",
+          "startMs": 259200,
+          "endMs": 259460
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 259520,
+          "endMs": 260680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 261700,
+      "endMs": 262990,
+      "pauseAfterMs": 420,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 261700,
+          "endMs": 261910
+        },
+        {
+          "word": "sıra",
+          "startMs": 262000,
+          "endMs": 262140
+        },
+        {
+          "word": "sende.",
+          "startMs": 262180,
+          "endMs": 262570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 262990,
+      "endMs": 269175,
+      "pauseAfterMs": 315,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 262990,
+          "endMs": 263560
+        },
+        {
+          "word": "bu",
+          "startMs": 263750,
+          "endMs": 263960
+        },
+        {
+          "word": "notları",
+          "startMs": 264590,
+          "endMs": 265420
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 265950,
+          "endMs": 266640
+        },
+        {
+          "word": "kendi",
+          "startMs": 266800,
+          "endMs": 267030
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 267230,
+          "endMs": 268000
+        },
+        {
+          "word": "anlat.",
+          "startMs": 268160,
+          "endMs": 268860
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

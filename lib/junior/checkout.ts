@@ -1,6 +1,6 @@
 import "server-only";
 
-import { JUNIOR_GUARDIAN_NOTICE, JUNIOR_NOTICE_VERSION_ERROR } from "@/lib/junior/guardian-notice";
+import { JUNIOR_NOTICE_VERSION_ERROR } from "@/lib/junior/guardian-notice";
 import { juniorElectiveOpenBySlug } from "@/lib/junior/catalog";
 import {
   JUNIOR_ELECTIVE_QUOTA,
@@ -17,21 +17,19 @@ import {
 import type { JuniorStore } from "@/lib/junior/ports";
 import type { JuniorProfileView } from "@/lib/junior/types";
 import {
-  checkoutBillingInfoSchema,
   checkoutBillingIssueMessage,
   isCheckoutBillingIssue,
   type CheckoutBillingInfo,
 } from "@/lib/kernel/identity/billing-info";
 import {
   CHECKOUT_LEGAL_CONSENT_REQUIRED,
-  checkoutLegalConsentSchema,
   isCheckoutLegalConsentIssue,
   toCheckoutConsentEvidence,
   type CheckoutConsentEvidence,
 } from "@/lib/kernel/legal/checkout-consent";
+import { juniorIframeCheckoutSchema } from "@/lib/kernel/legal/junior-iframe-checkout";
 import type { JuniorActor } from "@/lib/kernel/security/junior-gate";
 import { isJuniorAuditActor, JUNIOR_CHECKOUT_LOCKED_ERROR } from "@/lib/kernel/security/junior-gate";
-import { z } from "zod";
 
 type JuniorFail = {
   ok: false;
@@ -113,13 +111,7 @@ export const JUNIOR_CHECKOUT_LOGIN_MESSAGE = "Ödeme için veli girişi gerekir.
 export const JUNIOR_CHECKOUT_IDEMPOTENCY_MESSAGE =
   "Ödeme isteği eksik. Sayfayı yenileyip yeniden dene.";
 
-const juniorIframeCheckoutSchema = checkoutLegalConsentSchema
-  .extend({
-    guardianConsentAccepted: z.literal(true),
-    guardianNoticeVersion: z.literal(JUNIOR_GUARDIAN_NOTICE.version),
-    billing: checkoutBillingInfoSchema,
-  })
-  .strict();
+export { juniorIframeCheckoutSchema };
 
 export type JuniorCheckoutOrderDraft = {
   userId: string;

@@ -2,6 +2,7 @@ import { z } from "zod";
 import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
+import { canonicalJuniorLessonKey } from "@/lib/junior/lesson-key-alias";
 import { createPrismaJuniorStore } from "@/lib/junior/load";
 import { submitJuniorTell } from "@/lib/junior/service";
 import { wipeAudioCarrier } from "@/lib/junior/tell";
@@ -12,13 +13,23 @@ export const maxDuration = 30;
 const tellSchema = z
   .object({
     profileId: z.string().trim().min(1).max(40),
-    lessonKey: z.string().trim().min(1).max(80),
-    mode: z.literal("speak"),
+    lessonKey: z.string().trim().min(1).max(80).transform(canonicalJuniorLessonKey),
+    mode: z.enum(["speak", "write"]),
+    text: z.string().trim().min(1).max(600).optional(),
     audioBase64: z.string().max(1_200_000).optional(),
     mimeType: z.string().max(80).optional(),
     durationSec: z.number().finite().optional(),
   })
-  .strict();
+  .strict()
+  .superRefine((data, ctx) => {
+    if (data.mode === "write" && (!data.text || data.text.trim().length === 0)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["text"],
+        message: "Yazılı anlatış metni gerekli.",
+      });
+    }
+  });
 
 function wipeRaw(value: unknown): void {
   if (!value || typeof value !== "object") {
@@ -42,6 +53,7 @@ export async function POST(request: Request) {
       profileId: parsed.data.profileId,
       lessonKey: parsed.data.lessonKey,
       mode: parsed.data.mode,
+      text: parsed.data.text,
       audioBase64: parsed.data.audioBase64,
       mimeType: parsed.data.mimeType,
       durationSec: parsed.data.durationSec,

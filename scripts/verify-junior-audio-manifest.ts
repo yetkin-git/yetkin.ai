@@ -24,6 +24,7 @@ import {
 } from "@/lib/junior/audio-manifest";
 import { JUNIOR_AUDIO_MANIFEST } from "@/lib/junior/audio-manifest.generated";
 import { juniorBakeCandidateLessons } from "@/lib/junior/content-source";
+import { JUNIOR_ELECTIVE_TTS_MODEL_ID, juniorLessonUsesElectiveTts } from "@/lib/junior/elective-tts";
 import { juniorLessonMediaIsPublicPreview } from "@/lib/junior/media-visibility";
 import { JUNIOR_BAKED_AUDIO_KEYS, juniorLessonAudioPublicPath } from "@/lib/junior/voice";
 import { readMediaPublicBaseUrl } from "@/lib/media/public-url";
@@ -43,19 +44,50 @@ const BAKE_COURSES = [
   "jr_06_ing_main",
 ] as const satisfies readonly JuniorCourseSlug[];
 
+/** Seçmeli ses. Manifest yalnız Lite fişi taşıyan MP3'yi alır. */
+const ELECTIVE_AUDIO_SLUGS = ["jr_06_ing", "jr_06_alm", "jr_06_fra", "jr_06_siyer", "jr_06_kod", "jr_06_arp"] as const;
+const RECEIPT_DIR = join(ROOT, "media-bake", "junior", "dry-run-receipts");
+
+const RANK_COURSES = [...BAKE_COURSES, ...ELECTIVE_AUDIO_SLUGS];
+
 function lessonRank(key: string): [number, number] {
-  const course = BAKE_COURSES.findIndex((slug) => key.startsWith(`${slug}-`));
+  const course = RANK_COURSES.findIndex((slug) => key.startsWith(`${slug}-`));
   const number = Number(key.slice(key.lastIndexOf("-") + 1));
-  return [course < 0 ? BAKE_COURSES.length : course, Number.isFinite(number) ? number : 0];
+  return [course < 0 ? RANK_COURSES.length : course, Number.isFinite(number) ? number : 0];
+}
+
+function electiveReceiptModel(lessonKey: string): string | null {
+  const path = join(RECEIPT_DIR, `${lessonKey}.json`);
+  if (!existsSync(path)) {
+    return null;
+  }
+  const raw = JSON.parse(readFileSync(path, "utf8")) as { model?: unknown };
+  return typeof raw.model === "string" ? raw.model : null;
+}
+
+function electiveAudioKeysOnDisk(): string[] {
+  const keys: string[] = [];
+  for (const slug of ELECTIVE_AUDIO_SLUGS) {
+    for (const number of [1, 2]) {
+      const key = `${slug}-${number}`;
+      if (fileState(key) && electiveReceiptModel(key) === JUNIOR_ELECTIVE_TTS_MODEL_ID) {
+        keys.push(key);
+      }
+    }
+  }
+  return keys;
 }
 
 /** Yayın sicili artı diskte MP3'si olan fırın adayları. Emekli dosya ve fon müziği girmez. */
 function writeKeys(): string[] {
-  const admitted = BAKE_COURSES.flatMap((slug) =>
-    juniorBakeCandidateLessons(slug)
-      .map((lesson) => lesson.key)
-      .filter((key) => fileState(key) !== null),
-  );
+  const admitted = [
+    ...BAKE_COURSES.flatMap((slug) =>
+      juniorBakeCandidateLessons(slug)
+        .map((lesson) => lesson.key)
+        .filter((key) => fileState(key) !== null),
+    ),
+    ...electiveAudioKeysOnDisk().filter((key) => !KEYS.includes(key)),
+  ];
   return [...new Set([...KEYS, ...admitted])].sort((left, right) => {
     const [leftCourse, leftNumber] = lessonRank(left);
     const [rightCourse, rightNumber] = lessonRank(right);
@@ -115,9 +147,19 @@ function writeManifest(): void {
       body[key] = { sha256: state.sha256, bytes: state.bytes };
     }
   }
-  const lines = Object.entries(body).map(
-    ([key, entry]) => `  ${JSON.stringify(key)}: { sha256: "${entry.sha256}", bytes: ${entry.bytes} },`,
+  const rejected = Object.keys(body).filter(
+    (key) => juniorLessonUsesElectiveTts(key) && electiveReceiptModel(key) !== JUNIOR_ELECTIVE_TTS_MODEL_ID,
   );
+  if (rejected.length > 0) {
+    fail(
+      "verify:junior-audio-manifest --write BAŞARISIZ — seçmeli fiş Lite model değil. Manifest yazılmadı.",
+      rejected.map((key) => `${key} modeli ${electiveReceiptModel(key) ?? "yok"}. Standart modele geçilmez.`),
+    );
+  }
+  const lines = Object.entries(body).map(([key, entry]) => {
+    const model = juniorLessonUsesElectiveTts(key) ? `, model: ${JSON.stringify(JUNIOR_ELECTIVE_TTS_MODEL_ID)}` : "";
+    return `  ${JSON.stringify(key)}: { sha256: "${entry.sha256}", bytes: ${entry.bytes}${model} },`;
+  });
   const source = [
     "// Bu dosya `npm run generate:junior-audio-manifest` ile üretilir. Elle düzenlemeyin.",
     'import type { JuniorAudioManifest } from "@/lib/junior/audio-manifest";',

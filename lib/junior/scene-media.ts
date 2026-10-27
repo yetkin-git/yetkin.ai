@@ -138,70 +138,6 @@ const A_PLATES: readonly JuniorScenePlate[] = [
     prompt:
       'Left: hand touches a warm kettle, signal goes to spinal cord and back to the arm, label "Refleks, omurilik, hızlı". Right: a hormone droplet travels in blood, label "Hormon, yavaş". No burn injury shown.',
   },
-  {
-    group: "A",
-    lessonKey: "jr_06_mat-1",
-    step: 5,
-    title: "Üslü ifadede taban ve üs",
-    prompt:
-      'Large expression 2 with a small upper 3, expanded as 2×2×2 = 8. A crossed-out trap beside it: 2×3 = 6. Labels: "Taban 2", "Üs 3".',
-  },
-  {
-    group: "A",
-    lessonKey: "jr_06_mat-8",
-    step: 5,
-    title: "Kümeler",
-    prompt:
-      'Two overlapping loops. Set A holds only "kırmızı" and "mavi" outside the overlap. The overlap holds one single "sarı". Set B holds only "yeşil" outside the overlap. Do not draw a second sarı. A third empty loop labeled "Boş küme", not zero.',
-  },
-  {
-    group: "A",
-    lessonKey: "jr_06_mat-9",
-    step: 5,
-    title: "Tam sayılar ve mutlak değer",
-    prompt:
-      'Number line with −4, −1, 0, +2. Equal hop marks show |-4| = 4 and |+2| = 2. Arrow to the right labeled "sağdaki daha büyük".',
-  },
-  {
-    group: "A",
-    lessonKey: "jr_06_mat-10",
-    step: 5,
-    title: "Kesirleri karşılaştırma",
-    prompt:
-      'Two rows of equal bars. Top, same denominator: 1/4, 2/4, 3/4 growing. Bottom, unit fractions: 1/2 larger than 1/6. Label: "Payda büyüyünce dilim küçülür".',
-  },
-  {
-    group: "A",
-    lessonKey: "jr_06_mat-20",
-    step: 5,
-    title: "Komşu, tümler, bütünler, ters açılar",
-    prompt:
-      'Three small diagrams. 30° and 60° make a right angle, "Tümler 90°". 30° and 150° make a straight line, "Bütünler 180°". Two crossing lines with equal opposite angles, "Ters açılar eşit".',
-  },
-  {
-    group: "A",
-    lessonKey: "jr_06_mat-21",
-    step: 5,
-    title: "Paralelkenar ve üçgenin alanı",
-    prompt:
-      'Parallelogram base 8 cm, dashed perpendicular height 5 cm, area 40 cm². The slanted side 6 cm is marked "yükseklik değil". Beside it a triangle with the same base and height, area 20 cm².',
-  },
-  {
-    group: "A",
-    lessonKey: "jr_06_mat-23",
-    step: 5,
-    title: "Çember",
-    prompt:
-      'A ring labeled "Çember" and a filled disk labeled "Daire". Center point, radius 5 cm, diameter 10 cm through the center. Caption: "Çap = 2 yarıçap".',
-  },
-  {
-    group: "A",
-    lessonKey: "jr_06_mat-24",
-    step: 5,
-    title: "Prizmalar ve hacim",
-    prompt:
-      'A clear box whose floor is exactly 4 cubes by 3 cubes, so the bottom layer is 12 cubes, labeled "12 cm² taban alanı". A second layer of 12 cubes sits on top, total 24 cubes, label "24 cm³". Width 4 cm, depth 3 cm, height 2 cm. Do not draw a 4 by 2 floor.',
-  },
 ];
 
 const B_PLATES: readonly JuniorScenePlate[] = [
@@ -255,23 +191,7 @@ const B_PLATES: readonly JuniorScenePlate[] = [
   },
   {
     group: "B",
-    lessonKey: "jr_06_mat-3",
-    step: 5,
-    title: "Ortak çarpan ve dağılma",
-    prompt:
-      'A rectangle split into 5 and 3, height labeled 6. Equation "6 × (5 + 3) = 6 × 5 + 6 × 3 = 48". Both writings meet at 48.',
-  },
-  {
-    group: "B",
-    lessonKey: "jr_06_mat-11",
-    step: 5,
-    title: "Payda aynıyken toplama",
-    prompt:
-      'No header banner. Two equal bars of four parts. One part shaded plus two parts shaded. Result bar shows three of four shaded. Equation "1/4 + 2/4 = 3/4". A crossed-out trap "3/8". Label only: "Payda aynı kalır".',
-  },
-  {
-    group: "B",
-    lessonKey: "jr_06_mat-12",
+    lessonKey: "jr_06_mat-8",
     step: 5,
     title: "Paydayı eşitleyerek toplama",
     prompt:
@@ -279,7 +199,7 @@ const B_PLATES: readonly JuniorScenePlate[] = [
   },
   {
     group: "B",
-    lessonKey: "jr_06_mat-13",
+    lessonKey: "jr_06_mat-9",
     step: 5,
     title: "Kesirlerde çarpma ve bölme",
     prompt:
@@ -287,23 +207,7 @@ const B_PLATES: readonly JuniorScenePlate[] = [
   },
   {
     group: "B",
-    lessonKey: "jr_06_mat-14",
-    step: 5,
-    title: "Ondalık gösterimi okumak",
-    prompt:
-      'Place-value table for 3,25. Columns "tam", "onda bir", "yüzde bir" with digits 3, 2, 5. A comparison card "0,4 > 0,35". Label: "0,4 = 0,40".',
-  },
-  {
-    group: "B",
-    lessonKey: "jr_06_mat-16",
-    step: 5,
-    title: "Oran",
-    prompt:
-      'A bowl with 4 red beads and 6 blue beads. Label "4\'e 6" and the simplified "2\'ye 3". A small reversed card "3\'e 2 aynı değildir". Order arrow from red to blue.',
-  },
-  {
-    group: "B",
-    lessonKey: "jr_06_mat-17",
+    lessonKey: "jr_06_mat-11",
     step: 5,
     title: "Cebirsel ifadeler",
     prompt:
@@ -311,7 +215,7 @@ const B_PLATES: readonly JuniorScenePlate[] = [
   },
   {
     group: "B",
-    lessonKey: "jr_06_mat-18",
+    lessonKey: "jr_06_mat-23",
     step: 5,
     title: "Veri toplama ve değerlendirme",
     prompt:
@@ -319,19 +223,11 @@ const B_PLATES: readonly JuniorScenePlate[] = [
   },
   {
     group: "B",
-    lessonKey: "jr_06_mat-22",
+    lessonKey: "jr_06_mat-18",
     step: 5,
     title: "Alan ölçü birimleri ve arazi",
     prompt:
       'A 1 m by 1 m square next to a grid note "1 m² = 10.000 cm²". Two land cards: "1 dönüm = 1.000 m²" and "1 hektar = 10.000 m²". Crossed-out trap "1 m² = 100 cm²".',
-  },
-  {
-    group: "B",
-    lessonKey: "jr_06_mat-25",
-    step: 5,
-    title: "Sıvı ölçme",
-    prompt:
-      'A measuring jug marked to 1 litre. Caption "1 L = 1.000 mL". A half jug "500 mL" and a quarter "250 mL". A small note "1 dm³ = 1 L". No brand logo on the jug.',
   },
   {
     group: "B",
@@ -385,11 +281,15 @@ const B_PLATES: readonly JuniorScenePlate[] = [
 
 export const JUNIOR_SCENE_PLATES: readonly JuniorScenePlate[] = [...A_PLATES, ...B_PLATES];
 
-/** Faz 31 video kuyruğu. 13 ders, 14 kaset. fen-2 iki kaset taşır. */
+/**
+ * Video kuyruğu. fen-2 yalnız adım 3 kasetini taşır.
+ * `jr_06_fen-2/step-6` dosyası diskte yok; kırık JPG/MP4 adresi üretilmez.
+ * Aynı nedenle `jr_06_mat-19/step-5`, `jr_06_mat-7/step-5` ve `jr_06_mat-4/step-5` plakaları da listede durmaz.
+ * Eksik adım vektör sahneye düşer.
+ */
 export const JUNIOR_SCENE_VIDEOS: readonly JuniorSceneVideo[] = [
   { name: "jr_06_fen-1_sahne6_saturn_halka", lessonKey: "jr_06_fen-1", step: 6 },
   { name: "jr_06_fen-2_sahne3_gunes_tutulmasi", lessonKey: "jr_06_fen-2", step: 3 },
-  { name: "jr_06_fen-2_sahne6_ay_tutulmasi", lessonKey: "jr_06_fen-2", step: 6 },
   { name: "jr_06_fen-3_sahne2_kas_kemik", lessonKey: "jr_06_fen-3", step: 2 },
   { name: "jr_06_fen-4_sahne3_sindirim_yolu", lessonKey: "jr_06_fen-4", step: 3 },
   { name: "jr_06_fen-5_sahne5_iki_dolasim", lessonKey: "jr_06_fen-5", step: 5 },
@@ -400,23 +300,22 @@ export const JUNIOR_SCENE_VIDEOS: readonly JuniorSceneVideo[] = [
   { name: "jr_06_fen-16_sahne6_refleks_hormon", lessonKey: "jr_06_fen-16", step: 6 },
   { name: "jr_06_fen-9_sahne6_bileske_ok", lessonKey: "jr_06_fen-9", step: 6 },
   { name: "jr_06_fen-10_sahne5_sabit_surat", lessonKey: "jr_06_fen-10", step: 5 },
-  { name: "jr_06_mat-24_sahne5_prizma_hacim", lessonKey: "jr_06_mat-24", step: 5 },
 ];
 
 function assertSceneCatalog(): void {
   const plates = JUNIOR_SCENE_PLATES;
   const videos = JUNIOR_SCENE_VIDEOS;
-  if (plates.filter((plate) => plate.group === "A").length !== 21) {
-    throw new Error("Junior sahne: A plaka 21 olmalı.");
+  if (plates.filter((plate) => plate.group === "A").length !== 13) {
+    throw new Error("Junior sahne: A plaka 13 olmalı.");
   }
-  if (plates.filter((plate) => plate.group === "B").length !== 22) {
-    throw new Error("Junior sahne: B plaka 22 olmalı.");
+  if (plates.filter((plate) => plate.group === "B").length !== 17) {
+    throw new Error("Junior sahne: B plaka 17 olmalı.");
   }
-  if (plates.length !== 43) {
-    throw new Error("Junior sahne: plaka 43 olmalı.");
+  if (plates.length !== 30) {
+    throw new Error("Junior sahne: plaka 30 olmalı.");
   }
-  if (videos.length !== 14) {
-    throw new Error("Junior sahne: video kaseti 14 olmalı.");
+  if (videos.length !== 12) {
+    throw new Error("Junior sahne: video kaseti 12 olmalı.");
   }
   const plateKeys = new Set<string>();
   for (const plate of plates) {

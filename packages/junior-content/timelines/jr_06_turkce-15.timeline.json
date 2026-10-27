@@ -1,0 +1,2560 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_turkce-15",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Yapım ekleri ve sözcük türetme",
+  "grade": 6,
+  "subject": "Türkçe",
+  "teacher": {
+    "name": "Elif",
+    "voice": "Aoede",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_turkce-15.mp3",
+    "durationMs": 439144,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 101050
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 101050,
+      "endMs": 357890
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 357890,
+      "endMs": 439144
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 5420,
+      "pauseAfterMs": 1040,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 200,
+          "endMs": 680
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1310,
+          "endMs": 2560
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 3200,
+          "endMs": 4380
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Yapım ekleri ve sözcük türetme",
+            "subtitle": "Türkçe",
+            "ruleBadges": [],
+            "echoPrompt": "Bir sözcükte kökü ve yapım ekini ayırıp hangi yoldan türediğini söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Yapım eki, köke gelerek yeni anlamlı ve yeni kimlikli sözcükler türetir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "İsimden isim, isimden fiil, fiilden isim ve fiilden fiil olmak üzere dört türetme yolu vardır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Çekim eki sadece görev verir; yapım eki ise yepyeni bir sözcük inşa eder."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 5420,
+      "endMs": 9340,
+      "pauseAfterMs": 360,
+      "text": "Ben Türkçe öğretmenin Elif.",
+      "markedText": "Ben Türkçe öğretmenin Elif.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 5420,
+          "endMs": 5780
+        },
+        {
+          "word": "Türkçe",
+          "startMs": 5850,
+          "endMs": 6530
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6650,
+          "endMs": 8100
+        },
+        {
+          "word": "Elif.",
+          "startMs": 8780,
+          "endMs": 8980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 9340,
+      "endMs": 18560,
+      "pauseAfterMs": 940,
+      "text": "Bugün dilimizin üretken fabrikasına adım atıyoruz.",
+      "markedText": "Bugün dilimizin üretken fabrikasına adım atıyoruz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 9340,
+          "endMs": 9790
+        },
+        {
+          "word": "dilimizin",
+          "startMs": 9980,
+          "endMs": 11760
+        },
+        {
+          "word": "üretken",
+          "startMs": 12450,
+          "endMs": 13350
+        },
+        {
+          "word": "fabrikasına",
+          "startMs": 13740,
+          "endMs": 15190
+        },
+        {
+          "word": "adım",
+          "startMs": 16120,
+          "endMs": 16600
+        },
+        {
+          "word": "atıyoruz.",
+          "startMs": 16680,
+          "endMs": 17620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 18560,
+      "endMs": 35930,
+      "pauseAfterMs": 430,
+      "text": "Hiç göz kökünden görme aracı olan gözlük, yaz fiilinden okuduğumuz yazı kelimesinin nasıl ustalıkla üretildiğini düşündün mü?",
+      "markedText": "Hiç göz kökünden görme aracı olan gözlük, yaz fiilinden okuduğumuz yazı kelimesinin nasıl ustalıkla üretildiğini düşündün mü?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 18560,
+          "endMs": 18700
+        },
+        {
+          "word": "göz",
+          "startMs": 18820,
+          "endMs": 19110
+        },
+        {
+          "word": "kökünden",
+          "startMs": 19340,
+          "endMs": 20350
+        },
+        {
+          "word": "görme",
+          "startMs": 20980,
+          "endMs": 21370
+        },
+        {
+          "word": "aracı",
+          "startMs": 21430,
+          "endMs": 22080
+        },
+        {
+          "word": "olan",
+          "startMs": 22220,
+          "endMs": 22740
+        },
+        {
+          "word": "gözlük,",
+          "startMs": 23120,
+          "endMs": 24000
+        },
+        {
+          "word": "yaz",
+          "startMs": 24650,
+          "endMs": 24810
+        },
+        {
+          "word": "fiilinden",
+          "startMs": 25010,
+          "endMs": 26080
+        },
+        {
+          "word": "okuduğumuz",
+          "startMs": 26610,
+          "endMs": 27620
+        },
+        {
+          "word": "yazı",
+          "startMs": 27950,
+          "endMs": 28060
+        },
+        {
+          "word": "kelimesinin",
+          "startMs": 28180,
+          "endMs": 29300
+        },
+        {
+          "word": "nasıl",
+          "startMs": 29410,
+          "endMs": 30840
+        },
+        {
+          "word": "ustalıkla",
+          "startMs": 32020,
+          "endMs": 32820
+        },
+        {
+          "word": "üretildiğini",
+          "startMs": 33420,
+          "endMs": 34470
+        },
+        {
+          "word": "düşündün",
+          "startMs": 34870,
+          "endMs": 35280
+        },
+        {
+          "word": "mü?",
+          "startMs": 35400,
+          "endMs": 35500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 35930,
+      "endMs": 49100,
+      "pauseAfterMs": 320,
+      "text": "Türkçemiz eklemeli bir dildir; köklere gelen yapım ekleriyle yepyeni kavramlar doğar.",
+      "markedText": "Türkçemiz eklemeli bir dildir; köklere gelen yapım ekleriyle yepyeni kavramlar doğar.",
+      "words": [
+        {
+          "word": "Türkçemiz",
+          "startMs": 35930,
+          "endMs": 36920
+        },
+        {
+          "word": "eklemeli",
+          "startMs": 37010,
+          "endMs": 38020
+        },
+        {
+          "word": "bir",
+          "startMs": 38440,
+          "endMs": 38910
+        },
+        {
+          "word": "dildir;",
+          "startMs": 39020,
+          "endMs": 39840
+        },
+        {
+          "word": "köklere",
+          "startMs": 40120,
+          "endMs": 40730
+        },
+        {
+          "word": "gelen",
+          "startMs": 40900,
+          "endMs": 41970
+        },
+        {
+          "word": "yapım",
+          "startMs": 42550,
+          "endMs": 42920
+        },
+        {
+          "word": "ekleriyle",
+          "startMs": 43120,
+          "endMs": 43740
+        },
+        {
+          "word": "yepyeni",
+          "startMs": 44150,
+          "endMs": 45390
+        },
+        {
+          "word": "kavramlar",
+          "startMs": 45880,
+          "endMs": 47050
+        },
+        {
+          "word": "doğar.",
+          "startMs": 48110,
+          "endMs": 48780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 49100,
+      "endMs": 64250,
+      "pauseAfterMs": 710,
+      "text": "Yapım eklerinin dört türetme yolunu ve dilimizin kelime üretme gücünü birlikte keşfedeceğiz.",
+      "markedText": "Yapım eklerinin dört türetme yolunu ve dilimizin kelime üretme gücünü birlikte keşfedeceğiz.",
+      "words": [
+        {
+          "word": "Yapım",
+          "startMs": 49100,
+          "endMs": 49530
+        },
+        {
+          "word": "eklerinin",
+          "startMs": 49670,
+          "endMs": 51120
+        },
+        {
+          "word": "dört",
+          "startMs": 51920,
+          "endMs": 52520
+        },
+        {
+          "word": "türetme",
+          "startMs": 52930,
+          "endMs": 54180
+        },
+        {
+          "word": "yolunu",
+          "startMs": 54830,
+          "endMs": 55370
+        },
+        {
+          "word": "ve",
+          "startMs": 55560,
+          "endMs": 55760
+        },
+        {
+          "word": "dilimizin",
+          "startMs": 55970,
+          "endMs": 56620
+        },
+        {
+          "word": "kelime",
+          "startMs": 56720,
+          "endMs": 57370
+        },
+        {
+          "word": "üretme",
+          "startMs": 58090,
+          "endMs": 58690
+        },
+        {
+          "word": "gücünü",
+          "startMs": 59090,
+          "endMs": 60270
+        },
+        {
+          "word": "birlikte",
+          "startMs": 60950,
+          "endMs": 61750
+        },
+        {
+          "word": "keşfedeceğiz.",
+          "startMs": 61940,
+          "endMs": 63540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 64250,
+      "endMs": 76990,
+      "pauseAfterMs": 980,
+      "text": "Kitaplıktan bir kitap alıp okuduğunda lık ekinin yeni bir eşya kurduğunu hemen görürsün.",
+      "markedText": "Kitaplıktan bir kitap alıp okuduğunda lık ekinin yeni bir eşya kurduğunu hemen görürsün.",
+      "words": [
+        {
+          "word": "Kitaplıktan",
+          "startMs": 64250,
+          "endMs": 64940
+        },
+        {
+          "word": "bir",
+          "startMs": 65330,
+          "endMs": 65550
+        },
+        {
+          "word": "kitap",
+          "startMs": 65590,
+          "endMs": 65780
+        },
+        {
+          "word": "alıp",
+          "startMs": 66040,
+          "endMs": 66530
+        },
+        {
+          "word": "okuduğunda",
+          "startMs": 67180,
+          "endMs": 68100
+        },
+        {
+          "word": "lık",
+          "startMs": 68380,
+          "endMs": 68550
+        },
+        {
+          "word": "ekinin",
+          "startMs": 68620,
+          "endMs": 69640
+        },
+        {
+          "word": "yeni",
+          "startMs": 70360,
+          "endMs": 71080
+        },
+        {
+          "word": "bir",
+          "startMs": 71480,
+          "endMs": 71860
+        },
+        {
+          "word": "eşya",
+          "startMs": 72040,
+          "endMs": 72600
+        },
+        {
+          "word": "kurduğunu",
+          "startMs": 73220,
+          "endMs": 74190
+        },
+        {
+          "word": "hemen",
+          "startMs": 74450,
+          "endMs": 74860
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 74930,
+          "endMs": 76010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 76990,
+      "endMs": 86990,
+      "pauseAfterMs": 690,
+      "text": "Sessizce ders çalışırken bu ekin sesten sakinlik ürettiğini fark edersin.",
+      "markedText": "Sessizce ders çalışırken bu ekin sesten sakinlik ürettiğini fark edersin.",
+      "words": [
+        {
+          "word": "Sessizce",
+          "startMs": 76990,
+          "endMs": 77890
+        },
+        {
+          "word": "ders",
+          "startMs": 78120,
+          "endMs": 78530
+        },
+        {
+          "word": "çalışırken",
+          "startMs": 78930,
+          "endMs": 80010
+        },
+        {
+          "word": "bu",
+          "startMs": 80100,
+          "endMs": 80240
+        },
+        {
+          "word": "ekin",
+          "startMs": 80810,
+          "endMs": 81390
+        },
+        {
+          "word": "sesten",
+          "startMs": 81960,
+          "endMs": 82570
+        },
+        {
+          "word": "sakinlik",
+          "startMs": 82840,
+          "endMs": 83620
+        },
+        {
+          "word": "ürettiğini",
+          "startMs": 83620,
+          "endMs": 84470
+        },
+        {
+          "word": "fark",
+          "startMs": 84920,
+          "endMs": 85220
+        },
+        {
+          "word": "edersin.",
+          "startMs": 85260,
+          "endMs": 86300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 86990,
+      "endMs": 101050,
+      "pauseAfterMs": 800,
+      "text": "Yapım eklerini tanımak yeni kelimeler türetirken dilin inceliklerini ustaca kullanmanı sağlar.",
+      "markedText": "Yapım eklerini tanımak yeni kelimeler türetirken dilin inceliklerini ustaca kullanmanı sağlar.",
+      "words": [
+        {
+          "word": "Yapım",
+          "startMs": 86990,
+          "endMs": 87560
+        },
+        {
+          "word": "eklerini",
+          "startMs": 87650,
+          "endMs": 89160
+        },
+        {
+          "word": "tanımak",
+          "startMs": 89960,
+          "endMs": 90490
+        },
+        {
+          "word": "yeni",
+          "startMs": 90490,
+          "endMs": 90930
+        },
+        {
+          "word": "kelimeler",
+          "startMs": 91700,
+          "endMs": 92750
+        },
+        {
+          "word": "türetirken",
+          "startMs": 93490,
+          "endMs": 94740
+        },
+        {
+          "word": "dilin",
+          "startMs": 95070,
+          "endMs": 95430
+        },
+        {
+          "word": "inceliklerini",
+          "startMs": 95800,
+          "endMs": 97240
+        },
+        {
+          "word": "ustaca",
+          "startMs": 97480,
+          "endMs": 97890
+        },
+        {
+          "word": "kullanmanı",
+          "startMs": 98560,
+          "endMs": 99330
+        },
+        {
+          "word": "sağlar.",
+          "startMs": 99410,
+          "endMs": 100250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-2",
+      "startMs": 101050,
+      "endMs": 118390,
+      "pauseAfterMs": 370,
+      "text": "Yapım eki, sözcük kök veya gövdelerine gelerek onlardan tamamen yeni anlamlı sözcükler türeten eklerdir.",
+      "markedText": "Yapım eki, sözcük kök veya gövdelerine gelerek onlardan tamamen yeni anlamlı sözcükler türeten eklerdir.",
+      "words": [
+        {
+          "word": "Yapım",
+          "startMs": 101050,
+          "endMs": 101300
+        },
+        {
+          "word": "eki,",
+          "startMs": 101760,
+          "endMs": 102360
+        },
+        {
+          "word": "sözcük",
+          "startMs": 103020,
+          "endMs": 104040
+        },
+        {
+          "word": "kök",
+          "startMs": 104330,
+          "endMs": 104800
+        },
+        {
+          "word": "veya",
+          "startMs": 105320,
+          "endMs": 105650
+        },
+        {
+          "word": "gövdelerine",
+          "startMs": 106100,
+          "endMs": 107570
+        },
+        {
+          "word": "gelerek",
+          "startMs": 108430,
+          "endMs": 108780
+        },
+        {
+          "word": "onlardan",
+          "startMs": 109110,
+          "endMs": 109780
+        },
+        {
+          "word": "tamamen",
+          "startMs": 110210,
+          "endMs": 111150
+        },
+        {
+          "word": "yeni",
+          "startMs": 111490,
+          "endMs": 111700
+        },
+        {
+          "word": "anlamlı",
+          "startMs": 111830,
+          "endMs": 112520
+        },
+        {
+          "word": "sözcükler",
+          "startMs": 113030,
+          "endMs": 114770
+        },
+        {
+          "word": "türeten",
+          "startMs": 115800,
+          "endMs": 116800
+        },
+        {
+          "word": "eklerdir.",
+          "startMs": 117060,
+          "endMs": 118020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 118390,
+      "endMs": 130710,
+      "pauseAfterMs": 760,
+      "text": "Yapım eki geldiğinde sözcüğün anlamı değişir, bazen türü de değişir.",
+      "markedText": "Yapım eki geldiğinde sözcüğün anlamı değişir, bazen türü de değişir.",
+      "words": [
+        {
+          "word": "Yapım",
+          "startMs": 118390,
+          "endMs": 118870
+        },
+        {
+          "word": "eki",
+          "startMs": 119050,
+          "endMs": 119700
+        },
+        {
+          "word": "geldiğinde",
+          "startMs": 120070,
+          "endMs": 121720
+        },
+        {
+          "word": "sözcüğün",
+          "startMs": 122620,
+          "endMs": 123360
+        },
+        {
+          "word": "anlamı",
+          "startMs": 123760,
+          "endMs": 124350
+        },
+        {
+          "word": "değişir,",
+          "startMs": 124510,
+          "endMs": 125720
+        },
+        {
+          "word": "bazen",
+          "startMs": 126350,
+          "endMs": 127040
+        },
+        {
+          "word": "türü",
+          "startMs": 127640,
+          "endMs": 128050
+        },
+        {
+          "word": "de",
+          "startMs": 128190,
+          "endMs": 128560
+        },
+        {
+          "word": "değişir.",
+          "startMs": 128860,
+          "endMs": 129950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 130710,
+      "endMs": 140050,
+      "pauseAfterMs": 460,
+      "text": "Yapım ekleri dört farklı yoldan yeni sözcük üretir.",
+      "markedText": "Yapım ekleri dört farklı yoldan yeni sözcük üretir.",
+      "words": [
+        {
+          "word": "Yapım",
+          "startMs": 130710,
+          "endMs": 131430
+        },
+        {
+          "word": "ekleri",
+          "startMs": 131580,
+          "endMs": 132550
+        },
+        {
+          "word": "dört",
+          "startMs": 132810,
+          "endMs": 133180
+        },
+        {
+          "word": "farklı",
+          "startMs": 133310,
+          "endMs": 133990
+        },
+        {
+          "word": "yoldan",
+          "startMs": 134500,
+          "endMs": 136080
+        },
+        {
+          "word": "yeni",
+          "startMs": 136890,
+          "endMs": 137300
+        },
+        {
+          "word": "sözcük",
+          "startMs": 137860,
+          "endMs": 138350
+        },
+        {
+          "word": "üretir.",
+          "startMs": 138690,
+          "endMs": 139590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 140050,
+      "endMs": 153870,
+      "pauseAfterMs": 950,
+      "text": "Birincisi isimden isim yapma: şeker kökünden şekerlik türetmek böyledir.",
+      "markedText": "Birincisi isimden isim yapma: şeker kökünden şekerlik türetmek böyledir.",
+      "words": [
+        {
+          "word": "Birincisi",
+          "startMs": 140050,
+          "endMs": 141560
+        },
+        {
+          "word": "isimden",
+          "startMs": 141950,
+          "endMs": 142850
+        },
+        {
+          "word": "isim",
+          "startMs": 145030,
+          "endMs": 145260
+        },
+        {
+          "word": "yapma:",
+          "startMs": 145530,
+          "endMs": 145950
+        },
+        {
+          "word": "şeker",
+          "startMs": 146210,
+          "endMs": 146870
+        },
+        {
+          "word": "kökünden",
+          "startMs": 147190,
+          "endMs": 148190
+        },
+        {
+          "word": "şekerlik",
+          "startMs": 149980,
+          "endMs": 151140
+        },
+        {
+          "word": "türetmek",
+          "startMs": 151420,
+          "endMs": 151890
+        },
+        {
+          "word": "böyledir.",
+          "startMs": 152120,
+          "endMs": 152920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 153870,
+      "endMs": 166930,
+      "pauseAfterMs": 250,
+      "text": "İkincisi isimden fiil yapma: göz isminden gözlemek eylemini türetmektir.",
+      "markedText": "İkincisi isimden fiil yapma: göz isminden gözlemek eylemini türetmektir.",
+      "words": [
+        {
+          "word": "İkincisi",
+          "startMs": 153870,
+          "endMs": 155340
+        },
+        {
+          "word": "isimden",
+          "startMs": 155610,
+          "endMs": 156510
+        },
+        {
+          "word": "fiil",
+          "startMs": 156850,
+          "endMs": 157060
+        },
+        {
+          "word": "yapma:",
+          "startMs": 159410,
+          "endMs": 160250
+        },
+        {
+          "word": "göz",
+          "startMs": 160850,
+          "endMs": 161060
+        },
+        {
+          "word": "isminden",
+          "startMs": 161680,
+          "endMs": 162510
+        },
+        {
+          "word": "gözlemek",
+          "startMs": 162600,
+          "endMs": 163460
+        },
+        {
+          "word": "eylemini",
+          "startMs": 163980,
+          "endMs": 164630
+        },
+        {
+          "word": "türetmektir.",
+          "startMs": 164960,
+          "endMs": 166680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 166930,
+      "endMs": 179370,
+      "pauseAfterMs": 1830,
+      "text": "Üçüncüsü fiilden isim yapma: sevmek fiilinden sevgi adını üretmektir.",
+      "markedText": "Üçüncüsü fiilden isim yapma: sevmek fiilinden sevgi adını üretmektir.",
+      "words": [
+        {
+          "word": "Üçüncüsü",
+          "startMs": 166930,
+          "endMs": 167640
+        },
+        {
+          "word": "fiilden",
+          "startMs": 167930,
+          "endMs": 168890
+        },
+        {
+          "word": "isim",
+          "startMs": 169580,
+          "endMs": 169860
+        },
+        {
+          "word": "yapma:",
+          "startMs": 170290,
+          "endMs": 171160
+        },
+        {
+          "word": "sevmek",
+          "startMs": 171590,
+          "endMs": 172490
+        },
+        {
+          "word": "fiilinden",
+          "startMs": 173050,
+          "endMs": 173950
+        },
+        {
+          "word": "sevgi",
+          "startMs": 174240,
+          "endMs": 174630
+        },
+        {
+          "word": "adını",
+          "startMs": 174730,
+          "endMs": 175870
+        },
+        {
+          "word": "üretmektir.",
+          "startMs": 176250,
+          "endMs": 177540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 179370,
+      "endMs": 193310,
+      "pauseAfterMs": 920,
+      "text": "Dördüncüsü fiilden fiil yapma: gülmek fiilinden güldürmek eylemini türetmektir.",
+      "markedText": "Dördüncüsü fiilden fiil yapma: gülmek fiilinden güldürmek eylemini türetmektir.",
+      "words": [
+        {
+          "word": "Dördüncüsü",
+          "startMs": 179370,
+          "endMs": 180860
+        },
+        {
+          "word": "fiilden",
+          "startMs": 182230,
+          "endMs": 182370
+        },
+        {
+          "word": "fiil",
+          "startMs": 182560,
+          "endMs": 183080
+        },
+        {
+          "word": "yapma:",
+          "startMs": 183480,
+          "endMs": 183930
+        },
+        {
+          "word": "gülmek",
+          "startMs": 184790,
+          "endMs": 185510
+        },
+        {
+          "word": "fiilinden",
+          "startMs": 185710,
+          "endMs": 186670
+        },
+        {
+          "word": "güldürmek",
+          "startMs": 186990,
+          "endMs": 188220
+        },
+        {
+          "word": "eylemini",
+          "startMs": 188290,
+          "endMs": 189750
+        },
+        {
+          "word": "türetmektir.",
+          "startMs": 190790,
+          "endMs": 192390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 193310,
+      "endMs": 212900,
+      "pauseAfterMs": 1290,
+      "text": "Pratik kural: Yapım eki yeni bir sözcük kimliği kazandırır; çekim ekleri ise kelimenin anlamını değiştirmeden sadece cümlede görev verir.",
+      "markedText": "Pratik kural: Yapım eki yeni bir sözcük kimliği kazandırır; çekim ekleri ise kelimenin anlamını değiştirmeden sadece cümlede görev verir.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 193310,
+          "endMs": 193930
+        },
+        {
+          "word": "kural:",
+          "startMs": 194260,
+          "endMs": 194880
+        },
+        {
+          "word": "Yapım",
+          "startMs": 195690,
+          "endMs": 196340
+        },
+        {
+          "word": "eki",
+          "startMs": 196470,
+          "endMs": 196770
+        },
+        {
+          "word": "yeni",
+          "startMs": 197090,
+          "endMs": 197470
+        },
+        {
+          "word": "bir",
+          "startMs": 197470,
+          "endMs": 197830
+        },
+        {
+          "word": "sözcük",
+          "startMs": 197950,
+          "endMs": 198530
+        },
+        {
+          "word": "kimliği",
+          "startMs": 198610,
+          "endMs": 199570
+        },
+        {
+          "word": "kazandırır;",
+          "startMs": 200230,
+          "endMs": 201120
+        },
+        {
+          "word": "çekim",
+          "startMs": 201960,
+          "endMs": 202420
+        },
+        {
+          "word": "ekleri",
+          "startMs": 203290,
+          "endMs": 203900
+        },
+        {
+          "word": "ise",
+          "startMs": 204470,
+          "endMs": 205110
+        },
+        {
+          "word": "kelimenin",
+          "startMs": 205380,
+          "endMs": 206310
+        },
+        {
+          "word": "anlamını",
+          "startMs": 206420,
+          "endMs": 207420
+        },
+        {
+          "word": "değiştirmeden",
+          "startMs": 207840,
+          "endMs": 209060
+        },
+        {
+          "word": "sadece",
+          "startMs": 209340,
+          "endMs": 210060
+        },
+        {
+          "word": "cümlede",
+          "startMs": 210160,
+          "endMs": 210630
+        },
+        {
+          "word": "görev",
+          "startMs": 210750,
+          "endMs": 211080
+        },
+        {
+          "word": "verir.",
+          "startMs": 211210,
+          "endMs": 211610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 212900,
+      "endMs": 217300,
+      "pauseAfterMs": 990,
+      "text": "Birlikte inceleyelim.",
+      "markedText": "Birlikte inceleyelim.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 212900,
+          "endMs": 213490
+        },
+        {
+          "word": "inceleyelim.",
+          "startMs": 215310,
+          "endMs": 216310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 217300,
+      "endMs": 236030,
+      "pauseAfterMs": 740,
+      "text": "Tuz bir maddedir; luk eki geldiğinde tuzluk yani o maddeyi koyduğumuz kap olur; bu isimden isim türetmedir.",
+      "markedText": "Tuz bir maddedir; luk eki geldiğinde tuzluk yani o maddeyi koyduğumuz kap olur; bu isimden isim türetmedir.",
+      "words": [
+        {
+          "word": "Tuz",
+          "startMs": 217300,
+          "endMs": 217440
+        },
+        {
+          "word": "bir",
+          "startMs": 217580,
+          "endMs": 218320
+        },
+        {
+          "word": "maddedir;",
+          "startMs": 218740,
+          "endMs": 220090
+        },
+        {
+          "word": "luk",
+          "startMs": 220430,
+          "endMs": 220790
+        },
+        {
+          "word": "eki",
+          "startMs": 221130,
+          "endMs": 221460
+        },
+        {
+          "word": "geldiğinde",
+          "startMs": 221600,
+          "endMs": 223310
+        },
+        {
+          "word": "tuzluk",
+          "startMs": 223860,
+          "endMs": 224170
+        },
+        {
+          "word": "yani",
+          "startMs": 224290,
+          "endMs": 224650
+        },
+        {
+          "word": "o",
+          "startMs": 226500,
+          "endMs": 226620
+        },
+        {
+          "word": "maddeyi",
+          "startMs": 226880,
+          "endMs": 227730
+        },
+        {
+          "word": "koyduğumuz",
+          "startMs": 228040,
+          "endMs": 229200
+        },
+        {
+          "word": "kap",
+          "startMs": 229420,
+          "endMs": 229900
+        },
+        {
+          "word": "olur;",
+          "startMs": 230070,
+          "endMs": 230660
+        },
+        {
+          "word": "bu",
+          "startMs": 231150,
+          "endMs": 231280
+        },
+        {
+          "word": "isimden",
+          "startMs": 231600,
+          "endMs": 232270
+        },
+        {
+          "word": "isim",
+          "startMs": 232450,
+          "endMs": 232950
+        },
+        {
+          "word": "türetmedir.",
+          "startMs": 233700,
+          "endMs": 235290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 236030,
+      "endMs": 246920,
+      "pauseAfterMs": 1090,
+      "text": "Baş bir organdır; la eki gelince başlamak fiili doğar; bu isimden fiil türetmedir.",
+      "markedText": "Baş bir organdır; la eki gelince başlamak fiili doğar; bu isimden fiil türetmedir.",
+      "words": [
+        {
+          "word": "Baş",
+          "startMs": 236030,
+          "endMs": 236380
+        },
+        {
+          "word": "bir",
+          "startMs": 236550,
+          "endMs": 236750
+        },
+        {
+          "word": "organdır;",
+          "startMs": 237230,
+          "endMs": 238110
+        },
+        {
+          "word": "la",
+          "startMs": 238530,
+          "endMs": 238760
+        },
+        {
+          "word": "eki",
+          "startMs": 238820,
+          "endMs": 239350
+        },
+        {
+          "word": "gelince",
+          "startMs": 239580,
+          "endMs": 240250
+        },
+        {
+          "word": "başlamak",
+          "startMs": 240510,
+          "endMs": 241280
+        },
+        {
+          "word": "fiili",
+          "startMs": 241700,
+          "endMs": 242200
+        },
+        {
+          "word": "doğar;",
+          "startMs": 242320,
+          "endMs": 243060
+        },
+        {
+          "word": "bu",
+          "startMs": 243370,
+          "endMs": 243520
+        },
+        {
+          "word": "isimden",
+          "startMs": 243770,
+          "endMs": 244440
+        },
+        {
+          "word": "fiil",
+          "startMs": 244440,
+          "endMs": 244890
+        },
+        {
+          "word": "türetmedir.",
+          "startMs": 245040,
+          "endMs": 245830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 246920,
+      "endMs": 260360,
+      "pauseAfterMs": 670,
+      "text": "Saymak bir eylemdir; ı eki gelince sayı kavramı doğar; bu fiilden isim türetmedir.",
+      "markedText": "Saymak bir eylemdir; ı eki gelince sayı kavramı doğar; bu fiilden isim türetmedir.",
+      "words": [
+        {
+          "word": "Saymak",
+          "startMs": 246920,
+          "endMs": 247450
+        },
+        {
+          "word": "bir",
+          "startMs": 247870,
+          "endMs": 248400
+        },
+        {
+          "word": "eylemdir;",
+          "startMs": 249330,
+          "endMs": 250910
+        },
+        {
+          "word": "ı",
+          "startMs": 251300,
+          "endMs": 251400
+        },
+        {
+          "word": "eki",
+          "startMs": 252080,
+          "endMs": 252210
+        },
+        {
+          "word": "gelince",
+          "startMs": 252460,
+          "endMs": 253260
+        },
+        {
+          "word": "sayı",
+          "startMs": 253600,
+          "endMs": 254160
+        },
+        {
+          "word": "kavramı",
+          "startMs": 255090,
+          "endMs": 256080
+        },
+        {
+          "word": "doğar;",
+          "startMs": 256140,
+          "endMs": 257120
+        },
+        {
+          "word": "bu",
+          "startMs": 257660,
+          "endMs": 257780
+        },
+        {
+          "word": "fiilden",
+          "startMs": 258080,
+          "endMs": 258650
+        },
+        {
+          "word": "isim",
+          "startMs": 258650,
+          "endMs": 259030
+        },
+        {
+          "word": "türetmedir.",
+          "startMs": 259140,
+          "endMs": 259690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 260360,
+      "endMs": 272810,
+      "pauseAfterMs": 1390,
+      "text": "Sevmek fiiline dir eki gelince sevdirmek eylemi doğar; bu da fiilden fiil türetmedir.",
+      "markedText": "Sevmek fiiline dir eki gelince sevdirmek eylemi doğar; bu da fiilden fiil türetmedir.",
+      "words": [
+        {
+          "word": "Sevmek",
+          "startMs": 260360,
+          "endMs": 260600
+        },
+        {
+          "word": "fiiline",
+          "startMs": 260850,
+          "endMs": 261540
+        },
+        {
+          "word": "dir",
+          "startMs": 261990,
+          "endMs": 262400
+        },
+        {
+          "word": "eki",
+          "startMs": 262700,
+          "endMs": 262990
+        },
+        {
+          "word": "gelince",
+          "startMs": 263110,
+          "endMs": 263600
+        },
+        {
+          "word": "sevdirmek",
+          "startMs": 263600,
+          "endMs": 264190
+        },
+        {
+          "word": "eylemi",
+          "startMs": 264310,
+          "endMs": 264720
+        },
+        {
+          "word": "doğar;",
+          "startMs": 264850,
+          "endMs": 265720
+        },
+        {
+          "word": "bu",
+          "startMs": 266490,
+          "endMs": 266590
+        },
+        {
+          "word": "da",
+          "startMs": 266870,
+          "endMs": 267130
+        },
+        {
+          "word": "fiilden",
+          "startMs": 267760,
+          "endMs": 268440
+        },
+        {
+          "word": "fiil",
+          "startMs": 269310,
+          "endMs": 269530
+        },
+        {
+          "word": "türetmedir.",
+          "startMs": 269730,
+          "endMs": 271420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 272810,
+      "endMs": 279630,
+      "pauseAfterMs": 470,
+      "text": "Her yeni ek, dilimize yepyeni bir zenginlik katar.",
+      "markedText": "Her yeni ek, dilimize yepyeni bir zenginlik katar.",
+      "words": [
+        {
+          "word": "Her",
+          "startMs": 272810,
+          "endMs": 272950
+        },
+        {
+          "word": "yeni",
+          "startMs": 273490,
+          "endMs": 273880
+        },
+        {
+          "word": "ek,",
+          "startMs": 274170,
+          "endMs": 274560
+        },
+        {
+          "word": "dilimize",
+          "startMs": 275070,
+          "endMs": 276270
+        },
+        {
+          "word": "yepyeni",
+          "startMs": 276830,
+          "endMs": 277490
+        },
+        {
+          "word": "bir",
+          "startMs": 277590,
+          "endMs": 277910
+        },
+        {
+          "word": "zenginlik",
+          "startMs": 278000,
+          "endMs": 278570
+        },
+        {
+          "word": "katar.",
+          "startMs": 278620,
+          "endMs": 279160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 279630,
+      "endMs": 281360,
+      "pauseAfterMs": 390,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 279630,
+          "endMs": 280280
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 280660,
+          "endMs": 280970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 281360,
+      "endMs": 288450,
+      "pauseAfterMs": 840,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 281360,
+          "endMs": 281720
+        },
+        {
+          "word": "bir",
+          "startMs": 282020,
+          "endMs": 282150
+        },
+        {
+          "word": "kez",
+          "startMs": 282940,
+          "endMs": 283260
+        },
+        {
+          "word": "görünce",
+          "startMs": 283990,
+          "endMs": 284680
+        },
+        {
+          "word": "kolayca",
+          "startMs": 284820,
+          "endMs": 285350
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 285780,
+          "endMs": 287610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 288450,
+      "endMs": 302280,
+      "pauseAfterMs": 660,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 288450,
+          "endMs": 288950
+        },
+        {
+          "word": "sevgili",
+          "startMs": 289260,
+          "endMs": 290190
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 291620,
+          "endMs": 292500
+        },
+        {
+          "word": "işte",
+          "startMs": 293380,
+          "endMs": 293640
+        },
+        {
+          "word": "tam",
+          "startMs": 293710,
+          "endMs": 294030
+        },
+        {
+          "word": "bu",
+          "startMs": 294030,
+          "endMs": 294570
+        },
+        {
+          "word": "noktada",
+          "startMs": 295500,
+          "endMs": 296200
+        },
+        {
+          "word": "dikkat",
+          "startMs": 296480,
+          "endMs": 297170
+        },
+        {
+          "word": "etmen",
+          "startMs": 297520,
+          "endMs": 298330
+        },
+        {
+          "word": "gereken",
+          "startMs": 298430,
+          "endMs": 299130
+        },
+        {
+          "word": "kilit",
+          "startMs": 299410,
+          "endMs": 300380
+        },
+        {
+          "word": "nokta.",
+          "startMs": 300980,
+          "endMs": 301620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 302280,
+      "endMs": 314730,
+      "pauseAfterMs": 400,
+      "text": "Çoğul eki olan ler ve lar ile yapım eklerini birbirine karıştırmamaya özen gösterebilirsin.",
+      "markedText": "Çoğul eki olan ler ve lar ile yapım eklerini birbirine karıştırmamaya özen gösterebilirsin.",
+      "words": [
+        {
+          "word": "Çoğul",
+          "startMs": 302280,
+          "endMs": 302820
+        },
+        {
+          "word": "eki",
+          "startMs": 302990,
+          "endMs": 303170
+        },
+        {
+          "word": "olan",
+          "startMs": 303700,
+          "endMs": 304100
+        },
+        {
+          "word": "ler",
+          "startMs": 304260,
+          "endMs": 304580
+        },
+        {
+          "word": "ve",
+          "startMs": 304990,
+          "endMs": 305170
+        },
+        {
+          "word": "lar",
+          "startMs": 305170,
+          "endMs": 305500
+        },
+        {
+          "word": "ile",
+          "startMs": 305800,
+          "endMs": 305940
+        },
+        {
+          "word": "yapım",
+          "startMs": 306160,
+          "endMs": 306590
+        },
+        {
+          "word": "eklerini",
+          "startMs": 306690,
+          "endMs": 307890
+        },
+        {
+          "word": "birbirine",
+          "startMs": 308220,
+          "endMs": 309550
+        },
+        {
+          "word": "karıştırmamaya",
+          "startMs": 310490,
+          "endMs": 311760
+        },
+        {
+          "word": "özen",
+          "startMs": 312470,
+          "endMs": 312850
+        },
+        {
+          "word": "gösterebilirsin.",
+          "startMs": 312960,
+          "endMs": 314330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 314730,
+      "endMs": 330580,
+      "pauseAfterMs": 700,
+      "text": "Evler dediğimizde sözcük hâlâ evdir, sadece sayısı çoğalmıştır; yani anlam değişmemiştir ve çekim ekidir.",
+      "markedText": "Evler dediğimizde sözcük hâlâ evdir, sadece sayısı çoğalmıştır; yani anlam değişmemiştir ve çekim ekidir.",
+      "words": [
+        {
+          "word": "Evler",
+          "startMs": 314730,
+          "endMs": 315100
+        },
+        {
+          "word": "dediğimizde",
+          "startMs": 315480,
+          "endMs": 316700
+        },
+        {
+          "word": "sözcük",
+          "startMs": 316920,
+          "endMs": 317590
+        },
+        {
+          "word": "hâlâ",
+          "startMs": 318590,
+          "endMs": 318800
+        },
+        {
+          "word": "evdir,",
+          "startMs": 318890,
+          "endMs": 319320
+        },
+        {
+          "word": "sadece",
+          "startMs": 320350,
+          "endMs": 321330
+        },
+        {
+          "word": "sayısı",
+          "startMs": 321950,
+          "endMs": 322890
+        },
+        {
+          "word": "çoğalmıştır;",
+          "startMs": 323320,
+          "endMs": 324540
+        },
+        {
+          "word": "yani",
+          "startMs": 324850,
+          "endMs": 325220
+        },
+        {
+          "word": "anlam",
+          "startMs": 325530,
+          "endMs": 326080
+        },
+        {
+          "word": "değişmemiştir",
+          "startMs": 326080,
+          "endMs": 327570
+        },
+        {
+          "word": "ve",
+          "startMs": 328110,
+          "endMs": 328210
+        },
+        {
+          "word": "çekim",
+          "startMs": 328490,
+          "endMs": 328860
+        },
+        {
+          "word": "ekidir.",
+          "startMs": 329390,
+          "endMs": 329880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 330580,
+      "endMs": 345590,
+      "pauseAfterMs": 560,
+      "text": "Ancak evli dediğimizde artık bir aile kurmuş insanı anlatırız; anlam değişmiştir ve li bir yapım ekidir.",
+      "markedText": "Ancak evli dediğimizde artık bir aile kurmuş insanı anlatırız; anlam değişmiştir ve li bir yapım ekidir.",
+      "words": [
+        {
+          "word": "Ancak",
+          "startMs": 330580,
+          "endMs": 330840
+        },
+        {
+          "word": "evli",
+          "startMs": 331040,
+          "endMs": 331800
+        },
+        {
+          "word": "dediğimizde",
+          "startMs": 332100,
+          "endMs": 333200
+        },
+        {
+          "word": "artık",
+          "startMs": 333420,
+          "endMs": 333880
+        },
+        {
+          "word": "bir",
+          "startMs": 334230,
+          "endMs": 334650
+        },
+        {
+          "word": "aile",
+          "startMs": 335110,
+          "endMs": 335570
+        },
+        {
+          "word": "kurmuş",
+          "startMs": 335820,
+          "endMs": 336380
+        },
+        {
+          "word": "insanı",
+          "startMs": 336550,
+          "endMs": 337100
+        },
+        {
+          "word": "anlatırız;",
+          "startMs": 337320,
+          "endMs": 338020
+        },
+        {
+          "word": "anlam",
+          "startMs": 338380,
+          "endMs": 339110
+        },
+        {
+          "word": "değişmiştir",
+          "startMs": 339260,
+          "endMs": 340120
+        },
+        {
+          "word": "ve",
+          "startMs": 341160,
+          "endMs": 341420
+        },
+        {
+          "word": "li",
+          "startMs": 341420,
+          "endMs": 341910
+        },
+        {
+          "word": "bir",
+          "startMs": 342970,
+          "endMs": 343230
+        },
+        {
+          "word": "yapım",
+          "startMs": 343620,
+          "endMs": 344240
+        },
+        {
+          "word": "ekidir.",
+          "startMs": 344500,
+          "endMs": 345030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 345590,
+      "endMs": 357890,
+      "pauseAfterMs": 910,
+      "text": "Kelimenin yeni bir nesneye veya kavrama dönüşüp dönüşmediğine dikkat edebilirsin.",
+      "markedText": "Kelimenin yeni bir nesneye veya kavrama dönüşüp dönüşmediğine dikkat edebilirsin.",
+      "words": [
+        {
+          "word": "Kelimenin",
+          "startMs": 345590,
+          "endMs": 346310
+        },
+        {
+          "word": "yeni",
+          "startMs": 346560,
+          "endMs": 346910
+        },
+        {
+          "word": "bir",
+          "startMs": 347350,
+          "endMs": 347810
+        },
+        {
+          "word": "nesneye",
+          "startMs": 347890,
+          "endMs": 348600
+        },
+        {
+          "word": "veya",
+          "startMs": 348720,
+          "endMs": 349220
+        },
+        {
+          "word": "kavrama",
+          "startMs": 349360,
+          "endMs": 350420
+        },
+        {
+          "word": "dönüşüp",
+          "startMs": 350990,
+          "endMs": 352170
+        },
+        {
+          "word": "dönüşmediğine",
+          "startMs": 353050,
+          "endMs": 354280
+        },
+        {
+          "word": "dikkat",
+          "startMs": 354430,
+          "endMs": 355010
+        },
+        {
+          "word": "edebilirsin.",
+          "startMs": 355500,
+          "endMs": 356980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 357890,
+      "endMs": 361980,
+      "pauseAfterMs": 800,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 357890,
+          "endMs": 358260
+        },
+        {
+          "word": "Neler",
+          "startMs": 358350,
+          "endMs": 358980
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 359860,
+          "endMs": 361180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 361980,
+      "endMs": 363340,
+      "pauseAfterMs": 990,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 361980,
+          "endMs": 362350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 363340,
+      "endMs": 373090,
+      "pauseAfterMs": 690,
+      "text": "Yapım eki, köke gelerek yeni anlamlı ve yeni kimlikli sözcükler türetir.",
+      "markedText": "Yapım eki, köke gelerek yeni anlamlı ve yeni kimlikli sözcükler türetir.",
+      "words": [
+        {
+          "word": "Yapım",
+          "startMs": 363340,
+          "endMs": 364060
+        },
+        {
+          "word": "eki,",
+          "startMs": 364230,
+          "endMs": 365200
+        },
+        {
+          "word": "köke",
+          "startMs": 366210,
+          "endMs": 366590
+        },
+        {
+          "word": "gelerek",
+          "startMs": 367020,
+          "endMs": 367260
+        },
+        {
+          "word": "yeni",
+          "startMs": 367560,
+          "endMs": 367710
+        },
+        {
+          "word": "anlamlı",
+          "startMs": 368130,
+          "endMs": 368990
+        },
+        {
+          "word": "ve",
+          "startMs": 369110,
+          "endMs": 369240
+        },
+        {
+          "word": "yeni",
+          "startMs": 369550,
+          "endMs": 369710
+        },
+        {
+          "word": "kimlikli",
+          "startMs": 370060,
+          "endMs": 370740
+        },
+        {
+          "word": "sözcükler",
+          "startMs": 370740,
+          "endMs": 371510
+        },
+        {
+          "word": "türetir.",
+          "startMs": 371580,
+          "endMs": 372400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 373090,
+      "endMs": 373570,
+      "pauseAfterMs": 310,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 373090,
+          "endMs": 373260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 373570,
+      "endMs": 389070,
+      "pauseAfterMs": 920,
+      "text": "İsimden isim, isimden fiil, fiilden isim ve fiilden fiil olmak üzere dört türetme yolu vardır.",
+      "markedText": "İsimden isim, isimden fiil, fiilden isim ve fiilden fiil olmak üzere dört türetme yolu vardır.",
+      "words": [
+        {
+          "word": "İsimden",
+          "startMs": 373570,
+          "endMs": 374540
+        },
+        {
+          "word": "isim,",
+          "startMs": 374900,
+          "endMs": 375350
+        },
+        {
+          "word": "isimden",
+          "startMs": 375900,
+          "endMs": 377180
+        },
+        {
+          "word": "fiil,",
+          "startMs": 379260,
+          "endMs": 379850
+        },
+        {
+          "word": "fiilden",
+          "startMs": 380620,
+          "endMs": 381350
+        },
+        {
+          "word": "isim",
+          "startMs": 381470,
+          "endMs": 382290
+        },
+        {
+          "word": "ve",
+          "startMs": 383180,
+          "endMs": 383380
+        },
+        {
+          "word": "fiilden",
+          "startMs": 383830,
+          "endMs": 384230
+        },
+        {
+          "word": "fiil",
+          "startMs": 384380,
+          "endMs": 384490
+        },
+        {
+          "word": "olmak",
+          "startMs": 384670,
+          "endMs": 384900
+        },
+        {
+          "word": "üzere",
+          "startMs": 384980,
+          "endMs": 385310
+        },
+        {
+          "word": "dört",
+          "startMs": 385490,
+          "endMs": 386020
+        },
+        {
+          "word": "türetme",
+          "startMs": 386070,
+          "endMs": 386630
+        },
+        {
+          "word": "yolu",
+          "startMs": 387030,
+          "endMs": 387300
+        },
+        {
+          "word": "vardır.",
+          "startMs": 387500,
+          "endMs": 388150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 389070,
+      "endMs": 389770,
+      "pauseAfterMs": 570,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 389070,
+          "endMs": 389200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 389770,
+      "endMs": 399890,
+      "pauseAfterMs": 300,
+      "text": "Çekim eki sadece görev verir; yapım eki ise yepyeni bir sözcük inşa eder.",
+      "markedText": "Çekim eki sadece görev verir; yapım eki ise yepyeni bir sözcük inşa eder.",
+      "words": [
+        {
+          "word": "Çekim",
+          "startMs": 389770,
+          "endMs": 390270
+        },
+        {
+          "word": "eki",
+          "startMs": 390420,
+          "endMs": 390550
+        },
+        {
+          "word": "sadece",
+          "startMs": 390870,
+          "endMs": 391710
+        },
+        {
+          "word": "görev",
+          "startMs": 392110,
+          "endMs": 392610
+        },
+        {
+          "word": "verir;",
+          "startMs": 392680,
+          "endMs": 393100
+        },
+        {
+          "word": "yapım",
+          "startMs": 393450,
+          "endMs": 394080
+        },
+        {
+          "word": "eki",
+          "startMs": 394310,
+          "endMs": 394550
+        },
+        {
+          "word": "ise",
+          "startMs": 394730,
+          "endMs": 394870
+        },
+        {
+          "word": "yepyeni",
+          "startMs": 395030,
+          "endMs": 395980
+        },
+        {
+          "word": "bir",
+          "startMs": 396960,
+          "endMs": 397200
+        },
+        {
+          "word": "sözcük",
+          "startMs": 397630,
+          "endMs": 398030
+        },
+        {
+          "word": "inşa",
+          "startMs": 398500,
+          "endMs": 398900
+        },
+        {
+          "word": "eder.",
+          "startMs": 398990,
+          "endMs": 399590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 399890,
+      "endMs": 403200,
+      "pauseAfterMs": 980,
+      "text": "Yapım eki türetir.",
+      "markedText": "Yapım eki türetir.",
+      "words": [
+        {
+          "word": "Yapım",
+          "startMs": 399890,
+          "endMs": 400250
+        },
+        {
+          "word": "eki",
+          "startMs": 400580,
+          "endMs": 400860
+        },
+        {
+          "word": "türetir.",
+          "startMs": 401190,
+          "endMs": 402220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 403200,
+      "endMs": 407180,
+      "pauseAfterMs": 870,
+      "text": "Çekim eki görev verir.",
+      "markedText": "Çekim eki görev verir.",
+      "words": [
+        {
+          "word": "Çekim",
+          "startMs": 403200,
+          "endMs": 403650
+        },
+        {
+          "word": "eki",
+          "startMs": 404830,
+          "endMs": 405170
+        },
+        {
+          "word": "görev",
+          "startMs": 405170,
+          "endMs": 405550
+        },
+        {
+          "word": "verir.",
+          "startMs": 405620,
+          "endMs": 406310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 407180,
+      "endMs": 418720,
+      "pauseAfterMs": 1170,
+      "text": "Bir sözcükte kökü ve yapım ekini ayırıp hangi yoldan türediğini söylersin.",
+      "markedText": "Bir sözcükte kökü ve yapım ekini ayırıp hangi yoldan türediğini söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 407180,
+          "endMs": 407460
+        },
+        {
+          "word": "sözcükte",
+          "startMs": 407940,
+          "endMs": 408580
+        },
+        {
+          "word": "kökü",
+          "startMs": 408720,
+          "endMs": 409300
+        },
+        {
+          "word": "ve",
+          "startMs": 409560,
+          "endMs": 409670
+        },
+        {
+          "word": "yapım",
+          "startMs": 409800,
+          "endMs": 410530
+        },
+        {
+          "word": "ekini",
+          "startMs": 411240,
+          "endMs": 412080
+        },
+        {
+          "word": "ayırıp",
+          "startMs": 412420,
+          "endMs": 413120
+        },
+        {
+          "word": "hangi",
+          "startMs": 414080,
+          "endMs": 414460
+        },
+        {
+          "word": "yoldan",
+          "startMs": 414780,
+          "endMs": 415190
+        },
+        {
+          "word": "türediğini",
+          "startMs": 415190,
+          "endMs": 416380
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 417170,
+          "endMs": 417550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 418720,
+      "endMs": 422130,
+      "pauseAfterMs": 800,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 418720,
+          "endMs": 419780
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 420100,
+          "endMs": 421330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 422130,
+      "endMs": 428070,
+      "pauseAfterMs": 1010,
+      "text": "Harika bir iş çıkardık",
+      "markedText": "Harika bir iş çıkardık",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 422130,
+          "endMs": 422740
+        },
+        {
+          "word": "bir",
+          "startMs": 423000,
+          "endMs": 423870
+        },
+        {
+          "word": "iş",
+          "startMs": 424740,
+          "endMs": 425140
+        },
+        {
+          "word": "çıkardık",
+          "startMs": 425720,
+          "endMs": 427060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 428070,
+      "endMs": 431650,
+      "pauseAfterMs": 690,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 428070,
+          "endMs": 428690
+        },
+        {
+          "word": "sıra",
+          "startMs": 429220,
+          "endMs": 429850
+        },
+        {
+          "word": "sende.",
+          "startMs": 430640,
+          "endMs": 430960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 431650,
+      "endMs": 439144,
+      "pauseAfterMs": 344,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 431650,
+          "endMs": 432380
+        },
+        {
+          "word": "bu",
+          "startMs": 433260,
+          "endMs": 433560
+        },
+        {
+          "word": "notları",
+          "startMs": 434230,
+          "endMs": 435200
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 435860,
+          "endMs": 436550
+        },
+        {
+          "word": "kendi",
+          "startMs": 436680,
+          "endMs": 436940
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 437040,
+          "endMs": 437960
+        },
+        {
+          "word": "anlat.",
+          "startMs": 438040,
+          "endMs": 438800
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

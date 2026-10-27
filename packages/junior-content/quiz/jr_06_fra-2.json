@@ -1,0 +1,53 @@
+{
+  "lessonKey": "jr_06_fra-2",
+  "title": "Adını sormak",
+  "tellGuides": [
+    "Comment tu t'appelles ne sorar?",
+    "Je m'appelle cümlesini kendi adınla kur.",
+    "Appelle tek başına neden cevap olmaz?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Comment tu t'appelles ne demektir?",
+      "options": [
+        "Adın ne",
+        "Günaydın",
+        "İyi geceler",
+        "Hoşça kal"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Bu kalıp ad sorar.",
+      "explanation": "Adım 1: Comment tu t'appelles adını sorar. Adım 2: Cevap Je m'appelle ile kurulur. Adım 3: Selam sözü değildir."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Kendi adını söylerken hangi kalıbı kullanırsın?",
+      "options": [
+        "Appelle",
+        "Je m'appelle ve adın",
+        "Comment tu t'appelles",
+        "Bonne nuit"
+      ],
+      "correctAnswerIndex": 1,
+      "hint": "Je sözü cümlede durur.",
+      "explanation": "Adım 1: Cevap Je m'appelle ile başlar. Adım 2: Ad, kalıbın ardına gelir. Adım 3: Appelle tek başına eksik kalır."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Yeni bir grupta adını soracaksın. Doğru sıra hangisidir?",
+      "options": [
+        "Soruyu tekrar edip adını söylememek",
+        "Yalnız adını söylemek",
+        "Önce Bonjour, sonra Comment tu t'appelles",
+        "Önce Bonne nuit"
+      ],
+      "correctAnswerIndex": 2,
+      "hint": "Selam, sorudan önce durur.",
+      "explanation": "Adım 1: Önce Bonjour denir. Adım 2: Sonra ad sorulur. Adım 3: Cevap Je m'appelle ve addır."
+    }
+  ]
+}

@@ -13,6 +13,11 @@ import { logEvent } from "@/lib/kernel/observability/log";
 /** PayTR sipariş niyeti — düz cüzdan yüklemesinden ayrı. */
 export const ACADEMY_LICENSE_ORDER_PURPOSE_PREFIX = "academy-license:" as const;
 
+/**
+ * Ödeme ÖNCESİ niyet üretimi. Satış kapısı burada (para çekilmeden önce) sorulur.
+ * Bu fonksiyonun fail-closed davranışı K1 ile kaldırılmaz; kaldırılan,
+ * tahsilat SONRASI köprüdeki ikinci kapı kontrolüdür.
+ */
 export function academyLicenseOrderPurpose(slug: string): string {
   if (!isAcademyLicenseSaleSlug(slug)) {
     throw new Error("Akademi lisans SKU'su geçersiz.");
@@ -24,11 +29,28 @@ export function academyLicenseOrderPurpose(slug: string): string {
   return `${ACADEMY_LICENSE_ORDER_PURPOSE_PREFIX}${slug}`;
 }
 
-export function readAcademyLicenseSlug(purpose: string | undefined): string | null {
+/**
+ * Niyetten slug'ı kapıya bakmadan çıkarır (saf ayrıştırma).
+ * Geçerlilik = önek + lisans adayı slug. Satışın o an açık olup olmadığı sorulmaz.
+ * Tahsilat sonrası köprü ve hook erken-filtrelemesi bunu kullanır (K1).
+ */
+export function parseAcademyLicenseSlug(purpose: string | undefined): string | null {
   if (!purpose?.startsWith(ACADEMY_LICENSE_ORDER_PURPOSE_PREFIX)) {
     return null;
   }
   const slug = purpose.slice(ACADEMY_LICENSE_ORDER_PURPOSE_PREFIX.length).trim();
+  return isAcademyLicenseSaleSlug(slug) ? slug : null;
+}
+
+/**
+ * Ödeme öncesi okuma: slug + satış kapısı birlikte.
+ * Yalnız tahsilat başlatmadan önce çağrılır; köprüde kullanılmaz.
+ */
+export function readAcademyLicenseSlug(purpose: string | undefined): string | null {
+  const slug = parseAcademyLicenseSlug(purpose);
+  if (!slug) {
+    return null;
+  }
   ensureAcademyProductionDiskProbe();
   return academyCourseSaleOpen(slug) ? slug : null;
 }
@@ -53,6 +75,13 @@ function consentFromOrder(order: PaymentOrderSnapshot): CheckoutLegalConsent | u
 /**
  * CLEARED akademi kasası → fiyat kilidi + cüzdan DEBIT + `academy_purchases` SETTLED.
  * Düz `wallet-top-up` niyeti lisans açmaz. İkinci çağrı bakiyeyi yeniden düşürmez.
+ *
+ * K1 güvencesi: Sipariş CLEARED ise lisans, satış kapısı ödeme ile bildirim
+ * arasında kapanmış olsa bile tamamlanır. Kapı kontrolü ödeme öncesindedir
+ * (`academyLicenseOrderPurpose`); burada tekrar sorulmaz.
+ * Yetersiz bakiyede lisans yazılmaz. Para cüzdanda lisanssız kalmasın diye
+ * kanca `refundUnlicensedAcademyCreditForOrder` ile yalnız bu siparişin tutarını
+ * karta iade etmeyi dener. Bu fonksiyon iade siparişi açmaz.
  */
 export async function fulfillAcademyLicenseFromClearedOrder(
   ports: AcademyEnginePorts,
@@ -60,7 +89,7 @@ export async function fulfillAcademyLicenseFromClearedOrder(
   now: Date = new Date(),
   options: { slug?: string } = {},
 ): Promise<AcademyLicenseFulfillResult> {
-  const slug = options.slug ?? readAcademyLicenseSlug(order.purpose);
+  const slug = options.slug ?? parseAcademyLicenseSlug(order.purpose);
   if (!slug) {
     return { applied: false, purchaseId: null, reason: "not_academy" };
   }
@@ -78,6 +107,7 @@ export async function fulfillAcademyLicenseFromClearedOrder(
       courseId: course.id,
       userId: order.userId,
       now,
+      fromClearedOrder: true,
     });
     const result = await purchaseAcademyCourse(ports, {
       courseId: locked.course.id,
@@ -85,6 +115,7 @@ export async function fulfillAcademyLicenseFromClearedOrder(
       lockId: locked.lock.id,
       now,
       consent: consentFromOrder(order),
+      fromClearedOrder: true,
     });
     logEvent({
       level: "info",
@@ -93,7 +124,7 @@ export async function fulfillAcademyLicenseFromClearedOrder(
       merchantOid: order.merchantOid,
       orderId: order.id,
       amountMinor: result.purchase.amountMinor,
-      purpose: academyLicenseOrderPurpose(slug),
+      purpose: order.purpose,
       applied: result.applied,
       reason: result.applied ? "settled" : "already_settled",
     });
@@ -117,7 +148,7 @@ export async function fulfillAcademyLicenseFromClearedOrder(
       });
       return { applied: false, purchaseId: null, reason: "insufficient" };
     }
-    if (message.includes("satışa kapalı") || message.includes("bulunamadı")) {
+    if (message.includes("bulunamadı")) {
       logEvent({
         level: "warn",
         event: "academy.license.fulfill_skipped",

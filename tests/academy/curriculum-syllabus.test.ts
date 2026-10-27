@@ -244,18 +244,34 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
     expect(academyLearningOutcomesForSlug("03_social_media_ai").join(" ")).toContain("Taze ingest");
   });
 
-  it("OFF-101 ve EC-102 antresi sonuç, içerik, somut çıktı, iade sırasındadır", () => {
-    for (const slug of ["01_office_ai", "02_ecommerce_ai"] as const) {
+  it("antre dört basamak iş sonucu, pratik çıktı, önizleme ve güvendir", () => {
+    const slugs = [
+      "01_office_ai",
+      "01_office_ai_ileri",
+      "02_ecommerce_ai",
+      "03_social_media_ai",
+      "04_chatbot_nocode",
+      "05_prompt_practice",
+    ] as const;
+    for (const slug of slugs) {
       const rows = academyFocusSalePitch(slug);
-      expect(rows?.map((row) => row.id)).toEqual(["result", "content", "output", "refund"]);
-      expect(rows?.map((row) => row.label)).toEqual(["Sonuç", "İçerik", "Somut çıktı", "İade"]);
-      expect(rows?.[1]?.text).toContain(academyInstructorBySlug(slug).name);
-      expect(rows?.[3]?.text).toMatch(/bedel iade edilmez/u);
-      expect(rows?.[3]?.text).not.toMatch(/14 gün/u);
+      expect(rows?.map((row) => row.id)).toEqual(["result", "output", "preview", "trust"]);
+      expect(rows?.map((row) => row.label)).toEqual([
+        "Somut sonuç / kazanım",
+        "Pratik çıktı",
+        "Ücretsiz önizleme",
+        "Güven ve şeffaflık",
+      ]);
+      const trust = rows?.[3]?.text ?? "";
+      expect(trust).toContain(academyInstructorBySlug(slug).name);
+      expect(trust).toMatch(/bedel iade edilmez/u);
+      expect(trust).not.toMatch(/14 gün/u);
+      expect(rows?.map((row) => row.text).join(" ")).not.toContain("Taze ingest");
     }
-    expect(academyFocusSalePitch("01_office_ai")?.[1]?.text).toContain("8 ders");
-    expect(academyFocusSalePitch("02_ecommerce_ai")?.[1]?.text).toContain("6 ders");
-    expect(academyFocusSalePitch("03_social_media_ai")).toBeNull();
+    expect(academyFocusSalePitch("01_office_ai")?.[3]?.text).toContain("8 ders");
+    expect(academyFocusSalePitch("02_ecommerce_ai")?.[3]?.text).toContain("6 ders");
+    expect(academyFocusSalePitch("02_ecommerce_ai")?.[0]?.text).toMatch(/ürün açıklama/u);
+    expect(academyFocusSalePitch("06_n8n_automation")).toBeNull();
   });
 
   it("amiral compact makale her derste el kitabı üçlüsü taşır", () => {

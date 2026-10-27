@@ -73,6 +73,16 @@ export function bindWalletCardRefundStore(db: RefundSql): WalletCardRefundStore 
       }
       return map;
     },
+    async findByIdempotencyKey(idempotencyKey) {
+      const rows = await db.$queryRaw<RefundDb[]>`
+        SELECT id, merchant_oid, amount_minor, status
+        FROM wallet_card_refunds
+        WHERE idempotency_key = ${idempotencyKey}
+        LIMIT 1
+      `;
+      const row = rows[0];
+      return row ? toRow(row) : null;
+    },
     async listOpen(userId) {
       const rows = await db.$queryRaw<RefundDb[]>`
         SELECT id, merchant_oid, amount_minor, status

@@ -1,0 +1,2887 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_sosyal-5",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "İlk Türk devletleri ve Orta Asya Türk kültürü",
+  "grade": 6,
+  "subject": "Sosyal Bilgiler",
+  "teacher": {
+    "name": "Murat",
+    "voice": "Achird",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_sosyal-5.mp3",
+    "durationMs": 379673,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 109580
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 109580,
+      "endMs": 324350
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 324350,
+      "endMs": 379673
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 3470,
+      "pauseAfterMs": 620,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 310,
+          "endMs": 810
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1150,
+          "endMs": 1920
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 1920,
+          "endMs": 2850
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "İlk Türk devletleri ve Orta Asya Türk kültürü",
+            "subtitle": "Sosyal Bilgiler",
+            "ruleBadges": [],
+            "echoPrompt": "Devletin adını ve onun konar göçer mi yerleşik mi olduğunu ayrı söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Asya Hun, Göktürk ve Uygur ilk büyük Türk devletlerindendir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Töre, kurultay ve onlu teşkilat Orta Asya düzeninin parçasıdır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Hun ve Göktürk konar göçerdir; Uygur yerleşiktir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 3470,
+      "endMs": 5880,
+      "pauseAfterMs": 730,
+      "text": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "markedText": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 3470,
+          "endMs": 3650
+        },
+        {
+          "word": "Sosyal",
+          "startMs": 3650,
+          "endMs": 3970
+        },
+        {
+          "word": "Bilgiler",
+          "startMs": 3970,
+          "endMs": 4510
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 4590,
+          "endMs": 4900
+        },
+        {
+          "word": "Murat.",
+          "startMs": 4970,
+          "endMs": 5150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 5880,
+      "endMs": 14660,
+      "pauseAfterMs": 290,
+      "text": "Bugün tarihin derin bozkırlarına, at nallarının yankılandığı o kutlu çağlara uzanıyoruz.",
+      "markedText": "Bugün tarihin derin bozkırlarına, at nallarının yankılandığı o kutlu çağlara uzanıyoruz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 5880,
+          "endMs": 6160
+        },
+        {
+          "word": "tarihin",
+          "startMs": 6160,
+          "endMs": 6470
+        },
+        {
+          "word": "derin",
+          "startMs": 6620,
+          "endMs": 7050
+        },
+        {
+          "word": "bozkırlarına,",
+          "startMs": 7260,
+          "endMs": 8250
+        },
+        {
+          "word": "at",
+          "startMs": 8570,
+          "endMs": 8670
+        },
+        {
+          "word": "nallarının",
+          "startMs": 8770,
+          "endMs": 10090
+        },
+        {
+          "word": "yankılandığı",
+          "startMs": 10470,
+          "endMs": 10970
+        },
+        {
+          "word": "o",
+          "startMs": 10970,
+          "endMs": 11030
+        },
+        {
+          "word": "kutlu",
+          "startMs": 11030,
+          "endMs": 11520
+        },
+        {
+          "word": "çağlara",
+          "startMs": 12520,
+          "endMs": 13040
+        },
+        {
+          "word": "uzanıyoruz.",
+          "startMs": 13300,
+          "endMs": 14370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 14660,
+      "endMs": 26670,
+      "pauseAfterMs": 880,
+      "text": "Hiç bir çadırın hem sıcacık bir yuva hem de her an yola çıkmaya hazır bir yol arkadaşı olduğunu düşündün mü?",
+      "markedText": "Hiç bir çadırın hem sıcacık bir yuva hem de her an yola çıkmaya hazır bir yol arkadaşı olduğunu düşündün mü?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 14660,
+          "endMs": 15000
+        },
+        {
+          "word": "bir",
+          "startMs": 15200,
+          "endMs": 15660
+        },
+        {
+          "word": "çadırın",
+          "startMs": 15880,
+          "endMs": 16490
+        },
+        {
+          "word": "hem",
+          "startMs": 16490,
+          "endMs": 16890
+        },
+        {
+          "word": "sıcacık",
+          "startMs": 16960,
+          "endMs": 17380
+        },
+        {
+          "word": "bir",
+          "startMs": 17380,
+          "endMs": 17620
+        },
+        {
+          "word": "yuva",
+          "startMs": 17710,
+          "endMs": 18030
+        },
+        {
+          "word": "hem",
+          "startMs": 18810,
+          "endMs": 18960
+        },
+        {
+          "word": "de",
+          "startMs": 19020,
+          "endMs": 19150
+        },
+        {
+          "word": "her",
+          "startMs": 19290,
+          "endMs": 19590
+        },
+        {
+          "word": "an",
+          "startMs": 19670,
+          "endMs": 20000
+        },
+        {
+          "word": "yola",
+          "startMs": 20170,
+          "endMs": 20280
+        },
+        {
+          "word": "çıkmaya",
+          "startMs": 20390,
+          "endMs": 20920
+        },
+        {
+          "word": "hazır",
+          "startMs": 21050,
+          "endMs": 21590
+        },
+        {
+          "word": "bir",
+          "startMs": 21590,
+          "endMs": 21890
+        },
+        {
+          "word": "yol",
+          "startMs": 21890,
+          "endMs": 22340
+        },
+        {
+          "word": "arkadaşı",
+          "startMs": 22710,
+          "endMs": 23500
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 23630,
+          "endMs": 24660
+        },
+        {
+          "word": "düşündün",
+          "startMs": 24720,
+          "endMs": 25380
+        },
+        {
+          "word": "mü?",
+          "startMs": 25530,
+          "endMs": 25790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 26670,
+      "endMs": 41530,
+      "pauseAfterMs": 590,
+      "text": "Orta Asya'da atalarımız at sırtında geniş yaylalarda yaşar, mevsimine göre otlak peşinde konar göçer bir hayat sürerdi.",
+      "markedText": "Orta Asya'da atalarımız at sırtında geniş yaylalarda yaşar, mevsimine göre otlak peşinde konar göçer bir hayat sürerdi.",
+      "words": [
+        {
+          "word": "Orta",
+          "startMs": 26670,
+          "endMs": 27330
+        },
+        {
+          "word": "Asya'da",
+          "startMs": 27620,
+          "endMs": 28270
+        },
+        {
+          "word": "atalarımız",
+          "startMs": 29230,
+          "endMs": 29890
+        },
+        {
+          "word": "at",
+          "startMs": 29890,
+          "endMs": 30040
+        },
+        {
+          "word": "sırtında",
+          "startMs": 30180,
+          "endMs": 30470
+        },
+        {
+          "word": "geniş",
+          "startMs": 30730,
+          "endMs": 30970
+        },
+        {
+          "word": "yaylalarda",
+          "startMs": 31150,
+          "endMs": 31960
+        },
+        {
+          "word": "yaşar,",
+          "startMs": 32050,
+          "endMs": 32840
+        },
+        {
+          "word": "mevsimine",
+          "startMs": 33610,
+          "endMs": 34610
+        },
+        {
+          "word": "göre",
+          "startMs": 34750,
+          "endMs": 35330
+        },
+        {
+          "word": "otlak",
+          "startMs": 35600,
+          "endMs": 36010
+        },
+        {
+          "word": "peşinde",
+          "startMs": 36120,
+          "endMs": 36690
+        },
+        {
+          "word": "konar",
+          "startMs": 36750,
+          "endMs": 37230
+        },
+        {
+          "word": "göçer",
+          "startMs": 37320,
+          "endMs": 37900
+        },
+        {
+          "word": "bir",
+          "startMs": 38960,
+          "endMs": 39120
+        },
+        {
+          "word": "hayat",
+          "startMs": 39120,
+          "endMs": 39710
+        },
+        {
+          "word": "sürerdi.",
+          "startMs": 40190,
+          "endMs": 40940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 41530,
+      "endMs": 53150,
+      "pauseAfterMs": 800,
+      "text": "Asya Hun, Göktürk ve Uygur devletlerini ve bu köklü kültürü yakından tanıyacağız.",
+      "markedText": "Asya Hun, Göktürk ve Uygur devletlerini ve bu köklü kültürü yakından tanıyacağız.",
+      "words": [
+        {
+          "word": "Asya",
+          "startMs": 41530,
+          "endMs": 41850
+        },
+        {
+          "word": "Hun,",
+          "startMs": 41930,
+          "endMs": 42580
+        },
+        {
+          "word": "Göktürk",
+          "startMs": 42860,
+          "endMs": 43820
+        },
+        {
+          "word": "ve",
+          "startMs": 43890,
+          "endMs": 44230
+        },
+        {
+          "word": "Uygur",
+          "startMs": 44230,
+          "endMs": 45270
+        },
+        {
+          "word": "devletlerini",
+          "startMs": 45420,
+          "endMs": 46780
+        },
+        {
+          "word": "ve",
+          "startMs": 46920,
+          "endMs": 47320
+        },
+        {
+          "word": "bu",
+          "startMs": 47970,
+          "endMs": 48080
+        },
+        {
+          "word": "köklü",
+          "startMs": 48190,
+          "endMs": 48640
+        },
+        {
+          "word": "kültürü",
+          "startMs": 48910,
+          "endMs": 49300
+        },
+        {
+          "word": "yakından",
+          "startMs": 49480,
+          "endMs": 50300
+        },
+        {
+          "word": "tanıyacağız.",
+          "startMs": 50650,
+          "endMs": 52350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 53150,
+      "endMs": 61630,
+      "pauseAfterMs": 630,
+      "text": "Devletlerin adları farklı olduğu gibi, benimsedikleri yaşam tarzları da kendine özgüdür.",
+      "markedText": "Devletlerin adları farklı olduğu gibi, benimsedikleri yaşam tarzları da kendine özgüdür.",
+      "words": [
+        {
+          "word": "Devletlerin",
+          "startMs": 53150,
+          "endMs": 54210
+        },
+        {
+          "word": "adları",
+          "startMs": 54610,
+          "endMs": 55140
+        },
+        {
+          "word": "farklı",
+          "startMs": 55230,
+          "endMs": 55540
+        },
+        {
+          "word": "olduğu",
+          "startMs": 55800,
+          "endMs": 56300
+        },
+        {
+          "word": "gibi,",
+          "startMs": 56380,
+          "endMs": 56560
+        },
+        {
+          "word": "benimsedikleri",
+          "startMs": 56930,
+          "endMs": 57990
+        },
+        {
+          "word": "yaşam",
+          "startMs": 58110,
+          "endMs": 58390
+        },
+        {
+          "word": "tarzları",
+          "startMs": 58700,
+          "endMs": 59040
+        },
+        {
+          "word": "da",
+          "startMs": 59270,
+          "endMs": 59350
+        },
+        {
+          "word": "kendine",
+          "startMs": 59430,
+          "endMs": 59860
+        },
+        {
+          "word": "özgüdür.",
+          "startMs": 60160,
+          "endMs": 61000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 61630,
+      "endMs": 68450,
+      "pauseAfterMs": 440,
+      "text": "Bunu ailenle doğada kamp yaparken de hissedebilirsin.",
+      "markedText": "Bunu ailenle doğada kamp yaparken de hissedebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 61630,
+          "endMs": 62120
+        },
+        {
+          "word": "ailenle",
+          "startMs": 62360,
+          "endMs": 63160
+        },
+        {
+          "word": "doğada",
+          "startMs": 63620,
+          "endMs": 64110
+        },
+        {
+          "word": "kamp",
+          "startMs": 64110,
+          "endMs": 64590
+        },
+        {
+          "word": "yaparken",
+          "startMs": 65300,
+          "endMs": 66030
+        },
+        {
+          "word": "de",
+          "startMs": 66220,
+          "endMs": 66580
+        },
+        {
+          "word": "hissedebilirsin.",
+          "startMs": 67160,
+          "endMs": 68010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 68450,
+      "endMs": 84980,
+      "pauseAfterMs": 1110,
+      "text": "Çadır kurup doğada geçirdiğin bir gün, konar göçer hayatın küçük bir canlandırmasıdır; eşyalar toplanır ve yer değiştirilir.",
+      "markedText": "Çadır kurup doğada geçirdiğin bir gün, konar göçer hayatın küçük bir canlandırmasıdır; eşyalar toplanır ve yer değiştirilir.",
+      "words": [
+        {
+          "word": "Çadır",
+          "startMs": 68450,
+          "endMs": 68950
+        },
+        {
+          "word": "kurup",
+          "startMs": 69070,
+          "endMs": 69800
+        },
+        {
+          "word": "doğada",
+          "startMs": 69930,
+          "endMs": 71250
+        },
+        {
+          "word": "geçirdiğin",
+          "startMs": 71700,
+          "endMs": 72360
+        },
+        {
+          "word": "bir",
+          "startMs": 72410,
+          "endMs": 72520
+        },
+        {
+          "word": "gün,",
+          "startMs": 72750,
+          "endMs": 73120
+        },
+        {
+          "word": "konar",
+          "startMs": 73560,
+          "endMs": 74170
+        },
+        {
+          "word": "göçer",
+          "startMs": 74510,
+          "endMs": 74770
+        },
+        {
+          "word": "hayatın",
+          "startMs": 74910,
+          "endMs": 75150
+        },
+        {
+          "word": "küçük",
+          "startMs": 75270,
+          "endMs": 75590
+        },
+        {
+          "word": "bir",
+          "startMs": 75710,
+          "endMs": 76070
+        },
+        {
+          "word": "canlandırmasıdır;",
+          "startMs": 76310,
+          "endMs": 77910
+        },
+        {
+          "word": "eşyalar",
+          "startMs": 78170,
+          "endMs": 78700
+        },
+        {
+          "word": "toplanır",
+          "startMs": 78820,
+          "endMs": 79470
+        },
+        {
+          "word": "ve",
+          "startMs": 80100,
+          "endMs": 80230
+        },
+        {
+          "word": "yer",
+          "startMs": 81780,
+          "endMs": 82220
+        },
+        {
+          "word": "değiştirilir.",
+          "startMs": 82440,
+          "endMs": 83870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 84980,
+      "endMs": 92770,
+      "pauseAfterMs": 640,
+      "text": "Evindeki düzenli odan ve mutfağın ise yerleşik hayatın örneğidir.",
+      "markedText": "Evindeki düzenli odan ve mutfağın ise yerleşik hayatın örneğidir.",
+      "words": [
+        {
+          "word": "Evindeki",
+          "startMs": 84980,
+          "endMs": 85800
+        },
+        {
+          "word": "düzenli",
+          "startMs": 86020,
+          "endMs": 86650
+        },
+        {
+          "word": "odan",
+          "startMs": 86820,
+          "endMs": 87180
+        },
+        {
+          "word": "ve",
+          "startMs": 87380,
+          "endMs": 87520
+        },
+        {
+          "word": "mutfağın",
+          "startMs": 88200,
+          "endMs": 88600
+        },
+        {
+          "word": "ise",
+          "startMs": 88720,
+          "endMs": 88990
+        },
+        {
+          "word": "yerleşik",
+          "startMs": 88990,
+          "endMs": 89890
+        },
+        {
+          "word": "hayatın",
+          "startMs": 90260,
+          "endMs": 90980
+        },
+        {
+          "word": "örneğidir.",
+          "startMs": 91100,
+          "endMs": 92130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 92770,
+      "endMs": 109580,
+      "pauseAfterMs": 810,
+      "text": "İkisi de birer yaşam biçimidir; tarihteki atalarımız da coğrafyaya ve zamana göre bu iki yaşam tarzını başarıyla uygulamıştır.",
+      "markedText": "İkisi de birer yaşam biçimidir; tarihteki atalarımız da coğrafyaya ve zamana göre bu iki yaşam tarzını başarıyla uygulamıştır.",
+      "words": [
+        {
+          "word": "İkisi",
+          "startMs": 92770,
+          "endMs": 93110
+        },
+        {
+          "word": "de",
+          "startMs": 93150,
+          "endMs": 93380
+        },
+        {
+          "word": "birer",
+          "startMs": 93700,
+          "endMs": 94060
+        },
+        {
+          "word": "yaşam",
+          "startMs": 94500,
+          "endMs": 95140
+        },
+        {
+          "word": "biçimidir;",
+          "startMs": 95700,
+          "endMs": 97110
+        },
+        {
+          "word": "tarihteki",
+          "startMs": 98140,
+          "endMs": 99000
+        },
+        {
+          "word": "atalarımız",
+          "startMs": 99240,
+          "endMs": 99960
+        },
+        {
+          "word": "da",
+          "startMs": 100320,
+          "endMs": 100430
+        },
+        {
+          "word": "coğrafyaya",
+          "startMs": 100430,
+          "endMs": 101130
+        },
+        {
+          "word": "ve",
+          "startMs": 101180,
+          "endMs": 101310
+        },
+        {
+          "word": "zamana",
+          "startMs": 101410,
+          "endMs": 101930
+        },
+        {
+          "word": "göre",
+          "startMs": 102160,
+          "endMs": 102450
+        },
+        {
+          "word": "bu",
+          "startMs": 102570,
+          "endMs": 102720
+        },
+        {
+          "word": "iki",
+          "startMs": 102790,
+          "endMs": 103470
+        },
+        {
+          "word": "yaşam",
+          "startMs": 104120,
+          "endMs": 104750
+        },
+        {
+          "word": "tarzını",
+          "startMs": 105020,
+          "endMs": 105810
+        },
+        {
+          "word": "başarıyla",
+          "startMs": 106010,
+          "endMs": 106950
+        },
+        {
+          "word": "uygulamıştır.",
+          "startMs": 107520,
+          "endMs": 108770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 109580,
+      "endMs": 131390,
+      "pauseAfterMs": 700,
+      "text": "Asya Hun Devleti, büyük hükümdar Mete Han döneminde orduyu onluk teşkilata ayırarak düzenledi; bu onluk, yüzlük ve binlik düzen günümüzde bile orduların temelidir.",
+      "markedText": "Asya Hun Devleti, büyük hükümdar Mete Han döneminde orduyu onluk teşkilata ayırarak düzenledi; bu onluk, yüzlük ve binlik düzen günümüzde bile orduların temelidir.",
+      "words": [
+        {
+          "word": "Asya",
+          "startMs": 109580,
+          "endMs": 109910
+        },
+        {
+          "word": "Hun",
+          "startMs": 110010,
+          "endMs": 110310
+        },
+        {
+          "word": "Devleti,",
+          "startMs": 110390,
+          "endMs": 111270
+        },
+        {
+          "word": "büyük",
+          "startMs": 112180,
+          "endMs": 112530
+        },
+        {
+          "word": "hükümdar",
+          "startMs": 112620,
+          "endMs": 113270
+        },
+        {
+          "word": "Mete",
+          "startMs": 113360,
+          "endMs": 113810
+        },
+        {
+          "word": "Han",
+          "startMs": 113930,
+          "endMs": 114210
+        },
+        {
+          "word": "döneminde",
+          "startMs": 114490,
+          "endMs": 115450
+        },
+        {
+          "word": "orduyu",
+          "startMs": 115630,
+          "endMs": 116260
+        },
+        {
+          "word": "onluk",
+          "startMs": 116610,
+          "endMs": 116740
+        },
+        {
+          "word": "teşkilata",
+          "startMs": 117030,
+          "endMs": 117770
+        },
+        {
+          "word": "ayırarak",
+          "startMs": 117950,
+          "endMs": 118990
+        },
+        {
+          "word": "düzenledi;",
+          "startMs": 119620,
+          "endMs": 120310
+        },
+        {
+          "word": "bu",
+          "startMs": 120640,
+          "endMs": 120760
+        },
+        {
+          "word": "onluk,",
+          "startMs": 120760,
+          "endMs": 121180
+        },
+        {
+          "word": "yüzlük",
+          "startMs": 121970,
+          "endMs": 122440
+        },
+        {
+          "word": "ve",
+          "startMs": 122550,
+          "endMs": 122850
+        },
+        {
+          "word": "binlik",
+          "startMs": 122990,
+          "endMs": 123520
+        },
+        {
+          "word": "düzen",
+          "startMs": 123860,
+          "endMs": 124350
+        },
+        {
+          "word": "günümüzde",
+          "startMs": 124590,
+          "endMs": 125610
+        },
+        {
+          "word": "bile",
+          "startMs": 125610,
+          "endMs": 126290
+        },
+        {
+          "word": "orduların",
+          "startMs": 126790,
+          "endMs": 128500
+        },
+        {
+          "word": "temelidir.",
+          "startMs": 128970,
+          "endMs": 130690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 131390,
+      "endMs": 154190,
+      "pauseAfterMs": 710,
+      "text": "Göktürk Devleti ise Türk adıyla kurulan ilk devlet olup Orhun Yazıtları ile güzel Türkçemizi ve tarihimizi taşa kazımıştır; bu devlete Köktürk de denir ve ikisi aynı devlettir.",
+      "markedText": "Göktürk Devleti ise Türk adıyla kurulan ilk devlet olup Orhun Yazıtları ile güzel Türkçemizi ve tarihimizi taşa kazımıştır; bu devlete Köktürk de denir ve ikisi aynı devlettir.",
+      "words": [
+        {
+          "word": "Göktürk",
+          "startMs": 131390,
+          "endMs": 132080
+        },
+        {
+          "word": "Devleti",
+          "startMs": 132950,
+          "endMs": 133560
+        },
+        {
+          "word": "ise",
+          "startMs": 134390,
+          "endMs": 134550
+        },
+        {
+          "word": "Türk",
+          "startMs": 134650,
+          "endMs": 134790
+        },
+        {
+          "word": "adıyla",
+          "startMs": 134850,
+          "endMs": 135500
+        },
+        {
+          "word": "kurulan",
+          "startMs": 136070,
+          "endMs": 136540
+        },
+        {
+          "word": "ilk",
+          "startMs": 136740,
+          "endMs": 137020
+        },
+        {
+          "word": "devlet",
+          "startMs": 137130,
+          "endMs": 137690
+        },
+        {
+          "word": "olup",
+          "startMs": 137690,
+          "endMs": 138080
+        },
+        {
+          "word": "Orhun",
+          "startMs": 138180,
+          "endMs": 138580
+        },
+        {
+          "word": "Yazıtları",
+          "startMs": 138650,
+          "endMs": 139560
+        },
+        {
+          "word": "ile",
+          "startMs": 139680,
+          "endMs": 139940
+        },
+        {
+          "word": "güzel",
+          "startMs": 141410,
+          "endMs": 141970
+        },
+        {
+          "word": "Türkçemizi",
+          "startMs": 142090,
+          "endMs": 143280
+        },
+        {
+          "word": "ve",
+          "startMs": 143360,
+          "endMs": 143690
+        },
+        {
+          "word": "tarihimizi",
+          "startMs": 143800,
+          "endMs": 144560
+        },
+        {
+          "word": "taşa",
+          "startMs": 144790,
+          "endMs": 145110
+        },
+        {
+          "word": "kazımıştır;",
+          "startMs": 145190,
+          "endMs": 146550
+        },
+        {
+          "word": "bu",
+          "startMs": 147120,
+          "endMs": 147330
+        },
+        {
+          "word": "devlete",
+          "startMs": 147480,
+          "endMs": 148050
+        },
+        {
+          "word": "Köktürk",
+          "startMs": 148330,
+          "endMs": 148810
+        },
+        {
+          "word": "de",
+          "startMs": 149010,
+          "endMs": 149220
+        },
+        {
+          "word": "denir",
+          "startMs": 149360,
+          "endMs": 149930
+        },
+        {
+          "word": "ve",
+          "startMs": 150270,
+          "endMs": 150600
+        },
+        {
+          "word": "ikisi",
+          "startMs": 150740,
+          "endMs": 151600
+        },
+        {
+          "word": "aynı",
+          "startMs": 151760,
+          "endMs": 152050
+        },
+        {
+          "word": "devlettir.",
+          "startMs": 152190,
+          "endMs": 153480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 154190,
+      "endMs": 166780,
+      "pauseAfterMs": 370,
+      "text": "Uygurlar ise tarım yapmış, kentler kurmuş, kâğıt ve matbaayı kullanarak yerleşik hayata geçmiştir.",
+      "markedText": "Uygurlar ise tarım yapmış, kentler kurmuş, kâğıt ve matbaayı kullanarak yerleşik hayata geçmiştir.",
+      "words": [
+        {
+          "word": "Uygurlar",
+          "startMs": 154190,
+          "endMs": 154700
+        },
+        {
+          "word": "ise",
+          "startMs": 154830,
+          "endMs": 155080
+        },
+        {
+          "word": "tarım",
+          "startMs": 155230,
+          "endMs": 156150
+        },
+        {
+          "word": "yapmış,",
+          "startMs": 156520,
+          "endMs": 157340
+        },
+        {
+          "word": "kentler",
+          "startMs": 157340,
+          "endMs": 158200
+        },
+        {
+          "word": "kurmuş,",
+          "startMs": 158340,
+          "endMs": 159620
+        },
+        {
+          "word": "kâğıt",
+          "startMs": 160200,
+          "endMs": 161070
+        },
+        {
+          "word": "ve",
+          "startMs": 161620,
+          "endMs": 161830
+        },
+        {
+          "word": "matbaayı",
+          "startMs": 162320,
+          "endMs": 162900
+        },
+        {
+          "word": "kullanarak",
+          "startMs": 162960,
+          "endMs": 163640
+        },
+        {
+          "word": "yerleşik",
+          "startMs": 163990,
+          "endMs": 164620
+        },
+        {
+          "word": "hayata",
+          "startMs": 165050,
+          "endMs": 165450
+        },
+        {
+          "word": "geçmiştir.",
+          "startMs": 165770,
+          "endMs": 166410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 166780,
+      "endMs": 183250,
+      "pauseAfterMs": 710,
+      "text": "Pratik kural: Hun ve Göktürk devletleri ağırlıklı olarak konar göçer yaşam sürerken, Uygurlar yerleşik hayata geçen ilk Türk devletidir.",
+      "markedText": "Pratik kural: Hun ve Göktürk devletleri ağırlıklı olarak konar göçer yaşam sürerken, Uygurlar yerleşik hayata geçen ilk Türk devletidir.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 166780,
+          "endMs": 167320
+        },
+        {
+          "word": "kural:",
+          "startMs": 167640,
+          "endMs": 168480
+        },
+        {
+          "word": "Hun",
+          "startMs": 169450,
+          "endMs": 169550
+        },
+        {
+          "word": "ve",
+          "startMs": 170110,
+          "endMs": 170430
+        },
+        {
+          "word": "Göktürk",
+          "startMs": 170740,
+          "endMs": 171390
+        },
+        {
+          "word": "devletleri",
+          "startMs": 171500,
+          "endMs": 172310
+        },
+        {
+          "word": "ağırlıklı",
+          "startMs": 172560,
+          "endMs": 173130
+        },
+        {
+          "word": "olarak",
+          "startMs": 173270,
+          "endMs": 174130
+        },
+        {
+          "word": "konar",
+          "startMs": 174930,
+          "endMs": 175150
+        },
+        {
+          "word": "göçer",
+          "startMs": 175690,
+          "endMs": 176070
+        },
+        {
+          "word": "yaşam",
+          "startMs": 176070,
+          "endMs": 176410
+        },
+        {
+          "word": "sürerken,",
+          "startMs": 176590,
+          "endMs": 177430
+        },
+        {
+          "word": "Uygurlar",
+          "startMs": 177780,
+          "endMs": 178940
+        },
+        {
+          "word": "yerleşik",
+          "startMs": 179450,
+          "endMs": 180220
+        },
+        {
+          "word": "hayata",
+          "startMs": 180220,
+          "endMs": 180650
+        },
+        {
+          "word": "geçen",
+          "startMs": 180750,
+          "endMs": 181060
+        },
+        {
+          "word": "ilk",
+          "startMs": 181130,
+          "endMs": 181300
+        },
+        {
+          "word": "Türk",
+          "startMs": 181360,
+          "endMs": 181570
+        },
+        {
+          "word": "devletidir.",
+          "startMs": 181570,
+          "endMs": 182540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 183250,
+      "endMs": 186130,
+      "pauseAfterMs": 660,
+      "text": "Gözünün önüne bozkırda bir Türk boyu getir.",
+      "markedText": "Gözünün önüne bozkırda bir Türk boyu getir.",
+      "words": [
+        {
+          "word": "Gözünün",
+          "startMs": 183250,
+          "endMs": 183540
+        },
+        {
+          "word": "önüne",
+          "startMs": 183540,
+          "endMs": 183730
+        },
+        {
+          "word": "bozkırda",
+          "startMs": 183860,
+          "endMs": 184210
+        },
+        {
+          "word": "bir",
+          "startMs": 184210,
+          "endMs": 184370
+        },
+        {
+          "word": "Türk",
+          "startMs": 184520,
+          "endMs": 184650
+        },
+        {
+          "word": "boyu",
+          "startMs": 184650,
+          "endMs": 184820
+        },
+        {
+          "word": "getir.",
+          "startMs": 184820,
+          "endMs": 185470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 186130,
+      "endMs": 192660,
+      "pauseAfterMs": 620,
+      "text": "Yazın serin yaylalara çıkar, kışın korunaklı vadilere inerler.",
+      "markedText": "Yazın serin yaylalara çıkar, kışın korunaklı vadilere inerler.",
+      "words": [
+        {
+          "word": "Yazın",
+          "startMs": 186130,
+          "endMs": 186460
+        },
+        {
+          "word": "serin",
+          "startMs": 186540,
+          "endMs": 186920
+        },
+        {
+          "word": "yaylalara",
+          "startMs": 186920,
+          "endMs": 187650
+        },
+        {
+          "word": "çıkar,",
+          "startMs": 187790,
+          "endMs": 188290
+        },
+        {
+          "word": "kışın",
+          "startMs": 188470,
+          "endMs": 188860
+        },
+        {
+          "word": "korunaklı",
+          "startMs": 188950,
+          "endMs": 189820
+        },
+        {
+          "word": "vadilere",
+          "startMs": 190540,
+          "endMs": 191320
+        },
+        {
+          "word": "inerler.",
+          "startMs": 191420,
+          "endMs": 192040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 192660,
+      "endMs": 199250,
+      "pauseAfterMs": 840,
+      "text": "Keçe çadırlar toplanır, atlara yüklenir; işte bu konar göçer yaşamdır.",
+      "markedText": "Keçe çadırlar toplanır, atlara yüklenir; işte bu konar göçer yaşamdır.",
+      "words": [
+        {
+          "word": "Keçe",
+          "startMs": 192660,
+          "endMs": 192880
+        },
+        {
+          "word": "çadırlar",
+          "startMs": 192970,
+          "endMs": 193670
+        },
+        {
+          "word": "toplanır,",
+          "startMs": 193780,
+          "endMs": 194410
+        },
+        {
+          "word": "atlara",
+          "startMs": 194490,
+          "endMs": 194950
+        },
+        {
+          "word": "yüklenir;",
+          "startMs": 194950,
+          "endMs": 195530
+        },
+        {
+          "word": "işte",
+          "startMs": 196210,
+          "endMs": 196390
+        },
+        {
+          "word": "bu",
+          "startMs": 196480,
+          "endMs": 196600
+        },
+        {
+          "word": "konar",
+          "startMs": 196730,
+          "endMs": 197130
+        },
+        {
+          "word": "göçer",
+          "startMs": 197220,
+          "endMs": 197630
+        },
+        {
+          "word": "yaşamdır.",
+          "startMs": 197630,
+          "endMs": 198410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 199250,
+      "endMs": 208620,
+      "pauseAfterMs": 700,
+      "text": "Boyların başında kağan bulunur; önemli kararlar ise danışma meclisi olan kurultayda görüşülür.",
+      "markedText": "Boyların başında kağan bulunur; önemli kararlar ise danışma meclisi olan kurultayda görüşülür.",
+      "words": [
+        {
+          "word": "Boyların",
+          "startMs": 199250,
+          "endMs": 199820
+        },
+        {
+          "word": "başında",
+          "startMs": 199900,
+          "endMs": 200310
+        },
+        {
+          "word": "kağan",
+          "startMs": 200430,
+          "endMs": 200650
+        },
+        {
+          "word": "bulunur;",
+          "startMs": 200810,
+          "endMs": 201390
+        },
+        {
+          "word": "önemli",
+          "startMs": 202060,
+          "endMs": 202590
+        },
+        {
+          "word": "kararlar",
+          "startMs": 202590,
+          "endMs": 203080
+        },
+        {
+          "word": "ise",
+          "startMs": 203350,
+          "endMs": 203660
+        },
+        {
+          "word": "danışma",
+          "startMs": 203740,
+          "endMs": 204500
+        },
+        {
+          "word": "meclisi",
+          "startMs": 204500,
+          "endMs": 205120
+        },
+        {
+          "word": "olan",
+          "startMs": 205450,
+          "endMs": 205870
+        },
+        {
+          "word": "kurultayda",
+          "startMs": 205950,
+          "endMs": 206820
+        },
+        {
+          "word": "görüşülür.",
+          "startMs": 206890,
+          "endMs": 207920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 208620,
+      "endMs": 223500,
+      "pauseAfterMs": 660,
+      "text": "Kurallar ise töre denen yazısız hukukla yürütülür; töre keyfi bir kural değil, adaletin ve ortak yaşamın temelidir.",
+      "markedText": "Kurallar ise töre denen yazısız hukukla yürütülür; töre keyfi bir kural değil, adaletin ve ortak yaşamın temelidir.",
+      "words": [
+        {
+          "word": "Kurallar",
+          "startMs": 208620,
+          "endMs": 209260
+        },
+        {
+          "word": "ise",
+          "startMs": 209490,
+          "endMs": 209850
+        },
+        {
+          "word": "töre",
+          "startMs": 209980,
+          "endMs": 210380
+        },
+        {
+          "word": "denen",
+          "startMs": 210660,
+          "endMs": 211300
+        },
+        {
+          "word": "yazısız",
+          "startMs": 211440,
+          "endMs": 212820
+        },
+        {
+          "word": "hukukla",
+          "startMs": 213620,
+          "endMs": 214230
+        },
+        {
+          "word": "yürütülür;",
+          "startMs": 214320,
+          "endMs": 215240
+        },
+        {
+          "word": "töre",
+          "startMs": 216430,
+          "endMs": 216830
+        },
+        {
+          "word": "keyfi",
+          "startMs": 216830,
+          "endMs": 217190
+        },
+        {
+          "word": "bir",
+          "startMs": 217250,
+          "endMs": 217380
+        },
+        {
+          "word": "kural",
+          "startMs": 217510,
+          "endMs": 217840
+        },
+        {
+          "word": "değil,",
+          "startMs": 218140,
+          "endMs": 218650
+        },
+        {
+          "word": "adaletin",
+          "startMs": 219280,
+          "endMs": 220270
+        },
+        {
+          "word": "ve",
+          "startMs": 220270,
+          "endMs": 220480
+        },
+        {
+          "word": "ortak",
+          "startMs": 220720,
+          "endMs": 220910
+        },
+        {
+          "word": "yaşamın",
+          "startMs": 221240,
+          "endMs": 221740
+        },
+        {
+          "word": "temelidir.",
+          "startMs": 221850,
+          "endMs": 222840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 223500,
+      "endMs": 237090,
+      "pauseAfterMs": 790,
+      "text": "Göktürk kağanı Bilge Kağan ve kardeşi Kül Tigin adına dikilen Orhun Abideleri'nde halka birlik ve dirlik öğütlenir; taşlar konuşur, töre yaşar.",
+      "markedText": "Göktürk kağanı Bilge Kağan ve kardeşi Kül Tigin adına dikilen Orhun Abideleri'nde halka birlik ve dirlik öğütlenir; taşlar konuşur, töre yaşar.",
+      "words": [
+        {
+          "word": "Göktürk",
+          "startMs": 223500,
+          "endMs": 223910
+        },
+        {
+          "word": "kağanı",
+          "startMs": 223910,
+          "endMs": 224390
+        },
+        {
+          "word": "Bilge",
+          "startMs": 224530,
+          "endMs": 225040
+        },
+        {
+          "word": "Kağan",
+          "startMs": 225140,
+          "endMs": 225790
+        },
+        {
+          "word": "ve",
+          "startMs": 226200,
+          "endMs": 226280
+        },
+        {
+          "word": "kardeşi",
+          "startMs": 226370,
+          "endMs": 226660
+        },
+        {
+          "word": "Kül",
+          "startMs": 226860,
+          "endMs": 227200
+        },
+        {
+          "word": "Tigin",
+          "startMs": 227200,
+          "endMs": 228030
+        },
+        {
+          "word": "adına",
+          "startMs": 228720,
+          "endMs": 229150
+        },
+        {
+          "word": "dikilen",
+          "startMs": 229150,
+          "endMs": 229520
+        },
+        {
+          "word": "Orhun",
+          "startMs": 229630,
+          "endMs": 230340
+        },
+        {
+          "word": "Abideleri'nde",
+          "startMs": 230630,
+          "endMs": 231490
+        },
+        {
+          "word": "halka",
+          "startMs": 231490,
+          "endMs": 231910
+        },
+        {
+          "word": "birlik",
+          "startMs": 232030,
+          "endMs": 232300
+        },
+        {
+          "word": "ve",
+          "startMs": 232380,
+          "endMs": 232430
+        },
+        {
+          "word": "dirlik",
+          "startMs": 232540,
+          "endMs": 232880
+        },
+        {
+          "word": "öğütlenir;",
+          "startMs": 232990,
+          "endMs": 233980
+        },
+        {
+          "word": "taşlar",
+          "startMs": 234750,
+          "endMs": 235060
+        },
+        {
+          "word": "konuşur,",
+          "startMs": 235060,
+          "endMs": 235380
+        },
+        {
+          "word": "töre",
+          "startMs": 235590,
+          "endMs": 235690
+        },
+        {
+          "word": "yaşar.",
+          "startMs": 235800,
+          "endMs": 236300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 237090,
+      "endMs": 246300,
+      "pauseAfterMs": 690,
+      "text": "Uygur kentlerine baktığında ise tarlalar, evler ve kütüphaneler görürsün.",
+      "markedText": "Uygur kentlerine baktığında ise tarlalar, evler ve kütüphaneler görürsün.",
+      "words": [
+        {
+          "word": "Uygur",
+          "startMs": 237090,
+          "endMs": 237440
+        },
+        {
+          "word": "kentlerine",
+          "startMs": 237680,
+          "endMs": 238290
+        },
+        {
+          "word": "baktığında",
+          "startMs": 238360,
+          "endMs": 239070
+        },
+        {
+          "word": "ise",
+          "startMs": 239280,
+          "endMs": 239600
+        },
+        {
+          "word": "tarlalar,",
+          "startMs": 239670,
+          "endMs": 240780
+        },
+        {
+          "word": "evler",
+          "startMs": 241560,
+          "endMs": 242080
+        },
+        {
+          "word": "ve",
+          "startMs": 242080,
+          "endMs": 242230
+        },
+        {
+          "word": "kütüphaneler",
+          "startMs": 242230,
+          "endMs": 243340
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 244180,
+          "endMs": 245610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 246300,
+      "endMs": 254650,
+      "pauseAfterMs": 1020,
+      "text": "Konar göçerlik de yerleşik hayat da Türk kültürünün zengin parçalarıdır.",
+      "markedText": "Konar göçerlik de yerleşik hayat da Türk kültürünün zengin parçalarıdır.",
+      "words": [
+        {
+          "word": "Konar",
+          "startMs": 246300,
+          "endMs": 246810
+        },
+        {
+          "word": "göçerlik",
+          "startMs": 247180,
+          "endMs": 247900
+        },
+        {
+          "word": "de",
+          "startMs": 247990,
+          "endMs": 248130
+        },
+        {
+          "word": "yerleşik",
+          "startMs": 248370,
+          "endMs": 248840
+        },
+        {
+          "word": "hayat",
+          "startMs": 248840,
+          "endMs": 249060
+        },
+        {
+          "word": "da",
+          "startMs": 249060,
+          "endMs": 249420
+        },
+        {
+          "word": "Türk",
+          "startMs": 250030,
+          "endMs": 250120
+        },
+        {
+          "word": "kültürünün",
+          "startMs": 250120,
+          "endMs": 251090
+        },
+        {
+          "word": "zengin",
+          "startMs": 251170,
+          "endMs": 251940
+        },
+        {
+          "word": "parçalarıdır.",
+          "startMs": 252360,
+          "endMs": 253630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 254650,
+      "endMs": 258080,
+      "pauseAfterMs": 700,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 254650,
+          "endMs": 255690
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 256080,
+          "endMs": 257380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 258080,
+      "endMs": 260200,
+      "pauseAfterMs": 260,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 258080,
+          "endMs": 259120
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 259230,
+          "endMs": 259940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 260200,
+      "endMs": 263080,
+      "pauseAfterMs": 550,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 260200,
+          "endMs": 260420
+        },
+        {
+          "word": "noktayı",
+          "startMs": 260420,
+          "endMs": 260980
+        },
+        {
+          "word": "sen",
+          "startMs": 261060,
+          "endMs": 261180
+        },
+        {
+          "word": "de",
+          "startMs": 261370,
+          "endMs": 261450
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 261560,
+          "endMs": 262530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 263080,
+      "endMs": 272590,
+      "pauseAfterMs": 640,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 263080,
+          "endMs": 263540
+        },
+        {
+          "word": "sevgili",
+          "startMs": 263670,
+          "endMs": 264180
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 264330,
+          "endMs": 265250
+        },
+        {
+          "word": "işte",
+          "startMs": 266330,
+          "endMs": 266670
+        },
+        {
+          "word": "tam",
+          "startMs": 266770,
+          "endMs": 267040
+        },
+        {
+          "word": "bu",
+          "startMs": 267170,
+          "endMs": 267390
+        },
+        {
+          "word": "noktada",
+          "startMs": 267630,
+          "endMs": 267910
+        },
+        {
+          "word": "dikkat",
+          "startMs": 268110,
+          "endMs": 268820
+        },
+        {
+          "word": "etmen",
+          "startMs": 268820,
+          "endMs": 269490
+        },
+        {
+          "word": "gereken",
+          "startMs": 269910,
+          "endMs": 270320
+        },
+        {
+          "word": "kilit",
+          "startMs": 270420,
+          "endMs": 270840
+        },
+        {
+          "word": "nokta.",
+          "startMs": 270960,
+          "endMs": 271950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 272590,
+      "endMs": 282550,
+      "pauseAfterMs": 830,
+      "text": "Tüm ilk Türk topluluklarını yalnızca çadırda yaşayan göçebeler sanmak eksik bir bilgidir.",
+      "markedText": "Tüm ilk Türk topluluklarını yalnızca çadırda yaşayan göçebeler sanmak eksik bir bilgidir.",
+      "words": [
+        {
+          "word": "Tüm",
+          "startMs": 272590,
+          "endMs": 272760
+        },
+        {
+          "word": "ilk",
+          "startMs": 272800,
+          "endMs": 273020
+        },
+        {
+          "word": "Türk",
+          "startMs": 273080,
+          "endMs": 273260
+        },
+        {
+          "word": "topluluklarını",
+          "startMs": 273330,
+          "endMs": 274550
+        },
+        {
+          "word": "yalnızca",
+          "startMs": 274890,
+          "endMs": 275530
+        },
+        {
+          "word": "çadırda",
+          "startMs": 275620,
+          "endMs": 276260
+        },
+        {
+          "word": "yaşayan",
+          "startMs": 276450,
+          "endMs": 277150
+        },
+        {
+          "word": "göçebeler",
+          "startMs": 277760,
+          "endMs": 278710
+        },
+        {
+          "word": "sanmak",
+          "startMs": 278760,
+          "endMs": 279510
+        },
+        {
+          "word": "eksik",
+          "startMs": 279620,
+          "endMs": 280170
+        },
+        {
+          "word": "bir",
+          "startMs": 280390,
+          "endMs": 280640
+        },
+        {
+          "word": "bilgidir.",
+          "startMs": 280640,
+          "endMs": 281720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 282550,
+      "endMs": 294610,
+      "pauseAfterMs": 880,
+      "text": "Uygurların şehirler kurup tarım ve ticaretle uğraşan yerleşik bir devlet olduğunu her zaman hatırla.",
+      "markedText": "Uygurların şehirler kurup tarım ve ticaretle uğraşan yerleşik bir devlet olduğunu her zaman hatırla.",
+      "words": [
+        {
+          "word": "Uygurların",
+          "startMs": 282550,
+          "endMs": 283230
+        },
+        {
+          "word": "şehirler",
+          "startMs": 283230,
+          "endMs": 283990
+        },
+        {
+          "word": "kurup",
+          "startMs": 283990,
+          "endMs": 284230
+        },
+        {
+          "word": "tarım",
+          "startMs": 284320,
+          "endMs": 284620
+        },
+        {
+          "word": "ve",
+          "startMs": 284750,
+          "endMs": 284900
+        },
+        {
+          "word": "ticaretle",
+          "startMs": 285000,
+          "endMs": 285460
+        },
+        {
+          "word": "uğraşan",
+          "startMs": 285530,
+          "endMs": 285990
+        },
+        {
+          "word": "yerleşik",
+          "startMs": 286810,
+          "endMs": 287490
+        },
+        {
+          "word": "bir",
+          "startMs": 287690,
+          "endMs": 287880
+        },
+        {
+          "word": "devlet",
+          "startMs": 289170,
+          "endMs": 289890
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 290550,
+          "endMs": 291160
+        },
+        {
+          "word": "her",
+          "startMs": 291300,
+          "endMs": 291720
+        },
+        {
+          "word": "zaman",
+          "startMs": 292050,
+          "endMs": 292540
+        },
+        {
+          "word": "hatırla.",
+          "startMs": 292850,
+          "endMs": 293730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 294610,
+      "endMs": 312610,
+      "pauseAfterMs": 860,
+      "text": "Göktürk ile Köktürk adlarının iki farklı devleti değil, aynı şanlı devleti anlattığını da güvenle aklında tutabilirsin.",
+      "markedText": "Göktürk ile Köktürk adlarının iki farklı devleti değil, aynı şanlı devleti anlattığını da güvenle aklında tutabilirsin.",
+      "words": [
+        {
+          "word": "Göktürk",
+          "startMs": 294610,
+          "endMs": 295330
+        },
+        {
+          "word": "ile",
+          "startMs": 295930,
+          "endMs": 296320
+        },
+        {
+          "word": "Köktürk",
+          "startMs": 296920,
+          "endMs": 297450
+        },
+        {
+          "word": "adlarının",
+          "startMs": 297450,
+          "endMs": 298120
+        },
+        {
+          "word": "iki",
+          "startMs": 298250,
+          "endMs": 298430
+        },
+        {
+          "word": "farklı",
+          "startMs": 298760,
+          "endMs": 299150
+        },
+        {
+          "word": "devleti",
+          "startMs": 299240,
+          "endMs": 299670
+        },
+        {
+          "word": "değil,",
+          "startMs": 299670,
+          "endMs": 300450
+        },
+        {
+          "word": "aynı",
+          "startMs": 301380,
+          "endMs": 301950
+        },
+        {
+          "word": "şanlı",
+          "startMs": 301950,
+          "endMs": 302600
+        },
+        {
+          "word": "devleti",
+          "startMs": 303350,
+          "endMs": 303890
+        },
+        {
+          "word": "anlattığını",
+          "startMs": 304270,
+          "endMs": 304890
+        },
+        {
+          "word": "da",
+          "startMs": 304980,
+          "endMs": 305140
+        },
+        {
+          "word": "güvenle",
+          "startMs": 305620,
+          "endMs": 306430
+        },
+        {
+          "word": "aklında",
+          "startMs": 307680,
+          "endMs": 308550
+        },
+        {
+          "word": "tutabilirsin.",
+          "startMs": 309620,
+          "endMs": 311750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 312610,
+      "endMs": 324350,
+      "pauseAfterMs": 1010,
+      "text": "Orhun Yazıtları da sıradan bir taş değil, atalarımızın bizlere bıraktığı ilk yazılı Türkçe belgelerdir.",
+      "markedText": "Orhun Yazıtları da sıradan bir taş değil, atalarımızın bizlere bıraktığı ilk yazılı Türkçe belgelerdir.",
+      "words": [
+        {
+          "word": "Orhun",
+          "startMs": 312610,
+          "endMs": 312950
+        },
+        {
+          "word": "Yazıtları",
+          "startMs": 313010,
+          "endMs": 313780
+        },
+        {
+          "word": "da",
+          "startMs": 314020,
+          "endMs": 314290
+        },
+        {
+          "word": "sıradan",
+          "startMs": 314640,
+          "endMs": 315210
+        },
+        {
+          "word": "bir",
+          "startMs": 315290,
+          "endMs": 315390
+        },
+        {
+          "word": "taş",
+          "startMs": 315390,
+          "endMs": 315540
+        },
+        {
+          "word": "değil,",
+          "startMs": 315590,
+          "endMs": 316280
+        },
+        {
+          "word": "atalarımızın",
+          "startMs": 317050,
+          "endMs": 318370
+        },
+        {
+          "word": "bizlere",
+          "startMs": 318560,
+          "endMs": 319570
+        },
+        {
+          "word": "bıraktığı",
+          "startMs": 320080,
+          "endMs": 320400
+        },
+        {
+          "word": "ilk",
+          "startMs": 320580,
+          "endMs": 320690
+        },
+        {
+          "word": "yazılı",
+          "startMs": 320690,
+          "endMs": 320970
+        },
+        {
+          "word": "Türkçe",
+          "startMs": 321040,
+          "endMs": 321730
+        },
+        {
+          "word": "belgelerdir.",
+          "startMs": 322730,
+          "endMs": 323340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 324350,
+      "endMs": 326770,
+      "pauseAfterMs": 490,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 324350,
+          "endMs": 324760
+        },
+        {
+          "word": "Neler",
+          "startMs": 324930,
+          "endMs": 325440
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 325650,
+          "endMs": 326280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 326770,
+      "endMs": 327010,
+      "pauseAfterMs": 110,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 326770,
+          "endMs": 326900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 327010,
+      "endMs": 332910,
+      "pauseAfterMs": 580,
+      "text": "Asya Hun, Göktürk ve Uygur ilk büyük Türk devletlerindendir.",
+      "markedText": "Asya Hun, Göktürk ve Uygur ilk büyük Türk devletlerindendir.",
+      "words": [
+        {
+          "word": "Asya",
+          "startMs": 327010,
+          "endMs": 327500
+        },
+        {
+          "word": "Hun,",
+          "startMs": 327780,
+          "endMs": 327920
+        },
+        {
+          "word": "Göktürk",
+          "startMs": 328160,
+          "endMs": 328820
+        },
+        {
+          "word": "ve",
+          "startMs": 328820,
+          "endMs": 329010
+        },
+        {
+          "word": "Uygur",
+          "startMs": 329090,
+          "endMs": 329640
+        },
+        {
+          "word": "ilk",
+          "startMs": 329640,
+          "endMs": 329890
+        },
+        {
+          "word": "büyük",
+          "startMs": 329960,
+          "endMs": 330380
+        },
+        {
+          "word": "Türk",
+          "startMs": 330460,
+          "endMs": 330740
+        },
+        {
+          "word": "devletlerindendir.",
+          "startMs": 330850,
+          "endMs": 332330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 332910,
+      "endMs": 333120,
+      "pauseAfterMs": 120,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 332910,
+          "endMs": 333000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 333120,
+      "endMs": 338210,
+      "pauseAfterMs": 1000,
+      "text": "Töre, kurultay ve onlu teşkilat Orta Asya düzeninin parçasıdır.",
+      "markedText": "Töre, kurultay ve onlu teşkilat Orta Asya düzeninin parçasıdır.",
+      "words": [
+        {
+          "word": "Töre,",
+          "startMs": 333120,
+          "endMs": 333580
+        },
+        {
+          "word": "kurultay",
+          "startMs": 333820,
+          "endMs": 334220
+        },
+        {
+          "word": "ve",
+          "startMs": 334330,
+          "endMs": 334420
+        },
+        {
+          "word": "onlu",
+          "startMs": 334550,
+          "endMs": 334760
+        },
+        {
+          "word": "teşkilat",
+          "startMs": 334880,
+          "endMs": 335180
+        },
+        {
+          "word": "Orta",
+          "startMs": 335450,
+          "endMs": 335670
+        },
+        {
+          "word": "Asya",
+          "startMs": 335670,
+          "endMs": 335810
+        },
+        {
+          "word": "düzeninin",
+          "startMs": 335870,
+          "endMs": 336360
+        },
+        {
+          "word": "parçasıdır.",
+          "startMs": 336420,
+          "endMs": 337210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 338210,
+      "endMs": 338500,
+      "pauseAfterMs": 160,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 338210,
+          "endMs": 338340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 338500,
+      "endMs": 345060,
+      "pauseAfterMs": 1010,
+      "text": "Hun ve Göktürk konar göçerdir; Uygur yerleşiktir.",
+      "markedText": "Hun ve Göktürk konar göçerdir; Uygur yerleşiktir.",
+      "words": [
+        {
+          "word": "Hun",
+          "startMs": 338500,
+          "endMs": 338920
+        },
+        {
+          "word": "ve",
+          "startMs": 339070,
+          "endMs": 339310
+        },
+        {
+          "word": "Göktürk",
+          "startMs": 339530,
+          "endMs": 339870
+        },
+        {
+          "word": "konar",
+          "startMs": 340290,
+          "endMs": 340670
+        },
+        {
+          "word": "göçerdir;",
+          "startMs": 340790,
+          "endMs": 341680
+        },
+        {
+          "word": "Uygur",
+          "startMs": 342100,
+          "endMs": 342500
+        },
+        {
+          "word": "yerleşiktir.",
+          "startMs": 342620,
+          "endMs": 344050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 345060,
+      "endMs": 350200,
+      "pauseAfterMs": 530,
+      "text": "İlk Türk devletleri boy, töre ve kağanla düzenlenir.",
+      "markedText": "İlk Türk devletleri boy, töre ve kağanla düzenlenir.",
+      "words": [
+        {
+          "word": "İlk",
+          "startMs": 345060,
+          "endMs": 345340
+        },
+        {
+          "word": "Türk",
+          "startMs": 345400,
+          "endMs": 345590
+        },
+        {
+          "word": "devletleri",
+          "startMs": 345680,
+          "endMs": 346370
+        },
+        {
+          "word": "boy,",
+          "startMs": 346370,
+          "endMs": 346460
+        },
+        {
+          "word": "töre",
+          "startMs": 347090,
+          "endMs": 347430
+        },
+        {
+          "word": "ve",
+          "startMs": 347430,
+          "endMs": 347590
+        },
+        {
+          "word": "kağanla",
+          "startMs": 347590,
+          "endMs": 348180
+        },
+        {
+          "word": "düzenlenir.",
+          "startMs": 348270,
+          "endMs": 349670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 350200,
+      "endMs": 355130,
+      "pauseAfterMs": 390,
+      "text": "Yaşam biçimi devletten devlete değişir.",
+      "markedText": "Yaşam biçimi devletten devlete değişir.",
+      "words": [
+        {
+          "word": "Yaşam",
+          "startMs": 350200,
+          "endMs": 350650
+        },
+        {
+          "word": "biçimi",
+          "startMs": 350780,
+          "endMs": 351200
+        },
+        {
+          "word": "devletten",
+          "startMs": 351440,
+          "endMs": 352020
+        },
+        {
+          "word": "devlete",
+          "startMs": 352280,
+          "endMs": 353260
+        },
+        {
+          "word": "değişir.",
+          "startMs": 353740,
+          "endMs": 354740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 355130,
+      "endMs": 364020,
+      "pauseAfterMs": 480,
+      "text": "Devletin adını ve onun konar göçer mi yerleşik mi olduğunu ayrı söylersin.",
+      "markedText": "Devletin adını ve onun konar göçer mi yerleşik mi olduğunu ayrı söylersin.",
+      "words": [
+        {
+          "word": "Devletin",
+          "startMs": 355130,
+          "endMs": 355610
+        },
+        {
+          "word": "adını",
+          "startMs": 355950,
+          "endMs": 356390
+        },
+        {
+          "word": "ve",
+          "startMs": 356390,
+          "endMs": 356480
+        },
+        {
+          "word": "onun",
+          "startMs": 356480,
+          "endMs": 357220
+        },
+        {
+          "word": "konar",
+          "startMs": 357790,
+          "endMs": 357990
+        },
+        {
+          "word": "göçer",
+          "startMs": 358110,
+          "endMs": 358460
+        },
+        {
+          "word": "mi",
+          "startMs": 358550,
+          "endMs": 359330
+        },
+        {
+          "word": "yerleşik",
+          "startMs": 360400,
+          "endMs": 360850
+        },
+        {
+          "word": "mi",
+          "startMs": 361010,
+          "endMs": 361250
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 361460,
+          "endMs": 361810
+        },
+        {
+          "word": "ayrı",
+          "startMs": 362170,
+          "endMs": 362530
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 362650,
+          "endMs": 363540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 364020,
+      "endMs": 366730,
+      "pauseAfterMs": 630,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 364020,
+          "endMs": 365030
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 365130,
+          "endMs": 366100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 366730,
+      "endMs": 370050,
+      "pauseAfterMs": 230,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 366730,
+          "endMs": 366980
+        },
+        {
+          "word": "bir",
+          "startMs": 367160,
+          "endMs": 367330
+        },
+        {
+          "word": "iş",
+          "startMs": 367580,
+          "endMs": 368360
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 368830,
+          "endMs": 369820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 370050,
+      "endMs": 373840,
+      "pauseAfterMs": 810,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 370050,
+          "endMs": 370780
+        },
+        {
+          "word": "sıra",
+          "startMs": 370890,
+          "endMs": 371660
+        },
+        {
+          "word": "sende.",
+          "startMs": 371900,
+          "endMs": 373030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 373840,
+      "endMs": 379673,
+      "pauseAfterMs": 433,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 373840,
+          "endMs": 374540
+        },
+        {
+          "word": "bu",
+          "startMs": 375010,
+          "endMs": 375180
+        },
+        {
+          "word": "notları",
+          "startMs": 375270,
+          "endMs": 375800
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 376360,
+          "endMs": 377040
+        },
+        {
+          "word": "kendi",
+          "startMs": 377170,
+          "endMs": 377420
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 377700,
+          "endMs": 378590
+        },
+        {
+          "word": "anlat.",
+          "startMs": 378690,
+          "endMs": 379240
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

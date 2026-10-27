@@ -110,10 +110,10 @@ describe("Native Junior ders akışı", () => {
     expect(calls[0]).toContain("profileId=jp_1");
   });
 
-  it("jr_06_mat-5 sahne grafiği sızsa da hop gövdesini düz metin olarak açar", () => {
+  it("jr_06_mat-1 sahne grafiği sızsa da hop gövdesini düz metin olarak açar", () => {
     const play = presentJuniorLessonPlay({
       lesson: {
-        lessonKey: "jr_06_mat-5",
+        lessonKey: "jr_06_mat-1",
         title: "Çarpanlar, Katlar ve Bölünebilme",
         courseTitle: "Matematik",
         access: "free",
@@ -124,7 +124,7 @@ describe("Native Junior ders akışı", () => {
         preparing: false,
       },
       media: {
-        audioUrl: "/media/junior/audio/jr_06_mat-5.mp3",
+        audioUrl: "/media/junior/audio/jr_06_mat-1.mp3",
         warmupUrl: null,
         coverUrl: null,
         expiresAt: null,
@@ -148,11 +148,11 @@ describe("Native Junior ders akışı", () => {
       },
       activities: [{ kind: "order", puzzle: { rockets: [] } }],
     });
-    expect(play?.lessonKey).toBe("jr_06_mat-5");
+    expect(play?.lessonKey).toBe("jr_06_mat-1");
     expect(play?.script).toBe("Masadaki şu 12 renkli bilyeye bak! İkişer dizelim.");
     expect(play?.script).not.toContain("{@");
     expect(play?.steps).toEqual(["12 Bilye Deneyi ve Çarpan"]);
-    expect(play?.audioUrl).toContain("jr_06_mat-5.mp3");
+    expect(play?.audioUrl).toContain("jr_06_mat-1.mp3");
     expect(play && "timeline" in play).toBe(false);
     expect(play?.graphic).toBeNull();
     expect(juniorNativeSpeech("{@showGoldTrap}")).toBe("");

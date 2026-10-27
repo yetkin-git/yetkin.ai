@@ -8,6 +8,7 @@ import {
   FREELANCER_JOB_FLOOR_UNIT_KEY,
 } from "@/lib/freelancer/seed";
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
+import { SQL_SEAL_FILE_NAME } from "../../scripts/ops-migrate-lib";
 
 const ROOT = process.cwd();
 
@@ -71,7 +72,9 @@ describe("T4 nakit döngüsü — T2-0 katalog ve migrate kesmez", () => {
     const dir = join(ROOT, "supabase", "migrations");
     const sqlFiles = readdirSync(dir).filter((name) => name.endsWith(".sql")).sort();
     expect(sqlFiles).toContain("20261005190000_vitrine_catalog_publish.sql");
-    expect(sqlFiles).toHaveLength(16);
+    // Sayı diske bağlıdır: yeni mühür dosyası eklendiğinde test sayıyı takip eder.
+    expect(sqlFiles.length).toBeGreaterThanOrEqual(16);
+    expect(sqlFiles.every((name) => SQL_SEAL_FILE_NAME.test(name))).toBe(true);
   });
 
   it("bellek döngüsü helper'ı Studio kataloguna bağlanmaz; clearing + vize taşır", () => {

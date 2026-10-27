@@ -3,11 +3,21 @@
 import { useEffect, useRef, useState, type RefObject } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import type { JuniorAccountGate } from "@/components/junior/account-gate-modal";
 import { burstJuniorActivityConfetti } from "@/lib/junior/activity-confetti";
 import { playApplauseSound, playOopsSound, primeActivityAudio } from "@/lib/junior/activity-sound";
 import { juniorNextLesson } from "@/lib/junior/lesson-nav";
-import { JUNIOR_QUIZ_CONTROL_LABEL, JUNIOR_QUIZ_PATH } from "@/lib/junior/limits";
-import { recordQuizScore } from "@/lib/junior/progress-tracker";
+import {
+  JUNIOR_QUIZ_CONTROL_LABEL,
+  JUNIOR_QUIZ_PATH,
+  isJuniorPilotTrialLesson,
+  juniorQuizControlLabel,
+} from "@/lib/junior/limits";
+import {
+  hasUsedJuniorTrialQuiz,
+  markJuniorTrialQuizUsed,
+  recordQuizScore,
+} from "@/lib/junior/progress-tracker";
 import type { JuniorPracticeChoice } from "@/lib/junior/types";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
@@ -66,6 +76,8 @@ export function TopicQuiz({
   items,
   onCompleted,
   submitLocked = null,
+  accountGate = "ready",
+  onNeedAccount,
 }: {
   profileId: string;
   lessonKey: string;
@@ -73,15 +85,29 @@ export function TopicQuiz({
   onCompleted?: () => void;
   /** Puan kapısı. Sorular görünür kalır; gönderim bu cümle varken kapalıdır. */
   submitLocked?: string | null;
+  accountGate?: JuniorAccountGate;
+  onNeedAccount?: () => void;
 }) {
   const router = useRouter();
   const [choices, setChoices] = useState<Record<string, number>>({});
   const [report, setReport] = useState<Report | null>(null);
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
+  const [trialQuizDone, setTrialQuizDone] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const nextLesson = juniorNextLesson(lessonKey);
-  const blocked = pending || Boolean(submitLocked) || !profileId;
+  const isPilotTrial = isJuniorPilotTrialLesson(lessonKey);
+  const blocked =
+    pending ||
+    Boolean(submitLocked) ||
+    (!profileId && !isPilotTrial) ||
+    (!profileId && isPilotTrial && trialQuizDone);
+
+  useEffect(() => {
+    if (isPilotTrial && !profileId) {
+      setTrialQuizDone(hasUsedJuniorTrialQuiz(profileId, lessonKey));
+    }
+  }, [isPilotTrial, lessonKey, profileId]);
 
   useEffect(() => {
     if (!report) {
@@ -98,6 +124,10 @@ export function TopicQuiz({
   }, [report]);
 
   async function onSubmit() {
+    if (accountGate !== "ready") {
+      onNeedAccount?.();
+      return;
+    }
     primeActivityAudio();
     setPending(true);
     setError("");
@@ -107,20 +137,43 @@ export function TopicQuiz({
         const choiceIndex = choices[item.id];
         return choiceIndex === undefined ? { id: item.id } : { id: item.id, choiceIndex };
       });
-      const response = await fetch(
-        JUNIOR_QUIZ_PATH,
-        withRailApiVersion({
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ profileId, lessonKey, answers }),
-        }),
-      );
-      const body = (await response.json().catch(() => null)) as {
+      type QuizResponseEnvelope = {
         ok?: boolean;
         error?: string | null;
         data?: { correct?: number; total?: number; score?: number; notes?: Note[]; completed?: boolean };
-      } | null;
-      if (!response.ok || !body?.data) {
+      };
+      let body: QuizResponseEnvelope | null = null as QuizResponseEnvelope | null;
+      let responseOk = false;
+
+      if (profileId) {
+        const response = await fetch(
+          JUNIOR_QUIZ_PATH,
+          withRailApiVersion({
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ profileId, lessonKey, answers }),
+          }),
+        );
+        responseOk = response.ok;
+        body = (await response.json().catch(() => null)) as QuizResponseEnvelope | null;
+      }
+
+      if ((!responseOk || !body?.data) && isPilotTrial && !hasUsedJuniorTrialQuiz(profileId, lessonKey)) {
+        const trialResponse = await fetch("/api/junior/live-tutor", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ trialMode: "quiz", lessonKey, answers }),
+        });
+        responseOk = trialResponse.ok;
+        body = (await trialResponse.json().catch(() => null)) as QuizResponseEnvelope | null;
+        if (responseOk && body?.data) {
+          const trialScore = typeof body.data.score === "number" ? body.data.score : 0;
+          markJuniorTrialQuizUsed(profileId, lessonKey, trialScore);
+          setTrialQuizDone(true);
+        }
+      }
+
+      if (!responseOk || !body?.data) {
         setError(body?.error || "Cevaplar puanlanamadı.");
         return;
       }
@@ -157,9 +210,21 @@ export function TopicQuiz({
   );
   const noteById = new Map((report?.notes ?? []).map((note) => [note.id, note]));
 
+  const quizHeading = juniorQuizControlLabel(items.length) || JUNIOR_QUIZ_CONTROL_LABEL;
+
   return (
     <section className="rounded-[1.6rem] border border-fuchsia-200 bg-gradient-to-b from-fuchsia-50 via-white to-sky-50 p-4 shadow-sm">
-      <h3 className="text-lg font-semibold">{JUNIOR_QUIZ_CONTROL_LABEL}</h3>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h3 className="text-lg font-semibold">{quizHeading}</h3>
+        {!profileId && isPilotTrial ? (
+          <span
+            data-junior-pilot-quiz-trial-badge=""
+            className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-extrabold text-emerald-900"
+          >
+            {trialQuizDone ? "✓ 1 Defalık Ücretsiz Deneme Tamamlandı" : "🎁 1 Defalık Ücretsiz Deneme Hakkı"}
+          </span>
+        ) : null}
+      </div>
       <p className="mt-1 text-sm text-[var(--muted)]">
         Kavram, uygulama ve beceri testleri ayrı durur. Doğrular birikince ders tamamlanır. Puan sunucuda hesaplanır.
       </p>

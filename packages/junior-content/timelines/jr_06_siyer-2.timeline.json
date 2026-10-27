@@ -1,0 +1,2111 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_siyer-2",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Merhamet",
+  "grade": 6,
+  "subject": "Seçmeli Ders",
+  "teacher": {
+    "name": "Ada",
+    "voice": "Enceladus",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_siyer-2.mp3",
+    "durationMs": 144796,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 28670
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 28670,
+      "endMs": 113080
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 113080,
+      "endMs": 144796
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 2810,
+      "pauseAfterMs": 590,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 140,
+          "endMs": 500
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 500,
+          "endMs": 960
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 1240,
+          "endMs": 1510
+        },
+        {
+          "word": "hoş",
+          "startMs": 1510,
+          "endMs": 1700
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 1750,
+          "endMs": 2220
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Merhamet",
+            "subtitle": "Seçmeli Ders",
+            "ruleBadges": [],
+            "echoPrompt": "Kime neden yardım ettiğini kendi sözlerinle söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Merhamet, gücün varken incitmemektir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Yardım, merhametin görünen işidir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Yanlış işi örtmek merhamet değildir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 2810,
+      "endMs": 5290,
+      "pauseAfterMs": 740,
+      "text": "Ben Seçmeli Ders öğretmenin Ada.",
+      "markedText": "Ben Seçmeli Ders öğretmenin Ada.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 2810,
+          "endMs": 3010
+        },
+        {
+          "word": "Seçmeli",
+          "startMs": 3100,
+          "endMs": 3570
+        },
+        {
+          "word": "Ders",
+          "startMs": 3570,
+          "endMs": 3770
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 3810,
+          "endMs": 4270
+        },
+        {
+          "word": "Ada.",
+          "startMs": 4360,
+          "endMs": 4550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 5290,
+      "endMs": 7910,
+      "pauseAfterMs": 590,
+      "text": "Bugün seninle merhameti öğreneceğiz.",
+      "markedText": "Bugün seninle merhameti öğreneceğiz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 5290,
+          "endMs": 5540
+        },
+        {
+          "word": "seninle",
+          "startMs": 5540,
+          "endMs": 6010
+        },
+        {
+          "word": "merhameti",
+          "startMs": 6260,
+          "endMs": 6640
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 6740,
+          "endMs": 7320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 7910,
+      "endMs": 10480,
+      "pauseAfterMs": 620,
+      "text": "Sırada düşen bir çantayı kaldırırsın.",
+      "markedText": "Sırada düşen bir çantayı kaldırırsın.",
+      "words": [
+        {
+          "word": "Sırada",
+          "startMs": 7910,
+          "endMs": 8340
+        },
+        {
+          "word": "düşen",
+          "startMs": 8340,
+          "endMs": 8590
+        },
+        {
+          "word": "bir",
+          "startMs": 8590,
+          "endMs": 8750
+        },
+        {
+          "word": "çantayı",
+          "startMs": 8750,
+          "endMs": 9140
+        },
+        {
+          "word": "kaldırırsın.",
+          "startMs": 9200,
+          "endMs": 9860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 10480,
+      "endMs": 14220,
+      "pauseAfterMs": 510,
+      "text": "Küçük kardeşinin ayakkabısını bağlarken acele ettirmezsin.",
+      "markedText": "Küçük kardeşinin ayakkabısını bağlarken acele ettirmezsin.",
+      "words": [
+        {
+          "word": "Küçük",
+          "startMs": 10480,
+          "endMs": 10670
+        },
+        {
+          "word": "kardeşinin",
+          "startMs": 10720,
+          "endMs": 11280
+        },
+        {
+          "word": "ayakkabısını",
+          "startMs": 11360,
+          "endMs": 12100
+        },
+        {
+          "word": "bağlarken",
+          "startMs": 12100,
+          "endMs": 12580
+        },
+        {
+          "word": "acele",
+          "startMs": 12850,
+          "endMs": 13090
+        },
+        {
+          "word": "ettirmezsin.",
+          "startMs": 13220,
+          "endMs": 13710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 14220,
+      "endMs": 17110,
+      "pauseAfterMs": 730,
+      "text": "Hatırlarsan, merhamet incitmemekti.",
+      "markedText": "Hatırlarsan, merhamet incitmemekti.",
+      "words": [
+        {
+          "word": "Hatırlarsan,",
+          "startMs": 14220,
+          "endMs": 14920
+        },
+        {
+          "word": "merhamet",
+          "startMs": 14920,
+          "endMs": 15420
+        },
+        {
+          "word": "incitmemekti.",
+          "startMs": 15570,
+          "endMs": 16380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 17110,
+      "endMs": 20010,
+      "pauseAfterMs": 910,
+      "text": "Oyunda da itmeden yer verirsin.",
+      "markedText": "Oyunda da itmeden yer verirsin.",
+      "words": [
+        {
+          "word": "Oyunda",
+          "startMs": 17110,
+          "endMs": 17530
+        },
+        {
+          "word": "da",
+          "startMs": 17580,
+          "endMs": 17730
+        },
+        {
+          "word": "itmeden",
+          "startMs": 17880,
+          "endMs": 18240
+        },
+        {
+          "word": "yer",
+          "startMs": 18240,
+          "endMs": 18430
+        },
+        {
+          "word": "verirsin.",
+          "startMs": 18430,
+          "endMs": 19100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 20010,
+      "endMs": 21320,
+      "pauseAfterMs": 460,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 20010,
+          "endMs": 20540
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 20540,
+          "endMs": 20860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 21320,
+      "endMs": 22440,
+      "pauseAfterMs": 460,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 21320,
+          "endMs": 21500
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 21590,
+          "endMs": 21980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 22440,
+      "endMs": 26360,
+      "pauseAfterMs": 530,
+      "text": "Bir arkadaşının yanlışını gizlemek, ona yardım sayılmaz.",
+      "markedText": "Bir arkadaşının yanlışını gizlemek, ona yardım sayılmaz.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 22440,
+          "endMs": 22560
+        },
+        {
+          "word": "arkadaşının",
+          "startMs": 22560,
+          "endMs": 23230
+        },
+        {
+          "word": "yanlışını",
+          "startMs": 23230,
+          "endMs": 23750
+        },
+        {
+          "word": "gizlemek,",
+          "startMs": 23750,
+          "endMs": 24160
+        },
+        {
+          "word": "ona",
+          "startMs": 24520,
+          "endMs": 24690
+        },
+        {
+          "word": "yardım",
+          "startMs": 24690,
+          "endMs": 25100
+        },
+        {
+          "word": "sayılmaz.",
+          "startMs": 25100,
+          "endMs": 25830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 26360,
+      "endMs": 28670,
+      "pauseAfterMs": 520,
+      "text": "Yanlışı nazikçe söylersin.",
+      "markedText": "Yanlışı nazikçe söylersin.",
+      "words": [
+        {
+          "word": "Yanlışı",
+          "startMs": 26360,
+          "endMs": 26910
+        },
+        {
+          "word": "nazikçe",
+          "startMs": 27020,
+          "endMs": 27400
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 27490,
+          "endMs": 28150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 28670,
+      "endMs": 30940,
+      "pauseAfterMs": 240,
+      "text": "Bugün seninle merhameti tanımlıyoruz.",
+      "markedText": "Bugün seninle merhameti tanımlıyoruz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 28670,
+          "endMs": 28930
+        },
+        {
+          "word": "seninle",
+          "startMs": 28930,
+          "endMs": 29350
+        },
+        {
+          "word": "merhameti",
+          "startMs": 29350,
+          "endMs": 29890
+        },
+        {
+          "word": "tanımlıyoruz.",
+          "startMs": 29980,
+          "endMs": 30700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 30940,
+      "endMs": 34360,
+      "pauseAfterMs": 660,
+      "text": "Merhamet, bir kişiyi incitmemektir.",
+      "markedText": "Merhamet, bir kişiyi incitmemektir.",
+      "words": [
+        {
+          "word": "Merhamet,",
+          "startMs": 30940,
+          "endMs": 31440
+        },
+        {
+          "word": "bir",
+          "startMs": 32090,
+          "endMs": 32250
+        },
+        {
+          "word": "kişiyi",
+          "startMs": 32340,
+          "endMs": 32680
+        },
+        {
+          "word": "incitmemektir.",
+          "startMs": 32740,
+          "endMs": 33700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 34360,
+      "endMs": 37060,
+      "pauseAfterMs": 520,
+      "text": "Güç varken yumuşak davranmaktır.",
+      "markedText": "Güç varken yumuşak davranmaktır.",
+      "words": [
+        {
+          "word": "Güç",
+          "startMs": 34360,
+          "endMs": 34480
+        },
+        {
+          "word": "varken",
+          "startMs": 34480,
+          "endMs": 35110
+        },
+        {
+          "word": "yumuşak",
+          "startMs": 35220,
+          "endMs": 35610
+        },
+        {
+          "word": "davranmaktır.",
+          "startMs": 35730,
+          "endMs": 36540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 37060,
+      "endMs": 39490,
+      "pauseAfterMs": 500,
+      "text": "Yardım, bu huyun görünen işidir.",
+      "markedText": "Yardım, bu huyun görünen işidir.",
+      "words": [
+        {
+          "word": "Yardım,",
+          "startMs": 37060,
+          "endMs": 37550
+        },
+        {
+          "word": "bu",
+          "startMs": 37810,
+          "endMs": 37890
+        },
+        {
+          "word": "huyun",
+          "startMs": 37960,
+          "endMs": 38250
+        },
+        {
+          "word": "görünen",
+          "startMs": 38250,
+          "endMs": 38620
+        },
+        {
+          "word": "işidir.",
+          "startMs": 38620,
+          "endMs": 38990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 39490,
+      "endMs": 42290,
+      "pauseAfterMs": 530,
+      "text": "Hatırlarsan, doğru söz işte görünüyordu.",
+      "markedText": "Hatırlarsan, doğru söz işte görünüyordu.",
+      "words": [
+        {
+          "word": "Hatırlarsan,",
+          "startMs": 39490,
+          "endMs": 40190
+        },
+        {
+          "word": "doğru",
+          "startMs": 40300,
+          "endMs": 40570
+        },
+        {
+          "word": "söz",
+          "startMs": 40620,
+          "endMs": 40810
+        },
+        {
+          "word": "işte",
+          "startMs": 40940,
+          "endMs": 41080
+        },
+        {
+          "word": "görünüyordu.",
+          "startMs": 41130,
+          "endMs": 41760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 42290,
+      "endMs": 44740,
+      "pauseAfterMs": 590,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 42290,
+          "endMs": 42410
+        },
+        {
+          "word": "şimdi",
+          "startMs": 42410,
+          "endMs": 42720
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 42720,
+          "endMs": 43060
+        },
+        {
+          "word": "çizime",
+          "startMs": 43210,
+          "endMs": 43370
+        },
+        {
+          "word": "birlikte",
+          "startMs": 43370,
+          "endMs": 43680
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 43770,
+          "endMs": 44150
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 42290,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Merhamet · kavram",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Merhamet, gücün varken incitmemektir.",
+                "body": "Merhamet, gücün varken incitmemektir.",
+                "tone": "concept"
+              },
+              {
+                "title": "Yardım, merhametin görünen işidir.",
+                "body": "Yardım, merhametin görünen işidir.",
+                "tone": "concept"
+              },
+              {
+                "title": "Bugün seninle merhameti tanımlıyoruz.",
+                "body": "Bugün seninle merhameti tanımlıyoruz.",
+                "tone": "concept"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 44740,
+      "endMs": 46590,
+      "pauseAfterMs": 460,
+      "text": "Komşu poşeti zor taşıyor.",
+      "markedText": "Komşu poşeti zor taşıyor.",
+      "words": [
+        {
+          "word": "Komşu",
+          "startMs": 44740,
+          "endMs": 45020
+        },
+        {
+          "word": "poşeti",
+          "startMs": 45100,
+          "endMs": 45320
+        },
+        {
+          "word": "zor",
+          "startMs": 45370,
+          "endMs": 45500
+        },
+        {
+          "word": "taşıyor.",
+          "startMs": 45500,
+          "endMs": 46130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 46590,
+      "endMs": 48430,
+      "pauseAfterMs": 540,
+      "text": "Poşeti birlikte tuttun.",
+      "markedText": "Poşeti birlikte tuttun.",
+      "words": [
+        {
+          "word": "Poşeti",
+          "startMs": 46590,
+          "endMs": 46820
+        },
+        {
+          "word": "birlikte",
+          "startMs": 46890,
+          "endMs": 47300
+        },
+        {
+          "word": "tuttun.",
+          "startMs": 47430,
+          "endMs": 47890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 48430,
+      "endMs": 50040,
+      "pauseAfterMs": 510,
+      "text": "Kişiye yardım ettin.",
+      "markedText": "Kişiye yardım ettin.",
+      "words": [
+        {
+          "word": "Kişiye",
+          "startMs": 48430,
+          "endMs": 48790
+        },
+        {
+          "word": "yardım",
+          "startMs": 48790,
+          "endMs": 49040
+        },
+        {
+          "word": "ettin.",
+          "startMs": 49110,
+          "endMs": 49530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 50040,
+      "endMs": 51230,
+      "pauseAfterMs": 360,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 50040,
+          "endMs": 50460
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 50460,
+          "endMs": 50870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 51230,
+      "endMs": 52470,
+      "pauseAfterMs": 600,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 51230,
+          "endMs": 51410
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 51500,
+          "endMs": 51870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 52470,
+      "endMs": 55340,
+      "pauseAfterMs": 600,
+      "text": "Yanlış işi örtmek merhamet değildir.",
+      "markedText": "Yanlış işi örtmek merhamet değildir.",
+      "words": [
+        {
+          "word": "Yanlış",
+          "startMs": 52470,
+          "endMs": 52840
+        },
+        {
+          "word": "işi",
+          "startMs": 52840,
+          "endMs": 53100
+        },
+        {
+          "word": "örtmek",
+          "startMs": 53100,
+          "endMs": 53470
+        },
+        {
+          "word": "merhamet",
+          "startMs": 53670,
+          "endMs": 54140
+        },
+        {
+          "word": "değildir.",
+          "startMs": 54280,
+          "endMs": 54740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 55340,
+      "endMs": 57980,
+      "pauseAfterMs": 700,
+      "text": "Alay etmek merhameti bozar.",
+      "markedText": "Alay etmek merhameti bozar.",
+      "words": [
+        {
+          "word": "Alay",
+          "startMs": 55340,
+          "endMs": 55730
+        },
+        {
+          "word": "etmek",
+          "startMs": 55890,
+          "endMs": 56030
+        },
+        {
+          "word": "merhameti",
+          "startMs": 56170,
+          "endMs": 56770
+        },
+        {
+          "word": "bozar.",
+          "startMs": 56870,
+          "endMs": 57280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 57980,
+      "endMs": 59850,
+      "pauseAfterMs": 410,
+      "text": "Yardım kişiye yapılır.",
+      "markedText": "Yardım kişiye yapılır.",
+      "words": [
+        {
+          "word": "Yardım",
+          "startMs": 57980,
+          "endMs": 58420
+        },
+        {
+          "word": "kişiye",
+          "startMs": 58650,
+          "endMs": 58840
+        },
+        {
+          "word": "yapılır.",
+          "startMs": 58840,
+          "endMs": 59440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 59850,
+      "endMs": 62030,
+      "pauseAfterMs": 590,
+      "text": "Haksızlığa alkış tutulmaz.",
+      "markedText": "Haksızlığa alkış tutulmaz.",
+      "words": [
+        {
+          "word": "Haksızlığa",
+          "startMs": 59850,
+          "endMs": 60580
+        },
+        {
+          "word": "alkış",
+          "startMs": 60700,
+          "endMs": 60840
+        },
+        {
+          "word": "tutulmaz.",
+          "startMs": 60890,
+          "endMs": 61440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 62030,
+      "endMs": 64430,
+      "pauseAfterMs": 670,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 62030,
+          "endMs": 62130
+        },
+        {
+          "word": "şimdi",
+          "startMs": 62130,
+          "endMs": 62370
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 62370,
+          "endMs": 62740
+        },
+        {
+          "word": "çizime",
+          "startMs": 62870,
+          "endMs": 63040
+        },
+        {
+          "word": "birlikte",
+          "startMs": 63040,
+          "endMs": 63310
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 63410,
+          "endMs": 63760
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 62030,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Merhamet · örnek",
+            "note": "Örnek, kavramın kendisini gösterir.",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Merhamet, karşındaki kişiyi incitmemektir.",
+                "body": "Merhamet, karşındaki kişiyi incitmemektir.",
+                "tone": "example"
+              },
+              {
+                "title": "Gücün yettiği halde sertleşmemektir.",
+                "body": "Gücün yettiği halde sertleşmemektir.",
+                "tone": "example"
+              },
+              {
+                "title": "Yardım, merhametin görünen işidir.",
+                "body": "Yardım, merhametin görünen işidir.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 64430,
+      "endMs": 67780,
+      "pauseAfterMs": 670,
+      "text": "Merhamet, karşındaki kişiyi incitmemektir.",
+      "markedText": "Merhamet, karşındaki kişiyi incitmemektir.",
+      "words": [
+        {
+          "word": "Merhamet,",
+          "startMs": 64430,
+          "endMs": 65090
+        },
+        {
+          "word": "karşındaki",
+          "startMs": 65390,
+          "endMs": 65910
+        },
+        {
+          "word": "kişiyi",
+          "startMs": 65990,
+          "endMs": 66370
+        },
+        {
+          "word": "incitmemektir.",
+          "startMs": 66370,
+          "endMs": 67110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 67780,
+      "endMs": 70620,
+      "pauseAfterMs": 470,
+      "text": "Gücün yettiği halde sertleşmemektir.",
+      "markedText": "Gücün yettiği halde sertleşmemektir.",
+      "words": [
+        {
+          "word": "Gücün",
+          "startMs": 67780,
+          "endMs": 68210
+        },
+        {
+          "word": "yettiği",
+          "startMs": 68360,
+          "endMs": 68740
+        },
+        {
+          "word": "halde",
+          "startMs": 68790,
+          "endMs": 68940
+        },
+        {
+          "word": "sertleşmemektir.",
+          "startMs": 69080,
+          "endMs": 70150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 70620,
+      "endMs": 73180,
+      "pauseAfterMs": 500,
+      "text": "Yardım, merhametin görünen işidir.",
+      "markedText": "Yardım, merhametin görünen işidir.",
+      "words": [
+        {
+          "word": "Yardım,",
+          "startMs": 70620,
+          "endMs": 71150
+        },
+        {
+          "word": "merhametin",
+          "startMs": 71150,
+          "endMs": 71610
+        },
+        {
+          "word": "görünen",
+          "startMs": 71690,
+          "endMs": 72110
+        },
+        {
+          "word": "işidir.",
+          "startMs": 72110,
+          "endMs": 72680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 73180,
+      "endMs": 75630,
+      "pauseAfterMs": 670,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 73180,
+          "endMs": 73280
+        },
+        {
+          "word": "şimdi",
+          "startMs": 73280,
+          "endMs": 73620
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 73710,
+          "endMs": 74060
+        },
+        {
+          "word": "çizime",
+          "startMs": 74060,
+          "endMs": 74290
+        },
+        {
+          "word": "birlikte",
+          "startMs": 74290,
+          "endMs": 74530
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 74620,
+          "endMs": 74960
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 73180,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Tuzaklara Düşme!",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Merhamet, yanlış bir işi alkışlamak değildir.",
+                "body": "Merhamet, yanlış bir işi alkışlamak değildir.",
+                "tone": "trap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 75630,
+      "endMs": 78090,
+      "pauseAfterMs": 500,
+      "text": "Yaşlı bir komşu poşeti zor taşıyor.",
+      "markedText": "Yaşlı bir komşu poşeti zor taşıyor.",
+      "words": [
+        {
+          "word": "Yaşlı",
+          "startMs": 75630,
+          "endMs": 75990
+        },
+        {
+          "word": "bir",
+          "startMs": 75990,
+          "endMs": 76070
+        },
+        {
+          "word": "komşu",
+          "startMs": 76130,
+          "endMs": 76430
+        },
+        {
+          "word": "poşeti",
+          "startMs": 76520,
+          "endMs": 76750
+        },
+        {
+          "word": "zor",
+          "startMs": 76910,
+          "endMs": 77110
+        },
+        {
+          "word": "taşıyor.",
+          "startMs": 77190,
+          "endMs": 77590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 78090,
+      "endMs": 80530,
+      "pauseAfterMs": 690,
+      "text": "Sen poşeti birlikte tutuyorsun.",
+      "markedText": "Sen poşeti birlikte tutuyorsun.",
+      "words": [
+        {
+          "word": "Sen",
+          "startMs": 78090,
+          "endMs": 78330
+        },
+        {
+          "word": "poşeti",
+          "startMs": 78490,
+          "endMs": 78860
+        },
+        {
+          "word": "birlikte",
+          "startMs": 78920,
+          "endMs": 79340
+        },
+        {
+          "word": "tutuyorsun.",
+          "startMs": 79540,
+          "endMs": 79840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 80530,
+      "endMs": 81890,
+      "pauseAfterMs": 290,
+      "text": "Kişiyi incitmedin.",
+      "markedText": "Kişiyi incitmedin.",
+      "words": [
+        {
+          "word": "Kişiyi",
+          "startMs": 80530,
+          "endMs": 80940
+        },
+        {
+          "word": "incitmedin.",
+          "startMs": 80940,
+          "endMs": 81600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-2",
+      "startMs": 81890,
+      "endMs": 83380,
+      "pauseAfterMs": 500,
+      "text": "İşini hafiflettin.",
+      "markedText": "İşini hafiflettin.",
+      "words": [
+        {
+          "word": "İşini",
+          "startMs": 81890,
+          "endMs": 82070
+        },
+        {
+          "word": "hafiflettin.",
+          "startMs": 82070,
+          "endMs": 82880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-2",
+      "startMs": 83380,
+      "endMs": 86900,
+      "pauseAfterMs": 460,
+      "text": "Hatırlarsan, doğru söz söz ile işi birleştiriyordu.",
+      "markedText": "Hatırlarsan, doğru söz söz ile işi birleştiriyordu.",
+      "words": [
+        {
+          "word": "Hatırlarsan,",
+          "startMs": 83380,
+          "endMs": 84100
+        },
+        {
+          "word": "doğru",
+          "startMs": 84220,
+          "endMs": 84440
+        },
+        {
+          "word": "söz",
+          "startMs": 84440,
+          "endMs": 84500
+        },
+        {
+          "word": "söz",
+          "startMs": 84500,
+          "endMs": 84750
+        },
+        {
+          "word": "ile",
+          "startMs": 84980,
+          "endMs": 85160
+        },
+        {
+          "word": "işi",
+          "startMs": 85250,
+          "endMs": 85340
+        },
+        {
+          "word": "birleştiriyordu.",
+          "startMs": 85420,
+          "endMs": 86440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-2",
+      "startMs": 86900,
+      "endMs": 88850,
+      "pauseAfterMs": 540,
+      "text": "Merhamet de işte görünür.",
+      "markedText": "Merhamet de işte görünür.",
+      "words": [
+        {
+          "word": "Merhamet",
+          "startMs": 86900,
+          "endMs": 87320
+        },
+        {
+          "word": "de",
+          "startMs": 87420,
+          "endMs": 87480
+        },
+        {
+          "word": "işte",
+          "startMs": 87560,
+          "endMs": 87710
+        },
+        {
+          "word": "görünür.",
+          "startMs": 87770,
+          "endMs": 88310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-2",
+      "startMs": 88850,
+      "endMs": 90080,
+      "pauseAfterMs": 420,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 88850,
+          "endMs": 89340
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 89340,
+          "endMs": 89660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-2",
+      "startMs": 90080,
+      "endMs": 91280,
+      "pauseAfterMs": 540,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 90080,
+          "endMs": 90260
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 90360,
+          "endMs": 90740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-2",
+      "startMs": 91280,
+      "endMs": 94470,
+      "pauseAfterMs": 430,
+      "text": "Merhamet, yanlış bir işi alkışlamak değildir.",
+      "markedText": "Merhamet, yanlış bir işi alkışlamak değildir.",
+      "words": [
+        {
+          "word": "Merhamet,",
+          "startMs": 91280,
+          "endMs": 91780
+        },
+        {
+          "word": "yanlış",
+          "startMs": 92080,
+          "endMs": 92460
+        },
+        {
+          "word": "bir",
+          "startMs": 92550,
+          "endMs": 92670
+        },
+        {
+          "word": "işi",
+          "startMs": 92670,
+          "endMs": 92830
+        },
+        {
+          "word": "alkışlamak",
+          "startMs": 92830,
+          "endMs": 93420
+        },
+        {
+          "word": "değildir.",
+          "startMs": 93550,
+          "endMs": 94040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-2",
+      "startMs": 94470,
+      "endMs": 96180,
+      "pauseAfterMs": 620,
+      "text": "Kişiye yardım edersin.",
+      "markedText": "Kişiye yardım edersin.",
+      "words": [
+        {
+          "word": "Kişiye",
+          "startMs": 94470,
+          "endMs": 94710
+        },
+        {
+          "word": "yardım",
+          "startMs": 94710,
+          "endMs": 94840
+        },
+        {
+          "word": "edersin.",
+          "startMs": 94840,
+          "endMs": 95560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-2",
+      "startMs": 96180,
+      "endMs": 98670,
+      "pauseAfterMs": 510,
+      "text": "Haksız işi doğru diye örtmezsin.",
+      "markedText": "Haksız işi doğru diye örtmezsin.",
+      "words": [
+        {
+          "word": "Haksız",
+          "startMs": 96180,
+          "endMs": 96620
+        },
+        {
+          "word": "işi",
+          "startMs": 96620,
+          "endMs": 96830
+        },
+        {
+          "word": "doğru",
+          "startMs": 97000,
+          "endMs": 97310
+        },
+        {
+          "word": "diye",
+          "startMs": 97310,
+          "endMs": 97510
+        },
+        {
+          "word": "örtmezsin.",
+          "startMs": 97800,
+          "endMs": 98160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-2",
+      "startMs": 98670,
+      "endMs": 99880,
+      "pauseAfterMs": 380,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 98670,
+          "endMs": 99080
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 99080,
+          "endMs": 99500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-2",
+      "startMs": 99880,
+      "endMs": 101070,
+      "pauseAfterMs": 610,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 99880,
+          "endMs": 100060
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 100140,
+          "endMs": 100460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-2",
+      "startMs": 101070,
+      "endMs": 102780,
+      "pauseAfterMs": 520,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 101070,
+          "endMs": 101180
+        },
+        {
+          "word": "noktayı",
+          "startMs": 101180,
+          "endMs": 101260
+        },
+        {
+          "word": "sen",
+          "startMs": 101360,
+          "endMs": 101510
+        },
+        {
+          "word": "de",
+          "startMs": 101560,
+          "endMs": 101700
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 101700,
+          "endMs": 102260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-2",
+      "startMs": 102780,
+      "endMs": 108880,
+      "pauseAfterMs": 930,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 102780,
+          "endMs": 103120
+        },
+        {
+          "word": "sevgili",
+          "startMs": 103120,
+          "endMs": 103420
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 103420,
+          "endMs": 103750
+        },
+        {
+          "word": "işte",
+          "startMs": 103940,
+          "endMs": 104280
+        },
+        {
+          "word": "tam",
+          "startMs": 104280,
+          "endMs": 104390
+        },
+        {
+          "word": "bu",
+          "startMs": 105010,
+          "endMs": 105170
+        },
+        {
+          "word": "noktada",
+          "startMs": 105170,
+          "endMs": 105880
+        },
+        {
+          "word": "dikkat",
+          "startMs": 106100,
+          "endMs": 106340
+        },
+        {
+          "word": "etmen",
+          "startMs": 106460,
+          "endMs": 106610
+        },
+        {
+          "word": "gereken",
+          "startMs": 106610,
+          "endMs": 106870
+        },
+        {
+          "word": "kilit",
+          "startMs": 106970,
+          "endMs": 107200
+        },
+        {
+          "word": "nokta.",
+          "startMs": 107330,
+          "endMs": 107950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-2",
+      "startMs": 108880,
+      "endMs": 113080,
+      "pauseAfterMs": 1170,
+      "text": "Merhamet, yanlış bir işi alkışlamak değildir.",
+      "markedText": "Merhamet, yanlış bir işi alkışlamak değildir.",
+      "words": [
+        {
+          "word": "Merhamet,",
+          "startMs": 108880,
+          "endMs": 109570
+        },
+        {
+          "word": "yanlış",
+          "startMs": 109810,
+          "endMs": 110260
+        },
+        {
+          "word": "bir",
+          "startMs": 110340,
+          "endMs": 110460
+        },
+        {
+          "word": "işi",
+          "startMs": 110460,
+          "endMs": 110620
+        },
+        {
+          "word": "alkışlamak",
+          "startMs": 110720,
+          "endMs": 111350
+        },
+        {
+          "word": "değildir.",
+          "startMs": 111800,
+          "endMs": 111910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 113080,
+      "endMs": 115380,
+      "pauseAfterMs": 700,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 113080,
+          "endMs": 113310
+        },
+        {
+          "word": "Neler",
+          "startMs": 113520,
+          "endMs": 113850
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 113850,
+          "endMs": 114680
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 113080,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Bugün Neler Öğrendik?",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Merhamet, gücün varken incitmemektir.",
+                "body": "Merhamet, gücün varken incitmemektir.",
+                "tone": "recap"
+              },
+              {
+                "title": "Yardım, merhametin görünen işidir.",
+                "body": "Yardım, merhametin görünen işidir.",
+                "tone": "recap"
+              },
+              {
+                "title": "Yanlış işi örtmek merhamet değildir.",
+                "body": "Yanlış işi örtmek merhamet değildir.",
+                "tone": "recap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-3",
+      "startMs": 115380,
+      "endMs": 116060,
+      "pauseAfterMs": 410,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 115380,
+          "endMs": 115650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-3",
+      "startMs": 116060,
+      "endMs": 119960,
+      "pauseAfterMs": 930,
+      "text": "Merhamet, gücün varken incitmemektir.",
+      "markedText": "Merhamet, gücün varken incitmemektir.",
+      "words": [
+        {
+          "word": "Merhamet,",
+          "startMs": 116060,
+          "endMs": 116590
+        },
+        {
+          "word": "gücün",
+          "startMs": 117030,
+          "endMs": 117320
+        },
+        {
+          "word": "varken",
+          "startMs": 117320,
+          "endMs": 117660
+        },
+        {
+          "word": "incitmemektir.",
+          "startMs": 117770,
+          "endMs": 119030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-51",
+      "chapterId": "ch-3",
+      "startMs": 119960,
+      "endMs": 120590,
+      "pauseAfterMs": 470,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 119960,
+          "endMs": 120120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-52",
+      "chapterId": "ch-3",
+      "startMs": 120590,
+      "endMs": 123950,
+      "pauseAfterMs": 720,
+      "text": "Yardım, merhametin görünen işidir.",
+      "markedText": "Yardım, merhametin görünen işidir.",
+      "words": [
+        {
+          "word": "Yardım,",
+          "startMs": 120590,
+          "endMs": 121140
+        },
+        {
+          "word": "merhametin",
+          "startMs": 121370,
+          "endMs": 121860
+        },
+        {
+          "word": "görünen",
+          "startMs": 121970,
+          "endMs": 122360
+        },
+        {
+          "word": "işidir.",
+          "startMs": 122360,
+          "endMs": 123230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-53",
+      "chapterId": "ch-3",
+      "startMs": 123950,
+      "endMs": 124730,
+      "pauseAfterMs": 470,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 123950,
+          "endMs": 124260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-54",
+      "chapterId": "ch-3",
+      "startMs": 124730,
+      "endMs": 128310,
+      "pauseAfterMs": 1190,
+      "text": "Yanlış işi örtmek merhamet değildir.",
+      "markedText": "Yanlış işi örtmek merhamet değildir.",
+      "words": [
+        {
+          "word": "Yanlış",
+          "startMs": 124730,
+          "endMs": 125220
+        },
+        {
+          "word": "işi",
+          "startMs": 125220,
+          "endMs": 125400
+        },
+        {
+          "word": "örtmek",
+          "startMs": 125400,
+          "endMs": 125530
+        },
+        {
+          "word": "merhamet",
+          "startMs": 125640,
+          "endMs": 125820
+        },
+        {
+          "word": "değildir.",
+          "startMs": 125980,
+          "endMs": 127120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-55",
+      "chapterId": "ch-3",
+      "startMs": 128310,
+      "endMs": 132420,
+      "pauseAfterMs": 1390,
+      "text": "Merhamet, gücün varken incitmemektir.",
+      "markedText": "Merhamet, gücün varken incitmemektir.",
+      "words": [
+        {
+          "word": "Merhamet,",
+          "startMs": 128310,
+          "endMs": 128810
+        },
+        {
+          "word": "gücün",
+          "startMs": 129070,
+          "endMs": 129360
+        },
+        {
+          "word": "varken",
+          "startMs": 129360,
+          "endMs": 129680
+        },
+        {
+          "word": "incitmemektir.",
+          "startMs": 129790,
+          "endMs": 131030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-56",
+      "chapterId": "ch-3",
+      "startMs": 132420,
+      "endMs": 136610,
+      "pauseAfterMs": 1170,
+      "text": "Kime neden yardım ettiğini kendi sözlerinle söylersin.",
+      "markedText": "Kime neden yardım ettiğini kendi sözlerinle söylersin.",
+      "words": [
+        {
+          "word": "Kime",
+          "startMs": 132420,
+          "endMs": 132560
+        },
+        {
+          "word": "neden",
+          "startMs": 132560,
+          "endMs": 132830
+        },
+        {
+          "word": "yardım",
+          "startMs": 132830,
+          "endMs": 133060
+        },
+        {
+          "word": "ettiğini",
+          "startMs": 133060,
+          "endMs": 133450
+        },
+        {
+          "word": "kendi",
+          "startMs": 133610,
+          "endMs": 133850
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 134010,
+          "endMs": 134280
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 134280,
+          "endMs": 135440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-57",
+      "chapterId": "ch-3",
+      "startMs": 136610,
+      "endMs": 138130,
+      "pauseAfterMs": 480,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 136610,
+          "endMs": 136840
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 136950,
+          "endMs": 137650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-58",
+      "chapterId": "ch-3",
+      "startMs": 138130,
+      "endMs": 139820,
+      "pauseAfterMs": 770,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 138130,
+          "endMs": 138310
+        },
+        {
+          "word": "bir",
+          "startMs": 138310,
+          "endMs": 138370
+        },
+        {
+          "word": "iş",
+          "startMs": 138460,
+          "endMs": 138500
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 138660,
+          "endMs": 139050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-59",
+      "chapterId": "ch-3",
+      "startMs": 139820,
+      "endMs": 141490,
+      "pauseAfterMs": 710,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 139820,
+          "endMs": 140010
+        },
+        {
+          "word": "sıra",
+          "startMs": 140010,
+          "endMs": 140140
+        },
+        {
+          "word": "sende.",
+          "startMs": 140140,
+          "endMs": 140780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-60",
+      "chapterId": "ch-3",
+      "startMs": 141490,
+      "endMs": 144796,
+      "pauseAfterMs": 236,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 141490,
+          "endMs": 141910
+        },
+        {
+          "word": "bu",
+          "startMs": 141910,
+          "endMs": 142090
+        },
+        {
+          "word": "notları",
+          "startMs": 142230,
+          "endMs": 142450
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 142550,
+          "endMs": 143120
+        },
+        {
+          "word": "kendi",
+          "startMs": 143300,
+          "endMs": 143460
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 143460,
+          "endMs": 143900
+        },
+        {
+          "word": "anlat.",
+          "startMs": 143900,
+          "endMs": 144560
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

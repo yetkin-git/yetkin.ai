@@ -1,5 +1,6 @@
 import "server-only";
 
+import "@/lib/junior/pilot-engine/acoustic-timeline-disk";
 import { projectJuniorGraphicHop, reduceSceneState } from "@yetkin/junior-graphic/runtime";
 import { railV1JuniorLessonPlayDataSchema } from "@/lib/kernel/http/v1-contract";
 import type { JuniorMediaUrls } from "@/lib/junior/media-grant";
@@ -32,8 +33,10 @@ type PlayLessonFields = {
 
 /**
  * Mevcut `junior-lesson-play` gövdesi.
- * Pilot dersin konuşması mühürlü zaman çizelgesinin düz metnidir; bilye, dedektif
- * tahtası ve kare listesi bu nesneye yazılmaz. Yeni hop açılmaz.
+ * Pilot dersin konuşması mühürlü zaman çizelgesinin düz metnidir. Kelime saati
+ * ve kare listesi bu nesneye yazılmaz. Bölüm saatleri `beats` alanındadır.
+ * Pilot olmayan ders, kilitli zaman çizelgesi olsa da ders kaydını taşır.
+ * Yeni hop açılmaz.
  */
 export function buildJuniorLessonPlayData(input: {
   lessonKey: string;
@@ -52,6 +55,15 @@ export function buildJuniorLessonPlayData(input: {
     ? pilot.chapters.map((chapter) => chapter.title.trim()).filter((title) => title.length > 0)
     : (input.lesson.steps ?? []).map((step) => step.trim()).filter((step) => step.length > 0);
   const graphic = pilot ? projectJuniorGraphicHop(reduceSceneState(pilot, pilot.audio.durationMs)) : null;
+  const beats = pilot
+    ? pilot.chapters
+        .filter((chapter) => chapter.title.trim().length > 0 && chapter.endMs > chapter.startMs)
+        .map((chapter) => ({
+          title: chapter.title.trim(),
+          startMs: chapter.startMs,
+          endMs: chapter.endMs,
+        }))
+    : [];
   const parsed = railV1JuniorLessonPlayDataSchema.safeParse({
     lesson: {
       lessonKey: input.lessonKey,
@@ -67,6 +79,7 @@ export function buildJuniorLessonPlayData(input: {
     practice: input.lesson.practice,
     progress: input.progress,
     graphic,
+    beats,
   });
   if (!parsed.success) {
     return null;

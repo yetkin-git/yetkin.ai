@@ -41,7 +41,7 @@ export type VerdictStamp = {
 export type DetectiveState = {
   value: number;
   digits: readonly string[];
-  highlightedTarget: "ones" | "all" | null;
+  highlightedTarget: "ones" | "last-two" | "all" | null;
   highlightedDigit: string | null;
   highlightColor: "cyan" | "amber" | "rose" | "emerald";
   magnifyingGlass: boolean;
@@ -297,9 +297,29 @@ export type SpeedState = {
 };
 
 export type SummaryCardItem = {
-  icon: "puzzle" | "search" | "plus";
+  icon: "puzzle" | "search" | "plus" | "columns" | "link";
   title: string;
   body: string;
+};
+
+/**
+ * Kavram listesi. Dersin adımlarını zamanla açar.
+ * `summary-board` recap kartlarını (dersin sonu) baştan basar; bu layout
+ * anlatı ilerledikçe satır ekler, yani ekran konuşmayla birlikte değişir.
+ */
+export type ConceptRow = {
+  title: string;
+  body: string;
+  tone: "concept" | "example" | "trap" | "gold" | "recap";
+};
+
+export type ConceptListState = {
+  visible: boolean;
+  heading: string;
+  rows: readonly ConceptRow[];
+  /** Kaçıncı satıra kadar açık. `atMs` ile satır satır artar. */
+  revealed: number;
+  note: string;
 };
 
 export type SceneGraphState = {
@@ -327,6 +347,7 @@ export type SceneGraphState = {
   detective: DetectiveState;
   callout: CalloutState | null;
   summaryCards: readonly SummaryCardItem[];
+  conceptList: ConceptListState;
   echoPrompt: string;
   activeCue: CueSegment | null;
   activeCueIndex: number;
@@ -349,7 +370,7 @@ const INITIAL_FACTOR_TREE: FactorTreeState = {
   number: 6,
   factors: [1, 2, 3, 6],
   pairs: ["1 × 6 = 6", "2 × 3 = 6"],
-  label: "Çarpanlar: Sayıyı bölen parçalar",
+  label: "Çarpanlar: eşit veya küçük (1, 2, 3, 6)",
 };
 
 const INITIAL_MULTIPLE_TOWER: MultipleTowerState = {
@@ -566,6 +587,14 @@ const INITIAL_DETECTIVE: DetectiveState = {
   verdicts: [],
 };
 
+const INITIAL_CONCEPT_LIST: ConceptListState = {
+  visible: false,
+  heading: "",
+  rows: [],
+  revealed: 0,
+  note: "",
+};
+
 function readText(value: unknown): string {
   return typeof value === "string" ? value : "";
 }
@@ -645,6 +674,31 @@ function readPrimeCard(value: unknown): PrimeNumberCard | null {
     stamp: typeof row.stamp === "string" ? row.stamp : "",
     nodes: readTimedList(row.nodes),
   };
+}
+
+const CONCEPT_TONES = new Set<ConceptRow["tone"]>(["concept", "example", "trap", "gold", "recap"]);
+
+function readConceptRows(value: unknown): ConceptRow[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+  const rows: ConceptRow[] = [];
+  for (const item of value) {
+    if (!item || typeof item !== "object") {
+      continue;
+    }
+    const row = item as { title?: unknown; body?: unknown; tone?: unknown };
+    const title = typeof row.title === "string" ? row.title.trim() : "";
+    const body = typeof row.body === "string" ? row.body.trim() : "";
+    if (title.length === 0 || body.length === 0) {
+      continue;
+    }
+    const tone = CONCEPT_TONES.has(row.tone as ConceptRow["tone"])
+      ? (row.tone as ConceptRow["tone"])
+      : "concept";
+    rows.push({ title, body, tone });
+  }
+  return rows;
 }
 
 function applyKeyframe(state: SceneGraphState, kf: VisualKeyframe): void {
@@ -813,7 +867,7 @@ function applyKeyframe(state: SceneGraphState, kf: VisualKeyframe): void {
         number: typeof p.number === "number" ? p.number : 6,
         factors: Array.isArray(p.factors) ? p.factors.map(Number) : [1, 2, 3, 6],
         pairs: Array.isArray(p.pairs) ? p.pairs.map(String) : ["1 × 6 = 6", "2 × 3 = 6"],
-        label: typeof p.label === "string" ? p.label : "Çarpanlar: Sayıyı bölen parçalar",
+        label: typeof p.label === "string" ? p.label : "Çarpanlar: eşit veya küçük (1, 2, 3, 6)",
       };
       break;
     }
@@ -857,7 +911,8 @@ function applyKeyframe(state: SceneGraphState, kf: VisualKeyframe): void {
         p.color === "amber" || p.color === "rose" || p.color === "emerald" ? p.color : "cyan";
       state.detective = {
         ...state.detective,
-        highlightedTarget: p.target === "all" ? "all" : "ones",
+        highlightedTarget:
+          p.target === "all" ? "all" : p.target === "last-two" ? "last-two" : "ones",
         highlightedDigit: typeof p.digit === "string" ? p.digit : state.detective.digits[state.detective.digits.length - 1] ?? null,
         highlightColor: color,
         magnifyingGlass: Boolean(p.magnifyingGlass),
@@ -1132,7 +1187,56 @@ function applyKeyframe(state: SceneGraphState, kf: VisualKeyframe): void {
       }
       break;
     }
+    case "SHOW_CONCEPT_LIST": {
+      state.layout = "concept-list";
+      const previous = state.conceptList;
+      const rows = readConceptRows(p.rows);
+      // Satır biriktirilir: anlatı ilerledikçe liste büyür, ekran donmaz.
+      const merged = p.reset === true ? rows : [...previous.rows, ...rows];
+      const requested =
+        typeof p.reveal === "number" && Number.isFinite(p.reveal)
+          ? Math.trunc(p.reveal)
+          : merged.length;
+      state.conceptList = {
+        visible: merged.length > 0,
+        heading: typeof p.heading === "string" ? p.heading : previous.heading,
+        rows: merged,
+        revealed: Math.max(0, Math.min(merged.length, requested)),
+        note: typeof p.note === "string" ? p.note : previous.note,
+      };
+      if (typeof p.subtitle === "string") {
+        state.subtitle = p.subtitle;
+      }
+      break;
+    }
   }
+}
+
+/**
+ * İki kelime arasındaki sessizlik bu kadar veya daha uzunsa vurgu aralıkta durmaz.
+ * Kelime aralığının dışında kuyruk yoktur.
+ */
+const KARAOKE_SILENCE_GAP_MS = 150;
+
+/**
+ * Amber kelime indeksi. Aralık yalnız `startMs ≤ şimdi ≤ endMs`.
+ * Sonraki kelime 150 ms veya daha geç başlıyorsa ara indeks -1'dir.
+ * Ortak milisaniyede yeni kelime seçilir. Sessizlikte son kelime asılı kalmaz.
+ */
+function activeKaraokeWordIndex(words: readonly WordTimestamp[], timeMs: number): number {
+  let wIdx = -1;
+  for (let w = 0; w < words.length; w += 1) {
+    const word = words[w]!;
+    const next = words[w + 1];
+    const gapMs = next ? next.startMs - word.endMs : Number.POSITIVE_INFINITY;
+    if (gapMs >= KARAOKE_SILENCE_GAP_MS && timeMs > word.endMs && (!next || timeMs < next.startMs)) {
+      return -1;
+    }
+    if (timeMs >= word.startMs && timeMs <= word.endMs) {
+      wIdx = w;
+    }
+  }
+  return wIdx;
 }
 
 /**
@@ -1175,6 +1279,7 @@ export function reduceSceneState(timeline: TimelineJSON, currentTimeMs: number):
     detective: { ...INITIAL_DETECTIVE },
     callout: null,
     summaryCards: [],
+    conceptList: { ...INITIAL_CONCEPT_LIST, rows: [] },
     echoPrompt: "",
     activeCue: null,
     activeCueIndex: 0,
@@ -1202,15 +1307,7 @@ export function reduceSceneState(timeline: TimelineJSON, currentTimeMs: number):
   if (activeCue) {
     state.activeChapterId = activeCue.chapterId;
     if (activeCue.words && activeCue.words.length > 0) {
-      let wIdx = -1;
-      for (let w = 0; w < activeCue.words.length; w += 1) {
-        const word = activeCue.words[w]!;
-        if (clampedMs >= word.startMs && clampedMs <= word.endMs + 120) {
-          wIdx = w;
-        } else if (clampedMs >= word.startMs) {
-          wIdx = w;
-        }
-      }
+      const wIdx = activeKaraokeWordIndex(activeCue.words, clampedMs);
       state.activeWordIndex = wIdx;
       state.activeWord = wIdx >= 0 ? (activeCue.words[wIdx] ?? null) : null;
     }

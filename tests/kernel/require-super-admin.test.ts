@@ -7,6 +7,7 @@ import {
 } from "@/lib/kernel/auth/require-super-admin";
 import {
   assertSuperAdminActor,
+  describeSuperAdminProductionBindingWarning,
   isSuperAdminActor,
   isSuperAdminUser,
   resolveCanonicalSuperAdminEmail,
@@ -220,6 +221,20 @@ describe("requireSuperAdmin tek merkez", () => {
       ).toBe(true);
       expect(
         isSuperAdminActor({
+          id: adminId,
+          email: "yapinet360@gmail.com",
+          emailConfirmedAt: null,
+        }),
+      ).toBe(true);
+      expect(
+        isSuperAdminActor({
+          id: otherId,
+          email: "yapinet360@gmail.com",
+          emailConfirmedAt: null,
+        }),
+      ).toBe(false);
+      expect(
+        isSuperAdminActor({
           id: CITIZEN_ID,
           email: "yapinet360@gmail.com",
           emailConfirmedAt: CONFIRMED,
@@ -232,6 +247,24 @@ describe("requireSuperAdmin tek merkez", () => {
           emailConfirmedAt: CONFIRMED,
         }),
       ).toBe(false);
+      expect(
+        describeSuperAdminProductionBindingWarning(
+          { id: adminId, email: "yapinet360@gmail.com", emailConfirmedAt: CONFIRMED },
+          { NODE_ENV: "production" },
+        ),
+      ).toContain("SUPER_ADMIN_USER_ID ortam değişkeni zorunludur");
+      expect(
+        describeSuperAdminProductionBindingWarning(
+          { id: adminId, email: "yapinet360@gmail.com", emailConfirmedAt: CONFIRMED },
+          { NODE_ENV: "production", SUPER_ADMIN_USER_ID: otherId },
+        ),
+      ).toContain("eşleşmediği için yetki reddedildi");
+      expect(
+        describeSuperAdminProductionBindingWarning(
+          { id: adminId, email: "yapinet360@gmail.com", emailConfirmedAt: CONFIRMED },
+          { NODE_ENV: "production", SUPER_ADMIN_USER_ID: adminId },
+        ),
+      ).toBeNull();
     } finally {
       (process.env as { NODE_ENV?: string }).NODE_ENV = previousNode;
     }

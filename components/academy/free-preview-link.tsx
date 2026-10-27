@@ -14,7 +14,7 @@ export function FreePreviewLink({
   className = "",
 }: {
   href: string;
-  surface: "hero" | "purchase" | "expired";
+  surface: "hero" | "purchase" | "expired" | "promise";
   size?: "sm" | "lg";
   className?: string;
 }) {

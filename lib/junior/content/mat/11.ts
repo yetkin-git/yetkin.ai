@@ -1,42 +1,38 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/**
- * 6. Sınıf Matematik. Paydası aynı kesirlerde toplama ve çıkarma.
- * Film `resolveJuniorPlayback` grafiğidir. Pay ve payda parametredir.
- * `FractionBarsScene` bu dersi çizmez.
- */
-export const JUNIOR_MAT_11_SCENARIO: JuniorLessonScenario = {
+/** 6. Sınıf Matematik. Cebirsel ifadeler. */
+export const JUNIOR_MAT_17_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-11",
-  title: "Payda aynıyken toplama",
+  title: "Cebirsel ifadeler",
   teaser:
-    "Paydalar aynıysa paylar toplanır. Payda yerinde kalır. Kavramsal Anlayış, dilimin boyunun değişmediğini söyler. İfade Gücü, paydayı neden yerinde bıraktığını anlatmandır.",
+    "Cebirsel ifade, sayılar ile harflerin işlemli yazılışıdır. Harf, değişebilen bir niceliği tutar. Kavramsal Anlayış, benzer terimi sabit sayıdan ayırmandır. İfade Gücü, 3x artı 2x ifadesini 5x diye kısaltmandır.",
   welcome:
-    "Merhaba sevgili çocuklar! Hiç aynı boyda kesilmiş pasta dilimlerini bir araya getirip kaç dilim olduğunu saydın mı? Dilimlerin boyutu değişmez; sadece elindeki dilim adedi artar. Paydası eşit olan kesirleri toplamayı ve çıkarmayı öğreneceğiz.",
+    "Merhaba sevgili çocuklar! Bugün sayılarla harfleri bir araya getirip cebir dilini konuşacağız. Hiç bir kutunun içindeki bilye sayısını bilmeden ona bir sembol verip işlem yaptın mı? Harf, o bilinmeyen sayının güvenli bir yer tutucusudur. Cebirsel ifadeleri okuyup benzer terimleri toplamayı öğreneceğiz.",
   concept:
-    "İki kesrin paydası eşitse, sadece paylar toplanır veya çıkarılır; payda ise aynen yerinde kalır. Çünkü payda dilimin büyüklüğünü, pay ise kaç dilim aldığını gösterir. Dilimin boyu değişmediği için paydayı toplamak kesinlikle yanlıştır. Pratik kural: İşlem sadece üstteki payların arasında gerçekleşir; alttaki paydalar işlemden etkilenmeden yerinde durur.",
+    "Cebirsel ifadede x veya a gibi harfler değişkeni temsil eder. Örneğin 3x demek, x sayısının 3 katı demektir ve buradaki 3 katsayıdır. Eğer harfin önünde sayı yazmıyorsa katsayısı 1'dir. Benzer terimler ise aynı harfi taşıyan terimlerdir; örneğin 3x ile 2x benzer terimdir. 3x ile 5 ise benzer terim değildir, çünkü 5'in yanında harf yoktur. Pratik kural: Yalnızca benzer terimler birbiriyle toplanabilir; harfli terim ile yalın sayı birbirine asla katılmaz.",
   example:
-    "Dörtte bir ile dörtte iki kesirlerini toplayalım. Paylar 1 ve 2'dir. 1 artı 2, 3 eder; payda ise 4 olarak sabit kalır. Yani sonuç dörtte üçtür. Dörtte üçten dörtte biri çıkarırsan; 3 eksi 1, 2 eder ve sonuç dörtte iki kalır. Şimdi sekiz dilime ayrılmış bir pizza düşün: İki dilim yedin, ardından bir dilim daha aldın. Yediğin toplam miktar sekizde üç dilimdir. Dilimin boyu değişmedi, sadece yediğin dilim sayısı arttı; payda 8 olarak kaldı.",
+    "Bir kalemin fiyatı x lira olsun. 3 kalem alırsan 3x lira tutar. 2 kalem daha alırsan 3x artı 2x olur; katsayıları toplarsak 3 artı 2'den sonuç 5x lira yapar. Yanına bir de 4 liralık silgi eklersen toplam tutar 5x artı 4 olur; bu iki ifade birbiriyle toplanıp 9x yapılamaz! x yerine 6 koyarsan: 5 çarpı 6 artı 4'ten sonuç 34 lira çıkar. 2x artı 3x artı 1 ifadesi de 5x artı 1 şeklinde sadeleşir.",
   hint: "trap",
   warning:
-    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Paydaları da kendi arasında toplamak bu konunun en büyük tuzağıdır. Bir bölü 4 artı iki bölü 4 işlemi asla üç bölü 8 etmez! Payda yerinde korunur, sonuç dörtte üçtür. Paydalar eşit olduğu sürece alttaki sayıya hiç dokunmadan sadece üstteki payları topla. Payda aynıyken toplama konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Tuzaklara Düşme! 3x artı 4 ifadesini toplayıp 7x sanmak en sık düşülen tuzaktır. 4 sayısının yanında x harfi yoktur, bu yüzden katsayıya eklenemez. 3x artı 2x ise 5x olur çünkü ikisi de x harfi taşır. Harfi olmayan sayılar sabit terimdir ve yalnızca diğer sabit terimlerle toplanır.",
   life:
-    "Aynı boyuttaki dilimlerden iki tane yersen dilimin boyu değişmez, saydığın dilim artar. Aynı bardak ölçeğiyle bir ölçek ve iki ölçek su koyarsan üç ölçek olur. Ölçek kabı aynı kaldığı için payda da aynı kalır. Yarım bardak ile çeyrek bardağı bu derste doğrudan toplamazsın. Onların paydası farklıdır.",
+    "Bunu otobüs biletinde de kullanırsın. Bilet x lira ise 4 bilet 4x liradır. Üstüne 10 lira su alırsan ödeme 4x artı 10 olur. Bilet 15 liraysa 4 çarpı 15 artı 10, 70 lira eder. Suyu bilet sayısına katmazsın. Su sabit bir tutardır.",
   recap: [
-    "Paydalar aynıysa yalnız paylar toplanır veya çıkarılır.",
-    "Payda, dilimin boyudur ve işlem sırasında yerinde kalır.",
-    "Bir bölü dört artı iki bölü dört, dörtte üç eder. Üç bölü sekiz bu işlemin sonucu değildir.",
+    "Değişken bir harftir. Katsayı, harfin kaç katı alındığını söyler.",
+    "Benzer terimler toplanır. 3x artı 2x, 5x eder.",
+    "5x artı 4, 9x değildir. x yerine 6 konursa sonuç 34 olur.",
   ],
-  conceptSeal: "Payda, dilimin boyudur.",
-  voiceSeal: "Paydayı neden yerinde bıraktığını söylersin.",
+  conceptSeal: "Cebirsel ifade, değişken ile sayının birlikte yazılmış hâlidir.",
+  voiceSeal: "Benzer terimi neden topladığını ve sabiti neden ayırdığını söylersin.",
   outcomes: [
-    "Aynı paydada paylar toplanır.",
-    "Aynı paydada paylar çıkarılır.",
-    "Payda toplama ve çıkarma sırasında değişmez.",
+    "Katsayı, değişkenin kaç katı olduğunu söyler.",
+    "Yalnız benzer terimler toplanır.",
+    "Değişkenin yerine sayı konunca ifade hesaplanır.",
   ],
-  scene: "fraction-sum",
+  scene: "algebra",
   parentNote:
-    "Çocuğunuz paydası aynı kesirlerde yalnız payların işleme girdiğini anlatır. Evde dörtte bir artı dörtte ikiyi dörtte üç diye yazmak yeter. Paydayı toplayıp üç bölü sekiz yazmayın.",
+    "Çocuğunuz 3x artı 2x ifadesini 5x diye toplar. 5x artı 4, 9x yazılmaz. Evde bilet x lira, su 10 lira örneği yeter. x 15 ise sonuç 70 liradır.",
 
 };
 
-export const JUNIOR_MAT_11 = juniorLessonFromScenario(JUNIOR_MAT_11_SCENARIO);
+export const JUNIOR_MAT_17 = juniorLessonFromScenario(JUNIOR_MAT_17_SCENARIO);

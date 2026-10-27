@@ -1,9 +1,9 @@
-import { JUNIOR_MAT_22, JUNIOR_MAT_22_SCENARIO } from "@/lib/junior/content/mat/22";
+import { JUNIOR_MAT_22, JUNIOR_MAT_22_SCENARIO } from "@/lib/junior/content/mat/18";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
 /**
- * `jr_06_mat-22` alan birimleri.
+ * `jr_06_mat-18` alan birimleri.
  * 2 m kenar, 4 m², 40.000 cm². 3 dönüm = 3.000 m². 2 hektar = 20 dönüm.
  * İndirgeyici 10.000 ile çarpmaz.
  */
@@ -11,12 +11,12 @@ const example = JUNIOR_MAT_22_SCENARIO.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "Kenar uzunluğu 2", "showArea");
 
 export const JR_06_MAT_22_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
-  lessonKey: "jr_06_mat-22",
+  lessonKey: "jr_06_mat-18",
   title: JUNIOR_MAT_22_SCENARIO.title,
   listenText: JUNIOR_MAT_22.listenText,
   example,
   exampleMarked,
-  audioPath: "/media/junior/audio/jr_06_mat-22.mp3",
+  audioPath: "/media/junior/audio/jr_06_mat-18.mp3",
   layout: "area",
   stageTitle: "Alan birimi",
   stageSubtitle: "Dönüm ve hektar",

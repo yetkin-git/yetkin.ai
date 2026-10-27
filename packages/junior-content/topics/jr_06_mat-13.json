@@ -1,25 +1,28 @@
 {
   "key": "jr_06_mat-13",
-  "title": "Kesirlerde çarpma ve bölme",
-  "teaser": "Kesirde çarpma, payları kendi arasında ve paydaları kendi arasında çarpar. Bölme, ikinci kesrin ters çevrilip çarpılmasıdır. Kavramsal Anlayış, yarının yarısının dörtte bir olduğunu görmendir. İfade Gücü, bölmeyi çarpmaya nasıl çevirdiğini söylemektir.",
-  "welcome": "Merhaba sevgili çocuklar! Kesirlerle çarpma ve bölmenin mantığını adım adım kavrayacağız. Hiç bir çikolatanın yarısını alıp o yarımın da yarısını bir arkadaşına verdin mi? Elinde bütün çikolatanın dörtte biri kalır. Kesirlerde çarpma ve bölmeyi en pratik ve kalıcı şekilde öğreneceğiz.",
-  "concept": "İki kesir çarpılırken paylar kendi arasında çarpılıp paya, paydalar kendi arasında çarpılıp paydaya yazılır; payda eşitlemeye hiç gerek yoktur! Bölme işleminde ise ikinci kesir ters çevrilir; yani pay ile paydanın yeri değiştirilir ve işlem çarpmaya dönüştürülür. Pratik kural: Bir kesri 1'den küçük bir kesirle çarptığında elde ettiğin sonuç küçülür. Yarının yarısı, dörtte birdir.",
-  "example": "Bir bölü 2 çarpı bir bölü 2 işlemine bakalım. Paylar 1 çarpı 1, 1 eder; paydalar 2 çarpı 2, 4 eder; sonuç dörtte birdir. Üç bölü 4 ile 2 tam sayısını çarpalım. 2 sayısı iki bölü 1 olarak yazılır; paylar 3 çarpı 2'den 6, paydalar 4 çarpı 1'den 4 eder; sadeleşince üç bölü 2 olur. Şimdi bölme yapalım: Bir bölü 2 bölü bir bölü 4. İkinci kesir olan bir bölü 4'ü ters çevirirsek dört bölü 1 olur. Bir bölü 2 çarpı dört bölü 1 işleminden sonuç 2 çıkar. Çünkü bir yarımın içinde tam iki tane çeyrek vardır.",
-  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Tuzaklara Düşme! Bölme işleminde ikinci kesri ters çevirmeden çarpmak en sık yapılan hatadır. Bir bölü 2 bölü bir bölü 4 işlemi asla bir bölü 8 etmez! İkinci kesir ters dönünce 4 olur ve yarım çarpı 4, 2 eder. Çarpma işleminde ise sakın payda eşitlemeye kalkışma; payı payla, paydayı paydayla çarp.",
-  "life": "Bunu mutfakta da kullanırsın. Yarım limonun yarısını sıkarsan bütün limonun dörtte birini kullanmış olursun. Bir bölü 2 çarpı bir bölü 2, dörtte birdir. Yarım litre sütü çeyrek litrelik bardaklara bölersen 2 bardak dolar. Bölme, kaç çeyrek sığdığını söyler.",
+  "title": "Cebirsel ifadede algoritma",
+  "teaser": "Algoritma, adımları belli bir işlemdir. Kavramsal Anlayış, bilinmeyene önce işlem sırasını uygulamaktır. İfade Gücü, 2x artı 6 ifadesini x yerine 4 koyarak sonuçlandırmaktır.",
+  "welcome": "Merhaba sevgili çocuklar! Bugün bir cebirsel ifadeyi adım adım işleyeceğiz. Okul tarifindeki sıra, yemeği rastgele karıştırmamaktır. Cebirde de önce hangi işlem varsa o sıra durur.",
+  "concept": "Algoritma, aynı tür ifadede hep aynı sırayla yapılan adımdır. Önce parantez ve çarpma, sonra toplama gelir. Bilinmeyenin yerine sayı konunca model sayıya döner. 2x artı 6 ifadesinde x yerine 4 koyarsan önce 2 çarpı 4, sonra 6 eklenir.",
+  "example": "x yerine 4 koyalım. 2 çarpı 4, 8 eder. 8 artı 6, 14 eder. x yerine 5 koyunca 2 çarpı 5, 10 eder. 10 artı 6, 16 eder. Aynı algoritma iki farklı sayı için iki sonuç verir. İfade değişmez, girdi değişir.",
+  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. 2x artı 6 ifadesinde 2 ile 6'yı önce toplamak algoritmayı bozar. Çarpma, toplamadan önce gelir. x yerine sayı koymadan 2x'i 2 artı x sanma.",
+  "life": "Bunu okul bahçesindeki bilet sırasında görürsün. Kutudan her çocuğa 2 kalem ve bir de 6 çıkartma verilirse adım hep aynıdır. Çocuk sayısı değişir, kural değişmez.",
   "recap": [
-    "Çarpmada paylar kendi arasında, paydalar kendi arasında çarpılır.",
-    "Bölmede ikinci kesir ters çevrilir, sonra çarpılır.",
-    "Yarının yarısı dörtte birdir. Yarım bölü çeyrek, 2 eder."
+    "Algoritma, ifadenin sabit işlem sırasıdır.",
+    "Önce çarpma, sonra toplama yapılır.",
+    "Bilinmeyenin yerine sayı konunca sonuç çıkar."
   ],
-  "conceptSeal": "Kesirde çarpma alanı daraltır. Bölme, ters kesirle çarpmaya döner.",
-  "voiceSeal": "Çarpmada pay ve paydayı, bölmede ters çevirmeyi ayrı söylersin.",
+  "conceptSeal": "Aynı ifade, aynı adım sırasıyla işlenir. Değişen şey girdidir.",
+  "voiceSeal": "x yerine 4 koyunca 2x artı 6 ifadesinin 14 ettiğini adım adım dersin.",
   "outcomes": [
-    "Kesir çarpımında paydalar eşitlenmez.",
-    "Bölme, ikinci kesrin tersiyle çarpılır.",
-    "Bir bölü 2 çarpı bir bölü 2, dörtte birdir."
+    "Algoritma işlem sırasıdır.",
+    "Çarpma toplamadan önce gelir.",
+    "Bilinmeyen yerine konan sayı sonucu değiştirir.",
+    "Cebirsel ifadede algoritma kuralı bu derste yeni bir istisna açmaz.",
+    "29 numaralı örnek, ikinci bir kurala dönüşmez.",
+    "Okul defterindeki adım, bahçedeki ölçümle aynı kuralı taşır."
   ],
-  "scene": "fraction",
-  "hint": "trap",
-  "parentNote": "Çocuğunuz yarının yarısının dörtte bir olduğunu ve yarım bölü çeyreğin 2 ettiğini anlatır. Bölmede ikinci kesir ters çevrilir. Evde limon örneği yeter."
+  "scene": "algebra",
+  "hint": "gold",
+  "parentNote": "Çocuğunuz 2x artı 6 için x yerine 4 koyup 14 bulur. Önce 2 ile 6'yı toplamaz. x'i 2 artı x diye açmaz."
 }

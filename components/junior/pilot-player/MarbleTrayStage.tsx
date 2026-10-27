@@ -248,7 +248,7 @@ export function MarbleTrayStage(props: { state: SceneGraphState }): ReactElement
             : "Bilye tepsisi"
         }
       >
-        {/* Üst Bilgi Rozeti — bilyeler gelince görünür */}
+        {/* Üst Bilgi Rozeti — bilyeler gelince görünür; öncesinde dedektif karşılama masası durur */}
         {marblesSpawned ? (
           <g transform="translate(24, 12)">
             <rect
@@ -264,7 +264,118 @@ export function MarbleTrayStage(props: { state: SceneGraphState }): ReactElement
               {`TOPLAM: ${marbleCount} CAM BİLYE`}
             </text>
           </g>
-        ) : null}
+        ) : (
+          <g data-junior-detective-welcome-desk="">
+            <rect
+              x={24}
+              y={16}
+              width={912}
+              height={248}
+              rx={22}
+              fill="rgba(15, 23, 42, 0.82)"
+              stroke="rgba(34, 211, 238, 0.38)"
+              strokeWidth={2}
+            />
+            <rect
+              x={48}
+              y={34}
+              width={290}
+              height={30}
+              rx={15}
+              fill="rgba(34, 211, 238, 0.16)"
+              stroke="rgba(34, 211, 238, 0.45)"
+            />
+            <text x={193} y={54} textAnchor="middle" fill="#67e8f9" fontSize={13} fontWeight={800}>
+              BÖLÜNEBİLME DEDEKTİFLERİ MASASI
+            </text>
+            <text x={48} y={98} fill="#f8fafc" fontSize={22} fontWeight={900}>
+              {state.title || "Çarpanlar, Katlar ve Bölünebilme"}
+            </text>
+            <text x={48} y={124} fill="#cbd5e1" fontSize={14} fontWeight={600}>
+              {state.subtitle || "Uzun bölme yapmadan, tek bakışta karar verme rehberi"}
+            </text>
+            <g transform="translate(48, 146)">
+              <rect
+                x={0}
+                y={0}
+                width={205}
+                height={88}
+                rx={14}
+                fill="rgba(30, 41, 59, 0.9)"
+                stroke="rgba(56, 189, 248, 0.4)"
+              />
+              <text x={16} y={28} fill="#38bdf8" fontSize={13} fontWeight={800}>
+                1. Bilye Tepsisi Deneyi
+              </text>
+              <text x={16} y={50} fill="#e2e8f0" fontSize={12} fontWeight={600}>
+                Kalansız bölen = Çarpan
+              </text>
+              <text x={16} y={70} fill="#94a3b8" fontSize={11} fontWeight={600}>
+                Çarpan ≤ Sayı · Kat ≥ Sayı
+              </text>
+            </g>
+            <g transform="translate(269, 146)">
+              <rect
+                x={0}
+                y={0}
+                width={205}
+                height={88}
+                rx={14}
+                fill="rgba(30, 41, 59, 0.9)"
+                stroke="rgba(251, 191, 36, 0.4)"
+              />
+              <text x={16} y={28} fill="#fbbf24" fontSize={13} fontWeight={800}>
+                2. Son Basamaklar
+              </text>
+              <text x={16} y={50} fill="#e2e8f0" fontSize={12} fontWeight={600}>
+                2, 5 ve 10: Birler basamağı
+              </text>
+              <text x={16} y={70} fill="#94a3b8" fontSize={11} fontWeight={600}>
+                4 Kuralı: Son iki basamak
+              </text>
+            </g>
+            <g transform="translate(490, 146)">
+              <rect
+                x={0}
+                y={0}
+                width={205}
+                height={88}
+                rx={14}
+                fill="rgba(30, 41, 59, 0.9)"
+                stroke="rgba(52, 211, 153, 0.4)"
+              />
+              <text x={16} y={28} fill="#34d399" fontSize={13} fontWeight={800}>
+                3. Rakamlar Toplamı
+              </text>
+              <text x={16} y={50} fill="#e2e8f0" fontSize={12} fontWeight={600}>
+                3 ve 9: Basamakları topla
+              </text>
+              <text x={16} y={70} fill="#94a3b8" fontSize={11} fontWeight={600}>
+                Toplam 3 veya 9&apos;un katı mı?
+              </text>
+            </g>
+            <g transform="translate(711, 146)">
+              <rect
+                x={0}
+                y={0}
+                width={201}
+                height={88}
+                rx={14}
+                fill="rgba(30, 41, 59, 0.9)"
+                stroke="rgba(167, 139, 250, 0.4)"
+              />
+              <text x={16} y={28} fill="#c4b5fd" fontSize={13} fontWeight={800}>
+                4. Çifte Koşul (6)
+              </text>
+              <text x={16} y={50} fill="#e2e8f0" fontSize={12} fontWeight={600}>
+                Hem 2 hem 3 aynı anda!
+              </text>
+              <text x={16} y={70} fill="#94a3b8" fontSize={11} fontWeight={600}>
+                7 Dedektif Kuralı Hazır
+              </text>
+            </g>
+          </g>
+        )}
 
         {/* Denklem / Durum Hapı */}
         {marbleGroup.equation ? (

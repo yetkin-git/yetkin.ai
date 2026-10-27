@@ -1,9 +1,12 @@
+import { AdminCatalogFlash } from "@/components/kernel/admin-catalog-flash";
 import { AdminCatalogList } from "@/components/kernel/admin-catalog-list";
+import { AdminSaleGateStrip } from "@/components/kernel/admin-sale-gate-strip";
 import { AdminShelterActions } from "@/components/kernel/admin-shelter-actions";
 import { AuthNeeded } from "@/components/ui/auth-needed";
 import { Forbidden } from "@/components/ui/forbidden";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { loadAdminCatalogBoard } from "@/lib/kernel/admin/load";
+import { readAcademyVitrineSaleGates } from "@/lib/academy/sale-gate-board";
 import { resolveSuperAdminAccess } from "@/lib/kernel/auth/session";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 
@@ -14,6 +17,7 @@ export default async function AdminCatalogPage() {
   const board = access.kind === "ok" ? await loadAdminCatalogBoard(access.user) : null;
   const entries = board?.access === "ok" ? board.entries : [];
   const coursePublish = board?.access === "ok" ? board.coursePublish : [];
+  const saleGates = access.kind === "ok" && board?.access === "ok" ? readAcademyVitrineSaleGates(entries, coursePublish) : [];
   const copy = SEN_VOICE.admin;
 
   return (
@@ -35,7 +39,11 @@ export default async function AdminCatalogPage() {
           <AdminCatalogList entries={[]} coursePublish={coursePublish} showEmptyActions={false} />
         </div>
       ) : (
-        <AdminCatalogList entries={entries} coursePublish={coursePublish} />
+        <div className="space-y-4">
+          <AdminCatalogFlash />
+          <AdminSaleGateStrip rows={saleGates} />
+          <AdminCatalogList entries={entries} coursePublish={coursePublish} />
+        </div>
       )}
     </RoomFrame>
   );

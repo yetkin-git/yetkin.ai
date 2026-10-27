@@ -1,3 +1,9 @@
+/**
+ * Çalışma zamanı soru paketi `packages/junior-content/quiz` JSON'undadır.
+ * Yazar dosya `lib/junior/quiz/<branş>/<n>.ts` dir. JSON elle düzeltilmez;
+ * `export:junior-content` basar, `tests/junior/quiz-export-guard.test.ts` sapmayı kırar.
+ */
+import { juniorElectiveQuizPacks } from "@/lib/junior/content-source";
 import { JUNIOR_FEN_QUIZ_PACKS } from "@/lib/junior/quiz/fen";
 import { JUNIOR_ING_QUIZ_PACKS } from "@/lib/junior/quiz/ing";
 import { JUNIOR_MAT_QUIZ_PACKS } from "@/lib/junior/quiz/mat";
@@ -16,6 +22,7 @@ const ALL_PACKS: readonly JuniorLessonQuizPack[] = [
   ...JUNIOR_TURKCE_QUIZ_PACKS,
   ...JUNIOR_SOSYAL_QUIZ_PACKS,
   ...JUNIOR_ING_QUIZ_PACKS,
+  ...juniorElectiveQuizPacks(),
 ];
 
 const BY_KEY: ReadonlyMap<string, JuniorLessonQuizPack> = new Map(
@@ -128,4 +135,8 @@ export function juniorIngQuizLessonKeys(): readonly string[] {
 
 export function juniorIngQuizQuestionCount(): number {
   return JUNIOR_ING_QUIZ_PACKS.reduce((sum, pack) => sum + pack.questions.length, 0);
+}
+
+export function juniorElectiveQuizLessonKeys(): readonly string[] {
+  return juniorElectiveQuizPacks().map((pack) => pack.lessonKey);
 }

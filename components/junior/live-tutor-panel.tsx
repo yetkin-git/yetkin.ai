@@ -50,7 +50,7 @@ export function LiveTutorPanel({
   const [remaining, setRemaining] = useState<number>(JUNIOR_LIVE_TUTOR_QUESTION_LIMIT);
   const [scene, setScene] = useState<JuniorTutorSceneContext | null>(sceneProp);
   const blueprint = getJuniorLessonBlueprint(lessonKey);
-  const welcome = blueprint.tutor.welcomeMessage?.trim() || JUNIOR_LIVE_TUTOR_WELCOME;
+  const welcome = blueprint?.tutor.welcomeMessage?.trim() || JUNIOR_LIVE_TUTOR_WELCOME;
   const [messages, setMessages] = useState<ChatTurn[]>(() => [
     newTurn("assistant", welcome),
   ]);
@@ -157,10 +157,10 @@ export function LiveTutorPanel({
   }
 
   const quickChips =
-    blueprint.tutor.quickChips.length > 0
-      ? blueprint.tutor.quickChips
+    (blueprint?.tutor.quickChips.length ?? 0) > 0
+      ? blueprint!.tutor.quickChips
       : JUNIOR_LIVE_TUTOR_QUICK_CHIPS;
-  const teacherTitle = blueprint.tutor.teacherName || JUNIOR_LIVE_TUTOR_TEACHER;
+  const teacherTitle = blueprint?.tutor.teacherName || JUNIOR_LIVE_TUTOR_TEACHER;
 
   const sceneLabel = scene?.title
     ? scene.subtitle

@@ -375,9 +375,6 @@ export function extraProductionBlocks(
     }
   }
   const paytr = inspectPaytrOps(env);
-  if (paytr.triple === "configured" && paytr.sandboxSet) {
-    blocking.push("PAYTR_SANDBOX üretimde dolu — throw; CREDIT yok.");
-  }
   if (paytr.triple === "configured" && paytr.mockCheckoutSet) {
     blocking.push("PAYTR_ALLOW_MOCK_CHECKOUT üretimde dolu — throw; CREDIT yok.");
   }

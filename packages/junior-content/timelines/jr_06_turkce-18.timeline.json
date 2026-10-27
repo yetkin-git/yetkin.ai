@@ -1,0 +1,2961 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_turkce-18",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "de, da, ki ve mi'nin yazımı",
+  "grade": 6,
+  "subject": "Türkçe",
+  "teacher": {
+    "name": "Elif",
+    "voice": "Aoede",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_turkce-18.mp3",
+    "durationMs": 420266,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 101370
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 101370,
+      "endMs": 352690
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 352690,
+      "endMs": 420266
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 6630,
+      "pauseAfterMs": 220,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 320,
+          "endMs": 890
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 1450,
+          "endMs": 2900
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 3590,
+          "endMs": 4310
+        },
+        {
+          "word": "hoş",
+          "startMs": 4390,
+          "endMs": 4700
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 4820,
+          "endMs": 6410
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "de, da, ki ve mi'nin yazımı",
+            "subtitle": "Türkçe",
+            "ruleBadges": [],
+            "echoPrompt": "De, da, ki ve mi sesinin bağlaç mı ek mi olduğunu söyleyip yazımını seçersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Bağlaç olan de ve da ayrı yazılır, cümleden çıkınca anlam bozulmaz."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Bulunma hal eki de ve da bitişik yazılır, nerede sorusunu cevaplar."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Soru eki mi her zaman ayrı yazılır; bağlaç ki ayrı, sıfat ki'si bitişiktir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 6630,
+      "endMs": 11600,
+      "pauseAfterMs": 290,
+      "text": "Ben Türkçe öğretmenin Elif.",
+      "markedText": "Ben Türkçe öğretmenin Elif.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 6630,
+          "endMs": 6800
+        },
+        {
+          "word": "Türkçe",
+          "startMs": 7160,
+          "endMs": 8180
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 8780,
+          "endMs": 9650
+        },
+        {
+          "word": "Elif.",
+          "startMs": 10300,
+          "endMs": 11310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 11600,
+      "endMs": 25420,
+      "pauseAfterMs": 690,
+      "text": "Yazı yazarken en çok merak edilen ve doğru yazıldığında yazıyı bir inci gibi parlatan kuralları öğreneceğiz.",
+      "markedText": "Yazı yazarken en çok merak edilen ve doğru yazıldığında yazıyı bir inci gibi parlatan kuralları öğreneceğiz.",
+      "words": [
+        {
+          "word": "Yazı",
+          "startMs": 11600,
+          "endMs": 12120
+        },
+        {
+          "word": "yazarken",
+          "startMs": 12210,
+          "endMs": 12830
+        },
+        {
+          "word": "en",
+          "startMs": 12940,
+          "endMs": 13170
+        },
+        {
+          "word": "çok",
+          "startMs": 13290,
+          "endMs": 13550
+        },
+        {
+          "word": "merak",
+          "startMs": 13630,
+          "endMs": 14110
+        },
+        {
+          "word": "edilen",
+          "startMs": 14210,
+          "endMs": 15400
+        },
+        {
+          "word": "ve",
+          "startMs": 16290,
+          "endMs": 16470
+        },
+        {
+          "word": "doğru",
+          "startMs": 17010,
+          "endMs": 17860
+        },
+        {
+          "word": "yazıldığında",
+          "startMs": 18210,
+          "endMs": 18920
+        },
+        {
+          "word": "yazıyı",
+          "startMs": 19010,
+          "endMs": 19530
+        },
+        {
+          "word": "bir",
+          "startMs": 19790,
+          "endMs": 19990
+        },
+        {
+          "word": "inci",
+          "startMs": 20260,
+          "endMs": 20660
+        },
+        {
+          "word": "gibi",
+          "startMs": 20660,
+          "endMs": 21120
+        },
+        {
+          "word": "parlatan",
+          "startMs": 21490,
+          "endMs": 22330
+        },
+        {
+          "word": "kuralları",
+          "startMs": 22710,
+          "endMs": 23570
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 23640,
+          "endMs": 24730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 25420,
+      "endMs": 44260,
+      "pauseAfterMs": 570,
+      "text": "Hiç evde sözcüğü ile o da geldi cümlesindeki da sesini söylerken birinin bitişik, diğerinin ayrı yazıldığını fark ettin mi?",
+      "markedText": "Hiç evde sözcüğü ile o da geldi cümlesindeki da sesini söylerken birinin bitişik, diğerinin ayrı yazıldığını fark ettin mi?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 25420,
+          "endMs": 26000
+        },
+        {
+          "word": "evde",
+          "startMs": 26080,
+          "endMs": 26610
+        },
+        {
+          "word": "sözcüğü",
+          "startMs": 26920,
+          "endMs": 27610
+        },
+        {
+          "word": "ile",
+          "startMs": 27700,
+          "endMs": 27940
+        },
+        {
+          "word": "o",
+          "startMs": 28030,
+          "endMs": 28110
+        },
+        {
+          "word": "da",
+          "startMs": 28530,
+          "endMs": 28630
+        },
+        {
+          "word": "geldi",
+          "startMs": 29280,
+          "endMs": 29780
+        },
+        {
+          "word": "cümlesindeki",
+          "startMs": 29780,
+          "endMs": 31320
+        },
+        {
+          "word": "da",
+          "startMs": 31420,
+          "endMs": 31670
+        },
+        {
+          "word": "sesini",
+          "startMs": 32080,
+          "endMs": 32830
+        },
+        {
+          "word": "söylerken",
+          "startMs": 33160,
+          "endMs": 34410
+        },
+        {
+          "word": "birinin",
+          "startMs": 34470,
+          "endMs": 35180
+        },
+        {
+          "word": "bitişik,",
+          "startMs": 35480,
+          "endMs": 36220
+        },
+        {
+          "word": "diğerinin",
+          "startMs": 37470,
+          "endMs": 38370
+        },
+        {
+          "word": "ayrı",
+          "startMs": 38500,
+          "endMs": 39340
+        },
+        {
+          "word": "yazıldığını",
+          "startMs": 39830,
+          "endMs": 41290
+        },
+        {
+          "word": "fark",
+          "startMs": 41600,
+          "endMs": 41960
+        },
+        {
+          "word": "ettin",
+          "startMs": 41960,
+          "endMs": 42500
+        },
+        {
+          "word": "mi?",
+          "startMs": 42880,
+          "endMs": 43690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 44260,
+      "endMs": 49830,
+      "pauseAfterMs": 400,
+      "text": "Biri bir yeri bildirir, diğeri bir başkasını da konuya katar.",
+      "markedText": "Biri bir yeri bildirir, diğeri bir başkasını da konuya katar.",
+      "words": [
+        {
+          "word": "Biri",
+          "startMs": 44260,
+          "endMs": 44650
+        },
+        {
+          "word": "bir",
+          "startMs": 44650,
+          "endMs": 44940
+        },
+        {
+          "word": "yeri",
+          "startMs": 45160,
+          "endMs": 45420
+        },
+        {
+          "word": "bildirir,",
+          "startMs": 45510,
+          "endMs": 46450
+        },
+        {
+          "word": "diğeri",
+          "startMs": 46760,
+          "endMs": 47140
+        },
+        {
+          "word": "bir",
+          "startMs": 47140,
+          "endMs": 47330
+        },
+        {
+          "word": "başkasını",
+          "startMs": 47480,
+          "endMs": 48010
+        },
+        {
+          "word": "da",
+          "startMs": 48070,
+          "endMs": 48220
+        },
+        {
+          "word": "konuya",
+          "startMs": 48220,
+          "endMs": 48820
+        },
+        {
+          "word": "katar.",
+          "startMs": 48890,
+          "endMs": 49430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 49830,
+      "endMs": 61280,
+      "pauseAfterMs": 930,
+      "text": "Bağlaç olan de ve da, ki bağlacı ve soru eki mi'nin yazımındaki altın sırları çözeceğiz.",
+      "markedText": "Bağlaç olan de ve da, ki bağlacı ve soru eki mi'nin yazımındaki altın sırları çözeceğiz.",
+      "words": [
+        {
+          "word": "Bağlaç",
+          "startMs": 49830,
+          "endMs": 50320
+        },
+        {
+          "word": "olan",
+          "startMs": 50590,
+          "endMs": 51080
+        },
+        {
+          "word": "de",
+          "startMs": 51510,
+          "endMs": 51600
+        },
+        {
+          "word": "ve",
+          "startMs": 51810,
+          "endMs": 52050
+        },
+        {
+          "word": "da,",
+          "startMs": 52050,
+          "endMs": 52290
+        },
+        {
+          "word": "ki",
+          "startMs": 52600,
+          "endMs": 52790
+        },
+        {
+          "word": "bağlacı",
+          "startMs": 52790,
+          "endMs": 53580
+        },
+        {
+          "word": "ve",
+          "startMs": 54360,
+          "endMs": 54440
+        },
+        {
+          "word": "soru",
+          "startMs": 54540,
+          "endMs": 54860
+        },
+        {
+          "word": "eki",
+          "startMs": 54860,
+          "endMs": 55410
+        },
+        {
+          "word": "mi'nin",
+          "startMs": 55630,
+          "endMs": 56410
+        },
+        {
+          "word": "yazımındaki",
+          "startMs": 56880,
+          "endMs": 58080
+        },
+        {
+          "word": "altın",
+          "startMs": 58390,
+          "endMs": 58700
+        },
+        {
+          "word": "sırları",
+          "startMs": 58800,
+          "endMs": 59360
+        },
+        {
+          "word": "çözeceğiz.",
+          "startMs": 59470,
+          "endMs": 60350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 61280,
+      "endMs": 74800,
+      "pauseAfterMs": 720,
+      "text": "Arkadaşına mesaj atarken sen de gelsene yazarsan onu davet edersin ve de'yi ayrı yazarsın.",
+      "markedText": "Arkadaşına mesaj atarken sen de gelsene yazarsan onu davet edersin ve de'yi ayrı yazarsın.",
+      "words": [
+        {
+          "word": "Arkadaşına",
+          "startMs": 61280,
+          "endMs": 62620
+        },
+        {
+          "word": "mesaj",
+          "startMs": 62680,
+          "endMs": 63340
+        },
+        {
+          "word": "atarken",
+          "startMs": 63670,
+          "endMs": 64480
+        },
+        {
+          "word": "sen",
+          "startMs": 64540,
+          "endMs": 64840
+        },
+        {
+          "word": "de",
+          "startMs": 65010,
+          "endMs": 65580
+        },
+        {
+          "word": "gelsene",
+          "startMs": 66070,
+          "endMs": 66680
+        },
+        {
+          "word": "yazarsan",
+          "startMs": 67040,
+          "endMs": 67790
+        },
+        {
+          "word": "onu",
+          "startMs": 67950,
+          "endMs": 68270
+        },
+        {
+          "word": "davet",
+          "startMs": 68890,
+          "endMs": 69400
+        },
+        {
+          "word": "edersin",
+          "startMs": 69520,
+          "endMs": 70390
+        },
+        {
+          "word": "ve",
+          "startMs": 71230,
+          "endMs": 71320
+        },
+        {
+          "word": "de'yi",
+          "startMs": 71600,
+          "endMs": 71930
+        },
+        {
+          "word": "ayrı",
+          "startMs": 72050,
+          "endMs": 72390
+        },
+        {
+          "word": "yazarsın.",
+          "startMs": 72960,
+          "endMs": 74080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 74800,
+      "endMs": 84510,
+      "pauseAfterMs": 350,
+      "text": "Neredesin dediğinde evdeyim yazarsın ve de'yi bitişik tutarsın.",
+      "markedText": "Neredesin dediğinde evdeyim yazarsın ve de'yi bitişik tutarsın.",
+      "words": [
+        {
+          "word": "Neredesin",
+          "startMs": 74800,
+          "endMs": 76480
+        },
+        {
+          "word": "dediğinde",
+          "startMs": 76870,
+          "endMs": 78320
+        },
+        {
+          "word": "evdeyim",
+          "startMs": 78850,
+          "endMs": 79360
+        },
+        {
+          "word": "yazarsın",
+          "startMs": 79480,
+          "endMs": 80400
+        },
+        {
+          "word": "ve",
+          "startMs": 80900,
+          "endMs": 81180
+        },
+        {
+          "word": "de'yi",
+          "startMs": 81180,
+          "endMs": 81850
+        },
+        {
+          "word": "bitişik",
+          "startMs": 82590,
+          "endMs": 83500
+        },
+        {
+          "word": "tutarsın.",
+          "startMs": 83710,
+          "endMs": 84160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 84510,
+      "endMs": 92640,
+      "pauseAfterMs": 400,
+      "text": "Ödevini bitirdin mi diye sorarken mi'yi ayrı bırakırsın.",
+      "markedText": "Ödevini bitirdin mi diye sorarken mi'yi ayrı bırakırsın.",
+      "words": [
+        {
+          "word": "Ödevini",
+          "startMs": 84510,
+          "endMs": 85350
+        },
+        {
+          "word": "bitirdin",
+          "startMs": 85830,
+          "endMs": 86800
+        },
+        {
+          "word": "mi",
+          "startMs": 87240,
+          "endMs": 87470
+        },
+        {
+          "word": "diye",
+          "startMs": 87530,
+          "endMs": 88030
+        },
+        {
+          "word": "sorarken",
+          "startMs": 89230,
+          "endMs": 90060
+        },
+        {
+          "word": "mi'yi",
+          "startMs": 90320,
+          "endMs": 90660
+        },
+        {
+          "word": "ayrı",
+          "startMs": 90910,
+          "endMs": 91210
+        },
+        {
+          "word": "bırakırsın.",
+          "startMs": 91390,
+          "endMs": 92240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 92640,
+      "endMs": 101370,
+      "pauseAfterMs": 1040,
+      "text": "Bu kurallar mesajlarını ve yazılarını pırıl pırıl yapar.",
+      "markedText": "Bu kurallar mesajlarını ve yazılarını pırıl pırıl yapar.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 92640,
+          "endMs": 92900
+        },
+        {
+          "word": "kurallar",
+          "startMs": 92900,
+          "endMs": 93520
+        },
+        {
+          "word": "mesajlarını",
+          "startMs": 93520,
+          "endMs": 94890
+        },
+        {
+          "word": "ve",
+          "startMs": 95460,
+          "endMs": 95640
+        },
+        {
+          "word": "yazılarını",
+          "startMs": 95640,
+          "endMs": 97040
+        },
+        {
+          "word": "pırıl",
+          "startMs": 97270,
+          "endMs": 97970
+        },
+        {
+          "word": "pırıl",
+          "startMs": 98870,
+          "endMs": 99250
+        },
+        {
+          "word": "yapar.",
+          "startMs": 99300,
+          "endMs": 100330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 101370,
+      "endMs": 128270,
+      "pauseAfterMs": 1060,
+      "text": "Bağlaç olan de ve da her zaman ayrı bir kelime olarak yazılır; kendinden önceki sözcükten ayrı durur ve cümleden çıkarıldığında cümlenin anlamı bozulmaz, sadece hafifçe daralır.",
+      "markedText": "Bağlaç olan de ve da her zaman ayrı bir kelime olarak yazılır; kendinden önceki sözcükten ayrı durur ve cümleden çıkarıldığında cümlenin anlamı bozulmaz, sadece hafifçe daralır.",
+      "words": [
+        {
+          "word": "Bağlaç",
+          "startMs": 101370,
+          "endMs": 101840
+        },
+        {
+          "word": "olan",
+          "startMs": 101940,
+          "endMs": 102580
+        },
+        {
+          "word": "de",
+          "startMs": 102800,
+          "endMs": 103040
+        },
+        {
+          "word": "ve",
+          "startMs": 103040,
+          "endMs": 103240
+        },
+        {
+          "word": "da",
+          "startMs": 103790,
+          "endMs": 104070
+        },
+        {
+          "word": "her",
+          "startMs": 104110,
+          "endMs": 104550
+        },
+        {
+          "word": "zaman",
+          "startMs": 104760,
+          "endMs": 105210
+        },
+        {
+          "word": "ayrı",
+          "startMs": 105300,
+          "endMs": 105820
+        },
+        {
+          "word": "bir",
+          "startMs": 105900,
+          "endMs": 106290
+        },
+        {
+          "word": "kelime",
+          "startMs": 106420,
+          "endMs": 107420
+        },
+        {
+          "word": "olarak",
+          "startMs": 107910,
+          "endMs": 108660
+        },
+        {
+          "word": "yazılır;",
+          "startMs": 108900,
+          "endMs": 109850
+        },
+        {
+          "word": "kendinden",
+          "startMs": 110610,
+          "endMs": 111580
+        },
+        {
+          "word": "önceki",
+          "startMs": 111770,
+          "endMs": 112770
+        },
+        {
+          "word": "sözcükten",
+          "startMs": 113480,
+          "endMs": 114320
+        },
+        {
+          "word": "ayrı",
+          "startMs": 114400,
+          "endMs": 114810
+        },
+        {
+          "word": "durur",
+          "startMs": 114810,
+          "endMs": 115570
+        },
+        {
+          "word": "ve",
+          "startMs": 116580,
+          "endMs": 116830
+        },
+        {
+          "word": "cümleden",
+          "startMs": 116920,
+          "endMs": 118160
+        },
+        {
+          "word": "çıkarıldığında",
+          "startMs": 118800,
+          "endMs": 120010
+        },
+        {
+          "word": "cümlenin",
+          "startMs": 120150,
+          "endMs": 120810
+        },
+        {
+          "word": "anlamı",
+          "startMs": 121100,
+          "endMs": 121870
+        },
+        {
+          "word": "bozulmaz,",
+          "startMs": 122650,
+          "endMs": 123600
+        },
+        {
+          "word": "sadece",
+          "startMs": 124150,
+          "endMs": 125170
+        },
+        {
+          "word": "hafifçe",
+          "startMs": 125510,
+          "endMs": 126260
+        },
+        {
+          "word": "daralır.",
+          "startMs": 126490,
+          "endMs": 127210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 128270,
+      "endMs": 142430,
+      "pauseAfterMs": 600,
+      "text": "Örneğin Ahmet de geldi cümlesinde de bağlaçtır ve ayrı yazılır; de'yi çıkardığımızda Ahmet geldi cümlesi anlamlı kalır.",
+      "markedText": "Örneğin Ahmet de geldi cümlesinde de bağlaçtır ve ayrı yazılır; de'yi çıkardığımızda Ahmet geldi cümlesi anlamlı kalır.",
+      "words": [
+        {
+          "word": "Örneğin",
+          "startMs": 128270,
+          "endMs": 129570
+        },
+        {
+          "word": "Ahmet",
+          "startMs": 129820,
+          "endMs": 130440
+        },
+        {
+          "word": "de",
+          "startMs": 130670,
+          "endMs": 130910
+        },
+        {
+          "word": "geldi",
+          "startMs": 131120,
+          "endMs": 131430
+        },
+        {
+          "word": "cümlesinde",
+          "startMs": 132150,
+          "endMs": 133280
+        },
+        {
+          "word": "de",
+          "startMs": 133900,
+          "endMs": 134110
+        },
+        {
+          "word": "bağlaçtır",
+          "startMs": 134110,
+          "endMs": 134890
+        },
+        {
+          "word": "ve",
+          "startMs": 135200,
+          "endMs": 135370
+        },
+        {
+          "word": "ayrı",
+          "startMs": 135410,
+          "endMs": 136000
+        },
+        {
+          "word": "yazılır;",
+          "startMs": 136200,
+          "endMs": 136980
+        },
+        {
+          "word": "de'yi",
+          "startMs": 137800,
+          "endMs": 137960
+        },
+        {
+          "word": "çıkardığımızda",
+          "startMs": 138000,
+          "endMs": 138940
+        },
+        {
+          "word": "Ahmet",
+          "startMs": 139180,
+          "endMs": 139780
+        },
+        {
+          "word": "geldi",
+          "startMs": 140180,
+          "endMs": 140400
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 140510,
+          "endMs": 140840
+        },
+        {
+          "word": "anlamlı",
+          "startMs": 141040,
+          "endMs": 141500
+        },
+        {
+          "word": "kalır.",
+          "startMs": 141500,
+          "endMs": 141830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 142430,
+      "endMs": 164500,
+      "pauseAfterMs": 940,
+      "text": "Bulunma hal eki olan de ve da ise eklendiği sözcüğe bitişik yazılır; nerede sorusuna cevap verir ve cümleden çıkarılırsa anlam tamamen bozulur.",
+      "markedText": "Bulunma hal eki olan de ve da ise eklendiği sözcüğe bitişik yazılır; nerede sorusuna cevap verir ve cümleden çıkarılırsa anlam tamamen bozulur.",
+      "words": [
+        {
+          "word": "Bulunma",
+          "startMs": 142430,
+          "endMs": 143070
+        },
+        {
+          "word": "hal",
+          "startMs": 143190,
+          "endMs": 143490
+        },
+        {
+          "word": "eki",
+          "startMs": 143560,
+          "endMs": 143980
+        },
+        {
+          "word": "olan",
+          "startMs": 144380,
+          "endMs": 145800
+        },
+        {
+          "word": "de",
+          "startMs": 146220,
+          "endMs": 146350
+        },
+        {
+          "word": "ve",
+          "startMs": 146550,
+          "endMs": 146630
+        },
+        {
+          "word": "da",
+          "startMs": 147080,
+          "endMs": 147370
+        },
+        {
+          "word": "ise",
+          "startMs": 147440,
+          "endMs": 147940
+        },
+        {
+          "word": "eklendiği",
+          "startMs": 148230,
+          "endMs": 148770
+        },
+        {
+          "word": "sözcüğe",
+          "startMs": 149080,
+          "endMs": 149930
+        },
+        {
+          "word": "bitişik",
+          "startMs": 150430,
+          "endMs": 151200
+        },
+        {
+          "word": "yazılır;",
+          "startMs": 151410,
+          "endMs": 152130
+        },
+        {
+          "word": "nerede",
+          "startMs": 153090,
+          "endMs": 153980
+        },
+        {
+          "word": "sorusuna",
+          "startMs": 154740,
+          "endMs": 155490
+        },
+        {
+          "word": "cevap",
+          "startMs": 156320,
+          "endMs": 156600
+        },
+        {
+          "word": "verir",
+          "startMs": 156720,
+          "endMs": 157310
+        },
+        {
+          "word": "ve",
+          "startMs": 157370,
+          "endMs": 157830
+        },
+        {
+          "word": "cümleden",
+          "startMs": 158740,
+          "endMs": 159570
+        },
+        {
+          "word": "çıkarılırsa",
+          "startMs": 159710,
+          "endMs": 161070
+        },
+        {
+          "word": "anlam",
+          "startMs": 161260,
+          "endMs": 161810
+        },
+        {
+          "word": "tamamen",
+          "startMs": 162130,
+          "endMs": 162840
+        },
+        {
+          "word": "bozulur.",
+          "startMs": 163070,
+          "endMs": 163560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 164500,
+      "endMs": 168340,
+      "pauseAfterMs": 550,
+      "text": "Kitabım evde kaldı cümlesinde de bitişiktir.",
+      "markedText": "Kitabım evde kaldı cümlesinde de bitişiktir.",
+      "words": [
+        {
+          "word": "Kitabım",
+          "startMs": 164500,
+          "endMs": 165220
+        },
+        {
+          "word": "evde",
+          "startMs": 165490,
+          "endMs": 165640
+        },
+        {
+          "word": "kaldı",
+          "startMs": 165640,
+          "endMs": 165920
+        },
+        {
+          "word": "cümlesinde",
+          "startMs": 166070,
+          "endMs": 166450
+        },
+        {
+          "word": "de",
+          "startMs": 166530,
+          "endMs": 166650
+        },
+        {
+          "word": "bitişiktir.",
+          "startMs": 166920,
+          "endMs": 167790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 168340,
+      "endMs": 182170,
+      "pauseAfterMs": 830,
+      "text": "Bağlaç olan ki ayrı yazılır; iki cümleyi birbirine bağlar: Biliyorum ki başaracaksın.",
+      "markedText": "Bağlaç olan ki ayrı yazılır; iki cümleyi birbirine bağlar: Biliyorum ki başaracaksın.",
+      "words": [
+        {
+          "word": "Bağlaç",
+          "startMs": 168340,
+          "endMs": 169050
+        },
+        {
+          "word": "olan",
+          "startMs": 169380,
+          "endMs": 169880
+        },
+        {
+          "word": "ki",
+          "startMs": 169880,
+          "endMs": 170040
+        },
+        {
+          "word": "ayrı",
+          "startMs": 170340,
+          "endMs": 170660
+        },
+        {
+          "word": "yazılır;",
+          "startMs": 170840,
+          "endMs": 171880
+        },
+        {
+          "word": "iki",
+          "startMs": 172640,
+          "endMs": 173050
+        },
+        {
+          "word": "cümleyi",
+          "startMs": 173120,
+          "endMs": 174420
+        },
+        {
+          "word": "birbirine",
+          "startMs": 174840,
+          "endMs": 176110
+        },
+        {
+          "word": "bağlar:",
+          "startMs": 176260,
+          "endMs": 177530
+        },
+        {
+          "word": "Biliyorum",
+          "startMs": 178130,
+          "endMs": 179090
+        },
+        {
+          "word": "ki",
+          "startMs": 179290,
+          "endMs": 179490
+        },
+        {
+          "word": "başaracaksın.",
+          "startMs": 179680,
+          "endMs": 181340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 182170,
+      "endMs": 194810,
+      "pauseAfterMs": 240,
+      "text": "Sıfat yapan ve zamir olan ki ise bitişik yazılır: Yarınki sınav, seninki nerede.",
+      "markedText": "Sıfat yapan ve zamir olan ki ise bitişik yazılır: Yarınki sınav, seninki nerede.",
+      "words": [
+        {
+          "word": "Sıfat",
+          "startMs": 182170,
+          "endMs": 182500
+        },
+        {
+          "word": "yapan",
+          "startMs": 182500,
+          "endMs": 183220
+        },
+        {
+          "word": "ve",
+          "startMs": 183980,
+          "endMs": 184210
+        },
+        {
+          "word": "zamir",
+          "startMs": 184600,
+          "endMs": 185320
+        },
+        {
+          "word": "olan",
+          "startMs": 185810,
+          "endMs": 186220
+        },
+        {
+          "word": "ki",
+          "startMs": 186680,
+          "endMs": 186980
+        },
+        {
+          "word": "ise",
+          "startMs": 187060,
+          "endMs": 187300
+        },
+        {
+          "word": "bitişik",
+          "startMs": 187450,
+          "endMs": 188950
+        },
+        {
+          "word": "yazılır:",
+          "startMs": 189240,
+          "endMs": 189680
+        },
+        {
+          "word": "Yarınki",
+          "startMs": 190030,
+          "endMs": 191140
+        },
+        {
+          "word": "sınav,",
+          "startMs": 191950,
+          "endMs": 192190
+        },
+        {
+          "word": "seninki",
+          "startMs": 192660,
+          "endMs": 193900
+        },
+        {
+          "word": "nerede.",
+          "startMs": 194170,
+          "endMs": 194570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 194810,
+      "endMs": 211600,
+      "pauseAfterMs": 540,
+      "text": "Soru eki olan mi, mı, mu, mü ise her zaman ama her zaman ayrı yazılır; kendinden sonra gelen ekler ise mi'ye bitişir.",
+      "markedText": "Soru eki olan mi, mı, mu, mü ise her zaman ama her zaman ayrı yazılır; kendinden sonra gelen ekler ise mi'ye bitişir.",
+      "words": [
+        {
+          "word": "Soru",
+          "startMs": 194810,
+          "endMs": 195120
+        },
+        {
+          "word": "eki",
+          "startMs": 195210,
+          "endMs": 195600
+        },
+        {
+          "word": "olan",
+          "startMs": 195980,
+          "endMs": 196480
+        },
+        {
+          "word": "mi,",
+          "startMs": 196700,
+          "endMs": 197040
+        },
+        {
+          "word": "mı,",
+          "startMs": 197150,
+          "endMs": 197330
+        },
+        {
+          "word": "mu,",
+          "startMs": 198210,
+          "endMs": 198420
+        },
+        {
+          "word": "mü",
+          "startMs": 198940,
+          "endMs": 199060
+        },
+        {
+          "word": "ise",
+          "startMs": 199060,
+          "endMs": 199240
+        },
+        {
+          "word": "her",
+          "startMs": 199490,
+          "endMs": 199730
+        },
+        {
+          "word": "zaman",
+          "startMs": 200000,
+          "endMs": 200480
+        },
+        {
+          "word": "ama",
+          "startMs": 200480,
+          "endMs": 201190
+        },
+        {
+          "word": "her",
+          "startMs": 201610,
+          "endMs": 201950
+        },
+        {
+          "word": "zaman",
+          "startMs": 202200,
+          "endMs": 202840
+        },
+        {
+          "word": "ayrı",
+          "startMs": 203140,
+          "endMs": 203380
+        },
+        {
+          "word": "yazılır;",
+          "startMs": 203570,
+          "endMs": 204390
+        },
+        {
+          "word": "kendinden",
+          "startMs": 205210,
+          "endMs": 206570
+        },
+        {
+          "word": "sonra",
+          "startMs": 206850,
+          "endMs": 207300
+        },
+        {
+          "word": "gelen",
+          "startMs": 207410,
+          "endMs": 208160
+        },
+        {
+          "word": "ekler",
+          "startMs": 208460,
+          "endMs": 209100
+        },
+        {
+          "word": "ise",
+          "startMs": 209140,
+          "endMs": 209520
+        },
+        {
+          "word": "mi'ye",
+          "startMs": 209820,
+          "endMs": 210310
+        },
+        {
+          "word": "bitişir.",
+          "startMs": 210310,
+          "endMs": 211060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 211600,
+      "endMs": 214620,
+      "pauseAfterMs": 270,
+      "text": "Sen de bizimle gelecek misin?",
+      "markedText": "Sen de bizimle gelecek misin?",
+      "words": [
+        {
+          "word": "Sen",
+          "startMs": 211600,
+          "endMs": 211860
+        },
+        {
+          "word": "de",
+          "startMs": 211940,
+          "endMs": 212030
+        },
+        {
+          "word": "bizimle",
+          "startMs": 212510,
+          "endMs": 213110
+        },
+        {
+          "word": "gelecek",
+          "startMs": 213220,
+          "endMs": 213650
+        },
+        {
+          "word": "misin?",
+          "startMs": 213720,
+          "endMs": 214350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 214620,
+      "endMs": 230480,
+      "pauseAfterMs": 310,
+      "text": "Pratik kural: De'yi cümleden çıkarınca anlam bozulmuyorsa ayrı yazarsın; bozuluyorsa bitişik yazarsın.",
+      "markedText": "Pratik kural: De'yi cümleden çıkarınca anlam bozulmuyorsa ayrı yazarsın; bozuluyorsa bitişik yazarsın.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 214620,
+          "endMs": 215200
+        },
+        {
+          "word": "kural:",
+          "startMs": 215750,
+          "endMs": 216140
+        },
+        {
+          "word": "De'yi",
+          "startMs": 216730,
+          "endMs": 217120
+        },
+        {
+          "word": "cümleden",
+          "startMs": 218090,
+          "endMs": 218930
+        },
+        {
+          "word": "çıkarınca",
+          "startMs": 219160,
+          "endMs": 220410
+        },
+        {
+          "word": "anlam",
+          "startMs": 221200,
+          "endMs": 221780
+        },
+        {
+          "word": "bozulmuyorsa",
+          "startMs": 221900,
+          "endMs": 222980
+        },
+        {
+          "word": "ayrı",
+          "startMs": 223420,
+          "endMs": 224280
+        },
+        {
+          "word": "yazarsın;",
+          "startMs": 225220,
+          "endMs": 226010
+        },
+        {
+          "word": "bozuluyorsa",
+          "startMs": 226580,
+          "endMs": 227630
+        },
+        {
+          "word": "bitişik",
+          "startMs": 227870,
+          "endMs": 228890
+        },
+        {
+          "word": "yazarsın.",
+          "startMs": 229050,
+          "endMs": 230170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 230480,
+      "endMs": 234090,
+      "pauseAfterMs": 710,
+      "text": "Soru eki mi ise daima ayrıdır.",
+      "markedText": "Soru eki mi ise daima ayrıdır.",
+      "words": [
+        {
+          "word": "Soru",
+          "startMs": 230480,
+          "endMs": 230900
+        },
+        {
+          "word": "eki",
+          "startMs": 230900,
+          "endMs": 231270
+        },
+        {
+          "word": "mi",
+          "startMs": 231360,
+          "endMs": 231480
+        },
+        {
+          "word": "ise",
+          "startMs": 231570,
+          "endMs": 231830
+        },
+        {
+          "word": "daima",
+          "startMs": 232120,
+          "endMs": 232600
+        },
+        {
+          "word": "ayrıdır.",
+          "startMs": 232890,
+          "endMs": 233380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 234090,
+      "endMs": 239130,
+      "pauseAfterMs": 940,
+      "text": "Örneklerimizi birlikte deneyelim.",
+      "markedText": "Örneklerimizi birlikte deneyelim.",
+      "words": [
+        {
+          "word": "Örneklerimizi",
+          "startMs": 234090,
+          "endMs": 235830
+        },
+        {
+          "word": "birlikte",
+          "startMs": 236410,
+          "endMs": 237210
+        },
+        {
+          "word": "deneyelim.",
+          "startMs": 237340,
+          "endMs": 238190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 239130,
+      "endMs": 256670,
+      "pauseAfterMs": 660,
+      "text": "Ali de bizimle gelecek cümlesinde de'yi çıkaralım: Ali bizimle gelecek; anlam bozulmadı, öyleyse de ayrı yazılır.",
+      "markedText": "Ali de bizimle gelecek cümlesinde de'yi çıkaralım: Ali bizimle gelecek; anlam bozulmadı, öyleyse de ayrı yazılır.",
+      "words": [
+        {
+          "word": "Ali",
+          "startMs": 239130,
+          "endMs": 239430
+        },
+        {
+          "word": "de",
+          "startMs": 240070,
+          "endMs": 240170
+        },
+        {
+          "word": "bizimle",
+          "startMs": 240670,
+          "endMs": 241860
+        },
+        {
+          "word": "gelecek",
+          "startMs": 242390,
+          "endMs": 243410
+        },
+        {
+          "word": "cümlesinde",
+          "startMs": 243990,
+          "endMs": 244950
+        },
+        {
+          "word": "de'yi",
+          "startMs": 245400,
+          "endMs": 245710
+        },
+        {
+          "word": "çıkaralım:",
+          "startMs": 246120,
+          "endMs": 247070
+        },
+        {
+          "word": "Ali",
+          "startMs": 247800,
+          "endMs": 248090
+        },
+        {
+          "word": "bizimle",
+          "startMs": 248310,
+          "endMs": 248930
+        },
+        {
+          "word": "gelecek;",
+          "startMs": 249550,
+          "endMs": 250640
+        },
+        {
+          "word": "anlam",
+          "startMs": 251200,
+          "endMs": 251590
+        },
+        {
+          "word": "bozulmadı,",
+          "startMs": 251800,
+          "endMs": 252470
+        },
+        {
+          "word": "öyleyse",
+          "startMs": 253000,
+          "endMs": 253830
+        },
+        {
+          "word": "de",
+          "startMs": 254260,
+          "endMs": 254550
+        },
+        {
+          "word": "ayrı",
+          "startMs": 254720,
+          "endMs": 255110
+        },
+        {
+          "word": "yazılır.",
+          "startMs": 255630,
+          "endMs": 256010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 256670,
+      "endMs": 271750,
+      "pauseAfterMs": 520,
+      "text": "Kalemim çantada kaldı cümlesinde da'yı çıkaralım: Kalemim çanta kaldı; anlam bozuldu, öyleyse da bitişik yazılır.",
+      "markedText": "Kalemim çantada kaldı cümlesinde da'yı çıkaralım: Kalemim çanta kaldı; anlam bozuldu, öyleyse da bitişik yazılır.",
+      "words": [
+        {
+          "word": "Kalemim",
+          "startMs": 256670,
+          "endMs": 258180
+        },
+        {
+          "word": "çantada",
+          "startMs": 258650,
+          "endMs": 259650
+        },
+        {
+          "word": "kaldı",
+          "startMs": 259960,
+          "endMs": 260620
+        },
+        {
+          "word": "cümlesinde",
+          "startMs": 260880,
+          "endMs": 261510
+        },
+        {
+          "word": "da'yı",
+          "startMs": 261800,
+          "endMs": 262160
+        },
+        {
+          "word": "çıkaralım:",
+          "startMs": 262530,
+          "endMs": 263130
+        },
+        {
+          "word": "Kalemim",
+          "startMs": 263720,
+          "endMs": 264550
+        },
+        {
+          "word": "çanta",
+          "startMs": 264600,
+          "endMs": 265000
+        },
+        {
+          "word": "kaldı;",
+          "startMs": 265360,
+          "endMs": 265600
+        },
+        {
+          "word": "anlam",
+          "startMs": 266570,
+          "endMs": 267270
+        },
+        {
+          "word": "bozuldu,",
+          "startMs": 267380,
+          "endMs": 268140
+        },
+        {
+          "word": "öyleyse",
+          "startMs": 268880,
+          "endMs": 269460
+        },
+        {
+          "word": "da",
+          "startMs": 269660,
+          "endMs": 269830
+        },
+        {
+          "word": "bitişik",
+          "startMs": 270080,
+          "endMs": 270450
+        },
+        {
+          "word": "yazılır.",
+          "startMs": 270450,
+          "endMs": 271230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 271750,
+      "endMs": 280510,
+      "pauseAfterMs": 600,
+      "text": "Duydum ki unutmuşsun cümlesinde ki bağlaçtır ve ayrıdır.",
+      "markedText": "Duydum ki unutmuşsun cümlesinde ki bağlaçtır ve ayrıdır.",
+      "words": [
+        {
+          "word": "Duydum",
+          "startMs": 271750,
+          "endMs": 272100
+        },
+        {
+          "word": "ki",
+          "startMs": 272550,
+          "endMs": 272990
+        },
+        {
+          "word": "unutmuşsun",
+          "startMs": 273410,
+          "endMs": 274570
+        },
+        {
+          "word": "cümlesinde",
+          "startMs": 275150,
+          "endMs": 276160
+        },
+        {
+          "word": "ki",
+          "startMs": 276220,
+          "endMs": 276430
+        },
+        {
+          "word": "bağlaçtır",
+          "startMs": 276640,
+          "endMs": 277470
+        },
+        {
+          "word": "ve",
+          "startMs": 278320,
+          "endMs": 278490
+        },
+        {
+          "word": "ayrıdır.",
+          "startMs": 278740,
+          "endMs": 279910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 280510,
+      "endMs": 287080,
+      "pauseAfterMs": 640,
+      "text": "Masadaki defter dediğimizde sıfat yapar ve bitişiktir.",
+      "markedText": "Masadaki defter dediğimizde sıfat yapar ve bitişiktir.",
+      "words": [
+        {
+          "word": "Masadaki",
+          "startMs": 280510,
+          "endMs": 281470
+        },
+        {
+          "word": "defter",
+          "startMs": 281550,
+          "endMs": 281950
+        },
+        {
+          "word": "dediğimizde",
+          "startMs": 282220,
+          "endMs": 283090
+        },
+        {
+          "word": "sıfat",
+          "startMs": 283150,
+          "endMs": 283570
+        },
+        {
+          "word": "yapar",
+          "startMs": 283760,
+          "endMs": 284280
+        },
+        {
+          "word": "ve",
+          "startMs": 284350,
+          "endMs": 284620
+        },
+        {
+          "word": "bitişiktir.",
+          "startMs": 285110,
+          "endMs": 286440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 287080,
+      "endMs": 297130,
+      "pauseAfterMs": 340,
+      "text": "Akşam bize gelecek misin sorusunda mi ayrıdır ve sin şahıs eki mi'ye bitişir.",
+      "markedText": "Akşam bize gelecek misin sorusunda mi ayrıdır ve sin şahıs eki mi'ye bitişir.",
+      "words": [
+        {
+          "word": "Akşam",
+          "startMs": 287080,
+          "endMs": 287740
+        },
+        {
+          "word": "bize",
+          "startMs": 287830,
+          "endMs": 288260
+        },
+        {
+          "word": "gelecek",
+          "startMs": 288460,
+          "endMs": 289050
+        },
+        {
+          "word": "misin",
+          "startMs": 289120,
+          "endMs": 289520
+        },
+        {
+          "word": "sorusunda",
+          "startMs": 289730,
+          "endMs": 290510
+        },
+        {
+          "word": "mi",
+          "startMs": 290760,
+          "endMs": 291140
+        },
+        {
+          "word": "ayrıdır",
+          "startMs": 291790,
+          "endMs": 292490
+        },
+        {
+          "word": "ve",
+          "startMs": 292610,
+          "endMs": 292990
+        },
+        {
+          "word": "sin",
+          "startMs": 293170,
+          "endMs": 293340
+        },
+        {
+          "word": "şahıs",
+          "startMs": 293450,
+          "endMs": 293980
+        },
+        {
+          "word": "eki",
+          "startMs": 294220,
+          "endMs": 294550
+        },
+        {
+          "word": "mi'ye",
+          "startMs": 294550,
+          "endMs": 295470
+        },
+        {
+          "word": "bitişir.",
+          "startMs": 296170,
+          "endMs": 296790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 297130,
+      "endMs": 299750,
+      "pauseAfterMs": 620,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 297130,
+          "endMs": 297720
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 298230,
+          "endMs": 299130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 299750,
+      "endMs": 302460,
+      "pauseAfterMs": 610,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 299750,
+          "endMs": 300330
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 300560,
+          "endMs": 301850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 302460,
+      "endMs": 305020,
+      "pauseAfterMs": 460,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 302460,
+          "endMs": 302650
+        },
+        {
+          "word": "noktayı",
+          "startMs": 302650,
+          "endMs": 303120
+        },
+        {
+          "word": "sen",
+          "startMs": 303120,
+          "endMs": 303440
+        },
+        {
+          "word": "de",
+          "startMs": 303440,
+          "endMs": 303510
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 303750,
+          "endMs": 304560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 305020,
+      "endMs": 314890,
+      "pauseAfterMs": 820,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 305020,
+          "endMs": 305700
+        },
+        {
+          "word": "sevgili",
+          "startMs": 306080,
+          "endMs": 306410
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 306730,
+          "endMs": 307510
+        },
+        {
+          "word": "işte",
+          "startMs": 308150,
+          "endMs": 308430
+        },
+        {
+          "word": "tam",
+          "startMs": 308750,
+          "endMs": 309030
+        },
+        {
+          "word": "bu",
+          "startMs": 309450,
+          "endMs": 309610
+        },
+        {
+          "word": "noktada",
+          "startMs": 309870,
+          "endMs": 310030
+        },
+        {
+          "word": "dikkat",
+          "startMs": 310240,
+          "endMs": 310610
+        },
+        {
+          "word": "etmen",
+          "startMs": 310800,
+          "endMs": 311310
+        },
+        {
+          "word": "gereken",
+          "startMs": 311860,
+          "endMs": 312740
+        },
+        {
+          "word": "kilit",
+          "startMs": 313070,
+          "endMs": 313460
+        },
+        {
+          "word": "nokta.",
+          "startMs": 313550,
+          "endMs": 314070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 314890,
+      "endMs": 324390,
+      "pauseAfterMs": 410,
+      "text": "Soru eki mi'yi kendinden önceki sözcükle asla bitişik yazma tuzağına düşmemelisin.",
+      "markedText": "Soru eki mi'yi kendinden önceki sözcükle asla bitişik yazma tuzağına düşmemelisin.",
+      "words": [
+        {
+          "word": "Soru",
+          "startMs": 314890,
+          "endMs": 315140
+        },
+        {
+          "word": "eki",
+          "startMs": 315220,
+          "endMs": 315550
+        },
+        {
+          "word": "mi'yi",
+          "startMs": 315740,
+          "endMs": 316550
+        },
+        {
+          "word": "kendinden",
+          "startMs": 316850,
+          "endMs": 317630
+        },
+        {
+          "word": "önceki",
+          "startMs": 317760,
+          "endMs": 318270
+        },
+        {
+          "word": "sözcükle",
+          "startMs": 318330,
+          "endMs": 318810
+        },
+        {
+          "word": "asla",
+          "startMs": 319480,
+          "endMs": 319780
+        },
+        {
+          "word": "bitişik",
+          "startMs": 319870,
+          "endMs": 320780
+        },
+        {
+          "word": "yazma",
+          "startMs": 321450,
+          "endMs": 321780
+        },
+        {
+          "word": "tuzağına",
+          "startMs": 321940,
+          "endMs": 322270
+        },
+        {
+          "word": "düşmemelisin.",
+          "startMs": 322440,
+          "endMs": 323980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 324390,
+      "endMs": 335870,
+      "pauseAfterMs": 540,
+      "text": "Geldinmi veya baktınmı yazmak büyük bir yanlıştır; doğru yazımı geldin mi ve baktın mı şeklindedir.",
+      "markedText": "Geldinmi veya baktınmı yazmak büyük bir yanlıştır; doğru yazımı geldin mi ve baktın mı şeklindedir.",
+      "words": [
+        {
+          "word": "Geldinmi",
+          "startMs": 324390,
+          "endMs": 324810
+        },
+        {
+          "word": "veya",
+          "startMs": 325040,
+          "endMs": 325370
+        },
+        {
+          "word": "baktınmı",
+          "startMs": 325590,
+          "endMs": 326480
+        },
+        {
+          "word": "yazmak",
+          "startMs": 327150,
+          "endMs": 327820
+        },
+        {
+          "word": "büyük",
+          "startMs": 328110,
+          "endMs": 328360
+        },
+        {
+          "word": "bir",
+          "startMs": 328360,
+          "endMs": 328600
+        },
+        {
+          "word": "yanlıştır;",
+          "startMs": 328670,
+          "endMs": 329350
+        },
+        {
+          "word": "doğru",
+          "startMs": 329670,
+          "endMs": 330000
+        },
+        {
+          "word": "yazımı",
+          "startMs": 330250,
+          "endMs": 330760
+        },
+        {
+          "word": "geldin",
+          "startMs": 331010,
+          "endMs": 331580
+        },
+        {
+          "word": "mi",
+          "startMs": 331640,
+          "endMs": 331830
+        },
+        {
+          "word": "ve",
+          "startMs": 332150,
+          "endMs": 332280
+        },
+        {
+          "word": "baktın",
+          "startMs": 332280,
+          "endMs": 332480
+        },
+        {
+          "word": "mı",
+          "startMs": 333000,
+          "endMs": 333470
+        },
+        {
+          "word": "şeklindedir.",
+          "startMs": 334010,
+          "endMs": 335330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 335870,
+      "endMs": 352690,
+      "pauseAfterMs": 370,
+      "text": "Ayrıca bağlaç olan de ve da hiçbir zaman te ya da ta biçiminde sertleşmez; her zaman yumuşak de veya da olarak ayrı yazılır.",
+      "markedText": "Ayrıca bağlaç olan de ve da hiçbir zaman te ya da ta biçiminde sertleşmez; her zaman yumuşak de veya da olarak ayrı yazılır.",
+      "words": [
+        {
+          "word": "Ayrıca",
+          "startMs": 335870,
+          "endMs": 336820
+        },
+        {
+          "word": "bağlaç",
+          "startMs": 337040,
+          "endMs": 337750
+        },
+        {
+          "word": "olan",
+          "startMs": 337750,
+          "endMs": 338190
+        },
+        {
+          "word": "de",
+          "startMs": 338550,
+          "endMs": 338660
+        },
+        {
+          "word": "ve",
+          "startMs": 338660,
+          "endMs": 338810
+        },
+        {
+          "word": "da",
+          "startMs": 338810,
+          "endMs": 339370
+        },
+        {
+          "word": "hiçbir",
+          "startMs": 339590,
+          "endMs": 340050
+        },
+        {
+          "word": "zaman",
+          "startMs": 340390,
+          "endMs": 340650
+        },
+        {
+          "word": "te",
+          "startMs": 340830,
+          "endMs": 340950
+        },
+        {
+          "word": "ya",
+          "startMs": 341120,
+          "endMs": 341220
+        },
+        {
+          "word": "da",
+          "startMs": 341350,
+          "endMs": 341940
+        },
+        {
+          "word": "ta",
+          "startMs": 342470,
+          "endMs": 342660
+        },
+        {
+          "word": "biçiminde",
+          "startMs": 342780,
+          "endMs": 343720
+        },
+        {
+          "word": "sertleşmez;",
+          "startMs": 344280,
+          "endMs": 345870
+        },
+        {
+          "word": "her",
+          "startMs": 346420,
+          "endMs": 346650
+        },
+        {
+          "word": "zaman",
+          "startMs": 346710,
+          "endMs": 347250
+        },
+        {
+          "word": "yumuşak",
+          "startMs": 347330,
+          "endMs": 347710
+        },
+        {
+          "word": "de",
+          "startMs": 347880,
+          "endMs": 348090
+        },
+        {
+          "word": "veya",
+          "startMs": 348330,
+          "endMs": 348660
+        },
+        {
+          "word": "da",
+          "startMs": 349030,
+          "endMs": 349340
+        },
+        {
+          "word": "olarak",
+          "startMs": 349770,
+          "endMs": 350400
+        },
+        {
+          "word": "ayrı",
+          "startMs": 350500,
+          "endMs": 350820
+        },
+        {
+          "word": "yazılır.",
+          "startMs": 351340,
+          "endMs": 352320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 352690,
+      "endMs": 356600,
+      "pauseAfterMs": 620,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 352690,
+          "endMs": 353590
+        },
+        {
+          "word": "Neler",
+          "startMs": 353780,
+          "endMs": 354540
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 355150,
+          "endMs": 355980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 356600,
+      "endMs": 356960,
+      "pauseAfterMs": 120,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 356600,
+          "endMs": 356840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 356960,
+      "endMs": 366460,
+      "pauseAfterMs": 480,
+      "text": "Bağlaç olan de ve da ayrı yazılır, cümleden çıkınca anlam bozulmaz.",
+      "markedText": "Bağlaç olan de ve da ayrı yazılır, cümleden çıkınca anlam bozulmaz.",
+      "words": [
+        {
+          "word": "Bağlaç",
+          "startMs": 356960,
+          "endMs": 357400
+        },
+        {
+          "word": "olan",
+          "startMs": 357630,
+          "endMs": 358010
+        },
+        {
+          "word": "de",
+          "startMs": 358180,
+          "endMs": 358280
+        },
+        {
+          "word": "ve",
+          "startMs": 358360,
+          "endMs": 358780
+        },
+        {
+          "word": "da",
+          "startMs": 359230,
+          "endMs": 359410
+        },
+        {
+          "word": "ayrı",
+          "startMs": 359410,
+          "endMs": 359910
+        },
+        {
+          "word": "yazılır,",
+          "startMs": 360050,
+          "endMs": 360750
+        },
+        {
+          "word": "cümleden",
+          "startMs": 361050,
+          "endMs": 361930
+        },
+        {
+          "word": "çıkınca",
+          "startMs": 362170,
+          "endMs": 363190
+        },
+        {
+          "word": "anlam",
+          "startMs": 363720,
+          "endMs": 364290
+        },
+        {
+          "word": "bozulmaz.",
+          "startMs": 365000,
+          "endMs": 365980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 366460,
+      "endMs": 367080,
+      "pauseAfterMs": 240,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 366460,
+          "endMs": 366840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 367080,
+      "endMs": 375410,
+      "pauseAfterMs": 620,
+      "text": "Bulunma hal eki de ve da bitişik yazılır, nerede sorusunu cevaplar.",
+      "markedText": "Bulunma hal eki de ve da bitişik yazılır, nerede sorusunu cevaplar.",
+      "words": [
+        {
+          "word": "Bulunma",
+          "startMs": 367080,
+          "endMs": 367660
+        },
+        {
+          "word": "hal",
+          "startMs": 367980,
+          "endMs": 368320
+        },
+        {
+          "word": "eki",
+          "startMs": 368440,
+          "endMs": 368790
+        },
+        {
+          "word": "de",
+          "startMs": 368870,
+          "endMs": 368990
+        },
+        {
+          "word": "ve",
+          "startMs": 368990,
+          "endMs": 369140
+        },
+        {
+          "word": "da",
+          "startMs": 369140,
+          "endMs": 369380
+        },
+        {
+          "word": "bitişik",
+          "startMs": 369740,
+          "endMs": 370310
+        },
+        {
+          "word": "yazılır,",
+          "startMs": 370600,
+          "endMs": 371120
+        },
+        {
+          "word": "nerede",
+          "startMs": 371590,
+          "endMs": 372250
+        },
+        {
+          "word": "sorusunu",
+          "startMs": 372590,
+          "endMs": 373170
+        },
+        {
+          "word": "cevaplar.",
+          "startMs": 373820,
+          "endMs": 374790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 375410,
+      "endMs": 375960,
+      "pauseAfterMs": 250,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 375410,
+          "endMs": 375710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 375960,
+      "endMs": 385450,
+      "pauseAfterMs": 240,
+      "text": "Soru eki mi her zaman ayrı yazılır; bağlaç ki ayrı, sıfat ki'si bitişiktir.",
+      "markedText": "Soru eki mi her zaman ayrı yazılır; bağlaç ki ayrı, sıfat ki'si bitişiktir.",
+      "words": [
+        {
+          "word": "Soru",
+          "startMs": 375960,
+          "endMs": 376160
+        },
+        {
+          "word": "eki",
+          "startMs": 376510,
+          "endMs": 376670
+        },
+        {
+          "word": "mi",
+          "startMs": 376750,
+          "endMs": 376940
+        },
+        {
+          "word": "her",
+          "startMs": 376940,
+          "endMs": 377400
+        },
+        {
+          "word": "zaman",
+          "startMs": 377930,
+          "endMs": 378320
+        },
+        {
+          "word": "ayrı",
+          "startMs": 378510,
+          "endMs": 378780
+        },
+        {
+          "word": "yazılır;",
+          "startMs": 378920,
+          "endMs": 379950
+        },
+        {
+          "word": "bağlaç",
+          "startMs": 380440,
+          "endMs": 381200
+        },
+        {
+          "word": "ki",
+          "startMs": 381280,
+          "endMs": 381460
+        },
+        {
+          "word": "ayrı,",
+          "startMs": 381540,
+          "endMs": 381910
+        },
+        {
+          "word": "sıfat",
+          "startMs": 382270,
+          "endMs": 382800
+        },
+        {
+          "word": "ki'si",
+          "startMs": 383090,
+          "endMs": 383680
+        },
+        {
+          "word": "bitişiktir.",
+          "startMs": 384030,
+          "endMs": 385210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 385450,
+      "endMs": 392010,
+      "pauseAfterMs": 470,
+      "text": "Aynı ses, göreve göre bitişik veya ayrı yazılır.",
+      "markedText": "Aynı ses, göreve göre bitişik veya ayrı yazılır.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 385450,
+          "endMs": 386090
+        },
+        {
+          "word": "ses,",
+          "startMs": 386370,
+          "endMs": 386750
+        },
+        {
+          "word": "göreve",
+          "startMs": 387260,
+          "endMs": 387620
+        },
+        {
+          "word": "göre",
+          "startMs": 387880,
+          "endMs": 388330
+        },
+        {
+          "word": "bitişik",
+          "startMs": 388680,
+          "endMs": 389100
+        },
+        {
+          "word": "veya",
+          "startMs": 389380,
+          "endMs": 389790
+        },
+        {
+          "word": "ayrı",
+          "startMs": 390120,
+          "endMs": 390630
+        },
+        {
+          "word": "yazılır.",
+          "startMs": 391130,
+          "endMs": 391540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 392010,
+      "endMs": 396130,
+      "pauseAfterMs": 530,
+      "text": "Soru eki mi her zaman ayrıdır.",
+      "markedText": "Soru eki mi her zaman ayrıdır.",
+      "words": [
+        {
+          "word": "Soru",
+          "startMs": 392010,
+          "endMs": 392440
+        },
+        {
+          "word": "eki",
+          "startMs": 392670,
+          "endMs": 393120
+        },
+        {
+          "word": "mi",
+          "startMs": 393280,
+          "endMs": 393430
+        },
+        {
+          "word": "her",
+          "startMs": 393560,
+          "endMs": 394080
+        },
+        {
+          "word": "zaman",
+          "startMs": 394300,
+          "endMs": 394680
+        },
+        {
+          "word": "ayrıdır.",
+          "startMs": 394720,
+          "endMs": 395600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 396130,
+      "endMs": 405090,
+      "pauseAfterMs": 510,
+      "text": "De, da, ki ve mi sesinin bağlaç mı ek mi olduğunu söyleyip yazımını seçersin.",
+      "markedText": "De, da, ki ve mi sesinin bağlaç mı ek mi olduğunu söyleyip yazımını seçersin.",
+      "words": [
+        {
+          "word": "De,",
+          "startMs": 396130,
+          "endMs": 396290
+        },
+        {
+          "word": "da,",
+          "startMs": 396290,
+          "endMs": 396470
+        },
+        {
+          "word": "ki",
+          "startMs": 396730,
+          "endMs": 396800
+        },
+        {
+          "word": "ve",
+          "startMs": 396800,
+          "endMs": 396910
+        },
+        {
+          "word": "mi",
+          "startMs": 396910,
+          "endMs": 397070
+        },
+        {
+          "word": "sesinin",
+          "startMs": 397190,
+          "endMs": 398040
+        },
+        {
+          "word": "bağlaç",
+          "startMs": 398640,
+          "endMs": 399310
+        },
+        {
+          "word": "mı",
+          "startMs": 399640,
+          "endMs": 399760
+        },
+        {
+          "word": "ek",
+          "startMs": 399760,
+          "endMs": 399880
+        },
+        {
+          "word": "mi",
+          "startMs": 399880,
+          "endMs": 399990
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 400040,
+          "endMs": 400700
+        },
+        {
+          "word": "söyleyip",
+          "startMs": 400980,
+          "endMs": 401980
+        },
+        {
+          "word": "yazımını",
+          "startMs": 402500,
+          "endMs": 403250
+        },
+        {
+          "word": "seçersin.",
+          "startMs": 403630,
+          "endMs": 404580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 405090,
+      "endMs": 407660,
+      "pauseAfterMs": 640,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 405090,
+          "endMs": 405770
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 406040,
+          "endMs": 407020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 407660,
+      "endMs": 410490,
+      "pauseAfterMs": 310,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 407660,
+          "endMs": 407950
+        },
+        {
+          "word": "bir",
+          "startMs": 408220,
+          "endMs": 408540
+        },
+        {
+          "word": "iş",
+          "startMs": 408870,
+          "endMs": 409090
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 409310,
+          "endMs": 410180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 410490,
+      "endMs": 412870,
+      "pauseAfterMs": 310,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 410490,
+          "endMs": 410860
+        },
+        {
+          "word": "sıra",
+          "startMs": 411360,
+          "endMs": 411850
+        },
+        {
+          "word": "sende.",
+          "startMs": 412230,
+          "endMs": 412560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 412870,
+      "endMs": 420266,
+      "pauseAfterMs": 256,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 412870,
+          "endMs": 413240
+        },
+        {
+          "word": "bu",
+          "startMs": 413480,
+          "endMs": 413870
+        },
+        {
+          "word": "notları",
+          "startMs": 414230,
+          "endMs": 415000
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 415480,
+          "endMs": 416400
+        },
+        {
+          "word": "kendi",
+          "startMs": 416920,
+          "endMs": 417650
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 418170,
+          "endMs": 419190
+        },
+        {
+          "word": "anlat.",
+          "startMs": 419280,
+          "endMs": 420010
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

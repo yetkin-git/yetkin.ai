@@ -639,6 +639,11 @@ export type RailV1JuniorLessonPlayData = {
       "note": string;
     } | null;
   } | null;
+  "beats": Array<{
+    "title": string;
+    "startMs": number;
+    "endMs": number;
+  }>;
 };
 
 export type RailV1JuniorLessonProgressRequest = {
@@ -713,6 +718,9 @@ export type RailV1JuniorProfileData = {
       "unitCode"?: string;
       "unitIndex"?: number;
       "unitTitle"?: string;
+      "curriculumLabel"?: string;
+      "shortTopicLabel"?: string;
+      "narrationShort"?: boolean;
     }>;
     "outcomeWritten"?: number;
     "outcomeTotal"?: number;
@@ -860,6 +868,184 @@ export type RailV1JuniorQuizData = {
       "answer"?: string;
     }>;
   }>;
+};
+
+export type RailV1JuniorCheckoutRequest = {
+  "distanceContractAccepted": true;
+  "digitalImmediatePerformanceAccepted": true;
+  "consentVersion": "2026-09-05";
+  "guardianConsentAccepted": true;
+  "guardianNoticeVersion": "junior-notice-2026-10-09";
+  "billing": {
+    "invoiceType": "individual" | "corporate";
+    "fullName"?: string;
+    "tckn"?: string | null;
+    "companyTitle"?: string;
+    "taxOffice"?: string;
+    "vkn"?: string;
+    "phone"?: string;
+    "address"?: string;
+  };
+};
+
+export type RailV1JuniorCheckoutData = {
+  "status": "ACTIVE" | "PENDING";
+  "electiveQuota": number;
+  "alreadyActive": boolean;
+  "expiresAt": string | null;
+  "merchantOid": string;
+  "embedIframe": boolean;
+  "iframeUrl"?: string;
+};
+
+export type RailV1JuniorShelvesData = {
+  "profiles": Array<{
+    "id": string;
+    "nickname": string;
+    "grade": number;
+    "birthYear": number | null;
+    "selected": boolean;
+    "selectedElectives": Array<string>;
+    "gradeSwitchRights": number;
+  }>;
+  "selectedId": string | null;
+  "xp": {
+    "points": number;
+    "badges": Array<string>;
+  };
+  "plan": {
+    "status": "ACTIVE" | "NONE";
+    "electiveQuota": number;
+    "expiresAt": string | null;
+    "gradeSwitchRights": number;
+  };
+  "courses": Array<{
+    "slug": string;
+    "title": string;
+    "subject": string;
+    "grade": number;
+    "track": "core" | "elective";
+    "labels": Array<string>;
+    "lessons": Array<{
+      "key": string;
+      "title": string;
+      "teaser": string;
+      "access": "free" | "locked";
+      "thisWeek": boolean;
+      "status": "fresh" | "going" | "done" | "preparing";
+      "weekHeading"?: string;
+      "archiveLabel"?: string;
+      "starterLabel"?: string;
+      "unitCode"?: string;
+      "unitIndex"?: number;
+      "unitTitle"?: string;
+      "curriculumLabel"?: string;
+      "shortTopicLabel"?: string;
+      "narrationShort"?: boolean;
+    }>;
+    "outcomeWritten"?: number;
+    "outcomeTotal"?: number;
+  }>;
+  "sealedLessonCount": number;
+  "clientSchema": {
+    "timelineSchemaVersion": string;
+    "minTimelineSchemaVersion": string;
+    "mediaTtlSec": number;
+    "mediaRefreshAfterSec": number;
+  };
+};
+
+export type RailV1JuniorProgressData = {
+  "profileId": string | null;
+  "profiles": Array<{
+    "id": string;
+    "nickname": string;
+    "grade": number;
+    "selected": boolean;
+  }>;
+  "xp": {
+    "points": number;
+    "badges": Array<string>;
+  };
+  "lessons": Array<{
+    "lessonKey": string;
+    "title": string;
+    "modes": Array<string>;
+    "bestScore": number;
+    "updatedAt": string;
+    "status": "fresh" | "going" | "done";
+  }>;
+  "totals": {
+    "started": number;
+    "done": number;
+    "going": number;
+  };
+  "weeklyReport": Record<string, unknown> | null;
+  "clientSchema": {
+    "timelineSchemaVersion": string;
+    "minTimelineSchemaVersion": string;
+  };
+};
+
+export type RailV1AcademyCatalogData = {
+  "heroSlug": string | null;
+  "courses": Array<{
+    "slug": string;
+    "title": string;
+    "summary": string;
+    "shelf": "hero" | "advanced";
+    "level": string | null;
+    "moduleCode": string | null;
+    "isPublished": boolean;
+    "purchasable": boolean;
+    "priceMinor": number | null;
+    "currencyCode": "TRY" | "USD" | "EUR" | null;
+    "lessonCount": number;
+    "durationMin": number;
+    "modules": Array<{
+      "title": string;
+      "lessonCount": number;
+      "durationMin": number;
+    }>;
+    "saleHold": string | null;
+    "owned": boolean;
+    "learnerStatus": "continue" | "completed" | null;
+    "checkoutPath": string;
+    "outcomeLead": string | null;
+    "outputLead": string | null;
+  }>;
+  "examPassScore": number;
+  "ownedSlugs": Array<string>;
+  "clientSchema": {
+    "timelineSchemaVersion": string;
+    "minTimelineSchemaVersion": string;
+  };
+};
+
+export type RailV1AcademyCatalogCourse = {
+  "slug": string;
+  "title": string;
+  "summary": string;
+  "shelf": "hero" | "advanced";
+  "level": string | null;
+  "moduleCode": string | null;
+  "isPublished": boolean;
+  "purchasable": boolean;
+  "priceMinor": number | null;
+  "currencyCode": "TRY" | "USD" | "EUR" | null;
+  "lessonCount": number;
+  "durationMin": number;
+  "modules": Array<{
+    "title": string;
+    "lessonCount": number;
+    "durationMin": number;
+  }>;
+  "saleHold": string | null;
+  "owned": boolean;
+  "learnerStatus": "continue" | "completed" | null;
+  "checkoutPath": string;
+  "outcomeLead": string | null;
+  "outputLead": string | null;
 };
 
 export type RailV1SessionData = {

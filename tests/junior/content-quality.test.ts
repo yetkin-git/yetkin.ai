@@ -64,7 +64,7 @@ describe("içerik kalite doğrulayıcı", () => {
     const concept = "Kesir toplarken paydaları topla ve payları yanına yaz.";
     const caught = scanLessonText(
       lesson({
-        key: "jr_06_mat-11",
+        key: "jr_06_mat-7",
         title: "Kesirlerde toplama",
         concept,
         fields: [{ name: "concept", text: concept }],
@@ -75,7 +75,7 @@ describe("içerik kalite doğrulayıcı", () => {
     const warning = "Paydaları toplamak tuzaktır. Payda eşitlenir, toplanmaz.";
     const spared = scanLessonText(
       lesson({
-        key: "jr_06_mat-11",
+        key: "jr_06_mat-7",
         title: "Kesirlerde toplama",
         concept: "Paydası eşit kesirlerde paylar toplanır. Payda aynı kalır. Sonuç sadeleştirilir.",
         fields: [{ name: "warning", text: warning }],
@@ -107,7 +107,7 @@ describe("içerik kalite doğrulayıcı", () => {
   it("bağlamlı iki adımlı beceri sorusunu tam sayar", () => {
     const scored = scoreWrittenLesson(
       lesson({
-        key: "jr_06_mat-6",
+        key: "jr_06_mat-2",
         title: "Asal sayılar",
         band: "tymm",
         hours: 2,
@@ -203,7 +203,7 @@ describe("içerik kalite doğrulayıcı", () => {
   it("omurga ve bağlamlı beceri sorusu varsa Katman 3 sayar", () => {
     const scored = scoreDepthBand(
       lesson({
-        key: "jr_06_mat-6",
+        key: "jr_06_mat-2",
         title: "Asal sayılar",
         concept:
           "Asal sayı 1'den büyüktür ve yalnız 1 ile kendisine kalansız bölünür. 1 asal sayılmaz. Pratik kural: önce bölenleri say, sonra asalları ayır.",

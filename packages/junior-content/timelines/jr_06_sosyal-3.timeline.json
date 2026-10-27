@@ -1,0 +1,2765 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_sosyal-3",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Önyargıları kırıyoruz",
+  "grade": 6,
+  "subject": "Sosyal Bilgiler",
+  "teacher": {
+    "name": "Murat",
+    "voice": "Achird",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_sosyal-3.mp3",
+    "durationMs": 380402,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 104300
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 104300,
+      "endMs": 326090
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 326090,
+      "endMs": 380402
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4030,
+      "pauseAfterMs": 780,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 240,
+          "endMs": 810
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1480,
+          "endMs": 2130
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2360,
+          "endMs": 3250
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Önyargıları kırıyoruz",
+            "subtitle": "Sosyal Bilgiler",
+            "ruleBadges": [],
+            "echoPrompt": "Bir hükümde neyi gördüğünü ve neyi henüz sormadığını ayrı söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Önyargı, bir kişiyi tanımadan hakkında karar vermektir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Ayrımcılık, bu kararla birini dışlamaktır. Empati yer değiştirerek düşünmektir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Önyargı soruyla incelir. Tek görüntü bütün hayat değildir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4030,
+      "endMs": 9630,
+      "pauseAfterMs": 600,
+      "text": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "markedText": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4030,
+          "endMs": 4360
+        },
+        {
+          "word": "Sosyal",
+          "startMs": 4360,
+          "endMs": 4910
+        },
+        {
+          "word": "Bilgiler",
+          "startMs": 5040,
+          "endMs": 6250
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6340,
+          "endMs": 8000
+        },
+        {
+          "word": "Murat.",
+          "startMs": 8120,
+          "endMs": 9030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 9630,
+      "endMs": 17630,
+      "pauseAfterMs": 370,
+      "text": "Kalbimizi ve zihnimizi güzelleştiren büyük bir adıma hazırlanıyoruz.",
+      "markedText": "Kalbimizi ve zihnimizi güzelleştiren büyük bir adıma hazırlanıyoruz.",
+      "words": [
+        {
+          "word": "Kalbimizi",
+          "startMs": 9630,
+          "endMs": 10450
+        },
+        {
+          "word": "ve",
+          "startMs": 10450,
+          "endMs": 10640
+        },
+        {
+          "word": "zihnimizi",
+          "startMs": 10640,
+          "endMs": 11330
+        },
+        {
+          "word": "güzelleştiren",
+          "startMs": 11460,
+          "endMs": 12740
+        },
+        {
+          "word": "büyük",
+          "startMs": 12740,
+          "endMs": 13640
+        },
+        {
+          "word": "bir",
+          "startMs": 14860,
+          "endMs": 14950
+        },
+        {
+          "word": "adıma",
+          "startMs": 15130,
+          "endMs": 15760
+        },
+        {
+          "word": "hazırlanıyoruz.",
+          "startMs": 16050,
+          "endMs": 17260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 17630,
+      "endMs": 29190,
+      "pauseAfterMs": 390,
+      "text": "Hiç bir insanı henüz onunla konuşmadan, yalnızca dış görünüşüne bakarak hemen tanıdığını düşündüğün oldu mu?",
+      "markedText": "Hiç bir insanı henüz onunla konuşmadan, yalnızca dış görünüşüne bakarak hemen tanıdığını düşündüğün oldu mu?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 17630,
+          "endMs": 17890
+        },
+        {
+          "word": "bir",
+          "startMs": 17960,
+          "endMs": 18210
+        },
+        {
+          "word": "insanı",
+          "startMs": 18330,
+          "endMs": 19110
+        },
+        {
+          "word": "henüz",
+          "startMs": 19300,
+          "endMs": 19550
+        },
+        {
+          "word": "onunla",
+          "startMs": 19650,
+          "endMs": 20100
+        },
+        {
+          "word": "konuşmadan,",
+          "startMs": 20200,
+          "endMs": 20930
+        },
+        {
+          "word": "yalnızca",
+          "startMs": 22090,
+          "endMs": 22990
+        },
+        {
+          "word": "dış",
+          "startMs": 23070,
+          "endMs": 23290
+        },
+        {
+          "word": "görünüşüne",
+          "startMs": 23670,
+          "endMs": 24150
+        },
+        {
+          "word": "bakarak",
+          "startMs": 24370,
+          "endMs": 24880
+        },
+        {
+          "word": "hemen",
+          "startMs": 24970,
+          "endMs": 25680
+        },
+        {
+          "word": "tanıdığını",
+          "startMs": 26610,
+          "endMs": 27230
+        },
+        {
+          "word": "düşündüğün",
+          "startMs": 27410,
+          "endMs": 28180
+        },
+        {
+          "word": "oldu",
+          "startMs": 28180,
+          "endMs": 28470
+        },
+        {
+          "word": "mu?",
+          "startMs": 28470,
+          "endMs": 28800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 29190,
+      "endMs": 36050,
+      "pauseAfterMs": 1050,
+      "text": "O an aklımıza gelen ilk düşünce aceleci bir tahmin olabilir.",
+      "markedText": "O an aklımıza gelen ilk düşünce aceleci bir tahmin olabilir.",
+      "words": [
+        {
+          "word": "O",
+          "startMs": 29190,
+          "endMs": 29320
+        },
+        {
+          "word": "an",
+          "startMs": 29320,
+          "endMs": 29470
+        },
+        {
+          "word": "aklımıza",
+          "startMs": 29470,
+          "endMs": 30180
+        },
+        {
+          "word": "gelen",
+          "startMs": 30180,
+          "endMs": 30870
+        },
+        {
+          "word": "ilk",
+          "startMs": 31230,
+          "endMs": 31360
+        },
+        {
+          "word": "düşünce",
+          "startMs": 31510,
+          "endMs": 31930
+        },
+        {
+          "word": "aceleci",
+          "startMs": 32060,
+          "endMs": 32330
+        },
+        {
+          "word": "bir",
+          "startMs": 32550,
+          "endMs": 32960
+        },
+        {
+          "word": "tahmin",
+          "startMs": 32960,
+          "endMs": 33690
+        },
+        {
+          "word": "olabilir.",
+          "startMs": 33780,
+          "endMs": 35000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 36050,
+      "endMs": 47600,
+      "pauseAfterMs": 240,
+      "text": "Önyargının ne olduğunu, ayrımcılıktan nasıl ayrıldığını ve empati kurarak bu duvarları nasıl yıkabileceğimizi öğreneceğiz.",
+      "markedText": "Önyargının ne olduğunu, ayrımcılıktan nasıl ayrıldığını ve empati kurarak bu duvarları nasıl yıkabileceğimizi öğreneceğiz.",
+      "words": [
+        {
+          "word": "Önyargının",
+          "startMs": 36050,
+          "endMs": 36910
+        },
+        {
+          "word": "ne",
+          "startMs": 37050,
+          "endMs": 37160
+        },
+        {
+          "word": "olduğunu,",
+          "startMs": 37210,
+          "endMs": 37820
+        },
+        {
+          "word": "ayrımcılıktan",
+          "startMs": 38240,
+          "endMs": 38700
+        },
+        {
+          "word": "nasıl",
+          "startMs": 38760,
+          "endMs": 38850
+        },
+        {
+          "word": "ayrıldığını",
+          "startMs": 38850,
+          "endMs": 39490
+        },
+        {
+          "word": "ve",
+          "startMs": 39630,
+          "endMs": 39760
+        },
+        {
+          "word": "empati",
+          "startMs": 39930,
+          "endMs": 40710
+        },
+        {
+          "word": "kurarak",
+          "startMs": 41980,
+          "endMs": 42480
+        },
+        {
+          "word": "bu",
+          "startMs": 42620,
+          "endMs": 42790
+        },
+        {
+          "word": "duvarları",
+          "startMs": 43060,
+          "endMs": 43480
+        },
+        {
+          "word": "nasıl",
+          "startMs": 43670,
+          "endMs": 44250
+        },
+        {
+          "word": "yıkabileceğimizi",
+          "startMs": 44860,
+          "endMs": 46290
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 46370,
+          "endMs": 47360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 47600,
+      "endMs": 58160,
+      "pauseAfterMs": 1140,
+      "text": "Tanımadan verilen peşin kararlar, bir insanın gerçek değerini asla yansıtmaz.",
+      "markedText": "Tanımadan verilen peşin kararlar, bir insanın gerçek değerini asla yansıtmaz.",
+      "words": [
+        {
+          "word": "Tanımadan",
+          "startMs": 47600,
+          "endMs": 48350
+        },
+        {
+          "word": "verilen",
+          "startMs": 48890,
+          "endMs": 49540
+        },
+        {
+          "word": "peşin",
+          "startMs": 49960,
+          "endMs": 50810
+        },
+        {
+          "word": "kararlar,",
+          "startMs": 51050,
+          "endMs": 52090
+        },
+        {
+          "word": "bir",
+          "startMs": 52780,
+          "endMs": 52890
+        },
+        {
+          "word": "insanın",
+          "startMs": 53000,
+          "endMs": 53730
+        },
+        {
+          "word": "gerçek",
+          "startMs": 53940,
+          "endMs": 54250
+        },
+        {
+          "word": "değerini",
+          "startMs": 54250,
+          "endMs": 55070
+        },
+        {
+          "word": "asla",
+          "startMs": 55370,
+          "endMs": 55800
+        },
+        {
+          "word": "yansıtmaz.",
+          "startMs": 55860,
+          "endMs": 57020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 58160,
+      "endMs": 65880,
+      "pauseAfterMs": 990,
+      "text": "Bunu mahalle parkında oyun oynarken de kolayca uygulayabilirsin.",
+      "markedText": "Bunu mahalle parkında oyun oynarken de kolayca uygulayabilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 58160,
+          "endMs": 58480
+        },
+        {
+          "word": "mahalle",
+          "startMs": 58480,
+          "endMs": 58920
+        },
+        {
+          "word": "parkında",
+          "startMs": 59170,
+          "endMs": 59910
+        },
+        {
+          "word": "oyun",
+          "startMs": 60010,
+          "endMs": 60520
+        },
+        {
+          "word": "oynarken",
+          "startMs": 60840,
+          "endMs": 61810
+        },
+        {
+          "word": "de",
+          "startMs": 62170,
+          "endMs": 62430
+        },
+        {
+          "word": "kolayca",
+          "startMs": 62480,
+          "endMs": 63370
+        },
+        {
+          "word": "uygulayabilirsin.",
+          "startMs": 63620,
+          "endMs": 64890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 65880,
+      "endMs": 85020,
+      "pauseAfterMs": 1830,
+      "text": "Yeni bir çocuk salıncakların yanına geldiğinde, onu tanımadan dışarıda bırakmak yerine tebessümle yanına gidip adını sorabilirsin.",
+      "markedText": "Yeni bir çocuk salıncakların yanına geldiğinde, onu tanımadan dışarıda bırakmak yerine tebessümle yanına gidip adını sorabilirsin.",
+      "words": [
+        {
+          "word": "Yeni",
+          "startMs": 65880,
+          "endMs": 66310
+        },
+        {
+          "word": "bir",
+          "startMs": 66420,
+          "endMs": 66600
+        },
+        {
+          "word": "çocuk",
+          "startMs": 66850,
+          "endMs": 67210
+        },
+        {
+          "word": "salıncakların",
+          "startMs": 67290,
+          "endMs": 68320
+        },
+        {
+          "word": "yanına",
+          "startMs": 68720,
+          "endMs": 69180
+        },
+        {
+          "word": "geldiğinde,",
+          "startMs": 69300,
+          "endMs": 70750
+        },
+        {
+          "word": "onu",
+          "startMs": 71820,
+          "endMs": 72140
+        },
+        {
+          "word": "tanımadan",
+          "startMs": 72270,
+          "endMs": 73270
+        },
+        {
+          "word": "dışarıda",
+          "startMs": 73970,
+          "endMs": 74780
+        },
+        {
+          "word": "bırakmak",
+          "startMs": 75170,
+          "endMs": 75780
+        },
+        {
+          "word": "yerine",
+          "startMs": 76230,
+          "endMs": 76810
+        },
+        {
+          "word": "tebessümle",
+          "startMs": 77050,
+          "endMs": 77890
+        },
+        {
+          "word": "yanına",
+          "startMs": 78060,
+          "endMs": 78990
+        },
+        {
+          "word": "gidip",
+          "startMs": 79260,
+          "endMs": 80300
+        },
+        {
+          "word": "adını",
+          "startMs": 80880,
+          "endMs": 81420
+        },
+        {
+          "word": "sorabilirsin.",
+          "startMs": 81680,
+          "endMs": 83190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 85020,
+      "endMs": 93640,
+      "pauseAfterMs": 990,
+      "text": "Birlikte bir tur top oynadığınızda harika bir arkadaşlık başlar.",
+      "markedText": "Birlikte bir tur top oynadığınızda harika bir arkadaşlık başlar.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 85020,
+          "endMs": 85730
+        },
+        {
+          "word": "bir",
+          "startMs": 85730,
+          "endMs": 85930
+        },
+        {
+          "word": "tur",
+          "startMs": 86250,
+          "endMs": 86620
+        },
+        {
+          "word": "top",
+          "startMs": 86690,
+          "endMs": 87230
+        },
+        {
+          "word": "oynadığınızda",
+          "startMs": 87990,
+          "endMs": 89430
+        },
+        {
+          "word": "harika",
+          "startMs": 89820,
+          "endMs": 90260
+        },
+        {
+          "word": "bir",
+          "startMs": 90350,
+          "endMs": 90490
+        },
+        {
+          "word": "arkadaşlık",
+          "startMs": 90830,
+          "endMs": 91940
+        },
+        {
+          "word": "başlar.",
+          "startMs": 91980,
+          "endMs": 92650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 93640,
+      "endMs": 104300,
+      "pauseAfterMs": 750,
+      "text": "Merak edip sorduğunda, anlamaya çalıştığında aradaki tüm ön yargılar yok olur ve sıcacık bir dostluk filizlenir.",
+      "markedText": "Merak edip sorduğunda, anlamaya çalıştığında aradaki tüm ön yargılar yok olur ve sıcacık bir dostluk filizlenir.",
+      "words": [
+        {
+          "word": "Merak",
+          "startMs": 93640,
+          "endMs": 93820
+        },
+        {
+          "word": "edip",
+          "startMs": 93910,
+          "endMs": 94210
+        },
+        {
+          "word": "sorduğunda,",
+          "startMs": 94210,
+          "endMs": 95020
+        },
+        {
+          "word": "anlamaya",
+          "startMs": 95580,
+          "endMs": 95980
+        },
+        {
+          "word": "çalıştığında",
+          "startMs": 96120,
+          "endMs": 96950
+        },
+        {
+          "word": "aradaki",
+          "startMs": 97120,
+          "endMs": 97770
+        },
+        {
+          "word": "tüm",
+          "startMs": 97850,
+          "endMs": 98400
+        },
+        {
+          "word": "ön",
+          "startMs": 99440,
+          "endMs": 99760
+        },
+        {
+          "word": "yargılar",
+          "startMs": 99900,
+          "endMs": 100510
+        },
+        {
+          "word": "yok",
+          "startMs": 100510,
+          "endMs": 100610
+        },
+        {
+          "word": "olur",
+          "startMs": 100610,
+          "endMs": 101070
+        },
+        {
+          "word": "ve",
+          "startMs": 101120,
+          "endMs": 101180
+        },
+        {
+          "word": "sıcacık",
+          "startMs": 101540,
+          "endMs": 101910
+        },
+        {
+          "word": "bir",
+          "startMs": 101910,
+          "endMs": 102090
+        },
+        {
+          "word": "dostluk",
+          "startMs": 102090,
+          "endMs": 102570
+        },
+        {
+          "word": "filizlenir.",
+          "startMs": 102570,
+          "endMs": 103550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 104300,
+      "endMs": 120650,
+      "pauseAfterMs": 830,
+      "text": "Önyargı, bir insanı yeterince tanımadan, kulaktan dolma tek bir söze ya da tek bir görüntüye bakarak peşin hüküm vermektir.",
+      "markedText": "Önyargı, bir insanı yeterince tanımadan, kulaktan dolma tek bir söze ya da tek bir görüntüye bakarak peşin hüküm vermektir.",
+      "words": [
+        {
+          "word": "Önyargı,",
+          "startMs": 104300,
+          "endMs": 104930
+        },
+        {
+          "word": "bir",
+          "startMs": 104930,
+          "endMs": 105250
+        },
+        {
+          "word": "insanı",
+          "startMs": 105560,
+          "endMs": 105920
+        },
+        {
+          "word": "yeterince",
+          "startMs": 105960,
+          "endMs": 106580
+        },
+        {
+          "word": "tanımadan,",
+          "startMs": 107290,
+          "endMs": 108550
+        },
+        {
+          "word": "kulaktan",
+          "startMs": 109370,
+          "endMs": 109710
+        },
+        {
+          "word": "dolma",
+          "startMs": 110170,
+          "endMs": 110780
+        },
+        {
+          "word": "tek",
+          "startMs": 110960,
+          "endMs": 111190
+        },
+        {
+          "word": "bir",
+          "startMs": 111190,
+          "endMs": 111670
+        },
+        {
+          "word": "söze",
+          "startMs": 112900,
+          "endMs": 113250
+        },
+        {
+          "word": "ya",
+          "startMs": 113250,
+          "endMs": 113490
+        },
+        {
+          "word": "da",
+          "startMs": 113700,
+          "endMs": 113820
+        },
+        {
+          "word": "tek",
+          "startMs": 113920,
+          "endMs": 114140
+        },
+        {
+          "word": "bir",
+          "startMs": 114140,
+          "endMs": 114420
+        },
+        {
+          "word": "görüntüye",
+          "startMs": 114420,
+          "endMs": 115360
+        },
+        {
+          "word": "bakarak",
+          "startMs": 115600,
+          "endMs": 116100
+        },
+        {
+          "word": "peşin",
+          "startMs": 116140,
+          "endMs": 116910
+        },
+        {
+          "word": "hüküm",
+          "startMs": 117770,
+          "endMs": 118280
+        },
+        {
+          "word": "vermektir.",
+          "startMs": 118550,
+          "endMs": 119820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 120650,
+      "endMs": 130100,
+      "pauseAfterMs": 1490,
+      "text": "Bu peşin kararlar çoğu zaman gerçeği yansıtmaz ve insanları yanıltır.",
+      "markedText": "Bu peşin kararlar çoğu zaman gerçeği yansıtmaz ve insanları yanıltır.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 120650,
+          "endMs": 120880
+        },
+        {
+          "word": "peşin",
+          "startMs": 121000,
+          "endMs": 121460
+        },
+        {
+          "word": "kararlar",
+          "startMs": 121590,
+          "endMs": 122270
+        },
+        {
+          "word": "çoğu",
+          "startMs": 122390,
+          "endMs": 122770
+        },
+        {
+          "word": "zaman",
+          "startMs": 122770,
+          "endMs": 123420
+        },
+        {
+          "word": "gerçeği",
+          "startMs": 124270,
+          "endMs": 124920
+        },
+        {
+          "word": "yansıtmaz",
+          "startMs": 125040,
+          "endMs": 126010
+        },
+        {
+          "word": "ve",
+          "startMs": 126380,
+          "endMs": 126470
+        },
+        {
+          "word": "insanları",
+          "startMs": 126580,
+          "endMs": 127380
+        },
+        {
+          "word": "yanıltır.",
+          "startMs": 127520,
+          "endMs": 128610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 130100,
+      "endMs": 143860,
+      "pauseAfterMs": 870,
+      "text": "Ayrımcılık ise bu yanlış peşin hükümle bir insanı dışlamak, oyun grubuna almamak ya da hakkını kısıtlamaktır.",
+      "markedText": "Ayrımcılık ise bu yanlış peşin hükümle bir insanı dışlamak, oyun grubuna almamak ya da hakkını kısıtlamaktır.",
+      "words": [
+        {
+          "word": "Ayrımcılık",
+          "startMs": 130100,
+          "endMs": 130920
+        },
+        {
+          "word": "ise",
+          "startMs": 131830,
+          "endMs": 132000
+        },
+        {
+          "word": "bu",
+          "startMs": 132080,
+          "endMs": 132440
+        },
+        {
+          "word": "yanlış",
+          "startMs": 133370,
+          "endMs": 133860
+        },
+        {
+          "word": "peşin",
+          "startMs": 133860,
+          "endMs": 134500
+        },
+        {
+          "word": "hükümle",
+          "startMs": 135510,
+          "endMs": 135850
+        },
+        {
+          "word": "bir",
+          "startMs": 135850,
+          "endMs": 136090
+        },
+        {
+          "word": "insanı",
+          "startMs": 136250,
+          "endMs": 137010
+        },
+        {
+          "word": "dışlamak,",
+          "startMs": 137200,
+          "endMs": 138270
+        },
+        {
+          "word": "oyun",
+          "startMs": 138500,
+          "endMs": 139030
+        },
+        {
+          "word": "grubuna",
+          "startMs": 139150,
+          "endMs": 139810
+        },
+        {
+          "word": "almamak",
+          "startMs": 140040,
+          "endMs": 140580
+        },
+        {
+          "word": "ya",
+          "startMs": 140690,
+          "endMs": 140850
+        },
+        {
+          "word": "da",
+          "startMs": 141140,
+          "endMs": 141290
+        },
+        {
+          "word": "hakkını",
+          "startMs": 141400,
+          "endMs": 141840
+        },
+        {
+          "word": "kısıtlamaktır.",
+          "startMs": 142000,
+          "endMs": 142990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 143860,
+      "endMs": 154070,
+      "pauseAfterMs": 690,
+      "text": "Empati ise kendini onun yerine koyarak olaylara onun gözünden bakabilmektir.",
+      "markedText": "Empati ise kendini onun yerine koyarak olaylara onun gözünden bakabilmektir.",
+      "words": [
+        {
+          "word": "Empati",
+          "startMs": 143860,
+          "endMs": 144540
+        },
+        {
+          "word": "ise",
+          "startMs": 144850,
+          "endMs": 145160
+        },
+        {
+          "word": "kendini",
+          "startMs": 145290,
+          "endMs": 146100
+        },
+        {
+          "word": "onun",
+          "startMs": 146190,
+          "endMs": 146590
+        },
+        {
+          "word": "yerine",
+          "startMs": 146690,
+          "endMs": 147630
+        },
+        {
+          "word": "koyarak",
+          "startMs": 148510,
+          "endMs": 149190
+        },
+        {
+          "word": "olaylara",
+          "startMs": 149320,
+          "endMs": 149920
+        },
+        {
+          "word": "onun",
+          "startMs": 150180,
+          "endMs": 150920
+        },
+        {
+          "word": "gözünden",
+          "startMs": 151440,
+          "endMs": 151890
+        },
+        {
+          "word": "bakabilmektir.",
+          "startMs": 152170,
+          "endMs": 153380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 154070,
+      "endMs": 172990,
+      "pauseAfterMs": 1040,
+      "text": "Pratik kural: Önyargı doğru bilgi sanılabilir; oysa o, henüz sorulmamış ve araştırılmamış aceleci bir hükümdür.",
+      "markedText": "Pratik kural: Önyargı doğru bilgi sanılabilir; oysa o, henüz sorulmamış ve araştırılmamış aceleci bir hükümdür.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 154070,
+          "endMs": 155180
+        },
+        {
+          "word": "kural:",
+          "startMs": 155320,
+          "endMs": 156100
+        },
+        {
+          "word": "Önyargı",
+          "startMs": 156870,
+          "endMs": 157830
+        },
+        {
+          "word": "doğru",
+          "startMs": 157920,
+          "endMs": 158490
+        },
+        {
+          "word": "bilgi",
+          "startMs": 158930,
+          "endMs": 159450
+        },
+        {
+          "word": "sanılabilir;",
+          "startMs": 159600,
+          "endMs": 160820
+        },
+        {
+          "word": "oysa",
+          "startMs": 161110,
+          "endMs": 161440
+        },
+        {
+          "word": "o,",
+          "startMs": 161500,
+          "endMs": 161860
+        },
+        {
+          "word": "henüz",
+          "startMs": 163900,
+          "endMs": 164190
+        },
+        {
+          "word": "sorulmamış",
+          "startMs": 164190,
+          "endMs": 164880
+        },
+        {
+          "word": "ve",
+          "startMs": 165870,
+          "endMs": 166070
+        },
+        {
+          "word": "araştırılmamış",
+          "startMs": 166860,
+          "endMs": 168200
+        },
+        {
+          "word": "aceleci",
+          "startMs": 168870,
+          "endMs": 169480
+        },
+        {
+          "word": "bir",
+          "startMs": 169730,
+          "endMs": 170120
+        },
+        {
+          "word": "hükümdür.",
+          "startMs": 170250,
+          "endMs": 171950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 172990,
+      "endMs": 181140,
+      "pauseAfterMs": 810,
+      "text": "Sınıfına yeni bir arkadaşının geldiğini hayal et.",
+      "markedText": "Sınıfına yeni bir arkadaşının geldiğini hayal et.",
+      "words": [
+        {
+          "word": "Sınıfına",
+          "startMs": 172990,
+          "endMs": 173740
+        },
+        {
+          "word": "yeni",
+          "startMs": 174000,
+          "endMs": 174430
+        },
+        {
+          "word": "bir",
+          "startMs": 175500,
+          "endMs": 175730
+        },
+        {
+          "word": "arkadaşının",
+          "startMs": 176420,
+          "endMs": 177770
+        },
+        {
+          "word": "geldiğini",
+          "startMs": 178640,
+          "endMs": 179380
+        },
+        {
+          "word": "hayal",
+          "startMs": 179470,
+          "endMs": 179790
+        },
+        {
+          "word": "et.",
+          "startMs": 179960,
+          "endMs": 180330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 181140,
+      "endMs": 192570,
+      "pauseAfterMs": 590,
+      "text": "Gözlükleri biraz büyük olduğu için biri onun çok çekingen ve sıkıcı olduğunu düşünebilir.",
+      "markedText": "Gözlükleri biraz büyük olduğu için biri onun çok çekingen ve sıkıcı olduğunu düşünebilir.",
+      "words": [
+        {
+          "word": "Gözlükleri",
+          "startMs": 181140,
+          "endMs": 182510
+        },
+        {
+          "word": "biraz",
+          "startMs": 182600,
+          "endMs": 182900
+        },
+        {
+          "word": "büyük",
+          "startMs": 183080,
+          "endMs": 183340
+        },
+        {
+          "word": "olduğu",
+          "startMs": 183400,
+          "endMs": 184210
+        },
+        {
+          "word": "için",
+          "startMs": 185110,
+          "endMs": 185580
+        },
+        {
+          "word": "biri",
+          "startMs": 185860,
+          "endMs": 186190
+        },
+        {
+          "word": "onun",
+          "startMs": 186320,
+          "endMs": 187020
+        },
+        {
+          "word": "çok",
+          "startMs": 187370,
+          "endMs": 187550
+        },
+        {
+          "word": "çekingen",
+          "startMs": 187700,
+          "endMs": 188470
+        },
+        {
+          "word": "ve",
+          "startMs": 188470,
+          "endMs": 188730
+        },
+        {
+          "word": "sıkıcı",
+          "startMs": 188780,
+          "endMs": 189290
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 189420,
+          "endMs": 190220
+        },
+        {
+          "word": "düşünebilir.",
+          "startMs": 190460,
+          "endMs": 191980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 192570,
+      "endMs": 204420,
+      "pauseAfterMs": 1110,
+      "text": "İşte bu bir önyargıdır; çünkü henüz onunla tek bir kelime bile konuşulmamıştır.",
+      "markedText": "İşte bu bir önyargıdır; çünkü henüz onunla tek bir kelime bile konuşulmamıştır.",
+      "words": [
+        {
+          "word": "İşte",
+          "startMs": 192570,
+          "endMs": 192920
+        },
+        {
+          "word": "bu",
+          "startMs": 193290,
+          "endMs": 193650
+        },
+        {
+          "word": "bir",
+          "startMs": 194080,
+          "endMs": 194220
+        },
+        {
+          "word": "önyargıdır;",
+          "startMs": 194490,
+          "endMs": 195860
+        },
+        {
+          "word": "çünkü",
+          "startMs": 196680,
+          "endMs": 197440
+        },
+        {
+          "word": "henüz",
+          "startMs": 197520,
+          "endMs": 198000
+        },
+        {
+          "word": "onunla",
+          "startMs": 198240,
+          "endMs": 198680
+        },
+        {
+          "word": "tek",
+          "startMs": 198750,
+          "endMs": 198910
+        },
+        {
+          "word": "bir",
+          "startMs": 199280,
+          "endMs": 199440
+        },
+        {
+          "word": "kelime",
+          "startMs": 199730,
+          "endMs": 200720
+        },
+        {
+          "word": "bile",
+          "startMs": 200850,
+          "endMs": 201260
+        },
+        {
+          "word": "konuşulmamıştır.",
+          "startMs": 201510,
+          "endMs": 203310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 204420,
+      "endMs": 214670,
+      "pauseAfterMs": 640,
+      "text": "Teneffüste çekinmeden yanına gidip adını ve nelerden hoşlandığını sorarsın.",
+      "markedText": "Teneffüste çekinmeden yanına gidip adını ve nelerden hoşlandığını sorarsın.",
+      "words": [
+        {
+          "word": "Teneffüste",
+          "startMs": 204420,
+          "endMs": 205110
+        },
+        {
+          "word": "çekinmeden",
+          "startMs": 205280,
+          "endMs": 206230
+        },
+        {
+          "word": "yanına",
+          "startMs": 206760,
+          "endMs": 207440
+        },
+        {
+          "word": "gidip",
+          "startMs": 207760,
+          "endMs": 208110
+        },
+        {
+          "word": "adını",
+          "startMs": 208110,
+          "endMs": 208640
+        },
+        {
+          "word": "ve",
+          "startMs": 208770,
+          "endMs": 209390
+        },
+        {
+          "word": "nelerden",
+          "startMs": 209620,
+          "endMs": 210340
+        },
+        {
+          "word": "hoşlandığını",
+          "startMs": 211100,
+          "endMs": 212740
+        },
+        {
+          "word": "sorarsın.",
+          "startMs": 212960,
+          "endMs": 214030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 214670,
+      "endMs": 222800,
+      "pauseAfterMs": 1660,
+      "text": "O da sana güler yüzle neşeli bir hikâye anlatır ve keyifle sohbet edersiniz.",
+      "markedText": "O da sana güler yüzle neşeli bir hikâye anlatır ve keyifle sohbet edersiniz.",
+      "words": [
+        {
+          "word": "O",
+          "startMs": 214670,
+          "endMs": 214750
+        },
+        {
+          "word": "da",
+          "startMs": 214840,
+          "endMs": 214930
+        },
+        {
+          "word": "sana",
+          "startMs": 214930,
+          "endMs": 215280
+        },
+        {
+          "word": "güler",
+          "startMs": 215280,
+          "endMs": 215590
+        },
+        {
+          "word": "yüzle",
+          "startMs": 215740,
+          "endMs": 216050
+        },
+        {
+          "word": "neşeli",
+          "startMs": 216050,
+          "endMs": 216370
+        },
+        {
+          "word": "bir",
+          "startMs": 216370,
+          "endMs": 216440
+        },
+        {
+          "word": "hikâye",
+          "startMs": 216490,
+          "endMs": 216880
+        },
+        {
+          "word": "anlatır",
+          "startMs": 217150,
+          "endMs": 217650
+        },
+        {
+          "word": "ve",
+          "startMs": 217650,
+          "endMs": 217820
+        },
+        {
+          "word": "keyifle",
+          "startMs": 217820,
+          "endMs": 218470
+        },
+        {
+          "word": "sohbet",
+          "startMs": 219450,
+          "endMs": 219950
+        },
+        {
+          "word": "edersiniz.",
+          "startMs": 220170,
+          "endMs": 221140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 222800,
+      "endMs": 225490,
+      "pauseAfterMs": 720,
+      "text": "Aradaki o soğuk duvar bir anda erir.",
+      "markedText": "Aradaki o soğuk duvar bir anda erir.",
+      "words": [
+        {
+          "word": "Aradaki",
+          "startMs": 222800,
+          "endMs": 223160
+        },
+        {
+          "word": "o",
+          "startMs": 223160,
+          "endMs": 223260
+        },
+        {
+          "word": "soğuk",
+          "startMs": 223260,
+          "endMs": 223530
+        },
+        {
+          "word": "duvar",
+          "startMs": 223600,
+          "endMs": 223980
+        },
+        {
+          "word": "bir",
+          "startMs": 223980,
+          "endMs": 224110
+        },
+        {
+          "word": "anda",
+          "startMs": 224110,
+          "endMs": 224340
+        },
+        {
+          "word": "erir.",
+          "startMs": 224340,
+          "endMs": 224770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 225490,
+      "endMs": 236270,
+      "pauseAfterMs": 1390,
+      "text": "Başka bir gün farklı yöreden gelen bir arkadaşın yöresel bir yemek getirir; kokusu sana ilk başta alışılmadık gelebilir.",
+      "markedText": "Başka bir gün farklı yöreden gelen bir arkadaşın yöresel bir yemek getirir; kokusu sana ilk başta alışılmadık gelebilir.",
+      "words": [
+        {
+          "word": "Başka",
+          "startMs": 225490,
+          "endMs": 225960
+        },
+        {
+          "word": "bir",
+          "startMs": 225960,
+          "endMs": 226190
+        },
+        {
+          "word": "gün",
+          "startMs": 226290,
+          "endMs": 226450
+        },
+        {
+          "word": "farklı",
+          "startMs": 226530,
+          "endMs": 226930
+        },
+        {
+          "word": "yöreden",
+          "startMs": 227100,
+          "endMs": 227630
+        },
+        {
+          "word": "gelen",
+          "startMs": 227630,
+          "endMs": 227890
+        },
+        {
+          "word": "bir",
+          "startMs": 228060,
+          "endMs": 228140
+        },
+        {
+          "word": "arkadaşın",
+          "startMs": 228240,
+          "endMs": 228670
+        },
+        {
+          "word": "yöresel",
+          "startMs": 228880,
+          "endMs": 229240
+        },
+        {
+          "word": "bir",
+          "startMs": 229240,
+          "endMs": 229330
+        },
+        {
+          "word": "yemek",
+          "startMs": 229330,
+          "endMs": 229490
+        },
+        {
+          "word": "getirir;",
+          "startMs": 229590,
+          "endMs": 229950
+        },
+        {
+          "word": "kokusu",
+          "startMs": 230590,
+          "endMs": 231010
+        },
+        {
+          "word": "sana",
+          "startMs": 231110,
+          "endMs": 231350
+        },
+        {
+          "word": "ilk",
+          "startMs": 231350,
+          "endMs": 231800
+        },
+        {
+          "word": "başta",
+          "startMs": 232130,
+          "endMs": 232400
+        },
+        {
+          "word": "alışılmadık",
+          "startMs": 232500,
+          "endMs": 233360
+        },
+        {
+          "word": "gelebilir.",
+          "startMs": 233630,
+          "endMs": 234880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 236270,
+      "endMs": 241440,
+      "pauseAfterMs": 930,
+      "text": "Hemen o yemeğe kötü demek de aceleci bir karardır.",
+      "markedText": "Hemen o yemeğe kötü demek de aceleci bir karardır.",
+      "words": [
+        {
+          "word": "Hemen",
+          "startMs": 236270,
+          "endMs": 236500
+        },
+        {
+          "word": "o",
+          "startMs": 236570,
+          "endMs": 236670
+        },
+        {
+          "word": "yemeğe",
+          "startMs": 236870,
+          "endMs": 237590
+        },
+        {
+          "word": "kötü",
+          "startMs": 238230,
+          "endMs": 238590
+        },
+        {
+          "word": "demek",
+          "startMs": 238590,
+          "endMs": 238790
+        },
+        {
+          "word": "de",
+          "startMs": 238980,
+          "endMs": 239070
+        },
+        {
+          "word": "aceleci",
+          "startMs": 239170,
+          "endMs": 239530
+        },
+        {
+          "word": "bir",
+          "startMs": 239580,
+          "endMs": 239690
+        },
+        {
+          "word": "karardır.",
+          "startMs": 239690,
+          "endMs": 240510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 241440,
+      "endMs": 254160,
+      "pauseAfterMs": 1180,
+      "text": "Herkesin kültürüne saygı duymak, insanları zenginlikleriyle kucaklamaktır.",
+      "markedText": "Herkesin kültürüne saygı duymak, insanları zenginlikleriyle kucaklamaktır.",
+      "words": [
+        {
+          "word": "Herkesin",
+          "startMs": 241440,
+          "endMs": 242020
+        },
+        {
+          "word": "kültürüne",
+          "startMs": 242180,
+          "endMs": 243670
+        },
+        {
+          "word": "saygı",
+          "startMs": 244710,
+          "endMs": 245110
+        },
+        {
+          "word": "duymak,",
+          "startMs": 245110,
+          "endMs": 246380
+        },
+        {
+          "word": "insanları",
+          "startMs": 247350,
+          "endMs": 248530
+        },
+        {
+          "word": "zenginlikleriyle",
+          "startMs": 249240,
+          "endMs": 250830
+        },
+        {
+          "word": "kucaklamaktır.",
+          "startMs": 251320,
+          "endMs": 252980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 254160,
+      "endMs": 256970,
+      "pauseAfterMs": 1000,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 254160,
+          "endMs": 255130
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 255180,
+          "endMs": 255970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 256970,
+      "endMs": 259870,
+      "pauseAfterMs": 1470,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 256970,
+          "endMs": 257220
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 257360,
+          "endMs": 258400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 259870,
+      "endMs": 263550,
+      "pauseAfterMs": 620,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 259870,
+          "endMs": 260060
+        },
+        {
+          "word": "noktayı",
+          "startMs": 260060,
+          "endMs": 261130
+        },
+        {
+          "word": "sen",
+          "startMs": 261130,
+          "endMs": 261430
+        },
+        {
+          "word": "de",
+          "startMs": 261530,
+          "endMs": 261730
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 261840,
+          "endMs": 262930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 263550,
+      "endMs": 270970,
+      "pauseAfterMs": 660,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 263550,
+          "endMs": 264000
+        },
+        {
+          "word": "sevgili",
+          "startMs": 264000,
+          "endMs": 264520
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 264620,
+          "endMs": 265830
+        },
+        {
+          "word": "işte",
+          "startMs": 266150,
+          "endMs": 266480
+        },
+        {
+          "word": "tam",
+          "startMs": 266480,
+          "endMs": 266700
+        },
+        {
+          "word": "bu",
+          "startMs": 266700,
+          "endMs": 266870
+        },
+        {
+          "word": "noktada",
+          "startMs": 267020,
+          "endMs": 267640
+        },
+        {
+          "word": "dikkat",
+          "startMs": 267770,
+          "endMs": 268130
+        },
+        {
+          "word": "etmen",
+          "startMs": 268410,
+          "endMs": 268610
+        },
+        {
+          "word": "gereken",
+          "startMs": 268720,
+          "endMs": 269190
+        },
+        {
+          "word": "kilit",
+          "startMs": 269420,
+          "endMs": 269680
+        },
+        {
+          "word": "nokta.",
+          "startMs": 269770,
+          "endMs": 270310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 270970,
+      "endMs": 290810,
+      "pauseAfterMs": 580,
+      "text": "Bir insanın dış görünüşünden, konuşma tarzından ya da geldiği şehirden yola çıkarak onun hakkında kesin hüküm vermek yanıltıcı bir tuzaktır.",
+      "markedText": "Bir insanın dış görünüşünden, konuşma tarzından ya da geldiği şehirden yola çıkarak onun hakkında kesin hüküm vermek yanıltıcı bir tuzaktır.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 270970,
+          "endMs": 271360
+        },
+        {
+          "word": "insanın",
+          "startMs": 271510,
+          "endMs": 272360
+        },
+        {
+          "word": "dış",
+          "startMs": 272660,
+          "endMs": 272960
+        },
+        {
+          "word": "görünüşünden,",
+          "startMs": 273770,
+          "endMs": 275300
+        },
+        {
+          "word": "konuşma",
+          "startMs": 276590,
+          "endMs": 277250
+        },
+        {
+          "word": "tarzından",
+          "startMs": 277350,
+          "endMs": 278560
+        },
+        {
+          "word": "ya",
+          "startMs": 279030,
+          "endMs": 279350
+        },
+        {
+          "word": "da",
+          "startMs": 279350,
+          "endMs": 279700
+        },
+        {
+          "word": "geldiği",
+          "startMs": 279700,
+          "endMs": 280380
+        },
+        {
+          "word": "şehirden",
+          "startMs": 280580,
+          "endMs": 281330
+        },
+        {
+          "word": "yola",
+          "startMs": 282020,
+          "endMs": 282210
+        },
+        {
+          "word": "çıkarak",
+          "startMs": 282340,
+          "endMs": 283260
+        },
+        {
+          "word": "onun",
+          "startMs": 283540,
+          "endMs": 283740
+        },
+        {
+          "word": "hakkında",
+          "startMs": 284000,
+          "endMs": 284580
+        },
+        {
+          "word": "kesin",
+          "startMs": 284740,
+          "endMs": 285200
+        },
+        {
+          "word": "hüküm",
+          "startMs": 285200,
+          "endMs": 286040
+        },
+        {
+          "word": "vermek",
+          "startMs": 286960,
+          "endMs": 287420
+        },
+        {
+          "word": "yanıltıcı",
+          "startMs": 287500,
+          "endMs": 288360
+        },
+        {
+          "word": "bir",
+          "startMs": 289040,
+          "endMs": 289200
+        },
+        {
+          "word": "tuzaktır.",
+          "startMs": 289410,
+          "endMs": 290230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 290810,
+      "endMs": 299810,
+      "pauseAfterMs": 490,
+      "text": "Tek bir örnek, koca bir grubun veya insanın kimliğini yansıtmaz.",
+      "markedText": "Tek bir örnek, koca bir grubun veya insanın kimliğini yansıtmaz.",
+      "words": [
+        {
+          "word": "Tek",
+          "startMs": 290810,
+          "endMs": 290890
+        },
+        {
+          "word": "bir",
+          "startMs": 290960,
+          "endMs": 291120
+        },
+        {
+          "word": "örnek,",
+          "startMs": 291160,
+          "endMs": 291920
+        },
+        {
+          "word": "koca",
+          "startMs": 293000,
+          "endMs": 293300
+        },
+        {
+          "word": "bir",
+          "startMs": 293570,
+          "endMs": 293760
+        },
+        {
+          "word": "grubun",
+          "startMs": 294120,
+          "endMs": 294530
+        },
+        {
+          "word": "veya",
+          "startMs": 294660,
+          "endMs": 295160
+        },
+        {
+          "word": "insanın",
+          "startMs": 295460,
+          "endMs": 296540
+        },
+        {
+          "word": "kimliğini",
+          "startMs": 297620,
+          "endMs": 298230
+        },
+        {
+          "word": "yansıtmaz.",
+          "startMs": 298690,
+          "endMs": 299320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 299810,
+      "endMs": 318610,
+      "pauseAfterMs": 1400,
+      "text": "Önyargıyı yıkmak için tartışmak gerekmez; dinlemek, samimiyetle soru sormak ve peşin hükümleri bir kenara bırakmak yeterlidir.",
+      "markedText": "Önyargıyı yıkmak için tartışmak gerekmez; dinlemek, samimiyetle soru sormak ve peşin hükümleri bir kenara bırakmak yeterlidir.",
+      "words": [
+        {
+          "word": "Önyargıyı",
+          "startMs": 299810,
+          "endMs": 300710
+        },
+        {
+          "word": "yıkmak",
+          "startMs": 300710,
+          "endMs": 301400
+        },
+        {
+          "word": "için",
+          "startMs": 302390,
+          "endMs": 302970
+        },
+        {
+          "word": "tartışmak",
+          "startMs": 303290,
+          "endMs": 303740
+        },
+        {
+          "word": "gerekmez;",
+          "startMs": 303870,
+          "endMs": 304790
+        },
+        {
+          "word": "dinlemek,",
+          "startMs": 305990,
+          "endMs": 306980
+        },
+        {
+          "word": "samimiyetle",
+          "startMs": 307990,
+          "endMs": 308660
+        },
+        {
+          "word": "soru",
+          "startMs": 308660,
+          "endMs": 309330
+        },
+        {
+          "word": "sormak",
+          "startMs": 310140,
+          "endMs": 310670
+        },
+        {
+          "word": "ve",
+          "startMs": 311130,
+          "endMs": 311260
+        },
+        {
+          "word": "peşin",
+          "startMs": 311260,
+          "endMs": 312000
+        },
+        {
+          "word": "hükümleri",
+          "startMs": 313080,
+          "endMs": 313920
+        },
+        {
+          "word": "bir",
+          "startMs": 314960,
+          "endMs": 315120
+        },
+        {
+          "word": "kenara",
+          "startMs": 315180,
+          "endMs": 315430
+        },
+        {
+          "word": "bırakmak",
+          "startMs": 315610,
+          "endMs": 316240
+        },
+        {
+          "word": "yeterlidir.",
+          "startMs": 316310,
+          "endMs": 317210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 318610,
+      "endMs": 326090,
+      "pauseAfterMs": 480,
+      "text": "Bir insanı yakından tanıdıkça düşüncelerinin olumlu yönde değişmesi bir erdemdir.",
+      "markedText": "Bir insanı yakından tanıdıkça düşüncelerinin olumlu yönde değişmesi bir erdemdir.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 318610,
+          "endMs": 318790
+        },
+        {
+          "word": "insanı",
+          "startMs": 318980,
+          "endMs": 319440
+        },
+        {
+          "word": "yakından",
+          "startMs": 319580,
+          "endMs": 319960
+        },
+        {
+          "word": "tanıdıkça",
+          "startMs": 320290,
+          "endMs": 320460
+        },
+        {
+          "word": "düşüncelerinin",
+          "startMs": 320850,
+          "endMs": 321540
+        },
+        {
+          "word": "olumlu",
+          "startMs": 321720,
+          "endMs": 322100
+        },
+        {
+          "word": "yönde",
+          "startMs": 322100,
+          "endMs": 322470
+        },
+        {
+          "word": "değişmesi",
+          "startMs": 322760,
+          "endMs": 323800
+        },
+        {
+          "word": "bir",
+          "startMs": 324610,
+          "endMs": 324750
+        },
+        {
+          "word": "erdemdir.",
+          "startMs": 324750,
+          "endMs": 325610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 326090,
+      "endMs": 329600,
+      "pauseAfterMs": 930,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 326090,
+          "endMs": 326510
+        },
+        {
+          "word": "Neler",
+          "startMs": 326620,
+          "endMs": 326960
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 327400,
+          "endMs": 328670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 329600,
+      "endMs": 331220,
+      "pauseAfterMs": 1020,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 329600,
+          "endMs": 330200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 331220,
+      "endMs": 336960,
+      "pauseAfterMs": 520,
+      "text": "Önyargı, bir kişiyi tanımadan hakkında karar vermektir.",
+      "markedText": "Önyargı, bir kişiyi tanımadan hakkında karar vermektir.",
+      "words": [
+        {
+          "word": "Önyargı,",
+          "startMs": 331220,
+          "endMs": 331950
+        },
+        {
+          "word": "bir",
+          "startMs": 332170,
+          "endMs": 332260
+        },
+        {
+          "word": "kişiyi",
+          "startMs": 332370,
+          "endMs": 333090
+        },
+        {
+          "word": "tanımadan",
+          "startMs": 333880,
+          "endMs": 334560
+        },
+        {
+          "word": "hakkında",
+          "startMs": 334910,
+          "endMs": 335550
+        },
+        {
+          "word": "karar",
+          "startMs": 335620,
+          "endMs": 335920
+        },
+        {
+          "word": "vermektir.",
+          "startMs": 336000,
+          "endMs": 336440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 336960,
+      "endMs": 337230,
+      "pauseAfterMs": 110,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 336960,
+          "endMs": 337120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 337230,
+      "endMs": 342570,
+      "pauseAfterMs": 890,
+      "text": "Ayrımcılık, bu kararla birini dışlamaktır.",
+      "markedText": "Ayrımcılık, bu kararla birini dışlamaktır.",
+      "words": [
+        {
+          "word": "Ayrımcılık,",
+          "startMs": 337230,
+          "endMs": 338530
+        },
+        {
+          "word": "bu",
+          "startMs": 338830,
+          "endMs": 339120
+        },
+        {
+          "word": "kararla",
+          "startMs": 339610,
+          "endMs": 339960
+        },
+        {
+          "word": "birini",
+          "startMs": 340050,
+          "endMs": 340540
+        },
+        {
+          "word": "dışlamaktır.",
+          "startMs": 340710,
+          "endMs": 341680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 342570,
+      "endMs": 348070,
+      "pauseAfterMs": 770,
+      "text": "Empati yer değiştirerek düşünmektir.",
+      "markedText": "Empati yer değiştirerek düşünmektir.",
+      "words": [
+        {
+          "word": "Empati",
+          "startMs": 342570,
+          "endMs": 343210
+        },
+        {
+          "word": "yer",
+          "startMs": 343610,
+          "endMs": 343950
+        },
+        {
+          "word": "değiştirerek",
+          "startMs": 343950,
+          "endMs": 345010
+        },
+        {
+          "word": "düşünmektir.",
+          "startMs": 345650,
+          "endMs": 347300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 348070,
+      "endMs": 348180,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 348070,
+          "endMs": 348180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 348180,
+      "endMs": 350280,
+      "pauseAfterMs": 820,
+      "text": "Önyargı soruyla incelir.",
+      "markedText": "Önyargı soruyla incelir.",
+      "words": [
+        {
+          "word": "Önyargı",
+          "startMs": 348180,
+          "endMs": 348570
+        },
+        {
+          "word": "soruyla",
+          "startMs": 348680,
+          "endMs": 349110
+        },
+        {
+          "word": "incelir.",
+          "startMs": 349110,
+          "endMs": 349460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 350280,
+      "endMs": 353970,
+      "pauseAfterMs": 670,
+      "text": "Tek görüntü bütün hayat değildir.",
+      "markedText": "Tek görüntü bütün hayat değildir.",
+      "words": [
+        {
+          "word": "Tek",
+          "startMs": 350280,
+          "endMs": 350600
+        },
+        {
+          "word": "görüntü",
+          "startMs": 350600,
+          "endMs": 351210
+        },
+        {
+          "word": "bütün",
+          "startMs": 351320,
+          "endMs": 351970
+        },
+        {
+          "word": "hayat",
+          "startMs": 352050,
+          "endMs": 352260
+        },
+        {
+          "word": "değildir.",
+          "startMs": 352340,
+          "endMs": 353300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 353970,
+      "endMs": 356520,
+      "pauseAfterMs": 340,
+      "text": "Önyargı tanımadan verilen karardır.",
+      "markedText": "Önyargı tanımadan verilen karardır.",
+      "words": [
+        {
+          "word": "Önyargı",
+          "startMs": 353970,
+          "endMs": 354510
+        },
+        {
+          "word": "tanımadan",
+          "startMs": 354620,
+          "endMs": 355150
+        },
+        {
+          "word": "verilen",
+          "startMs": 355150,
+          "endMs": 355760
+        },
+        {
+          "word": "karardır.",
+          "startMs": 356020,
+          "endMs": 356180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 356520,
+      "endMs": 358740,
+      "pauseAfterMs": 260,
+      "text": "Sormak o kararı askıya alır.",
+      "markedText": "Sormak o kararı askıya alır.",
+      "words": [
+        {
+          "word": "Sormak",
+          "startMs": 356520,
+          "endMs": 356730
+        },
+        {
+          "word": "o",
+          "startMs": 356840,
+          "endMs": 356900
+        },
+        {
+          "word": "kararı",
+          "startMs": 356900,
+          "endMs": 357320
+        },
+        {
+          "word": "askıya",
+          "startMs": 357470,
+          "endMs": 358050
+        },
+        {
+          "word": "alır.",
+          "startMs": 358180,
+          "endMs": 358480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 358740,
+      "endMs": 368140,
+      "pauseAfterMs": 840,
+      "text": "Bir hükümde neyi gördüğünü ve neyi henüz sormadığını ayrı söylersin.",
+      "markedText": "Bir hükümde neyi gördüğünü ve neyi henüz sormadığını ayrı söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 358740,
+          "endMs": 358940
+        },
+        {
+          "word": "hükümde",
+          "startMs": 359060,
+          "endMs": 359920
+        },
+        {
+          "word": "neyi",
+          "startMs": 360010,
+          "endMs": 360540
+        },
+        {
+          "word": "gördüğünü",
+          "startMs": 361200,
+          "endMs": 361810
+        },
+        {
+          "word": "ve",
+          "startMs": 361890,
+          "endMs": 361980
+        },
+        {
+          "word": "neyi",
+          "startMs": 361980,
+          "endMs": 362650
+        },
+        {
+          "word": "henüz",
+          "startMs": 363440,
+          "endMs": 363930
+        },
+        {
+          "word": "sormadığını",
+          "startMs": 364010,
+          "endMs": 365320
+        },
+        {
+          "word": "ayrı",
+          "startMs": 365850,
+          "endMs": 366350
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 366420,
+          "endMs": 367300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 368140,
+      "endMs": 370290,
+      "pauseAfterMs": 630,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 368140,
+          "endMs": 368820
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 368900,
+          "endMs": 369660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 370290,
+      "endMs": 374680,
+      "pauseAfterMs": 820,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 370290,
+          "endMs": 371290
+        },
+        {
+          "word": "bir",
+          "startMs": 371390,
+          "endMs": 371820
+        },
+        {
+          "word": "iş",
+          "startMs": 372020,
+          "endMs": 372400
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 372590,
+          "endMs": 373860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-3",
+      "startMs": 374680,
+      "endMs": 376350,
+      "pauseAfterMs": 920,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 374680,
+          "endMs": 374810
+        },
+        {
+          "word": "sıra",
+          "startMs": 374960,
+          "endMs": 375160
+        },
+        {
+          "word": "sende.",
+          "startMs": 375250,
+          "endMs": 375430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-3",
+      "startMs": 376350,
+      "endMs": 380402,
+      "pauseAfterMs": 472,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 376350,
+          "endMs": 377010
+        },
+        {
+          "word": "bu",
+          "startMs": 377500,
+          "endMs": 377690
+        },
+        {
+          "word": "notları",
+          "startMs": 377690,
+          "endMs": 378130
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 378240,
+          "endMs": 378650
+        },
+        {
+          "word": "kendi",
+          "startMs": 378710,
+          "endMs": 378880
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 379000,
+          "endMs": 379660
+        },
+        {
+          "word": "anlat.",
+          "startMs": 379660,
+          "endMs": 379930
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

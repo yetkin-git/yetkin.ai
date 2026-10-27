@@ -150,8 +150,8 @@ const MAT_OUTCOMES: OutcomeDraft[] = [
   matOutcome("numbers", "MAT.6.1.4", "Ortak kat ve ortak bölen", 3, "meb"),
   matOutcome("numbers", "MAT.6.1.5", "Ondalık gösterimin basamak değeri", 5, "plan"),
   matOutcome("numbers", "MAT.6.1.6", "Kesir ile bölme, sonlu ve devirli ondalık", 5, "plan", true),
-  matOutcome("numbers", "MAT.6.1.7", "Standart uzunluk ölçü birimleri", 5, "plan", true),
-  matOutcome("numbers", "MAT.6.1.8", "Kesir, ondalık ve yüzde ile dört işlem", 8, "plan"),
+  matOutcome("numbers", "MAT.6.1.7", "Kesir, ondalık ve yüzde ile dört işlem", 8, "plan"),
+  matOutcome("numbers", "MAT.6.1.8", "Standart uzunluk ölçü birimleri", 5, "plan", true),
   matOutcome("algebra", "MAT.6.2.1", "Bilinmeyen nicelik ve cebirsel ifade", 5, "plan"),
   matOutcome("algebra", "MAT.6.2.2", "Sayı ve şekil örüntüsü", 5, "plan", true),
   matOutcome("algebra", "MAT.6.2.3", "Cebirsel ifadede algoritma", 5, "plan", true),
@@ -173,32 +173,32 @@ const MAT_OUTCOMES: OutcomeDraft[] = [
 const MAT_SHELLS: PlannedShell[] = [];
 
 const MAT_ORDER: StripTopic[] = [
-  strip("jr_06_mat-5", 10, ["MAT.6.1.1", "MAT.6.1.2"]),
-  strip("jr_06_mat-6", 2, ["MAT.6.1.3"]),
-  strip("jr_06_mat-7", 3, ["MAT.6.1.4"]),
-  strip("jr_06_mat-14", 5, ["MAT.6.1.5"]),
-  strip("jr_06_mat-26", 5, ["MAT.6.1.6"]),
-  strip("jr_06_mat-27", 5, ["MAT.6.1.7"]),
-  strip("jr_06_mat-11", 2, ["MAT.6.1.8"]),
-  strip("jr_06_mat-12", 2, ["MAT.6.1.8"]),
-  strip("jr_06_mat-13", 2, ["MAT.6.1.8"]),
-  strip("jr_06_mat-15", 2, ["MAT.6.1.8"]),
-  strip("jr_06_mat-17", 5, ["MAT.6.2.1"]),
-  strip("jr_06_mat-28", 5, ["MAT.6.2.2"]),
-  strip("jr_06_mat-29", 5, ["MAT.6.2.3"]),
-  strip("jr_06_mat-30", 5, ["MAT.6.3.1"]),
-  strip("jr_06_mat-31", 5, ["MAT.6.3.2"]),
-  strip("jr_06_mat-32", 5, ["MAT.6.3.3"]),
-  strip("jr_06_mat-33", 5, ["MAT.6.3.4"]),
-  strip("jr_06_mat-22", 5, ["MAT.6.4.1", "MAT.6.4.3"]),
-  strip("jr_06_mat-21", 5, ["MAT.6.4.2", "MAT.6.4.3"]),
-  strip("jr_06_mat-34", 5, ["MAT.6.4.4"]),
-  strip("jr_06_mat-35", 5, ["MAT.6.4.5"]),
-  strip("jr_06_mat-36", 5, ["MAT.6.4.6"]),
-  strip("jr_06_mat-18", 4, ["MAT.6.5.1"]),
-  strip("jr_06_mat-19", 4, ["MAT.6.5.1"]),
-  strip("jr_06_mat-37", 5, ["MAT.6.5.2"]),
-  strip("jr_06_mat-38", 5, ["MAT.6.6.1"]),
+  strip("jr_06_mat-1", 10, ["MAT.6.1.1", "MAT.6.1.2"]),
+  strip("jr_06_mat-2", 2, ["MAT.6.1.3"]),
+  strip("jr_06_mat-3", 3, ["MAT.6.1.4"]),
+  strip("jr_06_mat-4", 5, ["MAT.6.1.5"]),
+  strip("jr_06_mat-5", 5, ["MAT.6.1.6"]),
+  strip("jr_06_mat-7", 2, ["MAT.6.1.7"]),
+  strip("jr_06_mat-8", 2, ["MAT.6.1.7"]),
+  strip("jr_06_mat-9", 2, ["MAT.6.1.7"]),
+  strip("jr_06_mat-10", 2, ["MAT.6.1.7"]),
+  strip("jr_06_mat-6", 5, ["MAT.6.1.8"]),
+  strip("jr_06_mat-11", 5, ["MAT.6.2.1"]),
+  strip("jr_06_mat-12", 5, ["MAT.6.2.2"]),
+  strip("jr_06_mat-13", 5, ["MAT.6.2.3"]),
+  strip("jr_06_mat-14", 5, ["MAT.6.3.1"]),
+  strip("jr_06_mat-15", 5, ["MAT.6.3.2"]),
+  strip("jr_06_mat-16", 5, ["MAT.6.3.3"]),
+  strip("jr_06_mat-17", 5, ["MAT.6.3.4"]),
+  strip("jr_06_mat-18", 5, ["MAT.6.4.1", "MAT.6.4.3"]),
+  strip("jr_06_mat-19", 5, ["MAT.6.4.2", "MAT.6.4.3"]),
+  strip("jr_06_mat-20", 5, ["MAT.6.4.4"]),
+  strip("jr_06_mat-21", 5, ["MAT.6.4.5"]),
+  strip("jr_06_mat-22", 5, ["MAT.6.4.6"]),
+  strip("jr_06_mat-23", 4, ["MAT.6.5.1"]),
+  strip("jr_06_mat-24", 4, ["MAT.6.5.1"]),
+  strip("jr_06_mat-25", 5, ["MAT.6.5.2"]),
+  strip("jr_06_mat-26", 5, ["MAT.6.6.1"]),
 ];
 
 function fenOutcome(
@@ -614,7 +614,7 @@ export function buildJuniorContentPlan(): {
   } satisfies Record<JuniorCourseSlug, CoursePlan>;
 
   const matWeek3 = activeLessonKeys(courses.jr_06_mat.topics, 3, "teach");
-  if (matWeek3.join(",") !== "jr_06_mat-6,jr_06_mat-7") {
+  if (matWeek3.join(",") !== "jr_06_mat-2,jr_06_mat-3") {
     throw new Error(`3. hafta matematik ${matWeek3.join(",")} oldu.`);
   }
   const fenWeek3 = activeLessonKeys(courses.jr_06_fen.topics, 3, "teach");

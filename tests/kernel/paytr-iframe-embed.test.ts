@@ -3,12 +3,15 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   isPaytrIframeUrl,
+  isPaytrMerchantReturnPathname,
+  isPaytrReturnMessage,
   getPaytrIframeUrl,
   readPaytrIframeSrcFromCheckout,
   PAYTR_IFRAME_ALLOW,
   PAYTR_IFRAME_BASE_URL,
   PAYTR_IFRAME_ORIGIN,
   PAYTR_IFRAME_RESIZER_SRC,
+  PAYTR_RETURN_MESSAGE_TYPE,
 } from "@/lib/kernel/payments/paytr/iframe-embed";
 import { EDGE_PERMISSIONS_POLICY_VALUE } from "@/lib/kernel/security/edge-security-headers";
 
@@ -89,5 +92,26 @@ describe("PayTR iFrame gömme", () => {
     );
     expect(csp).toContain("EDGE_CSP_PAYTR_SCRIPT_SRC");
     expect(csp).toContain("https://www.paytr.com https://*.paytr.com https://*.bkm.com.tr https:");
+  });
+
+  it("PayTR dönüş köprüsü /cuzdan ve /kasa/donus adreslerini algılar ve postMessage doğrular", () => {
+    expect(isPaytrMerchantReturnPathname("/cuzdan")).toBe(true);
+    expect(isPaytrMerchantReturnPathname("/cuzdan/")).toBe(true);
+    expect(isPaytrMerchantReturnPathname("/kasa/donus")).toBe(true);
+    expect(isPaytrMerchantReturnPathname("/kasa/donus/")).toBe(true);
+    expect(isPaytrMerchantReturnPathname("/academy")).toBe(false);
+    expect(
+      isPaytrReturnMessage({
+        type: PAYTR_RETURN_MESSAGE_TYPE,
+        pathname: "/cuzdan",
+        ok: true,
+      }),
+    ).toBe(true);
+    expect(
+      isPaytrReturnMessage({
+        type: PAYTR_RETURN_MESSAGE_TYPE,
+        pathname: "/evil",
+      }),
+    ).toBe(false);
   });
 });

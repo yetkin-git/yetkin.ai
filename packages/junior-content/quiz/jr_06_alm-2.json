@@ -1,0 +1,53 @@
+{
+  "lessonKey": "jr_06_alm-2",
+  "title": "Adını söylemek",
+  "tellGuides": [
+    "Wie heißt du ne sorar?",
+    "Ich heiße cümlesini kendi adınla kur.",
+    "Heiße tek başına neden cevap olmaz?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Wie heißt du ne demektir?",
+      "options": [
+        "Adın ne",
+        "Günaydın",
+        "İyi geceler",
+        "Hoşça kal"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Bu cümle bir ad sorusudur.",
+      "explanation": "Adım 1: Wie heißt du adını sorar. Adım 2: Cevap başka bir kalıptadır. Adım 3: Selam sözü değildir."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Adını söylerken hangi kalıbı kullanırsın?",
+      "options": [
+        "Heiße",
+        "Ich heiße ve adın",
+        "Wie heißt du",
+        "Gute Nacht"
+      ],
+      "correctAnswerIndex": 1,
+      "hint": "Ich sözü cümlede durur.",
+      "explanation": "Adım 1: Cevap Ich heiße ile başlar. Adım 2: Ad, kalıbın ardına gelir. Adım 3: Heiße tek başına eksik kalır."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Yaz kursunda yeni bir arkadaşla karşılaşıyorsun. Doğru sıra hangisidir?",
+      "options": [
+        "Sorudaki du sözünü cevapta bırakmak",
+        "Yalnız adını fısıldamak",
+        "Önce selam, sonra Wie heißt du",
+        "Bütün cümleyi silmek"
+      ],
+      "correctAnswerIndex": 2,
+      "hint": "Selam, ad sorusundan önce durur.",
+      "explanation": "Adım 1: Önce selam verilir. Adım 2: Sonra Wie heißt du sorulur. Adım 3: Cevap Ich heiße ve addır."
+    }
+  ]
+}

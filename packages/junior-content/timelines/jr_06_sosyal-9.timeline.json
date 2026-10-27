@@ -1,0 +1,2851 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_sosyal-9",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Mutlak konum ve göreceli konum",
+  "grade": 6,
+  "subject": "Sosyal Bilgiler",
+  "teacher": {
+    "name": "Murat",
+    "voice": "Achird",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_sosyal-9.mp3",
+    "durationMs": 380684,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 92910
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 92910,
+      "endMs": 320170
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 320170,
+      "endMs": 380684
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4430,
+      "pauseAfterMs": 640,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 420,
+          "endMs": 1680
+        },
+        {
+          "word": "sevgili",
+          "startMs": 2110,
+          "endMs": 2860
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2860,
+          "endMs": 3790
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Mutlak konum ve göreceli konum",
+            "subtitle": "Sosyal Bilgiler",
+            "ruleBadges": [],
+            "echoPrompt": "Bir tarifte sabit adres ile yol tarifini ayrı cümlelerle söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Mutlak konum, enlem ve boylam ile kurulan sabit adrestir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Paralel enlemi, meridyen boylamı gösterir. Türkiye 36 ile 42 derece kuzey paralellerindedir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Göreceli konum bir yeri başka yere göre anlatır. Yakın sözü enlem değildir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4430,
+      "endMs": 7570,
+      "pauseAfterMs": 370,
+      "text": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "markedText": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4430,
+          "endMs": 4710
+        },
+        {
+          "word": "Sosyal",
+          "startMs": 4780,
+          "endMs": 5420
+        },
+        {
+          "word": "Bilgiler",
+          "startMs": 5480,
+          "endMs": 6060
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6160,
+          "endMs": 6930
+        },
+        {
+          "word": "Murat.",
+          "startMs": 7030,
+          "endMs": 7200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 7570,
+      "endMs": 12060,
+      "pauseAfterMs": 410,
+      "text": "Yeryüzünde kaybolmadan adres bulmanın muazzam sırrını öğreneceğiz.",
+      "markedText": "Yeryüzünde kaybolmadan adres bulmanın muazzam sırrını öğreneceğiz.",
+      "words": [
+        {
+          "word": "Yeryüzünde",
+          "startMs": 7570,
+          "endMs": 8470
+        },
+        {
+          "word": "kaybolmadan",
+          "startMs": 8820,
+          "endMs": 9330
+        },
+        {
+          "word": "adres",
+          "startMs": 9330,
+          "endMs": 9670
+        },
+        {
+          "word": "bulmanın",
+          "startMs": 9780,
+          "endMs": 10250
+        },
+        {
+          "word": "muazzam",
+          "startMs": 10250,
+          "endMs": 10790
+        },
+        {
+          "word": "sırrını",
+          "startMs": 10790,
+          "endMs": 11110
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 11110,
+          "endMs": 11650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 12060,
+      "endMs": 26390,
+      "pauseAfterMs": 440,
+      "text": "Hiç bir arkadaşına evini tarif ederken marketin iki sokak yukarısında ya da parkın karşısında dediğin oldu mu?",
+      "markedText": "Hiç bir arkadaşına evini tarif ederken marketin iki sokak yukarısında ya da parkın karşısında dediğin oldu mu?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 12060,
+          "endMs": 12210
+        },
+        {
+          "word": "bir",
+          "startMs": 12910,
+          "endMs": 13050
+        },
+        {
+          "word": "arkadaşına",
+          "startMs": 13140,
+          "endMs": 13740
+        },
+        {
+          "word": "evini",
+          "startMs": 13800,
+          "endMs": 14280
+        },
+        {
+          "word": "tarif",
+          "startMs": 14560,
+          "endMs": 15040
+        },
+        {
+          "word": "ederken",
+          "startMs": 15380,
+          "endMs": 15950
+        },
+        {
+          "word": "marketin",
+          "startMs": 16230,
+          "endMs": 16380
+        },
+        {
+          "word": "iki",
+          "startMs": 16660,
+          "endMs": 16880
+        },
+        {
+          "word": "sokak",
+          "startMs": 17200,
+          "endMs": 17730
+        },
+        {
+          "word": "yukarısında",
+          "startMs": 18020,
+          "endMs": 18890
+        },
+        {
+          "word": "ya",
+          "startMs": 20080,
+          "endMs": 20250
+        },
+        {
+          "word": "da",
+          "startMs": 20540,
+          "endMs": 20890
+        },
+        {
+          "word": "parkın",
+          "startMs": 21190,
+          "endMs": 21780
+        },
+        {
+          "word": "karşısında",
+          "startMs": 22190,
+          "endMs": 23580
+        },
+        {
+          "word": "dediğin",
+          "startMs": 23770,
+          "endMs": 24610
+        },
+        {
+          "word": "oldu",
+          "startMs": 24700,
+          "endMs": 25160
+        },
+        {
+          "word": "mu?",
+          "startMs": 25270,
+          "endMs": 25950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 26390,
+      "endMs": 38910,
+      "pauseAfterMs": 560,
+      "text": "Bu pratik tarif günlük hayatta çok işe yarar; ancak evinin dünya üzerindeki değişmez coğrafi adresi bambaşkadır.",
+      "markedText": "Bu pratik tarif günlük hayatta çok işe yarar; ancak evinin dünya üzerindeki değişmez coğrafi adresi bambaşkadır.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 26390,
+          "endMs": 26480
+        },
+        {
+          "word": "pratik",
+          "startMs": 26680,
+          "endMs": 27320
+        },
+        {
+          "word": "tarif",
+          "startMs": 27490,
+          "endMs": 27840
+        },
+        {
+          "word": "günlük",
+          "startMs": 27960,
+          "endMs": 28340
+        },
+        {
+          "word": "hayatta",
+          "startMs": 28400,
+          "endMs": 28790
+        },
+        {
+          "word": "çok",
+          "startMs": 28860,
+          "endMs": 29090
+        },
+        {
+          "word": "işe",
+          "startMs": 29090,
+          "endMs": 29400
+        },
+        {
+          "word": "yarar;",
+          "startMs": 29490,
+          "endMs": 30350
+        },
+        {
+          "word": "ancak",
+          "startMs": 30930,
+          "endMs": 31180
+        },
+        {
+          "word": "evinin",
+          "startMs": 31360,
+          "endMs": 31910
+        },
+        {
+          "word": "dünya",
+          "startMs": 32170,
+          "endMs": 32420
+        },
+        {
+          "word": "üzerindeki",
+          "startMs": 32570,
+          "endMs": 33820
+        },
+        {
+          "word": "değişmez",
+          "startMs": 34590,
+          "endMs": 35330
+        },
+        {
+          "word": "coğrafi",
+          "startMs": 35420,
+          "endMs": 36000
+        },
+        {
+          "word": "adresi",
+          "startMs": 36000,
+          "endMs": 36930
+        },
+        {
+          "word": "bambaşkadır.",
+          "startMs": 37630,
+          "endMs": 38350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 38910,
+      "endMs": 45210,
+      "pauseAfterMs": 460,
+      "text": "Mutlak konum ile göreceli konum arasındaki farkı öğreneceğiz.",
+      "markedText": "Mutlak konum ile göreceli konum arasındaki farkı öğreneceğiz.",
+      "words": [
+        {
+          "word": "Mutlak",
+          "startMs": 38910,
+          "endMs": 39170
+        },
+        {
+          "word": "konum",
+          "startMs": 39220,
+          "endMs": 39730
+        },
+        {
+          "word": "ile",
+          "startMs": 39970,
+          "endMs": 40090
+        },
+        {
+          "word": "göreceli",
+          "startMs": 40270,
+          "endMs": 41000
+        },
+        {
+          "word": "konum",
+          "startMs": 41320,
+          "endMs": 41880
+        },
+        {
+          "word": "arasındaki",
+          "startMs": 42080,
+          "endMs": 42740
+        },
+        {
+          "word": "farkı",
+          "startMs": 42970,
+          "endMs": 43200
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 43540,
+          "endMs": 44750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 45210,
+      "endMs": 54730,
+      "pauseAfterMs": 730,
+      "text": "Biri yeryüzündeki sabit matematiksel adrestir; diğeri ise etrafındaki yerlere göre yapılan tariftir.",
+      "markedText": "Biri yeryüzündeki sabit matematiksel adrestir; diğeri ise etrafındaki yerlere göre yapılan tariftir.",
+      "words": [
+        {
+          "word": "Biri",
+          "startMs": 45210,
+          "endMs": 45420
+        },
+        {
+          "word": "yeryüzündeki",
+          "startMs": 45420,
+          "endMs": 45980
+        },
+        {
+          "word": "sabit",
+          "startMs": 45980,
+          "endMs": 46170
+        },
+        {
+          "word": "matematiksel",
+          "startMs": 46240,
+          "endMs": 46780
+        },
+        {
+          "word": "adrestir;",
+          "startMs": 46780,
+          "endMs": 47170
+        },
+        {
+          "word": "diğeri",
+          "startMs": 47990,
+          "endMs": 48740
+        },
+        {
+          "word": "ise",
+          "startMs": 48740,
+          "endMs": 49150
+        },
+        {
+          "word": "etrafındaki",
+          "startMs": 49360,
+          "endMs": 50580
+        },
+        {
+          "word": "yerlere",
+          "startMs": 50650,
+          "endMs": 51550
+        },
+        {
+          "word": "göre",
+          "startMs": 51640,
+          "endMs": 52270
+        },
+        {
+          "word": "yapılan",
+          "startMs": 52560,
+          "endMs": 53010
+        },
+        {
+          "word": "tariftir.",
+          "startMs": 53160,
+          "endMs": 54000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 54730,
+      "endMs": 62330,
+      "pauseAfterMs": 680,
+      "text": "Bunu bir doğum günü kutlamasına arkadaşını davet ederken de kullanırsın.",
+      "markedText": "Bunu bir doğum günü kutlamasına arkadaşını davet ederken de kullanırsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 54730,
+          "endMs": 55180
+        },
+        {
+          "word": "bir",
+          "startMs": 55280,
+          "endMs": 55530
+        },
+        {
+          "word": "doğum",
+          "startMs": 55530,
+          "endMs": 56040
+        },
+        {
+          "word": "günü",
+          "startMs": 56140,
+          "endMs": 56310
+        },
+        {
+          "word": "kutlamasına",
+          "startMs": 57010,
+          "endMs": 57750
+        },
+        {
+          "word": "arkadaşını",
+          "startMs": 57750,
+          "endMs": 58330
+        },
+        {
+          "word": "davet",
+          "startMs": 58600,
+          "endMs": 58930
+        },
+        {
+          "word": "ederken",
+          "startMs": 59020,
+          "endMs": 59870
+        },
+        {
+          "word": "de",
+          "startMs": 60220,
+          "endMs": 60310
+        },
+        {
+          "word": "kullanırsın.",
+          "startMs": 60400,
+          "endMs": 61650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 62330,
+      "endMs": 70400,
+      "pauseAfterMs": 540,
+      "text": "Davetiyeye parkın yanındaki bina diye yazarsın; bu göreceli bir tariftir.",
+      "markedText": "Davetiyeye parkın yanındaki bina diye yazarsın; bu göreceli bir tariftir.",
+      "words": [
+        {
+          "word": "Davetiyeye",
+          "startMs": 62330,
+          "endMs": 63460
+        },
+        {
+          "word": "parkın",
+          "startMs": 63930,
+          "endMs": 64210
+        },
+        {
+          "word": "yanındaki",
+          "startMs": 64320,
+          "endMs": 64760
+        },
+        {
+          "word": "bina",
+          "startMs": 64990,
+          "endMs": 65340
+        },
+        {
+          "word": "diye",
+          "startMs": 65420,
+          "endMs": 65660
+        },
+        {
+          "word": "yazarsın;",
+          "startMs": 65730,
+          "endMs": 66350
+        },
+        {
+          "word": "bu",
+          "startMs": 66650,
+          "endMs": 66760
+        },
+        {
+          "word": "göreceli",
+          "startMs": 66840,
+          "endMs": 67500
+        },
+        {
+          "word": "bir",
+          "startMs": 67780,
+          "endMs": 68270
+        },
+        {
+          "word": "tariftir.",
+          "startMs": 68360,
+          "endMs": 69860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 70400,
+      "endMs": 80330,
+      "pauseAfterMs": 670,
+      "text": "Akıllı telefondan konum attığında ise uydu sistemi tam olarak enlem ve boylam derecelerini yani mutlak konumu bulur.",
+      "markedText": "Akıllı telefondan konum attığında ise uydu sistemi tam olarak enlem ve boylam derecelerini yani mutlak konumu bulur.",
+      "words": [
+        {
+          "word": "Akıllı",
+          "startMs": 70400,
+          "endMs": 70820
+        },
+        {
+          "word": "telefondan",
+          "startMs": 70890,
+          "endMs": 71420
+        },
+        {
+          "word": "konum",
+          "startMs": 71820,
+          "endMs": 72150
+        },
+        {
+          "word": "attığında",
+          "startMs": 72150,
+          "endMs": 73170
+        },
+        {
+          "word": "ise",
+          "startMs": 73550,
+          "endMs": 73730
+        },
+        {
+          "word": "uydu",
+          "startMs": 73730,
+          "endMs": 74060
+        },
+        {
+          "word": "sistemi",
+          "startMs": 74160,
+          "endMs": 74340
+        },
+        {
+          "word": "tam",
+          "startMs": 74590,
+          "endMs": 74790
+        },
+        {
+          "word": "olarak",
+          "startMs": 74910,
+          "endMs": 75500
+        },
+        {
+          "word": "enlem",
+          "startMs": 75670,
+          "endMs": 76120
+        },
+        {
+          "word": "ve",
+          "startMs": 76120,
+          "endMs": 76270
+        },
+        {
+          "word": "boylam",
+          "startMs": 76370,
+          "endMs": 76670
+        },
+        {
+          "word": "derecelerini",
+          "startMs": 76670,
+          "endMs": 77210
+        },
+        {
+          "word": "yani",
+          "startMs": 77280,
+          "endMs": 77680
+        },
+        {
+          "word": "mutlak",
+          "startMs": 78320,
+          "endMs": 78660
+        },
+        {
+          "word": "konumu",
+          "startMs": 78760,
+          "endMs": 79100
+        },
+        {
+          "word": "bulur.",
+          "startMs": 79310,
+          "endMs": 79660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 80330,
+      "endMs": 92910,
+      "pauseAfterMs": 930,
+      "text": "İki yöntem de hedefe ulaştırır; biri pratik yol gösterir, diğeri ise Dünya üzerindeki kesin adresi işaret eder.",
+      "markedText": "İki yöntem de hedefe ulaştırır; biri pratik yol gösterir, diğeri ise Dünya üzerindeki kesin adresi işaret eder.",
+      "words": [
+        {
+          "word": "İki",
+          "startMs": 80330,
+          "endMs": 80510
+        },
+        {
+          "word": "yöntem",
+          "startMs": 80580,
+          "endMs": 81200
+        },
+        {
+          "word": "de",
+          "startMs": 81280,
+          "endMs": 81460
+        },
+        {
+          "word": "hedefe",
+          "startMs": 81700,
+          "endMs": 82440
+        },
+        {
+          "word": "ulaştırır;",
+          "startMs": 82580,
+          "endMs": 83260
+        },
+        {
+          "word": "biri",
+          "startMs": 83520,
+          "endMs": 83860
+        },
+        {
+          "word": "pratik",
+          "startMs": 83990,
+          "endMs": 84330
+        },
+        {
+          "word": "yol",
+          "startMs": 84840,
+          "endMs": 85090
+        },
+        {
+          "word": "gösterir,",
+          "startMs": 85130,
+          "endMs": 85900
+        },
+        {
+          "word": "diğeri",
+          "startMs": 86020,
+          "endMs": 86580
+        },
+        {
+          "word": "ise",
+          "startMs": 86580,
+          "endMs": 86800
+        },
+        {
+          "word": "Dünya",
+          "startMs": 86880,
+          "endMs": 87440
+        },
+        {
+          "word": "üzerindeki",
+          "startMs": 87740,
+          "endMs": 88490
+        },
+        {
+          "word": "kesin",
+          "startMs": 88490,
+          "endMs": 89120
+        },
+        {
+          "word": "adresi",
+          "startMs": 89920,
+          "endMs": 90090
+        },
+        {
+          "word": "işaret",
+          "startMs": 90350,
+          "endMs": 90910
+        },
+        {
+          "word": "eder.",
+          "startMs": 91190,
+          "endMs": 91980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 92910,
+      "endMs": 105080,
+      "pauseAfterMs": 310,
+      "text": "Mutlak konum, bir yerin yeryüzündeki matematiksel adresidir ve asla değişmez; paralel ve meridyen çizgileriyle belirlenir.",
+      "markedText": "Mutlak konum, bir yerin yeryüzündeki matematiksel adresidir ve asla değişmez; paralel ve meridyen çizgileriyle belirlenir.",
+      "words": [
+        {
+          "word": "Mutlak",
+          "startMs": 92910,
+          "endMs": 93280
+        },
+        {
+          "word": "konum,",
+          "startMs": 93280,
+          "endMs": 94010
+        },
+        {
+          "word": "bir",
+          "startMs": 94880,
+          "endMs": 95050
+        },
+        {
+          "word": "yerin",
+          "startMs": 95120,
+          "endMs": 95580
+        },
+        {
+          "word": "yeryüzündeki",
+          "startMs": 95740,
+          "endMs": 96470
+        },
+        {
+          "word": "matematiksel",
+          "startMs": 96470,
+          "endMs": 96980
+        },
+        {
+          "word": "adresidir",
+          "startMs": 96980,
+          "endMs": 97620
+        },
+        {
+          "word": "ve",
+          "startMs": 97740,
+          "endMs": 97890
+        },
+        {
+          "word": "asla",
+          "startMs": 98220,
+          "endMs": 98490
+        },
+        {
+          "word": "değişmez;",
+          "startMs": 98610,
+          "endMs": 99200
+        },
+        {
+          "word": "paralel",
+          "startMs": 99560,
+          "endMs": 100260
+        },
+        {
+          "word": "ve",
+          "startMs": 100350,
+          "endMs": 100620
+        },
+        {
+          "word": "meridyen",
+          "startMs": 101300,
+          "endMs": 102100
+        },
+        {
+          "word": "çizgileriyle",
+          "startMs": 102700,
+          "endMs": 103590
+        },
+        {
+          "word": "belirlenir.",
+          "startMs": 103890,
+          "endMs": 104770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 105080,
+      "endMs": 118110,
+      "pauseAfterMs": 850,
+      "text": "Ekvator'a paralel olarak doğu ve batı yönünde uzanan hayali çizgilere paralel denir ve bunlar enlemi gösterir.",
+      "markedText": "Ekvator'a paralel olarak doğu ve batı yönünde uzanan hayali çizgilere paralel denir ve bunlar enlemi gösterir.",
+      "words": [
+        {
+          "word": "Ekvator'a",
+          "startMs": 105080,
+          "endMs": 105720
+        },
+        {
+          "word": "paralel",
+          "startMs": 105820,
+          "endMs": 106290
+        },
+        {
+          "word": "olarak",
+          "startMs": 106400,
+          "endMs": 106730
+        },
+        {
+          "word": "doğu",
+          "startMs": 106790,
+          "endMs": 107110
+        },
+        {
+          "word": "ve",
+          "startMs": 107200,
+          "endMs": 107480
+        },
+        {
+          "word": "batı",
+          "startMs": 107480,
+          "endMs": 108070
+        },
+        {
+          "word": "yönünde",
+          "startMs": 108620,
+          "endMs": 109450
+        },
+        {
+          "word": "uzanan",
+          "startMs": 109550,
+          "endMs": 110070
+        },
+        {
+          "word": "hayali",
+          "startMs": 110340,
+          "endMs": 110730
+        },
+        {
+          "word": "çizgilere",
+          "startMs": 111010,
+          "endMs": 111930
+        },
+        {
+          "word": "paralel",
+          "startMs": 112220,
+          "endMs": 112890
+        },
+        {
+          "word": "denir",
+          "startMs": 113000,
+          "endMs": 113560
+        },
+        {
+          "word": "ve",
+          "startMs": 113820,
+          "endMs": 114060
+        },
+        {
+          "word": "bunlar",
+          "startMs": 114410,
+          "endMs": 115340
+        },
+        {
+          "word": "enlemi",
+          "startMs": 115420,
+          "endMs": 116590
+        },
+        {
+          "word": "gösterir.",
+          "startMs": 116810,
+          "endMs": 117260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 118110,
+      "endMs": 134120,
+      "pauseAfterMs": 810,
+      "text": "Başlangıç Meridyeni'nden geçerek kutuptan kutba uzanan hayali çizgilere ise meridyen denir ve bunlar boylamı belirler.",
+      "markedText": "Başlangıç Meridyeni'nden geçerek kutuptan kutba uzanan hayali çizgilere ise meridyen denir ve bunlar boylamı belirler.",
+      "words": [
+        {
+          "word": "Başlangıç",
+          "startMs": 118110,
+          "endMs": 119130
+        },
+        {
+          "word": "Meridyeni'nden",
+          "startMs": 119230,
+          "endMs": 121060
+        },
+        {
+          "word": "geçerek",
+          "startMs": 121290,
+          "endMs": 121980
+        },
+        {
+          "word": "kutuptan",
+          "startMs": 122420,
+          "endMs": 122950
+        },
+        {
+          "word": "kutba",
+          "startMs": 123240,
+          "endMs": 123690
+        },
+        {
+          "word": "uzanan",
+          "startMs": 124220,
+          "endMs": 125160
+        },
+        {
+          "word": "hayali",
+          "startMs": 125440,
+          "endMs": 126000
+        },
+        {
+          "word": "çizgilere",
+          "startMs": 126250,
+          "endMs": 126670
+        },
+        {
+          "word": "ise",
+          "startMs": 126780,
+          "endMs": 127000
+        },
+        {
+          "word": "meridyen",
+          "startMs": 127140,
+          "endMs": 128210
+        },
+        {
+          "word": "denir",
+          "startMs": 128810,
+          "endMs": 129320
+        },
+        {
+          "word": "ve",
+          "startMs": 129320,
+          "endMs": 129600
+        },
+        {
+          "word": "bunlar",
+          "startMs": 129920,
+          "endMs": 130430
+        },
+        {
+          "word": "boylamı",
+          "startMs": 130430,
+          "endMs": 131680
+        },
+        {
+          "word": "belirler.",
+          "startMs": 132480,
+          "endMs": 133310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 134120,
+      "endMs": 146890,
+      "pauseAfterMs": 710,
+      "text": "Güzel ülkemiz Türkiye, 36 ile 42 derece kuzey paralelleri ve 26 ile 45 derece doğu meridyenleri arasında yer alır.",
+      "markedText": "Güzel ülkemiz Türkiye, 36 ile 42 derece kuzey paralelleri ve 26 ile 45 derece doğu meridyenleri arasında yer alır.",
+      "words": [
+        {
+          "word": "Güzel",
+          "startMs": 134120,
+          "endMs": 134330
+        },
+        {
+          "word": "ülkemiz",
+          "startMs": 134410,
+          "endMs": 134780
+        },
+        {
+          "word": "Türkiye,",
+          "startMs": 135000,
+          "endMs": 136030
+        },
+        {
+          "word": "36",
+          "startMs": 137000,
+          "endMs": 137590
+        },
+        {
+          "word": "ile",
+          "startMs": 137930,
+          "endMs": 138130
+        },
+        {
+          "word": "42",
+          "startMs": 138280,
+          "endMs": 138800
+        },
+        {
+          "word": "derece",
+          "startMs": 139100,
+          "endMs": 139360
+        },
+        {
+          "word": "kuzey",
+          "startMs": 139500,
+          "endMs": 139890
+        },
+        {
+          "word": "paralelleri",
+          "startMs": 139960,
+          "endMs": 140520
+        },
+        {
+          "word": "ve",
+          "startMs": 140610,
+          "endMs": 140790
+        },
+        {
+          "word": "26",
+          "startMs": 140790,
+          "endMs": 141400
+        },
+        {
+          "word": "ile",
+          "startMs": 141530,
+          "endMs": 141710
+        },
+        {
+          "word": "45",
+          "startMs": 141810,
+          "endMs": 142410
+        },
+        {
+          "word": "derece",
+          "startMs": 142500,
+          "endMs": 142750
+        },
+        {
+          "word": "doğu",
+          "startMs": 142820,
+          "endMs": 143260
+        },
+        {
+          "word": "meridyenleri",
+          "startMs": 143650,
+          "endMs": 144670
+        },
+        {
+          "word": "arasında",
+          "startMs": 144670,
+          "endMs": 145360
+        },
+        {
+          "word": "yer",
+          "startMs": 145360,
+          "endMs": 145540
+        },
+        {
+          "word": "alır.",
+          "startMs": 145640,
+          "endMs": 146180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 146890,
+      "endMs": 161140,
+      "pauseAfterMs": 880,
+      "text": "Göreceli konum ise bir yerin denizlere, boğazlara, komşulara ve yeryüzü şekillerine göre olan konumudur.",
+      "markedText": "Göreceli konum ise bir yerin denizlere, boğazlara, komşulara ve yeryüzü şekillerine göre olan konumudur.",
+      "words": [
+        {
+          "word": "Göreceli",
+          "startMs": 146890,
+          "endMs": 147540
+        },
+        {
+          "word": "konum",
+          "startMs": 147540,
+          "endMs": 147930
+        },
+        {
+          "word": "ise",
+          "startMs": 147990,
+          "endMs": 148270
+        },
+        {
+          "word": "bir",
+          "startMs": 148270,
+          "endMs": 148540
+        },
+        {
+          "word": "yerin",
+          "startMs": 148540,
+          "endMs": 149210
+        },
+        {
+          "word": "denizlere,",
+          "startMs": 149410,
+          "endMs": 150350
+        },
+        {
+          "word": "boğazlara,",
+          "startMs": 150890,
+          "endMs": 152030
+        },
+        {
+          "word": "komşulara",
+          "startMs": 152310,
+          "endMs": 152980
+        },
+        {
+          "word": "ve",
+          "startMs": 153080,
+          "endMs": 153240
+        },
+        {
+          "word": "yeryüzü",
+          "startMs": 153240,
+          "endMs": 154460
+        },
+        {
+          "word": "şekillerine",
+          "startMs": 154720,
+          "endMs": 156290
+        },
+        {
+          "word": "göre",
+          "startMs": 156740,
+          "endMs": 157350
+        },
+        {
+          "word": "olan",
+          "startMs": 157440,
+          "endMs": 158100
+        },
+        {
+          "word": "konumudur.",
+          "startMs": 158950,
+          "endMs": 160260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 161140,
+      "endMs": 183290,
+      "pauseAfterMs": 890,
+      "text": "Pratik kural: İki sokak kuzeyde ya da denizin kıyısında demek göreceli konumdur; dereceyle belirtilen paralel ve meridyenler ise mutlak konumun kendisidir.",
+      "markedText": "Pratik kural: İki sokak kuzeyde ya da denizin kıyısında demek göreceli konumdur; dereceyle belirtilen paralel ve meridyenler ise mutlak konumun kendisidir.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 161140,
+          "endMs": 161520
+        },
+        {
+          "word": "kural:",
+          "startMs": 161520,
+          "endMs": 162040
+        },
+        {
+          "word": "İki",
+          "startMs": 162910,
+          "endMs": 163060
+        },
+        {
+          "word": "sokak",
+          "startMs": 163530,
+          "endMs": 163920
+        },
+        {
+          "word": "kuzeyde",
+          "startMs": 164000,
+          "endMs": 164900
+        },
+        {
+          "word": "ya",
+          "startMs": 165270,
+          "endMs": 165620
+        },
+        {
+          "word": "da",
+          "startMs": 165760,
+          "endMs": 165970
+        },
+        {
+          "word": "denizin",
+          "startMs": 166150,
+          "endMs": 167210
+        },
+        {
+          "word": "kıyısında",
+          "startMs": 167340,
+          "endMs": 168620
+        },
+        {
+          "word": "demek",
+          "startMs": 169460,
+          "endMs": 169710
+        },
+        {
+          "word": "göreceli",
+          "startMs": 170290,
+          "endMs": 171310
+        },
+        {
+          "word": "konumdur;",
+          "startMs": 171550,
+          "endMs": 173030
+        },
+        {
+          "word": "dereceyle",
+          "startMs": 173550,
+          "endMs": 174520
+        },
+        {
+          "word": "belirtilen",
+          "startMs": 174630,
+          "endMs": 175570
+        },
+        {
+          "word": "paralel",
+          "startMs": 175670,
+          "endMs": 176730
+        },
+        {
+          "word": "ve",
+          "startMs": 177630,
+          "endMs": 177870
+        },
+        {
+          "word": "meridyenler",
+          "startMs": 178270,
+          "endMs": 179300
+        },
+        {
+          "word": "ise",
+          "startMs": 179300,
+          "endMs": 179590
+        },
+        {
+          "word": "mutlak",
+          "startMs": 179790,
+          "endMs": 180640
+        },
+        {
+          "word": "konumun",
+          "startMs": 181040,
+          "endMs": 181540
+        },
+        {
+          "word": "kendisidir.",
+          "startMs": 181540,
+          "endMs": 182400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 183290,
+      "endMs": 188650,
+      "pauseAfterMs": 1200,
+      "text": "Evinin yerini düşünelim.",
+      "markedText": "Evinin yerini düşünelim.",
+      "words": [
+        {
+          "word": "Evinin",
+          "startMs": 183290,
+          "endMs": 184250
+        },
+        {
+          "word": "yerini",
+          "startMs": 184360,
+          "endMs": 185570
+        },
+        {
+          "word": "düşünelim.",
+          "startMs": 186200,
+          "endMs": 187450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 188650,
+      "endMs": 200480,
+      "pauseAfterMs": 440,
+      "text": "Haritayı açıp enlem ve boylam derecelerini söylersen bu mutlak konumdur; Dünya üzerindeki o nokta asla kaybolmaz.",
+      "markedText": "Haritayı açıp enlem ve boylam derecelerini söylersen bu mutlak konumdur; Dünya üzerindeki o nokta asla kaybolmaz.",
+      "words": [
+        {
+          "word": "Haritayı",
+          "startMs": 188650,
+          "endMs": 189620
+        },
+        {
+          "word": "açıp",
+          "startMs": 189760,
+          "endMs": 190050
+        },
+        {
+          "word": "enlem",
+          "startMs": 190180,
+          "endMs": 190520
+        },
+        {
+          "word": "ve",
+          "startMs": 190590,
+          "endMs": 190770
+        },
+        {
+          "word": "boylam",
+          "startMs": 190990,
+          "endMs": 191420
+        },
+        {
+          "word": "derecelerini",
+          "startMs": 191520,
+          "endMs": 192270
+        },
+        {
+          "word": "söylersen",
+          "startMs": 192440,
+          "endMs": 193250
+        },
+        {
+          "word": "bu",
+          "startMs": 193250,
+          "endMs": 193510
+        },
+        {
+          "word": "mutlak",
+          "startMs": 193510,
+          "endMs": 193930
+        },
+        {
+          "word": "konumdur;",
+          "startMs": 194160,
+          "endMs": 195450
+        },
+        {
+          "word": "Dünya",
+          "startMs": 196680,
+          "endMs": 196940
+        },
+        {
+          "word": "üzerindeki",
+          "startMs": 196940,
+          "endMs": 197600
+        },
+        {
+          "word": "o",
+          "startMs": 197680,
+          "endMs": 197820
+        },
+        {
+          "word": "nokta",
+          "startMs": 197820,
+          "endMs": 198300
+        },
+        {
+          "word": "asla",
+          "startMs": 198740,
+          "endMs": 199130
+        },
+        {
+          "word": "kaybolmaz.",
+          "startMs": 199330,
+          "endMs": 200040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 200480,
+      "endMs": 213040,
+      "pauseAfterMs": 900,
+      "text": "Komşuna okulun iki sokak ilerisinde, kütüphanenin hemen arkasında dersen bu göreceli konumdur.",
+      "markedText": "Komşuna okulun iki sokak ilerisinde, kütüphanenin hemen arkasında dersen bu göreceli konumdur.",
+      "words": [
+        {
+          "word": "Komşuna",
+          "startMs": 200480,
+          "endMs": 201050
+        },
+        {
+          "word": "okulun",
+          "startMs": 201230,
+          "endMs": 201710
+        },
+        {
+          "word": "iki",
+          "startMs": 201710,
+          "endMs": 202000
+        },
+        {
+          "word": "sokak",
+          "startMs": 202220,
+          "endMs": 202310
+        },
+        {
+          "word": "ilerisinde,",
+          "startMs": 202310,
+          "endMs": 203580
+        },
+        {
+          "word": "kütüphanenin",
+          "startMs": 204740,
+          "endMs": 206060
+        },
+        {
+          "word": "hemen",
+          "startMs": 206230,
+          "endMs": 206880
+        },
+        {
+          "word": "arkasında",
+          "startMs": 207280,
+          "endMs": 207980
+        },
+        {
+          "word": "dersen",
+          "startMs": 208260,
+          "endMs": 209070
+        },
+        {
+          "word": "bu",
+          "startMs": 209140,
+          "endMs": 209340
+        },
+        {
+          "word": "göreceli",
+          "startMs": 209410,
+          "endMs": 210770
+        },
+        {
+          "word": "konumdur.",
+          "startMs": 210970,
+          "endMs": 212140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 213040,
+      "endMs": 228110,
+      "pauseAfterMs": 990,
+      "text": "Yeni bir bina yapıldığında ya da bir dükkân taşındığında göreceli tarif değişebilir; ancak evin paralel ve meridyen adresi hep aynı kalır.",
+      "markedText": "Yeni bir bina yapıldığında ya da bir dükkân taşındığında göreceli tarif değişebilir; ancak evin paralel ve meridyen adresi hep aynı kalır.",
+      "words": [
+        {
+          "word": "Yeni",
+          "startMs": 213040,
+          "endMs": 213300
+        },
+        {
+          "word": "bir",
+          "startMs": 213300,
+          "endMs": 213510
+        },
+        {
+          "word": "bina",
+          "startMs": 213510,
+          "endMs": 213860
+        },
+        {
+          "word": "yapıldığında",
+          "startMs": 213900,
+          "endMs": 215250
+        },
+        {
+          "word": "ya",
+          "startMs": 216050,
+          "endMs": 216160
+        },
+        {
+          "word": "da",
+          "startMs": 216250,
+          "endMs": 216340
+        },
+        {
+          "word": "bir",
+          "startMs": 216400,
+          "endMs": 216600
+        },
+        {
+          "word": "dükkân",
+          "startMs": 216700,
+          "endMs": 217360
+        },
+        {
+          "word": "taşındığında",
+          "startMs": 217540,
+          "endMs": 218690
+        },
+        {
+          "word": "göreceli",
+          "startMs": 218690,
+          "endMs": 219310
+        },
+        {
+          "word": "tarif",
+          "startMs": 219400,
+          "endMs": 219840
+        },
+        {
+          "word": "değişebilir;",
+          "startMs": 219970,
+          "endMs": 220690
+        },
+        {
+          "word": "ancak",
+          "startMs": 220950,
+          "endMs": 221090
+        },
+        {
+          "word": "evin",
+          "startMs": 221210,
+          "endMs": 221500
+        },
+        {
+          "word": "paralel",
+          "startMs": 221570,
+          "endMs": 222470
+        },
+        {
+          "word": "ve",
+          "startMs": 223590,
+          "endMs": 223780
+        },
+        {
+          "word": "meridyen",
+          "startMs": 223970,
+          "endMs": 224680
+        },
+        {
+          "word": "adresi",
+          "startMs": 224680,
+          "endMs": 225340
+        },
+        {
+          "word": "hep",
+          "startMs": 226010,
+          "endMs": 226080
+        },
+        {
+          "word": "aynı",
+          "startMs": 226080,
+          "endMs": 226380
+        },
+        {
+          "word": "kalır.",
+          "startMs": 226380,
+          "endMs": 227120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 228110,
+      "endMs": 243420,
+      "pauseAfterMs": 1330,
+      "text": "Paraleller Dünya'yı yatay olarak çemberlerle sararken, meridyenler dikey yaylar şeklinde uzanır.",
+      "markedText": "Paraleller Dünya'yı yatay olarak çemberlerle sararken, meridyenler dikey yaylar şeklinde uzanır.",
+      "words": [
+        {
+          "word": "Paraleller",
+          "startMs": 228110,
+          "endMs": 228770
+        },
+        {
+          "word": "Dünya'yı",
+          "startMs": 228990,
+          "endMs": 230060
+        },
+        {
+          "word": "yatay",
+          "startMs": 230120,
+          "endMs": 230720
+        },
+        {
+          "word": "olarak",
+          "startMs": 231260,
+          "endMs": 232190
+        },
+        {
+          "word": "çemberlerle",
+          "startMs": 232830,
+          "endMs": 234410
+        },
+        {
+          "word": "sararken,",
+          "startMs": 234550,
+          "endMs": 235350
+        },
+        {
+          "word": "meridyenler",
+          "startMs": 236210,
+          "endMs": 237220
+        },
+        {
+          "word": "dikey",
+          "startMs": 237520,
+          "endMs": 238070
+        },
+        {
+          "word": "yaylar",
+          "startMs": 238830,
+          "endMs": 239890
+        },
+        {
+          "word": "şeklinde",
+          "startMs": 240130,
+          "endMs": 240790
+        },
+        {
+          "word": "uzanır.",
+          "startMs": 241030,
+          "endMs": 242090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 243420,
+      "endMs": 249040,
+      "pauseAfterMs": 730,
+      "text": "Çizgiler hayalidir; ancak belirttikleri uzaklık ve konumlar gerçektir.",
+      "markedText": "Çizgiler hayalidir; ancak belirttikleri uzaklık ve konumlar gerçektir.",
+      "words": [
+        {
+          "word": "Çizgiler",
+          "startMs": 243420,
+          "endMs": 243960
+        },
+        {
+          "word": "hayalidir;",
+          "startMs": 244140,
+          "endMs": 244810
+        },
+        {
+          "word": "ancak",
+          "startMs": 245360,
+          "endMs": 245770
+        },
+        {
+          "word": "belirttikleri",
+          "startMs": 245920,
+          "endMs": 246450
+        },
+        {
+          "word": "uzaklık",
+          "startMs": 246760,
+          "endMs": 247050
+        },
+        {
+          "word": "ve",
+          "startMs": 247050,
+          "endMs": 247150
+        },
+        {
+          "word": "konumlar",
+          "startMs": 247150,
+          "endMs": 247550
+        },
+        {
+          "word": "gerçektir.",
+          "startMs": 247550,
+          "endMs": 248310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 249040,
+      "endMs": 252740,
+      "pauseAfterMs": 350,
+      "text": "İki konumu da bilmek dünyayı anlamanın anahtarıdır.",
+      "markedText": "İki konumu da bilmek dünyayı anlamanın anahtarıdır.",
+      "words": [
+        {
+          "word": "İki",
+          "startMs": 249040,
+          "endMs": 249160
+        },
+        {
+          "word": "konumu",
+          "startMs": 249270,
+          "endMs": 249480
+        },
+        {
+          "word": "da",
+          "startMs": 249650,
+          "endMs": 249720
+        },
+        {
+          "word": "bilmek",
+          "startMs": 249790,
+          "endMs": 250090
+        },
+        {
+          "word": "dünyayı",
+          "startMs": 250150,
+          "endMs": 250410
+        },
+        {
+          "word": "anlamanın",
+          "startMs": 250520,
+          "endMs": 251160
+        },
+        {
+          "word": "anahtarıdır.",
+          "startMs": 251270,
+          "endMs": 252390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 252740,
+      "endMs": 255730,
+      "pauseAfterMs": 1240,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 252740,
+          "endMs": 253520
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 253520,
+          "endMs": 254490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 255730,
+      "endMs": 257630,
+      "pauseAfterMs": 540,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 255730,
+          "endMs": 256250
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 256440,
+          "endMs": 257090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 257630,
+      "endMs": 260520,
+      "pauseAfterMs": 410,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 257630,
+          "endMs": 257820
+        },
+        {
+          "word": "noktayı",
+          "startMs": 257820,
+          "endMs": 258440
+        },
+        {
+          "word": "sen",
+          "startMs": 258680,
+          "endMs": 259010
+        },
+        {
+          "word": "de",
+          "startMs": 259010,
+          "endMs": 259110
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 259260,
+          "endMs": 260110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 260520,
+      "endMs": 268020,
+      "pauseAfterMs": 790,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 260520,
+          "endMs": 260860
+        },
+        {
+          "word": "sevgili",
+          "startMs": 260930,
+          "endMs": 261320
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 261320,
+          "endMs": 261980
+        },
+        {
+          "word": "işte",
+          "startMs": 262680,
+          "endMs": 263030
+        },
+        {
+          "word": "tam",
+          "startMs": 263030,
+          "endMs": 263230
+        },
+        {
+          "word": "bu",
+          "startMs": 263230,
+          "endMs": 263400
+        },
+        {
+          "word": "noktada",
+          "startMs": 263500,
+          "endMs": 263910
+        },
+        {
+          "word": "dikkat",
+          "startMs": 264100,
+          "endMs": 264290
+        },
+        {
+          "word": "etmen",
+          "startMs": 264350,
+          "endMs": 264870
+        },
+        {
+          "word": "gereken",
+          "startMs": 265790,
+          "endMs": 266370
+        },
+        {
+          "word": "kilit",
+          "startMs": 266440,
+          "endMs": 266650
+        },
+        {
+          "word": "nokta.",
+          "startMs": 266830,
+          "endMs": 267230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 268020,
+      "endMs": 281500,
+      "pauseAfterMs": 640,
+      "text": "Yakında, deniz kıyısında ya da dağın eteğinde gibi ifadeleri mutlak konum sanmak yanıltıcı bir tuzaktır; bunlar çevreye göre yapılan göreceli konumlardır.",
+      "markedText": "Yakında, deniz kıyısında ya da dağın eteğinde gibi ifadeleri mutlak konum sanmak yanıltıcı bir tuzaktır; bunlar çevreye göre yapılan göreceli konumlardır.",
+      "words": [
+        {
+          "word": "Yakında,",
+          "startMs": 268020,
+          "endMs": 268560
+        },
+        {
+          "word": "deniz",
+          "startMs": 268560,
+          "endMs": 268870
+        },
+        {
+          "word": "kıyısında",
+          "startMs": 269080,
+          "endMs": 269630
+        },
+        {
+          "word": "ya",
+          "startMs": 269700,
+          "endMs": 269850
+        },
+        {
+          "word": "da",
+          "startMs": 269940,
+          "endMs": 270040
+        },
+        {
+          "word": "dağın",
+          "startMs": 270090,
+          "endMs": 270350
+        },
+        {
+          "word": "eteğinde",
+          "startMs": 270400,
+          "endMs": 271500
+        },
+        {
+          "word": "gibi",
+          "startMs": 271990,
+          "endMs": 272170
+        },
+        {
+          "word": "ifadeleri",
+          "startMs": 272170,
+          "endMs": 272630
+        },
+        {
+          "word": "mutlak",
+          "startMs": 272760,
+          "endMs": 273110
+        },
+        {
+          "word": "konum",
+          "startMs": 273110,
+          "endMs": 273430
+        },
+        {
+          "word": "sanmak",
+          "startMs": 273500,
+          "endMs": 273730
+        },
+        {
+          "word": "yanıltıcı",
+          "startMs": 273730,
+          "endMs": 274560
+        },
+        {
+          "word": "bir",
+          "startMs": 274730,
+          "endMs": 274990
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 274990,
+          "endMs": 276020
+        },
+        {
+          "word": "bunlar",
+          "startMs": 277090,
+          "endMs": 277380
+        },
+        {
+          "word": "çevreye",
+          "startMs": 277480,
+          "endMs": 277690
+        },
+        {
+          "word": "göre",
+          "startMs": 277820,
+          "endMs": 278370
+        },
+        {
+          "word": "yapılan",
+          "startMs": 279010,
+          "endMs": 279510
+        },
+        {
+          "word": "göreceli",
+          "startMs": 279600,
+          "endMs": 279860
+        },
+        {
+          "word": "konumlardır.",
+          "startMs": 280070,
+          "endMs": 280860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 281500,
+      "endMs": 293630,
+      "pauseAfterMs": 2900,
+      "text": "Paralel ile meridyen kavramlarını da birbirine karıştırmamaya özen göster.",
+      "markedText": "Paralel ile meridyen kavramlarını da birbirine karıştırmamaya özen göster.",
+      "words": [
+        {
+          "word": "Paralel",
+          "startMs": 281500,
+          "endMs": 282180
+        },
+        {
+          "word": "ile",
+          "startMs": 282280,
+          "endMs": 282540
+        },
+        {
+          "word": "meridyen",
+          "startMs": 282740,
+          "endMs": 283520
+        },
+        {
+          "word": "kavramlarını",
+          "startMs": 283920,
+          "endMs": 284860
+        },
+        {
+          "word": "da",
+          "startMs": 285130,
+          "endMs": 285290
+        },
+        {
+          "word": "birbirine",
+          "startMs": 285580,
+          "endMs": 286320
+        },
+        {
+          "word": "karıştırmamaya",
+          "startMs": 286980,
+          "endMs": 288430
+        },
+        {
+          "word": "özen",
+          "startMs": 288590,
+          "endMs": 289100
+        },
+        {
+          "word": "göster.",
+          "startMs": 289260,
+          "endMs": 290730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 293630,
+      "endMs": 320170,
+      "pauseAfterMs": 540,
+      "text": "Paralellerin enlemi, meridyenlerin ise boylamı belirlediğini ve Türkiye'nin 36 ile 42 derece kuzey paralelleri arasında olduğunu güvenle aklında tutabilirsin.",
+      "markedText": "Paralellerin enlemi, meridyenlerin ise boylamı belirlediğini ve Türkiye'nin 36 ile 42 derece kuzey paralelleri arasında olduğunu güvenle aklında tutabilirsin.",
+      "words": [
+        {
+          "word": "Paralellerin",
+          "startMs": 293630,
+          "endMs": 295250
+        },
+        {
+          "word": "enlemi,",
+          "startMs": 295750,
+          "endMs": 296940
+        },
+        {
+          "word": "meridyenlerin",
+          "startMs": 298130,
+          "endMs": 299040
+        },
+        {
+          "word": "ise",
+          "startMs": 300710,
+          "endMs": 301030
+        },
+        {
+          "word": "boylamı",
+          "startMs": 301170,
+          "endMs": 301510
+        },
+        {
+          "word": "belirlediğini",
+          "startMs": 301840,
+          "endMs": 302830
+        },
+        {
+          "word": "ve",
+          "startMs": 302970,
+          "endMs": 303030
+        },
+        {
+          "word": "Türkiye'nin",
+          "startMs": 303030,
+          "endMs": 304340
+        },
+        {
+          "word": "36",
+          "startMs": 305750,
+          "endMs": 306410
+        },
+        {
+          "word": "ile",
+          "startMs": 306750,
+          "endMs": 307130
+        },
+        {
+          "word": "42",
+          "startMs": 307190,
+          "endMs": 307750
+        },
+        {
+          "word": "derece",
+          "startMs": 308010,
+          "endMs": 308570
+        },
+        {
+          "word": "kuzey",
+          "startMs": 308570,
+          "endMs": 309450
+        },
+        {
+          "word": "paralelleri",
+          "startMs": 310530,
+          "endMs": 311160
+        },
+        {
+          "word": "arasında",
+          "startMs": 311350,
+          "endMs": 312190
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 312480,
+          "endMs": 314050
+        },
+        {
+          "word": "güvenle",
+          "startMs": 315130,
+          "endMs": 316130
+        },
+        {
+          "word": "aklında",
+          "startMs": 317170,
+          "endMs": 318000
+        },
+        {
+          "word": "tutabilirsin.",
+          "startMs": 318080,
+          "endMs": 319630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 320170,
+      "endMs": 324540,
+      "pauseAfterMs": 900,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 320170,
+          "endMs": 320490
+        },
+        {
+          "word": "Neler",
+          "startMs": 320570,
+          "endMs": 321530
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 323150,
+          "endMs": 323640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 324540,
+      "endMs": 324690,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 324540,
+          "endMs": 324690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 324690,
+      "endMs": 330540,
+      "pauseAfterMs": 230,
+      "text": "Mutlak konum, enlem ve boylam ile kurulan sabit adrestir.",
+      "markedText": "Mutlak konum, enlem ve boylam ile kurulan sabit adrestir.",
+      "words": [
+        {
+          "word": "Mutlak",
+          "startMs": 324690,
+          "endMs": 325040
+        },
+        {
+          "word": "konum,",
+          "startMs": 325040,
+          "endMs": 325620
+        },
+        {
+          "word": "enlem",
+          "startMs": 326440,
+          "endMs": 326900
+        },
+        {
+          "word": "ve",
+          "startMs": 326970,
+          "endMs": 327050
+        },
+        {
+          "word": "boylam",
+          "startMs": 327220,
+          "endMs": 327720
+        },
+        {
+          "word": "ile",
+          "startMs": 327720,
+          "endMs": 328230
+        },
+        {
+          "word": "kurulan",
+          "startMs": 328290,
+          "endMs": 328950
+        },
+        {
+          "word": "sabit",
+          "startMs": 329050,
+          "endMs": 329550
+        },
+        {
+          "word": "adrestir.",
+          "startMs": 329690,
+          "endMs": 330310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 330540,
+      "endMs": 330890,
+      "pauseAfterMs": 0,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 330540,
+          "endMs": 330890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 330890,
+      "endMs": 337830,
+      "pauseAfterMs": 590,
+      "text": "Paralel enlemi, meridyen boylamı gösterir.",
+      "markedText": "Paralel enlemi, meridyen boylamı gösterir.",
+      "words": [
+        {
+          "word": "Paralel",
+          "startMs": 330890,
+          "endMs": 331530
+        },
+        {
+          "word": "enlemi,",
+          "startMs": 331770,
+          "endMs": 332750
+        },
+        {
+          "word": "meridyen",
+          "startMs": 333910,
+          "endMs": 334460
+        },
+        {
+          "word": "boylamı",
+          "startMs": 335500,
+          "endMs": 336280
+        },
+        {
+          "word": "gösterir.",
+          "startMs": 336400,
+          "endMs": 337240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 337830,
+      "endMs": 342680,
+      "pauseAfterMs": 360,
+      "text": "Türkiye 36 ile 42 derece kuzey paralellerindedir.",
+      "markedText": "Türkiye 36 ile 42 derece kuzey paralellerindedir.",
+      "words": [
+        {
+          "word": "Türkiye",
+          "startMs": 337830,
+          "endMs": 338170
+        },
+        {
+          "word": "36",
+          "startMs": 338350,
+          "endMs": 338910
+        },
+        {
+          "word": "ile",
+          "startMs": 338910,
+          "endMs": 339220
+        },
+        {
+          "word": "42",
+          "startMs": 339220,
+          "endMs": 339640
+        },
+        {
+          "word": "derece",
+          "startMs": 339720,
+          "endMs": 340120
+        },
+        {
+          "word": "kuzey",
+          "startMs": 340340,
+          "endMs": 340680
+        },
+        {
+          "word": "paralellerindedir.",
+          "startMs": 341190,
+          "endMs": 342320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 342680,
+      "endMs": 342760,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 342680,
+          "endMs": 342760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 342760,
+      "endMs": 347730,
+      "pauseAfterMs": 630,
+      "text": "Göreceli konum bir yeri başka yere göre anlatır.",
+      "markedText": "Göreceli konum bir yeri başka yere göre anlatır.",
+      "words": [
+        {
+          "word": "Göreceli",
+          "startMs": 342760,
+          "endMs": 343340
+        },
+        {
+          "word": "konum",
+          "startMs": 343340,
+          "endMs": 343660
+        },
+        {
+          "word": "bir",
+          "startMs": 343730,
+          "endMs": 343870
+        },
+        {
+          "word": "yeri",
+          "startMs": 343870,
+          "endMs": 344200
+        },
+        {
+          "word": "başka",
+          "startMs": 344200,
+          "endMs": 344870
+        },
+        {
+          "word": "yere",
+          "startMs": 345730,
+          "endMs": 346040
+        },
+        {
+          "word": "göre",
+          "startMs": 346200,
+          "endMs": 346400
+        },
+        {
+          "word": "anlatır.",
+          "startMs": 346530,
+          "endMs": 347100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 347730,
+      "endMs": 350270,
+      "pauseAfterMs": 900,
+      "text": "Yakın sözü enlem değildir.",
+      "markedText": "Yakın sözü enlem değildir.",
+      "words": [
+        {
+          "word": "Yakın",
+          "startMs": 347730,
+          "endMs": 347960
+        },
+        {
+          "word": "sözü",
+          "startMs": 347960,
+          "endMs": 348140
+        },
+        {
+          "word": "enlem",
+          "startMs": 348250,
+          "endMs": 348520
+        },
+        {
+          "word": "değildir.",
+          "startMs": 348600,
+          "endMs": 349370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 350270,
+      "endMs": 352540,
+      "pauseAfterMs": 860,
+      "text": "Mutlak konum sabittir.",
+      "markedText": "Mutlak konum sabittir.",
+      "words": [
+        {
+          "word": "Mutlak",
+          "startMs": 350270,
+          "endMs": 350800
+        },
+        {
+          "word": "konum",
+          "startMs": 350890,
+          "endMs": 351120
+        },
+        {
+          "word": "sabittir.",
+          "startMs": 351120,
+          "endMs": 351680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 352540,
+      "endMs": 356670,
+      "pauseAfterMs": 760,
+      "text": "Göreceli konum bir yere göredir.",
+      "markedText": "Göreceli konum bir yere göredir.",
+      "words": [
+        {
+          "word": "Göreceli",
+          "startMs": 352540,
+          "endMs": 353440
+        },
+        {
+          "word": "konum",
+          "startMs": 353650,
+          "endMs": 354140
+        },
+        {
+          "word": "bir",
+          "startMs": 354220,
+          "endMs": 354360
+        },
+        {
+          "word": "yere",
+          "startMs": 354470,
+          "endMs": 354790
+        },
+        {
+          "word": "göredir.",
+          "startMs": 354840,
+          "endMs": 355910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 356670,
+      "endMs": 365920,
+      "pauseAfterMs": 680,
+      "text": "Bir tarifte sabit adres ile yol tarifini ayrı cümlelerle söylersin.",
+      "markedText": "Bir tarifte sabit adres ile yol tarifini ayrı cümlelerle söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 356670,
+          "endMs": 356960
+        },
+        {
+          "word": "tarifte",
+          "startMs": 357070,
+          "endMs": 357390
+        },
+        {
+          "word": "sabit",
+          "startMs": 357680,
+          "endMs": 358170
+        },
+        {
+          "word": "adres",
+          "startMs": 358170,
+          "endMs": 358810
+        },
+        {
+          "word": "ile",
+          "startMs": 358810,
+          "endMs": 359470
+        },
+        {
+          "word": "yol",
+          "startMs": 359870,
+          "endMs": 360040
+        },
+        {
+          "word": "tarifini",
+          "startMs": 360100,
+          "endMs": 361150
+        },
+        {
+          "word": "ayrı",
+          "startMs": 361940,
+          "endMs": 362130
+        },
+        {
+          "word": "cümlelerle",
+          "startMs": 362220,
+          "endMs": 363350
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 363950,
+          "endMs": 365240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 365920,
+      "endMs": 368290,
+      "pauseAfterMs": 910,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 365920,
+          "endMs": 366320
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 366410,
+          "endMs": 367380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 368290,
+      "endMs": 370830,
+      "pauseAfterMs": 1130,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 368290,
+          "endMs": 368520
+        },
+        {
+          "word": "bir",
+          "startMs": 368690,
+          "endMs": 368900
+        },
+        {
+          "word": "iş",
+          "startMs": 368980,
+          "endMs": 369140
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 369140,
+          "endMs": 369700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 370830,
+      "endMs": 375400,
+      "pauseAfterMs": 910,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 370830,
+          "endMs": 371740
+        },
+        {
+          "word": "sıra",
+          "startMs": 372130,
+          "endMs": 372870
+        },
+        {
+          "word": "sende.",
+          "startMs": 373040,
+          "endMs": 374490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 375400,
+      "endMs": 380684,
+      "pauseAfterMs": 344,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 375400,
+          "endMs": 376030
+        },
+        {
+          "word": "bu",
+          "startMs": 376720,
+          "endMs": 376880
+        },
+        {
+          "word": "notları",
+          "startMs": 376950,
+          "endMs": 377400
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 377880,
+          "endMs": 378470
+        },
+        {
+          "word": "kendi",
+          "startMs": 378610,
+          "endMs": 378890
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 378980,
+          "endMs": 379750
+        },
+        {
+          "word": "anlat.",
+          "startMs": 379830,
+          "endMs": 380340
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

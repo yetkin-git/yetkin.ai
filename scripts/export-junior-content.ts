@@ -2,6 +2,7 @@
  * Yazarlık senaryosunu ve quiz paketini JSON'a basar. Takvim ve kabları plandan yazar.
  * TypeScript kaynak dosyasına dokunmaz. Quiz üreticisini çalıştırmaz.
  * JSON elle düzeltilmez; sonraki dışa aktarım o düzeltmeyi siler.
+ * Sapma testi: tests/junior/quiz-export-guard.test.ts. Kab JSON'ları envanter dersi değildir.
  * Müfredat dışı arşiv numaraları kadroda yoktur.
  *
  *   npm run export:junior-content
@@ -12,6 +13,7 @@ import { dirname, join } from "node:path";
 
 import { scenarioActivitiesForLesson } from "../lib/junior/activity-source";
 import { buildJuniorContentPlan, plannedShellCount } from "../packages/junior-content/src/plan";
+import { JUNIOR_ELECTIVE_QUIZ_ROSTER } from "../packages/junior-content/src/elective-roster";
 import { JUNIOR_SEALED_ROSTER, juniorSealedScenarioCount } from "../packages/junior-content/src/sealed-roster";
 import {
   juniorScenarioActivitiesSchema,
@@ -114,6 +116,29 @@ function isQuiz(value: unknown): value is { lessonKey: string; questions: unknow
   return Boolean(value && typeof value === "object" && "lessonKey" in value && "questions" in value);
 }
 
+export async function exportElectiveJuniorContent(): Promise<{ scenarios: number; quizzes: number }> {
+  const { juniorElectiveScenarios } = await import("../lib/junior/elective-catalog");
+  let scenarios = 0;
+  for (const scenario of juniorElectiveScenarios()) {
+    writeJson(join(PACKAGE_ROOT, "topics", `${scenario.key}.json`), canonicalScenario(scenario));
+    scenarios += 1;
+  }
+  let quizzes = 0;
+  for (const course of JUNIOR_ELECTIVE_QUIZ_ROSTER) {
+    for (const n of course.numbers) {
+      const key = `${course.prefix}-${n}`;
+      const quizMod = (await import(`../lib/junior/quiz/elective/${course.dir}/${n}.ts`)) as Record<string, unknown>;
+      const quiz = Object.values(quizMod).find(isQuiz);
+      if (!quiz || quiz.lessonKey !== key) {
+        throw new Error(`${key} seçmeli quiz paketi okunamadı.`);
+      }
+      writeJson(join(PACKAGE_ROOT, "quiz", `${key}.json`), quiz);
+      quizzes += 1;
+    }
+  }
+  return { scenarios, quizzes };
+}
+
 async function main() {
   const plan = buildJuniorContentPlan();
   const shells = plannedShellCount();
@@ -154,14 +179,20 @@ async function main() {
       quizzes += 1;
     }
   }
+  const elective = await exportElectiveJuniorContent();
   console.log(
-    `export:junior-content OK — ${scenarios} senaryo (kadros ${juniorSealedScenarioCount()}), ${quizzes} quiz, ${shells} kab, takvim ${plan.weeks.length} hafta.`,
+    `export:junior-content OK — ${scenarios} senaryo (kadros ${juniorSealedScenarioCount()}), ${quizzes} quiz, ${shells} kab, takvim ${plan.weeks.length} hafta. Seçmeli ${elective.scenarios} senaryo, ${elective.quizzes} quiz.`,
   );
 }
 
 const invoked = process.argv[1]?.replaceAll("\\", "/").endsWith("scripts/export-junior-content.ts");
 if (invoked) {
-  main().catch((error: unknown) => {
+  const run = process.argv.includes("--elective")
+    ? exportElectiveJuniorContent().then((elective) => {
+        console.log(`export:junior-content --elective OK — ${elective.scenarios} senaryo, ${elective.quizzes} quiz.`);
+      })
+    : main();
+  run.catch((error: unknown) => {
     console.error(error instanceof Error ? error.message : error);
     process.exit(1);
   });

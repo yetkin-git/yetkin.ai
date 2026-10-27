@@ -51,21 +51,45 @@ export const DEFAULT_OG_IMAGE = "/opengraph-image" as const;
 export const DEFAULT_OG_IMAGE_ALT = `${PUBLIC_SEN.home.title} · ${YETKIN_BRAND}` as const;
 
 /**
+ * `next/og` üretim rotası (`/opengraph-image`, `/academy/dogrula/[hash]/opengraph-image`).
+ * Boyutu ölçülen dosya değil, `ImageResponse` sözleşmesidir: her zaman 1200×630 PNG.
+ * Kart paylaşımında `og:image:width/height` bu rotalarda güvenle yazılır; statik JPG/WebP
+ * kapaklarda ölçü uydurulmaz (dosya boyutu değişebilir).
+ */
+export function isGeneratedOgImagePath(path: string): boolean {
+  return path === DEFAULT_OG_IMAGE || /\/opengraph-image\/?$/u.test(path);
+}
+
+/**
+ * Kamu kopyasının son içerik revizyonu — site haritası `lastmod` kaynağı.
+ *
+ * `new Date()` ile her istekte tazelenen `lastmod` Google'a «her URL her saniye
+ * değişiyor» der ve alan tamamen yok sayılır. Tarih bu yüzden sabittir ve kamu
+ * metni (başlık, açıklama, gövde kopyası, yasal metin) değiştiğinde **elle**
+ * güncellenir — `JUNIOR_GUARDIAN_NOTICE_VERSION` ile aynı disiplin.
+ *
+ * ISO 8601, UTC. Saat yazılmaz; gün hassasiyeti yeterlidir.
+ */
+export const SITE_CONTENT_REVISED_AT = new Date("2026-10-27T00:00:00.000Z");
+
+/**
  * Aşama 1 SEO — kamuya açık ana sayfaların özgün title / description kopyası.
  * H1 sen-voice ile aynı olmak zorunda değildir; meta tekil ve zengin kalır.
  */
 export const PAGE_SEO = {
   home: {
     title: PUBLIC_SEN.home.title,
+    // SERP kesme sınırı ~155 karakter. Kuyruk cümlesi (KVKK/sınav vaadi) description'da
+    // değil gövde H2'lerinde ve SSS'de durur; burada ilk iki niyet dizgisi öne alınır.
     description:
-      "Yapay zekâ odaklı çevrim içi eğitimler, sertifikasyon programları ve kariyer atölyeleri sunan beceri tabanlı dijital eğitim platformu. Ofiste ChatGPT, Excel Copilot ve E-Ticaret Yapay Zekâ Asistanlığı eğitimleriyle yetkinliğini kanıtla, kariyerini mühürle.",
+      "Yapay zeka eğitimi ve online kurs: ofis, e-ticaret ve sosyal medyada uygulamalı dersler. İlk ders ücretsiz; testi 70+ ile geç, sertifikanı al.",
     path: "/",
     image: DEFAULT_OG_IMAGE,
   },
   career: {
     title: "Kariyer vizesi ve uzmanlık belgesi",
     description:
-      "Kariyer vizesi: Akademi sınavından türeyen yapay zeka sertifikası Pasaport Vize Damgasına dönüşür. Teklif Kapısı işveren ağına görünürlük, mühürlü özgeçmiş bağlantısı ve proje kanıtını açar. Sahte rozet eklenmez.",
+      "Kariyer vizesi: Akademi sınavından doğan yapay zeka sertifikası Pasaport Vize Damgasına dönüşür. İşveren ağına görünürlük ve mühürlü özgeçmiş açar.",
     path: "/career",
     image: DEFAULT_OG_IMAGE,
   },
@@ -78,41 +102,60 @@ export const PAGE_SEO = {
   },
   // PayTR B2C (E7): 410 dönen /freelancer odasının SEO girdisi yoktur.
   academy: {
-    title: ACADEMY_SEN.catalog.title,
+    title: "Akademi eğitim kataloğu",
+    // Vitrin kataloğunun arama niyeti: «yapay zeka eğitimi / online kurs». Sertifika ve
+    // kariyer vizesi vaadi korunur; tekrarlanan ders sayımı kırpılır (SERP ~155).
     description:
-      "Yapay zeka eğitimi ve online kurslar: Ofiste Yapay Zekâ, İleri Ofis, E-Ticaret, Sosyal Medya, Chatbot ve Prompt eğitimi yayındadır. Dersi bitir, testi 70+ ile geç, yapay zeka sertifikan ve kariyer vizesi Kariyer sayfana işlensin. Akademi yalnız üç satış şartı tamam olan eğitimi satar.",
+      "Yapay zeka eğitimi ve online kurs: ofis, e-ticaret, sosyal medya, chatbot ve prompt. İlk ders ücretsiz. Testi 70+ ile geç, sertifikan Kariyer sayfana işlenir.",
     path: "/academy",
     image: DEFAULT_OG_IMAGE,
   },
+  academyAdvanced: {
+    // Mutlak başlık: `| yetkin.ai` soneki kök şablon yerine burada yazılır.
+    // 60 karakter tavanını tutmak için konu dizgisi kısaltıldı (`pageMetadata` bunu
+    // `absolute` olarak basar; şablon markayı ikinci kez eklemez).
+    title: "İleri Yapay Zekâ Modülleri: E-Ticaret, Chatbot | yetkin.ai",
+    description:
+      "Temel ofis eğitiminin üstüne binen beş ileri modül: e-ticaret pazaryeri, sosyal medya, kodsuz chatbot, prompt pratiği ve ileri ofis. Her biri ayrı iş.",
+    path: "/academy/ileri",
+    image: DEFAULT_OG_IMAGE,
+  },
   academyVerify: {
-    title: "Sertifika doğrula",
+    title: "Sertifika doğrula — SHA-256 sicil kaydı",
     description:
       "Akademi sertifikasının SHA-256 sicil bütünlük kaydını doğrula. Oturum istenmez; vatandaş kimliği gösterilmez. Müfredat özeti sicile bağlıdır. Uydurma geçerli damga basılmaz.",
     path: "/academy/dogrula",
     image: DEFAULT_OG_IMAGE,
   },
   contact: {
-    title: "İletişim",
-    description: `${YETKIN_BRAND} iletişim ve destek kanalı.`,
+    title: "İletişim ve destek",
+    description:
+      "yetkin.ai destek kanalları: e-posta, WhatsApp ve kayıtlı hesap bildirimi. KVKK m.11 talepleri ve ödeme itirazları bu kanallardan yürür.",
     path: "/iletisim",
+    image: DEFAULT_OG_IMAGE,
   },
   about: {
-    title: "Hakkımızda",
-    description: `${YETKIN_BRAND} — Yapınet Gayrimenkul ve E-Ticaret Limited Şirketi bünyesinde dijital eğitim, sınav ve sertifikasyon (B2C).`,
+    title: "Hakkımızda — Yapınet bünyesinde dijital eğitim",
+    description:
+      "yetkin.ai, Yapınet Gayrimenkul ve E-Ticaret Limited Şirketi bünyesinde dijital eğitim, sınav ve sertifikasyon sunar. Künye ve Akademi hikâyesi.",
     path: "/hakkimizda",
+    image: DEFAULT_OG_IMAGE,
   },
   legal: {
     title: LEGAL_PAGE_TITLE,
     description:
       "KVKK aydınlatma, çerez politikası, mesafeli satış, ön bilgilendirme, iade koşulları ve platform kullanım şartları.",
     path: "/legal",
+    image: DEFAULT_OG_IMAGE,
   },
   junior: {
     title: `6. Sınıf Online Dersler | ${JUNIOR_SEO_BRAND}`,
     description:
-      "6. sınıf Matematik, Fen, Türkçe, İngilizce ve Sosyal Bilgiler. Her dersin ilk konusu ücretsizdir. Kilitli konular yıllık paketle açılır.",
+      "6. sınıf Matematik, Fen, Türkçe, İngilizce ve Sosyal Bilgiler dersleri. Her kartın ilk konusu ücretsiz; kilitli konular yıllık paketle açılır.",
     path: "/junior",
-    image: DEFAULT_OG_IMAGE,
+    // Dikey plaka: `app/junior/opengraph-image.tsx` (1200×630 PNG). Kök plaka yetişkin
+    // Akademi vaadini taşır; veliye giden bağlantı Junior başlığıyla açılmalıdır.
+    image: "/junior/opengraph-image",
     keywords: JUNIOR_SEO_KEYWORDS,
   },
   login: {
@@ -150,6 +193,7 @@ export const PRODUCT_ROOM_PATHS = ["/academy", "/career"] as const;
  */
 export const SITEMAP_STATIC_PATHS = [
   "/academy",
+  "/academy/ileri",
   PAGE_SEO.career.path,
   PAGE_SEO.junior.path,
   PAGE_SEO.academyVerify.path,
@@ -449,6 +493,9 @@ export function pageMetadata({
   const resolvedTitle: Metadata["title"] = brandedSuffixes.some((suffix) => title.endsWith(suffix))
     ? { absolute: title }
     : title;
+  // `next/og` rotası 1200×630 sabittir; ölçü yalnız orada yazılır. Statik kapağa
+  // yanlış genişlik/yükseklik basmak WhatsApp/LinkedIn kartını kırpar.
+  const generatedImage = image ? isGeneratedOgImagePath(image) : false;
   return {
     title: resolvedTitle,
     description,
@@ -461,7 +508,19 @@ export function pageMetadata({
       siteName: YETKIN_BRAND,
       title,
       description,
-      ...(images ? { images } : {}),
+      ...(images
+        ? {
+            images: [
+              {
+                url: image!,
+                alt: title,
+                ...(generatedImage
+                  ? { width: OG_IMAGE_SIZE.width, height: OG_IMAGE_SIZE.height }
+                  : {}),
+              },
+            ],
+          }
+        : {}),
     },
     twitter: {
       card: "summary_large_image",

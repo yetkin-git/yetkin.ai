@@ -7,6 +7,7 @@ import {
   isFrozenShellPagePath,
 } from "@/lib/kernel/compliance/circuit-breakers";
 import { buildRailV1OpenApiDocument, RAIL_V1_HOPS } from "@/lib/kernel/http/v1-contract";
+import { RAIL_V1_HOP_META_COUNT } from "@/lib/kernel/http/api-route-census";
 import { MARKETPLACE_SPLIT_LIVE } from "@/lib/kernel/payments/marketplace-split-live";
 import { paymentsPort } from "@/lib/kernel/payments/port";
 import { DRON_KAYIT, FROZEN_DISK_ROOMS, VERTICAL_ROOMS } from "@/lib/dronlar/kayit";
@@ -77,7 +78,9 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
     expect(runbook).not.toContain("Akademi satın alma makbuzu bu kanalda yoktur");
     expect(runbook).not.toContain("Akademi mühürlü WAV **18**");
     expect(runbook).not.toContain("Akademi mühürlü WAV **2**");
-    expect(runbook).toContain("RAIL_V1_HOPS`, **29 kayıt**");
+    // Sayı belgede sabit yazılmaz; belge biçimi doğrular, sayıyı kod basar.
+    expect(runbook).toMatch(/`RAIL_V1_HOPS`, \*\*\d+ kayıt\*\*/);
+    expect(runbook).toContain(`**${RAIL_V1_HOP_META_COUNT} kayıt**`);
   });
 
   it("kamu yüzeyi: freelancer ve junior 410; vitrin 3 oda; Split kapalı; Merchant asıl nakit portu", () => {
@@ -97,7 +100,7 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
 
   it("OpenAPI kamu sözleşmesinde Marketplace tag'i ve freelancer path yoktur", () => {
     const document = buildRailV1OpenApiDocument();
-    expect(RAIL_V1_HOPS).toHaveLength(29);
+    expect(RAIL_V1_HOPS).toHaveLength(RAIL_V1_HOP_META_COUNT);
     expect(document.tags.map((tag) => tag.name)).toEqual(["Kernel", "Proof", "Payments"]);
     expect(document.tags.map((tag) => tag.name)).not.toContain("Marketplace");
     expect(document.info.description).toContain("Marketplace tag'i ve freelancer path'leri yayınlanmaz");

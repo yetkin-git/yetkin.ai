@@ -12,17 +12,15 @@ export type {
 
 export {
   JR_06_MAT_1_BLUEPRINT,
-  JR_06_MAT_2_BLUEPRINT,
-  JR_06_MAT_3_BLUEPRINT,
-  JR_06_MAT_4_BLUEPRINT,
   JR_06_MAT_5_BLUEPRINT,
   MAT_5_SIMULATION_TABS,
-} from "./modules/mat-1-to-5";
+} from "./modules/mat-5";
 
 export {
   getJuniorLessonBlueprint,
   hasJuniorLessonBlueprint,
   listJuniorMatLessonBlueprints,
+  listQuarantinedJuniorMatBlueprints,
   peekJuniorLessonBlueprint,
   registerJuniorLessonBlueprint,
   resolveJuniorEngineTimeline,

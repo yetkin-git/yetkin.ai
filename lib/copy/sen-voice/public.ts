@@ -4,9 +4,9 @@ import { YETKIN_BRAND } from "@/lib/copy/brand";
 export const PUBLIC_SEN = {
   home: {
     badge: YETKIN_BRAND,
-    title: "Yapay zekâ yetkinliğini kanıtla, kariyerini mühürle",
+    title: "Yapay Zekâyı Öğren. Gerçek İşlerinde Kullan.",
     description:
-      "Yapay zeka eğitimi ve online kurs vitrini hazırlanıyor. Taslak kartlar yayında değildir. Prompt eğitimi hazır olunca vitrine düşer. Dersleri bitir, testi geç; yapay zeka sertifikan sunucuda mühürlenir, kariyer vizesi Kariyer sayfana işlenir. PayTR iFrame + 3D Secure; kart numarası platformda tutulmaz.",
+      "E-ticaret, sosyal medya ve ofis işlerinde yapay zekâ araçlarını uygulamalı eğitimlerle öğren. Her eğitimin ilk dersini ücretsiz izle, içeriği gör ve sana uygun olanı seç.",
     academyCta: "Eğitimleri İncele",
     loginCta: "Giriş Yap",
     registerCta: "Kayıt Ol",
@@ -19,13 +19,14 @@ export const PUBLIC_SEN = {
       "Sınav ve mühür sunucuda doğrulanır; ikna yerine kanıt",
     ],
     cinemaKicker: "Yapay zeka eğitimi · online kurs",
+    cinemaTitle: "İlk dersi ücretsiz izle",
     cinemaHint:
-      "Yeni eğitimler hazırlanıyor. Taslak katalog kartları yayında değildir. Prompt eğitimi hazır olunca vitrine düşer.",
-    roomsKicker: "Bugün satılan ürün",
+      "E-ticaret, sosyal medya ve ofis işinde yapay zekâ araçlarını uygulamalı eğitimle öğrenirsin. İçeriği gör, sana uygun olanı seç.",
+    roomsKicker: "İş sonucu",
     hero: {
       kicker: "Akademi",
-      title: "Öğren, sınavı geç, belgeni mühürle",
-      body: "Yapay zeka eğitimi ve online kurs vitrini hazırlanıyor. Testi 70+ ile geçince yapay zeka sertifikan ve kariyer vizesi Kariyer sayfana işlenir.",
+      title: "İlk dersi ücretsiz izle, sonra işine uygun olanı seç",
+      body: "E-ticaret, sosyal medya ve ofis işlerinde yapay zekâ araçlarını uygulamalı eğitimle öğrenirsin. İçeriği gör, sana uygun olanı seç.",
       href: "/academy",
     },
     faqHeading: "Sık sorulanlar",

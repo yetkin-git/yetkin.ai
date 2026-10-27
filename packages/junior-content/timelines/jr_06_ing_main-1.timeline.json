@@ -1,0 +1,3318 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_ing_main-1",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Daily routines ve saati söylemek",
+  "grade": 6,
+  "subject": "İngilizce",
+  "teacher": {
+    "name": "Selin",
+    "voice": "Kore",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_ing_main-1.mp3",
+    "durationMs": 411511,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 125570
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 125570,
+      "endMs": 346090
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 346090,
+      "endMs": 411511
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4580,
+      "pauseAfterMs": 1100,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 320,
+          "endMs": 710
+        },
+        {
+          "word": "sevgili",
+          "startMs": 840,
+          "endMs": 1670
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 1990,
+          "endMs": 3480
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Daily routines ve saati söylemek",
+            "subtitle": "İngilizce",
+            "ruleBadges": [],
+            "echoPrompt": "Kendi gününü saatle birlikte İngilizce söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Daily routine, her gün düzenli yapılan iştir. İşi at ile saate bağlarsın."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Tam saat o'clock, yarım half past, çeyrek geçe quarter past, çeyrek kala quarter to ile söylenir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "What time is it sorusuna It is seven o'clock gibi berrak cümlelerle cevap verirsin."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4580,
+      "endMs": 8910,
+      "pauseAfterMs": 990,
+      "text": "Ben İngilizce öğretmenin Selin.",
+      "markedText": "Ben İngilizce öğretmenin Selin.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4580,
+          "endMs": 5040
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 5040,
+          "endMs": 6160
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6320,
+          "endMs": 7270
+        },
+        {
+          "word": "Selin.",
+          "startMs": 7560,
+          "endMs": 7920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8910,
+      "endMs": 20310,
+      "pauseAfterMs": 320,
+      "text": "Hiç sabah uyandığında günün nasıl bir sırayla başladığını fark ettin mi?",
+      "markedText": "Hiç sabah uyandığında günün nasıl bir sırayla başladığını fark ettin mi?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 8910,
+          "endMs": 9110
+        },
+        {
+          "word": "sabah",
+          "startMs": 9110,
+          "endMs": 9980
+        },
+        {
+          "word": "uyandığında",
+          "startMs": 10280,
+          "endMs": 10770
+        },
+        {
+          "word": "günün",
+          "startMs": 11490,
+          "endMs": 12220
+        },
+        {
+          "word": "nasıl",
+          "startMs": 12830,
+          "endMs": 13760
+        },
+        {
+          "word": "bir",
+          "startMs": 13840,
+          "endMs": 14140
+        },
+        {
+          "word": "sırayla",
+          "startMs": 14420,
+          "endMs": 15710
+        },
+        {
+          "word": "başladığını",
+          "startMs": 16480,
+          "endMs": 17900
+        },
+        {
+          "word": "fark",
+          "startMs": 18030,
+          "endMs": 18490
+        },
+        {
+          "word": "ettin",
+          "startMs": 18590,
+          "endMs": 19230
+        },
+        {
+          "word": "mi?",
+          "startMs": 19300,
+          "endMs": 19990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 20310,
+      "endMs": 36020,
+      "pauseAfterMs": 1070,
+      "text": "Önce uyanırsın, yüzünü yıkar, dişlerini fırçalarsın; ardından güzel bir kahvaltı yapıp okulun yolunu tutarsın.",
+      "markedText": "Önce uyanırsın, yüzünü yıkar, dişlerini fırçalarsın; ardından güzel bir kahvaltı yapıp okulun yolunu tutarsın.",
+      "words": [
+        {
+          "word": "Önce",
+          "startMs": 20310,
+          "endMs": 20760
+        },
+        {
+          "word": "uyanırsın,",
+          "startMs": 20810,
+          "endMs": 21940
+        },
+        {
+          "word": "yüzünü",
+          "startMs": 22310,
+          "endMs": 22920
+        },
+        {
+          "word": "yıkar,",
+          "startMs": 23200,
+          "endMs": 23700
+        },
+        {
+          "word": "dişlerini",
+          "startMs": 24280,
+          "endMs": 25180
+        },
+        {
+          "word": "fırçalarsın;",
+          "startMs": 25420,
+          "endMs": 27160
+        },
+        {
+          "word": "ardından",
+          "startMs": 27660,
+          "endMs": 28630
+        },
+        {
+          "word": "güzel",
+          "startMs": 28900,
+          "endMs": 29350
+        },
+        {
+          "word": "bir",
+          "startMs": 29630,
+          "endMs": 29760
+        },
+        {
+          "word": "kahvaltı",
+          "startMs": 29880,
+          "endMs": 30860
+        },
+        {
+          "word": "yapıp",
+          "startMs": 31250,
+          "endMs": 31730
+        },
+        {
+          "word": "okulun",
+          "startMs": 31930,
+          "endMs": 32840
+        },
+        {
+          "word": "yolunu",
+          "startMs": 33350,
+          "endMs": 33620
+        },
+        {
+          "word": "tutarsın.",
+          "startMs": 33740,
+          "endMs": 34950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 36020,
+      "endMs": 48530,
+      "pauseAfterMs": 550,
+      "text": "İşte her gün sevgiyle ve düzenle tekrarladığın bu güzel akışa İngilizcede 'daily routine', yani günlük rutin diyoruz.",
+      "markedText": "İşte her gün sevgiyle ve düzenle tekrarladığın bu güzel akışa İngilizcede 'daily routine', yani günlük rutin diyoruz.",
+      "words": [
+        {
+          "word": "İşte",
+          "startMs": 36020,
+          "endMs": 36310
+        },
+        {
+          "word": "her",
+          "startMs": 36350,
+          "endMs": 36480
+        },
+        {
+          "word": "gün",
+          "startMs": 36650,
+          "endMs": 36920
+        },
+        {
+          "word": "sevgiyle",
+          "startMs": 37030,
+          "endMs": 37950
+        },
+        {
+          "word": "ve",
+          "startMs": 38390,
+          "endMs": 38500
+        },
+        {
+          "word": "düzenle",
+          "startMs": 38500,
+          "endMs": 39180
+        },
+        {
+          "word": "tekrarladığın",
+          "startMs": 39510,
+          "endMs": 40650
+        },
+        {
+          "word": "bu",
+          "startMs": 40750,
+          "endMs": 40850
+        },
+        {
+          "word": "güzel",
+          "startMs": 40920,
+          "endMs": 41180
+        },
+        {
+          "word": "akışa",
+          "startMs": 41320,
+          "endMs": 42180
+        },
+        {
+          "word": "İngilizcede",
+          "startMs": 42660,
+          "endMs": 43150
+        },
+        {
+          "word": "'daily",
+          "startMs": 43360,
+          "endMs": 43700
+        },
+        {
+          "word": "routine',",
+          "startMs": 44190,
+          "endMs": 44760
+        },
+        {
+          "word": "yani",
+          "startMs": 45120,
+          "endMs": 45600
+        },
+        {
+          "word": "günlük",
+          "startMs": 46010,
+          "endMs": 46190
+        },
+        {
+          "word": "rutin",
+          "startMs": 46360,
+          "endMs": 46750
+        },
+        {
+          "word": "diyoruz.",
+          "startMs": 46790,
+          "endMs": 47980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 48530,
+      "endMs": 54600,
+      "pauseAfterMs": 350,
+      "text": "Üstelik gün içindeki her güzel işin bir de saati vardır.",
+      "markedText": "Üstelik gün içindeki her güzel işin bir de saati vardır.",
+      "words": [
+        {
+          "word": "Üstelik",
+          "startMs": 48530,
+          "endMs": 48960
+        },
+        {
+          "word": "gün",
+          "startMs": 49040,
+          "endMs": 49630
+        },
+        {
+          "word": "içindeki",
+          "startMs": 49890,
+          "endMs": 50750
+        },
+        {
+          "word": "her",
+          "startMs": 50820,
+          "endMs": 51100
+        },
+        {
+          "word": "güzel",
+          "startMs": 51510,
+          "endMs": 51900
+        },
+        {
+          "word": "işin",
+          "startMs": 51940,
+          "endMs": 52420
+        },
+        {
+          "word": "bir",
+          "startMs": 52760,
+          "endMs": 52900
+        },
+        {
+          "word": "de",
+          "startMs": 52900,
+          "endMs": 53190
+        },
+        {
+          "word": "saati",
+          "startMs": 53270,
+          "endMs": 53800
+        },
+        {
+          "word": "vardır.",
+          "startMs": 53990,
+          "endMs": 54250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 54600,
+      "endMs": 69530,
+      "pauseAfterMs": 410,
+      "text": "Birine saati sormak istediğinde 'What time is it?' dersin; o da sana 'It is seven o'clock' gibi berrak ve neşeli bir cevap verir.",
+      "markedText": "Birine saati sormak istediğinde 'What time is it?' dersin; o da sana 'It is seven o'clock' gibi berrak ve neşeli bir cevap verir.",
+      "words": [
+        {
+          "word": "Birine",
+          "startMs": 54600,
+          "endMs": 54940
+        },
+        {
+          "word": "saati",
+          "startMs": 55590,
+          "endMs": 56040
+        },
+        {
+          "word": "sormak",
+          "startMs": 56590,
+          "endMs": 57150
+        },
+        {
+          "word": "istediğinde",
+          "startMs": 58030,
+          "endMs": 58930
+        },
+        {
+          "word": "'What",
+          "startMs": 59050,
+          "endMs": 59360
+        },
+        {
+          "word": "time",
+          "startMs": 59610,
+          "endMs": 59930
+        },
+        {
+          "word": "is",
+          "startMs": 60070,
+          "endMs": 60150
+        },
+        {
+          "word": "it?'",
+          "startMs": 60330,
+          "endMs": 60430
+        },
+        {
+          "word": "dersin;",
+          "startMs": 60600,
+          "endMs": 61150
+        },
+        {
+          "word": "o",
+          "startMs": 61700,
+          "endMs": 61760
+        },
+        {
+          "word": "da",
+          "startMs": 61870,
+          "endMs": 62040
+        },
+        {
+          "word": "sana",
+          "startMs": 62040,
+          "endMs": 62470
+        },
+        {
+          "word": "'It",
+          "startMs": 62930,
+          "endMs": 63110
+        },
+        {
+          "word": "is",
+          "startMs": 63270,
+          "endMs": 63440
+        },
+        {
+          "word": "seven",
+          "startMs": 63440,
+          "endMs": 63710
+        },
+        {
+          "word": "o'clock'",
+          "startMs": 63780,
+          "endMs": 64490
+        },
+        {
+          "word": "gibi",
+          "startMs": 64970,
+          "endMs": 65170
+        },
+        {
+          "word": "berrak",
+          "startMs": 65400,
+          "endMs": 65860
+        },
+        {
+          "word": "ve",
+          "startMs": 65920,
+          "endMs": 66030
+        },
+        {
+          "word": "neşeli",
+          "startMs": 66280,
+          "endMs": 66700
+        },
+        {
+          "word": "bir",
+          "startMs": 66950,
+          "endMs": 67450
+        },
+        {
+          "word": "cevap",
+          "startMs": 67910,
+          "endMs": 68400
+        },
+        {
+          "word": "verir.",
+          "startMs": 68540,
+          "endMs": 69120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 69530,
+      "endMs": 79790,
+      "pauseAfterMs": 540,
+      "text": "Yarın sabah aynanın karşısına geçtiğinde gülümseyerek 'I brush my teeth' diye içinden tekrarla.",
+      "markedText": "Yarın sabah aynanın karşısına geçtiğinde gülümseyerek 'I brush my teeth' diye içinden tekrarla.",
+      "words": [
+        {
+          "word": "Yarın",
+          "startMs": 69530,
+          "endMs": 70010
+        },
+        {
+          "word": "sabah",
+          "startMs": 70340,
+          "endMs": 70610
+        },
+        {
+          "word": "aynanın",
+          "startMs": 70610,
+          "endMs": 71190
+        },
+        {
+          "word": "karşısına",
+          "startMs": 71940,
+          "endMs": 72620
+        },
+        {
+          "word": "geçtiğinde",
+          "startMs": 72940,
+          "endMs": 73670
+        },
+        {
+          "word": "gülümseyerek",
+          "startMs": 74130,
+          "endMs": 74740
+        },
+        {
+          "word": "'I",
+          "startMs": 75080,
+          "endMs": 75170
+        },
+        {
+          "word": "brush",
+          "startMs": 75380,
+          "endMs": 75570
+        },
+        {
+          "word": "my",
+          "startMs": 75680,
+          "endMs": 75760
+        },
+        {
+          "word": "teeth'",
+          "startMs": 75890,
+          "endMs": 75990
+        },
+        {
+          "word": "diye",
+          "startMs": 76080,
+          "endMs": 76940
+        },
+        {
+          "word": "içinden",
+          "startMs": 77580,
+          "endMs": 78290
+        },
+        {
+          "word": "tekrarla.",
+          "startMs": 78370,
+          "endMs": 79250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 79790,
+      "endMs": 93410,
+      "pauseAfterMs": 950,
+      "text": "Kahvaltı sofrasına oturduğunda duvardaki saate bakıp 'I have breakfast at half past seven' cümlesini kur.",
+      "markedText": "Kahvaltı sofrasına oturduğunda duvardaki saate bakıp 'I have breakfast at half past seven' cümlesini kur.",
+      "words": [
+        {
+          "word": "Kahvaltı",
+          "startMs": 79790,
+          "endMs": 80300
+        },
+        {
+          "word": "sofrasına",
+          "startMs": 80430,
+          "endMs": 81560
+        },
+        {
+          "word": "oturduğunda",
+          "startMs": 81920,
+          "endMs": 83830
+        },
+        {
+          "word": "duvardaki",
+          "startMs": 84010,
+          "endMs": 84780
+        },
+        {
+          "word": "saate",
+          "startMs": 84870,
+          "endMs": 85260
+        },
+        {
+          "word": "bakıp",
+          "startMs": 85430,
+          "endMs": 86290
+        },
+        {
+          "word": "'I",
+          "startMs": 86810,
+          "endMs": 86880
+        },
+        {
+          "word": "have",
+          "startMs": 87140,
+          "endMs": 87630
+        },
+        {
+          "word": "breakfast",
+          "startMs": 87630,
+          "endMs": 88340
+        },
+        {
+          "word": "at",
+          "startMs": 88400,
+          "endMs": 88630
+        },
+        {
+          "word": "half",
+          "startMs": 88630,
+          "endMs": 89380
+        },
+        {
+          "word": "past",
+          "startMs": 90360,
+          "endMs": 90800
+        },
+        {
+          "word": "seven'",
+          "startMs": 90850,
+          "endMs": 91260
+        },
+        {
+          "word": "cümlesini",
+          "startMs": 91260,
+          "endMs": 92120
+        },
+        {
+          "word": "kur.",
+          "startMs": 92240,
+          "endMs": 92460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 93410,
+      "endMs": 101590,
+      "pauseAfterMs": 520,
+      "text": "Evden çıkarken 'I go to school at eight o'clock' diyerek adımlarını at.",
+      "markedText": "Evden çıkarken 'I go to school at eight o'clock' diyerek adımlarını at.",
+      "words": [
+        {
+          "word": "Evden",
+          "startMs": 93410,
+          "endMs": 93800
+        },
+        {
+          "word": "çıkarken",
+          "startMs": 93880,
+          "endMs": 94560
+        },
+        {
+          "word": "'I",
+          "startMs": 94810,
+          "endMs": 94880
+        },
+        {
+          "word": "go",
+          "startMs": 95340,
+          "endMs": 95540
+        },
+        {
+          "word": "to",
+          "startMs": 95540,
+          "endMs": 95650
+        },
+        {
+          "word": "school",
+          "startMs": 95810,
+          "endMs": 96140
+        },
+        {
+          "word": "at",
+          "startMs": 96300,
+          "endMs": 96600
+        },
+        {
+          "word": "eight",
+          "startMs": 97310,
+          "endMs": 97860
+        },
+        {
+          "word": "o'clock'",
+          "startMs": 98190,
+          "endMs": 98830
+        },
+        {
+          "word": "diyerek",
+          "startMs": 99040,
+          "endMs": 99360
+        },
+        {
+          "word": "adımlarını",
+          "startMs": 99560,
+          "endMs": 100110
+        },
+        {
+          "word": "at.",
+          "startMs": 100360,
+          "endMs": 101070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 101590,
+      "endMs": 114330,
+      "pauseAfterMs": 340,
+      "text": "Akşam saatlerinde 'I do my homework' ve gece 'I go to bed' ile gününü sevgiyle tamamla.",
+      "markedText": "Akşam saatlerinde 'I do my homework' ve gece 'I go to bed' ile gününü sevgiyle tamamla.",
+      "words": [
+        {
+          "word": "Akşam",
+          "startMs": 101590,
+          "endMs": 102130
+        },
+        {
+          "word": "saatlerinde",
+          "startMs": 102280,
+          "endMs": 104090
+        },
+        {
+          "word": "'I",
+          "startMs": 104660,
+          "endMs": 104840
+        },
+        {
+          "word": "do",
+          "startMs": 105120,
+          "endMs": 105270
+        },
+        {
+          "word": "my",
+          "startMs": 105270,
+          "endMs": 105500
+        },
+        {
+          "word": "homework'",
+          "startMs": 105620,
+          "endMs": 106100
+        },
+        {
+          "word": "ve",
+          "startMs": 106570,
+          "endMs": 106690
+        },
+        {
+          "word": "gece",
+          "startMs": 108130,
+          "endMs": 108500
+        },
+        {
+          "word": "'I",
+          "startMs": 108730,
+          "endMs": 108810
+        },
+        {
+          "word": "go",
+          "startMs": 108890,
+          "endMs": 109210
+        },
+        {
+          "word": "to",
+          "startMs": 109370,
+          "endMs": 109550
+        },
+        {
+          "word": "bed'",
+          "startMs": 109660,
+          "endMs": 109950
+        },
+        {
+          "word": "ile",
+          "startMs": 110840,
+          "endMs": 111200
+        },
+        {
+          "word": "gününü",
+          "startMs": 111270,
+          "endMs": 112000
+        },
+        {
+          "word": "sevgiyle",
+          "startMs": 112300,
+          "endMs": 112650
+        },
+        {
+          "word": "tamamla.",
+          "startMs": 112990,
+          "endMs": 113990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 114330,
+      "endMs": 125570,
+      "pauseAfterMs": 420,
+      "text": "Bir arkadaşınla buluştuğunda da ona 'What time is it?' diye sorarak İngilizce pratiğini canlı tut.",
+      "markedText": "Bir arkadaşınla buluştuğunda da ona 'What time is it?' diye sorarak İngilizce pratiğini canlı tut.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 114330,
+          "endMs": 114520
+        },
+        {
+          "word": "arkadaşınla",
+          "startMs": 114520,
+          "endMs": 115490
+        },
+        {
+          "word": "buluştuğunda",
+          "startMs": 116300,
+          "endMs": 117570
+        },
+        {
+          "word": "da",
+          "startMs": 117930,
+          "endMs": 118080
+        },
+        {
+          "word": "ona",
+          "startMs": 118080,
+          "endMs": 118330
+        },
+        {
+          "word": "'What",
+          "startMs": 118330,
+          "endMs": 118520
+        },
+        {
+          "word": "time",
+          "startMs": 118620,
+          "endMs": 118980
+        },
+        {
+          "word": "is",
+          "startMs": 119330,
+          "endMs": 119480
+        },
+        {
+          "word": "it?'",
+          "startMs": 119720,
+          "endMs": 119820
+        },
+        {
+          "word": "diye",
+          "startMs": 120100,
+          "endMs": 120510
+        },
+        {
+          "word": "sorarak",
+          "startMs": 120890,
+          "endMs": 121550
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 122180,
+          "endMs": 122980
+        },
+        {
+          "word": "pratiğini",
+          "startMs": 123330,
+          "endMs": 124170
+        },
+        {
+          "word": "canlı",
+          "startMs": 124390,
+          "endMs": 124710
+        },
+        {
+          "word": "tut.",
+          "startMs": 125010,
+          "endMs": 125150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 125570,
+      "endMs": 136370,
+      "pauseAfterMs": 840,
+      "text": "'Daily routine', her gün düzenli olarak tekrar ettiğin işleri anlatır.",
+      "markedText": "'Daily routine', her gün düzenli olarak tekrar ettiğin işleri anlatır.",
+      "words": [
+        {
+          "word": "'Daily",
+          "startMs": 125570,
+          "endMs": 125890
+        },
+        {
+          "word": "routine',",
+          "startMs": 126140,
+          "endMs": 128020
+        },
+        {
+          "word": "her",
+          "startMs": 128850,
+          "endMs": 129040
+        },
+        {
+          "word": "gün",
+          "startMs": 129120,
+          "endMs": 129470
+        },
+        {
+          "word": "düzenli",
+          "startMs": 129540,
+          "endMs": 130140
+        },
+        {
+          "word": "olarak",
+          "startMs": 130510,
+          "endMs": 131280
+        },
+        {
+          "word": "tekrar",
+          "startMs": 131660,
+          "endMs": 132420
+        },
+        {
+          "word": "ettiğin",
+          "startMs": 132940,
+          "endMs": 134050
+        },
+        {
+          "word": "işleri",
+          "startMs": 134260,
+          "endMs": 134550
+        },
+        {
+          "word": "anlatır.",
+          "startMs": 134840,
+          "endMs": 135530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 136370,
+      "endMs": 146920,
+      "pauseAfterMs": 280,
+      "text": "Örneğin 'I wake up at seven o'clock' dediğinde, saat tam yedide uyandığını söylersin.",
+      "markedText": "Örneğin 'I wake up at seven o'clock' dediğinde, saat tam yedide uyandığını söylersin.",
+      "words": [
+        {
+          "word": "Örneğin",
+          "startMs": 136370,
+          "endMs": 137120
+        },
+        {
+          "word": "'I",
+          "startMs": 137930,
+          "endMs": 137990
+        },
+        {
+          "word": "wake",
+          "startMs": 138090,
+          "endMs": 138460
+        },
+        {
+          "word": "up",
+          "startMs": 138460,
+          "endMs": 138680
+        },
+        {
+          "word": "at",
+          "startMs": 138810,
+          "endMs": 139070
+        },
+        {
+          "word": "seven",
+          "startMs": 139110,
+          "endMs": 139880
+        },
+        {
+          "word": "o'clock'",
+          "startMs": 140530,
+          "endMs": 141210
+        },
+        {
+          "word": "dediğinde,",
+          "startMs": 141300,
+          "endMs": 142510
+        },
+        {
+          "word": "saat",
+          "startMs": 142710,
+          "endMs": 143040
+        },
+        {
+          "word": "tam",
+          "startMs": 143330,
+          "endMs": 143430
+        },
+        {
+          "word": "yedide",
+          "startMs": 143530,
+          "endMs": 144220
+        },
+        {
+          "word": "uyandığını",
+          "startMs": 144890,
+          "endMs": 145580
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 145780,
+          "endMs": 146640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 146920,
+      "endMs": 160580,
+      "pauseAfterMs": 710,
+      "text": "'I brush my teeth' dişlerini fırçaladığını, 'I have breakfast' neşeyle kahvaltı ettiğini, 'I go to school' ise okula gittiğini ifade eder.",
+      "markedText": "'I brush my teeth' dişlerini fırçaladığını, 'I have breakfast' neşeyle kahvaltı ettiğini, 'I go to school' ise okula gittiğini ifade eder.",
+      "words": [
+        {
+          "word": "'I",
+          "startMs": 146920,
+          "endMs": 146970
+        },
+        {
+          "word": "brush",
+          "startMs": 147290,
+          "endMs": 147810
+        },
+        {
+          "word": "my",
+          "startMs": 148170,
+          "endMs": 148390
+        },
+        {
+          "word": "teeth'",
+          "startMs": 148590,
+          "endMs": 148710
+        },
+        {
+          "word": "dişlerini",
+          "startMs": 148710,
+          "endMs": 148950
+        },
+        {
+          "word": "fırçaladığını,",
+          "startMs": 149060,
+          "endMs": 150130
+        },
+        {
+          "word": "'I",
+          "startMs": 150780,
+          "endMs": 150910
+        },
+        {
+          "word": "have",
+          "startMs": 150910,
+          "endMs": 151270
+        },
+        {
+          "word": "breakfast'",
+          "startMs": 151400,
+          "endMs": 151770
+        },
+        {
+          "word": "neşeyle",
+          "startMs": 151950,
+          "endMs": 152480
+        },
+        {
+          "word": "kahvaltı",
+          "startMs": 152990,
+          "endMs": 153960
+        },
+        {
+          "word": "ettiğini,",
+          "startMs": 154330,
+          "endMs": 155060
+        },
+        {
+          "word": "'I",
+          "startMs": 155610,
+          "endMs": 155820
+        },
+        {
+          "word": "go",
+          "startMs": 155970,
+          "endMs": 156180
+        },
+        {
+          "word": "to",
+          "startMs": 156180,
+          "endMs": 156330
+        },
+        {
+          "word": "school'",
+          "startMs": 156430,
+          "endMs": 156770
+        },
+        {
+          "word": "ise",
+          "startMs": 157130,
+          "endMs": 157480
+        },
+        {
+          "word": "okula",
+          "startMs": 157690,
+          "endMs": 157790
+        },
+        {
+          "word": "gittiğini",
+          "startMs": 158080,
+          "endMs": 159000
+        },
+        {
+          "word": "ifade",
+          "startMs": 159130,
+          "endMs": 159410
+        },
+        {
+          "word": "eder.",
+          "startMs": 159450,
+          "endMs": 159870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 160580,
+      "endMs": 168960,
+      "pauseAfterMs": 570,
+      "text": "Tam saatleri belirtirken sonuna 'o'clock' ekleriz; 'It is seven o'clock', saat tam yedidir demektir.",
+      "markedText": "Tam saatleri belirtirken sonuna 'o'clock' ekleriz; 'It is seven o'clock', saat tam yedidir demektir.",
+      "words": [
+        {
+          "word": "Tam",
+          "startMs": 160580,
+          "endMs": 160820
+        },
+        {
+          "word": "saatleri",
+          "startMs": 160920,
+          "endMs": 161590
+        },
+        {
+          "word": "belirtirken",
+          "startMs": 161660,
+          "endMs": 162550
+        },
+        {
+          "word": "sonuna",
+          "startMs": 162920,
+          "endMs": 163310
+        },
+        {
+          "word": "'o'clock'",
+          "startMs": 163500,
+          "endMs": 163850
+        },
+        {
+          "word": "ekleriz;",
+          "startMs": 163950,
+          "endMs": 164310
+        },
+        {
+          "word": "'It",
+          "startMs": 164690,
+          "endMs": 164800
+        },
+        {
+          "word": "is",
+          "startMs": 165000,
+          "endMs": 165140
+        },
+        {
+          "word": "seven",
+          "startMs": 165200,
+          "endMs": 165420
+        },
+        {
+          "word": "o'clock',",
+          "startMs": 165540,
+          "endMs": 166110
+        },
+        {
+          "word": "saat",
+          "startMs": 166390,
+          "endMs": 166610
+        },
+        {
+          "word": "tam",
+          "startMs": 166610,
+          "endMs": 166800
+        },
+        {
+          "word": "yedidir",
+          "startMs": 166980,
+          "endMs": 167480
+        },
+        {
+          "word": "demektir.",
+          "startMs": 167610,
+          "endMs": 168390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 168960,
+      "endMs": 179570,
+      "pauseAfterMs": 600,
+      "text": "Buçuklu saatlerde 'half past' kullanırız; 'It is half past seven', saat yedi buçuktur anlamına gelir.",
+      "markedText": "Buçuklu saatlerde 'half past' kullanırız; 'It is half past seven', saat yedi buçuktur anlamına gelir.",
+      "words": [
+        {
+          "word": "Buçuklu",
+          "startMs": 168960,
+          "endMs": 169330
+        },
+        {
+          "word": "saatlerde",
+          "startMs": 169440,
+          "endMs": 169670
+        },
+        {
+          "word": "'half",
+          "startMs": 169810,
+          "endMs": 170380
+        },
+        {
+          "word": "past'",
+          "startMs": 171310,
+          "endMs": 171460
+        },
+        {
+          "word": "kullanırız;",
+          "startMs": 171460,
+          "endMs": 172370
+        },
+        {
+          "word": "'It",
+          "startMs": 173170,
+          "endMs": 173400
+        },
+        {
+          "word": "is",
+          "startMs": 174090,
+          "endMs": 174240
+        },
+        {
+          "word": "half",
+          "startMs": 174240,
+          "endMs": 174480
+        },
+        {
+          "word": "past",
+          "startMs": 174570,
+          "endMs": 175000
+        },
+        {
+          "word": "seven',",
+          "startMs": 175270,
+          "endMs": 175670
+        },
+        {
+          "word": "saat",
+          "startMs": 176250,
+          "endMs": 176440
+        },
+        {
+          "word": "yedi",
+          "startMs": 176440,
+          "endMs": 177050
+        },
+        {
+          "word": "buçuktur",
+          "startMs": 177360,
+          "endMs": 177810
+        },
+        {
+          "word": "anlamına",
+          "startMs": 177810,
+          "endMs": 178310
+        },
+        {
+          "word": "gelir.",
+          "startMs": 178390,
+          "endMs": 178970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 179570,
+      "endMs": 190910,
+      "pauseAfterMs": 410,
+      "text": "Çeyrek geçe için 'quarter past', çeyrek kala için ise 'quarter to' kalıbını seçeriz.",
+      "markedText": "Çeyrek geçe için 'quarter past', çeyrek kala için ise 'quarter to' kalıbını seçeriz.",
+      "words": [
+        {
+          "word": "Çeyrek",
+          "startMs": 179570,
+          "endMs": 179910
+        },
+        {
+          "word": "geçe",
+          "startMs": 180140,
+          "endMs": 180280
+        },
+        {
+          "word": "için",
+          "startMs": 180480,
+          "endMs": 180740
+        },
+        {
+          "word": "'quarter",
+          "startMs": 180790,
+          "endMs": 181650
+        },
+        {
+          "word": "past',",
+          "startMs": 182750,
+          "endMs": 183020
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 183860,
+          "endMs": 184330
+        },
+        {
+          "word": "kala",
+          "startMs": 184700,
+          "endMs": 185010
+        },
+        {
+          "word": "için",
+          "startMs": 185660,
+          "endMs": 185960
+        },
+        {
+          "word": "ise",
+          "startMs": 186330,
+          "endMs": 186810
+        },
+        {
+          "word": "'quarter",
+          "startMs": 187480,
+          "endMs": 187960
+        },
+        {
+          "word": "to'",
+          "startMs": 188060,
+          "endMs": 188150
+        },
+        {
+          "word": "kalıbını",
+          "startMs": 188520,
+          "endMs": 189210
+        },
+        {
+          "word": "seçeriz.",
+          "startMs": 189790,
+          "endMs": 190500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 190910,
+      "endMs": 204900,
+      "pauseAfterMs": 330,
+      "text": "Pratik kural: Günlük yaptığın işi söylerken, saatin hemen önüne sevimli 'at' sözcüğünü koymayı her zaman hatırla.",
+      "markedText": "Pratik kural: Günlük yaptığın işi söylerken, saatin hemen önüne sevimli 'at' sözcüğünü koymayı her zaman hatırla.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 190910,
+          "endMs": 191290
+        },
+        {
+          "word": "kural:",
+          "startMs": 192030,
+          "endMs": 192510
+        },
+        {
+          "word": "Günlük",
+          "startMs": 193380,
+          "endMs": 193620
+        },
+        {
+          "word": "yaptığın",
+          "startMs": 194300,
+          "endMs": 195120
+        },
+        {
+          "word": "işi",
+          "startMs": 195450,
+          "endMs": 195910
+        },
+        {
+          "word": "söylerken,",
+          "startMs": 196580,
+          "endMs": 197160
+        },
+        {
+          "word": "saatin",
+          "startMs": 197470,
+          "endMs": 198010
+        },
+        {
+          "word": "hemen",
+          "startMs": 198150,
+          "endMs": 198690
+        },
+        {
+          "word": "önüne",
+          "startMs": 198760,
+          "endMs": 199540
+        },
+        {
+          "word": "sevimli",
+          "startMs": 200270,
+          "endMs": 201050
+        },
+        {
+          "word": "'at'",
+          "startMs": 201050,
+          "endMs": 201280
+        },
+        {
+          "word": "sözcüğünü",
+          "startMs": 201340,
+          "endMs": 201950
+        },
+        {
+          "word": "koymayı",
+          "startMs": 202260,
+          "endMs": 202770
+        },
+        {
+          "word": "her",
+          "startMs": 202860,
+          "endMs": 203160
+        },
+        {
+          "word": "zaman",
+          "startMs": 203600,
+          "endMs": 204010
+        },
+        {
+          "word": "hatırla.",
+          "startMs": 204130,
+          "endMs": 204570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 204900,
+      "endMs": 210350,
+      "pauseAfterMs": 800,
+      "text": "Kendi sabahını neşeli cümlelerle kuralım.",
+      "markedText": "Kendi sabahını neşeli cümlelerle kuralım.",
+      "words": [
+        {
+          "word": "Kendi",
+          "startMs": 204900,
+          "endMs": 205400
+        },
+        {
+          "word": "sabahını",
+          "startMs": 205400,
+          "endMs": 206090
+        },
+        {
+          "word": "neşeli",
+          "startMs": 206540,
+          "endMs": 207160
+        },
+        {
+          "word": "cümlelerle",
+          "startMs": 207310,
+          "endMs": 208320
+        },
+        {
+          "word": "kuralım.",
+          "startMs": 208470,
+          "endMs": 209550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 210350,
+      "endMs": 215530,
+      "pauseAfterMs": 810,
+      "text": "'I wake up at seven o'clock' diyerek güne başlarsın.",
+      "markedText": "'I wake up at seven o'clock' diyerek güne başlarsın.",
+      "words": [
+        {
+          "word": "'I",
+          "startMs": 210350,
+          "endMs": 210520
+        },
+        {
+          "word": "wake",
+          "startMs": 210520,
+          "endMs": 210680
+        },
+        {
+          "word": "up",
+          "startMs": 210870,
+          "endMs": 210940
+        },
+        {
+          "word": "at",
+          "startMs": 210940,
+          "endMs": 211020
+        },
+        {
+          "word": "seven",
+          "startMs": 211120,
+          "endMs": 211320
+        },
+        {
+          "word": "o'clock'",
+          "startMs": 211670,
+          "endMs": 212100
+        },
+        {
+          "word": "diyerek",
+          "startMs": 212480,
+          "endMs": 212800
+        },
+        {
+          "word": "güne",
+          "startMs": 213010,
+          "endMs": 213550
+        },
+        {
+          "word": "başlarsın.",
+          "startMs": 213670,
+          "endMs": 214720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 215530,
+      "endMs": 229090,
+      "pauseAfterMs": 770,
+      "text": "Ardından 'I brush my teeth at quarter past seven' dersin, yani yediyi çeyrek geçe dişlerini fırçalarsın.",
+      "markedText": "Ardından 'I brush my teeth at quarter past seven' dersin, yani yediyi çeyrek geçe dişlerini fırçalarsın.",
+      "words": [
+        {
+          "word": "Ardından",
+          "startMs": 215530,
+          "endMs": 216660
+        },
+        {
+          "word": "'I",
+          "startMs": 217060,
+          "endMs": 217240
+        },
+        {
+          "word": "brush",
+          "startMs": 217240,
+          "endMs": 217710
+        },
+        {
+          "word": "my",
+          "startMs": 217820,
+          "endMs": 218230
+        },
+        {
+          "word": "teeth",
+          "startMs": 218520,
+          "endMs": 219020
+        },
+        {
+          "word": "at",
+          "startMs": 219370,
+          "endMs": 219580
+        },
+        {
+          "word": "quarter",
+          "startMs": 219580,
+          "endMs": 220210
+        },
+        {
+          "word": "past",
+          "startMs": 220330,
+          "endMs": 220760
+        },
+        {
+          "word": "seven'",
+          "startMs": 220760,
+          "endMs": 221270
+        },
+        {
+          "word": "dersin,",
+          "startMs": 221360,
+          "endMs": 222150
+        },
+        {
+          "word": "yani",
+          "startMs": 222790,
+          "endMs": 223010
+        },
+        {
+          "word": "yediyi",
+          "startMs": 223060,
+          "endMs": 223730
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 223910,
+          "endMs": 224790
+        },
+        {
+          "word": "geçe",
+          "startMs": 225180,
+          "endMs": 225300
+        },
+        {
+          "word": "dişlerini",
+          "startMs": 225450,
+          "endMs": 226660
+        },
+        {
+          "word": "fırçalarsın.",
+          "startMs": 226820,
+          "endMs": 228320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 229090,
+      "endMs": 236500,
+      "pauseAfterMs": 650,
+      "text": "'I have breakfast at half past seven' ile yedi buçukta kahvaltını yaparsın.",
+      "markedText": "'I have breakfast at half past seven' ile yedi buçukta kahvaltını yaparsın.",
+      "words": [
+        {
+          "word": "'I",
+          "startMs": 229090,
+          "endMs": 229200
+        },
+        {
+          "word": "have",
+          "startMs": 229250,
+          "endMs": 229540
+        },
+        {
+          "word": "breakfast",
+          "startMs": 229720,
+          "endMs": 229860
+        },
+        {
+          "word": "at",
+          "startMs": 230190,
+          "endMs": 230270
+        },
+        {
+          "word": "half",
+          "startMs": 230410,
+          "endMs": 230680
+        },
+        {
+          "word": "past",
+          "startMs": 230780,
+          "endMs": 231300
+        },
+        {
+          "word": "seven'",
+          "startMs": 231810,
+          "endMs": 232050
+        },
+        {
+          "word": "ile",
+          "startMs": 232050,
+          "endMs": 232630
+        },
+        {
+          "word": "yedi",
+          "startMs": 232930,
+          "endMs": 233360
+        },
+        {
+          "word": "buçukta",
+          "startMs": 233360,
+          "endMs": 233910
+        },
+        {
+          "word": "kahvaltını",
+          "startMs": 233910,
+          "endMs": 234690
+        },
+        {
+          "word": "yaparsın.",
+          "startMs": 234820,
+          "endMs": 235850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 236500,
+      "endMs": 242860,
+      "pauseAfterMs": 650,
+      "text": "Saat sekiz olduğunda 'I go to school at eight o'clock' diyerek yola çıkarsın.",
+      "markedText": "Saat sekiz olduğunda 'I go to school at eight o'clock' diyerek yola çıkarsın.",
+      "words": [
+        {
+          "word": "Saat",
+          "startMs": 236500,
+          "endMs": 237000
+        },
+        {
+          "word": "sekiz",
+          "startMs": 237320,
+          "endMs": 237550
+        },
+        {
+          "word": "olduğunda",
+          "startMs": 237550,
+          "endMs": 238100
+        },
+        {
+          "word": "'I",
+          "startMs": 238330,
+          "endMs": 238450
+        },
+        {
+          "word": "go",
+          "startMs": 238450,
+          "endMs": 238660
+        },
+        {
+          "word": "to",
+          "startMs": 238770,
+          "endMs": 238880
+        },
+        {
+          "word": "school",
+          "startMs": 239030,
+          "endMs": 239380
+        },
+        {
+          "word": "at",
+          "startMs": 239450,
+          "endMs": 239560
+        },
+        {
+          "word": "eight",
+          "startMs": 239940,
+          "endMs": 240150
+        },
+        {
+          "word": "o'clock'",
+          "startMs": 240300,
+          "endMs": 240700
+        },
+        {
+          "word": "diyerek",
+          "startMs": 240700,
+          "endMs": 241270
+        },
+        {
+          "word": "yola",
+          "startMs": 241270,
+          "endMs": 241480
+        },
+        {
+          "word": "çıkarsın.",
+          "startMs": 241530,
+          "endMs": 242210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 242860,
+      "endMs": 259620,
+      "pauseAfterMs": 680,
+      "text": "Akşam vakti geldiğinde 'I do my homework at five o'clock' ile ödevlerini tamamlarsın; gece olunca da 'I go to bed at quarter to ten' diyerek ona çeyrek kala yatağına geçersin.",
+      "markedText": "Akşam vakti geldiğinde 'I do my homework at five o'clock' ile ödevlerini tamamlarsın; gece olunca da 'I go to bed at quarter to ten' diyerek ona çeyrek kala yatağına geçersin.",
+      "words": [
+        {
+          "word": "Akşam",
+          "startMs": 242860,
+          "endMs": 243300
+        },
+        {
+          "word": "vakti",
+          "startMs": 243480,
+          "endMs": 243820
+        },
+        {
+          "word": "geldiğinde",
+          "startMs": 243870,
+          "endMs": 244620
+        },
+        {
+          "word": "'I",
+          "startMs": 244750,
+          "endMs": 244970
+        },
+        {
+          "word": "do",
+          "startMs": 245570,
+          "endMs": 245740
+        },
+        {
+          "word": "my",
+          "startMs": 245740,
+          "endMs": 245860
+        },
+        {
+          "word": "homework",
+          "startMs": 245860,
+          "endMs": 246530
+        },
+        {
+          "word": "at",
+          "startMs": 246570,
+          "endMs": 246740
+        },
+        {
+          "word": "five",
+          "startMs": 246780,
+          "endMs": 247170
+        },
+        {
+          "word": "o'clock'",
+          "startMs": 247170,
+          "endMs": 247710
+        },
+        {
+          "word": "ile",
+          "startMs": 248510,
+          "endMs": 248860
+        },
+        {
+          "word": "ödevlerini",
+          "startMs": 248960,
+          "endMs": 249970
+        },
+        {
+          "word": "tamamlarsın;",
+          "startMs": 250110,
+          "endMs": 251390
+        },
+        {
+          "word": "gece",
+          "startMs": 252040,
+          "endMs": 252630
+        },
+        {
+          "word": "olunca",
+          "startMs": 252930,
+          "endMs": 253280
+        },
+        {
+          "word": "da",
+          "startMs": 253420,
+          "endMs": 253490
+        },
+        {
+          "word": "'I",
+          "startMs": 253490,
+          "endMs": 253590
+        },
+        {
+          "word": "go",
+          "startMs": 253730,
+          "endMs": 253810
+        },
+        {
+          "word": "to",
+          "startMs": 253810,
+          "endMs": 253880
+        },
+        {
+          "word": "bed",
+          "startMs": 253940,
+          "endMs": 254010
+        },
+        {
+          "word": "at",
+          "startMs": 254010,
+          "endMs": 254060
+        },
+        {
+          "word": "quarter",
+          "startMs": 254220,
+          "endMs": 254570
+        },
+        {
+          "word": "to",
+          "startMs": 254660,
+          "endMs": 254810
+        },
+        {
+          "word": "ten'",
+          "startMs": 255000,
+          "endMs": 255170
+        },
+        {
+          "word": "diyerek",
+          "startMs": 255170,
+          "endMs": 255770
+        },
+        {
+          "word": "ona",
+          "startMs": 256040,
+          "endMs": 256360
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 256670,
+          "endMs": 257010
+        },
+        {
+          "word": "kala",
+          "startMs": 257120,
+          "endMs": 257380
+        },
+        {
+          "word": "yatağına",
+          "startMs": 257490,
+          "endMs": 258150
+        },
+        {
+          "word": "geçersin.",
+          "startMs": 258240,
+          "endMs": 258940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 259620,
+      "endMs": 270250,
+      "pauseAfterMs": 460,
+      "text": "Saati merak ettiğinde 'What time is it?' diye sorarsın; cevap da her zaman 'It is' ile başlar.",
+      "markedText": "Saati merak ettiğinde 'What time is it?' diye sorarsın; cevap da her zaman 'It is' ile başlar.",
+      "words": [
+        {
+          "word": "Saati",
+          "startMs": 259620,
+          "endMs": 260190
+        },
+        {
+          "word": "merak",
+          "startMs": 260510,
+          "endMs": 260890
+        },
+        {
+          "word": "ettiğinde",
+          "startMs": 261030,
+          "endMs": 261560
+        },
+        {
+          "word": "'What",
+          "startMs": 261660,
+          "endMs": 261860
+        },
+        {
+          "word": "time",
+          "startMs": 262180,
+          "endMs": 262420
+        },
+        {
+          "word": "is",
+          "startMs": 262460,
+          "endMs": 262660
+        },
+        {
+          "word": "it?'",
+          "startMs": 262780,
+          "endMs": 262860
+        },
+        {
+          "word": "diye",
+          "startMs": 262930,
+          "endMs": 263270
+        },
+        {
+          "word": "sorarsın;",
+          "startMs": 263350,
+          "endMs": 264080
+        },
+        {
+          "word": "cevap",
+          "startMs": 264980,
+          "endMs": 265410
+        },
+        {
+          "word": "da",
+          "startMs": 265630,
+          "endMs": 265750
+        },
+        {
+          "word": "her",
+          "startMs": 265860,
+          "endMs": 266440
+        },
+        {
+          "word": "zaman",
+          "startMs": 266870,
+          "endMs": 267380
+        },
+        {
+          "word": "'It",
+          "startMs": 267710,
+          "endMs": 267810
+        },
+        {
+          "word": "is'",
+          "startMs": 267940,
+          "endMs": 268070
+        },
+        {
+          "word": "ile",
+          "startMs": 268520,
+          "endMs": 268850
+        },
+        {
+          "word": "başlar.",
+          "startMs": 269240,
+          "endMs": 269790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 270250,
+      "endMs": 272380,
+      "pauseAfterMs": 460,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 270250,
+          "endMs": 270930
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 271290,
+          "endMs": 271920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 272380,
+      "endMs": 278130,
+      "pauseAfterMs": 850,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 272380,
+          "endMs": 272640
+        },
+        {
+          "word": "bir",
+          "startMs": 272780,
+          "endMs": 273020
+        },
+        {
+          "word": "kez",
+          "startMs": 273370,
+          "endMs": 273680
+        },
+        {
+          "word": "görünce",
+          "startMs": 273810,
+          "endMs": 274730
+        },
+        {
+          "word": "kolayca",
+          "startMs": 275320,
+          "endMs": 276100
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 276140,
+          "endMs": 277280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 278130,
+      "endMs": 285860,
+      "pauseAfterMs": 570,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 278130,
+          "endMs": 278700
+        },
+        {
+          "word": "sevgili",
+          "startMs": 278920,
+          "endMs": 279710
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 280220,
+          "endMs": 281600
+        },
+        {
+          "word": "işte",
+          "startMs": 282000,
+          "endMs": 282280
+        },
+        {
+          "word": "tam",
+          "startMs": 282460,
+          "endMs": 282600
+        },
+        {
+          "word": "bu",
+          "startMs": 282600,
+          "endMs": 282730
+        },
+        {
+          "word": "noktada",
+          "startMs": 282730,
+          "endMs": 283070
+        },
+        {
+          "word": "dikkat",
+          "startMs": 283230,
+          "endMs": 283550
+        },
+        {
+          "word": "etmen",
+          "startMs": 283550,
+          "endMs": 283780
+        },
+        {
+          "word": "gereken",
+          "startMs": 283910,
+          "endMs": 284460
+        },
+        {
+          "word": "kilit",
+          "startMs": 284460,
+          "endMs": 284710
+        },
+        {
+          "word": "nokta.",
+          "startMs": 284810,
+          "endMs": 285290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 285860,
+      "endMs": 290880,
+      "pauseAfterMs": 570,
+      "text": "Tam saatleri söylerken sonuna 'o'clock' eklemeyi hatırla.",
+      "markedText": "Tam saatleri söylerken sonuna 'o'clock' eklemeyi hatırla.",
+      "words": [
+        {
+          "word": "Tam",
+          "startMs": 285860,
+          "endMs": 285950
+        },
+        {
+          "word": "saatleri",
+          "startMs": 286000,
+          "endMs": 286640
+        },
+        {
+          "word": "söylerken",
+          "startMs": 286730,
+          "endMs": 287340
+        },
+        {
+          "word": "sonuna",
+          "startMs": 287390,
+          "endMs": 288030
+        },
+        {
+          "word": "'o'clock'",
+          "startMs": 288720,
+          "endMs": 289030
+        },
+        {
+          "word": "eklemeyi",
+          "startMs": 289130,
+          "endMs": 289650
+        },
+        {
+          "word": "hatırla.",
+          "startMs": 289770,
+          "endMs": 290310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 290880,
+      "endMs": 301010,
+      "pauseAfterMs": 410,
+      "text": "Örneğin saat tam yedi için 'It is seven o'clock' demek cümleni ışıl ışıl parlatır.",
+      "markedText": "Örneğin saat tam yedi için 'It is seven o'clock' demek cümleni ışıl ışıl parlatır.",
+      "words": [
+        {
+          "word": "Örneğin",
+          "startMs": 290880,
+          "endMs": 291990
+        },
+        {
+          "word": "saat",
+          "startMs": 292060,
+          "endMs": 292250
+        },
+        {
+          "word": "tam",
+          "startMs": 292370,
+          "endMs": 292640
+        },
+        {
+          "word": "yedi",
+          "startMs": 292860,
+          "endMs": 293270
+        },
+        {
+          "word": "için",
+          "startMs": 293270,
+          "endMs": 293830
+        },
+        {
+          "word": "'It",
+          "startMs": 294240,
+          "endMs": 294590
+        },
+        {
+          "word": "is",
+          "startMs": 294740,
+          "endMs": 295100
+        },
+        {
+          "word": "seven",
+          "startMs": 295340,
+          "endMs": 295980
+        },
+        {
+          "word": "o'clock'",
+          "startMs": 296070,
+          "endMs": 296580
+        },
+        {
+          "word": "demek",
+          "startMs": 297280,
+          "endMs": 297610
+        },
+        {
+          "word": "cümleni",
+          "startMs": 297780,
+          "endMs": 298380
+        },
+        {
+          "word": "ışıl",
+          "startMs": 298710,
+          "endMs": 299070
+        },
+        {
+          "word": "ışıl",
+          "startMs": 299360,
+          "endMs": 299740
+        },
+        {
+          "word": "parlatır.",
+          "startMs": 299980,
+          "endMs": 300600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 301010,
+      "endMs": 315550,
+      "pauseAfterMs": 620,
+      "text": "Yarım saatlerde 'half past', çeyrek geçelerde 'quarter past', çeyrek kalalarda ise 'quarter to' kalıbını güvenle kullanabilirsin.",
+      "markedText": "Yarım saatlerde 'half past', çeyrek geçelerde 'quarter past', çeyrek kalalarda ise 'quarter to' kalıbını güvenle kullanabilirsin.",
+      "words": [
+        {
+          "word": "Yarım",
+          "startMs": 301010,
+          "endMs": 301600
+        },
+        {
+          "word": "saatlerde",
+          "startMs": 301930,
+          "endMs": 302570
+        },
+        {
+          "word": "'half",
+          "startMs": 302720,
+          "endMs": 303010
+        },
+        {
+          "word": "past',",
+          "startMs": 303090,
+          "endMs": 303790
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 304590,
+          "endMs": 305340
+        },
+        {
+          "word": "geçelerde",
+          "startMs": 305640,
+          "endMs": 306180
+        },
+        {
+          "word": "'quarter",
+          "startMs": 306260,
+          "endMs": 306780
+        },
+        {
+          "word": "past',",
+          "startMs": 306960,
+          "endMs": 307080
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 307640,
+          "endMs": 308010
+        },
+        {
+          "word": "kalalarda",
+          "startMs": 308170,
+          "endMs": 309180
+        },
+        {
+          "word": "ise",
+          "startMs": 309700,
+          "endMs": 309890
+        },
+        {
+          "word": "'quarter",
+          "startMs": 309890,
+          "endMs": 310390
+        },
+        {
+          "word": "to'",
+          "startMs": 310490,
+          "endMs": 310790
+        },
+        {
+          "word": "kalıbını",
+          "startMs": 311030,
+          "endMs": 311890
+        },
+        {
+          "word": "güvenle",
+          "startMs": 312410,
+          "endMs": 313100
+        },
+        {
+          "word": "kullanabilirsin.",
+          "startMs": 313500,
+          "endMs": 314930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 315550,
+      "endMs": 346090,
+      "pauseAfterMs": 690,
+      "text": "Günlük bir eylemi saate bağlarken de saatin hemen önüne 'at' sözcüğünü koyduğun an cümlen tam bir usta cümlesi olur: 'I wake up at seven o'clock!' Daily routines ve saati söylemek konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Günlük bir eylemi saate bağlarken de saatin hemen önüne 'at' sözcüğünü koyduğun an cümlen tam bir usta cümlesi olur: 'I wake up at seven o'clock!' Daily routines ve saati söylemek konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Günlük",
+          "startMs": 315550,
+          "endMs": 316170
+        },
+        {
+          "word": "bir",
+          "startMs": 316310,
+          "endMs": 316540
+        },
+        {
+          "word": "eylemi",
+          "startMs": 316650,
+          "endMs": 317000
+        },
+        {
+          "word": "saate",
+          "startMs": 317120,
+          "endMs": 317340
+        },
+        {
+          "word": "bağlarken",
+          "startMs": 317340,
+          "endMs": 318000
+        },
+        {
+          "word": "de",
+          "startMs": 318000,
+          "endMs": 318400
+        },
+        {
+          "word": "saatin",
+          "startMs": 319120,
+          "endMs": 319600
+        },
+        {
+          "word": "hemen",
+          "startMs": 319650,
+          "endMs": 320220
+        },
+        {
+          "word": "önüne",
+          "startMs": 320220,
+          "endMs": 320880
+        },
+        {
+          "word": "'at'",
+          "startMs": 321170,
+          "endMs": 321280
+        },
+        {
+          "word": "sözcüğünü",
+          "startMs": 321360,
+          "endMs": 322150
+        },
+        {
+          "word": "koyduğun",
+          "startMs": 322330,
+          "endMs": 323520
+        },
+        {
+          "word": "an",
+          "startMs": 324220,
+          "endMs": 324290
+        },
+        {
+          "word": "cümlen",
+          "startMs": 324360,
+          "endMs": 324990
+        },
+        {
+          "word": "tam",
+          "startMs": 325270,
+          "endMs": 325470
+        },
+        {
+          "word": "bir",
+          "startMs": 326390,
+          "endMs": 326710
+        },
+        {
+          "word": "usta",
+          "startMs": 327030,
+          "endMs": 327160
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 327530,
+          "endMs": 328460
+        },
+        {
+          "word": "olur:",
+          "startMs": 328600,
+          "endMs": 329180
+        },
+        {
+          "word": "'I",
+          "startMs": 330220,
+          "endMs": 330300
+        },
+        {
+          "word": "wake",
+          "startMs": 330300,
+          "endMs": 330600
+        },
+        {
+          "word": "up",
+          "startMs": 330920,
+          "endMs": 331070
+        },
+        {
+          "word": "at",
+          "startMs": 331300,
+          "endMs": 331380
+        },
+        {
+          "word": "seven",
+          "startMs": 331380,
+          "endMs": 332000
+        },
+        {
+          "word": "o'clock!'",
+          "startMs": 332050,
+          "endMs": 332670
+        },
+        {
+          "word": "Daily",
+          "startMs": 333280,
+          "endMs": 333850
+        },
+        {
+          "word": "routines",
+          "startMs": 334200,
+          "endMs": 334720
+        },
+        {
+          "word": "ve",
+          "startMs": 334970,
+          "endMs": 335400
+        },
+        {
+          "word": "saati",
+          "startMs": 335950,
+          "endMs": 336360
+        },
+        {
+          "word": "söylemek",
+          "startMs": 336640,
+          "endMs": 337240
+        },
+        {
+          "word": "konusunda",
+          "startMs": 337940,
+          "endMs": 338640
+        },
+        {
+          "word": "kuralın",
+          "startMs": 338930,
+          "endMs": 339710
+        },
+        {
+          "word": "tersini",
+          "startMs": 340400,
+          "endMs": 341050
+        },
+        {
+          "word": "sanmak",
+          "startMs": 341460,
+          "endMs": 342230
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 342460,
+          "endMs": 343240
+        },
+        {
+          "word": "ters",
+          "startMs": 344200,
+          "endMs": 344410
+        },
+        {
+          "word": "cümle",
+          "startMs": 344450,
+          "endMs": 344710
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 344710,
+          "endMs": 345400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 346090,
+      "endMs": 349360,
+      "pauseAfterMs": 290,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 346090,
+          "endMs": 346840
+        },
+        {
+          "word": "Neler",
+          "startMs": 347190,
+          "endMs": 347700
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 348090,
+          "endMs": 349070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 349360,
+      "endMs": 349930,
+      "pauseAfterMs": 340,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 349360,
+          "endMs": 349590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 349930,
+      "endMs": 358090,
+      "pauseAfterMs": 970,
+      "text": "Daily routine, her gün düzenli yapılan iştir.",
+      "markedText": "Daily routine, her gün düzenli yapılan iştir.",
+      "words": [
+        {
+          "word": "Daily",
+          "startMs": 349930,
+          "endMs": 350280
+        },
+        {
+          "word": "routine,",
+          "startMs": 350440,
+          "endMs": 351780
+        },
+        {
+          "word": "her",
+          "startMs": 352680,
+          "endMs": 352860
+        },
+        {
+          "word": "gün",
+          "startMs": 353090,
+          "endMs": 353710
+        },
+        {
+          "word": "düzenli",
+          "startMs": 354670,
+          "endMs": 355430
+        },
+        {
+          "word": "yapılan",
+          "startMs": 355710,
+          "endMs": 356460
+        },
+        {
+          "word": "iştir.",
+          "startMs": 356460,
+          "endMs": 357120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 358090,
+      "endMs": 361830,
+      "pauseAfterMs": 720,
+      "text": "İşi at ile saate bağlarsın.",
+      "markedText": "İşi at ile saate bağlarsın.",
+      "words": [
+        {
+          "word": "İşi",
+          "startMs": 358090,
+          "endMs": 358520
+        },
+        {
+          "word": "at",
+          "startMs": 358870,
+          "endMs": 358990
+        },
+        {
+          "word": "ile",
+          "startMs": 359200,
+          "endMs": 359490
+        },
+        {
+          "word": "saate",
+          "startMs": 359880,
+          "endMs": 360110
+        },
+        {
+          "word": "bağlarsın.",
+          "startMs": 360230,
+          "endMs": 361110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 361830,
+      "endMs": 362730,
+      "pauseAfterMs": 330,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 361830,
+          "endMs": 362400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 362730,
+      "endMs": 373900,
+      "pauseAfterMs": 650,
+      "text": "Tam saat o'clock, yarım half past, çeyrek geçe quarter past, çeyrek kala quarter to ile söylenir.",
+      "markedText": "Tam saat o'clock, yarım half past, çeyrek geçe quarter past, çeyrek kala quarter to ile söylenir.",
+      "words": [
+        {
+          "word": "Tam",
+          "startMs": 362730,
+          "endMs": 363110
+        },
+        {
+          "word": "saat",
+          "startMs": 363260,
+          "endMs": 363450
+        },
+        {
+          "word": "o'clock,",
+          "startMs": 363610,
+          "endMs": 364020
+        },
+        {
+          "word": "yarım",
+          "startMs": 364250,
+          "endMs": 364600
+        },
+        {
+          "word": "half",
+          "startMs": 364680,
+          "endMs": 364810
+        },
+        {
+          "word": "past,",
+          "startMs": 365010,
+          "endMs": 365710
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 366150,
+          "endMs": 366820
+        },
+        {
+          "word": "geçe",
+          "startMs": 366940,
+          "endMs": 367190
+        },
+        {
+          "word": "quarter",
+          "startMs": 367300,
+          "endMs": 367970
+        },
+        {
+          "word": "past,",
+          "startMs": 368220,
+          "endMs": 368700
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 369520,
+          "endMs": 370250
+        },
+        {
+          "word": "kala",
+          "startMs": 371110,
+          "endMs": 371460
+        },
+        {
+          "word": "quarter",
+          "startMs": 371550,
+          "endMs": 371960
+        },
+        {
+          "word": "to",
+          "startMs": 372080,
+          "endMs": 372170
+        },
+        {
+          "word": "ile",
+          "startMs": 372360,
+          "endMs": 372630
+        },
+        {
+          "word": "söylenir.",
+          "startMs": 372670,
+          "endMs": 373250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 373900,
+      "endMs": 374500,
+      "pauseAfterMs": 300,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 373900,
+          "endMs": 374200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 374500,
+      "endMs": 384990,
+      "pauseAfterMs": 880,
+      "text": "What time is it sorusuna It is seven o'clock gibi berrak cümlelerle cevap verirsin.",
+      "markedText": "What time is it sorusuna It is seven o'clock gibi berrak cümlelerle cevap verirsin.",
+      "words": [
+        {
+          "word": "What",
+          "startMs": 374500,
+          "endMs": 374680
+        },
+        {
+          "word": "time",
+          "startMs": 375010,
+          "endMs": 375390
+        },
+        {
+          "word": "is",
+          "startMs": 375570,
+          "endMs": 375790
+        },
+        {
+          "word": "it",
+          "startMs": 375790,
+          "endMs": 376110
+        },
+        {
+          "word": "sorusuna",
+          "startMs": 376450,
+          "endMs": 377030
+        },
+        {
+          "word": "It",
+          "startMs": 377160,
+          "endMs": 377260
+        },
+        {
+          "word": "is",
+          "startMs": 377260,
+          "endMs": 377820
+        },
+        {
+          "word": "seven",
+          "startMs": 378500,
+          "endMs": 378970
+        },
+        {
+          "word": "o'clock",
+          "startMs": 379320,
+          "endMs": 379860
+        },
+        {
+          "word": "gibi",
+          "startMs": 380270,
+          "endMs": 380560
+        },
+        {
+          "word": "berrak",
+          "startMs": 380900,
+          "endMs": 381410
+        },
+        {
+          "word": "cümlelerle",
+          "startMs": 381750,
+          "endMs": 382780
+        },
+        {
+          "word": "cevap",
+          "startMs": 382830,
+          "endMs": 383020
+        },
+        {
+          "word": "verirsin.",
+          "startMs": 383020,
+          "endMs": 384110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 384990,
+      "endMs": 388260,
+      "pauseAfterMs": 610,
+      "text": "Günlük rutin, her gün tekrar eden iştir.",
+      "markedText": "Günlük rutin, her gün tekrar eden iştir.",
+      "words": [
+        {
+          "word": "Günlük",
+          "startMs": 384990,
+          "endMs": 385300
+        },
+        {
+          "word": "rutin,",
+          "startMs": 385630,
+          "endMs": 385780
+        },
+        {
+          "word": "her",
+          "startMs": 386110,
+          "endMs": 386220
+        },
+        {
+          "word": "gün",
+          "startMs": 386220,
+          "endMs": 386340
+        },
+        {
+          "word": "tekrar",
+          "startMs": 386380,
+          "endMs": 386720
+        },
+        {
+          "word": "eden",
+          "startMs": 386810,
+          "endMs": 387010
+        },
+        {
+          "word": "iştir.",
+          "startMs": 387010,
+          "endMs": 387650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 388260,
+      "endMs": 390260,
+      "pauseAfterMs": 500,
+      "text": "Her iş bir saate bağlanır.",
+      "markedText": "Her iş bir saate bağlanır.",
+      "words": [
+        {
+          "word": "Her",
+          "startMs": 388260,
+          "endMs": 388460
+        },
+        {
+          "word": "iş",
+          "startMs": 388520,
+          "endMs": 388680
+        },
+        {
+          "word": "bir",
+          "startMs": 388770,
+          "endMs": 388850
+        },
+        {
+          "word": "saate",
+          "startMs": 388850,
+          "endMs": 389100
+        },
+        {
+          "word": "bağlanır.",
+          "startMs": 389160,
+          "endMs": 389760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 390260,
+      "endMs": 396250,
+      "pauseAfterMs": 570,
+      "text": "Kendi gününü saatle birlikte İngilizce söylersin.",
+      "markedText": "Kendi gününü saatle birlikte İngilizce söylersin.",
+      "words": [
+        {
+          "word": "Kendi",
+          "startMs": 390260,
+          "endMs": 390530
+        },
+        {
+          "word": "gününü",
+          "startMs": 390750,
+          "endMs": 391090
+        },
+        {
+          "word": "saatle",
+          "startMs": 391130,
+          "endMs": 392120
+        },
+        {
+          "word": "birlikte",
+          "startMs": 393040,
+          "endMs": 393810
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 394170,
+          "endMs": 394760
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 394850,
+          "endMs": 395680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 396250,
+      "endMs": 398650,
+      "pauseAfterMs": 690,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 396250,
+          "endMs": 396720
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 396860,
+          "endMs": 397960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 398650,
+      "endMs": 401360,
+      "pauseAfterMs": 750,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 398650,
+          "endMs": 399290
+        },
+        {
+          "word": "bir",
+          "startMs": 399570,
+          "endMs": 399660
+        },
+        {
+          "word": "iş",
+          "startMs": 399720,
+          "endMs": 399910
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 399910,
+          "endMs": 400610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 401360,
+      "endMs": 404980,
+      "pauseAfterMs": 750,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 401360,
+          "endMs": 402000
+        },
+        {
+          "word": "sıra",
+          "startMs": 402200,
+          "endMs": 402720
+        },
+        {
+          "word": "sende.",
+          "startMs": 402950,
+          "endMs": 404230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-3",
+      "startMs": 404980,
+      "endMs": 411511,
+      "pauseAfterMs": 331,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 404980,
+          "endMs": 405700
+        },
+        {
+          "word": "bu",
+          "startMs": 406500,
+          "endMs": 406690
+        },
+        {
+          "word": "notları",
+          "startMs": 406830,
+          "endMs": 407400
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 408090,
+          "endMs": 408770
+        },
+        {
+          "word": "kendi",
+          "startMs": 409400,
+          "endMs": 409610
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 409980,
+          "endMs": 410470
+        },
+        {
+          "word": "anlat.",
+          "startMs": 410570,
+          "endMs": 411180
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

@@ -14,6 +14,59 @@ export const PAYTR_IFRAME_RESIZER_SRC = `${PAYTR_IFRAME_ORIGIN}/js/iframeResizer
  */
 export const PAYTR_IFRAME_ALLOW = "payment *; publickey-credentials-get *";
 
+export const PAYTR_RETURN_MESSAGE_TYPE = "yetkin:paytr-return" as const;
+export const PAYTR_RETURN_PATHS = ["/cuzdan", "/kasa/donus"] as const;
+
+export type PaytrReturnMessagePayload = {
+  type: typeof PAYTR_RETURN_MESSAGE_TYPE;
+  pathname: string;
+  search?: string;
+  ok?: boolean;
+};
+
+export function isPaytrMerchantReturnPathname(pathname: string): boolean {
+  const normalized = pathname.trim().replace(/\/+$/, "") || "/";
+  return (PAYTR_RETURN_PATHS as readonly string[]).some(
+    (prefix) => normalized === prefix || normalized.startsWith(`${prefix}/`),
+  );
+}
+
+export function isPaytrReturnMessage(data: unknown): data is PaytrReturnMessagePayload {
+  if (!data || typeof data !== "object") {
+    return false;
+  }
+  const candidate = data as Record<string, unknown>;
+  if (candidate.type !== PAYTR_RETURN_MESSAGE_TYPE) {
+    return false;
+  }
+  return typeof candidate.pathname === "string" && isPaytrMerchantReturnPathname(candidate.pathname);
+}
+
+/**
+ * `/cuzdan` veya `/kasa/donus` sayfası PayTR iFrame içinde açıldığında
+ * üst pencereye (`window.parent`) otomatik kapanma/lisans tetikleme sinyali gönderir.
+ */
+export function emitPaytrIframeReturnIfEmbedded(ok = true): boolean {
+  if (typeof window === "undefined") {
+    return false;
+  }
+  try {
+    if (!window.parent || window.parent === window) {
+      return false;
+    }
+    const payload: PaytrReturnMessagePayload = {
+      type: PAYTR_RETURN_MESSAGE_TYPE,
+      pathname: window.location.pathname,
+      search: window.location.search,
+      ok,
+    };
+    window.parent.postMessage(payload, window.location.origin);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 function isPaytrIframeHost(hostname: string): boolean {
   const host = hostname.toLowerCase();
   return host === "www.paytr.com" || host.endsWith(".paytr.com");

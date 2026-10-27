@@ -4,6 +4,8 @@
  * soru bankası puanı ve rozet eşiğini tek kayıtta tutar.
  */
 
+import { migrateJuniorLessonStores } from "@/lib/junior/lesson-key-alias";
+
 export const JUNIOR_LESSON_PROGRESS_EVENT = "yetkin.junior.lesson-progress" as const;
 export const JUNIOR_BADGE_UNLOCK_THRESHOLD = 3 as const;
 
@@ -29,6 +31,10 @@ export type JuniorLessonProgress = {
   badgeUnlocked: boolean;
   /** Rozet popup'ı bir kez gösterildi. */
   badgeCelebrated: boolean;
+  /** Pilot ders 1 defalık ücretsiz Dinle ve Anlat deneme hakkı kullanıldı mı? */
+  trialTellUsed?: boolean;
+  /** Pilot ders 1 defalık ücretsiz Konu Kontrolü (Test) deneme hakkı kullanıldı mı? */
+  trialQuizUsed?: boolean;
 };
 
 export type JuniorLessonProgressEventDetail = {
@@ -49,6 +55,8 @@ const EMPTY: JuniorLessonProgress = {
   quizScore: null,
   badgeUnlocked: false,
   badgeCelebrated: false,
+  trialTellUsed: false,
+  trialQuizUsed: false,
 };
 
 const GAME_IDS = new Set<string>([
@@ -71,15 +79,61 @@ export function juniorLessonProgressStorageKey(profileId: string, lessonKey: str
   return `yetkin.junior.lesson-progress.v1:${profile}:${lesson}`;
 }
 
-function storageOrNull(): Pick<Storage, "getItem" | "setItem"> | null {
+function windowStorage(kind: "local" | "session"): Pick<Storage, "getItem" | "setItem"> | null {
   if (typeof window === "undefined") {
     return null;
   }
   try {
-    return window.localStorage;
+    return kind === "session" ? window.sessionStorage : window.localStorage;
   } catch {
     return null;
   }
+}
+
+/** Profil varsa kalıcı iz. Misafir sayaçları oturumda durur; eski anonim iz yeni oturumu şişirmez. */
+function scoreStorage(profileId: string): Pick<Storage, "getItem" | "setItem"> | null {
+  return windowStorage(profileId.trim() ? "local" : "session");
+}
+
+function durableTrialStorage(): Pick<Storage, "getItem" | "setItem"> | null {
+  return windowStorage("local");
+}
+
+function isGuestSessionStore(
+  profileId: string,
+  storage: Pick<Storage, "getItem" | "setItem"> | null,
+): boolean {
+  return !profileId.trim() && storage != null && storage === windowStorage("session");
+}
+
+/**
+ * Misafir sayaçları oturum kaydındandır. «Bir kez» deneme kilidi kalıcı kayıttadır.
+ * Eski anonim oyunun puanı yeni oturuma taşınmaz.
+ */
+export function guestSessionProgress(
+  sessionRecord: JuniorLessonProgress,
+  durableRecord: JuniorLessonProgress,
+): JuniorLessonProgress {
+  const completedGames = sessionRecord.completedGames;
+  const badgeUnlocked = completedGames.length >= JUNIOR_BADGE_UNLOCK_THRESHOLD;
+  return {
+    completedGames,
+    activityScore: sessionRecord.activityScore,
+    quizScore: sessionRecord.quizScore,
+    badgeUnlocked,
+    badgeCelebrated: badgeUnlocked && sessionRecord.badgeCelebrated,
+    trialTellUsed: Boolean(sessionRecord.trialTellUsed || durableRecord.trialTellUsed),
+    trialQuizUsed: Boolean(sessionRecord.trialQuizUsed || durableRecord.trialQuizUsed),
+  };
+}
+
+function guestDurableTrialRecord(progress: JuniorLessonProgress): JuniorLessonProgress {
+  return {
+    ...EMPTY,
+    completedGames: [],
+    trialTellUsed: Boolean(progress.trialTellUsed),
+    trialQuizUsed: Boolean(progress.trialQuizUsed),
+  };
 }
 
 function clampPercent(value: number | null | undefined): number | null {
@@ -106,6 +160,8 @@ function parseProgress(raw: string | null): JuniorLessonProgress {
       quizScore: clampPercent(value.quizScore),
       badgeUnlocked,
       badgeCelebrated: Boolean(value.badgeCelebrated),
+      trialTellUsed: Boolean(value.trialTellUsed),
+      trialQuizUsed: Boolean(value.trialQuizUsed),
     };
   } catch {
     return { ...EMPTY, completedGames: [] };
@@ -133,35 +189,61 @@ function persist(
   lessonKey: string,
   progress: JuniorLessonProgress,
   justUnlockedBadge: boolean,
-  storage: Pick<Storage, "setItem"> | null,
+  storage: Pick<Storage, "getItem" | "setItem"> | null,
 ): JuniorLessonProgress {
+  migrateJuniorLessonStores(storage);
+  migrateJuniorLessonStores(durableTrialStorage());
+  const key = juniorLessonProgressStorageKey(profileId, lessonKey);
+  let next = progress;
+  if (isGuestSessionStore(profileId, storage)) {
+    const durable = durableTrialStorage();
+    const previous = durable ? parseProgress(durable.getItem(key)) : { ...EMPTY, completedGames: [] };
+    next = guestSessionProgress(progress, previous);
+    if (durable) {
+      try {
+        durable.setItem(key, JSON.stringify(guestDurableTrialRecord(next)));
+      } catch {
+        /* gizli pencere veya dolu disk izi düşürmez */
+      }
+    }
+  }
   if (storage) {
     try {
-      storage.setItem(juniorLessonProgressStorageKey(profileId, lessonKey), JSON.stringify(progress));
+      storage.setItem(key, JSON.stringify(next));
     } catch {
       /* gizli pencere veya dolu disk izi düşürmez */
     }
   }
-  emitProgress(profileId, lessonKey, progress, justUnlockedBadge);
-  return progress;
+  emitProgress(profileId, lessonKey, next, justUnlockedBadge);
+  return next;
 }
 
 export function readLessonProgress(
   profileId: string,
   lessonKey: string,
-  storage: Pick<Storage, "getItem"> | null = storageOrNull(),
+  storage: Pick<Storage, "getItem" | "setItem"> | null = scoreStorage(profileId),
 ): JuniorLessonProgress {
+  migrateJuniorLessonStores(storage);
+  migrateJuniorLessonStores(durableTrialStorage());
   if (!storage) {
     return { ...EMPTY, completedGames: [] };
   }
-  return parseProgress(storage.getItem(juniorLessonProgressStorageKey(profileId, lessonKey)));
+  const parsed = parseProgress(storage.getItem(juniorLessonProgressStorageKey(profileId, lessonKey)));
+  if (!isGuestSessionStore(profileId, storage)) {
+    return parsed;
+  }
+  const durable = durableTrialStorage();
+  const trials = durable
+    ? parseProgress(durable.getItem(juniorLessonProgressStorageKey(profileId, lessonKey)))
+    : { ...EMPTY, completedGames: [] };
+  return guestSessionProgress(parsed, trials);
 }
 
 export function writeLessonProgress(
   profileId: string,
   lessonKey: string,
   progress: JuniorLessonProgress,
-  storage: Pick<Storage, "setItem"> | null = storageOrNull(),
+  storage: Pick<Storage, "getItem" | "setItem"> | null = scoreStorage(profileId),
 ): JuniorLessonProgress {
   return persist(profileId, lessonKey, progress, false, storage);
 }
@@ -191,7 +273,7 @@ export function markGameComplete(
   profileId: string,
   lessonKey: string,
   gameId: JuniorProgressGameId,
-  storage: Pick<Storage, "getItem" | "setItem"> | null = storageOrNull(),
+  storage: Pick<Storage, "getItem" | "setItem"> | null = scoreStorage(profileId),
 ): MarkGameCompleteResult {
   const current = readLessonProgress(profileId, lessonKey, storage);
   const result = mergeGameComplete(current, gameId);
@@ -209,7 +291,7 @@ export function recordActivityScore(
   profileId: string,
   lessonKey: string,
   score: number,
-  storage: Pick<Storage, "getItem" | "setItem"> | null = storageOrNull(),
+  storage: Pick<Storage, "getItem" | "setItem"> | null = scoreStorage(profileId),
 ): JuniorLessonProgress {
   const current = readLessonProgress(profileId, lessonKey, storage);
   const activityScore = clampPercent(score);
@@ -223,7 +305,7 @@ export function recordQuizScore(
   profileId: string,
   lessonKey: string,
   score: number,
-  storage: Pick<Storage, "getItem" | "setItem"> | null = storageOrNull(),
+  storage: Pick<Storage, "getItem" | "setItem"> | null = scoreStorage(profileId),
 ): JuniorLessonProgress {
   const current = readLessonProgress(profileId, lessonKey, storage);
   const quizScore = clampPercent(score);
@@ -236,13 +318,58 @@ export function recordQuizScore(
 export function markBadgeCelebrated(
   profileId: string,
   lessonKey: string,
-  storage: Pick<Storage, "getItem" | "setItem"> | null = storageOrNull(),
+  storage: Pick<Storage, "getItem" | "setItem"> | null = scoreStorage(profileId),
 ): JuniorLessonProgress {
   const current = readLessonProgress(profileId, lessonKey, storage);
   if (current.badgeCelebrated) {
     return current;
   }
   return persist(profileId, lessonKey, { ...current, badgeCelebrated: true }, false, storage);
+}
+
+export function hasUsedJuniorTrialTell(
+  profileId: string,
+  lessonKey: string,
+  storage: Pick<Storage, "getItem" | "setItem"> | null = scoreStorage(profileId),
+): boolean {
+  return Boolean(readLessonProgress(profileId, lessonKey, storage).trialTellUsed);
+}
+
+export function markJuniorTrialTellUsed(
+  profileId: string,
+  lessonKey: string,
+   storage: Pick<Storage, "getItem" | "setItem"> | null = scoreStorage(profileId),
+): JuniorLessonProgress {
+  const current = readLessonProgress(profileId, lessonKey, storage);
+  if (current.trialTellUsed) {
+    return current;
+  }
+  return persist(profileId, lessonKey, { ...current, trialTellUsed: true }, false, storage);
+}
+
+export function hasUsedJuniorTrialQuiz(
+  profileId: string,
+  lessonKey: string,
+  storage: Pick<Storage, "getItem" | "setItem"> | null = scoreStorage(profileId),
+): boolean {
+  return Boolean(readLessonProgress(profileId, lessonKey, storage).trialQuizUsed);
+}
+
+export function markJuniorTrialQuizUsed(
+  profileId: string,
+  lessonKey: string,
+  score: number,
+  storage: Pick<Storage, "getItem" | "setItem"> | null = scoreStorage(profileId),
+): JuniorLessonProgress {
+  const current = readLessonProgress(profileId, lessonKey, storage);
+  const quizScore = clampPercent(score) ?? current.quizScore;
+  return persist(
+    profileId,
+    lessonKey,
+    { ...current, quizScore, trialQuizUsed: true },
+    false,
+    storage,
+  );
 }
 
 /** Rozet eşiğine giden tamamlanan oyun sayısı (üst sınır threshold). */

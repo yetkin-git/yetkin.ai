@@ -7,6 +7,8 @@ const ICON_MAP: Record<string, string> = {
   puzzle: "🧩",
   search: "🔎",
   plus: "➕",
+  columns: "🔢",
+  link: "🤝",
 };
 
 export function SummaryPromptStage(props: { state: SceneGraphState }): ReactElement {
@@ -18,7 +20,7 @@ export function SummaryPromptStage(props: { state: SceneGraphState }): ReactElem
           {
             icon: "puzzle",
             title: "Çarpan & Kat",
-            body: "Çarpan böler (1,2,3,6) · Kat büyütür (6,12,18,24)",
+            body: "Çarpan ≤ sayı · Kat ≥ sayı",
           },
           {
             icon: "search",
@@ -26,15 +28,25 @@ export function SummaryPromptStage(props: { state: SceneGraphState }): ReactElem
             body: "2: Çift · 5: 0 veya 5 · 10: Sonu 0",
           },
           {
+            icon: "columns",
+            title: "Son İki Basamak (4)",
+            body: "100 ÷ 4 = 25 olduğu için son iki basamak yeter.",
+          },
+          {
             icon: "plus",
             title: "Rakam Toplamı (3 ve 9)",
             body: "Rakamları topla → 3'ün veya 9'un katı mı?",
+          },
+          {
+            icon: "link",
+            title: "Çifte Koşul (6)",
+            body: "Hem 2'ye hem 3'e aynı anda.",
           },
         ];
 
   return (
     <div className="relative flex h-full min-h-0 w-full flex-col overflow-hidden p-3 sm:p-4">
-      <div className="grid min-h-0 flex-1 grid-cols-3 grid-rows-1 items-stretch gap-2">
+      <div className="grid min-h-0 flex-1 auto-rows-fr grid-cols-2 items-stretch gap-2 sm:grid-cols-3">
         {cards.map((card, idx) => (
           <div
             key={card.title}
@@ -66,11 +78,11 @@ export function SummaryPromptStage(props: { state: SceneGraphState }): ReactElem
           </span>
           <div>
             <div className="text-[11px] font-black uppercase tracking-wider text-amber-300">
-              Sıra Sende · Dedektif Görevi
+              Sıra Sende
             </div>
             <div className="text-xs font-extrabold text-white sm:text-sm">
               {state.echoPrompt ??
-                "24 ve 30 sayılarının hangi kurallara uyduğunu kendi cümlenle anlat!"}
+                "24 ve 30 ile 116 sayılarının hangi kurallara uyduğunu kendi cümlenle anlat!"}
             </div>
           </div>
         </div>

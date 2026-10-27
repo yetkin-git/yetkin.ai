@@ -109,12 +109,14 @@ export function breadcrumbsFromPathname(pathname: string | null | undefined): Br
   }
 
   const roomCrumb: BreadcrumbCrumb = { href: surface.href, label: surface.label };
+  const rooted = (tail: BreadcrumbCrumb[]): BreadcrumbCrumb[] =>
+    surface.id === "junior" ? [roomCrumb, ...tail] : [HOME, roomCrumb, ...tail];
   if (path === surface.href) {
-    return [HOME, roomCrumb];
+    return rooted([]);
   }
 
   const remaining = path.slice(surface.href.length).replace(/^\//, "");
-  return [HOME, roomCrumb, ...walkRemaining(surface.href, remaining, surface.id)];
+  return rooted(walkRemaining(surface.href, remaining, surface.id));
 }
 
 export function applyBreadcrumbOverrides(
@@ -131,7 +133,7 @@ export function applyBreadcrumbOverrides(
   });
 }
 
-/** `/junior/ders/jr_06_sosyal-1` → Anasayfa / 6. Sınıf Sosyal Bilgiler / konu başlığı. */
+/** `/junior/ders/jr_06_sosyal-1` → 6. Sınıf Sosyal Bilgiler / konu başlığı. Anasayfa (/dashboard) eklenmez. */
 function juniorLessonBreadcrumbs(path: string): BreadcrumbCrumb[] | null {
   const match = /^\/junior\/ders\/([^/]+)$/.exec(path);
   const raw = match?.[1];
@@ -146,9 +148,9 @@ function juniorLessonBreadcrumbs(path: string): BreadcrumbCrumb[] | null {
   const lessonTitle = juniorLessonTitleByKey(lessonKey);
   const courseCrumb: BreadcrumbCrumb = { href: "/junior" as Route, label: courseTitle };
   if (!lessonTitle) {
-    return [HOME, { href: path as Route, label: courseTitle }];
+    return [{ href: path as Route, label: courseTitle }];
   }
-  return [HOME, courseCrumb, { href: path as Route, label: lessonTitle }];
+  return [courseCrumb, { href: path as Route, label: lessonTitle }];
 }
 
 function matchSurface(path: string): SurfaceMatch | null {

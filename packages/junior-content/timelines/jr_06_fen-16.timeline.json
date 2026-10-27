@@ -1,0 +1,2930 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_fen-16",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Denetleyici ve düzenleyici sistemler",
+  "grade": 6,
+  "subject": "Fen Bilimleri",
+  "teacher": {
+    "name": "Deniz",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_fen-16.mp3",
+    "durationMs": 412743,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 91190
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 91190,
+      "endMs": 344020
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 344020,
+      "endMs": 412743
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4970,
+      "pauseAfterMs": 910,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 290,
+          "endMs": 1140
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 1240,
+          "endMs": 1750
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 2040,
+          "endMs": 2660
+        },
+        {
+          "word": "hoş",
+          "startMs": 2660,
+          "endMs": 2840
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 3400,
+          "endMs": 4060
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Denetleyici ve düzenleyici sistemler",
+            "subtitle": "Fen Bilimleri",
+            "ruleBadges": [],
+            "echoPrompt": "Refleks ile hormonun hız farkını bir örnekle söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Sinir sistemi beyin, beyincik, omurilik soğanı ve omurilikten oluşur; haberleri çok hızlı taşır."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Refleks davranışlarını omurilik yönetir; beyin haberi hemen ardından alır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "İç salgı bezleri hormon üretip kana verir; etkileri daha yavaş başlar ve uzun sürer."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4970,
+      "endMs": 13470,
+      "pauseAfterMs": 760,
+      "text": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "markedText": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4970,
+          "endMs": 5270
+        },
+        {
+          "word": "Fen",
+          "startMs": 5390,
+          "endMs": 5870
+        },
+        {
+          "word": "Bilimleri",
+          "startMs": 8630,
+          "endMs": 9970
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 10400,
+          "endMs": 11950
+        },
+        {
+          "word": "Deniz.",
+          "startMs": 12110,
+          "endMs": 12710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 13470,
+      "endMs": 28160,
+      "pauseAfterMs": 510,
+      "text": "Hiç mutfakta elin kazara çok sıcak bir çaydanlığa değdiğinde, sen daha ne olduğunu anlamadan elini şimşek hızıyla geri çektiğin oldu mu?",
+      "markedText": "Hiç mutfakta elin kazara çok sıcak bir çaydanlığa değdiğinde, sen daha ne olduğunu anlamadan elini şimşek hızıyla geri çektiğin oldu mu?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 13470,
+          "endMs": 13590
+        },
+        {
+          "word": "mutfakta",
+          "startMs": 13690,
+          "endMs": 14690
+        },
+        {
+          "word": "elin",
+          "startMs": 14980,
+          "endMs": 15070
+        },
+        {
+          "word": "kazara",
+          "startMs": 15590,
+          "endMs": 15990
+        },
+        {
+          "word": "çok",
+          "startMs": 16080,
+          "endMs": 16340
+        },
+        {
+          "word": "sıcak",
+          "startMs": 16390,
+          "endMs": 17000
+        },
+        {
+          "word": "bir",
+          "startMs": 17690,
+          "endMs": 17810
+        },
+        {
+          "word": "çaydanlığa",
+          "startMs": 17810,
+          "endMs": 18440
+        },
+        {
+          "word": "değdiğinde,",
+          "startMs": 18660,
+          "endMs": 19300
+        },
+        {
+          "word": "sen",
+          "startMs": 19760,
+          "endMs": 20050
+        },
+        {
+          "word": "daha",
+          "startMs": 20150,
+          "endMs": 20470
+        },
+        {
+          "word": "ne",
+          "startMs": 20830,
+          "endMs": 21020
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 21020,
+          "endMs": 21640
+        },
+        {
+          "word": "anlamadan",
+          "startMs": 21790,
+          "endMs": 22410
+        },
+        {
+          "word": "elini",
+          "startMs": 22410,
+          "endMs": 22890
+        },
+        {
+          "word": "şimşek",
+          "startMs": 24220,
+          "endMs": 24640
+        },
+        {
+          "word": "hızıyla",
+          "startMs": 24780,
+          "endMs": 25000
+        },
+        {
+          "word": "geri",
+          "startMs": 25290,
+          "endMs": 25780
+        },
+        {
+          "word": "çektiğin",
+          "startMs": 25920,
+          "endMs": 26380
+        },
+        {
+          "word": "oldu",
+          "startMs": 26380,
+          "endMs": 26730
+        },
+        {
+          "word": "mu?",
+          "startMs": 26850,
+          "endMs": 27650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 28160,
+      "endMs": 34160,
+      "pauseAfterMs": 610,
+      "text": "O inanılmaz hız, bir oturup düşünme kararı değildir",
+      "markedText": "O inanılmaz hız, bir oturup düşünme kararı değildir",
+      "words": [
+        {
+          "word": "O",
+          "startMs": 28160,
+          "endMs": 28260
+        },
+        {
+          "word": "inanılmaz",
+          "startMs": 28570,
+          "endMs": 29110
+        },
+        {
+          "word": "hız,",
+          "startMs": 29210,
+          "endMs": 29370
+        },
+        {
+          "word": "bir",
+          "startMs": 29660,
+          "endMs": 30070
+        },
+        {
+          "word": "oturup",
+          "startMs": 30340,
+          "endMs": 30860
+        },
+        {
+          "word": "düşünme",
+          "startMs": 31410,
+          "endMs": 32010
+        },
+        {
+          "word": "kararı",
+          "startMs": 32370,
+          "endMs": 32830
+        },
+        {
+          "word": "değildir",
+          "startMs": 32920,
+          "endMs": 33550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 34160,
+      "endMs": 52070,
+      "pauseAfterMs": 260,
+      "text": "Bedenimizin usta orkestra şefleri olan denetleyici ve düzenleyici sistemlerimizi; yani sinir sistemimiz ile hormonlarımızı yakından tanıyacağız.",
+      "markedText": "Bedenimizin usta orkestra şefleri olan denetleyici ve düzenleyici sistemlerimizi; yani sinir sistemimiz ile hormonlarımızı yakından tanıyacağız.",
+      "words": [
+        {
+          "word": "Bedenimizin",
+          "startMs": 34160,
+          "endMs": 34950
+        },
+        {
+          "word": "usta",
+          "startMs": 35370,
+          "endMs": 35670
+        },
+        {
+          "word": "orkestra",
+          "startMs": 37470,
+          "endMs": 38140
+        },
+        {
+          "word": "şefleri",
+          "startMs": 38410,
+          "endMs": 38700
+        },
+        {
+          "word": "olan",
+          "startMs": 38800,
+          "endMs": 39510
+        },
+        {
+          "word": "denetleyici",
+          "startMs": 40010,
+          "endMs": 40780
+        },
+        {
+          "word": "ve",
+          "startMs": 41040,
+          "endMs": 41130
+        },
+        {
+          "word": "düzenleyici",
+          "startMs": 41240,
+          "endMs": 42290
+        },
+        {
+          "word": "sistemlerimizi;",
+          "startMs": 43050,
+          "endMs": 44360
+        },
+        {
+          "word": "yani",
+          "startMs": 44580,
+          "endMs": 45070
+        },
+        {
+          "word": "sinir",
+          "startMs": 45370,
+          "endMs": 45760
+        },
+        {
+          "word": "sistemimiz",
+          "startMs": 45940,
+          "endMs": 46500
+        },
+        {
+          "word": "ile",
+          "startMs": 46600,
+          "endMs": 47670
+        },
+        {
+          "word": "hormonlarımızı",
+          "startMs": 48400,
+          "endMs": 49220
+        },
+        {
+          "word": "yakından",
+          "startMs": 49370,
+          "endMs": 50260
+        },
+        {
+          "word": "tanıyacağız.",
+          "startMs": 50700,
+          "endMs": 51810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 52070,
+      "endMs": 60950,
+      "pauseAfterMs": 710,
+      "text": "Bunu bisiklet sürerken ya da ip atlarken çok açık şekilde yaşarsın.",
+      "markedText": "Bunu bisiklet sürerken ya da ip atlarken çok açık şekilde yaşarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 52070,
+          "endMs": 52430
+        },
+        {
+          "word": "bisiklet",
+          "startMs": 52560,
+          "endMs": 53420
+        },
+        {
+          "word": "sürerken",
+          "startMs": 53790,
+          "endMs": 54420
+        },
+        {
+          "word": "ya",
+          "startMs": 54580,
+          "endMs": 55280
+        },
+        {
+          "word": "da",
+          "startMs": 56200,
+          "endMs": 56380
+        },
+        {
+          "word": "ip",
+          "startMs": 56380,
+          "endMs": 56580
+        },
+        {
+          "word": "atlarken",
+          "startMs": 56770,
+          "endMs": 57370
+        },
+        {
+          "word": "çok",
+          "startMs": 57650,
+          "endMs": 57810
+        },
+        {
+          "word": "açık",
+          "startMs": 58000,
+          "endMs": 58260
+        },
+        {
+          "word": "şekilde",
+          "startMs": 58500,
+          "endMs": 59070
+        },
+        {
+          "word": "yaşarsın.",
+          "startMs": 59180,
+          "endMs": 60240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 60950,
+      "endMs": 66060,
+      "pauseAfterMs": 850,
+      "text": "Dengeni koruyan ve kaslarının uyumunu sağlayan beyinciğindir.",
+      "markedText": "Dengeni koruyan ve kaslarının uyumunu sağlayan beyinciğindir.",
+      "words": [
+        {
+          "word": "Dengeni",
+          "startMs": 60950,
+          "endMs": 61720
+        },
+        {
+          "word": "koruyan",
+          "startMs": 62000,
+          "endMs": 62400
+        },
+        {
+          "word": "ve",
+          "startMs": 62470,
+          "endMs": 62530
+        },
+        {
+          "word": "kaslarının",
+          "startMs": 62580,
+          "endMs": 63290
+        },
+        {
+          "word": "uyumunu",
+          "startMs": 63430,
+          "endMs": 63750
+        },
+        {
+          "word": "sağlayan",
+          "startMs": 63750,
+          "endMs": 64250
+        },
+        {
+          "word": "beyinciğindir.",
+          "startMs": 64320,
+          "endMs": 65210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 66060,
+      "endMs": 71510,
+      "pauseAfterMs": 640,
+      "text": "Gece zamanında uyumak büyüme hormonunun en verimli şekilde salgılanmasını sağlar.",
+      "markedText": "Gece zamanında uyumak büyüme hormonunun en verimli şekilde salgılanmasını sağlar.",
+      "words": [
+        {
+          "word": "Gece",
+          "startMs": 66060,
+          "endMs": 66130
+        },
+        {
+          "word": "zamanında",
+          "startMs": 66320,
+          "endMs": 66780
+        },
+        {
+          "word": "uyumak",
+          "startMs": 66780,
+          "endMs": 67110
+        },
+        {
+          "word": "büyüme",
+          "startMs": 67210,
+          "endMs": 67590
+        },
+        {
+          "word": "hormonunun",
+          "startMs": 67590,
+          "endMs": 68100
+        },
+        {
+          "word": "en",
+          "startMs": 68200,
+          "endMs": 68360
+        },
+        {
+          "word": "verimli",
+          "startMs": 68520,
+          "endMs": 68780
+        },
+        {
+          "word": "şekilde",
+          "startMs": 68780,
+          "endMs": 69250
+        },
+        {
+          "word": "salgılanmasını",
+          "startMs": 69570,
+          "endMs": 70250
+        },
+        {
+          "word": "sağlar.",
+          "startMs": 70360,
+          "endMs": 70870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 71510,
+      "endMs": 79210,
+      "pauseAfterMs": 810,
+      "text": "Çok fazla şekerli ve paketli gıdalar tüketmek ise pankreasını yorabilir.",
+      "markedText": "Çok fazla şekerli ve paketli gıdalar tüketmek ise pankreasını yorabilir.",
+      "words": [
+        {
+          "word": "Çok",
+          "startMs": 71510,
+          "endMs": 71600
+        },
+        {
+          "word": "fazla",
+          "startMs": 71660,
+          "endMs": 71920
+        },
+        {
+          "word": "şekerli",
+          "startMs": 72100,
+          "endMs": 73050
+        },
+        {
+          "word": "ve",
+          "startMs": 73340,
+          "endMs": 73430
+        },
+        {
+          "word": "paketli",
+          "startMs": 73430,
+          "endMs": 73970
+        },
+        {
+          "word": "gıdalar",
+          "startMs": 74140,
+          "endMs": 74900
+        },
+        {
+          "word": "tüketmek",
+          "startMs": 75190,
+          "endMs": 75690
+        },
+        {
+          "word": "ise",
+          "startMs": 75850,
+          "endMs": 75930
+        },
+        {
+          "word": "pankreasını",
+          "startMs": 76080,
+          "endMs": 77170
+        },
+        {
+          "word": "yorabilir.",
+          "startMs": 77370,
+          "endMs": 78400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 79210,
+      "endMs": 91190,
+      "pauseAfterMs": 1040,
+      "text": "Bedenimizin bu hassas düzenini korumak için düzenli uyku ve dengeli beslenmeyi asla ihmal etmemelisin.",
+      "markedText": "Bedenimizin bu hassas düzenini korumak için düzenli uyku ve dengeli beslenmeyi asla ihmal etmemelisin.",
+      "words": [
+        {
+          "word": "Bedenimizin",
+          "startMs": 79210,
+          "endMs": 80090
+        },
+        {
+          "word": "bu",
+          "startMs": 80440,
+          "endMs": 80690
+        },
+        {
+          "word": "hassas",
+          "startMs": 81310,
+          "endMs": 81600
+        },
+        {
+          "word": "düzenini",
+          "startMs": 81640,
+          "endMs": 81950
+        },
+        {
+          "word": "korumak",
+          "startMs": 82460,
+          "endMs": 82940
+        },
+        {
+          "word": "için",
+          "startMs": 82940,
+          "endMs": 83220
+        },
+        {
+          "word": "düzenli",
+          "startMs": 83350,
+          "endMs": 84570
+        },
+        {
+          "word": "uyku",
+          "startMs": 85030,
+          "endMs": 85240
+        },
+        {
+          "word": "ve",
+          "startMs": 85240,
+          "endMs": 85340
+        },
+        {
+          "word": "dengeli",
+          "startMs": 85340,
+          "endMs": 85680
+        },
+        {
+          "word": "beslenmeyi",
+          "startMs": 86010,
+          "endMs": 87360
+        },
+        {
+          "word": "asla",
+          "startMs": 87670,
+          "endMs": 88120
+        },
+        {
+          "word": "ihmal",
+          "startMs": 88260,
+          "endMs": 88550
+        },
+        {
+          "word": "etmemelisin.",
+          "startMs": 88690,
+          "endMs": 90150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 91190,
+      "endMs": 104130,
+      "pauseAfterMs": 830,
+      "text": "Vücudumuzdaki sistemlerin uyum içinde çalışmasını denetleyici ve düzenleyici sistemler sağlar.",
+      "markedText": "Vücudumuzdaki sistemlerin uyum içinde çalışmasını denetleyici ve düzenleyici sistemler sağlar.",
+      "words": [
+        {
+          "word": "Vücudumuzdaki",
+          "startMs": 91190,
+          "endMs": 92220
+        },
+        {
+          "word": "sistemlerin",
+          "startMs": 92270,
+          "endMs": 93440
+        },
+        {
+          "word": "uyum",
+          "startMs": 94520,
+          "endMs": 94910
+        },
+        {
+          "word": "içinde",
+          "startMs": 95050,
+          "endMs": 95440
+        },
+        {
+          "word": "çalışmasını",
+          "startMs": 95540,
+          "endMs": 96850
+        },
+        {
+          "word": "denetleyici",
+          "startMs": 98030,
+          "endMs": 99100
+        },
+        {
+          "word": "ve",
+          "startMs": 99330,
+          "endMs": 99480
+        },
+        {
+          "word": "düzenleyici",
+          "startMs": 99600,
+          "endMs": 100680
+        },
+        {
+          "word": "sistemler",
+          "startMs": 100980,
+          "endMs": 102200
+        },
+        {
+          "word": "sağlar.",
+          "startMs": 102280,
+          "endMs": 103300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 104130,
+      "endMs": 110870,
+      "pauseAfterMs": 640,
+      "text": "Bu sistem iki ana koldan oluşur: Sinir sistemi ve iç salgı bezleri.",
+      "markedText": "Bu sistem iki ana koldan oluşur: Sinir sistemi ve iç salgı bezleri.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 104130,
+          "endMs": 104280
+        },
+        {
+          "word": "sistem",
+          "startMs": 104280,
+          "endMs": 104470
+        },
+        {
+          "word": "iki",
+          "startMs": 104930,
+          "endMs": 105110
+        },
+        {
+          "word": "ana",
+          "startMs": 105260,
+          "endMs": 105530
+        },
+        {
+          "word": "koldan",
+          "startMs": 105620,
+          "endMs": 106140
+        },
+        {
+          "word": "oluşur:",
+          "startMs": 106230,
+          "endMs": 106530
+        },
+        {
+          "word": "Sinir",
+          "startMs": 106820,
+          "endMs": 107360
+        },
+        {
+          "word": "sistemi",
+          "startMs": 107660,
+          "endMs": 108290
+        },
+        {
+          "word": "ve",
+          "startMs": 108930,
+          "endMs": 109100
+        },
+        {
+          "word": "iç",
+          "startMs": 109100,
+          "endMs": 109220
+        },
+        {
+          "word": "salgı",
+          "startMs": 109310,
+          "endMs": 109590
+        },
+        {
+          "word": "bezleri.",
+          "startMs": 109630,
+          "endMs": 110230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 110870,
+      "endMs": 119310,
+      "pauseAfterMs": 950,
+      "text": "Sinir sistemi; beyin, beyincik, omurilik soğanı ve omurilikten oluşur.",
+      "markedText": "Sinir sistemi; beyin, beyincik, omurilik soğanı ve omurilikten oluşur.",
+      "words": [
+        {
+          "word": "Sinir",
+          "startMs": 110870,
+          "endMs": 111560
+        },
+        {
+          "word": "sistemi;",
+          "startMs": 111690,
+          "endMs": 112090
+        },
+        {
+          "word": "beyin,",
+          "startMs": 112230,
+          "endMs": 112570
+        },
+        {
+          "word": "beyincik,",
+          "startMs": 112960,
+          "endMs": 113910
+        },
+        {
+          "word": "omurilik",
+          "startMs": 114960,
+          "endMs": 115650
+        },
+        {
+          "word": "soğanı",
+          "startMs": 115720,
+          "endMs": 116230
+        },
+        {
+          "word": "ve",
+          "startMs": 116370,
+          "endMs": 116760
+        },
+        {
+          "word": "omurilikten",
+          "startMs": 117030,
+          "endMs": 117810
+        },
+        {
+          "word": "oluşur.",
+          "startMs": 117810,
+          "endMs": 118360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 119310,
+      "endMs": 132010,
+      "pauseAfterMs": 720,
+      "text": "Sinir hücreleri vücudumuza elektrik telleri gibi yayılır ve iletileri saniyenin küçük bir kesrinde çok hızlı taşır.",
+      "markedText": "Sinir hücreleri vücudumuza elektrik telleri gibi yayılır ve iletileri saniyenin küçük bir kesrinde çok hızlı taşır.",
+      "words": [
+        {
+          "word": "Sinir",
+          "startMs": 119310,
+          "endMs": 119810
+        },
+        {
+          "word": "hücreleri",
+          "startMs": 119810,
+          "endMs": 120390
+        },
+        {
+          "word": "vücudumuza",
+          "startMs": 120390,
+          "endMs": 121690
+        },
+        {
+          "word": "elektrik",
+          "startMs": 122380,
+          "endMs": 122920
+        },
+        {
+          "word": "telleri",
+          "startMs": 122990,
+          "endMs": 123450
+        },
+        {
+          "word": "gibi",
+          "startMs": 123740,
+          "endMs": 124260
+        },
+        {
+          "word": "yayılır",
+          "startMs": 124980,
+          "endMs": 125570
+        },
+        {
+          "word": "ve",
+          "startMs": 125670,
+          "endMs": 125850
+        },
+        {
+          "word": "iletileri",
+          "startMs": 125910,
+          "endMs": 126770
+        },
+        {
+          "word": "saniyenin",
+          "startMs": 126900,
+          "endMs": 127860
+        },
+        {
+          "word": "küçük",
+          "startMs": 127960,
+          "endMs": 128450
+        },
+        {
+          "word": "bir",
+          "startMs": 128800,
+          "endMs": 128900
+        },
+        {
+          "word": "kesrinde",
+          "startMs": 128990,
+          "endMs": 129510
+        },
+        {
+          "word": "çok",
+          "startMs": 129670,
+          "endMs": 130070
+        },
+        {
+          "word": "hızlı",
+          "startMs": 130220,
+          "endMs": 130590
+        },
+        {
+          "word": "taşır.",
+          "startMs": 130640,
+          "endMs": 131290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 132010,
+      "endMs": 141220,
+      "pauseAfterMs": 1120,
+      "text": "Beyin öğrenme, hafıza ve istemli hareketlerimizin merkezidir.",
+      "markedText": "Beyin öğrenme, hafıza ve istemli hareketlerimizin merkezidir.",
+      "words": [
+        {
+          "word": "Beyin",
+          "startMs": 132010,
+          "endMs": 132520
+        },
+        {
+          "word": "öğrenme,",
+          "startMs": 133160,
+          "endMs": 133760
+        },
+        {
+          "word": "hafıza",
+          "startMs": 133860,
+          "endMs": 134310
+        },
+        {
+          "word": "ve",
+          "startMs": 134490,
+          "endMs": 134560
+        },
+        {
+          "word": "istemli",
+          "startMs": 135030,
+          "endMs": 135370
+        },
+        {
+          "word": "hareketlerimizin",
+          "startMs": 135720,
+          "endMs": 138070
+        },
+        {
+          "word": "merkezidir.",
+          "startMs": 138540,
+          "endMs": 140100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 141220,
+      "endMs": 149010,
+      "pauseAfterMs": 640,
+      "text": "Omurilik ise istemsiz ve ani tepkilerimiz olan refleksleri yönetir.",
+      "markedText": "Omurilik ise istemsiz ve ani tepkilerimiz olan refleksleri yönetir.",
+      "words": [
+        {
+          "word": "Omurilik",
+          "startMs": 141220,
+          "endMs": 141750
+        },
+        {
+          "word": "ise",
+          "startMs": 142020,
+          "endMs": 142190
+        },
+        {
+          "word": "istemsiz",
+          "startMs": 142290,
+          "endMs": 142860
+        },
+        {
+          "word": "ve",
+          "startMs": 142860,
+          "endMs": 142970
+        },
+        {
+          "word": "ani",
+          "startMs": 143130,
+          "endMs": 143350
+        },
+        {
+          "word": "tepkilerimiz",
+          "startMs": 143470,
+          "endMs": 144330
+        },
+        {
+          "word": "olan",
+          "startMs": 144330,
+          "endMs": 145150
+        },
+        {
+          "word": "refleksleri",
+          "startMs": 146030,
+          "endMs": 147010
+        },
+        {
+          "word": "yönetir.",
+          "startMs": 147580,
+          "endMs": 148370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 149010,
+      "endMs": 157740,
+      "pauseAfterMs": 650,
+      "text": "İç salgı bezleri ise hormon adı verilen kimyasal habercileri doğrudan kana verir.",
+      "markedText": "İç salgı bezleri ise hormon adı verilen kimyasal habercileri doğrudan kana verir.",
+      "words": [
+        {
+          "word": "İç",
+          "startMs": 149010,
+          "endMs": 149120
+        },
+        {
+          "word": "salgı",
+          "startMs": 149120,
+          "endMs": 149460
+        },
+        {
+          "word": "bezleri",
+          "startMs": 149560,
+          "endMs": 150240
+        },
+        {
+          "word": "ise",
+          "startMs": 151140,
+          "endMs": 151360
+        },
+        {
+          "word": "hormon",
+          "startMs": 151510,
+          "endMs": 152170
+        },
+        {
+          "word": "adı",
+          "startMs": 152170,
+          "endMs": 152530
+        },
+        {
+          "word": "verilen",
+          "startMs": 152650,
+          "endMs": 153130
+        },
+        {
+          "word": "kimyasal",
+          "startMs": 153130,
+          "endMs": 153880
+        },
+        {
+          "word": "habercileri",
+          "startMs": 154180,
+          "endMs": 155130
+        },
+        {
+          "word": "doğrudan",
+          "startMs": 155280,
+          "endMs": 155930
+        },
+        {
+          "word": "kana",
+          "startMs": 156020,
+          "endMs": 156350
+        },
+        {
+          "word": "verir.",
+          "startMs": 156440,
+          "endMs": 157090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 157740,
+      "endMs": 174220,
+      "pauseAfterMs": 350,
+      "text": "Hipofiz büyüme hormonunu, tiroit tiroksin hormonunu, pankreas ise kan şekerini ayarlayan insülini salgılar.",
+      "markedText": "Hipofiz büyüme hormonunu, tiroit tiroksin hormonunu, pankreas ise kan şekerini ayarlayan insülini salgılar.",
+      "words": [
+        {
+          "word": "Hipofiz",
+          "startMs": 157740,
+          "endMs": 158480
+        },
+        {
+          "word": "büyüme",
+          "startMs": 158800,
+          "endMs": 159400
+        },
+        {
+          "word": "hormonunu,",
+          "startMs": 159660,
+          "endMs": 161370
+        },
+        {
+          "word": "tiroit",
+          "startMs": 162260,
+          "endMs": 162670
+        },
+        {
+          "word": "tiroksin",
+          "startMs": 162800,
+          "endMs": 163780
+        },
+        {
+          "word": "hormonunu,",
+          "startMs": 164360,
+          "endMs": 165610
+        },
+        {
+          "word": "pankreas",
+          "startMs": 166360,
+          "endMs": 166970
+        },
+        {
+          "word": "ise",
+          "startMs": 167010,
+          "endMs": 167450
+        },
+        {
+          "word": "kan",
+          "startMs": 168380,
+          "endMs": 168670
+        },
+        {
+          "word": "şekerini",
+          "startMs": 169250,
+          "endMs": 169780
+        },
+        {
+          "word": "ayarlayan",
+          "startMs": 169930,
+          "endMs": 171030
+        },
+        {
+          "word": "insülini",
+          "startMs": 171830,
+          "endMs": 172570
+        },
+        {
+          "word": "salgılar.",
+          "startMs": 172830,
+          "endMs": 173870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 174220,
+      "endMs": 196880,
+      "pauseAfterMs": 780,
+      "text": "Pratik kural: Sinirsel iletiler anında ve çok hızlı gerçekleşir; hormonların etkisi ise daha yavaş başlar ama vücutta çok daha uzun süre devam eder.",
+      "markedText": "Pratik kural: Sinirsel iletiler anında ve çok hızlı gerçekleşir; hormonların etkisi ise daha yavaş başlar ama vücutta çok daha uzun süre devam eder.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 174220,
+          "endMs": 174630
+        },
+        {
+          "word": "kural:",
+          "startMs": 174810,
+          "endMs": 175170
+        },
+        {
+          "word": "Sinirsel",
+          "startMs": 175330,
+          "endMs": 176560
+        },
+        {
+          "word": "iletiler",
+          "startMs": 177120,
+          "endMs": 177520
+        },
+        {
+          "word": "anında",
+          "startMs": 177710,
+          "endMs": 178570
+        },
+        {
+          "word": "ve",
+          "startMs": 179470,
+          "endMs": 179590
+        },
+        {
+          "word": "çok",
+          "startMs": 180250,
+          "endMs": 180380
+        },
+        {
+          "word": "hızlı",
+          "startMs": 180450,
+          "endMs": 180850
+        },
+        {
+          "word": "gerçekleşir;",
+          "startMs": 180850,
+          "endMs": 182320
+        },
+        {
+          "word": "hormonların",
+          "startMs": 182870,
+          "endMs": 183530
+        },
+        {
+          "word": "etkisi",
+          "startMs": 183640,
+          "endMs": 184720
+        },
+        {
+          "word": "ise",
+          "startMs": 185440,
+          "endMs": 185710
+        },
+        {
+          "word": "daha",
+          "startMs": 186610,
+          "endMs": 187090
+        },
+        {
+          "word": "yavaş",
+          "startMs": 187220,
+          "endMs": 187910
+        },
+        {
+          "word": "başlar",
+          "startMs": 188170,
+          "endMs": 188680
+        },
+        {
+          "word": "ama",
+          "startMs": 189160,
+          "endMs": 189570
+        },
+        {
+          "word": "vücutta",
+          "startMs": 189700,
+          "endMs": 190370
+        },
+        {
+          "word": "çok",
+          "startMs": 190450,
+          "endMs": 191520
+        },
+        {
+          "word": "daha",
+          "startMs": 192230,
+          "endMs": 192510
+        },
+        {
+          "word": "uzun",
+          "startMs": 192990,
+          "endMs": 193220
+        },
+        {
+          "word": "süre",
+          "startMs": 193590,
+          "endMs": 193920
+        },
+        {
+          "word": "devam",
+          "startMs": 194010,
+          "endMs": 194540
+        },
+        {
+          "word": "eder.",
+          "startMs": 195470,
+          "endMs": 196100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 196880,
+      "endMs": 202400,
+      "pauseAfterMs": 660,
+      "text": "Elinin sıcak bir sobaya değdiğini düşünelim.",
+      "markedText": "Elinin sıcak bir sobaya değdiğini düşünelim.",
+      "words": [
+        {
+          "word": "Elinin",
+          "startMs": 196880,
+          "endMs": 197650
+        },
+        {
+          "word": "sıcak",
+          "startMs": 197650,
+          "endMs": 198090
+        },
+        {
+          "word": "bir",
+          "startMs": 198380,
+          "endMs": 198730
+        },
+        {
+          "word": "sobaya",
+          "startMs": 198730,
+          "endMs": 199300
+        },
+        {
+          "word": "değdiğini",
+          "startMs": 199480,
+          "endMs": 200180
+        },
+        {
+          "word": "düşünelim.",
+          "startMs": 200300,
+          "endMs": 201740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 202400,
+      "endMs": 210910,
+      "pauseAfterMs": 330,
+      "text": "Derindeki duyu almaçları tehlikeyi fark eder ve sinirlerle omuriliğe sinyal yollar.",
+      "markedText": "Derindeki duyu almaçları tehlikeyi fark eder ve sinirlerle omuriliğe sinyal yollar.",
+      "words": [
+        {
+          "word": "Derindeki",
+          "startMs": 202400,
+          "endMs": 203140
+        },
+        {
+          "word": "duyu",
+          "startMs": 203250,
+          "endMs": 203660
+        },
+        {
+          "word": "almaçları",
+          "startMs": 203750,
+          "endMs": 204600
+        },
+        {
+          "word": "tehlikeyi",
+          "startMs": 204820,
+          "endMs": 205930
+        },
+        {
+          "word": "fark",
+          "startMs": 205970,
+          "endMs": 206360
+        },
+        {
+          "word": "eder",
+          "startMs": 206680,
+          "endMs": 206920
+        },
+        {
+          "word": "ve",
+          "startMs": 207630,
+          "endMs": 207810
+        },
+        {
+          "word": "sinirlerle",
+          "startMs": 208020,
+          "endMs": 208930
+        },
+        {
+          "word": "omuriliğe",
+          "startMs": 209110,
+          "endMs": 209730
+        },
+        {
+          "word": "sinyal",
+          "startMs": 209860,
+          "endMs": 210160
+        },
+        {
+          "word": "yollar.",
+          "startMs": 210340,
+          "endMs": 210580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 210910,
+      "endMs": 215930,
+      "pauseAfterMs": 1200,
+      "text": "Omurilik hiç vakit kaybetmeden kaslarına 'kolunu çek' emri verir.",
+      "markedText": "Omurilik hiç vakit kaybetmeden kaslarına 'kolunu çek' emri verir.",
+      "words": [
+        {
+          "word": "Omurilik",
+          "startMs": 210910,
+          "endMs": 211540
+        },
+        {
+          "word": "hiç",
+          "startMs": 211640,
+          "endMs": 211810
+        },
+        {
+          "word": "vakit",
+          "startMs": 211850,
+          "endMs": 212220
+        },
+        {
+          "word": "kaybetmeden",
+          "startMs": 212220,
+          "endMs": 212830
+        },
+        {
+          "word": "kaslarına",
+          "startMs": 213030,
+          "endMs": 213510
+        },
+        {
+          "word": "'kolunu",
+          "startMs": 213510,
+          "endMs": 213820
+        },
+        {
+          "word": "çek'",
+          "startMs": 213820,
+          "endMs": 213900
+        },
+        {
+          "word": "emri",
+          "startMs": 213900,
+          "endMs": 214100
+        },
+        {
+          "word": "verir.",
+          "startMs": 214270,
+          "endMs": 214730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 215930,
+      "endMs": 226040,
+      "pauseAfterMs": 1220,
+      "text": "Elini hızla çekersin; işte bu hayat kurtaran ani tepkiye refleks denir.",
+      "markedText": "Elini hızla çekersin; işte bu hayat kurtaran ani tepkiye refleks denir.",
+      "words": [
+        {
+          "word": "Elini",
+          "startMs": 215930,
+          "endMs": 216480
+        },
+        {
+          "word": "hızla",
+          "startMs": 216660,
+          "endMs": 216970
+        },
+        {
+          "word": "çekersin;",
+          "startMs": 217090,
+          "endMs": 218060
+        },
+        {
+          "word": "işte",
+          "startMs": 219110,
+          "endMs": 219610
+        },
+        {
+          "word": "bu",
+          "startMs": 219700,
+          "endMs": 219770
+        },
+        {
+          "word": "hayat",
+          "startMs": 220200,
+          "endMs": 220660
+        },
+        {
+          "word": "kurtaran",
+          "startMs": 220810,
+          "endMs": 221760
+        },
+        {
+          "word": "ani",
+          "startMs": 222130,
+          "endMs": 222330
+        },
+        {
+          "word": "tepkiye",
+          "startMs": 222470,
+          "endMs": 223200
+        },
+        {
+          "word": "refleks",
+          "startMs": 223270,
+          "endMs": 223850
+        },
+        {
+          "word": "denir.",
+          "startMs": 224090,
+          "endMs": 224820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 226040,
+      "endMs": 233510,
+      "pauseAfterMs": 260,
+      "text": "Acı hissini ise beyin olay bittikten hemen sonra algılar.",
+      "markedText": "Acı hissini ise beyin olay bittikten hemen sonra algılar.",
+      "words": [
+        {
+          "word": "Acı",
+          "startMs": 226040,
+          "endMs": 226160
+        },
+        {
+          "word": "hissini",
+          "startMs": 226160,
+          "endMs": 226600
+        },
+        {
+          "word": "ise",
+          "startMs": 226860,
+          "endMs": 227130
+        },
+        {
+          "word": "beyin",
+          "startMs": 227220,
+          "endMs": 228020
+        },
+        {
+          "word": "olay",
+          "startMs": 228720,
+          "endMs": 228950
+        },
+        {
+          "word": "bittikten",
+          "startMs": 229210,
+          "endMs": 229680
+        },
+        {
+          "word": "hemen",
+          "startMs": 229770,
+          "endMs": 230610
+        },
+        {
+          "word": "sonra",
+          "startMs": 231740,
+          "endMs": 232030
+        },
+        {
+          "word": "algılar.",
+          "startMs": 232470,
+          "endMs": 233250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 233510,
+      "endMs": 240660,
+      "pauseAfterMs": 1150,
+      "text": "Şimdi de büyümeni ve boyunun uzamasını düşün.",
+      "markedText": "Şimdi de büyümeni ve boyunun uzamasını düşün.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 233510,
+          "endMs": 233990
+        },
+        {
+          "word": "de",
+          "startMs": 234390,
+          "endMs": 234480
+        },
+        {
+          "word": "büyümeni",
+          "startMs": 234480,
+          "endMs": 234850
+        },
+        {
+          "word": "ve",
+          "startMs": 235010,
+          "endMs": 235260
+        },
+        {
+          "word": "boyunun",
+          "startMs": 235260,
+          "endMs": 236810
+        },
+        {
+          "word": "uzamasını",
+          "startMs": 237660,
+          "endMs": 238740
+        },
+        {
+          "word": "düşün.",
+          "startMs": 238740,
+          "endMs": 239510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 240660,
+      "endMs": 244040,
+      "pauseAfterMs": 1010,
+      "text": "Bu işlem saniyeler içinde olmaz.",
+      "markedText": "Bu işlem saniyeler içinde olmaz.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 240660,
+          "endMs": 240930
+        },
+        {
+          "word": "işlem",
+          "startMs": 240930,
+          "endMs": 241470
+        },
+        {
+          "word": "saniyeler",
+          "startMs": 241600,
+          "endMs": 242100
+        },
+        {
+          "word": "içinde",
+          "startMs": 242140,
+          "endMs": 242530
+        },
+        {
+          "word": "olmaz.",
+          "startMs": 242660,
+          "endMs": 243030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 244040,
+      "endMs": 257190,
+      "pauseAfterMs": 770,
+      "text": "Hipofiz bezin büyüme hormonunu kana azar azar salgılar ve kemiklerin aylar, yıllar içinde uzar.",
+      "markedText": "Hipofiz bezin büyüme hormonunu kana azar azar salgılar ve kemiklerin aylar, yıllar içinde uzar.",
+      "words": [
+        {
+          "word": "Hipofiz",
+          "startMs": 244040,
+          "endMs": 244380
+        },
+        {
+          "word": "bezin",
+          "startMs": 244460,
+          "endMs": 245070
+        },
+        {
+          "word": "büyüme",
+          "startMs": 245270,
+          "endMs": 246040
+        },
+        {
+          "word": "hormonunu",
+          "startMs": 246150,
+          "endMs": 246850
+        },
+        {
+          "word": "kana",
+          "startMs": 246970,
+          "endMs": 247420
+        },
+        {
+          "word": "azar",
+          "startMs": 247420,
+          "endMs": 247920
+        },
+        {
+          "word": "azar",
+          "startMs": 247920,
+          "endMs": 248900
+        },
+        {
+          "word": "salgılar",
+          "startMs": 249970,
+          "endMs": 250440
+        },
+        {
+          "word": "ve",
+          "startMs": 250840,
+          "endMs": 250910
+        },
+        {
+          "word": "kemiklerin",
+          "startMs": 251390,
+          "endMs": 252710
+        },
+        {
+          "word": "aylar,",
+          "startMs": 252870,
+          "endMs": 253420
+        },
+        {
+          "word": "yıllar",
+          "startMs": 253760,
+          "endMs": 254390
+        },
+        {
+          "word": "içinde",
+          "startMs": 255180,
+          "endMs": 255670
+        },
+        {
+          "word": "uzar.",
+          "startMs": 255670,
+          "endMs": 256420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 257190,
+      "endMs": 272100,
+      "pauseAfterMs": 1230,
+      "text": "Aniden karşına sevimli ama havlayan bir köpek çıktığında böbrek üstü bezlerin adrenalin salgılar; kalbin hızla çarpmaya başlar.",
+      "markedText": "Aniden karşına sevimli ama havlayan bir köpek çıktığında böbrek üstü bezlerin adrenalin salgılar; kalbin hızla çarpmaya başlar.",
+      "words": [
+        {
+          "word": "Aniden",
+          "startMs": 257190,
+          "endMs": 257650
+        },
+        {
+          "word": "karşına",
+          "startMs": 257800,
+          "endMs": 258170
+        },
+        {
+          "word": "sevimli",
+          "startMs": 258350,
+          "endMs": 258900
+        },
+        {
+          "word": "ama",
+          "startMs": 259080,
+          "endMs": 260030
+        },
+        {
+          "word": "havlayan",
+          "startMs": 261220,
+          "endMs": 261750
+        },
+        {
+          "word": "bir",
+          "startMs": 261820,
+          "endMs": 261930
+        },
+        {
+          "word": "köpek",
+          "startMs": 262020,
+          "endMs": 262670
+        },
+        {
+          "word": "çıktığında",
+          "startMs": 263670,
+          "endMs": 263990
+        },
+        {
+          "word": "böbrek",
+          "startMs": 264130,
+          "endMs": 264480
+        },
+        {
+          "word": "üstü",
+          "startMs": 264480,
+          "endMs": 264700
+        },
+        {
+          "word": "bezlerin",
+          "startMs": 264700,
+          "endMs": 265980
+        },
+        {
+          "word": "adrenalin",
+          "startMs": 266520,
+          "endMs": 267200
+        },
+        {
+          "word": "salgılar;",
+          "startMs": 267250,
+          "endMs": 268310
+        },
+        {
+          "word": "kalbin",
+          "startMs": 269010,
+          "endMs": 269190
+        },
+        {
+          "word": "hızla",
+          "startMs": 269290,
+          "endMs": 269510
+        },
+        {
+          "word": "çarpmaya",
+          "startMs": 269510,
+          "endMs": 269920
+        },
+        {
+          "word": "başlar.",
+          "startMs": 270070,
+          "endMs": 270870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 272100,
+      "endMs": 280870,
+      "pauseAfterMs": 990,
+      "text": "Gördüğün gibi sinir ve hormonlar birlikte mükemmel bir uyumla çalışır.",
+      "markedText": "Gördüğün gibi sinir ve hormonlar birlikte mükemmel bir uyumla çalışır.",
+      "words": [
+        {
+          "word": "Gördüğün",
+          "startMs": 272100,
+          "endMs": 272770
+        },
+        {
+          "word": "gibi",
+          "startMs": 272840,
+          "endMs": 273160
+        },
+        {
+          "word": "sinir",
+          "startMs": 273160,
+          "endMs": 273670
+        },
+        {
+          "word": "ve",
+          "startMs": 274570,
+          "endMs": 274630
+        },
+        {
+          "word": "hormonlar",
+          "startMs": 274720,
+          "endMs": 275610
+        },
+        {
+          "word": "birlikte",
+          "startMs": 275610,
+          "endMs": 276940
+        },
+        {
+          "word": "mükemmel",
+          "startMs": 277480,
+          "endMs": 277990
+        },
+        {
+          "word": "bir",
+          "startMs": 277990,
+          "endMs": 278160
+        },
+        {
+          "word": "uyumla",
+          "startMs": 278160,
+          "endMs": 278690
+        },
+        {
+          "word": "çalışır.",
+          "startMs": 278760,
+          "endMs": 279880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 280870,
+      "endMs": 284290,
+      "pauseAfterMs": 1210,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 280870,
+          "endMs": 282120
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 282240,
+          "endMs": 283080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 284290,
+      "endMs": 287040,
+      "pauseAfterMs": 1080,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 284290,
+          "endMs": 284840
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 284840,
+          "endMs": 285960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 287040,
+      "endMs": 292000,
+      "pauseAfterMs": 850,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 287040,
+          "endMs": 287280
+        },
+        {
+          "word": "noktayı",
+          "startMs": 287510,
+          "endMs": 288070
+        },
+        {
+          "word": "sen",
+          "startMs": 288700,
+          "endMs": 289160
+        },
+        {
+          "word": "de",
+          "startMs": 289300,
+          "endMs": 289680
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 290210,
+          "endMs": 291150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 292000,
+      "endMs": 302780,
+      "pauseAfterMs": 1000,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 292000,
+          "endMs": 292570
+        },
+        {
+          "word": "sevgili",
+          "startMs": 292770,
+          "endMs": 293690
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 293780,
+          "endMs": 295590
+        },
+        {
+          "word": "işte",
+          "startMs": 296680,
+          "endMs": 296900
+        },
+        {
+          "word": "tam",
+          "startMs": 296950,
+          "endMs": 297140
+        },
+        {
+          "word": "bu",
+          "startMs": 297140,
+          "endMs": 297320
+        },
+        {
+          "word": "noktada",
+          "startMs": 297320,
+          "endMs": 297930
+        },
+        {
+          "word": "dikkat",
+          "startMs": 298360,
+          "endMs": 298910
+        },
+        {
+          "word": "etmen",
+          "startMs": 298910,
+          "endMs": 299310
+        },
+        {
+          "word": "gereken",
+          "startMs": 299470,
+          "endMs": 300180
+        },
+        {
+          "word": "kilit",
+          "startMs": 300260,
+          "endMs": 300490
+        },
+        {
+          "word": "nokta.",
+          "startMs": 300560,
+          "endMs": 301780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-2",
+      "startMs": 302780,
+      "endMs": 325310,
+      "pauseAfterMs": 790,
+      "text": "Sıcak bir nesneye değince elimizi yıldırım hızıyla çekmemizi beynimizin uzun uzun düşündüğünü sanabilirsin; oysa bu hayat kurtaran refleks omuriliğimizin kontrolündedir.",
+      "markedText": "Sıcak bir nesneye değince elimizi yıldırım hızıyla çekmemizi beynimizin uzun uzun düşündüğünü sanabilirsin; oysa bu hayat kurtaran refleks omuriliğimizin kontrolündedir.",
+      "words": [
+        {
+          "word": "Sıcak",
+          "startMs": 302780,
+          "endMs": 303300
+        },
+        {
+          "word": "bir",
+          "startMs": 303670,
+          "endMs": 304050
+        },
+        {
+          "word": "nesneye",
+          "startMs": 304150,
+          "endMs": 304970
+        },
+        {
+          "word": "değince",
+          "startMs": 305080,
+          "endMs": 305560
+        },
+        {
+          "word": "elimizi",
+          "startMs": 305870,
+          "endMs": 307290
+        },
+        {
+          "word": "yıldırım",
+          "startMs": 308320,
+          "endMs": 309390
+        },
+        {
+          "word": "hızıyla",
+          "startMs": 309630,
+          "endMs": 310550
+        },
+        {
+          "word": "çekmemizi",
+          "startMs": 311420,
+          "endMs": 312150
+        },
+        {
+          "word": "beynimizin",
+          "startMs": 312600,
+          "endMs": 313010
+        },
+        {
+          "word": "uzun",
+          "startMs": 313310,
+          "endMs": 313460
+        },
+        {
+          "word": "uzun",
+          "startMs": 313460,
+          "endMs": 314030
+        },
+        {
+          "word": "düşündüğünü",
+          "startMs": 315110,
+          "endMs": 316270
+        },
+        {
+          "word": "sanabilirsin;",
+          "startMs": 316370,
+          "endMs": 318150
+        },
+        {
+          "word": "oysa",
+          "startMs": 319100,
+          "endMs": 319330
+        },
+        {
+          "word": "bu",
+          "startMs": 319380,
+          "endMs": 319520
+        },
+        {
+          "word": "hayat",
+          "startMs": 319560,
+          "endMs": 319750
+        },
+        {
+          "word": "kurtaran",
+          "startMs": 319830,
+          "endMs": 320700
+        },
+        {
+          "word": "refleks",
+          "startMs": 320810,
+          "endMs": 321140
+        },
+        {
+          "word": "omuriliğimizin",
+          "startMs": 321260,
+          "endMs": 322570
+        },
+        {
+          "word": "kontrolündedir.",
+          "startMs": 323410,
+          "endMs": 324520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-2",
+      "startMs": 325310,
+      "endMs": 332970,
+      "pauseAfterMs": 1500,
+      "text": "Beynimiz bu durumu olay gerçekleştikten hemen sonra öğrenir.",
+      "markedText": "Beynimiz bu durumu olay gerçekleştikten hemen sonra öğrenir.",
+      "words": [
+        {
+          "word": "Beynimiz",
+          "startMs": 325310,
+          "endMs": 325770
+        },
+        {
+          "word": "bu",
+          "startMs": 325830,
+          "endMs": 325890
+        },
+        {
+          "word": "durumu",
+          "startMs": 325890,
+          "endMs": 326520
+        },
+        {
+          "word": "olay",
+          "startMs": 326570,
+          "endMs": 326900
+        },
+        {
+          "word": "gerçekleştikten",
+          "startMs": 327380,
+          "endMs": 328440
+        },
+        {
+          "word": "hemen",
+          "startMs": 328540,
+          "endMs": 329750
+        },
+        {
+          "word": "sonra",
+          "startMs": 330060,
+          "endMs": 330500
+        },
+        {
+          "word": "öğrenir.",
+          "startMs": 330620,
+          "endMs": 331470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-2",
+      "startMs": 332970,
+      "endMs": 344020,
+      "pauseAfterMs": 1590,
+      "text": "Denetleyici ve düzenleyici sistemler konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Denetleyici ve düzenleyici sistemler konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Denetleyici",
+          "startMs": 332970,
+          "endMs": 333790
+        },
+        {
+          "word": "ve",
+          "startMs": 334530,
+          "endMs": 334660
+        },
+        {
+          "word": "düzenleyici",
+          "startMs": 334790,
+          "endMs": 335440
+        },
+        {
+          "word": "sistemler",
+          "startMs": 335440,
+          "endMs": 335900
+        },
+        {
+          "word": "konusunda",
+          "startMs": 336080,
+          "endMs": 336500
+        },
+        {
+          "word": "kuralın",
+          "startMs": 336630,
+          "endMs": 337170
+        },
+        {
+          "word": "tersini",
+          "startMs": 337600,
+          "endMs": 337880
+        },
+        {
+          "word": "sanmak",
+          "startMs": 338000,
+          "endMs": 338290
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 338450,
+          "endMs": 339490
+        },
+        {
+          "word": "ters",
+          "startMs": 341210,
+          "endMs": 341390
+        },
+        {
+          "word": "cümle",
+          "startMs": 341390,
+          "endMs": 341800
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 342000,
+          "endMs": 342430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 344020,
+      "endMs": 347300,
+      "pauseAfterMs": 400,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 344020,
+          "endMs": 344480
+        },
+        {
+          "word": "Neler",
+          "startMs": 344520,
+          "endMs": 345100
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 345520,
+          "endMs": 346900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 347300,
+      "endMs": 347500,
+      "pauseAfterMs": 120,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 347300,
+          "endMs": 347380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 347500,
+      "endMs": 363430,
+      "pauseAfterMs": 1100,
+      "text": "Sinir sistemi beyin, beyincik, omurilik soğanı ve omurilikten oluşur; haberleri çok hızlı taşır.",
+      "markedText": "Sinir sistemi beyin, beyincik, omurilik soğanı ve omurilikten oluşur; haberleri çok hızlı taşır.",
+      "words": [
+        {
+          "word": "Sinir",
+          "startMs": 347500,
+          "endMs": 348220
+        },
+        {
+          "word": "sistemi",
+          "startMs": 348370,
+          "endMs": 348860
+        },
+        {
+          "word": "beyin,",
+          "startMs": 348910,
+          "endMs": 349550
+        },
+        {
+          "word": "beyincik,",
+          "startMs": 350600,
+          "endMs": 351540
+        },
+        {
+          "word": "omurilik",
+          "startMs": 352550,
+          "endMs": 353390
+        },
+        {
+          "word": "soğanı",
+          "startMs": 353560,
+          "endMs": 354340
+        },
+        {
+          "word": "ve",
+          "startMs": 355100,
+          "endMs": 355220
+        },
+        {
+          "word": "omurilikten",
+          "startMs": 356350,
+          "endMs": 357500
+        },
+        {
+          "word": "oluşur;",
+          "startMs": 358110,
+          "endMs": 359350
+        },
+        {
+          "word": "haberleri",
+          "startMs": 359720,
+          "endMs": 360660
+        },
+        {
+          "word": "çok",
+          "startMs": 360790,
+          "endMs": 361050
+        },
+        {
+          "word": "hızlı",
+          "startMs": 361050,
+          "endMs": 361370
+        },
+        {
+          "word": "taşır.",
+          "startMs": 361530,
+          "endMs": 362330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 363430,
+      "endMs": 364220,
+      "pauseAfterMs": 380,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 363430,
+          "endMs": 363840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 364220,
+      "endMs": 373560,
+      "pauseAfterMs": 680,
+      "text": "Refleks davranışlarını omurilik yönetir; beyin haberi hemen ardından alır.",
+      "markedText": "Refleks davranışlarını omurilik yönetir; beyin haberi hemen ardından alır.",
+      "words": [
+        {
+          "word": "Refleks",
+          "startMs": 364220,
+          "endMs": 364840
+        },
+        {
+          "word": "davranışlarını",
+          "startMs": 364940,
+          "endMs": 365950
+        },
+        {
+          "word": "omurilik",
+          "startMs": 366340,
+          "endMs": 366870
+        },
+        {
+          "word": "yönetir;",
+          "startMs": 367200,
+          "endMs": 367730
+        },
+        {
+          "word": "beyin",
+          "startMs": 369020,
+          "endMs": 369670
+        },
+        {
+          "word": "haberi",
+          "startMs": 370870,
+          "endMs": 371380
+        },
+        {
+          "word": "hemen",
+          "startMs": 371530,
+          "endMs": 371850
+        },
+        {
+          "word": "ardından",
+          "startMs": 372010,
+          "endMs": 372420
+        },
+        {
+          "word": "alır.",
+          "startMs": 372480,
+          "endMs": 372880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 373560,
+      "endMs": 373660,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 373560,
+          "endMs": 373660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 373660,
+      "endMs": 385720,
+      "pauseAfterMs": 1270,
+      "text": "İç salgı bezleri hormon üretip kana verir; etkileri daha yavaş başlar ve uzun sürer.",
+      "markedText": "İç salgı bezleri hormon üretip kana verir; etkileri daha yavaş başlar ve uzun sürer.",
+      "words": [
+        {
+          "word": "İç",
+          "startMs": 373660,
+          "endMs": 373800
+        },
+        {
+          "word": "salgı",
+          "startMs": 373800,
+          "endMs": 374110
+        },
+        {
+          "word": "bezleri",
+          "startMs": 374330,
+          "endMs": 374980
+        },
+        {
+          "word": "hormon",
+          "startMs": 375100,
+          "endMs": 375670
+        },
+        {
+          "word": "üretip",
+          "startMs": 376250,
+          "endMs": 376410
+        },
+        {
+          "word": "kana",
+          "startMs": 376580,
+          "endMs": 376780
+        },
+        {
+          "word": "verir;",
+          "startMs": 377550,
+          "endMs": 378010
+        },
+        {
+          "word": "etkileri",
+          "startMs": 379880,
+          "endMs": 380440
+        },
+        {
+          "word": "daha",
+          "startMs": 380720,
+          "endMs": 381000
+        },
+        {
+          "word": "yavaş",
+          "startMs": 381100,
+          "endMs": 381750
+        },
+        {
+          "word": "başlar",
+          "startMs": 382370,
+          "endMs": 382660
+        },
+        {
+          "word": "ve",
+          "startMs": 382920,
+          "endMs": 383100
+        },
+        {
+          "word": "uzun",
+          "startMs": 383440,
+          "endMs": 383650
+        },
+        {
+          "word": "sürer.",
+          "startMs": 383710,
+          "endMs": 384450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 385720,
+      "endMs": 394110,
+      "pauseAfterMs": 1100,
+      "text": "Denetim, sinirin hızlı haberi ile hormonun uzun düzenini birlikte kurar.",
+      "markedText": "Denetim, sinirin hızlı haberi ile hormonun uzun düzenini birlikte kurar.",
+      "words": [
+        {
+          "word": "Denetim,",
+          "startMs": 385720,
+          "endMs": 386270
+        },
+        {
+          "word": "sinirin",
+          "startMs": 386630,
+          "endMs": 387060
+        },
+        {
+          "word": "hızlı",
+          "startMs": 387170,
+          "endMs": 387480
+        },
+        {
+          "word": "haberi",
+          "startMs": 387570,
+          "endMs": 388060
+        },
+        {
+          "word": "ile",
+          "startMs": 388360,
+          "endMs": 388520
+        },
+        {
+          "word": "hormonun",
+          "startMs": 388520,
+          "endMs": 388850
+        },
+        {
+          "word": "uzun",
+          "startMs": 388990,
+          "endMs": 389340
+        },
+        {
+          "word": "düzenini",
+          "startMs": 389340,
+          "endMs": 390640
+        },
+        {
+          "word": "birlikte",
+          "startMs": 391460,
+          "endMs": 392020
+        },
+        {
+          "word": "kurar.",
+          "startMs": 392070,
+          "endMs": 393010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 394110,
+      "endMs": 399590,
+      "pauseAfterMs": 880,
+      "text": "Refleks ile hormonun hız farkını bir örnekle söylersin.",
+      "markedText": "Refleks ile hormonun hız farkını bir örnekle söylersin.",
+      "words": [
+        {
+          "word": "Refleks",
+          "startMs": 394110,
+          "endMs": 394520
+        },
+        {
+          "word": "ile",
+          "startMs": 394820,
+          "endMs": 395150
+        },
+        {
+          "word": "hormonun",
+          "startMs": 395260,
+          "endMs": 395970
+        },
+        {
+          "word": "hız",
+          "startMs": 396010,
+          "endMs": 396120
+        },
+        {
+          "word": "farkını",
+          "startMs": 396430,
+          "endMs": 396870
+        },
+        {
+          "word": "bir",
+          "startMs": 397130,
+          "endMs": 397300
+        },
+        {
+          "word": "örnekle",
+          "startMs": 397340,
+          "endMs": 398040
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 398160,
+          "endMs": 398710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 399590,
+      "endMs": 402200,
+      "pauseAfterMs": 940,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 399590,
+          "endMs": 400150
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 400340,
+          "endMs": 401260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 402200,
+      "endMs": 406790,
+      "pauseAfterMs": 1320,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 402200,
+          "endMs": 402830
+        },
+        {
+          "word": "bir",
+          "startMs": 402930,
+          "endMs": 403370
+        },
+        {
+          "word": "iş",
+          "startMs": 403510,
+          "endMs": 403630
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 403740,
+          "endMs": 405470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-3",
+      "startMs": 406790,
+      "endMs": 409550,
+      "pauseAfterMs": 570,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 406790,
+          "endMs": 407520
+        },
+        {
+          "word": "sıra",
+          "startMs": 408130,
+          "endMs": 408320
+        },
+        {
+          "word": "sende.",
+          "startMs": 408460,
+          "endMs": 408980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-3",
+      "startMs": 409550,
+      "endMs": 412743,
+      "pauseAfterMs": 483,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 409550,
+          "endMs": 409980
+        },
+        {
+          "word": "bu",
+          "startMs": 409980,
+          "endMs": 410180
+        },
+        {
+          "word": "notları",
+          "startMs": 410320,
+          "endMs": 410560
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 410650,
+          "endMs": 411140
+        },
+        {
+          "word": "kendi",
+          "startMs": 411250,
+          "endMs": 411420
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 411420,
+          "endMs": 411940
+        },
+        {
+          "word": "anlat.",
+          "startMs": 411940,
+          "endMs": 412260
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

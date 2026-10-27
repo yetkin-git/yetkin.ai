@@ -1,0 +1,2291 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_fen-36",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Ampul parlaklığının değişkenleri",
+  "grade": 6,
+  "subject": "Fen Bilimleri",
+  "teacher": {
+    "name": "Deniz",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_fen-36.mp3",
+    "durationMs": 264786,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 50910
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 50910,
+      "endMs": 210490
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 210490,
+      "endMs": 264786
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 2030,
+      "pauseAfterMs": 500,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 250,
+          "endMs": 670
+        },
+        {
+          "word": "sevgili",
+          "startMs": 670,
+          "endMs": 990
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 1060,
+          "endMs": 1530
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Ampul parlaklığının değişkenleri",
+            "subtitle": "Fen Bilimleri",
+            "ruleBadges": [],
+            "echoPrompt": "Hangi değişkeni değiştirdiğini ve lambanın nasıl göründüğünü söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Ampul parlaklığı, değiştirilen değişkene bağlıdır."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Kontrollü deneyde bir değişken değişir, diğerleri sabit kalır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Pil artınca parlaklık artabilir; seri ampul artınca parlaklık azalır."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 2030,
+      "endMs": 5520,
+      "pauseAfterMs": 1320,
+      "text": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "markedText": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 2030,
+          "endMs": 2240
+        },
+        {
+          "word": "Fen",
+          "startMs": 2450,
+          "endMs": 2590
+        },
+        {
+          "word": "Bilimleri",
+          "startMs": 2590,
+          "endMs": 3000
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 3000,
+          "endMs": 3630
+        },
+        {
+          "word": "Deniz.",
+          "startMs": 3870,
+          "endMs": 4200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 5520,
+      "endMs": 11090,
+      "pauseAfterMs": 720,
+      "text": "Akşam masadaki lambanın bir gün parlak, ertesi gün sönük yandığını gördün mü?",
+      "markedText": "Akşam masadaki lambanın bir gün parlak, ertesi gün sönük yandığını gördün mü?",
+      "words": [
+        {
+          "word": "Akşam",
+          "startMs": 5520,
+          "endMs": 5940
+        },
+        {
+          "word": "masadaki",
+          "startMs": 6020,
+          "endMs": 6510
+        },
+        {
+          "word": "lambanın",
+          "startMs": 6510,
+          "endMs": 6950
+        },
+        {
+          "word": "bir",
+          "startMs": 7060,
+          "endMs": 7290
+        },
+        {
+          "word": "gün",
+          "startMs": 7290,
+          "endMs": 7430
+        },
+        {
+          "word": "parlak,",
+          "startMs": 7570,
+          "endMs": 7930
+        },
+        {
+          "word": "ertesi",
+          "startMs": 8280,
+          "endMs": 8750
+        },
+        {
+          "word": "gün",
+          "startMs": 8750,
+          "endMs": 8910
+        },
+        {
+          "word": "sönük",
+          "startMs": 9140,
+          "endMs": 9370
+        },
+        {
+          "word": "yandığını",
+          "startMs": 9460,
+          "endMs": 9990
+        },
+        {
+          "word": "gördün",
+          "startMs": 9990,
+          "endMs": 10300
+        },
+        {
+          "word": "mü?",
+          "startMs": 10300,
+          "endMs": 10370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 11090,
+      "endMs": 16540,
+      "pauseAfterMs": 1220,
+      "text": "Aynı oda, aynı ampul; değişen şey devrenin bir parçasıdır.",
+      "markedText": "Aynı oda, aynı ampul; değişen şey devrenin bir parçasıdır.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 11090,
+          "endMs": 11520
+        },
+        {
+          "word": "oda,",
+          "startMs": 11590,
+          "endMs": 11770
+        },
+        {
+          "word": "aynı",
+          "startMs": 11930,
+          "endMs": 12200
+        },
+        {
+          "word": "ampul;",
+          "startMs": 12280,
+          "endMs": 12680
+        },
+        {
+          "word": "değişen",
+          "startMs": 13060,
+          "endMs": 13440
+        },
+        {
+          "word": "şey",
+          "startMs": 13440,
+          "endMs": 13680
+        },
+        {
+          "word": "devrenin",
+          "startMs": 13810,
+          "endMs": 14300
+        },
+        {
+          "word": "bir",
+          "startMs": 14430,
+          "endMs": 14530
+        },
+        {
+          "word": "parçasıdır.",
+          "startMs": 14710,
+          "endMs": 15320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 16540,
+      "endMs": 20810,
+      "pauseAfterMs": 730,
+      "text": "Parlaklığı değiştiren değişkenleri bir deney düzeninde ayıracağız.",
+      "markedText": "Parlaklığı değiştiren değişkenleri bir deney düzeninde ayıracağız.",
+      "words": [
+        {
+          "word": "Parlaklığı",
+          "startMs": 16540,
+          "endMs": 17080
+        },
+        {
+          "word": "değiştiren",
+          "startMs": 17080,
+          "endMs": 17540
+        },
+        {
+          "word": "değişkenleri",
+          "startMs": 17540,
+          "endMs": 18350
+        },
+        {
+          "word": "bir",
+          "startMs": 18470,
+          "endMs": 18660
+        },
+        {
+          "word": "deney",
+          "startMs": 18720,
+          "endMs": 19010
+        },
+        {
+          "word": "düzeninde",
+          "startMs": 19010,
+          "endMs": 19410
+        },
+        {
+          "word": "ayıracağız.",
+          "startMs": 19410,
+          "endMs": 20080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 20810,
+      "endMs": 24230,
+      "pauseAfterMs": 1100,
+      "text": "Gözlemimizi tek bir değişkene bağlayacağız.",
+      "markedText": "Gözlemimizi tek bir değişkene bağlayacağız.",
+      "words": [
+        {
+          "word": "Gözlemimizi",
+          "startMs": 20810,
+          "endMs": 21520
+        },
+        {
+          "word": "tek",
+          "startMs": 21780,
+          "endMs": 21860
+        },
+        {
+          "word": "bir",
+          "startMs": 22000,
+          "endMs": 22180
+        },
+        {
+          "word": "değişkene",
+          "startMs": 22180,
+          "endMs": 22650
+        },
+        {
+          "word": "bağlayacağız.",
+          "startMs": 22650,
+          "endMs": 23130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 24230,
+      "endMs": 27300,
+      "pauseAfterMs": 780,
+      "text": "Bunu evde bir el fenerinde gözlemleyebilirsin.",
+      "markedText": "Bunu evde bir el fenerinde gözlemleyebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 24230,
+          "endMs": 24450
+        },
+        {
+          "word": "evde",
+          "startMs": 24570,
+          "endMs": 24860
+        },
+        {
+          "word": "bir",
+          "startMs": 24860,
+          "endMs": 24950
+        },
+        {
+          "word": "el",
+          "startMs": 25040,
+          "endMs": 25200
+        },
+        {
+          "word": "fenerinde",
+          "startMs": 25270,
+          "endMs": 25660
+        },
+        {
+          "word": "gözlemleyebilirsin.",
+          "startMs": 25710,
+          "endMs": 26520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 27300,
+      "endMs": 33420,
+      "pauseAfterMs": 1140,
+      "text": "Pili zayıflayan fenerin lambası söner; yeni pil takınca parlaklık geri gelir.",
+      "markedText": "Pili zayıflayan fenerin lambası söner; yeni pil takınca parlaklık geri gelir.",
+      "words": [
+        {
+          "word": "Pili",
+          "startMs": 27300,
+          "endMs": 27550
+        },
+        {
+          "word": "zayıflayan",
+          "startMs": 27550,
+          "endMs": 28070
+        },
+        {
+          "word": "fenerin",
+          "startMs": 28150,
+          "endMs": 28560
+        },
+        {
+          "word": "lambası",
+          "startMs": 28560,
+          "endMs": 29020
+        },
+        {
+          "word": "söner;",
+          "startMs": 29170,
+          "endMs": 29560
+        },
+        {
+          "word": "yeni",
+          "startMs": 30060,
+          "endMs": 30260
+        },
+        {
+          "word": "pil",
+          "startMs": 30340,
+          "endMs": 30430
+        },
+        {
+          "word": "takınca",
+          "startMs": 30530,
+          "endMs": 30980
+        },
+        {
+          "word": "parlaklık",
+          "startMs": 31290,
+          "endMs": 31710
+        },
+        {
+          "word": "geri",
+          "startMs": 31810,
+          "endMs": 31930
+        },
+        {
+          "word": "gelir.",
+          "startMs": 31930,
+          "endMs": 32280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 33420,
+      "endMs": 43820,
+      "pauseAfterMs": 1050,
+      "text": "Okul deneyinde iki düzeneği yan yana koyup yalnız pil sayısını değiştirirsen farkı görürsün.",
+      "markedText": "Okul deneyinde iki düzeneği yan yana koyup yalnız pil sayısını değiştirirsen farkı görürsün.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 33420,
+          "endMs": 33690
+        },
+        {
+          "word": "deneyinde",
+          "startMs": 33690,
+          "endMs": 34130
+        },
+        {
+          "word": "iki",
+          "startMs": 34380,
+          "endMs": 34570
+        },
+        {
+          "word": "düzeneği",
+          "startMs": 34620,
+          "endMs": 35350
+        },
+        {
+          "word": "yan",
+          "startMs": 35490,
+          "endMs": 35650
+        },
+        {
+          "word": "yana",
+          "startMs": 36020,
+          "endMs": 36280
+        },
+        {
+          "word": "koyup",
+          "startMs": 36550,
+          "endMs": 36920
+        },
+        {
+          "word": "yalnız",
+          "startMs": 37020,
+          "endMs": 37360
+        },
+        {
+          "word": "pil",
+          "startMs": 37690,
+          "endMs": 37840
+        },
+        {
+          "word": "sayısını",
+          "startMs": 38120,
+          "endMs": 38890
+        },
+        {
+          "word": "değiştirirsen",
+          "startMs": 39960,
+          "endMs": 41250
+        },
+        {
+          "word": "farkı",
+          "startMs": 41460,
+          "endMs": 41960
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 42070,
+          "endMs": 42770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 43820,
+      "endMs": 50910,
+      "pauseAfterMs": 1220,
+      "text": "Kapıdaki gece lambası da kaynak zayıflayınca solar.",
+      "markedText": "Kapıdaki gece lambası da kaynak zayıflayınca solar.",
+      "words": [
+        {
+          "word": "Kapıdaki",
+          "startMs": 43820,
+          "endMs": 44480
+        },
+        {
+          "word": "gece",
+          "startMs": 44700,
+          "endMs": 45260
+        },
+        {
+          "word": "lambası",
+          "startMs": 45900,
+          "endMs": 46630
+        },
+        {
+          "word": "da",
+          "startMs": 46790,
+          "endMs": 47030
+        },
+        {
+          "word": "kaynak",
+          "startMs": 47330,
+          "endMs": 47890
+        },
+        {
+          "word": "zayıflayınca",
+          "startMs": 48360,
+          "endMs": 49080
+        },
+        {
+          "word": "solar.",
+          "startMs": 49300,
+          "endMs": 49690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 50910,
+      "endMs": 57200,
+      "pauseAfterMs": 1180,
+      "text": "Ampul parlaklığı, devreden geçen akım büyüyünce artar.",
+      "markedText": "Ampul parlaklığı, devreden geçen akım büyüyünce artar.",
+      "words": [
+        {
+          "word": "Ampul",
+          "startMs": 50910,
+          "endMs": 51480
+        },
+        {
+          "word": "parlaklığı,",
+          "startMs": 51620,
+          "endMs": 52210
+        },
+        {
+          "word": "devreden",
+          "startMs": 52320,
+          "endMs": 53070
+        },
+        {
+          "word": "geçen",
+          "startMs": 53280,
+          "endMs": 53570
+        },
+        {
+          "word": "akım",
+          "startMs": 53980,
+          "endMs": 54270
+        },
+        {
+          "word": "büyüyünce",
+          "startMs": 54500,
+          "endMs": 54870
+        },
+        {
+          "word": "artar.",
+          "startMs": 55240,
+          "endMs": 56020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 57200,
+      "endMs": 63970,
+      "pauseAfterMs": 940,
+      "text": "Bir deneyde birçok şeyi aynı anda değiştirirsek sonucu kimin değiştirdiğini bilemeyiz.",
+      "markedText": "Bir deneyde birçok şeyi aynı anda değiştirirsek sonucu kimin değiştirdiğini bilemeyiz.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 57200,
+          "endMs": 57430
+        },
+        {
+          "word": "deneyde",
+          "startMs": 57500,
+          "endMs": 57810
+        },
+        {
+          "word": "birçok",
+          "startMs": 57950,
+          "endMs": 58120
+        },
+        {
+          "word": "şeyi",
+          "startMs": 58390,
+          "endMs": 58690
+        },
+        {
+          "word": "aynı",
+          "startMs": 58690,
+          "endMs": 58870
+        },
+        {
+          "word": "anda",
+          "startMs": 59050,
+          "endMs": 59360
+        },
+        {
+          "word": "değiştirirsek",
+          "startMs": 59510,
+          "endMs": 59830
+        },
+        {
+          "word": "sonucu",
+          "startMs": 60460,
+          "endMs": 60960
+        },
+        {
+          "word": "kimin",
+          "startMs": 61130,
+          "endMs": 61490
+        },
+        {
+          "word": "değiştirdiğini",
+          "startMs": 61720,
+          "endMs": 62210
+        },
+        {
+          "word": "bilemeyiz.",
+          "startMs": 62310,
+          "endMs": 63030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 63970,
+      "endMs": 67760,
+      "pauseAfterMs": 820,
+      "text": "Bağımsız değişken bizim seçtiğimiz etkendir.",
+      "markedText": "Bağımsız değişken bizim seçtiğimiz etkendir.",
+      "words": [
+        {
+          "word": "Bağımsız",
+          "startMs": 63970,
+          "endMs": 64630
+        },
+        {
+          "word": "değişken",
+          "startMs": 64740,
+          "endMs": 65070
+        },
+        {
+          "word": "bizim",
+          "startMs": 65240,
+          "endMs": 65550
+        },
+        {
+          "word": "seçtiğimiz",
+          "startMs": 65550,
+          "endMs": 66110
+        },
+        {
+          "word": "etkendir.",
+          "startMs": 66200,
+          "endMs": 66940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 67760,
+      "endMs": 73610,
+      "pauseAfterMs": 1050,
+      "text": "Bağımlı değişken ise ampulün parlaklığıdır.",
+      "markedText": "Bağımlı değişken ise ampulün parlaklığıdır.",
+      "words": [
+        {
+          "word": "Bağımlı",
+          "startMs": 67760,
+          "endMs": 68530
+        },
+        {
+          "word": "değişken",
+          "startMs": 68910,
+          "endMs": 69680
+        },
+        {
+          "word": "ise",
+          "startMs": 69760,
+          "endMs": 70070
+        },
+        {
+          "word": "ampulün",
+          "startMs": 70310,
+          "endMs": 70910
+        },
+        {
+          "word": "parlaklığıdır.",
+          "startMs": 71280,
+          "endMs": 72560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 73610,
+      "endMs": 78380,
+      "pauseAfterMs": 380,
+      "text": "Pil sayısı artınca aynı ampul daha parlak yanabilir.",
+      "markedText": "Pil sayısı artınca aynı ampul daha parlak yanabilir.",
+      "words": [
+        {
+          "word": "Pil",
+          "startMs": 73610,
+          "endMs": 73750
+        },
+        {
+          "word": "sayısı",
+          "startMs": 73820,
+          "endMs": 74480
+        },
+        {
+          "word": "artınca",
+          "startMs": 74790,
+          "endMs": 75010
+        },
+        {
+          "word": "aynı",
+          "startMs": 75120,
+          "endMs": 75400
+        },
+        {
+          "word": "ampul",
+          "startMs": 75400,
+          "endMs": 75560
+        },
+        {
+          "word": "daha",
+          "startMs": 75710,
+          "endMs": 75810
+        },
+        {
+          "word": "parlak",
+          "startMs": 75810,
+          "endMs": 76440
+        },
+        {
+          "word": "yanabilir.",
+          "startMs": 77380,
+          "endMs": 78000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 78380,
+      "endMs": 86900,
+      "pauseAfterMs": 960,
+      "text": "Aynı pilde seri bağlı ampul sayısı artınca her ampul daha sönük yanar.",
+      "markedText": "Aynı pilde seri bağlı ampul sayısı artınca her ampul daha sönük yanar.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 78380,
+          "endMs": 78700
+        },
+        {
+          "word": "pilde",
+          "startMs": 78840,
+          "endMs": 79200
+        },
+        {
+          "word": "seri",
+          "startMs": 79330,
+          "endMs": 79550
+        },
+        {
+          "word": "bağlı",
+          "startMs": 79900,
+          "endMs": 80180
+        },
+        {
+          "word": "ampul",
+          "startMs": 80440,
+          "endMs": 80850
+        },
+        {
+          "word": "sayısı",
+          "startMs": 81220,
+          "endMs": 81490
+        },
+        {
+          "word": "artınca",
+          "startMs": 81760,
+          "endMs": 82280
+        },
+        {
+          "word": "her",
+          "startMs": 82400,
+          "endMs": 82940
+        },
+        {
+          "word": "ampul",
+          "startMs": 83970,
+          "endMs": 84520
+        },
+        {
+          "word": "daha",
+          "startMs": 84590,
+          "endMs": 84800
+        },
+        {
+          "word": "sönük",
+          "startMs": 85110,
+          "endMs": 85420
+        },
+        {
+          "word": "yanar.",
+          "startMs": 85560,
+          "endMs": 85940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 86900,
+      "endMs": 91390,
+      "pauseAfterMs": 770,
+      "text": "Kontrollü deneyde diğer parçalar sabit tutulur.",
+      "markedText": "Kontrollü deneyde diğer parçalar sabit tutulur.",
+      "words": [
+        {
+          "word": "Kontrollü",
+          "startMs": 86900,
+          "endMs": 87340
+        },
+        {
+          "word": "deneyde",
+          "startMs": 87560,
+          "endMs": 88000
+        },
+        {
+          "word": "diğer",
+          "startMs": 88160,
+          "endMs": 88420
+        },
+        {
+          "word": "parçalar",
+          "startMs": 88500,
+          "endMs": 89310
+        },
+        {
+          "word": "sabit",
+          "startMs": 89610,
+          "endMs": 89910
+        },
+        {
+          "word": "tutulur.",
+          "startMs": 89990,
+          "endMs": 90620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 91390,
+      "endMs": 100510,
+      "pauseAfterMs": 1070,
+      "text": "Pratik kural: Bir değişken değişir, parlaklık ölçülür, sonra sıradaki değişkene geçilir.",
+      "markedText": "Pratik kural: Bir değişken değişir, parlaklık ölçülür, sonra sıradaki değişkene geçilir.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 91390,
+          "endMs": 91850
+        },
+        {
+          "word": "kural:",
+          "startMs": 91950,
+          "endMs": 92140
+        },
+        {
+          "word": "Bir",
+          "startMs": 92440,
+          "endMs": 92670
+        },
+        {
+          "word": "değişken",
+          "startMs": 92750,
+          "endMs": 93500
+        },
+        {
+          "word": "değişir,",
+          "startMs": 93780,
+          "endMs": 94720
+        },
+        {
+          "word": "parlaklık",
+          "startMs": 94980,
+          "endMs": 95480
+        },
+        {
+          "word": "ölçülür,",
+          "startMs": 95530,
+          "endMs": 96380
+        },
+        {
+          "word": "sonra",
+          "startMs": 97130,
+          "endMs": 97440
+        },
+        {
+          "word": "sıradaki",
+          "startMs": 97570,
+          "endMs": 97810
+        },
+        {
+          "word": "değişkene",
+          "startMs": 98030,
+          "endMs": 98510
+        },
+        {
+          "word": "geçilir.",
+          "startMs": 98780,
+          "endMs": 99440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 100510,
+      "endMs": 107420,
+      "pauseAfterMs": 440,
+      "text": "Masada 1 pil ve 1 ampul varken lamba parlak yanar.",
+      "markedText": "Masada 1 pil ve 1 ampul varken lamba parlak yanar.",
+      "words": [
+        {
+          "word": "Masada",
+          "startMs": 100510,
+          "endMs": 101090
+        },
+        {
+          "word": "1",
+          "startMs": 101190,
+          "endMs": 101520
+        },
+        {
+          "word": "pil",
+          "startMs": 101840,
+          "endMs": 101930
+        },
+        {
+          "word": "ve",
+          "startMs": 101990,
+          "endMs": 102170
+        },
+        {
+          "word": "1",
+          "startMs": 102280,
+          "endMs": 102620
+        },
+        {
+          "word": "ampul",
+          "startMs": 102620,
+          "endMs": 103890
+        },
+        {
+          "word": "varken",
+          "startMs": 104700,
+          "endMs": 105040
+        },
+        {
+          "word": "lamba",
+          "startMs": 105130,
+          "endMs": 105520
+        },
+        {
+          "word": "parlak",
+          "startMs": 105810,
+          "endMs": 106420
+        },
+        {
+          "word": "yanar.",
+          "startMs": 106590,
+          "endMs": 106980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 107420,
+      "endMs": 109950,
+      "pauseAfterMs": 860,
+      "text": "Aynı ampule 2.",
+      "markedText": "Aynı ampule 2.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 107420,
+          "endMs": 107860
+        },
+        {
+          "word": "ampule",
+          "startMs": 108090,
+          "endMs": 108580
+        },
+        {
+          "word": "2.",
+          "startMs": 108580,
+          "endMs": 109090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 109950,
+      "endMs": 116390,
+      "pauseAfterMs": 1220,
+      "text": "pili ekleyince gözlem değişir ve lamba daha parlak olur.",
+      "markedText": "pili ekleyince gözlem değişir ve lamba daha parlak olur.",
+      "words": [
+        {
+          "word": "pili",
+          "startMs": 109950,
+          "endMs": 110080
+        },
+        {
+          "word": "ekleyince",
+          "startMs": 110240,
+          "endMs": 111450
+        },
+        {
+          "word": "gözlem",
+          "startMs": 111630,
+          "endMs": 111890
+        },
+        {
+          "word": "değişir",
+          "startMs": 112470,
+          "endMs": 112660
+        },
+        {
+          "word": "ve",
+          "startMs": 112860,
+          "endMs": 113080
+        },
+        {
+          "word": "lamba",
+          "startMs": 113350,
+          "endMs": 113670
+        },
+        {
+          "word": "daha",
+          "startMs": 114030,
+          "endMs": 114130
+        },
+        {
+          "word": "parlak",
+          "startMs": 114490,
+          "endMs": 114770
+        },
+        {
+          "word": "olur.",
+          "startMs": 114960,
+          "endMs": 115170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 116390,
+      "endMs": 120910,
+      "pauseAfterMs": 1020,
+      "text": "Burada bağımsız değişken pil sayısıdır.",
+      "markedText": "Burada bağımsız değişken pil sayısıdır.",
+      "words": [
+        {
+          "word": "Burada",
+          "startMs": 116390,
+          "endMs": 116580
+        },
+        {
+          "word": "bağımsız",
+          "startMs": 116660,
+          "endMs": 117140
+        },
+        {
+          "word": "değişken",
+          "startMs": 117560,
+          "endMs": 118200
+        },
+        {
+          "word": "pil",
+          "startMs": 118680,
+          "endMs": 118900
+        },
+        {
+          "word": "sayısıdır.",
+          "startMs": 119020,
+          "endMs": 119890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 120910,
+      "endMs": 125410,
+      "pauseAfterMs": 540,
+      "text": "Pili yine 1 tanede sabit tutup seri 2 ampul bağlayalım.",
+      "markedText": "Pili yine 1 tanede sabit tutup seri 2 ampul bağlayalım.",
+      "words": [
+        {
+          "word": "Pili",
+          "startMs": 120910,
+          "endMs": 121200
+        },
+        {
+          "word": "yine",
+          "startMs": 121260,
+          "endMs": 121510
+        },
+        {
+          "word": "1",
+          "startMs": 121510,
+          "endMs": 121690
+        },
+        {
+          "word": "tanede",
+          "startMs": 121760,
+          "endMs": 121980
+        },
+        {
+          "word": "sabit",
+          "startMs": 122110,
+          "endMs": 122500
+        },
+        {
+          "word": "tutup",
+          "startMs": 122500,
+          "endMs": 122770
+        },
+        {
+          "word": "seri",
+          "startMs": 122880,
+          "endMs": 123060
+        },
+        {
+          "word": "2",
+          "startMs": 123290,
+          "endMs": 123460
+        },
+        {
+          "word": "ampul",
+          "startMs": 123580,
+          "endMs": 123910
+        },
+        {
+          "word": "bağlayalım.",
+          "startMs": 123990,
+          "endMs": 124870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 125410,
+      "endMs": 132840,
+      "pauseAfterMs": 1000,
+      "text": "Her iki ampul de tek ampul deneyine göre daha sönük yanar.",
+      "markedText": "Her iki ampul de tek ampul deneyine göre daha sönük yanar.",
+      "words": [
+        {
+          "word": "Her",
+          "startMs": 125410,
+          "endMs": 125610
+        },
+        {
+          "word": "iki",
+          "startMs": 125720,
+          "endMs": 125940
+        },
+        {
+          "word": "ampul",
+          "startMs": 126100,
+          "endMs": 126600
+        },
+        {
+          "word": "de",
+          "startMs": 126900,
+          "endMs": 127020
+        },
+        {
+          "word": "tek",
+          "startMs": 127150,
+          "endMs": 127490
+        },
+        {
+          "word": "ampul",
+          "startMs": 127490,
+          "endMs": 128040
+        },
+        {
+          "word": "deneyine",
+          "startMs": 128920,
+          "endMs": 129690
+        },
+        {
+          "word": "göre",
+          "startMs": 129780,
+          "endMs": 130050
+        },
+        {
+          "word": "daha",
+          "startMs": 130170,
+          "endMs": 130460
+        },
+        {
+          "word": "sönük",
+          "startMs": 130800,
+          "endMs": 131050
+        },
+        {
+          "word": "yanar.",
+          "startMs": 131190,
+          "endMs": 131840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 132840,
+      "endMs": 141490,
+      "pauseAfterMs": 870,
+      "text": "Ampul sayısını 2'den 3'e çıkarırsak parlaklık bir kez daha azalır.",
+      "markedText": "Ampul sayısını 2'den 3'e çıkarırsak parlaklık bir kez daha azalır.",
+      "words": [
+        {
+          "word": "Ampul",
+          "startMs": 132840,
+          "endMs": 133150
+        },
+        {
+          "word": "sayısını",
+          "startMs": 133150,
+          "endMs": 133940
+        },
+        {
+          "word": "2'den",
+          "startMs": 134060,
+          "endMs": 134910
+        },
+        {
+          "word": "3'e",
+          "startMs": 135040,
+          "endMs": 135370
+        },
+        {
+          "word": "çıkarırsak",
+          "startMs": 135540,
+          "endMs": 136620
+        },
+        {
+          "word": "parlaklık",
+          "startMs": 137180,
+          "endMs": 138030
+        },
+        {
+          "word": "bir",
+          "startMs": 138170,
+          "endMs": 138450
+        },
+        {
+          "word": "kez",
+          "startMs": 138450,
+          "endMs": 138750
+        },
+        {
+          "word": "daha",
+          "startMs": 138750,
+          "endMs": 139240
+        },
+        {
+          "word": "azalır.",
+          "startMs": 139390,
+          "endMs": 140620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 141490,
+      "endMs": 151090,
+      "pauseAfterMs": 510,
+      "text": "Ölçmeyi basit bir ölçekle tutarız: sönük 1, orta 2, parlak 3.",
+      "markedText": "Ölçmeyi basit bir ölçekle tutarız: sönük 1, orta 2, parlak 3.",
+      "words": [
+        {
+          "word": "Ölçmeyi",
+          "startMs": 141490,
+          "endMs": 142190
+        },
+        {
+          "word": "basit",
+          "startMs": 142320,
+          "endMs": 142850
+        },
+        {
+          "word": "bir",
+          "startMs": 142930,
+          "endMs": 143230
+        },
+        {
+          "word": "ölçekle",
+          "startMs": 143330,
+          "endMs": 144210
+        },
+        {
+          "word": "tutarız:",
+          "startMs": 144350,
+          "endMs": 145800
+        },
+        {
+          "word": "sönük",
+          "startMs": 146220,
+          "endMs": 146400
+        },
+        {
+          "word": "1,",
+          "startMs": 146510,
+          "endMs": 146670
+        },
+        {
+          "word": "orta",
+          "startMs": 146670,
+          "endMs": 146820
+        },
+        {
+          "word": "2,",
+          "startMs": 146820,
+          "endMs": 147360
+        },
+        {
+          "word": "parlak",
+          "startMs": 148320,
+          "endMs": 149160
+        },
+        {
+          "word": "3.",
+          "startMs": 150390,
+          "endMs": 150580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 151090,
+      "endMs": 153110,
+      "pauseAfterMs": 570,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 151090,
+          "endMs": 151880
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 151920,
+          "endMs": 152540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 153110,
+      "endMs": 156840,
+      "pauseAfterMs": 920,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 153110,
+          "endMs": 154450
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 154610,
+          "endMs": 155920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 156840,
+      "endMs": 161780,
+      "pauseAfterMs": 790,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 156840,
+          "endMs": 157100
+        },
+        {
+          "word": "noktayı",
+          "startMs": 157620,
+          "endMs": 158510
+        },
+        {
+          "word": "sen",
+          "startMs": 158600,
+          "endMs": 158940
+        },
+        {
+          "word": "de",
+          "startMs": 159590,
+          "endMs": 159680
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 159850,
+          "endMs": 160990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 161780,
+      "endMs": 171500,
+      "pauseAfterMs": 1010,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 161780,
+          "endMs": 161990
+        },
+        {
+          "word": "sevgili",
+          "startMs": 162460,
+          "endMs": 163270
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 163370,
+          "endMs": 164360
+        },
+        {
+          "word": "işte",
+          "startMs": 164740,
+          "endMs": 165030
+        },
+        {
+          "word": "tam",
+          "startMs": 165030,
+          "endMs": 165220
+        },
+        {
+          "word": "bu",
+          "startMs": 165470,
+          "endMs": 165620
+        },
+        {
+          "word": "noktada",
+          "startMs": 165750,
+          "endMs": 166590
+        },
+        {
+          "word": "dikkat",
+          "startMs": 166800,
+          "endMs": 167240
+        },
+        {
+          "word": "etmen",
+          "startMs": 168070,
+          "endMs": 168440
+        },
+        {
+          "word": "gereken",
+          "startMs": 168550,
+          "endMs": 169300
+        },
+        {
+          "word": "kilit",
+          "startMs": 169430,
+          "endMs": 169520
+        },
+        {
+          "word": "nokta.",
+          "startMs": 169770,
+          "endMs": 170490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 171500,
+      "endMs": 183730,
+      "pauseAfterMs": 770,
+      "text": "Hem pili hem ampul sayısını aynı anda değiştirirsen hangi değişkenin parlaklığı değiştirdiğini ayıramazsın.",
+      "markedText": "Hem pili hem ampul sayısını aynı anda değiştirirsen hangi değişkenin parlaklığı değiştirdiğini ayıramazsın.",
+      "words": [
+        {
+          "word": "Hem",
+          "startMs": 171500,
+          "endMs": 171860
+        },
+        {
+          "word": "pili",
+          "startMs": 171860,
+          "endMs": 172360
+        },
+        {
+          "word": "hem",
+          "startMs": 172360,
+          "endMs": 172650
+        },
+        {
+          "word": "ampul",
+          "startMs": 172770,
+          "endMs": 173240
+        },
+        {
+          "word": "sayısını",
+          "startMs": 173340,
+          "endMs": 173790
+        },
+        {
+          "word": "aynı",
+          "startMs": 173940,
+          "endMs": 174340
+        },
+        {
+          "word": "anda",
+          "startMs": 174490,
+          "endMs": 174740
+        },
+        {
+          "word": "değiştirirsen",
+          "startMs": 174880,
+          "endMs": 176170
+        },
+        {
+          "word": "hangi",
+          "startMs": 176670,
+          "endMs": 177370
+        },
+        {
+          "word": "değişkenin",
+          "startMs": 177500,
+          "endMs": 178530
+        },
+        {
+          "word": "parlaklığı",
+          "startMs": 178690,
+          "endMs": 180200
+        },
+        {
+          "word": "değiştirdiğini",
+          "startMs": 180930,
+          "endMs": 181940
+        },
+        {
+          "word": "ayıramazsın.",
+          "startMs": 182120,
+          "endMs": 182960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 183730,
+      "endMs": 190270,
+      "pauseAfterMs": 630,
+      "text": "Seri bağlamada ampul eklemek parlaklığı artırmaz, azaltır.",
+      "markedText": "Seri bağlamada ampul eklemek parlaklığı artırmaz, azaltır.",
+      "words": [
+        {
+          "word": "Seri",
+          "startMs": 183730,
+          "endMs": 184050
+        },
+        {
+          "word": "bağlamada",
+          "startMs": 184050,
+          "endMs": 184800
+        },
+        {
+          "word": "ampul",
+          "startMs": 184940,
+          "endMs": 185250
+        },
+        {
+          "word": "eklemek",
+          "startMs": 185360,
+          "endMs": 186690
+        },
+        {
+          "word": "parlaklığı",
+          "startMs": 187330,
+          "endMs": 187700
+        },
+        {
+          "word": "artırmaz,",
+          "startMs": 187990,
+          "endMs": 188510
+        },
+        {
+          "word": "azaltır.",
+          "startMs": 188660,
+          "endMs": 189640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 190270,
+      "endMs": 199310,
+      "pauseAfterMs": 620,
+      "text": "Parlaklığı yalnız telin rengine bağlamak da deneyi eksik bırakır.",
+      "markedText": "Parlaklığı yalnız telin rengine bağlamak da deneyi eksik bırakır.",
+      "words": [
+        {
+          "word": "Parlaklığı",
+          "startMs": 190270,
+          "endMs": 191300
+        },
+        {
+          "word": "yalnız",
+          "startMs": 191300,
+          "endMs": 191800
+        },
+        {
+          "word": "telin",
+          "startMs": 191910,
+          "endMs": 192800
+        },
+        {
+          "word": "rengine",
+          "startMs": 193490,
+          "endMs": 194190
+        },
+        {
+          "word": "bağlamak",
+          "startMs": 194230,
+          "endMs": 195180
+        },
+        {
+          "word": "da",
+          "startMs": 195920,
+          "endMs": 196070
+        },
+        {
+          "word": "deneyi",
+          "startMs": 196180,
+          "endMs": 197140
+        },
+        {
+          "word": "eksik",
+          "startMs": 197280,
+          "endMs": 197670
+        },
+        {
+          "word": "bırakır.",
+          "startMs": 197810,
+          "endMs": 198690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-2",
+      "startMs": 199310,
+      "endMs": 210490,
+      "pauseAfterMs": 750,
+      "text": "Ampul parlaklığının değişkenleri konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Ampul parlaklığının değişkenleri konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Ampul",
+          "startMs": 199310,
+          "endMs": 199700
+        },
+        {
+          "word": "parlaklığının",
+          "startMs": 199830,
+          "endMs": 200770
+        },
+        {
+          "word": "değişkenleri",
+          "startMs": 200840,
+          "endMs": 201800
+        },
+        {
+          "word": "konusunda",
+          "startMs": 201920,
+          "endMs": 202940
+        },
+        {
+          "word": "kuralın",
+          "startMs": 203690,
+          "endMs": 204090
+        },
+        {
+          "word": "tersini",
+          "startMs": 204190,
+          "endMs": 204580
+        },
+        {
+          "word": "sanmak",
+          "startMs": 204690,
+          "endMs": 204970
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 205170,
+          "endMs": 206090
+        },
+        {
+          "word": "ters",
+          "startMs": 206990,
+          "endMs": 207210
+        },
+        {
+          "word": "cümle",
+          "startMs": 207340,
+          "endMs": 207920
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 208030,
+          "endMs": 209740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 210490,
+      "endMs": 211970,
+      "pauseAfterMs": 0,
+      "text": "Bugün Neler Öğrendik",
+      "markedText": "Bugün Neler Öğrendik",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 210490,
+          "endMs": 210830
+        },
+        {
+          "word": "Neler",
+          "startMs": 210920,
+          "endMs": 211200
+        },
+        {
+          "word": "Öğrendik",
+          "startMs": 211310,
+          "endMs": 211970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 211970,
+      "endMs": 212460,
+      "pauseAfterMs": 170,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 211970,
+          "endMs": 212290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 212460,
+      "endMs": 218860,
+      "pauseAfterMs": 1130,
+      "text": "Ampul parlaklığı, değiştirilen değişkene bağlıdır.",
+      "markedText": "Ampul parlaklığı, değiştirilen değişkene bağlıdır.",
+      "words": [
+        {
+          "word": "Ampul",
+          "startMs": 212460,
+          "endMs": 212940
+        },
+        {
+          "word": "parlaklığı,",
+          "startMs": 213000,
+          "endMs": 213930
+        },
+        {
+          "word": "değiştirilen",
+          "startMs": 214580,
+          "endMs": 216120
+        },
+        {
+          "word": "değişkene",
+          "startMs": 216360,
+          "endMs": 216740
+        },
+        {
+          "word": "bağlıdır.",
+          "startMs": 216870,
+          "endMs": 217730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 218860,
+      "endMs": 219270,
+      "pauseAfterMs": 100,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 218860,
+          "endMs": 219170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 219270,
+      "endMs": 226570,
+      "pauseAfterMs": 670,
+      "text": "Kontrollü deneyde bir değişken değişir, diğerleri sabit kalır.",
+      "markedText": "Kontrollü deneyde bir değişken değişir, diğerleri sabit kalır.",
+      "words": [
+        {
+          "word": "Kontrollü",
+          "startMs": 219270,
+          "endMs": 220080
+        },
+        {
+          "word": "deneyde",
+          "startMs": 220210,
+          "endMs": 220590
+        },
+        {
+          "word": "bir",
+          "startMs": 220710,
+          "endMs": 220930
+        },
+        {
+          "word": "değişken",
+          "startMs": 221040,
+          "endMs": 221700
+        },
+        {
+          "word": "değişir,",
+          "startMs": 221880,
+          "endMs": 223180
+        },
+        {
+          "word": "diğerleri",
+          "startMs": 223730,
+          "endMs": 224400
+        },
+        {
+          "word": "sabit",
+          "startMs": 224550,
+          "endMs": 224790
+        },
+        {
+          "word": "kalır.",
+          "startMs": 224940,
+          "endMs": 225900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 226570,
+      "endMs": 226750,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 226570,
+          "endMs": 226750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 226750,
+      "endMs": 234210,
+      "pauseAfterMs": 1070,
+      "text": "Pil artınca parlaklık artabilir; seri ampul artınca parlaklık azalır.",
+      "markedText": "Pil artınca parlaklık artabilir; seri ampul artınca parlaklık azalır.",
+      "words": [
+        {
+          "word": "Pil",
+          "startMs": 226750,
+          "endMs": 226920
+        },
+        {
+          "word": "artınca",
+          "startMs": 227020,
+          "endMs": 227650
+        },
+        {
+          "word": "parlaklık",
+          "startMs": 227860,
+          "endMs": 228610
+        },
+        {
+          "word": "artabilir;",
+          "startMs": 228950,
+          "endMs": 229850
+        },
+        {
+          "word": "seri",
+          "startMs": 230520,
+          "endMs": 230740
+        },
+        {
+          "word": "ampul",
+          "startMs": 230860,
+          "endMs": 231150
+        },
+        {
+          "word": "artınca",
+          "startMs": 231230,
+          "endMs": 231930
+        },
+        {
+          "word": "parlaklık",
+          "startMs": 232030,
+          "endMs": 232760
+        },
+        {
+          "word": "azalır.",
+          "startMs": 232830,
+          "endMs": 233140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 234210,
+      "endMs": 240240,
+      "pauseAfterMs": 420,
+      "text": "Parlaklık, tek seferde değiştirilen değişkenle açıklanır.",
+      "markedText": "Parlaklık, tek seferde değiştirilen değişkenle açıklanır.",
+      "words": [
+        {
+          "word": "Parlaklık,",
+          "startMs": 234210,
+          "endMs": 235060
+        },
+        {
+          "word": "tek",
+          "startMs": 235210,
+          "endMs": 235310
+        },
+        {
+          "word": "seferde",
+          "startMs": 235310,
+          "endMs": 235830
+        },
+        {
+          "word": "değiştirilen",
+          "startMs": 235960,
+          "endMs": 236760
+        },
+        {
+          "word": "değişkenle",
+          "startMs": 236870,
+          "endMs": 237850
+        },
+        {
+          "word": "açıklanır.",
+          "startMs": 238690,
+          "endMs": 239820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 240240,
+      "endMs": 249160,
+      "pauseAfterMs": 560,
+      "text": "Hangi değişkeni değiştirdiğini ve lambanın nasıl göründüğünü söylersin.",
+      "markedText": "Hangi değişkeni değiştirdiğini ve lambanın nasıl göründüğünü söylersin.",
+      "words": [
+        {
+          "word": "Hangi",
+          "startMs": 240240,
+          "endMs": 240840
+        },
+        {
+          "word": "değişkeni",
+          "startMs": 240880,
+          "endMs": 241900
+        },
+        {
+          "word": "değiştirdiğini",
+          "startMs": 242660,
+          "endMs": 243540
+        },
+        {
+          "word": "ve",
+          "startMs": 243660,
+          "endMs": 243840
+        },
+        {
+          "word": "lambanın",
+          "startMs": 243840,
+          "endMs": 244560
+        },
+        {
+          "word": "nasıl",
+          "startMs": 245270,
+          "endMs": 245730
+        },
+        {
+          "word": "göründüğünü",
+          "startMs": 246220,
+          "endMs": 247480
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 247480,
+          "endMs": 248600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 249160,
+      "endMs": 251820,
+      "pauseAfterMs": 610,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 249160,
+          "endMs": 249870
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 250090,
+          "endMs": 251210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 251820,
+      "endMs": 257070,
+      "pauseAfterMs": 1330,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 251820,
+          "endMs": 252550
+        },
+        {
+          "word": "bir",
+          "startMs": 253100,
+          "endMs": 253390
+        },
+        {
+          "word": "iş",
+          "startMs": 253560,
+          "endMs": 253920
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 253920,
+          "endMs": 255740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 257070,
+      "endMs": 258550,
+      "pauseAfterMs": 610,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 257070,
+          "endMs": 257280
+        },
+        {
+          "word": "sıra",
+          "startMs": 257350,
+          "endMs": 257520
+        },
+        {
+          "word": "sende.",
+          "startMs": 257520,
+          "endMs": 257940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 258550,
+      "endMs": 264786,
+      "pauseAfterMs": 386,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 258550,
+          "endMs": 259190
+        },
+        {
+          "word": "bu",
+          "startMs": 259240,
+          "endMs": 259300
+        },
+        {
+          "word": "notları",
+          "startMs": 259390,
+          "endMs": 259630
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 260210,
+          "endMs": 261080
+        },
+        {
+          "word": "kendi",
+          "startMs": 261580,
+          "endMs": 262280
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 262420,
+          "endMs": 263570
+        },
+        {
+          "word": "anlat.",
+          "startMs": 263680,
+          "endMs": 264400
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

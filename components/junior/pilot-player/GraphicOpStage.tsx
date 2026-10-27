@@ -151,14 +151,14 @@ function CommonBoard(props: { card: CommonDivisorState; now: number }): ReactEle
           style={{ opacity: gcdOn ? 1 : 0.25 }}
           className="rounded-xl bg-cyan-400/20 px-3 py-2 text-center text-sm font-black text-cyan-100"
         >
-          EBOB = {card.gcd}
+          Ortak bölen = {card.gcd}
         </p>
         <p
           data-junior-lcm=""
           style={{ opacity: lcmOn ? 1 : 0.25 }}
           className="rounded-xl bg-amber-400/20 px-3 py-2 text-center text-sm font-black text-amber-100"
         >
-          EKOK = {card.lcm}
+          Ortak kat = {card.lcm}
         </p>
       </div>
     </div>
@@ -733,7 +733,9 @@ export function GraphicOpStage(props: { state: SceneGraphState; currentTimeMs: n
         <ForceBoard card={state.force} />
       ) : speed ? (
         <SpeedBoard card={state.speed} />
-      ) : null}
+      ) : (
+        <div data-junior-graphic-op="none" />
+      )}
     </div>
   );
 }

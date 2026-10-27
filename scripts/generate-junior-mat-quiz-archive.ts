@@ -306,29 +306,29 @@ const PACKS: Pack[] = [
     n: 7,
     title: "Ortak bölen ve ortak kat",
     tellGuides: [
-      "En büyük ortak bölen ile en küçük ortak katı nasıl ayırırsın?",
-      "8 ve 12 için EBOB ve EKOK nasıl bulunur?",
+      "Ortak bölenler ile ortak katları nasıl ayırırsın?",
+      "8 ve 12 için ortak bölenler ve ortak katlar nasıl bulunur?",
     ],
     questions: [
       {
         id: "q1",
         level: "concept",
-        question: "En büyük ortak bölen (EBOB) neyi seçer?",
+        question: "Ortak bölenler neyi seçer?",
         options: [
-          "İki sayıyı da bölen en büyük sayıyı",
+          "İki sayıyı da bölen sayıları",
           "İki sayının toplamını",
           "En küçük asal sayıyı",
           "Yalnızca 1'i",
         ],
         correctAnswerIndex: 0,
-        hint: "Bölen küçük listede, kat büyük listede durur.",
+        hint: "Ortak bölenler küçük listede, ortak katlar büyük listede durur.",
         explanation:
-          "Adım 1: Ortak bölenler iki sayıyı da böler. Adım 2: Bunların en büyüğü EBOB'tur. Adım 3: Ortak katların en küçüğü EKOK'tur.",
+          "Adım 1: Ortak bölenler iki sayıyı da böler. Adım 2: Bu ortak bölenlerin en büyüğü seçilir. Adım 3: Ortak katlar iki sayının da katıdır.",
       },
       {
         id: "q2",
         level: "apply",
-        question: "8 ve 12 için en büyük ortak bölen kaçtır?",
+        question: "8 ve 12 için ortak bölenlerin en büyüğü kaçtır?",
         options: ["2", "4", "24", "96"],
         correctAnswerIndex: 1,
         hint: "8'in bölenleri: 1, 2, 4, 8. Ortak olanların en büyüğünü seç.",
@@ -342,7 +342,7 @@ const PACKS: Pack[] = [
           "İki zil 8 ve 12 dakikada bir çalıyor. Aynı anda çaldıktan sonra yeniden birlikte kaçıncı dakikada çalar?",
         options: ["4", "20", "24", "96"],
         correctAnswerIndex: 2,
-        hint: "Bu soru en küçük ortak katı ister.",
+        hint: "Ortak katlar büyük listede durur. İlk buluştukları sayı seçilir.",
         explanation:
           "Adım 1: Ortak katlar 24, 48, 72… diye gider. Adım 2: En küçüğü 24'tür. Adım 3: Ziller 24. dakikada yeniden birlikte çalar.",
       },

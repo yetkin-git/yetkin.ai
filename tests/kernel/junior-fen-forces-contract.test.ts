@@ -5,6 +5,7 @@ import { GraphicOpStage } from "@/components/junior/pilot-player/GraphicOpStage"
 import { ForceScene, SpeedScene } from "@/components/junior/player/science-scenes";
 import { juniorBookletCopy } from "@/lib/junior/booklet";
 import { lockTimelineToExactAudioMs } from "@/lib/junior/pilot-engine/pcm-cue-aligner";
+import "@/lib/junior/pilot-engine/acoustic-timeline-disk";
 import { resolveJuniorPlayback } from "@/lib/junior/pilot-engine/playback";
 import { reduceSceneState, type SceneGraphState, type TimedNumber } from "@/lib/junior/pilot-engine/state-reducer";
 import type { TimelineJSON, VisualKeyframe } from "@/lib/junior/pilot-engine/schema";
@@ -74,10 +75,10 @@ describe("kuvvet ve sürat sözleşmesi", () => {
         expect(film, `${lessonKey} ${sentence}`).toContain(sentence);
       }
     }
-    expect(resolveJuniorPlayback("jr_06_fen-19").engine).toBe("sealed");
-    expect(resolveJuniorPlayback("jr_06_fen-20").engine).toBe("sealed");
-    expect(resolveJuniorPlayback("jr_06_fen-22").engine).toBe("sealed");
-    expect(resolveJuniorPlayback("jr_06_fen-16").engine).toBe("sealed");
+    expect(resolveJuniorPlayback("jr_06_fen-19").engine).toBe("pilot");
+    expect(resolveJuniorPlayback("jr_06_fen-20").engine).toBe("pilot");
+    expect(resolveJuniorPlayback("jr_06_fen-22").engine).toBe("pilot");
+    expect(resolveJuniorPlayback("jr_06_fen-16").engine).toBe("pilot");
   });
 
   it("newton, sürat ve yer değiştirme grafik parametresidir", () => {

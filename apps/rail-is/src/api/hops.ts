@@ -1,8 +1,11 @@
 /**
- * Dron hop allowlist — sunucu `@yetkin/kernel` `RAIL_V1_HOPS_META` ile hizalı.
+ * Dron hop allowlist — TEK KAYNAK `@yetkin/kernel` `RAIL_V1_HOPS_META`dir (SSOT, Görev Paketi #02).
+ * Bu dosyada yol/metot listesi elle yazılmaz; liste metadan türetilir.
+ * Meta değişince native liste kendiliğinden değişir; sessiz senkron kayması olmaz.
  * Yazma hop'ları (satın alma, kilit, müfredat, sınav, cüzdan yükleme, portföy, profil)
  * Bearer + Idempotency-Key. Müfredat/sınav GET okuma hop'ları T3 halkası.
  * Native IAP yoktur; cüzdan DEBIT ve PayTR top-up hop'u açıktır.
+ * Junior kasa hop'u sicildedir. Satış kapısı `JUNIOR_CHECKOUT_OPEN` boşken kapalıdır.
  */
 
 import {
@@ -21,71 +24,37 @@ export const DRON_FAZ2_FROZEN =
  */
 export const DRON_TEZGAH_STORE_ISOLATED: boolean = true;
 
-/** Yayınlanmış B2C hop'ları — Dron'un çağırabileceği uçlar. */
-export const RAIL_IS_DAY0_HOPS = {
-  health: { method: "GET", path: "/api/v1/health" },
-  academyCertificate: {
-    method: "GET",
-    pathTemplate: "/api/v1/academy/certificates/{hash}",
-  },
-  academyPulse: { method: "GET", path: "/api/v1/academy/pulse" },
-  academyPurchase: {
-    method: "POST",
-    pathTemplate: "/api/v1/academy/courses/{id}/purchase",
-  },
-  academyLock: {
-    method: "POST",
-    pathTemplate: "/api/v1/academy/courses/{id}/lock",
-  },
-  academyCurriculum: {
-    method: "POST",
-    pathTemplate: "/api/v1/academy/courses/{id}/curriculum",
-  },
-  academyCurriculumRead: {
-    method: "GET",
-    pathTemplate: "/api/v1/academy/courses/{id}/curriculum",
-  },
-  academyExam: {
-    method: "POST",
-    pathTemplate: "/api/v1/academy/courses/{id}/exam",
-  },
-  academyExamRead: {
-    method: "GET",
-    pathTemplate: "/api/v1/academy/courses/{id}/exam",
-  },
-  session: { method: "GET", path: "/api/v1/auth/session" },
-  walletStrip: { method: "GET", path: "/api/v1/dashboard/wallet-strip" },
-  walletTopUp: { method: "POST", path: "/api/v1/wallet/top-up" },
-  careerPulse: { method: "GET", path: "/api/v1/career/pulse" },
-  careerVisas: { method: "GET", path: "/api/v1/career/visas" },
-  careerPortfolio: { method: "POST", path: "/api/v1/career/portfolio" },
-  profilePatch: { method: "PATCH", path: "/api/v1/profile" },
-  juniorLessonRead: {
-    method: "GET",
-    pathTemplate: "/api/v1/junior/lessons/{key}",
-  },
-  juniorLessonPlay: {
-    method: "GET",
-    pathTemplate: "/api/v1/junior/lessons/{key}/play",
-  },
-  juniorLessonProgress: {
-    method: "POST",
-    pathTemplate: "/api/v1/junior/lessons/{key}/progress",
-  },
-  juniorLessonPractice: {
-    method: "POST",
-    pathTemplate: "/api/v1/junior/lessons/{key}/practice",
-  },
-  juniorProfile: { method: "GET", path: "/api/v1/junior-pilot/profiles" },
-  juniorProfileCreate: { method: "POST", path: "/api/v1/junior-pilot/profiles" },
-  juniorProfileSelect: { method: "PATCH", path: "/api/v1/junior-pilot/profiles" },
-  juniorProfileConsent: { method: "PUT", path: "/api/v1/junior-pilot/profiles" },
-  juniorProfileErase: { method: "DELETE", path: "/api/v1/junior-pilot/profiles" },
-  juniorElectives: { method: "POST", path: "/api/v1/junior-pilot/electives" },
-  juniorTell: { method: "POST", path: "/api/v1/junior-pilot/tell" },
-  juniorPilotPractice: { method: "POST", path: "/api/v1/junior-pilot/practice" },
-  juniorQuiz: { method: "POST", path: "/api/v1/junior-pilot/quiz" },
-} as const;
+/** Anahtar adlandırma istisnaları: metadaki id, native'de tarihsel anahtarla okunur. Yol/metot buradan gelmez. */
+const HOP_KEY_ALIASES: Readonly<Record<string, string>> = {
+  "auth-session": "session",
+  "junior-practice": "juniorPilotPractice",
+};
+
+function hopKey(id: string): string {
+  const alias = HOP_KEY_ALIASES[id];
+  if (alias) return alias;
+  return id.replace(/-([a-z0-9])/g, (_m: string, ch: string) => ch.toUpperCase());
+}
+
+type RailIsDay0HopEntry = { method: string; path: string } | { method: string; pathTemplate: string };
+
+/** Yayınlanmış B2C hop'ları — RAIL_V1_HOPS_META'dan türetilir, elle tutulmaz. */
+export const RAIL_IS_DAY0_HOPS = Object.fromEntries(
+  RAIL_V1_HOPS_META.filter((hop) => !isRailV1HopMetaDronForbidden(hop)).map((hop) => {
+    const entry: RailIsDay0HopEntry = hop.v1PathTemplate.includes("{")
+      ? { method: hop.method, pathTemplate: hop.v1PathTemplate }
+      : { method: hop.method, path: hop.v1PathTemplate };
+    return [hopKey(hop.id), entry] as const;
+  }),
+) as Readonly<
+  Record<string, { method: string; path: string; pathTemplate: string }> & {
+    session: { method: string; path: string };
+    walletStrip: { method: string; path: string };
+    walletTopUp: { method: string; path: string };
+    academyPulse: { method: string; path: string };
+    careerVisas: { method: string; path: string };
+  }
+>;
 
 /**
  * Faz 2 Tezgâh sicili — canlı allowlist değildir.

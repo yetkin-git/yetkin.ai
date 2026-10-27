@@ -20,7 +20,7 @@ export type JuniorActivityClozePublic = {
   prompt: string;
   before: string;
   after: string;
-  /** Çoklu boşluk doldurma cümleleri (örn. `jr_06_mat-5`). */
+  /** Çoklu boşluk doldurma cümleleri (örn. `jr_06_mat-1`). */
   gaps?: JuniorActivityClozeGapPublic[];
   /** Tıklanabilir / sürüklenebilir kelime bankası ipuçları. */
   wordBank?: string[];
@@ -44,7 +44,7 @@ export type JuniorActivityOrderPublic = {
   prompt: string;
   /** Ekranda görünen sıra veya dedektif sayı kartları. Doğru sıra bu dizide durmaz. */
   tiles: { id: string; label: string }[];
-  /** Dedektif roket sınıflandırma bulmacası (örn. `jr_06_mat-5`). */
+  /** Dedektif roket sınıflandırma bulmacası (örn. `jr_06_mat-1`). */
   puzzle?: JuniorActivityPuzzlePublic;
 };
 

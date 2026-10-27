@@ -1,0 +1,2405 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_ing_main-10",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "World and Culture: ülke ve milliyet",
+  "grade": 6,
+  "subject": "İngilizce",
+  "teacher": {
+    "name": "Selin",
+    "voice": "Kore",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_ing_main-10.mp3",
+    "durationMs": 278338,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 70850
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 70850,
+      "endMs": 232270
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 232270,
+      "endMs": 278338
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 2080,
+      "pauseAfterMs": 320,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 240,
+          "endMs": 610
+        },
+        {
+          "word": "sevgili",
+          "startMs": 610,
+          "endMs": 1170
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 1170,
+          "endMs": 1760
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "World and Culture: ülke ve milliyet",
+            "subtitle": "İngilizce",
+            "ruleBadges": [],
+            "echoPrompt": "Bir kişinin ülkesini ve milliyetini iki cümlede söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "From ülke adıyla, is milliyet sıfatıyla kurulur."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Turkey ülke, Turkish milliyettir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Where are you from sorusu nereli olduğunu sorar."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 2080,
+      "endMs": 4200,
+      "pauseAfterMs": 480,
+      "text": "Ben İngilizce öğretmenin Selin.",
+      "markedText": "Ben İngilizce öğretmenin Selin.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 2080,
+          "endMs": 2300
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 2360,
+          "endMs": 2820
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 2820,
+          "endMs": 3420
+        },
+        {
+          "word": "Selin.",
+          "startMs": 3420,
+          "endMs": 3720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 4200,
+      "endMs": 10650,
+      "pauseAfterMs": 340,
+      "text": "Dünya üzerinde birçok ülke ve birçok selamlaşma biçimi vardır.",
+      "markedText": "Dünya üzerinde birçok ülke ve birçok selamlaşma biçimi vardır.",
+      "words": [
+        {
+          "word": "Dünya",
+          "startMs": 4200,
+          "endMs": 4530
+        },
+        {
+          "word": "üzerinde",
+          "startMs": 4530,
+          "endMs": 5410
+        },
+        {
+          "word": "birçok",
+          "startMs": 5490,
+          "endMs": 5970
+        },
+        {
+          "word": "ülke",
+          "startMs": 6200,
+          "endMs": 6460
+        },
+        {
+          "word": "ve",
+          "startMs": 6510,
+          "endMs": 6640
+        },
+        {
+          "word": "birçok",
+          "startMs": 6780,
+          "endMs": 7200
+        },
+        {
+          "word": "selamlaşma",
+          "startMs": 7280,
+          "endMs": 8160
+        },
+        {
+          "word": "biçimi",
+          "startMs": 8660,
+          "endMs": 9390
+        },
+        {
+          "word": "vardır.",
+          "startMs": 9710,
+          "endMs": 10310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 10650,
+      "endMs": 18520,
+      "pauseAfterMs": 370,
+      "text": "Bir arkadaşın İstanbul'dan, bir başkası başka bir şehirden gelebilir.",
+      "markedText": "Bir arkadaşın İstanbul'dan, bir başkası başka bir şehirden gelebilir.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 10650,
+          "endMs": 10940
+        },
+        {
+          "word": "arkadaşın",
+          "startMs": 11020,
+          "endMs": 11670
+        },
+        {
+          "word": "İstanbul'dan,",
+          "startMs": 11730,
+          "endMs": 12680
+        },
+        {
+          "word": "bir",
+          "startMs": 13250,
+          "endMs": 13630
+        },
+        {
+          "word": "başkası",
+          "startMs": 13630,
+          "endMs": 14320
+        },
+        {
+          "word": "başka",
+          "startMs": 14860,
+          "endMs": 15020
+        },
+        {
+          "word": "bir",
+          "startMs": 15300,
+          "endMs": 15630
+        },
+        {
+          "word": "şehirden",
+          "startMs": 15700,
+          "endMs": 16490
+        },
+        {
+          "word": "gelebilir.",
+          "startMs": 16740,
+          "endMs": 18150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 18520,
+      "endMs": 26230,
+      "pauseAfterMs": 350,
+      "text": "World and Culture konusunda önce ülke adını, sonra milliyeti söyleyeceğiz.",
+      "markedText": "World and Culture konusunda önce ülke adını, sonra milliyeti söyleyeceğiz.",
+      "words": [
+        {
+          "word": "World",
+          "startMs": 18520,
+          "endMs": 18820
+        },
+        {
+          "word": "and",
+          "startMs": 18900,
+          "endMs": 19070
+        },
+        {
+          "word": "Culture",
+          "startMs": 19110,
+          "endMs": 19790
+        },
+        {
+          "word": "konusunda",
+          "startMs": 20250,
+          "endMs": 20870
+        },
+        {
+          "word": "önce",
+          "startMs": 20930,
+          "endMs": 21400
+        },
+        {
+          "word": "ülke",
+          "startMs": 21540,
+          "endMs": 21840
+        },
+        {
+          "word": "adını,",
+          "startMs": 21840,
+          "endMs": 22670
+        },
+        {
+          "word": "sonra",
+          "startMs": 23060,
+          "endMs": 23330
+        },
+        {
+          "word": "milliyeti",
+          "startMs": 23450,
+          "endMs": 24320
+        },
+        {
+          "word": "söyleyeceğiz.",
+          "startMs": 24610,
+          "endMs": 25880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 26230,
+      "endMs": 34530,
+      "pauseAfterMs": 580,
+      "text": "Bir haritayı gözlemlemek, from ile gelen ülke adını yerinde tutar.",
+      "markedText": "Bir haritayı gözlemlemek, from ile gelen ülke adını yerinde tutar.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 26230,
+          "endMs": 26470
+        },
+        {
+          "word": "haritayı",
+          "startMs": 26470,
+          "endMs": 27410
+        },
+        {
+          "word": "gözlemlemek,",
+          "startMs": 27410,
+          "endMs": 28490
+        },
+        {
+          "word": "from",
+          "startMs": 28810,
+          "endMs": 29030
+        },
+        {
+          "word": "ile",
+          "startMs": 29130,
+          "endMs": 29690
+        },
+        {
+          "word": "gelen",
+          "startMs": 30170,
+          "endMs": 30840
+        },
+        {
+          "word": "ülke",
+          "startMs": 30890,
+          "endMs": 31390
+        },
+        {
+          "word": "adını",
+          "startMs": 31670,
+          "endMs": 32140
+        },
+        {
+          "word": "yerinde",
+          "startMs": 32600,
+          "endMs": 33210
+        },
+        {
+          "word": "tutar.",
+          "startMs": 33290,
+          "endMs": 33950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 34530,
+      "endMs": 40290,
+      "pauseAfterMs": 390,
+      "text": "Bunu okulda bir dünya haritasının yanında deneyebilirsin.",
+      "markedText": "Bunu okulda bir dünya haritasının yanında deneyebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 34530,
+          "endMs": 34930
+        },
+        {
+          "word": "okulda",
+          "startMs": 34930,
+          "endMs": 35450
+        },
+        {
+          "word": "bir",
+          "startMs": 35640,
+          "endMs": 35780
+        },
+        {
+          "word": "dünya",
+          "startMs": 35780,
+          "endMs": 36320
+        },
+        {
+          "word": "haritasının",
+          "startMs": 36640,
+          "endMs": 37540
+        },
+        {
+          "word": "yanında",
+          "startMs": 37540,
+          "endMs": 38260
+        },
+        {
+          "word": "deneyebilirsin.",
+          "startMs": 38490,
+          "endMs": 39900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 40290,
+      "endMs": 48550,
+      "pauseAfterMs": 750,
+      "text": "Kendi şehrini söylemeden önce ülkeyi kur: I am from Turkey.",
+      "markedText": "Kendi şehrini söylemeden önce ülkeyi kur: I am from Turkey.",
+      "words": [
+        {
+          "word": "Kendi",
+          "startMs": 40290,
+          "endMs": 40640
+        },
+        {
+          "word": "şehrini",
+          "startMs": 40680,
+          "endMs": 41960
+        },
+        {
+          "word": "söylemeden",
+          "startMs": 42520,
+          "endMs": 43420
+        },
+        {
+          "word": "önce",
+          "startMs": 43490,
+          "endMs": 44070
+        },
+        {
+          "word": "ülkeyi",
+          "startMs": 44340,
+          "endMs": 45080
+        },
+        {
+          "word": "kur:",
+          "startMs": 45240,
+          "endMs": 45410
+        },
+        {
+          "word": "I",
+          "startMs": 45690,
+          "endMs": 45750
+        },
+        {
+          "word": "am",
+          "startMs": 45750,
+          "endMs": 45880
+        },
+        {
+          "word": "from",
+          "startMs": 46010,
+          "endMs": 46510
+        },
+        {
+          "word": "Turkey.",
+          "startMs": 47080,
+          "endMs": 47800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 48550,
+      "endMs": 56160,
+      "pauseAfterMs": 590,
+      "text": "Televizyonda başka bir ülke görünce She is from Japan diye dene.",
+      "markedText": "Televizyonda başka bir ülke görünce She is from Japan diye dene.",
+      "words": [
+        {
+          "word": "Televizyonda",
+          "startMs": 48550,
+          "endMs": 49910
+        },
+        {
+          "word": "başka",
+          "startMs": 50130,
+          "endMs": 50290
+        },
+        {
+          "word": "bir",
+          "startMs": 50420,
+          "endMs": 50580
+        },
+        {
+          "word": "ülke",
+          "startMs": 50660,
+          "endMs": 51190
+        },
+        {
+          "word": "görünce",
+          "startMs": 51740,
+          "endMs": 52480
+        },
+        {
+          "word": "She",
+          "startMs": 53020,
+          "endMs": 53190
+        },
+        {
+          "word": "is",
+          "startMs": 53320,
+          "endMs": 53440
+        },
+        {
+          "word": "from",
+          "startMs": 53820,
+          "endMs": 54030
+        },
+        {
+          "word": "Japan",
+          "startMs": 54480,
+          "endMs": 54630
+        },
+        {
+          "word": "diye",
+          "startMs": 54720,
+          "endMs": 54820
+        },
+        {
+          "word": "dene.",
+          "startMs": 54940,
+          "endMs": 55570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 56160,
+      "endMs": 59370,
+      "pauseAfterMs": 570,
+      "text": "Sabah öğretmene Good morning de.",
+      "markedText": "Sabah öğretmene Good morning de.",
+      "words": [
+        {
+          "word": "Sabah",
+          "startMs": 56160,
+          "endMs": 56480
+        },
+        {
+          "word": "öğretmene",
+          "startMs": 56480,
+          "endMs": 57160
+        },
+        {
+          "word": "Good",
+          "startMs": 57610,
+          "endMs": 57740
+        },
+        {
+          "word": "morning",
+          "startMs": 57790,
+          "endMs": 58380
+        },
+        {
+          "word": "de.",
+          "startMs": 58380,
+          "endMs": 58800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 59370,
+      "endMs": 70850,
+      "pauseAfterMs": 420,
+      "text": "Akşam yemeğinde ailenle bir selam sözcüğü konuşmak, culture sözcüğünü somutlaştırır.",
+      "markedText": "Akşam yemeğinde ailenle bir selam sözcüğü konuşmak, culture sözcüğünü somutlaştırır.",
+      "words": [
+        {
+          "word": "Akşam",
+          "startMs": 59370,
+          "endMs": 59790
+        },
+        {
+          "word": "yemeğinde",
+          "startMs": 59900,
+          "endMs": 60390
+        },
+        {
+          "word": "ailenle",
+          "startMs": 60780,
+          "endMs": 61230
+        },
+        {
+          "word": "bir",
+          "startMs": 61230,
+          "endMs": 61790
+        },
+        {
+          "word": "selam",
+          "startMs": 62320,
+          "endMs": 62650
+        },
+        {
+          "word": "sözcüğü",
+          "startMs": 63000,
+          "endMs": 63850
+        },
+        {
+          "word": "konuşmak,",
+          "startMs": 64190,
+          "endMs": 65190
+        },
+        {
+          "word": "culture",
+          "startMs": 65750,
+          "endMs": 67090
+        },
+        {
+          "word": "sözcüğünü",
+          "startMs": 67460,
+          "endMs": 68370
+        },
+        {
+          "word": "somutlaştırır.",
+          "startMs": 68880,
+          "endMs": 70430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 70850,
+      "endMs": 76210,
+      "pauseAfterMs": 590,
+      "text": "Ülke söylerken from kullanılır: I am from Turkey.",
+      "markedText": "Ülke söylerken from kullanılır: I am from Turkey.",
+      "words": [
+        {
+          "word": "Ülke",
+          "startMs": 70850,
+          "endMs": 71160
+        },
+        {
+          "word": "söylerken",
+          "startMs": 71230,
+          "endMs": 71930
+        },
+        {
+          "word": "from",
+          "startMs": 72000,
+          "endMs": 72300
+        },
+        {
+          "word": "kullanılır:",
+          "startMs": 72680,
+          "endMs": 73270
+        },
+        {
+          "word": "I",
+          "startMs": 73540,
+          "endMs": 73690
+        },
+        {
+          "word": "am",
+          "startMs": 73690,
+          "endMs": 74060
+        },
+        {
+          "word": "from",
+          "startMs": 74290,
+          "endMs": 74720
+        },
+        {
+          "word": "Turkey.",
+          "startMs": 74810,
+          "endMs": 75620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 76210,
+      "endMs": 84090,
+      "pauseAfterMs": 450,
+      "text": "Milliyet bir sıfattır ve is ile gelir: I am Turkish.",
+      "markedText": "Milliyet bir sıfattır ve is ile gelir: I am Turkish.",
+      "words": [
+        {
+          "word": "Milliyet",
+          "startMs": 76210,
+          "endMs": 76930
+        },
+        {
+          "word": "bir",
+          "startMs": 77450,
+          "endMs": 77740
+        },
+        {
+          "word": "sıfattır",
+          "startMs": 77970,
+          "endMs": 79040
+        },
+        {
+          "word": "ve",
+          "startMs": 79270,
+          "endMs": 79360
+        },
+        {
+          "word": "is",
+          "startMs": 79360,
+          "endMs": 79450
+        },
+        {
+          "word": "ile",
+          "startMs": 79720,
+          "endMs": 80050
+        },
+        {
+          "word": "gelir:",
+          "startMs": 80290,
+          "endMs": 80880
+        },
+        {
+          "word": "I",
+          "startMs": 81380,
+          "endMs": 81480
+        },
+        {
+          "word": "am",
+          "startMs": 81840,
+          "endMs": 82200
+        },
+        {
+          "word": "Turkish.",
+          "startMs": 82650,
+          "endMs": 83640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 84090,
+      "endMs": 88590,
+      "pauseAfterMs": 590,
+      "text": "Turkey ülke, Turkish milliyettir.",
+      "markedText": "Turkey ülke, Turkish milliyettir.",
+      "words": [
+        {
+          "word": "Turkey",
+          "startMs": 84090,
+          "endMs": 84830
+        },
+        {
+          "word": "ülke,",
+          "startMs": 84920,
+          "endMs": 85400
+        },
+        {
+          "word": "Turkish",
+          "startMs": 85880,
+          "endMs": 86950
+        },
+        {
+          "word": "milliyettir.",
+          "startMs": 87140,
+          "endMs": 88000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 88590,
+      "endMs": 93350,
+      "pauseAfterMs": 540,
+      "text": "Japan ülke, Japanese milliyettir.",
+      "markedText": "Japan ülke, Japanese milliyettir.",
+      "words": [
+        {
+          "word": "Japan",
+          "startMs": 88590,
+          "endMs": 89100
+        },
+        {
+          "word": "ülke,",
+          "startMs": 89210,
+          "endMs": 89830
+        },
+        {
+          "word": "Japanese",
+          "startMs": 90280,
+          "endMs": 90990
+        },
+        {
+          "word": "milliyettir.",
+          "startMs": 91480,
+          "endMs": 92810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 93350,
+      "endMs": 98100,
+      "pauseAfterMs": 390,
+      "text": "England ülke, English milliyettir.",
+      "markedText": "England ülke, English milliyettir.",
+      "words": [
+        {
+          "word": "England",
+          "startMs": 93350,
+          "endMs": 94120
+        },
+        {
+          "word": "ülke,",
+          "startMs": 94270,
+          "endMs": 94440
+        },
+        {
+          "word": "English",
+          "startMs": 94880,
+          "endMs": 95880
+        },
+        {
+          "word": "milliyettir.",
+          "startMs": 96080,
+          "endMs": 97710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 98100,
+      "endMs": 101220,
+      "pauseAfterMs": 390,
+      "text": "Soru Where are you from?",
+      "markedText": "Soru Where are you from?",
+      "words": [
+        {
+          "word": "Soru",
+          "startMs": 98100,
+          "endMs": 98750
+        },
+        {
+          "word": "Where",
+          "startMs": 99000,
+          "endMs": 99470
+        },
+        {
+          "word": "are",
+          "startMs": 99630,
+          "endMs": 99780
+        },
+        {
+          "word": "you",
+          "startMs": 100050,
+          "endMs": 100530
+        },
+        {
+          "word": "from?",
+          "startMs": 100620,
+          "endMs": 100830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 101220,
+      "endMs": 103650,
+      "pauseAfterMs": 590,
+      "text": "nerelisin demektir.",
+      "markedText": "nerelisin demektir.",
+      "words": [
+        {
+          "word": "nerelisin",
+          "startMs": 101220,
+          "endMs": 101970
+        },
+        {
+          "word": "demektir.",
+          "startMs": 102170,
+          "endMs": 103060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 103650,
+      "endMs": 106020,
+      "pauseAfterMs": 410,
+      "text": "What is your nationality?",
+      "markedText": "What is your nationality?",
+      "words": [
+        {
+          "word": "What",
+          "startMs": 103650,
+          "endMs": 103980
+        },
+        {
+          "word": "is",
+          "startMs": 103980,
+          "endMs": 104090
+        },
+        {
+          "word": "your",
+          "startMs": 104370,
+          "endMs": 104560
+        },
+        {
+          "word": "nationality?",
+          "startMs": 104680,
+          "endMs": 105610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 106020,
+      "endMs": 109940,
+      "pauseAfterMs": 630,
+      "text": "milliyetini sorar.",
+      "markedText": "milliyetini sorar.",
+      "words": [
+        {
+          "word": "milliyetini",
+          "startMs": 106020,
+          "endMs": 106940
+        },
+        {
+          "word": "sorar.",
+          "startMs": 108220,
+          "endMs": 109310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 109940,
+      "endMs": 125080,
+      "pauseAfterMs": 900,
+      "text": "Selam da kültürün parçasıdır: Hello ve Hi yaygındır, Türkiye'de günaydın Good morning ile karşılanır.",
+      "markedText": "Selam da kültürün parçasıdır: Hello ve Hi yaygındır, Türkiye'de günaydın Good morning ile karşılanır.",
+      "words": [
+        {
+          "word": "Selam",
+          "startMs": 109940,
+          "endMs": 110480
+        },
+        {
+          "word": "da",
+          "startMs": 110550,
+          "endMs": 110780
+        },
+        {
+          "word": "kültürün",
+          "startMs": 110930,
+          "endMs": 111920
+        },
+        {
+          "word": "parçasıdır:",
+          "startMs": 112100,
+          "endMs": 113700
+        },
+        {
+          "word": "Hello",
+          "startMs": 114200,
+          "endMs": 114890
+        },
+        {
+          "word": "ve",
+          "startMs": 115470,
+          "endMs": 115740
+        },
+        {
+          "word": "Hi",
+          "startMs": 115810,
+          "endMs": 116010
+        },
+        {
+          "word": "yaygındır,",
+          "startMs": 116010,
+          "endMs": 117810
+        },
+        {
+          "word": "Türkiye'de",
+          "startMs": 119140,
+          "endMs": 119910
+        },
+        {
+          "word": "günaydın",
+          "startMs": 119980,
+          "endMs": 120400
+        },
+        {
+          "word": "Good",
+          "startMs": 120790,
+          "endMs": 120890
+        },
+        {
+          "word": "morning",
+          "startMs": 121080,
+          "endMs": 121630
+        },
+        {
+          "word": "ile",
+          "startMs": 121750,
+          "endMs": 121990
+        },
+        {
+          "word": "karşılanır.",
+          "startMs": 122250,
+          "endMs": 124180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 125080,
+      "endMs": 132270,
+      "pauseAfterMs": 700,
+      "text": "Pratik kural: From ülke adı ister, is milliyet sıfatı ister.",
+      "markedText": "Pratik kural: From ülke adı ister, is milliyet sıfatı ister.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 125080,
+          "endMs": 125910
+        },
+        {
+          "word": "kural:",
+          "startMs": 126210,
+          "endMs": 126480
+        },
+        {
+          "word": "From",
+          "startMs": 126740,
+          "endMs": 126900
+        },
+        {
+          "word": "ülke",
+          "startMs": 127010,
+          "endMs": 127280
+        },
+        {
+          "word": "adı",
+          "startMs": 127390,
+          "endMs": 127580
+        },
+        {
+          "word": "ister,",
+          "startMs": 127660,
+          "endMs": 128370
+        },
+        {
+          "word": "is",
+          "startMs": 129040,
+          "endMs": 129240
+        },
+        {
+          "word": "milliyet",
+          "startMs": 129350,
+          "endMs": 129850
+        },
+        {
+          "word": "sıfatı",
+          "startMs": 130160,
+          "endMs": 130650
+        },
+        {
+          "word": "ister.",
+          "startMs": 130990,
+          "endMs": 131570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 132270,
+      "endMs": 140000,
+      "pauseAfterMs": 430,
+      "text": "Ece kendini tanıtır: I am from Turkey and I am Turkish.",
+      "markedText": "Ece kendini tanıtır: I am from Turkey and I am Turkish.",
+      "words": [
+        {
+          "word": "Ece",
+          "startMs": 132270,
+          "endMs": 132680
+        },
+        {
+          "word": "kendini",
+          "startMs": 132780,
+          "endMs": 133350
+        },
+        {
+          "word": "tanıtır:",
+          "startMs": 133530,
+          "endMs": 134880
+        },
+        {
+          "word": "I",
+          "startMs": 135630,
+          "endMs": 135790
+        },
+        {
+          "word": "am",
+          "startMs": 135790,
+          "endMs": 135980
+        },
+        {
+          "word": "from",
+          "startMs": 136170,
+          "endMs": 136340
+        },
+        {
+          "word": "Turkey",
+          "startMs": 136920,
+          "endMs": 137180
+        },
+        {
+          "word": "and",
+          "startMs": 137560,
+          "endMs": 137920
+        },
+        {
+          "word": "I",
+          "startMs": 138010,
+          "endMs": 138180
+        },
+        {
+          "word": "am",
+          "startMs": 138300,
+          "endMs": 138460
+        },
+        {
+          "word": "Turkish.",
+          "startMs": 138550,
+          "endMs": 139570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 140000,
+      "endMs": 148580,
+      "pauseAfterMs": 390,
+      "text": "Japon bir konuk için She is from Japan and she is Japanese dersin.",
+      "markedText": "Japon bir konuk için She is from Japan and she is Japanese dersin.",
+      "words": [
+        {
+          "word": "Japon",
+          "startMs": 140000,
+          "endMs": 140170
+        },
+        {
+          "word": "bir",
+          "startMs": 140310,
+          "endMs": 140490
+        },
+        {
+          "word": "konuk",
+          "startMs": 140490,
+          "endMs": 141190
+        },
+        {
+          "word": "için",
+          "startMs": 142130,
+          "endMs": 142570
+        },
+        {
+          "word": "She",
+          "startMs": 142570,
+          "endMs": 143090
+        },
+        {
+          "word": "is",
+          "startMs": 144000,
+          "endMs": 144160
+        },
+        {
+          "word": "from",
+          "startMs": 144660,
+          "endMs": 144900
+        },
+        {
+          "word": "Japan",
+          "startMs": 145020,
+          "endMs": 145410
+        },
+        {
+          "word": "and",
+          "startMs": 145410,
+          "endMs": 145670
+        },
+        {
+          "word": "she",
+          "startMs": 145670,
+          "endMs": 145920
+        },
+        {
+          "word": "is",
+          "startMs": 145920,
+          "endMs": 146140
+        },
+        {
+          "word": "Japanese",
+          "startMs": 147040,
+          "endMs": 147770
+        },
+        {
+          "word": "dersin.",
+          "startMs": 147860,
+          "endMs": 148190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 148580,
+      "endMs": 159530,
+      "pauseAfterMs": 830,
+      "text": "İngiliz bir öğretmen He is from England and he is English diye tanıtılır.",
+      "markedText": "İngiliz bir öğretmen He is from England and he is English diye tanıtılır.",
+      "words": [
+        {
+          "word": "İngiliz",
+          "startMs": 148580,
+          "endMs": 149230
+        },
+        {
+          "word": "bir",
+          "startMs": 149470,
+          "endMs": 149560
+        },
+        {
+          "word": "öğretmen",
+          "startMs": 149660,
+          "endMs": 150290
+        },
+        {
+          "word": "He",
+          "startMs": 151290,
+          "endMs": 151400
+        },
+        {
+          "word": "is",
+          "startMs": 152020,
+          "endMs": 152190
+        },
+        {
+          "word": "from",
+          "startMs": 152670,
+          "endMs": 152830
+        },
+        {
+          "word": "England",
+          "startMs": 153220,
+          "endMs": 153830
+        },
+        {
+          "word": "and",
+          "startMs": 153830,
+          "endMs": 154010
+        },
+        {
+          "word": "he",
+          "startMs": 154210,
+          "endMs": 154330
+        },
+        {
+          "word": "is",
+          "startMs": 155040,
+          "endMs": 155130
+        },
+        {
+          "word": "English",
+          "startMs": 155830,
+          "endMs": 156240
+        },
+        {
+          "word": "diye",
+          "startMs": 156360,
+          "endMs": 157150
+        },
+        {
+          "word": "tanıtılır.",
+          "startMs": 157360,
+          "endMs": 158700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 159530,
+      "endMs": 163950,
+      "pauseAfterMs": 1340,
+      "text": "Arkadaşın Where are you from?",
+      "markedText": "Arkadaşın Where are you from?",
+      "words": [
+        {
+          "word": "Arkadaşın",
+          "startMs": 159530,
+          "endMs": 160260
+        },
+        {
+          "word": "Where",
+          "startMs": 160350,
+          "endMs": 160870
+        },
+        {
+          "word": "are",
+          "startMs": 161340,
+          "endMs": 161670
+        },
+        {
+          "word": "you",
+          "startMs": 161710,
+          "endMs": 162150
+        },
+        {
+          "word": "from?",
+          "startMs": 162210,
+          "endMs": 162610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 163950,
+      "endMs": 170490,
+      "pauseAfterMs": 780,
+      "text": "diye sorarsa I am from Turkey diye cevap verirsin.",
+      "markedText": "diye sorarsa I am from Turkey diye cevap verirsin.",
+      "words": [
+        {
+          "word": "diye",
+          "startMs": 163950,
+          "endMs": 164440
+        },
+        {
+          "word": "sorarsa",
+          "startMs": 164440,
+          "endMs": 165010
+        },
+        {
+          "word": "I",
+          "startMs": 165060,
+          "endMs": 165120
+        },
+        {
+          "word": "am",
+          "startMs": 165440,
+          "endMs": 165560
+        },
+        {
+          "word": "from",
+          "startMs": 165870,
+          "endMs": 166110
+        },
+        {
+          "word": "Turkey",
+          "startMs": 166110,
+          "endMs": 166940
+        },
+        {
+          "word": "diye",
+          "startMs": 167210,
+          "endMs": 167610
+        },
+        {
+          "word": "cevap",
+          "startMs": 167610,
+          "endMs": 168150
+        },
+        {
+          "word": "verirsin.",
+          "startMs": 168590,
+          "endMs": 169710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 170490,
+      "endMs": 180220,
+      "pauseAfterMs": 660,
+      "text": "Haritada iki ülke yan yanaysa They are from different countries cümlesi ikisini birden anlatır.",
+      "markedText": "Haritada iki ülke yan yanaysa They are from different countries cümlesi ikisini birden anlatır.",
+      "words": [
+        {
+          "word": "Haritada",
+          "startMs": 170490,
+          "endMs": 170710
+        },
+        {
+          "word": "iki",
+          "startMs": 170890,
+          "endMs": 171020
+        },
+        {
+          "word": "ülke",
+          "startMs": 171140,
+          "endMs": 171320
+        },
+        {
+          "word": "yan",
+          "startMs": 171380,
+          "endMs": 171990
+        },
+        {
+          "word": "yanaysa",
+          "startMs": 172690,
+          "endMs": 173480
+        },
+        {
+          "word": "They",
+          "startMs": 173900,
+          "endMs": 174040
+        },
+        {
+          "word": "are",
+          "startMs": 174040,
+          "endMs": 174250
+        },
+        {
+          "word": "from",
+          "startMs": 174330,
+          "endMs": 174870
+        },
+        {
+          "word": "different",
+          "startMs": 176040,
+          "endMs": 176570
+        },
+        {
+          "word": "countries",
+          "startMs": 176570,
+          "endMs": 177130
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 177130,
+          "endMs": 177480
+        },
+        {
+          "word": "ikisini",
+          "startMs": 177670,
+          "endMs": 177980
+        },
+        {
+          "word": "birden",
+          "startMs": 178080,
+          "endMs": 178470
+        },
+        {
+          "word": "anlatır.",
+          "startMs": 178470,
+          "endMs": 179560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 180220,
+      "endMs": 189150,
+      "pauseAfterMs": 750,
+      "text": "Good morning diyerek güne başlamak da bu kültürün nazik kapısıdır.",
+      "markedText": "Good morning diyerek güne başlamak da bu kültürün nazik kapısıdır.",
+      "words": [
+        {
+          "word": "Good",
+          "startMs": 180220,
+          "endMs": 180640
+        },
+        {
+          "word": "morning",
+          "startMs": 180790,
+          "endMs": 181210
+        },
+        {
+          "word": "diyerek",
+          "startMs": 181350,
+          "endMs": 182340
+        },
+        {
+          "word": "güne",
+          "startMs": 183090,
+          "endMs": 183540
+        },
+        {
+          "word": "başlamak",
+          "startMs": 183680,
+          "endMs": 184610
+        },
+        {
+          "word": "da",
+          "startMs": 184610,
+          "endMs": 184680
+        },
+        {
+          "word": "bu",
+          "startMs": 184820,
+          "endMs": 185030
+        },
+        {
+          "word": "kültürün",
+          "startMs": 185300,
+          "endMs": 185900
+        },
+        {
+          "word": "nazik",
+          "startMs": 187000,
+          "endMs": 187460
+        },
+        {
+          "word": "kapısıdır.",
+          "startMs": 187460,
+          "endMs": 188400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 189150,
+      "endMs": 190440,
+      "pauseAfterMs": 330,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 189150,
+          "endMs": 189540
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 189630,
+          "endMs": 190110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 190440,
+      "endMs": 195710,
+      "pauseAfterMs": 690,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 190440,
+          "endMs": 190860
+        },
+        {
+          "word": "bir",
+          "startMs": 190860,
+          "endMs": 191140
+        },
+        {
+          "word": "kez",
+          "startMs": 191140,
+          "endMs": 191410
+        },
+        {
+          "word": "görünce",
+          "startMs": 191550,
+          "endMs": 192540
+        },
+        {
+          "word": "kolayca",
+          "startMs": 193220,
+          "endMs": 193950
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 194110,
+          "endMs": 195020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 195710,
+      "endMs": 205860,
+      "pauseAfterMs": 910,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 195710,
+          "endMs": 196220
+        },
+        {
+          "word": "sevgili",
+          "startMs": 196260,
+          "endMs": 197050
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 197290,
+          "endMs": 198460
+        },
+        {
+          "word": "işte",
+          "startMs": 199700,
+          "endMs": 199930
+        },
+        {
+          "word": "tam",
+          "startMs": 200060,
+          "endMs": 200440
+        },
+        {
+          "word": "bu",
+          "startMs": 200440,
+          "endMs": 200680
+        },
+        {
+          "word": "noktada",
+          "startMs": 200810,
+          "endMs": 201320
+        },
+        {
+          "word": "dikkat",
+          "startMs": 201600,
+          "endMs": 202020
+        },
+        {
+          "word": "etmen",
+          "startMs": 202020,
+          "endMs": 202850
+        },
+        {
+          "word": "gereken",
+          "startMs": 203550,
+          "endMs": 203760
+        },
+        {
+          "word": "kilit",
+          "startMs": 203860,
+          "endMs": 204020
+        },
+        {
+          "word": "nokta.",
+          "startMs": 204110,
+          "endMs": 204950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 205860,
+      "endMs": 213950,
+      "pauseAfterMs": 350,
+      "text": "I am from Turkish demek ülke ile sıfatı karıştırır; from Turkey, am Turkish diye ayrılır.",
+      "markedText": "I am from Turkish demek ülke ile sıfatı karıştırır; from Turkey, am Turkish diye ayrılır.",
+      "words": [
+        {
+          "word": "I",
+          "startMs": 205860,
+          "endMs": 205940
+        },
+        {
+          "word": "am",
+          "startMs": 205980,
+          "endMs": 206180
+        },
+        {
+          "word": "from",
+          "startMs": 206280,
+          "endMs": 206600
+        },
+        {
+          "word": "Turkish",
+          "startMs": 206710,
+          "endMs": 207060
+        },
+        {
+          "word": "demek",
+          "startMs": 207060,
+          "endMs": 207290
+        },
+        {
+          "word": "ülke",
+          "startMs": 207420,
+          "endMs": 207600
+        },
+        {
+          "word": "ile",
+          "startMs": 207880,
+          "endMs": 208030
+        },
+        {
+          "word": "sıfatı",
+          "startMs": 208030,
+          "endMs": 208240
+        },
+        {
+          "word": "karıştırır;",
+          "startMs": 208360,
+          "endMs": 209310
+        },
+        {
+          "word": "from",
+          "startMs": 210460,
+          "endMs": 210700
+        },
+        {
+          "word": "Turkey,",
+          "startMs": 210700,
+          "endMs": 211470
+        },
+        {
+          "word": "am",
+          "startMs": 211760,
+          "endMs": 211890
+        },
+        {
+          "word": "Turkish",
+          "startMs": 212000,
+          "endMs": 212300
+        },
+        {
+          "word": "diye",
+          "startMs": 212300,
+          "endMs": 212680
+        },
+        {
+          "word": "ayrılır.",
+          "startMs": 212930,
+          "endMs": 213600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-2",
+      "startMs": 213950,
+      "endMs": 216490,
+      "pauseAfterMs": 850,
+      "text": "She is from Japanese da aynı tuzaktır.",
+      "markedText": "She is from Japanese da aynı tuzaktır.",
+      "words": [
+        {
+          "word": "She",
+          "startMs": 213950,
+          "endMs": 214080
+        },
+        {
+          "word": "is",
+          "startMs": 214080,
+          "endMs": 214120
+        },
+        {
+          "word": "from",
+          "startMs": 214120,
+          "endMs": 214380
+        },
+        {
+          "word": "Japanese",
+          "startMs": 214380,
+          "endMs": 214870
+        },
+        {
+          "word": "da",
+          "startMs": 214870,
+          "endMs": 214930
+        },
+        {
+          "word": "aynı",
+          "startMs": 214930,
+          "endMs": 215030
+        },
+        {
+          "word": "tuzaktır.",
+          "startMs": 215140,
+          "endMs": 215640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-2",
+      "startMs": 216490,
+      "endMs": 224270,
+      "pauseAfterMs": 1030,
+      "text": "Ülke adını milliyet gibi, milliyeti ülke gibi kullanmak cümleyi bozar.",
+      "markedText": "Ülke adını milliyet gibi, milliyeti ülke gibi kullanmak cümleyi bozar.",
+      "words": [
+        {
+          "word": "Ülke",
+          "startMs": 216490,
+          "endMs": 216860
+        },
+        {
+          "word": "adını",
+          "startMs": 217130,
+          "endMs": 217380
+        },
+        {
+          "word": "milliyet",
+          "startMs": 217450,
+          "endMs": 217820
+        },
+        {
+          "word": "gibi,",
+          "startMs": 217920,
+          "endMs": 218410
+        },
+        {
+          "word": "milliyeti",
+          "startMs": 219220,
+          "endMs": 219600
+        },
+        {
+          "word": "ülke",
+          "startMs": 219720,
+          "endMs": 220060
+        },
+        {
+          "word": "gibi",
+          "startMs": 220220,
+          "endMs": 220590
+        },
+        {
+          "word": "kullanmak",
+          "startMs": 220790,
+          "endMs": 221670
+        },
+        {
+          "word": "cümleyi",
+          "startMs": 222230,
+          "endMs": 222620
+        },
+        {
+          "word": "bozar.",
+          "startMs": 222780,
+          "endMs": 223240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-2",
+      "startMs": 224270,
+      "endMs": 232270,
+      "pauseAfterMs": 470,
+      "text": "World and Culture konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "World and Culture konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "World",
+          "startMs": 224270,
+          "endMs": 224490
+        },
+        {
+          "word": "and",
+          "startMs": 224600,
+          "endMs": 224830
+        },
+        {
+          "word": "Culture",
+          "startMs": 224900,
+          "endMs": 225290
+        },
+        {
+          "word": "konusunda",
+          "startMs": 225290,
+          "endMs": 225970
+        },
+        {
+          "word": "kuralın",
+          "startMs": 225970,
+          "endMs": 227070
+        },
+        {
+          "word": "tersini",
+          "startMs": 227900,
+          "endMs": 228340
+        },
+        {
+          "word": "sanmak",
+          "startMs": 228460,
+          "endMs": 228910
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 229000,
+          "endMs": 229730
+        },
+        {
+          "word": "ters",
+          "startMs": 230430,
+          "endMs": 230530
+        },
+        {
+          "word": "cümle",
+          "startMs": 230610,
+          "endMs": 231050
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 231160,
+          "endMs": 231800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 232270,
+      "endMs": 234920,
+      "pauseAfterMs": 1140,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 232270,
+          "endMs": 232550
+        },
+        {
+          "word": "Neler",
+          "startMs": 232640,
+          "endMs": 232970
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 232970,
+          "endMs": 233780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 234920,
+      "endMs": 235050,
+      "pauseAfterMs": 60,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 234920,
+          "endMs": 234990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 235050,
+      "endMs": 241990,
+      "pauseAfterMs": 920,
+      "text": "From ülke adıyla, is milliyet sıfatıyla kurulur.",
+      "markedText": "From ülke adıyla, is milliyet sıfatıyla kurulur.",
+      "words": [
+        {
+          "word": "From",
+          "startMs": 235050,
+          "endMs": 235370
+        },
+        {
+          "word": "ülke",
+          "startMs": 235370,
+          "endMs": 235740
+        },
+        {
+          "word": "adıyla,",
+          "startMs": 235740,
+          "endMs": 236530
+        },
+        {
+          "word": "is",
+          "startMs": 237170,
+          "endMs": 237380
+        },
+        {
+          "word": "milliyet",
+          "startMs": 237380,
+          "endMs": 238150
+        },
+        {
+          "word": "sıfatıyla",
+          "startMs": 238490,
+          "endMs": 239450
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 239610,
+          "endMs": 241070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 241990,
+      "endMs": 242570,
+      "pauseAfterMs": 120,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 241990,
+          "endMs": 242450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 242570,
+      "endMs": 248910,
+      "pauseAfterMs": 1740,
+      "text": "Turkey ülke, Turkish milliyettir.",
+      "markedText": "Turkey ülke, Turkish milliyettir.",
+      "words": [
+        {
+          "word": "Turkey",
+          "startMs": 242570,
+          "endMs": 243080
+        },
+        {
+          "word": "ülke,",
+          "startMs": 243190,
+          "endMs": 244300
+        },
+        {
+          "word": "Turkish",
+          "startMs": 245380,
+          "endMs": 245830
+        },
+        {
+          "word": "milliyettir.",
+          "startMs": 245830,
+          "endMs": 247170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 248910,
+      "endMs": 249200,
+      "pauseAfterMs": 50,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 248910,
+          "endMs": 249150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 249200,
+      "endMs": 254670,
+      "pauseAfterMs": 710,
+      "text": "Where are you from sorusu nereli olduğunu sorar.",
+      "markedText": "Where are you from sorusu nereli olduğunu sorar.",
+      "words": [
+        {
+          "word": "Where",
+          "startMs": 249200,
+          "endMs": 249450
+        },
+        {
+          "word": "are",
+          "startMs": 249580,
+          "endMs": 250150
+        },
+        {
+          "word": "you",
+          "startMs": 250460,
+          "endMs": 250630
+        },
+        {
+          "word": "from",
+          "startMs": 250730,
+          "endMs": 251030
+        },
+        {
+          "word": "sorusu",
+          "startMs": 251030,
+          "endMs": 251330
+        },
+        {
+          "word": "nereli",
+          "startMs": 251470,
+          "endMs": 251860
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 251970,
+          "endMs": 252780
+        },
+        {
+          "word": "sorar.",
+          "startMs": 252780,
+          "endMs": 253960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 254670,
+      "endMs": 259190,
+      "pauseAfterMs": 780,
+      "text": "Ülke from ile, milliyet is ile kurulur.",
+      "markedText": "Ülke from ile, milliyet is ile kurulur.",
+      "words": [
+        {
+          "word": "Ülke",
+          "startMs": 254670,
+          "endMs": 254870
+        },
+        {
+          "word": "from",
+          "startMs": 254940,
+          "endMs": 255010
+        },
+        {
+          "word": "ile,",
+          "startMs": 255100,
+          "endMs": 255400
+        },
+        {
+          "word": "milliyet",
+          "startMs": 256700,
+          "endMs": 256970
+        },
+        {
+          "word": "is",
+          "startMs": 257200,
+          "endMs": 257330
+        },
+        {
+          "word": "ile",
+          "startMs": 257330,
+          "endMs": 257500
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 257610,
+          "endMs": 258410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 259190,
+      "endMs": 266300,
+      "pauseAfterMs": 1190,
+      "text": "Bir kişinin ülkesini ve milliyetini iki cümlede söylersin.",
+      "markedText": "Bir kişinin ülkesini ve milliyetini iki cümlede söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 259190,
+          "endMs": 259300
+        },
+        {
+          "word": "kişinin",
+          "startMs": 259490,
+          "endMs": 259910
+        },
+        {
+          "word": "ülkesini",
+          "startMs": 260110,
+          "endMs": 260710
+        },
+        {
+          "word": "ve",
+          "startMs": 261030,
+          "endMs": 261430
+        },
+        {
+          "word": "milliyetini",
+          "startMs": 261700,
+          "endMs": 262490
+        },
+        {
+          "word": "iki",
+          "startMs": 263390,
+          "endMs": 263620
+        },
+        {
+          "word": "cümlede",
+          "startMs": 263690,
+          "endMs": 264030
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 264160,
+          "endMs": 265110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 266300,
+      "endMs": 270560,
+      "pauseAfterMs": 1390,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 266300,
+          "endMs": 267880
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 268120,
+          "endMs": 269170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 270560,
+      "endMs": 273650,
+      "pauseAfterMs": 660,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 270560,
+          "endMs": 271170
+        },
+        {
+          "word": "bir",
+          "startMs": 271360,
+          "endMs": 271550
+        },
+        {
+          "word": "iş",
+          "startMs": 271910,
+          "endMs": 272160
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 272220,
+          "endMs": 272990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-3",
+      "startMs": 273650,
+      "endMs": 275200,
+      "pauseAfterMs": 720,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 273650,
+          "endMs": 273850
+        },
+        {
+          "word": "sıra",
+          "startMs": 273850,
+          "endMs": 274140
+        },
+        {
+          "word": "sende.",
+          "startMs": 274140,
+          "endMs": 274480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-3",
+      "startMs": 275200,
+      "endMs": 278338,
+      "pauseAfterMs": 438,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 275200,
+          "endMs": 275770
+        },
+        {
+          "word": "bu",
+          "startMs": 275770,
+          "endMs": 275860
+        },
+        {
+          "word": "notları",
+          "startMs": 275950,
+          "endMs": 276220
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 276320,
+          "endMs": 276640
+        },
+        {
+          "word": "kendi",
+          "startMs": 276770,
+          "endMs": 277020
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 277080,
+          "endMs": 277620
+        },
+        {
+          "word": "anlat.",
+          "startMs": 277620,
+          "endMs": 277900
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

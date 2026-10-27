@@ -117,9 +117,11 @@ describe("yetkin.ai marka / favicon yüzeyi", () => {
     expect(readSrc("components/shell/shell-chrome.tsx")).toContain("YETKIN_BRAND");
     expect(readSrc("components/shell/desktop-sidebar.tsx")).toContain("YETKIN_BRAND");
     expect(readSrc("app/layout.tsx")).toContain("YETKIN_BRAND");
-    expect(readSrc("components/shell/shell-chrome.tsx")).toContain("YETKIN_SHELL_TAGLINE");
-    expect(readSrc("components/shell/desktop-sidebar.tsx")).toContain("YETKIN_SHELL_TAGLINE");
-    expect(readSrc("app/layout.tsx")).toContain("PUBLIC_SEN.home.title");
+    expect(readSrc("components/shell/shell-chrome.tsx")).toContain("shellBrandHome");
+    expect(readSrc("components/shell/desktop-sidebar.tsx")).toContain("shellBrandHome");
+    expect(readSrc("lib/ui/junior-shell.ts")).toContain("YETKIN_SHELL_TAGLINE");
+    expect(readSrc("app/layout.tsx")).toContain("default: YETKIN_BRAND");
+    expect(readSrc("app/layout.tsx")).not.toContain("PUBLIC_SEN.home.title");
   });
 
   it("ana sayfa güven taahhüdü TL sınırı basmaz; ödeme pasifken dürüst dil basar", () => {
@@ -139,6 +141,6 @@ describe("yetkin.ai marka / favicon yüzeyi", () => {
     expect(readSrc("app/(public)/page.tsx")).not.toContain("comingSoonBadge");
     expect(readSrc("app/(public)/page.tsx")).toContain("data-academy-production-band");
     expect(readSrc("app/(public)/page.tsx")).not.toContain("preload(");
-    expect(PUBLIC_SEN.home.title).toBe("Yapay zekâ yetkinliğini kanıtla, kariyerini mühürle");
+    expect(PUBLIC_SEN.home.title).toBe("Yapay Zekâyı Öğren. Gerçek İşlerinde Kullan.");
   });
 });

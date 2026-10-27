@@ -1,0 +1,2085 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_sosyal-21",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Toplumsal sorunu müzakere",
+  "grade": 6,
+  "subject": "Sosyal Bilgiler",
+  "teacher": {
+    "name": "Murat",
+    "voice": "Achird",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_sosyal-21.mp3",
+    "durationMs": 250667,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 66580
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 66580,
+      "endMs": 202010
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 202010,
+      "endMs": 250667
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4900,
+      "pauseAfterMs": 1380,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 160,
+          "endMs": 1270
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1810,
+          "endMs": 2460
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2510,
+          "endMs": 3520
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Toplumsal sorunu müzakere",
+            "subtitle": "Sosyal Bilgiler",
+            "ruleBadges": [],
+            "echoPrompt": "Bir sorunu adlandırır, tartışırken sözü kişiye değil işe yöneltirsin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Toplumsal sorun, birden fazla kişiyi etkileyen ortak iştir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Müzakere, dinleyerek ortak karar aramaktır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Tartışırken söz kişiye değil soruna gider."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4900,
+      "endMs": 9690,
+      "pauseAfterMs": 910,
+      "text": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "markedText": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4900,
+          "endMs": 5330
+        },
+        {
+          "word": "Sosyal",
+          "startMs": 5420,
+          "endMs": 5800
+        },
+        {
+          "word": "Bilgiler",
+          "startMs": 6190,
+          "endMs": 6930
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 7260,
+          "endMs": 8120
+        },
+        {
+          "word": "Murat.",
+          "startMs": 8170,
+          "endMs": 8780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 9690,
+      "endMs": 17240,
+      "pauseAfterMs": 970,
+      "text": "Okul bahçesinde top sırası yüzünden iki grup karşı karşıya geldi mi?",
+      "markedText": "Okul bahçesinde top sırası yüzünden iki grup karşı karşıya geldi mi?",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 9690,
+          "endMs": 9940
+        },
+        {
+          "word": "bahçesinde",
+          "startMs": 9940,
+          "endMs": 10660
+        },
+        {
+          "word": "top",
+          "startMs": 10930,
+          "endMs": 11120
+        },
+        {
+          "word": "sırası",
+          "startMs": 11410,
+          "endMs": 12010
+        },
+        {
+          "word": "yüzünden",
+          "startMs": 12160,
+          "endMs": 12830
+        },
+        {
+          "word": "iki",
+          "startMs": 12830,
+          "endMs": 13360
+        },
+        {
+          "word": "grup",
+          "startMs": 14040,
+          "endMs": 14220
+        },
+        {
+          "word": "karşı",
+          "startMs": 14440,
+          "endMs": 14750
+        },
+        {
+          "word": "karşıya",
+          "startMs": 14850,
+          "endMs": 15400
+        },
+        {
+          "word": "geldi",
+          "startMs": 15400,
+          "endMs": 15700
+        },
+        {
+          "word": "mi?",
+          "startMs": 15920,
+          "endMs": 16270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 17240,
+      "endMs": 24300,
+      "pauseAfterMs": 670,
+      "text": "Biri daha uzun oynamak ister, diğeri sıranın kendisine geldiğini söyler.",
+      "markedText": "Biri daha uzun oynamak ister, diğeri sıranın kendisine geldiğini söyler.",
+      "words": [
+        {
+          "word": "Biri",
+          "startMs": 17240,
+          "endMs": 17610
+        },
+        {
+          "word": "daha",
+          "startMs": 17710,
+          "endMs": 18060
+        },
+        {
+          "word": "uzun",
+          "startMs": 18120,
+          "endMs": 18610
+        },
+        {
+          "word": "oynamak",
+          "startMs": 18750,
+          "endMs": 19340
+        },
+        {
+          "word": "ister,",
+          "startMs": 19550,
+          "endMs": 20190
+        },
+        {
+          "word": "diğeri",
+          "startMs": 20880,
+          "endMs": 21340
+        },
+        {
+          "word": "sıranın",
+          "startMs": 21470,
+          "endMs": 21860
+        },
+        {
+          "word": "kendisine",
+          "startMs": 21950,
+          "endMs": 22390
+        },
+        {
+          "word": "geldiğini",
+          "startMs": 22550,
+          "endMs": 23130
+        },
+        {
+          "word": "söyler.",
+          "startMs": 23130,
+          "endMs": 23630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 24300,
+      "endMs": 27180,
+      "pauseAfterMs": 720,
+      "text": "Bu, tek kişinin özel derdi değildir.",
+      "markedText": "Bu, tek kişinin özel derdi değildir.",
+      "words": [
+        {
+          "word": "Bu,",
+          "startMs": 24300,
+          "endMs": 24350
+        },
+        {
+          "word": "tek",
+          "startMs": 24350,
+          "endMs": 24490
+        },
+        {
+          "word": "kişinin",
+          "startMs": 24490,
+          "endMs": 24870
+        },
+        {
+          "word": "özel",
+          "startMs": 24870,
+          "endMs": 25210
+        },
+        {
+          "word": "derdi",
+          "startMs": 25280,
+          "endMs": 25400
+        },
+        {
+          "word": "değildir.",
+          "startMs": 25540,
+          "endMs": 26460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 27180,
+      "endMs": 35730,
+      "pauseAfterMs": 720,
+      "text": "Müzakerenin adımlarını bir toplantı masasında kuracağız.",
+      "markedText": "Müzakerenin adımlarını bir toplantı masasında kuracağız.",
+      "words": [
+        {
+          "word": "Müzakerenin",
+          "startMs": 27180,
+          "endMs": 28380
+        },
+        {
+          "word": "adımlarını",
+          "startMs": 28470,
+          "endMs": 29440
+        },
+        {
+          "word": "bir",
+          "startMs": 29570,
+          "endMs": 30400
+        },
+        {
+          "word": "toplantı",
+          "startMs": 30880,
+          "endMs": 31650
+        },
+        {
+          "word": "masasında",
+          "startMs": 32140,
+          "endMs": 33250
+        },
+        {
+          "word": "kuracağız.",
+          "startMs": 33670,
+          "endMs": 35010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 35730,
+      "endMs": 41220,
+      "pauseAfterMs": 610,
+      "text": "Bunu evde akşam oyun saati çakışınca da görebilirsin.",
+      "markedText": "Bunu evde akşam oyun saati çakışınca da görebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 35730,
+          "endMs": 36050
+        },
+        {
+          "word": "evde",
+          "startMs": 36140,
+          "endMs": 36330
+        },
+        {
+          "word": "akşam",
+          "startMs": 36510,
+          "endMs": 36760
+        },
+        {
+          "word": "oyun",
+          "startMs": 36760,
+          "endMs": 37040
+        },
+        {
+          "word": "saati",
+          "startMs": 37040,
+          "endMs": 37560
+        },
+        {
+          "word": "çakışınca",
+          "startMs": 37560,
+          "endMs": 38330
+        },
+        {
+          "word": "da",
+          "startMs": 39280,
+          "endMs": 39390
+        },
+        {
+          "word": "görebilirsin.",
+          "startMs": 39430,
+          "endMs": 40610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 41220,
+      "endMs": 46550,
+      "pauseAfterMs": 700,
+      "text": "Kardeşinle masaya oturup sırayı konuşursunuz.",
+      "markedText": "Kardeşinle masaya oturup sırayı konuşursunuz.",
+      "words": [
+        {
+          "word": "Kardeşinle",
+          "startMs": 41220,
+          "endMs": 42090
+        },
+        {
+          "word": "masaya",
+          "startMs": 42320,
+          "endMs": 42820
+        },
+        {
+          "word": "oturup",
+          "startMs": 43080,
+          "endMs": 43550
+        },
+        {
+          "word": "sırayı",
+          "startMs": 43820,
+          "endMs": 44430
+        },
+        {
+          "word": "konuşursunuz.",
+          "startMs": 44530,
+          "endMs": 45850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 46550,
+      "endMs": 60890,
+      "pauseAfterMs": 860,
+      "text": "Arkadaşınla sınıf nöbetini tartışırken de aynı sıra işler: önce dinle, sonra seçenek söyle, en sonda birlikte karar ver.",
+      "markedText": "Arkadaşınla sınıf nöbetini tartışırken de aynı sıra işler: önce dinle, sonra seçenek söyle, en sonda birlikte karar ver.",
+      "words": [
+        {
+          "word": "Arkadaşınla",
+          "startMs": 46550,
+          "endMs": 47100
+        },
+        {
+          "word": "sınıf",
+          "startMs": 47200,
+          "endMs": 47400
+        },
+        {
+          "word": "nöbetini",
+          "startMs": 47510,
+          "endMs": 48130
+        },
+        {
+          "word": "tartışırken",
+          "startMs": 48210,
+          "endMs": 49040
+        },
+        {
+          "word": "de",
+          "startMs": 49230,
+          "endMs": 49380
+        },
+        {
+          "word": "aynı",
+          "startMs": 49470,
+          "endMs": 49710
+        },
+        {
+          "word": "sıra",
+          "startMs": 49780,
+          "endMs": 49970
+        },
+        {
+          "word": "işler:",
+          "startMs": 49970,
+          "endMs": 50580
+        },
+        {
+          "word": "önce",
+          "startMs": 51310,
+          "endMs": 51820
+        },
+        {
+          "word": "dinle,",
+          "startMs": 51820,
+          "endMs": 52760
+        },
+        {
+          "word": "sonra",
+          "startMs": 53380,
+          "endMs": 53530
+        },
+        {
+          "word": "seçenek",
+          "startMs": 53920,
+          "endMs": 54350
+        },
+        {
+          "word": "söyle,",
+          "startMs": 54530,
+          "endMs": 55100
+        },
+        {
+          "word": "en",
+          "startMs": 55770,
+          "endMs": 56180
+        },
+        {
+          "word": "sonda",
+          "startMs": 56330,
+          "endMs": 56720
+        },
+        {
+          "word": "birlikte",
+          "startMs": 56910,
+          "endMs": 57840
+        },
+        {
+          "word": "karar",
+          "startMs": 58060,
+          "endMs": 58710
+        },
+        {
+          "word": "ver.",
+          "startMs": 59080,
+          "endMs": 60030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 60890,
+      "endMs": 66580,
+      "pauseAfterMs": 460,
+      "text": "Müzakere, kazananı aşağılayan bir yarış değildir.",
+      "markedText": "Müzakere, kazananı aşağılayan bir yarış değildir.",
+      "words": [
+        {
+          "word": "Müzakere,",
+          "startMs": 60890,
+          "endMs": 61440
+        },
+        {
+          "word": "kazananı",
+          "startMs": 61880,
+          "endMs": 63060
+        },
+        {
+          "word": "aşağılayan",
+          "startMs": 63650,
+          "endMs": 64440
+        },
+        {
+          "word": "bir",
+          "startMs": 64940,
+          "endMs": 65170
+        },
+        {
+          "word": "yarış",
+          "startMs": 65270,
+          "endMs": 65610
+        },
+        {
+          "word": "değildir.",
+          "startMs": 65750,
+          "endMs": 66120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 66580,
+      "endMs": 76060,
+      "pauseAfterMs": 670,
+      "text": "Toplumsal sorun, sınıfı, bahçeyi ya da oyunu birlikte kullananları etkiler.",
+      "markedText": "Toplumsal sorun, sınıfı, bahçeyi ya da oyunu birlikte kullananları etkiler.",
+      "words": [
+        {
+          "word": "Toplumsal",
+          "startMs": 66580,
+          "endMs": 67320
+        },
+        {
+          "word": "sorun,",
+          "startMs": 67420,
+          "endMs": 68010
+        },
+        {
+          "word": "sınıfı,",
+          "startMs": 68790,
+          "endMs": 69230
+        },
+        {
+          "word": "bahçeyi",
+          "startMs": 69310,
+          "endMs": 70130
+        },
+        {
+          "word": "ya",
+          "startMs": 70220,
+          "endMs": 70610
+        },
+        {
+          "word": "da",
+          "startMs": 71500,
+          "endMs": 71590
+        },
+        {
+          "word": "oyunu",
+          "startMs": 71680,
+          "endMs": 72070
+        },
+        {
+          "word": "birlikte",
+          "startMs": 72170,
+          "endMs": 72780
+        },
+        {
+          "word": "kullananları",
+          "startMs": 72960,
+          "endMs": 73860
+        },
+        {
+          "word": "etkiler.",
+          "startMs": 74120,
+          "endMs": 75390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 76060,
+      "endMs": 85490,
+      "pauseAfterMs": 540,
+      "text": "Müzakere, tarafların birbirini kesmeden dinleyip ortak bir karar aramasıdır.",
+      "markedText": "Müzakere, tarafların birbirini kesmeden dinleyip ortak bir karar aramasıdır.",
+      "words": [
+        {
+          "word": "Müzakere,",
+          "startMs": 76060,
+          "endMs": 77640
+        },
+        {
+          "word": "tarafların",
+          "startMs": 78170,
+          "endMs": 79080
+        },
+        {
+          "word": "birbirini",
+          "startMs": 79080,
+          "endMs": 79720
+        },
+        {
+          "word": "kesmeden",
+          "startMs": 80500,
+          "endMs": 81250
+        },
+        {
+          "word": "dinleyip",
+          "startMs": 81450,
+          "endMs": 82210
+        },
+        {
+          "word": "ortak",
+          "startMs": 82800,
+          "endMs": 82950
+        },
+        {
+          "word": "bir",
+          "startMs": 83090,
+          "endMs": 83220
+        },
+        {
+          "word": "karar",
+          "startMs": 83290,
+          "endMs": 83470
+        },
+        {
+          "word": "aramasıdır.",
+          "startMs": 83790,
+          "endMs": 84950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 85490,
+      "endMs": 92480,
+      "pauseAfterMs": 730,
+      "text": "Tartışma bu masanın içindedir: söz, kişiye değil soruna gider.",
+      "markedText": "Tartışma bu masanın içindedir: söz, kişiye değil soruna gider.",
+      "words": [
+        {
+          "word": "Tartışma",
+          "startMs": 85490,
+          "endMs": 85890
+        },
+        {
+          "word": "bu",
+          "startMs": 86040,
+          "endMs": 86510
+        },
+        {
+          "word": "masanın",
+          "startMs": 87110,
+          "endMs": 87600
+        },
+        {
+          "word": "içindedir:",
+          "startMs": 87850,
+          "endMs": 88560
+        },
+        {
+          "word": "söz,",
+          "startMs": 89130,
+          "endMs": 89260
+        },
+        {
+          "word": "kişiye",
+          "startMs": 89260,
+          "endMs": 89550
+        },
+        {
+          "word": "değil",
+          "startMs": 89780,
+          "endMs": 90330
+        },
+        {
+          "word": "soruna",
+          "startMs": 90660,
+          "endMs": 90930
+        },
+        {
+          "word": "gider.",
+          "startMs": 91200,
+          "endMs": 91750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 92480,
+      "endMs": 101700,
+      "pauseAfterMs": 730,
+      "text": "Dayatmak ise karşı tarafı dinlemeden kendi kuralını tek doğru ilan etmektir.",
+      "markedText": "Dayatmak ise karşı tarafı dinlemeden kendi kuralını tek doğru ilan etmektir.",
+      "words": [
+        {
+          "word": "Dayatmak",
+          "startMs": 92480,
+          "endMs": 93160
+        },
+        {
+          "word": "ise",
+          "startMs": 93220,
+          "endMs": 93580
+        },
+        {
+          "word": "karşı",
+          "startMs": 94040,
+          "endMs": 94440
+        },
+        {
+          "word": "tarafı",
+          "startMs": 94510,
+          "endMs": 95000
+        },
+        {
+          "word": "dinlemeden",
+          "startMs": 95450,
+          "endMs": 96130
+        },
+        {
+          "word": "kendi",
+          "startMs": 96190,
+          "endMs": 96510
+        },
+        {
+          "word": "kuralını",
+          "startMs": 97320,
+          "endMs": 98160
+        },
+        {
+          "word": "tek",
+          "startMs": 98700,
+          "endMs": 98890
+        },
+        {
+          "word": "doğru",
+          "startMs": 98970,
+          "endMs": 99400
+        },
+        {
+          "word": "ilan",
+          "startMs": 99810,
+          "endMs": 100000
+        },
+        {
+          "word": "etmektir.",
+          "startMs": 100100,
+          "endMs": 100970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 101700,
+      "endMs": 113950,
+      "pauseAfterMs": 800,
+      "text": "Pratik kural: Önce sorunu adlandır, sonra dinle, sonra seçenek söyle, en sonda ortak kararda buluş.",
+      "markedText": "Pratik kural: Önce sorunu adlandır, sonra dinle, sonra seçenek söyle, en sonda ortak kararda buluş.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 101700,
+          "endMs": 101880
+        },
+        {
+          "word": "kural:",
+          "startMs": 101990,
+          "endMs": 102380
+        },
+        {
+          "word": "Önce",
+          "startMs": 102450,
+          "endMs": 102710
+        },
+        {
+          "word": "sorunu",
+          "startMs": 103210,
+          "endMs": 103900
+        },
+        {
+          "word": "adlandır,",
+          "startMs": 104100,
+          "endMs": 105530
+        },
+        {
+          "word": "sonra",
+          "startMs": 106560,
+          "endMs": 107170
+        },
+        {
+          "word": "dinle,",
+          "startMs": 107450,
+          "endMs": 108040
+        },
+        {
+          "word": "sonra",
+          "startMs": 108150,
+          "endMs": 108580
+        },
+        {
+          "word": "seçenek",
+          "startMs": 108680,
+          "endMs": 109130
+        },
+        {
+          "word": "söyle,",
+          "startMs": 109220,
+          "endMs": 110180
+        },
+        {
+          "word": "en",
+          "startMs": 110850,
+          "endMs": 111100
+        },
+        {
+          "word": "sonda",
+          "startMs": 111300,
+          "endMs": 111530
+        },
+        {
+          "word": "ortak",
+          "startMs": 111630,
+          "endMs": 112090
+        },
+        {
+          "word": "kararda",
+          "startMs": 112420,
+          "endMs": 112820
+        },
+        {
+          "word": "buluş.",
+          "startMs": 112820,
+          "endMs": 113150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 113950,
+      "endMs": 121810,
+      "pauseAfterMs": 450,
+      "text": "Okul bahçesinde top sırası kalabalıklaşınca sınıf meclisi masaya oturur.",
+      "markedText": "Okul bahçesinde top sırası kalabalıklaşınca sınıf meclisi masaya oturur.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 113950,
+          "endMs": 114210
+        },
+        {
+          "word": "bahçesinde",
+          "startMs": 114290,
+          "endMs": 115010
+        },
+        {
+          "word": "top",
+          "startMs": 115100,
+          "endMs": 115170
+        },
+        {
+          "word": "sırası",
+          "startMs": 115170,
+          "endMs": 115690
+        },
+        {
+          "word": "kalabalıklaşınca",
+          "startMs": 115930,
+          "endMs": 117610
+        },
+        {
+          "word": "sınıf",
+          "startMs": 118010,
+          "endMs": 118180
+        },
+        {
+          "word": "meclisi",
+          "startMs": 118280,
+          "endMs": 118990
+        },
+        {
+          "word": "masaya",
+          "startMs": 120330,
+          "endMs": 120710
+        },
+        {
+          "word": "oturur.",
+          "startMs": 120710,
+          "endMs": 121360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 121810,
+      "endMs": 129150,
+      "pauseAfterMs": 1190,
+      "text": "İlk iş sorunu adlandırmaktır: herkes aynı anda oynayamıyor.",
+      "markedText": "İlk iş sorunu adlandırmaktır: herkes aynı anda oynayamıyor.",
+      "words": [
+        {
+          "word": "İlk",
+          "startMs": 121810,
+          "endMs": 121930
+        },
+        {
+          "word": "iş",
+          "startMs": 122630,
+          "endMs": 122700
+        },
+        {
+          "word": "sorunu",
+          "startMs": 122700,
+          "endMs": 123070
+        },
+        {
+          "word": "adlandırmaktır:",
+          "startMs": 123220,
+          "endMs": 124230
+        },
+        {
+          "word": "herkes",
+          "startMs": 124740,
+          "endMs": 125010
+        },
+        {
+          "word": "aynı",
+          "startMs": 125010,
+          "endMs": 125560
+        },
+        {
+          "word": "anda",
+          "startMs": 125780,
+          "endMs": 126120
+        },
+        {
+          "word": "oynayamıyor.",
+          "startMs": 126220,
+          "endMs": 127960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 129150,
+      "endMs": 134140,
+      "pauseAfterMs": 1800,
+      "text": "Sonra her grup sırayla dinlenir.",
+      "markedText": "Sonra her grup sırayla dinlenir.",
+      "words": [
+        {
+          "word": "Sonra",
+          "startMs": 129150,
+          "endMs": 129370
+        },
+        {
+          "word": "her",
+          "startMs": 129930,
+          "endMs": 130190
+        },
+        {
+          "word": "grup",
+          "startMs": 130300,
+          "endMs": 130510
+        },
+        {
+          "word": "sırayla",
+          "startMs": 130750,
+          "endMs": 131370
+        },
+        {
+          "word": "dinlenir.",
+          "startMs": 131440,
+          "endMs": 132340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 134140,
+      "endMs": 141140,
+      "pauseAfterMs": 1130,
+      "text": "Tartışırken «sen bencilsin» denmez; «süre yetmiyor» denir.",
+      "markedText": "Tartışırken «sen bencilsin» denmez; «süre yetmiyor» denir.",
+      "words": [
+        {
+          "word": "Tartışırken",
+          "startMs": 134140,
+          "endMs": 134740
+        },
+        {
+          "word": "«sen",
+          "startMs": 134860,
+          "endMs": 134980
+        },
+        {
+          "word": "bencilsin»",
+          "startMs": 135270,
+          "endMs": 135700
+        },
+        {
+          "word": "denmez;",
+          "startMs": 136000,
+          "endMs": 136510
+        },
+        {
+          "word": "«süre",
+          "startMs": 137630,
+          "endMs": 138010
+        },
+        {
+          "word": "yetmiyor»",
+          "startMs": 138110,
+          "endMs": 139090
+        },
+        {
+          "word": "denir.",
+          "startMs": 139220,
+          "endMs": 140010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 141140,
+      "endMs": 152190,
+      "pauseAfterMs": 1180,
+      "text": "Ardından iki seçenek gelir: onar dakika dönüşüm ya da iki ayrı kale.",
+      "markedText": "Ardından iki seçenek gelir: onar dakika dönüşüm ya da iki ayrı kale.",
+      "words": [
+        {
+          "word": "Ardından",
+          "startMs": 141140,
+          "endMs": 142040
+        },
+        {
+          "word": "iki",
+          "startMs": 142340,
+          "endMs": 142720
+        },
+        {
+          "word": "seçenek",
+          "startMs": 142860,
+          "endMs": 143940
+        },
+        {
+          "word": "gelir:",
+          "startMs": 144590,
+          "endMs": 145350
+        },
+        {
+          "word": "onar",
+          "startMs": 146020,
+          "endMs": 146480
+        },
+        {
+          "word": "dakika",
+          "startMs": 146600,
+          "endMs": 147170
+        },
+        {
+          "word": "dönüşüm",
+          "startMs": 147250,
+          "endMs": 148240
+        },
+        {
+          "word": "ya",
+          "startMs": 148960,
+          "endMs": 149290
+        },
+        {
+          "word": "da",
+          "startMs": 149290,
+          "endMs": 149390
+        },
+        {
+          "word": "iki",
+          "startMs": 149520,
+          "endMs": 149740
+        },
+        {
+          "word": "ayrı",
+          "startMs": 150180,
+          "endMs": 150520
+        },
+        {
+          "word": "kale.",
+          "startMs": 150590,
+          "endMs": 151010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 152190,
+      "endMs": 155350,
+      "pauseAfterMs": 420,
+      "text": "Ortak karar yazılır ve iki grup da kabul eder.",
+      "markedText": "Ortak karar yazılır ve iki grup da kabul eder.",
+      "words": [
+        {
+          "word": "Ortak",
+          "startMs": 152190,
+          "endMs": 152490
+        },
+        {
+          "word": "karar",
+          "startMs": 152490,
+          "endMs": 152740
+        },
+        {
+          "word": "yazılır",
+          "startMs": 152740,
+          "endMs": 153260
+        },
+        {
+          "word": "ve",
+          "startMs": 153350,
+          "endMs": 153450
+        },
+        {
+          "word": "iki",
+          "startMs": 153450,
+          "endMs": 153600
+        },
+        {
+          "word": "grup",
+          "startMs": 153690,
+          "endMs": 153940
+        },
+        {
+          "word": "da",
+          "startMs": 153940,
+          "endMs": 154170
+        },
+        {
+          "word": "kabul",
+          "startMs": 154170,
+          "endMs": 154510
+        },
+        {
+          "word": "eder.",
+          "startMs": 154760,
+          "endMs": 154930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 155350,
+      "endMs": 158120,
+      "pauseAfterMs": 690,
+      "text": "Bu dizi müzakeredir.",
+      "markedText": "Bu dizi müzakeredir.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 155350,
+          "endMs": 155590
+        },
+        {
+          "word": "dizi",
+          "startMs": 155710,
+          "endMs": 156020
+        },
+        {
+          "word": "müzakeredir.",
+          "startMs": 156150,
+          "endMs": 157430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 158120,
+      "endMs": 161840,
+      "pauseAfterMs": 1210,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 158120,
+          "endMs": 159800
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 160110,
+          "endMs": 160630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 161840,
+      "endMs": 163820,
+      "pauseAfterMs": 730,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 161840,
+          "endMs": 162430
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 162430,
+          "endMs": 163090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 163820,
+      "endMs": 166630,
+      "pauseAfterMs": 690,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 163820,
+          "endMs": 163880
+        },
+        {
+          "word": "noktayı",
+          "startMs": 164010,
+          "endMs": 164730
+        },
+        {
+          "word": "sen",
+          "startMs": 164730,
+          "endMs": 164880
+        },
+        {
+          "word": "de",
+          "startMs": 164990,
+          "endMs": 165130
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 165210,
+          "endMs": 165940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 166630,
+      "endMs": 176010,
+      "pauseAfterMs": 660,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 166630,
+          "endMs": 167360
+        },
+        {
+          "word": "sevgili",
+          "startMs": 167570,
+          "endMs": 167770
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 167880,
+          "endMs": 168690
+        },
+        {
+          "word": "işte",
+          "startMs": 169550,
+          "endMs": 169820
+        },
+        {
+          "word": "tam",
+          "startMs": 169880,
+          "endMs": 170190
+        },
+        {
+          "word": "bu",
+          "startMs": 170280,
+          "endMs": 170500
+        },
+        {
+          "word": "noktada",
+          "startMs": 170640,
+          "endMs": 171140
+        },
+        {
+          "word": "dikkat",
+          "startMs": 171190,
+          "endMs": 171490
+        },
+        {
+          "word": "etmen",
+          "startMs": 172870,
+          "endMs": 173080
+        },
+        {
+          "word": "gereken",
+          "startMs": 173160,
+          "endMs": 173670
+        },
+        {
+          "word": "kilit",
+          "startMs": 173790,
+          "endMs": 174210
+        },
+        {
+          "word": "nokta.",
+          "startMs": 174300,
+          "endMs": 175350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 176010,
+      "endMs": 182870,
+      "pauseAfterMs": 990,
+      "text": "Müzakereyi sesi en yüksek olanın kazanması sanmak tuzaktır.",
+      "markedText": "Müzakereyi sesi en yüksek olanın kazanması sanmak tuzaktır.",
+      "words": [
+        {
+          "word": "Müzakereyi",
+          "startMs": 176010,
+          "endMs": 176810
+        },
+        {
+          "word": "sesi",
+          "startMs": 176860,
+          "endMs": 177140
+        },
+        {
+          "word": "en",
+          "startMs": 177220,
+          "endMs": 177460
+        },
+        {
+          "word": "yüksek",
+          "startMs": 177530,
+          "endMs": 178210
+        },
+        {
+          "word": "olanın",
+          "startMs": 178870,
+          "endMs": 179120
+        },
+        {
+          "word": "kazanması",
+          "startMs": 179310,
+          "endMs": 180390
+        },
+        {
+          "word": "sanmak",
+          "startMs": 180730,
+          "endMs": 181050
+        },
+        {
+          "word": "tuzaktır.",
+          "startMs": 181140,
+          "endMs": 181880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 182870,
+      "endMs": 189780,
+      "pauseAfterMs": 720,
+      "text": "Karşı tarafı dinlemeden karar yazmak tartışma değil dayatmadır.",
+      "markedText": "Karşı tarafı dinlemeden karar yazmak tartışma değil dayatmadır.",
+      "words": [
+        {
+          "word": "Karşı",
+          "startMs": 182870,
+          "endMs": 183340
+        },
+        {
+          "word": "tarafı",
+          "startMs": 183430,
+          "endMs": 183930
+        },
+        {
+          "word": "dinlemeden",
+          "startMs": 184030,
+          "endMs": 184950
+        },
+        {
+          "word": "karar",
+          "startMs": 185040,
+          "endMs": 185430
+        },
+        {
+          "word": "yazmak",
+          "startMs": 185520,
+          "endMs": 186550
+        },
+        {
+          "word": "tartışma",
+          "startMs": 187030,
+          "endMs": 187660
+        },
+        {
+          "word": "değil",
+          "startMs": 187740,
+          "endMs": 188190
+        },
+        {
+          "word": "dayatmadır.",
+          "startMs": 188330,
+          "endMs": 189060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 189780,
+      "endMs": 193850,
+      "pauseAfterMs": 960,
+      "text": "Kişiyi küçük düşüren söz, sorunu çözmez.",
+      "markedText": "Kişiyi küçük düşüren söz, sorunu çözmez.",
+      "words": [
+        {
+          "word": "Kişiyi",
+          "startMs": 189780,
+          "endMs": 190460
+        },
+        {
+          "word": "küçük",
+          "startMs": 190550,
+          "endMs": 190880
+        },
+        {
+          "word": "düşüren",
+          "startMs": 190990,
+          "endMs": 191420
+        },
+        {
+          "word": "söz,",
+          "startMs": 191460,
+          "endMs": 191810
+        },
+        {
+          "word": "sorunu",
+          "startMs": 192110,
+          "endMs": 192420
+        },
+        {
+          "word": "çözmez.",
+          "startMs": 192550,
+          "endMs": 192890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 193850,
+      "endMs": 202010,
+      "pauseAfterMs": 580,
+      "text": "Toplumsal sorunu müzakere ederken kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Toplumsal sorunu müzakere ederken kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Toplumsal",
+          "startMs": 193850,
+          "endMs": 194470
+        },
+        {
+          "word": "sorunu",
+          "startMs": 194550,
+          "endMs": 194850
+        },
+        {
+          "word": "müzakere",
+          "startMs": 194850,
+          "endMs": 195290
+        },
+        {
+          "word": "ederken",
+          "startMs": 195400,
+          "endMs": 195730
+        },
+        {
+          "word": "kuralın",
+          "startMs": 195920,
+          "endMs": 196430
+        },
+        {
+          "word": "tersini",
+          "startMs": 197170,
+          "endMs": 197850
+        },
+        {
+          "word": "sanmak",
+          "startMs": 198070,
+          "endMs": 198600
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 198600,
+          "endMs": 199170
+        },
+        {
+          "word": "ters",
+          "startMs": 200190,
+          "endMs": 200260
+        },
+        {
+          "word": "cümle",
+          "startMs": 200330,
+          "endMs": 200710
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 200780,
+          "endMs": 201430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 202010,
+      "endMs": 204330,
+      "pauseAfterMs": 990,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 202010,
+          "endMs": 202270
+        },
+        {
+          "word": "Neler",
+          "startMs": 202360,
+          "endMs": 202640
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 202640,
+          "endMs": 203340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 204330,
+      "endMs": 204490,
+      "pauseAfterMs": 80,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 204330,
+          "endMs": 204410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 204490,
+      "endMs": 209830,
+      "pauseAfterMs": 630,
+      "text": "Toplumsal sorun, birden fazla kişiyi etkileyen ortak iştir.",
+      "markedText": "Toplumsal sorun, birden fazla kişiyi etkileyen ortak iştir.",
+      "words": [
+        {
+          "word": "Toplumsal",
+          "startMs": 204490,
+          "endMs": 205220
+        },
+        {
+          "word": "sorun,",
+          "startMs": 205300,
+          "endMs": 205820
+        },
+        {
+          "word": "birden",
+          "startMs": 206470,
+          "endMs": 206740
+        },
+        {
+          "word": "fazla",
+          "startMs": 206820,
+          "endMs": 207110
+        },
+        {
+          "word": "kişiyi",
+          "startMs": 207110,
+          "endMs": 207530
+        },
+        {
+          "word": "etkileyen",
+          "startMs": 207660,
+          "endMs": 208260
+        },
+        {
+          "word": "ortak",
+          "startMs": 208260,
+          "endMs": 208510
+        },
+        {
+          "word": "iştir.",
+          "startMs": 208630,
+          "endMs": 209200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 209830,
+      "endMs": 210260,
+      "pauseAfterMs": 110,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 209830,
+          "endMs": 210150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 210260,
+      "endMs": 215060,
+      "pauseAfterMs": 720,
+      "text": "Müzakere, dinleyerek ortak karar aramaktır.",
+      "markedText": "Müzakere, dinleyerek ortak karar aramaktır.",
+      "words": [
+        {
+          "word": "Müzakere,",
+          "startMs": 210260,
+          "endMs": 211600
+        },
+        {
+          "word": "dinleyerek",
+          "startMs": 212890,
+          "endMs": 213380
+        },
+        {
+          "word": "ortak",
+          "startMs": 213420,
+          "endMs": 213610
+        },
+        {
+          "word": "karar",
+          "startMs": 213670,
+          "endMs": 213770
+        },
+        {
+          "word": "aramaktır.",
+          "startMs": 213830,
+          "endMs": 214340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 215060,
+      "endMs": 215240,
+      "pauseAfterMs": 110,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 215060,
+          "endMs": 215130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 215240,
+      "endMs": 219400,
+      "pauseAfterMs": 550,
+      "text": "Tartışırken söz kişiye değil soruna gider.",
+      "markedText": "Tartışırken söz kişiye değil soruna gider.",
+      "words": [
+        {
+          "word": "Tartışırken",
+          "startMs": 215240,
+          "endMs": 216100
+        },
+        {
+          "word": "söz",
+          "startMs": 216180,
+          "endMs": 216320
+        },
+        {
+          "word": "kişiye",
+          "startMs": 216400,
+          "endMs": 216830
+        },
+        {
+          "word": "değil",
+          "startMs": 217000,
+          "endMs": 217240
+        },
+        {
+          "word": "soruna",
+          "startMs": 217290,
+          "endMs": 217820
+        },
+        {
+          "word": "gider.",
+          "startMs": 217920,
+          "endMs": 218850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 219400,
+      "endMs": 223700,
+      "pauseAfterMs": 950,
+      "text": "Müzakere, dinleyerek ortak karar aramaktır.",
+      "markedText": "Müzakere, dinleyerek ortak karar aramaktır.",
+      "words": [
+        {
+          "word": "Müzakere,",
+          "startMs": 219400,
+          "endMs": 220070
+        },
+        {
+          "word": "dinleyerek",
+          "startMs": 220690,
+          "endMs": 221270
+        },
+        {
+          "word": "ortak",
+          "startMs": 221350,
+          "endMs": 221570
+        },
+        {
+          "word": "karar",
+          "startMs": 221650,
+          "endMs": 221930
+        },
+        {
+          "word": "aramaktır.",
+          "startMs": 222010,
+          "endMs": 222750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 223700,
+      "endMs": 226950,
+      "pauseAfterMs": 820,
+      "text": "Dayatma bunun tersidir.",
+      "markedText": "Dayatma bunun tersidir.",
+      "words": [
+        {
+          "word": "Dayatma",
+          "startMs": 223700,
+          "endMs": 224180
+        },
+        {
+          "word": "bunun",
+          "startMs": 224270,
+          "endMs": 224780
+        },
+        {
+          "word": "tersidir.",
+          "startMs": 224880,
+          "endMs": 226130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 226950,
+      "endMs": 234880,
+      "pauseAfterMs": 700,
+      "text": "Bir sorunu adlandırır, tartışırken sözü kişiye değil işe yöneltirsin.",
+      "markedText": "Bir sorunu adlandırır, tartışırken sözü kişiye değil işe yöneltirsin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 226950,
+          "endMs": 227190
+        },
+        {
+          "word": "sorunu",
+          "startMs": 227230,
+          "endMs": 227610
+        },
+        {
+          "word": "adlandırır,",
+          "startMs": 227660,
+          "endMs": 228630
+        },
+        {
+          "word": "tartışırken",
+          "startMs": 229600,
+          "endMs": 230510
+        },
+        {
+          "word": "sözü",
+          "startMs": 230510,
+          "endMs": 231040
+        },
+        {
+          "word": "kişiye",
+          "startMs": 231850,
+          "endMs": 232160
+        },
+        {
+          "word": "değil",
+          "startMs": 232250,
+          "endMs": 232520
+        },
+        {
+          "word": "işe",
+          "startMs": 232670,
+          "endMs": 233020
+        },
+        {
+          "word": "yöneltirsin.",
+          "startMs": 233090,
+          "endMs": 234180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 234880,
+      "endMs": 236780,
+      "pauseAfterMs": 860,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 234880,
+          "endMs": 235270
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 235270,
+          "endMs": 235920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 236780,
+      "endMs": 240620,
+      "pauseAfterMs": 340,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 236780,
+          "endMs": 237310
+        },
+        {
+          "word": "bir",
+          "startMs": 237610,
+          "endMs": 237790
+        },
+        {
+          "word": "iş",
+          "startMs": 237790,
+          "endMs": 238420
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 239260,
+          "endMs": 240280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 240620,
+      "endMs": 243690,
+      "pauseAfterMs": 850,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 240620,
+          "endMs": 241180
+        },
+        {
+          "word": "sıra",
+          "startMs": 241510,
+          "endMs": 241950
+        },
+        {
+          "word": "sende.",
+          "startMs": 242130,
+          "endMs": 242840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 243690,
+      "endMs": 250667,
+      "pauseAfterMs": 357,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 243690,
+          "endMs": 244530
+        },
+        {
+          "word": "bu",
+          "startMs": 244970,
+          "endMs": 245200
+        },
+        {
+          "word": "notları",
+          "startMs": 245270,
+          "endMs": 245940
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 246720,
+          "endMs": 247380
+        },
+        {
+          "word": "kendi",
+          "startMs": 247990,
+          "endMs": 248550
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 248670,
+          "endMs": 249510
+        },
+        {
+          "word": "anlat.",
+          "startMs": 249640,
+          "endMs": 250310
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

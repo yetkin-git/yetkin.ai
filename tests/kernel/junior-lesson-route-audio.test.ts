@@ -26,14 +26,14 @@ describe("Junior ders uç noktası ses yolu kapısı (T-01)", () => {
     expect(String(free.audioPath)).not.toContain("X-Amz-Signature");
     expect(typeof free.coverPath).toBe("string");
 
-    expect(juniorLessonAccess("jr_06_mat-1")).toBe("missing");
-    const opener = await readCard("jr_06_mat-5");
-    expect(opener.lessonKey).toBe("jr_06_mat-5");
+    expect(juniorLessonAccess("jr_06_mat-1")).toBe("free");
+    const opener = await readCard("jr_06_mat-1");
+    expect(opener.lessonKey).toBe("jr_06_mat-1");
     expect(opener.title).toBe("Çarpanlar, Katlar ve Bölünebilme");
     expect(opener.subject).toBe("Matematik");
 
-    expect(juniorLessonAccess("jr_06_mat-6")).toBe("locked");
-    const locked = await readCard("jr_06_mat-6");
+    expect(juniorLessonAccess("jr_06_mat-2")).toBe("locked");
+    const locked = await readCard("jr_06_mat-2");
     expect(locked.access).toBe("locked");
     expect(locked.audioPath).toBeNull();
     expect(locked.warmupPath).toBeNull();

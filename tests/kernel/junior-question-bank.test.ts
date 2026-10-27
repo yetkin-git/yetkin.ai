@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { juniorCourseShelves } from "@/lib/junior/catalog";
-import { JUNIOR_PILOT_SLUGS, JUNIOR_QUIZ_MIN_ITEMS } from "@/lib/junior/limits";
+import { JUNIOR_FREE_LESSON_KEY, JUNIOR_PILOT_SLUGS, JUNIOR_QUIZ_MIN_ITEMS } from "@/lib/junior/limits";
 import { juniorQuizPack } from "@/lib/junior/quiz";
 import { isJuniorTopicQuizReady, publicJuniorTopicQuiz } from "@/lib/junior/topic-quiz";
 
@@ -26,13 +26,17 @@ describe("Junior soru evi", () => {
     expect(coreKeys.length).toBeGreaterThan(0);
     for (const lessonKey of coreKeys) {
       const pack = juniorQuizPack(lessonKey);
-      expect(pack?.questions).toHaveLength(JUNIOR_QUIZ_MIN_ITEMS);
+      const count = lessonKey === JUNIOR_FREE_LESSON_KEY ? 8 : JUNIOR_QUIZ_MIN_ITEMS;
+      expect(pack?.questions).toHaveLength(count);
       expect(isJuniorTopicQuizReady(lessonKey)).toBe(true);
       const shown = publicJuniorTopicQuiz(lessonKey);
-      expect(shown).toHaveLength(JUNIOR_QUIZ_MIN_ITEMS);
+      expect(shown).toHaveLength(count);
       expect(JSON.stringify(shown)).not.toContain("correctAnswerIndex");
       expect(JSON.stringify(shown)).not.toContain("correctIndex");
     }
-    expect(isJuniorTopicQuizReady("jr_06_kod-1")).toBe(false);
+    const kod = juniorQuizPack("jr_06_kod-1");
+    expect(kod?.questions.length).toBeGreaterThanOrEqual(JUNIOR_QUIZ_MIN_ITEMS);
+    expect(isJuniorTopicQuizReady("jr_06_kod-1")).toBe(true);
+    expect(JSON.stringify(publicJuniorTopicQuiz("jr_06_kod-1"))).not.toContain("correctAnswerIndex");
   });
 });

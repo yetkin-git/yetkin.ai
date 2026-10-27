@@ -45,7 +45,8 @@ export const JUNIOR_RECAP_TITLE = "Bugün Neler Öğrendik?" as const;
 
 /**
  * Konuşma bandı oynatıcı saatinde durur.
- * Alt sınır 5 dakika, hedef 7,5 dakika (7–8), üst sınır 12 dakika.
+ * Alt sınır 3 dakika (180 sn), hedef 7,5 dakika, üst sınır 12 dakika.
+ * Sayıların evi `JUNIOR_NARRATION_MIN_MS`.
  */
 export {
   JUNIOR_NARRATION_AIM_MS,

@@ -5,20 +5,27 @@
  *
  * 1. lib/kernel dikey oda import etmez.
  * 2. UI / sayfa Prisma ve server-only yazma motoru import etmez.
+ *    `@/lib/junior/lesson-engine` istemci ders planı varilidir; bu kurala girmez.
  * 3. Dikey odalar birbirinin engine/runtime/prisma-store dosyasını import etmez.
  * 4. VERTICAL_ROOMS tek SSOT (`lib/dronlar/kayit.ts`); eslint ve modules ondan türer.
  *    Donmuş oda `lib/` altında yoktur; `archived/` + kenar 410. Yeni dron kayda yazılmadan açılmaz.
  * 5. `app/api/**` uygulama servisidir (sınav → vize): çalışan odaları birleştirebilir.
  *    Kaçış deliği değildir — müze, donmuş oda ve UI import'u yasaktır.
  * 6. Kariyer ve freelancer `lib/academy` import etmez; müfredat kimliği `lib/kernel/catalog-ids`.
+ * 7. Junior Prisma delegate’i `lib/junior` sahibindedir. Haritasız Junior modeli sessiz geçmez.
+ * 8. `DRON_KAYIT` hop id’si `RAIL_V1_HOPS_META` içindedir. Meta’da olup oda listesinde olmayan id çekirdek hop’tur.
+ * 9. Her `app/api` fiili hop metasında veya web-only sicilindedir. Yeni rota ikisine de yazılmadan geçmez.
  */
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
+import { auditApiRouteCensus } from "../lib/kernel/http/api-route-census";
 import {
   contextOfPhase1Room,
   contextOfPrismaModel,
   isContextPrismaAllowlisted,
+  juniorDelegateViolations,
+  juniorSchemaModelGaps,
 } from "../lib/kernel/bounded-contexts";
 import { catalogSqlPreservesOperatorPrice } from "./ops-migrate-lib";
 import {
@@ -36,6 +43,7 @@ import {
   INDEPENDENT_ROOMS,
   VERTICAL_ROOMS as VERTICAL_ROOM_RECORDS,
 } from "../lib/dronlar/kayit";
+import { collectAppApiRoutes } from "./api-route-census-lib";
 
 const ROOT = process.cwd();
 const FILE_RE = /\.(ts|tsx)$/;
@@ -199,7 +207,16 @@ function zoneOf(file: string): Zone | null {
   return null;
 }
 
+/** İstemci ders planı varili. Prisma ve `server-only` taşımaz; sunucu yazma motoru değildir. */
+function isClientLessonPlanBarrel(path: string): boolean {
+  const base = stripExt(path);
+  return base === "lib/junior/lesson-engine" || base === "lib/junior/lesson-engine/index";
+}
+
 function isInnerServerPath(path: string): boolean {
+  if (isClientLessonPlanBarrel(path)) {
+    return false;
+  }
   const base = stripExt(path);
   const name = base.slice(base.lastIndexOf("/") + 1);
   if (name === "engine" || name === "runtime" || name === "prisma-store") {
@@ -266,10 +283,13 @@ for (const dir of SCAN_DIRS) {
   for (const abs of walk(join(ROOT, dir))) {
     const file = rel(abs);
     const zone = zoneOf(file);
+    const source = stripComments(readFileSync(abs, "utf8"));
+    for (const spec of juniorDelegateViolations(file, source)) {
+      add(file, spec, "context.junior");
+    }
     if (!zone) {
       continue;
     }
-    const source = stripComments(readFileSync(abs, "utf8"));
     const selfRoom = verticalOfLib(file);
 
     for (const spec of collectSpecs(source)) {
@@ -486,6 +506,32 @@ for (const sqlFile of CATALOG_SQL) {
   }
 }
 
+{
+  const juniorSchemaPath = join(ROOT, "prisma/schema/junior.prisma");
+  if (!existsSync(juniorSchemaPath)) {
+    violations.push({
+      file: "prisma/schema/junior.prisma",
+      spec: "Junior şeması yok",
+      ruleId: "context.junior",
+    });
+  } else {
+    const modelNames = [
+      ...stripComments(readFileSync(juniorSchemaPath, "utf8")).matchAll(/^model\s+([A-Za-z0-9_]+)/gm),
+    ].map((match) => match[1] ?? "");
+    for (const spec of juniorSchemaModelGaps(modelNames.filter((name) => name.length > 0))) {
+      violations.push({
+        file: "prisma/schema/junior.prisma",
+        spec,
+        ruleId: "context.junior",
+      });
+    }
+  }
+}
+
+for (const row of auditApiRouteCensus(collectAppApiRoutes(ROOT))) {
+  violations.push(row);
+}
+
 if (violations.length > 0) {
   console.error(
     [
@@ -501,5 +547,5 @@ if (violations.length > 0) {
 }
 
 console.log(
-      "verify:boundaries OK — kernel↛dikey, UI↛prisma/yazma motoru, oda↛oda engine, app/api uygulama servisi (müze/donmuş/UI yasak; çalışan oda kompozisyonu yasal), freelancer oda duvarı, kariyer/freelancer↛academy (catalog-ids), çalışan oda sicili (kamu vitrin 3 oda; freelancer yüzey kilitli), donmuş oda lib/ tavanı yasak (archived/), Proof/Marketplace/Payments tablo sahipliği, katalog ON CONFLICT Super Admin tutarını korur.",
+      "verify:boundaries OK — kernel↛dikey, UI↛prisma/yazma motoru, oda↛oda engine, app/api uygulama servisi (müze/donmuş/UI yasak; çalışan oda kompozisyonu yasal), freelancer oda duvarı, kariyer/freelancer↛academy (catalog-ids), çalışan oda sicili (kamu vitrin 3 oda; freelancer yüzey kilitli), donmuş oda lib/ tavanı yasak (archived/), Proof/Marketplace/Payments tablo sahipliği, Junior tablo sahibi lib/junior, DRON_KAYIT hop’ları meta ile çelişmez, web-only yazma sayımı kapalı, katalog ON CONFLICT Super Admin tutarını korur.",
 );

@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_fra-1",
+  "title": "Bonjour demek",
+  "teaser": "Bonjour, gün içinin selamıdır. Bonsoir, akşam selamıdır. Kavramsal Anlayış, bu iki sözü saate göre ayırır. İfade Gücü, hangisini neden seçtiğini söylemendir.",
+  "welcome": "Bugün seninle Fransızcada selamlaşmayı öğreneceğiz.",
+  "concept": "Bugün seninle Fransızca selamı saate bağlıyoruz. Bonjour sabah ve gün içi selamıdır. Bonsoir akşam selamıdır. Salut arkadaş selamıdır. Büyük bir kişiye Bonjour daha uygundur. Karşılık, duyulan selamın aynısıdır.\n\nHatırlarsan, saat sözü seçiyordu. Hadi şimdi ekrandaki çizime birlikte bakalım! Akşam bir komşu duruyor. Sen Bonsoir dersin.\n\nTuzaklara Düşme! Birlikte bakalım. Bonne nuit ilk selam değildir. Ayrılırken söylenir. Akşam ilk görüşte Bonsoir dersin.",
+  "example": "Bonjour, günaydın ve iyi günler yerinde durur. Sabah ve gün içinde Bonjour dersin. Akşam Bonsoir dersin. Salut, arkadaş arasında merhaba demektir. Salut her saatte söylenebilir. Büyük bir kişiye önce Bonjour demek daha uygundur. Hadi şimdi ekrandaki çizime birlikte bakalım! Öğretmen kapıda duruyor. Sen Bonjour diyorsun. Öğretmen de Bonjour diyor. Hatırlarsan, selam saate bakıyordu. Tuzaklara Düşme! Birlikte bakalım. Bonne nuit, iyi geceler demektir. Bu söz vedadır. İlk görüşte Bonne nuit deme.",
+  "warning": "Bonne nuit, iyi geceler demektir.",
+  "life": "Sabah derse girerken Bonjour dersin. Akşam aile büyüğüne Bonsoir dersin. Yakın arkadaşına Salut diyebilirsin. Hatırlarsan, büyük kişiye Bonjour daha uygundu. Tuzaklara Düşme! Birlikte bakalım. Uyku vaktinde Bonne nuit dersin. O söz, kapıdaki ilk selam değildir.",
+  "recap": [
+    "Bonjour gün içinin selamıdır.",
+    "Bonsoir akşam selamıdır.",
+    "Bonne nuit vedadır."
+  ],
+  "conceptSeal": "Bonjour gün içine, Bonsoir akşama aittir.",
+  "voiceSeal": "Hangi selamı hangi saate bağladığını söylersin.",
+  "outcomes": [
+    "Bonjour gün içinin selamıdır.",
+    "Bonsoir akşam selamıdır.",
+    "Bonne nuit vedadır."
+  ],
+  "scene": "elective",
+  "hint": "trap",
+  "band": "draft"
+}

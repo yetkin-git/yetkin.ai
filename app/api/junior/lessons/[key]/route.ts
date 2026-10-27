@@ -1,6 +1,7 @@
 import { jsonFail, jsonOk } from "@/lib/kernel/http/json";
 import { RAIL_V1_JUNIOR_LESSON_MISSING } from "@/lib/kernel/http/v1-contract";
 import { isJuniorCoverKey } from "@/lib/junior/covers";
+import { canonicalJuniorLessonKey } from "@/lib/junior/lesson-key-alias";
 import { juniorCourseByLessonKey, juniorLessonAccess, juniorLessonByKey } from "@/lib/junior/catalog";
 import { issueJuniorLessonMedia } from "@/lib/junior/media-grant";
 
@@ -16,7 +17,7 @@ export async function GET(
   context: { params: Promise<{ key: string }> },
 ) {
   const { key } = await context.params;
-  const lessonKey = key.trim();
+  const lessonKey = canonicalJuniorLessonKey(key);
   if (!isJuniorCoverKey(lessonKey)) {
     return jsonFail(RAIL_V1_JUNIOR_LESSON_MISSING, 404, undefined, request);
   }

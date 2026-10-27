@@ -1,0 +1,2326 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_arp-1",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Selam vermek",
+  "grade": 6,
+  "subject": "Seçmeli Ders",
+  "teacher": {
+    "name": "Ada",
+    "voice": "Enceladus",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_arp-1.mp3",
+    "durationMs": 147814,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 24230
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 24230,
+      "endMs": 113950
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 113950,
+      "endMs": 147814
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 1850,
+      "pauseAfterMs": 460,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 240,
+          "endMs": 550
+        },
+        {
+          "word": "sevgili",
+          "startMs": 550,
+          "endMs": 850
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 940,
+          "endMs": 1390
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Selam vermek",
+            "subtitle": "Seçmeli Ders",
+            "ruleBadges": [],
+            "echoPrompt": "Duyduğun selama hangi sözle döndüğünü söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Selamün aleyküm, barış üzerine olsun demektir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Ve aleyküm selam, selamın karşılığıdır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Önce selam verilir. Sonra karşılık söylenir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 1850,
+      "endMs": 4290,
+      "pauseAfterMs": 230,
+      "text": "Ben Seçmeli Ders öğretmenin Ada.",
+      "markedText": "Ben Seçmeli Ders öğretmenin Ada.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 1850,
+          "endMs": 2020
+        },
+        {
+          "word": "Seçmeli",
+          "startMs": 2020,
+          "endMs": 2450
+        },
+        {
+          "word": "Ders",
+          "startMs": 2450,
+          "endMs": 2670
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 2670,
+          "endMs": 3500
+        },
+        {
+          "word": "Ada.",
+          "startMs": 3960,
+          "endMs": 4060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 4290,
+      "endMs": 7230,
+      "pauseAfterMs": 610,
+      "text": "Bugün seninle Arapçada selamı öğreneceğiz.",
+      "markedText": "Bugün seninle Arapçada selamı öğreneceğiz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 4290,
+          "endMs": 4580
+        },
+        {
+          "word": "seninle",
+          "startMs": 4580,
+          "endMs": 4950
+        },
+        {
+          "word": "Arapçada",
+          "startMs": 4950,
+          "endMs": 5330
+        },
+        {
+          "word": "selamı",
+          "startMs": 5440,
+          "endMs": 5660
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 5660,
+          "endMs": 6620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 7230,
+      "endMs": 11060,
+      "pauseAfterMs": 450,
+      "text": "Cami çıkışında ya da bir büyük ziyaretinde bu selamı duyarsın.",
+      "markedText": "Cami çıkışında ya da bir büyük ziyaretinde bu selamı duyarsın.",
+      "words": [
+        {
+          "word": "Cami",
+          "startMs": 7230,
+          "endMs": 7380
+        },
+        {
+          "word": "çıkışında",
+          "startMs": 7380,
+          "endMs": 7610
+        },
+        {
+          "word": "ya",
+          "startMs": 7690,
+          "endMs": 7730
+        },
+        {
+          "word": "da",
+          "startMs": 7730,
+          "endMs": 7900
+        },
+        {
+          "word": "bir",
+          "startMs": 7900,
+          "endMs": 8000
+        },
+        {
+          "word": "büyük",
+          "startMs": 8000,
+          "endMs": 8180
+        },
+        {
+          "word": "ziyaretinde",
+          "startMs": 8180,
+          "endMs": 8780
+        },
+        {
+          "word": "bu",
+          "startMs": 8780,
+          "endMs": 8860
+        },
+        {
+          "word": "selamı",
+          "startMs": 8950,
+          "endMs": 9320
+        },
+        {
+          "word": "duyarsın.",
+          "startMs": 9420,
+          "endMs": 10610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 11060,
+      "endMs": 13580,
+      "pauseAfterMs": 670,
+      "text": "Sen de Ve aleyküm selam dersin.",
+      "markedText": "Sen de Ve aleyküm selam dersin.",
+      "words": [
+        {
+          "word": "Sen",
+          "startMs": 11060,
+          "endMs": 11330
+        },
+        {
+          "word": "de",
+          "startMs": 11330,
+          "endMs": 11420
+        },
+        {
+          "word": "Ve",
+          "startMs": 11420,
+          "endMs": 11490
+        },
+        {
+          "word": "aleyküm",
+          "startMs": 11590,
+          "endMs": 11990
+        },
+        {
+          "word": "selam",
+          "startMs": 12070,
+          "endMs": 12400
+        },
+        {
+          "word": "dersin.",
+          "startMs": 12400,
+          "endMs": 12910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 13580,
+      "endMs": 16270,
+      "pauseAfterMs": 490,
+      "text": "Hatırlarsan, karşılık ayrı bir sözdü.",
+      "markedText": "Hatırlarsan, karşılık ayrı bir sözdü.",
+      "words": [
+        {
+          "word": "Hatırlarsan,",
+          "startMs": 13580,
+          "endMs": 14230
+        },
+        {
+          "word": "karşılık",
+          "startMs": 14390,
+          "endMs": 14810
+        },
+        {
+          "word": "ayrı",
+          "startMs": 14990,
+          "endMs": 15180
+        },
+        {
+          "word": "bir",
+          "startMs": 15180,
+          "endMs": 15300
+        },
+        {
+          "word": "sözdü.",
+          "startMs": 15300,
+          "endMs": 15780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 16270,
+      "endMs": 18790,
+      "pauseAfterMs": 460,
+      "text": "Evde misafire de aynı düzen durur.",
+      "markedText": "Evde misafire de aynı düzen durur.",
+      "words": [
+        {
+          "word": "Evde",
+          "startMs": 16270,
+          "endMs": 16410
+        },
+        {
+          "word": "misafire",
+          "startMs": 16470,
+          "endMs": 16880
+        },
+        {
+          "word": "de",
+          "startMs": 16880,
+          "endMs": 16930
+        },
+        {
+          "word": "aynı",
+          "startMs": 17030,
+          "endMs": 17230
+        },
+        {
+          "word": "düzen",
+          "startMs": 17230,
+          "endMs": 17400
+        },
+        {
+          "word": "durur.",
+          "startMs": 17400,
+          "endMs": 18330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 18790,
+      "endMs": 19970,
+      "pauseAfterMs": 400,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 18790,
+          "endMs": 19320
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 19320,
+          "endMs": 19570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 19970,
+      "endMs": 21330,
+      "pauseAfterMs": 720,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 19970,
+          "endMs": 20130
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 20220,
+          "endMs": 20610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 21330,
+      "endMs": 24230,
+      "pauseAfterMs": 480,
+      "text": "Selamı yarıda kesip başka söze atlama.",
+      "markedText": "Selamı yarıda kesip başka söze atlama.",
+      "words": [
+        {
+          "word": "Selamı",
+          "startMs": 21330,
+          "endMs": 21890
+        },
+        {
+          "word": "yarıda",
+          "startMs": 21890,
+          "endMs": 22230
+        },
+        {
+          "word": "kesip",
+          "startMs": 22320,
+          "endMs": 22530
+        },
+        {
+          "word": "başka",
+          "startMs": 22660,
+          "endMs": 22830
+        },
+        {
+          "word": "söze",
+          "startMs": 22900,
+          "endMs": 23040
+        },
+        {
+          "word": "atlama.",
+          "startMs": 23040,
+          "endMs": 23750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 24230,
+      "endMs": 27070,
+      "pauseAfterMs": 630,
+      "text": "Bugün seninle Arapça selamı kuruyoruz.",
+      "markedText": "Bugün seninle Arapça selamı kuruyoruz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 24230,
+          "endMs": 24590
+        },
+        {
+          "word": "seninle",
+          "startMs": 24590,
+          "endMs": 24990
+        },
+        {
+          "word": "Arapça",
+          "startMs": 24990,
+          "endMs": 25310
+        },
+        {
+          "word": "selamı",
+          "startMs": 25410,
+          "endMs": 25700
+        },
+        {
+          "word": "kuruyoruz.",
+          "startMs": 25700,
+          "endMs": 26440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 27070,
+      "endMs": 30290,
+      "pauseAfterMs": 740,
+      "text": "Selamün aleyküm, barış üzerine olsun demektir.",
+      "markedText": "Selamün aleyküm, barış üzerine olsun demektir.",
+      "words": [
+        {
+          "word": "Selamün",
+          "startMs": 27070,
+          "endMs": 27370
+        },
+        {
+          "word": "aleyküm,",
+          "startMs": 27370,
+          "endMs": 27930
+        },
+        {
+          "word": "barış",
+          "startMs": 28290,
+          "endMs": 28540
+        },
+        {
+          "word": "üzerine",
+          "startMs": 28590,
+          "endMs": 28900
+        },
+        {
+          "word": "olsun",
+          "startMs": 28900,
+          "endMs": 29090
+        },
+        {
+          "word": "demektir.",
+          "startMs": 29140,
+          "endMs": 29550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 30290,
+      "endMs": 32860,
+      "pauseAfterMs": 780,
+      "text": "Ve aleyküm selam, karşılık sözüdür.",
+      "markedText": "Ve aleyküm selam, karşılık sözüdür.",
+      "words": [
+        {
+          "word": "Ve",
+          "startMs": 30290,
+          "endMs": 30400
+        },
+        {
+          "word": "aleyküm",
+          "startMs": 30400,
+          "endMs": 30860
+        },
+        {
+          "word": "selam,",
+          "startMs": 30860,
+          "endMs": 31240
+        },
+        {
+          "word": "karşılık",
+          "startMs": 31390,
+          "endMs": 31750
+        },
+        {
+          "word": "sözüdür.",
+          "startMs": 31800,
+          "endMs": 32080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 32860,
+      "endMs": 34440,
+      "pauseAfterMs": 310,
+      "text": "Selam önce söylenir.",
+      "markedText": "Selam önce söylenir.",
+      "words": [
+        {
+          "word": "Selam",
+          "startMs": 32860,
+          "endMs": 33210
+        },
+        {
+          "word": "önce",
+          "startMs": 33310,
+          "endMs": 33570
+        },
+        {
+          "word": "söylenir.",
+          "startMs": 33620,
+          "endMs": 34130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 34440,
+      "endMs": 36250,
+      "pauseAfterMs": 540,
+      "text": "Karşılık sonra söylenir.",
+      "markedText": "Karşılık sonra söylenir.",
+      "words": [
+        {
+          "word": "Karşılık",
+          "startMs": 34440,
+          "endMs": 34830
+        },
+        {
+          "word": "sonra",
+          "startMs": 34930,
+          "endMs": 35210
+        },
+        {
+          "word": "söylenir.",
+          "startMs": 35260,
+          "endMs": 35710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 36250,
+      "endMs": 39240,
+      "pauseAfterMs": 710,
+      "text": "Hatırlarsan, selam tek yönlü değildi.",
+      "markedText": "Hatırlarsan, selam tek yönlü değildi.",
+      "words": [
+        {
+          "word": "Hatırlarsan,",
+          "startMs": 36250,
+          "endMs": 36850
+        },
+        {
+          "word": "selam",
+          "startMs": 37200,
+          "endMs": 37560
+        },
+        {
+          "word": "tek",
+          "startMs": 37650,
+          "endMs": 37750
+        },
+        {
+          "word": "yönlü",
+          "startMs": 37850,
+          "endMs": 38110
+        },
+        {
+          "word": "değildi.",
+          "startMs": 38200,
+          "endMs": 38530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 39240,
+      "endMs": 41980,
+      "pauseAfterMs": 820,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 39240,
+          "endMs": 39370
+        },
+        {
+          "word": "şimdi",
+          "startMs": 39370,
+          "endMs": 39700
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 39700,
+          "endMs": 40070
+        },
+        {
+          "word": "çizime",
+          "startMs": 40240,
+          "endMs": 40450
+        },
+        {
+          "word": "birlikte",
+          "startMs": 40450,
+          "endMs": 40710
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 40820,
+          "endMs": 41160
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 39240,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Selam vermek · kavram",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Selamün aleyküm, barış üzerine olsun demektir.",
+                "body": "Selamün aleyküm, barış üzerine olsun demektir.",
+                "tone": "concept"
+              },
+              {
+                "title": "Ve aleyküm selam, selamın karşılığıdır.",
+                "body": "Ve aleyküm selam, selamın karşılığıdır.",
+                "tone": "concept"
+              },
+              {
+                "title": "Bugün seninle Arapça selamı kuruyoruz.",
+                "body": "Bugün seninle Arapça selamı kuruyoruz.",
+                "tone": "concept"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 41980,
+      "endMs": 44330,
+      "pauseAfterMs": 520,
+      "text": "Gelen söz Selamün aleykümdür.",
+      "markedText": "Gelen söz Selamün aleykümdür.",
+      "words": [
+        {
+          "word": "Gelen",
+          "startMs": 41980,
+          "endMs": 42210
+        },
+        {
+          "word": "söz",
+          "startMs": 42210,
+          "endMs": 42280
+        },
+        {
+          "word": "Selamün",
+          "startMs": 42280,
+          "endMs": 42570
+        },
+        {
+          "word": "aleykümdür.",
+          "startMs": 42850,
+          "endMs": 43810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 44330,
+      "endMs": 47150,
+      "pauseAfterMs": 690,
+      "text": "Dönen söz Ve aleyküm selamdır.",
+      "markedText": "Dönen söz Ve aleyküm selamdır.",
+      "words": [
+        {
+          "word": "Dönen",
+          "startMs": 44330,
+          "endMs": 44660
+        },
+        {
+          "word": "söz",
+          "startMs": 44700,
+          "endMs": 44830
+        },
+        {
+          "word": "Ve",
+          "startMs": 44830,
+          "endMs": 45030
+        },
+        {
+          "word": "aleyküm",
+          "startMs": 45290,
+          "endMs": 45690
+        },
+        {
+          "word": "selamdır.",
+          "startMs": 45770,
+          "endMs": 46460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 47150,
+      "endMs": 48340,
+      "pauseAfterMs": 350,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 47150,
+          "endMs": 47670
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 47670,
+          "endMs": 47990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 48340,
+      "endMs": 49630,
+      "pauseAfterMs": 660,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 48340,
+          "endMs": 48500
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 48590,
+          "endMs": 48970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 49630,
+      "endMs": 51580,
+      "pauseAfterMs": 540,
+      "text": "Karşılığı susarak geçme.",
+      "markedText": "Karşılığı susarak geçme.",
+      "words": [
+        {
+          "word": "Karşılığı",
+          "startMs": 49630,
+          "endMs": 50100
+        },
+        {
+          "word": "susarak",
+          "startMs": 50150,
+          "endMs": 50540
+        },
+        {
+          "word": "geçme.",
+          "startMs": 50660,
+          "endMs": 51040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 51580,
+      "endMs": 54780,
+      "pauseAfterMs": 600,
+      "text": "İki cümleyi aynı ağızdan tek selam sanma.",
+      "markedText": "İki cümleyi aynı ağızdan tek selam sanma.",
+      "words": [
+        {
+          "word": "İki",
+          "startMs": 51580,
+          "endMs": 51630
+        },
+        {
+          "word": "cümleyi",
+          "startMs": 51700,
+          "endMs": 52110
+        },
+        {
+          "word": "aynı",
+          "startMs": 52110,
+          "endMs": 52530
+        },
+        {
+          "word": "ağızdan",
+          "startMs": 52530,
+          "endMs": 53050
+        },
+        {
+          "word": "tek",
+          "startMs": 53150,
+          "endMs": 53240
+        },
+        {
+          "word": "selam",
+          "startMs": 53320,
+          "endMs": 53670
+        },
+        {
+          "word": "sanma.",
+          "startMs": 53730,
+          "endMs": 54180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 54780,
+      "endMs": 56460,
+      "pauseAfterMs": 410,
+      "text": "Önce gelen sözü dinle.",
+      "markedText": "Önce gelen sözü dinle.",
+      "words": [
+        {
+          "word": "Önce",
+          "startMs": 54780,
+          "endMs": 55100
+        },
+        {
+          "word": "gelen",
+          "startMs": 55100,
+          "endMs": 55370
+        },
+        {
+          "word": "sözü",
+          "startMs": 55420,
+          "endMs": 55670
+        },
+        {
+          "word": "dinle.",
+          "startMs": 55730,
+          "endMs": 56050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 56460,
+      "endMs": 58370,
+      "pauseAfterMs": 740,
+      "text": "Sonra karşılığı söyle.",
+      "markedText": "Sonra karşılığı söyle.",
+      "words": [
+        {
+          "word": "Sonra",
+          "startMs": 56460,
+          "endMs": 56720
+        },
+        {
+          "word": "karşılığı",
+          "startMs": 56810,
+          "endMs": 57260
+        },
+        {
+          "word": "söyle.",
+          "startMs": 57320,
+          "endMs": 57630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 58370,
+      "endMs": 61070,
+      "pauseAfterMs": 800,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 58370,
+          "endMs": 58530
+        },
+        {
+          "word": "şimdi",
+          "startMs": 58530,
+          "endMs": 58850
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 58950,
+          "endMs": 59270
+        },
+        {
+          "word": "çizime",
+          "startMs": 59320,
+          "endMs": 59500
+        },
+        {
+          "word": "birlikte",
+          "startMs": 59500,
+          "endMs": 59810
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 59920,
+          "endMs": 60270
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 58370,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Selam vermek · örnek",
+            "note": "Örnek, kavramın kendisini gösterir.",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Selamün aleyküm, barış üzerine olsun demektir.",
+                "body": "Selamün aleyküm, barış üzerine olsun demektir.",
+                "tone": "example"
+              },
+              {
+                "title": "Bu söz bir kişiye esenlik diler.",
+                "body": "Bu söz bir kişiye esenlik diler.",
+                "tone": "example"
+              },
+              {
+                "title": "Karşılık Ve aleyküm selamdır.",
+                "body": "Karşılık Ve aleyküm selamdır.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 61070,
+      "endMs": 64240,
+      "pauseAfterMs": 530,
+      "text": "Selamün aleyküm, barış üzerine olsun demektir.",
+      "markedText": "Selamün aleyküm, barış üzerine olsun demektir.",
+      "words": [
+        {
+          "word": "Selamün",
+          "startMs": 61070,
+          "endMs": 61520
+        },
+        {
+          "word": "aleyküm,",
+          "startMs": 61520,
+          "endMs": 62070
+        },
+        {
+          "word": "barış",
+          "startMs": 62280,
+          "endMs": 62520
+        },
+        {
+          "word": "üzerine",
+          "startMs": 62520,
+          "endMs": 62960
+        },
+        {
+          "word": "olsun",
+          "startMs": 62960,
+          "endMs": 63240
+        },
+        {
+          "word": "demektir.",
+          "startMs": 63240,
+          "endMs": 63710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 64240,
+      "endMs": 66780,
+      "pauseAfterMs": 670,
+      "text": "Bu söz bir kişiye esenlik diler.",
+      "markedText": "Bu söz bir kişiye esenlik diler.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 64240,
+          "endMs": 64320
+        },
+        {
+          "word": "söz",
+          "startMs": 64320,
+          "endMs": 64610
+        },
+        {
+          "word": "bir",
+          "startMs": 64730,
+          "endMs": 64810
+        },
+        {
+          "word": "kişiye",
+          "startMs": 64910,
+          "endMs": 65130
+        },
+        {
+          "word": "esenlik",
+          "startMs": 65130,
+          "endMs": 65480
+        },
+        {
+          "word": "diler.",
+          "startMs": 65480,
+          "endMs": 66110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 66780,
+      "endMs": 69050,
+      "pauseAfterMs": 470,
+      "text": "Karşılık Ve aleyküm selamdır.",
+      "markedText": "Karşılık Ve aleyküm selamdır.",
+      "words": [
+        {
+          "word": "Karşılık",
+          "startMs": 66780,
+          "endMs": 67180
+        },
+        {
+          "word": "Ve",
+          "startMs": 67430,
+          "endMs": 67530
+        },
+        {
+          "word": "aleyküm",
+          "startMs": 67570,
+          "endMs": 68010
+        },
+        {
+          "word": "selamdır.",
+          "startMs": 68010,
+          "endMs": 68580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 69050,
+      "endMs": 71850,
+      "pauseAfterMs": 750,
+      "text": "Bu söz, sana da barış olsun demektir.",
+      "markedText": "Bu söz, sana da barış olsun demektir.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 69050,
+          "endMs": 69120
+        },
+        {
+          "word": "söz,",
+          "startMs": 69120,
+          "endMs": 69370
+        },
+        {
+          "word": "sana",
+          "startMs": 69640,
+          "endMs": 69930
+        },
+        {
+          "word": "da",
+          "startMs": 69930,
+          "endMs": 70060
+        },
+        {
+          "word": "barış",
+          "startMs": 70060,
+          "endMs": 70290
+        },
+        {
+          "word": "olsun",
+          "startMs": 70330,
+          "endMs": 70540
+        },
+        {
+          "word": "demektir.",
+          "startMs": 70540,
+          "endMs": 71100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 71850,
+      "endMs": 74480,
+      "pauseAfterMs": 770,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 71850,
+          "endMs": 72020
+        },
+        {
+          "word": "şimdi",
+          "startMs": 72020,
+          "endMs": 72280
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 72280,
+          "endMs": 72620
+        },
+        {
+          "word": "çizime",
+          "startMs": 72770,
+          "endMs": 72940
+        },
+        {
+          "word": "birlikte",
+          "startMs": 72940,
+          "endMs": 73240
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 73330,
+          "endMs": 73710
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 71850,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Tuzaklara Düşme!",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Bu noktada acele etme.",
+                "body": "Bu noktada acele etme.",
+                "tone": "trap"
+              },
+              {
+                "title": "Bir kez daha bakıp doğru kutuyu seçersin.",
+                "body": "Bir kez daha bakıp doğru kutuyu seçersin.",
+                "tone": "trap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 74480,
+      "endMs": 75930,
+      "pauseAfterMs": 500,
+      "text": "Kapıda bir kişi duruyor.",
+      "markedText": "Kapıda bir kişi duruyor.",
+      "words": [
+        {
+          "word": "Kapıda",
+          "startMs": 74480,
+          "endMs": 74790
+        },
+        {
+          "word": "bir",
+          "startMs": 74790,
+          "endMs": 74860
+        },
+        {
+          "word": "kişi",
+          "startMs": 74940,
+          "endMs": 75100
+        },
+        {
+          "word": "duruyor.",
+          "startMs": 75170,
+          "endMs": 75430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 75930,
+      "endMs": 77970,
+      "pauseAfterMs": 580,
+      "text": "O, Selamün aleyküm diyor.",
+      "markedText": "O, Selamün aleyküm diyor.",
+      "words": [
+        {
+          "word": "O,",
+          "startMs": 75930,
+          "endMs": 76050
+        },
+        {
+          "word": "Selamün",
+          "startMs": 76230,
+          "endMs": 76590
+        },
+        {
+          "word": "aleyküm",
+          "startMs": 76590,
+          "endMs": 76950
+        },
+        {
+          "word": "diyor.",
+          "startMs": 77050,
+          "endMs": 77390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 77970,
+      "endMs": 80450,
+      "pauseAfterMs": 770,
+      "text": "Sen, Ve aleyküm selam diyorsun.",
+      "markedText": "Sen, Ve aleyküm selam diyorsun.",
+      "words": [
+        {
+          "word": "Sen,",
+          "startMs": 77970,
+          "endMs": 78250
+        },
+        {
+          "word": "Ve",
+          "startMs": 78450,
+          "endMs": 78590
+        },
+        {
+          "word": "aleyküm",
+          "startMs": 78590,
+          "endMs": 79020
+        },
+        {
+          "word": "selam",
+          "startMs": 79060,
+          "endMs": 79410
+        },
+        {
+          "word": "diyorsun.",
+          "startMs": 79450,
+          "endMs": 79680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-2",
+      "startMs": 80450,
+      "endMs": 81560,
+      "pauseAfterMs": 280,
+      "text": "Selam gider.",
+      "markedText": "Selam gider.",
+      "words": [
+        {
+          "word": "Selam",
+          "startMs": 80450,
+          "endMs": 80860
+        },
+        {
+          "word": "gider.",
+          "startMs": 80900,
+          "endMs": 81280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-2",
+      "startMs": 81560,
+      "endMs": 82940,
+      "pauseAfterMs": 590,
+      "text": "Karşılık gelir.",
+      "markedText": "Karşılık gelir.",
+      "words": [
+        {
+          "word": "Karşılık",
+          "startMs": 81560,
+          "endMs": 81980
+        },
+        {
+          "word": "gelir.",
+          "startMs": 82100,
+          "endMs": 82350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-2",
+      "startMs": 82940,
+      "endMs": 85960,
+      "pauseAfterMs": 880,
+      "text": "Hatırlarsan, selam tek başına bitmiyordu.",
+      "markedText": "Hatırlarsan, selam tek başına bitmiyordu.",
+      "words": [
+        {
+          "word": "Hatırlarsan,",
+          "startMs": 82940,
+          "endMs": 83610
+        },
+        {
+          "word": "selam",
+          "startMs": 83720,
+          "endMs": 84090
+        },
+        {
+          "word": "tek",
+          "startMs": 84200,
+          "endMs": 84270
+        },
+        {
+          "word": "başına",
+          "startMs": 84370,
+          "endMs": 84770
+        },
+        {
+          "word": "bitmiyordu.",
+          "startMs": 84910,
+          "endMs": 85080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-2",
+      "startMs": 85960,
+      "endMs": 87130,
+      "pauseAfterMs": 320,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 85960,
+          "endMs": 86500
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 86500,
+          "endMs": 86810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-2",
+      "startMs": 87130,
+      "endMs": 88440,
+      "pauseAfterMs": 670,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 87130,
+          "endMs": 87290
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 87390,
+          "endMs": 87770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-2",
+      "startMs": 88440,
+      "endMs": 90060,
+      "pauseAfterMs": 500,
+      "text": "Selamı duyup susma.",
+      "markedText": "Selamı duyup susma.",
+      "words": [
+        {
+          "word": "Selamı",
+          "startMs": 88440,
+          "endMs": 88880
+        },
+        {
+          "word": "duyup",
+          "startMs": 88920,
+          "endMs": 89090
+        },
+        {
+          "word": "susma.",
+          "startMs": 89180,
+          "endMs": 89560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-2",
+      "startMs": 90060,
+      "endMs": 91430,
+      "pauseAfterMs": 560,
+      "text": "Karşılığı söyle.",
+      "markedText": "Karşılığı söyle.",
+      "words": [
+        {
+          "word": "Karşılığı",
+          "startMs": 90060,
+          "endMs": 90500
+        },
+        {
+          "word": "söyle.",
+          "startMs": 90500,
+          "endMs": 90870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-2",
+      "startMs": 91430,
+      "endMs": 93450,
+      "pauseAfterMs": 540,
+      "text": "İki sözün yerini değiştirme.",
+      "markedText": "İki sözün yerini değiştirme.",
+      "words": [
+        {
+          "word": "İki",
+          "startMs": 91430,
+          "endMs": 91480
+        },
+        {
+          "word": "sözün",
+          "startMs": 91550,
+          "endMs": 91790
+        },
+        {
+          "word": "yerini",
+          "startMs": 91790,
+          "endMs": 92040
+        },
+        {
+          "word": "değiştirme.",
+          "startMs": 92040,
+          "endMs": 92910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-2",
+      "startMs": 93450,
+      "endMs": 94980,
+      "pauseAfterMs": 350,
+      "text": "Önce selam verilir.",
+      "markedText": "Önce selam verilir.",
+      "words": [
+        {
+          "word": "Önce",
+          "startMs": 93450,
+          "endMs": 93780
+        },
+        {
+          "word": "selam",
+          "startMs": 93840,
+          "endMs": 94150
+        },
+        {
+          "word": "verilir.",
+          "startMs": 94150,
+          "endMs": 94630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-2",
+      "startMs": 94980,
+      "endMs": 97150,
+      "pauseAfterMs": 910,
+      "text": "Sonra karşılık söylenir.",
+      "markedText": "Sonra karşılık söylenir.",
+      "words": [
+        {
+          "word": "Sonra",
+          "startMs": 94980,
+          "endMs": 95310
+        },
+        {
+          "word": "karşılık",
+          "startMs": 95370,
+          "endMs": 95770
+        },
+        {
+          "word": "söylenir.",
+          "startMs": 95820,
+          "endMs": 96240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-2",
+      "startMs": 97150,
+      "endMs": 98490,
+      "pauseAfterMs": 540,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 97150,
+          "endMs": 97660
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 97660,
+          "endMs": 97950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-2",
+      "startMs": 98490,
+      "endMs": 99840,
+      "pauseAfterMs": 700,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 98490,
+          "endMs": 98660
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 98760,
+          "endMs": 99140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-2",
+      "startMs": 99840,
+      "endMs": 101850,
+      "pauseAfterMs": 840,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 99840,
+          "endMs": 99880
+        },
+        {
+          "word": "noktayı",
+          "startMs": 99880,
+          "endMs": 100270
+        },
+        {
+          "word": "sen",
+          "startMs": 100270,
+          "endMs": 100380
+        },
+        {
+          "word": "de",
+          "startMs": 100380,
+          "endMs": 100420
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 100420,
+          "endMs": 101010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-2",
+      "startMs": 101850,
+      "endMs": 108090,
+      "pauseAfterMs": 950,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 101850,
+          "endMs": 102160
+        },
+        {
+          "word": "sevgili",
+          "startMs": 102200,
+          "endMs": 102680
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 102680,
+          "endMs": 103330
+        },
+        {
+          "word": "işte",
+          "startMs": 103820,
+          "endMs": 103960
+        },
+        {
+          "word": "tam",
+          "startMs": 104040,
+          "endMs": 104140
+        },
+        {
+          "word": "bu",
+          "startMs": 104340,
+          "endMs": 104480
+        },
+        {
+          "word": "noktada",
+          "startMs": 104480,
+          "endMs": 104840
+        },
+        {
+          "word": "dikkat",
+          "startMs": 104990,
+          "endMs": 105300
+        },
+        {
+          "word": "etmen",
+          "startMs": 105400,
+          "endMs": 105600
+        },
+        {
+          "word": "gereken",
+          "startMs": 105680,
+          "endMs": 106100
+        },
+        {
+          "word": "kilit",
+          "startMs": 106180,
+          "endMs": 106330
+        },
+        {
+          "word": "nokta.",
+          "startMs": 106490,
+          "endMs": 107140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-2",
+      "startMs": 108090,
+      "endMs": 110310,
+      "pauseAfterMs": 790,
+      "text": "Bu noktada acele etme.",
+      "markedText": "Bu noktada acele etme.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 108090,
+          "endMs": 108200
+        },
+        {
+          "word": "noktada",
+          "startMs": 108200,
+          "endMs": 108310
+        },
+        {
+          "word": "acele",
+          "startMs": 108450,
+          "endMs": 108770
+        },
+        {
+          "word": "etme.",
+          "startMs": 108860,
+          "endMs": 109520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-2",
+      "startMs": 110310,
+      "endMs": 113950,
+      "pauseAfterMs": 1250,
+      "text": "Bir kez daha bakıp doğru kutuyu seçersin.",
+      "markedText": "Bir kez daha bakıp doğru kutuyu seçersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 110310,
+          "endMs": 110390
+        },
+        {
+          "word": "kez",
+          "startMs": 110490,
+          "endMs": 110660
+        },
+        {
+          "word": "daha",
+          "startMs": 110710,
+          "endMs": 110910
+        },
+        {
+          "word": "bakıp",
+          "startMs": 111140,
+          "endMs": 111210
+        },
+        {
+          "word": "doğru",
+          "startMs": 111630,
+          "endMs": 111800
+        },
+        {
+          "word": "kutuyu",
+          "startMs": 111800,
+          "endMs": 111990
+        },
+        {
+          "word": "seçersin.",
+          "startMs": 112070,
+          "endMs": 112700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-51",
+      "chapterId": "ch-3",
+      "startMs": 113950,
+      "endMs": 115800,
+      "pauseAfterMs": 740,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 113950,
+          "endMs": 114130
+        },
+        {
+          "word": "Neler",
+          "startMs": 114130,
+          "endMs": 114330
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 114330,
+          "endMs": 115060
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 113950,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Bugün Neler Öğrendik?",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Selamün aleyküm, barış üzerine olsun demektir.",
+                "body": "Selamün aleyküm, barış üzerine olsun demektir.",
+                "tone": "recap"
+              },
+              {
+                "title": "Ve aleyküm selam, selamın karşılığıdır.",
+                "body": "Ve aleyküm selam, selamın karşılığıdır.",
+                "tone": "recap"
+              },
+              {
+                "title": "Önce selam verilir.",
+                "body": "Sonra karşılık söylenir.",
+                "tone": "recap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-52",
+      "chapterId": "ch-3",
+      "startMs": 115800,
+      "endMs": 116830,
+      "pauseAfterMs": 780,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 115800,
+          "endMs": 116050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-53",
+      "chapterId": "ch-3",
+      "startMs": 116830,
+      "endMs": 120930,
+      "pauseAfterMs": 1010,
+      "text": "Selamün aleyküm, barış üzerine olsun demektir.",
+      "markedText": "Selamün aleyküm, barış üzerine olsun demektir.",
+      "words": [
+        {
+          "word": "Selamün",
+          "startMs": 116830,
+          "endMs": 117300
+        },
+        {
+          "word": "aleyküm,",
+          "startMs": 117300,
+          "endMs": 117730
+        },
+        {
+          "word": "barış",
+          "startMs": 118180,
+          "endMs": 118490
+        },
+        {
+          "word": "üzerine",
+          "startMs": 118600,
+          "endMs": 119090
+        },
+        {
+          "word": "olsun",
+          "startMs": 119090,
+          "endMs": 119300
+        },
+        {
+          "word": "demektir.",
+          "startMs": 119300,
+          "endMs": 119920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-54",
+      "chapterId": "ch-3",
+      "startMs": 120930,
+      "endMs": 121610,
+      "pauseAfterMs": 550,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 120930,
+          "endMs": 121060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-55",
+      "chapterId": "ch-3",
+      "startMs": 121610,
+      "endMs": 124900,
+      "pauseAfterMs": 690,
+      "text": "Ve aleyküm selam, selamın karşılığıdır.",
+      "markedText": "Ve aleyküm selam, selamın karşılığıdır.",
+      "words": [
+        {
+          "word": "Ve",
+          "startMs": 121610,
+          "endMs": 121690
+        },
+        {
+          "word": "aleyküm",
+          "startMs": 121880,
+          "endMs": 122250
+        },
+        {
+          "word": "selam,",
+          "startMs": 122530,
+          "endMs": 122720
+        },
+        {
+          "word": "selamın",
+          "startMs": 123010,
+          "endMs": 123450
+        },
+        {
+          "word": "karşılığıdır.",
+          "startMs": 123510,
+          "endMs": 124210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-56",
+      "chapterId": "ch-3",
+      "startMs": 124900,
+      "endMs": 125450,
+      "pauseAfterMs": 240,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 124900,
+          "endMs": 125210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-57",
+      "chapterId": "ch-3",
+      "startMs": 125450,
+      "endMs": 127420,
+      "pauseAfterMs": 410,
+      "text": "Önce selam verilir.",
+      "markedText": "Önce selam verilir.",
+      "words": [
+        {
+          "word": "Önce",
+          "startMs": 125450,
+          "endMs": 125630
+        },
+        {
+          "word": "selam",
+          "startMs": 125810,
+          "endMs": 126030
+        },
+        {
+          "word": "verilir.",
+          "startMs": 126460,
+          "endMs": 127010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-58",
+      "chapterId": "ch-3",
+      "startMs": 127420,
+      "endMs": 129520,
+      "pauseAfterMs": 730,
+      "text": "Sonra karşılık söylenir.",
+      "markedText": "Sonra karşılık söylenir.",
+      "words": [
+        {
+          "word": "Sonra",
+          "startMs": 127420,
+          "endMs": 127730
+        },
+        {
+          "word": "karşılık",
+          "startMs": 127820,
+          "endMs": 128200
+        },
+        {
+          "word": "söylenir.",
+          "startMs": 128250,
+          "endMs": 128790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-59",
+      "chapterId": "ch-3",
+      "startMs": 129520,
+      "endMs": 132320,
+      "pauseAfterMs": 540,
+      "text": "Selamün aleyküm esenlik diler.",
+      "markedText": "Selamün aleyküm esenlik diler.",
+      "words": [
+        {
+          "word": "Selamün",
+          "startMs": 129520,
+          "endMs": 130010
+        },
+        {
+          "word": "aleyküm",
+          "startMs": 130010,
+          "endMs": 130490
+        },
+        {
+          "word": "esenlik",
+          "startMs": 130810,
+          "endMs": 131280
+        },
+        {
+          "word": "diler.",
+          "startMs": 131570,
+          "endMs": 131780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-60",
+      "chapterId": "ch-3",
+      "startMs": 132320,
+      "endMs": 135140,
+      "pauseAfterMs": 710,
+      "text": "Ve aleyküm selam karşılıktır.",
+      "markedText": "Ve aleyküm selam karşılıktır.",
+      "words": [
+        {
+          "word": "Ve",
+          "startMs": 132320,
+          "endMs": 132370
+        },
+        {
+          "word": "aleyküm",
+          "startMs": 132650,
+          "endMs": 132960
+        },
+        {
+          "word": "selam",
+          "startMs": 133010,
+          "endMs": 133320
+        },
+        {
+          "word": "karşılıktır.",
+          "startMs": 133600,
+          "endMs": 134430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-61",
+      "chapterId": "ch-3",
+      "startMs": 135140,
+      "endMs": 139190,
+      "pauseAfterMs": 1190,
+      "text": "Duyduğun selama hangi sözle döndüğünü söylersin.",
+      "markedText": "Duyduğun selama hangi sözle döndüğünü söylersin.",
+      "words": [
+        {
+          "word": "Duyduğun",
+          "startMs": 135140,
+          "endMs": 135600
+        },
+        {
+          "word": "selama",
+          "startMs": 135640,
+          "endMs": 136000
+        },
+        {
+          "word": "hangi",
+          "startMs": 136000,
+          "endMs": 136120
+        },
+        {
+          "word": "sözle",
+          "startMs": 136290,
+          "endMs": 136500
+        },
+        {
+          "word": "döndüğünü",
+          "startMs": 136730,
+          "endMs": 137200
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 137200,
+          "endMs": 138000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-62",
+      "chapterId": "ch-3",
+      "startMs": 139190,
+      "endMs": 140590,
+      "pauseAfterMs": 350,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 139190,
+          "endMs": 139710
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 139760,
+          "endMs": 140240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-63",
+      "chapterId": "ch-3",
+      "startMs": 140590,
+      "endMs": 142470,
+      "pauseAfterMs": 790,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 140590,
+          "endMs": 140860
+        },
+        {
+          "word": "bir",
+          "startMs": 140950,
+          "endMs": 141130
+        },
+        {
+          "word": "iş",
+          "startMs": 141130,
+          "endMs": 141250
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 141430,
+          "endMs": 141680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-64",
+      "chapterId": "ch-3",
+      "startMs": 142470,
+      "endMs": 144060,
+      "pauseAfterMs": 740,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 142470,
+          "endMs": 142720
+        },
+        {
+          "word": "sıra",
+          "startMs": 142720,
+          "endMs": 142960
+        },
+        {
+          "word": "sende.",
+          "startMs": 142960,
+          "endMs": 143320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-65",
+      "chapterId": "ch-3",
+      "startMs": 144060,
+      "endMs": 147814,
+      "pauseAfterMs": 424,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 144060,
+          "endMs": 144480
+        },
+        {
+          "word": "bu",
+          "startMs": 144550,
+          "endMs": 144700
+        },
+        {
+          "word": "notları",
+          "startMs": 145010,
+          "endMs": 145140
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 145470,
+          "endMs": 145760
+        },
+        {
+          "word": "kendi",
+          "startMs": 146140,
+          "endMs": 146370
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 146370,
+          "endMs": 146910
+        },
+        {
+          "word": "anlat.",
+          "startMs": 146910,
+          "endMs": 147390
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

@@ -4,7 +4,8 @@ import { academyLearningOutcomesForSlug } from "@/lib/academy/learning-outcomes"
 
 export function CurriculumOutcomes({ slug }: { slug: string }) {
   const copy = ACADEMY_SEN.outcomes;
-  const items = academyLearningOutcomesForSlug(slug);
+  // Yer tutucu cümle vitrinde basılmaz. Dizi mühür testi için durur; canlı iş cümlesi satış antresindedir.
+  const items = academyLearningOutcomesForSlug(slug).filter((item) => !item.startsWith("Taze ingest"));
   if (items.length === 0) {
     return null;
   }

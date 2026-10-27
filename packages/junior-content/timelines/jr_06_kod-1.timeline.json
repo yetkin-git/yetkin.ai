@@ -1,0 +1,2335 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_kod-1",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Komut sırası",
+  "grade": 6,
+  "subject": "Seçmeli Ders",
+  "teacher": {
+    "name": "Ada",
+    "voice": "Enceladus",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_kod-1.mp3",
+    "durationMs": 143988,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 26170
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 26170,
+      "endMs": 120390
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 120390,
+      "endMs": 143988
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 1880,
+      "pauseAfterMs": 430,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 330,
+          "endMs": 640
+        },
+        {
+          "word": "sevgili",
+          "startMs": 640,
+          "endMs": 1030
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 1030,
+          "endMs": 1450
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Komut sırası",
+            "subtitle": "Seçmeli Ders",
+            "ruleBadges": [],
+            "echoPrompt": "Hangi adımın neden önce geldiğini söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Komut, tek bir iştir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Bilgisayar komutları yukarıdan aşağı yapar."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Sıra değişirse sonuç değişir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 1880,
+      "endMs": 4380,
+      "pauseAfterMs": 600,
+      "text": "Ben Seçmeli Ders öğretmenin Ada.",
+      "markedText": "Ben Seçmeli Ders öğretmenin Ada.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 1880,
+          "endMs": 2070
+        },
+        {
+          "word": "Seçmeli",
+          "startMs": 2070,
+          "endMs": 2620
+        },
+        {
+          "word": "Ders",
+          "startMs": 2620,
+          "endMs": 2870
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 2870,
+          "endMs": 3460
+        },
+        {
+          "word": "Ada.",
+          "startMs": 3540,
+          "endMs": 3780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 4380,
+      "endMs": 7100,
+      "pauseAfterMs": 730,
+      "text": "Bugün seninle komut sırasını öğreneceğiz.",
+      "markedText": "Bugün seninle komut sırasını öğreneceğiz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 4380,
+          "endMs": 4620
+        },
+        {
+          "word": "seninle",
+          "startMs": 4620,
+          "endMs": 5050
+        },
+        {
+          "word": "komut",
+          "startMs": 5140,
+          "endMs": 5360
+        },
+        {
+          "word": "sırasını",
+          "startMs": 5420,
+          "endMs": 5780
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 5780,
+          "endMs": 6370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 7100,
+      "endMs": 9420,
+      "pauseAfterMs": 400,
+      "text": "Diş fırçalarken önce suyu alırsın.",
+      "markedText": "Diş fırçalarken önce suyu alırsın.",
+      "words": [
+        {
+          "word": "Diş",
+          "startMs": 7100,
+          "endMs": 7280
+        },
+        {
+          "word": "fırçalarken",
+          "startMs": 7360,
+          "endMs": 7820
+        },
+        {
+          "word": "önce",
+          "startMs": 7900,
+          "endMs": 8050
+        },
+        {
+          "word": "suyu",
+          "startMs": 8120,
+          "endMs": 8270
+        },
+        {
+          "word": "alırsın.",
+          "startMs": 8270,
+          "endMs": 9020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 9420,
+      "endMs": 11190,
+      "pauseAfterMs": 530,
+      "text": "Sonra macunu sürersin.",
+      "markedText": "Sonra macunu sürersin.",
+      "words": [
+        {
+          "word": "Sonra",
+          "startMs": 9420,
+          "endMs": 9800
+        },
+        {
+          "word": "macunu",
+          "startMs": 9800,
+          "endMs": 10150
+        },
+        {
+          "word": "sürersin.",
+          "startMs": 10190,
+          "endMs": 10660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 11190,
+      "endMs": 12710,
+      "pauseAfterMs": 520,
+      "text": "Sonra fırçalarsın.",
+      "markedText": "Sonra fırçalarsın.",
+      "words": [
+        {
+          "word": "Sonra",
+          "startMs": 11190,
+          "endMs": 11460
+        },
+        {
+          "word": "fırçalarsın.",
+          "startMs": 11570,
+          "endMs": 12190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 12710,
+      "endMs": 14840,
+      "pauseAfterMs": 680,
+      "text": "Sıra değişirse iş karışır.",
+      "markedText": "Sıra değişirse iş karışır.",
+      "words": [
+        {
+          "word": "Sıra",
+          "startMs": 12710,
+          "endMs": 12900
+        },
+        {
+          "word": "değişirse",
+          "startMs": 12900,
+          "endMs": 13360
+        },
+        {
+          "word": "iş",
+          "startMs": 13360,
+          "endMs": 13410
+        },
+        {
+          "word": "karışır.",
+          "startMs": 13460,
+          "endMs": 14160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 14840,
+      "endMs": 17970,
+      "pauseAfterMs": 500,
+      "text": "Hatırlarsan, bilgisayar da adımları sırayla yapıyordu.",
+      "markedText": "Hatırlarsan, bilgisayar da adımları sırayla yapıyordu.",
+      "words": [
+        {
+          "word": "Hatırlarsan,",
+          "startMs": 14840,
+          "endMs": 15470
+        },
+        {
+          "word": "bilgisayar",
+          "startMs": 15470,
+          "endMs": 15830
+        },
+        {
+          "word": "da",
+          "startMs": 15880,
+          "endMs": 15970
+        },
+        {
+          "word": "adımları",
+          "startMs": 15970,
+          "endMs": 16390
+        },
+        {
+          "word": "sırayla",
+          "startMs": 16390,
+          "endMs": 16670
+        },
+        {
+          "word": "yapıyordu.",
+          "startMs": 16810,
+          "endMs": 17470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 17970,
+      "endMs": 20090,
+      "pauseAfterMs": 540,
+      "text": "Yemek tarifi de aynı kuraldır.",
+      "markedText": "Yemek tarifi de aynı kuraldır.",
+      "words": [
+        {
+          "word": "Yemek",
+          "startMs": 17970,
+          "endMs": 18240
+        },
+        {
+          "word": "tarifi",
+          "startMs": 18380,
+          "endMs": 18570
+        },
+        {
+          "word": "de",
+          "startMs": 18570,
+          "endMs": 18620
+        },
+        {
+          "word": "aynı",
+          "startMs": 18690,
+          "endMs": 18860
+        },
+        {
+          "word": "kuraldır.",
+          "startMs": 18860,
+          "endMs": 19550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 20090,
+      "endMs": 21670,
+      "pauseAfterMs": 620,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 20090,
+          "endMs": 20720
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 20720,
+          "endMs": 21050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 21670,
+      "endMs": 23030,
+      "pauseAfterMs": 710,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 21670,
+          "endMs": 21860
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 21950,
+          "endMs": 22320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 23030,
+      "endMs": 26170,
+      "pauseAfterMs": 630,
+      "text": "İlk adımı atlarsan sonraki adım boşa düşer.",
+      "markedText": "İlk adımı atlarsan sonraki adım boşa düşer.",
+      "words": [
+        {
+          "word": "İlk",
+          "startMs": 23030,
+          "endMs": 23190
+        },
+        {
+          "word": "adımı",
+          "startMs": 23260,
+          "endMs": 23630
+        },
+        {
+          "word": "atlarsan",
+          "startMs": 23750,
+          "endMs": 24140
+        },
+        {
+          "word": "sonraki",
+          "startMs": 24220,
+          "endMs": 24510
+        },
+        {
+          "word": "adım",
+          "startMs": 24610,
+          "endMs": 24760
+        },
+        {
+          "word": "boşa",
+          "startMs": 24760,
+          "endMs": 24940
+        },
+        {
+          "word": "düşer.",
+          "startMs": 24940,
+          "endMs": 25540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 26170,
+      "endMs": 28690,
+      "pauseAfterMs": 660,
+      "text": "Bugün seninle komut sırasını kuruyoruz.",
+      "markedText": "Bugün seninle komut sırasını kuruyoruz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 26170,
+          "endMs": 26460
+        },
+        {
+          "word": "seninle",
+          "startMs": 26460,
+          "endMs": 26830
+        },
+        {
+          "word": "komut",
+          "startMs": 26930,
+          "endMs": 27110
+        },
+        {
+          "word": "sırasını",
+          "startMs": 27180,
+          "endMs": 27550
+        },
+        {
+          "word": "kuruyoruz.",
+          "startMs": 27650,
+          "endMs": 28030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 28690,
+      "endMs": 30420,
+      "pauseAfterMs": 630,
+      "text": "Komut, tek bir iştir.",
+      "markedText": "Komut, tek bir iştir.",
+      "words": [
+        {
+          "word": "Komut,",
+          "startMs": 28690,
+          "endMs": 28890
+        },
+        {
+          "word": "tek",
+          "startMs": 29100,
+          "endMs": 29200
+        },
+        {
+          "word": "bir",
+          "startMs": 29320,
+          "endMs": 29460
+        },
+        {
+          "word": "iştir.",
+          "startMs": 29500,
+          "endMs": 29790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 30420,
+      "endMs": 33630,
+      "pauseAfterMs": 700,
+      "text": "Bilgisayar komutları yukarıdan aşağı çalıştırır.",
+      "markedText": "Bilgisayar komutları yukarıdan aşağı çalıştırır.",
+      "words": [
+        {
+          "word": "Bilgisayar",
+          "startMs": 30420,
+          "endMs": 30960
+        },
+        {
+          "word": "komutları",
+          "startMs": 31060,
+          "endMs": 31210
+        },
+        {
+          "word": "yukarıdan",
+          "startMs": 31340,
+          "endMs": 31600
+        },
+        {
+          "word": "aşağı",
+          "startMs": 31650,
+          "endMs": 31960
+        },
+        {
+          "word": "çalıştırır.",
+          "startMs": 31960,
+          "endMs": 32930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 33630,
+      "endMs": 35860,
+      "pauseAfterMs": 660,
+      "text": "Sıra değişirse sonuç değişir.",
+      "markedText": "Sıra değişirse sonuç değişir.",
+      "words": [
+        {
+          "word": "Sıra",
+          "startMs": 33630,
+          "endMs": 33890
+        },
+        {
+          "word": "değişirse",
+          "startMs": 33890,
+          "endMs": 34380
+        },
+        {
+          "word": "sonuç",
+          "startMs": 34450,
+          "endMs": 34650
+        },
+        {
+          "word": "değişir.",
+          "startMs": 34920,
+          "endMs": 35200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 35860,
+      "endMs": 38120,
+      "pauseAfterMs": 640,
+      "text": "Atlanan adım da sonucu bozar.",
+      "markedText": "Atlanan adım da sonucu bozar.",
+      "words": [
+        {
+          "word": "Atlanan",
+          "startMs": 35860,
+          "endMs": 36280
+        },
+        {
+          "word": "adım",
+          "startMs": 36280,
+          "endMs": 36460
+        },
+        {
+          "word": "da",
+          "startMs": 36460,
+          "endMs": 36540
+        },
+        {
+          "word": "sonucu",
+          "startMs": 36540,
+          "endMs": 36880
+        },
+        {
+          "word": "bozar.",
+          "startMs": 36880,
+          "endMs": 37480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 38120,
+      "endMs": 40940,
+      "pauseAfterMs": 750,
+      "text": "Hatırlarsan, bardak önce tutulmuştu.",
+      "markedText": "Hatırlarsan, bardak önce tutulmuştu.",
+      "words": [
+        {
+          "word": "Hatırlarsan,",
+          "startMs": 38120,
+          "endMs": 38790
+        },
+        {
+          "word": "bardak",
+          "startMs": 38890,
+          "endMs": 39190
+        },
+        {
+          "word": "önce",
+          "startMs": 39370,
+          "endMs": 39670
+        },
+        {
+          "word": "tutulmuştu.",
+          "startMs": 39840,
+          "endMs": 40190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 40940,
+      "endMs": 44030,
+      "pauseAfterMs": 960,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 40940,
+          "endMs": 41120
+        },
+        {
+          "word": "şimdi",
+          "startMs": 41120,
+          "endMs": 41440
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 41530,
+          "endMs": 42060
+        },
+        {
+          "word": "çizime",
+          "startMs": 42100,
+          "endMs": 42300
+        },
+        {
+          "word": "birlikte",
+          "startMs": 42300,
+          "endMs": 42630
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 42740,
+          "endMs": 43070
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 40940,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Komut sırası · kavram",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Komut, tek bir iştir.",
+                "body": "Komut, tek bir iştir.",
+                "tone": "concept"
+              },
+              {
+                "title": "Bilgisayar komutları yukarıdan aşağı yapar.",
+                "body": "Bilgisayar komutları yukarıdan aşağı yapar.",
+                "tone": "concept"
+              },
+              {
+                "title": "Bugün seninle komut sırasını kuruyoruz.",
+                "body": "Bugün seninle komut sırasını kuruyoruz.",
+                "tone": "concept"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 44030,
+      "endMs": 46220,
+      "pauseAfterMs": 550,
+      "text": "Birinci komut bardağı tutmaktır.",
+      "markedText": "Birinci komut bardağı tutmaktır.",
+      "words": [
+        {
+          "word": "Birinci",
+          "startMs": 44030,
+          "endMs": 44350
+        },
+        {
+          "word": "komut",
+          "startMs": 44430,
+          "endMs": 44590
+        },
+        {
+          "word": "bardağı",
+          "startMs": 44710,
+          "endMs": 45020
+        },
+        {
+          "word": "tutmaktır.",
+          "startMs": 45020,
+          "endMs": 45670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 46220,
+      "endMs": 48550,
+      "pauseAfterMs": 690,
+      "text": "İkinci komut musluğu açmaktır.",
+      "markedText": "İkinci komut musluğu açmaktır.",
+      "words": [
+        {
+          "word": "İkinci",
+          "startMs": 46220,
+          "endMs": 46490
+        },
+        {
+          "word": "komut",
+          "startMs": 46490,
+          "endMs": 46560
+        },
+        {
+          "word": "musluğu",
+          "startMs": 46620,
+          "endMs": 46810
+        },
+        {
+          "word": "açmaktır.",
+          "startMs": 46900,
+          "endMs": 47860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 48550,
+      "endMs": 51120,
+      "pauseAfterMs": 620,
+      "text": "Üçüncü komut musluğu kapatmaktır.",
+      "markedText": "Üçüncü komut musluğu kapatmaktır.",
+      "words": [
+        {
+          "word": "Üçüncü",
+          "startMs": 48550,
+          "endMs": 48900
+        },
+        {
+          "word": "komut",
+          "startMs": 48970,
+          "endMs": 49160
+        },
+        {
+          "word": "musluğu",
+          "startMs": 49260,
+          "endMs": 49650
+        },
+        {
+          "word": "kapatmaktır.",
+          "startMs": 49710,
+          "endMs": 50500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 51120,
+      "endMs": 52940,
+      "pauseAfterMs": 730,
+      "text": "Su bardakta kalır.",
+      "markedText": "Su bardakta kalır.",
+      "words": [
+        {
+          "word": "Su",
+          "startMs": 51120,
+          "endMs": 51270
+        },
+        {
+          "word": "bardakta",
+          "startMs": 51270,
+          "endMs": 51700
+        },
+        {
+          "word": "kalır.",
+          "startMs": 51800,
+          "endMs": 52210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 52940,
+      "endMs": 54310,
+      "pauseAfterMs": 420,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 52940,
+          "endMs": 53550
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 53550,
+          "endMs": 53890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 54310,
+      "endMs": 55640,
+      "pauseAfterMs": 710,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 54310,
+          "endMs": 54510
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 54610,
+          "endMs": 54930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 55640,
+      "endMs": 57460,
+      "pauseAfterMs": 460,
+      "text": "Musluğu ilk adım yapma.",
+      "markedText": "Musluğu ilk adım yapma.",
+      "words": [
+        {
+          "word": "Musluğu",
+          "startMs": 55640,
+          "endMs": 56120
+        },
+        {
+          "word": "ilk",
+          "startMs": 56160,
+          "endMs": 56290
+        },
+        {
+          "word": "adım",
+          "startMs": 56360,
+          "endMs": 56630
+        },
+        {
+          "word": "yapma.",
+          "startMs": 56630,
+          "endMs": 57000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 57460,
+      "endMs": 59070,
+      "pauseAfterMs": 720,
+      "text": "Su yere dökülür.",
+      "markedText": "Su yere dökülür.",
+      "words": [
+        {
+          "word": "Su",
+          "startMs": 57460,
+          "endMs": 57540
+        },
+        {
+          "word": "yere",
+          "startMs": 57540,
+          "endMs": 57670
+        },
+        {
+          "word": "dökülür.",
+          "startMs": 57670,
+          "endMs": 58350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 59070,
+      "endMs": 61130,
+      "pauseAfterMs": 450,
+      "text": "Komutları ezberlemek yetmez.",
+      "markedText": "Komutları ezberlemek yetmez.",
+      "words": [
+        {
+          "word": "Komutları",
+          "startMs": 59070,
+          "endMs": 59650
+        },
+        {
+          "word": "ezberlemek",
+          "startMs": 59650,
+          "endMs": 60140
+        },
+        {
+          "word": "yetmez.",
+          "startMs": 60240,
+          "endMs": 60680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 61130,
+      "endMs": 63200,
+      "pauseAfterMs": 690,
+      "text": "Sırayı söylemek gerekir.",
+      "markedText": "Sırayı söylemek gerekir.",
+      "words": [
+        {
+          "word": "Sırayı",
+          "startMs": 61130,
+          "endMs": 61390
+        },
+        {
+          "word": "söylemek",
+          "startMs": 61390,
+          "endMs": 61860
+        },
+        {
+          "word": "gerekir.",
+          "startMs": 62410,
+          "endMs": 62510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 63200,
+      "endMs": 65730,
+      "pauseAfterMs": 710,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 63200,
+          "endMs": 63370
+        },
+        {
+          "word": "şimdi",
+          "startMs": 63370,
+          "endMs": 63640
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 63640,
+          "endMs": 64010
+        },
+        {
+          "word": "çizime",
+          "startMs": 64160,
+          "endMs": 64380
+        },
+        {
+          "word": "birlikte",
+          "startMs": 64380,
+          "endMs": 64640
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 64730,
+          "endMs": 65020
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 63200,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Komut sırası · örnek",
+            "note": "Örnek, kavramın kendisini gösterir.",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Bir komut, bilgisayara verilen tek iştir.",
+                "body": "Bir komut, bilgisayara verilen tek iştir.",
+                "tone": "example"
+              },
+              {
+                "title": "Bilgisayar bu işleri yazıldıkları sırayla yapar.",
+                "body": "Bilgisayar bu işleri yazıldıkları sırayla yapar.",
+                "tone": "example"
+              },
+              {
+                "title": "İlk satır önce çalışır.",
+                "body": "İlk satır önce çalışır.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 65730,
+      "endMs": 68350,
+      "pauseAfterMs": 620,
+      "text": "Bir komut, bilgisayara verilen tek iştir.",
+      "markedText": "Bir komut, bilgisayara verilen tek iştir.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 65730,
+          "endMs": 65870
+        },
+        {
+          "word": "komut,",
+          "startMs": 65940,
+          "endMs": 66130
+        },
+        {
+          "word": "bilgisayara",
+          "startMs": 66250,
+          "endMs": 66710
+        },
+        {
+          "word": "verilen",
+          "startMs": 66710,
+          "endMs": 67140
+        },
+        {
+          "word": "tek",
+          "startMs": 67230,
+          "endMs": 67310
+        },
+        {
+          "word": "iştir.",
+          "startMs": 67390,
+          "endMs": 67730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 68350,
+      "endMs": 71600,
+      "pauseAfterMs": 710,
+      "text": "Bilgisayar bu işleri yazıldıkları sırayla yapar.",
+      "markedText": "Bilgisayar bu işleri yazıldıkları sırayla yapar.",
+      "words": [
+        {
+          "word": "Bilgisayar",
+          "startMs": 68350,
+          "endMs": 68930
+        },
+        {
+          "word": "bu",
+          "startMs": 68930,
+          "endMs": 69010
+        },
+        {
+          "word": "işleri",
+          "startMs": 69010,
+          "endMs": 69180
+        },
+        {
+          "word": "yazıldıkları",
+          "startMs": 69240,
+          "endMs": 69790
+        },
+        {
+          "word": "sırayla",
+          "startMs": 69920,
+          "endMs": 70260
+        },
+        {
+          "word": "yapar.",
+          "startMs": 70260,
+          "endMs": 70890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 71600,
+      "endMs": 73290,
+      "pauseAfterMs": 430,
+      "text": "İlk satır önce çalışır.",
+      "markedText": "İlk satır önce çalışır.",
+      "words": [
+        {
+          "word": "İlk",
+          "startMs": 71600,
+          "endMs": 71710
+        },
+        {
+          "word": "satır",
+          "startMs": 71770,
+          "endMs": 72060
+        },
+        {
+          "word": "önce",
+          "startMs": 72060,
+          "endMs": 72350
+        },
+        {
+          "word": "çalışır.",
+          "startMs": 72400,
+          "endMs": 72860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 73290,
+      "endMs": 75440,
+      "pauseAfterMs": 640,
+      "text": "Son satır en son çalışır.",
+      "markedText": "Son satır en son çalışır.",
+      "words": [
+        {
+          "word": "Son",
+          "startMs": 73290,
+          "endMs": 73420
+        },
+        {
+          "word": "satır",
+          "startMs": 73420,
+          "endMs": 73580
+        },
+        {
+          "word": "en",
+          "startMs": 73680,
+          "endMs": 73740
+        },
+        {
+          "word": "son",
+          "startMs": 73800,
+          "endMs": 73880
+        },
+        {
+          "word": "çalışır.",
+          "startMs": 73950,
+          "endMs": 74800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-2",
+      "startMs": 75440,
+      "endMs": 77840,
+      "pauseAfterMs": 700,
+      "text": "Sıra değişirse sonuç değişir.",
+      "markedText": "Sıra değişirse sonuç değişir.",
+      "words": [
+        {
+          "word": "Sıra",
+          "startMs": 75440,
+          "endMs": 75700
+        },
+        {
+          "word": "değişirse",
+          "startMs": 75750,
+          "endMs": 76110
+        },
+        {
+          "word": "sonuç",
+          "startMs": 76190,
+          "endMs": 76380
+        },
+        {
+          "word": "değişir.",
+          "startMs": 76440,
+          "endMs": 77140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-2",
+      "startMs": 77840,
+      "endMs": 80460,
+      "pauseAfterMs": 770,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 77840,
+          "endMs": 78020
+        },
+        {
+          "word": "şimdi",
+          "startMs": 78020,
+          "endMs": 78340
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 78440,
+          "endMs": 78670
+        },
+        {
+          "word": "çizime",
+          "startMs": 78790,
+          "endMs": 79030
+        },
+        {
+          "word": "birlikte",
+          "startMs": 79030,
+          "endMs": 79280
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 79370,
+          "endMs": 79690
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 77840,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Tuzaklara Düşme!",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Bu noktada acele etme.",
+                "body": "Bu noktada acele etme.",
+                "tone": "trap"
+              },
+              {
+                "title": "Bir kez daha bakıp doğru kutuyu seçersin.",
+                "body": "Bir kez daha bakıp doğru kutuyu seçersin.",
+                "tone": "trap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-2",
+      "startMs": 80460,
+      "endMs": 81820,
+      "pauseAfterMs": 560,
+      "text": "Üç komut duruyor.",
+      "markedText": "Üç komut duruyor.",
+      "words": [
+        {
+          "word": "Üç",
+          "startMs": 80460,
+          "endMs": 80550
+        },
+        {
+          "word": "komut",
+          "startMs": 80700,
+          "endMs": 80890
+        },
+        {
+          "word": "duruyor.",
+          "startMs": 81000,
+          "endMs": 81260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-2",
+      "startMs": 81820,
+      "endMs": 82940,
+      "pauseAfterMs": 410,
+      "text": "Bardağı tut.",
+      "markedText": "Bardağı tut.",
+      "words": [
+        {
+          "word": "Bardağı",
+          "startMs": 81820,
+          "endMs": 82200
+        },
+        {
+          "word": "tut.",
+          "startMs": 82320,
+          "endMs": 82530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-2",
+      "startMs": 82940,
+      "endMs": 84100,
+      "pauseAfterMs": 430,
+      "text": "Musluğu aç.",
+      "markedText": "Musluğu aç.",
+      "words": [
+        {
+          "word": "Musluğu",
+          "startMs": 82940,
+          "endMs": 83500
+        },
+        {
+          "word": "aç.",
+          "startMs": 83580,
+          "endMs": 83670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-2",
+      "startMs": 84100,
+      "endMs": 86320,
+      "pauseAfterMs": 580,
+      "text": "Bardak dolunca musluğu kapat.",
+      "markedText": "Bardak dolunca musluğu kapat.",
+      "words": [
+        {
+          "word": "Bardak",
+          "startMs": 84100,
+          "endMs": 84410
+        },
+        {
+          "word": "dolunca",
+          "startMs": 84520,
+          "endMs": 84970
+        },
+        {
+          "word": "musluğu",
+          "startMs": 84970,
+          "endMs": 85280
+        },
+        {
+          "word": "kapat.",
+          "startMs": 85350,
+          "endMs": 85740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-2",
+      "startMs": 86320,
+      "endMs": 88320,
+      "pauseAfterMs": 550,
+      "text": "Bu sıra suyu bardağa koyar.",
+      "markedText": "Bu sıra suyu bardağa koyar.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 86320,
+          "endMs": 86480
+        },
+        {
+          "word": "sıra",
+          "startMs": 86480,
+          "endMs": 86680
+        },
+        {
+          "word": "suyu",
+          "startMs": 86750,
+          "endMs": 86890
+        },
+        {
+          "word": "bardağa",
+          "startMs": 86890,
+          "endMs": 87170
+        },
+        {
+          "word": "koyar.",
+          "startMs": 87240,
+          "endMs": 87770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-2",
+      "startMs": 88320,
+      "endMs": 91130,
+      "pauseAfterMs": 630,
+      "text": "Musluğu önce açarsan su yere dökülür.",
+      "markedText": "Musluğu önce açarsan su yere dökülür.",
+      "words": [
+        {
+          "word": "Musluğu",
+          "startMs": 88320,
+          "endMs": 88750
+        },
+        {
+          "word": "önce",
+          "startMs": 88750,
+          "endMs": 88940
+        },
+        {
+          "word": "açarsan",
+          "startMs": 88940,
+          "endMs": 89210
+        },
+        {
+          "word": "su",
+          "startMs": 89260,
+          "endMs": 89370
+        },
+        {
+          "word": "yere",
+          "startMs": 89530,
+          "endMs": 89630
+        },
+        {
+          "word": "dökülür.",
+          "startMs": 89760,
+          "endMs": 90500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-2",
+      "startMs": 91130,
+      "endMs": 93570,
+      "pauseAfterMs": 710,
+      "text": "Hatırlarsan, sıra sonucu belirliyordu.",
+      "markedText": "Hatırlarsan, sıra sonucu belirliyordu.",
+      "words": [
+        {
+          "word": "Hatırlarsan,",
+          "startMs": 91130,
+          "endMs": 91780
+        },
+        {
+          "word": "sıra",
+          "startMs": 91780,
+          "endMs": 92060
+        },
+        {
+          "word": "sonucu",
+          "startMs": 92110,
+          "endMs": 92380
+        },
+        {
+          "word": "belirliyordu.",
+          "startMs": 92380,
+          "endMs": 92860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-2",
+      "startMs": 93570,
+      "endMs": 95080,
+      "pauseAfterMs": 570,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 93570,
+          "endMs": 94160
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 94160,
+          "endMs": 94510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-2",
+      "startMs": 95080,
+      "endMs": 96500,
+      "pauseAfterMs": 780,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 95080,
+          "endMs": 95270
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 95370,
+          "endMs": 95720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-2",
+      "startMs": 96500,
+      "endMs": 98160,
+      "pauseAfterMs": 510,
+      "text": "Komutları karışık okuma.",
+      "markedText": "Komutları karışık okuma.",
+      "words": [
+        {
+          "word": "Komutları",
+          "startMs": 96500,
+          "endMs": 96930
+        },
+        {
+          "word": "karışık",
+          "startMs": 96980,
+          "endMs": 97260
+        },
+        {
+          "word": "okuma.",
+          "startMs": 97330,
+          "endMs": 97650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-2",
+      "startMs": 98160,
+      "endMs": 100040,
+      "pauseAfterMs": 730,
+      "text": "Yukarıdan aşağı git.",
+      "markedText": "Yukarıdan aşağı git.",
+      "words": [
+        {
+          "word": "Yukarıdan",
+          "startMs": 98160,
+          "endMs": 98730
+        },
+        {
+          "word": "aşağı",
+          "startMs": 98780,
+          "endMs": 98910
+        },
+        {
+          "word": "git.",
+          "startMs": 98910,
+          "endMs": 99310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-2",
+      "startMs": 100040,
+      "endMs": 102300,
+      "pauseAfterMs": 690,
+      "text": "Bir adımı atlamak da sırayı bozar.",
+      "markedText": "Bir adımı atlamak da sırayı bozar.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 100040,
+          "endMs": 100190
+        },
+        {
+          "word": "adımı",
+          "startMs": 100190,
+          "endMs": 100270
+        },
+        {
+          "word": "atlamak",
+          "startMs": 100270,
+          "endMs": 100520
+        },
+        {
+          "word": "da",
+          "startMs": 100620,
+          "endMs": 100690
+        },
+        {
+          "word": "sırayı",
+          "startMs": 100690,
+          "endMs": 100790
+        },
+        {
+          "word": "bozar.",
+          "startMs": 100910,
+          "endMs": 101610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-2",
+      "startMs": 102300,
+      "endMs": 103840,
+      "pauseAfterMs": 650,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 102300,
+          "endMs": 102850
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 102850,
+          "endMs": 103190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-2",
+      "startMs": 103840,
+      "endMs": 105640,
+      "pauseAfterMs": 1140,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 103840,
+          "endMs": 104160
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 104350,
+          "endMs": 104500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-51",
+      "chapterId": "ch-2",
+      "startMs": 105640,
+      "endMs": 108620,
+      "pauseAfterMs": 1480,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 105640,
+          "endMs": 105720
+        },
+        {
+          "word": "noktayı",
+          "startMs": 105720,
+          "endMs": 105870
+        },
+        {
+          "word": "sen",
+          "startMs": 106010,
+          "endMs": 106170
+        },
+        {
+          "word": "de",
+          "startMs": 106210,
+          "endMs": 106290
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 106290,
+          "endMs": 107140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-52",
+      "chapterId": "ch-2",
+      "startMs": 108620,
+      "endMs": 114590,
+      "pauseAfterMs": 1430,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 108620,
+          "endMs": 108890
+        },
+        {
+          "word": "sevgili",
+          "startMs": 108890,
+          "endMs": 109320
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 109750,
+          "endMs": 110120
+        },
+        {
+          "word": "işte",
+          "startMs": 110230,
+          "endMs": 110480
+        },
+        {
+          "word": "tam",
+          "startMs": 110480,
+          "endMs": 110590
+        },
+        {
+          "word": "bu",
+          "startMs": 110590,
+          "endMs": 110680
+        },
+        {
+          "word": "noktada",
+          "startMs": 110810,
+          "endMs": 111080
+        },
+        {
+          "word": "dikkat",
+          "startMs": 111350,
+          "endMs": 111550
+        },
+        {
+          "word": "etmen",
+          "startMs": 111640,
+          "endMs": 112040
+        },
+        {
+          "word": "gereken",
+          "startMs": 112130,
+          "endMs": 112330
+        },
+        {
+          "word": "kilit",
+          "startMs": 112470,
+          "endMs": 112690
+        },
+        {
+          "word": "nokta.",
+          "startMs": 112810,
+          "endMs": 113160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-53",
+      "chapterId": "ch-2",
+      "startMs": 114590,
+      "endMs": 116380,
+      "pauseAfterMs": 760,
+      "text": "Bu noktada acele etme.",
+      "markedText": "Bu noktada acele etme.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 114590,
+          "endMs": 114700
+        },
+        {
+          "word": "noktada",
+          "startMs": 114700,
+          "endMs": 114790
+        },
+        {
+          "word": "acele",
+          "startMs": 114900,
+          "endMs": 115140
+        },
+        {
+          "word": "etme.",
+          "startMs": 115190,
+          "endMs": 115620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-54",
+      "chapterId": "ch-2",
+      "startMs": 116380,
+      "endMs": 120390,
+      "pauseAfterMs": 1400,
+      "text": "Bir kez daha bakıp doğru kutuyu seçersin.",
+      "markedText": "Bir kez daha bakıp doğru kutuyu seçersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 116380,
+          "endMs": 116470
+        },
+        {
+          "word": "kez",
+          "startMs": 116780,
+          "endMs": 116890
+        },
+        {
+          "word": "daha",
+          "startMs": 116980,
+          "endMs": 117110
+        },
+        {
+          "word": "bakıp",
+          "startMs": 117190,
+          "endMs": 117370
+        },
+        {
+          "word": "doğru",
+          "startMs": 117420,
+          "endMs": 117630
+        },
+        {
+          "word": "kutuyu",
+          "startMs": 117960,
+          "endMs": 118070
+        },
+        {
+          "word": "seçersin.",
+          "startMs": 118070,
+          "endMs": 118990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-55",
+      "chapterId": "ch-3",
+      "startMs": 120390,
+      "endMs": 121770,
+      "pauseAfterMs": 310,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 120390,
+          "endMs": 120540
+        },
+        {
+          "word": "Neler",
+          "startMs": 120540,
+          "endMs": 120800
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 120800,
+          "endMs": 121460
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 120390,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Bugün Neler Öğrendik?",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Komut, tek bir iştir.",
+                "body": "Komut, tek bir iştir.",
+                "tone": "recap"
+              },
+              {
+                "title": "Bilgisayar komutları yukarıdan aşağı yapar.",
+                "body": "Bilgisayar komutları yukarıdan aşağı yapar.",
+                "tone": "recap"
+              },
+              {
+                "title": "Sıra değişirse sonuç değişir.",
+                "body": "Sıra değişirse sonuç değişir.",
+                "tone": "recap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-56",
+      "chapterId": "ch-3",
+      "startMs": 121770,
+      "endMs": 122260,
+      "pauseAfterMs": 310,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 121770,
+          "endMs": 121950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-57",
+      "chapterId": "ch-3",
+      "startMs": 122260,
+      "endMs": 124370,
+      "pauseAfterMs": 1110,
+      "text": "Komut, tek bir iştir.",
+      "markedText": "Komut, tek bir iştir.",
+      "words": [
+        {
+          "word": "Komut,",
+          "startMs": 122260,
+          "endMs": 122440
+        },
+        {
+          "word": "tek",
+          "startMs": 122600,
+          "endMs": 122690
+        },
+        {
+          "word": "bir",
+          "startMs": 122800,
+          "endMs": 122890
+        },
+        {
+          "word": "iştir.",
+          "startMs": 122940,
+          "endMs": 123260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-58",
+      "chapterId": "ch-3",
+      "startMs": 124370,
+      "endMs": 124850,
+      "pauseAfterMs": 410,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 124370,
+          "endMs": 124440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-59",
+      "chapterId": "ch-3",
+      "startMs": 124850,
+      "endMs": 127590,
+      "pauseAfterMs": 680,
+      "text": "Bilgisayar komutları yukarıdan aşağı yapar.",
+      "markedText": "Bilgisayar komutları yukarıdan aşağı yapar.",
+      "words": [
+        {
+          "word": "Bilgisayar",
+          "startMs": 124850,
+          "endMs": 125290
+        },
+        {
+          "word": "komutları",
+          "startMs": 125360,
+          "endMs": 125780
+        },
+        {
+          "word": "yukarıdan",
+          "startMs": 125960,
+          "endMs": 126310
+        },
+        {
+          "word": "aşağı",
+          "startMs": 126410,
+          "endMs": 126640
+        },
+        {
+          "word": "yapar.",
+          "startMs": 126730,
+          "endMs": 126910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-60",
+      "chapterId": "ch-3",
+      "startMs": 127590,
+      "endMs": 127890,
+      "pauseAfterMs": 220,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 127590,
+          "endMs": 127670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-61",
+      "chapterId": "ch-3",
+      "startMs": 127890,
+      "endMs": 131350,
+      "pauseAfterMs": 1220,
+      "text": "Sıra değişirse sonuç değişir.",
+      "markedText": "Sıra değişirse sonuç değişir.",
+      "words": [
+        {
+          "word": "Sıra",
+          "startMs": 127890,
+          "endMs": 128180
+        },
+        {
+          "word": "değişirse",
+          "startMs": 128520,
+          "endMs": 128970
+        },
+        {
+          "word": "sonuç",
+          "startMs": 129110,
+          "endMs": 129340
+        },
+        {
+          "word": "değişir.",
+          "startMs": 129420,
+          "endMs": 130130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-62",
+      "chapterId": "ch-3",
+      "startMs": 131350,
+      "endMs": 133940,
+      "pauseAfterMs": 440,
+      "text": "Bilgisayar, komutları yukarıdan aşağı yapar.",
+      "markedText": "Bilgisayar, komutları yukarıdan aşağı yapar.",
+      "words": [
+        {
+          "word": "Bilgisayar,",
+          "startMs": 131350,
+          "endMs": 131840
+        },
+        {
+          "word": "komutları",
+          "startMs": 131960,
+          "endMs": 132440
+        },
+        {
+          "word": "yukarıdan",
+          "startMs": 132500,
+          "endMs": 132890
+        },
+        {
+          "word": "aşağı",
+          "startMs": 132890,
+          "endMs": 132990
+        },
+        {
+          "word": "yapar.",
+          "startMs": 132990,
+          "endMs": 133500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-63",
+      "chapterId": "ch-3",
+      "startMs": 133940,
+      "endMs": 136840,
+      "pauseAfterMs": 820,
+      "text": "Hangi adımın neden önce geldiğini söylersin.",
+      "markedText": "Hangi adımın neden önce geldiğini söylersin.",
+      "words": [
+        {
+          "word": "Hangi",
+          "startMs": 133940,
+          "endMs": 134040
+        },
+        {
+          "word": "adımın",
+          "startMs": 134040,
+          "endMs": 134260
+        },
+        {
+          "word": "neden",
+          "startMs": 134360,
+          "endMs": 134580
+        },
+        {
+          "word": "önce",
+          "startMs": 134760,
+          "endMs": 134870
+        },
+        {
+          "word": "geldiğini",
+          "startMs": 134870,
+          "endMs": 135260
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 135570,
+          "endMs": 136020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-64",
+      "chapterId": "ch-3",
+      "startMs": 136840,
+      "endMs": 138250,
+      "pauseAfterMs": 350,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 136840,
+          "endMs": 137360
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 137420,
+          "endMs": 137900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-65",
+      "chapterId": "ch-3",
+      "startMs": 138250,
+      "endMs": 139880,
+      "pauseAfterMs": 710,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 138250,
+          "endMs": 138460
+        },
+        {
+          "word": "bir",
+          "startMs": 138510,
+          "endMs": 138630
+        },
+        {
+          "word": "iş",
+          "startMs": 138630,
+          "endMs": 138720
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 138720,
+          "endMs": 139170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-66",
+      "chapterId": "ch-3",
+      "startMs": 139880,
+      "endMs": 141120,
+      "pauseAfterMs": 500,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 139880,
+          "endMs": 140140
+        },
+        {
+          "word": "sıra",
+          "startMs": 140140,
+          "endMs": 140380
+        },
+        {
+          "word": "sende.",
+          "startMs": 140380,
+          "endMs": 140620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-67",
+      "chapterId": "ch-3",
+      "startMs": 141120,
+      "endMs": 143988,
+      "pauseAfterMs": 318,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 141120,
+          "endMs": 141560
+        },
+        {
+          "word": "bu",
+          "startMs": 141560,
+          "endMs": 141650
+        },
+        {
+          "word": "notları",
+          "startMs": 141770,
+          "endMs": 142050
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 142130,
+          "endMs": 142430
+        },
+        {
+          "word": "kendi",
+          "startMs": 142550,
+          "endMs": 142710
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 142710,
+          "endMs": 143090
+        },
+        {
+          "word": "anlat.",
+          "startMs": 143090,
+          "endMs": 143670
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

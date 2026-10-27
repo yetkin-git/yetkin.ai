@@ -1,0 +1,2893 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_ing_main-7",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Sunny, rainy ve cold",
+  "grade": 6,
+  "subject": "İngilizce",
+  "teacher": {
+    "name": "Selin",
+    "voice": "Kore",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_ing_main-7.mp3",
+    "durationMs": 420812,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 121420
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 121420,
+      "endMs": 361370
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 361370,
+      "endMs": 420812
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 3670,
+      "pauseAfterMs": 610,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 300,
+          "endMs": 940
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1510,
+          "endMs": 2370
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2490,
+          "endMs": 3060
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Sunny, rainy ve cold",
+            "subtitle": "İngilizce",
+            "ruleBadges": [],
+            "echoPrompt": "Penceredeki havayı bir cümlede söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Hava durumu It is ve ardından gelen bir hava sıfatıyla söylenir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Sunny güneşli, rainy yağmurlu, cold soğuk, windy rüzgârlı demektir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "What is the weather like sorusuna It is sunny gibi net cümlelerle cevap verilir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 3670,
+      "endMs": 8630,
+      "pauseAfterMs": 500,
+      "text": "Ben İngilizce öğretmenin Selin.",
+      "markedText": "Ben İngilizce öğretmenin Selin.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 3670,
+          "endMs": 3920
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 4060,
+          "endMs": 5160
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 5550,
+          "endMs": 7160
+        },
+        {
+          "word": "Selin.",
+          "startMs": 7200,
+          "endMs": 8130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8630,
+      "endMs": 21220,
+      "pauseAfterMs": 610,
+      "text": "Sabah uyandığında ilk baktığın yere, yani gökyüzüne çeviriyoruz gözlerimizi!",
+      "markedText": "Sabah uyandığında ilk baktığın yere, yani gökyüzüne çeviriyoruz gözlerimizi!",
+      "words": [
+        {
+          "word": "Sabah",
+          "startMs": 8630,
+          "endMs": 9390
+        },
+        {
+          "word": "uyandığında",
+          "startMs": 9980,
+          "endMs": 11080
+        },
+        {
+          "word": "ilk",
+          "startMs": 11420,
+          "endMs": 11940
+        },
+        {
+          "word": "baktığın",
+          "startMs": 12090,
+          "endMs": 12890
+        },
+        {
+          "word": "yere,",
+          "startMs": 13000,
+          "endMs": 13670
+        },
+        {
+          "word": "yani",
+          "startMs": 14680,
+          "endMs": 15160
+        },
+        {
+          "word": "gökyüzüne",
+          "startMs": 15210,
+          "endMs": 16110
+        },
+        {
+          "word": "çeviriyoruz",
+          "startMs": 16540,
+          "endMs": 18530
+        },
+        {
+          "word": "gözlerimizi!",
+          "startMs": 18910,
+          "endMs": 20610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 21220,
+      "endMs": 48350,
+      "pauseAfterMs": 310,
+      "text": "Sabah perdeyi araladığında pırıl pırıl parlayan bir güneş varsa günün enerjisi apayrı olur; camı tıklatan yağmur damlaları gördüğünde ise hemen montunu ve şemsiyeni hazırlarsın.",
+      "markedText": "Sabah perdeyi araladığında pırıl pırıl parlayan bir güneş varsa günün enerjisi apayrı olur; camı tıklatan yağmur damlaları gördüğünde ise hemen montunu ve şemsiyeni hazırlarsın.",
+      "words": [
+        {
+          "word": "Sabah",
+          "startMs": 21220,
+          "endMs": 21800
+        },
+        {
+          "word": "perdeyi",
+          "startMs": 22180,
+          "endMs": 23790
+        },
+        {
+          "word": "araladığında",
+          "startMs": 24150,
+          "endMs": 26260
+        },
+        {
+          "word": "pırıl",
+          "startMs": 27090,
+          "endMs": 27840
+        },
+        {
+          "word": "pırıl",
+          "startMs": 28130,
+          "endMs": 28640
+        },
+        {
+          "word": "parlayan",
+          "startMs": 28750,
+          "endMs": 29930
+        },
+        {
+          "word": "bir",
+          "startMs": 30040,
+          "endMs": 30760
+        },
+        {
+          "word": "güneş",
+          "startMs": 31220,
+          "endMs": 31870
+        },
+        {
+          "word": "varsa",
+          "startMs": 32310,
+          "endMs": 33130
+        },
+        {
+          "word": "günün",
+          "startMs": 33370,
+          "endMs": 33950
+        },
+        {
+          "word": "enerjisi",
+          "startMs": 34150,
+          "endMs": 35440
+        },
+        {
+          "word": "apayrı",
+          "startMs": 35550,
+          "endMs": 36410
+        },
+        {
+          "word": "olur;",
+          "startMs": 36780,
+          "endMs": 36910
+        },
+        {
+          "word": "camı",
+          "startMs": 37260,
+          "endMs": 37980
+        },
+        {
+          "word": "tıklatan",
+          "startMs": 38040,
+          "endMs": 39080
+        },
+        {
+          "word": "yağmur",
+          "startMs": 39380,
+          "endMs": 39960
+        },
+        {
+          "word": "damlaları",
+          "startMs": 40040,
+          "endMs": 41010
+        },
+        {
+          "word": "gördüğünde",
+          "startMs": 41990,
+          "endMs": 42720
+        },
+        {
+          "word": "ise",
+          "startMs": 43330,
+          "endMs": 43620
+        },
+        {
+          "word": "hemen",
+          "startMs": 43620,
+          "endMs": 44180
+        },
+        {
+          "word": "montunu",
+          "startMs": 44690,
+          "endMs": 45300
+        },
+        {
+          "word": "ve",
+          "startMs": 45380,
+          "endMs": 45590
+        },
+        {
+          "word": "şemsiyeni",
+          "startMs": 45590,
+          "endMs": 46660
+        },
+        {
+          "word": "hazırlarsın.",
+          "startMs": 46980,
+          "endMs": 48040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 48350,
+      "endMs": 74010,
+      "pauseAfterMs": 340,
+      "text": "Havanın nasıl olduğunu İngilizce ifade etmeyi, 'It is sunny', 'It is rainy' ve 'It is cold' gibi güzel hava sıfatlarını kullanmayı ve 'What is the weather like?' sorusuyla havayı merak etmeyi öğreneceğiz.",
+      "markedText": "Havanın nasıl olduğunu İngilizce ifade etmeyi, 'It is sunny', 'It is rainy' ve 'It is cold' gibi güzel hava sıfatlarını kullanmayı ve 'What is the weather like?' sorusuyla havayı merak etmeyi öğreneceğiz.",
+      "words": [
+        {
+          "word": "Havanın",
+          "startMs": 48350,
+          "endMs": 48740
+        },
+        {
+          "word": "nasıl",
+          "startMs": 48840,
+          "endMs": 49600
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 50180,
+          "endMs": 50800
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 50980,
+          "endMs": 52080
+        },
+        {
+          "word": "ifade",
+          "startMs": 52080,
+          "endMs": 52450
+        },
+        {
+          "word": "etmeyi,",
+          "startMs": 52570,
+          "endMs": 53080
+        },
+        {
+          "word": "'It",
+          "startMs": 53760,
+          "endMs": 54050
+        },
+        {
+          "word": "is",
+          "startMs": 54110,
+          "endMs": 54240
+        },
+        {
+          "word": "sunny',",
+          "startMs": 54610,
+          "endMs": 55260
+        },
+        {
+          "word": "'It",
+          "startMs": 55650,
+          "endMs": 55740
+        },
+        {
+          "word": "is",
+          "startMs": 55740,
+          "endMs": 55880
+        },
+        {
+          "word": "rainy'",
+          "startMs": 55880,
+          "endMs": 56490
+        },
+        {
+          "word": "ve",
+          "startMs": 57030,
+          "endMs": 57120
+        },
+        {
+          "word": "'It",
+          "startMs": 57220,
+          "endMs": 57410
+        },
+        {
+          "word": "is",
+          "startMs": 57410,
+          "endMs": 57830
+        },
+        {
+          "word": "cold'",
+          "startMs": 58140,
+          "endMs": 58610
+        },
+        {
+          "word": "gibi",
+          "startMs": 58610,
+          "endMs": 59080
+        },
+        {
+          "word": "güzel",
+          "startMs": 59590,
+          "endMs": 59910
+        },
+        {
+          "word": "hava",
+          "startMs": 60120,
+          "endMs": 60670
+        },
+        {
+          "word": "sıfatlarını",
+          "startMs": 60980,
+          "endMs": 62250
+        },
+        {
+          "word": "kullanmayı",
+          "startMs": 63120,
+          "endMs": 64200
+        },
+        {
+          "word": "ve",
+          "startMs": 64550,
+          "endMs": 64620
+        },
+        {
+          "word": "'What",
+          "startMs": 64730,
+          "endMs": 65100
+        },
+        {
+          "word": "is",
+          "startMs": 65910,
+          "endMs": 66130
+        },
+        {
+          "word": "the",
+          "startMs": 66410,
+          "endMs": 66710
+        },
+        {
+          "word": "weather",
+          "startMs": 67070,
+          "endMs": 67860
+        },
+        {
+          "word": "like?'",
+          "startMs": 68360,
+          "endMs": 68790
+        },
+        {
+          "word": "sorusuyla",
+          "startMs": 68860,
+          "endMs": 69850
+        },
+        {
+          "word": "havayı",
+          "startMs": 70360,
+          "endMs": 71000
+        },
+        {
+          "word": "merak",
+          "startMs": 71520,
+          "endMs": 72000
+        },
+        {
+          "word": "etmeyi",
+          "startMs": 72090,
+          "endMs": 72600
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 72890,
+          "endMs": 73670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 74010,
+      "endMs": 95660,
+      "pauseAfterMs": 690,
+      "text": "Sabah evden çıkmadan önce mutlaka pencereden dışarı bak ve günün hava durumunu İngilizce fısılda: 'It is cold and rainy.' Montunu fermuarlarken 'I need my warm coat' de.",
+      "markedText": "Sabah evden çıkmadan önce mutlaka pencereden dışarı bak ve günün hava durumunu İngilizce fısılda: 'It is cold and rainy.' Montunu fermuarlarken 'I need my warm coat' de.",
+      "words": [
+        {
+          "word": "Sabah",
+          "startMs": 74010,
+          "endMs": 74320
+        },
+        {
+          "word": "evden",
+          "startMs": 74510,
+          "endMs": 75260
+        },
+        {
+          "word": "çıkmadan",
+          "startMs": 75930,
+          "endMs": 76800
+        },
+        {
+          "word": "önce",
+          "startMs": 76920,
+          "endMs": 77680
+        },
+        {
+          "word": "mutlaka",
+          "startMs": 77950,
+          "endMs": 78530
+        },
+        {
+          "word": "pencereden",
+          "startMs": 78950,
+          "endMs": 80020
+        },
+        {
+          "word": "dışarı",
+          "startMs": 80280,
+          "endMs": 81100
+        },
+        {
+          "word": "bak",
+          "startMs": 81630,
+          "endMs": 81880
+        },
+        {
+          "word": "ve",
+          "startMs": 82180,
+          "endMs": 82360
+        },
+        {
+          "word": "günün",
+          "startMs": 82520,
+          "endMs": 82830
+        },
+        {
+          "word": "hava",
+          "startMs": 83310,
+          "endMs": 83430
+        },
+        {
+          "word": "durumunu",
+          "startMs": 83790,
+          "endMs": 84850
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 85740,
+          "endMs": 86840
+        },
+        {
+          "word": "fısılda:",
+          "startMs": 87110,
+          "endMs": 87560
+        },
+        {
+          "word": "'It",
+          "startMs": 87940,
+          "endMs": 88190
+        },
+        {
+          "word": "is",
+          "startMs": 88190,
+          "endMs": 88550
+        },
+        {
+          "word": "cold",
+          "startMs": 88590,
+          "endMs": 89020
+        },
+        {
+          "word": "and",
+          "startMs": 89130,
+          "endMs": 89420
+        },
+        {
+          "word": "rainy.'",
+          "startMs": 89550,
+          "endMs": 90260
+        },
+        {
+          "word": "Montunu",
+          "startMs": 90470,
+          "endMs": 91490
+        },
+        {
+          "word": "fermuarlarken",
+          "startMs": 91930,
+          "endMs": 92920
+        },
+        {
+          "word": "'I",
+          "startMs": 92920,
+          "endMs": 93060
+        },
+        {
+          "word": "need",
+          "startMs": 93300,
+          "endMs": 93610
+        },
+        {
+          "word": "my",
+          "startMs": 93670,
+          "endMs": 93860
+        },
+        {
+          "word": "warm",
+          "startMs": 93940,
+          "endMs": 94190
+        },
+        {
+          "word": "coat'",
+          "startMs": 94260,
+          "endMs": 94600
+        },
+        {
+          "word": "de.",
+          "startMs": 94640,
+          "endMs": 94970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 95660,
+      "endMs": 107350,
+      "pauseAfterMs": 1070,
+      "text": "Güneşli bir günde parka çıkarken arkadaşına 'It is hot and sunny today!' diyerek gülümse.",
+      "markedText": "Güneşli bir günde parka çıkarken arkadaşına 'It is hot and sunny today!' diyerek gülümse.",
+      "words": [
+        {
+          "word": "Güneşli",
+          "startMs": 95660,
+          "endMs": 95850
+        },
+        {
+          "word": "bir",
+          "startMs": 96100,
+          "endMs": 96470
+        },
+        {
+          "word": "günde",
+          "startMs": 96530,
+          "endMs": 96810
+        },
+        {
+          "word": "parka",
+          "startMs": 97000,
+          "endMs": 98040
+        },
+        {
+          "word": "çıkarken",
+          "startMs": 99220,
+          "endMs": 99520
+        },
+        {
+          "word": "arkadaşına",
+          "startMs": 99520,
+          "endMs": 100070
+        },
+        {
+          "word": "'It",
+          "startMs": 100510,
+          "endMs": 101350
+        },
+        {
+          "word": "is",
+          "startMs": 102090,
+          "endMs": 102390
+        },
+        {
+          "word": "hot",
+          "startMs": 102650,
+          "endMs": 102880
+        },
+        {
+          "word": "and",
+          "startMs": 102880,
+          "endMs": 103150
+        },
+        {
+          "word": "sunny",
+          "startMs": 103260,
+          "endMs": 103510
+        },
+        {
+          "word": "today!'",
+          "startMs": 103550,
+          "endMs": 104030
+        },
+        {
+          "word": "diyerek",
+          "startMs": 104440,
+          "endMs": 105100
+        },
+        {
+          "word": "gülümse.",
+          "startMs": 105190,
+          "endMs": 106280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 107350,
+      "endMs": 121420,
+      "pauseAfterMs": 980,
+      "text": "Uzaktaki bir akrabanla telefonda konuşurken de ona 'What is the weather like over there?' diye sorarak tatlı bir sohbet başlat.",
+      "markedText": "Uzaktaki bir akrabanla telefonda konuşurken de ona 'What is the weather like over there?' diye sorarak tatlı bir sohbet başlat.",
+      "words": [
+        {
+          "word": "Uzaktaki",
+          "startMs": 107350,
+          "endMs": 108040
+        },
+        {
+          "word": "bir",
+          "startMs": 108040,
+          "endMs": 108200
+        },
+        {
+          "word": "akrabanla",
+          "startMs": 108250,
+          "endMs": 108960
+        },
+        {
+          "word": "telefonda",
+          "startMs": 109350,
+          "endMs": 110070
+        },
+        {
+          "word": "konuşurken",
+          "startMs": 110190,
+          "endMs": 110850
+        },
+        {
+          "word": "de",
+          "startMs": 110930,
+          "endMs": 111170
+        },
+        {
+          "word": "ona",
+          "startMs": 111280,
+          "endMs": 111590
+        },
+        {
+          "word": "'What",
+          "startMs": 111630,
+          "endMs": 112260
+        },
+        {
+          "word": "is",
+          "startMs": 113310,
+          "endMs": 113420
+        },
+        {
+          "word": "the",
+          "startMs": 113420,
+          "endMs": 113670
+        },
+        {
+          "word": "weather",
+          "startMs": 113810,
+          "endMs": 114460
+        },
+        {
+          "word": "like",
+          "startMs": 114580,
+          "endMs": 114830
+        },
+        {
+          "word": "over",
+          "startMs": 114890,
+          "endMs": 115290
+        },
+        {
+          "word": "there?'",
+          "startMs": 115390,
+          "endMs": 116080
+        },
+        {
+          "word": "diye",
+          "startMs": 116530,
+          "endMs": 116780
+        },
+        {
+          "word": "sorarak",
+          "startMs": 116780,
+          "endMs": 117340
+        },
+        {
+          "word": "tatlı",
+          "startMs": 117340,
+          "endMs": 117630
+        },
+        {
+          "word": "bir",
+          "startMs": 117760,
+          "endMs": 118380
+        },
+        {
+          "word": "sohbet",
+          "startMs": 119020,
+          "endMs": 119720
+        },
+        {
+          "word": "başlat.",
+          "startMs": 119770,
+          "endMs": 120440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-2",
+      "startMs": 121420,
+      "endMs": 139400,
+      "pauseAfterMs": 1140,
+      "text": "İngilizcede hava durumunu söylerken cümleye daima 'It is' ile başlarız ve arkasından hava durumunu anlatan bir sıfat getiririz.",
+      "markedText": "İngilizcede hava durumunu söylerken cümleye daima 'It is' ile başlarız ve arkasından hava durumunu anlatan bir sıfat getiririz.",
+      "words": [
+        {
+          "word": "İngilizcede",
+          "startMs": 121420,
+          "endMs": 122810
+        },
+        {
+          "word": "hava",
+          "startMs": 123180,
+          "endMs": 123450
+        },
+        {
+          "word": "durumunu",
+          "startMs": 123540,
+          "endMs": 124140
+        },
+        {
+          "word": "söylerken",
+          "startMs": 124970,
+          "endMs": 125810
+        },
+        {
+          "word": "cümleye",
+          "startMs": 126120,
+          "endMs": 126690
+        },
+        {
+          "word": "daima",
+          "startMs": 127460,
+          "endMs": 127900
+        },
+        {
+          "word": "'It",
+          "startMs": 127900,
+          "endMs": 128110
+        },
+        {
+          "word": "is'",
+          "startMs": 128270,
+          "endMs": 128470
+        },
+        {
+          "word": "ile",
+          "startMs": 128590,
+          "endMs": 128860
+        },
+        {
+          "word": "başlarız",
+          "startMs": 128920,
+          "endMs": 129610
+        },
+        {
+          "word": "ve",
+          "startMs": 129660,
+          "endMs": 130070
+        },
+        {
+          "word": "arkasından",
+          "startMs": 131060,
+          "endMs": 132350
+        },
+        {
+          "word": "hava",
+          "startMs": 132350,
+          "endMs": 132710
+        },
+        {
+          "word": "durumunu",
+          "startMs": 133030,
+          "endMs": 134100
+        },
+        {
+          "word": "anlatan",
+          "startMs": 134230,
+          "endMs": 135230
+        },
+        {
+          "word": "bir",
+          "startMs": 136060,
+          "endMs": 136420
+        },
+        {
+          "word": "sıfat",
+          "startMs": 136570,
+          "endMs": 136800
+        },
+        {
+          "word": "getiririz.",
+          "startMs": 137070,
+          "endMs": 138260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-2",
+      "startMs": 139400,
+      "endMs": 149600,
+      "pauseAfterMs": 650,
+      "text": "Örneğin 'It is sunny' hava güneşlidir, 'It is rainy' hava yağmurludur, 'It is cold' ise hava soğuktur demektir.",
+      "markedText": "Örneğin 'It is sunny' hava güneşlidir, 'It is rainy' hava yağmurludur, 'It is cold' ise hava soğuktur demektir.",
+      "words": [
+        {
+          "word": "Örneğin",
+          "startMs": 139400,
+          "endMs": 140180
+        },
+        {
+          "word": "'It",
+          "startMs": 141070,
+          "endMs": 141250
+        },
+        {
+          "word": "is",
+          "startMs": 141250,
+          "endMs": 141380
+        },
+        {
+          "word": "sunny'",
+          "startMs": 141480,
+          "endMs": 141820
+        },
+        {
+          "word": "hava",
+          "startMs": 141820,
+          "endMs": 142060
+        },
+        {
+          "word": "güneşlidir,",
+          "startMs": 142210,
+          "endMs": 143400
+        },
+        {
+          "word": "'It",
+          "startMs": 143870,
+          "endMs": 143940
+        },
+        {
+          "word": "is",
+          "startMs": 143940,
+          "endMs": 144080
+        },
+        {
+          "word": "rainy'",
+          "startMs": 144080,
+          "endMs": 144440
+        },
+        {
+          "word": "hava",
+          "startMs": 144550,
+          "endMs": 144880
+        },
+        {
+          "word": "yağmurludur,",
+          "startMs": 145420,
+          "endMs": 146080
+        },
+        {
+          "word": "'It",
+          "startMs": 146340,
+          "endMs": 146380
+        },
+        {
+          "word": "is",
+          "startMs": 146450,
+          "endMs": 146560
+        },
+        {
+          "word": "cold'",
+          "startMs": 146660,
+          "endMs": 146840
+        },
+        {
+          "word": "ise",
+          "startMs": 146910,
+          "endMs": 146990
+        },
+        {
+          "word": "hava",
+          "startMs": 147090,
+          "endMs": 147320
+        },
+        {
+          "word": "soğuktur",
+          "startMs": 147600,
+          "endMs": 148010
+        },
+        {
+          "word": "demektir.",
+          "startMs": 148160,
+          "endMs": 148950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 149600,
+      "endMs": 173050,
+      "pauseAfterMs": 670,
+      "text": "Hava sıcak olduğunda 'It is hot', rüzgâr estiğinde 'It is windy', lapa lapa kar yağdığında 'It is snowy', gökyüzü bulutlarla kaplandığında ise 'It is cloudy' deriz.",
+      "markedText": "Hava sıcak olduğunda 'It is hot', rüzgâr estiğinde 'It is windy', lapa lapa kar yağdığında 'It is snowy', gökyüzü bulutlarla kaplandığında ise 'It is cloudy' deriz.",
+      "words": [
+        {
+          "word": "Hava",
+          "startMs": 149600,
+          "endMs": 149820
+        },
+        {
+          "word": "sıcak",
+          "startMs": 149820,
+          "endMs": 150050
+        },
+        {
+          "word": "olduğunda",
+          "startMs": 150640,
+          "endMs": 151090
+        },
+        {
+          "word": "'It",
+          "startMs": 151450,
+          "endMs": 152380
+        },
+        {
+          "word": "is",
+          "startMs": 152880,
+          "endMs": 153100
+        },
+        {
+          "word": "hot',",
+          "startMs": 153170,
+          "endMs": 153440
+        },
+        {
+          "word": "rüzgâr",
+          "startMs": 153440,
+          "endMs": 154230
+        },
+        {
+          "word": "estiğinde",
+          "startMs": 154480,
+          "endMs": 155370
+        },
+        {
+          "word": "'It",
+          "startMs": 155710,
+          "endMs": 155950
+        },
+        {
+          "word": "is",
+          "startMs": 156040,
+          "endMs": 156280
+        },
+        {
+          "word": "windy',",
+          "startMs": 156460,
+          "endMs": 157220
+        },
+        {
+          "word": "lapa",
+          "startMs": 158010,
+          "endMs": 158630
+        },
+        {
+          "word": "lapa",
+          "startMs": 158730,
+          "endMs": 159060
+        },
+        {
+          "word": "kar",
+          "startMs": 159340,
+          "endMs": 159630
+        },
+        {
+          "word": "yağdığında",
+          "startMs": 159740,
+          "endMs": 161190
+        },
+        {
+          "word": "'It",
+          "startMs": 161300,
+          "endMs": 161490
+        },
+        {
+          "word": "is",
+          "startMs": 161490,
+          "endMs": 161670
+        },
+        {
+          "word": "snowy',",
+          "startMs": 161810,
+          "endMs": 162560
+        },
+        {
+          "word": "gökyüzü",
+          "startMs": 163220,
+          "endMs": 164670
+        },
+        {
+          "word": "bulutlarla",
+          "startMs": 164940,
+          "endMs": 166340
+        },
+        {
+          "word": "kaplandığında",
+          "startMs": 166590,
+          "endMs": 167980
+        },
+        {
+          "word": "ise",
+          "startMs": 168160,
+          "endMs": 168330
+        },
+        {
+          "word": "'It",
+          "startMs": 168440,
+          "endMs": 168530
+        },
+        {
+          "word": "is",
+          "startMs": 168700,
+          "endMs": 169120
+        },
+        {
+          "word": "cloudy'",
+          "startMs": 170220,
+          "endMs": 171180
+        },
+        {
+          "word": "deriz.",
+          "startMs": 172170,
+          "endMs": 172380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 173050,
+      "endMs": 191370,
+      "pauseAfterMs": 310,
+      "text": "Birine havanın nasıl olduğunu sormak istediğimizde 'What is the weather like?' diye sesleniriz; cevap da yine aynı sevgiyle 'It is' diye başlar.",
+      "markedText": "Birine havanın nasıl olduğunu sormak istediğimizde 'What is the weather like?' diye sesleniriz; cevap da yine aynı sevgiyle 'It is' diye başlar.",
+      "words": [
+        {
+          "word": "Birine",
+          "startMs": 173050,
+          "endMs": 173730
+        },
+        {
+          "word": "havanın",
+          "startMs": 173810,
+          "endMs": 174630
+        },
+        {
+          "word": "nasıl",
+          "startMs": 174990,
+          "endMs": 175440
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 175520,
+          "endMs": 176230
+        },
+        {
+          "word": "sormak",
+          "startMs": 176470,
+          "endMs": 176830
+        },
+        {
+          "word": "istediğimizde",
+          "startMs": 176830,
+          "endMs": 177870
+        },
+        {
+          "word": "'What",
+          "startMs": 178070,
+          "endMs": 178420
+        },
+        {
+          "word": "is",
+          "startMs": 178550,
+          "endMs": 178970
+        },
+        {
+          "word": "the",
+          "startMs": 179830,
+          "endMs": 180060
+        },
+        {
+          "word": "weather",
+          "startMs": 181080,
+          "endMs": 181360
+        },
+        {
+          "word": "like?'",
+          "startMs": 181590,
+          "endMs": 182110
+        },
+        {
+          "word": "diye",
+          "startMs": 182660,
+          "endMs": 183040
+        },
+        {
+          "word": "sesleniriz;",
+          "startMs": 183290,
+          "endMs": 183880
+        },
+        {
+          "word": "cevap",
+          "startMs": 184470,
+          "endMs": 184730
+        },
+        {
+          "word": "da",
+          "startMs": 185130,
+          "endMs": 185370
+        },
+        {
+          "word": "yine",
+          "startMs": 185970,
+          "endMs": 186240
+        },
+        {
+          "word": "aynı",
+          "startMs": 186290,
+          "endMs": 186410
+        },
+        {
+          "word": "sevgiyle",
+          "startMs": 186610,
+          "endMs": 187630
+        },
+        {
+          "word": "'It",
+          "startMs": 188500,
+          "endMs": 188750
+        },
+        {
+          "word": "is'",
+          "startMs": 189510,
+          "endMs": 189770
+        },
+        {
+          "word": "diye",
+          "startMs": 189880,
+          "endMs": 190440
+        },
+        {
+          "word": "başlar.",
+          "startMs": 190620,
+          "endMs": 191060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 191370,
+      "endMs": 207890,
+      "pauseAfterMs": 1070,
+      "text": "Pratik kural: Hava durumunu anlatırken isimleri değil, sıfatları kullanırız; yani 'sun' değil, 'sunny' sözcüğünü tercih ederiz.",
+      "markedText": "Pratik kural: Hava durumunu anlatırken isimleri değil, sıfatları kullanırız; yani 'sun' değil, 'sunny' sözcüğünü tercih ederiz.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 191370,
+          "endMs": 191650
+        },
+        {
+          "word": "kural:",
+          "startMs": 191800,
+          "endMs": 192060
+        },
+        {
+          "word": "Hava",
+          "startMs": 192230,
+          "endMs": 192620
+        },
+        {
+          "word": "durumunu",
+          "startMs": 192760,
+          "endMs": 194050
+        },
+        {
+          "word": "anlatırken",
+          "startMs": 195180,
+          "endMs": 196430
+        },
+        {
+          "word": "isimleri",
+          "startMs": 196430,
+          "endMs": 197350
+        },
+        {
+          "word": "değil,",
+          "startMs": 197440,
+          "endMs": 198510
+        },
+        {
+          "word": "sıfatları",
+          "startMs": 198910,
+          "endMs": 199740
+        },
+        {
+          "word": "kullanırız;",
+          "startMs": 199740,
+          "endMs": 201280
+        },
+        {
+          "word": "yani",
+          "startMs": 201880,
+          "endMs": 202150
+        },
+        {
+          "word": "'sun'",
+          "startMs": 202380,
+          "endMs": 202680
+        },
+        {
+          "word": "değil,",
+          "startMs": 202680,
+          "endMs": 203320
+        },
+        {
+          "word": "'sunny'",
+          "startMs": 203910,
+          "endMs": 204290
+        },
+        {
+          "word": "sözcüğünü",
+          "startMs": 204340,
+          "endMs": 205200
+        },
+        {
+          "word": "tercih",
+          "startMs": 205560,
+          "endMs": 206110
+        },
+        {
+          "word": "ederiz.",
+          "startMs": 206110,
+          "endMs": 206820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 207890,
+      "endMs": 215790,
+      "pauseAfterMs": 1060,
+      "text": "Pencerenin önüne geçip gökyüzüne bakalım.",
+      "markedText": "Pencerenin önüne geçip gökyüzüne bakalım.",
+      "words": [
+        {
+          "word": "Pencerenin",
+          "startMs": 207890,
+          "endMs": 209600
+        },
+        {
+          "word": "önüne",
+          "startMs": 210120,
+          "endMs": 210690
+        },
+        {
+          "word": "geçip",
+          "startMs": 211070,
+          "endMs": 211660
+        },
+        {
+          "word": "gökyüzüne",
+          "startMs": 211720,
+          "endMs": 213370
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 213550,
+          "endMs": 214730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 215790,
+      "endMs": 222930,
+      "pauseAfterMs": 360,
+      "text": "Güneş ışıl ışıl parıldıyorsa 'It is sunny and warm' dersin.",
+      "markedText": "Güneş ışıl ışıl parıldıyorsa 'It is sunny and warm' dersin.",
+      "words": [
+        {
+          "word": "Güneş",
+          "startMs": 215790,
+          "endMs": 216280
+        },
+        {
+          "word": "ışıl",
+          "startMs": 216680,
+          "endMs": 216790
+        },
+        {
+          "word": "ışıl",
+          "startMs": 216910,
+          "endMs": 217840
+        },
+        {
+          "word": "parıldıyorsa",
+          "startMs": 218180,
+          "endMs": 219390
+        },
+        {
+          "word": "'It",
+          "startMs": 219580,
+          "endMs": 219900
+        },
+        {
+          "word": "is",
+          "startMs": 220030,
+          "endMs": 220210
+        },
+        {
+          "word": "sunny",
+          "startMs": 220270,
+          "endMs": 220830
+        },
+        {
+          "word": "and",
+          "startMs": 220830,
+          "endMs": 221280
+        },
+        {
+          "word": "warm'",
+          "startMs": 221490,
+          "endMs": 221820
+        },
+        {
+          "word": "dersin.",
+          "startMs": 221920,
+          "endMs": 222570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 222930,
+      "endMs": 232540,
+      "pauseAfterMs": 430,
+      "text": "Yağmur damlaları başladığında 'It is rainy today' diyerek şemsiyeni eline alırsın.",
+      "markedText": "Yağmur damlaları başladığında 'It is rainy today' diyerek şemsiyeni eline alırsın.",
+      "words": [
+        {
+          "word": "Yağmur",
+          "startMs": 222930,
+          "endMs": 223730
+        },
+        {
+          "word": "damlaları",
+          "startMs": 223880,
+          "endMs": 224470
+        },
+        {
+          "word": "başladığında",
+          "startMs": 224530,
+          "endMs": 225200
+        },
+        {
+          "word": "'It",
+          "startMs": 225410,
+          "endMs": 226190
+        },
+        {
+          "word": "is",
+          "startMs": 226490,
+          "endMs": 226690
+        },
+        {
+          "word": "rainy",
+          "startMs": 226880,
+          "endMs": 227280
+        },
+        {
+          "word": "today'",
+          "startMs": 227610,
+          "endMs": 227920
+        },
+        {
+          "word": "diyerek",
+          "startMs": 227970,
+          "endMs": 228400
+        },
+        {
+          "word": "şemsiyeni",
+          "startMs": 228710,
+          "endMs": 229680
+        },
+        {
+          "word": "eline",
+          "startMs": 230060,
+          "endMs": 230870
+        },
+        {
+          "word": "alırsın.",
+          "startMs": 231100,
+          "endMs": 232110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 232540,
+      "endMs": 264960,
+      "pauseAfterMs": 610,
+      "text": "Rüzgâr sert esiyorsa ve ellerin üşüyorsa iki hava halini birleştirebilirsin: 'It is cold and windy.' Arkadaşın sana telefon açıp 'What is the weather like in your city?' diye sorduğunda, göğe bakıp 'It is cloudy and chilly' diyerek şehri anlatabilirsin.",
+      "markedText": "Rüzgâr sert esiyorsa ve ellerin üşüyorsa iki hava halini birleştirebilirsin: 'It is cold and windy.' Arkadaşın sana telefon açıp 'What is the weather like in your city?' diye sorduğunda, göğe bakıp 'It is cloudy and chilly' diyerek şehri anlatabilirsin.",
+      "words": [
+        {
+          "word": "Rüzgâr",
+          "startMs": 232540,
+          "endMs": 233230
+        },
+        {
+          "word": "sert",
+          "startMs": 233290,
+          "endMs": 233470
+        },
+        {
+          "word": "esiyorsa",
+          "startMs": 233740,
+          "endMs": 235030
+        },
+        {
+          "word": "ve",
+          "startMs": 235390,
+          "endMs": 235530
+        },
+        {
+          "word": "ellerin",
+          "startMs": 235770,
+          "endMs": 236260
+        },
+        {
+          "word": "üşüyorsa",
+          "startMs": 236510,
+          "endMs": 237600
+        },
+        {
+          "word": "iki",
+          "startMs": 238200,
+          "endMs": 238620
+        },
+        {
+          "word": "hava",
+          "startMs": 238620,
+          "endMs": 239050
+        },
+        {
+          "word": "halini",
+          "startMs": 239100,
+          "endMs": 240440
+        },
+        {
+          "word": "birleştirebilirsin:",
+          "startMs": 241070,
+          "endMs": 242950
+        },
+        {
+          "word": "'It",
+          "startMs": 243310,
+          "endMs": 243440
+        },
+        {
+          "word": "is",
+          "startMs": 243440,
+          "endMs": 243630
+        },
+        {
+          "word": "cold",
+          "startMs": 243710,
+          "endMs": 244030
+        },
+        {
+          "word": "and",
+          "startMs": 244030,
+          "endMs": 244300
+        },
+        {
+          "word": "windy.'",
+          "startMs": 244300,
+          "endMs": 245130
+        },
+        {
+          "word": "Arkadaşın",
+          "startMs": 245760,
+          "endMs": 246830
+        },
+        {
+          "word": "sana",
+          "startMs": 246930,
+          "endMs": 247410
+        },
+        {
+          "word": "telefon",
+          "startMs": 247760,
+          "endMs": 248450
+        },
+        {
+          "word": "açıp",
+          "startMs": 248550,
+          "endMs": 248830
+        },
+        {
+          "word": "'What",
+          "startMs": 248900,
+          "endMs": 249210
+        },
+        {
+          "word": "is",
+          "startMs": 249410,
+          "endMs": 249570
+        },
+        {
+          "word": "the",
+          "startMs": 249570,
+          "endMs": 249820
+        },
+        {
+          "word": "weather",
+          "startMs": 249820,
+          "endMs": 250650
+        },
+        {
+          "word": "like",
+          "startMs": 251280,
+          "endMs": 251890
+        },
+        {
+          "word": "in",
+          "startMs": 252100,
+          "endMs": 252200
+        },
+        {
+          "word": "your",
+          "startMs": 252290,
+          "endMs": 252790
+        },
+        {
+          "word": "city?'",
+          "startMs": 253410,
+          "endMs": 253780
+        },
+        {
+          "word": "diye",
+          "startMs": 253930,
+          "endMs": 254450
+        },
+        {
+          "word": "sorduğunda,",
+          "startMs": 254940,
+          "endMs": 256140
+        },
+        {
+          "word": "göğe",
+          "startMs": 256570,
+          "endMs": 256820
+        },
+        {
+          "word": "bakıp",
+          "startMs": 257200,
+          "endMs": 257450
+        },
+        {
+          "word": "'It",
+          "startMs": 257890,
+          "endMs": 257980
+        },
+        {
+          "word": "is",
+          "startMs": 257980,
+          "endMs": 258260
+        },
+        {
+          "word": "cloudy",
+          "startMs": 258490,
+          "endMs": 259020
+        },
+        {
+          "word": "and",
+          "startMs": 259020,
+          "endMs": 259480
+        },
+        {
+          "word": "chilly'",
+          "startMs": 259890,
+          "endMs": 260050
+        },
+        {
+          "word": "diyerek",
+          "startMs": 260150,
+          "endMs": 260790
+        },
+        {
+          "word": "şehri",
+          "startMs": 260790,
+          "endMs": 261930
+        },
+        {
+          "word": "anlatabilirsin.",
+          "startMs": 262790,
+          "endMs": 264350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 264960,
+      "endMs": 279570,
+      "pauseAfterMs": 390,
+      "text": "Kar yağdığı kış günlerinde ise sokaklar beyaz örtüyle kaplanırken 'It is snowy' demek içini neşeyle doldurur.",
+      "markedText": "Kar yağdığı kış günlerinde ise sokaklar beyaz örtüyle kaplanırken 'It is snowy' demek içini neşeyle doldurur.",
+      "words": [
+        {
+          "word": "Kar",
+          "startMs": 264960,
+          "endMs": 265200
+        },
+        {
+          "word": "yağdığı",
+          "startMs": 265310,
+          "endMs": 265910
+        },
+        {
+          "word": "kış",
+          "startMs": 266430,
+          "endMs": 266570
+        },
+        {
+          "word": "günlerinde",
+          "startMs": 266850,
+          "endMs": 267570
+        },
+        {
+          "word": "ise",
+          "startMs": 267790,
+          "endMs": 268080
+        },
+        {
+          "word": "sokaklar",
+          "startMs": 268250,
+          "endMs": 269540
+        },
+        {
+          "word": "beyaz",
+          "startMs": 270270,
+          "endMs": 270860
+        },
+        {
+          "word": "örtüyle",
+          "startMs": 270860,
+          "endMs": 271600
+        },
+        {
+          "word": "kaplanırken",
+          "startMs": 271800,
+          "endMs": 272730
+        },
+        {
+          "word": "'It",
+          "startMs": 273590,
+          "endMs": 273880
+        },
+        {
+          "word": "is",
+          "startMs": 274060,
+          "endMs": 274230
+        },
+        {
+          "word": "snowy'",
+          "startMs": 274230,
+          "endMs": 274590
+        },
+        {
+          "word": "demek",
+          "startMs": 274780,
+          "endMs": 275230
+        },
+        {
+          "word": "içini",
+          "startMs": 275900,
+          "endMs": 276530
+        },
+        {
+          "word": "neşeyle",
+          "startMs": 276750,
+          "endMs": 277550
+        },
+        {
+          "word": "doldurur.",
+          "startMs": 278080,
+          "endMs": 279180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 279570,
+      "endMs": 282570,
+      "pauseAfterMs": 650,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 279570,
+          "endMs": 280490
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 280860,
+          "endMs": 281920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 282570,
+      "endMs": 288620,
+      "pauseAfterMs": 970,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 282570,
+          "endMs": 282800
+        },
+        {
+          "word": "bir",
+          "startMs": 283030,
+          "endMs": 283470
+        },
+        {
+          "word": "kez",
+          "startMs": 283470,
+          "endMs": 283890
+        },
+        {
+          "word": "görünce",
+          "startMs": 284400,
+          "endMs": 285050
+        },
+        {
+          "word": "kolayca",
+          "startMs": 285050,
+          "endMs": 285770
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 286050,
+          "endMs": 287650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 288620,
+      "endMs": 297260,
+      "pauseAfterMs": 770,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 288620,
+          "endMs": 288950
+        },
+        {
+          "word": "sevgili",
+          "startMs": 289130,
+          "endMs": 289470
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 289620,
+          "endMs": 290830
+        },
+        {
+          "word": "işte",
+          "startMs": 291240,
+          "endMs": 291440
+        },
+        {
+          "word": "tam",
+          "startMs": 291440,
+          "endMs": 291680
+        },
+        {
+          "word": "bu",
+          "startMs": 291750,
+          "endMs": 291930
+        },
+        {
+          "word": "noktada",
+          "startMs": 292040,
+          "endMs": 292740
+        },
+        {
+          "word": "dikkat",
+          "startMs": 292830,
+          "endMs": 293490
+        },
+        {
+          "word": "etmen",
+          "startMs": 294030,
+          "endMs": 294450
+        },
+        {
+          "word": "gereken",
+          "startMs": 294490,
+          "endMs": 295420
+        },
+        {
+          "word": "kilit",
+          "startMs": 295760,
+          "endMs": 296040
+        },
+        {
+          "word": "nokta.",
+          "startMs": 296040,
+          "endMs": 296490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 297260,
+      "endMs": 310210,
+      "pauseAfterMs": 390,
+      "text": "Hava durumunu söylerken isim köklerine küçük ekler getirerek sıfata dönüştürmeyi hatırla",
+      "markedText": "Hava durumunu söylerken isim köklerine küçük ekler getirerek sıfata dönüştürmeyi hatırla",
+      "words": [
+        {
+          "word": "Hava",
+          "startMs": 297260,
+          "endMs": 297660
+        },
+        {
+          "word": "durumunu",
+          "startMs": 297720,
+          "endMs": 299450
+        },
+        {
+          "word": "söylerken",
+          "startMs": 300040,
+          "endMs": 300530
+        },
+        {
+          "word": "isim",
+          "startMs": 300530,
+          "endMs": 300780
+        },
+        {
+          "word": "köklerine",
+          "startMs": 300960,
+          "endMs": 301770
+        },
+        {
+          "word": "küçük",
+          "startMs": 302020,
+          "endMs": 302360
+        },
+        {
+          "word": "ekler",
+          "startMs": 302830,
+          "endMs": 303930
+        },
+        {
+          "word": "getirerek",
+          "startMs": 304610,
+          "endMs": 305860
+        },
+        {
+          "word": "sıfata",
+          "startMs": 306950,
+          "endMs": 307580
+        },
+        {
+          "word": "dönüştürmeyi",
+          "startMs": 307790,
+          "endMs": 308970
+        },
+        {
+          "word": "hatırla",
+          "startMs": 308970,
+          "endMs": 309820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 310210,
+      "endMs": 326740,
+      "pauseAfterMs": 840,
+      "text": "Örneğin 'It is sun' demek yerine 'It is sunny', 'It is rain' demek yerine 'It is rainy' demek anlatımını pırıl pırıl yapar.",
+      "markedText": "Örneğin 'It is sun' demek yerine 'It is sunny', 'It is rain' demek yerine 'It is rainy' demek anlatımını pırıl pırıl yapar.",
+      "words": [
+        {
+          "word": "Örneğin",
+          "startMs": 310210,
+          "endMs": 310930
+        },
+        {
+          "word": "'It",
+          "startMs": 311580,
+          "endMs": 311820
+        },
+        {
+          "word": "is",
+          "startMs": 311820,
+          "endMs": 312100
+        },
+        {
+          "word": "sun'",
+          "startMs": 312300,
+          "endMs": 312630
+        },
+        {
+          "word": "demek",
+          "startMs": 312800,
+          "endMs": 313310
+        },
+        {
+          "word": "yerine",
+          "startMs": 313750,
+          "endMs": 314160
+        },
+        {
+          "word": "'It",
+          "startMs": 314390,
+          "endMs": 314960
+        },
+        {
+          "word": "is",
+          "startMs": 315400,
+          "endMs": 315610
+        },
+        {
+          "word": "sunny',",
+          "startMs": 316000,
+          "endMs": 316220
+        },
+        {
+          "word": "'It",
+          "startMs": 316680,
+          "endMs": 316800
+        },
+        {
+          "word": "is",
+          "startMs": 316800,
+          "endMs": 317040
+        },
+        {
+          "word": "rain'",
+          "startMs": 317280,
+          "endMs": 317500
+        },
+        {
+          "word": "demek",
+          "startMs": 317500,
+          "endMs": 318280
+        },
+        {
+          "word": "yerine",
+          "startMs": 319010,
+          "endMs": 319550
+        },
+        {
+          "word": "'It",
+          "startMs": 319600,
+          "endMs": 319680
+        },
+        {
+          "word": "is",
+          "startMs": 319910,
+          "endMs": 320270
+        },
+        {
+          "word": "rainy'",
+          "startMs": 320940,
+          "endMs": 321320
+        },
+        {
+          "word": "demek",
+          "startMs": 321450,
+          "endMs": 322100
+        },
+        {
+          "word": "anlatımını",
+          "startMs": 323000,
+          "endMs": 323740
+        },
+        {
+          "word": "pırıl",
+          "startMs": 323940,
+          "endMs": 324410
+        },
+        {
+          "word": "pırıl",
+          "startMs": 324590,
+          "endMs": 325110
+        },
+        {
+          "word": "yapar.",
+          "startMs": 325210,
+          "endMs": 325900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 326740,
+      "endMs": 351960,
+      "pauseAfterMs": 220,
+      "text": "Havayı sorarken de 'What is the weather like?' kalıbını bir bütün olarak kullanabilirsin; sonundaki 'like' kelimesi havanın neye benzediğini ve nasıl olduğunu sormanın en tatlı yoludur.",
+      "markedText": "Havayı sorarken de 'What is the weather like?' kalıbını bir bütün olarak kullanabilirsin; sonundaki 'like' kelimesi havanın neye benzediğini ve nasıl olduğunu sormanın en tatlı yoludur.",
+      "words": [
+        {
+          "word": "Havayı",
+          "startMs": 326740,
+          "endMs": 327130
+        },
+        {
+          "word": "sorarken",
+          "startMs": 327190,
+          "endMs": 327840
+        },
+        {
+          "word": "de",
+          "startMs": 328360,
+          "endMs": 328460
+        },
+        {
+          "word": "'What",
+          "startMs": 328700,
+          "endMs": 329190
+        },
+        {
+          "word": "is",
+          "startMs": 329260,
+          "endMs": 329500
+        },
+        {
+          "word": "the",
+          "startMs": 329580,
+          "endMs": 329680
+        },
+        {
+          "word": "weather",
+          "startMs": 330020,
+          "endMs": 330980
+        },
+        {
+          "word": "like?'",
+          "startMs": 331660,
+          "endMs": 331910
+        },
+        {
+          "word": "kalıbını",
+          "startMs": 332340,
+          "endMs": 333740
+        },
+        {
+          "word": "bir",
+          "startMs": 334150,
+          "endMs": 334400
+        },
+        {
+          "word": "bütün",
+          "startMs": 334640,
+          "endMs": 335020
+        },
+        {
+          "word": "olarak",
+          "startMs": 335170,
+          "endMs": 336210
+        },
+        {
+          "word": "kullanabilirsin;",
+          "startMs": 337090,
+          "endMs": 338790
+        },
+        {
+          "word": "sonundaki",
+          "startMs": 339270,
+          "endMs": 340480
+        },
+        {
+          "word": "'like'",
+          "startMs": 340680,
+          "endMs": 341010
+        },
+        {
+          "word": "kelimesi",
+          "startMs": 341280,
+          "endMs": 342540
+        },
+        {
+          "word": "havanın",
+          "startMs": 343270,
+          "endMs": 344110
+        },
+        {
+          "word": "neye",
+          "startMs": 345160,
+          "endMs": 346010
+        },
+        {
+          "word": "benzediğini",
+          "startMs": 346570,
+          "endMs": 347560
+        },
+        {
+          "word": "ve",
+          "startMs": 347870,
+          "endMs": 348000
+        },
+        {
+          "word": "nasıl",
+          "startMs": 348210,
+          "endMs": 348580
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 348660,
+          "endMs": 349380
+        },
+        {
+          "word": "sormanın",
+          "startMs": 349640,
+          "endMs": 350050
+        },
+        {
+          "word": "en",
+          "startMs": 350180,
+          "endMs": 350350
+        },
+        {
+          "word": "tatlı",
+          "startMs": 350620,
+          "endMs": 351010
+        },
+        {
+          "word": "yoludur.",
+          "startMs": 351170,
+          "endMs": 351740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 351960,
+      "endMs": 361370,
+      "pauseAfterMs": 920,
+      "text": "Sunny, rainy ve cold konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Sunny, rainy ve cold konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Sunny,",
+          "startMs": 351960,
+          "endMs": 352110
+        },
+        {
+          "word": "rainy",
+          "startMs": 352330,
+          "endMs": 352850
+        },
+        {
+          "word": "ve",
+          "startMs": 352850,
+          "endMs": 352960
+        },
+        {
+          "word": "cold",
+          "startMs": 353150,
+          "endMs": 353450
+        },
+        {
+          "word": "konusunda",
+          "startMs": 353800,
+          "endMs": 354280
+        },
+        {
+          "word": "kuralın",
+          "startMs": 354370,
+          "endMs": 355040
+        },
+        {
+          "word": "tersini",
+          "startMs": 355040,
+          "endMs": 355520
+        },
+        {
+          "word": "sanmak",
+          "startMs": 355520,
+          "endMs": 355980
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 355980,
+          "endMs": 357100
+        },
+        {
+          "word": "ters",
+          "startMs": 357840,
+          "endMs": 358220
+        },
+        {
+          "word": "cümle",
+          "startMs": 358600,
+          "endMs": 359050
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 359190,
+          "endMs": 360450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-3",
+      "startMs": 361370,
+      "endMs": 364280,
+      "pauseAfterMs": 880,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 361370,
+          "endMs": 361680
+        },
+        {
+          "word": "Neler",
+          "startMs": 362130,
+          "endMs": 362500
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 362500,
+          "endMs": 363400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-3",
+      "startMs": 364280,
+      "endMs": 364520,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 364280,
+          "endMs": 364520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-3",
+      "startMs": 364520,
+      "endMs": 371350,
+      "pauseAfterMs": 820,
+      "text": "Hava durumu It is ve ardından gelen bir hava sıfatıyla söylenir.",
+      "markedText": "Hava durumu It is ve ardından gelen bir hava sıfatıyla söylenir.",
+      "words": [
+        {
+          "word": "Hava",
+          "startMs": 364520,
+          "endMs": 364900
+        },
+        {
+          "word": "durumu",
+          "startMs": 365100,
+          "endMs": 365500
+        },
+        {
+          "word": "It",
+          "startMs": 365640,
+          "endMs": 365790
+        },
+        {
+          "word": "is",
+          "startMs": 366060,
+          "endMs": 366180
+        },
+        {
+          "word": "ve",
+          "startMs": 366320,
+          "endMs": 366400
+        },
+        {
+          "word": "ardından",
+          "startMs": 366500,
+          "endMs": 367020
+        },
+        {
+          "word": "gelen",
+          "startMs": 367020,
+          "endMs": 367400
+        },
+        {
+          "word": "bir",
+          "startMs": 367510,
+          "endMs": 367790
+        },
+        {
+          "word": "hava",
+          "startMs": 368260,
+          "endMs": 368380
+        },
+        {
+          "word": "sıfatıyla",
+          "startMs": 368510,
+          "endMs": 369260
+        },
+        {
+          "word": "söylenir.",
+          "startMs": 369340,
+          "endMs": 370530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 371350,
+      "endMs": 371960,
+      "pauseAfterMs": 340,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 371350,
+          "endMs": 371620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 371960,
+      "endMs": 381900,
+      "pauseAfterMs": 1030,
+      "text": "Sunny güneşli, rainy yağmurlu, cold soğuk, windy rüzgârlı demektir.",
+      "markedText": "Sunny güneşli, rainy yağmurlu, cold soğuk, windy rüzgârlı demektir.",
+      "words": [
+        {
+          "word": "Sunny",
+          "startMs": 371960,
+          "endMs": 372320
+        },
+        {
+          "word": "güneşli,",
+          "startMs": 372520,
+          "endMs": 373240
+        },
+        {
+          "word": "rainy",
+          "startMs": 374120,
+          "endMs": 374500
+        },
+        {
+          "word": "yağmurlu,",
+          "startMs": 374590,
+          "endMs": 375520
+        },
+        {
+          "word": "cold",
+          "startMs": 375940,
+          "endMs": 376720
+        },
+        {
+          "word": "soğuk,",
+          "startMs": 376920,
+          "endMs": 377920
+        },
+        {
+          "word": "windy",
+          "startMs": 378890,
+          "endMs": 379230
+        },
+        {
+          "word": "rüzgârlı",
+          "startMs": 379430,
+          "endMs": 379810
+        },
+        {
+          "word": "demektir.",
+          "startMs": 379940,
+          "endMs": 380870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 381900,
+      "endMs": 382710,
+      "pauseAfterMs": 600,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 381900,
+          "endMs": 382110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 382710,
+      "endMs": 395610,
+      "pauseAfterMs": 860,
+      "text": "What is the weather like sorusuna It is sunny gibi net cümlelerle cevap verilir.",
+      "markedText": "What is the weather like sorusuna It is sunny gibi net cümlelerle cevap verilir.",
+      "words": [
+        {
+          "word": "What",
+          "startMs": 382710,
+          "endMs": 383340
+        },
+        {
+          "word": "is",
+          "startMs": 383820,
+          "endMs": 383990
+        },
+        {
+          "word": "the",
+          "startMs": 384150,
+          "endMs": 384480
+        },
+        {
+          "word": "weather",
+          "startMs": 384570,
+          "endMs": 385260
+        },
+        {
+          "word": "like",
+          "startMs": 385260,
+          "endMs": 385640
+        },
+        {
+          "word": "sorusuna",
+          "startMs": 386030,
+          "endMs": 386840
+        },
+        {
+          "word": "It",
+          "startMs": 387710,
+          "endMs": 387990
+        },
+        {
+          "word": "is",
+          "startMs": 388640,
+          "endMs": 388910
+        },
+        {
+          "word": "sunny",
+          "startMs": 389090,
+          "endMs": 389700
+        },
+        {
+          "word": "gibi",
+          "startMs": 390120,
+          "endMs": 390830
+        },
+        {
+          "word": "net",
+          "startMs": 391140,
+          "endMs": 391320
+        },
+        {
+          "word": "cümlelerle",
+          "startMs": 391760,
+          "endMs": 392610
+        },
+        {
+          "word": "cevap",
+          "startMs": 393080,
+          "endMs": 393480
+        },
+        {
+          "word": "verilir.",
+          "startMs": 393700,
+          "endMs": 394750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 395610,
+      "endMs": 402120,
+      "pauseAfterMs": 860,
+      "text": "Hava, It is ve bir sıfatla kurulur.",
+      "markedText": "Hava, It is ve bir sıfatla kurulur.",
+      "words": [
+        {
+          "word": "Hava,",
+          "startMs": 395610,
+          "endMs": 395870
+        },
+        {
+          "word": "It",
+          "startMs": 396480,
+          "endMs": 396770
+        },
+        {
+          "word": "is",
+          "startMs": 397060,
+          "endMs": 397410
+        },
+        {
+          "word": "ve",
+          "startMs": 397410,
+          "endMs": 397640
+        },
+        {
+          "word": "bir",
+          "startMs": 398150,
+          "endMs": 398360
+        },
+        {
+          "word": "sıfatla",
+          "startMs": 398520,
+          "endMs": 399770
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 399930,
+          "endMs": 401260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 402120,
+      "endMs": 408070,
+      "pauseAfterMs": 990,
+      "text": "Penceredeki havayı bir cümlede söylersin.",
+      "markedText": "Penceredeki havayı bir cümlede söylersin.",
+      "words": [
+        {
+          "word": "Penceredeki",
+          "startMs": 402120,
+          "endMs": 402730
+        },
+        {
+          "word": "havayı",
+          "startMs": 402790,
+          "endMs": 403810
+        },
+        {
+          "word": "bir",
+          "startMs": 404700,
+          "endMs": 405010
+        },
+        {
+          "word": "cümlede",
+          "startMs": 405380,
+          "endMs": 405810
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 405910,
+          "endMs": 407080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 408070,
+      "endMs": 410710,
+      "pauseAfterMs": 670,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 408070,
+          "endMs": 408790
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 408940,
+          "endMs": 410040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 410710,
+      "endMs": 414010,
+      "pauseAfterMs": 800,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 410710,
+          "endMs": 411210
+        },
+        {
+          "word": "bir",
+          "startMs": 411330,
+          "endMs": 411840
+        },
+        {
+          "word": "iş",
+          "startMs": 411980,
+          "endMs": 412080
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 412140,
+          "endMs": 413210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 414010,
+      "endMs": 417140,
+      "pauseAfterMs": 580,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 414010,
+          "endMs": 414880
+        },
+        {
+          "word": "sıra",
+          "startMs": 415600,
+          "endMs": 415880
+        },
+        {
+          "word": "sende.",
+          "startMs": 415970,
+          "endMs": 416560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 417140,
+      "endMs": 420812,
+      "pauseAfterMs": 472,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 417140,
+          "endMs": 417790
+        },
+        {
+          "word": "bu",
+          "startMs": 417960,
+          "endMs": 418180
+        },
+        {
+          "word": "notları",
+          "startMs": 418480,
+          "endMs": 418780
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 418860,
+          "endMs": 419080
+        },
+        {
+          "word": "kendi",
+          "startMs": 419200,
+          "endMs": 419450
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 419520,
+          "endMs": 420080
+        },
+        {
+          "word": "anlat.",
+          "startMs": 420080,
+          "endMs": 420340
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

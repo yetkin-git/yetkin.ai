@@ -1,0 +1,3030 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_sosyal-16",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Demokrasinin gelişimi ve yönetim biçimleri",
+  "grade": 6,
+  "subject": "Sosyal Bilgiler",
+  "teacher": {
+    "name": "Murat",
+    "voice": "Achird",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_sosyal-16.mp3",
+    "durationMs": 388705,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 101850
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 101850,
+      "endMs": 323340
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 323340,
+      "endMs": 388705
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4490,
+      "pauseAfterMs": 870,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 260,
+          "endMs": 710
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 710,
+          "endMs": 1490
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 1750,
+          "endMs": 2400
+        },
+        {
+          "word": "hoş",
+          "startMs": 2460,
+          "endMs": 2560
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 2600,
+          "endMs": 3620
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Demokrasinin gelişimi ve yönetim biçimleri",
+            "subtitle": "Sosyal Bilgiler",
+            "ruleBadges": [],
+            "echoPrompt": "Bir yönetimde kararı kimin verdiğini ve sürenin olup olmadığını söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Demokrasi, halkın yönetime katılmasıdır. Seçmek ve söz söylemek bu katılımın parçasıdır."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Cumhuriyette yönetim seçilen kişilere süreyle emanet edilir. Türkiye 29 Ekim 1923'te cumhuriyet oldu."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Monarşide yönetim bir kişidedir ve seçimle gelmez. Demokrasi yalnız sandık günü değildir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4490,
+      "endMs": 7020,
+      "pauseAfterMs": 340,
+      "text": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "markedText": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4490,
+          "endMs": 4560
+        },
+        {
+          "word": "Sosyal",
+          "startMs": 4640,
+          "endMs": 5160
+        },
+        {
+          "word": "Bilgiler",
+          "startMs": 5260,
+          "endMs": 5810
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 5850,
+          "endMs": 6430
+        },
+        {
+          "word": "Murat.",
+          "startMs": 6430,
+          "endMs": 6680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 7020,
+      "endMs": 17210,
+      "pauseAfterMs": 210,
+      "text": "Hiç sınıfında gideceğiniz bir gezi yerini veya sınıf başkanını belirlemek için oylama yaptığınız oldu mu?",
+      "markedText": "Hiç sınıfında gideceğiniz bir gezi yerini veya sınıf başkanını belirlemek için oylama yaptığınız oldu mu?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 7020,
+          "endMs": 7270
+        },
+        {
+          "word": "sınıfında",
+          "startMs": 7410,
+          "endMs": 8070
+        },
+        {
+          "word": "gideceğiniz",
+          "startMs": 8070,
+          "endMs": 8660
+        },
+        {
+          "word": "bir",
+          "startMs": 8790,
+          "endMs": 8930
+        },
+        {
+          "word": "gezi",
+          "startMs": 9030,
+          "endMs": 9460
+        },
+        {
+          "word": "yerini",
+          "startMs": 9590,
+          "endMs": 10180
+        },
+        {
+          "word": "veya",
+          "startMs": 10960,
+          "endMs": 11280
+        },
+        {
+          "word": "sınıf",
+          "startMs": 11390,
+          "endMs": 11720
+        },
+        {
+          "word": "başkanını",
+          "startMs": 11820,
+          "endMs": 12500
+        },
+        {
+          "word": "belirlemek",
+          "startMs": 12800,
+          "endMs": 13580
+        },
+        {
+          "word": "için",
+          "startMs": 13800,
+          "endMs": 14130
+        },
+        {
+          "word": "oylama",
+          "startMs": 14330,
+          "endMs": 14810
+        },
+        {
+          "word": "yaptığınız",
+          "startMs": 14870,
+          "endMs": 15420
+        },
+        {
+          "word": "oldu",
+          "startMs": 15510,
+          "endMs": 16160
+        },
+        {
+          "word": "mu?",
+          "startMs": 16770,
+          "endMs": 17000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 17210,
+      "endMs": 32680,
+      "pauseAfterMs": 320,
+      "text": "Herkes kendi fikrini söyledi, parmaklar kalktı ve çoğunluğun tercihiyle karar verildi; ancak farklı düşünen arkadaşlarının söz hakkı da saygıyla korundu.",
+      "markedText": "Herkes kendi fikrini söyledi, parmaklar kalktı ve çoğunluğun tercihiyle karar verildi; ancak farklı düşünen arkadaşlarının söz hakkı da saygıyla korundu.",
+      "words": [
+        {
+          "word": "Herkes",
+          "startMs": 17210,
+          "endMs": 17640
+        },
+        {
+          "word": "kendi",
+          "startMs": 17640,
+          "endMs": 18180
+        },
+        {
+          "word": "fikrini",
+          "startMs": 18250,
+          "endMs": 18830
+        },
+        {
+          "word": "söyledi,",
+          "startMs": 18950,
+          "endMs": 19180
+        },
+        {
+          "word": "parmaklar",
+          "startMs": 19360,
+          "endMs": 19840
+        },
+        {
+          "word": "kalktı",
+          "startMs": 19940,
+          "endMs": 20210
+        },
+        {
+          "word": "ve",
+          "startMs": 21280,
+          "endMs": 21480
+        },
+        {
+          "word": "çoğunluğun",
+          "startMs": 21910,
+          "endMs": 22930
+        },
+        {
+          "word": "tercihiyle",
+          "startMs": 23210,
+          "endMs": 24340
+        },
+        {
+          "word": "karar",
+          "startMs": 25150,
+          "endMs": 25470
+        },
+        {
+          "word": "verildi;",
+          "startMs": 25580,
+          "endMs": 26440
+        },
+        {
+          "word": "ancak",
+          "startMs": 27130,
+          "endMs": 27400
+        },
+        {
+          "word": "farklı",
+          "startMs": 27400,
+          "endMs": 27840
+        },
+        {
+          "word": "düşünen",
+          "startMs": 28210,
+          "endMs": 28480
+        },
+        {
+          "word": "arkadaşlarının",
+          "startMs": 28600,
+          "endMs": 29680
+        },
+        {
+          "word": "söz",
+          "startMs": 29680,
+          "endMs": 29990
+        },
+        {
+          "word": "hakkı",
+          "startMs": 29990,
+          "endMs": 30380
+        },
+        {
+          "word": "da",
+          "startMs": 30480,
+          "endMs": 30620
+        },
+        {
+          "word": "saygıyla",
+          "startMs": 31050,
+          "endMs": 31720
+        },
+        {
+          "word": "korundu.",
+          "startMs": 31790,
+          "endMs": 32360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 32680,
+      "endMs": 42160,
+      "pauseAfterMs": 300,
+      "text": "İşte bu okul sahnesi, demokrasinin sınıftaki küçük ve tatlı bir yansımasıdır.",
+      "markedText": "İşte bu okul sahnesi, demokrasinin sınıftaki küçük ve tatlı bir yansımasıdır.",
+      "words": [
+        {
+          "word": "İşte",
+          "startMs": 32680,
+          "endMs": 33000
+        },
+        {
+          "word": "bu",
+          "startMs": 33130,
+          "endMs": 33400
+        },
+        {
+          "word": "okul",
+          "startMs": 33490,
+          "endMs": 34170
+        },
+        {
+          "word": "sahnesi,",
+          "startMs": 34360,
+          "endMs": 35480
+        },
+        {
+          "word": "demokrasinin",
+          "startMs": 36470,
+          "endMs": 37130
+        },
+        {
+          "word": "sınıftaki",
+          "startMs": 37420,
+          "endMs": 38490
+        },
+        {
+          "word": "küçük",
+          "startMs": 39070,
+          "endMs": 39490
+        },
+        {
+          "word": "ve",
+          "startMs": 39560,
+          "endMs": 39660
+        },
+        {
+          "word": "tatlı",
+          "startMs": 39970,
+          "endMs": 40460
+        },
+        {
+          "word": "bir",
+          "startMs": 40460,
+          "endMs": 40750
+        },
+        {
+          "word": "yansımasıdır.",
+          "startMs": 40750,
+          "endMs": 41860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 42160,
+      "endMs": 55340,
+      "pauseAfterMs": 1050,
+      "text": "Tarihten günümüze demokrasinin gelişimini, cumhuriyetin erdemini ve farklı yönetim biçimlerini adım adım öğreneceğiz.",
+      "markedText": "Tarihten günümüze demokrasinin gelişimini, cumhuriyetin erdemini ve farklı yönetim biçimlerini adım adım öğreneceğiz.",
+      "words": [
+        {
+          "word": "Tarihten",
+          "startMs": 42160,
+          "endMs": 42680
+        },
+        {
+          "word": "günümüze",
+          "startMs": 42810,
+          "endMs": 43660
+        },
+        {
+          "word": "demokrasinin",
+          "startMs": 43830,
+          "endMs": 44800
+        },
+        {
+          "word": "gelişimini,",
+          "startMs": 44800,
+          "endMs": 45800
+        },
+        {
+          "word": "cumhuriyetin",
+          "startMs": 46890,
+          "endMs": 47870
+        },
+        {
+          "word": "erdemini",
+          "startMs": 48290,
+          "endMs": 48770
+        },
+        {
+          "word": "ve",
+          "startMs": 49060,
+          "endMs": 49150
+        },
+        {
+          "word": "farklı",
+          "startMs": 49200,
+          "endMs": 49600
+        },
+        {
+          "word": "yönetim",
+          "startMs": 50100,
+          "endMs": 50930
+        },
+        {
+          "word": "biçimlerini",
+          "startMs": 51080,
+          "endMs": 52200
+        },
+        {
+          "word": "adım",
+          "startMs": 52370,
+          "endMs": 52470
+        },
+        {
+          "word": "adım",
+          "startMs": 52770,
+          "endMs": 53090
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 53170,
+          "endMs": 54290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 55340,
+      "endMs": 64900,
+      "pauseAfterMs": 1180,
+      "text": "Bunu sokakta veya okul bahçesinde arkadaşlarınla oyun kurarken de yaşarsın.",
+      "markedText": "Bunu sokakta veya okul bahçesinde arkadaşlarınla oyun kurarken de yaşarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 55340,
+          "endMs": 55770
+        },
+        {
+          "word": "sokakta",
+          "startMs": 55850,
+          "endMs": 56460
+        },
+        {
+          "word": "veya",
+          "startMs": 56810,
+          "endMs": 57060
+        },
+        {
+          "word": "okul",
+          "startMs": 57240,
+          "endMs": 57720
+        },
+        {
+          "word": "bahçesinde",
+          "startMs": 58040,
+          "endMs": 58990
+        },
+        {
+          "word": "arkadaşlarınla",
+          "startMs": 59750,
+          "endMs": 60880
+        },
+        {
+          "word": "oyun",
+          "startMs": 61190,
+          "endMs": 61500
+        },
+        {
+          "word": "kurarken",
+          "startMs": 61580,
+          "endMs": 62300
+        },
+        {
+          "word": "de",
+          "startMs": 62370,
+          "endMs": 62510
+        },
+        {
+          "word": "yaşarsın.",
+          "startMs": 62630,
+          "endMs": 63720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 64900,
+      "endMs": 72630,
+      "pauseAfterMs": 440,
+      "text": "Hangi oyunun oynanacağına hep birlikte konuşup karar verirsiniz.",
+      "markedText": "Hangi oyunun oynanacağına hep birlikte konuşup karar verirsiniz.",
+      "words": [
+        {
+          "word": "Hangi",
+          "startMs": 64900,
+          "endMs": 65250
+        },
+        {
+          "word": "oyunun",
+          "startMs": 65250,
+          "endMs": 65740
+        },
+        {
+          "word": "oynanacağına",
+          "startMs": 66070,
+          "endMs": 67930
+        },
+        {
+          "word": "hep",
+          "startMs": 67930,
+          "endMs": 68280
+        },
+        {
+          "word": "birlikte",
+          "startMs": 68620,
+          "endMs": 69670
+        },
+        {
+          "word": "konuşup",
+          "startMs": 69900,
+          "endMs": 70710
+        },
+        {
+          "word": "karar",
+          "startMs": 70880,
+          "endMs": 71340
+        },
+        {
+          "word": "verirsiniz.",
+          "startMs": 71400,
+          "endMs": 72190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 72630,
+      "endMs": 82940,
+      "pauseAfterMs": 690,
+      "text": "Oylama sonucunda senin önerdiğin oyun seçilmese bile kurallara uyup neşeyle oyuna katılırsın.",
+      "markedText": "Oylama sonucunda senin önerdiğin oyun seçilmese bile kurallara uyup neşeyle oyuna katılırsın.",
+      "words": [
+        {
+          "word": "Oylama",
+          "startMs": 72630,
+          "endMs": 73290
+        },
+        {
+          "word": "sonucunda",
+          "startMs": 73510,
+          "endMs": 73990
+        },
+        {
+          "word": "senin",
+          "startMs": 74210,
+          "endMs": 74360
+        },
+        {
+          "word": "önerdiğin",
+          "startMs": 74530,
+          "endMs": 74980
+        },
+        {
+          "word": "oyun",
+          "startMs": 75020,
+          "endMs": 75640
+        },
+        {
+          "word": "seçilmese",
+          "startMs": 76530,
+          "endMs": 77320
+        },
+        {
+          "word": "bile",
+          "startMs": 77630,
+          "endMs": 78040
+        },
+        {
+          "word": "kurallara",
+          "startMs": 78180,
+          "endMs": 79080
+        },
+        {
+          "word": "uyup",
+          "startMs": 79080,
+          "endMs": 79590
+        },
+        {
+          "word": "neşeyle",
+          "startMs": 80080,
+          "endMs": 80690
+        },
+        {
+          "word": "oyuna",
+          "startMs": 80970,
+          "endMs": 81300
+        },
+        {
+          "word": "katılırsın.",
+          "startMs": 81300,
+          "endMs": 82250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 82940,
+      "endMs": 93450,
+      "pauseAfterMs": 680,
+      "text": "Bu olgunluk, çoğunluğun kararına saygı duyarken azınlığın da hakkını koruyan gerçek bir demokratik bilinçtir.",
+      "markedText": "Bu olgunluk, çoğunluğun kararına saygı duyarken azınlığın da hakkını koruyan gerçek bir demokratik bilinçtir.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 82940,
+          "endMs": 83240
+        },
+        {
+          "word": "olgunluk,",
+          "startMs": 83400,
+          "endMs": 84520
+        },
+        {
+          "word": "çoğunluğun",
+          "startMs": 85300,
+          "endMs": 86180
+        },
+        {
+          "word": "kararına",
+          "startMs": 86260,
+          "endMs": 86770
+        },
+        {
+          "word": "saygı",
+          "startMs": 87250,
+          "endMs": 87610
+        },
+        {
+          "word": "duyarken",
+          "startMs": 87720,
+          "endMs": 88210
+        },
+        {
+          "word": "azınlığın",
+          "startMs": 88270,
+          "endMs": 88710
+        },
+        {
+          "word": "da",
+          "startMs": 88810,
+          "endMs": 88890
+        },
+        {
+          "word": "hakkını",
+          "startMs": 88890,
+          "endMs": 89260
+        },
+        {
+          "word": "koruyan",
+          "startMs": 89390,
+          "endMs": 89840
+        },
+        {
+          "word": "gerçek",
+          "startMs": 89940,
+          "endMs": 90340
+        },
+        {
+          "word": "bir",
+          "startMs": 90470,
+          "endMs": 90880
+        },
+        {
+          "word": "demokratik",
+          "startMs": 91310,
+          "endMs": 91680
+        },
+        {
+          "word": "bilinçtir.",
+          "startMs": 91790,
+          "endMs": 92770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 93450,
+      "endMs": 101850,
+      "pauseAfterMs": 1380,
+      "text": "Demokrasi, birlikte ve barış içinde yaşamayı öğreten en büyük okuldur.",
+      "markedText": "Demokrasi, birlikte ve barış içinde yaşamayı öğreten en büyük okuldur.",
+      "words": [
+        {
+          "word": "Demokrasi,",
+          "startMs": 93450,
+          "endMs": 94530
+        },
+        {
+          "word": "birlikte",
+          "startMs": 94800,
+          "endMs": 95330
+        },
+        {
+          "word": "ve",
+          "startMs": 95460,
+          "endMs": 95700
+        },
+        {
+          "word": "barış",
+          "startMs": 95750,
+          "endMs": 96270
+        },
+        {
+          "word": "içinde",
+          "startMs": 96630,
+          "endMs": 96820
+        },
+        {
+          "word": "yaşamayı",
+          "startMs": 96910,
+          "endMs": 97740
+        },
+        {
+          "word": "öğreten",
+          "startMs": 98760,
+          "endMs": 99210
+        },
+        {
+          "word": "en",
+          "startMs": 99270,
+          "endMs": 99450
+        },
+        {
+          "word": "büyük",
+          "startMs": 99570,
+          "endMs": 99790
+        },
+        {
+          "word": "okuldur.",
+          "startMs": 99790,
+          "endMs": 100470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 101850,
+      "endMs": 110350,
+      "pauseAfterMs": 880,
+      "text": "Demokrasi, egemenliğin millete ait olduğu ve halkın kendi kendini yönettiği en adil yönetim biçimidir.",
+      "markedText": "Demokrasi, egemenliğin millete ait olduğu ve halkın kendi kendini yönettiği en adil yönetim biçimidir.",
+      "words": [
+        {
+          "word": "Demokrasi,",
+          "startMs": 101850,
+          "endMs": 102560
+        },
+        {
+          "word": "egemenliğin",
+          "startMs": 102650,
+          "endMs": 103600
+        },
+        {
+          "word": "millete",
+          "startMs": 104480,
+          "endMs": 104790
+        },
+        {
+          "word": "ait",
+          "startMs": 104790,
+          "endMs": 104950
+        },
+        {
+          "word": "olduğu",
+          "startMs": 105200,
+          "endMs": 105730
+        },
+        {
+          "word": "ve",
+          "startMs": 105810,
+          "endMs": 105890
+        },
+        {
+          "word": "halkın",
+          "startMs": 105890,
+          "endMs": 106210
+        },
+        {
+          "word": "kendi",
+          "startMs": 106410,
+          "endMs": 106730
+        },
+        {
+          "word": "kendini",
+          "startMs": 106900,
+          "endMs": 107240
+        },
+        {
+          "word": "yönettiği",
+          "startMs": 107340,
+          "endMs": 107640
+        },
+        {
+          "word": "en",
+          "startMs": 107640,
+          "endMs": 107750
+        },
+        {
+          "word": "adil",
+          "startMs": 107850,
+          "endMs": 108020
+        },
+        {
+          "word": "yönetim",
+          "startMs": 108310,
+          "endMs": 108610
+        },
+        {
+          "word": "biçimidir.",
+          "startMs": 108700,
+          "endMs": 109470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 110350,
+      "endMs": 121720,
+      "pauseAfterMs": 730,
+      "text": "Bütün vatandaşların seçme, seçilme ve düşüncelerini özgürce ifade etme hakkı anayasal güvence altındadır.",
+      "markedText": "Bütün vatandaşların seçme, seçilme ve düşüncelerini özgürce ifade etme hakkı anayasal güvence altındadır.",
+      "words": [
+        {
+          "word": "Bütün",
+          "startMs": 110350,
+          "endMs": 110660
+        },
+        {
+          "word": "vatandaşların",
+          "startMs": 110730,
+          "endMs": 111800
+        },
+        {
+          "word": "seçme,",
+          "startMs": 111800,
+          "endMs": 112630
+        },
+        {
+          "word": "seçilme",
+          "startMs": 113000,
+          "endMs": 113540
+        },
+        {
+          "word": "ve",
+          "startMs": 113670,
+          "endMs": 114250
+        },
+        {
+          "word": "düşüncelerini",
+          "startMs": 115110,
+          "endMs": 116280
+        },
+        {
+          "word": "özgürce",
+          "startMs": 116320,
+          "endMs": 116790
+        },
+        {
+          "word": "ifade",
+          "startMs": 116790,
+          "endMs": 117060
+        },
+        {
+          "word": "etme",
+          "startMs": 117180,
+          "endMs": 117500
+        },
+        {
+          "word": "hakkı",
+          "startMs": 117580,
+          "endMs": 118080
+        },
+        {
+          "word": "anayasal",
+          "startMs": 118460,
+          "endMs": 118910
+        },
+        {
+          "word": "güvence",
+          "startMs": 119260,
+          "endMs": 119610
+        },
+        {
+          "word": "altındadır.",
+          "startMs": 119920,
+          "endMs": 120990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 121720,
+      "endMs": 137680,
+      "pauseAfterMs": 1010,
+      "text": "Cumhuriyet yönetiminde devlet idaresi, halkın hür iradesiyle seçtiği milletvekillerine ve yöneticilere belirli bir süre için emanet edilir.",
+      "markedText": "Cumhuriyet yönetiminde devlet idaresi, halkın hür iradesiyle seçtiği milletvekillerine ve yöneticilere belirli bir süre için emanet edilir.",
+      "words": [
+        {
+          "word": "Cumhuriyet",
+          "startMs": 121720,
+          "endMs": 122510
+        },
+        {
+          "word": "yönetiminde",
+          "startMs": 122740,
+          "endMs": 123810
+        },
+        {
+          "word": "devlet",
+          "startMs": 123930,
+          "endMs": 124530
+        },
+        {
+          "word": "idaresi,",
+          "startMs": 124640,
+          "endMs": 125410
+        },
+        {
+          "word": "halkın",
+          "startMs": 126020,
+          "endMs": 126490
+        },
+        {
+          "word": "hür",
+          "startMs": 126560,
+          "endMs": 126740
+        },
+        {
+          "word": "iradesiyle",
+          "startMs": 127040,
+          "endMs": 128010
+        },
+        {
+          "word": "seçtiği",
+          "startMs": 128250,
+          "endMs": 128660
+        },
+        {
+          "word": "milletvekillerine",
+          "startMs": 128950,
+          "endMs": 130420
+        },
+        {
+          "word": "ve",
+          "startMs": 131250,
+          "endMs": 131340
+        },
+        {
+          "word": "yöneticilere",
+          "startMs": 131410,
+          "endMs": 132610
+        },
+        {
+          "word": "belirli",
+          "startMs": 132890,
+          "endMs": 133770
+        },
+        {
+          "word": "bir",
+          "startMs": 134010,
+          "endMs": 134160
+        },
+        {
+          "word": "süre",
+          "startMs": 134300,
+          "endMs": 134450
+        },
+        {
+          "word": "için",
+          "startMs": 134660,
+          "endMs": 135040
+        },
+        {
+          "word": "emanet",
+          "startMs": 135270,
+          "endMs": 135630
+        },
+        {
+          "word": "edilir.",
+          "startMs": 135820,
+          "endMs": 136670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 137680,
+      "endMs": 154480,
+      "pauseAfterMs": 780,
+      "text": "Şanlı milletimiz, Gazi Mustafa Kemal Atatürk önderliğinde 29 Ekim 1923'te cumhuriyeti ilan ederek egemenliği kayıtsız şartsız millete vermiştir.",
+      "markedText": "Şanlı milletimiz, Gazi Mustafa Kemal Atatürk önderliğinde 29 Ekim 1923'te cumhuriyeti ilan ederek egemenliği kayıtsız şartsız millete vermiştir.",
+      "words": [
+        {
+          "word": "Şanlı",
+          "startMs": 137680,
+          "endMs": 138060
+        },
+        {
+          "word": "milletimiz,",
+          "startMs": 138060,
+          "endMs": 138740
+        },
+        {
+          "word": "Gazi",
+          "startMs": 138830,
+          "endMs": 138910
+        },
+        {
+          "word": "Mustafa",
+          "startMs": 138990,
+          "endMs": 139340
+        },
+        {
+          "word": "Kemal",
+          "startMs": 139560,
+          "endMs": 139900
+        },
+        {
+          "word": "Atatürk",
+          "startMs": 140360,
+          "endMs": 141050
+        },
+        {
+          "word": "önderliğinde",
+          "startMs": 141320,
+          "endMs": 142360
+        },
+        {
+          "word": "29",
+          "startMs": 142610,
+          "endMs": 143560
+        },
+        {
+          "word": "Ekim",
+          "startMs": 144410,
+          "endMs": 144900
+        },
+        {
+          "word": "1923'te",
+          "startMs": 145100,
+          "endMs": 146650
+        },
+        {
+          "word": "cumhuriyeti",
+          "startMs": 147100,
+          "endMs": 147710
+        },
+        {
+          "word": "ilan",
+          "startMs": 147810,
+          "endMs": 147940
+        },
+        {
+          "word": "ederek",
+          "startMs": 147940,
+          "endMs": 148260
+        },
+        {
+          "word": "egemenliği",
+          "startMs": 148360,
+          "endMs": 149270
+        },
+        {
+          "word": "kayıtsız",
+          "startMs": 150110,
+          "endMs": 150800
+        },
+        {
+          "word": "şartsız",
+          "startMs": 151820,
+          "endMs": 152230
+        },
+        {
+          "word": "millete",
+          "startMs": 152290,
+          "endMs": 152600
+        },
+        {
+          "word": "vermiştir.",
+          "startMs": 152730,
+          "endMs": 153700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 154480,
+      "endMs": 163800,
+      "pauseAfterMs": 370,
+      "text": "Monarşide ise yönetim tek bir hükümdarın elindedir ve bu yetki babadan oğula miras kalır; seçim ve halk iradesi yoktur.",
+      "markedText": "Monarşide ise yönetim tek bir hükümdarın elindedir ve bu yetki babadan oğula miras kalır; seçim ve halk iradesi yoktur.",
+      "words": [
+        {
+          "word": "Monarşide",
+          "startMs": 154480,
+          "endMs": 154860
+        },
+        {
+          "word": "ise",
+          "startMs": 154960,
+          "endMs": 155140
+        },
+        {
+          "word": "yönetim",
+          "startMs": 155140,
+          "endMs": 155740
+        },
+        {
+          "word": "tek",
+          "startMs": 155790,
+          "endMs": 155880
+        },
+        {
+          "word": "bir",
+          "startMs": 155940,
+          "endMs": 156050
+        },
+        {
+          "word": "hükümdarın",
+          "startMs": 156150,
+          "endMs": 156550
+        },
+        {
+          "word": "elindedir",
+          "startMs": 156550,
+          "endMs": 156940
+        },
+        {
+          "word": "ve",
+          "startMs": 157000,
+          "endMs": 157070
+        },
+        {
+          "word": "bu",
+          "startMs": 157170,
+          "endMs": 157290
+        },
+        {
+          "word": "yetki",
+          "startMs": 157290,
+          "endMs": 157570
+        },
+        {
+          "word": "babadan",
+          "startMs": 157570,
+          "endMs": 157930
+        },
+        {
+          "word": "oğula",
+          "startMs": 158050,
+          "endMs": 158300
+        },
+        {
+          "word": "miras",
+          "startMs": 158770,
+          "endMs": 158980
+        },
+        {
+          "word": "kalır;",
+          "startMs": 158980,
+          "endMs": 159450
+        },
+        {
+          "word": "seçim",
+          "startMs": 160080,
+          "endMs": 160670
+        },
+        {
+          "word": "ve",
+          "startMs": 160920,
+          "endMs": 161160
+        },
+        {
+          "word": "halk",
+          "startMs": 161160,
+          "endMs": 161540
+        },
+        {
+          "word": "iradesi",
+          "startMs": 161700,
+          "endMs": 162470
+        },
+        {
+          "word": "yoktur.",
+          "startMs": 162620,
+          "endMs": 163430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 163800,
+      "endMs": 185370,
+      "pauseAfterMs": 770,
+      "text": "Pratik kural: Demokrasi yalnızca sandık başına gidip oy vermekten ibaret değildir; fikrini saygıyla söylemek, farklı düşünceleri dinlemek ve haklara saygı duymak da demokrasinin kalbidir.",
+      "markedText": "Pratik kural: Demokrasi yalnızca sandık başına gidip oy vermekten ibaret değildir; fikrini saygıyla söylemek, farklı düşünceleri dinlemek ve haklara saygı duymak da demokrasinin kalbidir.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 163800,
+          "endMs": 164310
+        },
+        {
+          "word": "kural:",
+          "startMs": 164450,
+          "endMs": 165400
+        },
+        {
+          "word": "Demokrasi",
+          "startMs": 165630,
+          "endMs": 166240
+        },
+        {
+          "word": "yalnızca",
+          "startMs": 166340,
+          "endMs": 166960
+        },
+        {
+          "word": "sandık",
+          "startMs": 166960,
+          "endMs": 167740
+        },
+        {
+          "word": "başına",
+          "startMs": 168600,
+          "endMs": 169010
+        },
+        {
+          "word": "gidip",
+          "startMs": 169080,
+          "endMs": 169520
+        },
+        {
+          "word": "oy",
+          "startMs": 169610,
+          "endMs": 169810
+        },
+        {
+          "word": "vermekten",
+          "startMs": 169870,
+          "endMs": 170500
+        },
+        {
+          "word": "ibaret",
+          "startMs": 170500,
+          "endMs": 170950
+        },
+        {
+          "word": "değildir;",
+          "startMs": 171030,
+          "endMs": 172180
+        },
+        {
+          "word": "fikrini",
+          "startMs": 172770,
+          "endMs": 173220
+        },
+        {
+          "word": "saygıyla",
+          "startMs": 173340,
+          "endMs": 174500
+        },
+        {
+          "word": "söylemek,",
+          "startMs": 174630,
+          "endMs": 175770
+        },
+        {
+          "word": "farklı",
+          "startMs": 176100,
+          "endMs": 176860
+        },
+        {
+          "word": "düşünceleri",
+          "startMs": 176950,
+          "endMs": 178100
+        },
+        {
+          "word": "dinlemek",
+          "startMs": 178350,
+          "endMs": 178850
+        },
+        {
+          "word": "ve",
+          "startMs": 178980,
+          "endMs": 179130
+        },
+        {
+          "word": "haklara",
+          "startMs": 179280,
+          "endMs": 179730
+        },
+        {
+          "word": "saygı",
+          "startMs": 180590,
+          "endMs": 180870
+        },
+        {
+          "word": "duymak",
+          "startMs": 180870,
+          "endMs": 181470
+        },
+        {
+          "word": "da",
+          "startMs": 182570,
+          "endMs": 182760
+        },
+        {
+          "word": "demokrasinin",
+          "startMs": 183320,
+          "endMs": 184090
+        },
+        {
+          "word": "kalbidir.",
+          "startMs": 184180,
+          "endMs": 184600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 185370,
+      "endMs": 188750,
+      "pauseAfterMs": 580,
+      "text": "Sınıf başkanlığı seçimini hayal edelim.",
+      "markedText": "Sınıf başkanlığı seçimini hayal edelim.",
+      "words": [
+        {
+          "word": "Sınıf",
+          "startMs": 185370,
+          "endMs": 185750
+        },
+        {
+          "word": "başkanlığı",
+          "startMs": 186160,
+          "endMs": 186790
+        },
+        {
+          "word": "seçimini",
+          "startMs": 186990,
+          "endMs": 187200
+        },
+        {
+          "word": "hayal",
+          "startMs": 187260,
+          "endMs": 187540
+        },
+        {
+          "word": "edelim.",
+          "startMs": 187630,
+          "endMs": 188170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 188750,
+      "endMs": 197710,
+      "pauseAfterMs": 970,
+      "text": "Aday olmak isteyen her arkadaşın kürsüye çıkıp hedeflerini anlatır; bu seçilme hakkıdır.",
+      "markedText": "Aday olmak isteyen her arkadaşın kürsüye çıkıp hedeflerini anlatır; bu seçilme hakkıdır.",
+      "words": [
+        {
+          "word": "Aday",
+          "startMs": 188750,
+          "endMs": 189080
+        },
+        {
+          "word": "olmak",
+          "startMs": 189690,
+          "endMs": 190110
+        },
+        {
+          "word": "isteyen",
+          "startMs": 190230,
+          "endMs": 190550
+        },
+        {
+          "word": "her",
+          "startMs": 190620,
+          "endMs": 190770
+        },
+        {
+          "word": "arkadaşın",
+          "startMs": 190880,
+          "endMs": 191770
+        },
+        {
+          "word": "kürsüye",
+          "startMs": 191940,
+          "endMs": 192460
+        },
+        {
+          "word": "çıkıp",
+          "startMs": 192460,
+          "endMs": 192980
+        },
+        {
+          "word": "hedeflerini",
+          "startMs": 193730,
+          "endMs": 194480
+        },
+        {
+          "word": "anlatır;",
+          "startMs": 194670,
+          "endMs": 195220
+        },
+        {
+          "word": "bu",
+          "startMs": 195320,
+          "endMs": 195500
+        },
+        {
+          "word": "seçilme",
+          "startMs": 195500,
+          "endMs": 196110
+        },
+        {
+          "word": "hakkıdır.",
+          "startMs": 196110,
+          "endMs": 196740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 197710,
+      "endMs": 206380,
+      "pauseAfterMs": 900,
+      "text": "Sen de en güvendiğin arkadaşına oy verirsin; bu seçme hakkıdır.",
+      "markedText": "Sen de en güvendiğin arkadaşına oy verirsin; bu seçme hakkıdır.",
+      "words": [
+        {
+          "word": "Sen",
+          "startMs": 197710,
+          "endMs": 197970
+        },
+        {
+          "word": "de",
+          "startMs": 198350,
+          "endMs": 198520
+        },
+        {
+          "word": "en",
+          "startMs": 198520,
+          "endMs": 198660
+        },
+        {
+          "word": "güvendiğin",
+          "startMs": 198740,
+          "endMs": 199180
+        },
+        {
+          "word": "arkadaşına",
+          "startMs": 199250,
+          "endMs": 200160
+        },
+        {
+          "word": "oy",
+          "startMs": 200240,
+          "endMs": 200310
+        },
+        {
+          "word": "verirsin;",
+          "startMs": 200380,
+          "endMs": 201060
+        },
+        {
+          "word": "bu",
+          "startMs": 203350,
+          "endMs": 203580
+        },
+        {
+          "word": "seçme",
+          "startMs": 203660,
+          "endMs": 204330
+        },
+        {
+          "word": "hakkıdır.",
+          "startMs": 204390,
+          "endMs": 205480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 206380,
+      "endMs": 219860,
+      "pauseAfterMs": 590,
+      "text": "Seçilen başkan belirli bir dönem boyunca sınıfa hizmet eder; görev süresi bittiğinde yeniden seçim yapılır.",
+      "markedText": "Seçilen başkan belirli bir dönem boyunca sınıfa hizmet eder; görev süresi bittiğinde yeniden seçim yapılır.",
+      "words": [
+        {
+          "word": "Seçilen",
+          "startMs": 206380,
+          "endMs": 206870
+        },
+        {
+          "word": "başkan",
+          "startMs": 206970,
+          "endMs": 207390
+        },
+        {
+          "word": "belirli",
+          "startMs": 207480,
+          "endMs": 208400
+        },
+        {
+          "word": "bir",
+          "startMs": 208530,
+          "endMs": 208970
+        },
+        {
+          "word": "dönem",
+          "startMs": 209040,
+          "endMs": 209900
+        },
+        {
+          "word": "boyunca",
+          "startMs": 210650,
+          "endMs": 211320
+        },
+        {
+          "word": "sınıfa",
+          "startMs": 211320,
+          "endMs": 211940
+        },
+        {
+          "word": "hizmet",
+          "startMs": 212080,
+          "endMs": 212760
+        },
+        {
+          "word": "eder;",
+          "startMs": 212880,
+          "endMs": 213680
+        },
+        {
+          "word": "görev",
+          "startMs": 214340,
+          "endMs": 214720
+        },
+        {
+          "word": "süresi",
+          "startMs": 214720,
+          "endMs": 215450
+        },
+        {
+          "word": "bittiğinde",
+          "startMs": 215450,
+          "endMs": 216300
+        },
+        {
+          "word": "yeniden",
+          "startMs": 216400,
+          "endMs": 217020
+        },
+        {
+          "word": "seçim",
+          "startMs": 217170,
+          "endMs": 217820
+        },
+        {
+          "word": "yapılır.",
+          "startMs": 218000,
+          "endMs": 219270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 219860,
+      "endMs": 235360,
+      "pauseAfterMs": 1320,
+      "text": "İşte cumhuriyet düşüncesi de tam olarak bu emanet bilincine dayanır; ülke yönetimi hiç kimsenin şahsi mülkü değildir, millete ait bir emanettir.",
+      "markedText": "İşte cumhuriyet düşüncesi de tam olarak bu emanet bilincine dayanır; ülke yönetimi hiç kimsenin şahsi mülkü değildir, millete ait bir emanettir.",
+      "words": [
+        {
+          "word": "İşte",
+          "startMs": 219860,
+          "endMs": 220520
+        },
+        {
+          "word": "cumhuriyet",
+          "startMs": 220890,
+          "endMs": 221700
+        },
+        {
+          "word": "düşüncesi",
+          "startMs": 221700,
+          "endMs": 222500
+        },
+        {
+          "word": "de",
+          "startMs": 222630,
+          "endMs": 222810
+        },
+        {
+          "word": "tam",
+          "startMs": 223140,
+          "endMs": 223280
+        },
+        {
+          "word": "olarak",
+          "startMs": 223280,
+          "endMs": 223940
+        },
+        {
+          "word": "bu",
+          "startMs": 224090,
+          "endMs": 224220
+        },
+        {
+          "word": "emanet",
+          "startMs": 224310,
+          "endMs": 224860
+        },
+        {
+          "word": "bilincine",
+          "startMs": 224980,
+          "endMs": 225580
+        },
+        {
+          "word": "dayanır;",
+          "startMs": 225770,
+          "endMs": 226180
+        },
+        {
+          "word": "ülke",
+          "startMs": 227620,
+          "endMs": 228000
+        },
+        {
+          "word": "yönetimi",
+          "startMs": 228100,
+          "endMs": 228940
+        },
+        {
+          "word": "hiç",
+          "startMs": 229050,
+          "endMs": 229320
+        },
+        {
+          "word": "kimsenin",
+          "startMs": 229430,
+          "endMs": 230130
+        },
+        {
+          "word": "şahsi",
+          "startMs": 230130,
+          "endMs": 230430
+        },
+        {
+          "word": "mülkü",
+          "startMs": 230580,
+          "endMs": 230890
+        },
+        {
+          "word": "değildir,",
+          "startMs": 230890,
+          "endMs": 231530
+        },
+        {
+          "word": "millete",
+          "startMs": 232350,
+          "endMs": 232770
+        },
+        {
+          "word": "ait",
+          "startMs": 232920,
+          "endMs": 233180
+        },
+        {
+          "word": "bir",
+          "startMs": 233300,
+          "endMs": 233440
+        },
+        {
+          "word": "emanettir.",
+          "startMs": 233580,
+          "endMs": 234040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 235360,
+      "endMs": 242030,
+      "pauseAfterMs": 650,
+      "text": "Masallardaki kralların yönettiği monarşide ise halk oy kullanamaz ve yöneticisini değiştiremez.",
+      "markedText": "Masallardaki kralların yönettiği monarşide ise halk oy kullanamaz ve yöneticisini değiştiremez.",
+      "words": [
+        {
+          "word": "Masallardaki",
+          "startMs": 235360,
+          "endMs": 235990
+        },
+        {
+          "word": "kralların",
+          "startMs": 236110,
+          "endMs": 236660
+        },
+        {
+          "word": "yönettiği",
+          "startMs": 236660,
+          "endMs": 237430
+        },
+        {
+          "word": "monarşide",
+          "startMs": 237510,
+          "endMs": 237930
+        },
+        {
+          "word": "ise",
+          "startMs": 238200,
+          "endMs": 238470
+        },
+        {
+          "word": "halk",
+          "startMs": 238530,
+          "endMs": 238710
+        },
+        {
+          "word": "oy",
+          "startMs": 238830,
+          "endMs": 239060
+        },
+        {
+          "word": "kullanamaz",
+          "startMs": 239130,
+          "endMs": 239670
+        },
+        {
+          "word": "ve",
+          "startMs": 239800,
+          "endMs": 239930
+        },
+        {
+          "word": "yöneticisini",
+          "startMs": 240090,
+          "endMs": 240770
+        },
+        {
+          "word": "değiştiremez.",
+          "startMs": 240840,
+          "endMs": 241380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 242030,
+      "endMs": 249700,
+      "pauseAfterMs": 2000,
+      "text": "Günlük hayatımızda bir okul kulübünde fikir belirtmek ya da mahalle meclisinde öneri sunmak da aktif bir katılımdır.",
+      "markedText": "Günlük hayatımızda bir okul kulübünde fikir belirtmek ya da mahalle meclisinde öneri sunmak da aktif bir katılımdır.",
+      "words": [
+        {
+          "word": "Günlük",
+          "startMs": 242030,
+          "endMs": 242270
+        },
+        {
+          "word": "hayatımızda",
+          "startMs": 242270,
+          "endMs": 242880
+        },
+        {
+          "word": "bir",
+          "startMs": 242880,
+          "endMs": 243000
+        },
+        {
+          "word": "okul",
+          "startMs": 243110,
+          "endMs": 243210
+        },
+        {
+          "word": "kulübünde",
+          "startMs": 243340,
+          "endMs": 243520
+        },
+        {
+          "word": "fikir",
+          "startMs": 243600,
+          "endMs": 243740
+        },
+        {
+          "word": "belirtmek",
+          "startMs": 243860,
+          "endMs": 244340
+        },
+        {
+          "word": "ya",
+          "startMs": 244340,
+          "endMs": 244390
+        },
+        {
+          "word": "da",
+          "startMs": 244480,
+          "endMs": 244570
+        },
+        {
+          "word": "mahalle",
+          "startMs": 244570,
+          "endMs": 244940
+        },
+        {
+          "word": "meclisinde",
+          "startMs": 245000,
+          "endMs": 245540
+        },
+        {
+          "word": "öneri",
+          "startMs": 245620,
+          "endMs": 245880
+        },
+        {
+          "word": "sunmak",
+          "startMs": 245980,
+          "endMs": 246130
+        },
+        {
+          "word": "da",
+          "startMs": 246230,
+          "endMs": 246280
+        },
+        {
+          "word": "aktif",
+          "startMs": 246330,
+          "endMs": 246590
+        },
+        {
+          "word": "bir",
+          "startMs": 246590,
+          "endMs": 246860
+        },
+        {
+          "word": "katılımdır.",
+          "startMs": 246860,
+          "endMs": 247700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 249700,
+      "endMs": 258720,
+      "pauseAfterMs": 440,
+      "text": "Bağırmak ya da başkasını susturmak değil, saygıyla düşünce üretmek demokrasidir.",
+      "markedText": "Bağırmak ya da başkasını susturmak değil, saygıyla düşünce üretmek demokrasidir.",
+      "words": [
+        {
+          "word": "Bağırmak",
+          "startMs": 249700,
+          "endMs": 250320
+        },
+        {
+          "word": "ya",
+          "startMs": 250390,
+          "endMs": 250640
+        },
+        {
+          "word": "da",
+          "startMs": 250640,
+          "endMs": 250730
+        },
+        {
+          "word": "başkasını",
+          "startMs": 250730,
+          "endMs": 251300
+        },
+        {
+          "word": "susturmak",
+          "startMs": 252530,
+          "endMs": 253260
+        },
+        {
+          "word": "değil,",
+          "startMs": 253460,
+          "endMs": 254200
+        },
+        {
+          "word": "saygıyla",
+          "startMs": 255030,
+          "endMs": 255470
+        },
+        {
+          "word": "düşünce",
+          "startMs": 255700,
+          "endMs": 256420
+        },
+        {
+          "word": "üretmek",
+          "startMs": 256530,
+          "endMs": 257040
+        },
+        {
+          "word": "demokrasidir.",
+          "startMs": 257340,
+          "endMs": 258280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 258720,
+      "endMs": 260530,
+      "pauseAfterMs": 740,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 258720,
+          "endMs": 258840
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 259010,
+          "endMs": 259790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 260530,
+      "endMs": 267420,
+      "pauseAfterMs": 1140,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 260530,
+          "endMs": 261020
+        },
+        {
+          "word": "bir",
+          "startMs": 261020,
+          "endMs": 261500
+        },
+        {
+          "word": "kez",
+          "startMs": 261580,
+          "endMs": 261710
+        },
+        {
+          "word": "görünce",
+          "startMs": 261800,
+          "endMs": 262490
+        },
+        {
+          "word": "kolayca",
+          "startMs": 263190,
+          "endMs": 263910
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 265120,
+          "endMs": 266280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 267420,
+      "endMs": 278080,
+      "pauseAfterMs": 1390,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 267420,
+          "endMs": 268250
+        },
+        {
+          "word": "sevgili",
+          "startMs": 268350,
+          "endMs": 268970
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 269190,
+          "endMs": 270630
+        },
+        {
+          "word": "işte",
+          "startMs": 271470,
+          "endMs": 271900
+        },
+        {
+          "word": "tam",
+          "startMs": 271900,
+          "endMs": 272240
+        },
+        {
+          "word": "bu",
+          "startMs": 272350,
+          "endMs": 272510
+        },
+        {
+          "word": "noktada",
+          "startMs": 272610,
+          "endMs": 272980
+        },
+        {
+          "word": "dikkat",
+          "startMs": 273080,
+          "endMs": 273660
+        },
+        {
+          "word": "etmen",
+          "startMs": 273790,
+          "endMs": 274680
+        },
+        {
+          "word": "gereken",
+          "startMs": 275190,
+          "endMs": 275780
+        },
+        {
+          "word": "kilit",
+          "startMs": 275780,
+          "endMs": 275980
+        },
+        {
+          "word": "nokta.",
+          "startMs": 276090,
+          "endMs": 276690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 278080,
+      "endMs": 289340,
+      "pauseAfterMs": 770,
+      "text": "Demokrasiyi yalnızca birkaç yılda bir yapılan seçimlerden ibaret sanmak eksik bir düşüncedir.",
+      "markedText": "Demokrasiyi yalnızca birkaç yılda bir yapılan seçimlerden ibaret sanmak eksik bir düşüncedir.",
+      "words": [
+        {
+          "word": "Demokrasiyi",
+          "startMs": 278080,
+          "endMs": 279320
+        },
+        {
+          "word": "yalnızca",
+          "startMs": 280410,
+          "endMs": 281230
+        },
+        {
+          "word": "birkaç",
+          "startMs": 281330,
+          "endMs": 281710
+        },
+        {
+          "word": "yılda",
+          "startMs": 281790,
+          "endMs": 282310
+        },
+        {
+          "word": "bir",
+          "startMs": 282390,
+          "endMs": 282460
+        },
+        {
+          "word": "yapılan",
+          "startMs": 282550,
+          "endMs": 283250
+        },
+        {
+          "word": "seçimlerden",
+          "startMs": 283830,
+          "endMs": 284540
+        },
+        {
+          "word": "ibaret",
+          "startMs": 284540,
+          "endMs": 285050
+        },
+        {
+          "word": "sanmak",
+          "startMs": 285150,
+          "endMs": 285660
+        },
+        {
+          "word": "eksik",
+          "startMs": 286720,
+          "endMs": 287070
+        },
+        {
+          "word": "bir",
+          "startMs": 287070,
+          "endMs": 287440
+        },
+        {
+          "word": "düşüncedir.",
+          "startMs": 287510,
+          "endMs": 288570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 289340,
+      "endMs": 300570,
+      "pauseAfterMs": 610,
+      "text": "Hak aramak, düşüncelerini saygı çerçevesinde dile getirmek ve ortak kurallara uymak da demokrasinin ayrılmaz birer parçasıdır.",
+      "markedText": "Hak aramak, düşüncelerini saygı çerçevesinde dile getirmek ve ortak kurallara uymak da demokrasinin ayrılmaz birer parçasıdır.",
+      "words": [
+        {
+          "word": "Hak",
+          "startMs": 289340,
+          "endMs": 289580
+        },
+        {
+          "word": "aramak,",
+          "startMs": 289670,
+          "endMs": 290630
+        },
+        {
+          "word": "düşüncelerini",
+          "startMs": 292430,
+          "endMs": 293380
+        },
+        {
+          "word": "saygı",
+          "startMs": 293380,
+          "endMs": 293590
+        },
+        {
+          "word": "çerçevesinde",
+          "startMs": 293680,
+          "endMs": 294440
+        },
+        {
+          "word": "dile",
+          "startMs": 294520,
+          "endMs": 294700
+        },
+        {
+          "word": "getirmek",
+          "startMs": 294810,
+          "endMs": 295310
+        },
+        {
+          "word": "ve",
+          "startMs": 295360,
+          "endMs": 295400
+        },
+        {
+          "word": "ortak",
+          "startMs": 295400,
+          "endMs": 295700
+        },
+        {
+          "word": "kurallara",
+          "startMs": 295700,
+          "endMs": 296310
+        },
+        {
+          "word": "uymak",
+          "startMs": 296930,
+          "endMs": 297240
+        },
+        {
+          "word": "da",
+          "startMs": 297240,
+          "endMs": 297340
+        },
+        {
+          "word": "demokrasinin",
+          "startMs": 297340,
+          "endMs": 298170
+        },
+        {
+          "word": "ayrılmaz",
+          "startMs": 298250,
+          "endMs": 298600
+        },
+        {
+          "word": "birer",
+          "startMs": 298700,
+          "endMs": 298990
+        },
+        {
+          "word": "parçasıdır.",
+          "startMs": 299180,
+          "endMs": 299960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 300570,
+      "endMs": 307290,
+      "pauseAfterMs": 930,
+      "text": "Cumhuriyet ile monarşi yönetimlerini birbirine karıştırmamaya özen göster.",
+      "markedText": "Cumhuriyet ile monarşi yönetimlerini birbirine karıştırmamaya özen göster.",
+      "words": [
+        {
+          "word": "Cumhuriyet",
+          "startMs": 300570,
+          "endMs": 300990
+        },
+        {
+          "word": "ile",
+          "startMs": 301050,
+          "endMs": 301230
+        },
+        {
+          "word": "monarşi",
+          "startMs": 301310,
+          "endMs": 301840
+        },
+        {
+          "word": "yönetimlerini",
+          "startMs": 301840,
+          "endMs": 302940
+        },
+        {
+          "word": "birbirine",
+          "startMs": 303040,
+          "endMs": 303880
+        },
+        {
+          "word": "karıştırmamaya",
+          "startMs": 304180,
+          "endMs": 305160
+        },
+        {
+          "word": "özen",
+          "startMs": 305280,
+          "endMs": 305650
+        },
+        {
+          "word": "göster.",
+          "startMs": 305650,
+          "endMs": 306360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 307290,
+      "endMs": 323340,
+      "pauseAfterMs": 880,
+      "text": "Cumhuriyette yöneticilerin millet tarafından seçildiğini ve bu görevin geçici bir emanet olduğunu güvenle aklında tutabilirsin.",
+      "markedText": "Cumhuriyette yöneticilerin millet tarafından seçildiğini ve bu görevin geçici bir emanet olduğunu güvenle aklında tutabilirsin.",
+      "words": [
+        {
+          "word": "Cumhuriyette",
+          "startMs": 307290,
+          "endMs": 308660
+        },
+        {
+          "word": "yöneticilerin",
+          "startMs": 309350,
+          "endMs": 310730
+        },
+        {
+          "word": "millet",
+          "startMs": 310810,
+          "endMs": 311300
+        },
+        {
+          "word": "tarafından",
+          "startMs": 312210,
+          "endMs": 312830
+        },
+        {
+          "word": "seçildiğini",
+          "startMs": 312870,
+          "endMs": 314150
+        },
+        {
+          "word": "ve",
+          "startMs": 314730,
+          "endMs": 314970
+        },
+        {
+          "word": "bu",
+          "startMs": 314970,
+          "endMs": 315100
+        },
+        {
+          "word": "görevin",
+          "startMs": 315180,
+          "endMs": 315760
+        },
+        {
+          "word": "geçici",
+          "startMs": 315960,
+          "endMs": 316330
+        },
+        {
+          "word": "bir",
+          "startMs": 316670,
+          "endMs": 316850
+        },
+        {
+          "word": "emanet",
+          "startMs": 316850,
+          "endMs": 317370
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 318200,
+          "endMs": 319290
+        },
+        {
+          "word": "güvenle",
+          "startMs": 319460,
+          "endMs": 320290
+        },
+        {
+          "word": "aklında",
+          "startMs": 320510,
+          "endMs": 321290
+        },
+        {
+          "word": "tutabilirsin.",
+          "startMs": 321400,
+          "endMs": 322460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 323340,
+      "endMs": 325260,
+      "pauseAfterMs": 260,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 323340,
+          "endMs": 323610
+        },
+        {
+          "word": "Neler",
+          "startMs": 323670,
+          "endMs": 324130
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 324190,
+          "endMs": 325000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 325260,
+      "endMs": 325480,
+      "pauseAfterMs": 90,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 325260,
+          "endMs": 325390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 325480,
+      "endMs": 330140,
+      "pauseAfterMs": 910,
+      "text": "Demokrasi, halkın yönetime katılmasıdır.",
+      "markedText": "Demokrasi, halkın yönetime katılmasıdır.",
+      "words": [
+        {
+          "word": "Demokrasi,",
+          "startMs": 325480,
+          "endMs": 326130
+        },
+        {
+          "word": "halkın",
+          "startMs": 326440,
+          "endMs": 326790
+        },
+        {
+          "word": "yönetime",
+          "startMs": 326840,
+          "endMs": 327280
+        },
+        {
+          "word": "katılmasıdır.",
+          "startMs": 328230,
+          "endMs": 329230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 330140,
+      "endMs": 335050,
+      "pauseAfterMs": 320,
+      "text": "Seçmek ve söz söylemek bu katılımın parçasıdır.",
+      "markedText": "Seçmek ve söz söylemek bu katılımın parçasıdır.",
+      "words": [
+        {
+          "word": "Seçmek",
+          "startMs": 330140,
+          "endMs": 330780
+        },
+        {
+          "word": "ve",
+          "startMs": 331120,
+          "endMs": 331250
+        },
+        {
+          "word": "söz",
+          "startMs": 331250,
+          "endMs": 331300
+        },
+        {
+          "word": "söylemek",
+          "startMs": 331390,
+          "endMs": 332090
+        },
+        {
+          "word": "bu",
+          "startMs": 332200,
+          "endMs": 332660
+        },
+        {
+          "word": "katılımın",
+          "startMs": 333370,
+          "endMs": 333740
+        },
+        {
+          "word": "parçasıdır.",
+          "startMs": 333870,
+          "endMs": 334730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 335050,
+      "endMs": 335320,
+      "pauseAfterMs": 60,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 335050,
+          "endMs": 335260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 335320,
+      "endMs": 342000,
+      "pauseAfterMs": 680,
+      "text": "Cumhuriyette yönetim seçilen kişilere süreyle emanet edilir.",
+      "markedText": "Cumhuriyette yönetim seçilen kişilere süreyle emanet edilir.",
+      "words": [
+        {
+          "word": "Cumhuriyette",
+          "startMs": 335320,
+          "endMs": 336220
+        },
+        {
+          "word": "yönetim",
+          "startMs": 336830,
+          "endMs": 337410
+        },
+        {
+          "word": "seçilen",
+          "startMs": 337830,
+          "endMs": 338280
+        },
+        {
+          "word": "kişilere",
+          "startMs": 338410,
+          "endMs": 338980
+        },
+        {
+          "word": "süreyle",
+          "startMs": 339100,
+          "endMs": 339510
+        },
+        {
+          "word": "emanet",
+          "startMs": 339720,
+          "endMs": 340030
+        },
+        {
+          "word": "edilir.",
+          "startMs": 340230,
+          "endMs": 341320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 342000,
+      "endMs": 348010,
+      "pauseAfterMs": 810,
+      "text": "Türkiye 29 Ekim 1923'te cumhuriyet oldu.",
+      "markedText": "Türkiye 29 Ekim 1923'te cumhuriyet oldu.",
+      "words": [
+        {
+          "word": "Türkiye",
+          "startMs": 342000,
+          "endMs": 342440
+        },
+        {
+          "word": "29",
+          "startMs": 342790,
+          "endMs": 343330
+        },
+        {
+          "word": "Ekim",
+          "startMs": 343430,
+          "endMs": 343800
+        },
+        {
+          "word": "1923'te",
+          "startMs": 343870,
+          "endMs": 345400
+        },
+        {
+          "word": "cumhuriyet",
+          "startMs": 346190,
+          "endMs": 346710
+        },
+        {
+          "word": "oldu.",
+          "startMs": 346770,
+          "endMs": 347200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 348010,
+      "endMs": 348410,
+      "pauseAfterMs": 100,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 348010,
+          "endMs": 348310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 348410,
+      "endMs": 354820,
+      "pauseAfterMs": 820,
+      "text": "Monarşide yönetim bir kişidedir ve seçimle gelmez.",
+      "markedText": "Monarşide yönetim bir kişidedir ve seçimle gelmez.",
+      "words": [
+        {
+          "word": "Monarşide",
+          "startMs": 348410,
+          "endMs": 349700
+        },
+        {
+          "word": "yönetim",
+          "startMs": 349900,
+          "endMs": 350420
+        },
+        {
+          "word": "bir",
+          "startMs": 350420,
+          "endMs": 350860
+        },
+        {
+          "word": "kişidedir",
+          "startMs": 351720,
+          "endMs": 352330
+        },
+        {
+          "word": "ve",
+          "startMs": 352470,
+          "endMs": 352590
+        },
+        {
+          "word": "seçimle",
+          "startMs": 352590,
+          "endMs": 353220
+        },
+        {
+          "word": "gelmez.",
+          "startMs": 353370,
+          "endMs": 354000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 354820,
+      "endMs": 358780,
+      "pauseAfterMs": 670,
+      "text": "Demokrasi yalnız sandık günü değildir.",
+      "markedText": "Demokrasi yalnız sandık günü değildir.",
+      "words": [
+        {
+          "word": "Demokrasi",
+          "startMs": 354820,
+          "endMs": 355670
+        },
+        {
+          "word": "yalnız",
+          "startMs": 356510,
+          "endMs": 356850
+        },
+        {
+          "word": "sandık",
+          "startMs": 356960,
+          "endMs": 357370
+        },
+        {
+          "word": "günü",
+          "startMs": 357440,
+          "endMs": 357650
+        },
+        {
+          "word": "değildir.",
+          "startMs": 357650,
+          "endMs": 358110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 358780,
+      "endMs": 362700,
+      "pauseAfterMs": 320,
+      "text": "Demokrasi katılmaktır.",
+      "markedText": "Demokrasi katılmaktır.",
+      "words": [
+        {
+          "word": "Demokrasi",
+          "startMs": 358780,
+          "endMs": 360150
+        },
+        {
+          "word": "katılmaktır.",
+          "startMs": 360950,
+          "endMs": 362380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 362700,
+      "endMs": 367340,
+      "pauseAfterMs": 330,
+      "text": "Cumhuriyet, seçilen yönetimin adıdır.",
+      "markedText": "Cumhuriyet, seçilen yönetimin adıdır.",
+      "words": [
+        {
+          "word": "Cumhuriyet,",
+          "startMs": 362700,
+          "endMs": 364000
+        },
+        {
+          "word": "seçilen",
+          "startMs": 364640,
+          "endMs": 364930
+        },
+        {
+          "word": "yönetimin",
+          "startMs": 365070,
+          "endMs": 365880
+        },
+        {
+          "word": "adıdır.",
+          "startMs": 365970,
+          "endMs": 367010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 367340,
+      "endMs": 375870,
+      "pauseAfterMs": 710,
+      "text": "Bir yönetimde kararı kimin verdiğini ve sürenin olup olmadığını söylersin.",
+      "markedText": "Bir yönetimde kararı kimin verdiğini ve sürenin olup olmadığını söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 367340,
+          "endMs": 367510
+        },
+        {
+          "word": "yönetimde",
+          "startMs": 367820,
+          "endMs": 368610
+        },
+        {
+          "word": "kararı",
+          "startMs": 369300,
+          "endMs": 369550
+        },
+        {
+          "word": "kimin",
+          "startMs": 369720,
+          "endMs": 370040
+        },
+        {
+          "word": "verdiğini",
+          "startMs": 370120,
+          "endMs": 370870
+        },
+        {
+          "word": "ve",
+          "startMs": 371590,
+          "endMs": 371770
+        },
+        {
+          "word": "sürenin",
+          "startMs": 371890,
+          "endMs": 372500
+        },
+        {
+          "word": "olup",
+          "startMs": 372660,
+          "endMs": 372780
+        },
+        {
+          "word": "olmadığını",
+          "startMs": 373260,
+          "endMs": 373700
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 373980,
+          "endMs": 375160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 375870,
+      "endMs": 378120,
+      "pauseAfterMs": 700,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 375870,
+          "endMs": 376440
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 376660,
+          "endMs": 377420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 378120,
+      "endMs": 380370,
+      "pauseAfterMs": 300,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 378120,
+          "endMs": 378710
+        },
+        {
+          "word": "bir",
+          "startMs": 378810,
+          "endMs": 379150
+        },
+        {
+          "word": "iş",
+          "startMs": 379290,
+          "endMs": 379460
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 379460,
+          "endMs": 380070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-3",
+      "startMs": 380370,
+      "endMs": 383170,
+      "pauseAfterMs": 850,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 380370,
+          "endMs": 381160
+        },
+        {
+          "word": "sıra",
+          "startMs": 381260,
+          "endMs": 381760
+        },
+        {
+          "word": "sende.",
+          "startMs": 381840,
+          "endMs": 382320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-3",
+      "startMs": 383170,
+      "endMs": 388705,
+      "pauseAfterMs": 385,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 383170,
+          "endMs": 383720
+        },
+        {
+          "word": "bu",
+          "startMs": 384390,
+          "endMs": 384570
+        },
+        {
+          "word": "notları",
+          "startMs": 384650,
+          "endMs": 385130
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 385680,
+          "endMs": 386290
+        },
+        {
+          "word": "kendi",
+          "startMs": 386420,
+          "endMs": 386630
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 386910,
+          "endMs": 387710
+        },
+        {
+          "word": "anlat.",
+          "startMs": 387790,
+          "endMs": 388320
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

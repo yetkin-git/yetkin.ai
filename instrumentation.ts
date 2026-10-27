@@ -12,6 +12,7 @@ export async function register() {
   }
   await import("@/lib/academy/lesson-json-disk");
   await import("@/lib/academy/production-seal-disk");
+  await import("@/lib/junior/pilot-engine/acoustic-timeline-disk");
   const { preferIpv6ForDirectHost } = await import("@/lib/kernel/dns-ipv6-first");
   preferIpv6ForDirectHost();
   if (process.env.NODE_ENV !== "production") {

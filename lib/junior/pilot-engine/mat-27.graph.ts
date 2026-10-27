@@ -1,9 +1,9 @@
-import { JUNIOR_MAT_27, JUNIOR_MAT_27_SCENARIO } from "@/lib/junior/content/mat/27";
+import { JUNIOR_MAT_27, JUNIOR_MAT_27_SCENARIO } from "@/lib/junior/content/mat/6";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
 /**
- * `jr_06_mat-27` uzunluk sayı doğrusu.
+ * `jr_06_mat-6` uzunluk sayı doğrusu.
  * 250 cm = 2,5 m. 3 km = 3000 m. 40 mm = 4 cm.
  * İndirgeyici birimi kendisi çevirmez.
  */
@@ -11,12 +11,12 @@ const example = JUNIOR_MAT_27_SCENARIO.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "250 santimetre", "showLine");
 
 export const JR_06_MAT_27_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
-  lessonKey: "jr_06_mat-27",
+  lessonKey: "jr_06_mat-6",
   title: JUNIOR_MAT_27_SCENARIO.title,
   listenText: JUNIOR_MAT_27.listenText,
   example,
   exampleMarked,
-  audioPath: "/media/junior/audio/jr_06_mat-27.mp3",
+  audioPath: "/media/junior/audio/jr_06_mat-6.mp3",
   layout: "number-line",
   stageTitle: "Uzunluk doğrusu",
   stageSubtitle: "Birim konumu",

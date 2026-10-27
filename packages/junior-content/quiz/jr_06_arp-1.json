@@ -1,0 +1,53 @@
+{
+  "lessonKey": "jr_06_arp-1",
+  "title": "Selam vermek",
+  "tellGuides": [
+    "Selamün aleyküm ne demektir?",
+    "Ve aleyküm selam hangi sözün karşılığıdır?",
+    "İki sözün sırası neden değişmez?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Selamün aleyküm ne demektir?",
+      "options": [
+        "Barış üzerine olsun",
+        "Adın ne",
+        "İyi geceler",
+        "Sağdan sola oku"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Bu söz esenlik diler.",
+      "explanation": "Adım 1: Selamün aleyküm, barış üzerine olsun demektir. Adım 2: Bir kişiye esenlik diler. Adım 3: Karşılığı ayrı bir sözdür."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Biri Selamün aleyküm diyor. Karşılığın hangisidir?",
+      "options": [
+        "Susmak",
+        "Ve aleyküm selam",
+        "Yalnızca adını söylemek",
+        "İki sözü yer değiştirmek"
+      ],
+      "correctAnswerIndex": 1,
+      "hint": "Karşılık, sana da barış olsun demektir.",
+      "explanation": "Adım 1: Gelen söz selamdır. Adım 2: Dönen söz Ve aleyküm selamdır. Adım 3: Selamı duyup susmak karşılık değildir."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Misafir kapıya geliyor. Doğru sıra hangisidir?",
+      "options": [
+        "Önce karşılığı söyleyip selamı atlamak",
+        "Selamı yarıda kesip başka söze geçmek",
+        "Önce selam, sonra Ve aleyküm selam",
+        "İki cümleyi tek selam sanmak"
+      ],
+      "correctAnswerIndex": 2,
+      "hint": "Önce selam verilir. Sonra karşılık söylenir.",
+      "explanation": "Adım 1: Selam önce söylenir. Adım 2: Karşılık sonra söylenir. Adım 3: İki sözün yeri değişmez."
+    }
+  ]
+}

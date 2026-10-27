@@ -1,6 +1,9 @@
 import { z } from "zod";
 
-/** 2026-2027 6. sınıf çekirdek dersleri. Seçmeliler bu pakette yoktur. */
+/**
+ * 2026-2027 6. sınıf çekirdek dersleri.
+ * Seçmeli anahtar `topic.ts` desenindedir. Bu slug listesine ve MEB dosyasına girmez.
+ */
 export const JUNIOR_COURSE_SLUGS = [
   "jr_06_mat",
   "jr_06_fen",

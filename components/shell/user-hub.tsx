@@ -11,6 +11,7 @@ import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
 import { AUTH_LOGOUT_API_PATH, buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 import { ADMIN_CATALOG_SURFACE_PATH } from "@/lib/kernel/admin/types";
 import { KERNEL_SURFACES } from "@/lib/kernel/modules";
+import { isJuniorShellPath } from "@/lib/ui/junior-shell";
 
 const HUB_MENU_SURFACES = KERNEL_SURFACES.filter((surface) => surface.id !== "cuzdan");
 
@@ -24,6 +25,7 @@ export function UserHub({
   walletChip: ReactNode;
 }) {
   const pathname = usePathname();
+  const juniorShell = isJuniorShellPath(pathname);
   const [open, setOpen] = useState(false);
   const [openPath, setOpenPath] = useState(pathname);
   const [signingOut, setSigningOut] = useState(false);
@@ -123,15 +125,17 @@ export function UserHub({
               </LinkButton>
             )}
           </div>
-          {userEmail ? (
+          {userEmail && !juniorShell ? (
             <div className="px-1.5 pb-1.5" data-user-hub-wallet="">
               <div className="overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface-muted)]">
                 {walletChip}
               </div>
             </div>
           ) : null}
-          <div className="my-1 h-px bg-[var(--border)]" aria-hidden />
-          <ul className="space-y-0.5">
+          {juniorShell ? null : (
+            <>
+              <div className="my-1 h-px bg-[var(--border)]" aria-hidden />
+              <ul className="space-y-0.5">
             {menuSurfaces.map((surface) => {
               const Icon = ROOM_ICONS[surface.id];
               const active = pathname === surface.path || pathname?.startsWith(`${surface.path}/`);
@@ -196,6 +200,8 @@ export function UserHub({
               </li>
             ) : null}
           </ul>
+            </>
+          )}
           <div className="my-1 h-px bg-[var(--border)]" aria-hidden />
           <form action={AUTH_LOGOUT_API_PATH} method="POST" onSubmit={() => setSigningOut(true)}>
             <button

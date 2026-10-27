@@ -1,55 +1,55 @@
 import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
 
-/** 6. Sınıf Matematik — konu sonu soru arşivi (13/25). */
-export const JUNIOR_MAT_QUIZ_13 = {
+/** 6. Sınıf Matematik — konu sonu soru arşivi (29). */
+export const JUNIOR_MAT_QUIZ_29 = {
   lessonKey: "jr_06_mat-13",
-  title: "Kesirlerde çarpma ve bölme",
+  title: "Cebirsel ifadede algoritma",
   tellGuides: [
-    "Kesir çarpmada pay ve paydanın nasıl işlendiğini anlatabilir misin?",
-    "Kesir bölmede ikinci kesiri neden ters çevirirsin?",
+    "2x artı 6 ifadesinde hangi işlem önce gelir?",
+    "Aynı ifadeye iki farklı sayı koyunca ne değişir?",
   ],
   questions: [
     {
       id: "q1",
       level: "concept",
-      question: "İki kesri çarparken doğru kural hangisidir?",
+      question: "Cebirsel ifadede algoritma neyi sabit tutar?",
       options: [
-        "Pay payla, payda paydayla çarpılır",
-        "Yalnız paydalar çarpılır",
-        "Önce paydalar eşitlenir",
-        "İkinci kesir ters çevrilip çıkarılır",
+        "İşlem sırasını",
+        "Bilinmeyenin değerini",
+        "Sonucu",
+        "Birimi",
       ],
       correctAnswerIndex: 0,
-      hint: "Bölmede ikinci kesir ters çevrilir; çarpmada çevrilmez.",
-      explanation: "Adım 1: Çarpmada paylar çarpılır. Adım 2: Paydalar çarpılır. Adım 3: Bölmede ise ikinci kesir ters çevrilip çarpılır.",
+      hint: "Girdi değişebilir. Adım sırası kalır.",
+      explanation: "Adım 1: Algoritma sıra demektir. Adım 2: Bilinmeyenin yerine başka sayı konabilir. Adım 3: Sıra bozulursa sonuç değişir.",
     },
     {
       id: "q2",
       level: "apply",
-      question: "Yarımın yarısı kaçtır?",
+      question: "x yerine 4 konunca 2x artı 6 kaç eder?",
       options: [
-        "Dörtte bir",
-        "Bir",
-        "İki",
-        "Dörtte üç",
+        "12",
+        "10",
+        "14",
+        "24",
       ],
-      correctAnswerIndex: 0,
-      hint: "1/2 çarpı 1/2 yap.",
-      explanation: "Adım 1: 1 çarpı 1, 1 eder. Adım 2: 2 çarpı 2, 4 eder. Adım 3: Sonuç dörtte birdir.",
+      correctAnswerIndex: 2,
+      hint: "Önce 2 çarpı 4. Sonra 6 ekle.",
+      explanation: "Adım 1: 2 çarpı 4, 8 eder. Adım 2: 8 artı 6, 14 eder. Adım 3: 2 ile 6'yı önce toplamak bu algoritma değildir.",
     },
     {
       id: "q3",
       level: "skill",
-      question: "Yarım pizzayı çeyrek dilimlere bölersen kaç dilim çıkar?",
+      question: "Aynı ifadede x yerine 5 konunca sonuç neden 16 olur?",
       options: [
-        "2",
-        "1/2",
-        "1/8",
-        "4",
+        "Çünkü 2 çarpı 5 artı 6, 16 eder",
+        "Çünkü 5 artı 6, 11 eder",
+        "Çünkü x silinir",
+        "Çünkü 2x, 25 olur",
       ],
       correctAnswerIndex: 0,
-      hint: "Yarım bölü çeyrek: ikinci kesri ters çevir.",
-      explanation: "Adım 1: Yarım bölü çeyrek, 1/2 çarpı 4/1 demektir. Adım 2: 4/2, 2 eder. Adım 3: İki çeyrek dilim çıkar.",
+      hint: "Algoritma aynı. Girdi 5 oldu.",
+      explanation: "Adım 1: 2 çarpı 5, 10 eder. Adım 2: 10 artı 6, 16 eder. Adım 3: İfade durur, konan sayı değişir.",
     },
   ],
 } as const satisfies JuniorLessonQuizPack;

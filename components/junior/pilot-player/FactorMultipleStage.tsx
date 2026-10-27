@@ -25,7 +25,7 @@ export function FactorMultipleStage(props: {
             <span className="rounded-lg bg-cyan-400/20 px-2.5 py-1 text-xs font-black uppercase tracking-wider text-cyan-300">
               Çarpan (= Bölen)
             </span>
-            <span className="text-xs font-bold text-cyan-200/80">Böler & Küçültür</span>
+            <span className="text-xs font-bold text-cyan-200/80">Kalansız Böler (≤ Sayı)</span>
           </div>
 
           <div className="mt-2 flex min-h-0 flex-1 flex-col items-center justify-center">
@@ -84,7 +84,7 @@ export function FactorMultipleStage(props: {
             <span className="rounded-lg bg-amber-400/20 px-2.5 py-1 text-xs font-black uppercase tracking-wider text-amber-300">
               Kat (Katlanan Kule)
             </span>
-            <span className="text-xs font-bold text-amber-200/80">Çarpar & Büyütür</span>
+            <span className="text-xs font-bold text-amber-200/80">Katlanarak Büyür (≥ Sayı)</span>
           </div>
 
           <div className="mt-2 flex min-h-0 flex-1 flex-col-reverse items-stretch justify-center gap-2">

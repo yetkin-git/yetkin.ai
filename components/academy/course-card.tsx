@@ -29,8 +29,7 @@ export type CourseCardSurface = "catalog" | "library";
 
 /**
  * Akademi kurs kartı — dürüst bilgi bloku: başlık, meta, fiyat *veya* erişim mührü.
- * Satın alınmamış ve ilk dersi açık kartta yeşil düğme oynatıcıya gider.
- * Satın alma fiyat etiketinin yanında ikincil kalır.
+ * Fiyatlı kartta birincil eylem Hemen Katıl'dır. Ücretsiz ilk ders onun yanındadır.
  */
 export function CourseCard({
   course,
@@ -41,8 +40,8 @@ export function CourseCard({
   learnerStatus,
   featured = false,
   owned = false,
-  studioPreview = false,
   buyHref = null,
+  saleHold = null,
   favorited = false,
   onToggleFavorite,
 }: {
@@ -52,14 +51,14 @@ export function CourseCard({
   layout?: AcademyCatalogViewMode;
   lessonCount?: number;
   learnerStatus?: AcademyCatalogLearnerStatus;
-  /** Amiral SKU — aynı ebatta kart; ince çerçeve ve üç satır özet. */
+  /** Öne çıkan temel eğitim — aynı ebatta kart; ince çerçeve ve üç satır özet. */
   featured?: boolean;
   /** Satın alınmış eğitim — Super Admin lab overlay vitrinde owned basabilir; nakit değildir. */
   owned?: boolean;
-  /** Satış kapalı olsa da Super Admin karttan `/oyna` açar. Fiyat gizlenmez. */
-  studioPreview?: boolean;
   /** Oturumlu kasa çapası veya oturumsuz giriş. Boşsa kart `#satin-al` basar. */
   buyHref?: string | null;
+  /** Kapalı kayıtta yayın, fiyat veya ses/metin eksiği. */
+  saleHold?: string | null;
   favorited?: boolean;
   onToggleFavorite?: () => void;
 }) {
@@ -67,7 +66,11 @@ export function CourseCard({
   const levelLabel = course.level?.trim() || academyCourseLevelBySlug(course.slug) || "";
   const summary = academyCatalogSummaryBySlug(course.slug) ?? course.summary;
   const moduleCode = academyModuleCodeBySlug(course.slug) || undefined;
-  const levelKicker = levelLabel ? ACADEMY_SEN.catalog.badgeLevel(levelLabel) : undefined;
+  const levelKicker = featured
+    ? ACADEMY_SEN.catalog.flagshipBadge
+    : levelLabel
+      ? ACADEMY_SEN.catalog.badgeLevel(levelLabel)
+      : undefined;
   const moneyLabel = course.priceMinor
     ? formatMinorCompact(course.priceMinor, course.currencyCode)
     : ACADEMY_SEN.catalog.priceMissing;
@@ -81,8 +84,9 @@ export function CourseCard({
     priceLabel: course.priceMinor ? moneyLabel : null,
     purchasable: comingSoon || unpublished ? undefined : course.purchasable,
     isPublished: comingSoon ? undefined : course.isPublished,
-    studioPreview,
+    saleHold,
     buyHref,
+    hero: featured,
   });
   const learnerLabel =
     learnerStatus === "continue"
@@ -202,6 +206,7 @@ export function CourseCard({
       footnote={
         course.slug === ACADEMY_OFF201_STOREFRONT_SLUG ? ACADEMY_SEN.catalog.off201Advisory : undefined
       }
+      hold={!owned && storefront.ctaDisabled ? saleHold : null}
       summaryClamp={featured ? 3 : 2}
       price={storefront.priceLabel}
       priceCaption={storefront.priceCaption ?? undefined}
@@ -223,11 +228,12 @@ export function CourseCard({
       ctaVariant={
         storefront.ctaDisabled || comingSoon || unpublished
           ? "outline"
-          : owned || storefront.href.endsWith("/oyna")
+          : owned
             ? "success"
             : "primary"
       }
       coverSrc={cinemaCover}
+      coverAlt={`${course.title} eğitim kapağı`}
       coverComingSoon={comingSoon}
       comingSoonLabel={ACADEMY_SEN.catalog.comingSoonBadge}
       coverPriority={featured}

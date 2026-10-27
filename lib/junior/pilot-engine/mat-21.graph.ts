@@ -1,9 +1,9 @@
-import { JUNIOR_MAT_21, JUNIOR_MAT_21_SCENARIO } from "@/lib/junior/content/mat/21";
+import { JUNIOR_MAT_21, JUNIOR_MAT_21_SCENARIO } from "@/lib/junior/content/mat/19";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
 /**
- * `jr_06_mat-21` paralelkenar ve üçgen alanı.
+ * `jr_06_mat-19` paralelkenar ve üçgen alanı.
  * Taban 8, yükseklik 5, alan 40. Üçgen 20. Eğik kenar 6 yükseklik değildir.
  * İndirgeyici taban ile yüksekliği çarpmaz.
  */
@@ -11,12 +11,12 @@ const example = JUNIOR_MAT_21_SCENARIO.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "Tabanı 8", "showArea");
 
 export const JR_06_MAT_21_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
-  lessonKey: "jr_06_mat-21",
+  lessonKey: "jr_06_mat-19",
   title: JUNIOR_MAT_21_SCENARIO.title,
   listenText: JUNIOR_MAT_21.listenText,
   example,
   exampleMarked,
-  audioPath: "/media/junior/audio/jr_06_mat-21.mp3",
+  audioPath: "/media/junior/audio/jr_06_mat-19.mp3",
   layout: "area",
   stageTitle: "Alan",
   stageSubtitle: "Taban ve yükseklik",

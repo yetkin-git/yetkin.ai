@@ -26,7 +26,8 @@ export type StageLayout =
   | "angle"
   | "area"
   | "force"
-  | "speed";
+  | "speed"
+  | "concept-list";
 
 export type VisualKeyframeOp =
   | "SET_STAGE"
@@ -50,7 +51,8 @@ export type VisualKeyframeOp =
   | "SHOW_ANGLE"
   | "SHOW_AREA"
   | "SHOW_FORCE"
-  | "SHOW_SPEED";
+  | "SHOW_SPEED"
+  | "SHOW_CONCEPT_LIST";
 
 export type VisualKeyframe = {
   atMs: number;
@@ -81,6 +83,10 @@ export type ChapterItem = {
 export type TimelineJSON = {
   schemaVersion: "2.0.0";
   lessonKey: string;
+  production?: {
+    status: "locked";
+    readiness: "ready";
+  };
   title: string;
   grade: number;
   subject: string;

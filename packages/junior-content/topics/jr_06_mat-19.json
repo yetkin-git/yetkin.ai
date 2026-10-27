@@ -1,25 +1,25 @@
 {
   "key": "jr_06_mat-19",
-  "title": "Veri analizi",
-  "teaser": "Aritmetik ortalama, verilerin toplamının veri sayısına bölümüdür. Açıklık, en büyük veri ile en küçük verinin farkıdır. Kavramsal Anlayış, ortalamanın tek bir verinin yerine geçmediğini görmendir. İfade Gücü, 4, 6 ve 8 için hem ortalamayı hem açıklığı söylemektir.",
-  "welcome": "Merhaba sevgili çocuklar! Birlikte keşfedelim. Hiç bir hafta boyunca her gün attığın adım sayılarını toplayıp bir güne eşit dağıtmayı düşündün mı? İşte o dengeli sayı aritmetik ortalamadır; en yüksek ile en düşük arasındaki fark ise açıklıktır. Verileri bu iki önemli ölçüyle okuyup analiz edeceğiz.",
-  "concept": "Aritmetik ortalama, gruptaki tüm verileri toplayıp veri adedine bölerek bulunur; böylece her verinin eşit paylaştığı ortak bir değer elde edilir. Açıklık ise verilerin en büyüğü ile en küçüğü arasındaki farktır ve grubun ne kadar dağıldığını gösterir. Pratik kural: Aritmetik ortalama, gruptaki sayılardan biriyle aynı olmak zorunda değildir. Açıklık da ortalamadan tamamen farklı bir kavramdır.",
-  "example": "Bir öğrencinin üç deneme sınavındaki puanları 4, 6 ve 8 olsun. Toplayalım: 4 artı 6 artı 8, 18 eder. Veri sayısı 3 olduğuna göre ortalama 18 bölü 3'ten 6 çıkar. Bu grupta en büyük puan 8, en küçük puan 4'tür; açıklık 8 eksi 4'ten 4 bulunur. Başka bir grupta puanlar 5, 5 ve 8 olsaydı toplam yine 18, ortalama yine 6 olurdu; fakat açıklık 8 eksi 5'ten 3 olurdu. Gördüğün gibi ortalamalar aynı olsa bile açıklıklar farklı olabilir.",
-  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Tuzaklara Düşme! Ortalamayı bulmak için sadece en büyük ile en küçüğü toplayıp ikiye bölmek bu konunun en yaygın tuzağıdır! Grupta kaç veri varsa hepsini toplayıp veri sayısına bölmelisin. Ayrıca açıklık ile ortalamayı sakın karıştırma; 8 eksi 4 işlemi açıklıktır, ortalama ise 6'dır.",
-  "life": "Bunu haftalık su içme kaydında da kullanırsın. Üç günde 3, 5 ve 7 bardak içtiysen toplam 15 bardaktır. Ortalama 15 bölü 3, yani 5 bardaktır. En çok 7, en az 3 içmişsindir. Açıklık 4 bardaktır. Günler birbirine ne kadar benzediğini açıklık söyler. Tipik günü ise ortalama söyler.",
+  "title": "Paralelkenar ve üçgenin alanı",
+  "teaser": "Paralelkenarın alanı, taban ile yüksekliğin çarpımıdır. Üçgenin alanı, bu çarpımın yarısıdır. Kavramsal Anlayış, yüksekliğin tabana dik inen uzunluk olduğunu görmendir. İfade Gücü, aynı taban ve yükseklikte üçgenin neden paralelkenarın yarısı olduğunu söylemektir.",
+  "welcome": "Merhaba sevgili çocuklar! Hiç masadaki bir kâğıt paralelkenarı tam köşegeninden kesip iki eş üçgen elde ettin mi? Bu iki üçgeni üst üste koyduğunda alanın tam yarıya indiğini görürsün. Paralelkenarın ve üçgenin alanını hesaplamanın pratik yollarını keşfedeceğiz.",
+  "concept": "Alan, bir geometrik şeklin düzlemde kapladığı yüzey ölçüsüdür. Paralelkenarda taban seçilen alt kenardır; yükseklik ise o tabana karşı kenardan dik inen doğru parçasıdır. Yandaki eğik kenar asla yükseklik değildir! Paralelkenarın alanı, taban ile yüksekliğin çarpımıdır. Üçgenin alanı ise aynı taban ve aynı yüksekliğe sahip paralelkenarın tam yarısıdır. Pratik kural: Üçgende alanı bulurken taban ile yüksekliği çarpıp mutlaka ikiye bölersin; eğik kenarı ise yükseklik yerine asla kullanmazsın.",
+  "example": "Tabanı 8 santimetre, yüksekliği 5 santimetre olan bir paralelkenar düşünelim. Alanı 8 çarpı 5'ten 40 santimetrekaredir. Aynı tabana ve aynı yüksekliğe sahip bir üçgenin alanı ise 40'ın yarısı, yani 20 santimetrekaredir; bunu 8 çarpı 5 bölü 2 diye yazarız. Paralelkenarın eğik kenarı 6 santimetre olsa bile, 8 ile 6'yı çarpmak alanı vermez; çünkü 6 dik yükseklik değildir. Yükseklik daima dik inen 5 santimetredir.",
+  "warning": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Tuzaklara Düşme! Yandaki eğik kenarı yükseklik sanıp tabanla çarpmak en sık yapılan hatadır. Yükseklik mutlaka tabana dik inmelidir. Bir de üçgenin alanını hesaplarken ikiye bölmeyi her zaman hatırla; 8 çarpı 5 paralelkenarın alanıdır, üçgen için bu sonucu 2'ye bölmek şarttır.",
+  "life": "Bunu bir uçurtmada da kullanırsın. Uçurtmanın bir parçası üçgen ise tabanı ve dik yüksekliği ölçersin. Çarpımın yarısı, kâğıdın kapladığı alandır. Bahçedeki paralelkenar tarhın alanı ise taban çarpı yüksekliktir. Çiti eğik ölçersen tarhı olduğundan büyük sanırsın.",
   "recap": [
-    "Aritmetik ortalama, toplamın veri sayısına bölümüdür.",
-    "Açıklık, en büyük veri ile en küçük verinin farkıdır.",
-    "4, 6 ve 8 için ortalama 6, açıklık 4'tür. Aynı ortalama, farklı açıklık taşıyabilir."
+    "Paralelkenarın alanı taban çarpı yüksekliktir.",
+    "Üçgenin alanı, aynı taban ve yükseklikteki paralelkenarın yarısıdır.",
+    "Taban 8 ve yükseklik 5 ise paralelkenar 40, üçgen 20 santimetrekaredir."
   ],
-  "conceptSeal": "Ortalama tipik değeri, açıklık yayılmayı söyler.",
-  "voiceSeal": "Toplamı neden böldüğünü ve açıklığın neden fark olduğunu ayrı söylersin.",
+  "conceptSeal": "Yükseklik, tabana dik inen uzunluktur.",
+  "voiceSeal": "Üçgende neden ikiye böldüğünü ve eğik kenarı neden kullanmadığını söylersin.",
   "outcomes": [
-    "Ortalama, toplam bölü veri sayısıdır.",
-    "Açıklık, en büyük ile en küçüğün farkıdır.",
-    "Ortalama listede görünmeyen bir sayı da olabilir."
+    "Paralelkenarın alanı taban çarpı yüksekliktir.",
+    "Üçgenin alanı bu çarpımın yarısıdır.",
+    "Eğik kenar, yükseklik değildir."
   ],
-  "scene": "chart",
+  "scene": "area",
   "hint": "trap",
-  "parentNote": "Çocuğunuz 4, 6 ve 8 puanın ortalamasını 6, açıklığını 4 diye hesaplar. Ortalama ile açıklık aynı işlem değildir. Evde üç günlük bardak sayısı yeter."
+  "parentNote": "Çocuğunuz tabanı 8, yüksekliği 5 olan paralelkenarın alanını 40, aynı üçgenin alanını 20 santimetrekare diye anlatır. Eğik kenar yükseklik yerine geçmez."
 }

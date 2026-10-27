@@ -23,7 +23,20 @@ export const topicCalendarSchema = z.object({
 
 export type TopicCalendar = z.infer<typeof topicCalendarSchema>;
 
-const lessonKeySchema = z.string().regex(/^jr_06_(?:mat|fen|turkce|ing_main|sosyal)-\d+$/u);
+/**
+ * Çekirdek ders anahtarı. `jr_06_ing_main` seçmeli `jr_06_ing` ile birleşmez.
+ * Seçmeli anahtar bu desene girmez; MEB slug listesi de onu taşımaz.
+ */
+export const JUNIOR_CORE_LESSON_KEY_PATTERN = /^jr_06_(?:mat|fen|turkce|ing_main|sosyal)-\d+$/u;
+
+/** 6. sınıf seçmeli ders anahtarı: `jr_06_alm-1`, `jr_06_fra-1` ve kardeşleri. */
+export const JUNIOR_ELECTIVE_LESSON_KEY_PATTERN = /^jr_06_(?:ing|alm|fra|siyer|kod|arp)-\d+$/u;
+
+/** Konu ve quiz dosyasının kabul ettiği anahtar. Çekirdek ve seçmeli birlikte. */
+export const JUNIOR_LESSON_KEY_PATTERN =
+  /^jr_06_(?:mat|fen|turkce|ing_main|sosyal|ing|alm|fra|siyer|kod|arp)-\d+$/u;
+
+const lessonKeySchema = z.string().regex(JUNIOR_LESSON_KEY_PATTERN);
 
 const juniorActivityMatchItemSchema = z.object({
   id: z.string().min(1),
@@ -126,7 +139,7 @@ export const juniorQuizFileSchema = z.object({
     z.tuple([z.string().min(1), z.string().min(1)]),
     z.tuple([z.string().min(1), z.string().min(1), z.string().min(1)]),
   ]),
-  questions: z.tuple([juniorQuizQuestionSchema, juniorQuizQuestionSchema, juniorQuizQuestionSchema]),
+  questions: z.array(juniorQuizQuestionSchema).min(3),
 });
 
 export type JuniorQuizFile = z.infer<typeof juniorQuizFileSchema>;

@@ -11,7 +11,7 @@ import {
   serializeAcademyExamQuestions,
 } from "@/lib/academy/exam";
 import { orderAcademyCatalogByCurriculum } from "@/lib/academy/catalog-filter";
-import { filterAcademyGrowthCatalog } from "@/lib/academy/pilot-sku";
+import { filterAcademyVitrineCatalog } from "@/lib/academy/pilot-sku";
 import {
   academyExamSittingMayConsume,
   parseAcademyExamSittingItems,
@@ -279,7 +279,7 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
         where: { isPublished: true },
       });
       return orderAcademyCatalogByCurriculum(
-        filterAcademyGrowthCatalog(rows.map(toCourse)),
+        filterAcademyVitrineCatalog(rows.map(toCourse)),
       );
     },
     async insertPurchase(purchase) {

@@ -14,13 +14,35 @@
 
 Bir eğitim klasörü açıldığında veya revizyona girildiğinde, **HERHANGİ BİR API İSTEĞİ (TTS, Görsel, LLM) ATILMADAN ÖNCE** aşağıdaki mimari şartların ücretsiz (zero-cost) olarak kodlanması ZORUNLUDUR:
 
-1. **Modüler Kod Tamlığı ve UTF-8 Standartı:**
-   * Eğitimin bulunduğu `lib/academy/curricula/[slug]/` dizini altında ders bazlı modüler kod yapısı (`section_1.ts`, `section_2.ts` ... `section_N.ts`), `index.ts`, `sections.ts`, `spoken-body.ts` ve `cinema-slides.ts` dosyaları **UTF-8 (BOM'suz) formatında eksiksiz kodlanmalıdır**.
-   * Kod mimarisi kurulmadan, `npm run verify:prebuild` ve TypeScript derlemesi geçmeden **HİÇBİR API FIRINLAMA SCRIPT'İ ÇALIŞTIRILAMAZ**.
+### 1.1 Konuşma metninin fırın yolu
 
-2. **Master-Admin Bütçe Mandalı:**
-   * Agent, dry-run (simülasyon) modunda mimariyi doğrulamadan ve Super Admin'den açıkça **"API Harcama Onayı"** almadan tek bir cent'lik API isteği başlatamaz.
-   * `402 RESOURCE_EXHAUSTED` veya Kota Hatası alındığında agent duracaktır. "Sistemi test edeyim" veya "Önbellek bypass edeyim" bahanesiyle dairesel API çağrısı yapılması KESİNLİKLE YASAKTIR.
+Konuşma metninin tek yazarlık evi `lib/academy/spoken-scripts/<ders>.md` dosyasıdır. Fırın
+(`scripts/generate-academy-lesson-audio.ts`) bu markdown'ı `loadAcademySpokenScriptMarkdownParagraphs`
+ile okur; markdown yoksa `lib/academy/lesson-cues/<ders>.json` paragraflarına düşer. İki yol da
+`lib/academy/spoken-scripts/index.ts` içindedir.
+
+Dersin katalog/oynatıcı kimliği `lib/academy/curricula/lesson-index.ts`, sahne ve slayt verisi
+`lib/academy/curricula/<kurs>/cinema-slides.ts` içindedir. `lib/academy/curricula/<kurs>/` altındaki
+`section_N.ts` dosyaları **sınav yolu ve ders gövdesi** içindir (compact makale + mühürlü `spokenScript`);
+bunlar konuşma fırınının kaynağı değildir.
+
+> **Ölçülmüş gerçek (26 Ekim 2026):** `lib/academy/curricula/**` altındaki 77 dosyanın 77'si
+> canlı kod yolundan erişilebilir. 10 dosya yalnız test ağacından erişilir; bunlar bilinçli olarak
+> ayrı duran `phase2-drafts/parent_teacher_ai` ada dosyalarıdır (ürün yolu değildir, test bekçisi vardır).
+> Bu dizin **ölü değildir**; "44 ölü dosya" iddiası ölçümle çürütülmüştür.
+
+**Zorunlu sıra:**
+
+1. Konuşma metni `lib/academy/spoken-scripts/<ders>.md` içine yazılır (UTF-8, BOM'suz).
+2. Ders gövdesi ve slaytlar `lib/academy/curricula/<kurs>/` altında tamamlanır.
+3. `npx tsc --noEmit` ve `npm run verify:prebuild` **sıfır hatayla** geçer.
+
+Bu üç adım bitmeden **HİÇBİR API FIRINLAMA SCRIPT'İ ÇALIŞTIRILAMAZ**.
+
+### 1.2 Master-Admin bütçe mandalı
+
+- Agent, dry-run (simülasyon) modunda mimariyi doğrulamadan ve Super Admin'den açıkça **"API Harcama Onayı"** almadan tek bir cent'lik API isteği başlatamaz.
+- `402 RESOURCE_EXHAUSTED` veya kota hatası alındığında agent duracaktır. "Sistemi test edeyim" veya "Önbellek bypass edeyim" bahanesiyle dairesel API çağrısı yapılması KESİNLİKLE YASAKTIR.
 
 ---
 
@@ -67,7 +89,8 @@ Eğitim hazırlama süreci 6 sıralı aşamadan oluşur. Bir aşama bitmeden, te
 └───────────────────────────────────────────────────────────────────────────┘
 
 ### 1. AŞAMA 0: MİMARİ KOD KONTROLÜ (Sıfır API / Zero-Cost)
-- `lib/academy/curricula/[slug]/` dizininde `section_1.ts` - `section_N.ts`, `index.ts`, `sections.ts`, `spoken-body.ts` ve `cinema-slides.ts` modülleri açılır.
+- Konuşma metni `lib/academy/spoken-scripts/<ders>.md` içine yazılır (Bölüm 1.1).
+- Ders gövdesi, sahne ve slaytlar `lib/academy/curricula/<kurs>/` altında tamamlanır.
 - Tüm dosyalar kesin olarak **UTF-8 (BOM'suz)** biçiminde kaydedilir.
 - `npx tsc --noEmit` ve `npm run verify:prebuild` komutları çalıştırılır. SIFIR HATA alınmadan API çağrılamaz.
 
@@ -76,9 +99,9 @@ Eğitim hazırlama süreci 6 sıralı aşamadan oluşur. Bir aşama bitmeden, te
   - **Sert Tabanlar (Fail-Closed):** Eğitimin toplam ders sayısı **EN AZ 6 BÖLÜM** (`ACADEMY_AI_LESSON_COUNT_MIN = 6`), her dersin konuşma metni (`spokenScript`) **EN AZ 600 KELİME** (`ACADEMY_AI_LESSON_SPOKEN_WORD_MIN = 600`) olmak zorundadır (Ders başı minimum 5 dakikalık anlatım).
   - **1. Ders Oryantasyon Standardı:** 1. dersin açılışı selamlamanın ardından 3 soruyla yapılır: *1. Neredeyiz? 2. Bu Seride Ne Yapacağız? 3. Bugün Elimize Ne Geçecek?*
   - **Ders Bağlantı Köprüleri:** 2. dersten itibaren robotik özetler ("Geçen derste...") yasaktır. Önceki dersin pratik kazanımı insani bir cümleyle hatırlatılarak doğrudan konuya girilir.
-- **Aşama 1-B (Metin Denetimi & İnceleme - Cursor / Grok 4.7):**
-  - Ajans sloganları ("Masterclass", "mühürlü", "Tezgâhın bereketli olsun"), yapay şovlar ve robotik açılışlar taranıp temizlenir.
-  - Veda cümleleri insani standarta çekilir (*"Zihnine sağlık. Bir sonraki derste görüşmek üzere, kendine iyi bak."*).
+- **Aşama 1-B (Metin Denetimi & İnceleme - Cursor / Grok 4.7 — Tek Açık Dil İlkesi):**
+  - **Ajans Sloganı / Aforizma Yasağı (`ACADEMY_LESSON_HYPERBOLE_PHRASES`):** Yapay pazarlama şovları ("muazzam dönüşüm", "saniyeler içinde", "mucizevi yöntem", "devrim niteliğinde", "büyü burada başlıyor"), robotik açılışlar ve ders metni içindeki "Masterclass / mühürlü" gibi vitrin etiketleri taranıp temizlenir.
+  - **Bağlama Uygun Kapanış Standardı (`PEDAGOJI.md` §A.2.2 ile Hizalı):** Kapanış cümlesi kursun sahasına bağlanır; tek kalıp her derse zorla dayatılmaz. Genel ve ofis eğitimlerinde insani veda (*"Zihnine sağlık. Bir sonraki derste görüşmek üzere, kendine iyi bak."*) kullanılır; usta-çırak tezgâh kapanışı (*"Tezgâhın bereketli olsun. Satışın hayırlı gelsin."* — `ACADEMY_LESSON_BENCH_CLOSING`) yalnızca `ACADEMY_LESSON_TEXT_SYSTEM_PROMPT` kapsamındaki tezgâh/satış senaryolarında kullanılır, bağlam dışı ofis derslerine slogan gibi yapıştırılmaz.
   - Ekran metinlerinde sayılar rakamla, sese gidecek metinlerde fonetik okunuşla (`SEO` -> `Seo`, `KVKK` -> `Ka Ve Ka Ka`) yazılır.
 
 ### 3. AŞAMA 2: SES FIRINLAMA (VOICE_TTS)
@@ -96,13 +119,13 @@ Eğitim hazırlama süreci 6 sıralı aşamadan oluşur. Bir aşama bitmeden, te
 - **Fon Müziği:** `lyria-3.5` ile vokalsiz, 44.1 kHz stereo ambient müzik yatağı (`.bed.mp3`) eklenir.
 
 ### 6. AŞAMA 5: FİZİKİ DİSK MÜHRÜ VE SATIŞ MANDALI
-- 5 medya katmanı diskte fiziken durmadan satış kapısı açılmaz.
+- Tam stüdyo mührü (`--seal` / `assertAcademyProductionSeal`) 5 medya katmanı diskte fiziken durmadan basılmaz; canlı satış kapısı (`readAcademyVitrineSaleGates` — `lib/academy/sale-gate-board.ts`; saf karar `lib/kernel/admin/sale-gate.ts`, `ANAYASA.md` B3) ise yayın, aktif fiyat ve sınav yolundaki her derste konuşma metni + mühürlü ses (`academyCourseSaleOpen` → `academyCourseVoiceTextSealed`) doğrulandığında açılır.
 
 ---
 
 ## BÖLÜM 4 — HARD FAIL-CLOSED (SIRTINI DİSKE DAYAYAN KAPI)
 
-Sistem kâğıt üstündeki beyanlara veya agent'ın "hallettim" raporlarına inanmaz. Satış kapısı (`academyCourseSaleOpen`) ve üretim mührü (`assertAcademyProductionSeal`) ancak ve ancak **5 MEDYA KATMANI DİSKTE FİZİKSEL OLARAK MEVCUTSA** açılır:
+Sistem kâğıt üstündeki beyanlara veya agent'ın "hallettim" raporlarına inanmaz. Canlı satış kapısı (`readAcademyVitrineSaleGates` — `lib/academy/sale-gate-board.ts`; saf karar `lib/kernel/admin/sale-gate.ts` ve `academyCourseSaleOpen` → `academyCourseVoiceTextSealed`) Anayasa B3 gereği yayın, aktif fiyat ve **Konuşma Metni + Mühürlü Ses Dosyası** katmanlarını zorunlu tutar; tam stüdyo üretim mührü (`assertAcademyProductionSeal` / `academyCourseProductionDiskSealed` — "Tam mühür") ise ancak ve ancak aşağıdaki **5 MEDYA KATMANI DİSKTE FİZİKSEL OLARAK MEVCUTSA** basılır:
 
 1. **Konuşma Metni** (`.ts` / `spokenScript`)
 2. **Mühürlü Ses Dosyası** (`.mp3`)

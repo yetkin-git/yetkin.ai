@@ -134,12 +134,13 @@ describe("akademi müfredat oynatıcısı", () => {
         { courseId: course.id, userId: "citizen-1", email: "vatandas@yetkin.rail" },
       ),
     ).rejects.toBeInstanceOf(ForbiddenError);
-    await expect(
-      loadAcademyCurriculumPlayer(
-        { academy },
-        { courseId: course.id, userId: "admin-1", email: "yapinet360@gmail.com" },
-      ),
-    ).rejects.toBeInstanceOf(ForbiddenError);
+    // Yerleşik kutu kurtarması: token `email_confirmed_at` taşımıyorsa bile
+    // e-posta + SUPER_ADMIN_USER_ID eşleşmesi kutuyu açar (bkz. SUPER_ADMIN_RUNBOOK S3).
+    const recovered = await loadAcademyCurriculumPlayer(
+      { academy },
+      { courseId: course.id, userId: "admin-1", email: "yapinet360@gmail.com" },
+    );
+    expect(recovered.lessons).toHaveLength(8);
     const player = await loadAcademyCurriculumPlayer(
       { academy },
       {

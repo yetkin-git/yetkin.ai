@@ -1,0 +1,2932 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_turkce-17",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Büyük harfler ve sayıların yazımı",
+  "grade": 6,
+  "subject": "Türkçe",
+  "teacher": {
+    "name": "Elif",
+    "voice": "Aoede",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_turkce-17.mp3",
+    "durationMs": 403160,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 93870
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 93870,
+      "endMs": 347710
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 347710,
+      "endMs": 403160
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 3590,
+      "pauseAfterMs": 680,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 250,
+          "endMs": 1050
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1650,
+          "endMs": 1810
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2080,
+          "endMs": 2910
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Büyük harfler ve sayıların yazımı",
+            "subtitle": "Türkçe",
+            "ruleBadges": [],
+            "echoPrompt": "Bir cümlede büyük harfi ve sayının yazıyla mı rakamla mı duracağını söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Cümleler ve özel adlar daima büyük harfle başlar."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Belirli bir tarih bildiren ay ve gün adları büyük, genel olanlar küçük yazılır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Metin içindeki sayılar yazıyla; tarih, saat ve parasal tutarlar rakamla yazılır."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 3590,
+      "endMs": 8730,
+      "pauseAfterMs": 330,
+      "text": "Ben Türkçe öğretmenin Elif.",
+      "markedText": "Ben Türkçe öğretmenin Elif.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 3590,
+          "endMs": 3840
+        },
+        {
+          "word": "Türkçe",
+          "startMs": 4490,
+          "endMs": 5180
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 5290,
+          "endMs": 7410
+        },
+        {
+          "word": "Elif.",
+          "startMs": 8000,
+          "endMs": 8400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8730,
+      "endMs": 20270,
+      "pauseAfterMs": 880,
+      "text": "Yazılarımızın intizamını ve saygınlığını sağlayan yazım kurallarının dünyasına giriyoruz.",
+      "markedText": "Yazılarımızın intizamını ve saygınlığını sağlayan yazım kurallarının dünyasına giriyoruz.",
+      "words": [
+        {
+          "word": "Yazılarımızın",
+          "startMs": 8730,
+          "endMs": 10310
+        },
+        {
+          "word": "intizamını",
+          "startMs": 10450,
+          "endMs": 11570
+        },
+        {
+          "word": "ve",
+          "startMs": 11880,
+          "endMs": 12000
+        },
+        {
+          "word": "saygınlığını",
+          "startMs": 12050,
+          "endMs": 13910
+        },
+        {
+          "word": "sağlayan",
+          "startMs": 14770,
+          "endMs": 15400
+        },
+        {
+          "word": "yazım",
+          "startMs": 15540,
+          "endMs": 15870
+        },
+        {
+          "word": "kurallarının",
+          "startMs": 15930,
+          "endMs": 17160
+        },
+        {
+          "word": "dünyasına",
+          "startMs": 17310,
+          "endMs": 18100
+        },
+        {
+          "word": "giriyoruz.",
+          "startMs": 18100,
+          "endMs": 19390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 20270,
+      "endMs": 33480,
+      "pauseAfterMs": 980,
+      "text": "Hiç bir metinde kendi adını büyük harfle yazmanın sana verdiği o özel değeri hissettin mi?",
+      "markedText": "Hiç bir metinde kendi adını büyük harfle yazmanın sana verdiği o özel değeri hissettin mi?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 20270,
+          "endMs": 20440
+        },
+        {
+          "word": "bir",
+          "startMs": 20440,
+          "endMs": 21200
+        },
+        {
+          "word": "metinde",
+          "startMs": 21490,
+          "endMs": 22150
+        },
+        {
+          "word": "kendi",
+          "startMs": 22390,
+          "endMs": 23250
+        },
+        {
+          "word": "adını",
+          "startMs": 23600,
+          "endMs": 24320
+        },
+        {
+          "word": "büyük",
+          "startMs": 24640,
+          "endMs": 25250
+        },
+        {
+          "word": "harfle",
+          "startMs": 25960,
+          "endMs": 26700
+        },
+        {
+          "word": "yazmanın",
+          "startMs": 27030,
+          "endMs": 28020
+        },
+        {
+          "word": "sana",
+          "startMs": 28020,
+          "endMs": 28290
+        },
+        {
+          "word": "verdiği",
+          "startMs": 28420,
+          "endMs": 29070
+        },
+        {
+          "word": "o",
+          "startMs": 29460,
+          "endMs": 29530
+        },
+        {
+          "word": "özel",
+          "startMs": 29640,
+          "endMs": 30190
+        },
+        {
+          "word": "değeri",
+          "startMs": 30340,
+          "endMs": 30970
+        },
+        {
+          "word": "hissettin",
+          "startMs": 31360,
+          "endMs": 31860
+        },
+        {
+          "word": "mi?",
+          "startMs": 31930,
+          "endMs": 32500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 33480,
+      "endMs": 42610,
+      "pauseAfterMs": 320,
+      "text": "Cümlelerin başı, özel adlar ve sayıların yazımı dilimizin nezaket kurallarıdır.",
+      "markedText": "Cümlelerin başı, özel adlar ve sayıların yazımı dilimizin nezaket kurallarıdır.",
+      "words": [
+        {
+          "word": "Cümlelerin",
+          "startMs": 33480,
+          "endMs": 33950
+        },
+        {
+          "word": "başı,",
+          "startMs": 34120,
+          "endMs": 34220
+        },
+        {
+          "word": "özel",
+          "startMs": 34580,
+          "endMs": 34930
+        },
+        {
+          "word": "adlar",
+          "startMs": 35150,
+          "endMs": 35700
+        },
+        {
+          "word": "ve",
+          "startMs": 36300,
+          "endMs": 36500
+        },
+        {
+          "word": "sayıların",
+          "startMs": 36940,
+          "endMs": 37660
+        },
+        {
+          "word": "yazımı",
+          "startMs": 37740,
+          "endMs": 38420
+        },
+        {
+          "word": "dilimizin",
+          "startMs": 39300,
+          "endMs": 40450
+        },
+        {
+          "word": "nezaket",
+          "startMs": 40760,
+          "endMs": 41220
+        },
+        {
+          "word": "kurallarıdır.",
+          "startMs": 41400,
+          "endMs": 42290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 42610,
+      "endMs": 52700,
+      "pauseAfterMs": 650,
+      "text": "Büyük harflerin nerelerde parıldadığını ve sayıların nasıl doğru yazıldığını adım adım keşfedeceğiz.",
+      "markedText": "Büyük harflerin nerelerde parıldadığını ve sayıların nasıl doğru yazıldığını adım adım keşfedeceğiz.",
+      "words": [
+        {
+          "word": "Büyük",
+          "startMs": 42610,
+          "endMs": 43090
+        },
+        {
+          "word": "harflerin",
+          "startMs": 43480,
+          "endMs": 43790
+        },
+        {
+          "word": "nerelerde",
+          "startMs": 43910,
+          "endMs": 44200
+        },
+        {
+          "word": "parıldadığını",
+          "startMs": 44300,
+          "endMs": 45190
+        },
+        {
+          "word": "ve",
+          "startMs": 45450,
+          "endMs": 45510
+        },
+        {
+          "word": "sayıların",
+          "startMs": 45610,
+          "endMs": 46120
+        },
+        {
+          "word": "nasıl",
+          "startMs": 46340,
+          "endMs": 46920
+        },
+        {
+          "word": "doğru",
+          "startMs": 47460,
+          "endMs": 47960
+        },
+        {
+          "word": "yazıldığını",
+          "startMs": 48300,
+          "endMs": 48810
+        },
+        {
+          "word": "adım",
+          "startMs": 49130,
+          "endMs": 49630
+        },
+        {
+          "word": "adım",
+          "startMs": 50010,
+          "endMs": 50410
+        },
+        {
+          "word": "keşfedeceğiz.",
+          "startMs": 50640,
+          "endMs": 52050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 52700,
+      "endMs": 62900,
+      "pauseAfterMs": 750,
+      "text": "Defterine tarih atarken günü ve ayı doğru yazmak ödevini pırıl pırıl gösterir.",
+      "markedText": "Defterine tarih atarken günü ve ayı doğru yazmak ödevini pırıl pırıl gösterir.",
+      "words": [
+        {
+          "word": "Defterine",
+          "startMs": 52700,
+          "endMs": 53950
+        },
+        {
+          "word": "tarih",
+          "startMs": 54030,
+          "endMs": 54450
+        },
+        {
+          "word": "atarken",
+          "startMs": 54530,
+          "endMs": 55140
+        },
+        {
+          "word": "günü",
+          "startMs": 55510,
+          "endMs": 55730
+        },
+        {
+          "word": "ve",
+          "startMs": 56060,
+          "endMs": 56410
+        },
+        {
+          "word": "ayı",
+          "startMs": 56700,
+          "endMs": 56970
+        },
+        {
+          "word": "doğru",
+          "startMs": 57160,
+          "endMs": 57810
+        },
+        {
+          "word": "yazmak",
+          "startMs": 57980,
+          "endMs": 58790
+        },
+        {
+          "word": "ödevini",
+          "startMs": 59290,
+          "endMs": 59830
+        },
+        {
+          "word": "pırıl",
+          "startMs": 59830,
+          "endMs": 60110
+        },
+        {
+          "word": "pırıl",
+          "startMs": 60450,
+          "endMs": 61010
+        },
+        {
+          "word": "gösterir.",
+          "startMs": 61330,
+          "endMs": 62150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 62900,
+      "endMs": 78940,
+      "pauseAfterMs": 620,
+      "text": "Arkadaşına mektup yazarken adını büyük harfle başlatmak ona duyduğun saygıyı yansıtır.",
+      "markedText": "Arkadaşına mektup yazarken adını büyük harfle başlatmak ona duyduğun saygıyı yansıtır.",
+      "words": [
+        {
+          "word": "Arkadaşına",
+          "startMs": 62900,
+          "endMs": 64420
+        },
+        {
+          "word": "mektup",
+          "startMs": 64760,
+          "endMs": 65430
+        },
+        {
+          "word": "yazarken",
+          "startMs": 65520,
+          "endMs": 66240
+        },
+        {
+          "word": "adını",
+          "startMs": 68480,
+          "endMs": 69230
+        },
+        {
+          "word": "büyük",
+          "startMs": 69350,
+          "endMs": 70190
+        },
+        {
+          "word": "harfle",
+          "startMs": 70480,
+          "endMs": 71350
+        },
+        {
+          "word": "başlatmak",
+          "startMs": 72430,
+          "endMs": 73590
+        },
+        {
+          "word": "ona",
+          "startMs": 73940,
+          "endMs": 74380
+        },
+        {
+          "word": "duyduğun",
+          "startMs": 74670,
+          "endMs": 75320
+        },
+        {
+          "word": "saygıyı",
+          "startMs": 75660,
+          "endMs": 76980
+        },
+        {
+          "word": "yansıtır.",
+          "startMs": 77280,
+          "endMs": 78320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 78940,
+      "endMs": 89390,
+      "pauseAfterMs": 1070,
+      "text": "Markette üç kilo elma yazarken yazıyla, fişteki tutarı okurken rakamla karşılaşırsın.",
+      "markedText": "Markette üç kilo elma yazarken yazıyla, fişteki tutarı okurken rakamla karşılaşırsın.",
+      "words": [
+        {
+          "word": "Markette",
+          "startMs": 78940,
+          "endMs": 79650
+        },
+        {
+          "word": "üç",
+          "startMs": 79760,
+          "endMs": 79820
+        },
+        {
+          "word": "kilo",
+          "startMs": 79940,
+          "endMs": 80150
+        },
+        {
+          "word": "elma",
+          "startMs": 80290,
+          "endMs": 80670
+        },
+        {
+          "word": "yazarken",
+          "startMs": 80780,
+          "endMs": 81230
+        },
+        {
+          "word": "yazıyla,",
+          "startMs": 81340,
+          "endMs": 82370
+        },
+        {
+          "word": "fişteki",
+          "startMs": 82910,
+          "endMs": 83560
+        },
+        {
+          "word": "tutarı",
+          "startMs": 83810,
+          "endMs": 84210
+        },
+        {
+          "word": "okurken",
+          "startMs": 84990,
+          "endMs": 85360
+        },
+        {
+          "word": "rakamla",
+          "startMs": 85710,
+          "endMs": 86480
+        },
+        {
+          "word": "karşılaşırsın.",
+          "startMs": 86560,
+          "endMs": 88320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 89390,
+      "endMs": 93870,
+      "pauseAfterMs": 300,
+      "text": "Kurallara uymak yazına güven katar.",
+      "markedText": "Kurallara uymak yazına güven katar.",
+      "words": [
+        {
+          "word": "Kurallara",
+          "startMs": 89390,
+          "endMs": 90330
+        },
+        {
+          "word": "uymak",
+          "startMs": 90610,
+          "endMs": 90960
+        },
+        {
+          "word": "yazına",
+          "startMs": 91480,
+          "endMs": 92250
+        },
+        {
+          "word": "güven",
+          "startMs": 92380,
+          "endMs": 92870
+        },
+        {
+          "word": "katar.",
+          "startMs": 92950,
+          "endMs": 93570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 93870,
+      "endMs": 100040,
+      "pauseAfterMs": 1440,
+      "text": "Her cümle mutlaka büyük harfle başlar.",
+      "markedText": "Her cümle mutlaka büyük harfle başlar.",
+      "words": [
+        {
+          "word": "Her",
+          "startMs": 93870,
+          "endMs": 94290
+        },
+        {
+          "word": "cümle",
+          "startMs": 94360,
+          "endMs": 95030
+        },
+        {
+          "word": "mutlaka",
+          "startMs": 95030,
+          "endMs": 95730
+        },
+        {
+          "word": "büyük",
+          "startMs": 95870,
+          "endMs": 96540
+        },
+        {
+          "word": "harfle",
+          "startMs": 96910,
+          "endMs": 97460
+        },
+        {
+          "word": "başlar.",
+          "startMs": 97820,
+          "endMs": 98600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 100040,
+      "endMs": 123370,
+      "pauseAfterMs": 320,
+      "text": "Kişi ad ve soyadları, şehir, ülke, dağ, nehir, dil ve kurum adları özel addır ve her zaman büyük harfle yazılır; Ayşe, Türkiye, Ankara, Türkçe ve Türk Dil Kurumu böyledir.",
+      "markedText": "Kişi ad ve soyadları, şehir, ülke, dağ, nehir, dil ve kurum adları özel addır ve her zaman büyük harfle yazılır; Ayşe, Türkiye, Ankara, Türkçe ve Türk Dil Kurumu böyledir.",
+      "words": [
+        {
+          "word": "Kişi",
+          "startMs": 100040,
+          "endMs": 100470
+        },
+        {
+          "word": "ad",
+          "startMs": 100470,
+          "endMs": 100590
+        },
+        {
+          "word": "ve",
+          "startMs": 100670,
+          "endMs": 100900
+        },
+        {
+          "word": "soyadları,",
+          "startMs": 101070,
+          "endMs": 102130
+        },
+        {
+          "word": "şehir,",
+          "startMs": 103320,
+          "endMs": 103890
+        },
+        {
+          "word": "ülke,",
+          "startMs": 103960,
+          "endMs": 104510
+        },
+        {
+          "word": "dağ,",
+          "startMs": 104510,
+          "endMs": 104970
+        },
+        {
+          "word": "nehir,",
+          "startMs": 105950,
+          "endMs": 106530
+        },
+        {
+          "word": "dil",
+          "startMs": 106590,
+          "endMs": 106830
+        },
+        {
+          "word": "ve",
+          "startMs": 106830,
+          "endMs": 106920
+        },
+        {
+          "word": "kurum",
+          "startMs": 107040,
+          "endMs": 107540
+        },
+        {
+          "word": "adları",
+          "startMs": 107890,
+          "endMs": 108490
+        },
+        {
+          "word": "özel",
+          "startMs": 108840,
+          "endMs": 109230
+        },
+        {
+          "word": "addır",
+          "startMs": 109430,
+          "endMs": 109890
+        },
+        {
+          "word": "ve",
+          "startMs": 109950,
+          "endMs": 110140
+        },
+        {
+          "word": "her",
+          "startMs": 110220,
+          "endMs": 110610
+        },
+        {
+          "word": "zaman",
+          "startMs": 110610,
+          "endMs": 111200
+        },
+        {
+          "word": "büyük",
+          "startMs": 111460,
+          "endMs": 112090
+        },
+        {
+          "word": "harfle",
+          "startMs": 112600,
+          "endMs": 112910
+        },
+        {
+          "word": "yazılır;",
+          "startMs": 113210,
+          "endMs": 114650
+        },
+        {
+          "word": "Ayşe,",
+          "startMs": 115680,
+          "endMs": 116090
+        },
+        {
+          "word": "Türkiye,",
+          "startMs": 116180,
+          "endMs": 117230
+        },
+        {
+          "word": "Ankara,",
+          "startMs": 117690,
+          "endMs": 118860
+        },
+        {
+          "word": "Türkçe",
+          "startMs": 119900,
+          "endMs": 120620
+        },
+        {
+          "word": "ve",
+          "startMs": 120700,
+          "endMs": 120850
+        },
+        {
+          "word": "Türk",
+          "startMs": 120940,
+          "endMs": 121200
+        },
+        {
+          "word": "Dil",
+          "startMs": 121240,
+          "endMs": 121520
+        },
+        {
+          "word": "Kurumu",
+          "startMs": 121700,
+          "endMs": 122320
+        },
+        {
+          "word": "böyledir.",
+          "startMs": 122430,
+          "endMs": 123050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 123370,
+      "endMs": 144190,
+      "pauseAfterMs": 660,
+      "text": "Ancak kurum ve özel adların arasında geçen ve, ile, ya da gibi bağlaçlar küçük harfle kalır; Leyla ile Mecnun örneğinde ile küçüktür.",
+      "markedText": "Ancak kurum ve özel adların arasında geçen ve, ile, ya da gibi bağlaçlar küçük harfle kalır; Leyla ile Mecnun örneğinde ile küçüktür.",
+      "words": [
+        {
+          "word": "Ancak",
+          "startMs": 123370,
+          "endMs": 124390
+        },
+        {
+          "word": "kurum",
+          "startMs": 125080,
+          "endMs": 125820
+        },
+        {
+          "word": "ve",
+          "startMs": 126060,
+          "endMs": 126770
+        },
+        {
+          "word": "özel",
+          "startMs": 127310,
+          "endMs": 127560
+        },
+        {
+          "word": "adların",
+          "startMs": 127890,
+          "endMs": 128870
+        },
+        {
+          "word": "arasında",
+          "startMs": 129050,
+          "endMs": 130280
+        },
+        {
+          "word": "geçen",
+          "startMs": 130570,
+          "endMs": 130870
+        },
+        {
+          "word": "ve,",
+          "startMs": 130940,
+          "endMs": 131760
+        },
+        {
+          "word": "ile,",
+          "startMs": 132890,
+          "endMs": 133420
+        },
+        {
+          "word": "ya",
+          "startMs": 133420,
+          "endMs": 133640
+        },
+        {
+          "word": "da",
+          "startMs": 133720,
+          "endMs": 134000
+        },
+        {
+          "word": "gibi",
+          "startMs": 134280,
+          "endMs": 134540
+        },
+        {
+          "word": "bağlaçlar",
+          "startMs": 134810,
+          "endMs": 135570
+        },
+        {
+          "word": "küçük",
+          "startMs": 135960,
+          "endMs": 136260
+        },
+        {
+          "word": "harfle",
+          "startMs": 136350,
+          "endMs": 136960
+        },
+        {
+          "word": "kalır;",
+          "startMs": 137330,
+          "endMs": 137950
+        },
+        {
+          "word": "Leyla",
+          "startMs": 138280,
+          "endMs": 138570
+        },
+        {
+          "word": "ile",
+          "startMs": 138570,
+          "endMs": 139110
+        },
+        {
+          "word": "Mecnun",
+          "startMs": 140220,
+          "endMs": 140920
+        },
+        {
+          "word": "örneğinde",
+          "startMs": 141540,
+          "endMs": 142460
+        },
+        {
+          "word": "ile",
+          "startMs": 142550,
+          "endMs": 142830
+        },
+        {
+          "word": "küçüktür.",
+          "startMs": 142900,
+          "endMs": 143530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 144190,
+      "endMs": 164560,
+      "pauseAfterMs": 360,
+      "text": "Belirli bir tarih bildirmeyen ay ve gün adları cümle ortasında küçük harfle yazılır; okullar eylülde açılır cümlesinde eylül küçüktür.",
+      "markedText": "Belirli bir tarih bildirmeyen ay ve gün adları cümle ortasında küçük harfle yazılır; okullar eylülde açılır cümlesinde eylül küçüktür.",
+      "words": [
+        {
+          "word": "Belirli",
+          "startMs": 144190,
+          "endMs": 145180
+        },
+        {
+          "word": "bir",
+          "startMs": 145330,
+          "endMs": 145820
+        },
+        {
+          "word": "tarih",
+          "startMs": 145930,
+          "endMs": 146790
+        },
+        {
+          "word": "bildirmeyen",
+          "startMs": 146880,
+          "endMs": 148520
+        },
+        {
+          "word": "ay",
+          "startMs": 149040,
+          "endMs": 149550
+        },
+        {
+          "word": "ve",
+          "startMs": 149820,
+          "endMs": 149980
+        },
+        {
+          "word": "gün",
+          "startMs": 150160,
+          "endMs": 150340
+        },
+        {
+          "word": "adları",
+          "startMs": 150340,
+          "endMs": 151060
+        },
+        {
+          "word": "cümle",
+          "startMs": 151150,
+          "endMs": 151530
+        },
+        {
+          "word": "ortasında",
+          "startMs": 151900,
+          "endMs": 153290
+        },
+        {
+          "word": "küçük",
+          "startMs": 153660,
+          "endMs": 154300
+        },
+        {
+          "word": "harfle",
+          "startMs": 154450,
+          "endMs": 155390
+        },
+        {
+          "word": "yazılır;",
+          "startMs": 155470,
+          "endMs": 156800
+        },
+        {
+          "word": "okullar",
+          "startMs": 157180,
+          "endMs": 158060
+        },
+        {
+          "word": "eylülde",
+          "startMs": 158140,
+          "endMs": 158760
+        },
+        {
+          "word": "açılır",
+          "startMs": 158900,
+          "endMs": 160350
+        },
+        {
+          "word": "cümlesinde",
+          "startMs": 161160,
+          "endMs": 162430
+        },
+        {
+          "word": "eylül",
+          "startMs": 162530,
+          "endMs": 163310
+        },
+        {
+          "word": "küçüktür.",
+          "startMs": 163470,
+          "endMs": 164200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 164560,
+      "endMs": 178400,
+      "pauseAfterMs": 760,
+      "text": "Fakat tam bir tarih varsa, örneğin on beş eylül iki bin yirmi altı dendiğinde Eylül büyük yazılır.",
+      "markedText": "Fakat tam bir tarih varsa, örneğin on beş eylül iki bin yirmi altı dendiğinde Eylül büyük yazılır.",
+      "words": [
+        {
+          "word": "Fakat",
+          "startMs": 164560,
+          "endMs": 165350
+        },
+        {
+          "word": "tam",
+          "startMs": 165520,
+          "endMs": 165710
+        },
+        {
+          "word": "bir",
+          "startMs": 165840,
+          "endMs": 166240
+        },
+        {
+          "word": "tarih",
+          "startMs": 166340,
+          "endMs": 167250
+        },
+        {
+          "word": "varsa,",
+          "startMs": 167630,
+          "endMs": 168410
+        },
+        {
+          "word": "örneğin",
+          "startMs": 169750,
+          "endMs": 170460
+        },
+        {
+          "word": "on",
+          "startMs": 170460,
+          "endMs": 170730
+        },
+        {
+          "word": "beş",
+          "startMs": 171390,
+          "endMs": 171610
+        },
+        {
+          "word": "eylül",
+          "startMs": 172240,
+          "endMs": 172630
+        },
+        {
+          "word": "iki",
+          "startMs": 172740,
+          "endMs": 172950
+        },
+        {
+          "word": "bin",
+          "startMs": 173020,
+          "endMs": 173180
+        },
+        {
+          "word": "yirmi",
+          "startMs": 173420,
+          "endMs": 173800
+        },
+        {
+          "word": "altı",
+          "startMs": 174390,
+          "endMs": 174880
+        },
+        {
+          "word": "dendiğinde",
+          "startMs": 174930,
+          "endMs": 175850
+        },
+        {
+          "word": "Eylül",
+          "startMs": 176010,
+          "endMs": 176660
+        },
+        {
+          "word": "büyük",
+          "startMs": 176660,
+          "endMs": 177030
+        },
+        {
+          "word": "yazılır.",
+          "startMs": 177130,
+          "endMs": 177640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 178400,
+      "endMs": 187690,
+      "pauseAfterMs": 330,
+      "text": "Metin içindeki küçük sayılar genellikle yazıyla yazılır: üç elma, beş gün.",
+      "markedText": "Metin içindeki küçük sayılar genellikle yazıyla yazılır: üç elma, beş gün.",
+      "words": [
+        {
+          "word": "Metin",
+          "startMs": 178400,
+          "endMs": 178660
+        },
+        {
+          "word": "içindeki",
+          "startMs": 179210,
+          "endMs": 180010
+        },
+        {
+          "word": "küçük",
+          "startMs": 180130,
+          "endMs": 180560
+        },
+        {
+          "word": "sayılar",
+          "startMs": 180680,
+          "endMs": 181330
+        },
+        {
+          "word": "genellikle",
+          "startMs": 181420,
+          "endMs": 181990
+        },
+        {
+          "word": "yazıyla",
+          "startMs": 182380,
+          "endMs": 183100
+        },
+        {
+          "word": "yazılır:",
+          "startMs": 183210,
+          "endMs": 183870
+        },
+        {
+          "word": "üç",
+          "startMs": 184740,
+          "endMs": 184940
+        },
+        {
+          "word": "elma,",
+          "startMs": 185440,
+          "endMs": 186070
+        },
+        {
+          "word": "beş",
+          "startMs": 186290,
+          "endMs": 186860
+        },
+        {
+          "word": "gün.",
+          "startMs": 186990,
+          "endMs": 187360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 187690,
+      "endMs": 195090,
+      "pauseAfterMs": 310,
+      "text": "Tarih, saat ve parasal tutarlar ise rakamla yazılır.",
+      "markedText": "Tarih, saat ve parasal tutarlar ise rakamla yazılır.",
+      "words": [
+        {
+          "word": "Tarih,",
+          "startMs": 187690,
+          "endMs": 188080
+        },
+        {
+          "word": "saat",
+          "startMs": 188340,
+          "endMs": 188750
+        },
+        {
+          "word": "ve",
+          "startMs": 188940,
+          "endMs": 189270
+        },
+        {
+          "word": "parasal",
+          "startMs": 189490,
+          "endMs": 190700
+        },
+        {
+          "word": "tutarlar",
+          "startMs": 191740,
+          "endMs": 192690
+        },
+        {
+          "word": "ise",
+          "startMs": 192780,
+          "endMs": 193200
+        },
+        {
+          "word": "rakamla",
+          "startMs": 193370,
+          "endMs": 194010
+        },
+        {
+          "word": "yazılır.",
+          "startMs": 194080,
+          "endMs": 194780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 195090,
+      "endMs": 214040,
+      "pauseAfterMs": 1180,
+      "text": "Pratik kural: Özel isimler daima büyük kalır; belirli bir tarihe bağlı olmayan gün ve ay adları ise cümle ortasında küçük yazılır.",
+      "markedText": "Pratik kural: Özel isimler daima büyük kalır; belirli bir tarihe bağlı olmayan gün ve ay adları ise cümle ortasında küçük yazılır.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 195090,
+          "endMs": 195890
+        },
+        {
+          "word": "kural:",
+          "startMs": 196020,
+          "endMs": 196810
+        },
+        {
+          "word": "Özel",
+          "startMs": 197310,
+          "endMs": 197780
+        },
+        {
+          "word": "isimler",
+          "startMs": 197830,
+          "endMs": 198720
+        },
+        {
+          "word": "daima",
+          "startMs": 199290,
+          "endMs": 199840
+        },
+        {
+          "word": "büyük",
+          "startMs": 199940,
+          "endMs": 200420
+        },
+        {
+          "word": "kalır;",
+          "startMs": 201140,
+          "endMs": 201770
+        },
+        {
+          "word": "belirli",
+          "startMs": 203550,
+          "endMs": 204130
+        },
+        {
+          "word": "bir",
+          "startMs": 204270,
+          "endMs": 204390
+        },
+        {
+          "word": "tarihe",
+          "startMs": 204590,
+          "endMs": 205310
+        },
+        {
+          "word": "bağlı",
+          "startMs": 205480,
+          "endMs": 205910
+        },
+        {
+          "word": "olmayan",
+          "startMs": 206160,
+          "endMs": 206760
+        },
+        {
+          "word": "gün",
+          "startMs": 207150,
+          "endMs": 207310
+        },
+        {
+          "word": "ve",
+          "startMs": 207310,
+          "endMs": 207400
+        },
+        {
+          "word": "ay",
+          "startMs": 207720,
+          "endMs": 207910
+        },
+        {
+          "word": "adları",
+          "startMs": 207960,
+          "endMs": 208430
+        },
+        {
+          "word": "ise",
+          "startMs": 208630,
+          "endMs": 208730
+        },
+        {
+          "word": "cümle",
+          "startMs": 208790,
+          "endMs": 209870
+        },
+        {
+          "word": "ortasında",
+          "startMs": 210460,
+          "endMs": 211410
+        },
+        {
+          "word": "küçük",
+          "startMs": 211730,
+          "endMs": 211910
+        },
+        {
+          "word": "yazılır.",
+          "startMs": 211980,
+          "endMs": 212860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 214040,
+      "endMs": 218170,
+      "pauseAfterMs": 350,
+      "text": "Örneklerimizi birlikte inceleyelim.",
+      "markedText": "Örneklerimizi birlikte inceleyelim.",
+      "words": [
+        {
+          "word": "Örneklerimizi",
+          "startMs": 214040,
+          "endMs": 215480
+        },
+        {
+          "word": "birlikte",
+          "startMs": 215720,
+          "endMs": 216420
+        },
+        {
+          "word": "inceleyelim.",
+          "startMs": 216600,
+          "endMs": 217820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 218170,
+      "endMs": 232330,
+      "pauseAfterMs": 310,
+      "text": "Ahmet ile Zeynep Ankara'ya gitti cümlesinde Ahmet, Zeynep ve Ankara özel addır, büyük yazılır; aradaki ile bağlacı küçük kalır.",
+      "markedText": "Ahmet ile Zeynep Ankara'ya gitti cümlesinde Ahmet, Zeynep ve Ankara özel addır, büyük yazılır; aradaki ile bağlacı küçük kalır.",
+      "words": [
+        {
+          "word": "Ahmet",
+          "startMs": 218170,
+          "endMs": 218450
+        },
+        {
+          "word": "ile",
+          "startMs": 218580,
+          "endMs": 218860
+        },
+        {
+          "word": "Zeynep",
+          "startMs": 218960,
+          "endMs": 219150
+        },
+        {
+          "word": "Ankara'ya",
+          "startMs": 219270,
+          "endMs": 219990
+        },
+        {
+          "word": "gitti",
+          "startMs": 220250,
+          "endMs": 220520
+        },
+        {
+          "word": "cümlesinde",
+          "startMs": 220520,
+          "endMs": 221140
+        },
+        {
+          "word": "Ahmet,",
+          "startMs": 221230,
+          "endMs": 221920
+        },
+        {
+          "word": "Zeynep",
+          "startMs": 222470,
+          "endMs": 223000
+        },
+        {
+          "word": "ve",
+          "startMs": 223410,
+          "endMs": 223550
+        },
+        {
+          "word": "Ankara",
+          "startMs": 223740,
+          "endMs": 224000
+        },
+        {
+          "word": "özel",
+          "startMs": 224350,
+          "endMs": 224950
+        },
+        {
+          "word": "addır,",
+          "startMs": 225340,
+          "endMs": 225760
+        },
+        {
+          "word": "büyük",
+          "startMs": 226030,
+          "endMs": 226140
+        },
+        {
+          "word": "yazılır;",
+          "startMs": 226740,
+          "endMs": 227550
+        },
+        {
+          "word": "aradaki",
+          "startMs": 228030,
+          "endMs": 228980
+        },
+        {
+          "word": "ile",
+          "startMs": 229170,
+          "endMs": 229890
+        },
+        {
+          "word": "bağlacı",
+          "startMs": 230280,
+          "endMs": 230860
+        },
+        {
+          "word": "küçük",
+          "startMs": 230920,
+          "endMs": 231240
+        },
+        {
+          "word": "kalır.",
+          "startMs": 231360,
+          "endMs": 232020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 232330,
+      "endMs": 239300,
+      "pauseAfterMs": 380,
+      "text": "Sağlık Bakanlığı bir kurumdur, iki sözcük de büyük yazılır.",
+      "markedText": "Sağlık Bakanlığı bir kurumdur, iki sözcük de büyük yazılır.",
+      "words": [
+        {
+          "word": "Sağlık",
+          "startMs": 232330,
+          "endMs": 232670
+        },
+        {
+          "word": "Bakanlığı",
+          "startMs": 232740,
+          "endMs": 233950
+        },
+        {
+          "word": "bir",
+          "startMs": 234330,
+          "endMs": 234570
+        },
+        {
+          "word": "kurumdur,",
+          "startMs": 234710,
+          "endMs": 235020
+        },
+        {
+          "word": "iki",
+          "startMs": 235380,
+          "endMs": 235820
+        },
+        {
+          "word": "sözcük",
+          "startMs": 236200,
+          "endMs": 236510
+        },
+        {
+          "word": "de",
+          "startMs": 236640,
+          "endMs": 236960
+        },
+        {
+          "word": "büyük",
+          "startMs": 237030,
+          "endMs": 237910
+        },
+        {
+          "word": "yazılır.",
+          "startMs": 238240,
+          "endMs": 238920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 239300,
+      "endMs": 255450,
+      "pauseAfterMs": 470,
+      "text": "Sınavımız on iki ekim pazartesi günü yapılacak dediğimizde belirli bir tarih olduğu için Ekim ve Pazartesi büyük yazılır.",
+      "markedText": "Sınavımız on iki ekim pazartesi günü yapılacak dediğimizde belirli bir tarih olduğu için Ekim ve Pazartesi büyük yazılır.",
+      "words": [
+        {
+          "word": "Sınavımız",
+          "startMs": 239300,
+          "endMs": 239620
+        },
+        {
+          "word": "on",
+          "startMs": 239900,
+          "endMs": 240140
+        },
+        {
+          "word": "iki",
+          "startMs": 240220,
+          "endMs": 241190
+        },
+        {
+          "word": "ekim",
+          "startMs": 241820,
+          "endMs": 242060
+        },
+        {
+          "word": "pazartesi",
+          "startMs": 242180,
+          "endMs": 243350
+        },
+        {
+          "word": "günü",
+          "startMs": 243670,
+          "endMs": 244130
+        },
+        {
+          "word": "yapılacak",
+          "startMs": 244360,
+          "endMs": 245170
+        },
+        {
+          "word": "dediğimizde",
+          "startMs": 245680,
+          "endMs": 247210
+        },
+        {
+          "word": "belirli",
+          "startMs": 247720,
+          "endMs": 248200
+        },
+        {
+          "word": "bir",
+          "startMs": 248300,
+          "endMs": 248590
+        },
+        {
+          "word": "tarih",
+          "startMs": 248710,
+          "endMs": 249230
+        },
+        {
+          "word": "olduğu",
+          "startMs": 249370,
+          "endMs": 250710
+        },
+        {
+          "word": "için",
+          "startMs": 251040,
+          "endMs": 251350
+        },
+        {
+          "word": "Ekim",
+          "startMs": 251410,
+          "endMs": 251760
+        },
+        {
+          "word": "ve",
+          "startMs": 251850,
+          "endMs": 252520
+        },
+        {
+          "word": "Pazartesi",
+          "startMs": 252980,
+          "endMs": 253860
+        },
+        {
+          "word": "büyük",
+          "startMs": 253910,
+          "endMs": 254330
+        },
+        {
+          "word": "yazılır.",
+          "startMs": 254690,
+          "endMs": 254980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 255450,
+      "endMs": 265950,
+      "pauseAfterMs": 630,
+      "text": "Fakat dersimiz pazartesi günleri olur dediğimizde pazartesi küçük kalır.",
+      "markedText": "Fakat dersimiz pazartesi günleri olur dediğimizde pazartesi küçük kalır.",
+      "words": [
+        {
+          "word": "Fakat",
+          "startMs": 255450,
+          "endMs": 255790
+        },
+        {
+          "word": "dersimiz",
+          "startMs": 256170,
+          "endMs": 256920
+        },
+        {
+          "word": "pazartesi",
+          "startMs": 257430,
+          "endMs": 258090
+        },
+        {
+          "word": "günleri",
+          "startMs": 258330,
+          "endMs": 259410
+        },
+        {
+          "word": "olur",
+          "startMs": 259790,
+          "endMs": 260140
+        },
+        {
+          "word": "dediğimizde",
+          "startMs": 260350,
+          "endMs": 262600
+        },
+        {
+          "word": "pazartesi",
+          "startMs": 263100,
+          "endMs": 263930
+        },
+        {
+          "word": "küçük",
+          "startMs": 264050,
+          "endMs": 264430
+        },
+        {
+          "word": "kalır.",
+          "startMs": 264520,
+          "endMs": 265320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 265950,
+      "endMs": 278790,
+      "pauseAfterMs": 380,
+      "text": "Bahçeden beş elma topladım yazıyla durur; tren saat on dört otuzda kalkacak rakamla yazılır.",
+      "markedText": "Bahçeden beş elma topladım yazıyla durur; tren saat on dört otuzda kalkacak rakamla yazılır.",
+      "words": [
+        {
+          "word": "Bahçeden",
+          "startMs": 265950,
+          "endMs": 266830
+        },
+        {
+          "word": "beş",
+          "startMs": 266960,
+          "endMs": 267470
+        },
+        {
+          "word": "elma",
+          "startMs": 267840,
+          "endMs": 268320
+        },
+        {
+          "word": "topladım",
+          "startMs": 268430,
+          "endMs": 269840
+        },
+        {
+          "word": "yazıyla",
+          "startMs": 269920,
+          "endMs": 270890
+        },
+        {
+          "word": "durur;",
+          "startMs": 271050,
+          "endMs": 272520
+        },
+        {
+          "word": "tren",
+          "startMs": 273160,
+          "endMs": 273570
+        },
+        {
+          "word": "saat",
+          "startMs": 273570,
+          "endMs": 273940
+        },
+        {
+          "word": "on",
+          "startMs": 274220,
+          "endMs": 274530
+        },
+        {
+          "word": "dört",
+          "startMs": 274670,
+          "endMs": 275070
+        },
+        {
+          "word": "otuzda",
+          "startMs": 275120,
+          "endMs": 275730
+        },
+        {
+          "word": "kalkacak",
+          "startMs": 275830,
+          "endMs": 276530
+        },
+        {
+          "word": "rakamla",
+          "startMs": 276720,
+          "endMs": 277380
+        },
+        {
+          "word": "yazılır.",
+          "startMs": 277480,
+          "endMs": 278410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 278790,
+      "endMs": 280440,
+      "pauseAfterMs": 430,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 278790,
+          "endMs": 279240
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 279450,
+          "endMs": 280010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 280440,
+      "endMs": 286180,
+      "pauseAfterMs": 390,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 280440,
+          "endMs": 280830
+        },
+        {
+          "word": "bir",
+          "startMs": 280920,
+          "endMs": 281190
+        },
+        {
+          "word": "kez",
+          "startMs": 281270,
+          "endMs": 281390
+        },
+        {
+          "word": "görünce",
+          "startMs": 281500,
+          "endMs": 282870
+        },
+        {
+          "word": "kolayca",
+          "startMs": 283320,
+          "endMs": 284010
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 284050,
+          "endMs": 285790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 286180,
+      "endMs": 294170,
+      "pauseAfterMs": 460,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 286180,
+          "endMs": 286920
+        },
+        {
+          "word": "sevgili",
+          "startMs": 287340,
+          "endMs": 287690
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 288020,
+          "endMs": 288770
+        },
+        {
+          "word": "işte",
+          "startMs": 289340,
+          "endMs": 289680
+        },
+        {
+          "word": "tam",
+          "startMs": 289680,
+          "endMs": 289940
+        },
+        {
+          "word": "bu",
+          "startMs": 290080,
+          "endMs": 290250
+        },
+        {
+          "word": "noktada",
+          "startMs": 290340,
+          "endMs": 290850
+        },
+        {
+          "word": "dikkat",
+          "startMs": 290980,
+          "endMs": 291410
+        },
+        {
+          "word": "etmen",
+          "startMs": 291410,
+          "endMs": 291980
+        },
+        {
+          "word": "gereken",
+          "startMs": 291980,
+          "endMs": 292550
+        },
+        {
+          "word": "kilit",
+          "startMs": 292620,
+          "endMs": 293050
+        },
+        {
+          "word": "nokta.",
+          "startMs": 293160,
+          "endMs": 293710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 294170,
+      "endMs": 304350,
+      "pauseAfterMs": 680,
+      "text": "Her ay ve gün adını gördüğünde hemen büyük harfle yazma telaşına kapılmamayı aklında tutabilirsin.",
+      "markedText": "Her ay ve gün adını gördüğünde hemen büyük harfle yazma telaşına kapılmamayı aklında tutabilirsin.",
+      "words": [
+        {
+          "word": "Her",
+          "startMs": 294170,
+          "endMs": 294410
+        },
+        {
+          "word": "ay",
+          "startMs": 294490,
+          "endMs": 294650
+        },
+        {
+          "word": "ve",
+          "startMs": 294730,
+          "endMs": 294840
+        },
+        {
+          "word": "gün",
+          "startMs": 295030,
+          "endMs": 295340
+        },
+        {
+          "word": "adını",
+          "startMs": 295400,
+          "endMs": 295840
+        },
+        {
+          "word": "gördüğünde",
+          "startMs": 296120,
+          "endMs": 296970
+        },
+        {
+          "word": "hemen",
+          "startMs": 297200,
+          "endMs": 297750
+        },
+        {
+          "word": "büyük",
+          "startMs": 297840,
+          "endMs": 298140
+        },
+        {
+          "word": "harfle",
+          "startMs": 298730,
+          "endMs": 299170
+        },
+        {
+          "word": "yazma",
+          "startMs": 299170,
+          "endMs": 299770
+        },
+        {
+          "word": "telaşına",
+          "startMs": 300380,
+          "endMs": 301040
+        },
+        {
+          "word": "kapılmamayı",
+          "startMs": 301100,
+          "endMs": 301800
+        },
+        {
+          "word": "aklında",
+          "startMs": 302120,
+          "endMs": 302650
+        },
+        {
+          "word": "tutabilirsin.",
+          "startMs": 302750,
+          "endMs": 303670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 304350,
+      "endMs": 322570,
+      "pauseAfterMs": 970,
+      "text": "Önünde ya da arkasında kesin bir gün sayısı varsa, yani belirli bir tarihi işaret ediyorsa büyük yazılır; yoksa genel ifadelerde ay ve gün adları küçük kalır.",
+      "markedText": "Önünde ya da arkasında kesin bir gün sayısı varsa, yani belirli bir tarihi işaret ediyorsa büyük yazılır; yoksa genel ifadelerde ay ve gün adları küçük kalır.",
+      "words": [
+        {
+          "word": "Önünde",
+          "startMs": 304350,
+          "endMs": 305050
+        },
+        {
+          "word": "ya",
+          "startMs": 305310,
+          "endMs": 305480
+        },
+        {
+          "word": "da",
+          "startMs": 305480,
+          "endMs": 305640
+        },
+        {
+          "word": "arkasında",
+          "startMs": 305640,
+          "endMs": 306240
+        },
+        {
+          "word": "kesin",
+          "startMs": 306360,
+          "endMs": 306800
+        },
+        {
+          "word": "bir",
+          "startMs": 306980,
+          "endMs": 307260
+        },
+        {
+          "word": "gün",
+          "startMs": 307260,
+          "endMs": 307370
+        },
+        {
+          "word": "sayısı",
+          "startMs": 307480,
+          "endMs": 308000
+        },
+        {
+          "word": "varsa,",
+          "startMs": 308140,
+          "endMs": 308380
+        },
+        {
+          "word": "yani",
+          "startMs": 308740,
+          "endMs": 308980
+        },
+        {
+          "word": "belirli",
+          "startMs": 308980,
+          "endMs": 309460
+        },
+        {
+          "word": "bir",
+          "startMs": 309810,
+          "endMs": 310220
+        },
+        {
+          "word": "tarihi",
+          "startMs": 310990,
+          "endMs": 311610
+        },
+        {
+          "word": "işaret",
+          "startMs": 311650,
+          "endMs": 312330
+        },
+        {
+          "word": "ediyorsa",
+          "startMs": 313180,
+          "endMs": 313830
+        },
+        {
+          "word": "büyük",
+          "startMs": 314070,
+          "endMs": 314560
+        },
+        {
+          "word": "yazılır;",
+          "startMs": 314740,
+          "endMs": 315320
+        },
+        {
+          "word": "yoksa",
+          "startMs": 315960,
+          "endMs": 316400
+        },
+        {
+          "word": "genel",
+          "startMs": 316890,
+          "endMs": 317180
+        },
+        {
+          "word": "ifadelerde",
+          "startMs": 317540,
+          "endMs": 318110
+        },
+        {
+          "word": "ay",
+          "startMs": 318330,
+          "endMs": 318520
+        },
+        {
+          "word": "ve",
+          "startMs": 318520,
+          "endMs": 318670
+        },
+        {
+          "word": "gün",
+          "startMs": 318670,
+          "endMs": 318790
+        },
+        {
+          "word": "adları",
+          "startMs": 318860,
+          "endMs": 319520
+        },
+        {
+          "word": "küçük",
+          "startMs": 320550,
+          "endMs": 321020
+        },
+        {
+          "word": "kalır.",
+          "startMs": 321100,
+          "endMs": 321600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 322570,
+      "endMs": 335740,
+      "pauseAfterMs": 870,
+      "text": "Sayılarda ise birden fazla kelimeden oluşan sayıların yazıyla yazılırken ayrı yazıldığını da hatırla: yirmi beş gibi.",
+      "markedText": "Sayılarda ise birden fazla kelimeden oluşan sayıların yazıyla yazılırken ayrı yazıldığını da hatırla: yirmi beş gibi.",
+      "words": [
+        {
+          "word": "Sayılarda",
+          "startMs": 322570,
+          "endMs": 323300
+        },
+        {
+          "word": "ise",
+          "startMs": 323300,
+          "endMs": 323510
+        },
+        {
+          "word": "birden",
+          "startMs": 323610,
+          "endMs": 324260
+        },
+        {
+          "word": "fazla",
+          "startMs": 325140,
+          "endMs": 325520
+        },
+        {
+          "word": "kelimeden",
+          "startMs": 325680,
+          "endMs": 326020
+        },
+        {
+          "word": "oluşan",
+          "startMs": 326070,
+          "endMs": 326400
+        },
+        {
+          "word": "sayıların",
+          "startMs": 326510,
+          "endMs": 327080
+        },
+        {
+          "word": "yazıyla",
+          "startMs": 327440,
+          "endMs": 328030
+        },
+        {
+          "word": "yazılırken",
+          "startMs": 328460,
+          "endMs": 328890
+        },
+        {
+          "word": "ayrı",
+          "startMs": 329400,
+          "endMs": 329770
+        },
+        {
+          "word": "yazıldığını",
+          "startMs": 330150,
+          "endMs": 331260
+        },
+        {
+          "word": "da",
+          "startMs": 331410,
+          "endMs": 331570
+        },
+        {
+          "word": "hatırla:",
+          "startMs": 331840,
+          "endMs": 332490
+        },
+        {
+          "word": "yirmi",
+          "startMs": 332910,
+          "endMs": 333220
+        },
+        {
+          "word": "beş",
+          "startMs": 333530,
+          "endMs": 333770
+        },
+        {
+          "word": "gibi.",
+          "startMs": 333830,
+          "endMs": 334870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 335740,
+      "endMs": 347710,
+      "pauseAfterMs": 690,
+      "text": "Büyük harfler ve sayıların yazımı konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Büyük harfler ve sayıların yazımı konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Büyük",
+          "startMs": 335740,
+          "endMs": 336470
+        },
+        {
+          "word": "harfler",
+          "startMs": 337370,
+          "endMs": 337770
+        },
+        {
+          "word": "ve",
+          "startMs": 337770,
+          "endMs": 337890
+        },
+        {
+          "word": "sayıların",
+          "startMs": 338030,
+          "endMs": 338620
+        },
+        {
+          "word": "yazımı",
+          "startMs": 338860,
+          "endMs": 339460
+        },
+        {
+          "word": "konusunda",
+          "startMs": 340010,
+          "endMs": 340830
+        },
+        {
+          "word": "kuralın",
+          "startMs": 340950,
+          "endMs": 341700
+        },
+        {
+          "word": "tersini",
+          "startMs": 341810,
+          "endMs": 342350
+        },
+        {
+          "word": "sanmak",
+          "startMs": 343180,
+          "endMs": 343630
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 343690,
+          "endMs": 344300
+        },
+        {
+          "word": "ters",
+          "startMs": 344770,
+          "endMs": 345110
+        },
+        {
+          "word": "cümle",
+          "startMs": 345250,
+          "endMs": 346020
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 346280,
+          "endMs": 347020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 347710,
+      "endMs": 350270,
+      "pauseAfterMs": 630,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 347710,
+          "endMs": 348140
+        },
+        {
+          "word": "Neler",
+          "startMs": 348140,
+          "endMs": 348550
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 348640,
+          "endMs": 349640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 350270,
+      "endMs": 350520,
+      "pauseAfterMs": 90,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 350270,
+          "endMs": 350430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 350520,
+      "endMs": 355980,
+      "pauseAfterMs": 660,
+      "text": "Cümleler ve özel adlar daima büyük harfle başlar.",
+      "markedText": "Cümleler ve özel adlar daima büyük harfle başlar.",
+      "words": [
+        {
+          "word": "Cümleler",
+          "startMs": 350520,
+          "endMs": 351290
+        },
+        {
+          "word": "ve",
+          "startMs": 351340,
+          "endMs": 351850
+        },
+        {
+          "word": "özel",
+          "startMs": 352170,
+          "endMs": 352480
+        },
+        {
+          "word": "adlar",
+          "startMs": 352550,
+          "endMs": 353050
+        },
+        {
+          "word": "daima",
+          "startMs": 353050,
+          "endMs": 353510
+        },
+        {
+          "word": "büyük",
+          "startMs": 353680,
+          "endMs": 354080
+        },
+        {
+          "word": "harfle",
+          "startMs": 354240,
+          "endMs": 354720
+        },
+        {
+          "word": "başlar.",
+          "startMs": 354780,
+          "endMs": 355320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 355980,
+      "endMs": 356230,
+      "pauseAfterMs": 80,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 355980,
+          "endMs": 356150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 356230,
+      "endMs": 365130,
+      "pauseAfterMs": 900,
+      "text": "Belirli bir tarih bildiren ay ve gün adları büyük, genel olanlar küçük yazılır.",
+      "markedText": "Belirli bir tarih bildiren ay ve gün adları büyük, genel olanlar küçük yazılır.",
+      "words": [
+        {
+          "word": "Belirli",
+          "startMs": 356230,
+          "endMs": 356760
+        },
+        {
+          "word": "bir",
+          "startMs": 357020,
+          "endMs": 357640
+        },
+        {
+          "word": "tarih",
+          "startMs": 357940,
+          "endMs": 358290
+        },
+        {
+          "word": "bildiren",
+          "startMs": 358360,
+          "endMs": 359040
+        },
+        {
+          "word": "ay",
+          "startMs": 359380,
+          "endMs": 359500
+        },
+        {
+          "word": "ve",
+          "startMs": 359850,
+          "endMs": 360100
+        },
+        {
+          "word": "gün",
+          "startMs": 360100,
+          "endMs": 360280
+        },
+        {
+          "word": "adları",
+          "startMs": 360280,
+          "endMs": 360980
+        },
+        {
+          "word": "büyük,",
+          "startMs": 360980,
+          "endMs": 361590
+        },
+        {
+          "word": "genel",
+          "startMs": 362380,
+          "endMs": 362640
+        },
+        {
+          "word": "olanlar",
+          "startMs": 362740,
+          "endMs": 363350
+        },
+        {
+          "word": "küçük",
+          "startMs": 363510,
+          "endMs": 363820
+        },
+        {
+          "word": "yazılır.",
+          "startMs": 363820,
+          "endMs": 364230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 365130,
+      "endMs": 365890,
+      "pauseAfterMs": 520,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 365130,
+          "endMs": 365370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 365890,
+      "endMs": 373770,
+      "pauseAfterMs": 550,
+      "text": "Metin içindeki sayılar yazıyla; tarih, saat ve parasal tutarlar rakamla yazılır.",
+      "markedText": "Metin içindeki sayılar yazıyla; tarih, saat ve parasal tutarlar rakamla yazılır.",
+      "words": [
+        {
+          "word": "Metin",
+          "startMs": 365890,
+          "endMs": 366510
+        },
+        {
+          "word": "içindeki",
+          "startMs": 366580,
+          "endMs": 367170
+        },
+        {
+          "word": "sayılar",
+          "startMs": 367280,
+          "endMs": 367920
+        },
+        {
+          "word": "yazıyla;",
+          "startMs": 368000,
+          "endMs": 368750
+        },
+        {
+          "word": "tarih,",
+          "startMs": 369640,
+          "endMs": 370000
+        },
+        {
+          "word": "saat",
+          "startMs": 370500,
+          "endMs": 370760
+        },
+        {
+          "word": "ve",
+          "startMs": 370760,
+          "endMs": 370970
+        },
+        {
+          "word": "parasal",
+          "startMs": 371070,
+          "endMs": 371350
+        },
+        {
+          "word": "tutarlar",
+          "startMs": 371440,
+          "endMs": 371870
+        },
+        {
+          "word": "rakamla",
+          "startMs": 372020,
+          "endMs": 372650
+        },
+        {
+          "word": "yazılır.",
+          "startMs": 372760,
+          "endMs": 373220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 373770,
+      "endMs": 376060,
+      "pauseAfterMs": 850,
+      "text": "Özel ad büyük kalır.",
+      "markedText": "Özel ad büyük kalır.",
+      "words": [
+        {
+          "word": "Özel",
+          "startMs": 373770,
+          "endMs": 374020
+        },
+        {
+          "word": "ad",
+          "startMs": 374020,
+          "endMs": 374120
+        },
+        {
+          "word": "büyük",
+          "startMs": 374120,
+          "endMs": 374470
+        },
+        {
+          "word": "kalır.",
+          "startMs": 374800,
+          "endMs": 375210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 376060,
+      "endMs": 379880,
+      "pauseAfterMs": 420,
+      "text": "Ay ve gün adı cümle ortasında küçük kalır.",
+      "markedText": "Ay ve gün adı cümle ortasında küçük kalır.",
+      "words": [
+        {
+          "word": "Ay",
+          "startMs": 376060,
+          "endMs": 376360
+        },
+        {
+          "word": "ve",
+          "startMs": 376800,
+          "endMs": 376840
+        },
+        {
+          "word": "gün",
+          "startMs": 376840,
+          "endMs": 376920
+        },
+        {
+          "word": "adı",
+          "startMs": 376990,
+          "endMs": 377140
+        },
+        {
+          "word": "cümle",
+          "startMs": 377180,
+          "endMs": 377410
+        },
+        {
+          "word": "ortasında",
+          "startMs": 377640,
+          "endMs": 378210
+        },
+        {
+          "word": "küçük",
+          "startMs": 378290,
+          "endMs": 378650
+        },
+        {
+          "word": "kalır.",
+          "startMs": 379090,
+          "endMs": 379460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 379880,
+      "endMs": 389780,
+      "pauseAfterMs": 650,
+      "text": "Bir cümlede büyük harfi ve sayının yazıyla mı rakamla mı duracağını söylersin.",
+      "markedText": "Bir cümlede büyük harfi ve sayının yazıyla mı rakamla mı duracağını söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 379880,
+          "endMs": 380140
+        },
+        {
+          "word": "cümlede",
+          "startMs": 380390,
+          "endMs": 380950
+        },
+        {
+          "word": "büyük",
+          "startMs": 381160,
+          "endMs": 381480
+        },
+        {
+          "word": "harfi",
+          "startMs": 381530,
+          "endMs": 381820
+        },
+        {
+          "word": "ve",
+          "startMs": 381910,
+          "endMs": 382390
+        },
+        {
+          "word": "sayının",
+          "startMs": 383020,
+          "endMs": 383720
+        },
+        {
+          "word": "yazıyla",
+          "startMs": 383810,
+          "endMs": 384570
+        },
+        {
+          "word": "mı",
+          "startMs": 385290,
+          "endMs": 385430
+        },
+        {
+          "word": "rakamla",
+          "startMs": 385430,
+          "endMs": 386310
+        },
+        {
+          "word": "mı",
+          "startMs": 386870,
+          "endMs": 387080
+        },
+        {
+          "word": "duracağını",
+          "startMs": 387120,
+          "endMs": 387700
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 387790,
+          "endMs": 389130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 389780,
+      "endMs": 392090,
+      "pauseAfterMs": 580,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 389780,
+          "endMs": 390430
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 390670,
+          "endMs": 391510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 392090,
+      "endMs": 393750,
+      "pauseAfterMs": 290,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 392090,
+          "endMs": 392590
+        },
+        {
+          "word": "bir",
+          "startMs": 392590,
+          "endMs": 392690
+        },
+        {
+          "word": "iş",
+          "startMs": 392790,
+          "endMs": 392930
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 392970,
+          "endMs": 393460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 393750,
+      "endMs": 397380,
+      "pauseAfterMs": 630,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 393750,
+          "endMs": 394500
+        },
+        {
+          "word": "sıra",
+          "startMs": 394620,
+          "endMs": 395510
+        },
+        {
+          "word": "sende.",
+          "startMs": 395870,
+          "endMs": 396750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 397380,
+      "endMs": 403160,
+      "pauseAfterMs": 340,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 397380,
+          "endMs": 398120
+        },
+        {
+          "word": "bu",
+          "startMs": 398750,
+          "endMs": 399030
+        },
+        {
+          "word": "notları",
+          "startMs": 399130,
+          "endMs": 399630
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 400140,
+          "endMs": 400880
+        },
+        {
+          "word": "kendi",
+          "startMs": 401000,
+          "endMs": 401260
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 401360,
+          "endMs": 402210
+        },
+        {
+          "word": "anlat.",
+          "startMs": 402280,
+          "endMs": 402820
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

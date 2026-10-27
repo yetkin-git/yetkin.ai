@@ -5,6 +5,7 @@ import { JuniorHintBox } from "@/components/junior/hint-box";
 import { JuniorPilotPlayer } from "@/components/junior/pilot-player/JuniorPilotPlayer";
 import { JuniorPlayerControls } from "@/components/junior/player/controls";
 import { resolveJuniorPlayback } from "@/lib/junior/pilot-engine/playback";
+import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 import { JuniorLessonDecision } from "@/components/junior/player/lesson-decision";
 import { JuniorPauseBanner, JuniorStarQuestion } from "@/components/junior/player/pause-banner";
 import { JuniorStepArt } from "@/components/junior/player/step-art";
@@ -512,15 +513,11 @@ const BEATS: Record<JuniorVectorScene, readonly Beat[]> = {
     { caption: "Altın İpucu! Hak ve sorumluluk sınıfta yan yana durur." },
   ],
   elective: [
-    { caption: "Seçmeli ders açıldı." },
-    { caption: "Kavram söylendi." },
-    { caption: "Örnek ekrana geldi." },
-    { caption: "Örnek adım adım durdu." },
-    { caption: "Kural bir cümleyle söylendi." },
-    { caption: "Aynı kural bir kez daha söylendi." },
-    { caption: "Soru soruldu." },
-    { caption: "Çözüm söylendi." },
-    { caption: "Dikkat Noktası! Bu adımda ipucu ayrıca durur." },
+    // Seçmeli dersler artık mühürlü karaoke timeline taşır (`packages/junior-content/timelines`).
+    // Bu dizi yalnız yedektir: timeline yoksa altyazı uydurulmaz, dersin kendi adımları basılır.
+    // Sahne etiketi («Kavram söylendi.») yazılmaz; çocuk duymadığı cümleyi okumaz.
+    { caption: "Ders açıldı." },
+    { caption: "Konu bir cümleyle söylendi." },
   ],
 };
 
@@ -552,6 +549,8 @@ type VectorPlayerProps = {
   lockPublicMedia?: boolean;
   /** Senaryodaki özgün mikro soru. Yıldız paneli bunu basar. */
   microQuestion?: string;
+  /** Sunucu bileşeninden dinamik yüklenip iletilen timeline. */
+  pilotTimeline?: TimelineJSON | null;
 };
 
 /**
@@ -559,7 +558,7 @@ type VectorPlayerProps = {
  * gate finish → anlatı timeline 0 ms'den başlar (sealed ile aynı sözleşme).
  */
 function PilotPlayerWithWarmupShell(props: VectorPlayerProps): ReactElement {
-  const playback = resolveJuniorPlayback(props.lessonKey ?? "");
+  const playback = resolveJuniorPlayback(props.lessonKey ?? "", props.pilotTimeline);
   const startNarrationRef = useRef<() => void>(() => undefined);
   const watchedRef = useRef<string>("");
   const warmup = useJuniorWarmupGate(
@@ -629,7 +628,7 @@ function PilotPlayerWithWarmupShell(props: VectorPlayerProps): ReactElement {
 }
 
 export function VectorPlayer(props: VectorPlayerProps) {
-  const playback = resolveJuniorPlayback(props.lessonKey ?? "");
+  const playback = resolveJuniorPlayback(props.lessonKey ?? "", props.pilotTimeline);
   if (playback.engine === "pilot") {
     return <PilotPlayerWithWarmupShell {...props} />;
   }

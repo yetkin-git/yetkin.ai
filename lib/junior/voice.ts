@@ -171,10 +171,15 @@ export function juniorLessonLocalLockedAudioPath(lessonKey: string): string | nu
  * Çekirdek ders branşına göre öğretmen. Yetişkin kurs sesinin yerine yazılmaz.
  * Matematik ve fen ağzı `JUNIOR_CATALOG_NARRATOR_VOICE` (Fenrir) ile aynıdır.
  * Dosya istemci oynatıcısına girer; `voice-design.ts` buradan içe alınmaz.
+ * Fen öğretmeni Deniz, Akademi Zephyr sicil adı (`ACADEMY_ZEPHYR_REGISTER_NAME`) ile aynı kişi değildir.
+ * Bu ad Junior fen odasında kalır. Akademi personası yetişkin vitrindedir.
  */
+export const JUNIOR_SCIENCE_TEACHER_NAME = "Deniz" as const;
+export const JUNIOR_SCIENCE_TEACHER_ROOM = "jr_06_fen" as const;
+
 export const JUNIOR_BRANCH_TEACHERS = [
   { slug: "jr_06_mat", subject: "Matematik", name: "Selim", voice: "Fenrir" satisfies GeminiTtsPrebuiltVoice, tone: "Erkek / Genç, dinamik ve enerjik" },
-  { slug: "jr_06_fen", subject: "Fen Bilimleri", name: "Deniz", voice: "Fenrir" satisfies GeminiTtsPrebuiltVoice, tone: "Erkek / Genç, dinamik ve enerjik" },
+  { slug: "jr_06_fen", subject: "Fen Bilimleri", name: JUNIOR_SCIENCE_TEACHER_NAME, voice: "Fenrir" satisfies GeminiTtsPrebuiltVoice, tone: "Erkek / Genç, dinamik ve enerjik" },
   { slug: "jr_06_turkce", subject: "Türkçe", name: "Elif", voice: "Aoede", tone: "Kadın / Duru ve anlaşılır" },
   { slug: "jr_06_ing_main", subject: "İngilizce", name: "Selin", voice: "Kore", tone: "Kadın / Dinamik ve çift dilli" },
   { slug: "jr_06_sosyal", subject: "Sosyal Bilgiler", name: "Murat", voice: "Achird", tone: "Erkek / Samimi hikâye anlatıcısı" },

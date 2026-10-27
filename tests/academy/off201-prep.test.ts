@@ -185,10 +185,22 @@ describe("OFF-201 fırın öncesi hazırlık", () => {
     expect(page).toContain("academy.off201.catalog_price_unset");
   });
 
-  it("görsel JPG diskte yoksa satış kapalıdır; fiyat kilidi para kesmez", async () => {
+  it("görsel JPG eksikliği ses ve metin satışını kapatmaz", () => {
     const onDisk = (relativePath: string): boolean => academyProductionFilePresent(relativePath);
     registerAcademyProductionDiskProbe((relativePath) =>
       relativePath.endsWith(".jpg") ? false : onDisk(relativePath),
+    );
+    try {
+      expect(academyCourseSaleOpen("01_office_ai_ileri")).toBe(true);
+    } finally {
+      registerAcademyProductionDiskProbe(onDisk);
+    }
+  });
+
+  it("ses dosyası yoksa satış kapalıdır; fiyat kilidi para kesmez", async () => {
+    const onDisk = (relativePath: string): boolean => academyProductionFilePresent(relativePath);
+    registerAcademyProductionDiskProbe((relativePath) =>
+      relativePath.endsWith(".mp3") && !relativePath.includes(".bed.mp3") ? false : onDisk(relativePath),
     );
     try {
       expect(academyCourseSaleOpen("01_office_ai_ileri")).toBe(false);

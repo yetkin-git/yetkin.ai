@@ -68,6 +68,7 @@ export function CurriculumOutline({
                       key={lesson.key}
                       className="flex flex-col gap-2 rounded-xl border border-[var(--border)] px-3 py-2.5 text-sm text-[var(--foreground)] sm:flex-row sm:items-center"
                       data-academy-lesson-row={previewOpen ? "preview" : freemium ? "licensed" : undefined}
+                      data-academy-lesson-storage-key={lesson.key}
                     >
                       <span className="flex min-w-0 flex-1 items-start gap-3">
                         <span className="mt-0.5 inline-flex h-6 min-w-6 items-center justify-center rounded-lg bg-[var(--safir-soft)] text-xs font-semibold text-[var(--safir-deep)]">

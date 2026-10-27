@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { DronBayrakları, INDEPENDENT_ROOMS, type IndependentRoomId } from "@/lib/dronlar/kayit";
 import { VERTICAL_ROOMS } from "@/lib/kernel/modules";
 import { isPhase1ShellNavRoom } from "@/lib/kernel/compliance/circuit-breakers";
+import { isJuniorShellPath } from "@/lib/ui/junior-shell";
 import { ROOM_NAV_ACCENT } from "@/lib/ui/room-theme";
 import { cn } from "@/components/ui/cn";
 import { ROOM_ICONS } from "@/components/ui/icons";
@@ -32,7 +33,7 @@ export function SidebarNav({
   onNavigate?: () => void;
 }) {
   const pathname = usePathname();
-  const rooms = [
+  const adultRooms = [
     ...VERTICAL_ROOMS.filter((room) => isPhase1ShellNavRoom(room.id)).map((room) => ({
       ...room,
       accent: ROOM_NAV_ACCENT[room.id],
@@ -42,6 +43,9 @@ export function SidebarNav({
       accent: INDEPENDENT_NAV_ACCENT[room.id],
     })),
   ];
+  const rooms = isJuniorShellPath(pathname)
+    ? adultRooms.filter((room) => room.id === "junior")
+    : adultRooms;
 
   return (
     <nav className="flex h-full min-h-0 flex-col">

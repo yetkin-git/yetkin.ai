@@ -25,6 +25,7 @@ import {
 import { HOLD_BPS_DEFAULT } from "@/lib/kernel/pricing/hold-bps";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { RAIL_V1_ACCEPT_FORBIDDEN, RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE, RAIL_V1_ACCEPT_MARKETPLACE_UNAVAILABLE, RAIL_V1_DELIVERY_FORBIDDEN, RAIL_V1_IDEMPOTENCY_REQUIRED, RAIL_V1_OWNER_BIDS_FORBIDDEN, RAIL_V1_OWNER_BIDS_NOT_FOUND, RAIL_V1_RELEASE_FORBIDDEN, RAIL_V1_SESSION_REQUIRED } from "@/lib/kernel/http/v1-contract";
+import { RAIL_V1_HOP_META_COUNT } from "@/lib/kernel/http/api-route-census";
 import { createMemoryHttpIdempotencyStore } from "@/lib/kernel/http/memory-idempotency-store";
 import { requireRailV1IdempotencyKey } from "@/lib/kernel/http/v1-runtime-shield";
 import { createV1HttpClient } from "../../apps/rail-is/src/api/client";
@@ -533,8 +534,8 @@ describe("Protokol tanığı — Native Dron vs Core /api/v1", () => {
     await expect(unversionedClient.getWalletStrip()).rejects.toBeInstanceOf(RailV1ProtocolError);
   });
 
-  it("Gün 0 allowlist 17 B2C hop; freelancer Tezgâh donduruldu", () => {
-    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(29);
+  it("Gün 0 allowlist B2C hop sayısı meta SSOT'undan okunur; freelancer Tezgâh donduruldu", () => {
+    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(RAIL_V1_HOP_META_COUNT);
     expect(assertRailIsDay0Path(RAIL_IS_DAY0_HOPS.session.path)).toBe("/api/v1/auth/session");
     expect(assertRailIsDay0Path(RAIL_IS_DAY0_HOPS.walletStrip.path)).toBe(
       "/api/v1/dashboard/wallet-strip",

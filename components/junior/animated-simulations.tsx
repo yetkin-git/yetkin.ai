@@ -21,13 +21,34 @@ import {
   getJuniorLessonBlueprint,
   type JuniorSimulationModeId,
 } from "@/lib/junior/lesson-engine";
+import dynamic from "next/dynamic";
 import { markGameComplete, simModeToGameId } from "@/lib/junior/progress-tracker";
-import {
-  DistributeAreaSim,
-  ExponentTowerSim,
-  OperationPrioritySim,
-  ProblemStepsSim,
-} from "@/components/junior/lesson-engine/mat-topic-simulations";
+import type { TopicSimProps } from "@/components/junior/lesson-engine/mat-topic-simulations";
+
+const ExponentTowerSim = dynamic<TopicSimProps>(
+  () =>
+    import("@/components/junior/lesson-engine/mat-topic-simulations").then(
+      (mod) => mod.ExponentTowerSim,
+    ),
+);
+const OperationPrioritySim = dynamic<TopicSimProps>(
+  () =>
+    import("@/components/junior/lesson-engine/mat-topic-simulations").then(
+      (mod) => mod.OperationPrioritySim,
+    ),
+);
+const DistributeAreaSim = dynamic<TopicSimProps>(
+  () =>
+    import("@/components/junior/lesson-engine/mat-topic-simulations").then(
+      (mod) => mod.DistributeAreaSim,
+    ),
+);
+const ProblemStepsSim = dynamic<TopicSimProps>(
+  () =>
+    import("@/components/junior/lesson-engine/mat-topic-simulations").then(
+      (mod) => mod.ProblemStepsSim,
+    ),
+);
 
 const MARBLE_TOTAL = 12;
 const GROUP_OPTIONS = [2, 3, 4, 5] as const;
@@ -44,17 +65,8 @@ const MARBLE_PALETTE = [
 const BALANCE_NUMBERS = [12, 14, 15, 18, 24, 30] as const;
 const BALANCE_DIVISORS = [2, 3, 4, 5, 6, 9, 10] as const;
 
-const FEED_TOTALS = [15, 24, 25] as const;
-const CHICKEN_COUNTS = [2, 3, 5, 10] as const;
-
-const EGG_TOTAL = 24;
-const EGG_CARTON_SIZES = [2, 3, 4, 5, 6, 7, 8] as const;
-
 type SimMode = JuniorSimulationModeId;
 type GroupSize = (typeof GROUP_OPTIONS)[number];
-type FeedTotal = (typeof FEED_TOTALS)[number];
-type ChickenCount = (typeof CHICKEN_COUNTS)[number];
-type EggCartonSize = (typeof EGG_CARTON_SIZES)[number];
 
 type MarbleSlot = "pool" | `box-${number}` | "remainder";
 
@@ -694,518 +706,6 @@ function DivisibilityBalanceSim({
   );
 }
 
-function ChickenSvg(props: {
-  happy?: boolean;
-  feedPerChicken: number;
-  index: number;
-}): ReactElement {
-  const { happy, feedPerChicken, index } = props;
-  const uid = useId();
-  const body = happy ? "#fbbf24" : "#fcd34d";
-  const comb = happy ? "#ef4444" : "#f87171";
-
-  return (
-    <div
-      data-junior-sim-chicken={index}
-      className={`flex flex-col items-center gap-1 rounded-2xl border-2 p-2 transition ${
-        happy
-          ? "animate-chicken-hop border-emerald-400 bg-emerald-50/80 shadow-[0_0_18px_rgba(16,185,129,0.35)]"
-          : "border-amber-200/80 bg-amber-50/60 hover:border-amber-400 hover:-translate-y-0.5"
-      }`}
-    >
-      <svg viewBox="0 0 80 72" className="h-14 w-16 sm:h-16 sm:w-[4.5rem]" role="img" aria-label={`Tavuk ${index + 1}`}>
-        <defs>
-          <radialGradient id={`${uid}-body`} cx="35%" cy="30%" r="70%">
-            <stop offset="0%" stopColor="#fff7ed" />
-            <stop offset="55%" stopColor={body} />
-            <stop offset="100%" stopColor="#d97706" />
-          </radialGradient>
-        </defs>
-        <ellipse cx="40" cy="66" rx="22" ry="4" fill="rgba(120,53,15,0.18)" />
-        <ellipse cx="40" cy="42" rx="22" ry="18" fill={`url(#${uid}-body)`} />
-        <circle cx="52" cy="28" r="12" fill={`url(#${uid}-body)`} />
-        <ellipse cx="62" cy="30" rx="5" ry="3.5" fill="#f59e0b" />
-        <circle cx="56" cy="26" r="2.2" fill="#1e293b" />
-        <path d="M48 16 Q52 8 56 14 Q60 8 62 16 Q56 12 48 16" fill={comb} />
-        <path d="M28 40 Q18 36 16 44 Q20 48 28 46" fill="#fef3c7" stroke="#d97706" strokeWidth="1" />
-        <path d="M36 58 L34 66 M44 58 L46 66" stroke="#ea580c" strokeWidth="2.5" strokeLinecap="round" />
-        {happy ? (
-          <text x="40" y="14" textAnchor="middle" fontSize="10" fill="#059669">
-            ♥
-          </text>
-        ) : null}
-      </svg>
-      <p className="text-[10px] font-black text-amber-950 sm:text-xs">
-        {feedPerChicken > 0 ? `${feedPerChicken} yem` : "Bekliyor"}
-      </p>
-    </div>
-  );
-}
-
-function FeedPellet(props: { index: number; leftover?: boolean }): ReactElement {
-  const { index, leftover } = props;
-  return (
-    <span
-      data-junior-sim-feed={index}
-      aria-hidden
-      className={`inline-block h-2.5 w-2.5 rounded-full border shadow-sm sm:h-3 sm:w-3 ${
-        leftover
-          ? "animate-marble-bounce border-rose-300 bg-gradient-to-br from-rose-200 to-rose-500"
-          : "border-amber-200 bg-gradient-to-br from-amber-100 to-amber-600"
-      }`}
-      style={{ animationDelay: leftover ? `${(index % 5) * 40}ms` : undefined }}
-    />
-  );
-}
-
-function ChickenFeedSimulation({
-  profileId = "",
-  lessonKey = "",
-  onSuccess,
-}: {
-  profileId?: string;
-  lessonKey?: string;
-  onSuccess?: () => void;
-}): ReactElement {
-  const [feedTotal, setFeedTotal] = useState<FeedTotal>(15);
-  const [chickens, setChickens] = useState<ChickenCount>(3);
-  const [fed, setFed] = useState(false);
-  const [pulse, setPulse] = useState(0);
-
-  const perChicken = Math.floor(feedTotal / chickens);
-  const remainder = feedTotal % chickens;
-  const exact = remainder === 0;
-  const equation =
-    exact
-      ? `${feedTotal} = ${chickens} × ${perChicken}`
-      : `${feedTotal} = ${chickens} × ${perChicken} + ${remainder}`;
-
-  useEffect(() => {
-    if (!fed) {
-      return;
-    }
-    setPulse((p) => p + 1);
-    if (exact) {
-      playApplauseSound();
-      burstJuniorActivityConfetti("spark");
-      const gameId = simModeToGameId("chicken");
-      if (gameId) {
-        markGameComplete(profileId, lessonKey, gameId);
-        onSuccess?.();
-      }
-    } else {
-      playOopsSound();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- fed / exact SSOT
-  }, [fed, exact, feedTotal, chickens]);
-
-  function selectFeed(next: FeedTotal) {
-    primeActivityAudio();
-    setFeedTotal(next);
-    setFed(false);
-  }
-
-  function selectChickens(next: ChickenCount) {
-    primeActivityAudio();
-    setChickens(next);
-    setFed(false);
-  }
-
-  function distribute() {
-    primeActivityAudio();
-    setFed(true);
-  }
-
-  function reset() {
-    primeActivityAudio();
-    setFed(false);
-  }
-
-  return (
-    <div
-      data-junior-sim-canvas="chicken"
-      className="flex flex-col gap-3 rounded-2xl border-2 border-lime-300 bg-gradient-to-b from-lime-50 via-emerald-50 to-amber-50 p-3 sm:p-4"
-    >
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-lime-800">
-          🐣 Tavuk Yemleme (2, 5, 10 Kuralı)
-        </p>
-        <p
-          key={pulse}
-          className={`rounded-full px-3 py-1 text-xs font-black ${
-            !fed
-              ? "bg-white/70 text-lime-900"
-              : exact
-                ? "animate-badge-pop bg-emerald-500/20 text-emerald-800"
-                : "animate-badge-pop bg-rose-500/20 text-rose-800"
-          }`}
-          aria-live="polite"
-        >
-          {!fed
-            ? "Yem ve tavuk seç, sonra dağıt"
-            : exact
-              ? "Hepsi neşeli! Tam bölündü."
-              : "Kalan var! Tam bölünmez"}
-        </p>
-      </div>
-
-      <div className="grid gap-2 sm:grid-cols-2">
-        <div role="group" aria-label="Yem miktarı">
-          <p className="mb-1.5 text-[10px] font-extrabold uppercase tracking-wide text-amber-900">
-            Yem sayısı
-          </p>
-          <div className="flex flex-wrap gap-1.5">
-            {FEED_TOTALS.map((n) => (
-              <button
-                key={n}
-                type="button"
-                data-junior-sim-feed-total={n}
-                aria-pressed={feedTotal === n}
-                className={`rounded-xl border-2 px-3 py-1.5 text-xs font-extrabold transition sm:text-sm ${
-                  feedTotal === n
-                    ? "border-amber-500 bg-amber-400 text-amber-950 shadow-[0_0_14px_rgba(245,158,11,0.4)]"
-                    : "border-amber-200 bg-white text-amber-900 hover:border-amber-400 hover:-translate-y-0.5"
-                }`}
-                onClick={() => selectFeed(n)}
-              >
-                {n} yem
-              </button>
-            ))}
-          </div>
-        </div>
-        <div role="group" aria-label="Tavuk sayısı">
-          <p className="mb-1.5 text-[10px] font-extrabold uppercase tracking-wide text-lime-900">
-            Tavuk sayısı
-          </p>
-          <div className="flex flex-wrap gap-1.5">
-            {CHICKEN_COUNTS.map((n) => (
-              <button
-                key={n}
-                type="button"
-                data-junior-sim-chicken-count={n}
-                aria-pressed={chickens === n}
-                className={`rounded-xl border-2 px-3 py-1.5 text-xs font-extrabold transition sm:text-sm ${
-                  chickens === n
-                    ? "border-lime-600 bg-lime-500 text-lime-950 shadow-[0_0_14px_rgba(132,204,22,0.4)]"
-                    : "border-lime-200 bg-white text-lime-900 hover:border-lime-400 hover:-translate-y-0.5"
-                }`}
-                onClick={() => selectChickens(n)}
-              >
-                {n} tavuk
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="flex flex-wrap gap-1.5">
-        <button
-          type="button"
-          data-junior-sim-feed-run=""
-          className="rounded-xl border-2 border-emerald-500 bg-emerald-500/90 px-3 py-1.5 text-xs font-extrabold text-white transition hover:bg-emerald-600 hover:-translate-y-0.5 sm:text-sm"
-          onClick={distribute}
-        >
-          Yemleri dağıt
-        </button>
-        <button
-          type="button"
-          data-junior-sim-feed-reset=""
-          className="rounded-xl border-2 border-slate-200 bg-white px-3 py-1.5 text-xs font-extrabold text-slate-700 transition hover:border-slate-300 hover:-translate-y-0.5 sm:text-sm"
-          onClick={reset}
-        >
-          Sıfırla
-        </button>
-        <p className="ml-auto self-center rounded-full bg-white/80 px-3 py-1 text-[11px] font-black text-lime-900">
-          {equation}
-        </p>
-      </div>
-
-      <div
-        className={`grid gap-2 ${
-          chickens <= 3 ? "grid-cols-2 sm:grid-cols-3" : chickens <= 5 ? "grid-cols-3 sm:grid-cols-5" : "grid-cols-4 sm:grid-cols-5"
-        }`}
-      >
-        {Array.from({ length: chickens }, (_, i) => (
-          <ChickenSvg
-            key={`${chickens}-${feedTotal}-${i}`}
-            index={i}
-            happy={fed && exact}
-            feedPerChicken={fed ? perChicken : 0}
-          />
-        ))}
-      </div>
-
-      {fed ? (
-        <div
-          data-junior-sim-feed-yard=""
-          className={`rounded-2xl border-2 border-dashed p-3 ${
-            exact
-              ? "border-emerald-300 bg-emerald-50/70"
-              : "border-rose-300 bg-rose-50/80"
-          }`}
-        >
-          <p className="mb-2 text-center text-[10px] font-extrabold uppercase tracking-wide text-amber-950">
-            {exact
-              ? `Her tavuğa ${perChicken} yem — çitte kalan yok`
-              : `Çitte kalan yem: ${remainder} — eşit paylaşılmadı`}
-          </p>
-          <div className="flex flex-wrap justify-center gap-1">
-            {Array.from({ length: feedTotal }, (_, i) => (
-              <FeedPellet key={i} index={i} leftover={!exact && i >= feedTotal - remainder} />
-            ))}
-          </div>
-        </div>
-      ) : (
-        <div className="rounded-2xl border border-dashed border-lime-300/80 bg-white/50 p-3 text-center text-[11px] font-semibold text-lime-900/80">
-          Örn. 15 yem ÷ 5 tavuk = 3&apos;er (neşeli). 25 yem ÷ 2 tavuk = kalan 1 (çitte durur).
-        </div>
-      )}
-    </div>
-  );
-}
-
-function EggSvg(props: { index: number; leftover?: boolean; nestle?: boolean }): ReactElement {
-  const { index, leftover, nestle } = props;
-  const uid = useId();
-  return (
-    <svg
-      viewBox="0 0 28 36"
-      className={`h-7 w-5 sm:h-8 sm:w-6 ${nestle ? "animate-egg-nestle" : ""} ${
-        leftover ? "animate-marble-bounce" : ""
-      }`}
-      role="img"
-      aria-label={leftover ? `Açıkta yumurta ${index + 1}` : `Yumurta ${index + 1}`}
-      data-junior-sim-egg={index}
-      data-junior-sim-egg-leftover={leftover ? "true" : undefined}
-    >
-      <defs>
-        <radialGradient id={`${uid}-egg`} cx="35%" cy="28%" r="70%">
-          <stop offset="0%" stopColor="#fffef7" />
-          <stop offset="55%" stopColor={leftover ? "#fecdd3" : "#fde68a"} />
-          <stop offset="100%" stopColor={leftover ? "#e11d48" : "#d97706"} />
-        </radialGradient>
-      </defs>
-      <ellipse cx="14" cy="19" rx="11" ry="15" fill={`url(#${uid}-egg)`} stroke={leftover ? "#fb7185" : "#f59e0b"} strokeWidth="1.2" />
-      <ellipse cx="10" cy="12" rx="3.5" ry="2" fill="rgba(255,255,255,0.65)" />
-    </svg>
-  );
-}
-
-function EggCartonSimulation({
-  profileId = "",
-  lessonKey = "",
-  onSuccess,
-}: {
-  profileId?: string;
-  lessonKey?: string;
-  onSuccess?: () => void;
-}): ReactElement {
-  const [cartonSize, setCartonSize] = useState<EggCartonSize>(4);
-  const [packed, setPacked] = useState(false);
-  const [pulse, setPulse] = useState(0);
-
-  const cartonCount = Math.floor(EGG_TOTAL / cartonSize);
-  const remainder = EGG_TOTAL % cartonSize;
-  const exact = remainder === 0;
-  const equation = exact
-    ? `${EGG_TOTAL} = ${cartonCount} × ${cartonSize}`
-    : `${EGG_TOTAL} = ${cartonCount} × ${cartonSize} + ${remainder}`;
-
-  useEffect(() => {
-    if (!packed) {
-      return;
-    }
-    setPulse((p) => p + 1);
-    if (exact) {
-      playApplauseSound();
-      burstJuniorActivityConfetti("spark");
-      const gameId = simModeToGameId("egg");
-      if (gameId) {
-        markGameComplete(profileId, lessonKey, gameId);
-        onSuccess?.();
-      }
-    } else {
-      playOopsSound();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- packed / exact SSOT
-  }, [packed, exact, cartonSize]);
-
-  function selectSize(next: EggCartonSize) {
-    primeActivityAudio();
-    setCartonSize(next);
-    setPacked(false);
-  }
-
-  function pack() {
-    primeActivityAudio();
-    setPacked(true);
-  }
-
-  function reset() {
-    primeActivityAudio();
-    setPacked(false);
-  }
-
-  return (
-    <div
-      data-junior-sim-canvas="egg"
-      className="flex flex-col gap-3 rounded-2xl border-2 border-orange-300 bg-gradient-to-b from-orange-50 via-amber-50 to-yellow-50 p-3 sm:p-4"
-    >
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-orange-800">
-          🥚 Yumurta Kolileme (Çarpanlar)
-        </p>
-        <p
-          key={pulse}
-          className={`rounded-full px-3 py-1 text-xs font-black ${
-            !packed
-              ? "bg-white/70 text-orange-900"
-              : exact
-                ? "animate-badge-pop bg-emerald-500/20 text-emerald-800"
-                : "animate-badge-pop bg-rose-500/20 text-rose-800"
-          }`}
-          aria-live="polite"
-        >
-          {!packed
-            ? "Koli boyutu seç, yumurtaları diz"
-            : exact
-              ? "Tam oturdu! Bu bir çarpan."
-              : "Açıkta yumurta kaldı — çarpan değil"}
-        </p>
-      </div>
-
-      <div className="flex flex-wrap gap-1.5" role="group" aria-label="Koli boyutu">
-        {EGG_CARTON_SIZES.map((size) => (
-          <button
-            key={size}
-            type="button"
-            data-junior-sim-egg-size={size}
-            aria-pressed={cartonSize === size}
-            className={`rounded-xl border-2 px-3 py-1.5 text-xs font-extrabold transition sm:text-sm ${
-              cartonSize === size
-                ? "border-orange-500 bg-orange-400 text-orange-950 shadow-[0_0_14px_rgba(251,146,60,0.45)]"
-                : "border-orange-200 bg-white text-orange-900 hover:border-orange-400 hover:-translate-y-0.5"
-            }`}
-            onClick={() => selectSize(size)}
-          >
-            {size}&apos;li koli
-          </button>
-        ))}
-        <button
-          type="button"
-          data-junior-sim-egg-pack=""
-          className="ml-auto rounded-xl border-2 border-amber-500 bg-amber-400 px-3 py-1.5 text-xs font-extrabold text-amber-950 transition hover:bg-amber-500 hover:-translate-y-0.5 sm:text-sm"
-          onClick={pack}
-        >
-          Kolilere diz
-        </button>
-        <button
-          type="button"
-          data-junior-sim-egg-reset=""
-          className="rounded-xl border-2 border-slate-200 bg-white px-3 py-1.5 text-xs font-extrabold text-slate-700 transition hover:border-slate-300 hover:-translate-y-0.5 sm:text-sm"
-          onClick={reset}
-        >
-          Sıfırla
-        </button>
-      </div>
-
-      <p className="text-center text-sm font-black text-orange-950">{equation}</p>
-
-      {packed ? (
-        <>
-          <div
-            className={`grid gap-2 ${
-              cartonCount <= 4
-                ? "grid-cols-2 sm:grid-cols-4"
-                : cartonCount <= 6
-                  ? "grid-cols-3 sm:grid-cols-6"
-                  : "grid-cols-3 sm:grid-cols-4 lg:grid-cols-6"
-            }`}
-          >
-            {Array.from({ length: cartonCount }, (_, box) => (
-              <div
-                key={box}
-                data-junior-sim-egg-carton={box}
-                className={`rounded-2xl border-2 p-2 transition ${
-                  exact
-                    ? "border-emerald-400 bg-emerald-50/80 shadow-[0_0_12px_rgba(16,185,129,0.25)]"
-                    : "border-amber-300 bg-amber-100/70"
-                }`}
-              >
-                <p className="mb-1 text-center text-[10px] font-extrabold uppercase tracking-wide text-amber-900">
-                  Koli {box + 1}
-                </p>
-                <div className="flex flex-wrap justify-center gap-0.5">
-                  {Array.from({ length: cartonSize }, (_, slot) => (
-                    <EggSvg
-                      key={slot}
-                      index={box * cartonSize + slot}
-                      nestle
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-          {remainder > 0 ? (
-            <div
-              data-junior-sim-egg-leftover-zone=""
-              className="rounded-2xl border-2 border-dashed border-rose-300 bg-rose-50/90 p-3"
-            >
-              <p className="mb-2 text-center text-[10px] font-extrabold uppercase tracking-wide text-rose-800">
-                Açıkta kalan yumurta ({remainder})
-              </p>
-              <div className="flex flex-wrap justify-center gap-1">
-                {Array.from({ length: remainder }, (_, i) => (
-                  <EggSvg key={i} index={EGG_TOTAL - remainder + i} leftover />
-                ))}
-              </div>
-            </div>
-          ) : (
-            <p className="text-center text-[11px] font-semibold text-emerald-800">
-              24 yumurta {cartonSize}&apos;li kolilere tam sığdı — {cartonSize} sayısı 24&apos;ün çarpanı.
-            </p>
-          )}
-        </>
-      ) : (
-        <div className="rounded-2xl border border-dashed border-orange-300/80 bg-white/60 p-4">
-          <div className="mb-2 flex flex-wrap justify-center gap-1">
-            {Array.from({ length: EGG_TOTAL }, (_, i) => (
-              <EggSvg key={i} index={i} />
-            ))}
-          </div>
-          <p className="text-center text-[11px] font-semibold text-orange-900/80">
-            24 yumurta masada. 2, 3, 4, 6, 8&apos;li koli tam oturur; 5 veya 7&apos;li kutuda açıkta kalır.
-          </p>
-        </div>
-      )}
-    </div>
-  );
-}
-
-const SIM_TABS: {
-  id: SimMode;
-  label: string;
-  activeClass: string;
-}[] = [
-  { id: "marble", label: "🔮 Bilye Dağıtımı", activeClass: "border-cyan-500 bg-cyan-50 text-cyan-950" },
-  {
-    id: "balance",
-    label: "⚖️ Bölünebilme Terazisi",
-    activeClass: "border-violet-500 bg-violet-50 text-violet-950",
-  },
-  {
-    id: "chicken",
-    label: "🐣 Tavuk Yemleme (2, 5, 10 Kuralı)",
-    activeClass: "border-lime-600 bg-lime-50 text-lime-950",
-  },
-  {
-    id: "egg",
-    label: "🥚 Yumurta Kolileme (Çarpanlar)",
-    activeClass: "border-orange-500 bg-orange-50 text-orange-950",
-  },
-];
-
 export function AnimatedSimulationStudio({
   lessonKey,
   profileId = "",
@@ -1214,20 +714,23 @@ export function AnimatedSimulationStudio({
   lessonKey: string;
   profileId?: string;
   onSimSuccess?: () => void;
-}): ReactElement {
+}): ReactElement | null {
   const blueprint = getJuniorLessonBlueprint(lessonKey);
-  const tabs = blueprint.simulations.length > 0 ? blueprint.simulations : SIM_TABS;
+  const tabs = blueprint?.simulations ?? [];
   const defaultMode: SimMode = tabs[0]?.id ?? "marble";
   const [mode, setMode] = useState<SimMode>(defaultMode);
 
   useEffect(() => {
     const nextDefault = tabs[0]?.id ?? "marble";
-    if (!tabs.some((t) => t.id === mode)) {
+    if (tabs.length > 0 && !tabs.some((t) => t.id === mode)) {
       setMode(nextDefault);
     }
   }, [lessonKey, mode, tabs]);
 
-  const hasSimulations = blueprint.simulations.length > 0;
+  if (tabs.length === 0) {
+    return null;
+  }
+
   const simProps = { profileId, lessonKey, onSuccess: onSimSuccess };
 
   return (
@@ -1254,8 +757,7 @@ export function AnimatedSimulationStudio({
         ))}
       </div>
 
-      {hasSimulations ? (
-        <>
+      <>
           {tabs.some((t) => t.id === "exponent-tower") ? (
             <div
               id="junior-sim-panel-exponent-tower"
@@ -1316,32 +818,7 @@ export function AnimatedSimulationStudio({
               <DivisibilityBalanceSim {...simProps} />
             </div>
           ) : null}
-          {tabs.some((t) => t.id === "chicken") ? (
-            <div
-              id="junior-sim-panel-chicken"
-              role="tabpanel"
-              aria-labelledby="junior-sim-tab-chicken"
-              className={mode === "chicken" ? "block" : "hidden"}
-            >
-              <ChickenFeedSimulation {...simProps} />
-            </div>
-          ) : null}
-          {tabs.some((t) => t.id === "egg") ? (
-            <div
-              id="junior-sim-panel-egg"
-              role="tabpanel"
-              aria-labelledby="junior-sim-tab-egg"
-              className={mode === "egg" ? "block" : "hidden"}
-            >
-              <EggCartonSimulation {...simProps} />
-            </div>
-          ) : null}
-        </>
-      ) : (
-        <p className="rounded-2xl border border-slate-200 bg-white p-4 text-sm font-semibold text-slate-600">
-          Bu ders için animasyonlu simülasyon yakında.
-        </p>
-      )}
+      </>
     </div>
   );
 }

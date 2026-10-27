@@ -1,8 +1,9 @@
+import { formatMinorLabel } from "./money";
 import { DRON_COURSE_SLUGS, dronCourseTitle, type DronCourseSlug } from "./course-slugs";
 
 /**
- * Amiral + OFF-201 vitrin.
- * OFF-201 lansman etiketi tohumla aynıdır: ₺1.290. Canlı kilit katalog satırındadır.
+ * Altı vitrin kartı. Fiyat etiketi `/api/v1/academy/catalog` satırındaki `priceMinor` alanıdır.
+ * Kodda donmuş lira yoktur. Satır yoksa etiket boş kalır.
  */
 export const DRON_ACADEMY_VITRINE_SLUGS = DRON_COURSE_SLUGS;
 
@@ -16,12 +17,41 @@ export type DronAcademyCatalogItem = {
   priceLabel: string | null;
 };
 
-export function dronAcademyCatalog(): DronAcademyCatalogItem[] {
+export function dronAcademyCatalog(
+  priceLabels?: Readonly<Record<string, string | null>> | null,
+): DronAcademyCatalogItem[] {
   return DRON_ACADEMY_VITRINE_SLUGS.map((slug) => ({
     slug,
     title: dronCourseTitle(slug),
-    priceLabel: slug === "01_office_ai_ileri" ? "₺1.290" : null,
+    priceLabel: priceLabels?.[slug] ?? null,
   }));
+}
+
+/** Katalog hop gövdesinden fiyat etiketi. Tutar yoksa `null`. Uydurma lira yazılmaz. */
+export function dronAcademyPriceLabelsFromCatalog(data: unknown): Record<string, string | null> {
+  const root = data && typeof data === "object" ? (data as Record<string, unknown>) : null;
+  const courses = Array.isArray(root?.courses) ? root.courses : [];
+  const labels: Record<string, string | null> = {};
+  for (const row of courses) {
+    if (!row || typeof row !== "object") {
+      continue;
+    }
+    const record = row as { slug?: unknown; priceMinor?: unknown; currencyCode?: unknown };
+    if (typeof record.slug !== "string" || !record.slug.trim()) {
+      continue;
+    }
+    if (typeof record.priceMinor !== "number" || !Number.isInteger(record.priceMinor)) {
+      labels[record.slug] = null;
+      continue;
+    }
+    const currency = record.currencyCode === "USD" || record.currencyCode === "EUR" ? record.currencyCode : "TRY";
+    try {
+      labels[record.slug] = formatMinorLabel(record.priceMinor, currency);
+    } catch {
+      labels[record.slug] = null;
+    }
+  }
+  return labels;
 }
 
 export function academyLessonIntentId(courseId: string, lessonKey: string): string {

@@ -10,7 +10,7 @@ import { juniorNextLesson, juniorPrevLesson } from "@/lib/junior/lesson-nav";
 import {
   JUNIOR_ELECTIVE_QUOTA,
   JUNIOR_FREE_LESSON_KEY,
-  JUNIOR_PAID_ACTION_ERROR,
+  juniorPaidActionError,
 } from "@/lib/junior/limits";
 import { JUNIOR_PLAN_CODE, JUNIOR_POS_PROVIDER, juniorPlanExpiry } from "@/lib/junior/plan";
 import { juniorAgeBand } from "@/lib/junior/persona";
@@ -144,7 +144,7 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     expect(isJuniorCheckoutLocked()).toBe(true);
     const freeKeys = juniorFreeLessonKeys();
     expect(freeKeys).toContain(JUNIOR_FREE_LESSON_KEY);
-    expect(freeKeys).not.toContain("jr_06_mat-1");
+    expect(freeKeys).toContain("jr_06_mat-1");
     expect(freeKeys).toContain("jr_06_ing_main-20");
     expect(freeKeys).not.toContain("jr_06_ing_main-1");
     expect(juniorLessonAccess("jr_06_ing_main-1")).toBe("locked");
@@ -167,9 +167,14 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
         expect(prev).toBeNull();
       }
       if (next) {
-        expect(freeKeys, key).toContain(next.key);
-        expect(juniorLessonAccess(next.key), key).toBe("free");
-        expect(readJuniorLesson(next.key).access, key).toBe("free");
+        if (key === "jr_06_mat-1") {
+          expect(freeKeys, key).not.toContain(next.key);
+          expect(juniorLessonAccess(next.key), key).toBe("locked");
+        } else {
+          expect(freeKeys, key).toContain(next.key);
+          expect(juniorLessonAccess(next.key), key).toBe("free");
+          expect(readJuniorLesson(next.key).access, key).toBe("free");
+        }
       }
       if (prev) {
         expect(freeKeys, key).toContain(prev.key);
@@ -179,7 +184,7 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     const practiced = readJuniorLesson(JUNIOR_FREE_LESSON_KEY);
     expect(practiced.access).toBe("free");
     if (practiced.access === "free") {
-      expect(practiced.practice.length).toBe(3);
+      expect(practiced.practice.length).toBe(8);
     }
     const registrySlugs = COURSE_REGISTRY.map((row) => row.slug as string);
     expect(registrySlugs.some((slug) => slug.startsWith("jr_"))).toBe(false);
@@ -203,6 +208,19 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
   it("ses değerlendirmeden sonra taşınmaz; oyun puanı cüzdan değildir", async () => {
     const bare = createMemoryJuniorStore();
     const bareProfile = await openProfile(bare);
+    const firstTrialTell = await submitJuniorTell(
+      bare,
+      {
+        userId: PARENT,
+        profileId: bareProfile.id,
+        lessonKey: JUNIOR_FREE_LESSON_KEY,
+        mode: "write",
+        text: "Kesir bir bütünün eşit parçasıdır. Pay üstte, payda altta durur.",
+        now: NOW,
+      },
+      { invoke: async () => told() },
+    );
+    expect(firstTrialTell.ok).toBe(true);
     const blockedTell = await submitJuniorTell(
       bare,
       {
@@ -217,7 +235,9 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     );
     expect(blockedTell.ok).toBe(false);
     if (!blockedTell.ok) {
-      expect(blockedTell.error).toBe(JUNIOR_PAID_ACTION_ERROR);
+      expect(blockedTell.error).toBe(
+        juniorPaidActionError(juniorTopicEndQuestions(JUNIOR_FREE_LESSON_KEY).length),
+      );
     }
 
     const store = createMemoryJuniorStore();
@@ -284,7 +304,7 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
       {
         userId: PARENT,
         profileId: bareProfile.id,
-        lessonKey: "jr_06_mat-6",
+        lessonKey: "jr_06_mat-7",
         mode: "write",
         text: "Dünya kendi çevresinde döner ve gece gündüz oluşur.",
         now: NOW,
@@ -490,11 +510,11 @@ describe("Junior faz 2 — profil, kapı ve puan", () => {
     expect(readFileSync(join(root, "components", "junior", "listen-and-tell.tsx"), "utf8")).toContain(
       "Şimdi Sen Anlat",
     );
-    expect(readFileSync(join(root, "components", "junior", "listen-and-tell.tsx"), "utf8")).not.toContain(
-      "Yazarak anlat",
+    expect(readFileSync(join(root, "components", "junior", "listen-and-tell.tsx"), "utf8")).toContain(
+      "Yazarak Anlat",
     );
-    expect(readFileSync(join(root, "components", "junior", "listen-and-tell.tsx"), "utf8")).not.toContain(
-      "mode: \"write\"",
+    expect(readFileSync(join(root, "components", "junior", "listen-and-tell.tsx"), "utf8")).toContain(
+      'mode: "write"',
     );
     const player = readFileSync(join(root, "components", "junior", "vector-player.tsx"), "utf8");
     const controls = readFileSync(join(root, "components", "junior", "player", "controls.tsx"), "utf8");

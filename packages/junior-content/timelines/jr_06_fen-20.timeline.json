@@ -1,0 +1,3044 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_fen-20",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Elektriksel direnç",
+  "grade": 6,
+  "subject": "Fen Bilimleri",
+  "teacher": {
+    "name": "Deniz",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_fen-20.mp3",
+    "durationMs": 390292,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 111530
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 111530,
+      "endMs": 337450
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 337450,
+      "endMs": 390292
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 6000,
+      "pauseAfterMs": 760,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 290,
+          "endMs": 1000
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 1340,
+          "endMs": 2430
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 2650,
+          "endMs": 3260
+        },
+        {
+          "word": "hoş",
+          "startMs": 3790,
+          "endMs": 3890
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 3890,
+          "endMs": 5240
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Elektriksel direnç",
+            "subtitle": "Fen Bilimleri",
+            "ruleBadges": [],
+            "echoPrompt": "Boy, kesit ve cinsin direnci nasıl değiştirdiğini ayrı ayrı söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Elektriksel direnç, maddelerin elektrik akımına karşı gösterdiği zorluktur."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "İletkenin boyu uzadıkça direnç artar; tel kalınlaştıkça direnç azalır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Maddenin cinsi direnci değiştirir; uzun ve ince tellerin direnci büyüktür."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 6000,
+      "endMs": 10390,
+      "pauseAfterMs": 190,
+      "text": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "markedText": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 6000,
+          "endMs": 6280
+        },
+        {
+          "word": "Fen",
+          "startMs": 6440,
+          "endMs": 6650
+        },
+        {
+          "word": "Bilimleri",
+          "startMs": 6730,
+          "endMs": 7670
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 7670,
+          "endMs": 8860
+        },
+        {
+          "word": "Deniz.",
+          "startMs": 9150,
+          "endMs": 10200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 10390,
+      "endMs": 24980,
+      "pauseAfterMs": 220,
+      "text": "Bugün elektrik akımının yollarda karşılaştığı o gizemli engeli, yani elektriksel direnci keşfedeceğiz.",
+      "markedText": "Bugün elektrik akımının yollarda karşılaştığı o gizemli engeli, yani elektriksel direnci keşfedeceğiz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 10390,
+          "endMs": 10710
+        },
+        {
+          "word": "elektrik",
+          "startMs": 10840,
+          "endMs": 11300
+        },
+        {
+          "word": "akımının",
+          "startMs": 11450,
+          "endMs": 12780
+        },
+        {
+          "word": "yollarda",
+          "startMs": 13570,
+          "endMs": 14650
+        },
+        {
+          "word": "karşılaştığı",
+          "startMs": 14900,
+          "endMs": 16160
+        },
+        {
+          "word": "o",
+          "startMs": 16970,
+          "endMs": 17260
+        },
+        {
+          "word": "gizemli",
+          "startMs": 17930,
+          "endMs": 19110
+        },
+        {
+          "word": "engeli,",
+          "startMs": 19250,
+          "endMs": 20760
+        },
+        {
+          "word": "yani",
+          "startMs": 21410,
+          "endMs": 21720
+        },
+        {
+          "word": "elektriksel",
+          "startMs": 21720,
+          "endMs": 22430
+        },
+        {
+          "word": "direnci",
+          "startMs": 22770,
+          "endMs": 23540
+        },
+        {
+          "word": "keşfedeceğiz.",
+          "startMs": 23740,
+          "endMs": 24760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 24980,
+      "endMs": 34780,
+      "pauseAfterMs": 930,
+      "text": "Aynı pille çalışan iki el fenerinden birinin pırıl pırıl parlarken diğerinin neden daha loş yandığını hiç merak ettin mi?",
+      "markedText": "Aynı pille çalışan iki el fenerinden birinin pırıl pırıl parlarken diğerinin neden daha loş yandığını hiç merak ettin mi?",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 24980,
+          "endMs": 25420
+        },
+        {
+          "word": "pille",
+          "startMs": 25520,
+          "endMs": 25820
+        },
+        {
+          "word": "çalışan",
+          "startMs": 25950,
+          "endMs": 26680
+        },
+        {
+          "word": "iki",
+          "startMs": 26760,
+          "endMs": 27540
+        },
+        {
+          "word": "el",
+          "startMs": 27900,
+          "endMs": 28060
+        },
+        {
+          "word": "fenerinden",
+          "startMs": 28260,
+          "endMs": 28740
+        },
+        {
+          "word": "birinin",
+          "startMs": 28740,
+          "endMs": 29060
+        },
+        {
+          "word": "pırıl",
+          "startMs": 29220,
+          "endMs": 29320
+        },
+        {
+          "word": "pırıl",
+          "startMs": 29320,
+          "endMs": 29570
+        },
+        {
+          "word": "parlarken",
+          "startMs": 29570,
+          "endMs": 29970
+        },
+        {
+          "word": "diğerinin",
+          "startMs": 30200,
+          "endMs": 30790
+        },
+        {
+          "word": "neden",
+          "startMs": 30830,
+          "endMs": 30980
+        },
+        {
+          "word": "daha",
+          "startMs": 31080,
+          "endMs": 31170
+        },
+        {
+          "word": "loş",
+          "startMs": 31170,
+          "endMs": 31320
+        },
+        {
+          "word": "yandığını",
+          "startMs": 31370,
+          "endMs": 31900
+        },
+        {
+          "word": "hiç",
+          "startMs": 31990,
+          "endMs": 32130
+        },
+        {
+          "word": "merak",
+          "startMs": 32300,
+          "endMs": 32650
+        },
+        {
+          "word": "ettin",
+          "startMs": 32790,
+          "endMs": 33000
+        },
+        {
+          "word": "mi?",
+          "startMs": 33120,
+          "endMs": 33850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 34780,
+      "endMs": 43590,
+      "pauseAfterMs": 660,
+      "text": "Pil aynı olsa bile, devredeki telin akıma çıkardığı zorluk ampulün parlaklığını baştan sona değiştirir.",
+      "markedText": "Pil aynı olsa bile, devredeki telin akıma çıkardığı zorluk ampulün parlaklığını baştan sona değiştirir.",
+      "words": [
+        {
+          "word": "Pil",
+          "startMs": 34780,
+          "endMs": 35020
+        },
+        {
+          "word": "aynı",
+          "startMs": 35170,
+          "endMs": 35690
+        },
+        {
+          "word": "olsa",
+          "startMs": 35850,
+          "endMs": 36270
+        },
+        {
+          "word": "bile,",
+          "startMs": 36360,
+          "endMs": 36800
+        },
+        {
+          "word": "devredeki",
+          "startMs": 37330,
+          "endMs": 37910
+        },
+        {
+          "word": "telin",
+          "startMs": 38100,
+          "endMs": 38300
+        },
+        {
+          "word": "akıma",
+          "startMs": 38430,
+          "endMs": 38690
+        },
+        {
+          "word": "çıkardığı",
+          "startMs": 38780,
+          "endMs": 39220
+        },
+        {
+          "word": "zorluk",
+          "startMs": 39350,
+          "endMs": 39750
+        },
+        {
+          "word": "ampulün",
+          "startMs": 39750,
+          "endMs": 40160
+        },
+        {
+          "word": "parlaklığını",
+          "startMs": 40240,
+          "endMs": 40950
+        },
+        {
+          "word": "baştan",
+          "startMs": 40950,
+          "endMs": 41200
+        },
+        {
+          "word": "sona",
+          "startMs": 41410,
+          "endMs": 41620
+        },
+        {
+          "word": "değiştirir.",
+          "startMs": 42040,
+          "endMs": 42930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 43590,
+      "endMs": 49940,
+      "pauseAfterMs": 330,
+      "text": "Telin boyu, kalınlığı ve cinsinin direnci nasıl etkilediğini birlikte inceleyeceğiz.",
+      "markedText": "Telin boyu, kalınlığı ve cinsinin direnci nasıl etkilediğini birlikte inceleyeceğiz.",
+      "words": [
+        {
+          "word": "Telin",
+          "startMs": 43590,
+          "endMs": 43790
+        },
+        {
+          "word": "boyu,",
+          "startMs": 43790,
+          "endMs": 43970
+        },
+        {
+          "word": "kalınlığı",
+          "startMs": 44010,
+          "endMs": 44420
+        },
+        {
+          "word": "ve",
+          "startMs": 44420,
+          "endMs": 44610
+        },
+        {
+          "word": "cinsinin",
+          "startMs": 44670,
+          "endMs": 45180
+        },
+        {
+          "word": "direnci",
+          "startMs": 45720,
+          "endMs": 46250
+        },
+        {
+          "word": "nasıl",
+          "startMs": 46720,
+          "endMs": 46880
+        },
+        {
+          "word": "etkilediğini",
+          "startMs": 46970,
+          "endMs": 47710
+        },
+        {
+          "word": "birlikte",
+          "startMs": 48000,
+          "endMs": 48430
+        },
+        {
+          "word": "inceleyeceğiz.",
+          "startMs": 48510,
+          "endMs": 49610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 49940,
+      "endMs": 64740,
+      "pauseAfterMs": 250,
+      "text": "Bunu evimizdeki elektrikli ısıtıcılarda, fırınlarda ya da ekmek kızartma makinelerinde hemen görürsün.",
+      "markedText": "Bunu evimizdeki elektrikli ısıtıcılarda, fırınlarda ya da ekmek kızartma makinelerinde hemen görürsün.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 49940,
+          "endMs": 50120
+        },
+        {
+          "word": "evimizdeki",
+          "startMs": 50330,
+          "endMs": 51300
+        },
+        {
+          "word": "elektrikli",
+          "startMs": 51750,
+          "endMs": 53000
+        },
+        {
+          "word": "ısıtıcılarda,",
+          "startMs": 53430,
+          "endMs": 54500
+        },
+        {
+          "word": "fırınlarda",
+          "startMs": 54820,
+          "endMs": 56160
+        },
+        {
+          "word": "ya",
+          "startMs": 56390,
+          "endMs": 56620
+        },
+        {
+          "word": "da",
+          "startMs": 56770,
+          "endMs": 56860
+        },
+        {
+          "word": "ekmek",
+          "startMs": 56900,
+          "endMs": 57310
+        },
+        {
+          "word": "kızartma",
+          "startMs": 57720,
+          "endMs": 58900
+        },
+        {
+          "word": "makinelerinde",
+          "startMs": 59630,
+          "endMs": 62250
+        },
+        {
+          "word": "hemen",
+          "startMs": 62780,
+          "endMs": 62990
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 63100,
+          "endMs": 64490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 64740,
+      "endMs": 76280,
+      "pauseAfterMs": 230,
+      "text": "Isıtıcıların içindeki o kızaran ince ve uzun teller, nikel-krom gibi yüksek dirençli tellerdir",
+      "markedText": "Isıtıcıların içindeki o kızaran ince ve uzun teller, nikel-krom gibi yüksek dirençli tellerdir",
+      "words": [
+        {
+          "word": "Isıtıcıların",
+          "startMs": 64740,
+          "endMs": 66340
+        },
+        {
+          "word": "içindeki",
+          "startMs": 66550,
+          "endMs": 67300
+        },
+        {
+          "word": "o",
+          "startMs": 67620,
+          "endMs": 67760
+        },
+        {
+          "word": "kızaran",
+          "startMs": 67940,
+          "endMs": 68700
+        },
+        {
+          "word": "ince",
+          "startMs": 68970,
+          "endMs": 69590
+        },
+        {
+          "word": "ve",
+          "startMs": 69590,
+          "endMs": 69730
+        },
+        {
+          "word": "uzun",
+          "startMs": 69900,
+          "endMs": 70310
+        },
+        {
+          "word": "teller,",
+          "startMs": 70480,
+          "endMs": 71480
+        },
+        {
+          "word": "nikel-krom",
+          "startMs": 71920,
+          "endMs": 72950
+        },
+        {
+          "word": "gibi",
+          "startMs": 73090,
+          "endMs": 73470
+        },
+        {
+          "word": "yüksek",
+          "startMs": 73770,
+          "endMs": 74120
+        },
+        {
+          "word": "dirençli",
+          "startMs": 74120,
+          "endMs": 74740
+        },
+        {
+          "word": "tellerdir",
+          "startMs": 75210,
+          "endMs": 76050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 76280,
+      "endMs": 87830,
+      "pauseAfterMs": 490,
+      "text": "Akım bu yüksek dirençten geçerken zorlanır ve elektrik enerjisi ısıya ve ışığa dönüşür.",
+      "markedText": "Akım bu yüksek dirençten geçerken zorlanır ve elektrik enerjisi ısıya ve ışığa dönüşür.",
+      "words": [
+        {
+          "word": "Akım",
+          "startMs": 76280,
+          "endMs": 76430
+        },
+        {
+          "word": "bu",
+          "startMs": 76700,
+          "endMs": 76760
+        },
+        {
+          "word": "yüksek",
+          "startMs": 76910,
+          "endMs": 77610
+        },
+        {
+          "word": "dirençten",
+          "startMs": 78510,
+          "endMs": 79560
+        },
+        {
+          "word": "geçerken",
+          "startMs": 79890,
+          "endMs": 80300
+        },
+        {
+          "word": "zorlanır",
+          "startMs": 80940,
+          "endMs": 81770
+        },
+        {
+          "word": "ve",
+          "startMs": 82380,
+          "endMs": 82570
+        },
+        {
+          "word": "elektrik",
+          "startMs": 82710,
+          "endMs": 83300
+        },
+        {
+          "word": "enerjisi",
+          "startMs": 83510,
+          "endMs": 84320
+        },
+        {
+          "word": "ısıya",
+          "startMs": 84600,
+          "endMs": 84870
+        },
+        {
+          "word": "ve",
+          "startMs": 85130,
+          "endMs": 85250
+        },
+        {
+          "word": "ışığa",
+          "startMs": 85250,
+          "endMs": 85760
+        },
+        {
+          "word": "dönüşür.",
+          "startMs": 86160,
+          "endMs": 87340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 87830,
+      "endMs": 99740,
+      "pauseAfterMs": 470,
+      "text": "Odalarımızdaki klasik akkor ampullerin içindeki minicik sarmal tungsten tel de yüksek direnci sayesinde parıldar.",
+      "markedText": "Odalarımızdaki klasik akkor ampullerin içindeki minicik sarmal tungsten tel de yüksek direnci sayesinde parıldar.",
+      "words": [
+        {
+          "word": "Odalarımızdaki",
+          "startMs": 87830,
+          "endMs": 88700
+        },
+        {
+          "word": "klasik",
+          "startMs": 88870,
+          "endMs": 90020
+        },
+        {
+          "word": "akkor",
+          "startMs": 90720,
+          "endMs": 90920
+        },
+        {
+          "word": "ampullerin",
+          "startMs": 91040,
+          "endMs": 91680
+        },
+        {
+          "word": "içindeki",
+          "startMs": 91770,
+          "endMs": 92360
+        },
+        {
+          "word": "minicik",
+          "startMs": 92460,
+          "endMs": 93220
+        },
+        {
+          "word": "sarmal",
+          "startMs": 93280,
+          "endMs": 93850
+        },
+        {
+          "word": "tungsten",
+          "startMs": 93930,
+          "endMs": 94700
+        },
+        {
+          "word": "tel",
+          "startMs": 94780,
+          "endMs": 95260
+        },
+        {
+          "word": "de",
+          "startMs": 96010,
+          "endMs": 96090
+        },
+        {
+          "word": "yüksek",
+          "startMs": 96090,
+          "endMs": 96460
+        },
+        {
+          "word": "direnci",
+          "startMs": 96500,
+          "endMs": 96880
+        },
+        {
+          "word": "sayesinde",
+          "startMs": 97550,
+          "endMs": 98260
+        },
+        {
+          "word": "parıldar.",
+          "startMs": 98790,
+          "endMs": 99270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 99740,
+      "endMs": 111530,
+      "pauseAfterMs": 790,
+      "text": "Elektriği kayıpsız taşımak istediğimizde ise kalın ve düşük dirençli kabloları tercih ederiz.",
+      "markedText": "Elektriği kayıpsız taşımak istediğimizde ise kalın ve düşük dirençli kabloları tercih ederiz.",
+      "words": [
+        {
+          "word": "Elektriği",
+          "startMs": 99740,
+          "endMs": 100850
+        },
+        {
+          "word": "kayıpsız",
+          "startMs": 101130,
+          "endMs": 101910
+        },
+        {
+          "word": "taşımak",
+          "startMs": 102020,
+          "endMs": 102670
+        },
+        {
+          "word": "istediğimizde",
+          "startMs": 103200,
+          "endMs": 104200
+        },
+        {
+          "word": "ise",
+          "startMs": 104330,
+          "endMs": 105080
+        },
+        {
+          "word": "kalın",
+          "startMs": 105300,
+          "endMs": 106020
+        },
+        {
+          "word": "ve",
+          "startMs": 106070,
+          "endMs": 106280
+        },
+        {
+          "word": "düşük",
+          "startMs": 106330,
+          "endMs": 106940
+        },
+        {
+          "word": "dirençli",
+          "startMs": 107010,
+          "endMs": 107850
+        },
+        {
+          "word": "kabloları",
+          "startMs": 107890,
+          "endMs": 109010
+        },
+        {
+          "word": "tercih",
+          "startMs": 109270,
+          "endMs": 109610
+        },
+        {
+          "word": "ederiz.",
+          "startMs": 109870,
+          "endMs": 110740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 111530,
+      "endMs": 121820,
+      "pauseAfterMs": 280,
+      "text": "Maddelerin elektrik akımının geçişine karşı gösterdiği zorluğa elektriksel direnç denir.",
+      "markedText": "Maddelerin elektrik akımının geçişine karşı gösterdiği zorluğa elektriksel direnç denir.",
+      "words": [
+        {
+          "word": "Maddelerin",
+          "startMs": 111530,
+          "endMs": 112370
+        },
+        {
+          "word": "elektrik",
+          "startMs": 112710,
+          "endMs": 113330
+        },
+        {
+          "word": "akımının",
+          "startMs": 113700,
+          "endMs": 114860
+        },
+        {
+          "word": "geçişine",
+          "startMs": 115140,
+          "endMs": 115880
+        },
+        {
+          "word": "karşı",
+          "startMs": 115980,
+          "endMs": 116630
+        },
+        {
+          "word": "gösterdiği",
+          "startMs": 117340,
+          "endMs": 118170
+        },
+        {
+          "word": "zorluğa",
+          "startMs": 118170,
+          "endMs": 119240
+        },
+        {
+          "word": "elektriksel",
+          "startMs": 119700,
+          "endMs": 120570
+        },
+        {
+          "word": "direnç",
+          "startMs": 120690,
+          "endMs": 121100
+        },
+        {
+          "word": "denir.",
+          "startMs": 121350,
+          "endMs": 121540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 121820,
+      "endMs": 130190,
+      "pauseAfterMs": 390,
+      "text": "Bir devrede direnç ne kadar büyükse, geçen elektrik akımı o kadar azalır ve lamba o kadar sönük yanar.",
+      "markedText": "Bir devrede direnç ne kadar büyükse, geçen elektrik akımı o kadar azalır ve lamba o kadar sönük yanar.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 121820,
+          "endMs": 122090
+        },
+        {
+          "word": "devrede",
+          "startMs": 122260,
+          "endMs": 122640
+        },
+        {
+          "word": "direnç",
+          "startMs": 122860,
+          "endMs": 123220
+        },
+        {
+          "word": "ne",
+          "startMs": 123290,
+          "endMs": 123360
+        },
+        {
+          "word": "kadar",
+          "startMs": 123630,
+          "endMs": 123990
+        },
+        {
+          "word": "büyükse,",
+          "startMs": 124090,
+          "endMs": 124450
+        },
+        {
+          "word": "geçen",
+          "startMs": 124900,
+          "endMs": 125310
+        },
+        {
+          "word": "elektrik",
+          "startMs": 125370,
+          "endMs": 125770
+        },
+        {
+          "word": "akımı",
+          "startMs": 125900,
+          "endMs": 126470
+        },
+        {
+          "word": "o",
+          "startMs": 126510,
+          "endMs": 126580
+        },
+        {
+          "word": "kadar",
+          "startMs": 126690,
+          "endMs": 127030
+        },
+        {
+          "word": "azalır",
+          "startMs": 127150,
+          "endMs": 127510
+        },
+        {
+          "word": "ve",
+          "startMs": 127640,
+          "endMs": 127700
+        },
+        {
+          "word": "lamba",
+          "startMs": 127830,
+          "endMs": 128190
+        },
+        {
+          "word": "o",
+          "startMs": 128330,
+          "endMs": 128430
+        },
+        {
+          "word": "kadar",
+          "startMs": 128430,
+          "endMs": 128790
+        },
+        {
+          "word": "sönük",
+          "startMs": 128900,
+          "endMs": 129110
+        },
+        {
+          "word": "yanar.",
+          "startMs": 129170,
+          "endMs": 129800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 130190,
+      "endMs": 145700,
+      "pauseAfterMs": 940,
+      "text": "Bir iletkenin direnci üç temel özelliğe bağlıdır: İletkenin boyu, iletkenin kesit alanı yani kalınlığı ve iletkenin cinsi.",
+      "markedText": "Bir iletkenin direnci üç temel özelliğe bağlıdır: İletkenin boyu, iletkenin kesit alanı yani kalınlığı ve iletkenin cinsi.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 130190,
+          "endMs": 130340
+        },
+        {
+          "word": "iletkenin",
+          "startMs": 130450,
+          "endMs": 131170
+        },
+        {
+          "word": "direnci",
+          "startMs": 131470,
+          "endMs": 132250
+        },
+        {
+          "word": "üç",
+          "startMs": 132250,
+          "endMs": 132550
+        },
+        {
+          "word": "temel",
+          "startMs": 132650,
+          "endMs": 133330
+        },
+        {
+          "word": "özelliğe",
+          "startMs": 133810,
+          "endMs": 134460
+        },
+        {
+          "word": "bağlıdır:",
+          "startMs": 134530,
+          "endMs": 135340
+        },
+        {
+          "word": "İletkenin",
+          "startMs": 135460,
+          "endMs": 136360
+        },
+        {
+          "word": "boyu,",
+          "startMs": 136470,
+          "endMs": 137050
+        },
+        {
+          "word": "iletkenin",
+          "startMs": 137620,
+          "endMs": 138480
+        },
+        {
+          "word": "kesit",
+          "startMs": 138560,
+          "endMs": 138790
+        },
+        {
+          "word": "alanı",
+          "startMs": 138920,
+          "endMs": 139920
+        },
+        {
+          "word": "yani",
+          "startMs": 140270,
+          "endMs": 140660
+        },
+        {
+          "word": "kalınlığı",
+          "startMs": 140780,
+          "endMs": 141660
+        },
+        {
+          "word": "ve",
+          "startMs": 141710,
+          "endMs": 141850
+        },
+        {
+          "word": "iletkenin",
+          "startMs": 142640,
+          "endMs": 143510
+        },
+        {
+          "word": "cinsi.",
+          "startMs": 143990,
+          "endMs": 144760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 145700,
+      "endMs": 150520,
+      "pauseAfterMs": 220,
+      "text": "İletken telin boyu uzadıkça direnç artar.",
+      "markedText": "İletken telin boyu uzadıkça direnç artar.",
+      "words": [
+        {
+          "word": "İletken",
+          "startMs": 145700,
+          "endMs": 146170
+        },
+        {
+          "word": "telin",
+          "startMs": 146300,
+          "endMs": 147160
+        },
+        {
+          "word": "boyu",
+          "startMs": 147710,
+          "endMs": 147960
+        },
+        {
+          "word": "uzadıkça",
+          "startMs": 148050,
+          "endMs": 148650
+        },
+        {
+          "word": "direnç",
+          "startMs": 149410,
+          "endMs": 149820
+        },
+        {
+          "word": "artar.",
+          "startMs": 150090,
+          "endMs": 150300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 150520,
+      "endMs": 158640,
+      "pauseAfterMs": 260,
+      "text": "İletken tel kalınlaştıkça, yani kesit alanı büyüdükçe direnç azalır.",
+      "markedText": "İletken tel kalınlaştıkça, yani kesit alanı büyüdükçe direnç azalır.",
+      "words": [
+        {
+          "word": "İletken",
+          "startMs": 150520,
+          "endMs": 151290
+        },
+        {
+          "word": "tel",
+          "startMs": 151290,
+          "endMs": 151720
+        },
+        {
+          "word": "kalınlaştıkça,",
+          "startMs": 152160,
+          "endMs": 153260
+        },
+        {
+          "word": "yani",
+          "startMs": 153260,
+          "endMs": 153570
+        },
+        {
+          "word": "kesit",
+          "startMs": 153850,
+          "endMs": 154070
+        },
+        {
+          "word": "alanı",
+          "startMs": 154200,
+          "endMs": 154700
+        },
+        {
+          "word": "büyüdükçe",
+          "startMs": 154850,
+          "endMs": 155790
+        },
+        {
+          "word": "direnç",
+          "startMs": 156180,
+          "endMs": 157370
+        },
+        {
+          "word": "azalır.",
+          "startMs": 157920,
+          "endMs": 158380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 158640,
+      "endMs": 181460,
+      "pauseAfterMs": 380,
+      "text": "Ayrıca telin yapıldığı maddenin cinsi de direnci doğrudan belirler; örneğin bakır telin direnci, aynı boy ve kalınlıktaki demir telin direncinden çok daha küçüktür.",
+      "markedText": "Ayrıca telin yapıldığı maddenin cinsi de direnci doğrudan belirler; örneğin bakır telin direnci, aynı boy ve kalınlıktaki demir telin direncinden çok daha küçüktür.",
+      "words": [
+        {
+          "word": "Ayrıca",
+          "startMs": 158640,
+          "endMs": 159400
+        },
+        {
+          "word": "telin",
+          "startMs": 159580,
+          "endMs": 160230
+        },
+        {
+          "word": "yapıldığı",
+          "startMs": 160400,
+          "endMs": 161280
+        },
+        {
+          "word": "maddenin",
+          "startMs": 161280,
+          "endMs": 162620
+        },
+        {
+          "word": "cinsi",
+          "startMs": 163120,
+          "endMs": 164090
+        },
+        {
+          "word": "de",
+          "startMs": 164900,
+          "endMs": 165100
+        },
+        {
+          "word": "direnci",
+          "startMs": 165700,
+          "endMs": 166180
+        },
+        {
+          "word": "doğrudan",
+          "startMs": 166300,
+          "endMs": 166760
+        },
+        {
+          "word": "belirler;",
+          "startMs": 167040,
+          "endMs": 167460
+        },
+        {
+          "word": "örneğin",
+          "startMs": 167980,
+          "endMs": 169040
+        },
+        {
+          "word": "bakır",
+          "startMs": 169220,
+          "endMs": 169650
+        },
+        {
+          "word": "telin",
+          "startMs": 169690,
+          "endMs": 170050
+        },
+        {
+          "word": "direnci,",
+          "startMs": 170540,
+          "endMs": 171270
+        },
+        {
+          "word": "aynı",
+          "startMs": 171420,
+          "endMs": 171770
+        },
+        {
+          "word": "boy",
+          "startMs": 171850,
+          "endMs": 172410
+        },
+        {
+          "word": "ve",
+          "startMs": 172870,
+          "endMs": 173150
+        },
+        {
+          "word": "kalınlıktaki",
+          "startMs": 173660,
+          "endMs": 175270
+        },
+        {
+          "word": "demir",
+          "startMs": 175410,
+          "endMs": 175860
+        },
+        {
+          "word": "telin",
+          "startMs": 176200,
+          "endMs": 176850
+        },
+        {
+          "word": "direncinden",
+          "startMs": 177120,
+          "endMs": 178100
+        },
+        {
+          "word": "çok",
+          "startMs": 178490,
+          "endMs": 178720
+        },
+        {
+          "word": "daha",
+          "startMs": 179130,
+          "endMs": 179320
+        },
+        {
+          "word": "küçüktür.",
+          "startMs": 179410,
+          "endMs": 181080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 181460,
+      "endMs": 194270,
+      "pauseAfterMs": 290,
+      "text": "Pratik kural: Uzun ve ince teller elektrik akımına en çok zorluk çıkaran, yani direnci en büyük olan tellerdir.",
+      "markedText": "Pratik kural: Uzun ve ince teller elektrik akımına en çok zorluk çıkaran, yani direnci en büyük olan tellerdir.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 181460,
+          "endMs": 182140
+        },
+        {
+          "word": "kural:",
+          "startMs": 182730,
+          "endMs": 183640
+        },
+        {
+          "word": "Uzun",
+          "startMs": 184240,
+          "endMs": 184800
+        },
+        {
+          "word": "ve",
+          "startMs": 184880,
+          "endMs": 184940
+        },
+        {
+          "word": "ince",
+          "startMs": 185050,
+          "endMs": 185280
+        },
+        {
+          "word": "teller",
+          "startMs": 185990,
+          "endMs": 186540
+        },
+        {
+          "word": "elektrik",
+          "startMs": 186710,
+          "endMs": 187170
+        },
+        {
+          "word": "akımına",
+          "startMs": 187210,
+          "endMs": 187770
+        },
+        {
+          "word": "en",
+          "startMs": 187900,
+          "endMs": 188090
+        },
+        {
+          "word": "çok",
+          "startMs": 188170,
+          "endMs": 188360
+        },
+        {
+          "word": "zorluk",
+          "startMs": 188440,
+          "endMs": 188930
+        },
+        {
+          "word": "çıkaran,",
+          "startMs": 189060,
+          "endMs": 189890
+        },
+        {
+          "word": "yani",
+          "startMs": 190430,
+          "endMs": 190610
+        },
+        {
+          "word": "direnci",
+          "startMs": 190850,
+          "endMs": 191570
+        },
+        {
+          "word": "en",
+          "startMs": 191720,
+          "endMs": 191860
+        },
+        {
+          "word": "büyük",
+          "startMs": 192020,
+          "endMs": 192440
+        },
+        {
+          "word": "olan",
+          "startMs": 192580,
+          "endMs": 193030
+        },
+        {
+          "word": "tellerdir.",
+          "startMs": 193280,
+          "endMs": 193980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 194270,
+      "endMs": 200630,
+      "pauseAfterMs": 540,
+      "text": "Elektrik akımını geniş ya da dar bir otoyolda ilerleyen arabalara benzetebilirsin.",
+      "markedText": "Elektrik akımını geniş ya da dar bir otoyolda ilerleyen arabalara benzetebilirsin.",
+      "words": [
+        {
+          "word": "Elektrik",
+          "startMs": 194270,
+          "endMs": 194590
+        },
+        {
+          "word": "akımını",
+          "startMs": 194590,
+          "endMs": 195120
+        },
+        {
+          "word": "geniş",
+          "startMs": 195230,
+          "endMs": 195530
+        },
+        {
+          "word": "ya",
+          "startMs": 195600,
+          "endMs": 195790
+        },
+        {
+          "word": "da",
+          "startMs": 195790,
+          "endMs": 195850
+        },
+        {
+          "word": "dar",
+          "startMs": 195900,
+          "endMs": 196100
+        },
+        {
+          "word": "bir",
+          "startMs": 196180,
+          "endMs": 196370
+        },
+        {
+          "word": "otoyolda",
+          "startMs": 196410,
+          "endMs": 196920
+        },
+        {
+          "word": "ilerleyen",
+          "startMs": 197060,
+          "endMs": 197480
+        },
+        {
+          "word": "arabalara",
+          "startMs": 197600,
+          "endMs": 198110
+        },
+        {
+          "word": "benzetebilirsin.",
+          "startMs": 198580,
+          "endMs": 200090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 200630,
+      "endMs": 215200,
+      "pauseAfterMs": 800,
+      "text": "Aynı maddeden yapılmış ve aynı kalınlıkta iki tel alalım; biri 10 santimetre, diğeri 50 santimetre olsun.",
+      "markedText": "Aynı maddeden yapılmış ve aynı kalınlıkta iki tel alalım; biri 10 santimetre, diğeri 50 santimetre olsun.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 200630,
+          "endMs": 201180
+        },
+        {
+          "word": "maddeden",
+          "startMs": 201600,
+          "endMs": 202150
+        },
+        {
+          "word": "yapılmış",
+          "startMs": 202300,
+          "endMs": 203050
+        },
+        {
+          "word": "ve",
+          "startMs": 203540,
+          "endMs": 203870
+        },
+        {
+          "word": "aynı",
+          "startMs": 204230,
+          "endMs": 204590
+        },
+        {
+          "word": "kalınlıkta",
+          "startMs": 204730,
+          "endMs": 205680
+        },
+        {
+          "word": "iki",
+          "startMs": 206030,
+          "endMs": 206320
+        },
+        {
+          "word": "tel",
+          "startMs": 206440,
+          "endMs": 206690
+        },
+        {
+          "word": "alalım;",
+          "startMs": 206890,
+          "endMs": 207920
+        },
+        {
+          "word": "biri",
+          "startMs": 208770,
+          "endMs": 209310
+        },
+        {
+          "word": "10",
+          "startMs": 209440,
+          "endMs": 209590
+        },
+        {
+          "word": "santimetre,",
+          "startMs": 210490,
+          "endMs": 211320
+        },
+        {
+          "word": "diğeri",
+          "startMs": 211720,
+          "endMs": 212320
+        },
+        {
+          "word": "50",
+          "startMs": 212590,
+          "endMs": 212800
+        },
+        {
+          "word": "santimetre",
+          "startMs": 213080,
+          "endMs": 213530
+        },
+        {
+          "word": "olsun.",
+          "startMs": 213650,
+          "endMs": 214400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 215200,
+      "endMs": 226610,
+      "pauseAfterMs": 330,
+      "text": "50 santimetrelik uzun telde elektronlar daha uzun bir yolda ilerlediği için direnç daha büyüktür ve ampul daha sönük yanar.",
+      "markedText": "50 santimetrelik uzun telde elektronlar daha uzun bir yolda ilerlediği için direnç daha büyüktür ve ampul daha sönük yanar.",
+      "words": [
+        {
+          "word": "50",
+          "startMs": 215200,
+          "endMs": 215520
+        },
+        {
+          "word": "santimetrelik",
+          "startMs": 215570,
+          "endMs": 216550
+        },
+        {
+          "word": "uzun",
+          "startMs": 216670,
+          "endMs": 217210
+        },
+        {
+          "word": "telde",
+          "startMs": 217720,
+          "endMs": 218110
+        },
+        {
+          "word": "elektronlar",
+          "startMs": 218110,
+          "endMs": 218650
+        },
+        {
+          "word": "daha",
+          "startMs": 218780,
+          "endMs": 219030
+        },
+        {
+          "word": "uzun",
+          "startMs": 219140,
+          "endMs": 219590
+        },
+        {
+          "word": "bir",
+          "startMs": 219850,
+          "endMs": 220020
+        },
+        {
+          "word": "yolda",
+          "startMs": 220100,
+          "endMs": 220560
+        },
+        {
+          "word": "ilerlediği",
+          "startMs": 220720,
+          "endMs": 221370
+        },
+        {
+          "word": "için",
+          "startMs": 221470,
+          "endMs": 221700
+        },
+        {
+          "word": "direnç",
+          "startMs": 221820,
+          "endMs": 222050
+        },
+        {
+          "word": "daha",
+          "startMs": 222170,
+          "endMs": 222300
+        },
+        {
+          "word": "büyüktür",
+          "startMs": 222500,
+          "endMs": 222980
+        },
+        {
+          "word": "ve",
+          "startMs": 223170,
+          "endMs": 223480
+        },
+        {
+          "word": "ampul",
+          "startMs": 224240,
+          "endMs": 224710
+        },
+        {
+          "word": "daha",
+          "startMs": 224920,
+          "endMs": 225130
+        },
+        {
+          "word": "sönük",
+          "startMs": 225490,
+          "endMs": 225760
+        },
+        {
+          "word": "yanar.",
+          "startMs": 226170,
+          "endMs": 226280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 226610,
+      "endMs": 238370,
+      "pauseAfterMs": 490,
+      "text": "Şimdi boyları eşit iki tel alalım; biri incecik bir tel, diğeri kalın bir kablo olsun.",
+      "markedText": "Şimdi boyları eşit iki tel alalım; biri incecik bir tel, diğeri kalın bir kablo olsun.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 226610,
+          "endMs": 227320
+        },
+        {
+          "word": "boyları",
+          "startMs": 227840,
+          "endMs": 228230
+        },
+        {
+          "word": "eşit",
+          "startMs": 228230,
+          "endMs": 228630
+        },
+        {
+          "word": "iki",
+          "startMs": 228760,
+          "endMs": 229060
+        },
+        {
+          "word": "tel",
+          "startMs": 229060,
+          "endMs": 229360
+        },
+        {
+          "word": "alalım;",
+          "startMs": 229460,
+          "endMs": 230440
+        },
+        {
+          "word": "biri",
+          "startMs": 231120,
+          "endMs": 231540
+        },
+        {
+          "word": "incecik",
+          "startMs": 231660,
+          "endMs": 232090
+        },
+        {
+          "word": "bir",
+          "startMs": 232140,
+          "endMs": 232280
+        },
+        {
+          "word": "tel,",
+          "startMs": 232280,
+          "endMs": 232940
+        },
+        {
+          "word": "diğeri",
+          "startMs": 233440,
+          "endMs": 233990
+        },
+        {
+          "word": "kalın",
+          "startMs": 234460,
+          "endMs": 235000
+        },
+        {
+          "word": "bir",
+          "startMs": 235070,
+          "endMs": 235480
+        },
+        {
+          "word": "kablo",
+          "startMs": 235600,
+          "endMs": 236230
+        },
+        {
+          "word": "olsun.",
+          "startMs": 236290,
+          "endMs": 237880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 238370,
+      "endMs": 251190,
+      "pauseAfterMs": 480,
+      "text": "Kalın tel geniş bir otoban gibidir; elektronlar çok daha rahat geçer, direnç küçülür ve ampul ışıl ışıl parlar.",
+      "markedText": "Kalın tel geniş bir otoban gibidir; elektronlar çok daha rahat geçer, direnç küçülür ve ampul ışıl ışıl parlar.",
+      "words": [
+        {
+          "word": "Kalın",
+          "startMs": 238370,
+          "endMs": 238810
+        },
+        {
+          "word": "tel",
+          "startMs": 238890,
+          "endMs": 239280
+        },
+        {
+          "word": "geniş",
+          "startMs": 239480,
+          "endMs": 239880
+        },
+        {
+          "word": "bir",
+          "startMs": 239960,
+          "endMs": 240250
+        },
+        {
+          "word": "otoban",
+          "startMs": 240370,
+          "endMs": 240950
+        },
+        {
+          "word": "gibidir;",
+          "startMs": 241170,
+          "endMs": 241790
+        },
+        {
+          "word": "elektronlar",
+          "startMs": 242390,
+          "endMs": 243540
+        },
+        {
+          "word": "çok",
+          "startMs": 243880,
+          "endMs": 243970
+        },
+        {
+          "word": "daha",
+          "startMs": 243970,
+          "endMs": 244170
+        },
+        {
+          "word": "rahat",
+          "startMs": 244210,
+          "endMs": 244440
+        },
+        {
+          "word": "geçer,",
+          "startMs": 244540,
+          "endMs": 245440
+        },
+        {
+          "word": "direnç",
+          "startMs": 246070,
+          "endMs": 246760
+        },
+        {
+          "word": "küçülür",
+          "startMs": 246860,
+          "endMs": 247710
+        },
+        {
+          "word": "ve",
+          "startMs": 248060,
+          "endMs": 248150
+        },
+        {
+          "word": "ampul",
+          "startMs": 248330,
+          "endMs": 248770
+        },
+        {
+          "word": "ışıl",
+          "startMs": 248770,
+          "endMs": 249130
+        },
+        {
+          "word": "ışıl",
+          "startMs": 249220,
+          "endMs": 249550
+        },
+        {
+          "word": "parlar.",
+          "startMs": 249740,
+          "endMs": 250710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 251190,
+      "endMs": 260640,
+      "pauseAfterMs": 440,
+      "text": "Üçüncü durumda aynı boy ve kalınlıkta bir bakır tel ile bir nikel-krom tel deneyelim.",
+      "markedText": "Üçüncü durumda aynı boy ve kalınlıkta bir bakır tel ile bir nikel-krom tel deneyelim.",
+      "words": [
+        {
+          "word": "Üçüncü",
+          "startMs": 251190,
+          "endMs": 251800
+        },
+        {
+          "word": "durumda",
+          "startMs": 252130,
+          "endMs": 252570
+        },
+        {
+          "word": "aynı",
+          "startMs": 252670,
+          "endMs": 253100
+        },
+        {
+          "word": "boy",
+          "startMs": 253630,
+          "endMs": 253790
+        },
+        {
+          "word": "ve",
+          "startMs": 253850,
+          "endMs": 254000
+        },
+        {
+          "word": "kalınlıkta",
+          "startMs": 254000,
+          "endMs": 254470
+        },
+        {
+          "word": "bir",
+          "startMs": 254620,
+          "endMs": 255410
+        },
+        {
+          "word": "bakır",
+          "startMs": 255960,
+          "endMs": 256290
+        },
+        {
+          "word": "tel",
+          "startMs": 256370,
+          "endMs": 256500
+        },
+        {
+          "word": "ile",
+          "startMs": 256690,
+          "endMs": 256800
+        },
+        {
+          "word": "bir",
+          "startMs": 256920,
+          "endMs": 257460
+        },
+        {
+          "word": "nikel-krom",
+          "startMs": 258070,
+          "endMs": 258650
+        },
+        {
+          "word": "tel",
+          "startMs": 258710,
+          "endMs": 258860
+        },
+        {
+          "word": "deneyelim.",
+          "startMs": 259150,
+          "endMs": 260200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 260640,
+      "endMs": 275220,
+      "pauseAfterMs": 890,
+      "text": "Bakır telin direnci küçük olduğu için lamba parlak yanar; nikel-krom telin direnci büyük olduğu için lamba sönük kalır.",
+      "markedText": "Bakır telin direnci küçük olduğu için lamba parlak yanar; nikel-krom telin direnci büyük olduğu için lamba sönük kalır.",
+      "words": [
+        {
+          "word": "Bakır",
+          "startMs": 260640,
+          "endMs": 261430
+        },
+        {
+          "word": "telin",
+          "startMs": 261510,
+          "endMs": 261950
+        },
+        {
+          "word": "direnci",
+          "startMs": 262000,
+          "endMs": 262920
+        },
+        {
+          "word": "küçük",
+          "startMs": 263580,
+          "endMs": 263980
+        },
+        {
+          "word": "olduğu",
+          "startMs": 263980,
+          "endMs": 264780
+        },
+        {
+          "word": "için",
+          "startMs": 264900,
+          "endMs": 265730
+        },
+        {
+          "word": "lamba",
+          "startMs": 266200,
+          "endMs": 266500
+        },
+        {
+          "word": "parlak",
+          "startMs": 266610,
+          "endMs": 266810
+        },
+        {
+          "word": "yanar;",
+          "startMs": 266940,
+          "endMs": 267800
+        },
+        {
+          "word": "nikel-krom",
+          "startMs": 268350,
+          "endMs": 269420
+        },
+        {
+          "word": "telin",
+          "startMs": 269530,
+          "endMs": 269900
+        },
+        {
+          "word": "direnci",
+          "startMs": 270250,
+          "endMs": 270680
+        },
+        {
+          "word": "büyük",
+          "startMs": 270900,
+          "endMs": 271340
+        },
+        {
+          "word": "olduğu",
+          "startMs": 271450,
+          "endMs": 271810
+        },
+        {
+          "word": "için",
+          "startMs": 271890,
+          "endMs": 272180
+        },
+        {
+          "word": "lamba",
+          "startMs": 272310,
+          "endMs": 272800
+        },
+        {
+          "word": "sönük",
+          "startMs": 272940,
+          "endMs": 273420
+        },
+        {
+          "word": "kalır.",
+          "startMs": 273550,
+          "endMs": 274330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 275220,
+      "endMs": 286430,
+      "pauseAfterMs": 810,
+      "text": "Bu yüzden ev tesisatlarında direnci çok küçük olan bakır teller kullanılır.",
+      "markedText": "Bu yüzden ev tesisatlarında direnci çok küçük olan bakır teller kullanılır.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 275220,
+          "endMs": 275550
+        },
+        {
+          "word": "yüzden",
+          "startMs": 275550,
+          "endMs": 276010
+        },
+        {
+          "word": "ev",
+          "startMs": 276560,
+          "endMs": 276830
+        },
+        {
+          "word": "tesisatlarında",
+          "startMs": 276990,
+          "endMs": 278350
+        },
+        {
+          "word": "direnci",
+          "startMs": 278670,
+          "endMs": 279760
+        },
+        {
+          "word": "çok",
+          "startMs": 280160,
+          "endMs": 280380
+        },
+        {
+          "word": "küçük",
+          "startMs": 280680,
+          "endMs": 281290
+        },
+        {
+          "word": "olan",
+          "startMs": 281980,
+          "endMs": 282230
+        },
+        {
+          "word": "bakır",
+          "startMs": 282640,
+          "endMs": 283120
+        },
+        {
+          "word": "teller",
+          "startMs": 283250,
+          "endMs": 283940
+        },
+        {
+          "word": "kullanılır.",
+          "startMs": 284270,
+          "endMs": 285620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 286430,
+      "endMs": 289280,
+      "pauseAfterMs": 540,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 286430,
+          "endMs": 287530
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 287870,
+          "endMs": 288740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 289280,
+      "endMs": 292520,
+      "pauseAfterMs": 690,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 289280,
+          "endMs": 289970
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 291010,
+          "endMs": 291830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 292520,
+      "endMs": 297400,
+      "pauseAfterMs": 650,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 292520,
+          "endMs": 292800
+        },
+        {
+          "word": "noktayı",
+          "startMs": 293420,
+          "endMs": 294510
+        },
+        {
+          "word": "sen",
+          "startMs": 294600,
+          "endMs": 294900
+        },
+        {
+          "word": "de",
+          "startMs": 295260,
+          "endMs": 295470
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 295570,
+          "endMs": 296750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 297400,
+      "endMs": 304400,
+      "pauseAfterMs": 1070,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 297400,
+          "endMs": 297700
+        },
+        {
+          "word": "sevgili",
+          "startMs": 297760,
+          "endMs": 298110
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 298210,
+          "endMs": 298640
+        },
+        {
+          "word": "işte",
+          "startMs": 298690,
+          "endMs": 298970
+        },
+        {
+          "word": "tam",
+          "startMs": 298970,
+          "endMs": 299200
+        },
+        {
+          "word": "bu",
+          "startMs": 299280,
+          "endMs": 299350
+        },
+        {
+          "word": "noktada",
+          "startMs": 299410,
+          "endMs": 299910
+        },
+        {
+          "word": "dikkat",
+          "startMs": 300040,
+          "endMs": 300350
+        },
+        {
+          "word": "etmen",
+          "startMs": 300350,
+          "endMs": 300810
+        },
+        {
+          "word": "gereken",
+          "startMs": 300920,
+          "endMs": 301240
+        },
+        {
+          "word": "kilit",
+          "startMs": 302100,
+          "endMs": 302420
+        },
+        {
+          "word": "nokta.",
+          "startMs": 302460,
+          "endMs": 303330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 304400,
+      "endMs": 325080,
+      "pauseAfterMs": 900,
+      "text": "Telin kalınlığı arttıkça akıma daha çok zorluk çıkaracağını sanabilirsin; oysa geniş bir otoyol gibi kalın tel de elektronlara rahat bir geçiş sunar ve direnç azalır.",
+      "markedText": "Telin kalınlığı arttıkça akıma daha çok zorluk çıkaracağını sanabilirsin; oysa geniş bir otoyol gibi kalın tel de elektronlara rahat bir geçiş sunar ve direnç azalır.",
+      "words": [
+        {
+          "word": "Telin",
+          "startMs": 304400,
+          "endMs": 304620
+        },
+        {
+          "word": "kalınlığı",
+          "startMs": 304740,
+          "endMs": 305620
+        },
+        {
+          "word": "arttıkça",
+          "startMs": 305980,
+          "endMs": 306830
+        },
+        {
+          "word": "akıma",
+          "startMs": 307160,
+          "endMs": 307770
+        },
+        {
+          "word": "daha",
+          "startMs": 307950,
+          "endMs": 308330
+        },
+        {
+          "word": "çok",
+          "startMs": 308440,
+          "endMs": 309190
+        },
+        {
+          "word": "zorluk",
+          "startMs": 310110,
+          "endMs": 310690
+        },
+        {
+          "word": "çıkaracağını",
+          "startMs": 311490,
+          "endMs": 312680
+        },
+        {
+          "word": "sanabilirsin;",
+          "startMs": 312900,
+          "endMs": 314030
+        },
+        {
+          "word": "oysa",
+          "startMs": 314480,
+          "endMs": 314830
+        },
+        {
+          "word": "geniş",
+          "startMs": 314830,
+          "endMs": 315180
+        },
+        {
+          "word": "bir",
+          "startMs": 315380,
+          "endMs": 315630
+        },
+        {
+          "word": "otoyol",
+          "startMs": 315630,
+          "endMs": 316350
+        },
+        {
+          "word": "gibi",
+          "startMs": 317350,
+          "endMs": 317760
+        },
+        {
+          "word": "kalın",
+          "startMs": 317760,
+          "endMs": 318070
+        },
+        {
+          "word": "tel",
+          "startMs": 318150,
+          "endMs": 318440
+        },
+        {
+          "word": "de",
+          "startMs": 319370,
+          "endMs": 319560
+        },
+        {
+          "word": "elektronlara",
+          "startMs": 319660,
+          "endMs": 320480
+        },
+        {
+          "word": "rahat",
+          "startMs": 320480,
+          "endMs": 320850
+        },
+        {
+          "word": "bir",
+          "startMs": 320850,
+          "endMs": 321720
+        },
+        {
+          "word": "geçiş",
+          "startMs": 321910,
+          "endMs": 322230
+        },
+        {
+          "word": "sunar",
+          "startMs": 322230,
+          "endMs": 322620
+        },
+        {
+          "word": "ve",
+          "startMs": 322620,
+          "endMs": 322730
+        },
+        {
+          "word": "direnç",
+          "startMs": 322820,
+          "endMs": 323250
+        },
+        {
+          "word": "azalır.",
+          "startMs": 323300,
+          "endMs": 324180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 325080,
+      "endMs": 332440,
+      "pauseAfterMs": 970,
+      "text": "Tel uzadıkça yol uzadığı için direncin arttığını kolayca zihninde canlandırabilirsin.",
+      "markedText": "Tel uzadıkça yol uzadığı için direncin arttığını kolayca zihninde canlandırabilirsin.",
+      "words": [
+        {
+          "word": "Tel",
+          "startMs": 325080,
+          "endMs": 325250
+        },
+        {
+          "word": "uzadıkça",
+          "startMs": 325360,
+          "endMs": 326040
+        },
+        {
+          "word": "yol",
+          "startMs": 326910,
+          "endMs": 327120
+        },
+        {
+          "word": "uzadığı",
+          "startMs": 327240,
+          "endMs": 327500
+        },
+        {
+          "word": "için",
+          "startMs": 327600,
+          "endMs": 327980
+        },
+        {
+          "word": "direncin",
+          "startMs": 327980,
+          "endMs": 328480
+        },
+        {
+          "word": "arttığını",
+          "startMs": 328530,
+          "endMs": 329010
+        },
+        {
+          "word": "kolayca",
+          "startMs": 329010,
+          "endMs": 329390
+        },
+        {
+          "word": "zihninde",
+          "startMs": 329390,
+          "endMs": 329850
+        },
+        {
+          "word": "canlandırabilirsin.",
+          "startMs": 329850,
+          "endMs": 331470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 332440,
+      "endMs": 337450,
+      "pauseAfterMs": 190,
+      "text": "Elektriksel direnç konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Elektriksel direnç konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Elektriksel",
+          "startMs": 332440,
+          "endMs": 333010
+        },
+        {
+          "word": "direnç",
+          "startMs": 333010,
+          "endMs": 333290
+        },
+        {
+          "word": "konusunda",
+          "startMs": 333390,
+          "endMs": 333820
+        },
+        {
+          "word": "kuralın",
+          "startMs": 333920,
+          "endMs": 334200
+        },
+        {
+          "word": "tersini",
+          "startMs": 334270,
+          "endMs": 334580
+        },
+        {
+          "word": "sanmak",
+          "startMs": 334690,
+          "endMs": 334890
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 334960,
+          "endMs": 335560
+        },
+        {
+          "word": "ters",
+          "startMs": 336000,
+          "endMs": 336240
+        },
+        {
+          "word": "cümle",
+          "startMs": 336280,
+          "endMs": 336600
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 336600,
+          "endMs": 337260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 337450,
+      "endMs": 341300,
+      "pauseAfterMs": 810,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 337450,
+          "endMs": 337740
+        },
+        {
+          "word": "Neler",
+          "startMs": 337830,
+          "endMs": 339000
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 339850,
+          "endMs": 340490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 341300,
+      "endMs": 342390,
+      "pauseAfterMs": 640,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 341300,
+          "endMs": 341750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 342390,
+      "endMs": 349740,
+      "pauseAfterMs": 600,
+      "text": "Elektriksel direnç, maddelerin elektrik akımına karşı gösterdiği zorluktur.",
+      "markedText": "Elektriksel direnç, maddelerin elektrik akımına karşı gösterdiği zorluktur.",
+      "words": [
+        {
+          "word": "Elektriksel",
+          "startMs": 342390,
+          "endMs": 342910
+        },
+        {
+          "word": "direnç,",
+          "startMs": 342950,
+          "endMs": 343540
+        },
+        {
+          "word": "maddelerin",
+          "startMs": 344070,
+          "endMs": 344950
+        },
+        {
+          "word": "elektrik",
+          "startMs": 345100,
+          "endMs": 345730
+        },
+        {
+          "word": "akımına",
+          "startMs": 345730,
+          "endMs": 346380
+        },
+        {
+          "word": "karşı",
+          "startMs": 346570,
+          "endMs": 346940
+        },
+        {
+          "word": "gösterdiği",
+          "startMs": 347000,
+          "endMs": 347880
+        },
+        {
+          "word": "zorluktur.",
+          "startMs": 348010,
+          "endMs": 349140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 349740,
+      "endMs": 350490,
+      "pauseAfterMs": 430,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 349740,
+          "endMs": 350060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 350490,
+      "endMs": 356880,
+      "pauseAfterMs": 560,
+      "text": "İletkenin boyu uzadıkça direnç artar; tel kalınlaştıkça direnç azalır.",
+      "markedText": "İletkenin boyu uzadıkça direnç artar; tel kalınlaştıkça direnç azalır.",
+      "words": [
+        {
+          "word": "İletkenin",
+          "startMs": 350490,
+          "endMs": 351120
+        },
+        {
+          "word": "boyu",
+          "startMs": 351240,
+          "endMs": 351640
+        },
+        {
+          "word": "uzadıkça",
+          "startMs": 351640,
+          "endMs": 352320
+        },
+        {
+          "word": "direnç",
+          "startMs": 352390,
+          "endMs": 352850
+        },
+        {
+          "word": "artar;",
+          "startMs": 352910,
+          "endMs": 353680
+        },
+        {
+          "word": "tel",
+          "startMs": 354360,
+          "endMs": 354450
+        },
+        {
+          "word": "kalınlaştıkça",
+          "startMs": 354450,
+          "endMs": 355200
+        },
+        {
+          "word": "direnç",
+          "startMs": 355260,
+          "endMs": 355640
+        },
+        {
+          "word": "azalır.",
+          "startMs": 355640,
+          "endMs": 356320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 356880,
+      "endMs": 356990,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 356880,
+          "endMs": 356990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 356990,
+      "endMs": 363410,
+      "pauseAfterMs": 550,
+      "text": "Maddenin cinsi direnci değiştirir; uzun ve ince tellerin direnci büyüktür.",
+      "markedText": "Maddenin cinsi direnci değiştirir; uzun ve ince tellerin direnci büyüktür.",
+      "words": [
+        {
+          "word": "Maddenin",
+          "startMs": 356990,
+          "endMs": 357680
+        },
+        {
+          "word": "cinsi",
+          "startMs": 357760,
+          "endMs": 358000
+        },
+        {
+          "word": "direnci",
+          "startMs": 358120,
+          "endMs": 358550
+        },
+        {
+          "word": "değiştirir;",
+          "startMs": 358650,
+          "endMs": 359230
+        },
+        {
+          "word": "uzun",
+          "startMs": 359620,
+          "endMs": 360080
+        },
+        {
+          "word": "ve",
+          "startMs": 360120,
+          "endMs": 360190
+        },
+        {
+          "word": "ince",
+          "startMs": 360190,
+          "endMs": 360620
+        },
+        {
+          "word": "tellerin",
+          "startMs": 360730,
+          "endMs": 361400
+        },
+        {
+          "word": "direnci",
+          "startMs": 361470,
+          "endMs": 361980
+        },
+        {
+          "word": "büyüktür.",
+          "startMs": 362080,
+          "endMs": 362860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 363410,
+      "endMs": 370090,
+      "pauseAfterMs": 450,
+      "text": "Direnç, akımın iletken içinden geçerken karşılaştığı zorluktur.",
+      "markedText": "Direnç, akımın iletken içinden geçerken karşılaştığı zorluktur.",
+      "words": [
+        {
+          "word": "Direnç,",
+          "startMs": 363410,
+          "endMs": 364030
+        },
+        {
+          "word": "akımın",
+          "startMs": 364030,
+          "endMs": 364660
+        },
+        {
+          "word": "iletken",
+          "startMs": 364810,
+          "endMs": 365230
+        },
+        {
+          "word": "içinden",
+          "startMs": 365600,
+          "endMs": 366150
+        },
+        {
+          "word": "geçerken",
+          "startMs": 366150,
+          "endMs": 366810
+        },
+        {
+          "word": "karşılaştığı",
+          "startMs": 367140,
+          "endMs": 368230
+        },
+        {
+          "word": "zorluktur.",
+          "startMs": 368310,
+          "endMs": 369640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 370090,
+      "endMs": 376980,
+      "pauseAfterMs": 630,
+      "text": "Boy, kesit ve cinsin direnci nasıl değiştirdiğini ayrı ayrı söylersin.",
+      "markedText": "Boy, kesit ve cinsin direnci nasıl değiştirdiğini ayrı ayrı söylersin.",
+      "words": [
+        {
+          "word": "Boy,",
+          "startMs": 370090,
+          "endMs": 370350
+        },
+        {
+          "word": "kesit",
+          "startMs": 370480,
+          "endMs": 370790
+        },
+        {
+          "word": "ve",
+          "startMs": 370790,
+          "endMs": 370930
+        },
+        {
+          "word": "cinsin",
+          "startMs": 370930,
+          "endMs": 371700
+        },
+        {
+          "word": "direnci",
+          "startMs": 372380,
+          "endMs": 372750
+        },
+        {
+          "word": "nasıl",
+          "startMs": 373150,
+          "endMs": 373540
+        },
+        {
+          "word": "değiştirdiğini",
+          "startMs": 373600,
+          "endMs": 374550
+        },
+        {
+          "word": "ayrı",
+          "startMs": 374630,
+          "endMs": 374980
+        },
+        {
+          "word": "ayrı",
+          "startMs": 375060,
+          "endMs": 375430
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 375660,
+          "endMs": 376350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 376980,
+      "endMs": 379400,
+      "pauseAfterMs": 620,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 376980,
+          "endMs": 377660
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 377810,
+          "endMs": 378780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 379400,
+      "endMs": 381670,
+      "pauseAfterMs": 100,
+      "text": "Harika bir iş çıkardık",
+      "markedText": "Harika bir iş çıkardık",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 379400,
+          "endMs": 379740
+        },
+        {
+          "word": "bir",
+          "startMs": 380100,
+          "endMs": 380230
+        },
+        {
+          "word": "iş",
+          "startMs": 380480,
+          "endMs": 380620
+        },
+        {
+          "word": "çıkardık",
+          "startMs": 380620,
+          "endMs": 381570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 381670,
+      "endMs": 384370,
+      "pauseAfterMs": 660,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 381670,
+          "endMs": 382430
+        },
+        {
+          "word": "sıra",
+          "startMs": 382560,
+          "endMs": 383040
+        },
+        {
+          "word": "sende.",
+          "startMs": 383130,
+          "endMs": 383710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 384370,
+      "endMs": 390292,
+      "pauseAfterMs": 522,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 384370,
+          "endMs": 385110
+        },
+        {
+          "word": "bu",
+          "startMs": 385760,
+          "endMs": 386000
+        },
+        {
+          "word": "notları",
+          "startMs": 386100,
+          "endMs": 386590
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 387120,
+          "endMs": 387760
+        },
+        {
+          "word": "kendi",
+          "startMs": 387880,
+          "endMs": 388130
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 388220,
+          "endMs": 389130
+        },
+        {
+          "word": "anlat.",
+          "startMs": 389190,
+          "endMs": 389770
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

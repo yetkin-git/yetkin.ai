@@ -1,0 +1,2484 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_mat-8",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Paydayı eşitleyerek toplama",
+  "grade": 6,
+  "subject": "Matematik",
+  "teacher": {
+    "name": "Selim",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_mat-8.mp3",
+    "durationMs": 329057,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 125980
+    },
+    {
+      "id": "ch-2",
+      "title": "Ortak payda",
+      "startMs": 125980,
+      "endMs": 195650
+    },
+    {
+      "id": "ch-3",
+      "title": "Kapanış",
+      "startMs": 195650,
+      "endMs": 329057
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 5260,
+      "pauseAfterMs": 1020,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 250,
+          "endMs": 1040
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 1210,
+          "endMs": 2230
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 2820,
+          "endMs": 3350
+        },
+        {
+          "word": "hoş",
+          "startMs": 3480,
+          "endMs": 3700
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 3800,
+          "endMs": 4240
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "fraction",
+            "title": "Denk kesir",
+            "subtitle": "Paydayı eşitle"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 5260,
+      "endMs": 9680,
+      "pauseAfterMs": 880,
+      "text": "Ben Matematik öğretmenin Selim.",
+      "markedText": "Ben Matematik öğretmenin Selim.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 5260,
+          "endMs": 5390
+        },
+        {
+          "word": "Matematik",
+          "startMs": 5490,
+          "endMs": 6580
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6710,
+          "endMs": 7670
+        },
+        {
+          "word": "Selim.",
+          "startMs": 7670,
+          "endMs": 8800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 9680,
+      "endMs": 19110,
+      "pauseAfterMs": 750,
+      "text": "Farklı boydaki dilimleri birbiriyle uyumlu hâle getireceğiz.",
+      "markedText": "Farklı boydaki dilimleri birbiriyle uyumlu hâle getireceğiz.",
+      "words": [
+        {
+          "word": "Farklı",
+          "startMs": 9680,
+          "endMs": 10690
+        },
+        {
+          "word": "boydaki",
+          "startMs": 10920,
+          "endMs": 11940
+        },
+        {
+          "word": "dilimleri",
+          "startMs": 12020,
+          "endMs": 13510
+        },
+        {
+          "word": "birbiriyle",
+          "startMs": 14420,
+          "endMs": 15090
+        },
+        {
+          "word": "uyumlu",
+          "startMs": 15090,
+          "endMs": 16250
+        },
+        {
+          "word": "hâle",
+          "startMs": 16430,
+          "endMs": 16640
+        },
+        {
+          "word": "getireceğiz.",
+          "startMs": 16640,
+          "endMs": 18360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 19110,
+      "endMs": 30190,
+      "pauseAfterMs": 620,
+      "text": "Hiç yarım ekmek ile çeyrek ekmeği aynı tabakta birleştirmeyi denedin mi?",
+      "markedText": "Hiç yarım ekmek ile çeyrek ekmeği aynı tabakta birleştirmeyi denedin mi?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 19110,
+          "endMs": 19280
+        },
+        {
+          "word": "yarım",
+          "startMs": 19280,
+          "endMs": 19760
+        },
+        {
+          "word": "ekmek",
+          "startMs": 19990,
+          "endMs": 20510
+        },
+        {
+          "word": "ile",
+          "startMs": 20510,
+          "endMs": 20690
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 20690,
+          "endMs": 21940
+        },
+        {
+          "word": "ekmeği",
+          "startMs": 22380,
+          "endMs": 23020
+        },
+        {
+          "word": "aynı",
+          "startMs": 23140,
+          "endMs": 23990
+        },
+        {
+          "word": "tabakta",
+          "startMs": 25310,
+          "endMs": 26300
+        },
+        {
+          "word": "birleştirmeyi",
+          "startMs": 26370,
+          "endMs": 27900
+        },
+        {
+          "word": "denedin",
+          "startMs": 28300,
+          "endMs": 28810
+        },
+        {
+          "word": "mi?",
+          "startMs": 28920,
+          "endMs": 29570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 30190,
+      "endMs": 39930,
+      "pauseAfterMs": 1170,
+      "text": "Dilimler aynı boyutta değilse, önce onları aynı ölçüye getiririz.",
+      "markedText": "Dilimler aynı boyutta değilse, önce onları aynı ölçüye getiririz.",
+      "words": [
+        {
+          "word": "Dilimler",
+          "startMs": 30190,
+          "endMs": 30960
+        },
+        {
+          "word": "aynı",
+          "startMs": 31080,
+          "endMs": 31630
+        },
+        {
+          "word": "boyutta",
+          "startMs": 32220,
+          "endMs": 32690
+        },
+        {
+          "word": "değilse,",
+          "startMs": 33000,
+          "endMs": 33960
+        },
+        {
+          "word": "önce",
+          "startMs": 34620,
+          "endMs": 34900
+        },
+        {
+          "word": "onları",
+          "startMs": 35190,
+          "endMs": 35840
+        },
+        {
+          "word": "aynı",
+          "startMs": 36500,
+          "endMs": 36950
+        },
+        {
+          "word": "ölçüye",
+          "startMs": 37170,
+          "endMs": 37690
+        },
+        {
+          "word": "getiririz.",
+          "startMs": 38010,
+          "endMs": 38760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 39930,
+      "endMs": 46360,
+      "pauseAfterMs": 570,
+      "text": "Paydaları farklı kesirlerle işlem yapmayı çözeceğiz.",
+      "markedText": "Paydaları farklı kesirlerle işlem yapmayı çözeceğiz.",
+      "words": [
+        {
+          "word": "Paydaları",
+          "startMs": 39930,
+          "endMs": 40600
+        },
+        {
+          "word": "farklı",
+          "startMs": 40640,
+          "endMs": 41480
+        },
+        {
+          "word": "kesirlerle",
+          "startMs": 41810,
+          "endMs": 42550
+        },
+        {
+          "word": "işlem",
+          "startMs": 42700,
+          "endMs": 43120
+        },
+        {
+          "word": "yapmayı",
+          "startMs": 43320,
+          "endMs": 44060
+        },
+        {
+          "word": "çözeceğiz.",
+          "startMs": 44380,
+          "endMs": 45790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 46360,
+      "endMs": 52240,
+      "pauseAfterMs": 680,
+      "text": "Bunu tarif defterinde de kullanırsın.",
+      "markedText": "Bunu tarif defterinde de kullanırsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 46360,
+          "endMs": 46910
+        },
+        {
+          "word": "tarif",
+          "startMs": 47030,
+          "endMs": 48090
+        },
+        {
+          "word": "defterinde",
+          "startMs": 48500,
+          "endMs": 49490
+        },
+        {
+          "word": "de",
+          "startMs": 49780,
+          "endMs": 49830
+        },
+        {
+          "word": "kullanırsın.",
+          "startMs": 49910,
+          "endMs": 51560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 52240,
+      "endMs": 59560,
+      "pauseAfterMs": 1150,
+      "text": "Yarım su bardağı ve çeyrek su bardağı un, üç çeyrek bardak un eder.",
+      "markedText": "Yarım su bardağı ve çeyrek su bardağı un, üç çeyrek bardak un eder.",
+      "words": [
+        {
+          "word": "Yarım",
+          "startMs": 52240,
+          "endMs": 52770
+        },
+        {
+          "word": "su",
+          "startMs": 52910,
+          "endMs": 53010
+        },
+        {
+          "word": "bardağı",
+          "startMs": 53120,
+          "endMs": 53790
+        },
+        {
+          "word": "ve",
+          "startMs": 53860,
+          "endMs": 54060
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 54350,
+          "endMs": 54770
+        },
+        {
+          "word": "su",
+          "startMs": 54880,
+          "endMs": 55000
+        },
+        {
+          "word": "bardağı",
+          "startMs": 55000,
+          "endMs": 55400
+        },
+        {
+          "word": "un,",
+          "startMs": 55690,
+          "endMs": 56090
+        },
+        {
+          "word": "üç",
+          "startMs": 56560,
+          "endMs": 56690
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 56690,
+          "endMs": 57170
+        },
+        {
+          "word": "bardak",
+          "startMs": 57290,
+          "endMs": 57710
+        },
+        {
+          "word": "un",
+          "startMs": 57760,
+          "endMs": 57890
+        },
+        {
+          "word": "eder.",
+          "startMs": 58020,
+          "endMs": 58410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 59560,
+      "endMs": 67610,
+      "pauseAfterMs": 1140,
+      "text": "Bardakların boyu farklı görünse de çeyrek ölçüye çevirince sayarsın.",
+      "markedText": "Bardakların boyu farklı görünse de çeyrek ölçüye çevirince sayarsın.",
+      "words": [
+        {
+          "word": "Bardakların",
+          "startMs": 59560,
+          "endMs": 60270
+        },
+        {
+          "word": "boyu",
+          "startMs": 60560,
+          "endMs": 60920
+        },
+        {
+          "word": "farklı",
+          "startMs": 60920,
+          "endMs": 61590
+        },
+        {
+          "word": "görünse",
+          "startMs": 61690,
+          "endMs": 62290
+        },
+        {
+          "word": "de",
+          "startMs": 62460,
+          "endMs": 62770
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 63150,
+          "endMs": 63630
+        },
+        {
+          "word": "ölçüye",
+          "startMs": 63720,
+          "endMs": 64320
+        },
+        {
+          "word": "çevirince",
+          "startMs": 64380,
+          "endMs": 65280
+        },
+        {
+          "word": "sayarsın.",
+          "startMs": 65420,
+          "endMs": 66470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 67610,
+      "endMs": 70360,
+      "pauseAfterMs": 850,
+      "text": "Yarım, iki çeyrektir.",
+      "markedText": "Yarım, iki çeyrektir.",
+      "words": [
+        {
+          "word": "Yarım,",
+          "startMs": 67610,
+          "endMs": 68150
+        },
+        {
+          "word": "iki",
+          "startMs": 68240,
+          "endMs": 68450
+        },
+        {
+          "word": "çeyrektir.",
+          "startMs": 68740,
+          "endMs": 69510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 70360,
+      "endMs": 76080,
+      "pauseAfterMs": 1320,
+      "text": "İki çeyrek artı bir çeyrek, üç çeyrektir.",
+      "markedText": "İki çeyrek artı bir çeyrek, üç çeyrektir.",
+      "words": [
+        {
+          "word": "İki",
+          "startMs": 70360,
+          "endMs": 70780
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 70920,
+          "endMs": 71290
+        },
+        {
+          "word": "artı",
+          "startMs": 71410,
+          "endMs": 71670
+        },
+        {
+          "word": "bir",
+          "startMs": 71670,
+          "endMs": 71940
+        },
+        {
+          "word": "çeyrek,",
+          "startMs": 72070,
+          "endMs": 72480
+        },
+        {
+          "word": "üç",
+          "startMs": 73140,
+          "endMs": 73290
+        },
+        {
+          "word": "çeyrektir.",
+          "startMs": 73360,
+          "endMs": 74760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 76080,
+      "endMs": 83850,
+      "pauseAfterMs": 570,
+      "text": "Paydalar farklıysa paylar hemen toplanmaz veya çıkarılmaz.",
+      "markedText": "Paydalar farklıysa paylar hemen toplanmaz veya çıkarılmaz.",
+      "words": [
+        {
+          "word": "Paydalar",
+          "startMs": 76080,
+          "endMs": 76720
+        },
+        {
+          "word": "farklıysa",
+          "startMs": 77000,
+          "endMs": 77580
+        },
+        {
+          "word": "paylar",
+          "startMs": 77700,
+          "endMs": 78650
+        },
+        {
+          "word": "hemen",
+          "startMs": 79360,
+          "endMs": 79760
+        },
+        {
+          "word": "toplanmaz",
+          "startMs": 79970,
+          "endMs": 80440
+        },
+        {
+          "word": "veya",
+          "startMs": 80690,
+          "endMs": 81780
+        },
+        {
+          "word": "çıkarılmaz.",
+          "startMs": 82120,
+          "endMs": 83280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-1",
+      "startMs": 83850,
+      "endMs": 86850,
+      "pauseAfterMs": 460,
+      "text": "Önce ortak bir payda seçilir.",
+      "markedText": "Önce ortak bir payda seçilir.",
+      "words": [
+        {
+          "word": "Önce",
+          "startMs": 83850,
+          "endMs": 84110
+        },
+        {
+          "word": "ortak",
+          "startMs": 84430,
+          "endMs": 84770
+        },
+        {
+          "word": "bir",
+          "startMs": 84880,
+          "endMs": 85100
+        },
+        {
+          "word": "payda",
+          "startMs": 85100,
+          "endMs": 85460
+        },
+        {
+          "word": "seçilir.",
+          "startMs": 85670,
+          "endMs": 86390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-1",
+      "startMs": 86850,
+      "endMs": 92130,
+      "pauseAfterMs": 1410,
+      "text": "Bu ortak payda, iki paydanın da buluştuğu bir kattır.",
+      "markedText": "Bu ortak payda, iki paydanın da buluştuğu bir kattır.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 86850,
+          "endMs": 87050
+        },
+        {
+          "word": "ortak",
+          "startMs": 87280,
+          "endMs": 87610
+        },
+        {
+          "word": "payda,",
+          "startMs": 87670,
+          "endMs": 88040
+        },
+        {
+          "word": "iki",
+          "startMs": 88240,
+          "endMs": 88340
+        },
+        {
+          "word": "paydanın",
+          "startMs": 88430,
+          "endMs": 88920
+        },
+        {
+          "word": "da",
+          "startMs": 89180,
+          "endMs": 89300
+        },
+        {
+          "word": "buluştuğu",
+          "startMs": 89590,
+          "endMs": 89790
+        },
+        {
+          "word": "bir",
+          "startMs": 89980,
+          "endMs": 90130
+        },
+        {
+          "word": "kattır.",
+          "startMs": 90260,
+          "endMs": 90720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-1",
+      "startMs": 92130,
+      "endMs": 104330,
+      "pauseAfterMs": 210,
+      "text": "Payda kaç kat genişletildiyse pay da aynı sayıyla çarpılır; buna denk kesir elde etme denir.",
+      "markedText": "Payda kaç kat genişletildiyse pay da aynı sayıyla çarpılır; buna denk kesir elde etme denir.",
+      "words": [
+        {
+          "word": "Payda",
+          "startMs": 92130,
+          "endMs": 92680
+        },
+        {
+          "word": "kaç",
+          "startMs": 92750,
+          "endMs": 92980
+        },
+        {
+          "word": "kat",
+          "startMs": 93100,
+          "endMs": 93900
+        },
+        {
+          "word": "genişletildiyse",
+          "startMs": 94710,
+          "endMs": 95680
+        },
+        {
+          "word": "pay",
+          "startMs": 95740,
+          "endMs": 96130
+        },
+        {
+          "word": "da",
+          "startMs": 96820,
+          "endMs": 96970
+        },
+        {
+          "word": "aynı",
+          "startMs": 97200,
+          "endMs": 97570
+        },
+        {
+          "word": "sayıyla",
+          "startMs": 97730,
+          "endMs": 97920
+        },
+        {
+          "word": "çarpılır;",
+          "startMs": 98170,
+          "endMs": 99160
+        },
+        {
+          "word": "buna",
+          "startMs": 99720,
+          "endMs": 99970
+        },
+        {
+          "word": "denk",
+          "startMs": 100370,
+          "endMs": 100560
+        },
+        {
+          "word": "kesir",
+          "startMs": 100740,
+          "endMs": 100930
+        },
+        {
+          "word": "elde",
+          "startMs": 101180,
+          "endMs": 102020
+        },
+        {
+          "word": "etme",
+          "startMs": 103020,
+          "endMs": 103420
+        },
+        {
+          "word": "denir.",
+          "startMs": 103530,
+          "endMs": 104120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-1",
+      "startMs": 104330,
+      "endMs": 117930,
+      "pauseAfterMs": 670,
+      "text": "Pratik kural: Denk kesir oluşturmak miktarı değiştirmez; sadece dilimin boyunu ve sayısını aynı oranda yeniler.",
+      "markedText": "Pratik kural: Denk kesir oluşturmak miktarı değiştirmez; sadece dilimin boyunu ve sayısını aynı oranda yeniler.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 104330,
+          "endMs": 104510
+        },
+        {
+          "word": "kural:",
+          "startMs": 104630,
+          "endMs": 105670
+        },
+        {
+          "word": "Denk",
+          "startMs": 106660,
+          "endMs": 107200
+        },
+        {
+          "word": "kesir",
+          "startMs": 107860,
+          "endMs": 108170
+        },
+        {
+          "word": "oluşturmak",
+          "startMs": 108260,
+          "endMs": 108770
+        },
+        {
+          "word": "miktarı",
+          "startMs": 109030,
+          "endMs": 109360
+        },
+        {
+          "word": "değiştirmez;",
+          "startMs": 109360,
+          "endMs": 110020
+        },
+        {
+          "word": "sadece",
+          "startMs": 111120,
+          "endMs": 111440
+        },
+        {
+          "word": "dilimin",
+          "startMs": 111630,
+          "endMs": 112020
+        },
+        {
+          "word": "boyunu",
+          "startMs": 112520,
+          "endMs": 112830
+        },
+        {
+          "word": "ve",
+          "startMs": 113040,
+          "endMs": 113210
+        },
+        {
+          "word": "sayısını",
+          "startMs": 113210,
+          "endMs": 113900
+        },
+        {
+          "word": "aynı",
+          "startMs": 114520,
+          "endMs": 114820
+        },
+        {
+          "word": "oranda",
+          "startMs": 115000,
+          "endMs": 115910
+        },
+        {
+          "word": "yeniler.",
+          "startMs": 116590,
+          "endMs": 117260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-1",
+      "startMs": 117930,
+      "endMs": 125980,
+      "pauseAfterMs": 1570,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 117930,
+          "endMs": 118070
+        },
+        {
+          "word": "şimdi",
+          "startMs": 118620,
+          "endMs": 119380
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 119920,
+          "endMs": 120770
+        },
+        {
+          "word": "çizime",
+          "startMs": 121240,
+          "endMs": 122070
+        },
+        {
+          "word": "birlikte",
+          "startMs": 122250,
+          "endMs": 123250
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 123870,
+          "endMs": 124410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 125980,
+      "endMs": 195650,
+      "pauseAfterMs": 1410,
+      "text": "Bir bölü 2 ile bir bölü 4'ü toplayalım. Paydalar 2 ve 4'tür. 4 sayısı 2'nin katı olduğu için ortak payda 4 seçilir. Bir bölü 2 kesrini 2 ile genişletirsek iki bölü 4 elde ederiz. Artık iki bölü 4 ile bir bölü 4'ü toplayabiliriz: 2 artı 1, 3 eder ve payda 4 kalır; sonuç dörtte üçtür. Çıkarmada da aynı kural geçerlidir: Üç bölü 4 eksi bir bölü 2 işleminde, bir bölü 2'yi iki bölü 4 yaparız; 3 eksi 2'den sonuç dörtte bir kalır. Yarım ile çeyrek ekmek, tam üç çeyrek ekmek eder.",
+      "markedText": "Bir bölü 2 ile bir bölü 4'ü toplayalım. {@showFraction} Paydalar 2 ve 4'tür. 4 sayısı 2'nin katı olduğu için ortak payda 4 seçilir. Bir bölü 2 kesrini 2 ile genişletirsek iki bölü 4 elde ederiz. Artık iki bölü 4 ile bir bölü 4'ü toplayabiliriz: 2 artı 1, 3 eder ve payda 4 kalır; sonuç dörtte üçtür. Çıkarmada da aynı kural geçerlidir: Üç bölü 4 eksi bir bölü 2 işleminde, bir bölü 2'yi iki bölü 4 yaparız; 3 eksi 2'den sonuç dörtte bir kalır. Yarım ile çeyrek ekmek, tam üç çeyrek ekmek eder.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 125980,
+          "endMs": 126220
+        },
+        {
+          "word": "bölü",
+          "startMs": 126220,
+          "endMs": 126930
+        },
+        {
+          "word": "2",
+          "startMs": 127120,
+          "endMs": 127300
+        },
+        {
+          "word": "ile",
+          "startMs": 127480,
+          "endMs": 127610
+        },
+        {
+          "word": "bir",
+          "startMs": 127790,
+          "endMs": 127930
+        },
+        {
+          "word": "bölü",
+          "startMs": 127970,
+          "endMs": 128350
+        },
+        {
+          "word": "4'ü",
+          "startMs": 129340,
+          "endMs": 129790
+        },
+        {
+          "word": "toplayalım.",
+          "startMs": 130050,
+          "endMs": 131120
+        },
+        {
+          "word": "Paydalar",
+          "startMs": 132070,
+          "endMs": 132630
+        },
+        {
+          "word": "2",
+          "startMs": 132700,
+          "endMs": 133200
+        },
+        {
+          "word": "ve",
+          "startMs": 133580,
+          "endMs": 133910
+        },
+        {
+          "word": "4'tür.",
+          "startMs": 134200,
+          "endMs": 134640
+        },
+        {
+          "word": "4",
+          "startMs": 135060,
+          "endMs": 135210
+        },
+        {
+          "word": "sayısı",
+          "startMs": 135210,
+          "endMs": 136180
+        },
+        {
+          "word": "2'nin",
+          "startMs": 137210,
+          "endMs": 137930
+        },
+        {
+          "word": "katı",
+          "startMs": 138100,
+          "endMs": 138470
+        },
+        {
+          "word": "olduğu",
+          "startMs": 138790,
+          "endMs": 138940
+        },
+        {
+          "word": "için",
+          "startMs": 139200,
+          "endMs": 139730
+        },
+        {
+          "word": "ortak",
+          "startMs": 139920,
+          "endMs": 140300
+        },
+        {
+          "word": "payda",
+          "startMs": 140350,
+          "endMs": 140810
+        },
+        {
+          "word": "4",
+          "startMs": 140910,
+          "endMs": 141470
+        },
+        {
+          "word": "seçilir.",
+          "startMs": 142580,
+          "endMs": 143400
+        },
+        {
+          "word": "Bir",
+          "startMs": 144270,
+          "endMs": 144440
+        },
+        {
+          "word": "bölü",
+          "startMs": 145120,
+          "endMs": 145340
+        },
+        {
+          "word": "2",
+          "startMs": 145480,
+          "endMs": 145630
+        },
+        {
+          "word": "kesrini",
+          "startMs": 145730,
+          "endMs": 146040
+        },
+        {
+          "word": "2",
+          "startMs": 146280,
+          "endMs": 146580
+        },
+        {
+          "word": "ile",
+          "startMs": 146580,
+          "endMs": 146960
+        },
+        {
+          "word": "genişletirsek",
+          "startMs": 147660,
+          "endMs": 148950
+        },
+        {
+          "word": "iki",
+          "startMs": 149160,
+          "endMs": 149290
+        },
+        {
+          "word": "bölü",
+          "startMs": 149290,
+          "endMs": 149470
+        },
+        {
+          "word": "4",
+          "startMs": 149610,
+          "endMs": 149780
+        },
+        {
+          "word": "elde",
+          "startMs": 150210,
+          "endMs": 150510
+        },
+        {
+          "word": "ederiz.",
+          "startMs": 150590,
+          "endMs": 151350
+        },
+        {
+          "word": "Artık",
+          "startMs": 152270,
+          "endMs": 152610
+        },
+        {
+          "word": "iki",
+          "startMs": 153120,
+          "endMs": 153280
+        },
+        {
+          "word": "bölü",
+          "startMs": 153320,
+          "endMs": 153460
+        },
+        {
+          "word": "4",
+          "startMs": 153600,
+          "endMs": 153730
+        },
+        {
+          "word": "ile",
+          "startMs": 153860,
+          "endMs": 153940
+        },
+        {
+          "word": "bir",
+          "startMs": 154090,
+          "endMs": 154250
+        },
+        {
+          "word": "bölü",
+          "startMs": 154530,
+          "endMs": 154660
+        },
+        {
+          "word": "4'ü",
+          "startMs": 155100,
+          "endMs": 155450
+        },
+        {
+          "word": "toplayabiliriz:",
+          "startMs": 155530,
+          "endMs": 156430
+        },
+        {
+          "word": "2",
+          "startMs": 157180,
+          "endMs": 157270
+        },
+        {
+          "word": "artı",
+          "startMs": 157400,
+          "endMs": 157660
+        },
+        {
+          "word": "1,",
+          "startMs": 157660,
+          "endMs": 158090
+        },
+        {
+          "word": "3",
+          "startMs": 159040,
+          "endMs": 159310
+        },
+        {
+          "word": "eder",
+          "startMs": 159880,
+          "endMs": 160260
+        },
+        {
+          "word": "ve",
+          "startMs": 160710,
+          "endMs": 160860
+        },
+        {
+          "word": "payda",
+          "startMs": 160990,
+          "endMs": 161280
+        },
+        {
+          "word": "4",
+          "startMs": 161620,
+          "endMs": 161790
+        },
+        {
+          "word": "kalır;",
+          "startMs": 162150,
+          "endMs": 162990
+        },
+        {
+          "word": "sonuç",
+          "startMs": 163780,
+          "endMs": 164230
+        },
+        {
+          "word": "dörtte",
+          "startMs": 164530,
+          "endMs": 164960
+        },
+        {
+          "word": "üçtür.",
+          "startMs": 165060,
+          "endMs": 165770
+        },
+        {
+          "word": "Çıkarmada",
+          "startMs": 166600,
+          "endMs": 167130
+        },
+        {
+          "word": "da",
+          "startMs": 167300,
+          "endMs": 167460
+        },
+        {
+          "word": "aynı",
+          "startMs": 167710,
+          "endMs": 168270
+        },
+        {
+          "word": "kural",
+          "startMs": 168500,
+          "endMs": 168590
+        },
+        {
+          "word": "geçerlidir:",
+          "startMs": 168730,
+          "endMs": 169580
+        },
+        {
+          "word": "Üç",
+          "startMs": 170940,
+          "endMs": 170980
+        },
+        {
+          "word": "bölü",
+          "startMs": 171060,
+          "endMs": 171460
+        },
+        {
+          "word": "4",
+          "startMs": 171650,
+          "endMs": 172160
+        },
+        {
+          "word": "eksi",
+          "startMs": 172340,
+          "endMs": 172620
+        },
+        {
+          "word": "bir",
+          "startMs": 172970,
+          "endMs": 173290
+        },
+        {
+          "word": "bölü",
+          "startMs": 173780,
+          "endMs": 174030
+        },
+        {
+          "word": "2",
+          "startMs": 174200,
+          "endMs": 174560
+        },
+        {
+          "word": "işleminde,",
+          "startMs": 174980,
+          "endMs": 176010
+        },
+        {
+          "word": "bir",
+          "startMs": 176780,
+          "endMs": 176920
+        },
+        {
+          "word": "bölü",
+          "startMs": 177160,
+          "endMs": 177670
+        },
+        {
+          "word": "2'yi",
+          "startMs": 177890,
+          "endMs": 178420
+        },
+        {
+          "word": "iki",
+          "startMs": 178460,
+          "endMs": 179270
+        },
+        {
+          "word": "bölü",
+          "startMs": 180440,
+          "endMs": 180810
+        },
+        {
+          "word": "4",
+          "startMs": 181130,
+          "endMs": 181390
+        },
+        {
+          "word": "yaparız;",
+          "startMs": 181750,
+          "endMs": 182690
+        },
+        {
+          "word": "3",
+          "startMs": 183720,
+          "endMs": 183840
+        },
+        {
+          "word": "eksi",
+          "startMs": 183840,
+          "endMs": 184270
+        },
+        {
+          "word": "2'den",
+          "startMs": 184340,
+          "endMs": 184870
+        },
+        {
+          "word": "sonuç",
+          "startMs": 185040,
+          "endMs": 185350
+        },
+        {
+          "word": "dörtte",
+          "startMs": 185460,
+          "endMs": 185850
+        },
+        {
+          "word": "bir",
+          "startMs": 185930,
+          "endMs": 186110
+        },
+        {
+          "word": "kalır.",
+          "startMs": 186110,
+          "endMs": 186820
+        },
+        {
+          "word": "Yarım",
+          "startMs": 187870,
+          "endMs": 188740
+        },
+        {
+          "word": "ile",
+          "startMs": 189000,
+          "endMs": 189370
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 189510,
+          "endMs": 189870
+        },
+        {
+          "word": "ekmek,",
+          "startMs": 190040,
+          "endMs": 191210
+        },
+        {
+          "word": "tam",
+          "startMs": 191810,
+          "endMs": 192030
+        },
+        {
+          "word": "üç",
+          "startMs": 192170,
+          "endMs": 192380
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 192460,
+          "endMs": 193080
+        },
+        {
+          "word": "ekmek",
+          "startMs": 193080,
+          "endMs": 193460
+        },
+        {
+          "word": "eder.",
+          "startMs": 193580,
+          "endMs": 194240
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 132070,
+          "op": "SHOW_FRACTION",
+          "hook": "showFraction",
+          "params": {
+            "operation": "denk",
+            "leftNumerator": 1,
+            "leftDenominator": 2,
+            "rightNumerator": 1,
+            "rightDenominator": 4,
+            "equivalentNumerator": 2,
+            "equivalentDenominator": 4,
+            "resultNumerator": 3,
+            "resultDenominator": 4,
+            "differenceNumerator": 1,
+            "differenceDenominator": 4,
+            "note": "ortak payda",
+            "marks": [
+              {
+                "slot": "paydalar",
+                "value": 2,
+                "atMs": 132700
+              },
+              {
+                "slot": "paydalar-den",
+                "value": 4,
+                "token": "4'tür",
+                "atMs": 134200
+              },
+              {
+                "slot": "common-count",
+                "value": 4,
+                "atMs": 135060
+              },
+              {
+                "slot": "factor-source",
+                "value": 2,
+                "token": "2'nin",
+                "atMs": 137210
+              },
+              {
+                "slot": "common",
+                "value": 4,
+                "atMs": 140910
+              },
+              {
+                "slot": "expand-source",
+                "value": 2,
+                "atMs": 145480
+              },
+              {
+                "slot": "expand-by",
+                "value": 2,
+                "atMs": 146280
+              },
+              {
+                "slot": "equiv-den",
+                "value": 4,
+                "atMs": 149610
+              },
+              {
+                "slot": "sum-pay",
+                "value": 2,
+                "atMs": 157180
+              },
+              {
+                "slot": "sum-other",
+                "value": 1,
+                "atMs": 157660
+              },
+              {
+                "slot": "result",
+                "value": 3,
+                "atMs": 159040
+              },
+              {
+                "slot": "result-den",
+                "value": 4,
+                "atMs": 161620
+              },
+              {
+                "slot": "diff-start",
+                "value": 3,
+                "atMs": 183720
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-3",
+      "startMs": 195650,
+      "endMs": 198000,
+      "pauseAfterMs": 750,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 195650,
+          "endMs": 195910
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 196270,
+          "endMs": 197250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-3",
+      "startMs": 198000,
+      "endMs": 204890,
+      "pauseAfterMs": 890,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 198000,
+          "endMs": 198310
+        },
+        {
+          "word": "bir",
+          "startMs": 198790,
+          "endMs": 199030
+        },
+        {
+          "word": "kez",
+          "startMs": 199390,
+          "endMs": 199630
+        },
+        {
+          "word": "görünce",
+          "startMs": 200030,
+          "endMs": 200850
+        },
+        {
+          "word": "kolayca",
+          "startMs": 201600,
+          "endMs": 202910
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 203200,
+          "endMs": 204000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-3",
+      "startMs": 204890,
+      "endMs": 213330,
+      "pauseAfterMs": 250,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 204890,
+          "endMs": 205380
+        },
+        {
+          "word": "sevgili",
+          "startMs": 205380,
+          "endMs": 206040
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 206370,
+          "endMs": 207260
+        },
+        {
+          "word": "işte",
+          "startMs": 208450,
+          "endMs": 208680
+        },
+        {
+          "word": "tam",
+          "startMs": 208780,
+          "endMs": 208910
+        },
+        {
+          "word": "bu",
+          "startMs": 208910,
+          "endMs": 209070
+        },
+        {
+          "word": "noktada",
+          "startMs": 209070,
+          "endMs": 209450
+        },
+        {
+          "word": "dikkat",
+          "startMs": 209590,
+          "endMs": 210060
+        },
+        {
+          "word": "etmen",
+          "startMs": 210230,
+          "endMs": 210650
+        },
+        {
+          "word": "gereken",
+          "startMs": 210690,
+          "endMs": 211360
+        },
+        {
+          "word": "kilit",
+          "startMs": 212220,
+          "endMs": 212360
+        },
+        {
+          "word": "nokta.",
+          "startMs": 212610,
+          "endMs": 213080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-3",
+      "startMs": 213330,
+      "endMs": 215880,
+      "pauseAfterMs": 1160,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 213330,
+          "endMs": 213640
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 213740,
+          "endMs": 214720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-3",
+      "startMs": 215880,
+      "endMs": 228290,
+      "pauseAfterMs": 1310,
+      "text": "Paydalar farklıyken hem payları hem paydaları doğrudan toplamak çok büyük bir tuzaktır.",
+      "markedText": "Paydalar farklıyken hem payları hem paydaları doğrudan toplamak çok büyük bir tuzaktır.",
+      "words": [
+        {
+          "word": "Paydalar",
+          "startMs": 215880,
+          "endMs": 216880
+        },
+        {
+          "word": "farklıyken",
+          "startMs": 217190,
+          "endMs": 218140
+        },
+        {
+          "word": "hem",
+          "startMs": 219160,
+          "endMs": 219480
+        },
+        {
+          "word": "payları",
+          "startMs": 219480,
+          "endMs": 220130
+        },
+        {
+          "word": "hem",
+          "startMs": 220170,
+          "endMs": 220330
+        },
+        {
+          "word": "paydaları",
+          "startMs": 220500,
+          "endMs": 221290
+        },
+        {
+          "word": "doğrudan",
+          "startMs": 221360,
+          "endMs": 222270
+        },
+        {
+          "word": "toplamak",
+          "startMs": 223330,
+          "endMs": 224140
+        },
+        {
+          "word": "çok",
+          "startMs": 224430,
+          "endMs": 224590
+        },
+        {
+          "word": "büyük",
+          "startMs": 224860,
+          "endMs": 225360
+        },
+        {
+          "word": "bir",
+          "startMs": 225590,
+          "endMs": 225890
+        },
+        {
+          "word": "tuzaktır.",
+          "startMs": 225980,
+          "endMs": 226980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-3",
+      "startMs": 228290,
+      "endMs": 239080,
+      "pauseAfterMs": 990,
+      "text": "Bir bölü 2 artı bir bölü 4 işlemi kesinlikle iki bölü 6 yapmaz!",
+      "markedText": "Bir bölü 2 artı bir bölü 4 işlemi kesinlikle iki bölü 6 yapmaz!",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 228290,
+          "endMs": 228420
+        },
+        {
+          "word": "bölü",
+          "startMs": 228420,
+          "endMs": 228730
+        },
+        {
+          "word": "2",
+          "startMs": 228730,
+          "endMs": 228950
+        },
+        {
+          "word": "artı",
+          "startMs": 228990,
+          "endMs": 229360
+        },
+        {
+          "word": "bir",
+          "startMs": 229560,
+          "endMs": 229830
+        },
+        {
+          "word": "bölü",
+          "startMs": 229970,
+          "endMs": 230300
+        },
+        {
+          "word": "4",
+          "startMs": 230750,
+          "endMs": 231390
+        },
+        {
+          "word": "işlemi",
+          "startMs": 232100,
+          "endMs": 232870
+        },
+        {
+          "word": "kesinlikle",
+          "startMs": 233110,
+          "endMs": 233890
+        },
+        {
+          "word": "iki",
+          "startMs": 234060,
+          "endMs": 235250
+        },
+        {
+          "word": "bölü",
+          "startMs": 235810,
+          "endMs": 236310
+        },
+        {
+          "word": "6",
+          "startMs": 236460,
+          "endMs": 237100
+        },
+        {
+          "word": "yapmaz!",
+          "startMs": 237100,
+          "endMs": 238090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-3",
+      "startMs": 239080,
+      "endMs": 250430,
+      "pauseAfterMs": 1010,
+      "text": "Önce yarımı genişletip iki bölü 4 yaparsın, sonra rahatça toplarsın.",
+      "markedText": "Önce yarımı genişletip iki bölü 4 yaparsın, sonra rahatça toplarsın.",
+      "words": [
+        {
+          "word": "Önce",
+          "startMs": 239080,
+          "endMs": 239540
+        },
+        {
+          "word": "yarımı",
+          "startMs": 239540,
+          "endMs": 240420
+        },
+        {
+          "word": "genişletip",
+          "startMs": 241050,
+          "endMs": 242020
+        },
+        {
+          "word": "iki",
+          "startMs": 242180,
+          "endMs": 242610
+        },
+        {
+          "word": "bölü",
+          "startMs": 244180,
+          "endMs": 244600
+        },
+        {
+          "word": "4",
+          "startMs": 244850,
+          "endMs": 245190
+        },
+        {
+          "word": "yaparsın,",
+          "startMs": 245740,
+          "endMs": 246460
+        },
+        {
+          "word": "sonra",
+          "startMs": 247180,
+          "endMs": 247620
+        },
+        {
+          "word": "rahatça",
+          "startMs": 247660,
+          "endMs": 248260
+        },
+        {
+          "word": "toplarsın.",
+          "startMs": 248430,
+          "endMs": 249420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-3",
+      "startMs": 250430,
+      "endMs": 257420,
+      "pauseAfterMs": 980,
+      "text": "Ortak paydayı bulunca her iki kesri de o paydaya denk hâle getir.",
+      "markedText": "Ortak paydayı bulunca her iki kesri de o paydaya denk hâle getir.",
+      "words": [
+        {
+          "word": "Ortak",
+          "startMs": 250430,
+          "endMs": 250650
+        },
+        {
+          "word": "paydayı",
+          "startMs": 250760,
+          "endMs": 251240
+        },
+        {
+          "word": "bulunca",
+          "startMs": 251440,
+          "endMs": 251670
+        },
+        {
+          "word": "her",
+          "startMs": 251770,
+          "endMs": 251890
+        },
+        {
+          "word": "iki",
+          "startMs": 252070,
+          "endMs": 252250
+        },
+        {
+          "word": "kesri",
+          "startMs": 252250,
+          "endMs": 252490
+        },
+        {
+          "word": "de",
+          "startMs": 252540,
+          "endMs": 253170
+        },
+        {
+          "word": "o",
+          "startMs": 254020,
+          "endMs": 254140
+        },
+        {
+          "word": "paydaya",
+          "startMs": 254260,
+          "endMs": 254880
+        },
+        {
+          "word": "denk",
+          "startMs": 255140,
+          "endMs": 255320
+        },
+        {
+          "word": "hâle",
+          "startMs": 255320,
+          "endMs": 255660
+        },
+        {
+          "word": "getir.",
+          "startMs": 255660,
+          "endMs": 256440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-3",
+      "startMs": 257420,
+      "endMs": 261770,
+      "pauseAfterMs": 1120,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 257420,
+          "endMs": 257950
+        },
+        {
+          "word": "Neler",
+          "startMs": 258200,
+          "endMs": 259020
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 259330,
+          "endMs": 260650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-3",
+      "startMs": 261770,
+      "endMs": 262540,
+      "pauseAfterMs": 440,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 261770,
+          "endMs": 262100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-3",
+      "startMs": 262540,
+      "endMs": 270640,
+      "pauseAfterMs": 770,
+      "text": "Paydalar farklıysa önce denk kesirle paydalar eşitlenir.",
+      "markedText": "Paydalar farklıysa önce denk kesirle paydalar eşitlenir.",
+      "words": [
+        {
+          "word": "Paydalar",
+          "startMs": 262540,
+          "endMs": 263340
+        },
+        {
+          "word": "farklıysa",
+          "startMs": 263440,
+          "endMs": 264060
+        },
+        {
+          "word": "önce",
+          "startMs": 264450,
+          "endMs": 264740
+        },
+        {
+          "word": "denk",
+          "startMs": 264940,
+          "endMs": 265990
+        },
+        {
+          "word": "kesirle",
+          "startMs": 266770,
+          "endMs": 267540
+        },
+        {
+          "word": "paydalar",
+          "startMs": 267840,
+          "endMs": 268420
+        },
+        {
+          "word": "eşitlenir.",
+          "startMs": 268490,
+          "endMs": 269870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 270640,
+      "endMs": 271130,
+      "pauseAfterMs": 230,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 270640,
+          "endMs": 270900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 271130,
+      "endMs": 278270,
+      "pauseAfterMs": 870,
+      "text": "Payda kaç kat büyüdüyse pay da o kadar kat büyür.",
+      "markedText": "Payda kaç kat büyüdüyse pay da o kadar kat büyür.",
+      "words": [
+        {
+          "word": "Payda",
+          "startMs": 271130,
+          "endMs": 271460
+        },
+        {
+          "word": "kaç",
+          "startMs": 271790,
+          "endMs": 271980
+        },
+        {
+          "word": "kat",
+          "startMs": 272170,
+          "endMs": 272430
+        },
+        {
+          "word": "büyüdüyse",
+          "startMs": 273120,
+          "endMs": 273990
+        },
+        {
+          "word": "pay",
+          "startMs": 274830,
+          "endMs": 275040
+        },
+        {
+          "word": "da",
+          "startMs": 275140,
+          "endMs": 275250
+        },
+        {
+          "word": "o",
+          "startMs": 275360,
+          "endMs": 275520
+        },
+        {
+          "word": "kadar",
+          "startMs": 275870,
+          "endMs": 276210
+        },
+        {
+          "word": "kat",
+          "startMs": 276390,
+          "endMs": 276660
+        },
+        {
+          "word": "büyür.",
+          "startMs": 276660,
+          "endMs": 277400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 278270,
+      "endMs": 279950,
+      "pauseAfterMs": 260,
+      "text": "Miktar değişmez.",
+      "markedText": "Miktar değişmez.",
+      "words": [
+        {
+          "word": "Miktar",
+          "startMs": 278270,
+          "endMs": 278800
+        },
+        {
+          "word": "değişmez.",
+          "startMs": 278900,
+          "endMs": 279690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 279950,
+      "endMs": 280430,
+      "pauseAfterMs": 360,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 279950,
+          "endMs": 280070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 280430,
+      "endMs": 287750,
+      "pauseAfterMs": 690,
+      "text": "Bir bölü 2 artı bir bölü 4, dörtte üç eder.",
+      "markedText": "Bir bölü 2 artı bir bölü 4, dörtte üç eder.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 280430,
+          "endMs": 280730
+        },
+        {
+          "word": "bölü",
+          "startMs": 281610,
+          "endMs": 281940
+        },
+        {
+          "word": "2",
+          "startMs": 281980,
+          "endMs": 282150
+        },
+        {
+          "word": "artı",
+          "startMs": 282450,
+          "endMs": 282840
+        },
+        {
+          "word": "bir",
+          "startMs": 283150,
+          "endMs": 283380
+        },
+        {
+          "word": "bölü",
+          "startMs": 283460,
+          "endMs": 283720
+        },
+        {
+          "word": "4,",
+          "startMs": 283780,
+          "endMs": 284450
+        },
+        {
+          "word": "dörtte",
+          "startMs": 285430,
+          "endMs": 286220
+        },
+        {
+          "word": "üç",
+          "startMs": 286280,
+          "endMs": 286480
+        },
+        {
+          "word": "eder.",
+          "startMs": 286550,
+          "endMs": 287060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 287750,
+      "endMs": 296250,
+      "pauseAfterMs": 2470,
+      "text": "İki bölü 6 bu işlemin sonucu değildir.",
+      "markedText": "İki bölü 6 bu işlemin sonucu değildir.",
+      "words": [
+        {
+          "word": "İki",
+          "startMs": 287750,
+          "endMs": 288030
+        },
+        {
+          "word": "bölü",
+          "startMs": 288030,
+          "endMs": 288380
+        },
+        {
+          "word": "6",
+          "startMs": 288600,
+          "endMs": 289100
+        },
+        {
+          "word": "bu",
+          "startMs": 289250,
+          "endMs": 289530
+        },
+        {
+          "word": "işlemin",
+          "startMs": 289960,
+          "endMs": 291310
+        },
+        {
+          "word": "sonucu",
+          "startMs": 291880,
+          "endMs": 292260
+        },
+        {
+          "word": "değildir.",
+          "startMs": 292380,
+          "endMs": 293780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 296250,
+      "endMs": 306450,
+      "pauseAfterMs": 1960,
+      "text": "Denk kesir, aynı miktarın yeni dilimle söylenmesidir.",
+      "markedText": "Denk kesir, aynı miktarın yeni dilimle söylenmesidir.",
+      "words": [
+        {
+          "word": "Denk",
+          "startMs": 296250,
+          "endMs": 296730
+        },
+        {
+          "word": "kesir,",
+          "startMs": 296830,
+          "endMs": 297560
+        },
+        {
+          "word": "aynı",
+          "startMs": 299510,
+          "endMs": 300090
+        },
+        {
+          "word": "miktarın",
+          "startMs": 300300,
+          "endMs": 301030
+        },
+        {
+          "word": "yeni",
+          "startMs": 301110,
+          "endMs": 301450
+        },
+        {
+          "word": "dilimle",
+          "startMs": 301580,
+          "endMs": 302330
+        },
+        {
+          "word": "söylenmesidir.",
+          "startMs": 302470,
+          "endMs": 304490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 306450,
+      "endMs": 313890,
+      "pauseAfterMs": 1200,
+      "text": "Önce hangi paydayı seçtiğini, sonra payları nasıl topladığını söylersin.",
+      "markedText": "Önce hangi paydayı seçtiğini, sonra payları nasıl topladığını söylersin.",
+      "words": [
+        {
+          "word": "Önce",
+          "startMs": 306450,
+          "endMs": 306650
+        },
+        {
+          "word": "hangi",
+          "startMs": 306820,
+          "endMs": 307130
+        },
+        {
+          "word": "paydayı",
+          "startMs": 307220,
+          "endMs": 307570
+        },
+        {
+          "word": "seçtiğini,",
+          "startMs": 307630,
+          "endMs": 308040
+        },
+        {
+          "word": "sonra",
+          "startMs": 309500,
+          "endMs": 309710
+        },
+        {
+          "word": "payları",
+          "startMs": 309860,
+          "endMs": 310180
+        },
+        {
+          "word": "nasıl",
+          "startMs": 310400,
+          "endMs": 310810
+        },
+        {
+          "word": "topladığını",
+          "startMs": 310970,
+          "endMs": 311910
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 312010,
+          "endMs": 312690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 313890,
+      "endMs": 316400,
+      "pauseAfterMs": 1050,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 313890,
+          "endMs": 314520
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 314610,
+          "endMs": 315350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 316400,
+      "endMs": 318510,
+      "pauseAfterMs": 360,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 316400,
+          "endMs": 316810
+        },
+        {
+          "word": "bir",
+          "startMs": 316810,
+          "endMs": 316980
+        },
+        {
+          "word": "iş",
+          "startMs": 317110,
+          "endMs": 317210
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 317820,
+          "endMs": 318150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 318510,
+      "endMs": 321890,
+      "pauseAfterMs": 1210,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 318510,
+          "endMs": 319040
+        },
+        {
+          "word": "sıra",
+          "startMs": 319090,
+          "endMs": 319540
+        },
+        {
+          "word": "sende.",
+          "startMs": 319620,
+          "endMs": 320680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 321890,
+      "endMs": 329057,
+      "pauseAfterMs": 367,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 321890,
+          "endMs": 322800
+        },
+        {
+          "word": "bu",
+          "startMs": 323230,
+          "endMs": 323380
+        },
+        {
+          "word": "notları",
+          "startMs": 323380,
+          "endMs": 324220
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 324680,
+          "endMs": 325480
+        },
+        {
+          "word": "kendi",
+          "startMs": 326070,
+          "endMs": 326740
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 326900,
+          "endMs": 327840
+        },
+        {
+          "word": "anlat.",
+          "startMs": 327980,
+          "endMs": 328690
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

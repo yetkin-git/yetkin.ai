@@ -111,7 +111,13 @@ function isJuniorSessionPlanHandler(path: string): boolean {
 
 /** Kart, oyun, ilerleme ve pekiştirme. Profil masası ve kasa bu önekte değildir. */
 function isJuniorLessonCatalogApi(path: string): boolean {
-  return path === "/api/junior/lessons" || path.startsWith("/api/junior/lessons/");
+  return (
+    path === "/api/junior/lessons" ||
+    path.startsWith("/api/junior/lessons/") ||
+    // Faz 3 v1 okuma yolu: raf ve ilerleme aynı katalogu basar, oda bayrağıyla 410 olmaz.
+    path === "/api/junior/shelves" ||
+    path === "/api/junior/progress"
+  );
 }
 
 /** @deprecated isFrozenRoomApi — okuma da 410. */

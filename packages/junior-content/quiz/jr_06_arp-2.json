@@ -1,0 +1,53 @@
+{
+  "lessonKey": "jr_06_arp-2",
+  "title": "Sağdan sola okumak",
+  "tellGuides": [
+    "Arapça satır hangi yönden okunur?",
+    "Elif ile be hangi sesleri taşır?",
+    "Bab sözünü sağdan sola nasıl okursun?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Arapça satır hangi yönde okunur?",
+      "options": [
+        "Sağdan sola",
+        "Soldan sağa",
+        "Yukarıdan aşağı sütun gibi",
+        "Ortadan iki yana"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "İlk harf sağda durur.",
+      "explanation": "Adım 1: Arapça yazı sağdan sola okunur. Adım 2: İlk harf sağdadır. Adım 3: Son harf soldadır."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Elif hangi sesi taşır?",
+      "options": [
+        "b sesi",
+        "Uzun a sesi",
+        "Sessiz bir durak",
+        "Kapı anlamı"
+      ],
+      "correctAnswerIndex": 1,
+      "hint": "Be, b sesidir. Elif başka sestir.",
+      "explanation": "Adım 1: Elif, uzun a sesini taşır. Adım 2: Be, b sesidir. Adım 3: İki harfin sesi birbirine karışmaz."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Bab, kapı demektir. Harfler sağdan sola be, elif, be duruyor. Okuyuş hangisidir?",
+      "options": [
+        "Soldan sağa a, b, a",
+        "Uzun a, sonra iki sessiz",
+        "b, uzun a, b",
+        "Yalnızca elif"
+      ],
+      "correctAnswerIndex": 2,
+      "hint": "Yön sağdan sola gider. Sesler harflerle birlikte yürür.",
+      "explanation": "Adım 1: Sağdaki be, b sesidir. Adım 2: Ortadaki elif, uzun a sesidir. Adım 3: Soldaki be yine b sesidir. Okuyuş b, uzun a, b olur."
+    }
+  ]
+}

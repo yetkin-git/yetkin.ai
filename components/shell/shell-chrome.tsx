@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   DesktopSidebar,
   ShellMain,
@@ -15,18 +16,21 @@ import { ActionBridgeProvider } from "@/components/ui/action-bridge";
 import { IconClose } from "@/components/ui/icons";
 import { BrandIcon } from "@/components/ui/brand-icon";
 import { cn } from "@/components/ui/cn";
-import { YETKIN_BRAND, YETKIN_SHELL_TAGLINE } from "@/lib/copy/brand";
+import { YETKIN_BRAND } from "@/lib/copy/brand";
+import { shellBrandHome } from "@/lib/ui/junior-shell";
 
 function BrandMark() {
+  const pathname = usePathname();
+  const brand = shellBrandHome(pathname);
   return (
-    <Link href="/dashboard" className="flex min-w-0 items-center gap-2.5 px-1 py-0.5">
+    <Link href={brand.href} className="flex min-w-0 items-center gap-2.5 px-1 py-0.5">
       <BrandIcon className="h-8 w-8 shrink-0" />
       <span className="min-w-0">
         <span className="block truncate text-sm font-semibold leading-snug tracking-tight text-white">
           {YETKIN_BRAND}
         </span>
         <span className="mt-0.5 block truncate text-[11px] leading-snug text-white/40">
-          {YETKIN_SHELL_TAGLINE}
+          {brand.tagline}
         </span>
       </span>
     </Link>

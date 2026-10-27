@@ -14,11 +14,11 @@ Kapı `canEnterJunior` (`lib/kernel/security/junior-gate.ts`). Kenar, sayfa ve A
 
 | Ne | Varsayılan | Açmak |
 |----|------------|--------|
-| Ders listesi ve ilk konu | Açık | `/junior` sayfası ve `/api/junior/lessons` hop'u oda bayrağıyla 410 olmaz. Boş bayrakta kart `jr_06_mat-5` döner. `DRON_JUNIOR_OPEN` bu adresi kapatmaz. |
+| Ders listesi ve ilk konu | Açık | `/junior` sayfası ve `/api/junior/lessons` hop'u oda bayrağıyla 410 olmaz. Boş bayrakta kart `jr_06_mat-1` döner. `DRON_JUNIOR_OPEN` bu adresi kapatmaz. |
 | İkinci konu, anlatış, hızlı konu kontrolü | Yıllık paket veya denetim | Doğrulanmış süper yönetici (`yapinet360@gmail.com`) denetim yoluyla girer. Ek test postaları `JUNIOR_BETA_ALLOWLIST` (virgül veya boşluk). Posta doğrulanmış olmalıdır. `yetkin.vision@gmail.com` listeye yazılsa da girmez. İkinci konu paketle de açılır. |
 | 6. sınıf profili, geçerli yıllık paket | Açık | Oturumlu veli ve `planCovers` (ACTIVE, süresi dolmamış) profil masasını açar. Sınıf 6. sınıf pilotudur. Paketi olmayan veli ve misafir kapalıdır. `DRON_JUNIOR_OPEN=1` paketsiz oturumlu veliyi de açar. İkinci konu yine yıllık paket ister. Kasa açılmaz. Oda açık kalır. |
 | Oda bayrağı | Kayıt açık | `DRON_JUNIOR_ROOM_OPEN=0` `isKapali("junior")` değerini kapatır. Ders hop'u ve `/junior` sayfası bu bayrakla 410 olmaz; ikisi aynı katalogdadır. Profil masasına dokunmaz. |
-| Kasa | Bayrak boşken kapalı | `JUNIOR_CHECKOUT_OPEN=1` ödeme kapısını açar. Üç tik (mesafeli satış, anında ifa, veli aydınlatması) yoksa PayTR çağrılmaz. Üretimde `PAYTR_SANDBOX` satışı açmaz; canlı üçlü gerekir. Köprü durur: CLEARED `junior-license:yearly` yıllık paketi yazar. Denetim hesabı nakit satırı yazmaz. |
+| Kasa | Bayrak boşken kapalı | `JUNIOR_CHECKOUT_OPEN=1` ödeme kapısını açar. Üç tik (mesafeli satış, anında ifa, veli aydınlatması) yoksa PayTR çağrılmaz. Üretimde `PAYTR_SANDBOX` yok sayılır ve tahsilat canlı moda alınır. Canlı üçlü gerekir. Mock checkout throw eder. Köprü durur: CLEARED `junior-license:yearly` yıllık paketi yazar. Denetim hesabı nakit satırı yazmaz. |
 
 Denetim nakit satırı yazmaz. Süper yönetici kendi test profilini açar; ikinci konuyu, anlatışı ve testi o profilde görür. Başka velinin çocuğuna yazamaz. Super Admin (yapinet360@gmail.com) platformdaki tüm kilitli dersleri, anlatışları ve testleri denetim amacıyla izleyebilir; fakat ders metinlerini paneller üzerinden doğrudan yazamaz (metinler kod dosyasıdır) ve kapalı kasayı açamaz.
 
@@ -41,7 +41,7 @@ Akademi makbuzu `academy-receipt-mail.ts` üzerinden SMTP env’ine bağlıdır.
 
 Faz 0: Akademi Canlı T3 Testi Prosedürü `ops-db.md` içindedir. PayTR Bildirim URL: `https://yetkin.ai/api/paytr/callback`. Kanonik handler: `/api/payments/webhooks/paytr`.
 
-v1 hop SSOT: `RAIL_V1_HOPS`, **29 kayıt** (`@yetkin/kernel` hop meta + gövde Zod). Yazma hop’ları dron Bearer ile tüketilebilir; native IAP yoktur. Cüzdan yükleme HMAC `/kasa` pasaportudur. Junior ders gövdesi, ilerleme, ders pekiştirme, profil masası (GET, POST, PATCH, PUT, DELETE), seçmeli, anlatış, konu pekiştirme ve konu testi bu sicildedir. Junior kasa (`checkout`) ve sınıf (`grade`) sicilde yoktur.
+v1 hop SSOT: `RAIL_V1_HOPS`, **33 kayıt** (`@yetkin/kernel` hop meta + gövde Zod). Yazma hop’ları dron Bearer ile tüketilebilir; native IAP yoktur. Cüzdan yükleme HMAC `/kasa` pasaportudur. Junior ders gövdesi, ilerleme, ders pekiştirme, profil masası (GET, POST, PATCH, PUT, DELETE), seçmeli, anlatış, konu pekiştirme, konu testi ve kasa (`junior-pilot-checkout`, Idempotency-Key) bu sicildedir. Satış kapısı `JUNIOR_CHECKOUT_OPEN` boşken fail-closed kalır. Sınıf (`grade`) sicilde yoktur. **Faz 3 okuma hop’ları** `junior-shelves`, `junior-progress-read` ve `academy-catalog` aynı sicildedir; üçü de `clientSchema` bloğuyla timeline şema sürümünü ve native medya TTL’ini duyurur.
 
 Closed Testing reçetesi T3 B2C (`ops-dron.md`). Tezgâh yüzeyi izole; Split ayrı idari kapıdır. Mağaza binary: `apps/rail-is/eas.json` (CI eas yok). İnceleme: `.system_docs/DRON_CLIENT_SPEC.md` + `.system_docs/ops/ops-dron.md`.
 

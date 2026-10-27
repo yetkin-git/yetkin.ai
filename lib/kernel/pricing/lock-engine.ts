@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
-import { SETTLEMENT_CURRENCY, assertSameCurrency } from "@/lib/kernel/money/currency";
+import { SETTLEMENT_CURRENCY, assertSameCurrency, type CurrencyCode } from "@/lib/kernel/money/currency";
 import type { PriceCatalogStore } from "@/lib/kernel/pricing/catalog";
 import type { CheckoutPriceLockStore } from "@/lib/kernel/pricing/lock-store";
 import {
@@ -15,6 +15,11 @@ export type CreateCheckoutPriceLockCommand = {
   moduleKey: string;
   unitKey: string;
   now?: Date;
+  /**
+   * Aktif `PriceCatalogEntry` yoksa vitrin tohumu.
+   * Satır varsa bu alan okunmaz. Tohum, admin tutarını ezmez.
+   */
+  seedFallback?: { amountMinor: number; currencyCode: CurrencyCode };
 };
 
 export type ConsumeCheckoutPriceLockCommand = {
@@ -36,14 +41,19 @@ export async function createCheckoutPriceLock(
   }
 
   const entry = await ports.catalog.findActiveEntry(moduleKey, unitKey);
-  if (!entry) {
+  const seeded = !entry ? command.seedFallback : undefined;
+  if (!entry && !seeded) {
     throw new Error("Aktif katalog fiyatı yok.");
   }
-  if (entry.unitType !== "MINOR") {
+  if (entry && entry.unitType !== "MINOR") {
     throw new Error("Satış fiyatı MINOR biriminde olmalıdır.");
   }
-  assertSameCurrency(entry.currencyCode, SETTLEMENT_CURRENCY);
-  const amountMinor = toPositiveAmountMinor(entry.amountMinor);
+  const currencyCode = entry?.currencyCode ?? seeded?.currencyCode;
+  if (!currencyCode) {
+    throw new Error("Aktif katalog fiyatı yok.");
+  }
+  assertSameCurrency(currencyCode, SETTLEMENT_CURRENCY);
+  const amountMinor = toPositiveAmountMinor(entry?.amountMinor ?? seeded?.amountMinor ?? 0);
 
   const now = command.now ?? new Date();
   const lockKey = buildPriceLockKey(moduleKey, unitKey);
@@ -60,7 +70,7 @@ export async function createCheckoutPriceLock(
     moduleKey,
     unitKey,
     amountMinor,
-    currencyCode: entry.currencyCode,
+    currencyCode,
     catalogMinor: amountMinor,
     expiresAt: computePriceLockExpiresAt(now),
     consumedAt: null,

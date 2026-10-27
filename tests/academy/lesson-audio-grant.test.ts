@@ -338,8 +338,9 @@ describe("ders sesi imza kapısı", () => {
 
     const oyna = readFileSync(join(process.cwd(), "app/academy/[slug]/oyna/page.tsx"), "utf8");
     expect(oyna).toContain("loadAcademyOynaAudioGrants");
+    expect(oyna).toContain("freePreviewAudio={freePreviewAudio}");
     expect(oyna).toContain("freePreviewAudio={lessonAudio}");
-    expect(oyna.match(/freePreviewAudio=/g)).toHaveLength(3);
+    expect(oyna.match(/freePreviewAudio=/g)).toHaveLength(2);
     const player = readFileSync(join(process.cwd(), "components/academy/curriculum-player.tsx"), "utf8");
     expect(player).toContain("grantedSrc={freePreviewAudio?.[active.key]?.src}");
     expect(player).not.toContain("paywallLocked ? freePreviewAudio");

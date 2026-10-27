@@ -71,8 +71,9 @@ export function numberOpsFactorSubject(trail: readonly string[]): number {
     const text = caption.toLocaleLowerCase("tr-TR");
     const named = text.match(/(\d+)\s*['’]?(?:ün|un|ın|in|nın|nin|nün|nun)\s*çarpan/u);
     const ele = text.match(/(\d+)\s+sayısını/u);
+    const alongside = text.match(/(\d+)\s+sayısıyla/u);
     const crowd = text.match(/(\d+)\s+kişi/u);
-    const raw = named?.[1] ?? ele?.[1] ?? crowd?.[1];
+    const raw = named?.[1] ?? ele?.[1] ?? alongside?.[1] ?? crowd?.[1];
     if (!raw) {
       continue;
     }

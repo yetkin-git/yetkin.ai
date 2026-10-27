@@ -2,31 +2,14 @@
  * Bilinen Junior ders anahtarları. Kenar bu kümeyle bilinmeyen adrese 404 basar.
  * Kaynak `JUNIOR_LESSON_FACE`: senaryo başlığı ve katalog sırasının kenar projeksiyonu.
  * Bu dosya `server-only` değildir: proxy ders gövdesini taşımaz.
+ * Eski boş karantina kümesi (`JUNIOR_ENGINE_PRODUCTION_KEYS`) silindi. Bilinmeyen adres `missing` koludur.
  */
 
 import { JUNIOR_LESSON_FACE } from "@/lib/junior/lesson-face";
 
 export const JUNIOR_KNOWN_LESSON_KEYS = JUNIOR_LESSON_FACE.map((row) => row.key);
 
-/**
- * Katalog dışı Lesson Engine üretim rotaları.
- * Kenar bu adreslere 404 basmaz; ders listesi ve ücretsiz kapı bu kümeyi katalog saymaz.
- * `jr_06_mat-5` katalogdadır ve aynı `[lessonKey]` sayfasından kapıyla açılır.
- * Liste `lesson-engine` gövdesini import etmez; kenar bu dosyayı taşır.
- */
-export const JUNIOR_ENGINE_PRODUCTION_KEYS = [
-  "jr_06_mat-1",
-  "jr_06_mat-2",
-  "jr_06_mat-3",
-  "jr_06_mat-4",
-] as const;
-
 const KNOWN = new Set<string>(JUNIOR_KNOWN_LESSON_KEYS);
-const ENGINE_PRODUCTION = new Set<string>(JUNIOR_ENGINE_PRODUCTION_KEYS);
-
-export function isJuniorEngineProductionKey(lessonKey: string): boolean {
-  return ENGINE_PRODUCTION.has(lessonKey);
-}
 
 export function isKnownJuniorLessonKey(lessonKey: string): boolean {
   return KNOWN.has(lessonKey);
@@ -62,9 +45,6 @@ export function isUnknownJuniorLessonPath(pathname: string): boolean {
     key = decodeURIComponent(key);
   } catch {
     return true;
-  }
-  if (isJuniorEngineProductionKey(key)) {
-    return false;
   }
   return !isKnownJuniorLessonKey(key);
 }

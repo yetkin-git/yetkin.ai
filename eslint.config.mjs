@@ -6,7 +6,7 @@ import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 
 /** Çalışan 4 oda — lib/dronlar/kayit.ts SSOT. eslint kopya dizi tutmaz. */
-/** BOUNDED_CONTEXTS — Proof / Marketplace / Payments. Tablo sahipliği scripts/verify-boundaries.ts [context.prisma]. */
+/** BOUNDED_CONTEXTS — Proof / Marketplace / Payments. Junior tablolarının sahibi lib/junior. Tablo sahipliği scripts/verify-boundaries.ts [context.prisma] ve [context.junior]. */
 const roomsSsotSource = readFileSync(
   join(dirname(fileURLToPath(import.meta.url)), "lib/dronlar/kayit.ts"),
   "utf8",

@@ -7,6 +7,7 @@ import { proxy } from "../../proxy";
 import { LISTING_ACCESS_VISA_DENIED } from "@/lib/career/visa-gate";
 import { jsonFail, jsonOk } from "@/lib/kernel/http/json";
 import { EDGE_API_FROZEN_ROOM_ERROR, isFrozenRoomApi } from "@/lib/kernel/security/edge-api-auth";
+import { JUNIOR_CHECKOUT_LOCKED_ERROR } from "@/lib/kernel/security/junior-gate";
 import {
   applyRailV1Cors,
   buildV1FailBody,
@@ -30,8 +31,7 @@ import {
   buildRailV1OpenApiDocument,
   parseRailV1Envelope,
   parseRailV1HopOkBody,
-  RAIL_V1_ACADEMY_CERTIFICATE_HASHED_FIELDS,
-  RAIL_V1_ACADEMY_CERTIFICATE_HASH_INVALID,
+  RAIL_V1_ACADEMY_CERTIFICATE_HASHED_FIELDS,  RAIL_V1_ACADEMY_CERTIFICATE_HASH_INVALID,
   RAIL_V1_ACADEMY_CERTIFICATE_INTEGRITY_KIND,
   RAIL_V1_ACADEMY_CERTIFICATE_MISSING,
   RAIL_V1_ACADEMY_CERTIFICATE_PAYLOAD_VERSION,
@@ -70,6 +70,7 @@ import {
 } from "@/lib/academy/exam";
 import { matchApiAuthKind } from "@/lib/kernel/security/api-auth";
 import { ROUTE_AUTH_MAP } from "@/lib/kernel/security/route-auth-map";
+import { RAIL_V1_HOP_META_COUNT } from "@/lib/kernel/http/api-route-census";
 
 const ROOT = process.cwd();
 const REQUEST_ID = "550e8400-e29b-41d4-a716-446655440000";
@@ -204,7 +205,8 @@ describe("/api/v1 sözleşme mührü", () => {
   });
 
   it("yayınlanmış data alanları sessizce düşmez; hop sicili ROUTE_AUTH_MAP ve handler ile örtüşür", () => {
-    expect(RAIL_V1_HOPS).toHaveLength(29);
+    // Sayı sabit yazılmaz: tek ev `RAIL_V1_HOP_META_COUNT` (TEDAVI §4.1 ile aynı ilke).
+    expect(RAIL_V1_HOPS).toHaveLength(RAIL_V1_HOP_META_COUNT);
     expect(RAIL_V1_HOPS.map((hop) => hop.id)).toEqual([
       "health",
       "academy-certificate",
@@ -232,9 +234,13 @@ describe("/api/v1 sözleşme mührü", () => {
       "junior-profile-consent",
       "junior-profile-erase",
       "junior-electives",
+      "junior-shelves",
+      "junior-progress-read",
+      "academy-catalog",
       "junior-tell",
       "junior-practice",
       "junior-quiz",
+      "junior-pilot-checkout",
     ]);
     expect(RAIL_V1_PUBLISHED_FIELD_PATHS.length).toBeGreaterThan(40);
     expect(new Set(RAIL_V1_PUBLISHED_FIELD_PATHS).size).toBe(RAIL_V1_PUBLISHED_FIELD_PATHS.length);
@@ -408,7 +414,9 @@ describe("/api/v1 sözleşme mührü", () => {
     expect(failSchema.required).toEqual([...RAIL_V1_ENVELOPE_KEYS]);
 
     // PayTR B2C: freelancer path'leri OpenAPI'de yok, Marketplace tag'i yok.
-    expect(Object.keys(document.paths)).toHaveLength(23);
+    expect(Object.keys(document.paths)).toHaveLength(
+      new Set(RAIL_V1_HOPS.map((hop) => hop.v1PathTemplate)).size,
+    );
     expect(Object.keys(document.paths["/api/v1/junior-pilot/profiles"] ?? {}).sort()).toEqual([
       "delete",
       "get",
@@ -417,7 +425,10 @@ describe("/api/v1 sözleşme mührü", () => {
       "put",
     ]);
     expect(document.paths["/api/v1/junior-pilot/profiles"]).toBeDefined();
-    expect(document.paths["/api/v1/junior-pilot/checkout"]).toBeUndefined();
+    const checkoutOp = document.paths["/api/v1/junior-pilot/checkout"]?.post as
+      | { "x-rail-idempotency"?: boolean }
+      | undefined;
+    expect(checkoutOp?.["x-rail-idempotency"]).toBe(true);
     expect(document.paths["/api/v1/junior-pilot/grade"]).toBeUndefined();
     expect(document.paths["/api/v1/junior/lessons/{key}/play"]).toBeDefined();
     expect(document.paths["/api/v1/junior/lessons/{key}/progress"]).toBeDefined();
@@ -536,7 +547,10 @@ describe("/api/v1 sözleşme mührü", () => {
         expect(response.status, hop.id).toBe(410);
         expect(parseRailV1Envelope(await response.json()), hop.id).toMatchObject({
           ok: false,
-          error: EDGE_API_FROZEN_ROOM_ERROR,
+          error:
+            hop.id === "junior-pilot-checkout"
+              ? JUNIOR_CHECKOUT_LOCKED_ERROR
+              : EDGE_API_FROZEN_ROOM_ERROR,
           apiVersion: "1",
           data: null,
         });

@@ -17,7 +17,9 @@ import type { CheckoutPriceLockSnapshot } from "@/lib/kernel/pricing/price-lock"
 import { academyCourseLevelBySlug, type AcademyCourseLevel } from "@/lib/academy/course-level";
 import { isAcademyLicenseActive } from "@/lib/academy/license";
 import { ensureAcademyProductionDiskProbe } from "@/lib/academy/production-seal-disk";
-import { academyCourseSaleOpen } from "@/lib/academy/pilot-sku";
+import { academyVitrineSeedAmountMinor } from "@/lib/academy/catalog-pricing";
+import { academyCourseSaleOpen, isAcademyVitrineShellSkuSlug } from "@/lib/academy/pilot-sku";
+import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { resolveAcademyCourseFromSeed } from "@/lib/academy/published-catalog";
 import {
   ACADEMY_RETIRED_COURSE_GONE_MESSAGE,
@@ -54,6 +56,12 @@ export type LockAcademyCourseCommand = {
   courseId: string;
   userId: string;
   now?: Date;
+  /**
+   * Tahsilatı CLEARED olmuş siparişin lisans köprüsü (K1).
+   * Para alındıktan sonra satış kapısı/yayın yeniden kontrol edilmez;
+   * kapı kontrolü ödeme öncesindedir (`academyLicenseOrderPurpose`).
+   */
+  fromClearedOrder?: boolean;
 };
 
 export type PurchaseAcademyCourseCommand = {
@@ -65,6 +73,8 @@ export type PurchaseAcademyCourseCommand = {
   level?: AcademyCourseLevel;
   /** Ticari kasa rızası — API Zod sonrası basar; bağış/lab yolu boş bırakır. */
   consent?: CheckoutLegalConsent;
+  /** Bkz. `LockAcademyCourseCommand.fromClearedOrder` (K1). */
+  fromClearedOrder?: boolean;
 };
 
 export type AcademyPurchaseResult = {
@@ -119,15 +129,26 @@ function fallbackLock(
 async function requirePublishedCourse(
   store: AcademyStore,
   courseId: string,
+  options: { fromClearedOrder?: boolean } = {},
 ): Promise<AcademyCourseRecord> {
   const stored = await store.getCourse(courseId);
   if (!stored) {
     if (!resolveAcademyCourseFromSeed(courseId)) {
       throw new Error("Kurs bulunamadı.");
     }
-    throw new GoneError("Kurs satışa kapalı.");
+    throw new GoneError(
+      "Eğitimin liste fiyatı duruyor. Kayıt satırı henüz yazılmadı; lisans bu satır açılınca tamamlanır.",
+    );
   }
   const course = stored;
+  // K1: Tahsil edilmiş siparişte kapı/yayın yeniden sorulmaz. Kursun varlığı
+  // ve emekli (retired) durumu yine zorunludur; para, var olmayan kursa lisans yazmaz.
+  if (options.fromClearedOrder) {
+    if (isAcademyRetiredStorefrontSlug(course.slug)) {
+      throw new GoneError(ACADEMY_RETIRED_COURSE_GONE_MESSAGE);
+    }
+    return course;
+  }
   if (isAcademyRetiredStorefrontSlug(course.slug) || !course.isPublished) {
     throw new GoneError(
       isAcademyRetiredStorefrontSlug(course.slug)
@@ -146,7 +167,12 @@ export async function lockAcademyCoursePrice(
   ports: AcademyEnginePorts,
   command: LockAcademyCourseCommand,
 ): Promise<{ course: AcademyCourseRecord; lock: CheckoutPriceLockSnapshot }> {
-  const course = await requirePublishedCourse(ports.academy, command.courseId);
+  const course = await requirePublishedCourse(ports.academy, command.courseId, {
+    fromClearedOrder: command.fromClearedOrder,
+  });
+  const seedMinor = isAcademyVitrineShellSkuSlug(course.slug)
+    ? academyVitrineSeedAmountMinor(course.slug)
+    : null;
   const lock = await createCheckoutPriceLock(
     { catalog: ports.catalog, locks: ports.locks },
     {
@@ -154,6 +180,9 @@ export async function lockAcademyCoursePrice(
       moduleKey: ACADEMY_MODULE_KEY,
       unitKey: course.catalogUnitKey,
       now: command.now,
+      ...(seedMinor != null
+        ? { seedFallback: { amountMinor: seedMinor, currencyCode: SETTLEMENT_CURRENCY } }
+        : {}),
     },
   );
   return { course, lock };
@@ -173,7 +202,9 @@ export async function purchaseAcademyCourse(
   ports: AcademyEnginePorts,
   command: PurchaseAcademyCourseCommand,
 ): Promise<AcademyPurchaseResult> {
-  const course = await requirePublishedCourse(ports.academy, command.courseId);
+  const course = await requirePublishedCourse(ports.academy, command.courseId, {
+    fromClearedOrder: command.fromClearedOrder,
+  });
   assertRequestedLevel(course, command.level);
   const existing = await ports.academy.getPurchaseByUserAndCourse(command.userId, course.id);
   const now = command.now ?? new Date();

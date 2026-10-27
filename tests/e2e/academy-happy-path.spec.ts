@@ -7,7 +7,7 @@ test.describe("O8 akademi nakit & sınav yolculuğu", () => {
   }) => {
     const response = await page.goto("/academy");
     expect(response?.status()).toBeLessThan(400);
-    await expect(page.getByRole("heading", { name: /Yapay zeka eğitimi ve online kurslar/ })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Yapay Zekâyı Öğren\. Gerçek İşlerinde Kullan\./ })).toBeVisible();
 
     await expect(page.locator("[data-academy-vitrine-mix]")).toBeVisible();
     await expect(page.locator("[data-academy-flagship-card]")).toBeVisible();
@@ -23,7 +23,10 @@ test.describe("O8 akademi nakit & sınav yolculuğu", () => {
       "href",
       "/academy/01_office_ai",
     );
-    await expect(page.locator("[data-academy-coming-soon-card]")).toHaveCount(4);
+    await expect(page.getByRole("heading", { name: "Öne Çıkan / Temel Akademi Eğitimi" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "İleri Düzey Modüller" })).toBeVisible();
+    await expect(page.locator("[data-academy-advanced-module]")).toHaveCount(5);
+    await expect(page.locator("[data-academy-coming-soon-card]")).toHaveCount(0);
 
     await page.locator("[data-academy-catalog-series='01_office_ai'] a").click();
     await expect(page).toHaveURL(/\/academy\/01_office_ai\/?$/);

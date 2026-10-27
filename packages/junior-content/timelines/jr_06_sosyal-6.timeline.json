@@ -1,0 +1,2664 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_sosyal-6",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "İslamiyet'in doğuşu ve yayılışı",
+  "grade": 6,
+  "subject": "Sosyal Bilgiler",
+  "teacher": {
+    "name": "Murat",
+    "voice": "Achird",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_sosyal-6.mp3",
+    "durationMs": 368979,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 83860
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 83860,
+      "endMs": 303510
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 303510,
+      "endMs": 368979
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 5100,
+      "pauseAfterMs": 1390,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 350,
+          "endMs": 740
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 840,
+          "endMs": 1550
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 1870,
+          "endMs": 2070
+        },
+        {
+          "word": "hoş",
+          "startMs": 2290,
+          "endMs": 2600
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 2670,
+          "endMs": 3710
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "İslamiyet'in doğuşu ve yayılışı",
+            "subtitle": "Sosyal Bilgiler",
+            "ruleBadges": [],
+            "echoPrompt": "Doğuş yerini, hicret yılını ve yayılışın yönünü ayrı cümlelerle söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "İslamiyet 610 yılında Mekke'de doğdu."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "622 hicreti Medine'ye yapıldı. Hicri takvim bu yıldan başlar."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Dört halife, Emevi ve Abbasi dönemlerinde yayılış genişledi."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 5100,
+      "endMs": 8790,
+      "pauseAfterMs": 490,
+      "text": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "markedText": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 5100,
+          "endMs": 5350
+        },
+        {
+          "word": "Sosyal",
+          "startMs": 5450,
+          "endMs": 5960
+        },
+        {
+          "word": "Bilgiler",
+          "startMs": 6210,
+          "endMs": 6890
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 7030,
+          "endMs": 7880
+        },
+        {
+          "word": "Murat.",
+          "startMs": 7980,
+          "endMs": 8300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8790,
+      "endMs": 16260,
+      "pauseAfterMs": 320,
+      "text": "Hiç bir takvimin büyük bir göç ve yolculukla başladığını duymuş muydun?",
+      "markedText": "Hiç bir takvimin büyük bir göç ve yolculukla başladığını duymuş muydun?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 8790,
+          "endMs": 8900
+        },
+        {
+          "word": "bir",
+          "startMs": 8940,
+          "endMs": 9220
+        },
+        {
+          "word": "takvimin",
+          "startMs": 9270,
+          "endMs": 9920
+        },
+        {
+          "word": "büyük",
+          "startMs": 10080,
+          "endMs": 10320
+        },
+        {
+          "word": "bir",
+          "startMs": 10530,
+          "endMs": 10990
+        },
+        {
+          "word": "göç",
+          "startMs": 10990,
+          "endMs": 11410
+        },
+        {
+          "word": "ve",
+          "startMs": 11500,
+          "endMs": 12040
+        },
+        {
+          "word": "yolculukla",
+          "startMs": 12800,
+          "endMs": 13550
+        },
+        {
+          "word": "başladığını",
+          "startMs": 13550,
+          "endMs": 14590
+        },
+        {
+          "word": "duymuş",
+          "startMs": 14700,
+          "endMs": 15250
+        },
+        {
+          "word": "muydun?",
+          "startMs": 15340,
+          "endMs": 15940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 16260,
+      "endMs": 23170,
+      "pauseAfterMs": 390,
+      "text": "İslamiyet'in tarihinde böyle çok önemli bir dönüm noktası vardır.",
+      "markedText": "İslamiyet'in tarihinde böyle çok önemli bir dönüm noktası vardır.",
+      "words": [
+        {
+          "word": "İslamiyet'in",
+          "startMs": 16260,
+          "endMs": 17220
+        },
+        {
+          "word": "tarihinde",
+          "startMs": 17290,
+          "endMs": 18040
+        },
+        {
+          "word": "böyle",
+          "startMs": 18160,
+          "endMs": 18410
+        },
+        {
+          "word": "çok",
+          "startMs": 18560,
+          "endMs": 18730
+        },
+        {
+          "word": "önemli",
+          "startMs": 18730,
+          "endMs": 19710
+        },
+        {
+          "word": "bir",
+          "startMs": 20300,
+          "endMs": 20600
+        },
+        {
+          "word": "dönüm",
+          "startMs": 20710,
+          "endMs": 21350
+        },
+        {
+          "word": "noktası",
+          "startMs": 21560,
+          "endMs": 22230
+        },
+        {
+          "word": "vardır.",
+          "startMs": 22230,
+          "endMs": 22780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 23170,
+      "endMs": 34880,
+      "pauseAfterMs": 660,
+      "text": "Bu inancın nerede ve ne zaman doğduğunu, ardından hangi aşamalarla yayıldığını adım adım inceleyeceğiz.",
+      "markedText": "Bu inancın nerede ve ne zaman doğduğunu, ardından hangi aşamalarla yayıldığını adım adım inceleyeceğiz.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 23170,
+          "endMs": 23360
+        },
+        {
+          "word": "inancın",
+          "startMs": 23360,
+          "endMs": 23850
+        },
+        {
+          "word": "nerede",
+          "startMs": 23850,
+          "endMs": 24360
+        },
+        {
+          "word": "ve",
+          "startMs": 24470,
+          "endMs": 25190
+        },
+        {
+          "word": "ne",
+          "startMs": 26140,
+          "endMs": 26340
+        },
+        {
+          "word": "zaman",
+          "startMs": 26390,
+          "endMs": 27030
+        },
+        {
+          "word": "doğduğunu,",
+          "startMs": 27290,
+          "endMs": 28180
+        },
+        {
+          "word": "ardından",
+          "startMs": 29040,
+          "endMs": 29430
+        },
+        {
+          "word": "hangi",
+          "startMs": 29790,
+          "endMs": 30200
+        },
+        {
+          "word": "aşamalarla",
+          "startMs": 30250,
+          "endMs": 31470
+        },
+        {
+          "word": "yayıldığını",
+          "startMs": 31800,
+          "endMs": 32560
+        },
+        {
+          "word": "adım",
+          "startMs": 32600,
+          "endMs": 32800
+        },
+        {
+          "word": "adım",
+          "startMs": 32800,
+          "endMs": 33000
+        },
+        {
+          "word": "inceleyeceğiz.",
+          "startMs": 33120,
+          "endMs": 34220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 34880,
+      "endMs": 41470,
+      "pauseAfterMs": 710,
+      "text": "Doğuş yeri ile yayılış rotasını birbirinden ayırıp tarihin seyrini birlikte keşfedeceğiz.",
+      "markedText": "Doğuş yeri ile yayılış rotasını birbirinden ayırıp tarihin seyrini birlikte keşfedeceğiz.",
+      "words": [
+        {
+          "word": "Doğuş",
+          "startMs": 34880,
+          "endMs": 35020
+        },
+        {
+          "word": "yeri",
+          "startMs": 35100,
+          "endMs": 35380
+        },
+        {
+          "word": "ile",
+          "startMs": 35380,
+          "endMs": 35550
+        },
+        {
+          "word": "yayılış",
+          "startMs": 35650,
+          "endMs": 35940
+        },
+        {
+          "word": "rotasını",
+          "startMs": 35940,
+          "endMs": 36380
+        },
+        {
+          "word": "birbirinden",
+          "startMs": 36490,
+          "endMs": 37070
+        },
+        {
+          "word": "ayırıp",
+          "startMs": 37200,
+          "endMs": 37510
+        },
+        {
+          "word": "tarihin",
+          "startMs": 37510,
+          "endMs": 37830
+        },
+        {
+          "word": "seyrini",
+          "startMs": 37830,
+          "endMs": 38380
+        },
+        {
+          "word": "birlikte",
+          "startMs": 38790,
+          "endMs": 39390
+        },
+        {
+          "word": "keşfedeceğiz.",
+          "startMs": 39390,
+          "endMs": 40760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 41470,
+      "endMs": 46700,
+      "pauseAfterMs": 810,
+      "text": "Bunu yeni bir eğitim ve öğretim yılına başlarken de düşünebilirsin.",
+      "markedText": "Bunu yeni bir eğitim ve öğretim yılına başlarken de düşünebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 41470,
+          "endMs": 41740
+        },
+        {
+          "word": "yeni",
+          "startMs": 41930,
+          "endMs": 42210
+        },
+        {
+          "word": "bir",
+          "startMs": 42260,
+          "endMs": 42390
+        },
+        {
+          "word": "eğitim",
+          "startMs": 42390,
+          "endMs": 42810
+        },
+        {
+          "word": "ve",
+          "startMs": 42920,
+          "endMs": 42970
+        },
+        {
+          "word": "öğretim",
+          "startMs": 42970,
+          "endMs": 43390
+        },
+        {
+          "word": "yılına",
+          "startMs": 43510,
+          "endMs": 44110
+        },
+        {
+          "word": "başlarken",
+          "startMs": 44110,
+          "endMs": 44540
+        },
+        {
+          "word": "de",
+          "startMs": 44620,
+          "endMs": 44700
+        },
+        {
+          "word": "düşünebilirsin.",
+          "startMs": 44800,
+          "endMs": 45890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 46700,
+      "endMs": 59740,
+      "pauseAfterMs": 700,
+      "text": "Okulun açıldığı ilk gün takviminde yeni bir başlangıçtır; o günden önceki yaz tatili ise hazırlık dönemidir.",
+      "markedText": "Okulun açıldığı ilk gün takviminde yeni bir başlangıçtır; o günden önceki yaz tatili ise hazırlık dönemidir.",
+      "words": [
+        {
+          "word": "Okulun",
+          "startMs": 46700,
+          "endMs": 47480
+        },
+        {
+          "word": "açıldığı",
+          "startMs": 47690,
+          "endMs": 48790
+        },
+        {
+          "word": "ilk",
+          "startMs": 49400,
+          "endMs": 49700
+        },
+        {
+          "word": "gün",
+          "startMs": 49950,
+          "endMs": 50290
+        },
+        {
+          "word": "takviminde",
+          "startMs": 50480,
+          "endMs": 51330
+        },
+        {
+          "word": "yeni",
+          "startMs": 51460,
+          "endMs": 51800
+        },
+        {
+          "word": "bir",
+          "startMs": 51800,
+          "endMs": 51900
+        },
+        {
+          "word": "başlangıçtır;",
+          "startMs": 51960,
+          "endMs": 52890
+        },
+        {
+          "word": "o",
+          "startMs": 53540,
+          "endMs": 53750
+        },
+        {
+          "word": "günden",
+          "startMs": 53750,
+          "endMs": 54240
+        },
+        {
+          "word": "önceki",
+          "startMs": 54330,
+          "endMs": 54880
+        },
+        {
+          "word": "yaz",
+          "startMs": 55370,
+          "endMs": 55500
+        },
+        {
+          "word": "tatili",
+          "startMs": 55600,
+          "endMs": 55980
+        },
+        {
+          "word": "ise",
+          "startMs": 56190,
+          "endMs": 56440
+        },
+        {
+          "word": "hazırlık",
+          "startMs": 56800,
+          "endMs": 57410
+        },
+        {
+          "word": "dönemidir.",
+          "startMs": 57550,
+          "endMs": 59040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 59740,
+      "endMs": 67290,
+      "pauseAfterMs": 720,
+      "text": "Hicri takvim de böylesi derin bir başlangıç olayına bağlanmıştır.",
+      "markedText": "Hicri takvim de böylesi derin bir başlangıç olayına bağlanmıştır.",
+      "words": [
+        {
+          "word": "Hicri",
+          "startMs": 59740,
+          "endMs": 60290
+        },
+        {
+          "word": "takvim",
+          "startMs": 60370,
+          "endMs": 61050
+        },
+        {
+          "word": "de",
+          "startMs": 61710,
+          "endMs": 61980
+        },
+        {
+          "word": "böylesi",
+          "startMs": 62070,
+          "endMs": 62670
+        },
+        {
+          "word": "derin",
+          "startMs": 62810,
+          "endMs": 63000
+        },
+        {
+          "word": "bir",
+          "startMs": 63050,
+          "endMs": 63260
+        },
+        {
+          "word": "başlangıç",
+          "startMs": 63790,
+          "endMs": 64700
+        },
+        {
+          "word": "olayına",
+          "startMs": 64850,
+          "endMs": 65400
+        },
+        {
+          "word": "bağlanmıştır.",
+          "startMs": 65560,
+          "endMs": 66570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 67290,
+      "endMs": 83860,
+      "pauseAfterMs": 850,
+      "text": "Bir olayı arkadaşına anlatırken önce nerede başladığını, sonra nasıl bir yol izlediğini sırasıyla söylersen bilgin çok daha akılda kalıcı olur.",
+      "markedText": "Bir olayı arkadaşına anlatırken önce nerede başladığını, sonra nasıl bir yol izlediğini sırasıyla söylersen bilgin çok daha akılda kalıcı olur.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 67290,
+          "endMs": 67440
+        },
+        {
+          "word": "olayı",
+          "startMs": 67730,
+          "endMs": 67990
+        },
+        {
+          "word": "arkadaşına",
+          "startMs": 68080,
+          "endMs": 68570
+        },
+        {
+          "word": "anlatırken",
+          "startMs": 68570,
+          "endMs": 69340
+        },
+        {
+          "word": "önce",
+          "startMs": 69930,
+          "endMs": 70340
+        },
+        {
+          "word": "nerede",
+          "startMs": 70700,
+          "endMs": 70960
+        },
+        {
+          "word": "başladığını,",
+          "startMs": 71070,
+          "endMs": 72540
+        },
+        {
+          "word": "sonra",
+          "startMs": 72920,
+          "endMs": 73600
+        },
+        {
+          "word": "nasıl",
+          "startMs": 73880,
+          "endMs": 74370
+        },
+        {
+          "word": "bir",
+          "startMs": 74370,
+          "endMs": 74700
+        },
+        {
+          "word": "yol",
+          "startMs": 74700,
+          "endMs": 74840
+        },
+        {
+          "word": "izlediğini",
+          "startMs": 74990,
+          "endMs": 75860
+        },
+        {
+          "word": "sırasıyla",
+          "startMs": 76910,
+          "endMs": 77660
+        },
+        {
+          "word": "söylersen",
+          "startMs": 78120,
+          "endMs": 78810
+        },
+        {
+          "word": "bilgin",
+          "startMs": 78910,
+          "endMs": 79610
+        },
+        {
+          "word": "çok",
+          "startMs": 79730,
+          "endMs": 79850
+        },
+        {
+          "word": "daha",
+          "startMs": 79850,
+          "endMs": 80230
+        },
+        {
+          "word": "akılda",
+          "startMs": 80630,
+          "endMs": 81300
+        },
+        {
+          "word": "kalıcı",
+          "startMs": 81440,
+          "endMs": 82190
+        },
+        {
+          "word": "olur.",
+          "startMs": 82300,
+          "endMs": 83010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 83860,
+      "endMs": 88080,
+      "pauseAfterMs": 920,
+      "text": "İslamiyet, 610 yılında Mekke'de Hz.",
+      "markedText": "İslamiyet, 610 yılında Mekke'de Hz.",
+      "words": [
+        {
+          "word": "İslamiyet,",
+          "startMs": 83860,
+          "endMs": 84630
+        },
+        {
+          "word": "610",
+          "startMs": 84710,
+          "endMs": 85510
+        },
+        {
+          "word": "yılında",
+          "startMs": 85600,
+          "endMs": 86360
+        },
+        {
+          "word": "Mekke'de",
+          "startMs": 86360,
+          "endMs": 86960
+        },
+        {
+          "word": "Hz.",
+          "startMs": 87000,
+          "endMs": 87160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 88080,
+      "endMs": 92360,
+      "pauseAfterMs": 890,
+      "text": "Muhammed'e gelen ilk vahiy ile başladı.",
+      "markedText": "Muhammed'e gelen ilk vahiy ile başladı.",
+      "words": [
+        {
+          "word": "Muhammed'e",
+          "startMs": 88080,
+          "endMs": 88620
+        },
+        {
+          "word": "gelen",
+          "startMs": 88730,
+          "endMs": 89060
+        },
+        {
+          "word": "ilk",
+          "startMs": 89160,
+          "endMs": 89450
+        },
+        {
+          "word": "vahiy",
+          "startMs": 89540,
+          "endMs": 89980
+        },
+        {
+          "word": "ile",
+          "startMs": 90150,
+          "endMs": 90510
+        },
+        {
+          "word": "başladı.",
+          "startMs": 90590,
+          "endMs": 91470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 92360,
+      "endMs": 106970,
+      "pauseAfterMs": 740,
+      "text": "622 yılında ise Müslümanlar Mekke'den Medine'ye göç etti; bu kutlu yolculuğa Hicret denir.",
+      "markedText": "622 yılında ise Müslümanlar Mekke'den Medine'ye göç etti; bu kutlu yolculuğa Hicret denir.",
+      "words": [
+        {
+          "word": "622",
+          "startMs": 92360,
+          "endMs": 93550
+        },
+        {
+          "word": "yılında",
+          "startMs": 93640,
+          "endMs": 94240
+        },
+        {
+          "word": "ise",
+          "startMs": 94440,
+          "endMs": 94710
+        },
+        {
+          "word": "Müslümanlar",
+          "startMs": 94850,
+          "endMs": 96030
+        },
+        {
+          "word": "Mekke'den",
+          "startMs": 96540,
+          "endMs": 97180
+        },
+        {
+          "word": "Medine'ye",
+          "startMs": 97290,
+          "endMs": 98160
+        },
+        {
+          "word": "göç",
+          "startMs": 98310,
+          "endMs": 98420
+        },
+        {
+          "word": "etti;",
+          "startMs": 98580,
+          "endMs": 99300
+        },
+        {
+          "word": "bu",
+          "startMs": 100100,
+          "endMs": 100350
+        },
+        {
+          "word": "kutlu",
+          "startMs": 100450,
+          "endMs": 101120
+        },
+        {
+          "word": "yolculuğa",
+          "startMs": 101600,
+          "endMs": 103080
+        },
+        {
+          "word": "Hicret",
+          "startMs": 103400,
+          "endMs": 104290
+        },
+        {
+          "word": "denir.",
+          "startMs": 104480,
+          "endMs": 106230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 106970,
+      "endMs": 119470,
+      "pauseAfterMs": 1950,
+      "text": "Hicret yalnızca bir yer değiştirme değil, aynı zamanda Hicri takvimin başlangıç yılıdır",
+      "markedText": "Hicret yalnızca bir yer değiştirme değil, aynı zamanda Hicri takvimin başlangıç yılıdır",
+      "words": [
+        {
+          "word": "Hicret",
+          "startMs": 106970,
+          "endMs": 107320
+        },
+        {
+          "word": "yalnızca",
+          "startMs": 107500,
+          "endMs": 108030
+        },
+        {
+          "word": "bir",
+          "startMs": 108070,
+          "endMs": 108350
+        },
+        {
+          "word": "yer",
+          "startMs": 108670,
+          "endMs": 108960
+        },
+        {
+          "word": "değiştirme",
+          "startMs": 109090,
+          "endMs": 109850
+        },
+        {
+          "word": "değil,",
+          "startMs": 109850,
+          "endMs": 111060
+        },
+        {
+          "word": "aynı",
+          "startMs": 111910,
+          "endMs": 112510
+        },
+        {
+          "word": "zamanda",
+          "startMs": 113170,
+          "endMs": 113960
+        },
+        {
+          "word": "Hicri",
+          "startMs": 114050,
+          "endMs": 114850
+        },
+        {
+          "word": "takvimin",
+          "startMs": 115380,
+          "endMs": 116160
+        },
+        {
+          "word": "başlangıç",
+          "startMs": 116210,
+          "endMs": 116990
+        },
+        {
+          "word": "yılıdır",
+          "startMs": 117030,
+          "endMs": 117520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 119470,
+      "endMs": 134930,
+      "pauseAfterMs": 760,
+      "text": "Dört halife döneminde adaletli bir yönetim kuruldu ve İslamiyet Arap Yarımadası'nın sınırlarını aşarak genişledi.",
+      "markedText": "Dört halife döneminde adaletli bir yönetim kuruldu ve İslamiyet Arap Yarımadası'nın sınırlarını aşarak genişledi.",
+      "words": [
+        {
+          "word": "Dört",
+          "startMs": 119470,
+          "endMs": 119740
+        },
+        {
+          "word": "halife",
+          "startMs": 120140,
+          "endMs": 120840
+        },
+        {
+          "word": "döneminde",
+          "startMs": 120970,
+          "endMs": 121840
+        },
+        {
+          "word": "adaletli",
+          "startMs": 121980,
+          "endMs": 122670
+        },
+        {
+          "word": "bir",
+          "startMs": 122810,
+          "endMs": 123340
+        },
+        {
+          "word": "yönetim",
+          "startMs": 123950,
+          "endMs": 124850
+        },
+        {
+          "word": "kuruldu",
+          "startMs": 124960,
+          "endMs": 125600
+        },
+        {
+          "word": "ve",
+          "startMs": 125600,
+          "endMs": 126150
+        },
+        {
+          "word": "İslamiyet",
+          "startMs": 126680,
+          "endMs": 127660
+        },
+        {
+          "word": "Arap",
+          "startMs": 127810,
+          "endMs": 127950
+        },
+        {
+          "word": "Yarımadası'nın",
+          "startMs": 128240,
+          "endMs": 129950
+        },
+        {
+          "word": "sınırlarını",
+          "startMs": 130620,
+          "endMs": 131920
+        },
+        {
+          "word": "aşarak",
+          "startMs": 131970,
+          "endMs": 132590
+        },
+        {
+          "word": "genişledi.",
+          "startMs": 132980,
+          "endMs": 134170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 134930,
+      "endMs": 147340,
+      "pauseAfterMs": 910,
+      "text": "Emeviler ve Abbasiler döneminde ise bilim, sanat, ticaret ve kültür yeni kıtalara doğru ulaştı.",
+      "markedText": "Emeviler ve Abbasiler döneminde ise bilim, sanat, ticaret ve kültür yeni kıtalara doğru ulaştı.",
+      "words": [
+        {
+          "word": "Emeviler",
+          "startMs": 134930,
+          "endMs": 135780
+        },
+        {
+          "word": "ve",
+          "startMs": 136470,
+          "endMs": 136640
+        },
+        {
+          "word": "Abbasiler",
+          "startMs": 137020,
+          "endMs": 138350
+        },
+        {
+          "word": "döneminde",
+          "startMs": 138990,
+          "endMs": 139850
+        },
+        {
+          "word": "ise",
+          "startMs": 139910,
+          "endMs": 140310
+        },
+        {
+          "word": "bilim,",
+          "startMs": 140310,
+          "endMs": 141090
+        },
+        {
+          "word": "sanat,",
+          "startMs": 141900,
+          "endMs": 142130
+        },
+        {
+          "word": "ticaret",
+          "startMs": 142560,
+          "endMs": 143210
+        },
+        {
+          "word": "ve",
+          "startMs": 143330,
+          "endMs": 143440
+        },
+        {
+          "word": "kültür",
+          "startMs": 143480,
+          "endMs": 143890
+        },
+        {
+          "word": "yeni",
+          "startMs": 143890,
+          "endMs": 144530
+        },
+        {
+          "word": "kıtalara",
+          "startMs": 144990,
+          "endMs": 145450
+        },
+        {
+          "word": "doğru",
+          "startMs": 145560,
+          "endMs": 145770
+        },
+        {
+          "word": "ulaştı.",
+          "startMs": 145770,
+          "endMs": 146430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 147340,
+      "endMs": 158720,
+      "pauseAfterMs": 480,
+      "text": "Pratik kural: İslamiyet'in doğuşu Mekke'dedir; takvim başlangıcı olan Hicret ise Medine yolculuğudur.",
+      "markedText": "Pratik kural: İslamiyet'in doğuşu Mekke'dedir; takvim başlangıcı olan Hicret ise Medine yolculuğudur.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 147340,
+          "endMs": 147540
+        },
+        {
+          "word": "kural:",
+          "startMs": 148010,
+          "endMs": 148460
+        },
+        {
+          "word": "İslamiyet'in",
+          "startMs": 148590,
+          "endMs": 149670
+        },
+        {
+          "word": "doğuşu",
+          "startMs": 149740,
+          "endMs": 150260
+        },
+        {
+          "word": "Mekke'dedir;",
+          "startMs": 150300,
+          "endMs": 151230
+        },
+        {
+          "word": "takvim",
+          "startMs": 151930,
+          "endMs": 152360
+        },
+        {
+          "word": "başlangıcı",
+          "startMs": 152360,
+          "endMs": 153600
+        },
+        {
+          "word": "olan",
+          "startMs": 153720,
+          "endMs": 154090
+        },
+        {
+          "word": "Hicret",
+          "startMs": 154280,
+          "endMs": 154730
+        },
+        {
+          "word": "ise",
+          "startMs": 155210,
+          "endMs": 155540
+        },
+        {
+          "word": "Medine",
+          "startMs": 155760,
+          "endMs": 156540
+        },
+        {
+          "word": "yolculuğudur.",
+          "startMs": 156850,
+          "endMs": 158240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 158720,
+      "endMs": 166400,
+      "pauseAfterMs": 630,
+      "text": "Tarihi iki kutlu şehir üzerinden takip edelim.",
+      "markedText": "Tarihi iki kutlu şehir üzerinden takip edelim.",
+      "words": [
+        {
+          "word": "Tarihi",
+          "startMs": 158720,
+          "endMs": 159690
+        },
+        {
+          "word": "iki",
+          "startMs": 160280,
+          "endMs": 160670
+        },
+        {
+          "word": "kutlu",
+          "startMs": 160670,
+          "endMs": 161100
+        },
+        {
+          "word": "şehir",
+          "startMs": 161890,
+          "endMs": 162260
+        },
+        {
+          "word": "üzerinden",
+          "startMs": 162500,
+          "endMs": 164160
+        },
+        {
+          "word": "takip",
+          "startMs": 164350,
+          "endMs": 164650
+        },
+        {
+          "word": "edelim.",
+          "startMs": 164750,
+          "endMs": 165770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 166400,
+      "endMs": 173810,
+      "pauseAfterMs": 910,
+      "text": "Önce Mekke; ilk çağrı ve vahiy bu şehirde başlar.",
+      "markedText": "Önce Mekke; ilk çağrı ve vahiy bu şehirde başlar.",
+      "words": [
+        {
+          "word": "Önce",
+          "startMs": 166400,
+          "endMs": 166560
+        },
+        {
+          "word": "Mekke;",
+          "startMs": 166560,
+          "endMs": 167140
+        },
+        {
+          "word": "ilk",
+          "startMs": 167460,
+          "endMs": 167570
+        },
+        {
+          "word": "çağrı",
+          "startMs": 167780,
+          "endMs": 168260
+        },
+        {
+          "word": "ve",
+          "startMs": 168340,
+          "endMs": 168700
+        },
+        {
+          "word": "vahiy",
+          "startMs": 169660,
+          "endMs": 170030
+        },
+        {
+          "word": "bu",
+          "startMs": 170350,
+          "endMs": 170510
+        },
+        {
+          "word": "şehirde",
+          "startMs": 170710,
+          "endMs": 172110
+        },
+        {
+          "word": "başlar.",
+          "startMs": 172430,
+          "endMs": 172900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 173810,
+      "endMs": 189820,
+      "pauseAfterMs": 430,
+      "text": "Sonra Medine; 622 yılındaki hicretle buraya varılır ve dayanışma içinde yeni bir toplum düzeni kurulur.",
+      "markedText": "Sonra Medine; 622 yılındaki hicretle buraya varılır ve dayanışma içinde yeni bir toplum düzeni kurulur.",
+      "words": [
+        {
+          "word": "Sonra",
+          "startMs": 173810,
+          "endMs": 174610
+        },
+        {
+          "word": "Medine;",
+          "startMs": 174730,
+          "endMs": 175820
+        },
+        {
+          "word": "622",
+          "startMs": 176490,
+          "endMs": 177950
+        },
+        {
+          "word": "yılındaki",
+          "startMs": 178170,
+          "endMs": 178790
+        },
+        {
+          "word": "hicretle",
+          "startMs": 178930,
+          "endMs": 180170
+        },
+        {
+          "word": "buraya",
+          "startMs": 181030,
+          "endMs": 181320
+        },
+        {
+          "word": "varılır",
+          "startMs": 181380,
+          "endMs": 181910
+        },
+        {
+          "word": "ve",
+          "startMs": 181910,
+          "endMs": 182450
+        },
+        {
+          "word": "dayanışma",
+          "startMs": 183080,
+          "endMs": 184130
+        },
+        {
+          "word": "içinde",
+          "startMs": 184170,
+          "endMs": 184870
+        },
+        {
+          "word": "yeni",
+          "startMs": 185560,
+          "endMs": 186000
+        },
+        {
+          "word": "bir",
+          "startMs": 186110,
+          "endMs": 186320
+        },
+        {
+          "word": "toplum",
+          "startMs": 186660,
+          "endMs": 187350
+        },
+        {
+          "word": "düzeni",
+          "startMs": 187350,
+          "endMs": 188110
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 188700,
+          "endMs": 189390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 189820,
+      "endMs": 199440,
+      "pauseAfterMs": 680,
+      "text": "Müslümanlar bu tarihi yeni bir takvimin birinci yılı olarak kabul eder.",
+      "markedText": "Müslümanlar bu tarihi yeni bir takvimin birinci yılı olarak kabul eder.",
+      "words": [
+        {
+          "word": "Müslümanlar",
+          "startMs": 189820,
+          "endMs": 190970
+        },
+        {
+          "word": "bu",
+          "startMs": 191190,
+          "endMs": 191790
+        },
+        {
+          "word": "tarihi",
+          "startMs": 192390,
+          "endMs": 193040
+        },
+        {
+          "word": "yeni",
+          "startMs": 193500,
+          "endMs": 193820
+        },
+        {
+          "word": "bir",
+          "startMs": 193890,
+          "endMs": 194170
+        },
+        {
+          "word": "takvimin",
+          "startMs": 194320,
+          "endMs": 195100
+        },
+        {
+          "word": "birinci",
+          "startMs": 195210,
+          "endMs": 195770
+        },
+        {
+          "word": "yılı",
+          "startMs": 195770,
+          "endMs": 196130
+        },
+        {
+          "word": "olarak",
+          "startMs": 196250,
+          "endMs": 196830
+        },
+        {
+          "word": "kabul",
+          "startMs": 196960,
+          "endMs": 197690
+        },
+        {
+          "word": "eder.",
+          "startMs": 197990,
+          "endMs": 198760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 199440,
+      "endMs": 204740,
+      "pauseAfterMs": 1430,
+      "text": "Ardından adalet ve barış mesajı çevre ülkelere doğru yayılır.",
+      "markedText": "Ardından adalet ve barış mesajı çevre ülkelere doğru yayılır.",
+      "words": [
+        {
+          "word": "Ardından",
+          "startMs": 199440,
+          "endMs": 200090
+        },
+        {
+          "word": "adalet",
+          "startMs": 200090,
+          "endMs": 200520
+        },
+        {
+          "word": "ve",
+          "startMs": 200590,
+          "endMs": 200720
+        },
+        {
+          "word": "barış",
+          "startMs": 200830,
+          "endMs": 201130
+        },
+        {
+          "word": "mesajı",
+          "startMs": 201130,
+          "endMs": 201440
+        },
+        {
+          "word": "çevre",
+          "startMs": 201580,
+          "endMs": 201730
+        },
+        {
+          "word": "ülkelere",
+          "startMs": 201730,
+          "endMs": 202420
+        },
+        {
+          "word": "doğru",
+          "startMs": 202420,
+          "endMs": 202770
+        },
+        {
+          "word": "yayılır.",
+          "startMs": 202890,
+          "endMs": 203310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 204740,
+      "endMs": 218480,
+      "pauseAfterMs": 470,
+      "text": "Halife, peygamberden sonra toplumun idari işlerini yürüten yöneticidir; Dört Halife Dönemi bu yürüyüşün ilk büyük evresidir.",
+      "markedText": "Halife, peygamberden sonra toplumun idari işlerini yürüten yöneticidir; Dört Halife Dönemi bu yürüyüşün ilk büyük evresidir.",
+      "words": [
+        {
+          "word": "Halife,",
+          "startMs": 204740,
+          "endMs": 205280
+        },
+        {
+          "word": "peygamberden",
+          "startMs": 205850,
+          "endMs": 206530
+        },
+        {
+          "word": "sonra",
+          "startMs": 206630,
+          "endMs": 206930
+        },
+        {
+          "word": "toplumun",
+          "startMs": 207000,
+          "endMs": 207930
+        },
+        {
+          "word": "idari",
+          "startMs": 208340,
+          "endMs": 208820
+        },
+        {
+          "word": "işlerini",
+          "startMs": 208940,
+          "endMs": 209920
+        },
+        {
+          "word": "yürüten",
+          "startMs": 210290,
+          "endMs": 210970
+        },
+        {
+          "word": "yöneticidir;",
+          "startMs": 210970,
+          "endMs": 212050
+        },
+        {
+          "word": "Dört",
+          "startMs": 212530,
+          "endMs": 213000
+        },
+        {
+          "word": "Halife",
+          "startMs": 213240,
+          "endMs": 213880
+        },
+        {
+          "word": "Dönemi",
+          "startMs": 214380,
+          "endMs": 215050
+        },
+        {
+          "word": "bu",
+          "startMs": 215360,
+          "endMs": 215600
+        },
+        {
+          "word": "yürüyüşün",
+          "startMs": 215680,
+          "endMs": 216480
+        },
+        {
+          "word": "ilk",
+          "startMs": 216480,
+          "endMs": 216790
+        },
+        {
+          "word": "büyük",
+          "startMs": 216790,
+          "endMs": 217090
+        },
+        {
+          "word": "evresidir.",
+          "startMs": 217090,
+          "endMs": 218010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 218480,
+      "endMs": 230440,
+      "pauseAfterMs": 480,
+      "text": "Abbasiler döneminde ise kütüphaneler, çeviri evleri ve tıp merkezleri kurularak dünya bilimine büyük katkılar sunulur.",
+      "markedText": "Abbasiler döneminde ise kütüphaneler, çeviri evleri ve tıp merkezleri kurularak dünya bilimine büyük katkılar sunulur.",
+      "words": [
+        {
+          "word": "Abbasiler",
+          "startMs": 218480,
+          "endMs": 219120
+        },
+        {
+          "word": "döneminde",
+          "startMs": 219190,
+          "endMs": 220260
+        },
+        {
+          "word": "ise",
+          "startMs": 220810,
+          "endMs": 221070
+        },
+        {
+          "word": "kütüphaneler,",
+          "startMs": 221140,
+          "endMs": 222150
+        },
+        {
+          "word": "çeviri",
+          "startMs": 222680,
+          "endMs": 222990
+        },
+        {
+          "word": "evleri",
+          "startMs": 223160,
+          "endMs": 223510
+        },
+        {
+          "word": "ve",
+          "startMs": 223560,
+          "endMs": 223710
+        },
+        {
+          "word": "tıp",
+          "startMs": 223840,
+          "endMs": 223980
+        },
+        {
+          "word": "merkezleri",
+          "startMs": 223980,
+          "endMs": 224830
+        },
+        {
+          "word": "kurularak",
+          "startMs": 224940,
+          "endMs": 226070
+        },
+        {
+          "word": "dünya",
+          "startMs": 226540,
+          "endMs": 226900
+        },
+        {
+          "word": "bilimine",
+          "startMs": 226900,
+          "endMs": 227610
+        },
+        {
+          "word": "büyük",
+          "startMs": 227800,
+          "endMs": 228000
+        },
+        {
+          "word": "katkılar",
+          "startMs": 228170,
+          "endMs": 228820
+        },
+        {
+          "word": "sunulur.",
+          "startMs": 228940,
+          "endMs": 229960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 230440,
+      "endMs": 239720,
+      "pauseAfterMs": 620,
+      "text": "Yayılış tek bir günde değil, asırlar süren medeniyet adımlarıyla gerçekleşmiştir.",
+      "markedText": "Yayılış tek bir günde değil, asırlar süren medeniyet adımlarıyla gerçekleşmiştir.",
+      "words": [
+        {
+          "word": "Yayılış",
+          "startMs": 230440,
+          "endMs": 231040
+        },
+        {
+          "word": "tek",
+          "startMs": 231150,
+          "endMs": 231340
+        },
+        {
+          "word": "bir",
+          "startMs": 231450,
+          "endMs": 231580
+        },
+        {
+          "word": "günde",
+          "startMs": 231930,
+          "endMs": 232240
+        },
+        {
+          "word": "değil,",
+          "startMs": 232240,
+          "endMs": 232830
+        },
+        {
+          "word": "asırlar",
+          "startMs": 233400,
+          "endMs": 233970
+        },
+        {
+          "word": "süren",
+          "startMs": 234100,
+          "endMs": 234950
+        },
+        {
+          "word": "medeniyet",
+          "startMs": 235450,
+          "endMs": 236380
+        },
+        {
+          "word": "adımlarıyla",
+          "startMs": 236380,
+          "endMs": 237480
+        },
+        {
+          "word": "gerçekleşmiştir.",
+          "startMs": 237700,
+          "endMs": 239100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 239720,
+      "endMs": 242000,
+      "pauseAfterMs": 520,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 239720,
+          "endMs": 240630
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 240840,
+          "endMs": 241480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 242000,
+      "endMs": 246910,
+      "pauseAfterMs": 270,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 242000,
+          "endMs": 242500
+        },
+        {
+          "word": "bir",
+          "startMs": 242500,
+          "endMs": 242820
+        },
+        {
+          "word": "kez",
+          "startMs": 243200,
+          "endMs": 243350
+        },
+        {
+          "word": "görünce",
+          "startMs": 243540,
+          "endMs": 244170
+        },
+        {
+          "word": "kolayca",
+          "startMs": 244740,
+          "endMs": 245560
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 245800,
+          "endMs": 246640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 246910,
+      "endMs": 255590,
+      "pauseAfterMs": 500,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 246910,
+          "endMs": 247350
+        },
+        {
+          "word": "sevgili",
+          "startMs": 247390,
+          "endMs": 247900
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 248010,
+          "endMs": 249380
+        },
+        {
+          "word": "işte",
+          "startMs": 250120,
+          "endMs": 250350
+        },
+        {
+          "word": "tam",
+          "startMs": 250420,
+          "endMs": 250550
+        },
+        {
+          "word": "bu",
+          "startMs": 250620,
+          "endMs": 250730
+        },
+        {
+          "word": "noktada",
+          "startMs": 250800,
+          "endMs": 251550
+        },
+        {
+          "word": "dikkat",
+          "startMs": 251870,
+          "endMs": 252210
+        },
+        {
+          "word": "etmen",
+          "startMs": 252340,
+          "endMs": 252760
+        },
+        {
+          "word": "gereken",
+          "startMs": 252840,
+          "endMs": 253430
+        },
+        {
+          "word": "kilit",
+          "startMs": 253930,
+          "endMs": 254330
+        },
+        {
+          "word": "nokta.",
+          "startMs": 254330,
+          "endMs": 255090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 255590,
+      "endMs": 274760,
+      "pauseAfterMs": 590,
+      "text": "Hicreti yalnızca sıradan bir taşınma sanmak eksik bir bakış açısıdır; o kutlu göç, İslam toplumunun kuruluşunun ve takviminin başlangıç noktasıdır.",
+      "markedText": "Hicreti yalnızca sıradan bir taşınma sanmak eksik bir bakış açısıdır; o kutlu göç, İslam toplumunun kuruluşunun ve takviminin başlangıç noktasıdır.",
+      "words": [
+        {
+          "word": "Hicreti",
+          "startMs": 255590,
+          "endMs": 256090
+        },
+        {
+          "word": "yalnızca",
+          "startMs": 256300,
+          "endMs": 256940
+        },
+        {
+          "word": "sıradan",
+          "startMs": 256940,
+          "endMs": 258030
+        },
+        {
+          "word": "bir",
+          "startMs": 258700,
+          "endMs": 258830
+        },
+        {
+          "word": "taşınma",
+          "startMs": 258920,
+          "endMs": 259440
+        },
+        {
+          "word": "sanmak",
+          "startMs": 259540,
+          "endMs": 260000
+        },
+        {
+          "word": "eksik",
+          "startMs": 260120,
+          "endMs": 260750
+        },
+        {
+          "word": "bir",
+          "startMs": 260750,
+          "endMs": 261450
+        },
+        {
+          "word": "bakış",
+          "startMs": 262050,
+          "endMs": 262330
+        },
+        {
+          "word": "açısıdır;",
+          "startMs": 262650,
+          "endMs": 263600
+        },
+        {
+          "word": "o",
+          "startMs": 264130,
+          "endMs": 264270
+        },
+        {
+          "word": "kutlu",
+          "startMs": 264370,
+          "endMs": 264670
+        },
+        {
+          "word": "göç,",
+          "startMs": 264860,
+          "endMs": 265120
+        },
+        {
+          "word": "İslam",
+          "startMs": 265780,
+          "endMs": 266430
+        },
+        {
+          "word": "toplumunun",
+          "startMs": 266750,
+          "endMs": 267680
+        },
+        {
+          "word": "kuruluşunun",
+          "startMs": 267800,
+          "endMs": 268820
+        },
+        {
+          "word": "ve",
+          "startMs": 268930,
+          "endMs": 269420
+        },
+        {
+          "word": "takviminin",
+          "startMs": 270180,
+          "endMs": 271100
+        },
+        {
+          "word": "başlangıç",
+          "startMs": 271680,
+          "endMs": 272100
+        },
+        {
+          "word": "noktasıdır.",
+          "startMs": 272760,
+          "endMs": 274170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 274760,
+      "endMs": 294380,
+      "pauseAfterMs": 820,
+      "text": "Doğuş yılı ile hicret yılını karıştırmamaya dikkat et; 610 yılı doğuştur, 622 yılı ise hicrettir.",
+      "markedText": "Doğuş yılı ile hicret yılını karıştırmamaya dikkat et; 610 yılı doğuştur, 622 yılı ise hicrettir.",
+      "words": [
+        {
+          "word": "Doğuş",
+          "startMs": 274760,
+          "endMs": 275430
+        },
+        {
+          "word": "yılı",
+          "startMs": 276200,
+          "endMs": 276690
+        },
+        {
+          "word": "ile",
+          "startMs": 276690,
+          "endMs": 277130
+        },
+        {
+          "word": "hicret",
+          "startMs": 277240,
+          "endMs": 278130
+        },
+        {
+          "word": "yılını",
+          "startMs": 279050,
+          "endMs": 280000
+        },
+        {
+          "word": "karıştırmamaya",
+          "startMs": 280350,
+          "endMs": 281690
+        },
+        {
+          "word": "dikkat",
+          "startMs": 281780,
+          "endMs": 282230
+        },
+        {
+          "word": "et;",
+          "startMs": 282230,
+          "endMs": 282840
+        },
+        {
+          "word": "610",
+          "startMs": 283130,
+          "endMs": 284540
+        },
+        {
+          "word": "yılı",
+          "startMs": 284630,
+          "endMs": 285610
+        },
+        {
+          "word": "doğuştur,",
+          "startMs": 286290,
+          "endMs": 286820
+        },
+        {
+          "word": "622",
+          "startMs": 288370,
+          "endMs": 290230
+        },
+        {
+          "word": "yılı",
+          "startMs": 291130,
+          "endMs": 291790
+        },
+        {
+          "word": "ise",
+          "startMs": 291900,
+          "endMs": 292310
+        },
+        {
+          "word": "hicrettir.",
+          "startMs": 292380,
+          "endMs": 293560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 294380,
+      "endMs": 303510,
+      "pauseAfterMs": 820,
+      "text": "Mekke ile Medine şehirlerini de aynı yer gibi düşünmemeyi her zaman hatırla.",
+      "markedText": "Mekke ile Medine şehirlerini de aynı yer gibi düşünmemeyi her zaman hatırla.",
+      "words": [
+        {
+          "word": "Mekke",
+          "startMs": 294380,
+          "endMs": 294810
+        },
+        {
+          "word": "ile",
+          "startMs": 294860,
+          "endMs": 295220
+        },
+        {
+          "word": "Medine",
+          "startMs": 295370,
+          "endMs": 296440
+        },
+        {
+          "word": "şehirlerini",
+          "startMs": 297060,
+          "endMs": 297690
+        },
+        {
+          "word": "de",
+          "startMs": 297780,
+          "endMs": 297910
+        },
+        {
+          "word": "aynı",
+          "startMs": 297910,
+          "endMs": 298380
+        },
+        {
+          "word": "yer",
+          "startMs": 298510,
+          "endMs": 298770
+        },
+        {
+          "word": "gibi",
+          "startMs": 298770,
+          "endMs": 299100
+        },
+        {
+          "word": "düşünmemeyi",
+          "startMs": 299220,
+          "endMs": 300390
+        },
+        {
+          "word": "her",
+          "startMs": 300970,
+          "endMs": 301040
+        },
+        {
+          "word": "zaman",
+          "startMs": 301320,
+          "endMs": 301590
+        },
+        {
+          "word": "hatırla.",
+          "startMs": 301690,
+          "endMs": 302690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 303510,
+      "endMs": 305580,
+      "pauseAfterMs": 850,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 303510,
+          "endMs": 303920
+        },
+        {
+          "word": "Neler",
+          "startMs": 304020,
+          "endMs": 304310
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 304390,
+          "endMs": 304730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 305580,
+      "endMs": 305720,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 305580,
+          "endMs": 305720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 305720,
+      "endMs": 311860,
+      "pauseAfterMs": 1030,
+      "text": "İslamiyet 610 yılında Mekke'de doğdu.",
+      "markedText": "İslamiyet 610 yılında Mekke'de doğdu.",
+      "words": [
+        {
+          "word": "İslamiyet",
+          "startMs": 305720,
+          "endMs": 306510
+        },
+        {
+          "word": "610",
+          "startMs": 306610,
+          "endMs": 307710
+        },
+        {
+          "word": "yılında",
+          "startMs": 307820,
+          "endMs": 308780
+        },
+        {
+          "word": "Mekke'de",
+          "startMs": 309400,
+          "endMs": 310180
+        },
+        {
+          "word": "doğdu.",
+          "startMs": 310270,
+          "endMs": 310830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 311860,
+      "endMs": 312310,
+      "pauseAfterMs": 0,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 311860,
+          "endMs": 312310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 312310,
+      "endMs": 318800,
+      "pauseAfterMs": 560,
+      "text": "622 hicreti Medine'ye yapıldı.",
+      "markedText": "622 hicreti Medine'ye yapıldı.",
+      "words": [
+        {
+          "word": "622",
+          "startMs": 312310,
+          "endMs": 314680
+        },
+        {
+          "word": "hicreti",
+          "startMs": 315300,
+          "endMs": 316180
+        },
+        {
+          "word": "Medine'ye",
+          "startMs": 316360,
+          "endMs": 317220
+        },
+        {
+          "word": "yapıldı.",
+          "startMs": 317220,
+          "endMs": 318240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 318800,
+      "endMs": 324190,
+      "pauseAfterMs": 900,
+      "text": "Hicri takvim bu yıldan başlar.",
+      "markedText": "Hicri takvim bu yıldan başlar.",
+      "words": [
+        {
+          "word": "Hicri",
+          "startMs": 318800,
+          "endMs": 319330
+        },
+        {
+          "word": "takvim",
+          "startMs": 319510,
+          "endMs": 319960
+        },
+        {
+          "word": "bu",
+          "startMs": 320470,
+          "endMs": 321140
+        },
+        {
+          "word": "yıldan",
+          "startMs": 322070,
+          "endMs": 322550
+        },
+        {
+          "word": "başlar.",
+          "startMs": 322620,
+          "endMs": 323290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 324190,
+      "endMs": 325160,
+      "pauseAfterMs": 800,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 324190,
+          "endMs": 324360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 325160,
+      "endMs": 333790,
+      "pauseAfterMs": 840,
+      "text": "Dört halife, Emevi ve Abbasi dönemlerinde yayılış genişledi.",
+      "markedText": "Dört halife, Emevi ve Abbasi dönemlerinde yayılış genişledi.",
+      "words": [
+        {
+          "word": "Dört",
+          "startMs": 325160,
+          "endMs": 325460
+        },
+        {
+          "word": "halife,",
+          "startMs": 325600,
+          "endMs": 326070
+        },
+        {
+          "word": "Emevi",
+          "startMs": 326070,
+          "endMs": 327200
+        },
+        {
+          "word": "ve",
+          "startMs": 327990,
+          "endMs": 328240
+        },
+        {
+          "word": "Abbasi",
+          "startMs": 328870,
+          "endMs": 329510
+        },
+        {
+          "word": "dönemlerinde",
+          "startMs": 329590,
+          "endMs": 330930
+        },
+        {
+          "word": "yayılış",
+          "startMs": 331470,
+          "endMs": 331920
+        },
+        {
+          "word": "genişledi.",
+          "startMs": 332020,
+          "endMs": 332950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 333790,
+      "endMs": 339890,
+      "pauseAfterMs": 1510,
+      "text": "Doğuş Mekke'de 610'dur.",
+      "markedText": "Doğuş Mekke'de 610'dur.",
+      "words": [
+        {
+          "word": "Doğuş",
+          "startMs": 333790,
+          "endMs": 334020
+        },
+        {
+          "word": "Mekke'de",
+          "startMs": 334640,
+          "endMs": 335280
+        },
+        {
+          "word": "610'dur.",
+          "startMs": 335720,
+          "endMs": 338380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 339890,
+      "endMs": 347800,
+      "pauseAfterMs": 570,
+      "text": "Hicret Medine'ye 622'dir ve takvimin başlangıcıdır.",
+      "markedText": "Hicret Medine'ye 622'dir ve takvimin başlangıcıdır.",
+      "words": [
+        {
+          "word": "Hicret",
+          "startMs": 339890,
+          "endMs": 340090
+        },
+        {
+          "word": "Medine'ye",
+          "startMs": 340840,
+          "endMs": 341800
+        },
+        {
+          "word": "622'dir",
+          "startMs": 342520,
+          "endMs": 344650
+        },
+        {
+          "word": "ve",
+          "startMs": 344730,
+          "endMs": 345000
+        },
+        {
+          "word": "takvimin",
+          "startMs": 345540,
+          "endMs": 346040
+        },
+        {
+          "word": "başlangıcıdır.",
+          "startMs": 346080,
+          "endMs": 347230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 347800,
+      "endMs": 356340,
+      "pauseAfterMs": 780,
+      "text": "Doğuş yerini, hicret yılını ve yayılışın yönünü ayrı cümlelerle söylersin.",
+      "markedText": "Doğuş yerini, hicret yılını ve yayılışın yönünü ayrı cümlelerle söylersin.",
+      "words": [
+        {
+          "word": "Doğuş",
+          "startMs": 347800,
+          "endMs": 348040
+        },
+        {
+          "word": "yerini,",
+          "startMs": 348240,
+          "endMs": 349370
+        },
+        {
+          "word": "hicret",
+          "startMs": 350140,
+          "endMs": 350560
+        },
+        {
+          "word": "yılını",
+          "startMs": 350660,
+          "endMs": 351200
+        },
+        {
+          "word": "ve",
+          "startMs": 351200,
+          "endMs": 351540
+        },
+        {
+          "word": "yayılışın",
+          "startMs": 352330,
+          "endMs": 352870
+        },
+        {
+          "word": "yönünü",
+          "startMs": 352870,
+          "endMs": 353340
+        },
+        {
+          "word": "ayrı",
+          "startMs": 353430,
+          "endMs": 353830
+        },
+        {
+          "word": "cümlelerle",
+          "startMs": 353910,
+          "endMs": 354490
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 354590,
+          "endMs": 355560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 356340,
+      "endMs": 358850,
+      "pauseAfterMs": 890,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 356340,
+          "endMs": 356930
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 357050,
+          "endMs": 357960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 358850,
+      "endMs": 361540,
+      "pauseAfterMs": 0,
+      "text": "Harika bir iş çıkardık",
+      "markedText": "Harika bir iş çıkardık",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 358850,
+          "endMs": 359510
+        },
+        {
+          "word": "bir",
+          "startMs": 359920,
+          "endMs": 360380
+        },
+        {
+          "word": "iş",
+          "startMs": 360380,
+          "endMs": 360660
+        },
+        {
+          "word": "çıkardık",
+          "startMs": 360850,
+          "endMs": 361540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 361540,
+      "endMs": 363920,
+      "pauseAfterMs": 630,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 361540,
+          "endMs": 361850
+        },
+        {
+          "word": "sıra",
+          "startMs": 361970,
+          "endMs": 362240
+        },
+        {
+          "word": "sende.",
+          "startMs": 362300,
+          "endMs": 363290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 363920,
+      "endMs": 368979,
+      "pauseAfterMs": 269,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 363920,
+          "endMs": 364480
+        },
+        {
+          "word": "bu",
+          "startMs": 365040,
+          "endMs": 365190
+        },
+        {
+          "word": "notları",
+          "startMs": 365290,
+          "endMs": 365720
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 366450,
+          "endMs": 367040
+        },
+        {
+          "word": "kendi",
+          "startMs": 367130,
+          "endMs": 367390
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 367460,
+          "endMs": 368190
+        },
+        {
+          "word": "anlat.",
+          "startMs": 368250,
+          "endMs": 368710
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

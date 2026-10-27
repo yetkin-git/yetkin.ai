@@ -14,6 +14,7 @@ import {
   railV1ContractSchema,
   railV1FreelancerContractViewSchema,
 } from "@/lib/kernel/http/v1-contract";
+import { RAIL_V1_HOP_META_COUNT } from "@/lib/kernel/http/api-route-census";
 import { POST as postAccept } from "@/app/api/freelancer/jobs/[id]/accept/route";
 import * as sessionApi from "@/lib/kernel/auth/session";
 import * as freelancerRuntime from "@/lib/freelancer/runtime";
@@ -142,7 +143,7 @@ describe("ADIM 16 — accept DEBIT projeksiyonu ve atomik mühür", () => {
   });
 
   it("PayTR B2C: freelancer-accept v1 sicilinde yok; DTO + hata metinleri kanonik handler'da durur", () => {
-    expect(RAIL_V1_HOPS).toHaveLength(29);
+    expect(RAIL_V1_HOPS).toHaveLength(RAIL_V1_HOP_META_COUNT);
     expect(RAIL_V1_HOPS.some((item) => item.id === "freelancer-accept")).toBe(false);
     expect(RAIL_V1_HOPS.some((item) => item.id === "client-job-bids")).toBe(false);
     expect(() => assertRailIsDay0Path("/api/v1/freelancer/jobs/fj_1/accept", "POST")).toThrow(

@@ -8,7 +8,7 @@ import {
   juniorLessonAccess,
   juniorLessonByKey,
 } from "@/lib/junior/catalog";
-import { JUNIOR_MAT_5 } from "@/lib/junior/content/mat/5";
+import { JUNIOR_MAT_5 } from "@/lib/junior/content/mat/1";
 import { JUNIOR_HYBRID_OPENINGS, juniorLessonGreeting } from "@/lib/junior/content-rules";
 import { JUNIOR_LEGACY_ARCHIVE_LABEL } from "@/lib/junior/meb";
 import { JUNIOR_ARCHIVED_OPENER_KEYS, JUNIOR_FREE_LESSON_KEY } from "@/lib/junior/limits";
@@ -26,19 +26,21 @@ import { juniorActiveLessonKeys } from "@/lib/junior/week";
 const WEEK_4_NOON = new Date("2026-10-11T12:00:00+03:00");
 
 describe("FAZ 37 ücretsiz kapı ve arşiv", () => {
-  it("ücretsiz ilk ders kapısı güncel haftanın tek matematik dersidir", () => {
-    expect(juniorActiveLessonKeys("jr_06_mat", WEEK_4_NOON)).toEqual([JUNIOR_FREE_LESSON_KEY]);
-    expect(juniorFreeLessonKeys()).toContain(JUNIOR_FREE_LESSON_KEY);
+  it("ücretsiz matematik kapısı kartın ilk mühürlü dersidir; hafta ikinci bedava ders açmaz", () => {
+    expect(JUNIOR_FREE_LESSON_KEY).toBe("jr_06_mat-1");
+    expect(juniorFreeLessonKeys().filter((key) => key.startsWith("jr_06_mat-"))).toEqual(["jr_06_mat-1"]);
     expect(juniorLessonAccess(JUNIOR_FREE_LESSON_KEY)).toBe("free");
+    expect(juniorLessonAccess("jr_06_mat-4")).toBe("locked");
+    expect(juniorActiveLessonKeys("jr_06_mat", WEEK_4_NOON)).not.toEqual([JUNIOR_FREE_LESSON_KEY]);
   });
 
   it("matematik rafı 1. ünite ile açılır; müfredat dışı arşiv anahtarı yoktur", () => {
     expect(JUNIOR_ARCHIVED_OPENER_KEYS).toEqual([]);
-    expect(juniorFreeLessonKeys()).not.toContain("jr_06_mat-1");
-    expect(juniorLessonAccess("jr_06_mat-1")).toBe("missing");
+    expect(juniorFreeLessonKeys()).toContain("jr_06_mat-1");
+    expect(juniorLessonAccess("jr_06_mat-1")).toBe("free");
     expect(JUNIOR_LEGACY_ARCHIVE_LABEL).toBe("Müfredat dışı / Arşiv");
     const mat = juniorCourseShelves(WEEK_4_NOON).find((course) => course.slug === "jr_06_mat");
-    expect(mat?.lessons[0]?.key).toBe("jr_06_mat-5");
+    expect(mat?.lessons[0]?.key).toBe("jr_06_mat-1");
     expect(mat?.lessons[0]?.archiveLabel).toBeUndefined();
     expect(mat?.lessons[0]?.unitTitle).toBe("Sayılar ve nicelikler");
     expect(mat?.lessons.some((lesson) => lesson.archiveLabel === JUNIOR_LEGACY_ARCHIVE_LABEL)).toBe(false);
@@ -55,20 +57,20 @@ describe("FAZ 37 ücretsiz kapı ve arşiv", () => {
 
 describe("FAZ 37 karşılama hizası", () => {
   it("mühürlü sesli dersin ekran selamı konuşulan açılışla aynıdır", () => {
-    const odd = juniorLessonGreeting({ lessonKey: "jr_06_mat-5", nickname: "Ela", sealedVoice: true });
+    const odd = juniorLessonGreeting({ lessonKey: "jr_06_mat-1", nickname: "Ela", sealedVoice: true });
     expect(odd).toBe("Merhaba sevgili çocuklar!");
-    expect(juniorLessonGreeting({ lessonKey: "jr_06_mat-6", nickname: "Ela", sealedVoice: true })).toBe(
+    expect(juniorLessonGreeting({ lessonKey: "jr_06_mat-2", nickname: "Ela", sealedVoice: true })).toBe(
       JUNIOR_HYBRID_OPENINGS[1],
     );
-    const spoken = juniorLessonByKey("jr_06_mat-5")?.listenText ?? "";
+    const spoken = juniorLessonByKey("jr_06_mat-1")?.listenText ?? "";
     expect(spoken.startsWith(odd ?? "")).toBe(true);
   });
 
   it("mühür yokken rumuzlu sıcak açılış kullanılır; rumuz yoksa selam yoktur", () => {
-    expect(juniorLessonGreeting({ lessonKey: "jr_06_mat-5", nickname: "Ela", sealedVoice: false })).toBe(
+    expect(juniorLessonGreeting({ lessonKey: "jr_06_mat-1", nickname: "Ela", sealedVoice: false })).toBe(
       "Merhaba Ela, bu konuya birlikte bakacağız.",
     );
-    expect(juniorLessonGreeting({ lessonKey: "jr_06_mat-5", nickname: null, sealedVoice: false })).toBeNull();
+    expect(juniorLessonGreeting({ lessonKey: "jr_06_mat-1", nickname: null, sealedVoice: false })).toBeNull();
   });
 
   it("oynatıcı selamı katalog kararından okur (rumuz sabit selamı bozmaz)", () => {
@@ -100,20 +102,20 @@ describe("FAZ 37 dikkat durağı ve yıldız", () => {
     }
   });
 
-  it("jr_06_mat-5 dikkat durağı 💡 olarak kalır", () => {
-    const lesson = juniorLessonByKey("jr_06_mat-5");
+  it("jr_06_mat-1 dikkat durağı 💡 olarak kalır", () => {
+    const lesson = juniorLessonByKey("jr_06_mat-1");
     expect(lesson).not.toBeNull();
     if (!lesson) {
       return;
     }
     const note = juniorLessonNote(lesson.mebNote, lesson.lifeUse);
     const timeline = juniorPlayerTimeline(note, chunkJuniorLocalSpeech(note), lesson.steps?.length ?? 12);
-    const plan = microLessonPlan("jr_06_mat-5", timeline);
+    const plan = microLessonPlan("jr_06_mat-1", timeline);
     expect(plan.pauses.some((pause) => pause.kind === "attention")).toBe(true);
   });
 });
 
-describe("1. ünite açılışı jr_06_mat-5", () => {
+describe("1. ünite açılışı jr_06_mat-1", () => {
   const text = JUNIOR_MAT_5.listenText;
 
   it("çarpan ve bölünebilme cümlesini taşır; silinen üslü anlatım yoktur", () => {
@@ -122,7 +124,7 @@ describe("1. ünite açılışı jr_06_mat-5", () => {
     expect(text).not.toContain("Üslü ifade");
   });
 
-  it("süre 5 ile 12 dakika bandında kalır", () => {
+  it("karakter saati 3 dakika tabanı ile 12 dakika tavanı arasındadır", () => {
     const ms = juniorNarrationDurationMs(JUNIOR_MAT_5.mebNote, JUNIOR_MAT_5.lifeUse);
     expect(ms).toBeGreaterThanOrEqual(JUNIOR_NARRATION_MIN_MS);
     expect(ms).toBeLessThanOrEqual(JUNIOR_NARRATION_MAX_MS);

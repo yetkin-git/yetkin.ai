@@ -8,8 +8,17 @@ import {
   PAYTR_IFRAME_MAX_INSTALLMENT,
   PAYTR_IFRAME_NO_INSTALLMENT,
 } from "@/lib/kernel/payments/paytr/checkout";
-import { juniorElectivePicks, juniorLessonAccessForPlan } from "@/lib/junior/catalog";
+import { JUNIOR_ELECTIVE_COURSES } from "@/lib/junior/elective-catalog";
+import {
+  juniorCourseSealed,
+  juniorCourseShelves,
+  juniorElectivePicks,
+  juniorLessonAccessForPlan,
+  juniorPaidElectives,
+  stampJuniorPlanAccess,
+} from "@/lib/junior/catalog";
 import { juniorPlanCoversLesson } from "@/lib/junior/enter";
+import { isJuniorCheckoutLocked } from "@/lib/kernel/security/junior-gate";
 import {
   completeJuniorCheckout,
   JUNIOR_CHECKOUT_AUDIT_MESSAGE,
@@ -24,8 +33,9 @@ import { fulfillJuniorLicenseFromClearedOrder, JUNIOR_LICENSE_ORDER_PURPOSE } fr
 import { createMemoryLedgerStore } from "../helpers/memory-money";
 import {
   JUNIOR_ELECTIVE_DRAFT_PRICE_ERROR,
+  JUNIOR_ELECTIVE_PRICE_EXCLUDED,
   JUNIOR_ELECTIVE_QUOTA,
-  JUNIOR_ELECTIVE_SOON_ERROR,
+  JUNIOR_ELECTIVE_SLUGS,
   JUNIOR_PILOT_SHELF_LINE,
 } from "@/lib/junior/limits";
 import { createMemoryJuniorStore } from "@/lib/junior/memory-port";
@@ -33,6 +43,7 @@ import {
   buildJuniorPaytrSeal,
   JUNIOR_PAYTR_BASKET_NAME,
   juniorPaytrCredentialsAllowSale,
+  juniorPaytrSaleGate,
 } from "@/lib/junior/paytr";
 import {
   chargeJuniorTestPos,
@@ -45,6 +56,7 @@ import {
 } from "@/lib/junior/plan";
 import {
   createJuniorProfile,
+  openJuniorLessonPlay,
   readJuniorHome,
   readJuniorLesson,
   submitJuniorTell,
@@ -54,6 +66,185 @@ import type { LlmGatewayResult } from "@/lib/kernel/ai/types";
 
 /** Abonelik satırı stand-in. Ürün kodu bu sayıyı taşımaz; katalog tohumu SQL'dedir. */
 const JUNIOR_FIXTURE_PRICE_MINOR = 549_900;
+const JUNIOR_MAT_CORE_KEYS = Array.from({ length: 26 }, (_, index) => `jr_06_mat-${index + 1}`);
+/** Raf hafta sırası. Kesir şeridi uzunluk dersinden önce gelir. */
+const JUNIOR_MAT_SHELF_KEYS = [
+  "jr_06_mat-1",
+  "jr_06_mat-2",
+  "jr_06_mat-3",
+  "jr_06_mat-4",
+  "jr_06_mat-5",
+  "jr_06_mat-7",
+  "jr_06_mat-8",
+  "jr_06_mat-9",
+  "jr_06_mat-10",
+  "jr_06_mat-6",
+  ...Array.from({ length: 16 }, (_, index) => `jr_06_mat-${index + 11}`),
+];
+/** Çekirdek raf sırası. 13. hafta bağında takvim `28` sonra `18` yazar; raf dosya indeksine düşer. */
+const JUNIOR_FEN_CORE_KEYS = [
+  "jr_06_fen-1",
+  "jr_06_fen-2",
+  "jr_06_fen-9",
+  "jr_06_fen-21",
+  "jr_06_fen-10",
+  "jr_06_fen-22",
+  "jr_06_fen-23",
+  "jr_06_fen-24",
+  "jr_06_fen-25",
+  "jr_06_fen-26",
+  "jr_06_fen-16",
+  "jr_06_fen-27",
+  "jr_06_fen-18",
+  "jr_06_fen-28",
+  "jr_06_fen-29",
+  "jr_06_fen-30",
+  "jr_06_fen-31",
+  "jr_06_fen-32",
+  "jr_06_fen-33",
+  "jr_06_fen-34",
+  "jr_06_fen-12",
+  "jr_06_fen-35",
+  "jr_06_fen-19",
+  "jr_06_fen-36",
+  "jr_06_fen-20",
+  "jr_06_fen-37",
+  "jr_06_fen-38",
+] as const;
+const JUNIOR_FEN_GAP_KEYS = [
+  "jr_06_fen-3",
+  "jr_06_fen-4",
+  "jr_06_fen-5",
+  "jr_06_fen-6",
+  "jr_06_fen-7",
+  "jr_06_fen-8",
+  "jr_06_fen-11",
+  "jr_06_fen-13",
+  "jr_06_fen-14",
+  "jr_06_fen-15",
+  "jr_06_fen-17",
+] as const;
+/** Çekirdek raf sırası. Hafta sırasıdır. Aynı aralıkta bölüm eki kartı düşürmez; `13` tema 1'in içinde durur. */
+const JUNIOR_TURKCE_CORE_KEYS = [
+  "jr_06_turkce-1",
+  "jr_06_turkce-2",
+  "jr_06_turkce-3",
+  "jr_06_turkce-4",
+  "jr_06_turkce-13",
+  "jr_06_turkce-8",
+  "jr_06_turkce-9",
+  "jr_06_turkce-10",
+  "jr_06_turkce-12",
+  "jr_06_turkce-5",
+  "jr_06_turkce-7",
+  "jr_06_turkce-11",
+  "jr_06_turkce-6",
+  "jr_06_turkce-14",
+  "jr_06_turkce-15",
+  "jr_06_turkce-16",
+  "jr_06_turkce-17",
+  "jr_06_turkce-18",
+  "jr_06_turkce-19",
+  "jr_06_turkce-20",
+] as const;
+const JUNIOR_TURKCE_SHELL_KEYS = [
+  "jr_06_turkce-21",
+  "jr_06_turkce-22",
+  "jr_06_turkce-23",
+  "jr_06_turkce-24",
+  "jr_06_turkce-25",
+  "jr_06_turkce-26",
+] as const;
+/**
+ * Çekirdek raf sırası. Hafta sırasıdır. Aynı başlangıç ve bitiş haftası yoktur.
+ * Haftası 0 olan dört park ders saatli kartların sonuna düşer ve hafta başlığı taşımaz.
+ */
+const JUNIOR_SOSYAL_CORE_KEYS = [
+  "jr_06_sosyal-1",
+  "jr_06_sosyal-21",
+  "jr_06_sosyal-9",
+  "jr_06_sosyal-10",
+  "jr_06_sosyal-11",
+  "jr_06_sosyal-22",
+  "jr_06_sosyal-5",
+  "jr_06_sosyal-23",
+  "jr_06_sosyal-7",
+  "jr_06_sosyal-16",
+  "jr_06_sosyal-18",
+  "jr_06_sosyal-4",
+  "jr_06_sosyal-17",
+  "jr_06_sosyal-24",
+  "jr_06_sosyal-12",
+  "jr_06_sosyal-15",
+  "jr_06_sosyal-25",
+  "jr_06_sosyal-8",
+  "jr_06_sosyal-20",
+  "jr_06_sosyal-26",
+  "jr_06_sosyal-2",
+  "jr_06_sosyal-3",
+  "jr_06_sosyal-6",
+  "jr_06_sosyal-13",
+] as const;
+const JUNIOR_SOSYAL_PARK_KEYS = [
+  "jr_06_sosyal-2",
+  "jr_06_sosyal-3",
+  "jr_06_sosyal-6",
+  "jr_06_sosyal-13",
+] as const;
+const JUNIOR_SOSYAL_GAP_KEYS = ["jr_06_sosyal-14", "jr_06_sosyal-19"] as const;
+/**
+ * Çekirdek raf sırası. Hafta sırasıdır. Aynı başlangıç ve bitiş haftası yoktur.
+ * Ücretsiz kapı dosya sırasındaki `-1` değil, 1–5. haftadaki `jr_06_ing_main-20` dir.
+ */
+const JUNIOR_ING_CORE_KEYS = [
+  "jr_06_ing_main-20",
+  "jr_06_ing_main-2",
+  "jr_06_ing_main-4",
+  "jr_06_ing_main-7",
+  "jr_06_ing_main-17",
+  "jr_06_ing_main-5",
+  "jr_06_ing_main-16",
+  "jr_06_ing_main-6",
+  "jr_06_ing_main-9",
+  "jr_06_ing_main-10",
+  "jr_06_ing_main-11",
+  "jr_06_ing_main-1",
+  "jr_06_ing_main-3",
+  "jr_06_ing_main-8",
+] as const;
+const JUNIOR_ING_WEEK_HEADINGS = [
+  "1–5. Hafta: Hak, sorumluluk ve sınıf kuralı",
+  "6–8. Hafta: Family Life: ailem ve have got",
+  "9–11. Hafta: Family Life: evde rutin işler",
+  "12–14. Hafta: Sunny, rainy ve cold",
+  "15–16. Hafta: Çevreyi korumak ve recycling",
+  "17–18. Hafta: Şehirde şu an ne oluyor",
+  "22–24. Hafta: In, on, under, behind ve next to",
+  "25–28. Hafta: Universe: gökyüzü ve there is",
+  "29–31. Hafta: Universe: gelecekte will",
+  "32–33. Hafta: World and Culture: ülke ve milliyet",
+  "34. Hafta: World and Culture: kutlama ve yemek",
+  "35–36. Hafta: Daily routines ve saati söylemek",
+  "37–38. Hafta: Yiyecek, içecek ve likes, dislikes",
+  "40. Hafta: Happy, anxious ve scared",
+] as const;
+const JUNIOR_ING_SHELL_KEYS = [
+  "jr_06_ing_main-21",
+  "jr_06_ing_main-22",
+  "jr_06_ing_main-23",
+  "jr_06_ing_main-24",
+  "jr_06_ing_main-25",
+  "jr_06_ing_main-26",
+  "jr_06_ing_main-27",
+] as const;
+const JUNIOR_ING_GAP_KEYS = [
+  "jr_06_ing_main-12",
+  "jr_06_ing_main-13",
+  "jr_06_ing_main-14",
+  "jr_06_ing_main-15",
+  "jr_06_ing_main-18",
+  "jr_06_ing_main-19",
+] as const;
 const NOW = new Date("2026-10-05T12:00:00+03:00");
 const PARENT = "parent-plan";
 
@@ -152,13 +343,16 @@ describe("Junior seçmeli ders kotası", () => {
   it("profil seçimini üçe kilitler; mühürsüz seçmeli pakete eklenmez", async () => {
     const store = createMemoryJuniorStore();
     const profile = await openProfile(store);
-    // Mühürü tamamlanmamış dersler paket seçimine eklenemez (T-06). Kota kuralı seçim kapısından önce uygulanır.
-    const notReady = await saveJuniorElectives(store, PARENT, {
+    const ready = await saveJuniorElectives(store, PARENT, {
       profileId: profile.id,
       slugs: ["jr_06_alm", "jr_06_siyer", "jr_06_kod"],
     });
-    expect(notReady).toEqual({ ok: false, status: 400, error: JUNIOR_ELECTIVE_SOON_ERROR });
-    expect((await store.getProfile(PARENT, profile.id))?.selectedElectives).toEqual([]);
+    expect(ready.ok).toBe(true);
+    expect((await store.getProfile(PARENT, profile.id))?.selectedElectives).toEqual([
+      "jr_06_alm",
+      "jr_06_siyer",
+      "jr_06_kod",
+    ]);
     const overflow = await saveJuniorElectives(store, PARENT, {
       profileId: profile.id,
       slugs: ["jr_06_alm", "jr_06_fra", "jr_06_siyer", "jr_06_kod"],
@@ -174,6 +368,101 @@ describe("Junior seçmeli ders kotası", () => {
       slugs: ["jr_06_alm"],
     });
     expect(stranger.ok).toBe(false);
+  });
+
+  it("111 çekirdek junior-yearly ile açılır; mühürlü seçmeli seçilince açılır, jr_06_ing fiyat dışıdır", { timeout: 30_000 }, async () => {
+    const shelves = juniorCourseShelves(NOW);
+    const coreKeys = shelves
+      .filter((course) => course.track === "core")
+      .flatMap((course) => course.lessons.map((lesson) => lesson.key));
+    expect(coreKeys).toHaveLength(111);
+    const yearly = { active: true, selectedElectives: [] as const };
+    for (const key of coreKeys) {
+      expect(juniorLessonAccessForPlan(key, yearly), key).toBe("free");
+      expect(readJuniorLesson(key, yearly).access, key).toBe("free");
+      expect(juniorPlanCoversLesson(key, true, []), key).toBe(true);
+    }
+
+    const electiveLessons = JUNIOR_ELECTIVE_COURSES.flatMap((course) =>
+      course.lessons.map((lesson) => ({ course, key: lesson.key })),
+    );
+    expect(electiveLessons).toHaveLength(12);
+    for (const row of electiveLessons) {
+      const priced = !(JUNIOR_ELECTIVE_PRICE_EXCLUDED as readonly string[]).includes(row.course.slug);
+      // Her kartın 1. konusu ücretsiz açılıştır; paket kapısı onu kilitlemez.
+      const opener = row.key.endsWith("-1");
+      const expected = priced || opener ? "free" : "locked";
+      expect(juniorCourseSealed(row.course), row.key).toBe(true);
+      expect(
+        juniorLessonAccessForPlan(row.key, { active: true, selectedElectives: [row.course.slug] }),
+        row.key,
+      ).toBe(expected);
+      expect(readJuniorLesson(row.key, { active: true, selectedElectives: [row.course.slug] }).access, row.key).toBe(
+        expected,
+      );
+      expect(juniorPlanCoversLesson(row.key, true, [row.course.slug]), row.key).toBe(priced);
+    }
+
+    const stamped = stampJuniorPlanAccess(shelves, {
+      active: true,
+      selectedElectives: [...JUNIOR_ELECTIVE_SLUGS],
+    });
+    for (const course of stamped.filter((row) => row.track === "elective")) {
+      const priced = !(JUNIOR_ELECTIVE_PRICE_EXCLUDED as readonly string[]).includes(course.slug);
+      expect(
+        course.lessons.every((lesson, index) => lesson.access === (priced || index === 0 ? "free" : "locked")),
+        course.slug,
+      ).toBe(true);
+    }
+
+    expect([...JUNIOR_ELECTIVE_PRICE_EXCLUDED]).toEqual(["jr_06_ing"]);
+    expect(juniorElectivePicks().map((pick) => pick.slug)).not.toContain("jr_06_ing");
+    const ingCore = shelves.find((course) => course.slug === "jr_06_ing_main");
+    expect(ingCore?.track).toBe("core");
+    expect(ingCore?.lessons).toHaveLength(14);
+    expect(ingCore?.lessons.every((lesson) => lesson.key.startsWith("jr_06_ing_main-"))).toBe(true);
+    expect(normalizeElectiveSelection(["jr_06_ing"])).toEqual({
+      ok: false,
+      error: JUNIOR_ELECTIVE_DRAFT_PRICE_ERROR,
+    });
+
+    const store = createMemoryJuniorStore();
+    const profile = await openProfile(store);
+    for (const slug of JUNIOR_ELECTIVE_SLUGS) {
+      const saved = await saveJuniorElectives(store, PARENT, { profileId: profile.id, slugs: [slug] });
+      expect(saved.ok, slug).toBe(slug !== "jr_06_ing");
+    }
+    expect((await store.getProfile(PARENT, profile.id))?.selectedElectives).toEqual(["jr_06_arp"]);
+    await seedActivePlan(store);
+    await store.setSelectedElectives(PARENT, profile.id, ["jr_06_alm"]);
+    const subscription = await store.getSubscription(PARENT);
+    expect(subscription?.planCode).toBe(JUNIOR_PLAN_CODE);
+    expect(subscription?.status).toBe("ACTIVE");
+    expect(subscription?.electiveQuota).toBe(3);
+    expect(JUNIOR_ELECTIVE_QUOTA).toBe(3);
+    expect((await store.getProfile(PARENT, profile.id))?.selectedElectives).toEqual(["jr_06_alm"]);
+    expect(juniorPaidElectives(["jr_06_alm"])).toEqual(["jr_06_alm"]);
+
+    let calls = 0;
+    const toldAttempt = await submitJuniorTell(
+      store,
+      {
+        userId: PARENT,
+        profileId: profile.id,
+        lessonKey: "jr_06_alm-1",
+        mode: "write",
+        text: "Guten Tag demek günün selamıdır. Bunu bir kez daha söylerim.",
+        now: NOW,
+      },
+      {
+        invoke: async () => {
+          calls += 1;
+          return told();
+        },
+      },
+    );
+    expect(calls).toBe(1);
+    expect(toldAttempt.ok).toBe(true);
   });
 });
 
@@ -193,9 +482,9 @@ describe("Junior yıllık paket kasası", () => {
       profileId: profile.id,
       slugs: ["jr_06_alm", "jr_06_fra", "jr_06_siyer"],
     });
-    expect(picked).toEqual({ ok: false, status: 400, error: JUNIOR_ELECTIVE_SOON_ERROR });
-    expect(readJuniorLesson("jr_06_mat-6").access).toBe("locked");
-    expect(juniorLessonAccessForPlan("jr_06_mat-6", { active: false, selectedElectives: [] })).toBe("locked");
+    expect(picked.ok).toBe(true);
+    expect(readJuniorLesson("jr_06_mat-2").access).toBe("locked");
+    expect(juniorLessonAccessForPlan("jr_06_mat-2", { active: false, selectedElectives: [] })).toBe("locked");
 
     // Doğrudan yazılmış (mühürsüz) seçim ücretli pakette açılmaz (T-06).
     await store.setSelectedElectives(PARENT, profile.id, ["jr_06_alm"]);
@@ -208,17 +497,20 @@ describe("Junior yıllık paket kasası", () => {
     ]);
     const math = home.courses.find((course) => course.slug === "jr_06_mat");
     expect(math?.lessons.every((lesson) => lesson.access === "free")).toBe(true);
+    // Seçmeli kartta 1. konu kamuya açık, 2. konu paket + seçimle açılır.
     const german = home.courses.find((course) => course.slug === "jr_06_alm");
-    expect(german?.lessons.slice(1).every((lesson) => lesson.access === "locked")).toBe(true);
-    expect(juniorPlanCoversLesson("jr_06_alm-2", true, ["jr_06_alm"])).toBe(false);
-    expect(juniorPlanCoversLesson("jr_06_mat-6", true, [])).toBe(true);
+    expect(german?.lessons.every((lesson) => lesson.access === "free")).toBe(true);
+    expect(juniorPlanCoversLesson("jr_06_alm-2", true, ["jr_06_alm"])).toBe(true);
+    expect(juniorPlanCoversLesson("jr_06_mat-2", true, [])).toBe(true);
 
     const plan = { active: true, selectedElectives: ["jr_06_alm"] };
-    expect(readJuniorLesson("jr_06_mat-6", plan).access).toBe("free");
+    expect(readJuniorLesson("jr_06_mat-2", plan).access).toBe("free");
     expect(readJuniorLesson("jr_06_ing-2", plan).access).toBe("locked");
     expect(
       readJuniorLesson("jr_06_ing-2", { active: true, selectedElectives: ["jr_06_ing"] }).access,
     ).toBe("locked");
+    // Seçili olmayan seçmeli kartın 2. konusu kilitli; 1. konusu kamuya açık kalır.
+    expect(readJuniorLesson("jr_06_kod-1", plan).access).toBe("free");
     expect(readJuniorLesson("jr_06_kod-2", plan).access).toBe("locked");
 
     const opened = await submitJuniorTell(
@@ -226,7 +518,7 @@ describe("Junior yıllık paket kasası", () => {
       {
         userId: PARENT,
         profileId: profile.id,
-        lessonKey: "jr_06_mat-6",
+        lessonKey: "jr_06_mat-2",
         mode: "write",
         text: "Kesir bir bütünün eşit parçasıdır. Pay üstte, payda altta durur.",
         now: NOW,
@@ -240,9 +532,9 @@ describe("Junior yıllık paket kasası", () => {
       {
         userId: PARENT,
         profileId: profile.id,
-        lessonKey: "jr_06_kod-2",
+        lessonKey: "jr_06_ing-2",
         mode: "write",
-        text: "Komutlar yukarıdan aşağı okunur. Sıra değişirse sonuç değişir.",
+        text: "Good morning sabah selamıdır. Bunu bir kez daha söylerim.",
         now: NOW,
       },
       { invoke: async () => told() },
@@ -412,6 +704,587 @@ describe("Junior PayTR iframe kapısı", () => {
     expect(row?.invoiceTckn).toBe("withheld");
   });
 
+  it("açık kasada CLEARED junior-yearly, çocuğun 26 matematik dersini raftan açar", async () => {
+    expect(JUNIOR_PLAN_CODE).toBe("junior-yearly");
+    expect(isJuniorCheckoutLocked(OPEN_SANDBOX_ENV)).toBe(false);
+    expect(juniorPaytrSaleGate(OPEN_SANDBOX_ENV)).toBe("sandbox");
+
+    const store = createMemoryJuniorStore();
+    const profile = await openProfile(store);
+    expect(profile.grade).toBe(6);
+    const lockedHome = await readJuniorHome(store, PARENT, NOW);
+    const lockedMath = lockedHome.courses.find((course) => course.slug === "jr_06_mat");
+    expect(lockedMath?.track).toBe("core");
+    expect(lockedMath?.lessons.map((lesson) => lesson.key)).toEqual(JUNIOR_MAT_SHELF_KEYS);
+    expect(lockedMath?.lessons[0]?.access).toBe("free");
+    expect(lockedMath?.lessons.slice(1).every((lesson) => lesson.access === "locked")).toBe(true);
+    const blocked = await openJuniorLessonPlay(store, {
+      userId: PARENT,
+      profileId: profile.id,
+      lessonKey: "jr_06_mat-26",
+    });
+    expect(blocked.ok).toBe(false);
+
+    const paid = await completeJuniorCheckout(store, PARENT, CHECKOUT_BODY, NOW, {
+      env: OPEN_SANDBOX_ENV,
+      email: "veli@yetkin.ai",
+      userIp: "127.0.0.1",
+      idempotencyKey: "mat-shelf",
+      ports: {
+        readPrice: async () => ({ amountMinor: JUNIOR_FIXTURE_PRICE_MINOR }),
+        placeOrder: async () => ({
+          ok: true,
+          kind: "iframe",
+          merchantOid: "JRMATSHELF01",
+          iframeUrl: "https://www.paytr.com/odeme/guvenli/mat-shelf",
+        }),
+      },
+    });
+    expect(paid.ok).toBe(true);
+    expect(await store.getSubscription(PARENT)).toBeNull();
+    expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
+
+    const ledger = createMemoryLedgerStore([{ userId: PARENT, amountMinor: JUNIOR_FIXTURE_PRICE_MINOR }]);
+    const fulfilled = await fulfillJuniorLicenseFromClearedOrder(
+      store,
+      {
+        id: "order-mat-shelf",
+        userId: PARENT,
+        merchantOid: "JRMATSHELF01",
+        amountMinor: JUNIOR_FIXTURE_PRICE_MINOR,
+        currencyCode: "TRY",
+        status: "CLEARED",
+        createdAt: NOW,
+        purpose: JUNIOR_LICENSE_ORDER_PURPOSE,
+        consentVersion: CHECKOUT_LEGAL_CONSENT_PAYLOAD.consentVersion,
+        distanceContractAccepted: true,
+        digitalImmediatePerformanceAccepted: true,
+      },
+      ledger,
+      NOW,
+    );
+    expect(fulfilled.applied).toBe(true);
+    expect(fulfilled.reason).toBe("settled");
+    const row = await store.getSubscription(PARENT);
+    expect(row?.userId).toBe(PARENT);
+    expect(row?.status).toBe("ACTIVE");
+    expect(row?.planCode).toBe("junior-yearly");
+    expect(row).not.toHaveProperty("lessonKeys");
+    expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
+
+    const home = await readJuniorHome(store, PARENT, NOW);
+    expect(home.plan.status).toBe("ACTIVE");
+    expect(home.selected?.id).toBe(profile.id);
+    expect(home.selected?.grade).toBe(6);
+    const math = home.courses.find((course) => course.slug === "jr_06_mat");
+    expect(math?.track).toBe("core");
+    expect(math?.lessons.map((lesson) => lesson.key)).toEqual(JUNIOR_MAT_SHELF_KEYS);
+    expect(math?.lessons.every((lesson) => lesson.access === "free")).toBe(true);
+
+    for (const key of JUNIOR_MAT_CORE_KEYS) {
+      expect(juniorPlanCoversLesson(key, true, []), key).toBe(true);
+      expect(readJuniorLesson(key, { active: true, selectedElectives: [] }).access, key).toBe("free");
+      const opened = await openJuniorLessonPlay(store, {
+        userId: PARENT,
+        profileId: profile.id,
+        lessonKey: key,
+      });
+      expect(opened.ok, key).toBe(true);
+    }
+
+    const legacy = await openJuniorLessonPlay(store, {
+      userId: PARENT,
+      profileId: profile.id,
+      lessonKey: "jr_06_mat-27",
+    });
+    expect(legacy.ok).toBe(false);
+    expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
+  });
+
+  it("açık kasada CLEARED junior-yearly, çocuğun 27 fen dersini çekirdek raftan açar", async () => {
+    expect(JUNIOR_PLAN_CODE).toBe("junior-yearly");
+    expect(JUNIOR_FEN_CORE_KEYS).toHaveLength(27);
+    expect(isJuniorCheckoutLocked(OPEN_SANDBOX_ENV)).toBe(false);
+    expect(juniorPaytrSaleGate(OPEN_SANDBOX_ENV)).toBe("sandbox");
+
+    const store = createMemoryJuniorStore();
+    const profile = await openProfile(store);
+    expect(profile.grade).toBe(6);
+    const lockedHome = await readJuniorHome(store, PARENT, NOW);
+    const lockedFen = lockedHome.courses.find((course) => course.slug === "jr_06_fen");
+    expect(lockedFen?.track).toBe("core");
+    expect(lockedFen?.lessons.map((lesson) => lesson.key)).toEqual([...JUNIOR_FEN_CORE_KEYS]);
+    expect(lockedFen?.lessons[0]?.access).toBe("free");
+    expect(lockedFen?.lessons[0]?.key).toBe("jr_06_fen-1");
+    expect(lockedFen?.lessons.slice(1).every((lesson) => lesson.access === "locked")).toBe(true);
+    const blocked = await openJuniorLessonPlay(store, {
+      userId: PARENT,
+      profileId: profile.id,
+      lessonKey: "jr_06_fen-38",
+    });
+    expect(blocked.ok).toBe(false);
+
+    const paid = await completeJuniorCheckout(store, PARENT, CHECKOUT_BODY, NOW, {
+      env: OPEN_SANDBOX_ENV,
+      email: "veli@yetkin.ai",
+      userIp: "127.0.0.1",
+      idempotencyKey: "fen-shelf",
+      ports: {
+        readPrice: async () => ({ amountMinor: JUNIOR_FIXTURE_PRICE_MINOR }),
+        placeOrder: async () => ({
+          ok: true,
+          kind: "iframe",
+          merchantOid: "JRFENSHELF01",
+          iframeUrl: "https://www.paytr.com/odeme/guvenli/fen-shelf",
+        }),
+      },
+    });
+    expect(paid.ok).toBe(true);
+    expect(await store.getSubscription(PARENT)).toBeNull();
+    expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
+
+    const ledger = createMemoryLedgerStore([{ userId: PARENT, amountMinor: JUNIOR_FIXTURE_PRICE_MINOR }]);
+    const fulfilled = await fulfillJuniorLicenseFromClearedOrder(
+      store,
+      {
+        id: "order-fen-shelf",
+        userId: PARENT,
+        merchantOid: "JRFENSHELF01",
+        amountMinor: JUNIOR_FIXTURE_PRICE_MINOR,
+        currencyCode: "TRY",
+        status: "CLEARED",
+        createdAt: NOW,
+        purpose: JUNIOR_LICENSE_ORDER_PURPOSE,
+        consentVersion: CHECKOUT_LEGAL_CONSENT_PAYLOAD.consentVersion,
+        distanceContractAccepted: true,
+        digitalImmediatePerformanceAccepted: true,
+      },
+      ledger,
+      NOW,
+    );
+    expect(fulfilled.applied).toBe(true);
+    expect(fulfilled.reason).toBe("settled");
+    const row = await store.getSubscription(PARENT);
+    expect(row?.userId).toBe(PARENT);
+    expect(row?.status).toBe("ACTIVE");
+    expect(row?.planCode).toBe("junior-yearly");
+    expect(row).not.toHaveProperty("lessonKeys");
+    expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
+
+    const home = await readJuniorHome(store, PARENT, NOW);
+    expect(home.plan.status).toBe("ACTIVE");
+    expect(home.selected?.id).toBe(profile.id);
+    expect(home.selected?.grade).toBe(6);
+    const fen = home.courses.find((course) => course.slug === "jr_06_fen");
+    expect(fen?.track).toBe("core");
+    expect(fen?.lessons.map((lesson) => lesson.key)).toEqual([...JUNIOR_FEN_CORE_KEYS]);
+    expect(fen?.lessons.every((lesson) => lesson.access === "free")).toBe(true);
+    expect(fen?.lessons.findIndex((lesson) => lesson.key === "jr_06_fen-18")).toBeLessThan(
+      fen?.lessons.findIndex((lesson) => lesson.key === "jr_06_fen-28") ?? -1,
+    );
+
+    for (const key of JUNIOR_FEN_CORE_KEYS) {
+      expect(juniorPlanCoversLesson(key, true, []), key).toBe(true);
+      expect(readJuniorLesson(key, { active: true, selectedElectives: [] }).access, key).toBe("free");
+      const opened = await openJuniorLessonPlay(store, {
+        userId: PARENT,
+        profileId: profile.id,
+        lessonKey: key,
+      });
+      expect(opened.ok, key).toBe(true);
+    }
+
+    for (const key of JUNIOR_FEN_GAP_KEYS) {
+      expect(readJuniorLesson(key, { active: true, selectedElectives: [] }).access, key).toBe("missing");
+    }
+    const gap = await openJuniorLessonPlay(store, {
+      userId: PARENT,
+      profileId: profile.id,
+      lessonKey: "jr_06_fen-3",
+    });
+    expect(gap.ok).toBe(false);
+    expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
+  });
+
+  it("açık kasada CLEARED junior-yearly, çocuğun 20 Türkçe dersini çekirdek raftan açar", async () => {
+    expect(JUNIOR_PLAN_CODE).toBe("junior-yearly");
+    expect(JUNIOR_TURKCE_CORE_KEYS).toHaveLength(20);
+    expect(JUNIOR_TURKCE_SHELL_KEYS).toHaveLength(6);
+    expect(isJuniorCheckoutLocked(OPEN_SANDBOX_ENV)).toBe(false);
+    expect(juniorPaytrSaleGate(OPEN_SANDBOX_ENV)).toBe("sandbox");
+
+    const store = createMemoryJuniorStore();
+    const profile = await openProfile(store);
+    expect(profile.grade).toBe(6);
+    const lockedHome = await readJuniorHome(store, PARENT, NOW);
+    const lockedTurkce = lockedHome.courses.find((course) => course.slug === "jr_06_turkce");
+    expect(lockedTurkce?.track).toBe("core");
+    expect(lockedTurkce?.lessons.map((lesson) => lesson.key)).toEqual([...JUNIOR_TURKCE_CORE_KEYS]);
+    expect(lockedTurkce?.lessons[0]?.access).toBe("free");
+    expect(lockedTurkce?.lessons[0]?.key).toBe("jr_06_turkce-1");
+    expect(lockedTurkce?.lessons[1]?.key).toBe("jr_06_turkce-2");
+    expect(lockedTurkce?.lessons[1]?.weekHeading).toContain("(B Bölümü)");
+    expect(lockedTurkce?.lessons[4]?.key).toBe("jr_06_turkce-13");
+    expect(lockedTurkce?.lessons[4]?.weekHeading).toContain("(C Bölümü)");
+    expect(lockedTurkce?.lessons.slice(1).every((lesson) => lesson.access === "locked")).toBe(true);
+    const blocked = await openJuniorLessonPlay(store, {
+      userId: PARENT,
+      profileId: profile.id,
+      lessonKey: "jr_06_turkce-20",
+    });
+    expect(blocked.ok).toBe(false);
+
+    const paid = await completeJuniorCheckout(store, PARENT, CHECKOUT_BODY, NOW, {
+      env: OPEN_SANDBOX_ENV,
+      email: "veli@yetkin.ai",
+      userIp: "127.0.0.1",
+      idempotencyKey: "turkce-shelf",
+      ports: {
+        readPrice: async () => ({ amountMinor: JUNIOR_FIXTURE_PRICE_MINOR }),
+        placeOrder: async () => ({
+          ok: true,
+          kind: "iframe",
+          merchantOid: "JRTURKSHELF01",
+          iframeUrl: "https://www.paytr.com/odeme/guvenli/turkce-shelf",
+        }),
+      },
+    });
+    expect(paid.ok).toBe(true);
+    expect(await store.getSubscription(PARENT)).toBeNull();
+    expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
+
+    const ledger = createMemoryLedgerStore([{ userId: PARENT, amountMinor: JUNIOR_FIXTURE_PRICE_MINOR }]);
+    const fulfilled = await fulfillJuniorLicenseFromClearedOrder(
+      store,
+      {
+        id: "order-turkce-shelf",
+        userId: PARENT,
+        merchantOid: "JRTURKSHELF01",
+        amountMinor: JUNIOR_FIXTURE_PRICE_MINOR,
+        currencyCode: "TRY",
+        status: "CLEARED",
+        createdAt: NOW,
+        purpose: JUNIOR_LICENSE_ORDER_PURPOSE,
+        consentVersion: CHECKOUT_LEGAL_CONSENT_PAYLOAD.consentVersion,
+        distanceContractAccepted: true,
+        digitalImmediatePerformanceAccepted: true,
+      },
+      ledger,
+      NOW,
+    );
+    expect(fulfilled.applied).toBe(true);
+    expect(fulfilled.reason).toBe("settled");
+    const row = await store.getSubscription(PARENT);
+    expect(row?.userId).toBe(PARENT);
+    expect(row?.status).toBe("ACTIVE");
+    expect(row?.planCode).toBe("junior-yearly");
+    expect(row).not.toHaveProperty("lessonKeys");
+    expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
+
+    const home = await readJuniorHome(store, PARENT, NOW);
+    expect(home.plan.status).toBe("ACTIVE");
+    expect(home.selected?.id).toBe(profile.id);
+    expect(home.selected?.grade).toBe(6);
+    const turkce = home.courses.find((course) => course.slug === "jr_06_turkce");
+    expect(turkce?.track).toBe("core");
+    expect(turkce?.lessons.map((lesson) => lesson.key)).toEqual([...JUNIOR_TURKCE_CORE_KEYS]);
+    expect(turkce?.lessons.every((lesson) => lesson.access === "free")).toBe(true);
+    expect(turkce?.lessons.some((lesson) => (JUNIOR_TURKCE_SHELL_KEYS as readonly string[]).includes(lesson.key))).toBe(
+      false,
+    );
+
+    for (const key of JUNIOR_TURKCE_CORE_KEYS) {
+      expect(juniorPlanCoversLesson(key, true, []), key).toBe(true);
+      expect(readJuniorLesson(key, { active: true, selectedElectives: [] }).access, key).toBe("free");
+      const opened = await openJuniorLessonPlay(store, {
+        userId: PARENT,
+        profileId: profile.id,
+        lessonKey: key,
+      });
+      expect(opened.ok, key).toBe(true);
+    }
+
+    for (const key of JUNIOR_TURKCE_SHELL_KEYS) {
+      expect(readJuniorLesson(key, { active: true, selectedElectives: [] }).access, key).toBe("missing");
+    }
+    const shell = await openJuniorLessonPlay(store, {
+      userId: PARENT,
+      profileId: profile.id,
+      lessonKey: "jr_06_turkce-21",
+    });
+    expect(shell.ok).toBe(false);
+    expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
+  });
+
+  it("açık kasada CLEARED junior-yearly, çocuğun 24 sosyal dersini çekirdek raftan açar", async () => {
+    expect(JUNIOR_PLAN_CODE).toBe("junior-yearly");
+    expect(JUNIOR_SOSYAL_CORE_KEYS).toHaveLength(24);
+    expect(JUNIOR_SOSYAL_PARK_KEYS).toHaveLength(4);
+    expect(JUNIOR_SOSYAL_GAP_KEYS).toHaveLength(2);
+    expect(isJuniorCheckoutLocked(OPEN_SANDBOX_ENV)).toBe(false);
+    expect(juniorPaytrSaleGate(OPEN_SANDBOX_ENV)).toBe("sandbox");
+
+    const store = createMemoryJuniorStore();
+    const profile = await openProfile(store);
+    expect(profile.grade).toBe(6);
+    const lockedHome = await readJuniorHome(store, PARENT, NOW);
+    const lockedSosyal = lockedHome.courses.find((course) => course.slug === "jr_06_sosyal");
+    expect(lockedSosyal?.track).toBe("core");
+    expect(lockedSosyal?.lessons.map((lesson) => lesson.key)).toEqual([...JUNIOR_SOSYAL_CORE_KEYS]);
+    expect(lockedSosyal?.lessons[0]?.access).toBe("free");
+    expect(lockedSosyal?.lessons[0]?.key).toBe("jr_06_sosyal-1");
+    expect(lockedSosyal?.lessons[0]?.weekHeading).toBe(
+      "1–4. Hafta: Grup ve rolün zamanla değişmesi · Kültürel bağ ve millî değer",
+    );
+    expect(lockedSosyal?.lessons[1]?.key).toBe("jr_06_sosyal-21");
+    expect(lockedSosyal?.lessons[1]?.weekHeading).toBe("4–6. Hafta: Toplumsal sorunu müzakere");
+    const timedHeadings = lockedSosyal?.lessons.slice(0, 20).map((lesson) => lesson.weekHeading);
+    expect(timedHeadings?.every((heading) => typeof heading === "string" && heading.includes(". Hafta:"))).toBe(true);
+    expect(new Set(timedHeadings).size).toBe(20);
+    expect(timedHeadings?.filter((heading) => heading?.includes("Bölümü"))).toEqual([]);
+    expect(lockedSosyal?.lessons.slice(-4).map((lesson) => lesson.key)).toEqual([...JUNIOR_SOSYAL_PARK_KEYS]);
+    expect(lockedSosyal?.lessons.slice(-4).every((lesson) => lesson.weekHeading == null)).toBe(true);
+    expect(lockedSosyal?.lessons.slice(1).every((lesson) => lesson.access === "locked")).toBe(true);
+    const blocked = await openJuniorLessonPlay(store, {
+      userId: PARENT,
+      profileId: profile.id,
+      lessonKey: "jr_06_sosyal-13",
+    });
+    expect(blocked.ok).toBe(false);
+
+    const paid = await completeJuniorCheckout(store, PARENT, CHECKOUT_BODY, NOW, {
+      env: OPEN_SANDBOX_ENV,
+      email: "veli@yetkin.ai",
+      userIp: "127.0.0.1",
+      idempotencyKey: "sosyal-shelf",
+      ports: {
+        readPrice: async () => ({ amountMinor: JUNIOR_FIXTURE_PRICE_MINOR }),
+        placeOrder: async () => ({
+          ok: true,
+          kind: "iframe",
+          merchantOid: "JRSOSSHELF01",
+          iframeUrl: "https://www.paytr.com/odeme/guvenli/sosyal-shelf",
+        }),
+      },
+    });
+    expect(paid.ok).toBe(true);
+    expect(await store.getSubscription(PARENT)).toBeNull();
+    expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
+
+    const ledger = createMemoryLedgerStore([{ userId: PARENT, amountMinor: JUNIOR_FIXTURE_PRICE_MINOR }]);
+    const fulfilled = await fulfillJuniorLicenseFromClearedOrder(
+      store,
+      {
+        id: "order-sosyal-shelf",
+        userId: PARENT,
+        merchantOid: "JRSOSSHELF01",
+        amountMinor: JUNIOR_FIXTURE_PRICE_MINOR,
+        currencyCode: "TRY",
+        status: "CLEARED",
+        createdAt: NOW,
+        purpose: JUNIOR_LICENSE_ORDER_PURPOSE,
+        consentVersion: CHECKOUT_LEGAL_CONSENT_PAYLOAD.consentVersion,
+        distanceContractAccepted: true,
+        digitalImmediatePerformanceAccepted: true,
+      },
+      ledger,
+      NOW,
+    );
+    expect(fulfilled.applied).toBe(true);
+    expect(fulfilled.reason).toBe("settled");
+    const row = await store.getSubscription(PARENT);
+    expect(row?.userId).toBe(PARENT);
+    expect(row?.status).toBe("ACTIVE");
+    expect(row?.planCode).toBe("junior-yearly");
+    expect(row).not.toHaveProperty("lessonKeys");
+    expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
+
+    const home = await readJuniorHome(store, PARENT, NOW);
+    expect(home.plan.status).toBe("ACTIVE");
+    expect(home.selected?.id).toBe(profile.id);
+    expect(home.selected?.grade).toBe(6);
+    const sosyal = home.courses.find((course) => course.slug === "jr_06_sosyal");
+    expect(sosyal?.track).toBe("core");
+    expect(sosyal?.lessons.map((lesson) => lesson.key)).toEqual([...JUNIOR_SOSYAL_CORE_KEYS]);
+    expect(sosyal?.lessons.every((lesson) => lesson.access === "free")).toBe(true);
+    expect(sosyal?.lessons.slice(-4).map((lesson) => lesson.key)).toEqual([...JUNIOR_SOSYAL_PARK_KEYS]);
+
+    for (const key of JUNIOR_SOSYAL_CORE_KEYS) {
+      expect(juniorPlanCoversLesson(key, true, []), key).toBe(true);
+      expect(readJuniorLesson(key, { active: true, selectedElectives: [] }).access, key).toBe("free");
+      const opened = await openJuniorLessonPlay(store, {
+        userId: PARENT,
+        profileId: profile.id,
+        lessonKey: key,
+      });
+      expect(opened.ok, key).toBe(true);
+    }
+
+    for (const key of JUNIOR_SOSYAL_GAP_KEYS) {
+      expect(readJuniorLesson(key, { active: true, selectedElectives: [] }).access, key).toBe("missing");
+    }
+    const gap = await openJuniorLessonPlay(store, {
+      userId: PARENT,
+      profileId: profile.id,
+      lessonKey: "jr_06_sosyal-14",
+    });
+    expect(gap.ok).toBe(false);
+    const gap19 = await openJuniorLessonPlay(store, {
+      userId: PARENT,
+      profileId: profile.id,
+      lessonKey: "jr_06_sosyal-19",
+    });
+    expect(gap19.ok).toBe(false);
+    expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
+  });
+
+  it("açık kasada CLEARED junior-yearly, çocuğun 14 İngilizce dersini çekirdek raftan açar", async () => {
+    expect(JUNIOR_PLAN_CODE).toBe("junior-yearly");
+    expect(JUNIOR_ING_CORE_KEYS).toHaveLength(14);
+    expect(JUNIOR_ING_SHELL_KEYS).toHaveLength(7);
+    expect(JUNIOR_ING_GAP_KEYS).toHaveLength(6);
+    expect(
+      JUNIOR_MAT_CORE_KEYS.length +
+        JUNIOR_FEN_CORE_KEYS.length +
+        JUNIOR_TURKCE_CORE_KEYS.length +
+        JUNIOR_ING_CORE_KEYS.length +
+        JUNIOR_SOSYAL_CORE_KEYS.length,
+    ).toBe(111);
+    expect(isJuniorCheckoutLocked(OPEN_SANDBOX_ENV)).toBe(false);
+    expect(juniorPaytrSaleGate(OPEN_SANDBOX_ENV)).toBe("sandbox");
+
+    const store = createMemoryJuniorStore();
+    const profile = await openProfile(store);
+    expect(profile.grade).toBe(6);
+    expect(readJuniorLesson("jr_06_ing_main-20").access).toBe("free");
+    expect(readJuniorLesson("jr_06_ing_main-1").access).toBe("locked");
+    expect(readJuniorLesson("jr_06_ing_main-2").access).toBe("locked");
+    const lockedHome = await readJuniorHome(store, PARENT, NOW);
+    const lockedIng = lockedHome.courses.find((course) => course.slug === "jr_06_ing_main");
+    expect(lockedIng?.track).toBe("core");
+    expect(lockedIng?.title).toBe("6. Sınıf İngilizce");
+    expect(lockedIng?.lessons.map((lesson) => lesson.key)).toEqual([...JUNIOR_ING_CORE_KEYS]);
+    expect(lockedIng?.lessons.map((lesson) => lesson.weekHeading)).toEqual([...JUNIOR_ING_WEEK_HEADINGS]);
+    expect(lockedIng?.lessons[0]?.access).toBe("free");
+    expect(lockedIng?.lessons[0]?.key).toBe("jr_06_ing_main-20");
+    expect(lockedIng?.lessons[1]?.key).toBe("jr_06_ing_main-2");
+    expect(lockedIng?.lessons[11]?.key).toBe("jr_06_ing_main-1");
+    expect(new Set(lockedIng?.lessons.map((lesson) => lesson.weekHeading)).size).toBe(14);
+    expect(lockedIng?.lessons.every((lesson) => lesson.weekHeading?.includes(". Hafta:"))).toBe(true);
+    expect(lockedIng?.lessons.some((lesson) => lesson.weekHeading?.includes("Bölümü"))).toBe(false);
+    expect(
+      lockedIng?.lessons.some((lesson) =>
+        (JUNIOR_ING_SHELL_KEYS as readonly string[]).includes(lesson.key),
+      ),
+    ).toBe(false);
+    expect(
+      lockedIng?.lessons.some((lesson) => (JUNIOR_ING_GAP_KEYS as readonly string[]).includes(lesson.key)),
+    ).toBe(false);
+    expect(lockedIng?.lessons.slice(1).every((lesson) => lesson.access === "locked")).toBe(true);
+    const blocked = await openJuniorLessonPlay(store, {
+      userId: PARENT,
+      profileId: profile.id,
+      lessonKey: "jr_06_ing_main-8",
+    });
+    expect(blocked.ok).toBe(false);
+
+    const paid = await completeJuniorCheckout(store, PARENT, CHECKOUT_BODY, NOW, {
+      env: OPEN_SANDBOX_ENV,
+      email: "veli@yetkin.ai",
+      userIp: "127.0.0.1",
+      idempotencyKey: "ing-shelf",
+      ports: {
+        readPrice: async () => ({ amountMinor: JUNIOR_FIXTURE_PRICE_MINOR }),
+        placeOrder: async () => ({
+          ok: true,
+          kind: "iframe",
+          merchantOid: "JRINGSHELF01",
+          iframeUrl: "https://www.paytr.com/odeme/guvenli/ing-shelf",
+        }),
+      },
+    });
+    expect(paid.ok).toBe(true);
+    expect(await store.getSubscription(PARENT)).toBeNull();
+    expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
+
+    const ledger = createMemoryLedgerStore([{ userId: PARENT, amountMinor: JUNIOR_FIXTURE_PRICE_MINOR }]);
+    const fulfilled = await fulfillJuniorLicenseFromClearedOrder(
+      store,
+      {
+        id: "order-ing-shelf",
+        userId: PARENT,
+        merchantOid: "JRINGSHELF01",
+        amountMinor: JUNIOR_FIXTURE_PRICE_MINOR,
+        currencyCode: "TRY",
+        status: "CLEARED",
+        createdAt: NOW,
+        purpose: JUNIOR_LICENSE_ORDER_PURPOSE,
+        consentVersion: CHECKOUT_LEGAL_CONSENT_PAYLOAD.consentVersion,
+        distanceContractAccepted: true,
+        digitalImmediatePerformanceAccepted: true,
+      },
+      ledger,
+      NOW,
+    );
+    expect(fulfilled.applied).toBe(true);
+    expect(fulfilled.reason).toBe("settled");
+    const row = await store.getSubscription(PARENT);
+    expect(row?.userId).toBe(PARENT);
+    expect(row?.status).toBe("ACTIVE");
+    expect(row?.planCode).toBe("junior-yearly");
+    expect(row).not.toHaveProperty("lessonKeys");
+    expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
+
+    const home = await readJuniorHome(store, PARENT, NOW);
+    expect(home.plan.status).toBe("ACTIVE");
+    expect(home.selected?.id).toBe(profile.id);
+    expect(home.selected?.grade).toBe(6);
+    const ing = home.courses.find((course) => course.slug === "jr_06_ing_main");
+    expect(ing?.track).toBe("core");
+    expect(ing?.lessons.map((lesson) => lesson.key)).toEqual([...JUNIOR_ING_CORE_KEYS]);
+    expect(ing?.lessons.every((lesson) => lesson.access === "free")).toBe(true);
+    expect(JUNIOR_ING_CORE_KEYS).not.toContain("jr_06_ing-1");
+    // Fiyat dışı seçmeli kart artık erişilemez değil: 1. konu kamuya açık tanıtım,
+    // 2. konu paket vaadine girmediği için kilitli kalır.
+    expect(readJuniorLesson("jr_06_ing-1").access).toBe("free");
+    expect(juniorPlanCoversLesson("jr_06_ing-1", true, ["jr_06_ing"])).toBe(false);
+    expect(readJuniorLesson("jr_06_ing-2", { active: true, selectedElectives: [] }).access).toBe("locked");
+    expect(readJuniorLesson("jr_06_ing-2", { active: true, selectedElectives: ["jr_06_ing"] }).access).toBe(
+      "locked",
+    );
+
+    for (const key of JUNIOR_ING_CORE_KEYS) {
+      expect(juniorPlanCoversLesson(key, true, []), key).toBe(true);
+      expect(readJuniorLesson(key, { active: true, selectedElectives: [] }).access, key).toBe("free");
+      const opened = await openJuniorLessonPlay(store, {
+        userId: PARENT,
+        profileId: profile.id,
+        lessonKey: key,
+      });
+      expect(opened.ok, key).toBe(true);
+    }
+
+    for (const key of JUNIOR_ING_SHELL_KEYS) {
+      expect(readJuniorLesson(key, { active: true, selectedElectives: [] }).access, key).toBe("missing");
+    }
+    for (const key of JUNIOR_ING_GAP_KEYS) {
+      expect(readJuniorLesson(key, { active: true, selectedElectives: [] }).access, key).toBe("missing");
+    }
+    const shell = await openJuniorLessonPlay(store, {
+      userId: PARENT,
+      profileId: profile.id,
+      lessonKey: "jr_06_ing_main-21",
+    });
+    expect(shell.ok).toBe(false);
+    const gap = await openJuniorLessonPlay(store, {
+      userId: PARENT,
+      profileId: profile.id,
+      lessonKey: "jr_06_ing_main-12",
+    });
+    expect(gap.ok).toBe(false);
+    expect(await store.listProgress(PARENT, profile.id)).toEqual([]);
+  });
+
   it("denetim hesabı açık kasada da nakit satırı yazmaz", async () => {
     const store = createMemoryJuniorStore();
     let called = false;
@@ -436,6 +1309,44 @@ describe("Junior PayTR iframe kapısı", () => {
     expect(called).toBe(false);
     expect(paid).toEqual({ ok: false, status: 403, error: JUNIOR_CHECKOUT_AUDIT_MESSAGE });
     expect(await store.getSubscription("11111111-1111-4111-8111-111111111111")).toBeNull();
+  });
+
+  it("boş PayTR üçlüsü ve sandbox anahtarı canlı satış açmaz", async () => {
+    const store = createMemoryJuniorStore();
+    let called = false;
+    const ports = {
+      readPrice: async () => ({ amountMinor: JUNIOR_FIXTURE_PRICE_MINOR }),
+      placeOrder: async () => {
+        called = true;
+        return { ok: false as const, status: 503 as const, error: "olmamalı" };
+      },
+    };
+    const base = {
+      email: "veli@yetkin.ai",
+      userIp: "127.0.0.1",
+      idempotencyKey: "k1",
+      ports,
+    };
+    const empty = await completeJuniorCheckout(store, PARENT, CHECKOUT_BODY, NOW, {
+      env: { JUNIOR_CHECKOUT_OPEN: "1", NODE_ENV: "production" } as NodeJS.ProcessEnv,
+      ...base,
+    });
+    expect(called).toBe(false);
+    expect(empty).toEqual({ ok: false, status: 503, error: JUNIOR_CHECKOUT_REFUSED_MESSAGE });
+    expect(await store.getSubscription(PARENT)).toBeNull();
+
+    const sandboxKey = await completeJuniorCheckout(store, PARENT, CHECKOUT_BODY, NOW, {
+      env: {
+        JUNIOR_CHECKOUT_OPEN: "1",
+        NODE_ENV: "production",
+        PAYTR_MERCHANT_ID: "111111",
+        PAYTR_MERCHANT_KEY: "sandbox-key",
+        PAYTR_MERCHANT_SALT: "live-looking-salt",
+      } as NodeJS.ProcessEnv,
+      ...base,
+    });
+    expect(called).toBe(false);
+    expect(sandboxKey).toEqual({ ok: false, status: 503, error: JUNIOR_CHECKOUT_REFUSED_MESSAGE });
   });
 
   it("üretimde deneme mağaza iframe açmaz", async () => {

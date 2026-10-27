@@ -1,0 +1,2291 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_siyer-1",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Doğru söz",
+  "grade": 6,
+  "subject": "Seçmeli Ders",
+  "teacher": {
+    "name": "Ada",
+    "voice": "Enceladus",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_siyer-1.mp3",
+    "durationMs": 155429,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 26510
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 26510,
+      "endMs": 127700
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 127700,
+      "endMs": 155429
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 1950,
+      "pauseAfterMs": 530,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 200,
+          "endMs": 530
+        },
+        {
+          "word": "sevgili",
+          "startMs": 530,
+          "endMs": 920
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 920,
+          "endMs": 1420
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Doğru söz",
+            "subtitle": "Seçmeli Ders",
+            "ruleBadges": [],
+            "echoPrompt": "Örnekte söz ile işin nasıl birleştiğini adım adım söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Siyer, Peygamberimizin hayatını anlatan derstir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Doğru söz, söylenen ile yapılanın aynı olmasıdır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Emanet, sahibine geri verilir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 1950,
+      "endMs": 4660,
+      "pauseAfterMs": 740,
+      "text": "Ben Seçmeli Ders öğretmenin Ada.",
+      "markedText": "Ben Seçmeli Ders öğretmenin Ada.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 1950,
+          "endMs": 2200
+        },
+        {
+          "word": "Seçmeli",
+          "startMs": 2250,
+          "endMs": 2720
+        },
+        {
+          "word": "Ders",
+          "startMs": 2720,
+          "endMs": 2890
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 2980,
+          "endMs": 3540
+        },
+        {
+          "word": "Ada.",
+          "startMs": 3670,
+          "endMs": 3920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 4660,
+      "endMs": 8550,
+      "pauseAfterMs": 820,
+      "text": "Bugün seninle siyerde doğru sözü öğreneceğiz.",
+      "markedText": "Bugün seninle siyerde doğru sözü öğreneceğiz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 4660,
+          "endMs": 4970
+        },
+        {
+          "word": "seninle",
+          "startMs": 4970,
+          "endMs": 5560
+        },
+        {
+          "word": "siyerde",
+          "startMs": 5840,
+          "endMs": 6200
+        },
+        {
+          "word": "doğru",
+          "startMs": 6290,
+          "endMs": 6560
+        },
+        {
+          "word": "sözü",
+          "startMs": 6560,
+          "endMs": 6710
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 6710,
+          "endMs": 7730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 8550,
+      "endMs": 12460,
+      "pauseAfterMs": 910,
+      "text": "Arkadaşının silgisini ödünç aldıysan geri verirsin.",
+      "markedText": "Arkadaşının silgisini ödünç aldıysan geri verirsin.",
+      "words": [
+        {
+          "word": "Arkadaşının",
+          "startMs": 8550,
+          "endMs": 9180
+        },
+        {
+          "word": "silgisini",
+          "startMs": 9180,
+          "endMs": 9770
+        },
+        {
+          "word": "ödünç",
+          "startMs": 9770,
+          "endMs": 9880
+        },
+        {
+          "word": "aldıysan",
+          "startMs": 9940,
+          "endMs": 10330
+        },
+        {
+          "word": "geri",
+          "startMs": 10370,
+          "endMs": 10510
+        },
+        {
+          "word": "verirsin.",
+          "startMs": 10510,
+          "endMs": 11550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 12460,
+      "endMs": 15060,
+      "pauseAfterMs": 650,
+      "text": "Veririm dediysen o gün getirirsin.",
+      "markedText": "Veririm dediysen o gün getirirsin.",
+      "words": [
+        {
+          "word": "Veririm",
+          "startMs": 12460,
+          "endMs": 12710
+        },
+        {
+          "word": "dediysen",
+          "startMs": 12710,
+          "endMs": 13010
+        },
+        {
+          "word": "o",
+          "startMs": 13310,
+          "endMs": 13350
+        },
+        {
+          "word": "gün",
+          "startMs": 13350,
+          "endMs": 13500
+        },
+        {
+          "word": "getirirsin.",
+          "startMs": 13580,
+          "endMs": 14410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 15060,
+      "endMs": 18250,
+      "pauseAfterMs": 850,
+      "text": "Hatırlarsan, söz ile iş aynı olmalıydı.",
+      "markedText": "Hatırlarsan, söz ile iş aynı olmalıydı.",
+      "words": [
+        {
+          "word": "Hatırlarsan,",
+          "startMs": 15060,
+          "endMs": 15620
+        },
+        {
+          "word": "söz",
+          "startMs": 15720,
+          "endMs": 15940
+        },
+        {
+          "word": "ile",
+          "startMs": 15940,
+          "endMs": 16150
+        },
+        {
+          "word": "iş",
+          "startMs": 16210,
+          "endMs": 16430
+        },
+        {
+          "word": "aynı",
+          "startMs": 16560,
+          "endMs": 16650
+        },
+        {
+          "word": "olmalıydı.",
+          "startMs": 16650,
+          "endMs": 17400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 18250,
+      "endMs": 20170,
+      "pauseAfterMs": 660,
+      "text": "Evde de aynı kural durur.",
+      "markedText": "Evde de aynı kural durur.",
+      "words": [
+        {
+          "word": "Evde",
+          "startMs": 18250,
+          "endMs": 18290
+        },
+        {
+          "word": "de",
+          "startMs": 18290,
+          "endMs": 18410
+        },
+        {
+          "word": "aynı",
+          "startMs": 18410,
+          "endMs": 18470
+        },
+        {
+          "word": "kural",
+          "startMs": 18470,
+          "endMs": 18710
+        },
+        {
+          "word": "durur.",
+          "startMs": 18710,
+          "endMs": 19510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 20170,
+      "endMs": 21640,
+      "pauseAfterMs": 680,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 20170,
+          "endMs": 20660
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 20660,
+          "endMs": 20960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 21640,
+      "endMs": 23050,
+      "pauseAfterMs": 800,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 21640,
+          "endMs": 21810
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 21900,
+          "endMs": 22250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 23050,
+      "endMs": 26510,
+      "pauseAfterMs": 650,
+      "text": "Unuttum demek, tutmadığın sözü doğru yapmaz.",
+      "markedText": "Unuttum demek, tutmadığın sözü doğru yapmaz.",
+      "words": [
+        {
+          "word": "Unuttum",
+          "startMs": 23050,
+          "endMs": 23570
+        },
+        {
+          "word": "demek,",
+          "startMs": 23570,
+          "endMs": 23970
+        },
+        {
+          "word": "tutmadığın",
+          "startMs": 24200,
+          "endMs": 24730
+        },
+        {
+          "word": "sözü",
+          "startMs": 24770,
+          "endMs": 24920
+        },
+        {
+          "word": "doğru",
+          "startMs": 24960,
+          "endMs": 25250
+        },
+        {
+          "word": "yapmaz.",
+          "startMs": 25250,
+          "endMs": 25860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 26510,
+      "endMs": 29950,
+      "pauseAfterMs": 720,
+      "text": "Bugün seninle doğru sözü tanımlıyoruz.",
+      "markedText": "Bugün seninle doğru sözü tanımlıyoruz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 26510,
+          "endMs": 26880
+        },
+        {
+          "word": "seninle",
+          "startMs": 27130,
+          "endMs": 27470
+        },
+        {
+          "word": "doğru",
+          "startMs": 27470,
+          "endMs": 27620
+        },
+        {
+          "word": "sözü",
+          "startMs": 27620,
+          "endMs": 27750
+        },
+        {
+          "word": "tanımlıyoruz.",
+          "startMs": 27820,
+          "endMs": 29230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 29950,
+      "endMs": 33730,
+      "pauseAfterMs": 700,
+      "text": "Siyer, Peygamberimizin hayatını anlatan derstir.",
+      "markedText": "Siyer, Peygamberimizin hayatını anlatan derstir.",
+      "words": [
+        {
+          "word": "Siyer,",
+          "startMs": 29950,
+          "endMs": 30470
+        },
+        {
+          "word": "Peygamberimizin",
+          "startMs": 30700,
+          "endMs": 31500
+        },
+        {
+          "word": "hayatını",
+          "startMs": 31500,
+          "endMs": 31810
+        },
+        {
+          "word": "anlatan",
+          "startMs": 31940,
+          "endMs": 32270
+        },
+        {
+          "word": "derstir.",
+          "startMs": 32360,
+          "endMs": 33030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 33730,
+      "endMs": 38410,
+      "pauseAfterMs": 760,
+      "text": "Doğru söz, söylenen cümle ile yapılan işin aynı olmasıdır.",
+      "markedText": "Doğru söz, söylenen cümle ile yapılan işin aynı olmasıdır.",
+      "words": [
+        {
+          "word": "Doğru",
+          "startMs": 33730,
+          "endMs": 34020
+        },
+        {
+          "word": "söz,",
+          "startMs": 34110,
+          "endMs": 34410
+        },
+        {
+          "word": "söylenen",
+          "startMs": 34790,
+          "endMs": 35340
+        },
+        {
+          "word": "cümle",
+          "startMs": 35340,
+          "endMs": 35580
+        },
+        {
+          "word": "ile",
+          "startMs": 35580,
+          "endMs": 35770
+        },
+        {
+          "word": "yapılan",
+          "startMs": 35770,
+          "endMs": 36090
+        },
+        {
+          "word": "işin",
+          "startMs": 36170,
+          "endMs": 36410
+        },
+        {
+          "word": "aynı",
+          "startMs": 36460,
+          "endMs": 36670
+        },
+        {
+          "word": "olmasıdır.",
+          "startMs": 36790,
+          "endMs": 37650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 38410,
+      "endMs": 41100,
+      "pauseAfterMs": 640,
+      "text": "Söz tutulursa doğru söz durur.",
+      "markedText": "Söz tutulursa doğru söz durur.",
+      "words": [
+        {
+          "word": "Söz",
+          "startMs": 38410,
+          "endMs": 38600
+        },
+        {
+          "word": "tutulursa",
+          "startMs": 38670,
+          "endMs": 39290
+        },
+        {
+          "word": "doğru",
+          "startMs": 39520,
+          "endMs": 39780
+        },
+        {
+          "word": "söz",
+          "startMs": 39780,
+          "endMs": 39820
+        },
+        {
+          "word": "durur.",
+          "startMs": 39820,
+          "endMs": 40460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 41100,
+      "endMs": 44020,
+      "pauseAfterMs": 560,
+      "text": "Söz tutulmazsa doğru söz bozulur.",
+      "markedText": "Söz tutulmazsa doğru söz bozulur.",
+      "words": [
+        {
+          "word": "Söz",
+          "startMs": 41100,
+          "endMs": 41280
+        },
+        {
+          "word": "tutulmazsa",
+          "startMs": 41510,
+          "endMs": 42210
+        },
+        {
+          "word": "doğru",
+          "startMs": 42460,
+          "endMs": 42720
+        },
+        {
+          "word": "söz",
+          "startMs": 42720,
+          "endMs": 42790
+        },
+        {
+          "word": "bozulur.",
+          "startMs": 42790,
+          "endMs": 43460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 44020,
+      "endMs": 46740,
+      "pauseAfterMs": 660,
+      "text": "Hatırlarsan, emanet geri verilmişti.",
+      "markedText": "Hatırlarsan, emanet geri verilmişti.",
+      "words": [
+        {
+          "word": "Hatırlarsan,",
+          "startMs": 44020,
+          "endMs": 44670
+        },
+        {
+          "word": "emanet",
+          "startMs": 44840,
+          "endMs": 45090
+        },
+        {
+          "word": "geri",
+          "startMs": 45090,
+          "endMs": 45230
+        },
+        {
+          "word": "verilmişti.",
+          "startMs": 45350,
+          "endMs": 46080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 46740,
+      "endMs": 49550,
+      "pauseAfterMs": 810,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 46740,
+          "endMs": 46850
+        },
+        {
+          "word": "şimdi",
+          "startMs": 46850,
+          "endMs": 47200
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 47200,
+          "endMs": 47590
+        },
+        {
+          "word": "çizime",
+          "startMs": 47740,
+          "endMs": 47990
+        },
+        {
+          "word": "birlikte",
+          "startMs": 47990,
+          "endMs": 48290
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 48390,
+          "endMs": 48740
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 46740,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Doğru söz · kavram",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Siyer, Peygamberimizin hayatını anlatan derstir.",
+                "body": "Siyer, Peygamberimizin hayatını anlatan derstir.",
+                "tone": "concept"
+              },
+              {
+                "title": "Doğru söz, söylenen ile yapılanın aynı olmasıdır.",
+                "body": "Doğru söz, söylenen ile yapılanın aynı olmasıdır.",
+                "tone": "concept"
+              },
+              {
+                "title": "Bugün seninle doğru sözü tanımlıyoruz.",
+                "body": "Bugün seninle doğru sözü tanımlıyoruz.",
+                "tone": "concept"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 49550,
+      "endMs": 51570,
+      "pauseAfterMs": 800,
+      "text": "Kalem sana bırakıldı.",
+      "markedText": "Kalem sana bırakıldı.",
+      "words": [
+        {
+          "word": "Kalem",
+          "startMs": 49550,
+          "endMs": 49840
+        },
+        {
+          "word": "sana",
+          "startMs": 49880,
+          "endMs": 50290
+        },
+        {
+          "word": "bırakıldı.",
+          "startMs": 50620,
+          "endMs": 50770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 51570,
+      "endMs": 54330,
+      "pauseAfterMs": 760,
+      "text": "Kalemi sahibine geri verdin.",
+      "markedText": "Kalemi sahibine geri verdin.",
+      "words": [
+        {
+          "word": "Kalemi",
+          "startMs": 51570,
+          "endMs": 51930
+        },
+        {
+          "word": "sahibine",
+          "startMs": 52010,
+          "endMs": 52370
+        },
+        {
+          "word": "geri",
+          "startMs": 52420,
+          "endMs": 52740
+        },
+        {
+          "word": "verdin.",
+          "startMs": 52840,
+          "endMs": 53570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 54330,
+      "endMs": 56810,
+      "pauseAfterMs": 790,
+      "text": "Sözün ile işin birleşti.",
+      "markedText": "Sözün ile işin birleşti.",
+      "words": [
+        {
+          "word": "Sözün",
+          "startMs": 54330,
+          "endMs": 54570
+        },
+        {
+          "word": "ile",
+          "startMs": 54570,
+          "endMs": 54770
+        },
+        {
+          "word": "işin",
+          "startMs": 54770,
+          "endMs": 54940
+        },
+        {
+          "word": "birleşti.",
+          "startMs": 55250,
+          "endMs": 56020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 56810,
+      "endMs": 58320,
+      "pauseAfterMs": 720,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 56810,
+          "endMs": 57330
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 57330,
+          "endMs": 57600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 58320,
+      "endMs": 59900,
+      "pauseAfterMs": 930,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 58320,
+          "endMs": 58500
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 58600,
+          "endMs": 58970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 59900,
+      "endMs": 63330,
+      "pauseAfterMs": 750,
+      "text": "Doğru söz, hoşa giden cümle değildir.",
+      "markedText": "Doğru söz, hoşa giden cümle değildir.",
+      "words": [
+        {
+          "word": "Doğru",
+          "startMs": 59900,
+          "endMs": 60160
+        },
+        {
+          "word": "söz,",
+          "startMs": 60240,
+          "endMs": 60590
+        },
+        {
+          "word": "hoşa",
+          "startMs": 60930,
+          "endMs": 61240
+        },
+        {
+          "word": "giden",
+          "startMs": 61240,
+          "endMs": 61490
+        },
+        {
+          "word": "cümle",
+          "startMs": 61490,
+          "endMs": 61720
+        },
+        {
+          "word": "değildir.",
+          "startMs": 61720,
+          "endMs": 62580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 63330,
+      "endMs": 66250,
+      "pauseAfterMs": 770,
+      "text": "Emaneti saklamak doğru sözü bozar.",
+      "markedText": "Emaneti saklamak doğru sözü bozar.",
+      "words": [
+        {
+          "word": "Emaneti",
+          "startMs": 63330,
+          "endMs": 63710
+        },
+        {
+          "word": "saklamak",
+          "startMs": 63780,
+          "endMs": 64050
+        },
+        {
+          "word": "doğru",
+          "startMs": 64170,
+          "endMs": 64390
+        },
+        {
+          "word": "sözü",
+          "startMs": 64560,
+          "endMs": 64740
+        },
+        {
+          "word": "bozar.",
+          "startMs": 64740,
+          "endMs": 65480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 66250,
+      "endMs": 69260,
+      "pauseAfterMs": 760,
+      "text": "Başkasının eşyasını kendininki gibi tutma.",
+      "markedText": "Başkasının eşyasını kendininki gibi tutma.",
+      "words": [
+        {
+          "word": "Başkasının",
+          "startMs": 66250,
+          "endMs": 66900
+        },
+        {
+          "word": "eşyasını",
+          "startMs": 66980,
+          "endMs": 67340
+        },
+        {
+          "word": "kendininki",
+          "startMs": 67440,
+          "endMs": 67770
+        },
+        {
+          "word": "gibi",
+          "startMs": 67830,
+          "endMs": 68050
+        },
+        {
+          "word": "tutma.",
+          "startMs": 68050,
+          "endMs": 68500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 69260,
+      "endMs": 71990,
+      "pauseAfterMs": 800,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 69260,
+          "endMs": 69370
+        },
+        {
+          "word": "şimdi",
+          "startMs": 69370,
+          "endMs": 69700
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 69700,
+          "endMs": 70200
+        },
+        {
+          "word": "çizime",
+          "startMs": 70240,
+          "endMs": 70570
+        },
+        {
+          "word": "birlikte",
+          "startMs": 70570,
+          "endMs": 70750
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 70860,
+          "endMs": 71190
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 69260,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Doğru söz · örnek",
+            "note": "Örnek, kavramın kendisini gösterir.",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Örnek",
+                "body": "Siyer, Peygamberimizin hayatını güvenilir haberlerle anlatan derstir.",
+                "tone": "example"
+              },
+              {
+                "title": "Bu derste bir huyu adıyla öğreniriz.",
+                "body": "Bu derste bir huyu adıyla öğreniriz.",
+                "tone": "example"
+              },
+              {
+                "title": "Doğru söz, ağzından çıkan ile elinin yaptığı aynı olunca durur.",
+                "body": "Doğru söz, ağzından çıkan ile elinin yaptığı aynı olunca durur.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 71990,
+      "endMs": 77190,
+      "pauseAfterMs": 680,
+      "text": "Siyer, Peygamberimizin hayatını güvenilir haberlerle anlatan derstir.",
+      "markedText": "Siyer, Peygamberimizin hayatını güvenilir haberlerle anlatan derstir.",
+      "words": [
+        {
+          "word": "Siyer,",
+          "startMs": 71990,
+          "endMs": 72510
+        },
+        {
+          "word": "Peygamberimizin",
+          "startMs": 72780,
+          "endMs": 73680
+        },
+        {
+          "word": "hayatını",
+          "startMs": 73680,
+          "endMs": 74290
+        },
+        {
+          "word": "güvenilir",
+          "startMs": 74410,
+          "endMs": 74880
+        },
+        {
+          "word": "haberlerle",
+          "startMs": 74880,
+          "endMs": 75340
+        },
+        {
+          "word": "anlatan",
+          "startMs": 75340,
+          "endMs": 75790
+        },
+        {
+          "word": "derstir.",
+          "startMs": 75900,
+          "endMs": 76510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 77190,
+      "endMs": 79890,
+      "pauseAfterMs": 760,
+      "text": "Bu derste bir huyu adıyla öğreniriz.",
+      "markedText": "Bu derste bir huyu adıyla öğreniriz.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 77190,
+          "endMs": 77290
+        },
+        {
+          "word": "derste",
+          "startMs": 77290,
+          "endMs": 77700
+        },
+        {
+          "word": "bir",
+          "startMs": 77770,
+          "endMs": 77890
+        },
+        {
+          "word": "huyu",
+          "startMs": 77890,
+          "endMs": 78050
+        },
+        {
+          "word": "adıyla",
+          "startMs": 78050,
+          "endMs": 78310
+        },
+        {
+          "word": "öğreniriz.",
+          "startMs": 78310,
+          "endMs": 79130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 79890,
+      "endMs": 84700,
+      "pauseAfterMs": 760,
+      "text": "Doğru söz, ağzından çıkan ile elinin yaptığı aynı olunca durur.",
+      "markedText": "Doğru söz, ağzından çıkan ile elinin yaptığı aynı olunca durur.",
+      "words": [
+        {
+          "word": "Doğru",
+          "startMs": 79890,
+          "endMs": 80160
+        },
+        {
+          "word": "söz,",
+          "startMs": 80270,
+          "endMs": 80540
+        },
+        {
+          "word": "ağzından",
+          "startMs": 80820,
+          "endMs": 81380
+        },
+        {
+          "word": "çıkan",
+          "startMs": 81430,
+          "endMs": 81770
+        },
+        {
+          "word": "ile",
+          "startMs": 81850,
+          "endMs": 82110
+        },
+        {
+          "word": "elinin",
+          "startMs": 82110,
+          "endMs": 82540
+        },
+        {
+          "word": "yaptığı",
+          "startMs": 82730,
+          "endMs": 83080
+        },
+        {
+          "word": "aynı",
+          "startMs": 83080,
+          "endMs": 83200
+        },
+        {
+          "word": "olunca",
+          "startMs": 83200,
+          "endMs": 83400
+        },
+        {
+          "word": "durur.",
+          "startMs": 83400,
+          "endMs": 83940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 84700,
+      "endMs": 88490,
+      "pauseAfterMs": 870,
+      "text": "Söz başka, iş başka olursa doğru söz bozulur.",
+      "markedText": "Söz başka, iş başka olursa doğru söz bozulur.",
+      "words": [
+        {
+          "word": "Söz",
+          "startMs": 84700,
+          "endMs": 84900
+        },
+        {
+          "word": "başka,",
+          "startMs": 84940,
+          "endMs": 85460
+        },
+        {
+          "word": "iş",
+          "startMs": 85610,
+          "endMs": 85730
+        },
+        {
+          "word": "başka",
+          "startMs": 85810,
+          "endMs": 85980
+        },
+        {
+          "word": "olursa",
+          "startMs": 86090,
+          "endMs": 86620
+        },
+        {
+          "word": "doğru",
+          "startMs": 86790,
+          "endMs": 87030
+        },
+        {
+          "word": "söz",
+          "startMs": 87030,
+          "endMs": 87080
+        },
+        {
+          "word": "bozulur.",
+          "startMs": 87110,
+          "endMs": 87620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 88490,
+      "endMs": 91180,
+      "pauseAfterMs": 740,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 88490,
+          "endMs": 88590
+        },
+        {
+          "word": "şimdi",
+          "startMs": 88590,
+          "endMs": 88970
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 89070,
+          "endMs": 89390
+        },
+        {
+          "word": "çizime",
+          "startMs": 89440,
+          "endMs": 89660
+        },
+        {
+          "word": "birlikte",
+          "startMs": 89660,
+          "endMs": 89950
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 90050,
+          "endMs": 90440
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 88490,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Tuzaklara Düşme!",
+            "reset": true,
+            "rows": [
+              {
+                "title": "İşine gelen cümle, doğru söz sayılmaz.",
+                "body": "İşine gelen cümle, doğru söz sayılmaz.",
+                "tone": "trap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 91180,
+      "endMs": 93760,
+      "pauseAfterMs": 830,
+      "text": "Bir kalem sana emanet edildi.",
+      "markedText": "Bir kalem sana emanet edildi.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 91180,
+          "endMs": 91320
+        },
+        {
+          "word": "kalem",
+          "startMs": 91460,
+          "endMs": 91780
+        },
+        {
+          "word": "sana",
+          "startMs": 91780,
+          "endMs": 91990
+        },
+        {
+          "word": "emanet",
+          "startMs": 91990,
+          "endMs": 92230
+        },
+        {
+          "word": "edildi.",
+          "startMs": 92230,
+          "endMs": 92930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 93760,
+      "endMs": 95120,
+      "pauseAfterMs": 730,
+      "text": "Sözün şudur.",
+      "markedText": "Sözün şudur.",
+      "words": [
+        {
+          "word": "Sözün",
+          "startMs": 93760,
+          "endMs": 94050
+        },
+        {
+          "word": "şudur.",
+          "startMs": 94100,
+          "endMs": 94390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 95120,
+      "endMs": 97600,
+      "pauseAfterMs": 760,
+      "text": "Kalemi sahibine geri vereceğim.",
+      "markedText": "Kalemi sahibine geri vereceğim.",
+      "words": [
+        {
+          "word": "Kalemi",
+          "startMs": 95120,
+          "endMs": 95490
+        },
+        {
+          "word": "sahibine",
+          "startMs": 95490,
+          "endMs": 95920
+        },
+        {
+          "word": "geri",
+          "startMs": 95960,
+          "endMs": 96070
+        },
+        {
+          "word": "vereceğim.",
+          "startMs": 96070,
+          "endMs": 96840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-2",
+      "startMs": 97600,
+      "endMs": 99090,
+      "pauseAfterMs": 890,
+      "text": "İşi de budur.",
+      "markedText": "İşi de budur.",
+      "words": [
+        {
+          "word": "İşi",
+          "startMs": 97600,
+          "endMs": 97740
+        },
+        {
+          "word": "de",
+          "startMs": 97740,
+          "endMs": 97840
+        },
+        {
+          "word": "budur.",
+          "startMs": 97840,
+          "endMs": 98200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-2",
+      "startMs": 99090,
+      "endMs": 101130,
+      "pauseAfterMs": 770,
+      "text": "Kalemi sahibine verirsin.",
+      "markedText": "Kalemi sahibine verirsin.",
+      "words": [
+        {
+          "word": "Kalemi",
+          "startMs": 99090,
+          "endMs": 99370
+        },
+        {
+          "word": "sahibine",
+          "startMs": 99370,
+          "endMs": 99860
+        },
+        {
+          "word": "verirsin.",
+          "startMs": 99860,
+          "endMs": 100360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-2",
+      "startMs": 101130,
+      "endMs": 102960,
+      "pauseAfterMs": 750,
+      "text": "Söz ile iş birleşir.",
+      "markedText": "Söz ile iş birleşir.",
+      "words": [
+        {
+          "word": "Söz",
+          "startMs": 101130,
+          "endMs": 101340
+        },
+        {
+          "word": "ile",
+          "startMs": 101340,
+          "endMs": 101510
+        },
+        {
+          "word": "iş",
+          "startMs": 101550,
+          "endMs": 101660
+        },
+        {
+          "word": "birleşir.",
+          "startMs": 101740,
+          "endMs": 102210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-2",
+      "startMs": 102960,
+      "endMs": 105630,
+      "pauseAfterMs": 820,
+      "text": "Hatırlarsan, doğru söz bu birleşmeydi.",
+      "markedText": "Hatırlarsan, doğru söz bu birleşmeydi.",
+      "words": [
+        {
+          "word": "Hatırlarsan,",
+          "startMs": 102960,
+          "endMs": 103480
+        },
+        {
+          "word": "doğru",
+          "startMs": 103520,
+          "endMs": 103770
+        },
+        {
+          "word": "söz",
+          "startMs": 103820,
+          "endMs": 103980
+        },
+        {
+          "word": "bu",
+          "startMs": 103980,
+          "endMs": 104110
+        },
+        {
+          "word": "birleşmeydi.",
+          "startMs": 104110,
+          "endMs": 104810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-2",
+      "startMs": 105630,
+      "endMs": 107050,
+      "pauseAfterMs": 660,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 105630,
+          "endMs": 106120
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 106120,
+          "endMs": 106390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-2",
+      "startMs": 107050,
+      "endMs": 108510,
+      "pauseAfterMs": 860,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 107050,
+          "endMs": 107220
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 107300,
+          "endMs": 107650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-2",
+      "startMs": 108510,
+      "endMs": 111660,
+      "pauseAfterMs": 750,
+      "text": "İşine gelen cümle, doğru söz sayılmaz.",
+      "markedText": "İşine gelen cümle, doğru söz sayılmaz.",
+      "words": [
+        {
+          "word": "İşine",
+          "startMs": 108510,
+          "endMs": 108880
+        },
+        {
+          "word": "gelen",
+          "startMs": 108880,
+          "endMs": 109230
+        },
+        {
+          "word": "cümle,",
+          "startMs": 109270,
+          "endMs": 109620
+        },
+        {
+          "word": "doğru",
+          "startMs": 109870,
+          "endMs": 110120
+        },
+        {
+          "word": "söz",
+          "startMs": 110180,
+          "endMs": 110400
+        },
+        {
+          "word": "sayılmaz.",
+          "startMs": 110400,
+          "endMs": 110910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-2",
+      "startMs": 111660,
+      "endMs": 114460,
+      "pauseAfterMs": 740,
+      "text": "Emaneti gizlersen sözün bozulur.",
+      "markedText": "Emaneti gizlersen sözün bozulur.",
+      "words": [
+        {
+          "word": "Emaneti",
+          "startMs": 111660,
+          "endMs": 112020
+        },
+        {
+          "word": "gizlersen",
+          "startMs": 112180,
+          "endMs": 112540
+        },
+        {
+          "word": "sözün",
+          "startMs": 112540,
+          "endMs": 112860
+        },
+        {
+          "word": "bozulur.",
+          "startMs": 112990,
+          "endMs": 113720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-2",
+      "startMs": 114460,
+      "endMs": 115900,
+      "pauseAfterMs": 700,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 114460,
+          "endMs": 114670
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 114760,
+          "endMs": 115200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-2",
+      "startMs": 115900,
+      "endMs": 117270,
+      "pauseAfterMs": 750,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 115900,
+          "endMs": 116100
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 116180,
+          "endMs": 116520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-2",
+      "startMs": 117270,
+      "endMs": 119310,
+      "pauseAfterMs": 650,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 117270,
+          "endMs": 117350
+        },
+        {
+          "word": "noktayı",
+          "startMs": 117350,
+          "endMs": 117570
+        },
+        {
+          "word": "sen",
+          "startMs": 117670,
+          "endMs": 117820
+        },
+        {
+          "word": "de",
+          "startMs": 117910,
+          "endMs": 117980
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 117980,
+          "endMs": 118660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-2",
+      "startMs": 119310,
+      "endMs": 124520,
+      "pauseAfterMs": 210,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 119310,
+          "endMs": 119510
+        },
+        {
+          "word": "sevgili",
+          "startMs": 119510,
+          "endMs": 119720
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 119720,
+          "endMs": 120360
+        },
+        {
+          "word": "işte",
+          "startMs": 120860,
+          "endMs": 121070
+        },
+        {
+          "word": "tam",
+          "startMs": 121210,
+          "endMs": 121410
+        },
+        {
+          "word": "bu",
+          "startMs": 121410,
+          "endMs": 121500
+        },
+        {
+          "word": "noktada",
+          "startMs": 121500,
+          "endMs": 121880
+        },
+        {
+          "word": "dikkat",
+          "startMs": 122100,
+          "endMs": 122320
+        },
+        {
+          "word": "etmen",
+          "startMs": 122400,
+          "endMs": 122590
+        },
+        {
+          "word": "gereken",
+          "startMs": 122590,
+          "endMs": 123000
+        },
+        {
+          "word": "kilit",
+          "startMs": 123100,
+          "endMs": 123620
+        },
+        {
+          "word": "nokta.",
+          "startMs": 124150,
+          "endMs": 124310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-2",
+      "startMs": 124520,
+      "endMs": 127700,
+      "pauseAfterMs": 810,
+      "text": "İşine gelen cümle, doğru söz sayılmaz.",
+      "markedText": "İşine gelen cümle, doğru söz sayılmaz.",
+      "words": [
+        {
+          "word": "İşine",
+          "startMs": 124520,
+          "endMs": 124880
+        },
+        {
+          "word": "gelen",
+          "startMs": 124880,
+          "endMs": 125180
+        },
+        {
+          "word": "cümle,",
+          "startMs": 125240,
+          "endMs": 125570
+        },
+        {
+          "word": "doğru",
+          "startMs": 125820,
+          "endMs": 126070
+        },
+        {
+          "word": "söz",
+          "startMs": 126070,
+          "endMs": 126260
+        },
+        {
+          "word": "sayılmaz.",
+          "startMs": 126260,
+          "endMs": 126890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 127700,
+      "endMs": 129210,
+      "pauseAfterMs": 690,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 127700,
+          "endMs": 127950
+        },
+        {
+          "word": "Neler",
+          "startMs": 127950,
+          "endMs": 128070
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 128070,
+          "endMs": 128520
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 127700,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Bugün Neler Öğrendik?",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Siyer, Peygamberimizin hayatını anlatan derstir.",
+                "body": "Siyer, Peygamberimizin hayatını anlatan derstir.",
+                "tone": "recap"
+              },
+              {
+                "title": "Doğru söz, söylenen ile yapılanın aynı olmasıdır.",
+                "body": "Doğru söz, söylenen ile yapılanın aynı olmasıdır.",
+                "tone": "recap"
+              },
+              {
+                "title": "Emanet, sahibine geri verilir.",
+                "body": "Emanet, sahibine geri verilir.",
+                "tone": "recap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-3",
+      "startMs": 129210,
+      "endMs": 129940,
+      "pauseAfterMs": 550,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 129210,
+          "endMs": 129390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-3",
+      "startMs": 129940,
+      "endMs": 133380,
+      "pauseAfterMs": 760,
+      "text": "Siyer, Peygamberimizin hayatını anlatan derstir.",
+      "markedText": "Siyer, Peygamberimizin hayatını anlatan derstir.",
+      "words": [
+        {
+          "word": "Siyer,",
+          "startMs": 129940,
+          "endMs": 130270
+        },
+        {
+          "word": "Peygamberimizin",
+          "startMs": 130540,
+          "endMs": 131050
+        },
+        {
+          "word": "hayatını",
+          "startMs": 131050,
+          "endMs": 131540
+        },
+        {
+          "word": "anlatan",
+          "startMs": 131630,
+          "endMs": 131930
+        },
+        {
+          "word": "derstir.",
+          "startMs": 132010,
+          "endMs": 132620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-51",
+      "chapterId": "ch-3",
+      "startMs": 133380,
+      "endMs": 134250,
+      "pauseAfterMs": 670,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 133380,
+          "endMs": 133580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-52",
+      "chapterId": "ch-3",
+      "startMs": 134250,
+      "endMs": 137830,
+      "pauseAfterMs": 760,
+      "text": "Doğru söz, söylenen ile yapılanın aynı olmasıdır.",
+      "markedText": "Doğru söz, söylenen ile yapılanın aynı olmasıdır.",
+      "words": [
+        {
+          "word": "Doğru",
+          "startMs": 134250,
+          "endMs": 134490
+        },
+        {
+          "word": "söz,",
+          "startMs": 134560,
+          "endMs": 134730
+        },
+        {
+          "word": "söylenen",
+          "startMs": 135010,
+          "endMs": 135570
+        },
+        {
+          "word": "ile",
+          "startMs": 135570,
+          "endMs": 135750
+        },
+        {
+          "word": "yapılanın",
+          "startMs": 135850,
+          "endMs": 136130
+        },
+        {
+          "word": "aynı",
+          "startMs": 136250,
+          "endMs": 136500
+        },
+        {
+          "word": "olmasıdır.",
+          "startMs": 136830,
+          "endMs": 137070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-53",
+      "chapterId": "ch-3",
+      "startMs": 137830,
+      "endMs": 138420,
+      "pauseAfterMs": 350,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 137830,
+          "endMs": 138070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-54",
+      "chapterId": "ch-3",
+      "startMs": 138420,
+      "endMs": 140790,
+      "pauseAfterMs": 710,
+      "text": "Emanet, sahibine geri verilir.",
+      "markedText": "Emanet, sahibine geri verilir.",
+      "words": [
+        {
+          "word": "Emanet,",
+          "startMs": 138420,
+          "endMs": 138820
+        },
+        {
+          "word": "sahibine",
+          "startMs": 138950,
+          "endMs": 139350
+        },
+        {
+          "word": "geri",
+          "startMs": 139350,
+          "endMs": 139460
+        },
+        {
+          "word": "verilir.",
+          "startMs": 139510,
+          "endMs": 140080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-55",
+      "chapterId": "ch-3",
+      "startMs": 140790,
+      "endMs": 144090,
+      "pauseAfterMs": 600,
+      "text": "Doğru söz, söylenen ile yapılanın aynı olmasıdır.",
+      "markedText": "Doğru söz, söylenen ile yapılanın aynı olmasıdır.",
+      "words": [
+        {
+          "word": "Doğru",
+          "startMs": 140790,
+          "endMs": 141060
+        },
+        {
+          "word": "söz,",
+          "startMs": 141110,
+          "endMs": 141290
+        },
+        {
+          "word": "söylenen",
+          "startMs": 141580,
+          "endMs": 142020
+        },
+        {
+          "word": "ile",
+          "startMs": 142020,
+          "endMs": 142240
+        },
+        {
+          "word": "yapılanın",
+          "startMs": 142340,
+          "endMs": 142590
+        },
+        {
+          "word": "aynı",
+          "startMs": 142690,
+          "endMs": 142800
+        },
+        {
+          "word": "olmasıdır.",
+          "startMs": 142800,
+          "endMs": 143490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-56",
+      "chapterId": "ch-3",
+      "startMs": 144090,
+      "endMs": 148260,
+      "pauseAfterMs": 820,
+      "text": "Örnekte söz ile işin nasıl birleştiğini adım adım söylersin.",
+      "markedText": "Örnekte söz ile işin nasıl birleştiğini adım adım söylersin.",
+      "words": [
+        {
+          "word": "Örnekte",
+          "startMs": 144090,
+          "endMs": 144270
+        },
+        {
+          "word": "söz",
+          "startMs": 144270,
+          "endMs": 144360
+        },
+        {
+          "word": "ile",
+          "startMs": 144500,
+          "endMs": 144630
+        },
+        {
+          "word": "işin",
+          "startMs": 144860,
+          "endMs": 144990
+        },
+        {
+          "word": "nasıl",
+          "startMs": 144990,
+          "endMs": 145270
+        },
+        {
+          "word": "birleştiğini",
+          "startMs": 145310,
+          "endMs": 146010
+        },
+        {
+          "word": "adım",
+          "startMs": 146180,
+          "endMs": 146340
+        },
+        {
+          "word": "adım",
+          "startMs": 146470,
+          "endMs": 146650
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 146650,
+          "endMs": 147440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-57",
+      "chapterId": "ch-3",
+      "startMs": 148260,
+      "endMs": 149600,
+      "pauseAfterMs": 590,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 148260,
+          "endMs": 148620
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 148660,
+          "endMs": 149010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-58",
+      "chapterId": "ch-3",
+      "startMs": 149600,
+      "endMs": 151180,
+      "pauseAfterMs": 690,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 149600,
+          "endMs": 149790
+        },
+        {
+          "word": "bir",
+          "startMs": 149840,
+          "endMs": 149920
+        },
+        {
+          "word": "iş",
+          "startMs": 149920,
+          "endMs": 150120
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 150120,
+          "endMs": 150490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-59",
+      "chapterId": "ch-3",
+      "startMs": 151180,
+      "endMs": 152510,
+      "pauseAfterMs": 500,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 151180,
+          "endMs": 151430
+        },
+        {
+          "word": "sıra",
+          "startMs": 151430,
+          "endMs": 151640
+        },
+        {
+          "word": "sende.",
+          "startMs": 151640,
+          "endMs": 152010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-60",
+      "chapterId": "ch-3",
+      "startMs": 152510,
+      "endMs": 155429,
+      "pauseAfterMs": 329,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 152510,
+          "endMs": 153010
+        },
+        {
+          "word": "bu",
+          "startMs": 153010,
+          "endMs": 153100
+        },
+        {
+          "word": "notları",
+          "startMs": 153210,
+          "endMs": 153460
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 153550,
+          "endMs": 153870
+        },
+        {
+          "word": "kendi",
+          "startMs": 154070,
+          "endMs": 154260
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 154260,
+          "endMs": 154700
+        },
+        {
+          "word": "anlat.",
+          "startMs": 154700,
+          "endMs": 155100
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

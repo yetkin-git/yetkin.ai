@@ -1,0 +1,1633 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_mat-25",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Başkasının istatistiksel yorumunu tartışma",
+  "grade": 6,
+  "subject": "Matematik",
+  "teacher": {
+    "name": "Selim",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_mat-25.mp3",
+    "durationMs": 305187,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 49170
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 49170,
+      "endMs": 225420
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 225420,
+      "endMs": 305187
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4900,
+      "pauseAfterMs": 820,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 400,
+          "endMs": 1560
+        },
+        {
+          "word": "sevgili",
+          "startMs": 2480,
+          "endMs": 3050
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 3220,
+          "endMs": 4080
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Başkasının istatistiksel yorumunu tartışma",
+            "subtitle": "Matematik",
+            "ruleBadges": [],
+            "echoPrompt": "Eksen 7'den başlayan afişte 1 puanlık farkın şiştiğini dersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Grafik bir iddia taşır."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Eksen 0'dan başlamıyorsa fark şişer."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Dar grup, bütün topluluk değildir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4900,
+      "endMs": 8140,
+      "pauseAfterMs": 990,
+      "text": "Ben Matematik öğretmenin Selim.",
+      "markedText": "Ben Matematik öğretmenin Selim.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4900,
+          "endMs": 5070
+        },
+        {
+          "word": "Matematik",
+          "startMs": 5070,
+          "endMs": 5680
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 5760,
+          "endMs": 6570
+        },
+        {
+          "word": "Selim.",
+          "startMs": 6730,
+          "endMs": 7150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8140,
+      "endMs": 12320,
+      "pauseAfterMs": 540,
+      "text": "Bugün başkasının grafiğini tartışacağız.",
+      "markedText": "Bugün başkasının grafiğini tartışacağız.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 8140,
+          "endMs": 8640
+        },
+        {
+          "word": "başkasının",
+          "startMs": 8750,
+          "endMs": 9560
+        },
+        {
+          "word": "grafiğini",
+          "startMs": 10150,
+          "endMs": 10750
+        },
+        {
+          "word": "tartışacağız.",
+          "startMs": 10890,
+          "endMs": 11780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 12320,
+      "endMs": 18780,
+      "pauseAfterMs": 810,
+      "text": "Okul panosundaki sütun, bir iddiayı resim gibi gösterir.",
+      "markedText": "Okul panosundaki sütun, bir iddiayı resim gibi gösterir.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 12320,
+          "endMs": 12650
+        },
+        {
+          "word": "panosundaki",
+          "startMs": 12700,
+          "endMs": 13720
+        },
+        {
+          "word": "sütun,",
+          "startMs": 14270,
+          "endMs": 14680
+        },
+        {
+          "word": "bir",
+          "startMs": 15550,
+          "endMs": 15760
+        },
+        {
+          "word": "iddiayı",
+          "startMs": 15830,
+          "endMs": 16180
+        },
+        {
+          "word": "resim",
+          "startMs": 16280,
+          "endMs": 16600
+        },
+        {
+          "word": "gibi",
+          "startMs": 16770,
+          "endMs": 16980
+        },
+        {
+          "word": "gösterir.",
+          "startMs": 17080,
+          "endMs": 17970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 18780,
+      "endMs": 24050,
+      "pauseAfterMs": 760,
+      "text": "Resim doğru kurulmamışsa sonuç da kayar.",
+      "markedText": "Resim doğru kurulmamışsa sonuç da kayar.",
+      "words": [
+        {
+          "word": "Resim",
+          "startMs": 18780,
+          "endMs": 19120
+        },
+        {
+          "word": "doğru",
+          "startMs": 19300,
+          "endMs": 19450
+        },
+        {
+          "word": "kurulmamışsa",
+          "startMs": 19560,
+          "endMs": 20710
+        },
+        {
+          "word": "sonuç",
+          "startMs": 21210,
+          "endMs": 21450
+        },
+        {
+          "word": "da",
+          "startMs": 21770,
+          "endMs": 21950
+        },
+        {
+          "word": "kayar.",
+          "startMs": 22450,
+          "endMs": 23290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 24050,
+      "endMs": 30700,
+      "pauseAfterMs": 1170,
+      "text": "Bunu okul bahçesindeki duyuru panosunda görürsün.",
+      "markedText": "Bunu okul bahçesindeki duyuru panosunda görürsün.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 24050,
+          "endMs": 24380
+        },
+        {
+          "word": "okul",
+          "startMs": 24480,
+          "endMs": 24980
+        },
+        {
+          "word": "bahçesindeki",
+          "startMs": 25470,
+          "endMs": 26850
+        },
+        {
+          "word": "duyuru",
+          "startMs": 27580,
+          "endMs": 28010
+        },
+        {
+          "word": "panosunda",
+          "startMs": 28050,
+          "endMs": 28580
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 28860,
+          "endMs": 29530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 30700,
+      "endMs": 41550,
+      "pauseAfterMs": 610,
+      "text": "Kutudan çıkan anket kâğıdı az kişiyse sonucu bütün şehre yayma.",
+      "markedText": "Kutudan çıkan anket kâğıdı az kişiyse sonucu bütün şehre yayma.",
+      "words": [
+        {
+          "word": "Kutudan",
+          "startMs": 30700,
+          "endMs": 31720
+        },
+        {
+          "word": "çıkan",
+          "startMs": 31920,
+          "endMs": 32560
+        },
+        {
+          "word": "anket",
+          "startMs": 33240,
+          "endMs": 33780
+        },
+        {
+          "word": "kâğıdı",
+          "startMs": 34170,
+          "endMs": 34540
+        },
+        {
+          "word": "az",
+          "startMs": 35040,
+          "endMs": 35340
+        },
+        {
+          "word": "kişiyse",
+          "startMs": 35450,
+          "endMs": 36570
+        },
+        {
+          "word": "sonucu",
+          "startMs": 37590,
+          "endMs": 38340
+        },
+        {
+          "word": "bütün",
+          "startMs": 38490,
+          "endMs": 39060
+        },
+        {
+          "word": "şehre",
+          "startMs": 39260,
+          "endMs": 39700
+        },
+        {
+          "word": "yayma.",
+          "startMs": 39800,
+          "endMs": 40940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 41550,
+      "endMs": 49170,
+      "pauseAfterMs": 1020,
+      "text": "Grafiği tartışmak, sayıyı inkâr etmek değildir.",
+      "markedText": "Grafiği tartışmak, sayıyı inkâr etmek değildir.",
+      "words": [
+        {
+          "word": "Grafiği",
+          "startMs": 41550,
+          "endMs": 42400
+        },
+        {
+          "word": "tartışmak,",
+          "startMs": 43280,
+          "endMs": 44100
+        },
+        {
+          "word": "sayıyı",
+          "startMs": 44370,
+          "endMs": 45360
+        },
+        {
+          "word": "inkâr",
+          "startMs": 46020,
+          "endMs": 46370
+        },
+        {
+          "word": "etmek",
+          "startMs": 46720,
+          "endMs": 47310
+        },
+        {
+          "word": "değildir.",
+          "startMs": 47310,
+          "endMs": 48150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-2",
+      "startMs": 49170,
+      "endMs": 57360,
+      "pauseAfterMs": 670,
+      "text": "İstatistiksel yorum, veriden çıkan cümledir.",
+      "markedText": "İstatistiksel yorum, veriden çıkan cümledir.",
+      "words": [
+        {
+          "word": "İstatistiksel",
+          "startMs": 49170,
+          "endMs": 51470
+        },
+        {
+          "word": "yorum,",
+          "startMs": 52240,
+          "endMs": 52790
+        },
+        {
+          "word": "veriden",
+          "startMs": 53170,
+          "endMs": 53910
+        },
+        {
+          "word": "çıkan",
+          "startMs": 54090,
+          "endMs": 54780
+        },
+        {
+          "word": "cümledir.",
+          "startMs": 55470,
+          "endMs": 56690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-2",
+      "startMs": 57360,
+      "endMs": 65980,
+      "pauseAfterMs": 750,
+      "text": "Tartışmak, cümleyi eksen ve grupla denetlemektir.",
+      "markedText": "Tartışmak, cümleyi eksen ve grupla denetlemektir.",
+      "words": [
+        {
+          "word": "Tartışmak,",
+          "startMs": 57360,
+          "endMs": 58430
+        },
+        {
+          "word": "cümleyi",
+          "startMs": 58850,
+          "endMs": 59880
+        },
+        {
+          "word": "eksen",
+          "startMs": 60060,
+          "endMs": 61100
+        },
+        {
+          "word": "ve",
+          "startMs": 61780,
+          "endMs": 61850
+        },
+        {
+          "word": "grupla",
+          "startMs": 62010,
+          "endMs": 63190
+        },
+        {
+          "word": "denetlemektir.",
+          "startMs": 63980,
+          "endMs": 65230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 65980,
+      "endMs": 76410,
+      "pauseAfterMs": 1070,
+      "text": "Eksen 0'dan başlamıyorsa fark olduğundan büyük görünür.",
+      "markedText": "Eksen 0'dan başlamıyorsa fark olduğundan büyük görünür.",
+      "words": [
+        {
+          "word": "Eksen",
+          "startMs": 65980,
+          "endMs": 66700
+        },
+        {
+          "word": "0'dan",
+          "startMs": 66820,
+          "endMs": 67360
+        },
+        {
+          "word": "başlamıyorsa",
+          "startMs": 67850,
+          "endMs": 68880
+        },
+        {
+          "word": "fark",
+          "startMs": 69410,
+          "endMs": 69800
+        },
+        {
+          "word": "olduğundan",
+          "startMs": 69950,
+          "endMs": 71390
+        },
+        {
+          "word": "büyük",
+          "startMs": 72500,
+          "endMs": 73320
+        },
+        {
+          "word": "görünür.",
+          "startMs": 74650,
+          "endMs": 75340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 76410,
+      "endMs": 87490,
+      "pauseAfterMs": 630,
+      "text": "Yalnızca bir sınıfı ölçüp bütün okulu söylemek, örneklemi daraltır.",
+      "markedText": "Yalnızca bir sınıfı ölçüp bütün okulu söylemek, örneklemi daraltır.",
+      "words": [
+        {
+          "word": "Yalnızca",
+          "startMs": 76410,
+          "endMs": 77640
+        },
+        {
+          "word": "bir",
+          "startMs": 78990,
+          "endMs": 79200
+        },
+        {
+          "word": "sınıfı",
+          "startMs": 79200,
+          "endMs": 79930
+        },
+        {
+          "word": "ölçüp",
+          "startMs": 80440,
+          "endMs": 80870
+        },
+        {
+          "word": "bütün",
+          "startMs": 81030,
+          "endMs": 81340
+        },
+        {
+          "word": "okulu",
+          "startMs": 81920,
+          "endMs": 82300
+        },
+        {
+          "word": "söylemek,",
+          "startMs": 82410,
+          "endMs": 83350
+        },
+        {
+          "word": "örneklemi",
+          "startMs": 84690,
+          "endMs": 85800
+        },
+        {
+          "word": "daraltır.",
+          "startMs": 85950,
+          "endMs": 86860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 87490,
+      "endMs": 92320,
+      "pauseAfterMs": 680,
+      "text": "Başlık, grafiğin neyi saydığını söyler.",
+      "markedText": "Başlık, grafiğin neyi saydığını söyler.",
+      "words": [
+        {
+          "word": "Başlık,",
+          "startMs": 87490,
+          "endMs": 87870
+        },
+        {
+          "word": "grafiğin",
+          "startMs": 88020,
+          "endMs": 89040
+        },
+        {
+          "word": "neyi",
+          "startMs": 89840,
+          "endMs": 90260
+        },
+        {
+          "word": "saydığını",
+          "startMs": 90480,
+          "endMs": 90970
+        },
+        {
+          "word": "söyler.",
+          "startMs": 91010,
+          "endMs": 91640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 92320,
+      "endMs": 109210,
+      "pauseAfterMs": 770,
+      "text": "Bir afiş, 8 ve 9 puanı yan yana koyup 9'u dev gibi çizer.",
+      "markedText": "Bir afiş, 8 ve 9 puanı yan yana koyup 9'u dev gibi çizer.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 92320,
+          "endMs": 92510
+        },
+        {
+          "word": "afiş,",
+          "startMs": 94170,
+          "endMs": 94810
+        },
+        {
+          "word": "8",
+          "startMs": 95770,
+          "endMs": 96580
+        },
+        {
+          "word": "ve",
+          "startMs": 97620,
+          "endMs": 97720
+        },
+        {
+          "word": "9",
+          "startMs": 98400,
+          "endMs": 98830
+        },
+        {
+          "word": "puanı",
+          "startMs": 99020,
+          "endMs": 99790
+        },
+        {
+          "word": "yan",
+          "startMs": 101660,
+          "endMs": 101880
+        },
+        {
+          "word": "yana",
+          "startMs": 102570,
+          "endMs": 103010
+        },
+        {
+          "word": "koyup",
+          "startMs": 103480,
+          "endMs": 104510
+        },
+        {
+          "word": "9'u",
+          "startMs": 105460,
+          "endMs": 106020
+        },
+        {
+          "word": "dev",
+          "startMs": 106640,
+          "endMs": 107020
+        },
+        {
+          "word": "gibi",
+          "startMs": 107320,
+          "endMs": 107410
+        },
+        {
+          "word": "çizer.",
+          "startMs": 107730,
+          "endMs": 108440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 109210,
+      "endMs": 120750,
+      "pauseAfterMs": 1900,
+      "text": "Eksen 7'den başlıyorsa 1 puanlık fark dağ gibi durur.",
+      "markedText": "Eksen 7'den başlıyorsa 1 puanlık fark dağ gibi durur.",
+      "words": [
+        {
+          "word": "Eksen",
+          "startMs": 109210,
+          "endMs": 110180
+        },
+        {
+          "word": "7'den",
+          "startMs": 111020,
+          "endMs": 111700
+        },
+        {
+          "word": "başlıyorsa",
+          "startMs": 112500,
+          "endMs": 113410
+        },
+        {
+          "word": "1",
+          "startMs": 113700,
+          "endMs": 113870
+        },
+        {
+          "word": "puanlık",
+          "startMs": 114640,
+          "endMs": 115530
+        },
+        {
+          "word": "fark",
+          "startMs": 116440,
+          "endMs": 116740
+        },
+        {
+          "word": "dağ",
+          "startMs": 117100,
+          "endMs": 117240
+        },
+        {
+          "word": "gibi",
+          "startMs": 117350,
+          "endMs": 117580
+        },
+        {
+          "word": "durur.",
+          "startMs": 118050,
+          "endMs": 118850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 120750,
+      "endMs": 134640,
+      "pauseAfterMs": 1920,
+      "text": "Eksen 0'dan başlasa iki sütun birbirine yakın görünür.",
+      "markedText": "Eksen 0'dan başlasa iki sütun birbirine yakın görünür.",
+      "words": [
+        {
+          "word": "Eksen",
+          "startMs": 120750,
+          "endMs": 121560
+        },
+        {
+          "word": "0'dan",
+          "startMs": 122040,
+          "endMs": 123210
+        },
+        {
+          "word": "başlasa",
+          "startMs": 125320,
+          "endMs": 126160
+        },
+        {
+          "word": "iki",
+          "startMs": 126200,
+          "endMs": 126520
+        },
+        {
+          "word": "sütun",
+          "startMs": 126690,
+          "endMs": 126980
+        },
+        {
+          "word": "birbirine",
+          "startMs": 127110,
+          "endMs": 128640
+        },
+        {
+          "word": "yakın",
+          "startMs": 131210,
+          "endMs": 131410
+        },
+        {
+          "word": "görünür.",
+          "startMs": 131750,
+          "endMs": 132720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 134640,
+      "endMs": 151800,
+      "pauseAfterMs": 1720,
+      "text": "Afiş yalnızca 6 kişilik bir grubu ölçmüşse bütün okul için aynı cümle kurulamaz.",
+      "markedText": "Afiş yalnızca 6 kişilik bir grubu ölçmüşse bütün okul için aynı cümle kurulamaz.",
+      "words": [
+        {
+          "word": "Afiş",
+          "startMs": 134640,
+          "endMs": 134890
+        },
+        {
+          "word": "yalnızca",
+          "startMs": 135020,
+          "endMs": 135730
+        },
+        {
+          "word": "6",
+          "startMs": 135730,
+          "endMs": 136170
+        },
+        {
+          "word": "kişilik",
+          "startMs": 136420,
+          "endMs": 137310
+        },
+        {
+          "word": "bir",
+          "startMs": 139640,
+          "endMs": 139920
+        },
+        {
+          "word": "grubu",
+          "startMs": 140220,
+          "endMs": 141350
+        },
+        {
+          "word": "ölçmüşse",
+          "startMs": 143300,
+          "endMs": 144190
+        },
+        {
+          "word": "bütün",
+          "startMs": 144630,
+          "endMs": 145050
+        },
+        {
+          "word": "okul",
+          "startMs": 145050,
+          "endMs": 145470
+        },
+        {
+          "word": "için",
+          "startMs": 145760,
+          "endMs": 146280
+        },
+        {
+          "word": "aynı",
+          "startMs": 146410,
+          "endMs": 146950
+        },
+        {
+          "word": "cümle",
+          "startMs": 148340,
+          "endMs": 148820
+        },
+        {
+          "word": "kurulamaz.",
+          "startMs": 148950,
+          "endMs": 150080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 151800,
+      "endMs": 156470,
+      "pauseAfterMs": 2130,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 151800,
+          "endMs": 152790
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 152920,
+          "endMs": 154340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 156470,
+      "endMs": 161310,
+      "pauseAfterMs": 1990,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 156470,
+          "endMs": 157410
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 157570,
+          "endMs": 159320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 161310,
+      "endMs": 167580,
+      "pauseAfterMs": 1570,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 161310,
+          "endMs": 161630
+        },
+        {
+          "word": "noktayı",
+          "startMs": 162370,
+          "endMs": 163210
+        },
+        {
+          "word": "sen",
+          "startMs": 163670,
+          "endMs": 163960
+        },
+        {
+          "word": "de",
+          "startMs": 164050,
+          "endMs": 164290
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 164470,
+          "endMs": 166010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 167580,
+      "endMs": 184130,
+      "pauseAfterMs": 1490,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 167580,
+          "endMs": 168260
+        },
+        {
+          "word": "sevgili",
+          "startMs": 168370,
+          "endMs": 169110
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 169540,
+          "endMs": 170960
+        },
+        {
+          "word": "işte",
+          "startMs": 172760,
+          "endMs": 173360
+        },
+        {
+          "word": "tam",
+          "startMs": 174130,
+          "endMs": 174740
+        },
+        {
+          "word": "bu",
+          "startMs": 174840,
+          "endMs": 174960
+        },
+        {
+          "word": "noktada",
+          "startMs": 175240,
+          "endMs": 176210
+        },
+        {
+          "word": "dikkat",
+          "startMs": 176420,
+          "endMs": 177040
+        },
+        {
+          "word": "etmen",
+          "startMs": 177120,
+          "endMs": 178150
+        },
+        {
+          "word": "gereken",
+          "startMs": 179940,
+          "endMs": 180960
+        },
+        {
+          "word": "kilit",
+          "startMs": 181360,
+          "endMs": 181650
+        },
+        {
+          "word": "nokta.",
+          "startMs": 181770,
+          "endMs": 182640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 184130,
+      "endMs": 194070,
+      "pauseAfterMs": 2000,
+      "text": "Yüksek sütun her zaman büyük fark demek değildir.",
+      "markedText": "Yüksek sütun her zaman büyük fark demek değildir.",
+      "words": [
+        {
+          "word": "Yüksek",
+          "startMs": 184130,
+          "endMs": 184960
+        },
+        {
+          "word": "sütun",
+          "startMs": 185100,
+          "endMs": 185910
+        },
+        {
+          "word": "her",
+          "startMs": 186300,
+          "endMs": 186500
+        },
+        {
+          "word": "zaman",
+          "startMs": 186720,
+          "endMs": 187580
+        },
+        {
+          "word": "büyük",
+          "startMs": 189250,
+          "endMs": 189700
+        },
+        {
+          "word": "fark",
+          "startMs": 189820,
+          "endMs": 190270
+        },
+        {
+          "word": "demek",
+          "startMs": 190330,
+          "endMs": 190740
+        },
+        {
+          "word": "değildir.",
+          "startMs": 190930,
+          "endMs": 192070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 194070,
+      "endMs": 199550,
+      "pauseAfterMs": 1800,
+      "text": "Önce eksenin başlangıcını oku.",
+      "markedText": "Önce eksenin başlangıcını oku.",
+      "words": [
+        {
+          "word": "Önce",
+          "startMs": 194070,
+          "endMs": 194480
+        },
+        {
+          "word": "eksenin",
+          "startMs": 194480,
+          "endMs": 195160
+        },
+        {
+          "word": "başlangıcını",
+          "startMs": 195520,
+          "endMs": 196650
+        },
+        {
+          "word": "oku.",
+          "startMs": 196840,
+          "endMs": 197750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 199550,
+      "endMs": 209400,
+      "pauseAfterMs": 1210,
+      "text": "Sonra kaç kişinin ölçüldüğüne bak.",
+      "markedText": "Sonra kaç kişinin ölçüldüğüne bak.",
+      "words": [
+        {
+          "word": "Sonra",
+          "startMs": 199550,
+          "endMs": 200110
+        },
+        {
+          "word": "kaç",
+          "startMs": 200410,
+          "endMs": 200830
+        },
+        {
+          "word": "kişinin",
+          "startMs": 201190,
+          "endMs": 202640
+        },
+        {
+          "word": "ölçüldüğüne",
+          "startMs": 204200,
+          "endMs": 206440
+        },
+        {
+          "word": "bak.",
+          "startMs": 207890,
+          "endMs": 208190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 209400,
+      "endMs": 225420,
+      "pauseAfterMs": 1670,
+      "text": "Başlık başka şeyi sayıyorsa sonucu kendi sorunmuş gibi alma.",
+      "markedText": "Başlık başka şeyi sayıyorsa sonucu kendi sorunmuş gibi alma.",
+      "words": [
+        {
+          "word": "Başlık",
+          "startMs": 209400,
+          "endMs": 210170
+        },
+        {
+          "word": "başka",
+          "startMs": 212000,
+          "endMs": 212540
+        },
+        {
+          "word": "şeyi",
+          "startMs": 212540,
+          "endMs": 213350
+        },
+        {
+          "word": "sayıyorsa",
+          "startMs": 213540,
+          "endMs": 214420
+        },
+        {
+          "word": "sonucu",
+          "startMs": 214860,
+          "endMs": 215670
+        },
+        {
+          "word": "kendi",
+          "startMs": 215900,
+          "endMs": 216730
+        },
+        {
+          "word": "sorunmuş",
+          "startMs": 218640,
+          "endMs": 220200
+        },
+        {
+          "word": "gibi",
+          "startMs": 221840,
+          "endMs": 222740
+        },
+        {
+          "word": "alma.",
+          "startMs": 222930,
+          "endMs": 223750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-3",
+      "startMs": 225420,
+      "endMs": 229700,
+      "pauseAfterMs": 1570,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 225420,
+          "endMs": 226150
+        },
+        {
+          "word": "Neler",
+          "startMs": 226250,
+          "endMs": 226740
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 226890,
+          "endMs": 228130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-3",
+      "startMs": 229700,
+      "endMs": 230960,
+      "pauseAfterMs": 740,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 229700,
+          "endMs": 230220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-3",
+      "startMs": 230960,
+      "endMs": 236580,
+      "pauseAfterMs": 1610,
+      "text": "Grafik bir iddia taşır.",
+      "markedText": "Grafik bir iddia taşır.",
+      "words": [
+        {
+          "word": "Grafik",
+          "startMs": 230960,
+          "endMs": 231800
+        },
+        {
+          "word": "bir",
+          "startMs": 232050,
+          "endMs": 232560
+        },
+        {
+          "word": "iddia",
+          "startMs": 232760,
+          "endMs": 233360
+        },
+        {
+          "word": "taşır.",
+          "startMs": 233490,
+          "endMs": 234970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 236580,
+      "endMs": 236920,
+      "pauseAfterMs": 0,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 236580,
+          "endMs": 236920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 236920,
+      "endMs": 244600,
+      "pauseAfterMs": 1590,
+      "text": "Eksen 0'dan başlamıyorsa fark şişer.",
+      "markedText": "Eksen 0'dan başlamıyorsa fark şişer.",
+      "words": [
+        {
+          "word": "Eksen",
+          "startMs": 236920,
+          "endMs": 237340
+        },
+        {
+          "word": "0'dan",
+          "startMs": 237450,
+          "endMs": 238170
+        },
+        {
+          "word": "başlamıyorsa",
+          "startMs": 239680,
+          "endMs": 241650
+        },
+        {
+          "word": "fark",
+          "startMs": 241950,
+          "endMs": 242390
+        },
+        {
+          "word": "şişer.",
+          "startMs": 242390,
+          "endMs": 243010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 244600,
+      "endMs": 244920,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 244600,
+          "endMs": 244920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 244920,
+      "endMs": 251870,
+      "pauseAfterMs": 160,
+      "text": "Dar grup, bütün topluluk değildir",
+      "markedText": "Dar grup, bütün topluluk değildir",
+      "words": [
+        {
+          "word": "Dar",
+          "startMs": 244920,
+          "endMs": 245380
+        },
+        {
+          "word": "grup,",
+          "startMs": 245630,
+          "endMs": 245970
+        },
+        {
+          "word": "bütün",
+          "startMs": 248590,
+          "endMs": 249160
+        },
+        {
+          "word": "topluluk",
+          "startMs": 249850,
+          "endMs": 250680
+        },
+        {
+          "word": "değildir",
+          "startMs": 250900,
+          "endMs": 251710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 251870,
+      "endMs": 264350,
+      "pauseAfterMs": 2130,
+      "text": "Yorum, eksen ve örneklem okunmadan sonuç sayılmaz",
+      "markedText": "Yorum, eksen ve örneklem okunmadan sonuç sayılmaz",
+      "words": [
+        {
+          "word": "Yorum,",
+          "startMs": 251870,
+          "endMs": 252430
+        },
+        {
+          "word": "eksen",
+          "startMs": 254100,
+          "endMs": 255000
+        },
+        {
+          "word": "ve",
+          "startMs": 255110,
+          "endMs": 255360
+        },
+        {
+          "word": "örneklem",
+          "startMs": 256230,
+          "endMs": 257650
+        },
+        {
+          "word": "okunmadan",
+          "startMs": 258640,
+          "endMs": 259780
+        },
+        {
+          "word": "sonuç",
+          "startMs": 260110,
+          "endMs": 260720
+        },
+        {
+          "word": "sayılmaz",
+          "startMs": 261350,
+          "endMs": 262220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 264350,
+      "endMs": 279900,
+      "pauseAfterMs": 1070,
+      "text": "Eksen 7'den başlayan afişte 1 puanlık farkın şiştiğini dersin.",
+      "markedText": "Eksen 7'den başlayan afişte 1 puanlık farkın şiştiğini dersin.",
+      "words": [
+        {
+          "word": "Eksen",
+          "startMs": 264350,
+          "endMs": 265290
+        },
+        {
+          "word": "7'den",
+          "startMs": 265610,
+          "endMs": 266820
+        },
+        {
+          "word": "başlayan",
+          "startMs": 267600,
+          "endMs": 268860
+        },
+        {
+          "word": "afişte",
+          "startMs": 269780,
+          "endMs": 271270
+        },
+        {
+          "word": "1",
+          "startMs": 272450,
+          "endMs": 272790
+        },
+        {
+          "word": "puanlık",
+          "startMs": 272860,
+          "endMs": 273430
+        },
+        {
+          "word": "farkın",
+          "startMs": 275220,
+          "endMs": 276490
+        },
+        {
+          "word": "şiştiğini",
+          "startMs": 276820,
+          "endMs": 277520
+        },
+        {
+          "word": "dersin.",
+          "startMs": 277570,
+          "endMs": 278830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 279900,
+      "endMs": 283520,
+      "pauseAfterMs": 580,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 279900,
+          "endMs": 281020
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 281670,
+          "endMs": 282940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 283520,
+      "endMs": 288150,
+      "pauseAfterMs": 170,
+      "text": "Harika bir iş çıkardık",
+      "markedText": "Harika bir iş çıkardık",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 283520,
+          "endMs": 284180
+        },
+        {
+          "word": "bir",
+          "startMs": 284230,
+          "endMs": 285060
+        },
+        {
+          "word": "iş",
+          "startMs": 285780,
+          "endMs": 286130
+        },
+        {
+          "word": "çıkardık",
+          "startMs": 286530,
+          "endMs": 287980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 288150,
+      "endMs": 292580,
+      "pauseAfterMs": 1010,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 288150,
+          "endMs": 288990
+        },
+        {
+          "word": "sıra",
+          "startMs": 289740,
+          "endMs": 290410
+        },
+        {
+          "word": "sende.",
+          "startMs": 290740,
+          "endMs": 291570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 292580,
+      "endMs": 305187,
+      "pauseAfterMs": 327,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 292580,
+          "endMs": 293680
+        },
+        {
+          "word": "bu",
+          "startMs": 294530,
+          "endMs": 294790
+        },
+        {
+          "word": "notları",
+          "startMs": 297240,
+          "endMs": 298130
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 298650,
+          "endMs": 299680
+        },
+        {
+          "word": "kendi",
+          "startMs": 300340,
+          "endMs": 301160
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 302220,
+          "endMs": 303670
+        },
+        {
+          "word": "anlat.",
+          "startMs": 303800,
+          "endMs": 304860
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

@@ -51,6 +51,7 @@ async function counts(client: Client, emails: string[]) {
     completions: string;
     certificates: string;
     attempts: string;
+    ledgerDebits: string;
   }>(
     `SELECT u.email,
             count(p.id)::text AS purchases,
@@ -58,7 +59,8 @@ async function counts(client: Client, emails: string[]) {
             count(p.id) FILTER (WHERE p.status = 'SETTLED' AND p.price_lock_id NOT LIKE 'sa_grant:%')::text AS commercial,
             (SELECT count(*) FROM academy_lesson_completions c WHERE c.user_id = u.id)::text AS completions,
             (SELECT count(*) FROM academy_certificates cert WHERE cert.user_id = u.id)::text AS certificates,
-            (SELECT count(*) FROM academy_exam_attempts a WHERE a.user_id = u.id)::text AS attempts
+            (SELECT count(*) FROM academy_exam_attempts a WHERE a.user_id = u.id)::text AS attempts,
+            (SELECT count(*) FROM ledger_entries le WHERE le.user_id = u.id AND le.purpose = 'academy-purchase' AND le.direction = 'DEBIT')::text AS "ledgerDebits"
      FROM public.users u
      LEFT JOIN academy_purchases p ON p.user_id = u.id
      WHERE lower(u.email) = ANY($1::text[])
@@ -81,11 +83,31 @@ async function reset(client: Client, emails: string[]): Promise<void> {
       await client.query("COMMIT");
       return;
     }
-    await client.query(`DELETE FROM academy_certificates WHERE user_id = ANY($1::text[])`, [ids]);
-    await client.query(`DELETE FROM academy_exam_attempts WHERE user_id = ANY($1::text[])`, [ids]);
-    await client.query(`DELETE FROM academy_lesson_completions WHERE user_id = ANY($1::text[])`, [ids]);
-    await client.query(`DELETE FROM academy_exam_sittings WHERE user_id = ANY($1::text[])`, [ids]);
-    await client.query(`DELETE FROM academy_purchases WHERE user_id = ANY($1::text[])`, [ids]);
+    // A1 kalkanı: defterde academy-purchase DEBIT varken satın alma satırı silinemez
+    // (`supabase/migrations/20261026220000_academy_purchase_ledger_guard.sql`).
+    // Bu betik defter yazmaz; defteri olan hesap kapatılamaz, açıkça atlanır.
+    const blocked = await client.query<{ id: string; email: string; n: string }>(
+      `SELECT u.id, u.email, count(le.id)::text AS n
+       FROM public.users u
+       JOIN ledger_entries le
+         ON le.user_id = u.id
+        AND le.purpose = 'academy-purchase'
+        AND le.direction = 'DEBIT'
+       WHERE u.id = ANY($1::text[])
+       GROUP BY u.id, u.email`,
+      [ids],
+    );
+    const blockedIds = new Set(blocked.rows.map((row) => row.id));
+    const deletable = ids.filter((id) => !blockedIds.has(id));
+    if (deletable.length === 0) {
+      await client.query("COMMIT");
+      return;
+    }
+    await client.query(`DELETE FROM academy_certificates WHERE user_id = ANY($1::text[])`, [deletable]);
+    await client.query(`DELETE FROM academy_exam_attempts WHERE user_id = ANY($1::text[])`, [deletable]);
+    await client.query(`DELETE FROM academy_lesson_completions WHERE user_id = ANY($1::text[])`, [deletable]);
+    await client.query(`DELETE FROM academy_exam_sittings WHERE user_id = ANY($1::text[])`, [deletable]);
+    await client.query(`DELETE FROM academy_purchases WHERE user_id = ANY($1::text[])`, [deletable]);
     await client.query("COMMIT");
   } catch (error) {
     await client.query("ROLLBACK");

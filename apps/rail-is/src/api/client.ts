@@ -77,6 +77,7 @@ export type V1HttpClient = {
   getSession(): Promise<RailV1OkBody<RailV1SessionData>>;
   getHealth(): Promise<RailV1OkBody<Record<string, unknown>>>;
   getAcademyPulse(): Promise<RailV1OkBody<Record<string, unknown>>>;
+  getAcademyCatalog(): Promise<RailV1OkBody<Record<string, unknown>>>;
   getCareerPulse(): Promise<RailV1OkBody<Record<string, unknown>>>;
   getCareerVisas(): Promise<RailV1OkBody<Record<string, unknown>>>;
   getCertificate(hash: string): Promise<RailV1OkBody<Record<string, unknown>>>;
@@ -345,6 +346,12 @@ export function createV1HttpClient(options: V1HttpClientOptions): V1HttpClient {
     async getAcademyPulse() {
       return request<Record<string, unknown>>({
         path: "/api/v1/academy/pulse",
+        method: "GET",
+      });
+    },
+    async getAcademyCatalog() {
+      return request<Record<string, unknown>>({
+        path: "/api/v1/academy/catalog",
         method: "GET",
       });
     },

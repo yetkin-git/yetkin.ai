@@ -174,9 +174,12 @@ export function AiChatWidget({
             <IconMessage className="h-4 w-4" />
           </span>
           <div className="min-w-0 flex-1">
-            <h2 id={`${titleId}-heading`} className="truncate text-sm font-semibold tracking-tight">
+            {/* Bu bir iletişim kutusu başlığıdır, sayfa bölümü değil. `<h2>` her sayfanın
+                başlık ağacına H1'den önce sahte bir ikinci seviye sokuyordu.
+                `aria-labelledby` bir id'ye bağlanır; başlık etiketi olmak zorunda değildir. */}
+            <p id={`${titleId}-heading`} className="truncate text-sm font-semibold tracking-tight">
               {ASSISTANT_SEN.title}
-            </h2>
+            </p>
             <p className="truncate text-[11px] text-white/75">{ASSISTANT_SEN.role}</p>
           </div>
           <button

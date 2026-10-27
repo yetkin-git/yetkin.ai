@@ -21,6 +21,7 @@ import {
   RAIL_VERSION_HEADER_REQUIRED,
 } from "@/lib/kernel/http/api-v1";
 import { RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE, RAIL_V1_HOPS, isRailV1HopForbiddenOnDron, resolveRailV1HopPaths } from "@/lib/kernel/http/v1-contract";
+import { RAIL_V1_HOP_META_COUNT } from "@/lib/kernel/http/api-route-census";
 import { RAIL_V1_ENVELOPE_KEYS } from "@/lib/kernel/http/v1-envelope";
 import { assertPublishedRailV1Hop } from "@/lib/kernel/http/v1-hop-gate";
 import { isFrozenRoomApi } from "@/lib/kernel/security/edge-api-auth";
@@ -649,7 +650,7 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
   it("Dron Gün 0 istemci allowlist'i donuk durur; server sicili freelancer basmaz (PayTR B2C)", () => {
     expect([...DRON_ENVELOPE_KEYS]).toEqual([...RAIL_V1_ENVELOPE_KEYS]);
     expect(DRON_ACCEPT_INSUFFICIENT).toBe(RAIL_V1_ACCEPT_INSUFFICIENT_BALANCE);
-    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(29);
+    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(RAIL_V1_HOP_META_COUNT);
     expect(assertPublishedRailV1Hop(RAIL_IS_DAY0_HOPS.session.path, "GET").id).toBe("auth-session");
     expect(assertPublishedRailV1Hop(RAIL_IS_DAY0_HOPS.walletStrip.path, "GET").id).toBe(
       "wallet-strip",
@@ -674,7 +675,27 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
     }
     expect(assertPublishedRailV1Hop("/api/v1/wallet/top-up", "POST").id).toBe("wallet-top-up");
     const hopsSrc = readSrc("apps/rail-is/src/api/hops.ts");
-    expect(hopsSrc).toContain("/api/v1/wallet/top-up");
+    // `hops.ts` yol listesini elle yazmaz; `RAIL_V1_HOPS_META` SSOT'undan türetir.
+    // Sabit dize aramak yanlış sinyal olurdu (dosya artık türetilmiş).
+    expect(hopsSrc).toContain("@yetkin/kernel/http/v1-hops-meta");
+    expect(hopsSrc).toContain("RAIL_V1_HOPS_META");
+    expect(RAIL_IS_DAY0_HOPS.walletTopUp).toEqual({
+      method: "POST",
+      path: "/api/v1/wallet/top-up",
+    });
+    // Faz 3 okuma hop'ları native allowlist'te görünür.
+    expect(RAIL_IS_DAY0_HOPS.juniorShelves).toEqual({
+      method: "GET",
+      path: "/api/v1/junior/shelves",
+    });
+    expect(RAIL_IS_DAY0_HOPS.juniorProgressRead).toEqual({
+      method: "GET",
+      path: "/api/v1/junior/progress",
+    });
+    expect(RAIL_IS_DAY0_HOPS.academyCatalog).toEqual({
+      method: "GET",
+      path: "/api/v1/academy/catalog",
+    });
   });
 
   it("Rail İş dronu EAS profili taşır; CI eas/eas-cli basmaz", () => {

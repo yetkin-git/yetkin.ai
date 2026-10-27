@@ -1,0 +1,26 @@
+{
+  "key": "jr_06_ing-1",
+  "title": "Saate göre selam",
+  "teaser": "İngilizce selam, günün saatine göre seçilir. Kavramsal Anlayış, hangi selamın hangi saate ait olduğunu söyler. İfade Gücü, o selamı neden seçtiğini kendi sözlerinle anlatmandır.",
+  "welcome": "Bugün seninle İngilizcede selamlaşmayı öğreneceğiz.",
+  "concept": "Bugün seninle İngilizce selamı saate bağlıyoruz. Good morning sabah selamıdır. Good afternoon öğleden sonra selamıdır. Good evening akşam selamıdır. Hello her saatte kullanılır. Karşılık, duyulan selamın aynısıdır.\n\nHatırlarsan, saat selamı seçiyordu. Hadi şimdi ekrandaki çizime birlikte bakalım! Sabah kapıda bir arkadaş duruyor. Sen Good morning dersin. Arkadaşın da Good morning der.\n\nTuzaklara Düşme! Birlikte bakalım. Good night ilk selam değildir. Good night, ayrılırken söylenen iyi geceler sözüdür. Akşam ilk görüşte Good evening dersin.",
+  "example": "Sabah gördüğün kişiye Good morning dersin. Bu söz, günaydın demektir. Öğleden sonra Good afternoon dersin. Akşam Good evening dersin. Hello, her saatte söylenebilir. Hello, merhaba demektir. Hadi şimdi ekrandaki çizime birlikte bakalım! Karşında bir arkadaş duruyor. Sen Good morning diyorsun. O da Good morning diyor. Selamın karşılığı aynı selamdır. Hatırlarsan, selam saate göre değişiyordu. Tuzaklara Düşme! Birlikte bakalım. Good night, iyi geceler demektir. Bu söz vedadır. Yeni gördüğün kişiye Good night deme.",
+  "warning": "Good night, iyi geceler demektir.",
+  "life": "Sabah okul kapısında Good morning dersin. Öğleden sonra derse girerken Good afternoon dersin. Akşam komşuya Good evening dersin. Hatırlarsan, Hello her saatte duruyordu. Telefonda da aynı sözler kullanılır. Tuzaklara Düşme! Birlikte bakalım. Uyku vaktinde vedalaşırken Good night dersin. O söz, yeni bir selamın yerine geçmez.",
+  "recap": [
+    "Good morning sabah selamıdır.",
+    "Good afternoon öğleden sonra selamıdır.",
+    "Good evening akşam selamıdır."
+  ],
+  "conceptSeal": "Selam, günün saatine göre seçilir.",
+  "voiceSeal": "Hangi selamı neden seçtiğini kendi sözlerinle söylersin.",
+  "outcomes": [
+    "Good morning sabah selamıdır.",
+    "Good afternoon öğleden sonra selamıdır.",
+    "Good evening akşam selamıdır.",
+    "Good night vedadır. İlk selam değildir."
+  ],
+  "scene": "elective",
+  "hint": "trap",
+  "band": "draft"
+}

@@ -38,8 +38,7 @@ import {
   mintWalletCheckoutPassport,
 } from "@/lib/kernel/payments/wallet-checkout-passport";
 import { tryGetPaytrIframeUrl } from "@/lib/kernel/payments/paytr/iframe-embed";
-import { FUNNEL_CHECKOUT_INTENT_STEP } from "@/lib/kernel/admin/funnel-constants";
-import { recordFunnelDailyStep } from "@/lib/kernel/admin/funnel-counter";
+import { recordCheckoutIntentStep } from "@/lib/kernel/admin/funnel-checkout-intent";
 import {
   applyHttpRateLimit,
   HTTP_RATE_LIMITS,
@@ -219,7 +218,9 @@ export async function POST(request: Request) {
         const ipKind = classifyForwardedIp(userIp);
         logEvent({
           level:
-            process.env.NODE_ENV === "production" && ipKind !== "public_ipv4" ? "warn" : "info",
+            process.env.NODE_ENV === "production" && ipKind !== "public_ipv4" && ipKind !== "ipv6"
+              ? "warn"
+              : "info",
           event: "paytr.user_ip.resolved",
           requestId,
           userId: user.id,
@@ -378,8 +379,15 @@ export async function POST(request: Request) {
             route: WALLET_TOP_UP_ROUTE,
           });
         }
-        if (courseSlug && (iframeUrl || checkoutPassportUrl)) {
-          await recordFunnelDailyStep(FUNNEL_CHECKOUT_INTENT_STEP);
+        // checkout_intent — kasa ekranı AÇILMADAN yazılır.
+        // Buraya yalnız gerçekten açılabilir bir ödeme ekranı (iFrame veya pasaport)
+        // üretildiğinde gelinir: mock kasa, fail-closed ve ölü uçlar yukarıda döndü.
+        // Aynı gün + aynı yüzey + aynı hedef için süreç içinde tekrar basılmaz.
+        if (iframeUrl || checkoutPassportUrl) {
+          await recordCheckoutIntentStep({
+            surface: courseSlug ? "academy-license" : "wallet-top-up",
+            targetSlug: courseSlug ?? WALLET_TOP_UP_PURPOSE,
+          });
         }
         logEvent({
           level: "info",

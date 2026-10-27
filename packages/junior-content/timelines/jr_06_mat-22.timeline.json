@@ -1,0 +1,1701 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_mat-22",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Merkez açı ve gördüğü yay",
+  "grade": 6,
+  "subject": "Matematik",
+  "teacher": {
+    "name": "Selim",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_mat-22.mp3",
+    "durationMs": 285732,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 114830
+    },
+    {
+      "id": "ch-2",
+      "title": "Merkez açı",
+      "startMs": 114830,
+      "endMs": 165600
+    },
+    {
+      "id": "ch-3",
+      "title": "Kapanış",
+      "startMs": 165600,
+      "endMs": 285732
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4190,
+      "pauseAfterMs": 820,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 210,
+          "endMs": 1340
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1870,
+          "endMs": 2370
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2550,
+          "endMs": 3370
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "circle-measure",
+            "title": "Merkez açı",
+            "subtitle": "Yay ölçüsü"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4190,
+      "endMs": 9110,
+      "pauseAfterMs": 730,
+      "text": "Ben Matematik öğretmenin Selim.",
+      "markedText": "Ben Matematik öğretmenin Selim.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4190,
+          "endMs": 4500
+        },
+        {
+          "word": "Matematik",
+          "startMs": 4720,
+          "endMs": 5660
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6600,
+          "endMs": 7410
+        },
+        {
+          "word": "Selim.",
+          "startMs": 7470,
+          "endMs": 8380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 9110,
+      "endMs": 21070,
+      "pauseAfterMs": 380,
+      "text": "Bugün merkezdeki açının çember üzerinde hangi yayı gördüğünü ölçeceğiz.",
+      "markedText": "Bugün merkezdeki açının çember üzerinde hangi yayı gördüğünü ölçeceğiz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 9110,
+          "endMs": 9490
+        },
+        {
+          "word": "merkezdeki",
+          "startMs": 9620,
+          "endMs": 10780
+        },
+        {
+          "word": "açının",
+          "startMs": 11490,
+          "endMs": 11960
+        },
+        {
+          "word": "çember",
+          "startMs": 12000,
+          "endMs": 13100
+        },
+        {
+          "word": "üzerinde",
+          "startMs": 13810,
+          "endMs": 14420
+        },
+        {
+          "word": "hangi",
+          "startMs": 14910,
+          "endMs": 15410
+        },
+        {
+          "word": "yayı",
+          "startMs": 15480,
+          "endMs": 15990
+        },
+        {
+          "word": "gördüğünü",
+          "startMs": 16720,
+          "endMs": 18160
+        },
+        {
+          "word": "ölçeceğiz.",
+          "startMs": 19220,
+          "endMs": 20690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 21070,
+      "endMs": 26950,
+      "pauseAfterMs": 810,
+      "text": "Okul saatinin kolları merkezden çıkar.",
+      "markedText": "Okul saatinin kolları merkezden çıkar.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 21070,
+          "endMs": 21360
+        },
+        {
+          "word": "saatinin",
+          "startMs": 21560,
+          "endMs": 22380
+        },
+        {
+          "word": "kolları",
+          "startMs": 23100,
+          "endMs": 24300
+        },
+        {
+          "word": "merkezden",
+          "startMs": 24610,
+          "endMs": 25270
+        },
+        {
+          "word": "çıkar.",
+          "startMs": 25500,
+          "endMs": 26140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 26950,
+      "endMs": 32220,
+      "pauseAfterMs": 740,
+      "text": "Kolların arası bir merkez açıdır.",
+      "markedText": "Kolların arası bir merkez açıdır.",
+      "words": [
+        {
+          "word": "Kolların",
+          "startMs": 26950,
+          "endMs": 27570
+        },
+        {
+          "word": "arası",
+          "startMs": 27650,
+          "endMs": 28230
+        },
+        {
+          "word": "bir",
+          "startMs": 28960,
+          "endMs": 29260
+        },
+        {
+          "word": "merkez",
+          "startMs": 29750,
+          "endMs": 30180
+        },
+        {
+          "word": "açıdır.",
+          "startMs": 30490,
+          "endMs": 31480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 32220,
+      "endMs": 38520,
+      "pauseAfterMs": 720,
+      "text": "Bunu okul bahçesindeki yelkovanda görürsün.",
+      "markedText": "Bunu okul bahçesindeki yelkovanda görürsün.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 32220,
+          "endMs": 32490
+        },
+        {
+          "word": "okul",
+          "startMs": 32610,
+          "endMs": 32920
+        },
+        {
+          "word": "bahçesindeki",
+          "startMs": 33020,
+          "endMs": 33930
+        },
+        {
+          "word": "yelkovanda",
+          "startMs": 34940,
+          "endMs": 36160
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 36630,
+          "endMs": 37800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 38520,
+      "endMs": 53240,
+      "pauseAfterMs": 730,
+      "text": "Kutunun yuvarlak kapağında iki ip merkezden kenara giderse aradaki dilim bir yaydır.",
+      "markedText": "Kutunun yuvarlak kapağında iki ip merkezden kenara giderse aradaki dilim bir yaydır.",
+      "words": [
+        {
+          "word": "Kutunun",
+          "startMs": 38520,
+          "endMs": 39970
+        },
+        {
+          "word": "yuvarlak",
+          "startMs": 40230,
+          "endMs": 41230
+        },
+        {
+          "word": "kapağında",
+          "startMs": 41880,
+          "endMs": 42650
+        },
+        {
+          "word": "iki",
+          "startMs": 42780,
+          "endMs": 43570
+        },
+        {
+          "word": "ip",
+          "startMs": 44270,
+          "endMs": 44360
+        },
+        {
+          "word": "merkezden",
+          "startMs": 44470,
+          "endMs": 45760
+        },
+        {
+          "word": "kenara",
+          "startMs": 46070,
+          "endMs": 46670
+        },
+        {
+          "word": "giderse",
+          "startMs": 46810,
+          "endMs": 47450
+        },
+        {
+          "word": "aradaki",
+          "startMs": 48270,
+          "endMs": 48970
+        },
+        {
+          "word": "dilim",
+          "startMs": 49150,
+          "endMs": 50000
+        },
+        {
+          "word": "bir",
+          "startMs": 51070,
+          "endMs": 51230
+        },
+        {
+          "word": "yaydır.",
+          "startMs": 51310,
+          "endMs": 52510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 53240,
+      "endMs": 62530,
+      "pauseAfterMs": 700,
+      "text": "Dilim 90 dereceyse kapak dört eşit paydan biridir.",
+      "markedText": "Dilim 90 dereceyse kapak dört eşit paydan biridir.",
+      "words": [
+        {
+          "word": "Dilim",
+          "startMs": 53240,
+          "endMs": 53830
+        },
+        {
+          "word": "90",
+          "startMs": 53920,
+          "endMs": 54840
+        },
+        {
+          "word": "dereceyse",
+          "startMs": 55450,
+          "endMs": 56630
+        },
+        {
+          "word": "kapak",
+          "startMs": 56710,
+          "endMs": 57740
+        },
+        {
+          "word": "dört",
+          "startMs": 58560,
+          "endMs": 58810
+        },
+        {
+          "word": "eşit",
+          "startMs": 59420,
+          "endMs": 59750
+        },
+        {
+          "word": "paydan",
+          "startMs": 59750,
+          "endMs": 60320
+        },
+        {
+          "word": "biridir.",
+          "startMs": 60620,
+          "endMs": 61830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 62530,
+      "endMs": 68620,
+      "pauseAfterMs": 640,
+      "text": "Merkez açının köşesi çemberin merkezidir.",
+      "markedText": "Merkez açının köşesi çemberin merkezidir.",
+      "words": [
+        {
+          "word": "Merkez",
+          "startMs": 62530,
+          "endMs": 63070
+        },
+        {
+          "word": "açının",
+          "startMs": 63580,
+          "endMs": 64150
+        },
+        {
+          "word": "köşesi",
+          "startMs": 64440,
+          "endMs": 65610
+        },
+        {
+          "word": "çemberin",
+          "startMs": 66280,
+          "endMs": 66790
+        },
+        {
+          "word": "merkezidir.",
+          "startMs": 66910,
+          "endMs": 67980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 68620,
+      "endMs": 75130,
+      "pauseAfterMs": 900,
+      "text": "Kollar çemberi iki noktada keser.",
+      "markedText": "Kollar çemberi iki noktada keser.",
+      "words": [
+        {
+          "word": "Kollar",
+          "startMs": 68620,
+          "endMs": 69780
+        },
+        {
+          "word": "çemberi",
+          "startMs": 69960,
+          "endMs": 70480
+        },
+        {
+          "word": "iki",
+          "startMs": 71290,
+          "endMs": 71880
+        },
+        {
+          "word": "noktada",
+          "startMs": 72420,
+          "endMs": 73180
+        },
+        {
+          "word": "keser.",
+          "startMs": 73410,
+          "endMs": 74230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 75130,
+      "endMs": 85800,
+      "pauseAfterMs": 640,
+      "text": "Bu iki nokta arasındaki yay, açının gördüğü yaydır.",
+      "markedText": "Bu iki nokta arasındaki yay, açının gördüğü yaydır.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 75130,
+          "endMs": 75320
+        },
+        {
+          "word": "iki",
+          "startMs": 75470,
+          "endMs": 76170
+        },
+        {
+          "word": "nokta",
+          "startMs": 76890,
+          "endMs": 77740
+        },
+        {
+          "word": "arasındaki",
+          "startMs": 78220,
+          "endMs": 79090
+        },
+        {
+          "word": "yay,",
+          "startMs": 79250,
+          "endMs": 79800
+        },
+        {
+          "word": "açının",
+          "startMs": 80530,
+          "endMs": 82400
+        },
+        {
+          "word": "gördüğü",
+          "startMs": 83120,
+          "endMs": 83850
+        },
+        {
+          "word": "yaydır.",
+          "startMs": 83890,
+          "endMs": 85160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 85800,
+      "endMs": 93870,
+      "pauseAfterMs": 990,
+      "text": "Yayın ölçü birimi de derecedir ve açıya eşittir.",
+      "markedText": "Yayın ölçü birimi de derecedir ve açıya eşittir.",
+      "words": [
+        {
+          "word": "Yayın",
+          "startMs": 85800,
+          "endMs": 86170
+        },
+        {
+          "word": "ölçü",
+          "startMs": 86430,
+          "endMs": 86610
+        },
+        {
+          "word": "birimi",
+          "startMs": 86710,
+          "endMs": 87810
+        },
+        {
+          "word": "de",
+          "startMs": 88500,
+          "endMs": 88630
+        },
+        {
+          "word": "derecedir",
+          "startMs": 88720,
+          "endMs": 89830
+        },
+        {
+          "word": "ve",
+          "startMs": 90040,
+          "endMs": 90180
+        },
+        {
+          "word": "açıya",
+          "startMs": 90290,
+          "endMs": 91080
+        },
+        {
+          "word": "eşittir.",
+          "startMs": 92080,
+          "endMs": 92880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-1",
+      "startMs": 93870,
+      "endMs": 99760,
+      "pauseAfterMs": 700,
+      "text": "Tam çember 360 derecedir.",
+      "markedText": "Tam çember 360 derecedir.",
+      "words": [
+        {
+          "word": "Tam",
+          "startMs": 93870,
+          "endMs": 94040
+        },
+        {
+          "word": "çember",
+          "startMs": 94470,
+          "endMs": 95680
+        },
+        {
+          "word": "360",
+          "startMs": 96560,
+          "endMs": 97780
+        },
+        {
+          "word": "derecedir.",
+          "startMs": 97950,
+          "endMs": 99060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-1",
+      "startMs": 99760,
+      "endMs": 109780,
+      "pauseAfterMs": 930,
+      "text": "90 derecelik merkez açı, çemberin dörtte birini görür.",
+      "markedText": "90 derecelik merkez açı, çemberin dörtte birini görür.",
+      "words": [
+        {
+          "word": "90",
+          "startMs": 99760,
+          "endMs": 100030
+        },
+        {
+          "word": "derecelik",
+          "startMs": 100560,
+          "endMs": 101520
+        },
+        {
+          "word": "merkez",
+          "startMs": 101780,
+          "endMs": 102680
+        },
+        {
+          "word": "açı,",
+          "startMs": 103420,
+          "endMs": 103630
+        },
+        {
+          "word": "çemberin",
+          "startMs": 104070,
+          "endMs": 104610
+        },
+        {
+          "word": "dörtte",
+          "startMs": 104840,
+          "endMs": 105620
+        },
+        {
+          "word": "birini",
+          "startMs": 106570,
+          "endMs": 107500
+        },
+        {
+          "word": "görür.",
+          "startMs": 108100,
+          "endMs": 108850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-1",
+      "startMs": 109780,
+      "endMs": 114830,
+      "pauseAfterMs": 640,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 109780,
+          "endMs": 110120
+        },
+        {
+          "word": "şimdi",
+          "startMs": 110200,
+          "endMs": 110990
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 111300,
+          "endMs": 112000
+        },
+        {
+          "word": "çizime",
+          "startMs": 112080,
+          "endMs": 112450
+        },
+        {
+          "word": "birlikte",
+          "startMs": 112450,
+          "endMs": 113130
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 113350,
+          "endMs": 114190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 114830,
+      "endMs": 165600,
+      "pauseAfterMs": 610,
+      "text": "Merkez açı 90 derece olsun. Gördüğü yay da 90 derecedir. Bu, 360 derecenin dörtte biridir. Merkez açı 180 derece ise yay yarım çemberdir. Merkez açı 60 derece ise yay 60 derecedir ve tam turun altıda birine yakındır. 360 bölü 60, 6 eder.",
+      "markedText": "{@showArc} Merkez açı 90 derece olsun. Gördüğü yay da 90 derecedir. Bu, 360 derecenin dörtte biridir. Merkez açı 180 derece ise yay yarım çemberdir. Merkez açı 60 derece ise yay 60 derecedir ve tam turun altıda birine yakındır. 360 bölü 60, 6 eder.",
+      "words": [
+        {
+          "word": "Merkez",
+          "startMs": 114830,
+          "endMs": 115250
+        },
+        {
+          "word": "açı",
+          "startMs": 115690,
+          "endMs": 116130
+        },
+        {
+          "word": "90",
+          "startMs": 116330,
+          "endMs": 116900
+        },
+        {
+          "word": "derece",
+          "startMs": 117410,
+          "endMs": 118310
+        },
+        {
+          "word": "olsun.",
+          "startMs": 118800,
+          "endMs": 119670
+        },
+        {
+          "word": "Gördüğü",
+          "startMs": 120760,
+          "endMs": 121380
+        },
+        {
+          "word": "yay",
+          "startMs": 121470,
+          "endMs": 121770
+        },
+        {
+          "word": "da",
+          "startMs": 121920,
+          "endMs": 122060
+        },
+        {
+          "word": "90",
+          "startMs": 122270,
+          "endMs": 122620
+        },
+        {
+          "word": "derecedir.",
+          "startMs": 122720,
+          "endMs": 124170
+        },
+        {
+          "word": "Bu,",
+          "startMs": 125430,
+          "endMs": 125620
+        },
+        {
+          "word": "360",
+          "startMs": 125620,
+          "endMs": 127360
+        },
+        {
+          "word": "derecenin",
+          "startMs": 128460,
+          "endMs": 129820
+        },
+        {
+          "word": "dörtte",
+          "startMs": 130090,
+          "endMs": 131060
+        },
+        {
+          "word": "biridir.",
+          "startMs": 132170,
+          "endMs": 133600
+        },
+        {
+          "word": "Merkez",
+          "startMs": 134730,
+          "endMs": 135250
+        },
+        {
+          "word": "açı",
+          "startMs": 135400,
+          "endMs": 135890
+        },
+        {
+          "word": "180",
+          "startMs": 136010,
+          "endMs": 137460
+        },
+        {
+          "word": "derece",
+          "startMs": 138340,
+          "endMs": 139460
+        },
+        {
+          "word": "ise",
+          "startMs": 139740,
+          "endMs": 140110
+        },
+        {
+          "word": "yay",
+          "startMs": 140110,
+          "endMs": 140530
+        },
+        {
+          "word": "yarım",
+          "startMs": 141940,
+          "endMs": 142710
+        },
+        {
+          "word": "çemberdir.",
+          "startMs": 142850,
+          "endMs": 144160
+        },
+        {
+          "word": "Merkez",
+          "startMs": 145760,
+          "endMs": 146290
+        },
+        {
+          "word": "açı",
+          "startMs": 146290,
+          "endMs": 146620
+        },
+        {
+          "word": "60",
+          "startMs": 146770,
+          "endMs": 147240
+        },
+        {
+          "word": "derece",
+          "startMs": 147370,
+          "endMs": 148460
+        },
+        {
+          "word": "ise",
+          "startMs": 149690,
+          "endMs": 150000
+        },
+        {
+          "word": "yay",
+          "startMs": 150050,
+          "endMs": 150400
+        },
+        {
+          "word": "60",
+          "startMs": 150510,
+          "endMs": 151070
+        },
+        {
+          "word": "derecedir",
+          "startMs": 151180,
+          "endMs": 151860
+        },
+        {
+          "word": "ve",
+          "startMs": 151950,
+          "endMs": 152050
+        },
+        {
+          "word": "tam",
+          "startMs": 152090,
+          "endMs": 152410
+        },
+        {
+          "word": "turun",
+          "startMs": 152730,
+          "endMs": 153280
+        },
+        {
+          "word": "altıda",
+          "startMs": 154160,
+          "endMs": 154440
+        },
+        {
+          "word": "birine",
+          "startMs": 154620,
+          "endMs": 155620
+        },
+        {
+          "word": "yakındır.",
+          "startMs": 156100,
+          "endMs": 157360
+        },
+        {
+          "word": "360",
+          "startMs": 158730,
+          "endMs": 160200
+        },
+        {
+          "word": "bölü",
+          "startMs": 160890,
+          "endMs": 161300
+        },
+        {
+          "word": "60,",
+          "startMs": 161710,
+          "endMs": 162810
+        },
+        {
+          "word": "6",
+          "startMs": 163790,
+          "endMs": 164200
+        },
+        {
+          "word": "eder.",
+          "startMs": 164340,
+          "endMs": 164990
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 114830,
+          "op": "SHOW_CIRCLE",
+          "hook": "showArc",
+          "params": {
+            "centralAngle": 90,
+            "arcMeasure": 90,
+            "fullTurn": 360,
+            "semicircle": 180,
+            "slice": 60,
+            "parts": 6,
+            "marks": [
+              {
+                "slot": "angle",
+                "value": 90,
+                "atMs": 116330
+              },
+              {
+                "slot": "arc",
+                "value": 90,
+                "atMs": 122270
+              },
+              {
+                "slot": "full",
+                "value": 360,
+                "atMs": 125620
+              },
+              {
+                "slot": "half",
+                "value": 180,
+                "atMs": 136010
+              },
+              {
+                "slot": "slice",
+                "value": 60,
+                "atMs": 146770
+              },
+              {
+                "slot": "slice-repeat",
+                "value": 60,
+                "atMs": 150510
+              },
+              {
+                "slot": "full-repeat",
+                "value": 360,
+                "atMs": 158730
+              },
+              {
+                "slot": "divisor",
+                "value": 60,
+                "atMs": 161710
+              },
+              {
+                "slot": "parts",
+                "value": 6,
+                "atMs": 163790
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-3",
+      "startMs": 165600,
+      "endMs": 167700,
+      "pauseAfterMs": 910,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 165600,
+          "endMs": 165940
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 166050,
+          "endMs": 166790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-3",
+      "startMs": 167700,
+      "endMs": 172360,
+      "pauseAfterMs": 1350,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 167700,
+          "endMs": 168050
+        },
+        {
+          "word": "bir",
+          "startMs": 168140,
+          "endMs": 168360
+        },
+        {
+          "word": "kez",
+          "startMs": 168470,
+          "endMs": 168830
+        },
+        {
+          "word": "görünce",
+          "startMs": 168920,
+          "endMs": 169460
+        },
+        {
+          "word": "kolayca",
+          "startMs": 169570,
+          "endMs": 169950
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 170100,
+          "endMs": 171010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-3",
+      "startMs": 172360,
+      "endMs": 184570,
+      "pauseAfterMs": 1090,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 172360,
+          "endMs": 172560
+        },
+        {
+          "word": "sevgili",
+          "startMs": 172680,
+          "endMs": 173000
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 173090,
+          "endMs": 173680
+        },
+        {
+          "word": "işte",
+          "startMs": 173900,
+          "endMs": 174290
+        },
+        {
+          "word": "tam",
+          "startMs": 174430,
+          "endMs": 174570
+        },
+        {
+          "word": "bu",
+          "startMs": 174780,
+          "endMs": 174890
+        },
+        {
+          "word": "noktada",
+          "startMs": 175800,
+          "endMs": 176610
+        },
+        {
+          "word": "dikkat",
+          "startMs": 176900,
+          "endMs": 177740
+        },
+        {
+          "word": "etmen",
+          "startMs": 178040,
+          "endMs": 179240
+        },
+        {
+          "word": "gereken",
+          "startMs": 180390,
+          "endMs": 181200
+        },
+        {
+          "word": "kilit",
+          "startMs": 181920,
+          "endMs": 182260
+        },
+        {
+          "word": "nokta.",
+          "startMs": 182340,
+          "endMs": 183480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-3",
+      "startMs": 184570,
+      "endMs": 191000,
+      "pauseAfterMs": 1340,
+      "text": "Yayın uzunluğunu santimetre sanma.",
+      "markedText": "Yayın uzunluğunu santimetre sanma.",
+      "words": [
+        {
+          "word": "Yayın",
+          "startMs": 184570,
+          "endMs": 185090
+        },
+        {
+          "word": "uzunluğunu",
+          "startMs": 185250,
+          "endMs": 186750
+        },
+        {
+          "word": "santimetre",
+          "startMs": 187670,
+          "endMs": 188590
+        },
+        {
+          "word": "sanma.",
+          "startMs": 188790,
+          "endMs": 189660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-3",
+      "startMs": 191000,
+      "endMs": 198620,
+      "pauseAfterMs": 1130,
+      "text": "Buradaki 90 derece bir ölçü açısıdır.",
+      "markedText": "Buradaki 90 derece bir ölçü açısıdır.",
+      "words": [
+        {
+          "word": "Buradaki",
+          "startMs": 191000,
+          "endMs": 192080
+        },
+        {
+          "word": "90",
+          "startMs": 192380,
+          "endMs": 192850
+        },
+        {
+          "word": "derece",
+          "startMs": 192990,
+          "endMs": 193440
+        },
+        {
+          "word": "bir",
+          "startMs": 193550,
+          "endMs": 194600
+        },
+        {
+          "word": "ölçü",
+          "startMs": 195930,
+          "endMs": 196430
+        },
+        {
+          "word": "açısıdır.",
+          "startMs": 196530,
+          "endMs": 197490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-3",
+      "startMs": 198620,
+      "endMs": 206010,
+      "pauseAfterMs": 1730,
+      "text": "Çevre uzunluğu ayrı bir cetvel işidir.",
+      "markedText": "Çevre uzunluğu ayrı bir cetvel işidir.",
+      "words": [
+        {
+          "word": "Çevre",
+          "startMs": 198620,
+          "endMs": 199020
+        },
+        {
+          "word": "uzunluğu",
+          "startMs": 199410,
+          "endMs": 200380
+        },
+        {
+          "word": "ayrı",
+          "startMs": 201590,
+          "endMs": 202200
+        },
+        {
+          "word": "bir",
+          "startMs": 202350,
+          "endMs": 202580
+        },
+        {
+          "word": "cetvel",
+          "startMs": 202710,
+          "endMs": 203110
+        },
+        {
+          "word": "işidir.",
+          "startMs": 203180,
+          "endMs": 204280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-3",
+      "startMs": 206010,
+      "endMs": 213680,
+      "pauseAfterMs": 1280,
+      "text": "Merkezde durmayan açı, merkez açı değildir.",
+      "markedText": "Merkezde durmayan açı, merkez açı değildir.",
+      "words": [
+        {
+          "word": "Merkezde",
+          "startMs": 206010,
+          "endMs": 206840
+        },
+        {
+          "word": "durmayan",
+          "startMs": 207080,
+          "endMs": 208230
+        },
+        {
+          "word": "açı,",
+          "startMs": 208390,
+          "endMs": 209480
+        },
+        {
+          "word": "merkez",
+          "startMs": 210480,
+          "endMs": 210860
+        },
+        {
+          "word": "açı",
+          "startMs": 210950,
+          "endMs": 211210
+        },
+        {
+          "word": "değildir.",
+          "startMs": 211370,
+          "endMs": 212400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-3",
+      "startMs": 213680,
+      "endMs": 217610,
+      "pauseAfterMs": 1080,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 213680,
+          "endMs": 214150
+        },
+        {
+          "word": "Neler",
+          "startMs": 214260,
+          "endMs": 215280
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 215690,
+          "endMs": 216530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-3",
+      "startMs": 217610,
+      "endMs": 218000,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 217610,
+          "endMs": 218000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-3",
+      "startMs": 218000,
+      "endMs": 226050,
+      "pauseAfterMs": 1200,
+      "text": "Merkez açının köşesi çemberin merkezindedir.",
+      "markedText": "Merkez açının köşesi çemberin merkezindedir.",
+      "words": [
+        {
+          "word": "Merkez",
+          "startMs": 218000,
+          "endMs": 218750
+        },
+        {
+          "word": "açının",
+          "startMs": 218970,
+          "endMs": 220000
+        },
+        {
+          "word": "köşesi",
+          "startMs": 221240,
+          "endMs": 221710
+        },
+        {
+          "word": "çemberin",
+          "startMs": 221770,
+          "endMs": 222640
+        },
+        {
+          "word": "merkezindedir.",
+          "startMs": 222820,
+          "endMs": 224850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-3",
+      "startMs": 226050,
+      "endMs": 226550,
+      "pauseAfterMs": 60,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 226050,
+          "endMs": 226490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-3",
+      "startMs": 226550,
+      "endMs": 234920,
+      "pauseAfterMs": 1110,
+      "text": "Gördüğü yayın derecesi açıya eşittir.",
+      "markedText": "Gördüğü yayın derecesi açıya eşittir.",
+      "words": [
+        {
+          "word": "Gördüğü",
+          "startMs": 226550,
+          "endMs": 227170
+        },
+        {
+          "word": "yayın",
+          "startMs": 227510,
+          "endMs": 227850
+        },
+        {
+          "word": "derecesi",
+          "startMs": 228190,
+          "endMs": 229550
+        },
+        {
+          "word": "açıya",
+          "startMs": 230690,
+          "endMs": 231110
+        },
+        {
+          "word": "eşittir.",
+          "startMs": 231720,
+          "endMs": 233810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-3",
+      "startMs": 234920,
+      "endMs": 235280,
+      "pauseAfterMs": 100,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 234920,
+          "endMs": 235180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 235280,
+      "endMs": 243180,
+      "pauseAfterMs": 920,
+      "text": "Tam çember 360 derecedir.",
+      "markedText": "Tam çember 360 derecedir.",
+      "words": [
+        {
+          "word": "Tam",
+          "startMs": 235280,
+          "endMs": 236010
+        },
+        {
+          "word": "çember",
+          "startMs": 236380,
+          "endMs": 237500
+        },
+        {
+          "word": "360",
+          "startMs": 238210,
+          "endMs": 240370
+        },
+        {
+          "word": "derecedir.",
+          "startMs": 240600,
+          "endMs": 242260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 243180,
+      "endMs": 254430,
+      "pauseAfterMs": 850,
+      "text": "Merkez açının gördüğü yay, açının kendisiyle aynı derecededir.",
+      "markedText": "Merkez açının gördüğü yay, açının kendisiyle aynı derecededir.",
+      "words": [
+        {
+          "word": "Merkez",
+          "startMs": 243180,
+          "endMs": 243770
+        },
+        {
+          "word": "açının",
+          "startMs": 244270,
+          "endMs": 245190
+        },
+        {
+          "word": "gördüğü",
+          "startMs": 246030,
+          "endMs": 246850
+        },
+        {
+          "word": "yay,",
+          "startMs": 247110,
+          "endMs": 247430
+        },
+        {
+          "word": "açının",
+          "startMs": 247660,
+          "endMs": 248060
+        },
+        {
+          "word": "kendisiyle",
+          "startMs": 248160,
+          "endMs": 249820
+        },
+        {
+          "word": "aynı",
+          "startMs": 250670,
+          "endMs": 251230
+        },
+        {
+          "word": "derecededir.",
+          "startMs": 252380,
+          "endMs": 253580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 254430,
+      "endMs": 263460,
+      "pauseAfterMs": 670,
+      "text": "90 derecelik merkez açının çeyrek yay gördüğünü dersin.",
+      "markedText": "90 derecelik merkez açının çeyrek yay gördüğünü dersin.",
+      "words": [
+        {
+          "word": "90",
+          "startMs": 254430,
+          "endMs": 254810
+        },
+        {
+          "word": "derecelik",
+          "startMs": 254930,
+          "endMs": 256100
+        },
+        {
+          "word": "merkez",
+          "startMs": 256950,
+          "endMs": 257350
+        },
+        {
+          "word": "açının",
+          "startMs": 258070,
+          "endMs": 258800
+        },
+        {
+          "word": "çeyrek",
+          "startMs": 258970,
+          "endMs": 259570
+        },
+        {
+          "word": "yay",
+          "startMs": 259690,
+          "endMs": 260360
+        },
+        {
+          "word": "gördüğünü",
+          "startMs": 260690,
+          "endMs": 261650
+        },
+        {
+          "word": "dersin.",
+          "startMs": 261930,
+          "endMs": 262790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 263460,
+      "endMs": 266370,
+      "pauseAfterMs": 1130,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 263460,
+          "endMs": 264250
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 264250,
+          "endMs": 265240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 266370,
+      "endMs": 270740,
+      "pauseAfterMs": 620,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 266370,
+          "endMs": 267160
+        },
+        {
+          "word": "bir",
+          "startMs": 267250,
+          "endMs": 267700
+        },
+        {
+          "word": "iş",
+          "startMs": 268500,
+          "endMs": 268710
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 268920,
+          "endMs": 270120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 270740,
+      "endMs": 273470,
+      "pauseAfterMs": 760,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 270740,
+          "endMs": 271460
+        },
+        {
+          "word": "sıra",
+          "startMs": 271820,
+          "endMs": 272120
+        },
+        {
+          "word": "sende.",
+          "startMs": 272200,
+          "endMs": 272710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 273470,
+      "endMs": 285732,
+      "pauseAfterMs": 302,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 273470,
+          "endMs": 274280
+        },
+        {
+          "word": "bu",
+          "startMs": 275820,
+          "endMs": 276860
+        },
+        {
+          "word": "notları",
+          "startMs": 277840,
+          "endMs": 278850
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 279260,
+          "endMs": 280390
+        },
+        {
+          "word": "kendi",
+          "startMs": 281340,
+          "endMs": 281860
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 282420,
+          "endMs": 284070
+        },
+        {
+          "word": "anlat.",
+          "startMs": 284350,
+          "endMs": 285430
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

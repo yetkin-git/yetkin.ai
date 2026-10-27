@@ -2,6 +2,7 @@ import "server-only";
 
 import { z } from "zod";
 import { juniorBookletCopy } from "@/lib/junior/booklet";
+import { canonicalJuniorLessonKey } from "@/lib/junior/lesson-key-alias";
 import { juniorScenarioIfPresent } from "@/lib/junior/content-source";
 import {
   JUNIOR_LIVE_TUTOR_FAIL,
@@ -27,6 +28,8 @@ import { invokeLlm, type InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import type { LlmChatTurn } from "@/lib/kernel/ai/types";
 import { consumeHttpRateLimit } from "@/lib/kernel/security/http-rate-limit";
+import { juniorCourseByLessonKey, juniorCourseSealed } from "@/lib/junior/catalog";
+import { JUNIOR_ELECTIVE_SOON_LESSON_ERROR } from "@/lib/junior/limits";
 
 const ONE_DAY_MS = 24 * 60 * 60_000;
 
@@ -36,7 +39,7 @@ const historyTurnSchema = z.object({
 });
 
 export const juniorLiveTutorRequestSchema = z.object({
-  lessonKey: z.string().trim().min(1).max(80),
+  lessonKey: z.string().trim().min(1).max(80).transform(canonicalJuniorLessonKey),
   message: z.string().trim().min(1).max(JUNIOR_LIVE_TUTOR_MAX_MESSAGE_CHARS),
   history: z.array(historyTurnSchema).max(JUNIOR_LIVE_TUTOR_MAX_HISTORY).optional(),
   activeSceneTitle: z.string().trim().max(160).optional(),
@@ -172,6 +175,17 @@ export async function answerJuniorLiveTutor(
       ok: false,
       error: "Soruyu kısa ve net yaz.",
       status: 400,
+      remaining: JUNIOR_LIVE_TUTOR_QUESTION_LIMIT,
+      limit: JUNIOR_LIVE_TUTOR_QUESTION_LIMIT,
+    };
+  }
+
+  const tutorCourse = juniorCourseByLessonKey(parsed.data.lessonKey);
+  if (tutorCourse?.track === "elective" && !juniorCourseSealed(tutorCourse)) {
+    return {
+      ok: false,
+      error: JUNIOR_ELECTIVE_SOON_LESSON_ERROR,
+      status: 404,
       remaining: JUNIOR_LIVE_TUTOR_QUESTION_LIMIT,
       limit: JUNIOR_LIVE_TUTOR_QUESTION_LIMIT,
     };

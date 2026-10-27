@@ -7,6 +7,7 @@ import { GraphicOpStage } from "@/components/junior/pilot-player/GraphicOpStage"
 import { CircleGeoScene } from "@/components/junior/player/math-scenes";
 import { juniorBookletCopy } from "@/lib/junior/booklet";
 import { lockTimelineToExactAudioMs } from "@/lib/junior/pilot-engine/pcm-cue-aligner";
+import "@/lib/junior/pilot-engine/acoustic-timeline-disk";
 import { resolveJuniorPlayback } from "@/lib/junior/pilot-engine/playback";
 import { reduceSceneState, type SceneGraphState, type TimedNumber } from "@/lib/junior/pilot-engine/state-reducer";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
@@ -61,9 +62,9 @@ function expectMarksLocked(
   }
 }
 
-describe("jr_06_mat-34/35/36 çember sözleşmesi", () => {
+describe("jr_06_mat-20/35/36 çember sözleşmesi", () => {
   it("üç dersin not cümleleri grafik transkriptindedir", () => {
-    for (const lessonKey of ["jr_06_mat-34", "jr_06_mat-35", "jr_06_mat-36"] as const) {
+    for (const lessonKey of ["jr_06_mat-20", "jr_06_mat-21", "jr_06_mat-22"] as const) {
       const example = juniorBookletCopy(lessonKey).example;
       const film = pilot(lessonKey).cues.map((cue) => cue.text).join(" ");
       const sentences = bookletSentences(example);
@@ -73,11 +74,11 @@ describe("jr_06_mat-34/35/36 çember sözleşmesi", () => {
       }
       expect(resolveJuniorPlayback(lessonKey).engine).toBe("pilot");
     }
-    expect(resolveJuniorPlayback("jr_06_mat-14").engine).toBe("sealed");
+    expect(resolveJuniorPlayback("jr_06_mat-4").engine).toBe("pilot");
   });
 
   it("yarıçap, çap, pi ve 2πr çevre grafik parametresidir ve kelime saatine kilitlidir", () => {
-    const timeline = pilot("jr_06_mat-34");
+    const timeline = pilot("jr_06_mat-20");
     const { cue, frame } = circleFrame(timeline);
     const params = frame.params as {
       radius: number;
@@ -129,7 +130,7 @@ describe("jr_06_mat-34/35/36 çember sözleşmesi", () => {
   });
 
   it("indirgeyici eksik çapı 2r diye doldurmaz; başka yarıçap 31,4 basmaz", () => {
-    const timeline = pilot("jr_06_mat-34");
+    const timeline = pilot("jr_06_mat-20");
     const early = reduceSceneState(timeline, 400);
     expect(early.layout).toBe("circle-measure");
     expect(early.circle.visible).toBe(false);
@@ -201,7 +202,7 @@ describe("jr_06_mat-34/35/36 çember sözleşmesi", () => {
   });
 
   it("tekerlek turu ve merkez açı kendi parametresini basar", () => {
-    const wheel = pilot("jr_06_mat-35");
+    const wheel = pilot("jr_06_mat-21");
     const wheelHit = circleFrame(wheel);
     const wheelParams = wheelHit.frame.params as {
       radius: number;
@@ -228,7 +229,7 @@ describe("jr_06_mat-34/35/36 çember sözleşmesi", () => {
     expect(wheelDrawn).toContain("2 tur = 12,56 m");
     expect(wheelDrawn).not.toContain("31,4");
 
-    const arc = pilot("jr_06_mat-36");
+    const arc = pilot("jr_06_mat-22");
     const arcHit = circleFrame(arc);
     const arcParams = arcHit.frame.params as {
       centralAngle: number;

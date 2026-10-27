@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { ACADEMY_LEGACY_PURGE_CATALOG_UNITS, academyVitrineDisplaySeed } from "@/lib/academy/catalog-seed";
+import { OFF_201_LAUNCH_PRICE_MINOR } from "@/lib/academy/catalog-pricing";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import {
@@ -10,6 +11,8 @@ import {
   ACADEMY_GROWTH_SKU_SLUGS,
   ACADEMY_PRODUCTION_LINE_SKU_SLUGS,
   ACADEMY_VITRINE_SHELL_SKU_SLUGS,
+  academyCourseSaleOpen,
+  filterAcademyVitrineCatalog,
   academyCourseHasSealedAudio,
   academyStorefrontStaticParams,
   isAcademyGrowthSkuSlug,
@@ -17,6 +20,7 @@ import {
 } from "@/lib/academy/pilot-sku";
 import { academyCourseIsComingSoon } from "@/lib/academy/course-cover";
 import { resolveAcademyCatalogCardCta } from "@/lib/academy/storefront-cta";
+import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
 import { academyModuleCodeBySlug } from "@/lib/academy/catalog-filter";
 import { academyCourseRecordFromSeed, academyVitrineShellCourses } from "@/lib/academy/published-catalog";
 import {
@@ -46,11 +50,11 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
       ...ACADEMY_GROWTH_SKU_SLUGS,
     ]);
     expect([...ACADEMY_VITRINE_SHELL_SKU_SLUGS]).toEqual([
+      "01_office_ai",
       "02_ecommerce_ai",
       "03_social_media_ai",
       "05_prompt_practice",
       "04_chatbot_nocode",
-      "01_office_ai",
       "01_office_ai_ileri",
     ]);
     expect([...ACADEMY_PRODUCTION_LINE_SKU_SLUGS]).toEqual([
@@ -69,21 +73,27 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
       ...ACADEMY_VITRINE_SHELL_SKU_SLUGS,
     ]);
     expect(academyVitrineShellCourses().map((row) => academyModuleCodeBySlug(row.slug))).toEqual([
+      "OFF-101",
       "EC-102",
       "SM-103",
       "PR-105",
       "BOT-104",
-      "OFF-101",
       "OFF-201",
     ]);
     expect(academyModuleCodeBySlug("01_office_ai_ileri")).toBe("OFF-201");
-    const closed = academyVitrineShellCourses();
-    expect(closed.find((row) => row.slug === "01_office_ai_ileri")?.purchasable).toBe(false);
-    expect(closed.find((row) => row.slug === "01_office_ai_ileri")?.isPublished).toBe(false);
-    expect(closed.find((row) => row.slug === "01_office_ai_ileri")?.priceMinor).toBeNull();
-    expect(closed.filter((row) => row.purchasable).map((row) => row.slug)).toEqual([]);
-    expect(closed.find((row) => row.slug === "02_ecommerce_ai")?.isPublished).toBe(false);
-    expect(closed.find((row) => row.slug === "02_ecommerce_ai")?.purchasable).toBe(false);
+    const seeded = academyVitrineShellCourses();
+    const off201 = seeded.find((row) => row.slug === "01_office_ai_ileri");
+    expect(off201?.isPublished).toBe(true);
+    expect(off201?.priceMinor).toBe(OFF_201_LAUNCH_PRICE_MINOR);
+    expect(off201?.purchasable).toBe(academyCourseSaleOpen("01_office_ai_ileri"));
+    for (const row of seeded) {
+      if (row.slug === "01_office_ai_ileri") {
+        continue;
+      }
+      expect(row.priceMinor, row.slug).toBe(academyVitrineDisplaySeed(row.slug)?.seedAmountMinor);
+      expect(row.isPublished, row.slug).toBe(true);
+      expect(row.purchasable, row.slug).toBe(academyCourseSaleOpen(row.slug));
+    }
     expect(academyCourseIsComingSoon("02_ecommerce_ai")).toBe(false);
   });
 
@@ -109,12 +119,15 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
       purchasable: ec102?.purchasable,
       isPublished: ec102?.isPublished,
     });
-    expect(card.cta).toBe("► 1. Dersi Ücretsiz İzle");
-    expect(card.href).toBe("/academy/02_ecommerce_ai/oyna");
-    expect(card.secondaryCta).toBe("Satın Al — ₺990");
-    expect(card.secondaryHref).toBe("/academy/02_ecommerce_ai#satin-al");
+    expect(card.cta).toBe(ACADEMY_SEN.catalog.cardCtaOutcomeIdle);
+    expect(card.cta).toContain("Sertifika");
+    expect(card.href).toBe("/academy/02_ecommerce_ai#satin-al");
+    expect(card.secondaryCta).toBe("► 1. Dersi Ücretsiz İzle");
+    expect(card.secondaryHref).toBe("/academy/02_ecommerce_ai/oyna");
     expect(card.ctaDisabled).toBeUndefined();
-    expect(open.find((row) => row.slug === "01_office_ai")?.purchasable).toBe(false);
+    expect(open.find((row) => row.slug === "01_office_ai")?.purchasable).toBe(
+      academyCourseSaleOpen("01_office_ai"),
+    );
 
     const unpublished = academyVitrineShellCourses([{ ...priced, isPublished: false }]);
     expect(unpublished.find((row) => row.slug === "02_ecommerce_ai")?.purchasable).toBe(false);
@@ -286,6 +299,16 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(ACADEMY_SEN.pilotPath.steps(70)[0]?.detail).not.toMatch(/Video/i);
     expect(ACADEMY_GROWTH_SKU_SLUGS).toHaveLength(1);
     expect(ACADEMY_GROWTH_SKU_SLUGS).not.toContain("06_n8n_automation");
+    expect(
+      filterAcademyVitrineCatalog(
+        COURSE_REGISTRY.filter((row) => row.audience === "adult").map((row) => ({ slug: row.slug })),
+      ).map((row) => row.slug),
+    ).toEqual([...ACADEMY_VITRINE_SHELL_SKU_SLUGS]);
+    for (const row of COURSE_REGISTRY) {
+      if (row.audience === "adult" && row.canon && row.lessonKeys.length === 0) {
+        expect(academyCourseSaleOpen(row.slug), row.slug).toBe(false);
+      }
+    }
     const purchase = readSrc("lib/academy/purchase-path.ts");
     expect(purchase).toContain("Sesli Anlatım + Sınav + Sertifika");
     expect(purchase).toContain(

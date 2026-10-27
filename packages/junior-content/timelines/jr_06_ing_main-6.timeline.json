@@ -1,0 +1,2550 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_ing_main-6",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Universe: gökyüzü ve there is",
+  "grade": 6,
+  "subject": "İngilizce",
+  "teacher": {
+    "name": "Selin",
+    "voice": "Kore",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_ing_main-6.mp3",
+    "durationMs": 285181,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 81750
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 81750,
+      "endMs": 234100
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 234100,
+      "endMs": 285181
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 1930,
+      "pauseAfterMs": 330,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 60,
+          "endMs": 480
+        },
+        {
+          "word": "sevgili",
+          "startMs": 480,
+          "endMs": 990
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 1040,
+          "endMs": 1600
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Universe: gökyüzü ve there is",
+            "subtitle": "İngilizce",
+            "ruleBadges": [],
+            "echoPrompt": "Gökyüzünde gördüğün bir cismi bir İngilizce cümleyle tanıtırısın.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Universe konusunda Sun bir yıldız, Moon bir uydudur."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "There is tekil, there are çoğul varlık söyler."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "There are eight planets cümlesi sekiz gezegeni anlatır."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 1930,
+      "endMs": 4610,
+      "pauseAfterMs": 930,
+      "text": "Ben İngilizce öğretmenin Selin.",
+      "markedText": "Ben İngilizce öğretmenin Selin.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 1930,
+          "endMs": 2150
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 2260,
+          "endMs": 2730
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 2730,
+          "endMs": 3420
+        },
+        {
+          "word": "Selin.",
+          "startMs": 3420,
+          "endMs": 3680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 4610,
+      "endMs": 13020,
+      "pauseAfterMs": 670,
+      "text": "Gece gökyüzüne bakınca yıldızlar, bazen de Ay karşına çıkar.",
+      "markedText": "Gece gökyüzüne bakınca yıldızlar, bazen de Ay karşına çıkar.",
+      "words": [
+        {
+          "word": "Gece",
+          "startMs": 4610,
+          "endMs": 5110
+        },
+        {
+          "word": "gökyüzüne",
+          "startMs": 5250,
+          "endMs": 6910
+        },
+        {
+          "word": "bakınca",
+          "startMs": 7260,
+          "endMs": 7820
+        },
+        {
+          "word": "yıldızlar,",
+          "startMs": 7870,
+          "endMs": 8980
+        },
+        {
+          "word": "bazen",
+          "startMs": 9650,
+          "endMs": 9970
+        },
+        {
+          "word": "de",
+          "startMs": 10130,
+          "endMs": 10250
+        },
+        {
+          "word": "Ay",
+          "startMs": 10540,
+          "endMs": 10750
+        },
+        {
+          "word": "karşına",
+          "startMs": 11120,
+          "endMs": 11690
+        },
+        {
+          "word": "çıkar.",
+          "startMs": 11690,
+          "endMs": 12350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 13020,
+      "endMs": 18250,
+      "pauseAfterMs": 240,
+      "text": "Gündüz ise Güneş her şeyi aydınlatır.",
+      "markedText": "Gündüz ise Güneş her şeyi aydınlatır.",
+      "words": [
+        {
+          "word": "Gündüz",
+          "startMs": 13020,
+          "endMs": 13720
+        },
+        {
+          "word": "ise",
+          "startMs": 14020,
+          "endMs": 14210
+        },
+        {
+          "word": "Güneş",
+          "startMs": 14210,
+          "endMs": 14590
+        },
+        {
+          "word": "her",
+          "startMs": 15040,
+          "endMs": 15230
+        },
+        {
+          "word": "şeyi",
+          "startMs": 15400,
+          "endMs": 16500
+        },
+        {
+          "word": "aydınlatır.",
+          "startMs": 17060,
+          "endMs": 18010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 18250,
+      "endMs": 25490,
+      "pauseAfterMs": 1160,
+      "text": "Bu cisimler Universe konusunun ilk sözcükleridir.",
+      "markedText": "Bu cisimler Universe konusunun ilk sözcükleridir.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 18250,
+          "endMs": 18560
+        },
+        {
+          "word": "cisimler",
+          "startMs": 18850,
+          "endMs": 19760
+        },
+        {
+          "word": "Universe",
+          "startMs": 19860,
+          "endMs": 21300
+        },
+        {
+          "word": "konusunun",
+          "startMs": 21830,
+          "endMs": 22700
+        },
+        {
+          "word": "ilk",
+          "startMs": 22700,
+          "endMs": 22950
+        },
+        {
+          "word": "sözcükleridir.",
+          "startMs": 22950,
+          "endMs": 24330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 25490,
+      "endMs": 36130,
+      "pauseAfterMs": 640,
+      "text": "Bugün Güneş, Ay, yıldız ve gezegeni İngilizce tanıyacak, there is ve there are ile sayılarını söyleyeceğiz.",
+      "markedText": "Bugün Güneş, Ay, yıldız ve gezegeni İngilizce tanıyacak, there is ve there are ile sayılarını söyleyeceğiz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 25490,
+          "endMs": 25670
+        },
+        {
+          "word": "Güneş,",
+          "startMs": 25760,
+          "endMs": 26370
+        },
+        {
+          "word": "Ay,",
+          "startMs": 26370,
+          "endMs": 26720
+        },
+        {
+          "word": "yıldız",
+          "startMs": 27090,
+          "endMs": 27790
+        },
+        {
+          "word": "ve",
+          "startMs": 27910,
+          "endMs": 28050
+        },
+        {
+          "word": "gezegeni",
+          "startMs": 28140,
+          "endMs": 28600
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 28600,
+          "endMs": 29170
+        },
+        {
+          "word": "tanıyacak,",
+          "startMs": 29230,
+          "endMs": 29690
+        },
+        {
+          "word": "there",
+          "startMs": 30240,
+          "endMs": 30530
+        },
+        {
+          "word": "is",
+          "startMs": 30660,
+          "endMs": 30820
+        },
+        {
+          "word": "ve",
+          "startMs": 30870,
+          "endMs": 31050
+        },
+        {
+          "word": "there",
+          "startMs": 31050,
+          "endMs": 31510
+        },
+        {
+          "word": "are",
+          "startMs": 31510,
+          "endMs": 31800
+        },
+        {
+          "word": "ile",
+          "startMs": 31880,
+          "endMs": 32300
+        },
+        {
+          "word": "sayılarını",
+          "startMs": 32910,
+          "endMs": 34000
+        },
+        {
+          "word": "söyleyeceğiz.",
+          "startMs": 34390,
+          "endMs": 35490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 36130,
+      "endMs": 45230,
+      "pauseAfterMs": 620,
+      "text": "Gökyüzünü gözlemlemek, tek olanla çok olanı ayırmana yardım eder.",
+      "markedText": "Gökyüzünü gözlemlemek, tek olanla çok olanı ayırmana yardım eder.",
+      "words": [
+        {
+          "word": "Gökyüzünü",
+          "startMs": 36130,
+          "endMs": 37070
+        },
+        {
+          "word": "gözlemlemek,",
+          "startMs": 37430,
+          "endMs": 38320
+        },
+        {
+          "word": "tek",
+          "startMs": 39910,
+          "endMs": 39970
+        },
+        {
+          "word": "olanla",
+          "startMs": 40100,
+          "endMs": 40910
+        },
+        {
+          "word": "çok",
+          "startMs": 41030,
+          "endMs": 41130
+        },
+        {
+          "word": "olanı",
+          "startMs": 41270,
+          "endMs": 41920
+        },
+        {
+          "word": "ayırmana",
+          "startMs": 42310,
+          "endMs": 43140
+        },
+        {
+          "word": "yardım",
+          "startMs": 43360,
+          "endMs": 43860
+        },
+        {
+          "word": "eder.",
+          "startMs": 44020,
+          "endMs": 44610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 45230,
+      "endMs": 50120,
+      "pauseAfterMs": 990,
+      "text": "Bunu akşam pencereden deneyebilirsin.",
+      "markedText": "Bunu akşam pencereden deneyebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 45230,
+          "endMs": 45520
+        },
+        {
+          "word": "akşam",
+          "startMs": 45600,
+          "endMs": 46440
+        },
+        {
+          "word": "pencereden",
+          "startMs": 46820,
+          "endMs": 47740
+        },
+        {
+          "word": "deneyebilirsin.",
+          "startMs": 47970,
+          "endMs": 49130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 50120,
+      "endMs": 53300,
+      "pauseAfterMs": 320,
+      "text": "Gördüğün Ay için There is the Moon de.",
+      "markedText": "Gördüğün Ay için There is the Moon de.",
+      "words": [
+        {
+          "word": "Gördüğün",
+          "startMs": 50120,
+          "endMs": 50500
+        },
+        {
+          "word": "Ay",
+          "startMs": 50610,
+          "endMs": 50710
+        },
+        {
+          "word": "için",
+          "startMs": 50750,
+          "endMs": 51070
+        },
+        {
+          "word": "There",
+          "startMs": 51140,
+          "endMs": 51370
+        },
+        {
+          "word": "is",
+          "startMs": 51370,
+          "endMs": 51480
+        },
+        {
+          "word": "the",
+          "startMs": 51690,
+          "endMs": 51890
+        },
+        {
+          "word": "Moon",
+          "startMs": 52040,
+          "endMs": 52460
+        },
+        {
+          "word": "de.",
+          "startMs": 52520,
+          "endMs": 52980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 53300,
+      "endMs": 58220,
+      "pauseAfterMs": 490,
+      "text": "Yıldızlar çoksa There are stars diye fısılda.",
+      "markedText": "Yıldızlar çoksa There are stars diye fısılda.",
+      "words": [
+        {
+          "word": "Yıldızlar",
+          "startMs": 53300,
+          "endMs": 53760
+        },
+        {
+          "word": "çoksa",
+          "startMs": 53800,
+          "endMs": 54110
+        },
+        {
+          "word": "There",
+          "startMs": 54110,
+          "endMs": 54570
+        },
+        {
+          "word": "are",
+          "startMs": 54700,
+          "endMs": 55330
+        },
+        {
+          "word": "stars",
+          "startMs": 56210,
+          "endMs": 56410
+        },
+        {
+          "word": "diye",
+          "startMs": 56410,
+          "endMs": 56770
+        },
+        {
+          "word": "fısılda.",
+          "startMs": 56770,
+          "endMs": 57730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 58220,
+      "endMs": 64710,
+      "pauseAfterMs": 350,
+      "text": "Okulda bir gezegen posteri varsa There are planets on the poster dersin.",
+      "markedText": "Okulda bir gezegen posteri varsa There are planets on the poster dersin.",
+      "words": [
+        {
+          "word": "Okulda",
+          "startMs": 58220,
+          "endMs": 58560
+        },
+        {
+          "word": "bir",
+          "startMs": 58560,
+          "endMs": 58760
+        },
+        {
+          "word": "gezegen",
+          "startMs": 59040,
+          "endMs": 59400
+        },
+        {
+          "word": "posteri",
+          "startMs": 59600,
+          "endMs": 59960
+        },
+        {
+          "word": "varsa",
+          "startMs": 60250,
+          "endMs": 60700
+        },
+        {
+          "word": "There",
+          "startMs": 61020,
+          "endMs": 61450
+        },
+        {
+          "word": "are",
+          "startMs": 61750,
+          "endMs": 62090
+        },
+        {
+          "word": "planets",
+          "startMs": 62700,
+          "endMs": 62950
+        },
+        {
+          "word": "on",
+          "startMs": 63160,
+          "endMs": 63280
+        },
+        {
+          "word": "the",
+          "startMs": 63280,
+          "endMs": 63390
+        },
+        {
+          "word": "poster",
+          "startMs": 63440,
+          "endMs": 63840
+        },
+        {
+          "word": "dersin.",
+          "startMs": 64040,
+          "endMs": 64360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 64710,
+      "endMs": 71310,
+      "pauseAfterMs": 610,
+      "text": "Sabah Güneş'i görünce The Sun is a star cümlesini hatırla.",
+      "markedText": "Sabah Güneş'i görünce The Sun is a star cümlesini hatırla.",
+      "words": [
+        {
+          "word": "Sabah",
+          "startMs": 64710,
+          "endMs": 65010
+        },
+        {
+          "word": "Güneş'i",
+          "startMs": 65010,
+          "endMs": 65790
+        },
+        {
+          "word": "görünce",
+          "startMs": 66570,
+          "endMs": 67010
+        },
+        {
+          "word": "The",
+          "startMs": 67210,
+          "endMs": 67480
+        },
+        {
+          "word": "Sun",
+          "startMs": 67700,
+          "endMs": 67920
+        },
+        {
+          "word": "is",
+          "startMs": 68120,
+          "endMs": 68240
+        },
+        {
+          "word": "a",
+          "startMs": 68390,
+          "endMs": 68460
+        },
+        {
+          "word": "star",
+          "startMs": 68770,
+          "endMs": 69030
+        },
+        {
+          "word": "cümlesini",
+          "startMs": 69030,
+          "endMs": 69930
+        },
+        {
+          "word": "hatırla.",
+          "startMs": 70270,
+          "endMs": 70700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-1",
+      "startMs": 71310,
+      "endMs": 81750,
+      "pauseAfterMs": 740,
+      "text": "Gelecekte uzaya gitmeyi düşünmek ayrı bir derstir; bugün cisimlerin adını sağlam kur.",
+      "markedText": "Gelecekte uzaya gitmeyi düşünmek ayrı bir derstir; bugün cisimlerin adını sağlam kur.",
+      "words": [
+        {
+          "word": "Gelecekte",
+          "startMs": 71310,
+          "endMs": 72230
+        },
+        {
+          "word": "uzaya",
+          "startMs": 72440,
+          "endMs": 72890
+        },
+        {
+          "word": "gitmeyi",
+          "startMs": 73020,
+          "endMs": 73520
+        },
+        {
+          "word": "düşünmek",
+          "startMs": 73890,
+          "endMs": 74390
+        },
+        {
+          "word": "ayrı",
+          "startMs": 74480,
+          "endMs": 74890
+        },
+        {
+          "word": "bir",
+          "startMs": 74890,
+          "endMs": 75020
+        },
+        {
+          "word": "derstir;",
+          "startMs": 75060,
+          "endMs": 75800
+        },
+        {
+          "word": "bugün",
+          "startMs": 76730,
+          "endMs": 77230
+        },
+        {
+          "word": "cisimlerin",
+          "startMs": 77230,
+          "endMs": 78000
+        },
+        {
+          "word": "adını",
+          "startMs": 78240,
+          "endMs": 79090
+        },
+        {
+          "word": "sağlam",
+          "startMs": 79640,
+          "endMs": 80140
+        },
+        {
+          "word": "kur.",
+          "startMs": 80290,
+          "endMs": 81010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 81750,
+      "endMs": 91550,
+      "pauseAfterMs": 880,
+      "text": "Universe içinde Sun Güneş, Moon Ay, star yıldız ve planet gezegen demektir.",
+      "markedText": "Universe içinde Sun Güneş, Moon Ay, star yıldız ve planet gezegen demektir.",
+      "words": [
+        {
+          "word": "Universe",
+          "startMs": 81750,
+          "endMs": 82580
+        },
+        {
+          "word": "içinde",
+          "startMs": 83130,
+          "endMs": 83890
+        },
+        {
+          "word": "Sun",
+          "startMs": 84390,
+          "endMs": 84790
+        },
+        {
+          "word": "Güneş,",
+          "startMs": 84970,
+          "endMs": 85180
+        },
+        {
+          "word": "Moon",
+          "startMs": 85460,
+          "endMs": 85760
+        },
+        {
+          "word": "Ay,",
+          "startMs": 85870,
+          "endMs": 85960
+        },
+        {
+          "word": "star",
+          "startMs": 86680,
+          "endMs": 87000
+        },
+        {
+          "word": "yıldız",
+          "startMs": 87430,
+          "endMs": 88000
+        },
+        {
+          "word": "ve",
+          "startMs": 88000,
+          "endMs": 88140
+        },
+        {
+          "word": "planet",
+          "startMs": 88430,
+          "endMs": 88620
+        },
+        {
+          "word": "gezegen",
+          "startMs": 88810,
+          "endMs": 89230
+        },
+        {
+          "word": "demektir.",
+          "startMs": 89470,
+          "endMs": 90670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 91550,
+      "endMs": 98690,
+      "pauseAfterMs": 670,
+      "text": "The Sun is a star cümlesi Güneş'in bir yıldız olduğunu söyler.",
+      "markedText": "The Sun is a star cümlesi Güneş'in bir yıldız olduğunu söyler.",
+      "words": [
+        {
+          "word": "The",
+          "startMs": 91550,
+          "endMs": 91670
+        },
+        {
+          "word": "Sun",
+          "startMs": 92030,
+          "endMs": 92210
+        },
+        {
+          "word": "is",
+          "startMs": 92690,
+          "endMs": 92820
+        },
+        {
+          "word": "a",
+          "startMs": 92820,
+          "endMs": 92930
+        },
+        {
+          "word": "star",
+          "startMs": 93170,
+          "endMs": 93260
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 93370,
+          "endMs": 93630
+        },
+        {
+          "word": "Güneş'in",
+          "startMs": 93890,
+          "endMs": 94250
+        },
+        {
+          "word": "bir",
+          "startMs": 94380,
+          "endMs": 95050
+        },
+        {
+          "word": "yıldız",
+          "startMs": 95830,
+          "endMs": 96090
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 96090,
+          "endMs": 96720
+        },
+        {
+          "word": "söyler.",
+          "startMs": 96940,
+          "endMs": 98020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 98690,
+      "endMs": 105700,
+      "pauseAfterMs": 720,
+      "text": "The Moon is a satellite cümlesi Ay'ın bir uydu olduğunu söyler.",
+      "markedText": "The Moon is a satellite cümlesi Ay'ın bir uydu olduğunu söyler.",
+      "words": [
+        {
+          "word": "The",
+          "startMs": 98690,
+          "endMs": 98900
+        },
+        {
+          "word": "Moon",
+          "startMs": 98900,
+          "endMs": 99160
+        },
+        {
+          "word": "is",
+          "startMs": 99160,
+          "endMs": 99280
+        },
+        {
+          "word": "a",
+          "startMs": 99280,
+          "endMs": 99320
+        },
+        {
+          "word": "satellite",
+          "startMs": 99320,
+          "endMs": 100670
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 101270,
+          "endMs": 101700
+        },
+        {
+          "word": "Ay'ın",
+          "startMs": 101910,
+          "endMs": 102200
+        },
+        {
+          "word": "bir",
+          "startMs": 102200,
+          "endMs": 102460
+        },
+        {
+          "word": "uydu",
+          "startMs": 102550,
+          "endMs": 102860
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 103420,
+          "endMs": 103940
+        },
+        {
+          "word": "söyler.",
+          "startMs": 104000,
+          "endMs": 104980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 105700,
+      "endMs": 112840,
+      "pauseAfterMs": 260,
+      "text": "Tek bir şeyden söz ederken There is gelir: There is a bright star.",
+      "markedText": "Tek bir şeyden söz ederken There is gelir: There is a bright star.",
+      "words": [
+        {
+          "word": "Tek",
+          "startMs": 105700,
+          "endMs": 106110
+        },
+        {
+          "word": "bir",
+          "startMs": 106110,
+          "endMs": 106440
+        },
+        {
+          "word": "şeyden",
+          "startMs": 106710,
+          "endMs": 107270
+        },
+        {
+          "word": "söz",
+          "startMs": 107500,
+          "endMs": 107690
+        },
+        {
+          "word": "ederken",
+          "startMs": 108290,
+          "endMs": 108910
+        },
+        {
+          "word": "There",
+          "startMs": 109040,
+          "endMs": 109410
+        },
+        {
+          "word": "is",
+          "startMs": 109540,
+          "endMs": 109800
+        },
+        {
+          "word": "gelir:",
+          "startMs": 109930,
+          "endMs": 110650
+        },
+        {
+          "word": "There",
+          "startMs": 111410,
+          "endMs": 111650
+        },
+        {
+          "word": "is",
+          "startMs": 111650,
+          "endMs": 111720
+        },
+        {
+          "word": "a",
+          "startMs": 111720,
+          "endMs": 111780
+        },
+        {
+          "word": "bright",
+          "startMs": 111880,
+          "endMs": 112220
+        },
+        {
+          "word": "star.",
+          "startMs": 112350,
+          "endMs": 112580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 112840,
+      "endMs": 120250,
+      "pauseAfterMs": 360,
+      "text": "Birden çok şey için There are gelir: There are eight planets.",
+      "markedText": "Birden çok şey için There are gelir: There are eight planets.",
+      "words": [
+        {
+          "word": "Birden",
+          "startMs": 112840,
+          "endMs": 113330
+        },
+        {
+          "word": "çok",
+          "startMs": 113440,
+          "endMs": 113610
+        },
+        {
+          "word": "şey",
+          "startMs": 113650,
+          "endMs": 113800
+        },
+        {
+          "word": "için",
+          "startMs": 113930,
+          "endMs": 114300
+        },
+        {
+          "word": "There",
+          "startMs": 114440,
+          "endMs": 115040
+        },
+        {
+          "word": "are",
+          "startMs": 115160,
+          "endMs": 115530
+        },
+        {
+          "word": "gelir:",
+          "startMs": 115710,
+          "endMs": 116280
+        },
+        {
+          "word": "There",
+          "startMs": 117040,
+          "endMs": 117700
+        },
+        {
+          "word": "are",
+          "startMs": 118020,
+          "endMs": 118380
+        },
+        {
+          "word": "eight",
+          "startMs": 118530,
+          "endMs": 119200
+        },
+        {
+          "word": "planets.",
+          "startMs": 119350,
+          "endMs": 119890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 120250,
+      "endMs": 122480,
+      "pauseAfterMs": 400,
+      "text": "Soru Is there a moon?",
+      "markedText": "Soru Is there a moon?",
+      "words": [
+        {
+          "word": "Soru",
+          "startMs": 120250,
+          "endMs": 120650
+        },
+        {
+          "word": "Is",
+          "startMs": 120650,
+          "endMs": 120920
+        },
+        {
+          "word": "there",
+          "startMs": 121100,
+          "endMs": 121300
+        },
+        {
+          "word": "a",
+          "startMs": 121630,
+          "endMs": 121700
+        },
+        {
+          "word": "moon?",
+          "startMs": 121840,
+          "endMs": 122080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 122480,
+      "endMs": 124110,
+      "pauseAfterMs": 650,
+      "text": "ve Are there stars?",
+      "markedText": "ve Are there stars?",
+      "words": [
+        {
+          "word": "ve",
+          "startMs": 122480,
+          "endMs": 122540
+        },
+        {
+          "word": "Are",
+          "startMs": 122540,
+          "endMs": 122660
+        },
+        {
+          "word": "there",
+          "startMs": 122660,
+          "endMs": 122900
+        },
+        {
+          "word": "stars?",
+          "startMs": 123030,
+          "endMs": 123460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 124110,
+      "endMs": 126160,
+      "pauseAfterMs": 290,
+      "text": "diye kurulur.",
+      "markedText": "diye kurulur.",
+      "words": [
+        {
+          "word": "diye",
+          "startMs": 124110,
+          "endMs": 124620
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 124620,
+          "endMs": 125870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 126160,
+      "endMs": 134850,
+      "pauseAfterMs": 760,
+      "text": "Pratik kural: There is tekili, there are çoğulu taşır.",
+      "markedText": "Pratik kural: There is tekili, there are çoğulu taşır.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 126160,
+          "endMs": 126760
+        },
+        {
+          "word": "kural:",
+          "startMs": 126950,
+          "endMs": 127810
+        },
+        {
+          "word": "There",
+          "startMs": 127850,
+          "endMs": 128590
+        },
+        {
+          "word": "is",
+          "startMs": 128700,
+          "endMs": 129200
+        },
+        {
+          "word": "tekili,",
+          "startMs": 129960,
+          "endMs": 130850
+        },
+        {
+          "word": "there",
+          "startMs": 131360,
+          "endMs": 131990
+        },
+        {
+          "word": "are",
+          "startMs": 132130,
+          "endMs": 132540
+        },
+        {
+          "word": "çoğulu",
+          "startMs": 132770,
+          "endMs": 133440
+        },
+        {
+          "word": "taşır.",
+          "startMs": 133530,
+          "endMs": 134090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 134850,
+      "endMs": 138410,
+      "pauseAfterMs": 600,
+      "text": "Pencereden gece gökyüzüne bakalım.",
+      "markedText": "Pencereden gece gökyüzüne bakalım.",
+      "words": [
+        {
+          "word": "Pencereden",
+          "startMs": 134850,
+          "endMs": 135820
+        },
+        {
+          "word": "gece",
+          "startMs": 136100,
+          "endMs": 136320
+        },
+        {
+          "word": "gökyüzüne",
+          "startMs": 136420,
+          "endMs": 136890
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 137050,
+          "endMs": 137810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 138410,
+      "endMs": 146870,
+      "pauseAfterMs": 940,
+      "text": "There is a full moon tonight, bu gece dolunay var demektir.",
+      "markedText": "There is a full moon tonight, bu gece dolunay var demektir.",
+      "words": [
+        {
+          "word": "There",
+          "startMs": 138410,
+          "endMs": 138830
+        },
+        {
+          "word": "is",
+          "startMs": 139090,
+          "endMs": 139230
+        },
+        {
+          "word": "a",
+          "startMs": 139420,
+          "endMs": 139570
+        },
+        {
+          "word": "full",
+          "startMs": 139640,
+          "endMs": 139890
+        },
+        {
+          "word": "moon",
+          "startMs": 139940,
+          "endMs": 140440
+        },
+        {
+          "word": "tonight,",
+          "startMs": 141230,
+          "endMs": 141810
+        },
+        {
+          "word": "bu",
+          "startMs": 142070,
+          "endMs": 142360
+        },
+        {
+          "word": "gece",
+          "startMs": 142600,
+          "endMs": 142920
+        },
+        {
+          "word": "dolunay",
+          "startMs": 143040,
+          "endMs": 143800
+        },
+        {
+          "word": "var",
+          "startMs": 144340,
+          "endMs": 144590
+        },
+        {
+          "word": "demektir.",
+          "startMs": 144720,
+          "endMs": 145930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 146870,
+      "endMs": 155780,
+      "pauseAfterMs": 810,
+      "text": "There are many stars in the sky, gökyüzünde birçok yıldız var demektir.",
+      "markedText": "There are many stars in the sky, gökyüzünde birçok yıldız var demektir.",
+      "words": [
+        {
+          "word": "There",
+          "startMs": 146870,
+          "endMs": 147290
+        },
+        {
+          "word": "are",
+          "startMs": 147350,
+          "endMs": 147550
+        },
+        {
+          "word": "many",
+          "startMs": 147550,
+          "endMs": 147920
+        },
+        {
+          "word": "stars",
+          "startMs": 148040,
+          "endMs": 148240
+        },
+        {
+          "word": "in",
+          "startMs": 148350,
+          "endMs": 148550
+        },
+        {
+          "word": "the",
+          "startMs": 148710,
+          "endMs": 148990
+        },
+        {
+          "word": "sky,",
+          "startMs": 149150,
+          "endMs": 149600
+        },
+        {
+          "word": "gökyüzünde",
+          "startMs": 150430,
+          "endMs": 151440
+        },
+        {
+          "word": "birçok",
+          "startMs": 151580,
+          "endMs": 152360
+        },
+        {
+          "word": "yıldız",
+          "startMs": 152440,
+          "endMs": 153410
+        },
+        {
+          "word": "var",
+          "startMs": 153750,
+          "endMs": 153930
+        },
+        {
+          "word": "demektir.",
+          "startMs": 154060,
+          "endMs": 154970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 155780,
+      "endMs": 163230,
+      "pauseAfterMs": 250,
+      "text": "Güneş'i tanıtırken The Sun is the star at the centre of our system dersin.",
+      "markedText": "Güneş'i tanıtırken The Sun is the star at the centre of our system dersin.",
+      "words": [
+        {
+          "word": "Güneş'i",
+          "startMs": 155780,
+          "endMs": 156100
+        },
+        {
+          "word": "tanıtırken",
+          "startMs": 156100,
+          "endMs": 156810
+        },
+        {
+          "word": "The",
+          "startMs": 157640,
+          "endMs": 157850
+        },
+        {
+          "word": "Sun",
+          "startMs": 158340,
+          "endMs": 158590
+        },
+        {
+          "word": "is",
+          "startMs": 158750,
+          "endMs": 158890
+        },
+        {
+          "word": "the",
+          "startMs": 159000,
+          "endMs": 159230
+        },
+        {
+          "word": "star",
+          "startMs": 159230,
+          "endMs": 159490
+        },
+        {
+          "word": "at",
+          "startMs": 159490,
+          "endMs": 159620
+        },
+        {
+          "word": "the",
+          "startMs": 159620,
+          "endMs": 160030
+        },
+        {
+          "word": "centre",
+          "startMs": 160650,
+          "endMs": 161080
+        },
+        {
+          "word": "of",
+          "startMs": 161650,
+          "endMs": 161800
+        },
+        {
+          "word": "our",
+          "startMs": 161940,
+          "endMs": 162180
+        },
+        {
+          "word": "system",
+          "startMs": 162270,
+          "endMs": 162480
+        },
+        {
+          "word": "dersin.",
+          "startMs": 162480,
+          "endMs": 162980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 163230,
+      "endMs": 167200,
+      "pauseAfterMs": 230,
+      "text": "Arkadaşın What is the Moon?",
+      "markedText": "Arkadaşın What is the Moon?",
+      "words": [
+        {
+          "word": "Arkadaşın",
+          "startMs": 163230,
+          "endMs": 163880
+        },
+        {
+          "word": "What",
+          "startMs": 163970,
+          "endMs": 164440
+        },
+        {
+          "word": "is",
+          "startMs": 165250,
+          "endMs": 165490
+        },
+        {
+          "word": "the",
+          "startMs": 166000,
+          "endMs": 166370
+        },
+        {
+          "word": "Moon?",
+          "startMs": 166550,
+          "endMs": 166970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 167200,
+      "endMs": 174320,
+      "pauseAfterMs": 670,
+      "text": "diye sorarsa The Moon is Earth's satellite diye cevap verirsin.",
+      "markedText": "diye sorarsa The Moon is Earth's satellite diye cevap verirsin.",
+      "words": [
+        {
+          "word": "diye",
+          "startMs": 167200,
+          "endMs": 167680
+        },
+        {
+          "word": "sorarsa",
+          "startMs": 167890,
+          "endMs": 168340
+        },
+        {
+          "word": "The",
+          "startMs": 168340,
+          "endMs": 168460
+        },
+        {
+          "word": "Moon",
+          "startMs": 168640,
+          "endMs": 169060
+        },
+        {
+          "word": "is",
+          "startMs": 169720,
+          "endMs": 169980
+        },
+        {
+          "word": "Earth's",
+          "startMs": 170430,
+          "endMs": 170790
+        },
+        {
+          "word": "satellite",
+          "startMs": 170910,
+          "endMs": 171540
+        },
+        {
+          "word": "diye",
+          "startMs": 171760,
+          "endMs": 172000
+        },
+        {
+          "word": "cevap",
+          "startMs": 172360,
+          "endMs": 172670
+        },
+        {
+          "word": "verirsin.",
+          "startMs": 172710,
+          "endMs": 173650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 174320,
+      "endMs": 184780,
+      "pauseAfterMs": 770,
+      "text": "Sekiz gezegeni saymak için There are eight planets around the Sun cümlesi yeter.",
+      "markedText": "Sekiz gezegeni saymak için There are eight planets around the Sun cümlesi yeter.",
+      "words": [
+        {
+          "word": "Sekiz",
+          "startMs": 174320,
+          "endMs": 174850
+        },
+        {
+          "word": "gezegeni",
+          "startMs": 175030,
+          "endMs": 176110
+        },
+        {
+          "word": "saymak",
+          "startMs": 176260,
+          "endMs": 176840
+        },
+        {
+          "word": "için",
+          "startMs": 176970,
+          "endMs": 177240
+        },
+        {
+          "word": "There",
+          "startMs": 178520,
+          "endMs": 179090
+        },
+        {
+          "word": "are",
+          "startMs": 179140,
+          "endMs": 179380
+        },
+        {
+          "word": "eight",
+          "startMs": 179420,
+          "endMs": 179680
+        },
+        {
+          "word": "planets",
+          "startMs": 179960,
+          "endMs": 180670
+        },
+        {
+          "word": "around",
+          "startMs": 180880,
+          "endMs": 181440
+        },
+        {
+          "word": "the",
+          "startMs": 181740,
+          "endMs": 181860
+        },
+        {
+          "word": "Sun",
+          "startMs": 181940,
+          "endMs": 182160
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 182230,
+          "endMs": 182930
+        },
+        {
+          "word": "yeter.",
+          "startMs": 183110,
+          "endMs": 184010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 184780,
+      "endMs": 186330,
+      "pauseAfterMs": 510,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 184780,
+          "endMs": 185060
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 185420,
+          "endMs": 185820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 186330,
+      "endMs": 193020,
+      "pauseAfterMs": 1310,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 186330,
+          "endMs": 186840
+        },
+        {
+          "word": "bir",
+          "startMs": 186990,
+          "endMs": 187290
+        },
+        {
+          "word": "kez",
+          "startMs": 187560,
+          "endMs": 187710
+        },
+        {
+          "word": "görünce",
+          "startMs": 187810,
+          "endMs": 188860
+        },
+        {
+          "word": "kolayca",
+          "startMs": 189500,
+          "endMs": 190340
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 190750,
+          "endMs": 191710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 193020,
+      "endMs": 203680,
+      "pauseAfterMs": 780,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 193020,
+          "endMs": 193390
+        },
+        {
+          "word": "sevgili",
+          "startMs": 193390,
+          "endMs": 194170
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 194330,
+          "endMs": 196240
+        },
+        {
+          "word": "işte",
+          "startMs": 196990,
+          "endMs": 197370
+        },
+        {
+          "word": "tam",
+          "startMs": 197540,
+          "endMs": 197640
+        },
+        {
+          "word": "bu",
+          "startMs": 197760,
+          "endMs": 197980
+        },
+        {
+          "word": "noktada",
+          "startMs": 198260,
+          "endMs": 198740
+        },
+        {
+          "word": "dikkat",
+          "startMs": 198910,
+          "endMs": 199690
+        },
+        {
+          "word": "etmen",
+          "startMs": 200380,
+          "endMs": 200880
+        },
+        {
+          "word": "gereken",
+          "startMs": 201000,
+          "endMs": 201550
+        },
+        {
+          "word": "kilit",
+          "startMs": 201550,
+          "endMs": 201970
+        },
+        {
+          "word": "nokta.",
+          "startMs": 202110,
+          "endMs": 202900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 203680,
+      "endMs": 212560,
+      "pauseAfterMs": 580,
+      "text": "Çoğul sözcükle there is demek sayıyı bozar; stars için there are gerekir.",
+      "markedText": "Çoğul sözcükle there is demek sayıyı bozar; stars için there are gerekir.",
+      "words": [
+        {
+          "word": "Çoğul",
+          "startMs": 203680,
+          "endMs": 204020
+        },
+        {
+          "word": "sözcükle",
+          "startMs": 204250,
+          "endMs": 205410
+        },
+        {
+          "word": "there",
+          "startMs": 206030,
+          "endMs": 206520
+        },
+        {
+          "word": "is",
+          "startMs": 206740,
+          "endMs": 206890
+        },
+        {
+          "word": "demek",
+          "startMs": 207270,
+          "endMs": 207870
+        },
+        {
+          "word": "sayıyı",
+          "startMs": 207950,
+          "endMs": 208460
+        },
+        {
+          "word": "bozar;",
+          "startMs": 208570,
+          "endMs": 209200
+        },
+        {
+          "word": "stars",
+          "startMs": 209830,
+          "endMs": 210170
+        },
+        {
+          "word": "için",
+          "startMs": 210230,
+          "endMs": 210430
+        },
+        {
+          "word": "there",
+          "startMs": 210430,
+          "endMs": 210790
+        },
+        {
+          "word": "are",
+          "startMs": 210980,
+          "endMs": 211260
+        },
+        {
+          "word": "gerekir.",
+          "startMs": 211260,
+          "endMs": 211980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-2",
+      "startMs": 212560,
+      "endMs": 219720,
+      "pauseAfterMs": 740,
+      "text": "Güneş'i bir planet sanmak da yanlıştır; Güneş bir star olarak durur.",
+      "markedText": "Güneş'i bir planet sanmak da yanlıştır; Güneş bir star olarak durur.",
+      "words": [
+        {
+          "word": "Güneş'i",
+          "startMs": 212560,
+          "endMs": 212940
+        },
+        {
+          "word": "bir",
+          "startMs": 213000,
+          "endMs": 213120
+        },
+        {
+          "word": "planet",
+          "startMs": 213120,
+          "endMs": 213470
+        },
+        {
+          "word": "sanmak",
+          "startMs": 213600,
+          "endMs": 214020
+        },
+        {
+          "word": "da",
+          "startMs": 214120,
+          "endMs": 214230
+        },
+        {
+          "word": "yanlıştır;",
+          "startMs": 214330,
+          "endMs": 215130
+        },
+        {
+          "word": "Güneş",
+          "startMs": 216220,
+          "endMs": 216470
+        },
+        {
+          "word": "bir",
+          "startMs": 216560,
+          "endMs": 216830
+        },
+        {
+          "word": "star",
+          "startMs": 216830,
+          "endMs": 217170
+        },
+        {
+          "word": "olarak",
+          "startMs": 217310,
+          "endMs": 217950
+        },
+        {
+          "word": "durur.",
+          "startMs": 217950,
+          "endMs": 218980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-2",
+      "startMs": 219720,
+      "endMs": 224280,
+      "pauseAfterMs": 750,
+      "text": "Ay'ı gezegen listesine eklemek aynı tuzaktır.",
+      "markedText": "Ay'ı gezegen listesine eklemek aynı tuzaktır.",
+      "words": [
+        {
+          "word": "Ay'ı",
+          "startMs": 219720,
+          "endMs": 220010
+        },
+        {
+          "word": "gezegen",
+          "startMs": 220250,
+          "endMs": 220650
+        },
+        {
+          "word": "listesine",
+          "startMs": 221130,
+          "endMs": 221380
+        },
+        {
+          "word": "eklemek",
+          "startMs": 221560,
+          "endMs": 222070
+        },
+        {
+          "word": "aynı",
+          "startMs": 222280,
+          "endMs": 222570
+        },
+        {
+          "word": "tuzaktır.",
+          "startMs": 222780,
+          "endMs": 223530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-2",
+      "startMs": 224280,
+      "endMs": 234100,
+      "pauseAfterMs": 650,
+      "text": "Universe konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Universe konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Universe",
+          "startMs": 224280,
+          "endMs": 225420
+        },
+        {
+          "word": "konusunda",
+          "startMs": 226030,
+          "endMs": 226390
+        },
+        {
+          "word": "kuralın",
+          "startMs": 226570,
+          "endMs": 227490
+        },
+        {
+          "word": "tersini",
+          "startMs": 228450,
+          "endMs": 228930
+        },
+        {
+          "word": "sanmak",
+          "startMs": 229120,
+          "endMs": 229690
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 229770,
+          "endMs": 230350
+        },
+        {
+          "word": "ters",
+          "startMs": 231600,
+          "endMs": 231930
+        },
+        {
+          "word": "cümle",
+          "startMs": 232110,
+          "endMs": 232410
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 232570,
+          "endMs": 233450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 234100,
+      "endMs": 237540,
+      "pauseAfterMs": 680,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 234100,
+          "endMs": 234500
+        },
+        {
+          "word": "Neler",
+          "startMs": 234640,
+          "endMs": 235060
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 235330,
+          "endMs": 236860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 237540,
+      "endMs": 237700,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 237540,
+          "endMs": 237700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 237700,
+      "endMs": 242260,
+      "pauseAfterMs": 1110,
+      "text": "Universe konusunda Sun bir yıldız, Moon bir uydudur.",
+      "markedText": "Universe konusunda Sun bir yıldız, Moon bir uydudur.",
+      "words": [
+        {
+          "word": "Universe",
+          "startMs": 237700,
+          "endMs": 238170
+        },
+        {
+          "word": "konusunda",
+          "startMs": 238170,
+          "endMs": 238750
+        },
+        {
+          "word": "Sun",
+          "startMs": 238820,
+          "endMs": 239040
+        },
+        {
+          "word": "bir",
+          "startMs": 239040,
+          "endMs": 239280
+        },
+        {
+          "word": "yıldız,",
+          "startMs": 239330,
+          "endMs": 239900
+        },
+        {
+          "word": "Moon",
+          "startMs": 240110,
+          "endMs": 240430
+        },
+        {
+          "word": "bir",
+          "startMs": 240430,
+          "endMs": 240570
+        },
+        {
+          "word": "uydudur.",
+          "startMs": 240740,
+          "endMs": 241150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 242260,
+      "endMs": 242630,
+      "pauseAfterMs": 130,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 242260,
+          "endMs": 242500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 242630,
+      "endMs": 248730,
+      "pauseAfterMs": 600,
+      "text": "There is tekil, there are çoğul varlık söyler.",
+      "markedText": "There is tekil, there are çoğul varlık söyler.",
+      "words": [
+        {
+          "word": "There",
+          "startMs": 242630,
+          "endMs": 243190
+        },
+        {
+          "word": "is",
+          "startMs": 243370,
+          "endMs": 243740
+        },
+        {
+          "word": "tekil,",
+          "startMs": 243990,
+          "endMs": 245240
+        },
+        {
+          "word": "there",
+          "startMs": 246030,
+          "endMs": 246290
+        },
+        {
+          "word": "are",
+          "startMs": 246430,
+          "endMs": 246730
+        },
+        {
+          "word": "çoğul",
+          "startMs": 246830,
+          "endMs": 246970
+        },
+        {
+          "word": "varlık",
+          "startMs": 247130,
+          "endMs": 247410
+        },
+        {
+          "word": "söyler.",
+          "startMs": 247410,
+          "endMs": 248130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 248730,
+      "endMs": 248890,
+      "pauseAfterMs": 60,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 248730,
+          "endMs": 248830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 248890,
+      "endMs": 255390,
+      "pauseAfterMs": 620,
+      "text": "There are eight planets cümlesi sekiz gezegeni anlatır.",
+      "markedText": "There are eight planets cümlesi sekiz gezegeni anlatır.",
+      "words": [
+        {
+          "word": "There",
+          "startMs": 248890,
+          "endMs": 249310
+        },
+        {
+          "word": "are",
+          "startMs": 249370,
+          "endMs": 249730
+        },
+        {
+          "word": "eight",
+          "startMs": 249850,
+          "endMs": 250270
+        },
+        {
+          "word": "planets",
+          "startMs": 250760,
+          "endMs": 251090
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 251150,
+          "endMs": 251750
+        },
+        {
+          "word": "sekiz",
+          "startMs": 251750,
+          "endMs": 252410
+        },
+        {
+          "word": "gezegeni",
+          "startMs": 253000,
+          "endMs": 253650
+        },
+        {
+          "word": "anlatır.",
+          "startMs": 253650,
+          "endMs": 254770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 255390,
+      "endMs": 262700,
+      "pauseAfterMs": 530,
+      "text": "Gök cismi there is ya da there are ile ve doğru adıyla kurulur.",
+      "markedText": "Gök cismi there is ya da there are ile ve doğru adıyla kurulur.",
+      "words": [
+        {
+          "word": "Gök",
+          "startMs": 255390,
+          "endMs": 255540
+        },
+        {
+          "word": "cismi",
+          "startMs": 255540,
+          "endMs": 256050
+        },
+        {
+          "word": "there",
+          "startMs": 256330,
+          "endMs": 256530
+        },
+        {
+          "word": "is",
+          "startMs": 256690,
+          "endMs": 256740
+        },
+        {
+          "word": "ya",
+          "startMs": 256870,
+          "endMs": 256980
+        },
+        {
+          "word": "da",
+          "startMs": 257300,
+          "endMs": 257430
+        },
+        {
+          "word": "there",
+          "startMs": 257480,
+          "endMs": 257810
+        },
+        {
+          "word": "are",
+          "startMs": 258010,
+          "endMs": 258270
+        },
+        {
+          "word": "ile",
+          "startMs": 258270,
+          "endMs": 258600
+        },
+        {
+          "word": "ve",
+          "startMs": 258720,
+          "endMs": 259390
+        },
+        {
+          "word": "doğru",
+          "startMs": 259880,
+          "endMs": 260320
+        },
+        {
+          "word": "adıyla",
+          "startMs": 260450,
+          "endMs": 260910
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 261020,
+          "endMs": 262170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 262700,
+      "endMs": 270050,
+      "pauseAfterMs": 600,
+      "text": "Gökyüzünde gördüğün bir cismi bir İngilizce cümleyle tanıtırısın.",
+      "markedText": "Gökyüzünde gördüğün bir cismi bir İngilizce cümleyle tanıtırısın.",
+      "words": [
+        {
+          "word": "Gökyüzünde",
+          "startMs": 262700,
+          "endMs": 263420
+        },
+        {
+          "word": "gördüğün",
+          "startMs": 263420,
+          "endMs": 264340
+        },
+        {
+          "word": "bir",
+          "startMs": 265080,
+          "endMs": 265270
+        },
+        {
+          "word": "cismi",
+          "startMs": 265390,
+          "endMs": 265810
+        },
+        {
+          "word": "bir",
+          "startMs": 266170,
+          "endMs": 266590
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 266890,
+          "endMs": 267610
+        },
+        {
+          "word": "cümleyle",
+          "startMs": 267690,
+          "endMs": 267930
+        },
+        {
+          "word": "tanıtırısın.",
+          "startMs": 268130,
+          "endMs": 269450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 270050,
+      "endMs": 272560,
+      "pauseAfterMs": 720,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 270050,
+          "endMs": 270890
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 270960,
+          "endMs": 271840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 272560,
+      "endMs": 277040,
+      "pauseAfterMs": 790,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 272560,
+          "endMs": 273410
+        },
+        {
+          "word": "bir",
+          "startMs": 273410,
+          "endMs": 273710
+        },
+        {
+          "word": "iş",
+          "startMs": 274030,
+          "endMs": 274140
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 274600,
+          "endMs": 276250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-3",
+      "startMs": 277040,
+      "endMs": 278580,
+      "pauseAfterMs": 500,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 277040,
+          "endMs": 277300
+        },
+        {
+          "word": "sıra",
+          "startMs": 277390,
+          "endMs": 277720
+        },
+        {
+          "word": "sende.",
+          "startMs": 277930,
+          "endMs": 278080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-3",
+      "startMs": 278580,
+      "endMs": 285181,
+      "pauseAfterMs": 271,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 278580,
+          "endMs": 279190
+        },
+        {
+          "word": "bu",
+          "startMs": 279470,
+          "endMs": 279770
+        },
+        {
+          "word": "notları",
+          "startMs": 280330,
+          "endMs": 281220
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 281850,
+          "endMs": 282570
+        },
+        {
+          "word": "kendi",
+          "startMs": 282680,
+          "endMs": 283000
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 283090,
+          "endMs": 284000
+        },
+        {
+          "word": "anlat.",
+          "startMs": 284090,
+          "endMs": 284910
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

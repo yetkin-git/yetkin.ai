@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_arp-1",
+  "title": "Selam vermek",
+  "teaser": "Selamün aleyküm, barış üzerine olsun demektir. Kavramsal Anlayış, selam ile karşılığını ayırır. İfade Gücü, duyduğun selama hangi sözle döndüğünü söylemendir.",
+  "welcome": "Bugün seninle Arapçada selamı öğreneceğiz.",
+  "concept": "Bugün seninle Arapça selamı kuruyoruz. Selamün aleyküm, barış üzerine olsun demektir. Ve aleyküm selam, karşılık sözüdür. Selam önce söylenir. Karşılık sonra söylenir.\n\nHatırlarsan, selam tek yönlü değildi. Hadi şimdi ekrandaki çizime birlikte bakalım! Gelen söz Selamün aleykümdür. Dönen söz Ve aleyküm selamdır.\n\nTuzaklara Düşme! Birlikte bakalım. Karşılığı susarak geçme. İki cümleyi aynı ağızdan tek selam sanma. Önce gelen sözü dinle. Sonra karşılığı söyle.",
+  "example": "Selamün aleyküm, barış üzerine olsun demektir. Bu söz bir kişiye esenlik diler. Karşılık Ve aleyküm selamdır. Bu söz, sana da barış olsun demektir. Hadi şimdi ekrandaki çizime birlikte bakalım! Kapıda bir kişi duruyor. O, Selamün aleyküm diyor. Sen, Ve aleyküm selam diyorsun. Selam gider. Karşılık gelir. Hatırlarsan, selam tek başına bitmiyordu. Tuzaklara Düşme! Birlikte bakalım. Selamı duyup susma. Karşılığı söyle. İki sözün yerini değiştirme. Önce selam verilir. Sonra karşılık söylenir.",
+  "warning": "Bu noktada acele etme. Bir kez daha bakıp doğru kutuyu seçersin.",
+  "life": "Cami çıkışında ya da bir büyük ziyaretinde bu selamı duyarsın. Sen de Ve aleyküm selam dersin. Hatırlarsan, karşılık ayrı bir sözdü. Evde misafire de aynı düzen durur. Tuzaklara Düşme! Birlikte bakalım. Selamı yarıda kesip başka söze atlama.",
+  "recap": [
+    "Selamün aleyküm, barış üzerine olsun demektir.",
+    "Ve aleyküm selam, selamın karşılığıdır.",
+    "Önce selam verilir. Sonra karşılık söylenir."
+  ],
+  "conceptSeal": "Selamün aleyküm esenlik diler. Ve aleyküm selam karşılıktır.",
+  "voiceSeal": "Duyduğun selama hangi sözle döndüğünü söylersin.",
+  "outcomes": [
+    "Selamün aleyküm, barış üzerine olsun demektir.",
+    "Ve aleyküm selam, selamın karşılığıdır.",
+    "Önce selam verilir. Sonra karşılık söylenir."
+  ],
+  "scene": "elective",
+  "hint": "trap",
+  "band": "draft"
+}

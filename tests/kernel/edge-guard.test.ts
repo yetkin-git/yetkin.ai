@@ -159,9 +159,17 @@ describe("kenar kararları", () => {
     expect(decideEdgeAction("/dashboard", false)).toEqual({ kind: "next" });
     expect(decideEdgeAction("/cuzdan", false).kind).toBe("auth-307");
     expect(decideEdgeAction("/profil", false).kind).toBe("auth-307");
-    expect(decideEdgeAction("/admin", false).kind).toBe("auth-307");
+    expect(decideEdgeAction("/admin", false)).toEqual({
+      kind: "auth-307",
+      to: CITIZEN_LOGIN_PATH,
+      next: "/admin/catalog",
+    });
     expect(decideEdgeAction("/admin", true).kind).toBe("next");
-    expect(decideEdgeAction("/admin/catalog", false).kind).toBe("auth-307");
+    expect(decideEdgeAction("/admin/catalog", false)).toEqual({
+      kind: "auth-307",
+      to: CITIZEN_LOGIN_PATH,
+      next: "/admin/catalog",
+    });
     expect(decideEdgeAction("/admin/catalog", true).kind).toBe("next");
     expect(decideEdgeAction("/pasaport", false)).toEqual({
       kind: "auth-307",

@@ -16,6 +16,7 @@ import {
   RAIL_V1_HOPS,
 } from "@/lib/kernel/http/v1-contract";
 import { RAIL_V1_HOP_GATES } from "@/lib/kernel/http/v1-hop-gate";
+import { RAIL_V1_HOP_META_COUNT } from "@/lib/kernel/http/api-route-census";
 import { guardRailV1OkData } from "@/lib/kernel/http/v1-response-guard";
 import { parseRailClientJson } from "@/lib/ui/parse-rail-json";
 import { RAIL_IS_DAY0_HOPS } from "../../apps/rail-is/src/api/hops";
@@ -64,9 +65,10 @@ describe("Faz 1 kanonikleştirme yüzeyi", () => {
     expect(existsSync(join(ROOT, "app/api/v1"))).toBe(false);
   });
 
-  it("v1 hop sicili 29 kayıt ve kenar kapısı 1:1 kilitler (API-First yazmalar açık)", () => {
+  it("v1 hop sicili kenar kapısı 1:1 kilitler (API-First yazmalar açık)", () => {
     expect(RAIL_V1_HOPS.map((hop) => hop.id)).toEqual(RAIL_V1_HOP_GATES.map((hop) => hop.id));
-    expect(RAIL_V1_HOPS).toHaveLength(29);
+    // Sayı sabit yazılmaz: tek ev `RAIL_V1_HOP_META_COUNT` (TEDAVI §4.1 ile aynı ilke).
+    expect(RAIL_V1_HOPS).toHaveLength(RAIL_V1_HOP_META_COUNT);
     expect(RAIL_V1_HOPS.map((hop) => hop.id)).toEqual([
       "health",
       "academy-certificate",
@@ -94,14 +96,19 @@ describe("Faz 1 kanonikleştirme yüzeyi", () => {
       "junior-profile-consent",
       "junior-profile-erase",
       "junior-electives",
+      "junior-shelves",
+      "junior-progress-read",
+      "academy-catalog",
       "junior-tell",
       "junior-practice",
       "junior-quiz",
+      "junior-pilot-checkout",
     ]);
-    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(29);
-    expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).not.toContain("/api/v1/junior-pilot/checkout");
+    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(RAIL_V1_HOP_META_COUNT);
+    // Kasa hop'u sicildedir; Dron allowlist'te de görünür (kapı `JUNIOR_CHECKOUT_OPEN`).
+    expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).toContain("/api/v1/junior-pilot/checkout");
     expect(RAIL_V1_HOPS.some((hop) => hop.v1PathTemplate.includes("junior-pilot/checkout"))).toBe(
-      false,
+      true,
     );
     expect(RAIL_V1_HOPS.some((hop) => hop.id === "freelancer-refund")).toBe(false);
     expect(JSON.stringify(RAIL_IS_DAY0_HOPS)).not.toContain("refund");

@@ -5,6 +5,7 @@ import { GraphicOpStage } from "@/components/junior/pilot-player/GraphicOpStage"
 import { BodyScene, ScienceSceneArt } from "@/components/junior/player/science-scenes";
 import { juniorBookletCopy } from "@/lib/junior/booklet";
 import { lockTimelineToExactAudioMs } from "@/lib/junior/pilot-engine/pcm-cue-aligner";
+import "@/lib/junior/pilot-engine/acoustic-timeline-disk";
 import { resolveJuniorPlayback } from "@/lib/junior/pilot-engine/playback";
 import { reduceSceneState, type SceneGraphState, type TimedNumber } from "@/lib/junior/pilot-engine/state-reducer";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
@@ -51,8 +52,9 @@ function expectMarksLocked(
   }
 }
 
-function expectNoOrgans(html: string) {
-  expect(html).toContain("çizim yok");
+function expectEcology(html: string, title: string) {
+  expect(html).toContain(title);
+  expect(html).not.toContain("çizim yok");
   expect(html).not.toContain("Duyu organları");
   expect(html).not.toContain(">Göz<");
   expect(html).not.toContain(">Kulak<");
@@ -70,7 +72,7 @@ describe("jr_06_fen-37/38 biyoçeşitlilik ve yakıt sözleşmesi", () => {
         expect(film, `${lessonKey} ${sentence}`).toContain(sentence);
       }
     }
-    expect(resolveJuniorPlayback("jr_06_fen-16").engine).toBe("sealed");
+    expect(resolveJuniorPlayback("jr_06_fen-16").engine).toBe("pilot");
   });
 
   it("tür sayıları ve yakıt litreleri grafik parametresidir", () => {
@@ -164,7 +166,7 @@ describe("jr_06_fen-37/38 biyoçeşitlilik ve yakıt sözleşmesi", () => {
         caption: "Bir orman fotoğrafını gözlemlemek, tür sayısının neden önemli olduğunu gösterir.",
       }),
     );
-    expectNoOrgans(observe);
+    expectEcology(observe, "Biyoçeşitlilik");
 
     const smoke = renderToStaticMarkup(
       createElement(BodyScene, {
@@ -172,7 +174,7 @@ describe("jr_06_fen-37/38 biyoçeşitlilik ve yakıt sözleşmesi", () => {
         caption: "Bacadan çıkan dumanı gözlemlemek, enerjinin bedelini görünür kılar.",
       }),
     );
-    expectNoOrgans(smoke);
+    expectEcology(smoke, "Yakıt");
 
     const neutral = renderToStaticMarkup(
       createElement(ScienceSceneArt, {
@@ -182,7 +184,7 @@ describe("jr_06_fen-37/38 biyoçeşitlilik ve yakıt sözleşmesi", () => {
         caption: "Parkta yalnız tek bir çim türü varsa çeşitlilik azalmıştır.",
       }),
     );
-    expectNoOrgans(neutral);
+    expectEcology(neutral, "Biyoçeşitlilik");
 
     const fuelLesson = renderToStaticMarkup(
       createElement(ScienceSceneArt, {
@@ -192,7 +194,7 @@ describe("jr_06_fen-37/38 biyoçeşitlilik ve yakıt sözleşmesi", () => {
         caption: "Kısa yolu yürümek yakıtı azaltır.",
       }),
     );
-    expectNoOrgans(fuelLesson);
+    expectEcology(fuelLesson, "Yakıt");
 
     const sense = renderToStaticMarkup(
       createElement(BodyScene, {

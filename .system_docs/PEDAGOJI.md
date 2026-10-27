@@ -4,6 +4,8 @@ Bu belge platformun **kalıcı eğitim felsefesini**, Google AI Studio medya fab
 
 Çelişkide `.system_docs/ANAYASA.md` **A Katmanı** bağlayıcıdır. Hedef yayın Anayasa B4 karar tablosudur. Beş medya katmanının bu belgedeki tek tanımı §B «Zorunlu üretim sırası» altındadır. Üç kontrol kapısının tek tanımı aynı bölümdeki «3 aşamalı kontrol kapısı» altındadır. Süre ve sayısal sınırın tek evi koddur.
 
+**Tek adres kuralı (27 Ekim 2026):** Bu belge yalnız öğretme ve yayın formatını söyler. Model kimliği `lib/kernel/ai/model-roles.ts`, kilitli harita `.system_docs/AKADEMI_URETIM_ANAYASASI.md` içindedir. Uyumsuzlukta kod dosyası haritaya eşitlenir; harita silinmez. Satış/yayın kademesi Anayasa B3, mimari Anayasa B1, Junior kapısı Anayasa B6'dadır. «Beş aşama» bu belgede ders metninin yazım sırasıdır. Üretim anayasasındaki altı adım (0–5) ve beş medya katmanı ayrı nesnelerdir. Öğretme cümlesi kodla çelişirse bu belge koda çekilir.
+
 Mimari ad Anayasa B1’dir. Bu belge öğretme kuralını ve yayın formatını tutar. İkinci bir ürün mimarisi açmaz.
 
 ---
@@ -43,12 +45,12 @@ Fırın, bitmiş mutfak metnini seslendirir. Taslak cümle mühürlenmez.
 Konuşma metninin kişiliği tezgâhın yanındaki ustadır. Anlatıcı akademisyen veya ajans yazarı değildir. Sahayı, dükkânı, depoyu ve akşam bilgisayar karşısındaki öğrenciyi bilir. Bu kişilik bir ses kaydı değildir. Persona dil ve üsluptur. Anlatıcı adı kursun sesidir.
 
 * **Eylem öğrencidedir.** Yapay zekâ işi yapan değil, asistandır. «Sen okursun. Sen karar verirsin. Vitrine de sen koyarsın.»
-* **Kapanış duası:** «Tezgâhın bereketli olsun. Satışın hayırlı gelsin.»
-* **Persona (dil ve üslup):** Tezgâh / Anlatıcı yapısı geneldir. Beş aşama, SEN dili ve kapanış duası her kursun metin iskeletidir. Bu iskelet bir ses adı değildir. Deniz, bu iskeletin sicil adıdır (Zephyr). EC-102 anlatıcısı Deniz değildir.
+* **Kapanış duası ve bağlama uygun veda (Tek Açık Dil İlkesi):** Kapanış cümlesi kursun sahasına göre seçilir; ezbere slogan gibi her konuya yapıştırılmaz. Tezgâh ve mağaza senaryosu isteminde (`ACADEMY_LESSON_TEXT_SYSTEM_PROMPT` / `ACADEMY_LESSON_BENCH_CLOSING`) kapanış duası «Tezgâhın bereketli olsun. Satışın hayırlı gelsin.» dir. Genel ve ofis eğitimlerinde ise doğal insani veda («Zihnine sağlık. Bir sonraki derste görüşmek üzere, kendine iyi bak.») kullanılır; bağlam dışı derse zorlama tezgâh sloganı taşınmaz.
+* **Persona (dil ve üslup):** Tezgâh / Anlatıcı yapısı geneldir. Beş aşama, SEN dili ve bağlama uygun kapanış her kursun metin iskeletidir. Bu iskelet bir ses adı değildir. Deniz, bu iskeletin sicil adıdır (Zephyr). EC-102 anlatıcısı Deniz değildir.
 * **Anlatıcı adı (ses):** Kursun `courseMasterVoice` değeridir. 1 Eğitim Kodu = 1 Ses. Ev `lib/academy/instructors.ts`. OFF-101 anlatıcısı Gözde (Callirrhoe), OFF-201 anlatıcısı Aylin (Kore), EC-102 anlatıcısı Kaan (Puck) dir. EC-102 selamı «Merhaba, ben Kaan», kart hitabı «Kaan Bey» dır. Cinsiyet erkektir. Bu kursta usta unvanı yoktur. Fırın modeli `lib/kernel/ai/model-roles.ts` içindeki `ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS` dir. Bu madde o modeli ve mührü değiştirmez.
 * **Fonetik yazım:** Kaynak cümle sayıyı ve ölçüyü kelimeyle yazar (`iki adet`, `elliye yetmiş santimetre`). Ses bu kelimeyi okur. Ekran ve altyazı aynı ölçüyü rakamla basar (`2 adet`, `50x70 cm`). Kısaltmanın ses okunuşu `lib/academy/spoken-scripts/phonetics.ts` içindedir (`SEO` → `Seo`, `N11` → `En on bir`).
 
-Her yeni ders metni şu beş aşamayla yazılır. İstem `ACADEMY_LESSON_TEXT_SYSTEM_PROMPT` (`lib/academy/lesson-text-standard.ts`) içindedir. Bu paragraf o istemin ikinci kopyası değildir.
+Her yeni ders metni şu beş aşamayla yazılır. Bu beşli, üretim anayasasındaki altı adımın (0–5) ve beş medya katmanının adı değildir. İstem `ACADEMY_LESSON_TEXT_SYSTEM_PROMPT` (`lib/academy/lesson-text-standard.ts`) içindedir. Bu paragraf o istemin ikinci kopyası değildir.
 
 1. **Giriş (Tezgâh Başı).** Karşılama ve konu sınırı.
 2. **Saha gerçeği.** Alıcının veya kullanıcının gerçekte düştüğü hata.
@@ -104,7 +106,7 @@ Bu alt başlık, üç kapının bu belgedeki tek tanımıdır.
 
 1. **Taslak metin** — operatör ve süreç kontrolüdür. Senaryo ve chunking burada biter. Kod bu kapıyı fail-closed zorlamaz. Atlanırsa metin kalitesi düşer; derleme durmaz.
 2. **Gözden geçirme** — operatör ve süreç kontrolüdür. Pedagoji, jargon ve aforizma taraması burada biter. Kod bu kapıyı fail-closed zorlamaz. Atlanırsa dil sapar; derleme durmaz.
-3. **Son kontrol** — kod seviyesinde fail-closed zorunluluktur. `assertAcademyProductionSeal` (`lib/academy/production-standard.ts`) §B üretim sırasındaki beş katmanı diskte arar. Katman eksikse `--seal` basılmaz ve satış kapısı açılmaz. Video yerel `-warmup.mp4` ve müzik yatağı (`MUSIC_GEN`) bu kapının parçasıdır. Bu kapı atlanamaz.
+3. **Son kontrol** — kod seviyesinde fail-closed zorunluluktur. `assertAcademyProductionSeal` (`lib/academy/production-standard.ts`) §B üretim sırasındaki beş katmanı diskte arar; katman eksikse stüdyo tam mührü (`--seal` / `academyCourseProductionDiskSealed`) basılmaz. Canlı satış kapısı (`readAcademyVitrineSaleGates` — `lib/academy/sale-gate-board.ts`; saf karar `lib/kernel/admin/sale-gate.ts`) ise Anayasa B3 gereği yayın, aktif fiyat ve sınav yolundaki her derste konuşma metni ile mühürlü sesi arar. Video yerel `-warmup.mp4`, görsel ve müzik yatağı (`MUSIC_GEN`) tam stüdyo mührünün parçasıdır. Bu kapı atlanamaz.
 
 **Model sicili.** Fırın ve gümrük medya kimliği `lib/kernel/ai/model-roles.ts` içindeki `ACADEMY_SEALED_MEDIA_MODEL` nesnesindedir. Bu belgede model kimliği, tempo ve desibel dondurulmaz. Rol kimliği değişince felsefe metni yeniden yazılmaz. Üretim sırası §B’de durur; pedagoji durur. Canlı sohbet `FAST_STREAM` okur. Senaryo `TEXT_GEN` okur. Ses mührü `ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS` okur. `academyBakeVoiceModelId()` aynı kimliği döner. Kota bitince alt model açılmaz. Konuşma temposu `ACADEMY_BAKE_ATEMPO`, seviye EBU R128 `loudnorm`. Bake sırası `lib/academy/production-standard.ts` ve fırın betiklerindedir.
 
@@ -113,7 +115,7 @@ Yapay zeka fırınlarının görev dağılımı şöyledir:
 | Rol | Fırın | Görev |
 |-----|-------|--------|
 | Metin & Senaryo | **`ACADEMY_SEALED_MEDIA_MODEL.TEXT_GEN`** | 4-beat reji yapısına (Warm-up → Command → Comparison → Task) uygun ders senaryolarını hazırlar. Canlı sohbet ayrıdır: `FAST_STREAM`. |
-| Seslendirme | `ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS` | **1 Eğitim Kodu = 1 Ses.** Kurs `courseMasterVoice` tek stringdir. Ders bazlı ses haritası yoktur. Persona (Tezgâh dili, §2.2) ile anlatıcı adı ayrıdır. Amiral SKU `01_office_ai` metnini Gözde (**Callirrhoe**) ile mühürler. OFF-201 (`01_office_ai_ileri`) metnini Aylin (**Kore**) ile mühürler. EC-102 (`02_ecommerce_ai`) metnini Kaan (**Puck**) ile mühürler; bu kursta usta unvanı yoktur. OFF-201 eğitmeni Gözde olamaz. Tempo `ACADEMY_BAKE_ATEMPO`, seviye EBU R128. İstek tavanı ve süre tabanı bu hücrede tekrarlanmaz; tek ev `lib/academy/production-standard.ts` içindedir. Kilit testi `tests/academy/production-standard.test.ts`. Model kimliği `lib/kernel/ai/model-roles.ts`. |
+| Seslendirme | `ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS` | **1 Eğitim Kodu = 1 Ses.** Kurs `courseMasterVoice` tek stringdir. Ders bazlı ses haritası yoktur. Persona (Tezgâh dili, §2.2) ile anlatıcı adı ayrıdır. Ofis kartı `01_office_ai` metnini Gözde (**Callirrhoe**) ile mühürler. OFF-201 (`01_office_ai_ileri`) metnini Aylin (**Kore**) ile mühürler. EC-102 (`02_ecommerce_ai`) metnini Kaan (**Puck**) ile mühürler; bu kursta usta unvanı yoktur. OFF-201 eğitmeni Gözde olamaz. Tempo `ACADEMY_BAKE_ATEMPO`, seviye EBU R128. İstek tavanı ve süre tabanı bu hücrede tekrarlanmaz; tek ev `lib/academy/production-standard.ts` içindedir. Kilit testi `tests/academy/production-standard.test.ts`. Model kimliği `lib/kernel/ai/model-roles.ts`. |
 | Görsel | `ACADEMY_SEALED_MEDIA_MODEL.IMAGE_GEN` | Canlı uygulama kartları. %80 canlı uygulama / %20 sinematik veya kılavuz kartı. Yedek: `IMAGE_GEN` plakası + CSS Ken Burns. |
 | Video | Yerel `-warmup.mp4` | İlk 6–8 sn ısınma klibi. Otomatik Veo 3.1 Lite ve pahalı Veo 3.1 API çağrıları iptaldir. Kaset `public/media/academy/micro/` altından okunur. Canlı `VIDEO_GEN` mühürlü-ölüdür. |
 | Ducking Müzik | `ACADEMY_SEALED_MEDIA_MODEL.MUSIC_GEN` | Vokalsiz fon müziği yatağı. Konuşurken dipte kalır; nefes payında ducking `ACADEMY_BED_BREATH_DB` (`lib/academy/lesson-bed-duck.ts`). |
@@ -132,7 +134,7 @@ Sayısal fırın tavanı ve süre tabanı bu tabloda tekrarlanmaz. Tek ev `lib/a
 | — | Pekiştirme durağı | Task öncesi ~45 sn | Üç somut adımı tane tane tekrarlayan kapanış özeti. Stüdyo anahtarı vatandaş rozeti değildir |
 | 4 | Task | Özet & Saha Görevi | Üç somut adım ve saha görevi |
 
-Konuşma 2.0 saniyede başlar. Bu aralıkta ekranda iş kartı durur. Jenerik logo plakası opsiyoneldir; sahnenin gövdesi olamaz (§A.4). Amiral SKU `01_office_ai` anlatıcısı Gözde (Callirrhoe)’dir. Konuşma bitince 1-2-3 iş özeti ekranda kalır. Logo plakası bu özete eklenmek zorunda değildir. Gain, nefes ve kapanış süreleri `lib/academy/lesson-bed-duck.ts` içindedir; bu paragraf o sayıları ikinci kez dondurmaz. Intro, outro ve dinamik görsel reji **§E Altın Şablon Standartları** içindedir.
+Konuşma 2.0 saniyede başlar. Bu aralıkta ekranda iş kartı durur. Jenerik logo plakası opsiyoneldir; sahnenin gövdesi olamaz (§A.4). Ofis kartı `01_office_ai` anlatıcısı Gözde (Callirrhoe)’dir. Konuşma bitince 1-2-3 iş özeti ekranda kalır. Logo plakası bu özete eklenmek zorunda değildir. Gain, nefes ve kapanış süreleri `lib/academy/lesson-bed-duck.ts` içindedir; bu paragraf o sayıları ikinci kez dondurmaz. Intro, outro ve dinamik görsel reji **§E Altın Şablon Standartları** içindedir.
 
 **Altın Şablon görsel reji** (`01_office_ai-1` — gelecek müfredatın cue-görsel sözleşmesi):
 
@@ -153,7 +155,7 @@ Vatandaş etiketinde «Kirli» yok. Yerine «Düzensiz Tablo», «Ham Veri» vey
 
 Kod SSOT: `lib/academy/production-standard.ts`. Görsel reji SSOT: `lib/academy/lesson-beat-visual.ts`.
 
-Süre bandı ve sınav barajı kod SSOT’tadır (`lib/academy/production-standard.ts`, `ACADEMY_EXAM_PASS_SCORE`). TTS bütçe tavanı D.1’dedir. Vitrin kartındaki dakika yuvarlaması ayrıdır (`lib/academy/lesson-meta.ts`). Çok teknik konularda müfredat **Temel / Orta / İleri** bağımsız paket olarak ayrılabilir; her SKU’ya zorunlu basamak değildir. Ses seçimi fırınlama aşamasında **kadın veya erkek** TTS yuvasıdır. **1 Eğitim Kodu = 1 Ses:** `courseMasterVoice` tek stringdir; dersler ayrı sese bölünmez ve ders bazlı ses haritası yoktur. Gözde (Callirrhoe) amiral SKU `01_office_ai` mühürüdür. OFF-201 mührü Aylin (Kore) dir. EC-102 mührü Kaan (Puck) dir; usta unvanı bu kursta yoktur. OFF-201 kilidi `lib/academy/instructors.ts` içindeki `ACADEMY_OFF201_COURSE_MASTER_VOICE` sabitidir. OFF-201 eğitmeni Gözde olamaz. Süre tabanı, ders tabanı ve TTS istek tavanı `lib/academy/production-standard.ts` içindedir. Ders istek bandının sabit adları `lib/academy/tts-breath-chunks.ts` içindedir. Sayıların kilitlendiği test `tests/academy/production-standard.test.ts` dir. Model kimliği `lib/kernel/ai/model-roles.ts` içindedir; bu paragraf o sayıları ikinci kez yazmaz.
+Süre bandı ve sınav barajı kod SSOT’tadır (`lib/academy/production-standard.ts`, `ACADEMY_EXAM_PASS_SCORE`). TTS bütçe tavanı D.1’dedir. Vitrin kartındaki dakika yuvarlaması ayrıdır (`lib/academy/lesson-meta.ts`). Çok teknik konularda müfredat **Temel / Orta / İleri** bağımsız paket olarak ayrılabilir; her SKU’ya zorunlu basamak değildir. Ses seçimi fırınlama aşamasında **kadın veya erkek** TTS yuvasıdır. **1 Eğitim Kodu = 1 Ses:** `courseMasterVoice` tek stringdir; dersler ayrı sese bölünmez ve ders bazlı ses haritası yoktur. Gözde (Callirrhoe) ofis kartı `01_office_ai` mühürüdür. OFF-201 mührü Aylin (Kore) dir. EC-102 mührü Kaan (Puck) dir; usta unvanı bu kursta yoktur. OFF-201 kilidi `lib/academy/instructors.ts` içindeki `ACADEMY_OFF201_COURSE_MASTER_VOICE` sabitidir. OFF-201 eğitmeni Gözde olamaz. Süre tabanı, ders tabanı ve TTS istek tavanı `lib/academy/production-standard.ts` içindedir. Ders istek bandının sabit adları `lib/academy/tts-breath-chunks.ts` içindedir. Sayıların kilitlendiği test `tests/academy/production-standard.test.ts` dir. Model kimliği `lib/kernel/ai/model-roles.ts` içindedir; bu paragraf o sayıları ikinci kez yazmaz.
 
 ---
 
@@ -245,7 +247,7 @@ Dinle ve Anlat öğretir. Sertifika, mühür ve kariyer vizesi vermez. Resmî s�
 
 ### Oynatıcı
 
-Web ders yüzeyi tek kapıdan açılır: `VectorPlayer`. Kapı `resolveJuniorPlayback` (`lib/junior/pilot-engine/playback.ts`) dir. `jr_06_mat-5` mühürlü zaman çizelgesiyle `JuniorPilotPlayer` çizer. Diğer mühürlü dersler dinle-anlat vektör oynatıcısındadır. Aynı ders iki motorla açılmaz. Pilot konuşmasının yazarı `lib/junior/pilot-engine/mat-5.choreography.ts` dir. Zaman damgası `packages/junior-content/timelines/jr_06_mat-5.timeline.json` bu yazardan türetilir; konuşma sapması `verify:junior-content` kapısında reddedilir. Taslak hece saati oynatıcı kaynağı değildir. Ders kartı, kazanım ve dışa aktarım `lib/junior/content` borusunda kalır. Süre bandı ve dört bölüm bu ekteki sözleşmedir. Pilot sahnesi o bandın yerine ikinci bir pedagoji yazmaz. Native istemci aynı dersi bu sahne grafiğiyle çizmez; hop sözleşmesi bu ekte ikinci kez yazılmaz.
+Web ders yüzeyi `resolveJuniorPlayback` (`lib/junior/pilot-engine/playback.ts`) kapısından açılır. Altyazı saati kilitli karaoke JSON'dur: oynatılan her ders `packages/junior-content/timelines/` altında `production: locked/ready` bir zaman çizelgesi taşır (çekirdek ve seçmeli ayrımı yoktur). Sayı burada yazılmaz; envanter `npm run verify:junior-content` ve `tsx scripts/verify-junior-visual-ops.ts` çıktısındadır. `JuniorPilotPlayer` kilitli zaman çizelgesi olan her dersi açar. Eski grafik tahta dosyaları (`mat-27.graph.ts`, `mat-30`–`mat-36`) oynatıcı yolu değildir; mühür betiğinin arşiv kaynağıdır. Aynı ders iki motorla açılmaz. Pilot konuşmasının yazarı `lib/junior/pilot-engine/mat-1.choreography.ts` (ve `mat-6.choreography.ts`) dir. Zaman damgası `packages/junior-content/timelines/jr_06_mat-1.timeline.json` bu yazardan türetilir; konuşma sapması `verify:junior-content` kapısında reddedilir. Taslak hece saati oynatıcı kaynağı değildir. Ders kartı, kazanım ve dışa aktarım `lib/junior/content` borusunda kalır. Süre bandı ve dört bölüm bu ekteki sözleşmedir. Pilot sahnesi o bandın yerine ikinci bir pedagoji yazmaz. Native istemci aynı dersi bu sahne grafiğiyle çizmez; hop sözleşmesi bu ekte ikinci kez yazılmaz.
 
 Değerlendirme üslubu çocuğun yaş grubuna göre değişir. Sistem istemi, profildeki doğum yılından grubu okur. Üç üslup vardır. Biri seçilir. Üçü birden aynı anlatışa yazılmaz.
 
@@ -257,13 +259,13 @@ Değerlendirme üslubu çocuğun yaş grubuna göre değişir. Sistem istemi, pr
 
 **15-18 yaş (9, 10, 11 ve 12. sınıf).** Üslup analitik, genç yetişkin saygısında, akran rehberliğinde net ve doğrudandır. Süslü övgü kurulmaz. Doğru, eksik ve sonraki adım ayrı cümlelerdir. Çocuk yerine konuşulmaz.
 
-Pilot sınıf 6’dır. Bu sınıf 10-12 üslubuna girer. Aynı dersi dinleyen 8. sınıf öğrencisi 13-14 üslubunu, lise öğrencisi 15-18 üslubunu duyar. Dersin kazanımı değişmez. Değişen, değerlendirme cümlesinin sesidir.
+Pilot sınıf 6’dır. Sınıf seçici yalnız bu pilotu gösterir. 10-12 üslubu bu sınıfın değerlendirme sesidir. 13-14 ve 15-18 üslupları kodda persona bandı olarak durur; ikinci bir sınıfın dersi yazılmadan vitrin vaadi değildir. Dersin kazanımı değişmez. Değişen, değerlendirme cümlesinin sesidir.
 
 ### Veli modeli ve çocuk güvenliği
 
 Hesap velinindir. Çocuk, veli hesabının altında bir profildir. Bu fazda çocuğa ayrı e-posta ve ayrı giriş açılmaz.
 
-Ders, veli rızası olmadan açılmaz. Rıza yoksa kanal kapalıdır.
+Kilitli konu, anlatış kaydı ve konu testi veli oturumu olmadan açılmaz. Çekirdek kartın tanımlı ilk konusu ve `/junior` listesi kamuya açıktır. İngilizce açılışı dosya sırasındaki 1. ders değil, `JUNIOR_FREE_OPENER_OVERRIDE` ile yazılan derstir. Kapı Anayasa B6 ve `canEnterJunior` içindedir.
 
 Platform çocuk adına bakiye, harçlık veya kredi tutmaz. Oyun puanı para değildir. Parayla alınamaz. Paraya çevrilemez.
 
@@ -281,13 +283,13 @@ Okul kitabı metni kopyalanmaz. Kazanım anlatılır. Cümle özgün yazılır.
 
 Öğretmen hibrit hitap kullanır. Kaset açılışı topluluğa söylenir: «Merhaba sevgili çocuklar!» veya «Merhaba çocuklar, hepiniz hoş geldiniz!». Konunun ayrıntısı, ipucu ve kilit nokta tek çocuğa söylenir: «Şimdi sevgili arkadaşım...», «İşte tam bu noktada dikkat etmen gereken kilit nokta...». Adım sonu birlikte kapanır: «Tebrikler çocuklar! Harika bir iş çıkardık.» Gövde ve mikrofon cümlesi sen dilinde kalır. Belge, sözleşme ve veli yazısı bu kuralın dışındadır; orada dil «siz» kalır (§A.2). Çerçeve `lib/junior/content-rules.ts` içindeki `JUNIOR_HYBRID_OPENINGS`, `JUNIOR_HYBRID_HINT_LEAD`, `JUNIOR_HYBRID_STEP_CLOSE`, `JUNIOR_TEACHER_ADDRESS` ve `JUNIOR_TELL_CLOSE` dur.
 
-Soğuk «Selam!» girişi yasaktır. Profilde rumuz varsa açılış bir kez «Merhaba {rumuz}, bu konuya birlikte bakacağız.» der. Rumuz ders dosyasına yazılmaz. «Bak burası senin için çok önemli», «Şurası aklında kalsın» ve «Bugün seninle» koç dolgusudur; ders gövdesine yazılmaz. Yazılıda kullanılacak cümle «Pratik kural:» ile bağlanır. Mühür `JUNIOR_WARM_OPENINGS`, `JUNIOR_TEACHER_CUES`, `bindJuniorTeacherCue` ve `sealJuniorWarmWelcome` dir.
+Soğuk «Selam!» girişi yasaktır. Profilde rumuz varsa açılış bir kez «Merhaba {rumuz}, bu konuya birlikte bakacağız.» der. Rumuz ders dosyasına yazılmaz. Çalışma zamanı yasağı `JUNIOR_CLICHE_PHRASES` listesidir (`lib/junior/content-rules.ts`): «bak burası çok önemli», «bak burası senin için çok önemli», «aferin sana», «şurası aklında kalsın». «Bugün seninle» mühürlü pilot açılışında durur ve bu listeye girmez. Yazılıda kullanılacak cümle «Pratik kural:» ile bağlanır. Mühür `JUNIOR_WARM_OPENINGS`, `JUNIOR_TEACHER_CUES`, `bindJuniorTeacherCue` ve `sealJuniorWarmWelcome` dir.
 
 ### Doyurucu konu
 
 Ders kısa özet değildir. Her konu dört bölüm taşır: Kavram, Örnek, Kritik Uyarı ve Günlük Kullanım. Aynı paragraf üç alana kopyalanmaz. Ev `lib/junior/scenario.ts` ve `lib/junior/content-rules.ts` (`JUNIOR_LESSON_SECTIONS`). Ücretsiz ilk konu da bu dört bölümü tam taşır. Üçüncü bölümün çocuk yüzü aşağıdaki ipucu kutusudur.
 
-Anlatım üç aşamada yürür: Giriş (Oryantasyon), Gelişme (Tam Anlatım), Sonuç (Özetleme). Günlük sahne Giriş’te merak uyandırır; Gelişme tanımı papağan gibi tekrar etmez; Sonuç «Bugün Neler Öğrendik?» kartıyla biter ve üç nokta taşır. Ev `JUNIOR_SCENARIO_STAGES` (`lib/junior/content-rules.ts`). Konuşma süresi 5 ile 12 dakika arasındadır. Hedef 7 ile 8 dakikadır. Süre, oynatıcı saatinin karakter hesabıdır. Bant, konunun kendi cümlelerinden ve ileri adımından dolar. Aynı örnek kalıp çerçevede ikinci kez okunmaz. Son adımda öğrenci iki yoldan birini seçer: mikrofona kendi cümlesiyle anlatmak ya da anlatımı 0:00 anından yeniden dinlemek. Ev `lib/junior/player-clock.ts` içindeki `JUNIOR_NARRATION_MIN_MS`, `JUNIOR_NARRATION_AIM_MS`, `JUNIOR_NARRATION_MAX_MS` ve oynatıcı karar kartı.
+Anlatım üç aşamada yürür: Giriş (Oryantasyon), Gelişme (Tam Anlatım), Sonuç (Özetleme). Günlük sahne Giriş’te merak uyandırır; Gelişme tanımı papağan gibi tekrar etmez; Sonuç «Bugün Neler Öğrendik?» kartıyla biter ve üç nokta taşır. Ev `JUNIOR_SCENARIO_STAGES` (`lib/junior/content-rules.ts`). Konuşma tabanı 3 dakikadır. Hedef ve tavan `lib/junior/player-clock.ts` içindeki `JUNIOR_NARRATION_AIM_MS` ve `JUNIOR_NARRATION_MAX_MS` değerleridir. Taban aynı dosyadaki `JUNIOR_NARRATION_MIN_MS` dir. Bu paragraf ikinci bir dakika bandı yazmaz. Mühür süresi ölçülmüş MP3 veya kilitli PCM'dir (`measuredJuniorNarrationMs`). Karakter saati yeşil mühür bırakmaz. 180 saniyenin altındaki ölçülmüş kaset süre açığıdır; kart «Kısa anlatım» der, oynatıcı kapanmaz. Bant, konunun kendi cümlelerinden ve ileri adımından dolar. Aynı örnek kalıp çerçevede ikinci kez okunmaz. Son adımda öğrenci iki yoldan birini seçer: mikrofona kendi cümlesiyle anlatmak ya da anlatımı 0:00 anından yeniden dinlemek. Oynatıcı karar kartı aynı saatin yanındadır.
 
 ### Gelişimsel İpucu Kutusu
 

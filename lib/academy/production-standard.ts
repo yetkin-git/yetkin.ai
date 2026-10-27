@@ -160,7 +160,7 @@ export type AcademyQualityGate = (typeof ACADEMY_QUALITY_GATES)[number];
 
 export type AcademyProductionSealPresence = Record<AcademyProductionMediaLayer, boolean>;
 
-const ACADEMY_PRODUCTION_LAYER_LABEL: Record<AcademyProductionMediaLayer, string> = {
+export const ACADEMY_PRODUCTION_LAYER_LABEL: Record<AcademyProductionMediaLayer, string> = {
   text: "Metin",
   voice: "Ses",
   video: "Isınma MP4",
@@ -351,6 +351,55 @@ export function academyCourseProductionDiskSealed(
 ): boolean {
   if (!readProductionDiskProbe() || lessonKeys.length === 0) return false;
   return lessonKeys.every((lessonKey) => academyProductionMissingLayers(courseSlug, lessonKey).length === 0);
+}
+
+/** Satış kapısının medya şartı: konuşma metni ve mühürlü ses. Isınma, görsel ve müzik bu kapıda yoktur. */
+export function academyLessonVoiceTextPresent(courseSlug: string, lessonKey: string): boolean {
+  if (!readProductionDiskProbe()) return false;
+  const presence = academyProductionLayerPresence(courseSlug, lessonKey);
+  return presence.text === true && presence.voice === true;
+}
+
+export function academyCourseVoiceTextSealed(
+  courseSlug: string,
+  lessonKeys: readonly string[],
+): boolean {
+  if (!readProductionDiskProbe() || lessonKeys.length === 0) return false;
+  return lessonKeys.every((lessonKey) => academyLessonVoiceTextPresent(courseSlug, lessonKey));
+}
+
+/** Tek dersin beş katmanı diskte duruyorsa true. Kademeli yayın kademesi bunu okur. */
+export function academyLessonProductionDiskSealed(courseSlug: string, lessonKey: string): boolean {
+  if (!readProductionDiskProbe()) return false;
+  return academyProductionMissingLayers(courseSlug, lessonKey).length === 0;
+}
+
+export type AcademySaleTier = "closed" | "showcase" | "sale";
+
+/**
+ * Kademeli yayın/satış kademesi.
+ * - `closed`: hiçbir derste ses ve metin yok.
+ * - `showcase`: bazı derslerde ses ve metin var → önizleme açık, Satın Al kapalı.
+ * - `sale`: sınav yolunun her dersinde ses ve metin var → yayın ve fiyatla Satın Al açılabilir.
+ * Beş katman `--seal` ve sinema notudur (`cinemaLessons`). Satış şartı değildir.
+ */
+export function academyCourseSaleTier(
+  courseSlug: string,
+  lessonKeys: readonly string[],
+): { tier: AcademySaleTier; sealedLessons: number; totalLessons: number; cinemaLessons: number } {
+  const totalLessons = lessonKeys.length;
+  if (totalLessons === 0) {
+    return { tier: "closed", sealedLessons: 0, totalLessons: 0, cinemaLessons: 0 };
+  }
+  const sealedLessons = lessonKeys.filter((key) => academyLessonVoiceTextPresent(courseSlug, key)).length;
+  const cinemaLessons = lessonKeys.filter((key) => academyLessonProductionDiskSealed(courseSlug, key)).length;
+  if (sealedLessons === 0) {
+    return { tier: "closed", sealedLessons, totalLessons, cinemaLessons };
+  }
+  if (sealedLessons < totalLessons) {
+    return { tier: "showcase", sealedLessons, totalLessons, cinemaLessons };
+  }
+  return { tier: "sale", sealedLessons, totalLessons, cinemaLessons };
 }
 
 export const ACADEMY_OPTIONAL_LEVEL_PACKAGES = ["Temel", "Orta", "İleri"] as const;

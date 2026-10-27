@@ -1,0 +1,3035 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_turkce-1",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Gerçek, mecaz ve terim anlam",
+  "grade": 6,
+  "subject": "Türkçe",
+  "teacher": {
+    "name": "Elif",
+    "voice": "Aoede",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_turkce-1.mp3",
+    "durationMs": 403148,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 117000
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 117000,
+      "endMs": 347020
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 347020,
+      "endMs": 403148
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4310,
+      "pauseAfterMs": 910,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 270,
+          "endMs": 790
+        },
+        {
+          "word": "sevgili",
+          "startMs": 790,
+          "endMs": 1770
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2130,
+          "endMs": 3400
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Gerçek, mecaz ve terim anlam",
+            "subtitle": "Türkçe",
+            "ruleBadges": [],
+            "echoPrompt": "Aynı sözcüğü üç cümlede hangi anlamla kurduğunu ayrı ayrı söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Gerçek anlam, sözcüğün akla ilk gelen somut anlamıdır."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Mecaz anlam, benzetmeyle kurulan soyut ve yeni anlamdır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Terim anlam; bilim, sanat ve meslek alanlarının özel anlamıdır."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4310,
+      "endMs": 7670,
+      "pauseAfterMs": 410,
+      "text": "Ben Türkçe öğretmenin Elif.",
+      "markedText": "Ben Türkçe öğretmenin Elif.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4310,
+          "endMs": 4390
+        },
+        {
+          "word": "Türkçe",
+          "startMs": 4560,
+          "endMs": 5480
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 5890,
+          "endMs": 6990
+        },
+        {
+          "word": "Elif.",
+          "startMs": 6990,
+          "endMs": 7260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 7670,
+      "endMs": 20430,
+      "pauseAfterMs": 380,
+      "text": "Hiç bir arkadaşının yüzü düştü dendiğinde gerçekten yüzünün yere düştüğünü düşündün mü?",
+      "markedText": "Hiç bir arkadaşının yüzü düştü dendiğinde gerçekten yüzünün yere düştüğünü düşündün mü?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 7670,
+          "endMs": 7970
+        },
+        {
+          "word": "bir",
+          "startMs": 8070,
+          "endMs": 8390
+        },
+        {
+          "word": "arkadaşının",
+          "startMs": 8460,
+          "endMs": 10080
+        },
+        {
+          "word": "yüzü",
+          "startMs": 10730,
+          "endMs": 11050
+        },
+        {
+          "word": "düştü",
+          "startMs": 11160,
+          "endMs": 11600
+        },
+        {
+          "word": "dendiğinde",
+          "startMs": 12180,
+          "endMs": 13230
+        },
+        {
+          "word": "gerçekten",
+          "startMs": 13620,
+          "endMs": 14570
+        },
+        {
+          "word": "yüzünün",
+          "startMs": 14940,
+          "endMs": 15780
+        },
+        {
+          "word": "yere",
+          "startMs": 15890,
+          "endMs": 16510
+        },
+        {
+          "word": "düştüğünü",
+          "startMs": 17100,
+          "endMs": 18450
+        },
+        {
+          "word": "düşündün",
+          "startMs": 18760,
+          "endMs": 19270
+        },
+        {
+          "word": "mü?",
+          "startMs": 19690,
+          "endMs": 20050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 20430,
+      "endMs": 23710,
+      "pauseAfterMs": 820,
+      "text": "Elbette hayır!",
+      "markedText": "Elbette hayır!",
+      "words": [
+        {
+          "word": "Elbette",
+          "startMs": 20430,
+          "endMs": 21370
+        },
+        {
+          "word": "hayır!",
+          "startMs": 21620,
+          "endMs": 22890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 23710,
+      "endMs": 32430,
+      "pauseAfterMs": 270,
+      "text": "O cümlede yüz, bir organı değil, yaşanan bir üzüntüyü anlatır.",
+      "markedText": "O cümlede yüz, bir organı değil, yaşanan bir üzüntüyü anlatır.",
+      "words": [
+        {
+          "word": "O",
+          "startMs": 23710,
+          "endMs": 23810
+        },
+        {
+          "word": "cümlede",
+          "startMs": 23810,
+          "endMs": 24480
+        },
+        {
+          "word": "yüz,",
+          "startMs": 24830,
+          "endMs": 25170
+        },
+        {
+          "word": "bir",
+          "startMs": 25250,
+          "endMs": 25580
+        },
+        {
+          "word": "organı",
+          "startMs": 25650,
+          "endMs": 26340
+        },
+        {
+          "word": "değil,",
+          "startMs": 26500,
+          "endMs": 27420
+        },
+        {
+          "word": "yaşanan",
+          "startMs": 28030,
+          "endMs": 28920
+        },
+        {
+          "word": "bir",
+          "startMs": 29390,
+          "endMs": 29510
+        },
+        {
+          "word": "üzüntüyü",
+          "startMs": 29870,
+          "endMs": 31090
+        },
+        {
+          "word": "anlatır.",
+          "startMs": 31710,
+          "endMs": 32160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 32430,
+      "endMs": 41790,
+      "pauseAfterMs": 410,
+      "text": "Kelimelerin gerçek, mecaz ve terim anlamlarını adım adım keşfedeceğiz.",
+      "markedText": "Kelimelerin gerçek, mecaz ve terim anlamlarını adım adım keşfedeceğiz.",
+      "words": [
+        {
+          "word": "Kelimelerin",
+          "startMs": 32430,
+          "endMs": 33190
+        },
+        {
+          "word": "gerçek,",
+          "startMs": 33260,
+          "endMs": 33650
+        },
+        {
+          "word": "mecaz",
+          "startMs": 34540,
+          "endMs": 35040
+        },
+        {
+          "word": "ve",
+          "startMs": 35230,
+          "endMs": 35520
+        },
+        {
+          "word": "terim",
+          "startMs": 36010,
+          "endMs": 36600
+        },
+        {
+          "word": "anlamlarını",
+          "startMs": 37210,
+          "endMs": 37940
+        },
+        {
+          "word": "adım",
+          "startMs": 38370,
+          "endMs": 38850
+        },
+        {
+          "word": "adım",
+          "startMs": 39730,
+          "endMs": 40130
+        },
+        {
+          "word": "keşfedeceğiz.",
+          "startMs": 40440,
+          "endMs": 41380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 41790,
+      "endMs": 49420,
+      "pauseAfterMs": 910,
+      "text": "Aynı sözcük, girdiği cümleye göre bambaşka bir göreve bürünür.",
+      "markedText": "Aynı sözcük, girdiği cümleye göre bambaşka bir göreve bürünür.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 41790,
+          "endMs": 42200
+        },
+        {
+          "word": "sözcük,",
+          "startMs": 42270,
+          "endMs": 43060
+        },
+        {
+          "word": "girdiği",
+          "startMs": 43690,
+          "endMs": 44510
+        },
+        {
+          "word": "cümleye",
+          "startMs": 44970,
+          "endMs": 45470
+        },
+        {
+          "word": "göre",
+          "startMs": 45570,
+          "endMs": 45970
+        },
+        {
+          "word": "bambaşka",
+          "startMs": 46030,
+          "endMs": 46400
+        },
+        {
+          "word": "bir",
+          "startMs": 46450,
+          "endMs": 46990
+        },
+        {
+          "word": "göreve",
+          "startMs": 47380,
+          "endMs": 47920
+        },
+        {
+          "word": "bürünür.",
+          "startMs": 48000,
+          "endMs": 48510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 49420,
+      "endMs": 65570,
+      "pauseAfterMs": 800,
+      "text": "Cümleyi dikkatle okuduğunda, kelimenin hangi anlam elbisesini giydiğini sen de hemen fark edersin.",
+      "markedText": "Cümleyi dikkatle okuduğunda, kelimenin hangi anlam elbisesini giydiğini sen de hemen fark edersin.",
+      "words": [
+        {
+          "word": "Cümleyi",
+          "startMs": 49420,
+          "endMs": 50430
+        },
+        {
+          "word": "dikkatle",
+          "startMs": 50800,
+          "endMs": 51400
+        },
+        {
+          "word": "okuduğunda,",
+          "startMs": 51650,
+          "endMs": 53540
+        },
+        {
+          "word": "kelimenin",
+          "startMs": 53900,
+          "endMs": 55380
+        },
+        {
+          "word": "hangi",
+          "startMs": 55520,
+          "endMs": 55880
+        },
+        {
+          "word": "anlam",
+          "startMs": 56030,
+          "endMs": 56820
+        },
+        {
+          "word": "elbisesini",
+          "startMs": 57580,
+          "endMs": 59120
+        },
+        {
+          "word": "giydiğini",
+          "startMs": 59450,
+          "endMs": 60240
+        },
+        {
+          "word": "sen",
+          "startMs": 60530,
+          "endMs": 60670
+        },
+        {
+          "word": "de",
+          "startMs": 60740,
+          "endMs": 61440
+        },
+        {
+          "word": "hemen",
+          "startMs": 61960,
+          "endMs": 62610
+        },
+        {
+          "word": "fark",
+          "startMs": 62970,
+          "endMs": 63130
+        },
+        {
+          "word": "edersin.",
+          "startMs": 63350,
+          "endMs": 64770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 65570,
+      "endMs": 70630,
+      "pauseAfterMs": 80,
+      "text": "Bunu günlük sohbetlerinde de keyifle fark edersin",
+      "markedText": "Bunu günlük sohbetlerinde de keyifle fark edersin",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 65570,
+          "endMs": 65920
+        },
+        {
+          "word": "günlük",
+          "startMs": 66320,
+          "endMs": 66430
+        },
+        {
+          "word": "sohbetlerinde",
+          "startMs": 66740,
+          "endMs": 67860
+        },
+        {
+          "word": "de",
+          "startMs": 68410,
+          "endMs": 68660
+        },
+        {
+          "word": "keyifle",
+          "startMs": 68660,
+          "endMs": 69310
+        },
+        {
+          "word": "fark",
+          "startMs": 69420,
+          "endMs": 69880
+        },
+        {
+          "word": "edersin",
+          "startMs": 70020,
+          "endMs": 70550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 70630,
+      "endMs": 89040,
+      "pauseAfterMs": 1000,
+      "text": "Bir arkadaşın kulağı deliktir dendiğinde kulağında delik aramazsın; haberleri çok iyi takip ettiğini hemen anlarsın.",
+      "markedText": "Bir arkadaşın kulağı deliktir dendiğinde kulağında delik aramazsın; haberleri çok iyi takip ettiğini hemen anlarsın.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 70630,
+          "endMs": 70910
+        },
+        {
+          "word": "arkadaşın",
+          "startMs": 71220,
+          "endMs": 72290
+        },
+        {
+          "word": "kulağı",
+          "startMs": 72990,
+          "endMs": 73530
+        },
+        {
+          "word": "deliktir",
+          "startMs": 74020,
+          "endMs": 74460
+        },
+        {
+          "word": "dendiğinde",
+          "startMs": 74860,
+          "endMs": 76270
+        },
+        {
+          "word": "kulağında",
+          "startMs": 76840,
+          "endMs": 77390
+        },
+        {
+          "word": "delik",
+          "startMs": 77450,
+          "endMs": 77850
+        },
+        {
+          "word": "aramazsın;",
+          "startMs": 78500,
+          "endMs": 79670
+        },
+        {
+          "word": "haberleri",
+          "startMs": 80330,
+          "endMs": 81330
+        },
+        {
+          "word": "çok",
+          "startMs": 81610,
+          "endMs": 82060
+        },
+        {
+          "word": "iyi",
+          "startMs": 82480,
+          "endMs": 82830
+        },
+        {
+          "word": "takip",
+          "startMs": 82970,
+          "endMs": 83770
+        },
+        {
+          "word": "ettiğini",
+          "startMs": 84000,
+          "endMs": 85480
+        },
+        {
+          "word": "hemen",
+          "startMs": 85800,
+          "endMs": 86560
+        },
+        {
+          "word": "anlarsın.",
+          "startMs": 86660,
+          "endMs": 88040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 89040,
+      "endMs": 92920,
+      "pauseAfterMs": 1290,
+      "text": "Bu mecaz anlamdır.",
+      "markedText": "Bu mecaz anlamdır.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 89040,
+          "endMs": 89250
+        },
+        {
+          "word": "mecaz",
+          "startMs": 89460,
+          "endMs": 90310
+        },
+        {
+          "word": "anlamdır.",
+          "startMs": 90540,
+          "endMs": 91630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 92920,
+      "endMs": 99840,
+      "pauseAfterMs": 680,
+      "text": "Doktor muayenede tansiyon dediğinde bu bir sağlık terimidir.",
+      "markedText": "Doktor muayenede tansiyon dediğinde bu bir sağlık terimidir.",
+      "words": [
+        {
+          "word": "Doktor",
+          "startMs": 92920,
+          "endMs": 93570
+        },
+        {
+          "word": "muayenede",
+          "startMs": 93700,
+          "endMs": 94470
+        },
+        {
+          "word": "tansiyon",
+          "startMs": 94550,
+          "endMs": 95170
+        },
+        {
+          "word": "dediğinde",
+          "startMs": 95170,
+          "endMs": 95960
+        },
+        {
+          "word": "bu",
+          "startMs": 96510,
+          "endMs": 96640
+        },
+        {
+          "word": "bir",
+          "startMs": 96830,
+          "endMs": 97180
+        },
+        {
+          "word": "sağlık",
+          "startMs": 97330,
+          "endMs": 97760
+        },
+        {
+          "word": "terimidir.",
+          "startMs": 97850,
+          "endMs": 99160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-1",
+      "startMs": 99840,
+      "endMs": 105990,
+      "pauseAfterMs": 400,
+      "text": "Sofradaki tuz ise gerçek anlamıyla durur.",
+      "markedText": "Sofradaki tuz ise gerçek anlamıyla durur.",
+      "words": [
+        {
+          "word": "Sofradaki",
+          "startMs": 99840,
+          "endMs": 100900
+        },
+        {
+          "word": "tuz",
+          "startMs": 101810,
+          "endMs": 102120
+        },
+        {
+          "word": "ise",
+          "startMs": 102260,
+          "endMs": 102530
+        },
+        {
+          "word": "gerçek",
+          "startMs": 102590,
+          "endMs": 103220
+        },
+        {
+          "word": "anlamıyla",
+          "startMs": 103540,
+          "endMs": 104410
+        },
+        {
+          "word": "durur.",
+          "startMs": 104670,
+          "endMs": 105590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-1",
+      "startMs": 105990,
+      "endMs": 117000,
+      "pauseAfterMs": 1010,
+      "text": "Cümleler değiştikçe kelimelerin sana sunduğu anlam zenginliği de güzelleşir.",
+      "markedText": "Cümleler değiştikçe kelimelerin sana sunduğu anlam zenginliği de güzelleşir.",
+      "words": [
+        {
+          "word": "Cümleler",
+          "startMs": 105990,
+          "endMs": 106810
+        },
+        {
+          "word": "değiştikçe",
+          "startMs": 106900,
+          "endMs": 108220
+        },
+        {
+          "word": "kelimelerin",
+          "startMs": 109310,
+          "endMs": 110330
+        },
+        {
+          "word": "sana",
+          "startMs": 110550,
+          "endMs": 110930
+        },
+        {
+          "word": "sunduğu",
+          "startMs": 111370,
+          "endMs": 111790
+        },
+        {
+          "word": "anlam",
+          "startMs": 112190,
+          "endMs": 113010
+        },
+        {
+          "word": "zenginliği",
+          "startMs": 113720,
+          "endMs": 114520
+        },
+        {
+          "word": "de",
+          "startMs": 114610,
+          "endMs": 114770
+        },
+        {
+          "word": "güzelleşir.",
+          "startMs": 115060,
+          "endMs": 115990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 117000,
+      "endMs": 132540,
+      "pauseAfterMs": 300,
+      "text": "Gerçek anlam, bir sözcüğün aklımıza ilk gelen, herkesçe bilinen somut ve temel anlamıdır.",
+      "markedText": "Gerçek anlam, bir sözcüğün aklımıza ilk gelen, herkesçe bilinen somut ve temel anlamıdır.",
+      "words": [
+        {
+          "word": "Gerçek",
+          "startMs": 117000,
+          "endMs": 117550
+        },
+        {
+          "word": "anlam,",
+          "startMs": 117870,
+          "endMs": 118110
+        },
+        {
+          "word": "bir",
+          "startMs": 119010,
+          "endMs": 119290
+        },
+        {
+          "word": "sözcüğün",
+          "startMs": 119410,
+          "endMs": 120640
+        },
+        {
+          "word": "aklımıza",
+          "startMs": 121080,
+          "endMs": 122140
+        },
+        {
+          "word": "ilk",
+          "startMs": 123060,
+          "endMs": 123390
+        },
+        {
+          "word": "gelen,",
+          "startMs": 123890,
+          "endMs": 124050
+        },
+        {
+          "word": "herkesçe",
+          "startMs": 124450,
+          "endMs": 125170
+        },
+        {
+          "word": "bilinen",
+          "startMs": 125370,
+          "endMs": 126240
+        },
+        {
+          "word": "somut",
+          "startMs": 127490,
+          "endMs": 128340
+        },
+        {
+          "word": "ve",
+          "startMs": 129280,
+          "endMs": 129640
+        },
+        {
+          "word": "temel",
+          "startMs": 129790,
+          "endMs": 130400
+        },
+        {
+          "word": "anlamıdır.",
+          "startMs": 130740,
+          "endMs": 132240
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 117000,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Gerçek anlam",
+            "subtitle": "Aklımıza ilk gelen anlam",
+            "rows": [
+              {
+                "title": "Gerçek anlam",
+                "body": "Sözcüğün akla ilk gelen, herkesçe bilinen anlamıdır.",
+                "tone": "concept"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 132540,
+      "endMs": 142270,
+      "pauseAfterMs": 340,
+      "text": "Örneğin göz, görmemizi sağlayan duyu organımızdır; bu gerçek anlamdır.",
+      "markedText": "Örneğin göz, görmemizi sağlayan duyu organımızdır; bu gerçek anlamdır.",
+      "words": [
+        {
+          "word": "Örneğin",
+          "startMs": 132540,
+          "endMs": 133200
+        },
+        {
+          "word": "göz,",
+          "startMs": 133200,
+          "endMs": 133270
+        },
+        {
+          "word": "görmemizi",
+          "startMs": 134340,
+          "endMs": 135910
+        },
+        {
+          "word": "sağlayan",
+          "startMs": 136280,
+          "endMs": 137280
+        },
+        {
+          "word": "duyu",
+          "startMs": 137520,
+          "endMs": 137610
+        },
+        {
+          "word": "organımızdır;",
+          "startMs": 137770,
+          "endMs": 138950
+        },
+        {
+          "word": "bu",
+          "startMs": 139780,
+          "endMs": 140000
+        },
+        {
+          "word": "gerçek",
+          "startMs": 140100,
+          "endMs": 140710
+        },
+        {
+          "word": "anlamdır.",
+          "startMs": 141170,
+          "endMs": 141930
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 132540,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Gerçek anlam örneği",
+            "rows": [
+              {
+                "title": "Göz görmemizi sağlar",
+                "body": "Duyu organı anlamı gerçek anlamdır.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 142270,
+      "endMs": 161200,
+      "pauseAfterMs": 820,
+      "text": "Mecaz anlam ise sözcüğün gerçek anlamından tamamen uzaklaşarak benzetme yoluyla kazandığı yeni ve soyut anlamdır.",
+      "markedText": "Mecaz anlam ise sözcüğün gerçek anlamından tamamen uzaklaşarak benzetme yoluyla kazandığı yeni ve soyut anlamdır.",
+      "words": [
+        {
+          "word": "Mecaz",
+          "startMs": 142270,
+          "endMs": 142710
+        },
+        {
+          "word": "anlam",
+          "startMs": 142800,
+          "endMs": 143550
+        },
+        {
+          "word": "ise",
+          "startMs": 144240,
+          "endMs": 144580
+        },
+        {
+          "word": "sözcüğün",
+          "startMs": 144680,
+          "endMs": 145730
+        },
+        {
+          "word": "gerçek",
+          "startMs": 145890,
+          "endMs": 146530
+        },
+        {
+          "word": "anlamından",
+          "startMs": 146800,
+          "endMs": 148220
+        },
+        {
+          "word": "tamamen",
+          "startMs": 148400,
+          "endMs": 149610
+        },
+        {
+          "word": "uzaklaşarak",
+          "startMs": 150620,
+          "endMs": 152110
+        },
+        {
+          "word": "benzetme",
+          "startMs": 152360,
+          "endMs": 153440
+        },
+        {
+          "word": "yoluyla",
+          "startMs": 153770,
+          "endMs": 154820
+        },
+        {
+          "word": "kazandığı",
+          "startMs": 155760,
+          "endMs": 156850
+        },
+        {
+          "word": "yeni",
+          "startMs": 156950,
+          "endMs": 157420
+        },
+        {
+          "word": "ve",
+          "startMs": 157900,
+          "endMs": 158190
+        },
+        {
+          "word": "soyut",
+          "startMs": 158190,
+          "endMs": 158760
+        },
+        {
+          "word": "anlamdır.",
+          "startMs": 159240,
+          "endMs": 160380
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 142270,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Mecaz anlam",
+            "rows": [
+              {
+                "title": "Mecaz anlam",
+                "body": "Gerçek anlamdan uzaklaşıp benzetmeyle kurulan yeni anlamdır.",
+                "tone": "concept"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 161200,
+      "endMs": 174940,
+      "pauseAfterMs": 360,
+      "text": "Gözü açık çocuk dediğimizde, uyanık ve dikkatli bir çocuğu anlatırız; burada göz artık organ anlamında değildir.",
+      "markedText": "Gözü açık çocuk dediğimizde, uyanık ve dikkatli bir çocuğu anlatırız; burada göz artık organ anlamında değildir.",
+      "words": [
+        {
+          "word": "Gözü",
+          "startMs": 161200,
+          "endMs": 161640
+        },
+        {
+          "word": "açık",
+          "startMs": 161700,
+          "endMs": 162050
+        },
+        {
+          "word": "çocuk",
+          "startMs": 162050,
+          "endMs": 162650
+        },
+        {
+          "word": "dediğimizde,",
+          "startMs": 162850,
+          "endMs": 164220
+        },
+        {
+          "word": "uyanık",
+          "startMs": 164810,
+          "endMs": 165260
+        },
+        {
+          "word": "ve",
+          "startMs": 165360,
+          "endMs": 165520
+        },
+        {
+          "word": "dikkatli",
+          "startMs": 165520,
+          "endMs": 166130
+        },
+        {
+          "word": "bir",
+          "startMs": 166130,
+          "endMs": 166280
+        },
+        {
+          "word": "çocuğu",
+          "startMs": 166720,
+          "endMs": 167120
+        },
+        {
+          "word": "anlatırız;",
+          "startMs": 167260,
+          "endMs": 168630
+        },
+        {
+          "word": "burada",
+          "startMs": 169380,
+          "endMs": 170380
+        },
+        {
+          "word": "göz",
+          "startMs": 171050,
+          "endMs": 171300
+        },
+        {
+          "word": "artık",
+          "startMs": 171800,
+          "endMs": 172140
+        },
+        {
+          "word": "organ",
+          "startMs": 172250,
+          "endMs": 172630
+        },
+        {
+          "word": "anlamında",
+          "startMs": 172880,
+          "endMs": 173240
+        },
+        {
+          "word": "değildir.",
+          "startMs": 173830,
+          "endMs": 174580
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 161200,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Mecaz anlam örneği",
+            "rows": [
+              {
+                "title": "Gözü açık çocuk",
+                "body": "Uyanık ve dikkatli çocuk demektir; gözle ilgisi yoktur.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 174940,
+      "endMs": 189240,
+      "pauseAfterMs": 1020,
+      "text": "Terim anlam ise bir bilim, sanat, spor veya meslek dalına özgü özel kavramları karşılayan anlamdır.",
+      "markedText": "Terim anlam ise bir bilim, sanat, spor veya meslek dalına özgü özel kavramları karşılayan anlamdır.",
+      "words": [
+        {
+          "word": "Terim",
+          "startMs": 174940,
+          "endMs": 175450
+        },
+        {
+          "word": "anlam",
+          "startMs": 175580,
+          "endMs": 175920
+        },
+        {
+          "word": "ise",
+          "startMs": 176060,
+          "endMs": 176640
+        },
+        {
+          "word": "bir",
+          "startMs": 176710,
+          "endMs": 177270
+        },
+        {
+          "word": "bilim,",
+          "startMs": 178010,
+          "endMs": 178380
+        },
+        {
+          "word": "sanat,",
+          "startMs": 178910,
+          "endMs": 179620
+        },
+        {
+          "word": "spor",
+          "startMs": 179890,
+          "endMs": 180230
+        },
+        {
+          "word": "veya",
+          "startMs": 180340,
+          "endMs": 180630
+        },
+        {
+          "word": "meslek",
+          "startMs": 180760,
+          "endMs": 181590
+        },
+        {
+          "word": "dalına",
+          "startMs": 181750,
+          "endMs": 182740
+        },
+        {
+          "word": "özgü",
+          "startMs": 183320,
+          "endMs": 183600
+        },
+        {
+          "word": "özel",
+          "startMs": 184060,
+          "endMs": 184750
+        },
+        {
+          "word": "kavramları",
+          "startMs": 185020,
+          "endMs": 185460
+        },
+        {
+          "word": "karşılayan",
+          "startMs": 185790,
+          "endMs": 186560
+        },
+        {
+          "word": "anlamdır.",
+          "startMs": 186630,
+          "endMs": 188220
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 174940,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Terim anlam",
+            "rows": [
+              {
+                "title": "Terim anlam",
+                "body": "Bir bilim, sanat, spor veya meslek dalının özel anlamıdır.",
+                "tone": "concept"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 189240,
+      "endMs": 203810,
+      "pauseAfterMs": 580,
+      "text": "Örneğin matematikte kök, bir sayının kökünü anlatır; bitkinin toprak altındaki kısmı ise gerçek anlamdır.",
+      "markedText": "Örneğin matematikte kök, bir sayının kökünü anlatır; bitkinin toprak altındaki kısmı ise gerçek anlamdır.",
+      "words": [
+        {
+          "word": "Örneğin",
+          "startMs": 189240,
+          "endMs": 189990
+        },
+        {
+          "word": "matematikte",
+          "startMs": 190100,
+          "endMs": 191140
+        },
+        {
+          "word": "kök,",
+          "startMs": 191240,
+          "endMs": 191740
+        },
+        {
+          "word": "bir",
+          "startMs": 192300,
+          "endMs": 192560
+        },
+        {
+          "word": "sayının",
+          "startMs": 192630,
+          "endMs": 193050
+        },
+        {
+          "word": "kökünü",
+          "startMs": 193240,
+          "endMs": 193740
+        },
+        {
+          "word": "anlatır;",
+          "startMs": 194750,
+          "endMs": 195940
+        },
+        {
+          "word": "bitkinin",
+          "startMs": 196230,
+          "endMs": 196930
+        },
+        {
+          "word": "toprak",
+          "startMs": 197140,
+          "endMs": 198480
+        },
+        {
+          "word": "altındaki",
+          "startMs": 198740,
+          "endMs": 199870
+        },
+        {
+          "word": "kısmı",
+          "startMs": 200590,
+          "endMs": 200880
+        },
+        {
+          "word": "ise",
+          "startMs": 200920,
+          "endMs": 201120
+        },
+        {
+          "word": "gerçek",
+          "startMs": 201250,
+          "endMs": 201740
+        },
+        {
+          "word": "anlamdır.",
+          "startMs": 202050,
+          "endMs": 203230
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 189240,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Terim anlam örneği",
+            "rows": [
+              {
+                "title": "Matematikte kök",
+                "body": "Bir sayının kökünü anlatır; bitki kökü değildir.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 203810,
+      "endMs": 219060,
+      "pauseAfterMs": 650,
+      "text": "Pratik kural: Bir sözcüğün anlamını tek başına sözlük değil, içinde bulunduğu cümlenin bütünü belirler.",
+      "markedText": "Pratik kural: Bir sözcüğün anlamını tek başına sözlük değil, içinde bulunduğu cümlenin bütünü belirler.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 203810,
+          "endMs": 204100
+        },
+        {
+          "word": "kural:",
+          "startMs": 204100,
+          "endMs": 205010
+        },
+        {
+          "word": "Bir",
+          "startMs": 205300,
+          "endMs": 205810
+        },
+        {
+          "word": "sözcüğün",
+          "startMs": 206450,
+          "endMs": 207080
+        },
+        {
+          "word": "anlamını",
+          "startMs": 207150,
+          "endMs": 208400
+        },
+        {
+          "word": "tek",
+          "startMs": 208810,
+          "endMs": 209050
+        },
+        {
+          "word": "başına",
+          "startMs": 209410,
+          "endMs": 210310
+        },
+        {
+          "word": "sözlük",
+          "startMs": 210570,
+          "endMs": 210990
+        },
+        {
+          "word": "değil,",
+          "startMs": 211050,
+          "endMs": 211710
+        },
+        {
+          "word": "içinde",
+          "startMs": 212280,
+          "endMs": 213080
+        },
+        {
+          "word": "bulunduğu",
+          "startMs": 213420,
+          "endMs": 214300
+        },
+        {
+          "word": "cümlenin",
+          "startMs": 214440,
+          "endMs": 215490
+        },
+        {
+          "word": "bütünü",
+          "startMs": 215850,
+          "endMs": 216810
+        },
+        {
+          "word": "belirler.",
+          "startMs": 217180,
+          "endMs": 218410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 219060,
+      "endMs": 226590,
+      "pauseAfterMs": 550,
+      "text": "Gel seninle kök sözcüğünü üç farklı cümlede dinleyelim.",
+      "markedText": "Gel seninle kök sözcüğünü üç farklı cümlede dinleyelim.",
+      "words": [
+        {
+          "word": "Gel",
+          "startMs": 219060,
+          "endMs": 219310
+        },
+        {
+          "word": "seninle",
+          "startMs": 219310,
+          "endMs": 219980
+        },
+        {
+          "word": "kök",
+          "startMs": 220200,
+          "endMs": 220480
+        },
+        {
+          "word": "sözcüğünü",
+          "startMs": 220480,
+          "endMs": 222280
+        },
+        {
+          "word": "üç",
+          "startMs": 222750,
+          "endMs": 223010
+        },
+        {
+          "word": "farklı",
+          "startMs": 223070,
+          "endMs": 223780
+        },
+        {
+          "word": "cümlede",
+          "startMs": 224420,
+          "endMs": 224800
+        },
+        {
+          "word": "dinleyelim.",
+          "startMs": 225040,
+          "endMs": 226040
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 219060,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Aynı sözcük, üç cümle",
+            "subtitle": "kök",
+            "rows": [
+              {
+                "title": "Ağacın kökü toprakta",
+                "body": "Gerçek anlam.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 226590,
+      "endMs": 233760,
+      "pauseAfterMs": 370,
+      "text": "Ağacın kökü toprağın derinliklerindedir; bu gerçek anlamdır.",
+      "markedText": "Ağacın kökü toprağın derinliklerindedir; bu gerçek anlamdır.",
+      "words": [
+        {
+          "word": "Ağacın",
+          "startMs": 226590,
+          "endMs": 227070
+        },
+        {
+          "word": "kökü",
+          "startMs": 227070,
+          "endMs": 227360
+        },
+        {
+          "word": "toprağın",
+          "startMs": 227630,
+          "endMs": 228490
+        },
+        {
+          "word": "derinliklerindedir;",
+          "startMs": 228680,
+          "endMs": 230120
+        },
+        {
+          "word": "bu",
+          "startMs": 230510,
+          "endMs": 230660
+        },
+        {
+          "word": "gerçek",
+          "startMs": 230870,
+          "endMs": 231720
+        },
+        {
+          "word": "anlamdır.",
+          "startMs": 231960,
+          "endMs": 233390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 233760,
+      "endMs": 244850,
+      "pauseAfterMs": 560,
+      "text": "Sorunun kökü acele etmekmiş dediğimizde ise mecaz anlamdır; çünkü kök burada temel sebep anlamına gelir.",
+      "markedText": "Sorunun kökü acele etmekmiş dediğimizde ise mecaz anlamdır; çünkü kök burada temel sebep anlamına gelir.",
+      "words": [
+        {
+          "word": "Sorunun",
+          "startMs": 233760,
+          "endMs": 234210
+        },
+        {
+          "word": "kökü",
+          "startMs": 234290,
+          "endMs": 234810
+        },
+        {
+          "word": "acele",
+          "startMs": 235480,
+          "endMs": 235830
+        },
+        {
+          "word": "etmekmiş",
+          "startMs": 235920,
+          "endMs": 236530
+        },
+        {
+          "word": "dediğimizde",
+          "startMs": 237180,
+          "endMs": 237570
+        },
+        {
+          "word": "ise",
+          "startMs": 237680,
+          "endMs": 237840
+        },
+        {
+          "word": "mecaz",
+          "startMs": 237950,
+          "endMs": 238080
+        },
+        {
+          "word": "anlamdır;",
+          "startMs": 238300,
+          "endMs": 239150
+        },
+        {
+          "word": "çünkü",
+          "startMs": 239600,
+          "endMs": 240070
+        },
+        {
+          "word": "kök",
+          "startMs": 240260,
+          "endMs": 240540
+        },
+        {
+          "word": "burada",
+          "startMs": 240780,
+          "endMs": 241080
+        },
+        {
+          "word": "temel",
+          "startMs": 241180,
+          "endMs": 241610
+        },
+        {
+          "word": "sebep",
+          "startMs": 241610,
+          "endMs": 242180
+        },
+        {
+          "word": "anlamına",
+          "startMs": 242780,
+          "endMs": 243310
+        },
+        {
+          "word": "gelir.",
+          "startMs": 243740,
+          "endMs": 244290
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 233760,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "kök · ikinci cümle",
+            "rows": [
+              {
+                "title": "Sorunun kökü acele etmek",
+                "body": "Mecaz anlam.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 244850,
+      "endMs": 258220,
+      "pauseAfterMs": 620,
+      "text": "Dokuzun karekökü üçtür dediğimizde ise terim anlamdır; çünkü karekök burada matematiğin özel bir terimidir.",
+      "markedText": "Dokuzun karekökü üçtür dediğimizde ise terim anlamdır; çünkü karekök burada matematiğin özel bir terimidir.",
+      "words": [
+        {
+          "word": "Dokuzun",
+          "startMs": 244850,
+          "endMs": 245610
+        },
+        {
+          "word": "karekökü",
+          "startMs": 245890,
+          "endMs": 246570
+        },
+        {
+          "word": "üçtür",
+          "startMs": 246700,
+          "endMs": 247040
+        },
+        {
+          "word": "dediğimizde",
+          "startMs": 247310,
+          "endMs": 248520
+        },
+        {
+          "word": "ise",
+          "startMs": 248980,
+          "endMs": 249120
+        },
+        {
+          "word": "terim",
+          "startMs": 249220,
+          "endMs": 249830
+        },
+        {
+          "word": "anlamdır;",
+          "startMs": 249970,
+          "endMs": 250700
+        },
+        {
+          "word": "çünkü",
+          "startMs": 251620,
+          "endMs": 252140
+        },
+        {
+          "word": "karekök",
+          "startMs": 252570,
+          "endMs": 253060
+        },
+        {
+          "word": "burada",
+          "startMs": 253570,
+          "endMs": 254230
+        },
+        {
+          "word": "matematiğin",
+          "startMs": 254570,
+          "endMs": 254950
+        },
+        {
+          "word": "özel",
+          "startMs": 255210,
+          "endMs": 255450
+        },
+        {
+          "word": "bir",
+          "startMs": 255570,
+          "endMs": 255830
+        },
+        {
+          "word": "terimidir.",
+          "startMs": 255950,
+          "endMs": 257600
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 244850,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "kök · üçüncü cümle",
+            "rows": [
+              {
+                "title": "Dokuzun karekökü üçtür",
+                "body": "Terim anlam.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 258220,
+      "endMs": 261300,
+      "pauseAfterMs": 760,
+      "text": "Bir diğer örneğe bakalım.",
+      "markedText": "Bir diğer örneğe bakalım.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 258220,
+          "endMs": 258550
+        },
+        {
+          "word": "diğer",
+          "startMs": 258550,
+          "endMs": 258960
+        },
+        {
+          "word": "örneğe",
+          "startMs": 259080,
+          "endMs": 259480
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 259730,
+          "endMs": 260540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 261300,
+      "endMs": 266660,
+      "pauseAfterMs": 630,
+      "text": "Ağır taş elde zor durur; bu gerçek anlamdır.",
+      "markedText": "Ağır taş elde zor durur; bu gerçek anlamdır.",
+      "words": [
+        {
+          "word": "Ağır",
+          "startMs": 261300,
+          "endMs": 261520
+        },
+        {
+          "word": "taş",
+          "startMs": 261520,
+          "endMs": 261630
+        },
+        {
+          "word": "elde",
+          "startMs": 261630,
+          "endMs": 261900
+        },
+        {
+          "word": "zor",
+          "startMs": 261900,
+          "endMs": 262200
+        },
+        {
+          "word": "durur;",
+          "startMs": 262310,
+          "endMs": 262830
+        },
+        {
+          "word": "bu",
+          "startMs": 263340,
+          "endMs": 263730
+        },
+        {
+          "word": "gerçek",
+          "startMs": 263880,
+          "endMs": 264700
+        },
+        {
+          "word": "anlamdır.",
+          "startMs": 264890,
+          "endMs": 266030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 266660,
+      "endMs": 275640,
+      "pauseAfterMs": 620,
+      "text": "Ağır konuştu, yani saygılı ve temkinli konuştu dediğimizde mecaz anlamdır.",
+      "markedText": "Ağır konuştu, yani saygılı ve temkinli konuştu dediğimizde mecaz anlamdır.",
+      "words": [
+        {
+          "word": "Ağır",
+          "startMs": 266660,
+          "endMs": 266920
+        },
+        {
+          "word": "konuştu,",
+          "startMs": 267000,
+          "endMs": 267450
+        },
+        {
+          "word": "yani",
+          "startMs": 267720,
+          "endMs": 268250
+        },
+        {
+          "word": "saygılı",
+          "startMs": 268630,
+          "endMs": 269270
+        },
+        {
+          "word": "ve",
+          "startMs": 269620,
+          "endMs": 269680
+        },
+        {
+          "word": "temkinli",
+          "startMs": 269680,
+          "endMs": 270880
+        },
+        {
+          "word": "konuştu",
+          "startMs": 271250,
+          "endMs": 271700
+        },
+        {
+          "word": "dediğimizde",
+          "startMs": 271830,
+          "endMs": 272550
+        },
+        {
+          "word": "mecaz",
+          "startMs": 272780,
+          "endMs": 273690
+        },
+        {
+          "word": "anlamdır.",
+          "startMs": 274060,
+          "endMs": 275020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 275640,
+      "endMs": 283630,
+      "pauseAfterMs": 470,
+      "text": "Fen dersinde ağırlık bir kuvvettir dediğimizde ise terim anlamdır.",
+      "markedText": "Fen dersinde ağırlık bir kuvvettir dediğimizde ise terim anlamdır.",
+      "words": [
+        {
+          "word": "Fen",
+          "startMs": 275640,
+          "endMs": 275880
+        },
+        {
+          "word": "dersinde",
+          "startMs": 275920,
+          "endMs": 276620
+        },
+        {
+          "word": "ağırlık",
+          "startMs": 276680,
+          "endMs": 277320
+        },
+        {
+          "word": "bir",
+          "startMs": 277770,
+          "endMs": 278240
+        },
+        {
+          "word": "kuvvettir",
+          "startMs": 278490,
+          "endMs": 279100
+        },
+        {
+          "word": "dediğimizde",
+          "startMs": 279210,
+          "endMs": 280400
+        },
+        {
+          "word": "ise",
+          "startMs": 280940,
+          "endMs": 281330
+        },
+        {
+          "word": "terim",
+          "startMs": 281520,
+          "endMs": 282050
+        },
+        {
+          "word": "anlamdır.",
+          "startMs": 282280,
+          "endMs": 283160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 283630,
+      "endMs": 291520,
+      "pauseAfterMs": 620,
+      "text": "Gördüğün gibi aynı sözcük, üç ayrı cümlede üç farklı zenginlik taşır.",
+      "markedText": "Gördüğün gibi aynı sözcük, üç ayrı cümlede üç farklı zenginlik taşır.",
+      "words": [
+        {
+          "word": "Gördüğün",
+          "startMs": 283630,
+          "endMs": 284270
+        },
+        {
+          "word": "gibi",
+          "startMs": 284630,
+          "endMs": 284930
+        },
+        {
+          "word": "aynı",
+          "startMs": 285310,
+          "endMs": 285640
+        },
+        {
+          "word": "sözcük,",
+          "startMs": 285940,
+          "endMs": 286060
+        },
+        {
+          "word": "üç",
+          "startMs": 286630,
+          "endMs": 286790
+        },
+        {
+          "word": "ayrı",
+          "startMs": 286790,
+          "endMs": 287150
+        },
+        {
+          "word": "cümlede",
+          "startMs": 287600,
+          "endMs": 288120
+        },
+        {
+          "word": "üç",
+          "startMs": 288180,
+          "endMs": 288270
+        },
+        {
+          "word": "farklı",
+          "startMs": 288420,
+          "endMs": 288980
+        },
+        {
+          "word": "zenginlik",
+          "startMs": 289250,
+          "endMs": 290190
+        },
+        {
+          "word": "taşır.",
+          "startMs": 290360,
+          "endMs": 290900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 291520,
+      "endMs": 293500,
+      "pauseAfterMs": 280,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 291520,
+          "endMs": 292710
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 292760,
+          "endMs": 293220
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 291520,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Tuzaklara Düşme!",
+            "rows": [
+              {
+                "title": "Mecazı gerçek sanma",
+                "body": "Yüzü düştü cümlesinde yüz yere düşmez; üzüntü anlatılır.",
+                "tone": "trap"
+              },
+              {
+                "title": "Terimi günlük eşyayla karıştırma",
+                "body": "Bilimsel terim sıradan nesne anlamına gelmez.",
+                "tone": "trap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 293500,
+      "endMs": 296160,
+      "pauseAfterMs": 610,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 293500,
+          "endMs": 294320
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 294650,
+          "endMs": 295550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 296160,
+      "endMs": 299070,
+      "pauseAfterMs": 340,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 296160,
+          "endMs": 296230
+        },
+        {
+          "word": "noktayı",
+          "startMs": 296300,
+          "endMs": 296720
+        },
+        {
+          "word": "sen",
+          "startMs": 296720,
+          "endMs": 296950
+        },
+        {
+          "word": "de",
+          "startMs": 297190,
+          "endMs": 297380
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 297930,
+          "endMs": 298730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 299070,
+      "endMs": 309160,
+      "pauseAfterMs": 1130,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 299070,
+          "endMs": 299520
+        },
+        {
+          "word": "sevgili",
+          "startMs": 299520,
+          "endMs": 300090
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 300250,
+          "endMs": 301440
+        },
+        {
+          "word": "işte",
+          "startMs": 301920,
+          "endMs": 302270
+        },
+        {
+          "word": "tam",
+          "startMs": 302270,
+          "endMs": 302500
+        },
+        {
+          "word": "bu",
+          "startMs": 302500,
+          "endMs": 302580
+        },
+        {
+          "word": "noktada",
+          "startMs": 302630,
+          "endMs": 303180
+        },
+        {
+          "word": "dikkat",
+          "startMs": 303520,
+          "endMs": 304180
+        },
+        {
+          "word": "etmen",
+          "startMs": 304310,
+          "endMs": 304640
+        },
+        {
+          "word": "gereken",
+          "startMs": 304920,
+          "endMs": 306120
+        },
+        {
+          "word": "kilit",
+          "startMs": 306830,
+          "endMs": 307290
+        },
+        {
+          "word": "nokta.",
+          "startMs": 307290,
+          "endMs": 308030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-2",
+      "startMs": 309160,
+      "endMs": 320190,
+      "pauseAfterMs": 1030,
+      "text": "Mecazlı bir anlatımı ilk duyduğunda hemen gerçek anlam sanmak aceleci bir yaklaşımdır.",
+      "markedText": "Mecazlı bir anlatımı ilk duyduğunda hemen gerçek anlam sanmak aceleci bir yaklaşımdır.",
+      "words": [
+        {
+          "word": "Mecazlı",
+          "startMs": 309160,
+          "endMs": 309770
+        },
+        {
+          "word": "bir",
+          "startMs": 310140,
+          "endMs": 310490
+        },
+        {
+          "word": "anlatımı",
+          "startMs": 310780,
+          "endMs": 311370
+        },
+        {
+          "word": "ilk",
+          "startMs": 311470,
+          "endMs": 311550
+        },
+        {
+          "word": "duyduğunda",
+          "startMs": 311610,
+          "endMs": 312190
+        },
+        {
+          "word": "hemen",
+          "startMs": 312360,
+          "endMs": 313200
+        },
+        {
+          "word": "gerçek",
+          "startMs": 314280,
+          "endMs": 314610
+        },
+        {
+          "word": "anlam",
+          "startMs": 314680,
+          "endMs": 315290
+        },
+        {
+          "word": "sanmak",
+          "startMs": 316180,
+          "endMs": 316820
+        },
+        {
+          "word": "aceleci",
+          "startMs": 317230,
+          "endMs": 317850
+        },
+        {
+          "word": "bir",
+          "startMs": 318010,
+          "endMs": 318160
+        },
+        {
+          "word": "yaklaşımdır.",
+          "startMs": 318240,
+          "endMs": 319160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-2",
+      "startMs": 320190,
+      "endMs": 326850,
+      "pauseAfterMs": 930,
+      "text": "Yüzü düştü cümlesinde yüz yere düşmez; bir üzüntü anlatılır.",
+      "markedText": "Yüzü düştü cümlesinde yüz yere düşmez; bir üzüntü anlatılır.",
+      "words": [
+        {
+          "word": "Yüzü",
+          "startMs": 320190,
+          "endMs": 320440
+        },
+        {
+          "word": "düştü",
+          "startMs": 320490,
+          "endMs": 320690
+        },
+        {
+          "word": "cümlesinde",
+          "startMs": 320800,
+          "endMs": 321450
+        },
+        {
+          "word": "yüz",
+          "startMs": 321450,
+          "endMs": 321600
+        },
+        {
+          "word": "yere",
+          "startMs": 321600,
+          "endMs": 321900
+        },
+        {
+          "word": "düşmez;",
+          "startMs": 322000,
+          "endMs": 322540
+        },
+        {
+          "word": "bir",
+          "startMs": 323190,
+          "endMs": 323330
+        },
+        {
+          "word": "üzüntü",
+          "startMs": 323330,
+          "endMs": 324220
+        },
+        {
+          "word": "anlatılır.",
+          "startMs": 325210,
+          "endMs": 325920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-2",
+      "startMs": 326850,
+      "endMs": 335750,
+      "pauseAfterMs": 670,
+      "text": "Bilimsel bir terimi de günlük hayattaki sıradan bir eşyayla karıştırmamaya özen göster.",
+      "markedText": "Bilimsel bir terimi de günlük hayattaki sıradan bir eşyayla karıştırmamaya özen göster.",
+      "words": [
+        {
+          "word": "Bilimsel",
+          "startMs": 326850,
+          "endMs": 327680
+        },
+        {
+          "word": "bir",
+          "startMs": 327960,
+          "endMs": 328080
+        },
+        {
+          "word": "terimi",
+          "startMs": 328170,
+          "endMs": 328600
+        },
+        {
+          "word": "de",
+          "startMs": 328670,
+          "endMs": 329060
+        },
+        {
+          "word": "günlük",
+          "startMs": 329630,
+          "endMs": 329970
+        },
+        {
+          "word": "hayattaki",
+          "startMs": 330050,
+          "endMs": 330800
+        },
+        {
+          "word": "sıradan",
+          "startMs": 330880,
+          "endMs": 331260
+        },
+        {
+          "word": "bir",
+          "startMs": 331350,
+          "endMs": 331650
+        },
+        {
+          "word": "eşyayla",
+          "startMs": 331770,
+          "endMs": 332330
+        },
+        {
+          "word": "karıştırmamaya",
+          "startMs": 332670,
+          "endMs": 333570
+        },
+        {
+          "word": "özen",
+          "startMs": 333830,
+          "endMs": 334030
+        },
+        {
+          "word": "göster.",
+          "startMs": 334130,
+          "endMs": 335080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-2",
+      "startMs": 335750,
+      "endMs": 347020,
+      "pauseAfterMs": 790,
+      "text": "Cümleyi başından sonuna sakin bir nefesle oku; kelimenin o cümlede ne anlatmak istediğini güvenle fark edeceksin.",
+      "markedText": "Cümleyi başından sonuna sakin bir nefesle oku; kelimenin o cümlede ne anlatmak istediğini güvenle fark edeceksin.",
+      "words": [
+        {
+          "word": "Cümleyi",
+          "startMs": 335750,
+          "endMs": 336520
+        },
+        {
+          "word": "başından",
+          "startMs": 336890,
+          "endMs": 337460
+        },
+        {
+          "word": "sonuna",
+          "startMs": 337520,
+          "endMs": 338030
+        },
+        {
+          "word": "sakin",
+          "startMs": 338070,
+          "endMs": 338410
+        },
+        {
+          "word": "bir",
+          "startMs": 338450,
+          "endMs": 338960
+        },
+        {
+          "word": "nefesle",
+          "startMs": 339400,
+          "endMs": 339820
+        },
+        {
+          "word": "oku;",
+          "startMs": 339910,
+          "endMs": 340430
+        },
+        {
+          "word": "kelimenin",
+          "startMs": 341250,
+          "endMs": 342080
+        },
+        {
+          "word": "o",
+          "startMs": 342080,
+          "endMs": 342270
+        },
+        {
+          "word": "cümlede",
+          "startMs": 342270,
+          "endMs": 342700
+        },
+        {
+          "word": "ne",
+          "startMs": 342770,
+          "endMs": 342880
+        },
+        {
+          "word": "anlatmak",
+          "startMs": 343570,
+          "endMs": 344010
+        },
+        {
+          "word": "istediğini",
+          "startMs": 344270,
+          "endMs": 344810
+        },
+        {
+          "word": "güvenle",
+          "startMs": 344920,
+          "endMs": 345150
+        },
+        {
+          "word": "fark",
+          "startMs": 345310,
+          "endMs": 345470
+        },
+        {
+          "word": "edeceksin.",
+          "startMs": 345470,
+          "endMs": 346230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 347020,
+      "endMs": 349610,
+      "pauseAfterMs": 760,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 347020,
+          "endMs": 347440
+        },
+        {
+          "word": "Neler",
+          "startMs": 347550,
+          "endMs": 347950
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 347950,
+          "endMs": 348850
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 347020,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "anlati-ilerlemesi",
+          "params": {
+            "heading": "Bugün Neler Öğrendik?",
+            "subtitle": "Üç nokta",
+            "rows": [
+              {
+                "title": "1. Gerçek anlam",
+                "body": "Akla ilk gelen somut anlamdır.",
+                "tone": "recap"
+              },
+              {
+                "title": "2. Mecaz anlam",
+                "body": "Benzetmeyle kurulan soyut ve yeni anlamdır.",
+                "tone": "recap"
+              },
+              {
+                "title": "3. Terim anlam",
+                "body": "Bilim, sanat ve meslek alanlarının özel anlamıdır.",
+                "tone": "recap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 349610,
+      "endMs": 350120,
+      "pauseAfterMs": 130,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 349610,
+          "endMs": 349990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 350120,
+      "endMs": 355670,
+      "pauseAfterMs": 330,
+      "text": "Gerçek anlam, sözcüğün akla ilk gelen somut anlamıdır.",
+      "markedText": "Gerçek anlam, sözcüğün akla ilk gelen somut anlamıdır.",
+      "words": [
+        {
+          "word": "Gerçek",
+          "startMs": 350120,
+          "endMs": 350410
+        },
+        {
+          "word": "anlam,",
+          "startMs": 350510,
+          "endMs": 350940
+        },
+        {
+          "word": "sözcüğün",
+          "startMs": 351010,
+          "endMs": 351540
+        },
+        {
+          "word": "akla",
+          "startMs": 351610,
+          "endMs": 351970
+        },
+        {
+          "word": "ilk",
+          "startMs": 352680,
+          "endMs": 352940
+        },
+        {
+          "word": "gelen",
+          "startMs": 353040,
+          "endMs": 353440
+        },
+        {
+          "word": "somut",
+          "startMs": 353760,
+          "endMs": 354300
+        },
+        {
+          "word": "anlamıdır.",
+          "startMs": 354660,
+          "endMs": 355340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 355670,
+      "endMs": 355920,
+      "pauseAfterMs": 0,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 355670,
+          "endMs": 355920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 355920,
+      "endMs": 364440,
+      "pauseAfterMs": 910,
+      "text": "Mecaz anlam, benzetmeyle kurulan soyut ve yeni anlamdır.",
+      "markedText": "Mecaz anlam, benzetmeyle kurulan soyut ve yeni anlamdır.",
+      "words": [
+        {
+          "word": "Mecaz",
+          "startMs": 355920,
+          "endMs": 356260
+        },
+        {
+          "word": "anlam,",
+          "startMs": 356360,
+          "endMs": 356870
+        },
+        {
+          "word": "benzetmeyle",
+          "startMs": 357300,
+          "endMs": 358600
+        },
+        {
+          "word": "kurulan",
+          "startMs": 358730,
+          "endMs": 359700
+        },
+        {
+          "word": "soyut",
+          "startMs": 360200,
+          "endMs": 360700
+        },
+        {
+          "word": "ve",
+          "startMs": 360700,
+          "endMs": 361160
+        },
+        {
+          "word": "yeni",
+          "startMs": 361900,
+          "endMs": 362290
+        },
+        {
+          "word": "anlamdır.",
+          "startMs": 362650,
+          "endMs": 363530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 364440,
+      "endMs": 365310,
+      "pauseAfterMs": 710,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 364440,
+          "endMs": 364600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 365310,
+      "endMs": 372130,
+      "pauseAfterMs": 310,
+      "text": "Terim anlam; bilim, sanat ve meslek alanlarının özel anlamıdır.",
+      "markedText": "Terim anlam; bilim, sanat ve meslek alanlarının özel anlamıdır.",
+      "words": [
+        {
+          "word": "Terim",
+          "startMs": 365310,
+          "endMs": 365640
+        },
+        {
+          "word": "anlam;",
+          "startMs": 365730,
+          "endMs": 366120
+        },
+        {
+          "word": "bilim,",
+          "startMs": 366460,
+          "endMs": 366880
+        },
+        {
+          "word": "sanat",
+          "startMs": 366960,
+          "endMs": 367280
+        },
+        {
+          "word": "ve",
+          "startMs": 367410,
+          "endMs": 367530
+        },
+        {
+          "word": "meslek",
+          "startMs": 367680,
+          "endMs": 367990
+        },
+        {
+          "word": "alanlarının",
+          "startMs": 368350,
+          "endMs": 369170
+        },
+        {
+          "word": "özel",
+          "startMs": 370100,
+          "endMs": 370370
+        },
+        {
+          "word": "anlamıdır.",
+          "startMs": 371080,
+          "endMs": 371820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 372130,
+      "endMs": 375870,
+      "pauseAfterMs": 980,
+      "text": "Sözcüğün anlamını cümle seçer.",
+      "markedText": "Sözcüğün anlamını cümle seçer.",
+      "words": [
+        {
+          "word": "Sözcüğün",
+          "startMs": 372130,
+          "endMs": 372460
+        },
+        {
+          "word": "anlamını",
+          "startMs": 372550,
+          "endMs": 373250
+        },
+        {
+          "word": "cümle",
+          "startMs": 373600,
+          "endMs": 374250
+        },
+        {
+          "word": "seçer.",
+          "startMs": 374250,
+          "endMs": 374890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 375870,
+      "endMs": 381650,
+      "pauseAfterMs": 630,
+      "text": "Gerçek, mecaz ve terim ayrı işlerdir.",
+      "markedText": "Gerçek, mecaz ve terim ayrı işlerdir.",
+      "words": [
+        {
+          "word": "Gerçek,",
+          "startMs": 375870,
+          "endMs": 376110
+        },
+        {
+          "word": "mecaz",
+          "startMs": 376900,
+          "endMs": 377520
+        },
+        {
+          "word": "ve",
+          "startMs": 377960,
+          "endMs": 378290
+        },
+        {
+          "word": "terim",
+          "startMs": 378500,
+          "endMs": 379300
+        },
+        {
+          "word": "ayrı",
+          "startMs": 379380,
+          "endMs": 379970
+        },
+        {
+          "word": "işlerdir.",
+          "startMs": 380180,
+          "endMs": 381020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 381650,
+      "endMs": 389620,
+      "pauseAfterMs": 840,
+      "text": "Aynı sözcüğü üç cümlede hangi anlamla kurduğunu ayrı ayrı söylersin.",
+      "markedText": "Aynı sözcüğü üç cümlede hangi anlamla kurduğunu ayrı ayrı söylersin.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 381650,
+          "endMs": 381820
+        },
+        {
+          "word": "sözcüğü",
+          "startMs": 381910,
+          "endMs": 382200
+        },
+        {
+          "word": "üç",
+          "startMs": 382330,
+          "endMs": 382410
+        },
+        {
+          "word": "cümlede",
+          "startMs": 382410,
+          "endMs": 383090
+        },
+        {
+          "word": "hangi",
+          "startMs": 384010,
+          "endMs": 384370
+        },
+        {
+          "word": "anlamla",
+          "startMs": 384370,
+          "endMs": 384940
+        },
+        {
+          "word": "kurduğunu",
+          "startMs": 384940,
+          "endMs": 385580
+        },
+        {
+          "word": "ayrı",
+          "startMs": 386210,
+          "endMs": 386620
+        },
+        {
+          "word": "ayrı",
+          "startMs": 386910,
+          "endMs": 387430
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 387540,
+          "endMs": 388780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-3",
+      "startMs": 389620,
+      "endMs": 392190,
+      "pauseAfterMs": 680,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 389620,
+          "endMs": 390290
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 390700,
+          "endMs": 391510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-3",
+      "startMs": 392190,
+      "endMs": 397070,
+      "pauseAfterMs": 820,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 392190,
+          "endMs": 392970
+        },
+        {
+          "word": "bir",
+          "startMs": 393840,
+          "endMs": 394530
+        },
+        {
+          "word": "iş",
+          "startMs": 394670,
+          "endMs": 395000
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 395120,
+          "endMs": 396250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-51",
+      "chapterId": "ch-3",
+      "startMs": 397070,
+      "endMs": 399820,
+      "pauseAfterMs": 600,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 397070,
+          "endMs": 397790
+        },
+        {
+          "word": "sıra",
+          "startMs": 398340,
+          "endMs": 398610
+        },
+        {
+          "word": "sende.",
+          "startMs": 398700,
+          "endMs": 399220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-52",
+      "chapterId": "ch-3",
+      "startMs": 399820,
+      "endMs": 403148,
+      "pauseAfterMs": 418,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 399820,
+          "endMs": 400060
+        },
+        {
+          "word": "bu",
+          "startMs": 400060,
+          "endMs": 400170
+        },
+        {
+          "word": "notları",
+          "startMs": 400170,
+          "endMs": 400530
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 400670,
+          "endMs": 401340
+        },
+        {
+          "word": "kendi",
+          "startMs": 401530,
+          "endMs": 401800
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 401850,
+          "endMs": 402470
+        },
+        {
+          "word": "anlat.",
+          "startMs": 402470,
+          "endMs": 402730
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

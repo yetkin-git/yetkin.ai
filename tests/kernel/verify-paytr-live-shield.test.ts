@@ -137,31 +137,30 @@ describe("PayTR canlı kalkan mührü", () => {
     }
   });
 
-  it("üretimde sandbox/mock sessiz geçmez: throw + log + webhook 403", async () => {
+  it("üretimde sandbox canlı moda alınır; mock hâlâ throw eder", async () => {
     vi.stubEnv("NODE_ENV", "production");
     vi.stubEnv("PAYTR_SANDBOX", "1");
     process.env.PAYTR_WEBHOOK_IP_ALLOWLIST = "203.0.113.10";
-    expect(() => assertPaytrProductionSafety("live-shield")).toThrow(PaytrProductionSafetyError);
-    expect(() => assertPaytrProductionSafety("live-shield")).toThrow(/PAYTR_SANDBOX üretimde yasak/);
+    expect(() => assertPaytrProductionSafety("live-shield")).not.toThrow();
 
+    const logged = vi.mocked(console.error).mock.calls.some((call) => {
+      const line = String(call[0] ?? "");
+      return line.includes("paytr.production_safety") && line.includes("PAYTR_SANDBOX");
+    });
+    expect(logged).toBe(true);
+
+    vi.stubEnv("PAYTR_SANDBOX", "");
+    vi.stubEnv("PAYTR_ALLOW_MOCK_CHECKOUT", "true");
+    expect(() => assertPaytrProductionSafety("live-shield-mock")).toThrow(PaytrProductionSafetyError);
+    expect(() => assertPaytrProductionSafety("live-shield-mock")).toThrow(
+      /PAYTR_ALLOW_MOCK_CHECKOUT üretimde yasak/,
+    );
     const response = await postWebhook(webhookForm(validHash()), {
       "x-forwarded-for": "203.0.113.10",
     });
     expect(response.status).toBe(403);
     const body = (await response.json()) as { reason: string };
     expect(body.reason).toBe("production_safety");
-
-    const logged = vi.mocked(console.error).mock.calls.some((call) => {
-      const line = String(call[0] ?? "");
-      return line.includes("paytr.production_safety") || line.includes("production_safety");
-    });
-    expect(logged).toBe(true);
-
-    vi.stubEnv("PAYTR_SANDBOX", "");
-    vi.stubEnv("PAYTR_ALLOW_MOCK_CHECKOUT", "true");
-    expect(() => assertPaytrProductionSafety("live-shield-mock")).toThrow(
-      /PAYTR_ALLOW_MOCK_CHECKOUT üretimde yasak/,
-    );
   });
 
   it("üçlü kimlik yoksa imza doğrulanmaz ve CREDIT yazılmaz", () => {
@@ -319,11 +318,15 @@ describe("PayTR canlı kalkan mührü", () => {
 
   it("üretimde loopback user_ip ve localhost köken fail-closed", () => {
     vi.stubEnv("NODE_ENV", "production");
-    expect(() => assertPaytrLiveUserIp("127.0.0.1", "shield")).toThrow(/user_ip üretimde genel IPv4/);
+    vi.stubEnv("PAYTR_SANDBOX", "1");
+    expect(() => assertPaytrLiveUserIp("127.0.0.1", "shield")).toThrow(/user_ip üretimde genel IPv4 veya IPv6/);
+    vi.stubEnv("PAYTR_SANDBOX", "");
     expect(() => assertPaytrLiveUserIp("10.0.0.1", "shield")).toThrow(/user_ip/);
     expect(() => assertPaytrLiveUserIp("85.105.141.10", "shield")).not.toThrow();
-    expect(() => assertPaytrLiveUserIp("unknown", "shield")).toThrow(/user_ip üretimde genel IPv4/);
-    expect(() => assertPaytrLiveUserIp("2001:db8::1", "shield")).toThrow(/ipv6/);
+    expect(() => assertPaytrLiveUserIp("unknown", "shield")).toThrow(/user_ip üretimde genel IPv4 veya IPv6/);
+    expect(() => assertPaytrLiveUserIp("2001:db8::1", "shield")).not.toThrow();
+    expect(() => assertPaytrLiveUserIp("::1", "shield")).toThrow(/private/);
+    expect(() => assertPaytrLiveUserIp("fe80::1", "shield")).toThrow(/private/);
     vi.stubEnv("NEXT_PUBLIC_APP_URL", "http://localhost:3000");
     expect(() => resolvePaytrMerchantAppOrigin()).toThrow(/HTTPS/);
     vi.stubEnv("NEXT_PUBLIC_APP_URL", "https://yetkin.ai/");
@@ -340,6 +343,13 @@ describe("PayTR canlı kalkan mührü", () => {
     expect(
       resolvePaytrCheckoutUserIp(dual, { PAYTR_SANDBOX: "1", TRUSTED_PROXY_HOPS: "1" }),
     ).toBe("104.16.1.1");
+    expect(
+      resolvePaytrCheckoutUserIp(dual, {
+        NODE_ENV: "production",
+        PAYTR_SANDBOX: "1",
+        TRUSTED_PROXY_HOPS: "1",
+      }),
+    ).toBe("85.105.141.10");
     expect(resolvePaytrCheckoutUserIp(new Headers(), { PAYTR_SANDBOX: "0" })).toBe("unknown");
     expect(resolvePaytrCheckoutUserIp(new Headers(), { PAYTR_SANDBOX: "1" })).toBe("127.0.0.1");
   });

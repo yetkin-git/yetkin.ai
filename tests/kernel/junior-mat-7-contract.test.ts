@@ -5,6 +5,7 @@ import { GraphicOpStage } from "@/components/junior/pilot-player/GraphicOpStage"
 import { NumberOpsScene } from "@/components/junior/player/math-scenes";
 import { juniorBookletCopy } from "@/lib/junior/booklet";
 import { lockTimelineToExactAudioMs } from "@/lib/junior/pilot-engine/pcm-cue-aligner";
+import "@/lib/junior/pilot-engine/acoustic-timeline-disk";
 import { resolveJuniorPlayback } from "@/lib/junior/pilot-engine/playback";
 import { reduceSceneState, type SceneGraphState, type TimedNumber } from "@/lib/junior/pilot-engine/state-reducer";
 
@@ -27,17 +28,17 @@ function bareSpokenInteger(word: string): number | null {
 }
 
 function pilot() {
-  const playback = resolveJuniorPlayback("jr_06_mat-7");
+  const playback = resolveJuniorPlayback("jr_06_mat-3");
   expect(playback.engine).toBe("pilot");
   if (playback.engine !== "pilot") {
-    throw new Error("jr_06_mat-7 pilot kapısında değil.");
+    throw new Error("jr_06_mat-3 pilot kapısında değil.");
   }
   return playback.timeline;
 }
 
-describe("jr_06_mat-7 ortak bölen sözleşmesi", () => {
+describe("jr_06_mat-3 ortak bölen sözleşmesi", () => {
   it("not kartının her cümlesi grafik transkriptindedir", () => {
-    const example = juniorBookletCopy("jr_06_mat-7").example;
+    const example = juniorBookletCopy("jr_06_mat-3").example;
     const film = pilot().cues.map((cue) => cue.text).join(" ");
     const sentences = bookletSentences(example);
     expect(sentences.length).toBeGreaterThan(3);
@@ -46,7 +47,7 @@ describe("jr_06_mat-7 ortak bölen sözleşmesi", () => {
     }
   });
 
-  it("8, 12, EBOB 4 ve EKOK 24 grafik parametresidir ve kelime saatine kilitlidir", () => {
+  it("8, 12, ortak bölen 4 ve ortak kat 24 grafik parametresidir ve kelime saatine kilitlidir", () => {
     const timeline = pilot();
     const cue = timeline.cues.find((row) =>
       row.keyframes.some((keyframe) => keyframe.op === "SHOW_COMMON_DIVISOR"),
@@ -100,7 +101,7 @@ describe("jr_06_mat-7 ortak bölen sözleşmesi", () => {
     }
   });
 
-  it("sabit EBOB bloğu dersi beslemez; boş grafikte çizim yoktur", () => {
+  it("sabit ortak bölen bloğu dersi beslemez; boş grafikte çizim yoktur", () => {
     const timeline = pilot();
     const early = reduceSceneState(timeline, 400);
     expect(early.commonDivisor.visible).toBe(false);
@@ -110,8 +111,10 @@ describe("jr_06_mat-7 ortak bölen sözleşmesi", () => {
     );
     expect(hidden).toContain('data-junior-graphic-op="none"');
     expect(hidden).not.toContain("çizim yok");
-    expect(hidden).not.toContain("EBOB = 4");
-    expect(hidden).not.toContain("EKOK = 24");
+    expect(hidden).not.toContain("Ortak bölen = 4");
+    expect(hidden).not.toContain("Ortak kat = 24");
+    expect(hidden).not.toContain("EBOB");
+    expect(hidden).not.toContain("EKOK");
 
     const swapped: SceneGraphState = {
       ...early,
@@ -139,16 +142,18 @@ describe("jr_06_mat-7 ortak bölen sözleşmesi", () => {
     const other = renderToStaticMarkup(
       createElement(GraphicOpStage, { state: swapped, currentTimeMs: 10 }),
     );
-    expect(other).toContain("EBOB = 3");
-    expect(other).toContain("EKOK = 45");
-    expect(other).not.toContain("EBOB = 4");
-    expect(other).not.toContain("EKOK = 24");
+    expect(other).toContain("Ortak bölen = 3");
+    expect(other).toContain("Ortak kat = 45");
+    expect(other).not.toContain("Ortak bölen = 4");
+    expect(other).not.toContain("Ortak kat = 24");
+    expect(other).not.toContain("EBOB");
+    expect(other).not.toContain("EKOK");
 
     const legacy = renderToStaticMarkup(
       createElement(NumberOpsScene, {
         beat: 4,
         caption: "8 ve 12 için en büyük ortak bölen 4'tür.",
-        captionTrail: ["Ortak bölen iki sayıyı birden böler. EBOB ve EKOK ayrıdır."],
+        captionTrail: ["Ortak bölen iki sayıyı birden böler. Ortak bölen ile ortak kat ayrıdır."],
       }),
     );
     expect(legacy).toContain("çizim yok");

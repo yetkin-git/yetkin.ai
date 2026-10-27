@@ -1,0 +1,53 @@
+{
+  "lessonKey": "jr_06_fra-1",
+  "title": "Bonjour demek",
+  "tellGuides": [
+    "Bonjour ile Bonsoir hangi saatlere aittir?",
+    "Büyük bir kişiye neden önce Bonjour dersin?",
+    "Bonne nuit neden ilk selam değildir?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Bonjour hangi vaktin selamıdır?",
+      "options": [
+        "Sabah ve gün içi",
+        "Yalnızca gece yarısı",
+        "Uykuya giderken veda",
+        "Ad sorma kalıbı"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Günaydın ve iyi günler yerinde durur.",
+      "explanation": "Adım 1: Bonjour sabah ve gün içi selamıdır. Adım 2: Bonsoir akşama aittir. Adım 3: Bonne nuit veda sözüdür."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Akşam bir aile büyüğünü ilk gördüğünde hangi sözü seçersin?",
+      "options": [
+        "Bonne nuit",
+        "Bonsoir",
+        "Je m'appelle",
+        "Comment tu t'appelles"
+      ],
+      "correctAnswerIndex": 1,
+      "hint": "Akşam selamı vedadan ayrıdır.",
+      "explanation": "Adım 1: Bonsoir akşam selamıdır. Adım 2: Bonne nuit ayrılırken söylenir. Adım 3: İlk görüşte Bonsoir dersin."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Öğretmen kapıda duruyor. En uygun selam hangisidir?",
+      "options": [
+        "Bonne nuit",
+        "Yalnızca adını söylemek",
+        "Bonjour",
+        "Je m'appelle"
+      ],
+      "correctAnswerIndex": 2,
+      "hint": "Büyük bir kişiye gün içi selamı daha uygundur.",
+      "explanation": "Adım 1: Öğretmene önce Bonjour denir. Adım 2: Karşılık aynı selamdır. Adım 3: Bonne nuit ilk selam değildir."
+    }
+  ]
+}

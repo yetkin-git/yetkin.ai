@@ -28,6 +28,12 @@ export type JuniorPlayPractice = {
   choices: string[];
 };
 
+export type JuniorPlayBeat = {
+  title: string;
+  startMs: number;
+  endMs: number;
+};
+
 export type JuniorPlayView = {
   lessonKey: string;
   title: string;
@@ -42,6 +48,7 @@ export type JuniorPlayView = {
   practice: JuniorPlayPractice[];
   progressStatus: "fresh" | "going" | "done" | null;
   graphic: JuniorGraphicHop | null;
+  beats: JuniorPlayBeat[];
 };
 
 export function presentJuniorLessonPlay(data: unknown): JuniorPlayView | null {
@@ -76,6 +83,18 @@ export function presentJuniorLessonPlay(data: unknown): JuniorPlayView | null {
         return [{ id, prompt, choices }];
       })
     : [];
+  const beats = Array.isArray(root?.beats)
+    ? root.beats.flatMap((item) => {
+        const row = asRecord(item);
+        const title = asString(row?.title);
+        const startMs = row?.startMs;
+        const endMs = row?.endMs;
+        if (!title || typeof startMs !== "number" || typeof endMs !== "number" || endMs <= startMs) {
+          return [];
+        }
+        return [{ title, startMs, endMs }];
+      })
+    : [];
   const progress = asRecord(root?.progress);
   const progressStatus =
     progress?.status === "fresh" || progress?.status === "going" || progress?.status === "done"
@@ -95,6 +114,7 @@ export function presentJuniorLessonPlay(data: unknown): JuniorPlayView | null {
     practice,
     progressStatus,
     graphic: readJuniorGraphicHop(root?.graphic),
+    beats,
   };
 }
 

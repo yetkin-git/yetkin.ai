@@ -15,10 +15,11 @@ describe("junior sahne medyası — kamu kapısı", () => {
     expect(juniorSceneMediaForBeat("jr_06_mat-8", 9)).toEqual({ videoSrc: null, imageSrc: null });
   });
 
-  it("ücretsiz önizleme dersinin sahne görseli kamu medya yolunu verir", () => {
-    const media = juniorSceneMediaForBeat("jr_06_mat-14", 4);
-    expect(media.imageSrc).toMatch(/\/media\/junior\/scenes\/jr_06_mat-14\/step-5\.jpg$/u);
-    expect(media.videoSrc).toBeNull();
+  it("diskte olmayan plaka adresi üretmez; adım vektör sahneye düşer", () => {
+    expect(juniorSceneMediaForBeat("jr_06_mat-4", 4)).toEqual({ videoSrc: null, imageSrc: null });
+    expect(juniorSceneMediaForBeat("jr_06_mat-7", 4)).toEqual({ videoSrc: null, imageSrc: null });
+    expect(juniorSceneMediaForBeat("jr_06_mat-19", 4)).toEqual({ videoSrc: null, imageSrc: null });
+    expect(juniorSceneMediaForBeat("jr_06_fen-2", 5)).toEqual({ videoSrc: null, imageSrc: null });
   });
 
   it("ücretsiz derslerin mp4 yolu dosya yokken de bağlıdır; JPG'ye düşer", () => {
@@ -39,6 +40,8 @@ describe("junior sahne medyası — kamu kapısı", () => {
     )
       .map((plate) => `${plate.lessonKey}/step-${plate.step}`)
       .sort();
-    expect(publicPlates).toEqual(["jr_06_fen-1/step-6", "jr_06_mat-14/step-5"]);
+    expect(juniorLessonMediaIsPublicPreview("jr_06_mat-1")).toBe(true);
+    expect(juniorLessonMediaIsPublicPreview("jr_06_mat-4")).toBe(false);
+    expect(publicPlates).toEqual(["jr_06_fen-1/step-6"]);
   });
 });

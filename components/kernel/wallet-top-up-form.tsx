@@ -18,7 +18,10 @@ import { formatMinor } from "@/lib/kernel/money/format";
 import { WALLET_TOP_UP_MAX_MINOR, WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
 import { CheckoutConsentFields } from "@/components/legal/checkout-consent-fields";
 import { PaytrCheckoutIframe } from "@/components/kernel/paytr-checkout-iframe";
-import { readPaytrIframeSrcFromCheckout } from "@/lib/kernel/payments/paytr/iframe-embed";
+import {
+  emitPaytrIframeReturnIfEmbedded,
+  readPaytrIframeSrcFromCheckout,
+} from "@/lib/kernel/payments/paytr/iframe-embed";
 import { CheckoutBillingFields } from "@/components/legal/checkout-billing-fields";
 import { SecurePaymentMarks } from "@/components/legal/secure-payment-marks";
 import { useCheckoutBilling } from "@/components/legal/use-checkout-billing";
@@ -60,6 +63,10 @@ export function WalletTopUpForm({
   const idempotency = useIdempotencyKey();
   const minLabel = formatMinor(WALLET_TOP_UP_MIN_MINOR, SETTLEMENT_CURRENCY);
   const maxLabel = formatMinor(WALLET_TOP_UP_MAX_MINOR, SETTLEMENT_CURRENCY);
+
+  useEffect(() => {
+    emitPaytrIframeReturnIfEmbedded(true);
+  }, []);
 
   useEffect(() => {
     if (!iframeUrl) {
@@ -229,7 +236,14 @@ export function WalletTopUpForm({
           {sandboxLive ? (
             <p className="text-xs text-[var(--amber)]">{CUZDAN_SEN.sandboxHint}</p>
           ) : null}
-          <PaytrCheckoutIframe src={iframeUrl} title={copy.iframeTitle} />
+          <PaytrCheckoutIframe
+            src={iframeUrl}
+            title={copy.iframeTitle}
+            onReturn={() => {
+              setIframeUrl(null);
+              router.refresh();
+            }}
+          />
         </>
       )}
       {waitingClearing ? (

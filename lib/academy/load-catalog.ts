@@ -98,9 +98,10 @@ export const loadPublishedCourses = cache(async function loadPublishedCourses():
 });
 
 /**
- * Vitrin satırları. `listPublishedCourses` yalnız büyüme süzgecidir; kabuk slug’ları
- * `getCourseBySlug` ile okunur. Aktif fiyat `listActiveEntries`. Disk mührü
- * `academyCatalogPurchasable` içindedir. Motor yoksa veya okuma düşerse satın al basılmaz.
+ * Vitrin satırları. `listPublishedCourses` vitrin kabuğunu döner; kabuk slug’ları
+ * `getCourseBySlug` ile de okunur. Aktif fiyat `listActiveEntries`. Disk mührü
+ * `academyCatalogPurchasable` içindedir. Motor yoksa veya satır düşerse
+ * anlatımı bitmiş kart vitrin tohumuyla durur. Kapalı canlı satır tohumla açılmaz.
  */
 export const loadAcademyVitrineCourses = cache(async function loadAcademyVitrineCourses(): Promise<
   AcademyCourseWithPrice[]

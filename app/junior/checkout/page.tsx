@@ -6,10 +6,15 @@ import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 import { getSession } from "@/lib/kernel/auth/session";
 import { juniorElectivePicks } from "@/lib/junior/catalog";
-import { JUNIOR_ELECTIVE_QUOTA, juniorElectiveQuotaRightsHint } from "@/lib/junior/limits";
+import {
+  JUNIOR_ELECTIVE_INTRO_LABEL,
+  JUNIOR_ELECTIVE_QUOTA,
+  juniorElectiveQuotaRightsHint,
+} from "@/lib/junior/limits";
 import { loadJuniorHome } from "@/lib/junior/load";
 import { readJuniorYearlyPrice } from "@/lib/junior/price";
-import { isJuniorCheckoutLocked } from "@/lib/kernel/security/junior-gate";
+import { isJuniorAuditActor, isJuniorCheckoutLocked } from "@/lib/kernel/security/junior-gate";
+import { JUNIOR_CHECKOUT_AUDIT_MESSAGE } from "@/lib/junior/checkout";
 
 export const dynamic = "force-dynamic";
 
@@ -32,6 +37,13 @@ export default async function JuniorCheckoutPage() {
   const priceLabel = await readJuniorYearlyPrice()
     .then((price) => price?.label ?? null)
     .catch(() => null);
+  const review =
+    session != null &&
+    isJuniorAuditActor({
+      id: session.id,
+      email: session.email,
+      emailConfirmedAt: session.emailConfirmedAt ?? null,
+    });
   const checkoutOpen = !isJuniorCheckoutLocked();
   const priceSentence = priceLabel
     ? `${priceLabel} karşılığında çekirdek derslerin kilitli konuları açılır.`
@@ -53,6 +65,15 @@ export default async function JuniorCheckoutPage() {
           </LinkButton>
         }
       />
+      {review ? (
+        <section
+          className="rounded-2xl border border-[var(--border)] bg-white px-4 py-3 text-sm leading-6"
+          data-junior-checkout-review=""
+        >
+          <p className="font-semibold">İnceleme modu</p>
+          <p>{JUNIOR_CHECKOUT_AUDIT_MESSAGE}</p>
+        </section>
+      ) : null}
       <section className="rounded-2xl border border-[var(--border)] bg-white px-4 py-3 text-sm leading-6">
         <p className="font-semibold">Sepet</p>
         <p>Junior yıllık paket — {priceLabel ?? "fiyat katalogda yok"}</p>
@@ -62,9 +83,9 @@ export default async function JuniorCheckoutPage() {
             : `Henüz seçmeli ders seçilmedi. ${juniorElectiveQuotaRightsHint()} Seçimi odadan yapabilirsin.`}
         </p>
         <p className="text-[var(--muted)]">
-          Çekirdek İngilizce, 6. Sınıf İngilizce kartıdır. Seçmeli İngilizce taslağı hazırlık aşamasındadır ve bu
-          paketin fiyat vaadine girmez. Mühürü tamamlanmamış seçmeli dersler Yakında olarak görünür ve paket içinde
-          açılmaz.
+          Çekirdek İngilizce, 6. Sınıf İngilizce kartıdır. Seçmeli kartlar «{JUNIOR_ELECTIVE_INTRO_LABEL}»
+          kapsamındadır; yıllık seçmeli müfredat değildir. Seçmeli İngilizce bu sepete ve paket fiyatına girmez.
+          Mühürü tamamlanmamış seçmeli dersler Yakında olarak görünür ve paket içinde açılmaz.
         </p>
       </section>
       {session && home ? (

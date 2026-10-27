@@ -32,7 +32,8 @@ export type RailV1HopGateDecision =
 /**
  * Kenar allowlist — `RAIL_V1_HOPS_META` id / method / v1PathTemplate / dronForbidden.
  * Yeni hop yalnız meta siciline yazılır; sözleşme Zod bindirir, kenar türetir.
- * Junior kasa (`/api/v1/junior-pilot/checkout`) ve sınıf (`grade`) satır değildir: sicil dışı 404.
+ * Junior kasa (`junior-pilot-checkout`) satırdır. Bayrak boşken kenar 410 basar; handler tahsilat yazmaz.
+ * Sınıf (`grade`) satır değildir: sicil dışı 404.
  * Misafir profil masasının 410’u bu kapıda değil, donmuş oda kenarındadır.
  * Profil yazma fiilleri aynı yolda method ile ayrılır.
  */

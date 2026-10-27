@@ -55,6 +55,17 @@ export function academyCatalogPriceMinorForSlug(slug: string): number | null {
   return null;
 }
 
+/**
+ * Vitrin tohum tutarı. Canlı fiyat satırı yokken kilit ve kart bunu okur.
+ * Satır varsa bu sayı onu ezmez.
+ */
+export function academyVitrineSeedAmountMinor(slug: string): number | null {
+  if (slug === "01_office_ai_ileri") {
+    return OFF_201_LAUNCH_PRICE_MINOR;
+  }
+  return academyCatalogPriceMinorForSlug(slug);
+}
+
 /** Liste tutarı PayTR cüzdan bandına sığar — boş cüzdanda iframe = kart. */
 export function academyCatalogPriceFitsPaytrBand(amountMinor: number): boolean {
   return (

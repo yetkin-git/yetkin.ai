@@ -1,0 +1,3062 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_fen-18",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Sistemlerin sağlığı",
+  "grade": 6,
+  "subject": "Fen Bilimleri",
+  "teacher": {
+    "name": "Deniz",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_fen-18.mp3",
+    "durationMs": 405990,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 94220
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 94220,
+      "endMs": 340200
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 340200,
+      "endMs": 405990
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4260,
+      "pauseAfterMs": 760,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 350,
+          "endMs": 940
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 1390,
+          "endMs": 2100
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 2100,
+          "endMs": 2580
+        },
+        {
+          "word": "hoş",
+          "startMs": 2580,
+          "endMs": 2670
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 2800,
+          "endMs": 3500
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Sistemlerin sağlığı",
+            "subtitle": "Fen Bilimleri",
+            "ruleBadges": [],
+            "echoPrompt": "112 yi, su verilmeyecek hâli ve kanamadaki bezi sırayla söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Dengeli beslenme, temizlik, su ve düzenli uyku vücut sistemlerimizi korur."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "İlk yardımda önce ortam güvenliği sağlanır, sonra 112 Acil Yardım aranır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Bilinci kapalıya su verilmez; kanamaya temiz bezle basılır, kırık oynatılmaz."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4260,
+      "endMs": 8780,
+      "pauseAfterMs": 500,
+      "text": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "markedText": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4260,
+          "endMs": 4550
+        },
+        {
+          "word": "Fen",
+          "startMs": 4670,
+          "endMs": 5090
+        },
+        {
+          "word": "Bilimleri",
+          "startMs": 5270,
+          "endMs": 6310
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6740,
+          "endMs": 7760
+        },
+        {
+          "word": "Deniz.",
+          "startMs": 7830,
+          "endMs": 8280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8780,
+      "endMs": 20260,
+      "pauseAfterMs": 270,
+      "text": "Bedenimizin tüm sistemlerini bir ömür boyu zinde tutmanın ve beklenmedik kazalarda doğru adımları atmanın yollarını öğreneceğiz.",
+      "markedText": "Bedenimizin tüm sistemlerini bir ömür boyu zinde tutmanın ve beklenmedik kazalarda doğru adımları atmanın yollarını öğreneceğiz.",
+      "words": [
+        {
+          "word": "Bedenimizin",
+          "startMs": 8780,
+          "endMs": 9680
+        },
+        {
+          "word": "tüm",
+          "startMs": 9810,
+          "endMs": 9930
+        },
+        {
+          "word": "sistemlerini",
+          "startMs": 10000,
+          "endMs": 10930
+        },
+        {
+          "word": "bir",
+          "startMs": 11050,
+          "endMs": 11270
+        },
+        {
+          "word": "ömür",
+          "startMs": 11270,
+          "endMs": 11630
+        },
+        {
+          "word": "boyu",
+          "startMs": 11690,
+          "endMs": 11970
+        },
+        {
+          "word": "zinde",
+          "startMs": 12240,
+          "endMs": 12510
+        },
+        {
+          "word": "tutmanın",
+          "startMs": 12830,
+          "endMs": 13430
+        },
+        {
+          "word": "ve",
+          "startMs": 13430,
+          "endMs": 13570
+        },
+        {
+          "word": "beklenmedik",
+          "startMs": 13720,
+          "endMs": 14330
+        },
+        {
+          "word": "kazalarda",
+          "startMs": 14380,
+          "endMs": 14880
+        },
+        {
+          "word": "doğru",
+          "startMs": 14880,
+          "endMs": 15230
+        },
+        {
+          "word": "adımları",
+          "startMs": 15370,
+          "endMs": 15870
+        },
+        {
+          "word": "atmanın",
+          "startMs": 15870,
+          "endMs": 16760
+        },
+        {
+          "word": "yollarını",
+          "startMs": 17740,
+          "endMs": 18860
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 19090,
+          "endMs": 19990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 20260,
+      "endMs": 33150,
+      "pauseAfterMs": 780,
+      "text": "Oyun oynarken düşüp dizini sıyıran ya da bileğini burkan bir arkadaşını gördüğünde ilk ne yapman gerektiğini hiç düşündün mü?",
+      "markedText": "Oyun oynarken düşüp dizini sıyıran ya da bileğini burkan bir arkadaşını gördüğünde ilk ne yapman gerektiğini hiç düşündün mü?",
+      "words": [
+        {
+          "word": "Oyun",
+          "startMs": 20260,
+          "endMs": 20490
+        },
+        {
+          "word": "oynarken",
+          "startMs": 20550,
+          "endMs": 21530
+        },
+        {
+          "word": "düşüp",
+          "startMs": 21660,
+          "endMs": 22090
+        },
+        {
+          "word": "dizini",
+          "startMs": 22090,
+          "endMs": 22640
+        },
+        {
+          "word": "sıyıran",
+          "startMs": 22990,
+          "endMs": 23350
+        },
+        {
+          "word": "ya",
+          "startMs": 23500,
+          "endMs": 23840
+        },
+        {
+          "word": "da",
+          "startMs": 23980,
+          "endMs": 24110
+        },
+        {
+          "word": "bileğini",
+          "startMs": 24490,
+          "endMs": 25020
+        },
+        {
+          "word": "burkan",
+          "startMs": 25960,
+          "endMs": 26270
+        },
+        {
+          "word": "bir",
+          "startMs": 26450,
+          "endMs": 26570
+        },
+        {
+          "word": "arkadaşını",
+          "startMs": 26670,
+          "endMs": 27230
+        },
+        {
+          "word": "gördüğünde",
+          "startMs": 27400,
+          "endMs": 27980
+        },
+        {
+          "word": "ilk",
+          "startMs": 28320,
+          "endMs": 28790
+        },
+        {
+          "word": "ne",
+          "startMs": 29350,
+          "endMs": 29470
+        },
+        {
+          "word": "yapman",
+          "startMs": 29590,
+          "endMs": 29830
+        },
+        {
+          "word": "gerektiğini",
+          "startMs": 29830,
+          "endMs": 30230
+        },
+        {
+          "word": "hiç",
+          "startMs": 30350,
+          "endMs": 30560
+        },
+        {
+          "word": "düşündün",
+          "startMs": 30700,
+          "endMs": 31310
+        },
+        {
+          "word": "mü?",
+          "startMs": 31450,
+          "endMs": 32370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 33150,
+      "endMs": 46580,
+      "pauseAfterMs": 400,
+      "text": "Sağlık, sistemlerimize sevgiyle bakmakla başlar; ilk yardım ise soğukkanlı bir bilinçle hayat kurtarır.",
+      "markedText": "Sağlık, sistemlerimize sevgiyle bakmakla başlar; ilk yardım ise soğukkanlı bir bilinçle hayat kurtarır.",
+      "words": [
+        {
+          "word": "Sağlık,",
+          "startMs": 33150,
+          "endMs": 34040
+        },
+        {
+          "word": "sistemlerimize",
+          "startMs": 34380,
+          "endMs": 35490
+        },
+        {
+          "word": "sevgiyle",
+          "startMs": 35490,
+          "endMs": 36090
+        },
+        {
+          "word": "bakmakla",
+          "startMs": 36240,
+          "endMs": 37030
+        },
+        {
+          "word": "başlar;",
+          "startMs": 37030,
+          "endMs": 38340
+        },
+        {
+          "word": "ilk",
+          "startMs": 39600,
+          "endMs": 39760
+        },
+        {
+          "word": "yardım",
+          "startMs": 39760,
+          "endMs": 40400
+        },
+        {
+          "word": "ise",
+          "startMs": 40710,
+          "endMs": 40800
+        },
+        {
+          "word": "soğukkanlı",
+          "startMs": 41000,
+          "endMs": 41910
+        },
+        {
+          "word": "bir",
+          "startMs": 42410,
+          "endMs": 42880
+        },
+        {
+          "word": "bilinçle",
+          "startMs": 43160,
+          "endMs": 44390
+        },
+        {
+          "word": "hayat",
+          "startMs": 44780,
+          "endMs": 45300
+        },
+        {
+          "word": "kurtarır.",
+          "startMs": 45610,
+          "endMs": 46180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 46580,
+      "endMs": 53550,
+      "pauseAfterMs": 330,
+      "text": "Sistemlerimizin sağlığını ve temel ilk yardım kurallarını öğreneceğiz.",
+      "markedText": "Sistemlerimizin sağlığını ve temel ilk yardım kurallarını öğreneceğiz.",
+      "words": [
+        {
+          "word": "Sistemlerimizin",
+          "startMs": 46580,
+          "endMs": 47720
+        },
+        {
+          "word": "sağlığını",
+          "startMs": 47990,
+          "endMs": 49540
+        },
+        {
+          "word": "ve",
+          "startMs": 49820,
+          "endMs": 49930
+        },
+        {
+          "word": "temel",
+          "startMs": 50190,
+          "endMs": 50360
+        },
+        {
+          "word": "ilk",
+          "startMs": 50360,
+          "endMs": 50460
+        },
+        {
+          "word": "yardım",
+          "startMs": 50460,
+          "endMs": 50790
+        },
+        {
+          "word": "kurallarını",
+          "startMs": 50940,
+          "endMs": 51970
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 52310,
+          "endMs": 53220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 53550,
+      "endMs": 59640,
+      "pauseAfterMs": 870,
+      "text": "Bunu her gün basit alışkanlıklarla hayatına katabilirsin.",
+      "markedText": "Bunu her gün basit alışkanlıklarla hayatına katabilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 53550,
+          "endMs": 53990
+        },
+        {
+          "word": "her",
+          "startMs": 54080,
+          "endMs": 54260
+        },
+        {
+          "word": "gün",
+          "startMs": 54460,
+          "endMs": 54600
+        },
+        {
+          "word": "basit",
+          "startMs": 55050,
+          "endMs": 55380
+        },
+        {
+          "word": "alışkanlıklarla",
+          "startMs": 55530,
+          "endMs": 56960
+        },
+        {
+          "word": "hayatına",
+          "startMs": 57290,
+          "endMs": 57650
+        },
+        {
+          "word": "katabilirsin.",
+          "startMs": 57850,
+          "endMs": 58770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 59640,
+      "endMs": 63770,
+      "pauseAfterMs": 90,
+      "text": "Yemeklerden önce ve sonra ellerini 20 saniye sabunla yıkamak sindirimini mikroplardan korur.",
+      "markedText": "Yemeklerden önce ve sonra ellerini 20 saniye sabunla yıkamak sindirimini mikroplardan korur.",
+      "words": [
+        {
+          "word": "Yemeklerden",
+          "startMs": 59640,
+          "endMs": 60110
+        },
+        {
+          "word": "önce",
+          "startMs": 60200,
+          "endMs": 60350
+        },
+        {
+          "word": "ve",
+          "startMs": 60500,
+          "endMs": 60560
+        },
+        {
+          "word": "sonra",
+          "startMs": 60560,
+          "endMs": 60770
+        },
+        {
+          "word": "ellerini",
+          "startMs": 60810,
+          "endMs": 61290
+        },
+        {
+          "word": "20",
+          "startMs": 61290,
+          "endMs": 61490
+        },
+        {
+          "word": "saniye",
+          "startMs": 61570,
+          "endMs": 61830
+        },
+        {
+          "word": "sabunla",
+          "startMs": 61900,
+          "endMs": 62170
+        },
+        {
+          "word": "yıkamak",
+          "startMs": 62360,
+          "endMs": 62570
+        },
+        {
+          "word": "sindirimini",
+          "startMs": 62700,
+          "endMs": 62960
+        },
+        {
+          "word": "mikroplardan",
+          "startMs": 63050,
+          "endMs": 63400
+        },
+        {
+          "word": "korur.",
+          "startMs": 63510,
+          "endMs": 63680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 63770,
+      "endMs": 69780,
+      "pauseAfterMs": 370,
+      "text": "Günde 8-10 bardak su içmek böbreklerine bayram ettirir.",
+      "markedText": "Günde 8-10 bardak su içmek böbreklerine bayram ettirir.",
+      "words": [
+        {
+          "word": "Günde",
+          "startMs": 63770,
+          "endMs": 63840
+        },
+        {
+          "word": "8-10",
+          "startMs": 63930,
+          "endMs": 64230
+        },
+        {
+          "word": "bardak",
+          "startMs": 64330,
+          "endMs": 65410
+        },
+        {
+          "word": "su",
+          "startMs": 66000,
+          "endMs": 66170
+        },
+        {
+          "word": "içmek",
+          "startMs": 66490,
+          "endMs": 66960
+        },
+        {
+          "word": "böbreklerine",
+          "startMs": 67270,
+          "endMs": 67980
+        },
+        {
+          "word": "bayram",
+          "startMs": 68100,
+          "endMs": 68480
+        },
+        {
+          "word": "ettirir.",
+          "startMs": 68610,
+          "endMs": 69410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 69780,
+      "endMs": 82840,
+      "pauseAfterMs": 730,
+      "text": "Evdeki buzdolabının üstüne ya da çalışma masana 112 numarasını büyük harflerle yazıp asmak harika bir önlemdir.",
+      "markedText": "Evdeki buzdolabının üstüne ya da çalışma masana 112 numarasını büyük harflerle yazıp asmak harika bir önlemdir.",
+      "words": [
+        {
+          "word": "Evdeki",
+          "startMs": 69780,
+          "endMs": 70280
+        },
+        {
+          "word": "buzdolabının",
+          "startMs": 70450,
+          "endMs": 71320
+        },
+        {
+          "word": "üstüne",
+          "startMs": 71400,
+          "endMs": 71870
+        },
+        {
+          "word": "ya",
+          "startMs": 72300,
+          "endMs": 72920
+        },
+        {
+          "word": "da",
+          "startMs": 73240,
+          "endMs": 73360
+        },
+        {
+          "word": "çalışma",
+          "startMs": 73580,
+          "endMs": 73970
+        },
+        {
+          "word": "masana",
+          "startMs": 73970,
+          "endMs": 74410
+        },
+        {
+          "word": "112",
+          "startMs": 74410,
+          "endMs": 74880
+        },
+        {
+          "word": "numarasını",
+          "startMs": 75170,
+          "endMs": 76000
+        },
+        {
+          "word": "büyük",
+          "startMs": 76330,
+          "endMs": 76790
+        },
+        {
+          "word": "harflerle",
+          "startMs": 76870,
+          "endMs": 78360
+        },
+        {
+          "word": "yazıp",
+          "startMs": 78980,
+          "endMs": 79330
+        },
+        {
+          "word": "asmak",
+          "startMs": 79420,
+          "endMs": 79680
+        },
+        {
+          "word": "harika",
+          "startMs": 79810,
+          "endMs": 80330
+        },
+        {
+          "word": "bir",
+          "startMs": 80520,
+          "endMs": 80880
+        },
+        {
+          "word": "önlemdir.",
+          "startMs": 80970,
+          "endMs": 82110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 82840,
+      "endMs": 94220,
+      "pauseAfterMs": 1660,
+      "text": "Böylece acil bir durumda panik yapmadan ne yapacağını her zaman bilirsin.",
+      "markedText": "Böylece acil bir durumda panik yapmadan ne yapacağını her zaman bilirsin.",
+      "words": [
+        {
+          "word": "Böylece",
+          "startMs": 82840,
+          "endMs": 83590
+        },
+        {
+          "word": "acil",
+          "startMs": 83850,
+          "endMs": 84210
+        },
+        {
+          "word": "bir",
+          "startMs": 84280,
+          "endMs": 84510
+        },
+        {
+          "word": "durumda",
+          "startMs": 84510,
+          "endMs": 85150
+        },
+        {
+          "word": "panik",
+          "startMs": 85150,
+          "endMs": 85630
+        },
+        {
+          "word": "yapmadan",
+          "startMs": 85960,
+          "endMs": 87020
+        },
+        {
+          "word": "ne",
+          "startMs": 88310,
+          "endMs": 88480
+        },
+        {
+          "word": "yapacağını",
+          "startMs": 88590,
+          "endMs": 90020
+        },
+        {
+          "word": "her",
+          "startMs": 90470,
+          "endMs": 90680
+        },
+        {
+          "word": "zaman",
+          "startMs": 90730,
+          "endMs": 91200
+        },
+        {
+          "word": "bilirsin.",
+          "startMs": 91450,
+          "endMs": 92560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 94220,
+      "endMs": 106600,
+      "pauseAfterMs": 330,
+      "text": "Vücudumuzdaki destek ve hareket, sindirim, dolaşım, solunum ve boşaltım sistemleri düzenli bakım ister.",
+      "markedText": "Vücudumuzdaki destek ve hareket, sindirim, dolaşım, solunum ve boşaltım sistemleri düzenli bakım ister.",
+      "words": [
+        {
+          "word": "Vücudumuzdaki",
+          "startMs": 94220,
+          "endMs": 95300
+        },
+        {
+          "word": "destek",
+          "startMs": 95710,
+          "endMs": 96410
+        },
+        {
+          "word": "ve",
+          "startMs": 96670,
+          "endMs": 96770
+        },
+        {
+          "word": "hareket,",
+          "startMs": 96770,
+          "endMs": 98110
+        },
+        {
+          "word": "sindirim,",
+          "startMs": 99340,
+          "endMs": 100080
+        },
+        {
+          "word": "dolaşım,",
+          "startMs": 100570,
+          "endMs": 100960
+        },
+        {
+          "word": "solunum",
+          "startMs": 101500,
+          "endMs": 102130
+        },
+        {
+          "word": "ve",
+          "startMs": 102130,
+          "endMs": 102260
+        },
+        {
+          "word": "boşaltım",
+          "startMs": 102260,
+          "endMs": 102860
+        },
+        {
+          "word": "sistemleri",
+          "startMs": 102860,
+          "endMs": 103520
+        },
+        {
+          "word": "düzenli",
+          "startMs": 104110,
+          "endMs": 104870
+        },
+        {
+          "word": "bakım",
+          "startMs": 105210,
+          "endMs": 105720
+        },
+        {
+          "word": "ister.",
+          "startMs": 105720,
+          "endMs": 106270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 106600,
+      "endMs": 122510,
+      "pauseAfterMs": 1420,
+      "text": "Dengeli ve taze beslenme, bol su içme, düzenli uyku, spor yapma ve kişisel temizlik bu sağlığın temel taşlarıdır.",
+      "markedText": "Dengeli ve taze beslenme, bol su içme, düzenli uyku, spor yapma ve kişisel temizlik bu sağlığın temel taşlarıdır.",
+      "words": [
+        {
+          "word": "Dengeli",
+          "startMs": 106600,
+          "endMs": 107090
+        },
+        {
+          "word": "ve",
+          "startMs": 107130,
+          "endMs": 107330
+        },
+        {
+          "word": "taze",
+          "startMs": 107330,
+          "endMs": 107900
+        },
+        {
+          "word": "beslenme,",
+          "startMs": 107960,
+          "endMs": 108610
+        },
+        {
+          "word": "bol",
+          "startMs": 108860,
+          "endMs": 109040
+        },
+        {
+          "word": "su",
+          "startMs": 109080,
+          "endMs": 109180
+        },
+        {
+          "word": "içme,",
+          "startMs": 109300,
+          "endMs": 109860
+        },
+        {
+          "word": "düzenli",
+          "startMs": 111260,
+          "endMs": 112120
+        },
+        {
+          "word": "uyku,",
+          "startMs": 112450,
+          "endMs": 113420
+        },
+        {
+          "word": "spor",
+          "startMs": 114250,
+          "endMs": 114650
+        },
+        {
+          "word": "yapma",
+          "startMs": 114910,
+          "endMs": 115260
+        },
+        {
+          "word": "ve",
+          "startMs": 115260,
+          "endMs": 115460
+        },
+        {
+          "word": "kişisel",
+          "startMs": 115560,
+          "endMs": 115960
+        },
+        {
+          "word": "temizlik",
+          "startMs": 116120,
+          "endMs": 116630
+        },
+        {
+          "word": "bu",
+          "startMs": 116960,
+          "endMs": 117300
+        },
+        {
+          "word": "sağlığın",
+          "startMs": 117370,
+          "endMs": 118220
+        },
+        {
+          "word": "temel",
+          "startMs": 119320,
+          "endMs": 119620
+        },
+        {
+          "word": "taşlarıdır.",
+          "startMs": 119830,
+          "endMs": 121090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 122510,
+      "endMs": 133260,
+      "pauseAfterMs": 1030,
+      "text": "Sigara, alkol gibi zararlı maddelerden ve pasif duman solumaktan kesinlikle uzak durulmalıdır.",
+      "markedText": "Sigara, alkol gibi zararlı maddelerden ve pasif duman solumaktan kesinlikle uzak durulmalıdır.",
+      "words": [
+        {
+          "word": "Sigara,",
+          "startMs": 122510,
+          "endMs": 122850
+        },
+        {
+          "word": "alkol",
+          "startMs": 122980,
+          "endMs": 123430
+        },
+        {
+          "word": "gibi",
+          "startMs": 123920,
+          "endMs": 124150
+        },
+        {
+          "word": "zararlı",
+          "startMs": 124490,
+          "endMs": 124920
+        },
+        {
+          "word": "maddelerden",
+          "startMs": 125250,
+          "endMs": 126220
+        },
+        {
+          "word": "ve",
+          "startMs": 126260,
+          "endMs": 126360
+        },
+        {
+          "word": "pasif",
+          "startMs": 127760,
+          "endMs": 128270
+        },
+        {
+          "word": "duman",
+          "startMs": 128390,
+          "endMs": 128700
+        },
+        {
+          "word": "solumaktan",
+          "startMs": 129010,
+          "endMs": 129680
+        },
+        {
+          "word": "kesinlikle",
+          "startMs": 129680,
+          "endMs": 130560
+        },
+        {
+          "word": "uzak",
+          "startMs": 130560,
+          "endMs": 130870
+        },
+        {
+          "word": "durulmalıdır.",
+          "startMs": 130920,
+          "endMs": 132230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 133260,
+      "endMs": 143840,
+      "pauseAfterMs": 960,
+      "text": "Beklenmedik bir kaza anında yapılan ilk yardımda ise en temel kural önce ortamın güvenliğini sağlamaktır.",
+      "markedText": "Beklenmedik bir kaza anında yapılan ilk yardımda ise en temel kural önce ortamın güvenliğini sağlamaktır.",
+      "words": [
+        {
+          "word": "Beklenmedik",
+          "startMs": 133260,
+          "endMs": 133880
+        },
+        {
+          "word": "bir",
+          "startMs": 134020,
+          "endMs": 134280
+        },
+        {
+          "word": "kaza",
+          "startMs": 134460,
+          "endMs": 134690
+        },
+        {
+          "word": "anında",
+          "startMs": 134760,
+          "endMs": 135250
+        },
+        {
+          "word": "yapılan",
+          "startMs": 136240,
+          "endMs": 136660
+        },
+        {
+          "word": "ilk",
+          "startMs": 136830,
+          "endMs": 136920
+        },
+        {
+          "word": "yardımda",
+          "startMs": 136920,
+          "endMs": 137450
+        },
+        {
+          "word": "ise",
+          "startMs": 137600,
+          "endMs": 137740
+        },
+        {
+          "word": "en",
+          "startMs": 137780,
+          "endMs": 137950
+        },
+        {
+          "word": "temel",
+          "startMs": 138040,
+          "endMs": 138400
+        },
+        {
+          "word": "kural",
+          "startMs": 138620,
+          "endMs": 138930
+        },
+        {
+          "word": "önce",
+          "startMs": 139860,
+          "endMs": 140140
+        },
+        {
+          "word": "ortamın",
+          "startMs": 140140,
+          "endMs": 140660
+        },
+        {
+          "word": "güvenliğini",
+          "startMs": 140660,
+          "endMs": 141500
+        },
+        {
+          "word": "sağlamaktır.",
+          "startMs": 141500,
+          "endMs": 142880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 143840,
+      "endMs": 152570,
+      "pauseAfterMs": 370,
+      "text": "Ardından derhal bir yetişkine haber verilir ve 112 Acil Yardım hattı aranır.",
+      "markedText": "Ardından derhal bir yetişkine haber verilir ve 112 Acil Yardım hattı aranır.",
+      "words": [
+        {
+          "word": "Ardından",
+          "startMs": 143840,
+          "endMs": 144210
+        },
+        {
+          "word": "derhal",
+          "startMs": 144370,
+          "endMs": 144620
+        },
+        {
+          "word": "bir",
+          "startMs": 144730,
+          "endMs": 145020
+        },
+        {
+          "word": "yetişkine",
+          "startMs": 145470,
+          "endMs": 146040
+        },
+        {
+          "word": "haber",
+          "startMs": 146380,
+          "endMs": 146790
+        },
+        {
+          "word": "verilir",
+          "startMs": 146940,
+          "endMs": 147570
+        },
+        {
+          "word": "ve",
+          "startMs": 147570,
+          "endMs": 147720
+        },
+        {
+          "word": "112",
+          "startMs": 148080,
+          "endMs": 148890
+        },
+        {
+          "word": "Acil",
+          "startMs": 150110,
+          "endMs": 150360
+        },
+        {
+          "word": "Yardım",
+          "startMs": 150360,
+          "endMs": 150970
+        },
+        {
+          "word": "hattı",
+          "startMs": 151060,
+          "endMs": 151510
+        },
+        {
+          "word": "aranır.",
+          "startMs": 151550,
+          "endMs": 152200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 152570,
+      "endMs": 158950,
+      "pauseAfterMs": 700,
+      "text": "Bilinci kapalı kişilere asla yiyecek ya da su verilmez.",
+      "markedText": "Bilinci kapalı kişilere asla yiyecek ya da su verilmez.",
+      "words": [
+        {
+          "word": "Bilinci",
+          "startMs": 152570,
+          "endMs": 153210
+        },
+        {
+          "word": "kapalı",
+          "startMs": 153210,
+          "endMs": 153920
+        },
+        {
+          "word": "kişilere",
+          "startMs": 154020,
+          "endMs": 155000
+        },
+        {
+          "word": "asla",
+          "startMs": 155490,
+          "endMs": 155730
+        },
+        {
+          "word": "yiyecek",
+          "startMs": 155920,
+          "endMs": 156370
+        },
+        {
+          "word": "ya",
+          "startMs": 156450,
+          "endMs": 156620
+        },
+        {
+          "word": "da",
+          "startMs": 156970,
+          "endMs": 157160
+        },
+        {
+          "word": "su",
+          "startMs": 157250,
+          "endMs": 157330
+        },
+        {
+          "word": "verilmez.",
+          "startMs": 157470,
+          "endMs": 158250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 158950,
+      "endMs": 169140,
+      "pauseAfterMs": 960,
+      "text": "Kanamalarda temiz bir bezle yaranın üzerine hafifçe baskı yapılır.",
+      "markedText": "Kanamalarda temiz bir bezle yaranın üzerine hafifçe baskı yapılır.",
+      "words": [
+        {
+          "word": "Kanamalarda",
+          "startMs": 158950,
+          "endMs": 160390
+        },
+        {
+          "word": "temiz",
+          "startMs": 160750,
+          "endMs": 161090
+        },
+        {
+          "word": "bir",
+          "startMs": 161130,
+          "endMs": 161270
+        },
+        {
+          "word": "bezle",
+          "startMs": 161370,
+          "endMs": 161750
+        },
+        {
+          "word": "yaranın",
+          "startMs": 161890,
+          "endMs": 162130
+        },
+        {
+          "word": "üzerine",
+          "startMs": 164010,
+          "endMs": 164900
+        },
+        {
+          "word": "hafifçe",
+          "startMs": 165350,
+          "endMs": 166110
+        },
+        {
+          "word": "baskı",
+          "startMs": 166890,
+          "endMs": 167340
+        },
+        {
+          "word": "yapılır.",
+          "startMs": 167430,
+          "endMs": 168180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 169140,
+      "endMs": 176340,
+      "pauseAfterMs": 640,
+      "text": "Yanıklarda yanan bölge akan serin musluk suyu altında tutulur.",
+      "markedText": "Yanıklarda yanan bölge akan serin musluk suyu altında tutulur.",
+      "words": [
+        {
+          "word": "Yanıklarda",
+          "startMs": 169140,
+          "endMs": 170190
+        },
+        {
+          "word": "yanan",
+          "startMs": 170340,
+          "endMs": 170900
+        },
+        {
+          "word": "bölge",
+          "startMs": 170960,
+          "endMs": 171530
+        },
+        {
+          "word": "akan",
+          "startMs": 171820,
+          "endMs": 172420
+        },
+        {
+          "word": "serin",
+          "startMs": 172520,
+          "endMs": 173020
+        },
+        {
+          "word": "musluk",
+          "startMs": 173170,
+          "endMs": 173690
+        },
+        {
+          "word": "suyu",
+          "startMs": 173970,
+          "endMs": 174220
+        },
+        {
+          "word": "altında",
+          "startMs": 174410,
+          "endMs": 175030
+        },
+        {
+          "word": "tutulur.",
+          "startMs": 175210,
+          "endMs": 175700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 176340,
+      "endMs": 183640,
+      "pauseAfterMs": 920,
+      "text": "Kırık şüphesinde ise kol ya da bacak asla hareket ettirilmez.",
+      "markedText": "Kırık şüphesinde ise kol ya da bacak asla hareket ettirilmez.",
+      "words": [
+        {
+          "word": "Kırık",
+          "startMs": 176340,
+          "endMs": 176820
+        },
+        {
+          "word": "şüphesinde",
+          "startMs": 177100,
+          "endMs": 177940
+        },
+        {
+          "word": "ise",
+          "startMs": 178220,
+          "endMs": 178530
+        },
+        {
+          "word": "kol",
+          "startMs": 178610,
+          "endMs": 178900
+        },
+        {
+          "word": "ya",
+          "startMs": 178960,
+          "endMs": 179240
+        },
+        {
+          "word": "da",
+          "startMs": 179310,
+          "endMs": 179480
+        },
+        {
+          "word": "bacak",
+          "startMs": 179670,
+          "endMs": 180110
+        },
+        {
+          "word": "asla",
+          "startMs": 180370,
+          "endMs": 180700
+        },
+        {
+          "word": "hareket",
+          "startMs": 180770,
+          "endMs": 181610
+        },
+        {
+          "word": "ettirilmez.",
+          "startMs": 181990,
+          "endMs": 182720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 183640,
+      "endMs": 201000,
+      "pauseAfterMs": 710,
+      "text": "Pratik kural: İlk yardım bir gösteri yarışı değildir; sakin kalmak, doğru numarayı aramak ve bilmediğin müdahalelerden kaçınmak en büyük yardımdır.",
+      "markedText": "Pratik kural: İlk yardım bir gösteri yarışı değildir; sakin kalmak, doğru numarayı aramak ve bilmediğin müdahalelerden kaçınmak en büyük yardımdır.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 183640,
+          "endMs": 184050
+        },
+        {
+          "word": "kural:",
+          "startMs": 184050,
+          "endMs": 184600
+        },
+        {
+          "word": "İlk",
+          "startMs": 185460,
+          "endMs": 185670
+        },
+        {
+          "word": "yardım",
+          "startMs": 186380,
+          "endMs": 186760
+        },
+        {
+          "word": "bir",
+          "startMs": 186850,
+          "endMs": 187070
+        },
+        {
+          "word": "gösteri",
+          "startMs": 187140,
+          "endMs": 187970
+        },
+        {
+          "word": "yarışı",
+          "startMs": 188560,
+          "endMs": 189070
+        },
+        {
+          "word": "değildir;",
+          "startMs": 189210,
+          "endMs": 189580
+        },
+        {
+          "word": "sakin",
+          "startMs": 189910,
+          "endMs": 190350
+        },
+        {
+          "word": "kalmak,",
+          "startMs": 190880,
+          "endMs": 191020
+        },
+        {
+          "word": "doğru",
+          "startMs": 191210,
+          "endMs": 191620
+        },
+        {
+          "word": "numarayı",
+          "startMs": 191620,
+          "endMs": 192390
+        },
+        {
+          "word": "aramak",
+          "startMs": 192680,
+          "endMs": 193620
+        },
+        {
+          "word": "ve",
+          "startMs": 194480,
+          "endMs": 194730
+        },
+        {
+          "word": "bilmediğin",
+          "startMs": 195570,
+          "endMs": 196340
+        },
+        {
+          "word": "müdahalelerden",
+          "startMs": 196460,
+          "endMs": 198110
+        },
+        {
+          "word": "kaçınmak",
+          "startMs": 198480,
+          "endMs": 198890
+        },
+        {
+          "word": "en",
+          "startMs": 198940,
+          "endMs": 199120
+        },
+        {
+          "word": "büyük",
+          "startMs": 199180,
+          "endMs": 199420
+        },
+        {
+          "word": "yardımdır.",
+          "startMs": 199420,
+          "endMs": 200290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 201000,
+      "endMs": 212360,
+      "pauseAfterMs": 750,
+      "text": "Okul bahçesinde koşarken bir arkadaşının düşüp dizinin kanadığını görelim.",
+      "markedText": "Okul bahçesinde koşarken bir arkadaşının düşüp dizinin kanadığını görelim.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 201000,
+          "endMs": 201340
+        },
+        {
+          "word": "bahçesinde",
+          "startMs": 201490,
+          "endMs": 202850
+        },
+        {
+          "word": "koşarken",
+          "startMs": 202960,
+          "endMs": 204610
+        },
+        {
+          "word": "bir",
+          "startMs": 205270,
+          "endMs": 205510
+        },
+        {
+          "word": "arkadaşının",
+          "startMs": 205630,
+          "endMs": 207360
+        },
+        {
+          "word": "düşüp",
+          "startMs": 207400,
+          "endMs": 208010
+        },
+        {
+          "word": "dizinin",
+          "startMs": 208200,
+          "endMs": 209460
+        },
+        {
+          "word": "kanadığını",
+          "startMs": 209940,
+          "endMs": 210750
+        },
+        {
+          "word": "görelim.",
+          "startMs": 210850,
+          "endMs": 211610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 212360,
+      "endMs": 217190,
+      "pauseAfterMs": 970,
+      "text": "Hemen telaşlanmadan yanına git.",
+      "markedText": "Hemen telaşlanmadan yanına git.",
+      "words": [
+        {
+          "word": "Hemen",
+          "startMs": 212360,
+          "endMs": 212970
+        },
+        {
+          "word": "telaşlanmadan",
+          "startMs": 213050,
+          "endMs": 214330
+        },
+        {
+          "word": "yanına",
+          "startMs": 214660,
+          "endMs": 215580
+        },
+        {
+          "word": "git.",
+          "startMs": 215580,
+          "endMs": 216220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 217190,
+      "endMs": 225200,
+      "pauseAfterMs": 710,
+      "text": "Önce etrafta bisiklet ya da sivri taş gibi tehlikeler var mı bak.",
+      "markedText": "Önce etrafta bisiklet ya da sivri taş gibi tehlikeler var mı bak.",
+      "words": [
+        {
+          "word": "Önce",
+          "startMs": 217190,
+          "endMs": 217640
+        },
+        {
+          "word": "etrafta",
+          "startMs": 217640,
+          "endMs": 218330
+        },
+        {
+          "word": "bisiklet",
+          "startMs": 218980,
+          "endMs": 219840
+        },
+        {
+          "word": "ya",
+          "startMs": 219940,
+          "endMs": 220190
+        },
+        {
+          "word": "da",
+          "startMs": 220330,
+          "endMs": 220570
+        },
+        {
+          "word": "sivri",
+          "startMs": 220740,
+          "endMs": 221160
+        },
+        {
+          "word": "taş",
+          "startMs": 221280,
+          "endMs": 221460
+        },
+        {
+          "word": "gibi",
+          "startMs": 221520,
+          "endMs": 221920
+        },
+        {
+          "word": "tehlikeler",
+          "startMs": 222040,
+          "endMs": 223020
+        },
+        {
+          "word": "var",
+          "startMs": 223370,
+          "endMs": 223610
+        },
+        {
+          "word": "mı",
+          "startMs": 223700,
+          "endMs": 223790
+        },
+        {
+          "word": "bak.",
+          "startMs": 223860,
+          "endMs": 224490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 225200,
+      "endMs": 235320,
+      "pauseAfterMs": 410,
+      "text": "Temiz bir mendille veya gazlı bezle kanayan dizin üzerine nazikçe bastır.",
+      "markedText": "Temiz bir mendille veya gazlı bezle kanayan dizin üzerine nazikçe bastır.",
+      "words": [
+        {
+          "word": "Temiz",
+          "startMs": 225200,
+          "endMs": 225630
+        },
+        {
+          "word": "bir",
+          "startMs": 225720,
+          "endMs": 226070
+        },
+        {
+          "word": "mendille",
+          "startMs": 226570,
+          "endMs": 227510
+        },
+        {
+          "word": "veya",
+          "startMs": 227620,
+          "endMs": 227980
+        },
+        {
+          "word": "gazlı",
+          "startMs": 227980,
+          "endMs": 228300
+        },
+        {
+          "word": "bezle",
+          "startMs": 228430,
+          "endMs": 229440
+        },
+        {
+          "word": "kanayan",
+          "startMs": 230500,
+          "endMs": 231060
+        },
+        {
+          "word": "dizin",
+          "startMs": 231180,
+          "endMs": 231480
+        },
+        {
+          "word": "üzerine",
+          "startMs": 231610,
+          "endMs": 232560
+        },
+        {
+          "word": "nazikçe",
+          "startMs": 232970,
+          "endMs": 233630
+        },
+        {
+          "word": "bastır.",
+          "startMs": 233920,
+          "endMs": 234910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 235320,
+      "endMs": 240420,
+      "pauseAfterMs": 710,
+      "text": "Nöbetçi öğretmene hemen haber ver.",
+      "markedText": "Nöbetçi öğretmene hemen haber ver.",
+      "words": [
+        {
+          "word": "Nöbetçi",
+          "startMs": 235320,
+          "endMs": 236250
+        },
+        {
+          "word": "öğretmene",
+          "startMs": 236890,
+          "endMs": 237550
+        },
+        {
+          "word": "hemen",
+          "startMs": 237550,
+          "endMs": 238000
+        },
+        {
+          "word": "haber",
+          "startMs": 238250,
+          "endMs": 238640
+        },
+        {
+          "word": "ver.",
+          "startMs": 238720,
+          "endMs": 239710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 240420,
+      "endMs": 249840,
+      "pauseAfterMs": 1150,
+      "text": "Evde eline sıcak çorba döküldüğünü düşünelim; asla yanığın üzerine diş macunu veya buz sürme!",
+      "markedText": "Evde eline sıcak çorba döküldüğünü düşünelim; asla yanığın üzerine diş macunu veya buz sürme!",
+      "words": [
+        {
+          "word": "Evde",
+          "startMs": 240420,
+          "endMs": 240640
+        },
+        {
+          "word": "eline",
+          "startMs": 240640,
+          "endMs": 240960
+        },
+        {
+          "word": "sıcak",
+          "startMs": 241060,
+          "endMs": 241520
+        },
+        {
+          "word": "çorba",
+          "startMs": 241630,
+          "endMs": 242040
+        },
+        {
+          "word": "döküldüğünü",
+          "startMs": 242250,
+          "endMs": 243110
+        },
+        {
+          "word": "düşünelim;",
+          "startMs": 243540,
+          "endMs": 244570
+        },
+        {
+          "word": "asla",
+          "startMs": 244990,
+          "endMs": 245320
+        },
+        {
+          "word": "yanığın",
+          "startMs": 245430,
+          "endMs": 245960
+        },
+        {
+          "word": "üzerine",
+          "startMs": 246140,
+          "endMs": 246590
+        },
+        {
+          "word": "diş",
+          "startMs": 246690,
+          "endMs": 246760
+        },
+        {
+          "word": "macunu",
+          "startMs": 246990,
+          "endMs": 247650
+        },
+        {
+          "word": "veya",
+          "startMs": 247730,
+          "endMs": 247990
+        },
+        {
+          "word": "buz",
+          "startMs": 248090,
+          "endMs": 248260
+        },
+        {
+          "word": "sürme!",
+          "startMs": 248340,
+          "endMs": 248690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 249840,
+      "endMs": 260140,
+      "pauseAfterMs": 720,
+      "text": "Elini 10-15 dakika boyunca akan ılık-serin musluk suyunun altına tut.",
+      "markedText": "Elini 10-15 dakika boyunca akan ılık-serin musluk suyunun altına tut.",
+      "words": [
+        {
+          "word": "Elini",
+          "startMs": 249840,
+          "endMs": 250260
+        },
+        {
+          "word": "10-15",
+          "startMs": 250570,
+          "endMs": 251640
+        },
+        {
+          "word": "dakika",
+          "startMs": 252540,
+          "endMs": 252840
+        },
+        {
+          "word": "boyunca",
+          "startMs": 253130,
+          "endMs": 253700
+        },
+        {
+          "word": "akan",
+          "startMs": 254120,
+          "endMs": 255270
+        },
+        {
+          "word": "ılık-serin",
+          "startMs": 255670,
+          "endMs": 256610
+        },
+        {
+          "word": "musluk",
+          "startMs": 256670,
+          "endMs": 257000
+        },
+        {
+          "word": "suyunun",
+          "startMs": 257760,
+          "endMs": 258340
+        },
+        {
+          "word": "altına",
+          "startMs": 258460,
+          "endMs": 258990
+        },
+        {
+          "word": "tut.",
+          "startMs": 258990,
+          "endMs": 259420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 260140,
+      "endMs": 277360,
+      "pauseAfterMs": 680,
+      "text": "Yolda baygın yatan birini gördüğünde 'ayılsın' diye ağzına su dökmeye çalışma; çünkü su soluk borusuna kaçıp nefesini kesebilir.",
+      "markedText": "Yolda baygın yatan birini gördüğünde 'ayılsın' diye ağzına su dökmeye çalışma; çünkü su soluk borusuna kaçıp nefesini kesebilir.",
+      "words": [
+        {
+          "word": "Yolda",
+          "startMs": 260140,
+          "endMs": 260700
+        },
+        {
+          "word": "baygın",
+          "startMs": 261840,
+          "endMs": 262280
+        },
+        {
+          "word": "yatan",
+          "startMs": 262410,
+          "endMs": 262820
+        },
+        {
+          "word": "birini",
+          "startMs": 262920,
+          "endMs": 263740
+        },
+        {
+          "word": "gördüğünde",
+          "startMs": 264620,
+          "endMs": 265660
+        },
+        {
+          "word": "'ayılsın'",
+          "startMs": 265760,
+          "endMs": 266860
+        },
+        {
+          "word": "diye",
+          "startMs": 267010,
+          "endMs": 267550
+        },
+        {
+          "word": "ağzına",
+          "startMs": 267610,
+          "endMs": 268430
+        },
+        {
+          "word": "su",
+          "startMs": 268670,
+          "endMs": 269200
+        },
+        {
+          "word": "dökmeye",
+          "startMs": 269740,
+          "endMs": 270340
+        },
+        {
+          "word": "çalışma;",
+          "startMs": 270550,
+          "endMs": 271400
+        },
+        {
+          "word": "çünkü",
+          "startMs": 271990,
+          "endMs": 272420
+        },
+        {
+          "word": "su",
+          "startMs": 272490,
+          "endMs": 272710
+        },
+        {
+          "word": "soluk",
+          "startMs": 272770,
+          "endMs": 273240
+        },
+        {
+          "word": "borusuna",
+          "startMs": 273310,
+          "endMs": 273900
+        },
+        {
+          "word": "kaçıp",
+          "startMs": 274060,
+          "endMs": 274500
+        },
+        {
+          "word": "nefesini",
+          "startMs": 274800,
+          "endMs": 275430
+        },
+        {
+          "word": "kesebilir.",
+          "startMs": 275520,
+          "endMs": 276680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 277360,
+      "endMs": 284420,
+      "pauseAfterMs": 450,
+      "text": "Sen hemen 112'yi ara, adresini sakin ve net bir sesle söyle",
+      "markedText": "Sen hemen 112'yi ara, adresini sakin ve net bir sesle söyle",
+      "words": [
+        {
+          "word": "Sen",
+          "startMs": 277360,
+          "endMs": 277530
+        },
+        {
+          "word": "hemen",
+          "startMs": 277600,
+          "endMs": 277770
+        },
+        {
+          "word": "112'yi",
+          "startMs": 277770,
+          "endMs": 278270
+        },
+        {
+          "word": "ara,",
+          "startMs": 278430,
+          "endMs": 279210
+        },
+        {
+          "word": "adresini",
+          "startMs": 280200,
+          "endMs": 280790
+        },
+        {
+          "word": "sakin",
+          "startMs": 281210,
+          "endMs": 281440
+        },
+        {
+          "word": "ve",
+          "startMs": 281440,
+          "endMs": 281750
+        },
+        {
+          "word": "net",
+          "startMs": 282260,
+          "endMs": 282600
+        },
+        {
+          "word": "bir",
+          "startMs": 282690,
+          "endMs": 282770
+        },
+        {
+          "word": "sesle",
+          "startMs": 282850,
+          "endMs": 283150
+        },
+        {
+          "word": "söyle",
+          "startMs": 283310,
+          "endMs": 283970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 284420,
+      "endMs": 286320,
+      "pauseAfterMs": 300,
+      "text": "Tuzaklara Düşme",
+      "markedText": "Tuzaklara Düşme",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 284420,
+          "endMs": 285350
+        },
+        {
+          "word": "Düşme",
+          "startMs": 285460,
+          "endMs": 286020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 286320,
+      "endMs": 288870,
+      "pauseAfterMs": 100,
+      "text": "Birlikte bakalım",
+      "markedText": "Birlikte bakalım",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 286320,
+          "endMs": 287280
+        },
+        {
+          "word": "bakalım",
+          "startMs": 288010,
+          "endMs": 288770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 288870,
+      "endMs": 293170,
+      "pauseAfterMs": 800,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 288870,
+          "endMs": 289090
+        },
+        {
+          "word": "noktayı",
+          "startMs": 289300,
+          "endMs": 290130
+        },
+        {
+          "word": "sen",
+          "startMs": 290770,
+          "endMs": 290910
+        },
+        {
+          "word": "de",
+          "startMs": 290910,
+          "endMs": 291060
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 291160,
+          "endMs": 292370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-2",
+      "startMs": 293170,
+      "endMs": 301540,
+      "pauseAfterMs": 450,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 293170,
+          "endMs": 293870
+        },
+        {
+          "word": "sevgili",
+          "startMs": 294030,
+          "endMs": 294480
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 294650,
+          "endMs": 296490
+        },
+        {
+          "word": "işte",
+          "startMs": 297090,
+          "endMs": 297330
+        },
+        {
+          "word": "tam",
+          "startMs": 297420,
+          "endMs": 297650
+        },
+        {
+          "word": "bu",
+          "startMs": 297650,
+          "endMs": 297810
+        },
+        {
+          "word": "noktada",
+          "startMs": 297810,
+          "endMs": 298350
+        },
+        {
+          "word": "dikkat",
+          "startMs": 298500,
+          "endMs": 299030
+        },
+        {
+          "word": "etmen",
+          "startMs": 299030,
+          "endMs": 299380
+        },
+        {
+          "word": "gereken",
+          "startMs": 299540,
+          "endMs": 300250
+        },
+        {
+          "word": "kilit",
+          "startMs": 300340,
+          "endMs": 300750
+        },
+        {
+          "word": "nokta.",
+          "startMs": 300890,
+          "endMs": 301090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-2",
+      "startMs": 301540,
+      "endMs": 315710,
+      "pauseAfterMs": 520,
+      "text": "Bayılan ya da bilinci kapalı birini gördüğünde yardım etmek amacıyla su içirmeye çalışmak soluk borusunu tıkayabilir.",
+      "markedText": "Bayılan ya da bilinci kapalı birini gördüğünde yardım etmek amacıyla su içirmeye çalışmak soluk borusunu tıkayabilir.",
+      "words": [
+        {
+          "word": "Bayılan",
+          "startMs": 301540,
+          "endMs": 301970
+        },
+        {
+          "word": "ya",
+          "startMs": 301970,
+          "endMs": 302110
+        },
+        {
+          "word": "da",
+          "startMs": 302220,
+          "endMs": 302310
+        },
+        {
+          "word": "bilinci",
+          "startMs": 302410,
+          "endMs": 303140
+        },
+        {
+          "word": "kapalı",
+          "startMs": 303860,
+          "endMs": 304140
+        },
+        {
+          "word": "birini",
+          "startMs": 304390,
+          "endMs": 305580
+        },
+        {
+          "word": "gördüğünde",
+          "startMs": 305830,
+          "endMs": 306490
+        },
+        {
+          "word": "yardım",
+          "startMs": 306540,
+          "endMs": 307310
+        },
+        {
+          "word": "etmek",
+          "startMs": 308220,
+          "endMs": 308600
+        },
+        {
+          "word": "amacıyla",
+          "startMs": 308700,
+          "endMs": 309570
+        },
+        {
+          "word": "su",
+          "startMs": 309700,
+          "endMs": 309790
+        },
+        {
+          "word": "içirmeye",
+          "startMs": 310120,
+          "endMs": 310880
+        },
+        {
+          "word": "çalışmak",
+          "startMs": 310970,
+          "endMs": 311800
+        },
+        {
+          "word": "soluk",
+          "startMs": 311800,
+          "endMs": 312580
+        },
+        {
+          "word": "borusunu",
+          "startMs": 313080,
+          "endMs": 313740
+        },
+        {
+          "word": "tıkayabilir.",
+          "startMs": 313840,
+          "endMs": 315190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-2",
+      "startMs": 315710,
+      "endMs": 329800,
+      "pauseAfterMs": 970,
+      "text": "Hemen bir yetişkine haber verir, 112 Acil Yardım hattını arar ve sakin kalarak sağlık ekiplerini bekleriz.",
+      "markedText": "Hemen bir yetişkine haber verir, 112 Acil Yardım hattını arar ve sakin kalarak sağlık ekiplerini bekleriz.",
+      "words": [
+        {
+          "word": "Hemen",
+          "startMs": 315710,
+          "endMs": 316150
+        },
+        {
+          "word": "bir",
+          "startMs": 316200,
+          "endMs": 316420
+        },
+        {
+          "word": "yetişkine",
+          "startMs": 316510,
+          "endMs": 317150
+        },
+        {
+          "word": "haber",
+          "startMs": 317440,
+          "endMs": 317870
+        },
+        {
+          "word": "verir,",
+          "startMs": 318180,
+          "endMs": 318290
+        },
+        {
+          "word": "112",
+          "startMs": 319030,
+          "endMs": 319850
+        },
+        {
+          "word": "Acil",
+          "startMs": 320360,
+          "endMs": 320590
+        },
+        {
+          "word": "Yardım",
+          "startMs": 320590,
+          "endMs": 321580
+        },
+        {
+          "word": "hattını",
+          "startMs": 321890,
+          "endMs": 322490
+        },
+        {
+          "word": "arar",
+          "startMs": 322590,
+          "endMs": 322890
+        },
+        {
+          "word": "ve",
+          "startMs": 323060,
+          "endMs": 323250
+        },
+        {
+          "word": "sakin",
+          "startMs": 323390,
+          "endMs": 324050
+        },
+        {
+          "word": "kalarak",
+          "startMs": 324820,
+          "endMs": 325360
+        },
+        {
+          "word": "sağlık",
+          "startMs": 325640,
+          "endMs": 326550
+        },
+        {
+          "word": "ekiplerini",
+          "startMs": 326840,
+          "endMs": 327270
+        },
+        {
+          "word": "bekleriz.",
+          "startMs": 327650,
+          "endMs": 328830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-2",
+      "startMs": 329800,
+      "endMs": 340200,
+      "pauseAfterMs": 730,
+      "text": "Sistemlerin sağlığı konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Sistemlerin sağlığı konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Sistemlerin",
+          "startMs": 329800,
+          "endMs": 331070
+        },
+        {
+          "word": "sağlığı",
+          "startMs": 331950,
+          "endMs": 332540
+        },
+        {
+          "word": "konusunda",
+          "startMs": 332700,
+          "endMs": 333140
+        },
+        {
+          "word": "kuralın",
+          "startMs": 333590,
+          "endMs": 334100
+        },
+        {
+          "word": "tersini",
+          "startMs": 334550,
+          "endMs": 334850
+        },
+        {
+          "word": "sanmak",
+          "startMs": 335170,
+          "endMs": 335720
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 335720,
+          "endMs": 336240
+        },
+        {
+          "word": "ters",
+          "startMs": 336460,
+          "endMs": 336680
+        },
+        {
+          "word": "cümle",
+          "startMs": 337020,
+          "endMs": 337990
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 338830,
+          "endMs": 339470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 340200,
+      "endMs": 343300,
+      "pauseAfterMs": 370,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 340200,
+          "endMs": 340690
+        },
+        {
+          "word": "Neler",
+          "startMs": 340800,
+          "endMs": 341590
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 341690,
+          "endMs": 342930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 343300,
+      "endMs": 343490,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 343300,
+          "endMs": 343490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 343490,
+      "endMs": 354250,
+      "pauseAfterMs": 1200,
+      "text": "Dengeli beslenme, temizlik, su ve düzenli uyku vücut sistemlerimizi korur.",
+      "markedText": "Dengeli beslenme, temizlik, su ve düzenli uyku vücut sistemlerimizi korur.",
+      "words": [
+        {
+          "word": "Dengeli",
+          "startMs": 343490,
+          "endMs": 344000
+        },
+        {
+          "word": "beslenme,",
+          "startMs": 344090,
+          "endMs": 345260
+        },
+        {
+          "word": "temizlik,",
+          "startMs": 346000,
+          "endMs": 347170
+        },
+        {
+          "word": "su",
+          "startMs": 347970,
+          "endMs": 348100
+        },
+        {
+          "word": "ve",
+          "startMs": 348100,
+          "endMs": 348340
+        },
+        {
+          "word": "düzenli",
+          "startMs": 348430,
+          "endMs": 348880
+        },
+        {
+          "word": "uyku",
+          "startMs": 349110,
+          "endMs": 349660
+        },
+        {
+          "word": "vücut",
+          "startMs": 350010,
+          "endMs": 350450
+        },
+        {
+          "word": "sistemlerimizi",
+          "startMs": 350560,
+          "endMs": 351760
+        },
+        {
+          "word": "korur.",
+          "startMs": 352050,
+          "endMs": 353050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 354250,
+      "endMs": 354540,
+      "pauseAfterMs": 80,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 354250,
+          "endMs": 354460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 354540,
+      "endMs": 367080,
+      "pauseAfterMs": 860,
+      "text": "İlk yardımda önce ortam güvenliği sağlanır, sonra 112 Acil Yardım aranır.",
+      "markedText": "İlk yardımda önce ortam güvenliği sağlanır, sonra 112 Acil Yardım aranır.",
+      "words": [
+        {
+          "word": "İlk",
+          "startMs": 354540,
+          "endMs": 354970
+        },
+        {
+          "word": "yardımda",
+          "startMs": 355550,
+          "endMs": 356430
+        },
+        {
+          "word": "önce",
+          "startMs": 356530,
+          "endMs": 356830
+        },
+        {
+          "word": "ortam",
+          "startMs": 356930,
+          "endMs": 357400
+        },
+        {
+          "word": "güvenliği",
+          "startMs": 358040,
+          "endMs": 358760
+        },
+        {
+          "word": "sağlanır,",
+          "startMs": 358830,
+          "endMs": 359680
+        },
+        {
+          "word": "sonra",
+          "startMs": 360430,
+          "endMs": 360730
+        },
+        {
+          "word": "112",
+          "startMs": 360810,
+          "endMs": 362060
+        },
+        {
+          "word": "Acil",
+          "startMs": 362770,
+          "endMs": 363320
+        },
+        {
+          "word": "Yardım",
+          "startMs": 363870,
+          "endMs": 364790
+        },
+        {
+          "word": "aranır.",
+          "startMs": 365180,
+          "endMs": 366220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 367080,
+      "endMs": 367200,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 367080,
+          "endMs": 367200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 367200,
+      "endMs": 376060,
+      "pauseAfterMs": 260,
+      "text": "Bilinci kapalıya su verilmez; kanamaya temiz bezle basılır, kırık oynatılmaz.",
+      "markedText": "Bilinci kapalıya su verilmez; kanamaya temiz bezle basılır, kırık oynatılmaz.",
+      "words": [
+        {
+          "word": "Bilinci",
+          "startMs": 367200,
+          "endMs": 367750
+        },
+        {
+          "word": "kapalıya",
+          "startMs": 368500,
+          "endMs": 369400
+        },
+        {
+          "word": "su",
+          "startMs": 369550,
+          "endMs": 369710
+        },
+        {
+          "word": "verilmez;",
+          "startMs": 369940,
+          "endMs": 370600
+        },
+        {
+          "word": "kanamaya",
+          "startMs": 371200,
+          "endMs": 371840
+        },
+        {
+          "word": "temiz",
+          "startMs": 371940,
+          "endMs": 372360
+        },
+        {
+          "word": "bezle",
+          "startMs": 372460,
+          "endMs": 373060
+        },
+        {
+          "word": "basılır,",
+          "startMs": 373570,
+          "endMs": 374050
+        },
+        {
+          "word": "kırık",
+          "startMs": 374410,
+          "endMs": 374950
+        },
+        {
+          "word": "oynatılmaz.",
+          "startMs": 375400,
+          "endMs": 375800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 376060,
+      "endMs": 384660,
+      "pauseAfterMs": 660,
+      "text": "Sistem sağlığı günlük bakım, ilk yardım ise sakin ve güvenli müdahaledir.",
+      "markedText": "Sistem sağlığı günlük bakım, ilk yardım ise sakin ve güvenli müdahaledir.",
+      "words": [
+        {
+          "word": "Sistem",
+          "startMs": 376060,
+          "endMs": 376540
+        },
+        {
+          "word": "sağlığı",
+          "startMs": 376760,
+          "endMs": 377300
+        },
+        {
+          "word": "günlük",
+          "startMs": 377300,
+          "endMs": 377560
+        },
+        {
+          "word": "bakım,",
+          "startMs": 377560,
+          "endMs": 378460
+        },
+        {
+          "word": "ilk",
+          "startMs": 379260,
+          "endMs": 379340
+        },
+        {
+          "word": "yardım",
+          "startMs": 379460,
+          "endMs": 380140
+        },
+        {
+          "word": "ise",
+          "startMs": 380290,
+          "endMs": 380530
+        },
+        {
+          "word": "sakin",
+          "startMs": 380630,
+          "endMs": 380910
+        },
+        {
+          "word": "ve",
+          "startMs": 381310,
+          "endMs": 381430
+        },
+        {
+          "word": "güvenli",
+          "startMs": 381530,
+          "endMs": 381950
+        },
+        {
+          "word": "müdahaledir.",
+          "startMs": 382860,
+          "endMs": 384000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 384660,
+      "endMs": 393280,
+      "pauseAfterMs": 400,
+      "text": "112 yi, su verilmeyecek hâli ve kanamadaki bezi sırayla söylersin.",
+      "markedText": "112 yi, su verilmeyecek hâli ve kanamadaki bezi sırayla söylersin.",
+      "words": [
+        {
+          "word": "112",
+          "startMs": 384660,
+          "endMs": 385550
+        },
+        {
+          "word": "yi,",
+          "startMs": 385880,
+          "endMs": 386170
+        },
+        {
+          "word": "su",
+          "startMs": 387040,
+          "endMs": 387230
+        },
+        {
+          "word": "verilmeyecek",
+          "startMs": 387330,
+          "endMs": 388450
+        },
+        {
+          "word": "hâli",
+          "startMs": 388810,
+          "endMs": 389230
+        },
+        {
+          "word": "ve",
+          "startMs": 389230,
+          "endMs": 389450
+        },
+        {
+          "word": "kanamadaki",
+          "startMs": 389800,
+          "endMs": 390250
+        },
+        {
+          "word": "bezi",
+          "startMs": 390430,
+          "endMs": 390840
+        },
+        {
+          "word": "sırayla",
+          "startMs": 390840,
+          "endMs": 391570
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 392200,
+          "endMs": 392880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 393280,
+      "endMs": 395980,
+      "pauseAfterMs": 400,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 393280,
+          "endMs": 394090
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 394870,
+          "endMs": 395580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-3",
+      "startMs": 395980,
+      "endMs": 399940,
+      "pauseAfterMs": 780,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 395980,
+          "endMs": 396630
+        },
+        {
+          "word": "bir",
+          "startMs": 396750,
+          "endMs": 397150
+        },
+        {
+          "word": "iş",
+          "startMs": 397270,
+          "endMs": 397540
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 397830,
+          "endMs": 399160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-3",
+      "startMs": 399940,
+      "endMs": 401310,
+      "pauseAfterMs": 680,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 399940,
+          "endMs": 400100
+        },
+        {
+          "word": "sıra",
+          "startMs": 400140,
+          "endMs": 400350
+        },
+        {
+          "word": "sende.",
+          "startMs": 400430,
+          "endMs": 400630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-51",
+      "chapterId": "ch-3",
+      "startMs": 401310,
+      "endMs": 405990,
+      "pauseAfterMs": 410,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 401310,
+          "endMs": 402100
+        },
+        {
+          "word": "bu",
+          "startMs": 402440,
+          "endMs": 402580
+        },
+        {
+          "word": "notları",
+          "startMs": 402770,
+          "endMs": 403390
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 403390,
+          "endMs": 403930
+        },
+        {
+          "word": "kendi",
+          "startMs": 404030,
+          "endMs": 404360
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 404510,
+          "endMs": 405260
+        },
+        {
+          "word": "anlat.",
+          "startMs": 405260,
+          "endMs": 405580
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

@@ -85,10 +85,10 @@
       "themeCode": "MAT.6.1",
       "themeTitle": "Sayılar ve nicelikler",
       "outcomeCode": "MAT.6.1.7",
-      "outcomeTitle": "Standart uzunluk ölçü birimleri",
-      "hours": 5,
+      "outcomeTitle": "Kesir, ondalık ve yüzde ile dört işlem",
+      "hours": 8,
       "hoursBasis": "plan",
-      "processOpen": true
+      "processOpen": false
     },
     {
       "schoolYear": "2026-2027",
@@ -97,10 +97,10 @@
       "themeCode": "MAT.6.1",
       "themeTitle": "Sayılar ve nicelikler",
       "outcomeCode": "MAT.6.1.8",
-      "outcomeTitle": "Kesir, ondalık ve yüzde ile dört işlem",
-      "hours": 8,
+      "outcomeTitle": "Standart uzunluk ölçü birimleri",
+      "hours": 5,
       "hoursBasis": "plan",
-      "processOpen": false
+      "processOpen": true
     },
     {
       "schoolYear": "2026-2027",

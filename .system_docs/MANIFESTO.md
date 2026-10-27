@@ -18,6 +18,8 @@
 
 **Kullanıcıya:**
 > Öğrendiğini mühürle. Mührün kapıyı açsın. İşin güvende olsun.
+>
+> *Faz notu (SSOT: Anayasa B2/B5):* Freelancer kapısı Faz 2'de lisanslı Split ile açılır; o güne kadar satış cümlesi bu vizyonu değil, satılan işi söyler (uygulamalı ders + sunucuda puanlanan sertifika). Sayı, fiyat, model ve bayrak bu belgede durmaz; tek adresler Anayasa SSOT tablosundadır.
 
 **Mühendise ve Yatırımcıya:**
 > yetkin.ai; öğrenme, doğrulanabilir yetkinlik (verifiable credentials) ve güvenli iş teslimini tek deftere bağlayan modern bir dijital yetenek ve iş platformudur.
@@ -36,18 +38,18 @@ Platformdaki her sertifika, sunucu tarafında SHA-256 içerik özetiyle sicile b
 
 ## 1.3 Hedef Kitlemiz
 
-**Birincil kitle: B2C Öğrenen / Kart Sahibi.** Kartla dijital eğitim, sınav ve sertifika satın alan yetişkin. Amiral SKU’da bu kitle önce ofiste çalışanıdır.
+**Birincil kitle: B2C Öğrenen / Kart Sahibi.** Kartla dijital eğitim, sınav ve sertifika satın alan yetişkin. Birincil ofis kartı `01_office_ai` bu kitleye önce ofiste çalışanı olarak gider.
 
 1. **Ofis işçisi (birincil):** Beyaz yaka ofis çalışanı, muhasebe ve finans, KOBİ ve kamu personeli. Kod yazmaz; Excel, e-posta, Word ve slaytla işini yetiştirir.
 2. **Yetkinliğini kanıtlamak isteyen öğrenenler (birincil halka, ofis dışı):** Kariyer değiştirenler, uzaktan çalışan profesyoneller.
-3. **Yazılımcı / geliştirici (ikincil katman):** Alaylı yazılımcılar ve teknik üreticiler; amiral ofis SKU’sunun ilk alıcısı değildir. Prompt ve ajan müfredatı bu kitleye ayrı pakette gider.
+3. **Yazılımcı / geliştirici (ikincil katman):** Alaylı yazılımcılar ve teknik üreticiler; birincil ofis kartının ilk alıcısı değildir. Prompt ve ajan müfredatı bu kitleye ayrı pakette gider.
 4. **Riski sıfırlamak isteyen işverenler (Faz 2 alıcısı):** Kalitesiz teslimat riskini almak istemeyen KOBİ’ler. Havuz ve lisanslı Split olmadan bu kitleye satış veya nakit iddiası basılmaz.
 5. **Veli (Junior B2C):** Çocuğunun 6. sınıf pilot dersini yıllık paketle açan veli. Hesap veliye aittir. Çocuk profili veli rızasıyla açılır. Bu kitle Akademi kart sahibinin yerine geçmez. Kapı Anayasa B6 ve `lib/kernel/security/junior-gate.ts` içindedir.
 
 ## 1.4 Marka ve Tasarım Duruşu
 
 * **Yalın ve Sakin Arayüz (Quiet Luxury):** Güven bağırmaz. Bu bir dogma değil, güven inşa eden bir ürün tercihidir.
-* **Doğrudan İletişim (SEN Aksı):** Varsayılan B2C sesimiz SEN’dir. Dron başına locale edilebilir; B2B yüzeyinde resmî hitap seçilebilir.
+* **Doğrudan İletişim (SEN Aksı):** Varsayılan B2C sesimiz SEN’dir. Oda kaydı başına locale edilebilir; B2B yüzeyinde resmî hitap seçilebilir.
 * **Stüdyo sözü vatandaş yüzeyine çıkmaz.** `punchcard`, `bake` ve `kaset` üretim kılavuzunda kalır. Vatandaş sesli dersi, sahnedeki kısa rozeti ve hazırlanan kaydı görür.
 
 ---
@@ -62,10 +64,10 @@ Faz 1 kamu vitrini kilidi **Anayasa B2**’dedir; Manifesto o kilidi ikinci kez 
 **Faz 1 çalışan vitrin 3 odadır** (Panel, Akademi, Kariyer); **4. oda (Freelancer) kilitli motordur.** Yetkin Junior bu üç vitrinin dördüncü odası değildir; müstakil odadır ve kapısı Anayasa B6’dadır. Young kayıt defterinde kapalıdır. Yeni oda, B2 checklist’i ve CEO + Super Admin çifti olmadan açılmaz.
 
 ### Kayıt kuralı
-**Oda tavanı esnektir** cümlesi Faz 2 checklist’idir, Faz 1 kilidini gevşetmez: yeni oda/dron = kayıt + sözleşme + bayrak. Kamu kanıt URL’si (`/vize`) yeni oda açmaz.
+**Oda tavanı esnektir** cümlesi Faz 2 checklist’idir, Faz 1 kilidini gevşetmez: yeni oda bu gövdede kayıt + bayrak + hop’tur. Ayrı repo, ayrı veritabanı veya ayrı kimlik açılmaz. Kamu kanıt URL’si (`/vize`) yeni oda açmaz.
 
-### Dron durumu
-Mimari ad Anayasa B1’dedir. Bu belge o paragrafı ikinci kez yazmaz. Model ve rol kimliği bu belgede durmaz; çalışma zamanı tek evi `lib/kernel/ai/model-roles.ts` dosyasıdır.
+### Oda kaydı
+Mimari ad Anayasa B1’dedir. Bu belge o paragrafı ikinci kez yazmaz. Model ve rol kimliği bu belgede durmaz; çalışma zamanı tek evi `lib/kernel/ai/model-roles.ts` dosyasıdır. Kilitli harita `.system_docs/AKADEMI_URETIM_ANAYASASI.md` içindedir. Uyumsuzlukta kod dosyası haritaya eşitlenir. Üretim sırası altı adımdır (0–5). Beş medya katmanı ve ders metninin beş yazım aşaması ayrı nesnelerdir.
 
 ### Kesit kuralı
 Haftalık kesit `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir.
@@ -133,7 +135,7 @@ Cevap evet ise en yalın, test edilebilir ve güvenli şekilde hayata geçirilir
 
 Junior, Akademi’nin iç kanalı değildir. Kendi odasıdır. Kapı ve erişim Anayasa B6 ve `lib/kernel/security/junior-gate.ts` (`canEnterJunior`) içindedir. Bu ek o kapıyı yazmaz.
 
-Alıcı velidir. Kullanan öğrencidir. Hesap veliye aittir. Çocuk profili veli rızasıyla açılır. Değerlendirme üslubu yaş grubuna göre değişir. Öğretme ayrıntısı Pedagoji Ek-J’dedir.
+Alıcı velidir. Kullanan öğrencidir. Hesap veliye aittir. Çocuk profili veli oturumuyla açılır. `/junior` listesi ve kartın tanımlı ilk konusu kamuya açıktır. Pilot sınıf 6’dır. Seçmeli kart yıllık müfredat değildir; iki konu taslaktır. Değerlendirme üslubu yaş grubuna göre değişir. Öğretme ayrıntısı Pedagoji Ek-J’dedir.
 
 **Dinle ve Anlat:** Çocuk dersi dinler, sonra kendi sözüyle anlatır. Anlatış seslidir. Mikrofon yoksa yazarak anlatır. Bu anlatış öğretir. Mühür ve iş vizesi üretmez. Web oynatıcısının tek kapısı Pedagoji Ek-J «Oynatıcı» maddesindedir. Bu ek o motoru ikinci kez yazmaz.
 

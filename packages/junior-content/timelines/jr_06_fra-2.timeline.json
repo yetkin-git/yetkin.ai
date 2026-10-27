@@ -1,0 +1,2260 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_fra-2",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Adını sormak",
+  "grade": 6,
+  "subject": "Seçmeli Ders",
+  "teacher": {
+    "name": "Ada",
+    "voice": "Enceladus",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_fra-2.mp3",
+    "durationMs": 133308,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 26720
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 26720,
+      "endMs": 105090
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 105090,
+      "endMs": 133308
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 2520,
+      "pauseAfterMs": 340,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 260,
+          "endMs": 640
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 640,
+          "endMs": 1060
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 1160,
+          "endMs": 1500
+        },
+        {
+          "word": "hoş",
+          "startMs": 1500,
+          "endMs": 1700
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 1760,
+          "endMs": 2180
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Adını sormak",
+            "subtitle": "Seçmeli Ders",
+            "ruleBadges": [],
+            "echoPrompt": "Adını Je m'appelle kalıbıyla nasıl kurduğunu söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Comment tu t'appelles, adını sorar."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Je m'appelle, adını söyler."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Soru adı ister. Je m'appelle adı söyler."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 2520,
+      "endMs": 4810,
+      "pauseAfterMs": 660,
+      "text": "Ben Seçmeli Ders öğretmenin Ada.",
+      "markedText": "Ben Seçmeli Ders öğretmenin Ada.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 2520,
+          "endMs": 2690
+        },
+        {
+          "word": "Seçmeli",
+          "startMs": 2690,
+          "endMs": 3120
+        },
+        {
+          "word": "Ders",
+          "startMs": 3160,
+          "endMs": 3380
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 3380,
+          "endMs": 3920
+        },
+        {
+          "word": "Ada.",
+          "startMs": 3920,
+          "endMs": 4150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 4810,
+      "endMs": 8000,
+      "pauseAfterMs": 640,
+      "text": "Bugün seninle Fransızcada ad sormayı öğreneceğiz.",
+      "markedText": "Bugün seninle Fransızcada ad sormayı öğreneceğiz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 4810,
+          "endMs": 5020
+        },
+        {
+          "word": "seninle",
+          "startMs": 5020,
+          "endMs": 5410
+        },
+        {
+          "word": "Fransızcada",
+          "startMs": 5530,
+          "endMs": 6080
+        },
+        {
+          "word": "ad",
+          "startMs": 6080,
+          "endMs": 6190
+        },
+        {
+          "word": "sormayı",
+          "startMs": 6190,
+          "endMs": 6540
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 6540,
+          "endMs": 7360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 8000,
+      "endMs": 10510,
+      "pauseAfterMs": 480,
+      "text": "Yeni bir grupta önce Bonjour dersin.",
+      "markedText": "Yeni bir grupta önce Bonjour dersin.",
+      "words": [
+        {
+          "word": "Yeni",
+          "startMs": 8000,
+          "endMs": 8240
+        },
+        {
+          "word": "bir",
+          "startMs": 8240,
+          "endMs": 8340
+        },
+        {
+          "word": "grupta",
+          "startMs": 8340,
+          "endMs": 8520
+        },
+        {
+          "word": "önce",
+          "startMs": 8670,
+          "endMs": 8990
+        },
+        {
+          "word": "Bonjour",
+          "startMs": 8990,
+          "endMs": 9320
+        },
+        {
+          "word": "dersin.",
+          "startMs": 9320,
+          "endMs": 10030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 10510,
+      "endMs": 13250,
+      "pauseAfterMs": 780,
+      "text": "Sonra Comment tu t'appelles diye sorarsın.",
+      "markedText": "Sonra Comment tu t'appelles diye sorarsın.",
+      "words": [
+        {
+          "word": "Sonra",
+          "startMs": 10510,
+          "endMs": 10950
+        },
+        {
+          "word": "Comment",
+          "startMs": 11070,
+          "endMs": 11330
+        },
+        {
+          "word": "tu",
+          "startMs": 11500,
+          "endMs": 11580
+        },
+        {
+          "word": "t'appelles",
+          "startMs": 11660,
+          "endMs": 11850
+        },
+        {
+          "word": "diye",
+          "startMs": 11850,
+          "endMs": 11980
+        },
+        {
+          "word": "sorarsın.",
+          "startMs": 12030,
+          "endMs": 12470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 13250,
+      "endMs": 15840,
+      "pauseAfterMs": 590,
+      "text": "Karşındaki Je m'appelle ile adını söyler.",
+      "markedText": "Karşındaki Je m'appelle ile adını söyler.",
+      "words": [
+        {
+          "word": "Karşındaki",
+          "startMs": 13250,
+          "endMs": 13640
+        },
+        {
+          "word": "Je",
+          "startMs": 13720,
+          "endMs": 13820
+        },
+        {
+          "word": "m'appelle",
+          "startMs": 13820,
+          "endMs": 14260
+        },
+        {
+          "word": "ile",
+          "startMs": 14260,
+          "endMs": 14440
+        },
+        {
+          "word": "adını",
+          "startMs": 14440,
+          "endMs": 14790
+        },
+        {
+          "word": "söyler.",
+          "startMs": 14790,
+          "endMs": 15250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 15840,
+      "endMs": 18280,
+      "pauseAfterMs": 570,
+      "text": "Hatırlarsan, soru ile cevap ayrıydı.",
+      "markedText": "Hatırlarsan, soru ile cevap ayrıydı.",
+      "words": [
+        {
+          "word": "Hatırlarsan,",
+          "startMs": 15840,
+          "endMs": 16470
+        },
+        {
+          "word": "soru",
+          "startMs": 16540,
+          "endMs": 16790
+        },
+        {
+          "word": "ile",
+          "startMs": 16790,
+          "endMs": 16970
+        },
+        {
+          "word": "cevap",
+          "startMs": 16970,
+          "endMs": 17190
+        },
+        {
+          "word": "ayrıydı.",
+          "startMs": 17280,
+          "endMs": 17710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 18280,
+      "endMs": 21200,
+      "pauseAfterMs": 720,
+      "text": "Sen de kendi adını aynı kalıpla söylersin.",
+      "markedText": "Sen de kendi adını aynı kalıpla söylersin.",
+      "words": [
+        {
+          "word": "Sen",
+          "startMs": 18280,
+          "endMs": 18500
+        },
+        {
+          "word": "de",
+          "startMs": 18500,
+          "endMs": 18580
+        },
+        {
+          "word": "kendi",
+          "startMs": 18680,
+          "endMs": 18960
+        },
+        {
+          "word": "adını",
+          "startMs": 18960,
+          "endMs": 19160
+        },
+        {
+          "word": "aynı",
+          "startMs": 19160,
+          "endMs": 19380
+        },
+        {
+          "word": "kalıpla",
+          "startMs": 19380,
+          "endMs": 19750
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 19850,
+          "endMs": 20480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 21200,
+      "endMs": 22540,
+      "pauseAfterMs": 550,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 21200,
+          "endMs": 21740
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 21740,
+          "endMs": 21990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 22540,
+      "endMs": 24000,
+      "pauseAfterMs": 890,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 22540,
+          "endMs": 22710
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 22790,
+          "endMs": 23110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 24000,
+      "endMs": 26720,
+      "pauseAfterMs": 460,
+      "text": "Yalnız adını söylemek cümleyi eksik bırakır.",
+      "markedText": "Yalnız adını söylemek cümleyi eksik bırakır.",
+      "words": [
+        {
+          "word": "Yalnız",
+          "startMs": 24000,
+          "endMs": 24300
+        },
+        {
+          "word": "adını",
+          "startMs": 24300,
+          "endMs": 24640
+        },
+        {
+          "word": "söylemek",
+          "startMs": 24640,
+          "endMs": 25080
+        },
+        {
+          "word": "cümleyi",
+          "startMs": 25170,
+          "endMs": 25510
+        },
+        {
+          "word": "eksik",
+          "startMs": 25510,
+          "endMs": 25780
+        },
+        {
+          "word": "bırakır.",
+          "startMs": 25900,
+          "endMs": 26260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 26720,
+      "endMs": 29270,
+      "pauseAfterMs": 640,
+      "text": "Bugün seninle Fransızca ad kalıbı var.",
+      "markedText": "Bugün seninle Fransızca ad kalıbı var.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 26720,
+          "endMs": 26980
+        },
+        {
+          "word": "seninle",
+          "startMs": 26980,
+          "endMs": 27340
+        },
+        {
+          "word": "Fransızca",
+          "startMs": 27440,
+          "endMs": 27700
+        },
+        {
+          "word": "ad",
+          "startMs": 27700,
+          "endMs": 27790
+        },
+        {
+          "word": "kalıbı",
+          "startMs": 27790,
+          "endMs": 28030
+        },
+        {
+          "word": "var.",
+          "startMs": 28160,
+          "endMs": 28630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 29270,
+      "endMs": 31620,
+      "pauseAfterMs": 550,
+      "text": "Comment tu t'appelles, adın ne demektir.",
+      "markedText": "Comment tu t'appelles, adın ne demektir.",
+      "words": [
+        {
+          "word": "Comment",
+          "startMs": 29270,
+          "endMs": 29570
+        },
+        {
+          "word": "tu",
+          "startMs": 29660,
+          "endMs": 29700
+        },
+        {
+          "word": "t'appelles,",
+          "startMs": 29760,
+          "endMs": 30110
+        },
+        {
+          "word": "adın",
+          "startMs": 30210,
+          "endMs": 30320
+        },
+        {
+          "word": "ne",
+          "startMs": 30320,
+          "endMs": 30400
+        },
+        {
+          "word": "demektir.",
+          "startMs": 30400,
+          "endMs": 31070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 31620,
+      "endMs": 33530,
+      "pauseAfterMs": 400,
+      "text": "Cevap Je m'appelle ile kurulur.",
+      "markedText": "Cevap Je m'appelle ile kurulur.",
+      "words": [
+        {
+          "word": "Cevap",
+          "startMs": 31620,
+          "endMs": 31880
+        },
+        {
+          "word": "Je",
+          "startMs": 32070,
+          "endMs": 32190
+        },
+        {
+          "word": "m'appelle",
+          "startMs": 32190,
+          "endMs": 32550
+        },
+        {
+          "word": "ile",
+          "startMs": 32550,
+          "endMs": 32720
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 32830,
+          "endMs": 33130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 33530,
+      "endMs": 35480,
+      "pauseAfterMs": 630,
+      "text": "Ad, kalıbın ardına gelir.",
+      "markedText": "Ad, kalıbın ardına gelir.",
+      "words": [
+        {
+          "word": "Ad,",
+          "startMs": 33530,
+          "endMs": 33640
+        },
+        {
+          "word": "kalıbın",
+          "startMs": 33780,
+          "endMs": 34000
+        },
+        {
+          "word": "ardına",
+          "startMs": 34000,
+          "endMs": 34320
+        },
+        {
+          "word": "gelir.",
+          "startMs": 34370,
+          "endMs": 34850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 35480,
+      "endMs": 37370,
+      "pauseAfterMs": 540,
+      "text": "Selam, sorudan önce durur.",
+      "markedText": "Selam, sorudan önce durur.",
+      "words": [
+        {
+          "word": "Selam,",
+          "startMs": 35480,
+          "endMs": 35820
+        },
+        {
+          "word": "sorudan",
+          "startMs": 35870,
+          "endMs": 36140
+        },
+        {
+          "word": "önce",
+          "startMs": 36140,
+          "endMs": 36380
+        },
+        {
+          "word": "durur.",
+          "startMs": 36380,
+          "endMs": 36830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 37370,
+      "endMs": 40570,
+      "pauseAfterMs": 950,
+      "text": "Hatırlarsan, Bonjour gün içinin selamıydı.",
+      "markedText": "Hatırlarsan, Bonjour gün içinin selamıydı.",
+      "words": [
+        {
+          "word": "Hatırlarsan,",
+          "startMs": 37370,
+          "endMs": 38020
+        },
+        {
+          "word": "Bonjour",
+          "startMs": 38090,
+          "endMs": 38580
+        },
+        {
+          "word": "gün",
+          "startMs": 38620,
+          "endMs": 38750
+        },
+        {
+          "word": "içinin",
+          "startMs": 38750,
+          "endMs": 39050
+        },
+        {
+          "word": "selamıydı.",
+          "startMs": 39050,
+          "endMs": 39620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 40570,
+      "endMs": 43230,
+      "pauseAfterMs": 770,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 40570,
+          "endMs": 40750
+        },
+        {
+          "word": "şimdi",
+          "startMs": 40750,
+          "endMs": 41040
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 41040,
+          "endMs": 41400
+        },
+        {
+          "word": "çizime",
+          "startMs": 41540,
+          "endMs": 41720
+        },
+        {
+          "word": "birlikte",
+          "startMs": 41720,
+          "endMs": 42030
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 42130,
+          "endMs": 42460
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 40570,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Adını sormak · kavram",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Comment tu t'appelles, adını sorar.",
+                "body": "Comment tu t'appelles, adını sorar.",
+                "tone": "concept"
+              },
+              {
+                "title": "Je m'appelle, adını söyler.",
+                "body": "Je m'appelle, adını söyler.",
+                "tone": "concept"
+              },
+              {
+                "title": "Bugün seninle Fransızca ad kalıbı var.",
+                "body": "Bugün seninle Fransızca ad kalıbı var.",
+                "tone": "concept"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 43230,
+      "endMs": 44410,
+      "pauseAfterMs": 450,
+      "text": "Önce Bonjour.",
+      "markedText": "Önce Bonjour.",
+      "words": [
+        {
+          "word": "Önce",
+          "startMs": 43230,
+          "endMs": 43510
+        },
+        {
+          "word": "Bonjour.",
+          "startMs": 43560,
+          "endMs": 43960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 44410,
+      "endMs": 46280,
+      "pauseAfterMs": 690,
+      "text": "Sonra Comment tu t'appelles.",
+      "markedText": "Sonra Comment tu t'appelles.",
+      "words": [
+        {
+          "word": "Sonra",
+          "startMs": 44410,
+          "endMs": 44680
+        },
+        {
+          "word": "Comment",
+          "startMs": 44760,
+          "endMs": 45050
+        },
+        {
+          "word": "tu",
+          "startMs": 45140,
+          "endMs": 45180
+        },
+        {
+          "word": "t'appelles.",
+          "startMs": 45230,
+          "endMs": 45590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 46280,
+      "endMs": 48630,
+      "pauseAfterMs": 980,
+      "text": "Cevap Je m'appelle ve ad.",
+      "markedText": "Cevap Je m'appelle ve ad.",
+      "words": [
+        {
+          "word": "Cevap",
+          "startMs": 46280,
+          "endMs": 46560
+        },
+        {
+          "word": "Je",
+          "startMs": 46760,
+          "endMs": 46890
+        },
+        {
+          "word": "m'appelle",
+          "startMs": 46890,
+          "endMs": 47470
+        },
+        {
+          "word": "ve",
+          "startMs": 47550,
+          "endMs": 47600
+        },
+        {
+          "word": "ad.",
+          "startMs": 47600,
+          "endMs": 47650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 48630,
+      "endMs": 50030,
+      "pauseAfterMs": 570,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 48630,
+          "endMs": 49150
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 49190,
+          "endMs": 49460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 50030,
+      "endMs": 51510,
+      "pauseAfterMs": 850,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 50030,
+          "endMs": 50200
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 50280,
+          "endMs": 50660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 51510,
+      "endMs": 53450,
+      "pauseAfterMs": 480,
+      "text": "M'appelle sözünü yalnız bırakma.",
+      "markedText": "M'appelle sözünü yalnız bırakma.",
+      "words": [
+        {
+          "word": "M'appelle",
+          "startMs": 51510,
+          "endMs": 51850
+        },
+        {
+          "word": "sözünü",
+          "startMs": 51850,
+          "endMs": 52170
+        },
+        {
+          "word": "yalnız",
+          "startMs": 52170,
+          "endMs": 52550
+        },
+        {
+          "word": "bırakma.",
+          "startMs": 52590,
+          "endMs": 52970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 53450,
+      "endMs": 55520,
+      "pauseAfterMs": 560,
+      "text": "Je düşerse cümle eksik kalır.",
+      "markedText": "Je düşerse cümle eksik kalır.",
+      "words": [
+        {
+          "word": "Je",
+          "startMs": 53450,
+          "endMs": 53650
+        },
+        {
+          "word": "düşerse",
+          "startMs": 53650,
+          "endMs": 54080
+        },
+        {
+          "word": "cümle",
+          "startMs": 54130,
+          "endMs": 54310
+        },
+        {
+          "word": "eksik",
+          "startMs": 54310,
+          "endMs": 54610
+        },
+        {
+          "word": "kalır.",
+          "startMs": 54730,
+          "endMs": 54960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 55520,
+      "endMs": 58470,
+      "pauseAfterMs": 670,
+      "text": "Soruyu tekrar etmek, adını söylemek değildir.",
+      "markedText": "Soruyu tekrar etmek, adını söylemek değildir.",
+      "words": [
+        {
+          "word": "Soruyu",
+          "startMs": 55520,
+          "endMs": 55980
+        },
+        {
+          "word": "tekrar",
+          "startMs": 56090,
+          "endMs": 56320
+        },
+        {
+          "word": "etmek,",
+          "startMs": 56430,
+          "endMs": 56540
+        },
+        {
+          "word": "adını",
+          "startMs": 56640,
+          "endMs": 56910
+        },
+        {
+          "word": "söylemek",
+          "startMs": 56910,
+          "endMs": 57310
+        },
+        {
+          "word": "değildir.",
+          "startMs": 57410,
+          "endMs": 57800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 58470,
+      "endMs": 61480,
+      "pauseAfterMs": 1220,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 58470,
+          "endMs": 58560
+        },
+        {
+          "word": "şimdi",
+          "startMs": 58560,
+          "endMs": 58950
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 59040,
+          "endMs": 59230
+        },
+        {
+          "word": "çizime",
+          "startMs": 59380,
+          "endMs": 59560
+        },
+        {
+          "word": "birlikte",
+          "startMs": 59560,
+          "endMs": 59850
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 59960,
+          "endMs": 60260
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 58470,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Adını sormak · örnek",
+            "note": "Örnek, kavramın kendisini gösterir.",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Comment tu t'appelles sorusu, adın ne demektir.",
+                "body": "Comment tu t'appelles sorusu, adın ne demektir.",
+                "tone": "example"
+              },
+              {
+                "title": "Cevap Je m'appelle ile başlar.",
+                "body": "Cevap Je m'appelle ile başlar.",
+                "tone": "example"
+              },
+              {
+                "title": "Ardından adın gelir.",
+                "body": "Ardından adın gelir.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 61480,
+      "endMs": 64100,
+      "pauseAfterMs": 490,
+      "text": "Comment tu t'appelles sorusu, adın ne demektir.",
+      "markedText": "Comment tu t'appelles sorusu, adın ne demektir.",
+      "words": [
+        {
+          "word": "Comment",
+          "startMs": 61480,
+          "endMs": 61710
+        },
+        {
+          "word": "tu",
+          "startMs": 61800,
+          "endMs": 61840
+        },
+        {
+          "word": "t'appelles",
+          "startMs": 61840,
+          "endMs": 62220
+        },
+        {
+          "word": "sorusu,",
+          "startMs": 62220,
+          "endMs": 62540
+        },
+        {
+          "word": "adın",
+          "startMs": 62590,
+          "endMs": 62850
+        },
+        {
+          "word": "ne",
+          "startMs": 62850,
+          "endMs": 62980
+        },
+        {
+          "word": "demektir.",
+          "startMs": 62980,
+          "endMs": 63610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 64100,
+      "endMs": 66190,
+      "pauseAfterMs": 610,
+      "text": "Cevap Je m'appelle ile başlar.",
+      "markedText": "Cevap Je m'appelle ile başlar.",
+      "words": [
+        {
+          "word": "Cevap",
+          "startMs": 64100,
+          "endMs": 64280
+        },
+        {
+          "word": "Je",
+          "startMs": 64280,
+          "endMs": 64370
+        },
+        {
+          "word": "m'appelle",
+          "startMs": 64470,
+          "endMs": 64770
+        },
+        {
+          "word": "ile",
+          "startMs": 64850,
+          "endMs": 65020
+        },
+        {
+          "word": "başlar.",
+          "startMs": 65020,
+          "endMs": 65580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 66190,
+      "endMs": 67980,
+      "pauseAfterMs": 760,
+      "text": "Ardından adın gelir.",
+      "markedText": "Ardından adın gelir.",
+      "words": [
+        {
+          "word": "Ardından",
+          "startMs": 66190,
+          "endMs": 66500
+        },
+        {
+          "word": "adın",
+          "startMs": 66500,
+          "endMs": 66790
+        },
+        {
+          "word": "gelir.",
+          "startMs": 66790,
+          "endMs": 67220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 67980,
+      "endMs": 70890,
+      "pauseAfterMs": 1050,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 67980,
+          "endMs": 68090
+        },
+        {
+          "word": "şimdi",
+          "startMs": 68090,
+          "endMs": 68440
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 68440,
+          "endMs": 68790
+        },
+        {
+          "word": "çizime",
+          "startMs": 68930,
+          "endMs": 69150
+        },
+        {
+          "word": "birlikte",
+          "startMs": 69150,
+          "endMs": 69420
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 69510,
+          "endMs": 69840
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 67980,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Tuzaklara Düşme!",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Appelle tek başına cevap olmaz.",
+                "body": "Appelle tek başına cevap olmaz.",
+                "tone": "trap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 70890,
+      "endMs": 72670,
+      "pauseAfterMs": 490,
+      "text": "Arkadaşın soruyu soruyor.",
+      "markedText": "Arkadaşın soruyu soruyor.",
+      "words": [
+        {
+          "word": "Arkadaşın",
+          "startMs": 70890,
+          "endMs": 71410
+        },
+        {
+          "word": "soruyu",
+          "startMs": 71410,
+          "endMs": 71740
+        },
+        {
+          "word": "soruyor.",
+          "startMs": 71740,
+          "endMs": 72180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 72670,
+      "endMs": 75250,
+      "pauseAfterMs": 610,
+      "text": "Sen Je m'appelle ile kendi adını söylüyorsun.",
+      "markedText": "Sen Je m'appelle ile kendi adını söylüyorsun.",
+      "words": [
+        {
+          "word": "Sen",
+          "startMs": 72670,
+          "endMs": 72940
+        },
+        {
+          "word": "Je",
+          "startMs": 72940,
+          "endMs": 73070
+        },
+        {
+          "word": "m'appelle",
+          "startMs": 73070,
+          "endMs": 73440
+        },
+        {
+          "word": "ile",
+          "startMs": 73440,
+          "endMs": 73530
+        },
+        {
+          "word": "kendi",
+          "startMs": 73620,
+          "endMs": 73870
+        },
+        {
+          "word": "adını",
+          "startMs": 73870,
+          "endMs": 74080
+        },
+        {
+          "word": "söylüyorsun.",
+          "startMs": 74120,
+          "endMs": 74640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 75250,
+      "endMs": 76570,
+      "pauseAfterMs": 300,
+      "text": "Soru ad bekler.",
+      "markedText": "Soru ad bekler.",
+      "words": [
+        {
+          "word": "Soru",
+          "startMs": 75250,
+          "endMs": 75520
+        },
+        {
+          "word": "ad",
+          "startMs": 75580,
+          "endMs": 75690
+        },
+        {
+          "word": "bekler.",
+          "startMs": 75800,
+          "endMs": 76270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-2",
+      "startMs": 76570,
+      "endMs": 78060,
+      "pauseAfterMs": 520,
+      "text": "Cevap adı koyar.",
+      "markedText": "Cevap adı koyar.",
+      "words": [
+        {
+          "word": "Cevap",
+          "startMs": 76570,
+          "endMs": 76810
+        },
+        {
+          "word": "adı",
+          "startMs": 76940,
+          "endMs": 77130
+        },
+        {
+          "word": "koyar.",
+          "startMs": 77220,
+          "endMs": 77540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-2",
+      "startMs": 78060,
+      "endMs": 80570,
+      "pauseAfterMs": 600,
+      "text": "Hatırlarsan, önce Bonjour denmişti.",
+      "markedText": "Hatırlarsan, önce Bonjour denmişti.",
+      "words": [
+        {
+          "word": "Hatırlarsan,",
+          "startMs": 78060,
+          "endMs": 78680
+        },
+        {
+          "word": "önce",
+          "startMs": 78720,
+          "endMs": 78900
+        },
+        {
+          "word": "Bonjour",
+          "startMs": 78900,
+          "endMs": 79300
+        },
+        {
+          "word": "denmişti.",
+          "startMs": 79300,
+          "endMs": 79970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-2",
+      "startMs": 80570,
+      "endMs": 82810,
+      "pauseAfterMs": 800,
+      "text": "Selamdan sonra adı sorarsın.",
+      "markedText": "Selamdan sonra adı sorarsın.",
+      "words": [
+        {
+          "word": "Selamdan",
+          "startMs": 80570,
+          "endMs": 81100
+        },
+        {
+          "word": "sonra",
+          "startMs": 81100,
+          "endMs": 81340
+        },
+        {
+          "word": "adı",
+          "startMs": 81340,
+          "endMs": 81490
+        },
+        {
+          "word": "sorarsın.",
+          "startMs": 81490,
+          "endMs": 82010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-2",
+      "startMs": 82810,
+      "endMs": 84160,
+      "pauseAfterMs": 560,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 82810,
+          "endMs": 83320
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 83320,
+          "endMs": 83600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-2",
+      "startMs": 84160,
+      "endMs": 85520,
+      "pauseAfterMs": 700,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 84160,
+          "endMs": 84330
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 84420,
+          "endMs": 84820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-2",
+      "startMs": 85520,
+      "endMs": 87640,
+      "pauseAfterMs": 450,
+      "text": "Appelle tek başına cevap olmaz.",
+      "markedText": "Appelle tek başına cevap olmaz.",
+      "words": [
+        {
+          "word": "Appelle",
+          "startMs": 85520,
+          "endMs": 85940
+        },
+        {
+          "word": "tek",
+          "startMs": 86020,
+          "endMs": 86090
+        },
+        {
+          "word": "başına",
+          "startMs": 86180,
+          "endMs": 86640
+        },
+        {
+          "word": "cevap",
+          "startMs": 86640,
+          "endMs": 86740
+        },
+        {
+          "word": "olmaz.",
+          "startMs": 86810,
+          "endMs": 87190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-2",
+      "startMs": 87640,
+      "endMs": 89300,
+      "pauseAfterMs": 610,
+      "text": "Je m'appelle ile başla.",
+      "markedText": "Je m'appelle ile başla.",
+      "words": [
+        {
+          "word": "Je",
+          "startMs": 87640,
+          "endMs": 87790
+        },
+        {
+          "word": "m'appelle",
+          "startMs": 87790,
+          "endMs": 88210
+        },
+        {
+          "word": "ile",
+          "startMs": 88210,
+          "endMs": 88280
+        },
+        {
+          "word": "başla.",
+          "startMs": 88330,
+          "endMs": 88690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-2",
+      "startMs": 89300,
+      "endMs": 91960,
+      "pauseAfterMs": 650,
+      "text": "Sorudaki tu sözünü cevapta bırakma.",
+      "markedText": "Sorudaki tu sözünü cevapta bırakma.",
+      "words": [
+        {
+          "word": "Sorudaki",
+          "startMs": 89300,
+          "endMs": 89630
+        },
+        {
+          "word": "tu",
+          "startMs": 89870,
+          "endMs": 90010
+        },
+        {
+          "word": "sözünü",
+          "startMs": 90010,
+          "endMs": 90420
+        },
+        {
+          "word": "cevapta",
+          "startMs": 90470,
+          "endMs": 90690
+        },
+        {
+          "word": "bırakma.",
+          "startMs": 90800,
+          "endMs": 91310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-2",
+      "startMs": 91960,
+      "endMs": 93290,
+      "pauseAfterMs": 560,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 91960,
+          "endMs": 92460
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 92460,
+          "endMs": 92730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-2",
+      "startMs": 93290,
+      "endMs": 94400,
+      "pauseAfterMs": 490,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 93290,
+          "endMs": 93480
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 93570,
+          "endMs": 93910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-2",
+      "startMs": 94400,
+      "endMs": 96850,
+      "pauseAfterMs": 890,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 94400,
+          "endMs": 94470
+        },
+        {
+          "word": "noktayı",
+          "startMs": 94760,
+          "endMs": 94940
+        },
+        {
+          "word": "sen",
+          "startMs": 95050,
+          "endMs": 95210
+        },
+        {
+          "word": "de",
+          "startMs": 95260,
+          "endMs": 95420
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 95420,
+          "endMs": 95960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-2",
+      "startMs": 96850,
+      "endMs": 101500,
+      "pauseAfterMs": 610,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 96850,
+          "endMs": 97130
+        },
+        {
+          "word": "sevgili",
+          "startMs": 97130,
+          "endMs": 97600
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 97700,
+          "endMs": 98040
+        },
+        {
+          "word": "işte",
+          "startMs": 98160,
+          "endMs": 98320
+        },
+        {
+          "word": "tam",
+          "startMs": 98440,
+          "endMs": 98580
+        },
+        {
+          "word": "bu",
+          "startMs": 98580,
+          "endMs": 98640
+        },
+        {
+          "word": "noktada",
+          "startMs": 98640,
+          "endMs": 98830
+        },
+        {
+          "word": "dikkat",
+          "startMs": 98930,
+          "endMs": 99130
+        },
+        {
+          "word": "etmen",
+          "startMs": 99350,
+          "endMs": 99550
+        },
+        {
+          "word": "gereken",
+          "startMs": 99640,
+          "endMs": 99980
+        },
+        {
+          "word": "kilit",
+          "startMs": 100070,
+          "endMs": 100220
+        },
+        {
+          "word": "nokta.",
+          "startMs": 100320,
+          "endMs": 100890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-2",
+      "startMs": 101500,
+      "endMs": 105090,
+      "pauseAfterMs": 1570,
+      "text": "Appelle tek başına cevap olmaz.",
+      "markedText": "Appelle tek başına cevap olmaz.",
+      "words": [
+        {
+          "word": "Appelle",
+          "startMs": 101500,
+          "endMs": 101990
+        },
+        {
+          "word": "tek",
+          "startMs": 102320,
+          "endMs": 102410
+        },
+        {
+          "word": "başına",
+          "startMs": 102520,
+          "endMs": 102850
+        },
+        {
+          "word": "cevap",
+          "startMs": 102850,
+          "endMs": 103070
+        },
+        {
+          "word": "olmaz.",
+          "startMs": 103150,
+          "endMs": 103520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 105090,
+      "endMs": 106900,
+      "pauseAfterMs": 910,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 105090,
+          "endMs": 105330
+        },
+        {
+          "word": "Neler",
+          "startMs": 105330,
+          "endMs": 105490
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 105490,
+          "endMs": 105990
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 105090,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "secmeli-anlati",
+          "params": {
+            "heading": "Bugün Neler Öğrendik?",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Comment tu t'appelles, adını sorar.",
+                "body": "Comment tu t'appelles, adını sorar.",
+                "tone": "recap"
+              },
+              {
+                "title": "Je m'appelle, adını söyler.",
+                "body": "Je m'appelle, adını söyler.",
+                "tone": "recap"
+              },
+              {
+                "title": "Soru adı ister.",
+                "body": "Je m'appelle adı söyler.",
+                "tone": "recap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-3",
+      "startMs": 106900,
+      "endMs": 107530,
+      "pauseAfterMs": 300,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 106900,
+          "endMs": 107230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-3",
+      "startMs": 107530,
+      "endMs": 110410,
+      "pauseAfterMs": 1090,
+      "text": "Comment tu t'appelles, adını sorar.",
+      "markedText": "Comment tu t'appelles, adını sorar.",
+      "words": [
+        {
+          "word": "Comment",
+          "startMs": 107530,
+          "endMs": 107820
+        },
+        {
+          "word": "tu",
+          "startMs": 107880,
+          "endMs": 107930
+        },
+        {
+          "word": "t'appelles,",
+          "startMs": 108000,
+          "endMs": 108430
+        },
+        {
+          "word": "adını",
+          "startMs": 108620,
+          "endMs": 108880
+        },
+        {
+          "word": "sorar.",
+          "startMs": 108930,
+          "endMs": 109320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-51",
+      "chapterId": "ch-3",
+      "startMs": 110410,
+      "endMs": 110560,
+      "pauseAfterMs": 90,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 110410,
+          "endMs": 110470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-52",
+      "chapterId": "ch-3",
+      "startMs": 110560,
+      "endMs": 113440,
+      "pauseAfterMs": 930,
+      "text": "Je m'appelle, adını söyler.",
+      "markedText": "Je m'appelle, adını söyler.",
+      "words": [
+        {
+          "word": "Je",
+          "startMs": 110560,
+          "endMs": 110730
+        },
+        {
+          "word": "m'appelle,",
+          "startMs": 111030,
+          "endMs": 111600
+        },
+        {
+          "word": "adını",
+          "startMs": 111840,
+          "endMs": 112110
+        },
+        {
+          "word": "söyler.",
+          "startMs": 112110,
+          "endMs": 112510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-53",
+      "chapterId": "ch-3",
+      "startMs": 113440,
+      "endMs": 114090,
+      "pauseAfterMs": 540,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 113440,
+          "endMs": 113550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-54",
+      "chapterId": "ch-3",
+      "startMs": 114090,
+      "endMs": 115750,
+      "pauseAfterMs": 800,
+      "text": "Soru adı ister.",
+      "markedText": "Soru adı ister.",
+      "words": [
+        {
+          "word": "Soru",
+          "startMs": 114090,
+          "endMs": 114390
+        },
+        {
+          "word": "adı",
+          "startMs": 114440,
+          "endMs": 114690
+        },
+        {
+          "word": "ister.",
+          "startMs": 114690,
+          "endMs": 114950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-55",
+      "chapterId": "ch-3",
+      "startMs": 115750,
+      "endMs": 117760,
+      "pauseAfterMs": 660,
+      "text": "Je m'appelle adı söyler.",
+      "markedText": "Je m'appelle adı söyler.",
+      "words": [
+        {
+          "word": "Je",
+          "startMs": 115750,
+          "endMs": 115940
+        },
+        {
+          "word": "m'appelle",
+          "startMs": 115940,
+          "endMs": 116330
+        },
+        {
+          "word": "adı",
+          "startMs": 116500,
+          "endMs": 116680
+        },
+        {
+          "word": "söyler.",
+          "startMs": 116680,
+          "endMs": 117100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-56",
+      "chapterId": "ch-3",
+      "startMs": 117760,
+      "endMs": 119240,
+      "pauseAfterMs": 390,
+      "text": "Soru adı ister.",
+      "markedText": "Soru adı ister.",
+      "words": [
+        {
+          "word": "Soru",
+          "startMs": 117760,
+          "endMs": 118050
+        },
+        {
+          "word": "adı",
+          "startMs": 118160,
+          "endMs": 118410
+        },
+        {
+          "word": "ister.",
+          "startMs": 118410,
+          "endMs": 118850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-57",
+      "chapterId": "ch-3",
+      "startMs": 119240,
+      "endMs": 121150,
+      "pauseAfterMs": 740,
+      "text": "Je m'appelle adı söyler.",
+      "markedText": "Je m'appelle adı söyler.",
+      "words": [
+        {
+          "word": "Je",
+          "startMs": 119240,
+          "endMs": 119410
+        },
+        {
+          "word": "m'appelle",
+          "startMs": 119410,
+          "endMs": 119770
+        },
+        {
+          "word": "adı",
+          "startMs": 119880,
+          "endMs": 120040
+        },
+        {
+          "word": "söyler.",
+          "startMs": 120040,
+          "endMs": 120410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-58",
+      "chapterId": "ch-3",
+      "startMs": 121150,
+      "endMs": 125810,
+      "pauseAfterMs": 1510,
+      "text": "Adını Je m'appelle kalıbıyla nasıl kurduğunu söylersin.",
+      "markedText": "Adını Je m'appelle kalıbıyla nasıl kurduğunu söylersin.",
+      "words": [
+        {
+          "word": "Adını",
+          "startMs": 121150,
+          "endMs": 121400
+        },
+        {
+          "word": "Je",
+          "startMs": 121610,
+          "endMs": 121700
+        },
+        {
+          "word": "m'appelle",
+          "startMs": 121750,
+          "endMs": 122020
+        },
+        {
+          "word": "kalıbıyla",
+          "startMs": 122020,
+          "endMs": 122340
+        },
+        {
+          "word": "nasıl",
+          "startMs": 122420,
+          "endMs": 122570
+        },
+        {
+          "word": "kurduğunu",
+          "startMs": 122660,
+          "endMs": 123230
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 123500,
+          "endMs": 124300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-59",
+      "chapterId": "ch-3",
+      "startMs": 125810,
+      "endMs": 127040,
+      "pauseAfterMs": 340,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 125810,
+          "endMs": 126220
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 126260,
+          "endMs": 126700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-60",
+      "chapterId": "ch-3",
+      "startMs": 127040,
+      "endMs": 128850,
+      "pauseAfterMs": 970,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 127040,
+          "endMs": 127260
+        },
+        {
+          "word": "bir",
+          "startMs": 127320,
+          "endMs": 127430
+        },
+        {
+          "word": "iş",
+          "startMs": 127430,
+          "endMs": 127600
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 127640,
+          "endMs": 127880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-61",
+      "chapterId": "ch-3",
+      "startMs": 128850,
+      "endMs": 130140,
+      "pauseAfterMs": 440,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 128850,
+          "endMs": 129050
+        },
+        {
+          "word": "sıra",
+          "startMs": 129050,
+          "endMs": 129350
+        },
+        {
+          "word": "sende.",
+          "startMs": 129350,
+          "endMs": 129700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-62",
+      "chapterId": "ch-3",
+      "startMs": 130140,
+      "endMs": 133308,
+      "pauseAfterMs": 398,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 130140,
+          "endMs": 130680
+        },
+        {
+          "word": "bu",
+          "startMs": 130680,
+          "endMs": 130780
+        },
+        {
+          "word": "notları",
+          "startMs": 130900,
+          "endMs": 131170
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 131270,
+          "endMs": 131630
+        },
+        {
+          "word": "kendi",
+          "startMs": 131860,
+          "endMs": 132060
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 132060,
+          "endMs": 132590
+        },
+        {
+          "word": "anlat.",
+          "startMs": 132590,
+          "endMs": 132910
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

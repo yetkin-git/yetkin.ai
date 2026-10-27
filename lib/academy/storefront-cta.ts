@@ -13,6 +13,29 @@ import {
   isAcademyProductionLineSkuSlug,
 } from "@/lib/academy/pilot-sku";
 import { stripZeroKurusFromTryLabel } from "@/lib/kernel/money/format";
+import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
+
+function academyEmptyCanonShell(slug: string): boolean {
+  const row = COURSE_REGISTRY.find((item) => item.slug === slug);
+  return Boolean(row && row.canon && row.lessonKeys.length === 0);
+}
+
+/** Kapalı düğmenin nedeni. Yayın, fiyat ve ses mührü aynı cümleye düşmez. */
+function closedSaleCta(saleHold: string | null | undefined): string {
+  const text = saleHold ?? "";
+  const voice = text.includes("ses veya metin");
+  const price = text.includes("fiyat");
+  if (voice && price) {
+    return `${ACADEMY_SEN.catalog.priceAwaiting} · ${ACADEMY_SEN.catalog.voiceSealMissing}`;
+  }
+  if (voice) {
+    return ACADEMY_SEN.catalog.voiceSealMissing;
+  }
+  if (price) {
+    return ACADEMY_SEN.catalog.priceAwaiting;
+  }
+  return ACADEMY_SEN.catalog.pricePending;
+}
 
 export const ACADEMY_CHECKOUT_HASH = "satin-al";
 
@@ -104,11 +127,20 @@ export function resolveAcademyAntreHeroCta(input: {
   }
 
   if (input.access === "expired") {
+    if (!input.purchasable) {
+      return {
+        priceLabel: copy.course.purchasedBadge,
+        primaryLabel: null,
+        primaryHref: null,
+        action: "none",
+      };
+    }
+    const compact = academyStorefrontCompactMoneyLabel(input.priceLabel);
     return {
-      priceLabel: copy.course.purchasedBadge,
-      primaryLabel: null,
-      primaryHref: null,
-      action: "none",
+      priceLabel: compact ?? copy.course.purchasedBadge,
+      primaryLabel: copy.course.renewCta,
+      primaryHref: buyHref,
+      action: "buy",
     };
   }
 
@@ -139,13 +171,21 @@ export function resolveAcademyCatalogCardCta(input: {
   purchasable?: boolean;
   /** Veritabanı `is_published`. Boş bırakılırsa bu kapı uygulanmaz. */
   isPublished?: boolean;
-  /** Super Admin — satış kapalı kartta doğrudan `/oyna`. Fiyat «Erişim Açık» olmaz. */
-  studioPreview?: boolean;
+  /**
+   * Kapalı kayıt nedeni (yayın, fiyat, ses ve metin).
+   * Super Admin `/oyna` ayrıcalığı bu düğmeyi açmaz.
+   */
+  saleHold?: string | null;
   /**
    * Satın Al hedefi. Oturum varsa kasa çapası, yoksa giriş.
    * Boşsa kart `#satin-al` basar; çağıran oturumu kendisi keser.
    */
   buyHref?: string | null;
+  /**
+   * Öne çıkan (tek kahraman) kart. CTA sonuç odaklı tam cümleyi basar;
+   * ileri raf kartları kısa ve jenerik kalır (vitrin ana kararı onlar değildir).
+   */
+  hero?: boolean;
 }): AcademyCatalogCardCta {
   const copy = ACADEMY_SEN;
   if (input.owned) {
@@ -155,6 +195,15 @@ export function resolveAcademyCatalogCardCta(input: {
       priceCaption: null,
       cta: started ? copy.catalog.statusContinue : copy.player.openCta,
       href: `/academy/${input.slug}/oyna`,
+    };
+  }
+  if (academyEmptyCanonShell(input.slug)) {
+    return {
+      priceLabel: copy.catalog.comingSoonMeta,
+      priceCaption: "Ders ve fiyat hazır değil. Tohum tutar vitrine çıkmaz.",
+      cta: copy.catalog.comingSoonBadge,
+      href: "",
+      ctaDisabled: true,
     };
   }
   if (isAcademyProductionLineSkuSlug(input.slug) && !academyCourseSaleListed(input.slug)) {
@@ -184,18 +233,10 @@ export function resolveAcademyCatalogCardCta(input: {
     input.purchasable === true &&
     !(input.slug === ACADEMY_OFF201_STOREFRONT_SLUG && !academyCourseSaleListed(input.slug));
   if (!input.owned && !purchaseOpen) {
-    if (input.studioPreview) {
-      return {
-        priceLabel: display ?? copy.catalog.priceMissing,
-        priceCaption: null,
-        cta: copy.player.openCta,
-        href: `/academy/${input.slug}/oyna`,
-      };
-    }
     return {
       priceLabel: display ?? copy.catalog.priceMissing,
-      priceCaption: null,
-      cta: copy.catalog.pricePending,
+      priceCaption: input.saleHold ?? null,
+      cta: closedSaleCta(input.saleHold),
       href: "",
       ctaDisabled: true,
     };
@@ -210,13 +251,18 @@ export function resolveAcademyCatalogCardCta(input: {
     };
   }
   if (display && academyCourseOffersFreePreview(input.slug)) {
+    // Sonuç odaklı CTA: düğme "ne alıyorum" sorusunu yanıtlar; fiyat ikinci plandadır.
+    // Metin `FocusSalePitch` "result" basamağıyla aynı işi söyler — jenerik «Satın Al» değil.
+    const outcomeCta = input.hero === true
+      ? copy.catalog.cardCtaOutcome(display)
+      : copy.catalog.cardCtaOutcomeIdle;
     return {
       priceLabel: display,
       priceCaption: copy.catalog.vatInclusiveHint,
-      cta: copy.catalog.cardCtaFreePreview,
-      href: `/academy/${input.slug}/oyna`,
-      secondaryCta: copy.catalog.cardCtaBuyPriced(display),
-      secondaryHref: input.buyHref ?? academyCheckoutHref(input.slug),
+      cta: outcomeCta,
+      href: input.buyHref ?? academyCheckoutHref(input.slug),
+      secondaryCta: copy.catalog.cardCtaFreePreview,
+      secondaryHref: `/academy/${input.slug}/oyna`,
     };
   }
   return {

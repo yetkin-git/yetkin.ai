@@ -1,0 +1,2964 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_sosyal-18",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Devletin organları",
+  "grade": 6,
+  "subject": "Sosyal Bilgiler",
+  "teacher": {
+    "name": "Murat",
+    "voice": "Achird",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_sosyal-18.mp3",
+    "durationMs": 385932,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 115910
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 115910,
+      "endMs": 324480
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 324480,
+      "endMs": 385932
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 3290,
+      "pauseAfterMs": 550,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 280,
+          "endMs": 810
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 1060,
+          "endMs": 1640
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 1640,
+          "endMs": 2050
+        },
+        {
+          "word": "hoş",
+          "startMs": 2050,
+          "endMs": 2160
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 2250,
+          "endMs": 2740
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Devletin organları",
+            "subtitle": "Sosyal Bilgiler",
+            "ruleBadges": [],
+            "echoPrompt": "Bir haberde hangi organın işinin geçtiğini tek cümleyle söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Yasama kanun yapar. Bu organ Türkiye Büyük Millet Meclisidir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Yürütme kanunları uygular. Başında Cumhurbaşkanı vardır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Yargı bağımsız mahkemelerdir. Üç organ birbirinin işini almaz."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 3290,
+      "endMs": 9170,
+      "pauseAfterMs": 1010,
+      "text": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "markedText": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 3290,
+          "endMs": 3610
+        },
+        {
+          "word": "Sosyal",
+          "startMs": 3610,
+          "endMs": 4120
+        },
+        {
+          "word": "Bilgiler",
+          "startMs": 4260,
+          "endMs": 5350
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 5440,
+          "endMs": 6190
+        },
+        {
+          "word": "Murat.",
+          "startMs": 6670,
+          "endMs": 8160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 9170,
+      "endMs": 15290,
+      "pauseAfterMs": 1310,
+      "text": "Devletimizin adaletle ve düzenle çalışmasını sağlayan üç büyük gücü tanıyacağız.",
+      "markedText": "Devletimizin adaletle ve düzenle çalışmasını sağlayan üç büyük gücü tanıyacağız.",
+      "words": [
+        {
+          "word": "Devletimizin",
+          "startMs": 9170,
+          "endMs": 9860
+        },
+        {
+          "word": "adaletle",
+          "startMs": 10070,
+          "endMs": 10730
+        },
+        {
+          "word": "ve",
+          "startMs": 10730,
+          "endMs": 10820
+        },
+        {
+          "word": "düzenle",
+          "startMs": 10890,
+          "endMs": 11290
+        },
+        {
+          "word": "çalışmasını",
+          "startMs": 11330,
+          "endMs": 11980
+        },
+        {
+          "word": "sağlayan",
+          "startMs": 11980,
+          "endMs": 12310
+        },
+        {
+          "word": "üç",
+          "startMs": 12310,
+          "endMs": 12350
+        },
+        {
+          "word": "büyük",
+          "startMs": 12350,
+          "endMs": 12490
+        },
+        {
+          "word": "gücü",
+          "startMs": 12690,
+          "endMs": 12780
+        },
+        {
+          "word": "tanıyacağız.",
+          "startMs": 12970,
+          "endMs": 13980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 15290,
+      "endMs": 28390,
+      "pauseAfterMs": 1040,
+      "text": "Hiç bir oyunda hem kuralı yazan, hem sahada koşan, hem de hakemlik yapıp düdüğü çalan kişinin aynı insan olduğunu düşündün mü?",
+      "markedText": "Hiç bir oyunda hem kuralı yazan, hem sahada koşan, hem de hakemlik yapıp düdüğü çalan kişinin aynı insan olduğunu düşündün mü?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 15290,
+          "endMs": 15370
+        },
+        {
+          "word": "bir",
+          "startMs": 15530,
+          "endMs": 15760
+        },
+        {
+          "word": "oyunda",
+          "startMs": 15760,
+          "endMs": 16140
+        },
+        {
+          "word": "hem",
+          "startMs": 16300,
+          "endMs": 16470
+        },
+        {
+          "word": "kuralı",
+          "startMs": 16570,
+          "endMs": 17270
+        },
+        {
+          "word": "yazan,",
+          "startMs": 17480,
+          "endMs": 17930
+        },
+        {
+          "word": "hem",
+          "startMs": 18170,
+          "endMs": 18520
+        },
+        {
+          "word": "sahada",
+          "startMs": 18790,
+          "endMs": 19130
+        },
+        {
+          "word": "koşan,",
+          "startMs": 19230,
+          "endMs": 19440
+        },
+        {
+          "word": "hem",
+          "startMs": 19520,
+          "endMs": 19730
+        },
+        {
+          "word": "de",
+          "startMs": 19920,
+          "endMs": 20150
+        },
+        {
+          "word": "hakemlik",
+          "startMs": 20190,
+          "endMs": 20900
+        },
+        {
+          "word": "yapıp",
+          "startMs": 21080,
+          "endMs": 21430
+        },
+        {
+          "word": "düdüğü",
+          "startMs": 21500,
+          "endMs": 22000
+        },
+        {
+          "word": "çalan",
+          "startMs": 22000,
+          "endMs": 22520
+        },
+        {
+          "word": "kişinin",
+          "startMs": 23520,
+          "endMs": 24220
+        },
+        {
+          "word": "aynı",
+          "startMs": 24350,
+          "endMs": 24680
+        },
+        {
+          "word": "insan",
+          "startMs": 24910,
+          "endMs": 25350
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 25460,
+          "endMs": 26020
+        },
+        {
+          "word": "düşündün",
+          "startMs": 26180,
+          "endMs": 26710
+        },
+        {
+          "word": "mü?",
+          "startMs": 26850,
+          "endMs": 27350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 28390,
+      "endMs": 34660,
+      "pauseAfterMs": 670,
+      "text": "Böyle bir durumda ortalık tamamen karışırdı ve adalet kaybolurdu.",
+      "markedText": "Böyle bir durumda ortalık tamamen karışırdı ve adalet kaybolurdu.",
+      "words": [
+        {
+          "word": "Böyle",
+          "startMs": 28390,
+          "endMs": 28860
+        },
+        {
+          "word": "bir",
+          "startMs": 28940,
+          "endMs": 29130
+        },
+        {
+          "word": "durumda",
+          "startMs": 29230,
+          "endMs": 29720
+        },
+        {
+          "word": "ortalık",
+          "startMs": 29870,
+          "endMs": 30210
+        },
+        {
+          "word": "tamamen",
+          "startMs": 30360,
+          "endMs": 31010
+        },
+        {
+          "word": "karışırdı",
+          "startMs": 31360,
+          "endMs": 32060
+        },
+        {
+          "word": "ve",
+          "startMs": 32200,
+          "endMs": 32420
+        },
+        {
+          "word": "adalet",
+          "startMs": 32610,
+          "endMs": 32920
+        },
+        {
+          "word": "kaybolurdu.",
+          "startMs": 32920,
+          "endMs": 33990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 34660,
+      "endMs": 43140,
+      "pauseAfterMs": 1130,
+      "text": "İşte devlet yönetiminde de bu üç mühim görev birbirini denetleyen ayrı organlara verilmiştir.",
+      "markedText": "İşte devlet yönetiminde de bu üç mühim görev birbirini denetleyen ayrı organlara verilmiştir.",
+      "words": [
+        {
+          "word": "İşte",
+          "startMs": 34660,
+          "endMs": 34930
+        },
+        {
+          "word": "devlet",
+          "startMs": 35030,
+          "endMs": 35450
+        },
+        {
+          "word": "yönetiminde",
+          "startMs": 35730,
+          "endMs": 36410
+        },
+        {
+          "word": "de",
+          "startMs": 36640,
+          "endMs": 36790
+        },
+        {
+          "word": "bu",
+          "startMs": 36790,
+          "endMs": 36860
+        },
+        {
+          "word": "üç",
+          "startMs": 37010,
+          "endMs": 37120
+        },
+        {
+          "word": "mühim",
+          "startMs": 37120,
+          "endMs": 37440
+        },
+        {
+          "word": "görev",
+          "startMs": 37480,
+          "endMs": 37780
+        },
+        {
+          "word": "birbirini",
+          "startMs": 37780,
+          "endMs": 38500
+        },
+        {
+          "word": "denetleyen",
+          "startMs": 38870,
+          "endMs": 39530
+        },
+        {
+          "word": "ayrı",
+          "startMs": 39630,
+          "endMs": 40040
+        },
+        {
+          "word": "organlara",
+          "startMs": 40040,
+          "endMs": 40700
+        },
+        {
+          "word": "verilmiştir.",
+          "startMs": 40830,
+          "endMs": 42010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 43140,
+      "endMs": 57510,
+      "pauseAfterMs": 780,
+      "text": "Yasama, yürütme ve yargı organlarını ve bu kuvvetler ayrılığının neden kıymetli olduğunu öğreneceğiz.",
+      "markedText": "Yasama, yürütme ve yargı organlarını ve bu kuvvetler ayrılığının neden kıymetli olduğunu öğreneceğiz.",
+      "words": [
+        {
+          "word": "Yasama,",
+          "startMs": 43140,
+          "endMs": 43920
+        },
+        {
+          "word": "yürütme",
+          "startMs": 44710,
+          "endMs": 45200
+        },
+        {
+          "word": "ve",
+          "startMs": 45260,
+          "endMs": 45590
+        },
+        {
+          "word": "yargı",
+          "startMs": 46200,
+          "endMs": 46700
+        },
+        {
+          "word": "organlarını",
+          "startMs": 46910,
+          "endMs": 47710
+        },
+        {
+          "word": "ve",
+          "startMs": 47830,
+          "endMs": 48010
+        },
+        {
+          "word": "bu",
+          "startMs": 48060,
+          "endMs": 48790
+        },
+        {
+          "word": "kuvvetler",
+          "startMs": 49240,
+          "endMs": 49770
+        },
+        {
+          "word": "ayrılığının",
+          "startMs": 50160,
+          "endMs": 51350
+        },
+        {
+          "word": "neden",
+          "startMs": 52370,
+          "endMs": 52800
+        },
+        {
+          "word": "kıymetli",
+          "startMs": 53120,
+          "endMs": 53940
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 54280,
+          "endMs": 55100
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 55100,
+          "endMs": 56730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 57510,
+      "endMs": 67000,
+      "pauseAfterMs": 1090,
+      "text": "Bunu televizyonda ya da gazetede bir haber başlığı okurken de hemen ayırt edebilirsin.",
+      "markedText": "Bunu televizyonda ya da gazetede bir haber başlığı okurken de hemen ayırt edebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 57510,
+          "endMs": 58090
+        },
+        {
+          "word": "televizyonda",
+          "startMs": 58090,
+          "endMs": 59150
+        },
+        {
+          "word": "ya",
+          "startMs": 59520,
+          "endMs": 59640
+        },
+        {
+          "word": "da",
+          "startMs": 59760,
+          "endMs": 59950
+        },
+        {
+          "word": "gazetede",
+          "startMs": 59950,
+          "endMs": 60410
+        },
+        {
+          "word": "bir",
+          "startMs": 60510,
+          "endMs": 60670
+        },
+        {
+          "word": "haber",
+          "startMs": 60780,
+          "endMs": 61550
+        },
+        {
+          "word": "başlığı",
+          "startMs": 62150,
+          "endMs": 62980
+        },
+        {
+          "word": "okurken",
+          "startMs": 63270,
+          "endMs": 63670
+        },
+        {
+          "word": "de",
+          "startMs": 63670,
+          "endMs": 63750
+        },
+        {
+          "word": "hemen",
+          "startMs": 63830,
+          "endMs": 64210
+        },
+        {
+          "word": "ayırt",
+          "startMs": 64450,
+          "endMs": 64800
+        },
+        {
+          "word": "edebilirsin.",
+          "startMs": 64980,
+          "endMs": 65910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 67000,
+      "endMs": 81280,
+      "pauseAfterMs": 1100,
+      "text": "Haberde Türkiye Büyük Millet Meclisi yeni bir kanunu onayladı deniyorsa yasama organı çalışmıştır.",
+      "markedText": "Haberde Türkiye Büyük Millet Meclisi yeni bir kanunu onayladı deniyorsa yasama organı çalışmıştır.",
+      "words": [
+        {
+          "word": "Haberde",
+          "startMs": 67000,
+          "endMs": 67500
+        },
+        {
+          "word": "Türkiye",
+          "startMs": 67710,
+          "endMs": 68160
+        },
+        {
+          "word": "Büyük",
+          "startMs": 68300,
+          "endMs": 68610
+        },
+        {
+          "word": "Millet",
+          "startMs": 68680,
+          "endMs": 69330
+        },
+        {
+          "word": "Meclisi",
+          "startMs": 69480,
+          "endMs": 70070
+        },
+        {
+          "word": "yeni",
+          "startMs": 70140,
+          "endMs": 71170
+        },
+        {
+          "word": "bir",
+          "startMs": 71860,
+          "endMs": 72060
+        },
+        {
+          "word": "kanunu",
+          "startMs": 72150,
+          "endMs": 72690
+        },
+        {
+          "word": "onayladı",
+          "startMs": 72870,
+          "endMs": 74010
+        },
+        {
+          "word": "deniyorsa",
+          "startMs": 75170,
+          "endMs": 75750
+        },
+        {
+          "word": "yasama",
+          "startMs": 76140,
+          "endMs": 76960
+        },
+        {
+          "word": "organı",
+          "startMs": 77190,
+          "endMs": 78540
+        },
+        {
+          "word": "çalışmıştır.",
+          "startMs": 78770,
+          "endMs": 80180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 81280,
+      "endMs": 90670,
+      "pauseAfterMs": 500,
+      "text": "Bir bakanlık yeni bir hizmeti başlattı deniyorsa yürütme organı iş başındadır.",
+      "markedText": "Bir bakanlık yeni bir hizmeti başlattı deniyorsa yürütme organı iş başındadır.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 81280,
+          "endMs": 81470
+        },
+        {
+          "word": "bakanlık",
+          "startMs": 81470,
+          "endMs": 82160
+        },
+        {
+          "word": "yeni",
+          "startMs": 82230,
+          "endMs": 82830
+        },
+        {
+          "word": "bir",
+          "startMs": 82950,
+          "endMs": 83210
+        },
+        {
+          "word": "hizmeti",
+          "startMs": 83280,
+          "endMs": 84060
+        },
+        {
+          "word": "başlattı",
+          "startMs": 84060,
+          "endMs": 85230
+        },
+        {
+          "word": "deniyorsa",
+          "startMs": 86000,
+          "endMs": 86880
+        },
+        {
+          "word": "yürütme",
+          "startMs": 87000,
+          "endMs": 87510
+        },
+        {
+          "word": "organı",
+          "startMs": 87960,
+          "endMs": 88810
+        },
+        {
+          "word": "iş",
+          "startMs": 88850,
+          "endMs": 89010
+        },
+        {
+          "word": "başındadır.",
+          "startMs": 89070,
+          "endMs": 90170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 90670,
+      "endMs": 101340,
+      "pauseAfterMs": 960,
+      "text": "Bir mahkeme haksızlığa uğrayan bir vatandaşın hakkını teslim etti deniyorsa yargı organı adalet dağıtmıştır.",
+      "markedText": "Bir mahkeme haksızlığa uğrayan bir vatandaşın hakkını teslim etti deniyorsa yargı organı adalet dağıtmıştır.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 90670,
+          "endMs": 90840
+        },
+        {
+          "word": "mahkeme",
+          "startMs": 90840,
+          "endMs": 91290
+        },
+        {
+          "word": "haksızlığa",
+          "startMs": 91420,
+          "endMs": 92280
+        },
+        {
+          "word": "uğrayan",
+          "startMs": 92390,
+          "endMs": 93080
+        },
+        {
+          "word": "bir",
+          "startMs": 93650,
+          "endMs": 94000
+        },
+        {
+          "word": "vatandaşın",
+          "startMs": 94160,
+          "endMs": 94710
+        },
+        {
+          "word": "hakkını",
+          "startMs": 95090,
+          "endMs": 95680
+        },
+        {
+          "word": "teslim",
+          "startMs": 95800,
+          "endMs": 96160
+        },
+        {
+          "word": "etti",
+          "startMs": 96280,
+          "endMs": 96400
+        },
+        {
+          "word": "deniyorsa",
+          "startMs": 96520,
+          "endMs": 96930
+        },
+        {
+          "word": "yargı",
+          "startMs": 97030,
+          "endMs": 97550
+        },
+        {
+          "word": "organı",
+          "startMs": 98300,
+          "endMs": 98840
+        },
+        {
+          "word": "adalet",
+          "startMs": 98940,
+          "endMs": 99320
+        },
+        {
+          "word": "dağıtmıştır.",
+          "startMs": 99420,
+          "endMs": 100380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 101340,
+      "endMs": 115910,
+      "pauseAfterMs": 880,
+      "text": "Haberi okurken hangi organın devrede olduğunu bilmek, seni ülkesinin işleyişini çok iyi kavrayan bilinçli bir genç yapar.",
+      "markedText": "Haberi okurken hangi organın devrede olduğunu bilmek, seni ülkesinin işleyişini çok iyi kavrayan bilinçli bir genç yapar.",
+      "words": [
+        {
+          "word": "Haberi",
+          "startMs": 101340,
+          "endMs": 101660
+        },
+        {
+          "word": "okurken",
+          "startMs": 101740,
+          "endMs": 102330
+        },
+        {
+          "word": "hangi",
+          "startMs": 102440,
+          "endMs": 102690
+        },
+        {
+          "word": "organın",
+          "startMs": 102820,
+          "endMs": 103860
+        },
+        {
+          "word": "devrede",
+          "startMs": 104870,
+          "endMs": 105460
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 105550,
+          "endMs": 106340
+        },
+        {
+          "word": "bilmek,",
+          "startMs": 106640,
+          "endMs": 107220
+        },
+        {
+          "word": "seni",
+          "startMs": 107540,
+          "endMs": 107900
+        },
+        {
+          "word": "ülkesinin",
+          "startMs": 107970,
+          "endMs": 108990
+        },
+        {
+          "word": "işleyişini",
+          "startMs": 109170,
+          "endMs": 110070
+        },
+        {
+          "word": "çok",
+          "startMs": 110160,
+          "endMs": 110480
+        },
+        {
+          "word": "iyi",
+          "startMs": 110610,
+          "endMs": 110970
+        },
+        {
+          "word": "kavrayan",
+          "startMs": 111040,
+          "endMs": 111820
+        },
+        {
+          "word": "bilinçli",
+          "startMs": 111900,
+          "endMs": 112900
+        },
+        {
+          "word": "bir",
+          "startMs": 113700,
+          "endMs": 113850
+        },
+        {
+          "word": "genç",
+          "startMs": 113850,
+          "endMs": 114180
+        },
+        {
+          "word": "yapar.",
+          "startMs": 114180,
+          "endMs": 115030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 115910,
+      "endMs": 122680,
+      "pauseAfterMs": 820,
+      "text": "Devletin üç temel yetki ve görevi vardır: yasama, yürütme ve yargı.",
+      "markedText": "Devletin üç temel yetki ve görevi vardır: yasama, yürütme ve yargı.",
+      "words": [
+        {
+          "word": "Devletin",
+          "startMs": 115910,
+          "endMs": 116460
+        },
+        {
+          "word": "üç",
+          "startMs": 116560,
+          "endMs": 116860
+        },
+        {
+          "word": "temel",
+          "startMs": 116960,
+          "endMs": 117500
+        },
+        {
+          "word": "yetki",
+          "startMs": 117560,
+          "endMs": 118010
+        },
+        {
+          "word": "ve",
+          "startMs": 118010,
+          "endMs": 118170
+        },
+        {
+          "word": "görevi",
+          "startMs": 118170,
+          "endMs": 118670
+        },
+        {
+          "word": "vardır:",
+          "startMs": 118750,
+          "endMs": 119130
+        },
+        {
+          "word": "yasama,",
+          "startMs": 119390,
+          "endMs": 120250
+        },
+        {
+          "word": "yürütme",
+          "startMs": 120680,
+          "endMs": 121110
+        },
+        {
+          "word": "ve",
+          "startMs": 121110,
+          "endMs": 121310
+        },
+        {
+          "word": "yargı.",
+          "startMs": 121310,
+          "endMs": 121860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 122680,
+      "endMs": 139180,
+      "pauseAfterMs": 780,
+      "text": "Yasama, kanun yapma, değiştirme ve yürürlükten kaldırma yetkisidir; milletimiz adına bu yüce görevi Türkiye Büyük Millet Meclisi yerine getirir.",
+      "markedText": "Yasama, kanun yapma, değiştirme ve yürürlükten kaldırma yetkisidir; milletimiz adına bu yüce görevi Türkiye Büyük Millet Meclisi yerine getirir.",
+      "words": [
+        {
+          "word": "Yasama,",
+          "startMs": 122680,
+          "endMs": 123440
+        },
+        {
+          "word": "kanun",
+          "startMs": 123820,
+          "endMs": 124260
+        },
+        {
+          "word": "yapma,",
+          "startMs": 124260,
+          "endMs": 124710
+        },
+        {
+          "word": "değiştirme",
+          "startMs": 124790,
+          "endMs": 126120
+        },
+        {
+          "word": "ve",
+          "startMs": 126170,
+          "endMs": 126400
+        },
+        {
+          "word": "yürürlükten",
+          "startMs": 126540,
+          "endMs": 127430
+        },
+        {
+          "word": "kaldırma",
+          "startMs": 127800,
+          "endMs": 128310
+        },
+        {
+          "word": "yetkisidir;",
+          "startMs": 128440,
+          "endMs": 129480
+        },
+        {
+          "word": "milletimiz",
+          "startMs": 130200,
+          "endMs": 131160
+        },
+        {
+          "word": "adına",
+          "startMs": 131160,
+          "endMs": 131730
+        },
+        {
+          "word": "bu",
+          "startMs": 131830,
+          "endMs": 131990
+        },
+        {
+          "word": "yüce",
+          "startMs": 131990,
+          "endMs": 132280
+        },
+        {
+          "word": "görevi",
+          "startMs": 132280,
+          "endMs": 132860
+        },
+        {
+          "word": "Türkiye",
+          "startMs": 133100,
+          "endMs": 133680
+        },
+        {
+          "word": "Büyük",
+          "startMs": 134400,
+          "endMs": 134780
+        },
+        {
+          "word": "Millet",
+          "startMs": 134780,
+          "endMs": 135280
+        },
+        {
+          "word": "Meclisi",
+          "startMs": 135940,
+          "endMs": 136460
+        },
+        {
+          "word": "yerine",
+          "startMs": 136550,
+          "endMs": 137510
+        },
+        {
+          "word": "getirir.",
+          "startMs": 137690,
+          "endMs": 138400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 139180,
+      "endMs": 146180,
+      "pauseAfterMs": 1070,
+      "text": "Milletvekilleri halk adına kanun tekliflerini görüşür ve kabul eder.",
+      "markedText": "Milletvekilleri halk adına kanun tekliflerini görüşür ve kabul eder.",
+      "words": [
+        {
+          "word": "Milletvekilleri",
+          "startMs": 139180,
+          "endMs": 140640
+        },
+        {
+          "word": "halk",
+          "startMs": 140640,
+          "endMs": 140890
+        },
+        {
+          "word": "adına",
+          "startMs": 140990,
+          "endMs": 141360
+        },
+        {
+          "word": "kanun",
+          "startMs": 141420,
+          "endMs": 141860
+        },
+        {
+          "word": "tekliflerini",
+          "startMs": 141920,
+          "endMs": 142930
+        },
+        {
+          "word": "görüşür",
+          "startMs": 143080,
+          "endMs": 143730
+        },
+        {
+          "word": "ve",
+          "startMs": 143810,
+          "endMs": 143910
+        },
+        {
+          "word": "kabul",
+          "startMs": 144060,
+          "endMs": 144430
+        },
+        {
+          "word": "eder.",
+          "startMs": 144530,
+          "endMs": 145110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 146180,
+      "endMs": 156130,
+      "pauseAfterMs": 300,
+      "text": "Yürütme, meclisin çıkardığı kanunları uygulama ve ülkeyi yönetme işidir; yürütme görevi Cumhurbaşkanına aittir.",
+      "markedText": "Yürütme, meclisin çıkardığı kanunları uygulama ve ülkeyi yönetme işidir; yürütme görevi Cumhurbaşkanına aittir.",
+      "words": [
+        {
+          "word": "Yürütme,",
+          "startMs": 146180,
+          "endMs": 146850
+        },
+        {
+          "word": "meclisin",
+          "startMs": 147230,
+          "endMs": 148140
+        },
+        {
+          "word": "çıkardığı",
+          "startMs": 148140,
+          "endMs": 149230
+        },
+        {
+          "word": "kanunları",
+          "startMs": 149810,
+          "endMs": 150140
+        },
+        {
+          "word": "uygulama",
+          "startMs": 150330,
+          "endMs": 150870
+        },
+        {
+          "word": "ve",
+          "startMs": 151000,
+          "endMs": 151110
+        },
+        {
+          "word": "ülkeyi",
+          "startMs": 151250,
+          "endMs": 151570
+        },
+        {
+          "word": "yönetme",
+          "startMs": 151640,
+          "endMs": 152010
+        },
+        {
+          "word": "işidir;",
+          "startMs": 152210,
+          "endMs": 153070
+        },
+        {
+          "word": "yürütme",
+          "startMs": 153670,
+          "endMs": 154070
+        },
+        {
+          "word": "görevi",
+          "startMs": 154200,
+          "endMs": 154510
+        },
+        {
+          "word": "Cumhurbaşkanına",
+          "startMs": 154580,
+          "endMs": 155500
+        },
+        {
+          "word": "aittir.",
+          "startMs": 155660,
+          "endMs": 155830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 156130,
+      "endMs": 172930,
+      "pauseAfterMs": 920,
+      "text": "Yargı ise toplumdaki anlaşmazlıkları adaletle çözme ve hakları koruma görevidir; bu görev millet adına bağımsız ve tarafsız mahkemelerce yerine getirilir.",
+      "markedText": "Yargı ise toplumdaki anlaşmazlıkları adaletle çözme ve hakları koruma görevidir; bu görev millet adına bağımsız ve tarafsız mahkemelerce yerine getirilir.",
+      "words": [
+        {
+          "word": "Yargı",
+          "startMs": 156130,
+          "endMs": 156570
+        },
+        {
+          "word": "ise",
+          "startMs": 156670,
+          "endMs": 156860
+        },
+        {
+          "word": "toplumdaki",
+          "startMs": 157120,
+          "endMs": 157940
+        },
+        {
+          "word": "anlaşmazlıkları",
+          "startMs": 158030,
+          "endMs": 159010
+        },
+        {
+          "word": "adaletle",
+          "startMs": 159240,
+          "endMs": 159790
+        },
+        {
+          "word": "çözme",
+          "startMs": 159950,
+          "endMs": 160910
+        },
+        {
+          "word": "ve",
+          "startMs": 161470,
+          "endMs": 161570
+        },
+        {
+          "word": "hakları",
+          "startMs": 161690,
+          "endMs": 162250
+        },
+        {
+          "word": "koruma",
+          "startMs": 162580,
+          "endMs": 163040
+        },
+        {
+          "word": "görevidir;",
+          "startMs": 163040,
+          "endMs": 164170
+        },
+        {
+          "word": "bu",
+          "startMs": 164430,
+          "endMs": 164630
+        },
+        {
+          "word": "görev",
+          "startMs": 164920,
+          "endMs": 165150
+        },
+        {
+          "word": "millet",
+          "startMs": 165240,
+          "endMs": 165620
+        },
+        {
+          "word": "adına",
+          "startMs": 165620,
+          "endMs": 165970
+        },
+        {
+          "word": "bağımsız",
+          "startMs": 166080,
+          "endMs": 166900
+        },
+        {
+          "word": "ve",
+          "startMs": 167560,
+          "endMs": 167810
+        },
+        {
+          "word": "tarafsız",
+          "startMs": 167900,
+          "endMs": 168530
+        },
+        {
+          "word": "mahkemelerce",
+          "startMs": 168910,
+          "endMs": 169820
+        },
+        {
+          "word": "yerine",
+          "startMs": 169910,
+          "endMs": 170540
+        },
+        {
+          "word": "getirilir.",
+          "startMs": 170790,
+          "endMs": 172010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 172930,
+      "endMs": 190600,
+      "pauseAfterMs": 510,
+      "text": "Pratik kural: Bu üç organ birbirinin görevini almaz; kanunları Türkiye Büyük Millet Meclisi yapar; Cumhurbaşkanı yürütür; bağımsız mahkemeler ise adaletle denetler.",
+      "markedText": "Pratik kural: Bu üç organ birbirinin görevini almaz; kanunları Türkiye Büyük Millet Meclisi yapar; Cumhurbaşkanı yürütür; bağımsız mahkemeler ise adaletle denetler.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 172930,
+          "endMs": 173350
+        },
+        {
+          "word": "kural:",
+          "startMs": 173350,
+          "endMs": 173820
+        },
+        {
+          "word": "Bu",
+          "startMs": 174460,
+          "endMs": 174580
+        },
+        {
+          "word": "üç",
+          "startMs": 175160,
+          "endMs": 175310
+        },
+        {
+          "word": "organ",
+          "startMs": 175380,
+          "endMs": 175730
+        },
+        {
+          "word": "birbirinin",
+          "startMs": 175790,
+          "endMs": 176490
+        },
+        {
+          "word": "görevini",
+          "startMs": 176820,
+          "endMs": 177280
+        },
+        {
+          "word": "almaz;",
+          "startMs": 177430,
+          "endMs": 178150
+        },
+        {
+          "word": "kanunları",
+          "startMs": 178520,
+          "endMs": 179640
+        },
+        {
+          "word": "Türkiye",
+          "startMs": 179740,
+          "endMs": 180480
+        },
+        {
+          "word": "Büyük",
+          "startMs": 181130,
+          "endMs": 181350
+        },
+        {
+          "word": "Millet",
+          "startMs": 181800,
+          "endMs": 182210
+        },
+        {
+          "word": "Meclisi",
+          "startMs": 182290,
+          "endMs": 182820
+        },
+        {
+          "word": "yapar;",
+          "startMs": 182820,
+          "endMs": 183190
+        },
+        {
+          "word": "Cumhurbaşkanı",
+          "startMs": 183560,
+          "endMs": 184360
+        },
+        {
+          "word": "yürütür;",
+          "startMs": 184520,
+          "endMs": 184960
+        },
+        {
+          "word": "bağımsız",
+          "startMs": 186210,
+          "endMs": 186920
+        },
+        {
+          "word": "mahkemeler",
+          "startMs": 187100,
+          "endMs": 187870
+        },
+        {
+          "word": "ise",
+          "startMs": 188310,
+          "endMs": 188560
+        },
+        {
+          "word": "adaletle",
+          "startMs": 188560,
+          "endMs": 189170
+        },
+        {
+          "word": "denetler.",
+          "startMs": 189170,
+          "endMs": 190090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 190600,
+      "endMs": 197090,
+      "pauseAfterMs": 570,
+      "text": "Gündelik hayattan bir trafik kuralı örneğini inceleyelim.",
+      "markedText": "Gündelik hayattan bir trafik kuralı örneğini inceleyelim.",
+      "words": [
+        {
+          "word": "Gündelik",
+          "startMs": 190600,
+          "endMs": 191090
+        },
+        {
+          "word": "hayattan",
+          "startMs": 191340,
+          "endMs": 192180
+        },
+        {
+          "word": "bir",
+          "startMs": 192250,
+          "endMs": 192450
+        },
+        {
+          "word": "trafik",
+          "startMs": 192680,
+          "endMs": 193140
+        },
+        {
+          "word": "kuralı",
+          "startMs": 193270,
+          "endMs": 194260
+        },
+        {
+          "word": "örneğini",
+          "startMs": 194510,
+          "endMs": 195020
+        },
+        {
+          "word": "inceleyelim.",
+          "startMs": 195230,
+          "endMs": 196520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 197090,
+      "endMs": 216930,
+      "pauseAfterMs": 1000,
+      "text": "Önce Türkiye Büyük Millet Meclisi toplanır; halkın can güvenliğini korumak için arabalarda emniyet kemeri takılmasını zorunlu kılan bir kanun çıkarır.",
+      "markedText": "Önce Türkiye Büyük Millet Meclisi toplanır; halkın can güvenliğini korumak için arabalarda emniyet kemeri takılmasını zorunlu kılan bir kanun çıkarır.",
+      "words": [
+        {
+          "word": "Önce",
+          "startMs": 197090,
+          "endMs": 197350
+        },
+        {
+          "word": "Türkiye",
+          "startMs": 197440,
+          "endMs": 198130
+        },
+        {
+          "word": "Büyük",
+          "startMs": 198130,
+          "endMs": 198400
+        },
+        {
+          "word": "Millet",
+          "startMs": 198450,
+          "endMs": 198870
+        },
+        {
+          "word": "Meclisi",
+          "startMs": 199020,
+          "endMs": 199620
+        },
+        {
+          "word": "toplanır;",
+          "startMs": 199800,
+          "endMs": 201300
+        },
+        {
+          "word": "halkın",
+          "startMs": 201880,
+          "endMs": 202620
+        },
+        {
+          "word": "can",
+          "startMs": 202780,
+          "endMs": 203200
+        },
+        {
+          "word": "güvenliğini",
+          "startMs": 203200,
+          "endMs": 204150
+        },
+        {
+          "word": "korumak",
+          "startMs": 204500,
+          "endMs": 205430
+        },
+        {
+          "word": "için",
+          "startMs": 205630,
+          "endMs": 206160
+        },
+        {
+          "word": "arabalarda",
+          "startMs": 206580,
+          "endMs": 207280
+        },
+        {
+          "word": "emniyet",
+          "startMs": 207280,
+          "endMs": 208430
+        },
+        {
+          "word": "kemeri",
+          "startMs": 209060,
+          "endMs": 209800
+        },
+        {
+          "word": "takılmasını",
+          "startMs": 210000,
+          "endMs": 211800
+        },
+        {
+          "word": "zorunlu",
+          "startMs": 212190,
+          "endMs": 213170
+        },
+        {
+          "word": "kılan",
+          "startMs": 213330,
+          "endMs": 213680
+        },
+        {
+          "word": "bir",
+          "startMs": 213780,
+          "endMs": 214060
+        },
+        {
+          "word": "kanun",
+          "startMs": 214160,
+          "endMs": 214680
+        },
+        {
+          "word": "çıkarır.",
+          "startMs": 214860,
+          "endMs": 215930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 216930,
+      "endMs": 219240,
+      "pauseAfterMs": 550,
+      "text": "İşte bu aşama yasamadır.",
+      "markedText": "İşte bu aşama yasamadır.",
+      "words": [
+        {
+          "word": "İşte",
+          "startMs": 216930,
+          "endMs": 217140
+        },
+        {
+          "word": "bu",
+          "startMs": 217200,
+          "endMs": 217290
+        },
+        {
+          "word": "aşama",
+          "startMs": 217440,
+          "endMs": 217730
+        },
+        {
+          "word": "yasamadır.",
+          "startMs": 217850,
+          "endMs": 218690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 219240,
+      "endMs": 230490,
+      "pauseAfterMs": 590,
+      "text": "Ardından emniyet müdürlüğü ve görevliler yollarda bu kanunu titizlikle uygular; bu aşama yürütmedir.",
+      "markedText": "Ardından emniyet müdürlüğü ve görevliler yollarda bu kanunu titizlikle uygular; bu aşama yürütmedir.",
+      "words": [
+        {
+          "word": "Ardından",
+          "startMs": 219240,
+          "endMs": 219770
+        },
+        {
+          "word": "emniyet",
+          "startMs": 220060,
+          "endMs": 220840
+        },
+        {
+          "word": "müdürlüğü",
+          "startMs": 220970,
+          "endMs": 221600
+        },
+        {
+          "word": "ve",
+          "startMs": 221600,
+          "endMs": 221930
+        },
+        {
+          "word": "görevliler",
+          "startMs": 222380,
+          "endMs": 222970
+        },
+        {
+          "word": "yollarda",
+          "startMs": 223310,
+          "endMs": 223870
+        },
+        {
+          "word": "bu",
+          "startMs": 224110,
+          "endMs": 224580
+        },
+        {
+          "word": "kanunu",
+          "startMs": 225480,
+          "endMs": 226000
+        },
+        {
+          "word": "titizlikle",
+          "startMs": 226260,
+          "endMs": 227060
+        },
+        {
+          "word": "uygular;",
+          "startMs": 227310,
+          "endMs": 228000
+        },
+        {
+          "word": "bu",
+          "startMs": 228080,
+          "endMs": 228230
+        },
+        {
+          "word": "aşama",
+          "startMs": 228230,
+          "endMs": 228580
+        },
+        {
+          "word": "yürütmedir.",
+          "startMs": 228690,
+          "endMs": 229900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 230490,
+      "endMs": 244020,
+      "pauseAfterMs": 290,
+      "text": "Eğer bir sürücü haksız yere ceza yazıldığını düşünürse ya da bir anlaşmazlık çıkarsa konu bağımsız mahkemelere taşınır.",
+      "markedText": "Eğer bir sürücü haksız yere ceza yazıldığını düşünürse ya da bir anlaşmazlık çıkarsa konu bağımsız mahkemelere taşınır.",
+      "words": [
+        {
+          "word": "Eğer",
+          "startMs": 230490,
+          "endMs": 230770
+        },
+        {
+          "word": "bir",
+          "startMs": 230820,
+          "endMs": 231110
+        },
+        {
+          "word": "sürücü",
+          "startMs": 231160,
+          "endMs": 231740
+        },
+        {
+          "word": "haksız",
+          "startMs": 231740,
+          "endMs": 232140
+        },
+        {
+          "word": "yere",
+          "startMs": 232550,
+          "endMs": 232860
+        },
+        {
+          "word": "ceza",
+          "startMs": 232940,
+          "endMs": 233180
+        },
+        {
+          "word": "yazıldığını",
+          "startMs": 233260,
+          "endMs": 234390
+        },
+        {
+          "word": "düşünürse",
+          "startMs": 235230,
+          "endMs": 236330
+        },
+        {
+          "word": "ya",
+          "startMs": 236330,
+          "endMs": 236540
+        },
+        {
+          "word": "da",
+          "startMs": 236540,
+          "endMs": 236650
+        },
+        {
+          "word": "bir",
+          "startMs": 236730,
+          "endMs": 237360
+        },
+        {
+          "word": "anlaşmazlık",
+          "startMs": 238140,
+          "endMs": 239390
+        },
+        {
+          "word": "çıkarsa",
+          "startMs": 239590,
+          "endMs": 240330
+        },
+        {
+          "word": "konu",
+          "startMs": 240330,
+          "endMs": 240720
+        },
+        {
+          "word": "bağımsız",
+          "startMs": 241310,
+          "endMs": 241940
+        },
+        {
+          "word": "mahkemelere",
+          "startMs": 242040,
+          "endMs": 242980
+        },
+        {
+          "word": "taşınır.",
+          "startMs": 243170,
+          "endMs": 243730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 244020,
+      "endMs": 254260,
+      "pauseAfterMs": 540,
+      "text": "Hâkim dosyayı inceler ve kanunlara göre adil kararı verir; işte bu da yargıdır.",
+      "markedText": "Hâkim dosyayı inceler ve kanunlara göre adil kararı verir; işte bu da yargıdır.",
+      "words": [
+        {
+          "word": "Hâkim",
+          "startMs": 244020,
+          "endMs": 244480
+        },
+        {
+          "word": "dosyayı",
+          "startMs": 244480,
+          "endMs": 245600
+        },
+        {
+          "word": "inceler",
+          "startMs": 246120,
+          "endMs": 247140
+        },
+        {
+          "word": "ve",
+          "startMs": 247250,
+          "endMs": 247480
+        },
+        {
+          "word": "kanunlara",
+          "startMs": 247580,
+          "endMs": 248580
+        },
+        {
+          "word": "göre",
+          "startMs": 248680,
+          "endMs": 248970
+        },
+        {
+          "word": "adil",
+          "startMs": 249060,
+          "endMs": 249770
+        },
+        {
+          "word": "kararı",
+          "startMs": 250280,
+          "endMs": 250890
+        },
+        {
+          "word": "verir;",
+          "startMs": 250890,
+          "endMs": 251520
+        },
+        {
+          "word": "işte",
+          "startMs": 252450,
+          "endMs": 252660
+        },
+        {
+          "word": "bu",
+          "startMs": 252720,
+          "endMs": 252840
+        },
+        {
+          "word": "da",
+          "startMs": 253010,
+          "endMs": 253110
+        },
+        {
+          "word": "yargıdır.",
+          "startMs": 253220,
+          "endMs": 253720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 254260,
+      "endMs": 258540,
+      "pauseAfterMs": 540,
+      "text": "Hâkim kimseden emir almaz; hukuka bakar.",
+      "markedText": "Hâkim kimseden emir almaz; hukuka bakar.",
+      "words": [
+        {
+          "word": "Hâkim",
+          "startMs": 254260,
+          "endMs": 254800
+        },
+        {
+          "word": "kimseden",
+          "startMs": 255050,
+          "endMs": 255440
+        },
+        {
+          "word": "emir",
+          "startMs": 255440,
+          "endMs": 255630
+        },
+        {
+          "word": "almaz;",
+          "startMs": 255630,
+          "endMs": 256120
+        },
+        {
+          "word": "hukuka",
+          "startMs": 256590,
+          "endMs": 257330
+        },
+        {
+          "word": "bakar.",
+          "startMs": 257460,
+          "endMs": 258000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 258540,
+      "endMs": 270640,
+      "pauseAfterMs": 660,
+      "text": "Kanunu yazan, uygulayan ve yargılayan masaların ayrı olması adaletin en büyük garantisidir.",
+      "markedText": "Kanunu yazan, uygulayan ve yargılayan masaların ayrı olması adaletin en büyük garantisidir.",
+      "words": [
+        {
+          "word": "Kanunu",
+          "startMs": 258540,
+          "endMs": 259300
+        },
+        {
+          "word": "yazan,",
+          "startMs": 259300,
+          "endMs": 260330
+        },
+        {
+          "word": "uygulayan",
+          "startMs": 261230,
+          "endMs": 261770
+        },
+        {
+          "word": "ve",
+          "startMs": 262130,
+          "endMs": 262650
+        },
+        {
+          "word": "yargılayan",
+          "startMs": 263130,
+          "endMs": 263670
+        },
+        {
+          "word": "masaların",
+          "startMs": 263880,
+          "endMs": 265270
+        },
+        {
+          "word": "ayrı",
+          "startMs": 265950,
+          "endMs": 266300
+        },
+        {
+          "word": "olması",
+          "startMs": 266380,
+          "endMs": 267000
+        },
+        {
+          "word": "adaletin",
+          "startMs": 267130,
+          "endMs": 267710
+        },
+        {
+          "word": "en",
+          "startMs": 268090,
+          "endMs": 268160
+        },
+        {
+          "word": "büyük",
+          "startMs": 268260,
+          "endMs": 268790
+        },
+        {
+          "word": "garantisidir.",
+          "startMs": 268860,
+          "endMs": 269980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 270640,
+      "endMs": 272970,
+      "pauseAfterMs": 880,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 270640,
+          "endMs": 270920
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 271030,
+          "endMs": 272090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 272970,
+      "endMs": 277900,
+      "pauseAfterMs": 580,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 272970,
+          "endMs": 273500
+        },
+        {
+          "word": "bir",
+          "startMs": 273550,
+          "endMs": 273840
+        },
+        {
+          "word": "kez",
+          "startMs": 273840,
+          "endMs": 274040
+        },
+        {
+          "word": "görünce",
+          "startMs": 274040,
+          "endMs": 274570
+        },
+        {
+          "word": "kolayca",
+          "startMs": 274640,
+          "endMs": 275620
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 275720,
+          "endMs": 277320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 277900,
+      "endMs": 284600,
+      "pauseAfterMs": 630,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 277900,
+          "endMs": 278360
+        },
+        {
+          "word": "sevgili",
+          "startMs": 278600,
+          "endMs": 279170
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 279280,
+          "endMs": 279820
+        },
+        {
+          "word": "işte",
+          "startMs": 280050,
+          "endMs": 280350
+        },
+        {
+          "word": "tam",
+          "startMs": 280350,
+          "endMs": 280490
+        },
+        {
+          "word": "bu",
+          "startMs": 280590,
+          "endMs": 280730
+        },
+        {
+          "word": "noktada",
+          "startMs": 280730,
+          "endMs": 281300
+        },
+        {
+          "word": "dikkat",
+          "startMs": 281300,
+          "endMs": 281580
+        },
+        {
+          "word": "etmen",
+          "startMs": 281810,
+          "endMs": 282040
+        },
+        {
+          "word": "gereken",
+          "startMs": 282210,
+          "endMs": 282690
+        },
+        {
+          "word": "kilit",
+          "startMs": 282760,
+          "endMs": 283130
+        },
+        {
+          "word": "nokta.",
+          "startMs": 283130,
+          "endMs": 283970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 284600,
+      "endMs": 292510,
+      "pauseAfterMs": 1090,
+      "text": "Bu üç büyük gücü tek bir elde toplamak kolay bir yanılgıdır.",
+      "markedText": "Bu üç büyük gücü tek bir elde toplamak kolay bir yanılgıdır.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 284600,
+          "endMs": 284690
+        },
+        {
+          "word": "üç",
+          "startMs": 284790,
+          "endMs": 284950
+        },
+        {
+          "word": "büyük",
+          "startMs": 284950,
+          "endMs": 285430
+        },
+        {
+          "word": "gücü",
+          "startMs": 285910,
+          "endMs": 286430
+        },
+        {
+          "word": "tek",
+          "startMs": 286430,
+          "endMs": 286830
+        },
+        {
+          "word": "bir",
+          "startMs": 287310,
+          "endMs": 287460
+        },
+        {
+          "word": "elde",
+          "startMs": 287460,
+          "endMs": 287760
+        },
+        {
+          "word": "toplamak",
+          "startMs": 287900,
+          "endMs": 289090
+        },
+        {
+          "word": "kolay",
+          "startMs": 289530,
+          "endMs": 289940
+        },
+        {
+          "word": "bir",
+          "startMs": 289990,
+          "endMs": 290150
+        },
+        {
+          "word": "yanılgıdır.",
+          "startMs": 290210,
+          "endMs": 291420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 292510,
+      "endMs": 306500,
+      "pauseAfterMs": 1050,
+      "text": "Cumhurbaşkanının kanun yazmadığını, kanun yapma yetkisinin yalnızca Türkiye Büyük Millet Meclisinde olduğunu her zaman hatırla.",
+      "markedText": "Cumhurbaşkanının kanun yazmadığını, kanun yapma yetkisinin yalnızca Türkiye Büyük Millet Meclisinde olduğunu her zaman hatırla.",
+      "words": [
+        {
+          "word": "Cumhurbaşkanının",
+          "startMs": 292510,
+          "endMs": 293520
+        },
+        {
+          "word": "kanun",
+          "startMs": 293610,
+          "endMs": 293940
+        },
+        {
+          "word": "yazmadığını,",
+          "startMs": 294120,
+          "endMs": 294760
+        },
+        {
+          "word": "kanun",
+          "startMs": 295500,
+          "endMs": 296140
+        },
+        {
+          "word": "yapma",
+          "startMs": 296300,
+          "endMs": 296740
+        },
+        {
+          "word": "yetkisinin",
+          "startMs": 296740,
+          "endMs": 297470
+        },
+        {
+          "word": "yalnızca",
+          "startMs": 297620,
+          "endMs": 298150
+        },
+        {
+          "word": "Türkiye",
+          "startMs": 298320,
+          "endMs": 299230
+        },
+        {
+          "word": "Büyük",
+          "startMs": 300010,
+          "endMs": 300280
+        },
+        {
+          "word": "Millet",
+          "startMs": 300340,
+          "endMs": 300710
+        },
+        {
+          "word": "Meclisinde",
+          "startMs": 300870,
+          "endMs": 301970
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 302110,
+          "endMs": 302910
+        },
+        {
+          "word": "her",
+          "startMs": 303340,
+          "endMs": 303630
+        },
+        {
+          "word": "zaman",
+          "startMs": 304420,
+          "endMs": 304700
+        },
+        {
+          "word": "hatırla.",
+          "startMs": 304700,
+          "endMs": 305450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 306500,
+      "endMs": 316220,
+      "pauseAfterMs": 980,
+      "text": "Mahkemelerin de hiçbir makama bağlı olmadığını, bağımsız çalıştığını güvenle aklında tutabilirsin.",
+      "markedText": "Mahkemelerin de hiçbir makama bağlı olmadığını, bağımsız çalıştığını güvenle aklında tutabilirsin.",
+      "words": [
+        {
+          "word": "Mahkemelerin",
+          "startMs": 306500,
+          "endMs": 307610
+        },
+        {
+          "word": "de",
+          "startMs": 308360,
+          "endMs": 308470
+        },
+        {
+          "word": "hiçbir",
+          "startMs": 308470,
+          "endMs": 308910
+        },
+        {
+          "word": "makama",
+          "startMs": 309040,
+          "endMs": 309150
+        },
+        {
+          "word": "bağlı",
+          "startMs": 309270,
+          "endMs": 309550
+        },
+        {
+          "word": "olmadığını,",
+          "startMs": 309650,
+          "endMs": 310590
+        },
+        {
+          "word": "bağımsız",
+          "startMs": 311550,
+          "endMs": 312240
+        },
+        {
+          "word": "çalıştığını",
+          "startMs": 312330,
+          "endMs": 312940
+        },
+        {
+          "word": "güvenle",
+          "startMs": 312940,
+          "endMs": 313340
+        },
+        {
+          "word": "aklında",
+          "startMs": 313930,
+          "endMs": 314340
+        },
+        {
+          "word": "tutabilirsin.",
+          "startMs": 314410,
+          "endMs": 315240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 316220,
+      "endMs": 324480,
+      "pauseAfterMs": 840,
+      "text": "Kuvvetler ayrılığı ilkesi, cumhuriyetimizin ve demokrasimizin temel direğidir.",
+      "markedText": "Kuvvetler ayrılığı ilkesi, cumhuriyetimizin ve demokrasimizin temel direğidir.",
+      "words": [
+        {
+          "word": "Kuvvetler",
+          "startMs": 316220,
+          "endMs": 316410
+        },
+        {
+          "word": "ayrılığı",
+          "startMs": 316490,
+          "endMs": 316820
+        },
+        {
+          "word": "ilkesi,",
+          "startMs": 316890,
+          "endMs": 317350
+        },
+        {
+          "word": "cumhuriyetimizin",
+          "startMs": 317900,
+          "endMs": 319280
+        },
+        {
+          "word": "ve",
+          "startMs": 319280,
+          "endMs": 319600
+        },
+        {
+          "word": "demokrasimizin",
+          "startMs": 320250,
+          "endMs": 321320
+        },
+        {
+          "word": "temel",
+          "startMs": 321400,
+          "endMs": 321910
+        },
+        {
+          "word": "direğidir.",
+          "startMs": 322790,
+          "endMs": 323640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 324480,
+      "endMs": 327820,
+      "pauseAfterMs": 970,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 324480,
+          "endMs": 325030
+        },
+        {
+          "word": "Neler",
+          "startMs": 325140,
+          "endMs": 325690
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 325820,
+          "endMs": 326850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 327820,
+      "endMs": 328290,
+      "pauseAfterMs": 140,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 327820,
+          "endMs": 328150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 328290,
+      "endMs": 330500,
+      "pauseAfterMs": 330,
+      "text": "Yasama kanun yapar.",
+      "markedText": "Yasama kanun yapar.",
+      "words": [
+        {
+          "word": "Yasama",
+          "startMs": 328290,
+          "endMs": 328800
+        },
+        {
+          "word": "kanun",
+          "startMs": 328900,
+          "endMs": 329410
+        },
+        {
+          "word": "yapar.",
+          "startMs": 329660,
+          "endMs": 330170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 330500,
+      "endMs": 336970,
+      "pauseAfterMs": 1000,
+      "text": "Bu organ Türkiye Büyük Millet Meclisidir.",
+      "markedText": "Bu organ Türkiye Büyük Millet Meclisidir.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 330500,
+          "endMs": 330630
+        },
+        {
+          "word": "organ",
+          "startMs": 330740,
+          "endMs": 331180
+        },
+        {
+          "word": "Türkiye",
+          "startMs": 331180,
+          "endMs": 331960
+        },
+        {
+          "word": "Büyük",
+          "startMs": 332210,
+          "endMs": 333050
+        },
+        {
+          "word": "Millet",
+          "startMs": 333150,
+          "endMs": 333970
+        },
+        {
+          "word": "Meclisidir.",
+          "startMs": 334060,
+          "endMs": 335970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 336970,
+      "endMs": 338440,
+      "pauseAfterMs": 900,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 336970,
+          "endMs": 337540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 338440,
+      "endMs": 340520,
+      "pauseAfterMs": 420,
+      "text": "Yürütme kanunları uygular.",
+      "markedText": "Yürütme kanunları uygular.",
+      "words": [
+        {
+          "word": "Yürütme",
+          "startMs": 338440,
+          "endMs": 338850
+        },
+        {
+          "word": "kanunları",
+          "startMs": 339000,
+          "endMs": 339470
+        },
+        {
+          "word": "uygular.",
+          "startMs": 339610,
+          "endMs": 340100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 340520,
+      "endMs": 343400,
+      "pauseAfterMs": 480,
+      "text": "Başında Cumhurbaşkanı vardır.",
+      "markedText": "Başında Cumhurbaşkanı vardır.",
+      "words": [
+        {
+          "word": "Başında",
+          "startMs": 340520,
+          "endMs": 341000
+        },
+        {
+          "word": "Cumhurbaşkanı",
+          "startMs": 341190,
+          "endMs": 342370
+        },
+        {
+          "word": "vardır.",
+          "startMs": 342370,
+          "endMs": 342920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 343400,
+      "endMs": 343610,
+      "pauseAfterMs": 50,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 343400,
+          "endMs": 343560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 343610,
+      "endMs": 346040,
+      "pauseAfterMs": 970,
+      "text": "Yargı bağımsız mahkemelerdir.",
+      "markedText": "Yargı bağımsız mahkemelerdir.",
+      "words": [
+        {
+          "word": "Yargı",
+          "startMs": 343610,
+          "endMs": 343840
+        },
+        {
+          "word": "bağımsız",
+          "startMs": 344010,
+          "endMs": 344230
+        },
+        {
+          "word": "mahkemelerdir.",
+          "startMs": 344350,
+          "endMs": 345070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 346040,
+      "endMs": 349180,
+      "pauseAfterMs": 730,
+      "text": "Üç organ birbirinin işini almaz.",
+      "markedText": "Üç organ birbirinin işini almaz.",
+      "words": [
+        {
+          "word": "Üç",
+          "startMs": 346040,
+          "endMs": 346200
+        },
+        {
+          "word": "organ",
+          "startMs": 346200,
+          "endMs": 346710
+        },
+        {
+          "word": "birbirinin",
+          "startMs": 347550,
+          "endMs": 347760
+        },
+        {
+          "word": "işini",
+          "startMs": 347860,
+          "endMs": 348130
+        },
+        {
+          "word": "almaz.",
+          "startMs": 348190,
+          "endMs": 348450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 349180,
+      "endMs": 351560,
+      "pauseAfterMs": 890,
+      "text": "Yasama yazar.",
+      "markedText": "Yasama yazar.",
+      "words": [
+        {
+          "word": "Yasama",
+          "startMs": 349180,
+          "endMs": 349890
+        },
+        {
+          "word": "yazar.",
+          "startMs": 350180,
+          "endMs": 350670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 351560,
+      "endMs": 353900,
+      "pauseAfterMs": 930,
+      "text": "Yürütme uygular.",
+      "markedText": "Yürütme uygular.",
+      "words": [
+        {
+          "word": "Yürütme",
+          "startMs": 351560,
+          "endMs": 352140
+        },
+        {
+          "word": "uygular.",
+          "startMs": 352260,
+          "endMs": 352970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 353900,
+      "endMs": 358750,
+      "pauseAfterMs": 790,
+      "text": "Yargı bağımsız karar verir.",
+      "markedText": "Yargı bağımsız karar verir.",
+      "words": [
+        {
+          "word": "Yargı",
+          "startMs": 353900,
+          "endMs": 354440
+        },
+        {
+          "word": "bağımsız",
+          "startMs": 354540,
+          "endMs": 355310
+        },
+        {
+          "word": "karar",
+          "startMs": 355380,
+          "endMs": 356150
+        },
+        {
+          "word": "verir.",
+          "startMs": 356660,
+          "endMs": 357960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 358750,
+      "endMs": 367790,
+      "pauseAfterMs": 920,
+      "text": "Bir haberde hangi organın işinin geçtiğini tek cümleyle söylersin.",
+      "markedText": "Bir haberde hangi organın işinin geçtiğini tek cümleyle söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 358750,
+          "endMs": 359120
+        },
+        {
+          "word": "haberde",
+          "startMs": 359480,
+          "endMs": 360390
+        },
+        {
+          "word": "hangi",
+          "startMs": 360600,
+          "endMs": 360960
+        },
+        {
+          "word": "organın",
+          "startMs": 361160,
+          "endMs": 362100
+        },
+        {
+          "word": "işinin",
+          "startMs": 362140,
+          "endMs": 362700
+        },
+        {
+          "word": "geçtiğini",
+          "startMs": 362980,
+          "endMs": 363630
+        },
+        {
+          "word": "tek",
+          "startMs": 363690,
+          "endMs": 364240
+        },
+        {
+          "word": "cümleyle",
+          "startMs": 365510,
+          "endMs": 366030
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 366090,
+          "endMs": 366870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-3",
+      "startMs": 367790,
+      "endMs": 371020,
+      "pauseAfterMs": 690,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 367790,
+          "endMs": 368490
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 369450,
+          "endMs": 370330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-3",
+      "startMs": 371020,
+      "endMs": 375920,
+      "pauseAfterMs": 1250,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 371020,
+          "endMs": 371630
+        },
+        {
+          "word": "bir",
+          "startMs": 371880,
+          "endMs": 372350
+        },
+        {
+          "word": "iş",
+          "startMs": 373420,
+          "endMs": 373620
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 373700,
+          "endMs": 374670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-51",
+      "chapterId": "ch-3",
+      "startMs": 375920,
+      "endMs": 380320,
+      "pauseAfterMs": 1050,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 375920,
+          "endMs": 376410
+        },
+        {
+          "word": "sıra",
+          "startMs": 376560,
+          "endMs": 377240
+        },
+        {
+          "word": "sende.",
+          "startMs": 378400,
+          "endMs": 379270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-52",
+      "chapterId": "ch-3",
+      "startMs": 380320,
+      "endMs": 385932,
+      "pauseAfterMs": 362,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 380320,
+          "endMs": 380880
+        },
+        {
+          "word": "bu",
+          "startMs": 381740,
+          "endMs": 381880
+        },
+        {
+          "word": "notları",
+          "startMs": 381880,
+          "endMs": 382480
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 383250,
+          "endMs": 383810
+        },
+        {
+          "word": "kendi",
+          "startMs": 383900,
+          "endMs": 384120
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 384200,
+          "endMs": 385030
+        },
+        {
+          "word": "anlat.",
+          "startMs": 385110,
+          "endMs": 385570
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

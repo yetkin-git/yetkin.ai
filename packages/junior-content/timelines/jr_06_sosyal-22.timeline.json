@@ -1,0 +1,2129 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_sosyal-22",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Türk dünyasıyla kültürel iş birliği",
+  "grade": 6,
+  "subject": "Sosyal Bilgiler",
+  "teacher": {
+    "name": "Murat",
+    "voice": "Achird",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_sosyal-22.mp3",
+    "durationMs": 252714,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 57900
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 57900,
+      "endMs": 195920
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 195920,
+      "endMs": 252714
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4760,
+      "pauseAfterMs": 1260,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 330,
+          "endMs": 1420
+        },
+        {
+          "word": "sevgili",
+          "startMs": 2000,
+          "endMs": 2660
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2660,
+          "endMs": 3500
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Türk dünyasıyla kültürel iş birliği",
+            "subtitle": "Sosyal Bilgiler",
+            "ruleBadges": [],
+            "echoPrompt": "Bir geleneğin iki ülkede ortak olan parçasını söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Türk dünyası, ortak dil ve kültür izi taşıyan yurtların adıdır."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Kültürel iş birliği, bir geleneği iki yerde birlikte tanımaktır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Araştırma ortak parçayı, tartışma farkı ayırır."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4760,
+      "endMs": 9300,
+      "pauseAfterMs": 600,
+      "text": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "markedText": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4760,
+          "endMs": 5040
+        },
+        {
+          "word": "Sosyal",
+          "startMs": 5080,
+          "endMs": 5580
+        },
+        {
+          "word": "Bilgiler",
+          "startMs": 5620,
+          "endMs": 6880
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 7150,
+          "endMs": 8200
+        },
+        {
+          "word": "Murat.",
+          "startMs": 8310,
+          "endMs": 8700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 9300,
+      "endMs": 19220,
+      "pauseAfterMs": 860,
+      "text": "Haritada birbirinden uzak iki ülke, baharda aynı günü kutlayabilir.",
+      "markedText": "Haritada birbirinden uzak iki ülke, baharda aynı günü kutlayabilir.",
+      "words": [
+        {
+          "word": "Haritada",
+          "startMs": 9300,
+          "endMs": 10160
+        },
+        {
+          "word": "birbirinden",
+          "startMs": 10420,
+          "endMs": 11600
+        },
+        {
+          "word": "uzak",
+          "startMs": 11650,
+          "endMs": 11990
+        },
+        {
+          "word": "iki",
+          "startMs": 12230,
+          "endMs": 12760
+        },
+        {
+          "word": "ülke,",
+          "startMs": 13050,
+          "endMs": 13850
+        },
+        {
+          "word": "baharda",
+          "startMs": 14660,
+          "endMs": 15470
+        },
+        {
+          "word": "aynı",
+          "startMs": 15650,
+          "endMs": 15990
+        },
+        {
+          "word": "günü",
+          "startMs": 16330,
+          "endMs": 16700
+        },
+        {
+          "word": "kutlayabilir.",
+          "startMs": 16700,
+          "endMs": 18360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 19220,
+      "endMs": 27220,
+      "pauseAfterMs": 760,
+      "text": "Nevruz sofrası, ortak masal ve benzer sözcükler sınırın iki yanında da durur.",
+      "markedText": "Nevruz sofrası, ortak masal ve benzer sözcükler sınırın iki yanında da durur.",
+      "words": [
+        {
+          "word": "Nevruz",
+          "startMs": 19220,
+          "endMs": 19830
+        },
+        {
+          "word": "sofrası,",
+          "startMs": 20020,
+          "endMs": 21110
+        },
+        {
+          "word": "ortak",
+          "startMs": 21670,
+          "endMs": 22280
+        },
+        {
+          "word": "masal",
+          "startMs": 22420,
+          "endMs": 22800
+        },
+        {
+          "word": "ve",
+          "startMs": 22870,
+          "endMs": 23010
+        },
+        {
+          "word": "benzer",
+          "startMs": 23060,
+          "endMs": 23620
+        },
+        {
+          "word": "sözcükler",
+          "startMs": 23870,
+          "endMs": 24120
+        },
+        {
+          "word": "sınırın",
+          "startMs": 24360,
+          "endMs": 24840
+        },
+        {
+          "word": "iki",
+          "startMs": 25080,
+          "endMs": 25260
+        },
+        {
+          "word": "yanında",
+          "startMs": 25260,
+          "endMs": 25800
+        },
+        {
+          "word": "da",
+          "startMs": 25800,
+          "endMs": 25950
+        },
+        {
+          "word": "durur.",
+          "startMs": 26020,
+          "endMs": 26460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 27220,
+      "endMs": 31910,
+      "pauseAfterMs": 590,
+      "text": "Türk dünyasıyla kültürel iş birliğini bir küre üzerinde araştıracağız.",
+      "markedText": "Türk dünyasıyla kültürel iş birliğini bir küre üzerinde araştıracağız.",
+      "words": [
+        {
+          "word": "Türk",
+          "startMs": 27220,
+          "endMs": 27310
+        },
+        {
+          "word": "dünyasıyla",
+          "startMs": 27400,
+          "endMs": 27760
+        },
+        {
+          "word": "kültürel",
+          "startMs": 27850,
+          "endMs": 28360
+        },
+        {
+          "word": "iş",
+          "startMs": 28410,
+          "endMs": 28480
+        },
+        {
+          "word": "birliğini",
+          "startMs": 28530,
+          "endMs": 29140
+        },
+        {
+          "word": "bir",
+          "startMs": 29390,
+          "endMs": 29570
+        },
+        {
+          "word": "küre",
+          "startMs": 29570,
+          "endMs": 29880
+        },
+        {
+          "word": "üzerinde",
+          "startMs": 29940,
+          "endMs": 30310
+        },
+        {
+          "word": "araştıracağız.",
+          "startMs": 30310,
+          "endMs": 31320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 31910,
+      "endMs": 35710,
+      "pauseAfterMs": 810,
+      "text": "Bunu evde bir kitap açarak da yapabilirsin.",
+      "markedText": "Bunu evde bir kitap açarak da yapabilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 31910,
+          "endMs": 32090
+        },
+        {
+          "word": "evde",
+          "startMs": 32220,
+          "endMs": 32500
+        },
+        {
+          "word": "bir",
+          "startMs": 32500,
+          "endMs": 32900
+        },
+        {
+          "word": "kitap",
+          "startMs": 33260,
+          "endMs": 33550
+        },
+        {
+          "word": "açarak",
+          "startMs": 33650,
+          "endMs": 33950
+        },
+        {
+          "word": "da",
+          "startMs": 34030,
+          "endMs": 34130
+        },
+        {
+          "word": "yapabilirsin.",
+          "startMs": 34130,
+          "endMs": 34900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 35710,
+      "endMs": 42900,
+      "pauseAfterMs": 600,
+      "text": "Arkadaşın başka bir şehirden bir masal getirince haritaya bakıp aynı masalın izini sorarsın.",
+      "markedText": "Arkadaşın başka bir şehirden bir masal getirince haritaya bakıp aynı masalın izini sorarsın.",
+      "words": [
+        {
+          "word": "Arkadaşın",
+          "startMs": 35710,
+          "endMs": 36610
+        },
+        {
+          "word": "başka",
+          "startMs": 36610,
+          "endMs": 36940
+        },
+        {
+          "word": "bir",
+          "startMs": 37610,
+          "endMs": 37720
+        },
+        {
+          "word": "şehirden",
+          "startMs": 37820,
+          "endMs": 38390
+        },
+        {
+          "word": "bir",
+          "startMs": 38680,
+          "endMs": 38780
+        },
+        {
+          "word": "masal",
+          "startMs": 38780,
+          "endMs": 38950
+        },
+        {
+          "word": "getirince",
+          "startMs": 39040,
+          "endMs": 39440
+        },
+        {
+          "word": "haritaya",
+          "startMs": 39550,
+          "endMs": 40120
+        },
+        {
+          "word": "bakıp",
+          "startMs": 40120,
+          "endMs": 40320
+        },
+        {
+          "word": "aynı",
+          "startMs": 40410,
+          "endMs": 40780
+        },
+        {
+          "word": "masalın",
+          "startMs": 40890,
+          "endMs": 41260
+        },
+        {
+          "word": "izini",
+          "startMs": 41370,
+          "endMs": 41680
+        },
+        {
+          "word": "sorarsın.",
+          "startMs": 41680,
+          "endMs": 42300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 42900,
+      "endMs": 51450,
+      "pauseAfterMs": 630,
+      "text": "Okulda bir ülke günü düzenlenince yemeği ve oyunu birlikte konuşursunuz.",
+      "markedText": "Okulda bir ülke günü düzenlenince yemeği ve oyunu birlikte konuşursunuz.",
+      "words": [
+        {
+          "word": "Okulda",
+          "startMs": 42900,
+          "endMs": 43560
+        },
+        {
+          "word": "bir",
+          "startMs": 43670,
+          "endMs": 43850
+        },
+        {
+          "word": "ülke",
+          "startMs": 44070,
+          "endMs": 44300
+        },
+        {
+          "word": "günü",
+          "startMs": 44410,
+          "endMs": 44680
+        },
+        {
+          "word": "düzenlenince",
+          "startMs": 44860,
+          "endMs": 45910
+        },
+        {
+          "word": "yemeği",
+          "startMs": 46060,
+          "endMs": 46860
+        },
+        {
+          "word": "ve",
+          "startMs": 46900,
+          "endMs": 47150
+        },
+        {
+          "word": "oyunu",
+          "startMs": 47220,
+          "endMs": 48100
+        },
+        {
+          "word": "birlikte",
+          "startMs": 48820,
+          "endMs": 49490
+        },
+        {
+          "word": "konuşursunuz.",
+          "startMs": 49640,
+          "endMs": 50820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 51450,
+      "endMs": 57900,
+      "pauseAfterMs": 650,
+      "text": "Araştırdığın gelenek, kürede iki noktayı birbirine bağlar.",
+      "markedText": "Araştırdığın gelenek, kürede iki noktayı birbirine bağlar.",
+      "words": [
+        {
+          "word": "Araştırdığın",
+          "startMs": 51450,
+          "endMs": 52080
+        },
+        {
+          "word": "gelenek,",
+          "startMs": 52140,
+          "endMs": 52830
+        },
+        {
+          "word": "kürede",
+          "startMs": 53450,
+          "endMs": 53680
+        },
+        {
+          "word": "iki",
+          "startMs": 53810,
+          "endMs": 54070
+        },
+        {
+          "word": "noktayı",
+          "startMs": 54160,
+          "endMs": 54690
+        },
+        {
+          "word": "birbirine",
+          "startMs": 54790,
+          "endMs": 55700
+        },
+        {
+          "word": "bağlar.",
+          "startMs": 55980,
+          "endMs": 57250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-2",
+      "startMs": 57900,
+      "endMs": 63770,
+      "pauseAfterMs": 680,
+      "text": "Türk dünyası, tarih boyunca aynı dil ailesinden beslenen toplulukların yurdudur.",
+      "markedText": "Türk dünyası, tarih boyunca aynı dil ailesinden beslenen toplulukların yurdudur.",
+      "words": [
+        {
+          "word": "Türk",
+          "startMs": 57900,
+          "endMs": 58170
+        },
+        {
+          "word": "dünyası,",
+          "startMs": 58290,
+          "endMs": 58680
+        },
+        {
+          "word": "tarih",
+          "startMs": 58980,
+          "endMs": 59180
+        },
+        {
+          "word": "boyunca",
+          "startMs": 59180,
+          "endMs": 59440
+        },
+        {
+          "word": "aynı",
+          "startMs": 59550,
+          "endMs": 59820
+        },
+        {
+          "word": "dil",
+          "startMs": 59820,
+          "endMs": 60010
+        },
+        {
+          "word": "ailesinden",
+          "startMs": 60300,
+          "endMs": 60630
+        },
+        {
+          "word": "beslenen",
+          "startMs": 60630,
+          "endMs": 60920
+        },
+        {
+          "word": "toplulukların",
+          "startMs": 61060,
+          "endMs": 61870
+        },
+        {
+          "word": "yurdudur.",
+          "startMs": 62570,
+          "endMs": 63090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 63770,
+      "endMs": 72110,
+      "pauseAfterMs": 1040,
+      "text": "Kültürel iş birliği, bir ülkenin ötekinin bayramını, yemeğini ya da masalını birlikte tanımasıdır.",
+      "markedText": "Kültürel iş birliği, bir ülkenin ötekinin bayramını, yemeğini ya da masalını birlikte tanımasıdır.",
+      "words": [
+        {
+          "word": "Kültürel",
+          "startMs": 63770,
+          "endMs": 64330
+        },
+        {
+          "word": "iş",
+          "startMs": 64390,
+          "endMs": 64480
+        },
+        {
+          "word": "birliği,",
+          "startMs": 64730,
+          "endMs": 65360
+        },
+        {
+          "word": "bir",
+          "startMs": 65690,
+          "endMs": 65840
+        },
+        {
+          "word": "ülkenin",
+          "startMs": 65840,
+          "endMs": 66330
+        },
+        {
+          "word": "ötekinin",
+          "startMs": 66330,
+          "endMs": 66690
+        },
+        {
+          "word": "bayramını,",
+          "startMs": 66860,
+          "endMs": 66990
+        },
+        {
+          "word": "yemeğini",
+          "startMs": 67320,
+          "endMs": 67930
+        },
+        {
+          "word": "ya",
+          "startMs": 68000,
+          "endMs": 68170
+        },
+        {
+          "word": "da",
+          "startMs": 68320,
+          "endMs": 68510
+        },
+        {
+          "word": "masalını",
+          "startMs": 69340,
+          "endMs": 69780
+        },
+        {
+          "word": "birlikte",
+          "startMs": 69840,
+          "endMs": 70050
+        },
+        {
+          "word": "tanımasıdır.",
+          "startMs": 70210,
+          "endMs": 71070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 72110,
+      "endMs": 79960,
+      "pauseAfterMs": 690,
+      "text": "Ortak gelenek tek bir şehrin malı değildir; iki ülkede de yaşayan bir izdir.",
+      "markedText": "Ortak gelenek tek bir şehrin malı değildir; iki ülkede de yaşayan bir izdir.",
+      "words": [
+        {
+          "word": "Ortak",
+          "startMs": 72110,
+          "endMs": 72260
+        },
+        {
+          "word": "gelenek",
+          "startMs": 72410,
+          "endMs": 72840
+        },
+        {
+          "word": "tek",
+          "startMs": 73050,
+          "endMs": 73240
+        },
+        {
+          "word": "bir",
+          "startMs": 73310,
+          "endMs": 73400
+        },
+        {
+          "word": "şehrin",
+          "startMs": 73470,
+          "endMs": 73870
+        },
+        {
+          "word": "malı",
+          "startMs": 73870,
+          "endMs": 74240
+        },
+        {
+          "word": "değildir;",
+          "startMs": 74240,
+          "endMs": 75180
+        },
+        {
+          "word": "iki",
+          "startMs": 75790,
+          "endMs": 76010
+        },
+        {
+          "word": "ülkede",
+          "startMs": 76090,
+          "endMs": 76740
+        },
+        {
+          "word": "de",
+          "startMs": 77140,
+          "endMs": 77300
+        },
+        {
+          "word": "yaşayan",
+          "startMs": 77600,
+          "endMs": 78210
+        },
+        {
+          "word": "bir",
+          "startMs": 78300,
+          "endMs": 78440
+        },
+        {
+          "word": "izdir.",
+          "startMs": 78540,
+          "endMs": 79270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 79960,
+      "endMs": 88200,
+      "pauseAfterMs": 670,
+      "text": "Araştırma, bir geleneğin adını ve gününü iki yerde karşılaştırmaktır.",
+      "markedText": "Araştırma, bir geleneğin adını ve gününü iki yerde karşılaştırmaktır.",
+      "words": [
+        {
+          "word": "Araştırma,",
+          "startMs": 79960,
+          "endMs": 81120
+        },
+        {
+          "word": "bir",
+          "startMs": 81300,
+          "endMs": 81550
+        },
+        {
+          "word": "geleneğin",
+          "startMs": 82160,
+          "endMs": 82870
+        },
+        {
+          "word": "adını",
+          "startMs": 83050,
+          "endMs": 83630
+        },
+        {
+          "word": "ve",
+          "startMs": 83630,
+          "endMs": 83810
+        },
+        {
+          "word": "gününü",
+          "startMs": 83950,
+          "endMs": 84730
+        },
+        {
+          "word": "iki",
+          "startMs": 85100,
+          "endMs": 85530
+        },
+        {
+          "word": "yerde",
+          "startMs": 85650,
+          "endMs": 86010
+        },
+        {
+          "word": "karşılaştırmaktır.",
+          "startMs": 86310,
+          "endMs": 87530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 88200,
+      "endMs": 94510,
+      "pauseAfterMs": 730,
+      "text": "Tartışma ise «bu yalnız bize ait» demeden önce kanıta bakmaktır.",
+      "markedText": "Tartışma ise «bu yalnız bize ait» demeden önce kanıta bakmaktır.",
+      "words": [
+        {
+          "word": "Tartışma",
+          "startMs": 88200,
+          "endMs": 88690
+        },
+        {
+          "word": "ise",
+          "startMs": 88790,
+          "endMs": 89010
+        },
+        {
+          "word": "«bu",
+          "startMs": 89120,
+          "endMs": 89310
+        },
+        {
+          "word": "yalnız",
+          "startMs": 89460,
+          "endMs": 89810
+        },
+        {
+          "word": "bize",
+          "startMs": 89880,
+          "endMs": 90380
+        },
+        {
+          "word": "ait»",
+          "startMs": 90890,
+          "endMs": 91010
+        },
+        {
+          "word": "demeden",
+          "startMs": 91090,
+          "endMs": 91320
+        },
+        {
+          "word": "önce",
+          "startMs": 91430,
+          "endMs": 91720
+        },
+        {
+          "word": "kanıta",
+          "startMs": 92000,
+          "endMs": 92790
+        },
+        {
+          "word": "bakmaktır.",
+          "startMs": 93030,
+          "endMs": 93780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 94510,
+      "endMs": 103670,
+      "pauseAfterMs": 590,
+      "text": "Pratik kural: Önce haritada iki ülke seç, sonra bir geleneği araştır, en sonda ortak olanı söyle.",
+      "markedText": "Pratik kural: Önce haritada iki ülke seç, sonra bir geleneği araştır, en sonda ortak olanı söyle.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 94510,
+          "endMs": 94740
+        },
+        {
+          "word": "kural:",
+          "startMs": 94810,
+          "endMs": 95340
+        },
+        {
+          "word": "Önce",
+          "startMs": 95700,
+          "endMs": 96320
+        },
+        {
+          "word": "haritada",
+          "startMs": 97090,
+          "endMs": 97280
+        },
+        {
+          "word": "iki",
+          "startMs": 97400,
+          "endMs": 97530
+        },
+        {
+          "word": "ülke",
+          "startMs": 97620,
+          "endMs": 97860
+        },
+        {
+          "word": "seç,",
+          "startMs": 97900,
+          "endMs": 98290
+        },
+        {
+          "word": "sonra",
+          "startMs": 99240,
+          "endMs": 99790
+        },
+        {
+          "word": "bir",
+          "startMs": 99870,
+          "endMs": 100070
+        },
+        {
+          "word": "geleneği",
+          "startMs": 100550,
+          "endMs": 101080
+        },
+        {
+          "word": "araştır,",
+          "startMs": 101190,
+          "endMs": 101480
+        },
+        {
+          "word": "en",
+          "startMs": 101580,
+          "endMs": 101770
+        },
+        {
+          "word": "sonda",
+          "startMs": 101860,
+          "endMs": 102130
+        },
+        {
+          "word": "ortak",
+          "startMs": 102130,
+          "endMs": 102420
+        },
+        {
+          "word": "olanı",
+          "startMs": 102580,
+          "endMs": 102710
+        },
+        {
+          "word": "söyle.",
+          "startMs": 102810,
+          "endMs": 103080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 103670,
+      "endMs": 110650,
+      "pauseAfterMs": 1080,
+      "text": "Sınıf, haritada iki ülke seçer ve Nevruz gününü araştırır.",
+      "markedText": "Sınıf, haritada iki ülke seçer ve Nevruz gününü araştırır.",
+      "words": [
+        {
+          "word": "Sınıf,",
+          "startMs": 103670,
+          "endMs": 104070
+        },
+        {
+          "word": "haritada",
+          "startMs": 104310,
+          "endMs": 104760
+        },
+        {
+          "word": "iki",
+          "startMs": 104860,
+          "endMs": 105200
+        },
+        {
+          "word": "ülke",
+          "startMs": 105320,
+          "endMs": 105540
+        },
+        {
+          "word": "seçer",
+          "startMs": 105660,
+          "endMs": 106180
+        },
+        {
+          "word": "ve",
+          "startMs": 107080,
+          "endMs": 107240
+        },
+        {
+          "word": "Nevruz",
+          "startMs": 107380,
+          "endMs": 107790
+        },
+        {
+          "word": "gününü",
+          "startMs": 107980,
+          "endMs": 108440
+        },
+        {
+          "word": "araştırır.",
+          "startMs": 108440,
+          "endMs": 109570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 110650,
+      "endMs": 123030,
+      "pauseAfterMs": 960,
+      "text": "Bir ülkede buğday yeşertilir, ötekinde ateşin etrafında dönülür; ikisinde de baharın gelişi kutlanır.",
+      "markedText": "Bir ülkede buğday yeşertilir, ötekinde ateşin etrafında dönülür; ikisinde de baharın gelişi kutlanır.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 110650,
+          "endMs": 110750
+        },
+        {
+          "word": "ülkede",
+          "startMs": 110840,
+          "endMs": 111130
+        },
+        {
+          "word": "buğday",
+          "startMs": 111230,
+          "endMs": 111530
+        },
+        {
+          "word": "yeşertilir,",
+          "startMs": 111800,
+          "endMs": 112720
+        },
+        {
+          "word": "ötekinde",
+          "startMs": 113050,
+          "endMs": 113740
+        },
+        {
+          "word": "ateşin",
+          "startMs": 113830,
+          "endMs": 114740
+        },
+        {
+          "word": "etrafında",
+          "startMs": 115300,
+          "endMs": 115890
+        },
+        {
+          "word": "dönülür;",
+          "startMs": 116010,
+          "endMs": 116560
+        },
+        {
+          "word": "ikisinde",
+          "startMs": 117860,
+          "endMs": 118730
+        },
+        {
+          "word": "de",
+          "startMs": 119790,
+          "endMs": 119970
+        },
+        {
+          "word": "baharın",
+          "startMs": 120500,
+          "endMs": 120730
+        },
+        {
+          "word": "gelişi",
+          "startMs": 120860,
+          "endMs": 121290
+        },
+        {
+          "word": "kutlanır.",
+          "startMs": 121360,
+          "endMs": 122070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 123030,
+      "endMs": 135620,
+      "pauseAfterMs": 370,
+      "text": "Öğrenciler bulduklarını sırayla okur ve tartışır: hangi parça ortak, hangi parça yere göredir.",
+      "markedText": "Öğrenciler bulduklarını sırayla okur ve tartışır: hangi parça ortak, hangi parça yere göredir.",
+      "words": [
+        {
+          "word": "Öğrenciler",
+          "startMs": 123030,
+          "endMs": 123760
+        },
+        {
+          "word": "bulduklarını",
+          "startMs": 124030,
+          "endMs": 124960
+        },
+        {
+          "word": "sırayla",
+          "startMs": 125230,
+          "endMs": 126030
+        },
+        {
+          "word": "okur",
+          "startMs": 126160,
+          "endMs": 126690
+        },
+        {
+          "word": "ve",
+          "startMs": 127850,
+          "endMs": 127950
+        },
+        {
+          "word": "tartışır:",
+          "startMs": 128650,
+          "endMs": 129580
+        },
+        {
+          "word": "hangi",
+          "startMs": 129870,
+          "endMs": 130380
+        },
+        {
+          "word": "parça",
+          "startMs": 130670,
+          "endMs": 131130
+        },
+        {
+          "word": "ortak,",
+          "startMs": 131130,
+          "endMs": 132050
+        },
+        {
+          "word": "hangi",
+          "startMs": 133040,
+          "endMs": 133250
+        },
+        {
+          "word": "parça",
+          "startMs": 133810,
+          "endMs": 134300
+        },
+        {
+          "word": "yere",
+          "startMs": 134300,
+          "endMs": 134650
+        },
+        {
+          "word": "göredir.",
+          "startMs": 134780,
+          "endMs": 135250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 135620,
+      "endMs": 142350,
+      "pauseAfterMs": 1450,
+      "text": "Ortak parça kültürel iş birliğinin konusu olur.",
+      "markedText": "Ortak parça kültürel iş birliğinin konusu olur.",
+      "words": [
+        {
+          "word": "Ortak",
+          "startMs": 135620,
+          "endMs": 135920
+        },
+        {
+          "word": "parça",
+          "startMs": 135980,
+          "endMs": 136130
+        },
+        {
+          "word": "kültürel",
+          "startMs": 136350,
+          "endMs": 137000
+        },
+        {
+          "word": "iş",
+          "startMs": 138160,
+          "endMs": 138380
+        },
+        {
+          "word": "birliğinin",
+          "startMs": 138380,
+          "endMs": 139510
+        },
+        {
+          "word": "konusu",
+          "startMs": 139880,
+          "endMs": 140340
+        },
+        {
+          "word": "olur.",
+          "startMs": 140340,
+          "endMs": 140900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 142350,
+      "endMs": 149520,
+      "pauseAfterMs": 250,
+      "text": "Farklı parça ise iş birliğini bozmaz; zenginleştirir.",
+      "markedText": "Farklı parça ise iş birliğini bozmaz; zenginleştirir.",
+      "words": [
+        {
+          "word": "Farklı",
+          "startMs": 142350,
+          "endMs": 143190
+        },
+        {
+          "word": "parça",
+          "startMs": 143190,
+          "endMs": 143810
+        },
+        {
+          "word": "ise",
+          "startMs": 144160,
+          "endMs": 144450
+        },
+        {
+          "word": "iş",
+          "startMs": 144570,
+          "endMs": 144790
+        },
+        {
+          "word": "birliğini",
+          "startMs": 145070,
+          "endMs": 146150
+        },
+        {
+          "word": "bozmaz;",
+          "startMs": 146400,
+          "endMs": 147200
+        },
+        {
+          "word": "zenginleştirir.",
+          "startMs": 148370,
+          "endMs": 149270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 149520,
+      "endMs": 152010,
+      "pauseAfterMs": 1080,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 149520,
+          "endMs": 149840
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 150140,
+          "endMs": 150930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 152010,
+      "endMs": 155340,
+      "pauseAfterMs": 1080,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 152010,
+          "endMs": 152710
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 153390,
+          "endMs": 154260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 155340,
+      "endMs": 159660,
+      "pauseAfterMs": 1330,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 155340,
+          "endMs": 155620
+        },
+        {
+          "word": "noktayı",
+          "startMs": 155620,
+          "endMs": 156350
+        },
+        {
+          "word": "sen",
+          "startMs": 156610,
+          "endMs": 156890
+        },
+        {
+          "word": "de",
+          "startMs": 156980,
+          "endMs": 157140
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 157140,
+          "endMs": 158330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 159660,
+      "endMs": 166760,
+      "pauseAfterMs": 1310,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 159660,
+          "endMs": 160060
+        },
+        {
+          "word": "sevgili",
+          "startMs": 160320,
+          "endMs": 160730
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 160730,
+          "endMs": 161800
+        },
+        {
+          "word": "işte",
+          "startMs": 162930,
+          "endMs": 163130
+        },
+        {
+          "word": "tam",
+          "startMs": 163130,
+          "endMs": 163370
+        },
+        {
+          "word": "bu",
+          "startMs": 163510,
+          "endMs": 163660
+        },
+        {
+          "word": "noktada",
+          "startMs": 163660,
+          "endMs": 164030
+        },
+        {
+          "word": "dikkat",
+          "startMs": 164200,
+          "endMs": 164410
+        },
+        {
+          "word": "etmen",
+          "startMs": 164410,
+          "endMs": 164620
+        },
+        {
+          "word": "gereken",
+          "startMs": 164730,
+          "endMs": 164920
+        },
+        {
+          "word": "kilit",
+          "startMs": 164920,
+          "endMs": 165130
+        },
+        {
+          "word": "nokta.",
+          "startMs": 165180,
+          "endMs": 165450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 166760,
+      "endMs": 172480,
+      "pauseAfterMs": 870,
+      "text": "Ortak geleneği tek ülkenin icadı sanmak tuzaktır.",
+      "markedText": "Ortak geleneği tek ülkenin icadı sanmak tuzaktır.",
+      "words": [
+        {
+          "word": "Ortak",
+          "startMs": 166760,
+          "endMs": 167050
+        },
+        {
+          "word": "geleneği",
+          "startMs": 167100,
+          "endMs": 168090
+        },
+        {
+          "word": "tek",
+          "startMs": 168900,
+          "endMs": 169010
+        },
+        {
+          "word": "ülkenin",
+          "startMs": 169100,
+          "endMs": 169730
+        },
+        {
+          "word": "icadı",
+          "startMs": 169990,
+          "endMs": 170200
+        },
+        {
+          "word": "sanmak",
+          "startMs": 170350,
+          "endMs": 170690
+        },
+        {
+          "word": "tuzaktır.",
+          "startMs": 170750,
+          "endMs": 171610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 172480,
+      "endMs": 178910,
+      "pauseAfterMs": 1220,
+      "text": "İş birliği, ötekinin farkını silmek de değildir.",
+      "markedText": "İş birliği, ötekinin farkını silmek de değildir.",
+      "words": [
+        {
+          "word": "İş",
+          "startMs": 172480,
+          "endMs": 172620
+        },
+        {
+          "word": "birliği,",
+          "startMs": 172880,
+          "endMs": 174070
+        },
+        {
+          "word": "ötekinin",
+          "startMs": 175380,
+          "endMs": 176120
+        },
+        {
+          "word": "farkını",
+          "startMs": 176220,
+          "endMs": 176500
+        },
+        {
+          "word": "silmek",
+          "startMs": 176740,
+          "endMs": 177000
+        },
+        {
+          "word": "de",
+          "startMs": 177060,
+          "endMs": 177180
+        },
+        {
+          "word": "değildir.",
+          "startMs": 177180,
+          "endMs": 177690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 178910,
+      "endMs": 186310,
+      "pauseAfterMs": 1200,
+      "text": "Araştırmadan «hepsi aynı» demek de eksik kalır.",
+      "markedText": "Araştırmadan «hepsi aynı» demek de eksik kalır.",
+      "words": [
+        {
+          "word": "Araştırmadan",
+          "startMs": 178910,
+          "endMs": 180360
+        },
+        {
+          "word": "«hepsi",
+          "startMs": 180510,
+          "endMs": 181610
+        },
+        {
+          "word": "aynı»",
+          "startMs": 182580,
+          "endMs": 183060
+        },
+        {
+          "word": "demek",
+          "startMs": 183200,
+          "endMs": 183450
+        },
+        {
+          "word": "de",
+          "startMs": 183710,
+          "endMs": 183850
+        },
+        {
+          "word": "eksik",
+          "startMs": 183940,
+          "endMs": 184250
+        },
+        {
+          "word": "kalır.",
+          "startMs": 184340,
+          "endMs": 185110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 186310,
+      "endMs": 195920,
+      "pauseAfterMs": 1080,
+      "text": "Türk dünyasıyla kültürel iş birliğinde kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Türk dünyasıyla kültürel iş birliğinde kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Türk",
+          "startMs": 186310,
+          "endMs": 186430
+        },
+        {
+          "word": "dünyasıyla",
+          "startMs": 186430,
+          "endMs": 186980
+        },
+        {
+          "word": "kültürel",
+          "startMs": 187070,
+          "endMs": 187690
+        },
+        {
+          "word": "iş",
+          "startMs": 188040,
+          "endMs": 188120
+        },
+        {
+          "word": "birliğinde",
+          "startMs": 188120,
+          "endMs": 189210
+        },
+        {
+          "word": "kuralın",
+          "startMs": 190580,
+          "endMs": 191100
+        },
+        {
+          "word": "tersini",
+          "startMs": 191160,
+          "endMs": 191850
+        },
+        {
+          "word": "sanmak",
+          "startMs": 192010,
+          "endMs": 192360
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 192450,
+          "endMs": 193030
+        },
+        {
+          "word": "ters",
+          "startMs": 193340,
+          "endMs": 193490
+        },
+        {
+          "word": "cümle",
+          "startMs": 193490,
+          "endMs": 193870
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 193870,
+          "endMs": 194840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 195920,
+      "endMs": 199540,
+      "pauseAfterMs": 1240,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 195920,
+          "endMs": 196500
+        },
+        {
+          "word": "Neler",
+          "startMs": 196800,
+          "endMs": 197360
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 197360,
+          "endMs": 198300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 199540,
+      "endMs": 199720,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 199540,
+          "endMs": 199720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 199720,
+      "endMs": 207470,
+      "pauseAfterMs": 1050,
+      "text": "Türk dünyası, ortak dil ve kültür izi taşıyan yurtların adıdır.",
+      "markedText": "Türk dünyası, ortak dil ve kültür izi taşıyan yurtların adıdır.",
+      "words": [
+        {
+          "word": "Türk",
+          "startMs": 199720,
+          "endMs": 199880
+        },
+        {
+          "word": "dünyası,",
+          "startMs": 199930,
+          "endMs": 200200
+        },
+        {
+          "word": "ortak",
+          "startMs": 200500,
+          "endMs": 200830
+        },
+        {
+          "word": "dil",
+          "startMs": 200900,
+          "endMs": 201280
+        },
+        {
+          "word": "ve",
+          "startMs": 201410,
+          "endMs": 201760
+        },
+        {
+          "word": "kültür",
+          "startMs": 202240,
+          "endMs": 202600
+        },
+        {
+          "word": "izi",
+          "startMs": 202680,
+          "endMs": 203060
+        },
+        {
+          "word": "taşıyan",
+          "startMs": 204210,
+          "endMs": 204790
+        },
+        {
+          "word": "yurtların",
+          "startMs": 204850,
+          "endMs": 205400
+        },
+        {
+          "word": "adıdır.",
+          "startMs": 205510,
+          "endMs": 206420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 207470,
+      "endMs": 207940,
+      "pauseAfterMs": 330,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 207470,
+          "endMs": 207610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 207940,
+      "endMs": 216640,
+      "pauseAfterMs": 860,
+      "text": "Kültürel iş birliği, bir geleneği iki yerde birlikte tanımaktır.",
+      "markedText": "Kültürel iş birliği, bir geleneği iki yerde birlikte tanımaktır.",
+      "words": [
+        {
+          "word": "Kültürel",
+          "startMs": 207940,
+          "endMs": 208220
+        },
+        {
+          "word": "iş",
+          "startMs": 208330,
+          "endMs": 208450
+        },
+        {
+          "word": "birliği,",
+          "startMs": 208530,
+          "endMs": 209090
+        },
+        {
+          "word": "bir",
+          "startMs": 210200,
+          "endMs": 210660
+        },
+        {
+          "word": "geleneği",
+          "startMs": 210660,
+          "endMs": 211380
+        },
+        {
+          "word": "iki",
+          "startMs": 211770,
+          "endMs": 211990
+        },
+        {
+          "word": "yerde",
+          "startMs": 212070,
+          "endMs": 212400
+        },
+        {
+          "word": "birlikte",
+          "startMs": 212600,
+          "endMs": 213090
+        },
+        {
+          "word": "tanımaktır.",
+          "startMs": 214350,
+          "endMs": 215780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 216640,
+      "endMs": 216820,
+      "pauseAfterMs": 100,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 216640,
+          "endMs": 216720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 216820,
+      "endMs": 222790,
+      "pauseAfterMs": 410,
+      "text": "Araştırma ortak parçayı, tartışma farkı ayırır.",
+      "markedText": "Araştırma ortak parçayı, tartışma farkı ayırır.",
+      "words": [
+        {
+          "word": "Araştırma",
+          "startMs": 216820,
+          "endMs": 217930
+        },
+        {
+          "word": "ortak",
+          "startMs": 218110,
+          "endMs": 218430
+        },
+        {
+          "word": "parçayı,",
+          "startMs": 218600,
+          "endMs": 219820
+        },
+        {
+          "word": "tartışma",
+          "startMs": 220520,
+          "endMs": 220890
+        },
+        {
+          "word": "farkı",
+          "startMs": 220990,
+          "endMs": 221370
+        },
+        {
+          "word": "ayırır.",
+          "startMs": 221510,
+          "endMs": 222380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 222790,
+      "endMs": 232280,
+      "pauseAfterMs": 830,
+      "text": "Kültürel iş birliği, ortak geleneği iki yerde birlikte tanımaktır.",
+      "markedText": "Kültürel iş birliği, ortak geleneği iki yerde birlikte tanımaktır.",
+      "words": [
+        {
+          "word": "Kültürel",
+          "startMs": 222790,
+          "endMs": 223330
+        },
+        {
+          "word": "iş",
+          "startMs": 223330,
+          "endMs": 223600
+        },
+        {
+          "word": "birliği,",
+          "startMs": 223600,
+          "endMs": 224360
+        },
+        {
+          "word": "ortak",
+          "startMs": 225510,
+          "endMs": 225960
+        },
+        {
+          "word": "geleneği",
+          "startMs": 226070,
+          "endMs": 226780
+        },
+        {
+          "word": "iki",
+          "startMs": 227080,
+          "endMs": 227340
+        },
+        {
+          "word": "yerde",
+          "startMs": 228090,
+          "endMs": 228560
+        },
+        {
+          "word": "birlikte",
+          "startMs": 228560,
+          "endMs": 229920
+        },
+        {
+          "word": "tanımaktır.",
+          "startMs": 230270,
+          "endMs": 231450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 232280,
+      "endMs": 239420,
+      "pauseAfterMs": 850,
+      "text": "Bir geleneğin iki ülkede ortak olan parçasını söylersin.",
+      "markedText": "Bir geleneğin iki ülkede ortak olan parçasını söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 232280,
+          "endMs": 232470
+        },
+        {
+          "word": "geleneğin",
+          "startMs": 232520,
+          "endMs": 233290
+        },
+        {
+          "word": "iki",
+          "startMs": 233440,
+          "endMs": 233720
+        },
+        {
+          "word": "ülkede",
+          "startMs": 234580,
+          "endMs": 234920
+        },
+        {
+          "word": "ortak",
+          "startMs": 235230,
+          "endMs": 235630
+        },
+        {
+          "word": "olan",
+          "startMs": 236270,
+          "endMs": 236690
+        },
+        {
+          "word": "parçasını",
+          "startMs": 236820,
+          "endMs": 237450
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 237610,
+          "endMs": 238570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 239420,
+      "endMs": 241750,
+      "pauseAfterMs": 660,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 239420,
+          "endMs": 240070
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 240160,
+          "endMs": 241090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 241750,
+      "endMs": 245500,
+      "pauseAfterMs": 950,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 241750,
+          "endMs": 242260
+        },
+        {
+          "word": "bir",
+          "startMs": 242530,
+          "endMs": 243060
+        },
+        {
+          "word": "iş",
+          "startMs": 243120,
+          "endMs": 243190
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 243270,
+          "endMs": 244550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 245500,
+      "endMs": 246750,
+      "pauseAfterMs": 400,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 245500,
+          "endMs": 245710
+        },
+        {
+          "word": "sıra",
+          "startMs": 245780,
+          "endMs": 245950
+        },
+        {
+          "word": "sende.",
+          "startMs": 245950,
+          "endMs": 246350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 246750,
+      "endMs": 252714,
+      "pauseAfterMs": 434,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 246750,
+          "endMs": 247310
+        },
+        {
+          "word": "bu",
+          "startMs": 247480,
+          "endMs": 247730
+        },
+        {
+          "word": "notları",
+          "startMs": 248300,
+          "endMs": 249080
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 249640,
+          "endMs": 250290
+        },
+        {
+          "word": "kendi",
+          "startMs": 250420,
+          "endMs": 250790
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 250860,
+          "endMs": 251680
+        },
+        {
+          "word": "anlat.",
+          "startMs": 251770,
+          "endMs": 252280
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

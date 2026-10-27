@@ -14,6 +14,11 @@ import {
   type JWTVerifyOptions,
 } from "jose";
 import { isSupabaseUserId } from "@/lib/kernel/auth/ids";
+import {
+  CANONICAL_SUPER_ADMIN_EMAIL_DEFAULT,
+  isCanonicalSuperAdminEmail,
+  normalizeAccountEmail,
+} from "@/lib/kernel/auth/super-admin";
 import { isFrozenShellPagePath } from "@/lib/kernel/compliance/circuit-breakers";
 import { isApiV1Pathname } from "@/lib/kernel/http/api-v1";
 import {
@@ -210,14 +215,80 @@ function claimsAreAuthenticated(payload: JWTPayload): boolean {
   return payload["role"] === "authenticated";
 }
 
-function emailFromPayload(payload: JWTPayload): string | null {
-  const raw = payload.email;
+function nestedClaim(payload: JWTPayload, key: "email" | "email_confirmed_at"): string | null {
+  const meta = payload.user_metadata;
+  if (!meta || typeof meta !== "object") {
+    return null;
+  }
+  const raw = (meta as { email?: unknown; email_confirmed_at?: unknown })[key];
   return typeof raw === "string" && raw.trim() ? raw.trim() : null;
 }
 
+function booleanEmailVerified(payload: JWTPayload): boolean {
+  if ((payload as { email_verified?: unknown }).email_verified === true) {
+    return true;
+  }
+  const userMeta = payload.user_metadata;
+  if (
+    userMeta &&
+    typeof userMeta === "object" &&
+    (userMeta as { email_verified?: unknown }).email_verified === true
+  ) {
+    return true;
+  }
+  const appMeta = payload.app_metadata;
+  if (
+    appMeta &&
+    typeof appMeta === "object" &&
+    (appMeta as { email_verified?: unknown }).email_verified === true
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function emailFromPayload(payload: JWTPayload): string | null {
+  const raw = payload.email;
+  if (typeof raw === "string" && raw.trim()) {
+    return raw.trim();
+  }
+  return nestedClaim(payload, "email");
+}
+
+/**
+ * Supabase access token her sürümde `email_confirmed_at` taşımaz; GoTrue v2 sıklıkla
+ * `user_metadata.email_verified: true` veya `confirmed_at` yazar.
+ * Ayrıca imzası doğrulanmış `authenticated` JWT içinde kanonik Super Admin e-postası
+ * (`yapinet360@gmail.com` veya `CANONICAL_SUPER_ADMIN_EMAIL`) yer alıyorsa Edge katmanında
+ * claim eksikliği nedeniyle yetki düşüşü yaşanmaz (üretimde `SUPER_ADMIN_USER_ID` kilidi `isSuperAdminActor` içinde korunur).
+ */
 function emailConfirmedAtFromPayload(payload: JWTPayload): string | null {
   const raw = payload.email_confirmed_at;
-  return typeof raw === "string" && raw.trim() ? raw.trim() : null;
+  if (typeof raw === "string" && raw.trim()) {
+    return raw.trim();
+  }
+  const confirmedAt = (payload as { confirmed_at?: unknown }).confirmed_at;
+  if (typeof confirmedAt === "string" && confirmedAt.trim()) {
+    return confirmedAt.trim();
+  }
+  const nested = nestedClaim(payload, "email_confirmed_at");
+  if (nested) {
+    return nested;
+  }
+  const fallbackIso =
+    typeof payload.iat === "number" ? new Date(payload.iat * 1000).toISOString() : "jwt:verified";
+  if (booleanEmailVerified(payload)) {
+    return fallbackIso;
+  }
+  const email = emailFromPayload(payload);
+  if (
+    email &&
+    (isCanonicalSuperAdminEmail(email) ||
+      normalizeAccountEmail(email) === CANONICAL_SUPER_ADMIN_EMAIL_DEFAULT)
+  ) {
+    return fallbackIso;
+  }
+  return null;
 }
 
 function actorFromPayload(

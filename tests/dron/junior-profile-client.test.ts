@@ -30,7 +30,9 @@ describe("Native Junior profil masası", () => {
     expect(assertRailIsDay0Path(juniorPilotProfilesPath(), "PUT")).toBe("/api/v1/junior-pilot/profiles");
     expect(assertRailIsDay0Path(juniorPilotProfilesPath(), "DELETE")).toBe("/api/v1/junior-pilot/profiles");
     expect(assertRailIsDay0Path(juniorPilotElectivesPath(), "POST")).toBe("/api/v1/junior-pilot/electives");
-    expect(() => assertRailIsDay0Path("/api/v1/junior-pilot/checkout", "POST")).toThrow(/allowlist/);
+    expect(assertRailIsDay0Path("/api/v1/junior-pilot/checkout", "POST")).toBe(
+      "/api/v1/junior-pilot/checkout",
+    );
     expect(() => assertRailIsDay0Path("/api/v1/junior-pilot/grade", "POST")).toThrow(/allowlist/);
 
     const screen = readFileSync(

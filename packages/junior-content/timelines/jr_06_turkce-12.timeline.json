@@ -1,0 +1,2701 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_turkce-12",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Metin türleri",
+  "grade": 6,
+  "subject": "Türkçe",
+  "teacher": {
+    "name": "Elif",
+    "voice": "Aoede",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_turkce-12.mp3",
+    "durationMs": 396394,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 84590
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 84590,
+      "endMs": 338070
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 338070,
+      "endMs": 396394
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4270,
+      "pauseAfterMs": 830,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 300,
+          "endMs": 720
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 720,
+          "endMs": 1300
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 1990,
+          "endMs": 2210
+        },
+        {
+          "word": "hoş",
+          "startMs": 2440,
+          "endMs": 2730
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 2820,
+          "endMs": 3440
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Metin türleri",
+            "subtitle": "Türkçe",
+            "ruleBadges": [],
+            "echoPrompt": "Bir metnin hikâye, anı, mektup, tiyatro veya gezi yazısı olduğunu söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Hikâye kurmaca olayları, anı ise yazarın bizzat yaşadığı geçmişi anlatır."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Mektupta hitap ve tarih, tiyatroda ise sahnede konuşma ve diyaloglar bulunur."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Gezi yazısı, gezilen yerleri yazarın gözlem ve izlenimleriyle aktarır."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4270,
+      "endMs": 8870,
+      "pauseAfterMs": 580,
+      "text": "Ben Türkçe öğretmenin Elif.",
+      "markedText": "Ben Türkçe öğretmenin Elif.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4270,
+          "endMs": 4710
+        },
+        {
+          "word": "Türkçe",
+          "startMs": 5220,
+          "endMs": 5910
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6100,
+          "endMs": 7310
+        },
+        {
+          "word": "Elif.",
+          "startMs": 7450,
+          "endMs": 8290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8870,
+      "endMs": 14700,
+      "pauseAfterMs": 530,
+      "text": "Kütüphanelerin raflarını süsleyen birbirinden farklı metin türlerinin kapısını aralayacağız.",
+      "markedText": "Kütüphanelerin raflarını süsleyen birbirinden farklı metin türlerinin kapısını aralayacağız.",
+      "words": [
+        {
+          "word": "Kütüphanelerin",
+          "startMs": 8870,
+          "endMs": 9980
+        },
+        {
+          "word": "raflarını",
+          "startMs": 9980,
+          "endMs": 10540
+        },
+        {
+          "word": "süsleyen",
+          "startMs": 10540,
+          "endMs": 11110
+        },
+        {
+          "word": "birbirinden",
+          "startMs": 11250,
+          "endMs": 11770
+        },
+        {
+          "word": "farklı",
+          "startMs": 11770,
+          "endMs": 12150
+        },
+        {
+          "word": "metin",
+          "startMs": 12250,
+          "endMs": 12460
+        },
+        {
+          "word": "türlerinin",
+          "startMs": 12540,
+          "endMs": 13140
+        },
+        {
+          "word": "kapısını",
+          "startMs": 13140,
+          "endMs": 13600
+        },
+        {
+          "word": "aralayacağız.",
+          "startMs": 13600,
+          "endMs": 14170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 14700,
+      "endMs": 35910,
+      "pauseAfterMs": 640,
+      "text": "Hiç bir kitapta sevgili arkadaşım diye başlayan sıcak bir mektupla, sahnede karşılıklı konuşan karakterlerin yer aldığı bir tiyatro metninin farkını merak ettin mi?",
+      "markedText": "Hiç bir kitapta sevgili arkadaşım diye başlayan sıcak bir mektupla, sahnede karşılıklı konuşan karakterlerin yer aldığı bir tiyatro metninin farkını merak ettin mi?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 14700,
+          "endMs": 14830
+        },
+        {
+          "word": "bir",
+          "startMs": 15380,
+          "endMs": 15460
+        },
+        {
+          "word": "kitapta",
+          "startMs": 15660,
+          "endMs": 16410
+        },
+        {
+          "word": "sevgili",
+          "startMs": 16720,
+          "endMs": 17020
+        },
+        {
+          "word": "arkadaşım",
+          "startMs": 17020,
+          "endMs": 17750
+        },
+        {
+          "word": "diye",
+          "startMs": 17950,
+          "endMs": 18250
+        },
+        {
+          "word": "başlayan",
+          "startMs": 18410,
+          "endMs": 19850
+        },
+        {
+          "word": "sıcak",
+          "startMs": 20290,
+          "endMs": 20670
+        },
+        {
+          "word": "bir",
+          "startMs": 20730,
+          "endMs": 21090
+        },
+        {
+          "word": "mektupla,",
+          "startMs": 21180,
+          "endMs": 21930
+        },
+        {
+          "word": "sahnede",
+          "startMs": 22040,
+          "endMs": 22930
+        },
+        {
+          "word": "karşılıklı",
+          "startMs": 23210,
+          "endMs": 25180
+        },
+        {
+          "word": "konuşan",
+          "startMs": 25850,
+          "endMs": 26610
+        },
+        {
+          "word": "karakterlerin",
+          "startMs": 26680,
+          "endMs": 28230
+        },
+        {
+          "word": "yer",
+          "startMs": 28470,
+          "endMs": 28610
+        },
+        {
+          "word": "aldığı",
+          "startMs": 28860,
+          "endMs": 29510
+        },
+        {
+          "word": "bir",
+          "startMs": 29510,
+          "endMs": 29890
+        },
+        {
+          "word": "tiyatro",
+          "startMs": 30140,
+          "endMs": 31030
+        },
+        {
+          "word": "metninin",
+          "startMs": 31880,
+          "endMs": 32450
+        },
+        {
+          "word": "farkını",
+          "startMs": 32670,
+          "endMs": 33490
+        },
+        {
+          "word": "merak",
+          "startMs": 33490,
+          "endMs": 34030
+        },
+        {
+          "word": "ettin",
+          "startMs": 34110,
+          "endMs": 34490
+        },
+        {
+          "word": "mi?",
+          "startMs": 34940,
+          "endMs": 35270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 35910,
+      "endMs": 42790,
+      "pauseAfterMs": 410,
+      "text": "Hikâye, anı, mektup, tiyatro ve gezi yazısını ayırt edeceğiz.",
+      "markedText": "Hikâye, anı, mektup, tiyatro ve gezi yazısını ayırt edeceğiz.",
+      "words": [
+        {
+          "word": "Hikâye,",
+          "startMs": 35910,
+          "endMs": 36340
+        },
+        {
+          "word": "anı,",
+          "startMs": 36510,
+          "endMs": 36800
+        },
+        {
+          "word": "mektup,",
+          "startMs": 37180,
+          "endMs": 38070
+        },
+        {
+          "word": "tiyatro",
+          "startMs": 38450,
+          "endMs": 38910
+        },
+        {
+          "word": "ve",
+          "startMs": 38910,
+          "endMs": 39060
+        },
+        {
+          "word": "gezi",
+          "startMs": 39240,
+          "endMs": 39630
+        },
+        {
+          "word": "yazısını",
+          "startMs": 39780,
+          "endMs": 40560
+        },
+        {
+          "word": "ayırt",
+          "startMs": 40830,
+          "endMs": 41490
+        },
+        {
+          "word": "edeceğiz.",
+          "startMs": 41630,
+          "endMs": 42380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 42790,
+      "endMs": 51080,
+      "pauseAfterMs": 390,
+      "text": "Her metin türü, yazarın dünyayı bize anlatış biçimidir.",
+      "markedText": "Her metin türü, yazarın dünyayı bize anlatış biçimidir.",
+      "words": [
+        {
+          "word": "Her",
+          "startMs": 42790,
+          "endMs": 42960
+        },
+        {
+          "word": "metin",
+          "startMs": 43150,
+          "endMs": 43760
+        },
+        {
+          "word": "türü,",
+          "startMs": 43920,
+          "endMs": 44940
+        },
+        {
+          "word": "yazarın",
+          "startMs": 45210,
+          "endMs": 45680
+        },
+        {
+          "word": "dünyayı",
+          "startMs": 45820,
+          "endMs": 46810
+        },
+        {
+          "word": "bize",
+          "startMs": 46920,
+          "endMs": 47700
+        },
+        {
+          "word": "anlatış",
+          "startMs": 48000,
+          "endMs": 49070
+        },
+        {
+          "word": "biçimidir.",
+          "startMs": 49720,
+          "endMs": 50690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 51080,
+      "endMs": 59020,
+      "pauseAfterMs": 330,
+      "text": "Tatilde gittiğin bir şehri ve hayran kaldığın müzeleri yazarsan bu bir gezi yazısı olur.",
+      "markedText": "Tatilde gittiğin bir şehri ve hayran kaldığın müzeleri yazarsan bu bir gezi yazısı olur.",
+      "words": [
+        {
+          "word": "Tatilde",
+          "startMs": 51080,
+          "endMs": 51510
+        },
+        {
+          "word": "gittiğin",
+          "startMs": 51510,
+          "endMs": 52030
+        },
+        {
+          "word": "bir",
+          "startMs": 52030,
+          "endMs": 52300
+        },
+        {
+          "word": "şehri",
+          "startMs": 52420,
+          "endMs": 52950
+        },
+        {
+          "word": "ve",
+          "startMs": 53370,
+          "endMs": 53540
+        },
+        {
+          "word": "hayran",
+          "startMs": 53720,
+          "endMs": 54470
+        },
+        {
+          "word": "kaldığın",
+          "startMs": 54640,
+          "endMs": 55420
+        },
+        {
+          "word": "müzeleri",
+          "startMs": 55700,
+          "endMs": 56360
+        },
+        {
+          "word": "yazarsan",
+          "startMs": 56430,
+          "endMs": 56980
+        },
+        {
+          "word": "bu",
+          "startMs": 57030,
+          "endMs": 57230
+        },
+        {
+          "word": "bir",
+          "startMs": 57230,
+          "endMs": 57440
+        },
+        {
+          "word": "gezi",
+          "startMs": 57540,
+          "endMs": 57900
+        },
+        {
+          "word": "yazısı",
+          "startMs": 58000,
+          "endMs": 58400
+        },
+        {
+          "word": "olur.",
+          "startMs": 58470,
+          "endMs": 58690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 59020,
+      "endMs": 66660,
+      "pauseAfterMs": 350,
+      "text": "Yıllar önce bisikletten düştüğün günü yazarsan bu bir anı olur.",
+      "markedText": "Yıllar önce bisikletten düştüğün günü yazarsan bu bir anı olur.",
+      "words": [
+        {
+          "word": "Yıllar",
+          "startMs": 59020,
+          "endMs": 59610
+        },
+        {
+          "word": "önce",
+          "startMs": 59660,
+          "endMs": 60070
+        },
+        {
+          "word": "bisikletten",
+          "startMs": 60410,
+          "endMs": 61030
+        },
+        {
+          "word": "düştüğün",
+          "startMs": 61320,
+          "endMs": 62540
+        },
+        {
+          "word": "günü",
+          "startMs": 62780,
+          "endMs": 63070
+        },
+        {
+          "word": "yazarsan",
+          "startMs": 63370,
+          "endMs": 64020
+        },
+        {
+          "word": "bu",
+          "startMs": 64020,
+          "endMs": 64090
+        },
+        {
+          "word": "bir",
+          "startMs": 64200,
+          "endMs": 64430
+        },
+        {
+          "word": "anı",
+          "startMs": 64430,
+          "endMs": 65130
+        },
+        {
+          "word": "olur.",
+          "startMs": 65900,
+          "endMs": 66310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 66660,
+      "endMs": 73910,
+      "pauseAfterMs": 800,
+      "text": "Arkadaşına doğum gününde güzel dileklerini ilettiğin bir not mektuptur.",
+      "markedText": "Arkadaşına doğum gününde güzel dileklerini ilettiğin bir not mektuptur.",
+      "words": [
+        {
+          "word": "Arkadaşına",
+          "startMs": 66660,
+          "endMs": 67290
+        },
+        {
+          "word": "doğum",
+          "startMs": 67570,
+          "endMs": 67980
+        },
+        {
+          "word": "gününde",
+          "startMs": 68040,
+          "endMs": 68680
+        },
+        {
+          "word": "güzel",
+          "startMs": 69460,
+          "endMs": 69700
+        },
+        {
+          "word": "dileklerini",
+          "startMs": 70000,
+          "endMs": 70600
+        },
+        {
+          "word": "ilettiğin",
+          "startMs": 70820,
+          "endMs": 71270
+        },
+        {
+          "word": "bir",
+          "startMs": 71510,
+          "endMs": 71840
+        },
+        {
+          "word": "not",
+          "startMs": 71930,
+          "endMs": 72180
+        },
+        {
+          "word": "mektuptur.",
+          "startMs": 72290,
+          "endMs": 73110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 73910,
+      "endMs": 84590,
+      "pauseAfterMs": 510,
+      "text": "Okul müsamerelerinde sahnede canlandırdığınız piyes ise bir tiyatrodur.",
+      "markedText": "Okul müsamerelerinde sahnede canlandırdığınız piyes ise bir tiyatrodur.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 73910,
+          "endMs": 74410
+        },
+        {
+          "word": "müsamerelerinde",
+          "startMs": 74710,
+          "endMs": 76080
+        },
+        {
+          "word": "sahnede",
+          "startMs": 76480,
+          "endMs": 77230
+        },
+        {
+          "word": "canlandırdığınız",
+          "startMs": 78010,
+          "endMs": 79980
+        },
+        {
+          "word": "piyes",
+          "startMs": 80260,
+          "endMs": 81310
+        },
+        {
+          "word": "ise",
+          "startMs": 82010,
+          "endMs": 82230
+        },
+        {
+          "word": "bir",
+          "startMs": 82390,
+          "endMs": 82700
+        },
+        {
+          "word": "tiyatrodur.",
+          "startMs": 82840,
+          "endMs": 84080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 84590,
+      "endMs": 94460,
+      "pauseAfterMs": 1370,
+      "text": "Metinler yazılış amaçlarına ve biçimlerine göre türlere ayrılır.",
+      "markedText": "Metinler yazılış amaçlarına ve biçimlerine göre türlere ayrılır.",
+      "words": [
+        {
+          "word": "Metinler",
+          "startMs": 84590,
+          "endMs": 85410
+        },
+        {
+          "word": "yazılış",
+          "startMs": 85550,
+          "endMs": 86560
+        },
+        {
+          "word": "amaçlarına",
+          "startMs": 87090,
+          "endMs": 88230
+        },
+        {
+          "word": "ve",
+          "startMs": 88230,
+          "endMs": 88390
+        },
+        {
+          "word": "biçimlerine",
+          "startMs": 88390,
+          "endMs": 90080
+        },
+        {
+          "word": "göre",
+          "startMs": 91030,
+          "endMs": 91220
+        },
+        {
+          "word": "türlere",
+          "startMs": 91220,
+          "endMs": 91870
+        },
+        {
+          "word": "ayrılır.",
+          "startMs": 92200,
+          "endMs": 93090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 94460,
+      "endMs": 113250,
+      "pauseAfterMs": 1090,
+      "text": "Hikâye yani öykü; yaşanmış ya da yaşanması mümkün olayların yer, zaman ve kişi unsurlarına bağlanarak kurmaca bir dünyayla anlatılmasıdır.",
+      "markedText": "Hikâye yani öykü; yaşanmış ya da yaşanması mümkün olayların yer, zaman ve kişi unsurlarına bağlanarak kurmaca bir dünyayla anlatılmasıdır.",
+      "words": [
+        {
+          "word": "Hikâye",
+          "startMs": 94460,
+          "endMs": 94690
+        },
+        {
+          "word": "yani",
+          "startMs": 94780,
+          "endMs": 95080
+        },
+        {
+          "word": "öykü;",
+          "startMs": 95190,
+          "endMs": 95740
+        },
+        {
+          "word": "yaşanmış",
+          "startMs": 96770,
+          "endMs": 97390
+        },
+        {
+          "word": "ya",
+          "startMs": 97850,
+          "endMs": 98060
+        },
+        {
+          "word": "da",
+          "startMs": 98060,
+          "endMs": 98260
+        },
+        {
+          "word": "yaşanması",
+          "startMs": 98940,
+          "endMs": 99750
+        },
+        {
+          "word": "mümkün",
+          "startMs": 100090,
+          "endMs": 100700
+        },
+        {
+          "word": "olayların",
+          "startMs": 100860,
+          "endMs": 101570
+        },
+        {
+          "word": "yer,",
+          "startMs": 101720,
+          "endMs": 102100
+        },
+        {
+          "word": "zaman",
+          "startMs": 102770,
+          "endMs": 103330
+        },
+        {
+          "word": "ve",
+          "startMs": 103330,
+          "endMs": 103440
+        },
+        {
+          "word": "kişi",
+          "startMs": 103760,
+          "endMs": 104270
+        },
+        {
+          "word": "unsurlarına",
+          "startMs": 105400,
+          "endMs": 106510
+        },
+        {
+          "word": "bağlanarak",
+          "startMs": 106620,
+          "endMs": 107760
+        },
+        {
+          "word": "kurmaca",
+          "startMs": 107940,
+          "endMs": 108840
+        },
+        {
+          "word": "bir",
+          "startMs": 109040,
+          "endMs": 109400
+        },
+        {
+          "word": "dünyayla",
+          "startMs": 110010,
+          "endMs": 110710
+        },
+        {
+          "word": "anlatılmasıdır.",
+          "startMs": 110800,
+          "endMs": 112160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 113250,
+      "endMs": 135570,
+      "pauseAfterMs": 1180,
+      "text": "Anı yani hatıra ise yazarın bizzat yaşadığı ya da tanık olduğu olayları üzerinden zaman geçtikten sonra birinci kişi ağzıyla, yani ben diliyle kaleme almasıdır.",
+      "markedText": "Anı yani hatıra ise yazarın bizzat yaşadığı ya da tanık olduğu olayları üzerinden zaman geçtikten sonra birinci kişi ağzıyla, yani ben diliyle kaleme almasıdır.",
+      "words": [
+        {
+          "word": "Anı",
+          "startMs": 113250,
+          "endMs": 113600
+        },
+        {
+          "word": "yani",
+          "startMs": 113680,
+          "endMs": 114150
+        },
+        {
+          "word": "hatıra",
+          "startMs": 114610,
+          "endMs": 115060
+        },
+        {
+          "word": "ise",
+          "startMs": 115190,
+          "endMs": 115500
+        },
+        {
+          "word": "yazarın",
+          "startMs": 115570,
+          "endMs": 116200
+        },
+        {
+          "word": "bizzat",
+          "startMs": 117000,
+          "endMs": 117910
+        },
+        {
+          "word": "yaşadığı",
+          "startMs": 118150,
+          "endMs": 119040
+        },
+        {
+          "word": "ya",
+          "startMs": 120150,
+          "endMs": 120370
+        },
+        {
+          "word": "da",
+          "startMs": 120870,
+          "endMs": 121100
+        },
+        {
+          "word": "tanık",
+          "startMs": 121100,
+          "endMs": 121750
+        },
+        {
+          "word": "olduğu",
+          "startMs": 122440,
+          "endMs": 122800
+        },
+        {
+          "word": "olayları",
+          "startMs": 123310,
+          "endMs": 124070
+        },
+        {
+          "word": "üzerinden",
+          "startMs": 124640,
+          "endMs": 125430
+        },
+        {
+          "word": "zaman",
+          "startMs": 125500,
+          "endMs": 125820
+        },
+        {
+          "word": "geçtikten",
+          "startMs": 125880,
+          "endMs": 126570
+        },
+        {
+          "word": "sonra",
+          "startMs": 127020,
+          "endMs": 127600
+        },
+        {
+          "word": "birinci",
+          "startMs": 128570,
+          "endMs": 128920
+        },
+        {
+          "word": "kişi",
+          "startMs": 129010,
+          "endMs": 129270
+        },
+        {
+          "word": "ağzıyla,",
+          "startMs": 129360,
+          "endMs": 129950
+        },
+        {
+          "word": "yani",
+          "startMs": 130150,
+          "endMs": 130550
+        },
+        {
+          "word": "ben",
+          "startMs": 130650,
+          "endMs": 130820
+        },
+        {
+          "word": "diliyle",
+          "startMs": 130920,
+          "endMs": 131760
+        },
+        {
+          "word": "kaleme",
+          "startMs": 131870,
+          "endMs": 132750
+        },
+        {
+          "word": "almasıdır.",
+          "startMs": 133410,
+          "endMs": 134390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 135570,
+      "endMs": 154130,
+      "pauseAfterMs": 800,
+      "text": "Mektup, uzaktaki bir kişiye duygu ve haber iletmek için yazılan, mutlaka hitapla başlayan ve tarih taşıyan yazıdır.",
+      "markedText": "Mektup, uzaktaki bir kişiye duygu ve haber iletmek için yazılan, mutlaka hitapla başlayan ve tarih taşıyan yazıdır.",
+      "words": [
+        {
+          "word": "Mektup,",
+          "startMs": 135570,
+          "endMs": 136490
+        },
+        {
+          "word": "uzaktaki",
+          "startMs": 137380,
+          "endMs": 138090
+        },
+        {
+          "word": "bir",
+          "startMs": 138450,
+          "endMs": 138640
+        },
+        {
+          "word": "kişiye",
+          "startMs": 138740,
+          "endMs": 139520
+        },
+        {
+          "word": "duygu",
+          "startMs": 140540,
+          "endMs": 140920
+        },
+        {
+          "word": "ve",
+          "startMs": 141100,
+          "endMs": 141370
+        },
+        {
+          "word": "haber",
+          "startMs": 141370,
+          "endMs": 141680
+        },
+        {
+          "word": "iletmek",
+          "startMs": 141790,
+          "endMs": 142410
+        },
+        {
+          "word": "için",
+          "startMs": 142630,
+          "endMs": 143080
+        },
+        {
+          "word": "yazılan,",
+          "startMs": 143250,
+          "endMs": 144500
+        },
+        {
+          "word": "mutlaka",
+          "startMs": 145220,
+          "endMs": 145980
+        },
+        {
+          "word": "hitapla",
+          "startMs": 146230,
+          "endMs": 147090
+        },
+        {
+          "word": "başlayan",
+          "startMs": 147700,
+          "endMs": 149070
+        },
+        {
+          "word": "ve",
+          "startMs": 149690,
+          "endMs": 150080
+        },
+        {
+          "word": "tarih",
+          "startMs": 150280,
+          "endMs": 150750
+        },
+        {
+          "word": "taşıyan",
+          "startMs": 150830,
+          "endMs": 151870
+        },
+        {
+          "word": "yazıdır.",
+          "startMs": 152090,
+          "endMs": 153330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 154130,
+      "endMs": 174410,
+      "pauseAfterMs": 760,
+      "text": "Tiyatro, sahnede canlandırılmak üzere yazılan, karşılıklı konuşmalara ve parantez içi oyuncu hareketlerine dayanan türdür.",
+      "markedText": "Tiyatro, sahnede canlandırılmak üzere yazılan, karşılıklı konuşmalara ve parantez içi oyuncu hareketlerine dayanan türdür.",
+      "words": [
+        {
+          "word": "Tiyatro,",
+          "startMs": 154130,
+          "endMs": 154920
+        },
+        {
+          "word": "sahnede",
+          "startMs": 155020,
+          "endMs": 155940
+        },
+        {
+          "word": "canlandırılmak",
+          "startMs": 156310,
+          "endMs": 157840
+        },
+        {
+          "word": "üzere",
+          "startMs": 158210,
+          "endMs": 158530
+        },
+        {
+          "word": "yazılan,",
+          "startMs": 158750,
+          "endMs": 159350
+        },
+        {
+          "word": "karşılıklı",
+          "startMs": 159710,
+          "endMs": 161670
+        },
+        {
+          "word": "konuşmalara",
+          "startMs": 163030,
+          "endMs": 163980
+        },
+        {
+          "word": "ve",
+          "startMs": 165600,
+          "endMs": 165850
+        },
+        {
+          "word": "parantez",
+          "startMs": 166370,
+          "endMs": 168000
+        },
+        {
+          "word": "içi",
+          "startMs": 168640,
+          "endMs": 169050
+        },
+        {
+          "word": "oyuncu",
+          "startMs": 169270,
+          "endMs": 170210
+        },
+        {
+          "word": "hareketlerine",
+          "startMs": 170560,
+          "endMs": 171890
+        },
+        {
+          "word": "dayanan",
+          "startMs": 172000,
+          "endMs": 172610
+        },
+        {
+          "word": "türdür.",
+          "startMs": 172710,
+          "endMs": 173650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 174410,
+      "endMs": 191390,
+      "pauseAfterMs": 290,
+      "text": "Gezi yazısı ise yazarın gezip gördüğü yerlerin tarihi, doğal güzellikleri ve kültürünü kendi izlenimleriyle harmanlayarak aktardığı metindir.",
+      "markedText": "Gezi yazısı ise yazarın gezip gördüğü yerlerin tarihi, doğal güzellikleri ve kültürünü kendi izlenimleriyle harmanlayarak aktardığı metindir.",
+      "words": [
+        {
+          "word": "Gezi",
+          "startMs": 174410,
+          "endMs": 174660
+        },
+        {
+          "word": "yazısı",
+          "startMs": 175250,
+          "endMs": 175850
+        },
+        {
+          "word": "ise",
+          "startMs": 176010,
+          "endMs": 176260
+        },
+        {
+          "word": "yazarın",
+          "startMs": 176400,
+          "endMs": 176950
+        },
+        {
+          "word": "gezip",
+          "startMs": 177310,
+          "endMs": 177490
+        },
+        {
+          "word": "gördüğü",
+          "startMs": 177580,
+          "endMs": 178150
+        },
+        {
+          "word": "yerlerin",
+          "startMs": 178380,
+          "endMs": 179470
+        },
+        {
+          "word": "tarihi,",
+          "startMs": 179530,
+          "endMs": 180540
+        },
+        {
+          "word": "doğal",
+          "startMs": 182130,
+          "endMs": 182950
+        },
+        {
+          "word": "güzellikleri",
+          "startMs": 183200,
+          "endMs": 184320
+        },
+        {
+          "word": "ve",
+          "startMs": 184400,
+          "endMs": 184490
+        },
+        {
+          "word": "kültürünü",
+          "startMs": 184490,
+          "endMs": 185310
+        },
+        {
+          "word": "kendi",
+          "startMs": 185520,
+          "endMs": 186590
+        },
+        {
+          "word": "izlenimleriyle",
+          "startMs": 187540,
+          "endMs": 188490
+        },
+        {
+          "word": "harmanlayarak",
+          "startMs": 188530,
+          "endMs": 189570
+        },
+        {
+          "word": "aktardığı",
+          "startMs": 189650,
+          "endMs": 190370
+        },
+        {
+          "word": "metindir.",
+          "startMs": 190370,
+          "endMs": 191100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 191390,
+      "endMs": 202240,
+      "pauseAfterMs": 460,
+      "text": "Pratik kural: Anı gerçektir ve yaşanmıştır; hikâye ise yazarın hayal gücüyle kurgulanabilir.",
+      "markedText": "Pratik kural: Anı gerçektir ve yaşanmıştır; hikâye ise yazarın hayal gücüyle kurgulanabilir.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 191390,
+          "endMs": 191590
+        },
+        {
+          "word": "kural:",
+          "startMs": 191660,
+          "endMs": 192560
+        },
+        {
+          "word": "Anı",
+          "startMs": 193330,
+          "endMs": 193610
+        },
+        {
+          "word": "gerçektir",
+          "startMs": 193610,
+          "endMs": 194010
+        },
+        {
+          "word": "ve",
+          "startMs": 194390,
+          "endMs": 194470
+        },
+        {
+          "word": "yaşanmıştır;",
+          "startMs": 194600,
+          "endMs": 196040
+        },
+        {
+          "word": "hikâye",
+          "startMs": 196350,
+          "endMs": 197220
+        },
+        {
+          "word": "ise",
+          "startMs": 197730,
+          "endMs": 197880
+        },
+        {
+          "word": "yazarın",
+          "startMs": 197970,
+          "endMs": 198640
+        },
+        {
+          "word": "hayal",
+          "startMs": 198640,
+          "endMs": 199170
+        },
+        {
+          "word": "gücüyle",
+          "startMs": 199400,
+          "endMs": 199810
+        },
+        {
+          "word": "kurgulanabilir.",
+          "startMs": 199920,
+          "endMs": 201780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 202240,
+      "endMs": 206550,
+      "pauseAfterMs": 730,
+      "text": "Örneklerimize kulak verelim.",
+      "markedText": "Örneklerimize kulak verelim.",
+      "words": [
+        {
+          "word": "Örneklerimize",
+          "startMs": 202240,
+          "endMs": 203920
+        },
+        {
+          "word": "kulak",
+          "startMs": 204340,
+          "endMs": 204950
+        },
+        {
+          "word": "verelim.",
+          "startMs": 205070,
+          "endMs": 205820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 206550,
+      "endMs": 221820,
+      "pauseAfterMs": 890,
+      "text": "Yaşlı balıkçı sabahın ilk ışıklarıyla denize açıldı ve dev bir balıkla karşılaştı; bu kurmaca bir hikâyedir.",
+      "markedText": "Yaşlı balıkçı sabahın ilk ışıklarıyla denize açıldı ve dev bir balıkla karşılaştı; bu kurmaca bir hikâyedir.",
+      "words": [
+        {
+          "word": "Yaşlı",
+          "startMs": 206550,
+          "endMs": 207090
+        },
+        {
+          "word": "balıkçı",
+          "startMs": 207350,
+          "endMs": 208240
+        },
+        {
+          "word": "sabahın",
+          "startMs": 208570,
+          "endMs": 209120
+        },
+        {
+          "word": "ilk",
+          "startMs": 209330,
+          "endMs": 209690
+        },
+        {
+          "word": "ışıklarıyla",
+          "startMs": 209810,
+          "endMs": 211220
+        },
+        {
+          "word": "denize",
+          "startMs": 211610,
+          "endMs": 211970
+        },
+        {
+          "word": "açıldı",
+          "startMs": 212350,
+          "endMs": 212860
+        },
+        {
+          "word": "ve",
+          "startMs": 213060,
+          "endMs": 213340
+        },
+        {
+          "word": "dev",
+          "startMs": 213470,
+          "endMs": 213840
+        },
+        {
+          "word": "bir",
+          "startMs": 213920,
+          "endMs": 214410
+        },
+        {
+          "word": "balıkla",
+          "startMs": 214820,
+          "endMs": 215380
+        },
+        {
+          "word": "karşılaştı;",
+          "startMs": 215380,
+          "endMs": 216670
+        },
+        {
+          "word": "bu",
+          "startMs": 217370,
+          "endMs": 217580
+        },
+        {
+          "word": "kurmaca",
+          "startMs": 217680,
+          "endMs": 218370
+        },
+        {
+          "word": "bir",
+          "startMs": 218370,
+          "endMs": 219230
+        },
+        {
+          "word": "hikâyedir.",
+          "startMs": 219660,
+          "endMs": 220930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 221820,
+      "endMs": 234910,
+      "pauseAfterMs": 610,
+      "text": "İlkokula başladığım o yağmurlu günü ve kırmızı önlüğümü hiç unutamam; bu yazarın kendi yaşadığı bir anıdır.",
+      "markedText": "İlkokula başladığım o yağmurlu günü ve kırmızı önlüğümü hiç unutamam; bu yazarın kendi yaşadığı bir anıdır.",
+      "words": [
+        {
+          "word": "İlkokula",
+          "startMs": 221820,
+          "endMs": 222380
+        },
+        {
+          "word": "başladığım",
+          "startMs": 222500,
+          "endMs": 223120
+        },
+        {
+          "word": "o",
+          "startMs": 223210,
+          "endMs": 223320
+        },
+        {
+          "word": "yağmurlu",
+          "startMs": 223730,
+          "endMs": 224350
+        },
+        {
+          "word": "günü",
+          "startMs": 224410,
+          "endMs": 224580
+        },
+        {
+          "word": "ve",
+          "startMs": 224900,
+          "endMs": 225030
+        },
+        {
+          "word": "kırmızı",
+          "startMs": 225320,
+          "endMs": 225730
+        },
+        {
+          "word": "önlüğümü",
+          "startMs": 225840,
+          "endMs": 227090
+        },
+        {
+          "word": "hiç",
+          "startMs": 227640,
+          "endMs": 227810
+        },
+        {
+          "word": "unutamam;",
+          "startMs": 228000,
+          "endMs": 229120
+        },
+        {
+          "word": "bu",
+          "startMs": 230040,
+          "endMs": 230320
+        },
+        {
+          "word": "yazarın",
+          "startMs": 230410,
+          "endMs": 231150
+        },
+        {
+          "word": "kendi",
+          "startMs": 231250,
+          "endMs": 231930
+        },
+        {
+          "word": "yaşadığı",
+          "startMs": 232020,
+          "endMs": 233010
+        },
+        {
+          "word": "bir",
+          "startMs": 233010,
+          "endMs": 233440
+        },
+        {
+          "word": "anıdır.",
+          "startMs": 233610,
+          "endMs": 234300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 234910,
+      "endMs": 245740,
+      "pauseAfterMs": 570,
+      "text": "Sevgili teyzeciğim, seni ve köyümüzü çok özledim; bu bir mektuptur, hitapla başlar.",
+      "markedText": "Sevgili teyzeciğim, seni ve köyümüzü çok özledim; bu bir mektuptur, hitapla başlar.",
+      "words": [
+        {
+          "word": "Sevgili",
+          "startMs": 234910,
+          "endMs": 235740
+        },
+        {
+          "word": "teyzeciğim,",
+          "startMs": 235850,
+          "endMs": 237170
+        },
+        {
+          "word": "seni",
+          "startMs": 238170,
+          "endMs": 238650
+        },
+        {
+          "word": "ve",
+          "startMs": 238920,
+          "endMs": 239010
+        },
+        {
+          "word": "köyümüzü",
+          "startMs": 239100,
+          "endMs": 239640
+        },
+        {
+          "word": "çok",
+          "startMs": 240160,
+          "endMs": 240470
+        },
+        {
+          "word": "özledim;",
+          "startMs": 240940,
+          "endMs": 241750
+        },
+        {
+          "word": "bu",
+          "startMs": 242160,
+          "endMs": 242310
+        },
+        {
+          "word": "bir",
+          "startMs": 242420,
+          "endMs": 242710
+        },
+        {
+          "word": "mektuptur,",
+          "startMs": 242820,
+          "endMs": 243480
+        },
+        {
+          "word": "hitapla",
+          "startMs": 243630,
+          "endMs": 244430
+        },
+        {
+          "word": "başlar.",
+          "startMs": 244430,
+          "endMs": 245170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 245740,
+      "endMs": 248540,
+      "pauseAfterMs": 940,
+      "text": "Ali: Buraya gel Ayşe!",
+      "markedText": "Ali: Buraya gel Ayşe!",
+      "words": [
+        {
+          "word": "Ali:",
+          "startMs": 245740,
+          "endMs": 245900
+        },
+        {
+          "word": "Buraya",
+          "startMs": 246020,
+          "endMs": 246520
+        },
+        {
+          "word": "gel",
+          "startMs": 246590,
+          "endMs": 246700
+        },
+        {
+          "word": "Ayşe!",
+          "startMs": 247350,
+          "endMs": 247600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 248540,
+      "endMs": 250550,
+      "pauseAfterMs": 570,
+      "text": "Ayşe: Hemen geliyorum!",
+      "markedText": "Ayşe: Hemen geliyorum!",
+      "words": [
+        {
+          "word": "Ayşe:",
+          "startMs": 248540,
+          "endMs": 248810
+        },
+        {
+          "word": "Hemen",
+          "startMs": 248810,
+          "endMs": 249220
+        },
+        {
+          "word": "geliyorum!",
+          "startMs": 249310,
+          "endMs": 249980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 250550,
+      "endMs": 258480,
+      "pauseAfterMs": 670,
+      "text": "şeklinde diyaloglarla ilerleyen metin tiyatrodur.",
+      "markedText": "şeklinde diyaloglarla ilerleyen metin tiyatrodur.",
+      "words": [
+        {
+          "word": "şeklinde",
+          "startMs": 250550,
+          "endMs": 251390
+        },
+        {
+          "word": "diyaloglarla",
+          "startMs": 251470,
+          "endMs": 253140
+        },
+        {
+          "word": "ilerleyen",
+          "startMs": 253270,
+          "endMs": 254890
+        },
+        {
+          "word": "metin",
+          "startMs": 255550,
+          "endMs": 256350
+        },
+        {
+          "word": "tiyatrodur.",
+          "startMs": 256470,
+          "endMs": 257810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 258480,
+      "endMs": 272030,
+      "pauseAfterMs": 180,
+      "text": "Kapadokya'nın peri bacalarını seyrederken doğanın mucizesine hayran kaldım; bu gezi yazısıdır",
+      "markedText": "Kapadokya'nın peri bacalarını seyrederken doğanın mucizesine hayran kaldım; bu gezi yazısıdır",
+      "words": [
+        {
+          "word": "Kapadokya'nın",
+          "startMs": 258480,
+          "endMs": 260010
+        },
+        {
+          "word": "peri",
+          "startMs": 260660,
+          "endMs": 261110
+        },
+        {
+          "word": "bacalarını",
+          "startMs": 261390,
+          "endMs": 262700
+        },
+        {
+          "word": "seyrederken",
+          "startMs": 262770,
+          "endMs": 264200
+        },
+        {
+          "word": "doğanın",
+          "startMs": 264500,
+          "endMs": 265670
+        },
+        {
+          "word": "mucizesine",
+          "startMs": 266280,
+          "endMs": 267560
+        },
+        {
+          "word": "hayran",
+          "startMs": 268040,
+          "endMs": 268820
+        },
+        {
+          "word": "kaldım;",
+          "startMs": 269120,
+          "endMs": 269970
+        },
+        {
+          "word": "bu",
+          "startMs": 270570,
+          "endMs": 270720
+        },
+        {
+          "word": "gezi",
+          "startMs": 270790,
+          "endMs": 271230
+        },
+        {
+          "word": "yazısıdır",
+          "startMs": 271230,
+          "endMs": 271850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 272030,
+      "endMs": 275070,
+      "pauseAfterMs": 750,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 272030,
+          "endMs": 272910
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 273060,
+          "endMs": 274320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 275070,
+      "endMs": 277500,
+      "pauseAfterMs": 430,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 275070,
+          "endMs": 275770
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 275940,
+          "endMs": 277070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 277500,
+      "endMs": 280910,
+      "pauseAfterMs": 680,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 277500,
+          "endMs": 277640
+        },
+        {
+          "word": "noktayı",
+          "startMs": 277640,
+          "endMs": 278110
+        },
+        {
+          "word": "sen",
+          "startMs": 278200,
+          "endMs": 278610
+        },
+        {
+          "word": "de",
+          "startMs": 279020,
+          "endMs": 279190
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 279330,
+          "endMs": 280230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 280910,
+      "endMs": 292930,
+      "pauseAfterMs": 650,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 280910,
+          "endMs": 281310
+        },
+        {
+          "word": "sevgili",
+          "startMs": 281390,
+          "endMs": 281980
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 283570,
+          "endMs": 285000
+        },
+        {
+          "word": "işte",
+          "startMs": 285330,
+          "endMs": 285690
+        },
+        {
+          "word": "tam",
+          "startMs": 286010,
+          "endMs": 286110
+        },
+        {
+          "word": "bu",
+          "startMs": 286770,
+          "endMs": 287020
+        },
+        {
+          "word": "noktada",
+          "startMs": 287150,
+          "endMs": 288180
+        },
+        {
+          "word": "dikkat",
+          "startMs": 288360,
+          "endMs": 288720
+        },
+        {
+          "word": "etmen",
+          "startMs": 289020,
+          "endMs": 289460
+        },
+        {
+          "word": "gereken",
+          "startMs": 289860,
+          "endMs": 290610
+        },
+        {
+          "word": "kilit",
+          "startMs": 290720,
+          "endMs": 291450
+        },
+        {
+          "word": "nokta.",
+          "startMs": 291780,
+          "endMs": 292280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 292930,
+      "endMs": 301400,
+      "pauseAfterMs": 300,
+      "text": "Anıyı kurmaca bir hikâye sanma tuzağından özenle kaçınmalısın.",
+      "markedText": "Anıyı kurmaca bir hikâye sanma tuzağından özenle kaçınmalısın.",
+      "words": [
+        {
+          "word": "Anıyı",
+          "startMs": 292930,
+          "endMs": 293640
+        },
+        {
+          "word": "kurmaca",
+          "startMs": 293810,
+          "endMs": 294530
+        },
+        {
+          "word": "bir",
+          "startMs": 294820,
+          "endMs": 294920
+        },
+        {
+          "word": "hikâye",
+          "startMs": 295590,
+          "endMs": 296160
+        },
+        {
+          "word": "sanma",
+          "startMs": 296420,
+          "endMs": 296700
+        },
+        {
+          "word": "tuzağından",
+          "startMs": 297290,
+          "endMs": 298510
+        },
+        {
+          "word": "özenle",
+          "startMs": 299110,
+          "endMs": 299810
+        },
+        {
+          "word": "kaçınmalısın.",
+          "startMs": 300040,
+          "endMs": 301100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 301400,
+      "endMs": 320680,
+      "pauseAfterMs": 720,
+      "text": "Anıda yazar geçmişte bizzat yaşadığı gerçek olayları anlatır; hikâyede ise yazar olayları tamamen zihninde tasarlayabilir.",
+      "markedText": "Anıda yazar geçmişte bizzat yaşadığı gerçek olayları anlatır; hikâyede ise yazar olayları tamamen zihninde tasarlayabilir.",
+      "words": [
+        {
+          "word": "Anıda",
+          "startMs": 301400,
+          "endMs": 302020
+        },
+        {
+          "word": "yazar",
+          "startMs": 302110,
+          "endMs": 302690
+        },
+        {
+          "word": "geçmişte",
+          "startMs": 302810,
+          "endMs": 304180
+        },
+        {
+          "word": "bizzat",
+          "startMs": 304920,
+          "endMs": 305550
+        },
+        {
+          "word": "yaşadığı",
+          "startMs": 306270,
+          "endMs": 306930
+        },
+        {
+          "word": "gerçek",
+          "startMs": 307260,
+          "endMs": 307810
+        },
+        {
+          "word": "olayları",
+          "startMs": 308170,
+          "endMs": 309340
+        },
+        {
+          "word": "anlatır;",
+          "startMs": 309730,
+          "endMs": 310950
+        },
+        {
+          "word": "hikâyede",
+          "startMs": 311780,
+          "endMs": 312390
+        },
+        {
+          "word": "ise",
+          "startMs": 312640,
+          "endMs": 312960
+        },
+        {
+          "word": "yazar",
+          "startMs": 313780,
+          "endMs": 314570
+        },
+        {
+          "word": "olayları",
+          "startMs": 314850,
+          "endMs": 315860
+        },
+        {
+          "word": "tamamen",
+          "startMs": 315930,
+          "endMs": 316650
+        },
+        {
+          "word": "zihninde",
+          "startMs": 316940,
+          "endMs": 318000
+        },
+        {
+          "word": "tasarlayabilir.",
+          "startMs": 318880,
+          "endMs": 319960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 320680,
+      "endMs": 338070,
+      "pauseAfterMs": 690,
+      "text": "Karşılıklı konuşmaların alt alta isimlerle yazıldığı bir metni de düz yazı sanmamalı, tiyatro olduğunu hemen fark etmelisin.",
+      "markedText": "Karşılıklı konuşmaların alt alta isimlerle yazıldığı bir metni de düz yazı sanmamalı, tiyatro olduğunu hemen fark etmelisin.",
+      "words": [
+        {
+          "word": "Karşılıklı",
+          "startMs": 320680,
+          "endMs": 321880
+        },
+        {
+          "word": "konuşmaların",
+          "startMs": 322740,
+          "endMs": 324020
+        },
+        {
+          "word": "alt",
+          "startMs": 324580,
+          "endMs": 324880
+        },
+        {
+          "word": "alta",
+          "startMs": 324960,
+          "endMs": 325340
+        },
+        {
+          "word": "isimlerle",
+          "startMs": 325630,
+          "endMs": 326360
+        },
+        {
+          "word": "yazıldığı",
+          "startMs": 327770,
+          "endMs": 328390
+        },
+        {
+          "word": "bir",
+          "startMs": 328700,
+          "endMs": 329150
+        },
+        {
+          "word": "metni",
+          "startMs": 329870,
+          "endMs": 330520
+        },
+        {
+          "word": "de",
+          "startMs": 330970,
+          "endMs": 331190
+        },
+        {
+          "word": "düz",
+          "startMs": 331430,
+          "endMs": 331880
+        },
+        {
+          "word": "yazı",
+          "startMs": 332060,
+          "endMs": 332370
+        },
+        {
+          "word": "sanmamalı,",
+          "startMs": 332540,
+          "endMs": 333380
+        },
+        {
+          "word": "tiyatro",
+          "startMs": 333910,
+          "endMs": 334440
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 334690,
+          "endMs": 335280
+        },
+        {
+          "word": "hemen",
+          "startMs": 335340,
+          "endMs": 335720
+        },
+        {
+          "word": "fark",
+          "startMs": 335960,
+          "endMs": 336270
+        },
+        {
+          "word": "etmelisin.",
+          "startMs": 336330,
+          "endMs": 337380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 338070,
+      "endMs": 341370,
+      "pauseAfterMs": 280,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 338070,
+          "endMs": 338740
+        },
+        {
+          "word": "Neler",
+          "startMs": 339180,
+          "endMs": 339980
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 340440,
+          "endMs": 341090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 341370,
+      "endMs": 342180,
+      "pauseAfterMs": 410,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 341370,
+          "endMs": 341770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 342180,
+      "endMs": 351730,
+      "pauseAfterMs": 510,
+      "text": "Hikâye kurmaca olayları, anı ise yazarın bizzat yaşadığı geçmişi anlatır.",
+      "markedText": "Hikâye kurmaca olayları, anı ise yazarın bizzat yaşadığı geçmişi anlatır.",
+      "words": [
+        {
+          "word": "Hikâye",
+          "startMs": 342180,
+          "endMs": 342680
+        },
+        {
+          "word": "kurmaca",
+          "startMs": 343050,
+          "endMs": 343600
+        },
+        {
+          "word": "olayları,",
+          "startMs": 344250,
+          "endMs": 346000
+        },
+        {
+          "word": "anı",
+          "startMs": 346570,
+          "endMs": 346980
+        },
+        {
+          "word": "ise",
+          "startMs": 347220,
+          "endMs": 347650
+        },
+        {
+          "word": "yazarın",
+          "startMs": 347650,
+          "endMs": 348280
+        },
+        {
+          "word": "bizzat",
+          "startMs": 348350,
+          "endMs": 348830
+        },
+        {
+          "word": "yaşadığı",
+          "startMs": 348900,
+          "endMs": 349730
+        },
+        {
+          "word": "geçmişi",
+          "startMs": 350060,
+          "endMs": 350250
+        },
+        {
+          "word": "anlatır.",
+          "startMs": 350330,
+          "endMs": 351220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 351730,
+      "endMs": 352480,
+      "pauseAfterMs": 280,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 351730,
+          "endMs": 352200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 352480,
+      "endMs": 363910,
+      "pauseAfterMs": 780,
+      "text": "Mektupta hitap ve tarih, tiyatroda ise sahnede konuşma ve diyaloglar bulunur.",
+      "markedText": "Mektupta hitap ve tarih, tiyatroda ise sahnede konuşma ve diyaloglar bulunur.",
+      "words": [
+        {
+          "word": "Mektupta",
+          "startMs": 352480,
+          "endMs": 353210
+        },
+        {
+          "word": "hitap",
+          "startMs": 353340,
+          "endMs": 353760
+        },
+        {
+          "word": "ve",
+          "startMs": 353850,
+          "endMs": 353980
+        },
+        {
+          "word": "tarih,",
+          "startMs": 354280,
+          "endMs": 354940
+        },
+        {
+          "word": "tiyatroda",
+          "startMs": 355900,
+          "endMs": 357480
+        },
+        {
+          "word": "ise",
+          "startMs": 358180,
+          "endMs": 358410
+        },
+        {
+          "word": "sahnede",
+          "startMs": 358890,
+          "endMs": 359470
+        },
+        {
+          "word": "konuşma",
+          "startMs": 359520,
+          "endMs": 360180
+        },
+        {
+          "word": "ve",
+          "startMs": 360520,
+          "endMs": 360750
+        },
+        {
+          "word": "diyaloglar",
+          "startMs": 360870,
+          "endMs": 362040
+        },
+        {
+          "word": "bulunur.",
+          "startMs": 362110,
+          "endMs": 363130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 363910,
+      "endMs": 364430,
+      "pauseAfterMs": 400,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 363910,
+          "endMs": 364030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 364430,
+      "endMs": 369480,
+      "pauseAfterMs": 620,
+      "text": "Gezi yazısı, gezilen yerleri yazarın gözlem ve izlenimleriyle aktarır.",
+      "markedText": "Gezi yazısı, gezilen yerleri yazarın gözlem ve izlenimleriyle aktarır.",
+      "words": [
+        {
+          "word": "Gezi",
+          "startMs": 364430,
+          "endMs": 364900
+        },
+        {
+          "word": "yazısı,",
+          "startMs": 365100,
+          "endMs": 365830
+        },
+        {
+          "word": "gezilen",
+          "startMs": 366170,
+          "endMs": 366320
+        },
+        {
+          "word": "yerleri",
+          "startMs": 366400,
+          "endMs": 366670
+        },
+        {
+          "word": "yazarın",
+          "startMs": 366770,
+          "endMs": 367120
+        },
+        {
+          "word": "gözlem",
+          "startMs": 367120,
+          "endMs": 367300
+        },
+        {
+          "word": "ve",
+          "startMs": 367400,
+          "endMs": 367520
+        },
+        {
+          "word": "izlenimleriyle",
+          "startMs": 367520,
+          "endMs": 368180
+        },
+        {
+          "word": "aktarır.",
+          "startMs": 368290,
+          "endMs": 368860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 369480,
+      "endMs": 374960,
+      "pauseAfterMs": 700,
+      "text": "Tür, metnin kuruluşundan belli olur.",
+      "markedText": "Tür, metnin kuruluşundan belli olur.",
+      "words": [
+        {
+          "word": "Tür,",
+          "startMs": 369480,
+          "endMs": 369750
+        },
+        {
+          "word": "metnin",
+          "startMs": 370150,
+          "endMs": 370920
+        },
+        {
+          "word": "kuruluşundan",
+          "startMs": 371180,
+          "endMs": 372490
+        },
+        {
+          "word": "belli",
+          "startMs": 372530,
+          "endMs": 373030
+        },
+        {
+          "word": "olur.",
+          "startMs": 373230,
+          "endMs": 374260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 374960,
+      "endMs": 377410,
+      "pauseAfterMs": 760,
+      "text": "Yaşanmış anıdır.",
+      "markedText": "Yaşanmış anıdır.",
+      "words": [
+        {
+          "word": "Yaşanmış",
+          "startMs": 374960,
+          "endMs": 375760
+        },
+        {
+          "word": "anıdır.",
+          "startMs": 375850,
+          "endMs": 376650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 377410,
+      "endMs": 379600,
+      "pauseAfterMs": 410,
+      "text": "Konuşma tiyatrodur.",
+      "markedText": "Konuşma tiyatrodur.",
+      "words": [
+        {
+          "word": "Konuşma",
+          "startMs": 377410,
+          "endMs": 377960
+        },
+        {
+          "word": "tiyatrodur.",
+          "startMs": 378050,
+          "endMs": 379190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 379600,
+      "endMs": 386500,
+      "pauseAfterMs": 270,
+      "text": "Bir metnin hikâye, anı, mektup, tiyatro veya gezi yazısı olduğunu söylersin.",
+      "markedText": "Bir metnin hikâye, anı, mektup, tiyatro veya gezi yazısı olduğunu söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 379600,
+          "endMs": 379710
+        },
+        {
+          "word": "metnin",
+          "startMs": 379710,
+          "endMs": 380210
+        },
+        {
+          "word": "hikâye,",
+          "startMs": 380380,
+          "endMs": 380810
+        },
+        {
+          "word": "anı,",
+          "startMs": 381150,
+          "endMs": 381610
+        },
+        {
+          "word": "mektup,",
+          "startMs": 381910,
+          "endMs": 382300
+        },
+        {
+          "word": "tiyatro",
+          "startMs": 382970,
+          "endMs": 383300
+        },
+        {
+          "word": "veya",
+          "startMs": 383300,
+          "endMs": 383650
+        },
+        {
+          "word": "gezi",
+          "startMs": 383730,
+          "endMs": 383890
+        },
+        {
+          "word": "yazısı",
+          "startMs": 383940,
+          "endMs": 384490
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 385080,
+          "endMs": 385670
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 385790,
+          "endMs": 386230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 386500,
+      "endMs": 387740,
+      "pauseAfterMs": 290,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 386500,
+          "endMs": 386860
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 387060,
+          "endMs": 387450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 387740,
+      "endMs": 390670,
+      "pauseAfterMs": 580,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 387740,
+          "endMs": 388220
+        },
+        {
+          "word": "bir",
+          "startMs": 388300,
+          "endMs": 388670
+        },
+        {
+          "word": "iş",
+          "startMs": 388760,
+          "endMs": 388910
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 389130,
+          "endMs": 390090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 390670,
+      "endMs": 393440,
+      "pauseAfterMs": 500,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 390670,
+          "endMs": 391380
+        },
+        {
+          "word": "sıra",
+          "startMs": 392050,
+          "endMs": 392320
+        },
+        {
+          "word": "sende.",
+          "startMs": 392410,
+          "endMs": 392940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 393440,
+      "endMs": 396394,
+      "pauseAfterMs": 364,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 393440,
+          "endMs": 393880
+        },
+        {
+          "word": "bu",
+          "startMs": 393880,
+          "endMs": 394080
+        },
+        {
+          "word": "notları",
+          "startMs": 394180,
+          "endMs": 394440
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 394540,
+          "endMs": 394880
+        },
+        {
+          "word": "kendi",
+          "startMs": 395020,
+          "endMs": 395210
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 395300,
+          "endMs": 395840
+        },
+        {
+          "word": "anlat.",
+          "startMs": 395840,
+          "endMs": 396030
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

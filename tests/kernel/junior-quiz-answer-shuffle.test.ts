@@ -12,6 +12,7 @@ import {
   juniorFenQuizLessonKeys,
   juniorIngQuizLessonKeys,
   juniorMatQuizLessonKeys,
+  juniorElectiveQuizLessonKeys,
   juniorQuizDistributionOk,
   juniorQuizPack,
   juniorSosyalQuizLessonKeys,
@@ -20,6 +21,7 @@ import {
   publicJuniorTopicEndQuiz,
 } from "@/lib/junior/quiz";
 import type { JuniorTopicEndQuestion } from "@/lib/junior/quiz/types";
+import { JUNIOR_ELECTIVE_LESSON_KEY_PATTERN } from "@yetkin/junior-content/schema/topic";
 import { JUNIOR_BAKED_AUDIO_KEYS } from "@/lib/junior/voice";
 
 type Position = 0 | 1 | 2 | 3;
@@ -46,6 +48,7 @@ function allLessonKeys(): string[] {
     ...juniorTurkceQuizLessonKeys(),
     ...juniorSosyalQuizLessonKeys(),
     ...juniorIngQuizLessonKeys(),
+    ...juniorElectiveQuizLessonKeys(),
   ];
 }
 
@@ -160,7 +163,8 @@ describe("Junior quiz şık sırası (T-05)", () => {
 describe("Junior quiz yayın sırası gerçek veride (T-05)", () => {
   it("mühürlü konu anahtarı fırınlanmış ders anahtarlarıyla aynıdır", () => {
     const keys = allLessonKeys();
-    expect(keys).toHaveLength(111);
+    const core = keys.filter((key) => !JUNIOR_ELECTIVE_LESSON_KEY_PATTERN.test(key));
+    expect(core).toHaveLength(111);
     expect(new Set(keys)).toEqual(new Set(JUNIOR_BAKED_AUDIO_KEYS));
   });
 

@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_kod-1",
+  "title": "Komut sırası",
+  "teaser": "Bilgisayar, komutları yukarıdan aşağı yapar. Kavramsal Anlayış, sıranın sonucu değiştirdiğini söyler. İfade Gücü, hangi adımın önce geldiğini anlatmandır.",
+  "welcome": "Bugün seninle komut sırasını öğreneceğiz.",
+  "concept": "Bugün seninle komut sırasını kuruyoruz. Komut, tek bir iştir. Bilgisayar komutları yukarıdan aşağı çalıştırır. Sıra değişirse sonuç değişir. Atlanan adım da sonucu bozar.\n\nHatırlarsan, bardak önce tutulmuştu. Hadi şimdi ekrandaki çizime birlikte bakalım! Birinci komut bardağı tutmaktır. İkinci komut musluğu açmaktır. Üçüncü komut musluğu kapatmaktır. Su bardakta kalır.\n\nTuzaklara Düşme! Birlikte bakalım. Musluğu ilk adım yapma. Su yere dökülür. Komutları ezberlemek yetmez. Sırayı söylemek gerekir.",
+  "example": "Bir komut, bilgisayara verilen tek iştir. Bilgisayar bu işleri yazıldıkları sırayla yapar. İlk satır önce çalışır. Son satır en son çalışır. Sıra değişirse sonuç değişir. Hadi şimdi ekrandaki çizime birlikte bakalım! Üç komut duruyor. Bardağı tut. Musluğu aç. Bardak dolunca musluğu kapat. Bu sıra suyu bardağa koyar. Musluğu önce açarsan su yere dökülür. Hatırlarsan, sıra sonucu belirliyordu. Tuzaklara Düşme! Birlikte bakalım. Komutları karışık okuma. Yukarıdan aşağı git. Bir adımı atlamak da sırayı bozar.",
+  "warning": "Bu noktada acele etme. Bir kez daha bakıp doğru kutuyu seçersin.",
+  "life": "Diş fırçalarken önce suyu alırsın. Sonra macunu sürersin. Sonra fırçalarsın. Sıra değişirse iş karışır. Hatırlarsan, bilgisayar da adımları sırayla yapıyordu. Yemek tarifi de aynı kuraldır. Tuzaklara Düşme! Birlikte bakalım. İlk adımı atlarsan sonraki adım boşa düşer.",
+  "recap": [
+    "Komut, tek bir iştir.",
+    "Bilgisayar komutları yukarıdan aşağı yapar.",
+    "Sıra değişirse sonuç değişir."
+  ],
+  "conceptSeal": "Bilgisayar, komutları yukarıdan aşağı yapar.",
+  "voiceSeal": "Hangi adımın neden önce geldiğini söylersin.",
+  "outcomes": [
+    "Komut, tek bir iştir.",
+    "Bilgisayar komutları yukarıdan aşağı yapar.",
+    "Sıra değişirse sonuç değişir."
+  ],
+  "scene": "elective",
+  "hint": "trap",
+  "band": "draft"
+}

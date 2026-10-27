@@ -23,17 +23,17 @@ function bareSpokenInteger(word: string): number | null {
 }
 
 function pilot() {
-  const playback = resolveJuniorPlayback("jr_06_mat-6");
+  const playback = resolveJuniorPlayback("jr_06_mat-2");
   expect(playback.engine).toBe("pilot");
   if (playback.engine !== "pilot") {
-    throw new Error("jr_06_mat-6 pilot kapısında değil.");
+    throw new Error("jr_06_mat-2 pilot kapısında değil.");
   }
   return playback.timeline;
 }
 
-describe("jr_06_mat-6 asal çarpan sözleşmesi", () => {
+describe("jr_06_mat-2 asal çarpan sözleşmesi", () => {
   it("not kartının her cümlesi grafik transkriptindedir", () => {
-    const example = juniorBookletCopy("jr_06_mat-6").example;
+    const example = juniorBookletCopy("jr_06_mat-2").example;
     const film = pilot().cues.map((cue) => cue.text).join(" ");
     const sentences = bookletSentences(example);
     expect(sentences.length).toBeGreaterThan(3);
@@ -149,8 +149,8 @@ describe("jr_06_mat-6 asal çarpan sözleşmesi", () => {
   });
 
   it("grafiği olmayan ders pilot kapısına girmez", () => {
-    expect(resolveJuniorPlayback("jr_06_mat-6").engine).toBe("pilot");
-    expect(resolveJuniorPlayback("jr_06_mat-1").engine).toBe("sealed");
-    expect(resolveJuniorPlayback("jr_06_mat-14").engine).toBe("sealed");
+    expect(resolveJuniorPlayback("jr_06_mat-2").engine).toBe("pilot");
+    expect(resolveJuniorPlayback("jr_06_mat-1").engine).toBe("pilot");
+    expect(resolveJuniorPlayback("jr_06_mat-4").engine).toBe("sealed");
   });
 });

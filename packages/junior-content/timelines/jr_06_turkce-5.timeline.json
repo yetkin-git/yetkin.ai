@@ -1,0 +1,2356 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_turkce-5",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Öznel ve nesnel anlatımlı cümleler",
+  "grade": 6,
+  "subject": "Türkçe",
+  "teacher": {
+    "name": "Elif",
+    "voice": "Aoede",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_turkce-5.mp3",
+    "durationMs": 402358,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 97210
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 97210,
+      "endMs": 320570
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 320570,
+      "endMs": 402358
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 3420,
+      "pauseAfterMs": 700,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 140,
+          "endMs": 680
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1380,
+          "endMs": 1590
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 1860,
+          "endMs": 2720
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Öznel ve nesnel anlatımlı cümleler",
+            "subtitle": "Türkçe",
+            "ruleBadges": [],
+            "echoPrompt": "Bir cümlenin öznel mi nesnel mi olduğunu gerekçesiyle söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Nesnel anlatım kanıtlanabilir, ölçülebilir ve herkes için geçerlidir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Öznel anlatım kişisel duygu, beğeni ve yorum taşır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Sayı içeren her cümle nesnel değildir; cümlenin bütününe bakılır."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 3420,
+      "endMs": 5500,
+      "pauseAfterMs": 620,
+      "text": "Ben Türkçe öğretmenin Elif.",
+      "markedText": "Ben Türkçe öğretmenin Elif.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 3420,
+          "endMs": 3530
+        },
+        {
+          "word": "Türkçe",
+          "startMs": 3600,
+          "endMs": 3850
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 3850,
+          "endMs": 4390
+        },
+        {
+          "word": "Elif.",
+          "startMs": 4530,
+          "endMs": 4880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 5500,
+      "endMs": 19000,
+      "pauseAfterMs": 380,
+      "text": "Hazırsan bugün düşüncelerimizi ve gözlemlerimizi doğru temellere oturtmayı öğreneceğiz.",
+      "markedText": "Hazırsan bugün düşüncelerimizi ve gözlemlerimizi doğru temellere oturtmayı öğreneceğiz.",
+      "words": [
+        {
+          "word": "Hazırsan",
+          "startMs": 5500,
+          "endMs": 6540
+        },
+        {
+          "word": "bugün",
+          "startMs": 6730,
+          "endMs": 7220
+        },
+        {
+          "word": "düşüncelerimizi",
+          "startMs": 7410,
+          "endMs": 9290
+        },
+        {
+          "word": "ve",
+          "startMs": 11020,
+          "endMs": 11270
+        },
+        {
+          "word": "gözlemlerimizi",
+          "startMs": 11570,
+          "endMs": 12600
+        },
+        {
+          "word": "doğru",
+          "startMs": 12680,
+          "endMs": 13320
+        },
+        {
+          "word": "temellere",
+          "startMs": 13930,
+          "endMs": 14420
+        },
+        {
+          "word": "oturtmayı",
+          "startMs": 14850,
+          "endMs": 15970
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 16810,
+          "endMs": 18620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 19000,
+      "endMs": 27600,
+      "pauseAfterMs": 770,
+      "text": "Hiç bu film harika dediğinde bir arkadaşının aynı filmi sıkıcı bulduğuna tanık oldun mu?",
+      "markedText": "Hiç bu film harika dediğinde bir arkadaşının aynı filmi sıkıcı bulduğuna tanık oldun mu?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 19000,
+          "endMs": 19280
+        },
+        {
+          "word": "bu",
+          "startMs": 19540,
+          "endMs": 19810
+        },
+        {
+          "word": "film",
+          "startMs": 20060,
+          "endMs": 20380
+        },
+        {
+          "word": "harika",
+          "startMs": 20530,
+          "endMs": 21000
+        },
+        {
+          "word": "dediğinde",
+          "startMs": 21180,
+          "endMs": 22200
+        },
+        {
+          "word": "bir",
+          "startMs": 22570,
+          "endMs": 22740
+        },
+        {
+          "word": "arkadaşının",
+          "startMs": 22940,
+          "endMs": 23670
+        },
+        {
+          "word": "aynı",
+          "startMs": 23800,
+          "endMs": 24140
+        },
+        {
+          "word": "filmi",
+          "startMs": 24140,
+          "endMs": 24500
+        },
+        {
+          "word": "sıkıcı",
+          "startMs": 24620,
+          "endMs": 24970
+        },
+        {
+          "word": "bulduğuna",
+          "startMs": 25090,
+          "endMs": 25610
+        },
+        {
+          "word": "tanık",
+          "startMs": 25770,
+          "endMs": 25960
+        },
+        {
+          "word": "oldun",
+          "startMs": 25960,
+          "endMs": 26280
+        },
+        {
+          "word": "mu?",
+          "startMs": 26640,
+          "endMs": 26830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 27600,
+      "endMs": 38420,
+      "pauseAfterMs": 500,
+      "text": "Beğeniler kişiden kişiye değişir, ancak filmin iki saat sürmesi herkes için aynıdır.",
+      "markedText": "Beğeniler kişiden kişiye değişir, ancak filmin iki saat sürmesi herkes için aynıdır.",
+      "words": [
+        {
+          "word": "Beğeniler",
+          "startMs": 27600,
+          "endMs": 28380
+        },
+        {
+          "word": "kişiden",
+          "startMs": 28610,
+          "endMs": 29490
+        },
+        {
+          "word": "kişiye",
+          "startMs": 29740,
+          "endMs": 30360
+        },
+        {
+          "word": "değişir,",
+          "startMs": 30640,
+          "endMs": 31700
+        },
+        {
+          "word": "ancak",
+          "startMs": 32610,
+          "endMs": 33120
+        },
+        {
+          "word": "filmin",
+          "startMs": 33220,
+          "endMs": 33760
+        },
+        {
+          "word": "iki",
+          "startMs": 34050,
+          "endMs": 34310
+        },
+        {
+          "word": "saat",
+          "startMs": 34310,
+          "endMs": 34670
+        },
+        {
+          "word": "sürmesi",
+          "startMs": 35170,
+          "endMs": 36170
+        },
+        {
+          "word": "herkes",
+          "startMs": 36500,
+          "endMs": 36910
+        },
+        {
+          "word": "için",
+          "startMs": 36950,
+          "endMs": 37360
+        },
+        {
+          "word": "aynıdır.",
+          "startMs": 37430,
+          "endMs": 37920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 38420,
+      "endMs": 45560,
+      "pauseAfterMs": 220,
+      "text": "Öznel ve nesnel anlatımın berrak sınırlarını keşfedeceğiz.",
+      "markedText": "Öznel ve nesnel anlatımın berrak sınırlarını keşfedeceğiz.",
+      "words": [
+        {
+          "word": "Öznel",
+          "startMs": 38420,
+          "endMs": 38750
+        },
+        {
+          "word": "ve",
+          "startMs": 38750,
+          "endMs": 38940
+        },
+        {
+          "word": "nesnel",
+          "startMs": 38940,
+          "endMs": 39520
+        },
+        {
+          "word": "anlatımın",
+          "startMs": 39680,
+          "endMs": 40550
+        },
+        {
+          "word": "berrak",
+          "startMs": 40740,
+          "endMs": 41220
+        },
+        {
+          "word": "sınırlarını",
+          "startMs": 41370,
+          "endMs": 42760
+        },
+        {
+          "word": "keşfedeceğiz.",
+          "startMs": 43690,
+          "endMs": 45340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 45560,
+      "endMs": 54630,
+      "pauseAfterMs": 320,
+      "text": "Kendi yorumlarımızı kanıtlanabilir gerçeklerden ayırmak harika bir beceridir.",
+      "markedText": "Kendi yorumlarımızı kanıtlanabilir gerçeklerden ayırmak harika bir beceridir.",
+      "words": [
+        {
+          "word": "Kendi",
+          "startMs": 45560,
+          "endMs": 45810
+        },
+        {
+          "word": "yorumlarımızı",
+          "startMs": 46160,
+          "endMs": 47280
+        },
+        {
+          "word": "kanıtlanabilir",
+          "startMs": 47700,
+          "endMs": 48900
+        },
+        {
+          "word": "gerçeklerden",
+          "startMs": 49380,
+          "endMs": 50820
+        },
+        {
+          "word": "ayırmak",
+          "startMs": 51540,
+          "endMs": 52140
+        },
+        {
+          "word": "harika",
+          "startMs": 52480,
+          "endMs": 52600
+        },
+        {
+          "word": "bir",
+          "startMs": 52860,
+          "endMs": 53300
+        },
+        {
+          "word": "beceridir.",
+          "startMs": 53680,
+          "endMs": 54310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 54630,
+      "endMs": 63790,
+      "pauseAfterMs": 650,
+      "text": "Fen dersinde su yüz derecede kaynar dediğinde nesnel bir gerçeği söylersin.",
+      "markedText": "Fen dersinde su yüz derecede kaynar dediğinde nesnel bir gerçeği söylersin.",
+      "words": [
+        {
+          "word": "Fen",
+          "startMs": 54630,
+          "endMs": 54830
+        },
+        {
+          "word": "dersinde",
+          "startMs": 54830,
+          "endMs": 55530
+        },
+        {
+          "word": "su",
+          "startMs": 55670,
+          "endMs": 55950
+        },
+        {
+          "word": "yüz",
+          "startMs": 56300,
+          "endMs": 56470
+        },
+        {
+          "word": "derecede",
+          "startMs": 56580,
+          "endMs": 57030
+        },
+        {
+          "word": "kaynar",
+          "startMs": 57070,
+          "endMs": 57770
+        },
+        {
+          "word": "dediğinde",
+          "startMs": 58350,
+          "endMs": 58900
+        },
+        {
+          "word": "nesnel",
+          "startMs": 58970,
+          "endMs": 59710
+        },
+        {
+          "word": "bir",
+          "startMs": 60050,
+          "endMs": 60280
+        },
+        {
+          "word": "gerçeği",
+          "startMs": 60620,
+          "endMs": 61610
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 62050,
+          "endMs": 63140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 63790,
+      "endMs": 73580,
+      "pauseAfterMs": 620,
+      "text": "Çorba çok lezzetli olmuş dediğinde ise kendi öznel zevkini paylaşırsın.",
+      "markedText": "Çorba çok lezzetli olmuş dediğinde ise kendi öznel zevkini paylaşırsın.",
+      "words": [
+        {
+          "word": "Çorba",
+          "startMs": 63790,
+          "endMs": 64160
+        },
+        {
+          "word": "çok",
+          "startMs": 64270,
+          "endMs": 64440
+        },
+        {
+          "word": "lezzetli",
+          "startMs": 64530,
+          "endMs": 65270
+        },
+        {
+          "word": "olmuş",
+          "startMs": 65910,
+          "endMs": 66450
+        },
+        {
+          "word": "dediğinde",
+          "startMs": 66790,
+          "endMs": 67300
+        },
+        {
+          "word": "ise",
+          "startMs": 67600,
+          "endMs": 68160
+        },
+        {
+          "word": "kendi",
+          "startMs": 68470,
+          "endMs": 68960
+        },
+        {
+          "word": "öznel",
+          "startMs": 69330,
+          "endMs": 69830
+        },
+        {
+          "word": "zevkini",
+          "startMs": 70040,
+          "endMs": 71040
+        },
+        {
+          "word": "paylaşırsın.",
+          "startMs": 71380,
+          "endMs": 72960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 73580,
+      "endMs": 97210,
+      "pauseAfterMs": 1190,
+      "text": "Bir konuda fikir yürütürken önce nesnel bilgileri ortaya koyup ardından öznel görüşlerini belirtirsen arkadaşların seni her zaman hayranlıkla dinler.",
+      "markedText": "Bir konuda fikir yürütürken önce nesnel bilgileri ortaya koyup ardından öznel görüşlerini belirtirsen arkadaşların seni her zaman hayranlıkla dinler.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 73580,
+          "endMs": 73930
+        },
+        {
+          "word": "konuda",
+          "startMs": 74270,
+          "endMs": 74960
+        },
+        {
+          "word": "fikir",
+          "startMs": 75040,
+          "endMs": 75530
+        },
+        {
+          "word": "yürütürken",
+          "startMs": 75530,
+          "endMs": 76450
+        },
+        {
+          "word": "önce",
+          "startMs": 76660,
+          "endMs": 77290
+        },
+        {
+          "word": "nesnel",
+          "startMs": 78170,
+          "endMs": 78660
+        },
+        {
+          "word": "bilgileri",
+          "startMs": 78740,
+          "endMs": 80210
+        },
+        {
+          "word": "ortaya",
+          "startMs": 80830,
+          "endMs": 81240
+        },
+        {
+          "word": "koyup",
+          "startMs": 81640,
+          "endMs": 82430
+        },
+        {
+          "word": "ardından",
+          "startMs": 83410,
+          "endMs": 84200
+        },
+        {
+          "word": "öznel",
+          "startMs": 84370,
+          "endMs": 85190
+        },
+        {
+          "word": "görüşlerini",
+          "startMs": 85780,
+          "endMs": 86590
+        },
+        {
+          "word": "belirtirsen",
+          "startMs": 86980,
+          "endMs": 88120
+        },
+        {
+          "word": "arkadaşların",
+          "startMs": 89240,
+          "endMs": 90250
+        },
+        {
+          "word": "seni",
+          "startMs": 90380,
+          "endMs": 90750
+        },
+        {
+          "word": "her",
+          "startMs": 90830,
+          "endMs": 91520
+        },
+        {
+          "word": "zaman",
+          "startMs": 92290,
+          "endMs": 93100
+        },
+        {
+          "word": "hayranlıkla",
+          "startMs": 93710,
+          "endMs": 94770
+        },
+        {
+          "word": "dinler.",
+          "startMs": 94900,
+          "endMs": 96020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 97210,
+      "endMs": 114850,
+      "pauseAfterMs": 790,
+      "text": "Nesnel anlatım; kişisel duygulardan uzak, doğruluğu veya yanlışlığı herkesçe kanıtlanabilir ve ölçülebilir yargılardır.",
+      "markedText": "Nesnel anlatım; kişisel duygulardan uzak, doğruluğu veya yanlışlığı herkesçe kanıtlanabilir ve ölçülebilir yargılardır.",
+      "words": [
+        {
+          "word": "Nesnel",
+          "startMs": 97210,
+          "endMs": 97640
+        },
+        {
+          "word": "anlatım;",
+          "startMs": 97740,
+          "endMs": 99170
+        },
+        {
+          "word": "kişisel",
+          "startMs": 99970,
+          "endMs": 100860
+        },
+        {
+          "word": "duygulardan",
+          "startMs": 101660,
+          "endMs": 102350
+        },
+        {
+          "word": "uzak,",
+          "startMs": 102870,
+          "endMs": 103550
+        },
+        {
+          "word": "doğruluğu",
+          "startMs": 104100,
+          "endMs": 104930
+        },
+        {
+          "word": "veya",
+          "startMs": 105720,
+          "endMs": 105930
+        },
+        {
+          "word": "yanlışlığı",
+          "startMs": 106000,
+          "endMs": 106810
+        },
+        {
+          "word": "herkesçe",
+          "startMs": 107170,
+          "endMs": 108090
+        },
+        {
+          "word": "kanıtlanabilir",
+          "startMs": 108460,
+          "endMs": 109990
+        },
+        {
+          "word": "ve",
+          "startMs": 110540,
+          "endMs": 110800
+        },
+        {
+          "word": "ölçülebilir",
+          "startMs": 110950,
+          "endMs": 112230
+        },
+        {
+          "word": "yargılardır.",
+          "startMs": 113230,
+          "endMs": 114060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 114850,
+      "endMs": 131040,
+      "pauseAfterMs": 730,
+      "text": "Türkiye'nin başkenti Ankara'dır ya da Bu masa ahşaptan yapılmıştır yargıları nesneldir; çünkü kişiye göre değişmez.",
+      "markedText": "Türkiye'nin başkenti Ankara'dır ya da Bu masa ahşaptan yapılmıştır yargıları nesneldir; çünkü kişiye göre değişmez.",
+      "words": [
+        {
+          "word": "Türkiye'nin",
+          "startMs": 114850,
+          "endMs": 115500
+        },
+        {
+          "word": "başkenti",
+          "startMs": 115890,
+          "endMs": 117110
+        },
+        {
+          "word": "Ankara'dır",
+          "startMs": 117970,
+          "endMs": 119000
+        },
+        {
+          "word": "ya",
+          "startMs": 119150,
+          "endMs": 119340
+        },
+        {
+          "word": "da",
+          "startMs": 119500,
+          "endMs": 119730
+        },
+        {
+          "word": "Bu",
+          "startMs": 119900,
+          "endMs": 120070
+        },
+        {
+          "word": "masa",
+          "startMs": 120170,
+          "endMs": 120530
+        },
+        {
+          "word": "ahşaptan",
+          "startMs": 120900,
+          "endMs": 121660
+        },
+        {
+          "word": "yapılmıştır",
+          "startMs": 121760,
+          "endMs": 123240
+        },
+        {
+          "word": "yargıları",
+          "startMs": 124110,
+          "endMs": 124940
+        },
+        {
+          "word": "nesneldir;",
+          "startMs": 126070,
+          "endMs": 126840
+        },
+        {
+          "word": "çünkü",
+          "startMs": 127260,
+          "endMs": 127900
+        },
+        {
+          "word": "kişiye",
+          "startMs": 128430,
+          "endMs": 128880
+        },
+        {
+          "word": "göre",
+          "startMs": 128990,
+          "endMs": 129160
+        },
+        {
+          "word": "değişmez.",
+          "startMs": 129410,
+          "endMs": 130310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 131040,
+      "endMs": 149210,
+      "pauseAfterMs": 1890,
+      "text": "Öznel anlatım ise söyleyenin kişisel duygu, beğeni ve yorumunu içeren, kanıtlanamayan yargılardır",
+      "markedText": "Öznel anlatım ise söyleyenin kişisel duygu, beğeni ve yorumunu içeren, kanıtlanamayan yargılardır",
+      "words": [
+        {
+          "word": "Öznel",
+          "startMs": 131040,
+          "endMs": 131590
+        },
+        {
+          "word": "anlatım",
+          "startMs": 131680,
+          "endMs": 132470
+        },
+        {
+          "word": "ise",
+          "startMs": 132990,
+          "endMs": 133370
+        },
+        {
+          "word": "söyleyenin",
+          "startMs": 133880,
+          "endMs": 135310
+        },
+        {
+          "word": "kişisel",
+          "startMs": 135760,
+          "endMs": 136390
+        },
+        {
+          "word": "duygu,",
+          "startMs": 136390,
+          "endMs": 137330
+        },
+        {
+          "word": "beğeni",
+          "startMs": 138650,
+          "endMs": 139660
+        },
+        {
+          "word": "ve",
+          "startMs": 140720,
+          "endMs": 140940
+        },
+        {
+          "word": "yorumunu",
+          "startMs": 141750,
+          "endMs": 142670
+        },
+        {
+          "word": "içeren,",
+          "startMs": 142760,
+          "endMs": 143550
+        },
+        {
+          "word": "kanıtlanamayan",
+          "startMs": 144160,
+          "endMs": 145990
+        },
+        {
+          "word": "yargılardır",
+          "startMs": 146180,
+          "endMs": 147320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 149210,
+      "endMs": 162890,
+      "pauseAfterMs": 1520,
+      "text": "Bu film çok etkileyicidir ya da Mavi en güzel renktir yargıları özneldir",
+      "markedText": "Bu film çok etkileyicidir ya da Mavi en güzel renktir yargıları özneldir",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 149210,
+          "endMs": 149450
+        },
+        {
+          "word": "film",
+          "startMs": 150080,
+          "endMs": 150580
+        },
+        {
+          "word": "çok",
+          "startMs": 151340,
+          "endMs": 151540
+        },
+        {
+          "word": "etkileyicidir",
+          "startMs": 151650,
+          "endMs": 153250
+        },
+        {
+          "word": "ya",
+          "startMs": 154250,
+          "endMs": 154500
+        },
+        {
+          "word": "da",
+          "startMs": 155140,
+          "endMs": 155360
+        },
+        {
+          "word": "Mavi",
+          "startMs": 155560,
+          "endMs": 155790
+        },
+        {
+          "word": "en",
+          "startMs": 155950,
+          "endMs": 156250
+        },
+        {
+          "word": "güzel",
+          "startMs": 156250,
+          "endMs": 157340
+        },
+        {
+          "word": "renktir",
+          "startMs": 157850,
+          "endMs": 159220
+        },
+        {
+          "word": "yargıları",
+          "startMs": 159960,
+          "endMs": 160660
+        },
+        {
+          "word": "özneldir",
+          "startMs": 160830,
+          "endMs": 161370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 162890,
+      "endMs": 190240,
+      "pauseAfterMs": 790,
+      "text": "Pratik kural: Bir cümlede bence, bana göre, harika, en güzel gibi sözcükler varsa o cümle genellikle özneldir; deney, ölçüm veya belgeye dayanan bilgiler ise nesneldir.",
+      "markedText": "Pratik kural: Bir cümlede bence, bana göre, harika, en güzel gibi sözcükler varsa o cümle genellikle özneldir; deney, ölçüm veya belgeye dayanan bilgiler ise nesneldir.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 162890,
+          "endMs": 163650
+        },
+        {
+          "word": "kural:",
+          "startMs": 163960,
+          "endMs": 164490
+        },
+        {
+          "word": "Bir",
+          "startMs": 165170,
+          "endMs": 165470
+        },
+        {
+          "word": "cümlede",
+          "startMs": 165560,
+          "endMs": 166100
+        },
+        {
+          "word": "bence,",
+          "startMs": 166900,
+          "endMs": 167260
+        },
+        {
+          "word": "bana",
+          "startMs": 167610,
+          "endMs": 168030
+        },
+        {
+          "word": "göre,",
+          "startMs": 168070,
+          "endMs": 168440
+        },
+        {
+          "word": "harika,",
+          "startMs": 170140,
+          "endMs": 170610
+        },
+        {
+          "word": "en",
+          "startMs": 171920,
+          "endMs": 172320
+        },
+        {
+          "word": "güzel",
+          "startMs": 172450,
+          "endMs": 172810
+        },
+        {
+          "word": "gibi",
+          "startMs": 172880,
+          "endMs": 173740
+        },
+        {
+          "word": "sözcükler",
+          "startMs": 174110,
+          "endMs": 175210
+        },
+        {
+          "word": "varsa",
+          "startMs": 175350,
+          "endMs": 176270
+        },
+        {
+          "word": "o",
+          "startMs": 176590,
+          "endMs": 176710
+        },
+        {
+          "word": "cümle",
+          "startMs": 176800,
+          "endMs": 177520
+        },
+        {
+          "word": "genellikle",
+          "startMs": 177630,
+          "endMs": 179070
+        },
+        {
+          "word": "özneldir;",
+          "startMs": 179940,
+          "endMs": 180920
+        },
+        {
+          "word": "deney,",
+          "startMs": 181050,
+          "endMs": 181910
+        },
+        {
+          "word": "ölçüm",
+          "startMs": 182400,
+          "endMs": 183300
+        },
+        {
+          "word": "veya",
+          "startMs": 183830,
+          "endMs": 184160
+        },
+        {
+          "word": "belgeye",
+          "startMs": 184240,
+          "endMs": 184880
+        },
+        {
+          "word": "dayanan",
+          "startMs": 185240,
+          "endMs": 186050
+        },
+        {
+          "word": "bilgiler",
+          "startMs": 186050,
+          "endMs": 187040
+        },
+        {
+          "word": "ise",
+          "startMs": 187560,
+          "endMs": 188080
+        },
+        {
+          "word": "nesneldir.",
+          "startMs": 188170,
+          "endMs": 189450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 190240,
+      "endMs": 195310,
+      "pauseAfterMs": 930,
+      "text": "Gel birlikte ikişer örneğe bakalım.",
+      "markedText": "Gel birlikte ikişer örneğe bakalım.",
+      "words": [
+        {
+          "word": "Gel",
+          "startMs": 190240,
+          "endMs": 190460
+        },
+        {
+          "word": "birlikte",
+          "startMs": 190460,
+          "endMs": 190810
+        },
+        {
+          "word": "ikişer",
+          "startMs": 190910,
+          "endMs": 191900
+        },
+        {
+          "word": "örneğe",
+          "startMs": 192470,
+          "endMs": 193210
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 193380,
+          "endMs": 194380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 195310,
+      "endMs": 208220,
+      "pauseAfterMs": 640,
+      "text": "Sınıfımızda yirmi beş sıra vardır; bu nesneldir, sayarak kanıtlayabilirsin.",
+      "markedText": "Sınıfımızda yirmi beş sıra vardır; bu nesneldir, sayarak kanıtlayabilirsin.",
+      "words": [
+        {
+          "word": "Sınıfımızda",
+          "startMs": 195310,
+          "endMs": 197210
+        },
+        {
+          "word": "yirmi",
+          "startMs": 197590,
+          "endMs": 197960
+        },
+        {
+          "word": "beş",
+          "startMs": 198120,
+          "endMs": 198330
+        },
+        {
+          "word": "sıra",
+          "startMs": 198770,
+          "endMs": 199080
+        },
+        {
+          "word": "vardır;",
+          "startMs": 199190,
+          "endMs": 200110
+        },
+        {
+          "word": "bu",
+          "startMs": 201280,
+          "endMs": 201680
+        },
+        {
+          "word": "nesneldir,",
+          "startMs": 201840,
+          "endMs": 203540
+        },
+        {
+          "word": "sayarak",
+          "startMs": 203810,
+          "endMs": 204660
+        },
+        {
+          "word": "kanıtlayabilirsin.",
+          "startMs": 205050,
+          "endMs": 207580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 208220,
+      "endMs": 221740,
+      "pauseAfterMs": 740,
+      "text": "Sınıfımız okulun en huzurlu sınıfıdır; bu özneldir, çünkü huzur kişiden kişiye değişen bir duygudur.",
+      "markedText": "Sınıfımız okulun en huzurlu sınıfıdır; bu özneldir, çünkü huzur kişiden kişiye değişen bir duygudur.",
+      "words": [
+        {
+          "word": "Sınıfımız",
+          "startMs": 208220,
+          "endMs": 209080
+        },
+        {
+          "word": "okulun",
+          "startMs": 209170,
+          "endMs": 209650
+        },
+        {
+          "word": "en",
+          "startMs": 209800,
+          "endMs": 209910
+        },
+        {
+          "word": "huzurlu",
+          "startMs": 210060,
+          "endMs": 210570
+        },
+        {
+          "word": "sınıfıdır;",
+          "startMs": 210910,
+          "endMs": 211790
+        },
+        {
+          "word": "bu",
+          "startMs": 212600,
+          "endMs": 212990
+        },
+        {
+          "word": "özneldir,",
+          "startMs": 213090,
+          "endMs": 214250
+        },
+        {
+          "word": "çünkü",
+          "startMs": 214930,
+          "endMs": 215940
+        },
+        {
+          "word": "huzur",
+          "startMs": 216210,
+          "endMs": 216750
+        },
+        {
+          "word": "kişiden",
+          "startMs": 216790,
+          "endMs": 217270
+        },
+        {
+          "word": "kişiye",
+          "startMs": 217370,
+          "endMs": 218520
+        },
+        {
+          "word": "değişen",
+          "startMs": 219090,
+          "endMs": 219890
+        },
+        {
+          "word": "bir",
+          "startMs": 219890,
+          "endMs": 220050
+        },
+        {
+          "word": "duygudur.",
+          "startMs": 220150,
+          "endMs": 221000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 221740,
+      "endMs": 228600,
+      "pauseAfterMs": 470,
+      "text": "Yazarın son kitabı yüz kırk sayfadır; bu nesneldir.",
+      "markedText": "Yazarın son kitabı yüz kırk sayfadır; bu nesneldir.",
+      "words": [
+        {
+          "word": "Yazarın",
+          "startMs": 221740,
+          "endMs": 222660
+        },
+        {
+          "word": "son",
+          "startMs": 222770,
+          "endMs": 223270
+        },
+        {
+          "word": "kitabı",
+          "startMs": 223960,
+          "endMs": 224460
+        },
+        {
+          "word": "yüz",
+          "startMs": 224460,
+          "endMs": 224670
+        },
+        {
+          "word": "kırk",
+          "startMs": 224770,
+          "endMs": 225120
+        },
+        {
+          "word": "sayfadır;",
+          "startMs": 225120,
+          "endMs": 226260
+        },
+        {
+          "word": "bu",
+          "startMs": 226630,
+          "endMs": 226930
+        },
+        {
+          "word": "nesneldir.",
+          "startMs": 226930,
+          "endMs": 228130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 228600,
+      "endMs": 233850,
+      "pauseAfterMs": 660,
+      "text": "Yazarın son kitabı çok akıcıdır; bu özneldir.",
+      "markedText": "Yazarın son kitabı çok akıcıdır; bu özneldir.",
+      "words": [
+        {
+          "word": "Yazarın",
+          "startMs": 228600,
+          "endMs": 229260
+        },
+        {
+          "word": "son",
+          "startMs": 229260,
+          "endMs": 229440
+        },
+        {
+          "word": "kitabı",
+          "startMs": 229520,
+          "endMs": 229870
+        },
+        {
+          "word": "çok",
+          "startMs": 229960,
+          "endMs": 230130
+        },
+        {
+          "word": "akıcıdır;",
+          "startMs": 230210,
+          "endMs": 230760
+        },
+        {
+          "word": "bu",
+          "startMs": 231400,
+          "endMs": 231620
+        },
+        {
+          "word": "özneldir.",
+          "startMs": 231620,
+          "endMs": 233190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 233850,
+      "endMs": 248430,
+      "pauseAfterMs": 570,
+      "text": "Gördüğün gibi aynı kitaptan bahsederken biri ölçülebilen sayıyı, diğeri kişisel beğeniyi aktarır.",
+      "markedText": "Gördüğün gibi aynı kitaptan bahsederken biri ölçülebilen sayıyı, diğeri kişisel beğeniyi aktarır.",
+      "words": [
+        {
+          "word": "Gördüğün",
+          "startMs": 233850,
+          "endMs": 234650
+        },
+        {
+          "word": "gibi",
+          "startMs": 234810,
+          "endMs": 235330
+        },
+        {
+          "word": "aynı",
+          "startMs": 235830,
+          "endMs": 236740
+        },
+        {
+          "word": "kitaptan",
+          "startMs": 236910,
+          "endMs": 238310
+        },
+        {
+          "word": "bahsederken",
+          "startMs": 238940,
+          "endMs": 240180
+        },
+        {
+          "word": "biri",
+          "startMs": 240430,
+          "endMs": 241180
+        },
+        {
+          "word": "ölçülebilen",
+          "startMs": 241460,
+          "endMs": 242360
+        },
+        {
+          "word": "sayıyı,",
+          "startMs": 242440,
+          "endMs": 243310
+        },
+        {
+          "word": "diğeri",
+          "startMs": 243960,
+          "endMs": 244830
+        },
+        {
+          "word": "kişisel",
+          "startMs": 244920,
+          "endMs": 245790
+        },
+        {
+          "word": "beğeniyi",
+          "startMs": 246290,
+          "endMs": 246780
+        },
+        {
+          "word": "aktarır.",
+          "startMs": 247070,
+          "endMs": 247860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 248430,
+      "endMs": 251140,
+      "pauseAfterMs": 590,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 248430,
+          "endMs": 249510
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 249760,
+          "endMs": 250550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 251140,
+      "endMs": 254300,
+      "pauseAfterMs": 620,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 251140,
+          "endMs": 252580
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 252820,
+          "endMs": 253680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 254300,
+      "endMs": 258730,
+      "pauseAfterMs": 560,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 254300,
+          "endMs": 254530
+        },
+        {
+          "word": "noktayı",
+          "startMs": 254530,
+          "endMs": 255900
+        },
+        {
+          "word": "sen",
+          "startMs": 256030,
+          "endMs": 256480
+        },
+        {
+          "word": "de",
+          "startMs": 256810,
+          "endMs": 257000
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 257100,
+          "endMs": 258170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 258730,
+      "endMs": 270970,
+      "pauseAfterMs": 380,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 258730,
+          "endMs": 259240
+        },
+        {
+          "word": "sevgili",
+          "startMs": 259240,
+          "endMs": 260130
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 260910,
+          "endMs": 262580
+        },
+        {
+          "word": "işte",
+          "startMs": 263130,
+          "endMs": 263430
+        },
+        {
+          "word": "tam",
+          "startMs": 263520,
+          "endMs": 263920
+        },
+        {
+          "word": "bu",
+          "startMs": 264160,
+          "endMs": 264380
+        },
+        {
+          "word": "noktada",
+          "startMs": 264980,
+          "endMs": 265690
+        },
+        {
+          "word": "dikkat",
+          "startMs": 265820,
+          "endMs": 266860
+        },
+        {
+          "word": "etmen",
+          "startMs": 267110,
+          "endMs": 267620
+        },
+        {
+          "word": "gereken",
+          "startMs": 267620,
+          "endMs": 268400
+        },
+        {
+          "word": "kilit",
+          "startMs": 268650,
+          "endMs": 269430
+        },
+        {
+          "word": "nokta.",
+          "startMs": 269920,
+          "endMs": 270590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 270970,
+      "endMs": 285990,
+      "pauseAfterMs": 760,
+      "text": "İçinde rakam veya sayı bulunan her cümleyi hemen nesnel sanma tuzağına düşmemelisin.",
+      "markedText": "İçinde rakam veya sayı bulunan her cümleyi hemen nesnel sanma tuzağına düşmemelisin.",
+      "words": [
+        {
+          "word": "İçinde",
+          "startMs": 270970,
+          "endMs": 271880
+        },
+        {
+          "word": "rakam",
+          "startMs": 272260,
+          "endMs": 272780
+        },
+        {
+          "word": "veya",
+          "startMs": 272900,
+          "endMs": 273420
+        },
+        {
+          "word": "sayı",
+          "startMs": 273420,
+          "endMs": 274400
+        },
+        {
+          "word": "bulunan",
+          "startMs": 274880,
+          "endMs": 276170
+        },
+        {
+          "word": "her",
+          "startMs": 276890,
+          "endMs": 277190
+        },
+        {
+          "word": "cümleyi",
+          "startMs": 277250,
+          "endMs": 278340
+        },
+        {
+          "word": "hemen",
+          "startMs": 278510,
+          "endMs": 279170
+        },
+        {
+          "word": "nesnel",
+          "startMs": 279490,
+          "endMs": 280100
+        },
+        {
+          "word": "sanma",
+          "startMs": 280170,
+          "endMs": 280930
+        },
+        {
+          "word": "tuzağına",
+          "startMs": 281810,
+          "endMs": 282520
+        },
+        {
+          "word": "düşmemelisin.",
+          "startMs": 283320,
+          "endMs": 285230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 285990,
+      "endMs": 299720,
+      "pauseAfterMs": 640,
+      "text": "En sevdiğim sayı üçtür cümlesinde üç bir sayıdır ama cümlenin bütünü kişisel bir tercihtir ve özneldir.",
+      "markedText": "En sevdiğim sayı üçtür cümlesinde üç bir sayıdır ama cümlenin bütünü kişisel bir tercihtir ve özneldir.",
+      "words": [
+        {
+          "word": "En",
+          "startMs": 285990,
+          "endMs": 286140
+        },
+        {
+          "word": "sevdiğim",
+          "startMs": 286220,
+          "endMs": 287130
+        },
+        {
+          "word": "sayı",
+          "startMs": 287300,
+          "endMs": 287870
+        },
+        {
+          "word": "üçtür",
+          "startMs": 288220,
+          "endMs": 289040
+        },
+        {
+          "word": "cümlesinde",
+          "startMs": 289330,
+          "endMs": 290210
+        },
+        {
+          "word": "üç",
+          "startMs": 290270,
+          "endMs": 290700
+        },
+        {
+          "word": "bir",
+          "startMs": 291420,
+          "endMs": 291590
+        },
+        {
+          "word": "sayıdır",
+          "startMs": 291650,
+          "endMs": 292390
+        },
+        {
+          "word": "ama",
+          "startMs": 292480,
+          "endMs": 292800
+        },
+        {
+          "word": "cümlenin",
+          "startMs": 292860,
+          "endMs": 293620
+        },
+        {
+          "word": "bütünü",
+          "startMs": 293930,
+          "endMs": 294780
+        },
+        {
+          "word": "kişisel",
+          "startMs": 295090,
+          "endMs": 295730
+        },
+        {
+          "word": "bir",
+          "startMs": 295920,
+          "endMs": 296320
+        },
+        {
+          "word": "tercihtir",
+          "startMs": 296390,
+          "endMs": 297510
+        },
+        {
+          "word": "ve",
+          "startMs": 297560,
+          "endMs": 297700
+        },
+        {
+          "word": "özneldir.",
+          "startMs": 298430,
+          "endMs": 299080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 299720,
+      "endMs": 320570,
+      "pauseAfterMs": 1510,
+      "text": "Cümleyi okurken kendine sor: Bu herkes için kanıtlanabilir bir gerçek mi, yoksa söyleyenin kendi fikri mi?",
+      "markedText": "Cümleyi okurken kendine sor: Bu herkes için kanıtlanabilir bir gerçek mi, yoksa söyleyenin kendi fikri mi?",
+      "words": [
+        {
+          "word": "Cümleyi",
+          "startMs": 299720,
+          "endMs": 300630
+        },
+        {
+          "word": "okurken",
+          "startMs": 300850,
+          "endMs": 302030
+        },
+        {
+          "word": "kendine",
+          "startMs": 302540,
+          "endMs": 303260
+        },
+        {
+          "word": "sor:",
+          "startMs": 303360,
+          "endMs": 303510
+        },
+        {
+          "word": "Bu",
+          "startMs": 304110,
+          "endMs": 304290
+        },
+        {
+          "word": "herkes",
+          "startMs": 304370,
+          "endMs": 305650
+        },
+        {
+          "word": "için",
+          "startMs": 306010,
+          "endMs": 306310
+        },
+        {
+          "word": "kanıtlanabilir",
+          "startMs": 306310,
+          "endMs": 307820
+        },
+        {
+          "word": "bir",
+          "startMs": 309160,
+          "endMs": 309280
+        },
+        {
+          "word": "gerçek",
+          "startMs": 309320,
+          "endMs": 309780
+        },
+        {
+          "word": "mi,",
+          "startMs": 310240,
+          "endMs": 310670
+        },
+        {
+          "word": "yoksa",
+          "startMs": 312040,
+          "endMs": 312630
+        },
+        {
+          "word": "söyleyenin",
+          "startMs": 314780,
+          "endMs": 316280
+        },
+        {
+          "word": "kendi",
+          "startMs": 317160,
+          "endMs": 317880
+        },
+        {
+          "word": "fikri",
+          "startMs": 318010,
+          "endMs": 318540
+        },
+        {
+          "word": "mi?",
+          "startMs": 318730,
+          "endMs": 319060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 320570,
+      "endMs": 326340,
+      "pauseAfterMs": 1080,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 320570,
+          "endMs": 321410
+        },
+        {
+          "word": "Neler",
+          "startMs": 322580,
+          "endMs": 323440
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 323680,
+          "endMs": 325260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 326340,
+      "endMs": 326800,
+      "pauseAfterMs": 130,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 326340,
+          "endMs": 326670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 326800,
+      "endMs": 340320,
+      "pauseAfterMs": 1920,
+      "text": "Nesnel anlatım kanıtlanabilir, ölçülebilir ve herkes için geçerlidir",
+      "markedText": "Nesnel anlatım kanıtlanabilir, ölçülebilir ve herkes için geçerlidir",
+      "words": [
+        {
+          "word": "Nesnel",
+          "startMs": 326800,
+          "endMs": 327670
+        },
+        {
+          "word": "anlatım",
+          "startMs": 327860,
+          "endMs": 328630
+        },
+        {
+          "word": "kanıtlanabilir,",
+          "startMs": 329000,
+          "endMs": 330870
+        },
+        {
+          "word": "ölçülebilir",
+          "startMs": 331990,
+          "endMs": 333730
+        },
+        {
+          "word": "ve",
+          "startMs": 334400,
+          "endMs": 334620
+        },
+        {
+          "word": "herkes",
+          "startMs": 335210,
+          "endMs": 335910
+        },
+        {
+          "word": "için",
+          "startMs": 336260,
+          "endMs": 337130
+        },
+        {
+          "word": "geçerlidir",
+          "startMs": 337380,
+          "endMs": 338400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 340320,
+      "endMs": 341210,
+      "pauseAfterMs": 630,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 340320,
+          "endMs": 340580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 341210,
+      "endMs": 351160,
+      "pauseAfterMs": 1040,
+      "text": "Öznel anlatım kişisel duygu, beğeni ve yorum taşır.",
+      "markedText": "Öznel anlatım kişisel duygu, beğeni ve yorum taşır.",
+      "words": [
+        {
+          "word": "Öznel",
+          "startMs": 341210,
+          "endMs": 341820
+        },
+        {
+          "word": "anlatım",
+          "startMs": 342630,
+          "endMs": 343290
+        },
+        {
+          "word": "kişisel",
+          "startMs": 343550,
+          "endMs": 343930
+        },
+        {
+          "word": "duygu,",
+          "startMs": 343930,
+          "endMs": 344720
+        },
+        {
+          "word": "beğeni",
+          "startMs": 346450,
+          "endMs": 347320
+        },
+        {
+          "word": "ve",
+          "startMs": 347870,
+          "endMs": 348540
+        },
+        {
+          "word": "yorum",
+          "startMs": 348820,
+          "endMs": 349330
+        },
+        {
+          "word": "taşır.",
+          "startMs": 349430,
+          "endMs": 350120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 351160,
+      "endMs": 351920,
+      "pauseAfterMs": 500,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 351160,
+          "endMs": 351420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 351920,
+      "endMs": 361460,
+      "pauseAfterMs": 310,
+      "text": "Sayı içeren her cümle nesnel değildir; cümlenin bütününe bakılır.",
+      "markedText": "Sayı içeren her cümle nesnel değildir; cümlenin bütününe bakılır.",
+      "words": [
+        {
+          "word": "Sayı",
+          "startMs": 351920,
+          "endMs": 352450
+        },
+        {
+          "word": "içeren",
+          "startMs": 353100,
+          "endMs": 353950
+        },
+        {
+          "word": "her",
+          "startMs": 354080,
+          "endMs": 354420
+        },
+        {
+          "word": "cümle",
+          "startMs": 354860,
+          "endMs": 355430
+        },
+        {
+          "word": "nesnel",
+          "startMs": 355520,
+          "endMs": 356250
+        },
+        {
+          "word": "değildir;",
+          "startMs": 356370,
+          "endMs": 357310
+        },
+        {
+          "word": "cümlenin",
+          "startMs": 358330,
+          "endMs": 359290
+        },
+        {
+          "word": "bütününe",
+          "startMs": 359370,
+          "endMs": 360170
+        },
+        {
+          "word": "bakılır.",
+          "startMs": 360860,
+          "endMs": 361150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 361460,
+      "endMs": 367660,
+      "pauseAfterMs": 700,
+      "text": "Nesnel ortak gözlemdir.",
+      "markedText": "Nesnel ortak gözlemdir.",
+      "words": [
+        {
+          "word": "Nesnel",
+          "startMs": 361460,
+          "endMs": 362110
+        },
+        {
+          "word": "ortak",
+          "startMs": 362540,
+          "endMs": 363340
+        },
+        {
+          "word": "gözlemdir.",
+          "startMs": 365040,
+          "endMs": 366960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 367660,
+      "endMs": 370810,
+      "pauseAfterMs": 390,
+      "text": "Öznel kişinin yorumudur.",
+      "markedText": "Öznel kişinin yorumudur.",
+      "words": [
+        {
+          "word": "Öznel",
+          "startMs": 367660,
+          "endMs": 367890
+        },
+        {
+          "word": "kişinin",
+          "startMs": 368320,
+          "endMs": 369290
+        },
+        {
+          "word": "yorumudur.",
+          "startMs": 369440,
+          "endMs": 370420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 370810,
+      "endMs": 383230,
+      "pauseAfterMs": 550,
+      "text": "Bir cümlenin öznel mi nesnel mi olduğunu gerekçesiyle söylersin.",
+      "markedText": "Bir cümlenin öznel mi nesnel mi olduğunu gerekçesiyle söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 370810,
+          "endMs": 370970
+        },
+        {
+          "word": "cümlenin",
+          "startMs": 371070,
+          "endMs": 372030
+        },
+        {
+          "word": "öznel",
+          "startMs": 372160,
+          "endMs": 373370
+        },
+        {
+          "word": "mi",
+          "startMs": 374260,
+          "endMs": 374420
+        },
+        {
+          "word": "nesnel",
+          "startMs": 374520,
+          "endMs": 376070
+        },
+        {
+          "word": "mi",
+          "startMs": 376710,
+          "endMs": 376900
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 377400,
+          "endMs": 378290
+        },
+        {
+          "word": "gerekçesiyle",
+          "startMs": 378690,
+          "endMs": 380000
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 380890,
+          "endMs": 382680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 383230,
+      "endMs": 387580,
+      "pauseAfterMs": 560,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 383230,
+          "endMs": 384710
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 385780,
+          "endMs": 387020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 387580,
+      "endMs": 392180,
+      "pauseAfterMs": 670,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 387580,
+          "endMs": 387990
+        },
+        {
+          "word": "bir",
+          "startMs": 388390,
+          "endMs": 389010
+        },
+        {
+          "word": "iş",
+          "startMs": 389860,
+          "endMs": 390120
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 390250,
+          "endMs": 391510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 392180,
+      "endMs": 396460,
+      "pauseAfterMs": 780,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 392180,
+          "endMs": 393240
+        },
+        {
+          "word": "sıra",
+          "startMs": 393700,
+          "endMs": 394100
+        },
+        {
+          "word": "sende.",
+          "startMs": 394990,
+          "endMs": 395680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 396460,
+      "endMs": 402358,
+      "pauseAfterMs": 388,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 396460,
+          "endMs": 397170
+        },
+        {
+          "word": "bu",
+          "startMs": 397830,
+          "endMs": 398050
+        },
+        {
+          "word": "notları",
+          "startMs": 398160,
+          "endMs": 398740
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 399320,
+          "endMs": 399980
+        },
+        {
+          "word": "kendi",
+          "startMs": 400090,
+          "endMs": 400340
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 400440,
+          "endMs": 401320
+        },
+        {
+          "word": "anlat.",
+          "startMs": 401380,
+          "endMs": 401970
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

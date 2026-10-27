@@ -111,6 +111,9 @@ function DigitTile(props: {
 }
 
 function placeLabelFor(digits: readonly string[], index: number): string {
+  if (digits.length === 3) {
+    return (["Yüzler", "Onlar", "Birler"] as const)[index] ?? `${index + 1}. Basamak`;
+  }
   if (digits.length === 2) {
     return index === 0 ? "Onlar" : "Birler";
   }
@@ -273,20 +276,21 @@ export function DetectiveBoardStage(props: { state: SceneGraphState }): ReactEle
           <div className="flex h-full min-h-0 w-full items-stretch justify-center gap-2 overflow-hidden sm:gap-4">
             {digits.map((digit, idx) => {
               const isOnes = idx === digits.length - 1;
-              const placeLabel =
-                digits.length === 2
-                  ? idx === 0
-                    ? "Onlar"
-                    : "Birler"
-                  : `${digits.length - idx}. Basamak`;
+              const isLastTwo = idx >= digits.length - 2;
+              const placeLabel = placeLabelFor(digits, idx);
+              const highlightLastTwo = detective.highlightedTarget === "last-two";
               const isHighlighted = isDigitSumMode
                 ? Boolean(detective.digitSum?.active)
-                : Boolean(detective.highlightedTarget === "ones" && isOnes);
+                : highlightLastTwo
+                  ? isLastTwo
+                  : Boolean(detective.highlightedTarget === "ones" && isOnes);
               const isDimmed =
-                !isDigitSumMode && Boolean(detective.dimOthers && !isOnes);
+                !isDigitSumMode &&
+                Boolean(detective.dimOthers && (highlightLastTwo ? !isLastTwo : !isOnes));
               const color = detective.highlightColor ?? (isDigitSumMode ? "amber" : "cyan");
               const showMagnifier =
-                !isDigitSumMode && Boolean(isOnes && detective.magnifyingGlass);
+                !isDigitSumMode &&
+                Boolean(detective.magnifyingGlass && (highlightLastTwo ? isLastTwo : isOnes));
 
               return (
                 <DigitTile

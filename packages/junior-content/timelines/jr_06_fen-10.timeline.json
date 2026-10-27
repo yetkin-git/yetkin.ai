@@ -1,0 +1,2802 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_fen-10",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Sabit süratli hareket",
+  "grade": 6,
+  "subject": "Fen Bilimleri",
+  "teacher": {
+    "name": "Deniz",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_fen-10.mp3",
+    "durationMs": 407560,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 182660
+    },
+    {
+      "id": "ch-2",
+      "title": "Sürat",
+      "startMs": 182660,
+      "endMs": 280710
+    },
+    {
+      "id": "ch-3",
+      "title": "Kapanış",
+      "startMs": 280710,
+      "endMs": 407560
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 5770,
+      "pauseAfterMs": 450,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 330,
+          "endMs": 840
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 1220,
+          "endMs": 2370
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 2480,
+          "endMs": 3110
+        },
+        {
+          "word": "hoş",
+          "startMs": 3810,
+          "endMs": 4070
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 4070,
+          "endMs": 5320
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "speed",
+            "title": "Sabit sürat",
+            "subtitle": "Yol bölü zaman"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 5770,
+      "endMs": 10440,
+      "pauseAfterMs": 690,
+      "text": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "markedText": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 5770,
+          "endMs": 5990
+        },
+        {
+          "word": "Fen",
+          "startMs": 6070,
+          "endMs": 6320
+        },
+        {
+          "word": "Bilimleri",
+          "startMs": 6380,
+          "endMs": 7320
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 7320,
+          "endMs": 8490
+        },
+        {
+          "word": "Deniz.",
+          "startMs": 8610,
+          "endMs": 9750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 10440,
+      "endMs": 17280,
+      "pauseAfterMs": 640,
+      "text": "Bugün hareketin ve zamanın mükemmel ritmini birlikte çözeceğiz.",
+      "markedText": "Bugün hareketin ve zamanın mükemmel ritmini birlikte çözeceğiz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 10440,
+          "endMs": 10770
+        },
+        {
+          "word": "hareketin",
+          "startMs": 10830,
+          "endMs": 11720
+        },
+        {
+          "word": "ve",
+          "startMs": 11720,
+          "endMs": 11780
+        },
+        {
+          "word": "zamanın",
+          "startMs": 11900,
+          "endMs": 12970
+        },
+        {
+          "word": "mükemmel",
+          "startMs": 13410,
+          "endMs": 14140
+        },
+        {
+          "word": "ritmini",
+          "startMs": 14210,
+          "endMs": 14800
+        },
+        {
+          "word": "birlikte",
+          "startMs": 15230,
+          "endMs": 15720
+        },
+        {
+          "word": "çözeceğiz.",
+          "startMs": 16080,
+          "endMs": 16640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 17280,
+      "endMs": 29300,
+      "pauseAfterMs": 730,
+      "text": "Parkta koşarken ya da okula doğru yürürken her saniyede aynı mesafeyi katettiğini hiç düşündün mü?",
+      "markedText": "Parkta koşarken ya da okula doğru yürürken her saniyede aynı mesafeyi katettiğini hiç düşündün mü?",
+      "words": [
+        {
+          "word": "Parkta",
+          "startMs": 17280,
+          "endMs": 17980
+        },
+        {
+          "word": "koşarken",
+          "startMs": 18150,
+          "endMs": 18810
+        },
+        {
+          "word": "ya",
+          "startMs": 18810,
+          "endMs": 18980
+        },
+        {
+          "word": "da",
+          "startMs": 19110,
+          "endMs": 19210
+        },
+        {
+          "word": "okula",
+          "startMs": 19620,
+          "endMs": 20100
+        },
+        {
+          "word": "doğru",
+          "startMs": 20490,
+          "endMs": 20760
+        },
+        {
+          "word": "yürürken",
+          "startMs": 20940,
+          "endMs": 21620
+        },
+        {
+          "word": "her",
+          "startMs": 21750,
+          "endMs": 22070
+        },
+        {
+          "word": "saniyede",
+          "startMs": 22620,
+          "endMs": 23530
+        },
+        {
+          "word": "aynı",
+          "startMs": 23530,
+          "endMs": 23910
+        },
+        {
+          "word": "mesafeyi",
+          "startMs": 24190,
+          "endMs": 25200
+        },
+        {
+          "word": "katettiğini",
+          "startMs": 25350,
+          "endMs": 26600
+        },
+        {
+          "word": "hiç",
+          "startMs": 27010,
+          "endMs": 27180
+        },
+        {
+          "word": "düşündün",
+          "startMs": 27180,
+          "endMs": 27590
+        },
+        {
+          "word": "mü?",
+          "startMs": 27810,
+          "endMs": 28570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 29300,
+      "endMs": 39110,
+      "pauseAfterMs": 580,
+      "text": "Hızın ne artıyor ne azalıyorsa buna fizikte sabit süratli hareket deriz.",
+      "markedText": "Hızın ne artıyor ne azalıyorsa buna fizikte sabit süratli hareket deriz.",
+      "words": [
+        {
+          "word": "Hızın",
+          "startMs": 29300,
+          "endMs": 29750
+        },
+        {
+          "word": "ne",
+          "startMs": 30100,
+          "endMs": 30190
+        },
+        {
+          "word": "artıyor",
+          "startMs": 30360,
+          "endMs": 31070
+        },
+        {
+          "word": "ne",
+          "startMs": 31070,
+          "endMs": 31320
+        },
+        {
+          "word": "azalıyorsa",
+          "startMs": 31900,
+          "endMs": 32860
+        },
+        {
+          "word": "buna",
+          "startMs": 32970,
+          "endMs": 33420
+        },
+        {
+          "word": "fizikte",
+          "startMs": 33420,
+          "endMs": 34830
+        },
+        {
+          "word": "sabit",
+          "startMs": 35420,
+          "endMs": 35990
+        },
+        {
+          "word": "süratli",
+          "startMs": 36200,
+          "endMs": 36800
+        },
+        {
+          "word": "hareket",
+          "startMs": 36800,
+          "endMs": 37360
+        },
+        {
+          "word": "deriz.",
+          "startMs": 37410,
+          "endMs": 38530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 39110,
+      "endMs": 45550,
+      "pauseAfterMs": 480,
+      "text": "Alınan yolu, geçen zamanı ve sürat kavramını birleştirip harika grafiklerle okuyacağız.",
+      "markedText": "Alınan yolu, geçen zamanı ve sürat kavramını birleştirip harika grafiklerle okuyacağız.",
+      "words": [
+        {
+          "word": "Alınan",
+          "startMs": 39110,
+          "endMs": 39570
+        },
+        {
+          "word": "yolu,",
+          "startMs": 39570,
+          "endMs": 39900
+        },
+        {
+          "word": "geçen",
+          "startMs": 40110,
+          "endMs": 40420
+        },
+        {
+          "word": "zamanı",
+          "startMs": 40460,
+          "endMs": 40870
+        },
+        {
+          "word": "ve",
+          "startMs": 40870,
+          "endMs": 41000
+        },
+        {
+          "word": "sürat",
+          "startMs": 41150,
+          "endMs": 41350
+        },
+        {
+          "word": "kavramını",
+          "startMs": 41350,
+          "endMs": 41930
+        },
+        {
+          "word": "birleştirip",
+          "startMs": 42080,
+          "endMs": 42550
+        },
+        {
+          "word": "harika",
+          "startMs": 42910,
+          "endMs": 43130
+        },
+        {
+          "word": "grafiklerle",
+          "startMs": 43220,
+          "endMs": 43860
+        },
+        {
+          "word": "okuyacağız.",
+          "startMs": 43980,
+          "endMs": 45070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 45550,
+      "endMs": 56560,
+      "pauseAfterMs": 580,
+      "text": "Bunu okul servisiyle yolculuk yaparken ya da yürüyüş bandında spor yaparken hemen görebilirsin.",
+      "markedText": "Bunu okul servisiyle yolculuk yaparken ya da yürüyüş bandında spor yaparken hemen görebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 45550,
+          "endMs": 45770
+        },
+        {
+          "word": "okul",
+          "startMs": 45890,
+          "endMs": 46200
+        },
+        {
+          "word": "servisiyle",
+          "startMs": 46290,
+          "endMs": 47110
+        },
+        {
+          "word": "yolculuk",
+          "startMs": 47200,
+          "endMs": 47790
+        },
+        {
+          "word": "yaparken",
+          "startMs": 47790,
+          "endMs": 48370
+        },
+        {
+          "word": "ya",
+          "startMs": 48760,
+          "endMs": 49040
+        },
+        {
+          "word": "da",
+          "startMs": 49140,
+          "endMs": 49420
+        },
+        {
+          "word": "yürüyüş",
+          "startMs": 49550,
+          "endMs": 50690
+        },
+        {
+          "word": "bandında",
+          "startMs": 51380,
+          "endMs": 52310
+        },
+        {
+          "word": "spor",
+          "startMs": 52690,
+          "endMs": 53090
+        },
+        {
+          "word": "yaparken",
+          "startMs": 53410,
+          "endMs": 53810
+        },
+        {
+          "word": "hemen",
+          "startMs": 54020,
+          "endMs": 54530
+        },
+        {
+          "word": "görebilirsin.",
+          "startMs": 54630,
+          "endMs": 55980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 56560,
+      "endMs": 70250,
+      "pauseAfterMs": 510,
+      "text": "Yürüyüş bandını saatte 4 kilometreye ayarladığında her saat tam 4 kilometre yol alırsın; süratin sabittir.",
+      "markedText": "Yürüyüş bandını saatte 4 kilometreye ayarladığında her saat tam 4 kilometre yol alırsın; süratin sabittir.",
+      "words": [
+        {
+          "word": "Yürüyüş",
+          "startMs": 56560,
+          "endMs": 57300
+        },
+        {
+          "word": "bandını",
+          "startMs": 57910,
+          "endMs": 58530
+        },
+        {
+          "word": "saatte",
+          "startMs": 58670,
+          "endMs": 59070
+        },
+        {
+          "word": "4",
+          "startMs": 59190,
+          "endMs": 59770
+        },
+        {
+          "word": "kilometreye",
+          "startMs": 59880,
+          "endMs": 61600
+        },
+        {
+          "word": "ayarladığında",
+          "startMs": 62280,
+          "endMs": 63060
+        },
+        {
+          "word": "her",
+          "startMs": 63600,
+          "endMs": 63720
+        },
+        {
+          "word": "saat",
+          "startMs": 64100,
+          "endMs": 64320
+        },
+        {
+          "word": "tam",
+          "startMs": 64660,
+          "endMs": 64920
+        },
+        {
+          "word": "4",
+          "startMs": 64990,
+          "endMs": 65520
+        },
+        {
+          "word": "kilometre",
+          "startMs": 65840,
+          "endMs": 66310
+        },
+        {
+          "word": "yol",
+          "startMs": 66420,
+          "endMs": 66680
+        },
+        {
+          "word": "alırsın;",
+          "startMs": 67000,
+          "endMs": 67660
+        },
+        {
+          "word": "süratin",
+          "startMs": 68150,
+          "endMs": 68590
+        },
+        {
+          "word": "sabittir.",
+          "startMs": 68700,
+          "endMs": 69740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 70250,
+      "endMs": 82940,
+      "pauseAfterMs": 1480,
+      "text": "Arabanın hız göstergesi 60 kilometre bölü saat üzerinde kıpırdamadan duruyorsa araç sabit süratle ilerliyordur.",
+      "markedText": "Arabanın hız göstergesi 60 kilometre bölü saat üzerinde kıpırdamadan duruyorsa araç sabit süratle ilerliyordur.",
+      "words": [
+        {
+          "word": "Arabanın",
+          "startMs": 70250,
+          "endMs": 71100
+        },
+        {
+          "word": "hız",
+          "startMs": 71220,
+          "endMs": 71450
+        },
+        {
+          "word": "göstergesi",
+          "startMs": 71450,
+          "endMs": 72240
+        },
+        {
+          "word": "60",
+          "startMs": 72360,
+          "endMs": 72870
+        },
+        {
+          "word": "kilometre",
+          "startMs": 73250,
+          "endMs": 74060
+        },
+        {
+          "word": "bölü",
+          "startMs": 74140,
+          "endMs": 74980
+        },
+        {
+          "word": "saat",
+          "startMs": 75570,
+          "endMs": 75720
+        },
+        {
+          "word": "üzerinde",
+          "startMs": 76090,
+          "endMs": 76800
+        },
+        {
+          "word": "kıpırdamadan",
+          "startMs": 76980,
+          "endMs": 77920
+        },
+        {
+          "word": "duruyorsa",
+          "startMs": 78550,
+          "endMs": 79060
+        },
+        {
+          "word": "araç",
+          "startMs": 79060,
+          "endMs": 79310
+        },
+        {
+          "word": "sabit",
+          "startMs": 79460,
+          "endMs": 79590
+        },
+        {
+          "word": "süratle",
+          "startMs": 79640,
+          "endMs": 80290
+        },
+        {
+          "word": "ilerliyordur.",
+          "startMs": 80390,
+          "endMs": 81460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 82940,
+      "endMs": 94540,
+      "pauseAfterMs": 430,
+      "text": "Bir problem çözerken metre ile saniyeyi, kilometre ile saati eşleştirmeyi ve birimleri karıştırmamayı unutma.",
+      "markedText": "Bir problem çözerken metre ile saniyeyi, kilometre ile saati eşleştirmeyi ve birimleri karıştırmamayı unutma.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 82940,
+          "endMs": 83090
+        },
+        {
+          "word": "problem",
+          "startMs": 83140,
+          "endMs": 83670
+        },
+        {
+          "word": "çözerken",
+          "startMs": 83670,
+          "endMs": 84280
+        },
+        {
+          "word": "metre",
+          "startMs": 84410,
+          "endMs": 84760
+        },
+        {
+          "word": "ile",
+          "startMs": 84900,
+          "endMs": 85220
+        },
+        {
+          "word": "saniyeyi,",
+          "startMs": 85310,
+          "endMs": 86440
+        },
+        {
+          "word": "kilometre",
+          "startMs": 87030,
+          "endMs": 88050
+        },
+        {
+          "word": "ile",
+          "startMs": 88190,
+          "endMs": 88480
+        },
+        {
+          "word": "saati",
+          "startMs": 88480,
+          "endMs": 88750
+        },
+        {
+          "word": "eşleştirmeyi",
+          "startMs": 88920,
+          "endMs": 90340
+        },
+        {
+          "word": "ve",
+          "startMs": 90740,
+          "endMs": 90870
+        },
+        {
+          "word": "birimleri",
+          "startMs": 90870,
+          "endMs": 91710
+        },
+        {
+          "word": "karıştırmamayı",
+          "startMs": 91890,
+          "endMs": 93190
+        },
+        {
+          "word": "unutma.",
+          "startMs": 93390,
+          "endMs": 94110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 94540,
+      "endMs": 100020,
+      "pauseAfterMs": 550,
+      "text": "Sürat, bir hareketlinin birim zamanda aldığı yoldur.",
+      "markedText": "Sürat, bir hareketlinin birim zamanda aldığı yoldur.",
+      "words": [
+        {
+          "word": "Sürat,",
+          "startMs": 94540,
+          "endMs": 95350
+        },
+        {
+          "word": "bir",
+          "startMs": 96120,
+          "endMs": 96280
+        },
+        {
+          "word": "hareketlinin",
+          "startMs": 96330,
+          "endMs": 96740
+        },
+        {
+          "word": "birim",
+          "startMs": 96860,
+          "endMs": 97240
+        },
+        {
+          "word": "zamanda",
+          "startMs": 97240,
+          "endMs": 97800
+        },
+        {
+          "word": "aldığı",
+          "startMs": 97920,
+          "endMs": 98460
+        },
+        {
+          "word": "yoldur.",
+          "startMs": 98570,
+          "endMs": 99470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 100020,
+      "endMs": 105790,
+      "pauseAfterMs": 990,
+      "text": "Sürati bulmak için alınan yolu, geçen zamana böleriz.",
+      "markedText": "Sürati bulmak için alınan yolu, geçen zamana böleriz.",
+      "words": [
+        {
+          "word": "Sürati",
+          "startMs": 100020,
+          "endMs": 100180
+        },
+        {
+          "word": "bulmak",
+          "startMs": 100260,
+          "endMs": 100590
+        },
+        {
+          "word": "için",
+          "startMs": 100660,
+          "endMs": 100850
+        },
+        {
+          "word": "alınan",
+          "startMs": 100980,
+          "endMs": 101330
+        },
+        {
+          "word": "yolu,",
+          "startMs": 101410,
+          "endMs": 101920
+        },
+        {
+          "word": "geçen",
+          "startMs": 102350,
+          "endMs": 102990
+        },
+        {
+          "word": "zamana",
+          "startMs": 103370,
+          "endMs": 103920
+        },
+        {
+          "word": "böleriz.",
+          "startMs": 104020,
+          "endMs": 104800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-1",
+      "startMs": 105790,
+      "endMs": 117980,
+      "pauseAfterMs": 850,
+      "text": "Alınan yol metre, geçen zaman saniye olarak ölçüldüğünde süratin birimi metre bölü saniye olur.",
+      "markedText": "Alınan yol metre, geçen zaman saniye olarak ölçüldüğünde süratin birimi metre bölü saniye olur.",
+      "words": [
+        {
+          "word": "Alınan",
+          "startMs": 105790,
+          "endMs": 106550
+        },
+        {
+          "word": "yol",
+          "startMs": 107130,
+          "endMs": 107350
+        },
+        {
+          "word": "metre,",
+          "startMs": 107480,
+          "endMs": 107820
+        },
+        {
+          "word": "geçen",
+          "startMs": 107970,
+          "endMs": 108310
+        },
+        {
+          "word": "zaman",
+          "startMs": 108360,
+          "endMs": 108690
+        },
+        {
+          "word": "saniye",
+          "startMs": 108830,
+          "endMs": 109970
+        },
+        {
+          "word": "olarak",
+          "startMs": 110660,
+          "endMs": 111430
+        },
+        {
+          "word": "ölçüldüğünde",
+          "startMs": 111540,
+          "endMs": 112530
+        },
+        {
+          "word": "süratin",
+          "startMs": 112940,
+          "endMs": 113440
+        },
+        {
+          "word": "birimi",
+          "startMs": 113680,
+          "endMs": 114310
+        },
+        {
+          "word": "metre",
+          "startMs": 114510,
+          "endMs": 115170
+        },
+        {
+          "word": "bölü",
+          "startMs": 115330,
+          "endMs": 115660
+        },
+        {
+          "word": "saniye",
+          "startMs": 115770,
+          "endMs": 116260
+        },
+        {
+          "word": "olur.",
+          "startMs": 116340,
+          "endMs": 117130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-1",
+      "startMs": 117980,
+      "endMs": 131210,
+      "pauseAfterMs": 740,
+      "text": "Yol kilometre, zaman saat olarak alındığında ise kilometre bölü saat birimi kullanılır.",
+      "markedText": "Yol kilometre, zaman saat olarak alındığında ise kilometre bölü saat birimi kullanılır.",
+      "words": [
+        {
+          "word": "Yol",
+          "startMs": 117980,
+          "endMs": 118370
+        },
+        {
+          "word": "kilometre,",
+          "startMs": 118470,
+          "endMs": 119540
+        },
+        {
+          "word": "zaman",
+          "startMs": 119620,
+          "endMs": 120230
+        },
+        {
+          "word": "saat",
+          "startMs": 120530,
+          "endMs": 120830
+        },
+        {
+          "word": "olarak",
+          "startMs": 121200,
+          "endMs": 121940
+        },
+        {
+          "word": "alındığında",
+          "startMs": 122060,
+          "endMs": 123100
+        },
+        {
+          "word": "ise",
+          "startMs": 123210,
+          "endMs": 123550
+        },
+        {
+          "word": "kilometre",
+          "startMs": 123650,
+          "endMs": 124870
+        },
+        {
+          "word": "bölü",
+          "startMs": 125930,
+          "endMs": 126140
+        },
+        {
+          "word": "saat",
+          "startMs": 126260,
+          "endMs": 126850
+        },
+        {
+          "word": "birimi",
+          "startMs": 127770,
+          "endMs": 128570
+        },
+        {
+          "word": "kullanılır.",
+          "startMs": 129110,
+          "endMs": 130470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-1",
+      "startMs": 131210,
+      "endMs": 138620,
+      "pauseAfterMs": 880,
+      "text": "Sabit süratli harekette hareketli, eşit zaman aralıklarında eşit yollar alır.",
+      "markedText": "Sabit süratli harekette hareketli, eşit zaman aralıklarında eşit yollar alır.",
+      "words": [
+        {
+          "word": "Sabit",
+          "startMs": 131210,
+          "endMs": 131430
+        },
+        {
+          "word": "süratli",
+          "startMs": 131500,
+          "endMs": 132110
+        },
+        {
+          "word": "harekette",
+          "startMs": 132580,
+          "endMs": 133400
+        },
+        {
+          "word": "hareketli,",
+          "startMs": 133480,
+          "endMs": 134370
+        },
+        {
+          "word": "eşit",
+          "startMs": 134720,
+          "endMs": 134970
+        },
+        {
+          "word": "zaman",
+          "startMs": 134970,
+          "endMs": 135200
+        },
+        {
+          "word": "aralıklarında",
+          "startMs": 135200,
+          "endMs": 136090
+        },
+        {
+          "word": "eşit",
+          "startMs": 136090,
+          "endMs": 136300
+        },
+        {
+          "word": "yollar",
+          "startMs": 136300,
+          "endMs": 136710
+        },
+        {
+          "word": "alır.",
+          "startMs": 136860,
+          "endMs": 137740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-1",
+      "startMs": 138620,
+      "endMs": 152790,
+      "pauseAfterMs": 620,
+      "text": "Yol zaman grafiğini çizdiğimizde noktalar yukarıya doğru düzgün eğimli bir doğru oluşturur.",
+      "markedText": "Yol zaman grafiğini çizdiğimizde noktalar yukarıya doğru düzgün eğimli bir doğru oluşturur.",
+      "words": [
+        {
+          "word": "Yol",
+          "startMs": 138620,
+          "endMs": 139130
+        },
+        {
+          "word": "zaman",
+          "startMs": 139300,
+          "endMs": 139590
+        },
+        {
+          "word": "grafiğini",
+          "startMs": 139700,
+          "endMs": 140750
+        },
+        {
+          "word": "çizdiğimizde",
+          "startMs": 141460,
+          "endMs": 141850
+        },
+        {
+          "word": "noktalar",
+          "startMs": 142070,
+          "endMs": 142970
+        },
+        {
+          "word": "yukarıya",
+          "startMs": 143230,
+          "endMs": 144370
+        },
+        {
+          "word": "doğru",
+          "startMs": 144630,
+          "endMs": 145120
+        },
+        {
+          "word": "düzgün",
+          "startMs": 145200,
+          "endMs": 146610
+        },
+        {
+          "word": "eğimli",
+          "startMs": 147550,
+          "endMs": 148530
+        },
+        {
+          "word": "bir",
+          "startMs": 149600,
+          "endMs": 149830
+        },
+        {
+          "word": "doğru",
+          "startMs": 150620,
+          "endMs": 150990
+        },
+        {
+          "word": "oluşturur.",
+          "startMs": 151100,
+          "endMs": 152170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-1",
+      "startMs": 152790,
+      "endMs": 165690,
+      "pauseAfterMs": 430,
+      "text": "Sürat zaman grafiğinde ise sürat hiç değişmediği için yatay düz bir çizgi elde ederiz.",
+      "markedText": "Sürat zaman grafiğinde ise sürat hiç değişmediği için yatay düz bir çizgi elde ederiz.",
+      "words": [
+        {
+          "word": "Sürat",
+          "startMs": 152790,
+          "endMs": 153000
+        },
+        {
+          "word": "zaman",
+          "startMs": 153200,
+          "endMs": 153810
+        },
+        {
+          "word": "grafiğinde",
+          "startMs": 153870,
+          "endMs": 155350
+        },
+        {
+          "word": "ise",
+          "startMs": 156300,
+          "endMs": 156410
+        },
+        {
+          "word": "sürat",
+          "startMs": 157080,
+          "endMs": 157640
+        },
+        {
+          "word": "hiç",
+          "startMs": 157760,
+          "endMs": 158020
+        },
+        {
+          "word": "değişmediği",
+          "startMs": 158350,
+          "endMs": 159250
+        },
+        {
+          "word": "için",
+          "startMs": 159360,
+          "endMs": 159700
+        },
+        {
+          "word": "yatay",
+          "startMs": 159700,
+          "endMs": 160390
+        },
+        {
+          "word": "düz",
+          "startMs": 160570,
+          "endMs": 161380
+        },
+        {
+          "word": "bir",
+          "startMs": 162210,
+          "endMs": 162480
+        },
+        {
+          "word": "çizgi",
+          "startMs": 163130,
+          "endMs": 163550
+        },
+        {
+          "word": "elde",
+          "startMs": 163550,
+          "endMs": 163950
+        },
+        {
+          "word": "ederiz.",
+          "startMs": 164310,
+          "endMs": 165260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-1",
+      "startMs": 165690,
+      "endMs": 174880,
+      "pauseAfterMs": 710,
+      "text": "Pratik kural: Sürati hesaplarken yolu ve zamanı çarpmayız; mutlaka yolu zamana böleriz.",
+      "markedText": "Pratik kural: Sürati hesaplarken yolu ve zamanı çarpmayız; mutlaka yolu zamana böleriz.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 165690,
+          "endMs": 166460
+        },
+        {
+          "word": "kural:",
+          "startMs": 167000,
+          "endMs": 167960
+        },
+        {
+          "word": "Sürati",
+          "startMs": 168780,
+          "endMs": 169240
+        },
+        {
+          "word": "hesaplarken",
+          "startMs": 169290,
+          "endMs": 170280
+        },
+        {
+          "word": "yolu",
+          "startMs": 170340,
+          "endMs": 170650
+        },
+        {
+          "word": "ve",
+          "startMs": 170770,
+          "endMs": 170890
+        },
+        {
+          "word": "zamanı",
+          "startMs": 171080,
+          "endMs": 171470
+        },
+        {
+          "word": "çarpmayız;",
+          "startMs": 171470,
+          "endMs": 172200
+        },
+        {
+          "word": "mutlaka",
+          "startMs": 172360,
+          "endMs": 172790
+        },
+        {
+          "word": "yolu",
+          "startMs": 172910,
+          "endMs": 173040
+        },
+        {
+          "word": "zamana",
+          "startMs": 173160,
+          "endMs": 173610
+        },
+        {
+          "word": "böleriz.",
+          "startMs": 173610,
+          "endMs": 174170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-1",
+      "startMs": 174880,
+      "endMs": 182660,
+      "pauseAfterMs": 890,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 174880,
+          "endMs": 175150
+        },
+        {
+          "word": "şimdi",
+          "startMs": 175290,
+          "endMs": 175930
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 176200,
+          "endMs": 177460
+        },
+        {
+          "word": "çizime",
+          "startMs": 177690,
+          "endMs": 178460
+        },
+        {
+          "word": "birlikte",
+          "startMs": 178640,
+          "endMs": 180240
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 180720,
+          "endMs": 181770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 182660,
+      "endMs": 280710,
+      "pauseAfterMs": 670,
+      "text": "Düz bir yolda bisiklet süren bir arkadaşımızı izleyelim. Arkadaşımız 120 metre yolu tam 40 saniyede tamamlasın. Sürati bulmak için 120 metreyi 40 saniyeye böleriz: 120 bölü 40, eşittir 3 metre bölü saniye çıkar. Bu ne demektir? Arkadaşımız her bir saniyede tam 3 metre yol almaktadır. 10 saniye geçtiğinde 30 metre, 20 saniye geçtiğinde 60 metre yol gider. Yol zaman grafiğini çizdiğimizde bu noktalar dümdüz eğimli bir doğru verir. Sürat zaman grafiğine baktığımızda ise değer hep 3 metre bölü saniye seviyesinde yatay bir çizgi olarak kalır. Başka bir koşucu 100 metreyi 20 saniyede koşarsa sürati 5 metre bölü saniye olur ve grafiği daha dik yükselir.",
+      "markedText": "Düz bir yolda bisiklet süren bir arkadaşımızı izleyelim. Arkadaşımız {@showSpeed} 120 metre yolu tam 40 saniyede tamamlasın. Sürati bulmak için 120 metreyi 40 saniyeye böleriz: 120 bölü 40, eşittir 3 metre bölü saniye çıkar. Bu ne demektir? Arkadaşımız her bir saniyede tam 3 metre yol almaktadır. 10 saniye geçtiğinde 30 metre, 20 saniye geçtiğinde 60 metre yol gider. Yol zaman grafiğini çizdiğimizde bu noktalar dümdüz eğimli bir doğru verir. Sürat zaman grafiğine baktığımızda ise değer hep 3 metre bölü saniye seviyesinde yatay bir çizgi olarak kalır. Başka bir koşucu 100 metreyi 20 saniyede koşarsa sürati 5 metre bölü saniye olur ve grafiği daha dik yükselir.",
+      "words": [
+        {
+          "word": "Düz",
+          "startMs": 182660,
+          "endMs": 182870
+        },
+        {
+          "word": "bir",
+          "startMs": 182870,
+          "endMs": 183110
+        },
+        {
+          "word": "yolda",
+          "startMs": 183210,
+          "endMs": 183800
+        },
+        {
+          "word": "bisiklet",
+          "startMs": 184030,
+          "endMs": 184830
+        },
+        {
+          "word": "süren",
+          "startMs": 184900,
+          "endMs": 185470
+        },
+        {
+          "word": "bir",
+          "startMs": 185560,
+          "endMs": 185940
+        },
+        {
+          "word": "arkadaşımızı",
+          "startMs": 186170,
+          "endMs": 187300
+        },
+        {
+          "word": "izleyelim.",
+          "startMs": 187570,
+          "endMs": 189380
+        },
+        {
+          "word": "Arkadaşımız",
+          "startMs": 190270,
+          "endMs": 191210
+        },
+        {
+          "word": "120",
+          "startMs": 191620,
+          "endMs": 192660
+        },
+        {
+          "word": "metre",
+          "startMs": 193100,
+          "endMs": 194000
+        },
+        {
+          "word": "yolu",
+          "startMs": 194760,
+          "endMs": 195160
+        },
+        {
+          "word": "tam",
+          "startMs": 195250,
+          "endMs": 195650
+        },
+        {
+          "word": "40",
+          "startMs": 196130,
+          "endMs": 197010
+        },
+        {
+          "word": "saniyede",
+          "startMs": 197570,
+          "endMs": 198500
+        },
+        {
+          "word": "tamamlasın.",
+          "startMs": 199070,
+          "endMs": 200260
+        },
+        {
+          "word": "Sürati",
+          "startMs": 201620,
+          "endMs": 202110
+        },
+        {
+          "word": "bulmak",
+          "startMs": 202340,
+          "endMs": 203230
+        },
+        {
+          "word": "için",
+          "startMs": 203370,
+          "endMs": 203660
+        },
+        {
+          "word": "120",
+          "startMs": 203660,
+          "endMs": 204880
+        },
+        {
+          "word": "metreyi",
+          "startMs": 205830,
+          "endMs": 206430
+        },
+        {
+          "word": "40",
+          "startMs": 206640,
+          "endMs": 206840
+        },
+        {
+          "word": "saniyeye",
+          "startMs": 207010,
+          "endMs": 207720
+        },
+        {
+          "word": "böleriz:",
+          "startMs": 207790,
+          "endMs": 209050
+        },
+        {
+          "word": "120",
+          "startMs": 210250,
+          "endMs": 210740
+        },
+        {
+          "word": "bölü",
+          "startMs": 210740,
+          "endMs": 211110
+        },
+        {
+          "word": "40,",
+          "startMs": 211260,
+          "endMs": 211490
+        },
+        {
+          "word": "eşittir",
+          "startMs": 211810,
+          "endMs": 212840
+        },
+        {
+          "word": "3",
+          "startMs": 212840,
+          "endMs": 213180
+        },
+        {
+          "word": "metre",
+          "startMs": 213730,
+          "endMs": 214130
+        },
+        {
+          "word": "bölü",
+          "startMs": 214570,
+          "endMs": 215010
+        },
+        {
+          "word": "saniye",
+          "startMs": 215010,
+          "endMs": 215520
+        },
+        {
+          "word": "çıkar.",
+          "startMs": 215660,
+          "endMs": 216750
+        },
+        {
+          "word": "Bu",
+          "startMs": 217920,
+          "endMs": 218120
+        },
+        {
+          "word": "ne",
+          "startMs": 218190,
+          "endMs": 218430
+        },
+        {
+          "word": "demektir?",
+          "startMs": 218550,
+          "endMs": 219790
+        },
+        {
+          "word": "Arkadaşımız",
+          "startMs": 220870,
+          "endMs": 221970
+        },
+        {
+          "word": "her",
+          "startMs": 222110,
+          "endMs": 222550
+        },
+        {
+          "word": "bir",
+          "startMs": 222730,
+          "endMs": 223620
+        },
+        {
+          "word": "saniyede",
+          "startMs": 224550,
+          "endMs": 225480
+        },
+        {
+          "word": "tam",
+          "startMs": 225480,
+          "endMs": 225720
+        },
+        {
+          "word": "3",
+          "startMs": 225720,
+          "endMs": 225970
+        },
+        {
+          "word": "metre",
+          "startMs": 226090,
+          "endMs": 226530
+        },
+        {
+          "word": "yol",
+          "startMs": 226750,
+          "endMs": 226960
+        },
+        {
+          "word": "almaktadır.",
+          "startMs": 227340,
+          "endMs": 228420
+        },
+        {
+          "word": "10",
+          "startMs": 229440,
+          "endMs": 229640
+        },
+        {
+          "word": "saniye",
+          "startMs": 229640,
+          "endMs": 230020
+        },
+        {
+          "word": "geçtiğinde",
+          "startMs": 230240,
+          "endMs": 231120
+        },
+        {
+          "word": "30",
+          "startMs": 231260,
+          "endMs": 231600
+        },
+        {
+          "word": "metre,",
+          "startMs": 231750,
+          "endMs": 232710
+        },
+        {
+          "word": "20",
+          "startMs": 233610,
+          "endMs": 234570
+        },
+        {
+          "word": "saniye",
+          "startMs": 234850,
+          "endMs": 235290
+        },
+        {
+          "word": "geçtiğinde",
+          "startMs": 235430,
+          "endMs": 236960
+        },
+        {
+          "word": "60",
+          "startMs": 237800,
+          "endMs": 238600
+        },
+        {
+          "word": "metre",
+          "startMs": 239310,
+          "endMs": 239860
+        },
+        {
+          "word": "yol",
+          "startMs": 240070,
+          "endMs": 240190
+        },
+        {
+          "word": "gider.",
+          "startMs": 240290,
+          "endMs": 240850
+        },
+        {
+          "word": "Yol",
+          "startMs": 241810,
+          "endMs": 242100
+        },
+        {
+          "word": "zaman",
+          "startMs": 242270,
+          "endMs": 242860
+        },
+        {
+          "word": "grafiğini",
+          "startMs": 243190,
+          "endMs": 243910
+        },
+        {
+          "word": "çizdiğimizde",
+          "startMs": 243910,
+          "endMs": 244810
+        },
+        {
+          "word": "bu",
+          "startMs": 244810,
+          "endMs": 244980
+        },
+        {
+          "word": "noktalar",
+          "startMs": 244980,
+          "endMs": 246200
+        },
+        {
+          "word": "dümdüz",
+          "startMs": 246910,
+          "endMs": 247240
+        },
+        {
+          "word": "eğimli",
+          "startMs": 247240,
+          "endMs": 248610
+        },
+        {
+          "word": "bir",
+          "startMs": 249460,
+          "endMs": 249540
+        },
+        {
+          "word": "doğru",
+          "startMs": 249580,
+          "endMs": 250030
+        },
+        {
+          "word": "verir.",
+          "startMs": 250460,
+          "endMs": 250980
+        },
+        {
+          "word": "Sürat",
+          "startMs": 251770,
+          "endMs": 252000
+        },
+        {
+          "word": "zaman",
+          "startMs": 252000,
+          "endMs": 252580
+        },
+        {
+          "word": "grafiğine",
+          "startMs": 252680,
+          "endMs": 253930
+        },
+        {
+          "word": "baktığımızda",
+          "startMs": 254350,
+          "endMs": 255420
+        },
+        {
+          "word": "ise",
+          "startMs": 255540,
+          "endMs": 255750
+        },
+        {
+          "word": "değer",
+          "startMs": 255830,
+          "endMs": 256630
+        },
+        {
+          "word": "hep",
+          "startMs": 257410,
+          "endMs": 257510
+        },
+        {
+          "word": "3",
+          "startMs": 257510,
+          "endMs": 257780
+        },
+        {
+          "word": "metre",
+          "startMs": 257780,
+          "endMs": 258220
+        },
+        {
+          "word": "bölü",
+          "startMs": 258350,
+          "endMs": 258720
+        },
+        {
+          "word": "saniye",
+          "startMs": 258820,
+          "endMs": 259650
+        },
+        {
+          "word": "seviyesinde",
+          "startMs": 260360,
+          "endMs": 261290
+        },
+        {
+          "word": "yatay",
+          "startMs": 261290,
+          "endMs": 262010
+        },
+        {
+          "word": "bir",
+          "startMs": 262790,
+          "endMs": 263110
+        },
+        {
+          "word": "çizgi",
+          "startMs": 263180,
+          "endMs": 263630
+        },
+        {
+          "word": "olarak",
+          "startMs": 263740,
+          "endMs": 264480
+        },
+        {
+          "word": "kalır.",
+          "startMs": 264580,
+          "endMs": 265040
+        },
+        {
+          "word": "Başka",
+          "startMs": 265360,
+          "endMs": 265870
+        },
+        {
+          "word": "bir",
+          "startMs": 266000,
+          "endMs": 266420
+        },
+        {
+          "word": "koşucu",
+          "startMs": 266620,
+          "endMs": 267030
+        },
+        {
+          "word": "100",
+          "startMs": 267110,
+          "endMs": 267210
+        },
+        {
+          "word": "metreyi",
+          "startMs": 267320,
+          "endMs": 268300
+        },
+        {
+          "word": "20",
+          "startMs": 268990,
+          "endMs": 269610
+        },
+        {
+          "word": "saniyede",
+          "startMs": 269610,
+          "endMs": 270410
+        },
+        {
+          "word": "koşarsa",
+          "startMs": 270560,
+          "endMs": 272030
+        },
+        {
+          "word": "sürati",
+          "startMs": 272380,
+          "endMs": 272840
+        },
+        {
+          "word": "5",
+          "startMs": 273030,
+          "endMs": 273160
+        },
+        {
+          "word": "metre",
+          "startMs": 273160,
+          "endMs": 273850
+        },
+        {
+          "word": "bölü",
+          "startMs": 273960,
+          "endMs": 274650
+        },
+        {
+          "word": "saniye",
+          "startMs": 275200,
+          "endMs": 275630
+        },
+        {
+          "word": "olur",
+          "startMs": 275730,
+          "endMs": 275920
+        },
+        {
+          "word": "ve",
+          "startMs": 275920,
+          "endMs": 276300
+        },
+        {
+          "word": "grafiği",
+          "startMs": 277080,
+          "endMs": 277710
+        },
+        {
+          "word": "daha",
+          "startMs": 278050,
+          "endMs": 278260
+        },
+        {
+          "word": "dik",
+          "startMs": 278380,
+          "endMs": 278700
+        },
+        {
+          "word": "yükselir.",
+          "startMs": 278700,
+          "endMs": 280040
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 191620,
+          "op": "SHOW_SPEED",
+          "hook": "showSpeed",
+          "params": {
+            "distance": 120,
+            "time": 40,
+            "speed": 3,
+            "distanceUnit": "m",
+            "timeUnit": "s",
+            "speedUnit": "m/s",
+            "spanDistance": 30,
+            "spanTime": 10,
+            "laterDistance": 60,
+            "laterTime": 20,
+            "otherDistance": 100,
+            "otherTime": 20,
+            "otherSpeed": 5,
+            "note": "bölü",
+            "marks": [
+              {
+                "slot": "distance",
+                "value": 120,
+                "atMs": 191620
+              },
+              {
+                "slot": "time",
+                "value": 40,
+                "atMs": 196130
+              },
+              {
+                "slot": "speed",
+                "value": 3,
+                "atMs": 212840
+              },
+              {
+                "slot": "span-time",
+                "value": 10,
+                "atMs": 229440
+              },
+              {
+                "slot": "span-distance",
+                "value": 30,
+                "atMs": 231260
+              },
+              {
+                "slot": "later-time",
+                "value": 20,
+                "atMs": 233610
+              },
+              {
+                "slot": "later-distance",
+                "value": 60,
+                "atMs": 237800
+              },
+              {
+                "slot": "other-distance",
+                "value": 100,
+                "atMs": 267110
+              },
+              {
+                "slot": "other-time",
+                "value": 20,
+                "atMs": 268990
+              },
+              {
+                "slot": "other-speed",
+                "value": 5,
+                "atMs": 273030
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-3",
+      "startMs": 280710,
+      "endMs": 283490,
+      "pauseAfterMs": 690,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 280710,
+          "endMs": 281770
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 282010,
+          "endMs": 282800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-3",
+      "startMs": 283490,
+      "endMs": 286640,
+      "pauseAfterMs": 740,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 283490,
+          "endMs": 284170
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 284740,
+          "endMs": 285900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-3",
+      "startMs": 286640,
+      "endMs": 290180,
+      "pauseAfterMs": 840,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 286640,
+          "endMs": 286850
+        },
+        {
+          "word": "noktayı",
+          "startMs": 286850,
+          "endMs": 287430
+        },
+        {
+          "word": "sen",
+          "startMs": 287430,
+          "endMs": 287760
+        },
+        {
+          "word": "de",
+          "startMs": 287940,
+          "endMs": 288100
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 288170,
+          "endMs": 289340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-3",
+      "startMs": 290180,
+      "endMs": 301460,
+      "pauseAfterMs": 850,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 290180,
+          "endMs": 290710
+        },
+        {
+          "word": "sevgili",
+          "startMs": 290710,
+          "endMs": 291560
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 291740,
+          "endMs": 292700
+        },
+        {
+          "word": "işte",
+          "startMs": 292980,
+          "endMs": 293500
+        },
+        {
+          "word": "tam",
+          "startMs": 293580,
+          "endMs": 293860
+        },
+        {
+          "word": "bu",
+          "startMs": 294730,
+          "endMs": 294800
+        },
+        {
+          "word": "noktada",
+          "startMs": 294850,
+          "endMs": 295890
+        },
+        {
+          "word": "dikkat",
+          "startMs": 296720,
+          "endMs": 297000
+        },
+        {
+          "word": "etmen",
+          "startMs": 297250,
+          "endMs": 297640
+        },
+        {
+          "word": "gereken",
+          "startMs": 297640,
+          "endMs": 298180
+        },
+        {
+          "word": "kilit",
+          "startMs": 298180,
+          "endMs": 299350
+        },
+        {
+          "word": "nokta.",
+          "startMs": 299990,
+          "endMs": 300610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-3",
+      "startMs": 301460,
+      "endMs": 316150,
+      "pauseAfterMs": 1200,
+      "text": "Sürati hesaplarken yolu ve zamanı çarpmak yerine, alınan yolu geçen zamana bölmeyi her zaman hatırla.",
+      "markedText": "Sürati hesaplarken yolu ve zamanı çarpmak yerine, alınan yolu geçen zamana bölmeyi her zaman hatırla.",
+      "words": [
+        {
+          "word": "Sürati",
+          "startMs": 301460,
+          "endMs": 301790
+        },
+        {
+          "word": "hesaplarken",
+          "startMs": 301940,
+          "endMs": 302990
+        },
+        {
+          "word": "yolu",
+          "startMs": 303080,
+          "endMs": 303710
+        },
+        {
+          "word": "ve",
+          "startMs": 303710,
+          "endMs": 303920
+        },
+        {
+          "word": "zamanı",
+          "startMs": 303920,
+          "endMs": 304740
+        },
+        {
+          "word": "çarpmak",
+          "startMs": 306510,
+          "endMs": 306930
+        },
+        {
+          "word": "yerine,",
+          "startMs": 306930,
+          "endMs": 307730
+        },
+        {
+          "word": "alınan",
+          "startMs": 308470,
+          "endMs": 309240
+        },
+        {
+          "word": "yolu",
+          "startMs": 309550,
+          "endMs": 310010
+        },
+        {
+          "word": "geçen",
+          "startMs": 310050,
+          "endMs": 310540
+        },
+        {
+          "word": "zamana",
+          "startMs": 310940,
+          "endMs": 311130
+        },
+        {
+          "word": "bölmeyi",
+          "startMs": 311240,
+          "endMs": 311940
+        },
+        {
+          "word": "her",
+          "startMs": 312000,
+          "endMs": 312240
+        },
+        {
+          "word": "zaman",
+          "startMs": 312300,
+          "endMs": 313090
+        },
+        {
+          "word": "hatırla.",
+          "startMs": 313930,
+          "endMs": 314950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-3",
+      "startMs": 316150,
+      "endMs": 334440,
+      "pauseAfterMs": 1130,
+      "text": "Grafiğe baktığında ise yatay bir doğru görürsen süratin hiç değişmediğini, yani hareketin sabit süratli olduğunu hemen fark edeceksin.",
+      "markedText": "Grafiğe baktığında ise yatay bir doğru görürsen süratin hiç değişmediğini, yani hareketin sabit süratli olduğunu hemen fark edeceksin.",
+      "words": [
+        {
+          "word": "Grafiğe",
+          "startMs": 316150,
+          "endMs": 316510
+        },
+        {
+          "word": "baktığında",
+          "startMs": 316510,
+          "endMs": 317270
+        },
+        {
+          "word": "ise",
+          "startMs": 317430,
+          "endMs": 317690
+        },
+        {
+          "word": "yatay",
+          "startMs": 317690,
+          "endMs": 319000
+        },
+        {
+          "word": "bir",
+          "startMs": 320250,
+          "endMs": 320410
+        },
+        {
+          "word": "doğru",
+          "startMs": 320470,
+          "endMs": 320680
+        },
+        {
+          "word": "görürsen",
+          "startMs": 320680,
+          "endMs": 321270
+        },
+        {
+          "word": "süratin",
+          "startMs": 321270,
+          "endMs": 321800
+        },
+        {
+          "word": "hiç",
+          "startMs": 322410,
+          "endMs": 322620
+        },
+        {
+          "word": "değişmediğini,",
+          "startMs": 322730,
+          "endMs": 324170
+        },
+        {
+          "word": "yani",
+          "startMs": 325470,
+          "endMs": 326030
+        },
+        {
+          "word": "hareketin",
+          "startMs": 326260,
+          "endMs": 327130
+        },
+        {
+          "word": "sabit",
+          "startMs": 327290,
+          "endMs": 327680
+        },
+        {
+          "word": "süratli",
+          "startMs": 327760,
+          "endMs": 328860
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 329610,
+          "endMs": 330290
+        },
+        {
+          "word": "hemen",
+          "startMs": 330900,
+          "endMs": 331390
+        },
+        {
+          "word": "fark",
+          "startMs": 331590,
+          "endMs": 331770
+        },
+        {
+          "word": "edeceksin.",
+          "startMs": 332100,
+          "endMs": 333310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-3",
+      "startMs": 334440,
+      "endMs": 350990,
+      "pauseAfterMs": 680,
+      "text": "Sabit süratli hareket konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Sabit süratli hareket konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Sabit",
+          "startMs": 334440,
+          "endMs": 335150
+        },
+        {
+          "word": "süratli",
+          "startMs": 336260,
+          "endMs": 336790
+        },
+        {
+          "word": "hareket",
+          "startMs": 337010,
+          "endMs": 338420
+        },
+        {
+          "word": "konusunda",
+          "startMs": 339520,
+          "endMs": 340800
+        },
+        {
+          "word": "kuralın",
+          "startMs": 340850,
+          "endMs": 342290
+        },
+        {
+          "word": "tersini",
+          "startMs": 343010,
+          "endMs": 343640
+        },
+        {
+          "word": "sanmak",
+          "startMs": 343830,
+          "endMs": 344800
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 344860,
+          "endMs": 346320
+        },
+        {
+          "word": "ters",
+          "startMs": 347070,
+          "endMs": 347780
+        },
+        {
+          "word": "cümle",
+          "startMs": 348000,
+          "endMs": 348510
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 348510,
+          "endMs": 350310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-3",
+      "startMs": 350990,
+      "endMs": 353680,
+      "pauseAfterMs": 590,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 350990,
+          "endMs": 351320
+        },
+        {
+          "word": "Neler",
+          "startMs": 351570,
+          "endMs": 351920
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 351980,
+          "endMs": 353090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-3",
+      "startMs": 353680,
+      "endMs": 354200,
+      "pauseAfterMs": 110,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 353680,
+          "endMs": 354090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 354200,
+      "endMs": 360620,
+      "pauseAfterMs": 720,
+      "text": "Sürat, alınan yolun geçen zamana bölümüdür.",
+      "markedText": "Sürat, alınan yolun geçen zamana bölümüdür.",
+      "words": [
+        {
+          "word": "Sürat,",
+          "startMs": 354200,
+          "endMs": 354670
+        },
+        {
+          "word": "alınan",
+          "startMs": 354790,
+          "endMs": 355480
+        },
+        {
+          "word": "yolun",
+          "startMs": 356550,
+          "endMs": 357110
+        },
+        {
+          "word": "geçen",
+          "startMs": 357250,
+          "endMs": 357750
+        },
+        {
+          "word": "zamana",
+          "startMs": 357970,
+          "endMs": 358400
+        },
+        {
+          "word": "bölümüdür.",
+          "startMs": 358880,
+          "endMs": 359900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 360620,
+      "endMs": 361050,
+      "pauseAfterMs": 140,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 360620,
+          "endMs": 360910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 361050,
+      "endMs": 368030,
+      "pauseAfterMs": 230,
+      "text": "Sabit süratli harekette alınan yol zamanla doğru orantılı olarak artar.",
+      "markedText": "Sabit süratli harekette alınan yol zamanla doğru orantılı olarak artar.",
+      "words": [
+        {
+          "word": "Sabit",
+          "startMs": 361050,
+          "endMs": 361510
+        },
+        {
+          "word": "süratli",
+          "startMs": 361580,
+          "endMs": 362260
+        },
+        {
+          "word": "harekette",
+          "startMs": 362420,
+          "endMs": 362700
+        },
+        {
+          "word": "alınan",
+          "startMs": 362830,
+          "endMs": 363330
+        },
+        {
+          "word": "yol",
+          "startMs": 363830,
+          "endMs": 363960
+        },
+        {
+          "word": "zamanla",
+          "startMs": 364300,
+          "endMs": 364760
+        },
+        {
+          "word": "doğru",
+          "startMs": 364910,
+          "endMs": 365380
+        },
+        {
+          "word": "orantılı",
+          "startMs": 365560,
+          "endMs": 366320
+        },
+        {
+          "word": "olarak",
+          "startMs": 366640,
+          "endMs": 366740
+        },
+        {
+          "word": "artar.",
+          "startMs": 367110,
+          "endMs": 367800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 368030,
+      "endMs": 369080,
+      "pauseAfterMs": 900,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 368030,
+          "endMs": 368180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 369080,
+      "endMs": 376180,
+      "pauseAfterMs": 930,
+      "text": "Yol zaman grafiği eğimli bir doğrudur; sürat zaman grafiği ise yatay bir doğrudur.",
+      "markedText": "Yol zaman grafiği eğimli bir doğrudur; sürat zaman grafiği ise yatay bir doğrudur.",
+      "words": [
+        {
+          "word": "Yol",
+          "startMs": 369080,
+          "endMs": 369360
+        },
+        {
+          "word": "zaman",
+          "startMs": 369430,
+          "endMs": 369730
+        },
+        {
+          "word": "grafiği",
+          "startMs": 369850,
+          "endMs": 370210
+        },
+        {
+          "word": "eğimli",
+          "startMs": 370210,
+          "endMs": 370750
+        },
+        {
+          "word": "bir",
+          "startMs": 371540,
+          "endMs": 371730
+        },
+        {
+          "word": "doğrudur;",
+          "startMs": 372450,
+          "endMs": 372730
+        },
+        {
+          "word": "sürat",
+          "startMs": 372930,
+          "endMs": 373200
+        },
+        {
+          "word": "zaman",
+          "startMs": 373200,
+          "endMs": 373590
+        },
+        {
+          "word": "grafiği",
+          "startMs": 373590,
+          "endMs": 373930
+        },
+        {
+          "word": "ise",
+          "startMs": 373930,
+          "endMs": 374010
+        },
+        {
+          "word": "yatay",
+          "startMs": 374010,
+          "endMs": 374370
+        },
+        {
+          "word": "bir",
+          "startMs": 374370,
+          "endMs": 374560
+        },
+        {
+          "word": "doğrudur.",
+          "startMs": 374560,
+          "endMs": 375250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 376180,
+      "endMs": 383380,
+      "pauseAfterMs": 1690,
+      "text": "Sabit sürat, eşit zamanlarda eşit yol almaktır.",
+      "markedText": "Sabit sürat, eşit zamanlarda eşit yol almaktır.",
+      "words": [
+        {
+          "word": "Sabit",
+          "startMs": 376180,
+          "endMs": 376440
+        },
+        {
+          "word": "sürat,",
+          "startMs": 377080,
+          "endMs": 377430
+        },
+        {
+          "word": "eşit",
+          "startMs": 377590,
+          "endMs": 378140
+        },
+        {
+          "word": "zamanlarda",
+          "startMs": 378500,
+          "endMs": 379430
+        },
+        {
+          "word": "eşit",
+          "startMs": 379550,
+          "endMs": 380010
+        },
+        {
+          "word": "yol",
+          "startMs": 380080,
+          "endMs": 380600
+        },
+        {
+          "word": "almaktır.",
+          "startMs": 380800,
+          "endMs": 381690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 383380,
+      "endMs": 389390,
+      "pauseAfterMs": 810,
+      "text": "Yolu zamana bölerek sürati birimiyle söylersin.",
+      "markedText": "Yolu zamana bölerek sürati birimiyle söylersin.",
+      "words": [
+        {
+          "word": "Yolu",
+          "startMs": 383380,
+          "endMs": 383730
+        },
+        {
+          "word": "zamana",
+          "startMs": 383730,
+          "endMs": 384140
+        },
+        {
+          "word": "bölerek",
+          "startMs": 384380,
+          "endMs": 385630
+        },
+        {
+          "word": "sürati",
+          "startMs": 386160,
+          "endMs": 386380
+        },
+        {
+          "word": "birimiyle",
+          "startMs": 386500,
+          "endMs": 387000
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 387420,
+          "endMs": 388580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 389390,
+      "endMs": 391730,
+      "pauseAfterMs": 690,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 389390,
+          "endMs": 390030
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 390030,
+          "endMs": 391040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 391730,
+      "endMs": 395490,
+      "pauseAfterMs": 660,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 391730,
+          "endMs": 392400
+        },
+        {
+          "word": "bir",
+          "startMs": 392610,
+          "endMs": 392840
+        },
+        {
+          "word": "iş",
+          "startMs": 392980,
+          "endMs": 393320
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 393320,
+          "endMs": 394830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 395490,
+      "endMs": 397890,
+      "pauseAfterMs": 650,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 395490,
+          "endMs": 396110
+        },
+        {
+          "word": "sıra",
+          "startMs": 396340,
+          "endMs": 396600
+        },
+        {
+          "word": "sende.",
+          "startMs": 396780,
+          "endMs": 397240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 397890,
+      "endMs": 407560,
+      "pauseAfterMs": 400,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 397890,
+          "endMs": 398870
+        },
+        {
+          "word": "bu",
+          "startMs": 398870,
+          "endMs": 399080
+        },
+        {
+          "word": "notları",
+          "startMs": 399310,
+          "endMs": 400820
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 401390,
+          "endMs": 402160
+        },
+        {
+          "word": "kendi",
+          "startMs": 402820,
+          "endMs": 403690
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 404330,
+          "endMs": 405410
+        },
+        {
+          "word": "anlat.",
+          "startMs": 405700,
+          "endMs": 407160
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

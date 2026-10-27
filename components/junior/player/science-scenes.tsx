@@ -334,20 +334,128 @@ function bodyMode(caption: string): BodyMode {
   return "skeleton";
 }
 
-function NoBodyDrawing() {
+type EcologyKind = "sprout" | "habitat" | "fuel";
+
+/** Çimlenme, biyoçeşitlilik ve yakıt vektörü. Organ sahnesine düşmez. */
+export function vectorEcologyKind(input: {
+  caption: string;
+  captionTrail?: readonly string[];
+  lessonKey?: string;
+}): EcologyKind | null {
+  if (input.lessonKey === "jr_06_fen-24") return "sprout";
+  if (input.lessonKey === "jr_06_fen-37") return "habitat";
+  if (input.lessonKey === "jr_06_fen-38") return "fuel";
+  const text = [input.caption, ...(input.captionTrail ?? [])].join(" ").toLocaleLowerCase("tr-TR");
+  if (/çimlen|tohum|fasulye|mercimek/u.test(text)) return "sprout";
+  if (/yakıt|fosil|baca|güneş paneli/u.test(text)) return "fuel";
+  if (/biyoçeşit|orman|kuş tür|bitki tür|çevre problem/u.test(text)) return "habitat";
+  return null;
+}
+
+export function GerminationScene({ beat }: { beat: number }) {
   return (
     <Stage scene="body">
       <text x="16" y="28" fill="#0f172a" fontSize="15" fontFamily="inherit" fontWeight="700">
-        çizim yok
+        Çimlenme
+      </text>
+      <ellipse cx="78" cy="118" rx="28" ry="16" fill="#fde68a" stroke="#a16207" strokeWidth="2" />
+      <text x="78" y="122" textAnchor="middle" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="700">
+        Tohum
+      </text>
+      {beat >= 2 ? (
+        <path d="M78 102 C78 78 96 64 108 52" fill="none" stroke="#15803d" strokeWidth="3" />
+      ) : null}
+      {beat >= 3 ? <ellipse cx="116" cy="48" rx="14" ry="8" fill="#86efac" stroke="#15803d" strokeWidth="2" /> : null}
+      <text x="160" y="72" fill="#0369a1" fontSize="13" fontFamily="inherit" fontWeight="700">
+        Su tohumu şişirir
+      </text>
+      <text x="160" y="96" fill="#0f172a" fontSize="13" fontFamily="inherit">
+        Oksijen solunumu besler
+      </text>
+      <text x="160" y="120" fill="#0f172a" fontSize="13" fontFamily="inherit">
+        Uygun sıcaklık yürütür
+      </text>
+      <text x="16" y="168" fill="#b45309" fontSize="12" fontFamily="inherit" fontWeight="700">
+        Işık çimlenme için şart değildir
+      </text>
+    </Stage>
+  );
+}
+
+export function HabitatVector({ beat }: { beat: number }) {
+  return (
+    <Stage scene="body">
+      <text x="16" y="28" fill="#0f172a" fontSize="15" fontFamily="inherit" fontWeight="700">
+        Biyoçeşitlilik
+      </text>
+      <text x="16" y="58" fill="#166534" fontSize="14" fontFamily="inherit" fontWeight="700">
+        12 kuş türü
+      </text>
+      <text x="16" y="82" fill="#3f6212" fontSize="14" fontFamily="inherit" fontWeight="700">
+        30 bitki türü
+      </text>
+      <text x="180" y="58" fill="#9f1239" fontSize="13" fontFamily="inherit" fontWeight="700">
+        {beat >= 3 ? "Orman kesilirse yuva azalır" : "Tehdit türü azaltır"}
+      </text>
+      <text x="180" y="82" fill="#9f1239" fontSize="13" fontFamily="inherit">
+        Dereye atık, böceği azaltır
+      </text>
+      <text x="16" y="124" fill="#0369a1" fontSize="13" fontFamily="inherit" fontWeight="700">
+        Koruma, yaşam alanını bütün bırakır
+      </text>
+      <text x="16" y="148" fill="#0f172a" fontSize="12" fontFamily="inherit">
+        Böcek ve bitki de bu zenginliğin parçasıdır
+      </text>
+    </Stage>
+  );
+}
+
+export function FuelVector({ beat }: { beat: number }) {
+  return (
+    <Stage scene="body">
+      <text x="16" y="28" fill="#0f172a" fontSize="15" fontFamily="inherit" fontWeight="700">
+        Yakıt
+      </text>
+      <text x="16" y="58" fill="#0369a1" fontSize="14" fontFamily="inherit" fontWeight="700">
+        10 kilometre
+      </text>
+      <text x="160" y="58" fill="#c2410c" fontSize="14" fontFamily="inherit" fontWeight="700">
+        2 litre yakıt
+      </text>
+      <text x="16" y="92" fill="#0f172a" fontSize="13" fontFamily="inherit">
+        {beat >= 3 ? "Filtresiz baca daha çok kirletir" : "Yanma enerji verir"}
+      </text>
+      <text x="16" y="116" fill="#166534" fontSize="13" fontFamily="inherit" fontWeight="700">
+        Filtreli baca daha az is bırakır
+      </text>
+      <text x="16" y="148" fill="#b45309" fontSize="13" fontFamily="inherit" fontWeight="700">
+        Kısa yolu yürümek yakıtı azaltır
+      </text>
+      <text x="16" y="172" fill="#0f172a" fontSize="12" fontFamily="inherit">
+        Güneş paneli lambayı yakıt yakmadan besleyebilir
       </text>
     </Stage>
   );
 }
 
 /** Vücut sistemleri: caption ile iskelet / sindirim / solunum / boşaltım / sinir / duyu / ilk yardım. */
-export function BodyScene({ beat, caption }: { beat: number; caption: string }) {
-  if (bodyOrganDrawingSuppressed({ caption })) {
-    return <NoBodyDrawing />;
+export function BodyScene({
+  beat,
+  caption,
+  captionTrail,
+  lessonKey,
+}: {
+  beat: number;
+  caption: string;
+  captionTrail?: readonly string[];
+  lessonKey?: string;
+}) {
+  const ecology = vectorEcologyKind({ caption, captionTrail, lessonKey });
+  if (ecology === "sprout") return <GerminationScene beat={beat} />;
+  if (ecology === "habitat") return <HabitatVector beat={beat} />;
+  if (ecology === "fuel") return <FuelVector beat={beat} />;
+  if (bodyOrganDrawingSuppressed({ caption, captionTrail, lessonKey })) {
+    return <HabitatVector beat={beat} />;
   }
   const mode = bodyMode(caption);
   const title =
@@ -856,10 +964,7 @@ export function ScienceSceneArt({
   if (scene === "eclipse") return <EclipseScene beat={beat} />;
   if (scene === "blood") return <BloodScene beat={beat} caption={caption} />;
   if (scene === "body") {
-    if (bodyOrganDrawingSuppressed({ caption, captionTrail, lessonKey })) {
-      return <NoBodyDrawing />;
-    }
-    return <BodyScene beat={beat} caption={caption} />;
+    return <BodyScene beat={beat} caption={caption} captionTrail={captionTrail} lessonKey={lessonKey} />;
   }
   if (scene === "particles") return <ParticleScene beat={beat} caption={caption} />;
   if (scene === "sound") return <SoundScene beat={beat} caption={caption} />;

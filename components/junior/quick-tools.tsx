@@ -136,7 +136,7 @@ export function QuickTools({
       </div>
 
       <div
-        className="flex w-[5.5rem] shrink-0 flex-col justify-center rounded-2xl border border-slate-200 bg-slate-50 px-2 py-1.5 xl:mt-3 xl:w-auto xl:px-3 xl:py-3"
+        className="hidden w-[5.5rem] shrink-0 flex-col justify-center rounded-2xl border border-slate-200 bg-slate-50 px-2 py-1.5 min-[480px]:flex xl:mt-3 xl:w-auto xl:px-3 xl:py-3"
         data-junior-score-panel=""
       >
         <p className="hidden text-xs font-bold text-slate-500 xl:block">Puan durumu</p>
@@ -158,7 +158,7 @@ export function QuickTools({
       </div>
 
       <div
-        className={`flex w-[5.5rem] shrink-0 flex-col justify-center rounded-2xl border px-2 py-1.5 xl:mt-3 xl:w-auto xl:px-3 xl:py-3 ${
+        className={`hidden w-[5.5rem] shrink-0 flex-col justify-center rounded-2xl border px-2 py-1.5 min-[480px]:flex xl:mt-3 xl:w-auto xl:px-3 xl:py-3 ${
           badge ? "border-amber-300 bg-amber-50" : "border-slate-200 bg-slate-50"
         }`}
         data-junior-studio-badge=""
@@ -172,7 +172,7 @@ export function QuickTools({
           data-junior-badge-label=""
         >
           {badge
-            ? blueprint.badge.chipLabel
+            ? (blueprint?.badge.chipLabel ?? "Rozet açıldı")
             : `Rozet ${JUNIOR_BADGE_UNLOCK_THRESHOLD} oyunda açılır`}
         </p>
       </div>

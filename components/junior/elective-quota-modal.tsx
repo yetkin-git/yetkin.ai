@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { LinkButton } from "@/components/ui/link-button";
 import {
   JUNIOR_ELECTIVES_PATH,
+  JUNIOR_ELECTIVE_INTRO_LABEL,
   JUNIOR_ELECTIVE_QUOTA,
   JUNIOR_ELECTIVE_SOON_LABEL,
   juniorElectiveQuotaFullHint,
@@ -138,7 +139,7 @@ export function ElectiveQuotaModal({
                     <div>
                       <p className="text-sm font-semibold">{pick.title}</p>
                       <p className="text-xs text-[var(--muted)]">
-                        {pick.subject}
+                        {pick.subject} · {JUNIOR_ELECTIVE_INTRO_LABEL}
                         {soon ? " · Hazır olunca açılır" : ""}
                       </p>
                     </div>

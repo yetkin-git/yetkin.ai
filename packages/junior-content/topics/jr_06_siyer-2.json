@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_siyer-2",
+  "title": "Merhamet",
+  "teaser": "Merhamet, gücün varken incitmemektir. Kavramsal Anlayış, yardımı yanlış işi örtmekten ayırır. İfade Gücü, kime neden yardım ettiğini söylemendir.",
+  "welcome": "Bugün seninle merhameti öğreneceğiz.",
+  "concept": "Bugün seninle merhameti tanımlıyoruz. Merhamet, bir kişiyi incitmemektir. Güç varken yumuşak davranmaktır. Yardım, bu huyun görünen işidir.\n\nHatırlarsan, doğru söz işte görünüyordu. Hadi şimdi ekrandaki çizime birlikte bakalım! Komşu poşeti zor taşıyor. Poşeti birlikte tuttun. Kişiye yardım ettin.\n\nTuzaklara Düşme! Birlikte bakalım. Yanlış işi örtmek merhamet değildir. Alay etmek merhameti bozar. Yardım kişiye yapılır. Haksızlığa alkış tutulmaz.",
+  "example": "Merhamet, karşındaki kişiyi incitmemektir. Gücün yettiği halde sertleşmemektir. Yardım, merhametin görünen işidir. Hadi şimdi ekrandaki çizime birlikte bakalım! Yaşlı bir komşu poşeti zor taşıyor. Sen poşeti birlikte tutuyorsun. Kişiyi incitmedin. İşini hafiflettin. Hatırlarsan, doğru söz söz ile işi birleştiriyordu. Merhamet de işte görünür. Tuzaklara Düşme! Birlikte bakalım. Merhamet, yanlış bir işi alkışlamak değildir. Kişiye yardım edersin. Haksız işi doğru diye örtmezsin.",
+  "warning": "Merhamet, yanlış bir işi alkışlamak değildir.",
+  "life": "Sırada düşen bir çantayı kaldırırsın. Küçük kardeşinin ayakkabısını bağlarken acele ettirmezsin. Hatırlarsan, merhamet incitmemekti. Oyunda da itmeden yer verirsin. Tuzaklara Düşme! Birlikte bakalım. Bir arkadaşının yanlışını gizlemek, ona yardım sayılmaz. Yanlışı nazikçe söylersin.",
+  "recap": [
+    "Merhamet, gücün varken incitmemektir.",
+    "Yardım, merhametin görünen işidir.",
+    "Yanlış işi örtmek merhamet değildir."
+  ],
+  "conceptSeal": "Merhamet, gücün varken incitmemektir.",
+  "voiceSeal": "Kime neden yardım ettiğini kendi sözlerinle söylersin.",
+  "outcomes": [
+    "Merhamet, gücün varken incitmemektir.",
+    "Yardım, merhametin görünen işidir.",
+    "Yanlış işi örtmek merhamet değildir."
+  ],
+  "scene": "elective",
+  "hint": "trap",
+  "band": "draft"
+}

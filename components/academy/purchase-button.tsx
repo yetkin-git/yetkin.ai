@@ -5,7 +5,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
+import { fetchWalletStripClient } from "@/components/kernel/fetch-wallet-strip";
 import { QuickTopUpModal } from "@/components/kernel/quick-top-up-modal";
+import { pollWalletCredit } from "@/lib/academy/credit-poll";
 import { useActionBridge } from "@/components/ui/action-bridge";
 import { useCitizenWriteFeedback } from "@/components/ui/use-citizen-write-feedback";
 import { SettlementSteps } from "@/components/academy/settlement-steps";
@@ -15,7 +17,7 @@ import { readCitizenEnvelope } from "@/lib/kernel/http/citizen-json";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 import { isInsufficientBalanceError } from "@/lib/kernel/money/insufficient-balance";
 import { SETTLEMENT_CURRENCY, type CurrencyCode } from "@/lib/kernel/money/currency";
-import { stripZeroKurusFromTryLabel } from "@/lib/kernel/money/format";
+import { formatMinorCompact, stripZeroKurusFromTryLabel } from "@/lib/kernel/money/format";
 import { WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
 import type { AcademyPurchasePath } from "@/lib/academy/purchase-path";
 import { academyCardOfferPaths } from "@/lib/academy/purchase-path";
@@ -29,6 +31,7 @@ import { useCheckoutBilling } from "@/components/legal/use-checkout-billing";
 import { LEGAL_CHECKOUT_CONSENT_COPY } from "@/lib/copy/legal-launch";
 import { CHECKOUT_LEGAL_CONSENT_VERSION } from "@/lib/kernel/legal/checkout-consent";
 import { emitSemConversion } from "@/lib/kernel/sem/conversion";
+import { trackBeginCheckout } from "@/lib/kernel/telemetry/funnel";
 import { readPaytrIframeSrcFromCheckout } from "@/lib/kernel/payments/paytr/iframe-embed";
 import type { CheckoutBillingInfo } from "@/lib/kernel/identity/billing-info";
 
@@ -48,6 +51,7 @@ export function PurchaseButton({
   examHref,
   courseLevel,
   paymentsReady = true,
+  renew = false,
 }: {
   courseId: string;
   /** SKU slug — kasa özeti mühürlü ses vaadini yalnız ilgili kursta basar. */
@@ -63,6 +67,8 @@ export function PurchaseButton({
   examHref?: string;
   courseLevel?: string | null;
   paymentsReady?: boolean;
+  /** Süresi dolmuş lisans. Aynı kasa, yenileme cümlesiyle açılır. */
+  renew?: boolean;
 }) {
   const router = useRouter();
   const { push } = useActionBridge();
@@ -73,9 +79,14 @@ export function PurchaseButton({
   const [topUpOpen, setTopUpOpen] = useState(false);
   const [paytrIframeUrl, setPaytrIframeUrl] = useState<string | null>(null);
   const [paytrPending, setPaytrPending] = useState(false);
+  const [creditConfirming, setCreditConfirming] = useState(false);
+  const [licenseHold, setLicenseHold] = useState<{ live: boolean; balanceLabel: string | null } | null>(
+    null,
+  );
   const [checkoutBilling, setCheckoutBilling] = useState<CheckoutBillingInfo | null>(null);
   const [queuePaytr, setQueuePaytr] = useState(false);
   const paytrInFlight = useRef(false);
+  const licenseSettle = useRef(false);
   const [distanceAccepted, setDistanceAccepted] = useState(false);
   const [digitalAccepted, setDigitalAccepted] = useState(false);
   const billing = useCheckoutBilling();
@@ -157,13 +168,78 @@ export function PurchaseButton({
         } else {
           router.refresh();
         }
+        return "settled" as const;
       } catch {
         setPhase("idle");
         setActivePath(null);
         setError(UX_SEN.http.network);
+        return "failed" as const;
       }
     },
     [courseId, courseLevel, examHref, idempotency, push, report, router, trainingHref],
+  );
+
+  const activateLicense = useCallback(async (): Promise<"settled" | "shortfall" | "failed"> => {
+    if (licenseSettle.current || !checkoutBilling) {
+      return "failed";
+    }
+    licenseSettle.current = true;
+    try {
+      const outcome = await onBuy(activePath ?? "training", checkoutBilling);
+      return outcome ?? "failed";
+    } finally {
+      licenseSettle.current = false;
+    }
+  }, [activePath, checkoutBilling, onBuy]);
+
+  const settleAfterPaytrModalClose = useCallback(
+    (returnedOk = true) => {
+      setTopUpOpen(false);
+      setPaytrPending(false);
+      setPaytrIframeUrl(null);
+      if (!returnedOk || !checkoutBilling || licenseSettle.current) {
+        return;
+      }
+      setPhase("settling");
+      setError(null);
+      setLicenseHold(null);
+      setCreditConfirming(true);
+      void (async () => {
+        // Webhook lisansı doğrudan SETTLED yapmışsa (CREDIT+DEBIT bakiye 0'a dönmüş olsa bile) anında açılır.
+        const immediate = await activateLicense();
+        if (immediate === "settled") {
+          setCreditConfirming(false);
+          return;
+        }
+        const funded = await pollWalletCredit({
+          requiredMinor,
+          readBalance: async () => {
+            const strip = await fetchWalletStripClient();
+            return { live: strip.live, amountMinor: strip.amountMinor };
+          },
+        });
+        setCreditConfirming(false);
+        if (funded) {
+          await activateLicense();
+          return;
+        }
+        // Yoklama penceresi içinde webhook CREDIT+DEBIT ile lisansı kapatmış olabilir; son kez kontrol et.
+        const afterPoll = await activateLicense();
+        if (afterPoll === "settled") {
+          return;
+        }
+        setPhase("idle");
+        setActivePath(null);
+        const strip = await fetchWalletStripClient();
+        const balanceLabel =
+          strip.live && Number.isInteger(strip.amountMinor)
+            ? formatMinorCompact(strip.amountMinor, strip.currencyCode)
+            : null;
+        setLicenseHold({ live: strip.live, balanceLabel });
+        setError(ACADEMY_SEN.purchase.licenseUnwritten);
+      })();
+    },
+    [activateLicense, checkoutBilling, requiredMinor],
   );
 
   const reportPaytrIframeError = useCallback(
@@ -327,11 +403,39 @@ export function PurchaseButton({
     if (path === "exam") {
       return display ? ACADEMY_SEN.purchase.ctaExam(display) : ACADEMY_SEN.purchase.ctaExamIdle;
     }
+    if (renew) {
+      return display ? `Yenile (${display})` : ACADEMY_SEN.course.renewCta;
+    }
     return display ? ACADEMY_SEN.purchase.cta(display) : ACADEMY_SEN.purchase.ctaIdle;
   }
 
+  const bridgeOpen = phase !== "idle" || creditConfirming;
+  const licenseNow = phase === "locking";
+
   return (
     <div className="space-y-4" data-checkout-tik-tak="">
+      {bridgeOpen ? (
+        <div
+          role="status"
+          aria-live="polite"
+          data-academy-paytr-bridge=""
+          className="rounded-2xl border border-[var(--safir)] bg-[var(--safir-soft)] p-4"
+        >
+          <p className="text-sm font-semibold text-[var(--foreground)]">{ACADEMY_SEN.purchase.paytrBridgeTitle}</p>
+          <ol className="mt-2 grid gap-1 text-sm text-[var(--foreground)]">
+            <li data-academy-paytr-step="balance">
+              {creditConfirming && !licenseNow
+                ? ACADEMY_SEN.purchase.paytrBridgeBalanceWait
+                : ACADEMY_SEN.purchase.paytrBridgeBalanceDone}
+            </li>
+            <li data-academy-paytr-step="license">
+              {licenseNow
+                ? ACADEMY_SEN.purchase.paytrBridgeLicenseNow
+                : ACADEMY_SEN.purchase.paytrBridgeLicenseWait}
+            </li>
+          </ol>
+        </div>
+      ) : null}
       {paymentsClosed ? (
         <div className="rounded-2xl border border-[var(--amber)]/40 bg-[color-mix(in_srgb,var(--amber)_8%,var(--surface))] p-4">
           <p className="text-sm font-semibold text-[var(--foreground)]">{ACADEMY_SEN.purchase.closed}</p>
@@ -350,6 +454,11 @@ export function PurchaseButton({
         hadSaved={billing.hadSaved}
         collapsible
       />
+      {priceLabel ? (
+        <p className="text-3xl font-semibold tabular-nums tracking-tight text-[var(--foreground)]" data-academy-price-lead="">
+          {stripZeroKurusFromTryLabel(priceLabel)}
+        </p>
+      ) : null}
       {offers[0] ? (
         <p className="text-xs leading-relaxed text-[var(--muted)]">{offers[0].summary}</p>
       ) : null}
@@ -371,6 +480,11 @@ export function PurchaseButton({
             if (cardClosed) {
               return;
             }
+            trackBeginCheckout({
+              itemId: courseSlug ?? courseId,
+              valueMinor: priceMinor,
+              currency: currencyCode,
+            });
             void startPaytrCheckout();
           }}
           disabled={pending || cardClosed || paytrPending}
@@ -388,17 +502,46 @@ export function PurchaseButton({
         </Link>
       ) : null}
       <SecurePaymentMarks compact />
+      {creditConfirming ? (
+        <p aria-live="polite" className="text-sm font-medium text-[var(--safir-deep)]" data-academy-credit-confirming="">
+          {ACADEMY_SEN.purchase.creditConfirming}
+        </p>
+      ) : null}
       {status ? (
         <p aria-live="polite" className="text-xs text-[var(--muted)]">
           {status}
         </p>
       ) : null}
-      {error ? (
+      {licenseHold ? (
+        <div
+          role="status"
+          data-academy-license-hold=""
+          className="rounded-2xl border border-[var(--amber)]/50 bg-[color-mix(in_srgb,var(--amber)_8%,var(--surface))] p-4"
+        >
+          <p className="text-sm font-semibold text-[var(--foreground)]">
+            {ACADEMY_SEN.purchase.licenseUnwrittenTitle}
+          </p>
+          <p className="mt-1 text-sm text-[var(--foreground)]">{ACADEMY_SEN.purchase.licenseUnwritten}</p>
+          <p className="mt-2 text-sm font-medium text-[var(--foreground)]" data-academy-license-balance="">
+            {licenseHold.live && licenseHold.balanceLabel
+              ? ACADEMY_SEN.purchase.licenseUnwrittenBalance(licenseHold.balanceLabel)
+              : ACADEMY_SEN.purchase.licenseUnwrittenBalanceUnread}
+          </p>
+          <p className="mt-1 text-sm text-[var(--muted)]">{ACADEMY_SEN.purchase.licenseUnwrittenNext}</p>
+        </div>
+      ) : null}
+      {error && !licenseHold ? (
         <p aria-live="assertive" className="text-sm text-[var(--rose)]">
           {error}
         </p>
       ) : null}
-      <p className="text-xs text-slate-600">{ACADEMY_SEN.purchase.licenseNote}</p>
+      <p className="text-xs leading-relaxed text-[var(--muted)]" data-academy-refund-footnote="">
+        <Link href="/legal/iade" className="font-medium text-[var(--safir-deep)] underline underline-offset-4">
+          {ACADEMY_SEN.purchase.refundLink}
+        </Link>
+        {". "}
+        {ACADEMY_SEN.purchase.refundFootnote}
+      </p>
       <QuickTopUpModal
         open={paymentsReady && topUpOpen}
         requiredMinor={requiredMinor}
@@ -408,18 +551,17 @@ export function PurchaseButton({
         presetIframeUrl={paytrIframeUrl}
         presetBilling={checkoutBilling}
         onClose={() => {
-          setTopUpOpen(false);
-          setPaytrPending(false);
-          setPaytrIframeUrl(null);
+          settleAfterPaytrModalClose(true);
+        }}
+        onReturn={(event) => {
+          settleAfterPaytrModalClose(event.ok);
         }}
         onFunded={() => {
           setTopUpOpen(false);
           setPaytrPending(false);
           setPaytrIframeUrl(null);
           push({ title: UX_SEN.topUp.funded, tone: "emerald" });
-          if (checkoutBilling) {
-            void onBuy(activePath ?? "training", checkoutBilling);
-          }
+          void activateLicense();
         }}
       />
     </div>

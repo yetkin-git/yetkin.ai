@@ -1,12 +1,12 @@
 # yetkin.ai İş (Diyar B) istemci sözleşmesi
 
-Native ve ikincil istemcinin `/api/v1` ile konuşma kuralı. Anayasa: `.system_docs/ANAYASA.md`. Hop sicili: `@yetkin/kernel` (`v1-hops-meta`) + Amiral `v1-contract.ts`. Bu belge yeni bir kimlik sistemi veya Prisma modeli açmaz. Mevcut gerçek: **Supabase Auth JWT**.
+Tek native istemcinin `/api/v1` ile konuşma kuralı. Anayasa: `.system_docs/ANAYASA.md` B1. Hop sicili: `@yetkin/kernel` (`v1-hops-meta`) + pragmatik monolit `lib/kernel/http/v1-contract.ts`. Bu belge yeni bir kimlik sistemi veya Prisma modeli açmaz. Mevcut gerçek: **Supabase Auth JWT**.
 
 Mağaza / vatandaş markası `yetkin.ai`. Native paket adı `yetkin.ai-is`; dizin yolu `apps/rail-is` (operasyonel yol).
 
 Ürün kodu bu dosyayı import etmez.
 
-**Faz 2 hükmü:** T3 Akademi halkası Dron UI'dadır (`AcademyPlayerScreen` / `ExamScreen` / `CertificateScreen`). Native mağaza binary hattı `apps/rail-is/eas.json` (CI eas basmaz). Tezgâh hop'ları donuk; Closed Testing yüzeyi izole (`DRON_TEZGAH_STORE_ISOLATED`). Hedef mimari: Shared Kernel paketi + API-First hop sicili.
+**Faz 2 hükmü:** T3 Akademi halkası tek native istemci arayüzündedir (`AcademyPlayerScreen` / `ExamScreen` / `CertificateScreen`). Native mağaza binary hattı `apps/rail-is/eas.json` (CI eas basmaz). Tezgâh hop'ları donuk; Closed Testing yüzeyi izole (`DRON_TEZGAH_STORE_ISOLATED`). Canlı mimari: Pragmatik Monolit + `@yetkin/kernel` + tek native istemci (`apps/rail-is`). Ayrı dağıtım, ayrı veritabanı ve ayrı kimlik yoktur.
 
 ---
 
@@ -25,9 +25,9 @@ Mağaza / vatandaş markası `yetkin.ai`. Native paket adı `yetkin.ai-is`; dizi
 
 Versiyonsuz web serimi kapalıdır. Parse fail boş liste veya sahte bakiye değildir; protokol hatasıdır. **Üçüncü zarf yasaktır.**
 
-JSON zarfı Amiral ve Dron için aynıdır. **API-First:** dronların tüketeceği yetenek v1 hop siciline yazılır. Web RSC okuma/query için `lib/` yükleyebilir; yazma hop’u sessizce web-only bırakılmaz.
+JSON zarfı pragmatik monolit ile tek native istemci için aynıdır. **API-First:** native istemcinin tüketeceği yetenek v1 hop siciline yazılır. Web RSC okuma/query için `lib/` yükleyebilir; yazma hop’u sessizce web-only bırakılmaz.
 
-**Shared Kernel:** `@yetkin/kernel` npm workspace paketidir. Prisma/Supabase bağımsız para, katalog kimliği, zarf ve hop meta buradan sürülür. Dron codegen-kopya yerine bu paketi tüketir. Kırıcı sözleşme değişikliği major sürüm + 426 penceresidir.
+**İnce sözleşme paketi:** `@yetkin/kernel` npm workspace paketidir. Prisma/Supabase bağımsız para, katalog kimliği, zarf ve hop meta buradan sürülür. Tek native istemci codegen kopyası yerine bu paketi tüketir. Kırıcı sözleşme değişikliği major sürüm + 426 penceresidir.
 
 Hop sicili ürün kararıyla büyür; sessiz ekleme yoktur. Yeni hop = meta + Zod + handler + test + paket sürümü.
 
@@ -81,7 +81,7 @@ Native IAP yoktur. Cüzdan DEBIT (Akademi satın alma) Bearer hop’tur; mağaza
 
 ## 5. İstek iskeleti — yayın hop sicili
 
-Sunucu sicili `@yetkin/kernel` `RAIL_V1_HOPS_META` içindedir. Canlı yazma hop’ları (satın alma, fiyat kilidi, ders tamamlama, sınav, cüzdan yükleme, portföy senkronu, profil) Bearer + Idempotency-Key ile açıktır. Müfredat ve sınav GET okuma hop’ları T3 halkası içindir. Freelancer path’leri kilitliyken kenar 410’dur.
+Sunucu sicili `@yetkin/kernel` `RAIL_V1_HOPS_META` içindedir. Canlı yazma hop’ları (satın alma, fiyat kilidi, ders tamamlama, sınav, cüzdan yükleme, portföy senkronu, profil, Junior kasa) Bearer + Idempotency-Key ile açıktır. Junior kasa yolu `/api/v1/junior-pilot/checkout` sicildedir; `JUNIOR_CHECKOUT_OPEN` boşken kenar 410 basar ve tahsilat yazılmaz. Müfredat ve sınav GET okuma hop’ları T3 halkası içindir. Freelancer path’leri kilitliyken kenar 410’dur.
 
 ```
 POST /api/v1/academy/courses/{id}/curriculum
@@ -96,7 +96,7 @@ Health (`GET /api/v1/health`) kamu ve başlıksız geçebilir. Kamu mühür otur
 
 ## 6. Mutlu yol yüzeyleri (`apps/rail-is`)
 
-Paket yayın kilidi T3 Akademi halkası (oynatıcı / sınav / mühür) Dron UI'ya bağlandığında açılır (`publishFrozenUntilFaz1Close: false`). Parse fail boş home değildir. Cüzdan yükleme native IAP değildir; `POST /api/v1/wallet/top-up` HMAC `/kasa` pasaportunu sistem tarayıcısında açar. Akademi hop'ları: müfredat GET/POST, sınav GET/POST, kamu sertifika.
+Paket yayın kilidi T3 Akademi halkası (oynatıcı / sınav / mühür) tek native istemci arayüzü'ya bağlandığında açılır (`publishFrozenUntilFaz1Close: false`). Parse fail boş home değildir. Cüzdan yükleme native IAP değildir; `POST /api/v1/wallet/top-up` HMAC `/kasa` pasaportunu sistem tarayıcısında açar. Akademi hop'ları: müfredat GET/POST, sınav GET/POST, kamu sertifika.
 
 EAS profilleri `apps/rail-is/eas.json` içindedir — kök `eas.json` yoktur; CI `eas` / `expo publish` yasaktır. `extra.eas.projectId` uydurulmaz. Tezgâh hop'ları donuk; Closed Testing T3 B2C halkasıdır (`DRON_TEZGAH_STORE_ISOLATED`). 410 Tezgâh sürmez. İnceleme notu: `.system_docs/DRON_CLIENT_SPEC.md` + `.system_docs/ops/ops-dron.md`.
 
@@ -113,7 +113,7 @@ Açık işler, teklif, teslim, release **Split + hop geri yazımı** olmadan Dro
 - Mağaza IAP, Push, ikinci bundle, Expo Web ürünü, Expo Router. EAS submit CI'da yoktur; operatör `eas.json` production submit'i taslak (`draft`) basar.
 - `/api/v1/auth/refresh`, Cookie güvenlik şeması, `Allow-Credentials`.
 - Native IAP / Play Billing / App Store IAP — cüzdan DEBIT hop’u IAP değildir.
-- Prisma’lı kernel paketi yoktur; `@yetkin/kernel` **pure** sözleşmedir. HTTP istemcisi `apps/rail-is` içindedir; Amiral `lib/kernel` Prisma store’larını import etmez.
+- Prisma’lı kernel paketi yoktur; `@yetkin/kernel` **pure** sözleşmedir. HTTP istemcisi `apps/rail-is` içindedir. Pragmatik monolitin `lib/kernel` katmanı Prisma store’larını ince sözleşme paketine taşımaz.
 - Admin, AI sohbet, dinle/PDF, şifre hop sicilinde yoktur.
 
 Ops bağlama: `.system_docs/ops/ops-dron.md`. Env: `RAIL_DRON_ORIGINS`. Native: `apps/rail-is/.env.example`.

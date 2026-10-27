@@ -69,8 +69,16 @@ function HighlightMark({ children }: { children: string }) {
   );
 }
 
-/** MEB M.6.1.2.2 — 2, 3, 4, 5, 6, 9, 10 (7 ve 8 yok). */
+/** Bu kapsülün çip haritası: çarpan/kat ve 2, 3, 4, 5, 6, 9, 10. */
 const MEB_DIVISION_DETECTIVES = [
+  {
+    icon: "🧩",
+    iconTone: "bg-indigo-500 text-white",
+    title: "Çarpan ve Kat",
+    marks: ["≤", "≥"] as const,
+    tipKind: "compare" as const,
+    example: "Örnek: 6'nın çarpanı 6, katı da 6",
+  },
   {
     icon: "💡",
     iconTone: "bg-amber-400 text-amber-950",
@@ -80,9 +88,9 @@ const MEB_DIVISION_DETECTIVES = [
     example: "Örnek: 24 → sonu 4, çift ✓",
   },
   {
-    icon: "🔍",
-    iconTone: "bg-sky-500 text-white",
-    title: "Son İki Basamak Dedektifi",
+    icon: "🔎",
+    iconTone: "bg-orange-500 text-white",
+    title: "Son İki Basamak (4)",
     marks: ["4"] as const,
     tipKind: "lastTwo" as const,
     example: "Örnek: 116 → son iki 16 ✓",
@@ -93,12 +101,12 @@ const MEB_DIVISION_DETECTIVES = [
     title: "Rakam Toplamı Dedektifleri",
     marks: ["3", "9"] as const,
     tipKind: "digitSum" as const,
-    example: "Örnek: 24 → 2+4=6 ✓",
+    example: "Örnek: 18 → 1+8=9 ✓",
   },
   {
-    icon: "🔗",
-    iconTone: "bg-emerald-500 text-white",
-    title: "Çifte Koşul Dedektifi",
+    icon: "🤝",
+    iconTone: "bg-teal-500 text-white",
+    title: "Çifte Koşul (6)",
     marks: ["6"] as const,
     tipKind: "both" as const,
     example: "Örnek: 24 → 2✓ ve 3✓ → 6✓",
@@ -106,6 +114,14 @@ const MEB_DIVISION_DETECTIVES = [
 ] as const;
 
 function DetectiveTip({ kind }: { kind: (typeof MEB_DIVISION_DETECTIVES)[number]["tipKind"] }) {
+  if (kind === "compare") {
+    return (
+      <>
+        Çarpan sayıya <HighlightMark>eşit ya da küçük</HighlightMark>. Kat{" "}
+        <HighlightMark>eşit ya da büyük</HighlightMark>.
+      </>
+    );
+  }
   if (kind === "ones") {
     return (
       <>
@@ -116,20 +132,20 @@ function DetectiveTip({ kind }: { kind: (typeof MEB_DIVISION_DETECTIVES)[number]
   if (kind === "lastTwo") {
     return (
       <>
-        Son iki basamağa bak! (<HighlightMark>00</HighlightMark> veya <HighlightMark>4&apos;ün katı</HighlightMark>)
+        100, 4&apos;e tam bölündüğü için <HighlightMark>son iki basamak</HighlightMark> yeter.
       </>
     );
   }
-  if (kind === "digitSum") {
+  if (kind === "both") {
     return (
       <>
-        Rakamları topla, <HighlightMark>kata</HighlightMark> bak!
+        Hem <HighlightMark>2</HighlightMark>&apos;ye hem <HighlightMark>3</HighlightMark>&apos;e aynı anda.
       </>
     );
   }
   return (
     <>
-      Hem <HighlightMark>2&apos;ye</HighlightMark> hem <HighlightMark>3&apos;e</HighlightMark> bölünen çift sayılar!
+      Rakamları topla, <HighlightMark>kata</HighlightMark> bak!
     </>
   );
 }

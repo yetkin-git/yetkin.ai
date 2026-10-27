@@ -27,7 +27,7 @@ function memoryRefundPorts(
   settleFinanceHold: () => void;
 } {
   let balance = startMinor;
-  const rows: WalletCardRefundRow[] = [];
+  const rows: Array<WalletCardRefundRow & { key: string }> = [];
   const entries = new Map<string, LedgerEntryRecord>();
   const ledger: LedgerStore = {
     async lockWallet(userId, currencyCode) {
@@ -77,12 +77,16 @@ function memoryRefundPorts(
       async listOpen() {
         return rows.filter((row) => row.status === "PENDING" || row.status === "ACCEPTED");
       },
+      async findByIdempotencyKey(idempotencyKey) {
+        return rows.find((row) => row.key === idempotencyKey) ?? null;
+      },
       async insert(input) {
-        const row: WalletCardRefundRow = {
+        const row = {
           id: `row-${rows.length + 1}`,
           merchantOid: input.merchantOid,
           amountMinor: input.amountMinor,
           status: input.status,
+          key: input.idempotencyKey,
         };
         rows.push(row);
         return row;

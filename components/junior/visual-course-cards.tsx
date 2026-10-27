@@ -36,6 +36,17 @@ function lessonSubLabel(lesson: JuniorLessonCard): string | null {
   return lesson.archiveLabel ?? lesson.starterLabel ?? null;
 }
 
+function CurriculumMark({ label }: { label: string | undefined }) {
+  if (!label) {
+    return null;
+  }
+  return (
+    <p className="text-[11px] font-semibold text-[var(--amber)]" data-junior-curriculum-label="">
+      {label}
+    </p>
+  );
+}
+
 const COVER_FRAME = "aspect-[16/9] max-h-36 w-full overflow-hidden bg-[var(--surface-muted)] sm:max-h-40";
 const CARD_GRID = "grid grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-4";
 
@@ -168,7 +179,8 @@ export function VisualCourseCards({
           <ol className={CARD_GRID}>
             {course.lessons.map((lesson, index) => {
               const face = juniorTopicCardFace(lesson, index === 0);
-              const locked = face.destination === "locked";
+              const preparing = lesson.status === "preparing";
+              const locked = face.destination === "locked" && !preparing;
               const section = juniorShelfJumpTargets(course.slug, course.lessons).find(
                 (jump) => jump.lessonKey === lesson.key,
               );
@@ -212,6 +224,12 @@ export function VisualCourseCards({
                           {lessonSubLabel(lesson) ? (
                             <p className="text-[11px] font-semibold text-[var(--muted)]">{lessonSubLabel(lesson)}</p>
                           ) : null}
+                          <CurriculumMark label={lesson.curriculumLabel} />
+                          {lesson.shortTopicLabel ? (
+                            <p className="text-[11px] font-semibold text-[var(--amber)]" data-junior-short-topic="">
+                              {lesson.shortTopicLabel}
+                            </p>
+                          ) : null}
                           <TopicStatusBadges lesson={lesson} opener={index === 0} />
                           <p className="line-clamp-2 text-xs leading-4 text-[var(--muted)]">
                             {juniorOneSentence(lesson.teaser)}
@@ -234,6 +252,12 @@ export function VisualCourseCards({
                       <h3 className="line-clamp-2 text-sm font-semibold leading-5">{lessonHeading(lesson)}</h3>
                       {lessonSubLabel(lesson) ? (
                         <p className="text-[11px] font-semibold text-[var(--muted)]">{lessonSubLabel(lesson)}</p>
+                      ) : null}
+                      <CurriculumMark label={lesson.curriculumLabel} />
+                      {lesson.shortTopicLabel ? (
+                        <p className="text-[11px] font-semibold text-[var(--amber)]" data-junior-short-topic="">
+                          {lesson.shortTopicLabel}
+                        </p>
                       ) : null}
                       <TopicStatusBadges lesson={lesson} opener={index === 0} />
                       <p className="line-clamp-2 text-xs leading-4 text-[var(--muted)]">

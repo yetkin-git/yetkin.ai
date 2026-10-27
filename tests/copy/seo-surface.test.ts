@@ -67,7 +67,12 @@ import {
 } from "@/lib/copy/seo";
 import { juniorCoverAlt } from "@/lib/junior/cover-alt";
 import { juniorFreeLessonKeys } from "@/lib/junior/catalog";
-import { JUNIOR_ELECTIVE_SLUGS, JUNIOR_FREE_LESSON_KEY, JUNIOR_PILOT_SLUGS } from "@/lib/junior/limits";
+import {
+  JUNIOR_ELECTIVE_PUBLIC_OPENERS,
+  JUNIOR_ELECTIVE_SLUGS,
+  JUNIOR_FREE_LESSON_KEY,
+  JUNIOR_PILOT_SLUGS,
+} from "@/lib/junior/limits";
 import {
   JUNIOR_DESCRIPTION_MAX,
   juniorLandingJsonLd,
@@ -111,7 +116,8 @@ describe("Aşama 1 SEO yüzeyi", () => {
     expect(layout).toContain("metadataBase");
     expect(layout).toContain("CANONICAL_SITE_ORIGIN");
     expect(layout).toContain("TITLE_TEMPLATE");
-    expect(layout).toContain("PUBLIC_SEN.home.title");
+    expect(layout).toContain("default: YETKIN_BRAND");
+    expect(layout).not.toContain("PUBLIC_SEN.home.title");
     expect(layout).not.toContain("alternates:");
     expect(layout).toContain("openGraph");
     expect(layout).toContain("twitter");
@@ -266,7 +272,7 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(byPath.get(`/junior/ders/${JUNIOR_FREE_LESSON_KEY}`)?.priority).toBe(0.7);
     expect(byPath.has("/junior/ders/jr_06_ing_main-20")).toBe(true);
     expect(byPath.has("/junior/ders/jr_06_ing_main-1")).toBe(false);
-    expect(byPath.has("/junior/ders/jr_06_mat-1")).toBe(false);
+    expect(byPath.has("/junior/ders/jr_06_mat-1")).toBe(true);
     expect(byPath.has("/junior/ders/jr_06_mat-2")).toBe(false);
     expect(byPath.has("/junior/checkout")).toBe(false);
 
@@ -327,6 +333,7 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     const rule = Array.isArray(rules) ? rules[0] : rules;
     expect(SITEMAP_STATIC_PATHS).toEqual([
       "/academy",
+      "/academy/ileri",
       "/career",
       "/junior",
       "/academy/dogrula",
@@ -413,12 +420,12 @@ describe("Junior SEO — 6. sınıf başlık, schema ve kapak", () => {
   it("ücretsiz ilk ders indekslenir; arşiv, kilitli konu ve kasa indekslenmez", () => {
     const free = juniorLessonPageMetadata(JUNIOR_FREE_LESSON_KEY);
     expect(free.title).toEqual({
-      absolute: "Ondalık gösterimi okumak - 6. Sınıf Matematik | yetkin.ai Junior",
+      absolute: "Çarpanlar, Katlar ve Bölünebilme - 6. Sınıf Matematik | yetkin.ai Junior",
     });
     expect(free.robots).toEqual({ index: true, follow: true });
-    const archived = juniorLessonPageMetadata("jr_06_mat-1");
-    expect(archived.robots).toEqual({ index: false, follow: false });
-    expect(juniorPublicLessonJsonLd("jr_06_mat-1")).toBeNull();
+    const unknown = juniorLessonPageMetadata("jr_06_mat-99");
+    expect(unknown.robots).toEqual({ index: false, follow: false });
+    expect(juniorPublicLessonJsonLd("jr_06_mat-99")).toBeNull();
     const locked = juniorLessonPageMetadata("jr_06_mat-2");
     expect(locked.robots).toEqual({ index: false, follow: false });
     expect(locked).not.toHaveProperty("alternates");
@@ -459,15 +466,28 @@ describe("Junior SEO — 6. sınıf başlık, schema ve kapak", () => {
     );
     const freeKeys = juniorFreeLessonKeys();
     expect(freeKeys).toContain(JUNIOR_FREE_LESSON_KEY);
-    expect(freeKeys).not.toContain("jr_06_mat-1");
+    expect(freeKeys).toContain("jr_06_mat-1");
     expect(freeKeys).not.toContain("jr_06_mat-2");
-    const openers = [...JUNIOR_PILOT_SLUGS, ...JUNIOR_ELECTIVE_SLUGS].map((slug) =>
+    const openers = JUNIOR_PILOT_SLUGS.map((slug) =>
       slug === "jr_06_ing_main" ? "jr_06_ing_main-20" : `${slug}-1`,
     );
+    for (const slug of JUNIOR_ELECTIVE_SLUGS) {
+      // Her seçmeli kartta yalnız 1. konu ücretsiz; 2. konu pakete kalır.
+      expect(freeKeys).toContain(`${slug}-1`);
+      expect(freeKeys).not.toContain(`${slug}-2`);
+    }
     expect(freeKeys).toContain("jr_06_ing_main-20");
     expect(freeKeys).not.toContain("jr_06_ing_main-1");
+    expect(JUNIOR_FREE_LESSON_KEY).toBe("jr_06_mat-1");
+    expect(freeKeys).not.toContain("jr_06_mat-4");
     expect([...freeKeys].sort()).toEqual(
-      [...openers.filter((key) => key !== "jr_06_mat-1"), "jr_06_mat-5", JUNIOR_FREE_LESSON_KEY].sort(),
+      [
+        ...new Set([
+          ...openers.filter((key) => key !== "jr_06_mat-1"),
+          JUNIOR_FREE_LESSON_KEY,
+          ...JUNIOR_ELECTIVE_PUBLIC_OPENERS,
+        ]),
+      ].sort(),
     );
     expect(readSrc("app/sitemap.ts")).not.toContain("@/lib/junior/catalog");
   });
@@ -719,10 +739,12 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
 
   it("hedef anahtar kelimeler H1/H2, gövde, meta ve FAQ’da durur", () => {
     expect(PAGE_SEO.home.title).toBe(PUBLIC_SEN.home.title);
-    expect(PAGE_SEO.academy.title).toBe(ACADEMY_SEN.catalog.title);
+    expect(PAGE_SEO.academy.title).toBe("Akademi eğitim kataloğu");
+    expect(PAGE_SEO.academy.title).not.toBe(ACADEMY_SEN.catalog.title);
     expect(PAGE_SEO.career.title.toLocaleLowerCase("tr")).toContain("kariyer vizesi");
-    expect(ACADEMY_SEN.catalog.title.toLocaleLowerCase("tr")).toContain("yapay zeka eğitimi");
-    expect(ACADEMY_SEN.catalog.title.toLocaleLowerCase("tr")).toContain("online kurs");
+    expect(ACADEMY_SEN.catalog.title).toBe("Yapay Zekâyı Öğren. Gerçek İşlerinde Kullan.");
+    expect(ACADEMY_SEN.catalog.description.toLocaleLowerCase("tr")).toContain("yapay zeka eğitimi");
+    expect(ACADEMY_SEN.catalog.description.toLocaleLowerCase("tr")).toContain("online kurs");
     expect(CAREER_SEN.title.toLocaleLowerCase("tr")).toBe("kariyer vizesi");
     expect(PUBLIC_SEN.home.cinemaKicker.toLocaleLowerCase("tr")).toContain("yapay zeka eğitimi");
     expect(readSrc("app/(public)/page.tsx")).toContain("<h2");

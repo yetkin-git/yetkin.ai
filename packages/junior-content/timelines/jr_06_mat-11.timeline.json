@@ -1,0 +1,2583 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_mat-11",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Cebirsel ifadeler",
+  "grade": 6,
+  "subject": "Matematik",
+  "teacher": {
+    "name": "Selim",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_mat-11.mp3",
+    "durationMs": 293264,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 71540
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 71540,
+      "endMs": 236320
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 236320,
+      "endMs": 293264
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4070,
+      "pauseAfterMs": 690,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 140,
+          "endMs": 680
+        },
+        {
+          "word": "sevgili",
+          "startMs": 880,
+          "endMs": 1360
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 1890,
+          "endMs": 3380
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Cebirsel ifadeler",
+            "subtitle": "Matematik",
+            "ruleBadges": [],
+            "echoPrompt": "Benzer terimi neden topladığını ve sabiti neden ayırdığını söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Değişken bir harftir. Katsayı, harfin kaç katı alındığını söyler."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Benzer terimler toplanır. 3x artı 2x, 5x eder."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "5x artı 4, 9x değildir. x yerine 6 konursa sonuç 34 olur."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4070,
+      "endMs": 8910,
+      "pauseAfterMs": 1230,
+      "text": "Ben Matematik öğretmenin Selim.",
+      "markedText": "Ben Matematik öğretmenin Selim.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4070,
+          "endMs": 4340
+        },
+        {
+          "word": "Matematik",
+          "startMs": 4520,
+          "endMs": 5120
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6510,
+          "endMs": 7040
+        },
+        {
+          "word": "Selim.",
+          "startMs": 7440,
+          "endMs": 7680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8910,
+      "endMs": 17640,
+      "pauseAfterMs": 800,
+      "text": "Bugün sayılarla harfleri bir araya getirip cebir dilini konuşacağız.",
+      "markedText": "Bugün sayılarla harfleri bir araya getirip cebir dilini konuşacağız.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 8910,
+          "endMs": 9460
+        },
+        {
+          "word": "sayılarla",
+          "startMs": 9570,
+          "endMs": 10180
+        },
+        {
+          "word": "harfleri",
+          "startMs": 10330,
+          "endMs": 10940
+        },
+        {
+          "word": "bir",
+          "startMs": 11110,
+          "endMs": 11410
+        },
+        {
+          "word": "araya",
+          "startMs": 11610,
+          "endMs": 12090
+        },
+        {
+          "word": "getirip",
+          "startMs": 12380,
+          "endMs": 13070
+        },
+        {
+          "word": "cebir",
+          "startMs": 13910,
+          "endMs": 14120
+        },
+        {
+          "word": "dilini",
+          "startMs": 14340,
+          "endMs": 15070
+        },
+        {
+          "word": "konuşacağız.",
+          "startMs": 15190,
+          "endMs": 16840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 17640,
+      "endMs": 28200,
+      "pauseAfterMs": 570,
+      "text": "Hiç bir kutunun içindeki bilye sayısını bilmeden ona bir sembol verip işlem yaptın mı?",
+      "markedText": "Hiç bir kutunun içindeki bilye sayısını bilmeden ona bir sembol verip işlem yaptın mı?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 17640,
+          "endMs": 17870
+        },
+        {
+          "word": "bir",
+          "startMs": 17920,
+          "endMs": 18140
+        },
+        {
+          "word": "kutunun",
+          "startMs": 18220,
+          "endMs": 18980
+        },
+        {
+          "word": "içindeki",
+          "startMs": 19220,
+          "endMs": 20020
+        },
+        {
+          "word": "bilye",
+          "startMs": 20270,
+          "endMs": 21130
+        },
+        {
+          "word": "sayısını",
+          "startMs": 22100,
+          "endMs": 22670
+        },
+        {
+          "word": "bilmeden",
+          "startMs": 22850,
+          "endMs": 23340
+        },
+        {
+          "word": "ona",
+          "startMs": 23520,
+          "endMs": 23950
+        },
+        {
+          "word": "bir",
+          "startMs": 24470,
+          "endMs": 24690
+        },
+        {
+          "word": "sembol",
+          "startMs": 25010,
+          "endMs": 25520
+        },
+        {
+          "word": "verip",
+          "startMs": 25520,
+          "endMs": 25820
+        },
+        {
+          "word": "işlem",
+          "startMs": 26090,
+          "endMs": 26540
+        },
+        {
+          "word": "yaptın",
+          "startMs": 26860,
+          "endMs": 27020
+        },
+        {
+          "word": "mı?",
+          "startMs": 27380,
+          "endMs": 27630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 28200,
+      "endMs": 34140,
+      "pauseAfterMs": 390,
+      "text": "Harf, o bilinmeyen sayının güvenli bir yer tutucusudur.",
+      "markedText": "Harf, o bilinmeyen sayının güvenli bir yer tutucusudur.",
+      "words": [
+        {
+          "word": "Harf,",
+          "startMs": 28200,
+          "endMs": 28270
+        },
+        {
+          "word": "o",
+          "startMs": 28480,
+          "endMs": 28590
+        },
+        {
+          "word": "bilinmeyen",
+          "startMs": 28780,
+          "endMs": 29890
+        },
+        {
+          "word": "sayının",
+          "startMs": 30110,
+          "endMs": 30470
+        },
+        {
+          "word": "güvenli",
+          "startMs": 30720,
+          "endMs": 31280
+        },
+        {
+          "word": "bir",
+          "startMs": 31470,
+          "endMs": 31820
+        },
+        {
+          "word": "yer",
+          "startMs": 32570,
+          "endMs": 32730
+        },
+        {
+          "word": "tutucusudur.",
+          "startMs": 32920,
+          "endMs": 33750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 34140,
+      "endMs": 44060,
+      "pauseAfterMs": 830,
+      "text": "Cebirsel ifadeleri okuyup benzer terimleri toplamayı öğreneceğiz.",
+      "markedText": "Cebirsel ifadeleri okuyup benzer terimleri toplamayı öğreneceğiz.",
+      "words": [
+        {
+          "word": "Cebirsel",
+          "startMs": 34140,
+          "endMs": 34580
+        },
+        {
+          "word": "ifadeleri",
+          "startMs": 34700,
+          "endMs": 35740
+        },
+        {
+          "word": "okuyup",
+          "startMs": 36030,
+          "endMs": 36820
+        },
+        {
+          "word": "benzer",
+          "startMs": 37560,
+          "endMs": 37760
+        },
+        {
+          "word": "terimleri",
+          "startMs": 37910,
+          "endMs": 39170
+        },
+        {
+          "word": "toplamayı",
+          "startMs": 39570,
+          "endMs": 40780
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 41730,
+          "endMs": 43230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 44060,
+      "endMs": 48840,
+      "pauseAfterMs": 600,
+      "text": "Bunu otobüs biletinde de kullanırsın.",
+      "markedText": "Bunu otobüs biletinde de kullanırsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 44060,
+          "endMs": 44270
+        },
+        {
+          "word": "otobüs",
+          "startMs": 44620,
+          "endMs": 45060
+        },
+        {
+          "word": "biletinde",
+          "startMs": 45670,
+          "endMs": 46690
+        },
+        {
+          "word": "de",
+          "startMs": 46820,
+          "endMs": 47010
+        },
+        {
+          "word": "kullanırsın.",
+          "startMs": 47220,
+          "endMs": 48240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 48840,
+      "endMs": 52630,
+      "pauseAfterMs": 310,
+      "text": "Bilet x lira ise 4 bilet 4x liradır.",
+      "markedText": "Bilet x lira ise 4 bilet 4x liradır.",
+      "words": [
+        {
+          "word": "Bilet",
+          "startMs": 48840,
+          "endMs": 49230
+        },
+        {
+          "word": "x",
+          "startMs": 49460,
+          "endMs": 49530
+        },
+        {
+          "word": "lira",
+          "startMs": 49860,
+          "endMs": 50050
+        },
+        {
+          "word": "ise",
+          "startMs": 50440,
+          "endMs": 50820
+        },
+        {
+          "word": "4",
+          "startMs": 50930,
+          "endMs": 51130
+        },
+        {
+          "word": "bilet",
+          "startMs": 51270,
+          "endMs": 51550
+        },
+        {
+          "word": "4x",
+          "startMs": 51620,
+          "endMs": 51870
+        },
+        {
+          "word": "liradır.",
+          "startMs": 52030,
+          "endMs": 52320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 52630,
+      "endMs": 58980,
+      "pauseAfterMs": 840,
+      "text": "Üstüne 10 lira su alırsan ödeme 4x artı 10 olur.",
+      "markedText": "Üstüne 10 lira su alırsan ödeme 4x artı 10 olur.",
+      "words": [
+        {
+          "word": "Üstüne",
+          "startMs": 52630,
+          "endMs": 52870
+        },
+        {
+          "word": "10",
+          "startMs": 53170,
+          "endMs": 53240
+        },
+        {
+          "word": "lira",
+          "startMs": 53610,
+          "endMs": 54180
+        },
+        {
+          "word": "su",
+          "startMs": 54800,
+          "endMs": 55060
+        },
+        {
+          "word": "alırsan",
+          "startMs": 55270,
+          "endMs": 55900
+        },
+        {
+          "word": "ödeme",
+          "startMs": 56010,
+          "endMs": 56600
+        },
+        {
+          "word": "4x",
+          "startMs": 56710,
+          "endMs": 56850
+        },
+        {
+          "word": "artı",
+          "startMs": 57240,
+          "endMs": 57340
+        },
+        {
+          "word": "10",
+          "startMs": 57490,
+          "endMs": 57600
+        },
+        {
+          "word": "olur.",
+          "startMs": 57710,
+          "endMs": 58140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 58980,
+      "endMs": 66140,
+      "pauseAfterMs": 780,
+      "text": "Bilet 15 liraysa 4 çarpı 15 artı 10, 70 lira eder.",
+      "markedText": "Bilet 15 liraysa 4 çarpı 15 artı 10, 70 lira eder.",
+      "words": [
+        {
+          "word": "Bilet",
+          "startMs": 58980,
+          "endMs": 59320
+        },
+        {
+          "word": "15",
+          "startMs": 59410,
+          "endMs": 60000
+        },
+        {
+          "word": "liraysa",
+          "startMs": 60260,
+          "endMs": 60710
+        },
+        {
+          "word": "4",
+          "startMs": 60900,
+          "endMs": 61000
+        },
+        {
+          "word": "çarpı",
+          "startMs": 61000,
+          "endMs": 61900
+        },
+        {
+          "word": "15",
+          "startMs": 62450,
+          "endMs": 62800
+        },
+        {
+          "word": "artı",
+          "startMs": 63160,
+          "endMs": 63380
+        },
+        {
+          "word": "10,",
+          "startMs": 63620,
+          "endMs": 63760
+        },
+        {
+          "word": "70",
+          "startMs": 64210,
+          "endMs": 64350
+        },
+        {
+          "word": "lira",
+          "startMs": 64610,
+          "endMs": 64830
+        },
+        {
+          "word": "eder.",
+          "startMs": 64830,
+          "endMs": 65360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 66140,
+      "endMs": 68960,
+      "pauseAfterMs": 390,
+      "text": "Suyu bilet sayısına katmazsın.",
+      "markedText": "Suyu bilet sayısına katmazsın.",
+      "words": [
+        {
+          "word": "Suyu",
+          "startMs": 66140,
+          "endMs": 66210
+        },
+        {
+          "word": "bilet",
+          "startMs": 66500,
+          "endMs": 66720
+        },
+        {
+          "word": "sayısına",
+          "startMs": 66890,
+          "endMs": 67390
+        },
+        {
+          "word": "katmazsın.",
+          "startMs": 67510,
+          "endMs": 68570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 68960,
+      "endMs": 71540,
+      "pauseAfterMs": 830,
+      "text": "Su sabit bir tutardır.",
+      "markedText": "Su sabit bir tutardır.",
+      "words": [
+        {
+          "word": "Su",
+          "startMs": 68960,
+          "endMs": 69080
+        },
+        {
+          "word": "sabit",
+          "startMs": 69480,
+          "endMs": 69770
+        },
+        {
+          "word": "bir",
+          "startMs": 69770,
+          "endMs": 70030
+        },
+        {
+          "word": "tutardır.",
+          "startMs": 70030,
+          "endMs": 70710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 71540,
+      "endMs": 79860,
+      "pauseAfterMs": 880,
+      "text": "Cebirsel ifadede x veya a gibi harfler değişkeni temsil eder.",
+      "markedText": "Cebirsel ifadede x veya a gibi harfler değişkeni temsil eder.",
+      "words": [
+        {
+          "word": "Cebirsel",
+          "startMs": 71540,
+          "endMs": 72150
+        },
+        {
+          "word": "ifadede",
+          "startMs": 72710,
+          "endMs": 73240
+        },
+        {
+          "word": "x",
+          "startMs": 73240,
+          "endMs": 73280
+        },
+        {
+          "word": "veya",
+          "startMs": 73280,
+          "endMs": 73710
+        },
+        {
+          "word": "a",
+          "startMs": 73810,
+          "endMs": 73890
+        },
+        {
+          "word": "gibi",
+          "startMs": 73890,
+          "endMs": 74150
+        },
+        {
+          "word": "harfler",
+          "startMs": 75880,
+          "endMs": 76660
+        },
+        {
+          "word": "değişkeni",
+          "startMs": 76900,
+          "endMs": 77530
+        },
+        {
+          "word": "temsil",
+          "startMs": 77940,
+          "endMs": 78430
+        },
+        {
+          "word": "eder.",
+          "startMs": 78520,
+          "endMs": 78980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 79860,
+      "endMs": 89450,
+      "pauseAfterMs": 430,
+      "text": "Örneğin 3x demek, x sayısının 3 katı demektir ve buradaki 3 katsayıdır.",
+      "markedText": "Örneğin 3x demek, x sayısının 3 katı demektir ve buradaki 3 katsayıdır.",
+      "words": [
+        {
+          "word": "Örneğin",
+          "startMs": 79860,
+          "endMs": 80340
+        },
+        {
+          "word": "3x",
+          "startMs": 80420,
+          "endMs": 80630
+        },
+        {
+          "word": "demek,",
+          "startMs": 80920,
+          "endMs": 81760
+        },
+        {
+          "word": "x",
+          "startMs": 82770,
+          "endMs": 82830
+        },
+        {
+          "word": "sayısının",
+          "startMs": 82910,
+          "endMs": 83620
+        },
+        {
+          "word": "3",
+          "startMs": 83720,
+          "endMs": 83780
+        },
+        {
+          "word": "katı",
+          "startMs": 83950,
+          "endMs": 84430
+        },
+        {
+          "word": "demektir",
+          "startMs": 85090,
+          "endMs": 85700
+        },
+        {
+          "word": "ve",
+          "startMs": 85800,
+          "endMs": 86030
+        },
+        {
+          "word": "buradaki",
+          "startMs": 86310,
+          "endMs": 87170
+        },
+        {
+          "word": "3",
+          "startMs": 88100,
+          "endMs": 88360
+        },
+        {
+          "word": "katsayıdır.",
+          "startMs": 88360,
+          "endMs": 89020
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 79860,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "konu-anlati",
+          "params": {
+            "heading": "Cebirsel ifadeler · örnek",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Bir kalemin fiyatı x lira olsun.",
+                "body": "Bir kalemin fiyatı x lira olsun.",
+                "tone": "example"
+              },
+              {
+                "title": "3 kalem alırsan 3x lira tutar.",
+                "body": "3 kalem alırsan 3x lira tutar.",
+                "tone": "example"
+              },
+              {
+                "title": "Örnek",
+                "body": "2 kalem daha alırsan 3x artı 2x olur; katsayıları toplarsak 3 artı 2'den sonuç 5x lira yapar.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 89450,
+      "endMs": 96520,
+      "pauseAfterMs": 880,
+      "text": "Eğer harfin önünde sayı yazmıyorsa katsayısı 1'dir.",
+      "markedText": "Eğer harfin önünde sayı yazmıyorsa katsayısı 1'dir.",
+      "words": [
+        {
+          "word": "Eğer",
+          "startMs": 89450,
+          "endMs": 89700
+        },
+        {
+          "word": "harfin",
+          "startMs": 89930,
+          "endMs": 91090
+        },
+        {
+          "word": "önünde",
+          "startMs": 91660,
+          "endMs": 92280
+        },
+        {
+          "word": "sayı",
+          "startMs": 92380,
+          "endMs": 92680
+        },
+        {
+          "word": "yazmıyorsa",
+          "startMs": 93030,
+          "endMs": 93480
+        },
+        {
+          "word": "katsayısı",
+          "startMs": 93840,
+          "endMs": 94690
+        },
+        {
+          "word": "1'dir.",
+          "startMs": 94880,
+          "endMs": 95640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 96520,
+      "endMs": 106490,
+      "pauseAfterMs": 1310,
+      "text": "Benzer terimler ise aynı harfi taşıyan terimlerdir; örneğin 3x ile 2x benzer terimdir.",
+      "markedText": "Benzer terimler ise aynı harfi taşıyan terimlerdir; örneğin 3x ile 2x benzer terimdir.",
+      "words": [
+        {
+          "word": "Benzer",
+          "startMs": 96520,
+          "endMs": 96880
+        },
+        {
+          "word": "terimler",
+          "startMs": 97070,
+          "endMs": 97810
+        },
+        {
+          "word": "ise",
+          "startMs": 98130,
+          "endMs": 98250
+        },
+        {
+          "word": "aynı",
+          "startMs": 98380,
+          "endMs": 98710
+        },
+        {
+          "word": "harfi",
+          "startMs": 99130,
+          "endMs": 99460
+        },
+        {
+          "word": "taşıyan",
+          "startMs": 99660,
+          "endMs": 100210
+        },
+        {
+          "word": "terimlerdir;",
+          "startMs": 100590,
+          "endMs": 101490
+        },
+        {
+          "word": "örneğin",
+          "startMs": 102350,
+          "endMs": 102830
+        },
+        {
+          "word": "3x",
+          "startMs": 103020,
+          "endMs": 103230
+        },
+        {
+          "word": "ile",
+          "startMs": 103280,
+          "endMs": 103470
+        },
+        {
+          "word": "2x",
+          "startMs": 103550,
+          "endMs": 103870
+        },
+        {
+          "word": "benzer",
+          "startMs": 104150,
+          "endMs": 104490
+        },
+        {
+          "word": "terimdir.",
+          "startMs": 104630,
+          "endMs": 105180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 106490,
+      "endMs": 115810,
+      "pauseAfterMs": 400,
+      "text": "3x ile 5 ise benzer terim değildir, çünkü 5'in yanında harf yoktur.",
+      "markedText": "3x ile 5 ise benzer terim değildir, çünkü 5'in yanında harf yoktur.",
+      "words": [
+        {
+          "word": "3x",
+          "startMs": 106490,
+          "endMs": 106780
+        },
+        {
+          "word": "ile",
+          "startMs": 106880,
+          "endMs": 107370
+        },
+        {
+          "word": "5",
+          "startMs": 107530,
+          "endMs": 107720
+        },
+        {
+          "word": "ise",
+          "startMs": 108140,
+          "endMs": 108540
+        },
+        {
+          "word": "benzer",
+          "startMs": 108680,
+          "endMs": 109400
+        },
+        {
+          "word": "terim",
+          "startMs": 109640,
+          "endMs": 110030
+        },
+        {
+          "word": "değildir,",
+          "startMs": 110750,
+          "endMs": 111720
+        },
+        {
+          "word": "çünkü",
+          "startMs": 113110,
+          "endMs": 113510
+        },
+        {
+          "word": "5'in",
+          "startMs": 114110,
+          "endMs": 114290
+        },
+        {
+          "word": "yanında",
+          "startMs": 114420,
+          "endMs": 114810
+        },
+        {
+          "word": "harf",
+          "startMs": 114880,
+          "endMs": 115030
+        },
+        {
+          "word": "yoktur.",
+          "startMs": 115210,
+          "endMs": 115410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 115810,
+      "endMs": 128350,
+      "pauseAfterMs": 630,
+      "text": "Pratik kural: Yalnızca benzer terimler birbiriyle toplanabilir; harfli terim ile yalın sayı birbirine asla katılmaz.",
+      "markedText": "Pratik kural: Yalnızca benzer terimler birbiriyle toplanabilir; harfli terim ile yalın sayı birbirine asla katılmaz.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 115810,
+          "endMs": 116320
+        },
+        {
+          "word": "kural:",
+          "startMs": 116880,
+          "endMs": 117620
+        },
+        {
+          "word": "Yalnızca",
+          "startMs": 118610,
+          "endMs": 119410
+        },
+        {
+          "word": "benzer",
+          "startMs": 120230,
+          "endMs": 120450
+        },
+        {
+          "word": "terimler",
+          "startMs": 120520,
+          "endMs": 120950
+        },
+        {
+          "word": "birbiriyle",
+          "startMs": 121180,
+          "endMs": 121360
+        },
+        {
+          "word": "toplanabilir;",
+          "startMs": 121460,
+          "endMs": 122310
+        },
+        {
+          "word": "harfli",
+          "startMs": 123450,
+          "endMs": 123860
+        },
+        {
+          "word": "terim",
+          "startMs": 123930,
+          "endMs": 124340
+        },
+        {
+          "word": "ile",
+          "startMs": 124810,
+          "endMs": 125070
+        },
+        {
+          "word": "yalın",
+          "startMs": 125070,
+          "endMs": 125400
+        },
+        {
+          "word": "sayı",
+          "startMs": 125500,
+          "endMs": 125730
+        },
+        {
+          "word": "birbirine",
+          "startMs": 126240,
+          "endMs": 126810
+        },
+        {
+          "word": "asla",
+          "startMs": 126810,
+          "endMs": 127080
+        },
+        {
+          "word": "katılmaz.",
+          "startMs": 127170,
+          "endMs": 127720
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 115810,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "konu-anlati",
+          "params": {
+            "heading": "Cebirsel ifadeler · kavram",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Katsayı, değişkenin kaç katı olduğunu söyler.",
+                "body": "Katsayı, değişkenin kaç katı olduğunu söyler.",
+                "tone": "concept"
+              },
+              {
+                "title": "Yalnız benzer terimler toplanır.",
+                "body": "Yalnız benzer terimler toplanır.",
+                "tone": "concept"
+              },
+              {
+                "title": "Cebirsel ifadede x veya a gibi harfler değişkeni temsil eder.",
+                "body": "Cebirsel ifadede x veya a gibi harfler değişkeni temsil eder.",
+                "tone": "concept"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 128350,
+      "endMs": 132170,
+      "pauseAfterMs": 1130,
+      "text": "Bir kalemin fiyatı x lira olsun.",
+      "markedText": "Bir kalemin fiyatı x lira olsun.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 128350,
+          "endMs": 128590
+        },
+        {
+          "word": "kalemin",
+          "startMs": 129010,
+          "endMs": 129350
+        },
+        {
+          "word": "fiyatı",
+          "startMs": 129580,
+          "endMs": 129980
+        },
+        {
+          "word": "x",
+          "startMs": 130100,
+          "endMs": 130170
+        },
+        {
+          "word": "lira",
+          "startMs": 130270,
+          "endMs": 130470
+        },
+        {
+          "word": "olsun.",
+          "startMs": 130540,
+          "endMs": 131040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 132170,
+      "endMs": 136720,
+      "pauseAfterMs": 1000,
+      "text": "3 kalem alırsan 3x lira tutar.",
+      "markedText": "3 kalem alırsan 3x lira tutar.",
+      "words": [
+        {
+          "word": "3",
+          "startMs": 132170,
+          "endMs": 132310
+        },
+        {
+          "word": "kalem",
+          "startMs": 132420,
+          "endMs": 132780
+        },
+        {
+          "word": "alırsan",
+          "startMs": 132780,
+          "endMs": 133480
+        },
+        {
+          "word": "3x",
+          "startMs": 133600,
+          "endMs": 133990
+        },
+        {
+          "word": "lira",
+          "startMs": 134490,
+          "endMs": 134800
+        },
+        {
+          "word": "tutar.",
+          "startMs": 134960,
+          "endMs": 135720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 136720,
+      "endMs": 148590,
+      "pauseAfterMs": 1170,
+      "text": "2 kalem daha alırsan 3x artı 2x olur; katsayıları toplarsak 3 artı 2'den sonuç 5x lira yapar.",
+      "markedText": "2 kalem daha alırsan 3x artı 2x olur; katsayıları toplarsak 3 artı 2'den sonuç 5x lira yapar.",
+      "words": [
+        {
+          "word": "2",
+          "startMs": 136720,
+          "endMs": 136950
+        },
+        {
+          "word": "kalem",
+          "startMs": 137110,
+          "endMs": 137280
+        },
+        {
+          "word": "daha",
+          "startMs": 138100,
+          "endMs": 138290
+        },
+        {
+          "word": "alırsan",
+          "startMs": 138660,
+          "endMs": 138910
+        },
+        {
+          "word": "3x",
+          "startMs": 139230,
+          "endMs": 139370
+        },
+        {
+          "word": "artı",
+          "startMs": 139610,
+          "endMs": 139870
+        },
+        {
+          "word": "2x",
+          "startMs": 140170,
+          "endMs": 140510
+        },
+        {
+          "word": "olur;",
+          "startMs": 140810,
+          "endMs": 141430
+        },
+        {
+          "word": "katsayıları",
+          "startMs": 142700,
+          "endMs": 143400
+        },
+        {
+          "word": "toplarsak",
+          "startMs": 143510,
+          "endMs": 144250
+        },
+        {
+          "word": "3",
+          "startMs": 144640,
+          "endMs": 144770
+        },
+        {
+          "word": "artı",
+          "startMs": 144980,
+          "endMs": 145250
+        },
+        {
+          "word": "2'den",
+          "startMs": 145250,
+          "endMs": 145520
+        },
+        {
+          "word": "sonuç",
+          "startMs": 145580,
+          "endMs": 145880
+        },
+        {
+          "word": "5x",
+          "startMs": 145880,
+          "endMs": 146020
+        },
+        {
+          "word": "lira",
+          "startMs": 146150,
+          "endMs": 146380
+        },
+        {
+          "word": "yapar.",
+          "startMs": 146500,
+          "endMs": 147420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 148590,
+      "endMs": 163240,
+      "pauseAfterMs": 1020,
+      "text": "Yanına bir de 4 liralık silgi eklersen toplam tutar 5x artı 4 olur; bu iki ifade birbiriyle toplanıp 9x yapılamaz!",
+      "markedText": "Yanına bir de 4 liralık silgi eklersen toplam tutar 5x artı 4 olur; bu iki ifade birbiriyle toplanıp 9x yapılamaz!",
+      "words": [
+        {
+          "word": "Yanına",
+          "startMs": 148590,
+          "endMs": 148950
+        },
+        {
+          "word": "bir",
+          "startMs": 148950,
+          "endMs": 149410
+        },
+        {
+          "word": "de",
+          "startMs": 150670,
+          "endMs": 150750
+        },
+        {
+          "word": "4",
+          "startMs": 150750,
+          "endMs": 150850
+        },
+        {
+          "word": "liralık",
+          "startMs": 151120,
+          "endMs": 151370
+        },
+        {
+          "word": "silgi",
+          "startMs": 151470,
+          "endMs": 151620
+        },
+        {
+          "word": "eklersen",
+          "startMs": 151740,
+          "endMs": 152000
+        },
+        {
+          "word": "toplam",
+          "startMs": 152060,
+          "endMs": 152290
+        },
+        {
+          "word": "tutar",
+          "startMs": 152360,
+          "endMs": 152850
+        },
+        {
+          "word": "5x",
+          "startMs": 153510,
+          "endMs": 153640
+        },
+        {
+          "word": "artı",
+          "startMs": 153640,
+          "endMs": 153800
+        },
+        {
+          "word": "4",
+          "startMs": 153890,
+          "endMs": 154110
+        },
+        {
+          "word": "olur;",
+          "startMs": 154220,
+          "endMs": 154810
+        },
+        {
+          "word": "bu",
+          "startMs": 155710,
+          "endMs": 155810
+        },
+        {
+          "word": "iki",
+          "startMs": 156110,
+          "endMs": 156240
+        },
+        {
+          "word": "ifade",
+          "startMs": 156710,
+          "endMs": 157130
+        },
+        {
+          "word": "birbiriyle",
+          "startMs": 157420,
+          "endMs": 158060
+        },
+        {
+          "word": "toplanıp",
+          "startMs": 158060,
+          "endMs": 158770
+        },
+        {
+          "word": "9x",
+          "startMs": 160220,
+          "endMs": 160360
+        },
+        {
+          "word": "yapılamaz!",
+          "startMs": 160860,
+          "endMs": 162220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 163240,
+      "endMs": 174110,
+      "pauseAfterMs": 1230,
+      "text": "x yerine 6 koyarsan: 5 çarpı 6 artı 4'ten sonuç 34 lira çıkar.",
+      "markedText": "x yerine 6 koyarsan: 5 çarpı 6 artı 4'ten sonuç 34 lira çıkar.",
+      "words": [
+        {
+          "word": "x",
+          "startMs": 163240,
+          "endMs": 163320
+        },
+        {
+          "word": "yerine",
+          "startMs": 163370,
+          "endMs": 163780
+        },
+        {
+          "word": "6",
+          "startMs": 164110,
+          "endMs": 164400
+        },
+        {
+          "word": "koyarsan:",
+          "startMs": 164800,
+          "endMs": 165430
+        },
+        {
+          "word": "5",
+          "startMs": 166880,
+          "endMs": 167210
+        },
+        {
+          "word": "çarpı",
+          "startMs": 167670,
+          "endMs": 167900
+        },
+        {
+          "word": "6",
+          "startMs": 168120,
+          "endMs": 168570
+        },
+        {
+          "word": "artı",
+          "startMs": 168920,
+          "endMs": 169250
+        },
+        {
+          "word": "4'ten",
+          "startMs": 169430,
+          "endMs": 169930
+        },
+        {
+          "word": "sonuç",
+          "startMs": 170530,
+          "endMs": 170990
+        },
+        {
+          "word": "34",
+          "startMs": 171190,
+          "endMs": 171630
+        },
+        {
+          "word": "lira",
+          "startMs": 171820,
+          "endMs": 171990
+        },
+        {
+          "word": "çıkar.",
+          "startMs": 172290,
+          "endMs": 172880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 174110,
+      "endMs": 183150,
+      "pauseAfterMs": 920,
+      "text": "2x artı 3x artı 1 ifadesi de 5x artı 1 şeklinde sadeleşir.",
+      "markedText": "2x artı 3x artı 1 ifadesi de 5x artı 1 şeklinde sadeleşir.",
+      "words": [
+        {
+          "word": "2x",
+          "startMs": 174110,
+          "endMs": 174550
+        },
+        {
+          "word": "artı",
+          "startMs": 174760,
+          "endMs": 175040
+        },
+        {
+          "word": "3x",
+          "startMs": 175160,
+          "endMs": 175270
+        },
+        {
+          "word": "artı",
+          "startMs": 175270,
+          "endMs": 175680
+        },
+        {
+          "word": "1",
+          "startMs": 175910,
+          "endMs": 176010
+        },
+        {
+          "word": "ifadesi",
+          "startMs": 176300,
+          "endMs": 176980
+        },
+        {
+          "word": "de",
+          "startMs": 177970,
+          "endMs": 178250
+        },
+        {
+          "word": "5x",
+          "startMs": 178250,
+          "endMs": 178590
+        },
+        {
+          "word": "artı",
+          "startMs": 178630,
+          "endMs": 179040
+        },
+        {
+          "word": "1",
+          "startMs": 179200,
+          "endMs": 179480
+        },
+        {
+          "word": "şeklinde",
+          "startMs": 179760,
+          "endMs": 180690
+        },
+        {
+          "word": "sadeleşir.",
+          "startMs": 181030,
+          "endMs": 182230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 183150,
+      "endMs": 187130,
+      "pauseAfterMs": 1180,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 183150,
+          "endMs": 184520
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 185010,
+          "endMs": 185950
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 183150,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "konu-anlati",
+          "params": {
+            "heading": "Tuzaklara Düşme!",
+            "reset": true,
+            "rows": [
+              {
+                "title": "3x artı 4 ifadesini toplayıp 7x sanmak en sık düşülen tuzaktır.",
+                "body": "3x artı 4 ifadesini toplayıp 7x sanmak en sık düşülen tuzaktır.",
+                "tone": "trap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 187130,
+      "endMs": 190790,
+      "pauseAfterMs": 1110,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 187130,
+          "endMs": 187810
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 188870,
+          "endMs": 189680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 190790,
+      "endMs": 194590,
+      "pauseAfterMs": 710,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 190790,
+          "endMs": 191070
+        },
+        {
+          "word": "noktayı",
+          "startMs": 191070,
+          "endMs": 191790
+        },
+        {
+          "word": "sen",
+          "startMs": 191950,
+          "endMs": 192230
+        },
+        {
+          "word": "de",
+          "startMs": 192350,
+          "endMs": 192660
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 192800,
+          "endMs": 193880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 194590,
+      "endMs": 201360,
+      "pauseAfterMs": 1120,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 194590,
+          "endMs": 194880
+        },
+        {
+          "word": "sevgili",
+          "startMs": 194880,
+          "endMs": 195450
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 195550,
+          "endMs": 195880
+        },
+        {
+          "word": "işte",
+          "startMs": 196150,
+          "endMs": 196400
+        },
+        {
+          "word": "tam",
+          "startMs": 197570,
+          "endMs": 197700
+        },
+        {
+          "word": "bu",
+          "startMs": 197700,
+          "endMs": 197830
+        },
+        {
+          "word": "noktada",
+          "startMs": 197960,
+          "endMs": 198200
+        },
+        {
+          "word": "dikkat",
+          "startMs": 198320,
+          "endMs": 198580
+        },
+        {
+          "word": "etmen",
+          "startMs": 198580,
+          "endMs": 198850
+        },
+        {
+          "word": "gereken",
+          "startMs": 198940,
+          "endMs": 199250
+        },
+        {
+          "word": "kilit",
+          "startMs": 199510,
+          "endMs": 199740
+        },
+        {
+          "word": "nokta.",
+          "startMs": 199740,
+          "endMs": 200240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 201360,
+      "endMs": 203650,
+      "pauseAfterMs": 910,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 201360,
+          "endMs": 201580
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 201770,
+          "endMs": 202740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 203650,
+      "endMs": 210130,
+      "pauseAfterMs": 1100,
+      "text": "3x artı 4 ifadesini toplayıp 7x sanmak en sık düşülen tuzaktır.",
+      "markedText": "3x artı 4 ifadesini toplayıp 7x sanmak en sık düşülen tuzaktır.",
+      "words": [
+        {
+          "word": "3x",
+          "startMs": 203650,
+          "endMs": 203850
+        },
+        {
+          "word": "artı",
+          "startMs": 203950,
+          "endMs": 204270
+        },
+        {
+          "word": "4",
+          "startMs": 204340,
+          "endMs": 204730
+        },
+        {
+          "word": "ifadesini",
+          "startMs": 204770,
+          "endMs": 205500
+        },
+        {
+          "word": "toplayıp",
+          "startMs": 206120,
+          "endMs": 206400
+        },
+        {
+          "word": "7x",
+          "startMs": 206460,
+          "endMs": 206700
+        },
+        {
+          "word": "sanmak",
+          "startMs": 206700,
+          "endMs": 206990
+        },
+        {
+          "word": "en",
+          "startMs": 207090,
+          "endMs": 207240
+        },
+        {
+          "word": "sık",
+          "startMs": 207330,
+          "endMs": 207430
+        },
+        {
+          "word": "düşülen",
+          "startMs": 207430,
+          "endMs": 207830
+        },
+        {
+          "word": "tuzaktır.",
+          "startMs": 208180,
+          "endMs": 209030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 210130,
+      "endMs": 216900,
+      "pauseAfterMs": 630,
+      "text": "4 sayısının yanında x harfi yoktur, bu yüzden katsayıya eklenemez.",
+      "markedText": "4 sayısının yanında x harfi yoktur, bu yüzden katsayıya eklenemez.",
+      "words": [
+        {
+          "word": "4",
+          "startMs": 210130,
+          "endMs": 210490
+        },
+        {
+          "word": "sayısının",
+          "startMs": 210600,
+          "endMs": 211000
+        },
+        {
+          "word": "yanında",
+          "startMs": 211090,
+          "endMs": 211400
+        },
+        {
+          "word": "x",
+          "startMs": 211690,
+          "endMs": 211760
+        },
+        {
+          "word": "harfi",
+          "startMs": 211840,
+          "endMs": 212050
+        },
+        {
+          "word": "yoktur,",
+          "startMs": 212050,
+          "endMs": 212630
+        },
+        {
+          "word": "bu",
+          "startMs": 213740,
+          "endMs": 213940
+        },
+        {
+          "word": "yüzden",
+          "startMs": 214040,
+          "endMs": 214500
+        },
+        {
+          "word": "katsayıya",
+          "startMs": 214610,
+          "endMs": 215420
+        },
+        {
+          "word": "eklenemez.",
+          "startMs": 215580,
+          "endMs": 216270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 216900,
+      "endMs": 225110,
+      "pauseAfterMs": 1390,
+      "text": "3x artı 2x ise 5x olur çünkü ikisi de x harfi taşır.",
+      "markedText": "3x artı 2x ise 5x olur çünkü ikisi de x harfi taşır.",
+      "words": [
+        {
+          "word": "3x",
+          "startMs": 216900,
+          "endMs": 217000
+        },
+        {
+          "word": "artı",
+          "startMs": 217160,
+          "endMs": 217430
+        },
+        {
+          "word": "2x",
+          "startMs": 217660,
+          "endMs": 218220
+        },
+        {
+          "word": "ise",
+          "startMs": 218440,
+          "endMs": 218740
+        },
+        {
+          "word": "5x",
+          "startMs": 218790,
+          "endMs": 219550
+        },
+        {
+          "word": "olur",
+          "startMs": 220530,
+          "endMs": 220820
+        },
+        {
+          "word": "çünkü",
+          "startMs": 221130,
+          "endMs": 221550
+        },
+        {
+          "word": "ikisi",
+          "startMs": 221550,
+          "endMs": 222160
+        },
+        {
+          "word": "de",
+          "startMs": 222390,
+          "endMs": 222470
+        },
+        {
+          "word": "x",
+          "startMs": 222470,
+          "endMs": 222510
+        },
+        {
+          "word": "harfi",
+          "startMs": 222510,
+          "endMs": 222750
+        },
+        {
+          "word": "taşır.",
+          "startMs": 222910,
+          "endMs": 223720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 225110,
+      "endMs": 236320,
+      "pauseAfterMs": 1100,
+      "text": "Harfi olmayan sayılar sabit terimdir ve yalnızca diğer sabit terimlerle toplanır.",
+      "markedText": "Harfi olmayan sayılar sabit terimdir ve yalnızca diğer sabit terimlerle toplanır.",
+      "words": [
+        {
+          "word": "Harfi",
+          "startMs": 225110,
+          "endMs": 225590
+        },
+        {
+          "word": "olmayan",
+          "startMs": 225670,
+          "endMs": 226350
+        },
+        {
+          "word": "sayılar",
+          "startMs": 226500,
+          "endMs": 227230
+        },
+        {
+          "word": "sabit",
+          "startMs": 227320,
+          "endMs": 227600
+        },
+        {
+          "word": "terimdir",
+          "startMs": 227710,
+          "endMs": 228540
+        },
+        {
+          "word": "ve",
+          "startMs": 229280,
+          "endMs": 229490
+        },
+        {
+          "word": "yalnızca",
+          "startMs": 229490,
+          "endMs": 230120
+        },
+        {
+          "word": "diğer",
+          "startMs": 230220,
+          "endMs": 231060
+        },
+        {
+          "word": "sabit",
+          "startMs": 232040,
+          "endMs": 232400
+        },
+        {
+          "word": "terimlerle",
+          "startMs": 232490,
+          "endMs": 234070
+        },
+        {
+          "word": "toplanır.",
+          "startMs": 234270,
+          "endMs": 235220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 236320,
+      "endMs": 239970,
+      "pauseAfterMs": 970,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 236320,
+          "endMs": 236950
+        },
+        {
+          "word": "Neler",
+          "startMs": 237070,
+          "endMs": 237660
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 237880,
+          "endMs": 239000
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 236320,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "konu-anlati",
+          "params": {
+            "heading": "Bugün Neler Öğrendik?",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Değişken bir harftir.",
+                "body": "Katsayı, harfin kaç katı alındığını söyler.",
+                "tone": "recap"
+              },
+              {
+                "title": "Benzer terimler toplanır.",
+                "body": "3x artı 2x, 5x eder.",
+                "tone": "recap"
+              },
+              {
+                "title": "5x artı 4, 9x değildir.",
+                "body": "x yerine 6 konursa sonuç 34 olur.",
+                "tone": "recap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 239970,
+      "endMs": 240320,
+      "pauseAfterMs": 150,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 239970,
+          "endMs": 240170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 240320,
+      "endMs": 243700,
+      "pauseAfterMs": 930,
+      "text": "Değişken bir harftir.",
+      "markedText": "Değişken bir harftir.",
+      "words": [
+        {
+          "word": "Değişken",
+          "startMs": 240320,
+          "endMs": 241040
+        },
+        {
+          "word": "bir",
+          "startMs": 241140,
+          "endMs": 241550
+        },
+        {
+          "word": "harftir.",
+          "startMs": 241890,
+          "endMs": 242770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 243700,
+      "endMs": 247730,
+      "pauseAfterMs": 950,
+      "text": "Katsayı, harfin kaç katı alındığını söyler.",
+      "markedText": "Katsayı, harfin kaç katı alındığını söyler.",
+      "words": [
+        {
+          "word": "Katsayı,",
+          "startMs": 243700,
+          "endMs": 244220
+        },
+        {
+          "word": "harfin",
+          "startMs": 244220,
+          "endMs": 244740
+        },
+        {
+          "word": "kaç",
+          "startMs": 244740,
+          "endMs": 244930
+        },
+        {
+          "word": "katı",
+          "startMs": 245260,
+          "endMs": 245320
+        },
+        {
+          "word": "alındığını",
+          "startMs": 245320,
+          "endMs": 245910
+        },
+        {
+          "word": "söyler.",
+          "startMs": 246040,
+          "endMs": 246780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 247730,
+      "endMs": 248000,
+      "pauseAfterMs": 0,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 247730,
+          "endMs": 248000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 248000,
+      "endMs": 249830,
+      "pauseAfterMs": 670,
+      "text": "Benzer terimler toplanır.",
+      "markedText": "Benzer terimler toplanır.",
+      "words": [
+        {
+          "word": "Benzer",
+          "startMs": 248000,
+          "endMs": 248300
+        },
+        {
+          "word": "terimler",
+          "startMs": 248350,
+          "endMs": 248680
+        },
+        {
+          "word": "toplanır.",
+          "startMs": 248740,
+          "endMs": 249160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 249830,
+      "endMs": 252620,
+      "pauseAfterMs": 540,
+      "text": "3x artı 2x, 5x eder.",
+      "markedText": "3x artı 2x, 5x eder.",
+      "words": [
+        {
+          "word": "3x",
+          "startMs": 249830,
+          "endMs": 250260
+        },
+        {
+          "word": "artı",
+          "startMs": 250340,
+          "endMs": 250840
+        },
+        {
+          "word": "2x,",
+          "startMs": 250900,
+          "endMs": 251280
+        },
+        {
+          "word": "5x",
+          "startMs": 251380,
+          "endMs": 251630
+        },
+        {
+          "word": "eder.",
+          "startMs": 251790,
+          "endMs": 252080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 252620,
+      "endMs": 252770,
+      "pauseAfterMs": 40,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 252620,
+          "endMs": 252730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 252770,
+      "endMs": 257850,
+      "pauseAfterMs": 800,
+      "text": "5x artı 4, 9x değildir.",
+      "markedText": "5x artı 4, 9x değildir.",
+      "words": [
+        {
+          "word": "5x",
+          "startMs": 252770,
+          "endMs": 253000
+        },
+        {
+          "word": "artı",
+          "startMs": 253090,
+          "endMs": 253470
+        },
+        {
+          "word": "4,",
+          "startMs": 253600,
+          "endMs": 254570
+        },
+        {
+          "word": "9x",
+          "startMs": 255540,
+          "endMs": 256040
+        },
+        {
+          "word": "değildir.",
+          "startMs": 256040,
+          "endMs": 257050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 257850,
+      "endMs": 263270,
+      "pauseAfterMs": 760,
+      "text": "x yerine 6 konursa sonuç 34 olur.",
+      "markedText": "x yerine 6 konursa sonuç 34 olur.",
+      "words": [
+        {
+          "word": "x",
+          "startMs": 257850,
+          "endMs": 258010
+        },
+        {
+          "word": "yerine",
+          "startMs": 258150,
+          "endMs": 258780
+        },
+        {
+          "word": "6",
+          "startMs": 258890,
+          "endMs": 259280
+        },
+        {
+          "word": "konursa",
+          "startMs": 259430,
+          "endMs": 260110
+        },
+        {
+          "word": "sonuç",
+          "startMs": 260290,
+          "endMs": 260710
+        },
+        {
+          "word": "34",
+          "startMs": 260710,
+          "endMs": 261340
+        },
+        {
+          "word": "olur.",
+          "startMs": 261380,
+          "endMs": 262510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 263270,
+      "endMs": 271900,
+      "pauseAfterMs": 950,
+      "text": "Cebirsel ifade, değişken ile sayının birlikte yazılmış hâlidir.",
+      "markedText": "Cebirsel ifade, değişken ile sayının birlikte yazılmış hâlidir.",
+      "words": [
+        {
+          "word": "Cebirsel",
+          "startMs": 263270,
+          "endMs": 264290
+        },
+        {
+          "word": "ifade,",
+          "startMs": 264560,
+          "endMs": 265520
+        },
+        {
+          "word": "değişken",
+          "startMs": 266220,
+          "endMs": 266690
+        },
+        {
+          "word": "ile",
+          "startMs": 266770,
+          "endMs": 267010
+        },
+        {
+          "word": "sayının",
+          "startMs": 267010,
+          "endMs": 267420
+        },
+        {
+          "word": "birlikte",
+          "startMs": 267880,
+          "endMs": 268510
+        },
+        {
+          "word": "yazılmış",
+          "startMs": 269160,
+          "endMs": 270040
+        },
+        {
+          "word": "hâlidir.",
+          "startMs": 270130,
+          "endMs": 270950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 271900,
+      "endMs": 278590,
+      "pauseAfterMs": 810,
+      "text": "Benzer terimi neden topladığını ve sabiti neden ayırdığını söylersin.",
+      "markedText": "Benzer terimi neden topladığını ve sabiti neden ayırdığını söylersin.",
+      "words": [
+        {
+          "word": "Benzer",
+          "startMs": 271900,
+          "endMs": 272080
+        },
+        {
+          "word": "terimi",
+          "startMs": 272170,
+          "endMs": 272690
+        },
+        {
+          "word": "neden",
+          "startMs": 272690,
+          "endMs": 273360
+        },
+        {
+          "word": "topladığını",
+          "startMs": 274210,
+          "endMs": 275090
+        },
+        {
+          "word": "ve",
+          "startMs": 275470,
+          "endMs": 275530
+        },
+        {
+          "word": "sabiti",
+          "startMs": 275530,
+          "endMs": 275730
+        },
+        {
+          "word": "neden",
+          "startMs": 275820,
+          "endMs": 276120
+        },
+        {
+          "word": "ayırdığını",
+          "startMs": 276210,
+          "endMs": 276750
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 276870,
+          "endMs": 277780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 278590,
+      "endMs": 281070,
+      "pauseAfterMs": 750,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 278590,
+          "endMs": 279220
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 279480,
+          "endMs": 280320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-48",
+      "chapterId": "ch-3",
+      "startMs": 281070,
+      "endMs": 285970,
+      "pauseAfterMs": 1170,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 281070,
+          "endMs": 282070
+        },
+        {
+          "word": "bir",
+          "startMs": 282350,
+          "endMs": 282860
+        },
+        {
+          "word": "iş",
+          "startMs": 283040,
+          "endMs": 283270
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 283400,
+          "endMs": 284800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-49",
+      "chapterId": "ch-3",
+      "startMs": 285970,
+      "endMs": 289030,
+      "pauseAfterMs": 740,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 285970,
+          "endMs": 286810
+        },
+        {
+          "word": "sıra",
+          "startMs": 287360,
+          "endMs": 287850
+        },
+        {
+          "word": "sende.",
+          "startMs": 288070,
+          "endMs": 288290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-50",
+      "chapterId": "ch-3",
+      "startMs": 289030,
+      "endMs": 293264,
+      "pauseAfterMs": 414,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 289030,
+          "endMs": 289740
+        },
+        {
+          "word": "bu",
+          "startMs": 289740,
+          "endMs": 289800
+        },
+        {
+          "word": "notları",
+          "startMs": 290240,
+          "endMs": 290920
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 291030,
+          "endMs": 291670
+        },
+        {
+          "word": "kendi",
+          "startMs": 291800,
+          "endMs": 292040
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 292040,
+          "endMs": 292580
+        },
+        {
+          "word": "anlat.",
+          "startMs": 292580,
+          "endMs": 292850
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

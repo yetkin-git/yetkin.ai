@@ -3,9 +3,14 @@
 import { ActivityRail } from "@/components/junior/activity-rail";
 import { LessonBooklet } from "@/components/junior/lesson-booklet";
 import { TopicQuiz } from "@/components/junior/topic-quiz";
+import type { JuniorAccountGate } from "@/components/junior/account-gate-modal";
 import type { JuniorBookletCopy } from "@/lib/junior/booklet-copy";
 import type { JuniorActivityPublic } from "@/lib/junior/activity-public";
-import { JUNIOR_PAID_ACTION_ERROR, JUNIOR_QUIZ_PREPARING_LABEL } from "@/lib/junior/limits";
+import {
+  juniorPaidActionError,
+  JUNIOR_QUIZ_PREPARING_LABEL,
+  isJuniorPilotTrialLesson,
+} from "@/lib/junior/limits";
 import type { JuniorPracticeChoice, JuniorVectorScene } from "@/lib/junior/types";
 
 export type JuniorHubModule = "activities" | "tests" | "notes" | "tutor";
@@ -32,6 +37,8 @@ export function ActivityHub({
   quizSlot,
   tellPassed,
   onQuizCompleted,
+  accountGate = "ready",
+  onNeedAccount,
   chrome = "tabs",
 }: {
   module: JuniorHubModule;
@@ -48,10 +55,13 @@ export function ActivityHub({
   quizSlot: "ready" | "preparing" | "locked";
   tellPassed: boolean;
   onQuizCompleted?: () => void;
+  accountGate?: JuniorAccountGate;
+  onNeedAccount?: () => void;
   /** `panel` stüdyo düzeninde sekmeyi sağ raya bırakır. Diğer dersler `tabs` kalır. */
   chrome?: "tabs" | "panel";
 }) {
-  const active = MODULES.find((item) => item.id === module) ?? MODULES[0];
+  const modules = activities.length > 0 ? MODULES : MODULES.filter((item) => item.id !== "activities");
+  const active = modules.find((item) => item.id === module) ?? modules[0] ?? MODULES[1];
   const panelId = `junior-hub-${active.id}`;
 
   return (
@@ -62,7 +72,7 @@ export function ActivityHub({
     >
       {chrome === "tabs" ? (
       <div role="tablist" aria-label="Konu içerik modülleri" className="flex flex-wrap gap-2">
-        {MODULES.map((item) => {
+        {modules.map((item) => {
           const selected = item.id === active.id;
           return (
             <button
@@ -86,12 +96,8 @@ export function ActivityHub({
       </div>
       ) : null}
       <div role="tabpanel" id={panelId} aria-labelledby={`junior-hub-tab-${active.id}`} className="grid gap-3">
-        {active.id === "activities" ? (
-          activities.length > 0 ? (
-            <ActivityRail profileId={profileId} lessonKey={lessonKey} items={[...activities]} />
-          ) : (
-            <EmptyActivities />
-          )
+        {active.id === "activities" && activities.length > 0 ? (
+          <ActivityRail profileId={profileId} lessonKey={lessonKey} items={[...activities]} />
         ) : null}
         {active.id === "tests" ? (
           <TestBank
@@ -100,6 +106,8 @@ export function ActivityHub({
             quiz={quiz}
             quizSlot={quizSlot}
             tellPassed={tellPassed}
+            accountGate={accountGate}
+            onNeedAccount={onNeedAccount}
             onQuizCompleted={onQuizCompleted}
           />
         ) : null}
@@ -128,17 +136,6 @@ export function ActivityHub({
   );
 }
 
-function EmptyActivities() {
-  return (
-    <section className="rounded-[1.6rem] border border-[var(--border)] bg-white p-4">
-      <h3 className="text-lg font-semibold">Etkinlikler ve bulmacalar</h3>
-      <p className="mt-1 text-sm text-[var(--muted)]">
-        Bu konuda eşleştirme, boşluk doldurma ve sıralama kartı henüz yok. Soru bankası ve ders notu açık.
-      </p>
-    </section>
-  );
-}
-
 function TestBank({
   profileId,
   lessonKey,
@@ -146,6 +143,8 @@ function TestBank({
   quizSlot,
   tellPassed,
   onQuizCompleted,
+  accountGate = "ready",
+  onNeedAccount,
 }: {
   profileId: string;
   lessonKey: string;
@@ -153,6 +152,8 @@ function TestBank({
   quizSlot: "ready" | "preparing" | "locked";
   tellPassed: boolean;
   onQuizCompleted?: () => void;
+  accountGate?: JuniorAccountGate;
+  onNeedAccount?: () => void;
 }) {
   if (quizSlot === "preparing" || quiz.length === 0) {
     return (
@@ -162,12 +163,15 @@ function TestBank({
       </section>
     );
   }
+  const pilotTrial = isJuniorPilotTrialLesson(lessonKey);
   const submitLocked =
     quizSlot === "locked"
-      ? JUNIOR_PAID_ACTION_ERROR
+      ? juniorPaidActionError(quiz.length)
       : !profileId
-        ? "Puanın yazılması için veli girişi ve profil gerekir."
-        : !tellPassed
+        ? pilotTrial
+          ? null
+          : "Puanın yazılması için veli girişi ve profil gerekir."
+        : !tellPassed && !pilotTrial
           ? "Soruları okuyabilirsin. Puan, dinleyip kendi sözünle anlatınca açılır."
           : null;
   return (
@@ -176,6 +180,8 @@ function TestBank({
       lessonKey={lessonKey}
       items={quiz}
       submitLocked={submitLocked}
+      accountGate={accountGate}
+      onNeedAccount={onNeedAccount}
       onCompleted={onQuizCompleted}
     />
   );

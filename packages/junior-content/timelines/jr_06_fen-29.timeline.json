@@ -1,0 +1,2249 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_fen-29",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Yansıma ve normal",
+  "grade": 6,
+  "subject": "Fen Bilimleri",
+  "teacher": {
+    "name": "Deniz",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_fen-29.mp3",
+    "durationMs": 268777,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 64160
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 64160,
+      "endMs": 208390
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 208390,
+      "endMs": 268777
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4740,
+      "pauseAfterMs": 870,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 450,
+          "endMs": 1640
+        },
+        {
+          "word": "sevgili",
+          "startMs": 2040,
+          "endMs": 2920
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2920,
+          "endMs": 3870
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Yansıma ve normal",
+            "subtitle": "Fen Bilimleri",
+            "ruleBadges": [],
+            "echoPrompt": "Bir deneyde iki açıyı dereceyle ve normali göstererek söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Yansıma, ışığın yüzeye çarpıp geri dönmesidir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Normal, yüzeye dik çizilen referans doğrusudur."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Gelme açısı yansıma açısına eşittir ve ikisi de normale göre ölçülür."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4740,
+      "endMs": 8540,
+      "pauseAfterMs": 300,
+      "text": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "markedText": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4740,
+          "endMs": 4850
+        },
+        {
+          "word": "Fen",
+          "startMs": 4890,
+          "endMs": 5050
+        },
+        {
+          "word": "Bilimleri",
+          "startMs": 5050,
+          "endMs": 6270
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6790,
+          "endMs": 7810
+        },
+        {
+          "word": "Deniz.",
+          "startMs": 7810,
+          "endMs": 8240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8540,
+      "endMs": 15920,
+      "pauseAfterMs": 680,
+      "text": "Sabah aynada yüzünü görürsün, çünkü ışık yüzünden aynaya çarpıp gözüne döner.",
+      "markedText": "Sabah aynada yüzünü görürsün, çünkü ışık yüzünden aynaya çarpıp gözüne döner.",
+      "words": [
+        {
+          "word": "Sabah",
+          "startMs": 8540,
+          "endMs": 9230
+        },
+        {
+          "word": "aynada",
+          "startMs": 9640,
+          "endMs": 9940
+        },
+        {
+          "word": "yüzünü",
+          "startMs": 9940,
+          "endMs": 10110
+        },
+        {
+          "word": "görürsün,",
+          "startMs": 10110,
+          "endMs": 10950
+        },
+        {
+          "word": "çünkü",
+          "startMs": 11610,
+          "endMs": 12120
+        },
+        {
+          "word": "ışık",
+          "startMs": 12310,
+          "endMs": 12460
+        },
+        {
+          "word": "yüzünden",
+          "startMs": 12550,
+          "endMs": 13010
+        },
+        {
+          "word": "aynaya",
+          "startMs": 13120,
+          "endMs": 13660
+        },
+        {
+          "word": "çarpıp",
+          "startMs": 13660,
+          "endMs": 14060
+        },
+        {
+          "word": "gözüne",
+          "startMs": 14060,
+          "endMs": 14330
+        },
+        {
+          "word": "döner.",
+          "startMs": 14430,
+          "endMs": 15240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 15920,
+      "endMs": 19420,
+      "pauseAfterMs": 450,
+      "text": "Bu dönüşe yansıma denir.",
+      "markedText": "Bu dönüşe yansıma denir.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 15920,
+          "endMs": 16220
+        },
+        {
+          "word": "dönüşe",
+          "startMs": 16440,
+          "endMs": 16900
+        },
+        {
+          "word": "yansıma",
+          "startMs": 17020,
+          "endMs": 17710
+        },
+        {
+          "word": "denir.",
+          "startMs": 17820,
+          "endMs": 18970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 19420,
+      "endMs": 25950,
+      "pauseAfterMs": 980,
+      "text": "Açıyı rastgele kenardan değil, normal denen dik çizgiden okuruz.",
+      "markedText": "Açıyı rastgele kenardan değil, normal denen dik çizgiden okuruz.",
+      "words": [
+        {
+          "word": "Açıyı",
+          "startMs": 19420,
+          "endMs": 19800
+        },
+        {
+          "word": "rastgele",
+          "startMs": 19900,
+          "endMs": 20650
+        },
+        {
+          "word": "kenardan",
+          "startMs": 20760,
+          "endMs": 21470
+        },
+        {
+          "word": "değil,",
+          "startMs": 21470,
+          "endMs": 22370
+        },
+        {
+          "word": "normal",
+          "startMs": 22890,
+          "endMs": 23440
+        },
+        {
+          "word": "denen",
+          "startMs": 23540,
+          "endMs": 23860
+        },
+        {
+          "word": "dik",
+          "startMs": 23860,
+          "endMs": 24010
+        },
+        {
+          "word": "çizgiden",
+          "startMs": 24010,
+          "endMs": 24440
+        },
+        {
+          "word": "okuruz.",
+          "startMs": 24540,
+          "endMs": 24970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 25950,
+      "endMs": 32920,
+      "pauseAfterMs": 980,
+      "text": "Bugün bir deneyle gelme ve yansıma açısını ölçeceğiz.",
+      "markedText": "Bugün bir deneyle gelme ve yansıma açısını ölçeceğiz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 25950,
+          "endMs": 26320
+        },
+        {
+          "word": "bir",
+          "startMs": 26870,
+          "endMs": 27030
+        },
+        {
+          "word": "deneyle",
+          "startMs": 27160,
+          "endMs": 27680
+        },
+        {
+          "word": "gelme",
+          "startMs": 27680,
+          "endMs": 27970
+        },
+        {
+          "word": "ve",
+          "startMs": 27970,
+          "endMs": 28210
+        },
+        {
+          "word": "yansıma",
+          "startMs": 28890,
+          "endMs": 29530
+        },
+        {
+          "word": "açısını",
+          "startMs": 29780,
+          "endMs": 30590
+        },
+        {
+          "word": "ölçeceğiz.",
+          "startMs": 30730,
+          "endMs": 31940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 32920,
+      "endMs": 39180,
+      "pauseAfterMs": 650,
+      "text": "Lazer izini gözlemlemek, normalin yerini netleştirir.",
+      "markedText": "Lazer izini gözlemlemek, normalin yerini netleştirir.",
+      "words": [
+        {
+          "word": "Lazer",
+          "startMs": 32920,
+          "endMs": 33420
+        },
+        {
+          "word": "izini",
+          "startMs": 33520,
+          "endMs": 34130
+        },
+        {
+          "word": "gözlemlemek,",
+          "startMs": 34460,
+          "endMs": 35330
+        },
+        {
+          "word": "normalin",
+          "startMs": 35330,
+          "endMs": 36370
+        },
+        {
+          "word": "yerini",
+          "startMs": 36730,
+          "endMs": 37260
+        },
+        {
+          "word": "netleştirir.",
+          "startMs": 37300,
+          "endMs": 38530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 39180,
+      "endMs": 44110,
+      "pauseAfterMs": 560,
+      "text": "Bunu evdeki banyo aynasında kullanırsın.",
+      "markedText": "Bunu evdeki banyo aynasında kullanırsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 39180,
+          "endMs": 39490
+        },
+        {
+          "word": "evdeki",
+          "startMs": 39490,
+          "endMs": 40030
+        },
+        {
+          "word": "banyo",
+          "startMs": 40070,
+          "endMs": 40640
+        },
+        {
+          "word": "aynasında",
+          "startMs": 41160,
+          "endMs": 41740
+        },
+        {
+          "word": "kullanırsın.",
+          "startMs": 42120,
+          "endMs": 43550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 44110,
+      "endMs": 49250,
+      "pauseAfterMs": 340,
+      "text": "Bisiklet yansıtıcısı da ışığı geri gönderir.",
+      "markedText": "Bisiklet yansıtıcısı da ışığı geri gönderir.",
+      "words": [
+        {
+          "word": "Bisiklet",
+          "startMs": 44110,
+          "endMs": 45040
+        },
+        {
+          "word": "yansıtıcısı",
+          "startMs": 45340,
+          "endMs": 46270
+        },
+        {
+          "word": "da",
+          "startMs": 46270,
+          "endMs": 46720
+        },
+        {
+          "word": "ışığı",
+          "startMs": 47570,
+          "endMs": 47860
+        },
+        {
+          "word": "geri",
+          "startMs": 47860,
+          "endMs": 48190
+        },
+        {
+          "word": "gönderir.",
+          "startMs": 48260,
+          "endMs": 48910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 49250,
+      "endMs": 55270,
+      "pauseAfterMs": 660,
+      "text": "Göl kenarındaki sakin su bir ayna gibi davranabilir.",
+      "markedText": "Göl kenarındaki sakin su bir ayna gibi davranabilir.",
+      "words": [
+        {
+          "word": "Göl",
+          "startMs": 49250,
+          "endMs": 49470
+        },
+        {
+          "word": "kenarındaki",
+          "startMs": 49510,
+          "endMs": 50710
+        },
+        {
+          "word": "sakin",
+          "startMs": 51330,
+          "endMs": 51770
+        },
+        {
+          "word": "su",
+          "startMs": 52040,
+          "endMs": 52200
+        },
+        {
+          "word": "bir",
+          "startMs": 52330,
+          "endMs": 52550
+        },
+        {
+          "word": "ayna",
+          "startMs": 52830,
+          "endMs": 53180
+        },
+        {
+          "word": "gibi",
+          "startMs": 53290,
+          "endMs": 53620
+        },
+        {
+          "word": "davranabilir.",
+          "startMs": 53740,
+          "endMs": 54610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 55270,
+      "endMs": 64160,
+      "pauseAfterMs": 250,
+      "text": "Okulda el feneri ve tarak dişleriyle ince ışın demeti oluşturup açıyı ölçmek deneyi eve taşır.",
+      "markedText": "Okulda el feneri ve tarak dişleriyle ince ışın demeti oluşturup açıyı ölçmek deneyi eve taşır.",
+      "words": [
+        {
+          "word": "Okulda",
+          "startMs": 55270,
+          "endMs": 55650
+        },
+        {
+          "word": "el",
+          "startMs": 55940,
+          "endMs": 56090
+        },
+        {
+          "word": "feneri",
+          "startMs": 56220,
+          "endMs": 56540
+        },
+        {
+          "word": "ve",
+          "startMs": 56540,
+          "endMs": 56730
+        },
+        {
+          "word": "tarak",
+          "startMs": 56730,
+          "endMs": 57130
+        },
+        {
+          "word": "dişleriyle",
+          "startMs": 57130,
+          "endMs": 58170
+        },
+        {
+          "word": "ince",
+          "startMs": 58790,
+          "endMs": 59070
+        },
+        {
+          "word": "ışın",
+          "startMs": 59070,
+          "endMs": 59320
+        },
+        {
+          "word": "demeti",
+          "startMs": 59570,
+          "endMs": 59990
+        },
+        {
+          "word": "oluşturup",
+          "startMs": 60120,
+          "endMs": 60730
+        },
+        {
+          "word": "açıyı",
+          "startMs": 60730,
+          "endMs": 61180
+        },
+        {
+          "word": "ölçmek",
+          "startMs": 61300,
+          "endMs": 61940
+        },
+        {
+          "word": "deneyi",
+          "startMs": 62620,
+          "endMs": 63180
+        },
+        {
+          "word": "eve",
+          "startMs": 63300,
+          "endMs": 63610
+        },
+        {
+          "word": "taşır.",
+          "startMs": 63790,
+          "endMs": 63910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 64160,
+      "endMs": 75320,
+      "pauseAfterMs": 720,
+      "text": "Yansıma, ışığın saydam olmayan düzgün bir yüzeye çarpıp geldiği ortama dönmesidir.",
+      "markedText": "Yansıma, ışığın saydam olmayan düzgün bir yüzeye çarpıp geldiği ortama dönmesidir.",
+      "words": [
+        {
+          "word": "Yansıma,",
+          "startMs": 64160,
+          "endMs": 64970
+        },
+        {
+          "word": "ışığın",
+          "startMs": 65670,
+          "endMs": 66520
+        },
+        {
+          "word": "saydam",
+          "startMs": 66520,
+          "endMs": 67340
+        },
+        {
+          "word": "olmayan",
+          "startMs": 67740,
+          "endMs": 68130
+        },
+        {
+          "word": "düzgün",
+          "startMs": 68230,
+          "endMs": 68700
+        },
+        {
+          "word": "bir",
+          "startMs": 68950,
+          "endMs": 69170
+        },
+        {
+          "word": "yüzeye",
+          "startMs": 69240,
+          "endMs": 69940
+        },
+        {
+          "word": "çarpıp",
+          "startMs": 70670,
+          "endMs": 71220
+        },
+        {
+          "word": "geldiği",
+          "startMs": 71730,
+          "endMs": 72140
+        },
+        {
+          "word": "ortama",
+          "startMs": 72400,
+          "endMs": 73190
+        },
+        {
+          "word": "dönmesidir.",
+          "startMs": 73510,
+          "endMs": 74600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 75320,
+      "endMs": 80920,
+      "pauseAfterMs": 680,
+      "text": "Gelen ışın yüzeye çarpar, yansıyan ışın uzaklaşır.",
+      "markedText": "Gelen ışın yüzeye çarpar, yansıyan ışın uzaklaşır.",
+      "words": [
+        {
+          "word": "Gelen",
+          "startMs": 75320,
+          "endMs": 75690
+        },
+        {
+          "word": "ışın",
+          "startMs": 75690,
+          "endMs": 76110
+        },
+        {
+          "word": "yüzeye",
+          "startMs": 76440,
+          "endMs": 76790
+        },
+        {
+          "word": "çarpar,",
+          "startMs": 76890,
+          "endMs": 77280
+        },
+        {
+          "word": "yansıyan",
+          "startMs": 78100,
+          "endMs": 78730
+        },
+        {
+          "word": "ışın",
+          "startMs": 78730,
+          "endMs": 79010
+        },
+        {
+          "word": "uzaklaşır.",
+          "startMs": 79130,
+          "endMs": 80240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 80920,
+      "endMs": 86440,
+      "pauseAfterMs": 600,
+      "text": "Normal, çarpma noktasından yüzeye dik çizilen doğrudur.",
+      "markedText": "Normal, çarpma noktasından yüzeye dik çizilen doğrudur.",
+      "words": [
+        {
+          "word": "Normal,",
+          "startMs": 80920,
+          "endMs": 81520
+        },
+        {
+          "word": "çarpma",
+          "startMs": 81560,
+          "endMs": 82160
+        },
+        {
+          "word": "noktasından",
+          "startMs": 82400,
+          "endMs": 83290
+        },
+        {
+          "word": "yüzeye",
+          "startMs": 83590,
+          "endMs": 84100
+        },
+        {
+          "word": "dik",
+          "startMs": 84100,
+          "endMs": 84340
+        },
+        {
+          "word": "çizilen",
+          "startMs": 84340,
+          "endMs": 85010
+        },
+        {
+          "word": "doğrudur.",
+          "startMs": 85080,
+          "endMs": 85840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 86440,
+      "endMs": 91200,
+      "pauseAfterMs": 860,
+      "text": "Gelme açısı gelen ışın ile normal arasındaki açıdır.",
+      "markedText": "Gelme açısı gelen ışın ile normal arasındaki açıdır.",
+      "words": [
+        {
+          "word": "Gelme",
+          "startMs": 86440,
+          "endMs": 86760
+        },
+        {
+          "word": "açısı",
+          "startMs": 87040,
+          "endMs": 87310
+        },
+        {
+          "word": "gelen",
+          "startMs": 87310,
+          "endMs": 87610
+        },
+        {
+          "word": "ışın",
+          "startMs": 87820,
+          "endMs": 87940
+        },
+        {
+          "word": "ile",
+          "startMs": 88140,
+          "endMs": 88270
+        },
+        {
+          "word": "normal",
+          "startMs": 88580,
+          "endMs": 89040
+        },
+        {
+          "word": "arasındaki",
+          "startMs": 89350,
+          "endMs": 89730
+        },
+        {
+          "word": "açıdır.",
+          "startMs": 89850,
+          "endMs": 90340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 91200,
+      "endMs": 96740,
+      "pauseAfterMs": 780,
+      "text": "Yansıma açısı yansıyan ışın ile normal arasındaki açıdır.",
+      "markedText": "Yansıma açısı yansıyan ışın ile normal arasındaki açıdır.",
+      "words": [
+        {
+          "word": "Yansıma",
+          "startMs": 91200,
+          "endMs": 91680
+        },
+        {
+          "word": "açısı",
+          "startMs": 91740,
+          "endMs": 92100
+        },
+        {
+          "word": "yansıyan",
+          "startMs": 92230,
+          "endMs": 93120
+        },
+        {
+          "word": "ışın",
+          "startMs": 93120,
+          "endMs": 93340
+        },
+        {
+          "word": "ile",
+          "startMs": 93610,
+          "endMs": 93740
+        },
+        {
+          "word": "normal",
+          "startMs": 94070,
+          "endMs": 94470
+        },
+        {
+          "word": "arasındaki",
+          "startMs": 94470,
+          "endMs": 94900
+        },
+        {
+          "word": "açıdır.",
+          "startMs": 95080,
+          "endMs": 95960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 96740,
+      "endMs": 98870,
+      "pauseAfterMs": 200,
+      "text": "Düzgün yansımada bu iki açı eşittir.",
+      "markedText": "Düzgün yansımada bu iki açı eşittir.",
+      "words": [
+        {
+          "word": "Düzgün",
+          "startMs": 96740,
+          "endMs": 96950
+        },
+        {
+          "word": "yansımada",
+          "startMs": 96950,
+          "endMs": 97400
+        },
+        {
+          "word": "bu",
+          "startMs": 97510,
+          "endMs": 97590
+        },
+        {
+          "word": "iki",
+          "startMs": 97590,
+          "endMs": 97730
+        },
+        {
+          "word": "açı",
+          "startMs": 97910,
+          "endMs": 98070
+        },
+        {
+          "word": "eşittir.",
+          "startMs": 98200,
+          "endMs": 98670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 98870,
+      "endMs": 105940,
+      "pauseAfterMs": 650,
+      "text": "Pürüzlü yüzeyde ışınlar dağılır; bu da yansımadır ama görüntü net oluşmaz.",
+      "markedText": "Pürüzlü yüzeyde ışınlar dağılır; bu da yansımadır ama görüntü net oluşmaz.",
+      "words": [
+        {
+          "word": "Pürüzlü",
+          "startMs": 98870,
+          "endMs": 99080
+        },
+        {
+          "word": "yüzeyde",
+          "startMs": 99220,
+          "endMs": 99560
+        },
+        {
+          "word": "ışınlar",
+          "startMs": 99740,
+          "endMs": 100050
+        },
+        {
+          "word": "dağılır;",
+          "startMs": 100200,
+          "endMs": 101010
+        },
+        {
+          "word": "bu",
+          "startMs": 101640,
+          "endMs": 101790
+        },
+        {
+          "word": "da",
+          "startMs": 101790,
+          "endMs": 102000
+        },
+        {
+          "word": "yansımadır",
+          "startMs": 102000,
+          "endMs": 102580
+        },
+        {
+          "word": "ama",
+          "startMs": 102580,
+          "endMs": 102760
+        },
+        {
+          "word": "görüntü",
+          "startMs": 103540,
+          "endMs": 103690
+        },
+        {
+          "word": "net",
+          "startMs": 103990,
+          "endMs": 104170
+        },
+        {
+          "word": "oluşmaz.",
+          "startMs": 104170,
+          "endMs": 105290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 105940,
+      "endMs": 113150,
+      "pauseAfterMs": 370,
+      "text": "Pratik kural: Açılar yüzeye göre değil, normale göre ölçülür.",
+      "markedText": "Pratik kural: Açılar yüzeye göre değil, normale göre ölçülür.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 105940,
+          "endMs": 106110
+        },
+        {
+          "word": "kural:",
+          "startMs": 106190,
+          "endMs": 106700
+        },
+        {
+          "word": "Açılar",
+          "startMs": 107270,
+          "endMs": 107880
+        },
+        {
+          "word": "yüzeye",
+          "startMs": 108440,
+          "endMs": 108650
+        },
+        {
+          "word": "göre",
+          "startMs": 108770,
+          "endMs": 108910
+        },
+        {
+          "word": "değil,",
+          "startMs": 109060,
+          "endMs": 109880
+        },
+        {
+          "word": "normale",
+          "startMs": 110850,
+          "endMs": 111280
+        },
+        {
+          "word": "göre",
+          "startMs": 111400,
+          "endMs": 112030
+        },
+        {
+          "word": "ölçülür.",
+          "startMs": 112340,
+          "endMs": 112780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 113150,
+      "endMs": 118830,
+      "pauseAfterMs": 740,
+      "text": "Düz bir ayna ve açıölçerle deney kuralım.",
+      "markedText": "Düz bir ayna ve açıölçerle deney kuralım.",
+      "words": [
+        {
+          "word": "Düz",
+          "startMs": 113150,
+          "endMs": 113570
+        },
+        {
+          "word": "bir",
+          "startMs": 113830,
+          "endMs": 114070
+        },
+        {
+          "word": "ayna",
+          "startMs": 114210,
+          "endMs": 114650
+        },
+        {
+          "word": "ve",
+          "startMs": 114710,
+          "endMs": 114950
+        },
+        {
+          "word": "açıölçerle",
+          "startMs": 114950,
+          "endMs": 116340
+        },
+        {
+          "word": "deney",
+          "startMs": 116660,
+          "endMs": 117080
+        },
+        {
+          "word": "kuralım.",
+          "startMs": 117400,
+          "endMs": 118090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 118830,
+      "endMs": 127910,
+      "pauseAfterMs": 770,
+      "text": "Gelen ışın normalle 30 derece yapıyorsa yansıyan ışın da normalle 30 derece yapar.",
+      "markedText": "Gelen ışın normalle 30 derece yapıyorsa yansıyan ışın da normalle 30 derece yapar.",
+      "words": [
+        {
+          "word": "Gelen",
+          "startMs": 118830,
+          "endMs": 119310
+        },
+        {
+          "word": "ışın",
+          "startMs": 119370,
+          "endMs": 119750
+        },
+        {
+          "word": "normalle",
+          "startMs": 119890,
+          "endMs": 120510
+        },
+        {
+          "word": "30",
+          "startMs": 120510,
+          "endMs": 120700
+        },
+        {
+          "word": "derece",
+          "startMs": 120810,
+          "endMs": 121460
+        },
+        {
+          "word": "yapıyorsa",
+          "startMs": 122190,
+          "endMs": 122890
+        },
+        {
+          "word": "yansıyan",
+          "startMs": 123120,
+          "endMs": 123660
+        },
+        {
+          "word": "ışın",
+          "startMs": 123850,
+          "endMs": 123970
+        },
+        {
+          "word": "da",
+          "startMs": 124320,
+          "endMs": 124410
+        },
+        {
+          "word": "normalle",
+          "startMs": 124410,
+          "endMs": 125220
+        },
+        {
+          "word": "30",
+          "startMs": 125220,
+          "endMs": 125610
+        },
+        {
+          "word": "derece",
+          "startMs": 125870,
+          "endMs": 126110
+        },
+        {
+          "word": "yapar.",
+          "startMs": 126430,
+          "endMs": 127140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 127910,
+      "endMs": 134320,
+      "pauseAfterMs": 930,
+      "text": "Açıyı 45 dereceye çıkarırsan yansıma açısı da 45 derece olur.",
+      "markedText": "Açıyı 45 dereceye çıkarırsan yansıma açısı da 45 derece olur.",
+      "words": [
+        {
+          "word": "Açıyı",
+          "startMs": 127910,
+          "endMs": 128090
+        },
+        {
+          "word": "45",
+          "startMs": 128180,
+          "endMs": 128360
+        },
+        {
+          "word": "dereceye",
+          "startMs": 128360,
+          "endMs": 128850
+        },
+        {
+          "word": "çıkarırsan",
+          "startMs": 128960,
+          "endMs": 129470
+        },
+        {
+          "word": "yansıma",
+          "startMs": 129610,
+          "endMs": 130150
+        },
+        {
+          "word": "açısı",
+          "startMs": 130290,
+          "endMs": 130690
+        },
+        {
+          "word": "da",
+          "startMs": 130690,
+          "endMs": 130770
+        },
+        {
+          "word": "45",
+          "startMs": 130920,
+          "endMs": 131410
+        },
+        {
+          "word": "derece",
+          "startMs": 131970,
+          "endMs": 132600
+        },
+        {
+          "word": "olur.",
+          "startMs": 132820,
+          "endMs": 133390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 134320,
+      "endMs": 142000,
+      "pauseAfterMs": 520,
+      "text": "İki ölçüde de bağımsız değişken gelme açısı, bağımlı değişken yansıma açısıdır.",
+      "markedText": "İki ölçüde de bağımsız değişken gelme açısı, bağımlı değişken yansıma açısıdır.",
+      "words": [
+        {
+          "word": "İki",
+          "startMs": 134320,
+          "endMs": 134590
+        },
+        {
+          "word": "ölçüde",
+          "startMs": 134590,
+          "endMs": 135230
+        },
+        {
+          "word": "de",
+          "startMs": 135790,
+          "endMs": 135980
+        },
+        {
+          "word": "bağımsız",
+          "startMs": 136420,
+          "endMs": 136690
+        },
+        {
+          "word": "değişken",
+          "startMs": 136810,
+          "endMs": 137230
+        },
+        {
+          "word": "gelme",
+          "startMs": 137280,
+          "endMs": 137570
+        },
+        {
+          "word": "açısı,",
+          "startMs": 137570,
+          "endMs": 137950
+        },
+        {
+          "word": "bağımlı",
+          "startMs": 138660,
+          "endMs": 139190
+        },
+        {
+          "word": "değişken",
+          "startMs": 139370,
+          "endMs": 139910
+        },
+        {
+          "word": "yansıma",
+          "startMs": 139910,
+          "endMs": 140520
+        },
+        {
+          "word": "açısıdır.",
+          "startMs": 140700,
+          "endMs": 141480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 142000,
+      "endMs": 151980,
+      "pauseAfterMs": 900,
+      "text": "Ayna yerine buruşuk kâğıt koyarsan ışık dağılır ve net bir yüz göremezsin.",
+      "markedText": "Ayna yerine buruşuk kâğıt koyarsan ışık dağılır ve net bir yüz göremezsin.",
+      "words": [
+        {
+          "word": "Ayna",
+          "startMs": 142000,
+          "endMs": 142240
+        },
+        {
+          "word": "yerine",
+          "startMs": 142740,
+          "endMs": 143250
+        },
+        {
+          "word": "buruşuk",
+          "startMs": 143440,
+          "endMs": 143970
+        },
+        {
+          "word": "kâğıt",
+          "startMs": 144150,
+          "endMs": 144520
+        },
+        {
+          "word": "koyarsan",
+          "startMs": 144520,
+          "endMs": 145530
+        },
+        {
+          "word": "ışık",
+          "startMs": 146130,
+          "endMs": 146390
+        },
+        {
+          "word": "dağılır",
+          "startMs": 146860,
+          "endMs": 147420
+        },
+        {
+          "word": "ve",
+          "startMs": 147470,
+          "endMs": 147640
+        },
+        {
+          "word": "net",
+          "startMs": 147720,
+          "endMs": 147940
+        },
+        {
+          "word": "bir",
+          "startMs": 148040,
+          "endMs": 148250
+        },
+        {
+          "word": "yüz",
+          "startMs": 149280,
+          "endMs": 149400
+        },
+        {
+          "word": "göremezsin.",
+          "startMs": 149600,
+          "endMs": 151080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 151980,
+      "endMs": 157380,
+      "pauseAfterMs": 240,
+      "text": "Modelde normal kesik çizgi, ışınlar düz çizgidir.",
+      "markedText": "Modelde normal kesik çizgi, ışınlar düz çizgidir.",
+      "words": [
+        {
+          "word": "Modelde",
+          "startMs": 151980,
+          "endMs": 152450
+        },
+        {
+          "word": "normal",
+          "startMs": 152590,
+          "endMs": 153370
+        },
+        {
+          "word": "kesik",
+          "startMs": 153550,
+          "endMs": 154000
+        },
+        {
+          "word": "çizgi,",
+          "startMs": 154000,
+          "endMs": 154620
+        },
+        {
+          "word": "ışınlar",
+          "startMs": 155710,
+          "endMs": 156450
+        },
+        {
+          "word": "düz",
+          "startMs": 156450,
+          "endMs": 156610
+        },
+        {
+          "word": "çizgidir.",
+          "startMs": 156650,
+          "endMs": 157140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 157380,
+      "endMs": 160350,
+      "pauseAfterMs": 580,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 157380,
+          "endMs": 158590
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 158700,
+          "endMs": 159770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 160350,
+      "endMs": 163110,
+      "pauseAfterMs": 680,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 160350,
+          "endMs": 160870
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 161100,
+          "endMs": 162430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 163110,
+      "endMs": 166160,
+      "pauseAfterMs": 1070,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 163110,
+          "endMs": 163260
+        },
+        {
+          "word": "noktayı",
+          "startMs": 163260,
+          "endMs": 163850
+        },
+        {
+          "word": "sen",
+          "startMs": 164250,
+          "endMs": 164440
+        },
+        {
+          "word": "de",
+          "startMs": 164540,
+          "endMs": 164600
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 164680,
+          "endMs": 165090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 166160,
+      "endMs": 175870,
+      "pauseAfterMs": 1020,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 166160,
+          "endMs": 166450
+        },
+        {
+          "word": "sevgili",
+          "startMs": 166490,
+          "endMs": 167300
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 167440,
+          "endMs": 169330
+        },
+        {
+          "word": "işte",
+          "startMs": 169900,
+          "endMs": 170080
+        },
+        {
+          "word": "tam",
+          "startMs": 170080,
+          "endMs": 170360
+        },
+        {
+          "word": "bu",
+          "startMs": 170570,
+          "endMs": 170680
+        },
+        {
+          "word": "noktada",
+          "startMs": 170680,
+          "endMs": 171420
+        },
+        {
+          "word": "dikkat",
+          "startMs": 172180,
+          "endMs": 172680
+        },
+        {
+          "word": "etmen",
+          "startMs": 172850,
+          "endMs": 173410
+        },
+        {
+          "word": "gereken",
+          "startMs": 173530,
+          "endMs": 173980
+        },
+        {
+          "word": "kilit",
+          "startMs": 174100,
+          "endMs": 174490
+        },
+        {
+          "word": "nokta.",
+          "startMs": 174560,
+          "endMs": 174850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 175870,
+      "endMs": 182260,
+      "pauseAfterMs": 230,
+      "text": "Gelme açısını ayna yüzeyine göre ölçmek tuzaktır; referans normaldir",
+      "markedText": "Gelme açısını ayna yüzeyine göre ölçmek tuzaktır; referans normaldir",
+      "words": [
+        {
+          "word": "Gelme",
+          "startMs": 175870,
+          "endMs": 176180
+        },
+        {
+          "word": "açısını",
+          "startMs": 176290,
+          "endMs": 176710
+        },
+        {
+          "word": "ayna",
+          "startMs": 176750,
+          "endMs": 177370
+        },
+        {
+          "word": "yüzeyine",
+          "startMs": 177870,
+          "endMs": 178550
+        },
+        {
+          "word": "göre",
+          "startMs": 178550,
+          "endMs": 178970
+        },
+        {
+          "word": "ölçmek",
+          "startMs": 179090,
+          "endMs": 179340
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 179440,
+          "endMs": 180010
+        },
+        {
+          "word": "referans",
+          "startMs": 180520,
+          "endMs": 181030
+        },
+        {
+          "word": "normaldir",
+          "startMs": 181200,
+          "endMs": 182030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 182260,
+      "endMs": 187180,
+      "pauseAfterMs": 1100,
+      "text": "Normali ışının kendisi sanmak da yanlıştır.",
+      "markedText": "Normali ışının kendisi sanmak da yanlıştır.",
+      "words": [
+        {
+          "word": "Normali",
+          "startMs": 182260,
+          "endMs": 182950
+        },
+        {
+          "word": "ışının",
+          "startMs": 183740,
+          "endMs": 184090
+        },
+        {
+          "word": "kendisi",
+          "startMs": 184150,
+          "endMs": 184540
+        },
+        {
+          "word": "sanmak",
+          "startMs": 184650,
+          "endMs": 184980
+        },
+        {
+          "word": "da",
+          "startMs": 185110,
+          "endMs": 185210
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 185350,
+          "endMs": 186080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 187180,
+      "endMs": 197430,
+      "pauseAfterMs": 800,
+      "text": "30 derecelik gelmeye 60 derecelik yansıma yazmak eşitlik kuralını bozar.",
+      "markedText": "30 derecelik gelmeye 60 derecelik yansıma yazmak eşitlik kuralını bozar.",
+      "words": [
+        {
+          "word": "30",
+          "startMs": 187180,
+          "endMs": 187410
+        },
+        {
+          "word": "derecelik",
+          "startMs": 187520,
+          "endMs": 188120
+        },
+        {
+          "word": "gelmeye",
+          "startMs": 188240,
+          "endMs": 188910
+        },
+        {
+          "word": "60",
+          "startMs": 188990,
+          "endMs": 189920
+        },
+        {
+          "word": "derecelik",
+          "startMs": 190500,
+          "endMs": 191070
+        },
+        {
+          "word": "yansıma",
+          "startMs": 191280,
+          "endMs": 192550
+        },
+        {
+          "word": "yazmak",
+          "startMs": 193120,
+          "endMs": 193460
+        },
+        {
+          "word": "eşitlik",
+          "startMs": 193730,
+          "endMs": 194820
+        },
+        {
+          "word": "kuralını",
+          "startMs": 195240,
+          "endMs": 195600
+        },
+        {
+          "word": "bozar.",
+          "startMs": 195770,
+          "endMs": 196630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 197430,
+      "endMs": 208390,
+      "pauseAfterMs": 990,
+      "text": "Yansıma ve normal konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Yansıma ve normal konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Yansıma",
+          "startMs": 197430,
+          "endMs": 198250
+        },
+        {
+          "word": "ve",
+          "startMs": 198250,
+          "endMs": 198470
+        },
+        {
+          "word": "normal",
+          "startMs": 198580,
+          "endMs": 199330
+        },
+        {
+          "word": "konusunda",
+          "startMs": 199480,
+          "endMs": 200950
+        },
+        {
+          "word": "kuralın",
+          "startMs": 201470,
+          "endMs": 201950
+        },
+        {
+          "word": "tersini",
+          "startMs": 202180,
+          "endMs": 202950
+        },
+        {
+          "word": "sanmak",
+          "startMs": 203610,
+          "endMs": 204090
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 204200,
+          "endMs": 205010
+        },
+        {
+          "word": "ters",
+          "startMs": 205110,
+          "endMs": 205360
+        },
+        {
+          "word": "cümle",
+          "startMs": 205360,
+          "endMs": 206120
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 206420,
+          "endMs": 207400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 208390,
+      "endMs": 210800,
+      "pauseAfterMs": 240,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 208390,
+          "endMs": 208860
+        },
+        {
+          "word": "Neler",
+          "startMs": 208970,
+          "endMs": 209630
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 209910,
+          "endMs": 210560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 210800,
+      "endMs": 211610,
+      "pauseAfterMs": 650,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 210800,
+          "endMs": 210960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 211610,
+      "endMs": 219140,
+      "pauseAfterMs": 870,
+      "text": "Yansıma, ışığın yüzeye çarpıp geri dönmesidir.",
+      "markedText": "Yansıma, ışığın yüzeye çarpıp geri dönmesidir.",
+      "words": [
+        {
+          "word": "Yansıma,",
+          "startMs": 211610,
+          "endMs": 212050
+        },
+        {
+          "word": "ışığın",
+          "startMs": 212330,
+          "endMs": 213160
+        },
+        {
+          "word": "yüzeye",
+          "startMs": 214820,
+          "endMs": 215410
+        },
+        {
+          "word": "çarpıp",
+          "startMs": 215770,
+          "endMs": 216170
+        },
+        {
+          "word": "geri",
+          "startMs": 216520,
+          "endMs": 216790
+        },
+        {
+          "word": "dönmesidir.",
+          "startMs": 216890,
+          "endMs": 218270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 219140,
+      "endMs": 219450,
+      "pauseAfterMs": 0,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 219140,
+          "endMs": 219450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 219450,
+      "endMs": 227180,
+      "pauseAfterMs": 760,
+      "text": "Normal, yüzeye dik çizilen referans doğrusudur.",
+      "markedText": "Normal, yüzeye dik çizilen referans doğrusudur.",
+      "words": [
+        {
+          "word": "Normal,",
+          "startMs": 219450,
+          "endMs": 220710
+        },
+        {
+          "word": "yüzeye",
+          "startMs": 221300,
+          "endMs": 222050
+        },
+        {
+          "word": "dik",
+          "startMs": 222050,
+          "endMs": 222330
+        },
+        {
+          "word": "çizilen",
+          "startMs": 222430,
+          "endMs": 223800
+        },
+        {
+          "word": "referans",
+          "startMs": 224350,
+          "endMs": 224760
+        },
+        {
+          "word": "doğrusudur.",
+          "startMs": 224870,
+          "endMs": 226420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 227180,
+      "endMs": 227300,
+      "pauseAfterMs": 60,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 227180,
+          "endMs": 227240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 227300,
+      "endMs": 236460,
+      "pauseAfterMs": 1250,
+      "text": "Gelme açısı yansıma açısına eşittir ve ikisi de normale göre ölçülür.",
+      "markedText": "Gelme açısı yansıma açısına eşittir ve ikisi de normale göre ölçülür.",
+      "words": [
+        {
+          "word": "Gelme",
+          "startMs": 227300,
+          "endMs": 227540
+        },
+        {
+          "word": "açısı",
+          "startMs": 227540,
+          "endMs": 227900
+        },
+        {
+          "word": "yansıma",
+          "startMs": 227900,
+          "endMs": 228920
+        },
+        {
+          "word": "açısına",
+          "startMs": 229820,
+          "endMs": 230440
+        },
+        {
+          "word": "eşittir",
+          "startMs": 230510,
+          "endMs": 231160
+        },
+        {
+          "word": "ve",
+          "startMs": 231620,
+          "endMs": 231730
+        },
+        {
+          "word": "ikisi",
+          "startMs": 231900,
+          "endMs": 232480
+        },
+        {
+          "word": "de",
+          "startMs": 232480,
+          "endMs": 232650
+        },
+        {
+          "word": "normale",
+          "startMs": 232690,
+          "endMs": 233370
+        },
+        {
+          "word": "göre",
+          "startMs": 233840,
+          "endMs": 234160
+        },
+        {
+          "word": "ölçülür.",
+          "startMs": 234520,
+          "endMs": 235210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 236460,
+      "endMs": 243430,
+      "pauseAfterMs": 620,
+      "text": "Yansıma açısı, normale göre gelme açısına eşittir.",
+      "markedText": "Yansıma açısı, normale göre gelme açısına eşittir.",
+      "words": [
+        {
+          "word": "Yansıma",
+          "startMs": 236460,
+          "endMs": 237470
+        },
+        {
+          "word": "açısı,",
+          "startMs": 238460,
+          "endMs": 238940
+        },
+        {
+          "word": "normale",
+          "startMs": 240020,
+          "endMs": 240670
+        },
+        {
+          "word": "göre",
+          "startMs": 240670,
+          "endMs": 240860
+        },
+        {
+          "word": "gelme",
+          "startMs": 240860,
+          "endMs": 241270
+        },
+        {
+          "word": "açısına",
+          "startMs": 241660,
+          "endMs": 242010
+        },
+        {
+          "word": "eşittir.",
+          "startMs": 242120,
+          "endMs": 242810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 243430,
+      "endMs": 252720,
+      "pauseAfterMs": 1120,
+      "text": "Bir deneyde iki açıyı dereceyle ve normali göstererek söylersin.",
+      "markedText": "Bir deneyde iki açıyı dereceyle ve normali göstererek söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 243430,
+          "endMs": 243750
+        },
+        {
+          "word": "deneyde",
+          "startMs": 244050,
+          "endMs": 244520
+        },
+        {
+          "word": "iki",
+          "startMs": 244520,
+          "endMs": 244790
+        },
+        {
+          "word": "açıyı",
+          "startMs": 244860,
+          "endMs": 245610
+        },
+        {
+          "word": "dereceyle",
+          "startMs": 246150,
+          "endMs": 247190
+        },
+        {
+          "word": "ve",
+          "startMs": 247190,
+          "endMs": 247820
+        },
+        {
+          "word": "normali",
+          "startMs": 248440,
+          "endMs": 249020
+        },
+        {
+          "word": "göstererek",
+          "startMs": 249390,
+          "endMs": 250360
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 250450,
+          "endMs": 251600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 252720,
+      "endMs": 255840,
+      "pauseAfterMs": 900,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 252720,
+          "endMs": 253440
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 253940,
+          "endMs": 254940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 255840,
+      "endMs": 261180,
+      "pauseAfterMs": 1090,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 255840,
+          "endMs": 256370
+        },
+        {
+          "word": "bir",
+          "startMs": 257160,
+          "endMs": 257550
+        },
+        {
+          "word": "iş",
+          "startMs": 257640,
+          "endMs": 257820
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 258140,
+          "endMs": 260090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 261180,
+      "endMs": 264240,
+      "pauseAfterMs": 800,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 261180,
+          "endMs": 262050
+        },
+        {
+          "word": "sıra",
+          "startMs": 262370,
+          "endMs": 262640
+        },
+        {
+          "word": "sende.",
+          "startMs": 262740,
+          "endMs": 263440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 264240,
+      "endMs": 268777,
+      "pauseAfterMs": 427,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 264240,
+          "endMs": 264670
+        },
+        {
+          "word": "bu",
+          "startMs": 264710,
+          "endMs": 264970
+        },
+        {
+          "word": "notları",
+          "startMs": 265600,
+          "endMs": 266230
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 266360,
+          "endMs": 266850
+        },
+        {
+          "word": "kendi",
+          "startMs": 266930,
+          "endMs": 267110
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 267240,
+          "endMs": 267830
+        },
+        {
+          "word": "anlat.",
+          "startMs": 267910,
+          "endMs": 268350
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

@@ -9,6 +9,7 @@ import {
   RAIL_VERSION_SERVER_STALE,
 } from "@/lib/kernel/http/api-v1";
 import { RAIL_V1_HOPS } from "@/lib/kernel/http/v1-contract";
+import { RAIL_V1_HOP_META_COUNT } from "@/lib/kernel/http/api-route-census";
 import { classifyV1Failure } from "../../apps/rail-is/src/ui/classify";
 import { RAIL_IS_COPY } from "../../apps/rail-is/src/ui/copy";
 import { webWalletUrl } from "../../apps/rail-is/src/ui/present-wallet";
@@ -137,9 +138,9 @@ describe("Staging T4 saha runner + Closed Testing paket izolasyonu", () => {
     expect(readSrc("apps/rail-is/package.json")).not.toMatch(/iap|billing|play-billing/i);
   });
 
-  it("Dron allowlist 29 B2C hop; server sicili 29 hop; freelancer Tezgâh donduruldu", () => {
-    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(29);
-    expect(RAIL_V1_HOPS).toHaveLength(29);
+  it("Dron allowlist B2C hop sayısı meta SSOT'undan; server sicili aynı sayı; freelancer Tezgâh donduruldu", () => {
+    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(RAIL_V1_HOP_META_COUNT);
+    expect(RAIL_V1_HOPS).toHaveLength(RAIL_V1_HOP_META_COUNT);
     expect(() => assertRailIsDay0Path("/api/v1/freelancer/jobs/fj_1", "GET")).toThrow(
       /allowlist dışı/,
     );

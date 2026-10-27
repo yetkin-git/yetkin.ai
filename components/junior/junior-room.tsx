@@ -31,6 +31,7 @@ export function JuniorRoom({
   weeklyReport,
   picks,
   priceLabel,
+  electiveNote,
   audit,
   planOpened = false,
   notice = null,
@@ -48,6 +49,7 @@ export function JuniorRoom({
   weeklyReport: JuniorWeeklyReport | null;
   picks: readonly ElectivePick[];
   priceLabel: string | null;
+  electiveNote?: string;
   audit: boolean;
   planOpened?: boolean;
   notice?: string | null;
@@ -63,7 +65,14 @@ export function JuniorRoom({
           <p className="room-kicker mb-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--safir-deep)]">
             Junior
           </p>
-          <h1 className="text-2xl font-semibold tracking-tight text-[var(--foreground)]">Dersler</h1>
+          {/* H1 arama niyetini taşır: sayfanın title'ı («6. Sınıf Online Dersler») ile
+              aynı kümeye konuşur. «Dersler» tek başına hangi sınıf/ders olduğunu söylemez. */}
+          <h1 className="text-2xl font-semibold tracking-tight text-[var(--foreground)]">
+            6. Sınıf Online Dersler
+          </h1>
+          <p className="mt-1 text-sm leading-5 text-[var(--muted)]">
+            Matematik, Fen Bilimleri, Türkçe, İngilizce ve Sosyal Bilgiler. Her kartın ilk konusu ücretsiz.
+          </p>
         </div>
         <div className="flex max-w-[18rem] flex-wrap items-center justify-end gap-1.5 overflow-visible" aria-label="Vitrin eylemleri">
             {audit ? (
@@ -118,6 +127,8 @@ export function JuniorRoom({
         tab={tab}
         checkoutHref={checkoutHref}
         priceLabel={priceLabel}
+        electiveNote={electiveNote}
+        audit={audit}
         quota={
           selected
             ? {

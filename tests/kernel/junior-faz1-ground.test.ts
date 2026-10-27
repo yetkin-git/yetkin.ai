@@ -32,7 +32,14 @@ describe("Junior faz 1 zemin — kayıt defteri", () => {
     expect(adultCards.filter((row) => row.canon)).toHaveLength(13);
     expect(adultCards.filter((row) => !row.canon).map((row) => row.code)).toEqual(["OFF-201"]);
     expect(adultCards.filter((row) => row.passportListed)).toHaveLength(5);
-    expect(adultCards.filter((row) => row.nativeListed)).toHaveLength(2);
+    expect(adultCards.filter((row) => row.nativeListed).map((row) => row.slug)).toEqual([
+      "01_office_ai",
+      "01_office_ai_ileri",
+      "02_ecommerce_ai",
+      "03_social_media_ai",
+      "04_chatbot_nocode",
+      "05_prompt_practice",
+    ]);
     expect(ACADEMY_CANON_SKU_SLUGS).toHaveLength(13);
     expect(Object.keys(ACADEMY_STOREFRONT_EXTRA_TITLES)).toEqual(["01_office_ai_ileri"]);
 

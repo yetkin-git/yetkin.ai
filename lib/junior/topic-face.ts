@@ -18,7 +18,7 @@ export type JuniorTopicCardFace = {
  * Kilitli kartta «Paketi Al» basılmaz; vitrin üstündeki tek paket kapısı veya bilgi penceresi kullanılır.
  */
 export function juniorTopicCardFace(
-  lesson: { access: "free" | "locked"; status: JuniorLessonStatus },
+  lesson: { access: "free" | "locked"; status: JuniorLessonStatus; narrationShort?: boolean },
   opener: boolean,
 ): JuniorTopicCardFace {
   if (lesson.status === "done") {
@@ -29,20 +29,29 @@ export function juniorTopicCardFace(
       destination: "lesson",
     };
   }
-  if (lesson.access === "locked") {
+  if (lesson.narrationShort && lesson.status !== "preparing") {
+    const open = lesson.access === "free";
     return {
-      badge: "Kilitli",
-      tone: "neutral",
-      action: null,
-      destination: "locked",
+      badge: "Kısa anlatım",
+      tone: "amber",
+      action: open ? (opener ? "Ücretsiz Başla" : "Dinle") : null,
+      destination: open ? "lesson" : "locked",
     };
   }
   if (lesson.status === "preparing") {
     return {
       badge: JUNIOR_QUIZ_PREPARING_LABEL,
       tone: "neutral",
-      action: "Taslağı gör",
-      destination: "lesson",
+      action: null,
+      destination: "locked",
+    };
+  }
+  if (lesson.access === "locked") {
+    return {
+      badge: "Kilitli",
+      tone: "neutral",
+      action: null,
+      destination: "locked",
     };
   }
   if (lesson.status === "going") {

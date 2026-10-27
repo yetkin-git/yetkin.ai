@@ -1,0 +1,2957 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_ing_main-3",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Yiyecek, içecek ve likes, dislikes",
+  "grade": 6,
+  "subject": "İngilizce",
+  "teacher": {
+    "name": "Selin",
+    "voice": "Kore",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_ing_main-3.mp3",
+    "durationMs": 439576,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 141510
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 141510,
+      "endMs": 378370
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 378370,
+      "endMs": 439576
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 3740,
+      "pauseAfterMs": 640,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 320,
+          "endMs": 1080
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1390,
+          "endMs": 2010
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2090,
+          "endMs": 3100
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Yiyecek, içecek ve likes, dislikes",
+            "subtitle": "İngilizce",
+            "ruleBadges": [],
+            "echoPrompt": "Tepsiden bir yiyeceği severim ya da sevmem diye söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "I like sevgiyi ve beğeniyi, I don't like ise beğenmemeyi söyler."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Do you like sorusuna Yes, I do ya da No, I don't gelir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "He ve she özneleriyle likes kullanılır; he likes honey doğru biçimdir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 3740,
+      "endMs": 9000,
+      "pauseAfterMs": 620,
+      "text": "Ben İngilizce öğretmenin Selin.",
+      "markedText": "Ben İngilizce öğretmenin Selin.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 3740,
+          "endMs": 3870
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 3870,
+          "endMs": 4770
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 4770,
+          "endMs": 6060
+        },
+        {
+          "word": "Selin.",
+          "startMs": 6890,
+          "endMs": 8380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 9000,
+      "endMs": 20240,
+      "pauseAfterMs": 710,
+      "text": "Üstelik bunu en lezzetli köşeden, yani kahvaltı masasından başlatacağız!",
+      "markedText": "Üstelik bunu en lezzetli köşeden, yani kahvaltı masasından başlatacağız!",
+      "words": [
+        {
+          "word": "Üstelik",
+          "startMs": 9000,
+          "endMs": 9580
+        },
+        {
+          "word": "bunu",
+          "startMs": 9730,
+          "endMs": 10190
+        },
+        {
+          "word": "en",
+          "startMs": 11300,
+          "endMs": 11640
+        },
+        {
+          "word": "lezzetli",
+          "startMs": 11840,
+          "endMs": 12860
+        },
+        {
+          "word": "köşeden,",
+          "startMs": 12930,
+          "endMs": 13650
+        },
+        {
+          "word": "yani",
+          "startMs": 14430,
+          "endMs": 14830
+        },
+        {
+          "word": "kahvaltı",
+          "startMs": 14990,
+          "endMs": 15900
+        },
+        {
+          "word": "masasından",
+          "startMs": 16100,
+          "endMs": 17140
+        },
+        {
+          "word": "başlatacağız!",
+          "startMs": 17400,
+          "endMs": 19530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 20240,
+      "endMs": 31290,
+      "pauseAfterMs": 630,
+      "text": "Masada sıcacık bir ekmek, lezzetli peynir, zeytin, bal ve taze süt duruyor.",
+      "markedText": "Masada sıcacık bir ekmek, lezzetli peynir, zeytin, bal ve taze süt duruyor.",
+      "words": [
+        {
+          "word": "Masada",
+          "startMs": 20240,
+          "endMs": 20880
+        },
+        {
+          "word": "sıcacık",
+          "startMs": 20970,
+          "endMs": 21650
+        },
+        {
+          "word": "bir",
+          "startMs": 22010,
+          "endMs": 22590
+        },
+        {
+          "word": "ekmek,",
+          "startMs": 23190,
+          "endMs": 23900
+        },
+        {
+          "word": "lezzetli",
+          "startMs": 24590,
+          "endMs": 25600
+        },
+        {
+          "word": "peynir,",
+          "startMs": 25660,
+          "endMs": 26150
+        },
+        {
+          "word": "zeytin,",
+          "startMs": 26360,
+          "endMs": 26820
+        },
+        {
+          "word": "bal",
+          "startMs": 27280,
+          "endMs": 27560
+        },
+        {
+          "word": "ve",
+          "startMs": 27780,
+          "endMs": 27900
+        },
+        {
+          "word": "taze",
+          "startMs": 28180,
+          "endMs": 28260
+        },
+        {
+          "word": "süt",
+          "startMs": 28490,
+          "endMs": 29000
+        },
+        {
+          "word": "duruyor.",
+          "startMs": 29210,
+          "endMs": 30660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 31290,
+      "endMs": 43000,
+      "pauseAfterMs": 550,
+      "text": "Kimi yiyecekleri çok severiz, bazılarından ise pek hoşlanmayız.",
+      "markedText": "Kimi yiyecekleri çok severiz, bazılarından ise pek hoşlanmayız.",
+      "words": [
+        {
+          "word": "Kimi",
+          "startMs": 31290,
+          "endMs": 31940
+        },
+        {
+          "word": "yiyecekleri",
+          "startMs": 32070,
+          "endMs": 33300
+        },
+        {
+          "word": "çok",
+          "startMs": 33580,
+          "endMs": 34030
+        },
+        {
+          "word": "severiz,",
+          "startMs": 34310,
+          "endMs": 35300
+        },
+        {
+          "word": "bazılarından",
+          "startMs": 36240,
+          "endMs": 38070
+        },
+        {
+          "word": "ise",
+          "startMs": 38650,
+          "endMs": 39250
+        },
+        {
+          "word": "pek",
+          "startMs": 40240,
+          "endMs": 40640
+        },
+        {
+          "word": "hoşlanmayız.",
+          "startMs": 40880,
+          "endMs": 42450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 43000,
+      "endMs": 58340,
+      "pauseAfterMs": 400,
+      "text": "İşte bugün sevdiğin lezzetleri 'I like', sevmediklerini ise 'I don't like' diyerek anlatmayı öğreneceğiz.",
+      "markedText": "İşte bugün sevdiğin lezzetleri 'I like', sevmediklerini ise 'I don't like' diyerek anlatmayı öğreneceğiz.",
+      "words": [
+        {
+          "word": "İşte",
+          "startMs": 43000,
+          "endMs": 43330
+        },
+        {
+          "word": "bugün",
+          "startMs": 43430,
+          "endMs": 43670
+        },
+        {
+          "word": "sevdiğin",
+          "startMs": 44230,
+          "endMs": 45040
+        },
+        {
+          "word": "lezzetleri",
+          "startMs": 45540,
+          "endMs": 46640
+        },
+        {
+          "word": "'I",
+          "startMs": 46950,
+          "endMs": 47110
+        },
+        {
+          "word": "like',",
+          "startMs": 47520,
+          "endMs": 47930
+        },
+        {
+          "word": "sevmediklerini",
+          "startMs": 49500,
+          "endMs": 51290
+        },
+        {
+          "word": "ise",
+          "startMs": 51440,
+          "endMs": 52340
+        },
+        {
+          "word": "'I",
+          "startMs": 52680,
+          "endMs": 52720
+        },
+        {
+          "word": "don't",
+          "startMs": 52820,
+          "endMs": 53210
+        },
+        {
+          "word": "like'",
+          "startMs": 53270,
+          "endMs": 53980
+        },
+        {
+          "word": "diyerek",
+          "startMs": 54520,
+          "endMs": 55270
+        },
+        {
+          "word": "anlatmayı",
+          "startMs": 55520,
+          "endMs": 56600
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 56910,
+          "endMs": 57940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 58340,
+      "endMs": 70530,
+      "pauseAfterMs": 500,
+      "text": "Arkadaşına ne sevdiğini sormak için de 'Do you like' kalıbını kullanacağız.",
+      "markedText": "Arkadaşına ne sevdiğini sormak için de 'Do you like' kalıbını kullanacağız.",
+      "words": [
+        {
+          "word": "Arkadaşına",
+          "startMs": 58340,
+          "endMs": 59290
+        },
+        {
+          "word": "ne",
+          "startMs": 59720,
+          "endMs": 59910
+        },
+        {
+          "word": "sevdiğini",
+          "startMs": 60090,
+          "endMs": 61450
+        },
+        {
+          "word": "sormak",
+          "startMs": 61590,
+          "endMs": 62540
+        },
+        {
+          "word": "için",
+          "startMs": 62750,
+          "endMs": 63980
+        },
+        {
+          "word": "de",
+          "startMs": 64560,
+          "endMs": 64660
+        },
+        {
+          "word": "'Do",
+          "startMs": 64660,
+          "endMs": 64870
+        },
+        {
+          "word": "you",
+          "startMs": 65120,
+          "endMs": 65480
+        },
+        {
+          "word": "like'",
+          "startMs": 65720,
+          "endMs": 65990
+        },
+        {
+          "word": "kalıbını",
+          "startMs": 66390,
+          "endMs": 67780
+        },
+        {
+          "word": "kullanacağız.",
+          "startMs": 68480,
+          "endMs": 70030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 70530,
+      "endMs": 79960,
+      "pauseAfterMs": 420,
+      "text": "Yarın sabah kahvaltı sofrasına oturduğunda tabağına neşeyle bak.",
+      "markedText": "Yarın sabah kahvaltı sofrasına oturduğunda tabağına neşeyle bak.",
+      "words": [
+        {
+          "word": "Yarın",
+          "startMs": 70530,
+          "endMs": 70760
+        },
+        {
+          "word": "sabah",
+          "startMs": 71050,
+          "endMs": 72300
+        },
+        {
+          "word": "kahvaltı",
+          "startMs": 72660,
+          "endMs": 73370
+        },
+        {
+          "word": "sofrasına",
+          "startMs": 73510,
+          "endMs": 74900
+        },
+        {
+          "word": "oturduğunda",
+          "startMs": 75500,
+          "endMs": 76690
+        },
+        {
+          "word": "tabağına",
+          "startMs": 77040,
+          "endMs": 77980
+        },
+        {
+          "word": "neşeyle",
+          "startMs": 78050,
+          "endMs": 79010
+        },
+        {
+          "word": "bak.",
+          "startMs": 79120,
+          "endMs": 79540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 79960,
+      "endMs": 92390,
+      "pauseAfterMs": 1110,
+      "text": "Çok sevdiğin bir peynir dilimini alırken 'I like cheese' de.",
+      "markedText": "Çok sevdiğin bir peynir dilimini alırken 'I like cheese' de.",
+      "words": [
+        {
+          "word": "Çok",
+          "startMs": 79960,
+          "endMs": 80160
+        },
+        {
+          "word": "sevdiğin",
+          "startMs": 80160,
+          "endMs": 80980
+        },
+        {
+          "word": "bir",
+          "startMs": 81260,
+          "endMs": 82220
+        },
+        {
+          "word": "peynir",
+          "startMs": 83270,
+          "endMs": 83880
+        },
+        {
+          "word": "dilimini",
+          "startMs": 84150,
+          "endMs": 85170
+        },
+        {
+          "word": "alırken",
+          "startMs": 86230,
+          "endMs": 87220
+        },
+        {
+          "word": "'I",
+          "startMs": 88100,
+          "endMs": 88180
+        },
+        {
+          "word": "like",
+          "startMs": 88180,
+          "endMs": 88990
+        },
+        {
+          "word": "cheese'",
+          "startMs": 90040,
+          "endMs": 90510
+        },
+        {
+          "word": "de.",
+          "startMs": 90780,
+          "endMs": 91280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 92390,
+      "endMs": 108130,
+      "pauseAfterMs": 1390,
+      "text": "Pek sevmediğin bir zeytin olursa nazikçe 'I don't like olives' diyerek hissini paylaş.",
+      "markedText": "Pek sevmediğin bir zeytin olursa nazikçe 'I don't like olives' diyerek hissini paylaş.",
+      "words": [
+        {
+          "word": "Pek",
+          "startMs": 92390,
+          "endMs": 92660
+        },
+        {
+          "word": "sevmediğin",
+          "startMs": 92710,
+          "endMs": 94170
+        },
+        {
+          "word": "bir",
+          "startMs": 94990,
+          "endMs": 95330
+        },
+        {
+          "word": "zeytin",
+          "startMs": 95470,
+          "endMs": 96220
+        },
+        {
+          "word": "olursa",
+          "startMs": 97400,
+          "endMs": 98380
+        },
+        {
+          "word": "nazikçe",
+          "startMs": 99050,
+          "endMs": 99970
+        },
+        {
+          "word": "'I",
+          "startMs": 100030,
+          "endMs": 100190
+        },
+        {
+          "word": "don't",
+          "startMs": 101380,
+          "endMs": 101610
+        },
+        {
+          "word": "like",
+          "startMs": 101610,
+          "endMs": 102020
+        },
+        {
+          "word": "olives'",
+          "startMs": 102590,
+          "endMs": 103500
+        },
+        {
+          "word": "diyerek",
+          "startMs": 103750,
+          "endMs": 104890
+        },
+        {
+          "word": "hissini",
+          "startMs": 105360,
+          "endMs": 106020
+        },
+        {
+          "word": "paylaş.",
+          "startMs": 106140,
+          "endMs": 106740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 108130,
+      "endMs": 125270,
+      "pauseAfterMs": 830,
+      "text": "Okul kantininde bir arkadaşın sana 'Do you like ayran?' diye sorarsa gururla 'Yes, I do!' diyerek karşılık ver.",
+      "markedText": "Okul kantininde bir arkadaşın sana 'Do you like ayran?' diye sorarsa gururla 'Yes, I do!' diyerek karşılık ver.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 108130,
+          "endMs": 108560
+        },
+        {
+          "word": "kantininde",
+          "startMs": 108560,
+          "endMs": 109740
+        },
+        {
+          "word": "bir",
+          "startMs": 110240,
+          "endMs": 110600
+        },
+        {
+          "word": "arkadaşın",
+          "startMs": 110820,
+          "endMs": 111490
+        },
+        {
+          "word": "sana",
+          "startMs": 112620,
+          "endMs": 113250
+        },
+        {
+          "word": "'Do",
+          "startMs": 113320,
+          "endMs": 113450
+        },
+        {
+          "word": "you",
+          "startMs": 113690,
+          "endMs": 114400
+        },
+        {
+          "word": "like",
+          "startMs": 114850,
+          "endMs": 115280
+        },
+        {
+          "word": "ayran?'",
+          "startMs": 115590,
+          "endMs": 115780
+        },
+        {
+          "word": "diye",
+          "startMs": 116020,
+          "endMs": 116890
+        },
+        {
+          "word": "sorarsa",
+          "startMs": 117910,
+          "endMs": 118500
+        },
+        {
+          "word": "gururla",
+          "startMs": 119070,
+          "endMs": 120120
+        },
+        {
+          "word": "'Yes,",
+          "startMs": 120230,
+          "endMs": 120640
+        },
+        {
+          "word": "I",
+          "startMs": 121630,
+          "endMs": 121710
+        },
+        {
+          "word": "do!'",
+          "startMs": 121710,
+          "endMs": 121960
+        },
+        {
+          "word": "diyerek",
+          "startMs": 122180,
+          "endMs": 122720
+        },
+        {
+          "word": "karşılık",
+          "startMs": 123460,
+          "endMs": 123740
+        },
+        {
+          "word": "ver.",
+          "startMs": 124000,
+          "endMs": 124440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 125270,
+      "endMs": 141510,
+      "pauseAfterMs": 1110,
+      "text": "Evde çay içen ailene bakıp 'She likes tea' diyerek öğrendiklerini günlük hayatın parçası yap.",
+      "markedText": "Evde çay içen ailene bakıp 'She likes tea' diyerek öğrendiklerini günlük hayatın parçası yap.",
+      "words": [
+        {
+          "word": "Evde",
+          "startMs": 125270,
+          "endMs": 125630
+        },
+        {
+          "word": "çay",
+          "startMs": 125840,
+          "endMs": 126290
+        },
+        {
+          "word": "içen",
+          "startMs": 127010,
+          "endMs": 127390
+        },
+        {
+          "word": "ailene",
+          "startMs": 127700,
+          "endMs": 128170
+        },
+        {
+          "word": "bakıp",
+          "startMs": 128880,
+          "endMs": 129170
+        },
+        {
+          "word": "'She",
+          "startMs": 129470,
+          "endMs": 129720
+        },
+        {
+          "word": "likes",
+          "startMs": 130530,
+          "endMs": 130790
+        },
+        {
+          "word": "tea'",
+          "startMs": 131330,
+          "endMs": 131450
+        },
+        {
+          "word": "diyerek",
+          "startMs": 132290,
+          "endMs": 133380
+        },
+        {
+          "word": "öğrendiklerini",
+          "startMs": 133790,
+          "endMs": 135070
+        },
+        {
+          "word": "günlük",
+          "startMs": 136330,
+          "endMs": 137090
+        },
+        {
+          "word": "hayatın",
+          "startMs": 138160,
+          "endMs": 138830
+        },
+        {
+          "word": "parçası",
+          "startMs": 138880,
+          "endMs": 139810
+        },
+        {
+          "word": "yap.",
+          "startMs": 139910,
+          "endMs": 140400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 141510,
+      "endMs": 147260,
+      "pauseAfterMs": 930,
+      "text": "'I like eggs' dediğinde, yumurtayı sevdiğini neşeyle söylersin.",
+      "markedText": "'I like eggs' dediğinde, yumurtayı sevdiğini neşeyle söylersin.",
+      "words": [
+        {
+          "word": "'I",
+          "startMs": 141510,
+          "endMs": 141660
+        },
+        {
+          "word": "like",
+          "startMs": 141660,
+          "endMs": 142010
+        },
+        {
+          "word": "eggs'",
+          "startMs": 142210,
+          "endMs": 142340
+        },
+        {
+          "word": "dediğinde,",
+          "startMs": 142340,
+          "endMs": 143010
+        },
+        {
+          "word": "yumurtayı",
+          "startMs": 143410,
+          "endMs": 144040
+        },
+        {
+          "word": "sevdiğini",
+          "startMs": 144150,
+          "endMs": 144770
+        },
+        {
+          "word": "neşeyle",
+          "startMs": 144890,
+          "endMs": 145430
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 145470,
+          "endMs": 146330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 147260,
+      "endMs": 158100,
+      "pauseAfterMs": 430,
+      "text": "'I like milk' sütü sevdiğini, 'I don't like tea' ise çayı pek tercih etmediğini anlatır.",
+      "markedText": "'I like milk' sütü sevdiğini, 'I don't like tea' ise çayı pek tercih etmediğini anlatır.",
+      "words": [
+        {
+          "word": "'I",
+          "startMs": 147260,
+          "endMs": 147460
+        },
+        {
+          "word": "like",
+          "startMs": 147460,
+          "endMs": 147950
+        },
+        {
+          "word": "milk'",
+          "startMs": 148530,
+          "endMs": 148750
+        },
+        {
+          "word": "sütü",
+          "startMs": 149000,
+          "endMs": 149310
+        },
+        {
+          "word": "sevdiğini,",
+          "startMs": 149490,
+          "endMs": 150280
+        },
+        {
+          "word": "'I",
+          "startMs": 151290,
+          "endMs": 151510
+        },
+        {
+          "word": "don't",
+          "startMs": 151510,
+          "endMs": 151990
+        },
+        {
+          "word": "like",
+          "startMs": 152330,
+          "endMs": 152770
+        },
+        {
+          "word": "tea'",
+          "startMs": 152770,
+          "endMs": 153020
+        },
+        {
+          "word": "ise",
+          "startMs": 153490,
+          "endMs": 153670
+        },
+        {
+          "word": "çayı",
+          "startMs": 153890,
+          "endMs": 154450
+        },
+        {
+          "word": "pek",
+          "startMs": 154690,
+          "endMs": 154880
+        },
+        {
+          "word": "tercih",
+          "startMs": 155000,
+          "endMs": 155460
+        },
+        {
+          "word": "etmediğini",
+          "startMs": 155560,
+          "endMs": 156550
+        },
+        {
+          "word": "anlatır.",
+          "startMs": 156750,
+          "endMs": 157670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 158100,
+      "endMs": 180740,
+      "pauseAfterMs": 860,
+      "text": "Bir arkadaşına 'Do you like cheese?' diye sorduğunda iki samimi cevap alırsın: 'Yes, I do' yani evet severim ya da 'No, I don't' yani hayır sevmem.",
+      "markedText": "Bir arkadaşına 'Do you like cheese?' diye sorduğunda iki samimi cevap alırsın: 'Yes, I do' yani evet severim ya da 'No, I don't' yani hayır sevmem.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 158100,
+          "endMs": 158480
+        },
+        {
+          "word": "arkadaşına",
+          "startMs": 158590,
+          "endMs": 159840
+        },
+        {
+          "word": "'Do",
+          "startMs": 159970,
+          "endMs": 160050
+        },
+        {
+          "word": "you",
+          "startMs": 160190,
+          "endMs": 161030
+        },
+        {
+          "word": "like",
+          "startMs": 162030,
+          "endMs": 162550
+        },
+        {
+          "word": "cheese?'",
+          "startMs": 162550,
+          "endMs": 163200
+        },
+        {
+          "word": "diye",
+          "startMs": 163310,
+          "endMs": 164310
+        },
+        {
+          "word": "sorduğunda",
+          "startMs": 164720,
+          "endMs": 165960
+        },
+        {
+          "word": "iki",
+          "startMs": 166200,
+          "endMs": 166550
+        },
+        {
+          "word": "samimi",
+          "startMs": 166750,
+          "endMs": 167810
+        },
+        {
+          "word": "cevap",
+          "startMs": 167890,
+          "endMs": 168850
+        },
+        {
+          "word": "alırsın:",
+          "startMs": 169690,
+          "endMs": 170730
+        },
+        {
+          "word": "'Yes,",
+          "startMs": 171790,
+          "endMs": 172010
+        },
+        {
+          "word": "I",
+          "startMs": 172840,
+          "endMs": 173010
+        },
+        {
+          "word": "do'",
+          "startMs": 173080,
+          "endMs": 173230
+        },
+        {
+          "word": "yani",
+          "startMs": 174050,
+          "endMs": 174480
+        },
+        {
+          "word": "evet",
+          "startMs": 174970,
+          "endMs": 175450
+        },
+        {
+          "word": "severim",
+          "startMs": 175740,
+          "endMs": 176230
+        },
+        {
+          "word": "ya",
+          "startMs": 176230,
+          "endMs": 176480
+        },
+        {
+          "word": "da",
+          "startMs": 176480,
+          "endMs": 176600
+        },
+        {
+          "word": "'No,",
+          "startMs": 176670,
+          "endMs": 176870
+        },
+        {
+          "word": "I",
+          "startMs": 177560,
+          "endMs": 177730
+        },
+        {
+          "word": "don't'",
+          "startMs": 177810,
+          "endMs": 178210
+        },
+        {
+          "word": "yani",
+          "startMs": 178500,
+          "endMs": 178610
+        },
+        {
+          "word": "hayır",
+          "startMs": 178830,
+          "endMs": 179320
+        },
+        {
+          "word": "sevmem.",
+          "startMs": 179320,
+          "endMs": 179880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 180740,
+      "endMs": 197690,
+      "pauseAfterMs": 760,
+      "text": "İş üçüncü bir kişiyi anlatmaya geldiğinde 'like' sözcüğü 'likes' olur: 'He likes honey' veya 'She doesn't like coffee' deriz.",
+      "markedText": "İş üçüncü bir kişiyi anlatmaya geldiğinde 'like' sözcüğü 'likes' olur: 'He likes honey' veya 'She doesn't like coffee' deriz.",
+      "words": [
+        {
+          "word": "İş",
+          "startMs": 180740,
+          "endMs": 181050
+        },
+        {
+          "word": "üçüncü",
+          "startMs": 181880,
+          "endMs": 182310
+        },
+        {
+          "word": "bir",
+          "startMs": 182490,
+          "endMs": 182990
+        },
+        {
+          "word": "kişiyi",
+          "startMs": 183420,
+          "endMs": 183810
+        },
+        {
+          "word": "anlatmaya",
+          "startMs": 183810,
+          "endMs": 184520
+        },
+        {
+          "word": "geldiğinde",
+          "startMs": 184640,
+          "endMs": 185740
+        },
+        {
+          "word": "'like'",
+          "startMs": 186500,
+          "endMs": 186790
+        },
+        {
+          "word": "sözcüğü",
+          "startMs": 187600,
+          "endMs": 188980
+        },
+        {
+          "word": "'likes'",
+          "startMs": 189200,
+          "endMs": 189450
+        },
+        {
+          "word": "olur:",
+          "startMs": 189730,
+          "endMs": 190210
+        },
+        {
+          "word": "'He",
+          "startMs": 190720,
+          "endMs": 190900
+        },
+        {
+          "word": "likes",
+          "startMs": 190900,
+          "endMs": 191090
+        },
+        {
+          "word": "honey'",
+          "startMs": 191270,
+          "endMs": 192430
+        },
+        {
+          "word": "veya",
+          "startMs": 193310,
+          "endMs": 193580
+        },
+        {
+          "word": "'She",
+          "startMs": 193580,
+          "endMs": 193860
+        },
+        {
+          "word": "doesn't",
+          "startMs": 193970,
+          "endMs": 194710
+        },
+        {
+          "word": "like",
+          "startMs": 195160,
+          "endMs": 195610
+        },
+        {
+          "word": "coffee'",
+          "startMs": 195740,
+          "endMs": 196370
+        },
+        {
+          "word": "deriz.",
+          "startMs": 196470,
+          "endMs": 196930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 197690,
+      "endMs": 217760,
+      "pauseAfterMs": 370,
+      "text": "Pratik kural: 'Like' beğeniyi ve sevgiyi, 'don't like' ise beğenmemeyi ifade eder; ikisini bilmek sofradaki tüm tercihleri rahatça anlatmanı sağlar.",
+      "markedText": "Pratik kural: 'Like' beğeniyi ve sevgiyi, 'don't like' ise beğenmemeyi ifade eder; ikisini bilmek sofradaki tüm tercihleri rahatça anlatmanı sağlar.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 197690,
+          "endMs": 197830
+        },
+        {
+          "word": "kural:",
+          "startMs": 197960,
+          "endMs": 198440
+        },
+        {
+          "word": "'Like'",
+          "startMs": 198520,
+          "endMs": 198880
+        },
+        {
+          "word": "beğeniyi",
+          "startMs": 198880,
+          "endMs": 199770
+        },
+        {
+          "word": "ve",
+          "startMs": 200150,
+          "endMs": 200480
+        },
+        {
+          "word": "sevgiyi,",
+          "startMs": 200630,
+          "endMs": 201150
+        },
+        {
+          "word": "'don't",
+          "startMs": 202110,
+          "endMs": 202600
+        },
+        {
+          "word": "like'",
+          "startMs": 202650,
+          "endMs": 203500
+        },
+        {
+          "word": "ise",
+          "startMs": 203800,
+          "endMs": 204350
+        },
+        {
+          "word": "beğenmemeyi",
+          "startMs": 204580,
+          "endMs": 205620
+        },
+        {
+          "word": "ifade",
+          "startMs": 205860,
+          "endMs": 206370
+        },
+        {
+          "word": "eder;",
+          "startMs": 206510,
+          "endMs": 207170
+        },
+        {
+          "word": "ikisini",
+          "startMs": 207790,
+          "endMs": 208970
+        },
+        {
+          "word": "bilmek",
+          "startMs": 209070,
+          "endMs": 209700
+        },
+        {
+          "word": "sofradaki",
+          "startMs": 210080,
+          "endMs": 211900
+        },
+        {
+          "word": "tüm",
+          "startMs": 212270,
+          "endMs": 212670
+        },
+        {
+          "word": "tercihleri",
+          "startMs": 212960,
+          "endMs": 214150
+        },
+        {
+          "word": "rahatça",
+          "startMs": 214300,
+          "endMs": 214970
+        },
+        {
+          "word": "anlatmanı",
+          "startMs": 215590,
+          "endMs": 216290
+        },
+        {
+          "word": "sağlar.",
+          "startMs": 216360,
+          "endMs": 217390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 217760,
+      "endMs": 222890,
+      "pauseAfterMs": 1310,
+      "text": "Kahvaltı tepsisine birlikte bakalım.",
+      "markedText": "Kahvaltı tepsisine birlikte bakalım.",
+      "words": [
+        {
+          "word": "Kahvaltı",
+          "startMs": 217760,
+          "endMs": 218150
+        },
+        {
+          "word": "tepsisine",
+          "startMs": 218530,
+          "endMs": 219570
+        },
+        {
+          "word": "birlikte",
+          "startMs": 219710,
+          "endMs": 220660
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 220760,
+          "endMs": 221580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 222890,
+      "endMs": 225580,
+      "pauseAfterMs": 490,
+      "text": "'I like olives.",
+      "markedText": "'I like olives.",
+      "words": [
+        {
+          "word": "'I",
+          "startMs": 222890,
+          "endMs": 223030
+        },
+        {
+          "word": "like",
+          "startMs": 223030,
+          "endMs": 223680
+        },
+        {
+          "word": "olives.",
+          "startMs": 224100,
+          "endMs": 225090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 225580,
+      "endMs": 227390,
+      "pauseAfterMs": 440,
+      "text": "I like cheese.",
+      "markedText": "I like cheese.",
+      "words": [
+        {
+          "word": "I",
+          "startMs": 225580,
+          "endMs": 225680
+        },
+        {
+          "word": "like",
+          "startMs": 225680,
+          "endMs": 226290
+        },
+        {
+          "word": "cheese.",
+          "startMs": 226510,
+          "endMs": 226950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 227390,
+      "endMs": 246120,
+      "pauseAfterMs": 700,
+      "text": "I don't like tomatoes.' Arkadaşın sana merakla sorsun: 'Do you like orange juice?' Sen de gülümseyerek 'Yes, I do!' de.",
+      "markedText": "I don't like tomatoes.' Arkadaşın sana merakla sorsun: 'Do you like orange juice?' Sen de gülümseyerek 'Yes, I do!' de.",
+      "words": [
+        {
+          "word": "I",
+          "startMs": 227390,
+          "endMs": 227530
+        },
+        {
+          "word": "don't",
+          "startMs": 227530,
+          "endMs": 227760
+        },
+        {
+          "word": "like",
+          "startMs": 227940,
+          "endMs": 228390
+        },
+        {
+          "word": "tomatoes.'",
+          "startMs": 228490,
+          "endMs": 229420
+        },
+        {
+          "word": "Arkadaşın",
+          "startMs": 230270,
+          "endMs": 231320
+        },
+        {
+          "word": "sana",
+          "startMs": 231360,
+          "endMs": 232090
+        },
+        {
+          "word": "merakla",
+          "startMs": 232800,
+          "endMs": 233360
+        },
+        {
+          "word": "sorsun:",
+          "startMs": 233610,
+          "endMs": 234540
+        },
+        {
+          "word": "'Do",
+          "startMs": 235460,
+          "endMs": 235630
+        },
+        {
+          "word": "you",
+          "startMs": 235630,
+          "endMs": 235980
+        },
+        {
+          "word": "like",
+          "startMs": 236130,
+          "endMs": 236650
+        },
+        {
+          "word": "orange",
+          "startMs": 237500,
+          "endMs": 238640
+        },
+        {
+          "word": "juice?'",
+          "startMs": 239530,
+          "endMs": 240390
+        },
+        {
+          "word": "Sen",
+          "startMs": 240570,
+          "endMs": 240890
+        },
+        {
+          "word": "de",
+          "startMs": 240890,
+          "endMs": 241200
+        },
+        {
+          "word": "gülümseyerek",
+          "startMs": 242080,
+          "endMs": 243780
+        },
+        {
+          "word": "'Yes,",
+          "startMs": 244200,
+          "endMs": 244570
+        },
+        {
+          "word": "I",
+          "startMs": 244670,
+          "endMs": 244860
+        },
+        {
+          "word": "do!'",
+          "startMs": 244860,
+          "endMs": 244970
+        },
+        {
+          "word": "de.",
+          "startMs": 245140,
+          "endMs": 245420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 246120,
+      "endMs": 254630,
+      "pauseAfterMs": 830,
+      "text": "Kahve için 'Do you like coffee?' diye sorduğunda ise 'No, I don't' diyebilirsin.",
+      "markedText": "Kahve için 'Do you like coffee?' diye sorduğunda ise 'No, I don't' diyebilirsin.",
+      "words": [
+        {
+          "word": "Kahve",
+          "startMs": 246120,
+          "endMs": 246380
+        },
+        {
+          "word": "için",
+          "startMs": 246460,
+          "endMs": 247020
+        },
+        {
+          "word": "'Do",
+          "startMs": 247400,
+          "endMs": 247580
+        },
+        {
+          "word": "you",
+          "startMs": 247770,
+          "endMs": 247950
+        },
+        {
+          "word": "like",
+          "startMs": 248050,
+          "endMs": 248410
+        },
+        {
+          "word": "coffee?'",
+          "startMs": 249210,
+          "endMs": 249830
+        },
+        {
+          "word": "diye",
+          "startMs": 250160,
+          "endMs": 250540
+        },
+        {
+          "word": "sorduğunda",
+          "startMs": 250710,
+          "endMs": 251490
+        },
+        {
+          "word": "ise",
+          "startMs": 251570,
+          "endMs": 251920
+        },
+        {
+          "word": "'No,",
+          "startMs": 252040,
+          "endMs": 252140
+        },
+        {
+          "word": "I",
+          "startMs": 252530,
+          "endMs": 252580
+        },
+        {
+          "word": "don't'",
+          "startMs": 252580,
+          "endMs": 252800
+        },
+        {
+          "word": "diyebilirsin.",
+          "startMs": 252800,
+          "endMs": 253800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 254630,
+      "endMs": 261440,
+      "pauseAfterMs": 670,
+      "text": "Kardeşin balı çok seviyorsa 'He likes honey' dersin.",
+      "markedText": "Kardeşin balı çok seviyorsa 'He likes honey' dersin.",
+      "words": [
+        {
+          "word": "Kardeşin",
+          "startMs": 254630,
+          "endMs": 255250
+        },
+        {
+          "word": "balı",
+          "startMs": 255450,
+          "endMs": 255880
+        },
+        {
+          "word": "çok",
+          "startMs": 255940,
+          "endMs": 256240
+        },
+        {
+          "word": "seviyorsa",
+          "startMs": 257000,
+          "endMs": 258070
+        },
+        {
+          "word": "'He",
+          "startMs": 258420,
+          "endMs": 258540
+        },
+        {
+          "word": "likes",
+          "startMs": 258670,
+          "endMs": 259110
+        },
+        {
+          "word": "honey'",
+          "startMs": 259380,
+          "endMs": 259720
+        },
+        {
+          "word": "dersin.",
+          "startMs": 259720,
+          "endMs": 260770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 261440,
+      "endMs": 269850,
+      "pauseAfterMs": 640,
+      "text": "Annenin çay sevgisini anlatırken 'She likes tea' kalıbını kurarsın.",
+      "markedText": "Annenin çay sevgisini anlatırken 'She likes tea' kalıbını kurarsın.",
+      "words": [
+        {
+          "word": "Annenin",
+          "startMs": 261440,
+          "endMs": 262360
+        },
+        {
+          "word": "çay",
+          "startMs": 262470,
+          "endMs": 262670
+        },
+        {
+          "word": "sevgisini",
+          "startMs": 262990,
+          "endMs": 263310
+        },
+        {
+          "word": "anlatırken",
+          "startMs": 264080,
+          "endMs": 264730
+        },
+        {
+          "word": "'She",
+          "startMs": 264930,
+          "endMs": 265050
+        },
+        {
+          "word": "likes",
+          "startMs": 265170,
+          "endMs": 265700
+        },
+        {
+          "word": "tea'",
+          "startMs": 266440,
+          "endMs": 266800
+        },
+        {
+          "word": "kalıbını",
+          "startMs": 266970,
+          "endMs": 267860
+        },
+        {
+          "word": "kurarsın.",
+          "startMs": 268160,
+          "endMs": 269210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 269850,
+      "endMs": 292520,
+      "pauseAfterMs": 790,
+      "text": "Kahvaltı sofrasının temel kelimelerini de hatırlayalım: 'Egg' yumurta, 'bread' ekmek, 'cheese' peynir, 'olive' zeytin, 'honey' bal, 'milk' süt ve 'orange juice' taze portakal suyudur.",
+      "markedText": "Kahvaltı sofrasının temel kelimelerini de hatırlayalım: 'Egg' yumurta, 'bread' ekmek, 'cheese' peynir, 'olive' zeytin, 'honey' bal, 'milk' süt ve 'orange juice' taze portakal suyudur.",
+      "words": [
+        {
+          "word": "Kahvaltı",
+          "startMs": 269850,
+          "endMs": 270760
+        },
+        {
+          "word": "sofrasının",
+          "startMs": 270990,
+          "endMs": 271780
+        },
+        {
+          "word": "temel",
+          "startMs": 272530,
+          "endMs": 272950
+        },
+        {
+          "word": "kelimelerini",
+          "startMs": 272950,
+          "endMs": 274740
+        },
+        {
+          "word": "de",
+          "startMs": 275370,
+          "endMs": 275580
+        },
+        {
+          "word": "hatırlayalım:",
+          "startMs": 275580,
+          "endMs": 277070
+        },
+        {
+          "word": "'Egg'",
+          "startMs": 278090,
+          "endMs": 278360
+        },
+        {
+          "word": "yumurta,",
+          "startMs": 278450,
+          "endMs": 279070
+        },
+        {
+          "word": "'bread'",
+          "startMs": 279140,
+          "endMs": 279360
+        },
+        {
+          "word": "ekmek,",
+          "startMs": 279440,
+          "endMs": 279860
+        },
+        {
+          "word": "'cheese'",
+          "startMs": 280390,
+          "endMs": 280660
+        },
+        {
+          "word": "peynir,",
+          "startMs": 280710,
+          "endMs": 281680
+        },
+        {
+          "word": "'olive'",
+          "startMs": 282710,
+          "endMs": 283600
+        },
+        {
+          "word": "zeytin,",
+          "startMs": 283690,
+          "endMs": 284520
+        },
+        {
+          "word": "'honey'",
+          "startMs": 284850,
+          "endMs": 285310
+        },
+        {
+          "word": "bal,",
+          "startMs": 285540,
+          "endMs": 286000
+        },
+        {
+          "word": "'milk'",
+          "startMs": 287000,
+          "endMs": 287580
+        },
+        {
+          "word": "süt",
+          "startMs": 287650,
+          "endMs": 287800
+        },
+        {
+          "word": "ve",
+          "startMs": 287920,
+          "endMs": 288070
+        },
+        {
+          "word": "'orange",
+          "startMs": 288330,
+          "endMs": 288810
+        },
+        {
+          "word": "juice'",
+          "startMs": 288920,
+          "endMs": 289070
+        },
+        {
+          "word": "taze",
+          "startMs": 289400,
+          "endMs": 289860
+        },
+        {
+          "word": "portakal",
+          "startMs": 289950,
+          "endMs": 290610
+        },
+        {
+          "word": "suyudur.",
+          "startMs": 291020,
+          "endMs": 291730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 292520,
+      "endMs": 293930,
+      "pauseAfterMs": 470,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 292520,
+          "endMs": 292890
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 293010,
+          "endMs": 293460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 293930,
+      "endMs": 299920,
+      "pauseAfterMs": 500,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 293930,
+          "endMs": 294330
+        },
+        {
+          "word": "bir",
+          "startMs": 294330,
+          "endMs": 294600
+        },
+        {
+          "word": "kez",
+          "startMs": 294830,
+          "endMs": 295040
+        },
+        {
+          "word": "görünce",
+          "startMs": 295150,
+          "endMs": 296330
+        },
+        {
+          "word": "kolayca",
+          "startMs": 297190,
+          "endMs": 297820
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 297940,
+          "endMs": 299420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 299920,
+      "endMs": 307580,
+      "pauseAfterMs": 730,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 299920,
+          "endMs": 300260
+        },
+        {
+          "word": "sevgili",
+          "startMs": 300260,
+          "endMs": 301310
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 301770,
+          "endMs": 302610
+        },
+        {
+          "word": "işte",
+          "startMs": 303330,
+          "endMs": 303410
+        },
+        {
+          "word": "tam",
+          "startMs": 303580,
+          "endMs": 303890
+        },
+        {
+          "word": "bu",
+          "startMs": 303890,
+          "endMs": 303990
+        },
+        {
+          "word": "noktada",
+          "startMs": 303990,
+          "endMs": 304470
+        },
+        {
+          "word": "dikkat",
+          "startMs": 304670,
+          "endMs": 304940
+        },
+        {
+          "word": "etmen",
+          "startMs": 304940,
+          "endMs": 305440
+        },
+        {
+          "word": "gereken",
+          "startMs": 305570,
+          "endMs": 306000
+        },
+        {
+          "word": "kilit",
+          "startMs": 306040,
+          "endMs": 306200
+        },
+        {
+          "word": "nokta.",
+          "startMs": 306300,
+          "endMs": 306850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 307580,
+      "endMs": 327580,
+      "pauseAfterMs": 780,
+      "text": "Sevmediğin bir şeyi söylerken 'don't' kelimesinin fiilin hemen önüne geldiğini hatırla: 'I don't like tea' demek tam ve akıcı bir cümledir.",
+      "markedText": "Sevmediğin bir şeyi söylerken 'don't' kelimesinin fiilin hemen önüne geldiğini hatırla: 'I don't like tea' demek tam ve akıcı bir cümledir.",
+      "words": [
+        {
+          "word": "Sevmediğin",
+          "startMs": 307580,
+          "endMs": 309270
+        },
+        {
+          "word": "bir",
+          "startMs": 309730,
+          "endMs": 309840
+        },
+        {
+          "word": "şeyi",
+          "startMs": 309990,
+          "endMs": 310470
+        },
+        {
+          "word": "söylerken",
+          "startMs": 310700,
+          "endMs": 311750
+        },
+        {
+          "word": "'don't'",
+          "startMs": 312650,
+          "endMs": 312730
+        },
+        {
+          "word": "kelimesinin",
+          "startMs": 312790,
+          "endMs": 313930
+        },
+        {
+          "word": "fiilin",
+          "startMs": 314650,
+          "endMs": 315110
+        },
+        {
+          "word": "hemen",
+          "startMs": 315400,
+          "endMs": 315850
+        },
+        {
+          "word": "önüne",
+          "startMs": 315920,
+          "endMs": 316690
+        },
+        {
+          "word": "geldiğini",
+          "startMs": 317250,
+          "endMs": 318270
+        },
+        {
+          "word": "hatırla:",
+          "startMs": 318600,
+          "endMs": 319830
+        },
+        {
+          "word": "'I",
+          "startMs": 320530,
+          "endMs": 320740
+        },
+        {
+          "word": "don't",
+          "startMs": 320740,
+          "endMs": 321120
+        },
+        {
+          "word": "like",
+          "startMs": 321180,
+          "endMs": 321540
+        },
+        {
+          "word": "tea'",
+          "startMs": 321710,
+          "endMs": 322210
+        },
+        {
+          "word": "demek",
+          "startMs": 322520,
+          "endMs": 322710
+        },
+        {
+          "word": "tam",
+          "startMs": 323150,
+          "endMs": 323320
+        },
+        {
+          "word": "ve",
+          "startMs": 323580,
+          "endMs": 323680
+        },
+        {
+          "word": "akıcı",
+          "startMs": 323740,
+          "endMs": 324300
+        },
+        {
+          "word": "bir",
+          "startMs": 324360,
+          "endMs": 324960
+        },
+        {
+          "word": "cümledir.",
+          "startMs": 325630,
+          "endMs": 326800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 327580,
+      "endMs": 350360,
+      "pauseAfterMs": 460,
+      "text": "'Do you like milk?' sorusuna cevap verirken sadece 'Yes, I do' ya da 'No, I don't' demek yeterlidir; kısa ve tatlı bir cevap konuşmanı çok daha doğal kılar.",
+      "markedText": "'Do you like milk?' sorusuna cevap verirken sadece 'Yes, I do' ya da 'No, I don't' demek yeterlidir; kısa ve tatlı bir cevap konuşmanı çok daha doğal kılar.",
+      "words": [
+        {
+          "word": "'Do",
+          "startMs": 327580,
+          "endMs": 327670
+        },
+        {
+          "word": "you",
+          "startMs": 327670,
+          "endMs": 327920
+        },
+        {
+          "word": "like",
+          "startMs": 328070,
+          "endMs": 328360
+        },
+        {
+          "word": "milk?'",
+          "startMs": 328460,
+          "endMs": 329020
+        },
+        {
+          "word": "sorusuna",
+          "startMs": 329370,
+          "endMs": 330510
+        },
+        {
+          "word": "cevap",
+          "startMs": 331160,
+          "endMs": 332210
+        },
+        {
+          "word": "verirken",
+          "startMs": 332460,
+          "endMs": 333290
+        },
+        {
+          "word": "sadece",
+          "startMs": 334060,
+          "endMs": 334560
+        },
+        {
+          "word": "'Yes,",
+          "startMs": 334660,
+          "endMs": 335080
+        },
+        {
+          "word": "I",
+          "startMs": 335990,
+          "endMs": 336160
+        },
+        {
+          "word": "do'",
+          "startMs": 336160,
+          "endMs": 336340
+        },
+        {
+          "word": "ya",
+          "startMs": 336410,
+          "endMs": 336650
+        },
+        {
+          "word": "da",
+          "startMs": 336910,
+          "endMs": 337100
+        },
+        {
+          "word": "'No,",
+          "startMs": 337170,
+          "endMs": 338090
+        },
+        {
+          "word": "I",
+          "startMs": 339100,
+          "endMs": 339210
+        },
+        {
+          "word": "don't'",
+          "startMs": 339630,
+          "endMs": 339970
+        },
+        {
+          "word": "demek",
+          "startMs": 340020,
+          "endMs": 340260
+        },
+        {
+          "word": "yeterlidir;",
+          "startMs": 340520,
+          "endMs": 341500
+        },
+        {
+          "word": "kısa",
+          "startMs": 342250,
+          "endMs": 342560
+        },
+        {
+          "word": "ve",
+          "startMs": 342560,
+          "endMs": 342670
+        },
+        {
+          "word": "tatlı",
+          "startMs": 342860,
+          "endMs": 343440
+        },
+        {
+          "word": "bir",
+          "startMs": 344020,
+          "endMs": 344420
+        },
+        {
+          "word": "cevap",
+          "startMs": 344600,
+          "endMs": 345100
+        },
+        {
+          "word": "konuşmanı",
+          "startMs": 345730,
+          "endMs": 346320
+        },
+        {
+          "word": "çok",
+          "startMs": 346470,
+          "endMs": 347210
+        },
+        {
+          "word": "daha",
+          "startMs": 348180,
+          "endMs": 348550
+        },
+        {
+          "word": "doğal",
+          "startMs": 348660,
+          "endMs": 349220
+        },
+        {
+          "word": "kılar.",
+          "startMs": 349320,
+          "endMs": 349900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 350360,
+      "endMs": 365770,
+      "pauseAfterMs": 800,
+      "text": "Kardeşini veya arkadaşını anlatırken de 'He likes eggs' diyerek o küçük '-s' sesini eklemeyi sevgiyle hatırla.",
+      "markedText": "Kardeşini veya arkadaşını anlatırken de 'He likes eggs' diyerek o küçük '-s' sesini eklemeyi sevgiyle hatırla.",
+      "words": [
+        {
+          "word": "Kardeşini",
+          "startMs": 350360,
+          "endMs": 351080
+        },
+        {
+          "word": "veya",
+          "startMs": 351250,
+          "endMs": 351630
+        },
+        {
+          "word": "arkadaşını",
+          "startMs": 352280,
+          "endMs": 353220
+        },
+        {
+          "word": "anlatırken",
+          "startMs": 353590,
+          "endMs": 354510
+        },
+        {
+          "word": "de",
+          "startMs": 354700,
+          "endMs": 354870
+        },
+        {
+          "word": "'He",
+          "startMs": 355940,
+          "endMs": 356150
+        },
+        {
+          "word": "likes",
+          "startMs": 356150,
+          "endMs": 356820
+        },
+        {
+          "word": "eggs'",
+          "startMs": 357710,
+          "endMs": 358160
+        },
+        {
+          "word": "diyerek",
+          "startMs": 358390,
+          "endMs": 358690
+        },
+        {
+          "word": "o",
+          "startMs": 358820,
+          "endMs": 358980
+        },
+        {
+          "word": "küçük",
+          "startMs": 359060,
+          "endMs": 359500
+        },
+        {
+          "word": "'-s'",
+          "startMs": 359500,
+          "endMs": 359800
+        },
+        {
+          "word": "sesini",
+          "startMs": 360590,
+          "endMs": 361030
+        },
+        {
+          "word": "eklemeyi",
+          "startMs": 361240,
+          "endMs": 362300
+        },
+        {
+          "word": "sevgiyle",
+          "startMs": 362600,
+          "endMs": 363370
+        },
+        {
+          "word": "hatırla.",
+          "startMs": 363490,
+          "endMs": 364970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 365770,
+      "endMs": 378370,
+      "pauseAfterMs": 1050,
+      "text": "Yiyecek, içecek ve likes, dislikes konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Yiyecek, içecek ve likes, dislikes konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Yiyecek,",
+          "startMs": 365770,
+          "endMs": 366640
+        },
+        {
+          "word": "içecek",
+          "startMs": 367260,
+          "endMs": 367720
+        },
+        {
+          "word": "ve",
+          "startMs": 367800,
+          "endMs": 367890
+        },
+        {
+          "word": "likes,",
+          "startMs": 367890,
+          "endMs": 368180
+        },
+        {
+          "word": "dislikes",
+          "startMs": 368790,
+          "endMs": 369350
+        },
+        {
+          "word": "konusunda",
+          "startMs": 369560,
+          "endMs": 370070
+        },
+        {
+          "word": "kuralın",
+          "startMs": 370310,
+          "endMs": 370710
+        },
+        {
+          "word": "tersini",
+          "startMs": 370860,
+          "endMs": 371380
+        },
+        {
+          "word": "sanmak",
+          "startMs": 371500,
+          "endMs": 372400
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 373120,
+          "endMs": 373590
+        },
+        {
+          "word": "ters",
+          "startMs": 373950,
+          "endMs": 374410
+        },
+        {
+          "word": "cümle",
+          "startMs": 374910,
+          "endMs": 375600
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 375920,
+          "endMs": 377320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 378370,
+      "endMs": 381510,
+      "pauseAfterMs": 1120,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 378370,
+          "endMs": 378710
+        },
+        {
+          "word": "Neler",
+          "startMs": 378950,
+          "endMs": 379410
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 379410,
+          "endMs": 380390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 381510,
+      "endMs": 381930,
+      "pauseAfterMs": 90,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 381510,
+          "endMs": 381840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 381930,
+      "endMs": 390720,
+      "pauseAfterMs": 1020,
+      "text": "I like sevgiyi ve beğeniyi, I don't like ise beğenmemeyi söyler.",
+      "markedText": "I like sevgiyi ve beğeniyi, I don't like ise beğenmemeyi söyler.",
+      "words": [
+        {
+          "word": "I",
+          "startMs": 381930,
+          "endMs": 382120
+        },
+        {
+          "word": "like",
+          "startMs": 382230,
+          "endMs": 382550
+        },
+        {
+          "word": "sevgiyi",
+          "startMs": 382620,
+          "endMs": 383260
+        },
+        {
+          "word": "ve",
+          "startMs": 383650,
+          "endMs": 383850
+        },
+        {
+          "word": "beğeniyi,",
+          "startMs": 383950,
+          "endMs": 385090
+        },
+        {
+          "word": "I",
+          "startMs": 386070,
+          "endMs": 386170
+        },
+        {
+          "word": "don't",
+          "startMs": 386340,
+          "endMs": 386570
+        },
+        {
+          "word": "like",
+          "startMs": 386570,
+          "endMs": 386900
+        },
+        {
+          "word": "ise",
+          "startMs": 387020,
+          "endMs": 387220
+        },
+        {
+          "word": "beğenmemeyi",
+          "startMs": 387220,
+          "endMs": 388370
+        },
+        {
+          "word": "söyler.",
+          "startMs": 388690,
+          "endMs": 389700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 390720,
+      "endMs": 391050,
+      "pauseAfterMs": 0,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 390720,
+          "endMs": 391050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 391050,
+      "endMs": 399400,
+      "pauseAfterMs": 710,
+      "text": "Do you like sorusuna Yes, I do ya da No, I don't gelir.",
+      "markedText": "Do you like sorusuna Yes, I do ya da No, I don't gelir.",
+      "words": [
+        {
+          "word": "Do",
+          "startMs": 391050,
+          "endMs": 391290
+        },
+        {
+          "word": "you",
+          "startMs": 391290,
+          "endMs": 391580
+        },
+        {
+          "word": "like",
+          "startMs": 391690,
+          "endMs": 392000
+        },
+        {
+          "word": "sorusuna",
+          "startMs": 392100,
+          "endMs": 393020
+        },
+        {
+          "word": "Yes,",
+          "startMs": 393380,
+          "endMs": 393810
+        },
+        {
+          "word": "I",
+          "startMs": 393810,
+          "endMs": 393930
+        },
+        {
+          "word": "do",
+          "startMs": 394070,
+          "endMs": 394310
+        },
+        {
+          "word": "ya",
+          "startMs": 394490,
+          "endMs": 394740
+        },
+        {
+          "word": "da",
+          "startMs": 395110,
+          "endMs": 395270
+        },
+        {
+          "word": "No,",
+          "startMs": 395370,
+          "endMs": 395850
+        },
+        {
+          "word": "I",
+          "startMs": 396900,
+          "endMs": 397160
+        },
+        {
+          "word": "don't",
+          "startMs": 397260,
+          "endMs": 397620
+        },
+        {
+          "word": "gelir.",
+          "startMs": 397730,
+          "endMs": 398690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 399400,
+      "endMs": 400200,
+      "pauseAfterMs": 550,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 399400,
+          "endMs": 399650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 400200,
+      "endMs": 411130,
+      "pauseAfterMs": 880,
+      "text": "He ve she özneleriyle likes kullanılır; he likes honey doğru biçimdir.",
+      "markedText": "He ve she özneleriyle likes kullanılır; he likes honey doğru biçimdir.",
+      "words": [
+        {
+          "word": "He",
+          "startMs": 400200,
+          "endMs": 400360
+        },
+        {
+          "word": "ve",
+          "startMs": 400360,
+          "endMs": 400540
+        },
+        {
+          "word": "she",
+          "startMs": 400540,
+          "endMs": 400600
+        },
+        {
+          "word": "özneleriyle",
+          "startMs": 400920,
+          "endMs": 402110
+        },
+        {
+          "word": "likes",
+          "startMs": 402520,
+          "endMs": 403120
+        },
+        {
+          "word": "kullanılır;",
+          "startMs": 403400,
+          "endMs": 404720
+        },
+        {
+          "word": "he",
+          "startMs": 405460,
+          "endMs": 405750
+        },
+        {
+          "word": "likes",
+          "startMs": 406400,
+          "endMs": 406830
+        },
+        {
+          "word": "honey",
+          "startMs": 407020,
+          "endMs": 407530
+        },
+        {
+          "word": "doğru",
+          "startMs": 407870,
+          "endMs": 408540
+        },
+        {
+          "word": "biçimdir.",
+          "startMs": 408770,
+          "endMs": 410250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 411130,
+      "endMs": 418220,
+      "pauseAfterMs": 1060,
+      "text": "Beğeni I like, beğenmeme I don't like ile kurulur.",
+      "markedText": "Beğeni I like, beğenmeme I don't like ile kurulur.",
+      "words": [
+        {
+          "word": "Beğeni",
+          "startMs": 411130,
+          "endMs": 411400
+        },
+        {
+          "word": "I",
+          "startMs": 411970,
+          "endMs": 412090
+        },
+        {
+          "word": "like,",
+          "startMs": 412090,
+          "endMs": 412600
+        },
+        {
+          "word": "beğenmeme",
+          "startMs": 412600,
+          "endMs": 413430
+        },
+        {
+          "word": "I",
+          "startMs": 413630,
+          "endMs": 413730
+        },
+        {
+          "word": "don't",
+          "startMs": 413730,
+          "endMs": 413930
+        },
+        {
+          "word": "like",
+          "startMs": 414190,
+          "endMs": 414720
+        },
+        {
+          "word": "ile",
+          "startMs": 415310,
+          "endMs": 415660
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 415930,
+          "endMs": 417160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 418220,
+      "endMs": 426420,
+      "pauseAfterMs": 1480,
+      "text": "Tepsiden bir yiyeceği severim ya da sevmem diye söylersin.",
+      "markedText": "Tepsiden bir yiyeceği severim ya da sevmem diye söylersin.",
+      "words": [
+        {
+          "word": "Tepsiden",
+          "startMs": 418220,
+          "endMs": 418530
+        },
+        {
+          "word": "bir",
+          "startMs": 418680,
+          "endMs": 419020
+        },
+        {
+          "word": "yiyeceği",
+          "startMs": 419100,
+          "endMs": 419980
+        },
+        {
+          "word": "severim",
+          "startMs": 421030,
+          "endMs": 421550
+        },
+        {
+          "word": "ya",
+          "startMs": 421740,
+          "endMs": 421950
+        },
+        {
+          "word": "da",
+          "startMs": 422020,
+          "endMs": 422220
+        },
+        {
+          "word": "sevmem",
+          "startMs": 422710,
+          "endMs": 423340
+        },
+        {
+          "word": "diye",
+          "startMs": 423650,
+          "endMs": 423930
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 423930,
+          "endMs": 424940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 426420,
+      "endMs": 429000,
+      "pauseAfterMs": 850,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 426420,
+          "endMs": 427070
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 427300,
+          "endMs": 428150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 429000,
+      "endMs": 433330,
+      "pauseAfterMs": 960,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 429000,
+          "endMs": 430100
+        },
+        {
+          "word": "bir",
+          "startMs": 430300,
+          "endMs": 430650
+        },
+        {
+          "word": "iş",
+          "startMs": 430650,
+          "endMs": 430990
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 431100,
+          "endMs": 432370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 433330,
+      "endMs": 436420,
+      "pauseAfterMs": 640,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 433330,
+          "endMs": 434130
+        },
+        {
+          "word": "sıra",
+          "startMs": 434860,
+          "endMs": 435100
+        },
+        {
+          "word": "sende.",
+          "startMs": 435190,
+          "endMs": 435780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 436420,
+      "endMs": 439576,
+      "pauseAfterMs": 366,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 436420,
+          "endMs": 436990
+        },
+        {
+          "word": "bu",
+          "startMs": 436990,
+          "endMs": 437100
+        },
+        {
+          "word": "notları",
+          "startMs": 437220,
+          "endMs": 437470
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 437560,
+          "endMs": 437930
+        },
+        {
+          "word": "kendi",
+          "startMs": 438060,
+          "endMs": 438310
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 438310,
+          "endMs": 438950
+        },
+        {
+          "word": "anlat.",
+          "startMs": 438950,
+          "endMs": 439210
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

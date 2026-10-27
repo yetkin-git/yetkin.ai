@@ -1,0 +1,1892 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_mat-6",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Standart uzunluk ölçü birimleri",
+  "grade": 6,
+  "subject": "Matematik",
+  "teacher": {
+    "name": "Selim",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_mat-6.mp3",
+    "durationMs": 142204,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 58730
+    },
+    {
+      "id": "ch-2",
+      "title": "Sayı doğrusu",
+      "startMs": 58730,
+      "endMs": 80170
+    },
+    {
+      "id": "ch-3",
+      "title": "Kapanış",
+      "startMs": 80170,
+      "endMs": 142204
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 2350,
+      "pauseAfterMs": 840,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 200,
+          "endMs": 660
+        },
+        {
+          "word": "sevgili",
+          "startMs": 730,
+          "endMs": 1080
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 1080,
+          "endMs": 1510
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "number-line",
+            "title": "Uzunluk doğrusu",
+            "subtitle": "Birim konumu"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 2350,
+      "endMs": 4890,
+      "pauseAfterMs": 940,
+      "text": "Ben Matematik öğretmenin Selim.",
+      "markedText": "Ben Matematik öğretmenin Selim.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 2350,
+          "endMs": 2580
+        },
+        {
+          "word": "Matematik",
+          "startMs": 2580,
+          "endMs": 3040
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 3110,
+          "endMs": 3670
+        },
+        {
+          "word": "Selim.",
+          "startMs": 3740,
+          "endMs": 3950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 4890,
+      "endMs": 8740,
+      "pauseAfterMs": 1030,
+      "text": "Bugün uzunluğu ortak birimlerle ölçeceğiz.",
+      "markedText": "Bugün uzunluğu ortak birimlerle ölçeceğiz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 4890,
+          "endMs": 5200
+        },
+        {
+          "word": "uzunluğu",
+          "startMs": 5600,
+          "endMs": 6170
+        },
+        {
+          "word": "ortak",
+          "startMs": 6240,
+          "endMs": 6530
+        },
+        {
+          "word": "birimlerle",
+          "startMs": 6630,
+          "endMs": 7120
+        },
+        {
+          "word": "ölçeceğiz.",
+          "startMs": 7120,
+          "endMs": 7710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 8740,
+      "endMs": 12590,
+      "pauseAfterMs": 860,
+      "text": "Okul koridoru adımla değil metreyle konuşulur.",
+      "markedText": "Okul koridoru adımla değil metreyle konuşulur.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 8740,
+          "endMs": 9040
+        },
+        {
+          "word": "koridoru",
+          "startMs": 9130,
+          "endMs": 9610
+        },
+        {
+          "word": "adımla",
+          "startMs": 9760,
+          "endMs": 9990
+        },
+        {
+          "word": "değil",
+          "startMs": 9990,
+          "endMs": 10550
+        },
+        {
+          "word": "metreyle",
+          "startMs": 10740,
+          "endMs": 11190
+        },
+        {
+          "word": "konuşulur.",
+          "startMs": 11270,
+          "endMs": 11730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 12590,
+      "endMs": 15600,
+      "pauseAfterMs": 780,
+      "text": "Küçük birimden büyüğe geçince sayı küçülür.",
+      "markedText": "Küçük birimden büyüğe geçince sayı küçülür.",
+      "words": [
+        {
+          "word": "Küçük",
+          "startMs": 12590,
+          "endMs": 12790
+        },
+        {
+          "word": "birimden",
+          "startMs": 12900,
+          "endMs": 13280
+        },
+        {
+          "word": "büyüğe",
+          "startMs": 13280,
+          "endMs": 13650
+        },
+        {
+          "word": "geçince",
+          "startMs": 13700,
+          "endMs": 14090
+        },
+        {
+          "word": "sayı",
+          "startMs": 14160,
+          "endMs": 14350
+        },
+        {
+          "word": "küçülür.",
+          "startMs": 14440,
+          "endMs": 14820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 15600,
+      "endMs": 19350,
+      "pauseAfterMs": 1040,
+      "text": "Bunu okul bahçesindeki koşu şeridinde kullanırsın.",
+      "markedText": "Bunu okul bahçesindeki koşu şeridinde kullanırsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 15600,
+          "endMs": 15880
+        },
+        {
+          "word": "okul",
+          "startMs": 16000,
+          "endMs": 16290
+        },
+        {
+          "word": "bahçesindeki",
+          "startMs": 16290,
+          "endMs": 16960
+        },
+        {
+          "word": "koşu",
+          "startMs": 17060,
+          "endMs": 17270
+        },
+        {
+          "word": "şeridinde",
+          "startMs": 17270,
+          "endMs": 17760
+        },
+        {
+          "word": "kullanırsın.",
+          "startMs": 17870,
+          "endMs": 18310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 19350,
+      "endMs": 25170,
+      "pauseAfterMs": 840,
+      "text": "Kutunun kısa kenarı santimetre, cetveldeki bir desimetre 10 santimetredir.",
+      "markedText": "Kutunun kısa kenarı santimetre, cetveldeki bir desimetre 10 santimetredir.",
+      "words": [
+        {
+          "word": "Kutunun",
+          "startMs": 19350,
+          "endMs": 19710
+        },
+        {
+          "word": "kısa",
+          "startMs": 19800,
+          "endMs": 20010
+        },
+        {
+          "word": "kenarı",
+          "startMs": 20100,
+          "endMs": 20300
+        },
+        {
+          "word": "santimetre,",
+          "startMs": 20490,
+          "endMs": 21150
+        },
+        {
+          "word": "cetveldeki",
+          "startMs": 21540,
+          "endMs": 22240
+        },
+        {
+          "word": "bir",
+          "startMs": 22360,
+          "endMs": 22500
+        },
+        {
+          "word": "desimetre",
+          "startMs": 22590,
+          "endMs": 22930
+        },
+        {
+          "word": "10",
+          "startMs": 23060,
+          "endMs": 23150
+        },
+        {
+          "word": "santimetredir.",
+          "startMs": 23330,
+          "endMs": 24330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 25170,
+      "endMs": 27210,
+      "pauseAfterMs": 630,
+      "text": "Sahanın çevresi metredir.",
+      "markedText": "Sahanın çevresi metredir.",
+      "words": [
+        {
+          "word": "Sahanın",
+          "startMs": 25170,
+          "endMs": 25590
+        },
+        {
+          "word": "çevresi",
+          "startMs": 25630,
+          "endMs": 26140
+        },
+        {
+          "word": "metredir.",
+          "startMs": 26140,
+          "endMs": 26580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 27210,
+      "endMs": 30640,
+      "pauseAfterMs": 1070,
+      "text": "Şehirler arası yol ise kilometreyle söylenir.",
+      "markedText": "Şehirler arası yol ise kilometreyle söylenir.",
+      "words": [
+        {
+          "word": "Şehirler",
+          "startMs": 27210,
+          "endMs": 27560
+        },
+        {
+          "word": "arası",
+          "startMs": 27560,
+          "endMs": 27860
+        },
+        {
+          "word": "yol",
+          "startMs": 28010,
+          "endMs": 28250
+        },
+        {
+          "word": "ise",
+          "startMs": 28360,
+          "endMs": 28410
+        },
+        {
+          "word": "kilometreyle",
+          "startMs": 28500,
+          "endMs": 29070
+        },
+        {
+          "word": "söylenir.",
+          "startMs": 29160,
+          "endMs": 29570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 30640,
+      "endMs": 37990,
+      "pauseAfterMs": 920,
+      "text": "Standart uzunluk birimleri milimetre, santimetre, desimetre, metre ve kilometredir.",
+      "markedText": "Standart uzunluk birimleri milimetre, santimetre, desimetre, metre ve kilometredir.",
+      "words": [
+        {
+          "word": "Standart",
+          "startMs": 30640,
+          "endMs": 31070
+        },
+        {
+          "word": "uzunluk",
+          "startMs": 31130,
+          "endMs": 31460
+        },
+        {
+          "word": "birimleri",
+          "startMs": 31570,
+          "endMs": 32060
+        },
+        {
+          "word": "milimetre,",
+          "startMs": 32360,
+          "endMs": 33010
+        },
+        {
+          "word": "santimetre,",
+          "startMs": 33350,
+          "endMs": 34130
+        },
+        {
+          "word": "desimetre,",
+          "startMs": 34470,
+          "endMs": 35270
+        },
+        {
+          "word": "metre",
+          "startMs": 35580,
+          "endMs": 35740
+        },
+        {
+          "word": "ve",
+          "startMs": 35900,
+          "endMs": 36040
+        },
+        {
+          "word": "kilometredir.",
+          "startMs": 36230,
+          "endMs": 37070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 37990,
+      "endMs": 40330,
+      "pauseAfterMs": 630,
+      "text": "1 santimetre 10 milimetredir.",
+      "markedText": "1 santimetre 10 milimetredir.",
+      "words": [
+        {
+          "word": "1",
+          "startMs": 37990,
+          "endMs": 38130
+        },
+        {
+          "word": "santimetre",
+          "startMs": 38200,
+          "endMs": 38580
+        },
+        {
+          "word": "10",
+          "startMs": 38680,
+          "endMs": 38780
+        },
+        {
+          "word": "milimetredir.",
+          "startMs": 38850,
+          "endMs": 39700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 40330,
+      "endMs": 43050,
+      "pauseAfterMs": 700,
+      "text": "1 desimetre 10 santimetredir.",
+      "markedText": "1 desimetre 10 santimetredir.",
+      "words": [
+        {
+          "word": "1",
+          "startMs": 40330,
+          "endMs": 40370
+        },
+        {
+          "word": "desimetre",
+          "startMs": 40370,
+          "endMs": 40680
+        },
+        {
+          "word": "10",
+          "startMs": 41090,
+          "endMs": 41200
+        },
+        {
+          "word": "santimetredir.",
+          "startMs": 41300,
+          "endMs": 42350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-1",
+      "startMs": 43050,
+      "endMs": 45540,
+      "pauseAfterMs": 770,
+      "text": "1 metre 10 desimetredir.",
+      "markedText": "1 metre 10 desimetredir.",
+      "words": [
+        {
+          "word": "1",
+          "startMs": 43050,
+          "endMs": 43280
+        },
+        {
+          "word": "metre",
+          "startMs": 43280,
+          "endMs": 43380
+        },
+        {
+          "word": "10",
+          "startMs": 43530,
+          "endMs": 43650
+        },
+        {
+          "word": "desimetredir.",
+          "startMs": 43800,
+          "endMs": 44770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-1",
+      "startMs": 45540,
+      "endMs": 47810,
+      "pauseAfterMs": 730,
+      "text": "1 metre 100 santimetredir.",
+      "markedText": "1 metre 100 santimetredir.",
+      "words": [
+        {
+          "word": "1",
+          "startMs": 45540,
+          "endMs": 45770
+        },
+        {
+          "word": "metre",
+          "startMs": 45960,
+          "endMs": 46110
+        },
+        {
+          "word": "100",
+          "startMs": 46110,
+          "endMs": 46290
+        },
+        {
+          "word": "santimetredir.",
+          "startMs": 46350,
+          "endMs": 47080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-1",
+      "startMs": 47810,
+      "endMs": 50300,
+      "pauseAfterMs": 940,
+      "text": "1 kilometre 1000 metredir.",
+      "markedText": "1 kilometre 1000 metredir.",
+      "words": [
+        {
+          "word": "1",
+          "startMs": 47810,
+          "endMs": 47990
+        },
+        {
+          "word": "kilometre",
+          "startMs": 48090,
+          "endMs": 48370
+        },
+        {
+          "word": "1000",
+          "startMs": 48470,
+          "endMs": 48610
+        },
+        {
+          "word": "metredir.",
+          "startMs": 48690,
+          "endMs": 49360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-1",
+      "startMs": 50300,
+      "endMs": 55590,
+      "pauseAfterMs": 1310,
+      "text": "Cetvelle ölçerken birimi yazmadan sayı tek başına uzunluk değildir.",
+      "markedText": "Cetvelle ölçerken birimi yazmadan sayı tek başına uzunluk değildir.",
+      "words": [
+        {
+          "word": "Cetvelle",
+          "startMs": 50300,
+          "endMs": 50860
+        },
+        {
+          "word": "ölçerken",
+          "startMs": 50860,
+          "endMs": 51580
+        },
+        {
+          "word": "birimi",
+          "startMs": 51580,
+          "endMs": 51890
+        },
+        {
+          "word": "yazmadan",
+          "startMs": 51890,
+          "endMs": 52530
+        },
+        {
+          "word": "sayı",
+          "startMs": 52660,
+          "endMs": 52840
+        },
+        {
+          "word": "tek",
+          "startMs": 52930,
+          "endMs": 53030
+        },
+        {
+          "word": "başına",
+          "startMs": 53120,
+          "endMs": 53450
+        },
+        {
+          "word": "uzunluk",
+          "startMs": 53450,
+          "endMs": 53780
+        },
+        {
+          "word": "değildir.",
+          "startMs": 53880,
+          "endMs": 54280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-1",
+      "startMs": 55590,
+      "endMs": 58730,
+      "pauseAfterMs": 1190,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 55590,
+          "endMs": 55760
+        },
+        {
+          "word": "şimdi",
+          "startMs": 55760,
+          "endMs": 56030
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 56030,
+          "endMs": 56400
+        },
+        {
+          "word": "çizime",
+          "startMs": 56560,
+          "endMs": 56800
+        },
+        {
+          "word": "birlikte",
+          "startMs": 56800,
+          "endMs": 57080
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 57180,
+          "endMs": 57540
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 55590,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "konu-anlati",
+          "params": {
+            "heading": "Standart uzunluk ölçü birimleri · örnek",
+            "reset": true,
+            "rows": [
+              {
+                "title": "250 santimetreyi metreye çevirelim.",
+                "body": "250 santimetreyi metreye çevirelim.",
+                "tone": "example"
+              },
+              {
+                "title": "Örnek",
+                "body": "100 santimetre 1 metre olduğuna göre 250 santimetre 2 metre 50 santimetredir.",
+                "tone": "example"
+              },
+              {
+                "title": "Ondalık yazılırsa 2,5 metre eder.",
+                "body": "Ondalık yazılırsa 2,5 metre eder.",
+                "tone": "example"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 58730,
+      "endMs": 80170,
+      "pauseAfterMs": 1130,
+      "text": "250 santimetreyi metreye çevirelim. 100 santimetre 1 metre olduğuna göre 250 santimetre 2 metre 50 santimetredir. Ondalık yazılırsa 2,5 metre eder. 3 kilometre ise 3000 metredir. 40 milimetre 4 santimetredir çünkü 10 milimetre 1 santimetredir.",
+      "markedText": "{@showLine} 250 santimetreyi metreye çevirelim. 100 santimetre 1 metre olduğuna göre 250 santimetre 2 metre 50 santimetredir. Ondalık yazılırsa 2,5 metre eder. 3 kilometre ise 3000 metredir. 40 milimetre 4 santimetredir çünkü 10 milimetre 1 santimetredir.",
+      "words": [
+        {
+          "word": "250",
+          "startMs": 58730,
+          "endMs": 59310
+        },
+        {
+          "word": "santimetreyi",
+          "startMs": 59390,
+          "endMs": 60170
+        },
+        {
+          "word": "metreye",
+          "startMs": 60260,
+          "endMs": 60440
+        },
+        {
+          "word": "çevirelim.",
+          "startMs": 60500,
+          "endMs": 60780
+        },
+        {
+          "word": "100",
+          "startMs": 61850,
+          "endMs": 62110
+        },
+        {
+          "word": "santimetre",
+          "startMs": 62110,
+          "endMs": 62530
+        },
+        {
+          "word": "1",
+          "startMs": 62640,
+          "endMs": 62770
+        },
+        {
+          "word": "metre",
+          "startMs": 62860,
+          "endMs": 63170
+        },
+        {
+          "word": "olduğuna",
+          "startMs": 63290,
+          "endMs": 63780
+        },
+        {
+          "word": "göre",
+          "startMs": 63830,
+          "endMs": 64070
+        },
+        {
+          "word": "250",
+          "startMs": 64710,
+          "endMs": 65210
+        },
+        {
+          "word": "santimetre",
+          "startMs": 65210,
+          "endMs": 65830
+        },
+        {
+          "word": "2",
+          "startMs": 66170,
+          "endMs": 66360
+        },
+        {
+          "word": "metre",
+          "startMs": 66480,
+          "endMs": 66590
+        },
+        {
+          "word": "50",
+          "startMs": 66680,
+          "endMs": 66920
+        },
+        {
+          "word": "santimetredir.",
+          "startMs": 67000,
+          "endMs": 67690
+        },
+        {
+          "word": "Ondalık",
+          "startMs": 68560,
+          "endMs": 68920
+        },
+        {
+          "word": "yazılırsa",
+          "startMs": 69010,
+          "endMs": 69590
+        },
+        {
+          "word": "2,5",
+          "startMs": 69880,
+          "endMs": 70140
+        },
+        {
+          "word": "metre",
+          "startMs": 70230,
+          "endMs": 70340
+        },
+        {
+          "word": "eder.",
+          "startMs": 70440,
+          "endMs": 70720
+        },
+        {
+          "word": "3",
+          "startMs": 71840,
+          "endMs": 71920
+        },
+        {
+          "word": "kilometre",
+          "startMs": 72070,
+          "endMs": 72350
+        },
+        {
+          "word": "ise",
+          "startMs": 72480,
+          "endMs": 72610
+        },
+        {
+          "word": "3000",
+          "startMs": 72610,
+          "endMs": 72790
+        },
+        {
+          "word": "metredir.",
+          "startMs": 72890,
+          "endMs": 73760
+        },
+        {
+          "word": "40",
+          "startMs": 74670,
+          "endMs": 74780
+        },
+        {
+          "word": "milimetre",
+          "startMs": 75340,
+          "endMs": 75640
+        },
+        {
+          "word": "4",
+          "startMs": 75790,
+          "endMs": 75930
+        },
+        {
+          "word": "santimetredir",
+          "startMs": 76260,
+          "endMs": 76540
+        },
+        {
+          "word": "çünkü",
+          "startMs": 76830,
+          "endMs": 77120
+        },
+        {
+          "word": "10",
+          "startMs": 77290,
+          "endMs": 77510
+        },
+        {
+          "word": "milimetre",
+          "startMs": 77510,
+          "endMs": 78040
+        },
+        {
+          "word": "1",
+          "startMs": 78120,
+          "endMs": 78250
+        },
+        {
+          "word": "santimetredir.",
+          "startMs": 78340,
+          "endMs": 79040
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 58730,
+          "op": "SHOW_NUMBER_LINE",
+          "hook": "showLine",
+          "params": {
+            "unit": "cm",
+            "focus": 250,
+            "focusLabel": "250 cm = 2,5 m",
+            "relations": [
+              "100 cm = 1 m",
+              "1 km = 1000 m",
+              "10 mm = 1 cm",
+              "40 mm = 4 cm",
+              "3 km = 3000 m"
+            ],
+            "marks": [
+              {
+                "slot": "cm",
+                "value": 250,
+                "atMs": 58730
+              },
+              {
+                "slot": "per-m",
+                "value": 100,
+                "atMs": 61850
+              },
+              {
+                "slot": "one-m",
+                "value": 1,
+                "atMs": 62640
+              },
+              {
+                "slot": "cm-again",
+                "value": 250,
+                "atMs": 64710
+              },
+              {
+                "slot": "metres",
+                "value": 2,
+                "atMs": 66170
+              },
+              {
+                "slot": "cm-rest",
+                "value": 50,
+                "atMs": 66680
+              },
+              {
+                "slot": "decimal",
+                "value": 2.5,
+                "token": "2,5",
+                "atMs": 69880
+              },
+              {
+                "slot": "km",
+                "value": 3,
+                "atMs": 71840
+              },
+              {
+                "slot": "metres-from-km",
+                "value": 3000,
+                "atMs": 72610
+              },
+              {
+                "slot": "mm",
+                "value": 40,
+                "atMs": 74670
+              },
+              {
+                "slot": "cm-from-mm",
+                "value": 4,
+                "atMs": 75790
+              },
+              {
+                "slot": "mm-per-cm",
+                "value": 10,
+                "atMs": 77290
+              },
+              {
+                "slot": "one-cm",
+                "value": 1,
+                "atMs": 78120
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-3",
+      "startMs": 80170,
+      "endMs": 81560,
+      "pauseAfterMs": 740,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 80170,
+          "endMs": 80550
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 80630,
+          "endMs": 80820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-3",
+      "startMs": 81560,
+      "endMs": 85070,
+      "pauseAfterMs": 1270,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 81560,
+          "endMs": 81750
+        },
+        {
+          "word": "bir",
+          "startMs": 81900,
+          "endMs": 82060
+        },
+        {
+          "word": "kez",
+          "startMs": 82170,
+          "endMs": 82290
+        },
+        {
+          "word": "görünce",
+          "startMs": 82370,
+          "endMs": 82740
+        },
+        {
+          "word": "kolayca",
+          "startMs": 82870,
+          "endMs": 83150
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 83150,
+          "endMs": 83800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-3",
+      "startMs": 85070,
+      "endMs": 90210,
+      "pauseAfterMs": 1020,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 85070,
+          "endMs": 85320
+        },
+        {
+          "word": "sevgili",
+          "startMs": 85320,
+          "endMs": 85680
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 85680,
+          "endMs": 86130
+        },
+        {
+          "word": "işte",
+          "startMs": 86300,
+          "endMs": 86510
+        },
+        {
+          "word": "tam",
+          "startMs": 86710,
+          "endMs": 86910
+        },
+        {
+          "word": "bu",
+          "startMs": 86950,
+          "endMs": 87030
+        },
+        {
+          "word": "noktada",
+          "startMs": 87030,
+          "endMs": 87470
+        },
+        {
+          "word": "dikkat",
+          "startMs": 87690,
+          "endMs": 87890
+        },
+        {
+          "word": "etmen",
+          "startMs": 87990,
+          "endMs": 88170
+        },
+        {
+          "word": "gereken",
+          "startMs": 88170,
+          "endMs": 88540
+        },
+        {
+          "word": "kilit",
+          "startMs": 88660,
+          "endMs": 88780
+        },
+        {
+          "word": "nokta.",
+          "startMs": 88870,
+          "endMs": 89190
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 85070,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "konu-anlati",
+          "params": {
+            "heading": "Altın İpucu",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Büyük birime geçerken sayıyı 10, 100 veya 1000 ile çarpmak uzatır.",
+                "body": "Büyük birime geçerken sayıyı 10, 100 veya 1000 ile çarpmak uzatır.",
+                "tone": "gold"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-3",
+      "startMs": 90210,
+      "endMs": 95690,
+      "pauseAfterMs": 670,
+      "text": "Büyük birime geçerken sayıyı 10, 100 veya 1000 ile çarpmak uzatır.",
+      "markedText": "Büyük birime geçerken sayıyı 10, 100 veya 1000 ile çarpmak uzatır.",
+      "words": [
+        {
+          "word": "Büyük",
+          "startMs": 90210,
+          "endMs": 90400
+        },
+        {
+          "word": "birime",
+          "startMs": 90520,
+          "endMs": 90840
+        },
+        {
+          "word": "geçerken",
+          "startMs": 90840,
+          "endMs": 91440
+        },
+        {
+          "word": "sayıyı",
+          "startMs": 91590,
+          "endMs": 91930
+        },
+        {
+          "word": "10,",
+          "startMs": 91930,
+          "endMs": 92020
+        },
+        {
+          "word": "100",
+          "startMs": 92340,
+          "endMs": 92680
+        },
+        {
+          "word": "veya",
+          "startMs": 92930,
+          "endMs": 93150
+        },
+        {
+          "word": "1000",
+          "startMs": 93320,
+          "endMs": 93600
+        },
+        {
+          "word": "ile",
+          "startMs": 93710,
+          "endMs": 94010
+        },
+        {
+          "word": "çarpmak",
+          "startMs": 94080,
+          "endMs": 94480
+        },
+        {
+          "word": "uzatır.",
+          "startMs": 94630,
+          "endMs": 95020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-3",
+      "startMs": 95690,
+      "endMs": 97490,
+      "pauseAfterMs": 1000,
+      "text": "Bölmen gerekir.",
+      "markedText": "Bölmen gerekir.",
+      "words": [
+        {
+          "word": "Bölmen",
+          "startMs": 95690,
+          "endMs": 95950
+        },
+        {
+          "word": "gerekir.",
+          "startMs": 95950,
+          "endMs": 96490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-3",
+      "startMs": 97490,
+      "endMs": 101090,
+      "pauseAfterMs": 1010,
+      "text": "250 santimetre 250 metre değildir.",
+      "markedText": "250 santimetre 250 metre değildir.",
+      "words": [
+        {
+          "word": "250",
+          "startMs": 97490,
+          "endMs": 97900
+        },
+        {
+          "word": "santimetre",
+          "startMs": 97950,
+          "endMs": 98590
+        },
+        {
+          "word": "250",
+          "startMs": 98930,
+          "endMs": 99360
+        },
+        {
+          "word": "metre",
+          "startMs": 99360,
+          "endMs": 99440
+        },
+        {
+          "word": "değildir.",
+          "startMs": 99540,
+          "endMs": 100080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-3",
+      "startMs": 101090,
+      "endMs": 106000,
+      "pauseAfterMs": 1360,
+      "text": "Birimi silersen 2,5 ile 250 aynı şey gibi görünür.",
+      "markedText": "Birimi silersen 2,5 ile 250 aynı şey gibi görünür.",
+      "words": [
+        {
+          "word": "Birimi",
+          "startMs": 101090,
+          "endMs": 101350
+        },
+        {
+          "word": "silersen",
+          "startMs": 101430,
+          "endMs": 101980
+        },
+        {
+          "word": "2,5",
+          "startMs": 102420,
+          "endMs": 102710
+        },
+        {
+          "word": "ile",
+          "startMs": 102810,
+          "endMs": 102890
+        },
+        {
+          "word": "250",
+          "startMs": 103120,
+          "endMs": 103550
+        },
+        {
+          "word": "aynı",
+          "startMs": 103620,
+          "endMs": 103880
+        },
+        {
+          "word": "şey",
+          "startMs": 103880,
+          "endMs": 104130
+        },
+        {
+          "word": "gibi",
+          "startMs": 104130,
+          "endMs": 104210
+        },
+        {
+          "word": "görünür.",
+          "startMs": 104210,
+          "endMs": 104640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-3",
+      "startMs": 106000,
+      "endMs": 107860,
+      "pauseAfterMs": 980,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 106000,
+          "endMs": 106240
+        },
+        {
+          "word": "Neler",
+          "startMs": 106240,
+          "endMs": 106450
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 106450,
+          "endMs": 106880
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 106000,
+          "op": "SHOW_CONCEPT_LIST",
+          "hook": "konu-anlati",
+          "params": {
+            "heading": "Bugün Neler Öğrendik?",
+            "reset": true,
+            "rows": [
+              {
+                "title": "Özet",
+                "body": "Uzunluk milimetre, santimetre, desimetre, metre ve kilometreyle ölçülür.",
+                "tone": "recap"
+              },
+              {
+                "title": "1 desimetre 10 santimetredir.",
+                "body": "1 metre 10 desimetre ve 100 santimetredir. 1 kilometre 1000 metredir.",
+                "tone": "recap"
+              },
+              {
+                "title": "Büyük birime geçerken sayı bölünür.",
+                "body": "Büyük birime geçerken sayı bölünür.",
+                "tone": "recap"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-3",
+      "startMs": 107860,
+      "endMs": 108470,
+      "pauseAfterMs": 450,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 107860,
+          "endMs": 108020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-3",
+      "startMs": 108470,
+      "endMs": 114040,
+      "pauseAfterMs": 1100,
+      "text": "Uzunluk milimetre, santimetre, desimetre, metre ve kilometreyle ölçülür.",
+      "markedText": "Uzunluk milimetre, santimetre, desimetre, metre ve kilometreyle ölçülür.",
+      "words": [
+        {
+          "word": "Uzunluk",
+          "startMs": 108470,
+          "endMs": 108910
+        },
+        {
+          "word": "milimetre,",
+          "startMs": 109000,
+          "endMs": 109350
+        },
+        {
+          "word": "santimetre,",
+          "startMs": 109510,
+          "endMs": 110230
+        },
+        {
+          "word": "desimetre,",
+          "startMs": 110390,
+          "endMs": 111000
+        },
+        {
+          "word": "metre",
+          "startMs": 111160,
+          "endMs": 111420
+        },
+        {
+          "word": "ve",
+          "startMs": 111420,
+          "endMs": 111520
+        },
+        {
+          "word": "kilometreyle",
+          "startMs": 111640,
+          "endMs": 112120
+        },
+        {
+          "word": "ölçülür.",
+          "startMs": 112120,
+          "endMs": 112940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-3",
+      "startMs": 114040,
+      "endMs": 114900,
+      "pauseAfterMs": 760,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 114040,
+          "endMs": 114140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 114900,
+      "endMs": 117670,
+      "pauseAfterMs": 860,
+      "text": "1 desimetre 10 santimetredir.",
+      "markedText": "1 desimetre 10 santimetredir.",
+      "words": [
+        {
+          "word": "1",
+          "startMs": 114900,
+          "endMs": 115090
+        },
+        {
+          "word": "desimetre",
+          "startMs": 115130,
+          "endMs": 115510
+        },
+        {
+          "word": "10",
+          "startMs": 115630,
+          "endMs": 115760
+        },
+        {
+          "word": "santimetredir.",
+          "startMs": 115830,
+          "endMs": 116810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 117670,
+      "endMs": 121360,
+      "pauseAfterMs": 860,
+      "text": "1 metre 10 desimetre ve 100 santimetredir.",
+      "markedText": "1 metre 10 desimetre ve 100 santimetredir.",
+      "words": [
+        {
+          "word": "1",
+          "startMs": 117670,
+          "endMs": 117800
+        },
+        {
+          "word": "metre",
+          "startMs": 117800,
+          "endMs": 117990
+        },
+        {
+          "word": "10",
+          "startMs": 118140,
+          "endMs": 118260
+        },
+        {
+          "word": "desimetre",
+          "startMs": 118390,
+          "endMs": 118740
+        },
+        {
+          "word": "ve",
+          "startMs": 118850,
+          "endMs": 118920
+        },
+        {
+          "word": "100",
+          "startMs": 118920,
+          "endMs": 119030
+        },
+        {
+          "word": "santimetredir.",
+          "startMs": 119150,
+          "endMs": 120500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 121360,
+      "endMs": 123940,
+      "pauseAfterMs": 1030,
+      "text": "1 kilometre 1000 metredir.",
+      "markedText": "1 kilometre 1000 metredir.",
+      "words": [
+        {
+          "word": "1",
+          "startMs": 121360,
+          "endMs": 121540
+        },
+        {
+          "word": "kilometre",
+          "startMs": 121640,
+          "endMs": 121920
+        },
+        {
+          "word": "1000",
+          "startMs": 122010,
+          "endMs": 122130
+        },
+        {
+          "word": "metredir.",
+          "startMs": 122190,
+          "endMs": 122910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 123940,
+      "endMs": 124610,
+      "pauseAfterMs": 400,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 123940,
+          "endMs": 124210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 124610,
+      "endMs": 127140,
+      "pauseAfterMs": 800,
+      "text": "Büyük birime geçerken sayı bölünür.",
+      "markedText": "Büyük birime geçerken sayı bölünür.",
+      "words": [
+        {
+          "word": "Büyük",
+          "startMs": 124610,
+          "endMs": 124790
+        },
+        {
+          "word": "birime",
+          "startMs": 124890,
+          "endMs": 125150
+        },
+        {
+          "word": "geçerken",
+          "startMs": 125190,
+          "endMs": 125700
+        },
+        {
+          "word": "sayı",
+          "startMs": 125800,
+          "endMs": 126030
+        },
+        {
+          "word": "bölünür.",
+          "startMs": 126030,
+          "endMs": 126340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 127140,
+      "endMs": 129420,
+      "pauseAfterMs": 680,
+      "text": "Birim değişince sayı da değişir.",
+      "markedText": "Birim değişince sayı da değişir.",
+      "words": [
+        {
+          "word": "Birim",
+          "startMs": 127140,
+          "endMs": 127450
+        },
+        {
+          "word": "değişince",
+          "startMs": 127450,
+          "endMs": 127920
+        },
+        {
+          "word": "sayı",
+          "startMs": 128030,
+          "endMs": 128240
+        },
+        {
+          "word": "da",
+          "startMs": 128240,
+          "endMs": 128300
+        },
+        {
+          "word": "değişir.",
+          "startMs": 128300,
+          "endMs": 128740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 129420,
+      "endMs": 131040,
+      "pauseAfterMs": 590,
+      "text": "Uzunluk aynı kalır.",
+      "markedText": "Uzunluk aynı kalır.",
+      "words": [
+        {
+          "word": "Uzunluk",
+          "startMs": 129420,
+          "endMs": 129800
+        },
+        {
+          "word": "aynı",
+          "startMs": 129860,
+          "endMs": 130090
+        },
+        {
+          "word": "kalır.",
+          "startMs": 130200,
+          "endMs": 130450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 131040,
+      "endMs": 135320,
+      "pauseAfterMs": 1360,
+      "text": "250 santimetreyi 2,5 metre diye adlandırırsın.",
+      "markedText": "250 santimetreyi 2,5 metre diye adlandırırsın.",
+      "words": [
+        {
+          "word": "250",
+          "startMs": 131040,
+          "endMs": 131590
+        },
+        {
+          "word": "santimetreyi",
+          "startMs": 131590,
+          "endMs": 131990
+        },
+        {
+          "word": "2,5",
+          "startMs": 132120,
+          "endMs": 132350
+        },
+        {
+          "word": "metre",
+          "startMs": 132550,
+          "endMs": 132790
+        },
+        {
+          "word": "diye",
+          "startMs": 132870,
+          "endMs": 132980
+        },
+        {
+          "word": "adlandırırsın.",
+          "startMs": 133070,
+          "endMs": 133960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 135320,
+      "endMs": 136930,
+      "pauseAfterMs": 690,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 135320,
+          "endMs": 135780
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 135830,
+          "endMs": 136240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 136930,
+      "endMs": 138420,
+      "pauseAfterMs": 470,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 136930,
+          "endMs": 137220
+        },
+        {
+          "word": "bir",
+          "startMs": 137280,
+          "endMs": 137380
+        },
+        {
+          "word": "iş",
+          "startMs": 137380,
+          "endMs": 137560
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 137710,
+          "endMs": 137950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 138420,
+      "endMs": 139490,
+      "pauseAfterMs": 300,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 138420,
+          "endMs": 138730
+        },
+        {
+          "word": "sıra",
+          "startMs": 138730,
+          "endMs": 138870
+        },
+        {
+          "word": "sende.",
+          "startMs": 138870,
+          "endMs": 139190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 139490,
+      "endMs": 142204,
+      "pauseAfterMs": 464,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 139490,
+          "endMs": 139920
+        },
+        {
+          "word": "bu",
+          "startMs": 139920,
+          "endMs": 140020
+        },
+        {
+          "word": "notları",
+          "startMs": 140130,
+          "endMs": 140340
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 140430,
+          "endMs": 140740
+        },
+        {
+          "word": "kendi",
+          "startMs": 140850,
+          "endMs": 141010
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 141010,
+          "endMs": 141640
+        },
+        {
+          "word": "anlat.",
+          "startMs": 141640,
+          "endMs": 141740
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

@@ -1,0 +1,2644 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_ing_main-4",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Family Life: evde rutin işler",
+  "grade": 6,
+  "subject": "İngilizce",
+  "teacher": {
+    "name": "Selin",
+    "voice": "Kore",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_ing_main-4.mp3",
+    "durationMs": 282596,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 78810
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 78810,
+      "endMs": 226720
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 226720,
+      "endMs": 282596
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 5150,
+      "pauseAfterMs": 650,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 190,
+          "endMs": 1240
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 1360,
+          "endMs": 2520
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 2860,
+          "endMs": 3460
+        },
+        {
+          "word": "hoş",
+          "startMs": 3500,
+          "endMs": 3750
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 3990,
+          "endMs": 4500
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Family Life: evde rutin işler",
+            "subtitle": "İngilizce",
+            "ruleBadges": [],
+            "echoPrompt": "Evdeki bir işi kim yapıyor, ne sıklıkla, diye anlatırsın.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Evdeki tekrar eden iş simple present ile söylenir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "He ve she ile fiile genellikle s gelir; she cooks buna örnektir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Always, usually, sometimes ve never sıklığı söyler ve fiilden önce durur."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 5150,
+      "endMs": 7270,
+      "pauseAfterMs": 310,
+      "text": "Ben İngilizce öğretmenin Selin.",
+      "markedText": "Ben İngilizce öğretmenin Selin.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 5150,
+          "endMs": 5240
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 5240,
+          "endMs": 5720
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 5820,
+          "endMs": 6520
+        },
+        {
+          "word": "Selin.",
+          "startMs": 6520,
+          "endMs": 6960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 7270,
+      "endMs": 16950,
+      "pauseAfterMs": 560,
+      "text": "Sabah mutfakta kahvaltı hazırlanır, akşam sofrada tabaklar toplanır, hafta sonu salonda birlikte film izlenir.",
+      "markedText": "Sabah mutfakta kahvaltı hazırlanır, akşam sofrada tabaklar toplanır, hafta sonu salonda birlikte film izlenir.",
+      "words": [
+        {
+          "word": "Sabah",
+          "startMs": 7270,
+          "endMs": 7610
+        },
+        {
+          "word": "mutfakta",
+          "startMs": 7700,
+          "endMs": 8070
+        },
+        {
+          "word": "kahvaltı",
+          "startMs": 8170,
+          "endMs": 8800
+        },
+        {
+          "word": "hazırlanır,",
+          "startMs": 8940,
+          "endMs": 9310
+        },
+        {
+          "word": "akşam",
+          "startMs": 9680,
+          "endMs": 9960
+        },
+        {
+          "word": "sofrada",
+          "startMs": 10040,
+          "endMs": 10670
+        },
+        {
+          "word": "tabaklar",
+          "startMs": 10770,
+          "endMs": 11080
+        },
+        {
+          "word": "toplanır,",
+          "startMs": 11240,
+          "endMs": 12130
+        },
+        {
+          "word": "hafta",
+          "startMs": 12630,
+          "endMs": 12990
+        },
+        {
+          "word": "sonu",
+          "startMs": 12990,
+          "endMs": 13190
+        },
+        {
+          "word": "salonda",
+          "startMs": 13240,
+          "endMs": 14220
+        },
+        {
+          "word": "birlikte",
+          "startMs": 14470,
+          "endMs": 15070
+        },
+        {
+          "word": "film",
+          "startMs": 15180,
+          "endMs": 15660
+        },
+        {
+          "word": "izlenir.",
+          "startMs": 15660,
+          "endMs": 16390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 16950,
+      "endMs": 25000,
+      "pauseAfterMs": 500,
+      "text": "Bu işler bir kez olup bitmez; ailede tekrar eden rutinlerdir.",
+      "markedText": "Bu işler bir kez olup bitmez; ailede tekrar eden rutinlerdir.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 16950,
+          "endMs": 17110
+        },
+        {
+          "word": "işler",
+          "startMs": 17110,
+          "endMs": 17520
+        },
+        {
+          "word": "bir",
+          "startMs": 17630,
+          "endMs": 17920
+        },
+        {
+          "word": "kez",
+          "startMs": 17980,
+          "endMs": 18200
+        },
+        {
+          "word": "olup",
+          "startMs": 18200,
+          "endMs": 18510
+        },
+        {
+          "word": "bitmez;",
+          "startMs": 18580,
+          "endMs": 19150
+        },
+        {
+          "word": "ailede",
+          "startMs": 20810,
+          "endMs": 21270
+        },
+        {
+          "word": "tekrar",
+          "startMs": 21380,
+          "endMs": 22340
+        },
+        {
+          "word": "eden",
+          "startMs": 22630,
+          "endMs": 23080
+        },
+        {
+          "word": "rutinlerdir.",
+          "startMs": 23080,
+          "endMs": 24500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 25000,
+      "endMs": 31160,
+      "pauseAfterMs": 570,
+      "text": "Bugün bu rutinleri İngilizce simple present ile anlatacağız.",
+      "markedText": "Bugün bu rutinleri İngilizce simple present ile anlatacağız.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 25000,
+          "endMs": 25380
+        },
+        {
+          "word": "bu",
+          "startMs": 25380,
+          "endMs": 25570
+        },
+        {
+          "word": "rutinleri",
+          "startMs": 25680,
+          "endMs": 26460
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 26460,
+          "endMs": 27320
+        },
+        {
+          "word": "simple",
+          "startMs": 27820,
+          "endMs": 28440
+        },
+        {
+          "word": "present",
+          "startMs": 28660,
+          "endMs": 29170
+        },
+        {
+          "word": "ile",
+          "startMs": 29280,
+          "endMs": 29580
+        },
+        {
+          "word": "anlatacağız.",
+          "startMs": 29940,
+          "endMs": 30590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 31160,
+      "endMs": 39180,
+      "pauseAfterMs": 660,
+      "text": "Evin bir akşamını gözlemlemek, kimin hangi işi yaptığını netleştirir.",
+      "markedText": "Evin bir akşamını gözlemlemek, kimin hangi işi yaptığını netleştirir.",
+      "words": [
+        {
+          "word": "Evin",
+          "startMs": 31160,
+          "endMs": 31450
+        },
+        {
+          "word": "bir",
+          "startMs": 31530,
+          "endMs": 31900
+        },
+        {
+          "word": "akşamını",
+          "startMs": 31900,
+          "endMs": 32860
+        },
+        {
+          "word": "gözlemlemek,",
+          "startMs": 33130,
+          "endMs": 34040
+        },
+        {
+          "word": "kimin",
+          "startMs": 34200,
+          "endMs": 34620
+        },
+        {
+          "word": "hangi",
+          "startMs": 34620,
+          "endMs": 35180
+        },
+        {
+          "word": "işi",
+          "startMs": 35730,
+          "endMs": 35900
+        },
+        {
+          "word": "yaptığını",
+          "startMs": 35900,
+          "endMs": 36830
+        },
+        {
+          "word": "netleştirir.",
+          "startMs": 37010,
+          "endMs": 38520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 39180,
+      "endMs": 44990,
+      "pauseAfterMs": 420,
+      "text": "Bunu evde akşam yemeğinden önce deneyebilirsin.",
+      "markedText": "Bunu evde akşam yemeğinden önce deneyebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 39180,
+          "endMs": 39270
+        },
+        {
+          "word": "evde",
+          "startMs": 39370,
+          "endMs": 39610
+        },
+        {
+          "word": "akşam",
+          "startMs": 39610,
+          "endMs": 39920
+        },
+        {
+          "word": "yemeğinden",
+          "startMs": 39990,
+          "endMs": 41430
+        },
+        {
+          "word": "önce",
+          "startMs": 41870,
+          "endMs": 42500
+        },
+        {
+          "word": "deneyebilirsin.",
+          "startMs": 42630,
+          "endMs": 44570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 44990,
+      "endMs": 49340,
+      "pauseAfterMs": 440,
+      "text": "Kendi işini I set the table diye fısılda.",
+      "markedText": "Kendi işini I set the table diye fısılda.",
+      "words": [
+        {
+          "word": "Kendi",
+          "startMs": 44990,
+          "endMs": 45380
+        },
+        {
+          "word": "işini",
+          "startMs": 45460,
+          "endMs": 45920
+        },
+        {
+          "word": "I",
+          "startMs": 46010,
+          "endMs": 46080
+        },
+        {
+          "word": "set",
+          "startMs": 46130,
+          "endMs": 46210
+        },
+        {
+          "word": "the",
+          "startMs": 46300,
+          "endMs": 46810
+        },
+        {
+          "word": "table",
+          "startMs": 47530,
+          "endMs": 47960
+        },
+        {
+          "word": "diye",
+          "startMs": 47960,
+          "endMs": 48190
+        },
+        {
+          "word": "fısılda.",
+          "startMs": 48230,
+          "endMs": 48900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 49340,
+      "endMs": 62960,
+      "pauseAfterMs": 530,
+      "text": "Mutfakta annen yemek pişiriyorsa hem alışkanlığı hem anı ayır: She usually cooks, and she is cooking now.",
+      "markedText": "Mutfakta annen yemek pişiriyorsa hem alışkanlığı hem anı ayır: She usually cooks, and she is cooking now.",
+      "words": [
+        {
+          "word": "Mutfakta",
+          "startMs": 49340,
+          "endMs": 49940
+        },
+        {
+          "word": "annen",
+          "startMs": 50550,
+          "endMs": 51060
+        },
+        {
+          "word": "yemek",
+          "startMs": 51110,
+          "endMs": 51380
+        },
+        {
+          "word": "pişiriyorsa",
+          "startMs": 51510,
+          "endMs": 52110
+        },
+        {
+          "word": "hem",
+          "startMs": 52260,
+          "endMs": 52350
+        },
+        {
+          "word": "alışkanlığı",
+          "startMs": 52710,
+          "endMs": 54010
+        },
+        {
+          "word": "hem",
+          "startMs": 54680,
+          "endMs": 55160
+        },
+        {
+          "word": "anı",
+          "startMs": 55480,
+          "endMs": 55630
+        },
+        {
+          "word": "ayır:",
+          "startMs": 55630,
+          "endMs": 56140
+        },
+        {
+          "word": "She",
+          "startMs": 56460,
+          "endMs": 56830
+        },
+        {
+          "word": "usually",
+          "startMs": 57020,
+          "endMs": 57750
+        },
+        {
+          "word": "cooks,",
+          "startMs": 57750,
+          "endMs": 58810
+        },
+        {
+          "word": "and",
+          "startMs": 59470,
+          "endMs": 59740
+        },
+        {
+          "word": "she",
+          "startMs": 59880,
+          "endMs": 60340
+        },
+        {
+          "word": "is",
+          "startMs": 60340,
+          "endMs": 60610
+        },
+        {
+          "word": "cooking",
+          "startMs": 60760,
+          "endMs": 61570
+        },
+        {
+          "word": "now.",
+          "startMs": 61740,
+          "endMs": 62430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 62960,
+      "endMs": 67940,
+      "pauseAfterMs": 200,
+      "text": "Okulda arkadaşınla ev işlerini karşılaştır.",
+      "markedText": "Okulda arkadaşınla ev işlerini karşılaştır.",
+      "words": [
+        {
+          "word": "Okulda",
+          "startMs": 62960,
+          "endMs": 63590
+        },
+        {
+          "word": "arkadaşınla",
+          "startMs": 63900,
+          "endMs": 64720
+        },
+        {
+          "word": "ev",
+          "startMs": 65380,
+          "endMs": 65450
+        },
+        {
+          "word": "işlerini",
+          "startMs": 65510,
+          "endMs": 66180
+        },
+        {
+          "word": "karşılaştır.",
+          "startMs": 66340,
+          "endMs": 67740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 67940,
+      "endMs": 78810,
+      "pauseAfterMs": 750,
+      "text": "Bahçedeki bitkiyi sulamak da bir aile işi olabilir: I sometimes water the flowers.",
+      "markedText": "Bahçedeki bitkiyi sulamak da bir aile işi olabilir: I sometimes water the flowers.",
+      "words": [
+        {
+          "word": "Bahçedeki",
+          "startMs": 67940,
+          "endMs": 68550
+        },
+        {
+          "word": "bitkiyi",
+          "startMs": 68740,
+          "endMs": 69470
+        },
+        {
+          "word": "sulamak",
+          "startMs": 69780,
+          "endMs": 70280
+        },
+        {
+          "word": "da",
+          "startMs": 70520,
+          "endMs": 70900
+        },
+        {
+          "word": "bir",
+          "startMs": 71370,
+          "endMs": 71530
+        },
+        {
+          "word": "aile",
+          "startMs": 71670,
+          "endMs": 72120
+        },
+        {
+          "word": "işi",
+          "startMs": 72330,
+          "endMs": 72610
+        },
+        {
+          "word": "olabilir:",
+          "startMs": 72660,
+          "endMs": 73620
+        },
+        {
+          "word": "I",
+          "startMs": 74160,
+          "endMs": 74300
+        },
+        {
+          "word": "sometimes",
+          "startMs": 74400,
+          "endMs": 75530
+        },
+        {
+          "word": "water",
+          "startMs": 75670,
+          "endMs": 76330
+        },
+        {
+          "word": "the",
+          "startMs": 76700,
+          "endMs": 76890
+        },
+        {
+          "word": "flowers.",
+          "startMs": 76890,
+          "endMs": 78060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 78810,
+      "endMs": 86680,
+      "pauseAfterMs": 600,
+      "text": "Family Life içinde her gün ya da sık sık olan iş simple present ile kurulur.",
+      "markedText": "Family Life içinde her gün ya da sık sık olan iş simple present ile kurulur.",
+      "words": [
+        {
+          "word": "Family",
+          "startMs": 78810,
+          "endMs": 79110
+        },
+        {
+          "word": "Life",
+          "startMs": 79110,
+          "endMs": 79410
+        },
+        {
+          "word": "içinde",
+          "startMs": 79930,
+          "endMs": 80130
+        },
+        {
+          "word": "her",
+          "startMs": 80400,
+          "endMs": 80730
+        },
+        {
+          "word": "gün",
+          "startMs": 80960,
+          "endMs": 81310
+        },
+        {
+          "word": "ya",
+          "startMs": 81560,
+          "endMs": 81710
+        },
+        {
+          "word": "da",
+          "startMs": 81710,
+          "endMs": 81830
+        },
+        {
+          "word": "sık",
+          "startMs": 82050,
+          "endMs": 82190
+        },
+        {
+          "word": "sık",
+          "startMs": 82270,
+          "endMs": 82440
+        },
+        {
+          "word": "olan",
+          "startMs": 82440,
+          "endMs": 82720
+        },
+        {
+          "word": "iş",
+          "startMs": 82810,
+          "endMs": 83310
+        },
+        {
+          "word": "simple",
+          "startMs": 83860,
+          "endMs": 84180
+        },
+        {
+          "word": "present",
+          "startMs": 84310,
+          "endMs": 84700
+        },
+        {
+          "word": "ile",
+          "startMs": 84830,
+          "endMs": 84920
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 85120,
+          "endMs": 86080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 86680,
+      "endMs": 95030,
+      "pauseAfterMs": 610,
+      "text": "I help, she helps, they watch kalıpları bu zamanın örnekleridir.",
+      "markedText": "I help, she helps, they watch kalıpları bu zamanın örnekleridir.",
+      "words": [
+        {
+          "word": "I",
+          "startMs": 86680,
+          "endMs": 86820
+        },
+        {
+          "word": "help,",
+          "startMs": 87090,
+          "endMs": 87350
+        },
+        {
+          "word": "she",
+          "startMs": 87590,
+          "endMs": 88040
+        },
+        {
+          "word": "helps,",
+          "startMs": 88280,
+          "endMs": 89010
+        },
+        {
+          "word": "they",
+          "startMs": 89430,
+          "endMs": 89640
+        },
+        {
+          "word": "watch",
+          "startMs": 89740,
+          "endMs": 90040
+        },
+        {
+          "word": "kalıpları",
+          "startMs": 90300,
+          "endMs": 91030
+        },
+        {
+          "word": "bu",
+          "startMs": 91140,
+          "endMs": 91570
+        },
+        {
+          "word": "zamanın",
+          "startMs": 92150,
+          "endMs": 92370
+        },
+        {
+          "word": "örnekleridir.",
+          "startMs": 92580,
+          "endMs": 94420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 95030,
+      "endMs": 101350,
+      "pauseAfterMs": 340,
+      "text": "He ve she ile fiile çoğunlukla s eklenir: cook fiili she cooks olur.",
+      "markedText": "He ve she ile fiile çoğunlukla s eklenir: cook fiili she cooks olur.",
+      "words": [
+        {
+          "word": "He",
+          "startMs": 95030,
+          "endMs": 95150
+        },
+        {
+          "word": "ve",
+          "startMs": 95190,
+          "endMs": 95320
+        },
+        {
+          "word": "she",
+          "startMs": 95380,
+          "endMs": 95590
+        },
+        {
+          "word": "ile",
+          "startMs": 95710,
+          "endMs": 96020
+        },
+        {
+          "word": "fiile",
+          "startMs": 96110,
+          "endMs": 96620
+        },
+        {
+          "word": "çoğunlukla",
+          "startMs": 97040,
+          "endMs": 97680
+        },
+        {
+          "word": "s",
+          "startMs": 97830,
+          "endMs": 97910
+        },
+        {
+          "word": "eklenir:",
+          "startMs": 98020,
+          "endMs": 98490
+        },
+        {
+          "word": "cook",
+          "startMs": 99130,
+          "endMs": 99430
+        },
+        {
+          "word": "fiili",
+          "startMs": 99480,
+          "endMs": 99870
+        },
+        {
+          "word": "she",
+          "startMs": 99940,
+          "endMs": 100070
+        },
+        {
+          "word": "cooks",
+          "startMs": 100070,
+          "endMs": 100320
+        },
+        {
+          "word": "olur.",
+          "startMs": 100430,
+          "endMs": 101010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 101350,
+      "endMs": 112010,
+      "pauseAfterMs": 630,
+      "text": "Sıklık zarfları always her zaman, usually genellikle, sometimes bazen ve never hiçbir zaman anlamındadır.",
+      "markedText": "Sıklık zarfları always her zaman, usually genellikle, sometimes bazen ve never hiçbir zaman anlamındadır.",
+      "words": [
+        {
+          "word": "Sıklık",
+          "startMs": 101350,
+          "endMs": 101960
+        },
+        {
+          "word": "zarfları",
+          "startMs": 102070,
+          "endMs": 102650
+        },
+        {
+          "word": "always",
+          "startMs": 103210,
+          "endMs": 103450
+        },
+        {
+          "word": "her",
+          "startMs": 103510,
+          "endMs": 103740
+        },
+        {
+          "word": "zaman,",
+          "startMs": 103740,
+          "endMs": 104680
+        },
+        {
+          "word": "usually",
+          "startMs": 105040,
+          "endMs": 105680
+        },
+        {
+          "word": "genellikle,",
+          "startMs": 105810,
+          "endMs": 106750
+        },
+        {
+          "word": "sometimes",
+          "startMs": 107290,
+          "endMs": 107790
+        },
+        {
+          "word": "bazen",
+          "startMs": 107910,
+          "endMs": 108260
+        },
+        {
+          "word": "ve",
+          "startMs": 108530,
+          "endMs": 108790
+        },
+        {
+          "word": "never",
+          "startMs": 108790,
+          "endMs": 109250
+        },
+        {
+          "word": "hiçbir",
+          "startMs": 109560,
+          "endMs": 110040
+        },
+        {
+          "word": "zaman",
+          "startMs": 110140,
+          "endMs": 110270
+        },
+        {
+          "word": "anlamındadır.",
+          "startMs": 110380,
+          "endMs": 111380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 112010,
+      "endMs": 118820,
+      "pauseAfterMs": 230,
+      "text": "Zarflar özne ile fiil arasına yerleşir: She usually cooks dinner.",
+      "markedText": "Zarflar özne ile fiil arasına yerleşir: She usually cooks dinner.",
+      "words": [
+        {
+          "word": "Zarflar",
+          "startMs": 112010,
+          "endMs": 112570
+        },
+        {
+          "word": "özne",
+          "startMs": 112870,
+          "endMs": 112990
+        },
+        {
+          "word": "ile",
+          "startMs": 113150,
+          "endMs": 113580
+        },
+        {
+          "word": "fiil",
+          "startMs": 113740,
+          "endMs": 113960
+        },
+        {
+          "word": "arasına",
+          "startMs": 114220,
+          "endMs": 115050
+        },
+        {
+          "word": "yerleşir:",
+          "startMs": 115430,
+          "endMs": 116560
+        },
+        {
+          "word": "She",
+          "startMs": 116710,
+          "endMs": 116820
+        },
+        {
+          "word": "usually",
+          "startMs": 116950,
+          "endMs": 117570
+        },
+        {
+          "word": "cooks",
+          "startMs": 117690,
+          "endMs": 117850
+        },
+        {
+          "word": "dinner.",
+          "startMs": 117920,
+          "endMs": 118590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 118820,
+      "endMs": 124540,
+      "pauseAfterMs": 320,
+      "text": "Şu anda olan iş ise am, is, are ve ing ister; her akşam olan iş bu kalıba girmez.",
+      "markedText": "Şu anda olan iş ise am, is, are ve ing ister; her akşam olan iş bu kalıba girmez.",
+      "words": [
+        {
+          "word": "Şu",
+          "startMs": 118820,
+          "endMs": 118900
+        },
+        {
+          "word": "anda",
+          "startMs": 118900,
+          "endMs": 119150
+        },
+        {
+          "word": "olan",
+          "startMs": 119150,
+          "endMs": 119260
+        },
+        {
+          "word": "iş",
+          "startMs": 119380,
+          "endMs": 119420
+        },
+        {
+          "word": "ise",
+          "startMs": 119420,
+          "endMs": 119460
+        },
+        {
+          "word": "am,",
+          "startMs": 119520,
+          "endMs": 119730
+        },
+        {
+          "word": "is,",
+          "startMs": 120260,
+          "endMs": 120480
+        },
+        {
+          "word": "are",
+          "startMs": 120950,
+          "endMs": 121180
+        },
+        {
+          "word": "ve",
+          "startMs": 121400,
+          "endMs": 121480
+        },
+        {
+          "word": "ing",
+          "startMs": 121580,
+          "endMs": 121700
+        },
+        {
+          "word": "ister;",
+          "startMs": 121700,
+          "endMs": 121970
+        },
+        {
+          "word": "her",
+          "startMs": 122200,
+          "endMs": 122480
+        },
+        {
+          "word": "akşam",
+          "startMs": 122610,
+          "endMs": 122950
+        },
+        {
+          "word": "olan",
+          "startMs": 123150,
+          "endMs": 123350
+        },
+        {
+          "word": "iş",
+          "startMs": 123350,
+          "endMs": 123430
+        },
+        {
+          "word": "bu",
+          "startMs": 123500,
+          "endMs": 123570
+        },
+        {
+          "word": "kalıba",
+          "startMs": 123570,
+          "endMs": 123910
+        },
+        {
+          "word": "girmez.",
+          "startMs": 123980,
+          "endMs": 124220
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 124540,
+      "endMs": 131760,
+      "pauseAfterMs": 880,
+      "text": "Pratik kural: Alışkanlık yalın fiille, tam şu an ing ile söylenir.",
+      "markedText": "Pratik kural: Alışkanlık yalın fiille, tam şu an ing ile söylenir.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 124540,
+          "endMs": 124750
+        },
+        {
+          "word": "kural:",
+          "startMs": 124900,
+          "endMs": 125920
+        },
+        {
+          "word": "Alışkanlık",
+          "startMs": 126630,
+          "endMs": 127620
+        },
+        {
+          "word": "yalın",
+          "startMs": 128070,
+          "endMs": 128310
+        },
+        {
+          "word": "fiille,",
+          "startMs": 128390,
+          "endMs": 128930
+        },
+        {
+          "word": "tam",
+          "startMs": 129340,
+          "endMs": 129510
+        },
+        {
+          "word": "şu",
+          "startMs": 129510,
+          "endMs": 129610
+        },
+        {
+          "word": "an",
+          "startMs": 129760,
+          "endMs": 129860
+        },
+        {
+          "word": "ing",
+          "startMs": 129860,
+          "endMs": 130010
+        },
+        {
+          "word": "ile",
+          "startMs": 130070,
+          "endMs": 130290
+        },
+        {
+          "word": "söylenir.",
+          "startMs": 130290,
+          "endMs": 130880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 131760,
+      "endMs": 136500,
+      "pauseAfterMs": 390,
+      "text": "Ece her akşam sofrayı kurar: I always set the table.",
+      "markedText": "Ece her akşam sofrayı kurar: I always set the table.",
+      "words": [
+        {
+          "word": "Ece",
+          "startMs": 131760,
+          "endMs": 131950
+        },
+        {
+          "word": "her",
+          "startMs": 132050,
+          "endMs": 132340
+        },
+        {
+          "word": "akşam",
+          "startMs": 132340,
+          "endMs": 132650
+        },
+        {
+          "word": "sofrayı",
+          "startMs": 132730,
+          "endMs": 133160
+        },
+        {
+          "word": "kurar:",
+          "startMs": 133490,
+          "endMs": 133960
+        },
+        {
+          "word": "I",
+          "startMs": 134180,
+          "endMs": 134340
+        },
+        {
+          "word": "always",
+          "startMs": 134340,
+          "endMs": 134810
+        },
+        {
+          "word": "set",
+          "startMs": 135090,
+          "endMs": 135280
+        },
+        {
+          "word": "the",
+          "startMs": 135280,
+          "endMs": 135360
+        },
+        {
+          "word": "table.",
+          "startMs": 135450,
+          "endMs": 136110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 136500,
+      "endMs": 143380,
+      "pauseAfterMs": 490,
+      "text": "Annesi yemeği genellikle pişirir: She usually cooks dinner.",
+      "markedText": "Annesi yemeği genellikle pişirir: She usually cooks dinner.",
+      "words": [
+        {
+          "word": "Annesi",
+          "startMs": 136500,
+          "endMs": 136680
+        },
+        {
+          "word": "yemeği",
+          "startMs": 136890,
+          "endMs": 136980
+        },
+        {
+          "word": "genellikle",
+          "startMs": 137210,
+          "endMs": 137440
+        },
+        {
+          "word": "pişirir:",
+          "startMs": 137700,
+          "endMs": 138360
+        },
+        {
+          "word": "She",
+          "startMs": 138700,
+          "endMs": 138840
+        },
+        {
+          "word": "usually",
+          "startMs": 139070,
+          "endMs": 139840
+        },
+        {
+          "word": "cooks",
+          "startMs": 140890,
+          "endMs": 141700
+        },
+        {
+          "word": "dinner.",
+          "startMs": 141830,
+          "endMs": 142890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 143380,
+      "endMs": 149520,
+      "pauseAfterMs": 230,
+      "text": "Babası bazen bulaşık yıkar: He sometimes washes the dishes.",
+      "markedText": "Babası bazen bulaşık yıkar: He sometimes washes the dishes.",
+      "words": [
+        {
+          "word": "Babası",
+          "startMs": 143380,
+          "endMs": 144160
+        },
+        {
+          "word": "bazen",
+          "startMs": 144270,
+          "endMs": 144740
+        },
+        {
+          "word": "bulaşık",
+          "startMs": 145050,
+          "endMs": 145530
+        },
+        {
+          "word": "yıkar:",
+          "startMs": 145530,
+          "endMs": 146080
+        },
+        {
+          "word": "He",
+          "startMs": 146980,
+          "endMs": 147210
+        },
+        {
+          "word": "sometimes",
+          "startMs": 147280,
+          "endMs": 148040
+        },
+        {
+          "word": "washes",
+          "startMs": 148210,
+          "endMs": 148630
+        },
+        {
+          "word": "the",
+          "startMs": 148630,
+          "endMs": 148900
+        },
+        {
+          "word": "dishes.",
+          "startMs": 149050,
+          "endMs": 149290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 149520,
+      "endMs": 156290,
+      "pauseAfterMs": 360,
+      "text": "Kardeşi hiç çöp çıkarmıyorsa He never takes out the rubbish dersin.",
+      "markedText": "Kardeşi hiç çöp çıkarmıyorsa He never takes out the rubbish dersin.",
+      "words": [
+        {
+          "word": "Kardeşi",
+          "startMs": 149520,
+          "endMs": 149800
+        },
+        {
+          "word": "hiç",
+          "startMs": 150000,
+          "endMs": 150170
+        },
+        {
+          "word": "çöp",
+          "startMs": 150170,
+          "endMs": 150340
+        },
+        {
+          "word": "çıkarmıyorsa",
+          "startMs": 150340,
+          "endMs": 151690
+        },
+        {
+          "word": "He",
+          "startMs": 152150,
+          "endMs": 152340
+        },
+        {
+          "word": "never",
+          "startMs": 152590,
+          "endMs": 153150
+        },
+        {
+          "word": "takes",
+          "startMs": 153370,
+          "endMs": 153840
+        },
+        {
+          "word": "out",
+          "startMs": 154000,
+          "endMs": 154300
+        },
+        {
+          "word": "the",
+          "startMs": 154340,
+          "endMs": 154520
+        },
+        {
+          "word": "rubbish",
+          "startMs": 154630,
+          "endMs": 155230
+        },
+        {
+          "word": "dersin.",
+          "startMs": 155390,
+          "endMs": 155930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 156290,
+      "endMs": 158140,
+      "pauseAfterMs": 770,
+      "text": "Arkadaşın What do you do at home?",
+      "markedText": "Arkadaşın What do you do at home?",
+      "words": [
+        {
+          "word": "Arkadaşın",
+          "startMs": 156290,
+          "endMs": 156450
+        },
+        {
+          "word": "What",
+          "startMs": 156560,
+          "endMs": 156670
+        },
+        {
+          "word": "do",
+          "startMs": 156670,
+          "endMs": 156710
+        },
+        {
+          "word": "you",
+          "startMs": 156710,
+          "endMs": 156850
+        },
+        {
+          "word": "do",
+          "startMs": 156850,
+          "endMs": 156900
+        },
+        {
+          "word": "at",
+          "startMs": 156900,
+          "endMs": 156990
+        },
+        {
+          "word": "home?",
+          "startMs": 156990,
+          "endMs": 157370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 158140,
+      "endMs": 167590,
+      "pauseAfterMs": 990,
+      "text": "diye sorarsa I help my family and I sometimes water the plants diye cevap verirsin.",
+      "markedText": "diye sorarsa I help my family and I sometimes water the plants diye cevap verirsin.",
+      "words": [
+        {
+          "word": "diye",
+          "startMs": 158140,
+          "endMs": 158450
+        },
+        {
+          "word": "sorarsa",
+          "startMs": 158450,
+          "endMs": 158960
+        },
+        {
+          "word": "I",
+          "startMs": 158960,
+          "endMs": 159110
+        },
+        {
+          "word": "help",
+          "startMs": 159870,
+          "endMs": 160060
+        },
+        {
+          "word": "my",
+          "startMs": 160400,
+          "endMs": 160550
+        },
+        {
+          "word": "family",
+          "startMs": 160740,
+          "endMs": 161020
+        },
+        {
+          "word": "and",
+          "startMs": 161140,
+          "endMs": 161300
+        },
+        {
+          "word": "I",
+          "startMs": 161410,
+          "endMs": 161520
+        },
+        {
+          "word": "sometimes",
+          "startMs": 161520,
+          "endMs": 162360
+        },
+        {
+          "word": "water",
+          "startMs": 162920,
+          "endMs": 163250
+        },
+        {
+          "word": "the",
+          "startMs": 163550,
+          "endMs": 163670
+        },
+        {
+          "word": "plants",
+          "startMs": 163810,
+          "endMs": 164310
+        },
+        {
+          "word": "diye",
+          "startMs": 164480,
+          "endMs": 164670
+        },
+        {
+          "word": "cevap",
+          "startMs": 165000,
+          "endMs": 165350
+        },
+        {
+          "word": "verirsin.",
+          "startMs": 165460,
+          "endMs": 166600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 167590,
+      "endMs": 177500,
+      "pauseAfterMs": 810,
+      "text": "Look, she is cooking now cümlesi ise alışkanlığı değil, tam o anı anlatır.",
+      "markedText": "Look, she is cooking now cümlesi ise alışkanlığı değil, tam o anı anlatır.",
+      "words": [
+        {
+          "word": "Look,",
+          "startMs": 167590,
+          "endMs": 167690
+        },
+        {
+          "word": "she",
+          "startMs": 168370,
+          "endMs": 168550
+        },
+        {
+          "word": "is",
+          "startMs": 168590,
+          "endMs": 168790
+        },
+        {
+          "word": "cooking",
+          "startMs": 168790,
+          "endMs": 169330
+        },
+        {
+          "word": "now",
+          "startMs": 169680,
+          "endMs": 170010
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 170070,
+          "endMs": 170530
+        },
+        {
+          "word": "ise",
+          "startMs": 170660,
+          "endMs": 171470
+        },
+        {
+          "word": "alışkanlığı",
+          "startMs": 171860,
+          "endMs": 172260
+        },
+        {
+          "word": "değil,",
+          "startMs": 172530,
+          "endMs": 173270
+        },
+        {
+          "word": "tam",
+          "startMs": 174200,
+          "endMs": 174440
+        },
+        {
+          "word": "o",
+          "startMs": 174770,
+          "endMs": 174870
+        },
+        {
+          "word": "anı",
+          "startMs": 175120,
+          "endMs": 175750
+        },
+        {
+          "word": "anlatır.",
+          "startMs": 176030,
+          "endMs": 176690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 177500,
+      "endMs": 180220,
+      "pauseAfterMs": 260,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 177500,
+          "endMs": 178610
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 179180,
+          "endMs": 179960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 180220,
+      "endMs": 182460,
+      "pauseAfterMs": 900,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 180220,
+          "endMs": 180920
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 180920,
+          "endMs": 181560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 182460,
+      "endMs": 185910,
+      "pauseAfterMs": 740,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 182460,
+          "endMs": 182650
+        },
+        {
+          "word": "noktayı",
+          "startMs": 182650,
+          "endMs": 183450
+        },
+        {
+          "word": "sen",
+          "startMs": 183450,
+          "endMs": 183770
+        },
+        {
+          "word": "de",
+          "startMs": 183920,
+          "endMs": 184010
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 184160,
+          "endMs": 185170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 185910,
+      "endMs": 192010,
+      "pauseAfterMs": 570,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 185910,
+          "endMs": 186180
+        },
+        {
+          "word": "sevgili",
+          "startMs": 186180,
+          "endMs": 186680
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 186680,
+          "endMs": 187480
+        },
+        {
+          "word": "işte",
+          "startMs": 187860,
+          "endMs": 188030
+        },
+        {
+          "word": "tam",
+          "startMs": 188030,
+          "endMs": 188490
+        },
+        {
+          "word": "bu",
+          "startMs": 188690,
+          "endMs": 188760
+        },
+        {
+          "word": "noktada",
+          "startMs": 188760,
+          "endMs": 189120
+        },
+        {
+          "word": "dikkat",
+          "startMs": 189210,
+          "endMs": 189390
+        },
+        {
+          "word": "etmen",
+          "startMs": 189480,
+          "endMs": 189640
+        },
+        {
+          "word": "gereken",
+          "startMs": 189760,
+          "endMs": 190150
+        },
+        {
+          "word": "kilit",
+          "startMs": 190440,
+          "endMs": 190810
+        },
+        {
+          "word": "nokta.",
+          "startMs": 190810,
+          "endMs": 191440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 192010,
+      "endMs": 198970,
+      "pauseAfterMs": 1010,
+      "text": "She cook dinner demek fiil ekini düşürür; she cooks dinner doğru durur.",
+      "markedText": "She cook dinner demek fiil ekini düşürür; she cooks dinner doğru durur.",
+      "words": [
+        {
+          "word": "She",
+          "startMs": 192010,
+          "endMs": 192160
+        },
+        {
+          "word": "cook",
+          "startMs": 192160,
+          "endMs": 192530
+        },
+        {
+          "word": "dinner",
+          "startMs": 192660,
+          "endMs": 193020
+        },
+        {
+          "word": "demek",
+          "startMs": 193190,
+          "endMs": 193360
+        },
+        {
+          "word": "fiil",
+          "startMs": 193410,
+          "endMs": 193520
+        },
+        {
+          "word": "ekini",
+          "startMs": 193640,
+          "endMs": 193920
+        },
+        {
+          "word": "düşürür;",
+          "startMs": 194040,
+          "endMs": 194740
+        },
+        {
+          "word": "she",
+          "startMs": 195680,
+          "endMs": 195990
+        },
+        {
+          "word": "cooks",
+          "startMs": 196390,
+          "endMs": 196610
+        },
+        {
+          "word": "dinner",
+          "startMs": 196910,
+          "endMs": 197160
+        },
+        {
+          "word": "doğru",
+          "startMs": 197240,
+          "endMs": 197570
+        },
+        {
+          "word": "durur.",
+          "startMs": 197570,
+          "endMs": 197960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 198970,
+      "endMs": 209580,
+      "pauseAfterMs": 990,
+      "text": "Always sözcüğünü cümlenin en sonuna atmak da sırayı bozar; usually ve always fiilden önce gelir.",
+      "markedText": "Always sözcüğünü cümlenin en sonuna atmak da sırayı bozar; usually ve always fiilden önce gelir.",
+      "words": [
+        {
+          "word": "Always",
+          "startMs": 198970,
+          "endMs": 199660
+        },
+        {
+          "word": "sözcüğünü",
+          "startMs": 199660,
+          "endMs": 200160
+        },
+        {
+          "word": "cümlenin",
+          "startMs": 200330,
+          "endMs": 200970
+        },
+        {
+          "word": "en",
+          "startMs": 200970,
+          "endMs": 201220
+        },
+        {
+          "word": "sonuna",
+          "startMs": 201220,
+          "endMs": 202360
+        },
+        {
+          "word": "atmak",
+          "startMs": 203050,
+          "endMs": 203490
+        },
+        {
+          "word": "da",
+          "startMs": 203490,
+          "endMs": 203750
+        },
+        {
+          "word": "sırayı",
+          "startMs": 203940,
+          "endMs": 204270
+        },
+        {
+          "word": "bozar;",
+          "startMs": 204420,
+          "endMs": 205070
+        },
+        {
+          "word": "usually",
+          "startMs": 205950,
+          "endMs": 206350
+        },
+        {
+          "word": "ve",
+          "startMs": 206350,
+          "endMs": 206480
+        },
+        {
+          "word": "always",
+          "startMs": 206630,
+          "endMs": 207050
+        },
+        {
+          "word": "fiilden",
+          "startMs": 207050,
+          "endMs": 207430
+        },
+        {
+          "word": "önce",
+          "startMs": 207430,
+          "endMs": 207640
+        },
+        {
+          "word": "gelir.",
+          "startMs": 207760,
+          "endMs": 208590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 209580,
+      "endMs": 215560,
+      "pauseAfterMs": 620,
+      "text": "Her akşam olan işe ing eklemek onu şu an oluyormuş gibi gösterir.",
+      "markedText": "Her akşam olan işe ing eklemek onu şu an oluyormuş gibi gösterir.",
+      "words": [
+        {
+          "word": "Her",
+          "startMs": 209580,
+          "endMs": 209910
+        },
+        {
+          "word": "akşam",
+          "startMs": 210010,
+          "endMs": 210330
+        },
+        {
+          "word": "olan",
+          "startMs": 210370,
+          "endMs": 210740
+        },
+        {
+          "word": "işe",
+          "startMs": 210790,
+          "endMs": 211140
+        },
+        {
+          "word": "ing",
+          "startMs": 211500,
+          "endMs": 211610
+        },
+        {
+          "word": "eklemek",
+          "startMs": 211860,
+          "endMs": 212300
+        },
+        {
+          "word": "onu",
+          "startMs": 212300,
+          "endMs": 212450
+        },
+        {
+          "word": "şu",
+          "startMs": 212650,
+          "endMs": 212790
+        },
+        {
+          "word": "an",
+          "startMs": 212890,
+          "endMs": 213080
+        },
+        {
+          "word": "oluyormuş",
+          "startMs": 213190,
+          "endMs": 213660
+        },
+        {
+          "word": "gibi",
+          "startMs": 213930,
+          "endMs": 214220
+        },
+        {
+          "word": "gösterir.",
+          "startMs": 214220,
+          "endMs": 214940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 215560,
+      "endMs": 226720,
+      "pauseAfterMs": 930,
+      "text": "Family Life konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Family Life konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Family",
+          "startMs": 215560,
+          "endMs": 215910
+        },
+        {
+          "word": "Life",
+          "startMs": 216050,
+          "endMs": 216430
+        },
+        {
+          "word": "konusunda",
+          "startMs": 216570,
+          "endMs": 217680
+        },
+        {
+          "word": "kuralın",
+          "startMs": 218720,
+          "endMs": 219130
+        },
+        {
+          "word": "tersini",
+          "startMs": 219180,
+          "endMs": 219620
+        },
+        {
+          "word": "sanmak",
+          "startMs": 219750,
+          "endMs": 220040
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 220270,
+          "endMs": 221480
+        },
+        {
+          "word": "ters",
+          "startMs": 222780,
+          "endMs": 223050
+        },
+        {
+          "word": "cümle",
+          "startMs": 223170,
+          "endMs": 223840
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 223970,
+          "endMs": 225790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 226720,
+      "endMs": 230330,
+      "pauseAfterMs": 940,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 226720,
+          "endMs": 227230
+        },
+        {
+          "word": "Neler",
+          "startMs": 227350,
+          "endMs": 227700
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 227920,
+          "endMs": 229390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 230330,
+      "endMs": 230480,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 230330,
+          "endMs": 230480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 230480,
+      "endMs": 234600,
+      "pauseAfterMs": 820,
+      "text": "Evdeki tekrar eden iş simple present ile söylenir.",
+      "markedText": "Evdeki tekrar eden iş simple present ile söylenir.",
+      "words": [
+        {
+          "word": "Evdeki",
+          "startMs": 230480,
+          "endMs": 230700
+        },
+        {
+          "word": "tekrar",
+          "startMs": 230820,
+          "endMs": 231150
+        },
+        {
+          "word": "eden",
+          "startMs": 231260,
+          "endMs": 231450
+        },
+        {
+          "word": "iş",
+          "startMs": 231450,
+          "endMs": 231550
+        },
+        {
+          "word": "simple",
+          "startMs": 231600,
+          "endMs": 232030
+        },
+        {
+          "word": "present",
+          "startMs": 232380,
+          "endMs": 232780
+        },
+        {
+          "word": "ile",
+          "startMs": 232940,
+          "endMs": 233110
+        },
+        {
+          "word": "söylenir.",
+          "startMs": 233110,
+          "endMs": 233780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 234600,
+      "endMs": 235020,
+      "pauseAfterMs": 270,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 234600,
+          "endMs": 234750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 235020,
+      "endMs": 243540,
+      "pauseAfterMs": 1140,
+      "text": "He ve she ile fiile genellikle s gelir; she cooks buna örnektir.",
+      "markedText": "He ve she ile fiile genellikle s gelir; she cooks buna örnektir.",
+      "words": [
+        {
+          "word": "He",
+          "startMs": 235020,
+          "endMs": 235210
+        },
+        {
+          "word": "ve",
+          "startMs": 235210,
+          "endMs": 235350
+        },
+        {
+          "word": "she",
+          "startMs": 235350,
+          "endMs": 235620
+        },
+        {
+          "word": "ile",
+          "startMs": 235860,
+          "endMs": 236250
+        },
+        {
+          "word": "fiile",
+          "startMs": 236300,
+          "endMs": 236770
+        },
+        {
+          "word": "genellikle",
+          "startMs": 236890,
+          "endMs": 237980
+        },
+        {
+          "word": "s",
+          "startMs": 238020,
+          "endMs": 238090
+        },
+        {
+          "word": "gelir;",
+          "startMs": 238160,
+          "endMs": 239380
+        },
+        {
+          "word": "she",
+          "startMs": 240380,
+          "endMs": 240570
+        },
+        {
+          "word": "cooks",
+          "startMs": 240630,
+          "endMs": 240880
+        },
+        {
+          "word": "buna",
+          "startMs": 240920,
+          "endMs": 241110
+        },
+        {
+          "word": "örnektir.",
+          "startMs": 241340,
+          "endMs": 242400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 243540,
+      "endMs": 243740,
+      "pauseAfterMs": 80,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 243540,
+          "endMs": 243660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 243740,
+      "endMs": 252160,
+      "pauseAfterMs": 890,
+      "text": "Always, usually, sometimes ve never sıklığı söyler ve fiilden önce durur.",
+      "markedText": "Always, usually, sometimes ve never sıklığı söyler ve fiilden önce durur.",
+      "words": [
+        {
+          "word": "Always,",
+          "startMs": 243740,
+          "endMs": 244350
+        },
+        {
+          "word": "usually,",
+          "startMs": 244680,
+          "endMs": 245290
+        },
+        {
+          "word": "sometimes",
+          "startMs": 245290,
+          "endMs": 246000
+        },
+        {
+          "word": "ve",
+          "startMs": 246410,
+          "endMs": 246620
+        },
+        {
+          "word": "never",
+          "startMs": 246620,
+          "endMs": 247380
+        },
+        {
+          "word": "sıklığı",
+          "startMs": 248400,
+          "endMs": 249050
+        },
+        {
+          "word": "söyler",
+          "startMs": 249140,
+          "endMs": 249650
+        },
+        {
+          "word": "ve",
+          "startMs": 249650,
+          "endMs": 249770
+        },
+        {
+          "word": "fiilden",
+          "startMs": 249960,
+          "endMs": 250460
+        },
+        {
+          "word": "önce",
+          "startMs": 250610,
+          "endMs": 250810
+        },
+        {
+          "word": "durur.",
+          "startMs": 251090,
+          "endMs": 251270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 252160,
+      "endMs": 259940,
+      "pauseAfterMs": 1870,
+      "text": "Aile rutini simple present ve bir sıklık zarfıyla kurulur.",
+      "markedText": "Aile rutini simple present ve bir sıklık zarfıyla kurulur.",
+      "words": [
+        {
+          "word": "Aile",
+          "startMs": 252160,
+          "endMs": 252400
+        },
+        {
+          "word": "rutini",
+          "startMs": 252510,
+          "endMs": 253150
+        },
+        {
+          "word": "simple",
+          "startMs": 253150,
+          "endMs": 253900
+        },
+        {
+          "word": "present",
+          "startMs": 254750,
+          "endMs": 255310
+        },
+        {
+          "word": "ve",
+          "startMs": 255370,
+          "endMs": 255450
+        },
+        {
+          "word": "bir",
+          "startMs": 255510,
+          "endMs": 255700
+        },
+        {
+          "word": "sıklık",
+          "startMs": 255800,
+          "endMs": 256170
+        },
+        {
+          "word": "zarfıyla",
+          "startMs": 256480,
+          "endMs": 257120
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 257120,
+          "endMs": 258070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 259940,
+      "endMs": 266830,
+      "pauseAfterMs": 1100,
+      "text": "Evdeki bir işi kim yapıyor, ne sıklıkla, diye anlatırsın.",
+      "markedText": "Evdeki bir işi kim yapıyor, ne sıklıkla, diye anlatırsın.",
+      "words": [
+        {
+          "word": "Evdeki",
+          "startMs": 259940,
+          "endMs": 260190
+        },
+        {
+          "word": "bir",
+          "startMs": 260320,
+          "endMs": 260550
+        },
+        {
+          "word": "işi",
+          "startMs": 260550,
+          "endMs": 260880
+        },
+        {
+          "word": "kim",
+          "startMs": 260880,
+          "endMs": 261080
+        },
+        {
+          "word": "yapıyor,",
+          "startMs": 261080,
+          "endMs": 261620
+        },
+        {
+          "word": "ne",
+          "startMs": 262500,
+          "endMs": 262800
+        },
+        {
+          "word": "sıklıkla,",
+          "startMs": 262800,
+          "endMs": 263690
+        },
+        {
+          "word": "diye",
+          "startMs": 263820,
+          "endMs": 264120
+        },
+        {
+          "word": "anlatırsın.",
+          "startMs": 264220,
+          "endMs": 265730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 266830,
+      "endMs": 269380,
+      "pauseAfterMs": 810,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 266830,
+          "endMs": 267520
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 267590,
+          "endMs": 268570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 269380,
+      "endMs": 273920,
+      "pauseAfterMs": 1510,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 269380,
+          "endMs": 270000
+        },
+        {
+          "word": "bir",
+          "startMs": 270290,
+          "endMs": 270550
+        },
+        {
+          "word": "iş",
+          "startMs": 270780,
+          "endMs": 271210
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 271310,
+          "endMs": 272410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 273920,
+      "endMs": 277460,
+      "pauseAfterMs": 920,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 273920,
+          "endMs": 274890
+        },
+        {
+          "word": "sıra",
+          "startMs": 275330,
+          "endMs": 275590
+        },
+        {
+          "word": "sende.",
+          "startMs": 275710,
+          "endMs": 276540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 277460,
+      "endMs": 282596,
+      "pauseAfterMs": 396,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 277460,
+          "endMs": 277800
+        },
+        {
+          "word": "bu",
+          "startMs": 277800,
+          "endMs": 277880
+        },
+        {
+          "word": "notları",
+          "startMs": 278010,
+          "endMs": 278640
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 279450,
+          "endMs": 280080
+        },
+        {
+          "word": "kendi",
+          "startMs": 280190,
+          "endMs": 280460
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 280550,
+          "endMs": 281450
+        },
+        {
+          "word": "anlat.",
+          "startMs": 281530,
+          "endMs": 282200
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

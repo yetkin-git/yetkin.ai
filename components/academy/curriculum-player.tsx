@@ -13,6 +13,7 @@ import { LessonPromptConsole } from "@/components/academy/lesson-prompt-console"
 import { LessonStudyTabs } from "@/components/academy/lesson-study-tabs";
 import { LessonCinemaEyeLayer } from "@/components/academy/lesson-visual-stage";
 import { PrepStripPanel } from "@/components/academy/prep-strip-panel";
+import { AcademyProgressGateCard } from "@/components/academy/progress-gate-card";
 import { OFFICE_AI_EXIT_KIT_SLUG } from "@/lib/academy/exit-kit";
 import {
   academyPrepStripAudioDurationSec,
@@ -29,6 +30,7 @@ import { academyCitizenPlayerLayer } from "@/lib/academy/citizen-player-layer";
 import { academyExamStartGateHref } from "@/lib/academy/continue-board";
 import { isAcademyPlayerPaywallLessonLocked } from "@/lib/academy/preview-lock";
 import { academyCheckoutHref } from "@/lib/academy/storefront-cta";
+import { trackBeginCheckout, trackPlayFreePreview } from "@/lib/kernel/telemetry/funnel";
 import { academyCompareDockPrompt, academyVisualCompareStage } from "@/lib/academy/excel-workspace";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
 import { academyBedSpeechClockSec } from "@/lib/academy/lesson-bed-duck";
@@ -38,6 +40,8 @@ import {
   isAcademyLessonBedSealed,
 } from "@/lib/academy/lesson-audio";
 import { isAcademyTtsCassetteRevoked } from "@/lib/academy/pilot-sku";
+import { resolveAcademyProgressGate } from "@/lib/academy/progress-gate";
+import type { AcademyProgressGate } from "@/lib/academy/progress-gate";
 import {
   academyPlaybackCueAtTime,
   loadAcademyLessonPlaybackCues,
@@ -146,6 +150,7 @@ export function CurriculumPlayer({
   const pendingEndRef = useRef<string | null>(null);
   const onMediaEndedRef = useRef<(endedLessonKey?: string) => void>(() => undefined);
   const playbackStartedKeyRef = useRef<string | null>(null);
+  const freePreviewTrackedRef = useRef(false);
   const lessonsRef = useRef(lessonRows);
 
   useEffect(() => {
@@ -219,6 +224,24 @@ export function CurriculumPlayer({
       nextLesson &&
       isAcademyPlayerPaywallLessonLocked(courseSlug, nextLesson.key, true),
   );
+  /**
+   * İlerleme kapısı (Faz 3, Adım 2). Ücretsiz ders bittiğinde "kilitli" demek yerine
+   * kazanılmış mesafeyi basar. Kanıt sunucudan gelir: `completedKeys` oynatıcının
+   * oturum içi gerçeği, `lessonRows.length` müfredat uzunluğu.
+   * Sayı uydurulmaz; hiç ders tamamlanmadıysa kapı görünmez (`visible: false`).
+   */
+  const progressGate = resolveAcademyProgressGate({
+    courseSlug,
+    courseTitle: courseSlug,
+    completedLessonKeys: [...completedKeys],
+    totalLessonCount: lessonRows.length,
+    passScore: ACADEMY_EXAM_PASS_SCORE,
+    freeLessonCount: Math.max(
+      1,
+      lessonRows.filter((lesson) => !isAcademyPlayerPaywallLessonLocked(courseSlug, lesson.key, true))
+        .length,
+    ),
+  });
   const lessonMediaBlocked = Boolean(active && (lessonPaywalled || !active.open));
   const playerLayer = useMemo(
     () =>
@@ -228,6 +251,25 @@ export function CurriculumPlayer({
     [active, courseSlug, lessonMediaBlocked, lessonMediaGeneration],
   );
   const karaoke = playerLayer.kind === "article+karaoke" ? playerLayer : null;
+  const freeLessonKey = active?.key ?? "";
+  const freeLessonTitle = active?.title ?? "";
+  const freeLessonLocked = active
+    ? isAcademyPlayerPaywallLessonLocked(courseSlug, active.key, true)
+    : true;
+  useEffect(() => {
+    if (!paywallLocked || freePreviewTrackedRef.current) {
+      return;
+    }
+    if (!freeLessonKey || freeLessonLocked || karaoke) {
+      return;
+    }
+    freePreviewTrackedRef.current = true;
+    trackPlayFreePreview({
+      itemId: courseSlug,
+      lessonKey: freeLessonKey,
+      itemName: freeLessonTitle,
+    });
+  }, [courseSlug, freeLessonKey, freeLessonLocked, freeLessonTitle, karaoke, paywallLocked]);
   const prepKaraoke = useMemo(() => {
     if (!prepActive) {
       return null;
@@ -632,6 +674,7 @@ export function CurriculumPlayer({
                 className={`academy-player-rail-item flex w-full items-center gap-2.5 rounded-[0.9rem] text-left text-[13px] leading-snug tracking-[-0.014em] ${
                   selected ? "academy-player-rail-item--active" : "text-[var(--muted)]"
                 } ${completed ? "academy-player-rail-item--done" : ""} disabled:cursor-not-allowed disabled:opacity-45`}
+                data-academy-lesson-storage-key={lesson.key}
                 data-academy-lesson-delivery={media.kind === "audio" ? "karaoke" : "article"}
                 data-academy-lesson-done={completed ? "true" : "false"}
               >
@@ -712,6 +755,10 @@ export function CurriculumPlayer({
                 checkoutHref={checkoutHref}
                 lessonKey={lessonPaywalled ? active?.key : undefined}
                 priceLabel={paywallPriceLabel}
+                progressGate={progressGate.visible ? progressGate : null}
+                onBeginCheckout={() => {
+                  trackBeginCheckout({ itemId: courseSlug });
+                }}
                 onClose={() => {
                   setFunnelOpen(false);
                   if (
@@ -771,6 +818,18 @@ export function CurriculumPlayer({
                     if (playing) {
                       playbackStartedKeyRef.current = active.key;
                       setAutoStartPlayback(false);
+                      if (
+                        paywallLocked &&
+                        !freePreviewTrackedRef.current &&
+                        !isAcademyPlayerPaywallLessonLocked(courseSlug, active.key, true)
+                      ) {
+                        freePreviewTrackedRef.current = true;
+                        trackPlayFreePreview({
+                          itemId: courseSlug,
+                          lessonKey: active.key,
+                          itemName: active.title,
+                        });
+                      }
                     }
                   }}
                   onEnded={onMediaEnded}
@@ -793,20 +852,26 @@ export function CurriculumPlayer({
             ) : null}
 
             {previewUpsell ? (
-              <div
-                className="mx-1 flex flex-col gap-2 rounded-2xl border border-[color-mix(in_srgb,var(--safir)_35%,transparent)] bg-[var(--safir-soft)] px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
-                data-academy-preview-upsell=""
-              >
-                <p className="text-sm leading-6 text-[var(--foreground)]">{copy.funnelLead}</p>
-                <LinkButton
-                  href={checkoutHref as Route}
-                  size="sm"
-                  className="shrink-0"
-                  data-academy-paywall-cta=""
-                  data-academy-sales-funnel-cta=""
-                >
-                  {paywallPriceLabel ? copy.funnelCta(paywallPriceLabel) : copy.funnelTitle}
-                </LinkButton>
+              <div data-academy-preview-upsell="" className="space-y-2">
+                {progressGate.visible ? (
+                  <AcademyProgressGateCard gate={progressGate} checkoutHref={checkoutHref} />
+                ) : (
+                  <div className="mx-1 flex flex-col gap-2 rounded-2xl border border-[color-mix(in_srgb,var(--safir)_35%,transparent)] bg-[var(--safir-soft)] px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+                    <p className="text-sm leading-6 text-[var(--foreground)]">{copy.funnelLead}</p>
+                    <LinkButton
+                      href={checkoutHref as Route}
+                      size="sm"
+                      className="shrink-0"
+                      data-academy-paywall-cta=""
+                      data-academy-sales-funnel-cta=""
+                      onClick={() => {
+                        trackBeginCheckout({ itemId: courseSlug });
+                      }}
+                    >
+                      {paywallPriceLabel ? copy.funnelCta(paywallPriceLabel) : copy.funnelTitle}
+                    </LinkButton>
+                  </div>
+                )}
               </div>
             ) : null}
 
@@ -875,6 +940,9 @@ export function CurriculumPlayer({
                       className="min-h-10 rounded-full px-5 text-[13px]"
                       data-academy-paywall-cta=""
                       data-academy-sales-funnel-cta=""
+                      onClick={() => {
+                        trackBeginCheckout({ itemId: courseSlug });
+                      }}
                     >
                       {paywallPriceLabel ? copy.funnelCta(paywallPriceLabel) : copy.funnelTitle}
                     </LinkButton>
@@ -923,16 +991,25 @@ function SalesFunnelModal({
   checkoutHref,
   lessonKey,
   priceLabel,
+  progressGate = null,
   onClose,
+  onBeginCheckout,
 }: {
   checkoutHref: string;
   lessonKey?: string;
   priceLabel?: string | null;
+  /** İlerleme kapısı — ders tamamlandıysa "kilitli" yerine kazanılan mesafe basılır. */
+  progressGate?: AcademyProgressGate | null;
   onClose: () => void;
+  onBeginCheckout: () => void;
 }) {
   const copy = ACADEMY_SEN.player;
   const titleId = useId();
-  const actionLabel = priceLabel ? copy.funnelCta(priceLabel) : copy.funnelTitle;
+  const actionLabel = progressGate
+    ? progressGate.copy.cta
+    : priceLabel
+      ? copy.funnelCta(priceLabel)
+      : copy.funnelTitle;
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -970,18 +1047,41 @@ function SalesFunnelModal({
         onClick={(event) => event.stopPropagation()}
       >
         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--safir-deep)]">
-          {copy.locked}
+          {progressGate ? progressGate.copy.eyebrow : copy.locked}
         </p>
         <h3 id={titleId} className="mt-2 max-w-xl text-xl font-semibold tracking-tight text-slate-900">
-          {copy.funnelTitle}
+          {progressGate ? progressGate.copy.title : copy.funnelTitle}
         </h3>
-        <p className="mt-3 max-w-xl text-[15px] leading-7 text-slate-700">{copy.funnelLead}</p>
+        <p className="mt-3 max-w-xl text-[15px] leading-7 text-slate-700" data-academy-paywall-body="">
+          {progressGate ? progressGate.copy.body : copy.funnelLead}
+        </p>
+        {progressGate ? (
+          <div className="mt-3" data-academy-paywall-meter="">
+            <div
+              className="h-1.5 w-full overflow-hidden rounded-full bg-slate-200"
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={progressGate.percent}
+              aria-label={progressGate.copy.progressLabel}
+            >
+              <span
+                className="block h-full rounded-full bg-[var(--safir)]"
+                style={{ width: `${progressGate.percent}%` }}
+              />
+            </div>
+            <p className="mt-1.5 text-xs font-medium text-slate-600">
+              {progressGate.copy.progressLabel} · {progressGate.copy.remainingLabel}
+            </p>
+          </div>
+        ) : null}
         <div className="mt-5 flex flex-wrap items-center gap-2">
           <LinkButton
             href={checkoutHref as Route}
             size="sm"
             data-academy-paywall-cta=""
             data-academy-sales-funnel-cta=""
+            onClick={onBeginCheckout}
           >
             {actionLabel}
           </LinkButton>

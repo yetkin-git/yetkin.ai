@@ -1,33 +1,33 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. Kesir ile bölme, sonlu ve devirli ondalık. */
-export const JUNIOR_MAT_26_SCENARIO: JuniorLessonScenario = {
+/** 6. Sınıf Matematik. Gözleme dayalı olasılık. */
+export const JUNIOR_MAT_38_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-26",
-  title: "Kesir ile bölme, sonlu ve devirli ondalık",
-  teaser: "Kesri ondalığa çevirmek, payı paydaya bölmektir. Kavramsal Anlayış, kalan 0 olunca sonlu, aynı kalan dönünce devirli demektir. İfade Gücü, 1/2 ile 1/3 için hangi ondalığın bittiğini ayırmaktır.",
-  welcome: "Merhaba sevgili çocuklar! Bugün bir kesri bölüp ondalık yazacağız. Okul kantininde yarım dilim 0,5 diye durur. Pay paydaya bölününce sayı ya biter ya da bir rakam halkası yeniden başlar.",
-  concept: "Kesrin ondalık karşılığı, payın paydaya bölünmesidir. Bölüm bir yerde kalansız biterse ondalık sonludur. Kalan hiç sıfırlanmaz ve aynı halka dönerse ondalık devirlidir. Cetvelle ölçtüğün bir bölü iki metre 0,5 metredir. Bir bölü üç metre ise 0,333 diye uzar ve 3 devreder.",
-  example: "1 bölü 2 işleminde 10'un içine 2 tam 5 kez girer ve kalan 0 olur. Sonuç 0,5'tir. 1 bölü 4 ise 0,25 eder; iki basamakta biter. 1 bölü 3'te kalan 0 olmaz. 0'dan sonra 3 rakamı tekrar eder. Bunu 0,3'ün üzerine bir çizgiyle gösteririz.",
-  hint: "trap",
-  warning: "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Birkaç basamak yazıp kesmek, devirli kesrin kendisi değildir. 0,33 sayısı bir bölü üçten biraz küçüktür. Sonlu ondalıkta kalan 0'dır. Devirli ondalıkta aynı kalan döner.",
-  life: "Bunu okul bahçesindeki sulama işinde de görürsün. Kutuyu iki eşit paya bölersen her pay 0,5 olur ve su biter. Aynı kutuyu üç eşit paya bölersen her payda 3 rakamı devreder.",
+  title: "Gözleme dayalı olasılık",
+  teaser: "Gözleme dayalı olasılık, denemede görülen sıklıktır. Kavramsal Anlayış, istenen sonucu deneme sayısına bölmektir. İfade Gücü, 20 atışta 5 kez gelen sonucu 5/20 diye yazmaktır.",
+  welcome: "Merhaba sevgili çocuklar! Bugün olasılığı tahminle değil gözlemle kuracağız. Okul bahçesinde 20 kez atılan bir pul, her seferinde aynı yüzü getirmek zorunda değildir. Saydığımız sonuç, gördüğümüz sıklıktır.",
+  concept: "Gözleme dayalı olasılık, deneyde sayılan sonucun deneme sayısına bölümüdür. İstenen sonuç pay, bütün denemeler paydadır. 20 atışta 5 kez tura geldiyse gözlem oranı yirmide beş eder. Bu, sıklığı sadeleştirince dörtte bir olur. Cetvelle değil, çeteleyle ölçülür. Az deneme, oranı oynatır.",
+  example: "Bir kutudan 20 kez çekiliş yapalım. Kırmızı 5 kez gelsin. Gözlem oranı yirmide beştir. 5 ve 20'yi 5'e bölersek dörtte bir elde ederiz. Mavi 15 kez geldiyse mavi oranı yirmide on beş eder. 15 artı 5, 20 eder. İki oran denemelerin tamamını paylaşır.",
+  hint: "gold",
+  warning: "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. 5 kez gelmek, olasılığın 5 olması demek değildir. Payda deneme sayısıdır. yirmide beş ile 5 aynı şey değildir. Az atışta oran bir sonraki avuçta değişebilir. Gözlem, kesin gelecek diye söz vermez.",
+  life: "Bunu okul bahçesindeki taş-kâğıt oyununda görürsün. Yirmi elde beş kez aynı işareti saydıysan oran yirmide beştir. Kutuyu bir kez daha sallamak yeni bir gözlemdir, eski oranı silmez ama yeni çetele ekler.",
   recap: [
-    "Kesir, payın paydaya bölünmesiyle ondalık olur.",
-    "Kalan 0 ise ondalık sonludur.",
-    "Aynı kalan dönerse ondalık devirlidir.",
+    "Gözlem olasılığı, sıklığın denemeye bölümüdür.",
+    "Pay istenen sonuç, payda bütün denemedir.",
+    "Az deneme oranı oynatır ve kesinlik vermez.",
   ],
-  conceptSeal: "Sonlu ondalık biter. Devirli ondalık bir rakam halkasını sürdürür.",
-  voiceSeal: "Bir bölü iki için 0,5 dersin. Bir bölü üç için devreden 3 dersin.",
+  conceptSeal: "Gözleme dayalı olasılık, sayılan sonucun deneme sayısına oranıdır.",
+  voiceSeal: "20 atışta 5 tura için yirmide beş dersin.",
   outcomes: [
-    "Pay paydaya bölününce ondalık çıkar.",
-    "Kalan 0 olan ondalık sonludur.",
-    "Aynı kalanı süren ondalık devirlidir.",
-    "Kesir ile bölme, sonlu ve devirli ondalık kuralı bu derste yeni bir istisna açmaz.",
-    "26 numaralı örnek, ikinci bir kurala dönüşmez.",
+    "Olasılık gözlemde sıklıktır.",
+    "Payda deneme sayısıdır.",
+    "Az deneme kesin sonuç değildir.",
+    "Gözleme dayalı olasılık kuralı bu derste yeni bir istisna açmaz.",
+    "38 numaralı örnek, ikinci bir kurala dönüşmez.",
     "Okul defterindeki adım, bahçedeki ölçümle aynı kuralı taşır.",
   ],
-  scene: "decimal",
-  parentNote: "Çocuğunuz 1/2 için 0,5 ve 1/4 için 0,25 der. 1/3 için devreden 3 der. 0,33 ile 1/3'ü aynı saymayın.",
+  scene: "chart",
+  parentNote: "Çocuğunuz 20 atışta 5 tura için 5/20 der. Bunu 5 diye kısaltmaz. Az denemeyi kesinlik sanmaz.",
 };
 
-export const JUNIOR_MAT_26 = juniorLessonFromScenario(JUNIOR_MAT_26_SCENARIO);
+export const JUNIOR_MAT_38 = juniorLessonFromScenario(JUNIOR_MAT_38_SCENARIO);

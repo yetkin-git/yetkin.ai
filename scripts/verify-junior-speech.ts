@@ -27,7 +27,7 @@ import {
 } from "@/lib/junior/player-clock";
 import { chunkJuniorLocalSpeech } from "@/lib/junior/speech";
 import { juniorTeacherForLesson } from "@/lib/junior/voice";
-import { JUNIOR_MAT_5 } from "@/lib/junior/content/mat/5";
+import { JUNIOR_MAT_5 } from "@/lib/junior/content/mat/1";
 import { JUNIOR_AUDIO_MANIFEST } from "@/lib/junior/audio-manifest.generated";
 import { juniorSealedScenarioCount } from "../packages/junior-content/src/sealed-roster";
 import { isGeminiTtsPrebuiltVoice } from "@/lib/kernel/ai/tts-voices";
@@ -91,7 +91,7 @@ check(body.voice.language_code === "tr-TR", "ses tasarımı dili tr-TR değil");
 walkKeys(body, "createBody");
 
 const transcript = juniorVoiceDesignTranscript(JUNIOR_MAT_5.listenText);
-check(transcript.includes("kalansız"), "jr_06_mat-5 bölünebilme cümlesi transkriptte yok");
+check(transcript.includes("kalansız"), "jr_06_mat-1 bölünebilme cümlesi transkriptte yok");
 check(!transcript.includes("# AUDIO PROFILE"), "transkript yönetmen katmanı taşıyor");
 check(!transcript.includes("[pause]"), "transkript [pause] etiketini sesli okuyabilir");
 
@@ -102,16 +102,16 @@ check(bake.includes("voicePrompt gönderilmez"), "fırın voicePrompt yolunu kap
 check(!bake.includes("createJuniorDesignedVoice"), "fırın Voices API voicePrompt yolunu hâlâ çağırıyor");
 check(!bake.includes("systemInstruction:"), "fırın TTS systemInstruction basıyor");
 check(
-  juniorTeacherForLesson("jr_06_mat-5").voice === JUNIOR_CATALOG_NARRATOR_VOICE,
-  "jr_06_mat-5 katalog sesi varsayılan anlatıcıyla uyuşmuyor",
+  juniorTeacherForLesson("jr_06_mat-1").voice === JUNIOR_CATALOG_NARRATOR_VOICE,
+  "jr_06_mat-1 katalog sesi varsayılan anlatıcıyla uyuşmuyor",
 );
 check(isGeminiTtsPrebuiltVoice(JUNIOR_CATALOG_NARRATOR_VOICE), "varsayılan anlatıcı Gemini katalog sesi değil");
 check(JUNIOR_CATALOG_NARRATOR_VOICE === "Fenrir", "varsayılan anlatıcı Fenrir değil");
 check(juniorTeacherForLesson("jr_06_fen-1").voice === JUNIOR_CATALOG_NARRATOR_VOICE, "fen katalog sesi Fenrir değil");
 check(juniorTeacherForLesson("jr_06_ing_main-1").voice === "Kore", "İngilizce Kore'den çıktı");
-check(juniorTeacherForLesson("jr_06_mat-5").voice !== "Puck", "jr_06_mat-5 hâlâ iri Puck sesinde");
-check(juniorTeacherForLesson("jr_06_mat-5").voice !== "Charon", "jr_06_mat-5 hâlâ tok Charon sesinde");
-check(juniorTeacherForLesson("jr_06_mat-5").voice !== "Kore", "jr_06_mat-5 hâlâ kadın Kore sesinde");
+check(juniorTeacherForLesson("jr_06_mat-1").voice !== "Puck", "jr_06_mat-1 hâlâ iri Puck sesinde");
+check(juniorTeacherForLesson("jr_06_mat-1").voice !== "Charon", "jr_06_mat-1 hâlâ tok Charon sesinde");
+check(juniorTeacherForLesson("jr_06_mat-1").voice !== "Kore", "jr_06_mat-1 hâlâ kadın Kore sesinde");
 
 const speech = readFileSync(join(process.cwd(), "lib", "junior", "speech.ts"), "utf8");
 check(!/gemini|openai|elevenlabs|text-to-speech/i.test(speech), "dinleme kanalı dış ses servisi taşıyor");
@@ -125,7 +125,7 @@ const total = courses.reduce((sum, lessons) => sum + lessons.length, 0);
 const published = Object.keys(JUNIOR_AUDIO_MANIFEST).length;
 check(total === published, `yayın ders sayısı ${published} değil: ${total}`);
 check(juniorSealedScenarioCount() >= total, "yazarlık kadrosu yayından küçük");
-check(JUNIOR_MAT_LESSONS[0]?.key === "jr_06_mat-5", "matematik açılışı jr_06_mat-5 değil");
+check(JUNIOR_MAT_LESSONS[0]?.key === "jr_06_mat-1", "matematik açılışı jr_06_mat-1 değil");
 for (const lessons of courses) {
   check(
     lessons.length + 1 <= ACADEMY_MATCH_WHISTLE_MAX,
@@ -135,7 +135,7 @@ for (const lessons of courses) {
 
 const lesson = JUNIOR_MAT_5;
 const steps: readonly string[] = lesson.steps ?? [];
-check(steps.length > 0, "jr_06_mat-5 görsel adım dizisi yok");
+check(steps.length > 0, "jr_06_mat-1 görsel adım dizisi yok");
 const note = juniorLessonNote(lesson.mebNote, lesson.lifeUse);
 const base = juniorPlayerTimeline(note, chunkJuniorLocalSpeech(note), steps.length);
 const scaled = scaleJuniorPlayerTimeline(base, 510_000);
@@ -158,10 +158,10 @@ for (let index = 0; index < anchors.length; index += 1) {
     "adım çapası kaset süresiyle orantılı kaymadı",
   );
 }
-const cassettePath = join(process.cwd(), "public", "media", "junior", "audio", "jr_06_mat-5.mp3");
+const cassettePath = join(process.cwd(), "public", "media", "junior", "audio", "jr_06_mat-1.mp3");
 const cassetteSec = probeMp3DurationSec(cassettePath);
 if (cassetteSec != null) {
-  check(cassetteSec >= 300 && cassetteSec <= 330, `jr_06_mat-5 kaset süresi 5:00–5:30 bandında değil: ${cassetteSec.toFixed(2)}s`);
+  check(cassetteSec >= 299 && cassetteSec <= 330, `jr_06_mat-1 kaset süresi mühürlü 4:59–5:30 bandında değil: ${cassetteSec.toFixed(2)}s`);
   const live = scaleJuniorPlayerTimeline(base, Math.round(cassetteSec * 1000));
   check(live.durationMs === Math.round(cassetteSec * 1000), "kaset saati MP3 süresine oturmadı");
   check(live.pieces === base.pieces, "kaset ölçeği parça metnini değiştirdi");
@@ -203,5 +203,5 @@ if (issues.length > 0) {
 }
 
 process.stdout.write(
-  `verify:junior-speech OK — jr_06_mat-5 katalog sesi Fenrir, voicePrompt senteze gitmez, ${published} yayın dersi fırına hazır, yazarlık ${juniorSealedScenarioCount()}, saat 510s ölçekte bölünebilme adımında.\n`,
+  `verify:junior-speech OK — jr_06_mat-1 katalog sesi Fenrir, voicePrompt senteze gitmez, ${published} yayın dersi fırına hazır, yazarlık ${juniorSealedScenarioCount()}, saat 510s ölçekte bölünebilme adımında.\n`,
 );

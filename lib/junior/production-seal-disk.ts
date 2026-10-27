@@ -6,8 +6,10 @@
  * Dosya yoksa veya boyutu sıfırsa konu taze sayılmaz.
  */
 
-import { statSync } from "node:fs";
+import { closeSync, openSync, readSync, statSync } from "node:fs";
 import { join } from "node:path";
+
+import { mp3DurationMsFromPrefix } from "@/lib/junior/mp3-duration";
 
 const AUDIO_DIR = ["public", "media", "junior", "audio"] as const;
 const LESSON_KEY = /^[a-z0-9_-]+$/u;
@@ -15,6 +17,8 @@ const LESSON_KEY = /^[a-z0-9_-]+$/u;
 export type JuniorAudioDiskRead = {
   filePresent: (lessonKey: string) => boolean;
   treePresent: () => boolean;
+  /** Dosya duruyorsa milisaniye. Yoksa veya çözülemezse `null`. */
+  mp3DurationMs?: (lessonKey: string) => number | null;
 };
 
 function audioDirAbsolute(): string {
@@ -52,7 +56,33 @@ export function juniorAudioTreePresent(): boolean {
   }
 }
 
+/** İlk 256 KB ve dosya boyu. Tüm MP3 çözülmez. */
+export function juniorLessonMp3DurationMs(lessonKey: string): number | null {
+  const absolute = audioFileAbsolute(lessonKey);
+  if (!absolute) {
+    return null;
+  }
+  let fd: number | null = null;
+  try {
+    const stat = statSync(absolute);
+    if (!stat.isFile() || stat.size <= 0) {
+      return null;
+    }
+    fd = openSync(absolute, "r");
+    const prefix = Buffer.alloc(Math.min(stat.size, 262_144));
+    readSync(fd, prefix, 0, prefix.length, 0);
+    return mp3DurationMsFromPrefix(prefix, stat.size);
+  } catch {
+    return null;
+  } finally {
+    if (fd !== null) {
+      closeSync(fd);
+    }
+  }
+}
+
 export const defaultJuniorAudioDiskRead: JuniorAudioDiskRead = {
   filePresent: juniorLessonAudioFilePresent,
   treePresent: juniorAudioTreePresent,
+  mp3DurationMs: juniorLessonMp3DurationMs,
 };

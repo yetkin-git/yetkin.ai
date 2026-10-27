@@ -1,9 +1,9 @@
-import { JUNIOR_MAT_30, JUNIOR_MAT_30_SCENARIO } from "@/lib/junior/content/mat/30";
+import { JUNIOR_MAT_30, JUNIOR_MAT_30_SCENARIO } from "@/lib/junior/content/mat/14";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
 /**
- * `jr_06_mat-30` paralel doğrular ve kesen.
+ * `jr_06_mat-14` paralel doğrular ve kesen.
  * İç açı 70°. Yöndeş 70°. İç ters 70°. Bütünler komşu 110°. Doğru açı 180°.
  * İndirgeyici 180 eksi 70 diye doldurmaz.
  */
@@ -11,12 +11,12 @@ const example = JUNIOR_MAT_30_SCENARIO.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "Soldaki iç açı", "showAngle");
 
 export const JR_06_MAT_30_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
-  lessonKey: "jr_06_mat-30",
+  lessonKey: "jr_06_mat-14",
   title: JUNIOR_MAT_30_SCENARIO.title,
   listenText: JUNIOR_MAT_30.listenText,
   example,
   exampleMarked,
-  audioPath: "/media/junior/audio/jr_06_mat-30.mp3",
+  audioPath: "/media/junior/audio/jr_06_mat-14.mp3",
   layout: "angle",
   stageTitle: "Paralel ve kesen",
   stageSubtitle: "Yöndeş ve bütünler",

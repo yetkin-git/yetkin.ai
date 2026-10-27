@@ -43,9 +43,12 @@ describe("Junior quiz metinleri şablon artığı taşımaz", () => {
     expect(leaks).toEqual([]);
   });
 
-  it("müfredat dışı üslü anlatım dosyası yoktur", () => {
-    expect(existsSync(join(root, "lib/junior/quiz/mat/1.ts"))).toBe(false);
-    expect(existsSync(join(root, "packages/junior-content/quiz/jr_06_mat-1.json"))).toBe(false);
-    expect(existsSync(join(root, "lib/junior/content/mat/1.ts"))).toBe(false);
+  it("açılış dersi üslü taslak değildir", () => {
+    const scenario = readFileSync(join(root, "lib/junior/content/mat/1.ts"), "utf8");
+    expect(existsSync(join(root, "lib/junior/quiz/mat/1.ts"))).toBe(true);
+    expect(existsSync(join(root, "packages/junior-content/quiz/jr_06_mat-1.json"))).toBe(true);
+    expect(scenario).toContain('key: "jr_06_mat-1"');
+    expect(scenario).not.toContain("Üslü ifadede");
+    expect(scenario).not.toContain("KARANTINA");
   });
 });

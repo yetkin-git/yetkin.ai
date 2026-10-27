@@ -61,6 +61,13 @@ export function ProfileSwitcher({
   const [pending, setPending] = useState(false);
   const showForm = ready && (profiles.length === 0 || open);
 
+  useEffect(() => {
+    if (window.location.hash === "#cocuk-profili") {
+      setOpen(true);
+      document.getElementById("cocuk-profili")?.scrollIntoView({ block: "start" });
+    }
+  }, []);
+
   async function onCreate(event: FormEvent) {
     event.preventDefault();
     if (!consent || pending) {
@@ -245,7 +252,7 @@ export function ProfileSwitcher({
   );
 
   return (
-    <div>
+    <div id="cocuk-profili">
       <button
         type="button"
         aria-label={selected ? `${selected.nickname} - ${selected.grade}. Sınıf` : "Profil ekle"}

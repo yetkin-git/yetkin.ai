@@ -146,7 +146,13 @@ function JuniorVectorStepArt({ lessonKey, scene, beat, caption, captionTrail }: 
   if (isMathJuniorScene(scene)) {
     /** Canlı karatahta: caption = karaoke; captionTrail = yapışkan görsel durum. */
     return (
-      <MathSceneArt scene={scene} beat={Math.min(8, beat)} caption={caption} captionTrail={captionTrail} />
+      <MathSceneArt
+        scene={scene}
+        beat={Math.min(8, beat)}
+        caption={caption}
+        captionTrail={captionTrail}
+        lessonKey={lessonKey}
+      />
     );
   }
   if (isScienceJuniorScene(scene)) {
@@ -348,14 +354,14 @@ function ElectiveMotif({
     const isMercy = key === "jr_06_siyer-2" || /merhamet|şefkat|yardım|kuş/.test(joined);
     const cards = isMercy
       ? [
-          { title: "Merhamet", sub: "Canlıya şefkatle yaklaşmak", badge: "Şefkat ✓" },
-          { title: "Yardımlaşma", sub: "Zor anında arkadaşının yanında olmak", badge: "Paylaşım ✓" },
-          { title: "Nezaket", sub: "Kırmadan, gönül alarak konuşmak", badge: "Örnek Ahlak ✓" },
+          { title: "Merhamet", sub: "Karşındaki kişiyi incitmemek", badge: "İncitme ✓" },
+          { title: "Yumuşaklık", sub: "Gücün yettiği halde sertleşmemek", badge: "Yumuşak ✓" },
+          { title: "Yardım", sub: "Merhametin görünen işi", badge: "İş ✓" },
         ]
       : [
-          { title: "Doğru Söz (Sıdk)", sub: "Şaka bile olsa gerçeği söylemek", badge: "Güven ✓" },
-          { title: "Emanet Bilinci", sub: "Verilen sözü ve eşyayı korumak", badge: "El-Emin ✓" },
-          { title: "Özü Sözü Bir", sub: "Davranış ile sözün uyumu", badge: "Dürüstlük ✓" },
+          { title: "Doğru söz", sub: "Ağzından çıkan ile elinin yaptığı aynı", badge: "Söz ✓" },
+          { title: "Emanet", sub: "Kalemi sahibine geri vermek", badge: "Geri ver ✓" },
+          { title: "Söz ile iş", sub: "Sözün ile işin birleşir", badge: "Birleşir ✓" },
         ];
     return (
       <Frame>
@@ -390,7 +396,7 @@ function ElectiveMotif({
           );
         })}
         <text x="20" y="182" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="600">
-          {isMercy ? "Merhamet, kalpteki iyiliği davranışa dönüştürmektir." : "Doğru söz güven kurar; verilen söz emanettir."}
+          {isMercy ? "Yardım, merhametin görünen işidir." : "Söz ile iş birleşirse doğru söz durur."}
         </text>
       </Frame>
     );
@@ -400,14 +406,14 @@ function ElectiveMotif({
     const isDebug = key === "jr_06_kod-2" || /hatalı|hata|düzelt|yanlış sıra/.test(joined);
     const rows = isDebug
       ? [
-          { cmd: "1. Adım: Sabunu eline al", status: "✓ Doğru", ok: true },
-          { cmd: "2. Adım: Durulamadan musluğu kapat", status: "✗ Hatalı adım!", ok: false },
-          { cmd: "Düzeltme: Önce durula → sonra kapat", status: "✓ Onarıldı", ok: true },
+          { cmd: "1. Bardağı tut", status: "✓ Doğru", ok: true },
+          { cmd: "2. Bardağı bırak", status: "✗ Hatalı adım", ok: false },
+          { cmd: "Düzeltme: Bardağı tut", status: "✓ Onarıldı", ok: true },
         ]
       : [
-          { cmd: "1. Komut: Musluğu aç", status: "Başla →", ok: true },
-          { cmd: "2. Komut: Ellerini sabunla ve durula", status: "İşlem →", ok: true },
-          { cmd: "3. Komut: Musluğu kapat", status: "Bitir ✓", ok: true },
+          { cmd: "1. Bardağı tut", status: "Başla →", ok: true },
+          { cmd: "2. Musluğu aç", status: "İşlem →", ok: true },
+          { cmd: "3. Bardak dolunca kapat", status: "Bitir ✓", ok: true },
         ];
     return (
       <Frame>
@@ -446,7 +452,7 @@ function ElectiveMotif({
           );
         })}
         <text x="20" y="182" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="600">
-          {isDebug ? "Hata ayıklama: Yanlış sıradaki adımı bulup doğru yere taşımaktır." : "Algoritma: Komutların eksiksiz ve doğru sırayla çalışmasıdır."}
+          {isDebug ? "Hata ikinci satırdadır. Bardağı bırakmak suyu tutmaz." : "Musluğu önce açmak suyu yere döker."}
         </text>
       </Frame>
     );
@@ -461,14 +467,14 @@ function ElectiveMotif({
         </text>
         {(isIntro
           ? [
-              { de: "Hallo! Wie heißt du?", tr: "Merhaba! Adın ne?" },
-              { de: "Ich heiße Efe.", tr: "Benim adım Efe." },
-              { de: "Freut mich!", tr: "Tanıştığıma memnun oldum!" },
+              { de: "Wie heißt du?", tr: "Adın ne?" },
+              { de: "Ich heiße", tr: "Adın gelir" },
+              { de: "Heiße", tr: "Tek başına cevap olmaz" },
             ]
           : [
-              { de: "Guten Morgen", tr: "Günaydın (Sabah)" },
-              { de: "Guten Tag", tr: "İyi günler (Gün ortası)" },
-              { de: "Guten Abend", tr: "İyi akşamlar (Akşam)" },
+              { de: "Guten Morgen", tr: "Günaydın" },
+              { de: "Guten Tag", tr: "İyi günler" },
+              { de: "Gute Nacht", tr: "İyi geceler, vedadır" },
             ]
         ).map((item, idx) => (
           <g key={item.de}>
@@ -491,7 +497,7 @@ function ElectiveMotif({
           </g>
         ))}
         <text x="20" y="182" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="600">
-          Almanca selamlaşma günün saatine göre seçilir.
+          {isIntro ? "Heiße tek başına cevap olmaz. Ich heiße ile başla." : "Hallo her saatte merhabadır. Guten Abend akşam selamıdır."}
         </text>
       </Frame>
     );
@@ -507,13 +513,13 @@ function ElectiveMotif({
         {(isIntro
           ? [
               { fr: "Comment tu t'appelles ?", tr: "Adın ne?" },
-              { fr: "Je m'appelle Ece.", tr: "Benim adım Ece." },
-              { fr: "Enchanté(e) !", tr: "Memnun oldum!" },
+              { fr: "Je m'appelle", tr: "Adın gelir" },
+              { fr: "Appelle", tr: "Tek başına cevap olmaz" },
             ]
           : [
-              { fr: "Bonjour", tr: "Günaydın / İyi günler" },
-              { fr: "Bonsoir", tr: "İyi akşamlar" },
-              { fr: "Salut", tr: "Selam (Arkadaşlar arasında)" },
+              { fr: "Bonjour", tr: "Günaydın ve iyi günler" },
+              { fr: "Bonsoir", tr: "Akşam" },
+              { fr: "Bonne nuit", tr: "İyi geceler, vedadır" },
             ]
         ).map((item, idx) => (
           <g key={item.fr}>
@@ -536,7 +542,7 @@ function ElectiveMotif({
           </g>
         ))}
         <text x="20" y="182" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="600">
-          Fransızcada gündüz Bonjour, akşam Bonsoir kullanılır.
+          {isIntro ? "Appelle tek başına cevap olmaz. Je m'appelle ile başla." : "Salut arkadaş arasında merhabadır. Bonne nuit vedadır."}
         </text>
       </Frame>
     );
@@ -574,22 +580,22 @@ function ElectiveMotif({
           <g>
             <rect x="20" y="46" width="320" height="48" rx="10" fill="#e0f2fe" stroke="#0284c7" strokeWidth="1.75" />
             <text x="32" y="68" fill="#0f172a" fontSize="13" fontFamily="inherit" fontWeight="700">
-              Esselamü aleyküm (السلام عليكم)
+              Selamün aleyküm
             </text>
             <text x="32" y="84" fill="#475569" fontSize="10.5" fontFamily="inherit">
-              Barış ve esenlik üzerinize olsun
+              Barış üzerine olsun
             </text>
             <rect x="20" y="104" width="320" height="48" rx="10" fill="#fef3c7" stroke="#d97706" strokeWidth="1.75" />
             <text x="32" y="126" fill="#0f172a" fontSize="13" fontFamily="inherit" fontWeight="700">
-              Ve aleyküm selam (وعليكم السلام)
+              Ve aleyküm selam
             </text>
             <text x="32" y="142" fill="#475569" fontSize="10.5" fontFamily="inherit">
-              Sizin de üzerinize barış ve esenlik olsun
+              Sana da barış olsun
             </text>
           </g>
         )}
         <text x="20" y="182" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="600">
-          Arapça satır sağdan başlar ve sola doğru okunur.
+          {isRtl ? "Arapça satır sağdan sola okunur." : "Önce selam verilir. Sonra karşılık söylenir."}
         </text>
       </Frame>
     );
@@ -605,13 +611,13 @@ function ElectiveMotif({
       {(isEngIntro
         ? [
             { en: "What's your name?", tr: "Adın ne?" },
-            { en: "My name is Ali.", tr: "Benim adım Ali." },
-            { en: "Nice to meet you!", tr: "Tanıştığıma memnun oldum!" },
+            { en: "My name is", tr: "Adın gelir" },
+            { en: "Name is", tr: "Tek başına cevap olmaz" },
           ]
         : [
-            { en: "Good morning", tr: "Günaydın (Sabah)" },
-            { en: "Good afternoon", tr: "Tünaydın (Öğleden sonra)" },
-            { en: "Good evening", tr: "İyi akşamlar (Akşam)" },
+            { en: "Good morning", tr: "Günaydın" },
+            { en: "Good afternoon", tr: "Öğleden sonra" },
+            { en: "Good night", tr: "İyi geceler, vedadır" },
           ]
       ).map((row, idx) => (
         <g key={row.en}>
@@ -633,9 +639,9 @@ function ElectiveMotif({
           </text>
         </g>
       ))}
-      <text x="20" y="182" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="600">
-        Selam ve tanışma cümleleri karşılıklı diyalogla kurulur.
-      </text>
+        <text x="20" y="182" fill="#0f172a" fontSize="11" fontFamily="inherit" fontWeight="600">
+          {isEngIntro ? "Yalnız Name is deme. My name is ile başla." : "Hello her saatte merhabadır. Good evening akşam selamıdır."}
+        </text>
     </Frame>
   );
 }

@@ -1,55 +1,55 @@
 import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
 
-/** 6. Sınıf Matematik — konu sonu soru arşivi (7/25). */
-export const JUNIOR_MAT_QUIZ_7 = {
+/** 6. Sınıf Matematik — konu sonu soru arşivi (11/25). */
+export const JUNIOR_MAT_QUIZ_11 = {
   lessonKey: "jr_06_mat-7",
-  title: "Ortak bölen ve ortak kat",
+  title: "Payda aynıyken toplama",
   tellGuides: [
-    "En büyük ortak bölen ile en küçük ortak katı nasıl ayırırsın?",
-    "8 ve 12 için EBOB ve EKOK nasıl bulunur?",
+    "Paydalar aynıyken neden yalnız payların toplandığını anlatabilir misin?",
+    "Paydayı toplamak neden yanlıştır?",
   ],
   questions: [
     {
       id: "q1",
       level: "concept",
-      question: "En büyük ortak bölen (EBOB) neyi seçer?",
+      question: "Paydalar aynıysa toplama nasıl yapılır?",
       options: [
-        "İki sayıyı da bölen en büyük sayıyı",
-        "İki sayının toplamını",
-        "En küçük asal sayıyı",
-        "Yalnızca 1'i",
+        "Yalnız paylar toplanır, payda yerinde kalır",
+        "Paydalar da toplanır",
+        "Paylar çarpılır",
+        "Kesirler ters çevrilir",
       ],
       correctAnswerIndex: 0,
-      hint: "Bölen küçük listede, kat büyük listede durur.",
-      explanation: "Adım 1: Ortak bölenler iki sayıyı da böler. Adım 2: Bunların en büyüğü EBOB'tur. Adım 3: Ortak katların en küçüğü EKOK'tur.",
+      hint: "Dilim boyu değişmez; dilim sayısı artar.",
+      explanation: "Adım 1: Payda dilimin boyudur. Adım 2: Aynı boyda dilimler birleşince pay artar. Adım 3: Payda yerinde kalır.",
     },
     {
       id: "q2",
       level: "apply",
-      question: "8 ve 12 için en büyük ortak bölen kaçtır?",
+      question: "Bir bölü dört artı iki bölü dört kaç eder?",
       options: [
-        "2",
-        "4",
-        "24",
-        "96",
+        "Üç bölü dört",
+        "Üç bölü sekiz",
+        "İki bölü dört",
+        "Bir bölü iki",
       ],
-      correctAnswerIndex: 1,
-      hint: "8'in bölenleri: 1, 2, 4, 8. Ortak olanların en büyüğünü seç.",
-      explanation: "Adım 1: 8'in bölenleri 1, 2, 4, 8. Adım 2: 12'nin bölenleri 1, 2, 3, 4, 6, 12. Adım 3: Ortakların en büyüğü 4'tür.",
+      correctAnswerIndex: 0,
+      hint: "Payları topla: 1 artı 2. Paydaya dokunma.",
+      explanation: "Adım 1: Paylar 1 ve 2'dir; 1 artı 2, 3 eder. Adım 2: Payda 4 kalır. Adım 3: Sonuç dörtte üçtür. Üç bölü sekiz tuzaktır.",
     },
     {
       id: "q3",
       level: "skill",
-      question: "İki zil 8 ve 12 dakikada bir çalıyor. Aynı anda çaldıktan sonra yeniden birlikte kaçıncı dakikada çalar?",
+      question: "Aynı boy pasta dilimlerinden önce 1, sonra 2 dilim aldın. Pasta 4 dilime bölünmüştü. Ne kadar pasta aldın?",
       options: [
-        "4",
-        "20",
-        "24",
-        "96",
+        "Dörtte üç",
+        "Üç bölü sekiz",
+        "İki bölü dört",
+        "Beş bölü dört",
       ],
-      correctAnswerIndex: 2,
-      hint: "Bu soru en küçük ortak katı ister.",
-      explanation: "Adım 1: Ortak katlar 24, 48, 72… diye gider. Adım 2: En küçüğü 24'tür. Adım 3: Ziller 24. dakikada yeniden birlikte çalar.",
+      correctAnswerIndex: 0,
+      hint: "Payda aynı; payları topla.",
+      explanation: "Adım 1: Bir bölü dört artı iki bölü dört. Adım 2: Paylar 3 olur, payda 4 kalır. Adım 3: Dörtte üç pasta almışsındır.",
     },
   ],
 } as const satisfies JuniorLessonQuizPack;

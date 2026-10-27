@@ -109,7 +109,7 @@ export const COURSE_REGISTRY = [
         "prompt mühendisliği office",
       ],
     },
-    vitrineOrder: 5,
+    vitrineOrder: 1,
     nativeListed: true,
     passportListed: true,
     seedRanks: { globalRank: 1, localRank: 1 },
@@ -216,8 +216,8 @@ export const COURSE_REGISTRY = [
         "e-ticaret seo prompt",
       ],
     },
-    vitrineOrder: 1,
-    nativeListed: false,
+    vitrineOrder: 2,
+    nativeListed: true,
     passportListed: true,
     seedRanks: { globalRank: 2, localRank: 1 },
   },
@@ -267,8 +267,8 @@ export const COURSE_REGISTRY = [
         "yapay zeka görsel üretimi",
       ],
     },
-    vitrineOrder: 2,
-    nativeListed: false,
+    vitrineOrder: 3,
+    nativeListed: true,
     passportListed: true,
     seedRanks: { globalRank: 3, localRank: 1 },
   },
@@ -319,8 +319,8 @@ export const COURSE_REGISTRY = [
         "web chatbot eğitimi",
       ],
     },
-    vitrineOrder: 4,
-    nativeListed: false,
+    vitrineOrder: 5,
+    nativeListed: true,
     passportListed: true,
     seedRanks: { globalRank: 4, localRank: 1 },
   },
@@ -370,8 +370,8 @@ export const COURSE_REGISTRY = [
         "istem yazma pratiği",
       ],
     },
-    vitrineOrder: 3,
-    nativeListed: false,
+    vitrineOrder: 4,
+    nativeListed: true,
     passportListed: true,
     seedRanks: { globalRank: 5, localRank: 1 },
   },
@@ -601,8 +601,8 @@ function assertCourseRegistry(): void {
   if (sortedOrders.join(",") !== "1,2,3,4,5,6" || new Set(orders).size !== orders.length) {
     throw new Error("Vitrin sırası 1’den 6’ya kadar, tekrarsız olmalıdır.");
   }
-  if (adults.filter((row) => row.nativeListed).length !== 2) {
-    throw new Error("Mobil liste iki karttır.");
+  if (adults.filter((row) => row.nativeListed).length !== 6) {
+    throw new Error("Mobil liste altı vitrin kartıdır.");
   }
   if (adults.filter((row) => row.passportListed).length !== 5) {
     throw new Error("Pasaport kapısı beş koddur.");

@@ -1,0 +1,1703 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_mat-20",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Çember uzunluğu ile çap",
+  "grade": 6,
+  "subject": "Matematik",
+  "teacher": {
+    "name": "Selim",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_mat-20.mp3",
+    "durationMs": 296080,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 110860
+    },
+    {
+      "id": "ch-2",
+      "title": "Çember ölçüsü",
+      "startMs": 110860,
+      "endMs": 167050
+    },
+    {
+      "id": "ch-3",
+      "title": "Kapanış",
+      "startMs": 167050,
+      "endMs": 296080
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4710,
+      "pauseAfterMs": 810,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 170,
+          "endMs": 680
+        },
+        {
+          "word": "sevgili",
+          "startMs": 680,
+          "endMs": 1570
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2650,
+          "endMs": 3900
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "circle-measure",
+            "title": "Çember uzunluğu",
+            "subtitle": "Çap ve yarıçap"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4710,
+      "endMs": 8780,
+      "pauseAfterMs": 1450,
+      "text": "Ben Matematik öğretmenin Selim.",
+      "markedText": "Ben Matematik öğretmenin Selim.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4710,
+          "endMs": 4980
+        },
+        {
+          "word": "Matematik",
+          "startMs": 5340,
+          "endMs": 6080
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6220,
+          "endMs": 6960
+        },
+        {
+          "word": "Selim.",
+          "startMs": 7000,
+          "endMs": 7330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8780,
+      "endMs": 12730,
+      "pauseAfterMs": 880,
+      "text": "Bugün çemberin çevresini çapından ölçeceğiz.",
+      "markedText": "Bugün çemberin çevresini çapından ölçeceğiz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 8780,
+          "endMs": 9200
+        },
+        {
+          "word": "çemberin",
+          "startMs": 9330,
+          "endMs": 10120
+        },
+        {
+          "word": "çevresini",
+          "startMs": 10220,
+          "endMs": 10560
+        },
+        {
+          "word": "çapından",
+          "startMs": 10650,
+          "endMs": 10990
+        },
+        {
+          "word": "ölçeceğiz.",
+          "startMs": 11120,
+          "endMs": 11850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 12730,
+      "endMs": 22940,
+      "pauseAfterMs": 330,
+      "text": "Okul bahçesindeki yuvarlak havuzun kenarı bir çemberdir.",
+      "markedText": "Okul bahçesindeki yuvarlak havuzun kenarı bir çemberdir.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 12730,
+          "endMs": 12900
+        },
+        {
+          "word": "bahçesindeki",
+          "startMs": 13430,
+          "endMs": 14980
+        },
+        {
+          "word": "yuvarlak",
+          "startMs": 15180,
+          "endMs": 16360
+        },
+        {
+          "word": "havuzun",
+          "startMs": 17240,
+          "endMs": 18000
+        },
+        {
+          "word": "kenarı",
+          "startMs": 18500,
+          "endMs": 18950
+        },
+        {
+          "word": "bir",
+          "startMs": 19390,
+          "endMs": 19930
+        },
+        {
+          "word": "çemberdir.",
+          "startMs": 21120,
+          "endMs": 22610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 22940,
+      "endMs": 32920,
+      "pauseAfterMs": 800,
+      "text": "Çap, çemberi ortadan ikiye bölen en uzun kiriştir.",
+      "markedText": "Çap, çemberi ortadan ikiye bölen en uzun kiriştir.",
+      "words": [
+        {
+          "word": "Çap,",
+          "startMs": 22940,
+          "endMs": 23140
+        },
+        {
+          "word": "çemberi",
+          "startMs": 23380,
+          "endMs": 24390
+        },
+        {
+          "word": "ortadan",
+          "startMs": 24750,
+          "endMs": 25510
+        },
+        {
+          "word": "ikiye",
+          "startMs": 26720,
+          "endMs": 27230
+        },
+        {
+          "word": "bölen",
+          "startMs": 27620,
+          "endMs": 27990
+        },
+        {
+          "word": "en",
+          "startMs": 28170,
+          "endMs": 28450
+        },
+        {
+          "word": "uzun",
+          "startMs": 28570,
+          "endMs": 29450
+        },
+        {
+          "word": "kiriştir.",
+          "startMs": 30650,
+          "endMs": 32120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 32920,
+      "endMs": 41190,
+      "pauseAfterMs": 1130,
+      "text": "Bunu okul bahçesindeki yuvarlak saksıda görürsün.",
+      "markedText": "Bunu okul bahçesindeki yuvarlak saksıda görürsün.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 32920,
+          "endMs": 33090
+        },
+        {
+          "word": "okul",
+          "startMs": 33510,
+          "endMs": 34600
+        },
+        {
+          "word": "bahçesindeki",
+          "startMs": 35720,
+          "endMs": 36580
+        },
+        {
+          "word": "yuvarlak",
+          "startMs": 36580,
+          "endMs": 37450
+        },
+        {
+          "word": "saksıda",
+          "startMs": 38490,
+          "endMs": 38880
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 39270,
+          "endMs": 40060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 41190,
+      "endMs": 53330,
+      "pauseAfterMs": 1470,
+      "text": "Kutunun kapağı yuvarlaksa bir ipi kenardan dolandırıp çapı ölçersin.",
+      "markedText": "Kutunun kapağı yuvarlaksa bir ipi kenardan dolandırıp çapı ölçersin.",
+      "words": [
+        {
+          "word": "Kutunun",
+          "startMs": 41190,
+          "endMs": 42050
+        },
+        {
+          "word": "kapağı",
+          "startMs": 42330,
+          "endMs": 42670
+        },
+        {
+          "word": "yuvarlaksa",
+          "startMs": 42810,
+          "endMs": 44090
+        },
+        {
+          "word": "bir",
+          "startMs": 44870,
+          "endMs": 45070
+        },
+        {
+          "word": "ipi",
+          "startMs": 45330,
+          "endMs": 45630
+        },
+        {
+          "word": "kenardan",
+          "startMs": 45920,
+          "endMs": 47140
+        },
+        {
+          "word": "dolandırıp",
+          "startMs": 48420,
+          "endMs": 50040
+        },
+        {
+          "word": "çapı",
+          "startMs": 50250,
+          "endMs": 50700
+        },
+        {
+          "word": "ölçersin.",
+          "startMs": 51030,
+          "endMs": 51860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 53330,
+      "endMs": 59150,
+      "pauseAfterMs": 1070,
+      "text": "İpin boyu, çap ile pi'nin çarpımına yakındır.",
+      "markedText": "İpin boyu, çap ile pi'nin çarpımına yakındır.",
+      "words": [
+        {
+          "word": "İpin",
+          "startMs": 53330,
+          "endMs": 53750
+        },
+        {
+          "word": "boyu,",
+          "startMs": 54020,
+          "endMs": 54410
+        },
+        {
+          "word": "çap",
+          "startMs": 54620,
+          "endMs": 55010
+        },
+        {
+          "word": "ile",
+          "startMs": 56110,
+          "endMs": 56280
+        },
+        {
+          "word": "pi'nin",
+          "startMs": 56350,
+          "endMs": 56880
+        },
+        {
+          "word": "çarpımına",
+          "startMs": 57030,
+          "endMs": 57570
+        },
+        {
+          "word": "yakındır.",
+          "startMs": 57660,
+          "endMs": 58080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 59150,
+      "endMs": 69820,
+      "pauseAfterMs": 1020,
+      "text": "Çap, merkezden geçen ve çemberi iki noktada kesen doğru parçasıdır.",
+      "markedText": "Çap, merkezden geçen ve çemberi iki noktada kesen doğru parçasıdır.",
+      "words": [
+        {
+          "word": "Çap,",
+          "startMs": 59150,
+          "endMs": 59290
+        },
+        {
+          "word": "merkezden",
+          "startMs": 59380,
+          "endMs": 60550
+        },
+        {
+          "word": "geçen",
+          "startMs": 61230,
+          "endMs": 61410
+        },
+        {
+          "word": "ve",
+          "startMs": 61740,
+          "endMs": 61930
+        },
+        {
+          "word": "çemberi",
+          "startMs": 62030,
+          "endMs": 62810
+        },
+        {
+          "word": "iki",
+          "startMs": 63090,
+          "endMs": 64050
+        },
+        {
+          "word": "noktada",
+          "startMs": 65120,
+          "endMs": 65600
+        },
+        {
+          "word": "kesen",
+          "startMs": 65710,
+          "endMs": 66320
+        },
+        {
+          "word": "doğru",
+          "startMs": 66720,
+          "endMs": 67040
+        },
+        {
+          "word": "parçasıdır.",
+          "startMs": 67320,
+          "endMs": 68800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 69820,
+      "endMs": 75130,
+      "pauseAfterMs": 940,
+      "text": "Yarıçap, çapın yarısıdır.",
+      "markedText": "Yarıçap, çapın yarısıdır.",
+      "words": [
+        {
+          "word": "Yarıçap,",
+          "startMs": 69820,
+          "endMs": 71870
+        },
+        {
+          "word": "çapın",
+          "startMs": 72250,
+          "endMs": 72490
+        },
+        {
+          "word": "yarısıdır.",
+          "startMs": 72620,
+          "endMs": 74190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 75130,
+      "endMs": 83600,
+      "pauseAfterMs": 1290,
+      "text": "Çevre uzunluğu çap ile pi sayısının çarpımıdır.",
+      "markedText": "Çevre uzunluğu çap ile pi sayısının çarpımıdır.",
+      "words": [
+        {
+          "word": "Çevre",
+          "startMs": 75130,
+          "endMs": 75510
+        },
+        {
+          "word": "uzunluğu",
+          "startMs": 75690,
+          "endMs": 76640
+        },
+        {
+          "word": "çap",
+          "startMs": 77040,
+          "endMs": 77200
+        },
+        {
+          "word": "ile",
+          "startMs": 77420,
+          "endMs": 77810
+        },
+        {
+          "word": "pi",
+          "startMs": 78000,
+          "endMs": 78510
+        },
+        {
+          "word": "sayısının",
+          "startMs": 79950,
+          "endMs": 80860
+        },
+        {
+          "word": "çarpımıdır.",
+          "startMs": 81070,
+          "endMs": 82310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 83600,
+      "endMs": 88090,
+      "pauseAfterMs": 920,
+      "text": "Pi yaklaşık 3,14 alınır.",
+      "markedText": "Pi yaklaşık 3,14 alınır.",
+      "words": [
+        {
+          "word": "Pi",
+          "startMs": 83600,
+          "endMs": 83720
+        },
+        {
+          "word": "yaklaşık",
+          "startMs": 83820,
+          "endMs": 84220
+        },
+        {
+          "word": "3,14",
+          "startMs": 85050,
+          "endMs": 86140
+        },
+        {
+          "word": "alınır.",
+          "startMs": 86240,
+          "endMs": 87170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-1",
+      "startMs": 88090,
+      "endMs": 96640,
+      "pauseAfterMs": 1230,
+      "text": "Cetvelle çapı ölçünce çevre, çarpımla bulunur.",
+      "markedText": "Cetvelle çapı ölçünce çevre, çarpımla bulunur.",
+      "words": [
+        {
+          "word": "Cetvelle",
+          "startMs": 88090,
+          "endMs": 89100
+        },
+        {
+          "word": "çapı",
+          "startMs": 89790,
+          "endMs": 90630
+        },
+        {
+          "word": "ölçünce",
+          "startMs": 90940,
+          "endMs": 91810
+        },
+        {
+          "word": "çevre,",
+          "startMs": 91950,
+          "endMs": 92540
+        },
+        {
+          "word": "çarpımla",
+          "startMs": 93510,
+          "endMs": 94490
+        },
+        {
+          "word": "bulunur.",
+          "startMs": 94570,
+          "endMs": 95410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-1",
+      "startMs": 96640,
+      "endMs": 102560,
+      "pauseAfterMs": 280,
+      "text": "Çap 2 ise yarıçap 1'dir",
+      "markedText": "Çap 2 ise yarıçap 1'dir",
+      "words": [
+        {
+          "word": "Çap",
+          "startMs": 96640,
+          "endMs": 97210
+        },
+        {
+          "word": "2",
+          "startMs": 97440,
+          "endMs": 97790
+        },
+        {
+          "word": "ise",
+          "startMs": 98010,
+          "endMs": 98420
+        },
+        {
+          "word": "yarıçap",
+          "startMs": 99400,
+          "endMs": 101080
+        },
+        {
+          "word": "1'dir",
+          "startMs": 101760,
+          "endMs": 102280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-1",
+      "startMs": 102560,
+      "endMs": 110860,
+      "pauseAfterMs": 1310,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 102560,
+          "endMs": 103730
+        },
+        {
+          "word": "şimdi",
+          "startMs": 104520,
+          "endMs": 104910
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 105400,
+          "endMs": 106460
+        },
+        {
+          "word": "çizime",
+          "startMs": 107250,
+          "endMs": 107590
+        },
+        {
+          "word": "birlikte",
+          "startMs": 107750,
+          "endMs": 108340
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 108590,
+          "endMs": 109550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 110860,
+      "endMs": 167050,
+      "pauseAfterMs": 940,
+      "text": "Çapı 10 santimetre olan bir çemberde çevre 10 çarpı pi santimetredir. Pi yerine 3 alırsak yaklaşık çevre 30 santimetre olur. Pi yerine 3,14 alırsak 31,4 santimetre olur. Yarıçap 5 santimetredir çünkü 10'un yarısı 5'tir. Çap verilmeden yarıçapı çevre sanma.",
+      "markedText": "{@showCircle} Çapı 10 santimetre olan bir çemberde çevre 10 çarpı pi santimetredir. Pi yerine 3 alırsak yaklaşık çevre 30 santimetre olur. Pi yerine 3,14 alırsak 31,4 santimetre olur. Yarıçap 5 santimetredir çünkü 10'un yarısı 5'tir. Çap verilmeden yarıçapı çevre sanma.",
+      "words": [
+        {
+          "word": "Çapı",
+          "startMs": 110860,
+          "endMs": 111720
+        },
+        {
+          "word": "10",
+          "startMs": 112620,
+          "endMs": 112800
+        },
+        {
+          "word": "santimetre",
+          "startMs": 113460,
+          "endMs": 114420
+        },
+        {
+          "word": "olan",
+          "startMs": 114420,
+          "endMs": 114990
+        },
+        {
+          "word": "bir",
+          "startMs": 115800,
+          "endMs": 115990
+        },
+        {
+          "word": "çemberde",
+          "startMs": 116400,
+          "endMs": 116940
+        },
+        {
+          "word": "çevre",
+          "startMs": 117180,
+          "endMs": 117650
+        },
+        {
+          "word": "10",
+          "startMs": 118790,
+          "endMs": 118900
+        },
+        {
+          "word": "çarpı",
+          "startMs": 119520,
+          "endMs": 120010
+        },
+        {
+          "word": "pi",
+          "startMs": 120640,
+          "endMs": 120760
+        },
+        {
+          "word": "santimetredir.",
+          "startMs": 121050,
+          "endMs": 121810
+        },
+        {
+          "word": "Pi",
+          "startMs": 122810,
+          "endMs": 123060
+        },
+        {
+          "word": "yerine",
+          "startMs": 123660,
+          "endMs": 124370
+        },
+        {
+          "word": "3",
+          "startMs": 125050,
+          "endMs": 125810
+        },
+        {
+          "word": "alırsak",
+          "startMs": 126870,
+          "endMs": 128300
+        },
+        {
+          "word": "yaklaşık",
+          "startMs": 128720,
+          "endMs": 129620
+        },
+        {
+          "word": "çevre",
+          "startMs": 130030,
+          "endMs": 130560
+        },
+        {
+          "word": "30",
+          "startMs": 130620,
+          "endMs": 131580
+        },
+        {
+          "word": "santimetre",
+          "startMs": 131790,
+          "endMs": 133180
+        },
+        {
+          "word": "olur.",
+          "startMs": 133610,
+          "endMs": 134630
+        },
+        {
+          "word": "Pi",
+          "startMs": 135270,
+          "endMs": 135440
+        },
+        {
+          "word": "yerine",
+          "startMs": 135790,
+          "endMs": 136890
+        },
+        {
+          "word": "3,14",
+          "startMs": 137760,
+          "endMs": 138380
+        },
+        {
+          "word": "alırsak",
+          "startMs": 139020,
+          "endMs": 139790
+        },
+        {
+          "word": "31,4",
+          "startMs": 141350,
+          "endMs": 142720
+        },
+        {
+          "word": "santimetre",
+          "startMs": 142950,
+          "endMs": 144090
+        },
+        {
+          "word": "olur.",
+          "startMs": 145040,
+          "endMs": 145400
+        },
+        {
+          "word": "Yarıçap",
+          "startMs": 145690,
+          "endMs": 146570
+        },
+        {
+          "word": "5",
+          "startMs": 146610,
+          "endMs": 147180
+        },
+        {
+          "word": "santimetredir",
+          "startMs": 148240,
+          "endMs": 150460
+        },
+        {
+          "word": "çünkü",
+          "startMs": 151710,
+          "endMs": 152200
+        },
+        {
+          "word": "10'un",
+          "startMs": 152250,
+          "endMs": 152980
+        },
+        {
+          "word": "yarısı",
+          "startMs": 153750,
+          "endMs": 154590
+        },
+        {
+          "word": "5'tir.",
+          "startMs": 155320,
+          "endMs": 156030
+        },
+        {
+          "word": "Çap",
+          "startMs": 156790,
+          "endMs": 157050
+        },
+        {
+          "word": "verilmeden",
+          "startMs": 157740,
+          "endMs": 159320
+        },
+        {
+          "word": "yarıçapı",
+          "startMs": 160300,
+          "endMs": 162240
+        },
+        {
+          "word": "çevre",
+          "startMs": 163740,
+          "endMs": 164400
+        },
+        {
+          "word": "sanma.",
+          "startMs": 164620,
+          "endMs": 166110
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 110860,
+          "op": "SHOW_CIRCLE",
+          "hook": "showCircle",
+          "params": {
+            "radius": 5,
+            "diameter": 10,
+            "pi": 3.14,
+            "circumference": 31.4,
+            "unit": "cm",
+            "formula": "2πr",
+            "relation": "R = 2r",
+            "marks": [
+              {
+                "slot": "diameter",
+                "value": 10,
+                "atMs": 112620
+              },
+              {
+                "slot": "product",
+                "value": 10,
+                "atMs": 118790
+              },
+              {
+                "slot": "pi-approx",
+                "value": 3,
+                "atMs": 125050
+              },
+              {
+                "slot": "circ-approx",
+                "value": 30,
+                "atMs": 130620
+              },
+              {
+                "slot": "pi",
+                "value": 3.14,
+                "token": "3,14",
+                "atMs": 137760
+              },
+              {
+                "slot": "circumference",
+                "value": 31.4,
+                "token": "31,4",
+                "atMs": 141350
+              },
+              {
+                "slot": "radius",
+                "value": 5,
+                "atMs": 146610
+              },
+              {
+                "slot": "half-source",
+                "value": 10,
+                "token": "10'un",
+                "atMs": 152250
+              },
+              {
+                "slot": "half",
+                "value": 5,
+                "token": "5'tir",
+                "atMs": 155320
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-3",
+      "startMs": 167050,
+      "endMs": 171220,
+      "pauseAfterMs": 940,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 167050,
+          "endMs": 167790
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 168550,
+          "endMs": 170280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-3",
+      "startMs": 171220,
+      "endMs": 179760,
+      "pauseAfterMs": 1220,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 171220,
+          "endMs": 171550
+        },
+        {
+          "word": "bir",
+          "startMs": 171690,
+          "endMs": 171930
+        },
+        {
+          "word": "kez",
+          "startMs": 172330,
+          "endMs": 172710
+        },
+        {
+          "word": "görünce",
+          "startMs": 173040,
+          "endMs": 174170
+        },
+        {
+          "word": "kolayca",
+          "startMs": 175270,
+          "endMs": 176300
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 176920,
+          "endMs": 178540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-3",
+      "startMs": 179760,
+      "endMs": 197860,
+      "pauseAfterMs": 1090,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 179760,
+          "endMs": 180510
+        },
+        {
+          "word": "sevgili",
+          "startMs": 180810,
+          "endMs": 181960
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 182860,
+          "endMs": 184260
+        },
+        {
+          "word": "işte",
+          "startMs": 186820,
+          "endMs": 187280
+        },
+        {
+          "word": "tam",
+          "startMs": 187590,
+          "endMs": 187910
+        },
+        {
+          "word": "bu",
+          "startMs": 188070,
+          "endMs": 189040
+        },
+        {
+          "word": "noktada",
+          "startMs": 189930,
+          "endMs": 190970
+        },
+        {
+          "word": "dikkat",
+          "startMs": 191370,
+          "endMs": 191970
+        },
+        {
+          "word": "etmen",
+          "startMs": 192130,
+          "endMs": 193200
+        },
+        {
+          "word": "gereken",
+          "startMs": 194160,
+          "endMs": 194650
+        },
+        {
+          "word": "kilit",
+          "startMs": 194750,
+          "endMs": 195230
+        },
+        {
+          "word": "nokta.",
+          "startMs": 195530,
+          "endMs": 196770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-3",
+      "startMs": 197860,
+      "endMs": 203370,
+      "pauseAfterMs": 1170,
+      "text": "Çap ile yarıçapı yer değiştirme.",
+      "markedText": "Çap ile yarıçapı yer değiştirme.",
+      "words": [
+        {
+          "word": "Çap",
+          "startMs": 197860,
+          "endMs": 198020
+        },
+        {
+          "word": "ile",
+          "startMs": 198020,
+          "endMs": 198320
+        },
+        {
+          "word": "yarıçapı",
+          "startMs": 198540,
+          "endMs": 199810
+        },
+        {
+          "word": "yer",
+          "startMs": 200650,
+          "endMs": 200810
+        },
+        {
+          "word": "değiştirme.",
+          "startMs": 201130,
+          "endMs": 202200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-3",
+      "startMs": 203370,
+      "endMs": 209810,
+      "pauseAfterMs": 910,
+      "text": "Çap 10 ise yarıçap 5'tir.",
+      "markedText": "Çap 10 ise yarıçap 5'tir.",
+      "words": [
+        {
+          "word": "Çap",
+          "startMs": 203370,
+          "endMs": 203690
+        },
+        {
+          "word": "10",
+          "startMs": 203740,
+          "endMs": 204000
+        },
+        {
+          "word": "ise",
+          "startMs": 204050,
+          "endMs": 204480
+        },
+        {
+          "word": "yarıçap",
+          "startMs": 204610,
+          "endMs": 206380
+        },
+        {
+          "word": "5'tir.",
+          "startMs": 207460,
+          "endMs": 208900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-3",
+      "startMs": 209810,
+      "endMs": 224390,
+      "pauseAfterMs": 1090,
+      "text": "Çevreyi yarıçapla çarparken çap formülünü iki kez kullanmış olursun.",
+      "markedText": "Çevreyi yarıçapla çarparken çap formülünü iki kez kullanmış olursun.",
+      "words": [
+        {
+          "word": "Çevreyi",
+          "startMs": 209810,
+          "endMs": 210220
+        },
+        {
+          "word": "yarıçapla",
+          "startMs": 210470,
+          "endMs": 211890
+        },
+        {
+          "word": "çarparken",
+          "startMs": 212890,
+          "endMs": 213810
+        },
+        {
+          "word": "çap",
+          "startMs": 214180,
+          "endMs": 215270
+        },
+        {
+          "word": "formülünü",
+          "startMs": 216350,
+          "endMs": 217450
+        },
+        {
+          "word": "iki",
+          "startMs": 217670,
+          "endMs": 217940
+        },
+        {
+          "word": "kez",
+          "startMs": 218140,
+          "endMs": 218630
+        },
+        {
+          "word": "kullanmış",
+          "startMs": 220880,
+          "endMs": 221990
+        },
+        {
+          "word": "olursun.",
+          "startMs": 222140,
+          "endMs": 223300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-3",
+      "startMs": 224390,
+      "endMs": 228030,
+      "pauseAfterMs": 920,
+      "text": "Formül çarpı çaptır.",
+      "markedText": "Formül çarpı çaptır.",
+      "words": [
+        {
+          "word": "Formül",
+          "startMs": 224390,
+          "endMs": 225140
+        },
+        {
+          "word": "çarpı",
+          "startMs": 225380,
+          "endMs": 225840
+        },
+        {
+          "word": "çaptır.",
+          "startMs": 226120,
+          "endMs": 227110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-3",
+      "startMs": 228030,
+      "endMs": 235240,
+      "pauseAfterMs": 910,
+      "text": "Yarıçap verilirse önce iki katını al.",
+      "markedText": "Yarıçap verilirse önce iki katını al.",
+      "words": [
+        {
+          "word": "Yarıçap",
+          "startMs": 228030,
+          "endMs": 228760
+        },
+        {
+          "word": "verilirse",
+          "startMs": 228830,
+          "endMs": 230300
+        },
+        {
+          "word": "önce",
+          "startMs": 231290,
+          "endMs": 231860
+        },
+        {
+          "word": "iki",
+          "startMs": 231860,
+          "endMs": 232390
+        },
+        {
+          "word": "katını",
+          "startMs": 232860,
+          "endMs": 233460
+        },
+        {
+          "word": "al.",
+          "startMs": 233860,
+          "endMs": 234330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-3",
+      "startMs": 235240,
+      "endMs": 239330,
+      "pauseAfterMs": 1010,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 235240,
+          "endMs": 235650
+        },
+        {
+          "word": "Neler",
+          "startMs": 235710,
+          "endMs": 236210
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 237070,
+          "endMs": 238320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-3",
+      "startMs": 239330,
+      "endMs": 239830,
+      "pauseAfterMs": 130,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 239330,
+          "endMs": 239700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-3",
+      "startMs": 239830,
+      "endMs": 247000,
+      "pauseAfterMs": 880,
+      "text": "Çap, yarıçapın iki katıdır.",
+      "markedText": "Çap, yarıçapın iki katıdır.",
+      "words": [
+        {
+          "word": "Çap,",
+          "startMs": 239830,
+          "endMs": 240100
+        },
+        {
+          "word": "yarıçapın",
+          "startMs": 240100,
+          "endMs": 241160
+        },
+        {
+          "word": "iki",
+          "startMs": 243470,
+          "endMs": 244130
+        },
+        {
+          "word": "katıdır.",
+          "startMs": 244700,
+          "endMs": 246120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-3",
+      "startMs": 247000,
+      "endMs": 247630,
+      "pauseAfterMs": 230,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 247000,
+          "endMs": 247400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-3",
+      "startMs": 247630,
+      "endMs": 252130,
+      "pauseAfterMs": 1150,
+      "text": "Çevre, çap çarpı pi eder.",
+      "markedText": "Çevre, çap çarpı pi eder.",
+      "words": [
+        {
+          "word": "Çevre,",
+          "startMs": 247630,
+          "endMs": 248340
+        },
+        {
+          "word": "çap",
+          "startMs": 248470,
+          "endMs": 248840
+        },
+        {
+          "word": "çarpı",
+          "startMs": 249010,
+          "endMs": 249640
+        },
+        {
+          "word": "pi",
+          "startMs": 249870,
+          "endMs": 250230
+        },
+        {
+          "word": "eder.",
+          "startMs": 250230,
+          "endMs": 250980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 252130,
+      "endMs": 252660,
+      "pauseAfterMs": 200,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 252130,
+          "endMs": 252460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 252660,
+      "endMs": 260130,
+      "pauseAfterMs": 890,
+      "text": "Pi yaklaşık 3,14 alınır.",
+      "markedText": "Pi yaklaşık 3,14 alınır.",
+      "words": [
+        {
+          "word": "Pi",
+          "startMs": 252660,
+          "endMs": 252860
+        },
+        {
+          "word": "yaklaşık",
+          "startMs": 252970,
+          "endMs": 254260
+        },
+        {
+          "word": "3,14",
+          "startMs": 255310,
+          "endMs": 257950
+        },
+        {
+          "word": "alınır.",
+          "startMs": 258170,
+          "endMs": 259240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 260130,
+      "endMs": 267430,
+      "pauseAfterMs": 990,
+      "text": "Çemberin çevresi çap ile pi'nin çarpımıdır.",
+      "markedText": "Çemberin çevresi çap ile pi'nin çarpımıdır.",
+      "words": [
+        {
+          "word": "Çemberin",
+          "startMs": 260130,
+          "endMs": 260960
+        },
+        {
+          "word": "çevresi",
+          "startMs": 261130,
+          "endMs": 261900
+        },
+        {
+          "word": "çap",
+          "startMs": 262150,
+          "endMs": 262380
+        },
+        {
+          "word": "ile",
+          "startMs": 262530,
+          "endMs": 263480
+        },
+        {
+          "word": "pi'nin",
+          "startMs": 264420,
+          "endMs": 264940
+        },
+        {
+          "word": "çarpımıdır.",
+          "startMs": 265200,
+          "endMs": 266440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 267430,
+      "endMs": 276800,
+      "pauseAfterMs": 880,
+      "text": "Çapı 10 olan çemberde çevrenin 10 çarpı pi olduğunu dersin.",
+      "markedText": "Çapı 10 olan çemberde çevrenin 10 çarpı pi olduğunu dersin.",
+      "words": [
+        {
+          "word": "Çapı",
+          "startMs": 267430,
+          "endMs": 267860
+        },
+        {
+          "word": "10",
+          "startMs": 267960,
+          "endMs": 268640
+        },
+        {
+          "word": "olan",
+          "startMs": 268910,
+          "endMs": 269220
+        },
+        {
+          "word": "çemberde",
+          "startMs": 269290,
+          "endMs": 270410
+        },
+        {
+          "word": "çevrenin",
+          "startMs": 271080,
+          "endMs": 272040
+        },
+        {
+          "word": "10",
+          "startMs": 272200,
+          "endMs": 272440
+        },
+        {
+          "word": "çarpı",
+          "startMs": 272490,
+          "endMs": 273310
+        },
+        {
+          "word": "pi",
+          "startMs": 273900,
+          "endMs": 274130
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 274430,
+          "endMs": 275310
+        },
+        {
+          "word": "dersin.",
+          "startMs": 275310,
+          "endMs": 275920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 276800,
+      "endMs": 280190,
+      "pauseAfterMs": 790,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 276800,
+          "endMs": 278210
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 278430,
+          "endMs": 279400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 280190,
+      "endMs": 283110,
+      "pauseAfterMs": 840,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 280190,
+          "endMs": 280950
+        },
+        {
+          "word": "bir",
+          "startMs": 281190,
+          "endMs": 281290
+        },
+        {
+          "word": "iş",
+          "startMs": 281390,
+          "endMs": 281560
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 281600,
+          "endMs": 282270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 283110,
+      "endMs": 288010,
+      "pauseAfterMs": 960,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 283110,
+          "endMs": 283800
+        },
+        {
+          "word": "sıra",
+          "startMs": 284710,
+          "endMs": 285510
+        },
+        {
+          "word": "sende.",
+          "startMs": 286040,
+          "endMs": 287050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 288010,
+      "endMs": 296080,
+      "pauseAfterMs": 430,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 288010,
+          "endMs": 288940
+        },
+        {
+          "word": "bu",
+          "startMs": 289470,
+          "endMs": 289720
+        },
+        {
+          "word": "notları",
+          "startMs": 289820,
+          "endMs": 290510
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 291330,
+          "endMs": 292100
+        },
+        {
+          "word": "kendi",
+          "startMs": 292790,
+          "endMs": 293210
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 293310,
+          "endMs": 294380
+        },
+        {
+          "word": "anlat.",
+          "startMs": 294860,
+          "endMs": 295650
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

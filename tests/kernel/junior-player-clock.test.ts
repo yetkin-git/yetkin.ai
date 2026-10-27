@@ -153,7 +153,7 @@ describe("Junior oynatıcı saati", () => {
   });
 
   it("matematik ders notunu konuşma parçalarına yayar", () => {
-    const lesson = juniorLessonByKey("jr_06_mat-5");
+    const lesson = juniorLessonByKey("jr_06_mat-1");
     expect(lesson).not.toBeNull();
     if (!lesson) {
       return;
@@ -165,7 +165,7 @@ describe("Junior oynatıcı saati", () => {
     expect(chunks.join(" ")).toBe(collapsed);
     expect(timeline.pieces.length).toBeGreaterThan(4);
     expect(timeline.pieces[0]?.text).toBe("Merhaba sevgili çocuklar!");
-    expect(timeline.pieces.some((piece) => piece.text.includes(juniorTeacherSelfIntro("jr_06_mat-5")))).toBe(
+    expect(timeline.pieces.some((piece) => piece.text.includes(juniorTeacherSelfIntro("jr_06_mat-1")))).toBe(
       true,
     );
     expect(timeline.pieces.some((piece) => piece.text.includes("kalansız"))).toBe(true);
@@ -217,8 +217,8 @@ describe("Junior oynatıcı saati", () => {
     expect(timeline.durationMs).toBeLessThanOrEqual(JUNIOR_NARRATION_MAX_MS);
   });
 
-  it("kaset süresi değişince jr_06_mat-5 kâğıt katlama cümlesi ve adım sırası durur", () => {
-    const lesson = juniorLessonByKey("jr_06_mat-5");
+  it("kaset süresi değişince jr_06_mat-1 kâğıt katlama cümlesi ve adım sırası durur", () => {
+    const lesson = juniorLessonByKey("jr_06_mat-1");
     expect(lesson?.steps).toBeDefined();
     if (!lesson?.steps) {
       return;
@@ -274,7 +274,7 @@ describe("Junior oynatıcı saati", () => {
   });
 
   it("çizime bak cümlesinin startMs anında adım o cümleye kilitlenir", () => {
-    const lesson = juniorLessonByKey("jr_06_mat-5");
+    const lesson = juniorLessonByKey("jr_06_mat-1");
     expect(lesson?.steps).toBeDefined();
     if (!lesson?.steps) {
       return;
@@ -386,9 +386,8 @@ describe("Junior yapışkan sahne (Sticky Scene)", () => {
     expect(parseExponentParams("")).toEqual(DEFAULT_EXPONENT_PARAMS);
   });
 
-  it("silinen üslü ders katalogda yoktur; 1. ünite açılışı çarpan dersidir", () => {
-    expect(juniorLessonByKey("jr_06_mat-1")).toBeNull();
-    const lesson = juniorLessonByKey("jr_06_mat-5");
+  it("1. ünite açılışı çarpan dersidir; üslü taslak bu anahtarda durmaz", () => {
+    const lesson = juniorLessonByKey("jr_06_mat-1");
     expect(lesson?.title).toContain("Çarpan");
     expect(lesson?.listenText ?? "").not.toContain("2 üssü 3");
   });

@@ -20,7 +20,8 @@ import { SidebarNav } from "@/components/shell/sidebar-nav";
 import { IconChevronLeft } from "@/components/ui/icons";
 import { BrandIcon } from "@/components/ui/brand-icon";
 import { cn } from "@/components/ui/cn";
-import { YETKIN_BRAND, YETKIN_SHELL_TAGLINE } from "@/lib/copy/brand";
+import { YETKIN_BRAND } from "@/lib/copy/brand";
+import { shellBrandHome } from "@/lib/ui/junior-shell";
 import {
   isAcademyPlayPath,
   SIDEBAR_WIDTH_DEFAULT,
@@ -138,9 +139,11 @@ export function useSidebarLayoutApi(): SidebarLayoutApi {
 }
 
 function BrandMark({ collapsed }: { collapsed: boolean }) {
+  const pathname = usePathname();
+  const brand = shellBrandHome(pathname);
   return (
     <Link
-      href="/dashboard"
+      href={brand.href}
       title={collapsed ? YETKIN_BRAND : undefined}
       className={cn(
         "flex min-w-0 items-center py-0.5",
@@ -153,7 +156,7 @@ function BrandMark({ collapsed }: { collapsed: boolean }) {
           {YETKIN_BRAND}
         </span>
         <span className="mt-0.5 block truncate text-[11px] leading-snug text-white/40">
-          {YETKIN_SHELL_TAGLINE}
+          {brand.tagline}
         </span>
       </span>
     </Link>

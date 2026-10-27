@@ -19,11 +19,10 @@ import { juniorCourseSlugFromLessonKey } from "@/lib/junior/human-titles";
 import { JUNIOR_LESSON_FACE } from "@/lib/junior/lesson-face";
 import { completeJuniorCheckout, JUNIOR_CHECKOUT_CLOSED_MESSAGE } from "@/lib/junior/checkout";
 import { juniorLessonGate } from "@/lib/junior/enter";
-import { JUNIOR_FREE_LESSON_KEY, JUNIOR_PAID_ACTION_ERROR } from "@/lib/junior/limits";
+import { JUNIOR_FREE_LESSON_KEY, juniorPaidActionError } from "@/lib/junior/limits";
+import { juniorQuizPack } from "@/lib/junior/quiz";
 import {
-  isJuniorEngineProductionKey,
   isUnknownJuniorLessonPath,
-  JUNIOR_ENGINE_PRODUCTION_KEYS,
   JUNIOR_KNOWN_LESSON_KEYS,
   juniorLessonKeyFromPath,
 } from "@/lib/junior/lesson-index";
@@ -68,7 +67,7 @@ describe("Junior kapalı beta kapısı", () => {
     if (first.allow) {
       expect(first.via).toBe("public");
     }
-    const locked = canEnterJunior(null, "jr_06_mat-6", { intent: "lesson", lessonAccess: "locked" });
+    const locked = canEnterJunior(null, "jr_06_mat-2", { intent: "lesson", lessonAccess: "locked" });
     expect(locked.allow).toBe(false);
     if (!locked.allow) {
       expect(locked.reason).toBe("plan");
@@ -89,7 +88,7 @@ describe("Junior kapalı beta kapısı", () => {
     expect(CANONICAL_SUPER_ADMIN_EMAIL_DEFAULT).toBe("yapinet360@gmail.com");
     expect(isJuniorAuditActor(ADMIN)).toBe(true);
     expect(
-      canEnterJunior(ADMIN, "jr_06_mat-6", {
+      canEnterJunior(ADMIN, "jr_06_mat-2", {
         intent: "lesson",
         lessonAccess: "locked",
         planCovers: false,
@@ -105,7 +104,7 @@ describe("Junior kapalı beta kapısı", () => {
 
   it("doğrulanmış süper yönetici ikinci konuyu, anlatışı ve profil masasını açar; kasayı açmaz", () => {
     expect(isJuniorAuditActor(ADMIN)).toBe(true);
-    const lesson = canEnterJunior(ADMIN, "jr_06_mat-6", {
+    const lesson = canEnterJunior(ADMIN, "jr_06_mat-2", {
       intent: "lesson",
       lessonAccess: "locked",
       planCovers: false,
@@ -119,8 +118,8 @@ describe("Junior kapalı beta kapısı", () => {
     });
     expect(paid).toEqual({ allow: true, via: "audit" });
     expect(canEnterJunior(ADMIN, null, { intent: "profile" })).toEqual({ allow: true, via: "audit" });
-    expect(canEnterJunior(ADMIN, null, { intent: "checkout" }).allow).toBe(false);
-    const view = juniorLessonGate(ADMIN, "jr_06_mat-6", {
+    expect(canEnterJunior(ADMIN, null, { intent: "checkout" })).toEqual({ allow: true, via: "audit" });
+    const view = juniorLessonGate(ADMIN, "jr_06_mat-2", {
       active: false,
       selectedElectives: [],
       profileId: "profil",
@@ -169,7 +168,7 @@ describe("Junior kapalı beta kapısı", () => {
     expect(canEnterJunior(PARENT, null, { intent: "profile", planCovers: false }).allow).toBe(false);
     expect(canEnterJunior(null, null, { intent: "profile", planCovers: true }).allow).toBe(false);
     expect(canEnterJunior(PARENT, null, { intent: "checkout", planCovers: true }).allow).toBe(false);
-    expect(canEnterJunior(PARENT, "jr_06_mat-6", { intent: "lesson", lessonAccess: "locked", planCovers: false }).allow).toBe(
+    expect(canEnterJunior(PARENT, "jr_06_mat-2", { intent: "lesson", lessonAccess: "locked", planCovers: false }).allow).toBe(
       false,
     );
 
@@ -219,7 +218,7 @@ describe("Junior kapalı beta kapısı", () => {
     const env = { ...process.env, DRON_JUNIOR_OPEN: "1" };
     expect(canEnterJunior(PARENT, null, { intent: "profile" }, env).allow).toBe(true);
     expect(canEnterJunior(null, null, { intent: "profile" }, env).allow).toBe(false);
-    expect(canEnterJunior(PARENT, "jr_06_mat-6", { intent: "lesson", lessonAccess: "locked" }, env).allow).toBe(
+    expect(canEnterJunior(PARENT, "jr_06_mat-2", { intent: "lesson", lessonAccess: "locked" }, env).allow).toBe(
       false,
     );
     expect(canEnterJunior(PARENT, null, { intent: "checkout" }, env).allow).toBe(false);
@@ -239,10 +238,10 @@ describe("Junior kapalı beta kapısı", () => {
       process.env.DRON_JUNIOR_ROOM_OPEN = "closed";
       expect(isDronJuniorOpen()).toBe(true);
       expect(DronBayrakları.isKapali("junior")).toBe(true);
-      expect(isFrozenRoomApi("/api/junior/lessons/jr_06_mat-5")).toBe(false);
-      expect(isFrozenRoomApi("/api/v1/junior/lessons/jr_06_mat-5")).toBe(false);
+      expect(isFrozenRoomApi("/api/junior/lessons/jr_06_mat-1")).toBe(false);
+      expect(isFrozenRoomApi("/api/v1/junior/lessons/jr_06_mat-1")).toBe(false);
       delete process.env.DRON_JUNIOR_ROOM_OPEN;
-      expect(isFrozenRoomApi("/api/junior/lessons/jr_06_mat-5")).toBe(false);
+      expect(isFrozenRoomApi("/api/junior/lessons/jr_06_mat-1")).toBe(false);
     } finally {
       if (previousProfile == null) {
         delete process.env.DRON_JUNIOR_OPEN;
@@ -273,27 +272,22 @@ describe("Junior fiyatı katalog satırındandır", () => {
 });
 
 describe("Junior bilinmeyen ders adresi", () => {
-  it("katalog anahtarları ile kenar listesi aynıdır; üretim rotası açıktır, olmayan anahtar 404 adayıdır", () => {
+  it("katalog anahtarları ile kenar listesi aynıdır; motor rotaları 404 adayıdır", () => {
     expect([...JUNIOR_KNOWN_LESSON_KEYS].sort()).toEqual([...juniorCatalogLessonKeys()].sort());
     expect(juniorLessonAccess("jr_06_mat-99")).toBe("missing");
     expect(isUnknownJuniorLessonPath("/junior/ders/jr_06_mat-99")).toBe(true);
     expect(isUnknownJuniorLessonPath("/junior/ders/jr_06_mat-1")).toBe(false);
     expect(isUnknownJuniorLessonPath("/junior/ders/jr_06_mat-4")).toBe(false);
-    expect(isJuniorEngineProductionKey("jr_06_mat-5")).toBe(false);
-    expect(JUNIOR_ENGINE_PRODUCTION_KEYS.every((key) => !JUNIOR_KNOWN_LESSON_KEYS.includes(key))).toBe(
-      true,
-    );
-    expect(juniorLessonKeyFromPath("/junior/ders/jr_06_mat-1")).toBeNull();
+    expect(juniorLessonKeyFromPath("/junior/ders/jr_06_mat-1")).toBe("jr_06_mat-1");
     expect(juniorLessonKeyFromPath("/junior/ders/jr_06_mat-99")).toBeNull();
-    expect(juniorPrevLesson("jr_06_mat-5")).toBeNull();
-    expect(juniorNextLesson("jr_06_mat-5")).toEqual({
-      key: "jr_06_mat-14",
-      title: "Ondalık gösterimi okumak",
-    });
-    expect(juniorPrevLesson("jr_06_mat-14")?.key).toBe("jr_06_mat-5");
-    expect(juniorNextLesson("jr_06_mat-14")).toBeNull();
-    expect(juniorPrevLesson("jr_06_mat-6")).toBeNull();
-    expect(juniorNextLesson("jr_06_mat-6")).toBeNull();
+    expect(juniorPrevLesson("jr_06_mat-1")).toBeNull();
+    expect(juniorNextLesson("jr_06_mat-1")?.key).toBe("jr_06_mat-2");
+    expect(juniorPrevLesson("jr_06_mat-4")).toBeNull();
+    expect(juniorNextLesson("jr_06_mat-4")).toBeNull();
+    expect(juniorPrevLesson("jr_06_mat-2")?.key).toBe("jr_06_mat-1");
+    expect(juniorNextLesson("jr_06_mat-2")?.key).toBe("jr_06_mat-3");
+    expect(juniorPrevLesson("jr_06_mat-3")?.key).toBe("jr_06_mat-2");
+    expect(juniorNextLesson("jr_06_mat-3")).toBeNull();
     expect(juniorPrevLesson("jr_06_fen-1")).toBeNull();
     expect(juniorNextLesson("jr_06_mat-25")).toBeNull();
     expect(juniorNextLesson("jr_06_fen-1")).toBeNull();
@@ -364,7 +358,7 @@ describe("Junior denetim anlatışı", () => {
       {
         userId: owner,
         profileId: created.data.profile.id,
-        lessonKey: "jr_06_mat-6",
+        lessonKey: "jr_06_mat-7",
         mode: "write",
         text,
         now: new Date("2026-10-05T12:00:00+03:00"),
@@ -381,7 +375,7 @@ describe("Junior denetim anlatışı", () => {
       {
         userId: owner,
         profileId: created.data.profile.id,
-        lessonKey: "jr_06_mat-6",
+        lessonKey: "jr_06_mat-7",
         mode: "write",
         text,
         now: new Date("2026-10-05T12:00:00+03:00"),
@@ -390,7 +384,7 @@ describe("Junior denetim anlatışı", () => {
       { invoke: async () => told },
     );
     expect(opened.ok).toBe(true);
-    const firstWithoutPlan = await submitJuniorTell(
+    const firstTrialWithoutPlan = await submitJuniorTell(
       store,
       {
         userId: owner,
@@ -402,9 +396,24 @@ describe("Junior denetim anlatışı", () => {
       },
       { invoke: async () => told },
     );
-    expect(firstWithoutPlan.ok).toBe(false);
-    if (!firstWithoutPlan.ok) {
-      expect(firstWithoutPlan.error).toBe(JUNIOR_PAID_ACTION_ERROR);
+    expect(firstTrialWithoutPlan.ok).toBe(true);
+    const secondWithoutPlan = await submitJuniorTell(
+      store,
+      {
+        userId: owner,
+        profileId: created.data.profile.id,
+        lessonKey: JUNIOR_FREE_LESSON_KEY,
+        mode: "write",
+        text: "Kesir bir bütünün eşit parçasıdır. Pay üstte, payda altta durur.",
+        now: new Date("2026-10-05T12:00:00+03:00"),
+      },
+      { invoke: async () => told },
+    );
+    expect(secondWithoutPlan.ok).toBe(false);
+    if (!secondWithoutPlan.ok) {
+      expect(secondWithoutPlan.error).toBe(
+        juniorPaidActionError(juniorQuizPack(JUNIOR_FREE_LESSON_KEY)?.questions.length),
+      );
     }
   });
 });

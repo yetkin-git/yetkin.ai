@@ -1,55 +1,55 @@
 import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
 
-/** 6. Sınıf Matematik — konu sonu soru arşivi (21/25). */
-export const JUNIOR_MAT_QUIZ_21 = {
+/** 6. Sınıf Matematik — konu sonu soru arşivi (35). */
+export const JUNIOR_MAT_QUIZ_35 = {
   lessonKey: "jr_06_mat-21",
-  title: "Paralelkenar ve üçgenin alanı",
+  title: "Çember uzunluğu problemleri",
   tellGuides: [
-    "Paralelkenar alanının taban çarpı yükseklik olduğunu anlatabilir misin?",
-    "Üçgen alanının neden bunun yarısı olduğunu söyleyebilir misin?",
+    "Bir tur ile iki turu nasıl ayırırsın?",
+    "Yarıçap verilince çapa neden ihtiyaç duyarsın?",
   ],
   questions: [
     {
       id: "q1",
       level: "concept",
-      question: "Paralelkenarın alanı nasıl bulunur?",
+      question: "Tekerleğin bir tam turu hangi uzunluğa eşittir?",
       options: [
-        "Taban çarpı yükseklik",
-        "Yalnızca çevre",
-        "Eğik kenar çarpı taban",
-        "Üç kenarın toplamı",
+        "Çemberin çevresine",
+        "Yalnızca çapına",
+        "Yarıçapına",
+        "Pi sayısının kendisine",
       ],
       correctAnswerIndex: 0,
-      hint: "Eğik kenar yükseklik değildir.",
-      explanation: "Adım 1: Alan = taban çarpı yükseklik. Adım 2: Yükseklik tabana diktir. Adım 3: Üçgen alanı bunun yarısıdır.",
+      hint: "Tur, kenarın tamamını dolanır.",
+      explanation: "Adım 1: Bir tur çevre kadar yoldur. Adım 2: Çevre, çap çarpı pi eder. Adım 3: Çap tek başına tur değildir.",
     },
     {
       id: "q2",
       level: "apply",
-      question: "Taban 8 cm, yükseklik 5 cm olan paralelkenarın alanı kaç cm²'dir? Önce iki yolu karşılaştır.",
+      question: "Çap 2 metre ve pi yaklaşık 3 ise bir tur yaklaşık kaç metredir?",
       options: [
-        "40",
-        "13",
-        "20",
-        "80",
+        "2",
+        "5",
+        "6",
+        "8",
       ],
-      correctAnswerIndex: 0,
-      hint: "8 çarpı 5.",
-      explanation: "Adım 1: 8 çarpı 5 yapılır. Adım 2: Sonuç 40 cm²'dir. Adım 3: Aynı ölçülerde üçgen 20 cm² olur.",
+      correctAnswerIndex: 2,
+      hint: "2 çarpı 3.",
+      explanation: "Adım 1: Çevre yaklaşık çap çarpı 3'tür. Adım 2: 2 çarpı 3, 6 eder. Adım 3: Bir tur yaklaşık 6 metredir.",
     },
     {
       id: "q3",
       level: "skill",
-      question: "Bahçede tabanı 8 m, yüksekliği 5 m olan üçgen çimenlik var. Alanı kaç m²'dir?",
+      question: "Aynı tekerlek iki tur atınca yol neden yaklaşık 12 metre olur?",
       options: [
-        "20",
-        "40",
-        "13",
-        "80",
+        "Çünkü bir tur 6 metredir ve iki tur bunu ikiye katlar",
+        "Çünkü çapa 2 eklenir",
+        "Çünkü yarıçap 12 olur",
+        "Çünkü pi silinir",
       ],
       correctAnswerIndex: 0,
-      hint: "Üçgen = (taban çarpı yükseklik) / 2.",
-      explanation: "Adım 1: 8 çarpı 5, 40 eder. Adım 2: Üçgen olduğu için 40 bölü 2 yapılır. Adım 3: Alan 20 m²'dir.",
+      hint: "Tur sayısı çevre ile çarpılır.",
+      explanation: "Adım 1: Bir tur yaklaşık 6 metredir. Adım 2: İki tur 6 çarpı 2, 12 eder. Adım 3: Çapa 2 eklemek bu yol değildir.",
     },
   ],
 } as const satisfies JuniorLessonQuizPack;

@@ -1,0 +1,2930 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_ing_main-17",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Çevreyi korumak ve recycling",
+  "grade": 6,
+  "subject": "İngilizce",
+  "teacher": {
+    "name": "Selin",
+    "voice": "Kore",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_ing_main-17.mp3",
+    "durationMs": 404346,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 117130
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 117130,
+      "endMs": 347170
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 347170,
+      "endMs": 404346
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4010,
+      "pauseAfterMs": 630,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 380,
+          "endMs": 1100
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1710,
+          "endMs": 2380
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2380,
+          "endMs": 3380
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Çevreyi korumak ve recycling",
+            "subtitle": "İngilizce",
+            "ruleBadges": [],
+            "echoPrompt": "Evde yapacağın bir koruma işini İngilizce söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Recycle; kâğıt, cam ve plastiği ayrıştırarak yeniden kazanmaktır."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Turn off the lights ve save water gezegenimizi koruyan temel eylemlerdir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Don't throw rubbish on the ground uyarısıyla çevremizi temiz tutarız."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4010,
+      "endMs": 8660,
+      "pauseAfterMs": 370,
+      "text": "Ben İngilizce öğretmenin Selin.",
+      "markedText": "Ben İngilizce öğretmenin Selin.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4010,
+          "endMs": 4290
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 4380,
+          "endMs": 5750
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 5850,
+          "endMs": 7350
+        },
+        {
+          "word": "Selin.",
+          "startMs": 7470,
+          "endMs": 8290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8660,
+      "endMs": 14990,
+      "pauseAfterMs": 1370,
+      "text": "Üzerinde yaşadığımız güzel mavi gezegenimizi korumak için el ele veriyoruz!",
+      "markedText": "Üzerinde yaşadığımız güzel mavi gezegenimizi korumak için el ele veriyoruz!",
+      "words": [
+        {
+          "word": "Üzerinde",
+          "startMs": 8660,
+          "endMs": 9090
+        },
+        {
+          "word": "yaşadığımız",
+          "startMs": 9220,
+          "endMs": 9810
+        },
+        {
+          "word": "güzel",
+          "startMs": 9810,
+          "endMs": 10210
+        },
+        {
+          "word": "mavi",
+          "startMs": 10390,
+          "endMs": 10650
+        },
+        {
+          "word": "gezegenimizi",
+          "startMs": 10650,
+          "endMs": 11400
+        },
+        {
+          "word": "korumak",
+          "startMs": 11440,
+          "endMs": 11790
+        },
+        {
+          "word": "için",
+          "startMs": 11900,
+          "endMs": 12130
+        },
+        {
+          "word": "el",
+          "startMs": 12130,
+          "endMs": 12220
+        },
+        {
+          "word": "ele",
+          "startMs": 12280,
+          "endMs": 12530
+        },
+        {
+          "word": "veriyoruz!",
+          "startMs": 12720,
+          "endMs": 13620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 14990,
+      "endMs": 39460,
+      "pauseAfterMs": 740,
+      "text": "Her gün kullandığımız kâğıtlar, cam şişeler ve plastik kaplar rastgele çöpe atıldığında doğaya zarar verebilir; ancak onları geri dönüşüm kutularına bıraktığımızda doğa yeniden nefes alır.",
+      "markedText": "Her gün kullandığımız kâğıtlar, cam şişeler ve plastik kaplar rastgele çöpe atıldığında doğaya zarar verebilir; ancak onları geri dönüşüm kutularına bıraktığımızda doğa yeniden nefes alır.",
+      "words": [
+        {
+          "word": "Her",
+          "startMs": 14990,
+          "endMs": 15340
+        },
+        {
+          "word": "gün",
+          "startMs": 15400,
+          "endMs": 15870
+        },
+        {
+          "word": "kullandığımız",
+          "startMs": 16030,
+          "endMs": 17710
+        },
+        {
+          "word": "kâğıtlar,",
+          "startMs": 17840,
+          "endMs": 18680
+        },
+        {
+          "word": "cam",
+          "startMs": 19060,
+          "endMs": 19150
+        },
+        {
+          "word": "şişeler",
+          "startMs": 19350,
+          "endMs": 19920
+        },
+        {
+          "word": "ve",
+          "startMs": 19980,
+          "endMs": 20100
+        },
+        {
+          "word": "plastik",
+          "startMs": 20170,
+          "endMs": 20770
+        },
+        {
+          "word": "kaplar",
+          "startMs": 20770,
+          "endMs": 21540
+        },
+        {
+          "word": "rastgele",
+          "startMs": 22030,
+          "endMs": 22750
+        },
+        {
+          "word": "çöpe",
+          "startMs": 22810,
+          "endMs": 23180
+        },
+        {
+          "word": "atıldığında",
+          "startMs": 23410,
+          "endMs": 24610
+        },
+        {
+          "word": "doğaya",
+          "startMs": 24990,
+          "endMs": 25620
+        },
+        {
+          "word": "zarar",
+          "startMs": 25620,
+          "endMs": 26540
+        },
+        {
+          "word": "verebilir;",
+          "startMs": 27280,
+          "endMs": 28440
+        },
+        {
+          "word": "ancak",
+          "startMs": 28780,
+          "endMs": 29120
+        },
+        {
+          "word": "onları",
+          "startMs": 29220,
+          "endMs": 29760
+        },
+        {
+          "word": "geri",
+          "startMs": 30070,
+          "endMs": 30450
+        },
+        {
+          "word": "dönüşüm",
+          "startMs": 30580,
+          "endMs": 31220
+        },
+        {
+          "word": "kutularına",
+          "startMs": 31500,
+          "endMs": 32330
+        },
+        {
+          "word": "bıraktığımızda",
+          "startMs": 32400,
+          "endMs": 33440
+        },
+        {
+          "word": "doğa",
+          "startMs": 34030,
+          "endMs": 35410
+        },
+        {
+          "word": "yeniden",
+          "startMs": 36550,
+          "endMs": 37330
+        },
+        {
+          "word": "nefes",
+          "startMs": 37910,
+          "endMs": 38450
+        },
+        {
+          "word": "alır.",
+          "startMs": 38580,
+          "endMs": 38720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 39460,
+      "endMs": 55670,
+      "pauseAfterMs": 340,
+      "text": "İşte çevreyi korumayı, geri dönüşüm yapmayı ve İngilizcede gezegenimize sahip çıkacak güzel eylemleri öğreneceğiz.",
+      "markedText": "İşte çevreyi korumayı, geri dönüşüm yapmayı ve İngilizcede gezegenimize sahip çıkacak güzel eylemleri öğreneceğiz.",
+      "words": [
+        {
+          "word": "İşte",
+          "startMs": 39460,
+          "endMs": 40180
+        },
+        {
+          "word": "çevreyi",
+          "startMs": 40650,
+          "endMs": 41780
+        },
+        {
+          "word": "korumayı,",
+          "startMs": 41870,
+          "endMs": 43540
+        },
+        {
+          "word": "geri",
+          "startMs": 44630,
+          "endMs": 44920
+        },
+        {
+          "word": "dönüşüm",
+          "startMs": 45010,
+          "endMs": 45580
+        },
+        {
+          "word": "yapmayı",
+          "startMs": 45740,
+          "endMs": 46280
+        },
+        {
+          "word": "ve",
+          "startMs": 46280,
+          "endMs": 46580
+        },
+        {
+          "word": "İngilizcede",
+          "startMs": 47130,
+          "endMs": 48260
+        },
+        {
+          "word": "gezegenimize",
+          "startMs": 48410,
+          "endMs": 49580
+        },
+        {
+          "word": "sahip",
+          "startMs": 49890,
+          "endMs": 50260
+        },
+        {
+          "word": "çıkacak",
+          "startMs": 50300,
+          "endMs": 51110
+        },
+        {
+          "word": "güzel",
+          "startMs": 51180,
+          "endMs": 52050
+        },
+        {
+          "word": "eylemleri",
+          "startMs": 53200,
+          "endMs": 53940
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 54020,
+          "endMs": 55330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 55670,
+      "endMs": 69070,
+      "pauseAfterMs": 920,
+      "text": "'Recycle', 'save water' ve 'turn off the lights' gibi bilinçli ifadelerle dünyaya sevgiyle sesleneceğiz.",
+      "markedText": "'Recycle', 'save water' ve 'turn off the lights' gibi bilinçli ifadelerle dünyaya sevgiyle sesleneceğiz.",
+      "words": [
+        {
+          "word": "'Recycle',",
+          "startMs": 55670,
+          "endMs": 56550
+        },
+        {
+          "word": "'save",
+          "startMs": 57340,
+          "endMs": 57570
+        },
+        {
+          "word": "water'",
+          "startMs": 57570,
+          "endMs": 58000
+        },
+        {
+          "word": "ve",
+          "startMs": 58070,
+          "endMs": 58180
+        },
+        {
+          "word": "'turn",
+          "startMs": 58310,
+          "endMs": 58680
+        },
+        {
+          "word": "off",
+          "startMs": 59150,
+          "endMs": 59320
+        },
+        {
+          "word": "the",
+          "startMs": 59370,
+          "endMs": 59680
+        },
+        {
+          "word": "lights'",
+          "startMs": 59680,
+          "endMs": 60380
+        },
+        {
+          "word": "gibi",
+          "startMs": 60950,
+          "endMs": 61330
+        },
+        {
+          "word": "bilinçli",
+          "startMs": 61330,
+          "endMs": 62340
+        },
+        {
+          "word": "ifadelerle",
+          "startMs": 62800,
+          "endMs": 64020
+        },
+        {
+          "word": "dünyaya",
+          "startMs": 64530,
+          "endMs": 64860
+        },
+        {
+          "word": "sevgiyle",
+          "startMs": 64860,
+          "endMs": 65850
+        },
+        {
+          "word": "sesleneceğiz.",
+          "startMs": 66280,
+          "endMs": 68150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 69070,
+      "endMs": 80380,
+      "pauseAfterMs": 690,
+      "text": "Odadan çıkarken hemen düğmeye dokun ve içinden 'I turn off the lights to save energy' de.",
+      "markedText": "Odadan çıkarken hemen düğmeye dokun ve içinden 'I turn off the lights to save energy' de.",
+      "words": [
+        {
+          "word": "Odadan",
+          "startMs": 69070,
+          "endMs": 69750
+        },
+        {
+          "word": "çıkarken",
+          "startMs": 69870,
+          "endMs": 70730
+        },
+        {
+          "word": "hemen",
+          "startMs": 70920,
+          "endMs": 71150
+        },
+        {
+          "word": "düğmeye",
+          "startMs": 71710,
+          "endMs": 72720
+        },
+        {
+          "word": "dokun",
+          "startMs": 73120,
+          "endMs": 73430
+        },
+        {
+          "word": "ve",
+          "startMs": 73520,
+          "endMs": 73620
+        },
+        {
+          "word": "içinden",
+          "startMs": 73620,
+          "endMs": 74380
+        },
+        {
+          "word": "'I",
+          "startMs": 74740,
+          "endMs": 74820
+        },
+        {
+          "word": "turn",
+          "startMs": 75110,
+          "endMs": 75250
+        },
+        {
+          "word": "off",
+          "startMs": 75970,
+          "endMs": 76270
+        },
+        {
+          "word": "the",
+          "startMs": 76390,
+          "endMs": 76700
+        },
+        {
+          "word": "lights",
+          "startMs": 77340,
+          "endMs": 77970
+        },
+        {
+          "word": "to",
+          "startMs": 78070,
+          "endMs": 78290
+        },
+        {
+          "word": "save",
+          "startMs": 78360,
+          "endMs": 78640
+        },
+        {
+          "word": "energy'",
+          "startMs": 78770,
+          "endMs": 79190
+        },
+        {
+          "word": "de.",
+          "startMs": 79340,
+          "endMs": 79690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 80380,
+      "endMs": 87870,
+      "pauseAfterMs": 1150,
+      "text": "Dişlerini fırçalarken suyu boşa akıtma ve musluğu kapatıp 'I save water' de.",
+      "markedText": "Dişlerini fırçalarken suyu boşa akıtma ve musluğu kapatıp 'I save water' de.",
+      "words": [
+        {
+          "word": "Dişlerini",
+          "startMs": 80380,
+          "endMs": 80920
+        },
+        {
+          "word": "fırçalarken",
+          "startMs": 81050,
+          "endMs": 82210
+        },
+        {
+          "word": "suyu",
+          "startMs": 82540,
+          "endMs": 82760
+        },
+        {
+          "word": "boşa",
+          "startMs": 82920,
+          "endMs": 83120
+        },
+        {
+          "word": "akıtma",
+          "startMs": 83430,
+          "endMs": 83780
+        },
+        {
+          "word": "ve",
+          "startMs": 83780,
+          "endMs": 83870
+        },
+        {
+          "word": "musluğu",
+          "startMs": 83870,
+          "endMs": 84310
+        },
+        {
+          "word": "kapatıp",
+          "startMs": 84400,
+          "endMs": 85060
+        },
+        {
+          "word": "'I",
+          "startMs": 85060,
+          "endMs": 85220
+        },
+        {
+          "word": "save",
+          "startMs": 85310,
+          "endMs": 85580
+        },
+        {
+          "word": "water'",
+          "startMs": 85620,
+          "endMs": 86100
+        },
+        {
+          "word": "de.",
+          "startMs": 86420,
+          "endMs": 86720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 87870,
+      "endMs": 101770,
+      "pauseAfterMs": 890,
+      "text": "Okulda meyve suyunun kutusunu veya plastik şişeni sarı kutuya atarken 'We recycle plastic' cümlesini kur.",
+      "markedText": "Okulda meyve suyunun kutusunu veya plastik şişeni sarı kutuya atarken 'We recycle plastic' cümlesini kur.",
+      "words": [
+        {
+          "word": "Okulda",
+          "startMs": 87870,
+          "endMs": 88820
+        },
+        {
+          "word": "meyve",
+          "startMs": 89100,
+          "endMs": 89530
+        },
+        {
+          "word": "suyunun",
+          "startMs": 89960,
+          "endMs": 90790
+        },
+        {
+          "word": "kutusunu",
+          "startMs": 90940,
+          "endMs": 91780
+        },
+        {
+          "word": "veya",
+          "startMs": 92020,
+          "endMs": 92380
+        },
+        {
+          "word": "plastik",
+          "startMs": 92380,
+          "endMs": 93250
+        },
+        {
+          "word": "şişeni",
+          "startMs": 93820,
+          "endMs": 94040
+        },
+        {
+          "word": "sarı",
+          "startMs": 94190,
+          "endMs": 94460
+        },
+        {
+          "word": "kutuya",
+          "startMs": 94540,
+          "endMs": 94880
+        },
+        {
+          "word": "atarken",
+          "startMs": 95080,
+          "endMs": 95670
+        },
+        {
+          "word": "'We",
+          "startMs": 95900,
+          "endMs": 96200
+        },
+        {
+          "word": "recycle",
+          "startMs": 96420,
+          "endMs": 97850
+        },
+        {
+          "word": "plastic'",
+          "startMs": 98560,
+          "endMs": 99170
+        },
+        {
+          "word": "cümlesini",
+          "startMs": 99240,
+          "endMs": 100270
+        },
+        {
+          "word": "kur.",
+          "startMs": 100400,
+          "endMs": 100880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 101770,
+      "endMs": 117130,
+      "pauseAfterMs": 790,
+      "text": "Arkadaşın kâğıdın tek yüzünü kullanıp atacakken ona şefkatle 'You can use both sides of the paper' diyerek çevre dostu bir rehber ol.",
+      "markedText": "Arkadaşın kâğıdın tek yüzünü kullanıp atacakken ona şefkatle 'You can use both sides of the paper' diyerek çevre dostu bir rehber ol.",
+      "words": [
+        {
+          "word": "Arkadaşın",
+          "startMs": 101770,
+          "endMs": 102690
+        },
+        {
+          "word": "kâğıdın",
+          "startMs": 102920,
+          "endMs": 103350
+        },
+        {
+          "word": "tek",
+          "startMs": 103620,
+          "endMs": 103740
+        },
+        {
+          "word": "yüzünü",
+          "startMs": 103740,
+          "endMs": 104240
+        },
+        {
+          "word": "kullanıp",
+          "startMs": 104620,
+          "endMs": 105530
+        },
+        {
+          "word": "atacakken",
+          "startMs": 106220,
+          "endMs": 106930
+        },
+        {
+          "word": "ona",
+          "startMs": 107260,
+          "endMs": 107900
+        },
+        {
+          "word": "şefkatle",
+          "startMs": 108570,
+          "endMs": 109260
+        },
+        {
+          "word": "'You",
+          "startMs": 109570,
+          "endMs": 109680
+        },
+        {
+          "word": "can",
+          "startMs": 109850,
+          "endMs": 109990
+        },
+        {
+          "word": "use",
+          "startMs": 110200,
+          "endMs": 110310
+        },
+        {
+          "word": "both",
+          "startMs": 110860,
+          "endMs": 111110
+        },
+        {
+          "word": "sides",
+          "startMs": 111240,
+          "endMs": 111690
+        },
+        {
+          "word": "of",
+          "startMs": 111790,
+          "endMs": 111910
+        },
+        {
+          "word": "the",
+          "startMs": 112000,
+          "endMs": 112150
+        },
+        {
+          "word": "paper'",
+          "startMs": 112250,
+          "endMs": 112670
+        },
+        {
+          "word": "diyerek",
+          "startMs": 113480,
+          "endMs": 114010
+        },
+        {
+          "word": "çevre",
+          "startMs": 114010,
+          "endMs": 114490
+        },
+        {
+          "word": "dostu",
+          "startMs": 114640,
+          "endMs": 114990
+        },
+        {
+          "word": "bir",
+          "startMs": 115170,
+          "endMs": 115400
+        },
+        {
+          "word": "rehber",
+          "startMs": 115520,
+          "endMs": 116050
+        },
+        {
+          "word": "ol.",
+          "startMs": 116050,
+          "endMs": 116340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 117130,
+      "endMs": 126480,
+      "pauseAfterMs": 850,
+      "text": "Doğamızı korumak için attığımız her adımın İngilizcede harika bir karşılığı vardır.",
+      "markedText": "Doğamızı korumak için attığımız her adımın İngilizcede harika bir karşılığı vardır.",
+      "words": [
+        {
+          "word": "Doğamızı",
+          "startMs": 117130,
+          "endMs": 117800
+        },
+        {
+          "word": "korumak",
+          "startMs": 117960,
+          "endMs": 118290
+        },
+        {
+          "word": "için",
+          "startMs": 118390,
+          "endMs": 118730
+        },
+        {
+          "word": "attığımız",
+          "startMs": 118930,
+          "endMs": 119820
+        },
+        {
+          "word": "her",
+          "startMs": 119820,
+          "endMs": 120090
+        },
+        {
+          "word": "adımın",
+          "startMs": 120920,
+          "endMs": 121340
+        },
+        {
+          "word": "İngilizcede",
+          "startMs": 121340,
+          "endMs": 122530
+        },
+        {
+          "word": "harika",
+          "startMs": 122890,
+          "endMs": 123560
+        },
+        {
+          "word": "bir",
+          "startMs": 123870,
+          "endMs": 124020
+        },
+        {
+          "word": "karşılığı",
+          "startMs": 124370,
+          "endMs": 124880
+        },
+        {
+          "word": "vardır.",
+          "startMs": 125280,
+          "endMs": 125630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 126480,
+      "endMs": 151100,
+      "pauseAfterMs": 770,
+      "text": "Geri dönüştürmek anlamına gelen kelimemiz 'recycle'dır: 'We recycle paper' kâğıdı geri dönüştürürüz, 'We recycle glass' camı geri dönüştürürüz, 'We recycle plastic' plastiği geri dönüştürürüz demektir.",
+      "markedText": "Geri dönüştürmek anlamına gelen kelimemiz 'recycle'dır: 'We recycle paper' kâğıdı geri dönüştürürüz, 'We recycle glass' camı geri dönüştürürüz, 'We recycle plastic' plastiği geri dönüştürürüz demektir.",
+      "words": [
+        {
+          "word": "Geri",
+          "startMs": 126480,
+          "endMs": 126880
+        },
+        {
+          "word": "dönüştürmek",
+          "startMs": 126880,
+          "endMs": 127980
+        },
+        {
+          "word": "anlamına",
+          "startMs": 128290,
+          "endMs": 128730
+        },
+        {
+          "word": "gelen",
+          "startMs": 128970,
+          "endMs": 129190
+        },
+        {
+          "word": "kelimemiz",
+          "startMs": 129350,
+          "endMs": 130380
+        },
+        {
+          "word": "'recycle'dır:",
+          "startMs": 130670,
+          "endMs": 132170
+        },
+        {
+          "word": "'We",
+          "startMs": 132930,
+          "endMs": 133320
+        },
+        {
+          "word": "recycle",
+          "startMs": 133420,
+          "endMs": 134310
+        },
+        {
+          "word": "paper'",
+          "startMs": 134980,
+          "endMs": 135590
+        },
+        {
+          "word": "kâğıdı",
+          "startMs": 135760,
+          "endMs": 136450
+        },
+        {
+          "word": "geri",
+          "startMs": 136620,
+          "endMs": 137030
+        },
+        {
+          "word": "dönüştürürüz,",
+          "startMs": 137270,
+          "endMs": 138280
+        },
+        {
+          "word": "'We",
+          "startMs": 139040,
+          "endMs": 139230
+        },
+        {
+          "word": "recycle",
+          "startMs": 139290,
+          "endMs": 139930
+        },
+        {
+          "word": "glass'",
+          "startMs": 140360,
+          "endMs": 140730
+        },
+        {
+          "word": "camı",
+          "startMs": 141110,
+          "endMs": 141610
+        },
+        {
+          "word": "geri",
+          "startMs": 141740,
+          "endMs": 142180
+        },
+        {
+          "word": "dönüştürürüz,",
+          "startMs": 142390,
+          "endMs": 143720
+        },
+        {
+          "word": "'We",
+          "startMs": 143970,
+          "endMs": 144260
+        },
+        {
+          "word": "recycle",
+          "startMs": 144430,
+          "endMs": 144720
+        },
+        {
+          "word": "plastic'",
+          "startMs": 144840,
+          "endMs": 145990
+        },
+        {
+          "word": "plastiği",
+          "startMs": 146810,
+          "endMs": 147560
+        },
+        {
+          "word": "geri",
+          "startMs": 148260,
+          "endMs": 148580
+        },
+        {
+          "word": "dönüştürürüz",
+          "startMs": 148670,
+          "endMs": 149290
+        },
+        {
+          "word": "demektir.",
+          "startMs": 149400,
+          "endMs": 150330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 151100,
+      "endMs": 166000,
+      "pauseAfterMs": 850,
+      "text": "Enerjiyi ve kaynakları korumak için 'Turn off the lights' yani odadan çıkarken ışıkları kapat, 'Turn off the tap' yani diş fırçalarken musluğu kapat deriz.",
+      "markedText": "Enerjiyi ve kaynakları korumak için 'Turn off the lights' yani odadan çıkarken ışıkları kapat, 'Turn off the tap' yani diş fırçalarken musluğu kapat deriz.",
+      "words": [
+        {
+          "word": "Enerjiyi",
+          "startMs": 151100,
+          "endMs": 151920
+        },
+        {
+          "word": "ve",
+          "startMs": 152060,
+          "endMs": 152250
+        },
+        {
+          "word": "kaynakları",
+          "startMs": 152250,
+          "endMs": 153050
+        },
+        {
+          "word": "korumak",
+          "startMs": 153140,
+          "endMs": 153650
+        },
+        {
+          "word": "için",
+          "startMs": 153800,
+          "endMs": 154050
+        },
+        {
+          "word": "'Turn",
+          "startMs": 154160,
+          "endMs": 154290
+        },
+        {
+          "word": "off",
+          "startMs": 154570,
+          "endMs": 154740
+        },
+        {
+          "word": "the",
+          "startMs": 155080,
+          "endMs": 155160
+        },
+        {
+          "word": "lights'",
+          "startMs": 155240,
+          "endMs": 155370
+        },
+        {
+          "word": "yani",
+          "startMs": 155370,
+          "endMs": 155620
+        },
+        {
+          "word": "odadan",
+          "startMs": 155770,
+          "endMs": 156270
+        },
+        {
+          "word": "çıkarken",
+          "startMs": 156270,
+          "endMs": 156840
+        },
+        {
+          "word": "ışıkları",
+          "startMs": 156930,
+          "endMs": 157400
+        },
+        {
+          "word": "kapat,",
+          "startMs": 157740,
+          "endMs": 158850
+        },
+        {
+          "word": "'Turn",
+          "startMs": 159520,
+          "endMs": 159940
+        },
+        {
+          "word": "off",
+          "startMs": 160070,
+          "endMs": 160320
+        },
+        {
+          "word": "the",
+          "startMs": 160320,
+          "endMs": 160490
+        },
+        {
+          "word": "tap'",
+          "startMs": 160490,
+          "endMs": 160780
+        },
+        {
+          "word": "yani",
+          "startMs": 161080,
+          "endMs": 161320
+        },
+        {
+          "word": "diş",
+          "startMs": 161660,
+          "endMs": 161880
+        },
+        {
+          "word": "fırçalarken",
+          "startMs": 161880,
+          "endMs": 162710
+        },
+        {
+          "word": "musluğu",
+          "startMs": 162810,
+          "endMs": 163440
+        },
+        {
+          "word": "kapat",
+          "startMs": 163570,
+          "endMs": 164080
+        },
+        {
+          "word": "deriz.",
+          "startMs": 164170,
+          "endMs": 165150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 166000,
+      "endMs": 178760,
+      "pauseAfterMs": 680,
+      "text": "'Save water' suyu koru, 'Plant trees' ise doğaya yeni fidanlar ve ağaçlar dik anlamına gelir.",
+      "markedText": "'Save water' suyu koru, 'Plant trees' ise doğaya yeni fidanlar ve ağaçlar dik anlamına gelir.",
+      "words": [
+        {
+          "word": "'Save",
+          "startMs": 166000,
+          "endMs": 166470
+        },
+        {
+          "word": "water'",
+          "startMs": 167030,
+          "endMs": 167410
+        },
+        {
+          "word": "suyu",
+          "startMs": 167560,
+          "endMs": 167860
+        },
+        {
+          "word": "koru,",
+          "startMs": 168230,
+          "endMs": 168490
+        },
+        {
+          "word": "'Plant",
+          "startMs": 168960,
+          "endMs": 169180
+        },
+        {
+          "word": "trees'",
+          "startMs": 169290,
+          "endMs": 169600
+        },
+        {
+          "word": "ise",
+          "startMs": 169820,
+          "endMs": 170240
+        },
+        {
+          "word": "doğaya",
+          "startMs": 170550,
+          "endMs": 171130
+        },
+        {
+          "word": "yeni",
+          "startMs": 171390,
+          "endMs": 172100
+        },
+        {
+          "word": "fidanlar",
+          "startMs": 172100,
+          "endMs": 173060
+        },
+        {
+          "word": "ve",
+          "startMs": 173260,
+          "endMs": 173730
+        },
+        {
+          "word": "ağaçlar",
+          "startMs": 174320,
+          "endMs": 175050
+        },
+        {
+          "word": "dik",
+          "startMs": 175170,
+          "endMs": 175490
+        },
+        {
+          "word": "anlamına",
+          "startMs": 175490,
+          "endMs": 176930
+        },
+        {
+          "word": "gelir.",
+          "startMs": 176980,
+          "endMs": 178080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 178760,
+      "endMs": 197530,
+      "pauseAfterMs": 510,
+      "text": "Pratik kural: Doğayı korumanın ilk kuralı atıkları yere atmamaktır; 'Don't throw rubbish on the ground' diyerek çevremizi tertemiz tutarız.",
+      "markedText": "Pratik kural: Doğayı korumanın ilk kuralı atıkları yere atmamaktır; 'Don't throw rubbish on the ground' diyerek çevremizi tertemiz tutarız.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 178760,
+          "endMs": 179790
+        },
+        {
+          "word": "kural:",
+          "startMs": 180670,
+          "endMs": 180910
+        },
+        {
+          "word": "Doğayı",
+          "startMs": 181540,
+          "endMs": 181910
+        },
+        {
+          "word": "korumanın",
+          "startMs": 182070,
+          "endMs": 183160
+        },
+        {
+          "word": "ilk",
+          "startMs": 183790,
+          "endMs": 183990
+        },
+        {
+          "word": "kuralı",
+          "startMs": 184100,
+          "endMs": 184750
+        },
+        {
+          "word": "atıkları",
+          "startMs": 185060,
+          "endMs": 185740
+        },
+        {
+          "word": "yere",
+          "startMs": 185900,
+          "endMs": 186220
+        },
+        {
+          "word": "atmamaktır;",
+          "startMs": 186520,
+          "endMs": 187920
+        },
+        {
+          "word": "'Don't",
+          "startMs": 188880,
+          "endMs": 189130
+        },
+        {
+          "word": "throw",
+          "startMs": 189680,
+          "endMs": 189880
+        },
+        {
+          "word": "rubbish",
+          "startMs": 190030,
+          "endMs": 190570
+        },
+        {
+          "word": "on",
+          "startMs": 191030,
+          "endMs": 191250
+        },
+        {
+          "word": "the",
+          "startMs": 191450,
+          "endMs": 191620
+        },
+        {
+          "word": "ground'",
+          "startMs": 191820,
+          "endMs": 192090
+        },
+        {
+          "word": "diyerek",
+          "startMs": 192210,
+          "endMs": 193510
+        },
+        {
+          "word": "çevremizi",
+          "startMs": 194020,
+          "endMs": 194850
+        },
+        {
+          "word": "tertemiz",
+          "startMs": 194930,
+          "endMs": 195990
+        },
+        {
+          "word": "tutarız.",
+          "startMs": 196380,
+          "endMs": 197020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 197530,
+      "endMs": 232830,
+      "pauseAfterMs": 780,
+      "text": "Okul bahçesindeki üç renkli geri dönüşüm kutusuna birlikte bakalım: 'The blue bin is for paper, the yellow bin is for plastic, and the green bin is for glass.' Evde yapabileceğimiz güzel alışkanlıkları sıralayalım: 'I always turn off the lights when I leave my room.' Lavaboda ellerimizi yıkarken 'I turn off the tap to save water' deriz.",
+      "markedText": "Okul bahçesindeki üç renkli geri dönüşüm kutusuna birlikte bakalım: 'The blue bin is for paper, the yellow bin is for plastic, and the green bin is for glass.' Evde yapabileceğimiz güzel alışkanlıkları sıralayalım: 'I always turn off the lights when I leave my room.' Lavaboda ellerimizi yıkarken 'I turn off the tap to save water' deriz.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 197530,
+          "endMs": 197680
+        },
+        {
+          "word": "bahçesindeki",
+          "startMs": 197820,
+          "endMs": 198540
+        },
+        {
+          "word": "üç",
+          "startMs": 198770,
+          "endMs": 198940
+        },
+        {
+          "word": "renkli",
+          "startMs": 198940,
+          "endMs": 199850
+        },
+        {
+          "word": "geri",
+          "startMs": 200760,
+          "endMs": 201150
+        },
+        {
+          "word": "dönüşüm",
+          "startMs": 201230,
+          "endMs": 202110
+        },
+        {
+          "word": "kutusuna",
+          "startMs": 202210,
+          "endMs": 202790
+        },
+        {
+          "word": "birlikte",
+          "startMs": 203120,
+          "endMs": 203770
+        },
+        {
+          "word": "bakalım:",
+          "startMs": 203820,
+          "endMs": 204250
+        },
+        {
+          "word": "'The",
+          "startMs": 204720,
+          "endMs": 204870
+        },
+        {
+          "word": "blue",
+          "startMs": 204940,
+          "endMs": 205140
+        },
+        {
+          "word": "bin",
+          "startMs": 205230,
+          "endMs": 205620
+        },
+        {
+          "word": "is",
+          "startMs": 205850,
+          "endMs": 205970
+        },
+        {
+          "word": "for",
+          "startMs": 206880,
+          "endMs": 206960
+        },
+        {
+          "word": "paper,",
+          "startMs": 207050,
+          "endMs": 207580
+        },
+        {
+          "word": "the",
+          "startMs": 207690,
+          "endMs": 207910
+        },
+        {
+          "word": "yellow",
+          "startMs": 208280,
+          "endMs": 208800
+        },
+        {
+          "word": "bin",
+          "startMs": 208920,
+          "endMs": 209120
+        },
+        {
+          "word": "is",
+          "startMs": 209570,
+          "endMs": 209790
+        },
+        {
+          "word": "for",
+          "startMs": 209890,
+          "endMs": 210130
+        },
+        {
+          "word": "plastic,",
+          "startMs": 210350,
+          "endMs": 211240
+        },
+        {
+          "word": "and",
+          "startMs": 211560,
+          "endMs": 211880
+        },
+        {
+          "word": "the",
+          "startMs": 211880,
+          "endMs": 212120
+        },
+        {
+          "word": "green",
+          "startMs": 212220,
+          "endMs": 212350
+        },
+        {
+          "word": "bin",
+          "startMs": 212460,
+          "endMs": 212850
+        },
+        {
+          "word": "is",
+          "startMs": 213150,
+          "endMs": 213440
+        },
+        {
+          "word": "for",
+          "startMs": 213490,
+          "endMs": 213820
+        },
+        {
+          "word": "glass.'",
+          "startMs": 214730,
+          "endMs": 214900
+        },
+        {
+          "word": "Evde",
+          "startMs": 214970,
+          "endMs": 215160
+        },
+        {
+          "word": "yapabileceğimiz",
+          "startMs": 215200,
+          "endMs": 216040
+        },
+        {
+          "word": "güzel",
+          "startMs": 216160,
+          "endMs": 216440
+        },
+        {
+          "word": "alışkanlıkları",
+          "startMs": 216570,
+          "endMs": 217570
+        },
+        {
+          "word": "sıralayalım:",
+          "startMs": 217690,
+          "endMs": 218680
+        },
+        {
+          "word": "'I",
+          "startMs": 219150,
+          "endMs": 219260
+        },
+        {
+          "word": "always",
+          "startMs": 219350,
+          "endMs": 220010
+        },
+        {
+          "word": "turn",
+          "startMs": 220160,
+          "endMs": 220550
+        },
+        {
+          "word": "off",
+          "startMs": 220810,
+          "endMs": 221180
+        },
+        {
+          "word": "the",
+          "startMs": 221540,
+          "endMs": 221860
+        },
+        {
+          "word": "lights",
+          "startMs": 222330,
+          "endMs": 222730
+        },
+        {
+          "word": "when",
+          "startMs": 222870,
+          "endMs": 223190
+        },
+        {
+          "word": "I",
+          "startMs": 223280,
+          "endMs": 223480
+        },
+        {
+          "word": "leave",
+          "startMs": 224400,
+          "endMs": 224700
+        },
+        {
+          "word": "my",
+          "startMs": 224790,
+          "endMs": 224950
+        },
+        {
+          "word": "room.'",
+          "startMs": 225030,
+          "endMs": 225330
+        },
+        {
+          "word": "Lavaboda",
+          "startMs": 225470,
+          "endMs": 226350
+        },
+        {
+          "word": "ellerimizi",
+          "startMs": 226910,
+          "endMs": 227430
+        },
+        {
+          "word": "yıkarken",
+          "startMs": 227500,
+          "endMs": 227820
+        },
+        {
+          "word": "'I",
+          "startMs": 228220,
+          "endMs": 228300
+        },
+        {
+          "word": "turn",
+          "startMs": 228480,
+          "endMs": 228740
+        },
+        {
+          "word": "off",
+          "startMs": 228950,
+          "endMs": 229290
+        },
+        {
+          "word": "the",
+          "startMs": 229390,
+          "endMs": 229690
+        },
+        {
+          "word": "tap",
+          "startMs": 229950,
+          "endMs": 230260
+        },
+        {
+          "word": "to",
+          "startMs": 230340,
+          "endMs": 230560
+        },
+        {
+          "word": "save",
+          "startMs": 230560,
+          "endMs": 230840
+        },
+        {
+          "word": "water'",
+          "startMs": 230930,
+          "endMs": 231350
+        },
+        {
+          "word": "deriz.",
+          "startMs": 231460,
+          "endMs": 232050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 232830,
+      "endMs": 243050,
+      "pauseAfterMs": 690,
+      "text": "Defterlerimizi kullanırken 'I use both sides of the paper' diyerek ağaçları koruruz.",
+      "markedText": "Defterlerimizi kullanırken 'I use both sides of the paper' diyerek ağaçları koruruz.",
+      "words": [
+        {
+          "word": "Defterlerimizi",
+          "startMs": 232830,
+          "endMs": 233720
+        },
+        {
+          "word": "kullanırken",
+          "startMs": 233720,
+          "endMs": 234760
+        },
+        {
+          "word": "'I",
+          "startMs": 235340,
+          "endMs": 235410
+        },
+        {
+          "word": "use",
+          "startMs": 236200,
+          "endMs": 236450
+        },
+        {
+          "word": "both",
+          "startMs": 236500,
+          "endMs": 236800
+        },
+        {
+          "word": "sides",
+          "startMs": 236800,
+          "endMs": 237080
+        },
+        {
+          "word": "of",
+          "startMs": 237330,
+          "endMs": 237400
+        },
+        {
+          "word": "the",
+          "startMs": 237460,
+          "endMs": 237680
+        },
+        {
+          "word": "paper'",
+          "startMs": 237930,
+          "endMs": 238330
+        },
+        {
+          "word": "diyerek",
+          "startMs": 238850,
+          "endMs": 239800
+        },
+        {
+          "word": "ağaçları",
+          "startMs": 240530,
+          "endMs": 241250
+        },
+        {
+          "word": "koruruz.",
+          "startMs": 241710,
+          "endMs": 242360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 243050,
+      "endMs": 255580,
+      "pauseAfterMs": 880,
+      "text": "Bahçede fidan dikerken 'We plant trees for a greener future' cümlesini kurarız.",
+      "markedText": "Bahçede fidan dikerken 'We plant trees for a greener future' cümlesini kurarız.",
+      "words": [
+        {
+          "word": "Bahçede",
+          "startMs": 243050,
+          "endMs": 243710
+        },
+        {
+          "word": "fidan",
+          "startMs": 244210,
+          "endMs": 244880
+        },
+        {
+          "word": "dikerken",
+          "startMs": 245520,
+          "endMs": 246460
+        },
+        {
+          "word": "'We",
+          "startMs": 246640,
+          "endMs": 246770
+        },
+        {
+          "word": "plant",
+          "startMs": 246860,
+          "endMs": 247510
+        },
+        {
+          "word": "trees",
+          "startMs": 248310,
+          "endMs": 248700
+        },
+        {
+          "word": "for",
+          "startMs": 248760,
+          "endMs": 249010
+        },
+        {
+          "word": "a",
+          "startMs": 249090,
+          "endMs": 249270
+        },
+        {
+          "word": "greener",
+          "startMs": 249430,
+          "endMs": 251050
+        },
+        {
+          "word": "future'",
+          "startMs": 251680,
+          "endMs": 252390
+        },
+        {
+          "word": "cümlesini",
+          "startMs": 252580,
+          "endMs": 253280
+        },
+        {
+          "word": "kurarız.",
+          "startMs": 253560,
+          "endMs": 254700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 255580,
+      "endMs": 271670,
+      "pauseAfterMs": 990,
+      "text": "Yerde bir çöp gördüğümüzde ise 'I pick up the rubbish and throw it into the bin' diyerek örnek bir davranış sergileriz.",
+      "markedText": "Yerde bir çöp gördüğümüzde ise 'I pick up the rubbish and throw it into the bin' diyerek örnek bir davranış sergileriz.",
+      "words": [
+        {
+          "word": "Yerde",
+          "startMs": 255580,
+          "endMs": 256130
+        },
+        {
+          "word": "bir",
+          "startMs": 256130,
+          "endMs": 256360
+        },
+        {
+          "word": "çöp",
+          "startMs": 256670,
+          "endMs": 257150
+        },
+        {
+          "word": "gördüğümüzde",
+          "startMs": 257540,
+          "endMs": 258640
+        },
+        {
+          "word": "ise",
+          "startMs": 259150,
+          "endMs": 259580
+        },
+        {
+          "word": "'I",
+          "startMs": 259580,
+          "endMs": 259680
+        },
+        {
+          "word": "pick",
+          "startMs": 260030,
+          "endMs": 260340
+        },
+        {
+          "word": "up",
+          "startMs": 261370,
+          "endMs": 261590
+        },
+        {
+          "word": "the",
+          "startMs": 261650,
+          "endMs": 261810
+        },
+        {
+          "word": "rubbish",
+          "startMs": 262030,
+          "endMs": 262730
+        },
+        {
+          "word": "and",
+          "startMs": 263510,
+          "endMs": 263820
+        },
+        {
+          "word": "throw",
+          "startMs": 263940,
+          "endMs": 264280
+        },
+        {
+          "word": "it",
+          "startMs": 264640,
+          "endMs": 264780
+        },
+        {
+          "word": "into",
+          "startMs": 265020,
+          "endMs": 265520
+        },
+        {
+          "word": "the",
+          "startMs": 265520,
+          "endMs": 265660
+        },
+        {
+          "word": "bin'",
+          "startMs": 265990,
+          "endMs": 266240
+        },
+        {
+          "word": "diyerek",
+          "startMs": 266290,
+          "endMs": 267150
+        },
+        {
+          "word": "örnek",
+          "startMs": 267260,
+          "endMs": 267760
+        },
+        {
+          "word": "bir",
+          "startMs": 267760,
+          "endMs": 268300
+        },
+        {
+          "word": "davranış",
+          "startMs": 268720,
+          "endMs": 269450
+        },
+        {
+          "word": "sergileriz.",
+          "startMs": 269450,
+          "endMs": 270680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 271670,
+      "endMs": 273740,
+      "pauseAfterMs": 710,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 271670,
+          "endMs": 272100
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 272310,
+          "endMs": 273030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 273740,
+      "endMs": 278660,
+      "pauseAfterMs": 650,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 273740,
+          "endMs": 274030
+        },
+        {
+          "word": "bir",
+          "startMs": 274180,
+          "endMs": 274440
+        },
+        {
+          "word": "kez",
+          "startMs": 274490,
+          "endMs": 274770
+        },
+        {
+          "word": "görünce",
+          "startMs": 274980,
+          "endMs": 275580
+        },
+        {
+          "word": "kolayca",
+          "startMs": 275790,
+          "endMs": 276460
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 276750,
+          "endMs": 278010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 278660,
+      "endMs": 286950,
+      "pauseAfterMs": 440,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 278660,
+          "endMs": 279050
+        },
+        {
+          "word": "sevgili",
+          "startMs": 279050,
+          "endMs": 279490
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 279590,
+          "endMs": 280820
+        },
+        {
+          "word": "işte",
+          "startMs": 281430,
+          "endMs": 281530
+        },
+        {
+          "word": "tam",
+          "startMs": 281530,
+          "endMs": 281710
+        },
+        {
+          "word": "bu",
+          "startMs": 281820,
+          "endMs": 281910
+        },
+        {
+          "word": "noktada",
+          "startMs": 281910,
+          "endMs": 282810
+        },
+        {
+          "word": "dikkat",
+          "startMs": 283560,
+          "endMs": 283950
+        },
+        {
+          "word": "etmen",
+          "startMs": 284120,
+          "endMs": 284510
+        },
+        {
+          "word": "gereken",
+          "startMs": 284680,
+          "endMs": 285510
+        },
+        {
+          "word": "kilit",
+          "startMs": 285630,
+          "endMs": 285940
+        },
+        {
+          "word": "nokta.",
+          "startMs": 286140,
+          "endMs": 286510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 286950,
+      "endMs": 305940,
+      "pauseAfterMs": 810,
+      "text": "Geri dönüşümün her atığı aynı kutuya rastgele atmak değil, atıkları türlerine göre doğru kutularla buluşturmak olduğunu hatırla.",
+      "markedText": "Geri dönüşümün her atığı aynı kutuya rastgele atmak değil, atıkları türlerine göre doğru kutularla buluşturmak olduğunu hatırla.",
+      "words": [
+        {
+          "word": "Geri",
+          "startMs": 286950,
+          "endMs": 287510
+        },
+        {
+          "word": "dönüşümün",
+          "startMs": 287640,
+          "endMs": 289060
+        },
+        {
+          "word": "her",
+          "startMs": 289360,
+          "endMs": 289470
+        },
+        {
+          "word": "atığı",
+          "startMs": 290410,
+          "endMs": 290820
+        },
+        {
+          "word": "aynı",
+          "startMs": 290910,
+          "endMs": 291290
+        },
+        {
+          "word": "kutuya",
+          "startMs": 291850,
+          "endMs": 292550
+        },
+        {
+          "word": "rastgele",
+          "startMs": 292920,
+          "endMs": 293990
+        },
+        {
+          "word": "atmak",
+          "startMs": 294410,
+          "endMs": 295270
+        },
+        {
+          "word": "değil,",
+          "startMs": 295590,
+          "endMs": 295700
+        },
+        {
+          "word": "atıkları",
+          "startMs": 296510,
+          "endMs": 297170
+        },
+        {
+          "word": "türlerine",
+          "startMs": 297540,
+          "endMs": 298190
+        },
+        {
+          "word": "göre",
+          "startMs": 298290,
+          "endMs": 298630
+        },
+        {
+          "word": "doğru",
+          "startMs": 298630,
+          "endMs": 299350
+        },
+        {
+          "word": "kutularla",
+          "startMs": 299860,
+          "endMs": 300550
+        },
+        {
+          "word": "buluşturmak",
+          "startMs": 300650,
+          "endMs": 302020
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 302650,
+          "endMs": 304050
+        },
+        {
+          "word": "hatırla.",
+          "startMs": 304350,
+          "endMs": 305130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 305940,
+      "endMs": 316350,
+      "pauseAfterMs": 570,
+      "text": "Örneğin kâğıdı mavi kutuya, camı yeşil kutuya atmak gerçek bir 'recycling' çalışmasıdır.",
+      "markedText": "Örneğin kâğıdı mavi kutuya, camı yeşil kutuya atmak gerçek bir 'recycling' çalışmasıdır.",
+      "words": [
+        {
+          "word": "Örneğin",
+          "startMs": 305940,
+          "endMs": 306860
+        },
+        {
+          "word": "kâğıdı",
+          "startMs": 306970,
+          "endMs": 307590
+        },
+        {
+          "word": "mavi",
+          "startMs": 307690,
+          "endMs": 307980
+        },
+        {
+          "word": "kutuya,",
+          "startMs": 308250,
+          "endMs": 308770
+        },
+        {
+          "word": "camı",
+          "startMs": 309450,
+          "endMs": 309730
+        },
+        {
+          "word": "yeşil",
+          "startMs": 309800,
+          "endMs": 310200
+        },
+        {
+          "word": "kutuya",
+          "startMs": 310370,
+          "endMs": 311160
+        },
+        {
+          "word": "atmak",
+          "startMs": 311660,
+          "endMs": 312010
+        },
+        {
+          "word": "gerçek",
+          "startMs": 312160,
+          "endMs": 312370
+        },
+        {
+          "word": "bir",
+          "startMs": 312660,
+          "endMs": 312890
+        },
+        {
+          "word": "'recycling'",
+          "startMs": 313010,
+          "endMs": 313690
+        },
+        {
+          "word": "çalışmasıdır.",
+          "startMs": 314640,
+          "endMs": 315780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 316350,
+      "endMs": 335910,
+      "pauseAfterMs": 710,
+      "text": "'Save water' derken musluğu kapatmayı, 'save energy' derken boşa yanan ışıkları söndürmeyi her zaman aklında tutabilirsin; çünkü küçük ve özenli alışkanlıklar dünyamızı güzelleştirir.",
+      "markedText": "'Save water' derken musluğu kapatmayı, 'save energy' derken boşa yanan ışıkları söndürmeyi her zaman aklında tutabilirsin; çünkü küçük ve özenli alışkanlıklar dünyamızı güzelleştirir.",
+      "words": [
+        {
+          "word": "'Save",
+          "startMs": 316350,
+          "endMs": 317050
+        },
+        {
+          "word": "water'",
+          "startMs": 317490,
+          "endMs": 317730
+        },
+        {
+          "word": "derken",
+          "startMs": 317880,
+          "endMs": 318500
+        },
+        {
+          "word": "musluğu",
+          "startMs": 318660,
+          "endMs": 319500
+        },
+        {
+          "word": "kapatmayı,",
+          "startMs": 319650,
+          "endMs": 320850
+        },
+        {
+          "word": "'save",
+          "startMs": 321550,
+          "endMs": 322230
+        },
+        {
+          "word": "energy'",
+          "startMs": 322620,
+          "endMs": 322920
+        },
+        {
+          "word": "derken",
+          "startMs": 323040,
+          "endMs": 323360
+        },
+        {
+          "word": "boşa",
+          "startMs": 323560,
+          "endMs": 323720
+        },
+        {
+          "word": "yanan",
+          "startMs": 323870,
+          "endMs": 324290
+        },
+        {
+          "word": "ışıkları",
+          "startMs": 324400,
+          "endMs": 324850
+        },
+        {
+          "word": "söndürmeyi",
+          "startMs": 324900,
+          "endMs": 325550
+        },
+        {
+          "word": "her",
+          "startMs": 325550,
+          "endMs": 325750
+        },
+        {
+          "word": "zaman",
+          "startMs": 325790,
+          "endMs": 326060
+        },
+        {
+          "word": "aklında",
+          "startMs": 326060,
+          "endMs": 326830
+        },
+        {
+          "word": "tutabilirsin;",
+          "startMs": 327480,
+          "endMs": 328800
+        },
+        {
+          "word": "çünkü",
+          "startMs": 329680,
+          "endMs": 329890
+        },
+        {
+          "word": "küçük",
+          "startMs": 330010,
+          "endMs": 330230
+        },
+        {
+          "word": "ve",
+          "startMs": 330230,
+          "endMs": 330350
+        },
+        {
+          "word": "özenli",
+          "startMs": 330400,
+          "endMs": 330820
+        },
+        {
+          "word": "alışkanlıklar",
+          "startMs": 330910,
+          "endMs": 331890
+        },
+        {
+          "word": "dünyamızı",
+          "startMs": 331960,
+          "endMs": 333300
+        },
+        {
+          "word": "güzelleştirir.",
+          "startMs": 334110,
+          "endMs": 335200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 335910,
+      "endMs": 347170,
+      "pauseAfterMs": 760,
+      "text": "Çevreyi korumak ve recycling konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Çevreyi korumak ve recycling konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Çevreyi",
+          "startMs": 335910,
+          "endMs": 336360
+        },
+        {
+          "word": "korumak",
+          "startMs": 336670,
+          "endMs": 337100
+        },
+        {
+          "word": "ve",
+          "startMs": 337170,
+          "endMs": 337370
+        },
+        {
+          "word": "recycling",
+          "startMs": 337480,
+          "endMs": 338180
+        },
+        {
+          "word": "konusunda",
+          "startMs": 338530,
+          "endMs": 339500
+        },
+        {
+          "word": "kuralın",
+          "startMs": 340470,
+          "endMs": 341150
+        },
+        {
+          "word": "tersini",
+          "startMs": 341290,
+          "endMs": 341970
+        },
+        {
+          "word": "sanmak",
+          "startMs": 342610,
+          "endMs": 343330
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 343480,
+          "endMs": 344190
+        },
+        {
+          "word": "ters",
+          "startMs": 344830,
+          "endMs": 345060
+        },
+        {
+          "word": "cümle",
+          "startMs": 345130,
+          "endMs": 345520
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 345520,
+          "endMs": 346410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-3",
+      "startMs": 347170,
+      "endMs": 350850,
+      "pauseAfterMs": 860,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 347170,
+          "endMs": 347680
+        },
+        {
+          "word": "Neler",
+          "startMs": 347970,
+          "endMs": 348660
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 348890,
+          "endMs": 349990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-3",
+      "startMs": 350850,
+      "endMs": 351580,
+      "pauseAfterMs": 140,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 350850,
+          "endMs": 351440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 351580,
+      "endMs": 361180,
+      "pauseAfterMs": 800,
+      "text": "Recycle; kâğıt, cam ve plastiği ayrıştırarak yeniden kazanmaktır.",
+      "markedText": "Recycle; kâğıt, cam ve plastiği ayrıştırarak yeniden kazanmaktır.",
+      "words": [
+        {
+          "word": "Recycle;",
+          "startMs": 351580,
+          "endMs": 352320
+        },
+        {
+          "word": "kâğıt,",
+          "startMs": 352520,
+          "endMs": 353600
+        },
+        {
+          "word": "cam",
+          "startMs": 354410,
+          "endMs": 354730
+        },
+        {
+          "word": "ve",
+          "startMs": 354770,
+          "endMs": 354980
+        },
+        {
+          "word": "plastiği",
+          "startMs": 354980,
+          "endMs": 356230
+        },
+        {
+          "word": "ayrıştırarak",
+          "startMs": 356430,
+          "endMs": 357330
+        },
+        {
+          "word": "yeniden",
+          "startMs": 357520,
+          "endMs": 358620
+        },
+        {
+          "word": "kazanmaktır.",
+          "startMs": 359660,
+          "endMs": 360380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 361180,
+      "endMs": 361820,
+      "pauseAfterMs": 170,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 361180,
+          "endMs": 361650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 361820,
+      "endMs": 372190,
+      "pauseAfterMs": 690,
+      "text": "Turn off the lights ve save water gezegenimizi koruyan temel eylemlerdir.",
+      "markedText": "Turn off the lights ve save water gezegenimizi koruyan temel eylemlerdir.",
+      "words": [
+        {
+          "word": "Turn",
+          "startMs": 361820,
+          "endMs": 362100
+        },
+        {
+          "word": "off",
+          "startMs": 362270,
+          "endMs": 362540
+        },
+        {
+          "word": "the",
+          "startMs": 362650,
+          "endMs": 363200
+        },
+        {
+          "word": "lights",
+          "startMs": 363500,
+          "endMs": 364260
+        },
+        {
+          "word": "ve",
+          "startMs": 364800,
+          "endMs": 365000
+        },
+        {
+          "word": "save",
+          "startMs": 365210,
+          "endMs": 365700
+        },
+        {
+          "word": "water",
+          "startMs": 365820,
+          "endMs": 366440
+        },
+        {
+          "word": "gezegenimizi",
+          "startMs": 366540,
+          "endMs": 368060
+        },
+        {
+          "word": "koruyan",
+          "startMs": 368670,
+          "endMs": 369360
+        },
+        {
+          "word": "temel",
+          "startMs": 369750,
+          "endMs": 370120
+        },
+        {
+          "word": "eylemlerdir.",
+          "startMs": 370120,
+          "endMs": 371500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 372190,
+      "endMs": 372310,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 372190,
+          "endMs": 372310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 372310,
+      "endMs": 380880,
+      "pauseAfterMs": 870,
+      "text": "Don't throw rubbish on the ground uyarısıyla çevremizi temiz tutarız.",
+      "markedText": "Don't throw rubbish on the ground uyarısıyla çevremizi temiz tutarız.",
+      "words": [
+        {
+          "word": "Don't",
+          "startMs": 372310,
+          "endMs": 372550
+        },
+        {
+          "word": "throw",
+          "startMs": 372550,
+          "endMs": 372910
+        },
+        {
+          "word": "rubbish",
+          "startMs": 372990,
+          "endMs": 374020
+        },
+        {
+          "word": "on",
+          "startMs": 374670,
+          "endMs": 375080
+        },
+        {
+          "word": "the",
+          "startMs": 375280,
+          "endMs": 375620
+        },
+        {
+          "word": "ground",
+          "startMs": 375790,
+          "endMs": 376620
+        },
+        {
+          "word": "uyarısıyla",
+          "startMs": 376760,
+          "endMs": 377520
+        },
+        {
+          "word": "çevremizi",
+          "startMs": 377900,
+          "endMs": 378420
+        },
+        {
+          "word": "temiz",
+          "startMs": 378560,
+          "endMs": 378870
+        },
+        {
+          "word": "tutarız.",
+          "startMs": 379230,
+          "endMs": 380010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 380880,
+      "endMs": 386700,
+      "pauseAfterMs": 760,
+      "text": "Geri dönüşüm, atığı cinsine göre ayırmaktır.",
+      "markedText": "Geri dönüşüm, atığı cinsine göre ayırmaktır.",
+      "words": [
+        {
+          "word": "Geri",
+          "startMs": 380880,
+          "endMs": 381290
+        },
+        {
+          "word": "dönüşüm,",
+          "startMs": 381390,
+          "endMs": 382070
+        },
+        {
+          "word": "atığı",
+          "startMs": 382200,
+          "endMs": 382760
+        },
+        {
+          "word": "cinsine",
+          "startMs": 383130,
+          "endMs": 383880
+        },
+        {
+          "word": "göre",
+          "startMs": 383990,
+          "endMs": 384350
+        },
+        {
+          "word": "ayırmaktır.",
+          "startMs": 384810,
+          "endMs": 385940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 386700,
+      "endMs": 392750,
+      "pauseAfterMs": 750,
+      "text": "Evde yapacağın bir koruma işini İngilizce söylersin.",
+      "markedText": "Evde yapacağın bir koruma işini İngilizce söylersin.",
+      "words": [
+        {
+          "word": "Evde",
+          "startMs": 386700,
+          "endMs": 386870
+        },
+        {
+          "word": "yapacağın",
+          "startMs": 386970,
+          "endMs": 387900
+        },
+        {
+          "word": "bir",
+          "startMs": 388050,
+          "endMs": 388370
+        },
+        {
+          "word": "koruma",
+          "startMs": 389160,
+          "endMs": 389880
+        },
+        {
+          "word": "işini",
+          "startMs": 390260,
+          "endMs": 390570
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 390660,
+          "endMs": 391240
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 391240,
+          "endMs": 392000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 392750,
+      "endMs": 395180,
+      "pauseAfterMs": 680,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 392750,
+          "endMs": 393400
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 393600,
+          "endMs": 394500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 395180,
+      "endMs": 398320,
+      "pauseAfterMs": 340,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 395180,
+          "endMs": 395570
+        },
+        {
+          "word": "bir",
+          "startMs": 395660,
+          "endMs": 396080
+        },
+        {
+          "word": "iş",
+          "startMs": 396200,
+          "endMs": 396540
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 396540,
+          "endMs": 397980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 398320,
+      "endMs": 401270,
+      "pauseAfterMs": 500,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 398320,
+          "endMs": 399100
+        },
+        {
+          "word": "sıra",
+          "startMs": 399840,
+          "endMs": 400390
+        },
+        {
+          "word": "sende.",
+          "startMs": 400390,
+          "endMs": 400770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 401270,
+      "endMs": 404346,
+      "pauseAfterMs": 336,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 401270,
+          "endMs": 401810
+        },
+        {
+          "word": "bu",
+          "startMs": 401810,
+          "endMs": 401930
+        },
+        {
+          "word": "notları",
+          "startMs": 402050,
+          "endMs": 402320
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 402420,
+          "endMs": 402780
+        },
+        {
+          "word": "kendi",
+          "startMs": 402870,
+          "endMs": 403040
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 403040,
+          "endMs": 403740
+        },
+        {
+          "word": "anlat.",
+          "startMs": 403740,
+          "endMs": 404010
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

@@ -1,18 +1,27 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import type { JuniorAccountGate } from "@/components/junior/account-gate-modal";
 import { VectorPlayer } from "@/components/junior/vector-player";
 import { Button } from "@/components/ui/button";
 import {
-  JUNIOR_PAID_ACTION_ERROR,
-  JUNIOR_QUIZ_CONTROL_LABEL,
   JUNIOR_QUIZ_PREPARING_LABEL,
   JUNIOR_TELL_MAX_SEC,
   JUNIOR_TELL_MIN_SEC,
   JUNIOR_TELL_PASS_SCORE,
   JUNIOR_TELL_PATH,
+  JUNIOR_TEXT_MAX,
+  JUNIOR_TEXT_MIN,
+  isJuniorPilotTrialLesson,
+  juniorPaidActionError,
+  juniorQuizControlLabel,
 } from "@/lib/junior/limits";
+import {
+  hasUsedJuniorTrialTell,
+  markJuniorTrialTellUsed,
+} from "@/lib/junior/progress-tracker";
 import { endJuniorSpeech } from "@/lib/junior/speech";
+import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 import type { JuniorVectorScene } from "@/lib/junior/types";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
@@ -36,6 +45,7 @@ type ListenAndTellProps = {
   lifeUse: string;
   steps?: readonly string[];
   hasQuiz?: boolean;
+  quizCount?: number;
   /** «Hazırım, Sana Anlatayım!» yönlendirme kontrol soruları. */
   tellGuides?: readonly string[];
   recording?: "open" | "locked";
@@ -50,6 +60,9 @@ type ListenAndTellProps = {
   lockPublicMedia?: boolean;
   /** Senaryodaki özgün mikro soru. Yıldız paneli bunu basar. */
   microQuestion?: string;
+  accountGate?: JuniorAccountGate;
+  onNeedAccount?: () => void;
+  pilotTimeline?: TimelineJSON | null;
 };
 
 function pickMime(): string {
@@ -92,6 +105,7 @@ export function ListenAndTell({
   lifeUse,
   steps,
   hasQuiz = true,
+  quizCount,
   tellGuides = [],
   recording: recordingGate = "open",
   quizSlot = "ready",
@@ -104,6 +118,9 @@ export function ListenAndTell({
   grantedWarmupUrl = null,
   lockPublicMedia = false,
   microQuestion = "",
+  accountGate = "ready",
+  onNeedAccount,
+  pilotTimeline,
 }: ListenAndTellProps) {
   const [bars, setBars] = useState<number[]>(() => Array.from({ length: 12 }, () => 12));
   const [seconds, setSeconds] = useState(0);
@@ -111,6 +128,12 @@ export function ListenAndTell({
   const [sending, setSending] = useState(false);
   const [note, setNote] = useState("");
   const [feedback, setFeedback] = useState<Feedback | null>(null);
+  const [trialTellDone, setTrialTellDone] = useState(false);
+  const [tellMode, setTellMode] = useState<"speak" | "write">("speak");
+  const [writtenText, setWrittenText] = useState("");
+  const isPilotTrial = isJuniorPilotTrialLesson(lessonKey) && !profileId;
+  const paidActionError = juniorPaidActionError(quizCount);
+  const quizLabel = juniorQuizControlLabel(quizCount);
   /** Pembe kontrol soruları — yalnız kaset `playback.complete === true` iken. */
   const [cassetteComplete, setCassetteComplete] = useState(false);
   /** «Hazırım…» sonrası tell bandı vurgusu — kaydırma hedefi + aktif halka. */
@@ -152,6 +175,12 @@ export function ListenAndTell({
   }
 
   useEffect(() => {
+    if (isPilotTrial) {
+      setTrialTellDone(hasUsedJuniorTrialTell(profileId, lessonKey));
+    }
+  }, [isPilotTrial, lessonKey, profileId]);
+
+  useEffect(() => {
     return () => {
       stopMeters();
       recorderRef.current = null;
@@ -161,38 +190,89 @@ export function ListenAndTell({
     };
   }, []);
 
+  function blockedByAccount(): boolean {
+    if (accountGate === "ready") {
+      return false;
+    }
+    onNeedAccount?.();
+    return true;
+  }
+
   async function sendClip(blob: Blob, durationSec: number, mimeType: string) {
+    if (blockedByAccount()) {
+      return;
+    }
     setSending(true);
     setNote("");
     let audioBase64 = "";
     try {
       audioBase64 = await blobToBase64(blob);
-      const response = await fetch(
-        JUNIOR_TELL_PATH,
-        withRailApiVersion({
+      if (profileId) {
+        const response = await fetch(
+          JUNIOR_TELL_PATH,
+          withRailApiVersion({
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              profileId,
+              lessonKey,
+              mode: "speak",
+              audioBase64,
+              mimeType,
+              durationSec,
+            }),
+          }),
+        );
+        const body = (await response.json().catch(() => null)) as {
+          ok?: boolean;
+          error?: string | null;
+          data?: Feedback;
+        } | null;
+        if (response.ok && body?.data) {
+          setFeedback(body.data);
+          onScored?.(body.data);
+          return;
+        }
+        if (!isJuniorPilotTrialLesson(lessonKey) || hasUsedJuniorTrialTell(profileId, lessonKey)) {
+          setNote(body?.error || "Şu an dinleyemedim. Biraz sonra yeniden dene.");
+          return;
+        }
+      }
+
+      if (isJuniorPilotTrialLesson(lessonKey)) {
+        if (hasUsedJuniorTrialTell(profileId, lessonKey)) {
+          setTrialTellDone(true);
+          setNote("Ücretsiz 1 defalık deneme hakkını kullandın. Sınırsız anlatış için veli girişi ve paket gerekir.");
+          return;
+        }
+        const trialResponse = await fetch("/api/junior/live-tutor", {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
-            profileId,
+            trialMode: "tell",
             lessonKey,
-            mode: "speak",
             audioBase64,
             mimeType,
             durationSec,
           }),
-        }),
-      );
-      const body = (await response.json().catch(() => null)) as {
-        ok?: boolean;
-        error?: string | null;
-        data?: Feedback;
-      } | null;
-      if (!response.ok || !body?.data) {
-        setNote(body?.error || "Şu an dinleyemedim. Biraz sonra yeniden dene.");
+        });
+        const trialBody = (await trialResponse.json().catch(() => null)) as {
+          ok?: boolean;
+          error?: string | null;
+          data?: Feedback;
+        } | null;
+        if (!trialResponse.ok || !trialBody?.data) {
+          setNote(trialBody?.error || "Şu an dinleyemedim. Biraz sonra yeniden dene.");
+          return;
+        }
+        markJuniorTrialTellUsed(profileId, lessonKey);
+        setTrialTellDone(true);
+        setFeedback(trialBody.data);
+        onScored?.(trialBody.data);
         return;
       }
-      setFeedback(body.data);
-      onScored?.(body.data);
+
+      setNote(paidActionError);
     } catch {
       setNote("Ses gönderilemedi. Biraz sonra yeniden dene.");
     } finally {
@@ -202,13 +282,100 @@ export function ListenAndTell({
     }
   }
 
+  async function sendWrittenTell() {
+    if (blockedByAccount()) {
+      return;
+    }
+    const clean = writtenText.trim();
+    if (clean.length < JUNIOR_TEXT_MIN || clean.length > JUNIOR_TEXT_MAX) {
+      setNote("Yazarak anlatış en az bir kısa cümle, en fazla bir paragraf olsun.");
+      return;
+    }
+    setSending(true);
+    setNote("");
+    try {
+      if (profileId) {
+        const response = await fetch(
+          JUNIOR_TELL_PATH,
+          withRailApiVersion({
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              profileId,
+              lessonKey,
+              mode: "write",
+              text: clean,
+            }),
+          }),
+        );
+        const body = (await response.json().catch(() => null)) as {
+          ok?: boolean;
+          error?: string | null;
+          data?: Feedback;
+        } | null;
+        if (response.ok && body?.data) {
+          setFeedback(body.data);
+          onScored?.(body.data);
+          return;
+        }
+        if (!isJuniorPilotTrialLesson(lessonKey) || hasUsedJuniorTrialTell(profileId, lessonKey)) {
+          setNote(body?.error || "Şu an değerlendiremedim. Biraz sonra yeniden dene.");
+          return;
+        }
+      }
+
+      if (isJuniorPilotTrialLesson(lessonKey)) {
+        if (hasUsedJuniorTrialTell(profileId, lessonKey)) {
+          setTrialTellDone(true);
+          setNote("Ücretsiz 1 defalık deneme hakkını kullandın. Sınırsız anlatış için veli girişi ve paket gerekir.");
+          return;
+        }
+        const trialResponse = await fetch("/api/junior/live-tutor", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            trialMode: "tell",
+            lessonKey,
+            mode: "write",
+            text: clean,
+          }),
+        });
+        const trialBody = (await trialResponse.json().catch(() => null)) as {
+          ok?: boolean;
+          error?: string | null;
+          data?: Feedback;
+        } | null;
+        if (!trialResponse.ok || !trialBody?.data) {
+          setNote(trialBody?.error || "Şu an değerlendiremedim. Biraz sonra yeniden dene.");
+          return;
+        }
+        markJuniorTrialTellUsed(profileId, lessonKey);
+        setTrialTellDone(true);
+        setFeedback(trialBody.data);
+        onScored?.(trialBody.data);
+        return;
+      }
+
+      setNote(paidActionError);
+    } catch {
+      setNote("Yazılı anlatış gönderilemedi. Biraz sonra yeniden dene.");
+    } finally {
+      setSending(false);
+    }
+  }
+
   async function startRecording() {
+    if (blockedByAccount()) {
+      return;
+    }
     // Önce kaset/Speech kanalını bırak (oynuyor veya pause); sonra mikrofon.
     releasePlayerAudio();
     setFeedback(null);
     setNote("");
     if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
-      setNote("Mikrofon yok. Anlatış için mikrofon gerekir.");
+      setTellMode("write");
+      setTellArmed(true);
+      setNote("Mikrofon algılanmadı. Dersi aşağıdaki kutuya yazarak anlatabilirsin.");
       return;
     }
     try {
@@ -269,7 +436,9 @@ export function ListenAndTell({
     } catch {
       stopMeters();
       setRecording(false);
-      setNote("Mikrofon izni yok. İzin ver, sonra yeniden dene.");
+      setTellMode("write");
+      setTellArmed(true);
+      setNote("Mikrofon izni kapalı. Dersi aşağıdaki kutuya yazarak anlatabilirsin.");
     }
   }
 
@@ -289,6 +458,9 @@ export function ListenAndTell({
     shouldStartImmediately;
 
   function armTellFromDecision() {
+    if (blockedByAccount()) {
+      return;
+    }
     // Overlay kapandıktan sonra pembe alan merkeze gelir; SoftStage boyutu korunur.
     setTellArmed(true);
     setShouldStartImmediately(true);
@@ -304,7 +476,7 @@ export function ListenAndTell({
     });
   }
 
-  const showMicDeck = cassetteComplete || tellArmed || recording || sending;
+  const showMicDeck = cassetteComplete || tellArmed || recording || sending || tellMode === "write";
   const micLabel = recording
     ? "Anlatmayı Bitir"
     : sending
@@ -332,6 +504,7 @@ export function ListenAndTell({
           grantedWarmupUrl={grantedWarmupUrl}
           lockPublicMedia={lockPublicMedia}
           microQuestion={microQuestion}
+          pilotTimeline={pilotTimeline}
           onPlaybackComplete={(complete) => {
             setCassetteComplete(complete);
             if (!complete) {
@@ -365,6 +538,16 @@ export function ListenAndTell({
             data-junior-mic-deck=""
             className="rounded-xl border border-[color-mix(in_srgb,var(--rose)_35%,var(--border))] bg-[color-mix(in_srgb,var(--rose-soft)_85%,white)] px-3 py-3"
           >
+            {isPilotTrial ? (
+              <p
+                data-junior-pilot-trial-badge=""
+                className="mb-1.5 inline-flex w-fit items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-[11px] font-extrabold text-emerald-900"
+              >
+                {trialTellDone
+                  ? "✓ 1 Defalık Ücretsiz Deneme Anlatışı Tamamlandı"
+                  : "🎁 1 Defalık Ücretsiz Deneme Hakkı — Selim Öğretmen Seni Dinleyecek"}
+              </p>
+            ) : null}
             {cassetteComplete && tellGuides.length > 0 ? (
               <>
                 <p className="text-xs font-semibold text-[var(--safir-deep)]">
@@ -379,61 +562,135 @@ export function ListenAndTell({
             ) : (
               <p className="text-xs font-semibold text-[var(--safir-deep)]">Şimdi Sen Anlat</p>
             )}
-            <div
-              className="mt-3 flex flex-col items-center gap-3"
-              data-junior-mic-stage=""
-              aria-live="polite"
-            >
-              <div
-                className="flex h-10 w-full max-w-xs items-end justify-center gap-1"
-                aria-hidden
-                data-junior-mic-wave=""
+            <div className="mt-2 flex items-center justify-center gap-2" role="tablist" aria-label="Anlatış yöntemi">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={tellMode === "speak"}
+                data-junior-tell-mode="speak"
+                onClick={() => setTellMode("speak")}
+                className={`rounded-full px-3 py-1 text-xs font-extrabold transition ${
+                  tellMode === "speak"
+                    ? "bg-[var(--rose)] text-white shadow-sm"
+                    : "border border-[var(--border)] bg-white text-[var(--safir-deep)]"
+                }`}
               >
-                {bars.map((height, index) => (
-                  <span
-                    key={index}
-                    className={`w-2 rounded-full transition-[height] duration-75 ${
-                      recording
-                        ? "bg-[var(--emerald)] shadow-[0_0_8px_color-mix(in_srgb,var(--emerald)_70%,transparent)]"
-                        : "bg-[color-mix(in_srgb,var(--rose)_55%,var(--safir))]"
-                    }`}
-                    style={{ height: `${recording ? height : 18 + (index % 4) * 10}%` }}
-                  />
-                ))}
-              </div>
-              {recordingGate === "open" ? (
-                <button
-                  type="button"
-                  data-junior-mic-record=""
-                  disabled={sending}
-                  onClick={() => {
-                    if (recording) {
-                      finishRecording();
-                      return;
-                    }
-                    void startRecording();
-                  }}
-                  className={`flex h-20 w-20 cursor-pointer items-center justify-center rounded-full text-3xl text-white transition-transform duration-150 disabled:cursor-not-allowed disabled:opacity-60 ${
-                    recording
-                      ? "scale-105 bg-[var(--emerald)] shadow-[0_0_0_6px_color-mix(in_srgb,var(--emerald)_35%,transparent),0_0_28px_color-mix(in_srgb,var(--emerald)_55%,transparent)]"
-                      : "bg-[var(--rose)] shadow-[0_0_0_6px_color-mix(in_srgb,var(--rose)_35%,transparent),0_0_28px_color-mix(in_srgb,var(--rose)_55%,transparent)] hover:scale-105"
-                  }`}
-                  aria-label={micLabel}
-                >
-                  {recording ? "⏹" : "🎙️"}
-                </button>
-              ) : (
-                <span className="min-w-0 text-center text-xs text-[var(--muted)]">
-                  {JUNIOR_PAID_ACTION_ERROR}
-                </span>
-              )}
-              <p className="text-center text-sm font-bold text-[var(--safir-deep)]">{micLabel}</p>
-              {recording ? (
-                <p className="text-center text-xs text-[var(--muted)]">
-                  {seconds} sn · en az {JUNIOR_TELL_MIN_SEC}, en fazla {JUNIOR_TELL_MAX_SEC}
-                </p>
-              ) : null}
+                🎙️ Sesle Anlat
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={tellMode === "write"}
+                data-junior-tell-mode="write"
+                onClick={() => {
+                  if (recording) {
+                    finishRecording();
+                  }
+                  setTellMode("write");
+                }}
+                className={`rounded-full px-3 py-1 text-xs font-extrabold transition ${
+                  tellMode === "write"
+                    ? "bg-[var(--safir)] text-white shadow-sm"
+                    : "border border-[var(--border)] bg-white text-[var(--safir-deep)]"
+                }`}
+              >
+                ✍️ Yazarak Anlat
+              </button>
             </div>
+            {tellMode === "write" ? (
+              <div className="mt-3 flex flex-col gap-2" data-junior-write-stage="">
+                <textarea
+                  value={writtenText}
+                  onChange={(event) => setWrittenText(event.target.value)}
+                  disabled={sending || recordingGate !== "open" || (isPilotTrial && trialTellDone)}
+                  rows={3}
+                  maxLength={JUNIOR_TEXT_MAX}
+                  placeholder="Öğrendiklerini kendi cümlelerinle buraya yazabilirsin (en az 1 kısa cümle)…"
+                  data-junior-tell-textarea=""
+                  className="w-full rounded-xl border border-[var(--border)] bg-white p-2.5 text-sm text-slate-900 outline-none focus:border-[var(--safir)]"
+                />
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="text-[11px] font-semibold text-[var(--muted)]">
+                    {writtenText.trim().length} / {JUNIOR_TEXT_MAX} karakter (en az {JUNIOR_TEXT_MIN})
+                  </span>
+                  {recordingGate === "open" && !(isPilotTrial && trialTellDone) ? (
+                    <Button
+                      type="button"
+                      size="sm"
+                      data-junior-tell-write-submit=""
+                      disabled={sending || writtenText.trim().length < JUNIOR_TEXT_MIN}
+                      onClick={() => void sendWrittenTell()}
+                    >
+                      {sending ? "Değerlendiriliyor…" : "Yazılı Anlatışı Gönder"}
+                    </Button>
+                  ) : (
+                    <span className="text-xs text-[var(--muted)]">
+                      {isPilotTrial && trialTellDone
+                        ? `Ücretsiz deneme anlatışını tamamladın. Şimdi ${quizLabel} testini ücretsiz çözebilirsin.`
+                        : paidActionError}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div
+                className="mt-3 flex flex-col items-center gap-3"
+                data-junior-mic-stage=""
+                aria-live="polite"
+              >
+                <div
+                  className="flex h-10 w-full max-w-xs items-end justify-center gap-1"
+                  aria-hidden
+                  data-junior-mic-wave=""
+                >
+                  {bars.map((height, index) => (
+                    <span
+                      key={index}
+                      className={`w-2 rounded-full transition-[height] duration-75 ${
+                        recording
+                          ? "bg-[var(--emerald)] shadow-[0_0_8px_color-mix(in_srgb,var(--emerald)_70%,transparent)]"
+                          : "bg-[color-mix(in_srgb,var(--rose)_55%,var(--safir))]"
+                      }`}
+                      style={{ height: `${recording ? height : 18 + (index % 4) * 10}%` }}
+                    />
+                  ))}
+                </div>
+                {recordingGate === "open" && !(isPilotTrial && trialTellDone) ? (
+                  <button
+                    type="button"
+                    data-junior-mic-record=""
+                    disabled={sending}
+                    onClick={() => {
+                      if (recording) {
+                        finishRecording();
+                        return;
+                      }
+                      void startRecording();
+                    }}
+                    className={`flex h-20 w-20 cursor-pointer items-center justify-center rounded-full text-3xl text-white transition-transform duration-150 disabled:cursor-not-allowed disabled:opacity-60 ${
+                      recording
+                        ? "scale-105 bg-[var(--emerald)] shadow-[0_0_0_6px_color-mix(in_srgb,var(--emerald)_35%,transparent),0_0_28px_color-mix(in_srgb,var(--emerald)_55%,transparent)]"
+                        : "bg-[var(--rose)] shadow-[0_0_0_6px_color-mix(in_srgb,var(--rose)_35%,transparent),0_0_28px_color-mix(in_srgb,var(--rose)_55%,transparent)] hover:scale-105"
+                    }`}
+                    aria-label={micLabel}
+                  >
+                    {recording ? "⏹" : "🎙️"}
+                  </button>
+                ) : (
+                  <span className="min-w-0 text-center text-xs text-[var(--muted)]">
+                    {isPilotTrial && trialTellDone
+                      ? `Ücretsiz deneme anlatışını tamamladın. Şimdi ${quizLabel} testini ücretsiz çözebilirsin.`
+                      : paidActionError}
+                  </span>
+                )}
+                <p className="text-center text-sm font-bold text-[var(--safir-deep)]">{micLabel}</p>
+                {recording ? (
+                  <p className="text-center text-xs text-[var(--muted)]">
+                    {seconds} sn · en az {JUNIOR_TELL_MIN_SEC}, en fazla {JUNIOR_TELL_MAX_SEC}
+                  </p>
+                ) : null}
+              </div>
+            )}
           </div>
         ) : null}
         <div className="flex flex-wrap items-center gap-2">
@@ -448,13 +705,16 @@ export function ListenAndTell({
               quizDone={quizDone}
               score={feedback?.score ?? null}
               onOpenQuiz={onOpenQuiz}
+              accountPrompt={accountGate !== "ready"}
+              guestTrial={isPilotTrial}
+              quizLabel={quizLabel}
             />
           ) : null}
           {quizSlot === "preparing" ? (
             <span className="text-xs font-semibold">{JUNIOR_QUIZ_PREPARING_LABEL}</span>
           ) : null}
           {quizSlot === "locked" && recordingGate === "open" ? (
-            <span className="min-w-0 text-xs text-[var(--muted)]">{JUNIOR_PAID_ACTION_ERROR}</span>
+            <span className="min-w-0 text-xs text-[var(--muted)]">{paidActionError}</span>
           ) : null}
         </div>
       </div>
@@ -493,13 +753,20 @@ function QuizGate({
   quizDone,
   score,
   onOpenQuiz,
+  accountPrompt = false,
+  guestTrial = false,
+  quizLabel,
 }: {
   tellPassed: boolean;
   quizDone: boolean;
   score: number | null;
   onOpenQuiz?: () => void;
+  accountPrompt?: boolean;
+  /** Misafir pilot: üyelik penceresi olmadan bir kez açılır. */
+  guestTrial?: boolean;
+  quizLabel: string;
 }) {
-  const canOpen = tellPassed || (score !== null && score >= JUNIOR_TELL_PASS_SCORE);
+  const canOpen = guestTrial || accountPrompt || tellPassed || (score !== null && score >= JUNIOR_TELL_PASS_SCORE);
   return (
     <>
       <Button
@@ -509,7 +776,7 @@ function QuizGate({
         disabled={!canOpen}
         onClick={() => onOpenQuiz?.()}
       >
-        {JUNIOR_QUIZ_CONTROL_LABEL}
+        {quizLabel}
       </Button>
       {quizDone ? <span className="text-xs font-semibold">Bu ders tamamlandı.</span> : null}
       {canOpen ? null : (

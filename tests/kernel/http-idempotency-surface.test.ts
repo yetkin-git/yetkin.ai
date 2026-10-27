@@ -30,12 +30,13 @@ describe("HTTP Idempotency-Key yazma yüzeyi", () => {
       expect(source).toContain("hashIdempotencyPayload");
       expect(source).toContain("createPrismaHttpIdempotencyStore");
     }
+    const juniorCheckout = readSrc("app/api/junior-pilot/checkout/route.ts");
     const lock = readSrc("app/api/academy/courses/[id]/lock/route.ts");
     const curriculum = readSrc("app/api/academy/courses/[id]/curriculum/route.ts");
     const examWrite = readSrc("app/api/academy/courses/[id]/exam/route.ts");
     const portfolio = readSrc("app/api/career/portfolio/route.ts");
     const profile = readSrc("app/api/(kernel)/profile/route.ts");
-    for (const source of [lock, curriculum, examWrite, portfolio, profile]) {
+    for (const source of [lock, curriculum, examWrite, portfolio, profile, juniorCheckout]) {
       expect(source).toContain("requireRailV1IdempotencyKey");
       expect(source).toContain("settleHttpIdempotency");
       expect(source).toContain("hashIdempotencyPayload");

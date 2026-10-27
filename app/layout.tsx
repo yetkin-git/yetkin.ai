@@ -2,16 +2,14 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Suspense } from "react";
 import { connection } from "next/server";
+import { Ga4Bootstrap } from "@/components/kernel/ga4-bootstrap";
 import { JsonLd } from "@/components/seo/json-ld";
 import { NavigationProgressBar } from "@/components/shell/navigation-progress-bar";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { siteGraphJsonLd } from "@/lib/copy/json-ld";
-import { PUBLIC_SEN } from "@/lib/copy/sen-voice/public";
 import { SEM_LANDING_KEYWORDS } from "@/lib/copy/sem-keywords";
-import { CANONICAL_SITE_ORIGIN, OG_LOCALE, PAGE_SEO, TITLE_TEMPLATE, pageMetadata } from "@/lib/copy/seo";
+import { CANONICAL_SITE_ORIGIN, OG_LOCALE, TITLE_TEMPLATE } from "@/lib/copy/seo";
 import "./globals.css";
-
-const homeSeo = pageMetadata(PAGE_SEO.home);
 
 /**
  * Kök kabuk sayfa kanoniği taşımaz. `alternates` burada olsaydı çocuk rotalar
@@ -22,22 +20,22 @@ const homeSeo = pageMetadata(PAGE_SEO.home);
 export const metadata: Metadata = {
   metadataBase: new URL(CANONICAL_SITE_ORIGIN),
   title: {
-    default: PUBLIC_SEN.home.title,
+    default: YETKIN_BRAND,
     template: TITLE_TEMPLATE,
   },
-  description: homeSeo.description,
+  description: `${YETKIN_BRAND} dijital eğitim.`,
   keywords: [...SEM_LANDING_KEYWORDS],
   openGraph: {
     type: "website",
     locale: OG_LOCALE,
     siteName: YETKIN_BRAND,
-    title: PUBLIC_SEN.home.title,
-    description: PAGE_SEO.home.description,
+    title: YETKIN_BRAND,
+    description: `${YETKIN_BRAND} dijital eğitim.`,
   },
   twitter: {
     card: "summary_large_image",
-    title: PUBLIC_SEN.home.title,
-    description: PAGE_SEO.home.description,
+    title: YETKIN_BRAND,
+    description: `${YETKIN_BRAND} dijital eğitim.`,
   },
 };
 
@@ -62,6 +60,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <JsonLd data={siteGraphJsonLd()} />
         <NavigationProgressBar />
         {children}
+        <Ga4Bootstrap />
       </body>
     </html>
   );

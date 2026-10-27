@@ -29,7 +29,7 @@ describe("junior live tutor policy", () => {
 
   it("builds a socratic system prompt with active scene", () => {
     const prompt = juniorLiveTutorSystemPrompt({
-      lessonKey: "jr_06_mat-5",
+      lessonKey: "jr_06_mat-1",
       lessonTitle: "Çarpanlar, Katlar ve Bölünebilme",
       teacherName: "Selim",
       activeSceneTitle: "Son Basamak Dedektifleri: 2, 5 ve 10",
@@ -70,12 +70,12 @@ describe("junior live tutor policy", () => {
 
 describe("junior live tutor answer", () => {
   it("loads mat-5 sealed context", () => {
-    const ctx = loadJuniorLiveTutorContext("jr_06_mat-5", {
+    const ctx = loadJuniorLiveTutorContext("jr_06_mat-1", {
       activeSceneTitle: "Son Basamak Dedektifleri",
       cueIndex: 0,
     });
     expect(ctx).not.toBeNull();
-    expect(ctx?.lessonKey).toBe("jr_06_mat-5");
+    expect(ctx?.lessonKey).toBe("jr_06_mat-1");
     expect(ctx?.teacherName).toBe("Selim");
     expect(ctx?.conceptSeal.length).toBeGreaterThan(10);
   });
@@ -84,7 +84,7 @@ describe("junior live tutor answer", () => {
     const result = await answerJuniorLiveTutor(
       {
         userId: "guest:test",
-        lessonKey: "jr_06_mat-5",
+        lessonKey: "jr_06_mat-1",
         message: "Bana bununla ilgili 1 soru sor!",
         activeSceneTitle: "Son Basamak Dedektifleri",
       },
@@ -105,7 +105,7 @@ describe("junior live tutor answer", () => {
     const result = await answerJuniorLiveTutor(
       {
         userId: "guest:test",
-        lessonKey: "jr_06_mat-5",
+        lessonKey: "jr_06_mat-1",
         message: "Futbol skorunu söyle",
       },
       {

@@ -1,0 +1,2768 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_sosyal-12",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Ülkemizin kaynakları ve ekonomik faaliyetler",
+  "grade": 6,
+  "subject": "Sosyal Bilgiler",
+  "teacher": {
+    "name": "Murat",
+    "voice": "Achird",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_sosyal-12.mp3",
+    "durationMs": 372361,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 90320
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 90320,
+      "endMs": 314810
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 314810,
+      "endMs": 372361
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 3900,
+      "pauseAfterMs": 610,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 190,
+          "endMs": 810
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 1380,
+          "endMs": 2020
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 2070,
+          "endMs": 2540
+        },
+        {
+          "word": "hoş",
+          "startMs": 2540,
+          "endMs": 2620
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 2700,
+          "endMs": 3290
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Ülkemizin kaynakları ve ekonomik faaliyetler",
+            "subtitle": "Sosyal Bilgiler",
+            "ruleBadges": [],
+            "echoPrompt": "Bir ürünü ve onun yetiştiği bölgeyi aynı cümlede eşlersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Tarım, hayvancılık, balıkçılık, madencilik, sanayi, ticaret ve turizm başlıca faaliyetlerdir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Faaliyet, bölgenin iklimine ve kaynağına göre değişir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Çay ve fındık Karadeniz, zeytin Ege, tahıl İç Anadolu, turunçgil Akdeniz tarafındadır."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 3900,
+      "endMs": 9900,
+      "pauseAfterMs": 670,
+      "text": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "markedText": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 3900,
+          "endMs": 4340
+        },
+        {
+          "word": "Sosyal",
+          "startMs": 4980,
+          "endMs": 5680
+        },
+        {
+          "word": "Bilgiler",
+          "startMs": 5850,
+          "endMs": 6920
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 7020,
+          "endMs": 8370
+        },
+        {
+          "word": "Murat.",
+          "startMs": 8460,
+          "endMs": 9230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 9900,
+      "endMs": 15710,
+      "pauseAfterMs": 1320,
+      "text": "Soframıza gelen bereketin ve yurdumuzun zengin kaynaklarının izini süreceğiz.",
+      "markedText": "Soframıza gelen bereketin ve yurdumuzun zengin kaynaklarının izini süreceğiz.",
+      "words": [
+        {
+          "word": "Soframıza",
+          "startMs": 9900,
+          "endMs": 10320
+        },
+        {
+          "word": "gelen",
+          "startMs": 10410,
+          "endMs": 10600
+        },
+        {
+          "word": "bereketin",
+          "startMs": 10600,
+          "endMs": 11250
+        },
+        {
+          "word": "ve",
+          "startMs": 11350,
+          "endMs": 11410
+        },
+        {
+          "word": "yurdumuzun",
+          "startMs": 11520,
+          "endMs": 12090
+        },
+        {
+          "word": "zengin",
+          "startMs": 12090,
+          "endMs": 12460
+        },
+        {
+          "word": "kaynaklarının",
+          "startMs": 12500,
+          "endMs": 13170
+        },
+        {
+          "word": "izini",
+          "startMs": 13280,
+          "endMs": 13590
+        },
+        {
+          "word": "süreceğiz.",
+          "startMs": 13590,
+          "endMs": 14390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 15710,
+      "endMs": 28460,
+      "pauseAfterMs": 500,
+      "text": "Hiç sabah kahvaltısında içtiğin sıcacık çayın Karadeniz'in dik yamaçlarından, zeytinin ise Ege'nin güneşli kıyılarından geldiğini düşündün mü?",
+      "markedText": "Hiç sabah kahvaltısında içtiğin sıcacık çayın Karadeniz'in dik yamaçlarından, zeytinin ise Ege'nin güneşli kıyılarından geldiğini düşündün mü?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 15710,
+          "endMs": 15920
+        },
+        {
+          "word": "sabah",
+          "startMs": 16030,
+          "endMs": 16320
+        },
+        {
+          "word": "kahvaltısında",
+          "startMs": 16530,
+          "endMs": 18060
+        },
+        {
+          "word": "içtiğin",
+          "startMs": 18300,
+          "endMs": 19000
+        },
+        {
+          "word": "sıcacık",
+          "startMs": 19140,
+          "endMs": 19410
+        },
+        {
+          "word": "çayın",
+          "startMs": 19540,
+          "endMs": 20040
+        },
+        {
+          "word": "Karadeniz'in",
+          "startMs": 20470,
+          "endMs": 21430
+        },
+        {
+          "word": "dik",
+          "startMs": 21470,
+          "endMs": 21640
+        },
+        {
+          "word": "yamaçlarından,",
+          "startMs": 21890,
+          "endMs": 23450
+        },
+        {
+          "word": "zeytinin",
+          "startMs": 24410,
+          "endMs": 24650
+        },
+        {
+          "word": "ise",
+          "startMs": 24750,
+          "endMs": 24930
+        },
+        {
+          "word": "Ege'nin",
+          "startMs": 25310,
+          "endMs": 25710
+        },
+        {
+          "word": "güneşli",
+          "startMs": 25960,
+          "endMs": 26240
+        },
+        {
+          "word": "kıyılarından",
+          "startMs": 26330,
+          "endMs": 26960
+        },
+        {
+          "word": "geldiğini",
+          "startMs": 27010,
+          "endMs": 27470
+        },
+        {
+          "word": "düşündün",
+          "startMs": 27470,
+          "endMs": 27690
+        },
+        {
+          "word": "mü?",
+          "startMs": 27690,
+          "endMs": 27960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 28460,
+      "endMs": 44920,
+      "pauseAfterMs": 350,
+      "text": "Tükettiğimiz hiçbir ürün market raflarında tesadüfen belirmez; toprağın bereketi, iklimin uygunluğu ve insan emeğiyle üretilir.",
+      "markedText": "Tükettiğimiz hiçbir ürün market raflarında tesadüfen belirmez; toprağın bereketi, iklimin uygunluğu ve insan emeğiyle üretilir.",
+      "words": [
+        {
+          "word": "Tükettiğimiz",
+          "startMs": 28460,
+          "endMs": 29570
+        },
+        {
+          "word": "hiçbir",
+          "startMs": 29900,
+          "endMs": 30280
+        },
+        {
+          "word": "ürün",
+          "startMs": 30360,
+          "endMs": 30890
+        },
+        {
+          "word": "market",
+          "startMs": 31010,
+          "endMs": 32200
+        },
+        {
+          "word": "raflarında",
+          "startMs": 32930,
+          "endMs": 33710
+        },
+        {
+          "word": "tesadüfen",
+          "startMs": 34070,
+          "endMs": 35240
+        },
+        {
+          "word": "belirmez;",
+          "startMs": 35330,
+          "endMs": 36070
+        },
+        {
+          "word": "toprağın",
+          "startMs": 36340,
+          "endMs": 36940
+        },
+        {
+          "word": "bereketi,",
+          "startMs": 37060,
+          "endMs": 37600
+        },
+        {
+          "word": "iklimin",
+          "startMs": 37840,
+          "endMs": 38470
+        },
+        {
+          "word": "uygunluğu",
+          "startMs": 38590,
+          "endMs": 39930
+        },
+        {
+          "word": "ve",
+          "startMs": 40730,
+          "endMs": 40890
+        },
+        {
+          "word": "insan",
+          "startMs": 41150,
+          "endMs": 41570
+        },
+        {
+          "word": "emeğiyle",
+          "startMs": 42300,
+          "endMs": 43050
+        },
+        {
+          "word": "üretilir.",
+          "startMs": 43680,
+          "endMs": 44570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 44920,
+      "endMs": 54980,
+      "pauseAfterMs": 460,
+      "text": "Güzel ülkemizin doğal kaynaklarını ve bu kaynaklara dayalı ekonomik faaliyetleri adım adım öğreneceğiz.",
+      "markedText": "Güzel ülkemizin doğal kaynaklarını ve bu kaynaklara dayalı ekonomik faaliyetleri adım adım öğreneceğiz.",
+      "words": [
+        {
+          "word": "Güzel",
+          "startMs": 44920,
+          "endMs": 45540
+        },
+        {
+          "word": "ülkemizin",
+          "startMs": 45700,
+          "endMs": 46380
+        },
+        {
+          "word": "doğal",
+          "startMs": 46490,
+          "endMs": 46800
+        },
+        {
+          "word": "kaynaklarını",
+          "startMs": 46950,
+          "endMs": 47820
+        },
+        {
+          "word": "ve",
+          "startMs": 47890,
+          "endMs": 48110
+        },
+        {
+          "word": "bu",
+          "startMs": 48110,
+          "endMs": 48310
+        },
+        {
+          "word": "kaynaklara",
+          "startMs": 48520,
+          "endMs": 49400
+        },
+        {
+          "word": "dayalı",
+          "startMs": 49570,
+          "endMs": 50110
+        },
+        {
+          "word": "ekonomik",
+          "startMs": 50220,
+          "endMs": 51200
+        },
+        {
+          "word": "faaliyetleri",
+          "startMs": 51920,
+          "endMs": 52460
+        },
+        {
+          "word": "adım",
+          "startMs": 52590,
+          "endMs": 52880
+        },
+        {
+          "word": "adım",
+          "startMs": 53330,
+          "endMs": 53530
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 53700,
+          "endMs": 54520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 54980,
+      "endMs": 64220,
+      "pauseAfterMs": 440,
+      "text": "Bunu ailenle markette alışveriş yaparken reyonlardaki etiketleri okuyarak kolayca görebilirsin.",
+      "markedText": "Bunu ailenle markette alışveriş yaparken reyonlardaki etiketleri okuyarak kolayca görebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 54980,
+          "endMs": 55520
+        },
+        {
+          "word": "ailenle",
+          "startMs": 55740,
+          "endMs": 55860
+        },
+        {
+          "word": "markette",
+          "startMs": 56340,
+          "endMs": 56990
+        },
+        {
+          "word": "alışveriş",
+          "startMs": 57090,
+          "endMs": 58080
+        },
+        {
+          "word": "yaparken",
+          "startMs": 58470,
+          "endMs": 58900
+        },
+        {
+          "word": "reyonlardaki",
+          "startMs": 59030,
+          "endMs": 59750
+        },
+        {
+          "word": "etiketleri",
+          "startMs": 59750,
+          "endMs": 60670
+        },
+        {
+          "word": "okuyarak",
+          "startMs": 61040,
+          "endMs": 61570
+        },
+        {
+          "word": "kolayca",
+          "startMs": 61690,
+          "endMs": 62210
+        },
+        {
+          "word": "görebilirsin.",
+          "startMs": 62280,
+          "endMs": 63780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 64220,
+      "endMs": 75730,
+      "pauseAfterMs": 1180,
+      "text": "Paketin üzerinde Rize yazdığında çayı, Malatya yazdığında kayısıyı, Aydın yazdığında inciri hatırlarsın.",
+      "markedText": "Paketin üzerinde Rize yazdığında çayı, Malatya yazdığında kayısıyı, Aydın yazdığında inciri hatırlarsın.",
+      "words": [
+        {
+          "word": "Paketin",
+          "startMs": 64220,
+          "endMs": 64670
+        },
+        {
+          "word": "üzerinde",
+          "startMs": 64760,
+          "endMs": 65340
+        },
+        {
+          "word": "Rize",
+          "startMs": 65980,
+          "endMs": 66520
+        },
+        {
+          "word": "yazdığında",
+          "startMs": 66610,
+          "endMs": 67760
+        },
+        {
+          "word": "çayı,",
+          "startMs": 67940,
+          "endMs": 68180
+        },
+        {
+          "word": "Malatya",
+          "startMs": 68610,
+          "endMs": 69270
+        },
+        {
+          "word": "yazdığında",
+          "startMs": 69370,
+          "endMs": 70200
+        },
+        {
+          "word": "kayısıyı,",
+          "startMs": 70390,
+          "endMs": 70740
+        },
+        {
+          "word": "Aydın",
+          "startMs": 71200,
+          "endMs": 71530
+        },
+        {
+          "word": "yazdığında",
+          "startMs": 71620,
+          "endMs": 72380
+        },
+        {
+          "word": "inciri",
+          "startMs": 72530,
+          "endMs": 73030
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 73160,
+          "endMs": 74550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 75730,
+      "endMs": 79460,
+      "pauseAfterMs": 290,
+      "text": "Ürün etiketi aslında küçük bir coğrafya cümlesidir.",
+      "markedText": "Ürün etiketi aslında küçük bir coğrafya cümlesidir.",
+      "words": [
+        {
+          "word": "Ürün",
+          "startMs": 75730,
+          "endMs": 76050
+        },
+        {
+          "word": "etiketi",
+          "startMs": 76150,
+          "endMs": 76510
+        },
+        {
+          "word": "aslında",
+          "startMs": 76620,
+          "endMs": 77110
+        },
+        {
+          "word": "küçük",
+          "startMs": 77520,
+          "endMs": 77880
+        },
+        {
+          "word": "bir",
+          "startMs": 77880,
+          "endMs": 78070
+        },
+        {
+          "word": "coğrafya",
+          "startMs": 78430,
+          "endMs": 78640
+        },
+        {
+          "word": "cümlesidir.",
+          "startMs": 78790,
+          "endMs": 79170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 79460,
+      "endMs": 90320,
+      "pauseAfterMs": 1150,
+      "text": "Yediğin her gıdanın hangi toprağın ve emeğin armağanı olduğunu bilmek, yaşadığın vatana duyduğun sevgiyi ve bilinci kat kat artırır.",
+      "markedText": "Yediğin her gıdanın hangi toprağın ve emeğin armağanı olduğunu bilmek, yaşadığın vatana duyduğun sevgiyi ve bilinci kat kat artırır.",
+      "words": [
+        {
+          "word": "Yediğin",
+          "startMs": 79460,
+          "endMs": 79920
+        },
+        {
+          "word": "her",
+          "startMs": 79990,
+          "endMs": 80160
+        },
+        {
+          "word": "gıdanın",
+          "startMs": 80160,
+          "endMs": 80630
+        },
+        {
+          "word": "hangi",
+          "startMs": 80630,
+          "endMs": 80900
+        },
+        {
+          "word": "toprağın",
+          "startMs": 81010,
+          "endMs": 81350
+        },
+        {
+          "word": "ve",
+          "startMs": 81560,
+          "endMs": 81620
+        },
+        {
+          "word": "emeğin",
+          "startMs": 81770,
+          "endMs": 82150
+        },
+        {
+          "word": "armağanı",
+          "startMs": 82310,
+          "endMs": 83030
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 83130,
+          "endMs": 83770
+        },
+        {
+          "word": "bilmek,",
+          "startMs": 83770,
+          "endMs": 84430
+        },
+        {
+          "word": "yaşadığın",
+          "startMs": 84990,
+          "endMs": 85290
+        },
+        {
+          "word": "vatana",
+          "startMs": 85290,
+          "endMs": 85540
+        },
+        {
+          "word": "duyduğun",
+          "startMs": 85630,
+          "endMs": 85940
+        },
+        {
+          "word": "sevgiyi",
+          "startMs": 85940,
+          "endMs": 86650
+        },
+        {
+          "word": "ve",
+          "startMs": 87460,
+          "endMs": 87530
+        },
+        {
+          "word": "bilinci",
+          "startMs": 87570,
+          "endMs": 88070
+        },
+        {
+          "word": "kat",
+          "startMs": 88070,
+          "endMs": 88220
+        },
+        {
+          "word": "kat",
+          "startMs": 88360,
+          "endMs": 88600
+        },
+        {
+          "word": "artırır.",
+          "startMs": 88600,
+          "endMs": 89170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 90320,
+      "endMs": 107190,
+      "pauseAfterMs": 330,
+      "text": "Ekonomik faaliyet, insanların ihtiyaçlarını karşılamak ve geçimlerini sağlamak için yaptığı her türlü üretim ve hizmet işidir.",
+      "markedText": "Ekonomik faaliyet, insanların ihtiyaçlarını karşılamak ve geçimlerini sağlamak için yaptığı her türlü üretim ve hizmet işidir.",
+      "words": [
+        {
+          "word": "Ekonomik",
+          "startMs": 90320,
+          "endMs": 91150
+        },
+        {
+          "word": "faaliyet,",
+          "startMs": 91470,
+          "endMs": 92630
+        },
+        {
+          "word": "insanların",
+          "startMs": 93560,
+          "endMs": 94470
+        },
+        {
+          "word": "ihtiyaçlarını",
+          "startMs": 94900,
+          "endMs": 96650
+        },
+        {
+          "word": "karşılamak",
+          "startMs": 97040,
+          "endMs": 97880
+        },
+        {
+          "word": "ve",
+          "startMs": 98000,
+          "endMs": 98160
+        },
+        {
+          "word": "geçimlerini",
+          "startMs": 98160,
+          "endMs": 99310
+        },
+        {
+          "word": "sağlamak",
+          "startMs": 100260,
+          "endMs": 100970
+        },
+        {
+          "word": "için",
+          "startMs": 101060,
+          "endMs": 101440
+        },
+        {
+          "word": "yaptığı",
+          "startMs": 101750,
+          "endMs": 102480
+        },
+        {
+          "word": "her",
+          "startMs": 102480,
+          "endMs": 102740
+        },
+        {
+          "word": "türlü",
+          "startMs": 102920,
+          "endMs": 103370
+        },
+        {
+          "word": "üretim",
+          "startMs": 103370,
+          "endMs": 104260
+        },
+        {
+          "word": "ve",
+          "startMs": 105210,
+          "endMs": 105300
+        },
+        {
+          "word": "hizmet",
+          "startMs": 105460,
+          "endMs": 106350
+        },
+        {
+          "word": "işidir.",
+          "startMs": 106670,
+          "endMs": 106860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 107190,
+      "endMs": 147830,
+      "pauseAfterMs": 780,
+      "text": "Tarım toprağı ekip biçerek ürün elde eder; hayvancılık et, süt ve yün için hayvan yetiştirir; balıkçılık deniz ve göllerden yararlanır; madencilik yer altındaki değerli madenleri çıkarır; sanayi ham maddeleri işleyip fabrikalarda yeni eşyalara dönüştürür; ticaret üretilen malları alıp satar; turizm ise dinlenmek ve gezmek için gelen konukları ağırlar.",
+      "markedText": "Tarım toprağı ekip biçerek ürün elde eder; hayvancılık et, süt ve yün için hayvan yetiştirir; balıkçılık deniz ve göllerden yararlanır; madencilik yer altındaki değerli madenleri çıkarır; sanayi ham maddeleri işleyip fabrikalarda yeni eşyalara dönüştürür; ticaret üretilen malları alıp satar; turizm ise dinlenmek ve gezmek için gelen konukları ağırlar.",
+      "words": [
+        {
+          "word": "Tarım",
+          "startMs": 107190,
+          "endMs": 107650
+        },
+        {
+          "word": "toprağı",
+          "startMs": 107830,
+          "endMs": 108190
+        },
+        {
+          "word": "ekip",
+          "startMs": 108430,
+          "endMs": 108760
+        },
+        {
+          "word": "biçerek",
+          "startMs": 108840,
+          "endMs": 109440
+        },
+        {
+          "word": "ürün",
+          "startMs": 109640,
+          "endMs": 110110
+        },
+        {
+          "word": "elde",
+          "startMs": 110220,
+          "endMs": 110550
+        },
+        {
+          "word": "eder;",
+          "startMs": 110670,
+          "endMs": 111420
+        },
+        {
+          "word": "hayvancılık",
+          "startMs": 112430,
+          "endMs": 113330
+        },
+        {
+          "word": "et,",
+          "startMs": 113330,
+          "endMs": 113450
+        },
+        {
+          "word": "süt",
+          "startMs": 113450,
+          "endMs": 113680
+        },
+        {
+          "word": "ve",
+          "startMs": 114220,
+          "endMs": 114360
+        },
+        {
+          "word": "yün",
+          "startMs": 114910,
+          "endMs": 115030
+        },
+        {
+          "word": "için",
+          "startMs": 115340,
+          "endMs": 115850
+        },
+        {
+          "word": "hayvan",
+          "startMs": 115970,
+          "endMs": 116590
+        },
+        {
+          "word": "yetiştirir;",
+          "startMs": 116710,
+          "endMs": 117800
+        },
+        {
+          "word": "balıkçılık",
+          "startMs": 118780,
+          "endMs": 119680
+        },
+        {
+          "word": "deniz",
+          "startMs": 119680,
+          "endMs": 120020
+        },
+        {
+          "word": "ve",
+          "startMs": 120080,
+          "endMs": 120230
+        },
+        {
+          "word": "göllerden",
+          "startMs": 120460,
+          "endMs": 121140
+        },
+        {
+          "word": "yararlanır;",
+          "startMs": 121140,
+          "endMs": 122460
+        },
+        {
+          "word": "madencilik",
+          "startMs": 123220,
+          "endMs": 123740
+        },
+        {
+          "word": "yer",
+          "startMs": 123830,
+          "endMs": 123980
+        },
+        {
+          "word": "altındaki",
+          "startMs": 124290,
+          "endMs": 124600
+        },
+        {
+          "word": "değerli",
+          "startMs": 124890,
+          "endMs": 125360
+        },
+        {
+          "word": "madenleri",
+          "startMs": 125440,
+          "endMs": 125950
+        },
+        {
+          "word": "çıkarır;",
+          "startMs": 125950,
+          "endMs": 126590
+        },
+        {
+          "word": "sanayi",
+          "startMs": 127050,
+          "endMs": 127680
+        },
+        {
+          "word": "ham",
+          "startMs": 127920,
+          "endMs": 128080
+        },
+        {
+          "word": "maddeleri",
+          "startMs": 128340,
+          "endMs": 129170
+        },
+        {
+          "word": "işleyip",
+          "startMs": 129470,
+          "endMs": 130160
+        },
+        {
+          "word": "fabrikalarda",
+          "startMs": 130500,
+          "endMs": 131200
+        },
+        {
+          "word": "yeni",
+          "startMs": 131200,
+          "endMs": 131830
+        },
+        {
+          "word": "eşyalara",
+          "startMs": 132390,
+          "endMs": 132740
+        },
+        {
+          "word": "dönüştürür;",
+          "startMs": 132870,
+          "endMs": 133800
+        },
+        {
+          "word": "ticaret",
+          "startMs": 134600,
+          "endMs": 135000
+        },
+        {
+          "word": "üretilen",
+          "startMs": 135080,
+          "endMs": 135820
+        },
+        {
+          "word": "malları",
+          "startMs": 136090,
+          "endMs": 136620
+        },
+        {
+          "word": "alıp",
+          "startMs": 136720,
+          "endMs": 137070
+        },
+        {
+          "word": "satar;",
+          "startMs": 137070,
+          "endMs": 137920
+        },
+        {
+          "word": "turizm",
+          "startMs": 139130,
+          "endMs": 139720
+        },
+        {
+          "word": "ise",
+          "startMs": 140400,
+          "endMs": 140790
+        },
+        {
+          "word": "dinlenmek",
+          "startMs": 140850,
+          "endMs": 141600
+        },
+        {
+          "word": "ve",
+          "startMs": 141670,
+          "endMs": 142020
+        },
+        {
+          "word": "gezmek",
+          "startMs": 142830,
+          "endMs": 143520
+        },
+        {
+          "word": "için",
+          "startMs": 143680,
+          "endMs": 144110
+        },
+        {
+          "word": "gelen",
+          "startMs": 144220,
+          "endMs": 144900
+        },
+        {
+          "word": "konukları",
+          "startMs": 145070,
+          "endMs": 145670
+        },
+        {
+          "word": "ağırlar.",
+          "startMs": 145930,
+          "endMs": 147050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 147830,
+      "endMs": 167420,
+      "pauseAfterMs": 300,
+      "text": "Pratik kural: Bir bölgedeki ekonomik faaliyet, o yerin coğrafi özelliklerine, iklimine ve doğal kaynaklarına doğrudan bağlıdır; her bölgede aynı ürün yetişmez.",
+      "markedText": "Pratik kural: Bir bölgedeki ekonomik faaliyet, o yerin coğrafi özelliklerine, iklimine ve doğal kaynaklarına doğrudan bağlıdır; her bölgede aynı ürün yetişmez.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 147830,
+          "endMs": 148160
+        },
+        {
+          "word": "kural:",
+          "startMs": 148580,
+          "endMs": 149310
+        },
+        {
+          "word": "Bir",
+          "startMs": 149610,
+          "endMs": 149780
+        },
+        {
+          "word": "bölgedeki",
+          "startMs": 149900,
+          "endMs": 150330
+        },
+        {
+          "word": "ekonomik",
+          "startMs": 150430,
+          "endMs": 150810
+        },
+        {
+          "word": "faaliyet,",
+          "startMs": 150860,
+          "endMs": 151520
+        },
+        {
+          "word": "o",
+          "startMs": 152250,
+          "endMs": 152310
+        },
+        {
+          "word": "yerin",
+          "startMs": 152310,
+          "endMs": 152990
+        },
+        {
+          "word": "coğrafi",
+          "startMs": 153100,
+          "endMs": 153710
+        },
+        {
+          "word": "özelliklerine,",
+          "startMs": 153850,
+          "endMs": 155460
+        },
+        {
+          "word": "iklimine",
+          "startMs": 155940,
+          "endMs": 156550
+        },
+        {
+          "word": "ve",
+          "startMs": 157060,
+          "endMs": 157410
+        },
+        {
+          "word": "doğal",
+          "startMs": 157650,
+          "endMs": 158430
+        },
+        {
+          "word": "kaynaklarına",
+          "startMs": 158710,
+          "endMs": 159740
+        },
+        {
+          "word": "doğrudan",
+          "startMs": 159850,
+          "endMs": 160710
+        },
+        {
+          "word": "bağlıdır;",
+          "startMs": 161460,
+          "endMs": 162180
+        },
+        {
+          "word": "her",
+          "startMs": 163070,
+          "endMs": 163260
+        },
+        {
+          "word": "bölgede",
+          "startMs": 164010,
+          "endMs": 164560
+        },
+        {
+          "word": "aynı",
+          "startMs": 164640,
+          "endMs": 165310
+        },
+        {
+          "word": "ürün",
+          "startMs": 166020,
+          "endMs": 166330
+        },
+        {
+          "word": "yetişmez.",
+          "startMs": 166550,
+          "endMs": 167120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 167420,
+      "endMs": 172890,
+      "pauseAfterMs": 780,
+      "text": "Zengin bir kahvaltı sofrasını gözünün önüne getir.",
+      "markedText": "Zengin bir kahvaltı sofrasını gözünün önüne getir.",
+      "words": [
+        {
+          "word": "Zengin",
+          "startMs": 167420,
+          "endMs": 167910
+        },
+        {
+          "word": "bir",
+          "startMs": 168210,
+          "endMs": 168420
+        },
+        {
+          "word": "kahvaltı",
+          "startMs": 168420,
+          "endMs": 168840
+        },
+        {
+          "word": "sofrasını",
+          "startMs": 169120,
+          "endMs": 169670
+        },
+        {
+          "word": "gözünün",
+          "startMs": 169860,
+          "endMs": 170430
+        },
+        {
+          "word": "önüne",
+          "startMs": 170570,
+          "endMs": 171080
+        },
+        {
+          "word": "getir.",
+          "startMs": 171200,
+          "endMs": 172110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 172890,
+      "endMs": 181970,
+      "pauseAfterMs": 330,
+      "text": "İnce belli bardaktaki demli çay ve tabaktaki fındık, bol yağış alan Karadeniz kıyılarını selamlar.",
+      "markedText": "İnce belli bardaktaki demli çay ve tabaktaki fındık, bol yağış alan Karadeniz kıyılarını selamlar.",
+      "words": [
+        {
+          "word": "İnce",
+          "startMs": 172890,
+          "endMs": 173100
+        },
+        {
+          "word": "belli",
+          "startMs": 173760,
+          "endMs": 174160
+        },
+        {
+          "word": "bardaktaki",
+          "startMs": 174440,
+          "endMs": 174900
+        },
+        {
+          "word": "demli",
+          "startMs": 175180,
+          "endMs": 175450
+        },
+        {
+          "word": "çay",
+          "startMs": 175450,
+          "endMs": 175560
+        },
+        {
+          "word": "ve",
+          "startMs": 175650,
+          "endMs": 175730
+        },
+        {
+          "word": "tabaktaki",
+          "startMs": 175730,
+          "endMs": 176150
+        },
+        {
+          "word": "fındık,",
+          "startMs": 176150,
+          "endMs": 176600
+        },
+        {
+          "word": "bol",
+          "startMs": 177040,
+          "endMs": 177300
+        },
+        {
+          "word": "yağış",
+          "startMs": 177810,
+          "endMs": 178100
+        },
+        {
+          "word": "alan",
+          "startMs": 178180,
+          "endMs": 178390
+        },
+        {
+          "word": "Karadeniz",
+          "startMs": 178530,
+          "endMs": 179080
+        },
+        {
+          "word": "kıyılarını",
+          "startMs": 179390,
+          "endMs": 180210
+        },
+        {
+          "word": "selamlar.",
+          "startMs": 180630,
+          "endMs": 181640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 181970,
+      "endMs": 188360,
+      "pauseAfterMs": 270,
+      "text": "Zeytinyağı ve incir, ılık rüzgârların estiği Ege ovalarından gelir.",
+      "markedText": "Zeytinyağı ve incir, ılık rüzgârların estiği Ege ovalarından gelir.",
+      "words": [
+        {
+          "word": "Zeytinyağı",
+          "startMs": 181970,
+          "endMs": 182500
+        },
+        {
+          "word": "ve",
+          "startMs": 182620,
+          "endMs": 182770
+        },
+        {
+          "word": "incir,",
+          "startMs": 182900,
+          "endMs": 183400
+        },
+        {
+          "word": "ılık",
+          "startMs": 184100,
+          "endMs": 184550
+        },
+        {
+          "word": "rüzgârların",
+          "startMs": 184550,
+          "endMs": 185410
+        },
+        {
+          "word": "estiği",
+          "startMs": 185530,
+          "endMs": 185990
+        },
+        {
+          "word": "Ege",
+          "startMs": 186110,
+          "endMs": 186280
+        },
+        {
+          "word": "ovalarından",
+          "startMs": 186470,
+          "endMs": 187220
+        },
+        {
+          "word": "gelir.",
+          "startMs": 187550,
+          "endMs": 188090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 188360,
+      "endMs": 200030,
+      "pauseAfterMs": 520,
+      "text": "Ekmeğin hamuru olan buğday, geniş düzlükleriyle İç Anadolu tarlalarında sarı başaklar olarak dalgalanmıştır.",
+      "markedText": "Ekmeğin hamuru olan buğday, geniş düzlükleriyle İç Anadolu tarlalarında sarı başaklar olarak dalgalanmıştır.",
+      "words": [
+        {
+          "word": "Ekmeğin",
+          "startMs": 188360,
+          "endMs": 189280
+        },
+        {
+          "word": "hamuru",
+          "startMs": 189930,
+          "endMs": 190480
+        },
+        {
+          "word": "olan",
+          "startMs": 190480,
+          "endMs": 190920
+        },
+        {
+          "word": "buğday,",
+          "startMs": 190970,
+          "endMs": 192060
+        },
+        {
+          "word": "geniş",
+          "startMs": 192410,
+          "endMs": 192630
+        },
+        {
+          "word": "düzlükleriyle",
+          "startMs": 192690,
+          "endMs": 193940
+        },
+        {
+          "word": "İç",
+          "startMs": 194330,
+          "endMs": 194410
+        },
+        {
+          "word": "Anadolu",
+          "startMs": 194410,
+          "endMs": 194820
+        },
+        {
+          "word": "tarlalarında",
+          "startMs": 194940,
+          "endMs": 196010
+        },
+        {
+          "word": "sarı",
+          "startMs": 196710,
+          "endMs": 197010
+        },
+        {
+          "word": "başaklar",
+          "startMs": 197180,
+          "endMs": 197480
+        },
+        {
+          "word": "olarak",
+          "startMs": 197650,
+          "endMs": 198030
+        },
+        {
+          "word": "dalgalanmıştır.",
+          "startMs": 198410,
+          "endMs": 199510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 200030,
+      "endMs": 211200,
+      "pauseAfterMs": 740,
+      "text": "Portakal ve mandalina gibi sulu turunçgiller ise kışları ılık geçen Akdeniz kıyılarında toplanmıştır.",
+      "markedText": "Portakal ve mandalina gibi sulu turunçgiller ise kışları ılık geçen Akdeniz kıyılarında toplanmıştır.",
+      "words": [
+        {
+          "word": "Portakal",
+          "startMs": 200030,
+          "endMs": 200480
+        },
+        {
+          "word": "ve",
+          "startMs": 200530,
+          "endMs": 200690
+        },
+        {
+          "word": "mandalina",
+          "startMs": 200690,
+          "endMs": 201300
+        },
+        {
+          "word": "gibi",
+          "startMs": 201410,
+          "endMs": 201840
+        },
+        {
+          "word": "sulu",
+          "startMs": 201970,
+          "endMs": 202330
+        },
+        {
+          "word": "turunçgiller",
+          "startMs": 202330,
+          "endMs": 203760
+        },
+        {
+          "word": "ise",
+          "startMs": 204180,
+          "endMs": 204440
+        },
+        {
+          "word": "kışları",
+          "startMs": 204440,
+          "endMs": 205330
+        },
+        {
+          "word": "ılık",
+          "startMs": 205460,
+          "endMs": 205940
+        },
+        {
+          "word": "geçen",
+          "startMs": 206090,
+          "endMs": 206490
+        },
+        {
+          "word": "Akdeniz",
+          "startMs": 206740,
+          "endMs": 207480
+        },
+        {
+          "word": "kıyılarında",
+          "startMs": 208760,
+          "endMs": 209530
+        },
+        {
+          "word": "toplanmıştır.",
+          "startMs": 209650,
+          "endMs": 210460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 211200,
+      "endMs": 219220,
+      "pauseAfterMs": 740,
+      "text": "Kıyılardaki oteller ve antik kentler turizmin canlılığını gösterir.",
+      "markedText": "Kıyılardaki oteller ve antik kentler turizmin canlılığını gösterir.",
+      "words": [
+        {
+          "word": "Kıyılardaki",
+          "startMs": 211200,
+          "endMs": 212080
+        },
+        {
+          "word": "oteller",
+          "startMs": 212500,
+          "endMs": 213140
+        },
+        {
+          "word": "ve",
+          "startMs": 213270,
+          "endMs": 213390
+        },
+        {
+          "word": "antik",
+          "startMs": 213580,
+          "endMs": 214390
+        },
+        {
+          "word": "kentler",
+          "startMs": 214650,
+          "endMs": 215690
+        },
+        {
+          "word": "turizmin",
+          "startMs": 215940,
+          "endMs": 216470
+        },
+        {
+          "word": "canlılığını",
+          "startMs": 216750,
+          "endMs": 217470
+        },
+        {
+          "word": "gösterir.",
+          "startMs": 217590,
+          "endMs": 218480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 219220,
+      "endMs": 232940,
+      "pauseAfterMs": 300,
+      "text": "Dağların altındaki kömür, demir ve bor ise madenciliktir; fabrikaya giren demir orada işlenir ve mutfağındaki sağlam bir tencereye dönüşür.",
+      "markedText": "Dağların altındaki kömür, demir ve bor ise madenciliktir; fabrikaya giren demir orada işlenir ve mutfağındaki sağlam bir tencereye dönüşür.",
+      "words": [
+        {
+          "word": "Dağların",
+          "startMs": 219220,
+          "endMs": 219840
+        },
+        {
+          "word": "altındaki",
+          "startMs": 220050,
+          "endMs": 220680
+        },
+        {
+          "word": "kömür,",
+          "startMs": 220750,
+          "endMs": 221060
+        },
+        {
+          "word": "demir",
+          "startMs": 222030,
+          "endMs": 222480
+        },
+        {
+          "word": "ve",
+          "startMs": 222570,
+          "endMs": 222720
+        },
+        {
+          "word": "bor",
+          "startMs": 222720,
+          "endMs": 222950
+        },
+        {
+          "word": "ise",
+          "startMs": 223040,
+          "endMs": 223260
+        },
+        {
+          "word": "madenciliktir;",
+          "startMs": 223370,
+          "endMs": 224420
+        },
+        {
+          "word": "fabrikaya",
+          "startMs": 225070,
+          "endMs": 225900
+        },
+        {
+          "word": "giren",
+          "startMs": 226130,
+          "endMs": 226460
+        },
+        {
+          "word": "demir",
+          "startMs": 226580,
+          "endMs": 226780
+        },
+        {
+          "word": "orada",
+          "startMs": 227030,
+          "endMs": 227340
+        },
+        {
+          "word": "işlenir",
+          "startMs": 227610,
+          "endMs": 228020
+        },
+        {
+          "word": "ve",
+          "startMs": 228490,
+          "endMs": 228700
+        },
+        {
+          "word": "mutfağındaki",
+          "startMs": 228700,
+          "endMs": 229760
+        },
+        {
+          "word": "sağlam",
+          "startMs": 229920,
+          "endMs": 230260
+        },
+        {
+          "word": "bir",
+          "startMs": 230350,
+          "endMs": 230730
+        },
+        {
+          "word": "tencereye",
+          "startMs": 231440,
+          "endMs": 232150
+        },
+        {
+          "word": "dönüşür.",
+          "startMs": 232200,
+          "endMs": 232640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 232940,
+      "endMs": 236260,
+      "pauseAfterMs": 770,
+      "text": "Tencere sanayinin eseridir.",
+      "markedText": "Tencere sanayinin eseridir.",
+      "words": [
+        {
+          "word": "Tencere",
+          "startMs": 232940,
+          "endMs": 233600
+        },
+        {
+          "word": "sanayinin",
+          "startMs": 233600,
+          "endMs": 234240
+        },
+        {
+          "word": "eseridir.",
+          "startMs": 234340,
+          "endMs": 235490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 236260,
+      "endMs": 244430,
+      "pauseAfterMs": 750,
+      "text": "Sofrandaki her lokma bir coğrafi kaynağın emeğini taşır.",
+      "markedText": "Sofrandaki her lokma bir coğrafi kaynağın emeğini taşır.",
+      "words": [
+        {
+          "word": "Sofrandaki",
+          "startMs": 236260,
+          "endMs": 237500
+        },
+        {
+          "word": "her",
+          "startMs": 238250,
+          "endMs": 238650
+        },
+        {
+          "word": "lokma",
+          "startMs": 238970,
+          "endMs": 239370
+        },
+        {
+          "word": "bir",
+          "startMs": 239700,
+          "endMs": 239900
+        },
+        {
+          "word": "coğrafi",
+          "startMs": 239900,
+          "endMs": 240230
+        },
+        {
+          "word": "kaynağın",
+          "startMs": 240350,
+          "endMs": 241350
+        },
+        {
+          "word": "emeğini",
+          "startMs": 242020,
+          "endMs": 242780
+        },
+        {
+          "word": "taşır.",
+          "startMs": 242780,
+          "endMs": 243680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 244430,
+      "endMs": 246290,
+      "pauseAfterMs": 720,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 244430,
+          "endMs": 244790
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 244970,
+          "endMs": 245570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 246290,
+      "endMs": 252960,
+      "pauseAfterMs": 870,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 246290,
+          "endMs": 246580
+        },
+        {
+          "word": "bir",
+          "startMs": 247030,
+          "endMs": 247310
+        },
+        {
+          "word": "kez",
+          "startMs": 247370,
+          "endMs": 247630
+        },
+        {
+          "word": "görünce",
+          "startMs": 247990,
+          "endMs": 248760
+        },
+        {
+          "word": "kolayca",
+          "startMs": 249220,
+          "endMs": 250190
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 250580,
+          "endMs": 252090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 252960,
+      "endMs": 263280,
+      "pauseAfterMs": 650,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 252960,
+          "endMs": 253450
+        },
+        {
+          "word": "sevgili",
+          "startMs": 253450,
+          "endMs": 254100
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 254300,
+          "endMs": 255000
+        },
+        {
+          "word": "işte",
+          "startMs": 255710,
+          "endMs": 255950
+        },
+        {
+          "word": "tam",
+          "startMs": 256050,
+          "endMs": 256220
+        },
+        {
+          "word": "bu",
+          "startMs": 256280,
+          "endMs": 256920
+        },
+        {
+          "word": "noktada",
+          "startMs": 257650,
+          "endMs": 258490
+        },
+        {
+          "word": "dikkat",
+          "startMs": 258710,
+          "endMs": 259290
+        },
+        {
+          "word": "etmen",
+          "startMs": 259380,
+          "endMs": 259780
+        },
+        {
+          "word": "gereken",
+          "startMs": 259980,
+          "endMs": 260680
+        },
+        {
+          "word": "kilit",
+          "startMs": 261030,
+          "endMs": 261530
+        },
+        {
+          "word": "nokta.",
+          "startMs": 261690,
+          "endMs": 262630
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 263280,
+      "endMs": 272270,
+      "pauseAfterMs": 660,
+      "text": "Her bölgede her türlü tarım ürününün yetiştirilebileceğini düşünmek yanıltıcı bir tuzaktır.",
+      "markedText": "Her bölgede her türlü tarım ürününün yetiştirilebileceğini düşünmek yanıltıcı bir tuzaktır.",
+      "words": [
+        {
+          "word": "Her",
+          "startMs": 263280,
+          "endMs": 263670
+        },
+        {
+          "word": "bölgede",
+          "startMs": 263670,
+          "endMs": 264240
+        },
+        {
+          "word": "her",
+          "startMs": 264240,
+          "endMs": 264560
+        },
+        {
+          "word": "türlü",
+          "startMs": 264690,
+          "endMs": 265390
+        },
+        {
+          "word": "tarım",
+          "startMs": 265710,
+          "endMs": 265960
+        },
+        {
+          "word": "ürününün",
+          "startMs": 266040,
+          "endMs": 267260
+        },
+        {
+          "word": "yetiştirilebileceğini",
+          "startMs": 267610,
+          "endMs": 268740
+        },
+        {
+          "word": "düşünmek",
+          "startMs": 268740,
+          "endMs": 269370
+        },
+        {
+          "word": "yanıltıcı",
+          "startMs": 270150,
+          "endMs": 270760
+        },
+        {
+          "word": "bir",
+          "startMs": 270760,
+          "endMs": 270900
+        },
+        {
+          "word": "tuzaktır.",
+          "startMs": 271020,
+          "endMs": 271610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 272270,
+      "endMs": 280110,
+      "pauseAfterMs": 820,
+      "text": "Çay ve fındık bol nem ister, turunçgiller ise dondan korunmak ister.",
+      "markedText": "Çay ve fındık bol nem ister, turunçgiller ise dondan korunmak ister.",
+      "words": [
+        {
+          "word": "Çay",
+          "startMs": 272270,
+          "endMs": 272580
+        },
+        {
+          "word": "ve",
+          "startMs": 272910,
+          "endMs": 273080
+        },
+        {
+          "word": "fındık",
+          "startMs": 273130,
+          "endMs": 273350
+        },
+        {
+          "word": "bol",
+          "startMs": 273420,
+          "endMs": 273610
+        },
+        {
+          "word": "nem",
+          "startMs": 273610,
+          "endMs": 273770
+        },
+        {
+          "word": "ister,",
+          "startMs": 273770,
+          "endMs": 274280
+        },
+        {
+          "word": "turunçgiller",
+          "startMs": 274950,
+          "endMs": 275940
+        },
+        {
+          "word": "ise",
+          "startMs": 276310,
+          "endMs": 276830
+        },
+        {
+          "word": "dondan",
+          "startMs": 277330,
+          "endMs": 277890
+        },
+        {
+          "word": "korunmak",
+          "startMs": 278200,
+          "endMs": 278490
+        },
+        {
+          "word": "ister.",
+          "startMs": 278700,
+          "endMs": 279290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 280110,
+      "endMs": 301850,
+      "pauseAfterMs": 820,
+      "text": "Turizmi yalnızca deniz ve plaj tatili sanmak da eksik kalır; tarihi şehirleri, müzeleri ve yaylaları gezmek de çok değerli birer turizm faaliyetidir.",
+      "markedText": "Turizmi yalnızca deniz ve plaj tatili sanmak da eksik kalır; tarihi şehirleri, müzeleri ve yaylaları gezmek de çok değerli birer turizm faaliyetidir.",
+      "words": [
+        {
+          "word": "Turizmi",
+          "startMs": 280110,
+          "endMs": 280790
+        },
+        {
+          "word": "yalnızca",
+          "startMs": 281350,
+          "endMs": 282090
+        },
+        {
+          "word": "deniz",
+          "startMs": 282360,
+          "endMs": 282710
+        },
+        {
+          "word": "ve",
+          "startMs": 282840,
+          "endMs": 283020
+        },
+        {
+          "word": "plaj",
+          "startMs": 283220,
+          "endMs": 283520
+        },
+        {
+          "word": "tatili",
+          "startMs": 283580,
+          "endMs": 284440
+        },
+        {
+          "word": "sanmak",
+          "startMs": 285520,
+          "endMs": 285940
+        },
+        {
+          "word": "da",
+          "startMs": 286000,
+          "endMs": 286110
+        },
+        {
+          "word": "eksik",
+          "startMs": 286260,
+          "endMs": 286530
+        },
+        {
+          "word": "kalır;",
+          "startMs": 286530,
+          "endMs": 286990
+        },
+        {
+          "word": "tarihi",
+          "startMs": 287330,
+          "endMs": 287960
+        },
+        {
+          "word": "şehirleri,",
+          "startMs": 288260,
+          "endMs": 289140
+        },
+        {
+          "word": "müzeleri",
+          "startMs": 290360,
+          "endMs": 291260
+        },
+        {
+          "word": "ve",
+          "startMs": 292300,
+          "endMs": 292650
+        },
+        {
+          "word": "yaylaları",
+          "startMs": 293340,
+          "endMs": 293950
+        },
+        {
+          "word": "gezmek",
+          "startMs": 294610,
+          "endMs": 295150
+        },
+        {
+          "word": "de",
+          "startMs": 295800,
+          "endMs": 296010
+        },
+        {
+          "word": "çok",
+          "startMs": 296050,
+          "endMs": 296440
+        },
+        {
+          "word": "değerli",
+          "startMs": 297180,
+          "endMs": 297790
+        },
+        {
+          "word": "birer",
+          "startMs": 298500,
+          "endMs": 298870
+        },
+        {
+          "word": "turizm",
+          "startMs": 299010,
+          "endMs": 299480
+        },
+        {
+          "word": "faaliyetidir.",
+          "startMs": 299580,
+          "endMs": 301030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 301850,
+      "endMs": 314810,
+      "pauseAfterMs": 580,
+      "text": "Maden çıkarmak ile fabrikada sanayi üretimi yapmanın farklı aşamalar olduğunu her zaman hatırla.",
+      "markedText": "Maden çıkarmak ile fabrikada sanayi üretimi yapmanın farklı aşamalar olduğunu her zaman hatırla.",
+      "words": [
+        {
+          "word": "Maden",
+          "startMs": 301850,
+          "endMs": 302280
+        },
+        {
+          "word": "çıkarmak",
+          "startMs": 303050,
+          "endMs": 303630
+        },
+        {
+          "word": "ile",
+          "startMs": 303990,
+          "endMs": 304430
+        },
+        {
+          "word": "fabrikada",
+          "startMs": 304850,
+          "endMs": 305290
+        },
+        {
+          "word": "sanayi",
+          "startMs": 305400,
+          "endMs": 305750
+        },
+        {
+          "word": "üretimi",
+          "startMs": 305750,
+          "endMs": 306490
+        },
+        {
+          "word": "yapmanın",
+          "startMs": 307520,
+          "endMs": 308510
+        },
+        {
+          "word": "farklı",
+          "startMs": 309490,
+          "endMs": 310100
+        },
+        {
+          "word": "aşamalar",
+          "startMs": 310260,
+          "endMs": 310860
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 311470,
+          "endMs": 312040
+        },
+        {
+          "word": "her",
+          "startMs": 312190,
+          "endMs": 312360
+        },
+        {
+          "word": "zaman",
+          "startMs": 313010,
+          "endMs": 313310
+        },
+        {
+          "word": "hatırla.",
+          "startMs": 313600,
+          "endMs": 314230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 314810,
+      "endMs": 317320,
+      "pauseAfterMs": 980,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 314810,
+          "endMs": 315010
+        },
+        {
+          "word": "Neler",
+          "startMs": 315160,
+          "endMs": 315470
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 315560,
+          "endMs": 316340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 317320,
+      "endMs": 317580,
+      "pauseAfterMs": 80,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 317320,
+          "endMs": 317500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 317580,
+      "endMs": 330090,
+      "pauseAfterMs": 1030,
+      "text": "Tarım, hayvancılık, balıkçılık, madencilik, sanayi, ticaret ve turizm başlıca faaliyetlerdir.",
+      "markedText": "Tarım, hayvancılık, balıkçılık, madencilik, sanayi, ticaret ve turizm başlıca faaliyetlerdir.",
+      "words": [
+        {
+          "word": "Tarım,",
+          "startMs": 317580,
+          "endMs": 318230
+        },
+        {
+          "word": "hayvancılık,",
+          "startMs": 319340,
+          "endMs": 320560
+        },
+        {
+          "word": "balıkçılık,",
+          "startMs": 320670,
+          "endMs": 321940
+        },
+        {
+          "word": "madencilik,",
+          "startMs": 322970,
+          "endMs": 323810
+        },
+        {
+          "word": "sanayi,",
+          "startMs": 323920,
+          "endMs": 324490
+        },
+        {
+          "word": "ticaret",
+          "startMs": 324650,
+          "endMs": 325120
+        },
+        {
+          "word": "ve",
+          "startMs": 325260,
+          "endMs": 325450
+        },
+        {
+          "word": "turizm",
+          "startMs": 325590,
+          "endMs": 326170
+        },
+        {
+          "word": "başlıca",
+          "startMs": 326630,
+          "endMs": 327170
+        },
+        {
+          "word": "faaliyetlerdir.",
+          "startMs": 327170,
+          "endMs": 329060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 330090,
+      "endMs": 330300,
+      "pauseAfterMs": 60,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 330090,
+          "endMs": 330240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 330300,
+      "endMs": 336540,
+      "pauseAfterMs": 480,
+      "text": "Faaliyet, bölgenin iklimine ve kaynağına göre değişir.",
+      "markedText": "Faaliyet, bölgenin iklimine ve kaynağına göre değişir.",
+      "words": [
+        {
+          "word": "Faaliyet,",
+          "startMs": 330300,
+          "endMs": 331270
+        },
+        {
+          "word": "bölgenin",
+          "startMs": 331660,
+          "endMs": 331860
+        },
+        {
+          "word": "iklimine",
+          "startMs": 331980,
+          "endMs": 332640
+        },
+        {
+          "word": "ve",
+          "startMs": 332810,
+          "endMs": 332950
+        },
+        {
+          "word": "kaynağına",
+          "startMs": 333120,
+          "endMs": 333670
+        },
+        {
+          "word": "göre",
+          "startMs": 333670,
+          "endMs": 334310
+        },
+        {
+          "word": "değişir.",
+          "startMs": 335460,
+          "endMs": 336060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 336540,
+      "endMs": 336980,
+      "pauseAfterMs": 360,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 336540,
+          "endMs": 336620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 336980,
+      "endMs": 345400,
+      "pauseAfterMs": 400,
+      "text": "Çay ve fındık Karadeniz, zeytin Ege, tahıl İç Anadolu, turunçgil Akdeniz tarafındadır.",
+      "markedText": "Çay ve fındık Karadeniz, zeytin Ege, tahıl İç Anadolu, turunçgil Akdeniz tarafındadır.",
+      "words": [
+        {
+          "word": "Çay",
+          "startMs": 336980,
+          "endMs": 337250
+        },
+        {
+          "word": "ve",
+          "startMs": 337250,
+          "endMs": 337390
+        },
+        {
+          "word": "fındık",
+          "startMs": 337530,
+          "endMs": 337960
+        },
+        {
+          "word": "Karadeniz,",
+          "startMs": 338090,
+          "endMs": 338950
+        },
+        {
+          "word": "zeytin",
+          "startMs": 339400,
+          "endMs": 339860
+        },
+        {
+          "word": "Ege,",
+          "startMs": 340010,
+          "endMs": 340410
+        },
+        {
+          "word": "tahıl",
+          "startMs": 340900,
+          "endMs": 341430
+        },
+        {
+          "word": "İç",
+          "startMs": 341430,
+          "endMs": 341550
+        },
+        {
+          "word": "Anadolu,",
+          "startMs": 341820,
+          "endMs": 342470
+        },
+        {
+          "word": "turunçgil",
+          "startMs": 342620,
+          "endMs": 343140
+        },
+        {
+          "word": "Akdeniz",
+          "startMs": 343200,
+          "endMs": 343760
+        },
+        {
+          "word": "tarafındadır.",
+          "startMs": 343800,
+          "endMs": 345000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 345400,
+      "endMs": 348140,
+      "pauseAfterMs": 880,
+      "text": "Ekonomik faaliyet geçim işidir.",
+      "markedText": "Ekonomik faaliyet geçim işidir.",
+      "words": [
+        {
+          "word": "Ekonomik",
+          "startMs": 345400,
+          "endMs": 345610
+        },
+        {
+          "word": "faaliyet",
+          "startMs": 345720,
+          "endMs": 346260
+        },
+        {
+          "word": "geçim",
+          "startMs": 346360,
+          "endMs": 346570
+        },
+        {
+          "word": "işidir.",
+          "startMs": 346660,
+          "endMs": 347260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 348140,
+      "endMs": 350480,
+      "pauseAfterMs": 720,
+      "text": "Ürün, bölgenin kaynağına bağlıdır.",
+      "markedText": "Ürün, bölgenin kaynağına bağlıdır.",
+      "words": [
+        {
+          "word": "Ürün,",
+          "startMs": 348140,
+          "endMs": 348240
+        },
+        {
+          "word": "bölgenin",
+          "startMs": 348240,
+          "endMs": 348520
+        },
+        {
+          "word": "kaynağına",
+          "startMs": 348620,
+          "endMs": 348950
+        },
+        {
+          "word": "bağlıdır.",
+          "startMs": 349170,
+          "endMs": 349760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 350480,
+      "endMs": 357690,
+      "pauseAfterMs": 520,
+      "text": "Bir ürünü ve onun yetiştiği bölgeyi aynı cümlede eşlersin.",
+      "markedText": "Bir ürünü ve onun yetiştiği bölgeyi aynı cümlede eşlersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 350480,
+          "endMs": 350730
+        },
+        {
+          "word": "ürünü",
+          "startMs": 351110,
+          "endMs": 351510
+        },
+        {
+          "word": "ve",
+          "startMs": 351590,
+          "endMs": 351770
+        },
+        {
+          "word": "onun",
+          "startMs": 351770,
+          "endMs": 352430
+        },
+        {
+          "word": "yetiştiği",
+          "startMs": 352920,
+          "endMs": 353170
+        },
+        {
+          "word": "bölgeyi",
+          "startMs": 353440,
+          "endMs": 353790
+        },
+        {
+          "word": "aynı",
+          "startMs": 353880,
+          "endMs": 354670
+        },
+        {
+          "word": "cümlede",
+          "startMs": 355690,
+          "endMs": 356400
+        },
+        {
+          "word": "eşlersin.",
+          "startMs": 356530,
+          "endMs": 357170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 357690,
+      "endMs": 359860,
+      "pauseAfterMs": 610,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 357690,
+          "endMs": 358360
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 358430,
+          "endMs": 359250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 359860,
+      "endMs": 362600,
+      "pauseAfterMs": 990,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 359860,
+          "endMs": 360230
+        },
+        {
+          "word": "bir",
+          "startMs": 360230,
+          "endMs": 360400
+        },
+        {
+          "word": "iş",
+          "startMs": 360400,
+          "endMs": 360510
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 360800,
+          "endMs": 361610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 362600,
+      "endMs": 367080,
+      "pauseAfterMs": 1020,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 362600,
+          "endMs": 363820
+        },
+        {
+          "word": "sıra",
+          "startMs": 364300,
+          "endMs": 364700
+        },
+        {
+          "word": "sende.",
+          "startMs": 364920,
+          "endMs": 366060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 367080,
+      "endMs": 372361,
+      "pauseAfterMs": 431,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 367080,
+          "endMs": 367670
+        },
+        {
+          "word": "bu",
+          "startMs": 368170,
+          "endMs": 368310
+        },
+        {
+          "word": "notları",
+          "startMs": 368310,
+          "endMs": 368860
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 369390,
+          "endMs": 370010
+        },
+        {
+          "word": "kendi",
+          "startMs": 370110,
+          "endMs": 370390
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 370480,
+          "endMs": 371120
+        },
+        {
+          "word": "anlat.",
+          "startMs": 371260,
+          "endMs": 371930
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

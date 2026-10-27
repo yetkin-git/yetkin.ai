@@ -1,0 +1,2200 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_sosyal-26",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Telif ve patent",
+  "grade": 6,
+  "subject": "Sosyal Bilgiler",
+  "teacher": {
+    "name": "Murat",
+    "voice": "Achird",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_sosyal-26.mp3",
+    "durationMs": 252750,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 61900
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 61900,
+      "endMs": 208730
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 208730,
+      "endMs": 252750
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 1670,
+      "pauseAfterMs": 360,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 50,
+          "endMs": 320
+        },
+        {
+          "word": "sevgili",
+          "startMs": 320,
+          "endMs": 770
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 770,
+          "endMs": 1310
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Telif ve patent",
+            "subtitle": "Sosyal Bilgiler",
+            "ruleBadges": [],
+            "echoPrompt": "Bir işin eser mi yoksa buluş fikri mi olduğunu söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Telif, hikâye ve çizim gibi eseri korur."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Patent, yeni bir buluş fikrini koruyan ayrı haktır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Kopya, eser hakkını silmez."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 1670,
+      "endMs": 4420,
+      "pauseAfterMs": 1010,
+      "text": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "markedText": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 1670,
+          "endMs": 1860
+        },
+        {
+          "word": "Sosyal",
+          "startMs": 1860,
+          "endMs": 2170
+        },
+        {
+          "word": "Bilgiler",
+          "startMs": 2230,
+          "endMs": 2660
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 2660,
+          "endMs": 3260
+        },
+        {
+          "word": "Murat.",
+          "startMs": 3260,
+          "endMs": 3410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 4420,
+      "endMs": 11080,
+      "pauseAfterMs": 230,
+      "text": "Defterine yazdığın bir hikâye ile tasarladığın yeni bir kalemlik aynı şey değildir.",
+      "markedText": "Defterine yazdığın bir hikâye ile tasarladığın yeni bir kalemlik aynı şey değildir.",
+      "words": [
+        {
+          "word": "Defterine",
+          "startMs": 4420,
+          "endMs": 5050
+        },
+        {
+          "word": "yazdığın",
+          "startMs": 5050,
+          "endMs": 5550
+        },
+        {
+          "word": "bir",
+          "startMs": 5550,
+          "endMs": 5720
+        },
+        {
+          "word": "hikâye",
+          "startMs": 5820,
+          "endMs": 6150
+        },
+        {
+          "word": "ile",
+          "startMs": 6150,
+          "endMs": 6440
+        },
+        {
+          "word": "tasarladığın",
+          "startMs": 6650,
+          "endMs": 7410
+        },
+        {
+          "word": "yeni",
+          "startMs": 7410,
+          "endMs": 7710
+        },
+        {
+          "word": "bir",
+          "startMs": 7830,
+          "endMs": 8170
+        },
+        {
+          "word": "kalemlik",
+          "startMs": 8340,
+          "endMs": 8590
+        },
+        {
+          "word": "aynı",
+          "startMs": 8690,
+          "endMs": 9240
+        },
+        {
+          "word": "şey",
+          "startMs": 9910,
+          "endMs": 10210
+        },
+        {
+          "word": "değildir.",
+          "startMs": 10340,
+          "endMs": 10850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 11080,
+      "endMs": 16490,
+      "pauseAfterMs": 670,
+      "text": "Biri eserdir, öteki buluş fikridir.",
+      "markedText": "Biri eserdir, öteki buluş fikridir.",
+      "words": [
+        {
+          "word": "Biri",
+          "startMs": 11080,
+          "endMs": 11300
+        },
+        {
+          "word": "eserdir,",
+          "startMs": 11400,
+          "endMs": 12300
+        },
+        {
+          "word": "öteki",
+          "startMs": 13140,
+          "endMs": 13520
+        },
+        {
+          "word": "buluş",
+          "startMs": 13600,
+          "endMs": 14130
+        },
+        {
+          "word": "fikridir.",
+          "startMs": 14370,
+          "endMs": 15820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 16490,
+      "endMs": 23740,
+      "pauseAfterMs": 640,
+      "text": "Telif ve patenti bir kitap sahnesinde araştıracağız.",
+      "markedText": "Telif ve patenti bir kitap sahnesinde araştıracağız.",
+      "words": [
+        {
+          "word": "Telif",
+          "startMs": 16490,
+          "endMs": 16770
+        },
+        {
+          "word": "ve",
+          "startMs": 16900,
+          "endMs": 16970
+        },
+        {
+          "word": "patenti",
+          "startMs": 17010,
+          "endMs": 17710
+        },
+        {
+          "word": "bir",
+          "startMs": 17910,
+          "endMs": 18580
+        },
+        {
+          "word": "kitap",
+          "startMs": 19190,
+          "endMs": 19900
+        },
+        {
+          "word": "sahnesinde",
+          "startMs": 19980,
+          "endMs": 21180
+        },
+        {
+          "word": "araştıracağız.",
+          "startMs": 21600,
+          "endMs": 23100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 23740,
+      "endMs": 29260,
+      "pauseAfterMs": 890,
+      "text": "Bunu okulda bir resim sergisinde de görürsün.",
+      "markedText": "Bunu okulda bir resim sergisinde de görürsün.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 23740,
+          "endMs": 24160
+        },
+        {
+          "word": "okulda",
+          "startMs": 24270,
+          "endMs": 25100
+        },
+        {
+          "word": "bir",
+          "startMs": 25340,
+          "endMs": 25470
+        },
+        {
+          "word": "resim",
+          "startMs": 25700,
+          "endMs": 26250
+        },
+        {
+          "word": "sergisinde",
+          "startMs": 26530,
+          "endMs": 27220
+        },
+        {
+          "word": "de",
+          "startMs": 27220,
+          "endMs": 27410
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 27590,
+          "endMs": 28370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 29260,
+      "endMs": 38760,
+      "pauseAfterMs": 640,
+      "text": "Arkadaşının çizimini kendi kâğıdına geçirip adını yazmak telif sorunudur.",
+      "markedText": "Arkadaşının çizimini kendi kâğıdına geçirip adını yazmak telif sorunudur.",
+      "words": [
+        {
+          "word": "Arkadaşının",
+          "startMs": 29260,
+          "endMs": 30470
+        },
+        {
+          "word": "çizimini",
+          "startMs": 30570,
+          "endMs": 31690
+        },
+        {
+          "word": "kendi",
+          "startMs": 31800,
+          "endMs": 32350
+        },
+        {
+          "word": "kâğıdına",
+          "startMs": 32930,
+          "endMs": 33590
+        },
+        {
+          "word": "geçirip",
+          "startMs": 33870,
+          "endMs": 34230
+        },
+        {
+          "word": "adını",
+          "startMs": 34380,
+          "endMs": 34830
+        },
+        {
+          "word": "yazmak",
+          "startMs": 34960,
+          "endMs": 35990
+        },
+        {
+          "word": "telif",
+          "startMs": 36770,
+          "endMs": 37210
+        },
+        {
+          "word": "sorunudur.",
+          "startMs": 37210,
+          "endMs": 38120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 38760,
+      "endMs": 49050,
+      "pauseAfterMs": 260,
+      "text": "Evde tasarladığın yeni bir kapak düzeneği ise buluş fikri olarak ayrıca sorulur.",
+      "markedText": "Evde tasarladığın yeni bir kapak düzeneği ise buluş fikri olarak ayrıca sorulur.",
+      "words": [
+        {
+          "word": "Evde",
+          "startMs": 38760,
+          "endMs": 38980
+        },
+        {
+          "word": "tasarladığın",
+          "startMs": 39380,
+          "endMs": 40370
+        },
+        {
+          "word": "yeni",
+          "startMs": 40450,
+          "endMs": 40910
+        },
+        {
+          "word": "bir",
+          "startMs": 41560,
+          "endMs": 42130
+        },
+        {
+          "word": "kapak",
+          "startMs": 42450,
+          "endMs": 42840
+        },
+        {
+          "word": "düzeneği",
+          "startMs": 43150,
+          "endMs": 43740
+        },
+        {
+          "word": "ise",
+          "startMs": 43840,
+          "endMs": 44050
+        },
+        {
+          "word": "buluş",
+          "startMs": 44190,
+          "endMs": 44620
+        },
+        {
+          "word": "fikri",
+          "startMs": 45310,
+          "endMs": 45620
+        },
+        {
+          "word": "olarak",
+          "startMs": 45760,
+          "endMs": 46440
+        },
+        {
+          "word": "ayrıca",
+          "startMs": 46540,
+          "endMs": 47540
+        },
+        {
+          "word": "sorulur.",
+          "startMs": 48150,
+          "endMs": 48790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 49050,
+      "endMs": 55880,
+      "pauseAfterMs": 620,
+      "text": "Kitaplıktaki bir sayfayı olduğu gibi kendi defterine alma.",
+      "markedText": "Kitaplıktaki bir sayfayı olduğu gibi kendi defterine alma.",
+      "words": [
+        {
+          "word": "Kitaplıktaki",
+          "startMs": 49050,
+          "endMs": 50060
+        },
+        {
+          "word": "bir",
+          "startMs": 50060,
+          "endMs": 50210
+        },
+        {
+          "word": "sayfayı",
+          "startMs": 50210,
+          "endMs": 50700
+        },
+        {
+          "word": "olduğu",
+          "startMs": 50980,
+          "endMs": 51510
+        },
+        {
+          "word": "gibi",
+          "startMs": 51610,
+          "endMs": 52390
+        },
+        {
+          "word": "kendi",
+          "startMs": 53100,
+          "endMs": 53610
+        },
+        {
+          "word": "defterine",
+          "startMs": 53710,
+          "endMs": 54490
+        },
+        {
+          "word": "alma.",
+          "startMs": 54570,
+          "endMs": 55260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 55880,
+      "endMs": 61900,
+      "pauseAfterMs": 930,
+      "text": "Araştır: bu bir eser mi, yeni bir araç fikri mi.",
+      "markedText": "Araştır: bu bir eser mi, yeni bir araç fikri mi.",
+      "words": [
+        {
+          "word": "Araştır:",
+          "startMs": 55880,
+          "endMs": 56470
+        },
+        {
+          "word": "bu",
+          "startMs": 56720,
+          "endMs": 56820
+        },
+        {
+          "word": "bir",
+          "startMs": 56820,
+          "endMs": 57070
+        },
+        {
+          "word": "eser",
+          "startMs": 57180,
+          "endMs": 57540
+        },
+        {
+          "word": "mi,",
+          "startMs": 57890,
+          "endMs": 58260
+        },
+        {
+          "word": "yeni",
+          "startMs": 58480,
+          "endMs": 58820
+        },
+        {
+          "word": "bir",
+          "startMs": 59050,
+          "endMs": 59310
+        },
+        {
+          "word": "araç",
+          "startMs": 59310,
+          "endMs": 59630
+        },
+        {
+          "word": "fikri",
+          "startMs": 59910,
+          "endMs": 60380
+        },
+        {
+          "word": "mi.",
+          "startMs": 60490,
+          "endMs": 60970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 61900,
+      "endMs": 71930,
+      "pauseAfterMs": 1340,
+      "text": "Telif, kişinin ürettiği eseri korur: hikâye, çizim, şarkı ve kitap sayfası.",
+      "markedText": "Telif, kişinin ürettiği eseri korur: hikâye, çizim, şarkı ve kitap sayfası.",
+      "words": [
+        {
+          "word": "Telif,",
+          "startMs": 61900,
+          "endMs": 62480
+        },
+        {
+          "word": "kişinin",
+          "startMs": 63130,
+          "endMs": 63790
+        },
+        {
+          "word": "ürettiği",
+          "startMs": 63790,
+          "endMs": 64820
+        },
+        {
+          "word": "eseri",
+          "startMs": 65120,
+          "endMs": 65660
+        },
+        {
+          "word": "korur:",
+          "startMs": 65660,
+          "endMs": 66130
+        },
+        {
+          "word": "hikâye,",
+          "startMs": 66440,
+          "endMs": 66950
+        },
+        {
+          "word": "çizim,",
+          "startMs": 67060,
+          "endMs": 67650
+        },
+        {
+          "word": "şarkı",
+          "startMs": 68640,
+          "endMs": 69000
+        },
+        {
+          "word": "ve",
+          "startMs": 69000,
+          "endMs": 69130
+        },
+        {
+          "word": "kitap",
+          "startMs": 69210,
+          "endMs": 69440
+        },
+        {
+          "word": "sayfası.",
+          "startMs": 69730,
+          "endMs": 70590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 71930,
+      "endMs": 75930,
+      "pauseAfterMs": 640,
+      "text": "Başkası bu eseri kendi adına koyamaz.",
+      "markedText": "Başkası bu eseri kendi adına koyamaz.",
+      "words": [
+        {
+          "word": "Başkası",
+          "startMs": 71930,
+          "endMs": 72380
+        },
+        {
+          "word": "bu",
+          "startMs": 72490,
+          "endMs": 72580
+        },
+        {
+          "word": "eseri",
+          "startMs": 72620,
+          "endMs": 72890
+        },
+        {
+          "word": "kendi",
+          "startMs": 73060,
+          "endMs": 73810
+        },
+        {
+          "word": "adına",
+          "startMs": 74040,
+          "endMs": 74540
+        },
+        {
+          "word": "koyamaz.",
+          "startMs": 74540,
+          "endMs": 75290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 75930,
+      "endMs": 85720,
+      "pauseAfterMs": 680,
+      "text": "Patent ise yeni bir aracın ya da yöntemin fikrini koruyan ayrı bir haktır.",
+      "markedText": "Patent ise yeni bir aracın ya da yöntemin fikrini koruyan ayrı bir haktır.",
+      "words": [
+        {
+          "word": "Patent",
+          "startMs": 75930,
+          "endMs": 76430
+        },
+        {
+          "word": "ise",
+          "startMs": 76550,
+          "endMs": 76920
+        },
+        {
+          "word": "yeni",
+          "startMs": 77040,
+          "endMs": 77460
+        },
+        {
+          "word": "bir",
+          "startMs": 77600,
+          "endMs": 77840
+        },
+        {
+          "word": "aracın",
+          "startMs": 78000,
+          "endMs": 78620
+        },
+        {
+          "word": "ya",
+          "startMs": 78860,
+          "endMs": 79190
+        },
+        {
+          "word": "da",
+          "startMs": 79620,
+          "endMs": 79720
+        },
+        {
+          "word": "yöntemin",
+          "startMs": 80030,
+          "endMs": 81030
+        },
+        {
+          "word": "fikrini",
+          "startMs": 81680,
+          "endMs": 82260
+        },
+        {
+          "word": "koruyan",
+          "startMs": 82560,
+          "endMs": 83080
+        },
+        {
+          "word": "ayrı",
+          "startMs": 83130,
+          "endMs": 83620
+        },
+        {
+          "word": "bir",
+          "startMs": 83620,
+          "endMs": 83780
+        },
+        {
+          "word": "haktır.",
+          "startMs": 83950,
+          "endMs": 85040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 85720,
+      "endMs": 88100,
+      "pauseAfterMs": 500,
+      "text": "Eser ile buluş aynı kapıdan girmez.",
+      "markedText": "Eser ile buluş aynı kapıdan girmez.",
+      "words": [
+        {
+          "word": "Eser",
+          "startMs": 85720,
+          "endMs": 85990
+        },
+        {
+          "word": "ile",
+          "startMs": 85990,
+          "endMs": 86180
+        },
+        {
+          "word": "buluş",
+          "startMs": 86180,
+          "endMs": 86370
+        },
+        {
+          "word": "aynı",
+          "startMs": 86430,
+          "endMs": 86790
+        },
+        {
+          "word": "kapıdan",
+          "startMs": 86940,
+          "endMs": 87300
+        },
+        {
+          "word": "girmez.",
+          "startMs": 87300,
+          "endMs": 87600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 88100,
+      "endMs": 99480,
+      "pauseAfterMs": 1050,
+      "text": "Araştırma, elindeki işin eser mi yoksa yeni bir araç fikri mi olduğunu sormaktır.",
+      "markedText": "Araştırma, elindeki işin eser mi yoksa yeni bir araç fikri mi olduğunu sormaktır.",
+      "words": [
+        {
+          "word": "Araştırma,",
+          "startMs": 88100,
+          "endMs": 89220
+        },
+        {
+          "word": "elindeki",
+          "startMs": 89500,
+          "endMs": 90130
+        },
+        {
+          "word": "işin",
+          "startMs": 90480,
+          "endMs": 91180
+        },
+        {
+          "word": "eser",
+          "startMs": 91810,
+          "endMs": 92180
+        },
+        {
+          "word": "mi",
+          "startMs": 92300,
+          "endMs": 92540
+        },
+        {
+          "word": "yoksa",
+          "startMs": 92540,
+          "endMs": 93130
+        },
+        {
+          "word": "yeni",
+          "startMs": 93320,
+          "endMs": 93570
+        },
+        {
+          "word": "bir",
+          "startMs": 93700,
+          "endMs": 94380
+        },
+        {
+          "word": "araç",
+          "startMs": 95060,
+          "endMs": 95420
+        },
+        {
+          "word": "fikri",
+          "startMs": 95760,
+          "endMs": 96280
+        },
+        {
+          "word": "mi",
+          "startMs": 96340,
+          "endMs": 96560
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 96780,
+          "endMs": 97340
+        },
+        {
+          "word": "sormaktır.",
+          "startMs": 97460,
+          "endMs": 98430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 99480,
+      "endMs": 108450,
+      "pauseAfterMs": 770,
+      "text": "Pratik kural: Sayfada duran anlatı teliftir; iş gören yeni araç fikri patent kapısındadır.",
+      "markedText": "Pratik kural: Sayfada duran anlatı teliftir; iş gören yeni araç fikri patent kapısındadır.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 99480,
+          "endMs": 99710
+        },
+        {
+          "word": "kural:",
+          "startMs": 99810,
+          "endMs": 100410
+        },
+        {
+          "word": "Sayfada",
+          "startMs": 101030,
+          "endMs": 101740
+        },
+        {
+          "word": "duran",
+          "startMs": 101990,
+          "endMs": 102210
+        },
+        {
+          "word": "anlatı",
+          "startMs": 102320,
+          "endMs": 102470
+        },
+        {
+          "word": "teliftir;",
+          "startMs": 102560,
+          "endMs": 103230
+        },
+        {
+          "word": "iş",
+          "startMs": 104060,
+          "endMs": 104230
+        },
+        {
+          "word": "gören",
+          "startMs": 104300,
+          "endMs": 104700
+        },
+        {
+          "word": "yeni",
+          "startMs": 104760,
+          "endMs": 104900
+        },
+        {
+          "word": "araç",
+          "startMs": 105200,
+          "endMs": 105260
+        },
+        {
+          "word": "fikri",
+          "startMs": 105360,
+          "endMs": 105760
+        },
+        {
+          "word": "patent",
+          "startMs": 105860,
+          "endMs": 106130
+        },
+        {
+          "word": "kapısındadır.",
+          "startMs": 106220,
+          "endMs": 107680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 108450,
+      "endMs": 114020,
+      "pauseAfterMs": 1090,
+      "text": "Ece, defterine bir hikâye yazar ve yanına bir çizim ekler.",
+      "markedText": "Ece, defterine bir hikâye yazar ve yanına bir çizim ekler.",
+      "words": [
+        {
+          "word": "Ece,",
+          "startMs": 108450,
+          "endMs": 108510
+        },
+        {
+          "word": "defterine",
+          "startMs": 108580,
+          "endMs": 109160
+        },
+        {
+          "word": "bir",
+          "startMs": 109290,
+          "endMs": 109550
+        },
+        {
+          "word": "hikâye",
+          "startMs": 109720,
+          "endMs": 110160
+        },
+        {
+          "word": "yazar",
+          "startMs": 110310,
+          "endMs": 110550
+        },
+        {
+          "word": "ve",
+          "startMs": 110610,
+          "endMs": 110710
+        },
+        {
+          "word": "yanına",
+          "startMs": 110790,
+          "endMs": 111280
+        },
+        {
+          "word": "bir",
+          "startMs": 111420,
+          "endMs": 111710
+        },
+        {
+          "word": "çizim",
+          "startMs": 111800,
+          "endMs": 112120
+        },
+        {
+          "word": "ekler.",
+          "startMs": 112270,
+          "endMs": 112930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 114020,
+      "endMs": 123330,
+      "pauseAfterMs": 1080,
+      "text": "Arkadaşı aynı hikâyeyi kendi kitabına geçirip adını değiştirirse telif hakkı etkilenir.",
+      "markedText": "Arkadaşı aynı hikâyeyi kendi kitabına geçirip adını değiştirirse telif hakkı etkilenir.",
+      "words": [
+        {
+          "word": "Arkadaşı",
+          "startMs": 114020,
+          "endMs": 114650
+        },
+        {
+          "word": "aynı",
+          "startMs": 114650,
+          "endMs": 115050
+        },
+        {
+          "word": "hikâyeyi",
+          "startMs": 115130,
+          "endMs": 115730
+        },
+        {
+          "word": "kendi",
+          "startMs": 115860,
+          "endMs": 116360
+        },
+        {
+          "word": "kitabına",
+          "startMs": 116670,
+          "endMs": 116920
+        },
+        {
+          "word": "geçirip",
+          "startMs": 117910,
+          "endMs": 118340
+        },
+        {
+          "word": "adını",
+          "startMs": 118430,
+          "endMs": 118920
+        },
+        {
+          "word": "değiştirirse",
+          "startMs": 119110,
+          "endMs": 119790
+        },
+        {
+          "word": "telif",
+          "startMs": 119870,
+          "endMs": 120110
+        },
+        {
+          "word": "hakkı",
+          "startMs": 120260,
+          "endMs": 120760
+        },
+        {
+          "word": "etkilenir.",
+          "startMs": 121230,
+          "endMs": 122250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 123330,
+      "endMs": 130980,
+      "pauseAfterMs": 1040,
+      "text": "Ece bir de kalemleri devrilmeden tutan yeni bir kutu çizer.",
+      "markedText": "Ece bir de kalemleri devrilmeden tutan yeni bir kutu çizer.",
+      "words": [
+        {
+          "word": "Ece",
+          "startMs": 123330,
+          "endMs": 123590
+        },
+        {
+          "word": "bir",
+          "startMs": 123590,
+          "endMs": 124130
+        },
+        {
+          "word": "de",
+          "startMs": 125130,
+          "endMs": 125310
+        },
+        {
+          "word": "kalemleri",
+          "startMs": 125790,
+          "endMs": 126240
+        },
+        {
+          "word": "devrilmeden",
+          "startMs": 126350,
+          "endMs": 127150
+        },
+        {
+          "word": "tutan",
+          "startMs": 127820,
+          "endMs": 128060
+        },
+        {
+          "word": "yeni",
+          "startMs": 128260,
+          "endMs": 128540
+        },
+        {
+          "word": "bir",
+          "startMs": 128540,
+          "endMs": 128820
+        },
+        {
+          "word": "kutu",
+          "startMs": 129020,
+          "endMs": 129410
+        },
+        {
+          "word": "çizer.",
+          "startMs": 129490,
+          "endMs": 129940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 130980,
+      "endMs": 145340,
+      "pauseAfterMs": 840,
+      "text": "Bu çizim bir eser olarak telife girer; kutunun yeni iş görme fikri ise patent kapısında araştırılır.",
+      "markedText": "Bu çizim bir eser olarak telife girer; kutunun yeni iş görme fikri ise patent kapısında araştırılır.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 130980,
+          "endMs": 131050
+        },
+        {
+          "word": "çizim",
+          "startMs": 131640,
+          "endMs": 131920
+        },
+        {
+          "word": "bir",
+          "startMs": 132030,
+          "endMs": 132350
+        },
+        {
+          "word": "eser",
+          "startMs": 132420,
+          "endMs": 132770
+        },
+        {
+          "word": "olarak",
+          "startMs": 132890,
+          "endMs": 133360
+        },
+        {
+          "word": "telife",
+          "startMs": 133360,
+          "endMs": 134050
+        },
+        {
+          "word": "girer;",
+          "startMs": 134980,
+          "endMs": 135210
+        },
+        {
+          "word": "kutunun",
+          "startMs": 135780,
+          "endMs": 136360
+        },
+        {
+          "word": "yeni",
+          "startMs": 136510,
+          "endMs": 137040
+        },
+        {
+          "word": "iş",
+          "startMs": 137970,
+          "endMs": 138290
+        },
+        {
+          "word": "görme",
+          "startMs": 138380,
+          "endMs": 139060
+        },
+        {
+          "word": "fikri",
+          "startMs": 139200,
+          "endMs": 139720
+        },
+        {
+          "word": "ise",
+          "startMs": 139720,
+          "endMs": 140250
+        },
+        {
+          "word": "patent",
+          "startMs": 141140,
+          "endMs": 142070
+        },
+        {
+          "word": "kapısında",
+          "startMs": 142220,
+          "endMs": 143260
+        },
+        {
+          "word": "araştırılır.",
+          "startMs": 143420,
+          "endMs": 144500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 145340,
+      "endMs": 151160,
+      "pauseAfterMs": 1190,
+      "text": "İki iş yan yana durur, tek hakta birleşmez.",
+      "markedText": "İki iş yan yana durur, tek hakta birleşmez.",
+      "words": [
+        {
+          "word": "İki",
+          "startMs": 145340,
+          "endMs": 145520
+        },
+        {
+          "word": "iş",
+          "startMs": 145850,
+          "endMs": 145950
+        },
+        {
+          "word": "yan",
+          "startMs": 145950,
+          "endMs": 146170
+        },
+        {
+          "word": "yana",
+          "startMs": 146270,
+          "endMs": 146490
+        },
+        {
+          "word": "durur,",
+          "startMs": 146570,
+          "endMs": 146740
+        },
+        {
+          "word": "tek",
+          "startMs": 147670,
+          "endMs": 147770
+        },
+        {
+          "word": "hakta",
+          "startMs": 147770,
+          "endMs": 148320
+        },
+        {
+          "word": "birleşmez.",
+          "startMs": 149160,
+          "endMs": 149970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 151160,
+      "endMs": 160750,
+      "pauseAfterMs": 1000,
+      "text": "Kopya, «ben de benzerini düşündüm» diyerek eser hakkını silmez.",
+      "markedText": "Kopya, «ben de benzerini düşündüm» diyerek eser hakkını silmez.",
+      "words": [
+        {
+          "word": "Kopya,",
+          "startMs": 151160,
+          "endMs": 151630
+        },
+        {
+          "word": "«ben",
+          "startMs": 151740,
+          "endMs": 152150
+        },
+        {
+          "word": "de",
+          "startMs": 152230,
+          "endMs": 152510
+        },
+        {
+          "word": "benzerini",
+          "startMs": 152620,
+          "endMs": 153970
+        },
+        {
+          "word": "düşündüm»",
+          "startMs": 154580,
+          "endMs": 155360
+        },
+        {
+          "word": "diyerek",
+          "startMs": 155670,
+          "endMs": 156640
+        },
+        {
+          "word": "eser",
+          "startMs": 157400,
+          "endMs": 157850
+        },
+        {
+          "word": "hakkını",
+          "startMs": 157970,
+          "endMs": 158820
+        },
+        {
+          "word": "silmez.",
+          "startMs": 158970,
+          "endMs": 159750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 160750,
+      "endMs": 162970,
+      "pauseAfterMs": 1020,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 160750,
+          "endMs": 161450
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 161450,
+          "endMs": 161950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 162970,
+      "endMs": 165510,
+      "pauseAfterMs": 800,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 162970,
+          "endMs": 163700
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 163890,
+          "endMs": 164710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 165510,
+      "endMs": 169590,
+      "pauseAfterMs": 880,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 165510,
+          "endMs": 165620
+        },
+        {
+          "word": "noktayı",
+          "startMs": 165670,
+          "endMs": 166270
+        },
+        {
+          "word": "sen",
+          "startMs": 166590,
+          "endMs": 166880
+        },
+        {
+          "word": "de",
+          "startMs": 167050,
+          "endMs": 167340
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 167480,
+          "endMs": 168710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 169590,
+      "endMs": 178750,
+      "pauseAfterMs": 790,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 169590,
+          "endMs": 170080
+        },
+        {
+          "word": "sevgili",
+          "startMs": 170120,
+          "endMs": 170720
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 170950,
+          "endMs": 171680
+        },
+        {
+          "word": "işte",
+          "startMs": 173080,
+          "endMs": 173570
+        },
+        {
+          "word": "tam",
+          "startMs": 173570,
+          "endMs": 173880
+        },
+        {
+          "word": "bu",
+          "startMs": 173880,
+          "endMs": 173940
+        },
+        {
+          "word": "noktada",
+          "startMs": 174080,
+          "endMs": 174720
+        },
+        {
+          "word": "dikkat",
+          "startMs": 174780,
+          "endMs": 175180
+        },
+        {
+          "word": "etmen",
+          "startMs": 175250,
+          "endMs": 175670
+        },
+        {
+          "word": "gereken",
+          "startMs": 176470,
+          "endMs": 176680
+        },
+        {
+          "word": "kilit",
+          "startMs": 177000,
+          "endMs": 177340
+        },
+        {
+          "word": "nokta.",
+          "startMs": 177510,
+          "endMs": 177960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 178750,
+      "endMs": 182750,
+      "pauseAfterMs": 1030,
+      "text": "Telif ile patenti aynı hak sanmak tuzaktır.",
+      "markedText": "Telif ile patenti aynı hak sanmak tuzaktır.",
+      "words": [
+        {
+          "word": "Telif",
+          "startMs": 178750,
+          "endMs": 179040
+        },
+        {
+          "word": "ile",
+          "startMs": 179150,
+          "endMs": 179390
+        },
+        {
+          "word": "patenti",
+          "startMs": 179500,
+          "endMs": 179860
+        },
+        {
+          "word": "aynı",
+          "startMs": 179940,
+          "endMs": 180220
+        },
+        {
+          "word": "hak",
+          "startMs": 180530,
+          "endMs": 180630
+        },
+        {
+          "word": "sanmak",
+          "startMs": 180630,
+          "endMs": 180860
+        },
+        {
+          "word": "tuzaktır.",
+          "startMs": 180950,
+          "endMs": 181720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 182750,
+      "endMs": 193110,
+      "pauseAfterMs": 930,
+      "text": "Hikâyeyi kopyalayıp adını değiştirmek eser hakkını etkilemez sanmak da yanlıştır.",
+      "markedText": "Hikâyeyi kopyalayıp adını değiştirmek eser hakkını etkilemez sanmak da yanlıştır.",
+      "words": [
+        {
+          "word": "Hikâyeyi",
+          "startMs": 182750,
+          "endMs": 183440
+        },
+        {
+          "word": "kopyalayıp",
+          "startMs": 183610,
+          "endMs": 184440
+        },
+        {
+          "word": "adını",
+          "startMs": 184550,
+          "endMs": 185570
+        },
+        {
+          "word": "değiştirmek",
+          "startMs": 186280,
+          "endMs": 187060
+        },
+        {
+          "word": "eser",
+          "startMs": 187360,
+          "endMs": 187560
+        },
+        {
+          "word": "hakkını",
+          "startMs": 187560,
+          "endMs": 188350
+        },
+        {
+          "word": "etkilemez",
+          "startMs": 189130,
+          "endMs": 190090
+        },
+        {
+          "word": "sanmak",
+          "startMs": 190250,
+          "endMs": 190630
+        },
+        {
+          "word": "da",
+          "startMs": 190690,
+          "endMs": 191020
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 191350,
+          "endMs": 192180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 193110,
+      "endMs": 200160,
+      "pauseAfterMs": 820,
+      "text": "Araştırmadan her çizimi patent saymak da eksik kalır.",
+      "markedText": "Araştırmadan her çizimi patent saymak da eksik kalır.",
+      "words": [
+        {
+          "word": "Araştırmadan",
+          "startMs": 193110,
+          "endMs": 194280
+        },
+        {
+          "word": "her",
+          "startMs": 194380,
+          "endMs": 194710
+        },
+        {
+          "word": "çizimi",
+          "startMs": 194840,
+          "endMs": 195400
+        },
+        {
+          "word": "patent",
+          "startMs": 196240,
+          "endMs": 196610
+        },
+        {
+          "word": "saymak",
+          "startMs": 196730,
+          "endMs": 197520
+        },
+        {
+          "word": "da",
+          "startMs": 197660,
+          "endMs": 197730
+        },
+        {
+          "word": "eksik",
+          "startMs": 197880,
+          "endMs": 198350
+        },
+        {
+          "word": "kalır.",
+          "startMs": 198470,
+          "endMs": 199340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 200160,
+      "endMs": 208730,
+      "pauseAfterMs": 220,
+      "text": "Telif ve patentte kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Telif ve patentte kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Telif",
+          "startMs": 200160,
+          "endMs": 200390
+        },
+        {
+          "word": "ve",
+          "startMs": 200390,
+          "endMs": 200500
+        },
+        {
+          "word": "patentte",
+          "startMs": 200500,
+          "endMs": 201270
+        },
+        {
+          "word": "kuralın",
+          "startMs": 201800,
+          "endMs": 202260
+        },
+        {
+          "word": "tersini",
+          "startMs": 202260,
+          "endMs": 203120
+        },
+        {
+          "word": "sanmak",
+          "startMs": 204350,
+          "endMs": 204990
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 205060,
+          "endMs": 205600
+        },
+        {
+          "word": "ters",
+          "startMs": 206360,
+          "endMs": 206540
+        },
+        {
+          "word": "cümle",
+          "startMs": 206650,
+          "endMs": 207040
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 207200,
+          "endMs": 208510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 208730,
+      "endMs": 211840,
+      "pauseAfterMs": 1200,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 208730,
+          "endMs": 209100
+        },
+        {
+          "word": "Neler",
+          "startMs": 209190,
+          "endMs": 209640
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 209750,
+          "endMs": 210640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 211840,
+      "endMs": 212470,
+      "pauseAfterMs": 90,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 211840,
+          "endMs": 212380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 212470,
+      "endMs": 218800,
+      "pauseAfterMs": 820,
+      "text": "Telif, hikâye ve çizim gibi eseri korur.",
+      "markedText": "Telif, hikâye ve çizim gibi eseri korur.",
+      "words": [
+        {
+          "word": "Telif,",
+          "startMs": 212470,
+          "endMs": 213140
+        },
+        {
+          "word": "hikâye",
+          "startMs": 214000,
+          "endMs": 214660
+        },
+        {
+          "word": "ve",
+          "startMs": 214780,
+          "endMs": 214910
+        },
+        {
+          "word": "çizim",
+          "startMs": 215040,
+          "endMs": 215490
+        },
+        {
+          "word": "gibi",
+          "startMs": 215540,
+          "endMs": 215930
+        },
+        {
+          "word": "eseri",
+          "startMs": 216120,
+          "endMs": 216820
+        },
+        {
+          "word": "korur.",
+          "startMs": 216990,
+          "endMs": 217980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 218800,
+      "endMs": 219060,
+      "pauseAfterMs": 0,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 218800,
+          "endMs": 219060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 219060,
+      "endMs": 226540,
+      "pauseAfterMs": 800,
+      "text": "Patent, yeni bir buluş fikrini koruyan ayrı haktır.",
+      "markedText": "Patent, yeni bir buluş fikrini koruyan ayrı haktır.",
+      "words": [
+        {
+          "word": "Patent,",
+          "startMs": 219060,
+          "endMs": 219410
+        },
+        {
+          "word": "yeni",
+          "startMs": 219800,
+          "endMs": 220220
+        },
+        {
+          "word": "bir",
+          "startMs": 220370,
+          "endMs": 220970
+        },
+        {
+          "word": "buluş",
+          "startMs": 221630,
+          "endMs": 221920
+        },
+        {
+          "word": "fikrini",
+          "startMs": 222060,
+          "endMs": 222790
+        },
+        {
+          "word": "koruyan",
+          "startMs": 222900,
+          "endMs": 223710
+        },
+        {
+          "word": "ayrı",
+          "startMs": 224010,
+          "endMs": 224390
+        },
+        {
+          "word": "haktır.",
+          "startMs": 224520,
+          "endMs": 225740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 226540,
+      "endMs": 226890,
+      "pauseAfterMs": 140,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 226540,
+          "endMs": 226750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 226890,
+      "endMs": 228670,
+      "pauseAfterMs": 270,
+      "text": "Kopya, eser hakkını silmez.",
+      "markedText": "Kopya, eser hakkını silmez.",
+      "words": [
+        {
+          "word": "Kopya,",
+          "startMs": 226890,
+          "endMs": 227140
+        },
+        {
+          "word": "eser",
+          "startMs": 227220,
+          "endMs": 227480
+        },
+        {
+          "word": "hakkını",
+          "startMs": 227520,
+          "endMs": 227980
+        },
+        {
+          "word": "silmez.",
+          "startMs": 227980,
+          "endMs": 228400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 228670,
+      "endMs": 230750,
+      "pauseAfterMs": 290,
+      "text": "Telif eseri korur.",
+      "markedText": "Telif eseri korur.",
+      "words": [
+        {
+          "word": "Telif",
+          "startMs": 228670,
+          "endMs": 228940
+        },
+        {
+          "word": "eseri",
+          "startMs": 228940,
+          "endMs": 229460
+        },
+        {
+          "word": "korur.",
+          "startMs": 229710,
+          "endMs": 230460
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 230750,
+      "endMs": 234010,
+      "pauseAfterMs": 590,
+      "text": "Patent, yeni araç fikrini ayrı korur.",
+      "markedText": "Patent, yeni araç fikrini ayrı korur.",
+      "words": [
+        {
+          "word": "Patent,",
+          "startMs": 230750,
+          "endMs": 231030
+        },
+        {
+          "word": "yeni",
+          "startMs": 231170,
+          "endMs": 231580
+        },
+        {
+          "word": "araç",
+          "startMs": 231730,
+          "endMs": 231950
+        },
+        {
+          "word": "fikrini",
+          "startMs": 232050,
+          "endMs": 232590
+        },
+        {
+          "word": "ayrı",
+          "startMs": 232590,
+          "endMs": 232940
+        },
+        {
+          "word": "korur.",
+          "startMs": 233020,
+          "endMs": 233420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 234010,
+      "endMs": 239960,
+      "pauseAfterMs": 450,
+      "text": "Bir işin eser mi yoksa buluş fikri mi olduğunu söylersin.",
+      "markedText": "Bir işin eser mi yoksa buluş fikri mi olduğunu söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 234010,
+          "endMs": 234240
+        },
+        {
+          "word": "işin",
+          "startMs": 234360,
+          "endMs": 234630
+        },
+        {
+          "word": "eser",
+          "startMs": 234710,
+          "endMs": 234970
+        },
+        {
+          "word": "mi",
+          "startMs": 234970,
+          "endMs": 235450
+        },
+        {
+          "word": "yoksa",
+          "startMs": 236090,
+          "endMs": 236340
+        },
+        {
+          "word": "buluş",
+          "startMs": 236540,
+          "endMs": 237150
+        },
+        {
+          "word": "fikri",
+          "startMs": 237470,
+          "endMs": 237780
+        },
+        {
+          "word": "mi",
+          "startMs": 238090,
+          "endMs": 238200
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 238200,
+          "endMs": 238550
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 238700,
+          "endMs": 239510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 239960,
+      "endMs": 242280,
+      "pauseAfterMs": 580,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 239960,
+          "endMs": 240620
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 240910,
+          "endMs": 241700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 242280,
+      "endMs": 245860,
+      "pauseAfterMs": 710,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 242280,
+          "endMs": 242840
+        },
+        {
+          "word": "bir",
+          "startMs": 242940,
+          "endMs": 243380
+        },
+        {
+          "word": "iş",
+          "startMs": 243520,
+          "endMs": 243600
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 244220,
+          "endMs": 245150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 245860,
+      "endMs": 248420,
+      "pauseAfterMs": 520,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 245860,
+          "endMs": 246650
+        },
+        {
+          "word": "sıra",
+          "startMs": 246950,
+          "endMs": 247170
+        },
+        {
+          "word": "sende.",
+          "startMs": 247220,
+          "endMs": 247900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 248420,
+      "endMs": 252750,
+      "pauseAfterMs": 510,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 248420,
+          "endMs": 249210
+        },
+        {
+          "word": "bu",
+          "startMs": 249210,
+          "endMs": 249260
+        },
+        {
+          "word": "notları",
+          "startMs": 249680,
+          "endMs": 250310
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 250450,
+          "endMs": 251130
+        },
+        {
+          "word": "kendi",
+          "startMs": 251240,
+          "endMs": 251450
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 251530,
+          "endMs": 251930
+        },
+        {
+          "word": "anlat.",
+          "startMs": 251930,
+          "endMs": 252240
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

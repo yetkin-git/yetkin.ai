@@ -1,9 +1,9 @@
-import { JUNIOR_MAT_33, JUNIOR_MAT_33_SCENARIO } from "@/lib/junior/content/mat/33";
+import { JUNIOR_MAT_33, JUNIOR_MAT_33_SCENARIO } from "@/lib/junior/content/mat/17";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
 /**
- * `jr_06_mat-33` iç açılar.
+ * `jr_06_mat-17` iç açılar.
  * Üçgen 50, 60, eksik 70, toplam 180. Dörtgen 80, 90, 100, eksik 90, toplam 360.
  * İndirgeyici toplamdan çıkarma yapmaz.
  */
@@ -11,12 +11,12 @@ const example = JUNIOR_MAT_33_SCENARIO.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "Bir üçgende", "showAngle");
 
 export const JR_06_MAT_33_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
-  lessonKey: "jr_06_mat-33",
+  lessonKey: "jr_06_mat-17",
   title: JUNIOR_MAT_33_SCENARIO.title,
   listenText: JUNIOR_MAT_33.listenText,
   example,
   exampleMarked,
-  audioPath: "/media/junior/audio/jr_06_mat-33.mp3",
+  audioPath: "/media/junior/audio/jr_06_mat-17.mp3",
   layout: "angle",
   stageTitle: "İç açılar",
   stageSubtitle: "Üçgen ve dörtgen",

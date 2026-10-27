@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_arp-2",
+  "title": "Sağdan sola okumak",
+  "teaser": "Arapça satır sağdan sola okunur. Kavramsal Anlayış, yönü ve ilk iki harfin sesini söyler. İfade Gücü, kelimeyi hangi yönden okuduğunu anlatmandır.",
+  "welcome": "Bugün seninle Arapçada okuma yönünü öğreneceğiz.",
+  "concept": "Bugün seninle okuma yönünü kuruyoruz. Arapça yazı sağdan sola okunur. İlk harf sağdadır. Elif, uzun a sesini taşır. Be, b sesidir.\n\nHatırlarsan, sıra sözü belirliyordu. Hadi şimdi ekrandaki çizime birlikte bakalım! Bab, kapı demektir. Sağdan sola be, elif, be okunur. Ses b, uzun a, b olur.\n\nTuzaklara Düşme! Birlikte bakalım. Soldan sağa okumak yönü bozar. Elif, b sesi değildir. Be, uzun a sesi değildir. Harfi sesiyle birlikte söyle.",
+  "example": "Arapça satır sağdan sola gider. İlk harf sağda durur. Son harf solda durur. Elif, uzun a sesini taşır. Be, b sesidir. Hadi şimdi ekrandaki çizime birlikte bakalım! Kapı anlamına gelen bab sözü üç harftir. Sağda be durur. Ortada elif durur. Solda yine be durur. Okuyuş b, uzun a, b diye gider. Hatırlarsan, selam da bir sıra ile söylenmişti. Harf de sırayla okunur. Tuzaklara Düşme! Birlikte bakalım. Satırı soldan sağa okuma. Yön değişirse kelime değişir. Elif ile be sesini birbirine karıştırma.",
+  "warning": "Satırı soldan sağa okuma.",
+  "life": "Bir tabelada Arapça bir söz görürsen okumaya sağdan başlarsın. Hatırlarsan, ilk harf sağda duruyordu. Defterde de satırı sağdan kurarsın. Tuzaklara Düşme! Birlikte bakalım. Türkçe satır gibi soldan başlama. Yön ayrıdır.",
+  "recap": [
+    "Arapça satır sağdan sola okunur.",
+    "Elif, uzun a sesini taşır.",
+    "Be, b sesidir."
+  ],
+  "conceptSeal": "Arapça satır sağdan sola okunur.",
+  "voiceSeal": "Kelimeyi hangi yönden ve hangi seslerle okuduğunu söylersin.",
+  "outcomes": [
+    "Arapça satır sağdan sola okunur.",
+    "Elif, uzun a sesini taşır.",
+    "Be, b sesidir."
+  ],
+  "scene": "elective",
+  "hint": "trap",
+  "band": "draft"
+}

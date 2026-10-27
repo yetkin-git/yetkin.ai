@@ -48,7 +48,7 @@ export default function App() {
     screen === "player" ||
     screen === "exam" ||
     screen === "certificate";
-  const catalog = dronAcademyCatalog();
+  const catalog = dronAcademyCatalog(app.academyPriceLabels);
   const tezgahOpen = !DRON_TEZGAH_STORE_ISOLATED;
   const tezgahLocked =
     DRON_TEZGAH_STORE_ISOLATED && (screen === "jobs" || screen === "bench" || screen === "job");

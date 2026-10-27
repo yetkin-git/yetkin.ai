@@ -7,8 +7,10 @@ import {
   needsEdgeJwtVerification,
   resetEdgeJwksCacheForTests,
   resolveEdgeSession,
+  resolveEdgeSessionState,
   supabaseJwksUrl,
   verifyEdgeAccessToken,
+  verifyEdgeAccessTokenClaims,
 } from "@/lib/kernel/security/edge-jwt";
 
 const TEST_SECRET = "rail-edge-jwt-test-secret-32bytes-min";
@@ -242,5 +244,29 @@ describe("kenar JWT ihtiyaç kapısı", () => {
         env: TEST_ENV,
       }),
     ).toBe(false);
+
+    const canonicalTokenWithoutConfirmedAt = await new SignJWT({
+      role: "authenticated",
+      email: "yapinet360@gmail.com",
+    })
+      .setProtectedHeader({ alg: "HS256" })
+      .setSubject(TEST_USER)
+      .setAudience("authenticated")
+      .setIssuer(`${TEST_URL}/auth/v1`)
+      .setIssuedAt()
+      .setExpirationTime("1h")
+      .sign(new TextEncoder().encode(TEST_SECRET));
+    const claims = await verifyEdgeAccessTokenClaims(canonicalTokenWithoutConfirmedAt, TEST_ENV);
+    expect(claims?.email).toBe("yapinet360@gmail.com");
+    expect(claims?.emailConfirmedAt).toBeTruthy();
+
+    const state = await resolveEdgeSessionState({
+      pathname: "/api/admin/catalog",
+      method: "PATCH",
+      authorizationHeader: `Bearer ${canonicalTokenWithoutConfirmedAt}`,
+      env: TEST_ENV,
+    });
+    expect(state.verified).toBe(true);
+    expect(state.emailConfirmedAt).toBeTruthy();
   });
 });

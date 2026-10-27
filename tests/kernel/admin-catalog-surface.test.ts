@@ -29,7 +29,7 @@ import {
 import { isSuperAdminUser } from "@/lib/kernel/auth/super-admin";
 import { HOLD_BPS_MAX, HOLD_BPS_MIN } from "@/lib/kernel/pricing/hold-bps";
 import { ADMIN_SEN } from "@/lib/copy/sen-voice/admin";
-
+import { academySaleGateGaps } from "@/lib/kernel/admin/sale-gate";
 const ROOT = process.cwd();
 
 function readSrc(relative: string): string {
@@ -64,6 +64,16 @@ const BPS_SAMPLE: SealedCatalogEntry = {
 };
 
 describe("admin katalog yüzeyi", () => {
+  it("satış kapısı eksik kutuyu yayın, fiyat ve ses-metin diye ayırır", () => {
+    expect(academySaleGateGaps({ published: true, activePrice: true, mediaSealed: true })).toEqual([]);
+    expect(academySaleGateGaps({ published: false, activePrice: false, mediaSealed: false })).toEqual([
+      "Yayın",
+      "Fiyat",
+      "Ses ve metin",
+    ]);
+    expect(academySaleGateGaps({ published: true, activePrice: false, mediaSealed: true })).toEqual(["Fiyat"]);
+  });
+
   it("modül etiketini oda sicilinden okur; BPS yüzdeye çevirir", () => {
     expect(catalogModuleLabel("studio")).toBe("Studio");
     expect(catalogModuleLabel("pazaryeri")).toBe("Yetkinİlan");

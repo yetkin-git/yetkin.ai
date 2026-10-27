@@ -3,9 +3,10 @@ import { ACADEMY_MATCH_WHISTLE_MAX } from "@/lib/academy/production-standard";
 import { JUNIOR_FEN_LESSONS } from "@/lib/junior/content/fen";
 import { JUNIOR_ING_LESSONS } from "@/lib/junior/content/ing";
 import { JUNIOR_MAT_LESSONS } from "@/lib/junior/content/mat";
-import { JUNIOR_MAT_5 } from "@/lib/junior/content/mat/5";
+import { JUNIOR_MAT_5 } from "@/lib/junior/content/mat/1";
 import { JUNIOR_AUDIO_MANIFEST } from "@/lib/junior/audio-manifest.generated";
 import { juniorSealedScenarioCount } from "../../packages/junior-content/src/sealed-roster";
+import { JUNIOR_ELECTIVE_SLUGS } from "@/lib/junior/limits";
 import { JUNIOR_SOSYAL_LESSONS } from "@/lib/junior/content/sosyal";
 import { JUNIOR_TURKCE_LESSONS } from "@/lib/junior/content/turkce";
 import { academyBakeVoiceModelId } from "@/lib/kernel/ai/model-roles";
@@ -56,7 +57,7 @@ describe("Junior çocuk ses tasarımı", () => {
     ).toBe("voice_juniorAkran1");
     expect(JUNIOR_CATALOG_NARRATOR_VOICE).toBe("Fenrir");
     expect(juniorTeacherForLesson("jr_06_fen-1").voice).toBe(JUNIOR_CATALOG_NARRATOR_VOICE);
-    expect(juniorTeacherForLesson("jr_06_mat-5").voice).toBe(JUNIOR_CATALOG_NARRATOR_VOICE);
+    expect(juniorTeacherForLesson("jr_06_mat-1").voice).toBe(JUNIOR_CATALOG_NARRATOR_VOICE);
     expect(isGeminiDesignedVoiceId(JUNIOR_CATALOG_NARRATOR_VOICE)).toBe(false);
     expect(isGeminiDesignedVoiceId("Charon")).toBe(false);
     expect(
@@ -79,7 +80,7 @@ describe("Junior çocuk ses tasarımı", () => {
     ).toBeNull();
   });
 
-  it("jr_06_mat-5 transkripti bölünebilmeyi okur, yönetmen katmanını okumaz", () => {
+  it("jr_06_mat-1 transkripti bölünebilmeyi okur, yönetmen katmanını okumaz", () => {
     const transcript = juniorVoiceDesignTranscript(JUNIOR_MAT_5.listenText);
     expect(transcript).toContain("kalansız");
     expect(transcript).not.toContain("[pause]");
@@ -91,9 +92,13 @@ describe("Junior çocuk ses tasarımı", () => {
   it("mühürlü dersler kurs kurs düdük tavanının altında kalır", () => {
     const courses = [JUNIOR_MAT_LESSONS, JUNIOR_FEN_LESSONS, JUNIOR_TURKCE_LESSONS, JUNIOR_SOSYAL_LESSONS, JUNIOR_ING_LESSONS];
     const total = courses.reduce((sum, lessons) => sum + lessons.length, 0);
-    expect(total).toBe(Object.keys(JUNIOR_AUDIO_MANIFEST).length);
+    const electiveAudio = Object.keys(JUNIOR_AUDIO_MANIFEST).filter((key) =>
+      JUNIOR_ELECTIVE_SLUGS.some((slug) => key.startsWith(`${slug}-`)),
+    );
+    expect(electiveAudio).toHaveLength(JUNIOR_ELECTIVE_SLUGS.length * 2);
+    expect(total + electiveAudio.length).toBe(Object.keys(JUNIOR_AUDIO_MANIFEST).length);
     expect(juniorSealedScenarioCount()).toBeGreaterThanOrEqual(total);
-    expect(JUNIOR_MAT_LESSONS[0]?.key).toBe("jr_06_mat-5");
+    expect(JUNIOR_MAT_LESSONS[0]?.key).toBe("jr_06_mat-1");
     for (const lessons of courses) {
       expect(lessons.length + 1).toBeLessThanOrEqual(ACADEMY_MATCH_WHISTLE_MAX);
     }

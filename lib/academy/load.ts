@@ -44,6 +44,7 @@ import type {
 import type { AcademyCourseLevel } from "@/lib/academy/course-level";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import {
+  academyStorefrontSeedBoard,
   academyVitrineShellCourses,
   overlaySeedCatalogPrice,
   publishedCoursesFromSeed,
@@ -80,9 +81,13 @@ export {
   publishedLessonCount,
 };
 
-const ACADEMY_COURSE_OVERLAY_TIMEOUT_MS = 250;
+const ACADEMY_COURSE_OVERLAY_TIMEOUT_MS = ACADEMY_CATALOG_READ_TIMEOUT_MS;
 
 function academySeedBoard(slug: string): { course: AcademyCourseWithPrice } | null {
+  const storefront = academyStorefrontSeedBoard(slug);
+  if (storefront) {
+    return { course: storefront };
+  }
   const shell = academyVitrineShellCourses().find((row) => row.slug === slug);
   if (shell) {
     return { course: shell };

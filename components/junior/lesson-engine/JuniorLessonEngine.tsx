@@ -69,7 +69,7 @@ export type JuniorLessonEngineShellProps = {
 };
 
 /**
- * `JuniorLessonEngineShell` — `jr_06_mat-5` amiral gemisinden soyutlanan,
+ * `JuniorLessonEngineShell` — `jr_06_mat-1` amiral gemisinden soyutlanan,
  * tüm 6. sınıf derslerinde (`jr_06_mat-1..4` ve devamı) yeniden kullanılan
  * modüler stüdyo iskeleti (`Player` + `StickyFrame` + `ActivityStudio` + `LiveTutorPanel` + `QuickTools`).
  */
@@ -103,7 +103,7 @@ export function JuniorLessonEngineShell({
   return (
     <div
       data-junior-lesson-engine={lessonKey}
-      data-junior-lesson-meb={blueprint.content.mebCode}
+      data-junior-lesson-meb={blueprint?.content.mebCode ?? ""}
       data-junior-studio-flow={lessonKey}
       data-junior-fold="flow"
       className="flex w-full min-w-0 flex-col gap-6 xl:grid xl:grid-cols-[minmax(0,1fr)_14.5rem] xl:items-start xl:gap-6"
@@ -111,10 +111,13 @@ export function JuniorLessonEngineShell({
       <div className="flex min-w-0 flex-col gap-3">
         <div
           data-junior-player-shell=""
-          className="flex h-[min(48rem,calc(100dvh-6.5rem))] min-h-[28rem] w-full min-w-0 flex-col"
+          className="flex h-[52dvh] min-h-[20rem] w-full min-w-0 flex-col sm:h-[min(48rem,calc(100dvh-6.5rem))] sm:min-h-[28rem]"
         >
           {player}
         </div>
+        <p className="text-xs font-semibold text-slate-500 sm:hidden" data-junior-flow-hint="">
+          İzle → Kendin Keşfet → Anlat → Test et. Araçlar aşağıda tek sırada durur.
+        </p>
         <div id="junior-activity-hub" className="min-w-0">
           <div className={module === "activities" ? "block" : "hidden"}>{studio}</div>
           {module === "tests" ? <div>{tests}</div> : null}
@@ -214,18 +217,18 @@ export function JuniorLessonEngine({
   });
   const status = statusProp ?? internalStatus;
 
-  const resolvedTitle = title ?? blueprint.title;
-  const resolvedOutcomes = outcomes ?? blueprint.content.outcomes;
+  const resolvedTitle = title ?? blueprint?.title ?? lessonKey;
+  const resolvedOutcomes = outcomes ?? blueprint?.content.outcomes ?? [];
   const resolvedBooklet: JuniorBookletCopy = booklet ?? {
-    heroQuestion: blueprint.content.heroQuestion,
-    heroFocus: blueprint.content.heroFocus,
-    concept: blueprint.content.conceptSummary,
-    example: blueprint.notes?.example ?? "",
-    warning: blueprint.notes?.warning ?? "",
-    recap: blueprint.notes?.recap ?? [],
-    hint: blueprint.notes?.hint ?? "gold",
+    heroQuestion: blueprint?.content.heroQuestion ?? "",
+    heroFocus: blueprint?.content.heroFocus ?? "",
+    concept: blueprint?.content.conceptSummary ?? "",
+    example: blueprint?.notes?.example ?? "",
+    warning: blueprint?.notes?.warning ?? "",
+    recap: blueprint?.notes?.recap ?? [],
+    hint: blueprint?.notes?.hint ?? "gold",
   };
-  const resolvedLifeUse = lifeUse || blueprint.notes?.lifeUse || "";
+  const resolvedLifeUse = lifeUse || blueprint?.notes?.lifeUse || "";
 
   const defaultPlayer = timeline ? (
     <JuniorPilotPlayer timeline={timeline} grantedAudioUrl={grantedAudioUrl} fill />

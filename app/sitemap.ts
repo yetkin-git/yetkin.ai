@@ -7,10 +7,11 @@ import {
   isAcademyStorefrontSlug,
 } from "@/lib/academy/pilot-sku";
 import { LEGAL_SITE_PATHS } from "@/lib/copy/legal-launch";
+import { JUNIOR_GUARDIAN_NOTICE_HREF } from "@/lib/copy/junior-guardian-notice";
 import { readPublishedAcademySlugs } from "@/lib/kernel/catalog/published-academy-slugs";
 import { juniorCoverSrc } from "@/lib/junior/covers";
 import {
-  JUNIOR_ELECTIVE_SLUGS,
+  JUNIOR_ELECTIVE_PUBLIC_OPENERS,
   JUNIOR_FREE_LESSON_KEY,
   JUNIOR_FREE_OPENER_OVERRIDE,
   JUNIOR_PILOT_SLUGS,
@@ -18,6 +19,7 @@ import {
 import { juniorLessonMediaIsPublicPreview } from "@/lib/junior/media-visibility";
 import {
   CANONICAL_SITE_ORIGIN,
+  SITE_CONTENT_REVISED_AT,
   isRobotsDisallowedPath,
   SITEMAP_STATIC_PATHS,
   sitemapRoutePolicy,
@@ -89,14 +91,14 @@ function publishedAcademyCourseEntries(
 }
 
 /**
- * Ücretsiz ders anahtarları: her kartın başı ve ilk ders kapısı, arşive alınmamış olanlar.
- * Katalog gövdesi okunmaz; `media-visibility` ile aynı kümeyi verir (`tests/kernel` eşleşmeyi kilitler).
+ * Ücretsiz ders anahtarları: çekirdek kartın başı, ilk ders kapısı ve mühürlü seçmeli tanıtım.
+ * Katalog gövdesi okunmaz; `media-visibility` aynı kümeyi verir.
  */
 function juniorSitemapFreeLessonKeys(): string[] {
-  const openers = [...JUNIOR_PILOT_SLUGS, ...JUNIOR_ELECTIVE_SLUGS].map(
-    (slug) => JUNIOR_FREE_OPENER_OVERRIDE[slug] ?? `${slug}-1`,
-  );
-  const candidates = [...new Set([...openers, JUNIOR_FREE_LESSON_KEY])];
+  const openers = JUNIOR_PILOT_SLUGS.map((slug) => JUNIOR_FREE_OPENER_OVERRIDE[slug] ?? `${slug}-1`);
+  const candidates = [
+    ...new Set([...openers, JUNIOR_FREE_LESSON_KEY, ...JUNIOR_ELECTIVE_PUBLIC_OPENERS]),
+  ];
   return candidates.filter((lessonKey) => juniorLessonMediaIsPublicPreview(lessonKey));
 }
 
@@ -120,7 +122,14 @@ function juniorFreeLessonEntries(lastModified: Date): MetadataRoute.Sitemap {
 }
 
 function staticSitemapEntries(lastModified: Date): MetadataRoute.Sitemap {
-  const staticPaths = [...SITEMAP_STATIC_PATHS, "/legal", ...LEGAL_SITE_PATHS];
+  // `/legal/junior-veli` footer listesinde yoktur (veli onay ekranından açılır) ama
+  // kamuya açık 200 dönen yasal bir yüzeydir; site haritasına ayrıca yazılır.
+  const staticPaths = [
+    ...SITEMAP_STATIC_PATHS,
+    "/legal",
+    JUNIOR_GUARDIAN_NOTICE_HREF,
+    ...LEGAL_SITE_PATHS,
+  ];
   const uniqueStatic = [...new Set(staticPaths)];
   return uniqueStatic.map((path) => sitemapEntry(path, lastModified));
 }
@@ -128,9 +137,9 @@ function staticSitemapEntries(lastModified: Date): MetadataRoute.Sitemap {
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // SEO Tedavi (P1) — sabit mühür yerine dinamik üretim anı.
-  // Kurs girdisi kartta duran ve satırı yayında olan slug’dır.
-  const lastModified = new Date();
+  // SEO Tedavi (P2) — `lastmod` istek anı değil, içerik revizyon anıdır.
+  // Her istekte tazelenen tarih Google'da alanı işe yaramaz hale getirir.
+  const lastModified = SITE_CONTENT_REVISED_AT;
   try {
     const publishedSlugs = await readPublishedAcademySlugs();
     const staticEntries = staticSitemapEntries(lastModified);

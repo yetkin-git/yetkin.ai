@@ -3,7 +3,11 @@ import {
   type JuniorActor,
   type JuniorGateDecision,
 } from "@/lib/kernel/security/junior-gate";
+
+export type { JuniorGateDecision };
 import {
+  juniorCourseByLessonKey,
+  juniorCourseSealed,
   juniorLessonAccess,
   juniorLessonAccessForPlan,
   juniorPaidElectives,
@@ -11,7 +15,12 @@ import {
 } from "@/lib/junior/catalog";
 import { JUNIOR_ELECTIVE_SLUGS } from "@/lib/junior/limits";
 
-/** Ücretli paket yalnız mühürlü seçmelileri sayar (T-06). Denetim dalı bu fonksiyonu kullanmaz. */
+/**
+ * Ücretli paket bu dersi kapsıyor mu (T-06). Denetim dalı bu fonksiyonu kullanmaz.
+ * Kamuya açık tanıtım kapısı (`free` taban) paket kapsamı sayılmaz; onu paket değil
+ * kamu kapısı açar. Bu yüzden karar erişim dizesinden değil, kursun pakete
+ * girebilirliğinden okunur: fiyat dışı seçmeli (`jr_06_ing`) hiçbir zaman kapsanmaz.
+ */
 export function juniorPlanCoversLesson(
   lessonKey: string,
   planActive: boolean,
@@ -20,12 +29,14 @@ export function juniorPlanCoversLesson(
   if (!planActive) {
     return false;
   }
-  return (
-    juniorLessonAccessForPlan(lessonKey, {
-      active: true,
-      selectedElectives: juniorPaidElectives(selectedElectives),
-    }) === "free"
-  );
+  const course = juniorCourseByLessonKey(lessonKey);
+  if (!course || !juniorCourseSealed(course)) {
+    return false;
+  }
+  if (course.track === "core") {
+    return true;
+  }
+  return juniorPaidElectives(selectedElectives).includes(course.slug);
 }
 
 export function juniorLessonGate(

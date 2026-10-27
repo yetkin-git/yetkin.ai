@@ -16,14 +16,73 @@ import { juniorCoverSrc } from "@/lib/junior/covers";
 
 export const JUNIOR_DESCRIPTION_MAX = 180;
 
-/** Meta açıklama: ilk cümle, 180 karakter tavanı. */
-export function juniorSeoDescription(text: string): string {
-  const trimmed = text.replace(/\s+/g, " ").trim();
-  const sentence = trimmed.match(/^.*?[.!?](?=\s|$)/u)?.[0]?.trim() ?? trimmed;
-  if (sentence.length <= JUNIOR_DESCRIPTION_MAX) {
-    return sentence;
+/**
+ * Alt sınır: SERP'te açıklamanın kesilmeden görünen bölümü ~120 karakterdir.
+ * Bunun altında kalan açıklama «boş kart» gibi durur.
+ */
+export const JUNIOR_DESCRIPTION_MIN = 120;
+
+/**
+ * Meta açıklama: **tam cümlelerle** kurulmuş, 180 karakter tavanlı metin.
+ *
+ * Cümle ortasında kesilen açıklama («…ya da Bu konu, 6. sınıf…») SERP'te özensiz durur.
+ * Bu yüzden tavanı aşmayan son tam cümleye kadar toplanır. Hâlâ
+ * `JUNIOR_DESCRIPTION_MIN` altındaysa `filler` (kamu sözleşmesi cümlesi) eklenir.
+ * Uydurma iddia yazılmaz — tüm cümleler çağıranın verdiği metinden gelir.
+ */
+export function juniorSeoDescription(text: string, filler?: string): string {
+  const assembled = completeSentences(text, JUNIOR_DESCRIPTION_MAX);
+  if (assembled.length >= JUNIOR_DESCRIPTION_MIN) {
+    return assembled;
   }
-  return `${sentence.slice(0, JUNIOR_DESCRIPTION_MAX - 1).trimEnd()}…`;
+  const tail = filler?.trim();
+  if (!tail) {
+    return assembled;
+  }
+  // Filler her zaman tam cümledir; teaser tarafı tavana sığacak kadar kırpılır.
+  const budget = JUNIOR_DESCRIPTION_MAX - tail.length - 1;
+  const head = budget > 0 ? completeSentences(text, budget) : "";
+  const joined = head ? `${head} ${tail}` : tail;
+  return joined.length <= JUNIOR_DESCRIPTION_MAX
+    ? joined
+    : `${cutAtWord(joined, JUNIOR_DESCRIPTION_MAX - 1)}…`;
+}
+
+/**
+ * Metnin başından, `max` sınırını aşmayan **tam cümleleri** döndürür.
+ * Hiç tam cümle sığmıyorsa ilk cümleyi kelime sınırında kısaltıp tek cümle döndürür.
+ */
+function completeSentences(text: string, max: number): string {
+  const trimmed = text.replace(/\s+/g, " ").trim();
+  if (!trimmed) {
+    return "";
+  }
+  const sentences = trimmed.match(/[^.!?]+[.!?]+(?=\s|$)|[^.!?]+$/gu) ?? [trimmed];
+  let assembled = "";
+  for (const sentence of sentences) {
+    const candidate = assembled ? `${assembled} ${sentence.trim()}` : sentence.trim();
+    if (candidate.length > max) {
+      break;
+    }
+    assembled = candidate;
+  }
+  if (assembled) {
+    return assembled;
+  }
+  return `${cutAtWord(trimmed, Math.max(0, max - 1))}…`;
+}
+
+/**
+ * Metni `max` sınırında **kelime ortasından kesmeden** kısaltır.
+ * «…büyük Bu…» gibi yarım sözcükler SERP'te özensiz görünür; son tam kelimede durulur.
+ */
+function cutAtWord(text: string, max: number): string {
+  if (text.length <= max) {
+    return text.trimEnd();
+  }
+  const hard = text.slice(0, max);
+  const lastSpace = hard.lastIndexOf(" ");
+  return (lastSpace > 0 ? hard.slice(0, lastSpace) : hard).trimEnd();
 }
 
 export function juniorLessonKeywords(subject: string): string[] {
@@ -35,7 +94,8 @@ export function juniorLessonKeywords(subject: string): string[] {
 export const JUNIOR_LANDING_FAQ = [
   {
     question: "6. sınıf derslerinin ilk konusu ücretsiz mi?",
-    answer: "Evet. Her dersin ilk konusu ücretsiz kalır. Sonraki konular yıllık paketle açılır.",
+    answer:
+      "Evet. Çekirdek derslerin ve her seçmeli kartın yalnız ilk konusu ücretsizdir. Seçmeli kartın ikinci konusu ve çekirdek derslerin sonraki konuları yıllık paketle açılır.",
   },
   {
     question: "Kilitli konular nasıl açılır?",
@@ -54,6 +114,14 @@ export const JUNIOR_LANDING_FAQ = [
 export function juniorFreeLessonPublicLine(subject: string): string {
   return `Bu konu, 6. sınıf ${subject} dersinin ücretsiz ilk konusudur. Sonraki konular yıllık paketle açılır.`;
 }
+
+/**
+ * SERP için kısa ücretsiz-ders teklifi.
+ * `juniorFreeLessonPublicLine` gövde metnidir (uzun); meta açıklamada bütçe kısıtlıdır
+ * ve tıklama nedeni tek cümlede durmalıdır. İkisi aynı sözleşmeyi söyler.
+ */
+export const JUNIOR_FREE_LESSON_META_OFFER =
+  "İlk konu ücretsiz; sonraki konular yıllık pakette." as const;
 
 export function juniorFreeLessonFaq(subject: string): { question: string; answer: string }[] {
   return [
@@ -76,6 +144,20 @@ function juniorCoverImage(lessonKey: string): string | undefined {
   }
 }
 
+/**
+ * İndekslenen ücretsiz ders açıklaması.
+ *
+ * Sıra önemlidir: önce dersin kendi içeriği (aranan niyet), sonra ücretsiz-ders
+ * teklifi (tıklama nedeni). Teklif cümlesi **her zaman** korunur; teaser tarafı
+ * kalan bütçeye tam cümlelerle sığdırılır. İkisi de tam cümle kalır.
+ */
+function juniorFreeLessonDescription(lesson: { teaser: string }, subject: string): string {
+  const offer = JUNIOR_FREE_LESSON_META_OFFER;
+  const budget = JUNIOR_DESCRIPTION_MAX - offer.length - 1;
+  const body = budget >= JUNIOR_DESCRIPTION_MIN / 2 ? completeSentences(lesson.teaser, budget) : "";
+  return body ? `${body} ${offer}` : juniorSeoDescription(lesson.teaser, offer);
+}
+
 /** Katalogdaki ücretsiz ilk konu indekslenir. Kilitli konu ve bilinmeyen anahtar indekslenmez. */
 export function juniorLessonPageMetadata(lessonKey: string): Metadata {
   const lesson = juniorLessonByKey(lessonKey);
@@ -83,12 +165,13 @@ export function juniorLessonPageMetadata(lessonKey: string): Metadata {
   if (!lesson || !course || juniorLessonAccess(lessonKey) !== "free") {
     return {
       title: lesson?.title ?? "Ders",
+      description: "Bu ders sayfası arama dizinine kapalıdır.",
       robots: { index: false, follow: false },
     };
   }
   return pageMetadata({
     title: juniorLessonSeoTitle(lesson.title, course.subject),
-    description: juniorSeoDescription(lesson.teaser),
+    description: juniorFreeLessonDescription(lesson, course.subject),
     path: `/junior/ders/${lesson.key}`,
     keywords: juniorLessonKeywords(course.subject),
     image: juniorCoverImage(lesson.key),
@@ -118,7 +201,7 @@ export function juniorPublicLessonJsonLd(lessonKey: string): JsonLdDocument | nu
   return jsonLdDocument([
     juniorOnlineCourseJsonLd({
       name: lesson.title,
-      description: juniorSeoDescription(lesson.teaser),
+      description: juniorFreeLessonDescription(lesson, course.subject),
       path: `/junior/ders/${lesson.key}`,
       subject: course.subject,
       imagePath: juniorCoverImage(lesson.key) ?? null,

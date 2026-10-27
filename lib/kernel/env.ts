@@ -10,6 +10,7 @@ const envSchema = z.object({
   DIRECT_URL: z.string().optional(),
   NEXT_PUBLIC_APP_URL: z.string().optional(),
   NEXT_PUBLIC_SETTLEMENT_CURRENCY: z.string().optional(),
+  NEXT_PUBLIC_GA_ID: z.string().optional(),
   PAYTR_MERCHANT_ID: z.string().optional(),
   PAYTR_MERCHANT_KEY: z.string().optional(),
   PAYTR_MERCHANT_SALT: z.string().optional(),

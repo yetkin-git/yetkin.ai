@@ -1,61 +1,69 @@
-import timelineJson from "@/packages/junior-content/timelines/jr_06_mat-5.timeline.json";
-import { JR_06_FEN_10_TIMELINE } from "@/lib/junior/pilot-engine/fen-10.graph";
-import { JR_06_FEN_21_TIMELINE } from "@/lib/junior/pilot-engine/fen-21.graph";
-import { JR_06_FEN_37_TIMELINE } from "@/lib/junior/pilot-engine/fen-37.graph";
-import { JR_06_FEN_38_TIMELINE } from "@/lib/junior/pilot-engine/fen-38.graph";
-import { JR_06_FEN_9_TIMELINE } from "@/lib/junior/pilot-engine/fen-9.graph";
-import { JR_06_MAT_11_TIMELINE } from "@/lib/junior/pilot-engine/mat-11.graph";
-import { JR_06_MAT_12_TIMELINE } from "@/lib/junior/pilot-engine/mat-12.graph";
-import { JR_06_MAT_13_TIMELINE } from "@/lib/junior/pilot-engine/mat-13.graph";
-import { JR_06_MAT_21_TIMELINE } from "@/lib/junior/pilot-engine/mat-21.graph";
-import { JR_06_MAT_22_TIMELINE } from "@/lib/junior/pilot-engine/mat-22.graph";
-import { JR_06_MAT_27_TIMELINE } from "@/lib/junior/pilot-engine/mat-27.graph";
-import { JR_06_MAT_30_TIMELINE } from "@/lib/junior/pilot-engine/mat-30.graph";
-import { JR_06_MAT_31_TIMELINE } from "@/lib/junior/pilot-engine/mat-31.graph";
-import { JR_06_MAT_32_TIMELINE } from "@/lib/junior/pilot-engine/mat-32.graph";
-import { JR_06_MAT_33_TIMELINE } from "@/lib/junior/pilot-engine/mat-33.graph";
-import { JR_06_MAT_34_TIMELINE } from "@/lib/junior/pilot-engine/mat-34.graph";
-import { JR_06_MAT_35_TIMELINE } from "@/lib/junior/pilot-engine/mat-35.graph";
-import { JR_06_MAT_36_TIMELINE } from "@/lib/junior/pilot-engine/mat-36.graph";
-import { JR_06_MAT_6_TIMELINE } from "@/lib/junior/pilot-engine/mat-6.graph";
-import { JR_06_MAT_7_TIMELINE } from "@/lib/junior/pilot-engine/mat-7.graph";
-import { JUNIOR_PILOT_PLAYBACK_LESSON_KEY } from "@/lib/junior/pilot-engine/playback-key";
+import timelineJson from "@/packages/junior-content/timelines/jr_06_mat-1.timeline.json";
+import mat6TimelineJson from "@/packages/junior-content/timelines/jr_06_mat-2.timeline.json";
+import {
+  JR_06_MAT_1_PRODUCTION,
+  JR_06_MAT_2_PRODUCTION,
+  JUNIOR_PILOT_PLAYBACK_LESSON_KEY,
+} from "@/lib/junior/pilot-engine/playback-key";
+import { readAcousticTimeline } from "@/lib/junior/pilot-engine/acoustic-timeline-store";
 import { timelineJsonSchema, type TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
 /**
- * Mühürlü PCM saati. Konuşma yazarı `mat-5.choreography.ts` dir.
+ * Oynatıcı saati. Konuşma yazarı `mat-1.choreography.ts` dir.
+ * Saat, tek istek fırınının PCM kaydıdır. Üretim durumu locked / ready.
  * Konuşma eşitliği `assertSealedPilotTimeline` ile `verify:junior-content` kapısındadır.
  * Taslak hece saati (`MAT_5_DRAFT_TIMELINE`) bu dosyayı okumaz.
- * Grafik saati dersleri bu JSON'u okumaz.
+ * Eski grafik modülleri oynatıcıya girmez. Mühür betiği `graph-timeline-fallback.ts` okur.
  */
-export const JR_06_MAT_5_TIMELINE: TimelineJSON = timelineJsonSchema.parse(timelineJson);
+const parsedMat5Timeline = timelineJsonSchema.parse(timelineJson);
+if (
+  parsedMat5Timeline.lessonKey !== JUNIOR_PILOT_PLAYBACK_LESSON_KEY ||
+  parsedMat5Timeline.production?.status !== JR_06_MAT_1_PRODUCTION.status ||
+  parsedMat5Timeline.production?.readiness !== JR_06_MAT_1_PRODUCTION.readiness
+) {
+  throw new Error("jr_06_mat-1 üretim durumu locked/ready değil.");
+}
+/** Canlı anahtar `jr_06_mat-1`. */
+export const JR_06_MAT_1_TIMELINE: TimelineJSON = parsedMat5Timeline;
+/** @deprecated Yanlış numara. `JR_06_MAT_1_TIMELINE` kullan. */
+export const JR_06_MAT_5_TIMELINE = JR_06_MAT_1_TIMELINE;
 
-const GRAPH_TIMELINES: Readonly<Record<string, TimelineJSON>> = {
-  "jr_06_mat-6": JR_06_MAT_6_TIMELINE,
-  "jr_06_mat-7": JR_06_MAT_7_TIMELINE,
-  "jr_06_mat-11": JR_06_MAT_11_TIMELINE,
-  "jr_06_mat-12": JR_06_MAT_12_TIMELINE,
-  "jr_06_mat-13": JR_06_MAT_13_TIMELINE,
-  "jr_06_mat-21": JR_06_MAT_21_TIMELINE,
-  "jr_06_mat-22": JR_06_MAT_22_TIMELINE,
-  "jr_06_mat-27": JR_06_MAT_27_TIMELINE,
-  "jr_06_mat-30": JR_06_MAT_30_TIMELINE,
-  "jr_06_mat-31": JR_06_MAT_31_TIMELINE,
-  "jr_06_mat-32": JR_06_MAT_32_TIMELINE,
-  "jr_06_mat-33": JR_06_MAT_33_TIMELINE,
-  "jr_06_mat-34": JR_06_MAT_34_TIMELINE,
-  "jr_06_mat-35": JR_06_MAT_35_TIMELINE,
-  "jr_06_mat-36": JR_06_MAT_36_TIMELINE,
-  "jr_06_fen-9": JR_06_FEN_9_TIMELINE,
-  "jr_06_fen-10": JR_06_FEN_10_TIMELINE,
-  "jr_06_fen-21": JR_06_FEN_21_TIMELINE,
-  "jr_06_fen-37": JR_06_FEN_37_TIMELINE,
-  "jr_06_fen-38": JR_06_FEN_38_TIMELINE,
-};
+/**
+ * `jr_06_mat-2` oynatıcı saati. Konuşma yazarı `mat-6.choreography.ts` dir.
+ * Saat, tek istek fırınının PCM kaydıdır. Üretim durumu locked / ready.
+ */
+const parsedMat6Timeline = timelineJsonSchema.parse(mat6TimelineJson);
+if (
+  parsedMat6Timeline.lessonKey !== "jr_06_mat-2" ||
+  parsedMat6Timeline.production?.status !== JR_06_MAT_2_PRODUCTION.status ||
+  parsedMat6Timeline.production?.readiness !== JR_06_MAT_2_PRODUCTION.readiness
+) {
+  throw new Error("jr_06_mat-2 üretim durumu locked/ready değil.");
+}
+/** Canlı anahtar `jr_06_mat-2`. */
+export const JR_06_MAT_2_TIMELINE: TimelineJSON = parsedMat6Timeline;
+/** @deprecated Yanlış numara. `JR_06_MAT_2_TIMELINE` kullan. */
+export const JR_06_MAT_6_TIMELINE = JR_06_MAT_2_TIMELINE;
 
+/**
+ * Kilitli kaset. `jr_06_mat-1` ve `jr_06_mat-2` statik JSON'dur.
+ * Diğer dersler kayıtlı akustik okuyucunun kilitli dosyasıdır.
+ * Okuyucu yoksa grafik saate düşülmez.
+ */
 export function getPilotTimelineForLesson(lessonKey: string): TimelineJSON | null {
   if (lessonKey === JUNIOR_PILOT_PLAYBACK_LESSON_KEY) {
-    return JR_06_MAT_5_TIMELINE;
+    return JR_06_MAT_1_TIMELINE;
   }
-  return GRAPH_TIMELINES[lessonKey] ?? null;
+  if (lessonKey === "jr_06_mat-2") {
+    return JR_06_MAT_2_TIMELINE;
+  }
+  return readAcousticTimeline(lessonKey);
+}
+
+/**
+ * Sunucu bileşeni (`app/junior/ders/[lessonKey]/page.tsx`) için timeline yükleyici.
+ * Yalnız kilitli kaseti çözer. Eski grafik modülü bu yolda import edilmez.
+ */
+export async function loadPilotTimelineForLesson(lessonKey: string): Promise<TimelineJSON | null> {
+  return getPilotTimelineForLesson(lessonKey.trim());
 }

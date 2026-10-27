@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import type { Route } from "next";
 import { ACADEMY_FLAGSHIP_SKU_SLUG, isAcademyStorefrontSlug } from "@/lib/academy/pilot-sku";
 import { CUZDAN_SEN } from "@/lib/copy/sen-voice/cuzdan";
+import { emitPaytrIframeReturnIfEmbedded } from "@/lib/kernel/payments/paytr/iframe-embed";
+import { trackPurchase } from "@/lib/kernel/telemetry/funnel";
 import { buttonClassName } from "@/components/ui/button";
 
 const KASA_RETURN_REDIRECT_MS = 3_000;
@@ -31,14 +33,17 @@ export function KasaReturnPanel({
   const href = ok ? kasaReturnCourseHref(courseSlug) : KASA_RETURN_ACADEMY_HREF;
 
   useEffect(() => {
+    emitPaytrIframeReturnIfEmbedded(ok);
     if (!ok) {
       return;
     }
+    const slug = courseSlug?.trim() ?? "";
+    trackPurchase(isAcademyStorefrontSlug(slug) ? { itemId: slug } : {});
     const timer = window.setTimeout(() => {
       router.push(href);
     }, KASA_RETURN_REDIRECT_MS);
     return () => window.clearTimeout(timer);
-  }, [href, ok, router]);
+  }, [courseSlug, href, ok, router]);
 
   return (
     <div className="mt-6" suppressHydrationWarning>

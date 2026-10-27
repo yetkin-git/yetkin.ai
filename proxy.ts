@@ -37,6 +37,7 @@ import {
 import { decideWebOriginGuard } from "./lib/kernel/security/origin-guard";
 import { renderFrozenRoomGoneHtml } from "./lib/kernel/http/frozen-410-html";
 import { renderNotFoundHtml } from "./lib/kernel/http/not-found-html";
+import { juniorLegacyLessonRedirectPath } from "./lib/junior/lesson-key-alias";
 import { isUnknownJuniorLessonPath } from "./lib/junior/lesson-index";
 import {
   isSiteMaintenanceActive,
@@ -176,6 +177,13 @@ export async function proxy(request: NextRequest) {
         headers: { "content-type": "text/html; charset=utf-8" },
       }),
     );
+  }
+
+  const legacyLesson = juniorLegacyLessonRedirectPath(pathname);
+  if (legacyLesson) {
+    const url = request.nextUrl.clone();
+    url.pathname = legacyLesson;
+    return seal(NextResponse.redirect(url, 308));
   }
 
   if (isUnknownJuniorLessonPath(pathname)) {

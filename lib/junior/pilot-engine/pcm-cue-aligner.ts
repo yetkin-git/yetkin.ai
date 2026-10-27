@@ -2,7 +2,7 @@
  * JuniorCinemaEngine v2 — Akustik Enerji Zarfı ve Kesin PCM Zaman Damgası Motoru.
  *
  * Tek veya çoklu PCM WAV sentezinden:
- * 1) 12 sekansın (cue-01 .. cue-12) konuşma sınırlarını 20ms RMS pencereleri ve sessizlik vadileriyle bulur.
+ * 1) Yazar sekanslarının konuşma sınırlarını 20ms RMS pencereleri ve sessizlik vadileriyle bulur.
  * 2) Her sekansın arasına pedagojik es (`createSilentPcmWav(pauseAfterMs)`) enjekte eder.
  * 3) Kesin PCM bayt ve örnek (sample) sayımından `durationMs = (pcmByteLength / (2 * sampleRate)) * 1000`
  *    formülüyle sıfır kaymalı (0ms drift) `TimelineJSON` üretir.
@@ -13,20 +13,21 @@ import {
   readPcmWavLayout,
   wrapPcmAsWav,
 } from "@/lib/kernel/ai/pcm-wav";
-import {
-  alignWordsToSpeechWindow,
-  detectSilences,
-  JUNIOR_SYNC_SILENCE,
-  pcmEnvelope,
-} from "@/lib/junior/pilot-engine/word-aligner";
+import { alignWordsByAcoustics } from "@/lib/junior/pilot-engine/word-aligner";
 import {
   buildCueTimingFromBounds,
   buildMat5TimelineFromDurations,
   MAT_5_AUTHORED_CUES,
   parseMarkedCueText,
   type AuthoredCueSpec,
-} from "@/lib/junior/pilot-engine/mat-5.choreography";
-import { timelineJsonSchema, type CueSegment, type TimelineJSON } from "@/lib/junior/pilot-engine/schema";
+} from "@/lib/junior/pilot-engine/mat-1.choreography";
+import {
+  timelineJsonSchema,
+  type ChapterItem,
+  type CueSegment,
+  type TimelineJSON,
+} from "@/lib/junior/pilot-engine/schema";
+import { JUNIOR_SYNC_MAX_LIMIT_MS, measureSentenceEndDrift } from "@/lib/junior/pilot-engine/sync-gate";
 
 export type PcmAlignedPilotResult = {
   /** Pedagojik esler (`pauseAfterMs`) eklenmiş birleşik 16-bit mono WAV tamponu. */
@@ -44,12 +45,14 @@ export type PcmAlignedPilotResult = {
 };
 
 /**
- * Ham PCM tamponunu `authoredCues` içindeki 12 sekansa akustik vadi (minimum RMS enerji) aramasıyla böler,
+ * Ham PCM tamponunu `authoredCues` içindeki sekanslara akustik vadi (minimum RMS enerji) aramasıyla böler,
  * ardından her sekansın sonuna `createSilentPcmWav(cue.pauseAfterMs)` ekleyerek kesin PCM zaman damgalarını hesaplar.
+ * Zaman çizelgesi gövdesini `buildTimeline` kurar. Ders anahtarı bu fonksiyona gömülü değildir.
  */
-export function alignSingleWavToMat5Cues(
+export function alignSingleWavToAuthoredCues(
   rawWav: Buffer,
-  authoredCues: readonly AuthoredCueSpec[] = MAT_5_AUTHORED_CUES,
+  authoredCues: readonly AuthoredCueSpec[],
+  buildTimeline: (speechDurationsMs: readonly number[]) => TimelineJSON,
 ): PcmAlignedPilotResult {
   const layout = readPcmWavLayout(rawWav);
   if (!layout || layout.pcm.length < 400) {
@@ -173,11 +176,12 @@ export function alignSingleWavToMat5Cues(
   }
 
   const combinedWav = wrapPcmAsWav(Buffer.concat(outPcmParts), sampleRate, channels, 16);
-  const builtTimeline = buildMat5TimelineFromDurations(speechDurationsMs);
-  const timeline = realignMat5TimelineWords(
+  const builtTimeline = buildTimeline(speechDurationsMs);
+  const timeline = realignPilotTimelineWords(
     timelineJsonSchema.parse(builtTimeline),
     bufferToSamples(readPcmWavLayout(combinedWav)?.pcm ?? Buffer.alloc(0)),
     sampleRate,
+    authoredCues,
   );
 
   return {
@@ -185,6 +189,14 @@ export function alignSingleWavToMat5Cues(
     timeline,
     cueDiagnostics,
   };
+}
+
+/** `jr_06_mat-1` hizalayıcısı. Sekans listesi ve saat kurucusu bu derse kilitlidir. */
+export function alignSingleWavToMat5Cues(
+  rawWav: Buffer,
+  authoredCues: readonly AuthoredCueSpec[] = MAT_5_AUTHORED_CUES,
+): PcmAlignedPilotResult {
+  return alignSingleWavToAuthoredCues(rawWav, authoredCues, buildMat5TimelineFromDurations);
 }
 
 function bufferToSamples(pcm: Buffer): Int16Array {
@@ -196,41 +208,91 @@ function bufferToSamples(pcm: Buffer): Int16Array {
 }
 
 /**
- * Kelime saatini cue sınırlarının içindeki PCM sessizliklerine kilitler.
- * Cue başlangıç ve bitişi yerinde kalır; kancalı kareler yeni kelime başlangıcına kayar.
+ * Kelime saatini tüm kaydın dalgasına kilitler (tüm pilot dersler için genel fonksiyon).
+ * Sekans penceresi kelimeyi o aralığa gerer; geç konuşma erken damganın üstüne biner.
+ * Pencere burada sınır değildir. Kancalı kare, yeni kelime başlangıcına kayar.
+ * Hece payı kullanılmaz. Hizalama kapanmazsa fırın düşer.
  */
-export function realignMat5TimelineWords(
+export function realignPilotTimelineWords(
   timeline: TimelineJSON,
   samples: Int16Array,
   sampleRate: number,
+  authoredCues: readonly AuthoredCueSpec[] = MAT_5_AUTHORED_CUES,
 ): TimelineJSON {
   if (samples.length === 0 || sampleRate <= 0) {
     return timeline;
   }
-  const silences = detectSilences(pcmEnvelope(samples, sampleRate), JUNIOR_SYNC_SILENCE);
-  const cues = timeline.cues.map((cue, index) => {
-    const spec = MAT_5_AUTHORED_CUES[index];
+  if (authoredCues.length !== timeline.cues.length) {
+    throw new Error("Akustik hizalama sekans sayısı yazar listesiyle uyuşmuyor.");
+  }
+  const pieces = timeline.cues.map((cue, index) => {
+    const spec = authoredCues[index];
     if (!spec || spec.id !== cue.id) {
-      return cue;
+      throw new Error(`${cue.id} akustik hizalama yazar sekansıyla uyuşmuyor.`);
     }
-    const speechMs = Math.max(1, cue.endMs - cue.startMs);
-    const parsed = parseMarkedCueText(spec.markedText);
-    const aligned = alignWordsToSpeechWindow(parsed.words, cue.startMs, cue.endMs, silences);
-    if (aligned.length !== parsed.words.length) {
-      return cue;
-    }
-    const rebuilt = buildCueTimingFromBounds(spec, cue.startMs, speechMs, aligned);
+    return { cue, spec, words: parseMarkedCueText(spec.markedText).words };
+  });
+  const tokens = pieces.flatMap((piece) => piece.words);
+  const durationMs = Math.max(1, Math.round((samples.length / sampleRate) * 1000));
+  const aligned = alignWordsByAcoustics(tokens, samples, sampleRate, 0, durationMs);
+  if (aligned.length !== tokens.length) {
+    throw new Error("Akustik hizalama kelime sayısını değiştirdi.");
+  }
+  let cursor = 0;
+  const cues = pieces.map((piece, index) => {
+    const slice = aligned.slice(cursor, cursor + piece.words.length);
+    cursor += piece.words.length;
+    const next = aligned[cursor];
+    const startMs = index === 0 ? 0 : slice[0]!.startMs;
+    const endMs = Math.max(slice[slice.length - 1]!.endMs, next ? next.startMs : durationMs);
+    const rebuilt = buildCueTimingFromBounds(piece.spec, startMs, Math.max(1, endMs - startMs), slice);
     return {
       ...rebuilt,
-      startMs: cue.startMs,
-      endMs: cue.endMs,
-      pauseAfterMs: cue.pauseAfterMs,
+      startMs,
+      endMs,
+      pauseAfterMs: piece.cue.pauseAfterMs,
     };
   });
+  const titles = new Map(timeline.chapters.map((chapter) => [chapter.id, chapter.title]));
   return timelineJsonSchema.parse({
     ...timeline,
+    audio: {
+      ...timeline.audio,
+      durationMs,
+    },
+    chapters: chaptersFromCueBounds(cues, titles, durationMs),
     cues,
   });
+}
+
+/** Bölüm şeridi sekans sınırlarını izler. Son bölüm kaydın gerçek süresinde biter. */
+function chaptersFromCueBounds(
+  cues: readonly CueSegment[],
+  titles: ReadonlyMap<string, string>,
+  durationMs: number,
+): ChapterItem[] {
+  const chapters: ChapterItem[] = [];
+  for (const cue of cues) {
+    const last = chapters[chapters.length - 1];
+    if (!last || last.id !== cue.chapterId) {
+      chapters.push({
+        id: cue.chapterId,
+        title: titles.get(cue.chapterId) ?? cue.chapterId,
+        startMs: chapters.length === 0 ? 0 : cue.startMs,
+        endMs: cue.endMs,
+      });
+    } else {
+      last.endMs = cue.endMs;
+    }
+  }
+  if (chapters.length === 0) {
+    throw new Error("Bölüm saati kurulamadı.");
+  }
+  for (let index = 0; index < chapters.length - 1; index += 1) {
+    chapters[index]!.endMs = chapters[index + 1]!.startMs;
+  }
+  chapters[chapters.length - 1]!.endMs = durationMs;
+  return chapters;
 }
 
 /** İç `atMs` değerleri üst kareyle aynı ölçeği alır. Başka sayılar durur. */
@@ -302,4 +364,129 @@ export function lockTimelineToExactAudioMs(timeline: TimelineJSON, exactAudioMs:
     chapters: scaledChapters,
     cues: scaledCues,
   });
+}
+
+const SENTENCE_BREATH_MS = 220;
+
+function shiftClockPast(value: number, cutMs: number, deltaMs: number): number {
+  return value >= cutMs ? value + deltaMs : value;
+}
+
+function shiftParamsPast(params: Record<string, unknown>, cutMs: number, deltaMs: number): Record<string, unknown> {
+  const next: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(params)) {
+    if (key === "atMs" && typeof value === "number") {
+      next[key] = shiftClockPast(value, cutMs, deltaMs);
+    } else if (Array.isArray(value)) {
+      next[key] = value.map((item) =>
+        item && typeof item === "object" ? shiftParamsPast(item as Record<string, unknown>, cutMs, deltaMs) : item,
+      );
+    } else if (value && typeof value === "object") {
+      next[key] = shiftParamsPast(value as Record<string, unknown>, cutMs, deltaMs);
+    } else {
+      next[key] = value;
+    }
+  }
+  return next;
+}
+
+/**
+ * Model cümle sonunda duyulur es bırakmadıysa yerel PCM'e 220 ms nefes koyar.
+ * İkinci TTS isteği açılmaz. Kesim, ölçülen kelime bitişidir.
+ */
+export function sealPilotSentenceBreaths(
+  wav: Buffer,
+  timeline: TimelineJSON,
+  authoredCues: readonly AuthoredCueSpec[] = MAT_5_AUTHORED_CUES,
+): { wav: Buffer; timeline: TimelineJSON } {
+  const layout = readPcmWavLayout(wav);
+  if (!layout || layout.pcm.length < 400) {
+    throw new Error("Nefes mührü için PCM yok.");
+  }
+  let pcm = layout.pcm;
+  let current = realignPilotTimelineWords(timeline, bufferToSamples(pcm), layout.sampleRate, authoredCues);
+  for (let guard = 0; guard < 4; guard += 1) {
+    const report = measureSentenceEndDrift(current, bufferToSamples(pcm), layout.sampleRate);
+    const offender = [...report.drifts].sort((left, right) => Math.abs(right.driftMs) - Math.abs(left.driftMs))[0];
+    if (!offender || Math.abs(offender.driftMs) < JUNIOR_SYNC_MAX_LIMIT_MS) {
+      break;
+    }
+    const inserted = insertSentenceBreath(pcm, layout.sampleRate, layout.channels, current, offender.wordEndMs, offender.word);
+    pcm = inserted.pcm;
+    current = inserted.timeline;
+  }
+  return {
+    wav: wrapPcmAsWav(pcm, layout.sampleRate, layout.channels, 16),
+    timeline: current,
+  };
+}
+
+/** Geriye dönük uyumluluk takma adları */
+export const realignMat5TimelineWords = realignPilotTimelineWords;
+export const sealMat5SentenceBreaths = sealPilotSentenceBreaths;
+
+function insertSentenceBreath(
+  pcm: Buffer,
+  sampleRate: number,
+  channels: number,
+  timeline: TimelineJSON,
+  cutMs: number,
+  anchorWord: string,
+): { pcm: Buffer; timeline: TimelineJSON } {
+  const bytesPerFrame = 2 * channels;
+  const insertFrames = Math.max(1, Math.round((sampleRate * SENTENCE_BREATH_MS) / 1000));
+  const deltaMs = Math.round((insertFrames / sampleRate) * 1000);
+  const cutFrame = Math.min(Math.floor(pcm.length / bytesPerFrame), Math.max(0, Math.round((cutMs / 1000) * sampleRate)));
+  const cutByte = cutFrame * bytesPerFrame;
+  const faded = Buffer.from(pcm);
+  const fadeFrames = Math.min(insertFrames, Math.round((sampleRate * 8) / 1000));
+  for (let frame = 0; frame < fadeFrames; frame += 1) {
+    const gain = frame / Math.max(1, fadeFrames);
+    for (let channel = 0; channel < channels; channel += 1) {
+      const tail = cutByte - (frame + 1) * bytesPerFrame + channel * 2;
+      const head = cutByte + frame * bytesPerFrame + channel * 2;
+      if (tail >= 0) {
+        faded.writeInt16LE(Math.round(faded.readInt16LE(tail) * gain), tail);
+      }
+      if (head + 1 < faded.length) {
+        faded.writeInt16LE(Math.round(faded.readInt16LE(head) * gain), head);
+      }
+    }
+  }
+  const joined = Buffer.concat([
+    faded.subarray(0, cutByte),
+    Buffer.alloc(insertFrames * bytesPerFrame),
+    faded.subarray(cutByte),
+  ]);
+  const cues = timeline.cues.map((cue) => ({
+    ...cue,
+    startMs: shiftClockPast(cue.startMs, cutMs, deltaMs),
+    endMs: shiftClockPast(cue.endMs, cutMs, deltaMs),
+    words: (cue.words ?? []).map((word) => {
+      const anchor = word.word === anchorWord && word.endMs === cutMs;
+      return {
+        ...word,
+        startMs: anchor ? word.startMs : shiftClockPast(word.startMs, cutMs, deltaMs),
+        endMs: anchor ? word.endMs : shiftClockPast(word.endMs, cutMs, deltaMs),
+      };
+    }),
+    keyframes: cue.keyframes.map((keyframe) => ({
+      ...keyframe,
+      atMs: shiftClockPast(keyframe.atMs, cutMs, deltaMs),
+      params: shiftParamsPast(keyframe.params, cutMs, deltaMs),
+    })),
+  }));
+  return {
+    pcm: joined,
+    timeline: timelineJsonSchema.parse({
+      ...timeline,
+      audio: { ...timeline.audio, durationMs: timeline.audio.durationMs + deltaMs },
+      chapters: timeline.chapters.map((chapter) => ({
+        ...chapter,
+        startMs: shiftClockPast(chapter.startMs, cutMs, deltaMs),
+        endMs: shiftClockPast(chapter.endMs, cutMs, deltaMs),
+      })),
+      cues,
+    }),
+  };
 }

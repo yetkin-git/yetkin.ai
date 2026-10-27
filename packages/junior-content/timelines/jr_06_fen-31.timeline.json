@@ -1,0 +1,2277 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_fen-31",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Soğurulma ve beyaz ışık",
+  "grade": 6,
+  "subject": "Fen Bilimleri",
+  "teacher": {
+    "name": "Deniz",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_fen-31.mp3",
+    "durationMs": 262373,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 73310
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 73310,
+      "endMs": 222400
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 222400,
+      "endMs": 262373
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4020,
+      "pauseAfterMs": 710,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 150,
+          "endMs": 1300
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1700,
+          "endMs": 2220
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2400,
+          "endMs": 3310
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Soğurulma ve beyaz ışık",
+            "subtitle": "Fen Bilimleri",
+            "ruleBadges": [],
+            "echoPrompt": "Siyah ve beyaz kâğıt deneyinin sonucunu kendi cümlenle söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Soğurulma, ışığın madde tarafından alınıp ısıya dönüşmesidir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Koyu yüzey daha çok soğurur, açık yüzey daha çok yansıtır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Beyaz ışık birçok rengin karışımıdır ve prizmada ayrılır."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4020,
+      "endMs": 7590,
+      "pauseAfterMs": 420,
+      "text": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "markedText": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4020,
+          "endMs": 4160
+        },
+        {
+          "word": "Fen",
+          "startMs": 4210,
+          "endMs": 4390
+        },
+        {
+          "word": "Bilimleri",
+          "startMs": 4580,
+          "endMs": 5430
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 5650,
+          "endMs": 6460
+        },
+        {
+          "word": "Deniz.",
+          "startMs": 6860,
+          "endMs": 7170
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 7590,
+      "endMs": 16970,
+      "pauseAfterMs": 500,
+      "text": "Yazın koyu renk tişört güneşte daha çabuk ısınır, açık renk tişört daha serin kalır.",
+      "markedText": "Yazın koyu renk tişört güneşte daha çabuk ısınır, açık renk tişört daha serin kalır.",
+      "words": [
+        {
+          "word": "Yazın",
+          "startMs": 7590,
+          "endMs": 8040
+        },
+        {
+          "word": "koyu",
+          "startMs": 8200,
+          "endMs": 8420
+        },
+        {
+          "word": "renk",
+          "startMs": 8670,
+          "endMs": 8770
+        },
+        {
+          "word": "tişört",
+          "startMs": 8770,
+          "endMs": 9430
+        },
+        {
+          "word": "güneşte",
+          "startMs": 9860,
+          "endMs": 10220
+        },
+        {
+          "word": "daha",
+          "startMs": 10410,
+          "endMs": 10800
+        },
+        {
+          "word": "çabuk",
+          "startMs": 11010,
+          "endMs": 11360
+        },
+        {
+          "word": "ısınır,",
+          "startMs": 11360,
+          "endMs": 12160
+        },
+        {
+          "word": "açık",
+          "startMs": 12990,
+          "endMs": 13350
+        },
+        {
+          "word": "renk",
+          "startMs": 13440,
+          "endMs": 13930
+        },
+        {
+          "word": "tişört",
+          "startMs": 14270,
+          "endMs": 14730
+        },
+        {
+          "word": "daha",
+          "startMs": 15130,
+          "endMs": 15350
+        },
+        {
+          "word": "serin",
+          "startMs": 15590,
+          "endMs": 15950
+        },
+        {
+          "word": "kalır.",
+          "startMs": 16060,
+          "endMs": 16470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 16970,
+      "endMs": 22050,
+      "pauseAfterMs": 1160,
+      "text": "Bu fark ışığın soğurulmasıyla ilgilidir.",
+      "markedText": "Bu fark ışığın soğurulmasıyla ilgilidir.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 16970,
+          "endMs": 17080
+        },
+        {
+          "word": "fark",
+          "startMs": 17080,
+          "endMs": 17340
+        },
+        {
+          "word": "ışığın",
+          "startMs": 17390,
+          "endMs": 17830
+        },
+        {
+          "word": "soğurulmasıyla",
+          "startMs": 18250,
+          "endMs": 19390
+        },
+        {
+          "word": "ilgilidir.",
+          "startMs": 19660,
+          "endMs": 20890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 22050,
+      "endMs": 28690,
+      "pauseAfterMs": 880,
+      "text": "Güneş ışığı beyaz görünür ama içinde birçok renk gizlidir.",
+      "markedText": "Güneş ışığı beyaz görünür ama içinde birçok renk gizlidir.",
+      "words": [
+        {
+          "word": "Güneş",
+          "startMs": 22050,
+          "endMs": 22410
+        },
+        {
+          "word": "ışığı",
+          "startMs": 22520,
+          "endMs": 23120
+        },
+        {
+          "word": "beyaz",
+          "startMs": 23310,
+          "endMs": 23540
+        },
+        {
+          "word": "görünür",
+          "startMs": 23640,
+          "endMs": 24240
+        },
+        {
+          "word": "ama",
+          "startMs": 24360,
+          "endMs": 24790
+        },
+        {
+          "word": "içinde",
+          "startMs": 25390,
+          "endMs": 25610
+        },
+        {
+          "word": "birçok",
+          "startMs": 25750,
+          "endMs": 26190
+        },
+        {
+          "word": "renk",
+          "startMs": 26300,
+          "endMs": 26620
+        },
+        {
+          "word": "gizlidir.",
+          "startMs": 26860,
+          "endMs": 27810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 28690,
+      "endMs": 37300,
+      "pauseAfterMs": 960,
+      "text": "Bugün bir deneyle soğurmayı ve beyaz ışığın ayrılmasını göreceğiz.",
+      "markedText": "Bugün bir deneyle soğurmayı ve beyaz ışığın ayrılmasını göreceğiz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 28690,
+          "endMs": 29140
+        },
+        {
+          "word": "bir",
+          "startMs": 29320,
+          "endMs": 29500
+        },
+        {
+          "word": "deneyle",
+          "startMs": 29660,
+          "endMs": 30350
+        },
+        {
+          "word": "soğurmayı",
+          "startMs": 30480,
+          "endMs": 31010
+        },
+        {
+          "word": "ve",
+          "startMs": 31180,
+          "endMs": 31490
+        },
+        {
+          "word": "beyaz",
+          "startMs": 32410,
+          "endMs": 32770
+        },
+        {
+          "word": "ışığın",
+          "startMs": 32850,
+          "endMs": 33690
+        },
+        {
+          "word": "ayrılmasını",
+          "startMs": 34050,
+          "endMs": 35120
+        },
+        {
+          "word": "göreceğiz.",
+          "startMs": 35220,
+          "endMs": 36340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 37300,
+      "endMs": 43350,
+      "pauseAfterMs": 1070,
+      "text": "İki kumaşı gözlemlemek ısı farkını somutlaştırır.",
+      "markedText": "İki kumaşı gözlemlemek ısı farkını somutlaştırır.",
+      "words": [
+        {
+          "word": "İki",
+          "startMs": 37300,
+          "endMs": 37370
+        },
+        {
+          "word": "kumaşı",
+          "startMs": 37470,
+          "endMs": 38060
+        },
+        {
+          "word": "gözlemlemek",
+          "startMs": 38200,
+          "endMs": 39360
+        },
+        {
+          "word": "ısı",
+          "startMs": 39790,
+          "endMs": 39900
+        },
+        {
+          "word": "farkını",
+          "startMs": 40020,
+          "endMs": 40480
+        },
+        {
+          "word": "somutlaştırır.",
+          "startMs": 41040,
+          "endMs": 42280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 43350,
+      "endMs": 49340,
+      "pauseAfterMs": 480,
+      "text": "Bunu yaz günü kıyafet seçerken kullanırsın.",
+      "markedText": "Bunu yaz günü kıyafet seçerken kullanırsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 43350,
+          "endMs": 43750
+        },
+        {
+          "word": "yaz",
+          "startMs": 43790,
+          "endMs": 44140
+        },
+        {
+          "word": "günü",
+          "startMs": 44260,
+          "endMs": 44810
+        },
+        {
+          "word": "kıyafet",
+          "startMs": 45520,
+          "endMs": 46040
+        },
+        {
+          "word": "seçerken",
+          "startMs": 46450,
+          "endMs": 47430
+        },
+        {
+          "word": "kullanırsın.",
+          "startMs": 47470,
+          "endMs": 48860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 49340,
+      "endMs": 55720,
+      "pauseAfterMs": 710,
+      "text": "Açık renk bir şapka başını daha serin tutabilir.",
+      "markedText": "Açık renk bir şapka başını daha serin tutabilir.",
+      "words": [
+        {
+          "word": "Açık",
+          "startMs": 49340,
+          "endMs": 49560
+        },
+        {
+          "word": "renk",
+          "startMs": 49560,
+          "endMs": 49710
+        },
+        {
+          "word": "bir",
+          "startMs": 49800,
+          "endMs": 50000
+        },
+        {
+          "word": "şapka",
+          "startMs": 50050,
+          "endMs": 50930
+        },
+        {
+          "word": "başını",
+          "startMs": 51900,
+          "endMs": 52270
+        },
+        {
+          "word": "daha",
+          "startMs": 52990,
+          "endMs": 53140
+        },
+        {
+          "word": "serin",
+          "startMs": 53440,
+          "endMs": 53920
+        },
+        {
+          "word": "tutabilir.",
+          "startMs": 54030,
+          "endMs": 55010
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 55720,
+      "endMs": 65640,
+      "pauseAfterMs": 1050,
+      "text": "Yağmur sonrası gökyüzündeki kuşak beyaz ışığın ayrıldığını hatırlatır.",
+      "markedText": "Yağmur sonrası gökyüzündeki kuşak beyaz ışığın ayrıldığını hatırlatır.",
+      "words": [
+        {
+          "word": "Yağmur",
+          "startMs": 55720,
+          "endMs": 56150
+        },
+        {
+          "word": "sonrası",
+          "startMs": 56280,
+          "endMs": 57070
+        },
+        {
+          "word": "gökyüzündeki",
+          "startMs": 57360,
+          "endMs": 59050
+        },
+        {
+          "word": "kuşak",
+          "startMs": 60020,
+          "endMs": 60510
+        },
+        {
+          "word": "beyaz",
+          "startMs": 60730,
+          "endMs": 61220
+        },
+        {
+          "word": "ışığın",
+          "startMs": 61710,
+          "endMs": 61820
+        },
+        {
+          "word": "ayrıldığını",
+          "startMs": 62220,
+          "endMs": 63190
+        },
+        {
+          "word": "hatırlatır.",
+          "startMs": 63370,
+          "endMs": 64590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 65640,
+      "endMs": 73310,
+      "pauseAfterMs": 1100,
+      "text": "Okulda el feneri ve prizma ile sınıf duvarında küçük bir renk deneyi kurabilirsin.",
+      "markedText": "Okulda el feneri ve prizma ile sınıf duvarında küçük bir renk deneyi kurabilirsin.",
+      "words": [
+        {
+          "word": "Okulda",
+          "startMs": 65640,
+          "endMs": 66010
+        },
+        {
+          "word": "el",
+          "startMs": 66340,
+          "endMs": 66580
+        },
+        {
+          "word": "feneri",
+          "startMs": 66740,
+          "endMs": 67140
+        },
+        {
+          "word": "ve",
+          "startMs": 67140,
+          "endMs": 67260
+        },
+        {
+          "word": "prizma",
+          "startMs": 67390,
+          "endMs": 67880
+        },
+        {
+          "word": "ile",
+          "startMs": 68820,
+          "endMs": 68930
+        },
+        {
+          "word": "sınıf",
+          "startMs": 69040,
+          "endMs": 69180
+        },
+        {
+          "word": "duvarında",
+          "startMs": 69180,
+          "endMs": 69740
+        },
+        {
+          "word": "küçük",
+          "startMs": 69740,
+          "endMs": 70000
+        },
+        {
+          "word": "bir",
+          "startMs": 70080,
+          "endMs": 70320
+        },
+        {
+          "word": "renk",
+          "startMs": 70380,
+          "endMs": 70590
+        },
+        {
+          "word": "deneyi",
+          "startMs": 70590,
+          "endMs": 71040
+        },
+        {
+          "word": "kurabilirsin.",
+          "startMs": 71040,
+          "endMs": 72210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 73310,
+      "endMs": 82610,
+      "pauseAfterMs": 1510,
+      "text": "Soğurulma, ışık enerjisinin madde tarafından alınıp çoğunlukla ısıya dönüşmesidir.",
+      "markedText": "Soğurulma, ışık enerjisinin madde tarafından alınıp çoğunlukla ısıya dönüşmesidir.",
+      "words": [
+        {
+          "word": "Soğurulma,",
+          "startMs": 73310,
+          "endMs": 73890
+        },
+        {
+          "word": "ışık",
+          "startMs": 74260,
+          "endMs": 74760
+        },
+        {
+          "word": "enerjisinin",
+          "startMs": 74920,
+          "endMs": 75500
+        },
+        {
+          "word": "madde",
+          "startMs": 75870,
+          "endMs": 76320
+        },
+        {
+          "word": "tarafından",
+          "startMs": 76520,
+          "endMs": 76890
+        },
+        {
+          "word": "alınıp",
+          "startMs": 77010,
+          "endMs": 77390
+        },
+        {
+          "word": "çoğunlukla",
+          "startMs": 77390,
+          "endMs": 78210
+        },
+        {
+          "word": "ısıya",
+          "startMs": 79240,
+          "endMs": 79720
+        },
+        {
+          "word": "dönüşmesidir.",
+          "startMs": 79800,
+          "endMs": 81100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 82610,
+      "endMs": 88450,
+      "pauseAfterMs": 1000,
+      "text": "Koyu ve mat yüzeyler ışığın daha çoğunu soğurur.",
+      "markedText": "Koyu ve mat yüzeyler ışığın daha çoğunu soğurur.",
+      "words": [
+        {
+          "word": "Koyu",
+          "startMs": 82610,
+          "endMs": 82820
+        },
+        {
+          "word": "ve",
+          "startMs": 82860,
+          "endMs": 83070
+        },
+        {
+          "word": "mat",
+          "startMs": 83160,
+          "endMs": 83470
+        },
+        {
+          "word": "yüzeyler",
+          "startMs": 83850,
+          "endMs": 84510
+        },
+        {
+          "word": "ışığın",
+          "startMs": 84630,
+          "endMs": 85280
+        },
+        {
+          "word": "daha",
+          "startMs": 85690,
+          "endMs": 85850
+        },
+        {
+          "word": "çoğunu",
+          "startMs": 86210,
+          "endMs": 86510
+        },
+        {
+          "word": "soğurur.",
+          "startMs": 86760,
+          "endMs": 87450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 88450,
+      "endMs": 93950,
+      "pauseAfterMs": 760,
+      "text": "Açık ve parlak yüzeyler ışığın daha çoğunu yansıtır.",
+      "markedText": "Açık ve parlak yüzeyler ışığın daha çoğunu yansıtır.",
+      "words": [
+        {
+          "word": "Açık",
+          "startMs": 88450,
+          "endMs": 88640
+        },
+        {
+          "word": "ve",
+          "startMs": 88770,
+          "endMs": 88940
+        },
+        {
+          "word": "parlak",
+          "startMs": 89120,
+          "endMs": 89540
+        },
+        {
+          "word": "yüzeyler",
+          "startMs": 89650,
+          "endMs": 90240
+        },
+        {
+          "word": "ışığın",
+          "startMs": 90570,
+          "endMs": 90770
+        },
+        {
+          "word": "daha",
+          "startMs": 91330,
+          "endMs": 91470
+        },
+        {
+          "word": "çoğunu",
+          "startMs": 91870,
+          "endMs": 92240
+        },
+        {
+          "word": "yansıtır.",
+          "startMs": 92340,
+          "endMs": 93190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 93950,
+      "endMs": 103140,
+      "pauseAfterMs": 640,
+      "text": "Beyaz ışık tek bir renk değildir; kırmızıdan mora birçok rengin birleşimidir.",
+      "markedText": "Beyaz ışık tek bir renk değildir; kırmızıdan mora birçok rengin birleşimidir.",
+      "words": [
+        {
+          "word": "Beyaz",
+          "startMs": 93950,
+          "endMs": 94220
+        },
+        {
+          "word": "ışık",
+          "startMs": 94340,
+          "endMs": 94520
+        },
+        {
+          "word": "tek",
+          "startMs": 94670,
+          "endMs": 94970
+        },
+        {
+          "word": "bir",
+          "startMs": 95290,
+          "endMs": 95470
+        },
+        {
+          "word": "renk",
+          "startMs": 95730,
+          "endMs": 96070
+        },
+        {
+          "word": "değildir;",
+          "startMs": 96410,
+          "endMs": 97160
+        },
+        {
+          "word": "kırmızıdan",
+          "startMs": 98070,
+          "endMs": 98850
+        },
+        {
+          "word": "mora",
+          "startMs": 99190,
+          "endMs": 99570
+        },
+        {
+          "word": "birçok",
+          "startMs": 100180,
+          "endMs": 100590
+        },
+        {
+          "word": "rengin",
+          "startMs": 100900,
+          "endMs": 101390
+        },
+        {
+          "word": "birleşimidir.",
+          "startMs": 101460,
+          "endMs": 102500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 103140,
+      "endMs": 107300,
+      "pauseAfterMs": 1000,
+      "text": "Prizma, beyaz ışığı bu renklere ayırır.",
+      "markedText": "Prizma, beyaz ışığı bu renklere ayırır.",
+      "words": [
+        {
+          "word": "Prizma,",
+          "startMs": 103140,
+          "endMs": 103560
+        },
+        {
+          "word": "beyaz",
+          "startMs": 103940,
+          "endMs": 104300
+        },
+        {
+          "word": "ışığı",
+          "startMs": 104300,
+          "endMs": 104610
+        },
+        {
+          "word": "bu",
+          "startMs": 104610,
+          "endMs": 104660
+        },
+        {
+          "word": "renklere",
+          "startMs": 104810,
+          "endMs": 105140
+        },
+        {
+          "word": "ayırır.",
+          "startMs": 105320,
+          "endMs": 106300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 107300,
+      "endMs": 112430,
+      "pauseAfterMs": 1120,
+      "text": "Gökkuşağı da beyaz ışığın damlalarda ayrılmasıyla görünür.",
+      "markedText": "Gökkuşağı da beyaz ışığın damlalarda ayrılmasıyla görünür.",
+      "words": [
+        {
+          "word": "Gökkuşağı",
+          "startMs": 107300,
+          "endMs": 107670
+        },
+        {
+          "word": "da",
+          "startMs": 107750,
+          "endMs": 107900
+        },
+        {
+          "word": "beyaz",
+          "startMs": 108010,
+          "endMs": 108350
+        },
+        {
+          "word": "ışığın",
+          "startMs": 108540,
+          "endMs": 108740
+        },
+        {
+          "word": "damlalarda",
+          "startMs": 108900,
+          "endMs": 109390
+        },
+        {
+          "word": "ayrılmasıyla",
+          "startMs": 109390,
+          "endMs": 110110
+        },
+        {
+          "word": "görünür.",
+          "startMs": 110320,
+          "endMs": 111310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 112430,
+      "endMs": 121620,
+      "pauseAfterMs": 710,
+      "text": "Pratik kural: Soğuran yüzey ısınır, prizma beyaz ışığı bileşenlerine ayırır.",
+      "markedText": "Pratik kural: Soğuran yüzey ısınır, prizma beyaz ışığı bileşenlerine ayırır.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 112430,
+          "endMs": 112630
+        },
+        {
+          "word": "kural:",
+          "startMs": 112710,
+          "endMs": 113220
+        },
+        {
+          "word": "Soğuran",
+          "startMs": 113560,
+          "endMs": 114260
+        },
+        {
+          "word": "yüzey",
+          "startMs": 114610,
+          "endMs": 114830
+        },
+        {
+          "word": "ısınır,",
+          "startMs": 114960,
+          "endMs": 115890
+        },
+        {
+          "word": "prizma",
+          "startMs": 116560,
+          "endMs": 116870
+        },
+        {
+          "word": "beyaz",
+          "startMs": 117020,
+          "endMs": 117760
+        },
+        {
+          "word": "ışığı",
+          "startMs": 118200,
+          "endMs": 118860
+        },
+        {
+          "word": "bileşenlerine",
+          "startMs": 119110,
+          "endMs": 120080
+        },
+        {
+          "word": "ayırır.",
+          "startMs": 120160,
+          "endMs": 120910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 121620,
+      "endMs": 128900,
+      "pauseAfterMs": 970,
+      "text": "Güneşli bir günde 1 siyah ve 1 beyaz kâğıdı 10 dakika dışarıda bırak.",
+      "markedText": "Güneşli bir günde 1 siyah ve 1 beyaz kâğıdı 10 dakika dışarıda bırak.",
+      "words": [
+        {
+          "word": "Güneşli",
+          "startMs": 121620,
+          "endMs": 121810
+        },
+        {
+          "word": "bir",
+          "startMs": 122170,
+          "endMs": 122310
+        },
+        {
+          "word": "günde",
+          "startMs": 122410,
+          "endMs": 122750
+        },
+        {
+          "word": "1",
+          "startMs": 122990,
+          "endMs": 123090
+        },
+        {
+          "word": "siyah",
+          "startMs": 123180,
+          "endMs": 123550
+        },
+        {
+          "word": "ve",
+          "startMs": 123550,
+          "endMs": 123690
+        },
+        {
+          "word": "1",
+          "startMs": 123800,
+          "endMs": 123900
+        },
+        {
+          "word": "beyaz",
+          "startMs": 123990,
+          "endMs": 124410
+        },
+        {
+          "word": "kâğıdı",
+          "startMs": 125130,
+          "endMs": 125470
+        },
+        {
+          "word": "10",
+          "startMs": 125610,
+          "endMs": 125800
+        },
+        {
+          "word": "dakika",
+          "startMs": 125980,
+          "endMs": 126200
+        },
+        {
+          "word": "dışarıda",
+          "startMs": 126310,
+          "endMs": 126790
+        },
+        {
+          "word": "bırak.",
+          "startMs": 126930,
+          "endMs": 127930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 128900,
+      "endMs": 136630,
+      "pauseAfterMs": 2120,
+      "text": "Siyah kâğıt elle yoklandığında daha sıcak gelir; daha çok ışık soğurmuştur.",
+      "markedText": "Siyah kâğıt elle yoklandığında daha sıcak gelir; daha çok ışık soğurmuştur.",
+      "words": [
+        {
+          "word": "Siyah",
+          "startMs": 128900,
+          "endMs": 129070
+        },
+        {
+          "word": "kâğıt",
+          "startMs": 129070,
+          "endMs": 129400
+        },
+        {
+          "word": "elle",
+          "startMs": 129460,
+          "endMs": 130310
+        },
+        {
+          "word": "yoklandığında",
+          "startMs": 130500,
+          "endMs": 131230
+        },
+        {
+          "word": "daha",
+          "startMs": 131320,
+          "endMs": 131510
+        },
+        {
+          "word": "sıcak",
+          "startMs": 131610,
+          "endMs": 131770
+        },
+        {
+          "word": "gelir;",
+          "startMs": 131830,
+          "endMs": 132350
+        },
+        {
+          "word": "daha",
+          "startMs": 132440,
+          "endMs": 132810
+        },
+        {
+          "word": "çok",
+          "startMs": 132980,
+          "endMs": 133140
+        },
+        {
+          "word": "ışık",
+          "startMs": 133140,
+          "endMs": 133330
+        },
+        {
+          "word": "soğurmuştur.",
+          "startMs": 133510,
+          "endMs": 134510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 136630,
+      "endMs": 144180,
+      "pauseAfterMs": 560,
+      "text": "Beyaz kâğıt daha çok ışık yansıttığı için daha serin kalır.",
+      "markedText": "Beyaz kâğıt daha çok ışık yansıttığı için daha serin kalır.",
+      "words": [
+        {
+          "word": "Beyaz",
+          "startMs": 136630,
+          "endMs": 137230
+        },
+        {
+          "word": "kâğıt",
+          "startMs": 137230,
+          "endMs": 137620
+        },
+        {
+          "word": "daha",
+          "startMs": 137960,
+          "endMs": 138400
+        },
+        {
+          "word": "çok",
+          "startMs": 138540,
+          "endMs": 138700
+        },
+        {
+          "word": "ışık",
+          "startMs": 138700,
+          "endMs": 139090
+        },
+        {
+          "word": "yansıttığı",
+          "startMs": 139180,
+          "endMs": 140200
+        },
+        {
+          "word": "için",
+          "startMs": 140580,
+          "endMs": 140700
+        },
+        {
+          "word": "daha",
+          "startMs": 140860,
+          "endMs": 141570
+        },
+        {
+          "word": "serin",
+          "startMs": 142740,
+          "endMs": 143070
+        },
+        {
+          "word": "kalır.",
+          "startMs": 143070,
+          "endMs": 143620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 144180,
+      "endMs": 153420,
+      "pauseAfterMs": 260,
+      "text": "Aynı ışığı üçgen prizmadan geçirirsen duvarda renk kuşağı belirir.",
+      "markedText": "Aynı ışığı üçgen prizmadan geçirirsen duvarda renk kuşağı belirir.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 144180,
+          "endMs": 144360
+        },
+        {
+          "word": "ışığı",
+          "startMs": 144890,
+          "endMs": 145340
+        },
+        {
+          "word": "üçgen",
+          "startMs": 145510,
+          "endMs": 146360
+        },
+        {
+          "word": "prizmadan",
+          "startMs": 146830,
+          "endMs": 147390
+        },
+        {
+          "word": "geçirirsen",
+          "startMs": 147590,
+          "endMs": 148520
+        },
+        {
+          "word": "duvarda",
+          "startMs": 148610,
+          "endMs": 150210
+        },
+        {
+          "word": "renk",
+          "startMs": 150850,
+          "endMs": 151100
+        },
+        {
+          "word": "kuşağı",
+          "startMs": 151650,
+          "endMs": 152210
+        },
+        {
+          "word": "belirir.",
+          "startMs": 152340,
+          "endMs": 153160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 153420,
+      "endMs": 160320,
+      "pauseAfterMs": 880,
+      "text": "Bu kuşak beyaz ışığın tek renk olmadığını gösterir.",
+      "markedText": "Bu kuşak beyaz ışığın tek renk olmadığını gösterir.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 153420,
+          "endMs": 153490
+        },
+        {
+          "word": "kuşak",
+          "startMs": 153740,
+          "endMs": 154020
+        },
+        {
+          "word": "beyaz",
+          "startMs": 154080,
+          "endMs": 154250
+        },
+        {
+          "word": "ışığın",
+          "startMs": 154330,
+          "endMs": 154990
+        },
+        {
+          "word": "tek",
+          "startMs": 155520,
+          "endMs": 155760
+        },
+        {
+          "word": "renk",
+          "startMs": 156220,
+          "endMs": 156530
+        },
+        {
+          "word": "olmadığını",
+          "startMs": 156890,
+          "endMs": 158140
+        },
+        {
+          "word": "gösterir.",
+          "startMs": 158330,
+          "endMs": 159440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 160320,
+      "endMs": 168480,
+      "pauseAfterMs": 510,
+      "text": "Deneyde değişen değişken yüzey rengi ya da prizmanın varlığıdır.",
+      "markedText": "Deneyde değişen değişken yüzey rengi ya da prizmanın varlığıdır.",
+      "words": [
+        {
+          "word": "Deneyde",
+          "startMs": 160320,
+          "endMs": 160850
+        },
+        {
+          "word": "değişen",
+          "startMs": 160940,
+          "endMs": 161830
+        },
+        {
+          "word": "değişken",
+          "startMs": 162050,
+          "endMs": 162810
+        },
+        {
+          "word": "yüzey",
+          "startMs": 163680,
+          "endMs": 164060
+        },
+        {
+          "word": "rengi",
+          "startMs": 164130,
+          "endMs": 164540
+        },
+        {
+          "word": "ya",
+          "startMs": 164770,
+          "endMs": 164990
+        },
+        {
+          "word": "da",
+          "startMs": 165240,
+          "endMs": 165460
+        },
+        {
+          "word": "prizmanın",
+          "startMs": 165460,
+          "endMs": 166220
+        },
+        {
+          "word": "varlığıdır.",
+          "startMs": 166570,
+          "endMs": 167970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 168480,
+      "endMs": 169330,
+      "pauseAfterMs": 200,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 168480,
+          "endMs": 168950
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 168950,
+          "endMs": 169130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 169330,
+      "endMs": 171470,
+      "pauseAfterMs": 740,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 169330,
+          "endMs": 169850
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 169950,
+          "endMs": 170730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 171470,
+      "endMs": 174850,
+      "pauseAfterMs": 1530,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 171470,
+          "endMs": 171510
+        },
+        {
+          "word": "noktayı",
+          "startMs": 171510,
+          "endMs": 171970
+        },
+        {
+          "word": "sen",
+          "startMs": 172040,
+          "endMs": 172250
+        },
+        {
+          "word": "de",
+          "startMs": 172530,
+          "endMs": 172690
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 172900,
+          "endMs": 173320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 174850,
+      "endMs": 184050,
+      "pauseAfterMs": 990,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 174850,
+          "endMs": 175200
+        },
+        {
+          "word": "sevgili",
+          "startMs": 175200,
+          "endMs": 175900
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 176030,
+          "endMs": 177730
+        },
+        {
+          "word": "işte",
+          "startMs": 178440,
+          "endMs": 178770
+        },
+        {
+          "word": "tam",
+          "startMs": 178850,
+          "endMs": 179040
+        },
+        {
+          "word": "bu",
+          "startMs": 179090,
+          "endMs": 179270
+        },
+        {
+          "word": "noktada",
+          "startMs": 179580,
+          "endMs": 179900
+        },
+        {
+          "word": "dikkat",
+          "startMs": 180390,
+          "endMs": 180650
+        },
+        {
+          "word": "etmen",
+          "startMs": 180890,
+          "endMs": 181420
+        },
+        {
+          "word": "gereken",
+          "startMs": 181420,
+          "endMs": 182130
+        },
+        {
+          "word": "kilit",
+          "startMs": 182240,
+          "endMs": 182390
+        },
+        {
+          "word": "nokta.",
+          "startMs": 182520,
+          "endMs": 183060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 184050,
+      "endMs": 195090,
+      "pauseAfterMs": 800,
+      "text": "Siyahın ışığı yok ettiğini sanmak tuzaktır; siyah ışığı soğurur ve enerji ısıya döner.",
+      "markedText": "Siyahın ışığı yok ettiğini sanmak tuzaktır; siyah ışığı soğurur ve enerji ısıya döner.",
+      "words": [
+        {
+          "word": "Siyahın",
+          "startMs": 184050,
+          "endMs": 184630
+        },
+        {
+          "word": "ışığı",
+          "startMs": 184710,
+          "endMs": 185290
+        },
+        {
+          "word": "yok",
+          "startMs": 185290,
+          "endMs": 185700
+        },
+        {
+          "word": "ettiğini",
+          "startMs": 186430,
+          "endMs": 187080
+        },
+        {
+          "word": "sanmak",
+          "startMs": 187170,
+          "endMs": 187620
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 187820,
+          "endMs": 188770
+        },
+        {
+          "word": "siyah",
+          "startMs": 189190,
+          "endMs": 189590
+        },
+        {
+          "word": "ışığı",
+          "startMs": 189930,
+          "endMs": 190410
+        },
+        {
+          "word": "soğurur",
+          "startMs": 190410,
+          "endMs": 191200
+        },
+        {
+          "word": "ve",
+          "startMs": 191860,
+          "endMs": 192200
+        },
+        {
+          "word": "enerji",
+          "startMs": 192360,
+          "endMs": 192730
+        },
+        {
+          "word": "ısıya",
+          "startMs": 192990,
+          "endMs": 193500
+        },
+        {
+          "word": "döner.",
+          "startMs": 193590,
+          "endMs": 194290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 195090,
+      "endMs": 201840,
+      "pauseAfterMs": 1560,
+      "text": "Beyaz ışığı boyasız boşluk sanmak da yanlıştır.",
+      "markedText": "Beyaz ışığı boyasız boşluk sanmak da yanlıştır.",
+      "words": [
+        {
+          "word": "Beyaz",
+          "startMs": 195090,
+          "endMs": 195300
+        },
+        {
+          "word": "ışığı",
+          "startMs": 195400,
+          "endMs": 195940
+        },
+        {
+          "word": "boyasız",
+          "startMs": 196070,
+          "endMs": 196780
+        },
+        {
+          "word": "boşluk",
+          "startMs": 196780,
+          "endMs": 197680
+        },
+        {
+          "word": "sanmak",
+          "startMs": 198140,
+          "endMs": 198750
+        },
+        {
+          "word": "da",
+          "startMs": 198920,
+          "endMs": 198990
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 199150,
+          "endMs": 200280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 201840,
+      "endMs": 212200,
+      "pauseAfterMs": 520,
+      "text": "Prizmanın renk ürettiğini, ışığın içindeki renkleri ayırdığını unutarak söylemek deneyi eksik bırakır.",
+      "markedText": "Prizmanın renk ürettiğini, ışığın içindeki renkleri ayırdığını unutarak söylemek deneyi eksik bırakır.",
+      "words": [
+        {
+          "word": "Prizmanın",
+          "startMs": 201840,
+          "endMs": 202590
+        },
+        {
+          "word": "renk",
+          "startMs": 202700,
+          "endMs": 203350
+        },
+        {
+          "word": "ürettiğini,",
+          "startMs": 203740,
+          "endMs": 205060
+        },
+        {
+          "word": "ışığın",
+          "startMs": 205960,
+          "endMs": 206310
+        },
+        {
+          "word": "içindeki",
+          "startMs": 206350,
+          "endMs": 207140
+        },
+        {
+          "word": "renkleri",
+          "startMs": 207320,
+          "endMs": 207930
+        },
+        {
+          "word": "ayırdığını",
+          "startMs": 208050,
+          "endMs": 208410
+        },
+        {
+          "word": "unutarak",
+          "startMs": 208500,
+          "endMs": 208990
+        },
+        {
+          "word": "söylemek",
+          "startMs": 209070,
+          "endMs": 209590
+        },
+        {
+          "word": "deneyi",
+          "startMs": 210160,
+          "endMs": 210710
+        },
+        {
+          "word": "eksik",
+          "startMs": 210870,
+          "endMs": 211190
+        },
+        {
+          "word": "bırakır.",
+          "startMs": 211350,
+          "endMs": 211680
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 212200,
+      "endMs": 222400,
+      "pauseAfterMs": 820,
+      "text": "Soğurulma ve beyaz ışık konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Soğurulma ve beyaz ışık konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Soğurulma",
+          "startMs": 212200,
+          "endMs": 213080
+        },
+        {
+          "word": "ve",
+          "startMs": 213080,
+          "endMs": 213320
+        },
+        {
+          "word": "beyaz",
+          "startMs": 213490,
+          "endMs": 213790
+        },
+        {
+          "word": "ışık",
+          "startMs": 213830,
+          "endMs": 214210
+        },
+        {
+          "word": "konusunda",
+          "startMs": 214530,
+          "endMs": 215420
+        },
+        {
+          "word": "kuralın",
+          "startMs": 216350,
+          "endMs": 216840
+        },
+        {
+          "word": "tersini",
+          "startMs": 216970,
+          "endMs": 217430
+        },
+        {
+          "word": "sanmak",
+          "startMs": 217470,
+          "endMs": 217820
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 218010,
+          "endMs": 218980
+        },
+        {
+          "word": "ters",
+          "startMs": 219500,
+          "endMs": 219970
+        },
+        {
+          "word": "cümle",
+          "startMs": 220250,
+          "endMs": 220740
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 220740,
+          "endMs": 221580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 222400,
+      "endMs": 226260,
+      "pauseAfterMs": 890,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 222400,
+          "endMs": 222960
+        },
+        {
+          "word": "Neler",
+          "startMs": 223060,
+          "endMs": 223570
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 223960,
+          "endMs": 225370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 226260,
+      "endMs": 226580,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 226260,
+          "endMs": 226580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 226580,
+      "endMs": 231470,
+      "pauseAfterMs": 410,
+      "text": "Soğurulma, ışığın madde tarafından alınıp ısıya dönüşmesidir.",
+      "markedText": "Soğurulma, ışığın madde tarafından alınıp ısıya dönüşmesidir.",
+      "words": [
+        {
+          "word": "Soğurulma,",
+          "startMs": 226580,
+          "endMs": 227590
+        },
+        {
+          "word": "ışığın",
+          "startMs": 228490,
+          "endMs": 228750
+        },
+        {
+          "word": "madde",
+          "startMs": 228750,
+          "endMs": 229000
+        },
+        {
+          "word": "tarafından",
+          "startMs": 229050,
+          "endMs": 229540
+        },
+        {
+          "word": "alınıp",
+          "startMs": 229840,
+          "endMs": 230130
+        },
+        {
+          "word": "ısıya",
+          "startMs": 230130,
+          "endMs": 230370
+        },
+        {
+          "word": "dönüşmesidir.",
+          "startMs": 230450,
+          "endMs": 231060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 231470,
+      "endMs": 231630,
+      "pauseAfterMs": 60,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 231470,
+          "endMs": 231570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 231630,
+      "endMs": 236640,
+      "pauseAfterMs": 810,
+      "text": "Koyu yüzey daha çok soğurur, açık yüzey daha çok yansıtır.",
+      "markedText": "Koyu yüzey daha çok soğurur, açık yüzey daha çok yansıtır.",
+      "words": [
+        {
+          "word": "Koyu",
+          "startMs": 231630,
+          "endMs": 231860
+        },
+        {
+          "word": "yüzey",
+          "startMs": 232010,
+          "endMs": 232400
+        },
+        {
+          "word": "daha",
+          "startMs": 232530,
+          "endMs": 232770
+        },
+        {
+          "word": "çok",
+          "startMs": 232850,
+          "endMs": 233030
+        },
+        {
+          "word": "soğurur,",
+          "startMs": 233170,
+          "endMs": 233430
+        },
+        {
+          "word": "açık",
+          "startMs": 234300,
+          "endMs": 234370
+        },
+        {
+          "word": "yüzey",
+          "startMs": 234440,
+          "endMs": 234810
+        },
+        {
+          "word": "daha",
+          "startMs": 234810,
+          "endMs": 235020
+        },
+        {
+          "word": "çok",
+          "startMs": 235020,
+          "endMs": 235180
+        },
+        {
+          "word": "yansıtır.",
+          "startMs": 235260,
+          "endMs": 235830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 236640,
+      "endMs": 236820,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 236640,
+          "endMs": 236820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 236820,
+      "endMs": 242310,
+      "pauseAfterMs": 1010,
+      "text": "Beyaz ışık birçok rengin karışımıdır ve prizmada ayrılır.",
+      "markedText": "Beyaz ışık birçok rengin karışımıdır ve prizmada ayrılır.",
+      "words": [
+        {
+          "word": "Beyaz",
+          "startMs": 236820,
+          "endMs": 237110
+        },
+        {
+          "word": "ışık",
+          "startMs": 237150,
+          "endMs": 237570
+        },
+        {
+          "word": "birçok",
+          "startMs": 237830,
+          "endMs": 238300
+        },
+        {
+          "word": "rengin",
+          "startMs": 238490,
+          "endMs": 239020
+        },
+        {
+          "word": "karışımıdır",
+          "startMs": 239020,
+          "endMs": 239870
+        },
+        {
+          "word": "ve",
+          "startMs": 239920,
+          "endMs": 240090
+        },
+        {
+          "word": "prizmada",
+          "startMs": 240260,
+          "endMs": 240690
+        },
+        {
+          "word": "ayrılır.",
+          "startMs": 240690,
+          "endMs": 241300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 242310,
+      "endMs": 248510,
+      "pauseAfterMs": 800,
+      "text": "Soğurma ısıyı, prizma beyaz ışığın renklerini gösterir.",
+      "markedText": "Soğurma ısıyı, prizma beyaz ışığın renklerini gösterir.",
+      "words": [
+        {
+          "word": "Soğurma",
+          "startMs": 242310,
+          "endMs": 243040
+        },
+        {
+          "word": "ısıyı,",
+          "startMs": 243040,
+          "endMs": 243770
+        },
+        {
+          "word": "prizma",
+          "startMs": 244550,
+          "endMs": 245040
+        },
+        {
+          "word": "beyaz",
+          "startMs": 245230,
+          "endMs": 245480
+        },
+        {
+          "word": "ışığın",
+          "startMs": 245830,
+          "endMs": 246190
+        },
+        {
+          "word": "renklerini",
+          "startMs": 246230,
+          "endMs": 246930
+        },
+        {
+          "word": "gösterir.",
+          "startMs": 247020,
+          "endMs": 247710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 248510,
+      "endMs": 255180,
+      "pauseAfterMs": 1160,
+      "text": "Siyah ve beyaz kâğıt deneyinin sonucunu kendi cümlenle söylersin.",
+      "markedText": "Siyah ve beyaz kâğıt deneyinin sonucunu kendi cümlenle söylersin.",
+      "words": [
+        {
+          "word": "Siyah",
+          "startMs": 248510,
+          "endMs": 248770
+        },
+        {
+          "word": "ve",
+          "startMs": 248850,
+          "endMs": 249120
+        },
+        {
+          "word": "beyaz",
+          "startMs": 249190,
+          "endMs": 249560
+        },
+        {
+          "word": "kâğıt",
+          "startMs": 249610,
+          "endMs": 250110
+        },
+        {
+          "word": "deneyinin",
+          "startMs": 250920,
+          "endMs": 251540
+        },
+        {
+          "word": "sonucunu",
+          "startMs": 251680,
+          "endMs": 252280
+        },
+        {
+          "word": "kendi",
+          "startMs": 252400,
+          "endMs": 252770
+        },
+        {
+          "word": "cümlenle",
+          "startMs": 252870,
+          "endMs": 253240
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 253240,
+          "endMs": 254020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 255180,
+      "endMs": 256400,
+      "pauseAfterMs": 410,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 255180,
+          "endMs": 255570
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 255640,
+          "endMs": 255990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 256400,
+      "endMs": 258120,
+      "pauseAfterMs": 710,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 256400,
+          "endMs": 256640
+        },
+        {
+          "word": "bir",
+          "startMs": 256700,
+          "endMs": 256820
+        },
+        {
+          "word": "iş",
+          "startMs": 256820,
+          "endMs": 257020
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 257020,
+          "endMs": 257410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 258120,
+      "endMs": 259500,
+      "pauseAfterMs": 620,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 258120,
+          "endMs": 258290
+        },
+        {
+          "word": "sıra",
+          "startMs": 258290,
+          "endMs": 258550
+        },
+        {
+          "word": "sende.",
+          "startMs": 258550,
+          "endMs": 258880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 259500,
+      "endMs": 262373,
+      "pauseAfterMs": 453,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 259500,
+          "endMs": 259990
+        },
+        {
+          "word": "bu",
+          "startMs": 259990,
+          "endMs": 260100
+        },
+        {
+          "word": "notları",
+          "startMs": 260220,
+          "endMs": 260480
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 260560,
+          "endMs": 260870
+        },
+        {
+          "word": "kendi",
+          "startMs": 260970,
+          "endMs": 261240
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 261240,
+          "endMs": 261680
+        },
+        {
+          "word": "anlat.",
+          "startMs": 261680,
+          "endMs": 261920
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

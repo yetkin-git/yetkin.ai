@@ -32,6 +32,11 @@ describe("Auth redirect sicili", () => {
     expect(isSafeAuthNextPath("//evil.example")).toBe(false);
     expect(isSafeAuthNextPath("https://evil.example")).toBe(false);
     expect(isSafeAuthNextPath("/admin")).toBe(false);
+    expect(isSafeAuthNextPath("/admin/catalog")).toBe(true);
+    expect(isSafeAuthNextPath("/admin/curriculum-revisions")).toBe(false);
+    expect(buildCitizenLoginHref("/admin/catalog")).toBe("/login?next=%2Fadmin%2Fcatalog");
+    expect(resolvePostLoginPath("/admin/catalog")).toBe("/admin/catalog");
+    expect(buildCitizenLoginHref("/admin")).toBe("/login");
     expect(isSafeAuthNextPath("/junior")).toBe(true);
     expect(isSafeAuthNextPath("/junior/ders/jr_06_mat-1")).toBe(true);
     expect(resolvePostLoginPath("/junior")).toBe("/junior");

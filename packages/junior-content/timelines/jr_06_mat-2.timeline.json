@@ -1,0 +1,2890 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_mat-2",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Asal sayılar ve asal çarpanlar",
+  "grade": 6,
+  "subject": "Matematik",
+  "teacher": {
+    "name": "Selim",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_mat-2.mp3",
+    "durationMs": 248470,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Asal sayının tanımı",
+      "startMs": 0,
+      "endMs": 62600
+    },
+    {
+      "id": "ch-2",
+      "title": "1, 2 ve 9",
+      "startMs": 62600,
+      "endMs": 115580
+    },
+    {
+      "id": "ch-3",
+      "title": "12'nin çarpan ağacı",
+      "startMs": 115580,
+      "endMs": 167110
+    },
+    {
+      "id": "ch-4",
+      "title": "Takım örneği",
+      "startMs": 167110,
+      "endMs": 201380
+    },
+    {
+      "id": "ch-5",
+      "title": "Kilit nokta ve özet",
+      "startMs": 201380,
+      "endMs": 248470
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 21100,
+      "pauseAfterMs": 650,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz! Ben Matematik öğretmenin Selim. Bugün seninle masadaki sayı kartlarına bakacağız. Bazı sayılar yalnız 1'e ve kendisine bölünür. Bazıları ise daha küçük asal taşlara ayrılır. Defterini aç, sınıf kartlarını sıraya koyalım. Asal sayının ne olduğunu birlikte kuralım.",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz! Ben Matematik öğretmenin Selim. Bugün seninle masadaki sayı kartlarına bakacağız. Bazı sayılar yalnız 1'e ve kendisine bölünür. Bazıları ise daha küçük asal taşlara ayrılır. Defterini aç, sınıf kartlarını sıraya koyalım. Asal sayının ne olduğunu birlikte kuralım.",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 230,
+          "endMs": 680
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 680,
+          "endMs": 1150
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 1370,
+          "endMs": 1740
+        },
+        {
+          "word": "hoş",
+          "startMs": 1740,
+          "endMs": 1910
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 1970,
+          "endMs": 2430
+        },
+        {
+          "word": "Ben",
+          "startMs": 2830,
+          "endMs": 3030
+        },
+        {
+          "word": "Matematik",
+          "startMs": 3030,
+          "endMs": 3420
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 3590,
+          "endMs": 4140
+        },
+        {
+          "word": "Selim.",
+          "startMs": 4140,
+          "endMs": 4400
+        },
+        {
+          "word": "Bugün",
+          "startMs": 5210,
+          "endMs": 5520
+        },
+        {
+          "word": "seninle",
+          "startMs": 5520,
+          "endMs": 5900
+        },
+        {
+          "word": "masadaki",
+          "startMs": 5900,
+          "endMs": 6240
+        },
+        {
+          "word": "sayı",
+          "startMs": 6240,
+          "endMs": 6440
+        },
+        {
+          "word": "kartlarına",
+          "startMs": 6510,
+          "endMs": 6970
+        },
+        {
+          "word": "bakacağız.",
+          "startMs": 7090,
+          "endMs": 7820
+        },
+        {
+          "word": "Bazı",
+          "startMs": 8570,
+          "endMs": 8840
+        },
+        {
+          "word": "sayılar",
+          "startMs": 8840,
+          "endMs": 9280
+        },
+        {
+          "word": "yalnız",
+          "startMs": 9370,
+          "endMs": 9770
+        },
+        {
+          "word": "1'e",
+          "startMs": 9890,
+          "endMs": 10130
+        },
+        {
+          "word": "ve",
+          "startMs": 10130,
+          "endMs": 10200
+        },
+        {
+          "word": "kendisine",
+          "startMs": 10320,
+          "endMs": 10820
+        },
+        {
+          "word": "bölünür.",
+          "startMs": 10860,
+          "endMs": 11400
+        },
+        {
+          "word": "Bazıları",
+          "startMs": 11850,
+          "endMs": 12260
+        },
+        {
+          "word": "ise",
+          "startMs": 12540,
+          "endMs": 12640
+        },
+        {
+          "word": "daha",
+          "startMs": 12870,
+          "endMs": 12930
+        },
+        {
+          "word": "küçük",
+          "startMs": 12930,
+          "endMs": 13100
+        },
+        {
+          "word": "asal",
+          "startMs": 13180,
+          "endMs": 13350
+        },
+        {
+          "word": "taşlara",
+          "startMs": 13480,
+          "endMs": 13920
+        },
+        {
+          "word": "ayrılır.",
+          "startMs": 14060,
+          "endMs": 14600
+        },
+        {
+          "word": "Defterini",
+          "startMs": 15310,
+          "endMs": 15760
+        },
+        {
+          "word": "aç,",
+          "startMs": 15760,
+          "endMs": 15970
+        },
+        {
+          "word": "sınıf",
+          "startMs": 16280,
+          "endMs": 16480
+        },
+        {
+          "word": "kartlarını",
+          "startMs": 16570,
+          "endMs": 17020
+        },
+        {
+          "word": "sıraya",
+          "startMs": 17020,
+          "endMs": 17300
+        },
+        {
+          "word": "koyalım.",
+          "startMs": 17380,
+          "endMs": 17620
+        },
+        {
+          "word": "Asal",
+          "startMs": 18230,
+          "endMs": 18510
+        },
+        {
+          "word": "sayının",
+          "startMs": 18510,
+          "endMs": 18990
+        },
+        {
+          "word": "ne",
+          "startMs": 18990,
+          "endMs": 19120
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 19120,
+          "endMs": 19520
+        },
+        {
+          "word": "birlikte",
+          "startMs": 19600,
+          "endMs": 19950
+        },
+        {
+          "word": "kuralım.",
+          "startMs": 20050,
+          "endMs": 20260
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "prime-factor-tree",
+            "title": "Asal Sayılar",
+            "subtitle": "Tanım, üç özel durum, 12'nin ağacı"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 21100,
+      "endMs": 44040,
+      "pauseAfterMs": 700,
+      "text": "Asal sayı, 1'den büyük olan ve yalnız 1'e ve kendisine kalansız bölünen doğal sayıdır. Örneğin 2, 3, 5 ve 7 birer asal sayıdır. Bu sayıların başka bir kalansız böleni yoktur. 2'yi 1'e ve 2'ye bölersin. 3'ü 1'e ve 3'e bölersin. 5 ve 7 de aynı kurala uyar.",
+      "markedText": "Asal sayı, 1'den büyük olan ve yalnız 1'e ve kendisine kalansız bölünen doğal sayıdır. {@showPrimes} Örneğin 2, 3, 5 ve 7 birer asal sayıdır. Bu sayıların başka bir kalansız böleni yoktur. 2'yi 1'e ve 2'ye bölersin. 3'ü 1'e ve 3'e bölersin. 5 ve 7 de aynı kurala uyar.",
+      "words": [
+        {
+          "word": "Asal",
+          "startMs": 21100,
+          "endMs": 21380
+        },
+        {
+          "word": "sayı,",
+          "startMs": 21380,
+          "endMs": 21700
+        },
+        {
+          "word": "1'den",
+          "startMs": 21940,
+          "endMs": 22260
+        },
+        {
+          "word": "büyük",
+          "startMs": 22260,
+          "endMs": 22570
+        },
+        {
+          "word": "olan",
+          "startMs": 22690,
+          "endMs": 22960
+        },
+        {
+          "word": "ve",
+          "startMs": 22960,
+          "endMs": 23000
+        },
+        {
+          "word": "yalnız",
+          "startMs": 23880,
+          "endMs": 24190
+        },
+        {
+          "word": "1'e",
+          "startMs": 24190,
+          "endMs": 24410
+        },
+        {
+          "word": "ve",
+          "startMs": 24410,
+          "endMs": 24470
+        },
+        {
+          "word": "kendisine",
+          "startMs": 24550,
+          "endMs": 24840
+        },
+        {
+          "word": "kalansız",
+          "startMs": 24980,
+          "endMs": 25700
+        },
+        {
+          "word": "bölünen",
+          "startMs": 25790,
+          "endMs": 26280
+        },
+        {
+          "word": "doğal",
+          "startMs": 26280,
+          "endMs": 26600
+        },
+        {
+          "word": "sayıdır.",
+          "startMs": 26600,
+          "endMs": 27290
+        },
+        {
+          "word": "Örneğin",
+          "startMs": 28010,
+          "endMs": 28390
+        },
+        {
+          "word": "2,",
+          "startMs": 28700,
+          "endMs": 28770
+        },
+        {
+          "word": "3,",
+          "startMs": 28950,
+          "endMs": 29050
+        },
+        {
+          "word": "5",
+          "startMs": 29340,
+          "endMs": 29410
+        },
+        {
+          "word": "ve",
+          "startMs": 29410,
+          "endMs": 29680
+        },
+        {
+          "word": "7",
+          "startMs": 29950,
+          "endMs": 30170
+        },
+        {
+          "word": "birer",
+          "startMs": 30410,
+          "endMs": 30780
+        },
+        {
+          "word": "asal",
+          "startMs": 30850,
+          "endMs": 30990
+        },
+        {
+          "word": "sayıdır.",
+          "startMs": 31170,
+          "endMs": 32090
+        },
+        {
+          "word": "Bu",
+          "startMs": 32850,
+          "endMs": 32950
+        },
+        {
+          "word": "sayıların",
+          "startMs": 32950,
+          "endMs": 33540
+        },
+        {
+          "word": "başka",
+          "startMs": 33540,
+          "endMs": 33720
+        },
+        {
+          "word": "bir",
+          "startMs": 33790,
+          "endMs": 33930
+        },
+        {
+          "word": "kalansız",
+          "startMs": 34030,
+          "endMs": 34440
+        },
+        {
+          "word": "böleni",
+          "startMs": 34440,
+          "endMs": 34730
+        },
+        {
+          "word": "yoktur.",
+          "startMs": 34730,
+          "endMs": 35200
+        },
+        {
+          "word": "2'yi",
+          "startMs": 36120,
+          "endMs": 36350
+        },
+        {
+          "word": "1'e",
+          "startMs": 36540,
+          "endMs": 36810
+        },
+        {
+          "word": "ve",
+          "startMs": 36810,
+          "endMs": 36850
+        },
+        {
+          "word": "2'ye",
+          "startMs": 36850,
+          "endMs": 37080
+        },
+        {
+          "word": "bölersin.",
+          "startMs": 37310,
+          "endMs": 37880
+        },
+        {
+          "word": "3'ü",
+          "startMs": 38640,
+          "endMs": 38950
+        },
+        {
+          "word": "1'e",
+          "startMs": 39140,
+          "endMs": 39410
+        },
+        {
+          "word": "ve",
+          "startMs": 39590,
+          "endMs": 39660
+        },
+        {
+          "word": "3'e",
+          "startMs": 39750,
+          "endMs": 39820
+        },
+        {
+          "word": "bölersin.",
+          "startMs": 39820,
+          "endMs": 40380
+        },
+        {
+          "word": "5",
+          "startMs": 41190,
+          "endMs": 41420
+        },
+        {
+          "word": "ve",
+          "startMs": 41490,
+          "endMs": 41620
+        },
+        {
+          "word": "7",
+          "startMs": 41620,
+          "endMs": 41840
+        },
+        {
+          "word": "de",
+          "startMs": 41880,
+          "endMs": 41920
+        },
+        {
+          "word": "aynı",
+          "startMs": 41920,
+          "endMs": 42060
+        },
+        {
+          "word": "kurala",
+          "startMs": 42160,
+          "endMs": 42420
+        },
+        {
+          "word": "uyar.",
+          "startMs": 42530,
+          "endMs": 42990
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 28010,
+          "op": "SHOW_CALLOUT",
+          "hook": "showPrimes",
+          "params": {
+            "kind": "concept",
+            "badge": "ASAL SAYI",
+            "text": "1'den büyük. Yalnız 1 ve kendisi. Örnek: 2, 3, 5, 7."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 44040,
+      "endMs": 62600,
+      "pauseAfterMs": 700,
+      "text": "4 sayısı asal değildir, çünkü 2'ye de bölünür. 4'ü ikişerli iki gruba ayırınca dışarıda bir şey kalmaz. O yüzden 4, asal listesine yazılmaz. Asal olmak, küçük olmak demek değildir. Kalansız başka bir böleni varsa sayı asal değildir.",
+      "markedText": "4 sayısı asal değildir, çünkü 2'ye de bölünür. {@showFour} 4'ü ikişerli iki gruba ayırınca dışarıda bir şey kalmaz. O yüzden 4, asal listesine yazılmaz. Asal olmak, küçük olmak demek değildir. Kalansız başka bir böleni varsa sayı asal değildir.",
+      "words": [
+        {
+          "word": "4",
+          "startMs": 44040,
+          "endMs": 44210
+        },
+        {
+          "word": "sayısı",
+          "startMs": 44290,
+          "endMs": 44720
+        },
+        {
+          "word": "asal",
+          "startMs": 44800,
+          "endMs": 45030
+        },
+        {
+          "word": "değildir,",
+          "startMs": 45030,
+          "endMs": 45610
+        },
+        {
+          "word": "çünkü",
+          "startMs": 46730,
+          "endMs": 46880
+        },
+        {
+          "word": "2'ye",
+          "startMs": 46960,
+          "endMs": 47040
+        },
+        {
+          "word": "de",
+          "startMs": 47260,
+          "endMs": 47320
+        },
+        {
+          "word": "bölünür.",
+          "startMs": 47320,
+          "endMs": 47910
+        },
+        {
+          "word": "4'ü",
+          "startMs": 48530,
+          "endMs": 48860
+        },
+        {
+          "word": "ikişerli",
+          "startMs": 49060,
+          "endMs": 49400
+        },
+        {
+          "word": "iki",
+          "startMs": 49400,
+          "endMs": 49440
+        },
+        {
+          "word": "gruba",
+          "startMs": 49640,
+          "endMs": 49940
+        },
+        {
+          "word": "ayırınca",
+          "startMs": 49940,
+          "endMs": 50600
+        },
+        {
+          "word": "dışarıda",
+          "startMs": 50640,
+          "endMs": 50940
+        },
+        {
+          "word": "bir",
+          "startMs": 50980,
+          "endMs": 51080
+        },
+        {
+          "word": "şey",
+          "startMs": 51080,
+          "endMs": 51320
+        },
+        {
+          "word": "kalmaz.",
+          "startMs": 51430,
+          "endMs": 51800
+        },
+        {
+          "word": "O",
+          "startMs": 52320,
+          "endMs": 52380
+        },
+        {
+          "word": "yüzden",
+          "startMs": 52380,
+          "endMs": 52750
+        },
+        {
+          "word": "4,",
+          "startMs": 52790,
+          "endMs": 52970
+        },
+        {
+          "word": "asal",
+          "startMs": 53280,
+          "endMs": 53630
+        },
+        {
+          "word": "listesine",
+          "startMs": 53630,
+          "endMs": 54090
+        },
+        {
+          "word": "yazılmaz.",
+          "startMs": 54090,
+          "endMs": 54690
+        },
+        {
+          "word": "Asal",
+          "startMs": 55530,
+          "endMs": 55820
+        },
+        {
+          "word": "olmak,",
+          "startMs": 55820,
+          "endMs": 56140
+        },
+        {
+          "word": "küçük",
+          "startMs": 56550,
+          "endMs": 56740
+        },
+        {
+          "word": "olmak",
+          "startMs": 56790,
+          "endMs": 57040
+        },
+        {
+          "word": "demek",
+          "startMs": 57140,
+          "endMs": 57330
+        },
+        {
+          "word": "değildir.",
+          "startMs": 57460,
+          "endMs": 57800
+        },
+        {
+          "word": "Kalansız",
+          "startMs": 58420,
+          "endMs": 58900
+        },
+        {
+          "word": "başka",
+          "startMs": 58970,
+          "endMs": 59130
+        },
+        {
+          "word": "bir",
+          "startMs": 59230,
+          "endMs": 59400
+        },
+        {
+          "word": "böleni",
+          "startMs": 59450,
+          "endMs": 59740
+        },
+        {
+          "word": "varsa",
+          "startMs": 59810,
+          "endMs": 60210
+        },
+        {
+          "word": "sayı",
+          "startMs": 60510,
+          "endMs": 60800
+        },
+        {
+          "word": "asal",
+          "startMs": 60870,
+          "endMs": 60940
+        },
+        {
+          "word": "değildir.",
+          "startMs": 61030,
+          "endMs": 61670
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 48530,
+          "op": "SHOW_CALLOUT",
+          "hook": "showFour",
+          "params": {
+            "kind": "trap",
+            "badge": "4 ASAL DEĞİL",
+            "text": "4 = 2 × 2. 2'ye de bölündüğü için asal değildir."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-2",
+      "startMs": 62600,
+      "endMs": 79840,
+      "pauseAfterMs": 750,
+      "text": "1 sayısı asla asal kabul edilmez. Asal sayıların 1'den büyük olma şartı vardır. 1'in tek böleni kendisidir. İki farklı pozitif böleni yoktur. Bu yüzden 1'i asal listesine asla yazma. Listenin ilk sayısı 2'dir.",
+      "markedText": "1 sayısı asla asal kabul edilmez. {@stampOne} Asal sayıların 1'den büyük olma şartı vardır. 1'in tek böleni kendisidir. İki farklı pozitif böleni yoktur. Bu yüzden 1'i asal listesine asla yazma. Listenin ilk sayısı 2'dir.",
+      "words": [
+        {
+          "word": "1",
+          "startMs": 62600,
+          "endMs": 62750
+        },
+        {
+          "word": "sayısı",
+          "startMs": 62800,
+          "endMs": 63280
+        },
+        {
+          "word": "asla",
+          "startMs": 64210,
+          "endMs": 64580
+        },
+        {
+          "word": "asal",
+          "startMs": 64640,
+          "endMs": 64930
+        },
+        {
+          "word": "kabul",
+          "startMs": 65000,
+          "endMs": 65220
+        },
+        {
+          "word": "edilmez.",
+          "startMs": 65220,
+          "endMs": 65680
+        },
+        {
+          "word": "Asal",
+          "startMs": 66300,
+          "endMs": 66580
+        },
+        {
+          "word": "sayıların",
+          "startMs": 66620,
+          "endMs": 67140
+        },
+        {
+          "word": "1'den",
+          "startMs": 67140,
+          "endMs": 67480
+        },
+        {
+          "word": "büyük",
+          "startMs": 67480,
+          "endMs": 67720
+        },
+        {
+          "word": "olma",
+          "startMs": 67780,
+          "endMs": 68030
+        },
+        {
+          "word": "şartı",
+          "startMs": 68030,
+          "endMs": 68200
+        },
+        {
+          "word": "vardır.",
+          "startMs": 68320,
+          "endMs": 68700
+        },
+        {
+          "word": "1'in",
+          "startMs": 69420,
+          "endMs": 69710
+        },
+        {
+          "word": "tek",
+          "startMs": 69840,
+          "endMs": 69950
+        },
+        {
+          "word": "böleni",
+          "startMs": 70080,
+          "endMs": 70390
+        },
+        {
+          "word": "kendisidir.",
+          "startMs": 70490,
+          "endMs": 70930
+        },
+        {
+          "word": "İki",
+          "startMs": 71580,
+          "endMs": 71780
+        },
+        {
+          "word": "farklı",
+          "startMs": 71870,
+          "endMs": 72150
+        },
+        {
+          "word": "pozitif",
+          "startMs": 72230,
+          "endMs": 72520
+        },
+        {
+          "word": "böleni",
+          "startMs": 72630,
+          "endMs": 72840
+        },
+        {
+          "word": "yoktur.",
+          "startMs": 72840,
+          "endMs": 73270
+        },
+        {
+          "word": "Bu",
+          "startMs": 73920,
+          "endMs": 74010
+        },
+        {
+          "word": "yüzden",
+          "startMs": 74010,
+          "endMs": 74390
+        },
+        {
+          "word": "1'i",
+          "startMs": 74450,
+          "endMs": 74680
+        },
+        {
+          "word": "asal",
+          "startMs": 74800,
+          "endMs": 75170
+        },
+        {
+          "word": "listesine",
+          "startMs": 75170,
+          "endMs": 75640
+        },
+        {
+          "word": "asla",
+          "startMs": 75760,
+          "endMs": 76150
+        },
+        {
+          "word": "yazma.",
+          "startMs": 76150,
+          "endMs": 76470
+        },
+        {
+          "word": "Listenin",
+          "startMs": 77390,
+          "endMs": 77840
+        },
+        {
+          "word": "ilk",
+          "startMs": 77950,
+          "endMs": 78040
+        },
+        {
+          "word": "sayısı",
+          "startMs": 78150,
+          "endMs": 78530
+        },
+        {
+          "word": "2'dir.",
+          "startMs": 78810,
+          "endMs": 79040
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 66300,
+          "op": "SHOW_CALLOUT",
+          "hook": "stampOne",
+          "params": {
+            "kind": "trap",
+            "badge": "1 ASAL DEĞİL",
+            "text": "1'in tek böleni kendisidir. Asal sayı 1'den büyüktür."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-2",
+      "startMs": 79840,
+      "endMs": 98570,
+      "pauseAfterMs": 700,
+      "text": "2, asal sayılar içindeki tek çift sayıdır. Çift olan diğer sayılar 2'ye de bölünür. 4, 6, 8 ve 10 çift olduğu için asal değildir. 2'nin kendisi ise yalnız 1'e ve 2'ye bölünür. Onu asal listesinden sakın çıkarma.",
+      "markedText": "2, asal sayılar içindeki tek çift sayıdır. {@stampTwo} Çift olan diğer sayılar 2'ye de bölünür. 4, 6, 8 ve 10 çift olduğu için asal değildir. 2'nin kendisi ise yalnız 1'e ve 2'ye bölünür. Onu asal listesinden sakın çıkarma.",
+      "words": [
+        {
+          "word": "2,",
+          "startMs": 79840,
+          "endMs": 79950
+        },
+        {
+          "word": "asal",
+          "startMs": 80180,
+          "endMs": 80470
+        },
+        {
+          "word": "sayılar",
+          "startMs": 80470,
+          "endMs": 80880
+        },
+        {
+          "word": "içindeki",
+          "startMs": 80930,
+          "endMs": 81150
+        },
+        {
+          "word": "tek",
+          "startMs": 82190,
+          "endMs": 82290
+        },
+        {
+          "word": "çift",
+          "startMs": 82430,
+          "endMs": 82550
+        },
+        {
+          "word": "sayıdır.",
+          "startMs": 82660,
+          "endMs": 83020
+        },
+        {
+          "word": "Çift",
+          "startMs": 83660,
+          "endMs": 83800
+        },
+        {
+          "word": "olan",
+          "startMs": 83890,
+          "endMs": 84240
+        },
+        {
+          "word": "diğer",
+          "startMs": 84240,
+          "endMs": 84510
+        },
+        {
+          "word": "sayılar",
+          "startMs": 84550,
+          "endMs": 84920
+        },
+        {
+          "word": "2'ye",
+          "startMs": 85150,
+          "endMs": 85210
+        },
+        {
+          "word": "de",
+          "startMs": 85320,
+          "endMs": 85380
+        },
+        {
+          "word": "bölünür.",
+          "startMs": 85380,
+          "endMs": 86000
+        },
+        {
+          "word": "4,",
+          "startMs": 86690,
+          "endMs": 86860
+        },
+        {
+          "word": "6,",
+          "startMs": 87370,
+          "endMs": 87750
+        },
+        {
+          "word": "8",
+          "startMs": 88130,
+          "endMs": 88260
+        },
+        {
+          "word": "ve",
+          "startMs": 88360,
+          "endMs": 88450
+        },
+        {
+          "word": "10",
+          "startMs": 88780,
+          "endMs": 88890
+        },
+        {
+          "word": "çift",
+          "startMs": 88990,
+          "endMs": 89210
+        },
+        {
+          "word": "olduğu",
+          "startMs": 89480,
+          "endMs": 89830
+        },
+        {
+          "word": "için",
+          "startMs": 89890,
+          "endMs": 90050
+        },
+        {
+          "word": "asal",
+          "startMs": 90120,
+          "endMs": 90280
+        },
+        {
+          "word": "değildir.",
+          "startMs": 90340,
+          "endMs": 91120
+        },
+        {
+          "word": "2'nin",
+          "startMs": 92150,
+          "endMs": 92350
+        },
+        {
+          "word": "kendisi",
+          "startMs": 92430,
+          "endMs": 92780
+        },
+        {
+          "word": "ise",
+          "startMs": 92780,
+          "endMs": 93120
+        },
+        {
+          "word": "yalnız",
+          "startMs": 93260,
+          "endMs": 93630
+        },
+        {
+          "word": "1'e",
+          "startMs": 93760,
+          "endMs": 94020
+        },
+        {
+          "word": "ve",
+          "startMs": 94020,
+          "endMs": 94060
+        },
+        {
+          "word": "2'ye",
+          "startMs": 94060,
+          "endMs": 94270
+        },
+        {
+          "word": "bölünür.",
+          "startMs": 94490,
+          "endMs": 95000
+        },
+        {
+          "word": "Onu",
+          "startMs": 95660,
+          "endMs": 95840
+        },
+        {
+          "word": "asal",
+          "startMs": 95910,
+          "endMs": 96270
+        },
+        {
+          "word": "listesinden",
+          "startMs": 96270,
+          "endMs": 96860
+        },
+        {
+          "word": "sakın",
+          "startMs": 96920,
+          "endMs": 97280
+        },
+        {
+          "word": "çıkarma.",
+          "startMs": 97280,
+          "endMs": 97710
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 83660,
+          "op": "SHOW_CALLOUT",
+          "hook": "stampTwo",
+          "params": {
+            "kind": "gold",
+            "badge": "TEK ÇİFT ASAL",
+            "text": "2, çift olup da asal kalan tek sayıdır."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-2",
+      "startMs": 98570,
+      "endMs": 115580,
+      "pauseAfterMs": 800,
+      "text": "Bir de her tek sayıyı asal sanma. 9 tek bir sayıdır ama 3 çarpı 3 olduğu için asal değildir. 15 de tektir ama 3 çarpı 5 diye ayrılır. Tek olmak, asal olmak demek değildir. 9 tuzağını defterinin kenarına yaz.",
+      "markedText": "Bir de her tek sayıyı asal sanma. {@trapNine} 9 tek bir sayıdır ama 3 çarpı 3 olduğu için asal değildir. 15 de tektir ama 3 çarpı 5 diye ayrılır. Tek olmak, asal olmak demek değildir. 9 tuzağını defterinin kenarına yaz.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 98570,
+          "endMs": 98650
+        },
+        {
+          "word": "de",
+          "startMs": 98690,
+          "endMs": 98800
+        },
+        {
+          "word": "her",
+          "startMs": 99890,
+          "endMs": 100040
+        },
+        {
+          "word": "tek",
+          "startMs": 100140,
+          "endMs": 100250
+        },
+        {
+          "word": "sayıyı",
+          "startMs": 100340,
+          "endMs": 100710
+        },
+        {
+          "word": "asal",
+          "startMs": 100710,
+          "endMs": 100990
+        },
+        {
+          "word": "sanma.",
+          "startMs": 100990,
+          "endMs": 101370
+        },
+        {
+          "word": "9",
+          "startMs": 102030,
+          "endMs": 102380
+        },
+        {
+          "word": "tek",
+          "startMs": 102570,
+          "endMs": 102660
+        },
+        {
+          "word": "bir",
+          "startMs": 102740,
+          "endMs": 102830
+        },
+        {
+          "word": "sayıdır",
+          "startMs": 102830,
+          "endMs": 103200
+        },
+        {
+          "word": "ama",
+          "startMs": 103450,
+          "endMs": 103620
+        },
+        {
+          "word": "3",
+          "startMs": 103760,
+          "endMs": 103840
+        },
+        {
+          "word": "çarpı",
+          "startMs": 103960,
+          "endMs": 104150
+        },
+        {
+          "word": "3",
+          "startMs": 104260,
+          "endMs": 104300
+        },
+        {
+          "word": "olduğu",
+          "startMs": 104300,
+          "endMs": 104640
+        },
+        {
+          "word": "için",
+          "startMs": 104940,
+          "endMs": 105060
+        },
+        {
+          "word": "asal",
+          "startMs": 105120,
+          "endMs": 105350
+        },
+        {
+          "word": "değildir.",
+          "startMs": 105350,
+          "endMs": 105840
+        },
+        {
+          "word": "15",
+          "startMs": 106600,
+          "endMs": 106950
+        },
+        {
+          "word": "de",
+          "startMs": 107010,
+          "endMs": 107050
+        },
+        {
+          "word": "tektir",
+          "startMs": 107370,
+          "endMs": 107470
+        },
+        {
+          "word": "ama",
+          "startMs": 107700,
+          "endMs": 107850
+        },
+        {
+          "word": "3",
+          "startMs": 107940,
+          "endMs": 108020
+        },
+        {
+          "word": "çarpı",
+          "startMs": 108130,
+          "endMs": 108440
+        },
+        {
+          "word": "5",
+          "startMs": 108480,
+          "endMs": 108650
+        },
+        {
+          "word": "diye",
+          "startMs": 108710,
+          "endMs": 108800
+        },
+        {
+          "word": "ayrılır.",
+          "startMs": 108800,
+          "endMs": 109250
+        },
+        {
+          "word": "Tek",
+          "startMs": 109990,
+          "endMs": 110080
+        },
+        {
+          "word": "olmak,",
+          "startMs": 110170,
+          "endMs": 110500
+        },
+        {
+          "word": "asal",
+          "startMs": 110770,
+          "endMs": 111050
+        },
+        {
+          "word": "olmak",
+          "startMs": 111050,
+          "endMs": 111320
+        },
+        {
+          "word": "demek",
+          "startMs": 111410,
+          "endMs": 111610
+        },
+        {
+          "word": "değildir.",
+          "startMs": 111760,
+          "endMs": 111980
+        },
+        {
+          "word": "9",
+          "startMs": 112870,
+          "endMs": 113120
+        },
+        {
+          "word": "tuzağını",
+          "startMs": 113240,
+          "endMs": 113680
+        },
+        {
+          "word": "defterinin",
+          "startMs": 113740,
+          "endMs": 114190
+        },
+        {
+          "word": "kenarına",
+          "startMs": 114250,
+          "endMs": 114720
+        },
+        {
+          "word": "yaz.",
+          "startMs": 114720,
+          "endMs": 114870
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 102030,
+          "op": "SHOW_CALLOUT",
+          "hook": "trapNine",
+          "params": {
+            "kind": "trap",
+            "badge": "9 TUZAĞI",
+            "text": "9 = 3 × 3. Tek sayıdır, asal değildir."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-3",
+      "startMs": 115580,
+      "endMs": 146050,
+      "pauseAfterMs": 850,
+      "text": "12 sayısını asal çarpanlarına ayıralım. 12, 2 çarpı 6'dır. 6 ise 2 çarpı 3'tür. 3 zaten asaldır. O hâlde 12 sayısı, 2 çarpı 2 çarpı 3 şeklinde yazılır. Bunu 2 üssü 2 çarpı 3 olarak da kısaltabilirsin. Şimdi 7'ye bakalım: 7 sayısı 2'ye, 3'e veya 5'e bölünmez. Çarpanları sadece 1 ve 7'dir; yani 7 asaldır.",
+      "markedText": "12 sayısını asal çarpanlarına ayıralım. 12, 2 çarpı 6'dır. 6 ise 2 çarpı 3'tür. 3 zaten asaldır. O hâlde 12 sayısı, {@showTree} 2 çarpı 2 çarpı 3 şeklinde yazılır. Bunu 2 üssü 2 çarpı 3 olarak da kısaltabilirsin. Şimdi 7'ye bakalım: 7 sayısı 2'ye, 3'e veya 5'e bölünmez. Çarpanları sadece {@stampSeven} 1 ve 7'dir; yani 7 asaldır.",
+      "words": [
+        {
+          "word": "12",
+          "startMs": 115580,
+          "endMs": 115880
+        },
+        {
+          "word": "sayısını",
+          "startMs": 115880,
+          "endMs": 116350
+        },
+        {
+          "word": "asal",
+          "startMs": 117340,
+          "endMs": 117640
+        },
+        {
+          "word": "çarpanlarına",
+          "startMs": 117640,
+          "endMs": 118080
+        },
+        {
+          "word": "ayıralım.",
+          "startMs": 118080,
+          "endMs": 118620
+        },
+        {
+          "word": "12,",
+          "startMs": 119350,
+          "endMs": 119810
+        },
+        {
+          "word": "2",
+          "startMs": 120150,
+          "endMs": 120200
+        },
+        {
+          "word": "çarpı",
+          "startMs": 120250,
+          "endMs": 120450
+        },
+        {
+          "word": "6'dır.",
+          "startMs": 120550,
+          "endMs": 121080
+        },
+        {
+          "word": "6",
+          "startMs": 121820,
+          "endMs": 121990
+        },
+        {
+          "word": "ise",
+          "startMs": 122100,
+          "endMs": 122320
+        },
+        {
+          "word": "2",
+          "startMs": 122320,
+          "endMs": 122460
+        },
+        {
+          "word": "çarpı",
+          "startMs": 122740,
+          "endMs": 122920
+        },
+        {
+          "word": "3'tür.",
+          "startMs": 123020,
+          "endMs": 123530
+        },
+        {
+          "word": "3",
+          "startMs": 124420,
+          "endMs": 124490
+        },
+        {
+          "word": "zaten",
+          "startMs": 124600,
+          "endMs": 124800
+        },
+        {
+          "word": "asaldır.",
+          "startMs": 124850,
+          "endMs": 125400
+        },
+        {
+          "word": "O",
+          "startMs": 126000,
+          "endMs": 126100
+        },
+        {
+          "word": "hâlde",
+          "startMs": 126170,
+          "endMs": 126360
+        },
+        {
+          "word": "12",
+          "startMs": 126470,
+          "endMs": 126880
+        },
+        {
+          "word": "sayısı,",
+          "startMs": 127040,
+          "endMs": 127600
+        },
+        {
+          "word": "2",
+          "startMs": 127740,
+          "endMs": 127950
+        },
+        {
+          "word": "çarpı",
+          "startMs": 128030,
+          "endMs": 128280
+        },
+        {
+          "word": "2",
+          "startMs": 128400,
+          "endMs": 128450
+        },
+        {
+          "word": "çarpı",
+          "startMs": 128660,
+          "endMs": 128880
+        },
+        {
+          "word": "3",
+          "startMs": 128880,
+          "endMs": 128980
+        },
+        {
+          "word": "şeklinde",
+          "startMs": 129090,
+          "endMs": 129510
+        },
+        {
+          "word": "yazılır.",
+          "startMs": 129640,
+          "endMs": 130250
+        },
+        {
+          "word": "Bunu",
+          "startMs": 130840,
+          "endMs": 131080
+        },
+        {
+          "word": "2",
+          "startMs": 131240,
+          "endMs": 131290
+        },
+        {
+          "word": "üssü",
+          "startMs": 131520,
+          "endMs": 131810
+        },
+        {
+          "word": "2",
+          "startMs": 132100,
+          "endMs": 132160
+        },
+        {
+          "word": "çarpı",
+          "startMs": 132220,
+          "endMs": 132460
+        },
+        {
+          "word": "3",
+          "startMs": 132570,
+          "endMs": 132620
+        },
+        {
+          "word": "olarak",
+          "startMs": 132680,
+          "endMs": 133080
+        },
+        {
+          "word": "da",
+          "startMs": 133180,
+          "endMs": 133250
+        },
+        {
+          "word": "kısaltabilirsin.",
+          "startMs": 133320,
+          "endMs": 134090
+        },
+        {
+          "word": "Şimdi",
+          "startMs": 134820,
+          "endMs": 135010
+        },
+        {
+          "word": "7'ye",
+          "startMs": 135010,
+          "endMs": 135180
+        },
+        {
+          "word": "bakalım:",
+          "startMs": 135230,
+          "endMs": 135630
+        },
+        {
+          "word": "7",
+          "startMs": 136370,
+          "endMs": 136610
+        },
+        {
+          "word": "sayısı",
+          "startMs": 136610,
+          "endMs": 137170
+        },
+        {
+          "word": "2'ye,",
+          "startMs": 137820,
+          "endMs": 138140
+        },
+        {
+          "word": "3'e",
+          "startMs": 138520,
+          "endMs": 138600
+        },
+        {
+          "word": "veya",
+          "startMs": 138660,
+          "endMs": 138900
+        },
+        {
+          "word": "5'e",
+          "startMs": 139080,
+          "endMs": 139350
+        },
+        {
+          "word": "bölünmez.",
+          "startMs": 139410,
+          "endMs": 140190
+        },
+        {
+          "word": "Çarpanları",
+          "startMs": 141640,
+          "endMs": 142210
+        },
+        {
+          "word": "sadece",
+          "startMs": 142210,
+          "endMs": 142550
+        },
+        {
+          "word": "1",
+          "startMs": 142550,
+          "endMs": 142660
+        },
+        {
+          "word": "ve",
+          "startMs": 142660,
+          "endMs": 142770
+        },
+        {
+          "word": "7'dir;",
+          "startMs": 142840,
+          "endMs": 143580
+        },
+        {
+          "word": "yani",
+          "startMs": 143780,
+          "endMs": 144120
+        },
+        {
+          "word": "7",
+          "startMs": 144120,
+          "endMs": 144430
+        },
+        {
+          "word": "asaldır.",
+          "startMs": 144550,
+          "endMs": 145040
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 127740,
+          "op": "SHOW_PRIME_FACTOR_TREE",
+          "hook": "showTree",
+          "params": {
+            "composite": {
+              "number": 12,
+              "factors": [
+                2,
+                2,
+                3
+              ],
+              "product": "2 × 2 × 3",
+              "branches": [
+                {
+                  "value": 2,
+                  "atMs": 127740
+                },
+                {
+                  "value": 2,
+                  "atMs": 128400
+                },
+                {
+                  "value": 3,
+                  "atMs": 128880
+                }
+              ]
+            }
+          }
+        },
+        {
+          "atMs": 142550,
+          "op": "SHOW_PRIME_FACTOR_TREE",
+          "hook": "stampSeven",
+          "params": {
+            "prime": {
+              "number": 7,
+              "factors": [
+                1,
+                7
+              ],
+              "stamp": "asal",
+              "nodes": [
+                {
+                  "value": 1,
+                  "atMs": 142550
+                },
+                {
+                  "value": 7,
+                  "atMs": 144120
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-3",
+      "startMs": 146050,
+      "endMs": 167110,
+      "pauseAfterMs": 750,
+      "text": "Ağacın dalı asal kalana kadar bölünür. 6 dalda kalamaz, çünkü 6 da iki çarpı üç diye ayrılır. 4 de dalda kalamaz, çünkü 4 iki çarpı ikidir. Ağaç, 12'yi daha küçük asal taşlara indirir. Kısaltma olarak 2 üssü 2 çarpı 3 dersin. Anlamı aynı çarpımdır.",
+      "markedText": "Ağacın dalı asal kalana kadar bölünür. 6 dalda kalamaz, çünkü 6 da iki çarpı üç diye ayrılır. 4 de dalda kalamaz, çünkü 4 iki çarpı ikidir. Ağaç, 12'yi daha küçük asal taşlara indirir. Kısaltma olarak 2 üssü 2 çarpı 3 dersin. Anlamı aynı çarpımdır.",
+      "words": [
+        {
+          "word": "Ağacın",
+          "startMs": 146050,
+          "endMs": 146530
+        },
+        {
+          "word": "dalı",
+          "startMs": 146530,
+          "endMs": 146830
+        },
+        {
+          "word": "asal",
+          "startMs": 147050,
+          "endMs": 147400
+        },
+        {
+          "word": "kalana",
+          "startMs": 147490,
+          "endMs": 147770
+        },
+        {
+          "word": "kadar",
+          "startMs": 147840,
+          "endMs": 148030
+        },
+        {
+          "word": "bölünür.",
+          "startMs": 148030,
+          "endMs": 148450
+        },
+        {
+          "word": "6",
+          "startMs": 149140,
+          "endMs": 149290
+        },
+        {
+          "word": "dalda",
+          "startMs": 149460,
+          "endMs": 149970
+        },
+        {
+          "word": "kalamaz,",
+          "startMs": 150260,
+          "endMs": 150490
+        },
+        {
+          "word": "çünkü",
+          "startMs": 150850,
+          "endMs": 151040
+        },
+        {
+          "word": "6",
+          "startMs": 151130,
+          "endMs": 151370
+        },
+        {
+          "word": "da",
+          "startMs": 151620,
+          "endMs": 151660
+        },
+        {
+          "word": "iki",
+          "startMs": 151760,
+          "endMs": 151910
+        },
+        {
+          "word": "çarpı",
+          "startMs": 152000,
+          "endMs": 152160
+        },
+        {
+          "word": "üç",
+          "startMs": 152230,
+          "endMs": 152280
+        },
+        {
+          "word": "diye",
+          "startMs": 152350,
+          "endMs": 152520
+        },
+        {
+          "word": "ayrılır.",
+          "startMs": 152520,
+          "endMs": 152910
+        },
+        {
+          "word": "4",
+          "startMs": 153720,
+          "endMs": 153860
+        },
+        {
+          "word": "de",
+          "startMs": 153990,
+          "endMs": 154070
+        },
+        {
+          "word": "dalda",
+          "startMs": 154110,
+          "endMs": 154370
+        },
+        {
+          "word": "kalamaz,",
+          "startMs": 154460,
+          "endMs": 154790
+        },
+        {
+          "word": "çünkü",
+          "startMs": 154870,
+          "endMs": 155000
+        },
+        {
+          "word": "4",
+          "startMs": 155050,
+          "endMs": 155140
+        },
+        {
+          "word": "iki",
+          "startMs": 155460,
+          "endMs": 155610
+        },
+        {
+          "word": "çarpı",
+          "startMs": 155900,
+          "endMs": 156180
+        },
+        {
+          "word": "ikidir.",
+          "startMs": 156280,
+          "endMs": 156670
+        },
+        {
+          "word": "Ağaç,",
+          "startMs": 157230,
+          "endMs": 157500
+        },
+        {
+          "word": "12'yi",
+          "startMs": 157990,
+          "endMs": 158190
+        },
+        {
+          "word": "daha",
+          "startMs": 158320,
+          "endMs": 158450
+        },
+        {
+          "word": "küçük",
+          "startMs": 158560,
+          "endMs": 158810
+        },
+        {
+          "word": "asal",
+          "startMs": 158920,
+          "endMs": 159100
+        },
+        {
+          "word": "taşlara",
+          "startMs": 159140,
+          "endMs": 159590
+        },
+        {
+          "word": "indirir.",
+          "startMs": 159720,
+          "endMs": 160230
+        },
+        {
+          "word": "Kısaltma",
+          "startMs": 160840,
+          "endMs": 161290
+        },
+        {
+          "word": "olarak",
+          "startMs": 161290,
+          "endMs": 161630
+        },
+        {
+          "word": "2",
+          "startMs": 162660,
+          "endMs": 162720
+        },
+        {
+          "word": "üssü",
+          "startMs": 162850,
+          "endMs": 162990
+        },
+        {
+          "word": "2",
+          "startMs": 163170,
+          "endMs": 163320
+        },
+        {
+          "word": "çarpı",
+          "startMs": 163420,
+          "endMs": 163660
+        },
+        {
+          "word": "3",
+          "startMs": 163660,
+          "endMs": 163740
+        },
+        {
+          "word": "dersin.",
+          "startMs": 163850,
+          "endMs": 164520
+        },
+        {
+          "word": "Anlamı",
+          "startMs": 165060,
+          "endMs": 165440
+        },
+        {
+          "word": "aynı",
+          "startMs": 165440,
+          "endMs": 165650
+        },
+        {
+          "word": "çarpımdır.",
+          "startMs": 165710,
+          "endMs": 166230
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 147250,
+          "op": "SHOW_CALLOUT",
+          "params": {
+            "kind": "concept",
+            "badge": "AĞAÇ KURALI",
+            "text": "Dal asal kalana kadar bölünür. 6 ve 4 dalda durmaz."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-4",
+      "startMs": 167110,
+      "endMs": 183810,
+      "pauseAfterMs": 700,
+      "text": "Bunu takım kurarken de kullanırsın. 7 kişilik bir grup eşit takımlara yalnız 1'erli ya da 7'li ayrılır. Ara bir pay yoktur. Arkadaşların yedi kişi ise ortaya üçerli bir takım kuramazsın. 7 asal olduğu için ara pay bırakmaz.",
+      "markedText": "Bunu takım kurarken de kullanırsın. {@teamSeven} 7 kişilik bir grup eşit takımlara yalnız 1'erli ya da 7'li ayrılır. Ara bir pay yoktur. Arkadaşların yedi kişi ise ortaya üçerli bir takım kuramazsın. 7 asal olduğu için ara pay bırakmaz.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 167110,
+          "endMs": 167290
+        },
+        {
+          "word": "takım",
+          "startMs": 167380,
+          "endMs": 167630
+        },
+        {
+          "word": "kurarken",
+          "startMs": 167690,
+          "endMs": 168130
+        },
+        {
+          "word": "de",
+          "startMs": 168130,
+          "endMs": 168170
+        },
+        {
+          "word": "kullanırsın.",
+          "startMs": 168300,
+          "endMs": 168740
+        },
+        {
+          "word": "7",
+          "startMs": 169400,
+          "endMs": 169590
+        },
+        {
+          "word": "kişilik",
+          "startMs": 169670,
+          "endMs": 169930
+        },
+        {
+          "word": "bir",
+          "startMs": 170200,
+          "endMs": 170350
+        },
+        {
+          "word": "grup",
+          "startMs": 170770,
+          "endMs": 170850
+        },
+        {
+          "word": "eşit",
+          "startMs": 170850,
+          "endMs": 170980
+        },
+        {
+          "word": "takımlara",
+          "startMs": 171110,
+          "endMs": 171620
+        },
+        {
+          "word": "yalnız",
+          "startMs": 171620,
+          "endMs": 171930
+        },
+        {
+          "word": "1'erli",
+          "startMs": 172050,
+          "endMs": 172490
+        },
+        {
+          "word": "ya",
+          "startMs": 172490,
+          "endMs": 172580
+        },
+        {
+          "word": "da",
+          "startMs": 172580,
+          "endMs": 172730
+        },
+        {
+          "word": "7'li",
+          "startMs": 172730,
+          "endMs": 173010
+        },
+        {
+          "word": "ayrılır.",
+          "startMs": 173010,
+          "endMs": 173760
+        },
+        {
+          "word": "Ara",
+          "startMs": 174260,
+          "endMs": 174470
+        },
+        {
+          "word": "bir",
+          "startMs": 174470,
+          "endMs": 174560
+        },
+        {
+          "word": "pay",
+          "startMs": 174630,
+          "endMs": 174750
+        },
+        {
+          "word": "yoktur.",
+          "startMs": 174750,
+          "endMs": 175150
+        },
+        {
+          "word": "Arkadaşların",
+          "startMs": 175990,
+          "endMs": 176890
+        },
+        {
+          "word": "yedi",
+          "startMs": 176980,
+          "endMs": 177210
+        },
+        {
+          "word": "kişi",
+          "startMs": 177330,
+          "endMs": 177460
+        },
+        {
+          "word": "ise",
+          "startMs": 177630,
+          "endMs": 177760
+        },
+        {
+          "word": "ortaya",
+          "startMs": 177850,
+          "endMs": 178100
+        },
+        {
+          "word": "üçerli",
+          "startMs": 178230,
+          "endMs": 178530
+        },
+        {
+          "word": "bir",
+          "startMs": 178590,
+          "endMs": 178660
+        },
+        {
+          "word": "takım",
+          "startMs": 178740,
+          "endMs": 178850
+        },
+        {
+          "word": "kuramazsın.",
+          "startMs": 178900,
+          "endMs": 179400
+        },
+        {
+          "word": "7",
+          "startMs": 180820,
+          "endMs": 181030
+        },
+        {
+          "word": "asal",
+          "startMs": 181080,
+          "endMs": 181320
+        },
+        {
+          "word": "olduğu",
+          "startMs": 181320,
+          "endMs": 181710
+        },
+        {
+          "word": "için",
+          "startMs": 181810,
+          "endMs": 181980
+        },
+        {
+          "word": "ara",
+          "startMs": 182070,
+          "endMs": 182250
+        },
+        {
+          "word": "pay",
+          "startMs": 182320,
+          "endMs": 182420
+        },
+        {
+          "word": "bırakmaz.",
+          "startMs": 182420,
+          "endMs": 182980
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 169400,
+          "op": "SHOW_CALLOUT",
+          "hook": "teamSeven",
+          "params": {
+            "kind": "concept",
+            "badge": "7 KİŞİLİK TAKIM",
+            "text": "Eşit pay yalnız 1'erli ya da 7'li. Ara pay yok."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-4",
+      "startMs": 183810,
+      "endMs": 201380,
+      "pauseAfterMs": 750,
+      "text": "12 kişilik grup ise 2'li ve 3'lü takımlara ayrılır. Oyun başlarken on iki kişiyi ikişerli altı gruba ya da üçerli dört gruba koyabilirsin. Asal çarpanlar, takımın hangi eşit parçalara bölüneceğini söyler. Ağaç bu ayrımı önceden gösterir.",
+      "markedText": "12 kişilik grup ise 2'li ve 3'lü takımlara ayrılır. {@teamTwelve} Oyun başlarken on iki kişiyi ikişerli altı gruba ya da üçerli dört gruba koyabilirsin. Asal çarpanlar, takımın hangi eşit parçalara bölüneceğini söyler. Ağaç bu ayrımı önceden gösterir.",
+      "words": [
+        {
+          "word": "12",
+          "startMs": 183810,
+          "endMs": 183980
+        },
+        {
+          "word": "kişilik",
+          "startMs": 184200,
+          "endMs": 184450
+        },
+        {
+          "word": "grup",
+          "startMs": 184570,
+          "endMs": 184700
+        },
+        {
+          "word": "ise",
+          "startMs": 184950,
+          "endMs": 185070
+        },
+        {
+          "word": "2'li",
+          "startMs": 185380,
+          "endMs": 185800
+        },
+        {
+          "word": "ve",
+          "startMs": 185800,
+          "endMs": 185840
+        },
+        {
+          "word": "3'lü",
+          "startMs": 185840,
+          "endMs": 186030
+        },
+        {
+          "word": "takımlara",
+          "startMs": 186210,
+          "endMs": 186610
+        },
+        {
+          "word": "ayrılır.",
+          "startMs": 186610,
+          "endMs": 187140
+        },
+        {
+          "word": "Oyun",
+          "startMs": 187810,
+          "endMs": 187950
+        },
+        {
+          "word": "başlarken",
+          "startMs": 187950,
+          "endMs": 188410
+        },
+        {
+          "word": "on",
+          "startMs": 188510,
+          "endMs": 188660
+        },
+        {
+          "word": "iki",
+          "startMs": 188780,
+          "endMs": 188970
+        },
+        {
+          "word": "kişiyi",
+          "startMs": 189230,
+          "endMs": 189510
+        },
+        {
+          "word": "ikişerli",
+          "startMs": 189700,
+          "endMs": 190020
+        },
+        {
+          "word": "altı",
+          "startMs": 190020,
+          "endMs": 190250
+        },
+        {
+          "word": "gruba",
+          "startMs": 190360,
+          "endMs": 190590
+        },
+        {
+          "word": "ya",
+          "startMs": 190640,
+          "endMs": 190740
+        },
+        {
+          "word": "da",
+          "startMs": 191080,
+          "endMs": 191150
+        },
+        {
+          "word": "üçerli",
+          "startMs": 191200,
+          "endMs": 191380
+        },
+        {
+          "word": "dört",
+          "startMs": 191490,
+          "endMs": 191710
+        },
+        {
+          "word": "gruba",
+          "startMs": 191710,
+          "endMs": 191970
+        },
+        {
+          "word": "koyabilirsin.",
+          "startMs": 192100,
+          "endMs": 192960
+        },
+        {
+          "word": "Asal",
+          "startMs": 193650,
+          "endMs": 193940
+        },
+        {
+          "word": "çarpanlar,",
+          "startMs": 194030,
+          "endMs": 194540
+        },
+        {
+          "word": "takımın",
+          "startMs": 195050,
+          "endMs": 195280
+        },
+        {
+          "word": "hangi",
+          "startMs": 195390,
+          "endMs": 195600
+        },
+        {
+          "word": "eşit",
+          "startMs": 195600,
+          "endMs": 195760
+        },
+        {
+          "word": "parçalara",
+          "startMs": 196030,
+          "endMs": 196530
+        },
+        {
+          "word": "bölüneceğini",
+          "startMs": 196530,
+          "endMs": 197090
+        },
+        {
+          "word": "söyler.",
+          "startMs": 197130,
+          "endMs": 197480
+        },
+        {
+          "word": "Ağaç",
+          "startMs": 197990,
+          "endMs": 198160
+        },
+        {
+          "word": "bu",
+          "startMs": 198300,
+          "endMs": 198360
+        },
+        {
+          "word": "ayrımı",
+          "startMs": 198360,
+          "endMs": 198700
+        },
+        {
+          "word": "önceden",
+          "startMs": 198700,
+          "endMs": 199020
+        },
+        {
+          "word": "gösterir.",
+          "startMs": 199020,
+          "endMs": 199630
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 187810,
+          "op": "SHOW_CALLOUT",
+          "hook": "teamTwelve",
+          "params": {
+            "kind": "gold",
+            "badge": "12 KİŞİLİK TAKIM",
+            "text": "2'li ve 3'lü takımlar. Ağaç: 2 × 2 × 3."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-5",
+      "startMs": 201380,
+      "endMs": 221090,
+      "pauseAfterMs": 700,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. 1 sayısını asal sanmak en yaygın tuzaklardan biridir. Unutma; asal sayılar mutlaka 1'den büyük olmak zorundadır. 9'u tek diye asal sanma. 2'yi çift diye listeden çıkarma.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. 1 sayısını asal sanmak en yaygın tuzaklardan biridir. Unutma; asal sayılar mutlaka 1'den büyük olmak zorundadır. 9'u tek diye asal sanma. 2'yi çift diye listeden çıkarma.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 201380,
+          "endMs": 201560
+        },
+        {
+          "word": "sevgili",
+          "startMs": 201560,
+          "endMs": 201870
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 201870,
+          "endMs": 202370
+        },
+        {
+          "word": "işte",
+          "startMs": 202480,
+          "endMs": 202700
+        },
+        {
+          "word": "tam",
+          "startMs": 202880,
+          "endMs": 202990
+        },
+        {
+          "word": "bu",
+          "startMs": 202990,
+          "endMs": 203150
+        },
+        {
+          "word": "noktada",
+          "startMs": 203150,
+          "endMs": 203400
+        },
+        {
+          "word": "dikkat",
+          "startMs": 203530,
+          "endMs": 203790
+        },
+        {
+          "word": "etmen",
+          "startMs": 203900,
+          "endMs": 204100
+        },
+        {
+          "word": "gereken",
+          "startMs": 204190,
+          "endMs": 204530
+        },
+        {
+          "word": "kilit",
+          "startMs": 204610,
+          "endMs": 204770
+        },
+        {
+          "word": "nokta.",
+          "startMs": 204920,
+          "endMs": 205530
+        },
+        {
+          "word": "1",
+          "startMs": 206340,
+          "endMs": 206540
+        },
+        {
+          "word": "sayısını",
+          "startMs": 206540,
+          "endMs": 207060
+        },
+        {
+          "word": "asal",
+          "startMs": 207150,
+          "endMs": 207480
+        },
+        {
+          "word": "sanmak",
+          "startMs": 207480,
+          "endMs": 207840
+        },
+        {
+          "word": "en",
+          "startMs": 208060,
+          "endMs": 208190
+        },
+        {
+          "word": "yaygın",
+          "startMs": 208190,
+          "endMs": 208570
+        },
+        {
+          "word": "tuzaklardan",
+          "startMs": 208610,
+          "endMs": 209020
+        },
+        {
+          "word": "biridir.",
+          "startMs": 209110,
+          "endMs": 209790
+        },
+        {
+          "word": "Unutma;",
+          "startMs": 210260,
+          "endMs": 210600
+        },
+        {
+          "word": "asal",
+          "startMs": 210980,
+          "endMs": 211300
+        },
+        {
+          "word": "sayılar",
+          "startMs": 211340,
+          "endMs": 211790
+        },
+        {
+          "word": "mutlaka",
+          "startMs": 211790,
+          "endMs": 211990
+        },
+        {
+          "word": "1'den",
+          "startMs": 212150,
+          "endMs": 212540
+        },
+        {
+          "word": "büyük",
+          "startMs": 212610,
+          "endMs": 212940
+        },
+        {
+          "word": "olmak",
+          "startMs": 212940,
+          "endMs": 213260
+        },
+        {
+          "word": "zorundadır.",
+          "startMs": 213310,
+          "endMs": 214110
+        },
+        {
+          "word": "9'u",
+          "startMs": 214900,
+          "endMs": 215280
+        },
+        {
+          "word": "tek",
+          "startMs": 215530,
+          "endMs": 215610
+        },
+        {
+          "word": "diye",
+          "startMs": 215770,
+          "endMs": 215970
+        },
+        {
+          "word": "asal",
+          "startMs": 216090,
+          "endMs": 216360
+        },
+        {
+          "word": "sanma.",
+          "startMs": 216410,
+          "endMs": 216750
+        },
+        {
+          "word": "2'yi",
+          "startMs": 217490,
+          "endMs": 217840
+        },
+        {
+          "word": "çift",
+          "startMs": 217930,
+          "endMs": 218110
+        },
+        {
+          "word": "diye",
+          "startMs": 218300,
+          "endMs": 218480
+        },
+        {
+          "word": "listeden",
+          "startMs": 218480,
+          "endMs": 218930
+        },
+        {
+          "word": "çıkarma.",
+          "startMs": 219080,
+          "endMs": 219370
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 204180,
+          "op": "SHOW_CALLOUT",
+          "params": {
+            "kind": "trap",
+            "badge": "ÜÇ KİLİT",
+            "text": "1 asal değildir. 9 asal değildir. 2 listede kalır."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-5",
+      "startMs": 221090,
+      "endMs": 248470,
+      "pauseAfterMs": 0,
+      "text": "Bugün Neler Öğrendik? Asal sayı, 1'den büyük ve yalnız 1 ile kendisine bölünen sayıdır. 1 asal değildir. 2 tek çift asal sayıdır. 9 asal değildir. 12, 2 çarpı 2 çarpı 3 olarak asal çarpanlarına ayrılır. Tebrikler çocuklar! Harika bir iş çıkardık. Şimdi sıra sende. 1'in neden asal olmadığını ve 12'nin çarpımını mikrofona kendi sözlerinle anlat.",
+      "markedText": "Bugün Neler Öğrendik? Asal sayı, 1'den büyük ve yalnız 1 ile kendisine bölünen sayıdır. 1 asal değildir. 2 tek çift asal sayıdır. 9 asal değildir. 12, 2 çarpı 2 çarpı 3 olarak asal çarpanlarına ayrılır. Tebrikler çocuklar! Harika bir iş çıkardık. Şimdi sıra sende. 1'in neden asal olmadığını ve 12'nin çarpımını mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 221090,
+          "endMs": 221220
+        },
+        {
+          "word": "Neler",
+          "startMs": 221220,
+          "endMs": 221420
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 221420,
+          "endMs": 221920
+        },
+        {
+          "word": "Asal",
+          "startMs": 222640,
+          "endMs": 222950
+        },
+        {
+          "word": "sayı,",
+          "startMs": 222990,
+          "endMs": 223320
+        },
+        {
+          "word": "1'den",
+          "startMs": 223570,
+          "endMs": 224030
+        },
+        {
+          "word": "büyük",
+          "startMs": 224030,
+          "endMs": 224240
+        },
+        {
+          "word": "ve",
+          "startMs": 224390,
+          "endMs": 224530
+        },
+        {
+          "word": "yalnız",
+          "startMs": 224530,
+          "endMs": 224890
+        },
+        {
+          "word": "1",
+          "startMs": 225040,
+          "endMs": 225210
+        },
+        {
+          "word": "ile",
+          "startMs": 225320,
+          "endMs": 225510
+        },
+        {
+          "word": "kendisine",
+          "startMs": 225610,
+          "endMs": 226100
+        },
+        {
+          "word": "bölünen",
+          "startMs": 226100,
+          "endMs": 226460
+        },
+        {
+          "word": "sayıdır.",
+          "startMs": 226520,
+          "endMs": 226850
+        },
+        {
+          "word": "1",
+          "startMs": 227530,
+          "endMs": 227720
+        },
+        {
+          "word": "asal",
+          "startMs": 227950,
+          "endMs": 228190
+        },
+        {
+          "word": "değildir.",
+          "startMs": 228190,
+          "endMs": 228680
+        },
+        {
+          "word": "2",
+          "startMs": 229410,
+          "endMs": 229460
+        },
+        {
+          "word": "tek",
+          "startMs": 229610,
+          "endMs": 229720
+        },
+        {
+          "word": "çift",
+          "startMs": 229980,
+          "endMs": 230110
+        },
+        {
+          "word": "asal",
+          "startMs": 230250,
+          "endMs": 230360
+        },
+        {
+          "word": "sayıdır.",
+          "startMs": 230440,
+          "endMs": 231110
+        },
+        {
+          "word": "9",
+          "startMs": 231760,
+          "endMs": 232030
+        },
+        {
+          "word": "asal",
+          "startMs": 232180,
+          "endMs": 232480
+        },
+        {
+          "word": "değildir.",
+          "startMs": 232520,
+          "endMs": 232800
+        },
+        {
+          "word": "12,",
+          "startMs": 233700,
+          "endMs": 234210
+        },
+        {
+          "word": "2",
+          "startMs": 234510,
+          "endMs": 234730
+        },
+        {
+          "word": "çarpı",
+          "startMs": 234780,
+          "endMs": 235230
+        },
+        {
+          "word": "2",
+          "startMs": 235440,
+          "endMs": 235490
+        },
+        {
+          "word": "çarpı",
+          "startMs": 235530,
+          "endMs": 235920
+        },
+        {
+          "word": "3",
+          "startMs": 236030,
+          "endMs": 236100
+        },
+        {
+          "word": "olarak",
+          "startMs": 236200,
+          "endMs": 236480
+        },
+        {
+          "word": "asal",
+          "startMs": 236600,
+          "endMs": 236870
+        },
+        {
+          "word": "çarpanlarına",
+          "startMs": 236870,
+          "endMs": 237390
+        },
+        {
+          "word": "ayrılır.",
+          "startMs": 237390,
+          "endMs": 237820
+        },
+        {
+          "word": "Tebrikler",
+          "startMs": 238980,
+          "endMs": 239440
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 239480,
+          "endMs": 239850
+        },
+        {
+          "word": "Harika",
+          "startMs": 240250,
+          "endMs": 240510
+        },
+        {
+          "word": "bir",
+          "startMs": 240590,
+          "endMs": 240730
+        },
+        {
+          "word": "iş",
+          "startMs": 240730,
+          "endMs": 240910
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 241080,
+          "endMs": 241220
+        },
+        {
+          "word": "Şimdi",
+          "startMs": 241870,
+          "endMs": 242110
+        },
+        {
+          "word": "sıra",
+          "startMs": 242110,
+          "endMs": 242410
+        },
+        {
+          "word": "sende.",
+          "startMs": 242410,
+          "endMs": 242740
+        },
+        {
+          "word": "1'in",
+          "startMs": 243310,
+          "endMs": 243610
+        },
+        {
+          "word": "neden",
+          "startMs": 243610,
+          "endMs": 243850
+        },
+        {
+          "word": "asal",
+          "startMs": 243850,
+          "endMs": 244170
+        },
+        {
+          "word": "olmadığını",
+          "startMs": 244170,
+          "endMs": 244730
+        },
+        {
+          "word": "ve",
+          "startMs": 245030,
+          "endMs": 245120
+        },
+        {
+          "word": "12'nin",
+          "startMs": 245220,
+          "endMs": 245700
+        },
+        {
+          "word": "çarpımını",
+          "startMs": 245820,
+          "endMs": 246450
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 246550,
+          "endMs": 246840
+        },
+        {
+          "word": "kendi",
+          "startMs": 246980,
+          "endMs": 247150
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 247150,
+          "endMs": 247710
+        },
+        {
+          "word": "anlat.",
+          "startMs": 247710,
+          "endMs": 248030
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 221090,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Özet Kartı",
+            "subtitle": "Tanım, üç özel durum, tek ağaç",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "Tanım",
+                "body": "1'den büyük. Yalnız 1 ve kendisi."
+              },
+              {
+                "icon": "search",
+                "title": "1 ve 2",
+                "body": "1 asal değildir. 2 tek çift asaldır."
+              },
+              {
+                "icon": "plus",
+                "title": "9 tuzağı",
+                "body": "9 = 3 × 3. Tek olması yetmez."
+              },
+              {
+                "icon": "link",
+                "title": "12'nin ağacı",
+                "body": "12 = 2 × 2 × 3."
+              }
+            ],
+            "echoPrompt": "1'in neden asal olmadığını ve 12'nin çarpımını kendi cümlenle anlat!"
+          }
+        }
+      ]
+    }
+  ]
+}

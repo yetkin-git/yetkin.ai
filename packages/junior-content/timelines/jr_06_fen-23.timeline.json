@@ -1,0 +1,2214 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_fen-23",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Büyüme",
+  "grade": 6,
+  "subject": "Fen Bilimleri",
+  "teacher": {
+    "name": "Deniz",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_fen-23.mp3",
+    "durationMs": 269515,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 68250
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 68250,
+      "endMs": 223680
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 223680,
+      "endMs": 269515
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 2280,
+      "pauseAfterMs": 620,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 260,
+          "endMs": 670
+        },
+        {
+          "word": "sevgili",
+          "startMs": 670,
+          "endMs": 1070
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 1070,
+          "endMs": 1660
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Büyüme",
+            "subtitle": "Fen Bilimleri",
+            "ruleBadges": [],
+            "echoPrompt": "Bir boy farkını hesaplar ve onu gelişmeden ayırırsın.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Büyüme, boy ve kütle gibi ölçülebilir artıştır."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Gelişme, yapının ve işlerin olgunlaşmasıdır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Boy zaman grafiği büyümeyi görünür kılar."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 2280,
+      "endMs": 5250,
+      "pauseAfterMs": 1000,
+      "text": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "markedText": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 2280,
+          "endMs": 2470
+        },
+        {
+          "word": "Fen",
+          "startMs": 2470,
+          "endMs": 2630
+        },
+        {
+          "word": "Bilimleri",
+          "startMs": 2780,
+          "endMs": 3410
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 3410,
+          "endMs": 3920
+        },
+        {
+          "word": "Deniz.",
+          "startMs": 3920,
+          "endMs": 4250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 5250,
+      "endMs": 9510,
+      "pauseAfterMs": 490,
+      "text": "Kapı pervazındaki boy çizgisi her yıl biraz yukarı kayar.",
+      "markedText": "Kapı pervazındaki boy çizgisi her yıl biraz yukarı kayar.",
+      "words": [
+        {
+          "word": "Kapı",
+          "startMs": 5250,
+          "endMs": 5430
+        },
+        {
+          "word": "pervazındaki",
+          "startMs": 5490,
+          "endMs": 6030
+        },
+        {
+          "word": "boy",
+          "startMs": 6120,
+          "endMs": 6220
+        },
+        {
+          "word": "çizgisi",
+          "startMs": 6500,
+          "endMs": 7040
+        },
+        {
+          "word": "her",
+          "startMs": 7390,
+          "endMs": 7610
+        },
+        {
+          "word": "yıl",
+          "startMs": 7610,
+          "endMs": 7900
+        },
+        {
+          "word": "biraz",
+          "startMs": 8080,
+          "endMs": 8310
+        },
+        {
+          "word": "yukarı",
+          "startMs": 8310,
+          "endMs": 8700
+        },
+        {
+          "word": "kayar.",
+          "startMs": 8740,
+          "endMs": 9020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 9510,
+      "endMs": 11660,
+      "pauseAfterMs": 810,
+      "text": "Bu çizgi büyümenin izidir.",
+      "markedText": "Bu çizgi büyümenin izidir.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 9510,
+          "endMs": 9610
+        },
+        {
+          "word": "çizgi",
+          "startMs": 9660,
+          "endMs": 9960
+        },
+        {
+          "word": "büyümenin",
+          "startMs": 10000,
+          "endMs": 10480
+        },
+        {
+          "word": "izidir.",
+          "startMs": 10480,
+          "endMs": 10850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 11660,
+      "endMs": 21920,
+      "pauseAfterMs": 1010,
+      "text": "Yalnız uzamak yetmez; dişlerin çıkması ve kasların güçlenmesi de gelişmenin parçasıdır.",
+      "markedText": "Yalnız uzamak yetmez; dişlerin çıkması ve kasların güçlenmesi de gelişmenin parçasıdır.",
+      "words": [
+        {
+          "word": "Yalnız",
+          "startMs": 11660,
+          "endMs": 11950
+        },
+        {
+          "word": "uzamak",
+          "startMs": 12020,
+          "endMs": 12310
+        },
+        {
+          "word": "yetmez;",
+          "startMs": 12410,
+          "endMs": 12890
+        },
+        {
+          "word": "dişlerin",
+          "startMs": 13290,
+          "endMs": 13680
+        },
+        {
+          "word": "çıkması",
+          "startMs": 13920,
+          "endMs": 14330
+        },
+        {
+          "word": "ve",
+          "startMs": 14710,
+          "endMs": 14930
+        },
+        {
+          "word": "kasların",
+          "startMs": 14980,
+          "endMs": 15480
+        },
+        {
+          "word": "güçlenmesi",
+          "startMs": 15580,
+          "endMs": 16980
+        },
+        {
+          "word": "de",
+          "startMs": 17800,
+          "endMs": 18040
+        },
+        {
+          "word": "gelişmenin",
+          "startMs": 18440,
+          "endMs": 19450
+        },
+        {
+          "word": "parçasıdır.",
+          "startMs": 19870,
+          "endMs": 20910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 21920,
+      "endMs": 25930,
+      "pauseAfterMs": 590,
+      "text": "Bugün büyümeyi ölçecek, gelişmeden ayıracağız.",
+      "markedText": "Bugün büyümeyi ölçecek, gelişmeden ayıracağız.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 21920,
+          "endMs": 22290
+        },
+        {
+          "word": "büyümeyi",
+          "startMs": 22360,
+          "endMs": 22880
+        },
+        {
+          "word": "ölçecek,",
+          "startMs": 22970,
+          "endMs": 23310
+        },
+        {
+          "word": "gelişmeden",
+          "startMs": 23670,
+          "endMs": 24250
+        },
+        {
+          "word": "ayıracağız.",
+          "startMs": 24380,
+          "endMs": 25340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 25930,
+      "endMs": 34570,
+      "pauseAfterMs": 870,
+      "text": "Bir boy grafiğini gözlemlemek sayıyı hikâyeye bağlar.",
+      "markedText": "Bir boy grafiğini gözlemlemek sayıyı hikâyeye bağlar.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 25930,
+          "endMs": 26270
+        },
+        {
+          "word": "boy",
+          "startMs": 26490,
+          "endMs": 26760
+        },
+        {
+          "word": "grafiğini",
+          "startMs": 26870,
+          "endMs": 27700
+        },
+        {
+          "word": "gözlemlemek",
+          "startMs": 27950,
+          "endMs": 29210
+        },
+        {
+          "word": "sayıyı",
+          "startMs": 29950,
+          "endMs": 30350
+        },
+        {
+          "word": "hikâyeye",
+          "startMs": 30660,
+          "endMs": 31970
+        },
+        {
+          "word": "bağlar.",
+          "startMs": 32400,
+          "endMs": 33700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 34570,
+      "endMs": 39870,
+      "pauseAfterMs": 880,
+      "text": "Bunu evde kapıdaki boy çizgisini ölçerek deneyebilirsin.",
+      "markedText": "Bunu evde kapıdaki boy çizgisini ölçerek deneyebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 34570,
+          "endMs": 34700
+        },
+        {
+          "word": "evde",
+          "startMs": 35240,
+          "endMs": 35460
+        },
+        {
+          "word": "kapıdaki",
+          "startMs": 35750,
+          "endMs": 36140
+        },
+        {
+          "word": "boy",
+          "startMs": 36250,
+          "endMs": 36560
+        },
+        {
+          "word": "çizgisini",
+          "startMs": 36610,
+          "endMs": 37070
+        },
+        {
+          "word": "ölçerek",
+          "startMs": 37120,
+          "endMs": 37490
+        },
+        {
+          "word": "deneyebilirsin.",
+          "startMs": 37800,
+          "endMs": 38990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 39870,
+      "endMs": 45810,
+      "pauseAfterMs": 880,
+      "text": "Okulda sağlık taramasındaki boy ve kütle de aynı fikri taşır.",
+      "markedText": "Okulda sağlık taramasındaki boy ve kütle de aynı fikri taşır.",
+      "words": [
+        {
+          "word": "Okulda",
+          "startMs": 39870,
+          "endMs": 40280
+        },
+        {
+          "word": "sağlık",
+          "startMs": 40430,
+          "endMs": 40710
+        },
+        {
+          "word": "taramasındaki",
+          "startMs": 41020,
+          "endMs": 41710
+        },
+        {
+          "word": "boy",
+          "startMs": 41770,
+          "endMs": 41930
+        },
+        {
+          "word": "ve",
+          "startMs": 41930,
+          "endMs": 42030
+        },
+        {
+          "word": "kütle",
+          "startMs": 42070,
+          "endMs": 42640
+        },
+        {
+          "word": "de",
+          "startMs": 43220,
+          "endMs": 43400
+        },
+        {
+          "word": "aynı",
+          "startMs": 43720,
+          "endMs": 43820
+        },
+        {
+          "word": "fikri",
+          "startMs": 43940,
+          "endMs": 44180
+        },
+        {
+          "word": "taşır.",
+          "startMs": 44310,
+          "endMs": 44930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 45810,
+      "endMs": 55280,
+      "pauseAfterMs": 880,
+      "text": "Bahçedeki fidenin haftalık boyunu deftere yazarsan küçük bir grafik kurarsın.",
+      "markedText": "Bahçedeki fidenin haftalık boyunu deftere yazarsan küçük bir grafik kurarsın.",
+      "words": [
+        {
+          "word": "Bahçedeki",
+          "startMs": 45810,
+          "endMs": 46500
+        },
+        {
+          "word": "fidenin",
+          "startMs": 46500,
+          "endMs": 47050
+        },
+        {
+          "word": "haftalık",
+          "startMs": 47620,
+          "endMs": 48020
+        },
+        {
+          "word": "boyunu",
+          "startMs": 48330,
+          "endMs": 48850
+        },
+        {
+          "word": "deftere",
+          "startMs": 48900,
+          "endMs": 49600
+        },
+        {
+          "word": "yazarsan",
+          "startMs": 49910,
+          "endMs": 51090
+        },
+        {
+          "word": "küçük",
+          "startMs": 51680,
+          "endMs": 52160
+        },
+        {
+          "word": "bir",
+          "startMs": 52410,
+          "endMs": 52660
+        },
+        {
+          "word": "grafik",
+          "startMs": 53000,
+          "endMs": 53480
+        },
+        {
+          "word": "kurarsın.",
+          "startMs": 53480,
+          "endMs": 54400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 55280,
+      "endMs": 68250,
+      "pauseAfterMs": 1040,
+      "text": "Sabah kalktığında büyümeyi bir günde görmezsin; kayıt haftalar sonra konuşur.",
+      "markedText": "Sabah kalktığında büyümeyi bir günde görmezsin; kayıt haftalar sonra konuşur.",
+      "words": [
+        {
+          "word": "Sabah",
+          "startMs": 55280,
+          "endMs": 55690
+        },
+        {
+          "word": "kalktığında",
+          "startMs": 56030,
+          "endMs": 57220
+        },
+        {
+          "word": "büyümeyi",
+          "startMs": 57530,
+          "endMs": 58950
+        },
+        {
+          "word": "bir",
+          "startMs": 59280,
+          "endMs": 59610
+        },
+        {
+          "word": "günde",
+          "startMs": 59690,
+          "endMs": 60130
+        },
+        {
+          "word": "görmezsin;",
+          "startMs": 60250,
+          "endMs": 61220
+        },
+        {
+          "word": "kayıt",
+          "startMs": 61910,
+          "endMs": 62270
+        },
+        {
+          "word": "haftalar",
+          "startMs": 62670,
+          "endMs": 63730
+        },
+        {
+          "word": "sonra",
+          "startMs": 64060,
+          "endMs": 64800
+        },
+        {
+          "word": "konuşur.",
+          "startMs": 65370,
+          "endMs": 67210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 68250,
+      "endMs": 74880,
+      "pauseAfterMs": 1070,
+      "text": "Büyüme, canlının boyutunun ve kütlesinin artmasıdır.",
+      "markedText": "Büyüme, canlının boyutunun ve kütlesinin artmasıdır.",
+      "words": [
+        {
+          "word": "Büyüme,",
+          "startMs": 68250,
+          "endMs": 68770
+        },
+        {
+          "word": "canlının",
+          "startMs": 69090,
+          "endMs": 70180
+        },
+        {
+          "word": "boyutunun",
+          "startMs": 70530,
+          "endMs": 71250
+        },
+        {
+          "word": "ve",
+          "startMs": 71510,
+          "endMs": 71650
+        },
+        {
+          "word": "kütlesinin",
+          "startMs": 71780,
+          "endMs": 72330
+        },
+        {
+          "word": "artmasıdır.",
+          "startMs": 72390,
+          "endMs": 73810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 74880,
+      "endMs": 79700,
+      "pauseAfterMs": 940,
+      "text": "Cetvelle boy, teraziyle kütle ölçülür.",
+      "markedText": "Cetvelle boy, teraziyle kütle ölçülür.",
+      "words": [
+        {
+          "word": "Cetvelle",
+          "startMs": 74880,
+          "endMs": 75670
+        },
+        {
+          "word": "boy,",
+          "startMs": 76000,
+          "endMs": 76360
+        },
+        {
+          "word": "teraziyle",
+          "startMs": 76490,
+          "endMs": 77110
+        },
+        {
+          "word": "kütle",
+          "startMs": 77630,
+          "endMs": 77800
+        },
+        {
+          "word": "ölçülür.",
+          "startMs": 77950,
+          "endMs": 78760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 79700,
+      "endMs": 88600,
+      "pauseAfterMs": 900,
+      "text": "Gelişme, canlının yapısının ve işlerinin olgunlaşmasıdır; yalnız santimetre artışı değildir.",
+      "markedText": "Gelişme, canlının yapısının ve işlerinin olgunlaşmasıdır; yalnız santimetre artışı değildir.",
+      "words": [
+        {
+          "word": "Gelişme,",
+          "startMs": 79700,
+          "endMs": 80300
+        },
+        {
+          "word": "canlının",
+          "startMs": 80680,
+          "endMs": 81330
+        },
+        {
+          "word": "yapısının",
+          "startMs": 81680,
+          "endMs": 82160
+        },
+        {
+          "word": "ve",
+          "startMs": 82600,
+          "endMs": 82760
+        },
+        {
+          "word": "işlerinin",
+          "startMs": 82760,
+          "endMs": 83300
+        },
+        {
+          "word": "olgunlaşmasıdır;",
+          "startMs": 83390,
+          "endMs": 84590
+        },
+        {
+          "word": "yalnız",
+          "startMs": 85540,
+          "endMs": 85720
+        },
+        {
+          "word": "santimetre",
+          "startMs": 85880,
+          "endMs": 86540
+        },
+        {
+          "word": "artışı",
+          "startMs": 86850,
+          "endMs": 87180
+        },
+        {
+          "word": "değildir.",
+          "startMs": 87280,
+          "endMs": 87700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 88600,
+      "endMs": 99530,
+      "pauseAfterMs": 290,
+      "text": "Bir bebek yürümeyi öğrenirken boyu da artar, sinir ve kas düzeni de olgunlaşır.",
+      "markedText": "Bir bebek yürümeyi öğrenirken boyu da artar, sinir ve kas düzeni de olgunlaşır.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 88600,
+          "endMs": 89020
+        },
+        {
+          "word": "bebek",
+          "startMs": 89020,
+          "endMs": 89460
+        },
+        {
+          "word": "yürümeyi",
+          "startMs": 89590,
+          "endMs": 90400
+        },
+        {
+          "word": "öğrenirken",
+          "startMs": 90710,
+          "endMs": 91490
+        },
+        {
+          "word": "boyu",
+          "startMs": 91610,
+          "endMs": 92760
+        },
+        {
+          "word": "da",
+          "startMs": 93330,
+          "endMs": 93470
+        },
+        {
+          "word": "artar,",
+          "startMs": 93800,
+          "endMs": 94870
+        },
+        {
+          "word": "sinir",
+          "startMs": 95270,
+          "endMs": 95570
+        },
+        {
+          "word": "ve",
+          "startMs": 95620,
+          "endMs": 95900
+        },
+        {
+          "word": "kas",
+          "startMs": 95960,
+          "endMs": 96390
+        },
+        {
+          "word": "düzeni",
+          "startMs": 97290,
+          "endMs": 97750
+        },
+        {
+          "word": "de",
+          "startMs": 98140,
+          "endMs": 98290
+        },
+        {
+          "word": "olgunlaşır.",
+          "startMs": 98390,
+          "endMs": 99240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 99530,
+      "endMs": 110920,
+      "pauseAfterMs": 780,
+      "text": "Bitkide büyüme gövdenin uzaması, gelişme ise çiçek ve meyve gibi yapıların ortaya çıkmasıdır.",
+      "markedText": "Bitkide büyüme gövdenin uzaması, gelişme ise çiçek ve meyve gibi yapıların ortaya çıkmasıdır.",
+      "words": [
+        {
+          "word": "Bitkide",
+          "startMs": 99530,
+          "endMs": 99810
+        },
+        {
+          "word": "büyüme",
+          "startMs": 99860,
+          "endMs": 100510
+        },
+        {
+          "word": "gövdenin",
+          "startMs": 100920,
+          "endMs": 101580
+        },
+        {
+          "word": "uzaması,",
+          "startMs": 101640,
+          "endMs": 102640
+        },
+        {
+          "word": "gelişme",
+          "startMs": 103710,
+          "endMs": 104550
+        },
+        {
+          "word": "ise",
+          "startMs": 104860,
+          "endMs": 105110
+        },
+        {
+          "word": "çiçek",
+          "startMs": 105110,
+          "endMs": 105500
+        },
+        {
+          "word": "ve",
+          "startMs": 105840,
+          "endMs": 106030
+        },
+        {
+          "word": "meyve",
+          "startMs": 106160,
+          "endMs": 106550
+        },
+        {
+          "word": "gibi",
+          "startMs": 106870,
+          "endMs": 107160
+        },
+        {
+          "word": "yapıların",
+          "startMs": 107160,
+          "endMs": 107840
+        },
+        {
+          "word": "ortaya",
+          "startMs": 108050,
+          "endMs": 108380
+        },
+        {
+          "word": "çıkmasıdır.",
+          "startMs": 108790,
+          "endMs": 110140
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 110920,
+      "endMs": 116510,
+      "pauseAfterMs": 590,
+      "text": "Büyüme grafiğinde yatay eksen zaman, dikey eksen boy olabilir.",
+      "markedText": "Büyüme grafiğinde yatay eksen zaman, dikey eksen boy olabilir.",
+      "words": [
+        {
+          "word": "Büyüme",
+          "startMs": 110920,
+          "endMs": 111240
+        },
+        {
+          "word": "grafiğinde",
+          "startMs": 111520,
+          "endMs": 112260
+        },
+        {
+          "word": "yatay",
+          "startMs": 112390,
+          "endMs": 112730
+        },
+        {
+          "word": "eksen",
+          "startMs": 112840,
+          "endMs": 113130
+        },
+        {
+          "word": "zaman,",
+          "startMs": 113300,
+          "endMs": 113800
+        },
+        {
+          "word": "dikey",
+          "startMs": 113890,
+          "endMs": 114170
+        },
+        {
+          "word": "eksen",
+          "startMs": 114240,
+          "endMs": 114810
+        },
+        {
+          "word": "boy",
+          "startMs": 114810,
+          "endMs": 115090
+        },
+        {
+          "word": "olabilir.",
+          "startMs": 115240,
+          "endMs": 115920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 116510,
+      "endMs": 126730,
+      "pauseAfterMs": 520,
+      "text": "Pratik kural: Ölçülen artış büyüme, yeni bir işin ortaya çıkması gelişmedir.",
+      "markedText": "Pratik kural: Ölçülen artış büyüme, yeni bir işin ortaya çıkması gelişmedir.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 116510,
+          "endMs": 116730
+        },
+        {
+          "word": "kural:",
+          "startMs": 116820,
+          "endMs": 117360
+        },
+        {
+          "word": "Ölçülen",
+          "startMs": 118290,
+          "endMs": 119050
+        },
+        {
+          "word": "artış",
+          "startMs": 119410,
+          "endMs": 119940
+        },
+        {
+          "word": "büyüme,",
+          "startMs": 119940,
+          "endMs": 120650
+        },
+        {
+          "word": "yeni",
+          "startMs": 121510,
+          "endMs": 121780
+        },
+        {
+          "word": "bir",
+          "startMs": 122300,
+          "endMs": 122460
+        },
+        {
+          "word": "işin",
+          "startMs": 122460,
+          "endMs": 122990
+        },
+        {
+          "word": "ortaya",
+          "startMs": 123410,
+          "endMs": 124180
+        },
+        {
+          "word": "çıkması",
+          "startMs": 124320,
+          "endMs": 124880
+        },
+        {
+          "word": "gelişmedir.",
+          "startMs": 124970,
+          "endMs": 126210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 126730,
+      "endMs": 133090,
+      "pauseAfterMs": 830,
+      "text": "Ece eylülde 140 santimetre, haziranda 146 santimetredir.",
+      "markedText": "Ece eylülde 140 santimetre, haziranda 146 santimetredir.",
+      "words": [
+        {
+          "word": "Ece",
+          "startMs": 126730,
+          "endMs": 126920
+        },
+        {
+          "word": "eylülde",
+          "startMs": 126970,
+          "endMs": 127620
+        },
+        {
+          "word": "140",
+          "startMs": 127620,
+          "endMs": 128180
+        },
+        {
+          "word": "santimetre,",
+          "startMs": 128330,
+          "endMs": 128860
+        },
+        {
+          "word": "haziranda",
+          "startMs": 129360,
+          "endMs": 129780
+        },
+        {
+          "word": "146",
+          "startMs": 129880,
+          "endMs": 130830
+        },
+        {
+          "word": "santimetredir.",
+          "startMs": 131120,
+          "endMs": 132260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 133090,
+      "endMs": 138300,
+      "pauseAfterMs": 560,
+      "text": "Fark 6 santimetredir; bu ölçülen büyümedir.",
+      "markedText": "Fark 6 santimetredir; bu ölçülen büyümedir.",
+      "words": [
+        {
+          "word": "Fark",
+          "startMs": 133090,
+          "endMs": 133370
+        },
+        {
+          "word": "6",
+          "startMs": 133670,
+          "endMs": 134080
+        },
+        {
+          "word": "santimetredir;",
+          "startMs": 134280,
+          "endMs": 135570
+        },
+        {
+          "word": "bu",
+          "startMs": 135650,
+          "endMs": 135810
+        },
+        {
+          "word": "ölçülen",
+          "startMs": 135970,
+          "endMs": 136550
+        },
+        {
+          "word": "büyümedir.",
+          "startMs": 136640,
+          "endMs": 137740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 138300,
+      "endMs": 147870,
+      "pauseAfterMs": 790,
+      "text": "Aynı yıl iki dişinin çıkması ise gelişmeye örnektir, çünkü yeni bir yapı işe katılır.",
+      "markedText": "Aynı yıl iki dişinin çıkması ise gelişmeye örnektir, çünkü yeni bir yapı işe katılır.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 138300,
+          "endMs": 138570
+        },
+        {
+          "word": "yıl",
+          "startMs": 138650,
+          "endMs": 138860
+        },
+        {
+          "word": "iki",
+          "startMs": 138920,
+          "endMs": 139100
+        },
+        {
+          "word": "dişinin",
+          "startMs": 139260,
+          "endMs": 139610
+        },
+        {
+          "word": "çıkması",
+          "startMs": 139690,
+          "endMs": 140260
+        },
+        {
+          "word": "ise",
+          "startMs": 140260,
+          "endMs": 140440
+        },
+        {
+          "word": "gelişmeye",
+          "startMs": 140610,
+          "endMs": 141160
+        },
+        {
+          "word": "örnektir,",
+          "startMs": 141420,
+          "endMs": 142510
+        },
+        {
+          "word": "çünkü",
+          "startMs": 143250,
+          "endMs": 143760
+        },
+        {
+          "word": "yeni",
+          "startMs": 143760,
+          "endMs": 144110
+        },
+        {
+          "word": "bir",
+          "startMs": 144920,
+          "endMs": 145110
+        },
+        {
+          "word": "yapı",
+          "startMs": 145600,
+          "endMs": 145820
+        },
+        {
+          "word": "işe",
+          "startMs": 145950,
+          "endMs": 146070
+        },
+        {
+          "word": "katılır.",
+          "startMs": 146180,
+          "endMs": 147080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 147870,
+      "endMs": 152450,
+      "pauseAfterMs": 610,
+      "text": "Fasulye fidesi 1.",
+      "markedText": "Fasulye fidesi 1.",
+      "words": [
+        {
+          "word": "Fasulye",
+          "startMs": 147870,
+          "endMs": 148890
+        },
+        {
+          "word": "fidesi",
+          "startMs": 149440,
+          "endMs": 150870
+        },
+        {
+          "word": "1.",
+          "startMs": 151630,
+          "endMs": 151840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 152450,
+      "endMs": 156590,
+      "pauseAfterMs": 480,
+      "text": "hafta 3 santimetre, 3.",
+      "markedText": "hafta 3 santimetre, 3.",
+      "words": [
+        {
+          "word": "hafta",
+          "startMs": 152450,
+          "endMs": 152930
+        },
+        {
+          "word": "3",
+          "startMs": 153070,
+          "endMs": 153180
+        },
+        {
+          "word": "santimetre,",
+          "startMs": 153260,
+          "endMs": 155180
+        },
+        {
+          "word": "3.",
+          "startMs": 155880,
+          "endMs": 156110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 156590,
+      "endMs": 163210,
+      "pauseAfterMs": 1010,
+      "text": "hafta 12 santimetre olursa boy grafiği yükselir.",
+      "markedText": "hafta 12 santimetre olursa boy grafiği yükselir.",
+      "words": [
+        {
+          "word": "hafta",
+          "startMs": 156590,
+          "endMs": 156830
+        },
+        {
+          "word": "12",
+          "startMs": 156920,
+          "endMs": 157420
+        },
+        {
+          "word": "santimetre",
+          "startMs": 157810,
+          "endMs": 158980
+        },
+        {
+          "word": "olursa",
+          "startMs": 159850,
+          "endMs": 160320
+        },
+        {
+          "word": "boy",
+          "startMs": 160320,
+          "endMs": 160510
+        },
+        {
+          "word": "grafiği",
+          "startMs": 160510,
+          "endMs": 160930
+        },
+        {
+          "word": "yükselir.",
+          "startMs": 161340,
+          "endMs": 162200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 163210,
+      "endMs": 169800,
+      "pauseAfterMs": 850,
+      "text": "Çiçek açması bu grafiğin dışında bir gelişme basamağıdır.",
+      "markedText": "Çiçek açması bu grafiğin dışında bir gelişme basamağıdır.",
+      "words": [
+        {
+          "word": "Çiçek",
+          "startMs": 163210,
+          "endMs": 163660
+        },
+        {
+          "word": "açması",
+          "startMs": 163710,
+          "endMs": 164380
+        },
+        {
+          "word": "bu",
+          "startMs": 164760,
+          "endMs": 165030
+        },
+        {
+          "word": "grafiğin",
+          "startMs": 165110,
+          "endMs": 165650
+        },
+        {
+          "word": "dışında",
+          "startMs": 165650,
+          "endMs": 166360
+        },
+        {
+          "word": "bir",
+          "startMs": 167000,
+          "endMs": 167350
+        },
+        {
+          "word": "gelişme",
+          "startMs": 167590,
+          "endMs": 168020
+        },
+        {
+          "word": "basamağıdır.",
+          "startMs": 168270,
+          "endMs": 168950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 169800,
+      "endMs": 182600,
+      "pauseAfterMs": 1080,
+      "text": "İki canlı aynı santimetreyi alsa da gelişme hızları birebir aynı olmak zorunda değildir.",
+      "markedText": "İki canlı aynı santimetreyi alsa da gelişme hızları birebir aynı olmak zorunda değildir.",
+      "words": [
+        {
+          "word": "İki",
+          "startMs": 169800,
+          "endMs": 170190
+        },
+        {
+          "word": "canlı",
+          "startMs": 170190,
+          "endMs": 170610
+        },
+        {
+          "word": "aynı",
+          "startMs": 170920,
+          "endMs": 171760
+        },
+        {
+          "word": "santimetreyi",
+          "startMs": 172720,
+          "endMs": 173810
+        },
+        {
+          "word": "alsa",
+          "startMs": 174190,
+          "endMs": 174450
+        },
+        {
+          "word": "da",
+          "startMs": 174570,
+          "endMs": 174910
+        },
+        {
+          "word": "gelişme",
+          "startMs": 174910,
+          "endMs": 175930
+        },
+        {
+          "word": "hızları",
+          "startMs": 176480,
+          "endMs": 177290
+        },
+        {
+          "word": "birebir",
+          "startMs": 177290,
+          "endMs": 177830
+        },
+        {
+          "word": "aynı",
+          "startMs": 177990,
+          "endMs": 178430
+        },
+        {
+          "word": "olmak",
+          "startMs": 179230,
+          "endMs": 179650
+        },
+        {
+          "word": "zorunda",
+          "startMs": 179690,
+          "endMs": 180380
+        },
+        {
+          "word": "değildir.",
+          "startMs": 180380,
+          "endMs": 181520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 182600,
+      "endMs": 184660,
+      "pauseAfterMs": 690,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 182600,
+          "endMs": 183240
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 183290,
+          "endMs": 183970
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 184660,
+      "endMs": 186360,
+      "pauseAfterMs": 400,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 184660,
+          "endMs": 185230
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 185340,
+          "endMs": 185960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 186360,
+      "endMs": 189490,
+      "pauseAfterMs": 750,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 186360,
+          "endMs": 186550
+        },
+        {
+          "word": "noktayı",
+          "startMs": 186960,
+          "endMs": 187470
+        },
+        {
+          "word": "sen",
+          "startMs": 187530,
+          "endMs": 187790
+        },
+        {
+          "word": "de",
+          "startMs": 187790,
+          "endMs": 187910
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 187910,
+          "endMs": 188740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 189490,
+      "endMs": 199420,
+      "pauseAfterMs": 860,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 189490,
+          "endMs": 189900
+        },
+        {
+          "word": "sevgili",
+          "startMs": 189900,
+          "endMs": 190530
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 190870,
+          "endMs": 191770
+        },
+        {
+          "word": "işte",
+          "startMs": 192730,
+          "endMs": 192940
+        },
+        {
+          "word": "tam",
+          "startMs": 193050,
+          "endMs": 193260
+        },
+        {
+          "word": "bu",
+          "startMs": 193260,
+          "endMs": 193380
+        },
+        {
+          "word": "noktada",
+          "startMs": 193380,
+          "endMs": 194040
+        },
+        {
+          "word": "dikkat",
+          "startMs": 194370,
+          "endMs": 195490
+        },
+        {
+          "word": "etmen",
+          "startMs": 196420,
+          "endMs": 196840
+        },
+        {
+          "word": "gereken",
+          "startMs": 197160,
+          "endMs": 197390
+        },
+        {
+          "word": "kilit",
+          "startMs": 197490,
+          "endMs": 197610
+        },
+        {
+          "word": "nokta.",
+          "startMs": 197880,
+          "endMs": 198560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 199420,
+      "endMs": 209280,
+      "pauseAfterMs": 850,
+      "text": "Her değişimi büyüme sanmak tuzaktır; saçın kesilmesi boyu kısaltır ama gelişme değildir.",
+      "markedText": "Her değişimi büyüme sanmak tuzaktır; saçın kesilmesi boyu kısaltır ama gelişme değildir.",
+      "words": [
+        {
+          "word": "Her",
+          "startMs": 199420,
+          "endMs": 199670
+        },
+        {
+          "word": "değişimi",
+          "startMs": 199770,
+          "endMs": 200330
+        },
+        {
+          "word": "büyüme",
+          "startMs": 200400,
+          "endMs": 200830
+        },
+        {
+          "word": "sanmak",
+          "startMs": 201090,
+          "endMs": 201420
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 201550,
+          "endMs": 202380
+        },
+        {
+          "word": "saçın",
+          "startMs": 203310,
+          "endMs": 203620
+        },
+        {
+          "word": "kesilmesi",
+          "startMs": 203700,
+          "endMs": 204480
+        },
+        {
+          "word": "boyu",
+          "startMs": 204590,
+          "endMs": 204910
+        },
+        {
+          "word": "kısaltır",
+          "startMs": 205020,
+          "endMs": 205780
+        },
+        {
+          "word": "ama",
+          "startMs": 206550,
+          "endMs": 206640
+        },
+        {
+          "word": "gelişme",
+          "startMs": 206640,
+          "endMs": 206990
+        },
+        {
+          "word": "değildir.",
+          "startMs": 207110,
+          "endMs": 208430
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-2",
+      "startMs": 209280,
+      "endMs": 216770,
+      "pauseAfterMs": 810,
+      "text": "Grafikte zamanı dikey eksene, boyu yatay eksene ters yazmak da okumayı bozar.",
+      "markedText": "Grafikte zamanı dikey eksene, boyu yatay eksene ters yazmak da okumayı bozar.",
+      "words": [
+        {
+          "word": "Grafikte",
+          "startMs": 209280,
+          "endMs": 209930
+        },
+        {
+          "word": "zamanı",
+          "startMs": 210250,
+          "endMs": 210580
+        },
+        {
+          "word": "dikey",
+          "startMs": 210790,
+          "endMs": 211560
+        },
+        {
+          "word": "eksene,",
+          "startMs": 211850,
+          "endMs": 212720
+        },
+        {
+          "word": "boyu",
+          "startMs": 213580,
+          "endMs": 213780
+        },
+        {
+          "word": "yatay",
+          "startMs": 213880,
+          "endMs": 214150
+        },
+        {
+          "word": "eksene",
+          "startMs": 214150,
+          "endMs": 214460
+        },
+        {
+          "word": "ters",
+          "startMs": 214500,
+          "endMs": 214630
+        },
+        {
+          "word": "yazmak",
+          "startMs": 214630,
+          "endMs": 214870
+        },
+        {
+          "word": "da",
+          "startMs": 214950,
+          "endMs": 215010
+        },
+        {
+          "word": "okumayı",
+          "startMs": 215010,
+          "endMs": 215270
+        },
+        {
+          "word": "bozar.",
+          "startMs": 215310,
+          "endMs": 215960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-2",
+      "startMs": 216770,
+      "endMs": 223680,
+      "pauseAfterMs": 880,
+      "text": "Büyüme konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Büyüme konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Büyüme",
+          "startMs": 216770,
+          "endMs": 217090
+        },
+        {
+          "word": "konusunda",
+          "startMs": 217280,
+          "endMs": 217730
+        },
+        {
+          "word": "kuralın",
+          "startMs": 217730,
+          "endMs": 218270
+        },
+        {
+          "word": "tersini",
+          "startMs": 218270,
+          "endMs": 218960
+        },
+        {
+          "word": "sanmak",
+          "startMs": 219850,
+          "endMs": 220360
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 220670,
+          "endMs": 220990
+        },
+        {
+          "word": "ters",
+          "startMs": 221410,
+          "endMs": 221660
+        },
+        {
+          "word": "cümle",
+          "startMs": 221730,
+          "endMs": 222020
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 222020,
+          "endMs": 222800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 223680,
+      "endMs": 225770,
+      "pauseAfterMs": 670,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 223680,
+          "endMs": 224030
+        },
+        {
+          "word": "Neler",
+          "startMs": 224030,
+          "endMs": 224470
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 224540,
+          "endMs": 225100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 225770,
+      "endMs": 225990,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 225770,
+          "endMs": 225990
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 225990,
+      "endMs": 230920,
+      "pauseAfterMs": 1020,
+      "text": "Büyüme, boy ve kütle gibi ölçülebilir artıştır.",
+      "markedText": "Büyüme, boy ve kütle gibi ölçülebilir artıştır.",
+      "words": [
+        {
+          "word": "Büyüme,",
+          "startMs": 225990,
+          "endMs": 226410
+        },
+        {
+          "word": "boy",
+          "startMs": 226460,
+          "endMs": 226710
+        },
+        {
+          "word": "ve",
+          "startMs": 226840,
+          "endMs": 227010
+        },
+        {
+          "word": "kütle",
+          "startMs": 227010,
+          "endMs": 227440
+        },
+        {
+          "word": "gibi",
+          "startMs": 227880,
+          "endMs": 228080
+        },
+        {
+          "word": "ölçülebilir",
+          "startMs": 228080,
+          "endMs": 228780
+        },
+        {
+          "word": "artıştır.",
+          "startMs": 228890,
+          "endMs": 229900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 230920,
+      "endMs": 231390,
+      "pauseAfterMs": 0,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 230920,
+          "endMs": 231390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 231390,
+      "endMs": 238220,
+      "pauseAfterMs": 1140,
+      "text": "Gelişme, yapının ve işlerin olgunlaşmasıdır.",
+      "markedText": "Gelişme, yapının ve işlerin olgunlaşmasıdır.",
+      "words": [
+        {
+          "word": "Gelişme,",
+          "startMs": 231390,
+          "endMs": 232420
+        },
+        {
+          "word": "yapının",
+          "startMs": 233120,
+          "endMs": 233700
+        },
+        {
+          "word": "ve",
+          "startMs": 233700,
+          "endMs": 233920
+        },
+        {
+          "word": "işlerin",
+          "startMs": 234070,
+          "endMs": 234890
+        },
+        {
+          "word": "olgunlaşmasıdır.",
+          "startMs": 235260,
+          "endMs": 237080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 238220,
+      "endMs": 238300,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 238220,
+          "endMs": 238300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 238300,
+      "endMs": 241870,
+      "pauseAfterMs": 1090,
+      "text": "Boy zaman grafiği büyümeyi görünür kılar.",
+      "markedText": "Boy zaman grafiği büyümeyi görünür kılar.",
+      "words": [
+        {
+          "word": "Boy",
+          "startMs": 238300,
+          "endMs": 238600
+        },
+        {
+          "word": "zaman",
+          "startMs": 238600,
+          "endMs": 238950
+        },
+        {
+          "word": "grafiği",
+          "startMs": 239040,
+          "endMs": 239400
+        },
+        {
+          "word": "büyümeyi",
+          "startMs": 239490,
+          "endMs": 239980
+        },
+        {
+          "word": "görünür",
+          "startMs": 240100,
+          "endMs": 240360
+        },
+        {
+          "word": "kılar.",
+          "startMs": 240360,
+          "endMs": 240780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 241870,
+      "endMs": 247320,
+      "pauseAfterMs": 1290,
+      "text": "Büyüme ölçülen artış, gelişme olgunlaşan yapıdır.",
+      "markedText": "Büyüme ölçülen artış, gelişme olgunlaşan yapıdır.",
+      "words": [
+        {
+          "word": "Büyüme",
+          "startMs": 241870,
+          "endMs": 242340
+        },
+        {
+          "word": "ölçülen",
+          "startMs": 242340,
+          "endMs": 242820
+        },
+        {
+          "word": "artış,",
+          "startMs": 242920,
+          "endMs": 243420
+        },
+        {
+          "word": "gelişme",
+          "startMs": 244000,
+          "endMs": 244420
+        },
+        {
+          "word": "olgunlaşan",
+          "startMs": 244620,
+          "endMs": 245300
+        },
+        {
+          "word": "yapıdır.",
+          "startMs": 245300,
+          "endMs": 246030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 247320,
+      "endMs": 254550,
+      "pauseAfterMs": 900,
+      "text": "Bir boy farkını hesaplar ve onu gelişmeden ayırırsın.",
+      "markedText": "Bir boy farkını hesaplar ve onu gelişmeden ayırırsın.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 247320,
+          "endMs": 247710
+        },
+        {
+          "word": "boy",
+          "startMs": 247960,
+          "endMs": 248170
+        },
+        {
+          "word": "farkını",
+          "startMs": 248170,
+          "endMs": 249370
+        },
+        {
+          "word": "hesaplar",
+          "startMs": 250140,
+          "endMs": 250500
+        },
+        {
+          "word": "ve",
+          "startMs": 250580,
+          "endMs": 250720
+        },
+        {
+          "word": "onu",
+          "startMs": 250840,
+          "endMs": 251520
+        },
+        {
+          "word": "gelişmeden",
+          "startMs": 251840,
+          "endMs": 252340
+        },
+        {
+          "word": "ayırırsın.",
+          "startMs": 252450,
+          "endMs": 253650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 254550,
+      "endMs": 257420,
+      "pauseAfterMs": 940,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 254550,
+          "endMs": 255160
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 255450,
+          "endMs": 256480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 257420,
+      "endMs": 259190,
+      "pauseAfterMs": 310,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 257420,
+          "endMs": 257850
+        },
+        {
+          "word": "bir",
+          "startMs": 257960,
+          "endMs": 258090
+        },
+        {
+          "word": "iş",
+          "startMs": 258240,
+          "endMs": 258400
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 258440,
+          "endMs": 258880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 259190,
+      "endMs": 261800,
+      "pauseAfterMs": 1210,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 259190,
+          "endMs": 259520
+        },
+        {
+          "word": "sıra",
+          "startMs": 259620,
+          "endMs": 259770
+        },
+        {
+          "word": "sende.",
+          "startMs": 259910,
+          "endMs": 260590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-47",
+      "chapterId": "ch-3",
+      "startMs": 261800,
+      "endMs": 269515,
+      "pauseAfterMs": 385,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 261800,
+          "endMs": 262640
+        },
+        {
+          "word": "bu",
+          "startMs": 263200,
+          "endMs": 263370
+        },
+        {
+          "word": "notları",
+          "startMs": 263370,
+          "endMs": 264100
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 264910,
+          "endMs": 265680
+        },
+        {
+          "word": "kendi",
+          "startMs": 266560,
+          "endMs": 267150
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 267270,
+          "endMs": 268200
+        },
+        {
+          "word": "anlat.",
+          "startMs": 268390,
+          "endMs": 269130
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

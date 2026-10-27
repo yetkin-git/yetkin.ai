@@ -1,6 +1,7 @@
 /**
  * Konu testi ve anlatış yönlendirmesinin tek evi.
- * Çekirdek konuda paket, kavram / uygulama / beceri sırasında üç çözümlü soru taşır.
+ * Çekirdek konuda paket en az üç çözümlü soru taşır (`JUNIOR_QUIZ_MIN_ITEMS`);
+ * pilot ders `jr_06_mat-1` gibi geniş paketler anlatılan her kuralı ölçebilir.
  */
 
 export type JuniorQuizLevel = "concept" | "apply" | "skill";
@@ -20,11 +21,7 @@ export type JuniorLessonQuizPack = {
   title: string;
   /** «Hazırım, Sana Anlatayım!» yönlendirme kontrol soruları. */
   tellGuides: readonly [string, string] | readonly [string, string, string];
-  questions: readonly [
-    JuniorTopicEndQuestion,
-    JuniorTopicEndQuestion,
-    JuniorTopicEndQuestion,
-  ];
+  questions: readonly JuniorTopicEndQuestion[];
 };
 
 export type JuniorTopicEndPublicQuestion = {

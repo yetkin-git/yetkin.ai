@@ -11,6 +11,7 @@ import {
 } from "@/lib/junior/audio-manifest";
 import { JUNIOR_AUDIO_MANIFEST } from "@/lib/junior/audio-manifest.generated";
 import { juniorBakedAudioSealed } from "@/lib/junior/production-seal";
+import { JUNIOR_ELECTIVE_TTS_MODEL_ID } from "@/lib/junior/elective-tts";
 import { JUNIOR_BAKED_AUDIO_KEYS } from "@/lib/junior/voice";
 
 const VALID_SHA = "a".repeat(64);
@@ -34,6 +35,18 @@ describe("Junior ses manifesti (T-04)", () => {
   it("eksik, bozuk ve listede olmayan fazla kayıt build'i durdurur", () => {
     const missing = juniorAudioManifestIssues(["jr_06_x-1"], {});
     expect(missing).toEqual(["manifestte eksik veya bozuk kayıt: jr_06_x-1"]);
+
+    const lite = JUNIOR_ELECTIVE_TTS_MODEL_ID;
+    const electiveOk: JuniorAudioManifest = {
+      "jr_06_alm-1": { sha256: VALID_SHA, bytes: 3, model: lite },
+    };
+    expect(juniorAudioManifestEntry("jr_06_alm-1", electiveOk)?.model).toBe(lite);
+    const electiveBare: JuniorAudioManifest = { "jr_06_alm-1": { sha256: VALID_SHA, bytes: 3 } };
+    expect(juniorAudioManifestEntry("jr_06_alm-1", electiveBare)).toBeNull();
+    const electiveCoreModel: JuniorAudioManifest = {
+      "jr_06_alm-1": { sha256: VALID_SHA, bytes: 3, model: "gemini-3.8-flash-tts" },
+    };
+    expect(juniorAudioManifestEntry("jr_06_alm-1", electiveCoreModel)).toBeNull();
 
     const broken: JuniorAudioManifest = { "jr_06_x-1": { sha256: "xyz", bytes: 3 } };
     expect(juniorAudioManifestIssues(["jr_06_x-1"], broken)).toEqual([
@@ -73,11 +86,11 @@ describe("Junior ses manifesti (T-04)", () => {
 
   it("fırınlanmış ses kapısı: manifest kaydı yoksa ses ağacı olmasa bile kapalı kalır", () => {
     const noTree = { filePresent: () => true, treePresent: () => false };
-    expect(juniorBakedAudioSealed("jr_06_mat-5", noTree, {})).toBe(false);
-    expect(juniorBakedAudioSealed("jr_06_mat-5", noTree)).toBe(true);
-    expect(juniorBakedAudioSealed("jr_06_mat-5", { filePresent: () => false, treePresent: () => true })).toBe(false);
-    expect(juniorBakedAudioSealed("jr_06_mat-1", noTree)).toBe(false);
-    expect(juniorBakedAudioSealed("jr_06_ing-1", noTree)).toBe(false);
+    expect(juniorBakedAudioSealed("jr_06_mat-1", noTree, {})).toBe(false);
+    expect(juniorBakedAudioSealed("jr_06_mat-1", noTree)).toBe(true);
+    expect(juniorBakedAudioSealed("jr_06_mat-1", { filePresent: () => false, treePresent: () => true })).toBe(false);
+    expect(juniorBakedAudioSealed("jr_06_mat-99", noTree)).toBe(false);
+    expect(juniorBakedAudioSealed("jr_06_ing-99", noTree)).toBe(false);
   });
 
   it("ses klasörü duruyorsa her MP3 manifestteki bayt ve SHA-256 ile eşleşir", () => {

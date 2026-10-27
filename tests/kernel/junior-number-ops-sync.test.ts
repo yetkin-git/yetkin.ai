@@ -33,8 +33,8 @@ function pieceStartMs(
   return window.startMs + ratio * span;
 }
 
-describe("jr_06_mat-5 çarpan sahnesi", () => {
-  const lesson = juniorLessonByKey("jr_06_mat-5");
+describe("jr_06_mat-1 çarpan sahnesi", () => {
+  const lesson = juniorLessonByKey("jr_06_mat-1");
   const note = juniorLessonNote(lesson?.mebNote ?? "", lesson?.lifeUse ?? "");
   const timeline = scaleJuniorPlayerTimeline(
     juniorPlayerTimeline(note, chunkJuniorLocalSpeech(note), lesson?.steps?.length ?? 12),
@@ -105,8 +105,8 @@ describe("jr_06_mat-5 çarpan sahnesi", () => {
     const anchors = juniorPlayerStepAnchors(lesson?.steps ?? [], timeline);
     expect(anchors.map((anchor) => anchor.beat)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
     const stepSix = anchors.find((anchor) => anchor.beat === 5);
-    expect(stepSix?.text).toContain("24 sayı");
-    expect(stepSix && stepSix.startMs).toBeGreaterThan(80_000);
+    expect(stepSix?.text).toContain("uzun uzun bölmeden");
+    expect(stepSix && stepSix.startMs).toBeGreaterThan(70_000);
     expect(stepSix && stepSix.startMs).toBeLessThan(150_000);
     const stepTen = anchors.find((anchor) => anchor.beat === 9);
     expect(stepTen && stepTen.startMs).toBeGreaterThan(220_000);
@@ -128,16 +128,16 @@ describe("jr_06_mat-5 çarpan sahnesi", () => {
       }
     }
 
-    expect(numberOpsFactorSubject(trailUntil("6'nın çarpanları"))).toBe(6);
+    expect(numberOpsFactorSubject(trailUntil("6 sayısıyla"))).toBe(6);
     expect(note).not.toContain("okul bahçesinde 24 kişiyi");
     expect(note).not.toContain("24 kişiyi");
     expect(numberOpsFactorSubject(["okul bahçesinde 24 kişiyi eşit sıraya diz."])).toBe(24);
-    expect(numberOpsFactorSubject(trailUntil("12'nin çarpanıdır"))).toBe(12);
+    expect(numberOpsFactorSubject(["3 sayısı 12'nin çarpanıdır."])).toBe(12);
 
     const recap = lesson?.steps?.slice(9) ?? [];
-    expect(recap[0]).toContain("Çarpan, sayıyı kalansız böler");
+    expect(recap[0]).toContain("eşit ya da küçük");
     expect(recap[1]).toContain("2, 5 ve 10 için son rakama bakılır");
-    expect(recap[2]).toContain("24, 2'ye ve 3'e bölünür");
+    expect(recap[2]).toContain("3 ve 9 için rakamlar toplanır");
   });
 
   it("DivisibilityBoard 2, 5, 10 son basamak ve 3, 9 rakam toplama rozetlerini anlık yakar", () => {

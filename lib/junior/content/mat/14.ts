@@ -1,38 +1,37 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. Ondalık gösterimi okuma ve karşılaştırma. */
-export const JUNIOR_MAT_14_SCENARIO: JuniorLessonScenario = {
+/**
+ * 6. Sınıf Matematik. İki paralel doğru ve bir kesenin açıları.
+ * Film `resolveJuniorPlayback` grafiğidir. 70° ve 110° parametredir.
+ * `AnglesScene` bu dersi çizmez.
+ */
+export const JUNIOR_MAT_30_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-14",
-  title: "Ondalık gösterimi okumak",
-  teaser:
-    "Ondalık gösterim, kesri virgülle yazar. Virgülün sağı onda bir, yüzde bir ve binde bir basamağıdır. Kavramsal Anlayış, 0,5 ile yarımı aynı miktar diye görmendir. İfade Gücü, 0,4 ile 0,35'ten hangisinin büyük olduğunu basamakla söylemektir.",
-  welcome:
-    "Merhaba çocuklar, hepiniz hoş geldiniz! Birlikte keşfedelim. Hiç bir cetvelle ölçüm yaparken tam sayının yanında kalan küçük çizgileri fark ettin mi? İşte o tam olmayan kısımları virgül kullanarak gösteririz. Ondalık gösterimleri okumayı ve bu sayıları birbiriyle güvenle karşılaştırmayı öğreneceğiz.",
-  concept:
-    "Ondalık gösterimde virgülün sol tarafı tam kısım, sağ tarafı ise kesir kısmıdır. Virgülden sonraki ilk basamak onda birler, ikinci basamak yüzde birler, üçüncü basamak ise binde birler basamağıdır. Örneğin 0,5 sayısı 5 tane onda bir demektir ve bu tam olarak yarıma eşittir. Pratik kural: İki ondalık sayıyı karşılaştırırken önce tam kısımlarına bakarsın. Tam kısımlar eşitse sırasıyla onda birler ve yüzde birler basamaklarını incelersin.",
-  example:
-    "3,25 sayısını okuyalım: Tam kısmı 3'tür; onda birler basamağında 2, yüzde birler basamağında 5 vardır. Yani bu sayı 3 tam ve yüzde 25 demektir; 0,25 çeyrek olduğu için 3 tam bir çeyrek diye de düşünebilirsin. Şimdi 0,4 ile 0,35 sayılarını karşılaştıralım. İkisinin de tam kısmı 0'dır. Onda birler basamağına baktığımızda 4 sayısı 3'ten büyük olduğu için 0,4 sayısı 0,35'ten büyüktür. 0,40 ile 0,4 tamamen aynı değerdir; sona eklenen sıfırlar değeri değiştirmez.",
-  hint: "gold",
-  warning:
-    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Altın İpucu! Virgülden sonra daha çok rakam bulunan sayıyı hemen daha büyük sanmak yaygın bir yanılgıdır. 0,35 sayısı daha uzun görünse de 0,4 ondan büyüktür! Çünkü 0,4 demek 4 tane onda bir demektir; 0,35 ise 3 tane onda bir ve 5 tane yüzde bir demektir. Onda birler basamağı büyük olan her zaman kazanır.",
-  life:
-    "Bunu market etiketinde de kullanırsın. 12,50 lira, 12 lira 50 kuruştur. 12,5 lira da aynı tutardır. 9,80 lira ile 10,10 lirayı karşılaştırırken önce tam kısma bakarsın. 10, 9'dan büyüktür. Virgülden sonrasına hiç bakmadan büyük olan 10,10 liradır.",
+  title: "İki paralel doğru ve bir kesenin açıları",
+  teaser: "Paralel doğrular hiç kesişmez. Kavramsal Anlayış, kesenin oluşturduğu yöndeş ve iç ters açıların eşitliğidir. İfade Gücü, bir açının eşini doğru çiftiyle göstermektir.",
+  welcome: "Merhaba sevgili çocuklar! Bugün iki paralel doğruyu bir kesenin nasıl kestiğini ölçeceğiz. Okul defterindeki iki çizgi koşu şeridi gibi yan yana gider. Kesen, ikisini birden geçer.",
+  concept: "Paralel doğrular aynı düzlemde kesişmeden gider. Bir kesen ikisini kesince yöndeş açılar eşit olur. İç ters açılar da eşittir. Modelde bir açıyı ölçünce eş açının derecesi aynıdır. 70 derecelik yöndeş açı da 70 derecedir.",
+  example: "İki paralel doğru ve bir kesen çizelim. Soldaki iç açı 70 derece olsun. Yöndeş olan sağdaki açı da 70 derecedir. İç ters açı da 70 derecedir. Bütünler komşu ise 180 eksi 70, 110 derece eder. Eşit olanlar ters yönde duran iç çift ve aynı yöndeki yöndeş çifttir.",
+  hint: "trap",
+  warning: "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Komşu bütünler açıyı eş açı sanma. 70 derecenin yanındaki açı 70 değil 110 derecedir. Paralellik bozulursa bu eşitlik de bozulur. Doğrular kesişiyorsa model değişir.",
+  life: "Bunu okul bahçesindeki iki kaldırım çizgisinde görürsün. Kutunun kapağını çapraz bir çubuk keserse eşit açılar aynı derecede durur. Çizgiler birbirine yaklaşırsa artık paralel değildir.",
   recap: [
-    "Virgülün solu tam, sağı kesir kısmıdır. İlk sağ basamak onda birdir.",
-    "0,5 yarım, 0,25 dörtte birdir. Sona yazılan 0 miktarı değiştirmez.",
-    "0,4, 0,35'ten büyüktür. Uzun yazılmış olmak büyük olmak demek değildir.",
+    "Paralel doğrular kesişmez.",
+    "Yöndeş açılar ve iç ters açılar eşittir.",
+    "Komşu bütünler açı 180 dereceyi tamamlar.",
   ],
-  conceptSeal: "Ondalık gösterim, kesrin virgülle yazılmış hâlidir.",
-  voiceSeal: "Basamak adını söyleyip hangi sayının büyük olduğunu gerekçelendirirsin.",
+  conceptSeal: "Paralel doğrularda kesen, eşit açı çiftleri üretir.",
+  voiceSeal: "70 derecelik açının yöndeş eşinin de 70 derece olduğunu dersin.",
   outcomes: [
-    "Onda bir, virgülden sonraki ilk basamaktır.",
-    "0,5 ile bir bölü 2 aynı miktardır.",
-    "Karşılaştırma tam kısımdan başlar.",
+    "Paralel doğrular kesişmez.",
+    "Yöndeş ve iç ters açılar eşittir.",
+    "Bütünler komşu 180 dereceyi tamamlar.",
+    "İki paralel doğru ve bir kesenin açıları kuralı bu derste yeni bir istisna açmaz.",
+    "30 numaralı örnek, ikinci bir kurala dönüşmez.",
+    "Okul defterindeki adım, bahçedeki ölçümle aynı kuralı taşır.",
   ],
-  scene: "decimal",
-  parentNote:
-    "Çocuğunuz 0,5'in yarım, 0,25'in dörtte bir olduğunu anlatır. 0,4, 0,35'ten büyüktür. Evde 12,50 lira ile 12,5 liranın aynı tutar olduğunu konuşmak yeter.",
-
+  scene: "angles",
+  parentNote: "Çocuğunuz 70 derecelik yöndeş açının eşini 70 diye gösterir. Yanındaki bütünler açıyı 110 diye ayırır. Paraleli kesişen doğru sanmaz.",
 };
 
-export const JUNIOR_MAT_14 = juniorLessonFromScenario(JUNIOR_MAT_14_SCENARIO);
+export const JUNIOR_MAT_30 = juniorLessonFromScenario(JUNIOR_MAT_30_SCENARIO);

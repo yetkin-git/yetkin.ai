@@ -1,0 +1,2877 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_fen-9",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Bileşke kuvvet",
+  "grade": 6,
+  "subject": "Fen Bilimleri",
+  "teacher": {
+    "name": "Deniz",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_fen-9.mp3",
+    "durationMs": 408712,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 222800
+    },
+    {
+      "id": "ch-2",
+      "title": "Kuvvet",
+      "startMs": 222800,
+      "endMs": 308490
+    },
+    {
+      "id": "ch-3",
+      "title": "Kapanış",
+      "startMs": 308490,
+      "endMs": 408712
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 2580,
+      "pauseAfterMs": 660,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 340,
+          "endMs": 640
+        },
+        {
+          "word": "sevgili",
+          "startMs": 640,
+          "endMs": 1090
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 1150,
+          "endMs": 1920
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "force",
+            "title": "Bileşke kuvvet",
+            "subtitle": "Yön ve newton"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 2580,
+      "endMs": 5330,
+      "pauseAfterMs": 730,
+      "text": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "markedText": "Ben Fen Bilimleri öğretmenin Deniz.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 2580,
+          "endMs": 2780
+        },
+        {
+          "word": "Fen",
+          "startMs": 2870,
+          "endMs": 3070
+        },
+        {
+          "word": "Bilimleri",
+          "startMs": 3070,
+          "endMs": 3490
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 3550,
+          "endMs": 4120
+        },
+        {
+          "word": "Deniz.",
+          "startMs": 4120,
+          "endMs": 4600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 5330,
+      "endMs": 12870,
+      "pauseAfterMs": 920,
+      "text": "Birlikte kuvvetlerin eğlenceli dünyasına adım atıyoruz.",
+      "markedText": "Birlikte kuvvetlerin eğlenceli dünyasına adım atıyoruz.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 5330,
+          "endMs": 5760
+        },
+        {
+          "word": "kuvvetlerin",
+          "startMs": 6320,
+          "endMs": 7970
+        },
+        {
+          "word": "eğlenceli",
+          "startMs": 8310,
+          "endMs": 9090
+        },
+        {
+          "word": "dünyasına",
+          "startMs": 9290,
+          "endMs": 10370
+        },
+        {
+          "word": "adım",
+          "startMs": 10420,
+          "endMs": 10950
+        },
+        {
+          "word": "atıyoruz.",
+          "startMs": 11060,
+          "endMs": 11950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 12870,
+      "endMs": 32100,
+      "pauseAfterMs": 370,
+      "text": "Arkadaşlarınla beraber ağır bir sandığı aynı yönde ittiğinde işinizin ne kadar kolaylaştığını, zıt yönlere çektiğinizde ise sandığın yerinde kaldığını gördün mü?",
+      "markedText": "Arkadaşlarınla beraber ağır bir sandığı aynı yönde ittiğinde işinizin ne kadar kolaylaştığını, zıt yönlere çektiğinizde ise sandığın yerinde kaldığını gördün mü?",
+      "words": [
+        {
+          "word": "Arkadaşlarınla",
+          "startMs": 12870,
+          "endMs": 14110
+        },
+        {
+          "word": "beraber",
+          "startMs": 14240,
+          "endMs": 15090
+        },
+        {
+          "word": "ağır",
+          "startMs": 15220,
+          "endMs": 15820
+        },
+        {
+          "word": "bir",
+          "startMs": 16150,
+          "endMs": 16440
+        },
+        {
+          "word": "sandığı",
+          "startMs": 16850,
+          "endMs": 17480
+        },
+        {
+          "word": "aynı",
+          "startMs": 17610,
+          "endMs": 17880
+        },
+        {
+          "word": "yönde",
+          "startMs": 18030,
+          "endMs": 18940
+        },
+        {
+          "word": "ittiğinde",
+          "startMs": 19340,
+          "endMs": 20170
+        },
+        {
+          "word": "işinizin",
+          "startMs": 20360,
+          "endMs": 21010
+        },
+        {
+          "word": "ne",
+          "startMs": 21400,
+          "endMs": 21590
+        },
+        {
+          "word": "kadar",
+          "startMs": 21640,
+          "endMs": 22020
+        },
+        {
+          "word": "kolaylaştığını,",
+          "startMs": 22080,
+          "endMs": 23320
+        },
+        {
+          "word": "zıt",
+          "startMs": 24260,
+          "endMs": 24440
+        },
+        {
+          "word": "yönlere",
+          "startMs": 24440,
+          "endMs": 24980
+        },
+        {
+          "word": "çektiğinizde",
+          "startMs": 25270,
+          "endMs": 26210
+        },
+        {
+          "word": "ise",
+          "startMs": 26560,
+          "endMs": 26660
+        },
+        {
+          "word": "sandığın",
+          "startMs": 27060,
+          "endMs": 27670
+        },
+        {
+          "word": "yerinde",
+          "startMs": 27800,
+          "endMs": 28610
+        },
+        {
+          "word": "kaldığını",
+          "startMs": 29380,
+          "endMs": 30360
+        },
+        {
+          "word": "gördün",
+          "startMs": 30700,
+          "endMs": 30990
+        },
+        {
+          "word": "mü?",
+          "startMs": 31610,
+          "endMs": 31730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 32100,
+      "endMs": 41670,
+      "pauseAfterMs": 350,
+      "text": "Birden fazla kuvvet bir araya geldiğinde tek bir kuvvet gibi sonuç verir.",
+      "markedText": "Birden fazla kuvvet bir araya geldiğinde tek bir kuvvet gibi sonuç verir.",
+      "words": [
+        {
+          "word": "Birden",
+          "startMs": 32100,
+          "endMs": 32780
+        },
+        {
+          "word": "fazla",
+          "startMs": 32780,
+          "endMs": 33280
+        },
+        {
+          "word": "kuvvet",
+          "startMs": 33560,
+          "endMs": 33970
+        },
+        {
+          "word": "bir",
+          "startMs": 33970,
+          "endMs": 34230
+        },
+        {
+          "word": "araya",
+          "startMs": 34230,
+          "endMs": 34770
+        },
+        {
+          "word": "geldiğinde",
+          "startMs": 34880,
+          "endMs": 35850
+        },
+        {
+          "word": "tek",
+          "startMs": 36880,
+          "endMs": 37140
+        },
+        {
+          "word": "bir",
+          "startMs": 37600,
+          "endMs": 37720
+        },
+        {
+          "word": "kuvvet",
+          "startMs": 38030,
+          "endMs": 38440
+        },
+        {
+          "word": "gibi",
+          "startMs": 38630,
+          "endMs": 39200
+        },
+        {
+          "word": "sonuç",
+          "startMs": 39970,
+          "endMs": 40210
+        },
+        {
+          "word": "verir.",
+          "startMs": 40280,
+          "endMs": 41320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 41670,
+      "endMs": 54450,
+      "pauseAfterMs": 870,
+      "text": "Bileşke kuvveti, kuvvetlerin yönünü ve dengelenmiş hareketleri keşfedeceğiz.",
+      "markedText": "Bileşke kuvveti, kuvvetlerin yönünü ve dengelenmiş hareketleri keşfedeceğiz.",
+      "words": [
+        {
+          "word": "Bileşke",
+          "startMs": 41670,
+          "endMs": 42850
+        },
+        {
+          "word": "kuvveti,",
+          "startMs": 42950,
+          "endMs": 44790
+        },
+        {
+          "word": "kuvvetlerin",
+          "startMs": 45640,
+          "endMs": 47430
+        },
+        {
+          "word": "yönünü",
+          "startMs": 47590,
+          "endMs": 48630
+        },
+        {
+          "word": "ve",
+          "startMs": 48890,
+          "endMs": 49040
+        },
+        {
+          "word": "dengelenmiş",
+          "startMs": 49440,
+          "endMs": 50830
+        },
+        {
+          "word": "hareketleri",
+          "startMs": 51200,
+          "endMs": 52020
+        },
+        {
+          "word": "keşfedeceğiz.",
+          "startMs": 52260,
+          "endMs": 53580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 54450,
+      "endMs": 65100,
+      "pauseAfterMs": 1720,
+      "text": "Bunu beden eğitimi dersindeki halat çekme oyununda çok net görebilirsin",
+      "markedText": "Bunu beden eğitimi dersindeki halat çekme oyununda çok net görebilirsin",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 54450,
+          "endMs": 54990
+        },
+        {
+          "word": "beden",
+          "startMs": 55370,
+          "endMs": 55510
+        },
+        {
+          "word": "eğitimi",
+          "startMs": 55780,
+          "endMs": 56590
+        },
+        {
+          "word": "dersindeki",
+          "startMs": 56860,
+          "endMs": 57910
+        },
+        {
+          "word": "halat",
+          "startMs": 58280,
+          "endMs": 58520
+        },
+        {
+          "word": "çekme",
+          "startMs": 58860,
+          "endMs": 59670
+        },
+        {
+          "word": "oyununda",
+          "startMs": 60750,
+          "endMs": 61760
+        },
+        {
+          "word": "çok",
+          "startMs": 62060,
+          "endMs": 62180
+        },
+        {
+          "word": "net",
+          "startMs": 62500,
+          "endMs": 62710
+        },
+        {
+          "word": "görebilirsin",
+          "startMs": 62880,
+          "endMs": 63380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 65100,
+      "endMs": 80730,
+      "pauseAfterMs": 850,
+      "text": "İki takım eşit güçle asıldığında ipin ortasındaki kırmızı kurdele hiç kıpırdamaz; çünkü kuvvetler dengelenmiştir.",
+      "markedText": "İki takım eşit güçle asıldığında ipin ortasındaki kırmızı kurdele hiç kıpırdamaz; çünkü kuvvetler dengelenmiştir.",
+      "words": [
+        {
+          "word": "İki",
+          "startMs": 65100,
+          "endMs": 65290
+        },
+        {
+          "word": "takım",
+          "startMs": 65640,
+          "endMs": 65890
+        },
+        {
+          "word": "eşit",
+          "startMs": 66120,
+          "endMs": 66610
+        },
+        {
+          "word": "güçle",
+          "startMs": 66610,
+          "endMs": 67430
+        },
+        {
+          "word": "asıldığında",
+          "startMs": 68300,
+          "endMs": 69290
+        },
+        {
+          "word": "ipin",
+          "startMs": 69730,
+          "endMs": 69970
+        },
+        {
+          "word": "ortasındaki",
+          "startMs": 70150,
+          "endMs": 71280
+        },
+        {
+          "word": "kırmızı",
+          "startMs": 71600,
+          "endMs": 72010
+        },
+        {
+          "word": "kurdele",
+          "startMs": 72130,
+          "endMs": 73120
+        },
+        {
+          "word": "hiç",
+          "startMs": 73750,
+          "endMs": 74010
+        },
+        {
+          "word": "kıpırdamaz;",
+          "startMs": 74010,
+          "endMs": 74730
+        },
+        {
+          "word": "çünkü",
+          "startMs": 76340,
+          "endMs": 76570
+        },
+        {
+          "word": "kuvvetler",
+          "startMs": 77030,
+          "endMs": 78000
+        },
+        {
+          "word": "dengelenmiştir.",
+          "startMs": 78360,
+          "endMs": 79880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 80730,
+      "endMs": 95120,
+      "pauseAfterMs": 1170,
+      "text": "Bir takım biraz daha güçlü çektiğinde bileşke o takımın yönüne döner ve ip o tarafa kayar.",
+      "markedText": "Bir takım biraz daha güçlü çektiğinde bileşke o takımın yönüne döner ve ip o tarafa kayar.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 80730,
+          "endMs": 80910
+        },
+        {
+          "word": "takım",
+          "startMs": 80990,
+          "endMs": 81190
+        },
+        {
+          "word": "biraz",
+          "startMs": 81310,
+          "endMs": 81810
+        },
+        {
+          "word": "daha",
+          "startMs": 82160,
+          "endMs": 82580
+        },
+        {
+          "word": "güçlü",
+          "startMs": 83300,
+          "endMs": 83900
+        },
+        {
+          "word": "çektiğinde",
+          "startMs": 85180,
+          "endMs": 85640
+        },
+        {
+          "word": "bileşke",
+          "startMs": 86150,
+          "endMs": 86690
+        },
+        {
+          "word": "o",
+          "startMs": 87130,
+          "endMs": 87270
+        },
+        {
+          "word": "takımın",
+          "startMs": 87490,
+          "endMs": 88410
+        },
+        {
+          "word": "yönüne",
+          "startMs": 88900,
+          "endMs": 89490
+        },
+        {
+          "word": "döner",
+          "startMs": 89790,
+          "endMs": 90360
+        },
+        {
+          "word": "ve",
+          "startMs": 90360,
+          "endMs": 90880
+        },
+        {
+          "word": "ip",
+          "startMs": 91770,
+          "endMs": 91990
+        },
+        {
+          "word": "o",
+          "startMs": 92040,
+          "endMs": 92200
+        },
+        {
+          "word": "tarafa",
+          "startMs": 92250,
+          "endMs": 92660
+        },
+        {
+          "word": "kayar.",
+          "startMs": 92880,
+          "endMs": 93950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 95120,
+      "endMs": 109460,
+      "pauseAfterMs": 730,
+      "text": "Evde ağır bir masayı çekerken arkadaşınla aynı yönde kuvvet uygularsanız bileşke kuvvet büyür ve işiniz hafifler.",
+      "markedText": "Evde ağır bir masayı çekerken arkadaşınla aynı yönde kuvvet uygularsanız bileşke kuvvet büyür ve işiniz hafifler.",
+      "words": [
+        {
+          "word": "Evde",
+          "startMs": 95120,
+          "endMs": 95460
+        },
+        {
+          "word": "ağır",
+          "startMs": 95950,
+          "endMs": 96160
+        },
+        {
+          "word": "bir",
+          "startMs": 96380,
+          "endMs": 96740
+        },
+        {
+          "word": "masayı",
+          "startMs": 96830,
+          "endMs": 97510
+        },
+        {
+          "word": "çekerken",
+          "startMs": 97590,
+          "endMs": 98660
+        },
+        {
+          "word": "arkadaşınla",
+          "startMs": 99210,
+          "endMs": 100130
+        },
+        {
+          "word": "aynı",
+          "startMs": 100630,
+          "endMs": 101070
+        },
+        {
+          "word": "yönde",
+          "startMs": 101420,
+          "endMs": 101760
+        },
+        {
+          "word": "kuvvet",
+          "startMs": 101940,
+          "endMs": 102290
+        },
+        {
+          "word": "uygularsanız",
+          "startMs": 102620,
+          "endMs": 103250
+        },
+        {
+          "word": "bileşke",
+          "startMs": 103410,
+          "endMs": 104260
+        },
+        {
+          "word": "kuvvet",
+          "startMs": 105060,
+          "endMs": 105610
+        },
+        {
+          "word": "büyür",
+          "startMs": 105610,
+          "endMs": 106180
+        },
+        {
+          "word": "ve",
+          "startMs": 106240,
+          "endMs": 106350
+        },
+        {
+          "word": "işiniz",
+          "startMs": 106710,
+          "endMs": 107220
+        },
+        {
+          "word": "hafifler.",
+          "startMs": 107740,
+          "endMs": 108730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 109460,
+      "endMs": 120230,
+      "pauseAfterMs": 640,
+      "text": "Kuvvetin doğrultusu, yönü ve newton birimiyle ölçülen bir büyüklüğü vardır.",
+      "markedText": "Kuvvetin doğrultusu, yönü ve newton birimiyle ölçülen bir büyüklüğü vardır.",
+      "words": [
+        {
+          "word": "Kuvvetin",
+          "startMs": 109460,
+          "endMs": 110120
+        },
+        {
+          "word": "doğrultusu,",
+          "startMs": 110470,
+          "endMs": 111250
+        },
+        {
+          "word": "yönü",
+          "startMs": 112450,
+          "endMs": 113080
+        },
+        {
+          "word": "ve",
+          "startMs": 113130,
+          "endMs": 113330
+        },
+        {
+          "word": "newton",
+          "startMs": 113950,
+          "endMs": 114290
+        },
+        {
+          "word": "birimiyle",
+          "startMs": 114620,
+          "endMs": 115260
+        },
+        {
+          "word": "ölçülen",
+          "startMs": 115790,
+          "endMs": 116560
+        },
+        {
+          "word": "bir",
+          "startMs": 117230,
+          "endMs": 117470
+        },
+        {
+          "word": "büyüklüğü",
+          "startMs": 117550,
+          "endMs": 118540
+        },
+        {
+          "word": "vardır.",
+          "startMs": 118860,
+          "endMs": 119590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 120230,
+      "endMs": 140080,
+      "pauseAfterMs": 260,
+      "text": "Bir cisme etki eden birden çok kuvvetin yaptığı etkiyi tek başına yapan kuvvete bileşke kuvvet, yani net kuvvet denir.",
+      "markedText": "Bir cisme etki eden birden çok kuvvetin yaptığı etkiyi tek başına yapan kuvvete bileşke kuvvet, yani net kuvvet denir.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 120230,
+          "endMs": 120480
+        },
+        {
+          "word": "cisme",
+          "startMs": 120910,
+          "endMs": 121100
+        },
+        {
+          "word": "etki",
+          "startMs": 121370,
+          "endMs": 121570
+        },
+        {
+          "word": "eden",
+          "startMs": 121960,
+          "endMs": 122590
+        },
+        {
+          "word": "birden",
+          "startMs": 122890,
+          "endMs": 123710
+        },
+        {
+          "word": "çok",
+          "startMs": 124260,
+          "endMs": 124450
+        },
+        {
+          "word": "kuvvetin",
+          "startMs": 124650,
+          "endMs": 125740
+        },
+        {
+          "word": "yaptığı",
+          "startMs": 127040,
+          "endMs": 127920
+        },
+        {
+          "word": "etkiyi",
+          "startMs": 128390,
+          "endMs": 129230
+        },
+        {
+          "word": "tek",
+          "startMs": 129350,
+          "endMs": 129500
+        },
+        {
+          "word": "başına",
+          "startMs": 129610,
+          "endMs": 130790
+        },
+        {
+          "word": "yapan",
+          "startMs": 131100,
+          "endMs": 131870
+        },
+        {
+          "word": "kuvvete",
+          "startMs": 132230,
+          "endMs": 133660
+        },
+        {
+          "word": "bileşke",
+          "startMs": 134150,
+          "endMs": 134780
+        },
+        {
+          "word": "kuvvet,",
+          "startMs": 134830,
+          "endMs": 135790
+        },
+        {
+          "word": "yani",
+          "startMs": 136720,
+          "endMs": 137390
+        },
+        {
+          "word": "net",
+          "startMs": 137560,
+          "endMs": 137820
+        },
+        {
+          "word": "kuvvet",
+          "startMs": 138050,
+          "endMs": 138630
+        },
+        {
+          "word": "denir.",
+          "startMs": 139000,
+          "endMs": 139820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-1",
+      "startMs": 140080,
+      "endMs": 152610,
+      "pauseAfterMs": 1060,
+      "text": "Aynı doğrultuda ve aynı yöndeki kuvvetler toplanır; bileşkenin yönü değişmez.",
+      "markedText": "Aynı doğrultuda ve aynı yöndeki kuvvetler toplanır; bileşkenin yönü değişmez.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 140080,
+          "endMs": 140590
+        },
+        {
+          "word": "doğrultuda",
+          "startMs": 140680,
+          "endMs": 142240
+        },
+        {
+          "word": "ve",
+          "startMs": 142560,
+          "endMs": 142660
+        },
+        {
+          "word": "aynı",
+          "startMs": 143150,
+          "endMs": 143560
+        },
+        {
+          "word": "yöndeki",
+          "startMs": 143730,
+          "endMs": 144310
+        },
+        {
+          "word": "kuvvetler",
+          "startMs": 144890,
+          "endMs": 146600
+        },
+        {
+          "word": "toplanır;",
+          "startMs": 147730,
+          "endMs": 148420
+        },
+        {
+          "word": "bileşkenin",
+          "startMs": 149410,
+          "endMs": 150260
+        },
+        {
+          "word": "yönü",
+          "startMs": 150260,
+          "endMs": 150590
+        },
+        {
+          "word": "değişmez.",
+          "startMs": 150590,
+          "endMs": 151550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-1",
+      "startMs": 152610,
+      "endMs": 171840,
+      "pauseAfterMs": 1010,
+      "text": "Zıt yönlü kuvvetlerde ise büyük kuvvetten küçük kuvvet çıkarılır; bileşke kuvvet büyük olanın yönünde olur.",
+      "markedText": "Zıt yönlü kuvvetlerde ise büyük kuvvetten küçük kuvvet çıkarılır; bileşke kuvvet büyük olanın yönünde olur.",
+      "words": [
+        {
+          "word": "Zıt",
+          "startMs": 152610,
+          "endMs": 152830
+        },
+        {
+          "word": "yönlü",
+          "startMs": 153150,
+          "endMs": 154030
+        },
+        {
+          "word": "kuvvetlerde",
+          "startMs": 154610,
+          "endMs": 155390
+        },
+        {
+          "word": "ise",
+          "startMs": 155930,
+          "endMs": 156510
+        },
+        {
+          "word": "büyük",
+          "startMs": 156600,
+          "endMs": 157740
+        },
+        {
+          "word": "kuvvetten",
+          "startMs": 158390,
+          "endMs": 159410
+        },
+        {
+          "word": "küçük",
+          "startMs": 160410,
+          "endMs": 160920
+        },
+        {
+          "word": "kuvvet",
+          "startMs": 161030,
+          "endMs": 162090
+        },
+        {
+          "word": "çıkarılır;",
+          "startMs": 162690,
+          "endMs": 164080
+        },
+        {
+          "word": "bileşke",
+          "startMs": 164330,
+          "endMs": 165210
+        },
+        {
+          "word": "kuvvet",
+          "startMs": 165330,
+          "endMs": 166430
+        },
+        {
+          "word": "büyük",
+          "startMs": 167470,
+          "endMs": 168020
+        },
+        {
+          "word": "olanın",
+          "startMs": 168280,
+          "endMs": 168830
+        },
+        {
+          "word": "yönünde",
+          "startMs": 168930,
+          "endMs": 169500
+        },
+        {
+          "word": "olur.",
+          "startMs": 169950,
+          "endMs": 170830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-1",
+      "startMs": 171840,
+      "endMs": 180910,
+      "pauseAfterMs": 830,
+      "text": "Eğer zıt yönlü iki kuvvet birbirine eşitse bileşke kuvvet sıfır çıkar.",
+      "markedText": "Eğer zıt yönlü iki kuvvet birbirine eşitse bileşke kuvvet sıfır çıkar.",
+      "words": [
+        {
+          "word": "Eğer",
+          "startMs": 171840,
+          "endMs": 172120
+        },
+        {
+          "word": "zıt",
+          "startMs": 172120,
+          "endMs": 172270
+        },
+        {
+          "word": "yönlü",
+          "startMs": 172270,
+          "endMs": 172860
+        },
+        {
+          "word": "iki",
+          "startMs": 173780,
+          "endMs": 174000
+        },
+        {
+          "word": "kuvvet",
+          "startMs": 174590,
+          "endMs": 174970
+        },
+        {
+          "word": "birbirine",
+          "startMs": 175070,
+          "endMs": 176180
+        },
+        {
+          "word": "eşitse",
+          "startMs": 176810,
+          "endMs": 177340
+        },
+        {
+          "word": "bileşke",
+          "startMs": 177540,
+          "endMs": 177940
+        },
+        {
+          "word": "kuvvet",
+          "startMs": 178160,
+          "endMs": 178680
+        },
+        {
+          "word": "sıfır",
+          "startMs": 178900,
+          "endMs": 179260
+        },
+        {
+          "word": "çıkar.",
+          "startMs": 179440,
+          "endMs": 180080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-1",
+      "startMs": 180910,
+      "endMs": 187480,
+      "pauseAfterMs": 590,
+      "text": "Buna dengelenmiş kuvvetler denir.",
+      "markedText": "Buna dengelenmiş kuvvetler denir.",
+      "words": [
+        {
+          "word": "Buna",
+          "startMs": 180910,
+          "endMs": 181170
+        },
+        {
+          "word": "dengelenmiş",
+          "startMs": 181740,
+          "endMs": 183740
+        },
+        {
+          "word": "kuvvetler",
+          "startMs": 184040,
+          "endMs": 185760
+        },
+        {
+          "word": "denir.",
+          "startMs": 186660,
+          "endMs": 186890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-1",
+      "startMs": 187480,
+      "endMs": 197110,
+      "pauseAfterMs": 600,
+      "text": "Bileşke sıfırdan farklıysa kuvvetler dengelenmemiştir.",
+      "markedText": "Bileşke sıfırdan farklıysa kuvvetler dengelenmemiştir.",
+      "words": [
+        {
+          "word": "Bileşke",
+          "startMs": 187480,
+          "endMs": 187970
+        },
+        {
+          "word": "sıfırdan",
+          "startMs": 188280,
+          "endMs": 190100
+        },
+        {
+          "word": "farklıysa",
+          "startMs": 190410,
+          "endMs": 191790
+        },
+        {
+          "word": "kuvvetler",
+          "startMs": 192770,
+          "endMs": 194040
+        },
+        {
+          "word": "dengelenmemiştir.",
+          "startMs": 194340,
+          "endMs": 196510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-1",
+      "startMs": 197110,
+      "endMs": 214420,
+      "pauseAfterMs": 950,
+      "text": "Pratik kural: Dengelenmiş kuvvet etkisindeki duran bir cisim durmaya, hareket halindeki cisim ise sabit süratle gitmeye devam eder.",
+      "markedText": "Pratik kural: Dengelenmiş kuvvet etkisindeki duran bir cisim durmaya, hareket halindeki cisim ise sabit süratle gitmeye devam eder.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 197110,
+          "endMs": 197470
+        },
+        {
+          "word": "kural:",
+          "startMs": 197550,
+          "endMs": 197970
+        },
+        {
+          "word": "Dengelenmiş",
+          "startMs": 198300,
+          "endMs": 199180
+        },
+        {
+          "word": "kuvvet",
+          "startMs": 199600,
+          "endMs": 200210
+        },
+        {
+          "word": "etkisindeki",
+          "startMs": 200480,
+          "endMs": 201420
+        },
+        {
+          "word": "duran",
+          "startMs": 201670,
+          "endMs": 202160
+        },
+        {
+          "word": "bir",
+          "startMs": 202600,
+          "endMs": 202800
+        },
+        {
+          "word": "cisim",
+          "startMs": 202930,
+          "endMs": 203140
+        },
+        {
+          "word": "durmaya,",
+          "startMs": 203220,
+          "endMs": 204350
+        },
+        {
+          "word": "hareket",
+          "startMs": 207900,
+          "endMs": 208380
+        },
+        {
+          "word": "halindeki",
+          "startMs": 208380,
+          "endMs": 209270
+        },
+        {
+          "word": "cisim",
+          "startMs": 209610,
+          "endMs": 209970
+        },
+        {
+          "word": "ise",
+          "startMs": 210240,
+          "endMs": 210460
+        },
+        {
+          "word": "sabit",
+          "startMs": 210460,
+          "endMs": 211000
+        },
+        {
+          "word": "süratle",
+          "startMs": 211090,
+          "endMs": 211680
+        },
+        {
+          "word": "gitmeye",
+          "startMs": 211750,
+          "endMs": 212410
+        },
+        {
+          "word": "devam",
+          "startMs": 212560,
+          "endMs": 212880
+        },
+        {
+          "word": "eder.",
+          "startMs": 212990,
+          "endMs": 213470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-1",
+      "startMs": 214420,
+      "endMs": 222800,
+      "pauseAfterMs": 960,
+      "text": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "markedText": "Hadi şimdi ekrandaki çizime birlikte bakalım!",
+      "words": [
+        {
+          "word": "Hadi",
+          "startMs": 214420,
+          "endMs": 214750
+        },
+        {
+          "word": "şimdi",
+          "startMs": 214790,
+          "endMs": 215600
+        },
+        {
+          "word": "ekrandaki",
+          "startMs": 216500,
+          "endMs": 217250
+        },
+        {
+          "word": "çizime",
+          "startMs": 217390,
+          "endMs": 218020
+        },
+        {
+          "word": "birlikte",
+          "startMs": 218470,
+          "endMs": 219560
+        },
+        {
+          "word": "bakalım!",
+          "startMs": 220350,
+          "endMs": 221840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 222800,
+      "endMs": 308490,
+      "pauseAfterMs": 440,
+      "text": "Ortadaki bir kutuya iki arkadaşının kuvvet uyguladığını düşünelim. Biri 5 newton, diğeri 3 newton büyüklüğünde ve ikisi de sağa doğru itiyor. İkisi aynı yönlü olduğu için toplarız: 5 artı 3, eşittir 8 newton sağa doğru olur. Şimdi biri 7 newton ile sağa, diğeri 4 newton ile sola çeksin. Kuvvetler zıt yönlüdür; farkını alırız: 7 eksi 4, eşittir 3 newton ve yön büyük olanın yönü, yani sağa doğrudur. Eğer 6 newton sağa ve 6 newton sola çekilirse fark sıfır olur; kuvvetler dengelenmiştir ve kutu yerinden kıpırdamaz. 8 newton sağa ve 2 newton sola olsaydı bileşke 6 newton sağa olurdu ve kutu sağa doğru hızlanırdı; bu da dengelenmemiş kuvvettir.",
+      "markedText": "Ortadaki bir kutuya iki arkadaşının kuvvet uyguladığını düşünelim. Biri {@showForce} 5 newton, diğeri 3 newton büyüklüğünde ve ikisi de sağa doğru itiyor. İkisi aynı yönlü olduğu için toplarız: 5 artı 3, eşittir 8 newton sağa doğru olur. Şimdi biri 7 newton ile sağa, diğeri 4 newton ile sola çeksin. Kuvvetler zıt yönlüdür; farkını alırız: 7 eksi 4, eşittir 3 newton ve yön büyük olanın yönü, yani sağa doğrudur. Eğer 6 newton sağa ve 6 newton sola çekilirse fark sıfır olur; kuvvetler dengelenmiştir ve kutu yerinden kıpırdamaz. 8 newton sağa ve 2 newton sola olsaydı bileşke 6 newton sağa olurdu ve kutu sağa doğru hızlanırdı; bu da dengelenmemiş kuvvettir.",
+      "words": [
+        {
+          "word": "Ortadaki",
+          "startMs": 222800,
+          "endMs": 223750
+        },
+        {
+          "word": "bir",
+          "startMs": 223850,
+          "endMs": 224150
+        },
+        {
+          "word": "kutuya",
+          "startMs": 224250,
+          "endMs": 224840
+        },
+        {
+          "word": "iki",
+          "startMs": 225310,
+          "endMs": 225540
+        },
+        {
+          "word": "arkadaşının",
+          "startMs": 225650,
+          "endMs": 226200
+        },
+        {
+          "word": "kuvvet",
+          "startMs": 226800,
+          "endMs": 227210
+        },
+        {
+          "word": "uyguladığını",
+          "startMs": 227380,
+          "endMs": 228580
+        },
+        {
+          "word": "düşünelim.",
+          "startMs": 228710,
+          "endMs": 230090
+        },
+        {
+          "word": "Biri",
+          "startMs": 231060,
+          "endMs": 231310
+        },
+        {
+          "word": "5",
+          "startMs": 231430,
+          "endMs": 231630
+        },
+        {
+          "word": "newton,",
+          "startMs": 231800,
+          "endMs": 232710
+        },
+        {
+          "word": "diğeri",
+          "startMs": 232870,
+          "endMs": 233430
+        },
+        {
+          "word": "3",
+          "startMs": 233580,
+          "endMs": 233790
+        },
+        {
+          "word": "newton",
+          "startMs": 233970,
+          "endMs": 234320
+        },
+        {
+          "word": "büyüklüğünde",
+          "startMs": 234430,
+          "endMs": 236400
+        },
+        {
+          "word": "ve",
+          "startMs": 236650,
+          "endMs": 236820
+        },
+        {
+          "word": "ikisi",
+          "startMs": 236820,
+          "endMs": 237160
+        },
+        {
+          "word": "de",
+          "startMs": 237340,
+          "endMs": 238040
+        },
+        {
+          "word": "sağa",
+          "startMs": 238740,
+          "endMs": 239230
+        },
+        {
+          "word": "doğru",
+          "startMs": 239330,
+          "endMs": 240080
+        },
+        {
+          "word": "itiyor.",
+          "startMs": 240120,
+          "endMs": 240800
+        },
+        {
+          "word": "İkisi",
+          "startMs": 241700,
+          "endMs": 242110
+        },
+        {
+          "word": "aynı",
+          "startMs": 242290,
+          "endMs": 242780
+        },
+        {
+          "word": "yönlü",
+          "startMs": 243050,
+          "endMs": 243500
+        },
+        {
+          "word": "olduğu",
+          "startMs": 243610,
+          "endMs": 244040
+        },
+        {
+          "word": "için",
+          "startMs": 244320,
+          "endMs": 244730
+        },
+        {
+          "word": "toplarız:",
+          "startMs": 244950,
+          "endMs": 245200
+        },
+        {
+          "word": "5",
+          "startMs": 245850,
+          "endMs": 245990
+        },
+        {
+          "word": "artı",
+          "startMs": 245990,
+          "endMs": 246250
+        },
+        {
+          "word": "3,",
+          "startMs": 246670,
+          "endMs": 246800
+        },
+        {
+          "word": "eşittir",
+          "startMs": 247070,
+          "endMs": 247800
+        },
+        {
+          "word": "8",
+          "startMs": 247890,
+          "endMs": 248220
+        },
+        {
+          "word": "newton",
+          "startMs": 248380,
+          "endMs": 248920
+        },
+        {
+          "word": "sağa",
+          "startMs": 249150,
+          "endMs": 249470
+        },
+        {
+          "word": "doğru",
+          "startMs": 249610,
+          "endMs": 250170
+        },
+        {
+          "word": "olur.",
+          "startMs": 250340,
+          "endMs": 250500
+        },
+        {
+          "word": "Şimdi",
+          "startMs": 251270,
+          "endMs": 251490
+        },
+        {
+          "word": "biri",
+          "startMs": 251590,
+          "endMs": 252050
+        },
+        {
+          "word": "7",
+          "startMs": 252050,
+          "endMs": 252600
+        },
+        {
+          "word": "newton",
+          "startMs": 252740,
+          "endMs": 253500
+        },
+        {
+          "word": "ile",
+          "startMs": 253890,
+          "endMs": 254290
+        },
+        {
+          "word": "sağa,",
+          "startMs": 254570,
+          "endMs": 254660
+        },
+        {
+          "word": "diğeri",
+          "startMs": 254940,
+          "endMs": 255380
+        },
+        {
+          "word": "4",
+          "startMs": 255520,
+          "endMs": 256160
+        },
+        {
+          "word": "newton",
+          "startMs": 256290,
+          "endMs": 257130
+        },
+        {
+          "word": "ile",
+          "startMs": 257850,
+          "endMs": 258180
+        },
+        {
+          "word": "sola",
+          "startMs": 258250,
+          "endMs": 258680
+        },
+        {
+          "word": "çeksin.",
+          "startMs": 258810,
+          "endMs": 259400
+        },
+        {
+          "word": "Kuvvetler",
+          "startMs": 259980,
+          "endMs": 261230
+        },
+        {
+          "word": "zıt",
+          "startMs": 261370,
+          "endMs": 261940
+        },
+        {
+          "word": "yönlüdür;",
+          "startMs": 262170,
+          "endMs": 263870
+        },
+        {
+          "word": "farkını",
+          "startMs": 264400,
+          "endMs": 265330
+        },
+        {
+          "word": "alırız:",
+          "startMs": 265460,
+          "endMs": 266250
+        },
+        {
+          "word": "7",
+          "startMs": 267020,
+          "endMs": 267560
+        },
+        {
+          "word": "eksi",
+          "startMs": 267750,
+          "endMs": 268150
+        },
+        {
+          "word": "4,",
+          "startMs": 268220,
+          "endMs": 268490
+        },
+        {
+          "word": "eşittir",
+          "startMs": 268900,
+          "endMs": 269560
+        },
+        {
+          "word": "3",
+          "startMs": 269840,
+          "endMs": 269950
+        },
+        {
+          "word": "newton",
+          "startMs": 270050,
+          "endMs": 270620
+        },
+        {
+          "word": "ve",
+          "startMs": 270750,
+          "endMs": 270820
+        },
+        {
+          "word": "yön",
+          "startMs": 270950,
+          "endMs": 271020
+        },
+        {
+          "word": "büyük",
+          "startMs": 271110,
+          "endMs": 271450
+        },
+        {
+          "word": "olanın",
+          "startMs": 271740,
+          "endMs": 272360
+        },
+        {
+          "word": "yönü,",
+          "startMs": 272360,
+          "endMs": 273200
+        },
+        {
+          "word": "yani",
+          "startMs": 273950,
+          "endMs": 274580
+        },
+        {
+          "word": "sağa",
+          "startMs": 274790,
+          "endMs": 275090
+        },
+        {
+          "word": "doğrudur.",
+          "startMs": 275180,
+          "endMs": 276050
+        },
+        {
+          "word": "Eğer",
+          "startMs": 276810,
+          "endMs": 277120
+        },
+        {
+          "word": "6",
+          "startMs": 277240,
+          "endMs": 277610
+        },
+        {
+          "word": "newton",
+          "startMs": 277610,
+          "endMs": 278390
+        },
+        {
+          "word": "sağa",
+          "startMs": 279100,
+          "endMs": 279490
+        },
+        {
+          "word": "ve",
+          "startMs": 279490,
+          "endMs": 279620
+        },
+        {
+          "word": "6",
+          "startMs": 279620,
+          "endMs": 279890
+        },
+        {
+          "word": "newton",
+          "startMs": 279890,
+          "endMs": 280480
+        },
+        {
+          "word": "sola",
+          "startMs": 280560,
+          "endMs": 280920
+        },
+        {
+          "word": "çekilirse",
+          "startMs": 281000,
+          "endMs": 281710
+        },
+        {
+          "word": "fark",
+          "startMs": 281790,
+          "endMs": 282150
+        },
+        {
+          "word": "sıfır",
+          "startMs": 282260,
+          "endMs": 282490
+        },
+        {
+          "word": "olur;",
+          "startMs": 282490,
+          "endMs": 282920
+        },
+        {
+          "word": "kuvvetler",
+          "startMs": 283340,
+          "endMs": 284170
+        },
+        {
+          "word": "dengelenmiştir",
+          "startMs": 284790,
+          "endMs": 286610
+        },
+        {
+          "word": "ve",
+          "startMs": 286810,
+          "endMs": 287100
+        },
+        {
+          "word": "kutu",
+          "startMs": 287560,
+          "endMs": 288080
+        },
+        {
+          "word": "yerinden",
+          "startMs": 288450,
+          "endMs": 288990
+        },
+        {
+          "word": "kıpırdamaz.",
+          "startMs": 289090,
+          "endMs": 290240
+        },
+        {
+          "word": "8",
+          "startMs": 290960,
+          "endMs": 291810
+        },
+        {
+          "word": "newton",
+          "startMs": 292060,
+          "endMs": 292590
+        },
+        {
+          "word": "sağa",
+          "startMs": 292730,
+          "endMs": 292950
+        },
+        {
+          "word": "ve",
+          "startMs": 293050,
+          "endMs": 293150
+        },
+        {
+          "word": "2",
+          "startMs": 293280,
+          "endMs": 293670
+        },
+        {
+          "word": "newton",
+          "startMs": 293870,
+          "endMs": 294440
+        },
+        {
+          "word": "sola",
+          "startMs": 294990,
+          "endMs": 295480
+        },
+        {
+          "word": "olsaydı",
+          "startMs": 295570,
+          "endMs": 296160
+        },
+        {
+          "word": "bileşke",
+          "startMs": 296410,
+          "endMs": 297330
+        },
+        {
+          "word": "6",
+          "startMs": 297800,
+          "endMs": 298170
+        },
+        {
+          "word": "newton",
+          "startMs": 298170,
+          "endMs": 298790
+        },
+        {
+          "word": "sağa",
+          "startMs": 298930,
+          "endMs": 299250
+        },
+        {
+          "word": "olurdu",
+          "startMs": 299540,
+          "endMs": 300090
+        },
+        {
+          "word": "ve",
+          "startMs": 300190,
+          "endMs": 300290
+        },
+        {
+          "word": "kutu",
+          "startMs": 301060,
+          "endMs": 301470
+        },
+        {
+          "word": "sağa",
+          "startMs": 301470,
+          "endMs": 301970
+        },
+        {
+          "word": "doğru",
+          "startMs": 302100,
+          "endMs": 302760
+        },
+        {
+          "word": "hızlanırdı;",
+          "startMs": 302970,
+          "endMs": 303690
+        },
+        {
+          "word": "bu",
+          "startMs": 304430,
+          "endMs": 304520
+        },
+        {
+          "word": "da",
+          "startMs": 304610,
+          "endMs": 304880
+        },
+        {
+          "word": "dengelenmemiş",
+          "startMs": 304990,
+          "endMs": 306890
+        },
+        {
+          "word": "kuvvettir.",
+          "startMs": 307150,
+          "endMs": 308050
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 231430,
+          "op": "SHOW_FORCE",
+          "hook": "showForce",
+          "params": {
+            "unit": "N",
+            "sameA": 5,
+            "sameB": 3,
+            "sameResult": 8,
+            "sameWay": "sağa",
+            "oppositeA": 7,
+            "oppositeB": 4,
+            "oppositeResult": 3,
+            "oppositeWay": "sağa",
+            "balanceA": 6,
+            "balanceB": 6,
+            "balanceResult": 0,
+            "showBalance": true,
+            "unbalancedA": 8,
+            "unbalancedB": 2,
+            "unbalancedResult": 6,
+            "unbalancedWay": "sağa",
+            "note": "dengelenmiştir",
+            "marks": [
+              {
+                "slot": "same-a",
+                "value": 5,
+                "atMs": 231430
+              },
+              {
+                "slot": "same-b",
+                "value": 3,
+                "atMs": 233580
+              },
+              {
+                "slot": "same-a2",
+                "value": 5,
+                "atMs": 245850
+              },
+              {
+                "slot": "same-b2",
+                "value": 3,
+                "atMs": 246670
+              },
+              {
+                "slot": "same-result",
+                "value": 8,
+                "atMs": 247890
+              },
+              {
+                "slot": "opp-a",
+                "value": 7,
+                "atMs": 252050
+              },
+              {
+                "slot": "opp-b",
+                "value": 4,
+                "atMs": 255520
+              },
+              {
+                "slot": "opp-a2",
+                "value": 7,
+                "atMs": 267020
+              },
+              {
+                "slot": "opp-b2",
+                "value": 4,
+                "atMs": 268220
+              },
+              {
+                "slot": "opp-result",
+                "value": 3,
+                "atMs": 269840
+              },
+              {
+                "slot": "bal-a",
+                "value": 6,
+                "atMs": 277240
+              },
+              {
+                "slot": "bal-b",
+                "value": 6,
+                "atMs": 279620
+              },
+              {
+                "slot": "bal-result",
+                "value": 0,
+                "token": "sıfır",
+                "atMs": 282260
+              },
+              {
+                "slot": "unbal-a",
+                "value": 8,
+                "atMs": 290960
+              },
+              {
+                "slot": "unbal-b",
+                "value": 2,
+                "atMs": 293280
+              },
+              {
+                "slot": "unbal-result",
+                "value": 6,
+                "atMs": 297800
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-3",
+      "startMs": 308490,
+      "endMs": 310310,
+      "pauseAfterMs": 590,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 308490,
+          "endMs": 308780
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 308840,
+          "endMs": 309720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-3",
+      "startMs": 310310,
+      "endMs": 313820,
+      "pauseAfterMs": 580,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 310310,
+          "endMs": 310700
+        },
+        {
+          "word": "bir",
+          "startMs": 310700,
+          "endMs": 310920
+        },
+        {
+          "word": "kez",
+          "startMs": 311050,
+          "endMs": 311280
+        },
+        {
+          "word": "görünce",
+          "startMs": 311370,
+          "endMs": 311710
+        },
+        {
+          "word": "kolayca",
+          "startMs": 311820,
+          "endMs": 312290
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 312290,
+          "endMs": 313240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-3",
+      "startMs": 313820,
+      "endMs": 324250,
+      "pauseAfterMs": 450,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 313820,
+          "endMs": 314390
+        },
+        {
+          "word": "sevgili",
+          "startMs": 314950,
+          "endMs": 315960
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 316100,
+          "endMs": 317510
+        },
+        {
+          "word": "işte",
+          "startMs": 319130,
+          "endMs": 319550
+        },
+        {
+          "word": "tam",
+          "startMs": 319550,
+          "endMs": 320370
+        },
+        {
+          "word": "bu",
+          "startMs": 320780,
+          "endMs": 320950
+        },
+        {
+          "word": "noktada",
+          "startMs": 321270,
+          "endMs": 321530
+        },
+        {
+          "word": "dikkat",
+          "startMs": 321650,
+          "endMs": 322000
+        },
+        {
+          "word": "etmen",
+          "startMs": 322170,
+          "endMs": 322380
+        },
+        {
+          "word": "gereken",
+          "startMs": 322490,
+          "endMs": 322770
+        },
+        {
+          "word": "kilit",
+          "startMs": 322830,
+          "endMs": 323100
+        },
+        {
+          "word": "nokta.",
+          "startMs": 323180,
+          "endMs": 323800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-3",
+      "startMs": 324250,
+      "endMs": 332650,
+      "pauseAfterMs": 630,
+      "text": "Bileşke kuvvetin sıfır olması, cismin üzerinde hiçbir kuvvet olmadığı anlamına gelmez.",
+      "markedText": "Bileşke kuvvetin sıfır olması, cismin üzerinde hiçbir kuvvet olmadığı anlamına gelmez.",
+      "words": [
+        {
+          "word": "Bileşke",
+          "startMs": 324250,
+          "endMs": 324700
+        },
+        {
+          "word": "kuvvetin",
+          "startMs": 324760,
+          "endMs": 325640
+        },
+        {
+          "word": "sıfır",
+          "startMs": 326140,
+          "endMs": 326310
+        },
+        {
+          "word": "olması,",
+          "startMs": 326530,
+          "endMs": 327150
+        },
+        {
+          "word": "cismin",
+          "startMs": 327760,
+          "endMs": 328000
+        },
+        {
+          "word": "üzerinde",
+          "startMs": 328380,
+          "endMs": 329070
+        },
+        {
+          "word": "hiçbir",
+          "startMs": 329200,
+          "endMs": 329560
+        },
+        {
+          "word": "kuvvet",
+          "startMs": 329730,
+          "endMs": 330090
+        },
+        {
+          "word": "olmadığı",
+          "startMs": 330180,
+          "endMs": 330890
+        },
+        {
+          "word": "anlamına",
+          "startMs": 330980,
+          "endMs": 331560
+        },
+        {
+          "word": "gelmez.",
+          "startMs": 331640,
+          "endMs": 332020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-3",
+      "startMs": 332650,
+      "endMs": 351420,
+      "pauseAfterMs": 610,
+      "text": "Zıt yönlü ve eşit büyüklükteki kuvvetler birbirini dengeler; bu yüzden cisim ya durur ya da sabit süratle yoluna devam eder.",
+      "markedText": "Zıt yönlü ve eşit büyüklükteki kuvvetler birbirini dengeler; bu yüzden cisim ya durur ya da sabit süratle yoluna devam eder.",
+      "words": [
+        {
+          "word": "Zıt",
+          "startMs": 332650,
+          "endMs": 332870
+        },
+        {
+          "word": "yönlü",
+          "startMs": 332970,
+          "endMs": 333330
+        },
+        {
+          "word": "ve",
+          "startMs": 333990,
+          "endMs": 334180
+        },
+        {
+          "word": "eşit",
+          "startMs": 334340,
+          "endMs": 335540
+        },
+        {
+          "word": "büyüklükteki",
+          "startMs": 335950,
+          "endMs": 337500
+        },
+        {
+          "word": "kuvvetler",
+          "startMs": 338040,
+          "endMs": 338800
+        },
+        {
+          "word": "birbirini",
+          "startMs": 339430,
+          "endMs": 340450
+        },
+        {
+          "word": "dengeler;",
+          "startMs": 340600,
+          "endMs": 341420
+        },
+        {
+          "word": "bu",
+          "startMs": 341720,
+          "endMs": 341890
+        },
+        {
+          "word": "yüzden",
+          "startMs": 342120,
+          "endMs": 342930
+        },
+        {
+          "word": "cisim",
+          "startMs": 343290,
+          "endMs": 343810
+        },
+        {
+          "word": "ya",
+          "startMs": 343960,
+          "endMs": 344290
+        },
+        {
+          "word": "durur",
+          "startMs": 344420,
+          "endMs": 345110
+        },
+        {
+          "word": "ya",
+          "startMs": 345290,
+          "endMs": 345560
+        },
+        {
+          "word": "da",
+          "startMs": 346860,
+          "endMs": 347030
+        },
+        {
+          "word": "sabit",
+          "startMs": 347260,
+          "endMs": 348070
+        },
+        {
+          "word": "süratle",
+          "startMs": 348400,
+          "endMs": 348900
+        },
+        {
+          "word": "yoluna",
+          "startMs": 349040,
+          "endMs": 349430
+        },
+        {
+          "word": "devam",
+          "startMs": 349660,
+          "endMs": 350140
+        },
+        {
+          "word": "eder.",
+          "startMs": 350300,
+          "endMs": 350810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-3",
+      "startMs": 351420,
+      "endMs": 358180,
+      "pauseAfterMs": 700,
+      "text": "Kuvveti anlatırken yönünü söylemeyi de asla unutmuyoruz.",
+      "markedText": "Kuvveti anlatırken yönünü söylemeyi de asla unutmuyoruz.",
+      "words": [
+        {
+          "word": "Kuvveti",
+          "startMs": 351420,
+          "endMs": 351900
+        },
+        {
+          "word": "anlatırken",
+          "startMs": 351950,
+          "endMs": 353080
+        },
+        {
+          "word": "yönünü",
+          "startMs": 353790,
+          "endMs": 354420
+        },
+        {
+          "word": "söylemeyi",
+          "startMs": 354490,
+          "endMs": 355130
+        },
+        {
+          "word": "de",
+          "startMs": 355360,
+          "endMs": 355540
+        },
+        {
+          "word": "asla",
+          "startMs": 356250,
+          "endMs": 356490
+        },
+        {
+          "word": "unutmuyoruz.",
+          "startMs": 356580,
+          "endMs": 357480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-3",
+      "startMs": 358180,
+      "endMs": 366020,
+      "pauseAfterMs": 670,
+      "text": "Bileşke kuvvet konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Bileşke kuvvet konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Bileşke",
+          "startMs": 358180,
+          "endMs": 358760
+        },
+        {
+          "word": "kuvvet",
+          "startMs": 358860,
+          "endMs": 359120
+        },
+        {
+          "word": "konusunda",
+          "startMs": 359240,
+          "endMs": 360270
+        },
+        {
+          "word": "kuralın",
+          "startMs": 360570,
+          "endMs": 361350
+        },
+        {
+          "word": "tersini",
+          "startMs": 361610,
+          "endMs": 361930
+        },
+        {
+          "word": "sanmak",
+          "startMs": 362060,
+          "endMs": 362390
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 362510,
+          "endMs": 363290
+        },
+        {
+          "word": "ters",
+          "startMs": 363620,
+          "endMs": 363860
+        },
+        {
+          "word": "cümle",
+          "startMs": 363970,
+          "endMs": 364180
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 364280,
+          "endMs": 365350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-3",
+      "startMs": 366020,
+      "endMs": 368230,
+      "pauseAfterMs": 560,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 366020,
+          "endMs": 366400
+        },
+        {
+          "word": "Neler",
+          "startMs": 366520,
+          "endMs": 366920
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 367120,
+          "endMs": 367670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-3",
+      "startMs": 368230,
+      "endMs": 368930,
+      "pauseAfterMs": 490,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 368230,
+          "endMs": 368440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 368930,
+      "endMs": 372570,
+      "pauseAfterMs": 790,
+      "text": "Aynı yönlü kuvvetler toplanır ve yön aynı kalır.",
+      "markedText": "Aynı yönlü kuvvetler toplanır ve yön aynı kalır.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 368930,
+          "endMs": 369160
+        },
+        {
+          "word": "yönlü",
+          "startMs": 369160,
+          "endMs": 369490
+        },
+        {
+          "word": "kuvvetler",
+          "startMs": 369590,
+          "endMs": 369790
+        },
+        {
+          "word": "toplanır",
+          "startMs": 369880,
+          "endMs": 370020
+        },
+        {
+          "word": "ve",
+          "startMs": 370140,
+          "endMs": 370220
+        },
+        {
+          "word": "yön",
+          "startMs": 370340,
+          "endMs": 370580
+        },
+        {
+          "word": "aynı",
+          "startMs": 370780,
+          "endMs": 371010
+        },
+        {
+          "word": "kalır.",
+          "startMs": 371140,
+          "endMs": 371780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 372570,
+      "endMs": 373120,
+      "pauseAfterMs": 470,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 372570,
+          "endMs": 372650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 373120,
+      "endMs": 381030,
+      "pauseAfterMs": 370,
+      "text": "Zıt yönlü kuvvetlerde fark alınır ve yön büyük kuvvetin yönüdür.",
+      "markedText": "Zıt yönlü kuvvetlerde fark alınır ve yön büyük kuvvetin yönüdür.",
+      "words": [
+        {
+          "word": "Zıt",
+          "startMs": 373120,
+          "endMs": 373250
+        },
+        {
+          "word": "yönlü",
+          "startMs": 373360,
+          "endMs": 373860
+        },
+        {
+          "word": "kuvvetlerde",
+          "startMs": 373990,
+          "endMs": 374990
+        },
+        {
+          "word": "fark",
+          "startMs": 375210,
+          "endMs": 375570
+        },
+        {
+          "word": "alınır",
+          "startMs": 375670,
+          "endMs": 376760
+        },
+        {
+          "word": "ve",
+          "startMs": 377490,
+          "endMs": 377720
+        },
+        {
+          "word": "yön",
+          "startMs": 378270,
+          "endMs": 378510
+        },
+        {
+          "word": "büyük",
+          "startMs": 378630,
+          "endMs": 378910
+        },
+        {
+          "word": "kuvvetin",
+          "startMs": 379050,
+          "endMs": 379530
+        },
+        {
+          "word": "yönüdür.",
+          "startMs": 379740,
+          "endMs": 380660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 381030,
+      "endMs": 381320,
+      "pauseAfterMs": 110,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 381030,
+          "endMs": 381210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 381320,
+      "endMs": 388550,
+      "pauseAfterMs": 530,
+      "text": "Eşit ve zıt kuvvetlerde bileşke sıfırdır; kuvvetler dengelenmiştir.",
+      "markedText": "Eşit ve zıt kuvvetlerde bileşke sıfırdır; kuvvetler dengelenmiştir.",
+      "words": [
+        {
+          "word": "Eşit",
+          "startMs": 381320,
+          "endMs": 381790
+        },
+        {
+          "word": "ve",
+          "startMs": 381790,
+          "endMs": 382330
+        },
+        {
+          "word": "zıt",
+          "startMs": 383030,
+          "endMs": 383230
+        },
+        {
+          "word": "kuvvetlerde",
+          "startMs": 383770,
+          "endMs": 384240
+        },
+        {
+          "word": "bileşke",
+          "startMs": 384240,
+          "endMs": 384570
+        },
+        {
+          "word": "sıfırdır;",
+          "startMs": 384630,
+          "endMs": 385220
+        },
+        {
+          "word": "kuvvetler",
+          "startMs": 385830,
+          "endMs": 386440
+        },
+        {
+          "word": "dengelenmiştir.",
+          "startMs": 386680,
+          "endMs": 388020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 388550,
+      "endMs": 393150,
+      "pauseAfterMs": 580,
+      "text": "Bileşke kuvvet, birden çok kuvvetin tek sonuç kuvvetidir.",
+      "markedText": "Bileşke kuvvet, birden çok kuvvetin tek sonuç kuvvetidir.",
+      "words": [
+        {
+          "word": "Bileşke",
+          "startMs": 388550,
+          "endMs": 388780
+        },
+        {
+          "word": "kuvvet,",
+          "startMs": 388950,
+          "endMs": 389180
+        },
+        {
+          "word": "birden",
+          "startMs": 389260,
+          "endMs": 389650
+        },
+        {
+          "word": "çok",
+          "startMs": 389830,
+          "endMs": 389930
+        },
+        {
+          "word": "kuvvetin",
+          "startMs": 390190,
+          "endMs": 390470
+        },
+        {
+          "word": "tek",
+          "startMs": 390950,
+          "endMs": 391170
+        },
+        {
+          "word": "sonuç",
+          "startMs": 391290,
+          "endMs": 391530
+        },
+        {
+          "word": "kuvvetidir.",
+          "startMs": 391530,
+          "endMs": 392570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 393150,
+      "endMs": 397430,
+      "pauseAfterMs": 860,
+      "text": "Toplamı ya da farkı yönüyle birlikte söylersin.",
+      "markedText": "Toplamı ya da farkı yönüyle birlikte söylersin.",
+      "words": [
+        {
+          "word": "Toplamı",
+          "startMs": 393150,
+          "endMs": 393920
+        },
+        {
+          "word": "ya",
+          "startMs": 394260,
+          "endMs": 394380
+        },
+        {
+          "word": "da",
+          "startMs": 394380,
+          "endMs": 394460
+        },
+        {
+          "word": "farkı",
+          "startMs": 394520,
+          "endMs": 394800
+        },
+        {
+          "word": "yönüyle",
+          "startMs": 394930,
+          "endMs": 395130
+        },
+        {
+          "word": "birlikte",
+          "startMs": 395250,
+          "endMs": 395510
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 395700,
+          "endMs": 396570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 397430,
+      "endMs": 399610,
+      "pauseAfterMs": 500,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 397430,
+          "endMs": 398080
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 398180,
+          "endMs": 399110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 399610,
+      "endMs": 402740,
+      "pauseAfterMs": 640,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 399610,
+          "endMs": 400030
+        },
+        {
+          "word": "bir",
+          "startMs": 400030,
+          "endMs": 400270
+        },
+        {
+          "word": "iş",
+          "startMs": 400380,
+          "endMs": 400500
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 400630,
+          "endMs": 402100
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 402740,
+      "endMs": 405610,
+      "pauseAfterMs": 550,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 402740,
+          "endMs": 403420
+        },
+        {
+          "word": "sıra",
+          "startMs": 404120,
+          "endMs": 404420
+        },
+        {
+          "word": "sende.",
+          "startMs": 404480,
+          "endMs": 405060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 405610,
+      "endMs": 408712,
+      "pauseAfterMs": 412,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 405610,
+          "endMs": 406090
+        },
+        {
+          "word": "bu",
+          "startMs": 406090,
+          "endMs": 406260
+        },
+        {
+          "word": "notları",
+          "startMs": 406380,
+          "endMs": 406680
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 406770,
+          "endMs": 407100
+        },
+        {
+          "word": "kendi",
+          "startMs": 407220,
+          "endMs": 407440
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 407440,
+          "endMs": 407990
+        },
+        {
+          "word": "anlat.",
+          "startMs": 407990,
+          "endMs": 408300
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

@@ -1,38 +1,42 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/** 6. Sınıf Matematik. Veri toplama ve sıklık tablosu. */
-export const JUNIOR_MAT_18_SCENARIO: JuniorLessonScenario = {
+/**
+ * 6. Sınıf Matematik. Alan ölçü birimleri ve arazi ölçüsü.
+ * Film `resolveJuniorPlayback` grafiğidir. Dönüm ve hektar parametredir.
+ * `AreaScene` bu dersi çizmez.
+ */
+export const JUNIOR_MAT_22_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-18",
-  title: "Veri toplama ve değerlendirme",
+  title: "Alan ölçü birimleri ve arazi",
   teaser:
-    "Veri, bir soruya verilen cevapların toplanmış hâlidir. Sıklık, bir seçeneğin kaç kez çıktığını söyler. Kavramsal Anlayış, çetele ile sıklık tablosunu aynı sayının iki yazılışı diye görmendir. İfade Gücü, en çok seçileni tablodan okumandır.",
+    "Alan birimi, bir karenin kapladığı yüzdür. 1 metre kare, kenarı 1 metre olan karedir. Kavramsal Anlayış, birimi iki boyutta çevirdiğini görmendir. İfade Gücü, 1 dönümün kaç metre kare ettiğini söylemektir.",
   welcome:
-    "Merhaba çocuklar, hepiniz hoş geldiniz! Araştırma yapıp topladığımız bilgileri düzenli bir tabloya dönüştüreceğiz. Hiç arkadaşlarına en sevdikleri rengi ya da meyveyi sorup yanıtları bir köşeye not ettin mi? Alınan her bir yanıt bir veridir. Veri toplamayı, çetele tutmayı ve sıklık tablosu oluşturmayı öğreneceğiz.",
+    "Merhaba çocuklar, hepiniz hoş geldiniz! Bugün odalardan tarlalara uzanan alan ve arazi ölçülerini keşfedeceğiz. Hiç bir odanın zeminindeki karoları tek tek saymayı denedin mi? Her karo bir alan birimidir ve zemin büyüdükçe birim de büyür. Alan ölçü birimlerini, dönümü ve hektarı öğreneceğiz.",
   concept:
-    "Veri toplamak için önce herkesin net anlayacağı tek bir araştırma sorusu sorulur. Seçenekler açık ve belirgin olmalıdır. Çetele tutarken her cevap için dik bir çizgi çizilir; beşinci cevapta ise dört çizginin üstünden yatay bir çizgi çekilerek beşli bir demet yapılır. Sıklık ise bir seçeneğe ait toplam çizgi sayısıdır. Pratik kural: Sıklık tablosundaki sayıların toplamı, ankete katılan toplam kişi sayısına daima eşittir.",
+    "Alan, iki boyutlu yüzey ölçüsüdür. 1 metre 100 santimetredir; fakat 1 metrekare, 100 çarpı 100'den tam 10.000 santimetrekaredir! Yani uzunlukta 100 kat olan artış, alanda 10.000 kat olur. Arazi ölçülerinde ise dönüm ve hektar kullanılır. 1 dönüm 1.000 metrekaredir; 1 hektar ise 10.000 metrekaredir. Dolayısıyla 1 hektar, tam 10 dönüme eşittir. Pratik kural: Uzunluk birimleri onar onar, alan birimleri ise yüzer yüzer büyür ve küçülür.",
   example:
-    "12 arkadaşına en sevdiği meyveyi sordun. Elmayı 5, muzu 4, üzümü ise 3 kişi seçti. Çetele tablosunda elmanın beşli bir demeti, muzun 4 çizgisi, üzümün 3 çizgisi olur. Sıklık tablosunda ise bu sayılar doğrudan rakamla yazılır. 5 artı 4 artı 3, toplam 12 eder. En yüksek sıklık 5 ile elmadır; en düşük sıklık 3 ile üzümdür. Tablo sayesinde en çok ve en az tercih edilenleri bir bakışta görürsün.",
+    "Kenar uzunluğu 2 metre olan kare şeklinde bir halı düşünelim. Alanı 2 çarpı 2'den 4 metrekaredir. Bunu santimetrekareye çevirmek istersek, 4 ile 10.000'i çarparız ve 40.000 santimetrekare buluruz. Şimdi de 3 dönümlük bir tarlaya bakalım: 3 ile 1.000'i çarparsak 3.000 metrekare eder. 2 hektarlık büyük bir bahçe ise 20 dönümdür; çünkü her hektarda 10 dönüm yer alır.",
   hint: "gold",
   warning:
-    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Altın İpucu! Çetelede üstten çizgi çekilmiş beşli demeti 4 sanma yanılgısına sakın düşme. O üstteki bağlayıcı çizgi de beşinci kişiyi temsil eder. Sayıları topladığında kişi sayısına eşit çıkmıyorsa bir çizgiyi atlamış olabilirsin. Toplamı kişi sayısıyla her zaman doğrula.",
+    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Altın İpucu! Uzunluk birimi dönüşümünü alan birimlerine olduğu gibi uygulamak büyük bir yanılgıdır. 1 metre 100 santimetredir diye 1 metrekareye 100 santimetrekare diyemezsin! İki kenar da yüzer kat büyüdüğü için 100 çarpı 100'den 10.000 santimetrekare eder. Dönüm ile hektarı da karıştırma; dönüm 1.000, hektar 10.000 metrekaredir.",
   life:
-    "Bunu sınıf oylamasında da kullanırsın. Teneffüste bahçe, kütüphane ve koridor seçenek olsun. Her arkadaş bir yere bir çizgi koyar. En uzun çetele, en çok istenen yerdir. Çizgileri saymadan karar vermek, veriyi atlamak olur.",
+    "Bunu ev planında da kullanırsın. 12 metre karelik bir oda, 12 tane 1 metreye 1 metrelik kare demektir. Bahçedeki 2 dönümlük sebze yeri, 2.000 metre karedir. Marketten aldığımız küçük kumaş ise santimetre kareyle konuşulur. Birimi, ölçtüğün yerin boyuna göre seçersin.",
   recap: [
-    "Veri, belli bir soruya verilen cevaplardır. Sıklık, bir seçeneğin kaç kez çıktığıdır.",
-    "Çeteledeki beşinci çizgi de bir sayıdır. Sıklıkların toplamı kişi sayısına eşittir.",
-    "5, 4 ve 3 sıklığında en çok seçilen elmadır. Toplam 12 kişidir.",
+    "1 metre kare, 10.000 santimetre karedir. Dönüşüm iki boyutta yapılır.",
+    "1 dönüm 1.000 metre karedir. 1 hektar 10.000 metre karedir.",
+    "2 hektar 20 dönümdür. 3 dönüm 3.000 metre karedir.",
   ],
-  conceptSeal: "Sıklık tablosu, dağınık cevapları sayılabilir kılar.",
-  voiceSeal: "En yüksek sıklığı ve toplamın neden kişi sayısına eşit olduğunu söylersin.",
+  conceptSeal: "Alan dönüşümü, uzunluk dönüşümünün karesi kadar büyür.",
+  voiceSeal: "Metre kare ile dönümü hangi sayıyla çevirdiğini söylersin.",
   outcomes: [
-    "Veri, tek bir sorunun cevaplarından oluşur.",
-    "Sıklık, seçeneğin tekrar sayısıdır.",
-    "Sıklık toplamı, cevap veren kişi sayısına eşittir.",
+    "1 metre kare 10.000 santimetre karedir.",
+    "1 dönüm 1.000 metre karedir.",
+    "1 hektar 10 dönümdür.",
   ],
-  scene: "chart",
+  scene: "area",
   parentNote:
-    "Çocuğunuz çetele ile sıklık tablosunu birbirine bağlar. Evde 5 elma, 4 muz ve 3 üzümün toplamının 12 kişi ettiğini konuşmak yeter. En çok seçilen elmadır.",
+    "Çocuğunuz 1 metre karenın 10.000 santimetre kare, 1 dönümün 1.000 metre kare olduğunu anlatır. 1 metre 100 santimetredir diye alanı 100 ile çarpmayın.",
 
 };
 
-export const JUNIOR_MAT_18 = juniorLessonFromScenario(JUNIOR_MAT_18_SCENARIO);
+export const JUNIOR_MAT_22 = juniorLessonFromScenario(JUNIOR_MAT_22_SCENARIO);

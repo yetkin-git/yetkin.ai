@@ -17,11 +17,11 @@ import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
 import { CURRICULUM_LESSON_KEYS_BY_SLUG as EXAM_PATH_KEYS_BY_SLUG } from "@/lib/kernel/catalog-ids/exam-path";
 import { academyBakeVoiceModelId } from "@/lib/kernel/ai/model-roles";
 import { CURRICULUM_LESSON_KEYS_BY_SLUG, curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
-import { academyCourseProductionDiskSealed } from "@/lib/academy/production-standard";
+import { academyCourseVoiceTextSealed } from "@/lib/academy/production-standard";
 
 export const ACADEMY_PILOT_SKU_SLUG = null;
 
-/** Amiral SKU — vitrin ızgarasında görsel olarak öne çıkar (Sesli Anlatım). */
+/** Temel Akademi eğitimi — vitrinde öne çıkan kart (`01_office_ai`, OFF-101). */
 export const ACADEMY_FLAGSHIP_SKU_SLUG = "01_office_ai" as const;
 
 export const ACADEMY_GROWTH_SKU_SLUGS = [
@@ -31,7 +31,7 @@ export const ACADEMY_GROWTH_SKU_SLUGS = [
 /**
  * PEDAGOJI §D kardeş kabuk.
  * EC-102, SM-103, BOT-104 ve PR-105 bu listede durur. Kamu kapısı kapalıyken kart «Çok Yakında / Hazırlanıyor»dır.
- * Sıra, kanon kartın `vitrineOrder` alanından okunur. Amiral bu listeye girmez.
+ * Sıra, kanon kartın `vitrineOrder` alanından okunur. Öne çıkan temel eğitim bu listeye girmez.
  */
 type CourseRegistryCard = (typeof COURSE_REGISTRY)[number];
 type ProductionLineSlug = Exclude<
@@ -51,7 +51,7 @@ export const ACADEMY_PRODUCTION_LINE_SKU_SLUGS = COURSE_REGISTRY.filter(
   .map((row) => row.slug) as readonly ProductionLineSlug[];
 
 /**
- * Vitrin kabuğu. Üyelik amiral, OFF-201 ve üretim hattıdır.
+ * Vitrin kabuğu. Üyelik temel eğitim, OFF-201 ve üretim hattıdır.
  * Ekran sırası kayıt defterindeki `vitrineOrder` alanıdır.
  * `ACADEMY_GROWTH_SKU_SLUGS` satın alınır alt kümedir; kabuk listesi onu aşar.
  */
@@ -60,7 +60,7 @@ function vitrineRank(slug: string): number {
   return typeof rank === "number" ? rank : Number.MAX_SAFE_INTEGER;
 }
 
-/** OFF-201 vitrin kartı. Kanon 13’e girmez. Soğuk okuma ₺1.290; kilit katalog satırındadır. */
+/** OFF-201 vitrin kartı. Kanon 13’e girmez. Canlı kilit katalog satırıdır. Tohum tutarı kayıt defterindedir. */
 type Off201Slug = Extract<CourseRegistryCard, { canon: false; vitrineOrder: number }>["slug"];
 
 function off201StorefrontSlug(): Off201Slug {
@@ -91,7 +91,8 @@ export function academyOff201VoiceStatus(): string {
 /**
  * EC-102 gövde. Fırın sesi Puck (sicil adı Kaan, cinsiyet erkek). Konuşan ad Kaan.
  * Kart hitabı «Kaan Bey». Usta unvanı bu kursta yoktur. Kaset yeniden fırınlanmadan yeni ağız diske yazılmaz.
- * Yayın, fiyat ve disk mührü `academyCourseSaleOpen` içinde birlikte okunur.
+ * Yayın ve fiyat bu fonksiyonda okunmaz. Satış kapısı `academyCourseSaleOpen`
+ * ses ve metindir. Beş katman stüdyo mührü `academyCourseProductionDiskSealed` içindedir.
  */
 export const ACADEMY_NEXT_BODY_SKU_SLUG = "02_ecommerce_ai" as const;
 
@@ -358,7 +359,15 @@ export function academySkuAudioAllowsPurchase(courseSlug: string): boolean {
  * Liste mührü. Vitrin CTA bunu okur; disk okumaz (istemci paketi `node:fs` taşımaz).
  * Nakit kapısı `academyCourseSaleOpen` disk katmanını da ister.
  */
+function academyCanonShellHasNoLessons(courseSlug: string): boolean {
+  const row = COURSE_REGISTRY.find((item) => item.slug === courseSlug);
+  return Boolean(row && row.audience === "adult" && row.canon && row.lessonKeys.length === 0);
+}
+
 export function academyCourseSaleListed(courseSlug: string): boolean {
+  if (academyCanonShellHasNoLessons(courseSlug)) {
+    return false;
+  }
   if (isAcademyLicenseSaleSlug(courseSlug)) {
     return academySkuAudioAllowsPurchase(courseSlug);
   }
@@ -372,9 +381,10 @@ export function academyCourseSaleListed(courseSlug: string): boolean {
 
 /**
  * Tek satış kapısı. Cüzdan ve PayTR `academy-license:` niyeti bunu okur.
- * Lisans adayının sınav yolundaki her dersin beş katmanı diskte durmadan satılmaz.
- * Okuyucu yoksa fail-closed. Katalog haritasındaki diğer SKU satılmaz.
- * Harita dışı sentetik kurs nakit testine açıktır.
+ * Lisans adayı, sınav yolundaki her derste konuşma metni ve mühürlü ses durmadan satılmaz.
+ * Isınma klibi, sabit görsel ve fon müziği `academyCourseProductionDiskSealed` ile
+ * stüdyo mührüdür; bu kapıyı kapatmaz. Okuyucu yoksa fail-closed.
+ * Katalog haritasındaki diğer SKU satılmaz. Harita dışı sentetik kurs nakit testine açıktır.
  */
 export function academyCourseSaleOpen(courseSlug: string): boolean {
   if (!academyCourseSaleListed(courseSlug)) {
@@ -383,7 +393,7 @@ export function academyCourseSaleOpen(courseSlug: string): boolean {
   if (!isAcademyLicenseSaleSlug(courseSlug)) {
     return true;
   }
-  return academyCourseProductionDiskSealed(courseSlug, curriculumLessonKeysForSlug(courseSlug));
+  return academyCourseVoiceTextSealed(courseSlug, curriculumLessonKeysForSlug(courseSlug));
 }
 
 export function academyCatalogPurchasable(input: {

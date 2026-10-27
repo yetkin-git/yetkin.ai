@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { AdminConfirmDialog } from "@/components/kernel/admin-confirm-dialog";
 import { Button } from "@/components/ui/button";
 import { Input, INPUT_SURFACE_CLASS } from "@/components/ui/input";
+import { rememberAdminCatalogFlash } from "@/components/kernel/admin-catalog-flash";
 import { ADMIN_SEN } from "@/lib/copy/sen-voice/admin";
 import { CATALOG_WRITE_PATH } from "@/lib/kernel/admin/types";
 import { HOLD_BPS_MAX, HOLD_BPS_MIN } from "@/lib/kernel/pricing/hold-bps";
@@ -60,39 +61,44 @@ export function AdminCatalogAmountForm({
     setPending(true);
     setError(null);
     const amountMinor = Number.parseInt(amount, 10);
-    const response = await fetch(
-      CATALOG_WRITE_PATH,
-      withRailApiVersion({
-        method: "PATCH",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(
-          entryId
-            ? {
-                id: entryId,
-                amountMinor,
-                reasonCode,
-                reason: reason.trim(),
-              }
-            : {
-                moduleKey,
-                unitKey,
-                amountMinor,
-                reasonCode,
-                reason: reason.trim(),
-              },
-        ),
-      }),
-    );
-    const parsed = parseRailClientJson<Record<string, unknown>>(await response.json());
-    setPending(false);
-    if (!parsed.ok) {
-      setError(parsed.error ?? copy.amountFail);
+    try {
+      const response = await fetch(
+        CATALOG_WRITE_PATH,
+        withRailApiVersion({
+          method: "PATCH",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(
+            entryId
+              ? {
+                  id: entryId,
+                  amountMinor,
+                  reasonCode,
+                  reason: reason.trim(),
+                }
+              : {
+                  moduleKey,
+                  unitKey,
+                  amountMinor,
+                  reasonCode,
+                  reason: reason.trim(),
+                },
+          ),
+        }),
+      );
+      const parsed = parseRailClientJson<Record<string, unknown>>(await response.json());
+      setPending(false);
+      if (!parsed.ok) {
+        setError(parsed.error ?? copy.amountFail);
+        return;
+      }
       setConfirmOpen(false);
-      return;
+      setReason("");
+      rememberAdminCatalogFlash(copy.amountSaved);
+      router.refresh();
+    } catch {
+      setPending(false);
+      setError(copy.amountFail);
     }
-    setConfirmOpen(false);
-    setReason("");
-    router.refresh();
   }
 
   return (
@@ -144,7 +150,11 @@ export function AdminCatalogAmountForm({
             {pending ? copy.amountSaving : copy.amountSave}
           </Button>
         </div>
-        {error ? <p className="text-xs text-[var(--rose)]">{error}</p> : null}
+        {error && !confirmOpen ? (
+          <p role="alert" className="text-sm font-medium text-[var(--rose)]">
+            {error}
+          </p>
+        ) : null}
       </form>
       <AdminConfirmDialog
         open={confirmOpen}
@@ -162,7 +172,13 @@ export function AdminCatalogAmountForm({
             setConfirmOpen(false);
           }
         }}
-      />
+      >
+        {error ? (
+          <p role="alert" className="text-sm font-medium text-[var(--rose)]">
+            {error}
+          </p>
+        ) : null}
+      </AdminConfirmDialog>
     </>
   );
 }

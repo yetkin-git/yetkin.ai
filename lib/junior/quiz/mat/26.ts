@@ -1,55 +1,55 @@
 import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
 
-/** 6. Sınıf Matematik — konu sonu soru arşivi (26). */
-export const JUNIOR_MAT_QUIZ_26 = {
+/** 6. Sınıf Matematik — konu sonu soru arşivi (38). */
+export const JUNIOR_MAT_QUIZ_38 = {
   lessonKey: "jr_06_mat-26",
-  title: "Kesir ile bölme, sonlu ve devirli ondalık",
+  title: "Gözleme dayalı olasılık",
   tellGuides: [
-    "Sonlu ondalık ile devirli ondalığı nasıl ayırırsın?",
-    "1/3 için neden 0,33 yazmak yetmez?",
+    "Gözleme dayalı olasılıkta pay ve payda neyi sayar?",
+    "5/20 ile 5 neden aynı değildir?",
   ],
   questions: [
     {
       id: "q1",
       level: "concept",
-      question: "Bir kesri ondalık yazmak ne demektir?",
+      question: "Gözleme dayalı olasılık nasıl yazılır?",
       options: [
-        "Payı paydaya bölmek",
-        "Paydayı paya eklemek",
-        "Payı 10 ile çarpmak",
-        "Paydayı silmek",
+        "İstenen sonuç bölü deneme sayısı",
+        "Deneme sayısı eksi istenen sonuç",
+        "Yalnızca istenen sonucun kendisi",
+        "Her zaman 1/2",
       ],
       correctAnswerIndex: 0,
-      hint: "Bölüm ya biter ya da bir rakam döner.",
-      explanation: "Adım 1: Ondalık, payın paydaya bölümüdür. Adım 2: Kalan 0 ise sayı biter. Adım 3: Aynı kalan dönerse sayı devirlidir.",
+      hint: "Pay sonuç, payda denemedir.",
+      explanation: "Adım 1: Pay, sayılan sonuçtur. Adım 2: Payda, bütün denemelerdir. Adım 3: Oran bir kesirdir, tek başına adet değildir.",
     },
     {
       id: "q2",
       level: "apply",
-      question: "1/4 kesrinin ondalık karşılığı hangisidir?",
+      question: "20 atışta 5 tura geldiyse gözlem oranı nedir?",
       options: [
-        "0,4",
-        "0,25",
-        "0,14",
-        "4,1",
+        "5",
+        "20/5",
+        "5/20",
+        "15/5",
       ],
-      correctAnswerIndex: 1,
-      hint: "1'i 4'e böl. İki basamakta kalan 0 olur.",
-      explanation: "Adım 1: 1 bölü 4, 0,25 eder. Adım 2: Kalan 0 olduğu için ondalık sonludur. Adım 3: 0,4 başka bir kesrin yazımıdır.",
+      correctAnswerIndex: 2,
+      hint: "Pay 5, payda 20.",
+      explanation: "Adım 1: İstenen sonuç 5'tir. Adım 2: Deneme 20'dir. Adım 3: Oran 5/20 olur ve 1/4'e sadeleşir.",
     },
     {
       id: "q3",
       level: "skill",
-      question: "1/3 kesri neden devirli ondalıktır?",
+      question: "Aynı deneyde mavi 15 kez geldiyse iki oran neden 20'yi doldurur?",
       options: [
-        "Payı 1 olduğu için",
-        "Kalan 0 olmaz ve 3 tekrar eder",
-        "3 tek sayı olduğu için",
-        "Son basamağı 0 olduğu için",
+        "Çünkü 5 artı 15, 20 denemeye eşittir",
+        "Çünkü mavi her zaman 15'tir",
+        "Çünkü payda silinir",
+        "Çünkü 5/20 kesin gelir",
       ],
-      correctAnswerIndex: 1,
-      hint: "Bölmede kalan hiç sıfırlanmaz.",
-      explanation: "Adım 1: 1 bölü 3 işleminde kalan 0 olmaz. Adım 2: 3 rakamı sürekli döner. Adım 3: Bu yüzden 0,33 yazmak kesrin tamamı değildir.",
+      correctAnswerIndex: 0,
+      hint: "Bütün sonuçlar deneme sayısını paylaşır.",
+      explanation: "Adım 1: Kırmızı 5, mavi 15 kez gelmiştir. Adım 2: 5 artı 15, 20 eder. Adım 3: İki oran denemelerin tamamıdır.",
     },
   ],
 } as const satisfies JuniorLessonQuizPack;

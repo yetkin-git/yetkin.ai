@@ -1,68 +1,13 @@
-import {
-  JUNIOR_LIVE_TUTOR_QUICK_CHIPS,
-  JUNIOR_LIVE_TUTOR_TEACHER,
-  JUNIOR_LIVE_TUTOR_WELCOME,
-} from "@/lib/junior/live-tutor-policy";
 import { getPilotTimelineForLesson } from "@/lib/junior/pilot-engine/mat-5-timeline-loader";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
-import {
-  JR_06_MAT_1_BLUEPRINT,
-  JR_06_MAT_2_BLUEPRINT,
-  JR_06_MAT_3_BLUEPRINT,
-  JR_06_MAT_4_BLUEPRINT,
-  JR_06_MAT_5_BLUEPRINT,
-  MAT_5_SIMULATION_TABS,
-} from "./modules/mat-1-to-5";
+import { JR_06_MAT_1_BLUEPRINT } from "./modules/mat-5";
+import { JR_06_MAT_2_BLUEPRINT } from "./modules/mat-6";
 import type { JuniorLessonBlueprint, JuniorTactileActivityRules } from "./types";
 
 const BLUEPRINT_REGISTRY = new Map<string, JuniorLessonBlueprint>([
   [JR_06_MAT_1_BLUEPRINT.lessonKey, JR_06_MAT_1_BLUEPRINT],
   [JR_06_MAT_2_BLUEPRINT.lessonKey, JR_06_MAT_2_BLUEPRINT],
-  [JR_06_MAT_3_BLUEPRINT.lessonKey, JR_06_MAT_3_BLUEPRINT],
-  [JR_06_MAT_4_BLUEPRINT.lessonKey, JR_06_MAT_4_BLUEPRINT],
-  [JR_06_MAT_5_BLUEPRINT.lessonKey, JR_06_MAT_5_BLUEPRINT],
 ]);
-
-function defaultSubjectFromKey(lessonKey: string): JuniorLessonBlueprint["subject"] {
-  if (lessonKey.startsWith("jr_06_fen")) return "Fen Bilimleri";
-  if (lessonKey.startsWith("jr_06_turkce")) return "Türkçe";
-  if (lessonKey.startsWith("jr_06_ing")) return "İngilizce";
-  if (lessonKey.startsWith("jr_06_sosyal")) return "Sosyal Bilgiler";
-  return "Matematik";
-}
-
-function buildFallbackBlueprint(lessonKey: string): JuniorLessonBlueprint {
-  const subject = defaultSubjectFromKey(lessonKey);
-  return {
-    lessonKey,
-    title: lessonKey,
-    grade: 6,
-    subject,
-    content: {
-      lessonKey,
-      title: lessonKey,
-      mebCode: "MEB.6",
-      heroQuestion: "Bu konunun temel kuralını günlük yaşamda nasıl kullanırız?",
-      heroFocus: "Kavram, örnek ve altın ipucu adımlarıyla konuyu keşfetme.",
-      conceptSummary: "Adım adım görsel sahne ve interaktif etkinliklerle konuyu pekiştirir.",
-      outcomes: [],
-    },
-    badge: {
-      icon: "🏅",
-      chipLabel: "🏅 Süper Kaşif",
-      modalTitle: "Süper Kaşif Rozeti",
-      modalSubtitle: "Tüm etkinlikleri ve bulmacaları hatasız tamamladın!",
-      thirdStepLabel: "3. Sıraya Diz",
-    },
-    tutor: {
-      teacherName: JUNIOR_LIVE_TUTOR_TEACHER,
-      welcomeMessage: JUNIOR_LIVE_TUTOR_WELCOME,
-      quickChips: JUNIOR_LIVE_TUTOR_QUICK_CHIPS,
-    },
-    simulations: lessonKey.startsWith("jr_06_mat") ? MAT_5_SIMULATION_TABS : [],
-    resolveTimeline: () => getPilotTimelineForLesson(lessonKey),
-  };
-}
 
 /**
  * Yeni bir 6. sınıf ders şablonunu çalışma zamanında kayıt defterine ekler veya günceller.
@@ -81,40 +26,55 @@ export function hasJuniorLessonBlueprint(lessonKey: string): boolean {
   return BLUEPRINT_REGISTRY.has(lessonKey);
 }
 
+const EMPTY_TACTILE_RULES: JuniorTactileActivityRules = {
+  matchTargets: {},
+  gapAnswers: {},
+  rocketRules: {},
+};
+
 /**
- * Dokunsal etkinlik kuralları. Kayıtlı ders kendi haritasını kullanır;
- * eksik parça `jr_06_mat-5` altın standart kurallarına düşer.
+ * Dokunsal puan anahtarı. Kayıtlı ders kendi haritasını kullanır.
+ * Altın anahtar yalnız `jr_06_mat-1` içindir. Başka ders o kurallara düşmez.
  */
 export function resolveJuniorTactileRules(lessonKey: string): JuniorTactileActivityRules {
   const registered = BLUEPRINT_REGISTRY.get(lessonKey)?.tactileRules;
-  const gold = JR_06_MAT_5_BLUEPRINT.tactileRules;
-  return {
-    matchTargets: registered?.matchTargets ?? gold?.matchTargets ?? {},
-    gapAnswers: registered?.gapAnswers ?? gold?.gapAnswers ?? {},
-    rocketRules: registered?.rocketRules ?? gold?.rocketRules ?? {},
-    explanations: registered?.explanations,
-  };
+  if (registered) {
+    return {
+      matchTargets: registered.matchTargets ?? {},
+      gapAnswers: registered.gapAnswers ?? {},
+      rocketRules: registered.rocketRules ?? {},
+      explanations: registered.explanations,
+    };
+  }
+  if (lessonKey === "jr_06_mat-1") {
+    const gold = JR_06_MAT_1_BLUEPRINT.tactileRules;
+    return {
+      matchTargets: gold?.matchTargets ?? {},
+      gapAnswers: gold?.gapAnswers ?? {},
+      rocketRules: gold?.rocketRules ?? {},
+      explanations: gold?.explanations,
+    };
+  }
+  return EMPTY_TACTILE_RULES;
 }
 
 /**
- * Verilen `lessonKey` için `JuniorLessonBlueprint` döner.
- * Kayıtlı özel şablon yoksa standart `Süper Kaşif` şablonuna düşer.
+ * Kayıtlı şablon. Yazılmamış derste jenerik rozet ve `MEB.6` kabı üretilmez.
  */
-export function getJuniorLessonBlueprint(lessonKey: string): JuniorLessonBlueprint {
-  return BLUEPRINT_REGISTRY.get(lessonKey) ?? buildFallbackBlueprint(lessonKey);
+export function getJuniorLessonBlueprint(lessonKey: string): JuniorLessonBlueprint | null {
+  return BLUEPRINT_REGISTRY.get(lessonKey) ?? null;
+}
+
+/** Eski 1–4 taslağı silindi. Kamu dersi bu listede durmaz. */
+export function listQuarantinedJuniorMatBlueprints(): readonly JuniorLessonBlueprint[] {
+  return [];
 }
 
 /**
- * Kayıtlı 6. sınıf matematik seri üretim şablonlarını (`jr_06_mat-1..5`) listeler.
+ * Canlı 6. sınıf matematik şablonu. Açılış `jr_06_mat-1`.
  */
 export function listJuniorMatLessonBlueprints(): readonly JuniorLessonBlueprint[] {
-  return [
-    JR_06_MAT_1_BLUEPRINT,
-    JR_06_MAT_2_BLUEPRINT,
-    JR_06_MAT_3_BLUEPRINT,
-    JR_06_MAT_4_BLUEPRINT,
-    JR_06_MAT_5_BLUEPRINT,
-  ];
+  return [JR_06_MAT_1_BLUEPRINT];
 }
 
 /**

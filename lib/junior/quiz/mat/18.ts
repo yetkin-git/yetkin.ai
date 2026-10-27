@@ -1,55 +1,55 @@
 import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
 
-/** 6. Sınıf Matematik — konu sonu soru arşivi (18/25). */
-export const JUNIOR_MAT_QUIZ_18 = {
+/** 6. Sınıf Matematik — konu sonu soru arşivi (22/25). */
+export const JUNIOR_MAT_QUIZ_22 = {
   lessonKey: "jr_06_mat-18",
-  title: "Veri toplama ve değerlendirme",
+  title: "Alan ölçü birimleri ve arazi",
   tellGuides: [
-    "Sıklığın ne anlama geldiğini bir örnekle anlatabilir misin?",
-    "En çok seçilen seçeneği tablodan nasıl bulursun?",
+    "1 m² ile 1 cm² arasındaki ilişkiyi anlatabilir misin?",
+    "Dönüm ve hektar nasıl ilişkilidir?",
   ],
   questions: [
     {
       id: "q1",
       level: "concept",
-      question: "Sıklık neyi söyler?",
+      question: "1 metre kare kaç santimetre karedir?",
       options: [
-        "Bir seçeneğin kaç kez çıktığını",
-        "En küçük sayıyı",
-        "Ortalamayı",
-        "Açıklığı",
+        "10.000",
+        "100",
+        "1.000",
+        "10",
       ],
       correctAnswerIndex: 0,
-      hint: "Sıklık, tekrar sayısını gösterir.",
-      explanation: "Adım 1: Her seçenek sayılır. Adım 2: Kaç kez göründüğü sıklıktır. Adım 3: En büyük sıklık en çok seçilendir.",
+      hint: "1 m = 100 cm; alan için 100 çarpı 100.",
+      explanation: "Adım 1: 1 m, 100 cm'dir. Adım 2: Alan için 100 çarpı 100 yapılır. Adım 3: 1 m² = 10.000 cm²'dir.",
     },
     {
       id: "q2",
       level: "apply",
-      question: "Elma 5, armut 4, üzüm 3 kez seçilmiş. Toplam kaç kişi vardır?",
+      question: "1 hektar kaç dönümdür? Önce iki yolu karşılaştır.",
       options: [
-        "12",
-        "5",
-        "9",
-        "3",
+        "10",
+        "100",
+        "1.000",
+        "10.000",
       ],
       correctAnswerIndex: 0,
-      hint: "Sıklıkları topla.",
-      explanation: "Adım 1: 5 artı 4, 9 eder. Adım 2: 9 artı 3, 12 eder. Adım 3: Toplam 12 kişidir. En çok seçilen elmadır.",
+      hint: "1 hektar 10.000 m², 1 dönüm 1.000 m²'dir.",
+      explanation: "Adım 1: 1 hektar = 10.000 m². Adım 2: 1 dönüm = 1.000 m². Adım 3: 10.000 bölü 1.000, 10 dönümdür.",
     },
     {
       id: "q3",
       level: "skill",
-      question: "Sınıf anketinde en çok oy alan meyve elmadır (5 oy). Armut 4, üzüm 3 oy almıştır. Hangi sonuç doğrudur?",
+      question: "Çiftçinin 2 hektar tarlası vardır. Bu kaç dönümdür?",
       options: [
-        "En çok tercih edilen elmadır",
-        "En çok tercih edilen üzümdür",
-        "Toplam 5 kişidir",
-        "Armut hiç seçilmemiştir",
+        "20",
+        "2",
+        "200",
+        "10",
       ],
       correctAnswerIndex: 0,
-      hint: "En büyük sıklığa bak.",
-      explanation: "Adım 1: Sıklıklar 5, 4 ve 3'tür. Adım 2: En büyüğü 5'tir. Adım 3: En çok tercih edilen elmadır.",
+      hint: "1 hektar = 10 dönüm.",
+      explanation: "Adım 1: 1 hektar 10 dönümdür. Adım 2: 2 hektar için 2 çarpı 10 yapılır. Adım 3: Sonuç 20 dönümdür.",
     },
   ],
 } as const satisfies JuniorLessonQuizPack;

@@ -1,0 +1,2137 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_sosyal-25",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Yatırım ve pazarlama proje önerisi",
+  "grade": 6,
+  "subject": "Sosyal Bilgiler",
+  "teacher": {
+    "name": "Murat",
+    "voice": "Achird",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_sosyal-25.mp3",
+    "durationMs": 255131,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 58660
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 58660,
+      "endMs": 200490
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 200490,
+      "endMs": 255131
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 1930,
+      "pauseAfterMs": 650,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 140,
+          "endMs": 450
+        },
+        {
+          "word": "sevgili",
+          "startMs": 450,
+          "endMs": 850
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 910,
+          "endMs": 1280
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Yatırım ve pazarlama proje önerisi",
+            "subtitle": "Sosyal Bilgiler",
+            "ruleBadges": [],
+            "echoPrompt": "Bir proje önerisinde kaynağı, alıcıyı ve araştırma kutusunu ayrı söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Yatırım, satıştan önce konan kaynak ve emektir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Pazarlama, ürünü kime anlatacağını seçmektir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Proje önerisi bu ikisini bir modelde yazar."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 1930,
+      "endMs": 4550,
+      "pauseAfterMs": 820,
+      "text": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "markedText": "Ben Sosyal Bilgiler öğretmenin Murat.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 1930,
+          "endMs": 2110
+        },
+        {
+          "word": "Sosyal",
+          "startMs": 2290,
+          "endMs": 2710
+        },
+        {
+          "word": "Bilgiler",
+          "startMs": 2710,
+          "endMs": 3010
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 3010,
+          "endMs": 3530
+        },
+        {
+          "word": "Murat.",
+          "startMs": 3530,
+          "endMs": 3730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 4550,
+      "endMs": 15260,
+      "pauseAfterMs": 790,
+      "text": "Okul bahçesindeki bir stantta ayraç satmak isteyen sınıf, önce kâğıdı ve süreyi hesaplar.",
+      "markedText": "Okul bahçesindeki bir stantta ayraç satmak isteyen sınıf, önce kâğıdı ve süreyi hesaplar.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 4550,
+          "endMs": 4840
+        },
+        {
+          "word": "bahçesindeki",
+          "startMs": 4840,
+          "endMs": 5600
+        },
+        {
+          "word": "bir",
+          "startMs": 6110,
+          "endMs": 6260
+        },
+        {
+          "word": "stantta",
+          "startMs": 6340,
+          "endMs": 6900
+        },
+        {
+          "word": "ayraç",
+          "startMs": 7780,
+          "endMs": 7980
+        },
+        {
+          "word": "satmak",
+          "startMs": 8200,
+          "endMs": 8530
+        },
+        {
+          "word": "isteyen",
+          "startMs": 8720,
+          "endMs": 9210
+        },
+        {
+          "word": "sınıf,",
+          "startMs": 9300,
+          "endMs": 10040
+        },
+        {
+          "word": "önce",
+          "startMs": 10480,
+          "endMs": 10830
+        },
+        {
+          "word": "kâğıdı",
+          "startMs": 10930,
+          "endMs": 11450
+        },
+        {
+          "word": "ve",
+          "startMs": 12070,
+          "endMs": 12320
+        },
+        {
+          "word": "süreyi",
+          "startMs": 12620,
+          "endMs": 13080
+        },
+        {
+          "word": "hesaplar.",
+          "startMs": 13610,
+          "endMs": 14470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 15260,
+      "endMs": 18140,
+      "pauseAfterMs": 480,
+      "text": "Bu hesap yatırımdır.",
+      "markedText": "Bu hesap yatırımdır.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 15260,
+          "endMs": 15410
+        },
+        {
+          "word": "hesap",
+          "startMs": 15410,
+          "endMs": 15760
+        },
+        {
+          "word": "yatırımdır.",
+          "startMs": 15930,
+          "endMs": 17660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 18140,
+      "endMs": 23340,
+      "pauseAfterMs": 320,
+      "text": "Ayıracı kime anlatacağı ise pazarlamadır.",
+      "markedText": "Ayıracı kime anlatacağı ise pazarlamadır.",
+      "words": [
+        {
+          "word": "Ayıracı",
+          "startMs": 18140,
+          "endMs": 18710
+        },
+        {
+          "word": "kime",
+          "startMs": 19060,
+          "endMs": 19260
+        },
+        {
+          "word": "anlatacağı",
+          "startMs": 19470,
+          "endMs": 20230
+        },
+        {
+          "word": "ise",
+          "startMs": 20790,
+          "endMs": 21340
+        },
+        {
+          "word": "pazarlamadır.",
+          "startMs": 21560,
+          "endMs": 23020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 23340,
+      "endMs": 29530,
+      "pauseAfterMs": 630,
+      "text": "Proje önerisini bir panayır modelinde kuracağız.",
+      "markedText": "Proje önerisini bir panayır modelinde kuracağız.",
+      "words": [
+        {
+          "word": "Proje",
+          "startMs": 23340,
+          "endMs": 23780
+        },
+        {
+          "word": "önerisini",
+          "startMs": 23860,
+          "endMs": 25070
+        },
+        {
+          "word": "bir",
+          "startMs": 25760,
+          "endMs": 26200
+        },
+        {
+          "word": "panayır",
+          "startMs": 26300,
+          "endMs": 27040
+        },
+        {
+          "word": "modelinde",
+          "startMs": 27140,
+          "endMs": 28040
+        },
+        {
+          "word": "kuracağız.",
+          "startMs": 28240,
+          "endMs": 28900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 29530,
+      "endMs": 33130,
+      "pauseAfterMs": 640,
+      "text": "Bunu evde küçük bir satışta da kurabilirsin.",
+      "markedText": "Bunu evde küçük bir satışta da kurabilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 29530,
+          "endMs": 29760
+        },
+        {
+          "word": "evde",
+          "startMs": 30020,
+          "endMs": 30310
+        },
+        {
+          "word": "küçük",
+          "startMs": 30420,
+          "endMs": 30740
+        },
+        {
+          "word": "bir",
+          "startMs": 30850,
+          "endMs": 30930
+        },
+        {
+          "word": "satışta",
+          "startMs": 30930,
+          "endMs": 31350
+        },
+        {
+          "word": "da",
+          "startMs": 31350,
+          "endMs": 31420
+        },
+        {
+          "word": "kurabilirsin.",
+          "startMs": 31420,
+          "endMs": 32490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 33130,
+      "endMs": 40990,
+      "pauseAfterMs": 450,
+      "text": "Arkadaşına kurabiye anlatmadan önce un ve zaman yatırımını yazarsın.",
+      "markedText": "Arkadaşına kurabiye anlatmadan önce un ve zaman yatırımını yazarsın.",
+      "words": [
+        {
+          "word": "Arkadaşına",
+          "startMs": 33130,
+          "endMs": 33720
+        },
+        {
+          "word": "kurabiye",
+          "startMs": 34020,
+          "endMs": 34910
+        },
+        {
+          "word": "anlatmadan",
+          "startMs": 35730,
+          "endMs": 36580
+        },
+        {
+          "word": "önce",
+          "startMs": 36650,
+          "endMs": 36920
+        },
+        {
+          "word": "un",
+          "startMs": 37700,
+          "endMs": 37810
+        },
+        {
+          "word": "ve",
+          "startMs": 37910,
+          "endMs": 38160
+        },
+        {
+          "word": "zaman",
+          "startMs": 38420,
+          "endMs": 38810
+        },
+        {
+          "word": "yatırımını",
+          "startMs": 38890,
+          "endMs": 39560
+        },
+        {
+          "word": "yazarsın.",
+          "startMs": 39660,
+          "endMs": 40540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 40990,
+      "endMs": 48260,
+      "pauseAfterMs": 760,
+      "text": "Okul kantini yerine bir market reyonuna bakmak araştırmadır.",
+      "markedText": "Okul kantini yerine bir market reyonuna bakmak araştırmadır.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 40990,
+          "endMs": 41240
+        },
+        {
+          "word": "kantini",
+          "startMs": 41600,
+          "endMs": 42430
+        },
+        {
+          "word": "yerine",
+          "startMs": 43410,
+          "endMs": 44000
+        },
+        {
+          "word": "bir",
+          "startMs": 44250,
+          "endMs": 44390
+        },
+        {
+          "word": "market",
+          "startMs": 44390,
+          "endMs": 44720
+        },
+        {
+          "word": "reyonuna",
+          "startMs": 44890,
+          "endMs": 45710
+        },
+        {
+          "word": "bakmak",
+          "startMs": 45760,
+          "endMs": 46170
+        },
+        {
+          "word": "araştırmadır.",
+          "startMs": 46170,
+          "endMs": 47500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 48260,
+      "endMs": 54400,
+      "pauseAfterMs": 570,
+      "text": "Lira kutusu ancak bu sıra tamam olunca anlam kazanır.",
+      "markedText": "Lira kutusu ancak bu sıra tamam olunca anlam kazanır.",
+      "words": [
+        {
+          "word": "Lira",
+          "startMs": 48260,
+          "endMs": 48610
+        },
+        {
+          "word": "kutusu",
+          "startMs": 48940,
+          "endMs": 49040
+        },
+        {
+          "word": "ancak",
+          "startMs": 49470,
+          "endMs": 49750
+        },
+        {
+          "word": "bu",
+          "startMs": 49850,
+          "endMs": 50090
+        },
+        {
+          "word": "sıra",
+          "startMs": 50180,
+          "endMs": 50550
+        },
+        {
+          "word": "tamam",
+          "startMs": 50550,
+          "endMs": 51190
+        },
+        {
+          "word": "olunca",
+          "startMs": 51880,
+          "endMs": 52240
+        },
+        {
+          "word": "anlam",
+          "startMs": 52550,
+          "endMs": 53090
+        },
+        {
+          "word": "kazanır.",
+          "startMs": 53370,
+          "endMs": 53830
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 54400,
+      "endMs": 58660,
+      "pauseAfterMs": 940,
+      "text": "Model, üç kutuyu yan yana tutar.",
+      "markedText": "Model, üç kutuyu yan yana tutar.",
+      "words": [
+        {
+          "word": "Model,",
+          "startMs": 54400,
+          "endMs": 55180
+        },
+        {
+          "word": "üç",
+          "startMs": 55620,
+          "endMs": 55830
+        },
+        {
+          "word": "kutuyu",
+          "startMs": 55830,
+          "endMs": 56180
+        },
+        {
+          "word": "yan",
+          "startMs": 56350,
+          "endMs": 56500
+        },
+        {
+          "word": "yana",
+          "startMs": 56850,
+          "endMs": 57140
+        },
+        {
+          "word": "tutar.",
+          "startMs": 57250,
+          "endMs": 57720
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 58660,
+      "endMs": 66390,
+      "pauseAfterMs": 490,
+      "text": "Yatırım, ürün ortaya çıkmadan konan kaynaktır: kâğıt, zaman ve emek.",
+      "markedText": "Yatırım, ürün ortaya çıkmadan konan kaynaktır: kâğıt, zaman ve emek.",
+      "words": [
+        {
+          "word": "Yatırım,",
+          "startMs": 58660,
+          "endMs": 59320
+        },
+        {
+          "word": "ürün",
+          "startMs": 59580,
+          "endMs": 60040
+        },
+        {
+          "word": "ortaya",
+          "startMs": 60140,
+          "endMs": 60750
+        },
+        {
+          "word": "çıkmadan",
+          "startMs": 60910,
+          "endMs": 61460
+        },
+        {
+          "word": "konan",
+          "startMs": 61460,
+          "endMs": 61780
+        },
+        {
+          "word": "kaynaktır:",
+          "startMs": 61900,
+          "endMs": 63060
+        },
+        {
+          "word": "kâğıt,",
+          "startMs": 63840,
+          "endMs": 64490
+        },
+        {
+          "word": "zaman",
+          "startMs": 64830,
+          "endMs": 65120
+        },
+        {
+          "word": "ve",
+          "startMs": 65200,
+          "endMs": 65340
+        },
+        {
+          "word": "emek.",
+          "startMs": 65680,
+          "endMs": 65900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 66390,
+      "endMs": 76570,
+      "pauseAfterMs": 780,
+      "text": "Pazarlama, bu ürünü kimin alacağını ve ona ne söyleyeceğini seçmektir.",
+      "markedText": "Pazarlama, bu ürünü kimin alacağını ve ona ne söyleyeceğini seçmektir.",
+      "words": [
+        {
+          "word": "Pazarlama,",
+          "startMs": 66390,
+          "endMs": 67470
+        },
+        {
+          "word": "bu",
+          "startMs": 67740,
+          "endMs": 67920
+        },
+        {
+          "word": "ürünü",
+          "startMs": 68030,
+          "endMs": 68790
+        },
+        {
+          "word": "kimin",
+          "startMs": 69760,
+          "endMs": 70240
+        },
+        {
+          "word": "alacağını",
+          "startMs": 70330,
+          "endMs": 71090
+        },
+        {
+          "word": "ve",
+          "startMs": 71270,
+          "endMs": 71600
+        },
+        {
+          "word": "ona",
+          "startMs": 72690,
+          "endMs": 72870
+        },
+        {
+          "word": "ne",
+          "startMs": 73130,
+          "endMs": 73360
+        },
+        {
+          "word": "söyleyeceğini",
+          "startMs": 73450,
+          "endMs": 74360
+        },
+        {
+          "word": "seçmektir.",
+          "startMs": 74560,
+          "endMs": 75790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 76570,
+      "endMs": 83160,
+      "pauseAfterMs": 580,
+      "text": "Proje önerisi, ikisini aynı kâğıda yazan plandır.",
+      "markedText": "Proje önerisi, ikisini aynı kâğıda yazan plandır.",
+      "words": [
+        {
+          "word": "Proje",
+          "startMs": 76570,
+          "endMs": 76660
+        },
+        {
+          "word": "önerisi,",
+          "startMs": 76810,
+          "endMs": 77530
+        },
+        {
+          "word": "ikisini",
+          "startMs": 78110,
+          "endMs": 78650
+        },
+        {
+          "word": "aynı",
+          "startMs": 78920,
+          "endMs": 79350
+        },
+        {
+          "word": "kâğıda",
+          "startMs": 79490,
+          "endMs": 80500
+        },
+        {
+          "word": "yazan",
+          "startMs": 81480,
+          "endMs": 81770
+        },
+        {
+          "word": "plandır.",
+          "startMs": 81940,
+          "endMs": 82580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 83160,
+      "endMs": 92300,
+      "pauseAfterMs": 230,
+      "text": "Model, öneriyi üç kutuda kurar: ne üretilecek, kime anlatılacak, kaynak yetiyor mu.",
+      "markedText": "Model, öneriyi üç kutuda kurar: ne üretilecek, kime anlatılacak, kaynak yetiyor mu.",
+      "words": [
+        {
+          "word": "Model,",
+          "startMs": 83160,
+          "endMs": 83570
+        },
+        {
+          "word": "öneriyi",
+          "startMs": 83680,
+          "endMs": 84120
+        },
+        {
+          "word": "üç",
+          "startMs": 84310,
+          "endMs": 84370
+        },
+        {
+          "word": "kutuda",
+          "startMs": 84440,
+          "endMs": 84960
+        },
+        {
+          "word": "kurar:",
+          "startMs": 85210,
+          "endMs": 85370
+        },
+        {
+          "word": "ne",
+          "startMs": 85660,
+          "endMs": 85900
+        },
+        {
+          "word": "üretilecek,",
+          "startMs": 86140,
+          "endMs": 87090
+        },
+        {
+          "word": "kime",
+          "startMs": 87910,
+          "endMs": 88170
+        },
+        {
+          "word": "anlatılacak,",
+          "startMs": 88420,
+          "endMs": 89170
+        },
+        {
+          "word": "kaynak",
+          "startMs": 89790,
+          "endMs": 90460
+        },
+        {
+          "word": "yetiyor",
+          "startMs": 90650,
+          "endMs": 91360
+        },
+        {
+          "word": "mu.",
+          "startMs": 91480,
+          "endMs": 92070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 92300,
+      "endMs": 101230,
+      "pauseAfterMs": 820,
+      "text": "Araştırma, alıcının okulda mı yoksa bir markette mi durduğunu sormaktır.",
+      "markedText": "Araştırma, alıcının okulda mı yoksa bir markette mi durduğunu sormaktır.",
+      "words": [
+        {
+          "word": "Araştırma,",
+          "startMs": 92300,
+          "endMs": 93370
+        },
+        {
+          "word": "alıcının",
+          "startMs": 94180,
+          "endMs": 94530
+        },
+        {
+          "word": "okulda",
+          "startMs": 94600,
+          "endMs": 94910
+        },
+        {
+          "word": "mı",
+          "startMs": 95240,
+          "endMs": 95390
+        },
+        {
+          "word": "yoksa",
+          "startMs": 95440,
+          "endMs": 95740
+        },
+        {
+          "word": "bir",
+          "startMs": 95870,
+          "endMs": 96350
+        },
+        {
+          "word": "markette",
+          "startMs": 97180,
+          "endMs": 97870
+        },
+        {
+          "word": "mi",
+          "startMs": 97870,
+          "endMs": 98150
+        },
+        {
+          "word": "durduğunu",
+          "startMs": 98520,
+          "endMs": 99130
+        },
+        {
+          "word": "sormaktır.",
+          "startMs": 99340,
+          "endMs": 100410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 101230,
+      "endMs": 110960,
+      "pauseAfterMs": 560,
+      "text": "Pratik kural: Önce kaynağı yaz, sonra alıcıyı yaz, en sonda cümleyi dene.",
+      "markedText": "Pratik kural: Önce kaynağı yaz, sonra alıcıyı yaz, en sonda cümleyi dene.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 101230,
+          "endMs": 101980
+        },
+        {
+          "word": "kural:",
+          "startMs": 102560,
+          "endMs": 103180
+        },
+        {
+          "word": "Önce",
+          "startMs": 103860,
+          "endMs": 104070
+        },
+        {
+          "word": "kaynağı",
+          "startMs": 104200,
+          "endMs": 104730
+        },
+        {
+          "word": "yaz,",
+          "startMs": 104790,
+          "endMs": 105170
+        },
+        {
+          "word": "sonra",
+          "startMs": 105990,
+          "endMs": 106170
+        },
+        {
+          "word": "alıcıyı",
+          "startMs": 106320,
+          "endMs": 106720
+        },
+        {
+          "word": "yaz,",
+          "startMs": 106800,
+          "endMs": 107110
+        },
+        {
+          "word": "en",
+          "startMs": 107470,
+          "endMs": 107530
+        },
+        {
+          "word": "sonda",
+          "startMs": 107670,
+          "endMs": 108190
+        },
+        {
+          "word": "cümleyi",
+          "startMs": 108720,
+          "endMs": 109410
+        },
+        {
+          "word": "dene.",
+          "startMs": 109510,
+          "endMs": 110400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 110960,
+      "endMs": 118540,
+      "pauseAfterMs": 380,
+      "text": "Sınıf, okul panayırında ayraç standı için bir model kurar.",
+      "markedText": "Sınıf, okul panayırında ayraç standı için bir model kurar.",
+      "words": [
+        {
+          "word": "Sınıf,",
+          "startMs": 110960,
+          "endMs": 111310
+        },
+        {
+          "word": "okul",
+          "startMs": 111310,
+          "endMs": 111760
+        },
+        {
+          "word": "panayırında",
+          "startMs": 111860,
+          "endMs": 113430
+        },
+        {
+          "word": "ayraç",
+          "startMs": 114190,
+          "endMs": 114640
+        },
+        {
+          "word": "standı",
+          "startMs": 114740,
+          "endMs": 115220
+        },
+        {
+          "word": "için",
+          "startMs": 115360,
+          "endMs": 115790
+        },
+        {
+          "word": "bir",
+          "startMs": 116040,
+          "endMs": 116280
+        },
+        {
+          "word": "model",
+          "startMs": 116470,
+          "endMs": 117010
+        },
+        {
+          "word": "kurar.",
+          "startMs": 117120,
+          "endMs": 118160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 118540,
+      "endMs": 129070,
+      "pauseAfterMs": 460,
+      "text": "İlk kutu yatırımdır: iki deste renkli kâğıt ve bir öğleden sonra emek.",
+      "markedText": "İlk kutu yatırımdır: iki deste renkli kâğıt ve bir öğleden sonra emek.",
+      "words": [
+        {
+          "word": "İlk",
+          "startMs": 118540,
+          "endMs": 118690
+        },
+        {
+          "word": "kutu",
+          "startMs": 118800,
+          "endMs": 119470
+        },
+        {
+          "word": "yatırımdır:",
+          "startMs": 120330,
+          "endMs": 121240
+        },
+        {
+          "word": "iki",
+          "startMs": 122040,
+          "endMs": 122280
+        },
+        {
+          "word": "deste",
+          "startMs": 122890,
+          "endMs": 123370
+        },
+        {
+          "word": "renkli",
+          "startMs": 123470,
+          "endMs": 124340
+        },
+        {
+          "word": "kâğıt",
+          "startMs": 124960,
+          "endMs": 125360
+        },
+        {
+          "word": "ve",
+          "startMs": 125570,
+          "endMs": 125690
+        },
+        {
+          "word": "bir",
+          "startMs": 125940,
+          "endMs": 126310
+        },
+        {
+          "word": "öğleden",
+          "startMs": 126420,
+          "endMs": 127020
+        },
+        {
+          "word": "sonra",
+          "startMs": 127110,
+          "endMs": 127670
+        },
+        {
+          "word": "emek.",
+          "startMs": 128340,
+          "endMs": 128610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 129070,
+      "endMs": 139830,
+      "pauseAfterMs": 1010,
+      "text": "İkinci kutu pazarlamadır: alıcı, teneffüste kitap okuyan öğrencidir; cümle «sayfa kaybetme» der.",
+      "markedText": "İkinci kutu pazarlamadır: alıcı, teneffüste kitap okuyan öğrencidir; cümle «sayfa kaybetme» der.",
+      "words": [
+        {
+          "word": "İkinci",
+          "startMs": 129070,
+          "endMs": 129720
+        },
+        {
+          "word": "kutu",
+          "startMs": 129920,
+          "endMs": 130220
+        },
+        {
+          "word": "pazarlamadır:",
+          "startMs": 130400,
+          "endMs": 131810
+        },
+        {
+          "word": "alıcı,",
+          "startMs": 132530,
+          "endMs": 132740
+        },
+        {
+          "word": "teneffüste",
+          "startMs": 133190,
+          "endMs": 133970
+        },
+        {
+          "word": "kitap",
+          "startMs": 134080,
+          "endMs": 134260
+        },
+        {
+          "word": "okuyan",
+          "startMs": 134470,
+          "endMs": 134770
+        },
+        {
+          "word": "öğrencidir;",
+          "startMs": 134770,
+          "endMs": 135630
+        },
+        {
+          "word": "cümle",
+          "startMs": 136390,
+          "endMs": 136850
+        },
+        {
+          "word": "«sayfa",
+          "startMs": 136910,
+          "endMs": 137430
+        },
+        {
+          "word": "kaybetme»",
+          "startMs": 137430,
+          "endMs": 138390
+        },
+        {
+          "word": "der.",
+          "startMs": 138600,
+          "endMs": 138820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 139830,
+      "endMs": 148420,
+      "pauseAfterMs": 860,
+      "text": "Üçüncü kutu araştırmadır: aynı ayıraç bir markette de duruyor mu, fiyat orada daha mı yüksek.",
+      "markedText": "Üçüncü kutu araştırmadır: aynı ayıraç bir markette de duruyor mu, fiyat orada daha mı yüksek.",
+      "words": [
+        {
+          "word": "Üçüncü",
+          "startMs": 139830,
+          "endMs": 140270
+        },
+        {
+          "word": "kutu",
+          "startMs": 140340,
+          "endMs": 140590
+        },
+        {
+          "word": "araştırmadır:",
+          "startMs": 140650,
+          "endMs": 141330
+        },
+        {
+          "word": "aynı",
+          "startMs": 141510,
+          "endMs": 141970
+        },
+        {
+          "word": "ayıraç",
+          "startMs": 142050,
+          "endMs": 142550
+        },
+        {
+          "word": "bir",
+          "startMs": 142680,
+          "endMs": 142950
+        },
+        {
+          "word": "markette",
+          "startMs": 142950,
+          "endMs": 143550
+        },
+        {
+          "word": "de",
+          "startMs": 143650,
+          "endMs": 143730
+        },
+        {
+          "word": "duruyor",
+          "startMs": 143860,
+          "endMs": 144350
+        },
+        {
+          "word": "mu,",
+          "startMs": 144350,
+          "endMs": 144710
+        },
+        {
+          "word": "fiyat",
+          "startMs": 145340,
+          "endMs": 145770
+        },
+        {
+          "word": "orada",
+          "startMs": 146020,
+          "endMs": 146260
+        },
+        {
+          "word": "daha",
+          "startMs": 146320,
+          "endMs": 146520
+        },
+        {
+          "word": "mı",
+          "startMs": 146520,
+          "endMs": 146680
+        },
+        {
+          "word": "yüksek.",
+          "startMs": 146770,
+          "endMs": 147560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 148420,
+      "endMs": 154870,
+      "pauseAfterMs": 680,
+      "text": "Öneri bu üç kutu yazılınca proje olur.",
+      "markedText": "Öneri bu üç kutu yazılınca proje olur.",
+      "words": [
+        {
+          "word": "Öneri",
+          "startMs": 148420,
+          "endMs": 149140
+        },
+        {
+          "word": "bu",
+          "startMs": 149630,
+          "endMs": 149830
+        },
+        {
+          "word": "üç",
+          "startMs": 149910,
+          "endMs": 149970
+        },
+        {
+          "word": "kutu",
+          "startMs": 150050,
+          "endMs": 150450
+        },
+        {
+          "word": "yazılınca",
+          "startMs": 151360,
+          "endMs": 152680
+        },
+        {
+          "word": "proje",
+          "startMs": 152770,
+          "endMs": 153390
+        },
+        {
+          "word": "olur.",
+          "startMs": 153430,
+          "endMs": 154190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 154870,
+      "endMs": 160910,
+      "pauseAfterMs": 860,
+      "text": "Kaynak yazılmadan «çok satar» demek öneri değildir.",
+      "markedText": "Kaynak yazılmadan «çok satar» demek öneri değildir.",
+      "words": [
+        {
+          "word": "Kaynak",
+          "startMs": 154870,
+          "endMs": 155520
+        },
+        {
+          "word": "yazılmadan",
+          "startMs": 155700,
+          "endMs": 156750
+        },
+        {
+          "word": "«çok",
+          "startMs": 156790,
+          "endMs": 157170
+        },
+        {
+          "word": "satar»",
+          "startMs": 157820,
+          "endMs": 158280
+        },
+        {
+          "word": "demek",
+          "startMs": 158390,
+          "endMs": 158790
+        },
+        {
+          "word": "öneri",
+          "startMs": 158790,
+          "endMs": 159320
+        },
+        {
+          "word": "değildir.",
+          "startMs": 159430,
+          "endMs": 160050
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 160910,
+      "endMs": 162970,
+      "pauseAfterMs": 680,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 160910,
+          "endMs": 161580
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 161580,
+          "endMs": 162290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 162970,
+      "endMs": 166250,
+      "pauseAfterMs": 660,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 162970,
+          "endMs": 164350
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 164720,
+          "endMs": 165590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 166250,
+      "endMs": 169330,
+      "pauseAfterMs": 820,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 166250,
+          "endMs": 166330
+        },
+        {
+          "word": "noktayı",
+          "startMs": 166330,
+          "endMs": 166720
+        },
+        {
+          "word": "sen",
+          "startMs": 166900,
+          "endMs": 167070
+        },
+        {
+          "word": "de",
+          "startMs": 167260,
+          "endMs": 167360
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 167650,
+          "endMs": 168510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 169330,
+      "endMs": 178850,
+      "pauseAfterMs": 690,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 169330,
+          "endMs": 169890
+        },
+        {
+          "word": "sevgili",
+          "startMs": 169890,
+          "endMs": 170350
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 170580,
+          "endMs": 171490
+        },
+        {
+          "word": "işte",
+          "startMs": 172580,
+          "endMs": 172780
+        },
+        {
+          "word": "tam",
+          "startMs": 173010,
+          "endMs": 173340
+        },
+        {
+          "word": "bu",
+          "startMs": 173340,
+          "endMs": 173480
+        },
+        {
+          "word": "noktada",
+          "startMs": 173610,
+          "endMs": 174000
+        },
+        {
+          "word": "dikkat",
+          "startMs": 174310,
+          "endMs": 174680
+        },
+        {
+          "word": "etmen",
+          "startMs": 174720,
+          "endMs": 175460
+        },
+        {
+          "word": "gereken",
+          "startMs": 176060,
+          "endMs": 176450
+        },
+        {
+          "word": "kilit",
+          "startMs": 176640,
+          "endMs": 177280
+        },
+        {
+          "word": "nokta.",
+          "startMs": 177360,
+          "endMs": 178160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 178850,
+      "endMs": 182780,
+      "pauseAfterMs": 860,
+      "text": "Pazarlama cümlesini yatırım sanmak tuzaktır.",
+      "markedText": "Pazarlama cümlesini yatırım sanmak tuzaktır.",
+      "words": [
+        {
+          "word": "Pazarlama",
+          "startMs": 178850,
+          "endMs": 179530
+        },
+        {
+          "word": "cümlesini",
+          "startMs": 179650,
+          "endMs": 180330
+        },
+        {
+          "word": "yatırım",
+          "startMs": 180650,
+          "endMs": 180990
+        },
+        {
+          "word": "sanmak",
+          "startMs": 181090,
+          "endMs": 181280
+        },
+        {
+          "word": "tuzaktır.",
+          "startMs": 181280,
+          "endMs": 181920
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 182780,
+      "endMs": 187360,
+      "pauseAfterMs": 600,
+      "text": "Alıcıyı araştırmadan stant açmak da öneriyi eksik bırakır.",
+      "markedText": "Alıcıyı araştırmadan stant açmak da öneriyi eksik bırakır.",
+      "words": [
+        {
+          "word": "Alıcıyı",
+          "startMs": 182780,
+          "endMs": 183240
+        },
+        {
+          "word": "araştırmadan",
+          "startMs": 183310,
+          "endMs": 183810
+        },
+        {
+          "word": "stant",
+          "startMs": 183920,
+          "endMs": 184060
+        },
+        {
+          "word": "açmak",
+          "startMs": 184060,
+          "endMs": 184400
+        },
+        {
+          "word": "da",
+          "startMs": 184500,
+          "endMs": 184580
+        },
+        {
+          "word": "öneriyi",
+          "startMs": 184690,
+          "endMs": 185180
+        },
+        {
+          "word": "eksik",
+          "startMs": 185280,
+          "endMs": 185610
+        },
+        {
+          "word": "bırakır.",
+          "startMs": 185710,
+          "endMs": 186760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 187360,
+      "endMs": 190250,
+      "pauseAfterMs": 710,
+      "text": "«Herkes alır» demek model değildir.",
+      "markedText": "«Herkes alır» demek model değildir.",
+      "words": [
+        {
+          "word": "«Herkes",
+          "startMs": 187360,
+          "endMs": 187670
+        },
+        {
+          "word": "alır»",
+          "startMs": 187670,
+          "endMs": 187950
+        },
+        {
+          "word": "demek",
+          "startMs": 188070,
+          "endMs": 188310
+        },
+        {
+          "word": "model",
+          "startMs": 188310,
+          "endMs": 188680
+        },
+        {
+          "word": "değildir.",
+          "startMs": 188760,
+          "endMs": 189540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 190250,
+      "endMs": 200490,
+      "pauseAfterMs": 920,
+      "text": "Yatırım ve pazarlama proje önerisinde kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Yatırım ve pazarlama proje önerisinde kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Yatırım",
+          "startMs": 190250,
+          "endMs": 190590
+        },
+        {
+          "word": "ve",
+          "startMs": 190690,
+          "endMs": 190800
+        },
+        {
+          "word": "pazarlama",
+          "startMs": 190800,
+          "endMs": 191360
+        },
+        {
+          "word": "proje",
+          "startMs": 191490,
+          "endMs": 192330
+        },
+        {
+          "word": "önerisinde",
+          "startMs": 192620,
+          "endMs": 193450
+        },
+        {
+          "word": "kuralın",
+          "startMs": 194230,
+          "endMs": 194650
+        },
+        {
+          "word": "tersini",
+          "startMs": 194650,
+          "endMs": 195120
+        },
+        {
+          "word": "sanmak",
+          "startMs": 195160,
+          "endMs": 195530
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 195680,
+          "endMs": 196780
+        },
+        {
+          "word": "ters",
+          "startMs": 197460,
+          "endMs": 197930
+        },
+        {
+          "word": "cümle",
+          "startMs": 198080,
+          "endMs": 198470
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 198740,
+          "endMs": 199570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 200490,
+      "endMs": 204430,
+      "pauseAfterMs": 1220,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 200490,
+          "endMs": 201020
+        },
+        {
+          "word": "Neler",
+          "startMs": 201110,
+          "endMs": 201630
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 201910,
+          "endMs": 203210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 204430,
+      "endMs": 204640,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 204430,
+          "endMs": 204640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 204640,
+      "endMs": 210080,
+      "pauseAfterMs": 310,
+      "text": "Yatırım, satıştan önce konan kaynak ve emektir.",
+      "markedText": "Yatırım, satıştan önce konan kaynak ve emektir.",
+      "words": [
+        {
+          "word": "Yatırım,",
+          "startMs": 204640,
+          "endMs": 205850
+        },
+        {
+          "word": "satıştan",
+          "startMs": 206470,
+          "endMs": 207130
+        },
+        {
+          "word": "önce",
+          "startMs": 207200,
+          "endMs": 207550
+        },
+        {
+          "word": "konan",
+          "startMs": 207670,
+          "endMs": 208120
+        },
+        {
+          "word": "kaynak",
+          "startMs": 208290,
+          "endMs": 208750
+        },
+        {
+          "word": "ve",
+          "startMs": 208750,
+          "endMs": 208860
+        },
+        {
+          "word": "emektir.",
+          "startMs": 208860,
+          "endMs": 209770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 210080,
+      "endMs": 210300,
+      "pauseAfterMs": 0,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 210080,
+          "endMs": 210300
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 210300,
+      "endMs": 215610,
+      "pauseAfterMs": 1160,
+      "text": "Pazarlama, ürünü kime anlatacağını seçmektir.",
+      "markedText": "Pazarlama, ürünü kime anlatacağını seçmektir.",
+      "words": [
+        {
+          "word": "Pazarlama,",
+          "startMs": 210300,
+          "endMs": 210960
+        },
+        {
+          "word": "ürünü",
+          "startMs": 211080,
+          "endMs": 211550
+        },
+        {
+          "word": "kime",
+          "startMs": 211740,
+          "endMs": 212050
+        },
+        {
+          "word": "anlatacağını",
+          "startMs": 212930,
+          "endMs": 213670
+        },
+        {
+          "word": "seçmektir.",
+          "startMs": 213750,
+          "endMs": 214450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 215610,
+      "endMs": 215870,
+      "pauseAfterMs": 100,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 215610,
+          "endMs": 215770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 215870,
+      "endMs": 222530,
+      "pauseAfterMs": 1660,
+      "text": "Proje önerisi bu ikisini bir modelde yazar.",
+      "markedText": "Proje önerisi bu ikisini bir modelde yazar.",
+      "words": [
+        {
+          "word": "Proje",
+          "startMs": 215870,
+          "endMs": 216380
+        },
+        {
+          "word": "önerisi",
+          "startMs": 216460,
+          "endMs": 217340
+        },
+        {
+          "word": "bu",
+          "startMs": 217340,
+          "endMs": 217470
+        },
+        {
+          "word": "ikisini",
+          "startMs": 217690,
+          "endMs": 218150
+        },
+        {
+          "word": "bir",
+          "startMs": 218390,
+          "endMs": 218740
+        },
+        {
+          "word": "modelde",
+          "startMs": 218740,
+          "endMs": 219610
+        },
+        {
+          "word": "yazar.",
+          "startMs": 220050,
+          "endMs": 220870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 222530,
+      "endMs": 226060,
+      "pauseAfterMs": 1220,
+      "text": "Yatırım kaynaktır.",
+      "markedText": "Yatırım kaynaktır.",
+      "words": [
+        {
+          "word": "Yatırım",
+          "startMs": 222530,
+          "endMs": 223200
+        },
+        {
+          "word": "kaynaktır.",
+          "startMs": 223600,
+          "endMs": 224840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 226060,
+      "endMs": 229660,
+      "pauseAfterMs": 480,
+      "text": "Pazarlama, alıcıya söylenen cümledir.",
+      "markedText": "Pazarlama, alıcıya söylenen cümledir.",
+      "words": [
+        {
+          "word": "Pazarlama,",
+          "startMs": 226060,
+          "endMs": 226540
+        },
+        {
+          "word": "alıcıya",
+          "startMs": 226620,
+          "endMs": 227100
+        },
+        {
+          "word": "söylenen",
+          "startMs": 227230,
+          "endMs": 228110
+        },
+        {
+          "word": "cümledir.",
+          "startMs": 228190,
+          "endMs": 229180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 229660,
+      "endMs": 239970,
+      "pauseAfterMs": 1040,
+      "text": "Bir proje önerisinde kaynağı, alıcıyı ve araştırma kutusunu ayrı söylersin.",
+      "markedText": "Bir proje önerisinde kaynağı, alıcıyı ve araştırma kutusunu ayrı söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 229660,
+          "endMs": 229870
+        },
+        {
+          "word": "proje",
+          "startMs": 229870,
+          "endMs": 230220
+        },
+        {
+          "word": "önerisinde",
+          "startMs": 230220,
+          "endMs": 230720
+        },
+        {
+          "word": "kaynağı,",
+          "startMs": 230720,
+          "endMs": 231460
+        },
+        {
+          "word": "alıcıyı",
+          "startMs": 232530,
+          "endMs": 233320
+        },
+        {
+          "word": "ve",
+          "startMs": 233320,
+          "endMs": 234010
+        },
+        {
+          "word": "araştırma",
+          "startMs": 235080,
+          "endMs": 235960
+        },
+        {
+          "word": "kutusunu",
+          "startMs": 236870,
+          "endMs": 237520
+        },
+        {
+          "word": "ayrı",
+          "startMs": 237670,
+          "endMs": 238070
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 238070,
+          "endMs": 238930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 239970,
+      "endMs": 242630,
+      "pauseAfterMs": 1250,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 239970,
+          "endMs": 240580
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 240660,
+          "endMs": 241380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 242630,
+      "endMs": 244600,
+      "pauseAfterMs": 280,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 242630,
+          "endMs": 243090
+        },
+        {
+          "word": "bir",
+          "startMs": 243280,
+          "endMs": 243400
+        },
+        {
+          "word": "iş",
+          "startMs": 243400,
+          "endMs": 243530
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 243800,
+          "endMs": 244320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 244600,
+      "endMs": 247920,
+      "pauseAfterMs": 1020,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 244600,
+          "endMs": 245110
+        },
+        {
+          "word": "sıra",
+          "startMs": 245110,
+          "endMs": 245440
+        },
+        {
+          "word": "sende.",
+          "startMs": 246050,
+          "endMs": 246900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 247920,
+      "endMs": 255131,
+      "pauseAfterMs": 421,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 247920,
+          "endMs": 248800
+        },
+        {
+          "word": "bu",
+          "startMs": 249390,
+          "endMs": 249630
+        },
+        {
+          "word": "notları",
+          "startMs": 249700,
+          "endMs": 250420
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 251000,
+          "endMs": 251670
+        },
+        {
+          "word": "kendi",
+          "startMs": 252350,
+          "endMs": 252970
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 253060,
+          "endMs": 253870
+        },
+        {
+          "word": "anlat.",
+          "startMs": 254020,
+          "endMs": 254710
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

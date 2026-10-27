@@ -127,29 +127,44 @@ export function isPaytrMissingCredentialsError(
   return error instanceof PaytrMissingCredentialsError;
 }
 
+const notedProductionLabFlags = new Set<string>();
+
+/**
+ * Üretimde laboratuvar bayrağı bir kez yazılır.
+ * Aynı süreçte ikinci okuma günlüğü şişirmez; hüküm değişmez.
+ */
+function notePaytrProductionLabFlag(
+  flag: "PAYTR_SANDBOX" | "PAYTR_ALLOW_MOCK_CHECKOUT",
+  action: string,
+): void {
+  if (notedProductionLabFlags.has(flag)) {
+    return;
+  }
+  notedProductionLabFlags.add(flag);
+  logEvent({
+    level: "error",
+    event: "paytr.production_safety",
+    reason: flag,
+    action,
+  });
+}
+
 export function assertPaytrProductionSafety(context: string): void {
   if (process.env.NODE_ENV !== "production") {
     return;
   }
+  if (isPaytrSandboxFlagSet()) {
+    notePaytrProductionLabFlag(
+      "PAYTR_SANDBOX",
+      `PAYTR_SANDBOX üretimde yasak — bayrak yok sayıldı, tahsilat canlı modda sürer (${context})`,
+    );
+  }
   if (isPaytrMockCheckoutAllowed()) {
     const error = new PaytrProductionSafetyError("PAYTR_ALLOW_MOCK_CHECKOUT", context);
-    logEvent({
-      level: "error",
-      event: "paytr.production_safety",
-      reason: "PAYTR_ALLOW_MOCK_CHECKOUT",
-      action: context,
-    });
-    throw error;
-  }
-  const sandboxFlag = process.env.PAYTR_SANDBOX?.trim();
-  if (sandboxFlag === "1" || sandboxFlag?.toLowerCase() === "true") {
-    const error = new PaytrProductionSafetyError("PAYTR_SANDBOX", context);
-    logEvent({
-      level: "error",
-      event: "paytr.production_safety",
-      reason: "PAYTR_SANDBOX",
-      action: context,
-    });
+    notePaytrProductionLabFlag(
+      "PAYTR_ALLOW_MOCK_CHECKOUT",
+      `PAYTR_ALLOW_MOCK_CHECKOUT üretimde yasak — ${context}`,
+    );
     throw error;
   }
 }
@@ -161,16 +176,35 @@ export function getPaytrCheckoutCredentials(): PaytrCheckoutCredentials | null {
   if (!merchantId || !merchantKey || !merchantSalt) {
     return null;
   }
-  const sandboxFlag = process.env.PAYTR_SANDBOX?.trim();
-  const testMode = sandboxFlag === "1" || sandboxFlag?.toLowerCase() === "true";
+  if (process.env.NODE_ENV === "production" && isPaytrSandboxFlagSet()) {
+    notePaytrProductionLabFlag(
+      "PAYTR_SANDBOX",
+      "PAYTR_SANDBOX üretimde yasak — bayrak yok sayıldı, test_mode 0 kalır (getPaytrCheckoutCredentials)",
+    );
+  }
+  const testMode = isPaytrSandboxEnabled();
   return { merchantId, merchantKey, merchantSalt, testMode };
 }
 
-export function isPaytrSandboxEnabled(
+/** Ham bayrak. Üretim bunu yok sayar; günlük `notePaytrProductionLabFlag` yazar. */
+export function isPaytrSandboxFlagSet(
   env: Record<string, string | undefined> = process.env,
 ): boolean {
   const flag = env.PAYTR_SANDBOX?.trim();
   return flag === "1" || flag?.toLowerCase() === "true";
+}
+
+/**
+ * Laboratuvarda deneme mağazası. Üretimde bayrak dolu olsa da false döner.
+ * Fiş, IP kalkanı ve çalışma kipi bu hükmü okur.
+ */
+export function isPaytrSandboxEnabled(
+  env: Record<string, string | undefined> = process.env,
+): boolean {
+  if (env.NODE_ENV === "production") {
+    return false;
+  }
+  return isPaytrSandboxFlagSet(env);
 }
 
 /** Fail-closed / sandbox sicili. Mock ve boş üçlü CREDIT yazmaz. */
@@ -184,9 +218,25 @@ export function readPaytrRuntimeMode(
   const merchantSalt = env.PAYTR_MERCHANT_SALT?.trim() ?? "";
   const triple = Boolean(merchantId && merchantKey && merchantSalt);
   if (!triple) {
+    if (env.NODE_ENV === "production" && isPaytrMockCheckoutAllowed(env)) {
+      notePaytrProductionLabFlag(
+        "PAYTR_ALLOW_MOCK_CHECKOUT",
+        "PAYTR_ALLOW_MOCK_CHECKOUT üretimde yasak — çalışma kipi mock okunmaz (readPaytrRuntimeMode)",
+      );
+      return "unconfigured";
+    }
     return isPaytrMockCheckoutAllowed(env) ? "mock" : "unconfigured";
   }
-  return isPaytrSandboxEnabled(env) ? "sandbox" : "live";
+  if (isPaytrSandboxFlagSet(env)) {
+    if (env.NODE_ENV === "production") {
+      notePaytrProductionLabFlag(
+        "PAYTR_SANDBOX",
+        "PAYTR_SANDBOX üretimde yasak — fiş canlıdır, çalışma kipi sandbox kalır, Junior kasası açılmaz (readPaytrRuntimeMode)",
+      );
+    }
+    return "sandbox";
+  }
+  return "live";
 }
 
 /** Yalnız sandbox veya canlı üçlü bakiyeye CREDIT doğurabilir (HMAC / valör sonrası). */
@@ -212,23 +262,32 @@ export function assertPaytrLiveUserIp(userIp: string, context: string): void {
   if (process.env.NODE_ENV !== "production") {
     return;
   }
-  if (isPaytrSandboxEnabled()) {
-    return;
+  if (isPaytrSandboxFlagSet()) {
+    notePaytrProductionLabFlag(
+      "PAYTR_SANDBOX",
+      `PAYTR_SANDBOX üretimde yasak — bayrak yok sayıldı, user_ip kalkanı durur (${context})`,
+    );
   }
   const kind = classifyForwardedIp(userIp);
-  if (kind !== "public_ipv4") {
-    throw new Error(`[PAYTR] user_ip üretimde genel IPv4 olmalıdır (${kind}) — ${context}`);
+  if (kind !== "public_ipv4" && kind !== "ipv6") {
+    throw new Error(`[PAYTR] user_ip üretimde genel IPv4 veya IPv6 olmalıdır (${kind}) — ${context}`);
   }
 }
 
 /**
- * Canlı get-token `user_ip` — XFF zincirindeki istemci IPv4.
+ * Canlı get-token `user_ip` — XFF zincirindeki istemci genel IPv4 veya IPv6.
  * Loopback / boş IP canlı iFrame'i gri bırakır. Sandbox 127.0.0.1 kabul eder.
  */
 export function resolvePaytrCheckoutUserIp(
   headers: Headers,
   env: Record<string, string | undefined> = process.env,
 ): string {
+  if (env.NODE_ENV === "production" && isPaytrSandboxFlagSet(env)) {
+    notePaytrProductionLabFlag(
+      "PAYTR_SANDBOX",
+      "PAYTR_SANDBOX üretimde yasak — user_ip canlı kuralıyla seçilir (resolvePaytrCheckoutUserIp)",
+    );
+  }
   const live = !isPaytrSandboxEnabled(env);
   const configuredHops = parseTrustedProxyHops(env);
   const hops = live
@@ -239,7 +298,8 @@ export function resolvePaytrCheckoutUserIp(
     const start = Math.max(0, parts.length - hops);
     for (let i = start; i < parts.length; i++) {
       const ip = parts[i];
-      if (ip && classifyForwardedIp(ip) === "public_ipv4") {
+      const kind = ip ? classifyForwardedIp(ip) : "unknown";
+      if (ip && (kind === "public_ipv4" || kind === "ipv6")) {
         return ip;
       }
     }

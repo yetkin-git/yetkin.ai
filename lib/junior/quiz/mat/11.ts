@@ -1,55 +1,55 @@
 import type { JuniorLessonQuizPack } from "@/lib/junior/quiz/types";
 
-/** 6. Sınıf Matematik — konu sonu soru arşivi (11/25). */
-export const JUNIOR_MAT_QUIZ_11 = {
+/** 6. Sınıf Matematik — konu sonu soru arşivi (17/25). */
+export const JUNIOR_MAT_QUIZ_17 = {
   lessonKey: "jr_06_mat-11",
-  title: "Payda aynıyken toplama",
+  title: "Cebirsel ifadeler",
   tellGuides: [
-    "Paydalar aynıyken neden yalnız payların toplandığını anlatabilir misin?",
-    "Paydayı toplamak neden yanlıştır?",
+    "Benzer terimlerin neden toplanabildiğini anlatabilir misin?",
+    "3x artı 2x neden 5x eder de 5x artı 4 neden 9x olmaz?",
   ],
   questions: [
     {
       id: "q1",
       level: "concept",
-      question: "Paydalar aynıysa toplama nasıl yapılır?",
+      question: "Cebirsel ifadede benzer terim nedir?",
       options: [
-        "Yalnız paylar toplanır, payda yerinde kalır",
-        "Paydalar da toplanır",
-        "Paylar çarpılır",
-        "Kesirler ters çevrilir",
+        "Aynı harfli ve aynı üslü terimler",
+        "Her sayı",
+        "Yalnızca sabit sayılar",
+        "Farklı harflerin toplamı",
       ],
       correctAnswerIndex: 0,
-      hint: "Dilim boyu değişmez; dilim sayısı artar.",
-      explanation: "Adım 1: Payda dilimin boyudur. Adım 2: Aynı boyda dilimler birleşince pay artar. Adım 3: Payda yerinde kalır.",
+      hint: "3x ile 2x benzerdir. 5x ile 4 benzer değildir.",
+      explanation: "Adım 1: Benzer terimler aynı harfi taşır. Adım 2: Katsayılar toplanır. Adım 3: Sabit sayı harfli terimle birleşmez.",
     },
     {
       id: "q2",
       level: "apply",
-      question: "Bir bölü dört artı iki bölü dört kaç eder?",
+      question: "3x artı 2x kaç eder?",
       options: [
-        "Üç bölü dört",
-        "Üç bölü sekiz",
-        "İki bölü dört",
-        "Bir bölü iki",
+        "5x",
+        "6x",
+        "5",
+        "x",
       ],
       correctAnswerIndex: 0,
-      hint: "Payları topla: 1 artı 2. Paydaya dokunma.",
-      explanation: "Adım 1: Paylar 1 ve 2'dir; 1 artı 2, 3 eder. Adım 2: Payda 4 kalır. Adım 3: Sonuç dörtte üçtür. Üç bölü sekiz tuzaktır.",
+      hint: "Katsayıları topla; x yerinde kalsın.",
+      explanation: "Adım 1: 3 ve 2 katsayılardır. Adım 2: 3 artı 2, 5 eder. Adım 3: Sonuç 5x'tir.",
     },
     {
       id: "q3",
       level: "skill",
-      question: "Aynı boy pasta dilimlerinden önce 1, sonra 2 dilim aldın. Pasta 4 dilime bölünmüştü. Ne kadar pasta aldın?",
+      question: "Bir kutuda 5x top, yanında 4 top daha var. Toplamı 9x yazmak neden yanlıştır?",
       options: [
-        "Dörtte üç",
-        "Üç bölü sekiz",
-        "İki bölü dört",
-        "Beş bölü dört",
+        "5x ile 4 benzer terim değildir",
+        "x her zaman 1'dir",
+        "Toplama yasaktır",
+        "4 de x ile çarpılmalıdır",
       ],
       correctAnswerIndex: 0,
-      hint: "Payda aynı; payları topla.",
-      explanation: "Adım 1: Bir bölü dört artı iki bölü dört. Adım 2: Paylar 3 olur, payda 4 kalır. Adım 3: Dörtte üç pasta almışsındır.",
+      hint: "Harfli terim ile sabit toplanıp tek terim olmaz.",
+      explanation: "Adım 1: 5x harfli terimdir. Adım 2: 4 sabittir. Adım 3: Toplam 5x artı 4 olarak kalır; 9x olmaz.",
     },
   ],
 } as const satisfies JuniorLessonQuizPack;

@@ -1,0 +1,25 @@
+{
+  "key": "jr_06_ing-2",
+  "title": "Adını sormak",
+  "teaser": "What's your name, adını sorar. My name is, adını söyler. Kavramsal Anlayış, soru ile cevabı ayırır. İfade Gücü, adını tam kalıpla kurmandır.",
+  "welcome": "Bugün seninle İngilizcede ad sormayı öğreneceğiz.",
+  "concept": "Bugün seninle ad sorma kalıbı var. What's your name, adın ne demektir. What is your name aynı sorudur. Cevap My name is ile kurulur. Kalıbın ardına ad gelir. Selam, sorudan önce durur.\n\nHatırlarsan, selam saate göre seçiliyordu. Hadi şimdi ekrandaki çizime birlikte bakalım! Good morning densin. Sonra What's your name densin. Cevap My name is ve ad olsun.\n\nTuzaklara Düşme! Birlikte bakalım. Name is tek başına cevap olmaz. My sözü düşerse cümle eksik kalır. Soruyu tekrar etmek, adını söylemek değildir.",
+  "example": "What's your name sorusu, adın ne demektir. What is your name da aynı sorudur. Kısaltılmış hali sınıfta daha çok duyulur. Cevap My name is ile başlar. Ardından adın gelir. Hadi şimdi ekrandaki çizime birlikte bakalım! Arkadaşın What's your name diyor. Sen My name is ile kendi adını söylüyorsun. Soru adı ister. Cevap adı verir. Hatırlarsan, selam önce gelmişti. Önce selam verirsin. Sonra adı sorarsın. Tuzaklara Düşme! Birlikte bakalım. Yalnız Name is deme. My name is ile başla. Soruyu cevap sanma.",
+  "warning": "Bu noktada acele etme. Bir kez daha bakıp doğru kutuyu seçersin.",
+  "life": "Yeni bir öğrenci sınıfa gelince önce selam verirsin. Sonra What's your name diye sorarsın. O da My name is ile adını söyler. Hatırlarsan, soru ile cevap ayrıydı. Sen de kendi adını aynı kalıpla söylersin. Tuzaklara Düşme! Birlikte bakalım. Yalnız adını fısıldamak kalıbı öğretmez. My name is cümlesini kur.",
+  "recap": [
+    "What's your name, adını sorar.",
+    "My name is, adını söyler.",
+    "What is your name ile What's your name aynı sorudur."
+  ],
+  "conceptSeal": "Soru adı ister. Cevap, My name is ile adı söyler.",
+  "voiceSeal": "Adını tam kalıpla nasıl kurduğunu söylersin.",
+  "outcomes": [
+    "What's your name, adını sorar.",
+    "My name is, adını söyler.",
+    "What is your name ile What's your name aynı sorudur."
+  ],
+  "scene": "elective",
+  "hint": "trap",
+  "band": "draft"
+}

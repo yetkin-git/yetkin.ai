@@ -1,0 +1,3261 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_ing_main-16",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "In, on, under, behind ve next to",
+  "grade": 6,
+  "subject": "İngilizce",
+  "teacher": {
+    "name": "Selin",
+    "voice": "Kore",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_ing_main-16.mp3",
+    "durationMs": 410440,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 111720
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 111720,
+      "endMs": 351260
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 351260,
+      "endMs": 410440
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4610,
+      "pauseAfterMs": 680,
+      "text": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "markedText": "Merhaba çocuklar, hepiniz hoş geldiniz!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 260,
+          "endMs": 810
+        },
+        {
+          "word": "çocuklar,",
+          "startMs": 810,
+          "endMs": 1750
+        },
+        {
+          "word": "hepiniz",
+          "startMs": 2120,
+          "endMs": 2810
+        },
+        {
+          "word": "hoş",
+          "startMs": 2810,
+          "endMs": 3120
+        },
+        {
+          "word": "geldiniz!",
+          "startMs": 3260,
+          "endMs": 3930
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "In, on, under, behind ve next to",
+            "subtitle": "İngilizce",
+            "ruleBadges": [],
+            "echoPrompt": "Raftaki bir kitabın yerini doğru edatla söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "In içinde, on üstünde, under altında demektir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Behind arkasında, next to ise hemen yanında anlamına gelir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Where is sorusuna It is on the shelf gibi tam ve açık cümlelerle cevap verilir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4610,
+      "endMs": 8090,
+      "pauseAfterMs": 470,
+      "text": "Ben İngilizce öğretmenin Selin.",
+      "markedText": "Ben İngilizce öğretmenin Selin.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4610,
+          "endMs": 4850
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 4970,
+          "endMs": 6230
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 6320,
+          "endMs": 7110
+        },
+        {
+          "word": "Selin.",
+          "startMs": 7210,
+          "endMs": 7620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8090,
+      "endMs": 30160,
+      "pauseAfterMs": 670,
+      "text": "Kendi çalışma odana veya sınıfa şöyle bir göz gezdir: Kitabın masanın üstünde, kalemin kutunun içinde, topun yatağın altında, sırt çantan ise belki kapının hemen arkasında duruyor!",
+      "markedText": "Kendi çalışma odana veya sınıfa şöyle bir göz gezdir: Kitabın masanın üstünde, kalemin kutunun içinde, topun yatağın altında, sırt çantan ise belki kapının hemen arkasında duruyor!",
+      "words": [
+        {
+          "word": "Kendi",
+          "startMs": 8090,
+          "endMs": 8560
+        },
+        {
+          "word": "çalışma",
+          "startMs": 8670,
+          "endMs": 9450
+        },
+        {
+          "word": "odana",
+          "startMs": 9930,
+          "endMs": 10330
+        },
+        {
+          "word": "veya",
+          "startMs": 10450,
+          "endMs": 10880
+        },
+        {
+          "word": "sınıfa",
+          "startMs": 10980,
+          "endMs": 11460
+        },
+        {
+          "word": "şöyle",
+          "startMs": 11760,
+          "endMs": 12220
+        },
+        {
+          "word": "bir",
+          "startMs": 12310,
+          "endMs": 12530
+        },
+        {
+          "word": "göz",
+          "startMs": 12530,
+          "endMs": 12710
+        },
+        {
+          "word": "gezdir:",
+          "startMs": 12860,
+          "endMs": 13180
+        },
+        {
+          "word": "Kitabın",
+          "startMs": 13670,
+          "endMs": 14550
+        },
+        {
+          "word": "masanın",
+          "startMs": 14950,
+          "endMs": 15730
+        },
+        {
+          "word": "üstünde,",
+          "startMs": 15800,
+          "endMs": 16590
+        },
+        {
+          "word": "kalemin",
+          "startMs": 16940,
+          "endMs": 17140
+        },
+        {
+          "word": "kutunun",
+          "startMs": 17340,
+          "endMs": 18550
+        },
+        {
+          "word": "içinde,",
+          "startMs": 19260,
+          "endMs": 19750
+        },
+        {
+          "word": "topun",
+          "startMs": 19890,
+          "endMs": 20590
+        },
+        {
+          "word": "yatağın",
+          "startMs": 21240,
+          "endMs": 21970
+        },
+        {
+          "word": "altında,",
+          "startMs": 22160,
+          "endMs": 23340
+        },
+        {
+          "word": "sırt",
+          "startMs": 23680,
+          "endMs": 23880
+        },
+        {
+          "word": "çantan",
+          "startMs": 24070,
+          "endMs": 24790
+        },
+        {
+          "word": "ise",
+          "startMs": 24880,
+          "endMs": 25190
+        },
+        {
+          "word": "belki",
+          "startMs": 25250,
+          "endMs": 25670
+        },
+        {
+          "word": "kapının",
+          "startMs": 25670,
+          "endMs": 26400
+        },
+        {
+          "word": "hemen",
+          "startMs": 26670,
+          "endMs": 27020
+        },
+        {
+          "word": "arkasında",
+          "startMs": 27150,
+          "endMs": 28290
+        },
+        {
+          "word": "duruyor!",
+          "startMs": 28440,
+          "endMs": 29490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 30160,
+      "endMs": 42270,
+      "pauseAfterMs": 900,
+      "text": "Bir eşyanın nerede olduğunu bilmek ve bunu başkasına tarif etmek günlük hayatın en doğal parçasıdır.",
+      "markedText": "Bir eşyanın nerede olduğunu bilmek ve bunu başkasına tarif etmek günlük hayatın en doğal parçasıdır.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 30160,
+          "endMs": 30500
+        },
+        {
+          "word": "eşyanın",
+          "startMs": 30900,
+          "endMs": 31240
+        },
+        {
+          "word": "nerede",
+          "startMs": 31650,
+          "endMs": 32170
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 32540,
+          "endMs": 33350
+        },
+        {
+          "word": "bilmek",
+          "startMs": 33570,
+          "endMs": 34250
+        },
+        {
+          "word": "ve",
+          "startMs": 34340,
+          "endMs": 34500
+        },
+        {
+          "word": "bunu",
+          "startMs": 34720,
+          "endMs": 35060
+        },
+        {
+          "word": "başkasına",
+          "startMs": 35400,
+          "endMs": 36310
+        },
+        {
+          "word": "tarif",
+          "startMs": 36380,
+          "endMs": 36890
+        },
+        {
+          "word": "etmek",
+          "startMs": 37240,
+          "endMs": 37590
+        },
+        {
+          "word": "günlük",
+          "startMs": 37980,
+          "endMs": 38350
+        },
+        {
+          "word": "hayatın",
+          "startMs": 38470,
+          "endMs": 38910
+        },
+        {
+          "word": "en",
+          "startMs": 39140,
+          "endMs": 39470
+        },
+        {
+          "word": "doğal",
+          "startMs": 39510,
+          "endMs": 40020
+        },
+        {
+          "word": "parçasıdır.",
+          "startMs": 40130,
+          "endMs": 41370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 42270,
+      "endMs": 50280,
+      "pauseAfterMs": 630,
+      "text": "İngilizcede yer edatlarını, yani 'prepositions of place' konusunu öğreneceğiz.",
+      "markedText": "İngilizcede yer edatlarını, yani 'prepositions of place' konusunu öğreneceğiz.",
+      "words": [
+        {
+          "word": "İngilizcede",
+          "startMs": 42270,
+          "endMs": 43170
+        },
+        {
+          "word": "yer",
+          "startMs": 43300,
+          "endMs": 43490
+        },
+        {
+          "word": "edatlarını,",
+          "startMs": 43700,
+          "endMs": 44290
+        },
+        {
+          "word": "yani",
+          "startMs": 44770,
+          "endMs": 45150
+        },
+        {
+          "word": "'prepositions",
+          "startMs": 45230,
+          "endMs": 46380
+        },
+        {
+          "word": "of",
+          "startMs": 46510,
+          "endMs": 46720
+        },
+        {
+          "word": "place'",
+          "startMs": 46790,
+          "endMs": 47280
+        },
+        {
+          "word": "konusunu",
+          "startMs": 47640,
+          "endMs": 48090
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 48090,
+          "endMs": 49650
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 50280,
+      "endMs": 70520,
+      "pauseAfterMs": 480,
+      "text": "'In', 'on', 'under', 'behind' ve 'next to' gibi sihirli sözcüklerle eşyaların yerini gözümüzle tespit edip 'Where is' sorusuna tam ve akıcı cevaplar vermeyi keşfedeceğiz.",
+      "markedText": "'In', 'on', 'under', 'behind' ve 'next to' gibi sihirli sözcüklerle eşyaların yerini gözümüzle tespit edip 'Where is' sorusuna tam ve akıcı cevaplar vermeyi keşfedeceğiz.",
+      "words": [
+        {
+          "word": "'In',",
+          "startMs": 50280,
+          "endMs": 50520
+        },
+        {
+          "word": "'on',",
+          "startMs": 50660,
+          "endMs": 50810
+        },
+        {
+          "word": "'under',",
+          "startMs": 50900,
+          "endMs": 51410
+        },
+        {
+          "word": "'behind'",
+          "startMs": 51740,
+          "endMs": 52080
+        },
+        {
+          "word": "ve",
+          "startMs": 52180,
+          "endMs": 52280
+        },
+        {
+          "word": "'next",
+          "startMs": 52640,
+          "endMs": 52930
+        },
+        {
+          "word": "to'",
+          "startMs": 52930,
+          "endMs": 53260
+        },
+        {
+          "word": "gibi",
+          "startMs": 53650,
+          "endMs": 53920
+        },
+        {
+          "word": "sihirli",
+          "startMs": 54010,
+          "endMs": 54980
+        },
+        {
+          "word": "sözcüklerle",
+          "startMs": 55390,
+          "endMs": 56120
+        },
+        {
+          "word": "eşyaların",
+          "startMs": 56270,
+          "endMs": 57210
+        },
+        {
+          "word": "yerini",
+          "startMs": 57790,
+          "endMs": 58420
+        },
+        {
+          "word": "gözümüzle",
+          "startMs": 58500,
+          "endMs": 59780
+        },
+        {
+          "word": "tespit",
+          "startMs": 59960,
+          "endMs": 60560
+        },
+        {
+          "word": "edip",
+          "startMs": 61000,
+          "endMs": 61450
+        },
+        {
+          "word": "'Where",
+          "startMs": 61560,
+          "endMs": 62310
+        },
+        {
+          "word": "is'",
+          "startMs": 62820,
+          "endMs": 63100
+        },
+        {
+          "word": "sorusuna",
+          "startMs": 63160,
+          "endMs": 64320
+        },
+        {
+          "word": "tam",
+          "startMs": 64320,
+          "endMs": 64910
+        },
+        {
+          "word": "ve",
+          "startMs": 65250,
+          "endMs": 65360
+        },
+        {
+          "word": "akıcı",
+          "startMs": 65640,
+          "endMs": 66080
+        },
+        {
+          "word": "cevaplar",
+          "startMs": 66130,
+          "endMs": 66720
+        },
+        {
+          "word": "vermeyi",
+          "startMs": 67240,
+          "endMs": 68190
+        },
+        {
+          "word": "keşfedeceğiz.",
+          "startMs": 68630,
+          "endMs": 70040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 70520,
+      "endMs": 90570,
+      "pauseAfterMs": 880,
+      "text": "Sabah okul çantanı hazırlarken eşyalarını İngilizce yerleştir: 'My pencil case is in my bag.' Odandan çıkarken anahtarını arayan ailene 'The key is on the table' diyerek yardımcı ol.",
+      "markedText": "Sabah okul çantanı hazırlarken eşyalarını İngilizce yerleştir: 'My pencil case is in my bag.' Odandan çıkarken anahtarını arayan ailene 'The key is on the table' diyerek yardımcı ol.",
+      "words": [
+        {
+          "word": "Sabah",
+          "startMs": 70520,
+          "endMs": 70650
+        },
+        {
+          "word": "okul",
+          "startMs": 70930,
+          "endMs": 71240
+        },
+        {
+          "word": "çantanı",
+          "startMs": 71240,
+          "endMs": 71960
+        },
+        {
+          "word": "hazırlarken",
+          "startMs": 72550,
+          "endMs": 73600
+        },
+        {
+          "word": "eşyalarını",
+          "startMs": 73830,
+          "endMs": 75160
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 75670,
+          "endMs": 76460
+        },
+        {
+          "word": "yerleştir:",
+          "startMs": 76460,
+          "endMs": 77140
+        },
+        {
+          "word": "'My",
+          "startMs": 77630,
+          "endMs": 77780
+        },
+        {
+          "word": "pencil",
+          "startMs": 77780,
+          "endMs": 78110
+        },
+        {
+          "word": "case",
+          "startMs": 78200,
+          "endMs": 78530
+        },
+        {
+          "word": "is",
+          "startMs": 78820,
+          "endMs": 79190
+        },
+        {
+          "word": "in",
+          "startMs": 79970,
+          "endMs": 80200
+        },
+        {
+          "word": "my",
+          "startMs": 80200,
+          "endMs": 80370
+        },
+        {
+          "word": "bag.'",
+          "startMs": 80640,
+          "endMs": 80900
+        },
+        {
+          "word": "Odandan",
+          "startMs": 80900,
+          "endMs": 81690
+        },
+        {
+          "word": "çıkarken",
+          "startMs": 81690,
+          "endMs": 82590
+        },
+        {
+          "word": "anahtarını",
+          "startMs": 82710,
+          "endMs": 83340
+        },
+        {
+          "word": "arayan",
+          "startMs": 83640,
+          "endMs": 84230
+        },
+        {
+          "word": "ailene",
+          "startMs": 84430,
+          "endMs": 85130
+        },
+        {
+          "word": "'The",
+          "startMs": 85130,
+          "endMs": 85340
+        },
+        {
+          "word": "key",
+          "startMs": 86040,
+          "endMs": 86310
+        },
+        {
+          "word": "is",
+          "startMs": 86310,
+          "endMs": 86420
+        },
+        {
+          "word": "on",
+          "startMs": 86490,
+          "endMs": 86610
+        },
+        {
+          "word": "the",
+          "startMs": 86610,
+          "endMs": 86810
+        },
+        {
+          "word": "table'",
+          "startMs": 86960,
+          "endMs": 87460
+        },
+        {
+          "word": "diyerek",
+          "startMs": 87950,
+          "endMs": 88640
+        },
+        {
+          "word": "yardımcı",
+          "startMs": 88750,
+          "endMs": 89480
+        },
+        {
+          "word": "ol.",
+          "startMs": 89550,
+          "endMs": 89690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 90570,
+      "endMs": 98650,
+      "pauseAfterMs": 260,
+      "text": "Sevimli kedin saklandığında 'The cat is under the chair' de.",
+      "markedText": "Sevimli kedin saklandığında 'The cat is under the chair' de.",
+      "words": [
+        {
+          "word": "Sevimli",
+          "startMs": 90570,
+          "endMs": 91390
+        },
+        {
+          "word": "kedin",
+          "startMs": 91390,
+          "endMs": 91890
+        },
+        {
+          "word": "saklandığında",
+          "startMs": 92120,
+          "endMs": 92740
+        },
+        {
+          "word": "'The",
+          "startMs": 93060,
+          "endMs": 93320
+        },
+        {
+          "word": "cat",
+          "startMs": 93390,
+          "endMs": 93780
+        },
+        {
+          "word": "is",
+          "startMs": 94010,
+          "endMs": 94190
+        },
+        {
+          "word": "under",
+          "startMs": 94280,
+          "endMs": 94720
+        },
+        {
+          "word": "the",
+          "startMs": 96040,
+          "endMs": 96430
+        },
+        {
+          "word": "chair'",
+          "startMs": 97070,
+          "endMs": 97600
+        },
+        {
+          "word": "de.",
+          "startMs": 98160,
+          "endMs": 98390
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 98650,
+      "endMs": 111720,
+      "pauseAfterMs": 610,
+      "text": "Kütüphanede aradığın kitabı bulduğunda ise 'It is on the top shelf, next to the dictionary' diyerek edatları hayatın içinde neşeyle kullan.",
+      "markedText": "Kütüphanede aradığın kitabı bulduğunda ise 'It is on the top shelf, next to the dictionary' diyerek edatları hayatın içinde neşeyle kullan.",
+      "words": [
+        {
+          "word": "Kütüphanede",
+          "startMs": 98650,
+          "endMs": 99670
+        },
+        {
+          "word": "aradığın",
+          "startMs": 100040,
+          "endMs": 100540
+        },
+        {
+          "word": "kitabı",
+          "startMs": 100670,
+          "endMs": 101100
+        },
+        {
+          "word": "bulduğunda",
+          "startMs": 101100,
+          "endMs": 101870
+        },
+        {
+          "word": "ise",
+          "startMs": 101920,
+          "endMs": 102190
+        },
+        {
+          "word": "'It",
+          "startMs": 102190,
+          "endMs": 102300
+        },
+        {
+          "word": "is",
+          "startMs": 102300,
+          "endMs": 102480
+        },
+        {
+          "word": "on",
+          "startMs": 102600,
+          "endMs": 102720
+        },
+        {
+          "word": "the",
+          "startMs": 102720,
+          "endMs": 103000
+        },
+        {
+          "word": "top",
+          "startMs": 103000,
+          "endMs": 103170
+        },
+        {
+          "word": "shelf,",
+          "startMs": 103170,
+          "endMs": 103650
+        },
+        {
+          "word": "next",
+          "startMs": 104410,
+          "endMs": 104710
+        },
+        {
+          "word": "to",
+          "startMs": 104710,
+          "endMs": 104880
+        },
+        {
+          "word": "the",
+          "startMs": 104880,
+          "endMs": 105060
+        },
+        {
+          "word": "dictionary'",
+          "startMs": 105160,
+          "endMs": 105940
+        },
+        {
+          "word": "diyerek",
+          "startMs": 106020,
+          "endMs": 106640
+        },
+        {
+          "word": "edatları",
+          "startMs": 106770,
+          "endMs": 107540
+        },
+        {
+          "word": "hayatın",
+          "startMs": 107610,
+          "endMs": 108030
+        },
+        {
+          "word": "içinde",
+          "startMs": 108900,
+          "endMs": 109410
+        },
+        {
+          "word": "neşeyle",
+          "startMs": 109510,
+          "endMs": 110310
+        },
+        {
+          "word": "kullan.",
+          "startMs": 110310,
+          "endMs": 111110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-2",
+      "startMs": 111720,
+      "endMs": 121890,
+      "pauseAfterMs": 660,
+      "text": "İngilizcede bir nesnenin yerini tarif ederken konuma uygun yer edatını seçeriz.",
+      "markedText": "İngilizcede bir nesnenin yerini tarif ederken konuma uygun yer edatını seçeriz.",
+      "words": [
+        {
+          "word": "İngilizcede",
+          "startMs": 111720,
+          "endMs": 112660
+        },
+        {
+          "word": "bir",
+          "startMs": 112660,
+          "endMs": 112940
+        },
+        {
+          "word": "nesnenin",
+          "startMs": 113070,
+          "endMs": 113920
+        },
+        {
+          "word": "yerini",
+          "startMs": 114670,
+          "endMs": 115380
+        },
+        {
+          "word": "tarif",
+          "startMs": 115550,
+          "endMs": 116020
+        },
+        {
+          "word": "ederken",
+          "startMs": 116120,
+          "endMs": 116630
+        },
+        {
+          "word": "konuma",
+          "startMs": 117520,
+          "endMs": 118300
+        },
+        {
+          "word": "uygun",
+          "startMs": 118300,
+          "endMs": 118790
+        },
+        {
+          "word": "yer",
+          "startMs": 119110,
+          "endMs": 119500
+        },
+        {
+          "word": "edatını",
+          "startMs": 119500,
+          "endMs": 120300
+        },
+        {
+          "word": "seçeriz.",
+          "startMs": 120590,
+          "endMs": 121230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 121890,
+      "endMs": 133230,
+      "pauseAfterMs": 810,
+      "text": "Bir nesne bir yüzeyin üstündeyse 'on' deriz: 'The book is on the shelf' kitap rafın üstündedir demektir.",
+      "markedText": "Bir nesne bir yüzeyin üstündeyse 'on' deriz: 'The book is on the shelf' kitap rafın üstündedir demektir.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 121890,
+          "endMs": 122270
+        },
+        {
+          "word": "nesne",
+          "startMs": 122350,
+          "endMs": 122860
+        },
+        {
+          "word": "bir",
+          "startMs": 123000,
+          "endMs": 123420
+        },
+        {
+          "word": "yüzeyin",
+          "startMs": 123560,
+          "endMs": 124170
+        },
+        {
+          "word": "üstündeyse",
+          "startMs": 124560,
+          "endMs": 125910
+        },
+        {
+          "word": "'on'",
+          "startMs": 126160,
+          "endMs": 126380
+        },
+        {
+          "word": "deriz:",
+          "startMs": 126480,
+          "endMs": 127160
+        },
+        {
+          "word": "'The",
+          "startMs": 127840,
+          "endMs": 128070
+        },
+        {
+          "word": "book",
+          "startMs": 128120,
+          "endMs": 128540
+        },
+        {
+          "word": "is",
+          "startMs": 128540,
+          "endMs": 128720
+        },
+        {
+          "word": "on",
+          "startMs": 128800,
+          "endMs": 129120
+        },
+        {
+          "word": "the",
+          "startMs": 129210,
+          "endMs": 129370
+        },
+        {
+          "word": "shelf'",
+          "startMs": 129700,
+          "endMs": 129850
+        },
+        {
+          "word": "kitap",
+          "startMs": 129950,
+          "endMs": 130170
+        },
+        {
+          "word": "rafın",
+          "startMs": 130170,
+          "endMs": 130580
+        },
+        {
+          "word": "üstündedir",
+          "startMs": 130620,
+          "endMs": 131390
+        },
+        {
+          "word": "demektir.",
+          "startMs": 131500,
+          "endMs": 132420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 133230,
+      "endMs": 146000,
+      "pauseAfterMs": 340,
+      "text": "Bir nesne kapalı bir alanın içindeyse 'in' deriz: 'The pencil is in the bag' kalem çantanın içindedir anlamına gelir.",
+      "markedText": "Bir nesne kapalı bir alanın içindeyse 'in' deriz: 'The pencil is in the bag' kalem çantanın içindedir anlamına gelir.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 133230,
+          "endMs": 133510
+        },
+        {
+          "word": "nesne",
+          "startMs": 133510,
+          "endMs": 133970
+        },
+        {
+          "word": "kapalı",
+          "startMs": 134070,
+          "endMs": 134600
+        },
+        {
+          "word": "bir",
+          "startMs": 134730,
+          "endMs": 134890
+        },
+        {
+          "word": "alanın",
+          "startMs": 135230,
+          "endMs": 135610
+        },
+        {
+          "word": "içindeyse",
+          "startMs": 135820,
+          "endMs": 137040
+        },
+        {
+          "word": "'in'",
+          "startMs": 137360,
+          "endMs": 137450
+        },
+        {
+          "word": "deriz:",
+          "startMs": 137560,
+          "endMs": 138410
+        },
+        {
+          "word": "'The",
+          "startMs": 139030,
+          "endMs": 139280
+        },
+        {
+          "word": "pencil",
+          "startMs": 139360,
+          "endMs": 140060
+        },
+        {
+          "word": "is",
+          "startMs": 140060,
+          "endMs": 140290
+        },
+        {
+          "word": "in",
+          "startMs": 140390,
+          "endMs": 140540
+        },
+        {
+          "word": "the",
+          "startMs": 140890,
+          "endMs": 141100
+        },
+        {
+          "word": "bag'",
+          "startMs": 141100,
+          "endMs": 141220
+        },
+        {
+          "word": "kalem",
+          "startMs": 141220,
+          "endMs": 141680
+        },
+        {
+          "word": "çantanın",
+          "startMs": 142000,
+          "endMs": 142840
+        },
+        {
+          "word": "içindedir",
+          "startMs": 143250,
+          "endMs": 144160
+        },
+        {
+          "word": "anlamına",
+          "startMs": 144370,
+          "endMs": 145230
+        },
+        {
+          "word": "gelir.",
+          "startMs": 145370,
+          "endMs": 145660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 146000,
+      "endMs": 157770,
+      "pauseAfterMs": 400,
+      "text": "Altında duran şeyler için 'under' kullanırız: 'The ball is under the desk' top sıranın altındadır.",
+      "markedText": "Altında duran şeyler için 'under' kullanırız: 'The ball is under the desk' top sıranın altındadır.",
+      "words": [
+        {
+          "word": "Altında",
+          "startMs": 146000,
+          "endMs": 146460
+        },
+        {
+          "word": "duran",
+          "startMs": 146550,
+          "endMs": 146890
+        },
+        {
+          "word": "şeyler",
+          "startMs": 147070,
+          "endMs": 147680
+        },
+        {
+          "word": "için",
+          "startMs": 147680,
+          "endMs": 148150
+        },
+        {
+          "word": "'under'",
+          "startMs": 148290,
+          "endMs": 148930
+        },
+        {
+          "word": "kullanırız:",
+          "startMs": 149730,
+          "endMs": 150700
+        },
+        {
+          "word": "'The",
+          "startMs": 151290,
+          "endMs": 151520
+        },
+        {
+          "word": "ball",
+          "startMs": 151610,
+          "endMs": 152040
+        },
+        {
+          "word": "is",
+          "startMs": 152540,
+          "endMs": 152820
+        },
+        {
+          "word": "under",
+          "startMs": 152950,
+          "endMs": 153410
+        },
+        {
+          "word": "the",
+          "startMs": 153410,
+          "endMs": 153480
+        },
+        {
+          "word": "desk'",
+          "startMs": 153530,
+          "endMs": 153990
+        },
+        {
+          "word": "top",
+          "startMs": 154640,
+          "endMs": 155110
+        },
+        {
+          "word": "sıranın",
+          "startMs": 155110,
+          "endMs": 155900
+        },
+        {
+          "word": "altındadır.",
+          "startMs": 156010,
+          "endMs": 157370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 157770,
+      "endMs": 167890,
+      "pauseAfterMs": 810,
+      "text": "Arkada duran şeyler için 'behind' tercih edilir: 'The cat is behind the door' kedi kapının arkasındadır.",
+      "markedText": "Arkada duran şeyler için 'behind' tercih edilir: 'The cat is behind the door' kedi kapının arkasındadır.",
+      "words": [
+        {
+          "word": "Arkada",
+          "startMs": 157770,
+          "endMs": 158120
+        },
+        {
+          "word": "duran",
+          "startMs": 158120,
+          "endMs": 158500
+        },
+        {
+          "word": "şeyler",
+          "startMs": 158680,
+          "endMs": 159030
+        },
+        {
+          "word": "için",
+          "startMs": 159030,
+          "endMs": 159300
+        },
+        {
+          "word": "'behind'",
+          "startMs": 159300,
+          "endMs": 159570
+        },
+        {
+          "word": "tercih",
+          "startMs": 159570,
+          "endMs": 159920
+        },
+        {
+          "word": "edilir:",
+          "startMs": 160060,
+          "endMs": 160560
+        },
+        {
+          "word": "'The",
+          "startMs": 161290,
+          "endMs": 161470
+        },
+        {
+          "word": "cat",
+          "startMs": 161470,
+          "endMs": 161800
+        },
+        {
+          "word": "is",
+          "startMs": 161870,
+          "endMs": 162120
+        },
+        {
+          "word": "behind",
+          "startMs": 162350,
+          "endMs": 163020
+        },
+        {
+          "word": "the",
+          "startMs": 163220,
+          "endMs": 163330
+        },
+        {
+          "word": "door'",
+          "startMs": 163870,
+          "endMs": 164280
+        },
+        {
+          "word": "kedi",
+          "startMs": 164400,
+          "endMs": 164770
+        },
+        {
+          "word": "kapının",
+          "startMs": 165080,
+          "endMs": 165330
+        },
+        {
+          "word": "arkasındadır.",
+          "startMs": 165630,
+          "endMs": 167080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 167890,
+      "endMs": 184190,
+      "pauseAfterMs": 630,
+      "text": "Hemen bitişiğinde veya yanında olan varlıklar için ise 'next to' kalıbı kullanılır: 'The lamp is next to the bed' lamba yatağın yanındadır.",
+      "markedText": "Hemen bitişiğinde veya yanında olan varlıklar için ise 'next to' kalıbı kullanılır: 'The lamp is next to the bed' lamba yatağın yanındadır.",
+      "words": [
+        {
+          "word": "Hemen",
+          "startMs": 167890,
+          "endMs": 168480
+        },
+        {
+          "word": "bitişiğinde",
+          "startMs": 168570,
+          "endMs": 169760
+        },
+        {
+          "word": "veya",
+          "startMs": 170180,
+          "endMs": 171080
+        },
+        {
+          "word": "yanında",
+          "startMs": 171270,
+          "endMs": 172010
+        },
+        {
+          "word": "olan",
+          "startMs": 172330,
+          "endMs": 172780
+        },
+        {
+          "word": "varlıklar",
+          "startMs": 173130,
+          "endMs": 174050
+        },
+        {
+          "word": "için",
+          "startMs": 174160,
+          "endMs": 174780
+        },
+        {
+          "word": "ise",
+          "startMs": 175120,
+          "endMs": 175320
+        },
+        {
+          "word": "'next",
+          "startMs": 175370,
+          "endMs": 175940
+        },
+        {
+          "word": "to'",
+          "startMs": 176260,
+          "endMs": 176450
+        },
+        {
+          "word": "kalıbı",
+          "startMs": 176620,
+          "endMs": 177260
+        },
+        {
+          "word": "kullanılır:",
+          "startMs": 177380,
+          "endMs": 178150
+        },
+        {
+          "word": "'The",
+          "startMs": 178600,
+          "endMs": 178750
+        },
+        {
+          "word": "lamp",
+          "startMs": 178800,
+          "endMs": 179160
+        },
+        {
+          "word": "is",
+          "startMs": 179160,
+          "endMs": 179340
+        },
+        {
+          "word": "next",
+          "startMs": 179340,
+          "endMs": 179620
+        },
+        {
+          "word": "to",
+          "startMs": 179710,
+          "endMs": 179880
+        },
+        {
+          "word": "the",
+          "startMs": 179880,
+          "endMs": 180100
+        },
+        {
+          "word": "bed'",
+          "startMs": 180160,
+          "endMs": 180390
+        },
+        {
+          "word": "lamba",
+          "startMs": 180560,
+          "endMs": 180880
+        },
+        {
+          "word": "yatağın",
+          "startMs": 180880,
+          "endMs": 181770
+        },
+        {
+          "word": "yanındadır.",
+          "startMs": 182440,
+          "endMs": 183560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 184190,
+      "endMs": 194340,
+      "pauseAfterMs": 380,
+      "text": "Bir eşyanın yerini sormak istediğimizde 'Where is the book?' diye sorarız.",
+      "markedText": "Bir eşyanın yerini sormak istediğimizde 'Where is the book?' diye sorarız.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 184190,
+          "endMs": 184410
+        },
+        {
+          "word": "eşyanın",
+          "startMs": 185040,
+          "endMs": 185880
+        },
+        {
+          "word": "yerini",
+          "startMs": 186120,
+          "endMs": 186560
+        },
+        {
+          "word": "sormak",
+          "startMs": 187110,
+          "endMs": 187940
+        },
+        {
+          "word": "istediğimizde",
+          "startMs": 188380,
+          "endMs": 189380
+        },
+        {
+          "word": "'Where",
+          "startMs": 189770,
+          "endMs": 190070
+        },
+        {
+          "word": "is",
+          "startMs": 190220,
+          "endMs": 190390
+        },
+        {
+          "word": "the",
+          "startMs": 190620,
+          "endMs": 191200
+        },
+        {
+          "word": "book?'",
+          "startMs": 191930,
+          "endMs": 192240
+        },
+        {
+          "word": "diye",
+          "startMs": 192690,
+          "endMs": 193100
+        },
+        {
+          "word": "sorarız.",
+          "startMs": 193250,
+          "endMs": 193960
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 194340,
+      "endMs": 213230,
+      "pauseAfterMs": 1100,
+      "text": "Pratik kural: 'On' yüzey temasını, 'in' ise kutu veya oda gibi bir sınırın içinde olmayı anlatır; ikisini ayırt etmek odandaki her eşyayı kolayca bulmanı sağlar.",
+      "markedText": "Pratik kural: 'On' yüzey temasını, 'in' ise kutu veya oda gibi bir sınırın içinde olmayı anlatır; ikisini ayırt etmek odandaki her eşyayı kolayca bulmanı sağlar.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 194340,
+          "endMs": 194550
+        },
+        {
+          "word": "kural:",
+          "startMs": 194790,
+          "endMs": 195160
+        },
+        {
+          "word": "'On'",
+          "startMs": 195430,
+          "endMs": 195710
+        },
+        {
+          "word": "yüzey",
+          "startMs": 195710,
+          "endMs": 196060
+        },
+        {
+          "word": "temasını,",
+          "startMs": 196060,
+          "endMs": 196940
+        },
+        {
+          "word": "'in'",
+          "startMs": 197480,
+          "endMs": 197790
+        },
+        {
+          "word": "ise",
+          "startMs": 198280,
+          "endMs": 198580
+        },
+        {
+          "word": "kutu",
+          "startMs": 198740,
+          "endMs": 198930
+        },
+        {
+          "word": "veya",
+          "startMs": 199080,
+          "endMs": 199350
+        },
+        {
+          "word": "oda",
+          "startMs": 199790,
+          "endMs": 200070
+        },
+        {
+          "word": "gibi",
+          "startMs": 200070,
+          "endMs": 200860
+        },
+        {
+          "word": "bir",
+          "startMs": 201210,
+          "endMs": 201460
+        },
+        {
+          "word": "sınırın",
+          "startMs": 201820,
+          "endMs": 202460
+        },
+        {
+          "word": "içinde",
+          "startMs": 202610,
+          "endMs": 202950
+        },
+        {
+          "word": "olmayı",
+          "startMs": 202950,
+          "endMs": 203460
+        },
+        {
+          "word": "anlatır;",
+          "startMs": 203600,
+          "endMs": 204010
+        },
+        {
+          "word": "ikisini",
+          "startMs": 205430,
+          "endMs": 205900
+        },
+        {
+          "word": "ayırt",
+          "startMs": 206000,
+          "endMs": 206560
+        },
+        {
+          "word": "etmek",
+          "startMs": 206560,
+          "endMs": 207120
+        },
+        {
+          "word": "odandaki",
+          "startMs": 207250,
+          "endMs": 207940
+        },
+        {
+          "word": "her",
+          "startMs": 208020,
+          "endMs": 208240
+        },
+        {
+          "word": "eşyayı",
+          "startMs": 208300,
+          "endMs": 209190
+        },
+        {
+          "word": "kolayca",
+          "startMs": 209880,
+          "endMs": 210640
+        },
+        {
+          "word": "bulmanı",
+          "startMs": 210790,
+          "endMs": 211650
+        },
+        {
+          "word": "sağlar.",
+          "startMs": 211650,
+          "endMs": 212130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 213230,
+      "endMs": 228880,
+      "pauseAfterMs": 1210,
+      "text": "Odamızdaki eşyaları adım adım bulalım: 'The storybook is on the study desk.' Küçük cetvelini arıyorsan 'The ruler is in the pencil case' dersin.",
+      "markedText": "Odamızdaki eşyaları adım adım bulalım: 'The storybook is on the study desk.' Küçük cetvelini arıyorsan 'The ruler is in the pencil case' dersin.",
+      "words": [
+        {
+          "word": "Odamızdaki",
+          "startMs": 213230,
+          "endMs": 213940
+        },
+        {
+          "word": "eşyaları",
+          "startMs": 214090,
+          "endMs": 214890
+        },
+        {
+          "word": "adım",
+          "startMs": 215580,
+          "endMs": 216060
+        },
+        {
+          "word": "adım",
+          "startMs": 216210,
+          "endMs": 216610
+        },
+        {
+          "word": "bulalım:",
+          "startMs": 216700,
+          "endMs": 217040
+        },
+        {
+          "word": "'The",
+          "startMs": 217430,
+          "endMs": 217560
+        },
+        {
+          "word": "storybook",
+          "startMs": 218700,
+          "endMs": 219540
+        },
+        {
+          "word": "is",
+          "startMs": 219540,
+          "endMs": 219730
+        },
+        {
+          "word": "on",
+          "startMs": 219920,
+          "endMs": 220110
+        },
+        {
+          "word": "the",
+          "startMs": 220190,
+          "endMs": 220300
+        },
+        {
+          "word": "study",
+          "startMs": 220370,
+          "endMs": 220730
+        },
+        {
+          "word": "desk.'",
+          "startMs": 220850,
+          "endMs": 220980
+        },
+        {
+          "word": "Küçük",
+          "startMs": 221380,
+          "endMs": 221890
+        },
+        {
+          "word": "cetvelini",
+          "startMs": 222070,
+          "endMs": 222600
+        },
+        {
+          "word": "arıyorsan",
+          "startMs": 222930,
+          "endMs": 223550
+        },
+        {
+          "word": "'The",
+          "startMs": 223680,
+          "endMs": 224130
+        },
+        {
+          "word": "ruler",
+          "startMs": 224460,
+          "endMs": 224830
+        },
+        {
+          "word": "is",
+          "startMs": 225210,
+          "endMs": 225450
+        },
+        {
+          "word": "in",
+          "startMs": 225570,
+          "endMs": 225760
+        },
+        {
+          "word": "the",
+          "startMs": 225800,
+          "endMs": 226080
+        },
+        {
+          "word": "pencil",
+          "startMs": 226190,
+          "endMs": 226830
+        },
+        {
+          "word": "case'",
+          "startMs": 226900,
+          "endMs": 227270
+        },
+        {
+          "word": "dersin.",
+          "startMs": 227370,
+          "endMs": 227670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 228880,
+      "endMs": 237810,
+      "pauseAfterMs": 690,
+      "text": "Yere düşen çorap veya ayakkabılar için 'The shoes are under the bed' cümlesini kurarsın.",
+      "markedText": "Yere düşen çorap veya ayakkabılar için 'The shoes are under the bed' cümlesini kurarsın.",
+      "words": [
+        {
+          "word": "Yere",
+          "startMs": 228880,
+          "endMs": 229190
+        },
+        {
+          "word": "düşen",
+          "startMs": 229190,
+          "endMs": 229520
+        },
+        {
+          "word": "çorap",
+          "startMs": 229620,
+          "endMs": 229810
+        },
+        {
+          "word": "veya",
+          "startMs": 230180,
+          "endMs": 230300
+        },
+        {
+          "word": "ayakkabılar",
+          "startMs": 230590,
+          "endMs": 231730
+        },
+        {
+          "word": "için",
+          "startMs": 232390,
+          "endMs": 232780
+        },
+        {
+          "word": "'The",
+          "startMs": 232780,
+          "endMs": 232910
+        },
+        {
+          "word": "shoes",
+          "startMs": 232950,
+          "endMs": 233340
+        },
+        {
+          "word": "are",
+          "startMs": 233400,
+          "endMs": 233910
+        },
+        {
+          "word": "under",
+          "startMs": 234020,
+          "endMs": 234590
+        },
+        {
+          "word": "the",
+          "startMs": 234700,
+          "endMs": 234860
+        },
+        {
+          "word": "bed'",
+          "startMs": 235220,
+          "endMs": 235550
+        },
+        {
+          "word": "cümlesini",
+          "startMs": 235620,
+          "endMs": 236360
+        },
+        {
+          "word": "kurarsın.",
+          "startMs": 236470,
+          "endMs": 237120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 237810,
+      "endMs": 244780,
+      "pauseAfterMs": 330,
+      "text": "Çantanın yerini söylerken 'The school bag is behind the armchair' diyebilirsin.",
+      "markedText": "Çantanın yerini söylerken 'The school bag is behind the armchair' diyebilirsin.",
+      "words": [
+        {
+          "word": "Çantanın",
+          "startMs": 237810,
+          "endMs": 238140
+        },
+        {
+          "word": "yerini",
+          "startMs": 238190,
+          "endMs": 238530
+        },
+        {
+          "word": "söylerken",
+          "startMs": 238530,
+          "endMs": 238920
+        },
+        {
+          "word": "'The",
+          "startMs": 239270,
+          "endMs": 239430
+        },
+        {
+          "word": "school",
+          "startMs": 239430,
+          "endMs": 239620
+        },
+        {
+          "word": "bag",
+          "startMs": 239730,
+          "endMs": 239890
+        },
+        {
+          "word": "is",
+          "startMs": 240200,
+          "endMs": 240460
+        },
+        {
+          "word": "behind",
+          "startMs": 240670,
+          "endMs": 241020
+        },
+        {
+          "word": "the",
+          "startMs": 241500,
+          "endMs": 241740
+        },
+        {
+          "word": "armchair'",
+          "startMs": 241830,
+          "endMs": 242660
+        },
+        {
+          "word": "diyebilirsin.",
+          "startMs": 243290,
+          "endMs": 244450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 244780,
+      "endMs": 254970,
+      "pauseAfterMs": 1060,
+      "text": "Komodin ile yatağı bağlarken 'The nightstand is next to the bed' çok güzel bir tanımdır.",
+      "markedText": "Komodin ile yatağı bağlarken 'The nightstand is next to the bed' çok güzel bir tanımdır.",
+      "words": [
+        {
+          "word": "Komodin",
+          "startMs": 244780,
+          "endMs": 245290
+        },
+        {
+          "word": "ile",
+          "startMs": 246020,
+          "endMs": 246210
+        },
+        {
+          "word": "yatağı",
+          "startMs": 246300,
+          "endMs": 246650
+        },
+        {
+          "word": "bağlarken",
+          "startMs": 246740,
+          "endMs": 247770
+        },
+        {
+          "word": "'The",
+          "startMs": 248530,
+          "endMs": 248640
+        },
+        {
+          "word": "nightstand",
+          "startMs": 248640,
+          "endMs": 249330
+        },
+        {
+          "word": "is",
+          "startMs": 249370,
+          "endMs": 249580
+        },
+        {
+          "word": "next",
+          "startMs": 249580,
+          "endMs": 249850
+        },
+        {
+          "word": "to",
+          "startMs": 250010,
+          "endMs": 250100
+        },
+        {
+          "word": "the",
+          "startMs": 250150,
+          "endMs": 250370
+        },
+        {
+          "word": "bed'",
+          "startMs": 250700,
+          "endMs": 250910
+        },
+        {
+          "word": "çok",
+          "startMs": 251780,
+          "endMs": 251930
+        },
+        {
+          "word": "güzel",
+          "startMs": 252040,
+          "endMs": 252520
+        },
+        {
+          "word": "bir",
+          "startMs": 252820,
+          "endMs": 253210
+        },
+        {
+          "word": "tanımdır.",
+          "startMs": 253380,
+          "endMs": 253910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 254970,
+      "endMs": 278120,
+      "pauseAfterMs": 960,
+      "text": "Bir arkadaşın sana merakla 'Where is my notebook?' diye sorduğunda 'It is on the table, next to the laptop' diyerek iki edatı birleştirebilir ve ona yol gösterebilirsin.",
+      "markedText": "Bir arkadaşın sana merakla 'Where is my notebook?' diye sorduğunda 'It is on the table, next to the laptop' diyerek iki edatı birleştirebilir ve ona yol gösterebilirsin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 254970,
+          "endMs": 255330
+        },
+        {
+          "word": "arkadaşın",
+          "startMs": 255430,
+          "endMs": 256270
+        },
+        {
+          "word": "sana",
+          "startMs": 256580,
+          "endMs": 256990
+        },
+        {
+          "word": "merakla",
+          "startMs": 256990,
+          "endMs": 258390
+        },
+        {
+          "word": "'Where",
+          "startMs": 258650,
+          "endMs": 259040
+        },
+        {
+          "word": "is",
+          "startMs": 259920,
+          "endMs": 260140
+        },
+        {
+          "word": "my",
+          "startMs": 260320,
+          "endMs": 260520
+        },
+        {
+          "word": "notebook?'",
+          "startMs": 260640,
+          "endMs": 261600
+        },
+        {
+          "word": "diye",
+          "startMs": 261760,
+          "endMs": 262330
+        },
+        {
+          "word": "sorduğunda",
+          "startMs": 262870,
+          "endMs": 263820
+        },
+        {
+          "word": "'It",
+          "startMs": 263880,
+          "endMs": 264020
+        },
+        {
+          "word": "is",
+          "startMs": 264020,
+          "endMs": 264260
+        },
+        {
+          "word": "on",
+          "startMs": 264620,
+          "endMs": 264820
+        },
+        {
+          "word": "the",
+          "startMs": 264820,
+          "endMs": 265030
+        },
+        {
+          "word": "table,",
+          "startMs": 265120,
+          "endMs": 265600
+        },
+        {
+          "word": "next",
+          "startMs": 267030,
+          "endMs": 267460
+        },
+        {
+          "word": "to",
+          "startMs": 267940,
+          "endMs": 268160
+        },
+        {
+          "word": "the",
+          "startMs": 268230,
+          "endMs": 268580
+        },
+        {
+          "word": "laptop'",
+          "startMs": 269350,
+          "endMs": 269870
+        },
+        {
+          "word": "diyerek",
+          "startMs": 270290,
+          "endMs": 271050
+        },
+        {
+          "word": "iki",
+          "startMs": 271520,
+          "endMs": 271700
+        },
+        {
+          "word": "edatı",
+          "startMs": 271950,
+          "endMs": 272390
+        },
+        {
+          "word": "birleştirebilir",
+          "startMs": 272740,
+          "endMs": 273560
+        },
+        {
+          "word": "ve",
+          "startMs": 273820,
+          "endMs": 273990
+        },
+        {
+          "word": "ona",
+          "startMs": 273990,
+          "endMs": 274600
+        },
+        {
+          "word": "yol",
+          "startMs": 275140,
+          "endMs": 275350
+        },
+        {
+          "word": "gösterebilirsin.",
+          "startMs": 275450,
+          "endMs": 277160
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 278120,
+      "endMs": 280400,
+      "pauseAfterMs": 710,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 278120,
+          "endMs": 279010
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 279150,
+          "endMs": 279690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 280400,
+      "endMs": 283290,
+      "pauseAfterMs": 410,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 280400,
+          "endMs": 281520
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 281860,
+          "endMs": 282880
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 283290,
+      "endMs": 286460,
+      "pauseAfterMs": 610,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 283290,
+          "endMs": 283540
+        },
+        {
+          "word": "noktayı",
+          "startMs": 283800,
+          "endMs": 284300
+        },
+        {
+          "word": "sen",
+          "startMs": 284540,
+          "endMs": 284810
+        },
+        {
+          "word": "de",
+          "startMs": 284810,
+          "endMs": 285070
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 285110,
+          "endMs": 285850
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 286460,
+      "endMs": 295890,
+      "pauseAfterMs": 640,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 286460,
+          "endMs": 286740
+        },
+        {
+          "word": "sevgili",
+          "startMs": 286740,
+          "endMs": 287250
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 287370,
+          "endMs": 288590
+        },
+        {
+          "word": "işte",
+          "startMs": 289320,
+          "endMs": 289610
+        },
+        {
+          "word": "tam",
+          "startMs": 289670,
+          "endMs": 289950
+        },
+        {
+          "word": "bu",
+          "startMs": 289950,
+          "endMs": 290260
+        },
+        {
+          "word": "noktada",
+          "startMs": 290400,
+          "endMs": 290930
+        },
+        {
+          "word": "dikkat",
+          "startMs": 291630,
+          "endMs": 292480
+        },
+        {
+          "word": "etmen",
+          "startMs": 292520,
+          "endMs": 293020
+        },
+        {
+          "word": "gereken",
+          "startMs": 293120,
+          "endMs": 294050
+        },
+        {
+          "word": "kilit",
+          "startMs": 294130,
+          "endMs": 294480
+        },
+        {
+          "word": "nokta.",
+          "startMs": 294560,
+          "endMs": 295250
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 295890,
+      "endMs": 315970,
+      "pauseAfterMs": 690,
+      "text": "Kutunun veya dolabın içinde duran bir eşya için 'on' yerine 'in' kullanmaya özen gösterebilirsin; örneğin kapalı bir kutudaki oyuncak için 'The toy is in the box' demek tam ve doğru bir ifadedir.",
+      "markedText": "Kutunun veya dolabın içinde duran bir eşya için 'on' yerine 'in' kullanmaya özen gösterebilirsin; örneğin kapalı bir kutudaki oyuncak için 'The toy is in the box' demek tam ve doğru bir ifadedir.",
+      "words": [
+        {
+          "word": "Kutunun",
+          "startMs": 295890,
+          "endMs": 296640
+        },
+        {
+          "word": "veya",
+          "startMs": 296780,
+          "endMs": 297070
+        },
+        {
+          "word": "dolabın",
+          "startMs": 297250,
+          "endMs": 297590
+        },
+        {
+          "word": "içinde",
+          "startMs": 297590,
+          "endMs": 298090
+        },
+        {
+          "word": "duran",
+          "startMs": 299140,
+          "endMs": 299450
+        },
+        {
+          "word": "bir",
+          "startMs": 299450,
+          "endMs": 299620
+        },
+        {
+          "word": "eşya",
+          "startMs": 299800,
+          "endMs": 300130
+        },
+        {
+          "word": "için",
+          "startMs": 300260,
+          "endMs": 300480
+        },
+        {
+          "word": "'on'",
+          "startMs": 300580,
+          "endMs": 300750
+        },
+        {
+          "word": "yerine",
+          "startMs": 300750,
+          "endMs": 301490
+        },
+        {
+          "word": "'in'",
+          "startMs": 301490,
+          "endMs": 301620
+        },
+        {
+          "word": "kullanmaya",
+          "startMs": 301960,
+          "endMs": 302690
+        },
+        {
+          "word": "özen",
+          "startMs": 302830,
+          "endMs": 303150
+        },
+        {
+          "word": "gösterebilirsin;",
+          "startMs": 303510,
+          "endMs": 304510
+        },
+        {
+          "word": "örneğin",
+          "startMs": 305750,
+          "endMs": 306430
+        },
+        {
+          "word": "kapalı",
+          "startMs": 306600,
+          "endMs": 307090
+        },
+        {
+          "word": "bir",
+          "startMs": 307090,
+          "endMs": 307280
+        },
+        {
+          "word": "kutudaki",
+          "startMs": 307360,
+          "endMs": 308140
+        },
+        {
+          "word": "oyuncak",
+          "startMs": 308250,
+          "endMs": 309080
+        },
+        {
+          "word": "için",
+          "startMs": 309800,
+          "endMs": 310020
+        },
+        {
+          "word": "'The",
+          "startMs": 310020,
+          "endMs": 310260
+        },
+        {
+          "word": "toy",
+          "startMs": 310340,
+          "endMs": 310520
+        },
+        {
+          "word": "is",
+          "startMs": 310630,
+          "endMs": 310750
+        },
+        {
+          "word": "in",
+          "startMs": 310750,
+          "endMs": 310950
+        },
+        {
+          "word": "the",
+          "startMs": 311040,
+          "endMs": 311310
+        },
+        {
+          "word": "box'",
+          "startMs": 311310,
+          "endMs": 311460
+        },
+        {
+          "word": "demek",
+          "startMs": 311460,
+          "endMs": 312050
+        },
+        {
+          "word": "tam",
+          "startMs": 312720,
+          "endMs": 312910
+        },
+        {
+          "word": "ve",
+          "startMs": 312910,
+          "endMs": 313010
+        },
+        {
+          "word": "doğru",
+          "startMs": 313010,
+          "endMs": 313410
+        },
+        {
+          "word": "bir",
+          "startMs": 313810,
+          "endMs": 314130
+        },
+        {
+          "word": "ifadedir.",
+          "startMs": 314500,
+          "endMs": 315280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 315970,
+      "endMs": 340390,
+      "pauseAfterMs": 910,
+      "text": "Ayrıca arkada duran için 'behind', altta duran için 'under' edatını seçmeyi ve bir şeyin yerini söylerken 'It is on the desk' gibi tam bir cümle kurmayı hatırla; çünkü tam cümleler İngilizceni ışıl ışıl parlatır.",
+      "markedText": "Ayrıca arkada duran için 'behind', altta duran için 'under' edatını seçmeyi ve bir şeyin yerini söylerken 'It is on the desk' gibi tam bir cümle kurmayı hatırla; çünkü tam cümleler İngilizceni ışıl ışıl parlatır.",
+      "words": [
+        {
+          "word": "Ayrıca",
+          "startMs": 315970,
+          "endMs": 316490
+        },
+        {
+          "word": "arkada",
+          "startMs": 316680,
+          "endMs": 317320
+        },
+        {
+          "word": "duran",
+          "startMs": 317510,
+          "endMs": 317770
+        },
+        {
+          "word": "için",
+          "startMs": 317770,
+          "endMs": 318070
+        },
+        {
+          "word": "'behind',",
+          "startMs": 318150,
+          "endMs": 318890
+        },
+        {
+          "word": "altta",
+          "startMs": 319410,
+          "endMs": 319720
+        },
+        {
+          "word": "duran",
+          "startMs": 320830,
+          "endMs": 321140
+        },
+        {
+          "word": "için",
+          "startMs": 321200,
+          "endMs": 321580
+        },
+        {
+          "word": "'under'",
+          "startMs": 321650,
+          "endMs": 321860
+        },
+        {
+          "word": "edatını",
+          "startMs": 321860,
+          "endMs": 322290
+        },
+        {
+          "word": "seçmeyi",
+          "startMs": 322430,
+          "endMs": 322740
+        },
+        {
+          "word": "ve",
+          "startMs": 322860,
+          "endMs": 322940
+        },
+        {
+          "word": "bir",
+          "startMs": 323100,
+          "endMs": 323200
+        },
+        {
+          "word": "şeyin",
+          "startMs": 323320,
+          "endMs": 323500
+        },
+        {
+          "word": "yerini",
+          "startMs": 323620,
+          "endMs": 323970
+        },
+        {
+          "word": "söylerken",
+          "startMs": 324020,
+          "endMs": 324650
+        },
+        {
+          "word": "'It",
+          "startMs": 325570,
+          "endMs": 325660
+        },
+        {
+          "word": "is",
+          "startMs": 326130,
+          "endMs": 326300
+        },
+        {
+          "word": "on",
+          "startMs": 326340,
+          "endMs": 326510
+        },
+        {
+          "word": "the",
+          "startMs": 326510,
+          "endMs": 327130
+        },
+        {
+          "word": "desk'",
+          "startMs": 327730,
+          "endMs": 327950
+        },
+        {
+          "word": "gibi",
+          "startMs": 328390,
+          "endMs": 328750
+        },
+        {
+          "word": "tam",
+          "startMs": 328800,
+          "endMs": 328990
+        },
+        {
+          "word": "bir",
+          "startMs": 329490,
+          "endMs": 329720
+        },
+        {
+          "word": "cümle",
+          "startMs": 330400,
+          "endMs": 330740
+        },
+        {
+          "word": "kurmayı",
+          "startMs": 331240,
+          "endMs": 331640
+        },
+        {
+          "word": "hatırla;",
+          "startMs": 332040,
+          "endMs": 332960
+        },
+        {
+          "word": "çünkü",
+          "startMs": 333760,
+          "endMs": 334320
+        },
+        {
+          "word": "tam",
+          "startMs": 334930,
+          "endMs": 335290
+        },
+        {
+          "word": "cümleler",
+          "startMs": 335560,
+          "endMs": 336320
+        },
+        {
+          "word": "İngilizceni",
+          "startMs": 336810,
+          "endMs": 337580
+        },
+        {
+          "word": "ışıl",
+          "startMs": 337970,
+          "endMs": 338270
+        },
+        {
+          "word": "ışıl",
+          "startMs": 338270,
+          "endMs": 338650
+        },
+        {
+          "word": "parlatır.",
+          "startMs": 338650,
+          "endMs": 339480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 340390,
+      "endMs": 351260,
+      "pauseAfterMs": 1400,
+      "text": "In, on, under, behind ve next to konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "In, on, under, behind ve next to konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "In,",
+          "startMs": 340390,
+          "endMs": 340570
+        },
+        {
+          "word": "on,",
+          "startMs": 340660,
+          "endMs": 340900
+        },
+        {
+          "word": "under,",
+          "startMs": 340960,
+          "endMs": 341610
+        },
+        {
+          "word": "behind",
+          "startMs": 342270,
+          "endMs": 342630
+        },
+        {
+          "word": "ve",
+          "startMs": 342770,
+          "endMs": 342880
+        },
+        {
+          "word": "next",
+          "startMs": 342880,
+          "endMs": 342970
+        },
+        {
+          "word": "to",
+          "startMs": 343170,
+          "endMs": 343330
+        },
+        {
+          "word": "konusunda",
+          "startMs": 343830,
+          "endMs": 344090
+        },
+        {
+          "word": "kuralın",
+          "startMs": 344250,
+          "endMs": 345230
+        },
+        {
+          "word": "tersini",
+          "startMs": 345490,
+          "endMs": 345950
+        },
+        {
+          "word": "sanmak",
+          "startMs": 346180,
+          "endMs": 346770
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 346770,
+          "endMs": 347460
+        },
+        {
+          "word": "ters",
+          "startMs": 348250,
+          "endMs": 348390
+        },
+        {
+          "word": "cümle",
+          "startMs": 349130,
+          "endMs": 349320
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 349400,
+          "endMs": 349860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 351260,
+      "endMs": 353850,
+      "pauseAfterMs": 640,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 351260,
+          "endMs": 351680
+        },
+        {
+          "word": "Neler",
+          "startMs": 351750,
+          "endMs": 352240
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 352420,
+          "endMs": 353210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 353850,
+      "endMs": 354120,
+      "pauseAfterMs": 90,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 353850,
+          "endMs": 354030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 354120,
+      "endMs": 361500,
+      "pauseAfterMs": 1090,
+      "text": "In içinde, on üstünde, under altında demektir.",
+      "markedText": "In içinde, on üstünde, under altında demektir.",
+      "words": [
+        {
+          "word": "In",
+          "startMs": 354120,
+          "endMs": 354520
+        },
+        {
+          "word": "içinde,",
+          "startMs": 354710,
+          "endMs": 355720
+        },
+        {
+          "word": "on",
+          "startMs": 356910,
+          "endMs": 357000
+        },
+        {
+          "word": "üstünde,",
+          "startMs": 357100,
+          "endMs": 357870
+        },
+        {
+          "word": "under",
+          "startMs": 358330,
+          "endMs": 358640
+        },
+        {
+          "word": "altında",
+          "startMs": 358640,
+          "endMs": 359520
+        },
+        {
+          "word": "demektir.",
+          "startMs": 359810,
+          "endMs": 360410
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 361500,
+      "endMs": 363440,
+      "pauseAfterMs": 1310,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 361500,
+          "endMs": 362130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 363440,
+      "endMs": 371890,
+      "pauseAfterMs": 1150,
+      "text": "Behind arkasında, next to ise hemen yanında anlamına gelir.",
+      "markedText": "Behind arkasında, next to ise hemen yanında anlamına gelir.",
+      "words": [
+        {
+          "word": "Behind",
+          "startMs": 363440,
+          "endMs": 364250
+        },
+        {
+          "word": "arkasında,",
+          "startMs": 364480,
+          "endMs": 365520
+        },
+        {
+          "word": "next",
+          "startMs": 365950,
+          "endMs": 366320
+        },
+        {
+          "word": "to",
+          "startMs": 366430,
+          "endMs": 366610
+        },
+        {
+          "word": "ise",
+          "startMs": 366690,
+          "endMs": 366910
+        },
+        {
+          "word": "hemen",
+          "startMs": 367040,
+          "endMs": 367480
+        },
+        {
+          "word": "yanında",
+          "startMs": 367710,
+          "endMs": 368660
+        },
+        {
+          "word": "anlamına",
+          "startMs": 368910,
+          "endMs": 369580
+        },
+        {
+          "word": "gelir.",
+          "startMs": 369580,
+          "endMs": 370740
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 371890,
+      "endMs": 372120,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 371890,
+          "endMs": 372120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 372120,
+      "endMs": 382840,
+      "pauseAfterMs": 560,
+      "text": "Where is sorusuna It is on the shelf gibi tam ve açık cümlelerle cevap verilir.",
+      "markedText": "Where is sorusuna It is on the shelf gibi tam ve açık cümlelerle cevap verilir.",
+      "words": [
+        {
+          "word": "Where",
+          "startMs": 372120,
+          "endMs": 372510
+        },
+        {
+          "word": "is",
+          "startMs": 372570,
+          "endMs": 372660
+        },
+        {
+          "word": "sorusuna",
+          "startMs": 372660,
+          "endMs": 373490
+        },
+        {
+          "word": "It",
+          "startMs": 373560,
+          "endMs": 373670
+        },
+        {
+          "word": "is",
+          "startMs": 373750,
+          "endMs": 373890
+        },
+        {
+          "word": "on",
+          "startMs": 374020,
+          "endMs": 374610
+        },
+        {
+          "word": "the",
+          "startMs": 375930,
+          "endMs": 376110
+        },
+        {
+          "word": "shelf",
+          "startMs": 376110,
+          "endMs": 376370
+        },
+        {
+          "word": "gibi",
+          "startMs": 376370,
+          "endMs": 376610
+        },
+        {
+          "word": "tam",
+          "startMs": 376730,
+          "endMs": 376960
+        },
+        {
+          "word": "ve",
+          "startMs": 377530,
+          "endMs": 377710
+        },
+        {
+          "word": "açık",
+          "startMs": 378560,
+          "endMs": 378890
+        },
+        {
+          "word": "cümlelerle",
+          "startMs": 379010,
+          "endMs": 380180
+        },
+        {
+          "word": "cevap",
+          "startMs": 380480,
+          "endMs": 381080
+        },
+        {
+          "word": "verilir.",
+          "startMs": 381190,
+          "endMs": 382280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 382840,
+      "endMs": 391460,
+      "pauseAfterMs": 1200,
+      "text": "Yer edatı, eşyanın gözle görülen konumunu söyler.",
+      "markedText": "Yer edatı, eşyanın gözle görülen konumunu söyler.",
+      "words": [
+        {
+          "word": "Yer",
+          "startMs": 382840,
+          "endMs": 383370
+        },
+        {
+          "word": "edatı,",
+          "startMs": 383500,
+          "endMs": 384420
+        },
+        {
+          "word": "eşyanın",
+          "startMs": 385470,
+          "endMs": 385910
+        },
+        {
+          "word": "gözle",
+          "startMs": 386060,
+          "endMs": 386640
+        },
+        {
+          "word": "görülen",
+          "startMs": 386760,
+          "endMs": 387730
+        },
+        {
+          "word": "konumunu",
+          "startMs": 388340,
+          "endMs": 389160
+        },
+        {
+          "word": "söyler.",
+          "startMs": 389370,
+          "endMs": 390260
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 391460,
+      "endMs": 398110,
+      "pauseAfterMs": 930,
+      "text": "Raftaki bir kitabın yerini doğru edatla söylersin.",
+      "markedText": "Raftaki bir kitabın yerini doğru edatla söylersin.",
+      "words": [
+        {
+          "word": "Raftaki",
+          "startMs": 391460,
+          "endMs": 391700
+        },
+        {
+          "word": "bir",
+          "startMs": 391920,
+          "endMs": 392070
+        },
+        {
+          "word": "kitabın",
+          "startMs": 392070,
+          "endMs": 393140
+        },
+        {
+          "word": "yerini",
+          "startMs": 394120,
+          "endMs": 394600
+        },
+        {
+          "word": "doğru",
+          "startMs": 394960,
+          "endMs": 395740
+        },
+        {
+          "word": "edatla",
+          "startMs": 395830,
+          "endMs": 396260
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 396410,
+          "endMs": 397180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 398110,
+      "endMs": 400720,
+      "pauseAfterMs": 770,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 398110,
+          "endMs": 398790
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 399040,
+          "endMs": 399950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 400720,
+      "endMs": 404220,
+      "pauseAfterMs": 780,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 400720,
+          "endMs": 401260
+        },
+        {
+          "word": "bir",
+          "startMs": 401430,
+          "endMs": 401810
+        },
+        {
+          "word": "iş",
+          "startMs": 401920,
+          "endMs": 402040
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 402160,
+          "endMs": 403440
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 404220,
+      "endMs": 407410,
+      "pauseAfterMs": 820,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 404220,
+          "endMs": 404940
+        },
+        {
+          "word": "sıra",
+          "startMs": 405830,
+          "endMs": 405990
+        },
+        {
+          "word": "sende.",
+          "startMs": 405990,
+          "endMs": 406590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 407410,
+      "endMs": 410440,
+      "pauseAfterMs": 340,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 407410,
+          "endMs": 407840
+        },
+        {
+          "word": "bu",
+          "startMs": 407840,
+          "endMs": 408040
+        },
+        {
+          "word": "notları",
+          "startMs": 408160,
+          "endMs": 408380
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 408470,
+          "endMs": 408800
+        },
+        {
+          "word": "kendi",
+          "startMs": 409000,
+          "endMs": 409220
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 409260,
+          "endMs": 409750
+        },
+        {
+          "word": "anlat.",
+          "startMs": 409750,
+          "endMs": 410100
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

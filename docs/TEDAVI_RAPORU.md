@@ -1,181 +1,142 @@
-# TEDAVİ RAPORU — Junior tek kabuk ve kapalı BFF
+# TEDAVİ RAPORU — yetkin.ai
 
-Tarih: 20 Ekim 2026  
-Dayanak: `docs/TESPIT_RAPORU.md` (CEO onayı).  
-Bu tur ürün kodunu değiştirdi. `@yetkin/kernel` paketine Prisma, Supabase veya LLM eklenmedi. `packages/kernel` dosyalarına dokunulmadı.
+Tarih: 27 Ekim 2026  
+Okuyucu: SUPER_ADMIN  
+Dayanak: `docs/TESPIT_RAPORU.md` (27 Ekim 2026) ve CEO tedavi paketi.  
+A1–A5 gevşetilmedi. Canlı Postgres fiyat satırları ve `.env` içindeki `SUPER_ADMIN_USER_ID` bu turda okunmadı.
 
 ---
 
-## Uygulanan Tedaviler ve Değiştirilen Dosyalar
+## Hüküm
 
-### 1. Junior ders sayfası tek sözleşmeye indi
+Satış düğmesi kapalıysa nedeni artık tek ölü cümleye düşmüyor. Süresi dolmuş lisans, satış kapısı açıksa yenileme kasasına gidiyor. Junior süre mührü karakter saatini yeşil saymıyor; 180 saniyenin altındaki ölçülmüş kaset kartta «Kısa anlatım» oluyor. Jenerik «Süper Kaşif / MEB.6» yedeği çocuk ekranına üretilmiyor. Hop sayısı `ops-dron.md` içinde 33.
 
-Statik `app/junior/ders/jr_06_mat-1/page.tsx` silindi. Next.js statik segmenti dinamik `[lessonKey]` rotasının önüne geçiyordu; `jr_06_mat-1` katalog kapısına ve `LessonChain` gövdesine düşmüyordu.
+---
 
-Tek sayfa `app/junior/ders/[lessonKey]/page.tsx`:
+## 1. Akademi satış yolu
 
-- Katalog dışı üretim anahtarı (`JUNIOR_ENGINE_PRODUCTION_KEYS`, bugün `jr_06_mat-1` … `jr_06_mat-4`) ve kayıtlı blueprint varsa `JuniorEngineProductionLesson` çizer. Başlık blueprint’ten gelir. `robots` noindex kalır. Oturum ve yıllık paket bu dalda okunmaz; bu dersler katalog dersi değildir.
-- Bilinen katalog anahtarı mevcut kapıdan geçer: oturum, `juniorLessonGate`, kilitli teaser, ücretsiz konuda `LessonChain`.
-- Üretim anahtarı katalogla çakışırsa katalog dalı kazanır. `jr_06_mat-5` katalogdadır ve bu yüzden kapıdadır.
+### Satın alma kapısı
 
-`JuniorEngineProductionLesson` artık ikinci bir stüdyo iskeleti kurmuyor. `JuniorLessonEngine` kabuğunu dolduruyor. Dokunsal ray varsa etkinlik stüdyosu, yoksa blueprint simülasyonu bağlanır.
+`resolveAcademyCatalogCardCta` kapalı kartta `saleHold` cümlesini ayırır:
 
-`LessonChain` stüdyo ızgarasını iki koşuldan biriyle açar: pilot zaman çizelgesi (`isJuniorPilotPlaybackLesson`) veya kayıtlı blueprint (`hasJuniorLessonBlueprint`). `pilot-engine` saat kaynağı olarak durur. İkinci sayfa oynatıcısı kalkmıştır.
-
-Kenar listesi `lib/junior/lesson-index.ts` içindedir ve lesson-engine gövdesini import etmez. `proxy.ts` bu listeyle bilinmeyen adrese 404 basmaya devam eder. Üretim anahtarları 404 adayı değildir. Katalog `juniorLessonKeyFromPath` hâlâ yalnız bilinen ders anahtarını döner; matematik 1–4 ders listesine ve site haritasına yazılmaz.
-
-### 2. Hop dışı 410 uçları tek handler ve tek listeye indi
-
-Akademi stüdyo artığı her dosyada kendi `ACADEMY_STUDIO_GONE` kopyasını taşıyordu. Metinler `lib/academy/studio-gone.ts` içinde toplandı. Freelancer uydu yolları `lib/freelancer/satellite-gone.ts` listesine eklendi. İkisinin birleşik envanteri `lib/closed-bff-surface.ts`.
-
-HTTP gövdesi `lib/kernel/http/closed-surface-route.ts` içindeki `closedSurfaceGone`. Bu fonksiyon oda motoru import etmez. Route dosyaları `export const auth = "public"` ve 410 yorumunu taşımaya devam eder; `verify:idor-seals` iğneleri durur.
-
-Donmuş oda yakalayıcısı `app/api/_gone/[...path]/route.ts` bu listeye alınmadı. O yüzey `frozenRoomGone` ve kenar `isFrozenRoomApi` ile «Bu oda üretimde kapalı.» basar. Akademi odası açıktır; stüdyo uçlarının vatandaş cümlesi ayrıdır (`Dersi dinle kapalı.` ve kardeşleri). Dosyayı silmek bu cümleyi genel oda cümlesine çevirir veya yolu 404 yapar. Mühür scriptleri dosya yolunu da ister.
-
-### 3. Test
-
-- `tests/kernel/junior-lesson-engine.test.ts` — blueprint ile üretim anahtarı aynı küme; statik sayfa yok; üretim dersi `JuniorLessonEngine` basar.
-- `tests/kernel/junior-closed-beta.test.ts` — `jr_06_mat-4` kenarda bilinmeyen sayılmaz; `jr_06_mat-5` üretim anahtarı değildir; üretim kümesi katalogla kesişmez.
-- `tests/kernel/closed-bff-surface.test.ts` — on kapalı uç ortak handler’a bağlıdır; `_gone` `frozenRoomGone` olarak kalır.
-
-### Değişen ve eklenen dosyalar
-
-| Dosya | Ne oldu |
+| Neden | Düğme |
 |---|---|
-| `app/junior/ders/jr_06_mat-1/page.tsx` | Silindi |
-| `app/junior/ders/[lessonKey]/page.tsx` | Tek kabuk: üretim dalı + katalog dalı |
-| `components/junior/lesson-engine/JuniorEngineProductionLesson.tsx` | `JuniorLessonEngine` adaptörü |
-| `components/junior/lesson-engine/JuniorLessonEngine.tsx` | Dış rozet durumu kabul eder |
-| `components/junior/lesson-chain.tsx` | Blueprint de stüdyo kabuğuna girer |
-| `lib/junior/lesson-index.ts` | Üretim anahtarları `jr_06_mat-1..4` |
-| `lib/junior/lesson-engine/registry.ts` | `hasJuniorLessonBlueprint` |
-| `lib/junior/lesson-engine/index.ts` | Yeni fonksiyon export |
-| `lib/academy/studio-gone.ts` | Yeni. Stüdyo 410 metni ve yolları |
-| `lib/freelancer/satellite-gone.ts` | Uydu yol listesi |
-| `lib/closed-bff-surface.ts` | Yeni. Birleşik hop dışı liste |
-| `lib/kernel/http/closed-surface-route.ts` | Yeni. Ortak 410 fonksiyonu. Paket değil, gövde `lib/kernel` |
-| `app/api/academy/generateSpeech/route.ts` | İnce 410 |
-| `app/api/academy/discussion/route.ts` | İnce 410 |
-| `app/api/academy/reviews/route.ts` | İnce 410 |
-| `app/api/academy/courses/[id]/listen/route.ts` | İnce 410 |
-| `app/api/academy/courses/[id]/pdf/route.ts` | İnce 410 |
-| `app/api/(kernel)/admin/curriculum-revisions/route.ts` | İnce 410 |
-| `app/api/freelancer/squad/route.ts` | İnce 410 |
-| `app/api/freelancer/direct-offers/route.ts` | İnce 410 |
-| `app/api/freelancer/direct-offers/[id]/accept/route.ts` | İnce 410 |
-| `app/api/freelancer/direct-offers/[id]/decline/route.ts` | İnce 410 |
-| `tests/kernel/junior-lesson-engine.test.ts` | Sözleşme testi |
-| `tests/kernel/junior-closed-beta.test.ts` | Kenar kümesi |
-| `tests/kernel/closed-bff-surface.test.ts` | Yeni |
-| `docs/TEDAVI_RAPORU.md` | Bu rapor |
+| Yayın kapalı | Yayında Değil |
+| Fiyat satırı yok | Fiyat Bekleniyor |
+| Ses veya metin mührü eksik | Ses Mührü Eksik |
+| İkisi birden | Fiyat Bekleniyor · Ses Mührü Eksik |
 
-Çalışma ağacındaki diğer Junior diff’leri (etkinlik rayı, canlı koç, ses manifesti, pilot oynatıcı) bu turda yeniden yazılmadı. Sayfa ayrışması onların üstüne kapatıldı.
+Açıklama `priceCaption` olarak durur. `06_`–`13_` boş kanon kabuk bir karta düşerse tohum tutar basılmaz; etiket «Hazırlanıyor»dır. Bu kabukların `vitrineOrder` değeri zaten `null`; rafta değiller.
+
+### Süresi dolmuş lisans
+
+`access === "expired"` ve `purchasable` ise Antre birincil düğmesi «Yenile» olur ve `#satin-al` kasasına gider. Kurs sayfası aynı durumda `PurchaseButton`a `renew` verir; düğme `Yenile (tutar)` yazar. Satış kapısı kapalıysa «Lisans süresi doldu. Satış kapısı şu an kapalı» ve `saleHold` cümlesi basılır. Yeni bir satın alma satırı yazılmaz; mevcut kasa yolu kullanılır.
+
+### Düşüm ve iade cümlesi
+
+Lisans yazılamazsa vatandaş metni artık sessiz talep satırı değildir: sipariş tutarının karta iade edilmeye çalışıldığı, bakiye yetmezse talebin durduğu ve sahte lisans basılmadığı yazılır (`ACADEMY_SEN.purchase.licenseUnwritten`). Bakiye eksiği, PayTR hattının kapalı olması ve düşüm hatası için ayrı cümleler eklendi.
 
 ---
 
-## Junior Oynatıcı Unification (Birleştirme) Özeti
+## 2. Junior
 
-Tek mimari sözleşme şudur.
+### Süre mührü
 
-| Ders | Adres | Sayfa | Gövde | Kapı |
-|---|---|---|---|---|
-| `jr_06_mat-1` … `jr_06_mat-4` | `/junior/ders/:key` | `[lessonKey]` | `JuniorEngineProductionLesson` → `JuniorLessonEngine` | Katalog dışı. Noindex. Ders listesinde yok. Kenar 404 basmaz |
-| `jr_06_mat-5` ve pilot saatli dersler | aynı | `[lessonKey]` | `LessonChain` → `JuniorLessonEngineShell` | Katalog kapısı, anlatış, quiz, medya izni |
-| Diğer katalog dersleri (ör. `jr_06_fen-1`) | aynı | `[lessonKey]` | `LessonChain` ray yerleşimi | Katalog kapısı |
-| Bilinmeyen anahtar | aynı | kenar | 404 | `isUnknownJuniorLessonPath` |
+`juniorProductionSealGaps` süreyi `measuredJuniorNarrationMs` ile okur: önce MP3 başlığı, yoksa `packages/junior-content/timelines/*.timeline.json` içindeki kilitli `audio.durationMs`. Karakter saati (`juniorNarrationDurationMs`) bu kapıya girmez.
 
-Saat: kayıtlı timeline varsa `resolveJuniorEngineTimeline`, o da önce `getPilotTimelineForLesson`. `pilot-engine` grafik ve saat katmanıdır. Oynatıcı kabuğu `JuniorLessonEngine` / `JuniorLessonEngineShell`dir.
+Ölçülen envanter: 123 kilitli çizelge. 180 saniyenin altında 13 kaset var: `jr_06_mat-6` (142204 ms) ve 12 seçmeli konu (133308–167392 ms). Diğer çekirdek dersler bantta.
 
-Yerel tarayıcı kontrolü (`next dev`, `http://localhost:3000`):
+180 sn altı `duration` açığıdır. `assertJuniorProductionSeal` bu açığı da reddeder. Paket ve ücretsiz açılış `juniorContentSealGaps` ile bakılır; kısa kaset bütün kursu kilitlemez. Kart `narrationShort` taşır. Rozet «Kısa anlatım»dır (amber). Ücretsiz açılış hâlâ açılır; yeşil tam ders demez. Ders sayfasında saniye yazılır.
 
-- `jr_06_mat-1` başlık «Üslü İfadeler ve Tekrarlı Çarpım». Üs kulesi sahnesi, etkinlik sekmeleri ve Üs Kulesi Lab açıldı. Eski kısa meta başlığı «Üslü İfadeler» yerini blueprint başlığına bıraktı; H1 ile aynıdır.
-- `jr_06_mat-2` «İşlem Önceliği Kuralları» ve İşlem Önceliği Robotu. HTTP 200.
-- `jr_06_mat-5` katalog başlığı, ısınma kapısı, eşleştirme rayı ve Bölünebilme Dedektifi rozeti. HTTP 200.
-- `jr_06_fen-1` klasik anlatım oynatıcısı ve üçlü etkinlik rayı. Motor üretim çerçevesine düşmedi. HTTP 200.
-- `jr_06_mat-99` HTTP 404.
+Ses dosyaları bu turda yeniden fırınlanmadı. 142 saniyelik `jr_06_mat-6` 180 saniyeye uzatılmadı; gerçek süre kartta duruyor.
 
-`POST /api/academy/generateSpeech` gövdesi `{"ok":false,"error":"Dersi dinle kapalı.",...}` ve HTTP 410. `GET /api/academy/courses/x/listen` ve `GET /api/freelancer/squad` de 410.
+Oynatıcı okuyucusu (`registerAcousticTimelineReader`) mühür okumasından kaydedilmez. `jr_06_mat-4` gibi dersler, okuyucu ayrıca bağlanmadan `getPilotTimelineForLesson` ile `null` kalır.
+
+### İsimler
+
+Canlı adlar eklendi ve mühür yolu bunları kullanır:
+
+| Eski sabit | Canlı anahtar | Yeni sabit |
+|---|---|---|
+| `JR_06_MAT_5_PRODUCTION` / `JR_06_MAT_5_TIMELINE` / `JR_06_MAT_5_BLUEPRINT` | `jr_06_mat-1` | `JR_06_MAT_1_*` |
+| `JR_06_MAT_6_PRODUCTION` / `JR_06_MAT_6_TIMELINE` / `JR_06_MAT_6_BLUEPRINT` | `jr_06_mat-2` | `JR_06_MAT_2_*` |
+
+Eski adlar `@deprecated` takma ad olarak aynı nesneyi gösterir. Silinmediler; dış test ve fırın importu kırılmasın diye. Yeni fırın yeni adı okumalıdır.
+
+`mat-27.graph.ts` ve `mat-30`–`mat-36` oynatıcı yükleyicisine bağlı değildir. `graph-timeline-fallback.ts` onları canlı anahtara (`jr_06_mat-6` ← `mat-27`, vb.) yalnız mühür betiği için tutar. Dosyalar silinmedi: betik hâlâ kaynak olarak okur.
+
+### Süper Kaşif
+
+`getJuniorLessonBlueprint` kayıt yoksa `null` döner. `MEB.6` ve «Süper Kaşif» kabı üretilmez. Simülasyon sekmesi, rozet penceresi ve motor, şablonu olmayan derste bu rozeti basmaz. Kayıtlı şablonlar `jr_06_mat-1` ve `jr_06_mat-2`.
+
+### Seçmeli
+
+Raf etiketi «Kişiye Özel Müfredat» olmaktan çıktı. Seçmeli etiket: «İki konu taslak · yıllık müfredat değil». Kasa metni aynı ayrımı zaten söylüyordu. On iki seçmeli konu ölçülmüş sesle 3 dakikanın altındadır; kart «Kısa anlatım»dır, yıllık müfredat rozeti değildir.
 
 ---
 
-## Sözleşme ve Tip Kontrol Sonuçları (Prebuild / Verification outputs)
+## 3. Yetki ve tek ev
 
-`npm run verify:prebuild` çıkış kodu **0** (20 Ekim 2026, yerel). Bu komut `verify:v1-contract-artifacts` adımını da çalıştırır.
+### Super Admin
 
-| Adım | Sonuç |
+Üretim kuralı durur (T-03): `NODE_ENV=production` iken `SUPER_ADMIN_USER_ID` boşsa kimse admin olmaz. `yapinet360@gmail.com` üretimde yalnız oturum UUID’si bu değişkenle birebir aynıysa açılır. Geliştirmede doğrulanmış yerleşik kutu UUID beklemez. `.env` açılmadığı için üretimdeki UUID değeri bu raporda doğrulanmadı.
+
+### İnceleme
+
+`canEnterJunior` kasa niyetinde denetim aktörüne `allow: true, via: "audit"` verir. Kilitli ders izni zaten vardı. Ödeme yazımı durur: kasa kilitliyken sipariş 503, denetim hesabı nakit satırı açmaya kalkarsa 403 (`JUNIOR_CHECKOUT_AUDIT_MESSAGE`). Kasa sayfası inceleme şeridini basar. Donmuş odalar (studio, freelancer, arena) 410 kalır; inceleme onları vitrine açmaz.
+
+### Fiyat evi
+
+Canlı tutar `PriceCatalogEntry`. Tohum `COURSE_REGISTRY.priceSeedMinor` (`ACADEMY_CATALOG_PRICE_MINOR` bu diziden türer). `resolveAcademySeedMoney` seviye bandından (49.000 / 109.000 / 289.000) tutar üretmez; `amountMinor` zorunludur. `ACADEMY_LEVEL_PRICE_BANDS` deprecated durur ve yeni kod onu okumaz.
+
+### Kök `/`
+
+`next.config.ts` `/` adresini `/academy`ye 308 ile çevirmeye devam eder. `app/(public)/page.tsx` bu kilit açıkken basılmaz; meta `noindex`. Kök layout varsayılan başlığı markadır (`yetkin.ai`). Akademi kataloğunun arama başlığı «Akademi eğitim kataloğu»dır. Görünen H1 sloganı (`Yapay Zekâyı Öğren. Gerçek İşlerinde Kullan.`) katalog gövdesinde durur; kök kabuk ve noindex oynatıcı onu miras almaz.
+
+---
+
+## 4. SEO
+
+- Kök `layout.tsx` title/description, katalog sloganından ayrıldı.
+- `/academy/[slug]/oyna` kendi başlığını ve açıklamasını basar (`Ders oynatıcı`), `noindex`.
+- Kilitli Junior ders meta’sı başlıkla birlikte «arama dizinine kapalıdır» açıklamasını basar.
+- Canonical `pageMetadata` üzerinden kamu sayfalarında durur. Sitemap statik yolları: `/academy`, `/academy/ileri`, `/career`, `/junior`, doğrulama, vize. Kök `/` 308 olduğu için sitemap’te yok.
+
+---
+
+## 5. Belgeler
+
+| Dosya | Hizalama |
 |---|---|
-| `verify:no-secrets` | OK — PEM / service_role JWT / yasaklı .env.example ataması / git .env yok |
-| `verify:amount-minor` | OK — integer minor + PayTR sınır katmanı mühürlü |
-| `verify:rls-status` | OK — Auth sync, FORCE RLS, owner SELECT |
-| `verify:openapi-v1` | OK — JSON kopyası Zod sicili ile örtüşür |
-| `verify:v1-client` | OK — `@yetkin/kernel` tipleri OpenAPI ile örtüşür |
-| `verify:kernel-package` | OK — `@yetkin/kernel` saf; Dron tüketir |
-| `verify:idor-seals` | OK — squad/direct-offer BFF 410; ardından ilgili Vitest dosyaları geçti |
-| `ops:runtime-readiness` | Çıkış 0 (uyarı). Yerel lab: `NODE_ENV` production değil, hız deposu `in-process-single-node`, PayTR `sandboxSet=evet`, `mockCheckoutSet=hayır` |
-| `verify:api-auth --check` | OK — 73 route. `{"session":46,"public":20,"cron":0,"admin":3,"webhook":4,"hybrid":0,"internal":0}` |
-| `verify:public-size` | OK — public bütçesi uyarı eşiğinin altında |
-| `verify:academy-curriculum` | OK — yazılmış eğitimler en az 6 ders ve ders başı 600 kelime |
-| `verify:junior-content` | OK — 111 senaryo eşit, 13 kab |
-| `verify:junior-audio-manifest` | OK — 111 anahtar; yerel ses SHA-256 ve bayt eşleşti |
+| `PEDAGOJI.md` | Model uyumsuzluğunda kod haritaya eşitlenir. «Beş aşama» ders metninin yazım sırasıdır; üretim 0–5 altı adımdır; beş medya katmanı ayrıdır. Ek-J: ilk konu kamu, pilot yalnız 6. sınıf, süre ölçülmüş sestir, grafik tahta oynatıcı yedeği değildir. |
+| `MANIFESTO.md` | Aynı model cümlesi. Seçmeli kart yıllık müfredat değildir. |
+| `.cursorrules` | Üretim kapısı «0–5, altı adım» diye yazılır. Beş medya katmanı ayrı nesnedir. Kapı silinmedi. |
+| `ANAYASA.md` A1–A5 | Değiştirilmedi. B6 zaten kodla aynı kapıyı söylüyordu. |
+| `ops-dron.md` | `RAIL_V1_HOPS` **33 kayıt**. Kod sabiti `RAIL_V1_HOP_META_COUNT = 33`. |
 
-Ayrıca:
-
-- `tests/kernel/junior-lesson-engine.test.ts` — 5 test geçti.
-- `junior-lesson-engine`, `closed-bff-surface`, `junior-closed-beta`, `curriculum-player-surface`, `citizen-surface` birlikte 25 test geçti (motor testi o turda 4’tü; üretim kabuğu render’ı sonra eklendi ve 5/5 geçti).
-
-Hop sayısı 29 olarak kaldı. Yeni hop satırı yazılmadı.
+`AKADEMI_URETIM_ANAYASASI.md` model haritası ve aşama kapısı silinmedi.
 
 ---
 
-## Kalan / Bilinçli Bırakılan Kilitler ve Bayrak Durumları
+## 6. Sözleşme
 
-Bu turda açılmayan kapılar. Tespit raporundaki «bilinçli kilit» satırları durur.
+Junior raf dersine isteğe bağlı `narrationShort` eklendi (`v1-contract`, `openapi-v1.json`, `packages/kernel/src/generated/v1.ts`). Eski istemci alanı yok sayabilir.
 
-| Kilit | Durum |
+---
+
+## 7. Test
+
+| Komut | Sonuç |
 |---|---|
-| Junior kasa | Kod aynı. `JUNIOR_CHECKOUT_OPEN` boşken checkout 410. Bu tur env açmadı, hop yazmadı |
-| Freelancer kamu yüzeyi | `FREELANCER_PUBLIC_SURFACE_LOCKED` ve Split kapalı. Uydu route’ları 410 kaldı. İlan panosu sayfa gövdesine dokunulmadı |
-| Young | `DRON_YOUNG_OPEN` açılmadı |
-| Donmuş odalar | Studio, DevLabs, Kurumsal, Hibe, Arena, Pazaryeri, Social kenar 410 envanterinde kaldı. `_gone` dosyası `frozenRoomGone` |
-| Canlı koç, ders asistanı, sohbet, kasa, sınıf | Hop sicilinde yok. Bilinçli olarak sicile eklenmedi |
-| `06_`–`13_` yetişkin kabukları | Vitrin sırası ve ders yolu bu turda doldurulmadı |
-| İki SQL akışı | Prisma migration ve Supabase RLS akışı yerinde |
-| Üretim Redis çifti | Bu rapor canlı üretimi okumadı. Yerel readiness hız deposunu süreç içi bellek olarak yazdı |
-| Matematik 1–4 | Erişilebilir üretim rotası. Katalog kartı, ücretsiz ilk konu ve `assertJuniorProductionSeal` konusu değiller |
-| Çalışma ağacı | Değişiklikler commit edilmedi |
+| `npx tsc --noEmit` | geçti |
+| `npx vitest run` | 393 dosya, 1911 test geçti |
+| `npm run verify:api-auth -- --check` | 77 rota, sapma yok |
+| `npm run verify:junior-content` | geçti (111 senaryo, 13 kab). Çıktıdaki «açık» satırları kazanım kapsam notudur; komut kırılmadı. |
 
-`GET /api/_gone/studio` bu yerel sunucuda HTML 404 döndü. Vatandaşın kapalı akademi ve freelancer uçları route dosyasından 410 alır. `_gone` donmuş oda mührünün dosyası olarak durur; bu tur onu yeniden bağlamadı.
+Lighthouse çalıştırılmadı. Canlı `PriceCatalogEntry` ve üretim `SUPER_ADMIN_USER_ID` okunmadı. `jr_06_mat-6` sesi uzatılmadı.
 
 ---
 
-## SEN OLSAYDIN NE YAPARDIN?
+## SUPER_ADMIN
 
-Bu tedaviden sonra gövde, tespit raporunun tarif ettiği kırığı kapatmış durumda. Ayrı `jr_06_mat-1` sayfası yok. Matematik 1–5 ve fen gibi katalog dersleri aynı route dosyasından, aynı çerçeveden (oda, ekmek kırıntısı, başlık) açılıyor. Saat hâlâ `pilot-engine` içinde. Kabuk `JuniorLessonEngine`. İki oynatıcının yan yana büyümesi bu sayfa katmanında bitmiş.
-
-Kalite «mühürlü tek ürün» seviyesinde değil. Üç katman hâlâ ayrı iş yapıyor ve bu ayrım doğru:
-
-1. Katalog dersi kapı, anlatış ve quiz taşır. `jr_06_mat-5` bunun örneği; tarayıcıda ısınma kapısı ve dedektif rozeti duruyordu.
-2. Üretim dersi blueprint ve simülasyon taşır, paket ve profil yazmaz. `jr_06_mat-1` ve `jr_06_mat-2` bunu yaptı.
-3. Klasik ders stüdyo ızgarasına girmez. `jr_06_fen-1` ray yerleşiminde kaldı.
-
-Ben olsam matematik 2–4’ü kenar allowlist’ine, her birinin içerik mührü yazılmadan koymazdım. Aynı sözleşme bunu istediği için route açıldı; ders listesi ve indeks hâlâ kapalı. Doğrudan URL ile mühürsüz konu açılıyor. Bu, çift oynatıcıdan daha küçük bir risk ve ürün kararı olarak durmalı. Mühür öncesi ya bu dördü laboratuvar URL’si diye işaretlenir ya da kataloga alınıp `assertJuniorProductionSeal` geçirilir. İkisi birden «yayındaki 6. sınıf matematik» diye anlatılmamalı.
-
-410 tarafında dosyaları silmezdim. Sildiğim yerde vatandaş cümlesi kaybolur, IDOR mührü kırmızı yanar, `_gone` ise bu sunucuda zaten 404. Ortak fonksiyon ve tek liste, haritayı inceltir, HTTP davranışını korur. Bu haliyle API yüzeyi hâlâ «route dosyası var» diye geniş görünür. Liste (`CLOSED_BFF_SURFACES`) artık o genişliğin okunabilir hali.
-
-`@yetkin/kernel` ince kaldı. Yeni 410 fonksiyonu gövde `lib/kernel/http` içindedir; paket sınırına ve hop metasına girmez. Bunu şişirmek bu tedavinin işi değildi.
-
-Kod ağacı commitlenmeden «tedavi bitti, yayında» denmez. Diskteki sayfa birleşmesi çalışıyor. Git geçmişine girmemiş hali, tespit raporunun uyardığı çalışma ağacı riskinin küçülmüş halidir. Sıfır değil.
-
-Genel sağlamlık: sayfa sözleşmesi toparlandı, paket ve 29 hop bozulmadı, kapalı odalar sahte yeşil basmıyor. Kalan borç ürün kapılarında. Mimariyi bölmek hâlâ yanlış iş.
-
----
-
-## Bir Sonraki Aşamada Ne Yapılmalı?
-
-Son onay ve mühürden önce ilk üç aksiyon:
-
-1. **Matematik 1–4 için mühür kararı.** Bu dördü ya katalog dışı laboratuvar rotası olarak kalır ya da senaryo, ses ve `assertJuniorProductionSeal` ile katalog dersine dönüşür. Karar yazılmadan yeni matematik konusu ve ikinci oynatıcı eklenmez. Bu tedavinin diff’i ancak o kararla birlikte commitlenir.
-2. **Junior kasa kapalı kalır.** Açılış dört parçayla birden gelir: hukuki metin, fatura mührü, PayTR siparişi, `RAIL_V1_HOPS_META` satırı. `JUNIOR_CHECKOUT_OPEN=1` bu dördünün yerine geçmez. Telefona eklenecek ilk yazma, canlı koç değil, bu kasadır. Koç web’de kalabilir.
-3. **Üretim env çifti, kod kilidi gibi okunur.** Yerel readiness hız limitini süreç belleğinde ve PayTR sandbox’ını açık gördü. Çok örnekli üretimde Redis URL ve token birlikte dolu olmalıdır. Sandbox üretimde kapalı olmalıdır. Freelancer ve Young bayrakları bu okumada açılmaz.
-
-Bu üçü bitmeden yeni oda, yeni repo veya ikinci veritabanı açılmaz.
+Tedavi paketi kod ve belge tarafında tamamlandı. Üretim kutusunun açılması için `SUPER_ADMIN_USER_ID`, `yapinet360@gmail.com` oturum UUID’si ile birebir aynı olmalıdır. Bu değer bu turda dosyadan okunmadı.

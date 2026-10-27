@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import { DRON_TEZGAH_STORE_ISOLATED, RAIL_IS_DAY0_HOPS } from "../../apps/rail-is/src/api/hops";
 import { LIVE_BROADCAST_SHUTDOWN } from "@/lib/kernel/http/live-broadcast-shutdown";
 import { RAIL_V1_HOPS } from "@/lib/kernel/http/v1-contract";
+import { RAIL_V1_HOP_META_COUNT } from "@/lib/kernel/http/api-route-census";
 import { findRailV1Hop } from "@/lib/kernel/http/v1-hop-gate";
 import { FREELANCER_PUBLIC_SURFACE_LOCKED } from "@/lib/kernel/compliance/circuit-breakers";
 import { MARKETPLACE_SPLIT_LIVE } from "@/lib/kernel/payments/marketplace-split-live";
@@ -16,8 +17,8 @@ function readSrc(relative: string): string {
 
 describe("Faz 2 tamamlama — T3 yeşil halka yüzeyi", () => {
   it("protokol zinciri hop sicilinde durur; Dron Akademi UI ve yayın kilidi açıktır", () => {
-    expect(RAIL_V1_HOPS).toHaveLength(29);
-    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(29);
+    expect(RAIL_V1_HOPS).toHaveLength(RAIL_V1_HOP_META_COUNT);
+    expect(Object.keys(RAIL_IS_DAY0_HOPS)).toHaveLength(RAIL_V1_HOP_META_COUNT);
     expect(findRailV1Hop("/api/v1/auth/session", "GET")?.id).toBe("auth-session");
     expect(findRailV1Hop("/api/v1/wallet/top-up", "POST")?.id).toBe("wallet-top-up");
     expect(findRailV1Hop("/api/v1/dashboard/wallet-strip", "GET")?.id).toBe("wallet-strip");

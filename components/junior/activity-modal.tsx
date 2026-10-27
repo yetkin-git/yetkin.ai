@@ -33,6 +33,9 @@ export function ActivityBadgeModal({
   }
 
   const blueprint = getJuniorLessonBlueprint(lessonKey);
+  if (!blueprint) {
+    return null;
+  }
   const badgeTitle = blueprint.badge.modalTitle;
   const badgeSubtitle = blueprint.badge.modalSubtitle;
 

@@ -1,42 +1,33 @@
 import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 
-/**
- * 6. Sınıf Matematik. Paydaları farklı kesirlerde toplama ve çıkarma.
- * Film `resolveJuniorPlayback` grafiğidir. Denk kesir parametredir.
- * `FractionBarsScene` bu dersi çizmez.
- */
-export const JUNIOR_MAT_12_SCENARIO: JuniorLessonScenario = {
+/** 6. Sınıf Matematik. Sayı ve şekil örüntüsü. */
+export const JUNIOR_MAT_28_SCENARIO: JuniorLessonScenario = {
   key: "jr_06_mat-12",
-  title: "Paydayı eşitleyerek toplama",
-  teaser:
-    "Paydalar farklıysa önce dilimler aynı boya getirilir. Sonra paylar toplanır. Kavramsal Anlayış, denk kesrin aynı miktarı yeni dilimle söylemesidir. İfade Gücü, yarım ile dörtte birin toplamını dörtte üç diye kurmandır.",
-  welcome:
-    "Merhaba çocuklar, hepiniz hoş geldiniz! Farklı boydaki dilimleri birbiriyle uyumlu hâle getireceğiz. Hiç yarım ekmek ile çeyrek ekmeği aynı tabakta birleştirmeyi denedin mi? Dilimler aynı boyutta değilse, önce onları aynı ölçüye getiririz. Paydaları farklı kesirlerle işlem yapmayı çözeceğiz.",
-  concept:
-    "Paydalar farklıysa paylar hemen toplanmaz veya çıkarılmaz. Önce ortak bir payda seçilir. Bu ortak payda, iki paydanın da buluştuğu bir kattır. Payda kaç kat genişletildiyse pay da aynı sayıyla çarpılır; buna denk kesir elde etme denir. Pratik kural: Denk kesir oluşturmak miktarı değiştirmez; sadece dilimin boyunu ve sayısını aynı oranda yeniler.",
-  example:
-    "Bir bölü 2 ile bir bölü 4'ü toplayalım. Paydalar 2 ve 4'tür. 4 sayısı 2'nin katı olduğu için ortak payda 4 seçilir. Bir bölü 2 kesrini 2 ile genişletirsek iki bölü 4 elde ederiz. Artık iki bölü 4 ile bir bölü 4'ü toplayabiliriz: 2 artı 1, 3 eder ve payda 4 kalır; sonuç dörtte üçtür. Çıkarmada da aynı kural geçerlidir: Üç bölü 4 eksi bir bölü 2 işleminde, bir bölü 2'yi iki bölü 4 yaparız; 3 eksi 2'den sonuç dörtte bir kalır. Yarım ile çeyrek ekmek, tam üç çeyrek ekmek eder.",
+  title: "Sayı ve şekil örüntüsü",
+  teaser: "Örüntü, bir kuralın tekraridir. Kavramsal Anlayış, artan sayıyı veya şeklin adım adım büyüyen modelini görmektir. İfade Gücü, sıradaki terimi kuralıyla söylemektir.",
+  welcome: "Merhaba sevgili çocuklar! Bugün tekrar eden bir kuralın modelini kuracağız. Okul sırasında 2, 4, 6 diye giden adımlar bir örüntüdür. Kuralı bulunca sıradaki adım görünür.",
+  concept: "Sayı örüntüsü, her adımda aynı işlemle büyüyen dizidir. Şekil örüntüsü, aynı kuralın çizimle modelidir. Kural sabitken terim değişir. 3, 6, 9 dizisinde her adım 3 ekler. Kare, iki kare, üç kare modelinde her adım bir kare ekler.",
+  example: "4, 7, 10, 13 dizisine bakalım. Artış 3'tür. Sıradaki terim 16 olur. Şekilde ilk adımda 1 üçgen, ikinci adımda 2 üçgen, üçüncü adımda 3 üçgen varsa kural her adımda 1 üçgen eklemektir. Dördüncü adımda 4 üçgen durur.",
   hint: "gold",
-  warning:
-    "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. Altın İpucu! Paydalar farklıyken hem payları hem paydaları doğrudan toplamak çok büyük bir tuzaktır. Bir bölü 2 artı bir bölü 4 işlemi kesinlikle iki bölü 6 yapmaz! Önce yarımı genişletip iki bölü 4 yaparsın, sonra rahatça toplarsın. Ortak paydayı bulunca her iki kesri de o paydaya denk hâle getir.",
-  life:
-    "Bunu tarif defterinde de kullanırsın. Yarım su bardağı ve çeyrek su bardağı un, üç çeyrek bardak un eder. Bardakların boyu farklı görünse de çeyrek ölçüye çevirince sayarsın. Yarım, iki çeyrektir. İki çeyrek artı bir çeyrek, üç çeyrektir.",
+  warning: "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta. İki terim arasındaki farkı bütün diziye yaymadan kural olmaz. 2, 4, 8 dizisi 2 eklemek değildir. Orada her terim 2 ile çarpılır. Toplama modeli ile çarpma modelini karıştırma.",
+  life: "Bunu okul bahçesindeki merdiven sayısında görürsün. Kutuya her gün 2 bilye eklersen dizi toplama örüntüsüdür. Aynı kutuya her gün iki kat bilye koyarsan model çarpma olur.",
   recap: [
-    "Paydalar farklıysa önce denk kesirle paydalar eşitlenir.",
-    "Payda kaç kat büyüdüyse pay da o kadar kat büyür. Miktar değişmez.",
-    "Bir bölü 2 artı bir bölü 4, dörtte üç eder. İki bölü 6 bu işlemin sonucu değildir.",
+    "Örüntü, aynı kuralın tekraridir.",
+    "Sayı dizisinde artış veya çarpım aranır.",
+    "Şekil modeli, kuralın çizimidir.",
   ],
-  conceptSeal: "Denk kesir, aynı miktarın yeni dilimle söylenmesidir.",
-  voiceSeal: "Önce hangi paydayı seçtiğini, sonra payları nasıl topladığını söylersin.",
+  conceptSeal: "Kural sabit kalır. Terim, kuralın bir sonraki adımıdır.",
+  voiceSeal: "4, 7, 10, 13 dizisinde sıradaki sayının 16 olduğunu kuralıyla dersin.",
   outcomes: [
-    "Farklı paydada önce paydalar eşitlenir.",
-    "Denk kesirde pay ve payda aynı sayıyla çarpılır.",
-    "Yarım artı dörtte bir, dörtte üç eder.",
+    "Örüntü bir kuralın modelidir.",
+    "Sabit artış toplama örüntüsüdür.",
+    "Şekil, aynı kuralı adım adım gösterir.",
+    "Sayı ve şekil örüntüsü kuralı bu derste yeni bir istisna açmaz.",
+    "28 numaralı örnek, ikinci bir kurala dönüşmez.",
+    "Okul defterindeki adım, bahçedeki ölçümle aynı kuralı taşır.",
   ],
-  scene: "fraction-sum",
-  parentNote:
-    "Çocuğunuz farklı paydada önce denk kesir kurar. Evde yarım ile dörtte biri dörtte üç diye toplamak yeter. İki bölü 6 yazmayın.",
-
+  scene: "algebra",
+  parentNote: "Çocuğunuz 4, 7, 10, 13 için sıradaki sayıyı 16 diye bulur. 2, 4, 8 dizisini toplama sanmaz; iki katını alır.",
 };
 
-export const JUNIOR_MAT_12 = juniorLessonFromScenario(JUNIOR_MAT_12_SCENARIO);
+export const JUNIOR_MAT_28 = juniorLessonFromScenario(JUNIOR_MAT_28_SCENARIO);

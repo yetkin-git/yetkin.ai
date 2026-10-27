@@ -4,6 +4,7 @@ import { useEffect, useId, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { IconClose, IconLock } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/link-button";
+import { JUNIOR_ELECTIVE_INTRO_LABEL } from "@/lib/junior/limits";
 
 export function PackageInfoModal({
   open,
@@ -79,6 +80,10 @@ export function PackageInfoModal({
         <ul className="grid gap-2 text-sm leading-6 text-[var(--foreground)]">
           <li>İlk konu her derste ücretsiz kalır.</li>
           <li>Paket açılınca kilitli konular sırayla hazır olur.</li>
+          <li>
+            Seçmeli kart «{JUNIOR_ELECTIVE_INTRO_LABEL}» olarak durur. Yıllık seçmeli müfredat değildir.
+            Seçmeli İngilizce paket fiyatına girmez.
+          </li>
           {priceLabel ? <li>Yıllık paket: {priceLabel}.</li> : null}
         </ul>
         <div className="flex flex-wrap justify-end gap-2">

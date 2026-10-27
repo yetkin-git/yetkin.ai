@@ -2,14 +2,18 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactElement } from "react";
 import { JuniorLessonDecision } from "@/components/junior/player/lesson-decision";
+import { ConceptListStage } from "@/components/junior/pilot-player/ConceptListStage";
 import { DetectiveBoardStage } from "@/components/junior/pilot-player/DetectiveBoardStage";
 import { FactorMultipleStage } from "@/components/junior/pilot-player/FactorMultipleStage";
 import { GraphicOpStage } from "@/components/junior/pilot-player/GraphicOpStage";
 import { MarbleTrayStage } from "@/components/junior/pilot-player/MarbleTrayStage";
+import { ChartScene } from "@/components/junior/player/math-scenes";
+import { GerminationScene } from "@/components/junior/player/science-scenes";
 import { SummaryPromptStage } from "@/components/junior/pilot-player/SummaryPromptStage";
+import { isLockedTimeline } from "@/lib/junior/pilot-engine/acoustic-timeline-store";
 import { lockTimelineToExactAudioMs } from "@/lib/junior/pilot-engine/pcm-cue-aligner";
 import { isJuniorGraphClockLesson } from "@/lib/junior/pilot-engine/playback-key";
-import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
+import type { TimelineJSON, WordTimestamp } from "@/lib/junior/pilot-engine/schema";
 import { reduceSceneState, type SceneGraphState } from "@/lib/junior/pilot-engine/state-reducer";
 import {
   resolveStickyFrame,
@@ -17,21 +21,140 @@ import {
 } from "@/lib/junior/pilot-engine/sticky-frame";
 import { juniorLessonAudioSrc } from "@/lib/junior/voice";
 
-/** Soğuk açılış / seek boşluğu — zifiri siyah yerine yumuşak tutucu plaka. */
-function AmbientHoldPlate(): ReactElement {
+export type CaptionSentenceWindow = {
+  startIndex: number;
+  endIndex: number;
+  windowIndex: number;
+  totalWindows: number;
+  words: ReadonlyArray<{ word: WordTimestamp; originalIndex: number }>;
+};
+
+const CAPTION_WINDOW_MAX_WORDS = 18;
+
+/**
+ * Uzun sekanslarda (`cue-13`, `cue-14` vb.) hiçbir kelimenin ekran altında kaybolmaması için
+ * kelimeleri cümle sınırlarından (`.` `!` `?` `…`) pencerelere böler ve aktif okunan kelimenin
+ * (veya nefes boşluğunda son okunan kelimenin) bulunduğu cümle penceresini döndürür.
+ */
+export function resolveCaptionSentenceWindow(
+  words: readonly WordTimestamp[],
+  activeWordIndex: number,
+  elapsedMs: number,
+): CaptionSentenceWindow {
+  if (words.length === 0) {
+    return { startIndex: 0, endIndex: 0, windowIndex: 0, totalWindows: 1, words: [] };
+  }
+  if (words.length <= CAPTION_WINDOW_MAX_WORDS) {
+    return {
+      startIndex: 0,
+      endIndex: words.length,
+      windowIndex: 0,
+      totalWindows: 1,
+      words: words.map((word, originalIndex) => ({ word, originalIndex })),
+    };
+  }
+
+  // Önce cümle sınırlarını çıkar
+  const sentences: Array<{ start: number; end: number }> = [];
+  let sentenceStart = 0;
+  for (let i = 0; i < words.length; i += 1) {
+    const token = words[i]?.word ?? "";
+    const isSentenceEnd = /[.!?…]["»)]*$/u.test(token) || i === words.length - 1;
+    if (isSentenceEnd) {
+      sentences.push({ start: sentenceStart, end: i + 1 });
+      sentenceStart = i + 1;
+    }
+  }
+
+  // Kısa komşu cümleleri CAPTION_WINDOW_MAX_WORDS sınırını aşmadan birleştir
+  const windows: Array<{ start: number; end: number }> = [];
+  for (const sentence of sentences) {
+    const len = sentence.end - sentence.start;
+    const prev = windows[windows.length - 1];
+    if (prev && prev.end - prev.start + len <= CAPTION_WINDOW_MAX_WORDS) {
+      prev.end = sentence.end;
+    } else if (len > CAPTION_WINDOW_MAX_WORDS) {
+      for (let cursor = sentence.start; cursor < sentence.end; cursor += CAPTION_WINDOW_MAX_WORDS) {
+        windows.push({
+          start: cursor,
+          end: Math.min(sentence.end, cursor + CAPTION_WINDOW_MAX_WORDS),
+        });
+      }
+    } else {
+      windows.push({ start: sentence.start, end: sentence.end });
+    }
+  }
+
+  let focusWordIdx = activeWordIndex;
+  if (focusWordIdx < 0) {
+    for (let i = words.length - 1; i >= 0; i -= 1) {
+      if ((words[i]?.startMs ?? 0) <= elapsedMs) {
+        focusWordIdx = i;
+        break;
+      }
+    }
+  }
+  if (focusWordIdx < 0) {
+    focusWordIdx = 0;
+  }
+
+  const matchedIdx = windows.findIndex(
+    (win) => focusWordIdx >= win.start && focusWordIdx < win.end,
+  );
+  const windowIndex = matchedIdx >= 0 ? matchedIdx : 0;
+  const activeWin = windows[windowIndex] ?? { start: 0, end: words.length };
+
+  return {
+    startIndex: activeWin.start,
+    endIndex: activeWin.end,
+    windowIndex,
+    totalWindows: windows.length,
+    words: words
+      .slice(activeWin.start, activeWin.end)
+      .map((word, offset) => ({ word, originalIndex: activeWin.start + offset })),
+  };
+}
+
+/**
+ * Dersin `0 ms` açılışında veya sahne kurulum anında "Sahne hazırlanıyor" yerine
+ * doğrudan konsept başlığını ve dedektif çalışma masasını gösterir.
+ */
+function WelcomeConceptStage(props: { state: SceneGraphState }): ReactElement {
+  const { state } = props;
+  const badges: readonly string[] =
+    state.ruleBadges.length > 0
+      ? state.ruleBadges
+      : ["Çarpan ≤ Sayı", "Kat ≥ Sayı", "2 · 3 · 4 · 5 · 6 · 9 · 10 Kuralları"];
   return (
     <div
-      data-junior-ambient-hold=""
-      className="relative flex h-full min-h-0 w-full items-center justify-center overflow-hidden rounded-xl"
+      data-junior-welcome-stage=""
+      className="relative flex h-full min-h-0 w-full flex-col items-center justify-center overflow-hidden rounded-xl px-6 py-4"
       style={{
         background:
-          "radial-gradient(ellipse at 50% 40%, rgba(34,211,238,0.14) 0%, rgba(15,23,42,0.92) 55%, rgba(11,17,32,1) 100%)",
+          "radial-gradient(ellipse at 50% 35%, rgba(34,211,238,0.16) 0%, rgba(15,23,42,0.94) 60%, rgba(11,17,32,1) 100%)",
       }}
     >
-      <div className="pointer-events-none absolute inset-6 rounded-2xl border border-cyan-400/20 bg-slate-900/35 shadow-[inset_0_0_40px_rgba(34,211,238,0.08)]" />
-      <div className="relative flex flex-col items-center gap-2 px-6 text-center">
-        <span className="h-2 w-16 rounded-full bg-cyan-400/40" />
-        <span className="text-xs font-bold tracking-wide text-slate-400/90">Sahne hazırlanıyor</span>
+      <div className="pointer-events-none absolute inset-4 rounded-2xl border border-cyan-400/25 bg-slate-900/45 shadow-[inset_0_0_40px_rgba(34,211,238,0.08)]" />
+      <div className="relative z-10 flex max-w-2xl flex-col items-center gap-3 text-center">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-400/40 bg-cyan-500/15 px-3.5 py-1 text-xs font-extrabold tracking-wide text-cyan-200">
+          🕵️‍♂️ Bölünebilme Dedektifleri Masası
+        </span>
+        <h4 className="text-base font-black tracking-tight text-white sm:text-xl">
+          {state.title || "Çarpanlar, Katlar ve Bölünebilme"}
+        </h4>
+        <p className="text-xs font-semibold text-slate-300 sm:text-sm">
+          {state.subtitle || "Uzun bölme yapmadan, tek bakışta karar verme rehberi"}
+        </p>
+        <div className="mt-1 flex flex-wrap items-center justify-center gap-2">
+          {badges.map((badge) => (
+            <span
+              key={badge}
+              className="rounded-xl border border-slate-700/80 bg-slate-900/85 px-3 py-1.5 text-xs font-bold text-amber-200 shadow-sm"
+            >
+              {badge}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -40,13 +163,26 @@ function AmbientHoldPlate(): ReactElement {
 function PilotStageCanvas(props: {
   state: SceneGraphState;
   currentTimeMs: number;
+  lessonKey: string;
 }): ReactElement {
-  const { state, currentTimeMs } = props;
-  if (!sceneHasRenderableContent(state)) {
-    return <AmbientHoldPlate />;
+  const { state, currentTimeMs, lessonKey } = props;
+  if (state.layout === "summary-board" && lessonKey === "jr_06_mat-26") {
+    return (
+      <ChartScene
+        beat={4}
+        lessonKey={lessonKey}
+        caption="20 atışta 5 tura. Gözleme dayalı olasılık yirmide beştir."
+      />
+    );
+  }
+  if (state.layout === "summary-board" && lessonKey === "jr_06_fen-24") {
+    return <GerminationScene beat={4} />;
   }
   if (state.layout === "marble-tray") {
     return <MarbleTrayStage state={state} />;
+  }
+  if (!sceneHasRenderableContent(state)) {
+    return <WelcomeConceptStage state={state} />;
   }
   if (state.layout === "factor-vs-multiple") {
     return <FactorMultipleStage state={state} currentTimeMs={currentTimeMs} />;
@@ -68,6 +204,9 @@ function PilotStageCanvas(props: {
   }
   if (state.layout === "summary-board") {
     return <SummaryPromptStage state={state} />;
+  }
+  if (state.layout === "concept-list") {
+    return <ConceptListStage card={state.conceptList} />;
   }
   return <DetectiveBoardStage state={state} />;
 }
@@ -131,14 +270,39 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
   /** Manuel clear / timeline değişiminde sticky re-render tetikler. */
   const [stickyEpoch, setStickyEpoch] = useState(0);
 
+  const acousticKaraoke = isLockedTimeline(timeline);
   const versionedPublicSrc = juniorLessonAudioSrc(clock.lessonKey);
   const audioSrc = grantedAudioUrl?.trim() || versionedPublicSrc || "";
   const teacherName = clock.teacher.name.trim();
   const teacherInitial = teacherName.slice(0, 1).toLocaleUpperCase("tr-TR");
 
+  const adoptMediaDuration = useCallback(
+    (audio: HTMLAudioElement) => {
+      const durationSec = audio.duration;
+      if (!Number.isFinite(durationSec) || durationSec <= 0) {
+        return;
+      }
+      const exactMs = Math.round(durationSec * 1000);
+      setDurationMs(exactMs);
+      if (isJuniorGraphClockLesson(timeline.lessonKey)) {
+        setClock(lockTimelineToExactAudioMs(timeline, exactMs));
+      }
+    },
+    [timeline],
+  );
+
   useEffect(() => {
-    setClock(timeline);
-    setDurationMs(timeline.audio.durationMs);
+    const audio = audioRef.current;
+    const measured =
+      audio && Number.isFinite(audio.duration) && audio.duration > 0
+        ? Math.round(audio.duration * 1000)
+        : null;
+    if (measured !== null && isJuniorGraphClockLesson(timeline.lessonKey)) {
+      setClock(lockTimelineToExactAudioMs(timeline, measured));
+    } else {
+      setClock(timeline);
+    }
+    setDurationMs(measured ?? timeline.audio.durationMs);
     setCurrentTimeMs(0);
     heldSceneRef.current = null;
     setStickyEpoch((n) => n + 1);
@@ -181,7 +345,7 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
       const audio = audioRef.current;
       if (audio) {
         const ms = Math.round(audio.currentTime * 1000);
-        setCurrentTimeMs(ms);
+        setCurrentTimeMs((previous) => (previous === ms ? previous : ms));
       }
       rafRef.current = requestAnimationFrame(tick);
     };
@@ -396,17 +560,18 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
         src={audioSrc || undefined}
         preload="auto"
         onLoadedMetadata={(e) => {
-          const d = e.currentTarget.duration;
-          if (!Number.isFinite(d) || d <= 0) {
-            return;
-          }
-          const exactMs = Math.round(d * 1000);
-          if (isJuniorGraphClockLesson(timeline.lessonKey)) {
-            setClock(lockTimelineToExactAudioMs(timeline, exactMs));
-          }
-          setDurationMs(exactMs);
+          adoptMediaDuration(e.currentTarget);
+        }}
+        onDurationChange={(e) => {
+          adoptMediaDuration(e.currentTarget);
+        }}
+        onSeeked={(e) => {
+          setCurrentTimeMs(Math.round(e.currentTarget.currentTime * 1000));
         }}
         onTimeUpdate={(e) => {
+          if (!e.currentTarget.paused) {
+            return;
+          }
           setCurrentTimeMs(Math.round(e.currentTarget.currentTime * 1000));
         }}
         onPlay={() => setPlaying(true)}
@@ -480,16 +645,18 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
           data-junior-clean-stage={captionsOpen ? undefined : "true"}
           data-junior-step-art={sceneState.activeCueIndex}
         >
-          {/* Sahne başlığı + ipucu tek satır; sayaç sağda kompakt */}
+          {/* Sahne başlığı + ipucu tek satır; sayaç sağda kompakt.
+              `h2`: ders sayfasının H1'i ders adıdır, sahne onun alt bölümüdür.
+              `h3` seçilirse sayfa h1 → h3 atlıyordu. */}
           <div className="mb-0.5 flex shrink-0 items-baseline justify-between gap-2">
-            <h3 className="min-w-0 truncate text-xs font-black tracking-tight text-white sm:text-sm">
+            <h2 className="min-w-0 truncate text-xs font-black tracking-tight text-white sm:text-sm">
               {sceneState.title}
               {sceneState.subtitle ? (
                 <span className="ml-1.5 font-semibold text-cyan-300/85">
                   · {sceneState.subtitle}
                 </span>
               ) : null}
-            </h3>
+            </h2>
             <span className="shrink-0 rounded-md border border-slate-700/80 bg-slate-900/80 px-1.5 py-0.5 text-[10px] font-extrabold leading-none text-slate-400">
               {sceneState.activeCueIndex + 1}/{clock.cues.length}
             </span>
@@ -507,7 +674,7 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
                 stickyHold ? "opacity-95" : "opacity-100"
               }`}
             >
-              <PilotStageCanvas state={displayScene} currentTimeMs={stageTimeMs} />
+              <PilotStageCanvas state={displayScene} currentTimeMs={stageTimeMs} lessonKey={clock.lessonKey} />
             </div>
           </div>
 
@@ -524,28 +691,39 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
           ) : null}
         </div>
 
-        {/* 3) Altyazı — iki satırlık sabit bant; kart içinde kaymaz */}
+        {/* 3) Altyazı — kilitli JSON kelime saatini basar. Kilit yoksa yer tutucu durur. */}
         <div
           className="shrink-0 overflow-hidden border-t border-slate-800 bg-slate-950/95 px-3"
           data-junior-caption-rail=""
+          data-junior-karaoke={acousticKaraoke ? "acoustic" : "held"}
         >
           <div
             className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
-              captionsOpen && activeCue ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+              acousticKaraoke && captionsOpen && activeCue
+                ? "grid-rows-[1fr] opacity-100"
+                : acousticKaraoke
+                  ? "grid-rows-[0fr] opacity-0"
+                  : "grid-rows-[1fr] opacity-100"
             }`}
           >
             <div className="overflow-hidden">
-              {activeCue ? (
+              {acousticKaraoke && activeCue ? (
                 <div
                   data-junior-live-caption=""
                   aria-live={captionsOpen ? "polite" : "off"}
                   aria-hidden={captionsOpen ? undefined : true}
-                  className="mt-2 line-clamp-2 min-h-[2.75rem] rounded-xl border border-slate-800 bg-slate-900/90 px-3.5 py-1.5 text-center text-xs font-medium leading-5 text-slate-200 sm:text-sm sm:leading-6"
+                  className="mt-2 min-h-[2.75rem] rounded-xl border border-slate-800 bg-slate-900/90 px-3.5 py-1.5 text-center text-xs font-medium leading-5 text-slate-200 sm:text-sm sm:leading-6"
                 >
-                  {(activeCue.words ?? []).map((w, idx) => {
+                  {resolveCaptionSentenceWindow(
+                    activeCue.words ?? [],
+                    sceneState.activeWordIndex,
+                    sceneState.elapsedMs,
+                  ).words.map(({ word: w, originalIndex: idx }) => {
                     const isActiveWord = idx === sceneState.activeWordIndex;
                     const isPastWord =
-                      sceneState.activeWordIndex >= 0 && idx < sceneState.activeWordIndex;
+                      sceneState.activeWordIndex >= 0
+                        ? idx < sceneState.activeWordIndex
+                        : w.endMs <= sceneState.elapsedMs;
                     return (
                       <span
                         key={`${activeCue.id}-w-${idx}`}
@@ -563,7 +741,14 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
                     );
                   })}
                 </div>
-              ) : null}
+              ) : acousticKaraoke ? null : (
+                <p
+                  data-junior-karaoke-hold=""
+                  className="mt-2 min-h-[2.75rem] rounded-xl border border-slate-800 bg-slate-900/90 px-3.5 py-1.5 text-center text-xs font-medium leading-5 text-slate-400"
+                >
+                  Altyazı, sesle hizalanmış zaman çizelgesi gelince açılır.
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -612,6 +797,7 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
                 <span>{playing ? "⏸ Duraklat" : complete ? "↻ Tekrar Dinle" : "▶ Oynat"}</span>
               </button>
 
+              {acousticKaraoke ? (
               <button
                 type="button"
                 onClick={() => setCaptionsOpen((open) => !open)}
@@ -628,6 +814,7 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
                 <span className="rounded bg-slate-950/20 px-1 py-0.5 tracking-wide">CC</span>
                 {captionsOpen ? "Altyazı Açık" : "Altyazı Kapalı"}
               </button>
+              ) : null}
 
               <button
                 type="button"

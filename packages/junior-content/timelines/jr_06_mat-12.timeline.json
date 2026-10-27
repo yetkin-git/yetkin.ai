@@ -1,0 +1,1700 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_mat-12",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Sayı ve şekil örüntüsü",
+  "grade": 6,
+  "subject": "Matematik",
+  "teacher": {
+    "name": "Selim",
+    "voice": "Fenrir",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_mat-12.mp3",
+    "durationMs": 272489,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 62480
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 62480,
+      "endMs": 200000
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 200000,
+      "endMs": 272489
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 4670,
+      "pauseAfterMs": 1010,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 180,
+          "endMs": 1230
+        },
+        {
+          "word": "sevgili",
+          "startMs": 2280,
+          "endMs": 2810
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 2950,
+          "endMs": 3660
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Sayı ve şekil örüntüsü",
+            "subtitle": "Matematik",
+            "ruleBadges": [],
+            "echoPrompt": "4, 7, 10, 13 dizisinde sıradaki sayının 16 olduğunu kuralıyla dersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Örüntü, aynı kuralın tekraridir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Sayı dizisinde artış veya çarpım aranır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Şekil modeli, kuralın çizimidir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 4670,
+      "endMs": 8270,
+      "pauseAfterMs": 1120,
+      "text": "Ben Matematik öğretmenin Selim.",
+      "markedText": "Ben Matematik öğretmenin Selim.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 4670,
+          "endMs": 4940
+        },
+        {
+          "word": "Matematik",
+          "startMs": 5160,
+          "endMs": 5790
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 5910,
+          "endMs": 6660
+        },
+        {
+          "word": "Selim.",
+          "startMs": 6750,
+          "endMs": 7150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 8270,
+      "endMs": 16060,
+      "pauseAfterMs": 790,
+      "text": "Bugün tekrar eden bir kuralın modelini kuracağız.",
+      "markedText": "Bugün tekrar eden bir kuralın modelini kuracağız.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 8270,
+          "endMs": 8490
+        },
+        {
+          "word": "tekrar",
+          "startMs": 8590,
+          "endMs": 9070
+        },
+        {
+          "word": "eden",
+          "startMs": 9720,
+          "endMs": 9850
+        },
+        {
+          "word": "bir",
+          "startMs": 10230,
+          "endMs": 10440
+        },
+        {
+          "word": "kuralın",
+          "startMs": 10820,
+          "endMs": 11660
+        },
+        {
+          "word": "modelini",
+          "startMs": 11710,
+          "endMs": 12750
+        },
+        {
+          "word": "kuracağız.",
+          "startMs": 13670,
+          "endMs": 15270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 16060,
+      "endMs": 25840,
+      "pauseAfterMs": 230,
+      "text": "Okul sırasında 2, 4, 6 diye giden adımlar bir örüntüdür.",
+      "markedText": "Okul sırasında 2, 4, 6 diye giden adımlar bir örüntüdür.",
+      "words": [
+        {
+          "word": "Okul",
+          "startMs": 16060,
+          "endMs": 16400
+        },
+        {
+          "word": "sırasında",
+          "startMs": 16500,
+          "endMs": 17360
+        },
+        {
+          "word": "2,",
+          "startMs": 17470,
+          "endMs": 18360
+        },
+        {
+          "word": "4,",
+          "startMs": 19360,
+          "endMs": 19960
+        },
+        {
+          "word": "6",
+          "startMs": 20320,
+          "endMs": 21140
+        },
+        {
+          "word": "diye",
+          "startMs": 21480,
+          "endMs": 21670
+        },
+        {
+          "word": "giden",
+          "startMs": 21780,
+          "endMs": 22680
+        },
+        {
+          "word": "adımlar",
+          "startMs": 23380,
+          "endMs": 23980
+        },
+        {
+          "word": "bir",
+          "startMs": 24040,
+          "endMs": 24330
+        },
+        {
+          "word": "örüntüdür.",
+          "startMs": 24670,
+          "endMs": 25610
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 25840,
+      "endMs": 32960,
+      "pauseAfterMs": 680,
+      "text": "Kuralı bulunca sıradaki adım görünür",
+      "markedText": "Kuralı bulunca sıradaki adım görünür",
+      "words": [
+        {
+          "word": "Kuralı",
+          "startMs": 25840,
+          "endMs": 26800
+        },
+        {
+          "word": "bulunca",
+          "startMs": 28020,
+          "endMs": 29380
+        },
+        {
+          "word": "sıradaki",
+          "startMs": 30030,
+          "endMs": 30930
+        },
+        {
+          "word": "adım",
+          "startMs": 31250,
+          "endMs": 31650
+        },
+        {
+          "word": "görünür",
+          "startMs": 31710,
+          "endMs": 32280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 32960,
+      "endMs": 42140,
+      "pauseAfterMs": 320,
+      "text": "Bunu okul bahçesindeki merdiven sayısında görürsün.",
+      "markedText": "Bunu okul bahçesindeki merdiven sayısında görürsün.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 32960,
+          "endMs": 33460
+        },
+        {
+          "word": "okul",
+          "startMs": 34340,
+          "endMs": 35120
+        },
+        {
+          "word": "bahçesindeki",
+          "startMs": 35410,
+          "endMs": 37020
+        },
+        {
+          "word": "merdiven",
+          "startMs": 37780,
+          "endMs": 39240
+        },
+        {
+          "word": "sayısında",
+          "startMs": 40480,
+          "endMs": 40990
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 41560,
+          "endMs": 41820
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 42140,
+      "endMs": 51650,
+      "pauseAfterMs": 1160,
+      "text": "Kutuya her gün 2 bilye eklersen dizi toplama örüntüsüdür.",
+      "markedText": "Kutuya her gün 2 bilye eklersen dizi toplama örüntüsüdür.",
+      "words": [
+        {
+          "word": "Kutuya",
+          "startMs": 42140,
+          "endMs": 43170
+        },
+        {
+          "word": "her",
+          "startMs": 43800,
+          "endMs": 44070
+        },
+        {
+          "word": "gün",
+          "startMs": 44680,
+          "endMs": 44920
+        },
+        {
+          "word": "2",
+          "startMs": 45420,
+          "endMs": 45700
+        },
+        {
+          "word": "bilye",
+          "startMs": 45880,
+          "endMs": 46120
+        },
+        {
+          "word": "eklersen",
+          "startMs": 46460,
+          "endMs": 46900
+        },
+        {
+          "word": "dizi",
+          "startMs": 47020,
+          "endMs": 47680
+        },
+        {
+          "word": "toplama",
+          "startMs": 48600,
+          "endMs": 49110
+        },
+        {
+          "word": "örüntüsüdür.",
+          "startMs": 49210,
+          "endMs": 50490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 51650,
+      "endMs": 62480,
+      "pauseAfterMs": 350,
+      "text": "Aynı kutuya her gün iki kat bilye koyarsan model çarpma olur.",
+      "markedText": "Aynı kutuya her gün iki kat bilye koyarsan model çarpma olur.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 51650,
+          "endMs": 51830
+        },
+        {
+          "word": "kutuya",
+          "startMs": 52240,
+          "endMs": 52580
+        },
+        {
+          "word": "her",
+          "startMs": 52860,
+          "endMs": 53160
+        },
+        {
+          "word": "gün",
+          "startMs": 53430,
+          "endMs": 53640
+        },
+        {
+          "word": "iki",
+          "startMs": 53820,
+          "endMs": 53970
+        },
+        {
+          "word": "kat",
+          "startMs": 54080,
+          "endMs": 54480
+        },
+        {
+          "word": "bilye",
+          "startMs": 55280,
+          "endMs": 56120
+        },
+        {
+          "word": "koyarsan",
+          "startMs": 56790,
+          "endMs": 58170
+        },
+        {
+          "word": "model",
+          "startMs": 59060,
+          "endMs": 59470
+        },
+        {
+          "word": "çarpma",
+          "startMs": 59800,
+          "endMs": 61010
+        },
+        {
+          "word": "olur.",
+          "startMs": 61550,
+          "endMs": 62130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-2",
+      "startMs": 62480,
+      "endMs": 71110,
+      "pauseAfterMs": 1080,
+      "text": "Sayı örüntüsü, her adımda aynı işlemle büyüyen dizidir.",
+      "markedText": "Sayı örüntüsü, her adımda aynı işlemle büyüyen dizidir.",
+      "words": [
+        {
+          "word": "Sayı",
+          "startMs": 62480,
+          "endMs": 63000
+        },
+        {
+          "word": "örüntüsü,",
+          "startMs": 63560,
+          "endMs": 64430
+        },
+        {
+          "word": "her",
+          "startMs": 65720,
+          "endMs": 65950
+        },
+        {
+          "word": "adımda",
+          "startMs": 66210,
+          "endMs": 66640
+        },
+        {
+          "word": "aynı",
+          "startMs": 66760,
+          "endMs": 66920
+        },
+        {
+          "word": "işlemle",
+          "startMs": 67050,
+          "endMs": 67670
+        },
+        {
+          "word": "büyüyen",
+          "startMs": 68430,
+          "endMs": 68930
+        },
+        {
+          "word": "dizidir.",
+          "startMs": 68930,
+          "endMs": 70030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-2",
+      "startMs": 71110,
+      "endMs": 79310,
+      "pauseAfterMs": 670,
+      "text": "Şekil örüntüsü, aynı kuralın çizimle modelidir.",
+      "markedText": "Şekil örüntüsü, aynı kuralın çizimle modelidir.",
+      "words": [
+        {
+          "word": "Şekil",
+          "startMs": 71110,
+          "endMs": 71740
+        },
+        {
+          "word": "örüntüsü,",
+          "startMs": 72220,
+          "endMs": 74090
+        },
+        {
+          "word": "aynı",
+          "startMs": 74800,
+          "endMs": 75700
+        },
+        {
+          "word": "kuralın",
+          "startMs": 75900,
+          "endMs": 76600
+        },
+        {
+          "word": "çizimle",
+          "startMs": 76740,
+          "endMs": 77010
+        },
+        {
+          "word": "modelidir.",
+          "startMs": 77130,
+          "endMs": 78640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 79310,
+      "endMs": 83300,
+      "pauseAfterMs": 900,
+      "text": "Kural sabitken terim değişir.",
+      "markedText": "Kural sabitken terim değişir.",
+      "words": [
+        {
+          "word": "Kural",
+          "startMs": 79310,
+          "endMs": 79960
+        },
+        {
+          "word": "sabitken",
+          "startMs": 80170,
+          "endMs": 80980
+        },
+        {
+          "word": "terim",
+          "startMs": 81070,
+          "endMs": 81700
+        },
+        {
+          "word": "değişir.",
+          "startMs": 81860,
+          "endMs": 82400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 83300,
+      "endMs": 88890,
+      "pauseAfterMs": 650,
+      "text": "3, 6, 9 dizisinde her adım 3 ekler.",
+      "markedText": "3, 6, 9 dizisinde her adım 3 ekler.",
+      "words": [
+        {
+          "word": "3,",
+          "startMs": 83300,
+          "endMs": 83440
+        },
+        {
+          "word": "6,",
+          "startMs": 83720,
+          "endMs": 83870
+        },
+        {
+          "word": "9",
+          "startMs": 84210,
+          "endMs": 84940
+        },
+        {
+          "word": "dizisinde",
+          "startMs": 85140,
+          "endMs": 85950
+        },
+        {
+          "word": "her",
+          "startMs": 86400,
+          "endMs": 86670
+        },
+        {
+          "word": "adım",
+          "startMs": 86990,
+          "endMs": 87290
+        },
+        {
+          "word": "3",
+          "startMs": 87290,
+          "endMs": 87400
+        },
+        {
+          "word": "ekler.",
+          "startMs": 87620,
+          "endMs": 88240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 88890,
+      "endMs": 100130,
+      "pauseAfterMs": 1660,
+      "text": "Kare, iki kare, üç kare modelinde her adım bir kare ekler.",
+      "markedText": "Kare, iki kare, üç kare modelinde her adım bir kare ekler.",
+      "words": [
+        {
+          "word": "Kare,",
+          "startMs": 88890,
+          "endMs": 89650
+        },
+        {
+          "word": "iki",
+          "startMs": 90060,
+          "endMs": 91040
+        },
+        {
+          "word": "kare,",
+          "startMs": 92060,
+          "endMs": 92860
+        },
+        {
+          "word": "üç",
+          "startMs": 93850,
+          "endMs": 93950
+        },
+        {
+          "word": "kare",
+          "startMs": 94580,
+          "endMs": 94770
+        },
+        {
+          "word": "modelinde",
+          "startMs": 94900,
+          "endMs": 95560
+        },
+        {
+          "word": "her",
+          "startMs": 95560,
+          "endMs": 95760
+        },
+        {
+          "word": "adım",
+          "startMs": 96520,
+          "endMs": 96960
+        },
+        {
+          "word": "bir",
+          "startMs": 97250,
+          "endMs": 97510
+        },
+        {
+          "word": "kare",
+          "startMs": 97610,
+          "endMs": 97850
+        },
+        {
+          "word": "ekler.",
+          "startMs": 97950,
+          "endMs": 98470
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 100130,
+      "endMs": 106700,
+      "pauseAfterMs": 910,
+      "text": "4, 7, 10, 13 dizisine bakalım.",
+      "markedText": "4, 7, 10, 13 dizisine bakalım.",
+      "words": [
+        {
+          "word": "4,",
+          "startMs": 100130,
+          "endMs": 100410
+        },
+        {
+          "word": "7,",
+          "startMs": 100650,
+          "endMs": 101090
+        },
+        {
+          "word": "10,",
+          "startMs": 101410,
+          "endMs": 102340
+        },
+        {
+          "word": "13",
+          "startMs": 103880,
+          "endMs": 104390
+        },
+        {
+          "word": "dizisine",
+          "startMs": 104880,
+          "endMs": 105200
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 105200,
+          "endMs": 105790
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 106700,
+      "endMs": 109490,
+      "pauseAfterMs": 720,
+      "text": "Artış 3'tür.",
+      "markedText": "Artış 3'tür.",
+      "words": [
+        {
+          "word": "Artış",
+          "startMs": 106700,
+          "endMs": 107320
+        },
+        {
+          "word": "3'tür.",
+          "startMs": 107970,
+          "endMs": 108770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 109490,
+      "endMs": 113960,
+      "pauseAfterMs": 1030,
+      "text": "Sıradaki terim 16 olur.",
+      "markedText": "Sıradaki terim 16 olur.",
+      "words": [
+        {
+          "word": "Sıradaki",
+          "startMs": 109490,
+          "endMs": 110130
+        },
+        {
+          "word": "terim",
+          "startMs": 110190,
+          "endMs": 110730
+        },
+        {
+          "word": "16",
+          "startMs": 110890,
+          "endMs": 111700
+        },
+        {
+          "word": "olur.",
+          "startMs": 111940,
+          "endMs": 112930
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 113960,
+      "endMs": 136580,
+      "pauseAfterMs": 880,
+      "text": "Şekilde ilk adımda 1 üçgen, ikinci adımda 2 üçgen, üçüncü adımda 3 üçgen varsa kural her adımda 1 üçgen eklemektir.",
+      "markedText": "Şekilde ilk adımda 1 üçgen, ikinci adımda 2 üçgen, üçüncü adımda 3 üçgen varsa kural her adımda 1 üçgen eklemektir.",
+      "words": [
+        {
+          "word": "Şekilde",
+          "startMs": 113960,
+          "endMs": 114910
+        },
+        {
+          "word": "ilk",
+          "startMs": 115160,
+          "endMs": 115250
+        },
+        {
+          "word": "adımda",
+          "startMs": 115360,
+          "endMs": 116170
+        },
+        {
+          "word": "1",
+          "startMs": 117110,
+          "endMs": 117450
+        },
+        {
+          "word": "üçgen,",
+          "startMs": 117450,
+          "endMs": 118160
+        },
+        {
+          "word": "ikinci",
+          "startMs": 118160,
+          "endMs": 118720
+        },
+        {
+          "word": "adımda",
+          "startMs": 118830,
+          "endMs": 119500
+        },
+        {
+          "word": "2",
+          "startMs": 120740,
+          "endMs": 120940
+        },
+        {
+          "word": "üçgen,",
+          "startMs": 121070,
+          "endMs": 122170
+        },
+        {
+          "word": "üçüncü",
+          "startMs": 122990,
+          "endMs": 123860
+        },
+        {
+          "word": "adımda",
+          "startMs": 124160,
+          "endMs": 125410
+        },
+        {
+          "word": "3",
+          "startMs": 126360,
+          "endMs": 126490
+        },
+        {
+          "word": "üçgen",
+          "startMs": 126730,
+          "endMs": 127470
+        },
+        {
+          "word": "varsa",
+          "startMs": 127590,
+          "endMs": 128590
+        },
+        {
+          "word": "kural",
+          "startMs": 129450,
+          "endMs": 129850
+        },
+        {
+          "word": "her",
+          "startMs": 129970,
+          "endMs": 130330
+        },
+        {
+          "word": "adımda",
+          "startMs": 130810,
+          "endMs": 131840
+        },
+        {
+          "word": "1",
+          "startMs": 132950,
+          "endMs": 133150
+        },
+        {
+          "word": "üçgen",
+          "startMs": 133250,
+          "endMs": 133850
+        },
+        {
+          "word": "eklemektir.",
+          "startMs": 133980,
+          "endMs": 135700
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 136580,
+      "endMs": 141080,
+      "pauseAfterMs": 800,
+      "text": "Dördüncü adımda 4 üçgen durur.",
+      "markedText": "Dördüncü adımda 4 üçgen durur.",
+      "words": [
+        {
+          "word": "Dördüncü",
+          "startMs": 136580,
+          "endMs": 137460
+        },
+        {
+          "word": "adımda",
+          "startMs": 137680,
+          "endMs": 138110
+        },
+        {
+          "word": "4",
+          "startMs": 138270,
+          "endMs": 138560
+        },
+        {
+          "word": "üçgen",
+          "startMs": 138880,
+          "endMs": 139230
+        },
+        {
+          "word": "durur.",
+          "startMs": 139650,
+          "endMs": 140280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 141080,
+      "endMs": 143060,
+      "pauseAfterMs": 500,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 141080,
+          "endMs": 141380
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 141580,
+          "endMs": 142560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 143060,
+      "endMs": 150350,
+      "pauseAfterMs": 990,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 143060,
+          "endMs": 143370
+        },
+        {
+          "word": "bir",
+          "startMs": 143660,
+          "endMs": 144390
+        },
+        {
+          "word": "kez",
+          "startMs": 145230,
+          "endMs": 145360
+        },
+        {
+          "word": "görünce",
+          "startMs": 145640,
+          "endMs": 146390
+        },
+        {
+          "word": "kolayca",
+          "startMs": 146710,
+          "endMs": 147590
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 147750,
+          "endMs": 149360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 150350,
+      "endMs": 162390,
+      "pauseAfterMs": 880,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 150350,
+          "endMs": 150720
+        },
+        {
+          "word": "sevgili",
+          "startMs": 150810,
+          "endMs": 151630
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 152060,
+          "endMs": 153260
+        },
+        {
+          "word": "işte",
+          "startMs": 154230,
+          "endMs": 154500
+        },
+        {
+          "word": "tam",
+          "startMs": 154700,
+          "endMs": 154860
+        },
+        {
+          "word": "bu",
+          "startMs": 154860,
+          "endMs": 155010
+        },
+        {
+          "word": "noktada",
+          "startMs": 155190,
+          "endMs": 155600
+        },
+        {
+          "word": "dikkat",
+          "startMs": 155680,
+          "endMs": 156110
+        },
+        {
+          "word": "etmen",
+          "startMs": 156820,
+          "endMs": 157690
+        },
+        {
+          "word": "gereken",
+          "startMs": 158740,
+          "endMs": 159450
+        },
+        {
+          "word": "kilit",
+          "startMs": 159550,
+          "endMs": 160160
+        },
+        {
+          "word": "nokta.",
+          "startMs": 160380,
+          "endMs": 161510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 162390,
+      "endMs": 174010,
+      "pauseAfterMs": 770,
+      "text": "İki terim arasındaki farkı bütün diziye yaymadan kural olmaz.",
+      "markedText": "İki terim arasındaki farkı bütün diziye yaymadan kural olmaz.",
+      "words": [
+        {
+          "word": "İki",
+          "startMs": 162390,
+          "endMs": 162670
+        },
+        {
+          "word": "terim",
+          "startMs": 163310,
+          "endMs": 163670
+        },
+        {
+          "word": "arasındaki",
+          "startMs": 163980,
+          "endMs": 164740
+        },
+        {
+          "word": "farkı",
+          "startMs": 164810,
+          "endMs": 166190
+        },
+        {
+          "word": "bütün",
+          "startMs": 167130,
+          "endMs": 167600
+        },
+        {
+          "word": "diziye",
+          "startMs": 167600,
+          "endMs": 168370
+        },
+        {
+          "word": "yaymadan",
+          "startMs": 168710,
+          "endMs": 170150
+        },
+        {
+          "word": "kural",
+          "startMs": 171090,
+          "endMs": 172210
+        },
+        {
+          "word": "olmaz.",
+          "startMs": 172490,
+          "endMs": 173240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 174010,
+      "endMs": 184380,
+      "pauseAfterMs": 1060,
+      "text": "2, 4, 8 dizisi 2 eklemek değildir.",
+      "markedText": "2, 4, 8 dizisi 2 eklemek değildir.",
+      "words": [
+        {
+          "word": "2,",
+          "startMs": 174010,
+          "endMs": 174500
+        },
+        {
+          "word": "4,",
+          "startMs": 174950,
+          "endMs": 175860
+        },
+        {
+          "word": "8",
+          "startMs": 177280,
+          "endMs": 177960
+        },
+        {
+          "word": "dizisi",
+          "startMs": 178090,
+          "endMs": 178970
+        },
+        {
+          "word": "2",
+          "startMs": 179230,
+          "endMs": 179520
+        },
+        {
+          "word": "eklemek",
+          "startMs": 179840,
+          "endMs": 180570
+        },
+        {
+          "word": "değildir.",
+          "startMs": 181820,
+          "endMs": 183320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 184380,
+      "endMs": 191560,
+      "pauseAfterMs": 1320,
+      "text": "Orada her terim 2 ile çarpılır.",
+      "markedText": "Orada her terim 2 ile çarpılır.",
+      "words": [
+        {
+          "word": "Orada",
+          "startMs": 184380,
+          "endMs": 185200
+        },
+        {
+          "word": "her",
+          "startMs": 185460,
+          "endMs": 185550
+        },
+        {
+          "word": "terim",
+          "startMs": 185640,
+          "endMs": 186450
+        },
+        {
+          "word": "2",
+          "startMs": 187500,
+          "endMs": 188050
+        },
+        {
+          "word": "ile",
+          "startMs": 188100,
+          "endMs": 188510
+        },
+        {
+          "word": "çarpılır.",
+          "startMs": 188640,
+          "endMs": 190240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 191560,
+      "endMs": 200000,
+      "pauseAfterMs": 1360,
+      "text": "Toplama modeli ile çarpma modelini karıştırma.",
+      "markedText": "Toplama modeli ile çarpma modelini karıştırma.",
+      "words": [
+        {
+          "word": "Toplama",
+          "startMs": 191560,
+          "endMs": 192440
+        },
+        {
+          "word": "modeli",
+          "startMs": 192920,
+          "endMs": 193710
+        },
+        {
+          "word": "ile",
+          "startMs": 193800,
+          "endMs": 194190
+        },
+        {
+          "word": "çarpma",
+          "startMs": 194340,
+          "endMs": 195480
+        },
+        {
+          "word": "modelini",
+          "startMs": 196780,
+          "endMs": 197440
+        },
+        {
+          "word": "karıştırma.",
+          "startMs": 197560,
+          "endMs": 198640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-3",
+      "startMs": 200000,
+      "endMs": 204020,
+      "pauseAfterMs": 1210,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 200000,
+          "endMs": 200600
+        },
+        {
+          "word": "Neler",
+          "startMs": 200970,
+          "endMs": 201500
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 201950,
+          "endMs": 202810
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-3",
+      "startMs": 204020,
+      "endMs": 204860,
+      "pauseAfterMs": 490,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 204020,
+          "endMs": 204370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-3",
+      "startMs": 204860,
+      "endMs": 212030,
+      "pauseAfterMs": 850,
+      "text": "Örüntü, aynı kuralın tekraridir.",
+      "markedText": "Örüntü, aynı kuralın tekraridir.",
+      "words": [
+        {
+          "word": "Örüntü,",
+          "startMs": 204860,
+          "endMs": 205440
+        },
+        {
+          "word": "aynı",
+          "startMs": 207500,
+          "endMs": 208370
+        },
+        {
+          "word": "kuralın",
+          "startMs": 208790,
+          "endMs": 209460
+        },
+        {
+          "word": "tekraridir.",
+          "startMs": 209820,
+          "endMs": 211180
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-3",
+      "startMs": 212030,
+      "endMs": 212560,
+      "pauseAfterMs": 70,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 212030,
+          "endMs": 212490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-3",
+      "startMs": 212560,
+      "endMs": 220580,
+      "pauseAfterMs": 890,
+      "text": "Sayı dizisinde artış veya çarpım aranır.",
+      "markedText": "Sayı dizisinde artış veya çarpım aranır.",
+      "words": [
+        {
+          "word": "Sayı",
+          "startMs": 212560,
+          "endMs": 213820
+        },
+        {
+          "word": "dizisinde",
+          "startMs": 214150,
+          "endMs": 215560
+        },
+        {
+          "word": "artış",
+          "startMs": 216680,
+          "endMs": 217210
+        },
+        {
+          "word": "veya",
+          "startMs": 217280,
+          "endMs": 217610
+        },
+        {
+          "word": "çarpım",
+          "startMs": 218050,
+          "endMs": 218520
+        },
+        {
+          "word": "aranır.",
+          "startMs": 218610,
+          "endMs": 219690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 220580,
+      "endMs": 221000,
+      "pauseAfterMs": 110,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 220580,
+          "endMs": 220890
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 221000,
+      "endMs": 228940,
+      "pauseAfterMs": 850,
+      "text": "Şekil modeli, kuralın çizimidir.",
+      "markedText": "Şekil modeli, kuralın çizimidir.",
+      "words": [
+        {
+          "word": "Şekil",
+          "startMs": 221000,
+          "endMs": 221790
+        },
+        {
+          "word": "modeli,",
+          "startMs": 222160,
+          "endMs": 223330
+        },
+        {
+          "word": "kuralın",
+          "startMs": 224250,
+          "endMs": 225200
+        },
+        {
+          "word": "çizimidir.",
+          "startMs": 226300,
+          "endMs": 228090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 228940,
+      "endMs": 231860,
+      "pauseAfterMs": 590,
+      "text": "Kural sabit kalır.",
+      "markedText": "Kural sabit kalır.",
+      "words": [
+        {
+          "word": "Kural",
+          "startMs": 228940,
+          "endMs": 229450
+        },
+        {
+          "word": "sabit",
+          "startMs": 229620,
+          "endMs": 230260
+        },
+        {
+          "word": "kalır.",
+          "startMs": 230820,
+          "endMs": 231270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 231860,
+      "endMs": 240500,
+      "pauseAfterMs": 1170,
+      "text": "Terim, kuralın bir sonraki adımıdır.",
+      "markedText": "Terim, kuralın bir sonraki adımıdır.",
+      "words": [
+        {
+          "word": "Terim,",
+          "startMs": 231860,
+          "endMs": 232240
+        },
+        {
+          "word": "kuralın",
+          "startMs": 233940,
+          "endMs": 234520
+        },
+        {
+          "word": "bir",
+          "startMs": 234640,
+          "endMs": 235570
+        },
+        {
+          "word": "sonraki",
+          "startMs": 236360,
+          "endMs": 237390
+        },
+        {
+          "word": "adımıdır.",
+          "startMs": 238150,
+          "endMs": 239330
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 240500,
+      "endMs": 253720,
+      "pauseAfterMs": 440,
+      "text": "4, 7, 10, 13 dizisinde sıradaki sayının 16 olduğunu kuralıyla dersin.",
+      "markedText": "4, 7, 10, 13 dizisinde sıradaki sayının 16 olduğunu kuralıyla dersin.",
+      "words": [
+        {
+          "word": "4,",
+          "startMs": 240500,
+          "endMs": 240800
+        },
+        {
+          "word": "7,",
+          "startMs": 240970,
+          "endMs": 241160
+        },
+        {
+          "word": "10,",
+          "startMs": 241720,
+          "endMs": 242120
+        },
+        {
+          "word": "13",
+          "startMs": 242900,
+          "endMs": 243270
+        },
+        {
+          "word": "dizisinde",
+          "startMs": 244330,
+          "endMs": 245730
+        },
+        {
+          "word": "sıradaki",
+          "startMs": 246350,
+          "endMs": 247260
+        },
+        {
+          "word": "sayının",
+          "startMs": 247400,
+          "endMs": 248400
+        },
+        {
+          "word": "16",
+          "startMs": 249180,
+          "endMs": 249350
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 249610,
+          "endMs": 250900
+        },
+        {
+          "word": "kuralıyla",
+          "startMs": 251570,
+          "endMs": 252410
+        },
+        {
+          "word": "dersin.",
+          "startMs": 253060,
+          "endMs": 253280
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 253720,
+      "endMs": 256790,
+      "pauseAfterMs": 390,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 253720,
+          "endMs": 255100
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 255780,
+          "endMs": 256400
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 256790,
+      "endMs": 260460,
+      "pauseAfterMs": 440,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 256790,
+          "endMs": 257570
+        },
+        {
+          "word": "bir",
+          "startMs": 258350,
+          "endMs": 258520
+        },
+        {
+          "word": "iş",
+          "startMs": 259000,
+          "endMs": 259360
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 259740,
+          "endMs": 260020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 260460,
+      "endMs": 265170,
+      "pauseAfterMs": 1020,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 260460,
+          "endMs": 260640
+        },
+        {
+          "word": "sıra",
+          "startMs": 261950,
+          "endMs": 262650
+        },
+        {
+          "word": "sende.",
+          "startMs": 263470,
+          "endMs": 264150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 265170,
+      "endMs": 272489,
+      "pauseAfterMs": 609,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 265170,
+          "endMs": 265970
+        },
+        {
+          "word": "bu",
+          "startMs": 266510,
+          "endMs": 266660
+        },
+        {
+          "word": "notları",
+          "startMs": 266790,
+          "endMs": 267390
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 268010,
+          "endMs": 268680
+        },
+        {
+          "word": "kendi",
+          "startMs": 269390,
+          "endMs": 270010
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 270140,
+          "endMs": 270740
+        },
+        {
+          "word": "anlat.",
+          "startMs": 270910,
+          "endMs": 271880
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

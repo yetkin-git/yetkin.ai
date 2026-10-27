@@ -10,6 +10,7 @@
 
 import { academyCourseOffersFreePreview } from "@/lib/kernel/catalog-ids/free-preview";
 import { canEnterJunior } from "@/lib/kernel/security/junior-gate";
+import { ga4ConnectSrcExtra, ga4ScriptSrcExtra } from "@/lib/kernel/telemetry/csp";
 import { readMediaPublicBaseUrl } from "@/lib/media/public-url";
 import { isFrozenShellPagePath } from "../compliance/circuit-breakers";
 import {
@@ -27,6 +28,12 @@ export {
 } from "./edge-security-headers";
 
 export const CITIZEN_LOGIN_PATH = "/login";
+
+/**
+ * Oturumsuz `/admin` ve `/admin/catalog` girişten sonra bu adrese döner.
+ * Diğer `/admin/*` yolları vatandaş dönüş listesinde durmaz.
+ */
+export const ADMIN_CATALOG_LOGIN_NEXT = "/admin/catalog";
 
 /** Kenarın yazdığı istek yolu — istemci başlığı güvenilmez, proxy üzerine yazar. */
 export const RAIL_PATHNAME_HEADER = "x-rail-pathname";
@@ -83,6 +90,7 @@ export const EDGE_CSP_MEDIA_SRC_DIRECTIVE = `media-src 'self' blob: https://*.su
 type EdgeCspEnv = {
   NODE_ENV?: string;
   NEXT_PUBLIC_MEDIA_BASE_URL?: string;
+  NEXT_PUBLIC_GA_ID?: string;
 };
 
 /**
@@ -289,6 +297,10 @@ export function decideEdgeAction(pathname: string, sessionVerified: boolean): Ed
     return { kind: "alias-307", to: aliasTarget };
   }
   if (isProtectedCitizenPath(pathname) && !sessionVerified) {
+    const path = normalizePathname(pathname);
+    if (path === "/admin" || path === ADMIN_CATALOG_LOGIN_NEXT) {
+      return { kind: "auth-307", to: CITIZEN_LOGIN_PATH, next: ADMIN_CATALOG_LOGIN_NEXT };
+    }
     return { kind: "auth-307", to: CITIZEN_LOGIN_PATH };
   }
   return { kind: "next" };
@@ -303,6 +315,8 @@ export function buildEdgeCsp(nonce: string, env: EdgeCspEnv = process.env): stri
   const scriptEval = isDev ? " 'unsafe-eval'" : "";
   const upgrade = env.NODE_ENV === "production" ? "; upgrade-insecure-requests" : "";
   const cdn = mediaCdnCspOrigin(env);
+  const gaScript = ga4ScriptSrcExtra(env);
+  const gaConnect = ga4ConnectSrcExtra(env);
   const imgSrc = cdn
     ? `img-src 'self' data: blob: ${cdn} ${EDGE_CSP_R2_MEDIA_ORIGIN}`
     : `img-src 'self' data: blob: ${EDGE_CSP_R2_MEDIA_ORIGIN}`;
@@ -319,8 +333,8 @@ export function buildEdgeCsp(nonce: string, env: EdgeCspEnv = process.env): stri
     // Cloudflare Email Obfuscation `/cdn-cgi/scripts/.../email-decode.min.js` basar.
     // Nonce + strict-dynamic host allowlist'i yok sayar; script allowlist'e eklenmez.
     // Ham `user@host` HTML'de durmaz (JSON-LD \\u0040, mailto %40, etiket parçalı).
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${scriptEval} ${EDGE_CSP_PAYTR_SCRIPT_SRC}; ` +
-    `${EDGE_CSP_CONNECT_SRC_DIRECTIVE}; ` +
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${scriptEval} ${EDGE_CSP_PAYTR_SCRIPT_SRC}${gaScript}; ` +
+    `${EDGE_CSP_CONNECT_SRC_DIRECTIVE}${gaConnect}; ` +
     `${mediaSrc}; ` +
     EDGE_CSP_FRAME_SRC_DIRECTIVE +
     upgrade

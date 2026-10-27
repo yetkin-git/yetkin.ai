@@ -1,0 +1,53 @@
+{
+  "lessonKey": "jr_06_siyer-2",
+  "title": "Merhamet",
+  "tellGuides": [
+    "Merhameti gücün varken ne yapmamak olarak söyle.",
+    "Yardım merhametin hangi işidir?",
+    "Yanlış bir işi örtmek neden merhamet değildir?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "Merhamet bu derste ne demektir?",
+      "options": [
+        "Gücün varken incitmemek",
+        "Her sözü alkışlamak",
+        "Haksız işi gizlemek",
+        "En yüksek sesle konuşmak"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Sertleşmemek bu tanımdadır.",
+      "explanation": "Adım 1: Merhamet, gücün varken incitmemektir. Adım 2: Yardım, bu huyun görünen işidir. Adım 3: Yanlış işi örtmek merhamet değildir."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Yaşlı bir komşu poşeti zor taşıyor. Merhametli iş hangisidir?",
+      "options": [
+        "Poşete aldırmamak",
+        "Poşeti birlikte tutmak",
+        "Komşuya gülmek",
+        "Poşeti yere bırakmak"
+      ],
+      "correctAnswerIndex": 1,
+      "hint": "Yardım işte görünür.",
+      "explanation": "Adım 1: Kişiyi incitmezsin. Adım 2: Poşeti birlikte tutarak işini hafifletirsin. Adım 3: Bu, merhametin görünen işidir."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Arkadaşın haksız bir iş yapıyor. Hangisi merhamete uyar?",
+      "options": [
+        "Haksız işi doğru diye örtmek",
+        "Alay ederek uzaklaşmak",
+        "Kişiye yardım edip yanlışı nazikçe söylemek",
+        "Yanlışı alkışlamak"
+      ],
+      "correctAnswerIndex": 2,
+      "hint": "Yardım kişiye yapılır. Haksızlığa alkış tutulmaz.",
+      "explanation": "Adım 1: Merhamet kişiyi incitmez. Adım 2: Yanlış işi örtmek merhamet değildir. Adım 3: Yanlışı nazikçe söylersin."
+    }
+  ]
+}

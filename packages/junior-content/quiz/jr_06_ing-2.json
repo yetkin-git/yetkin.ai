@@ -1,0 +1,53 @@
+{
+  "lessonKey": "jr_06_ing-2",
+  "title": "Adını sormak",
+  "tellGuides": [
+    "What's your name sorusu ne ister?",
+    "My name is cümlesini kendi adınla kur.",
+    "Name is neden tek başına cevap olmaz?"
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "level": "concept",
+      "question": "What's your name ne demektir?",
+      "options": [
+        "Adın ne",
+        "Günaydın",
+        "İyi geceler",
+        "Hoşça kal"
+      ],
+      "correctAnswerIndex": 0,
+      "hint": "Bu kalıp bir ad sorusudur.",
+      "explanation": "Adım 1: What's your name adını sorar. Adım 2: What is your name aynı sorudur. Adım 3: Selam sözü değildir."
+    },
+    {
+      "id": "q2",
+      "level": "apply",
+      "question": "Arkadaşın adını soruyor. Cevabı nasıl kurarsın?",
+      "options": [
+        "Name is",
+        "My name is ve adın",
+        "What's your name",
+        "Good night"
+      ],
+      "correctAnswerIndex": 1,
+      "hint": "My sözü cümlede durur.",
+      "explanation": "Adım 1: Cevap My name is ile başlar. Adım 2: Ardından adın gelir. Adım 3: Yalnız Name is cümleyi eksik bırakır."
+    },
+    {
+      "id": "q3",
+      "level": "skill",
+      "question": "Yeni bir öğrenciyle konuşuyorsun. Doğru sıra hangisidir?",
+      "options": [
+        "Önce soruyu cevap sanıp susmak",
+        "Önce Good night, sonra ad",
+        "Önce selam, sonra What's your name",
+        "Yalnızca Name is demek"
+      ],
+      "correctAnswerIndex": 2,
+      "hint": "Selam, sorudan önce durur.",
+      "explanation": "Adım 1: Önce selam verilir. Adım 2: Sonra What's your name sorulur. Adım 3: Cevap My name is ile kurulur."
+    }
+  ]
+}

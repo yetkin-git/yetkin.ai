@@ -1,0 +1,2637 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_turkce-3",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Sözcükte çok anlamlılık ve söz varlığı",
+  "grade": 6,
+  "subject": "Türkçe",
+  "teacher": {
+    "name": "Elif",
+    "voice": "Aoede",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_turkce-3.mp3",
+    "durationMs": 405714,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 81200
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 81200,
+      "endMs": 334040
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 334040,
+      "endMs": 405714
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 3650,
+      "pauseAfterMs": 800,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 230,
+          "endMs": 840
+        },
+        {
+          "word": "sevgili",
+          "startMs": 1390,
+          "endMs": 1630
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 1870,
+          "endMs": 2850
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Sözcükte çok anlamlılık ve söz varlığı",
+            "subtitle": "Türkçe",
+            "ruleBadges": [],
+            "echoPrompt": "Bir sözcüğün çok anlamlı mı sesteş mi olduğunu ve söz varlığına ne kattığını söylersin.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Çok anlamlı sözcükte anlamlar arasında bir akrabalık bağı bulunur."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "Sesteş sözcüklerde yazılış aynıdır ancak anlamlar tamamen bağımsızdır."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Söz varlığı, bildiğin ve kullandığın kelimelerin zengin hazinesidir."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 3650,
+      "endMs": 6580,
+      "pauseAfterMs": 240,
+      "text": "Ben Türkçe öğretmenin Elif.",
+      "markedText": "Ben Türkçe öğretmenin Elif.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 3650,
+          "endMs": 3910
+        },
+        {
+          "word": "Türkçe",
+          "startMs": 4000,
+          "endMs": 4430
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 4680,
+          "endMs": 5630
+        },
+        {
+          "word": "Elif.",
+          "startMs": 5950,
+          "endMs": 6340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 6580,
+      "endMs": 15430,
+      "pauseAfterMs": 1320,
+      "text": "Bir tek kelimenin nasıl onlarca farklı renge bürünebildiğine şahit olacağız.",
+      "markedText": "Bir tek kelimenin nasıl onlarca farklı renge bürünebildiğine şahit olacağız.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 6580,
+          "endMs": 6700
+        },
+        {
+          "word": "tek",
+          "startMs": 6820,
+          "endMs": 6990
+        },
+        {
+          "word": "kelimenin",
+          "startMs": 7340,
+          "endMs": 8380
+        },
+        {
+          "word": "nasıl",
+          "startMs": 9010,
+          "endMs": 9370
+        },
+        {
+          "word": "onlarca",
+          "startMs": 10050,
+          "endMs": 10560
+        },
+        {
+          "word": "farklı",
+          "startMs": 10810,
+          "endMs": 11150
+        },
+        {
+          "word": "renge",
+          "startMs": 11280,
+          "endMs": 11850
+        },
+        {
+          "word": "bürünebildiğine",
+          "startMs": 11930,
+          "endMs": 13120
+        },
+        {
+          "word": "şahit",
+          "startMs": 13120,
+          "endMs": 13510
+        },
+        {
+          "word": "olacağız.",
+          "startMs": 13640,
+          "endMs": 14110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 15430,
+      "endMs": 25190,
+      "pauseAfterMs": 390,
+      "text": "Hiç yüz dendiğinde hem aynadaki yüzünü hem de masanın pürüzsüz yüzeyini düşündün mü?",
+      "markedText": "Hiç yüz dendiğinde hem aynadaki yüzünü hem de masanın pürüzsüz yüzeyini düşündün mü?",
+      "words": [
+        {
+          "word": "Hiç",
+          "startMs": 15430,
+          "endMs": 15700
+        },
+        {
+          "word": "yüz",
+          "startMs": 15810,
+          "endMs": 16470
+        },
+        {
+          "word": "dendiğinde",
+          "startMs": 16780,
+          "endMs": 17980
+        },
+        {
+          "word": "hem",
+          "startMs": 18190,
+          "endMs": 18370
+        },
+        {
+          "word": "aynadaki",
+          "startMs": 18370,
+          "endMs": 18840
+        },
+        {
+          "word": "yüzünü",
+          "startMs": 19250,
+          "endMs": 19760
+        },
+        {
+          "word": "hem",
+          "startMs": 20150,
+          "endMs": 20410
+        },
+        {
+          "word": "de",
+          "startMs": 20970,
+          "endMs": 21090
+        },
+        {
+          "word": "masanın",
+          "startMs": 21420,
+          "endMs": 22190
+        },
+        {
+          "word": "pürüzsüz",
+          "startMs": 22430,
+          "endMs": 22760
+        },
+        {
+          "word": "yüzeyini",
+          "startMs": 22900,
+          "endMs": 23700
+        },
+        {
+          "word": "düşündün",
+          "startMs": 23760,
+          "endMs": 24380
+        },
+        {
+          "word": "mü?",
+          "startMs": 24520,
+          "endMs": 24800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 25190,
+      "endMs": 38040,
+      "pauseAfterMs": 550,
+      "text": "Bir sözcüğün birden fazla anlama gelişini, sesteşliği ve söz varlığımızın zenginliğini öğreneceğiz.",
+      "markedText": "Bir sözcüğün birden fazla anlama gelişini, sesteşliği ve söz varlığımızın zenginliğini öğreneceğiz.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 25190,
+          "endMs": 25300
+        },
+        {
+          "word": "sözcüğün",
+          "startMs": 25410,
+          "endMs": 25880
+        },
+        {
+          "word": "birden",
+          "startMs": 26220,
+          "endMs": 26680
+        },
+        {
+          "word": "fazla",
+          "startMs": 26680,
+          "endMs": 27100
+        },
+        {
+          "word": "anlama",
+          "startMs": 27170,
+          "endMs": 28550
+        },
+        {
+          "word": "gelişini,",
+          "startMs": 29360,
+          "endMs": 29820
+        },
+        {
+          "word": "sesteşliği",
+          "startMs": 30110,
+          "endMs": 31450
+        },
+        {
+          "word": "ve",
+          "startMs": 31830,
+          "endMs": 32120
+        },
+        {
+          "word": "söz",
+          "startMs": 32120,
+          "endMs": 32370
+        },
+        {
+          "word": "varlığımızın",
+          "startMs": 32690,
+          "endMs": 34310
+        },
+        {
+          "word": "zenginliğini",
+          "startMs": 35440,
+          "endMs": 36360
+        },
+        {
+          "word": "öğreneceğiz.",
+          "startMs": 36550,
+          "endMs": 37490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 38040,
+      "endMs": 47790,
+      "pauseAfterMs": 260,
+      "text": "Kelimeler bazen akrabadır, bazen de sadece ses benzerliği taşır.",
+      "markedText": "Kelimeler bazen akrabadır, bazen de sadece ses benzerliği taşır.",
+      "words": [
+        {
+          "word": "Kelimeler",
+          "startMs": 38040,
+          "endMs": 38760
+        },
+        {
+          "word": "bazen",
+          "startMs": 39210,
+          "endMs": 39860
+        },
+        {
+          "word": "akrabadır,",
+          "startMs": 40030,
+          "endMs": 42140
+        },
+        {
+          "word": "bazen",
+          "startMs": 42630,
+          "endMs": 43350
+        },
+        {
+          "word": "de",
+          "startMs": 43520,
+          "endMs": 43630
+        },
+        {
+          "word": "sadece",
+          "startMs": 43730,
+          "endMs": 44410
+        },
+        {
+          "word": "ses",
+          "startMs": 44540,
+          "endMs": 44690
+        },
+        {
+          "word": "benzerliği",
+          "startMs": 44820,
+          "endMs": 46480
+        },
+        {
+          "word": "taşır.",
+          "startMs": 47130,
+          "endMs": 47530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 47790,
+      "endMs": 62150,
+      "pauseAfterMs": 530,
+      "text": "Markete gidip yüz gram fındık aldığında sayıyı kullanırsın; aynaya bakıp yüzünü yıkadığında organı kullanırsın.",
+      "markedText": "Markete gidip yüz gram fındık aldığında sayıyı kullanırsın; aynaya bakıp yüzünü yıkadığında organı kullanırsın.",
+      "words": [
+        {
+          "word": "Markete",
+          "startMs": 47790,
+          "endMs": 48660
+        },
+        {
+          "word": "gidip",
+          "startMs": 48850,
+          "endMs": 49320
+        },
+        {
+          "word": "yüz",
+          "startMs": 49920,
+          "endMs": 50110
+        },
+        {
+          "word": "gram",
+          "startMs": 50470,
+          "endMs": 50950
+        },
+        {
+          "word": "fındık",
+          "startMs": 51030,
+          "endMs": 51800
+        },
+        {
+          "word": "aldığında",
+          "startMs": 52550,
+          "endMs": 53370
+        },
+        {
+          "word": "sayıyı",
+          "startMs": 53370,
+          "endMs": 53880
+        },
+        {
+          "word": "kullanırsın;",
+          "startMs": 54070,
+          "endMs": 55470
+        },
+        {
+          "word": "aynaya",
+          "startMs": 56500,
+          "endMs": 56920
+        },
+        {
+          "word": "bakıp",
+          "startMs": 57110,
+          "endMs": 57390
+        },
+        {
+          "word": "yüzünü",
+          "startMs": 57540,
+          "endMs": 57920
+        },
+        {
+          "word": "yıkadığında",
+          "startMs": 58140,
+          "endMs": 59080
+        },
+        {
+          "word": "organı",
+          "startMs": 59540,
+          "endMs": 60110
+        },
+        {
+          "word": "kullanırsın.",
+          "startMs": 60770,
+          "endMs": 61620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 62150,
+      "endMs": 65650,
+      "pauseAfterMs": 630,
+      "text": "Aynı ses iki bambaşka dünyayı açar.",
+      "markedText": "Aynı ses iki bambaşka dünyayı açar.",
+      "words": [
+        {
+          "word": "Aynı",
+          "startMs": 62150,
+          "endMs": 62340
+        },
+        {
+          "word": "ses",
+          "startMs": 62520,
+          "endMs": 62630
+        },
+        {
+          "word": "iki",
+          "startMs": 62630,
+          "endMs": 62820
+        },
+        {
+          "word": "bambaşka",
+          "startMs": 62820,
+          "endMs": 63490
+        },
+        {
+          "word": "dünyayı",
+          "startMs": 63950,
+          "endMs": 64480
+        },
+        {
+          "word": "açar.",
+          "startMs": 64650,
+          "endMs": 65020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 65650,
+      "endMs": 81200,
+      "pauseAfterMs": 840,
+      "text": "Her gün yeni bir kelime öğrenmek, duygu ve düşüncelerini arkadaşlarına çok daha etkili ve özgüvenle anlatmanı sağlar.",
+      "markedText": "Her gün yeni bir kelime öğrenmek, duygu ve düşüncelerini arkadaşlarına çok daha etkili ve özgüvenle anlatmanı sağlar.",
+      "words": [
+        {
+          "word": "Her",
+          "startMs": 65650,
+          "endMs": 66040
+        },
+        {
+          "word": "gün",
+          "startMs": 66260,
+          "endMs": 66420
+        },
+        {
+          "word": "yeni",
+          "startMs": 66550,
+          "endMs": 66720
+        },
+        {
+          "word": "bir",
+          "startMs": 66980,
+          "endMs": 67200
+        },
+        {
+          "word": "kelime",
+          "startMs": 67410,
+          "endMs": 67730
+        },
+        {
+          "word": "öğrenmek,",
+          "startMs": 67900,
+          "endMs": 68500
+        },
+        {
+          "word": "duygu",
+          "startMs": 69220,
+          "endMs": 69520
+        },
+        {
+          "word": "ve",
+          "startMs": 69730,
+          "endMs": 69930
+        },
+        {
+          "word": "düşüncelerini",
+          "startMs": 70040,
+          "endMs": 70840
+        },
+        {
+          "word": "arkadaşlarına",
+          "startMs": 70970,
+          "endMs": 72250
+        },
+        {
+          "word": "çok",
+          "startMs": 73120,
+          "endMs": 73480
+        },
+        {
+          "word": "daha",
+          "startMs": 73790,
+          "endMs": 73950
+        },
+        {
+          "word": "etkili",
+          "startMs": 74330,
+          "endMs": 74940
+        },
+        {
+          "word": "ve",
+          "startMs": 75190,
+          "endMs": 75720
+        },
+        {
+          "word": "özgüvenle",
+          "startMs": 76390,
+          "endMs": 77650
+        },
+        {
+          "word": "anlatmanı",
+          "startMs": 77850,
+          "endMs": 79070
+        },
+        {
+          "word": "sağlar.",
+          "startMs": 79390,
+          "endMs": 80360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-2",
+      "startMs": 81200,
+      "endMs": 97800,
+      "pauseAfterMs": 1490,
+      "text": "Çok anlamlılık, bir sözcüğün temel anlamından tamamen kopmadan zaman içinde birbiriyle bağlantılı yeni anlamlar kazanmasıdır.",
+      "markedText": "Çok anlamlılık, bir sözcüğün temel anlamından tamamen kopmadan zaman içinde birbiriyle bağlantılı yeni anlamlar kazanmasıdır.",
+      "words": [
+        {
+          "word": "Çok",
+          "startMs": 81200,
+          "endMs": 81420
+        },
+        {
+          "word": "anlamlılık,",
+          "startMs": 81500,
+          "endMs": 82840
+        },
+        {
+          "word": "bir",
+          "startMs": 83330,
+          "endMs": 83540
+        },
+        {
+          "word": "sözcüğün",
+          "startMs": 84260,
+          "endMs": 84750
+        },
+        {
+          "word": "temel",
+          "startMs": 84750,
+          "endMs": 85180
+        },
+        {
+          "word": "anlamından",
+          "startMs": 85470,
+          "endMs": 86320
+        },
+        {
+          "word": "tamamen",
+          "startMs": 86890,
+          "endMs": 87510
+        },
+        {
+          "word": "kopmadan",
+          "startMs": 87730,
+          "endMs": 87970
+        },
+        {
+          "word": "zaman",
+          "startMs": 88290,
+          "endMs": 88990
+        },
+        {
+          "word": "içinde",
+          "startMs": 89260,
+          "endMs": 90180
+        },
+        {
+          "word": "birbiriyle",
+          "startMs": 90510,
+          "endMs": 91160
+        },
+        {
+          "word": "bağlantılı",
+          "startMs": 91380,
+          "endMs": 92550
+        },
+        {
+          "word": "yeni",
+          "startMs": 92630,
+          "endMs": 93360
+        },
+        {
+          "word": "anlamlar",
+          "startMs": 94220,
+          "endMs": 95060
+        },
+        {
+          "word": "kazanmasıdır.",
+          "startMs": 95260,
+          "endMs": 96310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-2",
+      "startMs": 97800,
+      "endMs": 117860,
+      "pauseAfterMs": 260,
+      "text": "Örneğin yüz sözcüğü insan yüzü de olabilir, masanın yüzeyi de olabilir; ikisi de bir şeyin dışa bakan ön kısmıyla bağlantılıdır.",
+      "markedText": "Örneğin yüz sözcüğü insan yüzü de olabilir, masanın yüzeyi de olabilir; ikisi de bir şeyin dışa bakan ön kısmıyla bağlantılıdır.",
+      "words": [
+        {
+          "word": "Örneğin",
+          "startMs": 97800,
+          "endMs": 98430
+        },
+        {
+          "word": "yüz",
+          "startMs": 98540,
+          "endMs": 99100
+        },
+        {
+          "word": "sözcüğü",
+          "startMs": 100650,
+          "endMs": 101990
+        },
+        {
+          "word": "insan",
+          "startMs": 102250,
+          "endMs": 102880
+        },
+        {
+          "word": "yüzü",
+          "startMs": 103110,
+          "endMs": 103370
+        },
+        {
+          "word": "de",
+          "startMs": 103700,
+          "endMs": 103890
+        },
+        {
+          "word": "olabilir,",
+          "startMs": 104010,
+          "endMs": 104850
+        },
+        {
+          "word": "masanın",
+          "startMs": 105980,
+          "endMs": 106760
+        },
+        {
+          "word": "yüzeyi",
+          "startMs": 106890,
+          "endMs": 107410
+        },
+        {
+          "word": "de",
+          "startMs": 107650,
+          "endMs": 107900
+        },
+        {
+          "word": "olabilir;",
+          "startMs": 108030,
+          "endMs": 108700
+        },
+        {
+          "word": "ikisi",
+          "startMs": 109020,
+          "endMs": 109570
+        },
+        {
+          "word": "de",
+          "startMs": 109780,
+          "endMs": 109910
+        },
+        {
+          "word": "bir",
+          "startMs": 110110,
+          "endMs": 110600
+        },
+        {
+          "word": "şeyin",
+          "startMs": 111370,
+          "endMs": 111880
+        },
+        {
+          "word": "dışa",
+          "startMs": 111990,
+          "endMs": 112430
+        },
+        {
+          "word": "bakan",
+          "startMs": 112490,
+          "endMs": 112840
+        },
+        {
+          "word": "ön",
+          "startMs": 113000,
+          "endMs": 113260
+        },
+        {
+          "word": "kısmıyla",
+          "startMs": 113550,
+          "endMs": 114750
+        },
+        {
+          "word": "bağlantılıdır.",
+          "startMs": 116130,
+          "endMs": 117600
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-2",
+      "startMs": 117860,
+      "endMs": 139060,
+      "pauseAfterMs": 1680,
+      "text": "Sesteş yani eş sesli sözcüklerde ise yazılış ve okunuş tamamen aynıdır fakat anlamlar arasında hiçbir akrabalık yoktur.",
+      "markedText": "Sesteş yani eş sesli sözcüklerde ise yazılış ve okunuş tamamen aynıdır fakat anlamlar arasında hiçbir akrabalık yoktur.",
+      "words": [
+        {
+          "word": "Sesteş",
+          "startMs": 117860,
+          "endMs": 118400
+        },
+        {
+          "word": "yani",
+          "startMs": 118680,
+          "endMs": 118940
+        },
+        {
+          "word": "eş",
+          "startMs": 119070,
+          "endMs": 119170
+        },
+        {
+          "word": "sesli",
+          "startMs": 119450,
+          "endMs": 120130
+        },
+        {
+          "word": "sözcüklerde",
+          "startMs": 120560,
+          "endMs": 121310
+        },
+        {
+          "word": "ise",
+          "startMs": 121850,
+          "endMs": 122480
+        },
+        {
+          "word": "yazılış",
+          "startMs": 122880,
+          "endMs": 123590
+        },
+        {
+          "word": "ve",
+          "startMs": 123690,
+          "endMs": 124110
+        },
+        {
+          "word": "okunuş",
+          "startMs": 125120,
+          "endMs": 126130
+        },
+        {
+          "word": "tamamen",
+          "startMs": 126460,
+          "endMs": 127830
+        },
+        {
+          "word": "aynıdır",
+          "startMs": 128190,
+          "endMs": 129340
+        },
+        {
+          "word": "fakat",
+          "startMs": 129620,
+          "endMs": 129870
+        },
+        {
+          "word": "anlamlar",
+          "startMs": 130430,
+          "endMs": 131730
+        },
+        {
+          "word": "arasında",
+          "startMs": 132490,
+          "endMs": 133640
+        },
+        {
+          "word": "hiçbir",
+          "startMs": 133750,
+          "endMs": 134360
+        },
+        {
+          "word": "akrabalık",
+          "startMs": 134720,
+          "endMs": 135850
+        },
+        {
+          "word": "yoktur.",
+          "startMs": 136330,
+          "endMs": 137380
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 139060,
+      "endMs": 146430,
+      "pauseAfterMs": 1670,
+      "text": "Örneğin yüz sayısı ile yüzümüz sesteştir.",
+      "markedText": "Örneğin yüz sayısı ile yüzümüz sesteştir.",
+      "words": [
+        {
+          "word": "Örneğin",
+          "startMs": 139060,
+          "endMs": 139610
+        },
+        {
+          "word": "yüz",
+          "startMs": 139610,
+          "endMs": 140000
+        },
+        {
+          "word": "sayısı",
+          "startMs": 140940,
+          "endMs": 141430
+        },
+        {
+          "word": "ile",
+          "startMs": 141520,
+          "endMs": 141750
+        },
+        {
+          "word": "yüzümüz",
+          "startMs": 143360,
+          "endMs": 143820
+        },
+        {
+          "word": "sesteştir.",
+          "startMs": 143980,
+          "endMs": 144760
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 146430,
+      "endMs": 154320,
+      "pauseAfterMs": 660,
+      "text": "Çay içeceği ile derede akan çay da sesteştir.",
+      "markedText": "Çay içeceği ile derede akan çay da sesteştir.",
+      "words": [
+        {
+          "word": "Çay",
+          "startMs": 146430,
+          "endMs": 146780
+        },
+        {
+          "word": "içeceği",
+          "startMs": 146920,
+          "endMs": 147740
+        },
+        {
+          "word": "ile",
+          "startMs": 147940,
+          "endMs": 148980
+        },
+        {
+          "word": "derede",
+          "startMs": 149250,
+          "endMs": 150080
+        },
+        {
+          "word": "akan",
+          "startMs": 150340,
+          "endMs": 150660
+        },
+        {
+          "word": "çay",
+          "startMs": 150840,
+          "endMs": 151170
+        },
+        {
+          "word": "da",
+          "startMs": 151480,
+          "endMs": 151920
+        },
+        {
+          "word": "sesteştir.",
+          "startMs": 152290,
+          "endMs": 153660
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 154320,
+      "endMs": 169620,
+      "pauseAfterMs": 1070,
+      "text": "Söz varlığı ise bildiğin, anladığın ve konuştuğun tüm kelimelerin, deyimlerin ve terimlerin toplam hazinesidir.",
+      "markedText": "Söz varlığı ise bildiğin, anladığın ve konuştuğun tüm kelimelerin, deyimlerin ve terimlerin toplam hazinesidir.",
+      "words": [
+        {
+          "word": "Söz",
+          "startMs": 154320,
+          "endMs": 154430
+        },
+        {
+          "word": "varlığı",
+          "startMs": 154760,
+          "endMs": 155580
+        },
+        {
+          "word": "ise",
+          "startMs": 155940,
+          "endMs": 156190
+        },
+        {
+          "word": "bildiğin,",
+          "startMs": 156900,
+          "endMs": 158000
+        },
+        {
+          "word": "anladığın",
+          "startMs": 158650,
+          "endMs": 159460
+        },
+        {
+          "word": "ve",
+          "startMs": 159590,
+          "endMs": 159690
+        },
+        {
+          "word": "konuştuğun",
+          "startMs": 159960,
+          "endMs": 160920
+        },
+        {
+          "word": "tüm",
+          "startMs": 161380,
+          "endMs": 161840
+        },
+        {
+          "word": "kelimelerin,",
+          "startMs": 161980,
+          "endMs": 163130
+        },
+        {
+          "word": "deyimlerin",
+          "startMs": 164350,
+          "endMs": 165070
+        },
+        {
+          "word": "ve",
+          "startMs": 165610,
+          "endMs": 165680
+        },
+        {
+          "word": "terimlerin",
+          "startMs": 165820,
+          "endMs": 166570
+        },
+        {
+          "word": "toplam",
+          "startMs": 166780,
+          "endMs": 167250
+        },
+        {
+          "word": "hazinesidir.",
+          "startMs": 167300,
+          "endMs": 168550
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 169620,
+      "endMs": 202000,
+      "pauseAfterMs": 660,
+      "text": "Pratik kural: Bol kitap okudukça söz varlığın bir çınar gibi büyür; sesteş sözcükleri çok anlamlılıkla karıştırmamak için anlamlar arasında akrabalık var mı diye bakmalısın.",
+      "markedText": "Pratik kural: Bol kitap okudukça söz varlığın bir çınar gibi büyür; sesteş sözcükleri çok anlamlılıkla karıştırmamak için anlamlar arasında akrabalık var mı diye bakmalısın.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 169620,
+          "endMs": 170140
+        },
+        {
+          "word": "kural:",
+          "startMs": 170140,
+          "endMs": 170590
+        },
+        {
+          "word": "Bol",
+          "startMs": 172050,
+          "endMs": 172280
+        },
+        {
+          "word": "kitap",
+          "startMs": 172810,
+          "endMs": 173170
+        },
+        {
+          "word": "okudukça",
+          "startMs": 173320,
+          "endMs": 174320
+        },
+        {
+          "word": "söz",
+          "startMs": 174770,
+          "endMs": 175200
+        },
+        {
+          "word": "varlığın",
+          "startMs": 177000,
+          "endMs": 178350
+        },
+        {
+          "word": "bir",
+          "startMs": 179390,
+          "endMs": 179640
+        },
+        {
+          "word": "çınar",
+          "startMs": 180210,
+          "endMs": 180790
+        },
+        {
+          "word": "gibi",
+          "startMs": 181000,
+          "endMs": 181300
+        },
+        {
+          "word": "büyür;",
+          "startMs": 181380,
+          "endMs": 182330
+        },
+        {
+          "word": "sesteş",
+          "startMs": 182620,
+          "endMs": 182880
+        },
+        {
+          "word": "sözcükleri",
+          "startMs": 183020,
+          "endMs": 184780
+        },
+        {
+          "word": "çok",
+          "startMs": 185750,
+          "endMs": 185990
+        },
+        {
+          "word": "anlamlılıkla",
+          "startMs": 186570,
+          "endMs": 188010
+        },
+        {
+          "word": "karıştırmamak",
+          "startMs": 188140,
+          "endMs": 190410
+        },
+        {
+          "word": "için",
+          "startMs": 191730,
+          "endMs": 192360
+        },
+        {
+          "word": "anlamlar",
+          "startMs": 192500,
+          "endMs": 193500
+        },
+        {
+          "word": "arasında",
+          "startMs": 193560,
+          "endMs": 194970
+        },
+        {
+          "word": "akrabalık",
+          "startMs": 195480,
+          "endMs": 195980
+        },
+        {
+          "word": "var",
+          "startMs": 197380,
+          "endMs": 197730
+        },
+        {
+          "word": "mı",
+          "startMs": 197860,
+          "endMs": 198380
+        },
+        {
+          "word": "diye",
+          "startMs": 198840,
+          "endMs": 199380
+        },
+        {
+          "word": "bakmalısın.",
+          "startMs": 199940,
+          "endMs": 201340
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 202000,
+      "endMs": 205440,
+      "pauseAfterMs": 290,
+      "text": "Cümlelerimize kulak verelim.",
+      "markedText": "Cümlelerimize kulak verelim.",
+      "words": [
+        {
+          "word": "Cümlelerimize",
+          "startMs": 202000,
+          "endMs": 203200
+        },
+        {
+          "word": "kulak",
+          "startMs": 203430,
+          "endMs": 203930
+        },
+        {
+          "word": "verelim.",
+          "startMs": 204370,
+          "endMs": 205150
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 205440,
+      "endMs": 214900,
+      "pauseAfterMs": 670,
+      "text": "Çocuğun yüzü gülüyordu cümlesinde yüz, insan organıdır.",
+      "markedText": "Çocuğun yüzü gülüyordu cümlesinde yüz, insan organıdır.",
+      "words": [
+        {
+          "word": "Çocuğun",
+          "startMs": 205440,
+          "endMs": 206600
+        },
+        {
+          "word": "yüzü",
+          "startMs": 206600,
+          "endMs": 207050
+        },
+        {
+          "word": "gülüyordu",
+          "startMs": 207160,
+          "endMs": 208260
+        },
+        {
+          "word": "cümlesinde",
+          "startMs": 208690,
+          "endMs": 210230
+        },
+        {
+          "word": "yüz,",
+          "startMs": 210420,
+          "endMs": 210910
+        },
+        {
+          "word": "insan",
+          "startMs": 212590,
+          "endMs": 213030
+        },
+        {
+          "word": "organıdır.",
+          "startMs": 213120,
+          "endMs": 214230
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 214900,
+      "endMs": 229420,
+      "pauseAfterMs": 670,
+      "text": "Masanın yüzü çizilmiş cümlesinde yüz, nesnenin dış yüzeyidir; bu iki anlam birbiriyle bağlantılıdır ve çok anlamlılıktır.",
+      "markedText": "Masanın yüzü çizilmiş cümlesinde yüz, nesnenin dış yüzeyidir; bu iki anlam birbiriyle bağlantılıdır ve çok anlamlılıktır.",
+      "words": [
+        {
+          "word": "Masanın",
+          "startMs": 214900,
+          "endMs": 215520
+        },
+        {
+          "word": "yüzü",
+          "startMs": 215600,
+          "endMs": 216100
+        },
+        {
+          "word": "çizilmiş",
+          "startMs": 216950,
+          "endMs": 217590
+        },
+        {
+          "word": "cümlesinde",
+          "startMs": 217590,
+          "endMs": 218520
+        },
+        {
+          "word": "yüz,",
+          "startMs": 219010,
+          "endMs": 219180
+        },
+        {
+          "word": "nesnenin",
+          "startMs": 219390,
+          "endMs": 220320
+        },
+        {
+          "word": "dış",
+          "startMs": 221180,
+          "endMs": 221340
+        },
+        {
+          "word": "yüzeyidir;",
+          "startMs": 221400,
+          "endMs": 221970
+        },
+        {
+          "word": "bu",
+          "startMs": 222190,
+          "endMs": 222410
+        },
+        {
+          "word": "iki",
+          "startMs": 222530,
+          "endMs": 222750
+        },
+        {
+          "word": "anlam",
+          "startMs": 222930,
+          "endMs": 223450
+        },
+        {
+          "word": "birbiriyle",
+          "startMs": 223660,
+          "endMs": 224890
+        },
+        {
+          "word": "bağlantılıdır",
+          "startMs": 225500,
+          "endMs": 226760
+        },
+        {
+          "word": "ve",
+          "startMs": 226760,
+          "endMs": 226890
+        },
+        {
+          "word": "çok",
+          "startMs": 227200,
+          "endMs": 227310
+        },
+        {
+          "word": "anlamlılıktır.",
+          "startMs": 227630,
+          "endMs": 228750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 229420,
+      "endMs": 245910,
+      "pauseAfterMs": 430,
+      "text": "Kitapta yüz sayfa var cümlesindeki yüz ise bir sayıdır; organ olan yüzle hiçbir bağı yoktur, bu yüzden sesteştir.",
+      "markedText": "Kitapta yüz sayfa var cümlesindeki yüz ise bir sayıdır; organ olan yüzle hiçbir bağı yoktur, bu yüzden sesteştir.",
+      "words": [
+        {
+          "word": "Kitapta",
+          "startMs": 229420,
+          "endMs": 230280
+        },
+        {
+          "word": "yüz",
+          "startMs": 230390,
+          "endMs": 230970
+        },
+        {
+          "word": "sayfa",
+          "startMs": 231580,
+          "endMs": 231930
+        },
+        {
+          "word": "var",
+          "startMs": 232030,
+          "endMs": 232190
+        },
+        {
+          "word": "cümlesindeki",
+          "startMs": 232400,
+          "endMs": 233630
+        },
+        {
+          "word": "yüz",
+          "startMs": 233670,
+          "endMs": 234090
+        },
+        {
+          "word": "ise",
+          "startMs": 234260,
+          "endMs": 234560
+        },
+        {
+          "word": "bir",
+          "startMs": 234560,
+          "endMs": 234800
+        },
+        {
+          "word": "sayıdır;",
+          "startMs": 235040,
+          "endMs": 236240
+        },
+        {
+          "word": "organ",
+          "startMs": 236930,
+          "endMs": 237650
+        },
+        {
+          "word": "olan",
+          "startMs": 237710,
+          "endMs": 238080
+        },
+        {
+          "word": "yüzle",
+          "startMs": 238410,
+          "endMs": 238640
+        },
+        {
+          "word": "hiçbir",
+          "startMs": 239270,
+          "endMs": 239630
+        },
+        {
+          "word": "bağı",
+          "startMs": 240190,
+          "endMs": 240670
+        },
+        {
+          "word": "yoktur,",
+          "startMs": 241280,
+          "endMs": 242070
+        },
+        {
+          "word": "bu",
+          "startMs": 242390,
+          "endMs": 242580
+        },
+        {
+          "word": "yüzden",
+          "startMs": 242660,
+          "endMs": 243630
+        },
+        {
+          "word": "sesteştir.",
+          "startMs": 243710,
+          "endMs": 245480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 245910,
+      "endMs": 258560,
+      "pauseAfterMs": 440,
+      "text": "Sıcak bir çay içtik cümlesindeki çay ile köyün çayında yüzdük cümlesindeki çay da sesteştir.",
+      "markedText": "Sıcak bir çay içtik cümlesindeki çay ile köyün çayında yüzdük cümlesindeki çay da sesteştir.",
+      "words": [
+        {
+          "word": "Sıcak",
+          "startMs": 245910,
+          "endMs": 246300
+        },
+        {
+          "word": "bir",
+          "startMs": 246300,
+          "endMs": 246740
+        },
+        {
+          "word": "çay",
+          "startMs": 246850,
+          "endMs": 247200
+        },
+        {
+          "word": "içtik",
+          "startMs": 247290,
+          "endMs": 248080
+        },
+        {
+          "word": "cümlesindeki",
+          "startMs": 248870,
+          "endMs": 250330
+        },
+        {
+          "word": "çay",
+          "startMs": 251020,
+          "endMs": 251220
+        },
+        {
+          "word": "ile",
+          "startMs": 251420,
+          "endMs": 251710
+        },
+        {
+          "word": "köyün",
+          "startMs": 251860,
+          "endMs": 252380
+        },
+        {
+          "word": "çayında",
+          "startMs": 252600,
+          "endMs": 253280
+        },
+        {
+          "word": "yüzdük",
+          "startMs": 253630,
+          "endMs": 254500
+        },
+        {
+          "word": "cümlesindeki",
+          "startMs": 255080,
+          "endMs": 256260
+        },
+        {
+          "word": "çay",
+          "startMs": 256370,
+          "endMs": 256740
+        },
+        {
+          "word": "da",
+          "startMs": 256740,
+          "endMs": 256850
+        },
+        {
+          "word": "sesteştir.",
+          "startMs": 257130,
+          "endMs": 258120
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 258560,
+      "endMs": 267380,
+      "pauseAfterMs": 510,
+      "text": "Okuduğun her yeni masal ve roman, söz varlığı ağacına yepyeni yapraklar ekler.",
+      "markedText": "Okuduğun her yeni masal ve roman, söz varlığı ağacına yepyeni yapraklar ekler.",
+      "words": [
+        {
+          "word": "Okuduğun",
+          "startMs": 258560,
+          "endMs": 258880
+        },
+        {
+          "word": "her",
+          "startMs": 258950,
+          "endMs": 259120
+        },
+        {
+          "word": "yeni",
+          "startMs": 259470,
+          "endMs": 259730
+        },
+        {
+          "word": "masal",
+          "startMs": 259730,
+          "endMs": 260070
+        },
+        {
+          "word": "ve",
+          "startMs": 260120,
+          "endMs": 260200
+        },
+        {
+          "word": "roman,",
+          "startMs": 260270,
+          "endMs": 261000
+        },
+        {
+          "word": "söz",
+          "startMs": 261660,
+          "endMs": 261800
+        },
+        {
+          "word": "varlığı",
+          "startMs": 261850,
+          "endMs": 262330
+        },
+        {
+          "word": "ağacına",
+          "startMs": 262380,
+          "endMs": 263190
+        },
+        {
+          "word": "yepyeni",
+          "startMs": 263600,
+          "endMs": 264710
+        },
+        {
+          "word": "yapraklar",
+          "startMs": 265290,
+          "endMs": 265960
+        },
+        {
+          "word": "ekler.",
+          "startMs": 266060,
+          "endMs": 266870
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 267380,
+      "endMs": 269690,
+      "pauseAfterMs": 380,
+      "text": "Tuzaklara Düşme!",
+      "markedText": "Tuzaklara Düşme!",
+      "words": [
+        {
+          "word": "Tuzaklara",
+          "startMs": 267380,
+          "endMs": 268380
+        },
+        {
+          "word": "Düşme!",
+          "startMs": 268580,
+          "endMs": 269310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 269690,
+      "endMs": 272730,
+      "pauseAfterMs": 670,
+      "text": "Birlikte bakalım.",
+      "markedText": "Birlikte bakalım.",
+      "words": [
+        {
+          "word": "Birlikte",
+          "startMs": 269690,
+          "endMs": 271020
+        },
+        {
+          "word": "bakalım.",
+          "startMs": 271330,
+          "endMs": 272060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 272730,
+      "endMs": 278350,
+      "pauseAfterMs": 730,
+      "text": "Bu noktayı sen de görürsün.",
+      "markedText": "Bu noktayı sen de görürsün.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 272730,
+          "endMs": 273070
+        },
+        {
+          "word": "noktayı",
+          "startMs": 273150,
+          "endMs": 273970
+        },
+        {
+          "word": "sen",
+          "startMs": 274570,
+          "endMs": 275000
+        },
+        {
+          "word": "de",
+          "startMs": 275420,
+          "endMs": 275750
+        },
+        {
+          "word": "görürsün.",
+          "startMs": 275870,
+          "endMs": 277620
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 278350,
+      "endMs": 289980,
+      "pauseAfterMs": 440,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 278350,
+          "endMs": 278790
+        },
+        {
+          "word": "sevgili",
+          "startMs": 279180,
+          "endMs": 280840
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 281100,
+          "endMs": 281940
+        },
+        {
+          "word": "işte",
+          "startMs": 282480,
+          "endMs": 282720
+        },
+        {
+          "word": "tam",
+          "startMs": 282810,
+          "endMs": 283600
+        },
+        {
+          "word": "bu",
+          "startMs": 284190,
+          "endMs": 284320
+        },
+        {
+          "word": "noktada",
+          "startMs": 284590,
+          "endMs": 285450
+        },
+        {
+          "word": "dikkat",
+          "startMs": 285730,
+          "endMs": 286110
+        },
+        {
+          "word": "etmen",
+          "startMs": 286110,
+          "endMs": 286580
+        },
+        {
+          "word": "gereken",
+          "startMs": 286720,
+          "endMs": 287220
+        },
+        {
+          "word": "kilit",
+          "startMs": 287350,
+          "endMs": 288380
+        },
+        {
+          "word": "nokta.",
+          "startMs": 288960,
+          "endMs": 289540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 289980,
+      "endMs": 301950,
+      "pauseAfterMs": 600,
+      "text": "Yazılışları aynı olan her kelime çiftini hemen çok anlamlı sanmak aceleci bir tuzaktır.",
+      "markedText": "Yazılışları aynı olan her kelime çiftini hemen çok anlamlı sanmak aceleci bir tuzaktır.",
+      "words": [
+        {
+          "word": "Yazılışları",
+          "startMs": 289980,
+          "endMs": 290580
+        },
+        {
+          "word": "aynı",
+          "startMs": 290810,
+          "endMs": 291230
+        },
+        {
+          "word": "olan",
+          "startMs": 291650,
+          "endMs": 292080
+        },
+        {
+          "word": "her",
+          "startMs": 292220,
+          "endMs": 292500
+        },
+        {
+          "word": "kelime",
+          "startMs": 292690,
+          "endMs": 293250
+        },
+        {
+          "word": "çiftini",
+          "startMs": 293470,
+          "endMs": 294680
+        },
+        {
+          "word": "hemen",
+          "startMs": 295280,
+          "endMs": 295900
+        },
+        {
+          "word": "çok",
+          "startMs": 296090,
+          "endMs": 296450
+        },
+        {
+          "word": "anlamlı",
+          "startMs": 297150,
+          "endMs": 297860
+        },
+        {
+          "word": "sanmak",
+          "startMs": 298220,
+          "endMs": 298850
+        },
+        {
+          "word": "aceleci",
+          "startMs": 299090,
+          "endMs": 299990
+        },
+        {
+          "word": "bir",
+          "startMs": 299990,
+          "endMs": 300170
+        },
+        {
+          "word": "tuzaktır.",
+          "startMs": 300260,
+          "endMs": 301350
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 301950,
+      "endMs": 315980,
+      "pauseAfterMs": 530,
+      "text": "Önce kendine şu soruyu sor: Bu iki kullanım arasında azıcık da olsa bir anlam bağı var mı?",
+      "markedText": "Önce kendine şu soruyu sor: Bu iki kullanım arasında azıcık da olsa bir anlam bağı var mı?",
+      "words": [
+        {
+          "word": "Önce",
+          "startMs": 301950,
+          "endMs": 302190
+        },
+        {
+          "word": "kendine",
+          "startMs": 302310,
+          "endMs": 303280
+        },
+        {
+          "word": "şu",
+          "startMs": 304240,
+          "endMs": 304430
+        },
+        {
+          "word": "soruyu",
+          "startMs": 304430,
+          "endMs": 304930
+        },
+        {
+          "word": "sor:",
+          "startMs": 305040,
+          "endMs": 305660
+        },
+        {
+          "word": "Bu",
+          "startMs": 306980,
+          "endMs": 307090
+        },
+        {
+          "word": "iki",
+          "startMs": 307090,
+          "endMs": 307310
+        },
+        {
+          "word": "kullanım",
+          "startMs": 307400,
+          "endMs": 309040
+        },
+        {
+          "word": "arasında",
+          "startMs": 309300,
+          "endMs": 310720
+        },
+        {
+          "word": "azıcık",
+          "startMs": 311420,
+          "endMs": 312060
+        },
+        {
+          "word": "da",
+          "startMs": 312240,
+          "endMs": 312350
+        },
+        {
+          "word": "olsa",
+          "startMs": 312420,
+          "endMs": 312690
+        },
+        {
+          "word": "bir",
+          "startMs": 312780,
+          "endMs": 313000
+        },
+        {
+          "word": "anlam",
+          "startMs": 313270,
+          "endMs": 313840
+        },
+        {
+          "word": "bağı",
+          "startMs": 314130,
+          "endMs": 314540
+        },
+        {
+          "word": "var",
+          "startMs": 314540,
+          "endMs": 314930
+        },
+        {
+          "word": "mı?",
+          "startMs": 314970,
+          "endMs": 315450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 315980,
+      "endMs": 326120,
+      "pauseAfterMs": 350,
+      "text": "Eğer bağ varsa çok anlamlılıktır; anlamlar tamamen bağımsız ve ilgisizse sesteşliktir.",
+      "markedText": "Eğer bağ varsa çok anlamlılıktır; anlamlar tamamen bağımsız ve ilgisizse sesteşliktir.",
+      "words": [
+        {
+          "word": "Eğer",
+          "startMs": 315980,
+          "endMs": 316650
+        },
+        {
+          "word": "bağ",
+          "startMs": 316810,
+          "endMs": 317280
+        },
+        {
+          "word": "varsa",
+          "startMs": 317350,
+          "endMs": 317670
+        },
+        {
+          "word": "çok",
+          "startMs": 317990,
+          "endMs": 318110
+        },
+        {
+          "word": "anlamlılıktır;",
+          "startMs": 318400,
+          "endMs": 319660
+        },
+        {
+          "word": "anlamlar",
+          "startMs": 320510,
+          "endMs": 321260
+        },
+        {
+          "word": "tamamen",
+          "startMs": 322370,
+          "endMs": 322930
+        },
+        {
+          "word": "bağımsız",
+          "startMs": 323000,
+          "endMs": 323540
+        },
+        {
+          "word": "ve",
+          "startMs": 323690,
+          "endMs": 323800
+        },
+        {
+          "word": "ilgisizse",
+          "startMs": 323890,
+          "endMs": 324270
+        },
+        {
+          "word": "sesteşliktir.",
+          "startMs": 324990,
+          "endMs": 325770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 326120,
+      "endMs": 334040,
+      "pauseAfterMs": 830,
+      "text": "Bu küçük ayrıntı seni her zaman doğru yanıta götürür.",
+      "markedText": "Bu küçük ayrıntı seni her zaman doğru yanıta götürür.",
+      "words": [
+        {
+          "word": "Bu",
+          "startMs": 326120,
+          "endMs": 326220
+        },
+        {
+          "word": "küçük",
+          "startMs": 326330,
+          "endMs": 326800
+        },
+        {
+          "word": "ayrıntı",
+          "startMs": 326880,
+          "endMs": 327710
+        },
+        {
+          "word": "seni",
+          "startMs": 327980,
+          "endMs": 328500
+        },
+        {
+          "word": "her",
+          "startMs": 328590,
+          "endMs": 328690
+        },
+        {
+          "word": "zaman",
+          "startMs": 328800,
+          "endMs": 329200
+        },
+        {
+          "word": "doğru",
+          "startMs": 329600,
+          "endMs": 330280
+        },
+        {
+          "word": "yanıta",
+          "startMs": 330580,
+          "endMs": 331290
+        },
+        {
+          "word": "götürür.",
+          "startMs": 331520,
+          "endMs": 333210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-3",
+      "startMs": 334040,
+      "endMs": 337190,
+      "pauseAfterMs": 240,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 334040,
+          "endMs": 334900
+        },
+        {
+          "word": "Neler",
+          "startMs": 335080,
+          "endMs": 335730
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 336300,
+          "endMs": 336950
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 337190,
+      "endMs": 338450,
+      "pauseAfterMs": 610,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 337190,
+          "endMs": 337840
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 338450,
+      "endMs": 347850,
+      "pauseAfterMs": 560,
+      "text": "Çok anlamlı sözcükte anlamlar arasında bir akrabalık bağı bulunur.",
+      "markedText": "Çok anlamlı sözcükte anlamlar arasında bir akrabalık bağı bulunur.",
+      "words": [
+        {
+          "word": "Çok",
+          "startMs": 338450,
+          "endMs": 338610
+        },
+        {
+          "word": "anlamlı",
+          "startMs": 338690,
+          "endMs": 339890
+        },
+        {
+          "word": "sözcükte",
+          "startMs": 340780,
+          "endMs": 341520
+        },
+        {
+          "word": "anlamlar",
+          "startMs": 341680,
+          "endMs": 342760
+        },
+        {
+          "word": "arasında",
+          "startMs": 343660,
+          "endMs": 344320
+        },
+        {
+          "word": "bir",
+          "startMs": 344510,
+          "endMs": 344660
+        },
+        {
+          "word": "akrabalık",
+          "startMs": 344790,
+          "endMs": 345580
+        },
+        {
+          "word": "bağı",
+          "startMs": 345640,
+          "endMs": 346020
+        },
+        {
+          "word": "bulunur.",
+          "startMs": 346360,
+          "endMs": 347290
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 347850,
+      "endMs": 348090,
+      "pauseAfterMs": 0,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 347850,
+          "endMs": 348090
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 348090,
+      "endMs": 358570,
+      "pauseAfterMs": 1030,
+      "text": "Sesteş sözcüklerde yazılış aynıdır ancak anlamlar tamamen bağımsızdır.",
+      "markedText": "Sesteş sözcüklerde yazılış aynıdır ancak anlamlar tamamen bağımsızdır.",
+      "words": [
+        {
+          "word": "Sesteş",
+          "startMs": 348090,
+          "endMs": 348370
+        },
+        {
+          "word": "sözcüklerde",
+          "startMs": 348700,
+          "endMs": 349650
+        },
+        {
+          "word": "yazılış",
+          "startMs": 349930,
+          "endMs": 350910
+        },
+        {
+          "word": "aynıdır",
+          "startMs": 351710,
+          "endMs": 352370
+        },
+        {
+          "word": "ancak",
+          "startMs": 352760,
+          "endMs": 353210
+        },
+        {
+          "word": "anlamlar",
+          "startMs": 353360,
+          "endMs": 354200
+        },
+        {
+          "word": "tamamen",
+          "startMs": 355400,
+          "endMs": 355820
+        },
+        {
+          "word": "bağımsızdır.",
+          "startMs": 356090,
+          "endMs": 357540
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 358570,
+      "endMs": 359470,
+      "pauseAfterMs": 690,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 358570,
+          "endMs": 358780
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 359470,
+      "endMs": 369740,
+      "pauseAfterMs": 670,
+      "text": "Söz varlığı, bildiğin ve kullandığın kelimelerin zengin hazinesidir.",
+      "markedText": "Söz varlığı, bildiğin ve kullandığın kelimelerin zengin hazinesidir.",
+      "words": [
+        {
+          "word": "Söz",
+          "startMs": 359470,
+          "endMs": 359910
+        },
+        {
+          "word": "varlığı,",
+          "startMs": 360480,
+          "endMs": 361300
+        },
+        {
+          "word": "bildiğin",
+          "startMs": 361470,
+          "endMs": 363070
+        },
+        {
+          "word": "ve",
+          "startMs": 363890,
+          "endMs": 364010
+        },
+        {
+          "word": "kullandığın",
+          "startMs": 364530,
+          "endMs": 365690
+        },
+        {
+          "word": "kelimelerin",
+          "startMs": 366090,
+          "endMs": 366660
+        },
+        {
+          "word": "zengin",
+          "startMs": 366970,
+          "endMs": 367620
+        },
+        {
+          "word": "hazinesidir.",
+          "startMs": 367620,
+          "endMs": 369070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 369740,
+      "endMs": 372860,
+      "pauseAfterMs": 0,
+      "text": "Çok anlamlıda bağ vardır",
+      "markedText": "Çok anlamlıda bağ vardır",
+      "words": [
+        {
+          "word": "Çok",
+          "startMs": 369740,
+          "endMs": 369970
+        },
+        {
+          "word": "anlamlıda",
+          "startMs": 370370,
+          "endMs": 371050
+        },
+        {
+          "word": "bağ",
+          "startMs": 371580,
+          "endMs": 371930
+        },
+        {
+          "word": "vardır",
+          "startMs": 372070,
+          "endMs": 372860
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 372860,
+      "endMs": 377290,
+      "pauseAfterMs": 560,
+      "text": "Sesteşte bağ yoktur.",
+      "markedText": "Sesteşte bağ yoktur.",
+      "words": [
+        {
+          "word": "Sesteşte",
+          "startMs": 372860,
+          "endMs": 374330
+        },
+        {
+          "word": "bağ",
+          "startMs": 375210,
+          "endMs": 375360
+        },
+        {
+          "word": "yoktur.",
+          "startMs": 376260,
+          "endMs": 376730
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 377290,
+      "endMs": 380420,
+      "pauseAfterMs": 670,
+      "text": "Söz varlığı okudukça büyür.",
+      "markedText": "Söz varlığı okudukça büyür.",
+      "words": [
+        {
+          "word": "Söz",
+          "startMs": 377290,
+          "endMs": 377590
+        },
+        {
+          "word": "varlığı",
+          "startMs": 377630,
+          "endMs": 378380
+        },
+        {
+          "word": "okudukça",
+          "startMs": 378530,
+          "endMs": 379220
+        },
+        {
+          "word": "büyür.",
+          "startMs": 379270,
+          "endMs": 379750
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 380420,
+      "endMs": 391270,
+      "pauseAfterMs": 750,
+      "text": "Bir sözcüğün çok anlamlı mı sesteş mi olduğunu ve söz varlığına ne kattığını söylersin.",
+      "markedText": "Bir sözcüğün çok anlamlı mı sesteş mi olduğunu ve söz varlığına ne kattığını söylersin.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 380420,
+          "endMs": 380600
+        },
+        {
+          "word": "sözcüğün",
+          "startMs": 380680,
+          "endMs": 381460
+        },
+        {
+          "word": "çok",
+          "startMs": 381570,
+          "endMs": 382200
+        },
+        {
+          "word": "anlamlı",
+          "startMs": 382790,
+          "endMs": 383430
+        },
+        {
+          "word": "mı",
+          "startMs": 383550,
+          "endMs": 383760
+        },
+        {
+          "word": "sesteş",
+          "startMs": 383990,
+          "endMs": 384370
+        },
+        {
+          "word": "mi",
+          "startMs": 385060,
+          "endMs": 385150
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 385220,
+          "endMs": 385860
+        },
+        {
+          "word": "ve",
+          "startMs": 386090,
+          "endMs": 386250
+        },
+        {
+          "word": "söz",
+          "startMs": 386250,
+          "endMs": 386660
+        },
+        {
+          "word": "varlığına",
+          "startMs": 387160,
+          "endMs": 388000
+        },
+        {
+          "word": "ne",
+          "startMs": 388000,
+          "endMs": 388410
+        },
+        {
+          "word": "kattığını",
+          "startMs": 388940,
+          "endMs": 389610
+        },
+        {
+          "word": "söylersin.",
+          "startMs": 389710,
+          "endMs": 390520
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 391270,
+      "endMs": 393690,
+      "pauseAfterMs": 630,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 391270,
+          "endMs": 391540
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 392280,
+          "endMs": 393060
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 393690,
+      "endMs": 396950,
+      "pauseAfterMs": 310,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 393690,
+          "endMs": 394370
+        },
+        {
+          "word": "bir",
+          "startMs": 394680,
+          "endMs": 395160
+        },
+        {
+          "word": "iş",
+          "startMs": 395280,
+          "endMs": 395480
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 395570,
+          "endMs": 396640
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 396950,
+      "endMs": 399690,
+      "pauseAfterMs": 610,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 396950,
+          "endMs": 397290
+        },
+        {
+          "word": "sıra",
+          "startMs": 397380,
+          "endMs": 397940
+        },
+        {
+          "word": "sende.",
+          "startMs": 398500,
+          "endMs": 399080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-46",
+      "chapterId": "ch-3",
+      "startMs": 399690,
+      "endMs": 405714,
+      "pauseAfterMs": 424,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 399690,
+          "endMs": 400410
+        },
+        {
+          "word": "bu",
+          "startMs": 401040,
+          "endMs": 401170
+        },
+        {
+          "word": "notları",
+          "startMs": 401300,
+          "endMs": 401750
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 402370,
+          "endMs": 403400
+        },
+        {
+          "word": "kendi",
+          "startMs": 403800,
+          "endMs": 404130
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 404240,
+          "endMs": 404980
+        },
+        {
+          "word": "anlat.",
+          "startMs": 404980,
+          "endMs": 405290
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

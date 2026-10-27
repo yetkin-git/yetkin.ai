@@ -1,0 +1,2817 @@
+{
+  "schemaVersion": "2.0.0",
+  "lessonKey": "jr_06_ing_main-2",
+  "production": {
+    "status": "locked",
+    "readiness": "ready"
+  },
+  "title": "Family Life: ailem ve have got",
+  "grade": 6,
+  "subject": "İngilizce",
+  "teacher": {
+    "name": "Selin",
+    "voice": "Kore",
+    "atempo": 0.94
+  },
+  "audio": {
+    "publicPath": "/media/junior/audio/jr_06_ing_main-2.mp3",
+    "durationMs": 313005,
+    "sampleRateHz": 48000
+  },
+  "chapters": [
+    {
+      "id": "ch-1",
+      "title": "Giriş",
+      "startMs": 0,
+      "endMs": 80430
+    },
+    {
+      "id": "ch-2",
+      "title": "Gelişme",
+      "startMs": 80430,
+      "endMs": 254330
+    },
+    {
+      "id": "ch-3",
+      "title": "Sonuç",
+      "startMs": 254330,
+      "endMs": 313005
+    }
+  ],
+  "cues": [
+    {
+      "id": "cue-01",
+      "chapterId": "ch-1",
+      "startMs": 0,
+      "endMs": 2030,
+      "pauseAfterMs": 430,
+      "text": "Merhaba sevgili çocuklar!",
+      "markedText": "Merhaba sevgili çocuklar!",
+      "words": [
+        {
+          "word": "Merhaba",
+          "startMs": 120,
+          "endMs": 590
+        },
+        {
+          "word": "sevgili",
+          "startMs": 590,
+          "endMs": 1010
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 1070,
+          "endMs": 1600
+        }
+      ],
+      "keyframes": [
+        {
+          "atMs": 0,
+          "op": "SET_STAGE",
+          "params": {
+            "layout": "summary-board",
+            "title": "Family Life: ailem ve have got",
+            "subtitle": "İngilizce",
+            "ruleBadges": [],
+            "echoPrompt": "Bir aile üyesini my ve have got ile tanıtırısın.",
+            "cards": [
+              {
+                "icon": "puzzle",
+                "title": "1. nokta",
+                "body": "Family Life içinde anne, baba, kardeş, nine ve dede İngilizce adlarıyla söylenir."
+              },
+              {
+                "icon": "search",
+                "title": "2. nokta",
+                "body": "I, you, we ve they ile have got; he, she ve it ile has got gelir."
+              },
+              {
+                "icon": "link",
+                "title": "3. nokta",
+                "body": "Soru Have you got ile kurulur; kısa cevap Yes, I have ya da No, I haven't olur."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cue-02",
+      "chapterId": "ch-1",
+      "startMs": 2030,
+      "endMs": 4550,
+      "pauseAfterMs": 840,
+      "text": "Ben İngilizce öğretmenin Selin.",
+      "markedText": "Ben İngilizce öğretmenin Selin.",
+      "words": [
+        {
+          "word": "Ben",
+          "startMs": 2030,
+          "endMs": 2180
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 2180,
+          "endMs": 2780
+        },
+        {
+          "word": "öğretmenin",
+          "startMs": 2780,
+          "endMs": 3370
+        },
+        {
+          "word": "Selin.",
+          "startMs": 3480,
+          "endMs": 3710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-03",
+      "chapterId": "ch-1",
+      "startMs": 4550,
+      "endMs": 16600,
+      "pauseAfterMs": 700,
+      "text": "Akşam sofrada annene, babana ya da kardeşine bakınca ailenin kimlerden oluştuğunu bir çırpıda sayabilirsin.",
+      "markedText": "Akşam sofrada annene, babana ya da kardeşine bakınca ailenin kimlerden oluştuğunu bir çırpıda sayabilirsin.",
+      "words": [
+        {
+          "word": "Akşam",
+          "startMs": 4550,
+          "endMs": 4880
+        },
+        {
+          "word": "sofrada",
+          "startMs": 4940,
+          "endMs": 5330
+        },
+        {
+          "word": "annene,",
+          "startMs": 5390,
+          "endMs": 5940
+        },
+        {
+          "word": "babana",
+          "startMs": 6080,
+          "endMs": 6580
+        },
+        {
+          "word": "ya",
+          "startMs": 6770,
+          "endMs": 6910
+        },
+        {
+          "word": "da",
+          "startMs": 6910,
+          "endMs": 6990
+        },
+        {
+          "word": "kardeşine",
+          "startMs": 7060,
+          "endMs": 7690
+        },
+        {
+          "word": "bakınca",
+          "startMs": 7790,
+          "endMs": 8110
+        },
+        {
+          "word": "ailenin",
+          "startMs": 8270,
+          "endMs": 8800
+        },
+        {
+          "word": "kimlerden",
+          "startMs": 8910,
+          "endMs": 9500
+        },
+        {
+          "word": "oluştuğunu",
+          "startMs": 10070,
+          "endMs": 11280
+        },
+        {
+          "word": "bir",
+          "startMs": 11790,
+          "endMs": 11930
+        },
+        {
+          "word": "çırpıda",
+          "startMs": 12150,
+          "endMs": 13000
+        },
+        {
+          "word": "sayabilirsin.",
+          "startMs": 13440,
+          "endMs": 15900
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-04",
+      "chapterId": "ch-1",
+      "startMs": 16600,
+      "endMs": 24070,
+      "pauseAfterMs": 880,
+      "text": "Fotoğraf çerçevesindeki nine ve dede de bu ailenin parçasıdır.",
+      "markedText": "Fotoğraf çerçevesindeki nine ve dede de bu ailenin parçasıdır.",
+      "words": [
+        {
+          "word": "Fotoğraf",
+          "startMs": 16600,
+          "endMs": 17430
+        },
+        {
+          "word": "çerçevesindeki",
+          "startMs": 17470,
+          "endMs": 19030
+        },
+        {
+          "word": "nine",
+          "startMs": 19490,
+          "endMs": 19900
+        },
+        {
+          "word": "ve",
+          "startMs": 20120,
+          "endMs": 20270
+        },
+        {
+          "word": "dede",
+          "startMs": 20270,
+          "endMs": 20650
+        },
+        {
+          "word": "de",
+          "startMs": 20810,
+          "endMs": 20970
+        },
+        {
+          "word": "bu",
+          "startMs": 21040,
+          "endMs": 21310
+        },
+        {
+          "word": "ailenin",
+          "startMs": 21600,
+          "endMs": 22240
+        },
+        {
+          "word": "parçasıdır.",
+          "startMs": 22290,
+          "endMs": 23190
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-05",
+      "chapterId": "ch-1",
+      "startMs": 24070,
+      "endMs": 32860,
+      "pauseAfterMs": 650,
+      "text": "Bugün bu kişileri İngilizce adlarıyla tanıyacak, have got ve has got kalıbıyla kimin kim olduğunu söyleyeceğiz.",
+      "markedText": "Bugün bu kişileri İngilizce adlarıyla tanıyacak, have got ve has got kalıbıyla kimin kim olduğunu söyleyeceğiz.",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 24070,
+          "endMs": 24370
+        },
+        {
+          "word": "bu",
+          "startMs": 24370,
+          "endMs": 24570
+        },
+        {
+          "word": "kişileri",
+          "startMs": 24650,
+          "endMs": 25210
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 25250,
+          "endMs": 25880
+        },
+        {
+          "word": "adlarıyla",
+          "startMs": 26010,
+          "endMs": 26820
+        },
+        {
+          "word": "tanıyacak,",
+          "startMs": 26940,
+          "endMs": 27820
+        },
+        {
+          "word": "have",
+          "startMs": 28570,
+          "endMs": 28740
+        },
+        {
+          "word": "got",
+          "startMs": 28790,
+          "endMs": 28970
+        },
+        {
+          "word": "ve",
+          "startMs": 29030,
+          "endMs": 29080
+        },
+        {
+          "word": "has",
+          "startMs": 29080,
+          "endMs": 29140
+        },
+        {
+          "word": "got",
+          "startMs": 29220,
+          "endMs": 29400
+        },
+        {
+          "word": "kalıbıyla",
+          "startMs": 29400,
+          "endMs": 29870
+        },
+        {
+          "word": "kimin",
+          "startMs": 29960,
+          "endMs": 30370
+        },
+        {
+          "word": "kim",
+          "startMs": 30460,
+          "endMs": 30750
+        },
+        {
+          "word": "olduğunu",
+          "startMs": 30840,
+          "endMs": 31380
+        },
+        {
+          "word": "söyleyeceğiz.",
+          "startMs": 31420,
+          "endMs": 32210
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-06",
+      "chapterId": "ch-1",
+      "startMs": 32860,
+      "endMs": 39860,
+      "pauseAfterMs": 300,
+      "text": "Bir aile fotoğrafını gözlemlemek, doğru özneyi seçmene yardım eder.",
+      "markedText": "Bir aile fotoğrafını gözlemlemek, doğru özneyi seçmene yardım eder.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 32860,
+          "endMs": 33050
+        },
+        {
+          "word": "aile",
+          "startMs": 33050,
+          "endMs": 33350
+        },
+        {
+          "word": "fotoğrafını",
+          "startMs": 33530,
+          "endMs": 34240
+        },
+        {
+          "word": "gözlemlemek,",
+          "startMs": 34700,
+          "endMs": 35750
+        },
+        {
+          "word": "doğru",
+          "startMs": 36570,
+          "endMs": 36840
+        },
+        {
+          "word": "özneyi",
+          "startMs": 36950,
+          "endMs": 37490
+        },
+        {
+          "word": "seçmene",
+          "startMs": 37840,
+          "endMs": 38440
+        },
+        {
+          "word": "yardım",
+          "startMs": 38550,
+          "endMs": 38960
+        },
+        {
+          "word": "eder.",
+          "startMs": 39240,
+          "endMs": 39560
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-07",
+      "chapterId": "ch-1",
+      "startMs": 39860,
+      "endMs": 47450,
+      "pauseAfterMs": 780,
+      "text": "Bunu evde buzdolabındaki aile fotoğrafının yanında deneyebilirsin.",
+      "markedText": "Bunu evde buzdolabındaki aile fotoğrafının yanında deneyebilirsin.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 39860,
+          "endMs": 40160
+        },
+        {
+          "word": "evde",
+          "startMs": 40280,
+          "endMs": 40730
+        },
+        {
+          "word": "buzdolabındaki",
+          "startMs": 41420,
+          "endMs": 42290
+        },
+        {
+          "word": "aile",
+          "startMs": 42680,
+          "endMs": 42820
+        },
+        {
+          "word": "fotoğrafının",
+          "startMs": 43170,
+          "endMs": 44170
+        },
+        {
+          "word": "yanında",
+          "startMs": 44540,
+          "endMs": 45320
+        },
+        {
+          "word": "deneyebilirsin.",
+          "startMs": 45540,
+          "endMs": 46670
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-08",
+      "chapterId": "ch-1",
+      "startMs": 47450,
+      "endMs": 55160,
+      "pauseAfterMs": 580,
+      "text": "Parmağınla kişiyi gösterip This is my father de.",
+      "markedText": "Parmağınla kişiyi gösterip This is my father de.",
+      "words": [
+        {
+          "word": "Parmağınla",
+          "startMs": 47450,
+          "endMs": 48990
+        },
+        {
+          "word": "kişiyi",
+          "startMs": 49050,
+          "endMs": 50330
+        },
+        {
+          "word": "gösterip",
+          "startMs": 50660,
+          "endMs": 51240
+        },
+        {
+          "word": "This",
+          "startMs": 51470,
+          "endMs": 52270
+        },
+        {
+          "word": "is",
+          "startMs": 53150,
+          "endMs": 53290
+        },
+        {
+          "word": "my",
+          "startMs": 53290,
+          "endMs": 53400
+        },
+        {
+          "word": "father",
+          "startMs": 53400,
+          "endMs": 53830
+        },
+        {
+          "word": "de.",
+          "startMs": 53910,
+          "endMs": 54580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-09",
+      "chapterId": "ch-1",
+      "startMs": 55160,
+      "endMs": 61980,
+      "pauseAfterMs": 530,
+      "text": "Mutfakta annene I have got a brother diyerek kardeşini tanıt.",
+      "markedText": "Mutfakta annene I have got a brother diyerek kardeşini tanıt.",
+      "words": [
+        {
+          "word": "Mutfakta",
+          "startMs": 55160,
+          "endMs": 55720
+        },
+        {
+          "word": "annene",
+          "startMs": 55860,
+          "endMs": 56480
+        },
+        {
+          "word": "I",
+          "startMs": 56790,
+          "endMs": 56860
+        },
+        {
+          "word": "have",
+          "startMs": 56860,
+          "endMs": 57180
+        },
+        {
+          "word": "got",
+          "startMs": 57390,
+          "endMs": 57580
+        },
+        {
+          "word": "a",
+          "startMs": 57670,
+          "endMs": 57840
+        },
+        {
+          "word": "brother",
+          "startMs": 58360,
+          "endMs": 58720
+        },
+        {
+          "word": "diyerek",
+          "startMs": 59080,
+          "endMs": 59530
+        },
+        {
+          "word": "kardeşini",
+          "startMs": 60070,
+          "endMs": 60620
+        },
+        {
+          "word": "tanıt.",
+          "startMs": 61020,
+          "endMs": 61450
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-10",
+      "chapterId": "ch-1",
+      "startMs": 61980,
+      "endMs": 68680,
+      "pauseAfterMs": 770,
+      "text": "Okulda yeni bir arkadaşın Have you got a sister?",
+      "markedText": "Okulda yeni bir arkadaşın Have you got a sister?",
+      "words": [
+        {
+          "word": "Okulda",
+          "startMs": 61980,
+          "endMs": 62280
+        },
+        {
+          "word": "yeni",
+          "startMs": 62400,
+          "endMs": 62720
+        },
+        {
+          "word": "bir",
+          "startMs": 63050,
+          "endMs": 63550
+        },
+        {
+          "word": "arkadaşın",
+          "startMs": 64060,
+          "endMs": 65330
+        },
+        {
+          "word": "Have",
+          "startMs": 65730,
+          "endMs": 66180
+        },
+        {
+          "word": "you",
+          "startMs": 66480,
+          "endMs": 66690
+        },
+        {
+          "word": "got",
+          "startMs": 66790,
+          "endMs": 66970
+        },
+        {
+          "word": "a",
+          "startMs": 67020,
+          "endMs": 67090
+        },
+        {
+          "word": "sister?",
+          "startMs": 67220,
+          "endMs": 67910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-11",
+      "chapterId": "ch-1",
+      "startMs": 68680,
+      "endMs": 71690,
+      "pauseAfterMs": 320,
+      "text": "diye sorarsa kısa ve net cevap ver.",
+      "markedText": "diye sorarsa kısa ve net cevap ver.",
+      "words": [
+        {
+          "word": "diye",
+          "startMs": 68680,
+          "endMs": 68980
+        },
+        {
+          "word": "sorarsa",
+          "startMs": 69120,
+          "endMs": 69640
+        },
+        {
+          "word": "kısa",
+          "startMs": 69640,
+          "endMs": 69920
+        },
+        {
+          "word": "ve",
+          "startMs": 69970,
+          "endMs": 70080
+        },
+        {
+          "word": "net",
+          "startMs": 70080,
+          "endMs": 70290
+        },
+        {
+          "word": "cevap",
+          "startMs": 70410,
+          "endMs": 70620
+        },
+        {
+          "word": "ver.",
+          "startMs": 71010,
+          "endMs": 71370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-12",
+      "chapterId": "ch-1",
+      "startMs": 71690,
+      "endMs": 80430,
+      "pauseAfterMs": 900,
+      "text": "Akşam sofrada herkes kendini bir cümleyle anlatırsa aile sözcükleri kalıcı olur.",
+      "markedText": "Akşam sofrada herkes kendini bir cümleyle anlatırsa aile sözcükleri kalıcı olur.",
+      "words": [
+        {
+          "word": "Akşam",
+          "startMs": 71690,
+          "endMs": 72100
+        },
+        {
+          "word": "sofrada",
+          "startMs": 72520,
+          "endMs": 73430
+        },
+        {
+          "word": "herkes",
+          "startMs": 73430,
+          "endMs": 74150
+        },
+        {
+          "word": "kendini",
+          "startMs": 74290,
+          "endMs": 75610
+        },
+        {
+          "word": "bir",
+          "startMs": 75970,
+          "endMs": 76110
+        },
+        {
+          "word": "cümleyle",
+          "startMs": 76350,
+          "endMs": 76590
+        },
+        {
+          "word": "anlatırsa",
+          "startMs": 76900,
+          "endMs": 77410
+        },
+        {
+          "word": "aile",
+          "startMs": 77500,
+          "endMs": 77790
+        },
+        {
+          "word": "sözcükleri",
+          "startMs": 77790,
+          "endMs": 78300
+        },
+        {
+          "word": "kalıcı",
+          "startMs": 78420,
+          "endMs": 78700
+        },
+        {
+          "word": "olur.",
+          "startMs": 78910,
+          "endMs": 79530
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-13",
+      "chapterId": "ch-2",
+      "startMs": 80430,
+      "endMs": 96370,
+      "pauseAfterMs": 790,
+      "text": "Family Life konusunda anne mother, baba father, kız kardeş sister, erkek kardeş brother, nine grandmother ve dede grandfather diye söylenir.",
+      "markedText": "Family Life konusunda anne mother, baba father, kız kardeş sister, erkek kardeş brother, nine grandmother ve dede grandfather diye söylenir.",
+      "words": [
+        {
+          "word": "Family",
+          "startMs": 80430,
+          "endMs": 80910
+        },
+        {
+          "word": "Life",
+          "startMs": 80910,
+          "endMs": 81480
+        },
+        {
+          "word": "konusunda",
+          "startMs": 81980,
+          "endMs": 82590
+        },
+        {
+          "word": "anne",
+          "startMs": 82700,
+          "endMs": 82820
+        },
+        {
+          "word": "mother,",
+          "startMs": 82820,
+          "endMs": 83500
+        },
+        {
+          "word": "baba",
+          "startMs": 84220,
+          "endMs": 84440
+        },
+        {
+          "word": "father,",
+          "startMs": 84540,
+          "endMs": 85190
+        },
+        {
+          "word": "kız",
+          "startMs": 85640,
+          "endMs": 85910
+        },
+        {
+          "word": "kardeş",
+          "startMs": 85910,
+          "endMs": 86320
+        },
+        {
+          "word": "sister,",
+          "startMs": 86440,
+          "endMs": 87550
+        },
+        {
+          "word": "erkek",
+          "startMs": 88290,
+          "endMs": 88530
+        },
+        {
+          "word": "kardeş",
+          "startMs": 88620,
+          "endMs": 89010
+        },
+        {
+          "word": "brother,",
+          "startMs": 89240,
+          "endMs": 89910
+        },
+        {
+          "word": "nine",
+          "startMs": 90270,
+          "endMs": 90420
+        },
+        {
+          "word": "grandmother",
+          "startMs": 90420,
+          "endMs": 90840
+        },
+        {
+          "word": "ve",
+          "startMs": 90930,
+          "endMs": 91060
+        },
+        {
+          "word": "dede",
+          "startMs": 91250,
+          "endMs": 91780
+        },
+        {
+          "word": "grandfather",
+          "startMs": 92250,
+          "endMs": 93040
+        },
+        {
+          "word": "diye",
+          "startMs": 93340,
+          "endMs": 93840
+        },
+        {
+          "word": "söylenir.",
+          "startMs": 94210,
+          "endMs": 95580
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-14",
+      "chapterId": "ch-2",
+      "startMs": 96370,
+      "endMs": 105620,
+      "pauseAfterMs": 680,
+      "text": "Sahiplik ve aile bağı için I, you, we ve they öznelerinden sonra have got gelir.",
+      "markedText": "Sahiplik ve aile bağı için I, you, we ve they öznelerinden sonra have got gelir.",
+      "words": [
+        {
+          "word": "Sahiplik",
+          "startMs": 96370,
+          "endMs": 97050
+        },
+        {
+          "word": "ve",
+          "startMs": 97400,
+          "endMs": 97550
+        },
+        {
+          "word": "aile",
+          "startMs": 97990,
+          "endMs": 98340
+        },
+        {
+          "word": "bağı",
+          "startMs": 98610,
+          "endMs": 99020
+        },
+        {
+          "word": "için",
+          "startMs": 99360,
+          "endMs": 99560
+        },
+        {
+          "word": "I,",
+          "startMs": 99880,
+          "endMs": 100060
+        },
+        {
+          "word": "you,",
+          "startMs": 100260,
+          "endMs": 100370
+        },
+        {
+          "word": "we",
+          "startMs": 100650,
+          "endMs": 100770
+        },
+        {
+          "word": "ve",
+          "startMs": 100900,
+          "endMs": 101050
+        },
+        {
+          "word": "they",
+          "startMs": 101680,
+          "endMs": 101820
+        },
+        {
+          "word": "öznelerinden",
+          "startMs": 101820,
+          "endMs": 103100
+        },
+        {
+          "word": "sonra",
+          "startMs": 103290,
+          "endMs": 103770
+        },
+        {
+          "word": "have",
+          "startMs": 104090,
+          "endMs": 104170
+        },
+        {
+          "word": "got",
+          "startMs": 104170,
+          "endMs": 104230
+        },
+        {
+          "word": "gelir.",
+          "startMs": 104300,
+          "endMs": 104940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-15",
+      "chapterId": "ch-2",
+      "startMs": 105620,
+      "endMs": 111090,
+      "pauseAfterMs": 590,
+      "text": "He, she ve it öznelerinden sonra has got gelir.",
+      "markedText": "He, she ve it öznelerinden sonra has got gelir.",
+      "words": [
+        {
+          "word": "He,",
+          "startMs": 105620,
+          "endMs": 105740
+        },
+        {
+          "word": "she",
+          "startMs": 105740,
+          "endMs": 106000
+        },
+        {
+          "word": "ve",
+          "startMs": 106000,
+          "endMs": 106130
+        },
+        {
+          "word": "it",
+          "startMs": 106220,
+          "endMs": 106460
+        },
+        {
+          "word": "öznelerinden",
+          "startMs": 106530,
+          "endMs": 107760
+        },
+        {
+          "word": "sonra",
+          "startMs": 108680,
+          "endMs": 109060
+        },
+        {
+          "word": "has",
+          "startMs": 109060,
+          "endMs": 109200
+        },
+        {
+          "word": "got",
+          "startMs": 109200,
+          "endMs": 109360
+        },
+        {
+          "word": "gelir.",
+          "startMs": 109400,
+          "endMs": 110500
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-16",
+      "chapterId": "ch-2",
+      "startMs": 111090,
+      "endMs": 116560,
+      "pauseAfterMs": 520,
+      "text": "I have got a sister, bir kız kardeşim var demektir.",
+      "markedText": "I have got a sister, bir kız kardeşim var demektir.",
+      "words": [
+        {
+          "word": "I",
+          "startMs": 111090,
+          "endMs": 111180
+        },
+        {
+          "word": "have",
+          "startMs": 111180,
+          "endMs": 111530
+        },
+        {
+          "word": "got",
+          "startMs": 111700,
+          "endMs": 112130
+        },
+        {
+          "word": "a",
+          "startMs": 112220,
+          "endMs": 112390
+        },
+        {
+          "word": "sister,",
+          "startMs": 112620,
+          "endMs": 113400
+        },
+        {
+          "word": "bir",
+          "startMs": 114250,
+          "endMs": 114390
+        },
+        {
+          "word": "kız",
+          "startMs": 114390,
+          "endMs": 114560
+        },
+        {
+          "word": "kardeşim",
+          "startMs": 114560,
+          "endMs": 114920
+        },
+        {
+          "word": "var",
+          "startMs": 115130,
+          "endMs": 115270
+        },
+        {
+          "word": "demektir.",
+          "startMs": 115270,
+          "endMs": 116040
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-17",
+      "chapterId": "ch-2",
+      "startMs": 116560,
+      "endMs": 123260,
+      "pauseAfterMs": 770,
+      "text": "She has got a brother, onun bir erkek kardeşi var demektir.",
+      "markedText": "She has got a brother, onun bir erkek kardeşi var demektir.",
+      "words": [
+        {
+          "word": "She",
+          "startMs": 116560,
+          "endMs": 116750
+        },
+        {
+          "word": "has",
+          "startMs": 116750,
+          "endMs": 116890
+        },
+        {
+          "word": "got",
+          "startMs": 116940,
+          "endMs": 117070
+        },
+        {
+          "word": "a",
+          "startMs": 117300,
+          "endMs": 117440
+        },
+        {
+          "word": "brother,",
+          "startMs": 117440,
+          "endMs": 117970
+        },
+        {
+          "word": "onun",
+          "startMs": 118650,
+          "endMs": 119050
+        },
+        {
+          "word": "bir",
+          "startMs": 119130,
+          "endMs": 119400
+        },
+        {
+          "word": "erkek",
+          "startMs": 119400,
+          "endMs": 120240
+        },
+        {
+          "word": "kardeşi",
+          "startMs": 120690,
+          "endMs": 121230
+        },
+        {
+          "word": "var",
+          "startMs": 121350,
+          "endMs": 121650
+        },
+        {
+          "word": "demektir.",
+          "startMs": 121850,
+          "endMs": 122490
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-18",
+      "chapterId": "ch-2",
+      "startMs": 123260,
+      "endMs": 133470,
+      "pauseAfterMs": 400,
+      "text": "Olumsuzda have not got ve has not got kullanılır; kısa biçimleri haven't got ve hasn't got şeklindedir.",
+      "markedText": "Olumsuzda have not got ve has not got kullanılır; kısa biçimleri haven't got ve hasn't got şeklindedir.",
+      "words": [
+        {
+          "word": "Olumsuzda",
+          "startMs": 123260,
+          "endMs": 124170
+        },
+        {
+          "word": "have",
+          "startMs": 124560,
+          "endMs": 125020
+        },
+        {
+          "word": "not",
+          "startMs": 125110,
+          "endMs": 125320
+        },
+        {
+          "word": "got",
+          "startMs": 125320,
+          "endMs": 125500
+        },
+        {
+          "word": "ve",
+          "startMs": 125550,
+          "endMs": 125700
+        },
+        {
+          "word": "has",
+          "startMs": 126100,
+          "endMs": 126290
+        },
+        {
+          "word": "not",
+          "startMs": 126350,
+          "endMs": 126620
+        },
+        {
+          "word": "got",
+          "startMs": 126720,
+          "endMs": 126880
+        },
+        {
+          "word": "kullanılır;",
+          "startMs": 127200,
+          "endMs": 127910
+        },
+        {
+          "word": "kısa",
+          "startMs": 128210,
+          "endMs": 128530
+        },
+        {
+          "word": "biçimleri",
+          "startMs": 128780,
+          "endMs": 129590
+        },
+        {
+          "word": "haven't",
+          "startMs": 129910,
+          "endMs": 130340
+        },
+        {
+          "word": "got",
+          "startMs": 130460,
+          "endMs": 130800
+        },
+        {
+          "word": "ve",
+          "startMs": 131320,
+          "endMs": 131380
+        },
+        {
+          "word": "hasn't",
+          "startMs": 131430,
+          "endMs": 131720
+        },
+        {
+          "word": "got",
+          "startMs": 131820,
+          "endMs": 132070
+        },
+        {
+          "word": "şeklindedir.",
+          "startMs": 132310,
+          "endMs": 133070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-19",
+      "chapterId": "ch-2",
+      "startMs": 133470,
+      "endMs": 144530,
+      "pauseAfterMs": 1050,
+      "text": "Pratik kural: Özne I, you, we, they ise have got; özne he, she, it ise has got seçilir.",
+      "markedText": "Pratik kural: Özne I, you, we, they ise have got; özne he, she, it ise has got seçilir.",
+      "words": [
+        {
+          "word": "Pratik",
+          "startMs": 133470,
+          "endMs": 133930
+        },
+        {
+          "word": "kural:",
+          "startMs": 133930,
+          "endMs": 134320
+        },
+        {
+          "word": "Özne",
+          "startMs": 134710,
+          "endMs": 135160
+        },
+        {
+          "word": "I,",
+          "startMs": 135280,
+          "endMs": 135450
+        },
+        {
+          "word": "you,",
+          "startMs": 135450,
+          "endMs": 135610
+        },
+        {
+          "word": "we,",
+          "startMs": 135970,
+          "endMs": 136220
+        },
+        {
+          "word": "they",
+          "startMs": 136220,
+          "endMs": 136820
+        },
+        {
+          "word": "ise",
+          "startMs": 136890,
+          "endMs": 137360
+        },
+        {
+          "word": "have",
+          "startMs": 137560,
+          "endMs": 138020
+        },
+        {
+          "word": "got;",
+          "startMs": 138140,
+          "endMs": 138720
+        },
+        {
+          "word": "özne",
+          "startMs": 139610,
+          "endMs": 139770
+        },
+        {
+          "word": "he,",
+          "startMs": 139830,
+          "endMs": 140340
+        },
+        {
+          "word": "she,",
+          "startMs": 141120,
+          "endMs": 141320
+        },
+        {
+          "word": "it",
+          "startMs": 141430,
+          "endMs": 141510
+        },
+        {
+          "word": "ise",
+          "startMs": 141610,
+          "endMs": 141980
+        },
+        {
+          "word": "has",
+          "startMs": 141980,
+          "endMs": 142270
+        },
+        {
+          "word": "got",
+          "startMs": 142420,
+          "endMs": 142740
+        },
+        {
+          "word": "seçilir.",
+          "startMs": 142740,
+          "endMs": 143480
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-20",
+      "chapterId": "ch-2",
+      "startMs": 144530,
+      "endMs": 154990,
+      "pauseAfterMs": 1080,
+      "text": "Sınıfta Ece ailesini tanıtır: I have got one brother and one sister.",
+      "markedText": "Sınıfta Ece ailesini tanıtır: I have got one brother and one sister.",
+      "words": [
+        {
+          "word": "Sınıfta",
+          "startMs": 144530,
+          "endMs": 145280
+        },
+        {
+          "word": "Ece",
+          "startMs": 146240,
+          "endMs": 146650
+        },
+        {
+          "word": "ailesini",
+          "startMs": 147180,
+          "endMs": 148080
+        },
+        {
+          "word": "tanıtır:",
+          "startMs": 148290,
+          "endMs": 148890
+        },
+        {
+          "word": "I",
+          "startMs": 149820,
+          "endMs": 149940
+        },
+        {
+          "word": "have",
+          "startMs": 149940,
+          "endMs": 150270
+        },
+        {
+          "word": "got",
+          "startMs": 150390,
+          "endMs": 150540
+        },
+        {
+          "word": "one",
+          "startMs": 150690,
+          "endMs": 150800
+        },
+        {
+          "word": "brother",
+          "startMs": 150930,
+          "endMs": 151250
+        },
+        {
+          "word": "and",
+          "startMs": 151540,
+          "endMs": 151860
+        },
+        {
+          "word": "one",
+          "startMs": 152540,
+          "endMs": 153030
+        },
+        {
+          "word": "sister.",
+          "startMs": 153150,
+          "endMs": 153910
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-21",
+      "chapterId": "ch-2",
+      "startMs": 154990,
+      "endMs": 162620,
+      "pauseAfterMs": 1250,
+      "text": "Annesini anlatırken özne değişir: She has got two children.",
+      "markedText": "Annesini anlatırken özne değişir: She has got two children.",
+      "words": [
+        {
+          "word": "Annesini",
+          "startMs": 154990,
+          "endMs": 155590
+        },
+        {
+          "word": "anlatırken",
+          "startMs": 155710,
+          "endMs": 156890
+        },
+        {
+          "word": "özne",
+          "startMs": 157090,
+          "endMs": 157400
+        },
+        {
+          "word": "değişir:",
+          "startMs": 157500,
+          "endMs": 158420
+        },
+        {
+          "word": "She",
+          "startMs": 158920,
+          "endMs": 159130
+        },
+        {
+          "word": "has",
+          "startMs": 159530,
+          "endMs": 159660
+        },
+        {
+          "word": "got",
+          "startMs": 159940,
+          "endMs": 160170
+        },
+        {
+          "word": "two",
+          "startMs": 160230,
+          "endMs": 160320
+        },
+        {
+          "word": "children.",
+          "startMs": 160430,
+          "endMs": 161370
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-22",
+      "chapterId": "ch-2",
+      "startMs": 162620,
+      "endMs": 172310,
+      "pauseAfterMs": 740,
+      "text": "Babası için de aynı ayrım durur: He has got a son and a daughter.",
+      "markedText": "Babası için de aynı ayrım durur: He has got a son and a daughter.",
+      "words": [
+        {
+          "word": "Babası",
+          "startMs": 162620,
+          "endMs": 163230
+        },
+        {
+          "word": "için",
+          "startMs": 163900,
+          "endMs": 164180
+        },
+        {
+          "word": "de",
+          "startMs": 164270,
+          "endMs": 164440
+        },
+        {
+          "word": "aynı",
+          "startMs": 164560,
+          "endMs": 165050
+        },
+        {
+          "word": "ayrım",
+          "startMs": 165210,
+          "endMs": 165430
+        },
+        {
+          "word": "durur:",
+          "startMs": 165810,
+          "endMs": 166890
+        },
+        {
+          "word": "He",
+          "startMs": 167920,
+          "endMs": 168130
+        },
+        {
+          "word": "has",
+          "startMs": 168130,
+          "endMs": 168360
+        },
+        {
+          "word": "got",
+          "startMs": 168360,
+          "endMs": 168550
+        },
+        {
+          "word": "a",
+          "startMs": 168550,
+          "endMs": 168790
+        },
+        {
+          "word": "son",
+          "startMs": 169300,
+          "endMs": 169490
+        },
+        {
+          "word": "and",
+          "startMs": 170050,
+          "endMs": 170300
+        },
+        {
+          "word": "a",
+          "startMs": 170430,
+          "endMs": 170570
+        },
+        {
+          "word": "daughter.",
+          "startMs": 170680,
+          "endMs": 171570
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-23",
+      "chapterId": "ch-2",
+      "startMs": 172310,
+      "endMs": 177270,
+      "pauseAfterMs": 240,
+      "text": "Arkadaşın sana Have you got a grandmother?",
+      "markedText": "Arkadaşın sana Have you got a grandmother?",
+      "words": [
+        {
+          "word": "Arkadaşın",
+          "startMs": 172310,
+          "endMs": 173510
+        },
+        {
+          "word": "sana",
+          "startMs": 173690,
+          "endMs": 173960
+        },
+        {
+          "word": "Have",
+          "startMs": 174370,
+          "endMs": 174800
+        },
+        {
+          "word": "you",
+          "startMs": 175150,
+          "endMs": 175380
+        },
+        {
+          "word": "got",
+          "startMs": 175470,
+          "endMs": 175760
+        },
+        {
+          "word": "a",
+          "startMs": 176060,
+          "endMs": 176100
+        },
+        {
+          "word": "grandmother?",
+          "startMs": 176100,
+          "endMs": 177030
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-24",
+      "chapterId": "ch-2",
+      "startMs": 177270,
+      "endMs": 183950,
+      "pauseAfterMs": 630,
+      "text": "diye sorarsa Yes, I have ya da No, I haven't diye cevap verirsin.",
+      "markedText": "diye sorarsa Yes, I have ya da No, I haven't diye cevap verirsin.",
+      "words": [
+        {
+          "word": "diye",
+          "startMs": 177270,
+          "endMs": 177420
+        },
+        {
+          "word": "sorarsa",
+          "startMs": 177420,
+          "endMs": 177840
+        },
+        {
+          "word": "Yes,",
+          "startMs": 177950,
+          "endMs": 178150
+        },
+        {
+          "word": "I",
+          "startMs": 178150,
+          "endMs": 178240
+        },
+        {
+          "word": "have",
+          "startMs": 178280,
+          "endMs": 178770
+        },
+        {
+          "word": "ya",
+          "startMs": 179740,
+          "endMs": 179970
+        },
+        {
+          "word": "da",
+          "startMs": 180600,
+          "endMs": 180790
+        },
+        {
+          "word": "No,",
+          "startMs": 180790,
+          "endMs": 180910
+        },
+        {
+          "word": "I",
+          "startMs": 181200,
+          "endMs": 181240
+        },
+        {
+          "word": "haven't",
+          "startMs": 181240,
+          "endMs": 181570
+        },
+        {
+          "word": "diye",
+          "startMs": 181850,
+          "endMs": 182240
+        },
+        {
+          "word": "cevap",
+          "startMs": 182340,
+          "endMs": 182770
+        },
+        {
+          "word": "verirsin.",
+          "startMs": 182920,
+          "endMs": 183320
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-25",
+      "chapterId": "ch-2",
+      "startMs": 183950,
+      "endMs": 201270,
+      "pauseAfterMs": 0,
+      "text": "Fotoğrafta üç kişi varsa This is my mother, this is my father, and this is my brother diye tek tek gösterebilirsin",
+      "markedText": "Fotoğrafta üç kişi varsa This is my mother, this is my father, and this is my brother diye tek tek gösterebilirsin",
+      "words": [
+        {
+          "word": "Fotoğrafta",
+          "startMs": 183950,
+          "endMs": 186090
+        },
+        {
+          "word": "üç",
+          "startMs": 187100,
+          "endMs": 187330
+        },
+        {
+          "word": "kişi",
+          "startMs": 187920,
+          "endMs": 188190
+        },
+        {
+          "word": "varsa",
+          "startMs": 188450,
+          "endMs": 188900
+        },
+        {
+          "word": "This",
+          "startMs": 189320,
+          "endMs": 189570
+        },
+        {
+          "word": "is",
+          "startMs": 190120,
+          "endMs": 190210
+        },
+        {
+          "word": "my",
+          "startMs": 190270,
+          "endMs": 190500
+        },
+        {
+          "word": "mother,",
+          "startMs": 190860,
+          "endMs": 191600
+        },
+        {
+          "word": "this",
+          "startMs": 191810,
+          "endMs": 191910
+        },
+        {
+          "word": "is",
+          "startMs": 191950,
+          "endMs": 192190
+        },
+        {
+          "word": "my",
+          "startMs": 192190,
+          "endMs": 192430
+        },
+        {
+          "word": "father,",
+          "startMs": 192430,
+          "endMs": 193260
+        },
+        {
+          "word": "and",
+          "startMs": 194400,
+          "endMs": 194790
+        },
+        {
+          "word": "this",
+          "startMs": 194940,
+          "endMs": 195240
+        },
+        {
+          "word": "is",
+          "startMs": 195330,
+          "endMs": 195630
+        },
+        {
+          "word": "my",
+          "startMs": 195940,
+          "endMs": 196030
+        },
+        {
+          "word": "brother",
+          "startMs": 196150,
+          "endMs": 197020
+        },
+        {
+          "word": "diye",
+          "startMs": 197830,
+          "endMs": 198550
+        },
+        {
+          "word": "tek",
+          "startMs": 198550,
+          "endMs": 198910
+        },
+        {
+          "word": "tek",
+          "startMs": 199180,
+          "endMs": 199360
+        },
+        {
+          "word": "gösterebilirsin",
+          "startMs": 199700,
+          "endMs": 201270
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-26",
+      "chapterId": "ch-2",
+      "startMs": 201270,
+      "endMs": 203670,
+      "pauseAfterMs": 670,
+      "text": "Altın İpucu!",
+      "markedText": "Altın İpucu!",
+      "words": [
+        {
+          "word": "Altın",
+          "startMs": 201270,
+          "endMs": 201640
+        },
+        {
+          "word": "İpucu!",
+          "startMs": 202190,
+          "endMs": 203000
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-27",
+      "chapterId": "ch-2",
+      "startMs": 203670,
+      "endMs": 209530,
+      "pauseAfterMs": 1020,
+      "text": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "markedText": "Bunu bir kez görünce kolayca hatırlarsın.",
+      "words": [
+        {
+          "word": "Bunu",
+          "startMs": 203670,
+          "endMs": 204340
+        },
+        {
+          "word": "bir",
+          "startMs": 204420,
+          "endMs": 204660
+        },
+        {
+          "word": "kez",
+          "startMs": 204950,
+          "endMs": 205340
+        },
+        {
+          "word": "görünce",
+          "startMs": 205760,
+          "endMs": 206170
+        },
+        {
+          "word": "kolayca",
+          "startMs": 206510,
+          "endMs": 206890
+        },
+        {
+          "word": "hatırlarsın.",
+          "startMs": 207140,
+          "endMs": 208510
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-28",
+      "chapterId": "ch-2",
+      "startMs": 209530,
+      "endMs": 217600,
+      "pauseAfterMs": 240,
+      "text": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "markedText": "Şimdi sevgili arkadaşım, işte tam bu noktada dikkat etmen gereken kilit nokta.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 209530,
+          "endMs": 209930
+        },
+        {
+          "word": "sevgili",
+          "startMs": 209970,
+          "endMs": 210360
+        },
+        {
+          "word": "arkadaşım,",
+          "startMs": 210680,
+          "endMs": 211580
+        },
+        {
+          "word": "işte",
+          "startMs": 212480,
+          "endMs": 212790
+        },
+        {
+          "word": "tam",
+          "startMs": 212790,
+          "endMs": 213000
+        },
+        {
+          "word": "bu",
+          "startMs": 213000,
+          "endMs": 213170
+        },
+        {
+          "word": "noktada",
+          "startMs": 213310,
+          "endMs": 213760
+        },
+        {
+          "word": "dikkat",
+          "startMs": 213820,
+          "endMs": 214110
+        },
+        {
+          "word": "etmen",
+          "startMs": 214210,
+          "endMs": 214540
+        },
+        {
+          "word": "gereken",
+          "startMs": 214540,
+          "endMs": 215600
+        },
+        {
+          "word": "kilit",
+          "startMs": 216250,
+          "endMs": 216630
+        },
+        {
+          "word": "nokta.",
+          "startMs": 216820,
+          "endMs": 217360
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-29",
+      "chapterId": "ch-2",
+      "startMs": 217600,
+      "endMs": 225640,
+      "pauseAfterMs": 870,
+      "text": "He ve she ile have got demek kalıbı bozar; o öznelerde has got durur.",
+      "markedText": "He ve she ile have got demek kalıbı bozar; o öznelerde has got durur.",
+      "words": [
+        {
+          "word": "He",
+          "startMs": 217600,
+          "endMs": 217750
+        },
+        {
+          "word": "ve",
+          "startMs": 217750,
+          "endMs": 217850
+        },
+        {
+          "word": "she",
+          "startMs": 217850,
+          "endMs": 218030
+        },
+        {
+          "word": "ile",
+          "startMs": 218080,
+          "endMs": 218730
+        },
+        {
+          "word": "have",
+          "startMs": 219600,
+          "endMs": 219840
+        },
+        {
+          "word": "got",
+          "startMs": 219840,
+          "endMs": 220060
+        },
+        {
+          "word": "demek",
+          "startMs": 220190,
+          "endMs": 220600
+        },
+        {
+          "word": "kalıbı",
+          "startMs": 220600,
+          "endMs": 221100
+        },
+        {
+          "word": "bozar;",
+          "startMs": 221190,
+          "endMs": 221900
+        },
+        {
+          "word": "o",
+          "startMs": 223080,
+          "endMs": 223170
+        },
+        {
+          "word": "öznelerde",
+          "startMs": 223170,
+          "endMs": 223560
+        },
+        {
+          "word": "has",
+          "startMs": 223600,
+          "endMs": 223800
+        },
+        {
+          "word": "got",
+          "startMs": 223800,
+          "endMs": 224060
+        },
+        {
+          "word": "durur.",
+          "startMs": 224060,
+          "endMs": 224770
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-30",
+      "chapterId": "ch-2",
+      "startMs": 225640,
+      "endMs": 232770,
+      "pauseAfterMs": 1080,
+      "text": "I has got da aynı biçimde yanlıştır, çünkü I ile have got gelir.",
+      "markedText": "I has got da aynı biçimde yanlıştır, çünkü I ile have got gelir.",
+      "words": [
+        {
+          "word": "I",
+          "startMs": 225640,
+          "endMs": 225780
+        },
+        {
+          "word": "has",
+          "startMs": 225780,
+          "endMs": 226040
+        },
+        {
+          "word": "got",
+          "startMs": 226040,
+          "endMs": 226240
+        },
+        {
+          "word": "da",
+          "startMs": 226450,
+          "endMs": 226630
+        },
+        {
+          "word": "aynı",
+          "startMs": 226630,
+          "endMs": 227000
+        },
+        {
+          "word": "biçimde",
+          "startMs": 227000,
+          "endMs": 227520
+        },
+        {
+          "word": "yanlıştır,",
+          "startMs": 227680,
+          "endMs": 228610
+        },
+        {
+          "word": "çünkü",
+          "startMs": 229220,
+          "endMs": 229700
+        },
+        {
+          "word": "I",
+          "startMs": 229850,
+          "endMs": 229940
+        },
+        {
+          "word": "ile",
+          "startMs": 230170,
+          "endMs": 230260
+        },
+        {
+          "word": "have",
+          "startMs": 230520,
+          "endMs": 230710
+        },
+        {
+          "word": "got",
+          "startMs": 230710,
+          "endMs": 230840
+        },
+        {
+          "word": "gelir.",
+          "startMs": 230840,
+          "endMs": 231690
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-31",
+      "chapterId": "ch-2",
+      "startMs": 232770,
+      "endMs": 246340,
+      "pauseAfterMs": 1030,
+      "text": "Aile üyesinin adını söylerken my sözcüğünü unutma: my sister benim kız kardeşim demektir.",
+      "markedText": "Aile üyesinin adını söylerken my sözcüğünü unutma: my sister benim kız kardeşim demektir.",
+      "words": [
+        {
+          "word": "Aile",
+          "startMs": 232770,
+          "endMs": 233150
+        },
+        {
+          "word": "üyesinin",
+          "startMs": 233220,
+          "endMs": 234250
+        },
+        {
+          "word": "adını",
+          "startMs": 234350,
+          "endMs": 235290
+        },
+        {
+          "word": "söylerken",
+          "startMs": 236570,
+          "endMs": 237320
+        },
+        {
+          "word": "my",
+          "startMs": 237320,
+          "endMs": 237560
+        },
+        {
+          "word": "sözcüğünü",
+          "startMs": 237660,
+          "endMs": 238300
+        },
+        {
+          "word": "unutma:",
+          "startMs": 238300,
+          "endMs": 239400
+        },
+        {
+          "word": "my",
+          "startMs": 240290,
+          "endMs": 240690
+        },
+        {
+          "word": "sister",
+          "startMs": 240760,
+          "endMs": 241320
+        },
+        {
+          "word": "benim",
+          "startMs": 241650,
+          "endMs": 242060
+        },
+        {
+          "word": "kız",
+          "startMs": 242520,
+          "endMs": 242960
+        },
+        {
+          "word": "kardeşim",
+          "startMs": 243320,
+          "endMs": 243720
+        },
+        {
+          "word": "demektir.",
+          "startMs": 243910,
+          "endMs": 245310
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-32",
+      "chapterId": "ch-2",
+      "startMs": 246340,
+      "endMs": 254330,
+      "pauseAfterMs": 620,
+      "text": "Family Life konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "markedText": "Family Life konusunda kuralın tersini sanmak tuzaktır; ters cümle yanlıştır.",
+      "words": [
+        {
+          "word": "Family",
+          "startMs": 246340,
+          "endMs": 246690
+        },
+        {
+          "word": "Life",
+          "startMs": 246810,
+          "endMs": 247100
+        },
+        {
+          "word": "konusunda",
+          "startMs": 247200,
+          "endMs": 247920
+        },
+        {
+          "word": "kuralın",
+          "startMs": 248180,
+          "endMs": 248570
+        },
+        {
+          "word": "tersini",
+          "startMs": 248640,
+          "endMs": 248880
+        },
+        {
+          "word": "sanmak",
+          "startMs": 248920,
+          "endMs": 249480
+        },
+        {
+          "word": "tuzaktır;",
+          "startMs": 250740,
+          "endMs": 251350
+        },
+        {
+          "word": "ters",
+          "startMs": 251560,
+          "endMs": 252020
+        },
+        {
+          "word": "cümle",
+          "startMs": 252020,
+          "endMs": 252620
+        },
+        {
+          "word": "yanlıştır.",
+          "startMs": 252780,
+          "endMs": 253710
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-33",
+      "chapterId": "ch-3",
+      "startMs": 254330,
+      "endMs": 257870,
+      "pauseAfterMs": 1070,
+      "text": "Bugün Neler Öğrendik?",
+      "markedText": "Bugün Neler Öğrendik?",
+      "words": [
+        {
+          "word": "Bugün",
+          "startMs": 254330,
+          "endMs": 254800
+        },
+        {
+          "word": "Neler",
+          "startMs": 254960,
+          "endMs": 255370
+        },
+        {
+          "word": "Öğrendik?",
+          "startMs": 255640,
+          "endMs": 256800
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-34",
+      "chapterId": "ch-3",
+      "startMs": 257870,
+      "endMs": 258070,
+      "pauseAfterMs": 0,
+      "text": "1.",
+      "markedText": "1.",
+      "words": [
+        {
+          "word": "1.",
+          "startMs": 257870,
+          "endMs": 258070
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-35",
+      "chapterId": "ch-3",
+      "startMs": 258070,
+      "endMs": 266780,
+      "pauseAfterMs": 360,
+      "text": "Family Life içinde anne, baba, kardeş, nine ve dede İngilizce adlarıyla söylenir.",
+      "markedText": "Family Life içinde anne, baba, kardeş, nine ve dede İngilizce adlarıyla söylenir.",
+      "words": [
+        {
+          "word": "Family",
+          "startMs": 258070,
+          "endMs": 258590
+        },
+        {
+          "word": "Life",
+          "startMs": 258590,
+          "endMs": 258750
+        },
+        {
+          "word": "içinde",
+          "startMs": 258860,
+          "endMs": 259360
+        },
+        {
+          "word": "anne,",
+          "startMs": 259440,
+          "endMs": 259740
+        },
+        {
+          "word": "baba,",
+          "startMs": 259740,
+          "endMs": 260400
+        },
+        {
+          "word": "kardeş,",
+          "startMs": 261680,
+          "endMs": 261940
+        },
+        {
+          "word": "nine",
+          "startMs": 262050,
+          "endMs": 262330
+        },
+        {
+          "word": "ve",
+          "startMs": 262330,
+          "endMs": 262420
+        },
+        {
+          "word": "dede",
+          "startMs": 262420,
+          "endMs": 262660
+        },
+        {
+          "word": "İngilizce",
+          "startMs": 262780,
+          "endMs": 263360
+        },
+        {
+          "word": "adlarıyla",
+          "startMs": 263360,
+          "endMs": 264500
+        },
+        {
+          "word": "söylenir.",
+          "startMs": 265390,
+          "endMs": 266420
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-36",
+      "chapterId": "ch-3",
+      "startMs": 266780,
+      "endMs": 267080,
+      "pauseAfterMs": 0,
+      "text": "2.",
+      "markedText": "2.",
+      "words": [
+        {
+          "word": "2.",
+          "startMs": 266780,
+          "endMs": 267080
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-37",
+      "chapterId": "ch-3",
+      "startMs": 267080,
+      "endMs": 275860,
+      "pauseAfterMs": 1270,
+      "text": "I, you, we ve they ile have got; he, she ve it ile has got gelir.",
+      "markedText": "I, you, we ve they ile have got; he, she ve it ile has got gelir.",
+      "words": [
+        {
+          "word": "I,",
+          "startMs": 267080,
+          "endMs": 267160
+        },
+        {
+          "word": "you,",
+          "startMs": 267630,
+          "endMs": 268020
+        },
+        {
+          "word": "we",
+          "startMs": 268430,
+          "endMs": 268520
+        },
+        {
+          "word": "ve",
+          "startMs": 268680,
+          "endMs": 268810
+        },
+        {
+          "word": "they",
+          "startMs": 269020,
+          "endMs": 269220
+        },
+        {
+          "word": "ile",
+          "startMs": 269220,
+          "endMs": 269520
+        },
+        {
+          "word": "have",
+          "startMs": 269610,
+          "endMs": 269830
+        },
+        {
+          "word": "got;",
+          "startMs": 269910,
+          "endMs": 270430
+        },
+        {
+          "word": "he,",
+          "startMs": 271460,
+          "endMs": 271550
+        },
+        {
+          "word": "she",
+          "startMs": 271550,
+          "endMs": 271770
+        },
+        {
+          "word": "ve",
+          "startMs": 271910,
+          "endMs": 272080
+        },
+        {
+          "word": "it",
+          "startMs": 272080,
+          "endMs": 272210
+        },
+        {
+          "word": "ile",
+          "startMs": 272320,
+          "endMs": 273020
+        },
+        {
+          "word": "has",
+          "startMs": 273320,
+          "endMs": 273500
+        },
+        {
+          "word": "got",
+          "startMs": 273500,
+          "endMs": 273680
+        },
+        {
+          "word": "gelir.",
+          "startMs": 273750,
+          "endMs": 274590
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-38",
+      "chapterId": "ch-3",
+      "startMs": 275860,
+      "endMs": 276020,
+      "pauseAfterMs": 0,
+      "text": "3.",
+      "markedText": "3.",
+      "words": [
+        {
+          "word": "3.",
+          "startMs": 275860,
+          "endMs": 276020
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-39",
+      "chapterId": "ch-3",
+      "startMs": 276020,
+      "endMs": 285340,
+      "pauseAfterMs": 1100,
+      "text": "Soru Have you got ile kurulur; kısa cevap Yes, I have ya da No, I haven't olur.",
+      "markedText": "Soru Have you got ile kurulur; kısa cevap Yes, I have ya da No, I haven't olur.",
+      "words": [
+        {
+          "word": "Soru",
+          "startMs": 276020,
+          "endMs": 276440
+        },
+        {
+          "word": "Have",
+          "startMs": 276670,
+          "endMs": 276980
+        },
+        {
+          "word": "you",
+          "startMs": 276980,
+          "endMs": 277410
+        },
+        {
+          "word": "got",
+          "startMs": 277750,
+          "endMs": 278040
+        },
+        {
+          "word": "ile",
+          "startMs": 278040,
+          "endMs": 278360
+        },
+        {
+          "word": "kurulur;",
+          "startMs": 278440,
+          "endMs": 278870
+        },
+        {
+          "word": "kısa",
+          "startMs": 279050,
+          "endMs": 279390
+        },
+        {
+          "word": "cevap",
+          "startMs": 279430,
+          "endMs": 280020
+        },
+        {
+          "word": "Yes,",
+          "startMs": 280140,
+          "endMs": 280940
+        },
+        {
+          "word": "I",
+          "startMs": 281790,
+          "endMs": 281920
+        },
+        {
+          "word": "have",
+          "startMs": 282020,
+          "endMs": 282170
+        },
+        {
+          "word": "ya",
+          "startMs": 282340,
+          "endMs": 282480
+        },
+        {
+          "word": "da",
+          "startMs": 282540,
+          "endMs": 282670
+        },
+        {
+          "word": "No,",
+          "startMs": 282780,
+          "endMs": 282890
+        },
+        {
+          "word": "I",
+          "startMs": 283130,
+          "endMs": 283290
+        },
+        {
+          "word": "haven't",
+          "startMs": 283290,
+          "endMs": 283590
+        },
+        {
+          "word": "olur.",
+          "startMs": 283590,
+          "endMs": 284240
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-40",
+      "chapterId": "ch-3",
+      "startMs": 285340,
+      "endMs": 292940,
+      "pauseAfterMs": 1000,
+      "text": "Aile cümlesi özneye göre have got ya da has got ile kurulur.",
+      "markedText": "Aile cümlesi özneye göre have got ya da has got ile kurulur.",
+      "words": [
+        {
+          "word": "Aile",
+          "startMs": 285340,
+          "endMs": 285770
+        },
+        {
+          "word": "cümlesi",
+          "startMs": 286090,
+          "endMs": 286700
+        },
+        {
+          "word": "özneye",
+          "startMs": 286940,
+          "endMs": 287450
+        },
+        {
+          "word": "göre",
+          "startMs": 287940,
+          "endMs": 288240
+        },
+        {
+          "word": "have",
+          "startMs": 288240,
+          "endMs": 288430
+        },
+        {
+          "word": "got",
+          "startMs": 288430,
+          "endMs": 288570
+        },
+        {
+          "word": "ya",
+          "startMs": 288700,
+          "endMs": 288930
+        },
+        {
+          "word": "da",
+          "startMs": 288930,
+          "endMs": 289190
+        },
+        {
+          "word": "has",
+          "startMs": 290040,
+          "endMs": 290180
+        },
+        {
+          "word": "got",
+          "startMs": 290180,
+          "endMs": 290320
+        },
+        {
+          "word": "ile",
+          "startMs": 290500,
+          "endMs": 290850
+        },
+        {
+          "word": "kurulur.",
+          "startMs": 290980,
+          "endMs": 291940
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-41",
+      "chapterId": "ch-3",
+      "startMs": 292940,
+      "endMs": 298180,
+      "pauseAfterMs": 980,
+      "text": "Bir aile üyesini my ve have got ile tanıtırısın.",
+      "markedText": "Bir aile üyesini my ve have got ile tanıtırısın.",
+      "words": [
+        {
+          "word": "Bir",
+          "startMs": 292940,
+          "endMs": 293340
+        },
+        {
+          "word": "aile",
+          "startMs": 293440,
+          "endMs": 293700
+        },
+        {
+          "word": "üyesini",
+          "startMs": 294150,
+          "endMs": 294820
+        },
+        {
+          "word": "my",
+          "startMs": 294820,
+          "endMs": 294860
+        },
+        {
+          "word": "ve",
+          "startMs": 294860,
+          "endMs": 294930
+        },
+        {
+          "word": "have",
+          "startMs": 295070,
+          "endMs": 295220
+        },
+        {
+          "word": "got",
+          "startMs": 295330,
+          "endMs": 295490
+        },
+        {
+          "word": "ile",
+          "startMs": 295640,
+          "endMs": 295880
+        },
+        {
+          "word": "tanıtırısın.",
+          "startMs": 296190,
+          "endMs": 297200
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-42",
+      "chapterId": "ch-3",
+      "startMs": 298180,
+      "endMs": 301010,
+      "pauseAfterMs": 1030,
+      "text": "Tebrikler çocuklar!",
+      "markedText": "Tebrikler çocuklar!",
+      "words": [
+        {
+          "word": "Tebrikler",
+          "startMs": 298180,
+          "endMs": 298980
+        },
+        {
+          "word": "çocuklar!",
+          "startMs": 299090,
+          "endMs": 299980
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-43",
+      "chapterId": "ch-3",
+      "startMs": 301010,
+      "endMs": 305080,
+      "pauseAfterMs": 950,
+      "text": "Harika bir iş çıkardık.",
+      "markedText": "Harika bir iş çıkardık.",
+      "words": [
+        {
+          "word": "Harika",
+          "startMs": 301010,
+          "endMs": 301760
+        },
+        {
+          "word": "bir",
+          "startMs": 302050,
+          "endMs": 302290
+        },
+        {
+          "word": "iş",
+          "startMs": 302290,
+          "endMs": 302590
+        },
+        {
+          "word": "çıkardık.",
+          "startMs": 302710,
+          "endMs": 304130
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-44",
+      "chapterId": "ch-3",
+      "startMs": 305080,
+      "endMs": 306490,
+      "pauseAfterMs": 380,
+      "text": "Şimdi sıra sende.",
+      "markedText": "Şimdi sıra sende.",
+      "words": [
+        {
+          "word": "Şimdi",
+          "startMs": 305080,
+          "endMs": 305330
+        },
+        {
+          "word": "sıra",
+          "startMs": 305430,
+          "endMs": 305750
+        },
+        {
+          "word": "sende.",
+          "startMs": 305960,
+          "endMs": 306110
+        }
+      ],
+      "keyframes": []
+    },
+    {
+      "id": "cue-45",
+      "chapterId": "ch-3",
+      "startMs": 306490,
+      "endMs": 313005,
+      "pauseAfterMs": 435,
+      "text": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "markedText": "Aldığın bu notları mikrofona kendi sözlerinle anlat.",
+      "words": [
+        {
+          "word": "Aldığın",
+          "startMs": 306490,
+          "endMs": 307120
+        },
+        {
+          "word": "bu",
+          "startMs": 307340,
+          "endMs": 307650
+        },
+        {
+          "word": "notları",
+          "startMs": 308500,
+          "endMs": 309110
+        },
+        {
+          "word": "mikrofona",
+          "startMs": 309640,
+          "endMs": 310290
+        },
+        {
+          "word": "kendi",
+          "startMs": 310470,
+          "endMs": 310930
+        },
+        {
+          "word": "sözlerinle",
+          "startMs": 311040,
+          "endMs": 311820
+        },
+        {
+          "word": "anlat.",
+          "startMs": 311900,
+          "endMs": 312570
+        }
+      ],
+      "keyframes": []
+    }
+  ]
+}

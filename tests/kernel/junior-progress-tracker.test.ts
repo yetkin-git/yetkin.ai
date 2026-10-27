@@ -3,6 +3,7 @@ import {
   activityKindToGameId,
   badgeProgressCount,
   combinedReportScore,
+  guestSessionProgress,
   JUNIOR_BADGE_UNLOCK_THRESHOLD,
   juniorLessonProgressStorageKey,
   mergeGameComplete,
@@ -66,27 +67,48 @@ describe("junior progress-tracker", () => {
 
   it("etkinlik ve test puanını karne ortalamasına yazar", () => {
     const storage = memoryStorage();
-    recordActivityScore("p1", "jr_06_mat-5", 100, storage);
-    recordQuizScore("p1", "jr_06_mat-5", 80, storage);
-    const progress = readLessonProgress("p1", "jr_06_mat-5", storage);
+    recordActivityScore("p1", "jr_06_mat-1", 100, storage);
+    recordQuizScore("p1", "jr_06_mat-1", 80, storage);
+    const progress = readLessonProgress("p1", "jr_06_mat-1", storage);
     expect(progress.activityScore).toBe(100);
     expect(progress.quizScore).toBe(80);
     expect(combinedReportScore(progress)).toBe(90);
   });
 
   it("LocalStorage anahtarı profil ve dersi ayırır", () => {
-    expect(juniorLessonProgressStorageKey("p1", "jr_06_mat-5")).toBe(
-      "yetkin.junior.lesson-progress.v1:p1:jr_06_mat-5",
+    expect(juniorLessonProgressStorageKey("p1", "jr_06_mat-1")).toBe(
+      "yetkin.junior.lesson-progress.v1:p1:jr_06_mat-1",
     );
     const storage = memoryStorage();
     writeLessonProgress(
       "p1",
-      "jr_06_mat-5",
+      "jr_06_mat-1",
       { ...EMPTY, completedGames: ["match"], badgeUnlocked: false },
       storage,
     );
-    expect(readLessonProgress("p1", "jr_06_mat-5", storage).completedGames).toEqual(["match"]);
-    expect(readLessonProgress("p2", "jr_06_mat-5", storage).completedGames).toEqual([]);
+    expect(readLessonProgress("p1", "jr_06_mat-1", storage).completedGames).toEqual(["match"]);
+    expect(readLessonProgress("p2", "jr_06_mat-1", storage).completedGames).toEqual([]);
+  });
+
+  it("misafir yeni oturumda eski anonim oyunları taşımaz; deneme kilidi kalır", () => {
+    const stale: JuniorLessonProgress = {
+      ...EMPTY,
+      completedGames: ["match", "cloze", "puzzle"],
+      activityScore: 100,
+      quizScore: 80,
+      badgeUnlocked: true,
+      badgeCelebrated: true,
+      trialTellUsed: true,
+      trialQuizUsed: false,
+    };
+    const fresh = guestSessionProgress(EMPTY, stale);
+    expect(fresh.completedGames).toEqual([]);
+    expect(fresh.activityScore).toBeNull();
+    expect(fresh.quizScore).toBeNull();
+    expect(fresh.badgeUnlocked).toBe(false);
+    expect(fresh.trialTellUsed).toBe(true);
+    expect(fresh.trialQuizUsed).toBe(false);
+    expect(badgeProgressCount(fresh)).toBe(0);
   });
 
   it("kind / sim eşlemesi doğru kimlik üretir", () => {

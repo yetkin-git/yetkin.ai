@@ -1,8 +1,10 @@
 import { type JuniorHintKind } from "@/lib/junior/content-rules";
 import { JUNIOR_COURSE_TITLES } from "@/lib/junior/human-titles";
 import { JUNIOR_ELECTIVE_SLUGS, JUNIOR_PILOT_GRADE } from "@/lib/junior/limits";
-import { juniorLessonFromScenario } from "@/lib/junior/scenario";
+import { juniorLessonFromScenario, type JuniorLessonScenario } from "@/lib/junior/scenario";
 import type { JuniorLessonScript } from "@/lib/junior/types";
+
+const JUNIOR_ELECTIVE_SCENARIO_LIST: JuniorLessonScenario[] = [];
 
 export { JUNIOR_ELECTIVE_SLUGS };
 
@@ -46,7 +48,7 @@ function lesson(input: {
   const first = input.outcomes[0] ?? input.concept;
   const second = input.outcomes[1] ?? input.voice;
   const third = input.outcomes[2] ?? input.concept;
-  return juniorLessonFromScenario({
+  const scenario: JuniorLessonScenario = {
     key: input.key,
     title: input.title,
     teaser: input.teaser,
@@ -59,10 +61,17 @@ function lesson(input: {
     recap: [first, second, third],
     conceptSeal: input.concept,
     voiceSeal: input.voice,
-    outcomes: input.outcomes,
+    outcomes: [...input.outcomes],
     scene: "elective",
     band: "draft",
-  });
+  };
+  JUNIOR_ELECTIVE_SCENARIO_LIST.push(scenario);
+  return juniorLessonFromScenario(scenario);
+}
+
+/** Konu JSON'unun kaynağı. Çalışma zamanı dersi bu nesneden kurulur. */
+export function juniorElectiveScenarios(): readonly JuniorLessonScenario[] {
+  return JUNIOR_ELECTIVE_SCENARIO_LIST;
 }
 
 export const JUNIOR_ELECTIVE_COURSES = [

@@ -2,7 +2,7 @@ import {
   buildCueTimingFromBounds,
   parseMarkedCueText,
   type AuthoredCueSpec,
-} from "@/lib/junior/pilot-engine/mat-5.choreography";
+} from "@/lib/junior/pilot-engine/mat-1.choreography";
 import { timelineJsonSchema, type TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 import { JUNIOR_BAKE_ATEMPO } from "@/lib/junior/voice";
 
@@ -31,13 +31,18 @@ function speechMs(text: string): number {
   return Math.max(700, syllables * 170);
 }
 
-function sentences(text: string): string[] {
+/** Cümle bölmesi. Boşluklar tek boşluğa iner. Bölme, nokta, soru ve ünlemden sonraki boşluktadır. */
+export function splitJuniorCueSentences(text: string): string[] {
   return text
     .replace(/\s+/g, " ")
     .trim()
     .split(/(?<=[.!?])\s+/u)
     .map((part) => part.trim())
     .filter((part) => part.length > 0);
+}
+
+function sentences(text: string): string[] {
+  return splitJuniorCueSentences(text);
 }
 
 /** Konuşmayı değiştirmeden, hedef sözcüğün önüne görsel kanca koyar. */
@@ -52,7 +57,8 @@ export function insertSpeechHook(text: string, phrase: string, hook: string): st
 /**
  * Ders grafiği. Konuşma, kaset metninin cümleleridir.
  * Örnek cümlesi tek sekans kalır; görsel `atMs` o sekansın kelime saatine kilitlenir.
- * Saat ünlü tahminidir. PCM mührü değildir.
+ * Ünlü sayısı dalga yokken taslak süredir. Timeline JSON mührü bu taslağı
+ * `alignWordsByAcoustics` ile değiştirir. Taslak, karaoke mührü değildir.
  */
 export function buildLessonGraphTimeline(input: {
   lessonKey: string;
