@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { CourseList } from "@/components/academy/course-list";
 import { AcademyContinuePanel } from "@/components/academy/continue-panel";
 import { LegalColophonStrip } from "@/components/legal/legal-colophon-strip";
@@ -34,7 +33,9 @@ export const metadata: Metadata = pageMetadata(PAGE_SEO.academy);
  * EC-102 (`02_ecommerce_ai`) kamu kapısı açıktır; kartın yeşil düğmesi birinci dersi `/oyna` yolunda açar. Satın alma ikincildir.
  * `03_social_media_ai`, `04_chatbot_nocode` ve `05_prompt_practice` aynı kabuktadır.
  * Hayali oynatıcı basılmaz.
- * Junior müstakil odadır. Vitrin kartına gömülmez; tek satırlık kapı pilot derse gider.
+ * Junior müstakil odadır. Vitrin kartına ve **ana akışa** gömülmez; yetişkin ofis
+ * eğitimi satan bir vitrinde ilkokul veli kapısı değer önerisini bulandırıyordu.
+ * Junior odası kendi adresinden (`/junior`) açılır.
  */
 export default async function AcademyPage() {
   const copy = SEN_VOICE.academy.catalog;
@@ -75,19 +76,9 @@ export default async function AcademyPage() {
         title={copy.title}
         certificatesCta={copy.certificatesCta}
         lead={
-          <>
-            <p className="text-sm leading-6 text-[var(--muted)]" data-room-handoff="junior">
-              <Link
-                href="/junior/ders/jr_06_mat-1"
-                className="font-semibold text-[var(--safir-deep)] underline underline-offset-4"
-              >
-                6. sınıf velisiysen pilot matematik dersi Junior’da açık.
-              </Link>
-            </p>
-            {isAcademyContinueResumeStrip(continueBoard) ? (
-              <AcademyContinuePanel board={continueBoard} />
-            ) : null}
-          </>
+          isAcademyContinueResumeStrip(continueBoard) ? (
+            <AcademyContinuePanel board={continueBoard} />
+          ) : null
         }
         footer={<LegalColophonStrip />}
       />

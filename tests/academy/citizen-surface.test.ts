@@ -43,7 +43,7 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
   it("/academy ve /cuzdan siz kaçakları taşımaz; SEN_VOICE bağlar", () => {
     expect(SEN_VOICE.cuzdan.closedLoopBody).toContain("Cüzdan Akademi eğitim tahsilatı içindir");
     expect(SEN_VOICE.cuzdan.closedLoopBody).not.toContain("Bakiyeniz");
-    expect(SEN_VOICE.academy.catalog.description).toContain("Eğitimi incele");
+    expect(SEN_VOICE.academy.catalog.description).toContain("İlk dersi ücretsiz izle");
     expect(PRICE_LOCK_GRACE_MINUTES).toBe(15);
     expect(PRICE_LOCK_GRACE_MS).toBe(PRICE_LOCK_GRACE_MINUTES * 60 * 1000);
 
@@ -73,12 +73,18 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
   it("vitrin kopyası defter jargonu ve süzgeç UI sızdırmaz; dinle kapalı", () => {
     const copy = SEN_VOICE.academy;
     const ledgerLeak = /SETTLED|amountMinor|CheckoutPriceLock|settlement|debit|escrow/i;
-    expect(copy.catalog.description).toContain("Dersler ödeme sonrası açılır");
-    expect(copy.catalog.description).toContain("yayındadır");
+    // 5 saniye testi: ne sunuluyor · süre · kazanç. İç organizasyon dili ve keyword
+    // dolgusu vitrin gövdesinden çıktı (P1 tedavi); SSS ve meta SEO niyetini taşır.
+    expect(copy.catalog.description).toContain("sekiz sesli ders");
+    expect(copy.catalog.description).toContain("74 dakika");
+    expect(copy.catalog.description).toContain("70+");
+    expect(copy.catalog.description).toContain("İlk dersi ücretsiz izle");
+    expect(copy.catalog.description).not.toContain("yayındadır");
+    expect(copy.catalog.description).not.toContain("ayrı rafta");
+    expect(copy.catalog.description).not.toContain("Vitrinin merkezinde");
     expect(copy.catalog.description).not.toContain("fırın");
-    // Vitrin istatistiği altı kartı saymaz: tek kahraman + ileri raf ayrımını söyler.
-    // (Faz 3, Adım 1 — "6 eğitim yayında" cümlesi 'hangisini seçeyim?' sorusunu üretiyordu.)
-    expect(copy.catalog.stats).toBe("Tek öne çıkan eğitim · 5 ileri modül ayrı rafta");
+    // Vitrin istatistiği eğitim sayısını değil ürünü anlatır.
+    expect(copy.catalog.stats).toBe("8 sesli ders · 74 dk · baraj 70+ · sertifika");
     expect(copy.catalog.stats).not.toContain("6 eğitim");
     expect(copy.catalog.description).not.toContain("13 eğitim");
     expect(copy.catalog.description).not.toMatch(ledgerLeak);

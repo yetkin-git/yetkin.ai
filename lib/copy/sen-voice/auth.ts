@@ -29,7 +29,7 @@ export const AUTH_SEN = {
   },
   register: {
     title: "Kayıt",
-    description: "Hesap aç; Türk Lirası cüzdanın seninle kurulur.",
+    description: "Üç adım: e-posta, şifre, yaş beyanı. Cüzdanın seninle kurulur.",
     unbound: "Kayıt henüz bağlanmadı. Bağlantı tamamlanınca hesabın ve cüzdanın burada açılır.",
     fullName: "Ad soyad",
     fullNameInvalid: "Ad soyad geçersiz.",
@@ -41,6 +41,13 @@ export const AUTH_SEN = {
     termsTermsLink: "Kullanım Koşulları",
     termsKvkkLink: "KVKK Aydınlatma Metni",
     termsConsentSuffix: "'ni okudum, kabul ediyorum.",
+    /**
+     * Kayıttaki tek yasal cümle. Tik yoktur: "Hesap oluştur" düğmesi kabuldür.
+     * Mesafeli satış / anında ifa rızası burada değil, Ödeme sayfasındadır.
+     */
+    signupConsentLead: "Hesap oluşturarak",
+    signupConsentTail:
+      "'nı okumuş ve kabul etmiş olursun. Sipariş ve ödeme onayları Ödeme sayfasında ayrıca alınır.",
     submit: "Hesap oluştur",
     pending: "Kayıt…",
     fail: "Kayıt başarısız.",

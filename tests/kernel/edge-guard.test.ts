@@ -147,11 +147,12 @@ describe("korumalı yazma yolları", () => {
 });
 
 describe("kenar kararları", () => {
-  it("müze yolunu 404, /kayit yolunu 308, kökü akademi 308 yapar; panel Genel Bakış'tır", () => {
+  it("müze yolunu 404, /kayit yolunu 308 yapar; kök marka iniş sayfasıdır; panel Genel Bakış'tır", () => {
     expect(decideEdgeAction("/yetkin.ai", false)).toEqual({ kind: "museum-404" });
     expect(decideEdgeAction("/kayit/", false)).toEqual({ kind: "kayit-308" });
-    expect(decideEdgeAction("/", false)).toEqual({ kind: "root-308" });
-    expect(decideEdgeAction("/", true)).toEqual({ kind: "root-308" });
+    // P1 tedavi: kök 308 kilidi kalktı; `/` markayı anlatan indeksli iniş sayfasıdır.
+    expect(decideEdgeAction("/", false)).toEqual({ kind: "next" });
+    expect(decideEdgeAction("/", true)).toEqual({ kind: "next" });
     expect(decideEdgeAction("/academy", false)).toEqual({ kind: "next" });
     expect(decideEdgeAction("/dashboard", false)).toEqual({ kind: "next" });
     expect(VERTICAL_ROOMS.find((room) => room.id === "dashboard")?.label).toBe("Genel Bakış");

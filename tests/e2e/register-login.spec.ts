@@ -33,7 +33,7 @@ async function fillLogin(page: Page, citizen: E2eCitizen) {
 }
 
 test.describe("vatandaş /register ve /login", () => {
-  test("/register form hataları: boş gönderim, geçersiz e-posta, kısa şifre, geçersiz ad soyad", async ({
+  test("/register form hataları: boş gönderim, geçersiz e-posta, kısa şifre", async ({
     page,
   }) => {
     await page.goto("/register");
@@ -41,13 +41,17 @@ test.describe("vatandaş /register ve /login", () => {
     await expect(page.locator("form")).toBeVisible();
     await expect(page.getByText("Kayıt henüz bağlanmadı")).toHaveCount(0);
 
+    // Üç alanlı kayıt (P1 tedavi): ad soyad yok; yaş beyanı + iki alan.
+    await expect(page.getByLabel("Ad soyad")).toHaveCount(0);
+    await expect(page.getByLabel("18 yaşından büyüğüm.")).toBeVisible();
+
     await page.getByRole("button", { name: "Hesap oluştur" }).click();
     await expect(page).toHaveURL(/\/register\/?$/);
-    expect(await validationMessage(page, page.getByLabel("Ad soyad"))).not.toBe("");
+    expect(await validationMessage(page, page.getByLabel("E-posta"))).not.toBe("");
 
-    await page.getByLabel("Ad soyad").fill("Ayşe Kaya");
     await page.getByLabel("E-posta").fill("not-an-email");
     await page.getByRole("textbox", { name: "Şifre" }).fill("rail-e2e-sim-8");
+    await page.getByLabel("18 yaşından büyüğüm.").check();
     await page.getByRole("button", { name: "Hesap oluştur" }).click();
     await expect(page).toHaveURL(/\/register\/?$/);
     expect(await validationMessage(page, page.getByLabel("E-posta"))).not.toBe("");
@@ -57,13 +61,6 @@ test.describe("vatandaş /register ve /login", () => {
     await page.getByRole("button", { name: "Hesap oluştur" }).click();
     await expect(page).toHaveURL(/\/register\/?$/);
     expect(await validationMessage(page, page.getByRole("textbox", { name: "Şifre" }))).not.toBe("");
-
-    await page.getByLabel("Ad soyad").fill("   ");
-    await page.getByLabel("E-posta").fill("e2e.register.invalid@example.com");
-    await page.getByRole("textbox", { name: "Şifre" }).fill("rail-e2e-sim-8");
-    await page.getByRole("button", { name: "Hesap oluştur" }).click();
-    await expect(page.getByTestId("register-error")).toHaveText("Ad soyad geçersiz.");
-    await expect(page).toHaveURL(/\/register\/?$/);
   });
 
   test("/login form hataları: boş gönderim ve geçersiz kimlik", async ({ page }) => {
@@ -95,9 +92,9 @@ test.describe("vatandaş /register ve /login", () => {
 
     await page.goto("/register");
     await expect(page.getByRole("heading", { name: "Kayıt" })).toBeVisible();
-    await page.getByLabel("Ad soyad").fill("E2E Vatandaş");
     await page.getByLabel("E-posta").fill(citizen.email);
     await page.getByRole("textbox", { name: "Şifre" }).fill(citizen.password);
+    await page.getByLabel("18 yaşından büyüğüm.").check();
     await page.getByRole("button", { name: "Hesap oluştur" }).click();
     await expect(page.getByTestId("register-error")).toBeVisible({ timeout: 30_000 });
     await expect(page.getByTestId("register-error")).toHaveText(

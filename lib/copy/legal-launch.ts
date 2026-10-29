@@ -131,7 +131,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         heading: "2. Gizlilik politikası — Ne toplanır, ne toplanmaz?",
         paragraphs: [
           "İşlenen başlıca veriler: Hesap e-postası, görünen ad, oturum çerezleri, bakiye bilgisi, değiştirilemez hesap hareketleri (işlem tutarları ve para birimi), akademi sınav oturumu/cevapları ve dijital olarak doğrulanabilir sertifika kodlarıdır.",
-          "Sitemizde kişiselleştirilmiş reklam takibi, çerez tabanlı yeniden hedefleme (retargeting) veya üçüncü taraf analitik izleme kodları bulunmamaktadır. Kredi kartı numaranız platform sunucularımızda asla tutulmaz; kart tahsilatları Yetkili Ödeme Kuruluşu altyapısı üzerinden güvenle yürütülür.",
+          "Kişiselleştirilmiş reklam takibi ve çerezle yeniden hedefleme yoktur. Sayfanın nasıl kullanıldığını ve satın alma adımının nerede kaldığını ölçmek için Google Analytics (GA4) kullanırız. Bu, birinci taraf dönüşüm ve performans ölçümüdür; reklam profili kurulmaz. Kredi kartı numaranız platform sunucularımızda asla tutulmaz; kart tahsilatları Yetkili Ödeme Kuruluşu altyapısı üzerinden güvenle yürütülür.",
         ],
       },
       {
@@ -155,7 +155,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "cerez",
         heading: "5. Çerez politikası",
         paragraphs: [
-          "Oturumunuzu açık tutmak için zorunlu kimlik çerezleri kullanılır. Sitemizde reklam, yeniden hedefleme veya üçüncü taraf analitik izleme kodu bulunmamaktadır.",
+          "Oturumunuzu açık tutmak için zorunlu kimlik çerezleri kullanılır. Reklam ve yeniden hedefleme çerezi yoktur. Dönüşüm ve sayfa performansını ölçmek için Google Analytics (GA4) kullanırız. Bu ölçüm birinci taraftır; reklam profili oluşturmaz.",
           "Kart ödemesinde Yetkili Ödeme Kuruluşu kendi sayfasını açabilir; o çerezler sağlayıcının politikasına tabidir. Zorunlu oturum çerezi olmadan hesabına giriş yapılamaz. Pazarlama çerezi kullanılmadığı için bu konuda ayrı bir izin istenmez.",
           `Çerez ve gizlilik talepleriniz ${LEGAL_SUPPORT_EMAIL} üzerinden alınır.`,
         ],
@@ -181,7 +181,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         heading: "1. Hangi çerezler kullanılır?",
         paragraphs: [
           `Bu çerez politikası ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}) tarafından sunulan ${LEGAL_ENTITY.brandName} platformu içindir. Tebligat adresi: ${LEGAL_ENTITY.address}.`,
-          "Oturumunuzu açık tutmak için zorunlu kimlik çerezleri kullanılır. Sitemizde reklam, yeniden hedefleme veya üçüncü taraf analitik izleme kodu bulunmamaktadır.",
+          "Oturumunuzu açık tutmak için zorunlu kimlik çerezleri kullanılır. Reklam ve yeniden hedefleme çerezi yoktur. Dönüşüm ve sayfa performansını ölçmek için Google Analytics (GA4) kullanırız. Bu ölçüm birinci taraftır; reklam profili oluşturmaz.",
         ],
       },
       {

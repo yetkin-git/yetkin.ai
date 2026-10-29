@@ -210,20 +210,11 @@ const nextConfig: NextConfig = {
         destination: "https://yetkin.ai/vize/:id",
         statusCode: 301,
       },
-      // CEO: soğuk iniş kalkar. www kökü tek hopta kanonik kataloğa iner.
-      {
-        source: "/",
-        has: [{ type: "host", value: "www.yetkin.ai" }],
-        destination: "https://yetkin.ai/academy",
-        permanent: true,
-      },
-      // Apex ve yerel geliştirme aynı hostta kalır (`localhost` üretime kaçmaz).
-      // www kuralı önde durur; bu kural www'yu ikinci hopa bırakmaz.
-      {
-        source: "/",
-        destination: "/academy",
-        permanent: true,
-      },
+      // Kök `/` marka iniş sayfasıdır (`app/(public)/page.tsx`, robots index:true).
+      // Eski CEO kilidi (apex ve www → /academy, 308) kaldırıldı: "yetkin.ai nedir?"
+      // sorusunun cevabı katalog değil, markayı anlatan sayfadır. www kökü yine tek
+      // hopta apexe iner (`/:path*` kuralı aşağıda) ama artık kataloğa değil.
+      // Geri alınacaksa `root-308` (`lib/kernel/security/edge-guard.ts`) ile birlikte yazılır.
       {
         source: "/:path*",
         has: [{ type: "host", value: "www.yetkin.ai" }],

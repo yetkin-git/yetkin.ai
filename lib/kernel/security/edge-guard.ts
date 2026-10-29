@@ -134,7 +134,6 @@ export const AUTH_PATH_ALIASES = {
 export type EdgeDecision =
   | { kind: "museum-404" }
   | { kind: "kayit-308" }
-  | { kind: "root-308" }
   | { kind: "frozen-410" }
   | { kind: "auth-307"; to: typeof CITIZEN_LOGIN_PATH; next?: string }
   | { kind: "alias-307"; to: string }
@@ -278,10 +277,11 @@ export function decideEdgeAction(pathname: string, sessionVerified: boolean): Ed
   if (isKayitPath(pathname)) {
     return { kind: "kayit-308" };
   }
-  // CEO: soğuk iniş kalkar. Kök adres oturumdan bağımsız Akademi kataloğuna iner.
-  if (normalizePathname(pathname) === "/") {
-    return { kind: "root-308" };
-  }
+  // Kök adres markayı anlatan iniş sayfasıdır (`app/(public)/page.tsx`, index:true).
+  // Eski CEO kilidi (308 → /academy) kaldırıldı: marka aramasında ürün kataloğuna
+  // düşmek "yetkin.ai nedir?" sorusunu cevapsız bırakıyordu. Kilit açılışı ürün
+  // kararıdır; silinme gerekçesi `docs/Tedavi_Raporu.md` içindedir. Yönlendirme
+  // geri istenirse `edge-guard` ve `next.config` birlikte yazılmalıdır.
   // Anayasa B6: liste ve ilk konu ziyaretçiye açık. 410 bütün adresi yutmaz.
   if (isJuniorRoomPath(pathname) && canEnterJunior(null, null, { intent: "vitrine" }).allow) {
     return { kind: "next" };

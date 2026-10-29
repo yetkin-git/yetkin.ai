@@ -13,16 +13,14 @@ import { faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
 import { HOME_LANDING_FAQ } from "@/lib/copy/sem-keywords";
 
 /**
- * Temiz iniş katmanı (Görev Paketi #02).
- * Canlı kök, CEO kilidi gereği `next.config.ts` + `proxy.ts` 308'i ile
- * `/academy` kataloğuna iner; bu gövde o kilit açık kaldıkça basılmaz.
- * Gövde ölü bileşen taşımaz: tek işi, kilit kalkarsa trafiği karşılayan
- * yalın iniş olmaktır (hero + güven + tek Akademi CTA + SSS).
- * Kilit kalkışı ürün kararıdır; kod sessizce yönlendirmeyi silmez.
+ * Marka iniş katmanı — kök adres (`/`) artık bu gövdedir.
+ * Eski CEO kilidi (apex/www → `/academy` 308) kaldırıldı; `robots: index:true`
+ * ile arama motorunun marka sorgusunda göstereceği tek kanonik "nedir" sayfasıdır.
+ * Sayfa ölü bileşen taşımaz: hero + güven + ücretsiz ders çağrısı + SSS.
  */
 export const metadata: Metadata = pageMetadata({
   ...PAGE_SEO.home,
-  robots: { index: false, follow: true },
+  robots: { index: true, follow: true },
 });
 
 export default function PublicHomePage() {
@@ -46,6 +44,9 @@ export default function PublicHomePage() {
             </h1>
             <p className="mt-3 max-w-xl text-base leading-7 text-[var(--muted)]">{copy.description}</p>
             <div className="mt-4 flex flex-wrap gap-3">
+              <LinkButton href="/academy/01_office_ai/oyna" size="lg" variant="success">
+                {copy.freeLessonCta}
+              </LinkButton>
               <LinkButton href="/academy" size="lg">
                 {copy.academyCta}
               </LinkButton>

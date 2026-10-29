@@ -4,11 +4,27 @@ export const ACADEMY_SEN = {
   catalog: {
     eyebrow: "Akademi",
     title: "Yapay Zekâyı Öğren. Gerçek İşlerinde Kullan.",
+    /**
+     * 5 saniye testi: ne sunuluyor · ne kadar sürüyor · ne kazandırıyor. Üç satır.
+     * Eski 9 satırlık anahtar kelime yığını (iç organizasyon dili + keyword dolgusu)
+     * vatandaş lisanına çevrildi. Sayılar müfredattan okunur: 8 ders, 74 dk, baraj 70+.
+     * SEO niyeti başlıkta ve SSS'te durur; gövde pazarlama metni değil ürün cümlesidir.
+     */
     description:
-      "Vitrinin merkezinde tek eğitim var: Ofiste Yapay Zekâ. Sekiz sesli ders, gerçek dosyalarla uygulama, 70+ barajlı test ve sertifika. İlk dersi ücretsiz izle, içeriği gör, sonra karar ver. İleri modüller temel eğitimden sonra ayrı rafta durur. Yapay zeka eğitimi ve online kurs vitrini: Ofiste Yapay Zekâ, İleri Ofis, E-Ticaret, Sosyal Medya, Chatbot ve Prompt eğitimi yayındadır. Eğitimi incele. Dersler ödeme sonrası açılır.",
-    stats: "Tek öne çıkan eğitim · 5 ileri modül ayrı rafta",
+      "Ofiste yapay zekâyı gerçek dosyalarınla kullanmayı öğren: sekiz sesli ders, 74 dakika, kendi Excel–Word–e-posta işin üzerinden uygulama. İlk dersi ücretsiz izle; takıldığın yeri dersteki asistanına sor. Testi 70+ ile geçtiğinde sertifikan basılır ve Kariyer sayfanda doğrulanabilir olur.",
+    stats: "8 sesli ders · 74 dk · baraj 70+ · sertifika",
     certificatesCta: "Sertifikalar",
     verifyCta: "Doğrula",
+    /** Vitrin hero — birincil eylem. Ücretsiz ders herkese açık, kayıt istemez. */
+    heroPreviewCta: "Ücretsiz Dersi İzle",
+    /**
+     * Vitrin hero — ikincil eylem. Fiyat çağırandan gelir (`priceLabel`),
+     * bilinmiyorsa fiyatsız cümle basılır. Uydurma tutar yazılmaz.
+     */
+    heroStartCta: (priceLabel: string | null) =>
+      priceLabel ? `Eğitime Başla (${priceLabel})` : "Eğitime Başla",
+    /** Vitrin hero — ücretsiz dersin nerede açıldığını söyleyen tek satır. */
+    heroLead: "İlk ders ücretsiz ve kayıt istemez. Beğenirsen eğitime oradan devam edersin.",
     live: (count: number) => (count > 0 ? "Eğitimler — ders, test ve yetkinlik" : ""),
     unbound: "Liste henüz yüklenemedi.",
     empty: "Yeni eğitimler hazırlanıyor",

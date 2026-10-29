@@ -37,6 +37,7 @@ import {
 import { decideWebOriginGuard } from "./lib/kernel/security/origin-guard";
 import { renderFrozenRoomGoneHtml } from "./lib/kernel/http/frozen-410-html";
 import { renderNotFoundHtml } from "./lib/kernel/http/not-found-html";
+import { missingPublicSurfacePath } from "./lib/academy/public-surface-gate";
 import { juniorLegacyLessonRedirectPath } from "./lib/junior/lesson-key-alias";
 import { isUnknownJuniorLessonPath } from "./lib/junior/lesson-index";
 import {
@@ -53,8 +54,8 @@ import {
 
 /**
  * Tek edge girişi (Next 16 `proxy.ts`). Kök `middleware.ts` yoktur.
- * İnce mühür: müze 404, `/kayit` 308, kök `/` → `/academy` 308,
- * oturumsuz Anasayfa ve Kariyer kendi sayfasında kalır, diğer çekirdek → `/login`,
+ * İnce mühür: müze 404, `/kayit` 308, oturumsuz Anasayfa ve Kariyer kendi sayfasında kalır,
+ * kök `/` marka iniş sayfasıdır (308 kaldırıldı), diğer çekirdek → `/login`,
  * K6 `export const auth` kind, JWKS/HS256 JWT fail-closed, nonce CSP,
  * auth çerez yenileme (0.12 getAll/setAll + Cache-Control; çerezsiz kamu GET atlanır),
  * çerezli web yazmalarında Origin / Sec-Fetch-Site fail-closed,
@@ -164,12 +165,6 @@ export async function proxy(request: NextRequest) {
     return seal(NextResponse.redirect(url, 308));
   }
 
-  if (decision.kind === "root-308") {
-    const url = request.nextUrl.clone();
-    url.pathname = "/academy";
-    return seal(NextResponse.redirect(url, 308));
-  }
-
   if (decision.kind === "frozen-410") {
     return seal(
       new NextResponse(renderFrozenRoomGoneHtml(pathname), {
@@ -187,6 +182,22 @@ export async function proxy(request: NextRequest) {
   }
 
   if (isUnknownJuniorLessonPath(pathname)) {
+    return seal(
+      new NextResponse(renderNotFoundHtml(), {
+        status: 404,
+        headers: {
+          "content-type": "text/html; charset=utf-8",
+          "x-robots-tag": "noindex",
+        },
+      }),
+    );
+  }
+
+  // Soft 404 onarımı — gövde akmadan önce varlık kapısı.
+  // `notFound()` kök `app/loading.tsx` sınırının altında 200 akar; durum kodu
+  // burada kesilir. Adres haritası saf veridir (DB/disk yok).
+  const missingPublic = missingPublicSurfacePath(pathname);
+  if (missingPublic) {
     return seal(
       new NextResponse(renderNotFoundHtml(), {
         status: 404,

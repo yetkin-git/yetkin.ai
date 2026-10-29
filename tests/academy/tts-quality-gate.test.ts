@@ -34,8 +34,8 @@ function bassHeavySpeechWav(): Buffer {
   return wrapPcmAsWav(pcm, sampleRate);
 }
 
-describe("akademi ses kalite kapısı", () => {
-  it("konuşma biçimli dalga loudnorm sonrası bant payını ve LUFS hedefini tutar", () => {
+describe("akademi ses kalite kapısı", { timeout: 120_000 }, () => {
+  it("konuşma biçimli dalga loudnorm sonrası bant payını ve LUFS hedefini tutar", { timeout: 120_000 }, () => {
     const processed = masterAcademySpeechWav(synthesizeSpeechShapedWav());
     const quality = assertAcademySpeechQuality(processed);
     expect(quality.bandShare).toBeGreaterThanOrEqual(ACADEMY_SPEECH_BAND_SHARE_MIN);

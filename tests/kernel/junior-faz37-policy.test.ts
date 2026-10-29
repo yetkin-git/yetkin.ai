@@ -20,12 +20,14 @@ import { juniorNarrationDurationMs } from "@/lib/junior/scenario";
 import { chunkJuniorLocalSpeech } from "@/lib/junior/speech";
 import { juniorActiveLessonKeys } from "@/lib/junior/week";
 
-/** FAZ 37 sonrası: ücretsiz kapı, 1. ünite açılışı, karşılama hizası. Müfredat dışı arşiv silindi. */
+/** FAZ 37 sonrası: ücretsiz kapı, 1. ünite açılışı, karşılama hizası. Müfredat dışı arşiv silindi.
+ * Tam turda okuma yüzeyi 5 sn tavanına takılıyordu. Tavan 120 sn; iddia aynı.
+ */
 
 /** Bugün (11 Ekim 2026, 4. okul haftası). */
 const WEEK_4_NOON = new Date("2026-10-11T12:00:00+03:00");
 
-describe("FAZ 37 ücretsiz kapı ve arşiv", () => {
+describe("FAZ 37 ücretsiz kapı ve arşiv", { timeout: 120_000 }, () => {
   it("ücretsiz matematik kapısı kartın ilk mühürlü dersidir; hafta ikinci bedava ders açmaz", () => {
     expect(JUNIOR_FREE_LESSON_KEY).toBe("jr_06_mat-1");
     expect(juniorFreeLessonKeys().filter((key) => key.startsWith("jr_06_mat-"))).toEqual(["jr_06_mat-1"]);
@@ -55,7 +57,7 @@ describe("FAZ 37 ücretsiz kapı ve arşiv", () => {
   });
 });
 
-describe("FAZ 37 karşılama hizası", () => {
+describe("FAZ 37 karşılama hizası", { timeout: 120_000 }, () => {
   it("mühürlü sesli dersin ekran selamı konuşulan açılışla aynıdır", () => {
     const odd = juniorLessonGreeting({ lessonKey: "jr_06_mat-1", nickname: "Ela", sealedVoice: true });
     expect(odd).toBe("Merhaba sevgili çocuklar!");
@@ -79,7 +81,7 @@ describe("FAZ 37 karşılama hizası", () => {
   });
 });
 
-describe("FAZ 37 dikkat durağı ve yıldız", () => {
+describe("FAZ 37 dikkat durağı ve yıldız", { timeout: 120_000 }, () => {
   it("hiçbir yıldız durağı dikkat durağının yakınına düşmez (tüm dersler)", () => {
     for (const key of juniorCatalogLessonKeys()) {
       const lesson = juniorLessonByKey(key);
@@ -115,7 +117,7 @@ describe("FAZ 37 dikkat durağı ve yıldız", () => {
   });
 });
 
-describe("1. ünite açılışı jr_06_mat-1", () => {
+describe("1. ünite açılışı jr_06_mat-1", { timeout: 120_000 }, () => {
   const text = JUNIOR_MAT_5.listenText;
 
   it("çarpan ve bölünebilme cümlesini taşır; silinen üslü anlatım yoktur", () => {

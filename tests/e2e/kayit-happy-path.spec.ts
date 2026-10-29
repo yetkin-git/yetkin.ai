@@ -20,9 +20,11 @@ test.describe("vatandaş /kayit mutlu yolu", () => {
     await expect(page.getByRole("heading", { name: "Kayıt" })).toBeVisible();
 
     await expect(page.locator("form")).toBeVisible();
-    await expect(page.getByLabel("Ad soyad")).toBeVisible();
+    // Üç alanlı kayıt (P1 tedavi): ad soyad alanı yok.
+    await expect(page.getByLabel("Ad soyad")).toHaveCount(0);
     await expect(page.getByLabel("E-posta")).toBeVisible();
     await expect(page.getByRole("textbox", { name: "Şifre" })).toBeVisible();
+    await expect(page.getByLabel("18 yaşından büyüğüm.")).toBeVisible();
     await expect(page.getByText("Kayıt henüz bağlanmadı")).toHaveCount(0);
 
     await page.getByRole("link", { name: "Giriş" }).click();

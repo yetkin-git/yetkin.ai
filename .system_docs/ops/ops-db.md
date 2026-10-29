@@ -132,6 +132,21 @@ Reklam bu prosedür yeşil olmadan basılmaz.
 
 Motor 4 / Kamu Vitrini 3 Oda. S43 çekim kapalıdır. Üretimde sandbox / boş Inngest anahtarı fail-closed. İkinci instance öncesi `RATE_LIMIT_REDIS_REST_*` dolu olmalı; kısmi config fail-closed.
 
+## 14.1 GA4 ölçüm vanası
+
+`NEXT_PUBLIC_GA_ID` boş, boşluklu, `GTM-` veya `UA-` ise etiket yüklenmez. Geçerli biçim `G-` ve ardından 4–32 harf/rakam. Kimlik yokken sayfa, kasa ve PayTR aynı kalır.
+
+`NEXT_PUBLIC_*` derleme anında istemciye gömülür. Vercel paneline yazmak ışığı açmaz. Değer, Production derlemesinin içinde olmalıdır. Kayıttan sonra `main` yeniden deploy edilir.
+
+Sıra bozulmaz:
+
+1. Çerez ve aydınlatma (`lib/copy/legal-launch.ts`) ile admin huni cümlesi (`lib/copy/sen-voice/admin.ts`) Google Analytics (GA4) ölçümünü birinci taraf dönüşüm ve performans takibi olarak söyler. Reklam ve yeniden hedefleme yoktur. Bu cümleler durmadan Production kimliği yazılmaz.
+2. Kimlik repoya girmez. `.env.example` boş string kalır. `.env.production` git dışıdır; çalışma ağacında dosya yoktur. Geliştirme değeri yalnız `.env.local` içindedir. Üretim değeri yalnız Vercel Production env'dedir.
+3. Vercel → Project → Settings → Environment Variables → Production → ad `NEXT_PUBLIC_GA_ID`, değer `G-…`. Preview ve Development bu adımı açmaz.
+4. `git push origin main` Production derlemesini tetikler. Ayrı Vercel CLI çağrısı gerekmez. Push'tan önceki yerel mühür: `npx tsc --noEmit`, `npx vitest run`, `npm run verify:boundaries`, `npm run verify:api-auth -- --check`, `npm run build`.
+5. Ready olduktan sonra canlı sayfada `googletagmanager` script'i aranır. Olay adları: `view_item`, `play_free_preview`, `begin_checkout`, `paytr_iframe_loaded`, `purchase`.
+6. Işık yandıktan sonra 14 gün ürün kodu değişmez. Ölçüm bu pencerede okunur.
+
 ## 16. LLM rol tavanı ve SEN aksı
 
 8 kanonik rol tavanı kodda mühürlüdür. `VIDEO_GEN` fail-closed (video katmanı terk). `verify:sen-axis` prebuild’de yoktur.

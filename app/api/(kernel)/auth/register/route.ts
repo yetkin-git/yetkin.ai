@@ -47,7 +47,8 @@ function rememberAuthCookie(jar: PendingAuthCookie[], cookie: PendingAuthCookie)
 const bodySchema = z.object({
   email: z.string().min(1).max(320),
   password: z.string().min(1).max(256),
-  fullName: z.string().min(1).max(DISPLAY_NAME_MAX_LENGTH),
+  /** Üç alanlı kayıt: ad soyad istemez. Dolu gelirse doğrulanır. */
+  fullName: z.string().max(DISPLAY_NAME_MAX_LENGTH).optional(),
   ageConfirmed: z.boolean(),
   termsConfirmed: z.boolean(),
 });

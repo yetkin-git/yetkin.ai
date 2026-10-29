@@ -167,17 +167,23 @@ function emit(name: Ga4FunnelEventName, params: Record<string, unknown>): void {
   if (!allow(key)) {
     return;
   }
-  const target = window as Window & { dataLayer?: unknown[]; gtag?: GtagFn };
-  if (!Array.isArray(target.dataLayer)) {
-    target.dataLayer = [];
+  // Ölçüm asla çağıran akışı kırmaz: eklenti/vekil `gtag`ı ezmiş veya
+  // `dataLayer`ı dondurmuş olabilir. Hata yutulur, olay düşer.
+  try {
+    const target = window as Window & { dataLayer?: unknown[]; gtag?: GtagFn };
+    if (!Array.isArray(target.dataLayer)) {
+      target.dataLayer = [];
+    }
+    const queue = target.dataLayer;
+    if (typeof target.gtag !== "function") {
+      target.gtag = function gtag(...args: unknown[]) {
+        queue.push(args);
+      };
+    }
+    target.gtag("event", name, params);
+  } catch {
+    // ölçüm kapalı; kullanıcı akışı devam eder
   }
-  const queue = target.dataLayer;
-  if (typeof target.gtag !== "function") {
-    target.gtag = function gtag(...args: unknown[]) {
-      queue.push(args);
-    };
-  }
-  target.gtag("event", name, params);
 }
 
 export function trackViewItem(item: Ga4FunnelItem): void {

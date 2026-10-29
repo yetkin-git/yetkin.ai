@@ -23,7 +23,6 @@ import {
   CITIZEN_PASSWORD_MIN_LENGTH,
   generateSecurePassword,
 } from "@/lib/kernel/auth/password";
-import { DISPLAY_NAME_MAX_LENGTH } from "@/lib/kernel/identity/types";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
 import { emitSemConversion } from "@/lib/kernel/sem/conversion";
 
@@ -98,7 +97,6 @@ function readRegisterFailMessage(body: unknown, copy: typeof AUTH_SEN.register):
 
 export function RegisterForm({ nextPath }: { nextPath?: string }) {
   const copy = AUTH_SEN.register;
-  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [revealed, setRevealed] = useState(false);
@@ -109,7 +107,6 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
   const [canResend, setCanResend] = useState(false);
   const [resendPending, setResendPending] = useState(false);
   const [ageConfirmed, setAgeConfirmed] = useState(false);
-  const [termsConfirmed, setTermsConfirmed] = useState(false);
 
   async function announceCopy(value: string) {
     const copied = await copyTextToClipboard(value);
@@ -140,13 +137,12 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
     setMessage(null);
     setCanResend(false);
     try {
-      const metadata = buildSignupAuthMetadata(fullName, ageConfirmed, termsConfirmed);
+      // Üç alan: e-posta, şifre, yaş beyanı. Ad soyad istemiyoruz; sicil adı
+      // e-posta yerelinden türetilir. Kullanım/KVKK kabulü kayıt ekranındaki
+      // açık cümle + bu düğmedir; kasa rızası Ödeme sayfasında ayrı tiklerle toplanır.
+      const metadata = buildSignupAuthMetadata(null, ageConfirmed, true);
       if (!metadata) {
-        if (!termsConfirmed) {
-          setError(copy.termsRequired);
-          return;
-        }
-        setError(ageConfirmed ? copy.fullNameInvalid : copy.ageRequired);
+        setError(copy.ageRequired);
         return;
       }
 
@@ -164,9 +160,8 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
           body: JSON.stringify({
             email,
             password,
-            fullName,
             ageConfirmed,
-            termsConfirmed,
+            termsConfirmed: true,
           }),
         }),
         AUTH_BROWSER_FETCH_TIMEOUT_MS,
@@ -237,19 +232,6 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
   return (
     <form onSubmit={onSubmit} className="flex min-h-0 flex-1 flex-col">
       <div className="min-h-0 flex-1 space-y-2 overflow-y-auto">
-      <label className="block text-sm font-medium" htmlFor="register-full-name">
-        {copy.fullName}
-        <Input
-          id="register-full-name"
-          type="text"
-          name="fullName"
-          autoComplete="name"
-          value={fullName}
-          onChange={(event) => setFullName(event.target.value)}
-          required
-          maxLength={DISPLAY_NAME_MAX_LENGTH}
-        />
-      </label>
       <label className="block text-sm font-medium" htmlFor="register-email">
         {copy.email}
         <Input
@@ -307,37 +289,27 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
         />
         <span>{copy.ageConfirm}</span>
       </label>
-      <label className="flex cursor-pointer items-start gap-2 text-sm font-medium" htmlFor="register-terms-confirm">
-        <input
-          id="register-terms-confirm"
-          type="checkbox"
-          name="termsConfirm"
-          className="mt-1 accent-[var(--safir)]"
-          checked={termsConfirmed}
-          onChange={(event) => setTermsConfirmed(event.target.checked)}
-          required
-        />
-        <span>
-          <Link
-            href="/legal/kullanim"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[var(--safir)] underline hover:opacity-80"
-          >
-            {copy.termsTermsLink}
-          </Link>
-          {" ve "}
-          <Link
-            href="/legal/gizlilik"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[var(--safir)] underline hover:opacity-80"
-          >
-            {copy.termsKvkkLink}
-          </Link>
-          {copy.termsConsentSuffix}
-        </span>
-      </label>
+      <p className="text-xs leading-5 text-slate-600">
+        {copy.signupConsentLead}{" "}
+        <Link
+          href="/legal/kullanim"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[var(--safir)] underline hover:opacity-80"
+        >
+          {copy.termsTermsLink}
+        </Link>
+        {" ve "}
+        <Link
+          href="/legal/gizlilik"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[var(--safir)] underline hover:opacity-80"
+        >
+          {copy.termsKvkkLink}
+        </Link>
+        {copy.signupConsentTail}
+      </p>
       </div>
       <div className="mt-2 flex shrink-0 flex-col gap-2">
         {error ? (

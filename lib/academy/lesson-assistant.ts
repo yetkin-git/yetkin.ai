@@ -10,6 +10,7 @@ import { curriculumForCourseSlug } from "@/lib/academy/curriculum";
 import { loadAcademySealedAudioTimings } from "@/lib/academy/lesson-audio-timings";
 import {
   ACADEMY_LESSON_ASSISTANT_FAIL,
+  ACADEMY_LESSON_ASSISTANT_GUEST_LIMIT,
   ACADEMY_LESSON_ASSISTANT_LIMIT,
   ACADEMY_LESSON_ASSISTANT_MODEL,
   ACADEMY_LESSON_ASSISTANT_OFF_TOPIC,
@@ -25,12 +26,15 @@ import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import { consumeHttpRateLimit } from "@/lib/kernel/security/http-rate-limit";
 
 export {
+  ACADEMY_LESSON_ASSISTANT_GUEST_LIMIT,
+  ACADEMY_LESSON_ASSISTANT_GUEST_REPLY_LIMIT,
   ACADEMY_LESSON_ASSISTANT_MODEL,
   ACADEMY_LESSON_ASSISTANT_PATH,
   ACADEMY_LESSON_ASSISTANT_QUESTION_LIMIT,
 } from "@/lib/academy/lesson-assistant-policy";
 
 const THIRTY_DAYS_MS = 30 * 24 * 60 * 60_000;
+const ONE_DAY_MS = 24 * 60 * 60_000;
 
 export const lessonAssistantRequestSchema = z.object({
   courseSlug: z.string().trim().min(1).max(80),
@@ -55,6 +59,15 @@ export type AnswerLessonAssistantDeps = InvokeLlmDeps & {
   consumeQuota?: (userId: string, lessonKey: string) => Promise<LessonAssistantQuota>;
   loadLessonText?: (courseSlug: string, lessonKey: string) => { title: string; text: string } | null;
   invoke?: typeof invokeLlm;
+};
+
+/**
+ * Anonim ziyaretçi kotası — ücretsiz ders önizlemesi.
+ * `guestId` çağıranda istemci IP'sinden türetilir; ders anahtarı da kovaya girer,
+ * böylece bir dersin hakkı başka derse taşınmaz. Günlük pencere (24 saat).
+ */
+export type LessonAssistantGuestQuotaDeps = {
+  consumeGuestQuota?: (guestId: string, lessonKey: string) => Promise<LessonAssistantQuota>;
 };
 
 export function academyLessonAssistantActiveLine(lessonKey: string, currentTimeSec: number): string {
@@ -95,8 +108,26 @@ async function consumeLessonQuota(userId: string, lessonKey: string): Promise<Le
   };
 }
 
+async function consumeGuestLessonQuota(
+  guestId: string,
+  lessonKey: string,
+): Promise<LessonAssistantQuota> {
+  const decision = await consumeHttpRateLimit(`${guestId}:${lessonKey}`, {
+    keyPrefix: "academy-lesson-ask-guest",
+    limit: ACADEMY_LESSON_ASSISTANT_GUEST_LIMIT,
+    windowMs: ONE_DAY_MS,
+  });
+  return {
+    allowed: decision.allowed,
+    remaining: decision.remaining,
+    limit: decision.limit,
+  };
+}
+
 export const ACADEMY_LESSON_ASSISTANT_LOCKED = "Satın alma mühürlenmeden ders içeriği açılmaz.";
 export const ACADEMY_LESSON_ASSISTANT_FOREIGN = "Bu ders bu kursa ait değil.";
+export const ACADEMY_LESSON_ASSISTANT_GUEST_LIMIT_ERROR =
+  "Ücretsiz önizlemede günlük üç soru hakkın doldu. Eğitime başlayınca ders başına beş soru açılır.";
 
 /** Handler lisans bayrağı satın alma satırı taşımaz. Kapı aynı saf kararı okur. */
 function commercialFlagPurchase(now: Date): AcademyPurchaseRecord {
@@ -124,17 +155,29 @@ export async function answerAcademyLessonAssistant(
     question: string;
     /** Kilitli ders için ticari lisans. Hazırlık şeridi bu bayrağı istemez. */
     commercialEnrolment?: boolean;
+    /**
+     * Anonim önizleme kimliği (istemci IP'sinden türetilir).
+     * Doluysa kova `guestId`, kota `ACADEMY_LESSON_ASSISTANT_GUEST_LIMIT` olur;
+     * açık ders kapısı değişmez — anonim ziyaretçi yalnız ücretsiz dersi sorabilir.
+     */
+    guestId?: string | null;
   },
-  deps: AnswerLessonAssistantDeps = {},
+  deps: AnswerLessonAssistantDeps & LessonAssistantGuestQuotaDeps = {},
 ): Promise<LessonAssistantResult> {
+  const guestId = input.guestId?.trim() ?? "";
+  const isGuest = guestId.length > 0;
+  const fallbackLimit = isGuest
+    ? ACADEMY_LESSON_ASSISTANT_GUEST_LIMIT
+    : ACADEMY_LESSON_ASSISTANT_QUESTION_LIMIT;
+
   const parsed = lessonAssistantRequestSchema.safeParse(input);
   if (!parsed.success) {
     return {
       ok: false,
       error: "Soruyu kısa ve net yaz.",
       status: 400,
-      remaining: ACADEMY_LESSON_ASSISTANT_QUESTION_LIMIT,
-      limit: ACADEMY_LESSON_ASSISTANT_QUESTION_LIMIT,
+      remaining: fallbackLimit,
+      limit: fallbackLimit,
     };
   }
 
@@ -151,8 +194,8 @@ export async function answerAcademyLessonAssistant(
       ok: false,
       error: ACADEMY_LESSON_ASSISTANT_FOREIGN,
       status: 403,
-      remaining: ACADEMY_LESSON_ASSISTANT_QUESTION_LIMIT,
-      limit: ACADEMY_LESSON_ASSISTANT_QUESTION_LIMIT,
+      remaining: fallbackLimit,
+      limit: fallbackLimit,
     };
   }
   if (!entitlement.open) {
@@ -160,8 +203,8 @@ export async function answerAcademyLessonAssistant(
       ok: false,
       error: ACADEMY_LESSON_ASSISTANT_LOCKED,
       status: 403,
-      remaining: ACADEMY_LESSON_ASSISTANT_QUESTION_LIMIT,
-      limit: ACADEMY_LESSON_ASSISTANT_QUESTION_LIMIT,
+      remaining: fallbackLimit,
+      limit: fallbackLimit,
     };
   }
 
@@ -172,17 +215,18 @@ export async function answerAcademyLessonAssistant(
       ok: false,
       error: "Bu dersin metni henüz yok.",
       status: 404,
-      remaining: ACADEMY_LESSON_ASSISTANT_QUESTION_LIMIT,
-      limit: ACADEMY_LESSON_ASSISTANT_QUESTION_LIMIT,
+      remaining: fallbackLimit,
+      limit: fallbackLimit,
     };
   }
 
-  const consume = deps.consumeQuota ?? consumeLessonQuota;
-  const slot = await consume(input.userId, parsed.data.lessonKey);
+  const slot = isGuest
+    ? await (deps.consumeGuestQuota ?? consumeGuestLessonQuota)(guestId, parsed.data.lessonKey)
+    : await (deps.consumeQuota ?? consumeLessonQuota)(input.userId, parsed.data.lessonKey);
   if (!slot.allowed) {
     return {
       ok: false,
-      error: ACADEMY_LESSON_ASSISTANT_LIMIT,
+      error: isGuest ? ACADEMY_LESSON_ASSISTANT_GUEST_LIMIT_ERROR : ACADEMY_LESSON_ASSISTANT_LIMIT,
       status: 429,
       remaining: 0,
       limit: slot.limit,

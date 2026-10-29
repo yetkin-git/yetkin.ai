@@ -191,6 +191,8 @@ export const PRODUCT_ROOM_PATHS = ["/academy", "/career"] as const;
  * Kamuya açık vize yüzeyi `/vize`’dir.
  */
 export const SITEMAP_STATIC_PATHS = [
+  // Kök marka iniş sayfası — 308 kilidi kalktı, `robots: index:true`.
+  PAGE_SEO.home.path,
   "/academy",
   "/academy/ileri",
   PAGE_SEO.career.path,
@@ -415,7 +417,7 @@ export const OFFICE_AI_LESSON_TEASERS: Readonly<Record<string, string>> = {
   "01_office_ai-1":
     "Excel'de temiz veri: Excel Copilot ve Ataş Yöntemi ve A1 Düzeni ve Temiz Veri ile dağınık tabloyu düzenli tabloya çevirirsin.",
   "01_office_ai-k1":
-    "KVKK maskeleme: ham müşteri listesi yüklenmez; maske refleksini kilitlersin.",
+    "KVKK maskeleme: müşteri adını ve telefonunu beş saniyede maskeler, sonra yapay zekâya yüklersin.",
   "01_office_ai-2":
     "Yönetim özetine dönüştürme: temiz tablodan üç madde ve bir karar cümlesi çıkarırsın.",
   "01_office_ai-3":

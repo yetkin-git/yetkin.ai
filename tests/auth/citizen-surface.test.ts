@@ -50,7 +50,7 @@ describe("kimlik yüzeyi SEN aksı", () => {
 
   it("giriş/kayıt/şifre siz kaçakları taşımaz; SEN_VOICE bağlar", () => {
     expect(SEN_VOICE.auth.login.description).toContain("Kimliğin hesabına");
-    expect(SEN_VOICE.auth.register.description).toContain("cüzdanın");
+    expect(SEN_VOICE.auth.register.description).toContain("e-posta, şifre, yaş beyanı");
     expect(SEN_VOICE.auth.register.description).not.toContain("cüzdanınız");
     expect(SEN_VOICE.auth.forgot.sent).toContain("hesap varlığını burada doğrulamayız");
     expect(SEN_VOICE.auth.forgot.supportLead).toBe("Bağlantı gelmezse");

@@ -285,7 +285,9 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
     expect(ACADEMY_SEN.catalog.heroArticleBadge).toBe(
       "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Sertifika",
     );
-    expect(ACADEMY_SEN.catalog.description).toContain("yayındadır");
+    // Vitrin gövdesi ürün cümlesidir (P1 tedavi): süre, kapsam, kazanç.
+    expect(ACADEMY_SEN.catalog.description).toContain("74 dakika");
+    expect(ACADEMY_SEN.catalog.description).not.toContain("yayındadır");
     expect(ACADEMY_SEN.catalog.description).not.toContain("fırın");
     expect(ACADEMY_SEN.catalog.description).not.toContain("Çok Yakında / Hazırlanıyor");
     expect(ACADEMY_SEN.catalog.description).not.toContain("13 eğitim");

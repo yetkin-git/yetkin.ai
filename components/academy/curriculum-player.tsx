@@ -97,6 +97,7 @@ export function CurriculumPlayer({
   paywallPriceLabel = null,
   freePreviewAudio = null,
   checkoutHref: checkoutHrefProp = null,
+  viewerSignedIn = false,
 }: {
   courseId: string;
   courseSlug: string;
@@ -113,6 +114,8 @@ export function CurriculumPlayer({
   freePreviewAudio?: Readonly<Record<string, { src: string; bedSrc?: string | null }>> | null;
   /** Satın Al. Oturum varsa kasa çapası, yoksa giriş. Boşsa `#satin-al`. */
   checkoutHref?: string | null;
+  /** Ücretsiz önizlemede oturum var mı. Yoksa asistan günlük 3 soru metnini basar. */
+  viewerSignedIn?: boolean;
 }) {
   primeAcademyLessonMedia(media);
   const lessonMediaGeneration = academyLessonJsonGeneration();
@@ -890,6 +893,7 @@ export function CurriculumPlayer({
                 courseSlug={courseSlug}
                 lessonKey={active.key}
                 currentTimeSec={speechElapsed}
+                guest={paywallLocked && !viewerSignedIn}
               />
             ) : null}
 

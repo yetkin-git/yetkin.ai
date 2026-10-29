@@ -441,7 +441,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     const { default: sitemap } = await import("@/app/sitemap");
     const { default: robots } = await import("@/app/robots");
     const urls = (await sitemap()).map((entry) => entry.url);
-    expect(urls).not.toContain("https://yetkin.ai/");
+    // Kök marka iniş sayfası indekslenebilir (P1 tedavi): 308 kilidi kalktı.
+    expect(urls).toContain("https://yetkin.ai/");
     expect(urls).toContain("https://yetkin.ai/legal");
     expect(urls).toContain("https://yetkin.ai/legal/gizlilik");
     expect(urls).toContain("https://yetkin.ai/legal/cerez");

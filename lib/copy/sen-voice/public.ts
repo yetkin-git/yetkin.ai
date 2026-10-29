@@ -8,6 +8,8 @@ export const PUBLIC_SEN = {
     description:
       "E-ticaret, sosyal medya ve ofis işlerinde yapay zekâ araçlarını uygulamalı eğitimlerle öğren. Her eğitimin ilk dersini ücretsiz izle, içeriği gör ve sana uygun olanı seç.",
     academyCta: "Eğitimleri İncele",
+    /** Kök iniş — birincil eylem: kayıtsız ücretsiz ders (AI asistanı da açık). */
+    freeLessonCta: "Ücretsiz Dersi İzle",
     loginCta: "Giriş Yap",
     registerCta: "Kayıt Ol",
     cockpitCta: "Panele geç",

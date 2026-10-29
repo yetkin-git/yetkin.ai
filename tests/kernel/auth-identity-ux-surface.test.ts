@@ -95,6 +95,7 @@ describe("vatandaş kimlik UX yüzeyi", () => {
     expect(form).toContain("AUTH_SEN");
     expect(copy).toContain("Güvenli Şifre Üret");
     expect(copy).toContain("Kopyalandı");
+    // Üç alanlı kayıt: ad soyad alanı kalktı, etiketi sözlükte kalır (kasa/ops kullanır).
     expect(copy).toContain("Ad soyad");
     expect(form).toContain("copyTextToClipboard");
     expect(form).toContain("PasswordInput");
@@ -137,7 +138,11 @@ describe("vatandaş kimlik UX yüzeyi", () => {
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("terms_accepted_at");
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("consent_version");
     expect(readSrc("lib/kernel/auth/signup-metadata.ts")).toContain("is_adult");
-    expect(form).toContain("buildSignupAuthMetadata(fullName, ageConfirmed, termsConfirmed)");
+    expect(form).toContain("emitSemConversion");
+    expect(form).toContain("buildSignupAuthMetadata");
+    expect(form).not.toContain("register-terms-confirm");
+    expect(form).toContain("register-age-confirm");
+    expect(form).not.toContain("register-full-name");
     expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("emailRedirectTo");
     expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain("pendingVerification");
     expect(readSrc("lib/kernel/auth/register-citizen.ts")).toContain("buildSignupEmailRedirectTo");

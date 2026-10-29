@@ -24,11 +24,39 @@ export function normalizeSignupFullName(raw: string): string | null {
 }
 
 /**
+ * Kayıt formu üç alandır: e-posta, şifre, yaş beyanı.
+ * Ad soyad artık istenmez; sicil adı e-posta yerelinden türetilir.
+ * Türetilemezse `null` döner ve `users.display_name` boş kalır (sertifika "Aday" yazar).
+ */
+export function deriveSignupDisplayName(email: string): string | null {
+  const local = email.trim().toLowerCase().split("@")[0] ?? "";
+  const words = local
+    .split(/[._+-]+/u)
+    .map((word) => word.replace(/[^\p{L}\p{N}]+/gu, ""))
+    .filter((word) => word.length > 0)
+    .slice(0, 3);
+  if (words.length === 0) {
+    return null;
+  }
+  const titled = words
+    .map((word) => `${word.charAt(0).toLocaleUpperCase("tr-TR")}${word.slice(1)}`)
+    .join(" ");
+  return normalizeSignupFullName(titled);
+}
+
+/**
  * Fail-closed kayıt metadata’sı. 18+ veya kullanım/KVKK onayı yoksa `null` — `signUp` gitmez.
  * `age_confirmed_at`, `terms_accepted_at` ve `consent_version` Auth user_metadata’da hukuki kanıttır.
+ *
+ * Formda kullanım/KVKK tiki yoktur: kayıt ekranındaki açık cümle + "Hesap oluştur" eylemi
+ * kabuldür (`termsConfirmed` çağıranda true gelir). Kasa rızası ayrı tiklerle Ödeme
+ * sayfasında toplanır (`checkoutLegalConsentSchema`). Bu ikisi birbirine karışmaz.
+ *
+ * `fullName` boş bırakılabilir: boşluk → `display_name` boş (veritabanı NULL'a indirir).
+ * Dolu ama geçersiz (aşırı uzun / satır sonu) → `null`; gevşetilmez.
  */
 export function buildSignupAuthMetadata(
-  fullName: string,
+  fullName: string | null | undefined,
   ageConfirmed: boolean,
   termsConfirmed: boolean,
   now: Date = new Date(),
@@ -36,8 +64,9 @@ export function buildSignupAuthMetadata(
   if (!ageConfirmed || !termsConfirmed) {
     return null;
   }
-  const displayName = normalizeSignupFullName(fullName);
-  if (!displayName) {
+  const rawName = fullName?.trim() ?? "";
+  const displayName = rawName ? normalizeSignupFullName(rawName) : "";
+  if (displayName === null) {
     return null;
   }
   const acceptedAt = now.toISOString();

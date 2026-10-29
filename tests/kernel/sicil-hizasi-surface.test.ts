@@ -116,15 +116,21 @@ describe("sicil hizası — Junior sahip, hop meta, web-only yazma", () => {
       expect(() => assertRailIsDay0Path(`/api/v1${path.slice(4)}`, method)).toThrow(/allowlist/);
     }
     expect(ROUTE_AUTH_MAP["/api/junior/live-tutor"]).toBe("public");
-    expect(ROUTE_AUTH_MAP["/api/academy/lesson-assistant"]).toBe("session");
+    // P0 tedavi: anonim ziyaretçi ücretsiz ders önizlemesinde asistanı kullanabilir.
+    // Kenarda `public`; kapı handler'dadır (ücretsiz ders + IP bazlı günlük kota).
+    expect(ROUTE_AUTH_MAP["/api/academy/lesson-assistant"]).toBe("public");
     const tutor = readFileSync(join(ROOT, "app/api/junior/live-tutor/route.ts"), "utf8");
     expect(tutor).toContain('auth = "public"');
     expect(tutor).toContain("localOnly");
     expect(tutor).toContain("HTTP_RATE_LIMITS.llmIp");
     const assistant = readFileSync(join(ROOT, "app/api/academy/lesson-assistant/route.ts"), "utf8");
-    expect(assistant).toContain('auth = "session"');
+    expect(assistant).toContain('auth = "public"');
+    // Oturum isteğe bağlıdır: yoksa anonim önizleme kolu koşar.
     expect(assistant).toContain("requireSession");
     expect(assistant).toContain("resolveAcademyEntitlement");
+    expect(assistant).toContain("academyCourseOffersFreePreview");
+    expect(assistant).toContain("guestId");
+    expect(assistant).toContain("HTTP_RATE_LIMITS.llmIp");
     const nativeHops = readFileSync(join(ROOT, "apps/rail-is/src/api/hops.ts"), "utf8");
     expect(nativeHops).not.toContain("/api/junior/live-tutor");
     expect(nativeHops).not.toContain("/api/academy/lesson-assistant");

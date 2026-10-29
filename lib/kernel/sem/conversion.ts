@@ -1,6 +1,6 @@
 /**
  * Google Ads dönüşüm kancası — birinci taraf.
- * gtag / GTM yüklenmez (KVKK: reklam ve üçüncü taraf analitik çerezi yok).
+ * gtag / GTM bu dosyadan yüklenmez. GA4 etiketi yalnız ölçüm kimliği varken bootstrap'tan gelir.
  * `dataLayer` yalnız zaten varsa beslenir; boş env = dürüst no-op.
  */
 

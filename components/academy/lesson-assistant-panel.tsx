@@ -1,24 +1,31 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { ACADEMY_LESSON_ASSISTANT_PATH, ACADEMY_LESSON_ASSISTANT_QUESTION_LIMIT } from "@/lib/academy/lesson-assistant-policy";
+import { ACADEMY_LESSON_ASSISTANT_GUEST_LIMIT, ACADEMY_LESSON_ASSISTANT_PATH, ACADEMY_LESSON_ASSISTANT_QUESTION_LIMIT } from "@/lib/academy/lesson-assistant-policy";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
 type LessonAssistantPanelProps = {
   courseSlug: string;
   lessonKey: string;
   currentTimeSec: number;
+  /**
+   * Anonim önizleme: günlük 3 soru. Oturumlu: ders başına 5 soru.
+   * Yalnız açılış metnini belirler; gerçek kota sunucudadır.
+   */
+  guest?: boolean;
 };
 
 export function LessonAssistantPanel({
   courseSlug,
   lessonKey,
   currentTimeSec,
+  guest = false,
 }: LessonAssistantPanelProps) {
+  const initialLimit = guest ? ACADEMY_LESSON_ASSISTANT_GUEST_LIMIT : ACADEMY_LESSON_ASSISTANT_QUESTION_LIMIT;
   const [question, setQuestion] = useState("");
   const [reply, setReply] = useState("");
   const [error, setError] = useState("");
-  const [remaining, setRemaining] = useState<number>(ACADEMY_LESSON_ASSISTANT_QUESTION_LIMIT);
+  const [remaining, setRemaining] = useState<number>(initialLimit);
   const [pending, setPending] = useState(false);
 
   async function onSubmit(event: FormEvent) {
@@ -72,7 +79,9 @@ export function LessonAssistantPanel({
     >
       <h3 className="text-sm font-semibold text-slate-900">Takıldığın yeri sor</h3>
       <p className="mt-1 text-sm leading-6 text-slate-600">
-        Bu derste {remaining} sorun kaldı. Soru, bulunduğun saniyenin metnine bakar.
+        {guest
+          ? `Ücretsiz önizleme: bugün ${remaining} sorun kaldı. Soru, bulunduğun saniyenin metnine bakar.`
+          : `Bu derste ${remaining} sorun kaldı. Soru, bulunduğun saniyenin metnine bakar.`}
       </p>
       <form className="mt-3 flex flex-col gap-2" onSubmit={onSubmit}>
         <label className="sr-only" htmlFor={`lesson-ask-${lessonKey}`}>

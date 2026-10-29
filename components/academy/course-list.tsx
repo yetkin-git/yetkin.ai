@@ -4,8 +4,10 @@ import { useMemo, type ReactNode } from "react";
 
 import type { AcademyCourseWithPrice } from "@/lib/academy/types";
 import { CourseCard, type CourseCardSurface } from "@/components/academy/course-card";
+import { BeginCheckoutLink } from "@/components/academy/begin-checkout-link";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
+import { formatMinorCompact } from "@/lib/kernel/money/format";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import {
   EMPTY_ACADEMY_CATALOG_LEARNER_BOARD,
@@ -51,8 +53,7 @@ export function CourseList({
   buyHrefs = {},
   saleHolds = {},
   advancedOnly = false,
-}: {
-  courses: AcademyCourseWithPrice[];
+}: {  courses: AcademyCourseWithPrice[];
   extraBadge?: string | null;
   /** Katalog/vitrin: keşif kartı. Kütüphane: fiyat yok. */
   surface?: CourseCardSurface;
@@ -83,6 +84,16 @@ export function CourseList({
   const heroCourse = ordered.find((course) => course.slug === ACADEMY_FLAGSHIP_SKU_SLUG) ?? null;
   const advancedCourses = ordered.filter((course) => course.slug !== ACADEMY_FLAGSHIP_SKU_SLUG);
 
+  // Hero birincil eylemleri. Ücretsiz ders herkese açık; satın alma oturum ister.
+  // Kartla aynı çözücü okunur: fiyat bilinmiyorsa uydurulmaz, düğme fiyatsız basılır.
+  const heroPreviewHref = `/academy/${ACADEMY_FLAGSHIP_SKU_SLUG}/oyna`;
+  const heroPriceLabel = heroCourse?.priceMinor
+    ? formatMinorCompact(heroCourse.priceMinor, heroCourse.currencyCode)
+    : null;
+  const heroBuyHref = heroCourse
+    ? buyHrefs[heroCourse.slug] ?? `/academy/${heroCourse.slug}`
+    : null;
+
   const renderCard = (course: AcademyCourseWithPrice, featured: boolean) => {
     const owned = ownedSet.has(course.slug);
     const cardSurface: CourseCardSurface =
@@ -104,8 +115,7 @@ export function CourseList({
   };
 
   let body: ReactNode;
-  if (courses.length === 0 || visible.length === 0) {
-    body = (
+  if (courses.length === 0 || visible.length === 0) {    body = (
       <Card variant="default" className="border-dashed shadow-sm" data-academy-production-band="">
         <p className="text-base font-semibold text-[var(--foreground)]">{copy.empty}</p>
         <p className="mt-2 text-sm text-[var(--muted)]">{copy.description}</p>
@@ -211,6 +221,43 @@ export function CourseList({
             </h1>
             <p className="mt-3 max-w-3xl text-base leading-7 text-[var(--muted)]">{copy.description}</p>
             <p className="mt-2 text-sm font-medium text-[var(--safir-deep)]">{copy.stats}</p>
+            {/* Vitrin birincil eylemi hero'da: ücretsiz ders (kayıtsız) + eğitime başla.
+                Önce yalnız "Sertifikalar"/"Doğrula" vardı; satın alma düğmesi 600+ px
+                aşağıda kalıyordu. Sertifika/doğrulama ikincil satıra iner. */}
+            {!advancedOnly ? (
+              <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+                <LinkButton
+                  href={heroPreviewHref}
+                  size="lg"
+                  variant="success"
+                  className="w-full sm:w-auto"
+                  data-academy-hero-preview-cta=""
+                >
+                  {copy.heroPreviewCta}
+                </LinkButton>
+                {heroCourse && heroBuyHref ? (
+                  <BeginCheckoutLink
+                    href={heroBuyHref}
+                    size="lg"
+                    className="w-full sm:w-auto"
+                    data-academy-hero-start-cta=""
+                    itemId={heroCourse.slug}
+                    itemName={heroCourse.title}
+                    valueMinor={heroCourse.priceMinor}
+                    currency={heroCourse.currencyCode}
+                  >
+                    {copy.heroStartCta(heroPriceLabel)}
+                  </BeginCheckoutLink>
+                ) : (
+                  <LinkButton href="/academy/01_office_ai" size="lg" className="w-full sm:w-auto">
+                    {copy.heroStartCta(heroPriceLabel)}
+                  </LinkButton>
+                )}
+              </div>
+            ) : null}
+            {!advancedOnly ? (
+              <p className="mt-2 text-xs leading-6 text-[var(--muted)]">{copy.heroLead}</p>
+            ) : null}
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <LinkButton href="/academy/certificates" variant="outline" className="shrink-0">

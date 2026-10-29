@@ -260,7 +260,8 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     const byPath = new Map(entries.map((entry) => [sitemapPathname(entry.url), entry]));
 
     expect(PRODUCT_ROOM_PATHS).toEqual(["/academy", "/career"]);
-    expect(byPath.has("/")).toBe(false);
+    // Kök marka iniş sayfası artık indekslenebilir (P1 tedavi).
+    expect(byPath.has("/")).toBe(true);
     for (const path of ["/academy", "/academy/dogrula", "/vize", "/legal", "/iletisim", "/hakkimizda"]) {
       expect(byPath.has(path), path).toBe(true);
     }
@@ -332,6 +333,8 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     const rules = robots().rules;
     const rule = Array.isArray(rules) ? rules[0] : rules;
     expect(SITEMAP_STATIC_PATHS).toEqual([
+      // Kök marka iniş sayfası (P1 tedavi): 308 kilidi kalktı, index:true.
+      "/",
       "/academy",
       "/academy/ileri",
       "/career",
@@ -339,7 +342,7 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
       "/academy/dogrula",
       "/vize",
     ]);
-    expect(SITEMAP_STATIC_PATHS).not.toContain("/");
+    expect(SITEMAP_STATIC_PATHS).toContain("/");
     expect(rule?.userAgent).toEqual(["*", "Googlebot"]);
     expect(rule?.allow).toEqual(expect.arrayContaining([...SITEMAP_STATIC_PATHS, "/legal"]));
     expect(rule?.allow).toEqual(expect.arrayContaining(["/academy", "/career", "/vize"]));
@@ -744,8 +747,11 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
     expect(PAGE_SEO.academy.title).not.toBe(ACADEMY_SEN.catalog.title);
     expect(PAGE_SEO.career.title.toLocaleLowerCase("tr")).toContain("kariyer vizesi");
     expect(ACADEMY_SEN.catalog.title).toBe("Yapay Zekâyı Öğren. Gerçek İşlerinde Kullan.");
-    expect(ACADEMY_SEN.catalog.description.toLocaleLowerCase("tr")).toContain("yapay zeka eğitimi");
-    expect(ACADEMY_SEN.catalog.description.toLocaleLowerCase("tr")).toContain("online kurs");
+    // P1 tedavi: anahtar kelime yığını vitrin gövdesinden çıktı. SEO niyeti meta
+    // açıklamasında ve SSS'te durur; gövde paragrafı ürün cümlesidir.
+    expect(PAGE_SEO.academy.description.toLocaleLowerCase("tr")).toContain("yapay zeka eğitimi");
+    expect(PAGE_SEO.academy.description.toLocaleLowerCase("tr")).toContain("online kurs");
+    expect(ACADEMY_SEN.catalog.description.toLocaleLowerCase("tr")).not.toContain("yayındadır");
     expect(CAREER_SEN.title.toLocaleLowerCase("tr")).toBe("kariyer vizesi");
     expect(PUBLIC_SEN.home.cinemaKicker.toLocaleLowerCase("tr")).toContain("yapay zeka eğitimi");
     expect(readSrc("app/(public)/page.tsx")).toContain("<h2");

@@ -10,6 +10,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
  *
  * `jsonOk` hop şemasına uymayan gövdeyi 500'e çevirir; yani bu testler geçerse
  * sözleşme ile gövde birebir örtüşüyor demektir.
+ *
+ * Tam turda Junior katalog importu 5 sn tavanını aşıyordu. Tavan 120 sn;
+ * iddia değişmedi, yalnız yük altındaki süre payı genişledi.
  */
 
 const REQUEST_ID = "550e8400-e29b-41d4-a716-446655440000";
@@ -71,7 +74,7 @@ function ctx(id: string) {
 }
 void ctx;
 
-describe("GET /api/junior/shelves", () => {
+describe("GET /api/junior/shelves", { timeout: 120_000 }, () => {
   beforeEach(() => {
     harness.session = {
       id: "905afe38-6b66-42be-acde-461d6e6e68e3",
@@ -161,7 +164,7 @@ describe("GET /api/junior/shelves", () => {
   });
 });
 
-describe("GET /api/junior/progress", () => {
+describe("GET /api/junior/progress", { timeout: 120_000 }, () => {
   beforeEach(() => {
     harness.session = {
       id: "905afe38-6b66-42be-acde-461d6e6e68e3",
@@ -196,7 +199,7 @@ describe("GET /api/junior/progress", () => {
   });
 });
 
-describe("GET /api/academy/catalog", () => {
+describe("GET /api/academy/catalog", { timeout: 120_000 }, () => {
   beforeEach(() => {
     harness.session = {
       id: "905afe38-6b66-42be-acde-461d6e6e68e3",

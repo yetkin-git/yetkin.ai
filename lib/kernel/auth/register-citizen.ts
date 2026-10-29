@@ -9,6 +9,7 @@ import {
 } from "@/lib/kernel/auth/signup-errors";
 import {
   buildSignupAuthMetadata,
+  deriveSignupDisplayName,
   isDuplicateSignupUser,
   type SignupAuthMetadata,
 } from "@/lib/kernel/auth/signup-metadata";
@@ -19,7 +20,11 @@ const PASSWORD_MAX = 256;
 export type RegisterCitizenInput = {
   email: string;
   password: string;
-  fullName: string;
+  /**
+   * Kayıt formu ad soyad istemez (üç alan: e-posta, şifre, yaş beyanı).
+   * Boş gelirse sicil adı e-posta yerelinden türetilir. Dolu gelirse doğrulanır.
+   */
+  fullName?: string | null;
   ageConfirmed: boolean;
   termsConfirmed: boolean;
 };
@@ -120,7 +125,11 @@ export function registerCitizen(input: RegisterCitizenInput, origin: string): Re
   if (password.length < CITIZEN_PASSWORD_MIN_LENGTH || password.length > PASSWORD_MAX) {
     return { ok: false, status: 400, error: AUTH_SEN.register.fail, reason: "validation" };
   }
-  const metadata = buildSignupAuthMetadata(input.fullName, input.ageConfirmed, input.termsConfirmed);
+  const metadata = buildSignupAuthMetadata(
+    input.fullName?.trim() ? input.fullName : deriveSignupDisplayName(email),
+    input.ageConfirmed,
+    input.termsConfirmed,
+  );
   if (!metadata) {
     if (!input.termsConfirmed) {
       return { ok: false, status: 400, error: AUTH_SEN.register.termsRequired, reason: "validation" };

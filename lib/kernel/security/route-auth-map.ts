@@ -19,7 +19,7 @@ export const ROUTE_AUTH_MAP = {
   "/api/academy/courses/[id]/purchase": "session",
   "/api/academy/discussion": "public",
   "/api/academy/generateSpeech": "public",
-  "/api/academy/lesson-assistant": "session",
+  "/api/academy/lesson-assistant": "public",
   "/api/academy/pulse": "session",
   "/api/academy/reviews": "public",
   "/api/admin/catalog": "admin",

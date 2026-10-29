@@ -9,6 +9,16 @@ export const ACADEMY_LESSON_ASSISTANT_MODEL = getDefaultModelId(ACADEMY_LESSON_A
 export const ACADEMY_LESSON_ASSISTANT_QUESTION_LIMIT = 5 as const;
 export const ACADEMY_LESSON_ASSISTANT_PATH = "/api/academy/lesson-assistant" as const;
 
+/**
+ * Anonim ziyaretçi kotası — ücretsiz ders önizlemesinde IP başına.
+ * Günlük 3 soru: farklılaştırıcıyı tattıracak kadar cömert, kötüye kullanımı
+ * engelleyecek kadar dar. Kimlikli kullanıcı kendi 5 soruluk ders kotasını kullanır.
+ */
+export const ACADEMY_LESSON_ASSISTANT_GUEST_LIMIT = 3 as const;
+
+export const ACADEMY_LESSON_ASSISTANT_GUEST_REPLY_LIMIT =
+  "Ücretsiz önizlemede günlük üç soru hakkın var. Kalan hakkın bitince eğitime başlayınca sorular açılır." as const;
+
 export const ACADEMY_LESSON_ASSISTANT_OFF_TOPIC =
   "Ben bu ders için buradayım, odağımızı kaybetmeyelim. Takıldığın adımı dersin içinden sor." as const;
 

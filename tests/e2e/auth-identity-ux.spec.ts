@@ -33,7 +33,8 @@ test.describe("vatandaş kimlik UX", () => {
 
     await expect(page.locator("form")).toBeVisible();
     await expect(page.getByText("Kayıt henüz bağlanmadı")).toHaveCount(0);
-    await expect(page.getByLabel("Ad soyad")).toBeVisible();
+    await expect(page.getByLabel("E-posta")).toBeVisible();
+    await expect(page.getByLabel("18 yaşından büyüğüm.")).toBeVisible();
     await page.getByRole("button", { name: "Güvenli Şifre Üret" }).click();
     const password = page.getByRole("textbox", { name: "Şifre" });
     await expect(password).toHaveAttribute("type", "text");

@@ -273,16 +273,15 @@ describe("proxy.ts kenar mühürleri", () => {
     expectV1Fail(await citizen.json(), "Bu sığınak Super Admin kilidine bağlıdır.");
   });
 
-  it("kök adres akademi kataloğuna 308 iner; kamu sayfa nonce CSP basar", async () => {
+  it("kök adres marka iniş sayfasıdır (200); kamu sayfa nonce CSP basar", async () => {
     const home = await proxy(request("/"));
-    expect(home.status).toBe(308);
-    expect(home.headers.get("location")).toBe("http://localhost:3000/academy");
+    expect(home.status).toBe(200);
+    expect(home.headers.get("location")).toBeNull();
     expectNonceCsp(home);
+    // Eski 308 kilidi kalktı: sorgu dizesi korunur, kataloğa savrulmaz.
     const tracked = await proxy(request("/?utm_source=google"));
-    expect(tracked.status).toBe(308);
-    expect(tracked.headers.get("location")).toBe(
-      "http://localhost:3000/academy?utm_source=google",
-    );
+    expect(tracked.status).toBe(200);
+    expect(tracked.headers.get("location")).toBeNull();
     const legal = await proxy(request("/hakkimizda"));
     expect(legal.status).toBe(200);
     expectNonceCsp(legal);

@@ -14,7 +14,7 @@ export const ADMIN_SEN = {
     eyebrow: "B2C kazanım hunisi",
     title: "Ziyaretten vize kartına",
     intro:
-      "Öndeki dört adım pazar doğrulamadır. Vitrin, ücretsiz ders ve ödeme niyeti anonim gösterimdir. Satın alma SETTLED, alttaki lisans adımıyla aynı tekil kişidir. Kazanım adımları iş tablolarından okunur. Bağış (sa_grant) ve freelancer damgası ticari hunide yoktur. Üçüncü taraf çerez yoktur.",
+      "Öndeki dört adım pazar doğrulamadır. Vitrin, ücretsiz ders ve ödeme niyeti anonim gösterimdir. Satın alma SETTLED, alttaki lisans adımıyla aynı tekil kişidir. Kazanım adımları iş tablolarından okunur. Bağış (sa_grant) ve freelancer damgası ticari hunide yoktur. Reklam çerezi yoktur. Dönüşüm ve performans, Google Analytics (GA4) ile birinci taraf olarak ölçülür.",
     loadSoft:
       "Huni şu an okunamadı. Bağlantı kurulunca oranlar burada durur; uydurma yüzde basılmaz.",
     rangeToday: "Bugün",

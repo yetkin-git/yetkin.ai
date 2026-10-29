@@ -52,6 +52,7 @@ async function renderAcademyFreePreview(course: AcademyCourseWithPrice, signedIn
           paywallPriceLabel={academyPlayerPaywallPrice(course)}
           freePreviewAudio={freePreviewAudio}
           checkoutHref={academyPlayerCheckoutHref(course.slug, signedIn)}
+          viewerSignedIn={signedIn}
           media={loadAcademyLessonMediaPrime(course.slug, { paywallLocked: true })}
         />
       </div>
@@ -172,6 +173,7 @@ export default async function AcademyCurriculumPlayerPage({
           curriculumComplete={player.curriculumComplete}
           workTasksComplete={player.workTasksComplete}
           freePreviewAudio={lessonAudio}
+          viewerSignedIn
           media={loadAcademyLessonMediaPrime(board.course.slug, {
             openLessonKeys,
           })}
