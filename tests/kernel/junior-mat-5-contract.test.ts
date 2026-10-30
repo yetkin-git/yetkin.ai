@@ -384,6 +384,33 @@ describe("jr_06_mat-1 pilot sözleşmesi", () => {
     const dynamicMat5 = await loadPilotTimelineForLesson("jr_06_mat-1");
     expect(dynamicMat5?.lessonKey).toBe("jr_06_mat-1");
   });
+
+  it("rakam kutusu ChromeOS'ta düz zemin, sistem fontu ve kontrastlı renk taşır", () => {
+    const factorCue = cueById("cue-04");
+    const shown = reduceSceneState(JR_06_MAT_5_TIMELINE, factorCue.endMs - 50);
+    const factorHtml = renderToStaticMarkup(
+      createElement(FactorMultipleStage, { state: shown, currentTimeMs: factorCue.endMs - 50 }),
+    );
+    expect(factorHtml).toContain('data-junior-digit-box="hero"');
+    expect(factorHtml).toContain("background-color:#06b6d4");
+    expect(factorHtml).toContain("color:#020617");
+    expect(factorHtml).toContain("color-scheme:light");
+    expect(factorHtml).toContain("font-family:system-ui, sans-serif");
+    expect(factorHtml).toContain('data-junior-digit-box="factor"');
+    expect(factorHtml).toContain("background-color:#0f172a");
+    expect(factorHtml).toContain("color:#a5f3fc");
+    expect(factorHtml).toContain("color-scheme:dark");
+
+    const trapCue = cueById("cue-11");
+    const atTrap = reduceSceneState(JR_06_MAT_5_TIMELINE, trapCue.endMs - 50);
+    const trapHtml = renderToStaticMarkup(createElement(DetectiveBoardStage, { state: atTrap }));
+    expect(trapHtml).toContain('data-junior-digit-box="tile"');
+    expect(trapHtml).toContain('data-junior-digit-box="sum"');
+    expect(trapHtml).toContain('data-junior-digit-box="sum-total"');
+    expect(trapHtml).toContain("background-color:#9f1239");
+    expect(trapHtml).toContain("color:#ffe4e6");
+    expect(trapHtml).toContain("font-family:system-ui, sans-serif");
+  });
 });
 
 function captionProbe(words: readonly WordTimestamp[]): TimelineJSON {

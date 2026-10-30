@@ -6662,3 +6662,39 @@ body[data-academy-listen-dock="1"] [data-assistant-fab] {
     filter: drop-shadow(0 0 6px rgba(245, 180, 40, 0.95));
   }
 }
+
+/*
+ * Junior rakam kutusu.
+ * Düz renk ve sistem fontu bileşende inline durur; gradyan onun üstüne biner.
+ * Yüksek kontrastta metin, kutunun kendi zeminine göre yeniden seçilir.
+ * Zorunlu renk modunda sistem zemini ve metni birlikte gelir.
+ */
+.junior-digit-box {
+  font-family: system-ui, sans-serif;
+}
+
+@media (prefers-contrast: more) {
+  .junior-digit-box {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
+  }
+}
+
+@supports (color: contrast-color(#ffffff)) {
+  @media (prefers-contrast: more) {
+    .junior-digit-box {
+      color: contrast-color(var(--junior-digit-bg, #06b6d4)) !important;
+      -webkit-text-fill-color: currentColor;
+    }
+  }
+}
+
+@media (forced-colors: active) {
+  .junior-digit-box {
+    forced-color-adjust: auto;
+    background-image: none;
+    background-color: Canvas;
+    color: CanvasText;
+    -webkit-text-fill-color: CanvasText;
+  }
+}

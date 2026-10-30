@@ -1,34 +1,42 @@
 "use client";
 
 import type { ReactElement } from "react";
+import {
+  JUNIOR_DIGIT_BOX_CLASS,
+  juniorDigitBoxStyle,
+} from "@/components/junior/pilot-player/digit-box";
 import type { SceneGraphState } from "@/lib/junior/pilot-engine/state-reducer";
 
 const HIGHLIGHT_STYLES = {
   cyan: {
     border: "border-cyan-300",
     bg: "from-cyan-400/35 to-cyan-600/25",
-    text: "text-cyan-100",
     ring: "#22d3ee",
+    paint: juniorDigitBoxStyle("#164e63", "#cffafe", "dark"),
   },
   amber: {
     border: "border-amber-300",
     bg: "from-amber-400/35 to-amber-600/25",
-    text: "text-amber-100",
     ring: "#fbbf24",
+    paint: juniorDigitBoxStyle("#78350f", "#fef3c7", "dark"),
   },
   emerald: {
     border: "border-emerald-300",
     bg: "from-emerald-400/35 to-emerald-600/25",
-    text: "text-emerald-100",
     ring: "#34d399",
+    paint: juniorDigitBoxStyle("#064e3b", "#d1fae5", "dark"),
   },
   rose: {
     border: "border-rose-300",
     bg: "from-rose-400/35 to-rose-600/25",
-    text: "text-rose-100",
     ring: "#fb7185",
+    paint: juniorDigitBoxStyle("#881337", "#ffe4e6", "dark"),
   },
 } as const;
+
+const REST_DIGIT = juniorDigitBoxStyle("#0f172a", "#ffffff", "dark");
+const SUM_DIGIT = juniorDigitBoxStyle("#0f172a", "#fde68a", "dark");
+const SUM_TOTAL = juniorDigitBoxStyle("#9f1239", "#ffe4e6", "dark");
 
 const VERDICT_FADE_IN = "junior-verdict-fade-in 480ms ease-out both";
 
@@ -48,7 +56,9 @@ function DigitTile(props: {
 
   return (
     <div
+      data-junior-digit-box="tile"
       style={{
+        ...(isHighlighted ? palette.paint : REST_DIGIT),
         opacity: isDimmed ? 0.25 : 1,
         // Vurgu: scale/translateY yok — üst kenar pasif karo ile milimetrik hizada kalır
         boxShadow: isHighlighted
@@ -57,7 +67,7 @@ function DigitTile(props: {
         transition:
           "opacity 480ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 480ms cubic-bezier(0.34, 1.56, 0.64, 1), border-color 480ms cubic-bezier(0.34, 1.56, 0.64, 1)",
       }}
-      className={`@container/tile relative flex min-h-0 w-full max-w-[14rem] flex-1 flex-col items-center justify-center self-stretch overflow-hidden rounded-3xl border-2 px-2 ${
+      className={`${JUNIOR_DIGIT_BOX_CLASS} @container/tile relative flex min-h-0 w-full max-w-[14rem] flex-1 flex-col items-center justify-center self-stretch overflow-hidden rounded-3xl border-2 px-2 ${
         isHighlighted
           ? `${palette.border} bg-gradient-to-b ${palette.bg}`
           : "border-slate-600/70 bg-gradient-to-b from-slate-800 to-slate-900"
@@ -70,9 +80,11 @@ function DigitTile(props: {
         {placeLabel}
       </span>
       <span
-        className={`mt-1 text-[clamp(2rem,46cqh,7.5rem)] font-black leading-none tracking-tight ${
-          isHighlighted ? palette.text : "text-white"
-        }`}
+        style={{
+          color: isHighlighted ? palette.paint.color : REST_DIGIT.color,
+          fontFamily: "system-ui, sans-serif",
+        }}
+        className="mt-1 text-[clamp(2rem,46cqh,7.5rem)] font-black leading-none tracking-tight"
       >
         {digit}
       </span>
@@ -194,7 +206,11 @@ export function DetectiveBoardStage(props: { state: SceneGraphState }): ReactEle
                   {index > 0 ? (
                     <span className="text-2xl font-black text-amber-300 sm:text-3xl">+</span>
                   ) : null}
-                  <div className="flex aspect-square h-[68%] w-auto items-center justify-center rounded-xl border border-amber-300/60 bg-slate-900 px-3 text-4xl font-black text-amber-200 sm:text-5xl">
+                  <div
+                    data-junior-digit-box="sum"
+                    style={SUM_DIGIT}
+                    className={`${JUNIOR_DIGIT_BOX_CLASS} flex aspect-square h-[68%] w-auto items-center justify-center rounded-xl border border-amber-300/60 px-3 text-4xl font-black sm:text-5xl`}
+                  >
                     {digit}
                   </div>
                 </div>
@@ -202,7 +218,11 @@ export function DetectiveBoardStage(props: { state: SceneGraphState }): ReactEle
               {revealed ? (
                 <>
                   <span className="text-2xl font-black text-amber-300 sm:text-3xl">=</span>
-                  <div className="flex aspect-square h-[68%] w-auto items-center justify-center rounded-xl border-2 border-rose-400 bg-rose-500/25 px-3 text-4xl font-black text-rose-200 shadow-lg sm:text-5xl">
+                  <div
+                    data-junior-digit-box="sum-total"
+                    style={SUM_TOTAL}
+                    className={`${JUNIOR_DIGIT_BOX_CLASS} flex aspect-square h-[68%] w-auto items-center justify-center rounded-xl border-2 border-rose-400 px-3 text-4xl font-black shadow-lg sm:text-5xl`}
+                  >
                     {sum}
                   </div>
                 </>
