@@ -40,15 +40,17 @@ function BrandMark() {
 export function ShellChrome({
   children,
   userCluster,
+  showAdmin = false,
 }: {
   children: ReactNode;
   userCluster: ReactNode;
+  showAdmin?: boolean;
 }) {
   const [open, setOpen] = useState(false);
 
   return (
     <SidebarLayoutProvider>
-      <DesktopSidebar />
+      <DesktopSidebar showAdmin={showAdmin} />
 
       <div
         className={cn(
@@ -75,7 +77,7 @@ export function ShellChrome({
           </button>
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-4">
-          <SidebarNav onNavigate={() => setOpen(false)} />
+          <SidebarNav showAdmin={showAdmin} onNavigate={() => setOpen(false)} />
         </div>
       </aside>
 

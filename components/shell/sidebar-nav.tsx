@@ -1,14 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import type { Route } from "next";
 import { usePathname } from "next/navigation";
 import { DronBayrakları, INDEPENDENT_ROOMS, type IndependentRoomId } from "@/lib/dronlar/kayit";
+import { ADMIN_SURFACE_PATH } from "@/lib/kernel/admin/types";
 import { VERTICAL_ROOMS } from "@/lib/kernel/modules";
 import { isPhase1ShellNavRoom } from "@/lib/kernel/compliance/circuit-breakers";
 import { isJuniorShellPath } from "@/lib/ui/junior-shell";
 import { ROOM_NAV_ACCENT } from "@/lib/ui/room-theme";
 import { cn } from "@/components/ui/cn";
-import { ROOM_ICONS } from "@/components/ui/icons";
+import { IconShield, ROOM_ICONS } from "@/components/ui/icons";
 
 const INDEPENDENT_NAV_ACCENT: Record<IndependentRoomId, string> = {
   junior: "bg-[#0369a1] text-white",
@@ -27,9 +29,11 @@ function isActive(pathname: string | null, path: string): boolean {
 
 export function SidebarNav({
   collapsed = false,
+  showAdmin = false,
   onNavigate,
 }: {
   collapsed?: boolean;
+  showAdmin?: boolean;
   onNavigate?: () => void;
 }) {
   const pathname = usePathname();
@@ -100,6 +104,44 @@ export function SidebarNav({
           );
         })}
       </ul>
+      {showAdmin ? (
+        <div className="mt-3 border-t border-white/10 pt-3">
+          <ul className="flex flex-col gap-1.5">
+            <li>
+              <Link
+                href={ADMIN_SURFACE_PATH as Route}
+                onClick={onNavigate}
+                title={collapsed ? "Yönetici Paneli" : undefined}
+                aria-label={collapsed ? "Yönetici Paneli" : undefined}
+                className={cn(
+                  "group flex items-center rounded-2xl text-sm leading-snug transition",
+                  collapsed ? "justify-center px-0 py-2.5" : "gap-3 px-3 py-2.5",
+                  isActive(pathname, ADMIN_SURFACE_PATH)
+                    ? "bg-white/10 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]"
+                    : "text-white/65 hover:bg-white/5 hover:text-white",
+                )}
+              >
+                <span
+                  className={cn(
+                    "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
+                    isActive(pathname, ADMIN_SURFACE_PATH)
+                      ? "bg-[var(--safir)] text-white"
+                      : "bg-white/5 text-white/70",
+                  )}
+                >
+                  <IconShield className="h-4 w-4" />
+                </span>
+                <span className={cn("min-w-0 flex-1 overflow-hidden", collapsed && "sr-only")}>
+                  <span className="block truncate font-medium leading-snug">Yönetici Paneli</span>
+                  <span className="mt-0.5 block truncate text-xs leading-snug text-white/40">
+                    Admin Dashboard
+                  </span>
+                </span>
+              </Link>
+            </li>
+          </ul>
+        </div>
+      ) : null}
     </nav>
   );
 }

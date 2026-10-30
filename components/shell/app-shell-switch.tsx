@@ -12,9 +12,11 @@ const JUNIOR_LESSON_PATH = /^\/junior\/ders\/[^/]+\/?$/;
 export function AppShellSwitch({
   children,
   userCluster,
+  showAdmin = false,
 }: {
   children: ReactNode;
   userCluster: ReactNode;
+  showAdmin?: boolean;
 }) {
   const pathname = usePathname() ?? "";
   if (pathname.startsWith(DOCUMENT_PREFIX)) {
@@ -34,7 +36,7 @@ export function AppShellSwitch({
   const juniorVitrine = pathname === "/junior";
   return (
     <div className="min-h-screen">
-      <ShellChrome userCluster={userCluster}>
+      <ShellChrome userCluster={userCluster} showAdmin={showAdmin}>
         <main
           className={
             academyPlayer

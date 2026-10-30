@@ -9,11 +9,24 @@ import { cn } from "@/components/ui/cn";
 import { LinkButton } from "@/components/ui/link-button";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
 import { AUTH_LOGOUT_API_PATH, buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
-import { ADMIN_CATALOG_SURFACE_PATH } from "@/lib/kernel/admin/types";
+import { ADMIN_CATALOG_SURFACE_PATH, ADMIN_SURFACE_PATH } from "@/lib/kernel/admin/types";
 import { KERNEL_SURFACES } from "@/lib/kernel/modules";
 import { isJuniorShellPath } from "@/lib/ui/junior-shell";
 
 const HUB_MENU_SURFACES = KERNEL_SURFACES.filter((surface) => surface.id !== "cuzdan");
+
+function isAdminPanelPath(pathname: string | null): boolean {
+  if (!pathname) {
+    return false;
+  }
+  if (
+    pathname === ADMIN_CATALOG_SURFACE_PATH ||
+    pathname.startsWith(`${ADMIN_CATALOG_SURFACE_PATH}/`)
+  ) {
+    return false;
+  }
+  return pathname === ADMIN_SURFACE_PATH || pathname.startsWith(`${ADMIN_SURFACE_PATH}/`);
+}
 
 export function UserHub({
   showAdmin,
@@ -33,15 +46,15 @@ export function UserHub({
   const menuId = useId();
   const menuOpen = open && openPath === pathname;
 
-  const menuSurfaces = HUB_MENU_SURFACES.filter(
-    (surface) => surface.id !== "admin" || showAdmin,
-  );
+  const menuSurfaces = HUB_MENU_SURFACES.filter((surface) => surface.id !== "admin");
   const catalogActive =
     showAdmin &&
     (pathname === ADMIN_CATALOG_SURFACE_PATH ||
       pathname?.startsWith(`${ADMIN_CATALOG_SURFACE_PATH}/`));
+  const adminPanelActive = showAdmin && isAdminPanelPath(pathname);
   const menuActive =
     catalogActive ||
+    adminPanelActive ||
     menuSurfaces.some(
       (surface) => pathname === surface.path || pathname?.startsWith(`${surface.path}/`),
     );
@@ -132,7 +145,43 @@ export function UserHub({
               </div>
             </div>
           ) : null}
-          {juniorShell ? null : (
+          {juniorShell ? (
+            showAdmin ? (
+              <>
+                <div className="my-1 h-px bg-[var(--border)]" aria-hidden />
+                <ul className="space-y-0.5">
+                  <li>
+                    <Link
+                      href={ADMIN_SURFACE_PATH as Route}
+                      role="menuitem"
+                      onClick={() => setOpen(false)}
+                      className={cn(
+                        "flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition",
+                        adminPanelActive
+                          ? "bg-[var(--safir-soft)] font-semibold text-[var(--safir-deep)]"
+                          : "text-[var(--foreground)] hover:bg-[var(--surface-muted)]",
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "inline-flex h-8 w-8 items-center justify-center rounded-lg",
+                          adminPanelActive
+                            ? "bg-[var(--safir)] text-white"
+                            : "bg-[var(--surface-muted)] text-[var(--muted)]",
+                        )}
+                      >
+                        <IconShield className="h-4 w-4" />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block font-medium">Yönetici Paneli</span>
+                        <span className="block text-[11px] text-[var(--muted)]">Admin Dashboard</span>
+                      </span>
+                    </Link>
+                  </li>
+                </ul>
+              </>
+            ) : null
+          ) : (
             <>
               <div className="my-1 h-px bg-[var(--border)]" aria-hidden />
               <ul className="space-y-0.5">
@@ -168,6 +217,36 @@ export function UserHub({
                 </li>
               );
             })}
+            {showAdmin ? (
+              <li>
+                <Link
+                  href={ADMIN_SURFACE_PATH as Route}
+                  role="menuitem"
+                  onClick={() => setOpen(false)}
+                  className={cn(
+                    "flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition",
+                    adminPanelActive
+                      ? "bg-[var(--safir-soft)] font-semibold text-[var(--safir-deep)]"
+                      : "text-[var(--foreground)] hover:bg-[var(--surface-muted)]",
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "inline-flex h-8 w-8 items-center justify-center rounded-lg",
+                      adminPanelActive
+                        ? "bg-[var(--safir)] text-white"
+                        : "bg-[var(--surface-muted)] text-[var(--muted)]",
+                    )}
+                  >
+                    <IconShield className="h-4 w-4" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block font-medium">Yönetici Paneli</span>
+                    <span className="block text-[11px] text-[var(--muted)]">Admin Dashboard</span>
+                  </span>
+                </Link>
+              </li>
+            ) : null}
             {showAdmin ? (
               <li>
                 <Link

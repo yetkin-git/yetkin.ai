@@ -255,7 +255,7 @@ function SidebarResizeHandle() {
   );
 }
 
-export function DesktopSidebar() {
+export function DesktopSidebar({ showAdmin = false }: { showAdmin?: boolean }) {
   const { layout, displayWidth, dragging, commit } = useSidebarLayoutApi();
 
   return (
@@ -271,7 +271,7 @@ export function DesktopSidebar() {
         <BrandMark collapsed={layout.collapsed} />
       </div>
       <div className={cn("min-h-0 flex-1 overflow-y-auto pb-2", layout.collapsed ? "px-2" : "px-3")}>
-        <SidebarNav collapsed={layout.collapsed} />
+        <SidebarNav collapsed={layout.collapsed} showAdmin={showAdmin} />
       </div>
       <div
         className={cn(

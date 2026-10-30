@@ -29,18 +29,20 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     ]);
   });
 
-  it("sol ray Faz 1 odalarını ve Junior'u basar; çekirdek sığınak yoktur", () => {
+  it("sol ray Faz 1 odalarını ve Junior'u basar; vatandaş sığınakları yoktur, yönetici paneli yalnız showAdmin ile", () => {
     expect(VERTICAL_ROOMS).toHaveLength(4);
     const nav = readSrc("components/shell/sidebar-nav.tsx");
     expect(nav).toContain("VERTICAL_ROOMS");
     expect(nav).toContain("INDEPENDENT_ROOMS");
     expect(nav).toContain("isPhase1ShellNavRoom");
+    expect(nav).toContain("showAdmin");
+    expect(nav).toContain("ADMIN_SURFACE_PATH");
+    expect(nav).toContain("Yönetici Paneli");
     expect(nav).not.toContain("KERNEL_SURFACES");
     expect(nav).not.toContain("Çekirdek");
     expect(nav).not.toContain("/profil");
     expect(nav).not.toContain("/cuzdan");
     expect(nav).not.toContain("/pasaport");
-    expect(nav).not.toContain("/admin");
     expect(nav).not.toContain("Pasif");
   });
 
@@ -97,6 +99,8 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     expect(sessionHub).toContain("readWalletStripSnapshot");
     expect(sessionHub).toContain("Suspense");
     expect(hub).toContain("showAdmin");
+    expect(hub).toContain("ADMIN_SURFACE_PATH");
+    expect(hub).toContain("Yönetici Paneli");
     expect(hub).toContain("ADMIN_CATALOG_SURFACE_PATH");
     expect(hub).toContain('surface.id !== "admin"');
     expect(hub).toContain('surface.id !== "cuzdan"');
@@ -130,9 +134,14 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     const chrome = readSrc("components/shell/shell-chrome.tsx");
     const sessionHub = readSrc("components/shell/app-shell-user-hub.tsx");
     expect(shell).toContain("AppShellUserHub");
+    expect(shell).toContain("showAdmin");
+    expect(shell).toContain("isSuperAdminActor");
     expect(sessionHub).toContain("getSession");
     expect(sessionHub).toContain("showAdmin");
     expect(sessionHub).toContain("isSuperAdminActor");
+    expect(readSrc("components/shell/sidebar-nav.tsx")).toContain("showAdmin");
+    expect(readSrc("components/shell/desktop-sidebar.tsx")).toContain("showAdmin");
+    expect(chrome).toContain("showAdmin");
     expect(sessionHub).toContain("walletChip");
     expect(sessionHub).toContain("readWalletStripSnapshot");
     expect(chrome).toContain("userCluster");
