@@ -139,6 +139,12 @@ describe("jr_06_mat-1 pilot sözleşmesi", () => {
     expect(html).toContain("Katlanarak Büyür (≥ Sayı)");
     expect(html).not.toContain("Böler &amp; Küçültür");
     expect(html).not.toContain("Çarpar &amp; Büyütür");
+    expect(html).toContain('data-junior-factor-panel="multiplier"');
+    expect(html).toContain('data-junior-factor-panel="multiple"');
+    expect(html).toContain("overflow-y-auto");
+    expect(html).toContain("min-h-0");
+    expect(html).not.toContain("min-h-[22rem]");
+    expect(html).not.toContain("min-h-[11rem]");
   });
 
   it("24 sayısı 5'e bölünmez; eski tahta 5'e bölünür damgası basmaz", () => {

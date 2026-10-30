@@ -16,9 +16,11 @@ const TOWER_DIGIT = juniorDigitBoxStyle("#78350f", "#ffffff", "dark");
 
 /**
  * Çarpan / kat sahnesi.
- * İki kart sahne kapsayıcısı 36rem ve üzerinde yan yana durur; daha dar
- * tuvalde alt alta iner. Kartlar `min-w-0` ile ızgara izinin dışına taşmaz,
- * başlık ve işlem rozetleri sarılır, sayılar kapsayıcıya göre ölçeklenir.
+ * Sahne kısa kaldığında (Chromebook) sabit `min-height` ikinci kartı
+ * görünür alanın altına iter ve üst kapsayıcı `overflow: hidden` kırpar.
+ * Kartlar sahne yüksekliğini paylaşır (`min-h-0` + `1fr`). 16rem ve
+ * üzerinde yan yana durur; daha dar tuvalde alt alta, eşit payla sığar.
+ * Sayılar kapsayıcıya göre ölçeklenir. Artan içerik sahnede kayar.
  */
 export function FactorMultipleStage(props: {
   state: SceneGraphState;
@@ -30,32 +32,33 @@ export function FactorMultipleStage(props: {
   return (
     <div
       data-junior-factor-stage=""
-      className="@container/factorstage relative flex h-full min-h-0 w-full flex-col overflow-x-hidden overflow-y-auto p-2"
+      className="@container/factorstage relative flex h-full min-h-0 w-full flex-col overflow-x-hidden overflow-y-auto overscroll-contain p-1.5 sm:p-2"
     >
-      <div className="grid w-full min-w-0 flex-1 auto-rows-fr grid-cols-1 items-stretch gap-2 min-h-[22rem] @min-[36rem]/factorstage:min-h-[15rem] @min-[36rem]/factorstage:grid-cols-2">
+      <div className="grid min-h-0 w-full min-w-0 flex-1 grid-cols-1 grid-rows-[minmax(0,1fr)_minmax(0,1fr)] items-stretch gap-1.5 @min-[16rem]/factorstage:grid-cols-2 @min-[16rem]/factorstage:grid-rows-1 @min-[16rem]/factorstage:gap-2">
         {/* SOL PANEL: ÇARPAN (BÖLEN) — PARÇALAR */}
         <div
-          className={`@container/factorpanel flex h-full min-h-[11rem] min-w-0 flex-col overflow-hidden rounded-xl border p-2 transition-all duration-500 @min-[36rem]/factorstage:min-h-0 ${
+          data-junior-factor-panel="multiplier"
+          className={`@container/factorpanel flex h-full min-h-0 min-w-0 flex-col overflow-hidden rounded-xl border p-1.5 transition-all duration-500 sm:p-2 ${
             factorTree.visible
               ? "border-cyan-400/45 bg-cyan-950/25 shadow-[0_0_25px_rgba(34,211,238,0.12)]"
               : "border-slate-700/50 bg-slate-900/40 opacity-75"
           }`}
         >
-          <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-            <span className="max-w-full rounded-lg bg-cyan-400/20 px-2 py-1 text-[clamp(0.625rem,3.1cqi,0.75rem)] font-black uppercase leading-tight tracking-wide text-cyan-300">
+          <div className="flex min-w-0 shrink-0 flex-nowrap items-center gap-x-2 overflow-hidden">
+            <span className="shrink-0 rounded-lg bg-cyan-400/20 px-2 py-1 text-[clamp(0.625rem,3.1cqi,0.75rem)] font-black uppercase leading-tight tracking-wide text-cyan-300">
               Çarpan (= Bölen)
             </span>
-            <span className="max-w-full text-[clamp(0.625rem,2.8cqi,0.75rem)] font-bold leading-tight text-cyan-200/80">
+            <span className="min-w-0 truncate text-[clamp(0.625rem,2.8cqi,0.75rem)] font-bold leading-tight text-cyan-200/80">
               Kalansız Böler (≤ Sayı)
             </span>
           </div>
 
           <div className="mt-1 flex min-h-0 min-w-0 flex-1 flex-col items-center justify-center gap-1 overflow-hidden">
-            <div className="flex min-h-0 w-full flex-[1.15] items-center justify-center overflow-hidden">
+            <div className="@container-size/factorhero flex min-h-0 w-full flex-[1.15] items-center justify-center overflow-hidden">
               <div
                 data-junior-digit-box="hero"
                 style={HERO_DIGIT}
-                className={`${JUNIOR_DIGIT_BOX_CLASS} @container/factornum flex aspect-square h-full max-h-full w-auto max-w-[min(70%,11rem)] items-center justify-center overflow-hidden rounded-2xl border-2 border-cyan-300 bg-gradient-to-b from-cyan-400 to-cyan-600 shadow-lg`}
+                className={`${JUNIOR_DIGIT_BOX_CLASS} @container/factornum flex size-[min(100cqh,70cqw,11rem)] items-center justify-center overflow-hidden rounded-2xl border-2 border-cyan-300 bg-gradient-to-b from-cyan-400 to-cyan-600 shadow-lg`}
               >
                 <span
                   style={{ color: "#020617", fontFamily: "system-ui, sans-serif" }}
@@ -66,11 +69,11 @@ export function FactorMultipleStage(props: {
               </div>
             </div>
 
-            <div className="max-w-full shrink-0 px-1 text-center text-[clamp(0.625rem,2.8cqi,0.75rem)] font-bold leading-tight text-cyan-300">
+            <div className="max-w-full shrink-0 truncate px-1 text-center text-[clamp(0.625rem,2.8cqi,0.75rem)] font-bold leading-tight text-cyan-300 @max-[11rem]/factorpanel:hidden">
               {factorTree.label || "6 sayısını kalansız bölen parçalar:"}
             </div>
 
-            <div className="grid min-h-0 w-full max-w-md flex-1 grid-cols-4 content-center gap-1.5">
+            <div className="@container-size/factortiles grid min-h-0 w-full max-w-md flex-1 grid-cols-4 place-items-center gap-1">
               {factorTree.visible
                 ? factorTree.factors.map((factor, idx) => (
                     <div key={factor} className="flex min-h-0 min-w-0 items-center justify-center">
@@ -82,7 +85,7 @@ export function FactorMultipleStage(props: {
                           transform: "scale(1) translateY(0)",
                           opacity: 1,
                         }}
-                        className={`${JUNIOR_DIGIT_BOX_CLASS} @container/factortile flex aspect-square h-auto max-h-full w-full min-w-0 items-center justify-center overflow-hidden rounded-xl border border-cyan-300/60 shadow-md transition-all duration-500`}
+                        className={`${JUNIOR_DIGIT_BOX_CLASS} @container/factortile flex size-[min(100cqh,22cqw)] items-center justify-center overflow-hidden rounded-xl border border-cyan-300/60 shadow-md transition-all duration-500`}
                       >
                         <span
                           style={{ color: "#a5f3fc", fontFamily: "system-ui, sans-serif" }}
@@ -97,7 +100,7 @@ export function FactorMultipleStage(props: {
             </div>
 
             {factorTree.visible && factorTree.pairs.length > 0 ? (
-              <div className="flex max-w-full shrink-0 flex-wrap justify-center gap-1.5 overflow-hidden">
+              <div className="flex max-w-full shrink-0 flex-nowrap justify-center gap-1.5 overflow-hidden @max-[11rem]/factorpanel:hidden">
                 {factorTree.pairs.map((pair) => (
                   <span
                     key={pair}
@@ -113,17 +116,18 @@ export function FactorMultipleStage(props: {
 
         {/* SAĞ PANEL: KAT — YÜKSELEN LEGO KULESİ */}
         <div
-          className={`@container/factorpanel flex h-full min-h-[11rem] min-w-0 flex-col overflow-hidden rounded-xl border p-2 transition-all duration-500 @min-[36rem]/factorstage:min-h-0 ${
+          data-junior-factor-panel="multiple"
+          className={`@container/factorpanel flex h-full min-h-0 min-w-0 flex-col overflow-hidden rounded-xl border p-1.5 transition-all duration-500 sm:p-2 ${
             multipleTower.visible
               ? "border-amber-400/45 bg-amber-950/20 shadow-[0_0_25px_rgba(251,191,36,0.12)]"
               : "border-slate-700/50 bg-slate-900/40 opacity-60"
           }`}
         >
-          <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-            <span className="max-w-full rounded-lg bg-amber-400/20 px-2 py-1 text-[clamp(0.625rem,3.1cqi,0.75rem)] font-black uppercase leading-tight tracking-wide text-amber-300">
+          <div className="flex min-w-0 shrink-0 flex-nowrap items-center gap-x-2 overflow-hidden">
+            <span className="shrink-0 rounded-lg bg-amber-400/20 px-2 py-1 text-[clamp(0.625rem,3.1cqi,0.75rem)] font-black uppercase leading-tight tracking-wide text-amber-300">
               Kat (Katlanan Kule)
             </span>
-            <span className="max-w-full text-[clamp(0.625rem,2.8cqi,0.75rem)] font-bold leading-tight text-amber-200/80">
+            <span className="min-w-0 truncate text-[clamp(0.625rem,2.8cqi,0.75rem)] font-bold leading-tight text-amber-200/80">
               Katlanarak Büyür (≥ Sayı)
             </span>
           </div>
@@ -168,7 +172,7 @@ export function FactorMultipleStage(props: {
       </div>
 
       {multipleTower.comparisonLeft && multipleTower.comparisonRight ? (
-        <div className="mt-2 grid shrink-0 grid-cols-1 gap-2 rounded-xl border border-emerald-400/40 bg-emerald-950/30 p-2 text-center @min-[36rem]/factorstage:grid-cols-2">
+        <div className="mt-1.5 grid shrink-0 grid-cols-1 gap-1.5 rounded-xl border border-emerald-400/40 bg-emerald-950/30 p-1.5 text-center @min-[16rem]/factorstage:grid-cols-2 sm:mt-2 sm:gap-2 sm:p-2">
           <div className="min-w-0 break-words rounded-lg bg-cyan-500/15 px-2 py-1 text-[clamp(0.625rem,2.6cqi,0.75rem)] font-black leading-tight text-cyan-200">
             🧩 {multipleTower.comparisonLeft}
           </div>
