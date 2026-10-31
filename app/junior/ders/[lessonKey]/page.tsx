@@ -17,7 +17,7 @@ import { juniorBookletCopy, juniorLessonMicroQuestion } from "@/lib/junior/bookl
 import { juniorCourseByLessonKey, juniorCourseSealed, juniorLessonAccess } from "@/lib/junior/catalog";
 import { juniorLessonCurriculumLabel } from "@/lib/junior/curriculum-label";
 import { juniorShortTopicLabel } from "@/lib/junior/short-topic";
-import { juniorLessonGate } from "@/lib/junior/enter";
+import { juniorLessonGate, juniorLessonLockNotice } from "@/lib/junior/enter";
 import { juniorCourseTitleFromLessonKey } from "@/lib/junior/human-titles";
 import {
   JUNIOR_QUIZ_MIN_ITEMS,
@@ -26,7 +26,6 @@ import {
   JUNIOR_FREE_LESSON_KEY,
   JUNIOR_PILOT_PUBLIC_NOTE,
   JUNIOR_PILOT_PUBLIC_TITLE,
-  juniorPaidActionError,
   juniorQuizControlLabel,
 } from "@/lib/junior/limits";
 import { juniorQuizPack } from "@/lib/junior/quiz";
@@ -129,6 +128,13 @@ export default async function JuniorLessonPage({
   const curriculumLabel = course ? juniorLessonCurriculumLabel(course.slug, lessonKey) : null;
   const shortTopicLabel = juniorShortTopicLabel(lessonKey);
   const returnPath = `/junior/ders/${lessonKey}`;
+  const lockNotice = electiveDraft
+    ? null
+    : juniorLessonLockNotice(actor, lessonKey, {
+        active: page.planActive,
+        selectedElectives: page.selectedElectives,
+        profileId: page.profileId,
+      });
   const guestPilotTrial = !session && isJuniorPilotTrialLesson(lessonKey) && (pilotFreeTrial || trialOpen);
   const accountGate =
     guestPilotTrial || isAuditActor
@@ -213,24 +219,32 @@ export default async function JuniorLessonPage({
       {!page.ready ? (
         <p className="shrink-0 text-sm text-[var(--rose)]">Profil kaydı şu an yazılamıyor.</p>
       ) : null}
-      {!electiveDraft && lesson.access === "locked" && !trialFace ? (
-        <section className="junior-shield-card shrink-0 rounded-xl border border-[var(--border)] p-3">
-          <p>{lesson.teaser}</p>
-          <p className="mt-1 text-sm text-[var(--muted)]">
-            Her kartın ilk konusu ücretsizdir. İkinci konu için{" "}
-            {juniorPaidActionError(juniorQuizPack(lessonKey)?.questions.length)}
-          </p>
+      {lockNotice ? (
+        <section
+          role="status"
+          data-junior-lock-notice={lockNotice.reason}
+          className="junior-shield-card shrink-0 rounded-xl border border-[var(--amber)]/50 bg-[color-mix(in_srgb,var(--amber)_10%,var(--surface))] p-4"
+        >
+          <h2 className="text-base font-semibold text-[var(--foreground)]">{lockNotice.title}</h2>
+          {"teaser" in lesson ? <p className="mt-1 text-sm leading-6">{lesson.teaser}</p> : null}
+          <p className="mt-1 text-sm leading-6 text-[var(--foreground)]">{lockNotice.body}</p>
           <div className="mt-3 flex flex-wrap gap-2">
-            {session ? (
+            {lockNotice.reason === "login" ? (
+              <LinkButton href={buildCitizenLoginHref(returnPath)} size="sm">
+                Veli girişi
+              </LinkButton>
+            ) : null}
+            {lockNotice.reason === "plan" ? (
               <JuniorPackageDoor
                 checkoutOpen={!isJuniorCheckoutLocked()}
                 closedMessage={JUNIOR_CHECKOUT_LOCKED_ERROR}
               />
-            ) : (
-              <LinkButton href={buildCitizenLoginHref(`/junior/ders/${lessonKey}`)} size="sm">
-                Veli girişi
+            ) : null}
+            {lockNotice.reason === "elective" ? (
+              <LinkButton href="/junior#secmeli" size="sm">
+                Seçmeli ders ekle
               </LinkButton>
-            )}
+            ) : null}
           </div>
         </section>
       ) : null}

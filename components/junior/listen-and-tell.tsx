@@ -486,7 +486,7 @@ export function ListenAndTell({
   return (
     <section
       aria-label={title}
-      className="junior-quest flex h-full min-h-0 w-full flex-1 flex-col gap-1 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-1.5 shadow-[var(--shadow-card)]"
+      className="junior-quest flex h-full min-h-0 w-full flex-1 flex-col gap-1 overflow-visible rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-1.5 shadow-[var(--shadow-card)]"
     >
       {/* Sahne kalan viewport yüksekliğini alır; kontrol çubuğu kartın altında kalır. */}
       <div className="flex min-h-0 w-full flex-1 flex-col" data-junior-stage-full={tellArmed ? "true" : undefined}>

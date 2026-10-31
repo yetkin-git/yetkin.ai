@@ -68,8 +68,11 @@ export function PackageInfoModal({
             </span>
             <div>
               <h2 id={titleId} className="text-lg font-semibold tracking-tight text-[var(--foreground)]">
-                Yıllık Junior Paketi
+                Bu konu kilitli
               </h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-[var(--foreground)]" data-junior-lock-banner="">
+                İkinci ve sonraki dersler yıllık Junior paketiyle açılır.
+              </p>
               <p className="mt-1 text-sm leading-6 text-[var(--muted)]">
                 {checkoutOpen
                   ? "Kilitli konular tek bir yıllık paketle açılır. Her hafta ayrı satılmaz; vitrindeki tek «Paketi Al» kapısı tüm çekirdek dersleri kapsar."

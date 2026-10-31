@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CourseShelf, JuniorShelfTabs, type JuniorShelfTab } from "@/components/junior/course-shelf";
 import { ProfileSwitcher } from "@/components/junior/profile-switcher";
 import { WeeklyReport } from "@/components/junior/weekly-report";
@@ -59,6 +59,11 @@ export function JuniorRoom({
   notice?: string | null;
 }) {
   const [tab, setTab] = useState<JuniorShelfTab>("Tüm Dersler");
+  useEffect(() => {
+    if (window.location.hash === "#secmeli") {
+      setTab(JUNIOR_ELECTIVE_CATEGORY);
+    }
+  }, []);
   const selected = profiles?.find((profile) => profile.selected) ?? profiles?.[0] ?? null;
   const electiveOpen = tab === JUNIOR_ELECTIVE_CATEGORY;
 

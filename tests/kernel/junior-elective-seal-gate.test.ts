@@ -10,7 +10,14 @@ import {
   juniorPaidElectives,
 } from "@/lib/junior/catalog";
 import { saveJuniorElectives } from "@/lib/junior/checkout";
-import { juniorLessonGate, juniorPlanCoversLesson, type JuniorGateDecision } from "@/lib/junior/enter";
+import {
+  JUNIOR_LOCK_ELECTIVE_NOTICE,
+  JUNIOR_LOCK_GUEST_NOTICE,
+  juniorLessonGate,
+  juniorLessonLockNotice,
+  juniorPlanCoversLesson,
+  type JuniorGateDecision,
+} from "@/lib/junior/enter";
 import { JUNIOR_GUARDIAN_NOTICE } from "@/lib/junior/guardian-notice";
 import {
   JUNIOR_ELECTIVE_DRAFT_PRICE_ERROR,
@@ -252,5 +259,45 @@ describe("Junior seçmeli mühür kapısı, mühürlü ortam (regresyon)", () =>
     expect(german?.lessons.every((lesson) => lesson.access === "free")).toBe(true);
     expect(juniorPlanCoversLesson("jr_06_alm-2", true, ["jr_06_alm"])).toBe(true);
     expect(juniorPlanCoversLesson("jr_06_ing-2", true, ["jr_06_ing"])).toBe(false);
+  });
+});
+
+describe("Junior kilit uyarısı", () => {
+  const subscriber = {
+    id: "ustaders-plan",
+    email: "ustaders.proje@gmail.com",
+    emailConfirmedAt: "2026-01-01T00:00:00.000Z",
+  };
+
+  it("misafir kilitli 2. konuda veli girişi uyarısı görür", () => {
+    const notice = juniorLessonLockNotice(null, "jr_06_mat-2", {
+      active: false,
+      selectedElectives: [],
+    });
+    expect(notice?.reason).toBe("login");
+    expect(notice?.body).toBe(JUNIOR_LOCK_GUEST_NOTICE);
+    expect(juniorLessonLockNotice(null, "jr_06_mat-1", { active: false, selectedElectives: [] })).toBeNull();
+  });
+
+  it("aktif paket çekirdeği açar; seçilmemiş seçmeli kota cümlesini basar", () => {
+    seal.allSealed = true;
+    expect(
+      juniorLessonLockNotice(subscriber, "jr_06_mat-2", { active: true, selectedElectives: [] }),
+    ).toBeNull();
+    const elective = juniorLessonLockNotice(subscriber, "jr_06_alm-2", {
+      active: true,
+      selectedElectives: [],
+    });
+    expect(elective?.reason).toBe("elective");
+    expect(elective?.body).toBe(JUNIOR_LOCK_ELECTIVE_NOTICE);
+    expect(
+      juniorLessonLockNotice(subscriber, "jr_06_alm-2", {
+        active: true,
+        selectedElectives: ["jr_06_alm"],
+      }),
+    ).toBeNull();
+    const page = readFileSync(join(process.cwd(), "app/junior/ders/[lessonKey]/page.tsx"), "utf8");
+    expect(page).toContain("data-junior-lock-notice");
+    expect(page).toContain("juniorLessonLockNotice");
   });
 });

@@ -507,7 +507,7 @@ describe("Junior oynatıcı yüzü", () => {
     expect(player).toContain("data-junior-fullscreen");
     expect(player).toContain('className="flex w-full min-h-[2.25rem]');
     const listenLayout = readFileSync(join(root, "components/junior/listen-and-tell.tsx"), "utf8");
-    expect(listenLayout).toContain("overflow-hidden");
+    expect(listenLayout).toContain("overflow-visible");
     expect(listenLayout).toContain("flex h-full min-h-0 w-full flex-1 flex-col");
     expect(listenLayout).toContain("fill");
     expect(listenLayout).toContain('"flex min-h-0 w-full flex-1 flex-col"');

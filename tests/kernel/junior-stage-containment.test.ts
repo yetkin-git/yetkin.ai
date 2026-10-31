@@ -11,9 +11,9 @@ import { describe, expect, it } from "vitest";
  *      absolute katmanı ebeveyninden büyük çizer, `overflow-hidden` sınırında
  *      sessizce kırpar ve ısınma kasetini altyazı rayının üstüne bindirir
  *      (bkz. docs/tespit_raporu_04.md §1.2, M3/M4).
- *   2. Sahne tuvali `overflow: hidden` **ve** `container-type: size` taşır.
- *      Taşma tek yerde kesilir; `cq*` birimleri viewport'a değil sahneye çözülür
- *      (§2.3, M5).
+ *   2. Sahne tuvali `overflow: hidden` **ve** `container-type: size` taşır ve
+ *      `--player-stage-min` tabanının altına inmez. `cq*` birimleri sahneye çözülür.
+ *      Bütçe tabanın altındaysa sayfa kayar (§2.3, M5).
  *   3. `cqh`/`cqmin` kullanan her kapsayıcı `container-type: size` taşır;
  *      inline-size kapsayıcı blok eksenini çözemediği için `46cqh` viewport
  *      yüksekliğine düşer (§1.3d, M7).
@@ -83,7 +83,9 @@ describe("Junior sahne kapsayıcı sözleşmesi", () => {
     expect(css).toContain("[data-junior-stage-canvas]");
     expect(css).toMatch(/\[data-junior-stage-canvas\] \{[^}]*overflow:\s*hidden/s);
     expect(css).toMatch(/\[data-junior-stage-canvas\] \{[^}]*container-type:\s*size/s);
-    expect(css).toMatch(/\[data-junior-stage-canvas\] \{[^}]*min-height:\s*0/s);
+    expect(css).toMatch(/\[data-junior-stage-canvas\] \{[^}]*min-height:\s*var\(--player-stage-min\)/s);
+    expect(css).toMatch(/--player-stage-min:\s*clamp\(11\.25rem,\s*28dvh,\s*13\.75rem\)/);
+    expect(pilot).toContain("min-h-[180px]");
   });
 
   it("cqh/cqmin kullanan her kapsayıcı container-type: size taşır", () => {
@@ -117,9 +119,10 @@ describe("Junior sahne kapsayıcı sözleşmesi", () => {
     const css = read("app/globals.css");
     expect(css).toMatch(/--player-stage-min:/);
     expect(css).toMatch(
-      /\[data-junior-player-shell\] \{[^}]*min-height:\s*min\(var\(--player-shell-min\), var\(--junior-player-budget\)\)/s,
+      /\[data-junior-player-shell\] \{[^}]*min-height:\s*max\(var\(--player-shell-min\), min\(52dvh, var\(--junior-player-budget\)\)\)/s,
     );
-    // Taban viewport bütçesini aşamaz: `min()` sarmalayıcısı 448px hatasını yapısal olarak kapatır.
+    expect(css).toMatch(/\[data-junior-player-shell\] \{[^}]*max-height:\s*none/s);
+    // Yer varken bütçe tavan olur. Bütçe sahne tabanının altındaysa taban kalır, sayfa kayar.
     expect(css).toMatch(/--junior-player-budget:\s*calc\(\s*100dvh - var\(--junior-page-chrome-offset/s);
     // Taban artık krom + sahne toplamıdır; krom ölçülür, varsayılmaz.
     expect(css).toMatch(/--player-shell-min:\s*calc\(var\(--player-chrome-min\) \+ var\(--player-stage-min\)\)/);
