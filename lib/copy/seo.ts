@@ -60,12 +60,12 @@ export function isGeneratedOgImagePath(path: string): boolean {
 }
 
 /**
- * Kamu kopyasının son içerik revizyonu — site haritası `lastmod` kaynağı.
+ * Kamu kopyasının editöryal alt sınırı. Site haritası bunu taban alır;
+ * canlı `lastmod` `readSitemapLastModified` içindedir (istek saati değil).
  *
  * `new Date()` ile her istekte tazelenen `lastmod` Google'a «her URL her saniye
- * değişiyor» der ve alan tamamen yok sayılır. Tarih bu yüzden sabittir ve kamu
- * metni (başlık, açıklama, gövde kopyası, yasal metin) değiştiğinde **elle**
- * güncellenir — `JUNIOR_GUARDIAN_NOTICE_VERSION` ile aynı disiplin.
+ * değişiyor» der ve alan tamamen yok sayılır. Bu sabit, içerik dosyası
+ * değişim günü daha yeniyse aşılır; daha eski bir dosya saati bunu geri çekmez.
  *
  * ISO 8601, UTC. Saat yazılmaz; gün hassasiyeti yeterlidir.
  */

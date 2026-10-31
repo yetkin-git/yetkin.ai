@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { AcademyCinemaCueSlide } from "@/lib/academy/cinema-cue-catalog";
 import { resolveAcademyCinemaSource } from "@/lib/academy/lesson-cinema";
 import {
@@ -190,6 +190,7 @@ export function LessonCinemaEyeLayer({
   activeCueId,
   captions = false,
   karaokeCues,
+  transport,
 }: {
   stage: AcademyLessonVisualStage;
   currentTime: number;
@@ -198,6 +199,8 @@ export function LessonCinemaEyeLayer({
   /** Vatandaş sahnesinde kapalı: paragraf teleprompter yok; kelime şeridi 16:9 sahnede overlay akar. */
   captions?: boolean;
   karaokeCues?: readonly AcademyTeleprompterLine[];
+  /** Ses çubuğu sahne kolonuyla aynı genişlikte, görselin hemen altında durur. */
+  transport?: ReactNode;
 }) {
   const copy = ACADEMY_SEN.player;
   const [captionsVisible, setCaptionsVisible] = useState(ACADEMY_KARAOKE_CAPTIONS_DEFAULT);
@@ -328,7 +331,7 @@ export function LessonCinemaEyeLayer({
         />
       ) : null}
       <div className="academy-player-widescreen-frame">
-        <div className="academy-player-stage-column">
+        <div className="academy-player-stage-column" data-academy-stage-frame="">
         <div className="academy-player-widescreen academy-player-karaoke-stage aspect-video">
           <div className="academy-player-eye-canvas" data-academy-eye-canvas="" data-academy-stage-theme={stageTheme}>
       {excelBackdrop ? (
@@ -515,6 +518,7 @@ export function LessonCinemaEyeLayer({
       ) : null}
           </div>
         </div>
+        {transport}
         </div>
       </div>
     </div>

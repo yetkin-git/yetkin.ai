@@ -1,4 +1,4 @@
-import { JUNIOR_MAT_32, JUNIOR_MAT_32_SCENARIO } from "@/lib/junior/content/mat/16";
+import { juniorGraphLessonCopy } from "@/lib/junior/content-source";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
@@ -7,13 +7,14 @@ import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
  * 10 cm köşegen 5 ve 5. 6 cm köşegen 3 ve 3.
  * İndirgeyici yarımını hesaplamaz.
  */
-const example = JUNIOR_MAT_32_SCENARIO.example.replace(/\s+/g, " ").trim();
+const lessonCopy = juniorGraphLessonCopy("jr_06_mat-16");
+const example = lessonCopy.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "köşegenleri 10", "showAngle");
 
 export const JR_06_MAT_32_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
   lessonKey: "jr_06_mat-16",
-  title: JUNIOR_MAT_32_SCENARIO.title,
-  listenText: JUNIOR_MAT_32.listenText,
+  title: lessonCopy.title,
+  listenText: lessonCopy.listenText,
   example,
   exampleMarked,
   audioPath: "/media/junior/audio/jr_06_mat-16.mp3",

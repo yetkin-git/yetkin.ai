@@ -101,6 +101,26 @@ describe("junior live tutor answer", () => {
     }
   });
 
+  it("refuses the model until the route allows it", async () => {
+    const invoke = vi.fn();
+    const result = await answerJuniorLiveTutor(
+      {
+        userId: "veli-1",
+        lessonKey: "jr_06_alm-2",
+        message: "Bu kuralı bir örnekle açıklar mısın?",
+      },
+      {
+        invoke,
+        consumeQuota: async () => ({ allowed: true, remaining: 11, limit: 12 }),
+      },
+    );
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.status).toBe(403);
+    }
+    expect(invoke).not.toHaveBeenCalled();
+  });
+
   it("redirects off-topic questions", async () => {
     const result = await answerJuniorLiveTutor(
       {

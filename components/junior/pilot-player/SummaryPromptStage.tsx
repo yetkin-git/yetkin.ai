@@ -46,23 +46,28 @@ export function SummaryPromptStage(props: { state: SceneGraphState }): ReactElem
 
   return (
     <div className="relative flex h-full min-h-0 w-full flex-col overflow-hidden p-3 sm:p-4">
-      <div className="grid min-h-0 flex-1 auto-rows-fr grid-cols-2 items-stretch gap-2 sm:grid-cols-3">
+      <div
+        className="grid min-h-0 flex-1 auto-rows-min grid-cols-2 items-start gap-2 overflow-y-auto overscroll-contain sm:grid-cols-3"
+        data-junior-summary-grid=""
+      >
         {cards.map((card, idx) => (
           <div
             key={card.title}
             style={{
               transitionDelay: `${idx * 100}ms`,
             }}
-            className="flex min-h-0 flex-col justify-center rounded-xl border border-cyan-300/35 bg-slate-900/75 p-3.5 shadow-md"
+            className="flex shrink-0 flex-col justify-start rounded-xl border border-cyan-300/35 bg-slate-900/75 p-3.5 shadow-md"
           >
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500/20 text-lg">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-500/20 text-lg">
                   {ICON_MAP[card.icon] ?? "✨"}
                 </span>
-                <h4 className="text-sm font-black text-cyan-200 sm:text-base">{card.title}</h4>
+                <h4 className="min-w-0 text-sm font-black text-cyan-200 [overflow-wrap:anywhere] sm:text-base">
+                  {card.title}
+                </h4>
               </div>
-              <p className="mt-2 text-sm font-bold leading-relaxed text-slate-200">
+              <p className="mt-2 text-sm font-bold leading-relaxed text-slate-200 [overflow-wrap:anywhere]">
                 {card.body}
               </p>
             </div>

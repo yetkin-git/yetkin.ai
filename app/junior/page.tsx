@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { JuniorPackageViewItem } from "@/components/junior/junior-ga4";
 import { JuniorRoom } from "@/components/junior/junior-room";
 import { JsonLd } from "@/components/seo/json-ld";
 import { LandingFaq } from "@/components/seo/landing-faq";
@@ -20,7 +21,7 @@ import {
 import { formatJuniorElectiveShelfNote } from "@/lib/junior/elective-shelf-note";
 import { JUNIOR_ELECTIVE_SLUGS, JUNIOR_PILOT_GRADE } from "@/lib/junior/limits";
 import { loadJuniorHome } from "@/lib/junior/load";
-import { readJuniorYearlyPrice } from "@/lib/junior/price";
+import { juniorYearlyMeasurement, readJuniorYearlyPrice } from "@/lib/junior/price";
 
 export const dynamic = "force-dynamic";
 
@@ -63,13 +64,14 @@ export default async function JuniorHomePage({
     ),
     stamped,
   );
-  const priceLabel = await readJuniorYearlyPrice()
-    .then((price) => price?.label ?? null)
-    .catch(() => null);
+  const price = await readJuniorYearlyPrice().catch(() => null);
+  const priceLabel = price?.label ?? null;
+  const measured = juniorYearlyMeasurement(price);
 
   return (
     <RoomFrame className="space-y-2">
       <JsonLd data={juniorLandingJsonLd()} />
+      <JuniorPackageViewItem valueMinor={measured.valueMinor} currency={measured.currency} />
       <JuniorRoom
         courses={listed}
         electiveCourses={electiveCourses}

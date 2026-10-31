@@ -10,7 +10,7 @@
 
 import { academyCourseOffersFreePreview } from "@/lib/kernel/catalog-ids/free-preview";
 import { canEnterJunior } from "@/lib/kernel/security/junior-gate";
-import { ga4ConnectSrcExtra, ga4ScriptSrcExtra } from "@/lib/kernel/telemetry/csp";
+import { ga4ConnectSrcExtra, ga4ImgSrcExtra, ga4ScriptSrcExtra } from "@/lib/kernel/telemetry/csp";
 import { readMediaPublicBaseUrl } from "@/lib/media/public-url";
 import { isFrozenShellPagePath } from "../compliance/circuit-breakers";
 import {
@@ -317,9 +317,10 @@ export function buildEdgeCsp(nonce: string, env: EdgeCspEnv = process.env): stri
   const cdn = mediaCdnCspOrigin(env);
   const gaScript = ga4ScriptSrcExtra(env);
   const gaConnect = ga4ConnectSrcExtra(env);
+  const gaImg = ga4ImgSrcExtra(env);
   const imgSrc = cdn
-    ? `img-src 'self' data: blob: ${cdn} ${EDGE_CSP_R2_MEDIA_ORIGIN}`
-    : `img-src 'self' data: blob: ${EDGE_CSP_R2_MEDIA_ORIGIN}`;
+    ? `img-src 'self' data: blob: ${cdn} ${EDGE_CSP_R2_MEDIA_ORIGIN}${gaImg}`
+    : `img-src 'self' data: blob: ${EDGE_CSP_R2_MEDIA_ORIGIN}${gaImg}`;
   const mediaSrc = cdn ? `${EDGE_CSP_MEDIA_SRC_DIRECTIVE} ${cdn}` : EDGE_CSP_MEDIA_SRC_DIRECTIVE;
   return (
     "default-src 'self'; " +

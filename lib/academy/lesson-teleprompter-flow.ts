@@ -1,7 +1,10 @@
 /**
  * Ders teleprompter akışı — cue SSOT + bake timings.
  * Canlı mühürlü WAV’da saat HTMLAudio currentTime’dır.
- * Kelime-oranlı paylaşım yalnız timings yokken taslak cue üretiminde kullanılır; yayın senkronu değildir.
+ * Mühürlü parçada ekran metni `piece.text` fonetiğidir; `chunkIndex` dilim seçici değildir.
+ * Kelime saati (`words`) varsa cümle ve vurgu o saate oturur.
+ * Karakter/kelime oranlı paylaşım yalnız kelime saati yokken taslaktır.
+ * Kelime saati varken bölüt tutmazsa oran üretilmez; parça saati ve dizi durur.
  */
 
 import { splitAcademySpokenSentences } from "@/lib/academy/dialogue-timeline";
@@ -12,6 +15,7 @@ import {
 import {
   type AcademySealedAudioPiece,
   type AcademySealedAudioTimings,
+  type AcademySealedAudioWord,
   loadAcademySealedAudioTimings,
 } from "@/lib/academy/lesson-audio-timings";
 import { splitAcademyTtsBreathChunks } from "@/lib/academy/tts-breath-chunks";
@@ -26,6 +30,8 @@ export type AcademyTeleprompterLine = {
   text: string;
   start: number;
   end: number;
+  /** Mühürlü kelime saati. Yoksa cümle içi vurgu taslak orandır. */
+  words?: readonly AcademySealedAudioWord[];
 };
 
 /** Karaoke altyazı — 16:9 sahnede en fazla 3–4 satır. */
@@ -93,10 +99,177 @@ export function splitAcademyKaraokeCaptionBlocks(text: string): string[] {
   return blocks;
 }
 
+type SealedWordSegment = {
+  spoken: readonly AcademySealedAudioWord[];
+  tokens: readonly { text: string; glue: boolean }[];
+};
+
+/** Konuşulan kelimeleri ekran tokenlarına oturtur. Eşleşme yoksa null; karakter payı üretilmez. */
+function segmentSealedWords(
+  displayText: string,
+  sealed: readonly AcademySealedAudioWord[],
+): SealedWordSegment[] | null {
+  const display = academyKaraokeTokenize(displayText);
+  if (display.length === 0 || sealed.length === 0) {
+    return null;
+  }
+  const segments: SealedWordSegment[] = [];
+  let spokenCursor = 0;
+  let tokenCursor = 0;
+  while (tokenCursor < display.length) {
+    let found: { spokenEnd: number; tokenEnd: number } | null = null;
+    for (let spokenEnd = spokenCursor + 1; spokenEnd <= sealed.length; spokenEnd += 1) {
+      const phrase = sealed
+        .slice(spokenCursor, spokenEnd)
+        .map((word) => word.text)
+        .join(" ");
+      const rendered = academyKaraokeTokenize(applyAcademySpokenPhoneticsToDisplay(phrase));
+      if (rendered.length === 0) {
+        continue;
+      }
+      const remaining = display.slice(tokenCursor, tokenCursor + rendered.length);
+      if (remaining.length !== rendered.length) {
+        continue;
+      }
+      const same = remaining.every((token, index) => token.text === rendered[index]!.text);
+      if (!same) {
+        continue;
+      }
+      found = { spokenEnd, tokenEnd: tokenCursor + rendered.length };
+      break;
+    }
+    if (!found) {
+      return null;
+    }
+    segments.push({
+      spoken: sealed.slice(spokenCursor, found.spokenEnd),
+      tokens: display.slice(tokenCursor, found.tokenEnd),
+    });
+    spokenCursor = found.spokenEnd;
+    tokenCursor = found.tokenEnd;
+  }
+  if (spokenCursor !== sealed.length) {
+    return null;
+  }
+  return segments;
+}
+
+function karaokeWordsFromSegments(
+  lineId: string,
+  segments: readonly SealedWordSegment[],
+): AcademyKaraokeWord[] {
+  const words: AcademyKaraokeWord[] = [];
+  let tokenIndex = 0;
+  for (const segment of segments) {
+    const produced = segment.tokens;
+    const slice = segment.spoken;
+    if (slice.length === produced.length) {
+      for (let index = 0; index < produced.length; index += 1) {
+        const token = produced[index]!;
+        const source = slice[index]!;
+        words.push({
+          id: `${lineId}:w${tokenIndex}`,
+          text: token.text,
+          glue: token.glue,
+          start: source.start,
+          end: source.end,
+        });
+        tokenIndex += 1;
+      }
+      continue;
+    }
+    if (produced.length === 1) {
+      const token = produced[0]!;
+      words.push({
+        id: `${lineId}:w${tokenIndex}`,
+        text: token.text,
+        glue: token.glue,
+        start: slice[0]!.start,
+        end: slice[slice.length - 1]!.end,
+      });
+      tokenIndex += 1;
+      continue;
+    }
+    const start = slice[0]!.start;
+    const end = slice[slice.length - 1]!.end;
+    for (const token of produced) {
+      words.push({
+        id: `${lineId}:w${tokenIndex}`,
+        text: token.text,
+        glue: token.glue,
+        start,
+        end,
+      });
+      tokenIndex += 1;
+    }
+  }
+  return words;
+}
+
+function shareBlocksBySealedWords(
+  line: AcademyTeleprompterLine,
+  blocks: readonly string[],
+): AcademyTeleprompterLine[] | null {
+  const sealed = line.words;
+  if (!sealed || sealed.length === 0) {
+    return null;
+  }
+  const segments = segmentSealedWords(line.text, sealed);
+  if (!segments) {
+    return null;
+  }
+  const blockCounts = blocks.map((block) => academyKaraokeTokenize(block).length);
+  if (blockCounts.reduce((sum, count) => sum + count, 0) !== segments.reduce((sum, segment) => sum + segment.tokens.length, 0)) {
+    return null;
+  }
+  const next: AcademyTeleprompterLine[] = [];
+  let segmentIndex = 0;
+  for (let blockIndex = 0; blockIndex < blocks.length; blockIndex += 1) {
+    let need = blockCounts[blockIndex]!;
+    if (need === 0) {
+      return null;
+    }
+    const spoken: AcademySealedAudioWord[] = [];
+    const blockSegments: SealedWordSegment[] = [];
+    while (need > 0) {
+      const segment = segments[segmentIndex];
+      if (!segment || segment.tokens.length > need) {
+        return null;
+      }
+      spoken.push(...segment.spoken);
+      blockSegments.push(segment);
+      need -= segment.tokens.length;
+      segmentIndex += 1;
+    }
+    const timed = karaokeWordsFromSegments(line.id, blockSegments);
+    if (timed.length === 0 || spoken.length === 0) {
+      return null;
+    }
+    next.push({
+      ...line,
+      id: `${line.id}:${blockIndex}`,
+      text: blocks[blockIndex]!,
+      start: timed[0]!.start,
+      end: timed[timed.length - 1]!.end,
+      words: spoken,
+    });
+  }
+  if (segmentIndex !== segments.length) {
+    return null;
+  }
+  return next;
+}
+
 function shareTeleprompterLineByBlocks(
   line: AcademyTeleprompterLine,
   blocks: readonly string[],
 ): AcademyTeleprompterLine[] {
+  if (line.words && line.words.length > 0) {
+    if (blocks.length <= 1) {
+      return [line];
+    }
+    return shareBlocksBySealedWords(line, blocks) ?? [line];
+  }
   if (blocks.length <= 1) {
     return [line];
   }
@@ -177,7 +350,7 @@ export function academyKaraokeReconstructLine(
   return out;
 }
 
-/** Alt şerit — mühürlü parça saatini cümlelere böler; kelime-saati yayın saati değildir. */
+/** Alt şerit. Kelime saati varsa cümle penceresi o saattir; yoksa parça saati cümlelere oranlanır. */
 export function academyKaraokeStripLines(
   lines: readonly AcademyTeleprompterLine[],
 ): readonly AcademyTeleprompterLine[] {
@@ -192,8 +365,22 @@ export function loadAcademyKaraokeStrip(lessonKey: string): readonly AcademyTele
 }
 
 export function academyKaraokeWords(
-  line: Pick<AcademyTeleprompterLine, "id" | "text" | "start" | "end">,
+  line: Pick<AcademyTeleprompterLine, "id" | "text" | "start" | "end" | "words">,
 ): readonly AcademyKaraokeWord[] {
+  const sealed = line.words;
+  if (sealed && sealed.length > 0) {
+    const segments = segmentSealedWords(line.text, sealed);
+    if (segments) {
+      return karaokeWordsFromSegments(line.id, segments);
+    }
+    return sealed.map((word, index) => ({
+      id: `${line.id}:w${index}`,
+      text: word.text,
+      glue: index > 0 && academyKaraokeShouldGlueToPrevious(word.text),
+      start: word.start,
+      end: word.end,
+    }));
+  }
   const tokens = academyKaraokeTokenize(line.text);
   if (tokens.length === 0) {
     return [];
@@ -232,6 +419,19 @@ export function academyKaraokeWordState(
     return "past";
   }
   return "active";
+}
+
+/** Vurgu yalnız kelimenin kendi aralığındadır. Sessizlikte ilk kelimeye dönülmez. */
+export function academyKaraokeActiveWordIndex(
+  words: readonly Pick<AcademyKaraokeWord, "start" | "end">[],
+  currentTime: number,
+): number | null {
+  for (let index = 0; index < words.length; index += 1) {
+    if (academyKaraokeWordState(words[index]!, currentTime) === "active") {
+      return index;
+    }
+  }
+  return null;
 }
 
 function compactAcademyTeleprompterCaptions(
@@ -287,23 +487,14 @@ function cueSectionById(cues: readonly AcademyLessonCue[], cueId: string): strin
   return cues.find((cue) => cue.id === cueId)?.section ?? "";
 }
 
-function overlayCueDisplayText(
-  cues: readonly AcademyLessonCue[],
-  piece: Pick<AcademySealedAudioPiece, "cueId" | "cueParagraphIndex" | "chunkIndex" | "text">,
-  pieces: readonly Pick<AcademySealedAudioPiece, "cueId" | "cueParagraphIndex">[],
-): string {
-  const cue = cues.find((row) => row.id === piece.cueId);
-  const displayParagraph = cue ? academyLessonCueScriptParagraphs(cue)[piece.cueParagraphIndex] : undefined;
-  const displayChunks = displayParagraph ? splitAcademyTtsBreathChunks(displayParagraph) : [];
-  const siblingCount = pieces.filter(
-    (row) => row.cueId === piece.cueId && row.cueParagraphIndex === piece.cueParagraphIndex,
-  ).length;
-  const spoken = piece.text.trim();
-  const overlay =
-    displayChunks.length > 0 && displayChunks.length === siblingCount
-      ? (displayChunks[piece.chunkIndex] ?? spoken)
-      : spoken;
-  return applyAcademySpokenPhoneticsToDisplay(overlay);
+/**
+ * Mühürlü parça ekranı. `chunkIndex` kardeş sırası değildir
+ * (`01_office_ai-1` ikinci parça `chunkIndex: 1` iken paragrafın ilk dilimidir).
+ * Cue paragrafını o indeksten kesmek anlatılan cümleyi kaydırır.
+ * Ekran, konuşulan `piece.text` ile fonetik ekran teriminin aynı metnidir.
+ */
+function overlayCueDisplayText(piece: Pick<AcademySealedAudioPiece, "text">): string {
+  return applyAcademySpokenPhoneticsToDisplay(piece.text.trim());
 }
 
 export function buildAcademyTeleprompterFlowFromTimings(
@@ -318,9 +509,10 @@ export function buildAcademyTeleprompterFlowFromTimings(
       id: pieceLineId(piece),
       cueId: piece.cueId,
       section: cueSectionById(cues, piece.cueId),
-      text: overlayCueDisplayText(cues, piece, timings.pieces),
+      text: overlayCueDisplayText(piece),
       start: piece.start,
       end: piece.end,
+      ...(piece.words && piece.words.length > 0 ? { words: piece.words } : {}),
     }));
   }
   const rows: { cueId: string; section: string; text: string }[] = [];

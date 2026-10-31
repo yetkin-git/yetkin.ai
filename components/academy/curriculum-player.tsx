@@ -14,7 +14,9 @@ import { LessonStudyTabs } from "@/components/academy/lesson-study-tabs";
 import { LessonCinemaEyeLayer } from "@/components/academy/lesson-visual-stage";
 import { PrepStripPanel } from "@/components/academy/prep-strip-panel";
 import { AcademyProgressGateCard } from "@/components/academy/progress-gate-card";
+import { WorkfileDownload } from "@/components/academy/workfile-download";
 import { OFFICE_AI_EXIT_KIT_SLUG } from "@/lib/academy/exit-kit";
+import { academyExamPathFirstLessonKey } from "@/lib/kernel/catalog-ids/free-preview";
 import {
   academyPrepStripAudioDurationSec,
   academyPrepStripForSlug,
@@ -39,7 +41,7 @@ import {
   academyLessonBedPlaybackSrc,
   isAcademyLessonBedSealed,
 } from "@/lib/academy/lesson-audio";
-import { isAcademyTtsCassetteRevoked } from "@/lib/academy/pilot-sku";
+import { ACADEMY_FLAGSHIP_SKU_SLUG, isAcademyTtsCassetteRevoked } from "@/lib/academy/pilot-sku";
 import { resolveAcademyProgressGate } from "@/lib/academy/progress-gate";
 import type { AcademyProgressGate } from "@/lib/academy/progress-gate";
 import {
@@ -98,6 +100,8 @@ export function CurriculumPlayer({
   freePreviewAudio = null,
   checkoutHref: checkoutHrefProp = null,
   viewerSignedIn = false,
+  workfileLoginHref = null,
+  workfileRegisterHref = null,
 }: {
   courseId: string;
   courseSlug: string;
@@ -114,8 +118,10 @@ export function CurriculumPlayer({
   freePreviewAudio?: Readonly<Record<string, { src: string; bedSrc?: string | null }>> | null;
   /** Satın Al. Oturum varsa kasa çapası, yoksa giriş. Boşsa `#satin-al`. */
   checkoutHref?: string | null;
-  /** Ücretsiz önizlemede oturum var mı. Yoksa asistan günlük 3 soru metnini basar. */
+  /** Ücretsiz ilk derste çalışma dosyası. Oturum yoksa kayıt penceresi açılır. */
   viewerSignedIn?: boolean;
+  workfileLoginHref?: string | null;
+  workfileRegisterHref?: string | null;
 }) {
   primeAcademyLessonMedia(media);
   const lessonMediaGeneration = academyLessonJsonGeneration();
@@ -143,6 +149,7 @@ export function CurriculumPlayer({
   const [pending, setPending] = useState(false);
   const [mediaElapsed, setMediaElapsed] = useState(0);
   const [mediaPlaying, setMediaPlaying] = useState(false);
+  const [theater, setTheater] = useState(false);
   const [completedKeys, setCompletedKeys] = useState(
     () => new Set(lessons.filter((lesson) => lesson.completed).map((lesson) => lesson.key)),
   );
@@ -557,6 +564,18 @@ export function CurriculumPlayer({
     !paywallLocked && courseSlug === OFFICE_AI_EXIT_KIT_SLUG
       ? (`/academy/${courseSlug}/cikis-paketi` as Route)
       : null;
+  const openingLessonKey = academyExamPathFirstLessonKey(courseSlug);
+  const showStarterPack = Boolean(
+    paywallLocked &&
+      !prepActive &&
+      active &&
+      openingLessonKey &&
+      active.key === openingLessonKey &&
+      !lessonPaywalled &&
+      courseSlug === ACADEMY_FLAGSHIP_SKU_SLUG &&
+      workfileLoginHref &&
+      workfileRegisterHref,
+  );
   const prepAudioSealed = isAcademyPrepStripAudioSealed(courseSlug);
   const prepDurationMin = prepAudioSealed
     ? Math.max(1, Math.round(academyPrepStripAudioDurationSec(courseSlug) / 60))
@@ -721,11 +740,56 @@ export function CurriculumPlayer({
     </aside>
   );
 
+  const lessonTransport =
+    karaoke && active ? (
+      <LessonMediaPlayer
+        key={active.key}
+        courseSlug={courseSlug}
+        lessonKey={active.key}
+        lessonTitle={activeTitle}
+        autoStart={autoStartPlayback}
+        audioSrcOverride={karaoke.audioSrc}
+        grantedSrc={freePreviewAudio?.[active.key]?.src}
+        grantedBedSrc={freePreviewAudio?.[active.key]?.bedSrc}
+        bedSrcOverride={
+          isAcademyLessonBedSealed(courseSlug, active.key) &&
+          !academyLessonBedIsHardMixed(active.key)
+            ? academyLessonBedPlaybackSrc(courseSlug, active.key)
+            : undefined
+        }
+        sealedDurationSecOverride={karaoke.durationSec}
+        theater={theater}
+        onTheaterToggle={() => setTheater((current) => !current)}
+        onSpokenElapsedChange={setMediaElapsed}
+        onPlayingChange={(playing) => {
+          setMediaPlaying(playing);
+          if (playing) {
+            playbackStartedKeyRef.current = active.key;
+            setAutoStartPlayback(false);
+            if (
+              paywallLocked &&
+              !freePreviewTrackedRef.current &&
+              !isAcademyPlayerPaywallLessonLocked(courseSlug, active.key, true)
+            ) {
+              freePreviewTrackedRef.current = true;
+              trackPlayFreePreview({
+                itemId: courseSlug,
+                lessonKey: active.key,
+                itemName: active.title,
+              });
+            }
+          }
+        }}
+        onEnded={onMediaEnded}
+      />
+    ) : null;
+
   return (
     <div
       className="academy-player-shell mx-auto grid min-h-0 w-full max-w-[1580px] flex-1 grid-cols-1 grid-rows-[auto_auto] gap-3 overflow-visible lg:grid-cols-[minmax(0,1fr)_360px] lg:grid-rows-[auto] lg:items-start lg:gap-4"
       data-academy-player={karaoke || prepKaraoke ? "karaoke" : "article"}
       data-academy-player-layout="document"
+      data-academy-theater={theater ? "true" : "false"}
     >
       {active || prepActive ? (
         <>
@@ -750,6 +814,8 @@ export function CurriculumPlayer({
                 courseSlug={courseSlug}
                 grantedSrc={freePreviewAudio?.[prepStrip.key]?.src}
                 grantedBedSrc={freePreviewAudio?.[prepStrip.key]?.bedSrc}
+                theater={theater}
+                onTheaterToggle={() => setTheater((current) => !current)}
               />
             ) : null}
 
@@ -797,46 +863,11 @@ export function CurriculumPlayer({
                     playing={mediaPlaying}
                     captions={false}
                     karaokeCues={karaoke.cues}
+                    transport={lessonTransport}
                   />
-                ) : null}
-                <LessonMediaPlayer
-                  key={active.key}
-                  courseSlug={courseSlug}
-                  lessonKey={active.key}
-                  lessonTitle={activeTitle}
-                  autoStart={autoStartPlayback}
-                  audioSrcOverride={karaoke.audioSrc}
-                  grantedSrc={freePreviewAudio?.[active.key]?.src}
-                  grantedBedSrc={freePreviewAudio?.[active.key]?.bedSrc}
-                  bedSrcOverride={
-                    isAcademyLessonBedSealed(courseSlug, active.key) &&
-                    !academyLessonBedIsHardMixed(active.key)
-                      ? academyLessonBedPlaybackSrc(courseSlug, active.key)
-                      : undefined
-                  }
-                  sealedDurationSecOverride={karaoke.durationSec}
-                  onSpokenElapsedChange={setMediaElapsed}
-                  onPlayingChange={(playing) => {
-                    setMediaPlaying(playing);
-                    if (playing) {
-                      playbackStartedKeyRef.current = active.key;
-                      setAutoStartPlayback(false);
-                      if (
-                        paywallLocked &&
-                        !freePreviewTrackedRef.current &&
-                        !isAcademyPlayerPaywallLessonLocked(courseSlug, active.key, true)
-                      ) {
-                        freePreviewTrackedRef.current = true;
-                        trackPlayFreePreview({
-                          itemId: courseSlug,
-                          lessonKey: active.key,
-                          itemName: active.title,
-                        });
-                      }
-                    }
-                  }}
-                  onEnded={onMediaEnded}
-                />
+                ) : (
+                  lessonTransport
+                )}
                 {karaoke && dockPrompt ? (
                   <div
                     className="academy-player-compare-prompt"
@@ -852,6 +883,16 @@ export function CurriculumPlayer({
                   </div>
                 ) : null}
               </section>
+            ) : null}
+
+            {showStarterPack ? (
+              <div className="mx-1" data-academy-workfile-slot="">
+                <WorkfileDownload
+                  signedIn={viewerSignedIn}
+                  loginHref={workfileLoginHref ?? ""}
+                  registerHref={workfileRegisterHref ?? ""}
+                />
+              </div>
             ) : null}
 
             {previewUpsell ? (
@@ -893,7 +934,7 @@ export function CurriculumPlayer({
                 courseSlug={courseSlug}
                 lessonKey={active.key}
                 currentTimeSec={speechElapsed}
-                guest={paywallLocked && !viewerSignedIn}
+                guest={!viewerSignedIn}
               />
             ) : null}
 

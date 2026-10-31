@@ -184,7 +184,10 @@ function trNumber(value: number): string {
 
 function MeasureLine(props: { tag: string; text: string }): ReactElement {
   return (
-    <p data-junior-circle-line={props.tag} className="text-sm font-black text-white">
+    <p
+      data-junior-circle-line={props.tag}
+      className="shrink-0 text-sm font-black leading-snug text-white [overflow-wrap:anywhere]"
+    >
       {props.text}
     </p>
   );
@@ -200,8 +203,11 @@ function CircleBoard(props: { card: CircleMeasureState }): ReactElement {
   const endY = cy - radiusPx * Math.cos(sweep);
   const large = sweep > Math.PI ? 1 : 0;
   return (
-    <div className="grid h-full min-h-0 grid-cols-[148px_1fr] gap-3" data-junior-graphic-op="circle-measure">
-      <svg viewBox="0 0 148 160" className="h-full w-full" aria-hidden="true">
+    <div
+      className="grid h-full min-h-0 grid-cols-[minmax(6rem,34%)_minmax(0,1fr)] gap-3"
+      data-junior-graphic-op="circle-measure"
+    >
+      <svg viewBox="0 0 148 160" className="h-full w-full max-w-full" aria-hidden="true">
         <circle cx={cx} cy={cy} r={radiusPx} fill="none" stroke="#22d3ee" strokeWidth="3" />
         {card.diameter > 0 ? (
           <line
@@ -224,7 +230,10 @@ function CircleBoard(props: { card: CircleMeasureState }): ReactElement {
           />
         ) : null}
       </svg>
-      <div className="flex min-h-0 flex-col justify-center gap-1.5">
+      <div
+        className="flex min-h-0 min-w-0 flex-col justify-start gap-1.5 overflow-y-auto overscroll-contain [overflow-wrap:anywhere]"
+        data-junior-measure-rail=""
+      >
         {card.radius > 0 ? <MeasureLine tag="radius" text={`r = ${trNumber(card.radius)}`} /> : null}
         {card.relation.length > 0 ? <MeasureLine tag="relation" text={card.relation} /> : null}
         {card.diameter > 0 ? <MeasureLine tag="diameter" text={`R = ${trNumber(card.diameter)}`} /> : null}
@@ -436,7 +445,10 @@ function AngleBoard(props: { card: AngleState }): ReactElement {
   const triangle = card.triangle.length > 0 ? card.triangle.map((value) => `${trNumber(value)}°`).join(" + ") : "";
   const quad = card.quadrilateral.length > 0 ? card.quadrilateral.map((value) => `${trNumber(value)}°`).join(" + ") : "";
   return (
-    <div className="flex h-full min-h-0 flex-col gap-1.5" data-junior-graphic-op="angle">
+    <div
+      className="flex h-full min-h-0 flex-col gap-1.5 overflow-y-auto overscroll-contain [&>*]:shrink-0 [overflow-wrap:anywhere]"
+      data-junior-graphic-op="angle"
+    >
       {degreeLine("acute", "iç açı", card.acute)}
       {degreeLine("corresponding", "yöndeş", card.corresponding)}
       {degreeLine("alternate", "iç ters", card.alternate)}
@@ -493,7 +505,10 @@ function AngleBoard(props: { card: AngleState }): ReactElement {
 function AreaBoard(props: { card: AreaState }): ReactElement {
   const { card } = props;
   return (
-    <div className="flex h-full min-h-0 flex-col gap-1.5" data-junior-graphic-op="area">
+    <div
+      className="flex h-full min-h-0 flex-col gap-1.5 overflow-y-auto overscroll-contain [&>*]:shrink-0 [overflow-wrap:anywhere]"
+      data-junior-graphic-op="area"
+    >
       {card.base > 0 ? <p className="text-sm font-black text-white">taban {trNumber(card.base)}</p> : null}
       {card.height > 0 ? <p className="text-sm font-black text-white">yükseklik {trNumber(card.height)}</p> : null}
       {card.slant > 0 ? <p className="text-sm font-bold text-rose-200">eğik {trNumber(card.slant)}</p> : null}

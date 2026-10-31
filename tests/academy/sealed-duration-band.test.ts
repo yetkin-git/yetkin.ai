@@ -29,11 +29,11 @@ describe("mühürlü süre bandı ve kurs SSOT", () => {
     const k1 = loadAcademySpokenScriptProse("01_office_ai-k1");
     const capstone = loadAcademySpokenScriptProse("01_office_ai-6");
     expect(k1).toMatch(/MASKELİ TELEFON/u);
-    expect(k1).toMatch(/MASKELİ MAAŞ/u);
+    expect(k1).toMatch(/MASKELİ İban/u);
     expect(capstone).toMatch(/yinelenen bir takvim bloğu/u);
   });
 
-  it("9 kaset timings okunur; underBand boş, üst dakika tavanı yoktur", () => {
+  it("8 kaset timings okunur; k1 sprint bandı 3:30–4:00, diğerleri 5 dk tabanında", () => {
     const keys = curriculumLessonKeysForSlug(SLUG);
     expect(keys).toHaveLength(8);
     const underBand: string[] = [];
@@ -45,6 +45,9 @@ describe("mühürlü süre bandı ve kurs SSOT", () => {
         underBand.push(key);
       }
     }
-    expect(underBand).toEqual([]);
+    expect(underBand).toEqual(["01_office_ai-k1"]);
+    const mask = loadAcademySealedAudioTimings("01_office_ai-k1");
+    expect(mask!.durationSec).toBeGreaterThanOrEqual(210);
+    expect(mask!.durationSec).toBeLessThanOrEqual(240);
   });
 });

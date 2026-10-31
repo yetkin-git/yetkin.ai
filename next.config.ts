@@ -93,6 +93,8 @@ const nextConfig: NextConfig = {
     "@prisma/client-runtime-utils",
     "pg",
     "@digabi/noto-sans",
+    "@google-analytics/data",
+    "google-gax",
   ],
   turbopack: {
     resolveAlias: {

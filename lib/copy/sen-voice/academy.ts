@@ -186,6 +186,31 @@ export const ACADEMY_SEN = {
     /** Anayasa B4 — satın alma duvarının yanında birincil önizleme. Oynatıcı `/oyna`. */
     heroPreviewCta: "1. Dersi Ücretsiz İzle",
     previewLead: "İlk dersi ücretsiz izle. İçeriği gör, sonra karar ver.",
+    /** Antre — kapak JPG’si posterdir; oynatıcı yerel ısınma MP4’sini açar. */
+    previewStageTitle: "İlk ders önizlemesi",
+    previewStageLead:
+      "Kapak karesi ısınma kasetinin posteridir. Oynatıcı yerel MP4 dosyasını açar. Tam ilk ders ücretsiz oynatıcıdadır.",
+    deliverablesEyebrow: "Somut çıktı",
+    deliverablesTitle: "Eğitim Sonunda Elde Edeceğiniz Somut Çıktılar",
+    deliverablesLead:
+      "Sekiz ders bitince elinde üç parça kalır. Satın alma tek başına sertifika basmaz.",
+    deliverableExcelTitle: "Excel şablonları",
+    deliverableExcelBody:
+      "A1 sütun adı, birleşik hücreyi çözme ve tür birliği. İlk ders paketi bu kontrol listesini indirir. Cuma 30 tablo adımı eğitimle açılır.",
+    deliverablePromptTitle: "Prompt kütüphanesi",
+    deliverablePromptBody:
+      "İlk dersin istemi indirme paketindedir. Sekiz dersin istem kartları çıkış paketinde durur.",
+    deliverableCertificateTitle: "Doğrulanabilir sertifika",
+    deliverableCertificateBody:
+      "Testi 70+ ile geçince belge sunucuda mühürlenir. Doğrulama adresi Akademi doğrulama sayfasıdır.",
+    workfileCta: "İndirilebilir Çalışma Dosyaları (.zip)",
+    workfileHint: "İlk ders: A1 kontrol listesi ve istem. Paket zip olarak iner.",
+    workfileGateTitle: "Çalışma dosyası için ücretsiz kayıt",
+    workfileGateBody:
+      "İndirme, oturum açınca başlar. Kayıt mevcut üyelik formuna gider; yaş onayı ve sözleşme orada durur.",
+    workfileRegisterCta: "Ücretsiz kayıt",
+    workfileLoginCta: "Giriş yap",
+    workfileGateDismiss: "Kapat",
     /** Antre / vitrin fiyat yerine — DURUM B (satın alındı). */
     accessOpen: "Erişim Açık",
     purchasedBadge: "Satın Alındı",
@@ -563,6 +588,10 @@ export const ACADEMY_SEN = {
     volume: "Ses",
     mute: "Sesi kapat",
     unmute: "Sesi aç",
+    theater: "Tiyatro modu",
+    theaterExit: "Tiyatro modundan çık",
+    fullscreen: "Tam ekran",
+    fullscreenExit: "Tam ekrandan çık",
     cardProgress: (current: number, total: number) => `${current} / ${total} Bölüm`,
   },
   studio: {

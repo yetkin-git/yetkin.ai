@@ -25,7 +25,8 @@ import { loadAcademyOynaAudioGrants } from "@/lib/academy/lesson-audio-issue";
 import { loadAcademyLessonMediaPrime } from "@/lib/academy/lesson-media-prime";
 import { academyPrepStripForSlug, isAcademyPrepStripAudioSealed } from "@/lib/academy/prep-strip";
 import { formatMinorCompact } from "@/lib/kernel/money/format";
-import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
+import { buildCitizenLoginHref, buildCitizenRegisterHref } from "@/lib/kernel/auth/redirects";
+import { academyFreePreviewPlayerPath } from "@/lib/academy/free-preview-shell";
 import { academyCheckoutHref } from "@/lib/academy/storefront-cta";
 import type { AcademyCourseWithPrice } from "@/lib/academy/types";
 import { FUNNEL_FREE_LESSON_STEP } from "@/lib/kernel/admin/funnel-constants";
@@ -53,6 +54,8 @@ async function renderAcademyFreePreview(course: AcademyCourseWithPrice, signedIn
           freePreviewAudio={freePreviewAudio}
           checkoutHref={academyPlayerCheckoutHref(course.slug, signedIn)}
           viewerSignedIn={signedIn}
+          workfileLoginHref={buildCitizenLoginHref(academyFreePreviewPlayerPath(course.slug))}
+          workfileRegisterHref={buildCitizenRegisterHref(academyFreePreviewPlayerPath(course.slug))}
           media={loadAcademyLessonMediaPrime(course.slug, { paywallLocked: true })}
         />
       </div>
@@ -173,7 +176,6 @@ export default async function AcademyCurriculumPlayerPage({
           curriculumComplete={player.curriculumComplete}
           workTasksComplete={player.workTasksComplete}
           freePreviewAudio={lessonAudio}
-          viewerSignedIn
           media={loadAcademyLessonMediaPrime(board.course.slug, {
             openLessonKeys,
           })}

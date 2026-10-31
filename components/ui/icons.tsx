@@ -440,6 +440,26 @@ export function IconMaximize(props: IconProps) {
   );
 }
 
+export function IconMinimize(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="M4 9h4V5" />
+      <path d="M20 9h-4V5" />
+      <path d="M4 15h4v4" />
+      <path d="M20 15h-4v4" />
+    </Svg>
+  );
+}
+
+export function IconTheater(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <rect x="2.5" y="6" width="19" height="12" rx="1.5" />
+      <path d="M15 6v12" />
+    </Svg>
+  );
+}
+
 export function IconCaptions(props: IconProps) {
   return (
     <Svg {...props}>

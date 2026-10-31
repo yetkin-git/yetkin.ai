@@ -1,4 +1,4 @@
-import { JUNIOR_MAT_36, JUNIOR_MAT_36_SCENARIO } from "@/lib/junior/content/mat/22";
+import { juniorGraphLessonCopy } from "@/lib/junior/content-source";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
@@ -7,13 +7,14 @@ import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
  * 90° açı 90° yay görür. Tam tur 360°, yarım 180°, dilim 60°, pay 6.
  * Dereceler bu grafikten okunur.
  */
-const example = JUNIOR_MAT_36_SCENARIO.example.replace(/\s+/g, " ").trim();
+const lessonCopy = juniorGraphLessonCopy("jr_06_mat-22");
+const example = lessonCopy.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "Merkez açı 90", "showArc");
 
 export const JR_06_MAT_36_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
   lessonKey: "jr_06_mat-22",
-  title: JUNIOR_MAT_36_SCENARIO.title,
-  listenText: JUNIOR_MAT_36.listenText,
+  title: lessonCopy.title,
+  listenText: lessonCopy.listenText,
   example,
   exampleMarked,
   audioPath: "/media/junior/audio/jr_06_mat-22.mp3",

@@ -46,7 +46,9 @@ import { recordFunnelDailyDocumentStep } from "@/lib/kernel/admin/funnel-documen
 import { walletAvailableMinor } from "@/lib/kernel/ledger/load";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { CourseHeroActions } from "@/components/academy/course-hero-actions";
+import { CourseDeliverables } from "@/components/academy/course-deliverables";
 import { FreePreviewLink } from "@/components/academy/free-preview-link";
+import { FreePreviewStage } from "@/components/academy/free-preview-stage";
 import { BreadcrumbPageLabel } from "@/components/shell/header-breadcrumb";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
@@ -55,10 +57,11 @@ import { academyCourseCoverPath, academyCourseHasCinemaCover, academyCourseIsCom
 import { PRICE_LOCK_GRACE_MINUTES } from "@/lib/kernel/pricing/price-lock";
 import { isPaymentsPortConfigured } from "@/lib/kernel/payments/port";
 import { isPaytrMockCheckoutAllowed } from "@/lib/kernel/payments/paytr/checkout";
-import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
+import { buildCitizenLoginHref, buildCitizenRegisterHref } from "@/lib/kernel/auth/redirects";
 import { resolveAcademyCourseFromSeed } from "@/lib/academy/published-catalog";
 import { academyCourseOffersFreePreview } from "@/lib/kernel/catalog-ids/free-preview";
 import {
+  ACADEMY_FLAGSHIP_SKU_SLUG,
   academyCourseHasSealedAudio,
   academyMediaSealedLessonKeys,
   academyReleasedProductionLineParams,
@@ -66,6 +69,10 @@ import {
   ACADEMY_OFF201_STOREFRONT_SLUG,
   isAcademyStorefrontSlug,
 } from "@/lib/academy/pilot-sku";
+import {
+  academyFreePreviewPlayerPath,
+  academyFreePreviewWarmupMp4,
+} from "@/lib/academy/free-preview-shell";
 import { JsonLd } from "@/components/seo/json-ld";
 import { LandingFaq } from "@/components/seo/landing-faq";
 import { OfficeAiGuidePreview } from "@/components/academy/office-ai-guide-preview";
@@ -247,7 +254,10 @@ export default async function AcademyCoursePage({
       : playerCopy.openCta;
   const progressPercent = academyProgressPercent(completedKeys.length, syllabus.lessonCount);
   const showFreePreview = !hasAccess && academyCourseOffersFreePreview(board.course.slug);
-  const previewHref = showFreePreview ? `/academy/${board.course.slug}/oyna` : null;
+  const previewHref = showFreePreview ? academyFreePreviewPlayerPath(board.course.slug) : null;
+  const previewMp4 = showFreePreview ? academyFreePreviewWarmupMp4(board.course.slug) : null;
+  const workfileNext = academyFreePreviewPlayerPath(board.course.slug);
+  const isFlagship = board.course.slug === ACADEMY_FLAGSHIP_SKU_SLUG;
   const outcomeLead = academyFocusSalePitch(board.course.slug)?.find((row) => row.id === "result")?.text;
 
   return (
@@ -335,7 +345,19 @@ export default async function AcademyCoursePage({
           />
         }
       />
+      {previewMp4 && previewHref ? (
+        <FreePreviewStage
+          mp4Src={previewMp4}
+          poster={academyCourseCoverPath(board.course.slug)}
+          playerHref={previewHref}
+          signedIn={Boolean(session)}
+          loginHref={buildCitizenLoginHref(workfileNext)}
+          registerHref={buildCitizenRegisterHref(workfileNext)}
+          offerWorkfile={isFlagship}
+        />
+      ) : null}
       <FocusSalePitch slug={board.course.slug} previewHref={previewHref} />
+      {isFlagship ? <CourseDeliverables /> : null}
       {saleHold ? (
         <p className="text-sm font-medium leading-6 text-[var(--foreground)]" data-academy-sale-hold="">
           {saleHold}

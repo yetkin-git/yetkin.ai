@@ -229,7 +229,28 @@ describe("akademi göz katmanı — 01_office_ai-1 Excel punchcard", () => {
     expect(css).toContain("anchor-name: --academy-copilot-dock");
     expect(css).toMatch(/\.academy-player-media-card\s*\{[^}]*inset:\s*0/s);
     expect(css).toMatch(/\.academy-player-punchcard-dock\s*\{[^}]*right:\s*0\.7rem/s);
-    expect(css).toMatch(/\.academy-player-waiter\s*\{[^}]*inset:\s*3\.15rem 0\.7rem 3\.55rem/s);
+    expect(css).toMatch(/\.academy-player-waiter\s*\{[^}]*inset:\s*0\s*;/s);
+    expect(css).toMatch(/\.academy-player-waiter\s*\{[^}]*width:\s*100%/s);
+    expect(css).toMatch(/\.academy-player-waiter\s*\{[^}]*height:\s*100%/s);
+    expect(css).toMatch(/\.academy-player-eye-plate\s*\{[^}]*object-fit:\s*cover/s);
+    expect(css).toMatch(
+      /\.academy-player-karaoke-overlay \.academy-player-karaoke-line\s*\{[^}]*background:\s*rgba\(0,\s*0,\s*0,\s*0\.75\)/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-overlay \.academy-player-karaoke-line\s*\{[^}]*padding:\s*0\.2rem 0\.5rem/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke-word\s*\{[^}]*text-shadow:\s*0 2px 4px rgba\(0,\s*0,\s*0,\s*0\.9\)/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke \.academy-player-audio-bar\[data-academy-chrome="hidden"\]:not\(:has\(\.academy-player-audio-pending\)\)\s*\{[^}]*opacity:\s*0/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke \.academy-player-audio-bar\s*\{[^}]*transition:\s*opacity 0\.3s ease/s,
+    );
+    expect(media).toContain("ACADEMY_CHROME_IDLE_MS = 2500");
+    expect(media).toContain('data-academy-chrome="visible"');
+    expect(media).toContain('dataset.academyChrome = hidden ? "hidden" : "visible"');
     expect(css).toContain("academy-player-stage-column");
     expect(css).toContain("academy-player-karaoke-overlay");
     expect(css).toContain("academy-player-captions-toggle");

@@ -29,6 +29,7 @@ import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import type { LlmChatTurn } from "@/lib/kernel/ai/types";
 import { consumeHttpRateLimit } from "@/lib/kernel/security/http-rate-limit";
 import { juniorCourseByLessonKey, juniorCourseSealed } from "@/lib/junior/catalog";
+import { JUNIOR_LIVE_TUTOR_PLAN_ERROR } from "@/lib/junior/live-tutor-access";
 import { JUNIOR_ELECTIVE_SOON_LESSON_ERROR } from "@/lib/junior/limits";
 
 const ONE_DAY_MS = 24 * 60 * 60_000;
@@ -63,13 +64,18 @@ export type JuniorLiveTutorResult =
       limit: number;
       source: "local" | "llm" | "redirect" | "fail-safe";
     }
-  | { ok: false; error: string; status: 400 | 404 | 429; remaining: number; limit: number };
+  | { ok: false; error: string; status: 400 | 403 | 404 | 429; remaining: number; limit: number };
 
 export type AnswerJuniorLiveTutorDeps = InvokeLlmDeps & {
   consumeQuota?: (userId: string, lessonKey: string) => Promise<JuniorLiveTutorQuota>;
   invoke?: typeof invokeLlm;
   /** true ise LLM çağrılmaz; yerel / fail-safe yanıt döner (misafir önizleme). */
   localOnly?: boolean;
+  /**
+   * Oturumlu model çağrısı. Rota kapısı (`authorizeJuniorLiveTutor`) geçmeden true olmaz.
+   * false iken bağlam yüklenmez ve model çağrılmaz.
+   */
+  modelAllowed?: boolean;
 };
 
 async function consumeTutorQuota(userId: string, lessonKey: string): Promise<JuniorLiveTutorQuota> {
@@ -175,6 +181,16 @@ export async function answerJuniorLiveTutor(
       ok: false,
       error: "Soruyu kısa ve net yaz.",
       status: 400,
+      remaining: JUNIOR_LIVE_TUTOR_QUESTION_LIMIT,
+      limit: JUNIOR_LIVE_TUTOR_QUESTION_LIMIT,
+    };
+  }
+
+  if (deps.localOnly !== true && deps.modelAllowed !== true) {
+    return {
+      ok: false,
+      error: JUNIOR_LIVE_TUTOR_PLAN_ERROR,
+      status: 403,
       remaining: JUNIOR_LIVE_TUTOR_QUESTION_LIMIT,
       limit: JUNIOR_LIVE_TUTOR_QUESTION_LIMIT,
     };

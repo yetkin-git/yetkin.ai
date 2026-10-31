@@ -610,7 +610,7 @@ body {
 }
 
 .academy-player-shell {
-  --academy-stage-max-h: min(68vh, calc(100dvh - 11.5rem));
+  --academy-stage-max-h: min(calc(100dvh - 7.5rem), 56rem);
   --academy-player-rail-w: 360px;
   --academy-playlist-max-h: calc(100dvh - 5.5rem);
   --academy-playlist-item-pad-y: clamp(0.4rem, 1vh, 0.75rem);
@@ -651,6 +651,20 @@ body {
     /* Paket 8.1: sol tavan nefesi 1.5rem; 9 ders listesi Paket 8 hizasında kalır. */
     margin-top: calc(1rem - var(--academy-player-ceiling-breath));
   }
+
+  .academy-player-shell[data-academy-player-layout="document"][data-academy-theater="true"] {
+    max-width: none;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .academy-player-shell[data-academy-player-layout="document"][data-academy-theater="true"] .academy-player-rail,
+  .academy-player-shell[data-academy-player-layout="document"][data-academy-theater="true"] .academy-playlist {
+    width: 100%;
+    max-width: none;
+    min-height: 0;
+    max-height: 12rem;
+    margin-top: 0;
+  }
 }
 
 [data-academy-play-chrome="true"] {
@@ -665,7 +679,7 @@ body {
 
 .academy-player-shell[data-academy-player-layout="document"] .academy-player-widescreen {
   flex: 0 0 auto;
-  max-height: var(--academy-stage-max-h);
+  max-height: none;
   aspect-ratio: 16 / 9;
   background: #070b14;
 }
@@ -702,7 +716,7 @@ body {
 }
 
 .academy-player-eye-stack {
-  --academy-karaoke-band-h: 6rem;
+  --academy-karaoke-band-h: 3.25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -718,11 +732,15 @@ body {
 .academy-player-stage-column {
   display: flex;
   flex-direction: column;
-  width: min(100%, calc(var(--academy-stage-max-h) * 16 / 9));
+  width: 100%;
   max-width: 100%;
   min-width: 0;
   min-height: 0;
   margin-inline: auto;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid rgb(226 232 240);
+  background: #070b14;
 }
 
 .academy-player-shell[data-academy-player-layout="document"] .academy-player-karaoke .academy-player-widescreen,
@@ -732,13 +750,13 @@ body {
   width: 100%;
   max-width: 100%;
   height: auto;
-  max-height: var(--academy-stage-max-h);
+  max-height: none;
   min-height: min(12.5rem, var(--academy-stage-max-h));
   overflow: hidden;
   aspect-ratio: 16 / 9;
-  margin-inline: auto;
-  border-radius: 1rem;
-  border: 1px solid rgb(226 232 240);
+  margin-inline: 0;
+  border-radius: 0;
+  border: 0;
   background: #070b14;
 }
 
@@ -751,14 +769,60 @@ body {
   bottom: 0;
   z-index: 8;
   flex: 0 0 auto;
-  margin-top: 0.35rem;
-  border-radius: 0.75rem;
+  width: 100%;
+  margin-top: 0;
+  border-radius: 0;
   overflow: hidden;
   padding-bottom: max(0.2rem, env(safe-area-inset-bottom, 0px));
+  background: #070b14;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.academy-player-karaoke .academy-player-audio-bar[data-academy-chrome="hidden"]:not(:has(.academy-player-audio-pending)) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.academy-player-karaoke .academy-player-audio-bar[data-academy-chrome="hidden"] .academy-player-audio-controls {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.academy-player-stage-column:fullscreen,
+.academy-player-stage-column:-webkit-full-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  border: 0;
+  border-radius: 0;
+  background: #070b14;
+}
+
+.academy-player-stage-column:fullscreen .academy-player-karaoke-stage,
+.academy-player-stage-column:-webkit-full-screen .academy-player-karaoke-stage {
+  flex: 1 1 auto;
+  width: min(100%, calc((100vh - 3.15rem) * 16 / 9));
+  max-width: 100%;
+  max-height: calc(100% - 3.15rem);
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+}
+
+.academy-player-stage-column:fullscreen .academy-player-audio-bar,
+.academy-player-stage-column:-webkit-full-screen .academy-player-audio-bar {
+  width: min(100%, calc((100vh - 3.15rem) * 16 / 9));
+  max-width: 100%;
+  margin-top: 0;
 }
 
 .academy-player-karaoke-overlay {
-  --academy-karaoke-band-h: 6rem;
+  --academy-karaoke-band-h: 3.25rem;
   box-sizing: border-box;
   position: absolute;
   z-index: 8;
@@ -767,10 +831,10 @@ body {
   left: 0;
   display: flex;
   min-height: var(--academy-karaoke-band-h);
-  max-height: 7.5rem;
-  align-items: center;
+  max-height: 4.75rem;
+  align-items: flex-end;
   justify-content: center;
-  padding: 0.9rem 0.85rem 0.7rem;
+  padding: 0.35rem 1.1rem 0.4rem;
   overflow: visible;
   pointer-events: none;
   background: linear-gradient(
@@ -829,15 +893,11 @@ body {
 }
 
 .academy-player-eye-stack[data-academy-captions="on"] .academy-howto-band {
-  bottom: calc(var(--academy-karaoke-band-h, 6rem) + 0.35rem);
-}
-
-.academy-player-eye-stack[data-academy-captions="on"] .academy-player-waiter {
-  inset: 3.15rem 0.7rem calc(var(--academy-karaoke-band-h, 6rem) + 2.35rem);
+  bottom: calc(var(--academy-karaoke-band-h, 3.25rem) + 0.35rem);
 }
 
 .academy-player-karaoke-strip {
-  --academy-karaoke-band-h: 6rem;
+  --academy-karaoke-band-h: 3.25rem;
   box-sizing: border-box;
   display: flex;
   flex: 0 0 auto;
@@ -883,6 +943,15 @@ body {
   white-space: normal;
 }
 
+.academy-player-karaoke-overlay .academy-player-karaoke-line {
+  width: fit-content;
+  max-width: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
+}
+
 .academy-player-karaoke-line::-webkit-scrollbar {
   display: none;
 }
@@ -895,6 +964,7 @@ body {
   font-weight: inherit;
   line-height: inherit;
   white-space: nowrap;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
   transition: color 0.14s ease, text-shadow 0.14s ease, opacity 0.14s ease;
 }
 
@@ -913,7 +983,8 @@ body {
     0 0 0.6px currentColor,
     0 0 0.6px currentColor,
     0 0 22px rgba(212, 175, 122, 0.55),
-    0 1px 0 rgba(12, 10, 8, 0.35);
+    0 1px 0 rgba(12, 10, 8, 0.35),
+    0 2px 4px rgba(0, 0, 0, 0.9);
 }
 
 .academy-player-karaoke-word[data-state="future"] {
@@ -1167,15 +1238,16 @@ body {
 .academy-player-waiter {
   position: absolute;
   z-index: 2;
-  inset: 3.15rem 0.7rem 3.55rem;
+  inset: 0;
   display: flex;
-  height: auto;
+  width: 100%;
+  height: 100%;
   max-height: none;
   min-height: 0;
   flex-direction: column;
   overflow: hidden;
-  border-radius: 0.55rem;
-  box-shadow: 0 18px 48px rgba(7, 11, 20, 0.42);
+  border-radius: 0;
+  box-shadow: none;
   animation: academy-eye-scene-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
@@ -1185,6 +1257,7 @@ body {
 .academy-player-waiter > .academy-pptx-desk,
 .academy-player-waiter > .academy-word-desk {
   flex: 1 1 0;
+  width: 100%;
   min-height: 0;
   height: 100%;
   max-height: 100%;
@@ -4885,7 +4958,9 @@ body {
   }
 
   .academy-player-waiter {
-    inset: 2.45rem 0.4rem 2.8rem;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 
   .academy-player-compare {
@@ -4971,13 +5046,13 @@ body {
   }
 
   .academy-player-eye-stack {
-    --academy-karaoke-band-h: 4.75rem;
+    --academy-karaoke-band-h: 3.25rem;
   }
 
   .academy-player-karaoke-overlay {
-    --academy-karaoke-band-h: 4.75rem;
-    max-height: 5.6rem;
-    padding: 0.55rem 0.55rem 0.45rem;
+    --academy-karaoke-band-h: 3.25rem;
+    max-height: 4.25rem;
+    padding: 0.28rem 0.7rem 0.32rem;
   }
 
   .academy-player-captions-toggle {
@@ -4993,11 +5068,7 @@ body {
   }
 
   .academy-player-eye-stack[data-academy-captions="on"] .academy-howto-band {
-    bottom: calc(var(--academy-karaoke-band-h, 4.75rem) + 0.18rem);
-  }
-
-  .academy-player-eye-stack[data-academy-captions="on"] .academy-player-waiter {
-    inset: 2.45rem 0.4rem calc(var(--academy-karaoke-band-h, 4.75rem) + 0.85rem);
+    bottom: calc(var(--academy-karaoke-band-h, 3.25rem) + 0.18rem);
   }
 
   .academy-player-karaoke-line {
@@ -5060,7 +5131,9 @@ body {
   .academy-player-teleprompter,
   .academy-player-teleprompter-line,
   .academy-player-karaoke-word,
-  .academy-excel-desk--live .academy-excel-win {
+  .academy-excel-desk--live .academy-excel-win,
+  .academy-player-karaoke .academy-player-audio-bar,
+  .academy-player-karaoke .academy-player-audio-bar .academy-player-audio-controls {
     transition: none;
   }
 
@@ -6696,5 +6769,86 @@ body[data-academy-listen-dock="1"] [data-assistant-fab] {
     background-color: Canvas;
     color: CanvasText;
     -webkit-text-fill-color: CanvasText;
+  }
+}
+
+/*
+ * ============================================================================
+ * Junior sahne sözleşmesi — tek yükseklik bütçesi, tek kapsayıcı, sarma.
+ * ============================================================================
+ * `data-junior-*` işaretleri bugüne kadar yalnız E2E seçicisiydi; stil karşılığı
+ * yoktu. Bu blok o boşluğu kapatır (bkz. docs/tespit_raporu_04.md §1.6, §2.1).
+ *
+ * Kurallar:
+ *   1. Yükseklik: mutlak `min-h-[28rem]` tabanı yok. Oynatıcı yüksekliği
+ *      `100dvh` eksi gerçek üst kromdan (JS ile ölçülen `--junior-page-chrome-offset`)
+ *      türetilir; taban yalnız "sahne yok olmasın" kadar (`--player-stage-min`).
+ *      Böylece 360-530px CSS yüksekliğine sahip Samsung/DPI senaryolarında
+ *      oynatıcı kendi kabından büyük olmaz.
+ *   2. Kapsayıcı: sahne tuvali `container-type: size` taşır → tüm `cq*` birimleri
+ *      viewport'a değil sahneye çözülür. `overflow: hidden` taşmayı tek yerde keser.
+ *   3. Metin: sahne içindeki her metin kutular arası taşmak yerine kendi
+ *      kutusunun içinde sarar (`overflow-wrap: anywhere`).
+ *
+ * Birimler:
+ *   --junior-page-chrome-h      : oynatıcının üstündeki sayfa kromu varsayılanı
+ *   --junior-page-chrome-offset : aynı kromun ölçülmüş hâli (bileşen yazar)
+ *   --player-chrome-min         : üst krom + altyazı rayı + kontrol şeridi tabanı
+ *   --player-stage-min          : sahne tuvali tabanı — 300px değil, 7.5rem
+ *   --player-shell-min          : ikisinin toplamı; oynatıcının gerçek tabanı
+ */
+:root {
+  --junior-page-chrome-h: 7rem;
+  --player-chrome-min: 9.5rem;
+  --player-stage-min: 7.5rem;
+  --player-shell-min: calc(var(--player-chrome-min) + var(--player-stage-min));
+}
+
+[data-junior-player-shell] {
+  /* Bütçe: viewport eksi ölçülmüş sayfa kromu. Taban bu bütçeyi ASLA aşmaz. */
+  --junior-player-budget: calc(
+    100dvh - var(--junior-page-chrome-offset, var(--junior-page-chrome-h)) - 0.25rem
+  );
+  height: min(52dvh, var(--junior-player-budget));
+  min-height: min(var(--player-shell-min), var(--junior-player-budget));
+  max-height: var(--junior-player-budget);
+}
+
+@media (min-width: 640px) {
+  [data-junior-player-shell] {
+    height: min(48rem, var(--junior-player-budget));
+  }
+}
+
+/* Sahne tuvali: taşma kesici + gerçek kapsayıcı. */
+[data-junior-stage-canvas] {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  container-type: size;
+  container-name: junior-stage;
+}
+/* Sahne metni: uzun Türkçe kelime komşu kutuya taşmaz.
+   `text-wrap` burada set edilmez: `whitespace-nowrap` rozetleri (kural şeridi)
+   kendi `overflow-x-auto` rayında kaymaya devam eder, dikey yığılmaz. */
+[data-junior-stage-canvas] :is(p, span, h4, h5, h6, li, dt, dd) {
+  overflow-wrap: anywhere;
+}
+
+/*
+ * Mutlak sahne katmanları ebeveyne `inset-0` + `h-full` ile oturur.
+ * Eski `min-h-[300px]` bu katmanları sahne 300px altına inince kırpıyordu;
+ * artık yükseklik yalnız ebeveynden gelir.
+ */
+[data-junior-scene],
+[data-junior-scene-media],
+[data-junior-step-art],
+[data-junior-warmup="cassette"] {
+  min-height: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-junior-warmup="cassette"] {
+    transition: none;
   }
 }

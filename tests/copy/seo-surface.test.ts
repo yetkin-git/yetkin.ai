@@ -63,8 +63,11 @@ import {
   canonicalUrl,
   juniorLessonSeoTitle,
   pageMetadata,
+  SITE_CONTENT_REVISED_AT,
   sitemapRoutePolicy,
 } from "@/lib/copy/seo";
+import { readSitemapLastModified, resolveSitemapLastModified } from "@/lib/copy/sitemap-lastmod";
+import { readGoogleSiteVerification } from "@/lib/copy/site-verification";
 import { juniorCoverAlt } from "@/lib/junior/cover-alt";
 import { juniorFreeLessonKeys } from "@/lib/junior/catalog";
 import {
@@ -319,13 +322,63 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(entries.length).toBeGreaterThanOrEqual(7 + PRODUCT_ROOM_PATHS.length + published.length);
     // SEO Tedavi (P1) — sabit mühür yok; üretim anı dinamik basılır.
     expect(readSrc("app/sitemap.ts")).not.toContain('new Date("2026-09-05")');
+    expect(readSrc("app/sitemap.ts")).not.toContain("new Date()");
+    const revised = readSitemapLastModified();
+    expect(revised.getTime()).toBeGreaterThanOrEqual(SITE_CONTENT_REVISED_AT.getTime());
+    expect(revised.getUTCHours()).toBe(0);
+    expect(revised.getTime()).toBeLessThanOrEqual(Date.now());
     for (const entry of entries) {
-      expect(entry.lastModified, entry.url).toBeInstanceOf(Date);
+      expect(entry.lastModified, entry.url).toEqual(revised);
       const loc = new URL(entry.url);
       expect(loc.origin, entry.url).toBe("https://yetkin.ai");
       expect(isRobotsDisallowedPath(loc.pathname), entry.url).toBe(false);
     }
     vi.unstubAllEnvs();
+  });
+
+  it("lastmod istek saatini basmaz; içerik günü ve gelecek mühür tavanı dürüsttür", () => {
+    const floor = new Date("2026-10-27T00:00:00.000Z");
+    const now = Date.parse("2026-10-31T18:22:11.000Z");
+    expect(
+      resolveSitemapLastModified({
+        floor,
+        envStamp: null,
+        fileMtimesMs: [Date.parse("2026-10-20T12:00:00.000Z")],
+        nowMs: now,
+      }).toISOString(),
+    ).toBe("2026-10-27T00:00:00.000Z");
+    expect(
+      resolveSitemapLastModified({
+        floor,
+        envStamp: null,
+        fileMtimesMs: [Date.parse("2026-10-31T15:04:00.000Z")],
+        nowMs: now,
+      }).toISOString(),
+    ).toBe("2026-10-31T00:00:00.000Z");
+    expect(
+      resolveSitemapLastModified({
+        floor,
+        envStamp: "2026-10-30",
+        fileMtimesMs: [Date.parse("2026-10-31T15:04:00.000Z")],
+        nowMs: now,
+      }).toISOString(),
+    ).toBe("2026-10-30T00:00:00.000Z");
+    expect(
+      resolveSitemapLastModified({
+        floor,
+        envStamp: "2027-01-01",
+        fileMtimesMs: [],
+        nowMs: now,
+      }).toISOString(),
+    ).toBe("2026-10-31T00:00:00.000Z");
+    expect(readGoogleSiteVerification({})).toBeNull();
+    expect(readGoogleSiteVerification({ GOOGLE_SITE_VERIFICATION: "short" })).toBeNull();
+    expect(readGoogleSiteVerification({ GOOGLE_SITE_VERIFICATION: "<script>alert(1)</script>" })).toBeNull();
+    expect(readGoogleSiteVerification({ NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: "abcdefghijklmnopqrst" })).toBe(
+      "abcdefghijklmnopqrst",
+    );
+    expect(readSrc("app/layout.tsx")).toContain("readGoogleSiteVerification");
+    expect(readSrc("app/layout.tsx")).toContain("verification");
   });
 
   it("robots allow listesi sitemap statik yollarıyla aynı SSOT'tur; sığınaklar disallow", async () => {
@@ -840,15 +893,17 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
     expect(officeAiText).not.toContain("office ai eğitimi");
   });
 
-  it("Purchase/Register dönüşüm kancası birinci taraftır; gtag yüklenmez", () => {
+  it("Purchase/Register dönüşüm kancası birinci taraftır; komut dosyası yüklenmez", () => {
     expect(SEM_CONVERSION_NAMES).toEqual({
       purchase: "purchase",
       register: "sign_up",
       form: "generate_lead",
     });
     expect(SEM_CONVERSION_EVENT).toBe("yetkin:conversion");
-    expect(readSrc("components/academy/purchase-button.tsx")).toContain('emitSemConversion("purchase"');
+    expect(readSrc("components/academy/purchase-button.tsx")).toContain("trackPurchase(");
+    expect(readSrc("components/academy/purchase-button.tsx")).not.toContain('emitSemConversion("purchase"');
     expect(readSrc("components/auth/register-form.tsx")).toContain('emitSemConversion("register")');
+    expect(readSrc("lib/kernel/sem/conversion.ts")).not.toContain("dataLayer.push");
     expect(readSrc("app/api/academy/courses/[id]/purchase/route.ts")).toContain('event: "sem.conversion"');
     expect(readSrc("app/api/(kernel)/auth/register/route.ts")).toContain('event: "sem.conversion"');
     expect(readSrc("lib/kernel/sem/conversion.ts")).not.toContain("gtag.js");

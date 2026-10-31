@@ -1,7 +1,8 @@
 /**
- * Akademi dönüşüm hunisi — GA4 olayları.
- * Kimlik yoksa veya pencere yoksa no-op. PayTR ve defter bu dosyaya girmez.
- * Sorgu dizesi gönderilmez (kasa pasaportu `?p=` taşır).
+ * GA4 olayları. Kimlik yoksa veya pencere yoksa no-op. PayTR ve defter bu dosyaya girmez.
+ *
+ * Huni olayları (`view_item`, `purchase`, …) sorgu dizesi taşımaz: kasa pasaportu `?p=`
+ * sırdır. `page_view` kampanya parametresini tutar; pasaport ve oturum anahtarları düşer.
  */
 
 import { readGaMeasurementId } from "@/lib/kernel/telemetry/measurement-id";
@@ -22,7 +23,26 @@ export type Ga4FunnelItem = {
   valueMinor?: number | null;
   currency?: string | null;
   lessonKey?: string | null;
+  /** Defter veya sipariş kimliği. GA4 aynı `transaction_id`yi ikinci kez saymaz. */
+  transactionId?: string | null;
 };
+
+const BLOCKED_PAGE_QUERY_KEYS = new Set([
+  "p",
+  "token",
+  "access_token",
+  "refresh_token",
+  "id_token",
+  "code",
+  "state",
+  "email",
+  "password",
+  "session",
+  "secret",
+  "sig",
+  "signature",
+  "jwt",
+]);
 
 const CHECKOUT_MEMORY_KEY = "yetkin:ga4:checkout";
 const DEDUPE_MS = 1_200;
@@ -46,6 +66,60 @@ function pagePath(): string | undefined {
     return undefined;
   }
   return path;
+}
+
+/** Kampanya sorgusu kalır. Pasaport (`p`) ve oturum anahtarları düşer. */
+export function publicPageQuery(search: string): string {
+  const raw = search.startsWith("?") ? search.slice(1) : search;
+  if (!raw) {
+    return "";
+  }
+  let params: URLSearchParams;
+  try {
+    params = new URLSearchParams(raw);
+  } catch {
+    return "";
+  }
+  const next = new URLSearchParams();
+  for (const [key, value] of params) {
+    const normalized = key.trim().toLowerCase();
+    if (!normalized || BLOCKED_PAGE_QUERY_KEYS.has(normalized) || value.length > 160) {
+      continue;
+    }
+    next.append(key, value);
+  }
+  const query = next.toString();
+  return query ? `?${query}` : "";
+}
+
+function transactionId(value: unknown): string | null {
+  if (typeof value !== "string") {
+    return null;
+  }
+  const id = value.trim();
+  if (!/^[A-Za-z0-9_-]{4,80}$/u.test(id)) {
+    return null;
+  }
+  return id;
+}
+
+function publicReferrer(): string | undefined {
+  if (typeof document === "undefined") {
+    return undefined;
+  }
+  const raw = document.referrer;
+  if (!raw) {
+    return undefined;
+  }
+  try {
+    const url = new URL(raw);
+    if (url.protocol !== "https:" && url.protocol !== "http:") {
+      return undefined;
+    }
+    return `${url.origin}${url.pathname}${publicPageQuery(url.search)}`;
+  } catch {
+    return undefined;
+  }
 }
 
 function allow(key: string): boolean {
@@ -141,6 +215,10 @@ function eventParams(item: Ga4FunnelItem, ecommerce: boolean): Record<string, un
   if (lessonKey) {
     params.lesson_key = lessonKey;
   }
+  const txn = transactionId(item.transactionId);
+  if (txn) {
+    params.transaction_id = txn;
+  }
   if (ecommerce && itemId) {
     const entry: Record<string, unknown> = { item_id: itemId, quantity: 1 };
     if (itemName) {
@@ -154,15 +232,25 @@ function eventParams(item: Ga4FunnelItem, ecommerce: boolean): Record<string, un
   return params;
 }
 
-function emit(name: Ga4FunnelEventName, params: Record<string, unknown>): void {
+/**
+ * Kanonik `gtag('event', name, params)`.
+ * Düz `{ event }` nesnesi itilmez; o biçim GTM içindir ve bu üründe GTM yoktur.
+ */
+export function emitGa4Event(name: string, params: Record<string, unknown>): void {
   if (typeof window === "undefined" || !readGaMeasurementId()) {
     return;
   }
+  const path = pagePath();
+  const payload: Record<string, unknown> = { ...params };
+  if (path && typeof payload.page_path !== "string") {
+    payload.page_path = path;
+  }
   const key = [
     name,
-    String(params.item_id ?? ""),
-    String(params.lesson_key ?? ""),
-    String(params.page_path ?? ""),
+    String(payload.item_id ?? ""),
+    String(payload.lesson_key ?? ""),
+    String(payload.page_path ?? ""),
+    String(payload.transaction_id ?? ""),
   ].join(":");
   if (!allow(key)) {
     return;
@@ -180,10 +268,14 @@ function emit(name: Ga4FunnelEventName, params: Record<string, unknown>): void {
         queue.push(args);
       };
     }
-    target.gtag("event", name, params);
+    target.gtag("event", name, payload);
   } catch {
     // ölçüm kapalı; kullanıcı akışı devam eder
   }
+}
+
+function emit(name: Ga4FunnelEventName, params: Record<string, unknown>): void {
+  emitGa4Event(name, params);
 }
 
 export function trackViewItem(item: Ga4FunnelItem): void {
@@ -215,6 +307,40 @@ export function trackPurchase(item: Ga4FunnelItem = {}): void {
     itemName: item.itemName ?? memory?.itemName,
     valueMinor: item.valueMinor ?? memory?.valueMinor,
     currency: item.currency ?? memory?.currency,
+    transactionId: item.transactionId ?? null,
   };
   emit(GA4_FUNNEL_EVENT.purchase, eventParams(merged, true));
+}
+
+/** App Router geçişi. İlk belge dahil her rota `page_view` olur; `config` otomatik göndermez. */
+export function trackPageView(pathname: string, search = ""): void {
+  if (typeof pathname !== "string" || !pathname.startsWith("/")) {
+    return;
+  }
+  const page_path = `${pathname}${publicPageQuery(search)}`;
+  const params: Record<string, unknown> = { page_path };
+  if (typeof document !== "undefined") {
+    const title = document.title?.trim() ?? "";
+    if (title) {
+      params.page_title = title;
+    }
+    const referrer = publicReferrer();
+    if (referrer) {
+      params.page_referrer = referrer;
+    }
+  }
+  if (typeof window !== "undefined") {
+    const origin = window.location?.origin;
+    if (typeof origin === "string" && origin.length > 0) {
+      try {
+        const protocol = new URL(origin).protocol;
+        if (protocol === "https:" || protocol === "http:") {
+          params.page_location = `${origin}${page_path}`;
+        }
+      } catch {
+        // köken yoksa yol yeter
+      }
+    }
+  }
+  emitGa4Event("page_view", params);
 }

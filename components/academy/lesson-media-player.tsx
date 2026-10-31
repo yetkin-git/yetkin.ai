@@ -1,7 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { IconPause, IconPlay, IconVolume, IconVolumeOff } from "@/components/ui/icons";
+import {
+  IconMaximize,
+  IconMinimize,
+  IconPause,
+  IconPlay,
+  IconTheater,
+  IconVolume,
+  IconVolumeOff,
+} from "@/components/ui/icons";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { academyAudioGrantApiPath } from "@/lib/academy/lesson-audio-grant-path";
 import {
@@ -15,13 +23,13 @@ import {
 } from "@/lib/academy/lesson-audio";
 import {
   academyBedDuckGain,
+  academyBedIntroSec,
   academyBedSpeechGainForLesson,
   academyBedOutroTailSec,
   academyBedSpeechEndSec,
   academyOutroBreathFadeGain,
   academyPlayerOutroTailSec,
   ACADEMY_BED_BREATH_DB,
-  ACADEMY_BED_INTRO_SEC,
   ACADEMY_BED_OUTRO_HOLD_SEC,
   ACADEMY_BED_SPEECH_DB,
   ACADEMY_OUTRO_BREATH_MS,
@@ -36,6 +44,8 @@ import {
   hasAcademyOutroBreathElapsed,
 } from "@/lib/academy/lesson-advance";
 
+const ACADEMY_CHROME_IDLE_MS = 2500;
+
 export function LessonMediaPlayer({
   courseSlug,
   lessonKey,
@@ -49,6 +59,8 @@ export function LessonMediaPlayer({
   sealedDurationSecOverride,
   grantedSrc,
   grantedBedSrc,
+  theater = false,
+  onTheaterToggle,
 }: {
   courseSlug: string;
   lessonKey: string;
@@ -67,11 +79,14 @@ export function LessonMediaPlayer({
   /** Sayfa imzalı adresi verir. Doluysa oturum grant kapısı çağrılmaz. */
   grantedSrc?: string | null;
   grantedBedSrc?: string | null;
+  theater?: boolean;
+  onTheaterToggle?: () => void;
 }) {
   const copy = ACADEMY_SEN.player;
   const listenCopy = ACADEMY_SEN.listen;
   const audioSealed = isAcademyLessonAudioSealed(courseSlug, lessonKey);
   const bedHardMixed = academyLessonBedIsHardMixed(lessonKey);
+  const bedIntroSec = academyBedIntroSec(lessonKey);
   const bedSealed = isAcademyLessonBedSealed(courseSlug, lessonKey) && !bedHardMixed;
   const playbackCandidate = useMemo(
     () =>
@@ -143,7 +158,7 @@ export function LessonMediaPlayer({
     sealedDurationSecOverride != null && sealedDurationSecOverride > 0
       ? sealedDurationSecOverride
       : academySealedAudioDurationSec(courseSlug, lessonKey);
-  const sealedDuration = sealedSpeechSec + (bedHardMixed ? ACADEMY_BED_INTRO_SEC : 0);
+  const sealedDuration = sealedSpeechSec + bedIntroSec;
   const brandedOutroTail = academyBedOutroTailSec(lessonKey);
   const outroTail = academyPlayerOutroTailSec(lessonKey);
   const fallbackDuration = sealedDuration + outroTail;
@@ -180,6 +195,95 @@ export function LessonMediaPlayer({
   const [muted, setMuted] = useState(false);
   const [audioReady, setAudioReady] = useState(false);
   const [audioFailed, setAudioFailed] = useState(false);
+  const [fullscreen, setFullscreen] = useState(false);
+  const barRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const onChange = () => {
+      const frame = barRef.current?.closest("[data-academy-stage-frame]");
+      setFullscreen(frame instanceof HTMLElement && document.fullscreenElement === frame);
+    };
+    document.addEventListener("fullscreenchange", onChange);
+    return () => document.removeEventListener("fullscreenchange", onChange);
+  }, []);
+
+  useEffect(() => {
+    const bar = barRef.current;
+    if (!bar) {
+      return;
+    }
+    const frame = bar.closest("[data-academy-stage-frame]");
+    const scope = frame instanceof HTMLElement ? frame : bar;
+    let timer = 0;
+    let focused = false;
+    let engaged = false;
+
+    const paint = (hidden: boolean) => {
+      bar.dataset.academyChrome = hidden ? "hidden" : "visible";
+    };
+    const arm = () => {
+      window.clearTimeout(timer);
+      if (focused || engaged) {
+        paint(false);
+        return;
+      }
+      timer = window.setTimeout(() => paint(true), ACADEMY_CHROME_IDLE_MS);
+    };
+    const reveal = () => {
+      paint(false);
+      arm();
+    };
+    const onFocusIn = () => {
+      focused = true;
+      reveal();
+    };
+    const onFocusOut = (event: FocusEvent) => {
+      const next = event.relatedTarget;
+      if (next instanceof Node && scope.contains(next)) {
+        return;
+      }
+      focused = false;
+      arm();
+    };
+    const onPointerDown = () => {
+      engaged = true;
+      reveal();
+    };
+    const onPointerUp = () => {
+      engaged = false;
+      arm();
+    };
+
+    paint(false);
+    arm();
+    scope.addEventListener("pointermove", reveal);
+    scope.addEventListener("pointerdown", onPointerDown);
+    scope.addEventListener("focusin", onFocusIn);
+    scope.addEventListener("focusout", onFocusOut);
+    window.addEventListener("pointerup", onPointerUp);
+    window.addEventListener("pointercancel", onPointerUp);
+    return () => {
+      window.clearTimeout(timer);
+      scope.removeEventListener("pointermove", reveal);
+      scope.removeEventListener("pointerdown", onPointerDown);
+      scope.removeEventListener("focusin", onFocusIn);
+      scope.removeEventListener("focusout", onFocusOut);
+      window.removeEventListener("pointerup", onPointerUp);
+      window.removeEventListener("pointercancel", onPointerUp);
+    };
+  }, [lessonKey]);
+
+  const toggleFullscreen = useCallback(() => {
+    const frame = barRef.current?.closest("[data-academy-stage-frame]");
+    if (!(frame instanceof HTMLElement)) {
+      return;
+    }
+    if (document.fullscreenElement === frame) {
+      void document.exitFullscreen().catch(() => undefined);
+      return;
+    }
+    void frame.requestFullscreen().catch(() => undefined);
+  }, []);
 
   const resolveClockDuration = useCallback(
     (audioDuration: number) =>
@@ -275,13 +379,13 @@ export function LessonMediaPlayer({
     if (outroBreathStartedAtMsRef.current > 0) {
       return Math.max(0, performance.now() - outroBreathStartedAtMsRef.current);
     }
-    const speechEnd = academyBedSpeechEndSec(bedPieces) + (bedHardMixed ? ACADEMY_BED_INTRO_SEC : 0);
+    const speechEnd = academyBedSpeechEndSec(bedPieces) + bedIntroSec;
     const elapsedSec = clockRef.current.elapsed;
     if (speechEnd > 0 && elapsedSec >= speechEnd) {
       return Math.max(0, (elapsedSec - speechEnd) * 1000);
     }
     return 0;
-  }, [bedHardMixed, bedPieces]);
+  }, [bedIntroSec, bedPieces]);
 
   const markOutroBreath = useCallback(
     (fromElapsed: number) => {
@@ -301,7 +405,7 @@ export function LessonMediaPlayer({
       if (startedAt != null) {
         return academyOutroBreathFadeGain(intoOutroBreathMs() / 1000, outroBreathFromGainRef.current);
       }
-      const speechEnd = academyBedSpeechEndSec(bedPieces) + (bedHardMixed ? ACADEMY_BED_INTRO_SEC : 0);
+      const speechEnd = academyBedSpeechEndSec(bedPieces) + bedIntroSec;
       if (speechEnd > 0 && elapsedSec >= speechEnd) {
         return academyOutroBreathFadeGain(
           elapsedSec - speechEnd,
@@ -310,7 +414,7 @@ export function LessonMediaPlayer({
       }
       return academyBedDuckGain(elapsedSec, bedPieces, bedSpeechGain);
     },
-    [bedHardMixed, bedPieces, bedSpeechGain, intoOutroBreathMs],
+    [bedIntroSec, bedPieces, bedSpeechGain, intoOutroBreathMs],
   );
 
   useEffect(() => {
@@ -445,7 +549,7 @@ export function LessonMediaPlayer({
     (next: number) => {
       const cap = clockRef.current.duration > 0 ? clockRef.current.duration : fallbackDuration;
       const clamped = Math.max(0, Math.min(next, cap));
-      const speechEnd = academyBedSpeechEndSec(bedPieces) + (bedHardMixed ? ACADEMY_BED_INTRO_SEC : 0);
+      const speechEnd = academyBedSpeechEndSec(bedPieces) + bedIntroSec;
       if (clamped + 0.05 < (speechEnd > 0 ? speechEnd : cap)) {
         outroBreathFromRef.current = null;
         outroBreathFromGainRef.current = 0;
@@ -471,7 +575,7 @@ export function LessonMediaPlayer({
         armOutroEndTimeout(clamped, cap);
       }
     },
-    [applyBedDuck, armOutroEndTimeout, audioReady, bedHardMixed, bedPieces, fallbackDuration, pushSpokenClock, sealIfEnded],
+    [applyBedDuck, armOutroEndTimeout, audioReady, bedIntroSec, bedPieces, fallbackDuration, pushSpokenClock, sealIfEnded],
   );
 
   const applyPauseLock = useCallback(() => {
@@ -692,7 +796,7 @@ export function LessonMediaPlayer({
     : hasAudioSrc && audioFailed
       ? listenCopy.failVoiceBinding
       : null;
-  const speechEndSec = (bedPieces.at(-1)?.end ?? 0) + (bedHardMixed ? ACADEMY_BED_INTRO_SEC : 0);
+  const speechEndSec = (bedPieces.at(-1)?.end ?? 0) + bedIntroSec;
   const intoOutro = elapsed - speechEndSec;
   const bedOutro =
     bedSrc &&
@@ -705,13 +809,17 @@ export function LessonMediaPlayer({
 
   return (
     <section
+      ref={barRef}
       className="academy-dialogue-player academy-player-audio-bar"
       data-academy-dialogue-player=""
+      data-academy-fullscreen={fullscreen ? "true" : "false"}
+      data-academy-theater={theater ? "true" : "false"}
       data-academy-audio-ready={audioReady ? "true" : "false"}
       data-academy-audio-preparing={preparing ? "true" : undefined}
       data-academy-clock="currentTime"
       data-academy-bed={bedSrc ? "lyria" : undefined}
       data-academy-bed-outro={bedOutro}
+      data-academy-chrome="visible"
       aria-label={lessonTitle}
       aria-busy={preparing}
     >
@@ -891,6 +999,26 @@ export function LessonMediaPlayer({
             }}
           />
         </label>
+        <button
+          type="button"
+          className={`academy-cinema-icon${theater ? " academy-cinema-icon--on" : ""}`}
+          data-academy-theater-toggle=""
+          aria-pressed={theater}
+          aria-label={theater ? listenCopy.theaterExit : listenCopy.theater}
+          onClick={onTheaterToggle}
+        >
+          <IconTheater className="h-4 w-4" />
+        </button>
+        <button
+          type="button"
+          className={`academy-cinema-icon${fullscreen ? " academy-cinema-icon--on" : ""}`}
+          data-academy-fullscreen-toggle=""
+          aria-pressed={fullscreen}
+          aria-label={fullscreen ? listenCopy.fullscreenExit : listenCopy.fullscreen}
+          onClick={toggleFullscreen}
+        >
+          {fullscreen ? <IconMinimize className="h-4 w-4" /> : <IconMaximize className="h-4 w-4" />}
+        </button>
       </div>
     </section>
   );

@@ -19,6 +19,8 @@ export function PrepStripPanel({
   courseSlug,
   grantedSrc,
   grantedBedSrc,
+  theater = false,
+  onTheaterToggle,
 }: {
   strip: AcademyPrepStrip;
   done: boolean;
@@ -26,6 +28,8 @@ export function PrepStripPanel({
   /** Sayfanın gömdüğü imzalı ses. Doluysa grant kapısı çağrılmaz. */
   grantedSrc?: string | null;
   grantedBedSrc?: string | null;
+  theater?: boolean;
+  onTheaterToggle?: () => void;
 }) {
   const copy = ACADEMY_SEN.outline;
   const [mounted, setMounted] = useState(false);
@@ -67,22 +71,43 @@ export function PrepStripPanel({
               playing={mediaPlaying}
               captions={false}
               karaokeCues={karaoke.cues}
+              transport={
+                <LessonMediaPlayer
+                  key={karaoke.lessonKey}
+                  courseSlug={courseSlug}
+                  lessonKey={karaoke.lessonKey}
+                  lessonTitle={strip.title}
+                  autoStart={false}
+                  audioSrcOverride={karaoke.audioSrc}
+                  bedSrcOverride={bedSrc}
+                  grantedSrc={grantedSrc}
+                  grantedBedSrc={grantedBedSrc}
+                  sealedDurationSecOverride={karaoke.durationSec}
+                  theater={theater}
+                  onTheaterToggle={onTheaterToggle}
+                  onSpokenElapsedChange={setMediaElapsed}
+                  onPlayingChange={setMediaPlaying}
+                />
+              }
             />
-          ) : null}
-          <LessonMediaPlayer
-            key={karaoke.lessonKey}
-            courseSlug={courseSlug}
-            lessonKey={karaoke.lessonKey}
-            lessonTitle={strip.title}
-            autoStart={false}
-            audioSrcOverride={karaoke.audioSrc}
-            bedSrcOverride={bedSrc}
-            grantedSrc={grantedSrc}
-            grantedBedSrc={grantedBedSrc}
-            sealedDurationSecOverride={karaoke.durationSec}
-            onSpokenElapsedChange={setMediaElapsed}
-            onPlayingChange={setMediaPlaying}
-          />
+          ) : (
+            <LessonMediaPlayer
+              key={karaoke.lessonKey}
+              courseSlug={courseSlug}
+              lessonKey={karaoke.lessonKey}
+              lessonTitle={strip.title}
+              autoStart={false}
+              audioSrcOverride={karaoke.audioSrc}
+              bedSrcOverride={bedSrc}
+              grantedSrc={grantedSrc}
+              grantedBedSrc={grantedBedSrc}
+              sealedDurationSecOverride={karaoke.durationSec}
+              theater={theater}
+              onTheaterToggle={onTheaterToggle}
+              onSpokenElapsedChange={setMediaElapsed}
+              onPlayingChange={setMediaPlaying}
+            />
+          )}
         </section>
       ) : null}
       {karaoke ? null : (

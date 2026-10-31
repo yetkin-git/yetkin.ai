@@ -1,4 +1,4 @@
-import { JUNIOR_FEN_38, JUNIOR_FEN_38_SCENARIO } from "@/lib/junior/content/fen/38";
+import { juniorGraphLessonCopy } from "@/lib/junior/content-source";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
@@ -7,13 +7,14 @@ import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
  * 10 km yol, 2 litre yakıt, 1 km yürüyüş.
  * Baca ve Güneş paneli cümleleri parametredir. Organ çizimi yoktur.
  */
-const example = JUNIOR_FEN_38_SCENARIO.example.replace(/\s+/g, " ").trim();
+const lessonCopy = juniorGraphLessonCopy("jr_06_fen-38");
+const example = lessonCopy.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "10 kilometrelik", "showFuel");
 
 export const JR_06_FEN_38_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
   lessonKey: "jr_06_fen-38",
-  title: JUNIOR_FEN_38_SCENARIO.title,
-  listenText: JUNIOR_FEN_38.listenText,
+  title: lessonCopy.title,
+  listenText: lessonCopy.listenText,
   example,
   exampleMarked,
   audioPath: "/media/junior/audio/jr_06_fen-38.mp3",

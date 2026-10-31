@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { CheckoutForm } from "@/components/junior/checkout-form";
+import { JuniorCheckoutBeacon } from "@/components/junior/junior-ga4";
 import { JUNIOR_SEO_BRAND, pageMetadata } from "@/lib/copy/seo";
 import { LinkButton } from "@/components/ui/link-button";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
@@ -12,7 +13,7 @@ import {
   juniorElectiveQuotaRightsHint,
 } from "@/lib/junior/limits";
 import { loadJuniorHome } from "@/lib/junior/load";
-import { readJuniorYearlyPrice } from "@/lib/junior/price";
+import { juniorYearlyMeasurement, readJuniorYearlyPrice } from "@/lib/junior/price";
 import { isJuniorAuditActor, isJuniorCheckoutLocked } from "@/lib/kernel/security/junior-gate";
 import { JUNIOR_CHECKOUT_AUDIT_MESSAGE } from "@/lib/junior/checkout";
 
@@ -34,9 +35,9 @@ export default async function JuniorCheckoutPage() {
     .filter((pick) => selected.includes(pick.slug))
     .map((pick) => (pick.ready ? pick.title : `${pick.title} (Yakında, pakette açılmaz)`));
   const active = home?.plan.status === "ACTIVE";
-  const priceLabel = await readJuniorYearlyPrice()
-    .then((price) => price?.label ?? null)
-    .catch(() => null);
+  const price = await readJuniorYearlyPrice().catch(() => null);
+  const priceLabel = price?.label ?? null;
+  const measured = juniorYearlyMeasurement(price);
   const review =
     session != null &&
     isJuniorAuditActor({
@@ -95,8 +96,16 @@ export default async function JuniorCheckoutPage() {
           Mühürü tamamlanmamış seçmeli dersler Yakında olarak görünür ve paket içinde açılmaz.
         </p>
       </section>
+      {session && home && !active && checkoutOpen ? (
+        <JuniorCheckoutBeacon valueMinor={measured.valueMinor} currency={measured.currency} />
+      ) : null}
       {session && home ? (
-        <CheckoutForm alreadyActive={active} checkoutOpen={checkoutOpen} />
+        <CheckoutForm
+          alreadyActive={active}
+          checkoutOpen={checkoutOpen}
+          valueMinor={measured.valueMinor}
+          currency={measured.currency}
+        />
       ) : (
         <section className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[var(--border)] bg-white px-4 py-3">
           <p className="text-sm leading-6 text-[var(--muted)]">Ödeme için veli girişi gerekir.</p>

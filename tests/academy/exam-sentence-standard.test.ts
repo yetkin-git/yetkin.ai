@@ -320,7 +320,7 @@ describe("Office AI vatandaş lisanı — yasaklı jargon kilidi", () => {
     expect(blob).toMatch(/dış sohbet/u);
     expect(blob).toMatch(/açık katalog bilgisi/iu);
     expect(blob).toMatch(/müşteri programı \(CRM\)/iu);
-    expect(blob).toMatch(/hangi satırın sohbete gitmeyeceğini tek başına ayıracaksın/u);
+    expect(blob).toMatch(/müşteri adını ve telefonunu tek başına maskeleyeceksin/u);
     expect(blob).toMatch(/Aynı kural Copilot şeridinde de, Gemini ataşında da durur/u);
     expect(blob).not.toMatch(/A1 eşiği/u);
     expect(blob).not.toMatch(/hijyen/iu);

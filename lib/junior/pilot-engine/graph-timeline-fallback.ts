@@ -1,8 +1,9 @@
 /**
  * Eski numaralı grafik saat. Oynatıcı bu dosyayı okumaz.
  * Canlı saat kilitli `packages/junior-content/timelines/*.timeline.json` dosyasıdır.
- * Bu harita yalnız `scripts/seal-junior-graph-clock.ts` içindir:
- * grafik tahtasını kilitli kasete taşırken kaynak olarak durur.
+ * Bu harita yalnız `scripts/seal-junior-graph-clock.ts` içindir.
+ * Grafik tahtasını kilitli kasete taşırken kaynak olarak durur.
+ * Ders cümlesi `packages/junior-content` senaryosundan okunur.
  * `jr_06_mat-6` canlı anahtardır; dosya adı `mat-27` eski numarayı taşır.
  */
 

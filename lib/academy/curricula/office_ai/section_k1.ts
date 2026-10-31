@@ -6,64 +6,58 @@ export const sectionK1: Section = {
   lessonKey: "01_office_ai-k1",
   isPreviewAllowed: false,
   isLocked: true,
-  title: "KVKK, Şirket Sırları ve Maskeleme: Ne Yüklenmez?",
-  targetDurationMinutes: 12.2,
-  estimatedWordCount: 1505,
+  title: "Kişisel Verileri Maskeleme: Müşteri Verisi AI'a Nasıl Yüklenir?",
+  targetDurationMinutes: 3.8,
+  estimatedWordCount: 647,
   pedagogicalObjective:
-    "Müşteri listesini, IBAN, T.C. Kimlik No, maaş ve şirket sırrını açık yapay zekâ ekranına yüklememeyi göstermek. Maskeleme (gerçek satırda takma değer) ile örnek satır (yalnız tablo şekli) iki ayrı tekniktir. Önce şirket politikası, sonra veri sınıfı, sonra aktarım yolu.",
+    "Ham T.C. Kimlik No, telefon ve IBAN yapay zekâya gitmez. Excel veya sohbet kutusunda adı ve telefonu beş saniyede maskele. Maskeli tabloyu ataşla; şablonu çıkış paketinden indir.",
   contentMarkdown: `
-İlk derste tabloyu A1 kuralıyla düzenledin. Bu dersin sonunda hangi satırın sohbete gitmeyeceğini tek başına ayıracaksın. Şimdi mantığı oturtalım. O tabloyu düzenlemiş olman, onu yapay zekâya yükleyebileceğin anlamına gelmez. Neden? Çünkü hücreler düzgün dizilmiş olsa bile satırların içinde hâlâ gerçek insanların adı, telefonu, IBAN’ı ve maaşı duruyor olabilir. ChatGPT, Gemini, Grok ve benzeri ister ücretsiz ister ücretli tüm açık sohbet ekranlarına müşteri listesi, IBAN, T.C. kimlik numarası gibi ham verileri yükleyemezsin. Bu ders, rapor ve ataş derslerinden önce neyin yüklenmeyeceğini ve neden yüklenmeyeceğini adım adım öğretir.
+İlk derste tabloyu A1 kuralıyla düzenledin. Bu dersin sonunda müşteri adını ve telefonunu tek başına maskeleyeceksin. Şimdi mantığı oturtalım. Temiz tablo, yükleme izni değildir. Neden? Çünkü düzgün hücrede bile T.C. Kimlik No, telefon ve IBAN durabilir. Ham kimlik yapay zekâya gitmez. Bu ders madde ezberi değildir. Masada üç hücreyi kapatacaksın.
 
-Selamlar, ben Gözde. İş Hayatında ve Ofiste Yapay Zekâ eğitimimizin KVKK, şirket sırları ve maskeleme dersine hoş geldin. Bugün birlikte şu soruyu çözeceğiz: yapay zekâya her dosya neden gitmez? Çünkü sohbet kutusuna yazdığın metin, o ekranı kapatınca yok olmaz. Kişisel veri, şirket sırrı ve ham kimlik bu yüzden sohbetin işi değildir. Yapay zekâya veri vermeden önce ham verideki kişisel bilgileri maskelemelisin; böylece hem işini yaptırırsın hem de insanı açıkta bırakmazsın. Önce bu alışkanlığı oturtacağız.
+## ALTIN KURAL
 
-Masada müşteri Excel’i açık durur. Ad, telefon, T.C. Kimlik No, IBAN ve maaş aynı tablodadır. Saha tuzağı şudur: model hızlı cevap versin diye ham tabloyu sohbet yapay zekâsının ekranına atarsın. Sebebi şu: sohbet kutusu senin arşivin değildir. ${ACADEMY_KVKK_DELETE_BUTTON_SUMMARY} Bu yüzden önce yasak listeyi masada net yazacağız: hangi satırların hiç gitmeyeceğini, hangilerinin maskelenerek gidebileceğini.
+Selamlar, ben Gözde. Bugün KVKK maddesini ezberlemiyoruz. Altın kural şudur: şirket içi hassas müşteri verisini ham haliyle yapay zekâya göndermezsin. T.C. Kimlik No, telefon ve IBAN sohbet kutusunun işi değildir. Neden? Çünkü bir kez giren satır, ekrandan silmekle geri gelmez. Ücretli sohbet de aynı kapıdır. Bu yüzden önce maskelersin, sonra sorarsın.
 
-## YASAK LİSTE
+## HAM SATIR
 
-Şimdi yasak listeyi tane tane yazalım. Neden bir liste tutuyoruz? Çünkü ofiste her dosya aynı sınıfta değildir; bazı satırlar bir insanın kimliğini tek bakışta ele verir. Yüklenmez olanlar şunlardır. Müşteri adı ve telefonu birlikte. Açık IBAN. Maaş tablosu ve prim. T.C. Kimlik No. Hasta veya öğrenci kaydı. Sözleşmedeki ceza maddesiyle birlikte kişi adı. Müşteri programı (CRM) ekran görüntüsü. Müşteri ve tutar cümlesi. Bu dosyalar yerleşik panelde de, ataşla da, dış sohbette de aynı kuralı taşır. Yol yalnız verme biçimidir; içeri giren ham satır hâlâ ham satırdır. Sıra üç adımdır: önce şirketinin onayladığı araç, sonra veri sınıfı, sonra bu yol. Bu yüzden ham hali gitmez.
-
-Şirket sırrını da aynı masaya koyalım. Fiyat listesi, maliyet, henüz açıklanmamış kampanya, rakip notu kişisel veri değildir; ama rakipten ve piyasadan sakladığın bilgidir. Bu yüzden farklı sınıftır ama aynı sertlikle korunur: ham haliyle dış sohbete gitmez. Peki ne gidebilir? Açık katalog bilgisi gidebilir: ürün adı, genel stok cümlesi — kişiye bağlı değil. Kaya Gıda ürün adı (tutarsız, kişisiz) açık katalog örneğidir; müşteri ve tutarlı satır sırdır. Senin gerçek listen varsa kişiye bağlı satır gitmez. Önce maskele. Böylece hem açık kataloğu kullanırsın hem de gerçek insanı sohbetin dışına alırsın.
+Masada üç sütun açık durur: Ad, Telefon, IBAN. Örnek satır Ayşe Kaya, açık telefon, açık IBAN. Bu satırı ChatGPT kutusuna yapıştırmazsın. Neden beş saniye yeter? Çünkü değiştireceğin üç hücredir; bütün dosyayı yeniden yazmazsın. Excel'de o hücreye tıkla. Takma değeri yaz. Ürün adı yerinde kalır. Kişi gider, iş kalır.
 
 ## MASKELE
 
-Şimdi maskelemenin ne olduğunu netleştirelim. Maskelemek silmek değildir. Peki neden satırı tamamen silmiyoruz? Çünkü satırı tamamen silersen yapay zekâ tablonun mantığını da kaybeder; sütunların ne işe yaradığını göremez. Yapay zekâya veri vermeden önce ham verideki kişisel bilgileri takma değerle değiştirirsin. Ayşe Kaya yerine Müşteri A yaz. IBAN yerine MASKELİ_IBAN yaz. Telefonu kaldır, MASKELİ_TELEFON yaz. Alt çizgili büyük harfle MASKELİ_IBAN yaz (boşluk değil). Modele şunu yazabilirsin: ‘Bu üç satır maskelidir. Ad yok, telefon yok. Sütun adları Ürün, Adet, Bölge. Bölge bazında üç maddelik özet iste.’ Gördüğün gibi istem günlük dille yazılıyor; kısıt da istemin içinde duruyor: ad yok, telefon yok.
+Ad hücresine Ayşe Kaya yerine Müşteri A yaz. Telefon hücresine MASKELİ_TELEFON yaz. IBAN hücresine MASKELİ_IBAN yaz. Alt çizgili büyük harf boşluk değildir. Kişi kimliği gider, sütun mantığı kalır. Aynı kural Copilot şeridinde de, Gemini ataşında da durur. Araç değişir, ham ad gitmez. Beş saniye bu üç hücrenin işidir.
 
-Şimdi masada duran somut bir satırı birlikte maskeleyelim. Ham satır şöyle durur: Ayşe Kaya, telefon, IBAN açık, maaş 42.000, T.C. Kimlik No görünür. Bu satır sohbet kutusuna yapıştırılmaz. Maskeli karşılığı şudur: Müşteri A, MASKELİ_TELEFON, MASKELİ_IBAN, MASKELİ_MAAŞ, kimlik yok. Üç maddelik özeti istersin: aynı istemi kutuya yazarsın. Peki neden üç satır yeter de otuz satırlık müşteri dökümü yetmez? Bu soru iki tekniği karıştırır. Maskeleme, gerçek satırda takma değerdir. Yapay zekâya tablonun mantığını kavratmak için bin kişilik müşteri listesinin tamamını ham yüklemene gerek yok. Ad, soyad ve IBAN verisini atmamış olursun; tutar durur; aynı özeti bu maskeli satırlardan alırsın. Sadece sütun başlıklarını gösterecek üç tane örnek, sahte satır yüklersen, yapay zekâ tablo şeklini anlar. Aynı özeti sahte satırdan alamazsın. Otuz satırlık müşteri dökümü üçüncü adım değildir; çünkü fazla gerçek satır modeli daha zeki yapmaz, yalnızca daha fazla insanı açıkta bırakır. Görüldüğü gibi model hâlâ işini yapar. Sen ise insanı ve şirketi açıkta bırakmazsın. Aynı kural Copilot şeridinde de, Gemini ataşında da durur. Yol değişir; ham kimlik gitmez. Yarın gerçek listen açıldığında aynı takma değerleri yazarsın. Silmek yetmez, çünkü silinen satır mantığı da götürür. Değiştirmelisin, çünkü takma değer hem korur hem öğretir.
+## BEŞ SANİYE
 
-F2 ile gördüğün kesme işareti veri düzenidir: hücredeki gizli karakteri görürsün, modelin şaşırmamasını sağlarsın. Maske ise yükleme öncesi atlayamayacağın adımdır: kimliği takma değerle değiştirirsin. Peki neden ikisini karıştırmayalım? Çünkü biri tablonun okunmasını düzeltir, diğeri insanın sohbete girmesini engeller. İkisi ayrı reflekstir. A1 kuralı düzgün olsa bile açık isim sohbete girmez. Düzen, yükleme izni değildir. Şimdi üç adımı doğru yere koyalım.
+Şimdi aynı üç hücreyi sohbet kutusunda da gör. Ham satırı yapıştırma. Maskeli satırı yaz: Müşteri A, MASKELİ_TELEFON, MASKELİ_IBAN. Copilot varsa şeritte bu üç hücreyi değiştir. Yoksa Excel'de kendin yaz, sonra maskeli tabloyu ataşla. Peki neden ham kopya bir saniye sürse de yasaktır? Çünkü model hızlı cevap için kimliği de okur.
 
-## ÖNCE ŞİRKET
-
-Veriyi vermeden önce üç adım vardır. Birinci adım şirket politikasıdır: şirketinin onayladığı araç hangisi? İkinci adım veri sınıfıdır: kişisel veri ve şirket sırrı ham gitmez. Üçüncü adım aktarım yoludur. Üç adımı şimdi doğru yere koyalım. Bu sıra güvenlik sınıfı değildir; veriyi yapay zekâya nasıl vereceğini sıralar. Aktarım yolunda birinci seçenek yerleşik paneldir: Copilot veya Gemini şeridi. İkinci seçenek ataştır: Excel tablosu, Word belgesi, PowerPoint sunusu. Üçüncü seçenek dış sohbette maskeli kısa özet yazma disiplinidir. Kişisel veri ve şirket sırrı hangi yoldan geçerse geçsin ham haliyle gitmez. Neden? Çünkü yol yalnızca taşıma biçimidir; içeri giren satır hâlâ aynı satırdır. Ham metni kutuya yapıştırmak üçüncü adım değildir. Ekran görüntüsü zinciri üçüncü adım değildir. Bunlar atlanmış adımdır: yerleşik paneli ve ataşı denemeden, maske de koymadan ham kimliği dışarı taşımaktır.
-
-Peki yerleşik panel ve ataş duruyorsa neden son çareye geçmeyelim? Çünkü şirketinin kendi şeridi veya ataş yolu varken, ham listeyi dış sohbete taşımana gerek yoktur. Durmuyorsa, yani lisans yoksa ve ataş da uygun değilse, o zaman üçüncü adıma geçersin; ama yine bütün listeyi değil. Yapay zekâya tablonun şeklini göstermek için üç sahte satır yeter: sütun başlıkları ve üç örnek. Toplam ve yön için maskeli satır gerekir. Otuz satırlık müşteri dökümü gerekmez, çünkü model fazladan yirmi yedi gerçek isimle daha iyi özet yazmaz; sen ise yirmi yedi kişiyi daha riske atmış olursun.
+Ad ve telefon birlikte durursa satır bir insanı ele verir. IBAN o satıra eklenirse ödeme adresi de açıkta kalır. Maske, silmek değildir. Satırı silersen tablo mantığı da gider. Takma değer hem korur hem öğretir. Gördüğün gibi istem günlük dille durur: ad yok, telefon yok. Sütun adı durur, insan açıkta kalmaz.
 
 ## FARK ORTADA
 
-Şimdi ekrandaki yan yana karşılaştırmaya bak. Sol tarafta ham yapıştırma durur: Ayşe Kaya, telefon, IBAN açık. Sağ tarafta maskeli kısa özet durur: Müşteri A, MASKELİ_IBAN, üç satır soru. Sol taraf hızlı görünür; çünkü kopyala-yapıştır bir saniye sürer. Ama şirketi ve insanı açıkta bırakır. Sağ taraf yavaş görünür; çünkü önce takma değer yazarsın. Sağ tarafı seçiyoruz, çünkü üç adımı doğru kullanırsın ve aynı özeti, kimliği ifşa etmeden alırsın. Bu özet maskeli satırdandır. Sahte satır aynı özeti vermez.
-
-Peki iki taraf arasındaki fark nerede durur? Fark, hangi aracı açtığında değil, o araca neyin girdiğindedir. Copilot ve sohbet yapay zekâları (büyük dil modelleri) aynı kuralı taşır. Hangi sohbeti kullanırsan kullan, içeri giren ham ad hâlâ ham addır. Modelin adı değişir, kural değişmez. Gördüğün gibi doğru maske, raporu yavaşlatmaz. Yanlış yapıştırma şudur: sohbet kutusunu kendi bilgisayarın sanırsın. Sil düğmesi, yüklemiş olmanı geri almaz. Bu yüzden doğru adım, içeri giren satırı maskelemektir.
+Ekrana bak. Sol tarafta ham yapıştırma durur: Ayşe Kaya ve açık IBAN. Sağ tarafta maskeli satır durur: Müşteri A ve MASKELİ_IBAN. Sol taraf bir saniye sürer ve insanı açıkta bırakır. Sağ tarafı seçiyoruz, çünkü aynı soruyu kimliksiz sorarsın. Fark, hangi aracı açtığında değil, o araca neyin girdiğindedir. Dış sohbete yalnız maskeli kısa özet gider.
 
 ## CEBİNE KOY
 
-Üç kuralı yaz. 1. Müşteri listesi, IBAN, T.C. Kimlik No, maaş tablosu ve şirket sırrı ham haliyle açık yapay zekâ ekranına yüklenmez; çünkü bir kez giren satır silmekle geri gelmez. 2. Veri vermeden önce maskele: Ayşe Kaya yerine Müşteri A, IBAN yerine MASKELİ_IBAN. Böylece model sütun mantığını görür, ham kimliği görmez. 3. Üçüncü adım: yalnız maskeli kısa özet; dış sohbette ekran görüntüsü zinciri yoktur. Çünkü ekran görüntüsü, maske koymadan ham tabloyu dışarı taşır. ${ACADEMY_KVKK_DELETE_BUTTON_SUMMARY}
+Maskeli tabloyu yapay zekâya şöyle verirsin. Ürün ve adet kalsın. Ad, telefon ve IBAN takma değerde kalsın. Modele şunu yazabilirsin: Bu üç satır maskelidir. Ad yok, telefon yok. Sütun adları Ürün, Adet, Bölge. Bölge bazında üç maddelik özet iste. Kişi adı üretme. Çıkan metinde açık ad görürsen masaya koyma.
+
+İndirilebilir Excel maskeleme şablonu aynı sütunları taşır. Ad yerine Müşteri A, telefon yerine MASKELİ_TELEFON, IBAN yerine MASKELİ_IBAN. Şablonu çıkış paketinden indir. Kendi listenin üstüne takma değeri yaz. Ham dosyayı sohbete bırakma. Sonra maskeli tabloyu ataşla ve kısa sorunu yaz. Şablon, ezber değil, masadaki sıradır.
 
 ## SIRA SENDE
 
-Sıra sende. Masandaki bir gerçek listeyi aç. Ad, telefon, IBAN, T.C. Kimlik No varsa maskele. Üç satırlık soru yaz. Ham dosyayı sohbet yapay zekâsına bırakma. Üç sahte satır tablo şeklini gösterir; bin gerçek satırın özetini maskeli satır verir. Bunu masada fark edeceksin. Sıradaki ders rapordur: temiz ve maskeli tablodan üç maddelik yönetim özeti.
+Sıra sende. Masandaki listeyi aç. T.C. Kimlik No, telefon veya IBAN görürsen önce maskele. Şablondaki üç takma değeri kendi satırına yaz. Ham dosyayı ChatGPT kutusuna bırakma. Sıradaki ders rapordur: temiz ve maskeli tablodan üç maddelik yönetim özeti.
 
 ## El kitabı (sesin sığdırmadığı)
 
 ### Lisans yoksa ne yapılır?
-Ham ad, telefon, IBAN, kimlik, maaş sohbete yüklenmez. Ayrıntı şirketinin kuralıdır. Bu ders hukuki danışmanlık değildir.
+Ham ad, telefon, IBAN, kimlik, maaş sohbete yüklenmez. Ayrıntı şirketinin kuralıdır. Bu ders hukuki danışmanlık değildir. Yerleşik panel veya ataş duruyorsa ham listeyi dış sohbete taşıma.
 
 ### Ücretli abonelik
 Aboneliğin ücretli (Plus/Pro/Team) olsa bile açık sohbete ham kişisel veri ve şirket sırrı atılamaz. Ücretli üyelik modeli eğitmese de veri sunucuya gider. Yüklemeden önce her zaman maskeliyoruz.
 
 ### Kenar durum / dikkat edilecek hata
-Açık katalog bilgisi (ürün adı, genel stok cümlesi — kişiye bağlı değil) gidebilir; aynı satırda kişi adı belirdiği anda dur. Hasta veya öğrenci kaydı, maaş cetveli, açık T.C. Kimlik No — bunlar «iç kullanım» diye sohbete girmez. İç kullanım, kişisel veriyi kamuya açmaz.
+Açık katalog bilgisi (ürün adı, genel stok cümlesi — kişiye bağlı değil) gidebilir; aynı satırda kişi adı belirdiği anda dur. Müşteri programı (CRM) ekran görüntüsü ham kimlik taşır; sohbete girmez.
 
 ### Yapılmaması gereken tuzak
-«Sohbeti sonra silerim.» ${ACADEMY_KVKK_DELETE_BUTTON_SUMMARY} İkinci tuzak: bu dersi sona bırakıp önce ataş alışkanlığı kazanmak. Yüklemeden önce maske kuralını 2. derste kilitle; aksi halde ataş refleksi ham kimliği de götürür.
+«Sohbeti sonra silerim.» ${ACADEMY_KVKK_DELETE_BUTTON_SUMMARY}
 `,
 };

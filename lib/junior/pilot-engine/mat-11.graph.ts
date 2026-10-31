@@ -1,4 +1,4 @@
-import { JUNIOR_MAT_11, JUNIOR_MAT_11_SCENARIO } from "@/lib/junior/content/mat/7";
+import { juniorGraphLessonCopy } from "@/lib/junior/content-source";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
@@ -7,13 +7,14 @@ import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
  * 1/4 + 2/4 = 3/4. Payda 4 kalır. Pizza 8 dilimde 3.
  * İndirgeyici payları toplamaz.
  */
-const example = JUNIOR_MAT_11_SCENARIO.example.replace(/\s+/g, " ").trim();
+const lessonCopy = juniorGraphLessonCopy("jr_06_mat-7");
+const example = lessonCopy.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "Paylar 1", "showFraction");
 
 export const JR_06_MAT_11_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
   lessonKey: "jr_06_mat-7",
-  title: JUNIOR_MAT_11_SCENARIO.title,
-  listenText: JUNIOR_MAT_11.listenText,
+  title: lessonCopy.title,
+  listenText: lessonCopy.listenText,
   example,
   exampleMarked,
   audioPath: "/media/junior/audio/jr_06_mat-7.mp3",

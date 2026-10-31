@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { PaytrCheckoutIframe } from "@/components/kernel/paytr-checkout-iframe";
 import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
@@ -16,6 +16,9 @@ import { JUNIOR_CHECKOUT_PATH, juniorElectiveQuotaOpenHint } from "@/lib/junior/
 import { readCitizenEnvelope } from "@/lib/kernel/http/citizen-json";
 import { CHECKOUT_LEGAL_CONSENT_VERSION } from "@/lib/kernel/legal/checkout-consent";
 import { readPaytrIframeSrcFromCheckout } from "@/lib/kernel/payments/paytr/iframe-embed";
+import { trackPurchase } from "@/lib/kernel/telemetry/funnel";
+import { JUNIOR_YEARLY_GA_ITEM_ID, JUNIOR_YEARLY_GA_ITEM_NAME, juniorPlanIsActive } from "@/lib/kernel/telemetry/junior-item";
+import { pollJuniorPlanActive } from "@/lib/kernel/telemetry/junior-plan-poll";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
 function humanCheckoutError(raw: string): string {
@@ -30,12 +33,22 @@ function humanCheckoutError(raw: string): string {
   return raw;
 }
 
+async function readJuniorPlanActive(): Promise<boolean> {
+  const response = await fetch("/api/junior/shelves", withRailApiVersion({ method: "GET" }));
+  const envelope = await readCitizenEnvelope(response);
+  return envelope.ok && juniorPlanIsActive(envelope.body);
+}
+
 export function CheckoutForm({
   alreadyActive,
   checkoutOpen,
+  valueMinor = null,
+  currency = null,
 }: {
   alreadyActive: boolean;
   checkoutOpen: boolean;
+  valueMinor?: number | null;
+  currency?: string | null;
 }) {
   const billing = useCheckoutBilling();
   const idempotency = useIdempotencyKey();
@@ -45,7 +58,44 @@ export function CheckoutForm({
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
+  const purchaseSent = useRef(false);
+  const merchantOidRef = useRef("");
+  const watchGen = useRef(0);
   const consentReady = distanceAccepted && digitalAccepted && guardianAccepted;
+
+  useEffect(() => {
+    return () => {
+      watchGen.current += 1;
+    };
+  }, []);
+
+  function emitJuniorPurchase(transactionId: string) {
+    if (purchaseSent.current) {
+      return;
+    }
+    purchaseSent.current = true;
+    trackPurchase({
+      itemId: JUNIOR_YEARLY_GA_ITEM_ID,
+      itemName: JUNIOR_YEARLY_GA_ITEM_NAME,
+      valueMinor,
+      currency,
+      transactionId: transactionId || null,
+    });
+  }
+
+  function confirmJuniorPurchase() {
+    const generation = watchGen.current + 1;
+    watchGen.current = generation;
+    void pollJuniorPlanActive({
+      readActive: readJuniorPlanActive,
+      shouldStop: () => watchGen.current !== generation,
+    }).then((active) => {
+      if (!active || watchGen.current !== generation) {
+        return;
+      }
+      emitJuniorPurchase(merchantOidRef.current);
+    });
+  }
 
   if (alreadyActive) {
     return (
@@ -98,6 +148,20 @@ export function CheckoutForm({
         }),
       );
       const envelope = await readCitizenEnvelope(response);
+      const merchantOid = typeof envelope.body.merchantOid === "string" ? envelope.body.merchantOid : "";
+      if (merchantOid) {
+        merchantOidRef.current = merchantOid;
+      }
+      if (
+        envelope.ok &&
+        envelope.body.embedIframe !== true &&
+        envelope.body.status === "ACTIVE" &&
+        !alreadyActive
+      ) {
+        idempotency.rotate();
+        emitJuniorPurchase(merchantOid);
+        return;
+      }
       const iframe = readPaytrIframeSrcFromCheckout(envelope.body);
       if (!envelope.ok || !iframe) {
         idempotency.rotate();
@@ -150,7 +214,18 @@ export function CheckoutForm({
         </Button>
         <SecurePaymentMarks />
       </div>
-      {iframeUrl ? <PaytrCheckoutIframe src={iframeUrl} title="Güvenli ödeme" /> : null}
+      {iframeUrl ? (
+        <PaytrCheckoutIframe
+          src={iframeUrl}
+          title="Güvenli ödeme"
+          onReturn={(event) => {
+            if (!event.ok) {
+              return;
+            }
+            confirmJuniorPurchase();
+          }}
+        />
+      ) : null}
     </section>
   );
 }

@@ -237,6 +237,6 @@ describe("Ders 0 fırın işi + 101 dokunulmazlığı", () => {
     expect(curriculumForCourseSlug(SLUG)).toHaveLength(8);
     expect(ACADEMY_CINEMA_CUE_SLIDE_LESSON_KEYS).toHaveLength(33);
     const total = academyCourseSealedDurationSec(SLUG);
-    expect(Math.abs(total - 4870.797)).toBeLessThanOrEqual(0.01);
+    expect(Math.abs(total - 4361.933)).toBeLessThanOrEqual(0.01);
   });
 });

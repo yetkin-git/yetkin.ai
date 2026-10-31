@@ -1,4 +1,4 @@
-import { JUNIOR_MAT_27, JUNIOR_MAT_27_SCENARIO } from "@/lib/junior/content/mat/6";
+import { juniorGraphLessonCopy } from "@/lib/junior/content-source";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
@@ -7,13 +7,14 @@ import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
  * 250 cm = 2,5 m. 3 km = 3000 m. 40 mm = 4 cm.
  * İndirgeyici birimi kendisi çevirmez.
  */
-const example = JUNIOR_MAT_27_SCENARIO.example.replace(/\s+/g, " ").trim();
+const lessonCopy = juniorGraphLessonCopy("jr_06_mat-6");
+const example = lessonCopy.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "250 santimetre", "showLine");
 
 export const JR_06_MAT_27_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
   lessonKey: "jr_06_mat-6",
-  title: JUNIOR_MAT_27_SCENARIO.title,
-  listenText: JUNIOR_MAT_27.listenText,
+  title: lessonCopy.title,
+  listenText: lessonCopy.listenText,
   example,
   exampleMarked,
   audioPath: "/media/junior/audio/jr_06_mat-6.mp3",

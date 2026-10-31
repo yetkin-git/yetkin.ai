@@ -694,9 +694,11 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
             </span>
           </div>
 
-          {/* Aktif sahne — sticky hold: boş SET_STAGE aralığında son dolu kare asılı kalır. */}
+          {/* Aktif sahne — sticky hold: boş SET_STAGE aralığında son dolu kare asılı kalır.
+              `overflow-hidden` + `container-type: size`: sahne kendi kutusunu kırpar ve tüm
+              `cq*` birimleri viewport'a değil sahneye çözülür (globals.css sözleşmesiyle aynı). */}
           <div
-            className="relative min-h-0 w-full flex-1"
+            className="relative min-h-0 w-full flex-1 overflow-hidden [container-type:size]"
             data-junior-stage-canvas=""
             data-junior-sticky-frame={stickyHold ? "true" : "false"}
             data-junior-sticky-layout={displayScene.layout}

@@ -593,7 +593,7 @@ describe("akademi üretim ve doygunluk standardı — PEDAGOJI.md reji", () => {
       expect(timings?.durationSec, lessonKey).toBeGreaterThan(0);
       const rounded = Math.round(timings!.durationSec);
       expect(ACADEMY_SEALED_AUDIO_DURATION_SEC[lessonKey]).toBe(rounded);
-      expect(isAcademyAiLessonDurationSec(timings!.durationSec)).toBe(true);
+      expect(isAcademyAiLessonDurationSec(timings!.durationSec, lessonKey)).toBe(true);
     }
   });
 

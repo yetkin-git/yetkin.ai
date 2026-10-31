@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import {
+  academyKaraokeActiveWordIndex,
   academyKaraokeStripLines,
   academyKaraokeWords,
   academyKaraokeWordState,
@@ -23,7 +24,9 @@ export function LessonKaraokeStrip({
   const activeLine = activeIndex == null ? null : lines[activeIndex] ?? null;
   const words = useMemo(() => (activeLine ? academyKaraokeWords(activeLine) : []), [activeLine]);
   const activeWordRef = useRef<HTMLSpanElement | null>(null);
-  const activeWord = words.find((word) => academyKaraokeWordState(word, currentTime) === "active") ?? words[0] ?? null;
+  const activeWordIndex = academyKaraokeActiveWordIndex(words, currentTime);
+  const activeWord = activeWordIndex == null ? null : words[activeWordIndex] ?? null;
+  const acousticClock = activeLine?.words != null && activeLine.words.length > 0;
 
   useEffect(() => {
     const node = activeWordRef.current;
@@ -52,6 +55,7 @@ export function LessonKaraokeStrip({
       className="academy-player-karaoke-strip flex flex-col items-center justify-center overflow-visible text-center"
       data-academy-karaoke-strip=""
       data-academy-karaoke-band="overlay"
+      data-academy-karaoke-clock={acousticClock ? "acoustic" : undefined}
       data-academy-karaoke-playing={playing ? "true" : undefined}
       data-academy-karaoke-cue={activeLine?.cueId}
       role="region"

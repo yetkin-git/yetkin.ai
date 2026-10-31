@@ -216,7 +216,7 @@ export type CourseSyllabusLessonInput = {
  */
 export const OFFICE_AI_SYLLABUS_LESSONS: readonly CourseSyllabusLessonInput[] = [
   { name: "A1 Düzeni ve Temiz Veri: Düzensiz Excel → Düzenli Tablo" },
-  { name: "KVKK, Şirket Sırları ve Maskeleme: Ne Yüklenmez?" },
+  { name: "Kişisel Verileri Maskeleme: Müşteri Verisi AI'a Nasıl Yüklenir?" },
   { name: "Yönetim Özetine Dönüştürme" },
   { name: "Metinden Slayta: Sunum Hazırlama" },
   { name: "İstisnalar ve Hata Avı: Yapay Zekâ Yanılınca" },

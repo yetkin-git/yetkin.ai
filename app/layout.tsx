@@ -8,6 +8,7 @@ import { NavigationProgressBar } from "@/components/shell/navigation-progress-ba
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { siteGraphJsonLd } from "@/lib/copy/json-ld";
 import { SEM_LANDING_KEYWORDS } from "@/lib/copy/sem-keywords";
+import { readGoogleSiteVerification } from "@/lib/copy/site-verification";
 import { CANONICAL_SITE_ORIGIN, OG_LOCALE, TITLE_TEMPLATE } from "@/lib/copy/seo";
 import "./globals.css";
 
@@ -17,27 +18,36 @@ import "./globals.css";
  * Search Console «Standart etiket alternatif sayfa» yazardı.
  * Kamu sayfaları kendi `pageMetadata` kanoniğini basar.
  */
-export const metadata: Metadata = {
-  metadataBase: new URL(CANONICAL_SITE_ORIGIN),
-  title: {
-    default: YETKIN_BRAND,
-    template: TITLE_TEMPLATE,
-  },
-  description: `${YETKIN_BRAND} dijital eğitim.`,
-  keywords: [...SEM_LANDING_KEYWORDS],
-  openGraph: {
-    type: "website",
-    locale: OG_LOCALE,
-    siteName: YETKIN_BRAND,
-    title: YETKIN_BRAND,
+function rootMetadata(): Metadata {
+  const google = readGoogleSiteVerification();
+  return {
+    metadataBase: new URL(CANONICAL_SITE_ORIGIN),
+    title: {
+      default: YETKIN_BRAND,
+      template: TITLE_TEMPLATE,
+    },
     description: `${YETKIN_BRAND} dijital eğitim.`,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: YETKIN_BRAND,
-    description: `${YETKIN_BRAND} dijital eğitim.`,
-  },
-};
+    keywords: [...SEM_LANDING_KEYWORDS],
+    ...(google ? { verification: { google } } : {}),
+    openGraph: {
+      type: "website",
+      locale: OG_LOCALE,
+      siteName: YETKIN_BRAND,
+      title: YETKIN_BRAND,
+      description: `${YETKIN_BRAND} dijital eğitim.`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: YETKIN_BRAND,
+      description: `${YETKIN_BRAND} dijital eğitim.`,
+    },
+  };
+}
+
+/** İstek anında okunur: statik jeton veya `GOOGLE_SITE_VERIFICATION` doluysa meta basılır. */
+export async function generateMetadata(): Promise<Metadata> {
+  return rootMetadata();
+}
 
 /**
  * Nonce CSP istek anında basılır; statik kabuk nonce taşıyamaz.

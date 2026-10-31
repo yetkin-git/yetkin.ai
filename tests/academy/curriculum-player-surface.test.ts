@@ -130,7 +130,7 @@ describe("D2.1 müfredat oynatıcı yüzeyi — makale varsayılan + mühürlü 
       /\.academy-player-karaoke-overlay\s*\{[^}]*overflow:\s*visible/s,
     );
     expect(css).toMatch(
-      /\.academy-player-karaoke-overlay\s*\{[^}]*padding:\s*0\.9rem 0\.85rem 0\.7rem/s,
+      /\.academy-player-karaoke-overlay\s*\{[^}]*padding:\s*0\.35rem 1\.1rem 0\.4rem/s,
     );
     expect(css).toMatch(
       /\.academy-player-karaoke-line\s*\{[^}]*overflow:\s*visible/s,

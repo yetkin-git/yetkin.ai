@@ -1,4 +1,4 @@
-import { JUNIOR_MAT_7, JUNIOR_MAT_7_SCENARIO } from "@/lib/junior/content/mat/3";
+import { juniorGraphLessonCopy } from "@/lib/junior/content-source";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
@@ -7,13 +7,14 @@ import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
  * Parametre: 8 ve 12. Ortak bölenler 1, 2 ve 4. Ortak katlar 24'te buluşur.
  * Sayılar bu grafikten okunur.
  */
-const example = JUNIOR_MAT_7_SCENARIO.example.replace(/\s+/g, " ").trim();
+const lessonCopy = juniorGraphLessonCopy("jr_06_mat-3");
+const example = lessonCopy.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "8 ve 12", "showCompare");
 
 export const JR_06_MAT_7_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
   lessonKey: "jr_06_mat-3",
-  title: JUNIOR_MAT_7_SCENARIO.title,
-  listenText: JUNIOR_MAT_7.listenText,
+  title: lessonCopy.title,
+  listenText: lessonCopy.listenText,
   example,
   exampleMarked,
   audioPath: "/media/junior/audio/jr_06_mat-3.mp3",

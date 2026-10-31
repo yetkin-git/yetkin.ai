@@ -1,4 +1,4 @@
-import { JUNIOR_FEN_21, JUNIOR_FEN_21_SCENARIO } from "@/lib/junior/content/fen/21";
+import { juniorGraphLessonCopy } from "@/lib/junior/content-source";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
@@ -7,13 +7,14 @@ import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
  * Tur 400 m, yer değiştirme 0. 80 m doğu ve 30 m batı: yol 110 m, net 50 m doğu.
  * Koridor 120 m. İndirgeyici farkı almaz.
  */
-const example = JUNIOR_FEN_21_SCENARIO.example.replace(/\s+/g, " ").trim();
+const lessonCopy = juniorGraphLessonCopy("jr_06_fen-21");
+const example = lessonCopy.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "400 metre", "showSpeed");
 
 export const JR_06_FEN_21_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
   lessonKey: "jr_06_fen-21",
-  title: JUNIOR_FEN_21_SCENARIO.title,
-  listenText: JUNIOR_FEN_21.listenText,
+  title: lessonCopy.title,
+  listenText: lessonCopy.listenText,
   example,
   exampleMarked,
   audioPath: "/media/junior/audio/jr_06_fen-21.mp3",

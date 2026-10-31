@@ -78,6 +78,25 @@ export const ADMIN_SEN = {
       vize_hit: { label: "/vize gösterimi", hint: "Kart hit, bot dahil" },
     },
   },
+  ga4: {
+    eyebrow: "GA4",
+    title: "GA4 Canlı Trafik ve Kaynak Analizi",
+    intro:
+      "Bu kart Google Analytics oturumudur. Üstteki huni gösterim ve SETTLED kişidir. İki sayı birbirine bölünmez. Satış kararı defterde kalır.",
+    unavailable: "Ölçüm yapılamadı / Yapılandırma bekleniyor.",
+    pending: "Ölçüm okunuyor.",
+    realtimeLabel: "Şu an",
+    realtimeHint: "Son 30 dakika, aktif kullanıcı. Canlı soket değildir.",
+    channelTitle: "Kaynak",
+    countryTitle: "Ülke",
+    sessionUnit: "oturum",
+    channelEmpty: "Bu pencerede kanal oturumu yok.",
+    countryEmpty: "Bu pencerede ülke oturumu yok.",
+    truncated: "En yoğun sekiz satır. Kalanı bu kartta yok.",
+    windowHint: (rangeLabel: string, fromYmd: string, toYmd: string) =>
+      `Kaynak ve ülke: ${rangeLabel} (${fromYmd} → ${toYmd}, İstanbul günü). Standart rapor gecikir. Mülk saat dilimi Europe/Istanbul olmalıdır.`,
+    lagHint: "Anlık kart bu pencereden bağımsızdır.",
+  },
   stats: {
     catalogLabel: "Katalog",
     catalogHintLive: (seedCount: number) => `Ops tohumu ${seedCount} birim bekler`,

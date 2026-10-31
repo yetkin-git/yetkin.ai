@@ -51,13 +51,13 @@ export const OFFICE_AI_PLANNED_LESSONS = [
   },
   {
     key: "01_office_ai-k1",
-    title: "KVKK, Şirket Sırları ve Maskeleme: Ne Yüklenmez?",
+    title: "Kişisel Verileri Maskeleme: Müşteri Verisi AI'a Nasıl Yüklenir?",
     status: "sealed",
     lane: "main",
     method: "copy-workaround",
     targetModuleCode: "OFF-101",
     pedagogicalObjective:
-      "Müşteri listesini, IBAN, T.C. Kimlik No, maaş ve şirket sırrını açık yapay zekâ ekranına yüklememek. Maske: Müşteri A, MASKELİ_IBAN. 3. Kapı yalnız maskeli kısa özettir.",
+      "Ham T.C. Kimlik No, telefon ve IBAN yapay zekâya gitmez. Adı ve telefonu beş saniyede maskele. Maskeli tabloyu ataşla; şablonu çıkış paketinden indir.",
   },
   {
     key: "01_office_ai-2",

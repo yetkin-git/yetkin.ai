@@ -133,11 +133,35 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     expect(strip).toContain("data-academy-karaoke-word");
     expect(strip).not.toContain("loadAcademyTeleprompterFlow");
     expect(strip).toContain("academyKaraokeStripLines");
+    expect(strip).toContain("academyKaraokeActiveWordIndex");
+    expect(strip).not.toContain("?? words[0]");
+    expect(strip).toContain('data-academy-karaoke-clock={acousticClock ? "acoustic" : undefined}');
     expect(strip).toContain("text-center");
     expect(css).toContain("academy-player-karaoke-strip");
     expect(css).toContain("academy-player-karaoke-overlay");
     expect(css).toContain("academy-player-captions-toggle");
     expect(css).toContain("academy-player-stage-column");
+    expect(css).toContain("--academy-stage-max-h: min(calc(100dvh - 7.5rem), 56rem)");
+    expect(css).not.toContain("68vh");
+    expect(css).toMatch(/\.academy-player-stage-column\s*\{[^}]*width:\s*100%/s);
+    expect(css).toContain("--academy-karaoke-band-h: 3.25rem");
+    expect(css).not.toMatch(
+      /\.academy-player-eye-stack\[data-academy-captions="on"\] \.academy-player-waiter/,
+    );
+    expect(eye).toContain('data-academy-stage-frame=""');
+    expect(eye).toContain("{transport}");
+    expect(player).toContain("transport={lessonTransport}");
+    expect(player).toContain("data-academy-theater=");
+    const media = readFileSync(join(ROOT, "components/academy/lesson-media-player.tsx"), "utf8");
+    expect(media).toContain("requestFullscreen");
+    expect(media).toContain("data-academy-theater-toggle");
+    expect(media).toContain("data-academy-fullscreen-toggle");
+    expect(css).toMatch(
+      /\.academy-player-karaoke \.academy-player-audio-bar\s*\{[^}]*width:\s*100%/s,
+    );
+    expect(css).toMatch(
+      /\.academy-player-karaoke \.academy-player-audio-bar\s*\{[^}]*margin-top:\s*0/s,
+    );
     expect(css).toMatch(/\.academy-player-karaoke-word\[data-state="active"\]/s);
     expect(player).toContain('data-academy-player-stack="visual-karaoke-transport"');
     expect(css).toMatch(
@@ -183,7 +207,7 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
       /\.academy-player-karaoke-overlay\s*\{[^}]*overflow:\s*visible/s,
     );
     expect(css).toMatch(
-      /\.academy-player-karaoke-overlay\s*\{[^}]*padding:\s*0\.9rem 0\.85rem 0\.7rem/s,
+      /\.academy-player-karaoke-overlay\s*\{[^}]*padding:\s*0\.35rem 1\.1rem 0\.4rem/s,
     );
     expect(css).toMatch(
       /\.academy-player-karaoke-strip\s*\{[^}]*min-height:\s*var\(--academy-karaoke-band-h/s,

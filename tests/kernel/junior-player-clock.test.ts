@@ -650,7 +650,7 @@ describe("Junior oynatıcı yüzü", () => {
     expect(player).toContain("setDecisionTaken(true)");
     expect(player).toContain("playback.complete && !decisionTaken && beats.length > 1");
     expect(player).toContain("onBindStop");
-    expect(player).toContain("absolute inset-0 h-full min-h-[300px] w-full transition-opacity");
+    expect(player).toContain("absolute inset-0 h-full w-full transition-opacity");
     expect(listenTell).toContain("releasePlayerAudio");
     expect(listenTell).toContain("onBindStop=");
     expect(listenTell).toContain("stopPlayerRef");
@@ -773,7 +773,7 @@ describe("Junior oynatıcı yüzü", () => {
     expect(sceneUi).toContain("JUNIOR_STAGE_MIN_HEIGHT_PX");
     expect(sceneUi).toContain("JUNIOR_STAGE_HEIGHT_PX");
     expect(sceneUi).toContain('data-junior-stage-fit="viewport"');
-    expect(sceneUi).toContain("absolute inset-0 block h-full min-h-[300px] w-full");
+    expect(sceneUi).toContain("absolute inset-0 block h-full w-full");
     expect(sceneUi).toContain("SceneReveal");
     expect(sceneUi).not.toContain("max-h-full");
     expect(sceneUi).not.toContain("min-h-[420px]");
@@ -904,9 +904,9 @@ describe("Junior oynatıcı yüzü", () => {
     expect(decision).toContain("cursor-pointer");
     expect(player).toContain("data-junior-cinema-board");
     expect(player).toContain("<JuniorLessonDecision");
-    expect(sceneUi).toContain("pointer-events-none absolute inset-0 block h-full min-h-[300px] w-full");
-    expect(art).toContain("pointer-events-none absolute inset-0 block h-full min-h-[300px] w-full");
-    expect(player).toContain('className="pointer-events-none absolute inset-0 h-full min-h-[300px] w-full"');
+    expect(sceneUi).toContain("pointer-events-none absolute inset-0 block h-full w-full");
+    expect(art).toContain("pointer-events-none absolute inset-0 block h-full w-full");
+    expect(player).toContain('className="pointer-events-none absolute inset-0 h-full w-full"');
     expect(mathArt).toContain("showExponent = beat >= 1");
     expect(mathArt).toContain("showFactors = beat >= 2");
     expect(mathArt).toContain("showEquality = beat >= 3");

@@ -37,3 +37,10 @@ export function ga4ScriptSrcExtra(env: Ga4CspEnv): string {
 export function ga4ConnectSrcExtra(env: Ga4CspEnv): string {
   return measurementIdForCsp(env) ? ` ${COLLECT_ORIGINS}` : "";
 }
+
+/** Görüntü taşıması. Beacon kesilirse collect pikselinin düşmemesi için. */
+export function ga4ImgSrcExtra(env: Ga4CspEnv): string {
+  return measurementIdForCsp(env)
+    ? " https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com"
+    : "";
+}

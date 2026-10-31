@@ -115,8 +115,8 @@ export const ACADEMY_OFFICE_AI_W1_RAPOR_PROMPT =
   "Yüklediğim saha notundan bir sayfalık durum raporu çıkar: başlık, üç madde, bir sonraki adım. Gözlem ile karar notunu aynı cümleye koyma." as const;
 
 /** 01_office_ai-k1 Beat 3 — ham yapıştırma vs maskeli kısa özet. */
-export const ACADEMY_OFFICE_AI_K1_COMPARE_BEFORE_LABEL = "HAM YAPIŞTIRMA (HAM KİMLİK)" as const;
-export const ACADEMY_OFFICE_AI_K1_COMPARE_AFTER_LABEL = "MASKELİ KISA ÖZET (3. KAPI)" as const;
+export const ACADEMY_OFFICE_AI_K1_COMPARE_BEFORE_LABEL = "HAM SATIR (AD, TELEFON, IBAN)" as const;
+export const ACADEMY_OFFICE_AI_K1_COMPARE_AFTER_LABEL = "MASKELİ SATIR (MÜŞTERİ A)" as const;
 
 /** Öğrencinin Prompt Terminaline yazacağı gerçek istem — kaset + çıkış kartı SSOT. PEDAGOJI §E.7. */
 export const ACADEMY_OFFICE_AI_K1_COPILOT_PROMPT =
@@ -187,9 +187,9 @@ export const ACADEMY_OFFICE_AI_W1_POCKET_STEPS = [
 
 /** CEBİNE KOY overlay — 01_office_ai-k1. */
 export const ACADEMY_OFFICE_AI_K1_POCKET_STEPS = [
-  "Ham veri yükleme",
-  "Maskeleyip sor",
-  "Maskeli kısa özet",
+  "Ham veriyi gönderme",
+  "Adı ve telefonu maskele",
+  "Şablonu indirip yükle",
 ] as const;
 
 /** Command akış bandı — punchcard durum değil, Nasıl Yapılır? 1-2-3. */
@@ -253,9 +253,9 @@ export const ACADEMY_OFFICE_AI_W1_HOWTO_STEPS = [
 ] as const satisfies readonly AcademyHowtoStep[];
 
 export const ACADEMY_OFFICE_AI_K1_HOWTO_STEPS = [
-  { n: 1, label: "Yasak Listeyi Aç" },
-  { n: 2, label: "Maskele" },
-  { n: 3, label: "Kısa Özet Yaz" },
+  { n: 1, label: "Altın Kural" },
+  { n: 2, label: "Beş Saniyede Maskele" },
+  { n: 3, label: "Şablonu Yükle" },
 ] as const satisfies readonly AcademyHowtoStep[];
 
 const HOWTO_HIDDEN_SECTIONS = new Set(["GİRİŞ KÖPRÜSÜ", "CEBİNE KOY"]);
@@ -337,10 +337,10 @@ const HOWTO_ACTIVE_BY_LESSON: Readonly<Record<string, Readonly<Record<string, 0 
     "SIRA SENDE": 2,
   },
   "01_office_ai-k1": {
-    "HOŞ GELDİN": 0,
-    "YASAK LİSTE": 0,
+    "ALTIN KURAL": 0,
+    "HAM SATIR": 0,
     "MASKELE": 1,
-    "ÜÇ ADIM": 2,
+    "BEŞ SANİYE": 1,
     "FARK ORTADA": 2,
     "SIRA SENDE": 2,
   },

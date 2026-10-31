@@ -113,6 +113,7 @@
   },
   "dependencies": {
     "@digabi/noto-sans": "^3.2.0",
+    "@google-analytics/data": "^7.3.0",
     "@google/genai": "^2.10.0",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",

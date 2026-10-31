@@ -38,7 +38,10 @@ export function ConceptListStage(props: { card: ConceptListState }): ReactElemen
       {card.heading.length > 0 ? (
         <h4 className="shrink-0 text-sm font-black text-white sm:text-base">{card.heading}</h4>
       ) : null}
-      <div className="flex min-h-0 flex-1 flex-col gap-1.5 overflow-hidden">
+      <div
+        className="flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto overscroll-contain"
+        data-junior-concept-list-rail=""
+      >
         {shown.map((row, index) => {
           const tone = TONE_CLASS[row.tone] ?? TONE_CLASS.concept!;
           return (
@@ -46,21 +49,23 @@ export function ConceptListStage(props: { card: ConceptListState }): ReactElemen
               key={`${row.title}-${index}`}
               data-junior-concept-row={index + 1}
               data-junior-concept-tone={row.tone}
-              className={`flex min-h-0 items-start gap-2 rounded-xl border px-3 py-2 ${tone}`}
+              className={`flex shrink-0 items-start gap-2 rounded-xl border px-3 py-2 [overflow-wrap:anywhere] ${tone}`}
             >
               <span className="mt-0.5 inline-flex shrink-0 items-center rounded-md bg-slate-950/60 px-1.5 py-0.5 text-[10px] font-black uppercase tracking-wide">
                 {TONE_LABEL[row.tone] ?? "Kavram"}
               </span>
-              <div className="min-w-0">
-                <p className="text-xs font-black leading-snug sm:text-sm">{row.title}</p>
-                <p className="text-xs font-semibold leading-snug text-slate-200 sm:text-sm">{row.body}</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-black leading-snug [overflow-wrap:anywhere] sm:text-sm">{row.title}</p>
+                <p className="text-xs font-semibold leading-snug text-slate-200 [overflow-wrap:anywhere] sm:text-sm">
+                  {row.body}
+                </p>
               </div>
             </div>
           );
         })}
       </div>
       {card.note.length > 0 ? (
-        <p className="shrink-0 rounded-lg bg-slate-900/70 px-3 py-1.5 text-xs font-bold text-slate-200">
+        <p className="shrink-0 [overflow-wrap:anywhere] rounded-lg bg-slate-900/70 px-3 py-1.5 text-xs font-bold text-slate-200">
           {card.note}
         </p>
       ) : null}

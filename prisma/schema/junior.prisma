@@ -6,7 +6,7 @@ model JuniorProfile {
   id         String   @id @default(cuid())
   userId     String   @map("user_id")
   nickname   String
-  /// Ortaokul 5–8. Lise 9–12 ve YKS Young şemasındadır; bu kolona yazılmaz.
+  /// Pilot kolonu 6. sınıftır (`junior_profiles_shape`: grade = 6). Lise bu kolona yazılmaz.
   grade      Int
   /// Kapanışta boşalır. Dolu profilde veli izni gereken yaş aralığıdır.
   birthYear  Int?     @map("birth_year")

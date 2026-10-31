@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import Script from "next/script";
 import { headers } from "next/headers";
+import { Ga4RoutePageView } from "@/components/kernel/ga4-route-page-view";
 import { readGaMeasurementId } from "@/lib/kernel/telemetry/measurement-id";
 
 /**
@@ -33,7 +35,7 @@ export async function Ga4Bootstrap() {
     "window.dataLayer=window.dataLayer||[];",
     "function gtag(){window.dataLayer.push(arguments);}",
     "gtag('js',new Date());",
-    `gtag('config',${JSON.stringify(gaId)});`,
+    `gtag('config',${JSON.stringify(gaId)},${JSON.stringify({ send_page_view: false })});`,
   ].join("");
 
   return (
@@ -47,6 +49,9 @@ export async function Ga4Bootstrap() {
         nonce={nonce}
         src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(gaId)}`}
       />
+      <Suspense fallback={null}>
+        <Ga4RoutePageView />
+      </Suspense>
     </>
   );
 }

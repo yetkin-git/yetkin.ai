@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactElement, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactElement, type ReactNode } from "react";
 import { ActivityHub, type JuniorHubModule } from "@/components/junior/activity-hub";
 import { AnimatedSimulationStudio } from "@/components/junior/animated-simulations";
 import { LiveTutorPanel } from "@/components/junior/live-tutor-panel";
@@ -69,6 +69,68 @@ export type JuniorLessonEngineShellProps = {
 };
 
 /**
+ * Oynatıcının üstündeki gerçek kromu ölçer ve `--junior-page-chrome-offset`
+ * değişkenine yazar. Sihirli `6.5rem` bütçesi yerine ölçüm kullanılır: başlık
+ * sardığında, koşullu uyarı bandı geldiğinde ya da tarayıcı yazı tipi büyüdüğünde
+ * bütçe kendini düzeltir (bkz. docs/tespit_raporu_04.md §1.1, M2).
+ */
+function useJuniorPageChromeOffset(ref: React.RefObject<HTMLDivElement | null>) {
+  useEffect(() => {
+    const shell = ref.current;
+    if (!shell || typeof window === "undefined") {
+      return;
+    }
+    const root = document.documentElement;
+    let frame = 0;
+
+    const scrollingAncestorTop = (): number => {
+      let node: HTMLElement | null = shell.parentElement;
+      while (node) {
+        const style = window.getComputedStyle(node);
+        if (/(auto|scroll|overlay)/.test(style.overflowY) && node.scrollHeight > node.clientHeight) {
+          return node.scrollTop;
+        }
+        node = node.parentElement;
+      }
+      return window.scrollY;
+    };
+
+    const write = () => {
+      frame = 0;
+      const rect = shell.getBoundingClientRect();
+      const offset = Math.round(rect.top + scrollingAncestorTop());
+      if (offset <= 0) {
+        root.style.removeProperty("--junior-page-chrome-offset");
+        return;
+      }
+      root.style.setProperty("--junior-page-chrome-offset", `${offset}px`);
+    };
+
+    const schedule = () => {
+      if (frame !== 0) {
+        return;
+      }
+      frame = window.requestAnimationFrame(write);
+    };
+
+    schedule();
+    const observer = new ResizeObserver(schedule);
+    observer.observe(shell);
+    window.addEventListener("resize", schedule);
+    window.addEventListener("orientationchange", schedule);
+    return () => {
+      if (frame !== 0) {
+        window.cancelAnimationFrame(frame);
+      }
+      observer.disconnect();
+      window.removeEventListener("resize", schedule);
+      window.removeEventListener("orientationchange", schedule);
+      root.style.removeProperty("--junior-page-chrome-offset");
+    };
+  }, [ref]);
+}
+
+/**
  * `JuniorLessonEngineShell` — `jr_06_mat-1` amiral gemisinden soyutlanan,
  * tüm 6. sınıf derslerinde (`jr_06_mat-1..4` ve devamı) yeniden kullanılan
  * modüler stüdyo iskeleti (`Player` + `StickyFrame` + `ActivityStudio` + `LiveTutorPanel` + `QuickTools`).
@@ -87,6 +149,8 @@ export function JuniorLessonEngineShell({
   totalScenes,
 }: JuniorLessonEngineShellProps): ReactElement {
   const blueprint = getJuniorLessonBlueprint(lessonKey);
+  const playerShellRef = useRef<HTMLDivElement>(null);
+  useJuniorPageChromeOffset(playerShellRef);
 
   function choose(next: JuniorHubModule) {
     onModule(next);
@@ -110,8 +174,9 @@ export function JuniorLessonEngineShell({
     >
       <div className="flex min-w-0 flex-col gap-3">
         <div
+          ref={playerShellRef}
           data-junior-player-shell=""
-          className="flex h-[52dvh] min-h-[20rem] w-full min-w-0 flex-col sm:h-[min(48rem,calc(100dvh-6.5rem))] sm:min-h-[28rem]"
+          className="flex min-h-0 w-full min-w-0 flex-col"
         >
           {player}
         </div>

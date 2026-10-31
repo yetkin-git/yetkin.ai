@@ -122,7 +122,12 @@ describe("sicil hizası — Junior sahip, hop meta, web-only yazma", () => {
     const tutor = readFileSync(join(ROOT, "app/api/junior/live-tutor/route.ts"), "utf8");
     expect(tutor).toContain('auth = "public"');
     expect(tutor).toContain("localOnly");
+    expect(tutor).toContain("authorizeJuniorLiveTutor");
     expect(tutor).toContain("HTTP_RATE_LIMITS.llmIp");
+    const tutorGate = readFileSync(join(ROOT, "lib/junior/live-tutor-access.ts"), "utf8");
+    expect(tutorGate).toContain("canEnterJunior");
+    expect(tutorGate).toContain("juniorLessonAccess");
+    expect(tutorGate).toContain("isJuniorPilotTrialLesson");
     const assistant = readFileSync(join(ROOT, "app/api/academy/lesson-assistant/route.ts"), "utf8");
     expect(assistant).toContain('auth = "public"');
     // Oturum isteğe bağlıdır: yoksa anonim önizleme kolu koşar.

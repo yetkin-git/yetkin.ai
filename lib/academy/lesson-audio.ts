@@ -24,7 +24,7 @@ export const ACADEMY_SEALED_AUDIO_DURATION_SEC: Readonly<Record<string, number>>
   "01_office_ai-6": 527,
   "01_office_ai-g1": 638,
   "01_office_ai-w1": 581,
-  "01_office_ai-k1": 735,
+  "01_office_ai-k1": 226,
   "01_office_ai_ileri-1": 504,
   "01_office_ai_ileri-2": 606,
   "01_office_ai_ileri-3": 658,

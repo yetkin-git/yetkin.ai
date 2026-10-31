@@ -19,11 +19,11 @@ import {
 import { juniorLessonMediaIsPublicPreview } from "@/lib/junior/media-visibility";
 import {
   CANONICAL_SITE_ORIGIN,
-  SITE_CONTENT_REVISED_AT,
   isRobotsDisallowedPath,
   SITEMAP_STATIC_PATHS,
   sitemapRoutePolicy,
 } from "@/lib/copy/seo";
+import { readSitemapLastModified } from "@/lib/copy/sitemap-lastmod";
 
 /**
  * Google Search Console `<loc>` yalnız `https://yetkin.ai`.
@@ -137,9 +137,8 @@ function staticSitemapEntries(lastModified: Date): MetadataRoute.Sitemap {
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // SEO Tedavi (P2) — `lastmod` istek anı değil, içerik revizyon anıdır.
-  // Her istekte tazelenen tarih Google'da alanı işe yaramaz hale getirir.
-  const lastModified = SITE_CONTENT_REVISED_AT;
+  // `lastmod` istek anı değil. İçerik dosyasının UTC günü; taban editöryal mühür.
+  const lastModified = readSitemapLastModified();
   try {
     const publishedSlugs = await readPublishedAcademySlugs();
     const staticEntries = staticSitemapEntries(lastModified);

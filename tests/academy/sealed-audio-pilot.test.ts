@@ -44,7 +44,7 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
       "01_office_ai-6": 527,
       "01_office_ai-g1": 638,
       "01_office_ai-w1": 581,
-      "01_office_ai-k1": 735,
+      "01_office_ai-k1": 226,
       "01_office_ai_ileri-1": 504,
       "01_office_ai_ileri-2": 606,
       "01_office_ai_ileri-3": 658,
@@ -179,11 +179,11 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
     expect(academyProductionFilePresent("public/media/academy/audio/01_office_ai/01_office_ai-w1.mp3")).toBe(true);
     const lessonK1 = "01_office_ai-k1";
     expect(isAcademyLessonAudioSealed(COURSE_SLUG, lessonK1)).toBe(true);
-    expect(loadAcademySealedAudioTimings(lessonK1)?.durationSec).toBe(734.865);
-    expect(loadAcademySealedAudioTimings(lessonK1)?.cacheV).toBe(737865);
-    expect(loadAcademySealedAudioTimings(lessonK1)?.pieces).toHaveLength(12);
+    expect(loadAcademySealedAudioTimings(lessonK1)?.durationSec).toBe(226.001);
+    expect(loadAcademySealedAudioTimings(lessonK1)?.cacheV).toBe(229001);
+    expect(loadAcademySealedAudioTimings(lessonK1)?.pieces).toHaveLength(10);
     expect(loadAcademySealedAudioTimings(lessonK1)?.pieces[0]?.start).toBe(2);
-    expect(loadAcademySealedAudioTimings(lessonK1)?.pieces.at(-1)?.end).toBe(734.865);
+    expect(loadAcademySealedAudioTimings(lessonK1)?.pieces.at(-1)?.end).toBe(226.001);
     expect(loadAcademySealedAudioTimings(lessonK1)?.pieces.at(-1)?.text).toMatch(
       /Sıradaki ders rapordur/u,
     );
@@ -256,9 +256,9 @@ describe("akademi mühürlü ses — 01_office_ai-1 Callirrhoe kaseti", () => {
     expect(layer).toContain("loadAcademyTeleprompterFlow");
   });
 
-  it("kurs toplamı timings SSOT kilidindedir: 4870.797 sn ±0.01 ve en az 45 dk (Y1)", () => {
+  it("kurs toplamı timings SSOT kilidindedir: 4361.933 sn ±0.01 ve en az 45 dk (Y1)", () => {
     const total = academyCourseSealedDurationSec(COURSE_SLUG);
-    expect(Math.abs(total - 4870.797)).toBeLessThanOrEqual(0.01);
+    expect(Math.abs(total - 4361.933)).toBeLessThanOrEqual(0.01);
     const minutes = total / 60;
     expect(minutes).toBeGreaterThanOrEqual(ACADEMY_AI_COURSE_DURATION_MIN_MINUTES);
     expect(existsSync(join(ROOT, "docs", "ops", "DURUM.md"))).toBe(false);

@@ -1,6 +1,7 @@
 import { AdminAuditChambers } from "@/components/kernel/admin-audit-chambers";
 import { AdminCatalogList } from "@/components/kernel/admin-catalog-list";
 import { AdminFunnelBoard } from "@/components/kernel/admin-funnel-board";
+import { AdminGa4Board } from "@/components/kernel/admin-ga4-board";
 import { AdminPriceDecisionLedger } from "@/components/kernel/admin-price-decision-ledger";
 import { AdminShelterActions } from "@/components/kernel/admin-shelter-actions";
 import { AuthNeeded } from "@/components/ui/auth-needed";
@@ -16,6 +17,7 @@ import {
 } from "@/lib/kernel/admin/display";
 import { loadAdminCatalogBoard } from "@/lib/kernel/admin/load";
 import { loadAdminFunnelBoard } from "@/lib/kernel/admin/funnel-load";
+import { loadAdminGa4Board } from "@/lib/kernel/telemetry/ga4-data-client";
 import { coerceFunnelRange } from "@/lib/kernel/admin/funnel-window";
 import { resolveSuperAdminAccess } from "@/lib/kernel/auth/session";
 import { REQUIRED_CATALOG_DEFINITIONS } from "@/lib/kernel/pricing/catalog-definitions";
@@ -27,6 +29,9 @@ import {
 } from "@/lib/academy/off201-catalog-slot";
 import { logEvent } from "@/lib/kernel/observability/log";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
+import type { FunnelRange } from "@/lib/kernel/admin/funnel-constants";
+import type { SuperAdminActor } from "@/lib/kernel/auth/super-admin";
+import { Suspense } from "react";
 
 export default async function AdminPage({
   searchParams,
@@ -38,6 +43,7 @@ export default async function AdminPage({
   const isAdmin = access.kind === "ok";
   const params = await searchParams;
   const funnelRange = coerceFunnelRange(params.range);
+  const adminUser = access.kind === "ok" ? access.user : null;
   const [board, funnel] =
     access.kind === "ok"
       ? await Promise.all([
@@ -117,6 +123,11 @@ export default async function AdminPage({
           <p className="text-sm text-[var(--muted)]">{copy.loadSoft}</p>
           <AdminShelterActions soft />
           <AdminFunnelBoard board={funnel} range={funnelRange} />
+          {adminUser ? (
+            <Suspense fallback={<AdminGa4Board board={null} pending />}>
+              <AdminGa4Slot actor={adminUser} range={funnelRange} />
+            </Suspense>
+          ) : null}
           <AdminAuditChambers />
           <AdminCatalogList entries={[]} coursePublish={coursePublish} showEmptyActions={false} />
         </div>
@@ -136,6 +147,11 @@ export default async function AdminPage({
             </Card>
           ) : null}
           <AdminFunnelBoard board={funnel} range={funnelRange} />
+          {adminUser ? (
+            <Suspense fallback={<AdminGa4Board board={null} pending />}>
+              <AdminGa4Slot actor={adminUser} range={funnelRange} />
+            </Suspense>
+          ) : null}
           <AdminAuditChambers />
           <AdminPriceDecisionLedger decisions={decisions} />
           <AdminCatalogList entries={entries} coursePublish={coursePublish} />
@@ -146,4 +162,9 @@ export default async function AdminPage({
       </Card>
     </RoomFrame>
   );
+}
+
+async function AdminGa4Slot({ actor, range }: { actor: SuperAdminActor; range: FunnelRange }) {
+  const board = await loadAdminGa4Board(actor, range);
+  return <AdminGa4Board board={board} />;
 }

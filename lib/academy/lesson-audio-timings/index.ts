@@ -9,6 +9,13 @@ import {
 } from "@/lib/academy/lesson-json-store";
 import { applyAcademyCueDisplayPhonetics } from "@/lib/academy/spoken-scripts/phonetics";
 
+/** Mühürlü parça içindeki kelime saati. Saniye, konuşma saatidir. */
+export type AcademySealedAudioWord = {
+  text: string;
+  start: number;
+  end: number;
+};
+
 export type AcademySealedAudioPiece = {
   index: number;
   cueId: string;
@@ -17,6 +24,8 @@ export type AcademySealedAudioPiece = {
   start: number;
   end: number;
   text: string;
+  /** Varsa karaoke bu diziyi kullanır; karakter payı tahmin edilmez. */
+  words?: readonly AcademySealedAudioWord[];
 };
 
 export type AcademySealedAudioTimings = {
@@ -29,6 +38,30 @@ export type AcademySealedAudioTimings = {
 
 function finiteNonNeg(value: unknown): number | null {
   return typeof value === "number" && Number.isFinite(value) && value >= 0 ? value : null;
+}
+
+function parseWords(raw: unknown): readonly AcademySealedAudioWord[] | undefined {
+  if (raw == null) {
+    return undefined;
+  }
+  if (!Array.isArray(raw) || raw.length === 0) {
+    return undefined;
+  }
+  const words: AcademySealedAudioWord[] = [];
+  for (const item of raw) {
+    if (!item || typeof item !== "object") {
+      return undefined;
+    }
+    const rec = item as Record<string, unknown>;
+    const text = typeof rec.text === "string" ? rec.text.replace(/\s+/gu, " ").trim() : "";
+    const start = finiteNonNeg(rec.start);
+    const end = finiteNonNeg(rec.end);
+    if (!text || start == null || end == null || end < start) {
+      return undefined;
+    }
+    words.push({ text, start, end });
+  }
+  return words;
 }
 
 function parsePiece(raw: unknown, index: number): AcademySealedAudioPiece | null {
@@ -46,6 +79,7 @@ function parsePiece(raw: unknown, index: number): AcademySealedAudioPiece | null
     return null;
   }
   const pieceIndex = typeof rec.index === "number" && Number.isInteger(rec.index) ? rec.index : index;
+  const words = parseWords(rec.words);
   return {
     index: pieceIndex,
     cueId,
@@ -54,6 +88,7 @@ function parsePiece(raw: unknown, index: number): AcademySealedAudioPiece | null
     start,
     end,
     text,
+    ...(words ? { words } : {}),
   };
 }
 

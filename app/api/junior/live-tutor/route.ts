@@ -1,10 +1,14 @@
 import { z } from "zod";
 import { getSession } from "@/lib/kernel/auth/session";
 import { canonicalJuniorLessonKey } from "@/lib/junior/lesson-key-alias";
+import { isJuniorProfileClosed } from "@/lib/junior/guardian-notice";
+import { createPrismaJuniorStore } from "@/lib/junior/load";
 import {
   answerJuniorLiveTutor,
   juniorLiveTutorRequestSchema,
 } from "@/lib/junior/live-tutor";
+import { authorizeJuniorLiveTutor } from "@/lib/junior/live-tutor-access";
+import { isJuniorPlanActive } from "@/lib/junior/plan";
 import {
   evaluateJuniorGuestPilotTrialQuiz,
   evaluateJuniorGuestPilotTrialTell,
@@ -59,9 +63,30 @@ const trialQuizSchema = z
 
 /**
  * Selim Öğretmen canlı ders koçu.
- * Oturum varsa LLM; misafirde pedagojik yerel yanıt (sıfır risk önizleme).
+ * Kenar `public` kalır: misafir deneme anahtarları (`jr_06_mat-1..3`) yerel yanıt alır.
+ * Oturumlu model çağrısı `authorizeJuniorLiveTutor` içinden geçer:
+ * `canEnterJunior` + `juniorLessonAccess` + seçmeli kota. Paket yoksa 403.
  */
 export const auth = "public" as const;
+
+async function readJuniorLiveTutorEntitlement(userId: string): Promise<{
+  planActive: boolean;
+  selectedElectives: readonly string[];
+  profileId: string | null;
+}> {
+  const store = createPrismaJuniorStore();
+  const [subscription, profiles] = await Promise.all([
+    store.getSubscription(userId),
+    store.listProfiles(userId),
+  ]);
+  const open = profiles.filter((row) => !isJuniorProfileClosed(row));
+  const selected = open.find((row) => row.selected) ?? open[0] ?? null;
+  return {
+    planActive: isJuniorPlanActive(subscription, new Date()),
+    selectedElectives: selected?.selectedElectives ?? [],
+    profileId: selected?.id ?? null,
+  };
+}
 
 export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
@@ -73,7 +98,6 @@ export async function POST(request: Request) {
 
     const rawBody: unknown = await request.json().catch(() => ({}));
     const session = await getSession(request);
-    const localOnly = !session;
     const userId = session?.id ?? `guest:${requestId}`;
 
     if (
@@ -139,6 +163,35 @@ export async function POST(request: Request) {
       }
     }
 
+    const entitlement = session
+      ? await readJuniorLiveTutorEntitlement(session.id)
+      : { planActive: false, selectedElectives: [] as const, profileId: null };
+    const access = authorizeJuniorLiveTutor({
+      actor: session
+        ? {
+            id: session.id,
+            email: session.email,
+            emailConfirmedAt: session.emailConfirmedAt ?? null,
+          }
+        : null,
+      lessonKey: parsed.data.lessonKey,
+      planActive: entitlement.planActive,
+      selectedElectives: entitlement.selectedElectives,
+      profileId: entitlement.profileId,
+    });
+    if (!access.ok) {
+      logEvent({
+        level: "warn",
+        event: "junior.live_tutor.denied",
+        requestId,
+        userId: session?.id,
+        route: "/api/junior/live-tutor",
+        status: access.status,
+        reason: access.status === 403 ? "plan" : "missing",
+      });
+      return jsonFail(access.error, access.status, requestId, request);
+    }
+
     const result = await answerJuniorLiveTutor(
       {
         userId,
@@ -149,7 +202,10 @@ export async function POST(request: Request) {
         activeSceneSubtitle: parsed.data.activeSceneSubtitle,
         cueIndex: parsed.data.cueIndex,
       },
-      { localOnly },
+      {
+        localOnly: access.mode === "guest-local",
+        modelAllowed: access.mode === "model",
+      },
     );
 
     if (!result.ok) {
@@ -180,7 +236,7 @@ export async function POST(request: Request) {
         remaining: result.remaining,
         limit: result.limit,
         source: result.source,
-        guest: localOnly,
+        guest: access.mode === "guest-local",
       },
       200,
       requestId,

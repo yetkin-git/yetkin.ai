@@ -1,4 +1,4 @@
-import { JUNIOR_MAT_13, JUNIOR_MAT_13_SCENARIO } from "@/lib/junior/content/mat/9";
+import { juniorGraphLessonCopy } from "@/lib/junior/content-source";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
@@ -7,13 +7,14 @@ import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
  * 1/2 × 1/2 = 1/4. 3/4 × 2 = 6/4, sade 3/2. 1/2 ÷ 1/4 = 2.
  * İndirgeyici ters çevirmeyi kendisi yapmaz.
  */
-const example = JUNIOR_MAT_13_SCENARIO.example.replace(/\s+/g, " ").trim();
+const lessonCopy = juniorGraphLessonCopy("jr_06_mat-9");
+const example = lessonCopy.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "Paylar 1", "showFraction");
 
 export const JR_06_MAT_13_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
   lessonKey: "jr_06_mat-9",
-  title: JUNIOR_MAT_13_SCENARIO.title,
-  listenText: JUNIOR_MAT_13.listenText,
+  title: lessonCopy.title,
+  listenText: lessonCopy.listenText,
   example,
   exampleMarked,
   audioPath: "/media/junior/audio/jr_06_mat-9.mp3",

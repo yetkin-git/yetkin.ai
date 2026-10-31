@@ -42,6 +42,17 @@ export function juniorYearlyPriceFromEntry(
   };
 }
 
+/** GA4 kalemi. Sayfa kaynağı `amountMinor` taşımaz; tutar katalog satırından gelir. */
+export function juniorYearlyMeasurement(price: JuniorYearlyPrice | null): {
+  valueMinor: number | null;
+  currency: string | null;
+} {
+  if (!price) {
+    return { valueMinor: null, currency: null };
+  }
+  return { valueMinor: price.amountMinor, currency: price.currencyCode };
+}
+
 export async function readJuniorYearlyPrice(
   store: PriceCatalogStore = createPrismaPriceCatalogStore(),
 ): Promise<JuniorYearlyPrice | null> {

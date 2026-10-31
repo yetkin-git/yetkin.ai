@@ -1,4 +1,4 @@
-import { JUNIOR_FEN_9, JUNIOR_FEN_9_SCENARIO } from "@/lib/junior/content/fen/9";
+import { juniorGraphLessonCopy } from "@/lib/junior/content-source";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
@@ -7,13 +7,14 @@ import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
  * 5 N + 3 N = 8 N sağa. 7 N − 4 N = 3 N sağa. 6 N ve 6 N, bileşke 0.
  * 8 N − 2 N = 6 N sağa. İndirgeyici newtonları toplamaz.
  */
-const example = JUNIOR_FEN_9_SCENARIO.example.replace(/\s+/g, " ").trim();
+const lessonCopy = juniorGraphLessonCopy("jr_06_fen-9");
+const example = lessonCopy.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "5 newton", "showForce");
 
 export const JR_06_FEN_9_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
   lessonKey: "jr_06_fen-9",
-  title: JUNIOR_FEN_9_SCENARIO.title,
-  listenText: JUNIOR_FEN_9.listenText,
+  title: lessonCopy.title,
+  listenText: lessonCopy.listenText,
   example,
   exampleMarked,
   audioPath: "/media/junior/audio/jr_06_fen-9.mp3",

@@ -1,4 +1,4 @@
-import { JUNIOR_MAT_30, JUNIOR_MAT_30_SCENARIO } from "@/lib/junior/content/mat/14";
+import { juniorGraphLessonCopy } from "@/lib/junior/content-source";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
@@ -7,13 +7,14 @@ import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
  * İç açı 70°. Yöndeş 70°. İç ters 70°. Bütünler komşu 110°. Doğru açı 180°.
  * İndirgeyici 180 eksi 70 diye doldurmaz.
  */
-const example = JUNIOR_MAT_30_SCENARIO.example.replace(/\s+/g, " ").trim();
+const lessonCopy = juniorGraphLessonCopy("jr_06_mat-14");
+const example = lessonCopy.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "Soldaki iç açı", "showAngle");
 
 export const JR_06_MAT_30_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
   lessonKey: "jr_06_mat-14",
-  title: JUNIOR_MAT_30_SCENARIO.title,
-  listenText: JUNIOR_MAT_30.listenText,
+  title: lessonCopy.title,
+  listenText: lessonCopy.listenText,
   example,
   exampleMarked,
   audioPath: "/media/junior/audio/jr_06_mat-14.mp3",

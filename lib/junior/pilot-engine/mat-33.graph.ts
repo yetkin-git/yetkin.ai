@@ -1,4 +1,4 @@
-import { JUNIOR_MAT_33, JUNIOR_MAT_33_SCENARIO } from "@/lib/junior/content/mat/17";
+import { juniorGraphLessonCopy } from "@/lib/junior/content-source";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
@@ -7,13 +7,14 @@ import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
  * Üçgen 50, 60, eksik 70, toplam 180. Dörtgen 80, 90, 100, eksik 90, toplam 360.
  * İndirgeyici toplamdan çıkarma yapmaz.
  */
-const example = JUNIOR_MAT_33_SCENARIO.example.replace(/\s+/g, " ").trim();
+const lessonCopy = juniorGraphLessonCopy("jr_06_mat-17");
+const example = lessonCopy.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "Bir üçgende", "showAngle");
 
 export const JR_06_MAT_33_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
   lessonKey: "jr_06_mat-17",
-  title: JUNIOR_MAT_33_SCENARIO.title,
-  listenText: JUNIOR_MAT_33.listenText,
+  title: lessonCopy.title,
+  listenText: lessonCopy.listenText,
   example,
   exampleMarked,
   audioPath: "/media/junior/audio/jr_06_mat-17.mp3",

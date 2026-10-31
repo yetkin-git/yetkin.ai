@@ -45,18 +45,18 @@ Kısıt: Uydurma sütun ekleme. Orijinal sayfayı koru; temiz kopyayı yan sayfa
   ),
   "01_office_ai-k1": officePractice(
     [
-      { label: "Senin listen", value: "masandaki gerçek müşteri veya maaş dosyası adı" },
+      { label: "Senin listen", value: "masandaki gerçek müşteri dosyası adı" },
       { label: "Maske haritası", value: "Ayşe Kaya → Müşteri A; telefon → MASKELİ_TELEFON; IBAN → MASKELİ_IBAN" },
     ],
     [
       `Ham dosyayı sohbet yapay zekâsının ekranına yükleme. ${ACADEMY_KVKK_DELETE_BUTTON_SUMMARY} Ad, telefon, IBAN, T.C. Kimlik No varsa dur.`,
-      "Maske haritasını uygula: Ayşe Kaya yerine Müşteri A, telefon yerine MASKELİ_TELEFON, IBAN yerine MASKELİ_IBAN.",
-      "3. Kapıya yalnız maskeli üç satırlık sorunu yaz; ham kopyala-yapıştır atlanmış kapıdır.",
+      "Excel'de beş saniyede yaz: Ayşe Kaya yerine Müşteri A, telefon yerine MASKELİ_TELEFON, IBAN yerine MASKELİ_IBAN.",
+      "Şablonu indir. Maskeli tabloyu ataşla ve kısa sorunu yaz. Ham kopyala-yapıştır yok.",
     ],
     `Rol: Ofis asistanı.
 Görev: Bu üç satır maskelidir. Ad yok, telefon yok. Sütun adları Ürün, Adet, Bölge. Bölge bazında üç maddelik özet iste.
 Format: Üç maddelik özet. Kişi adı yok.
-Kısıt: A1 kuralı düzgün olsa bile ham kimlik yazma. Kişi adı, açık IBAN, maaş veya T.C. Kimlik No üretme. Silmek yüklemeyi geri almaz.`,
+Kısıt: A1 kuralı düzgün olsa bile ham kimlik yazma. Kişi adı, açık IBAN veya T.C. Kimlik No üretme. Silmek yüklemeyi geri almaz.`,
   ),
   "01_office_ai-2": officePractice(
     [

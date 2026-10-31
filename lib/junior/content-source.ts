@@ -218,6 +218,28 @@ export function juniorSealedLessonInventoryCount(slug: JuniorCourseSlug): number
   return sealedKeys(slug).length;
 }
 
+/**
+ * Graf saati ders cümlesini paketten okur.
+ * Sahne zamanı graf dosyasında kalır. Kaset metni bu kopyaya girmez;
+ * kaset, mühürlenmiş timeline çıktısıdır.
+ */
+export function juniorGraphLessonCopy(lessonKey: string): {
+  title: string;
+  example: string;
+  listenText: string;
+} {
+  const scenario = juniorScenarioIfPresent(lessonKey);
+  if (!scenario) {
+    throw new Error(`${lessonKey} senaryosu paketinde yok.`);
+  }
+  const lesson = juniorLessonFromScenario(scenario);
+  return {
+    title: scenario.title,
+    example: scenario.example,
+    listenText: lesson.listenText,
+  };
+}
+
 /** Mühürlü senaryo. Kab ve pakette olmayan seçmeli konuda yoktur. */
 export function juniorScenarioIfPresent(lessonKey: string): JuniorLessonScenario | null {
   const state = load();

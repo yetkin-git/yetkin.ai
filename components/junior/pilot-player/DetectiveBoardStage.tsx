@@ -67,7 +67,7 @@ function DigitTile(props: {
         transition:
           "opacity 480ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 480ms cubic-bezier(0.34, 1.56, 0.64, 1), border-color 480ms cubic-bezier(0.34, 1.56, 0.64, 1)",
       }}
-      className={`${JUNIOR_DIGIT_BOX_CLASS} @container/tile relative flex min-h-0 w-full max-w-[14rem] flex-1 flex-col items-center justify-center self-stretch overflow-hidden rounded-3xl border-2 px-2 ${
+      className={`${JUNIOR_DIGIT_BOX_CLASS} @container-size/tile relative flex min-h-0 w-full min-w-0 max-w-[14rem] flex-1 flex-col items-center justify-center gap-1 self-stretch overflow-hidden rounded-3xl border-2 px-2 ${
         isHighlighted
           ? `${palette.border} bg-gradient-to-b ${palette.bg}`
           : "border-slate-600/70 bg-gradient-to-b from-slate-800 to-slate-900"
@@ -76,7 +76,7 @@ function DigitTile(props: {
       {/* Üst parlama şeridi */}
       <div className="pointer-events-none absolute inset-x-2 top-1.5 h-2 rounded-full bg-white/15" />
 
-      <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-300/80 sm:text-xs">
+      <span className="shrink-0 text-[11px] font-extrabold uppercase tracking-wider text-slate-300/80 sm:text-xs">
         {placeLabel}
       </span>
       <span
@@ -84,7 +84,7 @@ function DigitTile(props: {
           color: isHighlighted ? palette.paint.color : REST_DIGIT.color,
           fontFamily: "system-ui, sans-serif",
         }}
-        className="mt-1 text-[clamp(2rem,46cqh,7.5rem)] font-black leading-none tracking-tight"
+        className="block min-h-0 max-w-full text-[clamp(1.25rem,48cqh,7.5rem)] font-black leading-none tracking-tight [overflow-wrap:anywhere]"
       >
         {digit}
       </span>
@@ -200,7 +200,7 @@ export function DetectiveBoardStage(props: { state: SceneGraphState }): ReactEle
               </span>
               <span className="text-xs font-bold text-rose-200">Son Rakama Aldanma!</span>
             </div>
-            <div className="mt-2 flex min-h-0 flex-1 items-center justify-center gap-2 sm:gap-3">
+            <div className="@container-size/sumrow mt-2 flex min-h-0 flex-1 items-center justify-center gap-2 overflow-hidden sm:gap-3">
               {sumDigits.map((digit, index) => (
                 <div key={`${detective.value}-sum-${index}`} className="flex items-center gap-2 sm:gap-3">
                   {index > 0 ? (
@@ -209,7 +209,7 @@ export function DetectiveBoardStage(props: { state: SceneGraphState }): ReactEle
                   <div
                     data-junior-digit-box="sum"
                     style={SUM_DIGIT}
-                    className={`${JUNIOR_DIGIT_BOX_CLASS} flex aspect-square h-[68%] w-auto items-center justify-center rounded-xl border border-amber-300/60 px-3 text-4xl font-black sm:text-5xl`}
+                    className={`${JUNIOR_DIGIT_BOX_CLASS} flex size-[clamp(1.75rem,16cqh,4.5rem)] shrink-0 items-center justify-center rounded-xl border border-amber-300/60 px-3 text-[clamp(1rem,7cqh,2.75rem)] font-black leading-none`}
                   >
                     {digit}
                   </div>
@@ -221,7 +221,7 @@ export function DetectiveBoardStage(props: { state: SceneGraphState }): ReactEle
                   <div
                     data-junior-digit-box="sum-total"
                     style={SUM_TOTAL}
-                    className={`${JUNIOR_DIGIT_BOX_CLASS} flex aspect-square h-[68%] w-auto items-center justify-center rounded-xl border-2 border-rose-400 px-3 text-4xl font-black shadow-lg sm:text-5xl`}
+                    className={`${JUNIOR_DIGIT_BOX_CLASS} flex size-[clamp(1.75rem,16cqh,4.5rem)] shrink-0 items-center justify-center rounded-xl border-2 border-rose-400 px-3 text-[clamp(1rem,7cqh,2.75rem)] font-black leading-none shadow-lg`}
                   >
                     {sum}
                   </div>
@@ -356,7 +356,7 @@ export function DetectiveBoardStage(props: { state: SceneGraphState }): ReactEle
         {hasVerdict ? (
           <div
             style={{ animation: VERDICT_FADE_IN }}
-            className="flex h-full min-h-0 flex-col justify-center gap-2"
+            className="flex h-full min-h-0 flex-col justify-start gap-2 overflow-y-auto overscroll-contain [&>*]:shrink-0"
           >
             <div className="text-xs font-black uppercase tracking-wider text-slate-300">
               Dedektif Karar Panosu{detective.value > 0 ? ` (${detective.value} Sayısı)` : ""}
@@ -383,7 +383,7 @@ export function DetectiveBoardStage(props: { state: SceneGraphState }): ReactEle
                 >
                   :{v.rule}
                 </span>
-                <span>{v.label}</span>
+                <span className="min-w-0 [overflow-wrap:anywhere]">{v.label}</span>
               </div>
             ))}
           </div>

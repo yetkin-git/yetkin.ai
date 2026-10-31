@@ -916,13 +916,13 @@ function SealedVectorPlayer({
           data-junior-clean-stage={captionsVisible ? undefined : "true"}
         >
           <div
-            className={`absolute inset-0 h-full min-h-[300px] w-full transition-opacity duration-500 ${
+            className={`absolute inset-0 h-full w-full transition-opacity duration-500 ${
               warmup.gate === "cassette" ? "pointer-events-none opacity-0" : "opacity-100"
             }`}
           >
             <div
               key={beat >= 9 ? `${scene}-recap` : scene}
-              className="pointer-events-none absolute inset-0 h-full min-h-[300px] w-full"
+              className="pointer-events-none absolute inset-0 h-full w-full"
               data-junior-step-art={beat}
               data-junior-sticky-trail={captionTrail.length}
               data-junior-recap-stage={beat >= 9 ? "clean" : undefined}

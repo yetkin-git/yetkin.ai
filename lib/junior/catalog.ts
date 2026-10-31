@@ -559,13 +559,16 @@ export function juniorPersonalizedShelves(
 }
 
 /**
- * Raf her zaman 6. sınıf pilot metnidir.
- * Seçilen sınıf başlığı değiştirmez. Başka sınıfın dersi yazılana kadar kart 6. sınıfta kalır.
+ * Pilot rafı yalnız 6. sınıftır.
+ * Başka sınıf boş dizi döner. 6. sınıf metni o satıra giydirilmez.
  */
 export function juniorShelvesForGrade(
-  _grade: number,
+  grade: number,
   chosenElectiveSlugs: readonly string[] | null,
   now = new Date(),
 ): JuniorCourseShelf[] {
+  if (grade !== JUNIOR_PILOT_GRADE) {
+    return [];
+  }
   return juniorPersonalizedShelves(chosenElectiveSlugs, now);
 }

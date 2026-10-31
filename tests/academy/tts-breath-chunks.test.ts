@@ -62,7 +62,7 @@ describe("TTS nefes dilimleyici", () => {
     const officeW1 = loadAcademySpokenScriptParagraphs("01_office_ai-w1");
     expect(officeW1).toHaveLength(19);
     const officeK1 = loadAcademySpokenScriptParagraphs("01_office_ai-k1");
-    expect(officeK1).toHaveLength(14);
+    expect(officeK1).toHaveLength(10);
     expect(academyLessonRequestTargetForCourse(8)).toBe(10);
     expect(academyLessonRequestTargetForCourse(6)).toBe(12);
     const officeRequests = packAcademyTtsLessonRequests(officeOne, 10);
@@ -115,7 +115,7 @@ describe("TTS nefes dilimleyici", () => {
       "01_office_ai-6": 10,
       "01_office_ai-g1": 11,
       "01_office_ai-w1": 11,
-      "01_office_ai-k1": 12,
+      "01_office_ai-k1": 10,
     };
     for (const [key, count] of Object.entries(pieceCounts)) {
       const timings = loadAcademySealedAudioTimings(key);
@@ -131,7 +131,7 @@ describe("TTS nefes dilimleyici", () => {
     );
     expect(breathGaps).toHaveLength(9);
     expect(breathGaps.every((gap) => gap === 1.75)).toBe(true);
-    expect(Math.abs(academyCourseSealedDurationSec("01_office_ai") - 4870.797)).toBeLessThanOrEqual(0.01);
+    expect(Math.abs(academyCourseSealedDurationSec("01_office_ai") - 4361.933)).toBeLessThanOrEqual(0.01);
   });
 
   it("OFF-101 sekiz dersi metin düşürmeden 10’ar isteğe paketler", () => {

@@ -94,7 +94,7 @@ export function JuniorWarmupCassette({
 
   return (
     <div
-      className={`absolute inset-0 z-10 min-h-[300px] bg-transparent transition-opacity duration-500 ${
+      className={`absolute inset-0 z-10 overflow-hidden bg-transparent transition-opacity duration-500 ${
         fading ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
       data-junior-warmup="cassette"
@@ -102,7 +102,7 @@ export function JuniorWarmupCassette({
     >
       <video
         ref={videoRef}
-        className="absolute inset-0 h-full min-h-[300px] w-full bg-transparent object-cover"
+        className="absolute inset-0 h-full w-full bg-transparent object-cover"
         src={src}
         playsInline
         preload="auto"

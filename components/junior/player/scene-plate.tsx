@@ -45,7 +45,7 @@ export function JuniorScenePlate({
 
   return (
     <div
-      className="pointer-events-none absolute inset-0 h-full min-h-[300px] w-full bg-transparent"
+      className="pointer-events-none absolute inset-0 h-full w-full bg-transparent"
       data-junior-scene-media={mode}
       data-junior-scene-video={videoSrc ?? undefined}
       data-junior-scene-image={imageSrc ?? undefined}
@@ -55,7 +55,7 @@ export function JuniorScenePlate({
         <video
           key={videoSrc}
           src={videoSrc}
-          className="absolute inset-0 z-[1] h-full min-h-[300px] w-full bg-transparent object-cover"
+          className="absolute inset-0 z-[1] h-full w-full bg-transparent object-cover"
           muted
           playsInline
           autoPlay
@@ -71,7 +71,7 @@ export function JuniorScenePlate({
           key={imageSrc}
           src={imageSrc}
           alt=""
-          className="absolute inset-0 z-[1] h-full min-h-[300px] w-full bg-transparent object-cover"
+          className="absolute inset-0 z-[1] h-full w-full bg-transparent object-cover"
           data-junior-scene-image-src={imageSrc}
           onError={() => setMode("vector")}
         />

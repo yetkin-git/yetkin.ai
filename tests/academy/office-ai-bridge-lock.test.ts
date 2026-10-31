@@ -127,7 +127,7 @@ describe("01_office_ai giriş/kapanış köprü kilidi", () => {
       const timings = loadAcademySealedAudioTimings(section.lessonKey!);
       expect(timings?.durationSec, section.lessonKey).toBeGreaterThan(0);
       expect(section.targetDurationMinutes, section.lessonKey).toBe(sealedMinutes(timings!.durationSec));
-      expect(isAcademyAiLessonDurationMinutes(section.targetDurationMinutes)).toBe(true);
+      expect(isAcademyAiLessonDurationMinutes(section.targetDurationMinutes, section.lessonKey)).toBe(true);
     }
   });
 });

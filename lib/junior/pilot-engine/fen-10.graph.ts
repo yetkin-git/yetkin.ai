@@ -1,4 +1,4 @@
-import { JUNIOR_FEN_10, JUNIOR_FEN_10_SCENARIO } from "@/lib/junior/content/fen/10";
+import { juniorGraphLessonCopy } from "@/lib/junior/content-source";
 import { buildLessonGraphTimeline, insertSpeechHook } from "@/lib/junior/pilot-engine/graph-clock";
 import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
 
@@ -7,13 +7,14 @@ import type { TimelineJSON } from "@/lib/junior/pilot-engine/schema";
  * 120 m / 40 s = 3 m/s. 10 s sonra 30 m. 20 s sonra 60 m. 100 m / 20 s = 5 m/s.
  * İndirgeyici yolu zamana bölmez.
  */
-const example = JUNIOR_FEN_10_SCENARIO.example.replace(/\s+/g, " ").trim();
+const lessonCopy = juniorGraphLessonCopy("jr_06_fen-10");
+const example = lessonCopy.example.replace(/\s+/g, " ").trim();
 const exampleMarked = insertSpeechHook(example, "120 metre", "showSpeed");
 
 export const JR_06_FEN_10_TIMELINE: TimelineJSON = buildLessonGraphTimeline({
   lessonKey: "jr_06_fen-10",
-  title: JUNIOR_FEN_10_SCENARIO.title,
-  listenText: JUNIOR_FEN_10.listenText,
+  title: lessonCopy.title,
+  listenText: lessonCopy.listenText,
   example,
   exampleMarked,
   audioPath: "/media/junior/audio/jr_06_fen-10.mp3",
