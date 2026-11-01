@@ -1,11 +1,12 @@
 "use client";
 
 import { Fragment, useState } from "react";
+import Link from "next/link";
 import { LessonCover } from "@/components/junior/lesson-covers";
 import { JuniorLessonCompletionBar } from "@/components/junior/lesson-completion-bar";
 import { PackageInfoModal } from "@/components/junior/package-info-modal";
+import { buttonClassName, type ButtonVariant } from "@/components/ui/button";
 import { IconLock } from "@/components/ui/icons";
-import { LinkButton } from "@/components/ui/link-button";
 import { juniorTopicCardFace, type JuniorTopicCardTone } from "@/lib/junior/topic-face";
 import { juniorShelfJumpTargets, juniorWeekJumpTargets, type JuniorShelfJump } from "@/lib/junior/units";
 import type { JuniorCourseShelf, JuniorLessonCard } from "@/lib/junior/types";
@@ -47,8 +48,26 @@ function CurriculumMark({ label }: { label: string | undefined }) {
   );
 }
 
-const COVER_FRAME = "aspect-[16/9] max-h-36 w-full overflow-hidden bg-[var(--surface-muted)] sm:max-h-40";
-const CARD_GRID = "grid grid-cols-1 gap-2 md:grid-cols-3 lg:grid-cols-4";
+/** Kapak 8/3: 4 sütunda ~92px. 2/1 kapak 1366×640 pencerede düğmeyi ekran altına itiyordu. */
+export const JUNIOR_LESSON_COVER_FRAME =
+  "aspect-[8/3] max-h-24 w-full shrink-0 overflow-hidden bg-[var(--surface-muted)]";
+const CARD_GRID = "grid grid-cols-1 gap-2 pb-3 md:grid-cols-3 lg:grid-cols-4";
+/** Açık ders ve kilit penceresi: kartın her yeri tıklanır, hover kalkışı gölgeyi taşır. */
+export const JUNIOR_LESSON_CARD_SHELL =
+  "flex h-full min-h-0 w-full cursor-pointer flex-col overflow-hidden rounded-xl border border-[var(--border)] bg-white text-left transition duration-150 hover:-translate-y-0.5 hover:border-[var(--safir)] hover:shadow-[var(--shadow-lift)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--safir)] motion-reduce:transition-none motion-reduce:hover:translate-y-0";
+export const JUNIOR_LESSON_CARD_STATIC =
+  "flex h-full min-h-0 w-full flex-col overflow-hidden rounded-xl border border-[var(--border)] bg-white";
+const CARD_COPY = "grid min-h-0 gap-0.5 px-3 pt-1";
+
+function CardAction({ label, variant }: { label: string; variant: ButtonVariant }) {
+  return (
+    <div className="mt-auto shrink-0 px-3 pb-2 pt-1">
+      <span data-junior-card-action="" className={buttonClassName(variant, "sm", "pointer-events-none w-full")}>
+        {label}
+      </span>
+    </div>
+  );
+}
 
 function scrollToJump(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -190,7 +209,7 @@ export function VisualCourseCards({
                 (jump) => jump.lessonKey === lesson.key,
               );
               const cover = (
-                <div className={COVER_FRAME}>
+                <div className={JUNIOR_LESSON_COVER_FRAME}>
                   <LessonCover
                     lessonKey={lesson.key}
                     subject={course.subject}
@@ -213,14 +232,14 @@ export function VisualCourseCards({
                     <li id={week?.id} className={week ? "scroll-mt-28" : undefined}>
                     <button
                       type="button"
-                      className="flex h-full w-full flex-col gap-1.5 overflow-hidden rounded-xl border border-[var(--border)] bg-white text-left transition-colors hover:border-[var(--border-strong)] hover:bg-[var(--surface-muted)]/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--safir)]"
+                      className={JUNIOR_LESSON_CARD_SHELL}
                       aria-haspopup="dialog"
                       onClick={() => setPackageOpen(true)}
                     >
                       {cover}
-                      <div className="flex items-start justify-between gap-3 px-3 py-2">
-                        <div className="min-w-0 grid gap-1.5">
-                          <h3 className="line-clamp-2 text-sm font-semibold leading-5 text-[var(--foreground)]">
+                      <div className="flex min-h-0 items-start justify-between gap-2 px-3 py-1">
+                        <div className="grid min-w-0 gap-0.5">
+                          <h3 className="line-clamp-2 text-sm font-semibold leading-tight text-[var(--foreground)]">
                             {lessonHeading(lesson)}
                           </h3>
                           {lessonSubLabel(lesson) ? (
@@ -233,7 +252,7 @@ export function VisualCourseCards({
                             </p>
                           ) : null}
                           <TopicStatusBadges lesson={lesson} opener={index === 0} />
-                          <p className="line-clamp-2 text-xs leading-4 text-[var(--muted)]">
+                          <p className="line-clamp-2 text-xs leading-snug text-[var(--muted)]">
                             {juniorOneSentence(lesson.teaser)}
                           </p>
                         </div>
@@ -248,42 +267,57 @@ export function VisualCourseCards({
                 <Fragment key={lesson.key}>
                   {sectionHead}
                   <li id={week?.id} className={week ? "scroll-mt-28" : undefined}>
-                  <article className="flex h-full flex-col gap-1.5 overflow-hidden rounded-xl border border-[var(--border)] bg-white">
-                    {cover}
-                    <div className="grid gap-1.5 px-3 pt-2">
-                      <h3 className="line-clamp-2 text-sm font-semibold leading-5">{lessonHeading(lesson)}</h3>
-                      {lessonSubLabel(lesson) ? (
-                        <p className="text-[11px] font-semibold text-[var(--muted)]">{lessonSubLabel(lesson)}</p>
-                      ) : null}
-                      <CurriculumMark label={lesson.curriculumLabel} />
-                      {lesson.shortTopicLabel ? (
-                        <p className="text-[11px] font-semibold text-[var(--amber)]" data-junior-short-topic="">
-                          {lesson.shortTopicLabel}
+                  {face.action ? (
+                    <Link href={`/junior/ders/${lesson.key}`} className={JUNIOR_LESSON_CARD_SHELL}>
+                      {cover}
+                      <div className={CARD_COPY}>
+                        <h3 className="line-clamp-2 text-sm font-semibold leading-tight">{lessonHeading(lesson)}</h3>
+                        {lessonSubLabel(lesson) ? (
+                          <p className="text-[11px] font-semibold leading-4 text-[var(--muted)]">{lessonSubLabel(lesson)}</p>
+                        ) : null}
+                        <CurriculumMark label={lesson.curriculumLabel} />
+                        {lesson.shortTopicLabel ? (
+                          <p className="text-[11px] font-semibold leading-4 text-[var(--amber)]" data-junior-short-topic="">
+                            {lesson.shortTopicLabel}
+                          </p>
+                        ) : null}
+                        <TopicStatusBadges lesson={lesson} opener={index === 0} />
+                        <p className="line-clamp-2 text-xs leading-snug text-[var(--muted)]">
+                          {juniorOneSentence(lesson.teaser)}
                         </p>
-                      ) : null}
-                      <TopicStatusBadges lesson={lesson} opener={index === 0} />
-                      <p className="line-clamp-2 text-xs leading-4 text-[var(--muted)]">
-                        {juniorOneSentence(lesson.teaser)}
-                      </p>
-                      <JuniorLessonCompletionBar
-                        profileId={profileId}
-                        lessonKey={lesson.key}
-                        compact
-                      />
-                    </div>
-                    {face.action ? (
-                      <div className="px-3 pb-2">
-                        <LinkButton
-                          href={`/junior/ders/${lesson.key}`}
-                          size="sm"
-                          variant={lesson.status !== "done" ? "primary" : "outline"}
-                          className="w-full"
-                        >
-                          {face.action}
-                        </LinkButton>
+                        <JuniorLessonCompletionBar
+                          profileId={profileId}
+                          lessonKey={lesson.key}
+                          compact
+                        />
                       </div>
-                    ) : null}
-                  </article>
+                      <CardAction
+                        label={face.action}
+                        variant={lesson.status !== "done" ? "primary" : "outline"}
+                      />
+                    </Link>
+                  ) : (
+                    <article className={JUNIOR_LESSON_CARD_STATIC}>
+                      {cover}
+                      <div className={`${CARD_COPY} pb-2`}>
+                        <h3 className="line-clamp-2 text-sm font-semibold leading-tight">{lessonHeading(lesson)}</h3>
+                        {lessonSubLabel(lesson) ? (
+                          <p className="text-[11px] font-semibold leading-4 text-[var(--muted)]">{lessonSubLabel(lesson)}</p>
+                        ) : null}
+                        <CurriculumMark label={lesson.curriculumLabel} />
+                        {lesson.shortTopicLabel ? (
+                          <p className="text-[11px] font-semibold leading-4 text-[var(--amber)]" data-junior-short-topic="">
+                            {lesson.shortTopicLabel}
+                          </p>
+                        ) : null}
+                        <TopicStatusBadges lesson={lesson} opener={index === 0} />
+                        <p className="line-clamp-2 text-xs leading-snug text-[var(--muted)]">
+                          {juniorOneSentence(lesson.teaser)}
+                        </p>
+                        <JuniorLessonCompletionBar profileId={profileId} lessonKey={lesson.key} compact />
+                      </div>
+                    </article>
+                  )}
                   </li>
                 </Fragment>
               );

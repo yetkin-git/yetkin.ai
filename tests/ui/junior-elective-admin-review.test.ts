@@ -86,10 +86,13 @@ const OPEN = course(
 
 const CARDS = [PREPARING, LOCKED, OPEN];
 
+function cardAction(node: Element): string {
+  return node.querySelector("[data-junior-card-action]")?.textContent?.trim() ?? "";
+}
+
 function adminLinks(): HTMLAnchorElement[] {
   return [...document.querySelectorAll("a")].filter(
-    (node): node is HTMLAnchorElement =>
-      node instanceof HTMLAnchorElement && node.textContent?.trim() === "Admin İncele",
+    (node): node is HTMLAnchorElement => node instanceof HTMLAnchorElement && cardAction(node) === "Admin İncele",
   );
 }
 
@@ -149,9 +152,10 @@ describe("Seçmeli kart Admin İncele", () => {
       "/junior/ders/jr_06_ing-1",
       "/junior/ders/jr_06_kod-1",
     ]);
-    expect(links.every((link) => link.textContent?.trim() === "Admin İncele")).toBe(true);
+    expect(links.every((link) => cardAction(link) === "Admin İncele")).toBe(true);
     const open = [...document.querySelectorAll("a")].find((node) => node.getAttribute("href") === "/junior/ders/jr_06_alm-1");
-    expect(open?.textContent?.trim()).toBe("Ücretsiz Başla");
+    expect(cardAction(open ?? document.body)).toBe("Ücretsiz Başla");
+    expect(open?.textContent).toContain("Merhaba");
     expect(open?.textContent).not.toContain("Admin İncele");
   });
 });

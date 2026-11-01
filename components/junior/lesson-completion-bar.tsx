@@ -89,7 +89,7 @@ export function JuniorLessonCompletionBar(props: JuniorLessonCompletionBarProps)
       <div
         data-junior-lesson-completion=""
         data-junior-completion-percent={percent}
-        className="grid gap-1"
+        className="grid gap-0.5"
         aria-label={`Ders ilerleme ${percent} yüzde`}
       >
         <div className="flex items-center justify-between gap-2">
