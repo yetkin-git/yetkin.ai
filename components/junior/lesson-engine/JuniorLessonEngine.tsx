@@ -176,7 +176,7 @@ export function JuniorLessonEngineShell({
         <div
           ref={playerShellRef}
           data-junior-player-shell=""
-          className="flex min-h-0 w-full min-w-0 flex-col"
+          className="flex w-full min-w-0 shrink-0 flex-col [&_[data-junior-stage-canvas]]:min-h-[280px]"
         >
           {player}
         </div>

@@ -67,27 +67,34 @@ function DigitTile(props: {
         transition:
           "opacity 480ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 480ms cubic-bezier(0.34, 1.56, 0.64, 1), border-color 480ms cubic-bezier(0.34, 1.56, 0.64, 1)",
       }}
-      className={`${JUNIOR_DIGIT_BOX_CLASS} @container-size/tile relative flex min-h-0 w-full min-w-0 max-w-[14rem] flex-1 flex-col items-center justify-center gap-1 self-stretch overflow-hidden rounded-3xl border-2 px-2 ${
+      className={`${JUNIOR_DIGIT_BOX_CLASS} relative flex w-full min-w-0 max-w-[14rem] flex-1 self-stretch overflow-hidden rounded-3xl border-2 ${
         isHighlighted
           ? `${palette.border} bg-gradient-to-b ${palette.bg}`
           : "border-slate-600/70 bg-gradient-to-b from-slate-800 to-slate-900"
       }`}
     >
       {/* Üst parlama şeridi */}
-      <div className="pointer-events-none absolute inset-x-2 top-1.5 h-2 rounded-full bg-white/15" />
+      <div className="pointer-events-none absolute inset-x-2 top-1.5 z-10 h-2 rounded-full bg-white/15" />
 
-      <span className="shrink-0 text-[11px] font-extrabold uppercase tracking-wider text-slate-300/80 sm:text-xs">
-        {placeLabel}
-      </span>
-      <span
-        style={{
-          color: isHighlighted ? palette.paint.color : REST_DIGIT.color,
-          fontFamily: "system-ui, sans-serif",
-        }}
-        className="block min-h-0 max-w-full text-[clamp(1.25rem,48cqh,7.5rem)] font-black leading-none tracking-tight [overflow-wrap:anywhere]"
-      >
-        {digit}
-      </span>
+      {/*
+        Boy kapsayıcı esneyen karo değil, karoyu dolduran iç katmandır.
+        Esneyen flex çocuğunda `container-type: size` sorgu yüksekliğini
+        içeriğe kilitleyip rakamı 1.25rem tabanında bırakıyordu.
+      */}
+      <div className="@container-size/tile absolute inset-0 flex flex-col items-center justify-center gap-1 px-2">
+        <span className="shrink-0 text-[11px] font-extrabold uppercase tracking-wider text-slate-300/80 sm:text-xs">
+          {placeLabel}
+        </span>
+        <span
+          style={{
+            color: isHighlighted ? palette.paint.color : REST_DIGIT.color,
+            fontFamily: "system-ui, sans-serif",
+          }}
+          className="block max-w-full text-[clamp(3.5rem,65cqh,18rem)] font-black leading-none tracking-tight [overflow-wrap:anywhere]"
+        >
+          {digit}
+        </span>
+      </div>
 
       {/* Dedektif Büyüteci — karo alt-sağında; üst kural rozetleriyle çakışmaz */}
       {showMagnifier ? (
@@ -292,8 +299,9 @@ export function DetectiveBoardStage(props: { state: SceneGraphState }): ReactEle
         } ${hasVerdict ? "grid-cols-2" : "grid-cols-1"}`}
       >
         {/* SOL/ORTA: BASAMAK KAROLARI VE BÜYÜTEÇ / TOPLAMA ANİMASYONU */}
-        <div className="relative z-0 flex h-full min-h-0 flex-col items-center justify-center">
-          <div className="flex h-full min-h-0 w-full items-stretch justify-center gap-2 overflow-hidden sm:gap-4">
+        <div className="relative z-0 h-full min-h-0">
+          <div className="absolute inset-0 flex min-h-0 flex-col">
+            <div className="flex min-h-0 w-full flex-1 items-stretch justify-center gap-2 overflow-hidden sm:gap-4">
             {digits.map((digit, idx) => {
               const isOnes = idx === digits.length - 1;
               const isLastTwo = idx >= digits.length - 2;
@@ -324,16 +332,16 @@ export function DetectiveBoardStage(props: { state: SceneGraphState }): ReactEle
                 />
               );
             })}
-          </div>
+            </div>
 
-          {/* Rakam Toplama Dedektifi Animasyon Bandı (3 ve 9 Kuralları) */}
-          {detective.digitSum?.active ? (
+            {/* Rakam Toplama Dedektifi Animasyon Bandı (3 ve 9 Kuralları) */}
+            {detective.digitSum?.active ? (
             <div
               style={{
                 transition: "all 500ms cubic-bezier(0.34, 1.56, 0.64, 1)",
                 animation: VERDICT_FADE_IN,
               }}
-              className="mt-3.5 flex items-center gap-3 rounded-2xl border border-amber-300/50 bg-amber-500/15 px-5 py-2.5 shadow-lg"
+              className="mt-2 flex shrink-0 items-center gap-3 rounded-2xl border border-amber-300/50 bg-amber-500/15 px-5 py-2 shadow-lg"
             >
               <span className="text-xs font-extrabold uppercase tracking-wider text-amber-200">
                 Rakamlar Toplamı:
@@ -349,7 +357,8 @@ export function DetectiveBoardStage(props: { state: SceneGraphState }): ReactEle
                     : "3'ün katı değil"}
               </span>
             </div>
-          ) : null}
+            ) : null}
+          </div>
         </div>
 
         {/* SAĞ: DEDEKTİF KARAR DAMGALARI — yalnızca STAMP_VERDICT sonrası */}

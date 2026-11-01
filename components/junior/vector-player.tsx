@@ -596,7 +596,7 @@ function PilotPlayerWithWarmupShell(props: VectorPlayerProps): ReactElement {
 
   return (
     <div
-      className={`relative flex min-h-0 w-full flex-1 flex-col ${props.fill ? "h-full" : "h-auto"}`}
+      className="relative flex w-full shrink-0 flex-col"
       data-junior-warmup-gate={warmup.gate}
       data-junior-pilot-warmup-shell=""
     >
@@ -852,26 +852,29 @@ function SealedVectorPlayer({
   }, []);
 
   /**
-   * Normal mod: tuval kalan viewport yüksekliğini doldurur (`flex-1`).
-   * Video ve SVG mutlak konumludur; yükseklik ebeveynden gelir.
-   * Tam ekranda board aynı esnek sütunu ekrana yayar.
+   * Normal mod: sahne `w-full shrink-0` — yükseklik içerikten gelir, ezilmez.
+   * Tam ekranda sütun ekranı doldurur (`h-full min-h-0 flex-1`).
    */
   const boardClass = fullscreen
     ? "min-h-0 flex-1 overflow-hidden"
-    : "min-h-0 w-full flex-1 overflow-hidden";
+    : "w-full shrink-0 overflow-hidden";
 
   return (
     <div
-      className={`flex min-h-0 w-full flex-1 flex-col gap-1 ${fill ? "h-full" : "h-auto"}`}
+      className={`flex w-full flex-col gap-1 ${
+        fill && fullscreen ? "h-full min-h-0 flex-1" : "shrink-0"
+      }`}
       data-junior-focus-player=""
-      data-junior-zero-scroll={fill ? "true" : undefined}
+      data-junior-zero-scroll={fill && fullscreen ? "true" : undefined}
       data-junior-captions={captionsVisible ? "on" : "off"}
     >
       <div
         ref={stageRef}
         className={`flex w-full max-w-none flex-col gap-1 overflow-hidden border border-[var(--border)] bg-white ${
-          fullscreen ? "h-screen w-screen max-h-none rounded-none" : "h-full min-h-0 flex-1 rounded-xl"
-        } ${fullscreen ? "min-h-0 flex-1" : ""}`}
+          fullscreen
+            ? "h-screen w-screen max-h-none min-h-0 flex-1 rounded-none"
+            : "w-full shrink-0 rounded-xl"
+        }`}
         data-junior-cinema-stage=""
         data-junior-fullscreen={fullscreen ? "true" : "false"}
       >

@@ -84,8 +84,18 @@ describe("Junior sahne kapsayıcı sözleşmesi", () => {
     expect(css).toMatch(/\[data-junior-stage-canvas\] \{[^}]*overflow:\s*hidden/s);
     expect(css).toMatch(/\[data-junior-stage-canvas\] \{[^}]*container-type:\s*size/s);
     expect(css).toMatch(/\[data-junior-stage-canvas\] \{[^}]*min-height:\s*var\(--player-stage-min\)/s);
-    expect(css).toMatch(/--player-stage-min:\s*clamp\(11\.25rem,\s*28dvh,\s*13\.75rem\)/);
-    expect(pilot).toContain("min-h-[180px]");
+    expect(css).toMatch(/--player-stage-min:\s*17\.5rem;/);
+    expect(css).not.toMatch(/--player-stage-min:\s*clamp\(/);
+    expect(pilot).toContain("min-h-[280px]");
+    expect(css).toMatch(
+      /\[data-junior-player-shell\],\s*\[data-junior-cinema-board\],\s*\[data-junior-stage-canvas\] \{[^}]*min-height:\s*var\(--player-stage-min\)/s,
+    );
+    expect(css).toMatch(
+      /\[data-junior-player-shell\],\s*\[data-junior-cinema-board\],\s*\[data-junior-stage-canvas\] \{[^}]*flex-shrink:\s*0/s,
+    );
+    expect(css).toMatch(/\[data-junior-step-art\]:not\(\[data-junior-cinema-board\]\)/);
+    expect(css).not.toMatch(/calc\(var\(--player-stage-min\) \+ 1\.75rem\)/);
+    expect(css).not.toMatch(/--player-shell-min:/);
   });
 
   it("cqh/cqmin kullanan her kapsayıcı container-type: size taşır", () => {
@@ -106,6 +116,8 @@ describe("Junior sahne kapsayıcı sözleşmesi", () => {
     expect(detective).toContain("@container-size/tile");
     // Eski `46cqh` üst sınırı 120px'e sabitleniyordu; clamp artık karo ekseninde.
     expect(detective).not.toContain("46cqh");
+    expect(detective).not.toContain("48cqh");
+    expect(detective).toContain("text-[clamp(3.5rem,65cqh,18rem)]");
   });
 
   it("oynatıcı kabuğu tek yükseklik değişkenine bağlıdır, mutlak taban yok", () => {
@@ -117,16 +129,16 @@ describe("Junior sahne kapsayıcı sözleşmesi", () => {
     expect(engine).not.toMatch(/className="[^"]*6\.5rem/u);
 
     const css = read("app/globals.css");
-    expect(css).toMatch(/--player-stage-min:/);
-    expect(css).toMatch(
-      /\[data-junior-player-shell\] \{[^}]*min-height:\s*max\(var\(--player-shell-min\), min\(52dvh, var\(--junior-player-budget\)\)\)/s,
-    );
+    expect(css).toMatch(/--player-stage-min:\s*17\.5rem;/);
+    expect(css).toMatch(/\[data-junior-player-shell\] \{[^}]*height:\s*auto/s);
     expect(css).toMatch(/\[data-junior-player-shell\] \{[^}]*max-height:\s*none/s);
-    // Yer varken bütçe tavan olur. Bütçe sahne tabanının altındaysa taban kalır, sayfa kayar.
-    expect(css).toMatch(/--junior-player-budget:\s*calc\(\s*100dvh - var\(--junior-page-chrome-offset/s);
-    // Taban artık krom + sahne toplamıdır; krom ölçülür, varsayılmaz.
-    expect(css).toMatch(/--player-shell-min:\s*calc\(var\(--player-chrome-min\) \+ var\(--player-stage-min\)\)/);
+    // Taban katı 17.5rem. clamp() ve krom+sahne calc() bildirimi düşürüyordu.
+    expect(css).toMatch(
+      /\[data-junior-player-shell\],\s*\[data-junior-cinema-board\],\s*\[data-junior-stage-canvas\] \{[^}]*min-height:\s*var\(--player-stage-min\);[^}]*flex-shrink:\s*0/s,
+    );
+    expect(css).not.toMatch(/--player-shell-min:/);
     // Bütçe viewport'tan türetilir; ölçülmüş krom payı varsayılanı ezer.
+    expect(css).toMatch(/--junior-player-budget:\s*calc\(\s*100dvh - var\(--junior-page-chrome-offset/s);
     expect(css).toContain("--junior-page-chrome-offset");
   });
 

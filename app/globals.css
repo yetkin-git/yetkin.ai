@@ -6780,10 +6780,10 @@ body[data-academy-listen-dock="1"] [data-assistant-fab] {
  * yoktu. Bu blok o boşluğu kapatır (bkz. docs/tespit_raporu_04.md §1.6, §2.1).
  *
  * Kurallar:
- *   1. Yükseklik: mutlak `min-h-[28rem]` tabanı yok. Oynatıcı, yer varken
- *      `100dvh` eksi ölçülmüş sayfa kromuna sığar. Sahne tuvali
- *      `clamp(11.25rem, 28dvh, 13.75rem)` altına inmez (180–220px).
- *      Bütçe bu tabanın altındaysa kabuk ezilmez; sayfa kayar.
+ *   1. Yükseklik: sahne tabanı katı `17.5rem` (280px). `clamp()` yok.
+ *      Değer ikinci bir `calc()` içine alınmaz; aksi hâlde bildirim düşer
+ *      ve tahta `min-height: 0` ile sıfırlanır. Kısa viewport'ta kabuk
+ *      ezilmez; ders `<main>` öğesi (`overflow-y-auto`) kayar.
  *   2. Kapsayıcı: sahne tuvali `container-type: size` taşır → tüm `cq*` birimleri
  *      viewport'a değil sahneye çözülür. `overflow: hidden` taşmayı tek yerde keser.
  *   3. Metin: sahne içindeki her metin kutular arası taşmak yerine kendi
@@ -6793,36 +6793,35 @@ body[data-academy-listen-dock="1"] [data-assistant-fab] {
  *   --junior-page-chrome-h      : oynatıcının üstündeki sayfa kromu varsayılanı
  *   --junior-page-chrome-offset : aynı kromun ölçülmüş hâli (bileşen yazar)
  *   --player-chrome-min         : üst krom + altyazı rayı + kontrol şeridi tabanı
- *   --player-stage-min          : sahne tuvali tabanı — 0 değil, 180–220px
- *   --player-shell-min          : ikisinin toplamı; oynatıcının gerçek tabanı
+ *   --player-stage-min          : sahne tuvali tabanı — düz 17.5rem (280px)
+ *
+ * Kabuk, sinema tahtası ve sahne tuvali aynı tabanı ve `flex-shrink: 0` paylaşır.
+ * Sinema tahtası `data-junior-step-art` de taşır; o sıfırlama tahtaya işlemez.
  */
 :root {
   --junior-page-chrome-h: 7rem;
   --player-chrome-min: 14rem;
-  --player-stage-min: clamp(11.25rem, 28dvh, 13.75rem);
-  --player-shell-min: calc(var(--player-chrome-min) + var(--player-stage-min));
+  --player-stage-min: 17.5rem;
 }
 
 [data-junior-player-shell] {
-  /* Bütçe: viewport eksi ölçülmüş sayfa kromu. Taban bütçenin altına düşmez. */
+  /* Bütçe ölçümü durur. Yükseklik tabanı aşağıdaki ortak kuraldadır. */
   --junior-player-budget: calc(
     100dvh - var(--junior-page-chrome-offset, var(--junior-page-chrome-h)) - 0.25rem
   );
   height: auto;
-  min-height: max(var(--player-shell-min), min(52dvh, var(--junior-player-budget)));
   max-height: none;
   overflow: visible;
 }
 
-@media (min-width: 640px) {
-  [data-junior-player-shell] {
-    min-height: max(var(--player-shell-min), min(48rem, var(--junior-player-budget)));
-  }
-}
-
-/* Sahne tahtası tuvalle birlikte ezilmez; sayfa kayması tuvali 0px yapmaz. */
-[data-junior-cinema-board] {
-  min-height: calc(var(--player-stage-min) + 1.75rem);
+/*
+ * Katmansız taban. Tailwind `min-h-*` katmanını yener.
+ * `flex-shrink: 0` dikey ezilmeyi kapatır; sığmayan kolon `<main>` içinde kayar.
+ */
+[data-junior-player-shell],
+[data-junior-cinema-board],
+[data-junior-stage-canvas] {
+  min-height: var(--player-stage-min);
   flex-shrink: 0;
 }
 
@@ -6846,10 +6845,12 @@ body[data-academy-listen-dock="1"] [data-assistant-fab] {
  * Mutlak sahne katmanları ebeveyne `inset-0` + `h-full` ile oturur.
  * Eski `min-h-[300px]` bu katmanları sahne 300px altına inince kırpıyordu;
  * artık yükseklik yalnız ebeveynden gelir.
+ * Sinema tahtası aynı `data-junior-step-art` işaretini taşır; o taban
+ * burada sıfırlanmaz, yoksa `overflow: hidden` tuvali kırpar.
  */
 [data-junior-scene],
 [data-junior-scene-media],
-[data-junior-step-art],
+[data-junior-step-art]:not([data-junior-cinema-board]),
 [data-junior-warmup="cassette"] {
   min-height: 0;
 }

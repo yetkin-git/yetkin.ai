@@ -564,10 +564,12 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
 
   return (
     <div
-      className={`relative flex w-full flex-1 flex-col ${fill ? "min-h-full" : "h-auto"}`}
+      className={`relative flex w-full flex-col ${
+        fill && fullscreen ? "h-full min-h-0 flex-1" : "shrink-0"
+      }`}
       data-junior-focus-player=""
       data-junior-pilot-v2={clock.lessonKey}
-      data-junior-zero-scroll={fill ? "true" : undefined}
+      data-junior-zero-scroll={fill && fullscreen ? "true" : undefined}
       data-junior-captions={captionsOpen ? "on" : "off"}
     >
       {/* Gizli HTML5 Ses Motoru (48 kHz Mastering, atempo=JUNIOR_BAKE_ATEMPO / 0.94) */}
@@ -620,7 +622,7 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
         className={`flex w-full max-w-none flex-col border border-slate-700/80 bg-[#0b1120] text-white shadow-2xl ${
           fullscreen
             ? "h-screen w-screen max-h-none overflow-hidden rounded-none"
-            : "min-h-full w-full flex-1 overflow-visible rounded-2xl"
+            : "w-full shrink-0 overflow-visible rounded-2xl"
         }`}
         data-junior-cinema-stage=""
         data-junior-stage-stack="flex"
@@ -670,9 +672,11 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
           </ol>
         </div>
 
-        {/* 2) Sahne tuvali — kalan yüksekliği doldurur. Taban 180px; daha dar ekranda sayfa kayar. */}
+        {/* 2) Sahne tuvali — taban 280px. Normal modda ezilmez; kısa ekranda sayfa kayar. */}
         <div
-          className="relative flex min-h-[var(--player-stage-min)] w-full flex-1 shrink-0 flex-col overflow-hidden px-2 pt-0.5 sm:px-3"
+          className={`relative flex w-full shrink-0 flex-col overflow-hidden px-2 pt-0.5 sm:px-3 ${
+            fullscreen ? "min-h-0 flex-1" : "min-h-[280px]"
+          }`}
           data-junior-cinema-board=""
           data-junior-clean-stage={captionsOpen ? undefined : "true"}
           data-junior-step-art={sceneState.activeCueIndex}
@@ -698,7 +702,7 @@ export function JuniorPilotPlayer(props: JuniorPilotPlayerProps): ReactElement {
               `overflow-hidden` + `container-type: size`: sahne kendi kutusunu kırpar ve tüm
               `cq*` birimleri viewport'a değil sahneye çözülür (globals.css sözleşmesiyle aynı). */}
           <div
-            className="relative min-h-[180px] w-full flex-1 overflow-hidden [container-type:size]"
+            className="relative min-h-[280px] w-full flex-1 shrink-0 overflow-hidden [container-type:size]"
             data-junior-stage-canvas=""
             data-junior-sticky-frame={stickyHold ? "true" : "false"}
             data-junior-sticky-layout={displayScene.layout}
