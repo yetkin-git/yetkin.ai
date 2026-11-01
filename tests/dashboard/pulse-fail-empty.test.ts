@@ -39,11 +39,15 @@ describe("kokpit SEN sözlüğü", () => {
     expect(pulse.academyTitle).toBe("Akademi");
     expect(pulse.careerTitle).toBe("Kariyer");
     expect(pulse.freelancerTitle).toBe("Freelancer");
-    expect(pulse.academyEmpty).toBe("Henüz sertifika yok");
-    expect(pulse.careerEmpty).toBe("Henüz doğrulanmış rozet yok");
+    expect(pulse.academyEmpty).toBe("İlk eğitimini tamamla, sertifikanı kap!");
+    expect(pulse.academyEmptyCta).toBe("Eğitimleri İncele");
+    expect(pulse.careerEmpty).toBe("İlk etkinliğini yap, rozetini kazan!");
+    expect(pulse.careerEmptyCta).toBe("Kariyerini aç");
     expect(pulse.academyTitle).not.toContain("nabzı");
     expect(pulse.academyEmpty).not.toContain("mühür");
     expect(pulse.careerEmpty).not.toContain("mühür");
+    expect(pulse.academyEmpty).not.toContain("0");
+    expect(pulse.careerEmpty).not.toContain("0");
     expect(nba.careerVisa.body).not.toMatch(/mühür/i);
     expect(nba.careerVisa.body).toContain("Doğrulanmış rozet");
     expect(nba.academyContinue.body).not.toMatch(/mühür/i);

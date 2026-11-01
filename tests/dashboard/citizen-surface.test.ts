@@ -35,9 +35,11 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     expect(SEN_VOICE.dashboard.description).toContain("güvenli panelde");
     expect(SEN_VOICE.dashboard.description).not.toContain("yönetilir");
     expect(SEN_VOICE.dashboard.description).not.toContain("split");
+    expect(SEN_VOICE.dashboard.welcomeLead).toBe("İlk eğitimini seç, sertifikanı kap.");
     expect(SEN_VOICE.dashboard.featured).toContain("Kariyer yolculuğuna");
     expect(SEN_VOICE.dashboard.featured).toContain("Akademi'den");
     expect(SEN_VOICE.dashboard.featured).toContain("Kariyer odasından");
+    expect(SEN_VOICE.dashboard.featured).toContain("sertifikan burada durur");
     expect(SEN_VOICE.dashboard.featured).not.toContain("Öğren, sınav ol");
     expect(SEN_VOICE.dashboard.featured).not.toContain("mühürlen, vize al");
     expect(SEN_VOICE.dashboard.featured).not.toContain("kokpit");
@@ -62,6 +64,7 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     }
     expect(readSrc("app/dashboard/page.tsx")).toContain("SEN_VOICE");
     expect(readSrc("app/dashboard/page.tsx")).toContain("welcomeTitle");
+    expect(readSrc("app/dashboard/page.tsx")).toContain("welcomeLead");
     expect(readSrc("app/dashboard/page.tsx")).toContain("requirePageSession");
     expect(readSrc("app/dashboard/page.tsx")).toContain("loadIdentityBoard");
     expect(readSrc("app/dashboard/page.tsx")).toContain("NextBestActionCard");
@@ -109,8 +112,17 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     expect(SEN_VOICE.dashboard.pulse.academyTitle).toBe("Akademi");
     expect(SEN_VOICE.dashboard.pulse.careerTitle).toBe("Kariyer");
     expect(SEN_VOICE.dashboard.pulse.freelancerTitle).toBe("Freelancer");
-    expect(SEN_VOICE.dashboard.pulse.academyEmpty).toBe("Henüz sertifika yok");
-    expect(SEN_VOICE.dashboard.pulse.careerEmpty).toBe("Henüz doğrulanmış rozet yok");
+    expect(SEN_VOICE.dashboard.pulse.academyEmpty).toBe(
+      "İlk eğitimini tamamla, sertifikanı kap!",
+    );
+    expect(SEN_VOICE.dashboard.pulse.academyEmptyCta).toBe("Eğitimleri İncele");
+    expect(SEN_VOICE.dashboard.pulse.careerEmpty).toBe("İlk etkinliğini yap, rozetini kazan!");
+    expect(SEN_VOICE.dashboard.pulse.careerEmptyCta).toBe("Kariyerini aç");
+    expect(SEN_VOICE.dashboard.pulse.portfolioEmpty).toBe(
+      "İlk işini ekle, portföyün burada görünsün.",
+    );
+    expect(SEN_VOICE.dashboard.nextBestAction.fallback.cta).toBe("Eğitimleri İncele");
+    expect(SEN_VOICE.dashboard.nextBestAction.eyebrow).toBe("Sıradaki adımın");
     expect(chip).toContain("WALLET_SURFACE_PATH");
     expect(chip).toContain("tabular-nums");
     expect(page).not.toContain("WalletBalanceStrip");

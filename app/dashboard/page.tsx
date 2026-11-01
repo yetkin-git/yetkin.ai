@@ -38,7 +38,7 @@ async function SignedInDashboard() {
     <DashboardPulseProvider initialPulse={pulse}>
       <RoomFrame>
         <div className="space-y-3">
-          <PageHeader compact eyebrow={copy.eyebrow} title={title} />
+          <PageHeader compact eyebrow={copy.eyebrow} title={title} description={copy.welcomeLead} />
           <NextBestActionCard />
         </div>
         <div

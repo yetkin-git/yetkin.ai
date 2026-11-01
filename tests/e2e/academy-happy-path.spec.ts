@@ -19,16 +19,18 @@ test.describe("O8 akademi nakit & sınav yolculuğu", () => {
     await expect(page.getByText("E-Ticaret ve Pazaryeri Yapay Zekâ").first()).toBeVisible();
     await expect(page.getByText("Sosyal Medya İçerik Üretimi").first()).toBeVisible();
     await expect(page.locator("[data-academy-production-band]")).toHaveCount(0);
-    await expect(page.locator("[data-academy-catalog-series='01_office_ai'] a")).toHaveAttribute(
-      "href",
-      "/academy/01_office_ai",
-    );
+    await expect(
+      page.locator("[data-academy-catalog-series='01_office_ai'] [data-academy-catalog-hit]"),
+    ).toHaveAttribute("href", "/academy/01_office_ai");
+    await expect(
+      page.locator("[data-academy-catalog-series='02_ecommerce_ai'] [data-academy-catalog-hit]"),
+    ).toHaveAttribute("href", "/academy/02_ecommerce_ai");
     await expect(page.getByRole("heading", { name: "Öne Çıkan / Temel Akademi Eğitimi" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "İleri Düzey Modüller" })).toBeVisible();
     await expect(page.locator("[data-academy-advanced-module]")).toHaveCount(5);
     await expect(page.locator("[data-academy-coming-soon-card]")).toHaveCount(0);
 
-    await page.locator("[data-academy-catalog-series='01_office_ai'] a").click();
+    await page.locator("[data-academy-catalog-series='01_office_ai'] [data-academy-catalog-hit]").click();
     await expect(page).toHaveURL(/\/academy\/01_office_ai\/?$/);
 
     await page.goto("/academy/01_office_ai");

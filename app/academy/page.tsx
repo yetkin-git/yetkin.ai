@@ -28,14 +28,11 @@ import { recordFunnelDailyDocumentStep } from "@/lib/kernel/admin/funnel-documen
 export const metadata: Metadata = pageMetadata(PAGE_SEO.academy);
 
 /**
- * Akademi vitrini — PEDAGOJI §D 5'li Vitrin Karması + A5 dürüst yüzey.
- * Mühürlü `01_office_ai` temel Akademi eğitimidir ve vitrinde öne çıkar. OFF-201 (`01_office_ai_ileri`) ileri modül olarak durur.
- * EC-102 (`02_ecommerce_ai`) kamu kapısı açıktır; kartın yeşil düğmesi birinci dersi `/oyna` yolunda açar. Satın alma ikincildir.
- * `03_social_media_ai`, `04_chatbot_nocode` ve `05_prompt_practice` aynı kabuktadır.
+ * Akademi vitrini — yayınlanan eğitimler aynı sayfada şeffaf karttır.
+ * `01_office_ai` temel karttır. İleri modüller bu sayfada gizlenmez.
+ * Kart gövdesi o eğitimin kendi sayfasına gider. Ücretsiz ders düğmesi yalnız demo oynatıcıdır.
  * Hayali oynatıcı basılmaz.
- * Junior müstakil odadır. Vitrin kartına ve **ana akışa** gömülmez; yetişkin ofis
- * eğitimi satan bir vitrinde ilkokul veli kapısı değer önerisini bulandırıyordu.
- * Junior odası kendi adresinden (`/junior`) açılır.
+ * Junior müstakil odadır. Vitrin kartına gömülmez; odası `/junior` adresindedir.
  */
 export default async function AcademyPage() {
   const copy = SEN_VOICE.academy.catalog;

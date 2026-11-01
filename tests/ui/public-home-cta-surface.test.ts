@@ -15,6 +15,7 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
     const page = readSrc("app/(public)/page.tsx");
     const copy = SEN_VOICE.public.home;
     expect(copy.academyCta).toBe("Eğitimleri İncele");
+    expect(copy.freeLessonCta).toBe("Ücretsiz Dersi İzle");
     expect(copy.loginCta).toBe("Giriş Yap");
     expect(copy.registerCta).toBe("Kayıt Ol");
     expect(copy.cockpitCta).toBe("Panele geç");
@@ -28,6 +29,10 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
     expect(nav).toContain("copy.registerCta");
     expect(nav).toContain("copy.cockpitCta");
     expect(page).toContain('href="/academy"');
+    expect(page).toMatch(/href="\/academy\/01_office_ai\/oyna"[^>]*>\s*\{copy\.freeLessonCta\}/);
+    expect(page).toMatch(/href="\/academy"[^>]*>\s*\{copy\.academyCta\}/);
+    expect(page).toMatch(/href="\/academy">\{copy\.academyCta\}/);
+    expect(page).not.toMatch(/href="\/academy\/01_office_ai\/oyna"[^>]*>\s*\{copy\.academyCta\}/);
     expect(nav).toContain('href="/login"');
     expect(nav).toContain('href="/register"');
     expect(nav).toContain('href="/dashboard"');

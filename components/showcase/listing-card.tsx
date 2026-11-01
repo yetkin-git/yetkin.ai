@@ -3,7 +3,7 @@ import Link from "next/link";
 import { CourseCoverImage } from "@/components/academy/course-cover-image";
 import { ACADEMY_COURSE_COVER_SIZES } from "@/lib/academy/course-cover";
 import { Badge, type BadgeTone } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
+import { Card, type CardVariant } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
 import { buttonClassName, type ButtonSize, type ButtonVariant } from "@/components/ui/button";
 import { cn } from "@/components/ui/cn";
@@ -48,6 +48,9 @@ export function ListingCard({
   coverSizes = ACADEMY_COURSE_COVER_SIZES,
   ctaSize = "sm",
   ctaVariant = "primary",
+  ctaSlot,
+  cardVariant,
+  navigateWhenDisabled = false,
 }: {
   title: string;
   summary: string;
@@ -76,7 +79,7 @@ export function ListingCard({
   /** Ücretsiz ders birincilken satın alma bağlantısı. Kart gövdesinin üstünde durur. */
   secondaryHref?: LinkHref;
   secondaryCta?: string;
-  /** Pasif etiket — fiyat yok veya ön koşul kapalı. Kart ve düğme tıklanmaz. */
+  /** Pasif etiket — fiyat yok veya ön koşul kapalı. Düğme tıklanmaz; kart `navigateWhenDisabled` ile açılabilir. */
   ctaDisabled?: boolean;
   showcase?: boolean;
   icon?: ReactNode;
@@ -108,9 +111,18 @@ export function ListingCard({
   coverSizes?: string;
   ctaSize?: ButtonSize;
   ctaVariant?: ButtonVariant;
+  /**
+   * Kart gövdesi `href` iken satın alma düğmesi ayrı kalsın diye.
+   * Verilmezse birincil etiket kaplamadır; tıklama kartın `href` değerine gider.
+   */
+  ctaSlot?: ReactNode;
+  /** Katalog vitrini şeffaf cam karttır. Boşsa showcase cam, diğerleri düz yüzey. */
+  cardVariant?: CardVariant;
+  /** Kapalı satışta kart yine kendi eğitim sayfasına gidebilsin. */
+  navigateWhenDisabled?: boolean;
 }) {
   const isList = layout === "list";
-  const cardHit = Boolean(href) && hit === "card" && !ctaDisabled;
+  const cardHit = Boolean(href) && hit === "card" && (!ctaDisabled || navigateWhenDisabled);
   const cinemaCover = Boolean(coverSrc) && !coverComingSoon;
   const showCover = !isList && (cinemaCover || coverComingSoon);
   const hasInlineKicker = Boolean(moduleCode || kicker);
@@ -232,30 +244,32 @@ export function ListingCard({
         >
           {cta}
         </LinkButton>
-      ) : hit === "card" && cta ? (
+      ) : hit === "card" && (cta || ctaSlot) ? (
         <div
           className={cn(
             "flex shrink-0 flex-col items-stretch gap-2 sm:items-end",
             secondaryHref && secondaryCta && "sm:flex-row sm:flex-wrap sm:items-center sm:justify-end",
           )}
         >
-          <span
-            className={buttonClassName(
-              ctaVariant,
-              ctaSize,
-              cn(
-                "pointer-events-none shrink-0 whitespace-nowrap",
-                wideCta && "w-full sm:w-auto",
-                ctaDisabled && "cursor-not-allowed opacity-50",
-              ),
-            )}
-            aria-hidden={ctaDisabled ? undefined : true}
-            aria-disabled={ctaDisabled ? true : undefined}
-            data-academy-catalog-cta=""
-            data-academy-cta-disabled={ctaDisabled ? "" : undefined}
-          >
-            {cta}
-          </span>
+          {ctaSlot ?? (
+            <span
+              className={buttonClassName(
+                ctaVariant,
+                ctaSize,
+                cn(
+                  "pointer-events-none shrink-0 whitespace-nowrap",
+                  wideCta && "w-full sm:w-auto",
+                  ctaDisabled && "cursor-not-allowed opacity-50",
+                ),
+              )}
+              aria-hidden={ctaDisabled ? undefined : true}
+              aria-disabled={ctaDisabled ? true : undefined}
+              data-academy-catalog-cta=""
+              data-academy-cta-disabled={ctaDisabled ? "" : undefined}
+            >
+              {cta}
+            </span>
+          )}
           {secondaryHref && secondaryCta ? (
             <Link
               href={secondaryHref}
@@ -280,7 +294,7 @@ export function ListingCard({
 
   const card = (
     <Card
-      variant={showcase ? "glass" : "default"}
+      variant={cardVariant ?? (showcase ? "glass" : "default")}
       className={cn(
         "room-listing h-full",
         rank === 1 && "ring-1 ring-[var(--gold)]",
@@ -343,6 +357,7 @@ export function ListingCard({
     <div className="group relative h-full flex flex-col justify-between">
       <Link
         href={href}
+        data-academy-catalog-hit=""
         className="absolute inset-0 z-0 rounded-[var(--radius-card)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--safir-soft)] focus-visible:ring-offset-2"
         aria-label={[moduleCode, kicker, hitAriaExtra, title, price, priceCaption, cta]
           .filter(Boolean)

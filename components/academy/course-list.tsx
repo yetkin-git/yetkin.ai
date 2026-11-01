@@ -4,11 +4,10 @@ import { useMemo, type ReactNode } from "react";
 
 import type { AcademyCourseWithPrice } from "@/lib/academy/types";
 import { CourseCard, type CourseCardSurface } from "@/components/academy/course-card";
-import { BeginCheckoutLink } from "@/components/academy/begin-checkout-link";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
-import { formatMinorCompact } from "@/lib/kernel/money/format";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
+import { PUBLIC_SEN } from "@/lib/copy/sen-voice/public";
 import {
   EMPTY_ACADEMY_CATALOG_LEARNER_BOARD,
   type AcademyCatalogLearnerBoard,
@@ -26,19 +25,14 @@ export const ACADEMY_CATALOG_GRID_CLASS =
   "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6";
 
 /**
- * Vitrin — **Tek Kahraman Stratejisi** (Faz 3, Adım 1).
+ * Vitrin — yayınlanan eğitimler aynı sayfada şeffaf karttır.
  *
- * Önce altı kart yan yana duruyordu ve alıcıya "hangisini seçmeliyim?" sorusunu
- * sorduruyordu. Şimdi:
- *
- * 1. `01_office_ai` (OFF-101) vitrinin **tek kahramanı**. Karar tek karttan başlar;
- *    düğme sonuç odaklıdır (sertifika + N ders), jenerik "Satın Al" değil.
- * 2. Kalan beş ileri modül ana akıştan **çıkarılır**. Vitrinde yalnız bir kapı
- *    (`/academy/ileri`) kalır. Kartlar silinmez — ayrı rafa taşınır.
- *
- * Bu bileşen kartları **gizlemez**: `courses` prop'u tam listeyi taşır, ileri kartlar
- * `/academy/ileri` sayfasında `advancedOnly` kipiyle basılır. İki yüzey aynı kart
- * bileşenini kullanır; ikinci bir kart tasarımı açılmaz.
+ * `01_office_ai` temel kart olarak önde durur. İleri modüller aynı sayfanın
+ * ızgarasındadır; `/academy/ileri` onları gizleyen kapı değildir.
+ * Kart gövdesi o eğitimin kendi sayfasına gider. Satın alma ve ücretsiz ders
+ * düğmeleri aynı eğitimin kendi adresine bakar.
+ * Üst çubuktaki «Ücretsiz Dersi İzle» yalnız demo oynatıcıdır.
+ * «Eğitimleri İncele» vitrine gider, oynatıcıya gitmez.
  */
 export function CourseList({
   courses,
@@ -84,15 +78,7 @@ export function CourseList({
   const heroCourse = ordered.find((course) => course.slug === ACADEMY_FLAGSHIP_SKU_SLUG) ?? null;
   const advancedCourses = ordered.filter((course) => course.slug !== ACADEMY_FLAGSHIP_SKU_SLUG);
 
-  // Hero birincil eylemleri. Ücretsiz ders herkese açık; satın alma oturum ister.
-  // Kartla aynı çözücü okunur: fiyat bilinmiyorsa uydurulmaz, düğme fiyatsız basılır.
   const heroPreviewHref = `/academy/${ACADEMY_FLAGSHIP_SKU_SLUG}/oyna`;
-  const heroPriceLabel = heroCourse?.priceMinor
-    ? formatMinorCompact(heroCourse.priceMinor, heroCourse.currencyCode)
-    : null;
-  const heroBuyHref = heroCourse
-    ? buyHrefs[heroCourse.slug] ?? `/academy/${heroCourse.slug}`
-    : null;
 
   const renderCard = (course: AcademyCourseWithPrice, featured: boolean) => {
     const owned = ownedSet.has(course.slug);
@@ -153,9 +139,8 @@ export function CourseList({
       </section>
     );
   } else {
-    // Vitrin — TEK KARAR NOKTASI. Kahraman kart büyük; ileri modüller yalnız kapı.
     body = (
-      <section data-academy-catalog-series-list="" data-academy-vitrine-single-hero="">
+      <section data-academy-catalog-series-list="" data-academy-vitrine-mix="">
         {heroCourse ? (
           <div data-academy-flagship-shelf="" className="mb-6">
             <h2 className="mb-3 text-sm font-semibold tracking-tight text-[var(--foreground)]">
@@ -179,21 +164,25 @@ export function CourseList({
           </div>
         ) : null}
         {advancedCourses.length > 0 ? (
-          <div
-            data-academy-advanced-door=""
-            className="rounded-2xl border border-[var(--border)] bg-[var(--surface-muted)] p-4"
-          >
-            <p className="text-sm font-semibold text-[var(--foreground)]">
+          <div data-academy-advanced-shelf="">
+            <h2 className="mb-3 text-sm font-semibold tracking-tight text-[var(--foreground)]">
               {copy.advancedShelfTitle}
+            </h2>
+            <p className="mb-3 max-w-3xl text-sm leading-6 text-[var(--muted)]">
+              {copy.advancedShelfNote}
             </p>
-            <p className="mt-1 max-w-3xl text-sm leading-6 text-[var(--muted)]">
-              {copy.advancedDoorLead}
-            </p>
-            <div className="mt-3">
-              <LinkButton href="/academy/ileri" variant="outline" size="sm">
-                {copy.advancedDoorCta(advancedCourses.length)}
-              </LinkButton>
-            </div>
+            <ul className={ACADEMY_CATALOG_GRID_CLASS}>
+              {advancedCourses.map((course) => (
+                <li
+                  key={course.id}
+                  className="h-full flex flex-col justify-between"
+                  data-academy-catalog-series={course.slug}
+                  data-academy-advanced-module=""
+                >
+                  {renderCard(course, false)}
+                </li>
+              ))}
+            </ul>
           </div>
         ) : null}
       </section>
@@ -205,7 +194,7 @@ export function CourseList({
       aria-label={title}
       className="flex flex-col gap-3"
       data-academy-pilot-room=""
-      data-academy-vitrine-mode={advancedOnly ? "advanced" : "hero"}
+      data-academy-vitrine-mode={advancedOnly ? "advanced" : "mix"}
     >
       <div className="relative z-10 flex flex-col gap-3">
         <div
@@ -221,9 +210,7 @@ export function CourseList({
             </h1>
             <p className="mt-3 max-w-3xl text-base leading-7 text-[var(--muted)]">{copy.description}</p>
             <p className="mt-2 text-sm font-medium text-[var(--safir-deep)]">{copy.stats}</p>
-            {/* Vitrin birincil eylemi hero'da: ücretsiz ders (kayıtsız) + eğitime başla.
-                Önce yalnız "Sertifikalar"/"Doğrula" vardı; satın alma düğmesi 600+ px
-                aşağıda kalıyordu. Sertifika/doğrulama ikincil satıra iner. */}
+            {/* Ücretsiz ders yalnız demo oynatıcıya gider. Eğitimleri İncele vitrinde kalır. */}
             {!advancedOnly ? (
               <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
                 <LinkButton
@@ -235,24 +222,14 @@ export function CourseList({
                 >
                   {copy.heroPreviewCta}
                 </LinkButton>
-                {heroCourse && heroBuyHref ? (
-                  <BeginCheckoutLink
-                    href={heroBuyHref}
-                    size="lg"
-                    className="w-full sm:w-auto"
-                    data-academy-hero-start-cta=""
-                    itemId={heroCourse.slug}
-                    itemName={heroCourse.title}
-                    valueMinor={heroCourse.priceMinor}
-                    currency={heroCourse.currencyCode}
-                  >
-                    {copy.heroStartCta(heroPriceLabel)}
-                  </BeginCheckoutLink>
-                ) : (
-                  <LinkButton href="/academy/01_office_ai" size="lg" className="w-full sm:w-auto">
-                    {copy.heroStartCta(heroPriceLabel)}
-                  </LinkButton>
-                )}
+                <LinkButton
+                  href="/academy"
+                  size="lg"
+                  className="w-full sm:w-auto"
+                  data-academy-hero-browse-cta=""
+                >
+                  {PUBLIC_SEN.home.academyCta}
+                </LinkButton>
               </div>
             ) : null}
             {!advancedOnly ? (

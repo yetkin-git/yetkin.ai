@@ -9,8 +9,16 @@ import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import type { AcademyCourseWithPrice } from "@/lib/academy/types";
 
 vi.mock("next/link", () => ({
-  default: (props: { href: string; children?: ReactNode; className?: string }) =>
-    createElement("a", { href: props.href, className: props.className }, props.children),
+  default: ({
+    href,
+    children,
+    className,
+    ...rest
+  }: {
+    href: string;
+    children?: ReactNode;
+    className?: string;
+  }) => createElement("a", { href, className, ...rest }, children),
 }));
 
 vi.mock("next/image", () => ({
@@ -38,7 +46,7 @@ function course(slug: string, title: string): AcademyCourseWithPrice {
   };
 }
 
-describe("Akademi vitrin rafları — tek kahraman stratejisi", () => {
+describe("Akademi vitrin rafları — açık katalog", () => {
   (
     globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT?: boolean }
   ).IS_REACT_ACT_ENVIRONMENT = true;
@@ -60,7 +68,7 @@ describe("Akademi vitrin rafları — tek kahraman stratejisi", () => {
     host = null;
   });
 
-  it("vitrin tek kahraman kartı basar; ileri modüller ana akışta kart olarak durmaz", async () => {
+  it("vitrin temel kartı ve ileri modülleri aynı sayfada basar; her kart kendi eğitimine gider", async () => {
     await act(async () => {
       root?.render(
         createElement(CourseList, {
@@ -73,27 +81,44 @@ describe("Akademi vitrin rafları — tek kahraman stratejisi", () => {
       );
     });
 
-    // Kahraman kart tam olarak bir tane ve doğru SKU.
     const flagshipCards = document.querySelectorAll("[data-academy-flagship-card]");
     expect(flagshipCards).toHaveLength(1);
     expect(flagshipCards[0]?.getAttribute("data-academy-catalog-series")).toBe("01_office_ai");
-
-    // Vitrin modu: tek karar noktası.
     expect(
-      document.querySelector("[data-academy-vitrine-single-hero]"),
-    ).not.toBeNull();
+      flagshipCards[0]?.querySelector("[data-academy-catalog-hit]")?.getAttribute("href"),
+    ).toBe("/academy/01_office_ai");
+
+    expect(document.querySelector("[data-academy-vitrine-mix]")).not.toBeNull();
+    expect(document.querySelector("[data-academy-advanced-door]")).toBeNull();
+    expect(document.querySelector("[data-academy-vitrine-single-hero]")).toBeNull();
     expect(
       document.querySelector("[data-academy-pilot-room]")?.getAttribute("data-academy-vitrine-mode"),
-    ).toBe("hero");
+    ).toBe("mix");
 
-    // İleri modüller ana akışta KART olarak basılmaz — yalnız kapı durur.
-    expect(document.querySelectorAll("[data-academy-advanced-module]")).toHaveLength(0);
-    const door = document.querySelector("[data-academy-advanced-door]");
-    expect(door).not.toBeNull();
-    // Kapı düğmesi ikincil rafa gider; kartlar silinmez.
-    expect(door?.textContent).toContain(ACADEMY_SEN.catalog.advancedDoorCta(2));
-    const doorHref = door?.querySelector("a")?.getAttribute("href");
-    expect(doorHref).toBe("/academy/ileri");
+    const advanced = document.querySelectorAll("[data-academy-advanced-module]");
+    expect(advanced).toHaveLength(2);
+    expect(
+      document
+        .querySelector("[data-academy-catalog-series='02_ecommerce_ai'] [data-academy-catalog-hit]")
+        ?.getAttribute("href"),
+    ).toBe("/academy/02_ecommerce_ai");
+    expect(
+      document
+        .querySelector("[data-academy-catalog-series='03_social_media_ai'] [data-academy-catalog-hit]")
+        ?.getAttribute("href"),
+    ).toBe("/academy/03_social_media_ai");
+    expect(
+      document
+        .querySelector("[data-academy-catalog-series='02_ecommerce_ai'] [data-academy-catalog-secondary-cta]")
+        ?.getAttribute("href"),
+    ).toBe("/academy/02_ecommerce_ai/oyna");
+
+    const preview = document.querySelector("[data-academy-hero-preview-cta]");
+    const browse = document.querySelector("[data-academy-hero-browse-cta]");
+    expect(preview?.getAttribute("href")).toBe("/academy/01_office_ai/oyna");
+    expect(preview?.textContent).toContain(ACADEMY_SEN.catalog.heroPreviewCta);
+    expect(browse?.getAttribute("href")).toBe("/academy");
+    expect(browse?.textContent).toContain("Eğitimleri İncele");
 
     expect(document.body.textContent).toContain(ACADEMY_SEN.catalog.flagshipShelfTitle);
     expect(document.body.textContent).toContain(ACADEMY_SEN.catalog.advancedShelfTitle);
@@ -122,5 +147,8 @@ describe("Akademi vitrin rafları — tek kahraman stratejisi", () => {
     const advanced = document.querySelectorAll("[data-academy-advanced-module]");
     expect(advanced).toHaveLength(1);
     expect(advanced[0]?.getAttribute("data-academy-catalog-series")).toBe("02_ecommerce_ai");
+    expect(
+      advanced[0]?.querySelector("[data-academy-catalog-hit]")?.getAttribute("href"),
+    ).toBe("/academy/02_ecommerce_ai");
   });
 });

@@ -58,7 +58,9 @@ describe("dashboard kokpit kompozisyonu", () => {
     expect(pulse).toContain("flex h-full min-w-0 flex-col");
     expect(pulse).toContain("mt-auto");
     expect(pulse).toContain("grid-cols-2");
+    expect(pulse).toContain("grid-cols-1");
     expect(pulse).toContain("slice(0, 2)");
+    expect(pulse).toContain("invite");
     expect(pulse).not.toContain("StatGrid");
     expect(pulse).not.toContain("pointer-events-none");
     expect(pulse).not.toContain("Oturum veya veritabanı yok");

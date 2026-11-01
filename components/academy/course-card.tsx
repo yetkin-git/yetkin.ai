@@ -1,6 +1,8 @@
 "use client";
 
+import type { Route } from "next";
 import { formatMinorCompact } from "@/lib/kernel/money/format";
+import { BeginCheckoutLink } from "@/components/academy/begin-checkout-link";
 import type { AcademyCourseWithPrice } from "@/lib/academy/types";
 import { ListingCard } from "@/components/showcase/listing-card";
 import { IconBook, IconHeart, IconVolume } from "@/components/ui/icons";
@@ -94,6 +96,12 @@ export function CourseCard({
       : learnerStatus === "completed"
         ? ACADEMY_SEN.catalog.statusCompleted
         : null;
+  const courseDetailHref = `/academy/${course.slug}`;
+  const coursePlayerHref = `/academy/${course.slug}/oyna`;
+  const browseHref = owned ? coursePlayerHref : courseDetailHref;
+  const purchaseHref = storefront.href;
+  const separateBuy =
+    Boolean(purchaseHref) && purchaseHref !== browseHref && !storefront.ctaDisabled;
 
   const cinemaCover = course.coverImage ?? academyCourseCoverPath(course.slug);
   const sealedAudio = academyCourseHasSealedAudio(course.slug);
@@ -219,8 +227,27 @@ export function CourseCard({
       }
       lockLabel={undefined}
       meta={cardMeta}
-      href={storefront.href || undefined}
+      href={browseHref}
       cta={storefront.cta}
+      navigateWhenDisabled={course.isPublished || !storefront.ctaDisabled}
+      cardVariant={isLibrary ? "default" : "glass"}
+      ctaSlot={
+        separateBuy && purchaseHref ? (
+          <BeginCheckoutLink
+            href={purchaseHref as Route}
+            size="md"
+            variant="primary"
+            className="pointer-events-auto relative z-10 w-full shrink-0 whitespace-nowrap sm:w-auto"
+            data-academy-catalog-cta=""
+            itemId={course.slug}
+            itemName={course.title}
+            valueMinor={course.priceMinor}
+            currency={course.currencyCode}
+          >
+            {storefront.cta}
+          </BeginCheckoutLink>
+        ) : undefined
+      }
       secondaryHref={storefront.secondaryHref || undefined}
       secondaryCta={storefront.secondaryCta || undefined}
       ctaDisabled={storefront.ctaDisabled}
@@ -244,8 +271,7 @@ export function CourseCard({
       hitAriaExtra={hitAriaExtra}
       className={cn(
         "h-full flex flex-col",
-        featured &&
-          "ring-1 ring-[color-mix(in_srgb,var(--safir)_42%,transparent)] bg-[color-mix(in_srgb,var(--safir-soft)_55%,var(--surface))]",
+        featured && "ring-1 ring-[color-mix(in_srgb,var(--safir)_42%,transparent)]",
       )}
     />
   );

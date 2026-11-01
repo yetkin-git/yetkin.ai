@@ -36,8 +36,10 @@ export const DASHBOARD_SEN = {
   welcomeTitle: dashboardWelcomeTitle,
   description:
     "Eğitimlerin, kanıtlanmış uzmanlıkların ve çalışma süreçlerin tek bir güvenli panelde.",
+  /** Karşılama başlığının yanında — yeni kullanıcıyı ilk derse çağırır. */
+  welcomeLead: "İlk eğitimini seç, sertifikanı kap.",
   featured:
-    "Kariyer yolculuğuna başlamak için Akademi'den sana uygun eğitimi seçebilir veya Kariyer odasından hedefini belirleyebilirsin.",
+    "Kariyer yolculuğuna başlamak için Akademi'den sana uygun eğitimi seçebilirsin. Bitirince sertifikan burada durur. Kariyer odasından hedefini de belirleyebilirsin.",
   /** Oturumsuz Anasayfa — kişisel nabız yok. */
   publicPanel: {
     eyebrow: "Öğrenci paneli",
@@ -76,9 +78,9 @@ export const DASHBOARD_SEN = {
   },
   /** Kişiselleştirilmiş Sıradaki Eylem — nabız sinyallerine göre. */
   nextBestAction: {
-    eyebrow: "Sıradaki Eylem",
+    eyebrow: "Sıradaki adımın",
     fallback: {
-      cta: "Akademiye git",
+      cta: "Eğitimleri İncele",
     },
     freelancerWork: {
       body: "Açık örnek işin var. Tezgâhta devam et.",
@@ -89,11 +91,11 @@ export const DASHBOARD_SEN = {
       cta: "Teklifleri gör",
     },
     careerVisa: {
-      body: "Doğrulanmış rozetin Kariyer sayfasında Pasaport Vize Damgası olarak durur.",
+      body: "Doğrulanmış rozetin hazır. Kariyer sayfasında açıp yolunu gör.",
       cta: "Kariyer sayfasında gör",
     },
     academyContinue: {
-      body: "Satın aldığın eğitimde kaldığın dersten devam et. Öğren, sınav ol, sertifikanı al.",
+      body: "Satın aldığın eğitimde kaldığın dersten devam et. Bitirince sertifikan burada görünecek.",
       cta: "Eğitime dön",
     },
   },
@@ -103,12 +105,15 @@ export const DASHBOARD_SEN = {
     academyPurchase: "Satın alma",
     academyCertificate: "Sertifika",
     unavailable: "Henüz yüklenemedi",
-    academyEmpty: "Henüz sertifika yok",
+    academyEmpty: "İlk eğitimini tamamla, sertifikanı kap!",
+    academyEmptyCta: "Eğitimleri İncele",
     careerTitle: "Kariyer",
     careerHrefLabel: "Kariyer odası",
     careerVisa: "Rozet",
     careerPortfolio: "Portföy",
-    careerEmpty: "Henüz doğrulanmış rozet yok",
+    careerEmpty: "İlk etkinliğini yap, rozetini kazan!",
+    careerEmptyCta: "Kariyerini aç",
+    portfolioEmpty: "İlk işini ekle, portföyün burada görünsün.",
     freelancerTitle: "Freelancer",
     freelancerHrefLabel: "Freelancer odası",
     freelancerLiveHint: "Arka plan",

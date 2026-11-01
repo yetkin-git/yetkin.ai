@@ -16,14 +16,11 @@ import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 export const metadata: Metadata = pageMetadata(PAGE_SEO.academyAdvanced);
 
 /**
- * `/academy/ileri` — ikincil raf (Faz 3, Adım 1).
+ * `/academy/ileri` — ileri kartların süzülmüş adresi.
  *
- * Vitrin artık **tek kahraman** (`01_office_ai`) gösteriyor. Kalan beş ileri modül
- * silinmedi: karar yorgunluğu yaratmasın diye buraya taşındı. Her kart ayrı bir iştir
- * ve biri diğerinin ön koşulu değildir; bu yüzden burada akış/merdiven basılmaz.
- *
- * Satın alma kapısı vitrindeki ile **aynı** çözücüden gelir (`academyPublicSaleHold`
- * + kart CTA). Bu sayfa kendi ticari kararını vermez.
+ * Ana vitrin (`/academy`) aynı kartları gizlemez. Bu sayfa eski bağlantı içindir:
+ * temel kart burada tekrarlanmaz, ileri kartlar kendi sayfalarına gider.
+ * Satın alma kapısı vitrindeki ile aynı çözücüden gelir. Bu sayfa kendi ticari kararını vermez.
  */
 export default async function AcademyAdvancedShelfPage() {
   const session = await getSession();

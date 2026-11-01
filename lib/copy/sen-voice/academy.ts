@@ -128,14 +128,14 @@ export const ACADEMY_SEN = {
     flagshipBadge: "Öne Çıkan / Temel Akademi Eğitimi",
     flagshipShelfTitle: "Öne Çıkan / Temel Akademi Eğitimi",
     flagshipShelfNote:
-      "Temel ofis eğitimi. Alış kararı tek bu karttan başlar; sonuç, çıktı ve ücretsiz ders aynı yerde.",
+      "Temel ofis eğitimi. İlk ders ücretsizdir. Alttaki kartlar kendi eğitimine gider.",
     advancedShelfTitle: "İleri Düzey Modüller",
     advancedShelfNote:
-      "Temel ofis eğitiminden sonra bakılacak modüller. Her kart ayrı bir iştir; vitrinin ana kararı değildir.",
-    /** İleri raf kapısı — ana akıştan çıkarılan beş modül ayrı sayfada durur. */
+      "E-ticaret, sosyal medya, chatbot, prompt ve ileri ofis. Her kart kendi sayfasına gider.",
+    /** Eski kapı metni. Ana vitrin bu cümleyi basmaz; ileri kartlar aynı sayfadadır. */
     advancedDoorCta: (count: number) => `${count} ileri modülü ayrı rafta gör`,
     advancedDoorLead:
-      "Beş ileri modül vitrinin ana kararından çıkarıldı. Temel eğitimden sonra bu raftan bakılır.",
+      "Bu eğitimler ana vitrinde de durur. Her kart kendi sayfasına gider.",
     advancedRoomTitle: "İleri Düzey Modüller",
     /** `/academy/ileri` kart ızgarasının H2'si — kart başlıkları H3 olduğu için ara katman. */
     advancedListHeading: "İleri modül listesi: beş ayrı iş",
