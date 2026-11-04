@@ -307,12 +307,13 @@ function rateLimitStoreLines(mode: RateLimitStoreMode, hosting: HostingClass): s
   if (mode === "fail-closed-partial") {
     return [
       "  UYARI: RATE_LIMIT_REDIS_REST_URL ve RATE_LIMIT_REDIS_REST_TOKEN birlikte dolu olmalı.",
+      "  Derleme düşmez (graceful fallback): kısmi çift build'i durdurmaz. Çalışma zamanı fail-closed kalır.",
     ];
   }
   if (hosting === "vercel") {
     return [
       "  UYARI: VERCEL algılandı — süreç-içi kota replica'lar arasında paylaşılmaz.",
-      "  Faz 1: tek Node next start. Vercel/Cloud çok instance sessiz delik — store taşınmadan açılmaz.",
+      "  RATE_LIMIT_REDIS_REST_URL + RATE_LIMIT_REDIS_REST_TOKEN eksik veya farklı isimde. Derleme düşmez (graceful fallback): paylaşılan depo atlanır, süreç-içi sayaç kalır. Çok instance sessiz delik: limit × örnek.",
     ];
   }
   return [
@@ -415,31 +416,10 @@ export function extraProductionBlocks(
   }
   blocking.push(...superAdminUuidProductionBlocks(env));
   blocking.push(...mediaCdnProductionBlocks(env));
-  blocking.push(...rateLimitProductionBlocks(env));
+  // Redis/rate-limit çifti üretim bloğu değildir. Eksik, kısmi veya farklı isimli
+  // RATE_LIMIT_REDIS_REST_* Vercel build'ini düşürmez; OPS-5 uyarısı basılır, çıkış 0.
+  // Çalışma zamanı: ikisi dolu = Upstash, ikisi boş = süreç-içi, kısmi = fail-closed.
   return blocking;
-}
-
-/**
- * Vercel üretimde süreç-içi sayaç `limit × örnek` olur.
- * Paylaşılan depo (URL + token) bloğu kapatır. Tek süreç (hosting belirsiz) lab modudur.
- */
-function rateLimitProductionBlocks(env: Record<string, string | undefined>): string[] {
-  const hosting = env.VERCEL?.trim() === "1" || Boolean(env.VERCEL_ENV?.trim());
-  if (!hosting) {
-    return [];
-  }
-  const mode = classifyRateLimitStore(env);
-  if (mode === "redis-rest") {
-    return [];
-  }
-  if (mode === "fail-closed-partial") {
-    return [
-      "RATE_LIMIT_REDIS_REST_URL ve RATE_LIMIT_REDIS_REST_TOKEN birlikte dolu olmalı. Kısmi config Vercel'de her isteği reddeder.",
-    ];
-  }
-  return [
-    "RATE_LIMIT_REDIS_REST_URL + RATE_LIMIT_REDIS_REST_TOKEN Vercel çok instance için birlikte dolu olmalı. Süreç-içi sayaç limit × örnek olur.",
-  ];
 }
 
 export function formatPostgresLine(row: PostgresUrlOps): string {

@@ -373,7 +373,7 @@ describe("ops:runtime-readiness Direct / PayTR / health ek sicili", () => {
     expect(vercelBody).not.toContain("smtp.example.test");
   });
 
-  it("paylaşılan hız tavanı Vercel uyarısını ve üretim bloğunu kapatır", () => {
+  it("paylaşılan hız tavanı Vercel uyarısını kapatır; eksik Redis derlemeyi düşürmez", () => {
     const shared = inspectSafeDefaultOps({
       VERCEL: "1",
       RATE_LIMIT_REDIS_REST_URL: "https://example.upstash.io",
@@ -396,17 +396,45 @@ describe("ops:runtime-readiness Direct / PayTR / health ek sicili", () => {
       inspectSafeDefaultOps({ RATE_LIMIT_REDIS_REST_URL: "https://example.upstash.io" }).rateLimitStore,
     ).toBe("fail-closed-partial");
 
-    const blocked = extraProductionBlocks({
+    const vercelProdBase = {
       NODE_ENV: "production",
       VERCEL: "1",
       SUPER_ADMIN_USER_ID: "11111111-1111-4111-8111-111111111111",
+      DATABASE_URL:
+        "postgresql://postgres.abcdefgh:x@aws-0-eu-central-1.pooler.supabase.com:6543/postgres",
+      DIRECT_URL: "postgresql://postgres:x@db.abcdefgh.supabase.co:5432/postgres",
+      INNGEST_EVENT_KEY: "evt",
+      INNGEST_SIGNING_KEY: "sign",
+      PAYTR_MERCHANT_ID: "id",
+      PAYTR_MERCHANT_KEY: "key",
+      PAYTR_MERCHANT_SALT: "salt",
+      NEXT_PUBLIC_APP_URL: "https://rail.example",
+      NEXT_PUBLIC_SUPABASE_URL: "https://x.supabase.co",
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: "anon",
+    };
+
+    const missingRedis = formatFullRuntimeReadiness(vercelProdBase);
+    expect(missingRedis.extraBlocking.some((row) => row.includes("RATE_LIMIT_REDIS_REST"))).toBe(
+      false,
+    );
+    expect(missingRedis.exitCode).toBe(0);
+    expect(missingRedis.body).toContain("Derleme düşmez");
+    expect(missingRedis.body).toContain("sessiz delik");
+    expect(missingRedis.body).not.toContain("example.upstash.io");
+
+    const partialRedis = formatFullRuntimeReadiness({
+      ...vercelProdBase,
+      RATE_LIMIT_REDIS_REST_URL: "https://example.upstash.io",
     });
-    expect(blocked.some((row) => row.includes("RATE_LIMIT_REDIS_REST"))).toBe(true);
+    expect(partialRedis.extraBlocking.some((row) => row.includes("RATE_LIMIT_REDIS_REST"))).toBe(
+      false,
+    );
+    expect(partialRedis.exitCode).toBe(0);
+    expect(partialRedis.body).toContain("birlikte dolu olmalı");
+    expect(partialRedis.body).not.toContain("example.upstash.io");
 
     const open = extraProductionBlocks({
-      NODE_ENV: "production",
-      VERCEL: "1",
-      SUPER_ADMIN_USER_ID: "11111111-1111-4111-8111-111111111111",
+      ...vercelProdBase,
       RATE_LIMIT_REDIS_REST_URL: "https://example.upstash.io",
       RATE_LIMIT_REDIS_REST_TOKEN: "token",
     });

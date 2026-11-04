@@ -9,6 +9,8 @@
  * Üretimde (NODE_ENV=production) Inngest çifti, PayTR üçlüsü,
  * DATABASE_URL boşsa, ya da DIRECT_URL havuz /
  * Vercel'de Direct DATABASE_URL / PayTR sandbox-mock / localhost APP_URL duruyorsa çıkış 1.
+ * RATE_LIMIT_REDIS_REST_URL / RATE_LIMIT_REDIS_REST_TOKEN eksik, kısmi veya farklı
+ * isimdeyse build düşmez: uyarı basılır, çıkış 0 (süreç-içi veya fail-closed runtime).
  * DEVLABS_KEY_PEPPER donmuş oda; üretim bloğu değildir.
  * Geliştirmede tablo basılır, çıkış 0. DATABASE_URL transaction pooler :6543,
  * DIRECT_URL Direct :5432 ve GET /api/health Inngest sicili simüle edilir; canlı DB ping atılmaz.
