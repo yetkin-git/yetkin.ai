@@ -3,9 +3,12 @@
  * Lisans / mühür satırı silinmez; yeni satış ve vitrin kapanır.
  *
  * next.config bu modülü import eder: sunucu-only / Prisma / `@/` yok.
+ * `@yetkin/kernel` paket export'u ile çözülür. tsconfig `paths` bu paketi
+ * kök `./packages/...` diye yazar; Next config yükleyicisi o yolu bu dosyanın
+ * klasöründen arar ve `course-slugs` modülünü kaçırır.
  */
 
-import { ACADEMY_CANON_SKU_SLUGS } from "../kernel/catalog-ids/course-slugs";
+import { ACADEMY_CANON_SKU_SLUGS } from "@yetkin/kernel/catalog-ids/course-slugs";
 
 /**
  * Canlı vitrin URL'si — amiral, EC-102, SM-103, BOT-104 ve PR-105. Bu listedeki kanon slug 301 almaz.

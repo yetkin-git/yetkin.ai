@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { createMemoryLedgerStore } from "../helpers/memory-money";
 import { createMemoryPaymentAnomalyStore } from "../helpers/memory-payment-anomaly";
 import { createMemoryPaymentOrderStore } from "../helpers/memory-payment-orders";
@@ -13,6 +13,14 @@ import {
   reconcilePaytrPaymentOrder,
 } from "@/lib/kernel/payments/paytr/reconcile";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
+import {
+  clearAcademyLicenseHook,
+  registerAcademyLicenseHook,
+} from "@/lib/kernel/payments/academy-license-hook";
+import {
+  clearJuniorLicenseHook,
+  registerJuniorLicenseHook,
+} from "@/lib/kernel/payments/junior-license-hook";
 
 const BUYER = "buyer-paytr-1";
 const OID = "wallet-top-up-abc";
@@ -40,6 +48,11 @@ function ports(order: PaymentOrderSnapshot) {
 }
 
 describe("PayTR fail-closed reconcile", () => {
+  afterEach(() => {
+    clearAcademyLicenseHook();
+    clearJuniorLicenseHook();
+  });
+
   it("PSP paid + tutar eşitse CREDIT yazar", async () => {
     const world = ports(snapshot());
     const result = await reconcilePaytrPaymentOrder(
@@ -208,6 +221,57 @@ describe("PayTR fail-closed reconcile", () => {
     expect(result).toMatchObject({ action: "failed", reason: "already_failed", applied: false });
     expect(world.ledger.snapshot(BUYER).amountMinor).toBe(0);
     expect(world.orders.row()?.status).toBe("FAILED");
+  });
+
+  it("kanca kayıtlı değilken CLEARED olur; notify sessiz döner", async () => {
+    clearAcademyLicenseHook();
+    clearJuniorLicenseHook();
+    const world = ports(snapshot());
+    const result = await reconcilePaytrPaymentOrder(
+      {
+        ...world,
+        inquireStatus: async () => ({ kind: "paid", amountMinor: 1300 }),
+      },
+      OID,
+    );
+    expect(result).toMatchObject({ action: "cleared", applied: true, reason: "psp_paid" });
+    expect(world.orders.row()?.status).toBe("CLEARED");
+    expect(world.ledger.snapshot(BUYER).amountMinor).toBe(1300);
+  });
+
+  it("kanca kayıtlıyken CLEARED sonrası Akademi ve Junior kancaları çağrılır", async () => {
+    const seen: string[] = [];
+    registerAcademyLicenseHook(async (order) => {
+      seen.push(`academy:${order.merchantOid}`);
+    });
+    registerJuniorLicenseHook(async (order) => {
+      seen.push(`junior:${order.merchantOid}`);
+    });
+    const world = ports(snapshot());
+    const result = await reconcilePaytrPaymentOrder(
+      {
+        ...world,
+        inquireStatus: async () => ({ kind: "paid", amountMinor: 1300 }),
+      },
+      OID,
+    );
+    expect(result.applied).toBe(true);
+    expect(seen).toEqual([`academy:${OID}`, `junior:${OID}`]);
+  });
+
+  it("zaten CLEARED siparişte kayıtlı kancalar yeniden çağrılır", async () => {
+    const seen: string[] = [];
+    registerAcademyLicenseHook(async (order) => {
+      seen.push(`academy:${order.status}`);
+    });
+    registerJuniorLicenseHook(async () => {
+      seen.push("junior");
+    });
+    const world = ports(snapshot({ status: "CLEARED" }));
+    const result = await reconcilePaytrPaymentOrder(world, OID);
+    expect(result).toMatchObject({ action: "cleared", applied: false, reason: "already_cleared" });
+    expect(seen).toEqual(["academy:CLEARED", "junior"]);
+    expect(world.ledger.snapshot(BUYER).amountMinor).toBe(0);
   });
 
   it("amountMinor birebir eşitliğini doğrular", () => {

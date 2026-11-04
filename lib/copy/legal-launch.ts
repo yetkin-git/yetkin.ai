@@ -60,7 +60,33 @@ export const LEGAL_ACTIVITY_SCOPE_BODY =
 export const LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH =
   "Platform cüzdanına yüklenen bakiyeler yalnızca platform içi hizmetlerde kullanılabilir; farklı bir banka hesabına nakit transferi veya çekim yapılamaz. Kullanılmamış bakiye otomatik olarak karta dönmez. İade talepleri destek kanalından alınır ve henüz harcanmamış yükleme, ödeme kuruluşu takası ile değerlendirilir.";
 
-export const LEGAL_UPDATED_LABEL = "Yürürlük: 8 Eylül 2026";
+const LEGAL_TR_MONTHS = [
+  "Ocak",
+  "Şubat",
+  "Mart",
+  "Nisan",
+  "Mayıs",
+  "Haziran",
+  "Temmuz",
+  "Ağustos",
+  "Eylül",
+  "Ekim",
+  "Kasım",
+  "Aralık",
+] as const;
+
+/** Kasa `consentVersion` gününü sözleşme etiketine çevirir. İki kaynak ayrı tutulmaz. */
+export function legalEffectiveLabel(isoDate: string): string {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(isoDate);
+  const month = match ? LEGAL_TR_MONTHS[Number(match[2]) - 1] : undefined;
+  const day = match ? Number(match[3]) : 0;
+  if (!match || !month || day < 1 || day > 31) {
+    throw new Error("Yürürlük tarihi bozuk.");
+  }
+  return `Yürürlük: ${day} ${month} ${match[1]}`;
+}
+
+export const LEGAL_UPDATED_LABEL = legalEffectiveLabel(CHECKOUT_LEGAL_CONSENT_VERSION);
 
 export const LEGAL_SUPPORT_EMAIL = LEGAL_ENTITY.supportEmail;
 export const LEGAL_SUPPORT_MAILTO = `mailto:${LEGAL_SUPPORT_EMAIL}` as const;

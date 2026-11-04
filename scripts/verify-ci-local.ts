@@ -17,7 +17,6 @@ const STEPS: readonly { name: string; script: string }[] = [
   { name: "verify:prebuild", script: "verify:prebuild" },
   { name: "typecheck", script: "typecheck" },
   { name: "test", script: "test" },
-  { name: "typecheck:rail-is", script: "typecheck:rail-is" },
 ];
 
 function fail(message: string): never {
@@ -57,4 +56,4 @@ for (const step of STEPS) {
   }
 }
 
-console.log("\nverify:ci OK — lint + prebuild + typecheck + test + typecheck:rail-is.");
+console.log("\nverify:ci OK — lint + prebuild + typecheck (istemciler dahil) + test.");

@@ -16,13 +16,25 @@ import {
 export const DRON_FAZ2_FROZEN =
   "Faz 2 Tezgâh hop'u donduruldu. Dron Faz 1 kapanışına kadar donuk laboratuvardır.";
 
+/** Sunucu `DRON_FREELANCER_OPEN` ile aynı sözlük. Expo `EXPO_PUBLIC_` önekini gömer. */
+export function isDronFreelancerRoomOpen(
+  raw: string | undefined = process.env.EXPO_PUBLIC_DRON_FREELANCER_OPEN,
+): boolean {
+  const flag = raw?.trim().toLowerCase();
+  return flag === "1" || flag === "true" || flag === "open";
+}
+
+/** Kapalı oda varsayılanı. `EXPO_PUBLIC_DRON_FREELANCER_OPEN=1|true|open` açar. */
+export const DRON_FREELANCER_OPEN: boolean = isDronFreelancerRoomOpen();
+
 /**
- * Closed Testing T3-only yüzey.
- * true: "Açık işler / İşlerim" sekmesi gizlenir; kilit kartı 410 basmaz;
- * loadHome Tezgâh hop'una HTTP atmaz.
- * Split + hop geri yazımından sonra false yapılır.
+ * Mağaza izolasyonu veya kapalı freelancer odası tezgâhı gizler.
+ * JobList, JobDetail, Bench ve OwnerBids bu sabit false iken bağlanır.
+ * Paket mührü (`tezgahStoreIsolated`) tek başına odayı açmaz.
  */
-export const DRON_TEZGAH_STORE_ISOLATED: boolean = true;
+const TEZGAH_PACKAGE_ISOLATED = true;
+export const DRON_TEZGAH_STORE_ISOLATED: boolean =
+  TEZGAH_PACKAGE_ISOLATED || !DRON_FREELANCER_OPEN;
 
 /** Anahtar adlandırma istisnaları: metadaki id, native'de tarihsel anahtarla okunur. Yol/metot buradan gelmez. */
 const HOP_KEY_ALIASES: Readonly<Record<string, string>> = {

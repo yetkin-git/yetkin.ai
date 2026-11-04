@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
@@ -20,7 +20,7 @@ import {
   isFreelancerNeedId,
   isOpenTrialNeed,
   parseAcademyPathwayId,
-} from "@/lib/kernel/catalog-ids";
+} from "@yetkin/kernel/catalog-ids";
 import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 import { ACADEMY_LEVEL_PATHWAYS, academyPathwayRingSlugs } from "@/lib/academy/level-pathway";
 
@@ -102,6 +102,12 @@ describe("kernel catalog-ids — omurga kimliği", () => {
     expect(contract).toContain("AcademyAudioCache");
     expect(contract).toContain("410");
     expect(contract).not.toMatch(/^# STORAGE_CONTRACT — bu fazda nesne depo yok/m);
+    const index = readFileSync(join(ROOT, "lib/kernel/catalog-ids/index.ts"), "utf8");
     expect(statSync(join(ROOT, "lib/kernel/catalog-ids/index.ts")).isFile()).toBe(true);
+    expect(index).toContain('export * from "./school-segments"');
+    expect(index).not.toContain("packages/kernel/src");
+    for (const shim of ["pathway-ids.ts", "course-slugs.ts", "listing-doors.ts", "need-based-mapping.ts"]) {
+      expect(existsSync(join(ROOT, "lib/kernel/catalog-ids", shim)), shim).toBe(false);
+    }
   });
 });

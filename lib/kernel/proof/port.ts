@@ -1,7 +1,7 @@
 /**
  * Kanıt okuma sözleşmesi — Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci.
  * Kariyer dikey akademi/freelancer iç okuma dosyasını import etmez;
- * yalnız bu portu ve `lib/kernel/catalog-ids` kimliğini konuşur. Yazma yok; oda motoru yok.
+ * yalnız bu portu ve `@yetkin/kernel/catalog-ids` kimliğini konuşur. Yazma yok; oda motoru yok.
  */
 import type { PassportStampSourceKind } from "@/lib/kernel/passport/types";
 

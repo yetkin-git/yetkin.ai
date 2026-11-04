@@ -6,7 +6,7 @@ import {
   parseBudgetMajorToMinor,
   type JobBoardFilterable,
 } from "@/lib/freelancer/job-board-filter";
-import { FREELANCER_NEED_IDS } from "@/lib/kernel/catalog-ids";
+import { FREELANCER_NEED_IDS } from "@yetkin/kernel/catalog-ids";
 import {
   JOB_BOARD_DEFAULT_VIEW,
   parseJobBoardViewMode,

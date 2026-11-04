@@ -16,7 +16,7 @@ import {
   FREELANCER_NEED_TITLES,
   FREELANCER_OPEN_TRIAL_NEED_ID,
   type FreelancerNeedId,
-} from "@/lib/kernel/catalog-ids";
+} from "@yetkin/kernel/catalog-ids";
 import type { JobBoardViewMode } from "@/lib/freelancer/job-board-view-pref";
 
 const SELECT_CLASS = cn(INPUT_SURFACE_CLASS, "mt-0 cursor-pointer");

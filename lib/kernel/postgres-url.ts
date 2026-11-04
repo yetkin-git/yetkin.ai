@@ -110,10 +110,26 @@ export function isRuntimePoolerUrl(url: string): boolean {
   return isSupabasePoolerHostname(shape.hostname) || shape.port === TRANSACTION_POOLER_PORT;
 }
 
+const SUPABASE_PROJECT_REF_RE = /^[a-z0-9]+$/i;
+
+/**
+ * Havuz kullanıcısı `postgres.<project-ref>`. Ref yoksa doğrudan host türetilmez.
+ * Düz `postgres` bu fonksiyona ref vermez.
+ */
+export function supabaseProjectRefFromPoolerUsername(username: string): string | null {
+  const decoded = username.trim();
+  const dot = decoded.indexOf(".");
+  if (dot <= 0 || dot === decoded.length - 1) {
+    return null;
+  }
+  const ref = decoded.slice(dot + 1);
+  return SUPABASE_PROJECT_REF_RE.test(ref) ? ref : null;
+}
+
 /**
  * Transaction pooler :6543 → session pooler :5432 (aynı host, IPv4 A).
  * Prisma migrate advisory lock transaction-mode'da durur; session-mode geçer.
- * Direct host icat edilmez — pooler değilse null.
+ * Bu fonksiyon doğrudan host icat etmez — pooler değilse null.
  */
 export function toSupabaseSessionPoolerUrl(url: string): string | null {
   const trimmed = url.trim();
@@ -125,6 +141,52 @@ export function toSupabaseSessionPoolerUrl(url: string): string | null {
     if (!isSupabasePoolerHostname(parsed.hostname)) {
       return null;
     }
+    parsed.port = String(DIRECT_POSTGRES_PORT);
+    for (const key of PRISMA_ENGINE_QUERY_PARAMS) {
+      parsed.searchParams.delete(key);
+    }
+    if (!parsed.searchParams.has("sslmode")) {
+      parsed.searchParams.set("sslmode", "require");
+    }
+    return parsed.toString();
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Havuz URI → `db.<ref>.supabase.co:5432`, kullanıcı `postgres`.
+ * Ref, havuz kullanıcı adındaki `postgres.<ref>` parçasıdır. Ref yoksa null.
+ * Zaten doğrudan oturumsa aynı host ve :5432 döner. Şifre icat edilmez.
+ * `:6543` bu çıktıda kalmaz.
+ */
+export function toSupabaseDirectSessionUrl(url: string): string | null {
+  const trimmed = url.trim();
+  if (!trimmed) {
+    return null;
+  }
+  try {
+    const parsed = new URL(trimmed);
+    const hostname = parsed.hostname.trim();
+    if (isSupabaseDirectHostname(hostname)) {
+      parsed.port = String(DIRECT_POSTGRES_PORT);
+      for (const key of PRISMA_ENGINE_QUERY_PARAMS) {
+        parsed.searchParams.delete(key);
+      }
+      if (!parsed.searchParams.has("sslmode")) {
+        parsed.searchParams.set("sslmode", "require");
+      }
+      return parsed.toString();
+    }
+    if (!isSupabasePoolerHostname(hostname)) {
+      return null;
+    }
+    const ref = supabaseProjectRefFromPoolerUsername(decodeURIComponent(parsed.username));
+    if (!ref) {
+      return null;
+    }
+    parsed.username = "postgres";
+    parsed.hostname = `db.${ref.toLowerCase()}.supabase.co`;
     parsed.port = String(DIRECT_POSTGRES_PORT);
     for (const key of PRISMA_ENGINE_QUERY_PARAMS) {
       parsed.searchParams.delete(key);

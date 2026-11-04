@@ -13,7 +13,10 @@ import {
   createFailClosedRateLimitPort,
   createInMemoryRateLimitPort,
 } from "@/lib/kernel/security/rate-limit-port";
-import { resolveRateLimitPort } from "@/lib/kernel/security/rate-limit-runtime";
+import {
+  classifyRateLimitStore,
+  resolveRateLimitPort,
+} from "@/lib/kernel/security/rate-limit-runtime";
 import { createRedisRestRateLimitPort } from "@/lib/kernel/security/redis-rate-limit-port";
 import { UNKNOWN_REQUEST_IP } from "@/lib/kernel/security/trusted-proxy";
 
@@ -205,6 +208,16 @@ describe("RateLimitPort", () => {
 
     const memory = resolveRateLimitPort({});
     expect((await memory.consume("a", window)).allowed).toBe(true);
+    expect(classifyRateLimitStore({})).toBe("in-process-single-node");
+    expect(
+      classifyRateLimitStore({
+        RATE_LIMIT_REDIS_REST_URL: "https://example.upstash.io",
+        RATE_LIMIT_REDIS_REST_TOKEN: "token",
+      }),
+    ).toBe("redis-rest");
+    expect(
+      classifyRateLimitStore({ RATE_LIMIT_REDIS_REST_TOKEN: "token" }),
+    ).toBe("fail-closed-partial");
   });
 
   it("Redis REST 5xx veya ağ hatasında belleğe düşmez", async () => {

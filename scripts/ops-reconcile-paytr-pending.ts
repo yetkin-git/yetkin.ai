@@ -9,6 +9,8 @@
  * Fail-closed: PSP "paid" + tutar eşleşmesi olmadan CREDIT yazılmaz.
  * `--apply` olmadan hiçbir satır değişmez. Inngest Cloud yokken elle çalıştırılır
  * (`.system_docs/ops/ops-inngest.md`).
+ * `--apply` lisans kancasını yükler. `server-only` için npm betiği
+ * `tsx --conditions=react-server` kullanır.
  */
 
 import { resolve } from "node:path";
@@ -94,9 +96,14 @@ async function main(): Promise<void> {
     }
 
     // Gerçek kapı: reconcile.ts. PSP sorgusu + CAS markFailed.
+    // Lisans kancası bu süreçte kayıtlı değilse CLEARED cüzdana yazar, kurs açılmaz.
+    const { registerPaytrValorLicenseHooks } = await import(
+      "@/app/api/(kernel)/payments/register-paytr-valor-hooks"
+    );
     const { createPrismaClearingPorts } = await import("@/lib/kernel/payments/prisma-order-store");
     const { createPrismaPaymentAnomalyStore } = await import("@/lib/kernel/payments/prisma-anomaly-store");
     const { reconcilePaytrPaymentOrder } = await import("@/lib/kernel/payments/paytr/reconcile");
+    registerPaytrValorLicenseHooks();
 
     const ports = {
       ...createPrismaClearingPorts(),

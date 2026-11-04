@@ -16,7 +16,8 @@ import {
   type WebBffRouteRecord,
 } from "@/lib/kernel/http/web-only-write-routes";
 
-export const RAIL_V1_HOP_META_COUNT = 33;
+/** Sicil uzunluğu. Yeni dron hop'u diziyi uzatır; ikinci sabit yazılmaz. */
+export const RAIL_V1_HOP_META_COUNT = RAIL_V1_HOPS_META.length;
 
 export type ApiRouteCensusInput = {
   file: string;

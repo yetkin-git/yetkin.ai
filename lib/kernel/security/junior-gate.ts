@@ -10,6 +10,8 @@ import {
  * Ders listesi ve ilk konu herkese açıktır.
  * İkinci konu, anlatış ve hızlı konu kontrolü: yıllık paket veya denetim aktörü.
  * Profil masası: denetim, `DRON_JUNIOR_OPEN` veya geçerli yıllık paket (`planCovers`).
+ * Checkout: `isJuniorCheckoutLocked` denetim kısayolundan önce okunur.
+ * Kapalı kasada süper yönetici ve doğrulanmış izin listesi sipariş açamaz.
  * Yazılan sınıf 6. sınıf pilotudur. Kasa ayrıdır ve varsayılan kapalıdır.
  *
  * `DRON_JUNIOR_OPEN` yalnız profil masasıdır. Odayı 410 yapmaz.
@@ -115,11 +117,16 @@ export function canEnterJunior(
   }
 
   if (intent === "checkout") {
+    // B6: kapalı kasa denetim aktörünü ve izin listesini de kapatır.
+    // Kilit, `isJuniorAuditActor` kısayolundan önce okunur.
+    if (isJuniorCheckoutLocked(env)) {
+      return { allow: false, reason: "money" };
+    }
+    if (!actor?.id) {
+      return { allow: false, reason: "money" };
+    }
     if (isJuniorAuditActor(actor, env)) {
       return { allow: true, via: "audit" };
-    }
-    if (isJuniorCheckoutLocked(env) || !actor?.id) {
-      return { allow: false, reason: "money" };
     }
     return { allow: true, via: "beta" };
   }

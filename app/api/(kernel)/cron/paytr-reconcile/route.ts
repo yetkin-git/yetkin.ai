@@ -1,4 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
+import {
+  cronBearerMatches,
+  CRON_UNAUTHORIZED_ERROR,
+  CRON_UNCONFIGURED_ERROR,
+  readCronSecret,
+} from "@/lib/kernel/security/api-auth";
 import { getPrisma } from "@/lib/kernel/db";
 import { createPrismaClearingPorts } from "@/lib/kernel/payments/prisma-order-store";
 import { createPrismaPaymentAnomalyStore } from "@/lib/kernel/payments/prisma-anomaly-store";
@@ -9,6 +15,7 @@ import {
 import { shouldNoOpPaytrClearingScan } from "@/lib/kernel/jobs/paytr-clearing-scan";
 import { logEvent } from "@/lib/kernel/observability/log";
 import { REQUEST_ID_HEADER, resolveRequestId } from "@/lib/kernel/http/request-id";
+import { registerPaytrValorLicenseHooks } from "@/app/api/(kernel)/payments/register-paytr-valor-hooks";
 
 /**
  * Vercel Cron valör yedeği.
@@ -16,13 +23,18 @@ import { REQUEST_ID_HEADER, resolveRequestId } from "@/lib/kernel/http/request-i
  * (16 sipariş 48 gün açık kaldı). Bu rota aynı mutabakat motorunu çağırır;
  * CREDIT yalnız PSP `paid` + tutar eşleşmesiyle yazılır. Sahte ACK yok.
  *
- * Yetki: `Authorization: Bearer ${CRON_SECRET}`. Vercel Cron bu başlığı basar.
+ * Yetki: kenar ve gövde aynı kilidi okur — `Authorization: Bearer ${CRON_SECRET}`.
+ * Vercel Cron bu başlığı basar. Oturum rotayı açmaz.
  * `CRON_SECRET` boşsa rota fail-closed 503 döner (Inngest gibi).
  *
  * Tavan: tek tetiklemede en fazla `BATCH_LIMIT` sipariş.
- * Zaman: Vercel proje cron'u. Sub-daily ifade `vercel.json` dağıtımını derlemeden reddeder.
+ * Zaman: `vercel.json` crons `0 3 * * *` (UTC, günde bir).
+ * Hobby planı günde birden sık ifadeyi dağıtımda reddeder.
+ * 30 dakikalık tarama Inngest `paytr-clearing-scan` işidir.
+ * Daha sık dış tetik: `.system_docs/ops/ops-paytr.md`.
  */
-export const auth = "public" as const;
+registerPaytrValorLicenseHooks();
+export const auth = "cron" as const;
 
 const BATCH_LIMIT = 50;
 
@@ -34,25 +46,21 @@ type ReconcileOutcome = {
 };
 
 function isAuthorized(request: NextRequest): boolean {
-  const secret = process.env.CRON_SECRET?.trim() ?? "";
-  if (!secret) {
-    return false;
-  }
-  return (request.headers.get("authorization")?.trim() ?? "") === `Bearer ${secret}`;
+  return cronBearerMatches(request.headers.get("authorization"), readCronSecret());
 }
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   const requestId = resolveRequestId(request);
   const headers = { [REQUEST_ID_HEADER]: requestId, "cache-control": "no-store" };
 
-  if (!process.env.CRON_SECRET?.trim()) {
+  if (!readCronSecret()) {
     return NextResponse.json(
-      { ok: false, error: "CRON_SECRET tanımlı değil. Mutabakat kapalı." },
+      { ok: false, error: CRON_UNCONFIGURED_ERROR },
       { status: 503, headers },
     );
   }
   if (!isAuthorized(request)) {
-    return NextResponse.json({ ok: false, error: "Yetkisiz." }, { status: 401, headers });
+    return NextResponse.json({ ok: false, error: CRON_UNAUTHORIZED_ERROR }, { status: 401, headers });
   }
   if (shouldNoOpPaytrClearingScan()) {
     return NextResponse.json(

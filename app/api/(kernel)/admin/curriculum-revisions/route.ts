@@ -4,7 +4,7 @@ import { closedSurfaceGone } from "@/lib/kernel/http/closed-surface-route";
 /**
  * Müfredat revizyon kuyruğu — motor arşivde. Kenar oturum istemez; her yöntem 410.
  */
-export const auth = "public" as const;
+export const auth = "closed" as const;
 
 const gone = closedSurfaceGone(ACADEMY_STUDIO_GONE.revisions);
 

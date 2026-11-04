@@ -10,6 +10,7 @@ import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { academyModuleCodeBySlug } from "@/lib/academy/catalog-filter";
 import { academyCourseLevelBySlug } from "@/lib/academy/course-level";
 import { academyCatalogSummaryBySlug } from "@/lib/academy/catalog-summaries";
+import { academyStorefrontTitleBySlug } from "@/lib/academy/course-titles";
 import {
   ACADEMY_COURSE_COVER_SIZES,
   academyCourseCoverPath,
@@ -66,6 +67,7 @@ export function CourseCard({
 }) {
   const isLibrary = surface === "library";
   const levelLabel = course.level?.trim() || academyCourseLevelBySlug(course.slug) || "";
+  const displayTitle = academyStorefrontTitleBySlug(course.slug) ?? course.title;
   const summary = academyCatalogSummaryBySlug(course.slug) ?? course.summary;
   const moduleCode = academyModuleCodeBySlug(course.slug) || undefined;
   const levelKicker = featured
@@ -205,7 +207,7 @@ export function CourseCard({
     <ListingCard
       layout={layout}
       hit="card"
-      title={course.title}
+      title={displayTitle}
       moduleCode={course.slug === ACADEMY_OFF201_STOREFRONT_SLUG ? undefined : moduleCode}
       kicker={
         course.slug === ACADEMY_OFF201_STOREFRONT_SLUG ? "İleri Ofis Eğitimi" : levelKicker
@@ -237,10 +239,10 @@ export function CourseCard({
             href={purchaseHref as Route}
             size="md"
             variant="primary"
-            className="pointer-events-auto relative z-10 w-full shrink-0 whitespace-nowrap sm:w-auto"
+            className="pointer-events-auto relative z-10 h-auto min-h-10 w-full whitespace-normal px-3 py-2 text-center leading-5"
             data-academy-catalog-cta=""
             itemId={course.slug}
-            itemName={course.title}
+            itemName={displayTitle}
             valueMinor={course.priceMinor}
             currency={course.currencyCode}
           >
@@ -260,7 +262,7 @@ export function CourseCard({
             : "primary"
       }
       coverSrc={cinemaCover}
-      coverAlt={`${course.title} eğitim kapağı`}
+      coverAlt={`${displayTitle} eğitim kapağı`}
       coverComingSoon={comingSoon}
       comingSoonLabel={ACADEMY_SEN.catalog.comingSoonBadge}
       coverPriority={featured}
@@ -269,8 +271,9 @@ export function CourseCard({
       footerBadgeTone={learnerStatus === "completed" ? "emerald" : "safir"}
       extraBadge={chrome}
       hitAriaExtra={hitAriaExtra}
+      footerLayout="stack"
       className={cn(
-        "h-full flex flex-col",
+        "flex h-full min-w-0 flex-col",
         featured && "ring-1 ring-[color-mix(in_srgb,var(--safir)_42%,transparent)]",
       )}
     />

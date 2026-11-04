@@ -4,6 +4,7 @@ import type { LedgerStore } from "@/lib/kernel/ledger/types";
 import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { ConflictError } from "@/lib/kernel/http/errors";
+import { logEvent } from "@/lib/kernel/observability/log";
 import {
   formatPaytrReturnAmount,
   requestPaytrRefund,
@@ -16,6 +17,49 @@ export const WALLET_REFUND_NONE = "İade edilecek kullanılmamış bakiye yok.";
 export const WALLET_REFUND_IN_PROGRESS = "Kart iadesi sürüyor. Biraz sonra yenile.";
 export const WALLET_REFUND_UNCOVERED =
   "Bakiyenin kart siparişine bağlanamayan kısmı var. İade talebi kayda geçti; bakiye düşmedi.";
+
+/** Vatandaş self-servis iadesi süper yönetici günlüğüne düşmedi. */
+export const WALLET_REFUND_SUPER_ADMIN_AUDIT_SKIPPED = "wallet.refund.super_admin_audit_skipped" as const;
+
+export type CitizenWalletRefundTrace = {
+  refundedByActor: string;
+  refundedMinor: number;
+};
+
+/**
+ * Self-servis iade idari `manual_refund` değildir.
+ * Aktör ve bu satırın net kuruşu `wallet_card_refunds.detail` içinde kalır.
+ * İşletim notu (PayTR tutarı, eksik sipariş) `note` altında durur.
+ */
+export function citizenWalletRefundDetail(trace: CitizenWalletRefundTrace, note?: string | null): string {
+  const payload: CitizenWalletRefundTrace & { note?: string } = {
+    refundedByActor: trace.refundedByActor.trim(),
+    refundedMinor: trace.refundedMinor,
+  };
+  const trimmed = note?.trim();
+  if (trimmed) {
+    payload.note = trimmed;
+  }
+  return JSON.stringify(payload);
+}
+
+/** `writeSuperAdminAudit` false dönerse sessiz kalınmaz. Satır açılmaz. */
+export function warnWhenSuperAdminRefundAuditMissed(
+  written: boolean,
+  input: { userId: string; refundedMinor: number },
+): void {
+  if (written) {
+    return;
+  }
+  logEvent({
+    level: "warn",
+    event: WALLET_REFUND_SUPER_ADMIN_AUDIT_SKIPPED,
+    userId: input.userId,
+    action: "manual_refund",
+    amountMinor: input.refundedMinor,
+    reason: "actor_not_super_admin",
+  });
+}
 
 export type WalletCardRefundStatus = "PENDING" | "ACCEPTED" | "SUCCEEDED" | "FAILED" | "REQUESTED";
 
@@ -113,6 +157,7 @@ export async function settleWalletCardRefundDebit(
   ports: WalletCardRefundPorts,
   userId: string,
   row: WalletCardRefundRow,
+  note?: string | null,
 ): Promise<void> {
   await appendLedgerEntry(ports.ledger, {
     userId,
@@ -123,7 +168,12 @@ export async function settleWalletCardRefundDebit(
     purpose: WALLET_CARD_REFUND_PURPOSE,
     idempotencyKey: walletCardRefundLedgerKey(row.id),
   });
-  await ports.refunds.mark(row.id, "SUCCEEDED", null, true);
+  await ports.refunds.mark(
+    row.id,
+    "SUCCEEDED",
+    citizenWalletRefundDetail({ refundedByActor: userId, refundedMinor: row.amountMinor }, note),
+    true,
+  );
 }
 
 /**
@@ -162,7 +212,10 @@ export async function refundUnusedWalletBalance(
       amountMinor: requestAmount,
       status: "REQUESTED",
       idempotencyKey: `${WALLET_CARD_REFUND_PURPOSE}:request:${userId}:${randomUUID()}`,
-      detail: slices.length === 0 ? "card_order_missing" : "paytr_unconfigured",
+      detail: citizenWalletRefundDetail(
+        { refundedByActor: userId, refundedMinor: 0 },
+        slices.length === 0 ? "card_order_missing" : "paytr_unconfigured",
+      ),
     });
     return {
       refundedMinor: 0,
@@ -181,14 +234,33 @@ export async function refundUnusedWalletBalance(
       amountMinor: slice.amountMinor,
       status: "PENDING",
       idempotencyKey: `${WALLET_CARD_REFUND_PURPOSE}:${slice.merchantOid}:${randomUUID()}`,
+      detail: citizenWalletRefundDetail({ refundedByActor: userId, refundedMinor: 0 }),
     });
     const paytr = await callPaytr({ merchantOid: slice.merchantOid, amountMinor: slice.amountMinor });
     if (!paytr.ok) {
-      await ports.refunds.mark(row.id, "FAILED", paytr.message, true);
+      await ports.refunds.mark(
+        row.id,
+        "FAILED",
+        citizenWalletRefundDetail({ refundedByActor: userId, refundedMinor: 0 }, paytr.message),
+        true,
+      );
       break;
     }
-    await ports.refunds.mark(row.id, "ACCEPTED", paytr.returnAmount, false);
-    await settleWalletCardRefundDebit(ports, userId, { ...row, status: "ACCEPTED" });
+    await ports.refunds.mark(
+      row.id,
+      "ACCEPTED",
+      citizenWalletRefundDetail(
+        { refundedByActor: userId, refundedMinor: slice.amountMinor },
+        paytr.returnAmount,
+      ),
+      false,
+    );
+    await settleWalletCardRefundDebit(
+      ports,
+      userId,
+      { ...row, status: "ACCEPTED" },
+      paytr.returnAmount,
+    );
     refundedMinor += slice.amountMinor;
   }
 
@@ -199,7 +271,7 @@ export async function refundUnusedWalletBalance(
       amountMinor: uncovered,
       status: "REQUESTED",
       idempotencyKey: `${WALLET_CARD_REFUND_PURPOSE}:uncovered:${userId}:${randomUUID()}`,
-      detail: WALLET_REFUND_UNCOVERED,
+      detail: citizenWalletRefundDetail({ refundedByActor: userId, refundedMinor: 0 }, WALLET_REFUND_UNCOVERED),
     });
   }
 

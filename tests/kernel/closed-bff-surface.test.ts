@@ -31,7 +31,7 @@ describe("hop dışı kapalı BFF yüzeyi", () => {
       expect(row.message.length).toBeGreaterThan(8);
       const source = readFileSync(join(root, row.file), "utf8");
       expect(source, row.file).toContain("closedSurfaceGone");
-      expect(source, row.file).toContain('auth = "public"');
+      expect(source, row.file).toContain('auth = "closed"');
       expect(source, row.file).toContain("410");
       if (row.file.includes("/freelancer/")) {
         expect(source, row.file).toContain("FREELANCER_SATELLITE_GONE");

@@ -21,24 +21,28 @@ async function openJuniorProfileDesk(
   requestId: string,
   request: Request,
   user: SessionUser,
-): Promise<{ store: JuniorStore; locked: Response | null }> {
+): Promise<{
+  store: JuniorStore;
+  locked: Response | null;
+  subscription: Awaited<ReturnType<JuniorStore["getSubscription"]>>;
+}> {
   const store = createPrismaJuniorStore();
   const subscription = await store.getSubscription(user.id);
   const locked = juniorLockedResponse(requestId, request, user, "profile", {
     planCovers: isJuniorPlanActive(subscription, new Date()),
   });
-  return { store, locked };
+  return { store, locked, subscription };
 }
 
 export async function GET(request: Request) {
   const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
-    const { store, locked } = await openJuniorProfileDesk(requestId, request, user);
+    const { store, locked, subscription } = await openJuniorProfileDesk(requestId, request, user);
     if (locked) {
       return locked;
     }
-    const home = await readJuniorHome(store, user.id);
+    const home = await readJuniorHome(store, user.id, new Date(), subscription);
     return jsonOk(
       {
         profiles: home.profiles,

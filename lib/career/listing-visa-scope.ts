@@ -11,7 +11,7 @@ import {
   qualifyingCourseSlugsForNeed,
   type FreelancerNeedId,
   type ListingVisaLockId,
-} from "@/lib/kernel/catalog-ids";
+} from "@yetkin/kernel/catalog-ids";
 
 export {
   AGILE_ESG_SIBER_LISTING_PATHWAY,
@@ -26,7 +26,7 @@ export {
   YAZILIM_BULUT_LISTING_PATHWAY,
   YZ_ICERIK_LISTING_PATHWAY,
   parseListingVisaPathwayId,
-} from "@/lib/kernel/catalog-ids";
+} from "@yetkin/kernel/catalog-ids";
 
 /** İlan kapısının okuduğu yüzey — motor tutar/BPS taşımaz. */
 export type ListingVisaSubject = {

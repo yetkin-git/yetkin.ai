@@ -33,6 +33,22 @@ export const PUBLIC_SEN = {
     },
     faqHeading: "Sık sorulanlar",
   },
+  guide: {
+    eyebrow: "Rehber",
+    title: "Ofiste yapay zekâyı Excel ve e-postada kullan",
+    description:
+      "İlk ders ücretsizdir ve kayıt istemez. Aşağıdaki sıra, ofis işinde kısa bir talimatın nasıl kurulduğunu gösterir. Sertifika, testi geçince doğar.",
+    stepsTitle: "Dört adım",
+    steps: [
+      "Ücretsiz dersi aç. Excel’de dağınık tabloyu düzenli tabloya çeviren ilk konu kayıt duvarının önündedir.",
+      "Kendi dosyanla dene. Müşteri adı ve telefonu maskelenmeden yapay zekâya yüklenmez.",
+      "Testi 70 ve üzeri ile geç. Satın alma belge basmaz.",
+      "Sertifika kariyer vizesine işlenir. Doğrulama bağı herkese açıktır; kimlik gösterilmez.",
+    ],
+    cta: "Ücretsiz dersi aç",
+    catalogCta: "Eğitim kataloğu",
+    faqHeading: "Rehber soruları",
+  },
   error: {
     eyebrow: YETKIN_BRAND,
     title: "Bir şeyler ters gitti",

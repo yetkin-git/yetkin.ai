@@ -22,6 +22,7 @@ import {
   inspectHostedApplyDiskPlan,
   isHostedSupabaseDirectUrl,
   isLabLoopbackUrl,
+  resolveHostedDirectSessionUrl,
   resolveMigratorConnectionUrl,
   withPgLibpqSslCompat,
 } from "./ops-migrate-lib";
@@ -112,9 +113,14 @@ async function main(): Promise<void> {
   }
 
   if (!isHostedSupabaseDirectUrl(url)) {
-    fail(
-      `DIRECT_URL hosted Direct değil. ${DIRECT_PORT_OPERATOR_PROTOCOL}`,
-    );
+    const derived = resolveHostedDirectSessionUrl({
+      DIRECT_URL: process.env.DIRECT_URL,
+      DATABASE_URL: process.env.DATABASE_URL,
+    });
+    const hint = derived
+      ? " Havuz kullanıcısında proje ref'i var. npm run ops:direct-session -- --apply doğrudan oturumu dener ve disk satırını db.<ref>.supabase.co:5432 yapar."
+      : "";
+    fail(`DIRECT_URL hosted Direct değil.${hint} ${DIRECT_PORT_OPERATOR_PROTOCOL}`);
   }
 
   const shape = assertHostedApplyTargetUrl(url);

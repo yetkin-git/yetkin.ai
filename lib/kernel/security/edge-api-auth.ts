@@ -3,7 +3,10 @@
  * session = kenarda doğrulanmış JWT (`resolveEdgeSession`). İpucu yetmez.
  * admin = doğrulanmış JWT + `isSuperAdminActor`.
  * Yerleşik kanonik kutu üretimde doğrulanmışsa açılır. Başka adres için boş UUID kimseyi admin yapmaz.
- * public / webhook imzasız geçer; webhook imzası handler'dadır.
+ * public / webhook / closed imzasız geçer. Webhook imzası handler'dadır.
+ * closed kalıcı 410'dur; kenar 401 kesmez, gövde 410 basar.
+ * cron = `Authorization: Bearer ${CRON_SECRET}`. Boş sır 503, yanlış başlık 401.
+ * Oturum cron rotasını açmaz. Gövde aynı sırrı ikinci kez okur.
  */
 
 import { DronBayrakları, DRON_KAYIT } from "@/lib/dronlar/kayit";
@@ -23,9 +26,13 @@ import {
 } from "@/lib/kernel/security/junior-gate";
 import { canonicalApiPathname } from "@/lib/kernel/http/api-v1";
 import {
+  cronBearerMatches,
+  CRON_UNAUTHORIZED_ERROR,
+  CRON_UNCONFIGURED_ERROR,
   isApiPathname,
   isEdgeOpenApiAuthKind,
   matchApiAuthKind,
+  readCronSecret,
 } from "@/lib/kernel/security/api-auth";
 import { normalizePathname } from "@/lib/kernel/security/edge-guard";
 import { ROUTE_AUTH_MAP } from "@/lib/kernel/security/route-auth-map";
@@ -52,9 +59,7 @@ export function frozenRoomApiDenial(pathname: string): { status: 410; error: str
 export type EdgeApiDecision =
   | { kind: "skip" }
   | { kind: "next" }
-  | { kind: "deny"; status: 401 | 403 | 404 | 410; error: string };
-
-const MUTATING_HTTP_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE"]);
+  | { kind: "deny"; status: 401 | 403 | 404 | 410 | 503; error: string };
 
 export function isFrozenRoomApi(pathname: string, actor: JuniorActor | null = null): boolean {
   const path = canonicalApiPathname(pathname);
@@ -120,12 +125,18 @@ function isJuniorLessonCatalogApi(path: string): boolean {
   );
 }
 
-/** @deprecated isFrozenRoomApi — okuma da 410. */
-export function isFrozenRoomApiWrite(pathname: string, method: string): boolean {
-  if (!MUTATING_HTTP_METHODS.has(method.toUpperCase())) {
-    return false;
+function decideEdgeCronAuth(
+  authorization: string | null | undefined,
+  env: Record<string, string | undefined>,
+): EdgeApiDecision {
+  const secret = readCronSecret(env);
+  if (!secret) {
+    return { kind: "deny", status: 503, error: CRON_UNCONFIGURED_ERROR };
   }
-  return isFrozenRoomApi(pathname);
+  if (!cronBearerMatches(authorization, secret)) {
+    return { kind: "deny", status: 401, error: CRON_UNAUTHORIZED_ERROR };
+  }
+  return { kind: "next" };
 }
 
 export function decideEdgeApiAuth(input: {
@@ -135,6 +146,8 @@ export function decideEdgeApiAuth(input: {
   sessionUserId?: string | null;
   sessionEmail?: string | null;
   sessionEmailConfirmedAt?: string | null;
+  authorizationHeader?: string | null;
+  env?: Record<string, string | undefined>;
   map?: Record<string, string>;
 }): EdgeApiDecision {
   // sessionHint adı tarihîdir; çağıran kenar JWT doğrulaması geçirmelidir.
@@ -164,6 +177,9 @@ export function decideEdgeApiAuth(input: {
   const authKind = matchApiAuthKind(pathname, map);
   if (!authKind) {
     return { kind: "deny", status: 404, error: EDGE_API_NOT_FOUND_ERROR };
+  }
+  if (authKind === "cron") {
+    return decideEdgeCronAuth(input.authorizationHeader, input.env ?? process.env);
   }
   if (isEdgeOpenApiAuthKind(authKind)) {
     return { kind: "next" };

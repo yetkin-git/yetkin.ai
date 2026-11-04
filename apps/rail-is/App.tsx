@@ -9,7 +9,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { DRON_TEZGAH_STORE_ISOLATED } from "./src/api/hops";
+import { DRON_FREELANCER_OPEN, DRON_TEZGAH_STORE_ISOLATED } from "./src/api/hops";
 import { AcademyPlayerScreen } from "./src/screens/AcademyPlayerScreen";
 import { JuniorLessonScreen } from "./src/screens/JuniorLessonScreen";
 import { JuniorProfileScreen } from "./src/screens/JuniorProfileScreen";
@@ -33,7 +33,8 @@ import { colors } from "./src/ui/theme";
 
 /**
  * Mutlu yol (T3): giriş → cüzdan yükleme → Akademi satın alma → ders → sınav → mühür.
- * Closed Testing: Tezgâh sekmeleri gizlidir (`DRON_TEZGAH_STORE_ISOLATED`).
+ * Closed Testing: Tezgâh sekmeleri gizlidir.
+ * Kapalı oda `DRON_FREELANCER_OPEN` (EXPO_PUBLIC_DRON_FREELANCER_OPEN) ekranı açmaz.
  * Kaçak HOME_TAB kilit kartına düşer; 410 hop UI'ya bağlanmaz.
  * Cüzdan yükleme v1 hop + HMAC /kasa. Native IAP yok.
  */
@@ -49,7 +50,7 @@ export default function App() {
     screen === "exam" ||
     screen === "certificate";
   const catalog = dronAcademyCatalog(app.academyPriceLabels);
-  const tezgahOpen = !DRON_TEZGAH_STORE_ISOLATED;
+  const tezgahOpen = DRON_FREELANCER_OPEN && !DRON_TEZGAH_STORE_ISOLATED;
   const tezgahLocked =
     DRON_TEZGAH_STORE_ISOLATED && (screen === "jobs" || screen === "bench" || screen === "job");
 

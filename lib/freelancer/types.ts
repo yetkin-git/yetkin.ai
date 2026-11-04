@@ -1,4 +1,4 @@
-import type { ListingVisaLockId } from "@/lib/kernel/catalog-ids";
+import type { ListingVisaLockId } from "@yetkin/kernel/catalog-ids";
 import type { AmountMinor } from "@/lib/kernel/money/amount-minor";
 import type { CurrencyCode } from "@/lib/kernel/money/currency";
 import type { InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";

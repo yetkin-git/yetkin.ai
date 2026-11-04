@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { jsonFromUnknown } from "@/lib/kernel/http/json";
@@ -147,7 +147,6 @@ describe("VIDEO_GEN mühürlü-ölü; VOICE_TTS generateSpeech factory", () => {
     expect(gateway).not.toContain("VOICE_TTS_FALLBACK");
     expect(gateway).not.toContain('input.model?.trim() || getDefaultModelId("IMAGE_GEN")');
     expect(gateway).not.toContain('input.model?.trim() || getDefaultModelId("VOICE_TTS")');
-    expect(readSrc("scripts/archive/bake-office-ai-01-sealed-pack.ts")).not.toContain("IMAGE_FALLBACK_MODEL");
-    expect(readSrc("scripts/archive/bake-office-ai-01-sealed-pack.ts")).not.toContain("generateImages");
+    expect(existsSync(join(ROOT, "scripts/archive/bake-office-ai-01-sealed-pack.ts"))).toBe(false);
   });
 });

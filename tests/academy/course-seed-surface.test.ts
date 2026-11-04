@@ -72,17 +72,21 @@ describe("akademi kurs tohumu yüzeyi", () => {
     expect(sql).not.toMatch(/DELETE FROM public\.academy_courses/i);
   });
 
-  it("SQL tohumu TypeScript sınav havuzu, 70 baraj ve Verimliliği başlığı ile kilitlidir", () => {
+  it("SQL tohumu TypeScript sınav havuzu ve 70 baraj ile kilitlidir; SERP başlığı yeni mühürdedir", () => {
     const sql = academySeedSql();
     const office = ACADEMY_COURSE_SEEDS[0];
     expect(office).toBeDefined();
     expect(office?.slug).toBe("01_office_ai");
     expect(office?.exam.passScore).toBe(ACADEMY_EXAM_PASS_SCORE);
     expect(office?.exam.passScore).toBe(70);
-    expect(office?.title).toContain("E-Posta Verimliliği");
+    expect(office?.title).toBe("İş Hayatında ve Ofiste Yapay Zekâ");
+    expect(office?.title.length).toBeLessThanOrEqual(55);
+    expect(office?.title).not.toContain("(");
     expect(office?.title).not.toContain("Otomasyonu");
-    expect(sql).toContain(office!.title);
-    expect(sql).toContain(office!.summary.replaceAll("'", "''"));
+    expect(office?.summary.length).toBeLessThanOrEqual(140);
+    const serp = readSrc("supabase/migrations/20261103033000_academy_catalog_serp_copy.sql");
+    expect(serp).toContain(office!.title);
+    expect(serp).toContain(office!.summary.replaceAll("'", "''"));
     expect(sql).toMatch(/pass_score,\s*$/m);
     expect(sql).toContain(`    ${office!.exam.passScore},`);
     expect(sql).not.toContain("Otomasyonu");

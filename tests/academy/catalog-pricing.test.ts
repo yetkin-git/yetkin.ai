@@ -61,7 +61,7 @@ describe("akademi katalog fiyat haritası — KDV dahil, PayTR hizası", () => {
       });
       expect(locked.priceLabel).toBe(compact);
       expect(locked.priceLabel).not.toContain(",00");
-      expect(locked.priceCaption).toBe(ACADEMY_SEN.catalog.vatInclusiveHint);
+      expect(locked.priceCaption).toBeNull();
       expect(locked.priceLabel).not.toContain("KDV dahil");
       expect(locked.priceLabel).not.toBe(ACADEMY_SEN.course.accessOpen);
       // Faz 3, Adım 1: CTA sonuç odaklıdır (sertifika + kalan ders), jenerik «Satın Al» değil.

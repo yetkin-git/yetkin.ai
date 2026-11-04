@@ -40,12 +40,12 @@ const SLUG = "01_office_ai";
 const KEY = "01_office_ai-k1";
 const PUNCHCARDS = [
   "GİRİŞ KÖPRÜSÜ",
-  "ALTIN KURAL",
-  "HAM SATIR",
+  "HOŞ GELDİN",
+  "YASAK LİSTE",
   "MASKELE",
-  "BEŞ SANİYE",
+  "ÜÇ ADIM",
   "FARK ORTADA",
-  "ŞABLON",
+  "SATIRI MASKELE",
   "SIRA SENDE",
 ] as const;
 
@@ -134,7 +134,7 @@ describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
     const cues = loadAcademyLessonCues(KEY);
     const cueBlob = cues.flatMap((cue) => cue.paragraphs ?? []).join(" ");
     expect(cueBlob).toMatch(/KVKK/u);
-    expect(cueBlob).toMatch(/ham haliyle yapay zekâya göndermezsin/u);
+    expect(cueBlob).toMatch(/ister ücretsiz ister ücretli tüm açık sohbet ekranlarına/u);
     expect(cueBlob).not.toMatch(/açık, ücretsiz yapay zekâ ekran/u);
     expect(cueBlob).not.toMatch(/Kavekaka/u);
     expect(cueBlob).toMatch(/Müşteri A/u);
@@ -219,12 +219,12 @@ describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
     expect(slides[5]?.subhead).toMatch(/MASKELİ_IBAN/u);
   });
 
-  it("226.001 sn kaset ile karaoke cue saatleri birebir; harf düşmez", () => {
+  it("734.865 sn kaset ile karaoke cue saatleri birebir; harf düşmez", () => {
     const timings = loadAcademySealedAudioTimings(KEY);
-    expect(timings?.durationSec).toBe(226.001);
-    expect(timings?.pieces.at(-1)?.end).toBe(226.001);
+    expect(timings?.durationSec).toBe(734.865);
+    expect(timings?.pieces.at(-1)?.end).toBe(734.865);
     const cues = loadAcademyLessonCues(KEY);
-    expect(cues.at(-1)?.end).toBe(226.001);
+    expect(cues.at(-1)?.end).toBe(734.865);
     for (const cue of cues) {
       const pieces = timings!.pieces.filter((piece) => piece.cueId === cue.id);
       const lead = Number((pieces[0]!.start - cue.start).toFixed(3));
@@ -233,13 +233,12 @@ describe("01_office_ai-k1 — KVKK / maskeleme kaset altyapısı", () => {
       expect([0, 1.5], cue.id).toContain(endDelta);
     }
     const strip = loadAcademyKaraokeStrip(KEY);
-    expect(strip.at(-1)?.end).toBe(226.001);
+    expect(strip.at(-1)?.end).toBe(734.865);
     const stripBlob = strip.map((line) => line.text).join(" ");
     expect(stripBlob).toMatch(/önce maskelersin/u);
     expect(stripBlob).not.toMatch(/Kavekaka/u);
     expect(timings!.pieces.map((piece) => piece.text).join(" ")).toMatch(/Kavekaka/u);
-    expect(strip.some((line) => line.cueId === "cue-04" && /Müşteri A/u.test(line.text))).toBe(true);
-    expect(strip.some((line) => line.cueId === "cue-07" && /maskeleme şablonu/u.test(line.text))).toBe(
+    expect(strip.some((line) => line.cueId === "cue-04" && /üç satır yeter/u.test(line.text))).toBe(
       true,
     );
     for (const line of strip) {

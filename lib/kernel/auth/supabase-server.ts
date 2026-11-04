@@ -5,6 +5,7 @@ import {
   normalizeAuthCookieOptions,
   type AuthCookieWriteOptions,
 } from "@/lib/kernel/auth/cookie-options";
+import { installStaleRefreshTokenLogFilter } from "@/lib/kernel/auth/stale-refresh-token";
 
 export type SupabaseCookieAdapter = {
   url: string;
@@ -20,6 +21,7 @@ export type SupabaseCookieAdapter = {
  * `setAll` ikinci argümanı CDN'nin oturum yanıtını önbelleklemesini keser.
  */
 export function createSupabaseCookieClient(adapter: SupabaseCookieAdapter) {
+  installStaleRefreshTokenLogFilter();
   return createServerClient(adapter.url, adapter.anon, {
     cookieEncoding: AUTH_COOKIE_ENCODING,
     cookies: {

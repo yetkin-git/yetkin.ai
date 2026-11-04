@@ -220,7 +220,7 @@ describe("Faz 1 kanonikleştirme yüzeyi", () => {
     expect(publicCopy).not.toContain("imzalı sertifika");
     expect(publicCopy).not.toContain("kriptografik imza");
     expect(readSrc("lib/academy/certificate-verify.ts")).toContain("sha256-content-digest");
-    expect(readSrc("lib/academy/certificate-lifecycle.ts")).toContain("HTTP yüzeyi bu fazda yok");
+    expect(readSrc("lib/academy/certificate-lifecycle.ts")).toContain("Kamuya açık iptal yoktur");
     expect(academy).not.toContain("imzalı sertifika");
     expect(career).not.toContain("kriptografik imza basılır");
   });

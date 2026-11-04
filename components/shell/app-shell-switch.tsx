@@ -13,10 +13,12 @@ export function AppShellSwitch({
   children,
   userCluster,
   showAdmin = false,
+  signedIn = false,
 }: {
   children: ReactNode;
   userCluster: ReactNode;
   showAdmin?: boolean;
+  signedIn?: boolean;
 }) {
   const pathname = usePathname() ?? "";
   if (pathname.startsWith(DOCUMENT_PREFIX)) {
@@ -51,7 +53,7 @@ export function AppShellSwitch({
           {children}
         </main>
       </ShellChrome>
-      {juniorRoom ? null : <AiChatWidget />}
+      {juniorRoom ? null : <AiChatWidget signedIn={signedIn} />}
     </div>
   );
 }

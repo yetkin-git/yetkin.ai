@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { FREELANCER_NEED_IDS } from "@/lib/kernel/catalog-ids";
+import { FREELANCER_NEED_IDS } from "@yetkin/kernel/catalog-ids";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import {
   FREELANCER_JOB_MAX_MINOR,

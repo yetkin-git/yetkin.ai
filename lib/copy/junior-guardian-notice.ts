@@ -1,5 +1,5 @@
 /**
- * Yetkin Junior veli aydınlatması. 6502 kasa sürümü `2026-09-05` ile aynı dize değildir.
+ * Yetkin Junior veli aydınlatması. 6502 kasa sürümü `2026-09-08` ile aynı dize değildir.
  * Özet `sha256` bu metnin kanonik gövdesidir. Metin değişince özet de değişir.
  */
 

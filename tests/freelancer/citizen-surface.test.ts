@@ -42,14 +42,7 @@ const SEN_SURFACES = [
   "components/freelancer/job-filter-bar.tsx",
   "components/freelancer/contract-actions.tsx",
   "components/freelancer/dispute-console.tsx",
-  "components/freelancer/squad-panel.tsx",
-  "components/freelancer/squad-teaser.tsx",
-  "components/freelancer/squad-create-button.tsx",
-  "components/freelancer/standalone-squad-modal.tsx",
-  "components/freelancer/direct-job-offer-modal.tsx",
   "components/freelancer/direct-job-offer-button.tsx",
-  "components/freelancer/direct-offer-inbox.tsx",
-  "components/freelancer/usta-expertise-list.tsx",
   "components/freelancer/contract-chat-console.tsx",
   "components/freelancer/revision-tracker.tsx",
   "components/freelancer/delivery-hero-card.tsx",
@@ -149,10 +142,9 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
     expect(readSrc("app/freelancer/error.tsx")).toContain("Freelancer İlan Panosu");
     expect(SEN_VOICE.freelancer.job.loginCta).toBe("Giriş Yap");
     expect(SEN_VOICE.freelancer.job.visaCta).toBe("Eğitime Git / Erişim Hakkı Kazan");
-    expect(readSrc("components/freelancer/direct-job-offer-modal.tsx")).toContain("FrozenDirectOfferNotice");
     expect(readSrc("components/freelancer/direct-job-offer-button.tsx")).toContain("FrozenDirectOfferNotice");
-    expect(readSrc("components/freelancer/usta-expertise-list.tsx")).toContain("FrozenDirectOfferNotice");
-    expect(readSrc("components/freelancer/direct-offer-inbox.tsx")).toContain("FrozenDirectOfferNotice");
+    expect(readSrc("components/freelancer/frozen-satellite.tsx")).toContain("FrozenDirectOfferNotice");
+    expect(readSrc("components/freelancer/frozen-satellite.tsx")).toContain("FrozenSquadNotice");
     expect(readSrc("components/freelancer/job-list.tsx")).toContain("clearFiltersCta");
     expect(readSrc("components/freelancer/job-list.tsx")).toContain("FreelancerJobCard");
     expect(readSrc("components/freelancer/job-card.tsx")).toContain("footerBadge");
@@ -230,10 +222,17 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
     expect(SEN_VOICE.freelancer.chat.evidenceNote).toContain("incelemede delil");
     expect(SEN_VOICE.freelancer.revision.releaseCta).toBe("Teslimatı Onayla");
     expect(SEN_VOICE.freelancer.revision.requestCta).toBe("Revizyon İstiyorum");
-    expect(readSrc("components/freelancer/squad-panel.tsx")).toContain("FrozenSquadNotice");
-    expect(readSrc("components/freelancer/squad-teaser.tsx")).toContain("FrozenSquadNotice");
-    expect(readSrc("components/freelancer/squad-create-button.tsx")).toContain("FrozenSquadNotice");
-    expect(readSrc("components/freelancer/standalone-squad-modal.tsx")).toContain("FrozenSquadNotice");
+    for (const retired of [
+      "components/freelancer/squad-panel.tsx",
+      "components/freelancer/squad-teaser.tsx",
+      "components/freelancer/squad-create-button.tsx",
+      "components/freelancer/standalone-squad-modal.tsx",
+      "components/freelancer/direct-job-offer-modal.tsx",
+      "components/freelancer/direct-offer-inbox.tsx",
+      "components/freelancer/usta-expertise-list.tsx",
+    ]) {
+      expect(existsSync(join(ROOT, retired)), retired).toBe(false);
+    }
     expect(readSrc("app/freelancer/page.tsx")).toContain('variant="primary"');
     expect(SEN_VOICE.freelancer.list.openCta).toBe("İncele / Teklif Ver");
     expect(SEN_VOICE.freelancer.list.inspectBidCta).toBe("İncele / Teklif Ver");
@@ -251,7 +250,6 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
     expect(SEN_VOICE.freelancer.list.filteredEmptyHint).toContain("filtrelerini gevşeterek");
     expect(SEN_VOICE.freelancer.list.emptyHint).not.toContain("temsili");
     expect(SEN_VOICE.freelancer.list.emptyHint).not.toContain("vitrin");
-    expect(readSrc("components/freelancer/standalone-squad-modal.tsx")).toContain("FrozenSquadNotice");
     expect(readSrc("components/freelancer/dispute-console.tsx")).toContain("legalNote");
     expect(SEN_VOICE.freelancer.satellite.squadTitle).toBe("Takım / Squad");
     expect(SEN_VOICE.freelancer.satellite.directOfferTitle).toBe("Doğrudan iş teklifi");

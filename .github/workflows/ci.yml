@@ -20,6 +20,8 @@ jobs:
           node-version: "20.19"
           cache: npm
       - run: npm ci
+      - run: npm ci
+        working-directory: apps/rail-is
       - run: npm run lint
       - run: npm run verify:prebuild
       - run: npm run verify:junior-audio-cdn

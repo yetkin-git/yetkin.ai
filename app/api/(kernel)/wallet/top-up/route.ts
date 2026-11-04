@@ -71,6 +71,8 @@ import {
 import { ensureAcademyProductionDiskProbe } from "@/lib/academy/production-seal-disk";
 import { academyCourseSaleOpen, isAcademyLicenseSaleSlug } from "@/lib/academy/pilot-sku";
 import { academyCourseRowIsPublished } from "@/lib/kernel/admin/prisma-course-publish";
+import { readActiveAcademyLicenseAmountMinor } from "@/lib/academy/license-price-seal-read";
+import { sealAcademyLicenseAmount } from "@/lib/academy/license-price-seal";
 import { WALLET_TOP_UP_PURPOSE } from "@/lib/kernel/payments/clearing";
 
 export const auth = "session" as const;
@@ -146,7 +148,7 @@ export async function POST(request: Request) {
           : "Geçersiz yükleme tutarı.";
       return jsonFail(message, 400, requestId, request);
     }
-    const amountMinor = assertWalletTopUpAmountMinor(parsed.data.amountMinor);
+    let amountMinor = assertWalletTopUpAmountMinor(parsed.data.amountMinor);
     const courseSlug = parsed.data.courseSlug;
     if (courseSlug && !isAcademyLicenseSaleSlug(courseSlug)) {
       return jsonFail("Kurs kodu geçersiz.", 400, requestId, request);
@@ -160,6 +162,26 @@ export async function POST(request: Request) {
     }
     if (courseSlug && !readAcademyLicenseSlug(academyLicenseOrderPurpose(courseSlug))) {
       return jsonFail("Kurs satışa kapalı.", 400, requestId, request);
+    }
+    if (courseSlug) {
+      const sealed = sealAcademyLicenseAmount(
+        amountMinor,
+        await readActiveAcademyLicenseAmountMinor(courseSlug),
+      );
+      if (!sealed.ok) {
+        logEvent({
+          level: "warn",
+          event: "wallet.top_up.price_rejected",
+          requestId,
+          userId: user.id,
+          amountMinor,
+          route: WALLET_TOP_UP_ROUTE,
+          reason: sealed.message,
+          purpose: academyLicenseOrderPurpose(courseSlug),
+        });
+        return jsonFail(sealed.message, 400, requestId, request);
+      }
+      amountMinor = sealed.amountMinor;
     }
     const orderPurpose = courseSlug ? academyLicenseOrderPurpose(courseSlug) : WALLET_TOP_UP_PURPOSE;
     await persistCheckoutBilling(createPrismaBillingInfoStore(), user.id, parsed.data.billing);
@@ -335,7 +357,12 @@ export async function POST(request: Request) {
           });
           // Get-token / beginCheckout 503: aynı istekte PENDING kapanır. CREDIT yok.
           await failPaymentOrder(createPrismaPaymentOrderStore(), merchantOid);
-          const status = checkout.reason === "invalid_user" || checkout.reason === "invalid_amount" ? 400 : 503;
+          const status =
+            checkout.reason === "invalid_user" || checkout.reason === "invalid_amount"
+              ? 400
+              : checkout.reason === "dev_live_locked"
+                ? 403
+                : 503;
           const error =
             checkout.reason === "missing_credentials" ? PAYMENTS_UNCONFIGURED_ERROR : checkout.message;
           return { status, body: { error } };

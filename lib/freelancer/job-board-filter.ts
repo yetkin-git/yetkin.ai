@@ -4,7 +4,7 @@ import {
   listingNeedId,
   type FreelancerNeedId,
   type ListingVisaLockId,
-} from "@/lib/kernel/catalog-ids";
+} from "@yetkin/kernel/catalog-ids";
 
 export type JobBoardSort = "newest" | "budget-desc" | "budget-asc";
 

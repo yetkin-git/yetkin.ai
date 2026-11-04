@@ -1,7 +1,7 @@
 /**
  * İnce kenar mühürleri (K3). Müze 400 satır kopyalanmaz.
  * Korumalı sayfa ve session API: JWT imzası kenarda fail-closed doğrulanır (`edge-jwt.ts`).
- * K6 kind okuma: `edge-api-auth.ts` (`export const auth` = session | admin | public | webhook).
+ * K6 kind okuma: `edge-api-auth.ts` (`export const auth` = session | admin | public | webhook | cron).
  * CSP: istek başına *script* nonce; üretimde script `unsafe-eval` yok.
  * `style-src` nonce taşımaz — CSP2+ nonce varken `'unsafe-inline'` yok sayılır
  * ve React/Next `styleTagTransform` / font-styles / react-dom CSSOM enjeksiyonu

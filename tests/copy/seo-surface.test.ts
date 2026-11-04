@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { academyCourseCoverPath } from "@/lib/academy/course-cover";
+import { courseRegistryBySlug } from "@yetkin/kernel/catalog-ids/course-registry";
 import { ACADEMY_CATALOG_SUMMARIES } from "@/lib/academy/catalog-summaries";
 import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 import { publishedCoursesFromSeed } from "@/lib/academy/published-catalog";
@@ -388,6 +389,7 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(SITEMAP_STATIC_PATHS).toEqual([
       // Kök marka iniş sayfası (P1 tedavi): 308 kilidi kalktı, index:true.
       "/",
+      "/rehber",
       "/academy",
       "/academy/ileri",
       "/career",
@@ -441,6 +443,10 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(isRobotsDisallowedPath("/junior/checkout")).toBe(true);
     expect(ROBOTS_DISALLOW_PATHS).toContain("/junior/checkout");
     expect(ROBOTS_DISALLOW_PATHS).toContain("/admin");
+    expect(isRobotsDisallowedPath("/admin/ops")).toBe(true);
+    expect(isRobotsDisallowedPath("/rehber")).toBe(false);
+    expect(SITEMAP_STATIC_PATHS).not.toContain("/admin");
+    expect(SITEMAP_STATIC_PATHS).not.toContain("/kariyer");
     expect(ROBOTS_DISALLOW_PATHS).toContain("/dashboard");
   });
 });
@@ -918,10 +924,12 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
     expect(OFFICE_AI_SEO.slug).toBe("01_office_ai");
     expect(OFFICE_AI_SEO.path).toBe("/academy/01_office_ai");
     expect(OFFICE_AI_SEO.title).toBe(
-      "İş Hayatında Yapay Zekâ Eğitimi: Excel, Word, PowerPoint & E-Posta | yetkin.ai",
+      "İş Hayatında Yapay Zekâ: Excel ve E-Posta | yetkin.ai",
     );
+    expect(OFFICE_AI_SEO.title.length).toBeGreaterThanOrEqual(50);
+    expect(OFFICE_AI_SEO.title.length).toBeLessThanOrEqual(60);
     expect(OFFICE_AI_SEO.description).toBe(
-      "İş hayatında yapay zekâ ve Copilot kullanımı: Excel formülleri, yönetim özeti, Gmail Gemini ve KVKK uyumlu e-posta akışları. 8 derste pratik beceri ve sertifika.",
+      "İş hayatında yapay zekâ ve Copilot kullanımı: Excel formülleri, yönetim özeti, Gmail Gemini ve KVKK e-postası. 8 derste pratik beceri ve sertifika.",
     );
     expect(OFFICE_AI_SEO.h1).toBe("İş Hayatında Yapay Zekâ: Excel'den E-Postaya 8 Ders");
     expect(OFFICE_AI_SEO.keywords).toEqual([
@@ -946,7 +954,7 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
     });
     expect(officeMeta.title).toEqual({ absolute: OFFICE_AI_SEO.title });
     expect(officeMeta.title).not.toBe(TITLE_TEMPLATE.replace("%s", OFFICE_AI_SEO.title));
-    expect(OFFICE_AI_SEO.description.length).toBeLessThanOrEqual(180);
+    expect(OFFICE_AI_SEO.description.length).toBeLessThanOrEqual(160);
     expect(OFFICE_AI_SEO.h1).not.toBe(OFFICE_AI_SEO.title);
 
     const page = readSrc("app/academy/[slug]/page.tsx");
@@ -970,14 +978,45 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
     expect(page).toContain("title: seo?.title ?? board.course.title");
   });
 
+  it("altı antre arama başlığı ve açıklaması sicille aynı SERP bandındadır", () => {
+    for (const seo of [
+      OFFICE_AI_SEO,
+      OFFICE_AI_ILERI_SEO,
+      ECOMMERCE_AI_SEO,
+      SOCIAL_MEDIA_AI_SEO,
+      CHATBOT_NOCODE_SEO,
+      PROMPT_PRACTICE_SEO,
+    ]) {
+      const row = courseRegistryBySlug(seo.slug);
+      expect(row?.seo?.title).toBe(seo.title);
+      expect(row?.seo?.description).toBe(seo.description);
+      expect(row?.seo?.h1).toBe(seo.h1);
+      expect(row?.title.length ?? 0).toBeLessThanOrEqual(55);
+      expect(row?.title.includes("(")).toBe(false);
+      expect(row?.summary.length ?? 0).toBeLessThanOrEqual(140);
+      expect(seo.title.length).toBeGreaterThanOrEqual(50);
+      expect(seo.title.length).toBeLessThanOrEqual(60);
+      expect(seo.description.length).toBeLessThanOrEqual(160);
+      const meta = pageMetadata({
+        title: seo.title,
+        description: seo.description,
+        path: seo.path,
+      });
+      expect(meta.title).toEqual({ absolute: seo.title });
+      expect(meta.description).toBe(seo.description);
+    }
+  });
+
   it("OFF-201 title/description/H1 indekslenir; LearningResource ders düğümü Course altına bağlanır", () => {
     expect(OFFICE_AI_ILERI_SEO.slug).toBe("01_office_ai_ileri");
     expect(OFFICE_AI_ILERI_SEO.path).toBe("/academy/01_office_ai_ileri");
     expect(academyCourseSeoOverride("01_office_ai")).toBe(OFFICE_AI_SEO);
     expect(academyCourseSeoOverride("01_office_ai_ileri")).toBe(OFFICE_AI_ILERI_SEO);
     expect(OFFICE_AI_ILERI_SEO.title).toBe(
-      "İleri Ofis Yapay Zekâ Eğitimi: Toplantı Notundan Sayı Denetimine | yetkin.ai",
+      "İleri Ofis Yapay Zekâ: Toplantı ve Denetim | yetkin.ai",
     );
+    expect(OFFICE_AI_ILERI_SEO.title.length).toBeGreaterThanOrEqual(50);
+    expect(OFFICE_AI_ILERI_SEO.title.length).toBeLessThanOrEqual(60);
     expect(OFFICE_AI_ILERI_SEO.description).toBe(
       "İleri düzey yapay zekâ uygulamaları: Dört parçalı istem, toplantı notu analizi, uzun belge özetleme ve 3 dosyada sayı denetimi. İleri seviye ofis uzmanlığı.",
     );
@@ -987,7 +1026,7 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
       "veri denetimi yapay zeka",
       "ileri seviye prompt",
     ]);
-    expect(OFFICE_AI_ILERI_SEO.description.length).toBeLessThanOrEqual(180);
+    expect(OFFICE_AI_ILERI_SEO.description.length).toBeLessThanOrEqual(160);
     expect(OFFICE_AI_ILERI_SEO.h1).not.toBe(OFFICE_AI_ILERI_SEO.title);
     expect(OFFICE_AI_ILERI_SEO.description).toMatch(/Dört parçalı istem/u);
     expect(OFFICE_AI_ILERI_SEO.description).toMatch(/3 dosyada sayı denetimi/u);
@@ -1039,10 +1078,12 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
     expect(ECOMMERCE_AI_SEO.path).toBe("/academy/02_ecommerce_ai");
     expect(academyCourseSeoOverride("02_ecommerce_ai")).toBe(ECOMMERCE_AI_SEO);
     expect(ECOMMERCE_AI_SEO.title).toBe(
-      "E-Ticaret ve Pazaryeri Yapay Zekâ Eğitimi: Trendyol, Hepsiburada, Amazon & Shopify | yetkin.ai",
+      "E-Ticaret Yapay Zekâ: Trendyol ve Shopify | yetkin.ai",
     );
+    expect(ECOMMERCE_AI_SEO.title.length).toBeGreaterThanOrEqual(50);
+    expect(ECOMMERCE_AI_SEO.title.length).toBeLessThanOrEqual(60);
     expect(ECOMMERCE_AI_SEO.description).toBe(
-      "Trendyol, Hepsiburada, Amazon, Shopify ve PttAVM için SEO uyumlu ürün açıklaması, görsel temizleme, iade analizi ve mağaza puanı asistanı. 6 derste e-ticaret yapay zekâ uzmanlığı.",
+      "Trendyol, Hepsiburada, Amazon ve Shopify için ürün açıklaması, görsel, iade analizi ve mağaza mesajı. 6 derste e-ticaret yapay zekâ.",
     );
     expect(ECOMMERCE_AI_SEO.keywords).toEqual([
       "e-ticaret yapay zeka",
@@ -1051,7 +1092,7 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
       "hepsiburada yapay zeka",
       "e-ticaret seo prompt",
     ]);
-    expect(ECOMMERCE_AI_SEO.description.length).toBeLessThanOrEqual(180);
+    expect(ECOMMERCE_AI_SEO.description.length).toBeLessThanOrEqual(160);
     expect(ECOMMERCE_AI_SEO.h1).not.toBe(ECOMMERCE_AI_SEO.title);
     const course = courseJsonLd({
       slug: ECOMMERCE_AI_SEO.slug,
@@ -1128,7 +1169,9 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
     for (const row of rows) {
       expect(academyCourseSeoOverride(row.seo.slug)).toBe(row.seo);
       expect(row.seo.title.endsWith(" | yetkin.ai")).toBe(true);
-      expect(row.seo.description.length).toBeLessThanOrEqual(180);
+      expect(row.seo.title.length).toBeGreaterThanOrEqual(50);
+      expect(row.seo.title.length).toBeLessThanOrEqual(60);
+      expect(row.seo.description.length).toBeLessThanOrEqual(160);
       expect(row.seo.h1).not.toBe(row.seo.title);
       expect(row.seo.keywords.length).toBeGreaterThan(0);
       expect(academyCourseTeachesForSlug(row.seo.slug)).toEqual([...row.teaches]);
@@ -1310,7 +1353,7 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
     );
     expect(OFFICE_AI_SEO.description).toMatch(/8 derste pratik beceri ve sertifika/u);
     expect(OFFICE_AI_SEO.description).not.toMatch(/sunucuda dosya kontrolü yapılır/iu);
-    expect(OFFICE_AI_SEO.description.length).toBeLessThanOrEqual(180);
+    expect(OFFICE_AI_SEO.description.length).toBeLessThanOrEqual(160);
     expect(ACADEMY_CATALOG_SUMMARIES["01_office_ai"]).toContain(OFFICE_AI_SEAL_PROOF_SHORT);
     expect(OFFICE_AI_COURSE_FAQ[0]?.answer).toContain(OFFICE_AI_SEAL_PROOF);
     expect(OFFICE_AI_COURSE_FAQ[3]?.answer).toMatch(/sunucuda kontrol etmez/u);

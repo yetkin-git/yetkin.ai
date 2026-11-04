@@ -1,6 +1,9 @@
 import "server-only";
 
+import { SUPER_ADMIN_AUDIT_SEAL_MISSED, writeSuperAdminAudit } from "@/lib/kernel/admin/audit-log";
+import { bindSuperAdminAuditWriter } from "@/lib/kernel/admin/prisma-super-admin-audit";
 import { getPrisma } from "@/lib/kernel/db";
+import { ConflictError } from "@/lib/kernel/http/errors";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { parseCurrencyCode } from "@/lib/kernel/money/currency";
 import type { CatalogWriteStore } from "@/lib/kernel/admin/catalog-write";
@@ -69,8 +72,8 @@ export function createPrismaCatalogWriteStore(): CatalogWriteStore {
       return row ? toEntry(row) : null;
     },
     async openAmount(input) {
-      const [row] = await prisma.$transaction([
-        prisma.priceCatalogEntry.create({
+      const row = await prisma.$transaction(async (tx) => {
+        const created = await tx.priceCatalogEntry.create({
           data: {
             id: input.id,
             moduleKey: input.moduleKey,
@@ -85,8 +88,8 @@ export function createPrismaCatalogWriteStore(): CatalogWriteStore {
             updatedBy: input.updatedBy,
           },
           select: CATALOG_SELECT,
-        }),
-        prisma.priceCatalogDecisionLedger.create({
+        });
+        await tx.priceCatalogDecisionLedger.create({
           data: {
             catalogEntryId: input.id,
             moduleKey: input.moduleKey,
@@ -99,21 +102,31 @@ export function createPrismaCatalogWriteStore(): CatalogWriteStore {
             currencyCode: input.currencyCode,
             actorUserId: input.updatedBy,
           },
-        }),
-      ]);
+        });
+        const sealed = await writeSuperAdminAudit(bindSuperAdminAuditWriter(tx), {
+          actorUserId: input.updatedBy,
+          action: "catalog_price",
+          target: `${input.moduleKey}:${input.unitKey}`,
+          detail: `${input.reasonCode}: ${input.reason}`,
+        });
+        if (!sealed) {
+          throw new ConflictError(SUPER_ADMIN_AUDIT_SEAL_MISSED);
+        }
+        return created;
+      });
       return toEntry(row);
     },
     async updateAmount(input) {
-      const [row] = await prisma.$transaction([
-        prisma.priceCatalogEntry.update({
+      const row = await prisma.$transaction(async (tx) => {
+        const updated = await tx.priceCatalogEntry.update({
           where: { id: input.id },
           data: {
             amountMinor: input.amountMinor,
             updatedBy: input.updatedBy,
           },
           select: CATALOG_SELECT,
-        }),
-        prisma.priceCatalogDecisionLedger.create({
+        });
+        await tx.priceCatalogDecisionLedger.create({
           data: {
             catalogEntryId: input.id,
             moduleKey: input.moduleKey,
@@ -126,8 +139,18 @@ export function createPrismaCatalogWriteStore(): CatalogWriteStore {
             currencyCode: input.currencyCode,
             actorUserId: input.updatedBy,
           },
-        }),
-      ]);
+        });
+        const sealed = await writeSuperAdminAudit(bindSuperAdminAuditWriter(tx), {
+          actorUserId: input.updatedBy,
+          action: "catalog_price",
+          target: `${input.moduleKey}:${input.unitKey}`,
+          detail: `${input.reasonCode}: ${input.reason}`,
+        });
+        if (!sealed) {
+          throw new ConflictError(SUPER_ADMIN_AUDIT_SEAL_MISSED);
+        }
+        return updated;
+      });
       return toEntry(row);
     },
   };

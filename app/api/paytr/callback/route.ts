@@ -2,9 +2,9 @@
  * PayTR Mağaza Paneli Bildirim URL alias'ı (`application/x-www-form-urlencoded`).
  * CREDIT yalnız kanonik handler'dadır; bu dosya ikinci ağız değildir.
  *
- * Panel test/ping: `merchant_oid` / `status` / `total_amount` / `hash` eksik veya
- * HMAC geçersiz olsa bile log + düz metin HTTP 200 `"OK"` (HTTP 400 yok).
- * Kenar (`proxy.ts`) JWT / Origin / CSRF / IP / rate-limit basmaz.
+ * Boş gövde yoklaması düz metin HTTP 200 `"OK"` döner. İçinde ödeme alanı olan
+ * ve HMAC'i tutmayan bildirim kanonik yolla aynı kapıdadır: imza hatası 403.
+ * PayTR başarısız bildirimi yeniden deneyebilir. Kenar JWT / Origin / CSRF basmaz.
  */
 export const auth = "webhook" as const;
 

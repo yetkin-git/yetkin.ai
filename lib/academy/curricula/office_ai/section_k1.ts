@@ -7,7 +7,7 @@ export const sectionK1: Section = {
   isPreviewAllowed: false,
   isLocked: true,
   title: "Kişisel Verileri Maskeleme: Müşteri Verisi AI'a Nasıl Yüklenir?",
-  targetDurationMinutes: 3.8,
+  targetDurationMinutes: 12.2,
   estimatedWordCount: 647,
   pedagogicalObjective:
     "Ham T.C. Kimlik No, telefon ve IBAN yapay zekâya gitmez. Excel veya sohbet kutusunda adı ve telefonu beş saniyede maskele. Maskeli tabloyu ataşla; şablonu çıkış paketinden indir.",

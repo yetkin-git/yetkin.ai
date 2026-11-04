@@ -118,7 +118,15 @@ describe("Junior kapalı beta kapısı", () => {
     });
     expect(paid).toEqual({ allow: true, via: "audit" });
     expect(canEnterJunior(ADMIN, null, { intent: "profile" })).toEqual({ allow: true, via: "audit" });
-    expect(canEnterJunior(ADMIN, null, { intent: "checkout" })).toEqual({ allow: true, via: "audit" });
+    expect(
+      canEnterJunior(ADMIN, null, { intent: "checkout" }, {
+        NODE_ENV: "test",
+        JUNIOR_CHECKOUT_OPEN: "",
+      } as NodeJS.ProcessEnv),
+    ).toEqual({
+      allow: false,
+      reason: "money",
+    });
     const view = juniorLessonGate(ADMIN, "jr_06_mat-2", {
       active: false,
       selectedElectives: [],
@@ -148,6 +156,10 @@ describe("Junior kapalı beta kapısı", () => {
     expect(canEnterJunior(beta, "jr_06_fen-2", { intent: "lesson", lessonAccess: "locked" }, env).allow).toBe(
       true,
     );
+    expect(canEnterJunior(beta, null, { intent: "checkout" }, { ...env, JUNIOR_CHECKOUT_OPEN: "" })).toEqual({
+      allow: false,
+      reason: "money",
+    });
     expect(canEnterJunior(unconfirmed, "jr_06_fen-2", { intent: "lesson", lessonAccess: "locked" }, env).allow).toBe(
       false,
     );

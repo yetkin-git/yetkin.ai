@@ -42,7 +42,7 @@ export const ACADEMY_SEN = {
     cardCtaBuyPriced: (priceLabel: string) => `Satın Al — ${priceLabel}`,
     /** Kart / antre tutarı — B2C liste KDV dahildir (antre tek satır). */
     priceVatInclusive: (priceLabel: string) => `${priceLabel} · KDV dahil`,
-    /** Kart fiyatının altında küçük KDV ipucu. */
+    /** Vitrin kartında fiyatın altında basılmaz. Sözlük mührü durur. */
     vatInclusiveHint: "KDV dahil",
     /** Süzgeç chip’i ile aynı etiket — Temel Seviye / Orta Seviye / İleri Seviye. */
     badgeLevel: (level: string) => {
@@ -85,7 +85,7 @@ export const ACADEMY_SEN = {
     /** Oynatıcı ders satırı — o dersin gerçek süresi. Katalog kartı bunu basmaz. */
     cardMetaAudio: (minutes: number) => `${minutes} dk · Sesli Anlatım`,
     /** Katalog kartı — ders adedi ve format. Sabit dakika yok. */
-    cardMetaNarration: (lessons: number) => `${lessons} Ders • Sesli Anlatım`,
+    cardMetaNarration: (lessons: number) => `${lessons} Ders • Sesli Anlatım • Baraj 70`,
     /** Antre hero kimlik şeridi — Temel Seviye · OFF-101. */
     heroLevelIdentity: (level?: string | null, moduleCode?: string | null) => {
       const raw = level?.trim() ?? "";

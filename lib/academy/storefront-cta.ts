@@ -57,7 +57,7 @@ export type AcademyAntreHeroCta = {
 
 export type AcademyCatalogCardCta = {
   priceLabel: string;
-  /** Satın alınmamış kartta fiyatın altında küçük KDV ipucu; owned'da null. */
+  /** Kapalı kayıt veya hazırlık notu. Açık fiyatlı kartta null — tutar tek satır kalır. */
   priceCaption: string | null;
   cta: string;
   href: string;
@@ -258,7 +258,7 @@ export function resolveAcademyCatalogCardCta(input: {
       : copy.catalog.cardCtaOutcomeIdle;
     return {
       priceLabel: display,
-      priceCaption: copy.catalog.vatInclusiveHint,
+      priceCaption: null,
       cta: outcomeCta,
       href: input.buyHref ?? academyCheckoutHref(input.slug),
       secondaryCta: copy.catalog.cardCtaFreePreview,
@@ -267,7 +267,7 @@ export function resolveAcademyCatalogCardCta(input: {
   }
   return {
     priceLabel: display ?? copy.catalog.priceMissing,
-    priceCaption: display ? copy.catalog.vatInclusiveHint : null,
+    priceCaption: null,
     cta: copy.catalog.cardCtaBuy,
     href: `/academy/${input.slug}`,
   };

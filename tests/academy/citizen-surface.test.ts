@@ -102,7 +102,7 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(copy.catalog.liveBadge).toBe("Yayında");
     expect(copy.catalog.cardCtaComingSoon).toBe("Çok Yakında");
     expect(copy.catalog.cardMetaAudio(9)).toBe("9 dk · Sesli Anlatım");
-    expect(copy.catalog.cardMetaNarration(8)).toBe("8 Ders • Sesli Anlatım");
+    expect(copy.catalog.cardMetaNarration(8)).toBe("8 Ders • Sesli Anlatım • Baraj 70");
     expect(copy.catalog.articleBadgeHint).toBe(
       "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Sertifika",
     );

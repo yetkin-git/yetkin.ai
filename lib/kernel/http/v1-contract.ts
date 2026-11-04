@@ -1,5 +1,6 @@
 /**
- * `/api/v1` sözleşme sicili — API-First dron sözleşmesi (33 hop).
+ * `/api/v1` sözleşme sicili — API-First dron sözleşmesi.
+ * Hop sayısı `RAIL_V1_HOPS_META` uzunluğudur.
  * Anayasa: yayınlanmış alan sessizce düşmez. Bu dosyadaki DTO / OpenAPI
  * kısaltması major sürüm ister. Kernel dikey oda import etmez; alanlar
  * burada dondurulur.
@@ -52,10 +53,14 @@ import {
   type RailV1FailBody,
   type RailV1OkBody,
 } from "@/lib/kernel/http/v1-envelope";
+import { dronOnboardingPulseDataSchema } from "@yetkin/kernel/http/dron-onboarding-schema";
 import {
   RAIL_V1_DRON_FORBIDDEN_HOP_IDS,
   RAIL_V1_HOPS_META,
+  dronOnboardingCanonicalPath,
+  isDronOnboardingHopId,
   isRailV1HopMetaDronForbidden,
+  type DronOnboardingHopId,
   type RailV1HopId,
   type RailV1HopMethod,
   type RailV1WireAuth,
@@ -2105,10 +2110,34 @@ const RAIL_V1_HOP_CONTRACTS = {
     requestSchema: railV1ProfilePatchRequestSchema,
     errors: [...WRITE_ERRORS, RAIL_V1_PROFILE_BODY_INVALID],
   },
-} satisfies Record<RailV1HopId, RailV1HopContract>;
+} satisfies Record<Exclude<RailV1HopId, DronOnboardingHopId>, RailV1HopContract>;
+
+function dronOnboardingHopContract(hopId: string): RailV1HopContract {
+  const canonical = dronOnboardingCanonicalPath(hopId);
+  return {
+    canonicalPathTemplate: canonical,
+    routeAuthPattern: canonical,
+    routeAuth: "session",
+    idempotency: false,
+    minVersionHeaderRequired: true,
+    successStatus: 200,
+    dataKeys: ["pulse"],
+    publishedDataPaths: ["pulse", "pulse.live", "pulse.dronId", "pulse.userId"],
+    dataSchema: dronOnboardingPulseDataSchema,
+    errors: SESSION_ERRORS,
+  };
+}
+
+function railV1HopContract(meta: (typeof RAIL_V1_HOPS_META)[number]): RailV1HopContract {
+  const id = meta.id;
+  if (isDronOnboardingHopId(id)) {
+    return dronOnboardingHopContract(id);
+  }
+  return RAIL_V1_HOP_CONTRACTS[id];
+}
 
 export const RAIL_V1_HOPS: readonly RailV1Hop[] = RAIL_V1_HOPS_META.map((meta) =>
-  bindRailV1Hop(meta, RAIL_V1_HOP_CONTRACTS[meta.id]),
+  bindRailV1Hop(meta, railV1HopContract(meta)),
 );
 
 export { RAIL_V1_DRON_FORBIDDEN_HOP_IDS };

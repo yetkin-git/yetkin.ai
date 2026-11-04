@@ -25,6 +25,7 @@ import {
   ACADEMY_RETIRED_COURSE_GONE_MESSAGE,
   isAcademyRetiredStorefrontSlug,
 } from "@/lib/academy/retired-storefront";
+import { sealAcademyLicenseAmount } from "@/lib/academy/license-price-seal";
 import { ACADEMY_MODULE_KEY } from "@/lib/academy/types";
 import { GoneError } from "@/lib/kernel/http/errors";
 import type {
@@ -257,11 +258,20 @@ export async function purchaseAcademyCourse(
       },
     );
     const debitMinor = toPositiveAmountMinor(openLock.amountMinor);
+    const activeEntry = await ports.catalog.findActiveEntry(ACADEMY_MODULE_KEY, course.catalogUnitKey);
+    const sealed = sealAcademyLicenseAmount(
+      debitMinor,
+      activeEntry?.unitType === "MINOR" ? activeEntry.amountMinor : null,
+    );
+    if (!sealed.ok) {
+      throw new Error(sealed.message);
+    }
+    const chargedMinor = sealed.amountMinor;
 
     await appendLedgerEntry(tx.ledger, {
       userId: command.userId,
       currencyCode: openLock.currencyCode,
-      amountMinor: debitMinor,
+      amountMinor: chargedMinor,
       direction: "DEBIT",
       label: renewing ? "Akademi lisans yenileme" : "Akademi kurs satın alma",
       purpose: "academy-purchase",
@@ -271,7 +281,7 @@ export async function purchaseAcademyCourse(
     await appendLedgerEntry(tx.ledger, {
       userId: platformUserId,
       currencyCode: openLock.currencyCode,
-      amountMinor: debitMinor,
+      amountMinor: chargedMinor,
       direction: "CREDIT",
       label: renewing ? "Akademi lisans yenileme settlement" : "Akademi kurs settlement",
       purpose: "academy-settlement",
@@ -281,7 +291,7 @@ export async function purchaseAcademyCourse(
     const purchase = raced
       ? await tx.academy.updatePurchase(raced.id, {
           settledAt: now,
-          amountMinor: debitMinor,
+          amountMinor: chargedMinor,
           priceLockId: openLock.id,
           updatedAt: now,
         })
@@ -290,7 +300,7 @@ export async function purchaseAcademyCourse(
           userId: command.userId,
           courseId: course.id,
           priceLockId: openLock.id,
-          amountMinor: debitMinor,
+          amountMinor: chargedMinor,
           currencyCode: openLock.currencyCode,
           status: "SETTLED",
           settledAt: now,

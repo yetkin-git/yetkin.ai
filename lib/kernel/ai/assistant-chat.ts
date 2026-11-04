@@ -4,6 +4,7 @@ import { z } from "zod";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { ASSISTANT_SEN } from "@/lib/copy/sen-voice/assistant";
 import { invokeLlm, type InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
+import { getDefaultModelId } from "@/lib/kernel/ai/model-roles";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import type { LlmChatTurn } from "@/lib/kernel/ai/types";
 import { ASSISTANT_CHAT_PATH } from "@/lib/kernel/ai/assistant-chat-client";
@@ -14,6 +15,9 @@ import {
 } from "@/lib/kernel/security/http-rate-limit";
 
 export { ASSISTANT_CHAT_PATH };
+/** Kariyer / Akademi asistanı. Model kimliği bu rolün gümrük karşılığıdır. */
+export const ASSISTANT_CHAT_ROLE = "LITE_STREAM" as const;
+export const ASSISTANT_CHAT_MODEL_ID = getDefaultModelId(ASSISTANT_CHAT_ROLE);
 export const ASSISTANT_CHAT_MESSAGE_LIMIT = HTTP_RATE_LIMITS.aiChatUser.limit;
 export const ASSISTANT_CHAT_LIMIT_ERROR = ASSISTANT_SEN.limitReached;
 export const ASSISTANT_CHAT_MAX_MESSAGE_CHARS = 2_000;
@@ -183,7 +187,7 @@ export async function answerAssistantChat(
   const invoke = deps.invoke ?? invokeLlm;
   const llm = await invoke(
     {
-      role: "LITE_STREAM",
+      role: ASSISTANT_CHAT_ROLE,
       system: ASSISTANT_SEN.system,
       user: parsed.data.message,
       history: normalizeHistory(parsed.data.history),

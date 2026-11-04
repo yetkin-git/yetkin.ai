@@ -15,7 +15,7 @@ import {
   isFreelancerNeedId,
   isFreelancerSystemListing,
   isOpenTrialNeed,
-} from "@/lib/kernel/catalog-ids";
+} from "@yetkin/kernel/catalog-ids";
 
 describe("freelancer ilan statü yüzü ve örnek görev sicili", () => {
   it("Büyüme Beşlisi 5 kapıyı Örnek Görev başlığıyla 1:1 kapsar", () => {

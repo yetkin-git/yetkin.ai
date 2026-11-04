@@ -44,7 +44,9 @@ describe("PayTR canlı callback yüzeyi", () => {
     expect(route).toContain("isPaytrNotificationProbe");
     expect(route).toContain("readPaytrWebhookPayload");
     expect(route).toContain("isPaytrPanelWebhookPath");
-    expect(route).toContain("shouldAckUnverifiedPaytrNotification");
+    expect(route).not.toContain("shouldAckUnverifiedPaytrNotification");
+    expect(route).not.toContain("paytr.webhook.official_ip_ack");
+    expect(route).toContain("? 403 : 400");
     expect(readSrc("lib/kernel/payments/paytr/checkout.ts")).toContain(
       `export const PAYTR_WEBHOOK_PATH = "${PAYTR_WEBHOOK_PATH}"`,
     );

@@ -28,7 +28,7 @@ import {
   ACADEMY_PILOT_SKU_SLUG,
 } from "@/lib/academy/pilot-sku";
 import { ACADEMY_COURSE_TITLES } from "@/lib/academy/course-titles";
-import { ACADEMY_CANON_SKU_SLUGS } from "@/lib/kernel/catalog-ids";
+import { ACADEMY_CANON_SKU_SLUGS } from "@yetkin/kernel/catalog-ids";
 
 const ROOT = process.cwd();
 const CURRICULA_DIR = join(ROOT, "lib", "academy", "curricula");

@@ -302,6 +302,9 @@ describe("ops:runtime-readiness Direct / PayTR / health ek sicili", () => {
     expect(lab.body).toContain("authRedirects=/auth/callback /sifre-yenile");
     expect(lab.body).toContain("GET /api/health simülasyon");
     expect(lab.body).toContain("in-process-single-node");
+    expect(lab.body).toContain("beklenen mod");
+    expect(lab.body).not.toContain("sessiz delik");
+    expect(lab.body).not.toContain("VERCEL algılandı");
   });
 
   it("OPS-4/5: pepper üretim bloğu; SMTP/JWT boş nakit 503 değildir; sır ve origin basılmaz", () => {
@@ -366,7 +369,48 @@ describe("ops:runtime-readiness Direct / PayTR / health ek sicili", () => {
       VERCEL: "1",
     }).body;
     expect(vercelBody).toContain("VERCEL algılandı");
+    expect(vercelBody).toContain("sessiz delik");
     expect(vercelBody).not.toContain("smtp.example.test");
+  });
+
+  it("paylaşılan hız tavanı Vercel uyarısını ve üretim bloğunu kapatır", () => {
+    const shared = inspectSafeDefaultOps({
+      VERCEL: "1",
+      RATE_LIMIT_REDIS_REST_URL: "https://example.upstash.io",
+      RATE_LIMIT_REDIS_REST_TOKEN: "token",
+    });
+    expect(shared.rateLimitStore).toBe("redis-rest");
+    const body = formatFullRuntimeReadiness({
+      NODE_ENV: "development",
+      VERCEL: "1",
+      RATE_LIMIT_REDIS_REST_URL: "https://example.upstash.io",
+      RATE_LIMIT_REDIS_REST_TOKEN: "token",
+    }).body;
+    expect(body).toContain("rateLimitStore=redis-rest");
+    expect(body).toContain("paylaşılan depo");
+    expect(body).not.toContain("VERCEL algılandı");
+    expect(body).not.toContain("sessiz delik");
+    expect(body).not.toContain("example.upstash.io");
+
+    expect(
+      inspectSafeDefaultOps({ RATE_LIMIT_REDIS_REST_URL: "https://example.upstash.io" }).rateLimitStore,
+    ).toBe("fail-closed-partial");
+
+    const blocked = extraProductionBlocks({
+      NODE_ENV: "production",
+      VERCEL: "1",
+      SUPER_ADMIN_USER_ID: "11111111-1111-4111-8111-111111111111",
+    });
+    expect(blocked.some((row) => row.includes("RATE_LIMIT_REDIS_REST"))).toBe(true);
+
+    const open = extraProductionBlocks({
+      NODE_ENV: "production",
+      VERCEL: "1",
+      SUPER_ADMIN_USER_ID: "11111111-1111-4111-8111-111111111111",
+      RATE_LIMIT_REDIS_REST_URL: "https://example.upstash.io",
+      RATE_LIMIT_REDIS_REST_TOKEN: "token",
+    });
+    expect(open.some((row) => row.includes("RATE_LIMIT_REDIS_REST"))).toBe(false);
   });
 
   it("Vercel Production medya CDN kökü ister; Preview ve geçerli https kök bloklamaz", () => {

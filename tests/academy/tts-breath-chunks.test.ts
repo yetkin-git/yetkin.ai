@@ -115,7 +115,7 @@ describe("TTS nefes dilimleyici", () => {
       "01_office_ai-6": 10,
       "01_office_ai-g1": 11,
       "01_office_ai-w1": 11,
-      "01_office_ai-k1": 10,
+      "01_office_ai-k1": 12,
     };
     for (const [key, count] of Object.entries(pieceCounts)) {
       const timings = loadAcademySealedAudioTimings(key);
@@ -131,7 +131,7 @@ describe("TTS nefes dilimleyici", () => {
     );
     expect(breathGaps).toHaveLength(9);
     expect(breathGaps.every((gap) => gap === 1.75)).toBe(true);
-    expect(Math.abs(academyCourseSealedDurationSec("01_office_ai") - 4361.933)).toBeLessThanOrEqual(0.01);
+    expect(Math.abs(academyCourseSealedDurationSec("01_office_ai") - 4870.797)).toBeLessThanOrEqual(0.01);
   });
 
   it("OFF-101 sekiz dersi metin düşürmeden 10’ar isteğe paketler", () => {

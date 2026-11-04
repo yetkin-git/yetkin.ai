@@ -68,6 +68,34 @@ Kullanıcı **`postgres.<PROJECT_REF>`**. Prisma 7 adapter `$transaction` + `FOR
 5. `SUPER_ADMIN_USER_ID` boş veya yalnız boşluksa UUID kolonu kimseyi admin yapmaz (`isSuperAdminUser`). Üretimde bu, yerleşik kanonik kutu dahil bütün adresleri kapatır (T-03). Üretim derlemesindeki `ops:runtime-readiness` kapısı boş bırakılmasını engeller. Geliştirmede doğrulanmış kanonik e-posta kolonu ayrı kalır.
 6. `assertSuperAdminActor` e-postayı ve kullanıcı kimliğini birlikte okur. Geçerli Supabase kullanıcı kimliği ister (`isSupabaseUserId`). E-posta eşleşse de kimlik UUID biçiminde değilse kapı kapanır. `assertSuperAdminUserId` diye bir fonksiyon yoktur.
 
+### 3.1 Canlı kontrol listesi
+
+Üretim paneline bakılır. Değer bu dosyaya, bilete ve sohbete yazılmaz. Tanımlı, trim sonrası boş olmayan dizedir (`filled`). `npm run ops:runtime-readiness` üretim anlık görüntüsünde `superAdmin=configured` veya `superAdmin=uuid-unset` yazar. Kimlik basmaz.
+
+| Değişken | Tanımlı | Boş |
+|----------|---------|-----|
+| `SUPER_ADMIN_USER_ID` | Yerleşik kutu yalnız bu kimlikle açılır. Başka adres `CANONICAL_SUPER_ADMIN_EMAIL` ile birlikte dolu olmalıdır. | Üretimde hiçbir hesap admin değildir. `/admin` ve `auth = "admin"` rotaları kapanır. Karar `isSuperAdminActor`. Hazırlık kapısı T-03 ile çıkar. |
+| `CANONICAL_SUPER_ADMIN_EMAIL` | Üretimde bu adres ve `SUPER_ADMIN_USER_ID` birlikte eşleşirse kutu açılır. `CITIZEN_TEST_ACCOUNT_EMAIL` yazılsa da admin olmaz. | Üretimde varsayılan adrese düşmez. Yerleşik kutu `builtInRecoveryOpen` ile yalnız `SUPER_ADMIN_USER_ID` eşleşince açılır. |
+| `JUNIOR_BETA_ALLOWLIST` | Doğrulanmış postalar kilitli dersi izler (`isJuniorAuditActor`). Kapalı kasada sipariş açmaz. | Yalnız süper yönetici denetim aktörüdür. |
+| `JUNIOR_CHECKOUT_OPEN` | `1`, `true` veya `open` kasayı açar. Denetim aktörü açık kasada da nakit satırı yazmaz. | `isJuniorCheckoutLocked` kapalıdır. Checkout niyeti `reason: "money"` döner. |
+| `PAYTR_WEBHOOK_IP_ALLOWLIST` | İsteğe bağlı. Doluysa kod resmi hostları bununla birleştirir. | Resmi host birleşimi durur. Ayrıntı `ops-paytr.md`. |
+
+### 3.2 Kurtarma — yönetim yüzeyi kilitli
+
+Kilit kasıtlıdır (T-03, fail-closed). Kurtarma ikinci bir kapı açmaz. `SUPER_ADMIN_USER_ID` auth kullanıcı kimliğine bağlanır ve süreç yeniden başlar.
+
+Belirti Production’dadır (`NODE_ENV=production` veya `VERCEL_ENV=production`). `/admin` ve admin API 403 döner. Hazırlık raporu `superAdmin=uuid-unset` ya da T-03 cümlesidir. Süreç günlüğü `[super-admin]` ile iki durumdan birini söyler: değişken boştur, ya da oturum kimliği `SUPER_ADMIN_USER_ID` ile aynı değildir. Günlük kimliği yazmaz. Operatör de yazmaz.
+
+1. Supabase Dashboard → Authentication → Users. Kutu, `CANONICAL_SUPER_ADMIN_EMAIL` tanımlıysa o adrestir. Değilse `CANONICAL_SUPER_ADMIN_EMAIL_DEFAULT` (`lib/kernel/auth/super-admin.ts`, bölüm 3 adım 1). `auth.users.id` kopyalanır. Bu değer git’e, bu dosyaya ve bilete girmez.
+2. Vercel → Project → Settings → Environment Variables → Production. `SUPER_ADMIN_USER_ID` o kimliğe çekilir. Kutu yerleşik adres değilse `CANONICAL_SUPER_ADMIN_EMAIL` de aynı doğrulanmış adrese çekilir. `PLATFORM_TREASURY_USER_ID` bu alana yazılmaz.
+3. Production yeniden deploy edilir. Süreç ortamı açılışta okur. Preview ve Development ayrıdır.
+4. Oturumda `email_confirmed_at` dolu olmalıdır. Yerleşik kutuda token bu alanı taşımasa da kimlik `SUPER_ADMIN_USER_ID` ile aynıysa `builtInUserIdBound` açar. Başka adreste bu yedek yoktur.
+5. O kutu ile `/admin` açılır. Vatandaş oturumu 403 kalır. Operatör makinesindeki üretim anlık görüntüsünde `npm run ops:runtime-readiness` `superAdmin=configured` yazar.
+6. Hesap yeniden açıldıysa yeni `auth.users.id` yazılır ve yeniden deploy edilir. Eski kimlik Production’da kalmaz. Rastgele bir kimlik ikinci admin açmaz.
+7. Yanlış kimlik, o oturum için boş değişkenle aynı kilittir. Dashboard’daki kimlik geri yazılır ve yeniden deploy edilir. Değişkeni boşaltmak yüzeyi yeniden kilitler. Bu kurtarma değil, güvenli kapanıştır.
+
+Geliştirmede doğrulanmış kanonik e-posta UUID beklemez. Bu bölüm üretim içindir.
+
 ## 6. Redirect URLs
 
 Supabase Redirect URLs, `lib/kernel/auth/redirects.ts` sicili ile birebir: `/auth/callback`, `/sifre-yenile`. Site URL: `NEXT_PUBLIC_APP_URL`.

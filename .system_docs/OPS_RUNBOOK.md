@@ -18,9 +18,9 @@ Kapı `canEnterJunior` (`lib/kernel/security/junior-gate.ts`). Kenar, sayfa ve A
 | İkinci konu, anlatış, hızlı konu kontrolü | Yıllık paket veya denetim | Doğrulanmış süper yönetici (`yapinet360@gmail.com`) denetim yoluyla girer. Ek test postaları `JUNIOR_BETA_ALLOWLIST` (virgül veya boşluk). Posta doğrulanmış olmalıdır. `yetkin.vision@gmail.com` listeye yazılsa da girmez. İkinci konu paketle de açılır. |
 | 6. sınıf profili, geçerli yıllık paket | Açık | Oturumlu veli ve `planCovers` (ACTIVE, süresi dolmamış) profil masasını açar. Sınıf 6. sınıf pilotudur. Paketi olmayan veli ve misafir kapalıdır. `DRON_JUNIOR_OPEN=1` paketsiz oturumlu veliyi de açar. İkinci konu yine yıllık paket ister. Kasa açılmaz. Oda açık kalır. |
 | Oda bayrağı | Kayıt açık | `DRON_JUNIOR_ROOM_OPEN=0` `isKapali("junior")` değerini kapatır. Ders hop'u ve `/junior` sayfası bu bayrakla 410 olmaz; ikisi aynı katalogdadır. Profil masasına dokunmaz. |
-| Kasa | Bayrak boşken kapalı | `JUNIOR_CHECKOUT_OPEN=1` ödeme kapısını açar. Üç tik (mesafeli satış, anında ifa, veli aydınlatması) yoksa PayTR çağrılmaz. Üretimde `PAYTR_SANDBOX` yok sayılır ve tahsilat canlı moda alınır. Canlı üçlü gerekir. Mock checkout throw eder. Köprü durur: CLEARED `junior-license:yearly` yıllık paketi yazar. Denetim hesabı nakit satırı yazmaz. |
+| Kasa | Bayrak boşken kapalı | `JUNIOR_CHECKOUT_OPEN=1` ödeme kapısını açar. Üç tik (mesafeli satış, anında ifa, veli aydınlatması) yoksa PayTR çağrılmaz. Üretimde `PAYTR_SANDBOX` yok sayılır ve tahsilat canlı moda alınır. Canlı üçlü gerekir. Mock checkout throw eder. Köprü durur: CLEARED `junior-license:yearly` yıllık paketi yazar. Checkout niyetinde `isJuniorCheckoutLocked` denetim kısayolundan önce okunur. Kapalı kasada süper yönetici ve `JUNIOR_BETA_ALLOWLIST` sipariş açamaz. Denetim hesabı nakit satırı yazmaz. |
 
-Denetim nakit satırı yazmaz. Süper yönetici kendi test profilini açar; ikinci konuyu, anlatışı ve testi o profilde görür. Başka velinin çocuğuna yazamaz. Super Admin (yapinet360@gmail.com) platformdaki tüm kilitli dersleri, anlatışları ve testleri denetim amacıyla izleyebilir; fakat ders metinlerini paneller üzerinden doğrudan yazamaz (metinler kod dosyasıdır) ve kapalı kasayı açamaz.
+Denetim nakit satırı yazmaz. Süper yönetici kendi test profilini açar; ikinci konuyu, anlatışı ve testi o profilde görür. Başka velinin çocuğuna yazamaz. Super Admin (yapinet360@gmail.com) ve doğrulanmış izin listesi platformdaki kilitli dersleri, anlatışları ve testleri denetim amacıyla izleyebilir. Ders metinleri kod dosyasıdır. Kapalı kasayı bu sınıf açamaz. Checkout niyetinde kilit önce okunur.
 
 Geri alma: `JUNIOR_BETA_ALLOWLIST` ve `DRON_JUNIOR_OPEN` değerlerini sil veya boşalt. Paket kapısı koddur; ACTIVE olmayan veya süresi dolmuş abonelik profil yazamaz. `DRON_JUNIOR_ROOM_OPEN=0` ders listesini ve ders hop'unu kapatmaz. Kasaya dokunulmaz.
 
@@ -32,7 +32,7 @@ Fiyat `price_catalog_entries` satırı `cat_junior_yearly` (`module_key=junior`,
 
 | Parça | Dosya | İçerik |
 |-------|--------|--------|
-| Veritabanı ve bağlama | [`ops/ops-db.md`](ops/ops-db.md) | Env, Direct Port, Super Admin, migrate, katalog, RLS, sağlık, T3, KVKK, TTS bağları, GA4 ölçüm vanası (§14.1) |
+| Veritabanı ve bağlama | [`ops/ops-db.md`](ops/ops-db.md) | Env, Direct Port, Super Admin (§3, canlı kontrol §3.1, kurtarma §3.2), migrate, katalog, RLS, sağlık, T3, KVKK, TTS bağları, GA4 ölçüm vanası (§14.1) |
 | PayTR | [`ops/ops-paytr.md`](ops/ops-paytr.md) | Merchant ≠ Split, Bildirim URL, HMAC, `TRUSTED_PROXY_HOPS`. Canlı tanık: 18 Eylül 2026, ₺15,00 CLEARED |
 | Inngest | [`ops/ops-inngest.md`](ops/ops-inngest.md) | Çift anahtar, valör, emanet TTL, 503 çıkış |
 | Dron | [`ops/ops-dron.md`](ops/ops-dron.md) | CORS, hop sicili, Closed Testing (T3), 426 |

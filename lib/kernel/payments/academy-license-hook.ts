@@ -1,8 +1,8 @@
 import type { PaymentOrderSnapshot } from "@/lib/kernel/payments/clearing";
 
 /**
- * CLEARED sonrası akademi lisansı. Kernel akademiyi import etmez;
- * kompozisyon `app/api` kaydeder.
+ * CLEARED sonrası akademi lisansı. Kernel akademiyi import etmez.
+ * Kayıt `registerPaytrValorLicenseHooks` ile webhook, Inngest, cron ve ops CLI'dadır.
  */
 export type AcademyLicenseHook = (order: PaymentOrderSnapshot) => Promise<void>;
 

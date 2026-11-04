@@ -34,12 +34,9 @@
       "@yetkin/junior-graphic/*": [
         "./packages/junior-graphic/src/*"
       ],
-      "@yetkin/kernel": [
-        "./packages/kernel/src/index.ts"
-      ],
-      "@yetkin/kernel/*": [
-        "./packages/kernel/src/*"
-      ],
+      // `@yetkin/kernel` paths'te durmaz. Paket export'u kaynağı çözer
+      // (`packages/kernel/package.json`). paths takma adı next.config.ts
+      // yükleyicisinde kök `./packages/...` olur; `lib/` altından modül kaçırılır.
       "@yetkin/junior-content": [
         "./packages/junior-content/src/index.ts"
       ],
@@ -62,7 +59,6 @@
     "packages/kernel/src/**/*.ts",
     "packages/junior-content/schema/**/*.ts",
     "packages/junior-content/src/**/*.ts",
-    "middleware/**/*.ts",
     "proxy.ts",
     "scripts/**/*.ts",
     "tests/**/*.ts",

@@ -1,47 +1,29 @@
-import { z } from "zod";
 import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
+import { railV1JuniorPilotPracticeRequestSchema } from "@/lib/kernel/http/v1-contract";
 import { canonicalJuniorLessonKey } from "@/lib/junior/lesson-key-alias";
 import { createPrismaJuniorStore } from "@/lib/junior/load";
 import { submitJuniorPractice } from "@/lib/junior/service";
 
 export const auth = "session" as const;
 
-const practiceSchema = z
-  .object({
-    profileId: z.string().trim().min(1).max(40),
-    lessonKey: z.string().trim().min(1).max(80).transform(canonicalJuniorLessonKey),
-    answers: z
-      .array(
-        z
-          .object({
-            id: z.string().trim().min(1).max(40),
-            choiceIndex: z.number().int().min(0).max(8).optional(),
-            matches: z.record(z.string().max(40), z.string().max(40)).optional(),
-            cloze: z.string().trim().max(40).optional(),
-            clozes: z.record(z.string().max(40), z.string().trim().max(40)).optional(),
-            order: z.array(z.string().trim().min(1).max(40)).max(8).optional(),
-            placements: z.record(z.string().max(40), z.string().max(40)).optional(),
-          })
-          .strict(),
-      )
-      .max(12),
-  })
-  .strict();
+/** Sözleşme şeması tek kaynaktır. Ders anahtarı kanonikleştirme yazmadan önce uygulanır. */
 
 export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
-    const parsed = practiceSchema.safeParse(await request.json().catch(() => ({})));
+    const parsed = railV1JuniorPilotPracticeRequestSchema.safeParse(
+      await request.json().catch(() => ({})),
+    );
     if (!parsed.success) {
       return jsonFail("Cevaplar okunamadı.", 400, requestId, request);
     }
     const result = await submitJuniorPractice(createPrismaJuniorStore(), {
       userId: user.id,
       profileId: parsed.data.profileId,
-      lessonKey: parsed.data.lessonKey,
+      lessonKey: canonicalJuniorLessonKey(parsed.data.lessonKey),
       answers: parsed.data.answers,
       actor: user,
     });

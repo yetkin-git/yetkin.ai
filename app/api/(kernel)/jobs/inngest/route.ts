@@ -1,15 +1,14 @@
 import { serve } from "inngest/next";
 import type { NextRequest } from "next/server";
+import { licenseGapScan } from "@/app/api/(kernel)/jobs/license-gap-scan";
 import { inngest, kernelInngestFunctions, inngestNotConfiguredResponse } from "@/lib/kernel/jobs/inngest";
 import { canInvokeInngestServe, shouldFailClosedInngestServe } from "@/lib/kernel/jobs/inngest-guard";
-import { registerPaytrAcademyLicenseHook } from "@/lib/academy/register-paytr-license-hook";
-import { registerPaytrJuniorLicenseHook } from "@/lib/junior/register-paytr-license-hook";
+import { registerPaytrValorLicenseHooks } from "@/app/api/(kernel)/payments/register-paytr-valor-hooks";
 import { registerVerticalEscrowRefundHooks } from "../register-escrow-hooks";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 
 registerVerticalEscrowRefundHooks();
-registerPaytrAcademyLicenseHook();
-registerPaytrJuniorLicenseHook();
+registerPaytrValorLicenseHooks();
 
 export const auth = "webhook" as const;
 
@@ -20,7 +19,7 @@ let handlers: InngestHandlers | null = null;
 function getInngestHandlers(): InngestHandlers {
   handlers ??= serve({
     client: inngest,
-    functions: [...kernelInngestFunctions],
+    functions: [...kernelInngestFunctions, licenseGapScan],
   });
   return handlers;
 }

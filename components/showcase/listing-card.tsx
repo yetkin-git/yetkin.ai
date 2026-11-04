@@ -51,6 +51,7 @@ export function ListingCard({
   ctaSlot,
   cardVariant,
   navigateWhenDisabled = false,
+  footerLayout = "row",
 }: {
   title: string;
   summary: string;
@@ -59,7 +60,7 @@ export function ListingCard({
   /** Kapalı kaydın nedeni. Satın alınabilir kartta boştur. */
   hold?: string | null;
   price?: string;
-  /** Fiyatın altında küçük ipucu (örn. KDV dahil). */
+  /** Fiyatın altında küçük not (kapalı kayıt, hazırlık). Açık fiyatta boş. */
   priceCaption?: string;
   badge?: string;
   badgeTone?: BadgeTone;
@@ -120,8 +121,14 @@ export function ListingCard({
   cardVariant?: CardVariant;
   /** Kapalı satışta kart yine kendi eğitim sayfasına gidebilsin. */
   navigateWhenDisabled?: boolean;
+  /**
+   * Katalog kartı: fiyat kendi satırında kalır, eylemler alta yığılır.
+   * Yan yana `whitespace-nowrap` düğmeler dar ızgarada fiyatı sıfırlar ve karttan taşar.
+   */
+  footerLayout?: "row" | "stack";
 }) {
   const isList = layout === "list";
+  const stackFooter = footerLayout === "stack" && !isList;
   const cardHit = Boolean(href) && hit === "card" && (!ctaDisabled || navigateWhenDisabled);
   const cinemaCover = Boolean(coverSrc) && !coverComingSoon;
   const showCover = !isList && (cinemaCover || coverComingSoon);
@@ -208,18 +215,27 @@ export function ListingCard({
   const footer = (
     <div
       className={cn(
-        "flex items-center justify-between gap-4",
-        isList
-          ? "shrink-0 sm:min-w-[11rem] sm:flex-col sm:items-end sm:justify-center sm:gap-3"
-          : showCover
-            ? "mt-auto flex-col gap-3 pt-4 sm:flex-row sm:items-center sm:gap-4"
-            : "mt-auto pt-4",
+        stackFooter
+          ? "mt-auto flex w-full min-w-0 flex-col items-stretch gap-3 pt-4"
+          : "flex items-center justify-between gap-4",
+        !stackFooter &&
+          (isList
+            ? "shrink-0 sm:min-w-[11rem] sm:flex-col sm:items-end sm:justify-center sm:gap-3"
+            : showCover
+              ? "mt-auto flex-col gap-3 pt-4 sm:flex-row sm:items-center sm:gap-4"
+              : "mt-auto pt-4"),
       )}
     >
-      <div className="flex min-w-0 flex-1 items-center gap-2">
+      <div className={cn("flex items-center gap-2", stackFooter ? "w-full shrink-0" : "min-w-0 flex-1")}>
         <div className="min-w-0">
           {price ? (
-            <p className="listing-price truncate text-lg font-semibold tracking-tight" data-listing-price="">
+            <p
+              className={cn(
+                "listing-price text-lg font-semibold tracking-tight",
+                stackFooter ? "whitespace-nowrap" : "truncate",
+              )}
+              data-listing-price=""
+            >
               {price}
             </p>
           ) : (
@@ -247,8 +263,12 @@ export function ListingCard({
       ) : hit === "card" && (cta || ctaSlot) ? (
         <div
           className={cn(
-            "flex shrink-0 flex-col items-stretch gap-2 sm:items-end",
-            secondaryHref && secondaryCta && "sm:flex-row sm:flex-wrap sm:items-center sm:justify-end",
+            "flex min-w-0 flex-col items-stretch gap-2",
+            stackFooter ? "w-full" : "shrink-0 sm:items-end",
+            !stackFooter &&
+              secondaryHref &&
+              secondaryCta &&
+              "sm:flex-row sm:flex-wrap sm:items-center sm:justify-end",
           )}
         >
           {ctaSlot ?? (
@@ -257,8 +277,11 @@ export function ListingCard({
                 ctaVariant,
                 ctaSize,
                 cn(
-                  "pointer-events-none shrink-0 whitespace-nowrap",
-                  wideCta && "w-full sm:w-auto",
+                  "pointer-events-none",
+                  stackFooter
+                    ? "h-auto min-h-10 w-full whitespace-normal px-3 py-2 text-center leading-5"
+                    : "shrink-0 whitespace-nowrap",
+                  !stackFooter && wideCta && "w-full sm:w-auto",
                   ctaDisabled && "cursor-not-allowed opacity-50",
                 ),
               )}
@@ -277,8 +300,11 @@ export function ListingCard({
                 "outline",
                 "sm",
                 cn(
-                  "pointer-events-auto relative z-10 shrink-0 whitespace-nowrap",
-                  wideCta && "w-full sm:w-auto",
+                  "pointer-events-auto relative z-10",
+                  stackFooter
+                    ? "h-auto min-h-11 w-full whitespace-normal px-3 py-2 text-center leading-5 sm:min-h-8"
+                    : "shrink-0 whitespace-nowrap",
+                  !stackFooter && wideCta && "w-full sm:w-auto",
                 ),
               )}
               data-academy-catalog-secondary-cta=""
@@ -296,7 +322,7 @@ export function ListingCard({
     <Card
       variant={cardVariant ?? (showcase ? "glass" : "default")}
       className={cn(
-        "room-listing h-full",
+        "room-listing h-full min-w-0",
         rank === 1 && "ring-1 ring-[var(--gold)]",
         isList && "p-4 sm:p-5",
         showCover && "!p-0",
@@ -354,7 +380,7 @@ export function ListingCard({
   }
 
   return (
-    <div className="group relative h-full flex flex-col justify-between">
+    <div className="group relative flex h-full min-w-0 flex-col justify-between">
       <Link
         href={href}
         data-academy-catalog-hit=""

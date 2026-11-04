@@ -52,7 +52,10 @@ must("lib/junior/paytr-license-bridge.ts", "junior-license:yearly", "lisans niye
 must("lib/junior/paytr-license-bridge.ts", "JUNIOR_LICENSE_DEBIT_PURPOSE", "lisans düşümü");
 must("lib/junior/register-paytr-license-hook.ts", "createPrismaLedgerStore", "CLEARED düşüm");
 must("lib/junior/checkout-paytr.ts", "createPrismaLedgerStore", "CLEARED tekrar düşümü");
-must("app/api/(kernel)/payments/webhooks/paytr/route.ts", "registerPaytrJuniorLicenseHook", "webhook kaydı");
+must("app/api/(kernel)/payments/webhooks/paytr/route.ts", "registerPaytrValorLicenseHooks", "webhook kaydı");
+must("app/api/(kernel)/payments/register-paytr-valor-hooks.ts", "registerPaytrJuniorLicenseHook", "junior lisans kancası");
+must("app/api/(kernel)/cron/paytr-reconcile/route.ts", "registerPaytrValorLicenseHooks", "cron valör kaydı");
+must("scripts/ops-reconcile-paytr-pending.ts", "registerPaytrValorLicenseHooks", "ops valör kaydı");
 must("lib/junior/limits.ts", "JUNIOR_QUIZ_PREPARING_LABEL", "hazırlık etiketi");
 mustNot("lib/junior/limits.ts", "549_900", "fiyat sabiti yok");
 mustNot("lib/junior/limits.ts", "5.499 TL", "fiyat metni yok");

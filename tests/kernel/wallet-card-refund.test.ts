@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
+import { describe, expect, it, vi } from "vitest";
 import { ConflictError } from "@/lib/kernel/http/errors";
 import { assertAccountCloseable, anonymizedCitizenEmail } from "@/lib/kernel/identity/close-account-gate";
 import type { LedgerEntryRecord, LedgerStore } from "@/lib/kernel/ledger/types";
@@ -11,7 +12,10 @@ import {
 } from "@/lib/kernel/payments/paytr/refund";
 import {
   allocateUnusedBalanceRefund,
+  citizenWalletRefundDetail,
   refundUnusedWalletBalance,
+  WALLET_REFUND_SUPER_ADMIN_AUDIT_SKIPPED,
+  warnWhenSuperAdminRefundAuditMissed,
   type WalletCardRefundPorts,
   type WalletCardRefundRow,
 } from "@/lib/kernel/payments/wallet-card-refund";
@@ -21,13 +25,15 @@ const FINANCE_REVIEW_MINOR = 191_000;
 function memoryRefundPorts(
   startMinor: number,
   orders: { merchantOid: string; amountMinor: number }[],
+  callPaytr?: WalletCardRefundPorts["callPaytr"],
 ): {
   ports: WalletCardRefundPorts;
   balance: () => number;
   settleFinanceHold: () => void;
+  rows: () => Array<WalletCardRefundRow & { detail: string | null }>;
 } {
   let balance = startMinor;
-  const rows: Array<WalletCardRefundRow & { key: string }> = [];
+  const rows: Array<WalletCardRefundRow & { key: string; detail: string | null }> = [];
   const entries = new Map<string, LedgerEntryRecord>();
   const ledger: LedgerStore = {
     async lockWallet(userId, currencyCode) {
@@ -59,10 +65,12 @@ function memoryRefundPorts(
   };
   const ports: WalletCardRefundPorts = {
     paytrConfigured: true,
-    callPaytr: async ({ amountMinor }) => ({
-      ok: true,
-      returnAmount: formatPaytrReturnAmount(amountMinor),
-    }),
+    callPaytr:
+      callPaytr ??
+      (async ({ amountMinor }) => ({
+        ok: true,
+        returnAmount: formatPaytrReturnAmount(amountMinor),
+      })),
     ledger,
     refunds: {
       async lockBalanceMinor() {
@@ -87,14 +95,16 @@ function memoryRefundPorts(
           amountMinor: input.amountMinor,
           status: input.status,
           key: input.idempotencyKey,
+          detail: input.detail ?? null,
         };
         rows.push(row);
         return row;
       },
-      async mark(id, status) {
+      async mark(id, status, detail) {
         const row = rows.find((item) => item.id === id);
         if (row) {
           row.status = status;
+          row.detail = detail;
         }
       },
     },
@@ -105,6 +115,7 @@ function memoryRefundPorts(
     settleFinanceHold() {
       balance = 0;
     },
+    rows: () => rows.map((row) => ({ ...row })),
   };
 }
 
@@ -178,5 +189,101 @@ describe("hesap kapatma kapısı", () => {
 
   it("anonim e-posta kimliği taşır", () => {
     expect(anonymizedCitizenEmail("abc")).toBe("closed.abc@anon.yetkin.invalid");
+  });
+
+  it("başarılı vatandaş iadesi detail alanına aktör ve net tutarı yazar", async () => {
+    const actor = "22222222-2222-4222-8222-222222222222";
+    const sim = memoryRefundPorts(2_500, [{ merchantOid: "card-25", amountMinor: 2_500 }]);
+    const result = await refundUnusedWalletBalance(sim.ports, actor);
+    expect(result.refundedMinor).toBe(2_500);
+    const succeeded = sim.rows().find((row) => row.status === "SUCCEEDED");
+    expect(JSON.parse(succeeded?.detail ?? "")).toEqual({
+      refundedByActor: actor,
+      refundedMinor: 2_500,
+      note: "25.00",
+    });
+  });
+
+  it("kart siparişi yoksa detail aktörü, sıfır net tutarı ve notu saklar", async () => {
+    const sim = memoryRefundPorts(2_500, []);
+    await refundUnusedWalletBalance(sim.ports, "citizen-25");
+    const row = sim.rows()[0];
+    expect(row?.status).toBe("REQUESTED");
+    expect(JSON.parse(row?.detail ?? "")).toEqual({
+      refundedByActor: "citizen-25",
+      refundedMinor: 0,
+      note: "card_order_missing",
+    });
+  });
+
+  it("PayTR reddinde net tutar sıfır kalır ve aktör yazılır", async () => {
+    const sim = memoryRefundPorts(
+      2_500,
+      [{ merchantOid: "card-25", amountMinor: 2_500 }],
+      async () => ({ ok: false, reason: "pay_api_error", message: "fazla" }),
+    );
+    const result = await refundUnusedWalletBalance(sim.ports, "citizen-25");
+    expect(result.refundedMinor).toBe(0);
+    const failed = sim.rows().find((row) => row.status === "FAILED");
+    expect(JSON.parse(failed?.detail ?? "")).toEqual({
+      refundedByActor: "citizen-25",
+      refundedMinor: 0,
+      note: "fazla",
+    });
+  });
+});
+
+describe("vatandaş iade denetim uyarısı", () => {
+  it("writeSuperAdminAudit false dönerse yapılandırılmış uyarı yazar", async () => {
+    const spy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    warnWhenSuperAdminRefundAuditMissed(false, {
+      userId: "22222222-2222-4222-8222-222222222222",
+      refundedMinor: 2_500,
+    });
+    await Promise.resolve();
+    const line = spy.mock.calls
+      .map((call) => String(call[0] ?? ""))
+      .find((item) => item.includes(WALLET_REFUND_SUPER_ADMIN_AUDIT_SKIPPED));
+    expect(line).toBeDefined();
+    expect(JSON.parse(line ?? "{}")).toMatchObject({
+      level: "warn",
+      event: WALLET_REFUND_SUPER_ADMIN_AUDIT_SKIPPED,
+      userId: "22222222-2222-4222-8222-222222222222",
+      action: "manual_refund",
+      amountMinor: 2_500,
+      reason: "actor_not_super_admin",
+    });
+
+    warnWhenSuperAdminRefundAuditMissed(true, {
+      userId: "22222222-2222-4222-8222-222222222222",
+      refundedMinor: 2_500,
+    });
+    await Promise.resolve();
+    const skips = spy.mock.calls.filter((call) =>
+      String(call[0] ?? "").includes(WALLET_REFUND_SUPER_ADMIN_AUDIT_SKIPPED),
+    );
+    expect(skips).toHaveLength(1);
+    spy.mockRestore();
+  });
+
+  it("cüzdan iade yolu false dönüşünü uyarıya bağlar", () => {
+    const source = readFileSync("lib/kernel/payments/prisma-wallet-card-refund.ts", "utf8");
+    expect(source).toContain("warnWhenSuperAdminRefundAuditMissed(written");
+    expect(source).toContain('action: "manual_refund"');
+    expect(source).toContain("super_admin_audit.append_failed");
+  });
+
+  it("detail JSON aktör ve net tutarı düz metin nota gömer", () => {
+    expect(
+      JSON.parse(citizenWalletRefundDetail({ refundedByActor: " citizen ", refundedMinor: 1500 }, " 25.00 ")),
+    ).toEqual({
+      refundedByActor: "citizen",
+      refundedMinor: 1500,
+      note: "25.00",
+    });
+    expect(JSON.parse(citizenWalletRefundDetail({ refundedByActor: "citizen", refundedMinor: 0 }))).toEqual({
+      refundedByActor: "citizen",
+      refundedMinor: 0,
+    });
   });
 });

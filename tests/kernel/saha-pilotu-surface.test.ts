@@ -69,7 +69,7 @@ describe("saha pilotu — hosted apply disk planı", () => {
 });
 
 describe("saha pilotu — iptal CLI ve yedek sapması", () => {
-  it("revoke CLI hash+gerekçe ister; HTTP admin yok", () => {
+  it("revoke CLI hash+gerekçe ister; kamu iptali yoktur", () => {
     expect("error" in parseRevokeCliArgs([])).toBe(true);
     const short = parseRevokeCliArgs(["--hash", "abc"]);
     expect("error" in short && short.error.includes("Hash")).toBe(true);
@@ -81,7 +81,10 @@ describe("saha pilotu — iptal CLI ve yedek sapması", () => {
     });
     expect(readSrc("scripts/ops-revoke-academy-certificate.ts")).toContain("runOperatorCertificateRevoke");
     expect(readSrc("scripts/ops-revoke-academy-certificate-lib.ts")).toContain("revokeAcademyCertificate");
-    expect(readSrc("lib/academy/certificate-lifecycle.ts")).toContain("HTTP yüzeyi bu fazda yok");
+    expect(readSrc("lib/academy/certificate-lifecycle.ts")).toContain("Kamuya açık iptal yoktur");
+    expect(readSrc("app/api/(kernel)/admin/ops/certificate-revoke/route.ts")).toContain(
+      'export const auth = "admin"',
+    );
     expect(readSrc("scripts/ops-list-payment-anomalies.ts")).toContain("listPaymentAnomalies");
     expect(parseAnomalyListCliArgs(["--limit", "20"]).limit).toBe(20);
   });

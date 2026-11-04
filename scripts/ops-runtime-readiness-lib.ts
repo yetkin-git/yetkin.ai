@@ -23,6 +23,10 @@ import {
   parseDirectConnectionUrl,
 } from "./ops-migrate-lib";
 import {
+  classifyRateLimitStore,
+  type RateLimitStoreMode,
+} from "@/lib/kernel/security/rate-limit-runtime";
+import {
   CLOUDFLARE_VERCEL_TRUSTED_PROXY_HOPS,
   parseTrustedProxyHops,
 } from "@/lib/kernel/security/trusted-proxy";
@@ -93,7 +97,7 @@ export type DronOriginsMode = "native-no-cors" | "allowlist-set";
 /** `uuid-unset`: UUID kolonu boş. Kanonik e-posta varsayılanı bu etiketi admin yok diye okumaz. */
 export type SuperAdminMode = "configured" | "uuid-unset";
 export type DevlabsPepperMode = "configured" | "dev-default";
-export type RateLimitStoreMode = "in-process-single-node";
+export type { RateLimitStoreMode };
 export type HostingClass = "vercel" | "unspecified";
 
 export type NoticeSmtpOps = {
@@ -290,10 +294,30 @@ export function inspectSafeDefaultOps(env: Record<string, string | undefined>): 
       openai: filled(env, "OPENAI_API_KEY"),
       anthropic: filled(env, "ANTHROPIC_API_KEY"),
     },
-    rateLimitStore: "in-process-single-node",
+    rateLimitStore: classifyRateLimitStore(env),
     hosting: env.VERCEL?.trim() === "1" || filled(env, "VERCEL_ENV") ? "vercel" : "unspecified",
     trustedProxyHops: parseTrustedProxyHops(env as NodeJS.ProcessEnv),
   };
+}
+
+function rateLimitStoreLines(mode: RateLimitStoreMode, hosting: HostingClass): string[] {
+  if (mode === "redis-rest") {
+    return ["  paylaşılan depo (Upstash REST). Çok instance aynı sayacı okur."];
+  }
+  if (mode === "fail-closed-partial") {
+    return [
+      "  UYARI: RATE_LIMIT_REDIS_REST_URL ve RATE_LIMIT_REDIS_REST_TOKEN birlikte dolu olmalı.",
+    ];
+  }
+  if (hosting === "vercel") {
+    return [
+      "  UYARI: VERCEL algılandı — süreç-içi kota replica'lar arasında paylaşılmaz.",
+      "  Faz 1: tek Node next start. Vercel/Cloud çok instance sessiz delik — store taşınmadan açılmaz.",
+    ];
+  }
+  return [
+    "  beklenen mod: tek süreç (in-process-single-node). Vercel öncesi paylaşılan depo ikisi birden dolu olmalı.",
+  ];
 }
 
 function yesNo(value: boolean): "evet" | "hayır" {
@@ -391,7 +415,31 @@ export function extraProductionBlocks(
   }
   blocking.push(...superAdminUuidProductionBlocks(env));
   blocking.push(...mediaCdnProductionBlocks(env));
+  blocking.push(...rateLimitProductionBlocks(env));
   return blocking;
+}
+
+/**
+ * Vercel üretimde süreç-içi sayaç `limit × örnek` olur.
+ * Paylaşılan depo (URL + token) bloğu kapatır. Tek süreç (hosting belirsiz) lab modudur.
+ */
+function rateLimitProductionBlocks(env: Record<string, string | undefined>): string[] {
+  const hosting = env.VERCEL?.trim() === "1" || Boolean(env.VERCEL_ENV?.trim());
+  if (!hosting) {
+    return [];
+  }
+  const mode = classifyRateLimitStore(env);
+  if (mode === "redis-rest") {
+    return [];
+  }
+  if (mode === "fail-closed-partial") {
+    return [
+      "RATE_LIMIT_REDIS_REST_URL ve RATE_LIMIT_REDIS_REST_TOKEN birlikte dolu olmalı. Kısmi config Vercel'de her isteği reddeder.",
+    ];
+  }
+  return [
+    "RATE_LIMIT_REDIS_REST_URL + RATE_LIMIT_REDIS_REST_TOKEN Vercel çok instance için birlikte dolu olmalı. Süreç-içi sayaç limit × örnek olur.",
+  ];
 }
 
 export function formatPostgresLine(row: PostgresUrlOps): string {
@@ -405,9 +453,11 @@ export function formatPostgresLine(row: PostgresUrlOps): string {
         : "session-pooler"
       : row.sessionMode
         ? "session-mode"
-        : row.transactionModeForbidden
+        : row.transactionModeForbidden && row.port === FORBIDDEN_POOLER_PORT
           ? "transaction-mode-YASAK"
-          : "port-belirsiz";
+          : row.transactionModeForbidden
+            ? "session-pooler-YASAK"
+            : "port-belirsiz";
   const protocol =
     row.name === "DIRECT_URL"
       ? row.okForDirectProtocol
@@ -455,13 +505,8 @@ export function formatSafeDefaultLines(ops: SafeDefaultOps): string[] {
     `  llm gemini=${yesNo(llm.gemini)} openai=${yesNo(llm.openai)} anthropic=${yesNo(llm.anthropic)}`,
     "OPS-5 Hız tavanı (lansman kararı 19 Ağustos 2026):",
     `  rateLimitStore=${ops.rateLimitStore} hosting=${ops.hosting}`,
-    "  Faz 1: tek Node next start. Vercel/Cloud çok instance sessiz delik — store taşınmadan açılmaz.",
   ];
-  if (ops.hosting === "vercel") {
-    lines.push(
-      "  UYARI: VERCEL algılandı — süreç-içi kota replica'lar arasında paylaşılmaz.",
-    );
-  }
+  lines.push(...rateLimitStoreLines(ops.rateLimitStore, ops.hosting));
   if (ops.railDronOrigins === "allowlist-set") {
     lines.push(
       "  UYARI: RAIL_DRON_ORIGINS dolu — üretim/Closed Testing varsayılanı boş (CORS yok).",

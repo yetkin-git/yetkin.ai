@@ -1,7 +1,7 @@
 "use client";
 
 import { FrozenDirectOfferNotice } from "@/components/freelancer/frozen-satellite";
-import type { FreelancerNeedId } from "@/lib/kernel/catalog-ids";
+import type { FreelancerNeedId } from "@yetkin/kernel/catalog-ids";
 
 export type DirectJobOfferInvitee = {
   displayName: string;

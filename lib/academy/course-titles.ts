@@ -1,6 +1,6 @@
 /**
  * Client-safe akademi vitrin başlıkları. Sınav şıkları ve tohum özeti burada yoktur.
- * Kimlik SSOT: `lib/kernel/catalog-ids`. Bu dosya oda içi import yolu olarak durur.
+ * Kimlik SSOT: `@yetkin/kernel/catalog-ids`. Bu dosya oda içi import yolu olarak durur.
  */
 
 export {
@@ -11,6 +11,7 @@ export {
   PROMPT_PRACTICE_SUBTITLE,
   academyCourseTitleBySlug,
   academySlugFromCourseTitle,
+  academyStorefrontTitleBySlug,
   isAcademyCanonSkuSlug,
   type AcademyCourseTitleSlug,
-} from "@/lib/kernel/catalog-ids";
+} from "@yetkin/kernel/catalog-ids";

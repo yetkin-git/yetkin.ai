@@ -2,13 +2,17 @@ import "server-only";
 
 import { randomUUID } from "node:crypto";
 import type { PrismaClient } from "@/generated/prisma/client";
+import { writeSuperAdminAudit } from "@/lib/kernel/admin/audit-log";
+import { bindSuperAdminAuditWriter } from "@/lib/kernel/admin/prisma-super-admin-audit";
 import { getPrisma } from "@/lib/kernel/db";
 import { bindLedgerStore } from "@/lib/kernel/ledger/prisma-store";
 import type { LedgerStore } from "@/lib/kernel/ledger/types";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
+import { logEvent } from "@/lib/kernel/observability/log";
 import { getPaytrCheckoutCredentials } from "@/lib/kernel/payments/paytr/checkout";
 import {
   refundUnusedWalletBalance,
+  warnWhenSuperAdminRefundAuditMissed,
   type WalletCardRefundPorts,
   type WalletCardRefundRow,
   type WalletCardRefundStatus,
@@ -140,7 +144,7 @@ export async function refundUnusedWalletBalanceForUser(userId: string): Promise<
   Awaited<ReturnType<typeof refundUnusedWalletBalance>>
 > {
   const prisma = getPrisma();
-  return prisma.$transaction(
+  const result = await prisma.$transaction(
     async (tx) => {
       const ports: WalletCardRefundPorts = {
         refunds: bindWalletCardRefundStore(tx),
@@ -151,4 +155,29 @@ export async function refundUnusedWalletBalanceForUser(userId: string): Promise<
     },
     { maxWait: 10_000, timeout: 20_000 },
   );
+  try {
+    // Self-servis iade idari kayıt değildir. Aktör SUPER_ADMIN_USER_ID değilse
+    // writeSuperAdminAudit false döner ve satır açmaz. Vatandaş izi
+    // wallet_card_refunds.detail içine (refundedByActor, refundedMinor) yazıldı.
+    const written = await writeSuperAdminAudit(bindSuperAdminAuditWriter(prisma), {
+      actorUserId: userId,
+      action: "manual_refund",
+      target: userId,
+      detail: `refundedMinor=${result.refundedMinor}`,
+    });
+    warnWhenSuperAdminRefundAuditMissed(written, {
+      userId,
+      refundedMinor: result.refundedMinor,
+    });
+  } catch (error) {
+    logEvent({
+      level: "warn",
+      event: "super_admin_audit.append_failed",
+      action: "manual_refund",
+      userId,
+      amountMinor: result.refundedMinor,
+      errorName: error instanceof Error ? error.name : "Error",
+    });
+  }
+  return result;
 }

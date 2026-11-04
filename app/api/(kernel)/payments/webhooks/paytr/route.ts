@@ -6,13 +6,9 @@ import {
   readPaytrWebhookPayload,
   PAYTR_WEBHOOK_PATH,
   readPaytrWebhookRequestIp,
-  requestHasPaytrOfficialNotificationIp,
   resolvePaytrWebhookIpAllowlist,
 } from "@/lib/kernel/payments/paytr/webhook";
-import {
-  isPaytrPanelWebhookPath,
-  shouldAlarmPaytrSilentAck,
-} from "@/lib/kernel/payments/paytr/callback-guard";
+import { isPaytrPanelWebhookPath } from "@/lib/kernel/payments/paytr/callback-guard";
 import { paytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
 import { isPaytrProductionSafetyError } from "@/lib/kernel/payments/paytr/checkout";
 import { createPrismaClearingPorts, createPrismaPaymentOrderStore } from "@/lib/kernel/payments/prisma-order-store";
@@ -30,12 +26,10 @@ import {
   SITE_MAINTENANCE_API_ERROR,
   SITE_MAINTENANCE_RETRY_AFTER_SECONDS,
 } from "@/lib/kernel/http/site-maintenance";
-import { registerPaytrAcademyLicenseHook } from "@/lib/academy/register-paytr-license-hook";
-import { registerPaytrJuniorLicenseHook } from "@/lib/junior/register-paytr-license-hook";
+import { registerPaytrValorLicenseHooks } from "@/app/api/(kernel)/payments/register-paytr-valor-hooks";
 import { logEvent } from "@/lib/kernel/observability/log";
 
-registerPaytrAcademyLicenseHook();
-registerPaytrJuniorLicenseHook();
+registerPaytrValorLicenseHooks();
 
 export const auth = "webhook" as const;
 
@@ -50,40 +44,6 @@ function paytrOk(requestId: string) {
       [REQUEST_ID_HEADER]: requestId,
     },
   });
-}
-
-/** PayTR Destek host'u veya panel alias test/ping — CREDIT yok, HTTP 400 yok. */
-function paytrOfficialIpAck(
-  requestId: string,
-  route: string,
-  reason: string,
-  extra?: { errorName?: string; merchantOid?: string },
-) {
-  if (shouldAlarmPaytrSilentAck(route, reason)) {
-    logEvent({
-      level: "error",
-      event: "paytr.webhook.silent_ack_alarm",
-      requestId,
-      reason,
-      route,
-      merchantOid: extra?.merchantOid,
-      errorName: extra?.errorName ?? reason,
-    });
-  }
-  logEvent({
-    level: shouldAlarmPaytrSilentAck(route, reason) ? "error" : "info",
-    event: "paytr.webhook.official_ip_ack",
-    requestId,
-    reason,
-    route,
-    ...extra,
-  });
-  return paytrOk(requestId);
-}
-
-/** Panel canlı onay + resmi IP: eksik parametre / geçersiz hash 400 basmaz. */
-function shouldAckUnverifiedPaytrNotification(request: Request, route: string): boolean {
-  return requestHasPaytrOfficialNotificationIp(request) || isPaytrPanelWebhookPath(route);
 }
 
 function notificationRoute(request: Request): string {
@@ -207,11 +167,6 @@ export async function POST(request: Request) {
     verified = paytrPaymentProvider.verifyWebhook(payload);
   } catch (error) {
     if (isPaytrProductionSafetyError(error)) {
-      if (shouldAckUnverifiedPaytrNotification(request, route)) {
-        return paytrOfficialIpAck(requestId, route, "production_safety", {
-          errorName: error.name,
-        });
-      }
       logEvent({
         level: "error",
         event: "paytr.webhook.rejected",
@@ -228,12 +183,6 @@ export async function POST(request: Request) {
   if (!verified.ok) {
     if (verified.reason === "invalid_signature") {
       logPaytrWebhookHmacMismatch(payload, { requestId, route });
-    }
-    if (shouldAckUnverifiedPaytrNotification(request, route)) {
-      return paytrOfficialIpAck(requestId, route, verified.reason, {
-        errorName: verified.reason === "invalid_signature" ? "hmac_mismatch" : undefined,
-        merchantOid: payload.merchantOid || undefined,
-      });
     }
     const status = verified.reason === "invalid_signature" ? 403 : 400;
     logEvent({

@@ -13,6 +13,15 @@
  * ve silme (DELETE) aynı kanonik handler'a soyulur.
  */
 
+import { DRON_ONBOARDING_HOPS } from "./dron-onboarding-hops";
+
+export {
+  DRON_ONBOARDING_HOPS,
+  dronOnboardingCanonicalPath,
+  isDronOnboardingHopId,
+  type DronOnboardingHopId,
+} from "./dron-onboarding-hops";
+
 export type RailV1HopMethod = "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
 export type RailV1WireAuth = "none" | "bearer";
 
@@ -22,7 +31,11 @@ export type RailV1HopMeta = {
   v1PathTemplate: string;
   v1Auth: RailV1WireAuth;
   cookieAuth: false;
-  /** Dron / native mağaza bu hop'u çağırmaz (IAP). Native IAP hâlâ yasak; cüzdan DEBIT hop'u açık olabilir. */
+  /**
+   * Yoksa hop native istemciye açıktır. `true` ise `/api/v1` kenarı 403 basar.
+   * Akademi satın alma ve cüzdan yükleme bu bayrağı taşımaz.
+   * Kapalı freelancer odası hop satırı değildir; kapı `DRON_FREELANCER_OPEN`.
+   */
   dronForbidden?: true;
 };
 
@@ -270,6 +283,7 @@ export const RAIL_V1_HOPS_META = [
     v1Auth: "bearer",
     cookieAuth: false,
   },
+  ...DRON_ONBOARDING_HOPS,
 ] as const satisfies readonly RailV1HopMeta[];
 
 export type RailV1HopId = (typeof RAIL_V1_HOPS_META)[number]["id"];

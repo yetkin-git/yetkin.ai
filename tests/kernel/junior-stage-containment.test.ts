@@ -10,7 +10,7 @@ import { describe, expect, it } from "vitest";
  *   1. Sahne katmanlarında katı `min-h-[Npx]` tabanı **yoktur**. Katı taban
  *      absolute katmanı ebeveyninden büyük çizer, `overflow-hidden` sınırında
  *      sessizce kırpar ve ısınma kasetini altyazı rayının üstüne bindirir
- *      (bkz. docs/tespit_raporu_04.md §1.2, M3/M4).
+ *      (bkz. archived/docs_history/docs_root/tespit_raporu_04.md §1.2, M3/M4).
  *   2. Sahne tuvali `overflow: hidden` **ve** `container-type: size` taşır ve
  *      `--player-stage-min` tabanının altına inmez. `cq*` birimleri sahneye çözülür.
  *      Bütçe tabanın altındaysa sayfa kayar (§2.3, M5).

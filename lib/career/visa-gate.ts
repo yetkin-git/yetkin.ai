@@ -1,5 +1,5 @@
 import { ForbiddenError } from "@/lib/kernel/http/errors";
-import { ACADEMY_ONBOARDING_COURSE_SLUG, isOpenTrialNeed } from "@/lib/kernel/catalog-ids";
+import { ACADEMY_ONBOARDING_COURSE_SLUG, isOpenTrialNeed } from "@yetkin/kernel/catalog-ids";
 import type { CareerProofStore, CareerStore, CareerVisaStampRecord } from "@/lib/career/types";
 import {
   listingVisaCourseSlugFromStamp,

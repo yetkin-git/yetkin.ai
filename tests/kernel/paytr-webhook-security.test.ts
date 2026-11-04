@@ -142,12 +142,13 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
     expect(hmacLog).toBeDefined();
     const mismatch = JSON.parse(hmacLog ?? "{}") as {
       receivedHash: string;
-      calculatedHash: string;
-      hashesEqual: boolean;
+      calculatedHash?: string;
+      hashesEqual?: boolean;
     };
     expect(mismatch.receivedHash).toBe(fakeHash);
-    expect(mismatch.calculatedHash).toBe(validHash());
-    expect(mismatch.hashesEqual).toBe(false);
+    expect(mismatch.calculatedHash).toBeUndefined();
+    expect(mismatch.hashesEqual).toBeUndefined();
+    expect(hmacLog).not.toContain(validHash());
 
     const provider = new PaytrPaymentProvider();
     const verified = provider.verifyWebhook({
@@ -383,7 +384,7 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
     expect(body.reason).toBe("ip_not_allowed");
   });
 
-  it("panel callback allowlist dışı IP'de test paketini HTTP 400 basmadan OK döner", async () => {
+  it("panel callback allowlist dışı IP'de bozuk imzada 403 döner", async () => {
     process.env.PAYTR_WEBHOOK_IP_ALLOWLIST = "203.0.113.10";
     const panel = await postPaytrPanelCallback(
       new Request("http://localhost/api/paytr/callback", {
@@ -396,8 +397,9 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
         body: `merchant_oid=${OID}&status=success&total_amount=1300&hash=not-a-valid-hash`,
       }),
     );
-    expect(panel.status).toBe(200);
-    expect(await panel.text()).toBe("OK");
+    expect(panel.status).toBe(403);
+    const body = (await panel.json()) as { reason: string };
+    expect(body.reason).toBe("invalid_signature");
   });
 
   it("PayTR Destek IP zincirdeyse allowlist Cloudflare hop'unda 403 basmaz", () => {
@@ -417,30 +419,29 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
     expect(requestHasPaytrOfficialNotificationIp(foreign)).toBe(false);
   });
 
-  it("PayTR Destek IP'sinden bozuk bildirim CREDIT yazmadan düz metin HTTP 200 OK döner", async () => {
+  it("PayTR Destek IP'sinden bozuk bildirim CREDIT yazmadan 403 döner", async () => {
     vi.stubEnv("NODE_ENV", "production");
     process.env.PAYTR_WEBHOOK_IP_ALLOWLIST = "203.0.113.10";
     const fromPaytr = await postUrlEncoded(
       `merchant_oid=${OID}&status=success&total_amount=1300&hash=not-a-valid-hash`,
       { "x-forwarded-for": "185.187.184.84" },
     );
-    expect(fromPaytr.status).toBe(200);
-    expect(fromPaytr.headers.get("content-type")).toMatch(/^text\/plain/);
-    expect(await fromPaytr.text()).toBe("OK");
+    expect(fromPaytr.status).toBe(403);
+    expect((await fromPaytr.json()) as { reason: string }).toMatchObject({
+      reason: "invalid_signature",
+    });
 
     const behindCloudflare = await postUrlEncoded(
       `merchant_oid=${OID}&status=success&total_amount=1300&hash=not-a-valid-hash`,
       { "x-forwarded-for": "212.252.97.250, 104.16.1.1" },
     );
-    expect(behindCloudflare.status).toBe(200);
-    expect(await behindCloudflare.text()).toBe("OK");
+    expect(behindCloudflare.status).toBe(403);
 
     const otherOfficial = await postUrlEncoded(
       `merchant_oid=${OID}&status=success&total_amount=0&hash=not-a-valid-hash`,
       { "x-forwarded-for": "213.74.97.150" },
     );
-    expect(otherOfficial.status).toBe(200);
-    expect(await otherOfficial.text()).toBe("OK");
+    expect(otherOfficial.status).toBe(403);
   });
 
   it("GET ve boş POST yoklama HTTP 200 düz metin OK döner; CREDIT yok", async () => {
@@ -538,9 +539,8 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
         body: "merchant_oid=test&status=success",
       }),
     );
-    expect(panelPartial.status).toBe(200);
-    expect(panelPartial.headers.get("content-type")).toMatch(/^text\/plain/);
-    expect(await panelPartial.text()).toBe("OK");
+    expect(panelPartial.status).toBe(403);
+    expect(((await panelPartial.json()) as { reason: string }).reason).toBe("invalid_signature");
 
     const panelBadHash = await postPaytrPanelCallback(
       new Request("http://localhost/api/paytr/callback", {
@@ -552,8 +552,8 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
         body: `merchant_oid=${OID}&status=success&total_amount=1300&hash=not-a-valid-hash`,
       }),
     );
-    expect(panelBadHash.status).toBe(200);
-    expect(await panelBadHash.text()).toBe("OK");
+    expect(panelBadHash.status).toBe(403);
+    expect(((await panelBadHash.json()) as { reason: string }).reason).toBe("invalid_signature");
 
     const panelZeroAmount = await postPaytrPanelCallback(
       new Request("http://localhost/api/paytr/callback", {
@@ -565,8 +565,8 @@ describe("PayTR webhook güvenlik — HMAC, mismatch, anomali", () => {
         body: `merchant_oid=${OID}&status=success&total_amount=0&hash=not-a-valid-hash`,
       }),
     );
-    expect(panelZeroAmount.status).toBe(200);
-    expect(await panelZeroAmount.text()).toBe("OK");
+    expect(panelZeroAmount.status).toBe(403);
+    expect(((await panelZeroAmount.json()) as { reason: string }).reason).toBe("invalid_signature");
 
     const liveHash = validHash();
     const encoded = new URLSearchParams({

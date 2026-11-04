@@ -37,6 +37,11 @@ function walk(dir: string): string[] {
   return files;
 }
 
+/** Kapalı yüzey: `closedSurfaceGone(...)` veya `frozenRoomGone` ataması. Yorum yetmez. */
+function isClosedGoneSource(source: string): boolean {
+  return /closedSurfaceGone\s*\(/.test(source) || /=\s*frozenRoomGone\b/.test(source);
+}
+
 const files = walk(API_DIR);
 const invalid: string[] = [];
 const map: Record<string, string> = {};
@@ -48,6 +53,15 @@ for (const file of files) {
   const value = match?.[1];
   if (!value || !isApiAuthKind(value)) {
     invalid.push(`${rel}: export const auth eksik veya geçersiz`);
+    continue;
+  }
+  const gone = isClosedGoneSource(source);
+  if (value === "closed" && !gone) {
+    invalid.push(`${rel}: auth "closed" 410 kapalı yüzeyi ister (closedSurfaceGone veya frozenRoomGone)`);
+    continue;
+  }
+  if (gone && value !== "closed") {
+    invalid.push(`${rel}: 410 kapalı yüzeyi auth "closed" ister`);
     continue;
   }
   const route = toPublicApiPath(rel);

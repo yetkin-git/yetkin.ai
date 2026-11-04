@@ -520,6 +520,28 @@ export function itemListJsonLd(input: {
   };
 }
 
+/** Kamuya açık rehber. Konsol ve yönlendirme yolları bu grafa girmez. */
+export function guideArticleJsonLd(input: {
+  headline: string;
+  description: string;
+  path: string;
+}): JsonLdObject {
+  return {
+    "@type": "Article",
+    "@id": `${canonicalUrl(input.path)}#article`,
+    headline: input.headline,
+    description: input.description,
+    inLanguage: "tr-TR",
+    mainEntityOfPage: canonicalUrl(input.path),
+    url: canonicalUrl(input.path),
+    datePublished: "2026-11-04",
+    dateModified: "2026-11-04",
+    author: { "@id": ORGANIZATION_ID },
+    publisher: { "@id": ORGANIZATION_ID },
+    isAccessibleForFree: true,
+  };
+}
+
 export function breadcrumbListJsonLd(crumbs: readonly JsonLdBreadcrumb[]): JsonLdObject {
   return {
     "@type": "BreadcrumbList",

@@ -50,6 +50,7 @@ function withCardHonesty(course: AcademyCourseWithPrice): AcademyCourseWithPrice
     academyVitrineDisplaySeed(course.slug);
   return {
     ...course,
+    title: seed?.title ?? course.title,
     summary: seed?.summary ?? course.summary,
     level: academyCourseLevelBySlug(course.slug),
     offerPaths: academyCardOfferPaths(course.slug),

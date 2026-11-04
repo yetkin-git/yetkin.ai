@@ -289,6 +289,21 @@ model PriceCatalogDecisionLedger {
   @@map("price_catalog_decision_ledger")
 }
 
+/// Süper yönetici eylem günlüğü. Append-only. Rol tablosu değildir.
+/// actor_user_id yalnız SUPER_ADMIN_USER_ID ortam UUID'sidir. updatedAt yoktur.
+model SuperAdminAuditLog {
+  id          String   @id @default(cuid())
+  actorUserId String   @map("actor_user_id")
+  action      String
+  target      String
+  detail      String   @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([actorUserId, createdAt])
+  @@index([action, createdAt])
+  @@map("super_admin_audit_logs")
+}
+
 /// 15 dakika checkout kilidi. Süresi bitmiş kilitle debit yok.
 model CheckoutPriceLock {
   id              String    @id @default(cuid())

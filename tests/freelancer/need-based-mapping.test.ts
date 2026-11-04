@@ -18,7 +18,7 @@ import {
   isOpenTrialNeed,
   parseFreelancerNeedId,
   qualifyingCourseSlugsForNeed,
-} from "@/lib/kernel/catalog-ids";
+} from "@yetkin/kernel/catalog-ids";
 import { createMemoryCareerProofStore, createMemoryCareerStore } from "../helpers/memory-career";
 
 const ROOT = process.cwd();

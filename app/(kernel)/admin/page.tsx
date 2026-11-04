@@ -4,6 +4,7 @@ import { AdminFunnelBoard } from "@/components/kernel/admin-funnel-board";
 import { AdminGa4Board } from "@/components/kernel/admin-ga4-board";
 import { AdminPriceDecisionLedger } from "@/components/kernel/admin-price-decision-ledger";
 import { AdminShelterActions } from "@/components/kernel/admin-shelter-actions";
+import { LinkButton } from "@/components/ui/link-button";
 import { AuthNeeded } from "@/components/ui/auth-needed";
 import { Card } from "@/components/ui/card";
 import { Forbidden } from "@/components/ui/forbidden";
@@ -19,6 +20,7 @@ import { loadAdminCatalogBoard } from "@/lib/kernel/admin/load";
 import { loadAdminFunnelBoard } from "@/lib/kernel/admin/funnel-load";
 import { loadAdminGa4Board } from "@/lib/kernel/telemetry/ga4-data-client";
 import { coerceFunnelRange } from "@/lib/kernel/admin/funnel-window";
+import { ADMIN_OPS_SURFACE_PATH } from "@/lib/kernel/admin/types";
 import { resolveSuperAdminAccess } from "@/lib/kernel/auth/session";
 import { REQUIRED_CATALOG_DEFINITIONS } from "@/lib/kernel/pricing/catalog-definitions";
 import { AdminCatalogAmountForm } from "@/components/kernel/admin-catalog-amount-form";
@@ -73,7 +75,14 @@ export default async function AdminPage({
         eyebrow={copy.eyebrow}
         title={copy.title}
         description={copy.description}
-        actions={<AdminShelterActions />}
+        actions={
+          <div className="flex flex-wrap gap-2">
+            <LinkButton href={ADMIN_OPS_SURFACE_PATH} variant="primary" size="sm">
+              {copy.ops.link}
+            </LinkButton>
+            <AdminShelterActions />
+          </div>
+        }
       />
       <StatGrid
         columns={3}

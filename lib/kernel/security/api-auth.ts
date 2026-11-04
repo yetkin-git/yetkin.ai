@@ -3,6 +3,7 @@ import { canonicalApiPathname } from "@/lib/kernel/http/api-v1";
 export const API_AUTH_KINDS = [
   "session",
   "public",
+  "closed",
   "cron",
   "admin",
   "webhook",
@@ -12,8 +13,13 @@ export const API_AUTH_KINDS = [
 
 export type ApiAuthKind = (typeof API_AUTH_KINDS)[number];
 
-/** Kenarda oturum ipucu olmadan geçen kind'lar. İmza handler'da doğrulanır. */
-export const EDGE_OPEN_API_AUTH_KINDS = ["public", "webhook"] as const;
+/**
+ * Kenarda oturum ipucu olmadan geçen kind'lar.
+ * `public` canlıdır. `webhook` imzası handler'dadır.
+ * `closed` kalıcı 410'dur: kenar oturum istemez, gövde 410 basar.
+ * `cron` bu listede değildir. Kenar `CRON_SECRET` ister; oturum rotayı açmaz.
+ */
+export const EDGE_OPEN_API_AUTH_KINDS = ["public", "webhook", "closed"] as const;
 
 export type EdgeOpenApiAuthKind = (typeof EDGE_OPEN_API_AUTH_KINDS)[number];
 
@@ -23,6 +29,38 @@ export function isApiAuthKind(value: string): value is ApiAuthKind {
 
 export function isEdgeOpenApiAuthKind(value: string): value is EdgeOpenApiAuthKind {
   return (EDGE_OPEN_API_AUTH_KINDS as readonly string[]).includes(value);
+}
+
+export const CRON_UNCONFIGURED_ERROR = "CRON_SECRET tanımlı değil. Mutabakat kapalı.";
+export const CRON_UNAUTHORIZED_ERROR = "Yetkisiz.";
+
+export function readCronSecret(
+  env: Record<string, string | undefined> = process.env,
+): string {
+  return env.CRON_SECRET?.trim() ?? "";
+}
+
+/**
+ * `Authorization: Bearer ${CRON_SECRET}` tam eşleşmesi.
+ * Eşit uzunlukta sabit süreli karşılaştırma. Boş sır hiçbir başlığı açmaz.
+ */
+export function cronBearerMatches(
+  authorization: string | null | undefined,
+  secret: string,
+): boolean {
+  if (!secret) {
+    return false;
+  }
+  const actual = authorization?.trim() ?? "";
+  const expected = `Bearer ${secret}`;
+  if (actual.length !== expected.length) {
+    return false;
+  }
+  let diff = 0;
+  for (let index = 0; index < expected.length; index += 1) {
+    diff |= actual.charCodeAt(index) ^ expected.charCodeAt(index);
+  }
+  return diff === 0;
 }
 
 /** `app/api/(kernel)/health/route.ts` → `/api/health` */

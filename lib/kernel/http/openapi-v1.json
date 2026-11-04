@@ -3010,7 +3010,7 @@
                   "consentVersion": {
                     "type": "string",
                     "enum": [
-                      "2026-09-05"
+                      "2026-09-08"
                     ]
                   },
                   "billing": {
@@ -9211,7 +9211,7 @@
                   "consentVersion": {
                     "type": "string",
                     "enum": [
-                      "2026-09-05"
+                      "2026-09-08"
                     ]
                   },
                   "guardianConsentAccepted": {
@@ -9442,7 +9442,7 @@
           "consentVersion": {
             "type": "string",
             "enum": [
-              "2026-09-05"
+              "2026-09-08"
             ]
           },
           "billing": {
@@ -13445,7 +13445,7 @@
           "consentVersion": {
             "type": "string",
             "enum": [
-              "2026-09-05"
+              "2026-09-08"
             ]
           },
           "guardianConsentAccepted": {

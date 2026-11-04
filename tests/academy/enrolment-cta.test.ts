@@ -237,7 +237,7 @@ describe("vitrin kartı CTA", () => {
     expect(locked.cta).toBe(ACADEMY_SEN.catalog.cardCtaBuy);
     expect(locked.cta).not.toMatch(/₺/);
     expect(locked.priceLabel).toBe("₺890");
-    expect(locked.priceCaption).toBe(ACADEMY_SEN.catalog.vatInclusiveHint);
+    expect(locked.priceCaption).toBeNull();
     expect(locked.href).toBe("/academy/python-temel");
     expect(locked.priceLabel).not.toBe(ACADEMY_SEN.course.accessOpen);
     expect(locked.cta).not.toContain(ACADEMY_SEN.course.accessOpen);
@@ -308,7 +308,7 @@ describe("vitrin kartı CTA", () => {
     });
     expect(memberBuy.href).toBe("/academy/02_ecommerce_ai#satin-al");
     expect(memberBuy.secondaryHref).toBe("/academy/02_ecommerce_ai/oyna");
-    expect(prompt.priceCaption).toBe(ACADEMY_SEN.catalog.vatInclusiveHint);
+    expect(prompt.priceCaption).toBeNull();
     expect(prompt.priceLabel).toBe("₺1.290");
     const off201NoPrice = resolveAcademyCatalogCardCta({
       slug: "01_office_ai_ileri",
@@ -333,7 +333,7 @@ describe("vitrin kartı CTA", () => {
     expect(off201Priced.secondaryHref).toBe("/academy/01_office_ai_ileri/oyna");
     expect(off201Priced.ctaDisabled).toBeUndefined();
     expect(off201Priced.priceLabel).toBe("₺1.290");
-    expect(off201Priced.priceCaption).toBe(ACADEMY_SEN.catalog.vatInclusiveHint);
+    expect(off201Priced.priceCaption).toBeNull();
     const off201ClosedCitizen = resolveAcademyCatalogCardCta({
       slug: "01_office_ai_ileri",
       owned: false,
@@ -380,7 +380,7 @@ describe("vitrin kartı CTA", () => {
       });
       expect(buy.cta).toBe(ACADEMY_SEN.catalog.cardCtaBuy);
       expect(buy.priceLabel).toBe("₺1.090");
-      expect(buy.priceCaption).toBe(ACADEMY_SEN.catalog.vatInclusiveHint);
+      expect(buy.priceCaption).toBeNull();
       expect(buy.priceLabel).not.toBe(ACADEMY_SEN.course.accessOpen);
       expect(buy.href).toBe(`/academy/${slug}`);
       const play = resolveAcademyCatalogCardCta({

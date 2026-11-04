@@ -1,3 +1,4 @@
+import { ACADEMY_COURSE_TITLES } from "@/lib/academy/course-titles";
 import { applyAcademySectionPreviewGate } from "@/lib/academy/preview-lock";
 import type { CurriculumModule, Section } from "../types";
 import { academyCourseVoiceSeal } from "@/lib/academy/instructors";
@@ -36,7 +37,7 @@ const ecommerceSpokenMinutes = ecommerceAiSections.reduce(
 
 export const ecommerceAiMasteryModule: CurriculumModule = {
   moduleCode: "CURR-ECOMMERCE-AI-102",
-  title: "E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı (Trendyol, Hepsiburada, Amazon & Shopify)",
+  title: ACADEMY_COURSE_TITLES["02_ecommerce_ai"],
   instructor: "Kaan",
   category: "KATMAN 1.2 — Ekmek Teknesi / Kitlesel Eğitim Serisi (Pazarın %80'i / Temel & Başlangıç Seviyesi)",
   targetAudience: [

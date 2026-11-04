@@ -3,7 +3,7 @@ import {
   FREELANCER_GUARANTEED_NEED_IDS,
   listingVisaLockTitle,
   type ListingVisaLockId,
-} from "@/lib/kernel/catalog-ids";
+} from "@yetkin/kernel/catalog-ids";
 import {
   listingVisaCourseSlugFromStamp,
   lockListingVisaPathway,

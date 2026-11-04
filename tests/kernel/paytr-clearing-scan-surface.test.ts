@@ -70,4 +70,36 @@ describe("PayTR valör tarama yüzeyi", () => {
     expect(reconcile).toContain("pending_timeout");
     expect(reconcile).toContain("late_paid_recovery");
   });
+
+  it("valör girişleri lisans kancasını reconcile çağrısından önce kaydeder", () => {
+    const cron = readSrc("app/api/(kernel)/cron/paytr-reconcile/route.ts");
+    expect(cron.indexOf("registerPaytrValorLicenseHooks()")).toBeGreaterThan(-1);
+    expect(cron.indexOf("registerPaytrValorLicenseHooks()")).toBeLessThan(
+      cron.indexOf("reconcilePaytrPaymentOrder("),
+    );
+    const cli = readSrc("scripts/ops-reconcile-paytr-pending.ts");
+    expect(cli.indexOf("registerPaytrValorLicenseHooks()")).toBeGreaterThan(-1);
+    expect(cli.indexOf("registerPaytrValorLicenseHooks()")).toBeLessThan(
+      cli.indexOf("reconcilePaytrPaymentOrder("),
+    );
+    expect(readSrc("app/api/(kernel)/payments/webhooks/paytr/route.ts")).toContain(
+      "registerPaytrValorLicenseHooks()",
+    );
+    expect(readSrc("app/api/(kernel)/jobs/inngest/route.ts")).toContain(
+      "registerPaytrValorLicenseHooks()",
+    );
+    const helper = readSrc("app/api/(kernel)/payments/register-paytr-valor-hooks.ts");
+    expect(helper.indexOf("registerPaytrAcademyLicenseHook()")).toBeLessThan(
+      helper.indexOf("registerPaytrJuniorLicenseHook()"),
+    );
+    const vercel = readSrc("vercel.json");
+    expect(vercel).toContain('"/api/cron/paytr-reconcile"');
+    expect(vercel).toContain('"0 3 * * *"');
+    const pkg = JSON.parse(readSrc("package.json")) as { scripts: Record<string, string> };
+    expect(pkg.scripts["ops:reconcile-paytr-pending"]).toContain("--conditions=react-server");
+    const mismatch = readSrc("lib/kernel/payments/paytr/webhook.ts");
+    const logFn = mismatch.slice(mismatch.indexOf("export function logPaytrWebhookHmacMismatch"));
+    expect(logFn).not.toContain("calculatedHash");
+    expect(logFn).not.toContain("hashesEqual");
+  });
 });

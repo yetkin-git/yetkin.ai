@@ -9,12 +9,11 @@
 
 import { resolve } from "node:path";
 import dotenv from "dotenv";
-import { Client } from "pg";
 import {
-  isForbiddenPoolerUrl,
-  resolveMigratorConnectionUrl,
-  withPgLibpqSslCompat,
+  DIRECT_PORT_OPERATOR_PROTOCOL,
+  resolveHostedDirectSessionUrl,
 } from "./ops-migrate-lib";
+import { openDirectPgClient } from "./ops-pg-direct-client";
 import {
   formatGhostWalletHoldInventory,
   ghostWalletHoldExitCode,
@@ -40,19 +39,17 @@ async function main(): Promise<void> {
     fail(error instanceof Error ? error.message : String(error));
   }
 
-  const url = resolveMigratorConnectionUrl({
+  const url = resolveHostedDirectSessionUrl({
     DIRECT_URL: process.env.DIRECT_URL,
     DATABASE_URL: process.env.DATABASE_URL,
   });
   if (!url) {
-    fail("DIRECT_URL veya DATABASE_URL yok. .system_docs/OPS_RUNBOOK.md");
-  }
-  if (isForbiddenPoolerUrl(url)) {
-    fail("Hayalet envanteri işlem havuzu (:6543 / pooler) üzerinden çalışmaz.");
+    fail(
+      `Doğrudan oturum çözülemedi (db.<ref>.supabase.co:5432). Havuz :6543 geçilmez. ${DIRECT_PORT_OPERATOR_PROTOCOL}`,
+    );
   }
 
-  const client = new Client({ connectionString: withPgLibpqSslCompat(url) });
-  await client.connect();
+  const client = await openDirectPgClient(url);
   try {
     const inv = await inventoryGhostWalletHolds(
       {

@@ -1,5 +1,9 @@
 import { isSupabaseUserId, type CitizenAuth, type SessionUser } from "@/lib/kernel/auth/ids";
 import type { AuthCookieWriteOptions } from "@/lib/kernel/auth/cookie-options";
+import {
+  expireSupabaseAuthCookies,
+  isStaleRefreshTokenError,
+} from "@/lib/kernel/auth/stale-refresh-token";
 import { createSupabaseCookieClient } from "@/lib/kernel/auth/supabase-server";
 import { isV1CookieSessionBlocked } from "@/lib/kernel/http/api-v1";
 import { hasSupabaseAuthCookieHint } from "@/lib/kernel/security/edge-guard";
@@ -147,6 +151,54 @@ async function readIncomingCookies(request?: Request): Promise<{
   }
 }
 
+type CookieUserReader = {
+  auth: {
+    getUser: () => Promise<{
+      data: {
+        user: {
+          id?: string;
+          email?: string | null;
+          email_confirmed_at?: string | null;
+        } | null;
+      };
+      error: unknown;
+    }>;
+  };
+};
+
+async function loadCookieUser(
+  supabase: CookieUserReader,
+  incoming: {
+    list: { name: string; value: string }[];
+    setCookie: (name: string, value: string, options: AuthCookieWriteOptions) => void;
+  },
+  request?: Request,
+): Promise<SessionUser | null> {
+  let userResult: Awaited<ReturnType<CookieUserReader["auth"]["getUser"]>>;
+  try {
+    userResult = await supabase.auth.getUser();
+  } catch (caught) {
+    if (!isStaleRefreshTokenError(caught)) {
+      throw caught;
+    }
+    expireSupabaseAuthCookies(incoming.list, incoming.setCookie, requestUrlOf(request));
+    return null;
+  }
+  if (isStaleRefreshTokenError(userResult.error)) {
+    expireSupabaseAuthCookies(incoming.list, incoming.setCookie, requestUrlOf(request));
+    return null;
+  }
+  const user = userResult.data.user;
+  if (userResult.error || !user?.id || !user.email || !isSupabaseUserId(user.id)) {
+    return null;
+  }
+  return {
+    id: user.id,
+    email: user.email,
+    emailConfirmedAt: user.email_confirmed_at ?? null,
+  };
+}
+
 async function userFromCookies(
   url: string,
   anon: string,
@@ -165,18 +217,7 @@ async function userFromCookies(
     },
     setCookie: incoming.setCookie,
   });
-  const { data, error } = await supabase.auth.getUser();
-  if (error || !data.user?.id || !data.user.email) {
-    return null;
-  }
-  if (!isSupabaseUserId(data.user.id)) {
-    return null;
-  }
-  return {
-    id: data.user.id,
-    email: data.user.email,
-    emailConfirmedAt: data.user.email_confirmed_at ?? null,
-  };
+  return loadCookieUser(supabase, incoming, request);
 }
 
 async function citizenFromCookies(
@@ -197,11 +238,8 @@ async function citizenFromCookies(
     },
     setCookie: incoming.setCookie,
   });
-  const { data, error } = await supabase.auth.getUser();
-  if (error || !data.user?.id || !data.user.email) {
-    return null;
-  }
-  if (!isSupabaseUserId(data.user.id)) {
+  const user = await loadCookieUser(supabase, incoming, request);
+  if (!user) {
     return null;
   }
   const { data: sessionData } = await supabase.auth.getSession();
@@ -210,9 +248,9 @@ async function citizenFromCookies(
     return null;
   }
   return {
-    id: data.user.id,
-    email: data.user.email,
-    emailConfirmedAt: data.user.email_confirmed_at ?? null,
+    id: user.id,
+    email: user.email,
+    emailConfirmedAt: user.emailConfirmedAt ?? null,
     accessToken,
   };
 }

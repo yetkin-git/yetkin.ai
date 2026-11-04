@@ -47,9 +47,11 @@ import {
   inspectCertificateRevocationSql,
   inspectFrozenRoomDropSql,
   inspectSqlSealPlan,
+  isForbiddenPoolerUrl,
   isIpv6OrDnsUnreachable,
   listPrismaMigrationFolders as listDiskPrismaMigrationFolders,
   resolveMigrateApplyTarget,
+  toSupabaseDirectSessionUrl,
   runPostApplySeals,
   type MigrateApplyTarget,
 } from "./ops-migrate-lib";
@@ -137,6 +139,18 @@ async function resolveApplyConnection(): Promise<MigrateApplyTarget> {
   }
 
   if (target.via === "pooler") {
+    const derived = toSupabaseDirectSessionUrl(target.url);
+    if (derived && !isForbiddenPoolerUrl(derived)) {
+      try {
+        await assertApplyPortReachable({ url: derived, via: "direct" });
+        console.log("→ Türetilen doğrudan oturum db.<ref>.supabase.co:5432. :6543 kullanılmadı.");
+        return { url: derived, via: "direct" };
+      } catch (error) {
+        console.warn(
+          `   Türetilen doğrudan oturum erişilemedi (${error instanceof Error ? error.message : "bağlantı"}). Session havuz :5432 denenecek. :6543 yok.`,
+        );
+      }
+    }
     try {
       await assertApplyPortReachable(target);
       return target;

@@ -1,10 +1,10 @@
-import type { ListingVisaLockId } from "@/lib/kernel/catalog-ids";
+import type { ListingVisaLockId } from "@yetkin/kernel/catalog-ids";
 import {
   FREELANCER_OPEN_TRIAL_NEED_ID,
   isFreelancerSystemListing,
   listingVisaLockTitle,
   parseFreelancerNeedId,
-} from "@/lib/kernel/catalog-ids";
+} from "@yetkin/kernel/catalog-ids";
 import { freelancerJobStatusLabel } from "@/lib/copy/status-labels";
 import { DEFAULT_REVISION_ALLOWANCE } from "@/lib/freelancer/revision-tracker";
 import { jobListingExtrasById } from "@/lib/freelancer/job-listing-extras";

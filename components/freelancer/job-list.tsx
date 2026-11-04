@@ -24,7 +24,7 @@ import {
   writeJobBoardViewToStorage,
   type JobBoardViewMode,
 } from "@/lib/freelancer/job-board-view-pref";
-import type { FreelancerNeedId } from "@/lib/kernel/catalog-ids";
+import type { FreelancerNeedId } from "@yetkin/kernel/catalog-ids";
 
 type LiveBoardItem = FreelancerJobRecord & { kind: "live" };
 type JobBoardEmptyKind = "catalog" | "filtered";

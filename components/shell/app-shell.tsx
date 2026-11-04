@@ -8,7 +8,11 @@ export async function AppShell({ children }: { children: ReactNode }) {
   const session = await getSession();
   const showAdmin = session ? isSuperAdminActor(session) : false;
   return (
-    <AppShellSwitch showAdmin={showAdmin} userCluster={<AppShellUserHub />}>
+    <AppShellSwitch
+      showAdmin={showAdmin}
+      signedIn={session != null}
+      userCluster={<AppShellUserHub />}
+    >
       {children}
     </AppShellSwitch>
   );

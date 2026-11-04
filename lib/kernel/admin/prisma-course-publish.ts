@@ -1,7 +1,10 @@
 import "server-only";
 
-import { getPrisma } from "@/lib/kernel/db";
+import { SUPER_ADMIN_AUDIT_SEAL_MISSED, writeSuperAdminAudit } from "@/lib/kernel/admin/audit-log";
+import { bindSuperAdminAuditWriter } from "@/lib/kernel/admin/prisma-super-admin-audit";
 import type { CoursePublishDraft, CoursePublishStore } from "@/lib/kernel/admin/course-publish";
+import { getPrisma } from "@/lib/kernel/db";
+import { ConflictError } from "@/lib/kernel/http/errors";
 
 /**
  * Yayın yazımı. `amountMinor` ve `updatedBy` güncellenmez.
@@ -55,27 +58,35 @@ export function createPrismaCoursePublishStore(): CoursePublishStore {
             data: { isPublished: draft.published },
           });
         }
-        if (!draft.catalog) {
-          return;
+        if (draft.catalog) {
+          await tx.priceCatalogEntry.update({
+            where: { id: draft.catalog.id },
+            data: { isActive: draft.catalog.isActive },
+          });
+          await tx.priceCatalogDecisionLedger.create({
+            data: {
+              catalogEntryId: draft.catalog.id,
+              moduleKey: draft.catalog.moduleKey,
+              unitKey: draft.catalog.unitKey,
+              unitType: draft.catalog.unitType,
+              reasonCode: "ADMIN_MANUAL",
+              reason: draft.reason,
+              oldMinor: draft.catalog.amountMinor,
+              newMinor: draft.catalog.amountMinor,
+              currencyCode: draft.catalog.currencyCode,
+              actorUserId: draft.actorUserId,
+            },
+          });
         }
-        await tx.priceCatalogEntry.update({
-          where: { id: draft.catalog.id },
-          data: { isActive: draft.catalog.isActive },
+        const sealed = await writeSuperAdminAudit(bindSuperAdminAuditWriter(tx), {
+          actorUserId: draft.actorUserId,
+          action: "catalog_publish",
+          target: draft.slug,
+          detail: draft.reason,
         });
-        await tx.priceCatalogDecisionLedger.create({
-          data: {
-            catalogEntryId: draft.catalog.id,
-            moduleKey: draft.catalog.moduleKey,
-            unitKey: draft.catalog.unitKey,
-            unitType: draft.catalog.unitType,
-            reasonCode: "ADMIN_MANUAL",
-            reason: draft.reason,
-            oldMinor: draft.catalog.amountMinor,
-            newMinor: draft.catalog.amountMinor,
-            currencyCode: draft.catalog.currencyCode,
-            actorUserId: draft.actorUserId,
-          },
-        });
+        if (!sealed) {
+          throw new ConflictError(SUPER_ADMIN_AUDIT_SEAL_MISSED);
+        }
       });
     },
   };

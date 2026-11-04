@@ -23,6 +23,7 @@ const envSchema = z.object({
   PAYTR_MERCHANT_KEY: z.string().optional(),
   PAYTR_MERCHANT_SALT: z.string().optional(),
   PAYTR_SANDBOX: z.string().optional(),
+  PAYTR_ALLOW_LIVE_CHECKOUT_IN_DEV: z.string().optional(),
   GEMINI_API_KEY: z.string().optional(),
   OPENAI_API_KEY: z.string().optional(),
   ANTHROPIC_API_KEY: z.string().optional(),

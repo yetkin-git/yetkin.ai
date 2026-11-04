@@ -1,3 +1,4 @@
+import { ACADEMY_COURSE_TITLES } from "@/lib/academy/course-titles";
 import { applyAcademySectionPreviewGate } from "@/lib/academy/preview-lock";
 import type { CurriculumModule, Section } from "../types";
 import { academyCourseVoiceSeal } from "@/lib/academy/instructors";
@@ -51,7 +52,7 @@ export const officeAiSections: Section[] = [
 
 export const officeAiMasteryModule: CurriculumModule = {
   moduleCode: "CURR-OFFICE-AI-101",
-  title: "İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Verimliliği)",
+  title: ACADEMY_COURSE_TITLES["01_office_ai"],
   instructor: "Eğitmen",
   category: "Ofis ve verimlilik",
   targetAudience: [

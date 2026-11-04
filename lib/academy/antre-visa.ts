@@ -9,7 +9,7 @@ import {
   isOpenTrialNeed,
   qualifyingCourseSlugsForNeed,
   type FreelancerNeedId,
-} from "@/lib/kernel/catalog-ids";
+} from "@yetkin/kernel/catalog-ids";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 
 /** Amiral antre — kullanıcıya okunan kapı adı (katalog unvanından kısa). */

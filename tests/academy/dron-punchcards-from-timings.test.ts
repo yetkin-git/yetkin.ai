@@ -43,7 +43,7 @@ describe("Dron punchcard — web timings JSON türevi", () => {
   it("KVKK kaseti mühürlü; Dron sesli anlatım taşır", () => {
     const dron = dronAcademyPunchcardsForLesson("01_office_ai-k1");
     expect(dron).toHaveLength(8);
-    expect(dron.at(-1)?.end).toBe(226.001);
+    expect(dron.at(-1)?.end).toBe(734.865);
     expect(dronLessonDeliveryLabel("01_office_ai-k1")).toBe("Sesli anlatım");
   });
 

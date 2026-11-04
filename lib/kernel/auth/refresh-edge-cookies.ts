@@ -7,6 +7,11 @@ import {
   type AuthCookieWriteOptions,
 } from "@/lib/kernel/auth/cookie-options";
 import { isSupabaseConfigured } from "@/lib/kernel/auth/require-session";
+import {
+  expireSupabaseAuthCookies,
+  installStaleRefreshTokenLogFilter,
+  isStaleRefreshTokenError,
+} from "@/lib/kernel/auth/stale-refresh-token";
 import { hasSupabaseAuthCookieHint } from "@/lib/kernel/security/edge-guard";
 
 export type PendingAuthCookie = {
@@ -23,7 +28,8 @@ export type AuthCookieRefresh = {
 
 /**
  * Kenarda getUser — süresi dolmuş access_token'ı yeniler, Set-Cookie yazar.
- * Anon anahtar yoksa veya çerez yoksa Auth API çağrılmaz (test/dürüst kapalı).
+ * Ölü yenileme jetonu (`refresh_token_not_found`) oturumu düşürür: çerez Max-Age=0,
+ * konsol yığını basılmaz. Anon anahtar yoksa veya çerez yoksa Auth API çağrılmaz.
  * LOCAL_MOCK_AUTH yoktur.
  */
 export async function collectSupabaseAuthCookieRefresh(
@@ -53,6 +59,19 @@ export async function collectSupabaseAuthCookieRefresh(
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ?? "";
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ?? "";
 
+  const dropStaleAuthCookies = () => {
+    expireSupabaseAuthCookies(
+      request.cookies.getAll(),
+      (name, value, options) => {
+        request.cookies.delete(name);
+        cookies.push({ name, value, options });
+      },
+      request.nextUrl,
+    );
+  };
+
+  installStaleRefreshTokenLogFilter();
+
   try {
     const supabase = createServerClient(url, anon, {
       cookieEncoding: AUTH_COOKIE_ENCODING,
@@ -70,8 +89,14 @@ export async function collectSupabaseAuthCookieRefresh(
         },
       },
     });
-    await supabase.auth.getUser();
-  } catch {
+    const { error } = await supabase.auth.getUser();
+    if (isStaleRefreshTokenError(error)) {
+      dropStaleAuthCookies();
+    }
+  } catch (error) {
+    if (isStaleRefreshTokenError(error)) {
+      dropStaleAuthCookies();
+    }
     // Yenileme ağ hatası oturumu sahte saymaz; kenar JWT fail-closed karar verir.
   }
 

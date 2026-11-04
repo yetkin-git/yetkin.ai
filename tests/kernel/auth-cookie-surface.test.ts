@@ -79,6 +79,7 @@ describe("Supabase SSR 0.12 çerez hizası", () => {
     const browser = readSrc("lib/kernel/auth/supabase-browser.ts");
     const server = readSrc("lib/kernel/auth/supabase-server.ts");
     const refresh = readSrc("lib/kernel/auth/refresh-edge-cookies.ts");
+    const session = readSrc("lib/kernel/auth/require-session.ts");
     const proxy = readSrc("proxy.ts");
     const jwt = readSrc("lib/kernel/security/edge-jwt.ts");
 
@@ -148,6 +149,10 @@ describe("Supabase SSR 0.12 çerez hizası", () => {
     expect(AUTH_RESPONSE_CACHE_HEADERS["Cache-Control"]).toContain("no-store");
 
     expect(refresh).toContain("supabase.auth.getUser");
+    expect(refresh).toContain("isStaleRefreshTokenError");
+    expect(refresh).toContain("installStaleRefreshTokenLogFilter");
+    expect(server).toContain("installStaleRefreshTokenLogFilter");
+    expect(session).toContain("isStaleRefreshTokenError");
     expect(refresh).toContain("LOCAL_MOCK_AUTH");
     expect(refresh).toContain("isSupabaseConfigured");
     expect(proxy).toContain("collectSupabaseAuthCookieRefresh");

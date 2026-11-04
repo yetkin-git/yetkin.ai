@@ -60,6 +60,7 @@ export const RLS_FORCE_TABLES = [
   "payment_orders",
   "price_catalog_decision_ledger",
   "price_catalog_entries",
+  "super_admin_audit_logs",
   "user_billing_info",
   "users",
   "wallets",

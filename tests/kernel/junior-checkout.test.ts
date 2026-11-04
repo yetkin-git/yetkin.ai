@@ -705,6 +705,31 @@ describe("Junior PayTR iframe kapısı", { timeout: 120_000 }, () => {
     expect(row?.invoiceTckn).toBe("withheld");
   });
 
+  it("kasa kapısı mağaza üçlüsünü süreç ortamından değil, verilen env'den okur", () => {
+    const saved = {
+      id: process.env.PAYTR_MERCHANT_ID,
+      key: process.env.PAYTR_MERCHANT_KEY,
+      salt: process.env.PAYTR_MERCHANT_SALT,
+      sandbox: process.env.PAYTR_SANDBOX,
+    };
+    delete process.env.PAYTR_MERCHANT_ID;
+    delete process.env.PAYTR_MERCHANT_KEY;
+    delete process.env.PAYTR_MERCHANT_SALT;
+    delete process.env.PAYTR_SANDBOX;
+    try {
+      expect(juniorPaytrSaleGate(OPEN_SANDBOX_ENV)).toBe("sandbox");
+    } finally {
+      if (saved.id === undefined) delete process.env.PAYTR_MERCHANT_ID;
+      else process.env.PAYTR_MERCHANT_ID = saved.id;
+      if (saved.key === undefined) delete process.env.PAYTR_MERCHANT_KEY;
+      else process.env.PAYTR_MERCHANT_KEY = saved.key;
+      if (saved.salt === undefined) delete process.env.PAYTR_MERCHANT_SALT;
+      else process.env.PAYTR_MERCHANT_SALT = saved.salt;
+      if (saved.sandbox === undefined) delete process.env.PAYTR_SANDBOX;
+      else process.env.PAYTR_SANDBOX = saved.sandbox;
+    }
+  });
+
   it("açık kasada CLEARED junior-yearly, çocuğun 26 matematik dersini raftan açar", { timeout: 120_000 }, async () => {
     expect(JUNIOR_PLAN_CODE).toBe("junior-yearly");
     expect(isJuniorCheckoutLocked(OPEN_SANDBOX_ENV)).toBe(false);

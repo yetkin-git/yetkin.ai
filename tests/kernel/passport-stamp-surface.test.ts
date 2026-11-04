@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
-import { ACADEMY_COURSE_TITLES } from "@/lib/kernel/catalog-ids";
+import { ACADEMY_COURSE_TITLES } from "@yetkin/kernel/catalog-ids";
 import {
   countPassportSourceKinds,
   formatPassportIssuedAt,

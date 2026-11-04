@@ -2,9 +2,10 @@ import { z } from "zod";
 
 /**
  * Kasa / cüzdan yükleme rızası — 6502 ve Mesafeli Sözleşmeler Yönetmeliği.
- * Tik olmadan ifa başlamaz. Sürüm, yasal metin yürürlük tarihi ile aynıdır.
+ * Tik olmadan ifa başlamaz.
+ * Sürüm, `/legal/mesafeli-satis` yürürlük günüdür: 8 Eylül 2026.
  */
-export const CHECKOUT_LEGAL_CONSENT_VERSION = "2026-09-05" as const;
+export const CHECKOUT_LEGAL_CONSENT_VERSION = "2026-09-08" as const;
 
 export const CHECKOUT_LEGAL_CONSENT_REQUIRED =
   "Mesafeli Satış Sözleşmesi, Ön Bilgilendirme Formu ve dijital içeriğin anında ifası için açık rıza zorunludur.";

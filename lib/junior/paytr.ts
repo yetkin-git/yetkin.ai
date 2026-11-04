@@ -7,7 +7,7 @@ import {
   buildPaytrTokenHash,
   encodePaytrSingleBasket,
   getPaytrCheckoutCredentials,
-  isPaytrSandboxEnabled,
+  isPaytrDevLiveCheckoutBlocked,
   PAYTR_IFRAME_MAX_INSTALLMENT,
   PAYTR_IFRAME_NO_INSTALLMENT,
   readPaytrRuntimeMode,
@@ -48,7 +48,7 @@ export function juniorPaytrCredentialsAllowSale(input: {
 
 export function juniorPaytrLiveSaleOpen(env: NodeJS.ProcessEnv = process.env): boolean {
   return juniorPaytrCredentialsAllowSale({
-    credentials: getPaytrCheckoutCredentials(),
+    credentials: getPaytrCheckoutCredentials(env),
     productionLocked: isJuniorCheckoutLocked(env),
     runtimeMode: readPaytrRuntimeMode(env),
   });
@@ -56,33 +56,22 @@ export function juniorPaytrLiveSaleOpen(env: NodeJS.ProcessEnv = process.env): b
 
 export type JuniorPaytrSaleGate = "closed" | "sandbox" | "live" | "refused";
 
-function paytrCredentialsFromEnv(env: NodeJS.ProcessEnv): PaytrCheckoutCredentials | null {
-  const merchantId = env.PAYTR_MERCHANT_ID?.trim() ?? "";
-  const merchantKey = env.PAYTR_MERCHANT_KEY?.trim() ?? "";
-  const merchantSalt = env.PAYTR_MERCHANT_SALT?.trim() ?? "";
-  if (!merchantId || !merchantKey || !merchantSalt) {
-    return null;
-  }
-  return {
-    merchantId,
-    merchantKey,
-    merchantSalt,
-    testMode: isPaytrSandboxEnabled(env),
-  };
-}
-
 /**
  * Kasa kapısı. Bayrak veya mühür yoksa `closed`.
  * Üretimde deneme mağaza `refused` kalır. Üretim dışında sandbox, get-token iframe açar.
  * Canlı üçlü `live` döner. Kart numarası bu kapıdan geçmez.
+ * Kimlik `getPaytrCheckoutCredentials` ile okunur. İkinci üçlü okuyucu yoktur.
  */
 export function juniorPaytrSaleGate(env: NodeJS.ProcessEnv = process.env): JuniorPaytrSaleGate {
   if (isJuniorCheckoutLocked(env) || !isJuniorNoticeUsable(JUNIOR_GUARDIAN_NOTICE)) {
     return "closed";
   }
   const mode = readPaytrRuntimeMode(env);
-  const credentials = paytrCredentialsFromEnv(env);
+  const credentials = getPaytrCheckoutCredentials(env);
   if (mode === "live") {
+    if (isPaytrDevLiveCheckoutBlocked(env)) {
+      return "refused";
+    }
     return juniorPaytrCredentialsAllowSale({
       credentials,
       productionLocked: false,

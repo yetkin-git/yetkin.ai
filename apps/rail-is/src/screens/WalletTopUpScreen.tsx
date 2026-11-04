@@ -4,7 +4,7 @@ import { RAIL_IS_COPY } from "../ui/copy";
 import { colors } from "../ui/theme";
 import { UiButton } from "./ui-primitives";
 
-export const DRON_CHECKOUT_CONSENT_VERSION = "2026-09-05" as const;
+export const DRON_CHECKOUT_CONSENT_VERSION = "2026-09-08" as const;
 
 export type DronWalletTopUpBody = {
   amountMinor: number;

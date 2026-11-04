@@ -17,7 +17,8 @@ export type RevokeAcademyCertificateResult = {
 
 /**
  * Sicil iptali. Hash yükü değişmez; iptal ayrı kayıttır.
- * HTTP yüzeyi bu fazda yok — Super Admin hop'u ayrı ADR.
+ * İptal HTTP'si yalnız Super Admin konsolundadır (`POST /api/admin/ops/certificate-revoke`).
+ * Kamuya açık iptal yoktur.
  */
 export type AcademyCertificateRevokePort = Pick<
   AcademyStore,

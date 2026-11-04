@@ -21,7 +21,7 @@ Bu klasör kalıcı anayasa ve sistem belgeleridir. Ürün kodu buradaki markdow
 Yardımcı belgeler: `PEDAGOJI.md` (pedagoji ve Junior eki), `AKADEMI_URETIM_ANAYASASI.md`
 (model haritası ve üretim aşamaları), `DRON_CLIENT_SPEC.md` (native istemci sözleşmesi).
 
-Geçmiş değerleme notları `docs/archive/PLATFORM_DEGERLEME.md` içinde tek dosyaya indirildi.
+Geçmiş değerleme ve tur raporları `archived/docs_history/` içindedir. Canlı rapor dizisi `docs/` altındadır.
 Klasörde mükerrer ev tutulmaz: aynı bilgiyi ikinci kez yazan dosya açılmaz, var olan kısaltılır.
 
 İstemci ops: `DRON_CLIENT_SPEC.md` — Bearer, JWT yenileme, Idempotency-Key, 401/426. Sözleşme paketi `@yetkin/kernel` dir. Yeni oda ayrı repo değildir; `lib/dronlar/kayit.ts` kaydı ve bayraktır.

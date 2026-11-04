@@ -66,12 +66,13 @@ const FILE_RULES: FileRule[] = [
       { needle: "anomaly_unacked", label: "persist fail 500" },
       { needle: "resolvePaytrWebhookIpAllowlist", label: "IP allowlist çözümü" },
       { needle: "isPaytrWebhookRequestIpAllowed", label: "IP allowlist" },
-      { needle: "requestHasPaytrOfficialNotificationIp", label: "PayTR resmi IP" },
-      { needle: "paytr.webhook.official_ip_ack", label: "resmi IP 200 ACK" },
       { needle: "verifyWebhook", label: "HMAC handler" },
+      { needle: "invalid_signature", label: "imza 403" },
+      { needle: "? 403 : 400", label: "imza durumu" },
     ],
     mustNot: [
       { needle: "paytr.webhook.skipped", label: "sessiz mismatch ACK yok" },
+      { needle: "paytr.webhook.official_ip_ack", label: "imza hatası OK dönmez" },
     ],
   },
   {

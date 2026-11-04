@@ -430,8 +430,9 @@ export function isAcademyAiLessonCount(count: number): boolean {
 }
 
 /**
- * Sprint 002 — vatandaş 2. ders (`01_office_ai-k1`) CEO kararı.
- * Genel mühür tabanı 5 dakikadır. Bu ders yalnız 3:30–4:00 pratik maskeleme bandındadır.
+ * Sprint 002 kısa bant konuşma taslağında durur (210–240 sn).
+ * Yayın mührü `lesson-audio-timings/01_office_ai-k1.json` (734.865 sn) 5 dk tabanını geçer.
+ * Kapı fırınlanmamış kısa bandı da, mühürlü kaseti de kabul eder. Aradaki süre mühür değildir.
  */
 export const ACADEMY_SPRINT_002_MASK_LESSON_KEY = "01_office_ai-k1";
 export const ACADEMY_SPRINT_002_MASK_DURATION_MIN_SEC = 210;
@@ -442,21 +443,27 @@ export function isAcademySprint002MaskLesson(lessonKey: string | undefined): boo
 }
 
 export function isAcademyAiLessonDurationMinutes(minutes: number, lessonKey?: string): boolean {
+  if (!Number.isFinite(minutes)) {
+    return false;
+  }
   if (isAcademySprint002MaskLesson(lessonKey)) {
     return isAcademyAiLessonDurationSec(minutes * 60, lessonKey);
   }
-  return Number.isFinite(minutes) && minutes >= ACADEMY_AI_LESSON_DURATION_MIN_MINUTES;
+  return minutes >= ACADEMY_AI_LESSON_DURATION_MIN_MINUTES;
 }
 
 export function isAcademyAiLessonDurationSec(seconds: number, lessonKey?: string): boolean {
-  if (isAcademySprint002MaskLesson(lessonKey)) {
-    return (
-      Number.isFinite(seconds) &&
-      seconds >= ACADEMY_SPRINT_002_MASK_DURATION_MIN_SEC &&
-      seconds <= ACADEMY_SPRINT_002_MASK_DURATION_MAX_SEC
-    );
+  if (!Number.isFinite(seconds)) {
+    return false;
   }
-  return Number.isFinite(seconds) && seconds >= ACADEMY_AI_LESSON_DURATION_MIN_SEC;
+  if (
+    isAcademySprint002MaskLesson(lessonKey) &&
+    seconds >= ACADEMY_SPRINT_002_MASK_DURATION_MIN_SEC &&
+    seconds <= ACADEMY_SPRINT_002_MASK_DURATION_MAX_SEC
+  ) {
+    return true;
+  }
+  return seconds >= ACADEMY_AI_LESSON_DURATION_MIN_SEC;
 }
 
 /** Sakin konuşma. 600 kelime / 5 dakika. Tempo katsayısı bu oran değildir. */

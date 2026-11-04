@@ -11,7 +11,8 @@
  *    Donmuş oda `lib/` altında yoktur; `archived/` + kenar 410. Yeni dron kayda yazılmadan açılmaz.
  * 5. `app/api/**` uygulama servisidir (sınav → vize): çalışan odaları birleştirebilir.
  *    Kaçış deliği değildir — müze, donmuş oda ve UI import'u yasaktır.
- * 6. Kariyer ve freelancer `lib/academy` import etmez; müfredat kimliği `lib/kernel/catalog-ids`.
+ * 6. Kariyer ve freelancer `lib/academy` import etmez; müfredat kimliği `@yetkin/kernel/catalog-ids`.
+ *    `packages/kernel/src` göreli kaçış yasaktır. Kapı paket export'udur.
  * 7. Junior Prisma delegate’i `lib/junior` sahibindedir. Haritasız Junior modeli sessiz geçmez.
  * 8. `DRON_KAYIT` hop id’si `RAIL_V1_HOPS_META` içindedir. Meta’da olup oda listesinde olmayan id çekirdek hop’tur.
  * 9. Her `app/api` fiili hop metasında veya web-only sicilindedir. Yeni rota ikisine de yazılmadan geçmez.
@@ -294,6 +295,14 @@ for (const dir of SCAN_DIRS) {
 
     for (const spec of collectSpecs(source)) {
       const resolved = resolveSpec(file, spec);
+
+      if (
+        spec.startsWith(".") &&
+        (resolved === "packages/kernel" || resolved.startsWith("packages/kernel/"))
+      ) {
+        add(file, spec, "kernel.package");
+        continue;
+      }
 
       if (isMuseum(spec, resolved)) {
         add(file, spec, "ops.museum");

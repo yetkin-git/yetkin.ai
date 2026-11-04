@@ -10,7 +10,7 @@ import {
   ACADEMY_PATHWAY_IDS,
   ACADEMY_PATHWAY_TITLES,
   catalogPathwayRingSlugs,
-} from "@/lib/kernel/catalog-ids";
+} from "@yetkin/kernel/catalog-ids";
 
 export type AcademyCatalogSortable = {
   slug: string;

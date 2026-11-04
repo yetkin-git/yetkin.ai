@@ -9,7 +9,7 @@ import {
   FREELANCER_GUARANTEED_NEED_CATALOG,
   FREELANCER_MARKETPLACE_NEED_CATALOG,
   type FreelancerNeedId,
-} from "@/lib/kernel/catalog-ids";
+} from "@yetkin/kernel/catalog-ids";
 import { FREELANCER_JOB_MAX_MINOR, FREELANCER_JOB_MIN_MINOR } from "@/lib/freelancer/schemas";
 import { FREELANCER_SEN } from "@/lib/copy/sen-voice/freelancer";
 import { UX_SEN } from "@/lib/copy/sen-voice/ux";

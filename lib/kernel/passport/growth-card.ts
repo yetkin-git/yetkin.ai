@@ -1,7 +1,7 @@
 /**
  * Büyüme Beşlisi geçiş karnesi — Pasaport sığınağı.
  * Kariyer yazma motoru yok; yalnız salt okunur damga → compact SKU yuvası.
- * Kernel ↛ academy: yayın beşlisi `catalog-ids` ihtiyaç kapılarından türer.
+ * Kernel ↛ academy: yayın beşlisi `@yetkin/kernel/catalog-ids` ihtiyaç kapılarından türer.
  */
 
 import {
@@ -11,7 +11,7 @@ import {
   FREELANCER_NEED_IDS,
   isOpenTrialNeed,
   qualifyingCourseSlugsForNeed,
-} from "@/lib/kernel/catalog-ids";
+} from "@yetkin/kernel/catalog-ids";
 import {
   ACADEMY_STAMP_SURFACE_PATH,
   type SealedPassportStamp,

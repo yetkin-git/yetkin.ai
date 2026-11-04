@@ -1,10 +1,12 @@
 /**
- * Bounded context sicili — ürün dört çalışan oda (dashboard, academy, career, freelancer).
+ * Bounded context sicili. Oda kapısı burada değil, kayıt defterindedir (`lib/dronlar/kayit.ts`).
+ * Altı oda: Dashboard açık, Academy açık, Career açık, Freelancer kapalı,
+ * Junior müstakil ve açık, Young kapalı. Freelancer ve Young kamu yüzeyi 410 döner.
  * Diskte tarihsel klasör pazarlanmaz. Kernel dikey engine import etmez.
  *
  * Proof: akademi değerlendirme + kariyer vizesi + pasaport projeksiyonu.
  * Kanıt okuma sözleşmesi `lib/kernel/proof` (`ProofReadPort`); müfredat kimliği
- * `lib/kernel/catalog-ids`. Kariyer dikey oda iç okuma dosyası import etmez.
+ * `@yetkin/kernel/catalog-ids`. Kariyer dikey oda iç okuma dosyası import etmez.
  * Marketplace: freelancer ilan/teklif/emanet. Donmuş pazaryeri 410 envanteridir.
  * Payments: cüzdan (yalnız platformun kendi dijital malı), PayTR merchant,
  * defter, emanet kaydı. Usta neti Rail cüzdanına yazılmaz; dağıtım split portundadır.

@@ -2,7 +2,7 @@ import {
   FREELANCER_JOB_MAX_MINOR,
   FREELANCER_JOB_MIN_MINOR,
 } from "@/lib/freelancer/schemas";
-import type { ListingVisaLockId } from "@/lib/kernel/catalog-ids";
+import type { ListingVisaLockId } from "@yetkin/kernel/catalog-ids";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";

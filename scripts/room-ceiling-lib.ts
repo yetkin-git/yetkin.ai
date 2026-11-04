@@ -9,17 +9,33 @@ export const LIB_SHARED_TOP_DIRS = ["copy", "kernel", "ui", "dronlar", "media"] 
  * Müstakil Junior odası. Dört kamu vitrinine eklenmez.
  * Akademi kayıt defterinde kartı yoktur. Eski harçlık odası arşivde kalır.
  */
-// young: lib/dronlar/kayit.ts INDEPENDENT_ROOMS; varsayılan kapalı (DRON_YOUNG_OPEN), vitrine girmez.
-export const CLOSED_PILOT_LIB_DIRS = ["junior", "young"] as const;
+// Young'un lib/ oturağı yoktur. Kapı kayıt, DRON_YOUNG_OPEN ve app/young/page.tsx kabuğudur.
+export const CLOSED_PILOT_LIB_DIRS = ["junior"] as const;
 
 export const ROOMS_SSOT_REL = "lib/dronlar/kayit.ts";
 
-export function parseVerticalRoomIdsFromSsot(source: string): string[] | null {
-  const match = source.match(/export const VERTICAL_ROOMS = \[([\s\S]*?)\] as const;/);
+/** `vitrin: true` satırları kamu vitrindir. Veri `DRON_KAYIT` içindedir. */
+export function parseDronKayitIdsByVitrin(source: string, vitrin: boolean): string[] | null {
+  const match = source.match(/export const DRON_KAYIT[\s\S]*?=\s*\[([\s\S]*?)\] as const;/);
   if (!match?.[1]) {
     return null;
   }
-  return [...match[1].matchAll(/\bid:\s*"([a-z0-9-]+)"/g)].map((row) => row[1]!);
+  const needle = vitrin ? "vitrin: true" : "vitrin: false";
+  const ids: string[] = [];
+  for (const block of match[1].split(/\n  \},/)) {
+    if (!block.includes(needle)) {
+      continue;
+    }
+    const id = block.match(/\bid:\s*"([a-z0-9-]+)"/);
+    if (id?.[1]) {
+      ids.push(id[1]);
+    }
+  }
+  return ids.length > 0 ? ids : null;
+}
+
+export function parseVerticalRoomIdsFromSsot(source: string): string[] | null {
+  return parseDronKayitIdsByVitrin(source, true);
 }
 
 export function parseFrozenDiskRoomIdsFromSsot(source: string): string[] | null {

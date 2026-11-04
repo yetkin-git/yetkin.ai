@@ -172,6 +172,7 @@ export async function readJuniorHome(
   store: JuniorStore,
   userId: string,
   now = new Date(),
+  knownSubscription?: Awaited<ReturnType<JuniorStore["getSubscription"]>>,
 ): Promise<JuniorHome> {
   const profiles = await store.listProfiles(userId);
   const views = profiles.map(toProfileView);
@@ -179,7 +180,8 @@ export async function readJuniorHome(
   const selected = open.find((row) => row.selected) ?? open[0] ?? null;
   const xpRow = selected ? await store.getXp(userId, selected.id) : null;
   const progress = selected ? await store.listProgress(userId, selected.id) : [];
-  const subscription = await store.getSubscription(userId);
+  const subscription =
+    knownSubscription !== undefined ? knownSubscription : await store.getSubscription(userId);
   const plan = planView(subscription, now);
   const electives = selected?.selectedElectives ?? [];
   // Ücretli erişim yalnız mühürlü seçmelileri sayar (T-06). Raf görünümü seçimi değiştirmez.

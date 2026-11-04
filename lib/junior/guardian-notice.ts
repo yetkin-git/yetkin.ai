@@ -5,7 +5,7 @@ import {
 import { CHECKOUT_LEGAL_CONSENT_VERSION } from "@/lib/kernel/legal/checkout-consent";
 
 /**
- * Çocuk aydınlatması. 6502 kasa sürümü `2026-09-05` ile aynı dize değildir.
+ * Çocuk aydınlatması. 6502 kasa sürümü `2026-09-08` ile aynı dize değildir.
  * Metin `lib/copy/junior-guardian-notice.ts` içindedir. Özet o kanonik gövdenin SHA-256 değeridir.
  */
 export type JuniorGuardianNotice = {

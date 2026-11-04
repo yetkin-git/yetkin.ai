@@ -19,7 +19,7 @@ import {
   FREELANCER_GUARANTEED_NEED_IDS,
   FREELANCER_OPEN_TRIAL_NEED_ID,
   LISTING_VISA_PATHWAY_BY_JOB_ID,
-} from "@/lib/kernel/catalog-ids";
+} from "@yetkin/kernel/catalog-ids";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { HOLD_BPS_DEFAULT, HOLD_BPS_MAX, HOLD_BPS_MIN } from "@/lib/kernel/pricing/hold-bps";

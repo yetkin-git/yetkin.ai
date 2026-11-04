@@ -1,5 +1,5 @@
 /**
- * Operatör sertifika iptali — HTTP yok. Hash + gerekçe → revokeAcademyCertificate.
+ * Operatör sertifika iptali CLI. Konsol HTTP'si `POST /api/admin/ops/certificate-revoke`.
  */
 
 import type { Client } from "pg";
@@ -73,7 +73,7 @@ export function parseRevokeCliArgs(argv: string[]): ParsedRevokeArgs | { error: 
     }
   }
   if (!hash) {
-    return { error: "--hash gerekli (64 hex). HTTP iptal yok." };
+    return { error: "--hash gerekli (64 hex)." };
   }
   if (!parseAcademyCertificateHash(hash) && hash.length < 8) {
     return { error: "Hash geçersiz." };

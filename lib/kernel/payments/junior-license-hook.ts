@@ -1,8 +1,8 @@
 import type { PaymentOrderSnapshot } from "@/lib/kernel/payments/clearing";
 
 /**
- * CLEARED sonrası Junior yıllık paket. Kernel Junior'u import etmez;
- * kompozisyon `app/api` kaydeder.
+ * CLEARED sonrası Junior yıllık paket. Kernel Junior'u import etmez.
+ * Kayıt `registerPaytrValorLicenseHooks` ile webhook, Inngest, cron ve ops CLI'dadır.
  */
 export type JuniorLicenseHook = (order: PaymentOrderSnapshot) => Promise<void>;
 

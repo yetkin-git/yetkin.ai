@@ -22,6 +22,7 @@ import {
   DIRECT_PORT_OPERATOR_PROTOCOL,
   isForbiddenPoolerUrl,
   resolveMigratorConnectionUrl,
+  resolveHostedDirectSessionUrl,
   resolveMigrateApplyTarget,
   fallbackPoolerApplyTarget,
   isIpv6OrDnsUnreachable,
@@ -138,6 +139,24 @@ describe("ops:migrate havuz yasağı", () => {
     expect(fallback?.via).toBe("pooler");
     expect(fallback?.url).toContain("pooler.supabase.com");
     expect(fallback?.url).toContain(":5432");
+    const direct = resolveHostedDirectSessionUrl({
+      DIRECT_URL:
+        "postgresql://postgres.abcdefgh:x@aws-0-eu-central-1.pooler.supabase.com:6543/postgres?pgbouncer=true",
+    });
+    expect(direct).toContain("db.abcdefgh.supabase.co");
+    expect(direct).toContain(":5432");
+    expect(direct).not.toMatch(/6543/);
+    expect(direct).not.toMatch(/pooler\.supabase\.com/);
+    expect(
+      resolveHostedDirectSessionUrl({
+        DIRECT_URL: "postgresql://postgres:x@aws-0.pooler.supabase.com:6543/postgres",
+      }),
+    ).toBeNull();
+    expect(
+      resolveHostedDirectSessionUrl({
+        DIRECT_URL: "postgresql://postgres:x@db.abcdefgh.supabase.co:5432/postgres",
+      }),
+    ).toContain("db.abcdefgh.supabase.co");
     expect(isIpv6OrDnsUnreachable(Object.assign(new Error("getaddrinfo ENOTFOUND"), { code: "ENOTFOUND" }))).toBe(
       true,
     );

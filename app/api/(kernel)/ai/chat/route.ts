@@ -1,8 +1,10 @@
-import { requireSession } from "@/lib/kernel/auth/session";
+import { assistantActorId } from "@/lib/kernel/ai/assistant-guest-quota";
 import {
   answerAssistantChat,
   assistantChatRequestSchema,
 } from "@/lib/kernel/ai/assistant-chat";
+import { getSession } from "@/lib/kernel/auth/session";
+import { isStaleRefreshTokenError } from "@/lib/kernel/auth/stale-refresh-token";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import { logEvent } from "@/lib/kernel/observability/log";
@@ -10,15 +12,39 @@ import {
   applyHttpRateLimit,
   HTTP_RATE_LIMITS,
   rateLimitedJsonResponse,
+  resolveRequestIp,
 } from "@/lib/kernel/security/http-rate-limit";
 
-export const auth = "session" as const;
+/**
+ * Kariyer / Akademi asistanı.
+ * Kenarda `public`. Oturum yoksa veya ölü yenileme jetonu
+ * (`refresh_token_not_found`) oturumu null bıraktıysa kullanıcı anonim
+ * ziyaretçidir; giriş duvarı yoktur. Kota `guest:<ip>` üzerinde günde 5 sorudur.
+ * Geçerli üye kendi 5 soruluk kovasında kalır.
+ */
+export const auth = "public" as const;
+
+async function readAssistantSession(request: Request) {
+  try {
+    return await getSession(request);
+  } catch (error) {
+    if (isStaleRefreshTokenError(error)) {
+      return null;
+    }
+    throw error;
+  }
+}
 
 export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
   try {
-    const user = await requireSession(request);
-    const burst = await applyHttpRateLimit(request, HTTP_RATE_LIMITS.llmUser, user.id);
+    const session = await readAssistantSession(request);
+    const actor = assistantActorId(session?.id, resolveRequestIp(request));
+    const burst = await applyHttpRateLimit(
+      request,
+      HTTP_RATE_LIMITS.llmUser,
+      actor.guest ? "guest" : actor.userId,
+    );
     if (!burst.allowed) {
       return rateLimitedJsonResponse(burst, request);
     }
@@ -29,7 +55,7 @@ export async function POST(request: Request) {
     }
 
     const result = await answerAssistantChat({
-      userId: user.id,
+      userId: actor.userId,
       message: parsed.data.message,
       history: parsed.data.history,
     });
@@ -39,7 +65,7 @@ export async function POST(request: Request) {
         level: result.status === 429 ? "warn" : "error",
         event: "assistant.chat.denied",
         requestId,
-        userId: user.id,
+        userId: actor.guest ? "guest" : actor.userId,
         route: "/api/ai/chat",
         status: result.status,
         reason: result.status === 429 ? "quota" : "invalid",
@@ -51,13 +77,18 @@ export async function POST(request: Request) {
       level: result.source === "fail-safe" ? "warn" : "info",
       event: result.source === "fail-safe" ? "assistant.chat.fail_safe" : "assistant.chat.ok",
       requestId,
-      userId: user.id,
+      userId: actor.guest ? "guest" : actor.userId,
       route: "/api/ai/chat",
       status: 200,
       reason: result.source,
     });
     return jsonOk(
-      { reply: result.reply, remaining: result.remaining, limit: result.limit },
+      {
+        reply: result.reply,
+        remaining: result.remaining,
+        limit: result.limit,
+        ...(actor.guest ? { guest: true } : {}),
+      },
       200,
       requestId,
       request,

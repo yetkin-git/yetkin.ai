@@ -150,7 +150,7 @@ export function isPaytrWebhookPayload(value: unknown): value is PaytrWebhookPayl
 
 /**
  * PayTR Destek'in güncel bildirim sunucu IPv4'leri (Mağaza paneli URL testi).
- * CREDIT kapısı HMAC'dir; bu listeden gelen istekler 400/403 basmaz.
+ * CREDIT kapısı HMAC'dir. Resmi IP allowlist 403'ünü deler; bozuk imza yine 403'tür.
  */
 export const PAYTR_OFFICIAL_WEBHOOK_IPS = [
   "185.187.184.84",
@@ -325,19 +325,16 @@ export function verifyPaytrWebhookHash(payload: PaytrWebhookPayload): boolean {
   return timingSafeHashEqual(calculated_hash, receivedHash);
 }
 
-/** Panel testinde kilitlenmemek için alınan hash ile hesaplanan geçerli hash'i ayrıntılı basar. */
+/**
+ * Uyuşmayan bildirimi günlüğe yazar.
+ * Hesaplanan imza günlüğe girmez; doğru hash'i öğrenen taraf aynı gövdeyi yeniden oynatabilir.
+ */
 export function logPaytrWebhookHmacMismatch(
   payload: PaytrWebhookPayload,
   meta: { requestId: string; route: string },
 ): void {
   const credentials = getPaytrCheckoutCredentials();
   const receivedHash = normalizePaytrPostedHash(payload.hash);
-  const calculatedHash = credentials
-    ? hmacBase64(
-        buildPaytrWebhookClassicToken(payload, credentials.merchantSalt),
-        credentials.merchantKey,
-      )
-    : "";
   console.error(
     JSON.stringify({
       ts: new Date().toISOString(),
@@ -349,8 +346,6 @@ export function logPaytrWebhookHmacMismatch(
       status: payload.status,
       totalAmount: payload.totalAmount,
       receivedHash,
-      calculatedHash,
-      hashesEqual: calculatedHash === receivedHash,
       merchantIdLength: credentials?.merchantId.length ?? 0,
       merchantKeyLength: credentials?.merchantKey.length ?? 0,
       merchantSaltLength: credentials?.merchantSalt.length ?? 0,

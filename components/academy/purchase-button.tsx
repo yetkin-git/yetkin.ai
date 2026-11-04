@@ -335,11 +335,16 @@ export function PurchaseButton({
     }
     setCheckoutBilling(billingPayload.billing);
     const walletForPaytr = typeof walletMinor === "number" ? walletMinor : 0;
-    const amountMinor = academyPaytrTopUpMinor(requiredMinor, walletForPaytr);
-    if (amountMinor === 0) {
+    const shortfallMinor = academyPaytrTopUpMinor(requiredMinor, walletForPaytr);
+    if (shortfallMinor === 0) {
       void onBuy("training", billingPayload.billing);
       return;
     }
+    // Lisans kasası katalog kuruşunu yollar. Eksik bakiye bu sayıyı düşürmez.
+    const amountMinor =
+      typeof priceMinor === "number" && Number.isInteger(priceMinor) && priceMinor > 0
+        ? priceMinor
+        : shortfallMinor;
     paytrInFlight.current = true;
     setError(null);
     setPaytrIframeUrl(null);
@@ -368,6 +373,7 @@ export function PurchaseButton({
     onBuy,
     paymentsReady,
     pending,
+    priceMinor,
     reportPaytrIframeError,
     requestPaytrIframe,
     requiredMinor,
@@ -555,6 +561,7 @@ export function PurchaseButton({
         requiredMinor={requiredMinor}
         currencyCode={currencyCode}
         lockSuggestedAmount
+        courseSlug={courseSlug}
         tokenPending={paytrPending}
         presetIframeUrl={paytrIframeUrl}
         presetBilling={checkoutBilling}

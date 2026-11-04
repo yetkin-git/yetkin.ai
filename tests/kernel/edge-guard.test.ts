@@ -89,6 +89,7 @@ describe("korumalı çekirdek yolları", () => {
     expect(isProtectedKernelPath("/admin/catalog")).toBe(true);
     expect(isAdminShelterPath("/admin")).toBe(true);
     expect(isAdminShelterPath("/admin/catalog")).toBe(true);
+    expect(isAdminShelterPath("/admin/ops")).toBe(true);
     expect(isAdminShelterPath("/administration")).toBe(false);
   });
 

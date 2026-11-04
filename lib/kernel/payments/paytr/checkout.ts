@@ -85,7 +85,12 @@ export type PaytrCheckoutTokenResult =
     }
   | {
       ok: false;
-      reason: "missing_credentials" | "invalid_amount" | "invalid_user" | "pay_api_error";
+      reason:
+        | "missing_credentials"
+        | "invalid_amount"
+        | "invalid_user"
+        | "pay_api_error"
+        | "dev_live_locked";
       message: string;
     };
 
@@ -169,20 +174,26 @@ export function assertPaytrProductionSafety(context: string): void {
   }
 }
 
-export function getPaytrCheckoutCredentials(): PaytrCheckoutCredentials | null {
-  const merchantId = process.env.PAYTR_MERCHANT_ID?.trim() ?? "";
-  const merchantKey = process.env.PAYTR_MERCHANT_KEY?.trim() ?? "";
-  const merchantSalt = process.env.PAYTR_MERCHANT_SALT?.trim() ?? "";
+/**
+ * Mağaza üçlüsünün tek okuyucusu. Hash, iade, webhook ve Junior kasa bunu çağırır.
+ * Argüman verilmezse süreç ortamı okunur. Üretimde sandbox bayrağı `test_mode` açmaz.
+ */
+export function getPaytrCheckoutCredentials(
+  env: NodeJS.ProcessEnv = process.env,
+): PaytrCheckoutCredentials | null {
+  const merchantId = env.PAYTR_MERCHANT_ID?.trim() ?? "";
+  const merchantKey = env.PAYTR_MERCHANT_KEY?.trim() ?? "";
+  const merchantSalt = env.PAYTR_MERCHANT_SALT?.trim() ?? "";
   if (!merchantId || !merchantKey || !merchantSalt) {
     return null;
   }
-  if (process.env.NODE_ENV === "production" && isPaytrSandboxFlagSet()) {
+  if (env.NODE_ENV === "production" && isPaytrSandboxFlagSet(env)) {
     notePaytrProductionLabFlag(
       "PAYTR_SANDBOX",
       "PAYTR_SANDBOX üretimde yasak — bayrak yok sayıldı, test_mode 0 kalır (getPaytrCheckoutCredentials)",
     );
   }
-  const testMode = isPaytrSandboxEnabled();
+  const testMode = isPaytrSandboxEnabled(env);
   return { merchantId, merchantKey, merchantSalt, testMode };
 }
 
@@ -237,6 +248,28 @@ export function readPaytrRuntimeMode(
     return "sandbox";
   }
   return "live";
+}
+
+/**
+ * `next dev` canlı üçlüyle get-token açmasın.
+ * Üretim ve vitest (`NODE_ENV=test`) bu kilide girmez.
+ * Bilinçli istisna: `PAYTR_ALLOW_LIVE_CHECKOUT_IN_DEV=1`.
+ */
+export function isPaytrDevLiveCheckoutBlocked(
+  env: Record<string, string | undefined> = process.env,
+): boolean {
+  if (env.NODE_ENV === "production" || env.NODE_ENV === "test") {
+    return false;
+  }
+  if (readPaytrRuntimeMode(env) !== "live") {
+    return false;
+  }
+  const flag = env.PAYTR_ALLOW_LIVE_CHECKOUT_IN_DEV?.trim().toLowerCase();
+  return flag !== "1" && flag !== "true";
+}
+
+export function paytrDevLiveCheckoutBlockedMessage(): string {
+  return "Geliştirme ortamı canlı PayTR tahsilatı açmaz. PAYTR_SANDBOX=1 kullanın veya PAYTR_ALLOW_LIVE_CHECKOUT_IN_DEV=1 ile bilinçli açın.";
 }
 
 /** Yalnız sandbox veya canlı üçlü bakiyeye CREDIT doğurabilir (HMAC / valör sonrası). */
@@ -463,6 +496,19 @@ export async function requestPaytrCheckoutToken(
   }
 
   const credentials = getPaytrCheckoutCredentials();
+  if (credentials && isPaytrDevLiveCheckoutBlocked()) {
+    logEvent({
+      level: "error",
+      event: "paytr.checkout.dev_live_blocked",
+      reason: "dev_live_locked",
+      merchantOid: input.merchantOid,
+    });
+    return {
+      ok: false,
+      reason: "dev_live_locked",
+      message: paytrDevLiveCheckoutBlockedMessage(),
+    };
+  }
   if (!credentials) {
     const mock = tryPaytrDevOnlyMockCheckout(input.merchantOid);
     if (mock) {

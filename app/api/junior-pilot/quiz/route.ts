@@ -1,42 +1,27 @@
-import { z } from "zod";
 import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
+import { railV1JuniorQuizRequestSchema } from "@/lib/kernel/http/v1-contract";
 import { canonicalJuniorLessonKey } from "@/lib/junior/lesson-key-alias";
 import { createPrismaJuniorStore } from "@/lib/junior/load";
 import { submitJuniorQuiz } from "@/lib/junior/service";
 
 export const auth = "session" as const;
 
-const quizSchema = z
-  .object({
-    profileId: z.string().trim().min(1).max(40),
-    lessonKey: z.string().trim().min(1).max(80).transform(canonicalJuniorLessonKey),
-    answers: z
-      .array(
-        z
-          .object({
-            id: z.string().trim().min(1).max(40),
-            choiceIndex: z.number().int().min(0).max(8).optional(),
-          })
-          .strict(),
-      )
-      .max(16),
-  })
-  .strict();
+/** Sözleşme şeması tek kaynaktır. İkinci bir gövde ayrımı yazılmaz. */
 
 export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
-    const parsed = quizSchema.safeParse(await request.json().catch(() => ({})));
+    const parsed = railV1JuniorQuizRequestSchema.safeParse(await request.json().catch(() => ({})));
     if (!parsed.success) {
       return jsonFail("Cevaplar okunamadı.", 400, requestId, request);
     }
     const result = await submitJuniorQuiz(createPrismaJuniorStore(), {
       userId: user.id,
       profileId: parsed.data.profileId,
-      lessonKey: parsed.data.lessonKey,
+      lessonKey: canonicalJuniorLessonKey(parsed.data.lessonKey),
       answers: parsed.data.answers,
       actor: user,
     });

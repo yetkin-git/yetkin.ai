@@ -129,8 +129,9 @@ describe("lansman hukuk yüzeyi (O13)", () => {
   });
 
   it("kasa rızası fail-closed’dır; sahte sürüm geçmez", () => {
-    expect(CHECKOUT_LEGAL_CONSENT_VERSION).toBe("2026-09-05");
+    expect(CHECKOUT_LEGAL_CONSENT_VERSION).toBe("2026-09-08");
     expect(LEGAL_UPDATED_LABEL).toBe("Yürürlük: 8 Eylül 2026");
+    expect(LEGAL_UPDATED_LABEL).toBe(`Yürürlük: 8 Eylül ${CHECKOUT_LEGAL_CONSENT_VERSION.slice(0, 4)}`);
     expect(checkoutLegalConsentSchema.safeParse(CHECKOUT_LEGAL_CONSENT_PAYLOAD).success).toBe(true);
     expect(toCheckoutConsentEvidence(CHECKOUT_LEGAL_CONSENT_PAYLOAD)).toEqual({
       consentVersion: CHECKOUT_LEGAL_CONSENT_VERSION,
@@ -512,6 +513,21 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(topUpApi).toContain("paymentOrder.create");
     expect(purchaseApi).toContain("persistCheckoutBilling");
     expect(topUpApi).toContain("persistCheckoutBilling");
+    const start = purchaseUi.indexOf("const startPaytrCheckout");
+    const guard = purchaseUi.indexOf("if (!consentReady)", start);
+    const iframeCall = purchaseUi.indexOf("requestPaytrIframe(", start);
+    expect(start).toBeGreaterThan(0);
+    expect(guard).toBeGreaterThan(start);
+    expect(iframeCall).toBeGreaterThan(guard);
+    const submit = wallet.indexOf("async function onSubmit");
+    const walletGuard = wallet.indexOf("if (!distanceAccepted || !digitalAccepted)", submit);
+    const walletFetch = wallet.indexOf("fetch(", submit);
+    expect(walletGuard).toBeGreaterThan(submit);
+    expect(walletFetch).toBeGreaterThan(walletGuard);
+    expect(wallet).toContain("disabled={pending || !distanceAccepted || !digitalAccepted || !billing.hydrated}");
+    expect(readSrc("apps/rail-is/src/screens/WalletTopUpScreen.tsx")).toContain(
+      `DRON_CHECKOUT_CONSENT_VERSION = "${CHECKOUT_LEGAL_CONSENT_VERSION}"`,
+    );
   });
 
   it("E2E iade senaryosu SSOT cüzdan maddesini arar; otomatik karta iade vaadi yok", () => {

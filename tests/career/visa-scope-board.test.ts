@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { FREELANCER_GUARANTEED_NEED_IDS, isOpenTrialNeed } from "@/lib/kernel/catalog-ids";
+import { FREELANCER_GUARANTEED_NEED_IDS, isOpenTrialNeed } from "@yetkin/kernel/catalog-ids";
 import {
   FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY,
   YZ_LISTING_VISA_SUBJECT,

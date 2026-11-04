@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { CHECKOUT_LEGAL_CONSENT_VERSION } from "../../lib/kernel/legal/checkout-consent";
 
 test.describe("T4 nakit döngüsü — kayıt → yükleme → emanet → vize", () => {
   test("oturumsuz pulse, yükleme ve emanet yazmaları 401; /kayit 308 durur", async ({
@@ -80,7 +81,7 @@ test.describe("T4 nakit döngüsü — kayıt → yükleme → emanet → vize",
         amountMinor: 10_000,
         distanceContractAccepted: true,
         digitalImmediatePerformanceAccepted: true,
-        consentVersion: "2026-09-05",
+        consentVersion: CHECKOUT_LEGAL_CONSENT_VERSION,
         billing: {
           invoiceType: "individual",
           fullName: "Ayşe Kaya",

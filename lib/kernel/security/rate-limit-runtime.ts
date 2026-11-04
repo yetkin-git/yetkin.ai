@@ -16,18 +16,40 @@ export type RateLimitRuntimeEnv = {
   RATE_LIMIT_REDIS_REST_TOKEN?: string;
 };
 
+/** Paylaşılan depo, kısmi fail-closed, ya da tek süreç belleği. */
+export type RateLimitStoreMode = "redis-rest" | "fail-closed-partial" | "in-process-single-node";
+
+export function classifyRateLimitStore(
+  env: RateLimitRuntimeEnv = {
+    RATE_LIMIT_REDIS_REST_URL: process.env.RATE_LIMIT_REDIS_REST_URL,
+    RATE_LIMIT_REDIS_REST_TOKEN: process.env.RATE_LIMIT_REDIS_REST_TOKEN,
+  },
+): RateLimitStoreMode {
+  const restUrl = env.RATE_LIMIT_REDIS_REST_URL?.trim() ?? "";
+  const token = env.RATE_LIMIT_REDIS_REST_TOKEN?.trim() ?? "";
+  if (restUrl && token) {
+    return "redis-rest";
+  }
+  if (restUrl || token) {
+    return "fail-closed-partial";
+  }
+  return "in-process-single-node";
+}
+
 export function resolveRateLimitPort(
   env: RateLimitRuntimeEnv = {
     RATE_LIMIT_REDIS_REST_URL: process.env.RATE_LIMIT_REDIS_REST_URL,
     RATE_LIMIT_REDIS_REST_TOKEN: process.env.RATE_LIMIT_REDIS_REST_TOKEN,
   },
 ): RateLimitPort {
-  const restUrl = env.RATE_LIMIT_REDIS_REST_URL?.trim() ?? "";
-  const token = env.RATE_LIMIT_REDIS_REST_TOKEN?.trim() ?? "";
-  if (restUrl && token) {
-    return createRedisRestRateLimitPort({ restUrl, token });
+  const mode = classifyRateLimitStore(env);
+  if (mode === "redis-rest") {
+    return createRedisRestRateLimitPort({
+      restUrl: env.RATE_LIMIT_REDIS_REST_URL ?? "",
+      token: env.RATE_LIMIT_REDIS_REST_TOKEN ?? "",
+    });
   }
-  if (restUrl || token) {
+  if (mode === "fail-closed-partial") {
     return createFailClosedRateLimitPort();
   }
   return createInMemoryRateLimitPort();

@@ -4,6 +4,7 @@
  */
 
 import { createAcademyGrantPurchase, isZeroFeeAcademyGrantOpen } from "@/lib/academy/access";
+import { writeSuperAdminAudit, type SuperAdminAuditInsert } from "@/lib/kernel/admin/audit-log";
 import { ACADEMY_GRANT_LOCK_PREFIX, isAcademyGrantPurchase } from "@/lib/academy/enrolment";
 import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 import type { AcademyPurchaseRecord } from "@/lib/academy/types";
@@ -40,6 +41,7 @@ export type SuperAdminGrantPort = {
   listPurchasesForUser(userId: string): Promise<{ courseId: string; priceLockId: string }[]>;
   insertCourse(seed: SuperAdminGrantCourseSeed): Promise<void>;
   insertGrant(purchase: AcademyPurchaseRecord): Promise<void>;
+  writeAudit?(row: SuperAdminAuditInsert): Promise<void>;
   countLedgerEntries(userId: string): Promise<number>;
   countWalletRows(userId: string): Promise<number>;
 };
@@ -180,6 +182,17 @@ export async function runSuperAdminAcademyGrants(
       await port.insertCourse(seed);
     }
     await port.insertGrant(createAcademyGrantPurchase(user.id, row.courseId, now));
+    if (port.writeAudit) {
+      await writeSuperAdminAudit(
+        { create: (data) => port.writeAudit!(data) },
+        {
+          actorUserId: process.env.SUPER_ADMIN_USER_ID?.trim() ?? "",
+          action: "license_grant",
+          target: `${user.id}:${row.courseId}`,
+          detail: row.slug,
+        },
+      );
+    }
     items.push({ ...row, applied: true });
   }
   const ledgerCountAfter = await port.countLedgerEntries(user.id);

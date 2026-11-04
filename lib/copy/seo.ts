@@ -76,6 +76,14 @@ export const SITE_CONTENT_REVISED_AT = new Date("2026-10-27T00:00:00.000Z");
  * H1 sen-voice ile aynı olmak zorunda değildir; meta tekil ve zengin kalır.
  */
 export const PAGE_SEO = {
+  guide: {
+    title: "Ofiste yapay zekâ rehberi: Excel ve e-posta",
+    description:
+      "Excel tablosu, e-posta taslağı ve kısa talimat. İlk ders ücretsiz; kayıt duvarı yok. Testi geçince sertifika kariyer vizesine işlenir.",
+    path: "/rehber",
+    image: DEFAULT_OG_IMAGE,
+    keywords: ["ofiste yapay zekâ", "excel yapay zeka eğitimi", "iş hayatında yapay zekâ"],
+  },
   home: {
     title: PUBLIC_SEN.home.title,
     // SERP kesme sınırı ~155 karakter. Kuyruk cümlesi (KVKK/sınav vaadi) description'da
@@ -169,6 +177,25 @@ export const PAGE_SEO = {
   },
 } as const;
 
+/** `/rehber` SSS. Schema.org FAQ ile aynı dizidir. Konsol yolu burada yoktur. */
+export const GUIDE_FAQ = [
+  {
+    question: "İlk ders için kayıt gerekir mi?",
+    answer:
+      "Hayır. Ofis eğitiminin ilk dersi kayıt duvarının önündedir. Kilitli dersler lisans ister.",
+  },
+  {
+    question: "Rehberi bitirmek sertifika basar mı?",
+    answer:
+      "Hayır. Sertifika, eğitimin dersleri bitip test 70 ve üzeri geçilince sunucuda basılır. Satın alma belge basmaz.",
+  },
+  {
+    question: "Bu sayfa ödeme veya yönetici ekranı mıdır?",
+    answer:
+      "Hayır. Rehber herkese açıktır. Ödeme kasada, operasyon konsolu oturum ve süper yönetici kilidinin arkasındadır.",
+  },
+] as const;
+
 type PageSeoInput = {
   title: string;
   description: string;
@@ -193,6 +220,7 @@ export const PRODUCT_ROOM_PATHS = ["/academy", "/career"] as const;
 export const SITEMAP_STATIC_PATHS = [
   // Kök marka iniş sayfası — 308 kilidi kalktı, `robots: index:true`.
   PAGE_SEO.home.path,
+  PAGE_SEO.guide.path,
   "/academy",
   "/academy/ileri",
   PAGE_SEO.career.path,
@@ -263,15 +291,15 @@ export function isRobotsDisallowedPath(pathname: string): boolean {
  * `course.title` sicil/sertifika başlığıdır; yalnız bu dal arama title / description / keywords basar.
  * Title dizesi `| yetkin.ai` ile biter. `pageMetadata` bunu mutlak başlık yapar;
  * kök `TITLE_TEMPLATE` markayı ikinci kez eklemez.
- * Description 180 karakter tavanındadır. Mühür cümlesi (izleme + baraj, sunucu dosya kontrolü yok)
+ * Description 160 karakter tavanındadır. Mühür cümlesi (izleme + baraj, sunucu dosya kontrolü yok)
  * katalog, SSS ve rehberde durur; snippet bu arama niyeti metnidir.
  */
 export const OFFICE_AI_SEO = {
   slug: "01_office_ai",
   path: "/academy/01_office_ai",
-  title: "İş Hayatında Yapay Zekâ Eğitimi: Excel, Word, PowerPoint & E-Posta | yetkin.ai",
+  title: "İş Hayatında Yapay Zekâ: Excel ve E-Posta | yetkin.ai",
   description:
-    "İş hayatında yapay zekâ ve Copilot kullanımı: Excel formülleri, yönetim özeti, Gmail Gemini ve KVKK uyumlu e-posta akışları. 8 derste pratik beceri ve sertifika.",
+    "İş hayatında yapay zekâ ve Copilot kullanımı: Excel formülleri, yönetim özeti, Gmail Gemini ve KVKK e-postası. 8 derste pratik beceri ve sertifika.",
   /** Gövde H1 — kullanıcı dili; title (arama dili) ile ayrışır. */
   h1: "İş Hayatında Yapay Zekâ: Excel'den E-Postaya 8 Ders",
   keywords: [
@@ -290,7 +318,7 @@ export const OFFICE_AI_SEO = {
 export const OFFICE_AI_ILERI_SEO = {
   slug: "01_office_ai_ileri",
   path: "/academy/01_office_ai_ileri",
-  title: "İleri Ofis Yapay Zekâ Eğitimi: Toplantı Notundan Sayı Denetimine | yetkin.ai",
+  title: "İleri Ofis Yapay Zekâ: Toplantı ve Denetim | yetkin.ai",
   description:
     "İleri düzey yapay zekâ uygulamaları: Dört parçalı istem, toplantı notu analizi, uzun belge özetleme ve 3 dosyada sayı denetimi. İleri seviye ofis uzmanlığı.",
   h1: "İleri Ofis Yapay Zekâ: Toplantı Notundan Sayı Denetimine",
@@ -309,11 +337,10 @@ export const OFFICE_AI_ILERI_SEO = {
 export const ECOMMERCE_AI_SEO = {
   slug: "02_ecommerce_ai",
   path: "/academy/02_ecommerce_ai",
-  title:
-    "E-Ticaret ve Pazaryeri Yapay Zekâ Eğitimi: Trendyol, Hepsiburada, Amazon & Shopify | yetkin.ai",
+  title: "E-Ticaret Yapay Zekâ: Trendyol ve Shopify | yetkin.ai",
   description:
-    "Trendyol, Hepsiburada, Amazon, Shopify ve PttAVM için SEO uyumlu ürün açıklaması, görsel temizleme, iade analizi ve mağaza puanı asistanı. 6 derste e-ticaret yapay zekâ uzmanlığı.",
-  h1: "E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı (Trendyol, Hepsiburada, Amazon & Shopify)",
+    "Trendyol, Hepsiburada, Amazon ve Shopify için ürün açıklaması, görsel, iade analizi ve mağaza mesajı. 6 derste e-ticaret yapay zekâ.",
+  h1: "E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı",
   keywords: [
     "e-ticaret yapay zeka",
     "pazaryeri yapay zeka asistanı",
@@ -330,7 +357,7 @@ export const ECOMMERCE_AI_SEO = {
 export const SOCIAL_MEDIA_AI_SEO = {
   slug: "03_social_media_ai",
   path: "/academy/03_social_media_ai",
-  title: "Yapay Zekâ ile Sosyal Medya Eğitimi: Görsel ve Kısa Video | yetkin.ai",
+  title: "Sosyal Medya Yapay Zekâ: Görsel ve Video | yetkin.ai",
   description:
     "Sosyal medya görseli ve kısa video: künye, tek stil, üç saniyelik kanca, altyazı ve yayından önce kontrol. 6 derste içerik üretimi ve sertifika.",
   h1: "Yapay Zekâ ile Sosyal Medya: Künyeden Kısa Videoya",
@@ -349,9 +376,9 @@ export const SOCIAL_MEDIA_AI_SEO = {
 export const CHATBOT_NOCODE_SEO = {
   slug: "04_chatbot_nocode",
   path: "/academy/04_chatbot_nocode",
-  title: "Kodsuz Chatbot Eğitimi: WhatsApp ve Web Müşteri Asistanı | yetkin.ai",
+  title: "Kodsuz WhatsApp ve Web Chatbot Eğitimi | yetkin.ai",
   description:
-    "Kodsuz WhatsApp ve web chatbot: karşılama, randevu, yanlış anlama ve teslim listesi. 6 derste müşteri asistanı kurulumu ve sertifika.",
+    "Voiceflow ve Botpress ile kodsuz WhatsApp ve web chatbot: karşılama, randevu, yanlış anlama ve teslim listesi. 6 derste sertifika.",
   h1: "Kodsuz WhatsApp ve Web Chatbot: Karşılamadan Teslime",
   keywords: [
     "whatsapp chatbot",
@@ -368,7 +395,7 @@ export const CHATBOT_NOCODE_SEO = {
 export const PROMPT_PRACTICE_SEO = {
   slug: "05_prompt_practice",
   path: "/academy/05_prompt_practice",
-  title: "Yapay Zekâ Prompt Eğitimi: Doğru Talimat Verme | yetkin.ai",
+  title: "Yapay Zekâ Prompt Eğitimi: Doğru Talimat | yetkin.ai",
   description:
     "Yapay zekâya doğru talimat: rol, bağlam, biçim, kaynak sınırı, tablo ve günlük istem seti. 6 derste prompt pratiği ve sertifika.",
   h1: "Yapay Zekâya Doğru Talimat Verme: Altı Ders",
@@ -466,6 +493,9 @@ export function sitemapRoutePolicy(path: string): {
   }
   if (path === "/career" || path === "/junior") {
     return { changeFrequency: "weekly", priority: 0.9 };
+  }
+  if (path === PAGE_SEO.guide.path) {
+    return { changeFrequency: "monthly", priority: 0.8 };
   }
   if (path.startsWith("/junior/ders/")) {
     return { changeFrequency: "weekly", priority: 0.7 };

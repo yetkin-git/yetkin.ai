@@ -202,6 +202,7 @@ export async function completeJuniorCheckout(
     };
   }
 
+  // Kilit sırası: satış kapısı (kapalı / reddedildi) denetim reddinden önce okunur.
   const gate = juniorPaytrSaleGate(env);
   if (gate === "closed") {
     return { ok: false, status: 503, error: JUNIOR_CHECKOUT_CLOSED_MESSAGE };

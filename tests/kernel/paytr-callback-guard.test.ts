@@ -14,7 +14,7 @@ import {
   isPaytrMerchantBrowserReturnPath,
   isPaytrNotificationPath,
   isPaytrPanelWebhookPath,
-  shouldAlarmPaytrSilentAck,
+  paytrUnverifiedNotificationStatus,
 } from "@/lib/kernel/payments/paytr/callback-guard";
 
 const ROOT = process.cwd();
@@ -28,12 +28,10 @@ describe("PayTR callback bütünlüğü", () => {
     );
     expect(isPaytrCanonicalWebhookPath("/api/payments/webhooks/paytr")).toBe(true);
     expect(isPaytrPanelWebhookPath("https://yetkin.ai/api/paytr/callback")).toBe(true);
-    expect(shouldAlarmPaytrSilentAck("/api/paytr/callback", "invalid_signature")).toBe(true);
-    expect(shouldAlarmPaytrSilentAck("/api/paytr/callback", "missing_credentials")).toBe(true);
-    expect(shouldAlarmPaytrSilentAck("/api/paytr/callback", "production_safety")).toBe(true);
-    expect(shouldAlarmPaytrSilentAck("/api/payments/webhooks/paytr", "invalid_signature")).toBe(
-      false,
-    );
+    expect(paytrUnverifiedNotificationStatus("invalid_signature")).toBe(403);
+    expect(paytrUnverifiedNotificationStatus("missing_credentials")).toBe(400);
+    expect(paytrUnverifiedNotificationStatus("production_safety")).toBe(403);
+    expect(paytrUnverifiedNotificationStatus("invalid_payload")).toBe(400);
     expect(isPaytrNotificationPath("/api/paytr/callback")).toBe(true);
     expect(isPaytrCanonicalWebhookPath("/api/paytr/callback")).toBe(false);
     expect(isForbiddenPaytrCallbackPath("/api/paytr/callback")).toBe(false);

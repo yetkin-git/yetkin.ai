@@ -389,6 +389,62 @@ describe("PayTR port", () => {
     }
   });
 
+  it("geliştirmede canlı üçlü get-token açmaz; bilinçli istisna açar", async () => {
+    vi.stubEnv("NODE_ENV", "development");
+    vi.stubEnv("PAYTR_MERCHANT_ID", "111111");
+    vi.stubEnv("PAYTR_MERCHANT_KEY", "key-secret");
+    vi.stubEnv("PAYTR_MERCHANT_SALT", "salt-secret");
+    vi.stubEnv("PAYTR_SANDBOX", "");
+    delete process.env.PAYTR_ALLOW_LIVE_CHECKOUT_IN_DEV;
+    const fetchImpl: typeof fetch = async () => {
+      throw new Error("canlı get-token çağrılmamalı");
+    };
+    const blocked = await requestPaytrCheckoutToken(
+      {
+        merchantOid: "wallettopupdevlive",
+        userIp: "85.105.141.10",
+        email: "e2e@example.com",
+        paymentAmountMinor: 1300,
+        merchantOkUrl: "http://localhost/ok",
+        merchantFailUrl: "http://localhost/fail",
+        userBasket: [{ name: "yukleme", amountMinor: 1300, quantity: 1 }],
+        userName: "Ayşe Kaya",
+        userAddress: "İnönü Mah. 157 Sk. No:3/C Akhisar",
+        userPhone: "05321234567",
+      },
+      fetchImpl,
+    );
+    expect(blocked.ok).toBe(false);
+    if (!blocked.ok) {
+      expect(blocked.reason).toBe("dev_live_locked");
+    }
+    vi.stubEnv("PAYTR_ALLOW_LIVE_CHECKOUT_IN_DEV", "1");
+    const capture: { called: boolean } = { called: false };
+    const allowedFetch: typeof fetch = async () => {
+      capture.called = true;
+      return new Response(JSON.stringify({ status: "success", token: "dev-live-token" }), {
+        status: 200,
+      });
+    };
+    const allowed = await requestPaytrCheckoutToken(
+      {
+        merchantOid: "wallettopupdevlive",
+        userIp: "85.105.141.10",
+        email: "e2e@example.com",
+        paymentAmountMinor: 1300,
+        merchantOkUrl: "http://localhost/ok",
+        merchantFailUrl: "http://localhost/fail",
+        userBasket: [{ name: "yukleme", amountMinor: 1300, quantity: 1 }],
+        userName: "Ayşe Kaya",
+        userAddress: "İnönü Mah. 157 Sk. No:3/C Akhisar",
+        userPhone: "05321234567",
+      },
+      allowedFetch,
+    );
+    expect(allowed.ok).toBe(true);
+    expect(capture.called).toBe(true);
+  });
+
   it("geçerli kimlik olsa bile sahte telefon ile get-token açılmaz", async () => {
     vi.stubEnv("PAYTR_MERCHANT_ID", "111111");
     vi.stubEnv("PAYTR_MERCHANT_KEY", "key-secret");
@@ -441,6 +497,20 @@ describe("PayTR port", () => {
     vi.stubEnv("PAYTR_MERCHANT_SALT", "salt-secret");
     expect(isPaytrSandboxEnabled()).toBe(false);
     expect(getPaytrCheckoutCredentials()?.testMode).toBe(false);
+    expect(
+      getPaytrCheckoutCredentials({
+        NODE_ENV: "test",
+        PAYTR_MERCHANT_ID: "222222",
+        PAYTR_MERCHANT_KEY: "other-key",
+        PAYTR_MERCHANT_SALT: "other-salt",
+        PAYTR_SANDBOX: "1",
+      }),
+    ).toEqual({
+      merchantId: "222222",
+      merchantKey: "other-key",
+      merchantSalt: "other-salt",
+      testMode: true,
+    });
     expect(
       readPaytrRuntimeMode({
         NODE_ENV: "production",

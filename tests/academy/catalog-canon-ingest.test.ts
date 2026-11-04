@@ -18,7 +18,7 @@ import {
 import { parseAcademyExamQuestions, serializeAcademyExamQuestions } from "@/lib/academy/exam";
 import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
 import { ACADEMY_COURSE_SEEDS } from "@/lib/academy/seed";
-import { ACADEMY_CANON_SKU_SLUGS, ACADEMY_CATALOG_LAYER_BY_SLUG } from "@/lib/kernel/catalog-ids";
+import { ACADEMY_CANON_SKU_SLUGS, ACADEMY_CATALOG_LAYER_BY_SLUG } from "@yetkin/kernel/catalog-ids";
 
 const ROOT = process.cwd();
 const MASTERY = join(ROOT, "docs", "curriculum", "02_ecommerce_ai_mastery.md");

@@ -1,6 +1,9 @@
 import "server-only";
 
 import type { PrismaClient } from "@/generated/prisma/client";
+import { isAcademyGrantPurchase } from "@/lib/academy/enrolment";
+import { writeSuperAdminAudit } from "@/lib/kernel/admin/audit-log";
+import { bindSuperAdminAuditWriter } from "@/lib/kernel/admin/prisma-super-admin-audit";
 import { getPrisma } from "@/lib/kernel/db";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { parseCurrencyCode, SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
@@ -209,6 +212,7 @@ export type AcademyWriteDb = Pick<
   | "academyExamAttempt"
   | "academyExamSitting"
   | "academyLessonCompletion"
+  | "superAdminAuditLog"
 >;
 
 export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
@@ -309,6 +313,14 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
           },
           update: { status: purchase.status },
         });
+        if (isAcademyGrantPurchase(purchase)) {
+          await writeSuperAdminAudit(bindSuperAdminAuditWriter(db), {
+            actorUserId: process.env.SUPER_ADMIN_USER_ID?.trim() ?? "",
+            action: "license_grant",
+            target: `${purchase.userId}:${purchase.courseId}`,
+            detail: purchase.priceLockId,
+          });
+        }
         return toPurchase(row);
       } catch (error) {
         if (isPrismaUniqueViolation(error)) {

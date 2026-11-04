@@ -58,7 +58,7 @@ export type RailV1WalletTopUpRequest = {
   "amountMinor": number;
   "distanceContractAccepted": true;
   "digitalImmediatePerformanceAccepted": true;
-  "consentVersion": "2026-09-05";
+  "consentVersion": "2026-09-08";
   "billing": {
     "invoiceType": "individual" | "corporate";
     "fullName"?: string;
@@ -873,7 +873,7 @@ export type RailV1JuniorQuizData = {
 export type RailV1JuniorCheckoutRequest = {
   "distanceContractAccepted": true;
   "digitalImmediatePerformanceAccepted": true;
-  "consentVersion": "2026-09-05";
+  "consentVersion": "2026-09-08";
   "guardianConsentAccepted": true;
   "guardianNoticeVersion": "junior-notice-2026-10-09";
   "billing": {

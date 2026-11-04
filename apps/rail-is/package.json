@@ -2,7 +2,7 @@
   "name": "yetkin.ai-is",
   "version": "0.0.1",
   "private": true,
-  "description": "yetkin.ai İş — Diyar B native dron. T3 Akademi halkası Dron UI'da bağlıdır; Tezgâh Closed Testing'te izole. Canlı sözleşme @yetkin/kernel hop sicili.",
+  "description": "yetkin.ai İş — tek native istemci (Diyar B). T3 Akademi halkası bu istemcide bağlıdır; Tezgâh Closed Testing'te izole. Canlı sözleşme @yetkin/kernel hop sicili.",
   "main": "index.ts",
   "yetkin": {
     "publishFrozenUntilFaz1Close": false,

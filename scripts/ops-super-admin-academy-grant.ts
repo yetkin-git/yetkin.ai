@@ -8,6 +8,7 @@
  * ledger_entries / wallets yazılmaz. PayTR ve sahte CREDIT yok.
  */
 
+import { randomUUID } from "node:crypto";
 import { resolve } from "node:path";
 import dotenv from "dotenv";
 import { Client } from "pg";
@@ -102,6 +103,13 @@ function createPgPort(client: Client): SuperAdminGrantPort {
           seed.localRank,
           seed.trendScore,
         ],
+      );
+    },
+    async writeAudit(row) {
+      await client.query(
+        `INSERT INTO super_admin_audit_logs (id, actor_user_id, action, target, detail)
+         VALUES ($1, $2, $3, $4, $5)`,
+        [randomUUID(), row.actorUserId, row.action, row.target, row.detail],
       );
     },
     async insertGrant(purchase) {

@@ -14,7 +14,7 @@ import {
 } from "@/lib/academy/curricula/office_ai";
 import { OFFICE_AI_PLANNED_LESSONS } from "@/lib/academy/curricula/office_ai/planned";
 import { curriculumLessonKeysForSlug } from "@/lib/academy/curricula/lesson-index";
-import { ACADEMY_CANON_SKU_SLUGS, ACADEMY_NEED_SKU_CODES } from "@/lib/kernel/catalog-ids";
+import { ACADEMY_CANON_SKU_SLUGS, ACADEMY_NEED_SKU_CODES } from "@yetkin/kernel/catalog-ids";
 import {
   ACADEMY_MODULE_LEVEL_SPOKEN,
   academyModuleCodeBySlug,

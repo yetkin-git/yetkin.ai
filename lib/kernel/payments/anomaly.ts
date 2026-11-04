@@ -11,6 +11,7 @@ export const PAYMENT_ANOMALY_KINDS = [
   "malformed_replay",
   "wallet_ledger_drift",
   "cleared_order_mismatch",
+  "license_gap",
 ] as const;
 
 export type PaymentAnomalyKind = (typeof PAYMENT_ANOMALY_KINDS)[number];

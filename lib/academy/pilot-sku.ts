@@ -12,7 +12,7 @@
  * Sınav yolu `lesson-index.ts` üzerinden `lib/kernel/catalog-ids/exam-path.ts` tablosunu okur.
  */
 
-import type { AcademyCourseTitleSlug } from "@/lib/kernel/catalog-ids/course-slugs";
+import type { AcademyCourseTitleSlug } from "@yetkin/kernel/catalog-ids/course-slugs";
 import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
 import { CURRICULUM_LESSON_KEYS_BY_SLUG as EXAM_PATH_KEYS_BY_SLUG } from "@/lib/kernel/catalog-ids/exam-path";
 import { academyBakeVoiceModelId } from "@/lib/kernel/ai/model-roles";

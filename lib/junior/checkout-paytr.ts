@@ -207,13 +207,13 @@ export async function placeJuniorPaytrOrder(
         reason: checkout.ok ? "mock" : checkout.reason,
       });
       await failQuiet(merchantOid);
-      const status = !checkout.ok && (checkout.reason === "invalid_user" || checkout.reason === "invalid_amount")
-        ? 400
-        : 503;
-      const error =
-        !checkout.ok && (checkout.reason === "invalid_user" || checkout.reason === "invalid_amount")
-          ? checkout.message
-          : JUNIOR_CHECKOUT_PAYTR_MESSAGE;
+      const clientReason =
+        !checkout.ok &&
+        (checkout.reason === "invalid_user" ||
+          checkout.reason === "invalid_amount" ||
+          checkout.reason === "dev_live_locked");
+      const status = clientReason ? 400 : 503;
+      const error = clientReason && !checkout.ok ? checkout.message : JUNIOR_CHECKOUT_PAYTR_MESSAGE;
       return { ok: false, status, error };
     }
     const iframeUrl = tryGetPaytrIframeUrl(checkout.token) ?? tryGetPaytrIframeUrl(checkout.iframeUrl ?? "");

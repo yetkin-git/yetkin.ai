@@ -1,5 +1,9 @@
 import { afterEach, describe, expect, it } from "vitest";
 import {
+  CRON_UNAUTHORIZED_ERROR,
+  CRON_UNCONFIGURED_ERROR,
+} from "@/lib/kernel/security/api-auth";
+import {
   decideEdgeApiAuth,
   EDGE_API_FORBIDDEN_ERROR,
   EDGE_API_FROZEN_ROOM_ERROR,
@@ -43,7 +47,21 @@ describe("K6 kind eşlemesi", () => {
     expect(matchApiAuthKind("/api/health", MAP)).toBe("public");
     expect(matchApiAuthKind("/api/health/live", MAP)).toBe("public");
     expect(matchApiAuthKind("/api/unknown", MAP)).toBeNull();
-    expect(matchApiAuthKind("/api/_gone/studio/generate", ROUTE_AUTH_MAP)).toBe("public");
+    expect(matchApiAuthKind("/api/_gone/studio/generate", ROUTE_AUTH_MAP)).toBe("closed");
+    expect(
+      decideEdgeApiAuth({
+        pathname: "/api/academy/reviews",
+        method: "POST",
+        sessionHint: false,
+      }),
+    ).toEqual({ kind: "next" });
+    expect(
+      decideEdgeApiAuth({
+        pathname: "/api/academy/generateSpeech",
+        method: "POST",
+        sessionHint: false,
+      }),
+    ).toEqual({ kind: "next" });
   });
 });
 
@@ -169,6 +187,17 @@ describe("K6 kenar kararı", () => {
     ).toEqual({ kind: "deny", status: 401, error: EDGE_API_SESSION_ERROR });
   });
 
+  it("asistan sohbeti oturumsuz geçer; ölü çerez kenarda 401 yemez", () => {
+    expect(
+      decideEdgeApiAuth({
+        pathname: "/api/ai/chat",
+        method: "POST",
+        sessionHint: false,
+        map: ROUTE_AUTH_MAP,
+      }).kind,
+    ).toBe("next");
+  });
+
   it("haritada olmayan /api yolunu 404 eker", () => {
     expect(
       decideEdgeApiAuth({ pathname: "/api/secret-backdoor", sessionHint: false, map: MAP }),
@@ -256,12 +285,12 @@ describe("üretilen ROUTE_AUTH_MAP", () => {
     expect(ROUTE_AUTH_MAP["/api/jobs/inngest"]).toBe("webhook");
     expect(Object.hasOwn(ROUTE_AUTH_MAP, "/api/studio/generate")).toBe(false);
     expect(Object.hasOwn(ROUTE_AUTH_MAP, "/api/kurumsal/jobs/[id]/offers")).toBe(false);
-    expect(ROUTE_AUTH_MAP["/api/_gone/[...path]"]).toBe("public");
-    expect(ROUTE_AUTH_MAP["/api/ai/chat"]).toBe("session");
+    expect(ROUTE_AUTH_MAP["/api/_gone/[...path]"]).toBe("closed");
+    expect(ROUTE_AUTH_MAP["/api/ai/chat"]).toBe("public");
     expect(Object.keys(ROUTE_AUTH_MAP).some((path) => path.includes("("))).toBe(false);
     // Sayı route sayacıyla birlikte büyür; sabit yazmak her yeni rotada testi kırar.
     expect(Object.keys(ROUTE_AUTH_MAP).length).toBeGreaterThanOrEqual(74);
-    expect(ROUTE_AUTH_MAP["/api/cron/paytr-reconcile"]).toBe("public");
+    expect(ROUTE_AUTH_MAP["/api/cron/paytr-reconcile"]).toBe("cron");
     expect(ROUTE_AUTH_MAP["/api/junior/lessons/[key]"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/junior/lessons/[key]/play"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/junior/lessons/[key]/progress"]).toBe("session");
@@ -280,19 +309,19 @@ describe("üretilen ROUTE_AUTH_MAP", () => {
     expect(Object.hasOwn(ROUTE_AUTH_MAP, "/api/junior")).toBe(false);
     expect(ROUTE_AUTH_MAP["/api/wallet/refund"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/wallet/top-up"]).toBe("session");
-    expect(ROUTE_AUTH_MAP["/api/academy/courses/[id]/listen"]).toBe("public");
-    expect(ROUTE_AUTH_MAP["/api/academy/courses/[id]/pdf"]).toBe("public");
-    expect(ROUTE_AUTH_MAP["/api/academy/reviews"]).toBe("public");
-    expect(ROUTE_AUTH_MAP["/api/academy/discussion"]).toBe("public");
-    expect(ROUTE_AUTH_MAP["/api/academy/generateSpeech"]).toBe("public");
-    expect(ROUTE_AUTH_MAP["/api/admin/curriculum-revisions"]).toBe("public");
+    expect(ROUTE_AUTH_MAP["/api/academy/courses/[id]/listen"]).toBe("closed");
+    expect(ROUTE_AUTH_MAP["/api/academy/courses/[id]/pdf"]).toBe("closed");
+    expect(ROUTE_AUTH_MAP["/api/academy/reviews"]).toBe("closed");
+    expect(ROUTE_AUTH_MAP["/api/academy/discussion"]).toBe("closed");
+    expect(ROUTE_AUTH_MAP["/api/academy/generateSpeech"]).toBe("closed");
+    expect(ROUTE_AUTH_MAP["/api/admin/curriculum-revisions"]).toBe("closed");
     expect(ROUTE_AUTH_MAP["/api/academy/certificates"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/academy/certificates/[hash]"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/freelancer/contracts"]).toBe("session");
-    expect(ROUTE_AUTH_MAP["/api/freelancer/direct-offers"]).toBe("public");
-    expect(ROUTE_AUTH_MAP["/api/freelancer/direct-offers/[id]/accept"]).toBe("public");
-    expect(ROUTE_AUTH_MAP["/api/freelancer/direct-offers/[id]/decline"]).toBe("public");
-    expect(ROUTE_AUTH_MAP["/api/freelancer/squad"]).toBe("public");
+    expect(ROUTE_AUTH_MAP["/api/freelancer/direct-offers"]).toBe("closed");
+    expect(ROUTE_AUTH_MAP["/api/freelancer/direct-offers/[id]/accept"]).toBe("closed");
+    expect(ROUTE_AUTH_MAP["/api/freelancer/direct-offers/[id]/decline"]).toBe("closed");
+    expect(ROUTE_AUTH_MAP["/api/freelancer/squad"]).toBe("closed");
     expect(ROUTE_AUTH_MAP["/api/client/jobs/[id]/bids"]).toBe("session");
     expect(ROUTE_AUTH_MAP["/api/auth/logout"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/auth/register"]).toBe("public");
@@ -340,5 +369,54 @@ describe("Junior kasa kenarı", () => {
       map,
     });
     expect(guest).toEqual({ kind: "deny", status: 410, error: "Ödeme için veli girişi gerekir." });
+  });
+});
+
+describe("PayTR mutabakat cron kenarı", () => {
+  const env = { CRON_SECRET: "cron-seal-secret" };
+  const pathname = "/api/cron/paytr-reconcile";
+
+  it("boş sır 503, yanlış başlık 401, doğru Bearer geçer; oturum yetmez", () => {
+    expect(
+      decideEdgeApiAuth({
+        pathname,
+        method: "GET",
+        sessionHint: false,
+        env: {},
+      }),
+    ).toEqual({ kind: "deny", status: 503, error: CRON_UNCONFIGURED_ERROR });
+
+    expect(
+      decideEdgeApiAuth({
+        pathname,
+        method: "GET",
+        sessionHint: true,
+        sessionUserId: "22222222-2222-4222-8222-222222222222",
+        sessionEmail: "veli@ornek.com",
+        sessionEmailConfirmedAt: "2026-01-01T00:00:00.000Z",
+        authorizationHeader: "Bearer wrong",
+        env,
+      }),
+    ).toEqual({ kind: "deny", status: 401, error: CRON_UNAUTHORIZED_ERROR });
+
+    expect(
+      decideEdgeApiAuth({
+        pathname,
+        method: "GET",
+        sessionHint: false,
+        authorizationHeader: "Bearer cron-seal-secret",
+        env,
+      }),
+    ).toEqual({ kind: "next" });
+
+    expect(
+      decideEdgeApiAuth({
+        pathname: "/api/v1/cron/paytr-reconcile",
+        method: "GET",
+        sessionHint: false,
+        authorizationHeader: "bearer cron-seal-secret",
+        env,
+      }),
+    ).toEqual({ kind: "deny", status: 401, error: CRON_UNAUTHORIZED_ERROR });
   });
 });

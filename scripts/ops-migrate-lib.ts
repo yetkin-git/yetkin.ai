@@ -13,7 +13,11 @@ import {
 import { PLATFORM_TREASURY_USER_ID } from "@/lib/kernel/escrow/engine";
 import { RLS_FORCE_TABLES } from "@/lib/kernel/security/rls-policy-registry";
 import { STUDIO_IMAGE_DATA_BASE64_MAX_CHARS } from "@/lib/kernel/storage/byte-ceilings";
-import { toSupabaseSessionPoolerUrl } from "@/lib/kernel/postgres-url";
+import {
+  isSupabaseDirectSessionUrl,
+  toSupabaseDirectSessionUrl,
+  toSupabaseSessionPoolerUrl,
+} from "@/lib/kernel/postgres-url";
 
 /** Akademi tohum kimlikleri lib/academy/catalog-seed.ts (13 kanon SKU; vitrin mühürlü amiral `01_office_ai`). Eski ac_rail_temel yayını kapanır, lisans DROP yok. */
 export { ACADEMY_SEED_CATALOG_UNITS, ACADEMY_SEED_COURSE_IDS };
@@ -199,7 +203,11 @@ function isLoopbackHostname(hostname: string): boolean {
  * kullanır; Prisma CLI (libpq) `require` = şifrele, CA doğrulama. Bu parametre
  * Node `pg` istemcisini aynı libpq semantiğine çeker. Host/port/şifre değişmez.
  */
-export { toSupabaseSessionPoolerUrl, withPgLibpqSslCompat } from "@/lib/kernel/postgres-url";
+export {
+  toSupabaseDirectSessionUrl,
+  toSupabaseSessionPoolerUrl,
+  withPgLibpqSslCompat,
+} from "@/lib/kernel/postgres-url";
 
 export function parseDirectConnectionUrl(url: string): DirectConnectionShape | null {
   try {
@@ -303,6 +311,30 @@ export function resolveMigrateApplyTarget(env: {
     return { url: toSupabaseSessionPoolerUrl(preferred) ?? preferred, via: "pooler" };
   }
   return { url: preferred, via: "direct" };
+}
+
+/**
+ * DDL ve hayalet envanter hedefi.
+ * Disk `db.<ref>.supabase.co:5432` ise aynen döner.
+ * Havuz URI'sinde `postgres.<ref>` varsa doğrudan oturuma çekilir. `:6543` kalmaz.
+ * Ref yoksa null. Şifre icat edilmez.
+ */
+export function resolveHostedDirectSessionUrl(env: {
+  DIRECT_URL?: string;
+  DATABASE_URL?: string;
+}): string | null {
+  const raw = resolveMigratorConnectionUrl(env);
+  if (!raw) {
+    return null;
+  }
+  if (!isForbiddenPoolerUrl(raw)) {
+    return parseDirectConnectionUrl(raw)?.ok ? raw : null;
+  }
+  const derived = toSupabaseDirectSessionUrl(raw);
+  if (!derived || isForbiddenPoolerUrl(derived) || !isSupabaseDirectSessionUrl(derived)) {
+    return null;
+  }
+  return derived;
 }
 
 export function fallbackPoolerApplyTarget(env: {

@@ -1,7 +1,8 @@
 /**
  * Atomik mikro-ders.
  * 5–12 dakikalık kaset yerinde durur; tüketim 2–4 dakikalık adımlara bölünür.
- * Young aynı sözleşmeyi `lib/young/micro-lesson.ts` üzerinden okur.
+ * Young odası kapalıdır. Mikro-ders sözleşmesi bu dosyadadır.
+ * Ayrı bir `lib/young` oturağı yoktur; açılış kayıt, bayrak ve hop ile gelir.
  */
 
 import { JUNIOR_RECAP_TITLE, juniorHintKindFromCaption } from "@/lib/junior/content-rules";

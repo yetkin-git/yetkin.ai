@@ -13,6 +13,29 @@ const roomsSsotSource = readFileSync(
 );
 
 function parseSsotIds(exportName, idPattern) {
+  if (exportName === "VERTICAL_ROOMS" || exportName === "INDEPENDENT_ROOMS") {
+    const needle = exportName === "VERTICAL_ROOMS" ? "vitrin: true" : "vitrin: false";
+    const body = roomsSsotSource.match(
+      /export const DRON_KAYIT[\s\S]*?=\s*\[([\s\S]*?)\] as const;/,
+    );
+    if (!body?.[1]) {
+      throw new Error("eslint.config.mjs: lib/dronlar/kayit.ts DRON_KAYIT parse edilemedi");
+    }
+    const ids = [];
+    for (const block of body[1].split(/\n  \},/)) {
+      if (!block.includes(needle)) {
+        continue;
+      }
+      const id = block.match(/\bid:\s*"([a-z0-9-]+)"/);
+      if (id) {
+        ids.push(id[1]);
+      }
+    }
+    if (ids.length === 0) {
+      throw new Error(`eslint.config.mjs: DRON_KAYIT ${needle} boş`);
+    }
+    return ids;
+  }
   const match = roomsSsotSource.match(
     new RegExp(`export const ${exportName} = \\[([\\s\\S]*?)\\] as const;`),
   );
@@ -35,7 +58,7 @@ const KERNEL_MSG =
 const MODULE_ENGINE_MSG =
   "B1 import duvarı: dikey oda başka odanın engine/runtime/prisma-store dosyasını import etmez. İletişim HTTP veya kernel kontratı.";
 const CATALOG_LEAK_MSG =
-  "B1 import duvarı: kariyer/freelancer lib/academy import etmez. Kimlik lib/kernel/catalog-ids.";
+  "B1 import duvarı: kariyer/freelancer lib/academy import etmez. Kimlik @yetkin/kernel/catalog-ids.";
 const EARNINGS_WALL_MSG =
   "D2.3 oda duvarı (room.wall / EARNINGS_WALL): freelancer ↛ kariyer. Teklif kapısı HTTP; emanet çekirdektedir.";
 const UI_SERVER_MSG =

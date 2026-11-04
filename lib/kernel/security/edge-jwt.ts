@@ -370,7 +370,8 @@ export function needsEdgeJwtVerification(pathname: string, method?: string): boo
     return true;
   }
   const kind = matchApiAuthKind(pathname, ROUTE_AUTH_MAP as Record<string, string>);
-  if (!kind || isEdgeOpenApiAuthKind(kind)) {
+  // cron Bearer CRON_SECRET'tir. Kullanıcı JWT'si olarak okunmaz.
+  if (!kind || isEdgeOpenApiAuthKind(kind) || kind === "cron") {
     return false;
   }
   return true;

@@ -9,9 +9,6 @@
  * Young bu deftere girmez. Şema `lib/kernel/catalog-ids/school-segments.ts` içindedir.
  */
 
-const SHELL_SUMMARY =
-  "Hazırlanıyor. Compact müfredat, kapak ve sınav kapısı yakında basılır; satın alma tek başına belge üretmez." as const;
-
 export type CourseRegistryLayer = 1 | 2 | 3;
 
 export type CourseAudience = "adult" | "junior";
@@ -58,8 +55,7 @@ export const COURSE_REGISTRY = [
   {
     slug: "01_office_ai",
     code: "OFF-101",
-    title:
-      "İş Hayatında ve Ofiste Yapay Zekâ (Excel, Word, PowerPoint & E-Posta Verimliliği)",
+    title: "İş Hayatında ve Ofiste Yapay Zekâ",
     level: "Temel",
     layer: 1,
     audience: "adult",
@@ -95,11 +91,11 @@ export const COURSE_REGISTRY = [
     ],
     coverPath: "/academy/cinema/01_office_ai-1-eye.webp",
     summary:
-      "İş hayatında yapay zekâ: Excel Copilot ve Ataş Yöntemi, A1 Düzeni ve Temiz Veri, yönetim özetine dönüştürme, Gmail'de yerleşik Gemini, Word belgesi inceleme, KVKK maskeleme ve haftalık Cuma rutini. Sertifika: 8 ders + 10 soru / 70. Sunucuda dosya kontrolü yok.",
+      "Excel, Word, PowerPoint ve e-postada yapay zekâ: yönetim özetine dönüştürme. Sertifika: 8 ders + 10 soru / 70. Sunucuda dosya kontrolü yok.",
     seo: {
-      title: "İş Hayatında Yapay Zekâ Eğitimi: Excel, Word, PowerPoint & E-Posta | yetkin.ai",
+      title: "İş Hayatında Yapay Zekâ: Excel ve E-Posta | yetkin.ai",
       description:
-        "İş hayatında yapay zekâ ve Copilot kullanımı: Excel formülleri, yönetim özeti, Gmail Gemini ve KVKK uyumlu e-posta akışları. 8 derste pratik beceri ve sertifika.",
+        "İş hayatında yapay zekâ ve Copilot kullanımı: Excel formülleri, yönetim özeti, Gmail Gemini ve KVKK e-postası. 8 derste pratik beceri ve sertifika.",
       h1: "İş Hayatında Yapay Zekâ: Excel'den E-Postaya 8 Ders",
       keywords: [
         "iş hayatında yapay zeka",
@@ -149,7 +145,7 @@ export const COURSE_REGISTRY = [
     summary:
       "İleri ofis işi: dört parçalı istem, toplantı notu, formül, uzun belge, e-posta taslağı ve üç dosyada sayı denetimi.",
     seo: {
-      title: "İleri Ofis Yapay Zekâ Eğitimi: Toplantı Notundan Sayı Denetimine | yetkin.ai",
+      title: "İleri Ofis Yapay Zekâ: Toplantı ve Denetim | yetkin.ai",
       description:
         "İleri düzey yapay zekâ uygulamaları: Dört parçalı istem, toplantı notu analizi, uzun belge özetleme ve 3 dosyada sayı denetimi. İleri seviye ofis uzmanlığı.",
       h1: "İleri Ofis Yapay Zekâ: Toplantı Notundan Sayı Denetimine",
@@ -168,8 +164,7 @@ export const COURSE_REGISTRY = [
   {
     slug: "02_ecommerce_ai",
     code: "EC-102",
-    title:
-      "E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı (Trendyol, Hepsiburada, Amazon & Shopify)",
+    title: "E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı",
     level: "Temel",
     layer: 1,
     audience: "adult",
@@ -201,13 +196,12 @@ export const COURSE_REGISTRY = [
     ],
     coverPath: "/academy/cinema/02_ecommerce_ai-1-cue-1.jpg",
     summary:
-      "Pazaryeri vitrini: ürün yazısı, fotoğraf, yorum, fiyat, toplu açıklama ve mağaza mesajı. Altı ders seslidir. Sınav barajı 70'tir.",
+      "Trendyol, Hepsiburada, Amazon ve Shopify vitrini: ürün yazısı, fotoğraf, yorum, fiyat ve mağaza mesajı.",
     seo: {
-      title:
-        "E-Ticaret ve Pazaryeri Yapay Zekâ Eğitimi: Trendyol, Hepsiburada, Amazon & Shopify | yetkin.ai",
+      title: "E-Ticaret Yapay Zekâ: Trendyol ve Shopify | yetkin.ai",
       description:
-        "Trendyol, Hepsiburada, Amazon, Shopify ve PttAVM için SEO uyumlu ürün açıklaması, görsel temizleme, iade analizi ve mağaza puanı asistanı. 6 derste e-ticaret yapay zekâ uzmanlığı.",
-      h1: "E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı (Trendyol, Hepsiburada, Amazon & Shopify)",
+        "Trendyol, Hepsiburada, Amazon ve Shopify için ürün açıklaması, görsel, iade analizi ve mağaza mesajı. 6 derste e-ticaret yapay zekâ.",
+      h1: "E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı",
       keywords: [
         "e-ticaret yapay zeka",
         "pazaryeri yapay zeka asistanı",
@@ -224,7 +218,7 @@ export const COURSE_REGISTRY = [
   {
     slug: "03_social_media_ai",
     code: "SM-103",
-    title: "Yapay Zekâ ile Sosyal Medya İçeriği (Görsel ve Kısa Video)",
+    title: "Yapay Zekâ ile Sosyal Medya İçeriği",
     level: "Temel",
     layer: 1,
     audience: "adult",
@@ -254,9 +248,9 @@ export const COURSE_REGISTRY = [
     ],
     coverPath: "/academy/cinema/03_social_media_ai-1-cue-1.jpg",
     summary:
-      "Sosyal medya görseli ve kısa video: künye, istem, tek stil ve yayından önce kontrol. Altı ders seslidir. Sınav barajı 70'tir.",
+      "Sosyal medya görseli ve kısa video: künye, istem, tek stil ve yayından önce kontrol.",
     seo: {
-      title: "Yapay Zekâ ile Sosyal Medya Eğitimi: Görsel ve Kısa Video | yetkin.ai",
+      title: "Sosyal Medya Yapay Zekâ: Görsel ve Video | yetkin.ai",
       description:
         "Sosyal medya görseli ve kısa video: künye, tek stil, üç saniyelik kanca, altyazı ve yayından önce kontrol. 6 derste içerik üretimi ve sertifika.",
       h1: "Yapay Zekâ ile Sosyal Medya: Künyeden Kısa Videoya",
@@ -275,8 +269,7 @@ export const COURSE_REGISTRY = [
   {
     slug: "04_chatbot_nocode",
     code: "BOT-104",
-    title:
-      "Müşteri Hizmetleri ve Satış İçin Kodsuz WhatsApp / Web Chatbot Kurulumu (Voiceflow & Botpress)",
+    title: "Kodsuz WhatsApp ve Web Chatbot Kurulumu",
     level: "Masterclass",
     layer: 1,
     audience: "adult",
@@ -306,11 +299,11 @@ export const COURSE_REGISTRY = [
     ],
     coverPath: "/academy/cinema/04_chatbot_nocode-1-cue-1.jpg",
     summary:
-      "Kodsuz müşteri asistanı: WhatsApp ve web sohbet akışı, randevu ve teslim seti. Altı ders seslidir. Sınav barajı 70'tir.",
+      "Voiceflow ve Botpress ile kodsuz müşteri asistanı: WhatsApp, web sohbet, randevu ve teslim seti.",
     seo: {
-      title: "Kodsuz Chatbot Eğitimi: WhatsApp ve Web Müşteri Asistanı | yetkin.ai",
+      title: "Kodsuz WhatsApp ve Web Chatbot Eğitimi | yetkin.ai",
       description:
-        "Kodsuz WhatsApp ve web chatbot: karşılama, randevu, yanlış anlama ve teslim listesi. 6 derste müşteri asistanı kurulumu ve sertifika.",
+        "Voiceflow ve Botpress ile kodsuz WhatsApp ve web chatbot: karşılama, randevu, yanlış anlama ve teslim listesi. 6 derste sertifika.",
       h1: "Kodsuz WhatsApp ve Web Chatbot: Karşılamadan Teslime",
       keywords: [
         "whatsapp chatbot",
@@ -357,9 +350,9 @@ export const COURSE_REGISTRY = [
     ],
     coverPath: "/academy/cinema/05_prompt_practice-1-cue-1.jpg",
     summary:
-      "Yapay Zekâya Doğru Talimat Verme Sanatı. Altı ders seslidir. Sınav barajı 70'tir.",
+      "Yapay Zekâya Doğru Talimat Verme Sanatı. Rol, bağlam, biçim ve günlük istem seti.",
     seo: {
-      title: "Yapay Zekâ Prompt Eğitimi: Doğru Talimat Verme | yetkin.ai",
+      title: "Yapay Zekâ Prompt Eğitimi: Doğru Talimat | yetkin.ai",
       description:
         "Yapay zekâya doğru talimat: rol, bağlam, biçim, kaynak sınırı, tablo ve günlük istem seti. 6 derste prompt pratiği ve sertifika.",
       h1: "Yapay Zekâya Doğru Talimat Verme: Altı Ders",
@@ -378,7 +371,7 @@ export const COURSE_REGISTRY = [
   {
     slug: "06_n8n_automation",
     code: "N8N-201",
-    title: "Kurumsal İş Akışı Otomasyonu (Self-Hosted n8n, Make & AI Entegrasyonları)",
+    title: "Kurumsal İş Akışı Otomasyonu",
     level: "Orta",
     layer: 2,
     audience: "adult",
@@ -388,7 +381,8 @@ export const COURSE_REGISTRY = [
     lessonKeys: [],
     warmup: [],
     coverPath: null,
-    summary: SHELL_SUMMARY,
+    summary:
+      "Self-hosted n8n, Make ve yapay zekâ entegrasyonu. Hazırlanıyor; satın alma tek başına belge üretmez.",
     seo: null,
     vitrineOrder: null,
     nativeListed: false,
@@ -398,7 +392,7 @@ export const COURSE_REGISTRY = [
   {
     slug: "07_langgraph_agents",
     code: "LG-202",
-    title: "Otonom Yapay Zekâ Ajanları Mimarisi (LangGraph, CrewAI & Tool-Calling)",
+    title: "Otonom Yapay Zekâ Ajanları",
     level: "Orta",
     layer: 2,
     audience: "adult",
@@ -408,7 +402,8 @@ export const COURSE_REGISTRY = [
     lessonKeys: [],
     warmup: [],
     coverPath: null,
-    summary: SHELL_SUMMARY,
+    summary:
+      "LangGraph, CrewAI ve tool-calling ile ajan mimarisi. Hazırlanıyor; satın alma tek başına belge üretmez.",
     seo: null,
     vitrineOrder: null,
     nativeListed: false,
@@ -418,8 +413,7 @@ export const COURSE_REGISTRY = [
   {
     slug: "08_production_rag",
     code: "RAG-203",
-    title:
-      "Production RAG ve Kurumsal Arama Sistemleri (Vektör Veritabanları, GraphRAG & Hibrit Arama)",
+    title: "Kurumsal Arama ve Production RAG",
     level: "Orta",
     layer: 2,
     audience: "adult",
@@ -429,7 +423,8 @@ export const COURSE_REGISTRY = [
     lessonKeys: [],
     warmup: [],
     coverPath: null,
-    summary: SHELL_SUMMARY,
+    summary:
+      "Vektör veritabanı, GraphRAG ve hibrit arama. Hazırlanıyor; satın alma tek başına belge üretmez.",
     seo: null,
     vitrineOrder: null,
     nativeListed: false,
@@ -439,7 +434,7 @@ export const COURSE_REGISTRY = [
   {
     slug: "09_nextjs_ai",
     code: "NX-204",
-    title: "AI-Native Fullstack Web Geliştirme (Next.js, Vercel AI SDK & Reaktif Arayüzler)",
+    title: "AI-Native Fullstack Web Geliştirme",
     level: "Orta",
     layer: 2,
     audience: "adult",
@@ -449,7 +444,8 @@ export const COURSE_REGISTRY = [
     lessonKeys: [],
     warmup: [],
     coverPath: null,
-    summary: SHELL_SUMMARY,
+    summary:
+      "Next.js, Vercel AI SDK ve reaktif arayüz. Hazırlanıyor; satın alma tek başına belge üretmez.",
     seo: null,
     vitrineOrder: null,
     nativeListed: false,
@@ -459,7 +455,7 @@ export const COURSE_REGISTRY = [
   {
     slug: "10_data_analytics_ai",
     code: "DA-205",
-    title: "Veri Analitiği, SQL ve İş Zekâsı İçin Yapay Zekâ (Power BI, Python & AI Analytics)",
+    title: "Veri Analitiği ve İş Zekâsı",
     level: "Orta",
     layer: 2,
     audience: "adult",
@@ -469,7 +465,8 @@ export const COURSE_REGISTRY = [
     lessonKeys: [],
     warmup: [],
     coverPath: null,
-    summary: SHELL_SUMMARY,
+    summary:
+      "Power BI, Python ve SQL ile iş zekâsı. Hazırlanıyor; satın alma tek başına belge üretmez.",
     seo: null,
     vitrineOrder: null,
     nativeListed: false,
@@ -479,7 +476,7 @@ export const COURSE_REGISTRY = [
   {
     slug: "11_llm_redteam",
     code: "RT-301",
-    title: "Yapay Zekâ Güvenliği, LLM Red Teaming & Guardrails Mimarisi",
+    title: "Yapay Zekâ Güvenliği ve Red Teaming",
     level: "İleri",
     layer: 3,
     audience: "adult",
@@ -489,7 +486,8 @@ export const COURSE_REGISTRY = [
     lessonKeys: [],
     warmup: [],
     coverPath: null,
-    summary: SHELL_SUMMARY,
+    summary:
+      "LLM red teaming ve guardrails mimarisi. Hazırlanıyor; satın alma tek başına belge üretmez.",
     seo: null,
     vitrineOrder: null,
     nativeListed: false,
@@ -499,7 +497,7 @@ export const COURSE_REGISTRY = [
   {
     slug: "12_onprem_finetune",
     code: "FT-302",
-    title: "Yerel Model Dağıtımı ve İnce Ayar (Applied Fine-Tuning, LoRA/QLoRA & vLLM)",
+    title: "Yerel Model Dağıtımı ve İnce Ayar",
     level: "İleri",
     layer: 3,
     audience: "adult",
@@ -509,7 +507,8 @@ export const COURSE_REGISTRY = [
     lessonKeys: [],
     warmup: [],
     coverPath: null,
-    summary: SHELL_SUMMARY,
+    summary:
+      "LoRA, QLoRA ve vLLM ile yerel model ince ayarı. Hazırlanıyor; satın alma tek başına belge üretmez.",
     seo: null,
     vitrineOrder: null,
     nativeListed: false,
@@ -519,7 +518,7 @@ export const COURSE_REGISTRY = [
   {
     slug: "13_ai_governance",
     code: "GV-303",
-    title: "Kurumsal AI Yönetişimi, Hukuk ve Regülasyon Uyumu (AB Yapay Zekâ Yasası & KVKK)",
+    title: "Kurumsal AI Yönetişimi ve Uyum",
     level: "İleri",
     layer: 3,
     audience: "adult",
@@ -529,7 +528,8 @@ export const COURSE_REGISTRY = [
     lessonKeys: [],
     warmup: [],
     coverPath: null,
-    summary: SHELL_SUMMARY,
+    summary:
+      "AB Yapay Zekâ Yasası ve KVKK uyumu. Hazırlanıyor; satın alma tek başına belge üretmez.",
     seo: null,
     vitrineOrder: null,
     nativeListed: false,
@@ -625,6 +625,34 @@ function assertCourseRegistry(): void {
   }
   if (new Set(warmupKeys).size !== warmupKeys.length) {
     throw new Error("Isınma ders anahtarı iki kasete yazılamaz.");
+  }
+
+  for (const row of cards) {
+    if (row.title.length > 55) {
+      throw new Error(`Kurs başlığı 55 karakteri aşıyor: ${row.slug} (${row.title.length}).`);
+    }
+    if (row.title.includes("(") || row.title.includes(")")) {
+      throw new Error(`Kurs başlığında parantez var: ${row.slug}.`);
+    }
+    if (row.summary.length > 140) {
+      throw new Error(`Kurs özeti 140 karakteri aşıyor: ${row.slug} (${row.summary.length}).`);
+    }
+    if (row.summary.includes("Altı ders seslidir") || row.summary.includes("Sınav barajı 70")) {
+      throw new Error(`Ders ve baraj cümlesi kart özetinde durmaz: ${row.slug}.`);
+    }
+    if (row.seo) {
+      if (row.seo.title.length < 50 || row.seo.title.length > 60) {
+        throw new Error(
+          `Arama başlığı 50-60 karakter bandında değil: ${row.slug} (${row.seo.title.length}).`,
+        );
+      }
+      if (!row.seo.title.endsWith(" | yetkin.ai")) {
+        throw new Error(`Arama başlığı marka soneki taşımıyor: ${row.slug}.`);
+      }
+      if (row.seo.description.length > 160) {
+        throw new Error(`Arama açıklaması 160 karakteri aşıyor: ${row.slug} (${row.seo.description.length}).`);
+      }
+    }
   }
 }
 

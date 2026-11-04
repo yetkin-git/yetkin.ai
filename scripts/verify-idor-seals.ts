@@ -57,19 +57,19 @@ if (nightly.includes("tests/arena/")) {
 const ROUTE_SEALS: ReadonlyArray<{ file: string; needles: readonly string[] }> = [
   {
     file: "app/api/freelancer/direct-offers/route.ts",
-    needles: ["FREELANCER_SATELLITE_GONE", "410", 'auth = "public"'],
+    needles: ["FREELANCER_SATELLITE_GONE", "410", 'auth = "closed"'],
   },
   {
     file: "app/api/freelancer/direct-offers/[id]/accept/route.ts",
-    needles: ["FREELANCER_SATELLITE_GONE", "410", 'auth = "public"'],
+    needles: ["FREELANCER_SATELLITE_GONE", "410", 'auth = "closed"'],
   },
   {
     file: "app/api/freelancer/direct-offers/[id]/decline/route.ts",
-    needles: ["FREELANCER_SATELLITE_GONE", "410", 'auth = "public"'],
+    needles: ["FREELANCER_SATELLITE_GONE", "410", 'auth = "closed"'],
   },
   {
     file: "app/api/freelancer/squad/route.ts",
-    needles: ["FREELANCER_SATELLITE_GONE", "410", 'auth = "public"'],
+    needles: ["FREELANCER_SATELLITE_GONE", "410", 'auth = "closed"'],
   },
   {
     file: "app/api/freelancer/jobs/[id]/route.ts",

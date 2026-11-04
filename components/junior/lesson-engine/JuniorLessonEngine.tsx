@@ -72,7 +72,7 @@ export type JuniorLessonEngineShellProps = {
  * Oynatıcının üstündeki gerçek kromu ölçer ve `--junior-page-chrome-offset`
  * değişkenine yazar. Sihirli `6.5rem` bütçesi yerine ölçüm kullanılır: başlık
  * sardığında, koşullu uyarı bandı geldiğinde ya da tarayıcı yazı tipi büyüdüğünde
- * bütçe kendini düzeltir (bkz. docs/tespit_raporu_04.md §1.1, M2).
+ * bütçe kendini düzeltir (bkz. archived/docs_history/docs_root/tespit_raporu_04.md §1.1, M2).
  */
 function useJuniorPageChromeOffset(ref: React.RefObject<HTMLDivElement | null>) {
   useEffect(() => {

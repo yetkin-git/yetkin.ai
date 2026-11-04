@@ -1,10 +1,24 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
+import {
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type FormEvent,
+  type KeyboardEvent,
+} from "react";
 import Link from "next/link";
 import { ASSISTANT_SEN } from "@/lib/copy/sen-voice/assistant";
 import { UX_SEN, railCitizenHttpError } from "@/lib/copy/sen-voice/ux";
 import { ASSISTANT_CHAT_PATH } from "@/lib/kernel/ai/assistant-chat-client";
+import {
+  ASSISTANT_GUEST_QUESTION_LIMIT,
+  ensureBrowserGuestQuestionCount,
+  guestQuotaExhausted,
+  incrementBrowserGuestQuestionCount,
+} from "@/lib/kernel/ai/assistant-guest-quota";
 import { readCitizenEnvelope } from "@/lib/kernel/http/citizen-json";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 import { cn } from "@/components/ui/cn";
@@ -22,10 +36,32 @@ function newTurn(role: ChatRole, content: string): ChatTurn {
   return { id: crypto.randomUUID(), role, content };
 }
 
+const ASSISTANT_COMPOSER_MIN_PX = 40;
+const ASSISTANT_COMPOSER_MAX_PX = 120;
+
+function fitAssistantComposer(node: HTMLTextAreaElement | null) {
+  if (!node) {
+    return;
+  }
+  node.style.maxHeight = "none";
+  node.style.height = "auto";
+  const content = node.scrollHeight;
+  const next = Math.min(
+    ASSISTANT_COMPOSER_MAX_PX,
+    Math.max(ASSISTANT_COMPOSER_MIN_PX, content),
+  );
+  node.style.maxHeight = `${ASSISTANT_COMPOSER_MAX_PX}px`;
+  node.style.height = `${next}px`;
+  node.style.overflowY = content > ASSISTANT_COMPOSER_MAX_PX ? "auto" : "hidden";
+}
+
 export function AiChatWidget({
   dock = "default",
+  signedIn = false,
 }: {
   dock?: "default" | "footer";
+  /** Kabuk oturumu. Yoksa anonim sayaç; ölü yenileme jetonu da bu kola düşer. */
+  signedIn?: boolean;
 }) {
   const titleId = useId();
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -41,6 +77,22 @@ export function AiChatWidget({
   const [messages, setMessages] = useState<ChatTurn[]>(() => [
     newTurn("assistant", ASSISTANT_SEN.welcome),
   ]);
+
+  useEffect(() => {
+    if (signedIn) {
+      return;
+    }
+    const count = ensureBrowserGuestQuestionCount();
+    if (guestQuotaExhausted(count)) {
+      setLimitReached(true);
+      setRemaining(0);
+      setLimit(ASSISTANT_GUEST_QUESTION_LIMIT);
+    }
+  }, [signedIn]);
+
+  useLayoutEffect(() => {
+    fitAssistantComposer(inputRef.current);
+  }, [input, open]);
 
   useEffect(() => {
     if (!open) {
@@ -72,6 +124,12 @@ export function AiChatWidget({
     if (!message || pending || limitReached) {
       return;
     }
+    if (!signedIn && guestQuotaExhausted(ensureBrowserGuestQuestionCount())) {
+      setLimitReached(true);
+      setRemaining(0);
+      setLimit(ASSISTANT_GUEST_QUESTION_LIMIT);
+      return;
+    }
     setPending(true);
     setError(null);
     setNeedsLogin(false);
@@ -94,9 +152,15 @@ export function AiChatWidget({
       );
       const envelope = await readCitizenEnvelope(response);
       const mapped = railCitizenHttpError(envelope.status, envelope.error);
-      if (envelope.status === 401) {
+      if (envelope.status === 401 && signedIn) {
         setNeedsLogin(true);
         setError(mapped);
+        setPending(false);
+        return;
+      }
+      if (envelope.status === 401) {
+        setNeedsLogin(false);
+        setMessages((current) => [...current, newTurn("assistant", ASSISTANT_SEN.unavailable)]);
         setPending(false);
         return;
       }
@@ -122,6 +186,16 @@ export function AiChatWidget({
         }
       }
       setLimit(nextLimit);
+      if (!signedIn || envelope.body.guest === true) {
+        const count = incrementBrowserGuestQuestionCount();
+        if (
+          guestQuotaExhausted(count, nextLimit) ||
+          (typeof nextRemaining === "number" && nextRemaining <= 0)
+        ) {
+          setLimitReached(true);
+          setRemaining(0);
+        }
+      }
       setMessages((current) => [
         ...current,
         newTurn("assistant", reply || ASSISTANT_SEN.unavailable),
@@ -254,13 +328,17 @@ export function AiChatWidget({
             <textarea
               ref={inputRef}
               value={input}
-              onChange={(event) => setInput(event.target.value)}
+              onChange={(event) => {
+                setInput(event.target.value);
+                fitAssistantComposer(event.currentTarget);
+              }}
               onKeyDown={onComposerKey}
               placeholder={ASSISTANT_SEN.placeholder}
-              rows={2}
+              rows={1}
               maxLength={2000}
               disabled={pending || limitReached}
-              className="min-h-[2.75rem] w-full resize-none rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] px-3 py-2 text-base outline-none transition placeholder:text-[var(--muted)] focus:border-[var(--safir)] focus:ring-4 focus:ring-[var(--safir-soft)] disabled:opacity-60"
+              data-assistant-composer=""
+              className="max-h-[120px] min-h-10 w-full resize-none overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] px-3 py-2 text-base outline-none transition placeholder:text-[var(--muted)] focus:border-[var(--safir)] focus:ring-4 focus:ring-[var(--safir-soft)] disabled:opacity-60"
             />
             <button
               type="submit"

@@ -6,36 +6,6 @@
  * Kapalı doğar: `DronBayrakları.isKapali(id)` true iken kamu yüzeyi 410.
  */
 
-export const VERTICAL_ROOMS = [
-  { id: "dashboard", path: "/dashboard", label: "Genel Bakış", blurb: "Öğrenci paneli" },
-  { id: "academy", path: "/academy", label: "Akademi", blurb: "Kurs, ödeme onayı, sertifika" },
-  { id: "career", path: "/career", label: "Kariyer", blurb: "Sertifika ve ilanlar" },
-  { id: "freelancer", path: "/freelancer", label: "Freelancer", blurb: "Arka plan · modül pasif" },
-] as const;
-
-export type VerticalRoomId = (typeof VERTICAL_ROOMS)[number]["id"];
-
-/**
- * Müstakil oda. Dört kamu vitrinine yazılmaz. Akademi kayıt defterinde kartı yoktur.
- * Junior sol menüde görünür. Young kapalı doğar; kapı `DRON_YOUNG_OPEN`.
- */
-export const INDEPENDENT_ROOMS = [
-  {
-    id: "junior",
-    path: "/junior",
-    label: "Junior",
-    blurb: "6. Sınıf Pilot",
-  },
-  {
-    id: "young",
-    path: "/young",
-    label: "Young",
-    blurb: "9–12. Sınıf ve YKS",
-  },
-] as const;
-
-export type IndependentRoomId = (typeof INDEPENDENT_ROOMS)[number]["id"];
-
 /** Donmuş oda yolları. Junior bu listede değildir; müstakil oda `DRON_KAYIT` satırıdır. */
 export const FROZEN_DISK_ROOMS = [
   "studio",
@@ -48,8 +18,6 @@ export const FROZEN_DISK_ROOMS = [
 ] as const;
 
 export type FrozenDiskRoomId = (typeof FROZEN_DISK_ROOMS)[number];
-
-export type DronKayitId = VerticalRoomId | IndependentRoomId;
 
 /**
  * Junior oda kapısı. Profil masası bu ada bakmaz.
@@ -64,23 +32,7 @@ export const DRON_JUNIOR_ROOM_OPEN_ENV = "DRON_JUNIOR_ROOM_OPEN" as const;
  */
 export const DRON_YOUNG_OPEN_ENV = "DRON_YOUNG_OPEN" as const;
 
-export type DronKayitSatiri = {
-  id: DronKayitId;
-  path: string;
-  label: string;
-  blurb: string;
-  hops: readonly string[];
-  sahipEkip: string;
-  /** Varsayılan kapı: true = kamu 410. Env `DRON_<ID>_OPEN=1` ile açılır. */
-  kapali: boolean;
-  /**
-   * Oda kapısı. Doluysa yalnız bu env okunur.
-   * Aynı isimli ikinci bir iş (profil masası gibi) bu alana yazılmaz.
-   */
-  bayrakEnv?: string;
-};
-
-export const DRON_KAYIT: readonly DronKayitSatiri[] = [
+export const DRON_KAYIT = [
   {
     id: "dashboard",
     path: "/dashboard",
@@ -89,6 +41,7 @@ export const DRON_KAYIT: readonly DronKayitSatiri[] = [
     hops: ["wallet-strip"],
     sahipEkip: "gövde",
     kapali: false,
+    vitrin: true,
   },
   {
     id: "academy",
@@ -106,6 +59,7 @@ export const DRON_KAYIT: readonly DronKayitSatiri[] = [
     ],
     sahipEkip: "gövde",
     kapali: false,
+    vitrin: true,
   },
   {
     id: "career",
@@ -115,6 +69,7 @@ export const DRON_KAYIT: readonly DronKayitSatiri[] = [
     hops: ["career-pulse", "career-visas", "career-portfolio"],
     sahipEkip: "gövde",
     kapali: false,
+    vitrin: true,
   },
   {
     id: "freelancer",
@@ -124,6 +79,7 @@ export const DRON_KAYIT: readonly DronKayitSatiri[] = [
     hops: [],
     sahipEkip: "pazaryeri",
     kapali: true,
+    vitrin: true,
     bayrakEnv: "DRON_FREELANCER_OPEN",
   },
   {
@@ -151,6 +107,7 @@ export const DRON_KAYIT: readonly DronKayitSatiri[] = [
     ],
     sahipEkip: "gövde",
     kapali: false,
+    vitrin: false,
     bayrakEnv: DRON_JUNIOR_ROOM_OPEN_ENV,
   },
   {
@@ -161,9 +118,27 @@ export const DRON_KAYIT: readonly DronKayitSatiri[] = [
     hops: [],
     sahipEkip: "gövde",
     kapali: true,
+    vitrin: false,
     bayrakEnv: DRON_YOUNG_OPEN_ENV,
   },
-];
+] as const;
+
+type DronKayitRow = (typeof DRON_KAYIT)[number];
+
+/** Kamu vitrin. Yol, etiket ve kısa metin `DRON_KAYIT` satırından gelir. */
+export const VERTICAL_ROOMS = DRON_KAYIT.filter(
+  (row): row is Extract<DronKayitRow, { vitrin: true }> => row.vitrin,
+);
+
+/** Müstakil oda. Dört kamu vitrinine yazılmaz. */
+export const INDEPENDENT_ROOMS = DRON_KAYIT.filter(
+  (row): row is Extract<DronKayitRow, { vitrin: false }> => row.vitrin === false,
+);
+
+export type DronKayitSatiri = DronKayitRow;
+export type DronKayitId = DronKayitRow["id"];
+export type VerticalRoomId = Extract<DronKayitRow, { vitrin: true }>["id"];
+export type IndependentRoomId = Extract<DronKayitRow, { vitrin: false }>["id"];
 
 function readDronEnv(name: string): string | undefined {
   if (name === DRON_YOUNG_OPEN_ENV) {
@@ -205,7 +180,7 @@ export const DronBayrakları = {
     if (!row) {
       return true;
     }
-    const named = row.bayrakEnv;
+    const named = "bayrakEnv" in row ? row.bayrakEnv : undefined;
     const envOpen = envFlagOpen(named);
     if (envOpen === true) {
       return false;

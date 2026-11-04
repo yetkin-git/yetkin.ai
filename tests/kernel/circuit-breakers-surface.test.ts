@@ -85,6 +85,5 @@ describe("üretim kilitleri ve donmuş oda yüzey mühürü", () => {
     expect(html).toContain("Studio üretimde kapalı");
     expect(readSrc("lib/kernel/http/frozen-410-html.ts")).toContain("PUBLIC_SEN.gone");
     expect(readSrc("lib/kernel/http/frozen-gone-route.ts")).toContain("EDGE_API_FROZEN_ROOM_ERROR");
-    expect(readSrc("components/shell/frozen-room-gone-page.tsx")).toContain("PUBLIC_SEN.gone");
   });
 });

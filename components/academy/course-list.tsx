@@ -123,7 +123,7 @@ export function CourseList({
           {advancedCourses.map((course) => (
             <li
               key={course.id}
-              className="h-full flex flex-col justify-between"
+              className="min-w-0 h-full flex flex-col justify-between"
               data-academy-catalog-series={course.slug}
               data-academy-advanced-module=""
             >
@@ -154,7 +154,7 @@ export function CourseList({
             </p>
             <ul className="grid max-w-3xl grid-cols-1 gap-6">
               <li
-                className="h-full flex flex-col justify-between"
+                className="min-w-0 h-full flex flex-col justify-between"
                 data-academy-catalog-series={heroCourse.slug}
                 data-academy-flagship-card=""
               >
@@ -175,7 +175,7 @@ export function CourseList({
               {advancedCourses.map((course) => (
                 <li
                   key={course.id}
-                  className="h-full flex flex-col justify-between"
+                  className="min-w-0 h-full flex flex-col justify-between"
                   data-academy-catalog-series={course.slug}
                   data-academy-advanced-module=""
                 >

@@ -35,6 +35,7 @@ export function QuickTopUpModal({
   requiredMinor,
   currencyCode = SETTLEMENT_CURRENCY,
   lockSuggestedAmount = false,
+  courseSlug = null,
   tokenPending = false,
   presetIframeUrl = null,
   presetBilling = null,
@@ -47,6 +48,8 @@ export function QuickTopUpModal({
   currencyCode?: CurrencyCode;
   /** Akademi kapısı — kullanıcı PayTR tutarını kart fiyatından sapıtamaz. */
   lockSuggestedAmount?: boolean;
+  /** Lisans slug'ı. Yeniden deneme bu slug ile katalog kuruşunu yollar. */
+  courseSlug?: string | null;
   /** Hero CTA — token isteği sürüyor. */
   tokenPending?: boolean;
   /** Hero CTA — hazır PayTR iFrame adresi. */
@@ -66,6 +69,7 @@ export function QuickTopUpModal({
       requiredMinor={requiredMinor}
       currencyCode={currencyCode}
       lockSuggestedAmount={lockSuggestedAmount}
+      courseSlug={courseSlug}
       tokenPending={tokenPending}
       presetIframeUrl={presetIframeUrl}
       presetBilling={presetBilling}
@@ -80,6 +84,7 @@ function QuickTopUpDialog({
   requiredMinor,
   currencyCode,
   lockSuggestedAmount,
+  courseSlug,
   tokenPending,
   presetIframeUrl,
   presetBilling,
@@ -90,6 +95,7 @@ function QuickTopUpDialog({
   requiredMinor: number;
   currencyCode: CurrencyCode;
   lockSuggestedAmount: boolean;
+  courseSlug: string | null;
   tokenPending: boolean;
   presetIframeUrl: string | null;
   presetBilling: CheckoutBillingInfo | null;
@@ -189,7 +195,7 @@ function QuickTopUpDialog({
     setTimedOut(false);
     setWatchStrip(false);
     try {
-      const amountMinor = suggested;
+      const amountMinor = lockSuggestedAmount ? requiredMinor : suggested;
       const response = await fetch(
         "/api/wallet/top-up",
         withRailApiVersion({
@@ -201,6 +207,7 @@ function QuickTopUpDialog({
             digitalImmediatePerformanceAccepted: true,
             consentVersion: CHECKOUT_LEGAL_CONSENT_VERSION,
             billing: presetBilling,
+            ...(courseSlug ? { courseSlug } : {}),
           }),
         }),
       );

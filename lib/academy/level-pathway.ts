@@ -17,7 +17,7 @@ import {
   ACADEMY_PATHWAY_RINGS,
   ACADEMY_PATHWAY_TITLES,
   type AcademyPathwayId,
-} from "@/lib/kernel/catalog-ids";
+} from "@yetkin/kernel/catalog-ids";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { SETTLEMENT_CURRENCY, type CurrencyCode } from "@/lib/kernel/money/currency";

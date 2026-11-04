@@ -2,7 +2,7 @@ import {
   FREELANCER_ROOM_DEFAULT_LISTING_PATHWAY,
   parseListingVisaLockId,
   type ListingVisaLockId,
-} from "@/lib/kernel/catalog-ids";
+} from "@yetkin/kernel/catalog-ids";
 
 /**
  * Freelancer ilan yazım kilidi — Kariyer inspect'ine import yok (oda duvarı).

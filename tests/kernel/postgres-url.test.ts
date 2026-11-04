@@ -13,6 +13,7 @@ import {
   parsePrismaEnginePoolParams,
   runtimeDatabaseHostKind,
   supabasePoolerUsernameOk,
+  toSupabaseDirectSessionUrl,
   toSupabaseSessionPoolerUrl,
   withPgLibpqSslCompat,
 } from "@/lib/kernel/postgres-url";
@@ -73,6 +74,28 @@ describe("runtime Postgres URI", () => {
     expect(session).toContain("sslmode=require");
     expect(toSupabaseSessionPoolerUrl(POOLER_SESSION)).toContain(":5432");
     expect(toSupabaseSessionPoolerUrl(DIRECT)).toBeNull();
+  });
+
+  it("havuz kullanıcısındaki ref ile doğrudan oturum :5432 üretir; :6543 kalmaz", () => {
+    const derived = toSupabaseDirectSessionUrl(`${POOLER_TX}?pgbouncer=true&connection_limit=10`);
+    expect(derived).toBeTruthy();
+    const parsed = new URL(derived ?? "");
+    expect(parsed.hostname).toBe("db.abcdefgh.supabase.co");
+    expect(parsed.port).toBe("5432");
+    expect(decodeURIComponent(parsed.username)).toBe("postgres");
+    expect(decodeURIComponent(parsed.password)).toBe("x");
+    expect(derived).not.toMatch(/6543/);
+    expect(derived).not.toMatch(/pgbouncer=/i);
+    expect(derived).not.toMatch(/pooler\.supabase\.com/i);
+    expect(toSupabaseDirectSessionUrl(POOLER_SESSION)?.includes(":5432")).toBe(true);
+    expect(
+      toSupabaseDirectSessionUrl(
+        "postgresql://postgres:x@aws-0-eu-central-1.pooler.supabase.com:6543/postgres",
+      ),
+    ).toBeNull();
+    const already = toSupabaseDirectSessionUrl(DIRECT);
+    expect(new URL(already ?? "").hostname).toBe("db.abcdefgh.supabase.co");
+    expect(already).not.toMatch(/6543/);
   });
 
   it("connection_limit ve pool_timeout'u URL'den okur; soyma öncesi", () => {

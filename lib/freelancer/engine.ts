@@ -11,7 +11,7 @@ import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY, type CurrencyCode } from "@/lib/kernel/money/currency";
 import { emitCitizenNotice } from "@/lib/kernel/notice/emit";
 import { HOLD_BPS_DEFAULT, resolveHoldBps } from "@/lib/kernel/pricing/hold-bps";
-import type { ListingVisaLockId } from "@/lib/kernel/catalog-ids";
+import type { ListingVisaLockId } from "@yetkin/kernel/catalog-ids";
 import { lockFreelancerJobVisaPathway } from "@/lib/freelancer/job-visa-lock";
 import { isSuperAdminActor } from "@/lib/kernel/auth/super-admin";
 import {

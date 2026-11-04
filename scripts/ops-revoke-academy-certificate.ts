@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * Operatör sicil iptali. Super Admin HTTP yok.
+ * Operatör sicil iptali CLI. Konsol yolu ayrıca durur; bu betik HTTP açmaz.
  *
  *   npm run ops:revoke-academy-certificate -- --hash <64hex> --reason "en az sekiz karakter"
  *

@@ -37,7 +37,7 @@ import {
   ACADEMY_CANON_SKU_SLUGS,
   ACADEMY_COURSE_TITLES,
   type AcademyCourseTitleSlug,
-} from "@/lib/kernel/catalog-ids/course-slugs";
+} from "@yetkin/kernel/catalog-ids/course-slugs";
 import { academyTtsVoiceGenderFromLabel } from "@/lib/academy/production-standard";
 
 const ROOT = process.cwd();

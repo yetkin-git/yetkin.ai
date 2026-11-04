@@ -60,6 +60,11 @@ export const ADMIN_CATALOG_SURFACE_PATH = "/admin/catalog" as const;
 export const CATALOG_WRITE_PATH = "/api/admin/catalog" as const;
 export const COURSE_PUBLISH_PATH = "/api/admin/catalog/publish" as const;
 export const FUNNEL_READ_PATH = "/api/admin/funnel" as const;
+/** Operasyon konsolu. Yeni oda değildir; `/admin` sığınağının altıdır. */
+export const ADMIN_OPS_SURFACE_PATH = "/admin/ops" as const;
+export const ADMIN_OPS_GRANT_PATH = "/api/admin/ops/grant" as const;
+export const ADMIN_OPS_REVOKE_PATH = "/api/admin/ops/certificate-revoke" as const;
+export const ADMIN_OPS_GAP_REFUND_PATH = "/api/admin/ops/license-gap-refund" as const;
 /** Admin sığınak yönlendirmeleri — canlı CTA hedefleri. */
 export const ADMIN_DASHBOARD_SHELTER_PATH = "/dashboard" as const;
 export const ADMIN_ACADEMY_SHELTER_PATH = "/academy" as const;

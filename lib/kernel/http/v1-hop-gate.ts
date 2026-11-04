@@ -14,8 +14,12 @@ import { EDGE_API_NOT_FOUND_ERROR } from "@/lib/kernel/security/edge-api-auth";
 import { normalizePathname } from "@/lib/kernel/security/edge-guard";
 
 export const RAIL_V1_HOP_NOT_FOUND = EDGE_API_NOT_FOUND_ERROR;
-/** Dron / native mağaza — IAP yasağı (dronForbidden). Native IAP hâlâ yok; cüzdan DEBIT hop açıktır. */
-export const RAIL_V1_HOP_DRON_FORBIDDEN = "Akademi satın alma native istemciden kapalıdır.";
+/**
+ * Sicilde `dronForbidden: true` yazılan hop. Bugün hiçbir satır taşımaz:
+ * akademi satın alma ve cüzdan yükleme Bearer hop'tur.
+ * Freelancer bu sicilde yoktur; oda kapısı `DRON_FREELANCER_OPEN`.
+ */
+export const RAIL_V1_HOP_DRON_FORBIDDEN = "Bu hop native istemciden kapalıdır.";
 
 export type RailV1HopGate = {
   id: string;
