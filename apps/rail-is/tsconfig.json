@@ -26,5 +26,8 @@
     "../../lib/academy/punchcard-from-sealed-json.ts",
     "../../lib/academy/lesson-audio-timings/**/*.json",
     "../../lib/academy/lesson-cues/**/*.json"
+  ],
+  "exclude": [
+    "../../packages/kernel/src/http/dron-onboarding-schema.ts"
   ]
 }
