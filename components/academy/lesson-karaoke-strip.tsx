@@ -42,7 +42,7 @@ export function LessonKaraokeStrip({
     if (!compactCaptions) {
       return words;
     }
-    const range = academyKaraokeVisibleWordRange(words, currentTime, activeWordIndex);
+    const range = academyKaraokeVisibleWordRange(words, currentTime, activeWordIndex, 2);
     return words.slice(range.start, range.end);
   }, [activeWordIndex, compactCaptions, currentTime, words]);
 

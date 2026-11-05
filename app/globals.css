@@ -743,6 +743,29 @@ body {
   background: #070b14;
 }
 
+.academy-player-frame-slot {
+  position: relative;
+  display: grid;
+  width: 100%;
+  min-width: 0;
+}
+
+.academy-player-frame-slot > .academy-player-karaoke-stage,
+.academy-player-frame-slot > .academy-player-frame-chrome {
+  grid-area: 1 / 1;
+}
+
+.academy-player-frame-chrome {
+  position: relative;
+  z-index: 8;
+  min-width: 0;
+  pointer-events: none;
+}
+
+.academy-player-caption-dock {
+  display: contents;
+}
+
 .academy-player-shell[data-academy-player-layout="document"] .academy-player-karaoke .academy-player-widescreen,
 .academy-player-karaoke .academy-player-widescreen,
 .academy-player-karaoke-stage {
@@ -804,8 +827,19 @@ body {
   background: #070b14;
 }
 
+.academy-player-stage-column:fullscreen .academy-player-frame-slot,
+.academy-player-stage-column:-webkit-full-screen .academy-player-frame-slot {
+  flex: 1 1 auto;
+  align-items: end;
+  justify-items: center;
+  width: 100%;
+  min-height: 0;
+}
+
 .academy-player-stage-column:fullscreen .academy-player-karaoke-stage,
-.academy-player-stage-column:-webkit-full-screen .academy-player-karaoke-stage {
+.academy-player-stage-column:-webkit-full-screen .academy-player-karaoke-stage,
+.academy-player-stage-column:fullscreen .academy-player-frame-chrome,
+.academy-player-stage-column:-webkit-full-screen .academy-player-frame-chrome {
   flex: 1 1 auto;
   width: min(100%, calc((100vh - 3.15rem) * 16 / 9));
   max-width: 100%;
@@ -888,7 +922,7 @@ body {
   outline: none;
 }
 
-.academy-player-eye-canvas:has(.academy-player-captions-toggle) .academy-player-punchcard-dock {
+.academy-player-frame-chrome:has(.academy-player-captions-toggle) .academy-player-punchcard-dock {
   top: 2.65rem;
 }
 
@@ -4994,46 +5028,97 @@ body {
     max-height: none;
   }
 
+  .academy-player-frame-slot,
+  .academy-player-stage-column:fullscreen .academy-player-frame-slot,
+  .academy-player-stage-column:-webkit-full-screen .academy-player-frame-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .academy-player-frame-chrome {
+    display: contents;
+  }
+
+  .academy-player-karaoke-stage {
+    order: 0;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    padding: 0;
+  }
+
+  .academy-player-punchcard-dock,
+  .academy-howto-band,
+  .academy-paste-guide,
+  .academy-paste-guide[data-academy-paste-anchor="copilot"],
+  .academy-player-teleprompter,
+  .academy-player-teleprompter[data-media="true"] {
+    position: static;
+    z-index: auto;
+    inset: auto;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    margin: 0;
+    transform: none;
+    position-anchor: none;
+    order: -1;
+  }
+
+  .academy-player-punchcard,
+  .academy-player-karaoke-overlay,
+  .academy-player-captions-toggle {
+    position: static;
+    z-index: auto;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+  }
+
   .academy-howto-band {
-    right: 0.4rem;
-    bottom: 0.4rem;
-    left: 0.4rem;
+    position: static;
+    z-index: auto;
     gap: 0.22rem;
-    grid-template-columns: repeat(3, minmax(6.5rem, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 0 0 0.4rem;
+    padding: 0 0.4rem;
   }
 
   .academy-player-punchcard-dock {
-    top: 0.4rem;
-    right: 0.4rem;
-    left: auto;
-    max-width: min(62%, 14rem);
+    position: static;
+    z-index: auto;
+    display: flex;
+    margin: 0 0 0.35rem;
+    padding: 0.35rem 0.4rem 0;
   }
 
   .academy-player-punchcard {
-    top: auto;
-    left: auto;
-    right: auto;
     max-width: 100%;
     padding: 0.36rem 0.75rem;
     font-size: clamp(0.66rem, 3.1vw, 0.82rem);
     letter-spacing: 0.1em;
   }
 
-  .academy-paste-guide {
-    top: 0.4rem;
-    left: 0.4rem;
-    max-width: min(58%, 16rem);
+  .academy-paste-guide,
+  .academy-paste-guide[data-academy-paste-anchor="copilot"] {
+    width: auto;
+    max-width: 100%;
+    margin: 0 0.4rem 0.35rem;
     padding: 0.22rem 0.42rem 0.22rem 0.5rem;
   }
 
-  .academy-paste-guide[data-academy-paste-anchor="copilot"] {
-    top: 2.1rem;
-    left: auto;
-    right: 0.4rem;
-  }
-
   .academy-howto-step {
-    min-width: 6.5rem;
+    min-width: 0;
     padding: 0.24rem 0.32rem 0.28rem;
   }
 
@@ -5041,66 +5126,87 @@ body {
     font-size: clamp(0.52rem, 2.6vw, 0.68rem);
   }
 
+  .academy-player-caption-dock {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    order: 1;
+    width: 100%;
+    margin-top: 0.35rem;
+    position: static;
+    z-index: auto;
+    pointer-events: none;
+  }
+
   .academy-player-karaoke-strip {
-    padding: 4px 8px;
+    padding: 0;
   }
 
   .academy-player-eye-stack {
-    --academy-karaoke-band-h: 3.25rem;
+    --academy-karaoke-band-h: calc(1.25em * 2);
   }
 
   .academy-player-karaoke-overlay {
-    --academy-karaoke-band-h: 3.25rem;
-    bottom: 12px;
-    min-height: 0;
-    max-height: 35%;
-    align-items: flex-end;
-    padding: 4px 8px;
+    --academy-karaoke-band-h: calc(1.25em * 2);
+    position: static;
+    z-index: auto;
+    inset: auto;
+    display: flex;
+    width: 100%;
+    height: calc(1.25em * 2);
+    min-height: calc(1.25em * 2);
+    max-height: calc(1.25em * 2);
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0 0.75rem;
     overflow: hidden;
+    background: #0b1220;
+    font-size: clamp(0.75rem, 3.2vw, 0.85rem);
+    line-height: 1.25;
+    pointer-events: none;
   }
 
   .academy-player-karaoke-overlay .academy-player-karaoke-strip {
-    max-height: 100%;
+    max-height: calc(1.25em * 2);
     margin-top: 0;
     padding: 0;
     overflow: hidden;
+    background: transparent;
   }
 
   .academy-player-captions-toggle {
-    top: 0.4rem;
-    right: 0.4rem;
+    align-self: flex-end;
     min-height: 1.55rem;
+    margin: 0.28rem 0.4rem 0;
     padding: 0.18rem 0.5rem;
     font-size: 0.58rem;
-  }
-
-  .academy-player-eye-canvas:has(.academy-player-captions-toggle) .academy-player-punchcard-dock {
-    top: 2.35rem;
-  }
-
-  .academy-player-eye-stack[data-academy-captions="on"] .academy-howto-band {
-    bottom: calc(var(--academy-karaoke-band-h, 3.25rem) + 0.18rem);
+    pointer-events: auto;
   }
 
   .academy-player-karaoke-line {
     font-size: clamp(0.75rem, 3.2vw, 0.85rem);
     line-height: 1.25;
-    max-height: calc(1.25em * 3);
+    max-height: calc(1.25em * 2);
     overflow: hidden;
   }
 
   .academy-player-karaoke-overlay .academy-player-karaoke-line {
-    max-height: calc(1.25em * 3);
-    padding: 2px 6px;
+    width: 100%;
+    max-width: 100%;
+    max-height: calc(1.25em * 2);
+    padding: 0;
     overflow: hidden;
+    background: transparent;
+    border-radius: 0;
   }
 
-  .academy-player-teleprompter {
-    inset: 2.7rem 4.5% 4.35rem;
-  }
-
+  .academy-player-teleprompter,
   .academy-player-teleprompter[data-media="true"] {
-    inset: 48% 4.5% 4.35rem;
+    position: static;
+    max-height: 6.5rem;
+    overflow: auto;
+    mask-image: none;
   }
 
   .academy-player-teleprompter-line {

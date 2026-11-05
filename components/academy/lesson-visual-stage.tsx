@@ -196,7 +196,7 @@ export function LessonCinemaEyeLayer({
   currentTime: number;
   playing: boolean;
   activeCueId?: string;
-  /** Vatandaş sahnesinde kapalı: paragraf teleprompter yok; kelime şeridi 16:9 sahnede overlay akar. */
+  /** Vatandaş sahnesinde kapalı: paragraf teleprompter yok. Kelime şeridi geniş sahnede 16:9 üzerinde, dar sahnede çerçevenin altında akar. */
   captions?: boolean;
   karaokeCues?: readonly AcademyTeleprompterLine[];
   /** Ses çubuğu sahne kolonuyla aynı genişlikte, görselin hemen altında durur. */
@@ -332,6 +332,7 @@ export function LessonCinemaEyeLayer({
       ) : null}
       <div className="academy-player-widescreen-frame">
         <div className="academy-player-stage-column" data-academy-stage-frame="">
+        <div className="academy-player-frame-slot" data-academy-frame-slot="">
         <div className="academy-player-widescreen academy-player-karaoke-stage aspect-video">
           <div className="academy-player-eye-canvas" data-academy-eye-canvas="" data-academy-stage-theme={stageTheme}>
       {excelBackdrop ? (
@@ -428,6 +429,25 @@ export function LessonCinemaEyeLayer({
           fit={stageTheme === "pptx" ? "contain" : "cover"}
         />
       ) : null}
+          </div>
+        </div>
+        <div className="academy-player-frame-chrome" data-academy-frame-chrome="">
+      {punchcard ? (
+        <div className="academy-player-punchcard-dock" data-academy-punchcard-dock="">
+          <p
+            className="academy-player-punchcard"
+            data-academy-punchcard=""
+            data-academy-punchcard-cue={punchcard.cueId}
+            lang="tr"
+            aria-live="polite"
+          >
+            {academyCitizenPunchcardLabel(punchcard.label)}
+          </p>
+        </div>
+      ) : null}
+      {showHowto && howtoSteps ? (
+        <LessonHowtoSteps steps={howtoSteps} activeIndex={howtoActiveIndex} />
+      ) : null}
       {showPasteGuide ? (
         <div
           className="academy-paste-guide"
@@ -440,22 +460,6 @@ export function LessonCinemaEyeLayer({
           <strong>{pasteGuideTitle}</strong>
           <span>{academyAiDeskGuideHint(pasteTab, pasteHost)}</span>
           <i aria-hidden />
-        </div>
-      ) : null}
-      {showHowto && howtoSteps ? (
-        <LessonHowtoSteps steps={howtoSteps} activeIndex={howtoActiveIndex} />
-      ) : null}
-      {punchcard ? (
-        <div className="academy-player-punchcard-dock" data-academy-punchcard-dock="">
-          <p
-            className="academy-player-punchcard"
-            data-academy-punchcard=""
-            data-academy-punchcard-cue={punchcard.cueId}
-            lang="tr"
-            aria-live="polite"
-          >
-            {academyCitizenPunchcardLabel(punchcard.label)}
-          </p>
         </div>
       ) : null}
       {captions ? (
@@ -490,33 +494,35 @@ export function LessonCinemaEyeLayer({
           </div>
         </div>
       ) : null}
-      {karaokeCues && captionsVisible ? (
-        <div className="academy-player-karaoke-overlay" data-academy-karaoke-overlay="">
-          <LessonKaraokeStrip
-            cues={karaokeCues}
-            currentTime={speechTime}
-            playing={playing}
-          />
+      {karaokeCues ? (
+        <div className="academy-player-caption-dock" data-academy-caption-dock="">
+          {captionsVisible ? (
+            <div className="academy-player-karaoke-overlay" data-academy-karaoke-overlay="">
+              <LessonKaraokeStrip
+                cues={karaokeCues}
+                currentTime={speechTime}
+                playing={playing}
+              />
+            </div>
+          ) : null}
+          <button
+            type="button"
+            className="academy-player-captions-toggle"
+            data-academy-captions-toggle=""
+            data-on={captionsVisible ? "true" : "false"}
+            aria-pressed={captionsVisible}
+            aria-label={captionsVisible ? copy.cinemaCaptionsOn : copy.cinemaCaptionsOff}
+            onClick={() => {
+              const next = !captionsVisible;
+              setCaptionsVisible(next);
+              writeAcademyKaraokeCaptionsToStorage(next);
+            }}
+          >
+            {copy.cinemaCaptions}
+          </button>
         </div>
       ) : null}
-      {karaokeCues ? (
-        <button
-          type="button"
-          className="academy-player-captions-toggle"
-          data-academy-captions-toggle=""
-          data-on={captionsVisible ? "true" : "false"}
-          aria-pressed={captionsVisible}
-          aria-label={captionsVisible ? copy.cinemaCaptionsOn : copy.cinemaCaptionsOff}
-          onClick={() => {
-            const next = !captionsVisible;
-            setCaptionsVisible(next);
-            writeAcademyKaraokeCaptionsToStorage(next);
-          }}
-        >
-          {copy.cinemaCaptions}
-        </button>
-      ) : null}
-          </div>
+        </div>
         </div>
         {transport}
         </div>

@@ -113,6 +113,9 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     expect(eye).toContain("<LessonKaraokeStrip");
     expect(eye).toContain("academy-player-stage-column");
     expect(eye).toContain("data-academy-eye-canvas");
+    expect(eye).toContain("data-academy-frame-chrome");
+    expect(eye).toContain("data-academy-caption-dock");
+    expect(eye.indexOf("data-academy-eye-canvas")).toBeLessThan(eye.indexOf("data-academy-frame-chrome"));
     expect(eye).toContain("data-academy-karaoke-overlay");
     expect(eye).toContain("data-academy-captions-toggle");
     expect(eye).toContain("data-academy-clean-stage");
@@ -134,7 +137,7 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     expect(strip).toContain("data-academy-karaoke-word");
     expect(strip).not.toContain("loadAcademyTeleprompterFlow");
     expect(strip).toContain("academyKaraokeStripLines");
-    expect(strip).toContain("academyKaraokeVisibleWordRange");
+    expect(strip).toContain("academyKaraokeVisibleWordRange(words, currentTime, activeWordIndex, 2)");
     expect(strip).toContain("max-width: 640px");
     expect(strip).toContain("academyKaraokeActiveWordIndex");
     expect(strip).not.toContain("?? words[0]");
@@ -277,16 +280,25 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     );
     expect(css).toContain('[data-glue="true"]');
     expect(css).toMatch(
-      /@media \(max-width: 640px\)\s*\{[\s\S]*?\.academy-player-karaoke-overlay\s*\{[^}]*max-height:\s*35%/s,
+      /@media \(max-width: 640px\)\s*\{[\s\S]*?\.academy-player-karaoke-overlay\s*\{[^}]*position:\s*static/s,
+    );
+    expect(css).toMatch(
+      /@media \(max-width: 640px\)\s*\{[\s\S]*?\.academy-player-karaoke-overlay\s*\{[^}]*max-height:\s*calc\(1\.25em \* 2\)/s,
     );
     expect(css).toMatch(
       /@media \(max-width: 640px\)\s*\{[\s\S]*?\.academy-player-karaoke-overlay\s*\{[^}]*overflow:\s*hidden/s,
     );
     expect(css).toMatch(
-      /@media \(max-width: 640px\)\s*\{[\s\S]*?\.academy-player-karaoke-overlay\s*\{[^}]*bottom:\s*12px/s,
+      /@media \(max-width: 640px\)\s*\{[\s\S]*?\.academy-player-karaoke-overlay\s*\{[^}]*z-index:\s*auto/s,
     );
     expect(css).toMatch(
-      /@media \(max-width: 640px\)\s*\{[\s\S]*?\.academy-player-karaoke-overlay\s*\{[^}]*padding:\s*4px 8px/s,
+      /@media \(max-width: 640px\)\s*\{[\s\S]*?\.academy-player-karaoke-stage\s*\{[^}]*aspect-ratio:\s*16 \/ 9/s,
+    );
+    expect(css).toMatch(
+      /@media \(max-width: 640px\)\s*\{[\s\S]*?\.academy-howto-band\s*\{[^}]*position:\s*static/s,
+    );
+    expect(css).toMatch(
+      /@media \(max-width: 640px\)\s*\{[\s\S]*?\.academy-player-punchcard-dock\s*\{[^}]*position:\s*static/s,
     );
     expect(css).toMatch(
       /@media \(max-width: 640px\)\s*\{[\s\S]*?\.academy-player-karaoke-line\s*\{[^}]*font-size:\s*clamp\(0\.75rem,\s*3\.2vw,\s*0\.85rem\)/s,
