@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   academyKaraokeActiveWordIndex,
   academyKaraokeStripLines,
+  academyKaraokeVisibleWordRange,
   academyKaraokeWords,
   academyKaraokeWordState,
   academyTeleprompterActiveLineIndex,
@@ -27,6 +28,23 @@ export function LessonKaraokeStrip({
   const activeWordIndex = academyKaraokeActiveWordIndex(words, currentTime);
   const activeWord = activeWordIndex == null ? null : words[activeWordIndex] ?? null;
   const acousticClock = activeLine?.words != null && activeLine.words.length > 0;
+  const [compactCaptions, setCompactCaptions] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 640px)");
+    const apply = () => setCompactCaptions(media.matches);
+    apply();
+    media.addEventListener("change", apply);
+    return () => media.removeEventListener("change", apply);
+  }, []);
+
+  const visibleWords = useMemo(() => {
+    if (!compactCaptions) {
+      return words;
+    }
+    const range = academyKaraokeVisibleWordRange(words, currentTime, activeWordIndex);
+    return words.slice(range.start, range.end);
+  }, [activeWordIndex, compactCaptions, currentTime, words]);
 
   useEffect(() => {
     const node = activeWordRef.current;
@@ -67,7 +85,7 @@ export function LessonKaraokeStrip({
         data-academy-karaoke-line={activeLine?.id}
       >
         {activeLine
-          ? words.map((word) => {
+          ? visibleWords.map((word) => {
               const state = academyKaraokeWordState(word, currentTime);
               const active = word.id === activeWord?.id;
               return (

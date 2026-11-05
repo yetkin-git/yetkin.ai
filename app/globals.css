@@ -5042,7 +5042,7 @@ body {
   }
 
   .academy-player-karaoke-strip {
-    padding: 0.28rem 0.6rem 0.38rem;
+    padding: 4px 8px;
   }
 
   .academy-player-eye-stack {
@@ -5051,8 +5051,19 @@ body {
 
   .academy-player-karaoke-overlay {
     --academy-karaoke-band-h: 3.25rem;
-    max-height: 4.25rem;
-    padding: 0.28rem 0.7rem 0.32rem;
+    bottom: 12px;
+    min-height: 0;
+    max-height: 35%;
+    align-items: flex-end;
+    padding: 4px 8px;
+    overflow: hidden;
+  }
+
+  .academy-player-karaoke-overlay .academy-player-karaoke-strip {
+    max-height: 100%;
+    margin-top: 0;
+    padding: 0;
+    overflow: hidden;
   }
 
   .academy-player-captions-toggle {
@@ -5072,8 +5083,16 @@ body {
   }
 
   .academy-player-karaoke-line {
-    font-size: 0.95rem;
-    line-height: 1.5;
+    font-size: clamp(0.75rem, 3.2vw, 0.85rem);
+    line-height: 1.25;
+    max-height: calc(1.25em * 3);
+    overflow: hidden;
+  }
+
+  .academy-player-karaoke-overlay .academy-player-karaoke-line {
+    max-height: calc(1.25em * 3);
+    padding: 2px 6px;
+    overflow: hidden;
   }
 
   .academy-player-teleprompter {

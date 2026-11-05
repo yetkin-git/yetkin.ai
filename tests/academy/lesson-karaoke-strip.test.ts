@@ -12,6 +12,7 @@ import {
   academyKaraokeShouldGlueToPrevious,
   academyKaraokeStripLines,
   academyKaraokeTokenize,
+  academyKaraokeVisibleWordRange,
   academyKaraokeWords,
   academyKaraokeWordState,
   academyTeleprompterActiveLineIndex,
@@ -133,6 +134,8 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
     expect(strip).toContain("data-academy-karaoke-word");
     expect(strip).not.toContain("loadAcademyTeleprompterFlow");
     expect(strip).toContain("academyKaraokeStripLines");
+    expect(strip).toContain("academyKaraokeVisibleWordRange");
+    expect(strip).toContain("max-width: 640px");
     expect(strip).toContain("academyKaraokeActiveWordIndex");
     expect(strip).not.toContain("?? words[0]");
     expect(strip).toContain('data-academy-karaoke-clock={acousticClock ? "acoustic" : undefined}');
@@ -273,6 +276,24 @@ describe("mühürlü karaoke şeridi — cue senkronu", () => {
       /\.academy-player-karaoke-word\[data-state="active"\]\s*\{[^}]*0 0 0\.6px currentColor/s,
     );
     expect(css).toContain('[data-glue="true"]');
+    expect(css).toMatch(
+      /@media \(max-width: 640px\)\s*\{[\s\S]*?\.academy-player-karaoke-overlay\s*\{[^}]*max-height:\s*35%/s,
+    );
+    expect(css).toMatch(
+      /@media \(max-width: 640px\)\s*\{[\s\S]*?\.academy-player-karaoke-overlay\s*\{[^}]*overflow:\s*hidden/s,
+    );
+    expect(css).toMatch(
+      /@media \(max-width: 640px\)\s*\{[\s\S]*?\.academy-player-karaoke-overlay\s*\{[^}]*bottom:\s*12px/s,
+    );
+    expect(css).toMatch(
+      /@media \(max-width: 640px\)\s*\{[\s\S]*?\.academy-player-karaoke-overlay\s*\{[^}]*padding:\s*4px 8px/s,
+    );
+    expect(css).toMatch(
+      /@media \(max-width: 640px\)\s*\{[\s\S]*?\.academy-player-karaoke-line\s*\{[^}]*font-size:\s*clamp\(0\.75rem,\s*3\.2vw,\s*0\.85rem\)/s,
+    );
+    expect(css).toMatch(
+      /@media \(max-width: 640px\)\s*\{[\s\S]*?\.academy-player-karaoke-line\s*\{[^}]*line-height:\s*1\.25/s,
+    );
     expect(strip).toContain("gap-x-[0.32em]");
     expect(strip).toContain("gap-y-[0.2em]");
     expect(strip).toContain("data-glue={word.glue");
@@ -332,6 +353,27 @@ describe("karaoke kelime boşluğu ve noktalama yapışması", () => {
     expect(words.at(-1)).toEqual({ text: ".", glue: true });
     const quoted = academyKaraokeTokenize("«sıfır kodlama» ilkesi");
     expect(academyKaraokeReconstructLine(quoted)).toBe("«sıfır kodlama» ilkesi");
+  });
+});
+
+describe("karaoke mobil satır penceresi", () => {
+  it("dar sahnede aktif kelimeyi en fazla üç satırlık pencerede tutar", () => {
+    const words = Array.from({ length: 24 }, (_, index) => ({
+      text: index === 11 ? "vurgu" : `kelime${index}`,
+      glue: false,
+      start: index,
+    }));
+    const full = academyKaraokeVisibleWordRange(words.slice(0, 4), 0, 0);
+    expect(full).toEqual({ start: 0, end: 4 });
+
+    const windowed = academyKaraokeVisibleWordRange(words, 11.2, 11);
+    expect(windowed.start).toBeLessThanOrEqual(11);
+    expect(windowed.end).toBeGreaterThan(11);
+    const shown = words.slice(windowed.start, windowed.end);
+    const chars = shown.reduce((sum, word) => sum + word.text.length + 1, 0);
+    expect(chars).toBeLessThanOrEqual(42 * 3);
+    expect(shown.some((word) => word.text === "vurgu")).toBe(true);
+    expect(windowed.end - windowed.start).toBeLessThan(words.length);
   });
 });
 

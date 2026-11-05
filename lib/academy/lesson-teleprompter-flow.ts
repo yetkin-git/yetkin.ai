@@ -421,6 +421,76 @@ export function academyKaraokeWordState(
   return "active";
 }
 
+/**
+ * Dar sahnede aynı anda görünen karaoke penceresi.
+ * 0.85rem ve ~360px genişlikte satır başına yaklaşık karakter; üç satır bütçesi.
+ */
+export const ACADEMY_KARAOKE_VISIBLE_MAX_LINES = 3;
+export const ACADEMY_KARAOKE_VISIBLE_CHARS_PER_LINE = 42;
+
+function karaokeVisibleWordWeight(word: Pick<AcademyKaraokeWord, "text" | "glue">): number {
+  return Math.max(1, word.text.length) + (word.glue ? 0 : 1);
+}
+
+/**
+ * Aktif kelimeyi içeren, en fazla 2–3 satırlık kelime aralığı.
+ * Cümle bu bütçeye sığıyorsa tamamı durur; sığmıyorsa pencere aktif kelimeyle kayar.
+ */
+export function academyKaraokeVisibleWordRange(
+  words: readonly Pick<AcademyKaraokeWord, "text" | "glue" | "start">[],
+  currentTime: number,
+  activeIndex: number | null,
+  maxLines: number = ACADEMY_KARAOKE_VISIBLE_MAX_LINES,
+  charsPerLine: number = ACADEMY_KARAOKE_VISIBLE_CHARS_PER_LINE,
+): { start: number; end: number } {
+  const count = words.length;
+  if (count === 0) {
+    return { start: 0, end: 0 };
+  }
+  const budget = Math.max(charsPerLine, maxLines * charsPerLine);
+  let total = 0;
+  for (let index = 0; index < count; index += 1) {
+    total += karaokeVisibleWordWeight(words[index]!);
+  }
+  if (total <= budget) {
+    return { start: 0, end: count };
+  }
+
+  const t = Number.isFinite(currentTime) ? currentTime : 0;
+  let focus = activeIndex;
+  if (focus == null || focus < 0 || focus >= count) {
+    focus = 0;
+    for (let index = 0; index < count; index += 1) {
+      if (t >= words[index]!.start) {
+        focus = index;
+      }
+    }
+  }
+  if (words[focus]?.glue && focus > 0) {
+    focus -= 1;
+  }
+
+  let start = focus;
+  let end = focus + 1;
+  let used = karaokeVisibleWordWeight(words[focus]!);
+  while (start > 0) {
+    const previous = karaokeVisibleWordWeight(words[start - 1]!);
+    if (used >= charsPerLine || used + previous > budget) {
+      break;
+    }
+    start -= 1;
+    used += previous;
+  }
+  while (end < count && used + karaokeVisibleWordWeight(words[end]!) <= budget) {
+    used += karaokeVisibleWordWeight(words[end]!);
+    end += 1;
+  }
+  if (start > 0 && words[start]?.glue) {
+    start -= 1;
+  }
+  return { start, end };
+}
+
 /** Vurgu yalnız kelimenin kendi aralığındadır. Sessizlikte ilk kelimeye dönülmez. */
 export function academyKaraokeActiveWordIndex(
   words: readonly Pick<AcademyKaraokeWord, "start" | "end">[],
