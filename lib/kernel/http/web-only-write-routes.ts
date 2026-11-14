@@ -305,6 +305,22 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
     "Sektörel dijital dükkan. Misafir günde 1, üye günde 3. Şablon basar, skor kodda. Cüzdan yazılmaz. v1 hop satırı yoktur.",
   ),
   ...verbs(
+    "product-tezgah-reklam",
+    ["POST"],
+    "/api/tezgah/reklam/generate",
+    "product-write",
+    true,
+    "Otonom reklam paketi. Misafir günde 1, üye günde 3. Metin mühürlenir. Cüzdan yazılmaz. v1 hop satırı yoktur.",
+  ),
+  ...verbs(
+    "product-tezgah-pazaryeri",
+    ["POST"],
+    "/api/tezgah/pazaryeri/generate",
+    "product-write",
+    true,
+    "Pazaryeri katalog CSV. Misafir günde 1, üye günde 3. Tablo kodda basılır. Cüzdan yazılmaz. v1 hop satırı yoktur.",
+  ),
+  ...verbs(
     "product-billing",
     ["PUT"],
     "/api/profile/billing",

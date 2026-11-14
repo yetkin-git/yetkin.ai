@@ -4,6 +4,8 @@
  */
 
 import { DUKKAN_SECTORS, DUKKAN_TONES } from "@/lib/tezgah/dukkan/copy";
+import { PAZARYERI_MARKETS } from "@/lib/tezgah/pazaryeri/copy";
+import { REKLAM_AIMS, REKLAM_FILE_STEM } from "@/lib/tezgah/reklam/copy";
 
 export const TEZGAH_PATH = "/tezgah" as const;
 
@@ -19,7 +21,15 @@ export const TEZGAH_MEMBER_QUOTA_MESSAGE =
 export const TEZGAH_FAIL_MESSAGE =
   "Üretim tamamlanamadı. Hakkınız duruyor; biraz sonra yeniden deneyin.";
 
-export const TEZGAH_TOOL_IDS = ["ecommerce", "proposal", "grant", "tetkik", "dukkan"] as const;
+export const TEZGAH_TOOL_IDS = [
+  "ecommerce",
+  "proposal",
+  "grant",
+  "tetkik",
+  "dukkan",
+  "reklam",
+  "pazaryeri",
+] as const;
 
 export type TezgahToolId = (typeof TEZGAH_TOOL_IDS)[number];
 
@@ -205,6 +215,69 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
         placeholder: "Ton seç",
         kind: "select",
         options: DUKKAN_TONES.map((tone) => ({ value: tone.id, label: tone.label })),
+      },
+    ],
+    cta: null,
+  },
+  {
+    id: "reklam",
+    label: "Otonom Reklam Paketi",
+    blurb: "Üç kanca, Meta ve Google arama metni, görsel brif. Karakter sınırı ve amaç çağrısı kodda mühürlenir.",
+    fileStem: REKLAM_FILE_STEM,
+    fields: [
+      {
+        name: "businessName",
+        label: "İşletme adı",
+        placeholder: "Karaoğlu Fırın",
+        kind: "text",
+      },
+      {
+        name: "sector",
+        label: "Sektör",
+        placeholder: "Sektör seç",
+        kind: "select",
+        options: DUKKAN_SECTORS.map((sector) => ({ value: sector.id, label: sector.label })),
+      },
+      {
+        name: "place",
+        label: "Hedef şehir / bölge",
+        placeholder: "Kadıköy, İstanbul",
+        kind: "text",
+      },
+      {
+        name: "aim",
+        label: "Kampanya amacı",
+        placeholder: "Amaç seç",
+        kind: "select",
+        options: REKLAM_AIMS.map((aim) => ({ value: aim.id, label: aim.label })),
+      },
+      {
+        name: "offer",
+        label: "Öne çıkan teklif",
+        placeholder: "İkinci poğaça bedava",
+        kind: "textarea",
+      },
+    ],
+    cta: null,
+  },
+  {
+    id: "pazaryeri",
+    label: "Pazaryeri Katalog Fabrikası",
+    blurb: "En çok 8 ürün. Blokları boş satırla ayır. Tablo önizlenir, pazaryeri-katalog.csv iner.",
+    fileStem: "pazaryeri-katalog",
+    fields: [
+      {
+        name: "market",
+        label: "Pazaryeri",
+        placeholder: "Pazaryeri seç",
+        kind: "select",
+        options: PAZARYERI_MARKETS.map((market) => ({ value: market.id, label: market.label })),
+      },
+      {
+        name: "products",
+        label: "Ürün blokları",
+        placeholder: "Pamuklu battaniye\nKategori: Anne ve bebek\nRenk: Ekru",
+        kind: "textarea",
       },
     ],
     cta: null,

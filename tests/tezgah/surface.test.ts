@@ -57,6 +57,8 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(ROUTE_AUTH_MAP["/api/tezgah/quota"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/tezgah/tetkik/generate"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/tezgah/dukkan/generate"]).toBe("public");
+    expect(ROUTE_AUTH_MAP["/api/tezgah/reklam/generate"]).toBe("public");
+    expect(ROUTE_AUTH_MAP["/api/tezgah/pazaryeri/generate"]).toBe("public");
     expect(WEB_ONLY_WRITE_ROUTES.some((row) => row.method === "POST" && row.path === "/api/tezgah/generate")).toBe(
       true,
     );
@@ -66,12 +68,22 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(
       WEB_ONLY_WRITE_ROUTES.some((row) => row.method === "POST" && row.path === "/api/tezgah/dukkan/generate"),
     ).toBe(true);
+    expect(
+      WEB_ONLY_WRITE_ROUTES.some((row) => row.method === "POST" && row.path === "/api/tezgah/reklam/generate"),
+    ).toBe(true);
+    expect(
+      WEB_ONLY_WRITE_ROUTES.some((row) => row.method === "POST" && row.path === "/api/tezgah/pazaryeri/generate"),
+    ).toBe(true);
     expect(findPublishedHopId("POST", "/api/tezgah/generate")).toBeNull();
     expect(findPublishedHopId("POST", "/api/tezgah/tetkik/generate")).toBeNull();
     expect(findPublishedHopId("POST", "/api/tezgah/dukkan/generate")).toBeNull();
+    expect(findPublishedHopId("POST", "/api/tezgah/reklam/generate")).toBeNull();
+    expect(findPublishedHopId("POST", "/api/tezgah/pazaryeri/generate")).toBeNull();
     expect(findPublishedHopId("GET", "/api/tezgah/quota")).toBeNull();
     expect(isLlmMutationPath("/api/tezgah/tetkik/generate")).toBe(true);
     expect(isLlmMutationPath("/api/tezgah/dukkan/generate")).toBe(true);
+    expect(isLlmMutationPath("/api/tezgah/reklam/generate")).toBe(true);
+    expect(isLlmMutationPath("/api/tezgah/pazaryeri/generate")).toBe(true);
     const engine = readSrc("lib/tezgah/engine.ts");
     expect(engine).toContain("recordUsage: false");
     expect(engine).toContain("TEZGAH_MAX_OUTPUT_TOKENS");
@@ -89,6 +101,18 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(dukkanEngine).not.toContain("getPrisma");
     expect(dukkanEngine).not.toContain("amountMinor");
     expect(dukkanEngine).toContain("refundTezgahQuota");
+    const reklamEngine = readSrc("lib/tezgah/reklam/engine.ts");
+    expect(reklamEngine).toContain("recordUsage: false");
+    expect(reklamEngine).toContain("REKLAM_MAX_OUTPUT_TOKENS");
+    expect(reklamEngine).toContain("refundTezgahQuota");
+    expect(reklamEngine).not.toContain("getPrisma");
+    expect(reklamEngine).not.toContain("amountMinor");
+    const pazaryeriEngine = readSrc("lib/tezgah/pazaryeri/engine.ts");
+    expect(pazaryeriEngine).toContain("recordUsage: false");
+    expect(pazaryeriEngine).toContain("PAZARYERI_MAX_OUTPUT_TOKENS");
+    expect(pazaryeriEngine).toContain("refundTezgahQuota");
+    expect(pazaryeriEngine).not.toContain("getPrisma");
+    expect(pazaryeriEngine).not.toContain("amountMinor");
     const workbench = readSrc("components/tezgah/workbench.tsx");
     expect(workbench).toContain("Çıktıyı Üret");
     expect(workbench).toContain("Tek Tıkla Kopyala");
@@ -113,6 +137,8 @@ describe("AI Tezgâh kamu yüzeyi", () => {
       "grant",
       "tetkik",
       "dukkan",
+      "reklam",
+      "pazaryeri",
     ]);
     const tetkik = TEZGAH_TOOLS.find((tool) => tool.id === "tetkik");
     expect(tetkik?.label).toBe("Web Sitesi Tetkik");
@@ -180,5 +206,51 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(preview).not.toContain("allow-scripts");
     expect(preview).toContain("srcDoc");
     expect(preview).toContain("data-dukkan-preview");
+  });
+
+  it("altıncı sekme reklam paketidir; markdown iner, amaç çağrısı katalogda kilitlidir", () => {
+    const reklam = TEZGAH_TOOLS.find((tool) => tool.id === "reklam");
+    expect(reklam?.label).toBe("Otonom Reklam Paketi");
+    expect(reklam?.cta).toBeNull();
+    expect(reklam?.fileStem).toBe("reklam-paketi");
+    expect(reklam?.fields.map((field) => field.name)).toEqual([
+      "businessName",
+      "sector",
+      "place",
+      "aim",
+      "offer",
+    ]);
+    expect(reklam?.fields.find((field) => field.name === "aim")?.options?.map((option) => option.label)).toEqual([
+      "WhatsApp mesajı",
+      "Telefon araması",
+      "Mağaza ziyareti",
+    ]);
+    const workbench = readSrc("components/tezgah/workbench.tsx");
+    expect(workbench).toContain("/api/tezgah/reklam/generate");
+    expect(workbench).toContain("Reklamı Üret");
+    expect(workbench).toContain(".md İndir");
+    expect(workbench).toContain(".txt İndir");
+  });
+
+  it("yedinci sekme pazaryeri kataloğudur; tablo önizlenir ve csv iner", () => {
+    const pazaryeri = TEZGAH_TOOLS.find((tool) => tool.id === "pazaryeri");
+    expect(pazaryeri?.label).toBe("Pazaryeri Katalog Fabrikası");
+    expect(pazaryeri?.cta).toBeNull();
+    expect(pazaryeri?.fileStem).toBe("pazaryeri-katalog");
+    expect(pazaryeri?.fields.map((field) => field.name)).toEqual(["market", "products"]);
+    expect(pazaryeri?.fields.find((field) => field.name === "market")?.options?.map((option) => option.label)).toEqual([
+      "Trendyol",
+      "Hepsiburada",
+      "Amazon",
+    ]);
+    const workbench = readSrc("components/tezgah/workbench.tsx");
+    expect(workbench).toContain("/api/tezgah/pazaryeri/generate");
+    expect(workbench).toContain("Kataloğu Üret");
+    expect(workbench).toContain("pazaryeri-katalog.csv");
+    const preview = readSrc("components/tezgah/pazaryeri-preview.tsx");
+    expect(preview).toContain("data-pazaryeri-preview");
+    expect(preview).toContain("<table");
+    expect(preview).toContain("downloadCsv(PAZARYERI_FILENAME, csv)");
+    expect(preview).toContain("anchor.download = filename");
   });
 });

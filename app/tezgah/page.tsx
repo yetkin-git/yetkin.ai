@@ -18,7 +18,7 @@ export default async function TezgahPage() {
         <PageHeader
           eyebrow="AI Tezgâh"
           title="Müşterine bugün verebileceğin çıktı"
-          description="Ürün kartı, teklif, hibe ön notu, site tetkiki ya da sektörel dijital dükkan. Misafire günde 1, ücretsiz kayıtla günde 3 üretim. Çıktıyı kopyala, indir veya yazdır."
+          description="Ürün kartı, teklif, hibe ön notu, site tetkiki, dijital dükkan, reklam paketi veya pazaryeri kataloğu. Misafire günde 1, ücretsiz kayıtla günde 3 üretim."
         />
       </div>
       <TezgahWorkbench freelancerName={freelancerName} />

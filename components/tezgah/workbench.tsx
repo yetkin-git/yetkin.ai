@@ -9,8 +9,11 @@ import { Input, INPUT_SURFACE_CLASS } from "@/components/ui/input";
 import { LinkButton } from "@/components/ui/link-button";
 import { Textarea } from "@/components/ui/textarea";
 import { DukkanPreview } from "@/components/tezgah/dukkan-preview";
+import { PazaryeriPreview } from "@/components/tezgah/pazaryeri-preview";
 import { TetkikReportView } from "@/components/tezgah/tetkik-report";
 import { DUKKAN_FILENAME } from "@/lib/tezgah/dukkan/copy";
+import { PAZARYERI_FILENAME } from "@/lib/tezgah/pazaryeri/copy";
+import { REKLAM_FILE_STEM } from "@/lib/tezgah/reklam/copy";
 import { buildCitizenRegisterHref } from "@/lib/kernel/auth/redirects";
 import {
   TEZGAH_GUEST_QUOTA_MESSAGE,
@@ -38,6 +41,26 @@ type DukkanPayload = QuotaBody & {
   filename: typeof DUKKAN_FILENAME;
 };
 
+type ReklamPayload = QuotaBody & {
+  tool: "reklam";
+  markdown: string;
+  filename: typeof REKLAM_FILE_STEM;
+};
+
+type PazaryeriPayload = QuotaBody & {
+  tool: "pazaryeri";
+  csv: string;
+  filename: typeof PAZARYERI_FILENAME;
+  columns: string[];
+  rows: string[][];
+};
+
+type CatalogPreview = {
+  columns: string[];
+  rows: string[][];
+  csv: string;
+};
+
 const REGISTER_HREF = buildCitizenRegisterHref("/tezgah") as Route;
 
 function fieldReady(field: TezgahField, values: Record<string, string>): boolean {
@@ -62,6 +85,12 @@ function fieldReady(field: TezgahField, values: Record<string, string>): boolean
   if (field.name === "url") {
     return value.length >= 12;
   }
+  if (field.name === "products") {
+    return value.length >= 2 && value.length <= 4000;
+  }
+  if (field.name === "offer") {
+    return value.length >= 2 && value.length <= 400;
+  }
   return value.length >= 2;
 }
 
@@ -81,8 +110,8 @@ function FieldControl({
         name={field.name}
         value={value}
         placeholder={field.placeholder}
-        rows={5}
-        maxLength={field.name === "services" ? 450 : undefined}
+        rows={field.name === "products" ? 8 : 5}
+        maxLength={field.name === "services" ? 450 : field.name === "offer" ? 400 : field.name === "products" ? 4000 : undefined}
         onChange={(event) => onChange(event.target.value)}
       />
     );
@@ -127,6 +156,40 @@ function isTetkikPayload(data: unknown): data is TetkikPayload {
     typeof row.narrative === "string" &&
     typeof row.disclaimer === "string" &&
     Array.isArray(row.checks) &&
+    typeof row.remaining === "number" &&
+    typeof row.limit === "number"
+  );
+}
+
+function isReklamPayload(data: unknown): data is ReklamPayload {
+  if (!data || typeof data !== "object") {
+    return false;
+  }
+  const row = data as Partial<ReklamPayload>;
+  return (
+    row.tool === "reklam" &&
+    typeof row.markdown === "string" &&
+    row.markdown.length > 0 &&
+    row.filename === REKLAM_FILE_STEM &&
+    typeof row.remaining === "number" &&
+    typeof row.limit === "number"
+  );
+}
+
+function isPazaryeriPayload(data: unknown): data is PazaryeriPayload {
+  if (!data || typeof data !== "object") {
+    return false;
+  }
+  const row = data as Partial<PazaryeriPayload>;
+  return (
+    row.tool === "pazaryeri" &&
+    typeof row.csv === "string" &&
+    row.csv.length > 0 &&
+    row.filename === PAZARYERI_FILENAME &&
+    Array.isArray(row.columns) &&
+    row.columns.every((column) => typeof column === "string") &&
+    Array.isArray(row.rows) &&
+    row.rows.every((line) => Array.isArray(line) && line.every((cell) => typeof cell === "string")) &&
     typeof row.remaining === "number" &&
     typeof row.limit === "number"
   );
@@ -202,6 +265,7 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
   const [markdown, setMarkdown] = useState("");
   const [report, setReport] = useState<TetkikReport | null>(null);
   const [shop, setShop] = useState<{ html: string; score: number } | null>(null);
+  const [catalog, setCatalog] = useState<CatalogPreview | null>(null);
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -234,6 +298,8 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
   const active = tool;
   const tetkik = active.id === "tetkik";
   const dukkan = active.id === "dukkan";
+  const reklam = active.id === "reklam";
+  const pazaryeri = active.id === "pazaryeri";
 
   const fieldsReady = active.fields.every((field) => fieldReady(field, values));
   const blocked = quota != null && quota.remaining <= 0;
@@ -278,6 +344,7 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
         setReport(data);
         setMarkdown("");
         setShop(null);
+        setCatalog(null);
         setQuota({ remaining: data.remaining, limit: data.limit, guest: data.guest === true });
         return;
       }
@@ -312,6 +379,72 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
         setShop({ html: data.html, score: data.score });
         setMarkdown("");
         setReport(null);
+        setCatalog(null);
+        setQuota({ remaining: data.remaining, limit: data.limit, guest: data.guest === true });
+        return;
+      }
+
+      if (reklam) {
+        const payload = {
+          businessName: (values.businessName ?? "").trim(),
+          sector: (values.sector ?? "").trim(),
+          place: (values.place ?? "").trim(),
+          aim: (values.aim ?? "").trim(),
+          offer: (values.offer ?? "").trim(),
+        };
+        const response = await fetch(
+          "/api/tezgah/reklam/generate",
+          withRailApiVersion({
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(payload),
+          }),
+        );
+        const body = (await response.json()) as { ok?: boolean; error?: string; data?: unknown };
+        if (!response.ok || body.ok === false || !isReklamPayload(body.data)) {
+          setMarkdown("");
+          setError(typeof body.error === "string" ? body.error : "Çıktı üretilemedi.");
+          if (response.status === 429 && quota) {
+            setQuota({ ...quota, remaining: 0 });
+          }
+          return;
+        }
+        const data = body.data;
+        setMarkdown(data.markdown);
+        setReport(null);
+        setShop(null);
+        setCatalog(null);
+        setQuota({ remaining: data.remaining, limit: data.limit, guest: data.guest === true });
+        return;
+      }
+
+      if (pazaryeri) {
+        const payload = {
+          market: (values.market ?? "").trim(),
+          products: (values.products ?? "").trim(),
+        };
+        const response = await fetch(
+          "/api/tezgah/pazaryeri/generate",
+          withRailApiVersion({
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(payload),
+          }),
+        );
+        const body = (await response.json()) as { ok?: boolean; error?: string; data?: unknown };
+        if (!response.ok || body.ok === false || !isPazaryeriPayload(body.data)) {
+          setCatalog(null);
+          setError(typeof body.error === "string" ? body.error : "Çıktı üretilemedi.");
+          if (response.status === 429 && quota) {
+            setQuota({ ...quota, remaining: 0 });
+          }
+          return;
+        }
+        const data = body.data;
+        setCatalog({ columns: data.columns, rows: data.rows, csv: data.csv });
+        setMarkdown("");
+        setReport(null);
+        setShop(null);
         setQuota({ remaining: data.remaining, limit: data.limit, guest: data.guest === true });
         return;
       }
@@ -350,6 +483,7 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
       setMarkdown(body.data.markdown);
       setReport(null);
       setShop(null);
+      setCatalog(null);
       if (typeof body.data.remaining === "number" && typeof body.data.limit === "number") {
         setQuota({
           remaining: body.data.remaining,
@@ -397,6 +531,7 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
                   setMarkdown("");
                   setReport(null);
                   setShop(null);
+                  setCatalog(null);
                   setError("");
                 }}
                 className={
@@ -447,7 +582,17 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
               ))}
               {error ? <p className="text-sm text-[var(--rose)]">{error}</p> : null}
               <Button type="submit" disabled={!fieldsReady || pending || blocked}>
-                {pending ? "Üretiliyor" : tetkik ? "Tetkiki Üret" : dukkan ? "Dükkanı Üret" : "Çıktıyı Üret"}
+                {pending
+                  ? "Üretiliyor"
+                  : tetkik
+                    ? "Tetkiki Üret"
+                    : dukkan
+                      ? "Dükkanı Üret"
+                      : reklam
+                        ? "Reklamı Üret"
+                        : pazaryeri
+                          ? "Kataloğu Üret"
+                          : "Çıktıyı Üret"}
               </Button>
             </form>
           </Card>
@@ -479,6 +624,21 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
                 <p className="text-sm leading-6 text-[var(--muted)]">
                   Sektörü, hizmetleri ve tonu yaz. Sayfa şablondan basılır; önizleme iframe içinde durur ve html
                   olarak iner.
+                </p>
+              </Card>
+            </div>
+          )
+        ) : pazaryeri ? (
+          catalog ? (
+            <div className="lg:col-span-2">
+              <PazaryeriPreview columns={catalog.columns} rows={catalog.rows} csv={catalog.csv} />
+            </div>
+          ) : (
+            <div className="print:hidden">
+              <Card title="Katalog" eyebrow="Pazaryeri">
+                <p className="text-sm leading-6 text-[var(--muted)]">
+                  Ürünleri boş satırla ayır. Her blokta ilk satır ad, ardından Kategori ve özellik satırları durur.
+                  Çıktı tablo olarak önizlenir ve pazaryeri-katalog.csv olarak iner.
                 </p>
               </Card>
             </div>
