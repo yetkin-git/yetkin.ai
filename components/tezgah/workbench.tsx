@@ -12,11 +12,14 @@ import { Input, INPUT_SURFACE_CLASS } from "@/components/ui/input";
 import { LinkButton } from "@/components/ui/link-button";
 import { Textarea } from "@/components/ui/textarea";
 import { DukkanPreview } from "@/components/tezgah/dukkan-preview";
+import { GrantProjectReportView } from "@/components/tezgah/grant-project-report";
 import { PazaryeriPreview } from "@/components/tezgah/pazaryeri-preview";
 import { TetkikReportView } from "@/components/tezgah/tetkik-report";
 import { DUKKAN_FILENAME } from "@/lib/tezgah/dukkan/copy";
+import type { GrantProjectReport } from "@/lib/tezgah/grant/types";
 import { PAZARYERI_FILENAME } from "@/lib/tezgah/pazaryeri/copy";
 import { REKLAM_FILE_STEM } from "@/lib/tezgah/reklam/copy";
+import { GRANT_PROJECT_DISCLAIMER, isGrantWithheldNote } from "@/lib/yetkinhibe/grant-project-notes";
 import { buildCitizenRegisterHref } from "@/lib/kernel/auth/redirects";
 import {
   TEZGAH_GUEST_QUOTA_MESSAGE,
@@ -98,6 +101,12 @@ function fieldReady(field: TezgahField, values: Record<string, string>): boolean
   if (field.name === "offer") {
     return value.length >= 2 && value.length <= 400;
   }
+  if (field.name === "employeeCount") {
+    return /^\d{1,6}$/.test(value) && Number(value) <= 100_000;
+  }
+  if (field.name === "companyAgeYears") {
+    return /^\d{1,3}$/.test(value) && Number(value) <= 150;
+  }
   return value.length >= 2;
 }
 
@@ -118,7 +127,21 @@ function FieldControl({
         value={value}
         placeholder={field.placeholder}
         rows={field.name === "products" ? 8 : 5}
-        maxLength={field.name === "services" ? 450 : field.name === "offer" ? 400 : field.name === "products" ? 4000 : undefined}
+        maxLength={
+          field.name === "services"
+            ? 450
+            : field.name === "offer"
+              ? 400
+              : field.name === "products"
+                ? 4000
+                : field.name === "project"
+                  ? 1500
+                  : field.name === "scheduleWindows"
+                    ? 500
+                    : field.name === "investmentAmounts"
+                      ? 400
+                      : undefined
+        }
         onChange={(event) => onChange(event.target.value)}
       />
     );
@@ -146,9 +169,57 @@ function FieldControl({
       type={field.name === "url" ? "url" : field.name === "whatsapp" ? "tel" : "text"}
       value={value}
       placeholder={field.placeholder}
-      maxLength={field.name === "whatsapp" ? 32 : undefined}
+      maxLength={
+        field.name === "whatsapp" ? 32 : field.name === "employeeCount" ? 6 : field.name === "companyAgeYears" ? 3 : undefined
+      }
       onChange={(event) => onChange(event.target.value)}
     />
+  );
+}
+
+function isGrantPayload(data: unknown): data is GrantProjectReport & QuotaBody {
+  if (!data || typeof data !== "object") {
+    return false;
+  }
+  const row = data as Partial<GrantProjectReport & QuotaBody>;
+  const withheldOk = (items: unknown): boolean =>
+    Array.isArray(items) &&
+    items.every((item) => {
+      if (!item || typeof item !== "object") {
+        return false;
+      }
+      const note = (item as { note?: unknown }).note;
+      return typeof note === "string" && isGrantWithheldNote(note) && !("poolAmountMinor" in item) && !("supportRatioBps" in item);
+    });
+  return (
+    row.tool === "grant" &&
+    row.disclaimer === GRANT_PROJECT_DISCLAIMER &&
+    typeof row.businessName === "string" &&
+    typeof row.freelancerName === "string" &&
+    typeof row.purpose === "string" &&
+    typeof row.market === "string" &&
+    typeof row.risk === "string" &&
+    Array.isArray(row.eligible) &&
+    row.eligible.every(
+      (item) =>
+        !!item &&
+        typeof item.poolLabel === "string" &&
+        typeof item.ceilingLabel === "string" &&
+        typeof item.ratioLabel === "string" &&
+        !("poolAmountMinor" in item) &&
+        !("supportRatioBps" in item),
+    ) &&
+    withheldOk(row.closed) &&
+    withheldOk(row.unverified) &&
+    Array.isArray(row.schedule) &&
+    row.schedule.length === 4 &&
+    Array.isArray(row.investments) &&
+    row.investments.length === 5 &&
+    row.investments.every(
+      (item) => !!item && (item.amountLabel === null || typeof item.amountLabel === "string"),
+    ) &&
+    typeof row.remaining === "number" &&
+    typeof row.limit === "number"
   );
 }
 
@@ -277,6 +348,7 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
   const [quota, setQuota] = useState<QuotaBody | null>(null);
   const [markdown, setMarkdown] = useState("");
   const [report, setReport] = useState<TetkikReport | null>(null);
+  const [grantReport, setGrantReport] = useState<GrantProjectReport | null>(null);
   const [shop, setShop] = useState<{ html: string; score: number } | null>(null);
   const [catalog, setCatalog] = useState<CatalogPreview | null>(null);
   const [error, setError] = useState("");
@@ -287,6 +359,7 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
   const resetDeliverable = useCallback(() => {
     setMarkdown("");
     setReport(null);
+    setGrantReport(null);
     setShop(null);
     setCatalog(null);
     setError("");
@@ -360,6 +433,7 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
     return null;
   }
   const active = tool;
+  const grant = active.id === "grant";
   const tetkik = active.id === "tetkik";
   const dukkan = active.id === "dukkan";
   const reklam = active.id === "reklam";
@@ -513,6 +587,56 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
         return;
       }
 
+      if (grant) {
+        const payload: Record<string, string> = {
+          businessName: (values.businessName ?? "").trim(),
+          freelancerName: (values.freelancerName ?? "").trim(),
+          provinceCode: (values.provinceCode ?? "").trim(),
+          audience: (values.audience ?? "").trim(),
+          naceGroup: (values.naceGroup ?? "").trim(),
+          investmentFocus: (values.investmentFocus ?? "").trim(),
+          employeeCount: (values.employeeCount ?? "").trim(),
+          companyAgeYears: (values.companyAgeYears ?? "").trim(),
+          rdMaturityLevel: (values.rdMaturityLevel ?? "").trim(),
+          exportActive: (values.exportActive ?? "").trim(),
+          patent: (values.patent ?? "").trim(),
+          project: (values.project ?? "").trim(),
+        };
+        const scheduleWindows = (values.scheduleWindows ?? "").trim();
+        if (scheduleWindows.length >= 2) {
+          payload.scheduleWindows = scheduleWindows;
+        }
+        const investmentAmounts = (values.investmentAmounts ?? "").trim();
+        if (investmentAmounts.length >= 2) {
+          payload.investmentAmounts = investmentAmounts;
+        }
+        const response = await fetch(
+          "/api/tezgah/grant/generate",
+          withRailApiVersion({
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(payload),
+          }),
+        );
+        const body = (await response.json()) as { ok?: boolean; error?: string; data?: unknown };
+        if (!response.ok || body.ok === false || !isGrantPayload(body.data)) {
+          setGrantReport(null);
+          setError(typeof body.error === "string" ? body.error : "Çıktı üretilemedi.");
+          if (response.status === 429 && quota) {
+            setQuota({ ...quota, remaining: 0 });
+          }
+          return;
+        }
+        const data = body.data;
+        setGrantReport(data);
+        setMarkdown("");
+        setReport(null);
+        setShop(null);
+        setCatalog(null);
+        setQuota({ remaining: data.remaining, limit: data.limit, guest: data.guest === true });
+        return;
+      }
+
       const payload: Record<string, string> = { tool: active.id };
       for (const field of active.fields) {
         payload[field.name] = (values[field.name] ?? "").trim();
@@ -658,21 +782,45 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
               <Button type="submit" disabled={!fieldsReady || pending || blocked}>
                 {pending
                   ? "Üretiliyor"
-                  : tetkik
-                    ? "Tetkiki Üret"
-                    : dukkan
-                      ? "Dükkanı Üret"
-                      : reklam
-                        ? "Reklamı Üret"
-                        : pazaryeri
-                          ? "Kataloğu Üret"
-                          : "Çıktıyı Üret"}
+                  : grant
+                    ? "Dosyayı Üret"
+                    : tetkik
+                      ? "Tetkiki Üret"
+                      : dukkan
+                        ? "Dükkanı Üret"
+                        : reklam
+                          ? "Reklamı Üret"
+                          : pazaryeri
+                            ? "Kataloğu Üret"
+                            : "Çıktıyı Üret"}
               </Button>
             </form>
           </Card>
         </div>
 
-        {tetkik ? (
+        {grant ? (
+          grantReport ? (
+            <div className="lg:col-span-2">
+              <GrantProjectReportView report={grantReport} />
+            </div>
+          ) : (
+            <div className="print:hidden">
+              <Card title="Proje dosyası" eyebrow="Hibe">
+                <p className="text-sm leading-6 text-[var(--muted)]">
+                  İl, NACE ve yatırım odağını seç. Uygun programları kod eşleştirir. Açık ve doğrulanmış çağrı
+                  yoksa liste boş kalır. Dosya yazdırılır.
+                </p>
+                {active.cta ? (
+                  <div className="mt-5 border-t border-[var(--border)] pt-4">
+                    <LinkButton href={active.cta.href} variant="success" size="sm">
+                      {active.cta.label}
+                    </LinkButton>
+                  </div>
+                ) : null}
+              </Card>
+            </div>
+          )
+        ) : tetkik ? (
           report ? (
             <div className="lg:col-span-2">
               <TetkikReportView report={report} />

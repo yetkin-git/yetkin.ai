@@ -1,4 +1,12 @@
 import { toAmountMinor, type AmountMinor } from "@/lib/kernel/money/amount-minor";
+import {
+  isGrantAudience,
+  isGrantInvestmentFocus,
+  isGrantNaceGroup,
+  isProvinceCode,
+  type GrantAudience,
+  type GrantInvestmentFocus,
+} from "@/lib/yetkinhibe/grant-brief-axes";
 import type {
   GrantCallStatus,
   GrantCallWithMeta,
@@ -211,6 +219,34 @@ function parseSectorCodes(value: unknown, id: string): readonly string[] | null 
   throw new GrantCatalogRowError(`${id}: eligibility.eligibleSectorCodes geçersiz`);
 }
 
+function parseClosedList<T extends string>(
+  value: unknown,
+  field: string,
+  id: string,
+  accept: (item: string) => item is T,
+): readonly T[] | null {
+  if (value === undefined || value === null) {
+    return null;
+  }
+  if (!Array.isArray(value) || value.length === 0) {
+    throw new GrantCatalogRowError(`${id}: eligibility.${field} geçersiz`);
+  }
+  const seen = new Set<string>();
+  const items: T[] = [];
+  for (const item of value) {
+    if (typeof item !== "string" || !accept(item) || seen.has(item)) {
+      throw new GrantCatalogRowError(`${id}: eligibility.${field} geçersiz`);
+    }
+    seen.add(item);
+    items.push(item);
+  }
+  return items;
+}
+
+function parseProvinceList(value: unknown, id: string): readonly string[] | null {
+  return parseClosedList(value, "eligibleRegionCodes", id, (item): item is string => isProvinceCode(item));
+}
+
 function parseEligibility(value: unknown, id: string): GrantEligibilityCriteria {
   if (!isRecord(value)) {
     throw new GrantCatalogRowError(`${id}: eligibility_json nesne değil`);
@@ -229,5 +265,14 @@ function parseEligibility(value: unknown, id: string): GrantEligibilityCriteria 
       "requiresPatentOrUtilityModel",
       id,
     ),
+    eligibleRegionCodes: parseProvinceList(value.eligibleRegionCodes, id),
+    audiences: parseClosedList<GrantAudience>(value.audiences, "audiences", id, isGrantAudience),
+    investmentFocus: parseClosedList<GrantInvestmentFocus>(
+      value.investmentFocus,
+      "investmentFocus",
+      id,
+      isGrantInvestmentFocus,
+    ),
+    nacePrefixes: parseClosedList(value.nacePrefixes, "nacePrefixes", id, isGrantNaceGroup),
   };
 }

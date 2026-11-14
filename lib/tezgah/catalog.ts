@@ -3,9 +3,21 @@
  * Kota sayısı ve dönüşüm köprüsü burada durur; cüzdan burada yoktur.
  */
 
+import {
+  GRANT_AUDIENCES,
+  GRANT_INVESTMENT_FOCI,
+  GRANT_NACE_GROUPS,
+  GRANT_PROVINCES,
+  GRANT_RD_LEVELS,
+} from "@/lib/yetkinhibe/grant-brief-axes";
 import { DUKKAN_SECTORS, DUKKAN_TONES } from "@/lib/tezgah/dukkan/copy";
 import { PAZARYERI_MARKETS } from "@/lib/tezgah/pazaryeri/copy";
 import { REKLAM_AIMS, REKLAM_FILE_STEM } from "@/lib/tezgah/reklam/copy";
+
+const YES_NO = [
+  { value: "evet", label: "Evet" },
+  { value: "hayir", label: "Hayır" },
+] as const;
 
 export const TEZGAH_PATH = "/tezgah" as const;
 
@@ -110,27 +122,102 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
   },
   {
     id: "grant",
-    label: "KOSGEB / Hibe Ön Notu",
-    blurb: "Sektör ve projeden destek başlığı, özet ve başvuru öncesi kontrol listesi.",
-    fileStem: "hibe-notu",
+    label: "Hibe Proje Dosyası",
+    blurb: "İl, NACE ve yatırım odağına göre katalog eşleşir. Yazdırılabilir proje taslağı çıkar.",
+    fileStem: "proje-dosyasi",
     fields: [
       {
-        name: "sector",
-        label: "Sektör",
-        placeholder: "Gıda üretimi",
+        name: "businessName",
+        label: "İşletme adı",
+        placeholder: "Karaoğlu Soğuk Zincir",
         kind: "text",
       },
       {
-        name: "businessStatus",
-        label: "İşletme durumu",
-        placeholder: "Yeni kurulan KOBİ, 4 çalışan, ihracat yok",
+        name: "freelancerName",
+        label: "Freelancer adı",
+        placeholder: "Ayşe Yılmaz",
         kind: "text",
+      },
+      {
+        name: "provinceCode",
+        label: "İl",
+        placeholder: "İl seç",
+        kind: "select",
+        options: GRANT_PROVINCES.map((row) => ({ value: row.code, label: `${row.code} ${row.name}` })),
+      },
+      {
+        name: "audience",
+        label: "İşletme türü",
+        placeholder: "Tür seç",
+        kind: "select",
+        options: GRANT_AUDIENCES.map((row) => ({ value: row.id, label: row.label })),
+      },
+      {
+        name: "naceGroup",
+        label: "NACE grubu",
+        placeholder: "Grup seç",
+        kind: "select",
+        options: GRANT_NACE_GROUPS.map((row) => ({ value: row.id, label: row.label })),
+      },
+      {
+        name: "investmentFocus",
+        label: "Yatırım odağı",
+        placeholder: "Odak seç",
+        kind: "select",
+        options: GRANT_INVESTMENT_FOCI.map((row) => ({ value: row.id, label: row.label })),
+      },
+      {
+        name: "employeeCount",
+        label: "Çalışan sayısı",
+        placeholder: "4",
+        kind: "text",
+      },
+      {
+        name: "companyAgeYears",
+        label: "Şirket yaşı (yıl)",
+        placeholder: "2",
+        kind: "text",
+      },
+      {
+        name: "rdMaturityLevel",
+        label: "Ar-Ge olgunluğu",
+        placeholder: "Düzey seç",
+        kind: "select",
+        options: GRANT_RD_LEVELS.map((row) => ({ value: row.id, label: row.label })),
+      },
+      {
+        name: "exportActive",
+        label: "İhracat",
+        placeholder: "Seç",
+        kind: "select",
+        options: YES_NO,
+      },
+      {
+        name: "patent",
+        label: "Patent veya faydalı model",
+        placeholder: "Seç",
+        kind: "select",
+        options: YES_NO,
       },
       {
         name: "project",
         label: "Proje",
-        placeholder: "Soğuk zincir deposu ve kendi e-ticaret kanalı",
+        placeholder: "Soğuk zincir deposu ve kendi satış kanalı",
         kind: "textarea",
+      },
+      {
+        name: "scheduleWindows",
+        label: "Ay aralığı (isteğe bağlı)",
+        placeholder: "hazirlik 1-2\nuygulama 3-6",
+        kind: "textarea",
+        optional: true,
+      },
+      {
+        name: "investmentAmounts",
+        label: "Kalem tutarı, tam lira (isteğe bağlı)",
+        placeholder: "PERSONEL 1000\nALET_TECHIZAT 1000",
+        kind: "textarea",
+        optional: true,
       },
     ],
     cta: {

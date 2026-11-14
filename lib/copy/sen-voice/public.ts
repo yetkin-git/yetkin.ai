@@ -52,8 +52,8 @@ export const PUBLIC_SEN = {
       },
       {
         id: "grant",
-        title: "KOSGEB / Hibe Ön Notu",
-        body: "Sektör ve projeden destek başlığı, özet ve kontrol listesi kurarsın.",
+        title: "Hibe Proje Dosyası",
+        body: "İl ve yatırım odağından yazdırılabilir proje taslağı kurarsın.",
         href: "/tezgah?tool=grant",
       },
     ],

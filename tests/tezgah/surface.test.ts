@@ -55,6 +55,7 @@ describe("AI Tezgâh kamu yüzeyi", () => {
 
   it("üretim rotası public web-only'dir; v1 hop ve cüzdan yazımı yoktur", () => {
     expect(ROUTE_AUTH_MAP["/api/tezgah/generate"]).toBe("public");
+    expect(ROUTE_AUTH_MAP["/api/tezgah/grant/generate"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/tezgah/quota"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/tezgah/tetkik/generate"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/tezgah/dukkan/generate"]).toBe("public");
@@ -63,6 +64,9 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(WEB_ONLY_WRITE_ROUTES.some((row) => row.method === "POST" && row.path === "/api/tezgah/generate")).toBe(
       true,
     );
+    expect(
+      WEB_ONLY_WRITE_ROUTES.some((row) => row.method === "POST" && row.path === "/api/tezgah/grant/generate"),
+    ).toBe(true);
     expect(
       WEB_ONLY_WRITE_ROUTES.some((row) => row.method === "POST" && row.path === "/api/tezgah/tetkik/generate"),
     ).toBe(true);
@@ -76,11 +80,13 @@ describe("AI Tezgâh kamu yüzeyi", () => {
       WEB_ONLY_WRITE_ROUTES.some((row) => row.method === "POST" && row.path === "/api/tezgah/pazaryeri/generate"),
     ).toBe(true);
     expect(findPublishedHopId("POST", "/api/tezgah/generate")).toBeNull();
+    expect(findPublishedHopId("POST", "/api/tezgah/grant/generate")).toBeNull();
     expect(findPublishedHopId("POST", "/api/tezgah/tetkik/generate")).toBeNull();
     expect(findPublishedHopId("POST", "/api/tezgah/dukkan/generate")).toBeNull();
     expect(findPublishedHopId("POST", "/api/tezgah/reklam/generate")).toBeNull();
     expect(findPublishedHopId("POST", "/api/tezgah/pazaryeri/generate")).toBeNull();
     expect(findPublishedHopId("GET", "/api/tezgah/quota")).toBeNull();
+    expect(isLlmMutationPath("/api/tezgah/grant/generate")).toBe(true);
     expect(isLlmMutationPath("/api/tezgah/tetkik/generate")).toBe(true);
     expect(isLlmMutationPath("/api/tezgah/dukkan/generate")).toBe(true);
     expect(isLlmMutationPath("/api/tezgah/reklam/generate")).toBe(true);
@@ -166,6 +172,68 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(page).toContain("freelancerName");
     expect(page).toContain("loadIdentityBoard");
     expect(readSrc("app/tezgah/layout.tsx")).toContain("data-tezgah-chrome");
+  });
+
+  it("üçüncü sekme hibe proje dosyasıdır; markdown yolundan çıkar ve yazdırılır", () => {
+    const grant = TEZGAH_TOOLS.find((tool) => tool.id === "grant");
+    expect(grant?.label).toBe("Hibe Proje Dosyası");
+    expect(grant?.fileStem).toBe("proje-dosyasi");
+    expect(grant?.fields.map((field) => field.name)).toEqual([
+      "businessName",
+      "freelancerName",
+      "provinceCode",
+      "audience",
+      "naceGroup",
+      "investmentFocus",
+      "employeeCount",
+      "companyAgeYears",
+      "rdMaturityLevel",
+      "exportActive",
+      "patent",
+      "project",
+      "scheduleWindows",
+      "investmentAmounts",
+    ]);
+    expect(grant?.fields.find((field) => field.name === "audience")?.options?.map((option) => option.label)).toEqual([
+      "Yeni girişimci",
+      "Mevcut KOBİ",
+    ]);
+    expect(grant?.fields.find((field) => field.name === "investmentFocus")?.options?.map((option) => option.value)).toEqual([
+      "makine_techizat",
+      "yazilim_dijital",
+      "arge",
+      "ihracat",
+    ]);
+    expect(grant?.fields.find((field) => field.name === "provinceCode")?.options).toHaveLength(81);
+    expect(grant?.fields.find((field) => field.name === "scheduleWindows")?.optional).toBe(true);
+    expect(DronBayrakları.kayit("yetkinhibe")?.kapali).toBe(true);
+    expect(DronBayrakları.kayit("yetkinhibe")?.path).toBe("/yetkinhibe");
+    expect(readSrc("lib/tezgah/schema.ts")).not.toContain('literal("grant")');
+    expect(readSrc("lib/tezgah/prompts.ts")).not.toContain("hibe ön uygunluk");
+    expect(readSrc("lib/tezgah/engine.ts")).not.toContain("yetkinhibe");
+    const grantEngine = readSrc("lib/tezgah/grant/engine.ts");
+    expect(grantEngine).toContain("recordUsage: false");
+    expect(grantEngine).toContain("refundTezgahQuota");
+    expect(grantEngine).toContain("GRANT_MAX_OUTPUT_TOKENS");
+    expect(grantEngine).toContain("matchGrantProgramsForBrief");
+    expect(grantEngine).not.toContain("calculateGrantBudget");
+    expect(grantEngine).not.toContain("ProjectDraft");
+    expect(grantEngine).not.toContain(".create(");
+    expect(grantEngine).not.toContain("getPrisma");
+    const workbench = readSrc("components/tezgah/workbench.tsx");
+    expect(workbench).toContain("/api/tezgah/grant/generate");
+    expect(workbench).toContain("Dosyayı Üret");
+    expect(workbench).toContain("GrantProjectReportView");
+    expect(workbench).not.toContain("/api/yetkinhibe/");
+    const report = readSrc("components/tezgah/grant-project-report.tsx");
+    expect(report).toContain("data-grant-report");
+    expect(report).toContain("window.print()");
+    expect(report).toContain("print:hidden");
+    expect(report).not.toContain("/academy");
+    expect(report).not.toContain("fiyat");
+    expect(readSrc("lib/yetkinhibe/grant-project-notes.ts")).toContain(
+      "Bu dosya resmî başvuru veya uygunluk kararı değildir.",
+    );
   });
 
   it("beşinci sekme sektörel dijital dükkandır; html iner, önizleme betik çalıştırmaz", () => {

@@ -21,25 +21,13 @@ export function tezgahSystemPrompt(request: TezgahGenerateRequest): string {
       SHARED_RULES,
     ].join("\n");
   }
-  if (request.tool === "proposal") {
-    return [
-      "Sen freelancer teklif yazarısın. Güven veren, kapsamı ve teslimat adımlarını açık eden bir metin üret.",
-      "Başlıklar tam olarak şunlar olsun:",
-      "## Teklif",
-      "## Kapsam",
-      "## Teslimat adımları",
-      "Teslimat adımları numaralı olsun. Ücret ve süre uydurma.",
-      SHARED_RULES,
-    ].join("\n");
-  }
   return [
-    "Sen hibe ön uygunluk notu yazarsın. Bu bir resmi karar değildir.",
+    "Sen freelancer teklif yazarısın. Güven veren, kapsamı ve teslimat adımlarını açık eden bir metin üret.",
     "Başlıklar tam olarak şunlar olsun:",
-    "## Uygun destek başlıkları",
-    "## Proje özeti",
-    "## Başvuru öncesi kontrol listesi",
-    "Destek başlıkları adaydır; onay değildir. Kontrol listesi şu ölçütleri ayrı maddeler olarak sorsun: sektör uyumu, çalışan sayısı bandı, şirket yaşı, Ar-Ge, ihracat, KOBİ statüsü, patent veya faydalı model.",
-    "İlk satırda şu cümle dursun: Bu not resmi uygunluk kararı değildir.",
+    "## Teklif",
+    "## Kapsam",
+    "## Teslimat adımları",
+    "Teslimat adımları numaralı olsun. Ücret ve süre uydurma.",
     SHARED_RULES,
   ].join("\n");
 }
@@ -52,15 +40,8 @@ export function tezgahUserPrompt(request: TezgahGenerateRequest): string {
       `Temel özellikler: ${request.features}`,
     ].join("\n");
   }
-  if (request.tool === "proposal") {
-    return [
-      `Müşteri ihtiyacı: ${request.jobPost}`,
-      `Freelancer uzmanlığı: ${request.expertise}`,
-    ].join("\n");
-  }
   return [
-    `Sektör: ${request.sector}`,
-    `İşletme durumu: ${request.businessStatus}`,
-    `Proje: ${request.project}`,
+    `Müşteri ihtiyacı: ${request.jobPost}`,
+    `Freelancer uzmanlığı: ${request.expertise}`,
   ].join("\n");
 }

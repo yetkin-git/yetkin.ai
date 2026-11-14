@@ -26,7 +26,7 @@ describe("ana sayfa beşli tezgâh vitrini", () => {
       "Sektörel Dijital Dükkan",
       "Pazaryeri Katalog Fabrikası",
       "Otonom Reklam Paketi",
-      "KOSGEB / Hibe Ön Notu",
+      "Hibe Proje Dosyası",
     ]);
 
     let cursor = copySrc.indexOf("bench:");

@@ -84,6 +84,7 @@ export const ROUTE_AUTH_MAP = {
   "/api/profile/close": "session",
   "/api/tezgah/dukkan/generate": "public",
   "/api/tezgah/generate": "public",
+  "/api/tezgah/grant/generate": "public",
   "/api/tezgah/pazaryeri/generate": "public",
   "/api/tezgah/quota": "public",
   "/api/tezgah/reklam/generate": "public",

@@ -1,4 +1,5 @@
 import type { AmountMinor } from "@/lib/kernel/money/amount-minor";
+import type { GrantAudience, GrantInvestmentFocus } from "@/lib/yetkinhibe/grant-brief-axes";
 
 /**
  * YetkinHibe & Teşvik Motoru — paylaşılan tip sözleşmeleri.
@@ -27,6 +28,17 @@ export type GrantEligibilityCriteria = {
   requiresExportActivity: boolean;
   requiresKobiStatus: boolean;
   requiresPatentOrUtilityModel: boolean;
+  /**
+   * İl plaka kodları. Anahtar yoksa veya null ise il kısıtı yoktur.
+   * Bozuk değer katalog satırını reddeder.
+   */
+  eligibleRegionCodes?: readonly string[] | null;
+  /** `yeni_girisimci` | `mevcut_kobi`. Yoksa kitle kısıtı yoktur. */
+  audiences?: readonly GrantAudience[] | null;
+  /** Yatırım odağı kapalı listesi. Yoksa bu eksende kısıt yoktur. */
+  investmentFocus?: readonly GrantInvestmentFocus[] | null;
+  /** İki haneli NACE grupları. Yoksa NACE kısıtı yoktur. */
+  nacePrefixes?: readonly string[] | null;
 };
 
 /** Document RAG — şartname belgesinden türetilen yapılandırılmış ipuçları. */

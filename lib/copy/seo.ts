@@ -101,16 +101,16 @@ export const PAGE_SEO = {
     image: DEFAULT_OG_IMAGE,
   },
   tezgah: {
-    title: "AI Tezgâh — ürün kartı, teklif ve hibe notu",
+    title: "AI Tezgâh — ürün kartı, teklif ve proje dosyası",
     description:
-      "Misafire günde 1, ücretsiz kayıtla günde 3 üretim: Trendyol ürün kartı, müşteri teklifi ve KOSGEB ön uygunluk notu. Çıktıyı kopyala veya indir.",
+      "Misafire günde 1, ücretsiz kayıtla günde 3 üretim: ürün kartı, müşteri teklifi ve yazdırılabilir hibe proje dosyası.",
     path: "/tezgah",
     image: DEFAULT_OG_IMAGE,
     keywords: [
       "ai tezgah",
       "trendyol ürün açıklaması",
       "freelancer teklif yazısı",
-      "kosgeb ön uygunluk",
+      "hibe proje dosyası",
     ],
   },
   publicTalent: {

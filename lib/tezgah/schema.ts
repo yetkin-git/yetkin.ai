@@ -16,12 +16,6 @@ export const tezgahGenerateRequestSchema = z.discriminatedUnion("tool", [
     jobPost: brief,
     expertise: shortText,
   }),
-  z.strictObject({
-    tool: z.literal("grant"),
-    sector: shortText,
-    businessStatus: z.string().trim().min(2).max(200),
-    project: brief,
-  }),
 ]);
 
 export type TezgahGenerateRequest = z.infer<typeof tezgahGenerateRequestSchema>;

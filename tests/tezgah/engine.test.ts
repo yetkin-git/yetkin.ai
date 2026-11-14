@@ -4,7 +4,7 @@ import { TEZGAH_FAIL_MESSAGE, TEZGAH_GUEST_QUOTA_MESSAGE, TEZGAH_MEMBER_QUOTA_ME
 import { generateTezgahOutput, TEZGAH_MAX_OUTPUT_TOKENS, TEZGAH_MODEL_ROLE } from "@/lib/tezgah/engine";
 import { resetTezgahQuotaForTests } from "@/lib/tezgah/quota";
 import { tezgahSystemPrompt } from "@/lib/tezgah/prompts";
-import type { TezgahGenerateRequest } from "@/lib/tezgah/schema";
+import { tezgahGenerateRequestSchema, type TezgahGenerateRequest } from "@/lib/tezgah/schema";
 
 const NOW = new Date("2026-11-14T12:00:00+03:00");
 
@@ -29,7 +29,7 @@ describe("tezgâh üretim motoru", () => {
     resetTezgahQuotaForTests();
   });
 
-  it("üç aracın sistem metni teslim başlıklarını taşır ve hibe notu skor uydurmaz", () => {
+  it("ürün kartı ve teklif sistem metnini taşır; hibe genel yoldan çıkmıştır", () => {
     expect(tezgahSystemPrompt(ecommerce)).toContain("## SEO anahtar kelimeleri");
     expect(
       tezgahSystemPrompt({
@@ -38,16 +38,14 @@ describe("tezgâh üretim motoru", () => {
         expertise: "Pazaryeri metni",
       }),
     ).toContain("## Teslimat adımları");
-    const grant = tezgahSystemPrompt({
-      tool: "grant",
-      sector: "Gıda",
-      businessStatus: "KOBİ, 4 çalışan",
-      project: "Soğuk zincir deposu",
-    });
-    expect(grant).toContain("Bu not resmi uygunluk kararı değildir.");
-    expect(grant).toContain("KOBİ statüsü");
-    expect(grant).toContain("patent veya faydalı model");
-    expect(grant).not.toContain("amountMinor");
+    expect(
+      tezgahGenerateRequestSchema.safeParse({
+        tool: "grant",
+        sector: "Gıda",
+        businessStatus: "KOBİ, 4 çalışan",
+        project: "Soğuk zincir deposu",
+      }).success,
+    ).toBe(false);
   });
 
   it("başarılı çağrı hakkı düşürür, token tavanını ve cüzdansız kaydı kilitler", async () => {
