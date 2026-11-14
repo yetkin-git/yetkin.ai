@@ -5,8 +5,23 @@ import { AppShell } from "@/components/shell/app-shell";
 export default function TezgahLayout({ children }: { children: ReactNode }) {
   return (
     <AppShell>
+      <style>{`
+        @media print {
+          aside,
+          header,
+          [data-legal-colophon-strip],
+          [data-tezgah-chrome] {
+            display: none !important;
+          }
+          [style*="--rail-sidebar-width"] {
+            padding-left: 0 !important;
+          }
+        }
+      `}</style>
       {children}
-      <LegalColophonStrip />
+      <div className="print:hidden">
+        <LegalColophonStrip />
+      </div>
     </AppShell>
   );
 }

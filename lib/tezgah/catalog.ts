@@ -17,7 +17,7 @@ export const TEZGAH_MEMBER_QUOTA_MESSAGE =
 export const TEZGAH_FAIL_MESSAGE =
   "Üretim tamamlanamadı. Hakkınız duruyor; biraz sonra yeniden deneyin.";
 
-export const TEZGAH_TOOL_IDS = ["ecommerce", "proposal", "grant"] as const;
+export const TEZGAH_TOOL_IDS = ["ecommerce", "proposal", "grant", "tetkik"] as const;
 
 export type TezgahToolId = (typeof TEZGAH_TOOL_IDS)[number];
 
@@ -28,6 +28,7 @@ export type TezgahField = {
   label: string;
   placeholder: string;
   kind: TezgahFieldKind;
+  optional?: boolean;
 };
 
 export type TezgahTool = {
@@ -36,7 +37,7 @@ export type TezgahTool = {
   blurb: string;
   fileStem: string;
   fields: readonly TezgahField[];
-  cta: { href: "/academy/02_ecommerce_ai" | "/academy/01_office_ai/seviye" | "/academy"; label: string };
+  cta: { href: "/academy/02_ecommerce_ai" | "/academy/01_office_ai/seviye" | "/academy"; label: string } | null;
 };
 
 export const TEZGAH_TOOLS: readonly TezgahTool[] = [
@@ -123,6 +124,40 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
       href: "/academy",
       label: "Proje & Prompt Uzmanlık Paketini İncele →",
     },
+  },
+  {
+    id: "tetkik",
+    label: "Web Sitesi Tetkik",
+    blurb: "Ana sayfanın ilk HTML’inden 100 puanlık dijital sağlık skoru ve esnafa okunacak rapor.",
+    fileStem: "site-tetkik",
+    fields: [
+      {
+        name: "url",
+        label: "Site adresi",
+        placeholder: "https://ornek-dukkan.com",
+        kind: "text",
+      },
+      {
+        name: "businessName",
+        label: "Esnafın işletme adı",
+        placeholder: "Karaoğlu Fırın",
+        kind: "text",
+      },
+      {
+        name: "freelancerName",
+        label: "Freelancer adı",
+        placeholder: "Ayşe Yılmaz",
+        kind: "text",
+      },
+      {
+        name: "agencyName",
+        label: "Ajans adı (isteğe bağlı)",
+        placeholder: "Yılmaz Dijital",
+        kind: "text",
+        optional: true,
+      },
+    ],
+    cta: null,
   },
 ] as const;
 

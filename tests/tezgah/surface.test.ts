@@ -9,6 +9,7 @@ import { isFrozenShellPagePath } from "@/lib/kernel/compliance/circuit-breakers"
 import { isProtectedCitizenPath } from "@/lib/kernel/security/edge-guard";
 import { findPublishedHopId } from "@/lib/kernel/http/api-route-census";
 import { WEB_ONLY_WRITE_ROUTES } from "@/lib/kernel/http/web-only-write-routes";
+import { isLlmMutationPath } from "@/lib/kernel/security/http-rate-limit";
 import { ROUTE_AUTH_MAP } from "@/lib/kernel/security/route-auth-map";
 import { TEZGAH_TOOLS, tezgahQuotaLine } from "@/lib/tezgah/catalog";
 
@@ -53,11 +54,17 @@ describe("AI Tezgâh kamu yüzeyi", () => {
   it("üretim rotası public web-only'dir; v1 hop ve cüzdan yazımı yoktur", () => {
     expect(ROUTE_AUTH_MAP["/api/tezgah/generate"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/tezgah/quota"]).toBe("public");
+    expect(ROUTE_AUTH_MAP["/api/tezgah/tetkik/generate"]).toBe("public");
     expect(WEB_ONLY_WRITE_ROUTES.some((row) => row.method === "POST" && row.path === "/api/tezgah/generate")).toBe(
       true,
     );
+    expect(
+      WEB_ONLY_WRITE_ROUTES.some((row) => row.method === "POST" && row.path === "/api/tezgah/tetkik/generate"),
+    ).toBe(true);
     expect(findPublishedHopId("POST", "/api/tezgah/generate")).toBeNull();
+    expect(findPublishedHopId("POST", "/api/tezgah/tetkik/generate")).toBeNull();
     expect(findPublishedHopId("GET", "/api/tezgah/quota")).toBeNull();
+    expect(isLlmMutationPath("/api/tezgah/tetkik/generate")).toBe(true);
     const engine = readSrc("lib/tezgah/engine.ts");
     expect(engine).toContain("recordUsage: false");
     expect(engine).toContain("TEZGAH_MAX_OUTPUT_TOKENS");
@@ -65,6 +72,11 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(engine).not.toContain("Wallet");
     expect(engine).not.toContain("amountMinor");
     expect(engine).not.toContain("yetkinhibe");
+    const tetkikEngine = readSrc("lib/tezgah/tetkik/engine.ts");
+    expect(tetkikEngine).toContain("recordUsage: false");
+    expect(tetkikEngine).toContain("TETKIK_MAX_OUTPUT_TOKENS");
+    expect(tetkikEngine).not.toContain("getPrisma");
+    expect(tetkikEngine).not.toContain("amountMinor");
     const workbench = readSrc("components/tezgah/workbench.tsx");
     expect(workbench).toContain("Çıktıyı Üret");
     expect(workbench).toContain("Tek Tıkla Kopyala");
@@ -75,10 +87,39 @@ describe("AI Tezgâh kamu yüzeyi", () => {
       "Günde 3 ücretsiz üretim hakkı için ücretsiz kayıt ol",
     );
     expect(tezgahQuotaLine(2, 3)).toBe("Bugünkü ücretsiz hakkınız: 2 / 3");
-    expect(TEZGAH_TOOLS.map((tool) => tool.cta.href)).toEqual([
+    expect(TEZGAH_TOOLS.flatMap((tool) => (tool.cta ? [tool.cta.href] : []))).toEqual([
       "/academy/02_ecommerce_ai",
       "/academy/01_office_ai/seviye",
       "/academy",
     ]);
+  });
+
+  it("dördüncü sekme site tetkikidir; rapor yazdırılır, satın alma düğmesi yoktur", () => {
+    expect(TEZGAH_TOOLS.map((tool) => tool.id)).toEqual(["ecommerce", "proposal", "grant", "tetkik"]);
+    const tetkik = TEZGAH_TOOLS.find((tool) => tool.id === "tetkik");
+    expect(tetkik?.label).toBe("Web Sitesi Tetkik");
+    expect(tetkik?.cta).toBeNull();
+    expect(tetkik?.fields.map((field) => field.name)).toEqual([
+      "url",
+      "businessName",
+      "freelancerName",
+      "agencyName",
+    ]);
+    const workbench = readSrc("components/tezgah/workbench.tsx");
+    expect(workbench).toContain('role="tablist"');
+    expect(workbench).toContain("/api/tezgah/tetkik/generate");
+    expect(workbench).toContain("Tetkiki Üret");
+    expect(workbench).toContain("data-tezgah-quota");
+    expect(workbench).toContain("print:hidden");
+    const report = readSrc("components/tezgah/tetkik-report.tsx");
+    expect(report).toContain("data-tetkik-report");
+    expect(report).toContain("window.print()");
+    expect(report).toContain("print:hidden");
+    expect(report).not.toContain("/academy");
+    expect(report).not.toContain("fiyat");
+    const page = readSrc("app/tezgah/page.tsx");
+    expect(page).toContain("freelancerName");
+    expect(page).toContain("loadIdentityBoard");
+    expect(readSrc("app/tezgah/layout.tsx")).toContain("data-tezgah-chrome");
   });
 });
