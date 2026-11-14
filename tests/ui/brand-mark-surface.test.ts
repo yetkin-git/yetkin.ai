@@ -139,8 +139,11 @@ describe("yetkin.ai marka / favicon yüzeyi", () => {
     expect(readSrc("app/(public)/page.tsx")).not.toContain("CourseCoverImage");
     expect(readSrc("app/(public)/page.tsx")).not.toContain("academyCourseCoverPath");
     expect(readSrc("app/(public)/page.tsx")).not.toContain("comingSoonBadge");
-    expect(readSrc("app/(public)/page.tsx")).toContain("data-academy-production-band");
+    expect(readSrc("app/(public)/page.tsx")).toContain("data-home-value-chain");
+    expect(readSrc("app/(public)/page.tsx")).not.toContain("data-academy-production-band");
     expect(readSrc("app/(public)/page.tsx")).not.toContain("preload(");
-    expect(PUBLIC_SEN.home.title).toBe("Yapay Zekâyı Öğren. Gerçek İşlerinde Kullan.");
+    expect(PUBLIC_SEN.home.title).toBe(
+      "Yetkinliğini Mühürle. Yapay Zekâ Tezgâhıyla 10 Kat Hızlı Üret. İşverenlerle Buluş.",
+    );
   });
 });

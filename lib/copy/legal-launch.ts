@@ -236,16 +236,16 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "akademi-cayma",
         heading: "1. Akademi dijital içerik — cayma istisnası",
         paragraphs: [
-          "Akademi kursu, elektronik ortamda ifa edilen dijital içerik / dijital hizmettir. Cüzdandan ödeme tahsil edilip derse erişim açıldığı anda hizmet ifası başlamış sayılır. Lisans 365 gündür. Sertifika satın alma ile basılmaz; 30 dakikalık sunucu sınavı ve baraj 70 şarttır.",
+          "Akademi uzmanlık paketi, elektronik ortamda ifa edilen dijital içerik / dijital hizmettir. Kart tahsilatı tamamlanınca ders erişimi aynı işlemde açılır ve hizmet ifası başlamış sayılır. Lisans 365 gündür. Sertifika satın alma ile basılmaz; 30 dakikalık sunucu sınavı ve baraj 70 şarttır.",
           "6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği m.15 uyarınca, elektronik ortamda anında ifa edilen hizmetler ile maddi ortamda sunulmayan dijital içeriğe ilişkin sözleşmelerde, ifanın tüketicinin açık rızası ile başlaması halinde cayma hakkı istisna kapsamındadır. Kasa tikleri bu rızadır. Erişim açıldıktan sonra bedel iade edilmez; çifte iade yoktur.",
         ],
       },
       {
         id: "cuzdan-yukleme",
-        heading: "2. Cüzdan / bakiye yükleme",
+        heading: "2. Tahsilat ve kullanılmamış bakiye",
         paragraphs: [
           LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH,
-          "Akademi lisansı tek işlemle alınır. Eksik tutar Yetkili Ödeme Kuruluşu üzerinden tahsil edilir; platform defteri bu tahsilatı arka planda bakiyeye yazar ve aynı tutarı lisans kaydına bağlar. Kullanıcıdan ikinci bir satın alma adımı istenmez. Ödeme dökümünde işlem 'Cüzdan Yükleme' olarak görünebilir; bu satır akademi lisansının defter karşılığıdır. Bakiyesi kurs bedelini karşılayan hesapta kart ekranı açılmaz ve lisans mevcut bakiyeden kapanır. Lisans yazılamazsa tahsil edilen tutar bakiyede kalır ve kendiliğinden karta dönmez.",
+          "Akademi uzmanlık paketi tek işlemle açılır. Kart tutarı Yetkili Ödeme Kuruluşu üzerinden tahsil edilir; platform defteri bu tahsilatı arka planda yazar ve aynı tutarı lisans kaydına bağlar. Kullanıcıdan ikinci bir satın alma adımı istenmez. Ödeme dökümünde işlem 'Cüzdan Yükleme' olarak görünebilir; bu satır akademi lisansının defter karşılığıdır, ayrı bir satın alma değildir. Bakiyesi kurs bedelini karşılayan hesapta kart ekranı açılmaz ve lisans mevcut bakiyeden kapanır. Lisans yazılamazsa tahsil edilen tutar bakiyede kalır ve kendiliğinden karta dönmez.",
           "Kullanılmamış bakiye kendiliğinden karta dönmez. Ödeme sağlayıcısı iadesi yalnız henüz harcanmamış yükleme ve sağlayıcı/operatör takası ile yürür; valör bankaya bağlıdır.",
         ],
       },
@@ -271,7 +271,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
           `Satıcı / sağlayıcı: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}), marka: ${LEGAL_ENTITY.brandName}. Adres: ${LEGAL_ENTITY.address}. Destek: ${LEGAL_SUPPORT_EMAIL}, WhatsApp ${LEGAL_ENTITY.whatsappDisplay} ve /iletisim. ${LEGAL_AGE_POLICY_BODY} ${LEGAL_ACTIVITY_SCOPE_BODY}`,
           "Hizmetin niteliği: (1) Akademi — dijital eğitim içeriği (metin, diyagram, varsa ses/video), 365 gün lisans, sunucu sınavı, baraj 70, dijital sertifika kodu. Satın alma belge basmaz. (2) Kariyer — mühürden türetilen vize projeksiyonu; ücretli ilan tahtası değildir.",
           "Ödeme işlemleri Yetkili Ödeme Kuruluşu altyapısı üzerinden güvenle gerçekleştirilir. Kart tahsilatları ve cüzdan bakiyeleri Türk Lirası (TL) cinsinden işlenir. Kurs bedelleri kataloğumuzda ilan edilen güncel fiyatlar üzerinden tahsil edilir.",
-          "İfa: Akademi lisansında tahsilat tamamlandığında ders gövdesi açılır. Defter hareketi arka plandadır; ayrıca bir satın alma adımı yoktur. Bu, 6502 sayılı Kanun uyarınca elektronik ortamda anında ifa edilen hizmet / maddi ortamda sunulmayan dijital içeriktir. Teslimat adresi veya kargo yoktur.",
+          "İfa: Akademi uzmanlık paketinde kart tahsilatı tamamlandığında ders gövdesi aynı işlemde açılır. Defter hareketi arka plandadır; ayrıca bir satın alma adımı yoktur. Bu, 6502 sayılı Kanun uyarınca elektronik ortamda anında ifa edilen hizmet / maddi ortamda sunulmayan dijital içeriktir. Teslimat adresi veya kargo yoktur.",
           "Cayma: Ön bilgi ve mesafeli sözleşme kasa tikleriyle kabul edilir. Akademi erişimi açılınca cayma hakkı istisna kapsamındadır (aşağıda B.5). Kullanılmamış cüzdan bakiyesi otomatik karta dönmez.",
         ],
       },
@@ -280,23 +280,23 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         heading: "B. Mesafeli Satış Sözleşmesi",
         paragraphs: [
           `Satıcı künye: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}). Adres: ${LEGAL_ENTITY.address}. Bu sözleşme, 6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği çerçevesinde dijital hizmet / dijital içerik ifasını anlatır. ${YETKIN_BRAND} dijital eğitim ve sertifikasyon hizmeti sunar; ödeme veya finans kuruluşu değildir. Akademide ifa elektronik teslimdir.`,
-          `Sözleşme, tüketicinin kasa veya cüzdan yükleme ekranında Mesafeli Satış Sözleşmesi ile Ön Bilgilendirme Formunu kabul etmesi ve dijital içeriğin anında ifa edileceğine açık rıza vermesiyle kurulur. Rıza, ödeme isteğinde ${CHECKOUT_LEGAL_CONSENT_VERSION} sürümü ile doğrulanır. Tik yoksa tahsilat ve bakiye yükleme / tahsilat işlemi durur.`,
+          `Sözleşme, tüketicinin kasa ekranında Mesafeli Satış Sözleşmesi ile Ön Bilgilendirme Formunu kabul etmesi ve dijital içeriğin anında ifa edileceğine açık rıza vermesiyle kurulur. Rıza, ödeme isteğinde ${CHECKOUT_LEGAL_CONSENT_VERSION} sürümü ile doğrulanır. Tik yoksa kart tahsilatı durur.`,
         ],
       },
       {
         id: "dijital-ifa-istisnasi",
         heading: "B.5 Dijital içerik — anında ifa ve cayma istisnası",
         paragraphs: [
-          "Akademi kurslarında ödeme (bakiye yükleme / tahsilat işlemi) yapılıp ders içeriklerine erişim açıldığı anda ifa başlamış olur. 6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği’nin «elektronik ortamda anında ifa edilen hizmetler» ile maddi ortamda sunulmayan dijital içeriğe ilişkin istisnası bu anda işler.",
-          "Tüketici, kasa tikinde «Dijital içeriğin anında ifa edileceğini kabul ediyorum» ifadesiyle ifanın derhal başlayacağını ve bu durumda cayma hakkının istisna kapsamında sona ereceğini kabul eder. İfa başlamadan önce tik verilmezse satın alma ve kart yükleme isteği reddedilir.",
-          "Kurs seçilmeden yapılan bakiye yüklemesi dersi kendiliğinden açmaz; bakiye platformun dijital hizmetleri içindir. Akademi lisansında tahsilat ile erişim aynı işlemde açılır. Erişim açılınca istisna işler. 14 günlük yasal cayma süresi dijital ifa istisnası ile birlikte okunur — çifte iade yoktur.",
+          "Akademi uzmanlık paketinde kart tahsilatı tamamlanıp ders içeriklerine erişim açıldığı anda ifa başlamış olur. 6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği’nin «elektronik ortamda anında ifa edilen hizmetler» ile maddi ortamda sunulmayan dijital içeriğe ilişkin istisnası bu anda işler.",
+          "Tüketici, kasa tikinde «Dijital içeriğin anında ifa edileceğini kabul ediyorum» ifadesiyle ifanın derhal başlayacağını ve bu durumda cayma hakkının istisna kapsamında sona ereceğini kabul eder. İfa başlamadan önce tik verilmezse satın alma ve kart tahsilatı reddedilir.",
+          "Akademi uzmanlık paketinde tahsilat ile ders erişimi aynı işlemde açılır. Ayrı bir bakiye adımı dersi açmak için aranmaz. Erişim açılınca istisna işler. 14 günlük yasal cayma süresi dijital ifa istisnası ile birlikte okunur — çifte iade yoktur.",
         ],
       },
       {
         id: "bedel-fatura",
         heading: "B.6 Bedel, fatura, süre",
         paragraphs: [
-          "Akademi listesi KDV dahildir; kasada «+KDV» eklenmez. Fiyat kilidi 15 dakikadır. Lisans, bakiye yükleme / tahsilat işleminin tamamlandığı andan itibaren 365 gündür. Süresi biten lisans ders gövdesini kapatır; satın alma kaydı durur.",
+          "Akademi listesi KDV dahildir; kasada «+KDV» eklenmez. Fiyat kilidi 15 dakikadır. Lisans, kart tahsilatının tamamlandığı andan itibaren 365 gündür. Süresi biten lisans ders gövdesini kapatır; satın alma kaydı durur.",
           "Satın alınan hizmet ve eğitimlere ait faturalar yasal süreçlere uygun düzenlenir. Fatura, kayıtlı e-posta adresine iletilir; bu iletim otomatik e-Arşiv paneli veya anında GİB gönderimi anlamına gelmez. İlan edilen tüm fiyatlara KDV dahildir.",
         ],
       },
@@ -407,5 +407,5 @@ export const LEGAL_CHECKOUT_CONSENT_COPY = {
   digitalHref: "/legal/mesafeli-satis#dijital-ifa-istisnasi",
   required: "Mesafeli Satış Sözleşmesi, Ön Bilgilendirme Formu ve dijital içeriğin anında ifası için açık rıza zorunludur.",
   walletHint:
-    "Akademi lisansı tek işlemde açılır. Kurs seçilmeden yüklenen bakiye dersi kendiliğinden açmaz. Erişim açılınca cayma hakkı 6502 istisnasına tabidir.",
+    "Uzmanlık paketi kasasında kart tahsilatı ile ders erişimi aynı işlemde açılır. Paket seçilmeden duran bakiye ders açmaz. Erişim açılınca cayma hakkı 6502 istisnasına tabidir.",
 } as const;

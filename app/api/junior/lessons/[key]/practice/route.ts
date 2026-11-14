@@ -1,4 +1,5 @@
 import { requireSession } from "@/lib/kernel/auth/session";
+import { juniorVisibilityDenied } from "@/lib/junior/require-visibility";
 import { hashIdempotencyPayload, settleHttpIdempotency } from "@/lib/kernel/http/idempotency";
 import { jsonFail, jsonFromUnknown } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
@@ -20,6 +21,10 @@ export async function POST(
   const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
+    const hidden = juniorVisibilityDenied(request, user.email);
+    if (hidden) {
+      return hidden;
+    }
     const idempotency = requireRailV1IdempotencyKey(request, requestId);
     if (!idempotency.ok) {
       return idempotency.response;

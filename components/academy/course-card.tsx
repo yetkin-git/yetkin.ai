@@ -26,6 +26,7 @@ import {
   academyCourseHasSealedAudio,
   academyMediaSealedLessonKeys,
 } from "@/lib/academy/pilot-sku";
+import { OFF_101_EXEMPTION_PATH } from "@/lib/academy/off101-exemption";
 import { cn } from "@/components/ui/cn";
 
 export type CourseCardSurface = "catalog" | "library";
@@ -252,6 +253,8 @@ export function CourseCard({
       }
       secondaryHref={storefront.secondaryHref || undefined}
       secondaryCta={storefront.secondaryCta || undefined}
+      tertiaryHref={!isLibrary ? OFF_101_EXEMPTION_PATH : undefined}
+      tertiaryCta={!isLibrary ? ACADEMY_SEN.exemption.cta : undefined}
       ctaDisabled={storefront.ctaDisabled}
       ctaSize="md"
       ctaVariant={

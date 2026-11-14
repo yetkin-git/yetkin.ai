@@ -44,7 +44,7 @@ export const DASHBOARD_SEN = {
   publicPanel: {
     eyebrow: "Öğrenci paneli",
     title: OVERVIEW_TITLE,
-    lead: `${YETKIN_BRAND} eğitim, sınav ve kariyer vizesini bir arada tutar. Giriş yapmadan bu özeti görürsün. Giriş yapınca kişisel özetin açılır.`,
+    lead: `${YETKIN_BRAND} eğitim, sınav ve Doğrulanmış Freelancer Rozetini bir arada tutar. Giriş yapmadan bu özeti görürsün. Giriş yapınca kişisel özetin açılır.`,
     featuresTitle: "Öne çıkanlar",
     features: [
       {
@@ -54,8 +54,8 @@ export const DASHBOARD_SEN = {
         cta: "Eğitimleri incele",
       },
       {
-        title: "Kariyer vizesi",
-        body: "Mühürlü sertifika kariyer vizesine dönüşür. Sahte rozet eklenmez.",
+        title: "Kariyer Kartı",
+        body: "Mühürlü sertifika Doğrulanmış Freelancer Rozetine dönüşür. Sahte rozet eklenmez.",
         href: "/career",
         cta: "Kariyer sayfasını aç",
       },
@@ -70,8 +70,8 @@ export const DASHBOARD_SEN = {
     summary: [
       "Eğitim Akademi kataloğundadır.",
       "Sınav barajı 70'tir. Satın alma tek başına belge basmaz.",
-      "Mühür Kariyer sayfasında vize olarak durur.",
-      "Cüzdan, profil ve pasaport giriş ister.",
+      "Doğrulanmış Freelancer Rozeti Kariyer Kartında durur.",
+      "Cüzdan, profil ve uzmanlık portföyü giriş ister.",
     ],
     loginCta: "Giriş yap",
     registerCta: "Kayıt ol",

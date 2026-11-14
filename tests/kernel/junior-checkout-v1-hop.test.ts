@@ -111,6 +111,7 @@ function checkoutRequest(headers?: HeadersInit, body: unknown = {}) {
 
 function stubOpenJuniorCheckout() {
   vi.stubEnv("JUNIOR_CHECKOUT_OPEN", "1");
+  vi.stubEnv("JUNIOR_ALLOWED_EMAILS", USER.email);
   vi.stubEnv("JUNIOR_BETA_ALLOWLIST", "");
   vi.stubEnv("PAYTR_MERCHANT_ID", "111111");
   vi.stubEnv("PAYTR_MERCHANT_KEY", "iframe-key");
@@ -137,8 +138,18 @@ describe("Junior kasa v1 hop", () => {
     expect(juniorIframeCheckoutSchema.safeParse({}).success).toBe(false);
   });
 
+  it("izin listesi dışındaki oturum kasa sorgusuna düşmez", async () => {
+    vi.spyOn(sessionApi, "requireSession").mockResolvedValue(USER);
+    const response = await POST(
+      checkoutRequest({ [IDEMPOTENCY_KEY_HEADER]: "11111111-1111-4111-8111-111111111111" }, CHECKOUT_BODY),
+    );
+    expect(response.status).toBe(404);
+    expect(harness.placeOrder).not.toHaveBeenCalled();
+  });
+
   it("boş veya geçersiz Idempotency-Key 400 döner; geçerli anahtar kapalı kapıda tahsilat açmaz", async () => {
     vi.stubEnv("JUNIOR_CHECKOUT_OPEN", "");
+    vi.stubEnv("JUNIOR_ALLOWED_EMAILS", USER.email);
     vi.spyOn(sessionApi, "requireSession").mockResolvedValue(USER);
 
     const missing = await POST(checkoutRequest());

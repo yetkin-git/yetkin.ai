@@ -1,4 +1,5 @@
 import { requireSession } from "@/lib/kernel/auth/session";
+import { juniorVisibilityDenied } from "@/lib/junior/require-visibility";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import { RAIL_V1_CLIENT_SCHEMA } from "@/lib/kernel/http/v1-client-flags";
@@ -26,6 +27,10 @@ export async function GET(request: Request) {
   const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
+    const hidden = juniorVisibilityDenied(request, user.email);
+    if (hidden) {
+      return hidden;
+    }
     const home = await readJuniorHome(createPrismaJuniorStore(), user.id);
     return jsonOk(
       {

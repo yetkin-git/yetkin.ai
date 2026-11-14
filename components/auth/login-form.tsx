@@ -4,6 +4,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { GoogleContinueButton } from "@/components/auth/google-continue-button";
 import { PasswordInput } from "@/components/auth/password-input";
 import {
   AUTH_BROWSER_FETCH_TIMEOUT_MS,
@@ -131,6 +132,7 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
   return (
     <form onSubmit={onSubmit} className="flex min-h-0 flex-1 flex-col">
       <div className="min-h-0 flex-1 space-y-2 overflow-y-auto">
+      <GoogleContinueButton nextPath={nextPath} />
       <label
         className="block text-sm font-medium"
         htmlFor="login-email"

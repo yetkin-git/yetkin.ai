@@ -6,7 +6,7 @@ export const FREELANCER_SEN = {
     description:
       "Freelancer arka plan odasıdır. Tohum ilanlar platform örneğidir. İlan ve teklif modülü pasiftir; sahte kazanç yazılmaz.",
     createCta: "İlan oluştur",
-    passportCta: "Pasaport",
+    passportCta: "Uzmanlık Portföyü",
     careerCta: "Kariyer",
     certificatesCta: "Sertifikalarım",
     live: (count: number) => `Açık ilan — ${count}`,
@@ -78,7 +78,7 @@ export const FREELANCER_SEN = {
     visaCta: "Eğitime Git / Erişim Hakkı Kazan",
     visaScopeTitle: "Bu işin Teklif Kapısı",
     visaScopeLead: (pathway: string) =>
-      `Bu Teklif Kapısını «${pathway}» Doğrulanmış Rozeti (Pasaport Vize Damgası) açar. Erişim Hakkı kazanmak için aşağıdaki Büyüme Beşlisi eğitimini tamamla.`,
+      `Bu Teklif Kapısını «${pathway}» Doğrulanmış Freelancer Rozeti açar. Erişim Hakkı kazanmak için aşağıdaki Büyüme Beşlisi eğitimini tamamla.`,
     exampleBanner:
       "Platform örneği. Bu ilan gerçek işveren işi değildir. İlan ve teklif modülü pasiftir.",
   },

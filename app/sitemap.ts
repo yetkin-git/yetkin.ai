@@ -9,14 +9,6 @@ import {
 import { LEGAL_SITE_PATHS } from "@/lib/copy/legal-launch";
 import { JUNIOR_GUARDIAN_NOTICE_HREF } from "@/lib/copy/junior-guardian-notice";
 import { readPublishedAcademySlugs } from "@/lib/kernel/catalog/published-academy-slugs";
-import { juniorCoverSrc } from "@/lib/junior/covers";
-import {
-  JUNIOR_ELECTIVE_PUBLIC_OPENERS,
-  JUNIOR_FREE_LESSON_KEY,
-  JUNIOR_FREE_OPENER_OVERRIDE,
-  JUNIOR_PILOT_SLUGS,
-} from "@/lib/junior/limits";
-import { juniorLessonMediaIsPublicPreview } from "@/lib/junior/media-visibility";
 import {
   CANONICAL_SITE_ORIGIN,
   isRobotsDisallowedPath,
@@ -90,37 +82,6 @@ function publishedAcademyCourseEntries(
   }
 }
 
-/**
- * Ücretsiz ders anahtarları: çekirdek kartın başı, ilk ders kapısı ve mühürlü seçmeli tanıtım.
- * Katalog gövdesi okunmaz; `media-visibility` aynı kümeyi verir.
- */
-function juniorSitemapFreeLessonKeys(): string[] {
-  const openers = JUNIOR_PILOT_SLUGS.map((slug) => JUNIOR_FREE_OPENER_OVERRIDE[slug] ?? `${slug}-1`);
-  const candidates = [
-    ...new Set([...openers, JUNIOR_FREE_LESSON_KEY, ...JUNIOR_ELECTIVE_PUBLIC_OPENERS]),
-  ];
-  return candidates.filter((lessonKey) => juniorLessonMediaIsPublicPreview(lessonKey));
-}
-
-/**
- * Ücretsiz ders kartları. Kilitli haftalar ve kasa yolu yazılmaz.
- */
-function juniorFreeLessonEntries(lastModified: Date): MetadataRoute.Sitemap {
-  try {
-    return juniorSitemapFreeLessonKeys().map((lessonKey) => {
-      let images: string[] | undefined;
-      try {
-        images = [absoluteSiteUrl(juniorCoverSrc(lessonKey))];
-      } catch {
-        images = undefined;
-      }
-      return sitemapEntry(`/junior/ders/${lessonKey}`, lastModified, images);
-    });
-  } catch {
-    return [];
-  }
-}
-
 function staticSitemapEntries(lastModified: Date): MetadataRoute.Sitemap {
   // `/legal/junior-veli` footer listesinde yoktur (veli onay ekranından açılır) ama
   // kamuya açık 200 dönen yasal bir yüzeydir; site haritasına ayrıca yazılır.
@@ -143,10 +104,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const publishedSlugs = await readPublishedAcademySlugs();
     const staticEntries = staticSitemapEntries(lastModified);
     const courseEntries = publishedAcademyCourseEntries(lastModified, publishedSlugs);
-    const juniorEntries = juniorFreeLessonEntries(lastModified);
     const seen = new Set<string>();
     const merged: MetadataRoute.Sitemap = [];
-    for (const entry of [...staticEntries, ...courseEntries, ...juniorEntries]) {
+    for (const entry of [...staticEntries, ...courseEntries]) {
       if (seen.has(entry.url)) {
         continue;
       }
@@ -159,6 +119,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
     return merged;
   } catch {
-    return [...staticSitemapEntries(lastModified), ...juniorFreeLessonEntries(lastModified)];
+    return staticSitemapEntries(lastModified);
   }
 }

@@ -1,0 +1,44 @@
+/// YetkinHibe F2 — hibe çağrı kataloğu ve kaynak sicili. Oda kapalıdır (D-9).
+/// Okuma yalnız sunucuda Prisma ile yapılır. Sahiplik kolonu yoktur: RLS_FORCE_TABLES'ta kayıtlıdır,
+/// PostgREST için rls_deny_unscoped (SELECT USING false) uygulanır. Yazma politikası yoktur.
+/// Tutarlar kuruş cinsinden tamsayıdır (A1). Havuz tutarı int32 sınırını aşar; BIGINT kullanılır.
+/// Durum (ACTIVE, CLOSING_SOON, CLOSED, UPCOMING) saklanmaz; okuma anında hesaplanır.
+
+/// Kaynak kurum. `key`, GrantProgramSource ile birebir aynıdır.
+model YetkinhibeGrantSource {
+  key         String   @id @db.VarChar(40)
+  label       String   @db.VarChar(120)
+  officialUrl String   @map("official_url") @db.VarChar(500)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+  calls       YetkinhibeGrantCall[]
+
+  @@map("yetkinhibe_grant_sources")
+}
+
+/// Hibe çağrısı. `sourceVerifiedAt` NULL ise resmî kaynak bu satır için doğrulanmamıştır (A5).
+model YetkinhibeGrantCall {
+  id                  String                @id @db.VarChar(120)
+  sourceKey           String                @map("source_key") @db.VarChar(40)
+  source              YetkinhibeGrantSource @relation(fields: [sourceKey], references: [key])
+  title               String                @db.VarChar(300)
+  summary             String                @db.VarChar(1000)
+  poolAmountMinor     BigInt                @map("pool_amount_minor")
+  minSupportMinor     Int                   @map("min_support_minor")
+  maxSupportMinor     Int                   @map("max_support_minor")
+  supportRatioBps     Int                   @map("support_ratio_bps")
+  applicationOpensAt  DateTime              @map("application_opens_at") @db.Timestamptz(6)
+  applicationDeadline DateTime              @map("application_deadline") @db.Timestamptz(6)
+  eligibilityJson     Json                  @map("eligibility_json")
+  requiredDocuments   String[]              @default([]) @map("required_documents")
+  tags                String[]              @default([])
+  officialInfoUrl     String                @map("official_info_url") @db.VarChar(500)
+  sourceVerifiedAt    DateTime?             @map("source_verified_at") @db.Timestamptz(6)
+  isPublished         Boolean               @default(true) @map("is_published")
+  dataVersion         Int                   @default(1) @map("data_version")
+  createdAt           DateTime              @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt           DateTime              @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@index([isPublished, applicationDeadline])
+  @@map("yetkinhibe_grant_calls")
+}

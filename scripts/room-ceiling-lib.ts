@@ -8,9 +8,16 @@ export const LIB_SHARED_TOP_DIRS = ["copy", "kernel", "ui", "dronlar", "media"] 
 /**
  * Müstakil Junior odası. Dört kamu vitrinine eklenmez.
  * Akademi kayıt defterinde kartı yoktur. Eski harçlık odası arşivde kalır.
+ * YetkinHibe (`yetkinhibe`): kapalı müstakil oda. lib/yetkinhibe hibe motoru çekirdeğidir; kamu vitrini ve nav'da yoktur.
  */
 // Young'un lib/ oturağı yoktur. Kapı kayıt, DRON_YOUNG_OPEN ve app/young/page.tsx kabuğudur.
-export const CLOSED_PILOT_LIB_DIRS = ["junior"] as const;
+export const CLOSED_PILOT_LIB_DIRS = ["junior", "yetkinhibe"] as const;
+
+/**
+ * AI Çalışma Tezgâhı. Dört kamu vitrinine yazılmaz; `/tezgah` herkese açıktır.
+ * `lib/tezgah` üretim motorudur. Cüzdan ve sahte bakiye bu klasöre yazılmaz.
+ */
+export const WORKBENCH_LIB_DIRS = ["tezgah"] as const;
 
 export const ROOMS_SSOT_REL = "lib/dronlar/kayit.ts";
 
@@ -89,7 +96,12 @@ export function unexpectedLibTopDirs(
   dirNames: readonly string[],
   roomIds: readonly string[],
 ): string[] {
-  const allowed = new Set<string>([...roomIds, ...LIB_SHARED_TOP_DIRS, ...CLOSED_PILOT_LIB_DIRS]);
+  const allowed = new Set<string>([
+    ...roomIds,
+    ...LIB_SHARED_TOP_DIRS,
+    ...CLOSED_PILOT_LIB_DIRS,
+    ...WORKBENCH_LIB_DIRS,
+  ]);
   return dirNames.filter((name) => !allowed.has(name)).sort();
 }
 

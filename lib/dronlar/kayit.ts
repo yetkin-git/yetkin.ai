@@ -47,7 +47,7 @@ export const DRON_KAYIT = [
     id: "academy",
     path: "/academy",
     label: "Akademi",
-    blurb: "Kurs, ödeme onayı, sertifika",
+    blurb: "Uzmanlık ve sınav",
     hops: [
       "academy-certificate",
       "academy-pulse",
@@ -65,7 +65,7 @@ export const DRON_KAYIT = [
     id: "career",
     path: "/career",
     label: "Kariyer",
-    blurb: "Sertifika ve ilanlar",
+    blurb: "Doğrulanmış Freelancer Rozeti",
     hops: ["career-pulse", "career-visas", "career-portfolio"],
     sahipEkip: "gövde",
     kapali: false,
@@ -81,6 +81,16 @@ export const DRON_KAYIT = [
     kapali: true,
     vitrin: true,
     bayrakEnv: "DRON_FREELANCER_OPEN",
+  },
+  {
+    id: "tezgah",
+    path: "/tezgah",
+    label: "AI Tezgâh",
+    blurb: "Günlük ücretsiz üretim",
+    hops: [],
+    sahipEkip: "gövde",
+    kapali: false,
+    vitrin: false,
   },
   {
     id: "junior",
@@ -120,6 +130,17 @@ export const DRON_KAYIT = [
     kapali: true,
     vitrin: false,
     bayrakEnv: DRON_YOUNG_OPEN_ENV,
+  },
+  {
+    id: "yetkinhibe",
+    path: "/yetkinhibe",
+    label: "YetkinHibe",
+    blurb: "Hibe motoru · arka plan, kapalı",
+    hops: [],
+    sahipEkip: "gövde",
+    kapali: true,
+    vitrin: false,
+    bayrakEnv: "DRON_YETKINHIBE_OPEN",
   },
 ] as const;
 

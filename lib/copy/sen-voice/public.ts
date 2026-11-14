@@ -4,11 +4,14 @@ import { YETKIN_BRAND } from "@/lib/copy/brand";
 export const PUBLIC_SEN = {
   home: {
     badge: YETKIN_BRAND,
-    title: "Yapay Zekâyı Öğren. Gerçek İşlerinde Kullan.",
+    title: "Yetkinliğini Mühürle. Yapay Zekâ Tezgâhıyla 10 Kat Hızlı Üret. İşverenlerle Buluş.",
     description:
-      "E-ticaret, sosyal medya ve ofis işlerinde yapay zekâ araçlarını uygulamalı eğitimlerle öğren. Her eğitimin ilk dersini ücretsiz izle, içeriği gör ve sana uygun olanı seç.",
-    academyCta: "Eğitimleri İncele",
-    /** Kök iniş — birincil eylem: kayıtsız ücretsiz ders (AI asistanı da açık). */
+      "E-ticaret, sosyal medya, otomasyon ve ofis süreçlerinde uzmanlığını kanıtla; sunucu onaylı rozetinle KOBİ taleplerine teklif ver ve hazır AI şablonlarıyla dakikalar içinde teslimat üret.",
+    academyCta: "Uzmanlık Paketlerini İncele",
+    /** Kök iniş — ikincil eylem: canlı üretim tezgâhı. */
+    tezgahCta: "AI Tezgâhını Dene",
+    /** Kök iniş — birincil eylem: ücretsiz seviye testi. */
+    primaryCta: "Ücretsiz Yetkinlik Testine Gir",
     freeLessonCta: "Ücretsiz Dersi İzle",
     loginCta: "Giriş Yap",
     registerCta: "Kayıt Ol",
@@ -20,16 +23,77 @@ export const PUBLIC_SEN = {
       "PayTR iFrame + 3D Secure. Kart numarası platformda tutulmaz",
       "Sınav ve mühür sunucuda doğrulanır; ikna yerine kanıt",
     ],
-    cinemaKicker: "Yapay zeka eğitimi · online kurs",
-    cinemaTitle: "İlk dersi ücretsiz izle",
-    cinemaHint:
-      "E-ticaret, sosyal medya ve ofis işinde yapay zekâ araçlarını uygulamalı eğitimle öğrenirsin. İçeriği gör, sana uygun olanı seç.",
-    roomsKicker: "İş sonucu",
-    hero: {
-      kicker: "Akademi",
-      title: "İlk dersi ücretsiz izle, sonra işine uygun olanı seç",
-      body: "E-ticaret, sosyal medya ve ofis işlerinde yapay zekâ araçlarını uygulamalı eğitimle öğrenirsin. İçeriği gör, sana uygun olanı seç.",
-      href: "/academy",
+    chainKicker: "Değer zinciri",
+    chainTitle: "Dört adımda sistem",
+    chain: [
+      {
+        step: "1",
+        title: "Ücretsiz Test & Tezgâh",
+        body: "Seviyeni ölç. Hazır şablonlarla teslimat taslağını kur.",
+        href: "/tezgah",
+      },
+      {
+        step: "2",
+        title: "Uygulamalı Uzmanlık & Sınav",
+        body: "Seçtiğin alanda dersi bitir, barajı 70 ve üzeri ile geç.",
+      },
+      {
+        step: "3",
+        title: "Doğrulanmış Rozet",
+        body: "Sunucu onaylı Doğrulanmış Freelancer Rozetin Kariyer Kartına işlenir.",
+      },
+      {
+        step: "4",
+        title: "İş & Teklif Panosu",
+        body: "Rozetin, KOBİ talebine teklif vermenin anahtarıdır. Kartını Kariyer sayfasından paylaşırsın.",
+      },
+    ],
+    tracksKicker: "Beş uzmanlık",
+    tracksTitle: "Hangi işi üretiyorsan, o rozet",
+    tracksCta: "Ücretsiz Seviye Testine Gir",
+    tracks: [
+      {
+        title: "Ofis & Veri AI",
+        body: "Excel, e-posta ve yönetim özetini kısa talimatla toparlarsın.",
+        href: "/academy/01_office_ai",
+      },
+      {
+        title: "E-Ticaret AI",
+        body: "Ürün kartı ve mağaza metnini satışa hazır üretirsin.",
+        href: "/academy/02_ecommerce_ai",
+      },
+      {
+        title: "Sosyal Medya AI",
+        body: "İçerik takvimi ve paylaşım metnini düzene bağlarsın.",
+        href: "/academy/03_social_media_ai",
+      },
+      {
+        title: "Kodsuz Chatbot & Otomasyon",
+        body: "Sohbet akışı ve otomasyon taslağını kurarsın.",
+        href: "/academy/04_chatbot_nocode",
+      },
+      {
+        title: "Prompt Mühendisliği",
+        body: "Tekrarlanabilir talimat ve teslim şablonu yazarsın.",
+        href: "/academy/05_prompt_practice",
+      },
+    ],
+    offers: {
+      eyebrow: "Hibe hazırlığı",
+      heading: "İster kendin hazırla, İster uzmana devret",
+      lead: "İki yol da henüz açık değil. Açıldığında fiyatı ve kapsamı burada yazar.",
+      statusLabel: "Hazırlanıyor",
+      selfPrepare: {
+        title: "Kendin hazırla",
+        body: "Açıldığında hibe başvurunu şablon ve rehberle, kendi hızında hazırlarsın.",
+        note: "Fiyat yayınlanınca burada görünür.",
+        cta: "İlk dersi ücretsiz izle",
+      },
+      expert: {
+        title: "Uzmana devret",
+        body: "Açıldığında hazırlık işini bir uzmana bırakırsın.",
+        note: "Uzman havuzu açılınca burada duyurulur. Fiyat da o zaman yayınlanır.",
+      },
     },
     faqHeading: "Sık sorulanlar",
   },
@@ -43,7 +107,7 @@ export const PUBLIC_SEN = {
       "Ücretsiz dersi aç. Excel’de dağınık tabloyu düzenli tabloya çeviren ilk konu kayıt duvarının önündedir.",
       "Kendi dosyanla dene. Müşteri adı ve telefonu maskelenmeden yapay zekâya yüklenmez.",
       "Testi 70 ve üzeri ile geç. Satın alma belge basmaz.",
-      "Sertifika kariyer vizesine işlenir. Doğrulama bağı herkese açıktır; kimlik gösterilmez.",
+      "Sertifika Doğrulanmış Freelancer Rozetine işlenir. Doğrulama bağı herkese açıktır; kimlik gösterilmez.",
     ],
     cta: "Ücretsiz dersi aç",
     catalogCta: "Eğitim kataloğu",

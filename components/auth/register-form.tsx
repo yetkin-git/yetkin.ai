@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { IconCopy, IconKey } from "@/components/ui/icons";
+import { GoogleContinueButton } from "@/components/auth/google-continue-button";
 import { PasswordInput } from "@/components/auth/password-input";
 import { copyTextToClipboard } from "@/components/auth/copy-text";
 import {
@@ -232,6 +233,7 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
   return (
     <form onSubmit={onSubmit} className="flex min-h-0 flex-1 flex-col">
       <div className="min-h-0 flex-1 space-y-2 overflow-y-auto">
+      <GoogleContinueButton nextPath={nextPath} />
       <label className="block text-sm font-medium" htmlFor="register-email">
         {copy.email}
         <Input

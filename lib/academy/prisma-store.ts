@@ -1,5 +1,6 @@
 import "server-only";
 
+import { ACADEMY_QUERY_OMITS_JUNIOR, isJuniorCatalogSlug } from "@/lib/access";
 import type { PrismaClient } from "@/generated/prisma/client";
 import { isAcademyGrantPurchase } from "@/lib/academy/enrolment";
 import { writeSuperAdminAudit } from "@/lib/kernel/admin/audit-log";
@@ -272,15 +273,21 @@ export function bindAcademyStore(db: AcademyWriteDb): AcademyStore {
     },
     async getCourse(id) {
       const row = await db.academyCourse.findUnique({ where: { id } });
-      return row ? toCourse(row) : null;
+      if (!row || isJuniorCatalogSlug(row.slug)) {
+        return null;
+      }
+      return toCourse(row);
     },
     async getCourseBySlug(slug) {
+      if (isJuniorCatalogSlug(slug)) {
+        return null;
+      }
       const row = await db.academyCourse.findUnique({ where: { slug } });
       return row ? toCourse(row) : null;
     },
     async listPublishedCourses() {
       const rows = await db.academyCourse.findMany({
-        where: { isPublished: true },
+        where: { isPublished: true, ...ACADEMY_QUERY_OMITS_JUNIOR },
       });
       return orderAcademyCatalogByCurriculum(
         filterAcademyVitrineCatalog(rows.map(toCourse)),

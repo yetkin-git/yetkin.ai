@@ -186,7 +186,7 @@ describe("akademi kurs tohumu yüzeyi", () => {
     expect(detail).toContain("trainingHref");
     expect(detail).not.toContain("examHref");
     expect(detail).not.toContain("?gate=exam");
-    expect(readSrc("lib/academy/purchase-path.ts")).toContain("Eğitimi Satın Al");
+    expect(readSrc("lib/academy/purchase-path.ts")).toContain("Uzmanlık Paketini Aç");
     expect(readSrc("lib/academy/purchase-path.ts")).not.toContain("Eğitimi Satın Al & Öğren");
     expect(readSrc("lib/academy/purchase-path.ts")).toContain("Testi eğitim bitince aç");
     expect(readSrc("lib/academy/purchase-path.ts")).not.toContain("Doğrudan teste gir");

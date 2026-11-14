@@ -550,6 +550,8 @@ export const ROOM_ICONS = {
   arena: IconTrophy,
   junior: IconChild,
   young: IconYoung,
+  yetkinhibe: IconLeaf,
+  tezgah: IconSpark,
   social: IconMegaphone,
   profil: IconUser,
   cuzdan: IconWallet,

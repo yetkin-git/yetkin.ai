@@ -27,10 +27,12 @@ describe("Tik-Tak-Öde kasa yüzeyi", () => {
     expect(modal).not.toContain("CheckoutConsentFields");
     expect(modal).not.toContain("amountLabel");
 
-    expect(fields).not.toContain("copy.tckn");
+    expect(fields).toContain("copy.tckn");
+    expect(fields).toContain("copy.tcknHint");
+    expect(fields).toContain("data-checkout-tckn-optional");
     expect(fields).toContain("data-checkout-billing-collapsed");
-    expect(CHECKOUT_BILLING_COPY).not.toHaveProperty("tckn");
-    expect(CHECKOUT_BILLING_COPY).not.toHaveProperty("tcknHint");
+    expect(CHECKOUT_BILLING_COPY.tckn).toContain("isteğe bağlı");
+    expect(CHECKOUT_BILLING_COPY.tcknHint.length).toBeGreaterThan(0);
     expect(hook).toContain("hydrated");
   });
 });

@@ -64,7 +64,7 @@ describe("pasaport vize yüzeyi", () => {
     expect(passportSourceLabel("FREELANCER_RELEASE")).toBe("Freelancer teslim damgası");
     expect(passportModuleLabel("academy")).toBe("Akademi");
     expect(passportModuleLabel("freelancer")).toBe("Freelancer");
-    expect(PASSPORT_UNSET_LABEL).toBe("Henüz damga yok");
+    expect(PASSPORT_UNSET_LABEL).toBe("Henüz rozet yok");
     const dto = toPassportVisaStamp(SAMPLE);
     expect(dto.issuedAt).toBe("2026-08-14T17:03:00.000Z");
     expect(dto.visaKey).toBe(SAMPLE.visaKey);
@@ -159,7 +159,7 @@ describe("pasaport vize yüzeyi", () => {
     expect(list).not.toContain("örnek düzen");
     expect(sen).toContain("PASAPORT_SEN");
     expect(sen).toContain("openContractCta");
-    expect(sen).toContain("Pasaport Vize Damgası");
+    expect(sen).toContain("Doğrulanmış Freelancer Rozeti");
     expect(sen).toContain("Doğrulanmış Rozet");
     expect(sen).toContain("Teklif Kapısı");
     expect(sen).toContain("Erişim Hakkı");
@@ -194,7 +194,7 @@ describe("pasaport vize yüzeyi", () => {
     expect(empty).toHaveLength(5);
     expect(empty.every((slot) => slot.held === false)).toBe(true);
     expect(empty.every((slot) => slot.stampId === null)).toBe(true);
-    expect(PASSPORT_GROWTH_LOCKED_LABEL).toBe("Henüz damga yok / Kilitli");
+    expect(PASSPORT_GROWTH_LOCKED_LABEL).toBe("Henüz rozet yok / Kilitli");
     expect(SEN_VOICE.pasaport.growth.locked).toBe(PASSPORT_GROWTH_LOCKED_LABEL);
     expect(SEN_VOICE.pasaport.list.sealed).toBe("Doğrulanmış Rozet");
     expect(SEN_VOICE.pasaport.careerCta).toBe("Kariyer");

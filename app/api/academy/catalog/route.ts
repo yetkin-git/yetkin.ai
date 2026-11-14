@@ -1,3 +1,4 @@
+import { isJuniorCatalogSlug } from "@/lib/access";
 import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
@@ -39,10 +40,11 @@ export async function GET(request: Request) {
   const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
-    const [courses, learnerBoard] = await Promise.all([
+    const [loadedCourses, learnerBoard] = await Promise.all([
       loadAcademyVitrineCourses(),
       loadAcademyCatalogLearnerBoard(user.id),
     ]);
+    const courses = loadedCourses.filter((course) => !isJuniorCatalogSlug(course.slug));
     const ownedSlugs = learnerBoard.ownedSlugs;
 
     const rows = courses.map((course) => {

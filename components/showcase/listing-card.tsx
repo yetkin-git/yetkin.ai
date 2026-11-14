@@ -30,6 +30,8 @@ export function ListingCard({
   cta = "Aç",
   secondaryHref,
   secondaryCta,
+  tertiaryHref,
+  tertiaryCta,
   ctaDisabled = false,
   showcase = false,
   icon,
@@ -80,6 +82,9 @@ export function ListingCard({
   /** Ücretsiz ders birincilken satın alma bağlantısı. Kart gövdesinin üstünde durur. */
   secondaryHref?: LinkHref;
   secondaryCta?: string;
+  /** Katalog mıknatısı — ücretsiz seviye testi. Kart gövdesinin üstünde durur. */
+  tertiaryHref?: LinkHref;
+  tertiaryCta?: string;
   /** Pasif etiket — fiyat yok veya ön koşul kapalı. Düğme tıklanmaz; kart `navigateWhenDisabled` ile açılabilir. */
   ctaDisabled?: boolean;
   showcase?: boolean;
@@ -311,6 +316,26 @@ export function ListingCard({
               onClick={(event) => event.stopPropagation()}
             >
               {secondaryCta}
+            </Link>
+          ) : null}
+          {tertiaryHref && tertiaryCta ? (
+            <Link
+              href={tertiaryHref}
+              className={buttonClassName(
+                "success",
+                "sm",
+                cn(
+                  "pointer-events-auto relative z-10",
+                  stackFooter
+                    ? "h-auto min-h-11 w-full whitespace-normal px-3 py-2 text-center leading-5 sm:min-h-8"
+                    : "shrink-0 whitespace-nowrap",
+                  !stackFooter && wideCta && "w-full sm:w-auto",
+                ),
+              )}
+              data-academy-exemption-entry=""
+              onClick={(event) => event.stopPropagation()}
+            >
+              {tertiaryCta}
             </Link>
           ) : null}
         </div>

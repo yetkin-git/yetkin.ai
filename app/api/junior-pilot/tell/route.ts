@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { requireSession } from "@/lib/kernel/auth/session";
+import { juniorVisibilityDenied } from "@/lib/junior/require-visibility";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import { canonicalJuniorLessonKey } from "@/lib/junior/lesson-key-alias";
@@ -43,6 +44,10 @@ export async function POST(request: Request) {
   let raw: unknown = {};
   try {
     const user = await requireSession(request);
+    const hidden = juniorVisibilityDenied(request, user.email);
+    if (hidden) {
+      return hidden;
+    }
     raw = await request.json().catch(() => ({}));
     const parsed = tellSchema.safeParse(raw);
     if (!parsed.success) {

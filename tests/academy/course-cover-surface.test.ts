@@ -93,8 +93,9 @@ describe("akademi vitrin kapak — amiral 1. bölüm + Yakında şablonu", () =>
     expect(home).not.toContain("comingSoonBadge");
     expect(home).not.toContain("preload(");
     expect(home).not.toContain("ACADEMY_GROWTH_SKU_SLUGS");
-    expect(home).toContain("data-academy-production-band");
-    expect(home).toContain("cinemaTitle");
+    expect(home).toContain("data-home-value-chain");
+    expect(home).toContain("chainTitle");
+    expect(home).not.toContain("data-academy-production-band");
     expect(home).not.toContain("ACADEMY_SEN.catalog.empty");
     expect(listing).toContain("CourseCoverImage");
     expect(listing).toContain("coverComingSoon");

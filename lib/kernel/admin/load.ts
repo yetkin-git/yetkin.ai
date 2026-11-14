@@ -1,5 +1,6 @@
 import "server-only";
 
+import { ACADEMY_QUERY_OMITS_JUNIOR } from "@/lib/access";
 import { isSuperAdminActor, type SuperAdminActor } from "@/lib/kernel/auth/super-admin";
 import { isSupabaseUserId } from "@/lib/kernel/auth/ids";
 import { getPrisma } from "@/lib/kernel/db";
@@ -58,6 +59,7 @@ async function findPriceCatalogEntries(): Promise<SealedCatalogEntry[]> {
 async function findAcademyCoursePublish(): Promise<AcademyCoursePublishRow[]> {
   const prisma = getPrisma();
   const rows = await prisma.academyCourse.findMany({
+    where: { ...ACADEMY_QUERY_OMITS_JUNIOR },
     orderBy: { slug: "asc" },
     select: { slug: true, catalogUnitKey: true, isPublished: true },
   });

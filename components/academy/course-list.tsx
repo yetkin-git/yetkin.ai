@@ -17,6 +17,7 @@ import {
   ACADEMY_FLAGSHIP_SKU_SLUG,
   filterAcademyVitrineCatalog,
 } from "@/lib/academy/pilot-sku";
+import { OFF_101_EXEMPTION_PATH } from "@/lib/academy/off101-exemption";
 
 export type AcademyCatalogShelf = "catalog" | "owned" | "favorites";
 
@@ -214,9 +215,18 @@ export function CourseList({
             {!advancedOnly ? (
               <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
                 <LinkButton
-                  href={heroPreviewHref}
+                  href={OFF_101_EXEMPTION_PATH}
                   size="lg"
                   variant="success"
+                  className="w-full sm:w-auto"
+                  data-academy-exemption-entry=""
+                >
+                  {ACADEMY_SEN.exemption.cta}
+                </LinkButton>
+                <LinkButton
+                  href={heroPreviewHref}
+                  size="lg"
+                  variant="outline"
                   className="w-full sm:w-auto"
                   data-academy-hero-preview-cta=""
                 >

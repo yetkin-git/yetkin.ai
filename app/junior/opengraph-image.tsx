@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { OG_IMAGE_SIZE, PAGE_SEO } from "@/lib/copy/seo";
+import { redirectUnlessJuniorVisible } from "@/lib/junior/require-visibility";
 import { BRAND_MARK_COLORS } from "@/lib/ui/brand-mark-geometry";
 
 export const alt = `${PAGE_SEO.junior.title} · ${YETKIN_BRAND}`;
@@ -13,7 +14,8 @@ export const contentType = "image/png";
  * bağlantı `6. Sınıf Online Dersler` başlığıyla açılmalıdır. Veli adı, çocuk adı ve
  * okul adı bu plakaya basılmaz (A4 — kişisel veri yok).
  */
-export default function JuniorOpenGraphImage() {
+export default async function JuniorOpenGraphImage() {
+  await redirectUnlessJuniorVisible();
   return new ImageResponse(
     (
       <div

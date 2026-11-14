@@ -3,7 +3,7 @@ export const PROFIL_SEN = {
   eyebrow: "Kimlik",
   title: "Profil",
   description:
-    "Bu hesap kime ait, kimlik kartından okunur. Görünen adını güncellersin; e-posta oturum katmanında kalır. Liyakat özeti Pasaport sicilinden salt okunur.",
+    "Bu hesap kime ait, kimlik kartından okunur. Görünen adını güncellersin; e-posta oturum katmanında kalır. Liyakat özeti Uzmanlık Portföyünden salt okunur.",
   stats: {
     nameLabel: "Görünen ad",
     nameHintSet: "Kartta görünür",
@@ -21,7 +21,7 @@ export const PROFIL_SEN = {
   loadSoft: "Kimlik şu an okunamadı. Biraz sonra yenile; uydurma ad basılmaz. Oturum e-postası dürüsttür.",
   missingSoft:
     "Oturum var; kimlik kartı henüz oluşmadı. Kart dolunca adın burada durur. E-posta oturumdan gösterilir.",
-  passportCta: "Pasaport sığınağı",
+  passportCta: "Uzmanlık Portföyü",
   walletCta: "Cüzdanı aç",
   careerCta: "Mücevher vitrini",
   adminPanelCta: "Admin Paneline Git",
@@ -29,7 +29,7 @@ export const PROFIL_SEN = {
   dashboardCta: "Panele dön",
   honestyTitle: "Kimlik dürüstlüğü",
   honestyBody:
-    "Görünen ad kimlik kartına yazılır; e-posta oturumla senkron kalır. Şifre bu kartta durmaz. KYC buraya eklenmez. Vize damgası Kariyer basar; burada yalnız özet okunur.",
+    "Görünen ad kimlik kartına yazılır; e-posta oturumla senkron kalır. Şifre bu kartta durmaz. KYC buraya eklenmez. Doğrulanmış Freelancer Rozetini Kariyer basar; burada yalnız özet okunur.",
   card: {
     title: "Kimlik kartı",
     eyebrow: "Hesap",
@@ -75,11 +75,11 @@ export const PROFIL_SEN = {
     title: "Liyakat özeti",
     eyebrow: "Kanıt özeti",
     intro:
-      "Mühür sayısı ve vize kökeni Pasaport sicilinden gelir. Burada damga basılmaz; uydurma rozet yok.",
+      "Rozet sayısı ve kökeni Uzmanlık Portföyünden gelir. Burada rozet basılmaz; uydurma rozet yok.",
     loadSoft: "Liyakat sicili şu an okunamadı. Biraz sonra yenile; uydurma mühür basılmaz.",
     empty: "Henüz mühür yok. Akademi sertifikası damgaya dönüşünce burada özetlenir.",
     countLabel: "Toplam mühür",
-    latestLabel: "Son vize",
+    latestLabel: "Son rozet",
     sourcesLabel: "Köken",
     verifyCta: "Son mührü doğrula",
   },

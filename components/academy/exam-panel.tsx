@@ -152,6 +152,7 @@ export function ExamPanel({
     const certificateHash =
       parsed.data.certificate?.certificateHash ?? parsed.data.certificate?.serialKey ?? null;
     const visaIssued = Boolean(parsed.data.visaStamp?.id);
+    const exemption = Boolean(submitPath?.includes("/exemption"));
     setResult({
       passed: parsed.data.passed,
       score: parsed.data.score,
@@ -159,20 +160,59 @@ export function ExamPanel({
       visaIssued,
     });
     if (parsed.data.passed) {
-      push({
-        title: UX_SEN.bridge.examPassed.title,
-        body: UX_SEN.bridge.examPassed.body,
-        href: visaIssued
-          ? UX_SEN.bridge.examCareerHref
-          : certificateHash
-            ? `/academy/dogrula/${certificateHash}`
-            : UX_SEN.bridge.examHref,
-        cta: visaIssued ? copy.careerVisa : UX_SEN.bridge.examPassed.cta,
-        tone: "emerald",
-        ttlMs: 14_000,
-      });
+      push(
+        exemption
+          ? {
+              title: ACADEMY_SEN.exemption.passedTitle,
+              body: ACADEMY_SEN.exemption.passed(parsed.data.score),
+              href: "/academy/01_office_ai#satin-al",
+              cta: ACADEMY_SEN.exemption.packageCta,
+              tone: "emerald",
+              ttlMs: 14_000,
+            }
+          : {
+              title: UX_SEN.bridge.examPassed.title,
+              body: UX_SEN.bridge.examPassed.body,
+              href: visaIssued
+                ? UX_SEN.bridge.examCareerHref
+                : certificateHash
+                  ? `/academy/dogrula/${certificateHash}`
+                  : UX_SEN.bridge.examHref,
+              cta: visaIssued ? copy.careerVisa : UX_SEN.bridge.examPassed.cta,
+              tone: "emerald",
+              ttlMs: 14_000,
+            },
+      );
       router.refresh();
     }
+  }
+
+  const isExemption = Boolean(submitPath?.includes("/exemption"));
+
+  if (result?.passed && isExemption) {
+    return (
+      <div
+        className="academy-exam-chamber space-y-5 rounded-[var(--radius-card)] border p-6 sm:p-8"
+        data-academy-exemption-result=""
+      >
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--safir-deep)]">
+          {ACADEMY_SEN.exemption.eyebrow}
+        </p>
+        <p className="font-serif text-2xl text-[var(--foreground)]">{ACADEMY_SEN.exemption.passedTitle}</p>
+        <p className="text-sm text-[var(--emerald)]">{ACADEMY_SEN.exemption.passed(result.score)}</p>
+        <p className="text-sm leading-6 text-[var(--foreground)]">{ACADEMY_SEN.exemption.passedBody}</p>
+        <div className="flex flex-wrap gap-3">
+          <LinkButton href="/academy/01_office_ai#satin-al" size="sm">
+            {ACADEMY_SEN.exemption.packageCta}
+          </LinkButton>
+          {onAbandon ? (
+            <Button type="button" variant="ghost" size="sm" onClick={onAbandon} className="min-h-11">
+              {copy.exitCta}
+            </Button>
+          ) : null}
+        </div>
+      </div>
+    );
   }
 
   if (result?.passed) {
@@ -257,7 +297,9 @@ export function ExamPanel({
             <p className="mt-1 text-xs text-slate-600">{copy.workProofLead}</p>
           ) : null}
           {result && !result.passed ? (
-            <p className="mt-1 text-xs text-slate-600">{copy.retryHint}</p>
+            <p className="mt-1 text-xs text-slate-600">
+              {isExemption ? ACADEMY_SEN.exemption.failedBody : copy.retryHint}
+            </p>
           ) : null}
         </div>
         {clock ? (

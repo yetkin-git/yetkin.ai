@@ -1,7 +1,15 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { GET } from "@/app/api/junior/lessons/[key]/route";
+import { getSession } from "@/lib/kernel/auth/session";
+
+vi.mock("@/lib/kernel/auth/session", () => ({
+  getSession: vi.fn(async () => ({
+    id: "11111111-1111-4111-8111-111111111111",
+    email: "yapinet360@gmail.com",
+  })),
+}));
 import { juniorLessonAccess } from "@/lib/junior/catalog";
 import { JUNIOR_FREE_LESSON_KEY } from "@/lib/junior/limits";
 
@@ -17,6 +25,20 @@ async function readCard(lessonKey: string): Promise<Record<string, unknown>> {
 }
 
 describe("Junior ders uç noktası ses yolu kapısı (T-01)", () => {
+  beforeEach(() => {
+    vi.mocked(getSession).mockResolvedValue({
+      id: "11111111-1111-4111-8111-111111111111",
+      email: "yapinet360@gmail.com",
+    });
+  });
+
+  it("izin listesi dışındaki istek kart basmaz", async () => {
+    vi.mocked(getSession).mockResolvedValue(null);
+    const request = new Request(`http://localhost/api/junior/lessons/${JUNIOR_FREE_LESSON_KEY}`);
+    const response = await GET(request, { params: Promise.resolve({ key: JUNIOR_FREE_LESSON_KEY }) });
+    expect(response.status).toBe(404);
+  });
+
   it("serbest ders ses yolunu döner; kilitli ders için audioPath null", async () => {
     expect(juniorLessonAccess(JUNIOR_FREE_LESSON_KEY)).toBe("free");
     const free = await readCard(JUNIOR_FREE_LESSON_KEY);
@@ -56,6 +78,7 @@ describe("Junior ders uç noktası ses yolu kapısı (T-01)", () => {
 
   it("route kaynağı kilitli medyayı adresten keser", () => {
     const src = readFileSync(join(process.cwd(), "app/api/junior/lessons/[key]/route.ts"), "utf8");
+    expect(src).toContain("juniorVisibilityDenied");
     expect(src).toContain("issueJuniorLessonMedia");
     expect(src).toContain("entitled: false");
     expect(src).not.toContain("juniorCoverSrc(");

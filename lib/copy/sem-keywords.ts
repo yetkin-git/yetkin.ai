@@ -57,9 +57,9 @@ const FAQ = {
       "Eğitimi bitir, testi 70+ ile geç. Yapay zeka sertifikan sunucuda basılır; sahte rozet eklenmez.",
   },
   visa: {
-    question: "Kariyer vizesi nedir?",
+    question: "Doğrulanmış Freelancer Rozeti nedir?",
     answer:
-      "Kariyer vizesi, Akademi sınavından türeyen Pasaport Vize Damgasıdır. Kariyer sayfanda görünür; elle basılmaz.",
+      "Doğrulanmış Freelancer Rozeti, Akademi sınavından türer ve Kariyer Kartına işlenir. Eski adıyla kariyer vizesi bu rozettir. Elle basılmaz.",
   },
   prompt: {
     question: "Prompt eğitimi hangi kursta?",
@@ -71,6 +71,11 @@ const FAQ = {
     answer:
       "Evet. Online kurs mobil tarayıcıda açılır. Kart tahsilatı PayTR iFrame + 3D Secure ile yürür.",
   },
+  offerStatus: {
+    question: "Ücretsiz yetkinlik testi nasıl işler?",
+    answer:
+      "Ücretsiz yetkinlik testine kayıttan sonra girersin. On soru sunucuda puanlanır. 70 ve üzeri Temel Muafiyet Rozeti basar ve resmi uzmanlık paketine öncelikli geçiştir.",
+  },
 } as const satisfies Record<string, LandingFaqItem>;
 
 export const HOME_LANDING_FAQ: readonly LandingFaqItem[] = [
@@ -79,6 +84,7 @@ export const HOME_LANDING_FAQ: readonly LandingFaqItem[] = [
   FAQ.visa,
   FAQ.prompt,
   FAQ.online,
+  FAQ.offerStatus,
 ];
 
 export const ACADEMY_LANDING_FAQ: readonly LandingFaqItem[] = [

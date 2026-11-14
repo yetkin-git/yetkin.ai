@@ -52,7 +52,8 @@ describe("fatura künyesi checkout yüzeyi", () => {
     expect(modal).toContain("billing: presetBilling");
     expect(fields).toContain("copy.individual");
     expect(fields).toContain("copy.corporate");
-    expect(fields).not.toContain("copy.tckn");
+    expect(fields).toContain("copy.tckn");
+    expect(fields).toContain("data-checkout-tckn-optional");
     expect(fields).toContain("copy.vkn");
     expect(fields).toContain("copy.phone");
     expect(fields).toContain("collapsible");

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { LinkButton } from "@/components/ui/link-button";
 import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
 import { fetchWalletStripClient } from "@/components/kernel/fetch-wallet-strip";
 import { QuickTopUpModal } from "@/components/kernel/quick-top-up-modal";
@@ -21,7 +22,7 @@ import { formatMinorCompact, stripZeroKurusFromTryLabel } from "@/lib/kernel/mon
 import { WALLET_TOP_UP_MIN_MINOR } from "@/lib/kernel/payments/wallet-top-up";
 import type { AcademyPurchasePath } from "@/lib/academy/purchase-path";
 import { academyCardOfferPaths } from "@/lib/academy/purchase-path";
-import { OFF_101_EXEMPTION_ENTRY_LABEL } from "@/lib/academy/off101-exemption";
+import { OFF_101_EXEMPTION_PATH } from "@/lib/academy/off101-exemption";
 import { academyPaytrTopUpMinor } from "@/lib/academy/catalog-pricing";
 import { ACADEMY_CHECKOUT_HASH, ACADEMY_HERO_PAYTR_EVENT } from "@/lib/academy/storefront-cta";
 import { CheckoutConsentFields } from "@/components/legal/checkout-consent-fields";
@@ -424,7 +425,6 @@ export function PurchaseButton({
   }
 
   const bridgeOpen = phase !== "idle" || creditConfirming;
-  const licenseNow = phase === "locking";
 
   return (
     <div className="space-y-4" data-checkout-tik-tak="">
@@ -435,19 +435,14 @@ export function PurchaseButton({
           data-academy-paytr-bridge=""
           className="rounded-2xl border border-[var(--safir)] bg-[var(--safir-soft)] p-4"
         >
-          <p className="text-sm font-semibold text-[var(--foreground)]">{ACADEMY_SEN.purchase.paytrBridgeTitle}</p>
-          <ol className="mt-2 grid gap-1 text-sm text-[var(--foreground)]">
-            <li data-academy-paytr-step="balance">
-              {creditConfirming && !licenseNow
-                ? ACADEMY_SEN.purchase.paytrBridgeBalanceWait
-                : ACADEMY_SEN.purchase.paytrBridgeBalanceDone}
-            </li>
-            <li data-academy-paytr-step="license">
-              {licenseNow
-                ? ACADEMY_SEN.purchase.paytrBridgeLicenseNow
-                : ACADEMY_SEN.purchase.paytrBridgeLicenseWait}
-            </li>
-          </ol>
+          <p className="text-sm font-semibold text-[var(--foreground)]">{ACADEMY_SEN.purchase.paytrSecure}</p>
+          <p
+            className="mt-2 text-sm text-[var(--foreground)]"
+            data-academy-package-opening=""
+            data-academy-credit-confirming={creditConfirming ? "" : undefined}
+          >
+            {creditConfirming ? ACADEMY_SEN.purchase.opening : ACADEMY_SEN.purchase.settling}
+          </p>
         </div>
       ) : null}
       {paymentsClosed ? (
@@ -456,7 +451,7 @@ export function PurchaseButton({
           <p className="mt-1 text-sm text-[var(--muted)]">{ACADEMY_SEN.purchase.closedBody}</p>
         </div>
       ) : null}
-      {phase !== "idle" ? (
+      {phase !== "idle" && !creditConfirming ? (
         <SettlementSteps
           lockMinutes={lockMinutes}
           active={phase === "locking" ? "lock" : phase === "settling" ? "settle" : null}
@@ -506,21 +501,21 @@ export function PurchaseButton({
           {ctaFor(offer.path)}
         </Button>
       ))}
+      <p className="text-center text-xs font-medium text-[var(--muted)]" data-academy-paytr-secure="">
+        {ACADEMY_SEN.purchase.paytrSecure}
+      </p>
       {courseSlug === "01_office_ai" ? (
-        <Link
-          href="/academy/01_office_ai?gate=exemption#academy-exam-gate"
-          className="text-sm font-medium text-[var(--safir-deep)] underline-offset-4 hover:underline"
+        <LinkButton
+          href={OFF_101_EXEMPTION_PATH}
+          size="lg"
+          variant="outline"
+          className="w-full"
           data-academy-exemption-entry=""
         >
-          {OFF_101_EXEMPTION_ENTRY_LABEL}
-        </Link>
+          {ACADEMY_SEN.exemption.cta}
+        </LinkButton>
       ) : null}
       <SecurePaymentMarks compact />
-      {creditConfirming ? (
-        <p aria-live="polite" className="text-sm font-medium text-[var(--safir-deep)]" data-academy-credit-confirming="">
-          {ACADEMY_SEN.purchase.creditConfirming}
-        </p>
-      ) : null}
       {status ? (
         <p aria-live="polite" className="text-xs text-[var(--muted)]">
           {status}
@@ -575,7 +570,10 @@ export function PurchaseButton({
           setTopUpOpen(false);
           setPaytrPending(false);
           setPaytrIframeUrl(null);
-          push({ title: UX_SEN.topUp.funded, tone: "emerald" });
+          setPhase("settling");
+          setError(null);
+          setLicenseHold(null);
+          setCreditConfirming(true);
           void activateLicense();
         }}
       />

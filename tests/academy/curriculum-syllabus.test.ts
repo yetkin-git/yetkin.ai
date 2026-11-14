@@ -204,12 +204,12 @@ describe("akademi müfredat özeti — modül, tür, süre", () => {
   it("amiral antre vize vaadi Ofis Verimliliği kapısını SEN ile adlandırır", () => {
     const visa = academyAntreVisaPromise("01_office_ai", 70);
     expect(visa).toBe(
-      "Sınavı 70+ puanla tamamladığında «Ofis Verimliliği» sertifikan Pasaport siciline işlenir ve Kariyer sayfanda doğrulanır.",
+      "Sınavı 70+ puanla tamamladığında «Ofis Verimliliği» sertifikan Uzmanlık Portföyüne işlenir ve Kariyer sayfanda doğrulanır.",
     );
     expect(visa).not.toMatch(/mühür/i);
     expect(visa).not.toContain("CareerVisaStamp");
     expect(academyAntreVisaPromise("02_ecommerce_ai", 70)).toBe(
-      "Sınavı 70+ puanla tamamladığında «E-Ticaret Asistanlığı» sertifikan Pasaport siciline işlenir ve Kariyer sayfanda doğrulanır.",
+      "Sınavı 70+ puanla tamamladığında «E-Ticaret Asistanlığı» sertifikan Uzmanlık Portföyüne işlenir ve Kariyer sayfanda doğrulanır.",
     );
     expect(academyAntreVisaPromise("02_ecommerce_ai", 70)).not.toContain("excel-veri-otomasyon");
   });

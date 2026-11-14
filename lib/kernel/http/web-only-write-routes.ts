@@ -42,6 +42,10 @@ export type WebOnlyWriteRoute = WebBffRouteRecord & { write: true };
 const TOMBSTONE_NOTE = "410 mezar taşı. Motor kopyası değildir. v1 sicilinde yoktur.";
 const CLOSED_ROOM_NOTE =
   "Freelancer odası kapalıyken kenar 410 basar. v1 metasında yoktur. Bu satır kapıyı açmaz.";
+const YETKINHIBE_CLOSED_ROOM_NOTE =
+  "YetkinHibe odası kapalıyken kenar 410 basar. v1 metasında yoktur (D-11, web-only). Bu satır kapıyı açmaz.";
+const YETKINHIBE_MATCH_NOTE =
+  "YetkinHibe ücretsiz eşleştirme (D-12). Oturum zorunlu; veri yazmaz. Oda kapalıyken kenar 410 basar. v1 metasında yoktur (D-11). Bu satır kapıyı açmaz.";
 
 function route(
   id: string,
@@ -277,6 +281,14 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
     "Sohbet yazması. Anonim ziyaretçi günde 5 soru. v1 hop satırı yoktur.",
   ),
   ...verbs(
+    "product-tezgah-generate",
+    ["POST"],
+    "/api/tezgah/generate",
+    "product-write",
+    true,
+    "AI Tezgâh üretimi. Misafir günde 1, üye günde 3. Cüzdan yazılmaz. v1 hop satırı yoktur.",
+  ),
+  ...verbs(
     "product-billing",
     ["PUT"],
     "/api/profile/billing",
@@ -430,6 +442,14 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
     "Canlılık yoklaması. Hop health yalnız /api/health yoludur.",
   ),
   route(
+    "read-tezgah-quota",
+    "GET",
+    "/api/tezgah/quota",
+    "web-read",
+    false,
+    "AI Tezgâh günlük hak okuması. Hak düşmez. v1 hop satırı yoktur.",
+  ),
+  route(
     "read-billing",
     "GET",
     "/api/profile/billing",
@@ -464,6 +484,22 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
     "closed-room",
     false,
     CLOSED_ROOM_NOTE,
+  ),
+  route(
+    "read-yetkinhibe-grant-catalog",
+    "GET",
+    "/api/yetkinhibe/grant/catalog",
+    "closed-room",
+    false,
+    YETKINHIBE_CLOSED_ROOM_NOTE,
+  ),
+  route(
+    "closed-yetkinhibe-grant-match",
+    "POST",
+    "/api/yetkinhibe/grant/match",
+    "closed-room",
+    true,
+    YETKINHIBE_MATCH_NOTE,
   ),
 ];
 

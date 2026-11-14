@@ -44,7 +44,7 @@ export const ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN =
 export const ACADEMY_CARD_OFFER_PATHS: readonly AcademyCardOfferPath[] = [
   {
     path: "training",
-    cta: "Eğitimi Satın Al",
+    cta: "Uzmanlık Paketini Aç",
     summary: ACADEMY_TRAINING_OFFER_SUMMARY_WRITTEN,
   },
   {

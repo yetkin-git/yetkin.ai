@@ -28,7 +28,7 @@ describe("sertifika sığınağı — oturum, köprü, SEN", () => {
     expect(page).toContain("copy.passportCta");
     expect(page).toContain("copy.careerBridgeCta");
     expect(page).toContain("copy.verifyPublicCta");
-    expect(SEN_VOICE.academy.certificates.passportCta).toBe("Pasaport");
+    expect(SEN_VOICE.academy.certificates.passportCta).toBe("Uzmanlık Portföyü");
     expect(SEN_VOICE.academy.certificates.careerBridgeCta).toBe("Kariyer");
     expect(SEN_VOICE.academy.certificates.verifyPublicCta).toBe("Kamu Doğrulama");
   });
@@ -52,7 +52,7 @@ describe("sertifika sığınağı — oturum, köprü, SEN", () => {
     const copy = SEN_VOICE.academy.certificates;
     expect(copy.sealed).toBe("Doğrulanmış Rozet");
     expect(copy.careerVisaLead).toContain("Doğrulanmış Rozet");
-    expect(copy.careerVisaLead).toContain("Pasaport Vize Damgası");
+    expect(copy.careerVisaLead).toContain("Doğrulanmış Freelancer Rozeti");
     expect(copy.careerVisaLead).toContain("Erişim Hakkı");
     expect(copy.careerVisaLead).not.toContain("Mühür");
     expect(copy.careerVisaLead).not.toMatch(/vizeye/i);

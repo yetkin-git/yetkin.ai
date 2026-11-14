@@ -13,11 +13,13 @@ export function AppShellSwitch({
   children,
   userCluster,
   showAdmin = false,
+  showJunior = false,
   signedIn = false,
 }: {
   children: ReactNode;
   userCluster: ReactNode;
   showAdmin?: boolean;
+  showJunior?: boolean;
   signedIn?: boolean;
 }) {
   const pathname = usePathname() ?? "";
@@ -38,7 +40,7 @@ export function AppShellSwitch({
   const juniorVitrine = pathname === "/junior";
   return (
     <div className="min-h-screen">
-      <ShellChrome userCluster={userCluster} showAdmin={showAdmin}>
+      <ShellChrome userCluster={userCluster} showAdmin={showAdmin} showJunior={showJunior}>
         <main
           className={
             academyPlayer

@@ -18,7 +18,7 @@ export type FocusSalePitchRow = {
 };
 
 const FOCUS_SALE_REFUND =
-  "Ders erişimi açılınca bedel iade edilmez; henüz harcanmamış cüzdan yüklemesi kendiliğinden karta dönmez ve iade talebi destek kanalından alınır.";
+  "Ders erişimi açılınca bedel iade edilmez. Kart tahsilatı ile paket aynı işlemde açılır; henüz harcanmamış tahsilat kendiliğinden karta dönmez ve iade talebi destek kanalından alınır.";
 
 const FOCUS_SALE_LABELS: Record<FocusSalePitchStepId, string> = {
   result: "Somut sonuç / kazanım",

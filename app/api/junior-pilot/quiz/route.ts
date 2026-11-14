@@ -1,4 +1,5 @@
 import { requireSession } from "@/lib/kernel/auth/session";
+import { juniorVisibilityDenied } from "@/lib/junior/require-visibility";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import { railV1JuniorQuizRequestSchema } from "@/lib/kernel/http/v1-contract";
@@ -14,6 +15,10 @@ export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
+    const hidden = juniorVisibilityDenied(request, user.email);
+    if (hidden) {
+      return hidden;
+    }
     const parsed = railV1JuniorQuizRequestSchema.safeParse(await request.json().catch(() => ({})));
     if (!parsed.success) {
       return jsonFail("Cevaplar okunamadı.", 400, requestId, request);

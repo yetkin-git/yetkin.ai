@@ -1,5 +1,6 @@
 import "server-only";
 
+import { resolveJuniorAllowedEmails } from "@/lib/access";
 import { getPrisma } from "@/lib/kernel/db";
 import { logEvent } from "@/lib/kernel/observability/log";
 import { juniorLessonStatus, juniorTellPassed } from "@/lib/junior/chain";
@@ -196,12 +197,21 @@ function mapXp(row: XpRecord): JuniorXpRow {
   };
 }
 
+function juniorOwnerEmailWhere() {
+  return {
+    email: {
+      in: [...resolveJuniorAllowedEmails()],
+      mode: "insensitive" as const,
+    },
+  };
+}
+
 export function createPrismaJuniorStore(): JuniorStore {
   const prisma = getPrisma();
   return {
     async listProfiles(userId) {
       const rows = await prisma.juniorProfile.findMany({
-        where: { userId },
+        where: { userId, user: juniorOwnerEmailWhere() },
         orderBy: { createdAt: "asc" },
         ...profileArgs,
       });
@@ -244,7 +254,10 @@ export function createPrismaJuniorStore(): JuniorStore {
       return mapProfile(created);
     },
     async getProfile(userId, profileId) {
-      const row = await prisma.juniorProfile.findFirst({ where: { id: profileId, userId }, ...profileArgs });
+      const row = await prisma.juniorProfile.findFirst({
+        where: { id: profileId, userId, user: juniorOwnerEmailWhere() },
+        ...profileArgs,
+      });
       return row ? mapProfile(row) : null;
     },
     async listGuardianConsents(guardianUserId) {
@@ -405,13 +418,15 @@ export function createPrismaJuniorStore(): JuniorStore {
     },
     async listProgress(userId, profileId) {
       const rows = await prisma.juniorProgress.findMany({
-        where: { userId, profileId },
+        where: { userId, profileId, user: juniorOwnerEmailWhere() },
         orderBy: { createdAt: "asc" },
       });
       return rows.map(mapProgress);
     },
     async getXp(userId, profileId) {
-      const row = await prisma.juniorXp.findFirst({ where: { userId, profileId } });
+      const row = await prisma.juniorXp.findFirst({
+        where: { userId, profileId, user: juniorOwnerEmailWhere() },
+      });
       return row ? mapXp(row) : null;
     },
     async recordOutcome(write: JuniorOutcomeWrite) {

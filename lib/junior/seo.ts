@@ -158,7 +158,7 @@ function juniorFreeLessonDescription(lesson: { teaser: string }): string {
   return body ? `${body} ${offer}` : juniorSeoDescription(lesson.teaser, offer);
 }
 
-/** Katalogdaki ücretsiz ilk konu indekslenir. Kilitli konu ve bilinmeyen anahtar indekslenmez. */
+/** Junior ders sayfaları arama dizinine kapalıdır. Kapı `canAccessJunior`. */
 export function juniorLessonPageMetadata(lessonKey: string): Metadata {
   const lesson = juniorLessonByKey(lessonKey);
   const course = juniorCourseByLessonKey(lessonKey);
@@ -175,7 +175,7 @@ export function juniorLessonPageMetadata(lessonKey: string): Metadata {
     path: `/junior/ders/${lesson.key}`,
     keywords: juniorLessonKeywords(course.subject),
     image: juniorCoverImage(lesson.key),
-    robots: { index: true, follow: true },
+    robots: { index: false, follow: false },
   });
 }
 

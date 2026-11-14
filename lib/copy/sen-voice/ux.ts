@@ -16,6 +16,11 @@ export const UX_SEN = {
     submit: "Kart ile yükle",
     pending: "Hazırlanıyor…",
     iframeTitle: "Güvenli ödeme",
+    packageTitle: "PayTR Güvenli Kart Ödemesi",
+    packageRequired: (amount: string) => `Uzmanlık paketi ${amount}.`,
+    packageLocked: "Kart tutarı uzmanlık paketi fiyatına kilitlidir.",
+    packageWaiting: "Kart tahsil edildiyse ödeme bildirimi işleniyor. Bu ekranı kapatma.",
+    packageTimeout: "Ödeme bildirimi henüz yazılmadı. Bu ekranda kal. Sahte erişim açılmaz.",
     retry: "Kart ekranını yeniden aç",
     waitingClearing:
       "Kart tahsil edildiyse valör bekleniyor. CREDIT yalnız Bildirim URL sonrası bakiyeye düşer; bu ekran canlı bakiyeyi izler.",

@@ -13,8 +13,10 @@ import { cn } from "@/components/ui/cn";
 import { IconShield, ROOM_ICONS } from "@/components/ui/icons";
 
 const INDEPENDENT_NAV_ACCENT: Record<IndependentRoomId, string> = {
+  tezgah: "bg-[#5b4cdb] text-white",
   junior: "bg-[#0369a1] text-white",
   young: "bg-[#4338ca] text-white",
+  yetkinhibe: "bg-[#854d0e] text-white",
 };
 
 function isActive(pathname: string | null, path: string): boolean {
@@ -30,19 +32,30 @@ function isActive(pathname: string | null, path: string): boolean {
 export function SidebarNav({
   collapsed = false,
   showAdmin = false,
+  showJunior = false,
   onNavigate,
 }: {
   collapsed?: boolean;
   showAdmin?: boolean;
+  showJunior?: boolean;
   onNavigate?: () => void;
 }) {
   const pathname = usePathname();
+  const openIndependent = INDEPENDENT_ROOMS.filter((room) => !DronBayrakları.isKapali(room.id)).filter(
+    (room) => room.id !== "junior" || showJunior,
+  );
+  const tezgahFirst = openIndependent.filter((room) => room.id === "tezgah");
+  const otherIndependent = openIndependent.filter((room) => room.id !== "tezgah");
   const adultRooms = [
+    ...tezgahFirst.map((room) => ({
+      ...room,
+      accent: INDEPENDENT_NAV_ACCENT[room.id],
+    })),
     ...VERTICAL_ROOMS.filter((room) => isPhase1ShellNavRoom(room.id)).map((room) => ({
       ...room,
       accent: ROOM_NAV_ACCENT[room.id],
     })),
-    ...INDEPENDENT_ROOMS.filter((room) => !DronBayrakları.isKapali(room.id)).map((room) => ({
+    ...otherIndependent.map((room) => ({
       ...room,
       accent: INDEPENDENT_NAV_ACCENT[room.id],
     })),
@@ -59,7 +72,7 @@ export function SidebarNav({
           collapsed && "sr-only",
         )}
       >
-        Odalar
+        Menü
       </p>
       <ul className="flex flex-col gap-1.5">
         {rooms.map((room) => {

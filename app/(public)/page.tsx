@@ -11,12 +11,12 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { LandingFaq } from "@/components/seo/landing-faq";
 import { faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
 import { HOME_LANDING_FAQ } from "@/lib/copy/sem-keywords";
+import { OFF_101_EXEMPTION_PATH } from "@/lib/academy/off101-exemption";
 
 /**
- * Marka iniş katmanı — kök adres (`/`) artık bu gövdedir.
- * Eski CEO kilidi (apex/www → `/academy` 308) kaldırıldı; `robots: index:true`
- * ile arama motorunun marka sorgusunda göstereceği tek kanonik "nedir" sayfasıdır.
- * Sayfa ölü bileşen taşımaz: hero + güven + ücretsiz ders çağrısı + SSS.
+ * Marka iniş katmanı — kök adres (`/`).
+ * Freelancer üretim vitrini: ücretsiz yetkinlik testi, dört adımlı zincir, beş uzmanlık.
+ * Kapalı oda önizlemesi bu sayfada basılmaz.
  */
 export const metadata: Metadata = pageMetadata({
   ...PAGE_SEO.home,
@@ -44,8 +44,11 @@ export default function PublicHomePage() {
             </h1>
             <p className="mt-3 max-w-xl text-base leading-7 text-[var(--muted)]">{copy.description}</p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <LinkButton href="/academy/01_office_ai/oyna" size="lg" variant="success">
-                {copy.freeLessonCta}
+              <LinkButton href={OFF_101_EXEMPTION_PATH} size="lg" variant="success">
+                {copy.primaryCta}
+              </LinkButton>
+              <LinkButton href="/tezgah" size="lg" variant="secondary">
+                {copy.tezgahCta}
               </LinkButton>
               <LinkButton href="/academy" size="lg">
                 {copy.academyCta}
@@ -60,39 +63,70 @@ export default function PublicHomePage() {
             </ul>
           </Card>
         </div>
-        <section className="relative mt-8 min-h-0" aria-labelledby="home-cinema-heading">
-          <h2
-            id="home-cinema-heading"
-            className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]"
-          >
-            {copy.cinemaKicker}
-          </h2>
-          <p className="mb-3 text-sm text-[var(--muted)]">{copy.cinemaHint}</p>
-          <Card variant="default" className="border-dashed p-5" data-academy-production-band="">
-            <p className="text-base font-semibold text-[var(--foreground)]">{copy.cinemaTitle}</p>
-            <div className="mt-4">
-              <LinkButton href="/academy">{copy.academyCta}</LinkButton>
-            </div>
-          </Card>
-        </section>
-        <section className="relative mt-6 min-h-0" aria-labelledby="home-rooms-heading">
-          <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
-            {copy.roomsKicker}
+        <section className="relative mt-8 min-h-0" aria-labelledby="home-chain-heading" data-home-value-chain="">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
+            {copy.chainKicker}
           </p>
-          <Link href={copy.hero.href} className="block">
-            <Card variant="featured" className="p-5">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">
-                {copy.hero.kicker}
-              </p>
-              <h2
-                id="home-rooms-heading"
-                className="mt-1.5 text-lg font-semibold text-[var(--foreground)]"
-              >
-                {copy.hero.title}
-              </h2>
-              <p className="mt-1 text-sm leading-6">{copy.hero.body}</p>
-            </Card>
-          </Link>
+          <h2
+            id="home-chain-heading"
+            className="mt-1.5 text-xl font-semibold tracking-tight text-[var(--foreground)] sm:text-2xl"
+          >
+            {copy.chainTitle}
+          </h2>
+          <ol className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {copy.chain.map((step) => (
+              <li key={step.step}>
+                <Card variant="default" className="h-full p-5">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--safir-deep)]">
+                    {step.step}
+                  </p>
+                  <h3 className="mt-1.5 text-base font-semibold text-[var(--foreground)]">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{step.body}</p>
+                  {"href" in step ? (
+                    <Link
+                      href={step.href}
+                      className="mt-3 inline-flex text-sm font-semibold text-[var(--safir-deep)] hover:underline"
+                    >
+                      {copy.tezgahCta}
+                    </Link>
+                  ) : null}
+                </Card>
+              </li>
+            ))}
+          </ol>
+        </section>
+        <section className="relative mt-8 min-h-0" aria-labelledby="home-tracks-heading">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
+            {copy.tracksKicker}
+          </p>
+          <h2
+            id="home-tracks-heading"
+            className="mt-1.5 text-xl font-semibold tracking-tight text-[var(--foreground)] sm:text-2xl"
+          >
+            {copy.tracksTitle}
+          </h2>
+          <ul className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {copy.tracks.map((track) => (
+              <li key={track.href}>
+                <Card variant="default" className="flex h-full flex-col p-5">
+                  <h3 className="text-base font-semibold text-[var(--foreground)]">
+                    <Link href={track.href} className="hover:underline">
+                      {track.title}
+                    </Link>
+                  </h3>
+                  <p className="mt-2 flex-1 text-sm leading-6 text-[var(--muted)]">{track.body}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <LinkButton href={track.href} size="sm" variant="outline">
+                      {copy.academyCta}
+                    </LinkButton>
+                    <LinkButton href={OFF_101_EXEMPTION_PATH} size="sm" variant="success">
+                      {copy.tracksCta}
+                    </LinkButton>
+                  </div>
+                </Card>
+              </li>
+            ))}
+          </ul>
         </section>
         <LandingFaq heading={copy.faqHeading} items={HOME_LANDING_FAQ} />
       </div>

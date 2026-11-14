@@ -22,6 +22,18 @@ export const AUTH_SEN = {
     registerCta: "Kayıt",
     homeCta: "Ana sayfa",
   },
+  google: {
+    cta: "Google ile Devam Et",
+    pending: "Google açılıyor…",
+    divider: "veya e-posta ile",
+    consentLead: "Google ile devam ederek 18 yaşından büyük olduğunu beyan eder,",
+    termsLink: "Kullanım Koşulları",
+    kvkkLink: "KVKK Aydınlatma Metni'ni",
+    consentTail: " kabul etmiş olursun.",
+    unavailable: "Google ile giriş şu an açık değil. E-posta ve şifre ile devam et.",
+    consent: "Google kaydı yaş ve kullanım onayı yazılamadan durdu. E-posta ve şifre ile kayıt ol.",
+    fail: "Google ile devam edilemedi. E-posta ve şifre ile dene.",
+  },
   logout: {
     submit: "Çıkış Yap",
     pending: "Çıkış…",

@@ -118,7 +118,7 @@ describe("Akademi vitrin rafları — açık katalog", () => {
     expect(preview?.getAttribute("href")).toBe("/academy/01_office_ai/oyna");
     expect(preview?.textContent).toContain(ACADEMY_SEN.catalog.heroPreviewCta);
     expect(browse?.getAttribute("href")).toBe("/academy");
-    expect(browse?.textContent).toContain("Eğitimleri İncele");
+    expect(browse?.textContent).toContain("Uzmanlık Paketlerini İncele");
 
     expect(document.body.textContent).toContain(ACADEMY_SEN.catalog.flagshipShelfTitle);
     expect(document.body.textContent).toContain(ACADEMY_SEN.catalog.advancedShelfTitle);

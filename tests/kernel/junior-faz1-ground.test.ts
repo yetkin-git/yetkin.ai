@@ -44,7 +44,12 @@ describe("Junior faz 1 zemin — kayıt defteri", () => {
     expect(Object.keys(ACADEMY_STOREFRONT_EXTRA_TITLES)).toEqual(["01_office_ai_ileri"]);
 
     expect(VERTICAL_ROOMS.map((room) => room.id)).not.toContain("junior");
-    expect(INDEPENDENT_ROOMS.map((room) => room.id)).toEqual(["junior", "young"]);
+    expect(INDEPENDENT_ROOMS.map((room) => room.id)).toEqual([
+      "tezgah",
+      "junior",
+      "young",
+      "yetkinhibe",
+    ]);
     expect(JUNIOR_PILOT_COURSES.map((course) => course.slug)).toEqual([...JUNIOR_PILOT_SLUGS]);
     expect(JUNIOR_PILOT_COURSES.map((course) => course.code)).toEqual([
       "JR-06-MAT",

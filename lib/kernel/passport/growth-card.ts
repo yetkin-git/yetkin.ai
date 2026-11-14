@@ -28,7 +28,7 @@ export const PASSPORT_GROWTH_DOOR_LABELS = {
 
 export type PassportGrowthSkuSlug = keyof typeof PASSPORT_GROWTH_DOOR_LABELS;
 
-export const PASSPORT_GROWTH_LOCKED_LABEL = "Henüz damga yok / Kilitli" as const;
+export const PASSPORT_GROWTH_LOCKED_LABEL = "Henüz rozet yok / Kilitli" as const;
 
 export type PassportGrowthSlot = {
   slug: PassportGrowthSkuSlug;

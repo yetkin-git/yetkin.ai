@@ -49,7 +49,7 @@ export function HeaderBar({
             type="button"
             className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-xl p-2 text-[var(--foreground)] hover:bg-[var(--surface-muted)] lg:hidden"
             onClick={onMenu}
-            aria-label="Odaları aç"
+            aria-label="Menüyü aç"
           >
             <IconMenu className="h-5 w-5" />
           </button>

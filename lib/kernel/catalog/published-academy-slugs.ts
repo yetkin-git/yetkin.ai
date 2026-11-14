@@ -1,3 +1,4 @@
+import { ACADEMY_QUERY_OMITS_JUNIOR } from "@/lib/access";
 import { getPrisma } from "@/lib/kernel/db";
 
 /**
@@ -10,7 +11,7 @@ export async function readPublishedAcademySlugs(): Promise<ReadonlySet<string> |
   }
   try {
     const rows = await getPrisma().academyCourse.findMany({
-      where: { isPublished: true },
+      where: { isPublished: true, ...ACADEMY_QUERY_OMITS_JUNIOR },
       select: { slug: true },
     });
     return new Set(rows.map((row) => row.slug));

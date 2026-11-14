@@ -36,6 +36,7 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     expect(nav).toContain("INDEPENDENT_ROOMS");
     expect(nav).toContain("isPhase1ShellNavRoom");
     expect(nav).toContain("showAdmin");
+    expect(nav).toContain("showJunior");
     expect(nav).toContain("ADMIN_SURFACE_PATH");
     expect(nav).toContain("Yönetici Paneli");
     expect(nav).not.toContain("KERNEL_SURFACES");

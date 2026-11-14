@@ -82,8 +82,12 @@ export const ROUTE_AUTH_MAP = {
   "/api/profile": "session",
   "/api/profile/billing": "session",
   "/api/profile/close": "session",
+  "/api/tezgah/generate": "public",
+  "/api/tezgah/quota": "public",
   "/api/wallet/refund": "session",
-  "/api/wallet/top-up": "session"
+  "/api/wallet/top-up": "session",
+  "/api/yetkinhibe/grant/catalog": "public",
+  "/api/yetkinhibe/grant/match": "session"
 } as const;
 
 export type RouteAuthPath = keyof typeof ROUTE_AUTH_MAP;

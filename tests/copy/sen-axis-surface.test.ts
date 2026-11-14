@@ -67,9 +67,11 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
   });
 
   it("kamu, profil ve kalan odalar siz kaçakları taşımaz; SEN_VOICE bağlar", () => {
-    expect(SEN_VOICE.public.home.title).toBe("Yapay Zekâyı Öğren. Gerçek İşlerinde Kullan.");
-    expect(SEN_VOICE.public.home.description).toContain("uygulamalı eğitimlerle öğren");
-    expect(SEN_VOICE.public.home.description).toContain("ücretsiz izle");
+    expect(SEN_VOICE.public.home.title).toBe(
+      "Yetkinliğini Mühürle. Yapay Zekâ Tezgâhıyla 10 Kat Hızlı Üret. İşverenlerle Buluş.",
+    );
+    expect(SEN_VOICE.public.home.description).toContain("sunucu onaylı");
+    expect(SEN_VOICE.public.home.description).toContain("teklif ver");
     expect(SEN_VOICE.public.home.description).not.toContain("üretim band");
     expect(SEN_VOICE.public.home.description).not.toContain("hazırlanıyor");
     expect(SEN_VOICE.public.home.trust.join("\n")).toContain("PayTR iFrame");
@@ -77,7 +79,7 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
     expect(readSrc("archived/lib/copy/sen-voice/arena.ts")).toContain("kazananı sen dağıt");
     expect(readSrc("archived/lib/copy/sen-voice/kurumsal.ts")).toContain("Şirket profilini kur");
     expect(readSrc("archived/lib/copy/sen-voice/hibe.ts")).toContain("Açık rehberlerin");
-    expect(SEN_VOICE.career.title).toBe("Kariyer vizesi");
+    expect(SEN_VOICE.career.title).toBe("Doğrulanmış Freelancer Rozeti");
 
     for (const file of SEN_SURFACES) {
       const source = readSrc(file);

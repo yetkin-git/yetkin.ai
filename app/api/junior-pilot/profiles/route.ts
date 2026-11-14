@@ -1,4 +1,5 @@
 import { requireSession, type SessionUser } from "@/lib/kernel/auth/session";
+import { juniorVisibilityDenied } from "@/lib/junior/require-visibility";
 import { juniorLockedResponse } from "@/lib/junior/surface-lock";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
@@ -26,6 +27,14 @@ async function openJuniorProfileDesk(
   locked: Response | null;
   subscription: Awaited<ReturnType<JuniorStore["getSubscription"]>>;
 }> {
+  const hidden = juniorVisibilityDenied(request, user.email);
+  if (hidden) {
+    return {
+      store: createPrismaJuniorStore(),
+      locked: hidden,
+      subscription: null,
+    };
+  }
   const store = createPrismaJuniorStore();
   const subscription = await store.getSubscription(user.id);
   const locked = juniorLockedResponse(requestId, request, user, "profile", {

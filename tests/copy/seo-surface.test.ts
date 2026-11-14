@@ -271,13 +271,11 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     }
     expect(byPath.has("/career")).toBe(true);
     expect(byPath.get("/career")?.priority).toBe(0.9);
-    expect(byPath.has("/junior")).toBe(true);
-    expect(byPath.get("/junior")?.priority).toBe(0.9);
-    expect(byPath.has(`/junior/ders/${JUNIOR_FREE_LESSON_KEY}`)).toBe(true);
-    expect(byPath.get(`/junior/ders/${JUNIOR_FREE_LESSON_KEY}`)?.priority).toBe(0.7);
-    expect(byPath.has("/junior/ders/jr_06_ing_main-20")).toBe(true);
+    expect(byPath.has("/junior")).toBe(false);
+    expect(byPath.has(`/junior/ders/${JUNIOR_FREE_LESSON_KEY}`)).toBe(false);
+    expect(byPath.has("/junior/ders/jr_06_ing_main-20")).toBe(false);
     expect(byPath.has("/junior/ders/jr_06_ing_main-1")).toBe(false);
-    expect(byPath.has("/junior/ders/jr_06_mat-1")).toBe(true);
+    expect(byPath.has("/junior/ders/jr_06_mat-1")).toBe(false);
     expect(byPath.has("/junior/ders/jr_06_mat-2")).toBe(false);
     expect(byPath.has("/junior/checkout")).toBe(false);
 
@@ -393,7 +391,7 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
       "/academy",
       "/academy/ileri",
       "/career",
-      "/junior",
+      "/tezgah",
       "/academy/dogrula",
       "/vize",
     ]);
@@ -438,9 +436,10 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(isRobotsDisallowedPath("/academy/02_ecommerce_ai")).toBe(false);
     expect(isRobotsDisallowedPath("/academy/01_office_ai_ileri")).toBe(false);
     expect(isRobotsDisallowedPath("/academy/01_office_ai_ileri/oyna")).toBe(true);
-    expect(isRobotsDisallowedPath("/junior")).toBe(false);
-    expect(isRobotsDisallowedPath("/junior/ders/jr_06_mat-1")).toBe(false);
+    expect(isRobotsDisallowedPath("/junior")).toBe(true);
+    expect(isRobotsDisallowedPath("/junior/ders/jr_06_mat-1")).toBe(true);
     expect(isRobotsDisallowedPath("/junior/checkout")).toBe(true);
+    expect(ROBOTS_DISALLOW_PATHS).toContain("/junior");
     expect(ROBOTS_DISALLOW_PATHS).toContain("/junior/checkout");
     expect(ROBOTS_DISALLOW_PATHS).toContain("/admin");
     expect(isRobotsDisallowedPath("/admin/ops")).toBe(true);
@@ -479,12 +478,12 @@ describe("Junior SEO — 6. sınıf başlık, schema ve kapak", () => {
     expect(meta.keywords).toEqual([...PAGE_SEO.junior.keywords]);
   });
 
-  it("ücretsiz ilk ders indekslenir; arşiv, kilitli konu ve kasa indekslenmez", () => {
+  it("Junior ders sayfaları arama dizinine kapalıdır", () => {
     const free = juniorLessonPageMetadata(JUNIOR_FREE_LESSON_KEY);
     expect(free.title).toEqual({
       absolute: "Çarpanlar, Katlar ve Bölünebilme - 6. Sınıf Matematik | yetkin.ai Junior",
     });
-    expect(free.robots).toEqual({ index: true, follow: true });
+    expect(free.robots).toEqual({ index: false, follow: false });
     const unknown = juniorLessonPageMetadata("jr_06_mat-99");
     expect(unknown.robots).toEqual({ index: false, follow: false });
     expect(juniorPublicLessonJsonLd("jr_06_mat-99")).toBeNull();
@@ -511,8 +510,9 @@ describe("Junior SEO — 6. sınıf başlık, schema ve kapak", () => {
     });
     const layout = readSrc("app/junior/layout.tsx");
     expect(layout).toContain("JUNIOR_TITLE_TEMPLATE");
+    expect(layout).toContain("redirectUnlessJuniorVisible");
     expect(layout).not.toContain("alternates:");
-    expect(layout).not.toContain("index: false");
+    expect(layout).toContain("index: false");
     expect(readSrc("app/junior/page.tsx")).toContain("pageMetadata");
     expect(readSrc("app/junior/page.tsx")).toContain("juniorLandingJsonLd");
     expect(readSrc("app/junior/ders/[lessonKey]/page.tsx")).toContain("generateMetadata");
@@ -804,18 +804,18 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
     expect(PAGE_SEO.home.title).toBe(PUBLIC_SEN.home.title);
     expect(PAGE_SEO.academy.title).toBe("Akademi eğitim kataloğu");
     expect(PAGE_SEO.academy.title).not.toBe(ACADEMY_SEN.catalog.title);
-    expect(PAGE_SEO.career.title.toLocaleLowerCase("tr")).toContain("kariyer vizesi");
+    expect(PAGE_SEO.career.title.toLocaleLowerCase("tr")).toContain("doğrulanmış freelancer rozeti");
     expect(ACADEMY_SEN.catalog.title).toBe("Yapay Zekâyı Öğren. Gerçek İşlerinde Kullan.");
     // P1 tedavi: anahtar kelime yığını vitrin gövdesinden çıktı. SEO niyeti meta
     // açıklamasında ve SSS'te durur; gövde paragrafı ürün cümlesidir.
     expect(PAGE_SEO.academy.description.toLocaleLowerCase("tr")).toContain("yapay zeka eğitimi");
     expect(PAGE_SEO.academy.description.toLocaleLowerCase("tr")).toContain("online kurs");
     expect(ACADEMY_SEN.catalog.description.toLocaleLowerCase("tr")).not.toContain("yayındadır");
-    expect(CAREER_SEN.title.toLocaleLowerCase("tr")).toBe("kariyer vizesi");
-    expect(PUBLIC_SEN.home.cinemaKicker.toLocaleLowerCase("tr")).toContain("yapay zeka eğitimi");
+    expect(CAREER_SEN.title.toLocaleLowerCase("tr")).toBe("doğrulanmış freelancer rozeti");
+    expect(PUBLIC_SEN.home.chainTitle.toLocaleLowerCase("tr")).toContain("dört adım");
     expect(readSrc("app/(public)/page.tsx")).toContain("<h2");
-    expect(readSrc("app/(public)/page.tsx")).toContain("home-cinema-heading");
-    expect(readSrc("app/(public)/page.tsx")).toContain("home-rooms-heading");
+    expect(readSrc("app/(public)/page.tsx")).toContain("home-chain-heading");
+    expect(readSrc("app/(public)/page.tsx")).toContain("home-tracks-heading");
     expect(readSrc("components/academy/course-list.tsx")).toContain("copy.boardTitle");
     expect(PAGE_SEO.academy.image).toBe(DEFAULT_OG_IMAGE);
     expect(PAGE_SEO.career.image).toBe(DEFAULT_OG_IMAGE);
@@ -831,10 +831,10 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
     const homeText = haystack([
       PUBLIC_SEN.home.title,
       PUBLIC_SEN.home.description,
-      PUBLIC_SEN.home.cinemaKicker,
-      PUBLIC_SEN.home.cinemaHint,
-      PUBLIC_SEN.home.hero.title,
-      PUBLIC_SEN.home.hero.body,
+      PUBLIC_SEN.home.chainTitle,
+      ...PUBLIC_SEN.home.chain.flatMap((step) => [step.title, step.body]),
+      PUBLIC_SEN.home.tracksTitle,
+      ...PUBLIC_SEN.home.tracks.flatMap((track) => [track.title, track.body]),
       PAGE_SEO.home.title,
       PAGE_SEO.home.description,
       ...HOME_LANDING_FAQ.flatMap((row) => [row.question, row.answer]),

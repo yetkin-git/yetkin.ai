@@ -79,7 +79,7 @@ export const PAGE_SEO = {
   guide: {
     title: "Ofiste yapay zekâ rehberi: Excel ve e-posta",
     description:
-      "Excel tablosu, e-posta taslağı ve kısa talimat. İlk ders ücretsiz; kayıt duvarı yok. Testi geçince sertifika kariyer vizesine işlenir.",
+      "Excel tablosu, e-posta taslağı ve kısa talimat. İlk ders ücretsiz; kayıt duvarı yok. Testi geçince sertifika Doğrulanmış Freelancer Rozetine işlenir.",
     path: "/rehber",
     image: DEFAULT_OG_IMAGE,
     keywords: ["ofiste yapay zekâ", "excel yapay zeka eğitimi", "iş hayatında yapay zekâ"],
@@ -94,16 +94,29 @@ export const PAGE_SEO = {
     image: DEFAULT_OG_IMAGE,
   },
   career: {
-    title: "Kariyer vizesi ve uzmanlık belgesi",
+    title: "Doğrulanmış Freelancer Rozeti",
     description:
-      "Kariyer vizesi: Akademi sınavından doğan yapay zeka sertifikası Pasaport Vize Damgasına dönüşür. İşveren ağına görünürlük ve mühürlü özgeçmiş açar.",
+      "Doğrulanmış Freelancer Rozeti: Akademi sınavından doğan yapay zeka sertifikası Kariyer Kartına işlenir. Eski arama adı kariyer vizesidir. İşveren ağına görünürlük ve mühürlü özgeçmiş açar.",
     path: "/career",
     image: DEFAULT_OG_IMAGE,
   },
-  publicTalent: {
-    title: "Kariyer vizesi — liyakat mühürlü özgeçmiş kartı",
+  tezgah: {
+    title: "AI Tezgâh — ürün kartı, teklif ve hibe notu",
     description:
-      "Kamuya açık kariyer vizesi kartı: mühürler, yapay zeka sertifikası doğrulama bağı ve proje kanıtı. Oturum istenmez; vatandaş kimliği gösterilmez.",
+      "Misafire günde 1, ücretsiz kayıtla günde 3 üretim: Trendyol ürün kartı, müşteri teklifi ve KOSGEB ön uygunluk notu. Çıktıyı kopyala veya indir.",
+    path: "/tezgah",
+    image: DEFAULT_OG_IMAGE,
+    keywords: [
+      "ai tezgah",
+      "trendyol ürün açıklaması",
+      "freelancer teklif yazısı",
+      "kosgeb ön uygunluk",
+    ],
+  },
+  publicTalent: {
+    title: "Kariyer Kartı — doğrulanmış freelancer rozeti",
+    description:
+      "Kamuya açık Kariyer Kartı: mühürler, yapay zeka sertifikası doğrulama bağı ve proje kanıtı. Oturum istenmez; vatandaş kimliği gösterilmez.",
     path: "/vize",
     image: DEFAULT_OG_IMAGE,
   },
@@ -214,7 +227,8 @@ export const PRODUCT_ROOM_PATHS = ["/academy", "/career"] as const;
  * Kök `/` kalıcı 308 ile `/academy` kataloğuna iner; site haritasında durmaz
  * (Search Console «Yönlendirmeli sayfa»).
  * `/career` herkese açık kariyer vizesi sayfasıdır; site haritasındadır.
- * `/junior` kamu odasıdır. Ücretsiz ilk konular site haritasına ayrıca yazılır.
+ * `/tezgah` herkese açık AI çalışma tezgâhıdır; site haritasındadır.
+ * `/junior` izinli iki hesap dışına kapalıdır; site haritasına yazılmaz.
  * Kamuya açık vize yüzeyi `/vize`’dir.
  */
 export const SITEMAP_STATIC_PATHS = [
@@ -224,7 +238,7 @@ export const SITEMAP_STATIC_PATHS = [
   "/academy",
   "/academy/ileri",
   PAGE_SEO.career.path,
-  PAGE_SEO.junior.path,
+  PAGE_SEO.tezgah.path,
   PAGE_SEO.academyVerify.path,
   PAGE_SEO.publicTalent.path,
 ] as const;
@@ -252,6 +266,7 @@ export const ROBOTS_DISALLOW_PATHS = [
   "/dashboard",
   "/freelancer",
   "/admin",
+  "/junior",
   "/junior/checkout",
   "/young",
   "/login",
@@ -491,7 +506,7 @@ export function sitemapRoutePolicy(path: string): {
   if (path === "/" || path === "/academy") {
     return { changeFrequency: "weekly", priority: 1 };
   }
-  if (path === "/career" || path === "/junior") {
+  if (path === "/career" || path === "/junior" || path === PAGE_SEO.tezgah.path) {
     return { changeFrequency: "weekly", priority: 0.9 };
   }
   if (path === PAGE_SEO.guide.path) {

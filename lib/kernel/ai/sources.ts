@@ -9,6 +9,7 @@ export const AI_TOKEN_SOURCES = {
   KURUMSAL: "kurumsal",
   JUNIOR: "junior",
   SUPPORT: "support",
+  TEZGAH: "tezgah",
 } as const;
 
 export type AiTokenSource = (typeof AI_TOKEN_SOURCES)[keyof typeof AI_TOKEN_SOURCES];

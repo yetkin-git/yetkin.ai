@@ -65,6 +65,8 @@ export const RLS_FORCE_TABLES = [
   "users",
   "wallets",
   "wallet_card_refunds",
+  "yetkinhibe_grant_calls",
+  "yetkinhibe_grant_sources",
 ] as const;
 
 /** Kapsamsız tablolar — fail-closed SELECT. INSERT/UPDATE/DELETE üretilmez. */

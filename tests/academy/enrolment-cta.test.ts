@@ -78,8 +78,8 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
     expect(hero.priceLabel).not.toContain("KDV dahil");
     expect(hero.action).toBe("buy");
     expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺890"));
-    expect(hero.primaryLabel).toBe("Eğitimi Satın Al — ₺890");
-    expect(hero.primaryLabel).toContain("Eğitimi Satın Al");
+    expect(hero.primaryLabel).toBe("Uzmanlık Paketini Aç — ₺890");
+    expect(hero.primaryLabel).toContain("Uzmanlık Paketini Aç");
     expect(hero.primaryLabel).not.toBe(ACADEMY_SEN.player.openCta);
     expect(hero.primaryHref).toBe("/academy/python-temel#satin-al");
   });
@@ -115,7 +115,7 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
     expect(hero.action).toBe("buy");
     expect(hero.primaryHref).toBe(loginHref);
     expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺990"));
-    expect(hero.primaryLabel).toBe("Eğitimi Satın Al — ₺990");
+    expect(hero.primaryLabel).toBe("Uzmanlık Paketini Aç — ₺990");
     expect(academyCheckoutHref("02_ecommerce_ai")).toBe("/academy/02_ecommerce_ai#satin-al");
   });
 
@@ -132,7 +132,7 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
     expect(hero.action).toBe("buy");
     expect(hero.primaryHref).toBe(loginHref);
     expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺890"));
-    expect(hero.primaryLabel).toBe("Eğitimi Satın Al — ₺890");
+    expect(hero.primaryLabel).toBe("Uzmanlık Paketini Aç — ₺890");
     expect(academyCheckoutHref("03_social_media_ai")).toBe("/academy/03_social_media_ai#satin-al");
   });
 
@@ -149,7 +149,7 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
     expect(hero.action).toBe("buy");
     expect(hero.primaryHref).toBe(loginHref);
     expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺1.290"));
-    expect(hero.primaryLabel).toBe("Eğitimi Satın Al — ₺1.290");
+    expect(hero.primaryLabel).toBe("Uzmanlık Paketini Aç — ₺1.290");
     expect(academyCheckoutHref("04_chatbot_nocode")).toBe("/academy/04_chatbot_nocode#satin-al");
   });
 
@@ -166,7 +166,7 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
     expect(hero.action).toBe("buy");
     expect(hero.primaryHref).toBe(loginHref);
     expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺1.290"));
-    expect(hero.primaryLabel).toBe("Eğitimi Satın Al — ₺1.290");
+    expect(hero.primaryLabel).toBe("Uzmanlık Paketini Aç — ₺1.290");
     expect(academyCheckoutHref("05_prompt_practice")).toBe("/academy/05_prompt_practice#satin-al");
   });
 

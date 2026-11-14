@@ -21,6 +21,7 @@ import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
 import { ACADEMY_LANDING_FAQ } from "@/lib/copy/sem-keywords";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
+import { isJuniorCatalogSlug } from "@/lib/access";
 import { getSession } from "@/lib/kernel/auth/session";
 import { FUNNEL_VITRINE_VISIT_STEP } from "@/lib/kernel/admin/funnel-constants";
 import { recordFunnelDailyDocumentStep } from "@/lib/kernel/admin/funnel-document-hit";
@@ -37,13 +38,14 @@ export const metadata: Metadata = pageMetadata(PAGE_SEO.academy);
 export default async function AcademyPage() {
   const copy = SEN_VOICE.academy.catalog;
   const session = await getSession();
-  const [courses, continueBoard, learnerBoard] = await Promise.all([
+  const [loadedCourses, continueBoard, learnerBoard] = await Promise.all([
     loadAcademyVitrineCourses(),
     session ? loadAcademyContinueBoard(session.id) : Promise.resolve(null),
     session
       ? loadAcademyCatalogLearnerBoard(session.id)
       : Promise.resolve(EMPTY_ACADEMY_CATALOG_LEARNER_BOARD),
   ]);
+  const courses = loadedCourses.filter((course) => !isJuniorCatalogSlug(course.slug));
   const lessonCounts = Object.fromEntries(
     courses
       .filter((course) => isAcademyStorefrontSlug(course.slug))

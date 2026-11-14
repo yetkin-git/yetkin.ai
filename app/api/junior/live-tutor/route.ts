@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { getSession } from "@/lib/kernel/auth/session";
+import { juniorVisibilityDenied } from "@/lib/junior/require-visibility";
 import { canonicalJuniorLessonKey } from "@/lib/junior/lesson-key-alias";
 import { isJuniorProfileClosed } from "@/lib/junior/guardian-notice";
 import { createPrismaJuniorStore } from "@/lib/junior/load";
@@ -96,8 +97,13 @@ export async function POST(request: Request) {
       return rateLimitedJsonResponse(burst, request);
     }
 
-    const rawBody: unknown = await request.json().catch(() => ({}));
     const session = await getSession(request);
+    const hidden = juniorVisibilityDenied(request, session?.email);
+    if (hidden) {
+      return hidden;
+    }
+
+    const rawBody: unknown = await request.json().catch(() => ({}));
     const userId = session?.id ?? `guest:${requestId}`;
 
     if (

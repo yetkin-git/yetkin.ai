@@ -2,6 +2,7 @@ import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import { RAIL_V1_CLIENT_SCHEMA } from "@/lib/kernel/http/v1-client-flags";
+import { juniorVisibilityDenied } from "@/lib/junior/require-visibility";
 import { juniorLessonStatus } from "@/lib/junior/chain";
 import { juniorLessonByKey } from "@/lib/junior/catalog";
 import { isJuniorProfileClosed } from "@/lib/junior/guardian-notice";
@@ -77,6 +78,10 @@ export async function GET(request: Request) {
   const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
+    const hidden = juniorVisibilityDenied(request, user.email);
+    if (hidden) {
+      return hidden;
+    }
     const store = createPrismaJuniorStore();
     const profiles = await store.listProfiles(user.id);
     const open = profiles.filter((row) => !isJuniorProfileClosed(row));

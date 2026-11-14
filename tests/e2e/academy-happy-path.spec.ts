@@ -38,7 +38,7 @@ test.describe("O8 akademi nakit & sınav yolculuğu", () => {
     await expect(page.getByText("Ders listesi")).toBeVisible();
     await expect(page.getByText(/Baraj 70/)).toBeVisible();
     await expect(page.getByText(/Kariyer'de vizeye/).first()).toBeVisible();
-    await expect(page.getByRole("link", { name: /Eğitimi Satın Al —/ }).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: /Uzmanlık Paketini Aç —/ }).first()).toBeVisible();
     await expect(page.locator('[data-academy-hero-cta="play"]')).toHaveCount(0);
 
     const verify = await page.goto("/academy/dogrula/not-a-hash");

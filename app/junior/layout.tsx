@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { AppShell } from "@/components/shell/app-shell";
+import { redirectUnlessJuniorVisible } from "@/lib/junior/require-visibility";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import {
   JUNIOR_SEO_KEYWORDS,
@@ -48,8 +49,10 @@ export const metadata: Metadata = {
     description: PAGE_SEO.junior.description,
     images: [`${PAGE_SEO.junior.path}/opengraph-image`],
   },
+  robots: { index: false, follow: false },
 };
 
-export default function JuniorLayout({ children }: { children: ReactNode }) {
+export default async function JuniorLayout({ children }: { children: ReactNode }) {
+  await redirectUnlessJuniorVisible();
   return <AppShell>{children}</AppShell>;
 }

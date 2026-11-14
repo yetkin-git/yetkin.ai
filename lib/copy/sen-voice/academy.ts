@@ -178,8 +178,8 @@ export const ACADEMY_SEN = {
     noPrice: "Fiyat henüz yok — kayıt kapalı",
     notPurchasable: "Bu eğitim şu an kayıt almıyor.",
     /** Antre hero — DURUM A. Fiyat yalnız bu CTA içinde; bağımsız ₺ satırı yok. */
-    heroBuyCta: (priceLabel: string) => `Eğitimi Satın Al — ${priceLabel}`,
-    heroBuyCtaIdle: "Satın Al",
+    heroBuyCta: (priceLabel: string) => `Uzmanlık Paketini Aç — ${priceLabel}`,
+    heroBuyCtaIdle: "Uzmanlık Paketini Aç",
     /** Süresi dolmuş lisans. Satış kapısı açıksa aynı kasa yeniden açılır. */
     renewCta: "Yenile",
     rebuyCta: "Yeniden Satın Al",
@@ -231,8 +231,8 @@ export const ACADEMY_SEN = {
       "Dersleri bitir, testi 70+ ile geç. Sertifika Kariyer sayfana işlenir. Gösterilen tutar KDV dahildir.",
     purchaseBody:
       "Dersleri bitir, testi 70+ ile geç. Sertifika ve yetkinlik Kariyer sayfana işlenir. Satın alma tek başına sertifika basmaz. Gösterilen tutar KDV dahildir. Sınav, 8 dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
-    pathTrainingCta: (priceLabel: string) => `Eğitimi Satın Al (${priceLabel})`,
-    pathTrainingCtaIdle: "Eğitimi Satın Al",
+    pathTrainingCta: (priceLabel: string) => `Uzmanlık Paketini Aç — ${priceLabel}`,
+    pathTrainingCtaIdle: "Uzmanlık Paketini Aç",
     pathTrainingBody:
       "Bu eğitim: 8 sesli ders. Sınav tüm dersler bitmeden açılmaz; baraj 70.",
     pathExamCta: (priceLabel: string) => `Testi eğitim bitince aç (${priceLabel})`,
@@ -248,7 +248,7 @@ export const ACADEMY_SEN = {
     examShield:
       "Sınav, 8 dersin tamamı bitirilmeden açılmaz. Baraj 70 puandır; satın alma tek başına belge basmaz.",
     visaPromise: (passScore: number, listingLabel: string, _listingId: string) =>
-      `Sınavı ${passScore}+ puanla tamamladığında «${listingLabel}» sertifikan Pasaport siciline işlenir ve Kariyer sayfanda doğrulanır.`,
+      `Sınavı ${passScore}+ puanla tamamladığında «${listingLabel}» sertifikan Uzmanlık Portföyüne işlenir ve Kariyer sayfanda doğrulanır.`,
     lockedHint: "Ders gövdesi ödeme sonrası açılır.",
     previewBadge: "Ücretsiz / Önizleme",
     previewPlayCta: "İzle",
@@ -293,43 +293,45 @@ export const ACADEMY_SEN = {
       ] as const,
   },
   purchase: {
-    cta: (priceLabel: string) => `Eğitimi Satın Al (${priceLabel})`,
-    ctaIdle: "Eğitimi Satın Al",
+    cta: (priceLabel: string) => `Uzmanlık Paketini Aç — ${priceLabel}`,
+    ctaIdle: "Uzmanlık Paketini Aç",
     ctaExam: (priceLabel: string) => `Testi eğitim bitince aç (${priceLabel})`,
     ctaExamIdle: "Testi eğitim bitince aç",
-    ctaTopUp: "Bakiye Yükle / Öde",
+    ctaTopUp: "PayTR Güvenli Kart Ödemesi",
+    paytrSecure: "PayTR Güvenli Kart Ödemesi",
+    opening: "Ödemeniz doğrulandı, uzmanlık paketiniz açılıyor...",
     closed: "Ödeme henüz bağlanmadı / pasif",
     closedBody:
-      "Ödeme henüz bağlanmadı / pasif. Kart ile yükleme bağlı değil. Cüzdanında harç varsa eğitimi başlat; yoksa kayıt bekler. Sahte bakiye yazılmaz.",
+      "Ödeme henüz bağlanmadı / pasif. Kart tahsilatı bağlı değil. Kayıt açık kalır. Sahte erişim yazılmaz.",
     pendingCta: "Kaydediliyor…",
     locking: (lockMinutes: number) => `Fiyat onaylanıyor — ${lockMinutes} dakika geçerli.`,
-    settling: "Bakiye onaylanıyor. Onay gelince lisans yazılır. Bu ekranı kapatma.",
+    settling: "Uzmanlık paketiniz açılıyor...",
     lockFail: "Fiyat onayı alınamadı.",
     buyFail: "Satın alma tamamlanamadı.",
     licenseDuration: "365_DAYS",
     refundLink: "İade koşulları",
     refundFootnote: "Ders açılınca dijital içerik ifası başlar. Ayrıntı bu bağlantıdadır.",
     creditPending:
-      "Ödeme bildirimi henüz cüzdana yazılmadı. Bakiye düşünce eğitim açılır. Bu ekran sahte bakiye yazmaz.",
-    creditConfirming: "1. Bakiye bildirimi bekleniyor. 2. Lisans, bakiye düşünce yazılır. Bu ekranı kapatma.",
-    paytrBridgeTitle: "Ödeme sürüyor. Bu ekranı kapatma.",
-    paytrBridgeBalanceWait: "Bakiye: PayTR bildirimi bekleniyor.",
-    paytrBridgeBalanceDone: "Bakiye adımı geçildi.",
-    paytrBridgeLicenseWait: "Lisans: bakiye onaylanınca eğitim kaydı yazılır.",
-    paytrBridgeLicenseNow: "Lisans yazılıyor.",
+      "Ödeme bildirimi henüz işlenmedi. Bildirim düşünce uzmanlık paketi açılır. Bu ekran sahte erişim yazmaz.",
+    creditConfirming: "Ödemeniz doğrulandı, uzmanlık paketiniz açılıyor...",
+    paytrBridgeTitle: "PayTR Güvenli Kart Ödemesi",
+    paytrBridgeBalanceWait: "Ödeme bildirimi bekleniyor.",
+    paytrBridgeBalanceDone: "Ödeme doğrulandı.",
+    paytrBridgeLicenseWait: "Uzmanlık paketi açılıyor.",
+    paytrBridgeLicenseNow: "Uzmanlık paketi yazılıyor.",
     creditStillPending:
-      "Ödemeniz alındıysa bildirimi hâlâ işleniyor olabilir. Birkaç dakika içinde bakiyeniz ve dersiniz kendiliğinden güncellenir; sayfayı yenileyerek kontrol edebilirsiniz.",
-    licenseUnwrittenTitle: "Lisans henüz yazılmadı",
+      "Ödeme alındıysa bildirimi hâlâ işleniyor olabilir. Birkaç dakika içinde paket kendiliğinden açılır; sayfayı yenile.",
+    licenseUnwrittenTitle: "Uzmanlık paketi henüz açılmadı",
     licenseUnwritten:
-      "Ödeme cüzdana yazılmış olabilir. Eğitim lisansı açılmadıysa bu siparişin tutarı karta iade edilmeye çalışılır. Bakiye siparişi karşılamıyorsa iade talep olarak kalır; cüzdan ekranından bakiyeyi kontrol et. Sahte lisans basılmaz.",
+      "Ödeme alındıysa paket kaydı henüz yazılmadı. Tutar iade kanalına düşer. Sipariş tutarı paketi karşılamıyorsa talep satırı durur. Sahte lisans basılmaz.",
     refundBalanceShort:
-      "Lisans yazılamadı ve cüzdan bakiyesi bu siparişi karşılamıyor. Kart iadesi talep satırı olarak durur. Cüzdanı kontrol edip destek kanalına yaz.",
+      "Paket yazılamadı ve tahsilat bu siparişi karşılamıyor. Kart iadesi talep satırı olarak durur. Destek kanalına yaz.",
     refundPaytrDown:
-      "Lisans yazılamadı. Kart iadesi şu an ödeme hattına iletilemedi. Talep satırı durur; biraz sonra cüzdanı yenile veya destek kanalına yaz.",
+      "Paket yazılamadı. Kart iadesi şu an ödeme hattına iletilemedi. Talep satırı durur; biraz sonra yenile veya destek kanalına yaz.",
     debitFailed:
-      "Bakiyeden düşüm tamamlanamadı. Lisans açılmadı. Sayfayı yenile; tutar cüzdanda duruyorsa satın almayı yeniden dene.",
-    licenseUnwrittenBalance: (label: string) => `Cüzdan bakiyesi: ${label}.`,
-    licenseUnwrittenBalanceUnread: "Cüzdan satırı bu ekranda canlı değil.",
+      "Paket kaydı tamamlanamadı. Lisans açılmadı. Sayfayı yenile; tahsilat duruyorsa satın almayı yeniden dene.",
+    licenseUnwrittenBalance: (label: string) => `İşlem satırı: ${label}.`,
+    licenseUnwrittenBalanceUnread: "İşlem satırı bu ekranda canlı değil.",
     licenseUnwrittenNext: "Lisans satırı yazılınca oynatıcı açılır. Para, lisanssız derse harcanmış sayılmaz.",
     licenseNote:
       "Lisans 365 gün. Gösterilen tutar KDV dahildir. İade koşulları bağlantıdadır. Sertifika yalnız testi 70+ ile geçince basılır.",
@@ -369,6 +371,25 @@ export const ACADEMY_SEN = {
     abandonCta: "Testten vazgeç",
     exitCta: "Çık",
     abandonLead: "Cevaplar gönderilmez. Yeniden başlayabilirsin.",
+  },
+  exemption: {
+    eyebrow: "Ücretsiz test",
+    cta: "Ücretsiz Seviye Testine Gir",
+    guestTitle: "Ücretsiz yetkinlik testi",
+    guestLead:
+      "On soru sunucuda puanlanır. Süre otuz dakikadır, baraj 70. Puanını ve rozet adaylığını kaydetmek için kayıt ol.",
+    courseLead:
+      "Seviyeni ölç. 70 ve üzeri Temel Muafiyet Rozeti basar ve resmi uzmanlık paketine öncelikli geçiştir.",
+    registerCta: "Kayıt ol ve sonucu kaydet",
+    loginCta: "Giriş yap",
+    guestNote:
+      "70 ve üzeri Temel Muafiyet Rozeti kayda geçer. Bu rozet, resmi uzmanlık paketine öncelikli geçiştir.",
+    passedTitle: "Temel Muafiyet Rozeti",
+    passed: (score: number) => `Puanın ${score}. Temel Muafiyet Rozeti kayda geçti.`,
+    passedBody:
+      "Bu sonuç, resmi uzmanlık paketine öncelikli geçişindir. Paketi katalogdaki güncel tutarla açarsın.",
+    packageCta: "Uzmanlık Paketini Aç",
+    failedBody: "Barajın altındasın. Rozet basılmaz. Pakete geçip eksiği kapatabilirsin.",
   },
   player: {
     eyebrow: (name: string) => `Eğitmen ${name}`,
@@ -741,7 +762,7 @@ export const ACADEMY_SEN = {
     description:
       "Sertifika, testi 70+ ile geçince basılır. Satın alma tek başına belge değildir. Yetkinlik Kariyer sayfasına işlenir.",
     catalogCta: "Katalog",
-    passportCta: "Pasaport",
+    passportCta: "Uzmanlık Portföyü",
     careerBridgeCta: "Kariyer",
     verifyPublicCta: "Kamu Doğrulama",
     auth: "Sertifikalar oturum ister.",
@@ -758,7 +779,7 @@ export const ACADEMY_SEN = {
     /** Doğrulanmış rozet → Kariyer erişim hakkı tek tık. */
     careerVisaCta: "Kariyer sayfasında gör",
     careerVisaLead:
-      "Doğrulanmış Rozetin Pasaport Vize Damgası olarak sicile düşer; Kariyer Erişim Hakkını açar.",
+      "Doğrulanmış Rozetin Doğrulanmış Freelancer Rozeti olarak sicile düşer; Kariyer Erişim Hakkını açar.",
     shareLinkedIn: "LinkedIn'de Paylaş",
     shareX: "X'te Paylaş",
     shareCopy: "Doğrulama bağını kopyala",

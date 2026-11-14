@@ -29,6 +29,7 @@ export const HTTP_RATE_LIMITS = {
   aiChatUser: { keyPrefix: "ai-chat-user", limit: 5, windowMs: ONE_DAY_MS },
   authIp: { keyPrefix: "auth-ip", limit: 40, windowMs: TEN_MINUTES_MS },
   adminIp: { keyPrefix: "admin-ip", limit: 20, windowMs: TEN_MINUTES_MS },
+  yetkinhibeMatchUser: { keyPrefix: "yetkinhibe-match-user", limit: 30, windowMs: TEN_MINUTES_MS },
 } as const;
 
 export const HTTP_RATE_LIMIT_ERROR = "Çok fazla istek. Biraz sonra yeniden dene.";

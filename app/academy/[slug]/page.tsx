@@ -37,8 +37,7 @@ import { curriculumSyllabusForCourseSlug } from "@/lib/academy/curriculum-syllab
 import { academyProgressPercent } from "@/lib/academy/lesson-meta";
 import { academyAntreVisaPromise } from "@/lib/academy/antre-visa";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
-import { ACADEMY_EXAM_DURATION_MS } from "@/lib/academy/exam-duration";
-import { OFF_101_EXEMPTION_ENTRY_LABEL } from "@/lib/academy/off101-exemption";
+import { OFF_101_EXEMPTION_COURSE_SLUG, OFF_101_EXEMPTION_PATH } from "@/lib/academy/off101-exemption";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { getSession } from "@/lib/kernel/auth/session";
 import { FUNNEL_VITRINE_VISIT_STEP } from "@/lib/kernel/admin/funnel-constants";
@@ -148,6 +147,9 @@ export default async function AcademyCoursePage({
     notFound();
   }
   const gate = gateQuery?.gate;
+  if (slug === OFF_101_EXEMPTION_COURSE_SLUG && gate === "exemption") {
+    redirect(OFF_101_EXEMPTION_PATH);
+  }
   const board = await loadCourseBySlug(slug);
   if (!board) {
     notFound();
@@ -202,7 +204,6 @@ export default async function AcademyCoursePage({
       : Promise.resolve(null),
   ]);
   const preferExamGate = gate === "exam" && Boolean(examGate && !examGate.certificate);
-  const exemptionGate = board.course.slug === "01_office_ai" && gate === "exemption";
   const paymentsReady = isPaymentsPortConfigured() || isPaytrMockCheckoutAllowed();
   const copy = SEN_VOICE.academy.course;
   const playerCopy = SEN_VOICE.academy.player;
@@ -345,6 +346,16 @@ export default async function AcademyCoursePage({
           />
         }
       />
+      {board.course.slug === OFF_101_EXEMPTION_COURSE_SLUG ? (
+        <Card title={SEN_VOICE.academy.exemption.guestTitle}>
+          <p className="text-sm leading-6 text-[var(--muted)]">{SEN_VOICE.academy.exemption.courseLead}</p>
+          <div className="mt-4">
+            <LinkButton href={OFF_101_EXEMPTION_PATH} size="lg" variant="success" data-academy-exemption-entry="">
+              {SEN_VOICE.academy.exemption.cta}
+            </LinkButton>
+          </div>
+        </Card>
+      ) : null}
       {previewMp4 && previewHref ? (
         <FreePreviewStage
           mp4Src={previewMp4}
@@ -369,18 +380,7 @@ export default async function AcademyCoursePage({
           label={playerCopy.progress(completedKeys.length, syllabus.lessonCount)}
         />
       ) : null}
-      {exemptionGate && session ? (
-        <ExamStartGate
-          courseId={board.course.id}
-          courseTitle={board.course.title}
-          examTitle={OFF_101_EXEMPTION_ENTRY_LABEL}
-          passScore={ACADEMY_EXAM_PASS_SCORE}
-          durationMs={ACADEMY_EXAM_DURATION_MS}
-          holderName={holderName}
-          mode="exemption"
-        />
-      ) : null}
-      {continueBoard && !revealExamGate && !exemptionGate ? <AcademyContinuePanel board={continueBoard} /> : null}
+      {continueBoard && !revealExamGate ? <AcademyContinuePanel board={continueBoard} /> : null}
       {hasAccess ? (
         enrolled && examGate?.certificate ? (
           <Card title={copy.certificateEyebrow}>

@@ -1,5 +1,7 @@
+import { getSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonOk } from "@/lib/kernel/http/json";
 import { RAIL_V1_JUNIOR_LESSON_MISSING } from "@/lib/kernel/http/v1-contract";
+import { juniorVisibilityDenied } from "@/lib/junior/require-visibility";
 import { isJuniorCoverKey } from "@/lib/junior/covers";
 import { canonicalJuniorLessonKey } from "@/lib/junior/lesson-key-alias";
 import { juniorCourseByLessonKey, juniorLessonAccess, juniorLessonByKey } from "@/lib/junior/catalog";
@@ -16,6 +18,11 @@ export async function GET(
   request: Request,
   context: { params: Promise<{ key: string }> },
 ) {
+  const session = await getSession(request);
+  const hidden = juniorVisibilityDenied(request, session?.email);
+  if (hidden) {
+    return hidden;
+  }
   const { key } = await context.params;
   const lessonKey = canonicalJuniorLessonKey(key);
   if (!isJuniorCoverKey(lessonKey)) {

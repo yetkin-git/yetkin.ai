@@ -1,37 +1,37 @@
-/** Rail SEN aksı — pasaport sığınağı. Müze sen-voice kopyalanmaz. */
+/** Rail SEN aksı — uzmanlık portföyü. Müze sen-voice kopyalanmaz. Rota `/pasaport` durur. */
 export const PASAPORT_SEN = {
-  eyebrow: "Vatandaş kanıt sığınağı",
-  title: "Pasaport",
+  eyebrow: "Uzmanlık Portföyü",
+  title: "Uzmanlık Portföyü",
   description:
-    "Doğrulanmış Rozetin Pasaport Vize Damgası olarak burada listelenir. Salt okunur — damga eklenmez. Teklif Kapısı Kariyer’de açılır.",
-  auth: "Pasaport sicili oturum ister. Sahte damga basılmaz.",
+    "Doğrulanmış Freelancer Rozeti burada listelenir. Salt okunur — rozet eklenmez. Teklif Kapısı Kariyer’de açılır.",
+  auth: "Uzmanlık Portföyü oturum ister. Sahte rozet basılmaz.",
   /** Sicil okunamadığında vatandaşa dürüst, gürültüsüz mesaj — geliştirici rozeti yok. */
-  loadSoft: "Sicil şu an okunamadı. Biraz sonra yenile; uydurma damga basılmaz.",
+  loadSoft: "Sicil şu an okunamadı. Biraz sonra yenile; uydurma rozet basılmaz.",
   stats: {
-    totalLabel: "Pasaport Vize Damgası",
-    totalHintLive: "Toplam damga",
+    totalLabel: "Doğrulanmış Freelancer Rozeti",
+    totalHintLive: "Toplam rozet",
     totalHintPending: "Bağlanınca sicil dolar",
     guest: "Oturum yok",
-    latestLabel: "Son damga",
-    latestHintLive: "Son Pasaport Vize Damgası",
+    latestLabel: "Son rozet",
+    latestHintLive: "Son Doğrulanmış Freelancer Rozeti",
     latestHintEmpty: "Uydurma başlık yok",
     sourceLabel: "Kaynak",
     sourceHint: "Akademi sınavı kökeni",
     waiting: "Bekleniyor",
   },
-  honestyTitle: "Salt okunur sığınak",
+  honestyTitle: "Salt okunur portföy",
   honestyBody:
-    "Bu odada damga ekleme veya düzenleme formu yoktur. Sertifika Akademi sınavından doğar; Kariyer damgayı basar. Pasaport yalnız kanıt sığınağıdır.",
+    "Bu sayfada rozet ekleme veya düzenleme formu yoktur. Sertifika Akademi sınavından doğar; Kariyer rozeti basar. Uzmanlık Portföyü yalnız kanıt listesidir.",
   list: {
-    title: "Pasaport Vize Damgası",
+    title: "Doğrulanmış Freelancer Rozeti",
     eyebrow: "Salt okunur sicil",
     intro:
-      "Akademi sertifikaları burada listelenir. Damgayı Kariyer basar; bu defter yalnız taşır.",
+      "Akademi sertifikaları burada listelenir. Rozeti Kariyer basar; bu defter yalnız taşır.",
     empty:
-      "Henüz damga yok. Akademi sertifikası Kariyer odasında Pasaport Vize Damgasına dönüşür; uydurma damga basılmaz.",
+      "Henüz rozet yok. Akademi sertifikası Kariyer sayfasında Doğrulanmış Freelancer Rozetine dönüşür; uydurma rozet basılmaz.",
     sealed: "Doğrulanmış Rozet",
     doorHint: "Teklif Kapısı",
-    copyVisa: "Damga anahtarını kopyala",
+    copyVisa: "Rozet anahtarını kopyala",
     hashLabel: "SHA-256 içerik özeti",
     verifyCta: "Doğrula",
     openContractCta: "Teslim sözleşmesini aç",
@@ -41,14 +41,14 @@ export const PASAPORT_SEN = {
     title: "Büyüme Beşlisi Geçiş Karnesi",
     eyebrow: "Teklif Kapısı",
     intro:
-      "Beş compact yetkinlik. Kazanılan damga ilgili uzmanlık belgesini açar; kazanılmamış sayfa kilitli kalır — uydurma damga basılmaz.",
-    locked: "Henüz damga yok / Kilitli",
+      "Beş compact yetkinlik. Kazanılan rozet ilgili uzmanlık belgesini açar; kazanılmamış sayfa kilitli kalır — uydurma rozet basılmaz.",
+    locked: "Henüz rozet yok / Kilitli",
     held: "Erişim Hakkı açık",
   },
   freelancerStrip: {
-    title: "Sertifika damgası",
+    title: "Sertifika rozeti",
     empty:
-      "Henüz teslim damgası yok. Akademi belgesi Kariyer’de görünür; uydurma damga basılmaz.",
+      "Henüz teslim rozeti yok. Akademi belgesi Kariyer’de görünür; uydurma rozet basılmaz.",
   },
   careerCta: "Kariyer",
   academyCta: "Akademiye git",

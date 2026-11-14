@@ -113,7 +113,8 @@ export function ExamStartGate({
       return;
     }
     setSitting({
-      examTitle: parsed.data.exam?.title ?? examTitle,
+      examTitle:
+        mode === "exemption" ? ACADEMY_SEN.exemption.guestTitle : (parsed.data.exam?.title ?? examTitle),
       passScore: parsed.data.exam.passScore,
       questions: parsed.data.questions,
       sessionToken: parsed.data.sessionToken,

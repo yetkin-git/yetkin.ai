@@ -207,8 +207,8 @@ export function OfficeAiGuidePreview() {
           sicildeki resmi ad yapay zeka sertifikasıdır ve doğrulama sayfasında bu adla görünür.
           Satın aldığın eğitim kütüphanende 365 gün kalır; dersleri kendi tempoda bitirir, hazır
           olduğunda testi başlatırsın. Barajın altında kalırsan belge basılmaz ama yeniden
-          deneyebilirsin; kimseye sahte rozet eklenmez. Sertifikan doğrulandığında kariyer vizesi
-          damgan da Pasaport siciline işlenir. Hazırsan sayfadaki satın alma alanına dönüp eğitimi
+          deneyebilirsin; kimseye sahte rozet eklenmez. Sertifikan doğrulandığında Doğrulanmış
+          Freelancer Rozetin de Uzmanlık Portföyüne işlenir. Hazırsan sayfadaki satın alma alanına dönüp eğitimi
           başlatabilirsin; soruların için aşağıdaki sık sorulanlar bölümü ve doğrulama sayfası her
           zaman açıktır.
         </p>

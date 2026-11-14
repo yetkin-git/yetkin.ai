@@ -6,16 +6,27 @@ test.describe("Faz 1 kamu navigasyonu", () => {
   }) => {
     const home = await page.goto("/");
     expect(home?.status()).toBeLessThan(400);
-    await expect(page.getByRole("heading", { name: "Yapay Zekâyı Öğren. Gerçek İşlerinde Kullan." })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Eğitimleri İncele" })).toHaveAttribute("href", "/academy");
+    await expect(
+      page.getByRole("heading", {
+        name: "Yetkinliğini Mühürle. Yapay Zekâ Tezgâhıyla 10 Kat Hızlı Üret. İşverenlerle Buluş.",
+      }),
+    ).toBeVisible();
+    await expect(page.getByRole("link", { name: "Uzmanlık Paketlerini İncele" }).first()).toHaveAttribute(
+      "href",
+      "/academy",
+    );
+    await expect(page.getByRole("link", { name: "Ücretsiz Yetkinlik Testine Gir" })).toHaveAttribute(
+      "href",
+      "/academy/01_office_ai/seviye",
+    );
     await expect(page.getByRole("link", { name: "Giriş Yap" })).toHaveAttribute("href", "/login");
     await expect(page.getByRole("link", { name: "Kayıt Ol" })).toHaveAttribute("href", "/register");
     await expect(page.getByRole("link", { name: "Panele geç" })).toHaveCount(0);
     await expect(page.getByRole("link", { name: "Anasayfaya geç" })).toHaveCount(0);
     await expect(page.getByRole("link", { name: "Anasayfaya gir" })).toHaveCount(0);
-    await expect(page.getByText("İş sonucu")).toBeVisible();
-    await expect(page.getByText("İlk dersi ücretsiz izle, sonra işine uygun olanı seç")).toBeVisible();
-    await expect(page.getByText("Freelancer")).toHaveCount(0);
+    await expect(page.getByText("Ücretsiz Test & Tezgâh")).toBeVisible();
+    await expect(page.getByText("Ofis & Veri AI")).toBeVisible();
+    await expect(page.getByText("Hazırlanıyor")).toHaveCount(0);
     await expect(page.getByText("İlan ver veya teklif et")).toHaveCount(0);
     await expect(page.getByText("Split pasifken")).toHaveCount(0);
     await expect(page.getByText("Belgenin vitrini")).toHaveCount(0);
@@ -36,7 +47,7 @@ test.describe("Faz 1 kamu navigasyonu", () => {
     const followed = await page.goto("/career");
     expect(followed?.status()).toBeLessThan(400);
     await expect(page).toHaveURL(/\/career\/?$/);
-    await expect(page.getByRole("heading", { name: "Kariyer vizesi" }).first()).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Doğrulanmış Freelancer Rozeti" }).first()).toBeVisible();
     await expect(page.getByText("Örnek mühürlü sertifika")).toBeVisible();
     await expect(page.getByText("Yetenek Radarı")).toHaveCount(0);
     await expect(page.getByText("SWOT")).toHaveCount(0);

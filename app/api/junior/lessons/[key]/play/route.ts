@@ -1,4 +1,5 @@
 import { requireSession } from "@/lib/kernel/auth/session";
+import { juniorVisibilityDenied } from "@/lib/junior/require-visibility";
 import { GENERIC_INTERNAL_ERROR, jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { RAIL_V1_JUNIOR_LESSON_MISSING } from "@/lib/kernel/http/v1-contract";
 import { JUNIOR_MEDIA_UNAVAILABLE, issueJuniorLessonMedia } from "@/lib/junior/media-grant";
@@ -20,6 +21,10 @@ export async function GET(
 ) {
   try {
     const user = await requireSession(request);
+    const hidden = juniorVisibilityDenied(request, user.email);
+    if (hidden) {
+      return hidden;
+    }
     const { key } = await context.params;
     const lessonKey = canonicalJuniorLessonKey(key);
     const profileId = new URL(request.url).searchParams.get("profileId");

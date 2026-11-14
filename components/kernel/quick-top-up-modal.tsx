@@ -257,6 +257,8 @@ function QuickTopUpDialog({
 
   const liveIframe = iframeUrl ?? presetIframeUrl;
   const showRetry = Boolean(presetBilling) && !liveIframe && !tokenPending;
+  const packageCheckout = lockSuggestedAmount;
+  const dialogTitle = packageCheckout ? copy.packageTitle : copy.iframeTitle;
 
   return (
     <div className="quick-top-up-overlay" role="presentation" onClick={onClose}>
@@ -270,9 +272,11 @@ function QuickTopUpDialog({
       >
         <header className="mb-4 flex items-start justify-between gap-3">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">{copy.eyebrow}</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">
+              {packageCheckout ? copy.packageTitle : copy.eyebrow}
+            </p>
             <h2 id={titleId} className="text-lg font-semibold tracking-tight text-[var(--foreground)]">
-              {copy.iframeTitle}
+              {dialogTitle}
             </h2>
           </div>
           <button
@@ -285,17 +289,23 @@ function QuickTopUpDialog({
           </button>
         </header>
         <div className="space-y-2 text-sm text-[var(--muted)]">
-          <p className="font-medium text-[var(--foreground)]">{copy.required(formatMinor(requiredMinor, currencyCode))}</p>
-          {balanceMinor != null ? <p>{copy.balance(formatMinor(balanceMinor, currencyCode))}</p> : null}
-          {shortfall > 0 ? (
+          <p className="font-medium text-[var(--foreground)]">
+            {packageCheckout
+              ? copy.packageRequired(formatMinor(requiredMinor, currencyCode))
+              : copy.required(formatMinor(requiredMinor, currencyCode))}
+          </p>
+          {!packageCheckout && balanceMinor != null ? <p>{copy.balance(formatMinor(balanceMinor, currencyCode))}</p> : null}
+          {!packageCheckout && shortfall > 0 ? (
             <p className="text-[var(--rose)]" aria-live="polite">
               {copy.shortfall(formatMinor(shortfall, currencyCode))}
             </p>
           ) : null}
-          {lockSuggestedAmount ? <p>{copy.amountLocked}</p> : null}
+          {packageCheckout ? <p>{copy.packageLocked}</p> : null}
           {sandboxLive ? <p className="text-[var(--amber)]">{copy.sandboxHint}</p> : null}
-          {isQuickTopUpMinLift(shortfall, suggested) ? <p>{copy.minLift(formatMinor(suggested, currencyCode))}</p> : null}
-          {isQuickTopUpCapped(shortfall, suggested) ? <p>{copy.capHint(maxLabel)}</p> : null}
+          {!packageCheckout && isQuickTopUpMinLift(shortfall, suggested) ? (
+            <p>{copy.minLift(formatMinor(suggested, currencyCode))}</p>
+          ) : null}
+          {!packageCheckout && isQuickTopUpCapped(shortfall, suggested) ? <p>{copy.capHint(maxLabel)}</p> : null}
         </div>
         {tokenPending && !liveIframe ? (
           <p aria-live="polite" className="mt-4 text-sm font-medium text-[var(--foreground)]">
@@ -306,7 +316,7 @@ function QuickTopUpDialog({
           <>
             <PaytrCheckoutIframe
               src={liveIframe}
-              title={copy.iframeTitle}
+              title={dialogTitle}
               className="mt-4 min-h-[24rem] w-full rounded-xl border border-[var(--border)]"
               onReturn={(event) => {
                 if (onReturn) {
@@ -335,15 +345,21 @@ function QuickTopUpDialog({
         ) : null}
         {waitingClearing ? (
           <p aria-live="polite" className="mt-3 text-xs text-slate-600">
-            {copy.waitingClearing}
+            {packageCheckout ? copy.packageWaiting : copy.waitingClearing}
           </p>
         ) : null}
         {timedOut ? (
           <p aria-live="polite" className="mt-2 text-xs text-[var(--amber)]">
-            {copy.timeout}{" "}
-            <Link href={WALLET_SURFACE_PATH} className="font-semibold text-[var(--safir-deep)] hover:underline">
-              {copy.cuzdanCta}
-            </Link>
+            {packageCheckout ? (
+              copy.packageTimeout
+            ) : (
+              <>
+                {copy.timeout}{" "}
+                <Link href={WALLET_SURFACE_PATH} className="font-semibold text-[var(--safir-deep)] hover:underline">
+                  {copy.cuzdanCta}
+                </Link>
+              </>
+            )}
           </p>
         ) : null}
       </div>

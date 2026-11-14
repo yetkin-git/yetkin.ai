@@ -2,16 +2,24 @@ import { type NextRequest, NextResponse } from "next/server";
 import { isSupabaseConfigured } from "@/lib/kernel/auth/require-session";
 import { createSupabaseCookieClient } from "@/lib/kernel/auth/supabase-server";
 import {
+  classifyGoogleOAuthFailure,
+  googleOauthCallbackReason,
+} from "@/lib/kernel/auth/google-oauth";
+import {
   AUTH_CALLBACK_ERROR_PATH,
+  isSafeAuthNextPath,
   resolveAuthCallbackNext,
   resolveAuthOrigin,
 } from "@/lib/kernel/auth/redirects";
 import { logEvent } from "@/lib/kernel/observability/log";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 
-function failRedirect(origin: string, reason: string): NextResponse {
+function failRedirect(origin: string, reason: string, nextPath?: string): NextResponse {
   const url = new URL(AUTH_CALLBACK_ERROR_PATH, `${origin}/`);
   url.searchParams.set("error", reason);
+  if (nextPath && isSafeAuthNextPath(nextPath)) {
+    url.searchParams.set("next", nextPath);
+  }
   return NextResponse.redirect(url);
 }
 
@@ -42,6 +50,20 @@ export async function GET(request: NextRequest) {
     type: requestUrl.searchParams.get("type"),
   });
 
+  const oauthError = requestUrl.searchParams.get("error")?.trim() ?? "";
+  const oauthDescription = requestUrl.searchParams.get("error_description")?.trim() ?? "";
+  if (oauthError) {
+    const reason = googleOauthCallbackReason(classifyGoogleOAuthFailure(`${oauthError} ${oauthDescription}`));
+    logEvent({
+      level: "warn",
+      event: "auth.callback",
+      requestId,
+      route: "/auth/callback",
+      reason,
+    });
+    return failRedirect(origin, reason, nextPath);
+  }
+
   if (!isSupabaseConfigured()) {
     logEvent({
       level: "warn",
@@ -50,7 +72,7 @@ export async function GET(request: NextRequest) {
       route: "/auth/callback",
       reason: "unconfigured",
     });
-    return failRedirect(origin, "auth_unconfigured");
+    return failRedirect(origin, "auth_unconfigured", nextPath);
   }
 
   if (!code || code.length > 2048) {
@@ -61,7 +83,7 @@ export async function GET(request: NextRequest) {
       route: "/auth/callback",
       reason: "missing_code",
     });
-    return failRedirect(origin, "missing_code");
+    return failRedirect(origin, "missing_code", nextPath);
   }
 
   const success = NextResponse.redirect(new URL(nextPath, `${origin}/`));
@@ -77,7 +99,8 @@ export async function GET(request: NextRequest) {
       reason: "exchange_failed",
       errorName: error.name,
     });
-    return failRedirect(origin, "auth_callback");
+    const reason = googleOauthCallbackReason(classifyGoogleOAuthFailure(error.message));
+    return failRedirect(origin, reason, nextPath);
   }
 
   logEvent({

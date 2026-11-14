@@ -116,8 +116,8 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(copy.outline.kindDocument).toBe("Makale / Okuma Metni");
     expect(copy.catalog.vatInclusiveHint).toBe("KDV dahil");
     expect(copy.catalog.priceVatInclusive("₺890,00")).toBe("₺890,00 · KDV dahil");
-    expect(copy.course.heroBuyCta("₺890,00")).toBe("Eğitimi Satın Al — ₺890,00");
-    expect(copy.purchase.cta("₺250,00")).toContain("Eğitimi Satın Al");
+    expect(copy.course.heroBuyCta("₺890,00")).toBe("Uzmanlık Paketini Aç — ₺890,00");
+    expect(copy.purchase.cta("₺250,00")).toContain("Uzmanlık Paketini Aç");
     expect(copy.purchase.cta("₺250,00")).not.toContain("& Öğren");
     expect(copy.player.resumeCta).toBe("Kaldığın Yerden Devam Et");
     expect(copy.listen.cta).toBe("Dersi Dinle");
@@ -186,7 +186,7 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     expect(readSrc("app/academy/[slug]/page.tsx")).toContain("data-academy-checkout-cta");
     expect(copy.outline.examShield).toContain("8 dersin tamamı bitirilmeden");
     expect(copy.outline.visaPromise(70, "Ofis Verimliliği", "excel-veri-otomasyon")).toContain(
-      "Pasaport siciline",
+      "Uzmanlık Portföyüne",
     );
     expect(copy.course.purchaseBody).toContain(copy.outline.examShield);
     expect(readSrc("components/academy/course-hero-actions.tsx")).toContain("data-academy-hero-identity");

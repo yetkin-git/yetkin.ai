@@ -6,7 +6,7 @@ import {
   type SealedPassportStamp,
 } from "@/lib/kernel/passport/types";
 
-export const PASSPORT_UNSET_LABEL = "Henüz damga yok" as const;
+export const PASSPORT_UNSET_LABEL = "Henüz rozet yok" as const;
 export const PASSPORT_DEFAULT_LOCALE = "tr-TR" as const;
 export const PASSPORT_DEFAULT_TIME_ZONE = "Europe/Istanbul" as const;
 

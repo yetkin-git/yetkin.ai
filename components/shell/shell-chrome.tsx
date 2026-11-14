@@ -41,16 +41,18 @@ export function ShellChrome({
   children,
   userCluster,
   showAdmin = false,
+  showJunior = false,
 }: {
   children: ReactNode;
   userCluster: ReactNode;
   showAdmin?: boolean;
+  showJunior?: boolean;
 }) {
   const [open, setOpen] = useState(false);
 
   return (
     <SidebarLayoutProvider>
-      <DesktopSidebar showAdmin={showAdmin} />
+      <DesktopSidebar showAdmin={showAdmin} showJunior={showJunior} />
 
       <div
         className={cn(
@@ -77,7 +79,7 @@ export function ShellChrome({
           </button>
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto px-3 pb-4">
-          <SidebarNav showAdmin={showAdmin} onNavigate={() => setOpen(false)} />
+          <SidebarNav showAdmin={showAdmin} showJunior={showJunior} onNavigate={() => setOpen(false)} />
         </div>
       </aside>
 

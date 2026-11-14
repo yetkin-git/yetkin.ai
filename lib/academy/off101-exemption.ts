@@ -22,6 +22,8 @@ import type {
 export const OFF_101_EXEMPTION_COURSE_SLUG = "01_office_ai" as const;
 export const OFF_101_EXEMPTION_SEAL_TITLE = "OFF-101 Muafiyet Mührü" as const;
 export const OFF_101_EXEMPTION_ENTRY_LABEL = "Doğrudan Muafiyet / Seviye Tespit Sınavı" as const;
+/** Kayıt dönüşü query taşımadığı için sınav ayrı yoldadır. Motor aynıdır. */
+export const OFF_101_EXEMPTION_PATH = "/academy/01_office_ai/seviye" as const;
 
 export type Off101ExemptionPorts = {
   academy: AcademyStore;

@@ -105,7 +105,7 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
     expect(readSrc("app/freelancer/page.tsx")).toContain("copy.passportCta");
     expect(readSrc("app/freelancer/page.tsx")).toContain("copy.careerCta");
     expect(readSrc("app/freelancer/page.tsx")).toContain("copy.certificatesCta");
-    expect(SEN_VOICE.freelancer.catalog.passportCta).toBe("Pasaport");
+    expect(SEN_VOICE.freelancer.catalog.passportCta).toBe("Uzmanlık Portföyü");
     expect(SEN_VOICE.freelancer.catalog.careerCta).toBe("Kariyer");
     expect(SEN_VOICE.freelancer.catalog.certificatesCta).toBe("Sertifikalarım");
     expect(readSrc("app/freelancer/page.tsx")).not.toContain("SquadCreateButton");
@@ -135,7 +135,7 @@ describe("freelancer vatandaş yüzeyi, güvenli ödeme ve SEN aksı", () => {
     expect(SEN_VOICE.freelancer.create.pathwayHint).toContain("Doğrulanmış Rozet");
     expect(SEN_VOICE.freelancer.create.pathwayHint).toContain("Erişim Hakkı istenmez");
     expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("Doğrulanmış Rozet");
-    expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("Pasaport Vize Damgası");
+    expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("Doğrulanmış Freelancer Rozeti");
     expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("Teklif Kapısı");
     expect(readSrc("lib/copy/sen-voice/freelancer.ts")).toContain("Erişim Hakkı");
     expect(readSrc("lib/copy/sen-voice/freelancer.ts")).not.toContain("vizesizdir");

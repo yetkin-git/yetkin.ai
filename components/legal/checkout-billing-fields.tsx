@@ -158,10 +158,24 @@ export function CheckoutBillingFields({
           onChange={(event) => patch({ address: event.target.value })}
           autoComplete="street-address"
           required
-          rows={3}
+          rows={2}
           maxLength={500}
         />
       </Label>
+      {individual ? (
+        <Label>
+          {copy.tckn}
+          <Input
+            value={value.tckn}
+            onChange={(event) => patch({ tckn: event.target.value.replace(/\D/g, "").slice(0, 11) })}
+            inputMode="numeric"
+            autoComplete="off"
+            maxLength={11}
+            data-checkout-tckn-optional=""
+          />
+          <span className="mt-1 block text-[11px] font-normal text-[var(--muted)]">{copy.tcknHint}</span>
+        </Label>
+      ) : null}
     </fieldset>
   );
 }

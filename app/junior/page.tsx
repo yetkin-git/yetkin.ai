@@ -31,6 +31,7 @@ export const metadata: Metadata = pageMetadata({
   path: PAGE_SEO.junior.path,
   image: PAGE_SEO.junior.image,
   keywords: PAGE_SEO.junior.keywords,
+  robots: { index: false, follow: false },
 });
 
 export default async function JuniorHomePage({

@@ -3,21 +3,21 @@ import { YETKIN_BRAND } from "@/lib/copy/brand";
 /** Rail SEN aksı — kariyer odası. Doğrulanmış Rozetten türetilen salt okuma damga projeksiyonu. */
 export const CAREER_SEN = {
   eyebrow: "Kariyer",
-  title: "Kariyer vizesi",
+  title: "Doğrulanmış Freelancer Rozeti",
   description:
-    "Kariyer vizesi burada görünür: Doğrulanmış Rozetin Pasaport Vize Damgasına dönüşür. Yapay zeka sertifikası Akademi sınavından türer. Teklif Kapısı işveren ağına görünürlük, mühürlü özgeçmiş bağlantısı ve proje kanıt dosyasını açar. Sahte rozet eklenmez.",
+    "Doğrulanmış Freelancer Rozeti burada görünür: Doğrulanmış Rozet Kariyer Kartına işlenir. Yapay zeka sertifikası Akademi sınavından türer. Teklif Kapısı işveren ağına görünürlük, mühürlü özgeçmiş bağlantısı ve proje kanıt dosyasını açar. Sahte rozet eklenmez.",
   faqHeading: "Sık sorulanlar",
   auth: "Kariyer sayfasını görmek için giriş yap.",
   /** Sicil okunamadığında vatandaşa dürüst, gürültüsüz mesaj — geliştirici rozeti yok. */
   loadSoft: "Kariyer bilgilerin şu an yüklenemedi. Biraz sonra sayfayı yenile.",
-  ledgerTitle: "Pasaport Vize Damgası",
-  proofsTitle: "Pasaport Vize Damgası",
-  visasTitle: "Pasaport Vize Damgaları",
+  ledgerTitle: "Doğrulanmış Freelancer Rozeti",
+  proofsTitle: "Doğrulanmış Freelancer Rozeti",
+  visasTitle: "Doğrulanmış Freelancer Rozetleri",
   proofEmpty:
-    "Henüz bir Pasaport Vize Damgan yok. Akademi'de 8 dersi bitir, testi 70+ ile geç; mühürlü sertifikan burada görünür. Satın alma tek başına damga basmaz.",
+    "Henüz bir Doğrulanmış Freelancer Rozetin yok. Akademi'de 8 dersi bitir, testi 70+ ile geç; mühürlü sertifikan burada görünür. Satın alma tek başına rozet basmaz.",
   academyCta: "Akademiye git",
   freelancerCta: "Freelancer'a git",
-  passportCta: "Pasaport",
+  passportCta: "Uzmanlık Portföyü",
   certificatesCta: "Sertifikalarım",
   freelancerBoardCta: "Freelancer İlan Panosu",
   publicTalentCta: "Kamuya açık yetkinlik kartı",
@@ -34,14 +34,14 @@ export const CAREER_SEN = {
   copied: "Kopyalandı",
   copyFail: "Kopyalanamadı",
   footnote:
-    "Pasaport Vize Damgası yalnız Akademi müfredat sınavından türer: 8 ders tamam + baraj 70. Elle basılmaz. Pasaport listeler; damgayı Kariyer basar. İptal edilmiş Akademi belgesi burada görünmez. Hedef rol, yetenek haritası veya mülakat oyunu yok.",
-  footnotePassportCta: "Pasaportu aç",
+    "Doğrulanmış Freelancer Rozeti yalnız Akademi müfredat sınavından türer: 8 ders tamam + baraj 70. Elle basılmaz. Uzmanlık Portföyü listeler; rozeti Kariyer basar. İptal edilmiş Akademi belgesi burada görünmez. Hedef rol, yetenek haritası veya mülakat oyunu yok.",
+  footnotePassportCta: "Uzmanlık Portföyünü aç",
   footnoteVerifyCta: "Sertifika doğrula",
   footnoteAcademyCta: "Akademiye git",
   ledger: {
-    eyebrow: "Pasaport Vize Damgası",
-    title: "Pasaport Vize Damgası defteri",
-    lead: "Doğrulanmış Rozetin burada Pasaport Vize Damgasına dönüşür. Paylaştığın kart doğrulanabilir bir belgedir. Sahte rozet eklenmez.",
+    eyebrow: "Doğrulanmış Freelancer Rozeti",
+    title: "Doğrulanmış Freelancer Rozeti defteri",
+    lead: "Doğrulanmış Rozetin burada Doğrulanmış Freelancer Rozetine dönüşür. Paylaştığın Kariyer Kartı doğrulanabilir bir belgedir. Sahte rozet eklenmez.",
   },
   scope: {
     eyebrow: "Teklif Kapısı",
@@ -73,8 +73,8 @@ export const CAREER_SEN = {
   /** Oturumsuz Kariyer — kişisel vize defteri yok. */
   publicRoom: {
     eyebrow: "Kariyer",
-    title: "Kariyer vizesi",
-    lead: `${YETKIN_BRAND} sertifikası Akademi sınavından türer. Geçen mühür burada kariyer vizesine dönüşür. Bu sayfa herkese açıktır. Giriş yapınca kendi vizelerin açılır.`,
+    title: "Doğrulanmış Freelancer Rozeti",
+    lead: `${YETKIN_BRAND} sertifikası Akademi sınavından türer. Geçen sonuç burada Doğrulanmış Freelancer Rozetine dönüşür. Bu sayfa herkese açıktır. Giriş yapınca kendi rozetlerin açılır.`,
     sampleEyebrow: "Örnek mühür",
     sampleTitle: "Örnek mühürlü sertifika",
     sampleNote:
@@ -102,9 +102,9 @@ export const CAREER_SEN = {
     title: "Liyakat mühürlü özgeçmiş kartı",
     description:
       "Mühürler, sertifika doğrulama bağları ve proje kanıtları. Oturum istenmez; vatandaş kimliği ve e-posta gösterilmez.",
-    landingTitle: "Kariyer vizesi kartı",
+    landingTitle: "Kariyer Kartı",
     landingLead:
-      "Bu adres bir kariyer vizesi kartıdır (Pasaport Vize Damgası). Yapay zeka sertifikası sicile bağlıdır. Bağ, Kariyer odasından kopyalanır. Uydurma kart basılmaz.",
+      "Bu adres bir Kariyer Kartıdır (Doğrulanmış Freelancer Rozeti). Yapay zeka sertifikası sicile bağlıdır. Bağ, Kariyer sayfasından kopyalanır. Uydurma kart basılmaz.",
     missing: "Kart sicilde yok",
     missingBody: "Bu bağlantıya ait canlı mühür yok. İptal edilmiş belge burada görünmez.",
     invalidFormat: "Kart anahtarı geçersiz.",
