@@ -12,6 +12,7 @@ import { WEB_ONLY_WRITE_ROUTES } from "@/lib/kernel/http/web-only-write-routes";
 import { isLlmMutationPath } from "@/lib/kernel/security/http-rate-limit";
 import { ROUTE_AUTH_MAP } from "@/lib/kernel/security/route-auth-map";
 import { TEZGAH_TOOLS, tezgahQuotaLine } from "@/lib/tezgah/catalog";
+import { DUKKAN_FILENAME } from "@/lib/tezgah/dukkan/copy";
 
 const ROOT = process.cwd();
 
@@ -55,16 +56,22 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(ROUTE_AUTH_MAP["/api/tezgah/generate"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/tezgah/quota"]).toBe("public");
     expect(ROUTE_AUTH_MAP["/api/tezgah/tetkik/generate"]).toBe("public");
+    expect(ROUTE_AUTH_MAP["/api/tezgah/dukkan/generate"]).toBe("public");
     expect(WEB_ONLY_WRITE_ROUTES.some((row) => row.method === "POST" && row.path === "/api/tezgah/generate")).toBe(
       true,
     );
     expect(
       WEB_ONLY_WRITE_ROUTES.some((row) => row.method === "POST" && row.path === "/api/tezgah/tetkik/generate"),
     ).toBe(true);
+    expect(
+      WEB_ONLY_WRITE_ROUTES.some((row) => row.method === "POST" && row.path === "/api/tezgah/dukkan/generate"),
+    ).toBe(true);
     expect(findPublishedHopId("POST", "/api/tezgah/generate")).toBeNull();
     expect(findPublishedHopId("POST", "/api/tezgah/tetkik/generate")).toBeNull();
+    expect(findPublishedHopId("POST", "/api/tezgah/dukkan/generate")).toBeNull();
     expect(findPublishedHopId("GET", "/api/tezgah/quota")).toBeNull();
     expect(isLlmMutationPath("/api/tezgah/tetkik/generate")).toBe(true);
+    expect(isLlmMutationPath("/api/tezgah/dukkan/generate")).toBe(true);
     const engine = readSrc("lib/tezgah/engine.ts");
     expect(engine).toContain("recordUsage: false");
     expect(engine).toContain("TEZGAH_MAX_OUTPUT_TOKENS");
@@ -77,6 +84,11 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(tetkikEngine).toContain("TETKIK_MAX_OUTPUT_TOKENS");
     expect(tetkikEngine).not.toContain("getPrisma");
     expect(tetkikEngine).not.toContain("amountMinor");
+    const dukkanEngine = readSrc("lib/tezgah/dukkan/engine.ts");
+    expect(dukkanEngine).not.toContain("invokeLlm");
+    expect(dukkanEngine).not.toContain("getPrisma");
+    expect(dukkanEngine).not.toContain("amountMinor");
+    expect(dukkanEngine).toContain("refundTezgahQuota");
     const workbench = readSrc("components/tezgah/workbench.tsx");
     expect(workbench).toContain("Çıktıyı Üret");
     expect(workbench).toContain("Tek Tıkla Kopyala");
@@ -95,7 +107,13 @@ describe("AI Tezgâh kamu yüzeyi", () => {
   });
 
   it("dördüncü sekme site tetkikidir; rapor yazdırılır, satın alma düğmesi yoktur", () => {
-    expect(TEZGAH_TOOLS.map((tool) => tool.id)).toEqual(["ecommerce", "proposal", "grant", "tetkik"]);
+    expect(TEZGAH_TOOLS.map((tool) => tool.id)).toEqual([
+      "ecommerce",
+      "proposal",
+      "grant",
+      "tetkik",
+      "dukkan",
+    ]);
     const tetkik = TEZGAH_TOOLS.find((tool) => tool.id === "tetkik");
     expect(tetkik?.label).toBe("Web Sitesi Tetkik");
     expect(tetkik?.cta).toBeNull();
@@ -121,5 +139,46 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(page).toContain("freelancerName");
     expect(page).toContain("loadIdentityBoard");
     expect(readSrc("app/tezgah/layout.tsx")).toContain("data-tezgah-chrome");
+  });
+
+  it("beşinci sekme sektörel dijital dükkandır; html iner, önizleme betik çalıştırmaz", () => {
+    const dukkan = TEZGAH_TOOLS.find((tool) => tool.id === "dukkan");
+    expect(dukkan?.label).toBe("Sektörel Dijital Dükkan");
+    expect(dukkan?.cta).toBeNull();
+    expect(dukkan?.fileStem).toBe("dijital-dukkan");
+    expect(dukkan?.fields.map((field) => field.name)).toEqual([
+      "businessName",
+      "sector",
+      "place",
+      "whatsapp",
+      "services",
+      "tone",
+    ]);
+    expect(dukkan?.fields.find((field) => field.name === "sector")?.options?.map((option) => option.label)).toEqual([
+      "Restoran/Kafe",
+      "Kuaför/Güzellik",
+      "Teknik Servis",
+      "Diş/Sağlık Kliniği",
+      "Emlak/Danışmanlık",
+      "Yerel Mağaza",
+    ]);
+    expect(dukkan?.fields.find((field) => field.name === "tone")?.options?.map((option) => option.label)).toEqual([
+      "Sıcak",
+      "Sakin",
+      "Net",
+      "Gece",
+      "Doğal",
+    ]);
+    const workbench = readSrc("components/tezgah/workbench.tsx");
+    expect(workbench).toContain("/api/tezgah/dukkan/generate");
+    expect(workbench).toContain("Dükkanı Üret");
+    const preview = readSrc("components/tezgah/dukkan-preview.tsx");
+    expect(DUKKAN_FILENAME).toBe("dijital-dukkan.html");
+    expect(preview).toContain("downloadHtml(DUKKAN_FILENAME, html)");
+    expect(preview).toContain("anchor.download = filename");
+    expect(preview).toContain("allow-popups allow-popups-to-escape-sandbox allow-forms");
+    expect(preview).not.toContain("allow-scripts");
+    expect(preview).toContain("srcDoc");
+    expect(preview).toContain("data-dukkan-preview");
   });
 });

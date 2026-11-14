@@ -3,6 +3,8 @@
  * Kota sayısı ve dönüşüm köprüsü burada durur; cüzdan burada yoktur.
  */
 
+import { DUKKAN_SECTORS, DUKKAN_TONES } from "@/lib/tezgah/dukkan/copy";
+
 export const TEZGAH_PATH = "/tezgah" as const;
 
 export const TEZGAH_GUEST_DAILY_LIMIT = 1;
@@ -17,11 +19,11 @@ export const TEZGAH_MEMBER_QUOTA_MESSAGE =
 export const TEZGAH_FAIL_MESSAGE =
   "Üretim tamamlanamadı. Hakkınız duruyor; biraz sonra yeniden deneyin.";
 
-export const TEZGAH_TOOL_IDS = ["ecommerce", "proposal", "grant", "tetkik"] as const;
+export const TEZGAH_TOOL_IDS = ["ecommerce", "proposal", "grant", "tetkik", "dukkan"] as const;
 
 export type TezgahToolId = (typeof TEZGAH_TOOL_IDS)[number];
 
-export type TezgahFieldKind = "text" | "textarea";
+export type TezgahFieldKind = "text" | "textarea" | "select";
 
 export type TezgahField = {
   name: string;
@@ -29,6 +31,7 @@ export type TezgahField = {
   placeholder: string;
   kind: TezgahFieldKind;
   optional?: boolean;
+  options?: readonly { value: string; label: string }[];
 };
 
 export type TezgahTool = {
@@ -155,6 +158,53 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
         placeholder: "Yılmaz Dijital",
         kind: "text",
         optional: true,
+      },
+    ],
+    cta: null,
+  },
+  {
+    id: "dukkan",
+    label: "Sektörel Dijital Dükkan",
+    blurb: "Sektöre göre tek sayfalık vitrin. Önizle, dijital-dukkan.html olarak indir.",
+    fileStem: "dijital-dukkan",
+    fields: [
+      {
+        name: "businessName",
+        label: "İşletme adı",
+        placeholder: "Karaoğlu Fırın",
+        kind: "text",
+      },
+      {
+        name: "sector",
+        label: "Sektör",
+        placeholder: "Sektör seç",
+        kind: "select",
+        options: DUKKAN_SECTORS.map((sector) => ({ value: sector.id, label: sector.label })),
+      },
+      {
+        name: "place",
+        label: "Şehir / ilçe",
+        placeholder: "Kadıköy, İstanbul",
+        kind: "text",
+      },
+      {
+        name: "whatsapp",
+        label: "WhatsApp",
+        placeholder: "0532 000 00 00",
+        kind: "text",
+      },
+      {
+        name: "services",
+        label: "Hizmetler",
+        placeholder: "Taze ekmek\nPoğaça\nSimit",
+        kind: "textarea",
+      },
+      {
+        name: "tone",
+        label: "Ton",
+        placeholder: "Ton seç",
+        kind: "select",
+        options: DUKKAN_TONES.map((tone) => ({ value: tone.id, label: tone.label })),
       },
     ],
     cta: null,

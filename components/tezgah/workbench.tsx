@@ -4,10 +4,13 @@ import { useEffect, useState, type FormEvent } from "react";
 import type { Route } from "next";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { cn } from "@/components/ui/cn";
+import { Input, INPUT_SURFACE_CLASS } from "@/components/ui/input";
 import { LinkButton } from "@/components/ui/link-button";
 import { Textarea } from "@/components/ui/textarea";
+import { DukkanPreview } from "@/components/tezgah/dukkan-preview";
 import { TetkikReportView } from "@/components/tezgah/tetkik-report";
+import { DUKKAN_FILENAME } from "@/lib/tezgah/dukkan/copy";
 import { buildCitizenRegisterHref } from "@/lib/kernel/auth/redirects";
 import {
   TEZGAH_GUEST_QUOTA_MESSAGE,
@@ -28,6 +31,13 @@ type QuotaBody = {
 
 type TetkikPayload = TetkikReport & QuotaBody;
 
+type DukkanPayload = QuotaBody & {
+  tool: "dukkan";
+  html: string;
+  score: 100;
+  filename: typeof DUKKAN_FILENAME;
+};
+
 const REGISTER_HREF = buildCitizenRegisterHref("/tezgah") as Route;
 
 function fieldReady(field: TezgahField, values: Record<string, string>): boolean {
@@ -35,10 +45,75 @@ function fieldReady(field: TezgahField, values: Record<string, string>): boolean
   if (field.optional) {
     return value.length === 0 || value.length >= 2;
   }
+  if (field.kind === "select") {
+    return (field.options ?? []).some((option) => option.value === value);
+  }
+  if (field.name === "services") {
+    const lines = value
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0);
+    return lines.length >= 3 && lines.length <= 5 && lines.every((line) => line.length >= 2 && line.length <= 80);
+  }
+  if (field.name === "whatsapp") {
+    const digits = value.replace(/\D/g, "");
+    return digits.length >= 10 && digits.length <= 12;
+  }
   if (field.name === "url") {
     return value.length >= 12;
   }
   return value.length >= 2;
+}
+
+function FieldControl({
+  field,
+  value,
+  onChange,
+}: {
+  field: TezgahField;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  if (field.kind === "textarea") {
+    return (
+      <Textarea
+        className="mt-1"
+        name={field.name}
+        value={value}
+        placeholder={field.placeholder}
+        rows={5}
+        maxLength={field.name === "services" ? 450 : undefined}
+        onChange={(event) => onChange(event.target.value)}
+      />
+    );
+  }
+  if (field.kind === "select") {
+    return (
+      <select
+        className={cn("mt-1", INPUT_SURFACE_CLASS)}
+        name={field.name}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+      >
+        <option value="">{field.placeholder}</option>
+        {(field.options ?? []).map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    );
+  }
+  return (
+    <Input
+      name={field.name}
+      type={field.name === "url" ? "url" : field.name === "whatsapp" ? "tel" : "text"}
+      value={value}
+      placeholder={field.placeholder}
+      maxLength={field.name === "whatsapp" ? 32 : undefined}
+      onChange={(event) => onChange(event.target.value)}
+    />
+  );
 }
 
 function isTetkikPayload(data: unknown): data is TetkikPayload {
@@ -52,6 +127,22 @@ function isTetkikPayload(data: unknown): data is TetkikPayload {
     typeof row.narrative === "string" &&
     typeof row.disclaimer === "string" &&
     Array.isArray(row.checks) &&
+    typeof row.remaining === "number" &&
+    typeof row.limit === "number"
+  );
+}
+
+function isDukkanPayload(data: unknown): data is DukkanPayload {
+  if (!data || typeof data !== "object") {
+    return false;
+  }
+  const row = data as Partial<DukkanPayload>;
+  return (
+    row.tool === "dukkan" &&
+    typeof row.html === "string" &&
+    row.html.length > 0 &&
+    row.score === 100 &&
+    row.filename === DUKKAN_FILENAME &&
     typeof row.remaining === "number" &&
     typeof row.limit === "number"
   );
@@ -110,6 +201,7 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
   const [quota, setQuota] = useState<QuotaBody | null>(null);
   const [markdown, setMarkdown] = useState("");
   const [report, setReport] = useState<TetkikReport | null>(null);
+  const [shop, setShop] = useState<{ html: string; score: number } | null>(null);
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -141,6 +233,7 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
   }
   const active = tool;
   const tetkik = active.id === "tetkik";
+  const dukkan = active.id === "dukkan";
 
   const fieldsReady = active.fields.every((field) => fieldReady(field, values));
   const blocked = quota != null && quota.remaining <= 0;
@@ -184,6 +277,41 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
         const data = body.data;
         setReport(data);
         setMarkdown("");
+        setShop(null);
+        setQuota({ remaining: data.remaining, limit: data.limit, guest: data.guest === true });
+        return;
+      }
+
+      if (dukkan) {
+        const payload = {
+          businessName: (values.businessName ?? "").trim(),
+          sector: (values.sector ?? "").trim(),
+          place: (values.place ?? "").trim(),
+          whatsapp: (values.whatsapp ?? "").trim(),
+          services: (values.services ?? "").trim(),
+          tone: (values.tone ?? "").trim(),
+        };
+        const response = await fetch(
+          "/api/tezgah/dukkan/generate",
+          withRailApiVersion({
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(payload),
+          }),
+        );
+        const body = (await response.json()) as { ok?: boolean; error?: string; data?: unknown };
+        if (!response.ok || body.ok === false || !isDukkanPayload(body.data)) {
+          setShop(null);
+          setError(typeof body.error === "string" ? body.error : "Çıktı üretilemedi.");
+          if (response.status === 429 && quota) {
+            setQuota({ ...quota, remaining: 0 });
+          }
+          return;
+        }
+        const data = body.data;
+        setShop({ html: data.html, score: data.score });
+        setMarkdown("");
+        setReport(null);
         setQuota({ remaining: data.remaining, limit: data.limit, guest: data.guest === true });
         return;
       }
@@ -221,6 +349,7 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
       }
       setMarkdown(body.data.markdown);
       setReport(null);
+      setShop(null);
       if (typeof body.data.remaining === "number" && typeof body.data.limit === "number") {
         setQuota({
           remaining: body.data.remaining,
@@ -267,6 +396,7 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
                   setToolId(item.id);
                   setMarkdown("");
                   setReport(null);
+                  setShop(null);
                   setError("");
                 }}
                 className={
@@ -308,33 +438,16 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
               {active.fields.map((field) => (
                 <label key={field.name} className="block text-sm font-medium text-[var(--foreground)]">
                   {field.label}
-                  {field.kind === "textarea" ? (
-                    <Textarea
-                      className="mt-1"
-                      name={field.name}
-                      value={values[field.name] ?? ""}
-                      placeholder={field.placeholder}
-                      rows={5}
-                      onChange={(event) =>
-                        setValues((current) => ({ ...current, [field.name]: event.target.value }))
-                      }
-                    />
-                  ) : (
-                    <Input
-                      name={field.name}
-                      type={field.name === "url" ? "url" : "text"}
-                      value={values[field.name] ?? ""}
-                      placeholder={field.placeholder}
-                      onChange={(event) =>
-                        setValues((current) => ({ ...current, [field.name]: event.target.value }))
-                      }
-                    />
-                  )}
+                  <FieldControl
+                    field={field}
+                    value={values[field.name] ?? ""}
+                    onChange={(next) => setValues((current) => ({ ...current, [field.name]: next }))}
+                  />
                 </label>
               ))}
               {error ? <p className="text-sm text-[var(--rose)]">{error}</p> : null}
               <Button type="submit" disabled={!fieldsReady || pending || blocked}>
-                {pending ? "Üretiliyor" : tetkik ? "Tetkiki Üret" : "Çıktıyı Üret"}
+                {pending ? "Üretiliyor" : tetkik ? "Tetkiki Üret" : dukkan ? "Dükkanı Üret" : "Çıktıyı Üret"}
               </Button>
             </form>
           </Card>
@@ -351,6 +464,21 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
                 <p className="text-sm leading-6 text-[var(--muted)]">
                   Adresi yazıp tetkiki üret. Skor kodda hesaplanır; rapor yazdırılır. Sonradan çizilen vitrin bu
                   puana girmez.
+                </p>
+              </Card>
+            </div>
+          )
+        ) : dukkan ? (
+          shop ? (
+            <div className="lg:col-span-2">
+              <DukkanPreview html={shop.html} score={shop.score} />
+            </div>
+          ) : (
+            <div className="print:hidden">
+              <Card title="Vitrin" eyebrow="Dükkan">
+                <p className="text-sm leading-6 text-[var(--muted)]">
+                  Sektörü, hizmetleri ve tonu yaz. Sayfa şablondan basılır; önizleme iframe içinde durur ve html
+                  olarak iner.
                 </p>
               </Card>
             </div>

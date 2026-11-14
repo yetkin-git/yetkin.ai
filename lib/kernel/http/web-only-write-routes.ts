@@ -297,6 +297,14 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
     "Web sitesi tetkiki. Misafir günde 1, üye günde 3. Skor kodda. Cüzdan yazılmaz. v1 hop satırı yoktur.",
   ),
   ...verbs(
+    "product-tezgah-dukkan",
+    ["POST"],
+    "/api/tezgah/dukkan/generate",
+    "product-write",
+    true,
+    "Sektörel dijital dükkan. Misafir günde 1, üye günde 3. Şablon basar, skor kodda. Cüzdan yazılmaz. v1 hop satırı yoktur.",
+  ),
+  ...verbs(
     "product-billing",
     ["PUT"],
     "/api/profile/billing",
