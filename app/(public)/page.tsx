@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { Route } from "next";
 import Link from "next/link";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
@@ -15,7 +16,7 @@ import { OFF_101_EXEMPTION_PATH } from "@/lib/academy/off101-exemption";
 
 /**
  * Marka iniş katmanı — kök adres (`/`).
- * Freelancer üretim vitrini: ücretsiz yetkinlik testi, dört adımlı zincir, beş uzmanlık.
+ * Freelancer üretim vitrini: ücretsiz yetkinlik testi, dört adımlı zincir, beşli tezgâh, beş uzmanlık.
  * Kapalı oda önizlemesi bu sayfada basılmaz.
  */
 export const metadata: Metadata = pageMetadata({
@@ -94,6 +95,31 @@ export default function PublicHomePage() {
               </li>
             ))}
           </ol>
+        </section>
+        <section className="relative mt-8 min-h-0" aria-labelledby="home-bench-heading" data-home-bench="">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
+            {copy.benchKicker}
+          </p>
+          <h2
+            id="home-bench-heading"
+            className="mt-1.5 text-xl font-semibold tracking-tight text-[var(--foreground)] sm:text-2xl"
+          >
+            {copy.benchTitle}
+          </h2>
+          <ul className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {copy.bench.map((item) => (
+              <li key={item.href}>
+                <Card variant="default" className="flex h-full flex-col p-5">
+                  <h3 className="text-base font-semibold text-[var(--foreground)]">
+                    <Link href={item.href as Route} className="hover:underline">
+                      {item.title}
+                    </Link>
+                  </h3>
+                  <p className="mt-2 flex-1 text-sm leading-6 text-[var(--muted)]">{item.body}</p>
+                </Card>
+              </li>
+            ))}
+          </ul>
         </section>
         <section className="relative mt-8 min-h-0" aria-labelledby="home-tracks-heading">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">

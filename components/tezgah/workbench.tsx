@@ -1,7 +1,10 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import type { Route } from "next";
+import { GoogleContinueButton } from "@/components/auth/google-continue-button";
+import { academyCheckoutHref } from "@/lib/academy/storefront-cta";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/components/ui/cn";
@@ -17,9 +20,13 @@ import { REKLAM_FILE_STEM } from "@/lib/tezgah/reklam/copy";
 import { buildCitizenRegisterHref } from "@/lib/kernel/auth/redirects";
 import {
   TEZGAH_GUEST_QUOTA_MESSAGE,
+  TEZGAH_MEMBER_QUOTA_MESSAGE,
   TEZGAH_TOOLS,
+  parseTezgahToolParam,
   tezgahQuotaLine,
+  tezgahToolAnchorPath,
   tezgahToolById,
+  tezgahToolHref,
   type TezgahField,
   type TezgahToolId,
 } from "@/lib/tezgah/catalog";
@@ -256,7 +263,13 @@ function downloadText(filename: string, text: string, mime: string) {
 }
 
 export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: string }) {
-  const [toolId, setToolId] = useState<TezgahToolId>("ecommerce");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const toolParam = searchParams.get("tool");
+  const pendingTool = useRef<TezgahToolId | null>(null);
+  const [toolId, setToolId] = useState<TezgahToolId>(
+    () => parseTezgahToolParam(toolParam) ?? "ecommerce",
+  );
   const [values, setValues] = useState<Record<string, string>>((): Record<string, string> => {
     const name = freelancerName.trim();
     return name ? { freelancerName: name } : {};
@@ -270,6 +283,25 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
   const [pending, setPending] = useState(false);
   const [copied, setCopied] = useState(false);
   const tool = tezgahToolById(toolId);
+
+  const resetDeliverable = useCallback(() => {
+    setMarkdown("");
+    setReport(null);
+    setShop(null);
+    setCatalog(null);
+    setError("");
+    setCopied(false);
+  }, []);
+
+  const selectTool = useCallback(
+    (id: TezgahToolId) => {
+      pendingTool.current = id;
+      setToolId(id);
+      resetDeliverable();
+      router.replace(tezgahToolHref(id) as Route, { scroll: false });
+    },
+    [resetDeliverable, router],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -291,6 +323,38 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (toolParam !== null) {
+      const next = parseTezgahToolParam(toolParam);
+      if (pendingTool.current) {
+        if (next === pendingTool.current) {
+          pendingTool.current = null;
+        }
+        return;
+      }
+      const resolved = next ?? "ecommerce";
+      if (resolved !== toolId) {
+        setToolId(resolved);
+        resetDeliverable();
+      }
+      return;
+    }
+    if (pendingTool.current) {
+      return;
+    }
+    const fromHash = parseTezgahToolParam(window.location.hash.replace(/^#/, ""));
+    if (fromHash) {
+      if (fromHash !== toolId) {
+        setToolId(fromHash);
+      }
+      return;
+    }
+    if (toolId !== "ecommerce") {
+      setToolId("ecommerce");
+      resetDeliverable();
+    }
+  }, [resetDeliverable, toolId, toolParam]);
 
   if (!tool) {
     return null;
@@ -513,6 +577,9 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
 
   const showGuestCard =
     error === TEZGAH_GUEST_QUOTA_MESSAGE || (quota?.guest === true && quota.remaining <= 0);
+  const showMemberCard =
+    !showGuestCard &&
+    (error === TEZGAH_MEMBER_QUOTA_MESSAGE || (quota?.guest === false && quota.remaining === 0));
 
   return (
     <div className="mt-6 space-y-5" data-tezgah-workbench="">
@@ -526,14 +593,7 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
                 type="button"
                 role="tab"
                 aria-selected={selected}
-                onClick={() => {
-                  setToolId(item.id);
-                  setMarkdown("");
-                  setReport(null);
-                  setShop(null);
-                  setCatalog(null);
-                  setError("");
-                }}
+                onClick={() => selectTool(item.id)}
                 className={
                   selected
                     ? "rounded-xl bg-[var(--safir)] px-3 py-2 text-sm font-semibold text-white"
@@ -551,14 +611,28 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
       </div>
 
       {showGuestCard ? (
-        <div className="print:hidden">
+        <div className="print:hidden" data-tezgah-guest-convert="">
           <Card variant="featured" title={TEZGAH_GUEST_QUOTA_MESSAGE} eyebrow="Kayıt">
             <p className="text-sm leading-6 text-[var(--muted)]">
               Misafir hakkı bugün doldu. Ücretsiz hesap günde 3 üretime açılır ve her gece yenilenir.
             </p>
-            <div className="mt-4">
+            <div className="mt-4 space-y-4">
+              <GoogleContinueButton nextPath={tezgahToolAnchorPath(active.id)} />
               <LinkButton href={REGISTER_HREF} variant="success">
                 Ücretsiz kayıt ol
+              </LinkButton>
+            </div>
+          </Card>
+        </div>
+      ) : showMemberCard ? (
+        <div className="print:hidden" data-tezgah-member-convert="">
+          <Card variant="featured" title={TEZGAH_MEMBER_QUOTA_MESSAGE} eyebrow="Üyelik">
+            <p className="text-sm leading-6 text-[var(--muted)]">
+              Düğme uzmanlık paketinin ödeme çapasına gider. Satın alma bugünkü üretim sayacını yükseltmez.
+            </p>
+            <div className="mt-4">
+              <LinkButton href={academyCheckoutHref("01_office_ai") as Route} variant="success">
+                Stüdyo Kotası Yükselt
               </LinkButton>
             </div>
           </Card>

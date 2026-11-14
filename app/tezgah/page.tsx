@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { TezgahWorkbench } from "@/components/tezgah/workbench";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
@@ -21,7 +22,11 @@ export default async function TezgahPage() {
           description="Ürün kartı, teklif, hibe ön notu, site tetkiki, dijital dükkan, reklam paketi veya pazaryeri kataloğu. Misafire günde 1, ücretsiz kayıtla günde 3 üretim."
         />
       </div>
-      <TezgahWorkbench freelancerName={freelancerName} />
+      <Suspense
+        fallback={<p className="mt-6 text-sm text-[var(--muted)] print:hidden">Tezgâh açılıyor</p>}
+      >
+        <TezgahWorkbench freelancerName={freelancerName} />
+      </Suspense>
     </RoomFrame>
   );
 }

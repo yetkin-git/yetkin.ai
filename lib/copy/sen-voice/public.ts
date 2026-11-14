@@ -23,6 +23,40 @@ export const PUBLIC_SEN = {
       "PayTR iFrame + 3D Secure. Kart numarası platformda tutulmaz",
       "Sınav ve mühür sunucuda doğrulanır; ikna yerine kanıt",
     ],
+    benchKicker: "Tezgâh vitrini",
+    benchTitle: "Beş araç, bugün teslim",
+    bench: [
+      {
+        id: "tetkik",
+        title: "Web Sitesi Tetkik",
+        body: "Esnafın ana sayfasından dijital sağlık skoru ve okunacak rapor çıkarırsın.",
+        href: "/tezgah?tool=tetkik",
+      },
+      {
+        id: "dukkan",
+        title: "Sektörel Dijital Dükkan",
+        body: "Sektöre göre tek sayfalık vitrin kurar, önizler ve html olarak indirirsin.",
+        href: "/tezgah?tool=dukkan",
+      },
+      {
+        id: "pazaryeri",
+        title: "Pazaryeri Katalog Fabrikası",
+        body: "Ürün bloklarından tablo ve csv katalog çıkarırsın.",
+        href: "/tezgah?tool=pazaryeri",
+      },
+      {
+        id: "reklam",
+        title: "Otonom Reklam Paketi",
+        body: "Üç kanca, arama metni ve görsel brifini tek pakette alırsın.",
+        href: "/tezgah?tool=reklam",
+      },
+      {
+        id: "grant",
+        title: "KOSGEB / Hibe Ön Notu",
+        body: "Sektör ve projeden destek başlığı, özet ve kontrol listesi kurarsın.",
+        href: "/tezgah?tool=grant",
+      },
+    ],
     chainKicker: "Değer zinciri",
     chainTitle: "Dört adımda sistem",
     chain: [

@@ -288,6 +288,33 @@ export function tezgahToolById(id: string): TezgahTool | null {
   return TEZGAH_TOOLS.find((tool) => tool.id === id) ?? null;
 }
 
+/** Vitrin ve sekme adresi. Yalnız katalog kimliği. */
+export function tezgahToolHref(id: TezgahToolId): string {
+  return `${TEZGAH_PATH}?tool=${id}`;
+}
+
+/**
+ * Google dönüş yolu. Auth `next` sorguyu düşürür; çapa allowlist’te kalır.
+ * Örnek: `/tezgah#tetkik`.
+ */
+export function tezgahToolAnchorPath(id: TezgahToolId): string {
+  return `${TEZGAH_PATH}#${id}`;
+}
+
+/** Boş veya yabancı değer `null`. Sekme o zaman `ecommerce` kalır. */
+export function parseTezgahToolParam(raw: string | null | undefined): TezgahToolId | null {
+  const value = (raw ?? "").trim();
+  if (!value) {
+    return null;
+  }
+  for (const id of TEZGAH_TOOL_IDS) {
+    if (id === value) {
+      return id;
+    }
+  }
+  return null;
+}
+
 export function tezgahQuotaLine(remaining: number, limit: number): string {
   return `Bugünkü ücretsiz hakkınız: ${remaining} / ${limit}`;
 }
