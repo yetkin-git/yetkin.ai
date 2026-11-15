@@ -76,6 +76,10 @@ function bind(
       const store = state.stores.find((row) => row.id === storeId && row.ownerUserId === ownerUserId);
       return store ? clone(store) : null;
     },
+    async findStoreById(storeId) {
+      const store = state.stores.find((row) => row.id === storeId);
+      return store ? clone(store) : null;
+    },
     async slugTaken(slug) {
       return state.stores.some((store) => store.slug === slug);
     },

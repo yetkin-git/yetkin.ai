@@ -18,6 +18,7 @@ export type CommerceRepository = {
   transaction<T>(fn: (repo: CommerceRepository) => Promise<T>): Promise<T>;
   listStores(ownerUserId: string): Promise<StoreRow[]>;
   findStoreForOwner(ownerUserId: string, storeId: string): Promise<StoreRow | null>;
+  findStoreById(storeId: string): Promise<StoreRow | null>;
   slugTaken(slug: string): Promise<boolean>;
   insertStore(row: StoreRow): Promise<StoreRow>;
   updateStore(row: StoreRow): Promise<StoreRow>;

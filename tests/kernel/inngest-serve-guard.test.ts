@@ -115,6 +115,7 @@ describe("Inngest imza fail-closed", () => {
       "ledger-reconciliation-scan",
       "escrow-timeout-scan",
       "escrow-ttl-approaching-scan",
+      "trendyol-order-pull",
     ]);
     expect(
       resolveInngestServeMode({

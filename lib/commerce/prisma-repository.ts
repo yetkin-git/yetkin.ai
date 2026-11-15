@@ -162,6 +162,10 @@ function bindPrisma(db: CommerceDb, nested: boolean): CommerceRepository {
       const row = await db.commerceStore.findFirst({ where: { id: storeId, ownerUserId } });
       return row ? storeFrom(row) : null;
     },
+    async findStoreById(storeId) {
+      const row = await db.commerceStore.findUnique({ where: { id: storeId } });
+      return row ? storeFrom(row) : null;
+    },
     async slugTaken(slug) {
       const row = await db.commerceStore.findUnique({ where: { slug }, select: { id: true } });
       return row != null;

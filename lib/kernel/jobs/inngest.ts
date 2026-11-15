@@ -20,6 +20,7 @@ export const INNGEST_EVENTS = {
   ESCROW_REFUNDED: "escrow/refunded",
   ESCROW_TTL_APPROACHING: "escrow/ttl-approaching",
   ACADEMY_RECEIPT_REQUESTED: "academy/receipt-requested",
+  TRENDYOL_STOCK_PUSH_REQUESTED: "commerce/trendyol.stock-push-requested",
 } as const;
 
 export const paytrClearingScan = inngest.createFunction(
@@ -371,6 +372,64 @@ export const academyReceiptSend = inngest.createFunction(
   },
 );
 
+export const trendyolStockPush = inngest.createFunction(
+  {
+    id: "trendyol-stock-push",
+    name: "Trendyol stok itme",
+    retries: 4,
+    triggers: [{ event: INNGEST_EVENTS.TRENDYOL_STOCK_PUSH_REQUESTED }],
+    onFailure: async ({ event, error }) => {
+      const data = event.data as {
+        event?: { data?: { listingId?: unknown; onHandAfter?: unknown; amountMinor?: unknown } };
+      };
+      const original = data.event?.data;
+      const listingId = typeof original?.listingId === "string" ? original.listingId : "";
+      const onHandAfter = typeof original?.onHandAfter === "number" ? original.onHandAfter : NaN;
+      const amountMinor = typeof original?.amountMinor === "number" ? original.amountMinor : NaN;
+      const message = error instanceof Error ? error.message : "Trendyol stok itme başarısız.";
+      const { markTrendyolListingFailed } = await import("@/lib/commerce/trendyol-sync");
+      const { liveTrendyolPorts } = await import("@/lib/commerce/trendyol-live");
+      await markTrendyolListingFailed(liveTrendyolPorts(), { listingId, onHandAfter, amountMinor, message });
+    },
+  },
+  async ({ event, step }) => {
+    const data = event.data as {
+      listingId?: unknown;
+      storeId?: unknown;
+      onHandAfter?: unknown;
+      amountMinor?: unknown;
+    };
+    return step.run("push-trendyol-stock", async () => {
+      const { pushTrendyolListingStock } = await import("@/lib/commerce/trendyol-sync");
+      const { liveTrendyolPorts } = await import("@/lib/commerce/trendyol-live");
+      return pushTrendyolListingStock(liveTrendyolPorts(), {
+        listingId: typeof data.listingId === "string" ? data.listingId : "",
+        storeId: typeof data.storeId === "string" ? data.storeId : "",
+        onHandAfter: typeof data.onHandAfter === "number" ? data.onHandAfter : NaN,
+        amountMinor: typeof data.amountMinor === "number" ? data.amountMinor : NaN,
+      });
+    });
+  },
+);
+
+export const trendyolOrderPull = inngest.createFunction(
+  {
+    id: "trendyol-order-pull",
+    name: "Trendyol sipariş çekme",
+    triggers: [{ cron: "TZ=Europe/Istanbul */30 * * * *" }],
+  },
+  async ({ step }) => {
+    return step.run("pull-trendyol-orders", async () => {
+      if (!process.env.DATABASE_URL?.trim()) {
+        return { stores: 0, lines: 0, stockShort: 0 };
+      }
+      const { pullTrendyolOrders } = await import("@/lib/commerce/trendyol-sync");
+      const { liveTrendyolPorts } = await import("@/lib/commerce/trendyol-live");
+      return pullTrendyolOrders(liveTrendyolPorts());
+    });
+  },
+);
+
 export const kernelInngestFunctions = [
   paytrClearingScan,
   paytrClearingSingle,
@@ -380,6 +439,8 @@ export const kernelInngestFunctions = [
   escrowTtlApproachingScan,
   escrowTtlApproachingNotify,
   academyReceiptSend,
+  trendyolStockPush,
+  trendyolOrderPull,
 ];
 
 export function inngestNotConfiguredResponse(requestId?: string) {

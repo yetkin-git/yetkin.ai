@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import { inventoryDirectionMatches, movementAllowed, sellableQty } from "@/lib/commerce/inventory-gate";
 import { isInventoryIdempotencyRace } from "@/lib/commerce/inventory-sql";
 import { CommerceRollback, CommerceWriteConflict, type CommerceRepository } from "@/lib/commerce/repository";
+import { logTrendyolEnqueueFailure, publishAppliedTrendyolStock } from "@/lib/commerce/trendyol-publish";
 import {
   commerceFail,
   type CatalogMode,
@@ -663,8 +664,9 @@ export async function postCommerceInventory(
     return commerceFail(422, "Hareket tipi ile yön örtüşmüyor.");
   }
   const key = inventoryIdempotencyKey(httpKey, 0);
+  const appliedPushes: Array<{ variantId: string; onHandAfter: number; amountMinor: number | null }> = [];
   try {
-    return await settle(repo, async (tx) => {
+    const result = await settle(repo, async (tx) => {
       await requireStore(tx, userId, storeId);
       const prior = await tx.findMovementForOwner(userId, key);
       if (prior) {
@@ -715,8 +717,29 @@ export async function postCommerceInventory(
       if (moved.outcome === "missing") {
         rollback(404, MISSING);
       }
+      if (moved.outcome === "applied") {
+        appliedPushes.push({
+          variantId: moved.variant.id,
+          onHandAfter: moved.variant.onHandQty,
+          amountMinor: moved.variant.amountMinor,
+        });
+      }
       return { ok: true, data: { movement: movementJson(moved.movement, moved.variant) } };
     });
+    const push = appliedPushes[0];
+    if (result.ok && push) {
+      try {
+        await publishAppliedTrendyolStock({
+          storeId,
+          variantId: push.variantId,
+          onHandAfter: push.onHandAfter,
+          amountMinor: push.amountMinor,
+        });
+      } catch (error) {
+        logTrendyolEnqueueFailure(error);
+      }
+    }
+    return result;
   } catch (error) {
     if (!isInventoryIdempotencyRace(error)) {
       throw error;

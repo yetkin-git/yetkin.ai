@@ -1,8 +1,8 @@
-/// Yetkin Commerce Aşama 1 — mağaza, Master SKU ve append-only stok defteri.
+/// Yetkin Commerce — mağaza, Master SKU, append-only stok defteri, Trendyol kasası.
 /// Sahiplik kolonu `owner_user_id` kasıtlıdır: canlı RLS sahiplik sicilinde yoktur.
 /// PostgREST `rls_deny_unscoped` (SELECT USING false) alır. Yazma politikası üretilmez.
-/// Fiyat `amount_minor`. Para birimi mağazada, Aşama 1'de yalnız TRY.
-/// Pazaryeri çağrısı, kanal kimliği, sipariş, kargo ve abonelik bu şemada yoktur.
+/// Fiyat `amount_minor`. Para birimi mağazada yalnız TRY.
+/// Uzak stok `on_hand_qty` üzerine yazılmaz. Kargo etiketi ve abonelik bu şemada yoktur.
 
 enum CommerceStoreStatus {
   DRAFT
@@ -39,6 +39,21 @@ enum InventoryTransactionType {
   RETURN
 }
 
+enum CommerceChannel {
+  TRENDYOL
+}
+
+enum CommerceListingSyncStatus {
+  PENDING
+  SYNCED
+  FAILED
+}
+
+enum CommerceWebhookReceiptStatus {
+  APPLIED
+  STOCK_SHORT
+}
+
 model CommerceStore {
   id           String              @id @default(cuid())
   ownerUserId  String              @map("owner_user_id")
@@ -49,10 +64,13 @@ model CommerceStore {
   createdAt    DateTime            @default(now()) @map("created_at")
   updatedAt    DateTime            @updatedAt @map("updated_at")
 
-  owner     User                   @relation(fields: [ownerUserId], references: [id], onDelete: Restrict)
-  products  CommerceProduct[]
-  variants  CommerceVariant[]
-  movements InventoryTransaction[]
+  owner           User                              @relation(fields: [ownerUserId], references: [id], onDelete: Restrict)
+  products        CommerceProduct[]
+  variants        CommerceVariant[]
+  movements       InventoryTransaction[]
+  credentials     CommerceMarketplaceCredential[]
+  channelListings CommerceChannelListing[]
+  webhookReceipts CommerceMarketplaceWebhookReceipt[]
 
   @@index([ownerUserId, createdAt])
   @@map("commerce_stores")
@@ -93,9 +111,11 @@ model CommerceVariant {
   createdAt    DateTime              @default(now()) @map("created_at")
   updatedAt    DateTime              @updatedAt @map("updated_at")
 
-  store     CommerceStore          @relation(fields: [storeId], references: [id], onDelete: Restrict)
-  product   CommerceProduct        @relation(fields: [productId, storeId], references: [id, storeId], onDelete: Restrict)
-  movements InventoryTransaction[]
+  store           CommerceStore                      @relation(fields: [storeId], references: [id], onDelete: Restrict)
+  product         CommerceProduct                    @relation(fields: [productId, storeId], references: [id, storeId], onDelete: Restrict)
+  movements       InventoryTransaction[]
+  channelListings CommerceChannelListing[]
+  webhookReceipts CommerceMarketplaceWebhookReceipt[]
 
   @@unique([storeId, sku])
   @@unique([id, storeId])
@@ -123,4 +143,70 @@ model InventoryTransaction {
   @@index([variantId, createdAt])
   @@index([storeId, createdAt])
   @@map("inventory_transactions")
+}
+
+/// Trendyol satıcı kimliği. Düz `supplierId`, `apiKey` ve `apiSecret` kolonu yoktur.
+/// Mühür `ccred1:` ve AAD `alan:storeId:TRENDYOL`. Okuma `supplier_hint` ile maskelenir.
+model CommerceMarketplaceCredential {
+  id            String          @id @default(cuid())
+  storeId       String          @map("store_id")
+  channel       CommerceChannel
+  supplierHint  String          @map("supplier_hint") @db.VarChar(4)
+  supplierSeal  String          @map("supplier_seal") @db.Text
+  apiKeySeal    String          @map("api_key_seal") @db.Text
+  apiSecretSeal String          @map("api_secret_seal") @db.Text
+  createdAt     DateTime        @default(now()) @map("created_at")
+  updatedAt     DateTime        @updatedAt @map("updated_at")
+
+  store CommerceStore @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  @@unique([storeId, channel], map: "commerce_credentials_store_channel_uidx")
+  @@index([channel, supplierHint], map: "commerce_credentials_hint_idx")
+  @@map("commerce_marketplace_credentials")
+}
+
+/// Varyantın Trendyol ilan yansısı. Senkron durumu burada durur; stok deftere yazılır.
+model CommerceChannelListing {
+  id              String                     @id @default(cuid())
+  storeId         String                     @map("store_id")
+  variantId       String                     @map("variant_id")
+  channel         CommerceChannel
+  sku             String                     @db.VarChar(64)
+  barcode         String                     @db.VarChar(14)
+  remoteBarcode   String                     @map("remote_barcode") @db.VarChar(40)
+  remoteProductId String?                    @map("remote_product_id") @db.VarChar(64)
+  syncStatus      CommerceListingSyncStatus  @default(PENDING) @map("sync_status")
+  lastError       String                     @default("") @map("last_error") @db.VarChar(500)
+  lastSyncedAt    DateTime?                  @map("last_synced_at")
+  createdAt       DateTime                   @default(now()) @map("created_at")
+  updatedAt       DateTime                   @updatedAt @map("updated_at")
+
+  store   CommerceStore   @relation(fields: [storeId], references: [id], onDelete: Restrict)
+  variant CommerceVariant @relation(fields: [variantId, storeId], references: [id, storeId], onDelete: Restrict)
+
+  @@unique([variantId, channel], map: "commerce_listings_variant_channel_uidx")
+  @@unique([storeId, channel, remoteBarcode], map: "commerce_listings_remote_barcode_uidx")
+  @@index([storeId, channel, syncStatus], map: "commerce_listings_store_status_idx")
+  @@map("commerce_channel_listings")
+}
+
+/// Paket + satır mührü. Aynı tane ikinci `SALE` açmaz. `STOCK_SHORT` sessizce kapanmaz.
+model CommerceMarketplaceWebhookReceipt {
+  id              String                         @id @default(cuid())
+  storeId         String                         @map("store_id")
+  variantId       String                         @map("variant_id")
+  channel         CommerceChannel
+  externalOrderId String                         @map("external_order_id") @db.VarChar(64)
+  lineId          String                         @map("line_id") @db.VarChar(64)
+  status          CommerceWebhookReceiptStatus
+  quantity        Int
+  note            String                         @default("") @db.VarChar(500)
+  createdAt       DateTime                       @default(now()) @map("created_at")
+
+  store   CommerceStore   @relation(fields: [storeId], references: [id], onDelete: Restrict)
+  variant CommerceVariant @relation(fields: [variantId, storeId], references: [id, storeId], onDelete: Restrict)
+
+  @@unique([storeId, channel, externalOrderId, lineId], map: "commerce_webhook_receipts_line_uidx")
+  @@index([storeId, createdAt], map: "commerce_webhook_receipts_store_idx")
+  @@map("commerce_marketplace_webhook_receipts")
 }

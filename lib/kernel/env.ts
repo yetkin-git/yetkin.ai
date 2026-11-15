@@ -52,6 +52,7 @@ const envSchema = z.object({
   JUNIOR_ALLOWED_EMAILS: z.string().optional(),
   JUNIOR_CHECKOUT_OPEN: z.string().optional(),
   JUNIOR_INVOICE_SEAL_KEY: z.string().optional(),
+  COMMERCE_CREDENTIAL_ENCRYPTION_KEY: z.string().optional(),
   ACADEMY_EXAM_SITTING_SECRET: z.string().optional(),
   ACADEMY_MEDIA_READ: z.string().optional(),
   PAYTR_ALLOW_MOCK_CHECKOUT: z.string().optional(),

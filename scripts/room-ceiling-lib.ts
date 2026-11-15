@@ -21,7 +21,8 @@ export const WORKBENCH_LIB_DIRS = ["tezgah"] as const;
 
 /**
  * Yetkin Commerce çekirdeği. Kamu vitrin değildir.
- * `lib/commerce` mağaza, Master SKU ve stok defteridir. Pazaryeri çağrısı bu klasöre yazılmaz.
+ * `lib/commerce` mağaza, Master SKU, stok defteri ve Trendyol kasasıdır.
+ * Uzak stok yerel deftere yazılmaz. Kargo ve Hepsiburada bu klasöre yazılmaz.
  */
 export const COMMERCE_LIB_DIRS = ["commerce"] as const;
 

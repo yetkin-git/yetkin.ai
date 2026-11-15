@@ -425,7 +425,9 @@ describe("Yetkin Commerce Aşama 1", () => {
     const schema = read("prisma/schema/commerce.prisma");
     expect(schema).toContain('@@map("commerce_stores")');
     expect(schema).toContain('@@map("inventory_transactions")');
-    const ledgerModel = schema.slice(schema.indexOf("model InventoryTransaction"));
+    const ledgerStart = schema.indexOf("model InventoryTransaction");
+    const ledgerEnd = schema.indexOf("\nmodel ", ledgerStart + 1);
+    const ledgerModel = schema.slice(ledgerStart, ledgerEnd === -1 ? undefined : ledgerEnd);
     expect(ledgerModel).not.toContain("updatedAt");
     expect(INVENTORY_MOVE_SQL).toContain("FOR UPDATE OF v");
     expect(INVENTORY_MOVE_SQL).toContain("on_hand_qty - l.safety_buffer");
