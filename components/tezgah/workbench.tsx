@@ -74,6 +74,12 @@ type CatalogPreview = {
   csv: string;
 };
 
+type TetkikHandoff = {
+  businessName: string;
+  pageTitle: string;
+  url: string;
+};
+
 const REGISTER_HREF = buildCitizenRegisterHref("/tezgah") as Route;
 
 function fieldReady(field: TezgahField, values: Record<string, string>): boolean {
@@ -395,6 +401,7 @@ export function TezgahWorkbench({
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [handoff, setHandoff] = useState<TetkikHandoff | null>(null);
   const tool = tezgahToolById(toolId);
 
   const resetDeliverable = useCallback(() => {
@@ -409,7 +416,10 @@ export function TezgahWorkbench({
   }, []);
 
   const selectTool = useCallback(
-    (id: TezgahToolId) => {
+    (id: TezgahToolId, options?: { keepHandoff?: boolean }) => {
+      if (!options?.keepHandoff) {
+        setHandoff(null);
+      }
       pendingTool.current = id;
       setToolId(id);
       resetDeliverable();
@@ -449,6 +459,9 @@ export function TezgahWorkbench({
         return;
       }
       const resolved = next ?? "ecommerce";
+      if (resolved !== "dukkan") {
+        setHandoff(null);
+      }
       if (resolved !== toolId) {
         setToolId(resolved);
         resetDeliverable();
@@ -460,12 +473,16 @@ export function TezgahWorkbench({
     }
     const fromHash = parseTezgahToolParam(window.location.hash.replace(/^#/, ""));
     if (fromHash) {
+      if (fromHash !== "dukkan") {
+        setHandoff(null);
+      }
       if (fromHash !== toolId) {
         setToolId(fromHash);
       }
       return;
     }
     if (toolId !== "ecommerce") {
+      setHandoff(null);
       setToolId("ecommerce");
       resetDeliverable();
     }
@@ -822,6 +839,19 @@ export function TezgahWorkbench({
         <div className="print:hidden">
           <Card title={active.label} eyebrow="Girdi">
             <p className="mb-4 text-sm leading-6 text-[var(--muted)]">{active.blurb}</p>
+            {dukkan && handoff ? (
+              <p className="mb-4 text-sm leading-6 text-[var(--foreground)]" data-tetkik-handoff="">
+                Tetkikten taşındı. İşletme adı forma yazıldı.
+                {handoff.pageTitle ? ` Ölçülen sayfa başlığı: ${handoff.pageTitle}.` : ""}
+                {handoff.url ? (
+                  <>
+                    {" "}
+                    Adres: <span className="break-all">{handoff.url}</span>.
+                  </>
+                ) : null}{" "}
+                Sektör, yer, WhatsApp ve hizmetleri tamamlayıp dükkanı üretin.
+              </p>
+            ) : null}
             <form className="space-y-4" onSubmit={onSubmit}>
               {active.fields.map((field) => (
                 <label key={field.name} className="block text-sm font-medium text-[var(--foreground)]">
@@ -891,7 +921,22 @@ export function TezgahWorkbench({
         ) : tetkik ? (
           report ? (
             <div className="lg:col-span-2">
-              <TetkikReportView report={report} />
+              <TetkikReportView
+                report={report}
+                onRebuild={() => {
+                  const businessName = report.businessName.trim();
+                  if (businessName.length < 2) {
+                    return;
+                  }
+                  setHandoff({
+                    businessName,
+                    pageTitle: report.pageTitle.trim(),
+                    url: report.url.trim(),
+                  });
+                  setValues((current) => ({ ...current, businessName }));
+                  selectTool("dukkan", { keepHandoff: true });
+                }}
+              />
             </div>
           ) : (
             <div className="print:hidden">

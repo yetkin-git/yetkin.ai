@@ -165,6 +165,12 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(report).toContain("data-tetkik-report");
     expect(report).toContain("window.print()");
     expect(report).toContain("print:hidden");
+    expect(report).toContain("Mevcut Siteyi Düzenle (Revizyon Paketi)");
+    expect(report).toContain("Sıfırdan Yeniden İnşa Et (Dijital Dükkan)");
+    expect(report).toContain("data-tetkik-revision");
+    expect(report).toContain("data-tetkik-rebuild");
+    expect(workbench).toContain("data-tetkik-handoff");
+    expect(workbench).toContain('selectTool("dukkan"');
     expect(report).not.toContain("/academy");
     expect(report).not.toContain("fiyat");
     const page = readSrc("app/tezgah/page.tsx");

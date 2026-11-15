@@ -3,7 +3,9 @@
 import { useState } from "react";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { renderTetkikReportMarkdown } from "@/lib/tezgah/tetkik/prompts";
+import { buildTetkikRevisionPack } from "@/lib/tezgah/tetkik/revision";
 import type { TetkikReport } from "@/lib/tezgah/tetkik/types";
 
 function formatMeasuredAt(iso: string): string {
@@ -18,9 +20,17 @@ function formatMeasuredAt(iso: string): string {
   }).format(date);
 }
 
-export function TetkikReportView({ report }: { report: TetkikReport }) {
+export function TetkikReportView({
+  report,
+  onRebuild,
+}: {
+  report: TetkikReport;
+  onRebuild: () => void;
+}) {
   const [copied, setCopied] = useState(false);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
   const markdown = renderTetkikReportMarkdown(report);
+  const revision = buildTetkikRevisionPack(report);
   const accent =
     report.action.stage === "ads"
       ? "border-[var(--emerald)]"
@@ -37,7 +47,17 @@ export function TetkikReportView({ report }: { report: TetkikReport }) {
     }
   }
 
+  async function copyRevision(id: string, text: string) {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedField(id);
+    } catch {
+      setCopiedField(null);
+    }
+  }
+
   return (
+    <div className="space-y-5">
     <article
       data-tetkik-report=""
       data-tetkik-score={report.score}
@@ -125,5 +145,72 @@ export function TetkikReportView({ report }: { report: TetkikReport }) {
         </Button>
       </div>
     </article>
+
+    <div className="grid gap-4 print:hidden lg:grid-cols-[minmax(0,1.4fr)_minmax(0,0.8fr)]" data-tetkik-next="">
+      <Card
+        variant="featured"
+        eyebrow="Seçenek A"
+        title="Mevcut Siteyi Düzenle (Revizyon Paketi)"
+        className="print:hidden"
+        bodyClassName="text-[var(--foreground)]"
+      >
+        <div data-tetkik-revision="">
+          <p className="text-sm leading-6 text-[var(--muted)]">
+            Kalan maddelere göre yapıştırmaya hazır metin. Çağrı bloğundaki numarayı kendi hattınızla değiştirin.
+          </p>
+          {revision.leftovers.length > 0 ? (
+            <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
+              Metinle kapanmayan maddeler: {revision.leftovers.join(", ")}. Yeniden inşa bunları hazır şablonda toplar.
+            </p>
+          ) : null}
+          <div className="mt-4 flex justify-end">
+            <Button type="button" variant="secondary" size="sm" onClick={() => void copyRevision("all", revision.markdown)}>
+              {copiedField === "all" ? "Kopyalandı" : "Revizyon paketini kopyala"}
+            </Button>
+          </div>
+          <ul className="mt-4 space-y-4">
+            {revision.fields.map((field) => (
+              <li key={field.id} className="rounded-xl border border-[var(--border)] p-3" data-tetkik-revision-field={field.id}>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h3 className="text-sm font-semibold text-[var(--foreground)]">{field.label}</h3>
+                  <span className={field.gap ? "text-xs font-semibold text-[var(--rose)]" : "text-xs font-semibold text-[var(--emerald)]"}>
+                    {field.gap ? "Kaldı" : "Geçti"}
+                  </span>
+                </div>
+                <p className="mt-1 text-sm leading-6 text-[var(--muted)]">{field.note}</p>
+                <pre className="mt-2 overflow-x-auto whitespace-pre-wrap break-words rounded-lg bg-[var(--surface-muted)] p-3 text-sm leading-6 text-[var(--foreground)]">
+                  {field.text}
+                </pre>
+                <div className="mt-2">
+                  <Button type="button" variant="outline" size="sm" onClick={() => void copyRevision(field.id, field.text)}>
+                    {copiedField === field.id ? "Kopyalandı" : "Kopyala"}
+                  </Button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Card>
+
+      <Card eyebrow="Seçenek B" title="Sıfırdan Yeniden İnşa Et" className="h-fit print:hidden">
+        <div data-tetkik-rebuild="">
+          <p className="text-sm leading-6 text-[var(--muted)]">
+            İşletme adı ve ölçülen sayfa bilgisi Sektörel Dijital Dükkan formuna taşınır. Sektör, yer, WhatsApp ve
+            hizmetleri tamamlayıp yeni vitrini üretin.
+          </p>
+          <div className="mt-4">
+            <Button
+              type="button"
+              className="w-full whitespace-normal px-4 py-2 text-center"
+              style={{ height: "auto", minHeight: "2.5rem" }}
+              onClick={onRebuild}
+            >
+              Sıfırdan Yeniden İnşa Et (Dijital Dükkan)
+            </Button>
+          </div>
+        </div>
+      </Card>
+    </div>
+    </div>
   );
 }
