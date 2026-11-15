@@ -1,0 +1,126 @@
+/// Yetkin Commerce Aşama 1 — mağaza, Master SKU ve append-only stok defteri.
+/// Sahiplik kolonu `owner_user_id` kasıtlıdır: canlı RLS sahiplik sicilinde yoktur.
+/// PostgREST `rls_deny_unscoped` (SELECT USING false) alır. Yazma politikası üretilmez.
+/// Fiyat `amount_minor`. Para birimi mağazada, Aşama 1'de yalnız TRY.
+/// Pazaryeri çağrısı, kanal kimliği, sipariş, kargo ve abonelik bu şemada yoktur.
+
+enum CommerceStoreStatus {
+  DRAFT
+  ACTIVE
+}
+
+enum CommerceProductStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum CommerceVariantStatus {
+  DRAFT
+  ACTIVE
+  PASSIVE
+}
+
+enum CommerceCatalogSource {
+  MANUAL
+  MANUAL_CSV
+  TEZGAH_PAZARYERI
+}
+
+enum InventoryDirection {
+  IN
+  OUT
+}
+
+enum InventoryTransactionType {
+  INBOUND
+  SALE
+  ADJUSTMENT
+  RETURN
+}
+
+model CommerceStore {
+  id           String              @id @default(cuid())
+  ownerUserId  String              @map("owner_user_id")
+  name         String              @db.VarChar(80)
+  slug         String              @unique @db.VarChar(48)
+  status       CommerceStoreStatus @default(DRAFT)
+  currencyCode String              @default("TRY") @db.Char(3) @map("currency_code")
+  createdAt    DateTime            @default(now()) @map("created_at")
+  updatedAt    DateTime            @updatedAt @map("updated_at")
+
+  owner     User                   @relation(fields: [ownerUserId], references: [id], onDelete: Restrict)
+  products  CommerceProduct[]
+  variants  CommerceVariant[]
+  movements InventoryTransaction[]
+
+  @@index([ownerUserId, createdAt])
+  @@map("commerce_stores")
+}
+
+model CommerceProduct {
+  id            String                @id @default(cuid())
+  storeId       String                @map("store_id")
+  title         String                @db.VarChar(200)
+  description   String                @db.Text
+  category      String                @db.VarChar(80)
+  attributes    Json                  @default("[]")
+  otherNote     String                @default("") @map("other_note") @db.VarChar(500)
+  listingMarket String?               @map("listing_market") @db.VarChar(32)
+  source        CommerceCatalogSource
+  status        CommerceProductStatus @default(DRAFT)
+  createdAt     DateTime              @default(now()) @map("created_at")
+  updatedAt     DateTime              @updatedAt @map("updated_at")
+
+  store    CommerceStore     @relation(fields: [storeId], references: [id], onDelete: Restrict)
+  variants CommerceVariant[]
+
+  @@unique([id, storeId])
+  @@index([storeId, status, createdAt])
+  @@map("commerce_products")
+}
+
+model CommerceVariant {
+  id           String                @id @default(cuid())
+  storeId      String                @map("store_id")
+  productId    String                @map("product_id")
+  sku          String                @db.VarChar(64)
+  barcode      String?               @db.VarChar(14)
+  amountMinor  Int?                  @map("amount_minor")
+  onHandQty    Int                   @default(0) @map("on_hand_qty")
+  safetyBuffer Int                   @default(0) @map("safety_buffer")
+  status       CommerceVariantStatus @default(DRAFT)
+  createdAt    DateTime              @default(now()) @map("created_at")
+  updatedAt    DateTime              @updatedAt @map("updated_at")
+
+  store     CommerceStore          @relation(fields: [storeId], references: [id], onDelete: Restrict)
+  product   CommerceProduct        @relation(fields: [productId, storeId], references: [id, storeId], onDelete: Restrict)
+  movements InventoryTransaction[]
+
+  @@unique([storeId, sku])
+  @@unique([id, storeId])
+  @@index([productId])
+  @@map("commerce_variants")
+}
+
+model InventoryTransaction {
+  id             String                   @id @default(cuid())
+  storeId        String                   @map("store_id")
+  variantId      String                   @map("variant_id")
+  actorUserId    String                   @map("actor_user_id")
+  type           InventoryTransactionType
+  direction      InventoryDirection
+  quantity       Int
+  onHandAfter    Int                      @map("on_hand_after")
+  note           String                   @default("") @db.VarChar(500)
+  idempotencyKey String                   @unique @map("idempotency_key")
+  createdAt      DateTime                 @default(now()) @map("created_at")
+
+  store   CommerceStore   @relation(fields: [storeId], references: [id], onDelete: Restrict)
+  variant CommerceVariant @relation(fields: [variantId, storeId], references: [id, storeId], onDelete: Restrict)
+  actor   User            @relation(fields: [actorUserId], references: [id], onDelete: Restrict)
+
+  @@index([variantId, createdAt])
+  @@index([storeId, createdAt])
+  @@map("inventory_transactions")
+}

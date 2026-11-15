@@ -79,6 +79,8 @@ model User {
   juniorXp                 JuniorXp[]
   juniorSubscription       JuniorSubscription?
   juniorGuardianConsents   JuniorGuardianConsent[]
+  commerceStores           CommerceStore[]
+  inventoryTransactions    InventoryTransaction[]
 
   @@map("users")
 }

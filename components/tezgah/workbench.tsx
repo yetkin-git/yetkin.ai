@@ -333,7 +333,13 @@ function downloadText(filename: string, text: string, mime: string) {
   URL.revokeObjectURL(url);
 }
 
-export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: string }) {
+export function TezgahWorkbench({
+  freelancerName = "",
+  signedIn = false,
+}: {
+  freelancerName?: string;
+  signedIn?: boolean;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const toolParam = searchParams.get("tool");
@@ -853,7 +859,13 @@ export function TezgahWorkbench({ freelancerName = "" }: { freelancerName?: stri
         ) : pazaryeri ? (
           catalog ? (
             <div className="lg:col-span-2">
-              <PazaryeriPreview columns={catalog.columns} rows={catalog.rows} csv={catalog.csv} />
+              <PazaryeriPreview
+                columns={catalog.columns}
+                rows={catalog.rows}
+                csv={catalog.csv}
+                signedIn={signedIn}
+                market={values.market ?? ""}
+              />
             </div>
           ) : (
             <div className="print:hidden">

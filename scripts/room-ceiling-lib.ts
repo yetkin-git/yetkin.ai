@@ -19,6 +19,12 @@ export const CLOSED_PILOT_LIB_DIRS = ["junior", "yetkinhibe"] as const;
  */
 export const WORKBENCH_LIB_DIRS = ["tezgah"] as const;
 
+/**
+ * Yetkin Commerce çekirdeği. Kamu vitrin değildir.
+ * `lib/commerce` mağaza, Master SKU ve stok defteridir. Pazaryeri çağrısı bu klasöre yazılmaz.
+ */
+export const COMMERCE_LIB_DIRS = ["commerce"] as const;
+
 export const ROOMS_SSOT_REL = "lib/dronlar/kayit.ts";
 
 /** `vitrin: true` satırları kamu vitrindir. Veri `DRON_KAYIT` içindedir. */
@@ -101,6 +107,7 @@ export function unexpectedLibTopDirs(
     ...LIB_SHARED_TOP_DIRS,
     ...CLOSED_PILOT_LIB_DIRS,
     ...WORKBENCH_LIB_DIRS,
+    ...COMMERCE_LIB_DIRS,
   ]);
   return dirNames.filter((name) => !allowed.has(name)).sort();
 }

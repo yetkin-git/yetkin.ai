@@ -44,6 +44,7 @@ const CLOSED_ROOM_NOTE =
   "Freelancer odası kapalıyken kenar 410 basar. v1 metasında yoktur. Bu satır kapıyı açmaz.";
 const YETKINHIBE_CLOSED_ROOM_NOTE =
   "YetkinHibe odası kapalıyken kenar 410 basar. v1 metasında yoktur (D-11, web-only). Bu satır kapıyı açmaz.";
+const COMMERCE_WRITE_NOTE = "Yetkin Commerce. Cüzdan yazılmaz. v1 hop satırı yoktur.";
 const YETKINHIBE_MATCH_NOTE =
   "YetkinHibe ücretsiz eşleştirme (D-12). Oturum zorunlu; veri yazmaz. Oda kapalıyken kenar 410 basar. v1 metasında yoktur (D-11). Bu satır kapıyı açmaz.";
 
@@ -329,6 +330,78 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
     "Pazaryeri katalog CSV. Misafir günde 1, üye günde 3. Tablo kodda basılır. Cüzdan yazılmaz. v1 hop satırı yoktur.",
   ),
   ...verbs(
+    "product-commerce-store",
+    ["POST"],
+    "/api/commerce/stores",
+    "product-write",
+    true,
+    `Mağaza açılışı. ${COMMERCE_WRITE_NOTE}`,
+  ),
+  ...verbs(
+    "product-commerce-store-patch",
+    ["PATCH"],
+    "/api/commerce/stores/[storeId]",
+    "product-write",
+    true,
+    `Mağaza adı, adresi ve durumu. ${COMMERCE_WRITE_NOTE}`,
+  ),
+  ...verbs(
+    "product-commerce-product",
+    ["POST"],
+    "/api/commerce/stores/[storeId]/products",
+    "product-write",
+    true,
+    `Tek manuel kart. ${COMMERCE_WRITE_NOTE}`,
+  ),
+  ...verbs(
+    "product-commerce-product-patch",
+    ["PATCH"],
+    "/api/commerce/stores/[storeId]/products/[productId]",
+    "product-write",
+    true,
+    `Kart metni, özellik ve arşiv. ${COMMERCE_WRITE_NOTE}`,
+  ),
+  ...verbs(
+    "product-commerce-variant",
+    ["POST"],
+    "/api/commerce/stores/[storeId]/products/[productId]/variants",
+    "product-write",
+    true,
+    `İkinci varyant. ${COMMERCE_WRITE_NOTE}`,
+  ),
+  ...verbs(
+    "product-commerce-variant-patch",
+    ["PATCH"],
+    "/api/commerce/stores/[storeId]/variants/[variantId]",
+    "product-write",
+    true,
+    `SKU, barkod, fiyat ve emniyet tamponu. Stok yazılmaz. ${COMMERCE_WRITE_NOTE}`,
+  ),
+  ...verbs(
+    "product-commerce-inventory",
+    ["POST"],
+    "/api/commerce/stores/[storeId]/inventory",
+    "product-write",
+    true,
+    `Tek atomik stok hareketi. ${COMMERCE_WRITE_NOTE}`,
+  ),
+  ...verbs(
+    "product-commerce-import-pazaryeri",
+    ["POST"],
+    "/api/commerce/stores/[storeId]/imports/pazaryeri",
+    "product-write",
+    true,
+    `Tezgâh katalog aktarması. ${COMMERCE_WRITE_NOTE}`,
+  ),
+  ...verbs(
+    "product-commerce-import-csv",
+    ["POST"],
+    "/api/commerce/stores/[storeId]/imports/csv",
+    "product-write",
+    true,
+    `Dolu CSV aktarması. ${COMMERCE_WRITE_NOTE}`,
+  ),
+  ...verbs(
     "product-billing",
     ["PUT"],
     "/api/profile/billing",
@@ -464,6 +537,46 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
     "web-read",
     false,
     "Panel nabzı. v1 hop satırı wallet-strip’tir.",
+  ),
+  route(
+    "read-commerce-stores",
+    "GET",
+    "/api/commerce/stores",
+    "web-read",
+    false,
+    "Kendi mağazaları. v1 hop satırı yoktur.",
+  ),
+  route(
+    "read-commerce-store",
+    "GET",
+    "/api/commerce/stores/[storeId]",
+    "web-read",
+    false,
+    "Tek mağaza. Başkasının kaydı 404. v1 hop satırı yoktur.",
+  ),
+  route(
+    "read-commerce-products",
+    "GET",
+    "/api/commerce/stores/[storeId]/products",
+    "web-read",
+    false,
+    "Kartlar ve varyantlar. v1 hop satırı yoktur.",
+  ),
+  route(
+    "read-commerce-product",
+    "GET",
+    "/api/commerce/stores/[storeId]/products/[productId]",
+    "web-read",
+    false,
+    "Tek kart. v1 hop satırı yoktur.",
+  ),
+  route(
+    "read-commerce-inventory",
+    "GET",
+    "/api/commerce/stores/[storeId]/inventory",
+    "web-read",
+    false,
+    "Stok defteri. variantId süzebilir. v1 hop satırı yoktur.",
   ),
   route(
     "read-career-portfolio",

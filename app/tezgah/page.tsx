@@ -12,7 +12,8 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default async function TezgahPage() {
-  const freelancerName = await loadTezgahFreelancerName();
+  const session = await getSession();
+  const freelancerName = await loadTezgahFreelancerName(session);
   return (
     <RoomFrame>
       <div className="print:hidden">
@@ -25,14 +26,13 @@ export default async function TezgahPage() {
       <Suspense
         fallback={<p className="mt-6 text-sm text-[var(--muted)] print:hidden">Tezgâh açılıyor</p>}
       >
-        <TezgahWorkbench freelancerName={freelancerName} />
+        <TezgahWorkbench freelancerName={freelancerName} signedIn={session != null} />
       </Suspense>
     </RoomFrame>
   );
 }
 
-async function loadTezgahFreelancerName(): Promise<string> {
-  const session = await getSession();
+async function loadTezgahFreelancerName(session: Awaited<ReturnType<typeof getSession>>): Promise<string> {
   if (!session) {
     return "";
   }

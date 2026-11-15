@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { MasterSkuTransfer } from "@/components/tezgah/master-sku-transfer";
 import { PAZARYERI_FILENAME } from "@/lib/tezgah/pazaryeri/copy";
 
 function downloadCsv(filename: string, csv: string) {
@@ -18,10 +19,14 @@ export function PazaryeriPreview({
   columns,
   rows,
   csv,
+  signedIn = false,
+  market = "",
 }: {
   columns: readonly string[];
   rows: readonly (readonly string[])[];
   csv: string;
+  signedIn?: boolean;
+  market?: string;
 }) {
   return (
     <div data-pazaryeri-preview="">
@@ -66,6 +71,7 @@ export function PazaryeriPreview({
             {PAZARYERI_FILENAME} indir
           </Button>
         </div>
+        {signedIn ? <MasterSkuTransfer market={market} columns={columns} rows={rows} /> : null}
       </Card>
     </div>
   );

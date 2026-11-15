@@ -36,7 +36,7 @@ export function clipPazaryeriTitle(title: string, cap: number): string | null {
   return out || null;
 }
 
-function csvCell(value: string): string {
+export function csvCell(value: string): string {
   let cell = value.replace(/\r\n/g, " ").replace(/[\r\n]/g, " ");
   if (FORMULA_START.test(cell)) {
     cell = `'${cell}`;
