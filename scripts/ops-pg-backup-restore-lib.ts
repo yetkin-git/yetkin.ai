@@ -35,10 +35,33 @@ export type BackupRestoreResult = {
   restored: CashIntegritySnapshot;
 };
 
-function failTool(bin: string, args: string[], result: ReturnType<typeof spawnSync>): never {
+function toolOutput(result: ReturnType<typeof spawnSync>): string {
   const stderr = typeof result.stderr === "string" ? result.stderr : result.stderr?.toString() ?? "";
   const stdout = typeof result.stdout === "string" ? result.stdout : result.stdout?.toString() ?? "";
-  throw new Error(`${bin} ${args.join(" ")} çıktı ${result.status ?? "null"}: ${stderr || stdout}`.trim());
+  return `${stderr}\n${stdout}`;
+}
+
+function failTool(bin: string, args: string[], result: ReturnType<typeof spawnSync>): never {
+  const output = toolOutput(result).trim();
+  throw new Error(`${bin} ${args.join(" ")} çıktı ${result.status ?? "null"}: ${output}`.trim());
+}
+
+/**
+ * Postgres 17+ `pg_dump` arşivi `SET transaction_timeout = 0` yazar.
+ * Lab sunucusu 16 bu parametreyi tanımaz; restore veri basar ve çıkış kodu 1 olur.
+ * Başka bir `pg_restore: error` satırı varsa yutulmaz.
+ */
+export function restoreStderrIsOnlyPg16TransactionTimeout(output: string): boolean {
+  if (!/unrecognized configuration parameter "transaction_timeout"/.test(output)) {
+    return false;
+  }
+  if (!/errors ignored on restore: 1\b/.test(output)) {
+    return false;
+  }
+  const otherErrors = output
+    .split(/\r?\n/)
+    .filter((line) => line.includes("pg_restore: error:") && !line.includes("transaction_timeout"));
+  return otherErrors.length === 0;
 }
 
 function whichTool(name: string): string | null {
@@ -228,7 +251,7 @@ export async function runLabBackupRestore(input: {
     ["--no-owner", "--no-acl", `--dbname=${restoreUrl}`, dumpPath],
     { encoding: "utf8", windowsHide: true },
   );
-  if (restore.status !== 0) {
+  if (restore.status !== 0 && !restoreStderrIsOnlyPg16TransactionTimeout(toolOutput(restore))) {
     failTool(pgRestore, ["--no-owner"], restore);
   }
   const restoreMs = Date.now() - restoreStarted;

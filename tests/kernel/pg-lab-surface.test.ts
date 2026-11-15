@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { isLabLoopbackUrl, LAB_POSTGRES_DEFAULT_URL } from "../../scripts/ops-migrate-lib";
+import { restoreStderrIsOnlyPg16TransactionTimeout } from "../../scripts/ops-pg-backup-restore-lib";
 
 const ROOT = process.cwd();
 
@@ -66,6 +67,20 @@ describe("lab Postgres yüzeyi", () => {
     expect(readSrc("scripts/ops-lab-postgres.ts")).toContain("resetLabPublicSchema");
     expect(readSrc("scripts/ops-migrate-lib.ts")).toContain("CREATE ROLE anon NOLOGIN");
     expect(readSrc("scripts/ops-migrate-lib.ts")).toContain("CREATE ROLE authenticated NOLOGIN");
+    const pg16Timeout = [
+      'pg_restore: error: could not execute query: ERROR: unrecognized configuration parameter "transaction_timeout"',
+      "Command was: SET transaction_timeout = 0;",
+      "pg_restore: warning: errors ignored on restore: 1",
+    ].join("\n");
+    expect(restoreStderrIsOnlyPg16TransactionTimeout(pg16Timeout)).toBe(true);
+    expect(
+      restoreStderrIsOnlyPg16TransactionTimeout(
+        `${pg16Timeout}\npg_restore: error: could not execute query: ERROR: duplicate key`,
+      ),
+    ).toBe(false);
+    expect(restoreStderrIsOnlyPg16TransactionTimeout("pg_restore: error: connection refused")).toBe(
+      false,
+    );
     expect(readSrc("lib/kernel/payments/marketplace-split.ts")).toContain('id: "split"');
   });
 });
