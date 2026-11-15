@@ -224,4 +224,32 @@ describe("hibe proje dosyası motoru", () => {
     expect(dumped).not.toContain("supportRatioBps");
     expect(renderGrantProjectText(verified)).toContain("Katalog destek oranı %50");
   });
+
+  it("ilan edilmemiş havuzu sıfır lira diye basmaz", async () => {
+    const result = await generateGrantProject(
+      { actorId: "guest:203.0.113.43", guest: true, request: REQUEST },
+      {
+        now: () => NOW,
+        loadCatalog: async () => [
+          makeCall({
+            id: "havuzsuz",
+            title: "Havuzu ilan edilmemiş",
+            status: "CLOSING_SOON",
+            remainingDays: 11,
+            sourceVerifiedAt: "2026-11-15T09:00:00.000Z",
+            poolAmountMinor: null,
+            maxSupportMinor: 262_500_000,
+            supportRatioBps: 7500,
+          }),
+        ],
+        invoke: async () => okText(NARRATIVE),
+      },
+    );
+    expect(result.ok).toBe(true);
+    if (!result.ok) {
+      return;
+    }
+    expect(result.eligible[0]?.poolLabel).toBe("Havuz ilan edilmedi");
+    expect(result.eligible[0]?.ceilingLabel).toContain("₺");
+  });
 });

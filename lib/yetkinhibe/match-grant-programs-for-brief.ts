@@ -43,7 +43,7 @@ export type GrantBriefCall = {
   officialInfoUrl: string;
   status: GrantCallStatus;
   remainingDays: number;
-  poolAmountMinor: number;
+  poolAmountMinor: number | null;
   maxSupportMinor: number;
   supportRatioBps: number;
   sourceVerifiedAt: string | null;
@@ -64,7 +64,7 @@ export type GrantEligibleProgramMatch = {
   officialInfoUrl: string;
   remainingDays: number;
   criteria: readonly GrantBriefCriterion[];
-  poolAmountMinor: number;
+  poolAmountMinor: number | null;
   maxSupportMinor: number;
   supportRatioBps: number;
 };
@@ -106,10 +106,13 @@ function inBand(value: number, min: number | null, max: number | null): boolean 
   return (min === null || value >= min) && (max === null || value <= max);
 }
 
+function poolAmountSafe(value: number | null): boolean {
+  return value === null || (Number.isSafeInteger(value) && value >= 0);
+}
+
 function amountsSafe(call: GrantBriefCall): boolean {
   return (
-    Number.isSafeInteger(call.poolAmountMinor) &&
-    call.poolAmountMinor >= 0 &&
+    poolAmountSafe(call.poolAmountMinor) &&
     Number.isSafeInteger(call.maxSupportMinor) &&
     call.maxSupportMinor >= 0 &&
     Number.isInteger(call.supportRatioBps) &&

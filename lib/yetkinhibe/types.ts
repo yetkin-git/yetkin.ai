@@ -56,8 +56,8 @@ export type GrantCall = {
   sourceLabel: string;
   title: string;
   summary: string;
-  /** Programın toplam hibe havuzu (dönem bütçesi). */
-  poolAmountMinor: AmountMinor;
+  /** Programın toplam hibe havuzu (dönem bütçesi). Kurum havuz ilan etmemişse null. */
+  poolAmountMinor: AmountMinor | null;
   minSupportMinor: AmountMinor;
   maxSupportMinor: AmountMinor;
   /** Destek oranı — binde/yüzde değil, basis points (0-10000). */
@@ -121,7 +121,7 @@ export type GrantMatchResult = {
   source: GrantProgramSource;
   matchScorePct: number;
   remainingDays: number;
-  poolAmountMinor: AmountMinor;
+  poolAmountMinor: AmountMinor | null;
   maxSupportMinor: AmountMinor;
   criteria: readonly GrantMatchCriterionResult[];
   recommendedNextStep: string;

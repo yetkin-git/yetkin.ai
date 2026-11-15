@@ -120,6 +120,11 @@ describe("YetkinHibe satır eşleme", () => {
     );
   });
 
+  it("ilan edilmemiş havuzu null bırakır", () => {
+    const entry = mapGrantCallRow(makeRow({ poolAmountMinor: null }), NOW);
+    expect(entry.poolAmountMinor).toBeNull();
+  });
+
   it("negatif tutarı reddeder", () => {
     expect(() => mapGrantCallRow(makeRow({ poolAmountMinor: -1 }), NOW)).toThrow(GrantCatalogRowError);
   });

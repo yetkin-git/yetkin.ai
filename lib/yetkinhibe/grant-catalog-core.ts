@@ -64,7 +64,8 @@ export type GrantCatalogRowInput = {
   sourceLabel: string;
   title: string;
   summary: string;
-  poolAmountMinor: bigint | number;
+  /** Kurum dönem havuzu ilan etmemişse null. Negatif veya güvenli tamsayı dışı değer reddedilir. */
+  poolAmountMinor: bigint | number | null;
   minSupportMinor: number;
   maxSupportMinor: number;
   supportRatioBps: number;
@@ -139,7 +140,7 @@ export function mapGrantCallRow(row: GrantCatalogRowInput, now: Date): Yetkinhib
     sourceLabel: row.sourceLabel,
     title: row.title,
     summary: row.summary,
-    poolAmountMinor: parseAmountMinor(row.poolAmountMinor, "poolAmountMinor", id),
+    poolAmountMinor: parsePoolAmountMinor(row.poolAmountMinor, id),
     minSupportMinor,
     maxSupportMinor,
     supportRatioBps: row.supportRatioBps,
@@ -178,6 +179,14 @@ function parseInstant(value: Date, field: string, id: string): Date {
     throw new GrantCatalogRowError(`${id}: ${field} geçersiz tarih`);
   }
   return value;
+}
+
+/** İlan edilmemiş havuz null kalır. Null, sıfır liraya çevrilmez. */
+function parsePoolAmountMinor(value: bigint | number | null, id: string): AmountMinor | null {
+  if (value === null) {
+    return null;
+  }
+  return parseAmountMinor(value, "poolAmountMinor", id);
 }
 
 /** Bigint veya sayı kabul eder. Güvenli tamsayı dışındaki değer reddedilir (A1). */

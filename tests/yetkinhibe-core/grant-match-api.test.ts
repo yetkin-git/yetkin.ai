@@ -153,6 +153,14 @@ describe("toGrantMatchWire — yanıt haritası", () => {
     expect(wire[0]?.criteria.find((c) => c.key === "requiresRdActivity")?.satisfied).toBe(false);
   });
 
+  it("ilan edilmemiş havuzu sıfır liraya çevirmez", () => {
+    const wire = matchGrantsForProfile(profile, [
+      makeGrantCall({ id: "havuzsuz", poolAmountMinor: null, status: "CLOSING_SOON" }),
+    ]).map(toGrantMatchWire);
+
+    expect(wire[0]?.poolAmountMinor).toBeNull();
+  });
+
   it("JSON'a dönüşümde tutarlar tam sayı kalır", () => {
     const wire = matchGrantsForProfile(profile, [makeGrantCall({ id: "j" })]).map(toGrantMatchWire);
     const roundTrip = JSON.parse(JSON.stringify(wire)) as typeof wire;

@@ -56,6 +56,13 @@ function plain(value: string, max: number): string {
   return clean.length <= max ? clean : clean.slice(0, max);
 }
 
+function catalogPoolLabel(poolAmountMinor: number | null): string {
+  if (poolAmountMinor === null) {
+    return "Havuz ilan edilmedi";
+  }
+  return `Katalog havuzu ${formatAmountMinorAsWholeTry(poolAmountMinor)}`;
+}
+
 function catalogRatioLabel(bps: number): string {
   const whole = Math.trunc(bps / 100);
   const frac = bps % 100;
@@ -78,7 +85,7 @@ function toEligibleProgram(program: GrantEligibleProgramMatch): GrantEligiblePro
       passed: row.passed,
       unconstrained: row.unconstrained,
     })),
-    poolLabel: `Katalog havuzu ${formatAmountMinorAsWholeTry(program.poolAmountMinor)}`,
+    poolLabel: catalogPoolLabel(program.poolAmountMinor),
     ceilingLabel: `Katalog tavanı ${formatAmountMinorAsWholeTry(program.maxSupportMinor)}`,
     ratioLabel: catalogRatioLabel(program.supportRatioBps),
   };

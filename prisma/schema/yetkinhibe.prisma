@@ -17,13 +17,14 @@ model YetkinhibeGrantSource {
 }
 
 /// Hibe çağrısı. `sourceVerifiedAt` NULL ise resmî kaynak bu satır için doğrulanmamıştır (A5).
+/// `poolAmountMinor` NULL ise kurum dönem havuzu ilan etmemiştir. Yerine tutar uydurulmaz.
 model YetkinhibeGrantCall {
   id                  String                @id @db.VarChar(120)
   sourceKey           String                @map("source_key") @db.VarChar(40)
   source              YetkinhibeGrantSource @relation(fields: [sourceKey], references: [key])
   title               String                @db.VarChar(300)
   summary             String                @db.VarChar(1000)
-  poolAmountMinor     BigInt                @map("pool_amount_minor")
+  poolAmountMinor     BigInt?               @map("pool_amount_minor")
   minSupportMinor     Int                   @map("min_support_minor")
   maxSupportMinor     Int                   @map("max_support_minor")
   supportRatioBps     Int                   @map("support_ratio_bps")

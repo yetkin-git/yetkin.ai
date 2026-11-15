@@ -77,8 +77,8 @@ export type GrantMatchWire = {
   matchScorePct: number;
   band: GrantMatchBand;
   remainingDays: number;
-  /** Kuruş cinsinden tam sayı (A1). */
-  poolAmountMinor: number;
+  /** Kuruş cinsinden tam sayı (A1). Kurum havuz ilan etmemişse null; sıfır liraya çevrilmez. */
+  poolAmountMinor: number | null;
   maxSupportMinor: number;
   criteria: readonly GrantMatchCriterionResult[];
 };
