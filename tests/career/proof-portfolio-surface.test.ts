@@ -88,9 +88,11 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     const page = readSrc("app/career/page.tsx");
     const ledger = readSrc("components/career/visa-ledger.tsx");
     const copy = readSrc("lib/copy/sen-voice/career.ts");
-    expect(page).toContain("VisaLedger");
-    expect(page).toContain("VisaScopeBoard");
-    expect(page).toContain("EmployerGateway");
+    expect(page).toContain("MeritSealBand");
+    expect(page).toContain("AiCareerStudio");
+    expect(page).not.toContain("VisaLedger");
+    expect(page).not.toContain("VisaScopeBoard");
+    expect(page).not.toContain("EmployerGateway");
     expect(page).toContain("SealShareGuides");
     expect(page).toContain("copy.publicTalentCta");
     expect(page).toContain("PASSPORT_SURFACE_PATH");

@@ -306,6 +306,14 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
     "Sohbet yazması. Anonim ziyaretçi günde 5 soru. v1 hop satırı yoktur.",
   ),
   ...verbs(
+    "product-career-coach",
+    ["POST"],
+    "/api/career/coach",
+    "product-write",
+    true,
+    "AI kariyer koçu. CV, SWOT ve diyalog. Oturum zorunlu. Kazanılmamış rozet doğrulanmış yazılmaz. Cüzdan yazılmaz. v1 hop satırı yoktur.",
+  ),
+  ...verbs(
     "product-tezgah-generate",
     ["POST"],
     "/api/tezgah/generate",

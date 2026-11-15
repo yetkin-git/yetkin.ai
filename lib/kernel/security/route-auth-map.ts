@@ -40,6 +40,7 @@ export const ROUTE_AUTH_MAP = {
   "/api/auth/resend-confirmation": "public",
   "/api/auth/reset-password": "public",
   "/api/auth/session": "session",
+  "/api/career/coach": "session",
   "/api/career/portfolio": "session",
   "/api/career/pulse": "session",
   "/api/career/visas": "session",

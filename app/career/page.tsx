@@ -1,14 +1,12 @@
 import type { Metadata, Route } from "next";
 import { ActionPlanPanel } from "@/components/career/action-plan-panel";
+import { AiCareerStudio } from "@/components/career/ai-career-studio";
+import { MeritSealBand } from "@/components/career/merit-seal-band";
 import { PublicCareerPanel } from "@/components/career/public-career-panel";
-import { EmployerGateway } from "@/components/career/employer-gateway";
 import { SealShareGuideButtons, SealShareGuides } from "@/components/career/seal-share-guides";
-import { VisaLedger } from "@/components/career/visa-ledger";
-import { VisaScopeBoard } from "@/components/career/visa-scope-board";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
-import { buildCareerVisaScopeBoard } from "@/lib/career/visa-scope-board";
 import {
   careerStampPublicHref,
   careerStampVerifyHref,
@@ -96,7 +94,9 @@ async function SignedInCareerPage() {
   const stamps = board?.stamps ?? [];
   const portfolio = board?.portfolio ?? [];
   const copy = SEN_VOICE.career;
-  const doors = buildCareerVisaScopeBoard(stamps, portfolio);
+  const verifiedBadges = stamps
+    .filter((stamp) => stamp.sourceKind === "ACADEMY_CERTIFICATE")
+    .map((stamp) => stamp.title);
   const featured = stamps[0] ?? null;
   const publicTalentHref = featured ? careerStampPublicHref(featured) : null;
   const shareModel =
@@ -141,17 +141,16 @@ async function SignedInCareerPage() {
       {board === null ? (
         <p className="text-sm text-[var(--muted)]">{copy.loadSoft}</p>
       ) : null}
+      <MeritSealBand
+        stamps={stamps}
+        proofCount={portfolio.length}
+        publicTalentHref={publicTalentHref}
+      />
+      <AiCareerStudio verifiedBadges={verifiedBadges} />
       <div className="flex flex-wrap gap-2">
         <SealShareGuideButtons model={shareModel} />
       </div>
       <ActionPlanPanel live={actionLive} />
-      <EmployerGateway
-        doors={doors}
-        publicTalentHref={publicTalentHref}
-        proofCount={portfolio.length}
-      />
-      <VisaLedger stamps={stamps} portfolio={portfolio} />
-      <VisaScopeBoard stamps={stamps} portfolio={portfolio} />
       <section id="career-seal-guides" className="scroll-mt-24">
         <SealShareGuides model={shareModel} />
       </section>

@@ -18,8 +18,9 @@ describe("kariyer atölye vitrini sökülüdür", () => {
       expect(existsSync(join(ROOT, file)), file).toBe(false);
     }
     const page = readFileSync(join(ROOT, "app/career/page.tsx"), "utf8");
-    expect(page).toContain("VisaLedger");
-    expect(page).toContain("VisaScopeBoard");
+    expect(page).toContain("MeritSealBand");
+    expect(page).toContain("AiCareerStudio");
+    expect(page).not.toContain("VisaScopeBoard");
     expect(page).not.toContain("projectCareerAtelier");
     expect(page).not.toContain("TalentRadar");
     expect(page).not.toContain("SwotPanel");

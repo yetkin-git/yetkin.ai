@@ -34,6 +34,7 @@ export function PublicCareerPanel({ plan }: { plan?: ReactNode }) {
           </div>
         }
       />
+      <p className="text-sm leading-6 text-[var(--foreground)]">{copy.coachNote}</p>
       {plan}
       <div className="grid min-w-0 items-start gap-4 lg:grid-cols-2">
         <SampleCertificate />

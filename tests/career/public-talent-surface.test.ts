@@ -85,7 +85,7 @@ describe("kamu yetkinlik kartı ve mühür paylaşımı", () => {
     const alias = readSrc("app/(public)/p/[id]/page.tsx");
     expect(existsSync(join(ROOT, "app/(public)/vize/[id]/page.tsx"))).toBe(true);
     expect(existsSync(join(ROOT, "app/(public)/vize/page.tsx"))).toBe(true);
-    expect(page).toContain("EmployerGateway");
+    expect(page).toContain("MeritSealBand");
     expect(page).toContain("SealShareGuides");
     expect(page).toContain("publicTalentCta");
     expect(config).toContain('source: "/p"');

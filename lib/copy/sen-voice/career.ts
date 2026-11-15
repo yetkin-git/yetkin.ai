@@ -100,6 +100,16 @@ export const CAREER_SEN = {
     verifyCta: "Sertifika doğrula",
     academyCta: "Akademiye git",
     loginCta: "Giriş yap",
+    coachNote:
+      "Giriş yapınca kariyer koçu açılır. CV taslağını, analizini ve koç diyaloğunu sicildeki doğrulanmış rozetlerinle kurarsın. Kazanmadığın belge doğrulanmış yazılmaz.",
+  },
+  merit: {
+    eyebrow: "Liyakat",
+    title: "Rozet özeti",
+    resumeMissing: "Henüz açık kart yok",
+    proofMissing: "Henüz kanıt satırı yok",
+    proofReady: "kanıt satırı bağlı",
+    moreSuffix: "rozet daha",
   },
   actionPlan: {
     eyebrow: "30 gün",
