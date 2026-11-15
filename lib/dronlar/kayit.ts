@@ -37,7 +37,7 @@ export const DRON_KAYIT = [
     id: "dashboard",
     path: "/dashboard",
     label: "Genel Bakış",
-    blurb: "Öğrenci paneli",
+    blurb: "Komuta merkezi",
     hops: ["wallet-strip"],
     sahipEkip: "gövde",
     kapali: false,

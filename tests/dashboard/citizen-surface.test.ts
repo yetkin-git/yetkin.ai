@@ -35,7 +35,10 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     expect(SEN_VOICE.dashboard.description).toContain("güvenli panelde");
     expect(SEN_VOICE.dashboard.description).not.toContain("yönetilir");
     expect(SEN_VOICE.dashboard.description).not.toContain("split");
-    expect(SEN_VOICE.dashboard.welcomeLead).toBe("İlk eğitimini seç, sertifikanı kap.");
+    expect(SEN_VOICE.dashboard.welcomeLead).toBe(
+      "Üretim araçların, mağazaların, eğitimlerin ve kariyer adımların tek ekranda.",
+    );
+    expect(SEN_VOICE.dashboard.publicPanel.eyebrow).toBe("Öğrenci paneli");
     expect(SEN_VOICE.dashboard.featured).toContain("Kariyer yolculuğuna");
     expect(SEN_VOICE.dashboard.featured).toContain("Akademi'den");
     expect(SEN_VOICE.dashboard.featured).toContain("Kariyer odasından");
@@ -147,7 +150,7 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
   it("sol menü etiketi Genel Bakış'tır; kaldığın yer yoktur", () => {
     const dashboard = VERTICAL_ROOMS.find((room) => room.id === "dashboard");
     expect(dashboard?.label).toBe("Genel Bakış");
-    expect(dashboard?.blurb).toBe("Öğrenci paneli");
+    expect(dashboard?.blurb).toBe("Komuta merkezi");
     expect(dashboard?.blurb).not.toContain("Kaldığın yer");
     expect(readSrc("lib/kernel/modules.ts")).not.toContain("Kaldığın yer");
     expect(existsSync(join(ROOT, "app/dashboard/error.tsx"))).toBe(true);

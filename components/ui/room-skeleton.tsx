@@ -109,7 +109,7 @@ export function RoomSkeleton({
           <SkeletonPulse className="h-16 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
         </div>
         <div className="grid min-w-0 gap-4 lg:grid-cols-2">
-          {Array.from({ length: 2 }, (_, index) => (
+          {Array.from({ length: 4 }, (_, index) => (
             <SkeletonPulse
               key={index}
               className="min-h-40 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]"

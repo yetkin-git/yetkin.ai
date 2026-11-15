@@ -36,8 +36,8 @@ export const DASHBOARD_SEN = {
   welcomeTitle: dashboardWelcomeTitle,
   description:
     "Eğitimlerin, kanıtlanmış uzmanlıkların ve çalışma süreçlerin tek bir güvenli panelde.",
-  /** Karşılama başlığının yanında — yeni kullanıcıyı ilk derse çağırır. */
-  welcomeLead: "İlk eğitimini seç, sertifikanı kap.",
+  /** Karşılama başlığının yanında — dört odayı tek bakışta toplar. */
+  welcomeLead: "Üretim araçların, mağazaların, eğitimlerin ve kariyer adımların tek ekranda.",
   featured:
     "Kariyer yolculuğuna başlamak için Akademi'den sana uygun eğitimi seçebilirsin. Bitirince sertifikan burada durur. Kariyer odasından hedefini de belirleyebilirsin.",
   /** Oturumsuz Anasayfa — kişisel nabız yok. */
@@ -98,6 +98,27 @@ export const DASHBOARD_SEN = {
       body: "Satın aldığın eğitimde kaldığın dersten devam et. Bitirince sertifikan burada görünecek.",
       cta: "Eğitime dön",
     },
+  },
+  /** Girişli Genel Bakış — 2×2 komuta kartı. Misafir paneli bu sözlüğü okumaz. */
+  command: {
+    tezgahTitle: "AI Tezgâh",
+    tezgahQuota: "Bugünkü hak",
+    tezgahToolsReady: (count: number) => `${count} araç hazır`,
+    tezgahCta: "Tezgâhı Aç",
+    commerceTitle: "Mağazam",
+    commerceEyebrow: "Yetkin Commerce",
+    commerceCount: "Mağaza",
+    commerceActive: "Açık vitrin",
+    commerceNone: "Henüz mağaza açılmadı",
+    commerceDraft: "Vitrin taslak",
+    commerceManageCta: "Mağazamı Yönet",
+    commerceOpenCta: "İlk Mağazanı Aç",
+    careerTitle: "Kariyer & Cüzdan",
+    careerWallet: "Bakiye",
+    careerPlanReady: "Doğrulanmış rozetin hazır. 30 günlük plan Kariyer'de açılır.",
+    careerPlanEmpty: "Doğrulanmış rozet yok. 30 günlük plan Kariyer'de kurulur.",
+    careerCta: "Kariyeri Aç",
+    unknown: "—",
   },
   pulse: {
     academyTitle: "Akademi",

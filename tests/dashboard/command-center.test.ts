@@ -1,0 +1,159 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { describe, expect, it } from "vitest";
+import { projectCommandCenter } from "@/lib/dashboard/command-center";
+import { EMPTY_DASHBOARD_PULSE } from "@/lib/dashboard/pulse";
+import { SEN_VOICE } from "@/lib/copy/sen-voice";
+import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
+import { formatMinor } from "@/lib/kernel/money/format";
+import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
+import { TEZGAH_MEMBER_DAILY_LIMIT, TEZGAH_TOOLS } from "@/lib/tezgah/catalog";
+
+const ROOT = process.cwd();
+
+function readSrc(relative: string): string {
+  return readFileSync(join(ROOT, relative), "utf8");
+}
+
+const quotaDown = { live: false, remaining: 0, limit: TEZGAH_MEMBER_DAILY_LIMIT };
+
+describe("komuta merkezi projeksiyonu", () => {
+  it("katalog yedi araçtır; üye kotası 3'tür", () => {
+    expect(TEZGAH_TOOLS).toHaveLength(7);
+    expect(TEZGAH_MEMBER_DAILY_LIMIT).toBe(3);
+  });
+
+  it("okunamayan odalar tire basar; boş mağaza cümlesini iddia etmez", () => {
+    const [tezgah, commerce, academy, career] = projectCommandCenter({
+      pulse: EMPTY_DASHBOARD_PULSE,
+      stores: { kind: "down" },
+      quota: quotaDown,
+      toolCount: TEZGAH_TOOLS.length,
+    });
+    const copy = SEN_VOICE.dashboard.command;
+
+    expect(tezgah.cta).toBe("Tezgâhı Aç");
+    expect(tezgah.href).toBe("/tezgah");
+    expect(tezgah.stats[0]?.value).toBe("—");
+    expect(tezgah.detail).toBe("7 araç hazır");
+
+    expect(commerce.cta).toBe("Mağazamı Yönet");
+    expect(commerce.href).toBe("/magazam");
+    expect(commerce.stats[0]?.value).toBe("—");
+    expect(commerce.detail).toBe(SEN_VOICE.dashboard.pulse.unavailable);
+    expect(commerce.detail).not.toBe(copy.commerceNone);
+
+    expect(academy.stats.map((item) => item.value)).toEqual(["—", "—"]);
+    expect(academy.href).toBe("/academy");
+    expect(academy.cta).toBe("Eğitimleri İncele");
+
+    expect(career.title).toBe("Kariyer & Cüzdan");
+    expect(career.cta).toBe("Kariyeri Aç");
+    expect(career.href).toBe("/career");
+    expect(career.stats.map((item) => item.value)).toEqual(["—", "—"]);
+    expect(career.detail).toBe(SEN_VOICE.dashboard.pulse.unavailable);
+  });
+
+  it("canlı kota, boş mağaza, akademi devamı ve cüzdan bakiyesini ayırır", () => {
+    const amount = toAmountMinor(1_500);
+    const [tezgah, commerce, academy, career] = projectCommandCenter({
+      pulse: {
+        ...EMPTY_DASHBOARD_PULSE,
+        academy: {
+          ...EMPTY_DASHBOARD_PULSE.academy,
+          live: true,
+          purchasesCount: 2,
+          certificatesHeld: 1,
+          lastCertificateTitle: "Ofis AI",
+          lastCourseSlug: "01_office_ai",
+        },
+        career: {
+          ...EMPTY_DASHBOARD_PULSE.career,
+          live: true,
+          visaCount: 1,
+          lastVisaTitle: "Ofis AI rozeti",
+        },
+        wallet: {
+          live: true,
+          amountMinor: amount,
+          currencyCode: SETTLEMENT_CURRENCY,
+        },
+      },
+      stores: { kind: "ok", stores: [] },
+      quota: { live: true, remaining: 2, limit: 3 },
+      toolCount: TEZGAH_TOOLS.length,
+    });
+
+    expect(tezgah.stats[0]?.value).toBe("2 / 3");
+    expect(tezgah.detail).toBe("7 araç hazır");
+
+    expect(commerce.stats[0]?.value).toBe("0");
+    expect(commerce.detail).toBe("Henüz mağaza açılmadı");
+    expect(commerce.cta).toBe("İlk Mağazanı Aç");
+
+    expect(academy.stats.map((item) => item.value)).toEqual(["2", "1"]);
+    expect(academy.detail).toBe("Ofis AI");
+    expect(academy.href).toBe("/academy/01_office_ai/oyna");
+    expect(academy.cta).toBe("Eğitime dön");
+
+    expect(career.stats[0]?.value).toBe("1");
+    expect(career.stats[1]?.value).toBe(formatMinor(amount, SETTLEMENT_CURRENCY));
+    expect(career.detail).toContain("Ofis AI rozeti");
+    expect(career.detail).toContain("30 günlük plan Kariyer'de açılır");
+  });
+
+  it("açık vitrin sayılır; rozetsiz planda kur cümlesi durur", () => {
+    const [, commerce, , career] = projectCommandCenter({
+      pulse: {
+        ...EMPTY_DASHBOARD_PULSE,
+        career: { ...EMPTY_DASHBOARD_PULSE.career, live: true, visaCount: 0 },
+        wallet: {
+          ...EMPTY_DASHBOARD_PULSE.wallet,
+          live: true,
+        },
+      },
+      stores: {
+        kind: "ok",
+        stores: [
+          { status: "DRAFT" },
+          { status: "ACTIVE" },
+        ],
+      },
+      quota: { live: true, remaining: 0, limit: 3 },
+      toolCount: 7,
+    });
+
+    expect(commerce.stats.map((item) => item.value)).toEqual(["2", "1"]);
+    expect(commerce.detail).toBeNull();
+    expect(commerce.cta).toBe("Mağazamı Yönet");
+    expect(career.stats[1]?.value).toBe(formatMinor(0, SETTLEMENT_CURRENCY));
+    expect(career.detail).toBe("Doğrulanmış rozet yok. 30 günlük plan Kariyer'de kurulur.");
+
+    const draftOnly = projectCommandCenter({
+      pulse: EMPTY_DASHBOARD_PULSE,
+      stores: { kind: "ok", stores: [{ status: "DRAFT" }] },
+      quota: quotaDown,
+      toolCount: 7,
+    })[1];
+    expect(draftOnly.stats.map((item) => item.value)).toEqual(["1", "0"]);
+    expect(draftOnly.detail).toBe("Vitrin taslak");
+    expect(draftOnly.cta).toBe("Mağazamı Yönet");
+  });
+
+  it("sayfa dört okumayı Promise.all ile toplar; gövde cüzdan bandı açmaz", () => {
+    const loader = readSrc("app/dashboard/load-command.ts");
+    const page = readSrc("app/dashboard/page.tsx");
+    const view = readSrc("components/dashboard/command-center.tsx");
+    expect(page).toContain("Promise.all");
+    expect(page).toContain("loadDashboardPulse");
+    expect(page).toContain("loadOwnerStores");
+    expect(page).toContain("readMemberTezgahQuota");
+    expect(loader).toContain("peekTezgahQuota");
+    expect(page).toContain("CommandCenter");
+    expect(page).toContain("PublicHomePanel");
+    expect(view).toContain("lg:grid-cols-2");
+    expect(view).not.toContain('href="/cuzdan"');
+    expect(view).not.toContain("WalletBalanceStrip");
+    expect(page).not.toContain('href="/cuzdan"');
+  });
+});
