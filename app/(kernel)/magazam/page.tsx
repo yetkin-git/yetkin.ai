@@ -33,6 +33,13 @@ export default async function MagazamListPage() {
       {loaded.value.length === 0 ? (
         <Card title={copy.emptyTitle}>
           <p>{copy.emptyBody}</p>
+          <ul className="mt-4 grid gap-3">
+            {copy.emptyPoints.map((point) => (
+              <li key={point.title}>
+                <span className="font-semibold text-[var(--foreground)]">{point.title}:</span> {point.body}
+              </li>
+            ))}
+          </ul>
           <LinkButton href="/magazam/yeni" className="mt-4">
             {copy.openStore}
           </LinkButton>

@@ -1,9 +1,24 @@
 export const MAGAZAM_SEN = {
   eyebrow: "Yetkin Commerce",
   listTitle: "Mağazam",
-  listDescription: "Vitrin, stok ve kanal eşlemesi bu kokpitte durur.",
+  listDescription:
+    "Kendi komisyonsuz vitrinini aç; ürün, stok ve pazaryeri (Trendyol, Hepsiburada) bağlantılarını tek yerden yönet.",
   emptyTitle: "İlk mağazanı aç",
   emptyBody: "Henüz mağazan yok. Adını yazınca taslak olarak doğar.",
+  emptyPoints: [
+    {
+      title: "Komisyonsuz Vitrin",
+      body: "Ürün kataloğunu yayınla, müşterilerin doğrudan WhatsApp hattına sipariş versin.",
+    },
+    {
+      title: "Tek Merkezden Stok",
+      body: "Tüm ürünlerini tek havuzda tut; satılan ürünün stoğu otomatik düşsün.",
+    },
+    {
+      title: "Pazaryeri Eşitleme",
+      body: "Trendyol ve Hepsiburada hesaplarını bağlayarak stok ve fiyatlarını senkronize et.",
+    },
+  ],
   openStore: "Mağaza aç",
   newTitle: "Yeni mağaza",
   newDescription: "Mağaza taslak doğar. Vitrin, sen açınca görünür.",
