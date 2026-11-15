@@ -53,6 +53,16 @@ export default async function MagazamHomePage({ params }: { params: Promise<{ st
           ? copy.licenseClosed
           : copy.licenseAbsent;
   const storefrontPath = `/magaza/${store.value.slug}`;
+  const readiness = [
+    { label: copy.readinessStore, ready: store.value.status === "ACTIVE" },
+    { label: copy.readinessProduct, ready: counts.active > 0 },
+    {
+      label: copy.readinessVariant,
+      ready: products.value.some((product) =>
+        product.variants.some((variant) => variant.status === "ACTIVE"),
+      ),
+    },
+  ];
 
   return (
     <CommerceFrame storeId={store.value.id}>
@@ -72,6 +82,27 @@ export default async function MagazamHomePage({ params }: { params: Promise<{ st
           { label: copy.licenseChip, value: licenseLabel },
         ]}
       />
+      <section
+        className="rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-4"
+        aria-label={copy.readinessTitle}
+      >
+        <p className="text-sm font-semibold">{copy.readinessTitle}</p>
+        <ol className="mt-3 grid gap-2 sm:grid-cols-3">
+          {readiness.map((step, index) => (
+            <li
+              key={step.label}
+              className="flex items-center justify-between gap-2 rounded-xl border border-[var(--border)] px-3 py-2 text-sm"
+            >
+              <span className="font-medium">
+                {index + 1}. {step.label}
+              </span>
+              <span className={step.ready ? "text-[var(--emerald)]" : "text-[var(--muted)]"}>
+                {step.ready ? copy.readinessReady : copy.readinessWait}
+              </span>
+            </li>
+          ))}
+        </ol>
+      </section>
       <div className="grid gap-6 lg:grid-cols-2">
         <Card title={copy.identityTitle}>
           <StoreIdentityForm key={`${store.value.updatedAt}:${store.value.status}`} store={store.value} />

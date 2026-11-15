@@ -13,7 +13,10 @@ import {
   SupabaseBrowserEnvError,
 } from "@/lib/kernel/auth/supabase-browser";
 import { PASSWORD_RESET_PATH } from "@/lib/kernel/auth/password";
-import { readPostLoginPathFromSearch } from "@/lib/kernel/auth/redirects";
+import {
+  AUTH_RESEND_CONFIRMATION_API_PATH,
+  readPostLoginPathFromSearch,
+} from "@/lib/kernel/auth/redirects";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
 
 const LOGIN_DEBUG = "[rail-login]";
@@ -60,6 +63,17 @@ function resolveLoginFailure(caught: unknown, copy: typeof AUTH_SEN.login): stri
   return copy.fail;
 }
 
+function readMail(body: unknown): "sent" | "failed" | "unconfigured" {
+  if (!body || typeof body !== "object" || !("data" in body) || !body.data || typeof body.data !== "object") {
+    return "unconfigured";
+  }
+  const data = body.data;
+  if ("mail" in data && (data.mail === "sent" || data.mail === "failed" || data.mail === "unconfigured")) {
+    return data.mail;
+  }
+  return "unconfigured";
+}
+
 function resolveSignInMessage(message: string, copy: typeof AUTH_SEN.login): string {
   const normalized = message.toLowerCase();
   if (normalized.includes("invalid login") || normalized.includes("invalid_credentials")) {
@@ -79,7 +93,10 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+  const [needsConfirm, setNeedsConfirm] = useState(false);
   const [pending, setPending] = useState(false);
+  const [resendPending, setResendPending] = useState(false);
 
   useEffect(() => {
     setCopy(AUTH_SEN.login);
@@ -90,6 +107,8 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
     console.log(LOGIN_DEBUG, "submit:start");
     setPending(true);
     setError(null);
+    setNotice(null);
+    setNeedsConfirm(false);
     try {
       const envProbe = describePublicSupabaseBrowserEnv();
       console.log(LOGIN_DEBUG, "env:probe", envProbe);
@@ -116,6 +135,7 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
         const next = resolveSignInMessage(signError.message, copy);
         console.error(LOGIN_DEBUG, "signIn:error", signError.name, signError.message);
         setError(next);
+        setNeedsConfirm(next === copy.unconfirmed);
         return;
       }
       console.log(LOGIN_DEBUG, "signIn:ok → next");
@@ -126,6 +146,30 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
     } finally {
       setPending(false);
       console.log(LOGIN_DEBUG, "submit:finally pending=false");
+    }
+  }
+
+  async function onResend() {
+    setResendPending(true);
+    setNotice(null);
+    try {
+      const response = await fetch(AUTH_RESEND_CONFIRMATION_API_PATH, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const body: unknown = await response.json().catch(() => null);
+      const mail = readMail(body);
+      if (mail === "sent") {
+        setError(null);
+        setNotice(AUTH_SEN.register.resendSent);
+        return;
+      }
+      setError(mail === "unconfigured" ? AUTH_SEN.register.mailUnconfigured : AUTH_SEN.register.mailFailed);
+    } catch {
+      setError(AUTH_SEN.register.mailFailed);
+    } finally {
+      setResendPending(false);
     }
   }
 
@@ -187,7 +231,24 @@ export function LoginForm({ nextPath }: { nextPath?: string }) {
           {error}
         </div>
       ) : null}
-      <Button type="submit" className="mt-2 w-full shrink-0" disabled={pending} suppressHydrationWarning={true}>
+      {notice ? (
+        <p className="mt-2 shrink-0 text-sm text-[var(--safir)]" role="status" data-testid="login-resend-status">
+          {notice}
+        </p>
+      ) : null}
+      {needsConfirm ? (
+        <Button
+          type="button"
+          variant="outline"
+          className="mt-2 w-full shrink-0"
+          disabled={resendPending || pending || !email}
+          data-testid="login-resend"
+          onClick={() => void onResend()}
+        >
+          {resendPending ? AUTH_SEN.register.resendPending : AUTH_SEN.register.resend}
+        </Button>
+      ) : null}
+      <Button type="submit" className="mt-2 w-full shrink-0" disabled={pending || resendPending} suppressHydrationWarning={true}>
         {pending ? copy.pending : copy.submit}
       </Button>
     </form>

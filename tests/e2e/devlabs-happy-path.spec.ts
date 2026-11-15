@@ -9,7 +9,7 @@ test.describe("O12 DevLabs icra dürüstlüğü yüzeyi", () => {
 
     const catalog = await page.goto("/devlabs");
     expect(catalog?.status()).toBe(410);
-    await expect(page.getByText("Bu oda üretimde kapalı.")).toBeVisible();
+    await expect(page.getByText("Bu sayfa şu an kullanılmıyor.")).toBeVisible();
 
     const board = await page.goto("/devlabs/projeler/e2e-project");
     expect(board?.status()).toBe(410);

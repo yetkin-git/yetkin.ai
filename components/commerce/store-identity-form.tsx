@@ -18,7 +18,7 @@ export function StoreIdentityForm({ store }: { store: CockpitStore }) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
 
-  async function save(activate: boolean) {
+  async function save(status?: "ACTIVE" | "DRAFT") {
     if (pending) {
       return;
     }
@@ -29,8 +29,8 @@ export function StoreIdentityForm({ store }: { store: CockpitStore }) {
       slug: slug.trim(),
       whatsappE164: whatsapp.trim(),
     };
-    if (activate) {
-      body.status = "ACTIVE";
+    if (status) {
+      body.status = status;
     }
     const result = await commerceMutate(`/api/commerce/stores/${store.id}`, "PATCH", body);
     setPending(false);
@@ -64,14 +64,18 @@ export function StoreIdentityForm({ store }: { store: CockpitStore }) {
       </div>
       {error ? <p className="text-sm text-[var(--rose)]">{error}</p> : null}
       <div className="flex flex-wrap gap-2">
-        <Button type="button" variant="outline" onClick={() => void save(false)} disabled={pending}>
+        <Button type="button" variant="outline" onClick={() => void save()} disabled={pending}>
           {pending ? copy.saving : copy.save}
         </Button>
         {store.status === "DRAFT" ? (
-          <Button type="button" onClick={() => void save(true)} disabled={pending}>
+          <Button type="button" onClick={() => void save("ACTIVE")} disabled={pending}>
             {copy.activate}
           </Button>
-        ) : null}
+        ) : (
+          <Button type="button" variant="outline" onClick={() => void save("DRAFT")} disabled={pending}>
+            {copy.pause}
+          </Button>
+        )}
       </div>
     </div>
   );

@@ -124,8 +124,12 @@ export function MasterSkuTransfer({
     setMessage("");
     setEditPath("");
     try {
-      const target = storeName.trim() ? await createStore() : storeId || (await createStore());
+      const named = storeName.trim();
+      const target = named ? await createStore() : storeId;
       if (!target) {
+        if (!named) {
+          setError("Mağaza seç veya yeni mağaza adı yaz.");
+        }
         return;
       }
       const response = await fetch(
@@ -173,8 +177,15 @@ export function MasterSkuTransfer({
                 id="commerce-store"
                 className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-base text-[var(--foreground)]"
                 value={storeId}
-                onChange={(event) => setStoreId(event.target.value)}
+                onChange={(event) => {
+                  const next = event.target.value;
+                  setStoreId(next);
+                  if (next) {
+                    setStoreName("");
+                  }
+                }}
               >
+                <option value="">Yeni mağaza</option>
                 {stores.map((store) => (
                   <option key={store.id} value={store.id}>
                     {store.name}
@@ -192,6 +203,11 @@ export function MasterSkuTransfer({
                 placeholder="Mağaza adı"
                 onChange={(event) => setStoreName(event.target.value)}
               />
+              {storeName.trim() ? (
+                <p className="mt-1 text-sm text-[var(--muted)]" role="status">
+                  Yeni mağaza açılacak
+                </p>
+              ) : null}
             </div>
           )}
           {stores != null && stores.length > 0 ? (
@@ -202,8 +218,20 @@ export function MasterSkuTransfer({
                 value={storeName}
                 maxLength={80}
                 placeholder="Yeni mağaza adı"
-                onChange={(event) => setStoreName(event.target.value)}
+                disabled={storeId.length > 0}
+                onChange={(event) => {
+                  const next = event.target.value;
+                  setStoreName(next);
+                  if (next.trim()) {
+                    setStoreId("");
+                  }
+                }}
               />
+              {storeName.trim() ? (
+                <p className="mt-1 text-sm text-[var(--muted)]" role="status">
+                  Yeni mağaza açılacak
+                </p>
+              ) : null}
             </div>
           ) : null}
           <Button type="button" onClick={() => void transfer()} disabled={pending || !draft.ok}>

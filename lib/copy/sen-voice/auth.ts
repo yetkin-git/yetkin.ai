@@ -64,15 +64,13 @@ export const AUTH_SEN = {
     pending: "Kayıt…",
     fail: "Kayıt başarısız.",
     duplicate: "Bu e-posta zaten kayıtlı. Giriş yap.",
-    confirmEmail:
-      "Doğrulama e-postası gönderilemedi. Confirm Email açık ve Auth SMTP bağlı değil.",
-    database:
-      "Kayıt veritabanında düştü. Kullanıcı veya cüzdan tetikleyicisi kısıtı olabilir.",
+    confirmEmail: "Doğrulama e-postası şu an gönderilemedi. Birkaç dakika sonra tekrar dene.",
+    database: "Hesabın şu an açılamadı. Bir süre sonra tekrar dene; sürerse destek ile yaz.",
     pendingVerification:
       "E-posta adresine doğrulama bağlantısı gönderildi. Gelen kutudaki bağlantıyı aç; onaylanmadan panele girilmez.",
     mailFailed: "Doğrulama e-postası gönderilemedi. Tekrar gönder.",
     mailUnconfigured: "E-posta servisi şu an bağlı değil. Doğrulama postası çıkmadı.",
-    resend: "Tekrar Gönder",
+    resend: "Doğrulama e-postasını tekrar gönder",
     resendPending: "Gönderiliyor…",
     resendSent: "Doğrulama e-postası tekrar gönderildi. Gelen kutunu ve spam klasörünü kontrol et.",
     devFallback:

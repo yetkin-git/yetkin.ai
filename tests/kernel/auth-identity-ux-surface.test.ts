@@ -78,6 +78,9 @@ describe("vatandaş kimlik UX yüzeyi", () => {
     expect(form).toContain("setPending(false)");
     expect(form).toContain('role="alert"');
     expect(form).toContain("data-testid=\"login-error\"");
+    expect(form).toContain("data-testid=\"login-resend\"");
+    expect(form).toContain("AUTH_RESEND_CONFIRMATION_API_PATH");
+    expect(form).toContain("copy.unconfirmed");
     expect(readSrc("lib/copy/sen-voice/auth.ts")).toContain("Tarayıcı kimlik istemcisi yapılandırılmadı");
     expect(readSrc("lib/copy/sen-voice/auth.ts")).toContain("Şifremi Unuttum?");
     expect(field).toContain('type={revealed ? "text" : "password"}');
@@ -108,7 +111,7 @@ describe("vatandaş kimlik UX yüzeyi", () => {
     expect(form).toContain("window.location.assign(");
     expect(form).toContain("register-resend");
     expect(form).toContain("AUTH_RESEND_CONFIRMATION_API_PATH");
-    expect(copy).toContain("Tekrar Gönder");
+    expect(copy).toContain("Doğrulama e-postasını tekrar gönder");
     expect(copy).toContain("Doğrulama e-postası gönderilemedi. Tekrar gönder.");
     expect(form).toContain("data-testid=\"register-pending\"");
     expect(form).not.toContain("createSupabaseBrowserClient");

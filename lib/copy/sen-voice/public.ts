@@ -158,14 +158,12 @@ export const PUBLIC_SEN = {
   },
   gone: {
     eyebrow: "Kapalı",
-    headline: "Bu oda üretimde kapalı.",
-    description:
-      "Çalışan ürün Akademi’dir. Kariyer belge vitrinidir. Bu yüzey donmuş backlog’tur; yeni iş burada açılmaz. Sahte vitrin basılmaz.",
+    headline: "Bu sayfa şu an kullanılmıyor.",
+    description: "Bu bölüm şu an kapalı. Akademi’den devam edebilir, Kariyer’e göz atabilirsin.",
     homeCta: "Ana sayfa",
     academyCta: "Akademi",
     careerCta: "Kariyer",
     freelancerCta: "Freelancer",
-    status: "HTTP 410",
   },
   notFound: {
     eyebrow: "404",

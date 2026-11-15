@@ -159,7 +159,8 @@ describe("proxy.ts kenar mühürleri", () => {
     expect(response.status).toBe(410);
     expect(response.headers.get("content-type")).toContain("text/html");
     const html = await response.text();
-    expect(html).toContain("Bu oda üretimde kapalı.");
+    expect(html).toContain("Bu sayfa şu an kullanılmıyor.");
+    expect(html).not.toContain("HTTP 410");
     expect(html).toContain("Akademi");
     expect(html).toContain("href=\"/\"");
     expectNonceCsp(response);

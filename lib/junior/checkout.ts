@@ -94,7 +94,7 @@ export const JUNIOR_CHECKOUT_NOT_CONFIGURED = "not_configured";
 export const JUNIOR_CHECKOUT_CLOSED_MESSAGE = JUNIOR_CHECKOUT_LOCKED_ERROR;
 
 export const JUNIOR_CHECKOUT_REFUSED_MESSAGE =
-  "Canlı ödeme hattı hazır değil. Deneme mağaza gerçek satış açmaz.";
+  "Ödeme şu an tamamlanamıyor. Bir süre sonra tekrar dene.";
 
 export const JUNIOR_CHECKOUT_PAYTR_MESSAGE =
   "Ödeme ekranı şu an açılamadı. Bağlantını kontrol edip biraz sonra yeniden dene.";
@@ -104,7 +104,7 @@ export const JUNIOR_CHECKOUT_GUARDIAN_REQUIRED = "Veli onayı olmadan ödeme ekr
 export const JUNIOR_CHECKOUT_AUDIT_MESSAGE =
   "Denetim hesabı ödeme kaydı yazmaz. Kilitli dersler izleme ile açılır.";
 
-export const JUNIOR_CHECKOUT_PRICE_MESSAGE = "Liste fiyatı katalogda yok. Tutar uydurulmaz.";
+export const JUNIOR_CHECKOUT_PRICE_MESSAGE = "Bu paketin fiyatı şu an görünmüyor.";
 
 export const JUNIOR_CHECKOUT_LOGIN_MESSAGE = "Ödeme için veli girişi gerekir.";
 

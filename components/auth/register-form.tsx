@@ -181,7 +181,7 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
       }
       if (mail === "sent") {
         setMessage(copy.pendingVerification);
-        setCanResend(false);
+        setCanResend(true);
         return;
       }
       setCanResend(true);

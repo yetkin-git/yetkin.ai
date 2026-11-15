@@ -71,18 +71,21 @@ describe("üretim kilitleri ve donmuş oda yüzey mühürü", () => {
   });
 
   it("kenar HTML/JSON 410 vatandaş dili SEN aksı ve Quiet Luxury dürüstlüğüyle hizalıdır", () => {
-    expect(EDGE_API_FROZEN_ROOM_ERROR).toBe(PUBLIC_SEN.gone.headline);
-    expect(FROZEN_ROOM_GONE_HEADLINE).toBe(PUBLIC_SEN.gone.headline);
-    expect(PUBLIC_SEN.gone.description).toContain("Sahte vitrin basılmaz");
-    expect(PUBLIC_SEN.gone.description).toContain("donmuş backlog");
+    expect(EDGE_API_FROZEN_ROOM_ERROR).toBe("Bu oda üretimde kapalı.");
+    expect(FROZEN_ROOM_GONE_HEADLINE).toBe(EDGE_API_FROZEN_ROOM_ERROR);
+    expect(PUBLIC_SEN.gone.headline).toBe("Bu sayfa şu an kullanılmıyor.");
+    expect(PUBLIC_SEN.gone.description).toBe(
+      "Bu bölüm şu an kapalı. Akademi’den devam edebilir, Kariyer’e göz atabilirsin.",
+    );
     const html = renderFrozenRoomGoneHtml("/studio");
     expect(html).toContain(PUBLIC_SEN.gone.eyebrow);
     expect(html).toContain(PUBLIC_SEN.gone.headline);
     expect(html).toContain(PUBLIC_SEN.gone.description);
-    expect(html).toContain(PUBLIC_SEN.gone.status);
+    expect(html).not.toContain("HTTP 410");
+    expect(html).not.toContain("üretimde kapalı");
+    expect(html).not.toContain("donmuş backlog");
     expect(html).toContain(`>${PUBLIC_SEN.gone.homeCta}<`);
     expect(html).toContain(`>${PUBLIC_SEN.gone.academyCta}<`);
-    expect(html).toContain("Studio üretimde kapalı");
     expect(readSrc("lib/kernel/http/frozen-410-html.ts")).toContain("PUBLIC_SEN.gone");
     expect(readSrc("lib/kernel/http/frozen-gone-route.ts")).toContain("EDGE_API_FROZEN_ROOM_ERROR");
   });

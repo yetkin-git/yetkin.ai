@@ -109,11 +109,8 @@ export function CheckoutForm({
   if (!checkoutOpen) {
     return (
       <section className="grid gap-2 rounded-2xl border border-[var(--border)] bg-white p-4 text-sm leading-6">
-        <h2 className="text-lg font-semibold">Ödeme hattı kapalı</h2>
-        <p>
-          Gerçek ödeme hattı bağlanana kadar yıllık paket satışı açılmaz. Vitrindeki liste fiyatı tahsilat vaadi değildir.
-          Deneme mağaza anahtarı satışı açmaz. Canlı ödeme anahtarı olmadan tahsilat yoktur. Kart bilgisi bu ekranda yazılmaz.
-        </p>
+        <h2 className="text-lg font-semibold">Yıllık paket satışı şu an kapalı</h2>
+        <p>Kart bilgisi bu ekranda yazılmaz.</p>
       </section>
     );
   }

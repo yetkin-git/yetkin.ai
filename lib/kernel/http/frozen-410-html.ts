@@ -6,7 +6,7 @@ import {
 } from "@/lib/kernel/compliance/circuit-breakers";
 import { EDGE_API_FROZEN_ROOM_ERROR } from "@/lib/kernel/security/edge-api-auth";
 
-/** Kenar HTML 410 — vatandaş dili. API JSON cümlesi EDGE_API_FROZEN_ROOM_ERROR ile aynı kalır. */
+/** API JSON cümlesi. Kenar HTML vatandaş metni PUBLIC_SEN.gone üzerinden gelir. */
 export const FROZEN_ROOM_GONE_HEADLINE = EDGE_API_FROZEN_ROOM_ERROR;
 
 export function frozenRoomLabelFromPath(pathname: string): string {
@@ -26,7 +26,7 @@ export function frozenRoomLabelFromPath(pathname: string): string {
 export function renderFrozenRoomGoneHtml(pathname: string): string {
   const copy = PUBLIC_SEN.gone;
   const label = frozenRoomLabelFromPath(pathname);
-  const title = `${label} üretimde kapalı`;
+  const title = `${label} — ${copy.headline}`;
   return `<!doctype html>
 <html lang="tr">
   <head>
@@ -49,10 +49,8 @@ export function renderFrozenRoomGoneHtml(pathname: string): string {
   <body>
     <main>
       <p class="eyebrow">${copy.eyebrow}</p>
-      <h1>${title}</h1>
-      <p>${FROZEN_ROOM_GONE_HEADLINE}</p>
-      <p class="muted">${copy.description}</p>
-      <p class="muted">${copy.status}</p>
+      <h1>${copy.headline}</h1>
+      <p>${copy.description}</p>
       <nav>
         <a href="/">${copy.homeCta}</a>
         <a href="/academy">${copy.academyCta}</a>
