@@ -70,6 +70,11 @@ export const ADMIN_B2B_SURFACE_PATH = "/admin/b2b" as const;
 export const ADMIN_B2B_PATH = "/api/admin/b2b" as const;
 export const ADMIN_B2B_SEND_PATH = "/api/admin/b2b/send" as const;
 export const ADMIN_B2B_REPLY_PATH = "/api/admin/b2b/reply" as const;
+/** Sosyal yayın masası. Yeni oda değildir; `/admin` sığınağının altıdır. */
+export const ADMIN_SOCIAL_SURFACE_PATH = "/admin/social" as const;
+export const ADMIN_SOCIAL_PATH = "/api/admin/social" as const;
+export const ADMIN_SOCIAL_PUBLISH_PATH = "/api/admin/social/publish" as const;
+export const ADMIN_SOCIAL_REPLY_PATH = "/api/admin/social/reply" as const;
 /** Admin sığınak yönlendirmeleri — canlı CTA hedefleri. */
 export const ADMIN_DASHBOARD_SHELTER_PATH = "/dashboard" as const;
 export const ADMIN_ACADEMY_SHELTER_PATH = "/academy" as const;

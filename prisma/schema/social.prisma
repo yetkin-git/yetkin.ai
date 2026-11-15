@@ -1,0 +1,46 @@
+/// Sosyal yayın kuyruğu. Super Admin yüzeyi. Sahiplik kolonu yoktur.
+/// PostgREST `rls_deny_unscoped` (SELECT USING false) alır. Yazma politikası üretilmez.
+
+enum SocialPlatform {
+  LINKEDIN
+  INSTAGRAM
+  FACEBOOK
+  X
+}
+
+enum SocialPostStatus {
+  DRAFT
+  PUBLISHED
+  FAILED
+}
+
+enum SocialModule {
+  AI_TEZGAH
+  COMMERCE
+  TUBITAK_1507
+  WEB_TETKIK
+  CAREER_COACH
+}
+
+/// Kuyruk satırı. `actor_user_id` süper yönetici UUID'sidir; `user_id` değildir.
+model SocialPostQueueItem {
+  id             String           @id @default(cuid())
+  module         SocialModule
+  platform       SocialPlatform
+  title          String           @db.VarChar(180)
+  body           String           @db.Text
+  imageUrl       String?          @map("image_url") @db.VarChar(500)
+  imagePrompt    String           @default("") @map("image_prompt") @db.VarChar(500)
+  targetUrl      String           @map("target_url") @db.VarChar(300)
+  status         SocialPostStatus @default(DRAFT)
+  externalPostId String?          @map("external_post_id") @db.VarChar(200)
+  lastError      String           @default("") @map("last_error") @db.VarChar(500)
+  actorUserId    String           @map("actor_user_id")
+  publishedAt    DateTime?        @map("published_at")
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @updatedAt @map("updated_at")
+
+  @@index([status, createdAt])
+  @@index([createdAt])
+  @@map("social_post_queue_items")
+}
