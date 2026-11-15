@@ -12,6 +12,8 @@ export const SUPER_ADMIN_AUDIT_ACTIONS = [
   "manual_refund",
   "certificate_revoke",
   "room_flag",
+  "b2b_switch",
+  "b2b_send",
 ] as const;
 
 /** Mühür satırı açılmazsa yazma geri alınır. Sessiz geçiş yoktur. */

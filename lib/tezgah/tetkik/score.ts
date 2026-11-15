@@ -170,3 +170,17 @@ export function scoreTetkik(parsed: ParsedHomepage, measures: TetkikMeasures): T
 export function scoreHomepageHtml(html: string, measures: TetkikMeasures): TetkikScore {
   return scoreTetkik(parseHomepageHtml(html), measures);
 }
+
+/** Açık maddeler, kaçan puanı büyük olandan. Eşitlikte ağırlık öne geçer. */
+export function topOpenTetkikGaps(checks: readonly TetkikCheck[], limit = 2): TetkikCheck[] {
+  return [...checks]
+    .filter((check) => !check.passed)
+    .sort((left, right) => {
+      const missed = right.weight - right.earned - (left.weight - left.earned);
+      if (missed !== 0) {
+        return missed;
+      }
+      return right.weight - left.weight;
+    })
+    .slice(0, Math.max(0, limit));
+}

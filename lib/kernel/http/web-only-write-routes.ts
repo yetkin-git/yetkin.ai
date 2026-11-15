@@ -98,6 +98,30 @@ function tombstones(): WebBffRouteRecord[] {
 
 const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
   ...verbs(
+    "admin-b2b",
+    ["GET", "POST", "PATCH"],
+    "/api/admin/b2b",
+    "admin",
+    true,
+    "B2B fırsat motoru. Super Admin. Günlük 15 firma. Native hop değildir.",
+  ),
+  ...verbs(
+    "admin-b2b-send",
+    ["POST"],
+    "/api/admin/b2b/send",
+    "admin",
+    true,
+    "B2B taslak onayı ve gönderim. Motor kapalıyken ve limit doluyken kilitli. Native hop değildir.",
+  ),
+  ...verbs(
+    "admin-b2b-reply",
+    ["POST"],
+    "/api/admin/b2b/reply",
+    "admin",
+    true,
+    "B2B yanıt taslağı. Müşteriye kendiliğinden gitmez. Native hop değildir.",
+  ),
+  ...verbs(
     "admin-catalog",
     ["PATCH"],
     "/api/admin/catalog",

@@ -20,7 +20,7 @@ import { loadAdminCatalogBoard } from "@/lib/kernel/admin/load";
 import { loadAdminFunnelBoard } from "@/lib/kernel/admin/funnel-load";
 import { loadAdminGa4Board } from "@/lib/kernel/telemetry/ga4-data-client";
 import { coerceFunnelRange } from "@/lib/kernel/admin/funnel-window";
-import { ADMIN_OPS_SURFACE_PATH } from "@/lib/kernel/admin/types";
+import { ADMIN_B2B_SURFACE_PATH, ADMIN_OPS_SURFACE_PATH } from "@/lib/kernel/admin/types";
 import { resolveSuperAdminAccess } from "@/lib/kernel/auth/session";
 import { REQUIRED_CATALOG_DEFINITIONS } from "@/lib/kernel/pricing/catalog-definitions";
 import { AdminCatalogAmountForm } from "@/components/kernel/admin-catalog-amount-form";
@@ -77,6 +77,9 @@ export default async function AdminPage({
         description={copy.description}
         actions={
           <div className="flex flex-wrap gap-2">
+            <LinkButton href={ADMIN_B2B_SURFACE_PATH} variant="outline" size="sm">
+              {copy.b2b.link}
+            </LinkButton>
             <LinkButton href={ADMIN_OPS_SURFACE_PATH} variant="primary" size="sm">
               {copy.ops.link}
             </LinkButton>
@@ -129,6 +132,7 @@ export default async function AdminPage({
         <Forbidden message={copy.forbidden} />
       ) : board?.access === "unavailable" ? (
         <div className="space-y-4">
+          <B2bEntry />
           <p className="text-sm text-[var(--muted)]">{copy.loadSoft}</p>
           <AdminShelterActions soft />
           <AdminFunnelBoard board={funnel} range={funnelRange} />
@@ -142,6 +146,7 @@ export default async function AdminPage({
         </div>
       ) : (
         <div className="space-y-4">
+          <B2bEntry />
           {off201PriceUnset ? (
             <Card title={copy.off201PriceUnset.title} eyebrow="OFF-201">
               <p className="text-sm text-[var(--muted)]">{copy.off201PriceUnset.body}</p>
@@ -170,6 +175,20 @@ export default async function AdminPage({
         {copy.honestyBody(HOLD_BPS_BAND_LABEL)}
       </Card>
     </RoomFrame>
+  );
+}
+
+function B2bEntry() {
+  const copy = SEN_VOICE.admin.b2b;
+  return (
+    <Card eyebrow={copy.eyebrow} title={copy.title}>
+      <p className="text-sm text-[var(--muted)]">{copy.cardBody}</p>
+      <div className="mt-3">
+        <LinkButton href={ADMIN_B2B_SURFACE_PATH} variant="primary" size="sm">
+          {copy.link}
+        </LinkButton>
+      </div>
+    </Card>
   );
 }
 

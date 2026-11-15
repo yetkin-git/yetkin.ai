@@ -1,0 +1,61 @@
+/// B2B fırsat kuyruğu. Super Admin yüzeyi. Sahiplik kolonu yoktur.
+/// PostgREST `rls_deny_unscoped` (SELECT USING false) alır. Yazma politikası üretilmez.
+/// Günlük tavan 15'tir ve kolon kilididir. Motor kapalıyken gönderim satırı SENT olmaz.
+
+enum B2bLeadChannel {
+  WEB_TETKIK
+  TUBITAK_HIBE
+}
+
+enum B2bLeadStatus {
+  QUEUED
+  DRAFT_READY
+  SEND_LOCK
+  SENT
+  FAILED
+}
+
+/// Tek satır. Anahtar `B2B_OUTBOUND_ENABLED`. Günlük tavan kod ve çekle 15'tir.
+model B2bOutboundSetting {
+  id         String   @id
+  key        String   @unique
+  enabled    Boolean  @default(false)
+  dailyLimit Int      @default(15) @map("daily_limit")
+  updatedBy  String?  @map("updated_by")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("b2b_outbound_settings")
+}
+
+/// Europe/Istanbul günü. Gönderim rezervi bu sayacı 1 artırır. 15'i geçemez.
+model B2bOutboundDailyCounter {
+  day       DateTime @id @db.Date
+  sentCount Int      @default(0) @map("sent_count")
+
+  @@map("b2b_outbound_daily_counters")
+}
+
+/// Kuyruk satırı. `actor_user_id` süper yönetici UUID'sidir; `user_id` değildir.
+model B2bLeadCampaignItem {
+  id           String         @id @default(cuid())
+  companyName  String         @map("company_name") @db.VarChar(120)
+  email        String         @db.VarChar(160)
+  websiteUrl   String?        @map("website_url") @db.VarChar(300)
+  sector       String         @db.VarChar(80)
+  city         String         @db.VarChar(80)
+  channel      B2bLeadChannel
+  status       B2bLeadStatus  @default(QUEUED)
+  score        Int?
+  note         String         @default("") @db.VarChar(500)
+  findingsJson String         @default("") @map("findings_json") @db.Text
+  subject      String         @default("") @db.VarChar(180)
+  body         String         @default("") @db.Text
+  actorUserId  String         @map("actor_user_id")
+  sentAt       DateTime?      @map("sent_at")
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+
+  @@index([status, createdAt])
+  @@index([createdAt])
+  @@map("b2b_lead_campaign_items")
+}
