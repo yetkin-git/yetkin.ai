@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState, type FormEvent } from "react"
 import { useRouter, useSearchParams } from "next/navigation";
 import type { Route } from "next";
 import { GoogleContinueButton } from "@/components/auth/google-continue-button";
-import { academyCheckoutHref } from "@/lib/academy/storefront-cta";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/components/ui/cn";
@@ -756,13 +755,13 @@ export function TezgahWorkbench({
         </div>
       ) : showMemberCard ? (
         <div className="print:hidden" data-tezgah-member-convert="">
-          <Card variant="featured" title={TEZGAH_MEMBER_QUOTA_MESSAGE} eyebrow="Üyelik">
+          <Card variant="featured" title={TEZGAH_MEMBER_QUOTA_MESSAGE} eyebrow="Günlük hak">
             <p className="text-sm leading-6 text-[var(--muted)]">
-              Düğme uzmanlık paketinin ödeme çapasına gider. Satın alma bugünkü üretim sayacını yükseltmez.
+              Yarın yeni hakkın açılır. Kurs satın almak bugünkü üretim sayacını yükseltmez.
             </p>
             <div className="mt-4">
-              <LinkButton href={academyCheckoutHref("01_office_ai") as Route} variant="success">
-                Stüdyo Kotası Yükselt
+              <LinkButton href="/academy" variant="outline">
+                Akademiye dön
               </LinkButton>
             </div>
           </Card>

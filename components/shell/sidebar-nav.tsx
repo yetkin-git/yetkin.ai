@@ -5,7 +5,7 @@ import type { Route } from "next";
 import { usePathname } from "next/navigation";
 import { DronBayrakları, INDEPENDENT_ROOMS, type IndependentRoomId } from "@/lib/dronlar/kayit";
 import { ADMIN_SURFACE_PATH } from "@/lib/kernel/admin/types";
-import { VERTICAL_ROOMS } from "@/lib/kernel/modules";
+import { COMMERCE_NAV, VERTICAL_ROOMS } from "@/lib/kernel/modules";
 import { isPhase1ShellNavRoom } from "@/lib/kernel/compliance/circuit-breakers";
 import { isJuniorShellPath } from "@/lib/ui/junior-shell";
 import { ROOM_NAV_ACCENT } from "@/lib/ui/room-theme";
@@ -18,6 +18,57 @@ const INDEPENDENT_NAV_ACCENT: Record<IndependentRoomId, string> = {
   young: "bg-[#4338ca] text-white",
   yetkinhibe: "bg-[#854d0e] text-white",
 };
+
+const COMMERCE_NAV_ACCENT = "bg-[#0f766e] text-white";
+
+function NavLink({
+  href,
+  label,
+  blurb,
+  accent,
+  icon: Icon,
+  active,
+  collapsed,
+  onNavigate,
+}: {
+  href: Route;
+  label: string;
+  blurb: string;
+  accent: string;
+  icon: (typeof ROOM_ICONS)[keyof typeof ROOM_ICONS];
+  active: boolean;
+  collapsed: boolean;
+  onNavigate?: () => void;
+}) {
+  return (
+    <Link
+      href={href}
+      onClick={onNavigate}
+      title={collapsed ? label : undefined}
+      aria-label={collapsed ? label : undefined}
+      className={cn(
+        "group flex items-center rounded-2xl text-sm leading-snug transition",
+        collapsed ? "justify-center px-0 py-2.5" : "gap-3 px-3 py-2.5",
+        active
+          ? "bg-white/10 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]"
+          : "text-white/65 hover:bg-white/5 hover:text-white",
+      )}
+    >
+      <span
+        className={cn(
+          "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
+          active ? accent : "bg-white/5 text-white/70",
+        )}
+      >
+        <Icon className="h-4 w-4" />
+      </span>
+      <span className={cn("min-w-0 flex-1 overflow-hidden", collapsed && "sr-only")}>
+        <span className="block truncate font-medium leading-snug">{label}</span>
+        <span className="mt-0.5 block truncate text-xs leading-snug text-white/40">{blurb}</span>
+      </span>
+    </Link>
+  );
+}
 
 function isActive(pathname: string | null, path: string): boolean {
   if (!pathname) {
@@ -60,9 +111,8 @@ export function SidebarNav({
       accent: INDEPENDENT_NAV_ACCENT[room.id],
     })),
   ];
-  const rooms = isJuniorShellPath(pathname)
-    ? adultRooms.filter((room) => room.id === "junior")
-    : adultRooms;
+  const juniorShell = isJuniorShellPath(pathname);
+  const rooms = juniorShell ? adultRooms.filter((room) => room.id === "junior") : adultRooms;
 
   return (
     <nav className="flex h-full min-h-0 flex-col">
@@ -75,46 +125,40 @@ export function SidebarNav({
         Menü
       </p>
       <ul className="flex flex-col gap-1.5">
-        {rooms.map((room) => {
-          const Icon = ROOM_ICONS[room.id];
-          const active = isActive(pathname, room.path);
-          return (
+        {rooms.flatMap((room) => {
+          const row = (
             <li key={room.id}>
-              <Link
+              <NavLink
                 href={room.path}
-                onClick={onNavigate}
-                title={collapsed ? room.label : undefined}
-                aria-label={collapsed ? room.label : undefined}
-                className={cn(
-                  "group flex items-center rounded-2xl text-sm leading-snug transition",
-                  collapsed ? "justify-center px-0 py-2.5" : "gap-3 px-3 py-2.5",
-                  active
-                    ? "bg-white/10 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]"
-                    : "text-white/65 hover:bg-white/5 hover:text-white",
-                )}
-              >
-                <span
-                  className={cn(
-                    "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
-                    active ? room.accent : "bg-white/5 text-white/70",
-                  )}
-                >
-                  <Icon className="h-4 w-4" />
-                </span>
-                <span
-                  className={cn(
-                    "min-w-0 flex-1 overflow-hidden",
-                    collapsed && "sr-only",
-                  )}
-                >
-                  <span className="block truncate font-medium leading-snug">{room.label}</span>
-                  <span className="mt-0.5 block truncate text-xs leading-snug text-white/40">
-                    {room.blurb}
-                  </span>
-                </span>
-              </Link>
+                label={room.label}
+                blurb={room.blurb}
+                accent={room.accent}
+                icon={ROOM_ICONS[room.id]}
+                active={isActive(pathname, room.path)}
+                collapsed={collapsed}
+                onNavigate={onNavigate}
+              />
             </li>
           );
+          if (juniorShell || room.id !== "tezgah") {
+            return [row];
+          }
+          const CommerceIcon = ROOM_ICONS.magazam;
+          return [
+            row,
+            <li key={COMMERCE_NAV.id}>
+              <NavLink
+                href={COMMERCE_NAV.path}
+                label={COMMERCE_NAV.label}
+                blurb={COMMERCE_NAV.blurb}
+                accent={COMMERCE_NAV_ACCENT}
+                icon={CommerceIcon}
+                active={isActive(pathname, COMMERCE_NAV.path)}
+                collapsed={collapsed}
+                onNavigate={onNavigate}
+              />
+            </li>,
+          ];
         })}
       </ul>
       {showAdmin ? (

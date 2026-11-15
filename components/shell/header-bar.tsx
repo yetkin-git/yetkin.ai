@@ -23,7 +23,9 @@ export function HeaderBar({
 
   return (
     <header
+      data-shell-header=""
       className={cn(
+        "print:hidden",
         "sticky top-0 z-20 mt-0 border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--surface)_78%,transparent)] pt-0 backdrop-blur-xl",
         lessonKey && "h-12",
       )}

@@ -10,10 +10,10 @@ function readSrc(relative: string): string {
   return readFileSync(join(ROOT, relative), "utf8");
 }
 
-const BENCH_TOOLS = ["tetkik", "dukkan", "pazaryeri", "reklam", "grant"] as const;
+const BENCH_TOOLS = ["ecommerce", "proposal", "tetkik", "dukkan", "pazaryeri", "reklam", "grant"] as const;
 
-describe("ana sayfa beşli tezgâh vitrini", () => {
-  it("sayfa kaynağında beş araç linkini bu sırayla basar; zincir ve hibe bölümü durur", () => {
+describe("ana sayfa yedili tezgâh vitrini", () => {
+  it("sayfa kaynağında yedi araç linkini bu sırayla basar; zincir durur", () => {
     const page = readSrc("app/(public)/page.tsx");
     const copySrc = readSrc("lib/copy/sen-voice/public.ts");
     const home = SEN_VOICE.public.home;
@@ -22,12 +22,15 @@ describe("ana sayfa beşli tezgâh vitrini", () => {
     expect(home.bench.map((item) => item.id)).toEqual([...BENCH_TOOLS]);
     expect(home.bench.map((item) => item.href)).toEqual(hrefs);
     expect(home.bench.map((item) => item.title)).toEqual([
+      "E-Ticaret Ürün Kartı",
+      "Müşteri Teklif Yazıcı",
       "Web Sitesi Tetkik",
       "Sektörel Dijital Dükkan",
       "Pazaryeri Katalog Fabrikası",
       "Otonom Reklam Paketi",
       "Hibe Proje Dosyası",
     ]);
+    expect(home.benchTitle).toBe("Yedi araç, bugün teslim");
 
     let cursor = copySrc.indexOf("bench:");
     expect(cursor).toBeGreaterThan(-1);
@@ -58,9 +61,9 @@ describe("ana sayfa beşli tezgâh vitrini", () => {
     expect(page).toContain("copy.chain");
     expect(page).not.toContain("HomeOfferSection");
     expect(page).not.toContain("Hazırlanıyor");
-    expect(home.offers.heading).toBe("İster kendin hazırla, İster uzmana devret");
-    expect(home.offers.lead).toBe("İki yol da henüz açık değil. Açıldığında fiyatı ve kapsamı burada yazar.");
-    expect(home.offers.statusLabel).toBe("Hazırlanıyor");
+    expect(home.chain[3]?.title).toBe("30 Günlük Plan ve Canlı Vitrin");
+    expect(home.title).not.toContain("İşverenlerle Buluş");
+    expect(home.description).not.toContain("teklif ver");
   });
 
   it("vitrin metni fiyatsızdır; freelancer ve kariyer yolu yoktur", () => {

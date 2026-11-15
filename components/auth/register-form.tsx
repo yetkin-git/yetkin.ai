@@ -132,7 +132,6 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
-    console.log(REGISTER_DEBUG, "submit:start");
     setPending(true);
     setError(null);
     setMessage(null);
@@ -148,12 +147,10 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
       }
 
       const envProbe = describePublicSupabaseBrowserEnv();
-      console.log(REGISTER_DEBUG, "env:probe", envProbe);
       if (!envProbe.hasUrl || !envProbe.hasAnon) {
         throw new SupabaseBrowserEnvError("missing", AUTH_SEN.login.envMissing);
       }
 
-      console.log(REGISTER_DEBUG, "register:request");
       const response = await withWatchdog(
         fetch(AUTH_REGISTER_API_PATH, {
           method: "POST",
@@ -169,10 +166,6 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
         new Error(AUTH_SEN.login.timeout),
       );
       const body: unknown = await response.json().catch(() => null);
-      console.log(REGISTER_DEBUG, "register:result", {
-        status: response.status,
-        ok: Boolean(body && typeof body === "object" && "ok" in body && body.ok),
-      });
       if (!response.ok || !body || typeof body !== "object" || !("ok" in body) || body.ok !== true) {
         const next = readRegisterFailMessage(body, copy);
         console.error(REGISTER_DEBUG, "register:error", response.status, next);
@@ -181,7 +174,6 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
         return;
       }
       const mail = readMail(body);
-      console.log(REGISTER_DEBUG, "register:mail", mail);
       emitSemConversion("register");
       if (readSession(body)) {
         window.location.assign(readPostLoginPathFromSearch(window.location.search, nextPath));
@@ -199,7 +191,6 @@ export function RegisterForm({ nextPath }: { nextPath?: string }) {
       setError(resolveSignUpFailure(caught, copy));
     } finally {
       setPending(false);
-      console.log(REGISTER_DEBUG, "submit:finally pending=false");
     }
   }
 

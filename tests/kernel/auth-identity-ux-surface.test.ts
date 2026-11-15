@@ -114,7 +114,7 @@ describe("vatandaş kimlik UX yüzeyi", () => {
     expect(form).not.toContain("createSupabaseBrowserClient");
     expect(form).toContain("ageConfirmed");
     expect(form).toContain("register-age-confirm");
-    expect(form).toContain("console.log");
+    expect(form).not.toContain("console.log");
     expect(form).toContain("console.error");
     expect(copy).toContain("18 yaşından büyüğüm");
     expect(copy).toContain("E-posta adresine doğrulama bağlantısı gönderildi");

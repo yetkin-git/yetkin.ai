@@ -4,9 +4,9 @@ import { YETKIN_BRAND } from "@/lib/copy/brand";
 export const PUBLIC_SEN = {
   home: {
     badge: YETKIN_BRAND,
-    title: "Yetkinliğini Mühürle. Yapay Zekâ Tezgâhıyla 10 Kat Hızlı Üret. İşverenlerle Buluş.",
+    title: "Yetkinliğini Mühürle. Yapay Zekâ Tezgâhıyla Üret. Rozet, Plan ve Canlı Vitrin.",
     description:
-      "E-ticaret, sosyal medya, otomasyon ve ofis süreçlerinde uzmanlığını kanıtla; sunucu onaylı rozetinle KOBİ taleplerine teklif ver ve hazır AI şablonlarıyla dakikalar içinde teslimat üret.",
+      "E-ticaret, sosyal medya, otomasyon ve ofis süreçlerinde uzmanlığını kanıtla. Yapay zekâ tezgâhında teslimat üret, sunucu onaylı Doğrulanmış Rozetini kazan, 30 günlük kariyer planını kur ve canlı mağaza vitrinini aç.",
     academyCta: "Uzmanlık Paketlerini İncele",
     /** Kök iniş — ikincil eylem: canlı üretim tezgâhı. */
     tezgahCta: "AI Tezgâhını Dene",
@@ -24,8 +24,20 @@ export const PUBLIC_SEN = {
       "Sınav ve mühür sunucuda doğrulanır; ikna yerine kanıt",
     ],
     benchKicker: "Tezgâh vitrini",
-    benchTitle: "Beş araç, bugün teslim",
+    benchTitle: "Yedi araç, bugün teslim",
     bench: [
+      {
+        id: "ecommerce",
+        title: "E-Ticaret Ürün Kartı",
+        body: "Başlık, madde işaretli açıklama ve soru yanıtını tek kartta üretirsin.",
+        href: "/tezgah?tool=ecommerce",
+      },
+      {
+        id: "proposal",
+        title: "Müşteri Teklif Yazıcı",
+        body: "İhtiyaç metninden kapsam ve teslim adımlarını teklif taslağına dökersin.",
+        href: "/tezgah?tool=proposal",
+      },
       {
         id: "tetkik",
         title: "Web Sitesi Tetkik",
@@ -78,8 +90,8 @@ export const PUBLIC_SEN = {
       },
       {
         step: "4",
-        title: "İş & Teklif Panosu",
-        body: "Rozetin, KOBİ talebine teklif vermenin anahtarıdır. Kartını Kariyer sayfasından paylaşırsın.",
+        title: "30 Günlük Plan ve Canlı Vitrin",
+        body: "Kariyer planını kur. Açık mağaza canlı vitrinde görünür.",
       },
     ],
     tracksKicker: "Beş uzmanlık",
@@ -112,23 +124,6 @@ export const PUBLIC_SEN = {
         href: "/academy/05_prompt_practice",
       },
     ],
-    offers: {
-      eyebrow: "Hibe hazırlığı",
-      heading: "İster kendin hazırla, İster uzmana devret",
-      lead: "İki yol da henüz açık değil. Açıldığında fiyatı ve kapsamı burada yazar.",
-      statusLabel: "Hazırlanıyor",
-      selfPrepare: {
-        title: "Kendin hazırla",
-        body: "Açıldığında hibe başvurunu şablon ve rehberle, kendi hızında hazırlarsın.",
-        note: "Fiyat yayınlanınca burada görünür.",
-        cta: "İlk dersi ücretsiz izle",
-      },
-      expert: {
-        title: "Uzmana devret",
-        body: "Açıldığında hazırlık işini bir uzmana bırakırsın.",
-        note: "Uzman havuzu açılınca burada duyurulur. Fiyat da o zaman yayınlanır.",
-      },
-    },
     faqHeading: "Sık sorulanlar",
   },
   guide: {

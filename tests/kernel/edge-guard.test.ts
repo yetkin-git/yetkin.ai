@@ -206,6 +206,9 @@ describe("kenar kararları", () => {
     });
     expect(decideEdgeAction("/passport", true)).toEqual({ kind: "alias-307", to: "/pasaport" });
     expect(decideEdgeAction("/profile/", true)).toEqual({ kind: "alias-307", to: "/profil" });
+    expect(decideEdgeAction("/genel-bakis", false)).toEqual({ kind: "alias-307", to: "/dashboard" });
+    expect(decideEdgeAction("/genel-bakis", true)).toEqual({ kind: "alias-307", to: "/dashboard" });
+    expect(decideEdgeAction("/genel-bakis/", true)).toEqual({ kind: "alias-307", to: "/dashboard" });
   });
 });
 

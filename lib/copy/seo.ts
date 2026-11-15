@@ -244,13 +244,14 @@ export const SITEMAP_STATIC_PATHS = [
 ] as const;
 
 /**
- * Kenar tek hop (`AUTH_PATH_ALIASES`): `/kariyer` `/career` sayfasına 307 iner.
+ * Kenar tek hop (`AUTH_PATH_ALIASES`): `/kariyer` `/career`, `/genel-bakis` `/dashboard` sayfasına 307 iner.
  * Ara 308 kalkmıştır; ikinci hop yoktur.
  * Bot bu kaynakları tararsa yine yönlendirme görür; crawl edilmez.
  * Tek hop ile 200 kamu sayfasına inen alias’lar (`/ogren`, `/verify`, `/p`, yasal kısa adlar) listede yoktur: Google 301’i görüp kanoniğe birleştirir.
  */
 export const ROBOTS_DISALLOW_AUTH_REDIRECTS = [
   "/kariyer",
+  "/genel-bakis",
   "/profile",
   "/passport",
   "/giris",

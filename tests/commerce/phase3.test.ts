@@ -189,7 +189,8 @@ describe("Yetkin Commerce Aşama 3", () => {
     expect(view?.lines[0]?.sellableQty).toBe(2);
     expect(view?.lines[0]?.orderUrl).toContain("https://wa.me/905321234567?text=");
     expect(view?.lines[0]?.orderUrl).toContain(encodeURIComponent("Kupa KUPA1"));
-    expect(formatTryMinor(2500)).toBe("25,00 TRY");
+    expect(formatTryMinor(2500)).toBe("₺25");
+    expect(formatTryMinor(2590)).toBe("₺25,90");
     expect(JSON.stringify(view)).not.toContain("safetyBuffer");
     expect(JSON.stringify(view)).not.toContain(OWNER);
     const hidden = projectStorefront({

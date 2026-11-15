@@ -6,6 +6,7 @@ import { CAREER_SEN } from "@/lib/copy/sen-voice/career";
 import { CUZDAN_SEN } from "@/lib/copy/sen-voice/cuzdan";
 import { DASHBOARD_SEN, dashboardWelcomeTitle } from "@/lib/copy/sen-voice/dashboard";
 import { FREELANCER_SEN } from "@/lib/copy/sen-voice/freelancer";
+import { MAGAZAM_SEN } from "@/lib/copy/sen-voice/magazam";
 import { NOTICE_SEN } from "@/lib/copy/sen-voice/notice";
 import { PASAPORT_SEN } from "@/lib/copy/sen-voice/pasaport";
 import { PROFIL_SEN } from "@/lib/copy/sen-voice/profil";
@@ -26,6 +27,7 @@ export const SEN_VOICE = {
   cuzdan: CUZDAN_SEN,
   dashboard: DASHBOARD_SEN,
   freelancer: FREELANCER_SEN,
+  magazam: MAGAZAM_SEN,
   notice: NOTICE_SEN,
   pasaport: PASAPORT_SEN,
   profil: PROFIL_SEN,
@@ -43,6 +45,7 @@ export {
   DASHBOARD_SEN,
   dashboardWelcomeTitle,
   FREELANCER_SEN,
+  MAGAZAM_SEN,
   NOTICE_SEN,
   PASAPORT_SEN,
   PROFIL_SEN,

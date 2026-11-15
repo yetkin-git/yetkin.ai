@@ -29,7 +29,7 @@ export const PROFIL_SEN = {
   dashboardCta: "Panele dön",
   honestyTitle: "Kimlik dürüstlüğü",
   honestyBody:
-    "Görünen ad kimlik kartına yazılır; e-posta oturumla senkron kalır. Şifre bu kartta durmaz. KYC buraya eklenmez. Doğrulanmış Freelancer Rozetini Kariyer basar; burada yalnız özet okunur.",
+    "Görünen ad kimlik kartına yazılır; e-posta oturumla senkron kalır. Şifreni bu sayfadaki formdan güncellersin. KYC buraya eklenmez. Doğrulanmış Freelancer Rozetini Kariyer basar; burada yalnız özet okunur.",
   card: {
     title: "Kimlik kartı",
     eyebrow: "Hesap",
@@ -60,6 +60,19 @@ export const PROFIL_SEN = {
     modalCancel: "Vazgeç",
     modalClose: "Pencereyi kapat",
     closedNotice: "Hesabınız başarıyla kapatılmıştır. Yönlendiriliyorsunuz...",
+  },
+  password: {
+    title: "Şifre",
+    eyebrow: "Oturum",
+    intro: "Yeni şifren bu oturumda kaydolur. En az 8 karakter.",
+    newPassword: "Yeni şifre",
+    confirmPassword: "Şifreyi doğrula",
+    submit: "Şifreyi güncelle",
+    pending: "Kaydediliyor…",
+    success: "Şifren güncellendi.",
+    fail: "Şifre güncellenemedi.",
+    mismatch: "Şifreler eşleşmiyor.",
+    tooShort: (min: number) => `Şifre en az ${min} karakter olmalı.`,
   },
   billing: {
     title: "Fatura künyesi",

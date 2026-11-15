@@ -300,9 +300,9 @@ export const ACADEMY_SEN = {
     ctaTopUp: "PayTR Güvenli Kart Ödemesi",
     paytrSecure: "PayTR Güvenli Kart Ödemesi",
     opening: "Ödemeniz doğrulandı, uzmanlık paketiniz açılıyor...",
-    closed: "Ödeme henüz bağlanmadı / pasif",
+    closed: "Ödeme henüz bağlanmadı",
     closedBody:
-      "Ödeme henüz bağlanmadı / pasif. Kart tahsilatı bağlı değil. Kayıt açık kalır. Sahte erişim yazılmaz.",
+      "Kart tahsilatı şu an kapalı. Kayıt açık kalır. Erişim, tahsilat bağlanınca açılır.",
     pendingCta: "Kaydediliyor…",
     locking: (lockMinutes: number) => `Fiyat onaylanıyor — ${lockMinutes} dakika geçerli.`,
     settling: "Uzmanlık paketiniz açılıyor...",
@@ -312,7 +312,7 @@ export const ACADEMY_SEN = {
     refundLink: "İade koşulları",
     refundFootnote: "Ders açılınca dijital içerik ifası başlar. Ayrıntı bu bağlantıdadır.",
     creditPending:
-      "Ödeme bildirimi henüz işlenmedi. Bildirim düşünce uzmanlık paketi açılır. Bu ekran sahte erişim yazmaz.",
+      "Ödeme bildirimi henüz işlenmedi. Bildirim düşünce uzmanlık paketi açılır. Erişim bu bildirime bağlıdır.",
     creditConfirming: "Ödemeniz doğrulandı, uzmanlık paketiniz açılıyor...",
     paytrBridgeTitle: "PayTR Güvenli Kart Ödemesi",
     paytrBridgeBalanceWait: "Ödeme bildirimi bekleniyor.",
@@ -323,7 +323,7 @@ export const ACADEMY_SEN = {
       "Ödeme alındıysa bildirimi hâlâ işleniyor olabilir. Birkaç dakika içinde paket kendiliğinden açılır; sayfayı yenile.",
     licenseUnwrittenTitle: "Uzmanlık paketi henüz açılmadı",
     licenseUnwritten:
-      "Ödeme alındıysa paket kaydı henüz yazılmadı. Tutar iade kanalına düşer. Sipariş tutarı paketi karşılamıyorsa talep satırı durur. Sahte lisans basılmaz.",
+      "Ödeme alındıysa paket kaydı henüz yazılmadı. Tutar iade kanalına düşer. Sipariş tutarı paketi karşılamıyorsa talep satırı durur. Lisans, kayıt düşünce açılır.",
     refundBalanceShort:
       "Paket yazılamadı ve tahsilat bu siparişi karşılamıyor. Kart iadesi talep satırı olarak durur. Destek kanalına yaz.",
     refundPaytrDown:

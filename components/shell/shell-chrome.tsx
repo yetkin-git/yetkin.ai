@@ -55,15 +55,17 @@ export function ShellChrome({
       <DesktopSidebar showAdmin={showAdmin} showJunior={showJunior} />
 
       <div
+        data-shell-drawer=""
         className={cn(
-          "fixed inset-0 z-40 bg-black/40 lg:hidden",
+          "fixed inset-0 z-40 bg-black/40 print:hidden lg:hidden",
           open ? "block" : "hidden",
         )}
         onClick={() => setOpen(false)}
       />
       <aside
+        data-shell-drawer=""
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex w-72 flex-col overflow-hidden bg-[var(--surface-ink)] transition-transform duration-200 lg:hidden",
+          "fixed inset-y-0 left-0 z-50 flex w-72 flex-col overflow-hidden bg-[var(--surface-ink)] transition-transform duration-200 print:hidden lg:hidden",
           open ? "translate-x-0" : "-translate-x-full",
         )}
       >

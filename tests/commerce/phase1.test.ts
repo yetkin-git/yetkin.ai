@@ -440,4 +440,161 @@ describe("Yetkin Commerce Aşama 1", () => {
     expect(preview).toContain("MasterSkuTransfer");
     expect(preview).toContain("signedIn");
   });
+
+  it("taslak varyant koşullar tamamsa PATCH ile ACTIVE olur", async () => {
+    const repo = createMemoryCommerceRepository();
+    const storeId = await openStore(repo, OWNER);
+    const drafted = await createCommerceProduct(
+      repo,
+      OWNER,
+      storeId,
+      {
+        mode: "draft",
+        title: "Taslak kupa",
+        description: "Henüz rafta değil",
+        category: "Mutfak",
+        attributes: [],
+        other: "",
+        sku: "KUPA2",
+        barcode: null,
+        amountMinor: null,
+        onHandQty: 0,
+        safetyBuffer: 0,
+      },
+      "550e8400-e29b-41d4-a716-446655440061",
+    );
+    expect(drafted.ok).toBe(true);
+    if (!drafted.ok) {
+      return;
+    }
+    const variantId = (drafted.data.product.variants as Array<{ id: string; status: string }>)[0]?.id;
+    expect(variantId).toBeTruthy();
+    if (!variantId) {
+      return;
+    }
+
+    const stockWrite = await patchCommerceVariant(repo, OWNER, storeId, variantId, {
+      onHandQty: 4,
+      status: "ACTIVE",
+    });
+    expect(stockWrite.ok).toBe(false);
+    if (!stockWrite.ok) {
+      expect(stockWrite.status).toBe(422);
+      expect(stockWrite.error).toBe("Stok bu yoldan yazılmaz.");
+    }
+
+    const demote = await patchCommerceVariant(repo, OWNER, storeId, variantId, { status: "PASSIVE" });
+    expect(demote.ok).toBe(false);
+    if (!demote.ok) {
+      expect(demote.status).toBe(422);
+      expect(demote.error).toBe("Bu yoldan yalnız açık duruma geçilir.");
+    }
+
+    const priced = await patchCommerceVariant(repo, OWNER, storeId, variantId, {
+      barcode: "8680000000099",
+      amountMinor: 2500,
+      safetyBuffer: 0,
+    });
+    expect(priced.ok).toBe(true);
+    if (priced.ok) {
+      expect(priced.data.variant.status).toBe("DRAFT");
+    }
+
+    const emptyShelf = await patchCommerceVariant(repo, OWNER, storeId, variantId, { status: "ACTIVE" });
+    expect(emptyShelf.ok).toBe(false);
+    if (!emptyShelf.ok) {
+      expect(emptyShelf.status).toBe(422);
+      expect(emptyShelf.error).toBe("Satılabilir adet en az 1 olmalıdır.");
+    }
+
+    const inbound = await postCommerceInventory(
+      repo,
+      OWNER,
+      storeId,
+      { variantId, type: "INBOUND", direction: "IN", quantity: 2, note: "" },
+      "550e8400-e29b-41d4-a716-446655440062",
+    );
+    expect(inbound.ok).toBe(true);
+
+    const buffered = await patchCommerceVariant(repo, OWNER, storeId, variantId, {
+      safetyBuffer: 2,
+      status: "ACTIVE",
+    });
+    expect(buffered.ok).toBe(false);
+    if (!buffered.ok) {
+      expect(buffered.status).toBe(422);
+    }
+
+    const opened = await patchCommerceVariant(repo, OWNER, storeId, variantId, {
+      safetyBuffer: 0,
+      status: "ACTIVE",
+    });
+    expect(opened.ok).toBe(true);
+    if (opened.ok) {
+      expect(opened.data.variant.status).toBe("ACTIVE");
+      expect(opened.data.variant.sellableQty).toBe(2);
+    }
+
+    const foreign = await patchCommerceVariant(repo, OTHER, storeId, variantId, { status: "ACTIVE" });
+    expect(foreign.ok).toBe(false);
+    if (!foreign.ok) {
+      expect(foreign.status).toBe(404);
+    }
+  });
+
+  it("taslak mağazada varyant bu yolla açılmaz", async () => {
+    const repo = createMemoryCommerceRepository();
+    const created = await createCommerceStore(repo, OWNER, { name: "Kapalı tezgâh" });
+    expect(created.ok).toBe(true);
+    if (!created.ok) {
+      return;
+    }
+    const storeId = created.data.store.id as string;
+    const drafted = await createCommerceProduct(
+      repo,
+      OWNER,
+      storeId,
+      {
+        mode: "draft",
+        title: "Taslak kupa",
+        description: "Mağaza kapalı",
+        category: "Mutfak",
+        attributes: [],
+        other: "",
+        sku: "KUPA3",
+        barcode: null,
+        amountMinor: null,
+        onHandQty: 0,
+        safetyBuffer: 0,
+      },
+      "550e8400-e29b-41d4-a716-446655440071",
+    );
+    expect(drafted.ok).toBe(true);
+    if (!drafted.ok) {
+      return;
+    }
+    const variantId = (drafted.data.product.variants as Array<{ id: string }>)[0]?.id;
+    if (!variantId) {
+      throw new Error("Varyant yok.");
+    }
+    const stocked = await postCommerceInventory(
+      repo,
+      OWNER,
+      storeId,
+      { variantId, type: "INBOUND", direction: "IN", quantity: 1, note: "" },
+      "550e8400-e29b-41d4-a716-446655440072",
+    );
+    expect(stocked.ok).toBe(true);
+    const priced = await patchCommerceVariant(repo, OWNER, storeId, variantId, {
+      barcode: "8680000000105",
+      amountMinor: 900,
+    });
+    expect(priced.ok).toBe(true);
+    const opened = await patchCommerceVariant(repo, OWNER, storeId, variantId, { status: "ACTIVE" });
+    expect(opened.ok).toBe(false);
+    if (!opened.ok) {
+      expect(opened.status).toBe(422);
+      expect(opened.error).toBe("Aktif kart için mağaza açık olmalıdır.");
+    }
+  });
 });

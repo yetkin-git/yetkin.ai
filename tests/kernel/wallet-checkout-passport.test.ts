@@ -77,6 +77,9 @@ describe("Dron cüzdan HMAC kasa pasaportu", () => {
     expect(kasaReturnCourseHref("not-a-course")).toBe("/academy/01_office_ai");
     expect(existsSync(join(ROOT, "app/(public)/kasa/page.tsx"))).toBe(true);
     expect(existsSync(join(ROOT, "app/(public)/kasa/donus/page.tsx"))).toBe(true);
+    expect(readSrc("app/(public)/kasa/page.tsx")).toContain("CUZDAN_SEN.kasaInvalidCta");
+    expect(readSrc("app/(public)/kasa/page.tsx")).toContain('href="/academy"');
+    expect(readSrc("lib/copy/sen-voice/cuzdan.ts")).toContain('kasaInvalidCta: "Akademiye dön"');
     expect(readSrc("app/(public)/kasa/page.tsx")).toContain("verifyWalletCheckoutPassport");
     expect(readSrc("app/(public)/kasa/page.tsx")).toContain("PaytrCheckoutIframe");
     expect(readSrc("app/(public)/kasa/donus/page.tsx")).not.toContain("settlePaytrWebhookSuccess");

@@ -11,7 +11,6 @@ import { findPublishedHopId } from "@/lib/kernel/http/api-route-census";
 import { WEB_ONLY_WRITE_ROUTES } from "@/lib/kernel/http/web-only-write-routes";
 import { isLlmMutationPath } from "@/lib/kernel/security/http-rate-limit";
 import { ROUTE_AUTH_MAP } from "@/lib/kernel/security/route-auth-map";
-import { academyCheckoutHref } from "@/lib/academy/storefront-cta";
 import { TEZGAH_TOOLS, tezgahQuotaLine } from "@/lib/tezgah/catalog";
 import { DUKKAN_FILENAME } from "@/lib/tezgah/dukkan/copy";
 
@@ -330,11 +329,13 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(workbench).toContain("GoogleContinueButton");
     expect(workbench).toContain("tezgahToolAnchorPath");
     expect(workbench).toContain('router.replace(tezgahToolHref(id) as Route, { scroll: false })');
-    expect(workbench).toContain('academyCheckoutHref("01_office_ai")');
-    expect(workbench).toContain("Stüdyo Kotası Yükselt");
+    expect(workbench).not.toContain("academyCheckoutHref");
+    expect(workbench).not.toContain("Stüdyo Kotası Yükselt");
+    expect(workbench).toContain("Kurs satın almak bugünkü üretim sayacını yükseltmez.");
+    expect(workbench).toContain('href="/academy"');
+    expect(workbench).toContain("Akademiye dön");
     expect(workbench).toContain("TEZGAH_MEMBER_QUOTA_MESSAGE");
     expect(workbench).toContain("Ücretsiz kayıt ol");
-    expect(academyCheckoutHref("01_office_ai")).toBe("/academy/01_office_ai#satin-al");
     expect(workbench.indexOf("data-tezgah-guest-convert")).toBeLessThan(
       workbench.indexOf("data-tezgah-member-convert"),
     );

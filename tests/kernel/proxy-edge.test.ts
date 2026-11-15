@@ -106,6 +106,9 @@ describe("proxy.ts kenar mühürleri", () => {
     const kariyer = await proxy(request("/kariyer"));
     expect(kariyer.status).toBe(307);
     expect(kariyer.headers.get("location")).toBe("http://localhost:3000/career");
+    const genelBakis = await proxy(request("/genel-bakis"));
+    expect(genelBakis.status).toBe(307);
+    expect(genelBakis.headers.get("location")).toBe("http://localhost:3000/dashboard");
 
     for (const path of ["/cuzdan", "/profil", "/pasaport", "/academy/certificates"]) {
       const response = await proxy(request(path));

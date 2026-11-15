@@ -3,7 +3,7 @@ export const CUZDAN_SEN = {
   title: "Cüzdan",
   description: "Tek nakit defter: Akademi eğitim tahsilatı bu bakiyeden okunur.",
   balanceLabel: "Ana Bakiye",
-  balanceHintLive: "TRY cüzdan SSOT",
+  balanceHintLive: "Canlı bakiye",
   balanceHintGuest: "Defter oturum ister",
   balanceGuestValue: "Oturum yok",
   historyLabel: "Şeffaf İşlem Geçmişi",
@@ -14,10 +14,10 @@ export const CUZDAN_SEN = {
   currencyValue: "Türk Lirası",
   currencyHint: "Tutarlar ₺ olarak gösterilir",
   topUpTitle: "Kart ile yükle",
-  topUpAuth: "Kart yüklemesi oturum ister. Sahte bakiye yazılmaz.",
+  topUpAuth: "Kart yüklemesi oturum ister. Bakiye, banka bildirimi geldikten sonra görünür.",
   paymentsUnconfigured: "Ödeme henüz bağlanmadı",
   paymentsUnconfiguredBody:
-    "Ödeme henüz bağlanmadı / pasif. Kart tahsilatı bağlı değil. Sahte bakiye yazılmaz. Hesabıma dön veya sonra yeniden dene.",
+    "Ödeme henüz bağlanmadı. Kart tahsilatı şu an kapalı. Bakiye, tahsilat onayından sonra yazılır. Hesabıma dön veya sonra yeniden dene.",
   paymentsUnconfiguredCta: "Hesabıma dön",
   topUpBand: (min: string, max: string) =>
     `Aralık: ${min} – ${max}. Kart ödemesi güvenli ödeme altyapısıyla alınır.`,
@@ -47,15 +47,16 @@ export const CUZDAN_SEN = {
     "Cüzdan Akademi eğitim tahsilatı içindir. Bu odada havale yüzeyi yoktur.",
   sandboxHint:
     "Deneme ödemesi: bakiye ancak banka bildirimi geldikten sonra görünür. Önizleme bakiyeyi artırmaz.",
-  auth: "Defter dökümü oturum ister. Sahte hareket basılmaz.",
+  auth: "Defter dökümü oturum ister. Hareketler tahsilat kaydından okunur.",
   unboundBadge: "Liste henüz yüklenemedi — örnek düzen",
   unboundBody:
-    "Veritabanı bağlanınca gerçek hesap hareketleri burada durur. Uydurma bakiye veya sahte hareket yok.",
+    "Bağlantı kurulunca hesap hareketlerin burada durur. Bakiye tahsilat kaydından okunur.",
   kasaTitle: "Güvenli ödeme",
   kasaLead:
     "Kart bilgisi PayTR’nin güvenli ödeme penceresinde girilir. Bu sayfa oturum çerezi istemez; kısa ömürlü ödeme bağlantısı yeter.",
   kasaInvalid:
     "Bu ödeme bağlantısı geçersiz veya süresi doldu. Uygulamaya dönüp yeniden dene.",
+  kasaInvalidCta: "Akademiye dön",
   kasaReturnOk: "Ödemeniz Onaylanıyor, Akademiye Yönlendiriliyorsunuz...",
   kasaReturnCta: "Akademiye Dön / Eğitimi Başlat",
   kasaReturnFail: "Kart işlemi tamamlanmadı. Akademiye dönüp yeniden deneyebilirsin.",

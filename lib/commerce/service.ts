@@ -572,7 +572,7 @@ export async function patchCommerceVariant(
     return commerceFail(422, "Stok bu yoldan yazılmaz.");
   }
   return settle(repo, async (tx) => {
-    await requireStore(tx, userId, storeId);
+    const store = await requireStore(tx, userId, storeId);
     const current = await tx.findVariant(storeId, variantId);
     if (!current) {
       rollback(404, MISSING);
@@ -609,6 +609,22 @@ export async function patchCommerceVariant(
     if (current.status === "ACTIVE" && (barcode == null || amountMinor == null)) {
       rollback(422, "Açık varyantın barkodu ve fiyatı dolu kalır.");
     }
+    let status = current.status;
+    if ("status" in body) {
+      if (body.status !== "ACTIVE") {
+        rollback(422, "Bu yoldan yalnız açık duruma geçilir.");
+      }
+      if (store.status !== "ACTIVE") {
+        rollback(422, "Aktif kart için mağaza açık olmalıdır.");
+      }
+      if (barcode == null || amountMinor == null) {
+        rollback(422, "Açık varyant için barkod ve fiyat dolu olmalıdır.");
+      }
+      if (sellableQty(current.onHandQty, safetyBuffer) < 1) {
+        rollback(422, "Satılabilir adet en az 1 olmalıdır.");
+      }
+      status = "ACTIVE";
+    }
     if (sku !== current.sku && (await tx.skuTaken(storeId, sku, current.id))) {
       rollback(409, "Bu SKU mağazada kayıtlı.");
     }
@@ -621,6 +637,7 @@ export async function patchCommerceVariant(
       barcode,
       amountMinor,
       safetyBuffer,
+      status,
       updatedAt: new Date(),
     });
     return { ok: true, data: { variant: variantJson(saved) } };

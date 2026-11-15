@@ -68,10 +68,17 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
 
   it("kamu, profil ve kalan odalar siz kaçakları taşımaz; SEN_VOICE bağlar", () => {
     expect(SEN_VOICE.public.home.title).toBe(
-      "Yetkinliğini Mühürle. Yapay Zekâ Tezgâhıyla 10 Kat Hızlı Üret. İşverenlerle Buluş.",
+      "Yetkinliğini Mühürle. Yapay Zekâ Tezgâhıyla Üret. Rozet, Plan ve Canlı Vitrin.",
     );
     expect(SEN_VOICE.public.home.description).toContain("sunucu onaylı");
-    expect(SEN_VOICE.public.home.description).toContain("teklif ver");
+    expect(SEN_VOICE.public.home.description).toContain("30 günlük kariyer planını");
+    expect(SEN_VOICE.public.home.description).toContain("canlı mağaza vitrinini");
+    expect(SEN_VOICE.public.home.description).not.toContain("teklif ver");
+    expect(SEN_VOICE.career.description).toContain("doğrulama bağı herkese açıktır");
+    expect(SEN_VOICE.career.description).not.toContain("Sahte rozet");
+    expect(SEN_VOICE.career.proofEmpty).toContain("Satın alma tek başına rozet basmaz");
+    expect(SEN_VOICE.career.footnote).toContain("İşe yerleşmeyi veya gelir elde etmeyi garanti etmez");
+    expect(SEN_VOICE.cuzdan.balanceHintLive).toBe("Canlı bakiye");
     expect(SEN_VOICE.public.home.description).not.toContain("üretim band");
     expect(SEN_VOICE.public.home.description).not.toContain("hazırlanıyor");
     expect(SEN_VOICE.public.home.trust.join("\n")).toContain("PayTR iFrame");

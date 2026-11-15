@@ -2,6 +2,7 @@ import { AccountClosePanel } from "@/components/kernel/account-close-panel";
 import { IdentityCard } from "@/components/kernel/identity-card";
 import { IdentityMeritSummary } from "@/components/kernel/identity-merit-summary";
 import { ProfileBillingForm } from "@/components/kernel/profile-billing-form";
+import { ProfilePasswordForm } from "@/components/kernel/profile-password-form";
 import { Card } from "@/components/ui/card";
 import { IconBadge, IconLock, IconUser } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/link-button";
@@ -121,6 +122,7 @@ export default async function ProfilePage() {
           <ProfileBillingForm profileFullName={profile.displayName} />
         </div>
       )}
+      <ProfilePasswordForm />
       <Card variant="ink" title={copy.honestyTitle} bodyClassName="text-white/70">
         {copy.honestyBody}
       </Card>

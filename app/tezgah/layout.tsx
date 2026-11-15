@@ -7,8 +7,10 @@ export default function TezgahLayout({ children }: { children: ReactNode }) {
     <AppShell>
       <style>{`
         @media print {
-          aside,
-          header,
+          [data-shell-header],
+          [data-shell-drawer],
+          [data-sidebar-collapsed],
+          [data-assistant-fab],
           [data-legal-colophon-strip],
           [data-tezgah-chrome] {
             display: none !important;

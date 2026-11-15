@@ -18,3 +18,14 @@ export const KERNEL_SURFACES = [
   { id: "pasaport", path: "/pasaport", label: "Pasaport", blurb: "Pasaport Vize Damgası sicili" },
   { id: "admin", path: "/admin", label: "Admin", blurb: "Katalog idaresi" },
 ] as const;
+
+/**
+ * Yetkin Commerce kokpiti. Hub siciline ve dron kaydına girmez.
+ * Canlı vitrin `/magaza/[slug]` olarak kalır.
+ */
+export const COMMERCE_NAV = {
+  id: "magazam",
+  path: "/magazam",
+  label: "Mağazam",
+  blurb: "Vitrin ve stok",
+} as const;

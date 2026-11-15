@@ -227,7 +227,7 @@ export function AiChatWidget({
   return (
     <div
       data-assistant-fab=""
-      className={cn("pointer-events-none fixed z-50 flex flex-col items-end gap-3", dockClass)}
+      className={cn("pointer-events-none fixed z-50 flex flex-col items-end gap-3 print:hidden", dockClass)}
     >
       <div
         id={titleId}

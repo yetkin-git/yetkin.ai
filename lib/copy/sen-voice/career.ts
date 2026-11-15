@@ -9,7 +9,7 @@ export const CAREER_SEN = {
   eyebrow: "Kariyer",
   title: "Doğrulanmış Freelancer Rozeti",
   description:
-    "Doğrulanmış Freelancer Rozeti burada görünür: Doğrulanmış Rozet Kariyer Kartına işlenir. Yapay zeka sertifikası Akademi sınavından türer. Teklif Kapısı işveren ağına görünürlük, mühürlü özgeçmiş bağlantısı ve proje kanıt dosyasını açar. Sahte rozet eklenmez.",
+    "Doğrulanmış Freelancer Rozeti burada görünür: Doğrulanmış Rozet Kariyer Kartına işlenir. Yapay zeka sertifikası Akademi sınavından türer. Teklif Kapısı işveren ağına görünürlük, mühürlü özgeçmiş bağlantısı ve proje kanıt dosyasını açar. Rozetin doğrulama bağı herkese açıktır.",
   faqHeading: "Sık sorulanlar",
   auth: "Kariyer sayfasını görmek için giriş yap.",
   /** Sicil okunamadığında vatandaşa dürüst, gürültüsüz mesaj — geliştirici rozeti yok. */
@@ -38,14 +38,14 @@ export const CAREER_SEN = {
   copied: "Kopyalandı",
   copyFail: "Kopyalanamadı",
   footnote:
-    `Doğrulanmış Freelancer Rozeti yalnız Akademi müfredat sınavından türer: 8 ders tamam + baraj 70. Elle basılmaz. Uzmanlık Portföyü listeler; rozeti Kariyer basar. İptal edilmiş Akademi belgesi burada görünmez. ${CAREER_ACTION_PLAN_DISCLAIMER}`,
+    `Doğrulanmış Freelancer Rozeti yalnız Akademi müfredat sınavından türer: 8 ders tamam + baraj 70. Rozet bu sınav sonucundan doğar. Uzmanlık Portföyü listeler; rozeti Kariyer basar. İptal edilmiş Akademi belgesi burada görünmez. ${CAREER_ACTION_PLAN_DISCLAIMER}`,
   footnotePassportCta: "Uzmanlık Portföyünü aç",
   footnoteVerifyCta: "Sertifika doğrula",
   footnoteAcademyCta: "Akademiye git",
   ledger: {
     eyebrow: "Doğrulanmış Freelancer Rozeti",
     title: "Doğrulanmış Freelancer Rozeti defteri",
-    lead: "Doğrulanmış Rozetin burada Doğrulanmış Freelancer Rozetine dönüşür. Paylaştığın Kariyer Kartı doğrulanabilir bir belgedir. Sahte rozet eklenmez.",
+    lead: "Doğrulanmış Rozetin burada Doğrulanmış Freelancer Rozetine dönüşür. Paylaştığın Kariyer Kartı doğrulanabilir bir belgedir. Doğrulama bağı herkese açıktır.",
   },
   scope: {
     eyebrow: "Teklif Kapısı",
@@ -72,7 +72,7 @@ export const CAREER_SEN = {
   gateway: {
     eyebrow: "İşveren Kapısı",
     title: "Proof-of-Work ve İşveren Kapısı",
-    lead: "Vaat panosu değil: açık kapı, paylaşılabilir mühür kartı ve damgaya bağlı proje kanıtı. Sahte vitrin yok.",
+    lead: "Açık kapı, paylaşılabilir mühür kartı ve damgaya bağlı proje kanıtı. Kart sicilden okunur.",
   },
   /** Oturumsuz Kariyer — kişisel vize defteri yok. */
   publicRoom: {
@@ -94,7 +94,7 @@ export const CAREER_SEN = {
       "Birincil yol paylaşılabilir bağ ve QR koddur. 64 karakterlik özet yedek yoldur. Bu bir kriptografik imza değildir; sicil bütünlük kaydıdır. İşe yerleşmeyi veya gelir elde etmeyi garanti etmez.",
     steps: [
       "Sertifikadaki paylaşılabilir bağı aç veya QR kodu okut. Adres /academy/dogrula/özet biçimindedir.",
-      "Sicilde kayıt varsa mühür görünür. Yoksa uydurma geçerli damga basılmaz.",
+      "Sicilde kayıt varsa mühür görünür. Kayıt yoksa sayfa bunu açıkça söyler.",
       "Yedek yol: 64 karakterlik SHA-256 özetini kopyalayıp doğrulama formuna yapıştır.",
     ],
     verifyCta: "Sertifika doğrula",
@@ -139,7 +139,7 @@ export const CAREER_SEN = {
       "Mühürler, sertifika doğrulama bağları ve proje kanıtları. Oturum istenmez; vatandaş kimliği ve e-posta gösterilmez.",
     landingTitle: "Kariyer Kartı",
     landingLead:
-      "Bu adres bir Kariyer Kartıdır (Doğrulanmış Freelancer Rozeti). Yapay zeka sertifikası sicile bağlıdır. Bağ, Kariyer sayfasından kopyalanır. Uydurma kart basılmaz.",
+      "Bu adres bir Kariyer Kartıdır (Doğrulanmış Freelancer Rozeti). Yapay zeka sertifikası sicile bağlıdır. Bağ, Kariyer sayfasından kopyalanır. Kart sicil kaydından okunur.",
     missing: "Kart sicilde yok",
     missingBody: "Bu bağlantıya ait canlı mühür yok. İptal edilmiş belge burada görünmez.",
     invalidFormat: "Kart anahtarı geçersiz.",

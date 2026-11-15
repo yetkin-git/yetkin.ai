@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
+import { cockpitHref } from "@/components/commerce/href";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -43,6 +45,7 @@ export function MasterSkuTransfer({
   const [storeName, setStoreName] = useState("");
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState("");
+  const [editPath, setEditPath] = useState("");
   const [error, setError] = useState("");
 
   async function loadStores() {
@@ -70,6 +73,7 @@ export function MasterSkuTransfer({
   async function openPanel() {
     setOpen(true);
     setMessage("");
+    setEditPath("");
     setError("");
     if (!draft.ok) {
       setError(draft.error);
@@ -118,6 +122,7 @@ export function MasterSkuTransfer({
     setPending(true);
     setError("");
     setMessage("");
+    setEditPath("");
     try {
       const target = storeName.trim() ? await createStore() : storeId || (await createStore());
       if (!target) {
@@ -132,11 +137,17 @@ export function MasterSkuTransfer({
         }),
       );
       const body = await readEnvelope(response);
-      const data = body.data as { products?: unknown[] } | undefined;
+      const data = body.data as { products?: Array<{ id?: string }> } | undefined;
       if (!body.ok || !data?.products) {
         setError(body.error);
         return;
       }
+      const firstId = data.products[0]?.id;
+      setEditPath(
+        data.products.length === 1 && typeof firstId === "string"
+          ? `/magazam/${target}/urunler/${firstId}`
+          : `/magazam/${target}/urunler`,
+      );
       setMessage(`${data.products.length} kart Master SKU havuzuna taslak olarak yazıldı.`);
     } catch {
       setError("Aktarma tamamlanamadı.");
@@ -199,6 +210,11 @@ export function MasterSkuTransfer({
             {pending ? "Aktarılıyor" : stores != null && stores.length === 0 ? "Mağaza aç ve aktar" : "Taslak olarak aktar"}
           </Button>
           {message ? <p className="text-sm text-[var(--foreground)]">{message}</p> : null}
+          {editPath ? (
+            <Link href={cockpitHref(editPath)} className="text-sm font-semibold text-[var(--safir-deep)] hover:underline">
+              Taslakları düzenle
+            </Link>
+          ) : null}
           {error ? <p className="text-sm text-[var(--rose)]">{error}</p> : null}
         </div>
       ) : null}

@@ -1,8 +1,22 @@
 import type { Metadata } from "next";
 import { Card } from "@/components/ui/card";
+import { LinkButton } from "@/components/ui/link-button";
 import { loadPublicStorefront } from "@/lib/commerce/storefront-load";
 import { formatTryMinor } from "@/lib/commerce/storefront";
 import { pageMetadata } from "@/lib/copy/seo";
+
+function StorefrontExit() {
+  return (
+    <div className="mt-4 flex flex-wrap gap-3">
+      <LinkButton href="/" variant="outline" size="sm">
+        Ana sayfaya dön
+      </LinkButton>
+      <LinkButton href="/tezgah" variant="secondary" size="sm">
+        Tezgâha dön
+      </LinkButton>
+    </div>
+  );
+}
 
 export async function generateMetadata({
   params,
@@ -13,7 +27,7 @@ export async function generateMetadata({
   const view = await loadPublicStorefront(slug);
   return pageMetadata({
     title: view ? view.name : "Mağaza",
-    description: view ? `${view.name} vitrini` : "Bu vitrin yok.",
+    description: view ? `${view.name} vitrini` : "Bu adreste açık bir vitrin yok.",
     path: `/magaza/${slug}`,
   });
 }
@@ -26,7 +40,8 @@ export default async function MagazaPage({ params }: { params: Promise<{ slug: s
       <main className="mx-auto max-w-3xl px-6 pb-20 pt-16">
         <h1 className="text-3xl font-semibold tracking-tight">Mağaza</h1>
         <Card className="mt-6">
-          <p>Bu vitrin yok.</p>
+          <p>Bu adreste açık bir vitrin yok. Vitrin, mağaza yayına alınınca burada durur.</p>
+          <StorefrontExit />
         </Card>
       </main>
     );
@@ -36,7 +51,8 @@ export default async function MagazaPage({ params }: { params: Promise<{ slug: s
       <h1 className="text-3xl font-semibold tracking-tight">{view.name}</h1>
       {view.lines.length === 0 ? (
         <Card className="mt-6">
-          <p>Rafta satılabilir ürün yok.</p>
+          <p>Rafta henüz satılabilir ürün yok. Fiyatı ve stoğu açılan ürün burada görünür.</p>
+          <StorefrontExit />
         </Card>
       ) : (
         <ul className="mt-6 space-y-4">

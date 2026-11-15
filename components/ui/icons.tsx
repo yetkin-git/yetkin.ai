@@ -552,6 +552,7 @@ export const ROOM_ICONS = {
   young: IconYoung,
   yetkinhibe: IconLeaf,
   tezgah: IconSpark,
+  magazam: IconStore,
   social: IconMegaphone,
   profil: IconUser,
   cuzdan: IconWallet,

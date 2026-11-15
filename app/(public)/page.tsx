@@ -16,7 +16,7 @@ import { OFF_101_EXEMPTION_PATH } from "@/lib/academy/off101-exemption";
 
 /**
  * Marka iniş katmanı — kök adres (`/`).
- * Freelancer üretim vitrini: ücretsiz yetkinlik testi, dört adımlı zincir, beşli tezgâh, beş uzmanlık.
+ * Canlı vitrin: ücretsiz yetkinlik testi, dört adımlı zincir, yedi tezgâh aracı, beş uzmanlık.
  * Kapalı oda önizlemesi bu sayfada basılmaz.
  */
 export const metadata: Metadata = pageMetadata({
@@ -106,7 +106,7 @@ export default function PublicHomePage() {
           >
             {copy.benchTitle}
           </h2>
-          <ul className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <ul className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {copy.bench.map((item) => (
               <li key={item.href}>
                 <Card variant="default" className="flex h-full flex-col p-5">

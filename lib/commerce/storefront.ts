@@ -51,12 +51,17 @@ export function whatsappOrderUrl(e164: string, title: string, sku: string): stri
   return `https://wa.me/${e164}?text=${encodeURIComponent(text)}`;
 }
 
+/** Vitrin tutarı. Platform standardı `₺`; tamsayı lirada kuruş hanesi düşer. */
 export function formatTryMinor(amountMinor: number): string {
-  const abs = Math.abs(amountMinor);
+  const truncated = Math.trunc(amountMinor);
+  const abs = Math.abs(truncated);
   const lira = Math.floor(abs / 100).toLocaleString("tr-TR");
-  const kurus = String(abs % 100).padStart(2, "0");
-  const sign = amountMinor < 0 ? "-" : "";
-  return `${sign}${lira},${kurus} TRY`;
+  const kurus = abs % 100;
+  const signed = truncated < 0 ? `-${lira}` : lira;
+  if (kurus === 0) {
+    return `₺${signed}`;
+  }
+  return `₺${signed},${String(kurus).padStart(2, "0")}`;
 }
 
 /**

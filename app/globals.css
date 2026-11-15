@@ -6985,3 +6985,22 @@ body[data-academy-listen-dock="1"] [data-assistant-fab] {
     transition: none;
   }
 }
+
+/*
+ * Yazdırma: kabuk menüsü, sohbet balonu ve yasal şerit kâğıda basılmaz.
+ * Rapor başlıkları (`Card` içindeki header) bu seçicilerin dışındadır.
+ */
+@media print {
+  [data-shell-header],
+  [data-shell-drawer],
+  [data-sidebar-collapsed],
+  [data-assistant-fab],
+  [data-legal-colophon-strip],
+  [data-tezgah-chrome] {
+    display: none !important;
+  }
+
+  [style*="--rail-sidebar-width"] {
+    padding-left: 0 !important;
+  }
+}

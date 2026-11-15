@@ -8,7 +8,7 @@ test.describe("Faz 1 kamu navigasyonu", () => {
     expect(home?.status()).toBeLessThan(400);
     await expect(
       page.getByRole("heading", {
-        name: "Yetkinliğini Mühürle. Yapay Zekâ Tezgâhıyla 10 Kat Hızlı Üret. İşverenlerle Buluş.",
+        name: "Yetkinliğini Mühürle. Yapay Zekâ Tezgâhıyla Üret. Rozet, Plan ve Canlı Vitrin.",
       }),
     ).toBeVisible();
     await expect(page.getByRole("link", { name: "Uzmanlık Paketlerini İncele" }).first()).toHaveAttribute(

@@ -154,6 +154,7 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
       "/pasaport",
       "/career",
       "/admin",
+      "/magazam",
     ]);
   });
 });

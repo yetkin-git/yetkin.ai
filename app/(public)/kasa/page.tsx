@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LinkButton } from "@/components/ui/link-button";
 import { pageMetadata } from "@/lib/copy/seo";
 import { CUZDAN_SEN } from "@/lib/copy/sen-voice/cuzdan";
 import { PaytrCheckoutIframe } from "@/components/kernel/paytr-checkout-iframe";
@@ -39,9 +40,12 @@ export default async function DronKasaPage({
           <PaytrCheckoutIframe src={iframe} title={CUZDAN_SEN.topUpTitle} />
         </>
       ) : (
-        <p className="mt-4 text-sm text-[var(--foreground)]">
-          {WALLET_CHECKOUT_PASSPORT_INVALID}
-        </p>
+        <div className="mt-4 space-y-4">
+          <p className="text-sm text-[var(--foreground)]">{WALLET_CHECKOUT_PASSPORT_INVALID}</p>
+          <LinkButton href="/academy" variant="secondary" size="sm">
+            {CUZDAN_SEN.kasaInvalidCta}
+          </LinkButton>
+        </div>
       )}
     </main>
   );

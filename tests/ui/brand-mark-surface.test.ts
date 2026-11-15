@@ -143,7 +143,7 @@ describe("yetkin.ai marka / favicon yüzeyi", () => {
     expect(readSrc("app/(public)/page.tsx")).not.toContain("data-academy-production-band");
     expect(readSrc("app/(public)/page.tsx")).not.toContain("preload(");
     expect(PUBLIC_SEN.home.title).toBe(
-      "Yetkinliğini Mühürle. Yapay Zekâ Tezgâhıyla 10 Kat Hızlı Üret. İşverenlerle Buluş.",
+      "Yetkinliğini Mühürle. Yapay Zekâ Tezgâhıyla Üret. Rozet, Plan ve Canlı Vitrin.",
     );
   });
 });

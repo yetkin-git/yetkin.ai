@@ -268,7 +268,7 @@ export function DesktopSidebar({
     <aside
       data-sidebar-collapsed={layout.collapsed ? "true" : "false"}
       className={cn(
-        "fixed inset-y-0 left-0 z-30 hidden flex-col overflow-hidden border-r border-white/5 bg-[var(--surface-ink)] lg:flex",
+        "fixed inset-y-0 left-0 z-30 hidden flex-col overflow-hidden border-r border-white/5 bg-[var(--surface-ink)] print:hidden lg:flex",
         !dragging && "transition-[width] duration-200 ease-out",
       )}
       style={{ width: displayWidth }}

@@ -20,19 +20,19 @@ export const UX_SEN = {
     packageRequired: (amount: string) => `Uzmanlık paketi ${amount}.`,
     packageLocked: "Kart tutarı uzmanlık paketi fiyatına kilitlidir.",
     packageWaiting: "Kart tahsil edildiyse ödeme bildirimi işleniyor. Bu ekranı kapatma.",
-    packageTimeout: "Ödeme bildirimi henüz yazılmadı. Bu ekranda kal. Sahte erişim açılmaz.",
+    packageTimeout: "Ödeme bildirimi henüz yazılmadı. Bu ekranda kal. Erişim, bildirim düşünce açılır.",
     retry: "Kart ekranını yeniden aç",
     waitingClearing:
       "Kart tahsil edildiyse valör bekleniyor. CREDIT yalnız Bildirim URL sonrası bakiyeye düşer; bu ekran canlı bakiyeyi izler.",
     funded: "Bakiye mühürlendi. İşlem yeniden deneniyor.",
     fail: "Yükleme başlatılamadı.",
     iframeFailTitle: "Ödeme ekranı açılamadı",
-    timeout: "Valör henüz bakiyeye düşmedi. Sahte bakiye yazılmaz. Cüzdanı aç veya bu ekranda kal.",
+    timeout: "Valör henüz bakiyeye düşmedi. Bakiye, banka bildiriminden sonra görünür. Cüzdanı aç veya bu ekranda kal.",
     cuzdanCta: "Cüzdanı aç",
     trigger: "Eksik tutarı yükle",
     mockNoCredit:
       "Yerel mock bakiyeye düşmez. CREDIT yalnız Bildirim URL sonrası bakiyeye yazılır.",
-    sandboxHint: "Deneme tahsilatı sahte bakiye basmaz; valör beklenir.",
+    sandboxHint: "Deneme tahsilatında bakiye, valör geldikten sonra görünür.",
   },
   bridge: {
     dismiss: "Kapat",
@@ -113,7 +113,7 @@ export const UX_SEN = {
     originTitle: "Köken reddedildi",
     originBody: "Bu yazma aynı siteden gelmedi. Sayfayı yenile.",
     serviceUnavailable: "Hizmet geçici olarak kapalı.",
-    serviceUnavailableBody: "Sahte başarı yazılmaz. Biraz sonra yeniden dene veya ana yüzeye dön.",
+    serviceUnavailableBody: "İşlem tamamlanmadı. Biraz sonra yeniden dene veya ana yüzeye dön.",
   },
 } as const;
 

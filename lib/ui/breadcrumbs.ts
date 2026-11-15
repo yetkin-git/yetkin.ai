@@ -1,7 +1,7 @@
 import type { Route } from "next";
 import { academyCourseTitleBySlug } from "@/lib/academy/course-titles";
 import { INDEPENDENT_ROOMS } from "@/lib/dronlar/kayit";
-import { KERNEL_SURFACES, VERTICAL_ROOMS } from "@/lib/kernel/modules";
+import { COMMERCE_NAV, KERNEL_SURFACES, VERTICAL_ROOMS } from "@/lib/kernel/modules";
 import { FROZEN_DISK_ROOM_CATALOG } from "@/lib/kernel/compliance/circuit-breakers";
 import { PAZARYERI_DISK_PATH, YETKINILAN_PATH } from "@/lib/kernel/yetkinilan";
 import {
@@ -36,6 +36,10 @@ const STATIC_SEGMENT_LABELS: Record<string, string> = {
   siparisler: "Siparişler",
   ebeveyn: "Ebeveyn",
   yeni: "Yeni",
+  urunler: "Ürünler",
+  stok: "Stok",
+  kanallar: "Kanallar",
+  lisans: "Lisans",
 };
 
 const COLLECTION_SEGMENTS: Record<string, string> = {
@@ -67,7 +71,15 @@ const KERNEL_MATCHES: readonly SurfaceMatch[] = KERNEL_SURFACES.map((surface) =>
   label: surface.label,
 }));
 
-const SURFACES_BY_HREF_LENGTH = [...ROOM_SURFACES, ...KERNEL_MATCHES].sort(
+const COMMERCE_MATCHES: readonly SurfaceMatch[] = [
+  {
+    id: COMMERCE_NAV.id,
+    href: COMMERCE_NAV.path as Route,
+    label: COMMERCE_NAV.label,
+  },
+];
+
+const SURFACES_BY_HREF_LENGTH = [...ROOM_SURFACES, ...KERNEL_MATCHES, ...COMMERCE_MATCHES].sort(
   (a, b) => b.href.length - a.href.length,
 );
 

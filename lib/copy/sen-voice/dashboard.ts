@@ -55,7 +55,7 @@ export const DASHBOARD_SEN = {
       },
       {
         title: "Kariyer Kartı",
-        body: "Mühürlü sertifika Doğrulanmış Freelancer Rozetine dönüşür. Sahte rozet eklenmez.",
+        body: "Mühürlü sertifika Doğrulanmış Freelancer Rozetine dönüşür. Doğrulama bağı herkese açıktır.",
         href: "/career",
         cta: "Kariyer sayfasını aç",
       },
