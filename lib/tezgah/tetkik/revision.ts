@@ -9,7 +9,7 @@ const DESCRIPTION_MAX = 160;
 
 const TITLE_SUFFIX = " | Sipariş ve randevu";
 const DESCRIPTION_TAIL =
-  "sipariş, randevu ve teklif kapısını bu sayfada durur. WhatsApp ile yazın; hizmet listesi ve çalışma saati burada durur.";
+  "sipariş, randevu ve teklif kapısı bu sayfada durur. WhatsApp ile yazın; hizmet listesi ve çalışma saati burada durur.";
 
 const TEXT_GATES = new Set<TetkikCheckId>([
   "title",
