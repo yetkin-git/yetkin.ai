@@ -342,5 +342,17 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(page).toContain("<Suspense");
     expect(page).toContain("<TezgahWorkbench");
     expect(page.indexOf("<PageHeader")).toBeLessThan(page.indexOf("<Suspense"));
+    expect(page).toContain('title="Dakikalar içinde kullanıma hazır çıktı"');
+    expect(page).not.toContain("müşterine");
+    expect(workbench).toContain(
+      "Formu doldurup çıktıyı üret. Hazırlanan çıktı burada kart olarak görünür; doğrudan kopyalayabilir veya indirebilirsin.",
+    );
+    expect(workbench).not.toContain("müşterine");
+    expect(TEZGAH_TOOLS.find((tool) => tool.id === "tetkik")?.blurb).toBe(
+      "Ana sayfanın ilk HTML’inden 100 puanlık dijital sağlık skoru ve yazdırılabilir rapor.",
+    );
+    expect(SEN_VOICE.public.home.bench.find((item) => item.id === "tetkik")?.body).toBe(
+      "Ana sayfadan dijital sağlık skoru ve yazdırılabilir rapor çıkarırsın.",
+    );
   });
 });

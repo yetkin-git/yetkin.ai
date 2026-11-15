@@ -228,7 +228,7 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
   {
     id: "tetkik",
     label: "Web Sitesi Tetkik",
-    blurb: "Ana sayfanın ilk HTML’inden 100 puanlık dijital sağlık skoru ve esnafa okunacak rapor.",
+    blurb: "Ana sayfanın ilk HTML’inden 100 puanlık dijital sağlık skoru ve yazdırılabilir rapor.",
     fileStem: "site-tetkik",
     fields: [
       {

@@ -29,7 +29,7 @@ export const PUBLIC_SEN = {
       {
         id: "tetkik",
         title: "Web Sitesi Tetkik",
-        body: "Esnafın ana sayfasından dijital sağlık skoru ve okunacak rapor çıkarırsın.",
+        body: "Ana sayfadan dijital sağlık skoru ve yazdırılabilir rapor çıkarırsın.",
         href: "/tezgah?tool=tetkik",
       },
       {

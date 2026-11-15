@@ -911,8 +911,7 @@ export function TezgahWorkbench({
               </>
             ) : (
               <p className="text-sm leading-6 text-[var(--muted)]">
-                Formu doldurup çıktıyı üret. Metin burada kart olarak durur; kopyalayıp müşterine
-                verebilirsin.
+                Formu doldurup çıktıyı üret. Hazırlanan çıktı burada kart olarak görünür; doğrudan kopyalayabilir veya indirebilirsin.
               </p>
             )}
           </Card>

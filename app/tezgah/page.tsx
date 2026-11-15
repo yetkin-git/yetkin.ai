@@ -19,7 +19,7 @@ export default async function TezgahPage() {
       <div className="print:hidden">
         <PageHeader
           eyebrow="AI Tezgâh"
-          title="Müşterine bugün verebileceğin çıktı"
+          title="Dakikalar içinde kullanıma hazır çıktı"
           description="Ürün kartı, teklif, hibe proje dosyası, site tetkiki, dijital dükkan, reklam paketi veya pazaryeri kataloğu. Misafire günde 1, ücretsiz kayıtla günde 3 üretim."
         />
       </div>
