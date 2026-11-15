@@ -11,6 +11,7 @@ import { Input, INPUT_SURFACE_CLASS } from "@/components/ui/input";
 import { LinkButton } from "@/components/ui/link-button";
 import { Textarea } from "@/components/ui/textarea";
 import { DukkanPreview } from "@/components/tezgah/dukkan-preview";
+import { EcommerceDraftTransfer } from "@/components/tezgah/ecommerce-draft-transfer";
 import { GrantProjectReportView } from "@/components/tezgah/grant-project-report";
 import { PazaryeriPreview } from "@/components/tezgah/pazaryeri-preview";
 import { TetkikReportView } from "@/components/tezgah/tetkik-report";
@@ -900,6 +901,13 @@ export function TezgahWorkbench({
                     .txt İndir
                   </Button>
                 </div>
+                {active.id === "ecommerce" && signedIn ? (
+                  <EcommerceDraftTransfer
+                    title={values.productName ?? ""}
+                    category={values.category ?? ""}
+                    description={markdown}
+                  />
+                ) : null}
                 {active.cta ? (
                   <div className="mt-5 border-t border-[var(--border)] pt-4 print:hidden">
                     <LinkButton href={active.cta.href} variant="success" size="sm">
