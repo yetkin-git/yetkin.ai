@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { VisaPageFrame, VisaWaxSeal } from "@/components/kernel/visa-wax-seal";
 import { JsonLd } from "@/components/seo/json-ld";
 import { LandingFaq } from "@/components/seo/landing-faq";
@@ -9,7 +10,7 @@ import { CAREER_LANDING_FAQ } from "@/lib/copy/sem-keywords";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 
 /** Oturumsuz Kariyer. Kişisel vize defteri ve kimlik burada yok. */
-export function PublicCareerPanel() {
+export function PublicCareerPanel({ plan }: { plan?: ReactNode }) {
   const copy = SEN_VOICE.career.publicRoom;
 
   return (
@@ -33,6 +34,7 @@ export function PublicCareerPanel() {
           </div>
         }
       />
+      {plan}
       <div className="grid min-w-0 items-start gap-4 lg:grid-cols-2">
         <SampleCertificate />
         <Card title={copy.stepsTitle}>

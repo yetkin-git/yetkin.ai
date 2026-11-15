@@ -3,8 +3,21 @@ import "server-only";
 import { createPrismaCommerceRepository } from "@/lib/commerce/prisma-repository";
 import { createPrismaMarketplaceRepository } from "@/lib/commerce/marketplace-prisma";
 import type { MarketplaceHandlerDeps } from "@/lib/commerce/marketplace-handlers";
+import { createPrismaCommerceSubscriptionStore } from "@/lib/commerce/subscription-prisma";
+import { commerceLicenseActive } from "@/lib/commerce/subscription";
+import type { CommerceOutgoingLicense } from "@/lib/commerce/sync-license";
 import type { TrendyolPorts } from "@/lib/commerce/trendyol-sync";
 import { requireSession } from "@/lib/kernel/auth/session";
+
+export function liveCommerceOutgoingLicense(): CommerceOutgoingLicense {
+  const subscriptions = createPrismaCommerceSubscriptionStore();
+  return {
+    async allowsOutgoing(storeId, now) {
+      const row = await subscriptions.findByStoreId(storeId);
+      return commerceLicenseActive(row, now);
+    },
+  };
+}
 
 export function liveMarketplaceHandlerDeps(): MarketplaceHandlerDeps {
   return {
@@ -21,5 +34,6 @@ export function liveTrendyolPorts(): TrendyolPorts {
     marketplace: createPrismaMarketplaceRepository(),
     env: process.env,
     now: () => new Date(),
+    license: liveCommerceOutgoingLicense(),
   };
 }

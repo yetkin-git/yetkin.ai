@@ -22,6 +22,7 @@ export type StoreRow = {
   slug: string;
   status: StoreStatus;
   currencyCode: "TRY";
+  whatsappE164: string | null;
   createdAt: Date;
   updatedAt: Date;
 };

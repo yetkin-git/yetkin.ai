@@ -17,7 +17,10 @@ export const ACADEMY_LICENSE_PURPOSE_PREFIX = "academy-license:" as const;
 /** PayTR Junior yıllık paket. */
 export const JUNIOR_LICENSE_PURPOSE = "junior-license:yearly" as const;
 
-export type LicenseGapProduct = "academy" | "junior";
+/** PayTR Commerce aylık mağaza lisansı. */
+export const COMMERCE_LICENSE_PURPOSE = "commerce-license:monthly" as const;
+
+export type LicenseGapProduct = "academy" | "junior" | "commerce";
 
 export type LicenseGapReason =
   | "missing_purchase"
@@ -44,10 +47,17 @@ export type JuniorLicenseSeat = {
   appliedMerchantOids: readonly string[];
 };
 
+export type CommerceLicenseSeat = {
+  ownerUserId: string;
+  status: string;
+  appliedMerchantOids: readonly string[];
+};
+
 export type LicenseGapSnapshot = {
   orders: readonly LicenseGapOrder[];
   academySeats: readonly AcademyLicenseSeat[];
   juniorSeats: readonly JuniorLicenseSeat[];
+  commerceSeats: readonly CommerceLicenseSeat[];
   /** SUCCEEDED kart iadesi. Lisans yok ama para geri dönmüşse alarm sayılmaz. */
   refundedMerchantOids: readonly string[];
 };
@@ -81,7 +91,9 @@ export type LicenseGapScanResult = {
 
 export function isClearedLicensePurpose(purpose: string): boolean {
   return (
-    purpose.startsWith(ACADEMY_LICENSE_PURPOSE_PREFIX) || purpose === JUNIOR_LICENSE_PURPOSE
+    purpose.startsWith(ACADEMY_LICENSE_PURPOSE_PREFIX) ||
+    purpose === JUNIOR_LICENSE_PURPOSE ||
+    purpose === COMMERCE_LICENSE_PURPOSE
   );
 }
 
@@ -104,6 +116,7 @@ function classifyOrder(
   order: LicenseGapOrder,
   academySeats: ReadonlySet<string>,
   juniorByUser: ReadonlyMap<string, readonly JuniorLicenseSeat[]>,
+  commerceByOwner: ReadonlyMap<string, readonly CommerceLicenseSeat[]>,
 ): LicenseGap | null {
   if (order.purpose.startsWith(ACADEMY_LICENSE_PURPOSE_PREFIX)) {
     const slug = academyLicenseSlugFromPurpose(order.purpose);
@@ -115,6 +128,9 @@ function classifyOrder(
     }
     return null;
   }
+  if (order.purpose === COMMERCE_LICENSE_PURPOSE) {
+    return classifyCommerce(order, commerceByOwner);
+  }
   if (order.purpose !== JUNIOR_LICENSE_PURPOSE) {
     return null;
   }
@@ -125,6 +141,21 @@ function classifyOrder(
   }
   if (!applied.some((seat) => seat.status === "ACTIVE")) {
     return gap(order, "junior", "subscription_inactive");
+  }
+  return null;
+}
+
+function classifyCommerce(
+  order: LicenseGapOrder,
+  commerceByOwner: ReadonlyMap<string, readonly CommerceLicenseSeat[]>,
+): LicenseGap | null {
+  const seats = commerceByOwner.get(order.userId) ?? [];
+  const applied = seats.filter((seat) => seat.appliedMerchantOids.includes(order.merchantOid));
+  if (applied.length === 0) {
+    return gap(order, "commerce", "missing_subscription");
+  }
+  if (!applied.some((seat) => seat.status === "ACTIVE")) {
+    return gap(order, "commerce", "subscription_inactive");
   }
   return null;
 }
@@ -159,6 +190,12 @@ export function evaluateClearedLicenseGaps(snapshot: LicenseGapSnapshot): Licens
     list.push(seat);
     juniorByUser.set(seat.userId, list);
   }
+  const commerceByOwner = new Map<string, CommerceLicenseSeat[]>();
+  for (const seat of snapshot.commerceSeats) {
+    const list = commerceByOwner.get(seat.ownerUserId) ?? [];
+    list.push(seat);
+    commerceByOwner.set(seat.ownerUserId, list);
+  }
   const refunded = new Set(
     snapshot.refundedMerchantOids.map((oid) => oid.trim()).filter((oid) => oid.length > 0),
   );
@@ -168,7 +205,7 @@ export function evaluateClearedLicenseGaps(snapshot: LicenseGapSnapshot): Licens
     if (!isClearedLicensePurpose(order.purpose)) {
       continue;
     }
-    const missing = classifyOrder(order, academySeats, juniorByUser);
+    const missing = classifyOrder(order, academySeats, juniorByUser, commerceByOwner);
     if (!missing) {
       continue;
     }

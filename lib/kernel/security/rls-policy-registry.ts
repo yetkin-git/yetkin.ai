@@ -44,6 +44,7 @@ export const RLS_FORCE_TABLES = [
   "commerce_marketplace_webhook_receipts",
   "commerce_products",
   "commerce_stores",
+  "commerce_subscriptions",
   "commerce_variants",
   "escrow_holds",
   "freelancer_bids",

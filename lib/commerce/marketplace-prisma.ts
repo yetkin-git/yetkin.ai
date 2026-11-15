@@ -3,13 +3,13 @@ import "server-only";
 import type { PrismaClient } from "@/generated/prisma/client";
 import { getPrisma } from "@/lib/kernel/db";
 import { MarketplaceConflict, type ListingSyncPatch, type MarketplaceRepository } from "@/lib/commerce/marketplace-repository";
-import {
-  COMMERCE_CHANNEL,
-  type ChannelListingRow,
-  type ListingSyncStatus,
-  type MarketplaceCredentialRow,
-  type WebhookReceiptRow,
-  type WebhookReceiptStatus,
+import type {
+  ChannelListingRow,
+  CommerceChannelName,
+  ListingSyncStatus,
+  MarketplaceCredentialRow,
+  WebhookReceiptRow,
+  WebhookReceiptStatus,
 } from "@/lib/commerce/marketplace-types";
 
 type MarketplaceDb = {
@@ -37,6 +37,7 @@ function uniqueTarget(error: unknown): string {
 function credentialFrom(row: {
   id: string;
   storeId: string;
+  channel: CommerceChannelName;
   supplierHint: string;
   supplierSeal: string;
   apiKeySeal: string;
@@ -44,13 +45,14 @@ function credentialFrom(row: {
   createdAt: Date;
   updatedAt: Date;
 }): MarketplaceCredentialRow {
-  return { ...row, channel: COMMERCE_CHANNEL };
+  return row;
 }
 
 function listingFrom(row: {
   id: string;
   storeId: string;
   variantId: string;
+  channel: CommerceChannelName;
   sku: string;
   barcode: string;
   remoteBarcode: string;
@@ -61,13 +63,14 @@ function listingFrom(row: {
   createdAt: Date;
   updatedAt: Date;
 }): ChannelListingRow {
-  return { ...row, channel: COMMERCE_CHANNEL };
+  return row;
 }
 
 function receiptFrom(row: {
   id: string;
   storeId: string;
   variantId: string;
+  channel: CommerceChannelName;
   externalOrderId: string;
   lineId: string;
   status: WebhookReceiptStatus;
@@ -75,14 +78,14 @@ function receiptFrom(row: {
   note: string;
   createdAt: Date;
 }): WebhookReceiptRow {
-  return { ...row, channel: COMMERCE_CHANNEL };
+  return row;
 }
 
 export function createPrismaMarketplaceRepository(db: MarketplaceDb = getPrisma()): MarketplaceRepository {
   return {
     async upsertCredential(row) {
       const current = await db.commerceMarketplaceCredential.findUnique({
-        where: { storeId_channel: { storeId: row.storeId, channel: COMMERCE_CHANNEL } },
+        where: { storeId_channel: { storeId: row.storeId, channel: row.channel } },
       });
       if (current) {
         const updated = await db.commerceMarketplaceCredential.update({
@@ -101,7 +104,7 @@ export function createPrismaMarketplaceRepository(db: MarketplaceDb = getPrisma(
           data: {
             id: row.id,
             storeId: row.storeId,
-            channel: COMMERCE_CHANNEL,
+            channel: row.channel,
             supplierHint: row.supplierHint,
             supplierSeal: row.supplierSeal,
             apiKeySeal: row.apiKeySeal,
@@ -116,7 +119,7 @@ export function createPrismaMarketplaceRepository(db: MarketplaceDb = getPrisma(
           throw error;
         }
         const again = await db.commerceMarketplaceCredential.findUnique({
-          where: { storeId_channel: { storeId: row.storeId, channel: COMMERCE_CHANNEL } },
+          where: { storeId_channel: { storeId: row.storeId, channel: row.channel } },
         });
         if (!again) {
           throw error;
@@ -133,31 +136,31 @@ export function createPrismaMarketplaceRepository(db: MarketplaceDb = getPrisma(
         return credentialFrom(updated);
       }
     },
-    async deleteCredential(storeId) {
+    async deleteCredential(storeId, channel) {
       const result = await db.commerceMarketplaceCredential.deleteMany({
-        where: { storeId, channel: COMMERCE_CHANNEL },
+        where: { storeId, channel },
       });
       return result.count > 0;
     },
-    async findCredential(storeId) {
+    async findCredential(storeId, channel) {
       const row = await db.commerceMarketplaceCredential.findUnique({
-        where: { storeId_channel: { storeId, channel: COMMERCE_CHANNEL } },
+        where: { storeId_channel: { storeId, channel } },
       });
       return row ? credentialFrom(row) : null;
     },
-    async listCredentialsByHint(supplierHint) {
+    async listCredentialsByHint(supplierHint, channel) {
       const rows = await db.commerceMarketplaceCredential.findMany({
-        where: { channel: COMMERCE_CHANNEL, supplierHint },
+        where: { channel, supplierHint },
       });
       return rows.map(credentialFrom);
     },
-    async listTrendyolCredentials() {
-      const rows = await db.commerceMarketplaceCredential.findMany({ where: { channel: COMMERCE_CHANNEL } });
+    async listCredentials(channel) {
+      const rows = await db.commerceMarketplaceCredential.findMany({ where: { channel } });
       return rows.map(credentialFrom);
     },
     async upsertListing(row) {
       const current = await db.commerceChannelListing.findUnique({
-        where: { variantId_channel: { variantId: row.variantId, channel: COMMERCE_CHANNEL } },
+        where: { variantId_channel: { variantId: row.variantId, channel: row.channel } },
       });
       const data = {
         sku: row.sku,
@@ -178,7 +181,7 @@ export function createPrismaMarketplaceRepository(db: MarketplaceDb = getPrisma(
             id: row.id,
             storeId: row.storeId,
             variantId: row.variantId,
-            channel: COMMERCE_CHANNEL,
+            channel: row.channel,
             ...data,
             createdAt: row.createdAt,
             updatedAt: row.updatedAt,
@@ -192,22 +195,22 @@ export function createPrismaMarketplaceRepository(db: MarketplaceDb = getPrisma(
         throw error;
       }
     },
-    async deleteListing(storeId, variantId) {
+    async deleteListing(storeId, variantId, channel) {
       const result = await db.commerceChannelListing.deleteMany({
-        where: { storeId, variantId, channel: COMMERCE_CHANNEL },
+        where: { storeId, variantId, channel },
       });
       return result.count > 0;
     },
-    async findListingByVariant(storeId, variantId) {
+    async findListingByVariant(storeId, variantId, channel) {
       const row = await db.commerceChannelListing.findFirst({
-        where: { storeId, variantId, channel: COMMERCE_CHANNEL },
+        where: { storeId, variantId, channel },
       });
       return row ? listingFrom(row) : null;
     },
-    async findListingByRemoteBarcode(storeId, remoteBarcode) {
+    async findListingByRemoteBarcode(storeId, remoteBarcode, channel) {
       const row = await db.commerceChannelListing.findUnique({
         where: {
-          storeId_channel_remoteBarcode: { storeId, channel: COMMERCE_CHANNEL, remoteBarcode },
+          storeId_channel_remoteBarcode: { storeId, channel, remoteBarcode },
         },
       });
       return row ? listingFrom(row) : null;
@@ -216,9 +219,16 @@ export function createPrismaMarketplaceRepository(db: MarketplaceDb = getPrisma(
       const row = await db.commerceChannelListing.findUnique({ where: { id: listingId } });
       return row ? listingFrom(row) : null;
     },
-    async listListings(storeId) {
+    async listListings(storeId, channel) {
       const rows = await db.commerceChannelListing.findMany({
-        where: { storeId, channel: COMMERCE_CHANNEL },
+        where: { storeId, channel },
+        orderBy: { createdAt: "asc" },
+      });
+      return rows.map(listingFrom);
+    },
+    async listVariantListings(storeId, variantId) {
+      const rows = await db.commerceChannelListing.findMany({
+        where: { storeId, variantId },
         orderBy: { createdAt: "asc" },
       });
       return rows.map(listingFrom);
@@ -238,12 +248,12 @@ export function createPrismaMarketplaceRepository(db: MarketplaceDb = getPrisma(
       });
       return listingFrom(updated);
     },
-    async findReceipt(storeId, externalOrderId, lineId) {
+    async findReceipt(storeId, externalOrderId, lineId, channel) {
       const row = await db.commerceMarketplaceWebhookReceipt.findUnique({
         where: {
           storeId_channel_externalOrderId_lineId: {
             storeId,
-            channel: COMMERCE_CHANNEL,
+            channel,
             externalOrderId,
             lineId,
           },
@@ -258,7 +268,7 @@ export function createPrismaMarketplaceRepository(db: MarketplaceDb = getPrisma(
             id: row.id,
             storeId: row.storeId,
             variantId: row.variantId,
-            channel: COMMERCE_CHANNEL,
+            channel: row.channel,
             externalOrderId: row.externalOrderId,
             lineId: row.lineId,
             status: row.status,

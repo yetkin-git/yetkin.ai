@@ -39,6 +39,7 @@ import { loadIdentityBoard } from "@/lib/kernel/identity/load";
 import type {
   AcademyCourseWithPrice,
   AcademyCertificateRecord,
+  AcademyPulse,
   AcademyPurchaseRecord,
 } from "@/lib/academy/types";
 import type { AcademyCourseLevel } from "@/lib/academy/course-level";
@@ -442,6 +443,31 @@ export const loadAcademyWalletBoard = cache(async function loadAcademyWalletBoar
       ACADEMY_CATALOG_READ_TIMEOUT_MS,
       "academy.wallet",
     );
+  } catch {
+    return null;
+  }
+});
+
+/** Kariyer planı okuması. Yazmaz; nabız okunamazsa null. */
+export type AcademyActionPulse = Pick<
+  AcademyPulse,
+  "certificatesHeld" | "lastCertificateTitle" | "lastCourseSlug" | "nextLessonKey"
+>;
+
+export const loadAcademyActionPulse = cache(async function loadAcademyActionPulse(
+  userId: string,
+): Promise<AcademyActionPulse | null> {
+  try {
+    const pulse = await academySsrRead(
+      () => createPrismaAcademyPorts().academy.pulseForUser(userId),
+      "academy.action-pulse",
+    );
+    return {
+      certificatesHeld: pulse.certificatesHeld,
+      lastCertificateTitle: pulse.lastCertificateTitle,
+      lastCourseSlug: pulse.lastCourseSlug,
+      nextLessonKey: pulse.nextLessonKey,
+    };
   } catch {
     return null;
   }

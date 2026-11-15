@@ -72,6 +72,7 @@ describe("operasyon masası", () => {
         ],
         academySeats: [],
         juniorSeats: [],
+        commerceSeats: [],
         refundedMerchantOids: [],
       },
       readout: {

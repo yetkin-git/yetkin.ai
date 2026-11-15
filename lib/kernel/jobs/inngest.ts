@@ -21,6 +21,7 @@ export const INNGEST_EVENTS = {
   ESCROW_TTL_APPROACHING: "escrow/ttl-approaching",
   ACADEMY_RECEIPT_REQUESTED: "academy/receipt-requested",
   TRENDYOL_STOCK_PUSH_REQUESTED: "commerce/trendyol.stock-push-requested",
+  HEPSIBURADA_STOCK_PUSH_REQUESTED: "commerce/hepsiburada.stock-push-requested",
 } as const;
 
 export const paytrClearingScan = inngest.createFunction(
@@ -430,6 +431,64 @@ export const trendyolOrderPull = inngest.createFunction(
   },
 );
 
+export const hepsiburadaStockPush = inngest.createFunction(
+  {
+    id: "hepsiburada-stock-push",
+    name: "Hepsiburada stok itme",
+    retries: 4,
+    triggers: [{ event: INNGEST_EVENTS.HEPSIBURADA_STOCK_PUSH_REQUESTED }],
+    onFailure: async ({ event, error }) => {
+      const data = event.data as {
+        event?: { data?: { listingId?: unknown; onHandAfter?: unknown; amountMinor?: unknown } };
+      };
+      const original = data.event?.data;
+      const listingId = typeof original?.listingId === "string" ? original.listingId : "";
+      const onHandAfter = typeof original?.onHandAfter === "number" ? original.onHandAfter : NaN;
+      const amountMinor = typeof original?.amountMinor === "number" ? original.amountMinor : NaN;
+      const message = error instanceof Error ? error.message : "Hepsiburada stok itme başarısız.";
+      const { markHepsiburadaListingFailed } = await import("@/lib/commerce/hepsiburada-sync");
+      const { liveHepsiburadaPorts } = await import("@/lib/commerce/hepsiburada-live");
+      await markHepsiburadaListingFailed(liveHepsiburadaPorts(), { listingId, onHandAfter, amountMinor, message });
+    },
+  },
+  async ({ event, step }) => {
+    const data = event.data as {
+      listingId?: unknown;
+      storeId?: unknown;
+      onHandAfter?: unknown;
+      amountMinor?: unknown;
+    };
+    return step.run("push-hepsiburada-stock", async () => {
+      const { pushHepsiburadaListingStock } = await import("@/lib/commerce/hepsiburada-sync");
+      const { liveHepsiburadaPorts } = await import("@/lib/commerce/hepsiburada-live");
+      return pushHepsiburadaListingStock(liveHepsiburadaPorts(), {
+        listingId: typeof data.listingId === "string" ? data.listingId : "",
+        storeId: typeof data.storeId === "string" ? data.storeId : "",
+        onHandAfter: typeof data.onHandAfter === "number" ? data.onHandAfter : NaN,
+        amountMinor: typeof data.amountMinor === "number" ? data.amountMinor : NaN,
+      });
+    });
+  },
+);
+
+export const hepsiburadaOrderPull = inngest.createFunction(
+  {
+    id: "hepsiburada-order-pull",
+    name: "Hepsiburada sipariş çekme",
+    triggers: [{ cron: "TZ=Europe/Istanbul */30 * * * *" }],
+  },
+  async ({ step }) => {
+    return step.run("pull-hepsiburada-orders", async () => {
+      if (!process.env.DATABASE_URL?.trim()) {
+        return { stores: 0, lines: 0, stockShort: 0 };
+      }
+      const { pullHepsiburadaOrders } = await import("@/lib/commerce/hepsiburada-sync");
+      const { liveHepsiburadaPorts } = await import("@/lib/commerce/hepsiburada-live");
+      return pullHepsiburadaOrders(liveHepsiburadaPorts());
+    });
+  },
+);
+
 export const kernelInngestFunctions = [
   paytrClearingScan,
   paytrClearingSingle,
@@ -441,6 +500,8 @@ export const kernelInngestFunctions = [
   academyReceiptSend,
   trendyolStockPush,
   trendyolOrderPull,
+  hepsiburadaStockPush,
+  hepsiburadaOrderPull,
 ];
 
 export function inngestNotConfiguredResponse(requestId?: string) {

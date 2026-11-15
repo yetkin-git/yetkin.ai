@@ -80,6 +80,7 @@ model User {
   juniorSubscription       JuniorSubscription?
   juniorGuardianConsents   JuniorGuardianConsent[]
   commerceStores           CommerceStore[]
+  commerceSubscriptions    CommerceSubscription[]
   inventoryTransactions    InventoryTransaction[]
 
   @@map("users")

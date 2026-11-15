@@ -1,5 +1,5 @@
 import { MarketplaceConflict, type ListingSyncPatch, type MarketplaceRepository } from "@/lib/commerce/marketplace-repository";
-import { COMMERCE_CHANNEL, type ChannelListingRow, type MarketplaceCredentialRow, type WebhookReceiptRow } from "@/lib/commerce/marketplace-types";
+import type { ChannelListingRow, MarketplaceCredentialRow, WebhookReceiptRow } from "@/lib/commerce/marketplace-types";
 
 type MemoryState = {
   credentials: MarketplaceCredentialRow[];
@@ -16,7 +16,7 @@ export function createMemoryMarketplaceRepository(): MarketplaceRepository {
   return {
     async upsertCredential(row) {
       const index = state.credentials.findIndex(
-        (item) => item.storeId === row.storeId && item.channel === COMMERCE_CHANNEL,
+        (item) => item.storeId === row.storeId && item.channel === row.channel,
       );
       if (index >= 0) {
         const current = state.credentials[index]!;
@@ -31,30 +31,30 @@ export function createMemoryMarketplaceRepository(): MarketplaceRepository {
       state.credentials.push(clone(row));
       return clone(row);
     },
-    async deleteCredential(storeId) {
+    async deleteCredential(storeId, channel) {
       const before = state.credentials.length;
       state.credentials = state.credentials.filter(
-        (item) => !(item.storeId === storeId && item.channel === COMMERCE_CHANNEL),
+        (item) => !(item.storeId === storeId && item.channel === channel),
       );
       return state.credentials.length !== before;
     },
-    async findCredential(storeId) {
-      const row = state.credentials.find((item) => item.storeId === storeId && item.channel === COMMERCE_CHANNEL);
+    async findCredential(storeId, channel) {
+      const row = state.credentials.find((item) => item.storeId === storeId && item.channel === channel);
       return row ? clone(row) : null;
     },
-    async listCredentialsByHint(supplierHint) {
+    async listCredentialsByHint(supplierHint, channel) {
       return state.credentials
-        .filter((item) => item.channel === COMMERCE_CHANNEL && item.supplierHint === supplierHint)
+        .filter((item) => item.channel === channel && item.supplierHint === supplierHint)
         .map((item) => clone(item));
     },
-    async listTrendyolCredentials() {
-      return state.credentials.filter((item) => item.channel === COMMERCE_CHANNEL).map((item) => clone(item));
+    async listCredentials(channel) {
+      return state.credentials.filter((item) => item.channel === channel).map((item) => clone(item));
     },
     async upsertListing(row) {
       const sameRemote = state.listings.find(
         (item) =>
           item.storeId === row.storeId &&
-          item.channel === COMMERCE_CHANNEL &&
+          item.channel === row.channel &&
           item.remoteBarcode === row.remoteBarcode &&
           item.variantId !== row.variantId,
       );
@@ -62,7 +62,7 @@ export function createMemoryMarketplaceRepository(): MarketplaceRepository {
         throw new MarketplaceConflict("remote-barcode");
       }
       const index = state.listings.findIndex(
-        (item) => item.storeId === row.storeId && item.variantId === row.variantId && item.channel === COMMERCE_CHANNEL,
+        (item) => item.storeId === row.storeId && item.variantId === row.variantId && item.channel === row.channel,
       );
       if (index >= 0) {
         const current = state.listings[index]!;
@@ -73,22 +73,22 @@ export function createMemoryMarketplaceRepository(): MarketplaceRepository {
       state.listings.push(clone(row));
       return clone(row);
     },
-    async deleteListing(storeId, variantId) {
+    async deleteListing(storeId, variantId, channel) {
       const before = state.listings.length;
       state.listings = state.listings.filter(
-        (item) => !(item.storeId === storeId && item.variantId === variantId && item.channel === COMMERCE_CHANNEL),
+        (item) => !(item.storeId === storeId && item.variantId === variantId && item.channel === channel),
       );
       return state.listings.length !== before;
     },
-    async findListingByVariant(storeId, variantId) {
+    async findListingByVariant(storeId, variantId, channel) {
       const row = state.listings.find(
-        (item) => item.storeId === storeId && item.variantId === variantId && item.channel === COMMERCE_CHANNEL,
+        (item) => item.storeId === storeId && item.variantId === variantId && item.channel === channel,
       );
       return row ? clone(row) : null;
     },
-    async findListingByRemoteBarcode(storeId, remoteBarcode) {
+    async findListingByRemoteBarcode(storeId, remoteBarcode, channel) {
       const row = state.listings.find(
-        (item) => item.storeId === storeId && item.channel === COMMERCE_CHANNEL && item.remoteBarcode === remoteBarcode,
+        (item) => item.storeId === storeId && item.channel === channel && item.remoteBarcode === remoteBarcode,
       );
       return row ? clone(row) : null;
     },
@@ -96,9 +96,14 @@ export function createMemoryMarketplaceRepository(): MarketplaceRepository {
       const row = state.listings.find((item) => item.id === listingId);
       return row ? clone(row) : null;
     },
-    async listListings(storeId) {
+    async listListings(storeId, channel) {
       return state.listings
-        .filter((item) => item.storeId === storeId && item.channel === COMMERCE_CHANNEL)
+        .filter((item) => item.storeId === storeId && item.channel === channel)
+        .map((item) => clone(item));
+    },
+    async listVariantListings(storeId, variantId) {
+      return state.listings
+        .filter((item) => item.storeId === storeId && item.variantId === variantId)
         .map((item) => clone(item));
     },
     async markListing(listingId, patch: ListingSyncPatch) {
@@ -117,11 +122,11 @@ export function createMemoryMarketplaceRepository(): MarketplaceRepository {
       state.listings[index] = next;
       return clone(next);
     },
-    async findReceipt(storeId, externalOrderId, lineId) {
+    async findReceipt(storeId, externalOrderId, lineId, channel) {
       const row = state.receipts.find(
         (item) =>
           item.storeId === storeId &&
-          item.channel === COMMERCE_CHANNEL &&
+          item.channel === channel &&
           item.externalOrderId === externalOrderId &&
           item.lineId === lineId,
       );

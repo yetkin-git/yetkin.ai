@@ -65,6 +65,7 @@ function storeFrom(row: {
   slug: string;
   status: StoreStatus;
   currencyCode: string;
+  whatsappE164: string | null;
   createdAt: Date;
   updatedAt: Date;
 }): StoreRow {
@@ -182,7 +183,7 @@ function bindPrisma(db: CommerceDb, nested: boolean): CommerceRepository {
       try {
         const updated = await db.commerceStore.update({
           where: { id: row.id },
-          data: { name: row.name, slug: row.slug, status: row.status },
+          data: { name: row.name, slug: row.slug, status: row.status, whatsappE164: row.whatsappE164 },
         });
         return storeFrom(updated);
       } catch (error) {

@@ -3,6 +3,7 @@ import type { CommerceRepository } from "@/lib/commerce/repository";
 import { openCommerceCredential } from "@/lib/commerce/credential-seal";
 import type { MarketplaceRepository } from "@/lib/commerce/marketplace-repository";
 import { COMMERCE_CHANNEL, type WebhookReceiptRow } from "@/lib/commerce/marketplace-types";
+import { COMMERCE_LICENSE_ABSENT, outgoingSyncAllowed, type CommerceOutgoingLicense } from "@/lib/commerce/sync-license";
 import {
   TRENDYOL_ORDER_MAX_PAGES,
   TRENDYOL_ORDER_PAGE_SIZE,
@@ -25,6 +26,7 @@ export type TrendyolPorts = {
   fetchImpl?: TrendyolFetch;
   now?: () => Date;
   baseUrl?: string;
+  license?: CommerceOutgoingLicense;
 };
 
 export type TrendyolStockPushEvent = {
@@ -58,9 +60,9 @@ function openStored(row: {
   apiSecretSeal: string;
 }, env: NodeJS.ProcessEnv) {
   return {
-    supplierId: openCommerceCredential(row.supplierSeal, "supplier", row.storeId, env),
-    apiKey: openCommerceCredential(row.apiKeySeal, "apiKey", row.storeId, env),
-    apiSecret: openCommerceCredential(row.apiSecretSeal, "apiSecret", row.storeId, env),
+    supplierId: openCommerceCredential(row.supplierSeal, "supplier", row.storeId, env, COMMERCE_CHANNEL),
+    apiKey: openCommerceCredential(row.apiKeySeal, "apiKey", row.storeId, env, COMMERCE_CHANNEL),
+    apiSecret: openCommerceCredential(row.apiSecretSeal, "apiSecret", row.storeId, env, COMMERCE_CHANNEL),
   };
 }
 
@@ -83,14 +85,14 @@ async function intakeLine(
     consumes: boolean;
   },
 ): Promise<TrendyolLineIntake> {
-  const existing = await ports.marketplace.findReceipt(input.storeId, input.packageId, input.lineId);
+  const existing = await ports.marketplace.findReceipt(input.storeId, input.packageId, input.lineId, COMMERCE_CHANNEL);
   if (existing) {
     return recorded(existing.status);
   }
   if (!input.consumes) {
     return { outcome: "skipped", reason: "closed" };
   }
-  const listing = await ports.marketplace.findListingByRemoteBarcode(input.storeId, input.barcode);
+  const listing = await ports.marketplace.findListingByRemoteBarcode(input.storeId, input.barcode, COMMERCE_CHANNEL);
   if (!listing) {
     return { outcome: "skipped", reason: "unmapped" };
   }
@@ -128,7 +130,7 @@ async function intakeLine(
   };
   const inserted = await ports.marketplace.insertReceipt(receipt);
   if (inserted === "conflict") {
-    const again = await ports.marketplace.findReceipt(input.storeId, input.packageId, input.lineId);
+    const again = await ports.marketplace.findReceipt(input.storeId, input.packageId, input.lineId, COMMERCE_CHANNEL);
     if (!again) {
       throw new TrendyolRemoteError("Trendyol fişi okunamadı.");
     }
@@ -152,7 +154,7 @@ export async function intakeTrendyolPackages(
     const consumesPackage = !foreign && trendyolPackageConsumesStock(pkg);
     for (const line of pkg.lines) {
       if (foreign) {
-        const existing = await ports.marketplace.findReceipt(storeId, pkg.shipmentPackageId, line.lineId);
+        const existing = await ports.marketplace.findReceipt(storeId, pkg.shipmentPackageId, line.lineId, COMMERCE_CHANNEL);
         results.push(existing ? recorded(existing.status) : { outcome: "skipped", reason: "foreign-currency" });
         continue;
       }
@@ -188,7 +190,16 @@ export async function pushTrendyolListingStock(
   if (variant.onHandQty !== data.onHandAfter || variant.amountMinor !== data.amountMinor) {
     return { syncStatus: "PENDING" };
   }
-  const credential = await ports.marketplace.findCredential(listing.storeId);
+  const allowed = await outgoingSyncAllowed(ports.license, listing.storeId, ports.now?.() ?? new Date());
+  if (!allowed) {
+    await ports.marketplace.markListing(listing.id, {
+      syncStatus: "PENDING",
+      lastError: COMMERCE_LICENSE_ABSENT,
+      lastSyncedAt: listing.lastSyncedAt,
+    });
+    return { syncStatus: "PENDING" };
+  }
+  const credential = await ports.marketplace.findCredential(listing.storeId, COMMERCE_CHANNEL);
   if (!credential) {
     throw new TrendyolRemoteError("Trendyol kimliği yok.");
   }
@@ -242,14 +253,21 @@ export async function markTrendyolListingFailed(
 export async function pullTrendyolOrders(
   ports: TrendyolPorts,
 ): Promise<{ stores: number; lines: number; stockShort: number }> {
-  const rows = await ports.marketplace.listTrendyolCredentials();
+  const rows = await ports.marketplace.listCredentials(COMMERCE_CHANNEL);
   if (rows.length === 0) {
     return { stores: 0, lines: 0, stockShort: 0 };
   }
-  const window = trendyolOrderWindow(ports.now?.() ?? new Date());
+  const now = ports.now?.() ?? new Date();
+  const window = trendyolOrderWindow(now);
   let lines = 0;
   let stockShort = 0;
+  let stores = 0;
   for (const row of rows) {
+    const allowed = await outgoingSyncAllowed(ports.license, row.storeId, now);
+    if (!allowed) {
+      continue;
+    }
+    stores += 1;
     const opened = openStored(row, ports.env);
     const store = await ports.commerce.findStoreById(row.storeId);
     if (!store) {
@@ -280,5 +298,5 @@ export async function pullTrendyolOrders(
       }
     }
   }
-  return { stores: rows.length, lines, stockShort };
+  return { stores, lines, stockShort };
 }

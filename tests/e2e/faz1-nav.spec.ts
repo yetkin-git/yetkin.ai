@@ -49,6 +49,12 @@ test.describe("Faz 1 kamu navigasyonu", () => {
     await expect(page).toHaveURL(/\/career\/?$/);
     await expect(page.getByRole("heading", { name: "Doğrulanmış Freelancer Rozeti" }).first()).toBeVisible();
     await expect(page.getByText("Örnek mühürlü sertifika")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "30 günlük aksiyon planı" })).toBeVisible();
+    await expect(page.locator("[data-action-plan]")).toContainText(
+      "İşe yerleşmeyi veya gelir elde etmeyi garanti etmez",
+    );
+    await expect(page.getByText("Gün 1–7")).toBeVisible();
+    await expect(page.getByText("Gün 23–30")).toBeVisible();
     await expect(page.getByText("Yetenek Radarı")).toHaveCount(0);
     await expect(page.getByText("SWOT")).toHaveCount(0);
   });

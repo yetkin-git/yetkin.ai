@@ -1,10 +1,12 @@
 import "server-only";
 
 import { loadAcademyLicenseSeats } from "@/lib/academy/license-gap-read";
+import { loadCommerceLicenseSeats } from "@/lib/commerce/license-gap-read";
 import { getPrisma } from "@/lib/kernel/db";
 import { loadJuniorLicenseSeats } from "@/lib/junior/license-gap-read";
 import {
   ACADEMY_LICENSE_PURPOSE_PREFIX,
+  COMMERCE_LICENSE_PURPOSE,
   JUNIOR_LICENSE_PURPOSE,
   type LicenseGapPorts,
   type LicenseGapSnapshot,
@@ -14,13 +16,14 @@ import { createPrismaPaymentAnomalyStore } from "@/lib/kernel/payments/prisma-an
 /** CLEARED lisans niyeti + açık koltuk + SUCCEEDED iade. CREDIT yazmaz. */
 export async function loadLicenseGapSnapshot(): Promise<LicenseGapSnapshot> {
   const prisma = getPrisma();
-  const [orders, academySeats, juniorSeats, refunds] = await Promise.all([
+  const [orders, academySeats, juniorSeats, commerceSeats, refunds] = await Promise.all([
     prisma.paymentOrder.findMany({
       where: {
         status: "CLEARED",
         OR: [
           { purpose: { startsWith: ACADEMY_LICENSE_PURPOSE_PREFIX } },
           { purpose: JUNIOR_LICENSE_PURPOSE },
+          { purpose: COMMERCE_LICENSE_PURPOSE },
         ],
       },
       select: {
@@ -33,6 +36,7 @@ export async function loadLicenseGapSnapshot(): Promise<LicenseGapSnapshot> {
     }),
     loadAcademyLicenseSeats(),
     loadJuniorLicenseSeats(),
+    loadCommerceLicenseSeats(),
     prisma.walletCardRefund.findMany({
       where: { status: "SUCCEEDED", merchantOid: { not: null } },
       select: { merchantOid: true },
@@ -42,6 +46,7 @@ export async function loadLicenseGapSnapshot(): Promise<LicenseGapSnapshot> {
     orders,
     academySeats,
     juniorSeats,
+    commerceSeats,
     refundedMerchantOids: refunds.flatMap((row) => (row.merchantOid ? [row.merchantOid] : [])),
   };
 }

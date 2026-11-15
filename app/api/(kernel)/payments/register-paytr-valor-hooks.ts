@@ -1,4 +1,5 @@
 import { registerPaytrAcademyLicenseHook } from "@/lib/academy/register-paytr-license-hook";
+import { registerPaytrCommerceLicenseHook } from "@/lib/commerce/register-paytr-license-hook";
 import { registerPaytrJuniorLicenseHook } from "@/lib/junior/register-paytr-license-hook";
 
 /**
@@ -10,4 +11,5 @@ import { registerPaytrJuniorLicenseHook } from "@/lib/junior/register-paytr-lice
 export function registerPaytrValorLicenseHooks(): void {
   registerPaytrAcademyLicenseHook();
   registerPaytrJuniorLicenseHook();
+  registerPaytrCommerceLicenseHook();
 }

@@ -1,8 +1,9 @@
-/// Yetkin Commerce — mağaza, Master SKU, append-only stok defteri, Trendyol kasası.
+/// Yetkin Commerce — mağaza, Master SKU, append-only stok defteri, pazaryeri kasası.
 /// Sahiplik kolonu `owner_user_id` kasıtlıdır: canlı RLS sahiplik sicilinde yoktur.
 /// PostgREST `rls_deny_unscoped` (SELECT USING false) alır. Yazma politikası üretilmez.
 /// Fiyat `amount_minor`. Para birimi mağazada yalnız TRY.
-/// Uzak stok `on_hand_qty` üzerine yazılmaz. Kargo etiketi ve abonelik bu şemada yoktur.
+/// Uzak stok `on_hand_qty` üzerine yazılmaz. Kargo etiketi bu şemada yoktur.
+/// Aylık lisans `commerce_subscriptions` satırıdır. Pazaryeri satışı bu tabloya ciro yazmaz.
 
 enum CommerceStoreStatus {
   DRAFT
@@ -41,6 +42,12 @@ enum InventoryTransactionType {
 
 enum CommerceChannel {
   TRENDYOL
+  HEPSIBURADA
+}
+
+enum CommerceSubscriptionStatus {
+  PENDING
+  ACTIVE
 }
 
 enum CommerceListingSyncStatus {
@@ -61,6 +68,8 @@ model CommerceStore {
   slug         String              @unique @db.VarChar(48)
   status       CommerceStoreStatus @default(DRAFT)
   currencyCode String              @default("TRY") @db.Char(3) @map("currency_code")
+  /// `905` ile başlayan 12 hane. Boşsa vitrin sipariş bağlantısı basılmaz.
+  whatsappE164 String?             @map("whatsapp_e164") @db.VarChar(12)
   createdAt    DateTime            @default(now()) @map("created_at")
   updatedAt    DateTime            @updatedAt @map("updated_at")
 
@@ -71,6 +80,7 @@ model CommerceStore {
   credentials     CommerceMarketplaceCredential[]
   channelListings CommerceChannelListing[]
   webhookReceipts CommerceMarketplaceWebhookReceipt[]
+  subscription    CommerceSubscription?
 
   @@index([ownerUserId, createdAt])
   @@map("commerce_stores")
@@ -145,8 +155,8 @@ model InventoryTransaction {
   @@map("inventory_transactions")
 }
 
-/// Trendyol satıcı kimliği. Düz `supplierId`, `apiKey` ve `apiSecret` kolonu yoktur.
-/// Mühür `ccred1:` ve AAD `alan:storeId:TRENDYOL`. Okuma `supplier_hint` ile maskelenir.
+/// Pazaryeri satıcı kimliği. Düz `supplierId`, `apiKey` ve `apiSecret` kolonu yoktur.
+/// Mühür `ccred1:` ve AAD `alan:storeId:KANAL`. Okuma `supplier_hint` ile maskelenir.
 model CommerceMarketplaceCredential {
   id            String          @id @default(cuid())
   storeId       String          @map("store_id")
@@ -209,4 +219,23 @@ model CommerceMarketplaceWebhookReceipt {
   @@unique([storeId, channel, externalOrderId, lineId], map: "commerce_webhook_receipts_line_uidx")
   @@index([storeId, createdAt], map: "commerce_webhook_receipts_store_idx")
   @@map("commerce_marketplace_webhook_receipts")
+}
+
+/// Mağaza başı aylık lisans. Tahsilat sahip cüzdanındadır. `user_id` kolonu yoktur.
+model CommerceSubscription {
+  id                  String                       @id @default(cuid())
+  storeId             String                       @unique @map("store_id")
+  ownerUserId         String                       @map("owner_user_id")
+  status              CommerceSubscriptionStatus   @default(PENDING)
+  listPriceMinor      Int                          @map("list_price_minor")
+  appliedMerchantOids String[]                     @default([]) @map("applied_merchant_oids")
+  expiresAt           DateTime?                    @map("expires_at")
+  createdAt           DateTime                     @default(now()) @map("created_at")
+  updatedAt           DateTime                     @updatedAt @map("updated_at")
+
+  store CommerceStore @relation(fields: [storeId], references: [id], onDelete: Restrict)
+  owner User          @relation(fields: [ownerUserId], references: [id], onDelete: Restrict)
+
+  @@index([ownerUserId, status], map: "commerce_subscriptions_owner_status_idx")
+  @@map("commerce_subscriptions")
 }

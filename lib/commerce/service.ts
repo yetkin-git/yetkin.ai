@@ -29,6 +29,7 @@ import {
   parseSku,
   parseSlug,
   parseStoreName,
+  parseWhatsappE164,
   parseVariantBody,
   slugFromName,
   CSV_IMPORT_MAX_ROWS,
@@ -45,6 +46,7 @@ function storeJson(store: StoreRow): Record<string, unknown> {
     slug: store.slug,
     status: store.status,
     currencyCode: store.currencyCode,
+    whatsappE164: store.whatsappE164,
     createdAt: store.createdAt.toISOString(),
     updatedAt: store.updatedAt.toISOString(),
   };
@@ -276,6 +278,7 @@ export async function createCommerceStore(
       slug,
       status: "DRAFT",
       currencyCode: "TRY",
+      whatsappE164: null,
       createdAt: now,
       updatedAt: now,
     });
@@ -317,7 +320,12 @@ export async function patchCommerceStore(
   if (status != null && status !== "DRAFT" && status !== "ACTIVE") {
     return commerceFail(422, "Mağaza durumu taslak veya açık olmalıdır.");
   }
-  if (name == null && slug == null && status == null) {
+  const whatsappPresent = Object.prototype.hasOwnProperty.call(body, "whatsappE164");
+  const whatsapp = whatsappPresent ? parseWhatsappE164(body.whatsappE164) : null;
+  if (whatsappPresent && !whatsapp?.ok) {
+    return commerceFail(422, "WhatsApp numarası 905 ile başlayan 12 hane olmalıdır.");
+  }
+  if (name == null && slug == null && status == null && !whatsappPresent) {
     return commerceFail(422, "Değişecek alan yok.");
   }
   return settle(repo, async (tx) => {
@@ -331,6 +339,7 @@ export async function patchCommerceStore(
       name: name ?? current.name,
       slug: slug ?? current.slug,
       status: (status as StoreStatus | null) ?? current.status,
+      whatsappE164: whatsappPresent && whatsapp?.ok ? whatsapp.value : current.whatsappE164,
       updatedAt: now,
     };
     const saved = await tx.updateStore(next);

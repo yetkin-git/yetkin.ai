@@ -85,7 +85,13 @@ function deps(repo: CommerceRepository, market = createMemoryMarketplaceReposito
 }
 
 function ports(repo: CommerceRepository, market: ReturnType<typeof createMemoryMarketplaceRepository>, fetchImpl?: TrendyolPorts["fetchImpl"]): TrendyolPorts {
-  return { commerce: repo, marketplace: market, env: ENV, fetchImpl };
+  return {
+    commerce: repo,
+    marketplace: market,
+    env: ENV,
+    fetchImpl,
+    license: { allowsOutgoing: async () => true },
+  };
 }
 
 async function sealStore(repo: CommerceRepository, market: ReturnType<typeof createMemoryMarketplaceRepository>, storeId: string) {

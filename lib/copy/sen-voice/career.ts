@@ -1,5 +1,9 @@
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 
+/** 30 günlük plan dipnotu. İş veya gelir vaadi taşımaz. */
+export const CAREER_ACTION_PLAN_DISCLAIMER =
+  "Bu plan bir aksiyon listesidir. Sertifika haritası veya mülakat provası değildir. İşe yerleşmeyi veya gelir elde etmeyi garanti etmez." as const;
+
 /** Rail SEN aksı — kariyer odası. Doğrulanmış Rozetten türetilen salt okuma damga projeksiyonu. */
 export const CAREER_SEN = {
   eyebrow: "Kariyer",
@@ -34,7 +38,7 @@ export const CAREER_SEN = {
   copied: "Kopyalandı",
   copyFail: "Kopyalanamadı",
   footnote:
-    "Doğrulanmış Freelancer Rozeti yalnız Akademi müfredat sınavından türer: 8 ders tamam + baraj 70. Elle basılmaz. Uzmanlık Portföyü listeler; rozeti Kariyer basar. İptal edilmiş Akademi belgesi burada görünmez. Hedef rol, yetenek haritası veya mülakat oyunu yok.",
+    `Doğrulanmış Freelancer Rozeti yalnız Akademi müfredat sınavından türer: 8 ders tamam + baraj 70. Elle basılmaz. Uzmanlık Portföyü listeler; rozeti Kariyer basar. İptal edilmiş Akademi belgesi burada görünmez. ${CAREER_ACTION_PLAN_DISCLAIMER}`,
   footnotePassportCta: "Uzmanlık Portföyünü aç",
   footnoteVerifyCta: "Sertifika doğrula",
   footnoteAcademyCta: "Akademiye git",
@@ -96,6 +100,37 @@ export const CAREER_SEN = {
     verifyCta: "Sertifika doğrula",
     academyCta: "Akademiye git",
     loginCta: "Giriş yap",
+  },
+  actionPlan: {
+    eyebrow: "30 gün",
+    title: "30 günlük aksiyon planı",
+    legend: "Plan girdileri",
+    intro:
+      "Dört somut adım. Plan hesaplanır, sicile yazılmaz. Oturumda yarım ders, doğrulanmış rozet veya açık mağaza varsa formun önüne geçer.",
+    situationLabel: "Mevcut durum",
+    timeBandLabel: "Haftalık süre",
+    focusLabel: "Hedef odak",
+    situations: [
+      { id: "new", label: "Yeni başlıyorum" },
+      { id: "learning", label: "Eğitim sürüyor" },
+      { id: "producing", label: "Tezgâhta üretiyorum" },
+      { id: "stamped", label: "Doğrulanmış rozetim var" },
+    ],
+    timeBands: [
+      { id: "under_3", label: "3 saatten az" },
+      { id: "hours_3_7", label: "3–7 saat" },
+      { id: "over_7", label: "7 saatten fazla" },
+    ],
+    foci: [
+      { id: "office", label: "Ofis ve veri" },
+      { id: "ecommerce", label: "E-ticaret" },
+      { id: "social", label: "Sosyal medya" },
+      { id: "chatbot", label: "Chatbot" },
+      { id: "prompt", label: "Prompt" },
+      { id: "grant", label: "Hibe dosyası" },
+      { id: "store", label: "Dijital dükkân" },
+    ],
+    disclaimer: CAREER_ACTION_PLAN_DISCLAIMER,
   },
   publicPage: {
     eyebrow: "Kamuya açık yetkinlik",

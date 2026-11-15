@@ -249,6 +249,39 @@ export function parseStoreName(value: unknown): string | null {
   return typeof value === "string" ? readText(value, 1, 80) : null;
 }
 
+/**
+ * Vitrin hattı. `null` veya boş metin kolonu siler.
+ * `05…`, `5…` ve `+90 5…` biçimleri `905` ile 12 haneye iner.
+ */
+export function parseWhatsappE164(value: unknown): { ok: true; value: string | null } | { ok: false } {
+  if (value == null) {
+    return { ok: true, value: null };
+  }
+  if (typeof value !== "string") {
+    return { ok: false };
+  }
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return { ok: true, value: null };
+  }
+  let digits = trimmed.replace(/[\s().-]/g, "");
+  if (digits.startsWith("+")) {
+    digits = digits.slice(1);
+  }
+  if (digits.startsWith("00")) {
+    digits = digits.slice(2);
+  }
+  if (/^0\d{10}$/.test(digits)) {
+    digits = `9${digits}`;
+  } else if (/^5\d{9}$/.test(digits)) {
+    digits = `90${digits}`;
+  }
+  if (!/^905\d{9}$/.test(digits)) {
+    return { ok: false };
+  }
+  return { ok: true, value: digits };
+}
+
 export function parseMovementBody(raw: unknown):
   | ParseOk<{
       variantId: string;

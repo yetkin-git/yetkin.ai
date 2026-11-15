@@ -34,6 +34,7 @@ function snapshot(overrides: Partial<LicenseGapSnapshot> = {}): LicenseGapSnapsh
       },
     ],
     academySeats: [{ userId: USER, courseSlug: "ofis-yapay-zeka" }],
+    commerceSeats: [],
     juniorSeats: [
       {
         userId: USER,

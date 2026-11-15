@@ -14,6 +14,7 @@ import {
   evaluateClearedLicenseGaps,
   logLicenseGapScan,
   type AcademyLicenseSeat,
+  type CommerceLicenseSeat,
   type JuniorLicenseSeat,
   type LicenseGapOrder,
 } from "@/lib/kernel/payments/license-gap";
@@ -40,7 +41,11 @@ async function main(): Promise<void> {
       SELECT id, user_id, merchant_oid, purpose, amount_minor
       FROM payment_orders
       WHERE status = 'CLEARED'
-        AND (purpose LIKE 'academy-license:%' OR purpose = 'junior-license:yearly')
+        AND (
+          purpose LIKE 'academy-license:%'
+          OR purpose = 'junior-license:yearly'
+          OR purpose = 'commerce-license:monthly'
+        )
       ORDER BY created_at ASC
     `);
     const purchases = await client.query<{ user_id: string; slug: string }>(`
@@ -78,10 +83,24 @@ async function main(): Promise<void> {
       status: row.status,
       appliedMerchantOids: row.applied_merchant_oids ?? [],
     }));
+    const commerce = await client.query<{
+      owner_user_id: string;
+      status: string;
+      applied_merchant_oids: string[] | null;
+    }>(`
+      SELECT owner_user_id, status, applied_merchant_oids
+      FROM commerce_subscriptions
+    `);
+    const commerceSeats: CommerceLicenseSeat[] = commerce.rows.map((row) => ({
+      ownerUserId: row.owner_user_id,
+      status: row.status,
+      appliedMerchantOids: row.applied_merchant_oids ?? [],
+    }));
     const evaluation = evaluateClearedLicenseGaps({
       orders: licenseOrders,
       academySeats,
       juniorSeats,
+      commerceSeats,
       refundedMerchantOids: refunds.rows.map((row) => row.merchant_oid),
     });
     logLicenseGapScan(evaluation, "ops-audit-license-gap");

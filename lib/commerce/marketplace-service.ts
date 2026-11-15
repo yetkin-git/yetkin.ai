@@ -9,6 +9,7 @@ import {
   COMMERCE_CHANNEL,
   listingView,
   maskedCredential,
+  type CommerceChannelName,
   type ListingView,
   type MaskedTrendyolCredential,
 } from "@/lib/commerce/marketplace-types";
@@ -24,8 +25,14 @@ function recordOf(raw: unknown): Record<string, unknown> | null {
   return raw as Record<string, unknown>;
 }
 
-function readSupplier(value: unknown): string | null {
-  return typeof value === "string" && /^\d{4,20}$/.test(value) ? value : null;
+function readSupplier(value: unknown, channel: CommerceChannelName): string | null {
+  if (typeof value !== "string") {
+    return null;
+  }
+  if (channel === "HEPSIBURADA") {
+    return /^[A-Za-z0-9]{4,40}$/.test(value) && /\d{4}$/.test(value) ? value : null;
+  }
+  return /^\d{4,20}$/.test(value) ? value : null;
 }
 
 function readSecret(value: unknown): string | null {
@@ -64,12 +71,13 @@ export async function getTrendyolCredential(
   marketplace: MarketplaceRepository,
   userId: string,
   storeId: string,
+  channel: CommerceChannelName = COMMERCE_CHANNEL,
 ): Promise<CommerceResult<{ credential: MaskedTrendyolCredential }>> {
   const store = await commerce.findStoreForOwner(userId, storeId);
   if (!store) {
     return commerceFail(404, MISSING);
   }
-  const row = await marketplace.findCredential(storeId);
+  const row = await marketplace.findCredential(storeId, channel);
   if (!row) {
     return commerceFail(404, MISSING);
   }
@@ -83,13 +91,14 @@ export async function putTrendyolCredential(
   userId: string,
   storeId: string,
   raw: unknown,
+  channel: CommerceChannelName = COMMERCE_CHANNEL,
 ): Promise<CommerceResult<{ credential: MaskedTrendyolCredential }>> {
   const store = await commerce.findStoreForOwner(userId, storeId);
   if (!store) {
     return commerceFail(404, MISSING);
   }
   const body = recordOf(raw);
-  const supplierId = body ? readSupplier(body.supplierId) : null;
+  const supplierId = body ? readSupplier(body.supplierId, channel) : null;
   const apiKey = body ? readSecret(body.apiKey) : null;
   const apiSecret = body ? readSecret(body.apiSecret) : null;
   if (!supplierId || !apiKey || !apiSecret) {
@@ -99,11 +108,11 @@ export async function putTrendyolCredential(
   const row = await marketplace.upsertCredential({
     id: randomUUID(),
     storeId,
-    channel: COMMERCE_CHANNEL,
+    channel,
     supplierHint: supplierHint(supplierId),
-    supplierSeal: sealCommerceCredential(supplierId, "supplier", storeId, env),
-    apiKeySeal: sealCommerceCredential(apiKey, "apiKey", storeId, env),
-    apiSecretSeal: sealCommerceCredential(apiSecret, "apiSecret", storeId, env),
+    supplierSeal: sealCommerceCredential(supplierId, "supplier", storeId, env, channel),
+    apiKeySeal: sealCommerceCredential(apiKey, "apiKey", storeId, env, channel),
+    apiSecretSeal: sealCommerceCredential(apiSecret, "apiSecret", storeId, env, channel),
     createdAt: now,
     updatedAt: now,
   });
@@ -115,12 +124,13 @@ export async function deleteTrendyolCredential(
   marketplace: MarketplaceRepository,
   userId: string,
   storeId: string,
+  channel: CommerceChannelName = COMMERCE_CHANNEL,
 ): Promise<CommerceResult<{ removed: true }>> {
   const store = await commerce.findStoreForOwner(userId, storeId);
   if (!store) {
     return commerceFail(404, MISSING);
   }
-  const removed = await marketplace.deleteCredential(storeId);
+  const removed = await marketplace.deleteCredential(storeId, channel);
   if (!removed) {
     return commerceFail(404, MISSING);
   }
@@ -132,12 +142,13 @@ export async function listTrendyolListings(
   marketplace: MarketplaceRepository,
   userId: string,
   storeId: string,
+  channel: CommerceChannelName = COMMERCE_CHANNEL,
 ): Promise<CommerceResult<{ listings: ListingView[] }>> {
   const store = await commerce.findStoreForOwner(userId, storeId);
   if (!store) {
     return commerceFail(404, MISSING);
   }
-  const rows = await marketplace.listListings(storeId);
+  const rows = await marketplace.listListings(storeId, channel);
   return { ok: true, data: { listings: rows.map(listingView) } };
 }
 
@@ -147,6 +158,7 @@ export async function putTrendyolListing(
   userId: string,
   storeId: string,
   raw: unknown,
+  channel: CommerceChannelName = COMMERCE_CHANNEL,
 ): Promise<CommerceResult<{ listing: ListingView }>> {
   const store = await commerce.findStoreForOwner(userId, storeId);
   if (!store) {
@@ -172,7 +184,7 @@ export async function putTrendyolListing(
       id: randomUUID(),
       storeId,
       variantId: variant.id,
-      channel: COMMERCE_CHANNEL,
+      channel,
       sku: variant.sku,
       barcode: variant.barcode,
       remoteBarcode,
@@ -186,7 +198,7 @@ export async function putTrendyolListing(
     return { ok: true, data: { listing: listingView(row) } };
   } catch (error) {
     if (error instanceof MarketplaceConflict) {
-      return commerceFail(409, "Bu Trendyol barkodu eşlenmiş.");
+      return commerceFail(409, channel === "HEPSIBURADA" ? "Bu Hepsiburada barkodu eşlenmiş." : "Bu Trendyol barkodu eşlenmiş.");
     }
     if (error instanceof CommerceCredentialSealError) {
       throw error;
@@ -201,12 +213,13 @@ export async function deleteTrendyolListing(
   userId: string,
   storeId: string,
   variantId: string,
+  channel: CommerceChannelName = COMMERCE_CHANNEL,
 ): Promise<CommerceResult<{ removed: true }>> {
   const store = await commerce.findStoreForOwner(userId, storeId);
   if (!store || !variantId) {
     return commerceFail(404, MISSING);
   }
-  const removed = await marketplace.deleteListing(storeId, variantId);
+  const removed = await marketplace.deleteListing(storeId, variantId, channel);
   if (!removed) {
     return commerceFail(404, MISSING);
   }

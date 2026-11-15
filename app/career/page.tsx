@@ -1,4 +1,5 @@
 import type { Metadata, Route } from "next";
+import { ActionPlanPanel } from "@/components/career/action-plan-panel";
 import { PublicCareerPanel } from "@/components/career/public-career-panel";
 import { EmployerGateway } from "@/components/career/employer-gateway";
 import { SealShareGuideButtons, SealShareGuides } from "@/components/career/seal-share-guides";
@@ -12,7 +13,16 @@ import {
   careerStampPublicHref,
   careerStampVerifyHref,
 } from "@/lib/career/stamp-surface";
+import {
+  assembleCareerActionLive,
+  EMPTY_CAREER_ACTION_LIVE,
+  type CareerActionStoreSignal,
+} from "@/lib/career/action-plan";
 import { loadCareerBoard } from "@/lib/career/load";
+import type { LiveCareerBoard } from "@/lib/career/live";
+import { loadAcademyActionPulse } from "@/lib/academy/load";
+import { listCommerceStores } from "@/lib/commerce/service";
+import { liveCommerceDeps } from "@/lib/commerce/live";
 import { getSession, requirePageSession } from "@/lib/kernel/auth/session";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
@@ -33,14 +43,56 @@ export const metadata: Metadata = pageMetadata(PAGE_SEO.career);
 export default async function CareerPage() {
   const session = await getSession();
   if (!session) {
-    return <PublicCareerPanel />;
+    return <PublicCareerPanel plan={<ActionPlanPanel live={EMPTY_CAREER_ACTION_LIVE} />} />;
   }
   return <SignedInCareerPage />;
+}
+
+async function loadCareerActionStores(userId: string): Promise<CareerActionStoreSignal[]> {
+  try {
+    const listed = await listCommerceStores(liveCommerceDeps().repository(), userId);
+    if (!listed.ok) {
+      return [];
+    }
+    const stores: CareerActionStoreSignal[] = [];
+    for (const row of listed.data.stores) {
+      const status = row.status;
+      const slug = row.slug;
+      const name = row.name;
+      if (
+        (status === "DRAFT" || status === "ACTIVE") &&
+        typeof slug === "string" &&
+        typeof name === "string"
+      ) {
+        stores.push({ status, slug, name });
+      }
+    }
+    return stores;
+  } catch {
+    return [];
+  }
+}
+
+async function loadSignedInActionLive(userId: string, board: LiveCareerBoard | null) {
+  const [academy, stores] = await Promise.all([
+    loadAcademyActionPulse(userId),
+    loadCareerActionStores(userId),
+  ]);
+  return assembleCareerActionLive({
+    academy,
+    stamps: (board?.stamps ?? []).map((stamp) => ({
+      title: stamp.title,
+      publicHref: careerStampPublicHref(stamp),
+      courseSlug: stamp.courseSlug,
+    })),
+    stores,
+  });
 }
 
 async function SignedInCareerPage() {
   const session = await requirePageSession();
   const board = await loadCareerBoard(session.id);
+  const actionLive = await loadSignedInActionLive(session.id, board);
   const stamps = board?.stamps ?? [];
   const portfolio = board?.portfolio ?? [];
   const copy = SEN_VOICE.career;
@@ -92,6 +144,7 @@ async function SignedInCareerPage() {
       <div className="flex flex-wrap gap-2">
         <SealShareGuideButtons model={shareModel} />
       </div>
+      <ActionPlanPanel live={actionLive} />
       <EmployerGateway
         doors={doors}
         publicTalentHref={publicTalentHref}

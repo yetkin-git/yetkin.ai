@@ -9,13 +9,14 @@
 
 import { isLiveBroadcastShutdownEnvActive } from "@/lib/kernel/http/live-broadcast-shutdown";
 
-/** Valör, emanet TTL ve Trendyol sipariş taramaları — serve açıkken Inngest Cloud bu id'leri kaydeder. */
+/** Valör, emanet TTL ve pazaryeri sipariş taramaları — serve açıkken Inngest Cloud bu id'leri kaydeder. */
 export const INNGEST_KERNEL_CRON_FUNCTION_IDS = [
   "paytr-clearing-scan",
   "ledger-reconciliation-scan",
   "escrow-timeout-scan",
   "escrow-ttl-approaching-scan",
   "trendyol-order-pull",
+  "hepsiburada-order-pull",
 ] as const;
 
 export type InngestServeMode = "cloud" | "dev" | "fail-closed";

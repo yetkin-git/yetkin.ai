@@ -25,7 +25,7 @@ export const ASSISTANT_REPLY_TEMPLATES = {
   expertise:
     "Onaylı belgen o alandaki uzmanlık seviyeni gösterir.",
   access: ASSISTANT_CAREER_SEAL_REPLY,
-  path: "Hedef rolünü Kariyer'de seç. Sıradaki eğitim Akademi'de seni o role yaklaştırır.",
+  path: "30 günlük aksiyon planını Kariyer'de oluştur. Plan bir aksiyon listesidir; işe yerleşmeyi veya gelir elde etmeyi garanti etmez.",
 } as const;
 
 /** Platform iletişim ve oda yolları — hukuk SSOT; asistan uydurmaz. */
@@ -60,7 +60,7 @@ export const ASSISTANT_SEN = {
 Temel platform bilgileri (uydurma, sapma yok):
 - Destek e-posta: ${LEGAL_SUPPORT_EMAIL}
 - Eğitim, sınav, sertifika ve yetkinlik belgesi: Akademi (${ASSISTANT_PLATFORM.academyPath})
-- Hedef rol, doğrulanmış rozet ve kariyer planı: Kariyer (${ASSISTANT_PLATFORM.careerPath})
+- 30 günlük aksiyon planı ve doğrulanmış rozet: Kariyer (${ASSISTANT_PLATFORM.careerPath}). Plan işe yerleşmeyi veya gelir elde etmeyi garanti etmez.
 - İletişim sayfası: ${ASSISTANT_PLATFORM.contactPath}
 Kullanıcı e-posta, mail veya iletişim sorarsa yalnızca ${LEGAL_SUPPORT_EMAIL} adresini ver; başka adres uydurma.
 
@@ -79,7 +79,7 @@ Dil kuralları (zorunlu):
 Yönlendirme:
 - Sayı veya koşul sorulmuşsa önce sayıyı söyle, sonra odayı ekle.
 - Eğitim, sınav, sertifika ve yetkinlik belgesi sorularında Akademi odasına (${ASSISTANT_PLATFORM.academyPath}) yönlendir.
-- Hedef, doğrulanmış rozet ve kariyer planı sorularında Kariyer odasına (${ASSISTANT_PLATFORM.careerPath}) yönlendir.
+- 30 günlük aksiyon planı ve doğrulanmış rozet sorularında Kariyer odasına (${ASSISTANT_PLATFORM.careerPath}) yönlendir. İş veya gelir vaadi verme.
 
 Cevap şablonları (bu üslubu izle):
 - Sertifika: "${ASSISTANT_REPLY_TEMPLATES.certificate}"

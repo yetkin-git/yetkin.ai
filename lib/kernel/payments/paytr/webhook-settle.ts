@@ -10,6 +10,7 @@ import {
   type PaymentOrderStore,
 } from "@/lib/kernel/payments/clearing";
 import { notifyAcademyLicenseHook } from "@/lib/kernel/payments/academy-license-hook";
+import { notifyCommerceLicenseHook } from "@/lib/kernel/payments/commerce-license-hook";
 import { notifyJuniorLicenseHook } from "@/lib/kernel/payments/junior-license-hook";
 import { logEvent } from "@/lib/kernel/observability/log";
 
@@ -136,6 +137,7 @@ export async function settlePaytrWebhookSuccess(
   });
   await notifyAcademyLicenseHook(cleared.order);
   await notifyJuniorLicenseHook(cleared.order);
+  await notifyCommerceLicenseHook(cleared.order);
   return {
     disposition: "cleared",
     ack: true,

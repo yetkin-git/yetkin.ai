@@ -58,8 +58,8 @@ export type CatalogWriteStore = {
 };
 
 /**
- * Satırı olmayan tek açılabilir birim. Tutar istekten gelir; kod fiyat basmaz.
- * Kart, satır yazılana kadar «Fiyat Bekleniyor» kalır.
+ * Satırı olmayan açılabilir birimler. Tutar istekten gelir; kod fiyat basmaz.
+ * Satır yazılana kadar tahsilat açılmaz.
  */
 export const CATALOG_OPENABLE_UNITS = [
   {
@@ -70,6 +70,15 @@ export const CATALOG_OPENABLE_UNITS = [
     minMinor: 1,
     maxMinor: 50_000_000,
     description: "OFF-201 satın alma kilidi. Tutar Super Admin satırındadır.",
+  },
+  {
+    moduleKey: "commerce",
+    unitKey: "monthly",
+    unitType: "MINOR" as const,
+    currencyCode: SETTLEMENT_CURRENCY,
+    minMinor: 1,
+    maxMinor: 50_000_000,
+    description: "Yetkin Commerce aylık mağaza lisansı. Tutar Super Admin satırındadır.",
   },
 ] as const;
 

@@ -1,6 +1,9 @@
-export const COMMERCE_CHANNEL = "TRENDYOL" as const;
+export const COMMERCE_CHANNELS = ["TRENDYOL", "HEPSIBURADA"] as const;
 
-export type CommerceChannelName = typeof COMMERCE_CHANNEL;
+export type CommerceChannelName = (typeof COMMERCE_CHANNELS)[number];
+
+/** Trendyol çağrılarının kanalı. Hepsiburada `HEPSIBURADA` geçirir. */
+export const COMMERCE_CHANNEL = "TRENDYOL" satisfies CommerceChannelName;
 
 export type ListingSyncStatus = "PENDING" | "SYNCED" | "FAILED";
 

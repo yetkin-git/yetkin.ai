@@ -4,7 +4,7 @@ import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import { CommerceCredentialSealError, openCommerceCredential, supplierHint } from "@/lib/commerce/credential-seal";
 import type { MarketplaceRepository } from "@/lib/commerce/marketplace-repository";
-import type { MarketplaceCredentialRow } from "@/lib/commerce/marketplace-types";
+import { COMMERCE_CHANNEL, type CommerceChannelName, type MarketplaceCredentialRow } from "@/lib/commerce/marketplace-types";
 import type { CommerceRepository } from "@/lib/commerce/repository";
 import {
   deleteTrendyolCredential,
@@ -15,6 +15,8 @@ import {
   putTrendyolListing,
 } from "@/lib/commerce/marketplace-service";
 import type { CommerceResult } from "@/lib/commerce/types";
+import { readHepsiburadaOrderPackages } from "@/lib/commerce/hepsiburada-client";
+import { intakeHepsiburadaPackages, type HepsiburadaPorts } from "@/lib/commerce/hepsiburada-sync";
 import { readTrendyolOrderPackages } from "@/lib/commerce/trendyol-client";
 import { intakeTrendyolPackages, type TrendyolPorts } from "@/lib/commerce/trendyol-sync";
 
@@ -86,55 +88,93 @@ async function withSession(
   }
 }
 
-export function getTrendyolCredentialRoute(deps: MarketplaceHandlerDeps, request: Request, storeId: string) {
+export function getTrendyolCredentialRoute(
+  deps: MarketplaceHandlerDeps,
+  request: Request,
+  storeId: string,
+  channel: CommerceChannelName = COMMERCE_CHANNEL,
+) {
   return withSession(deps, request, (user) =>
-    getTrendyolCredential(deps.commerce(), deps.marketplace(), user.id, storeId),
+    getTrendyolCredential(deps.commerce(), deps.marketplace(), user.id, storeId, channel),
   );
 }
 
-export function putTrendyolCredentialRoute(deps: MarketplaceHandlerDeps, request: Request, storeId: string) {
+export function putTrendyolCredentialRoute(
+  deps: MarketplaceHandlerDeps,
+  request: Request,
+  storeId: string,
+  channel: CommerceChannelName = COMMERCE_CHANNEL,
+) {
   return withSession(deps, request, async (user) => {
     const body = await readBody(request);
     if (!body.ok) {
       return { ok: false, status: 400, error: body.error };
     }
-    return putTrendyolCredential(deps.commerce(), deps.marketplace(), deps.env, user.id, storeId, body.value);
+    return putTrendyolCredential(deps.commerce(), deps.marketplace(), deps.env, user.id, storeId, body.value, channel);
   });
 }
 
-export function deleteTrendyolCredentialRoute(deps: MarketplaceHandlerDeps, request: Request, storeId: string) {
+export function deleteTrendyolCredentialRoute(
+  deps: MarketplaceHandlerDeps,
+  request: Request,
+  storeId: string,
+  channel: CommerceChannelName = COMMERCE_CHANNEL,
+) {
   return withSession(deps, request, (user) =>
-    deleteTrendyolCredential(deps.commerce(), deps.marketplace(), user.id, storeId),
+    deleteTrendyolCredential(deps.commerce(), deps.marketplace(), user.id, storeId, channel),
   );
 }
 
-export function getTrendyolListingsRoute(deps: MarketplaceHandlerDeps, request: Request, storeId: string) {
+export function getTrendyolListingsRoute(
+  deps: MarketplaceHandlerDeps,
+  request: Request,
+  storeId: string,
+  channel: CommerceChannelName = COMMERCE_CHANNEL,
+) {
   return withSession(deps, request, (user) =>
-    listTrendyolListings(deps.commerce(), deps.marketplace(), user.id, storeId),
+    listTrendyolListings(deps.commerce(), deps.marketplace(), user.id, storeId, channel),
   );
 }
 
-export function putTrendyolListingRoute(deps: MarketplaceHandlerDeps, request: Request, storeId: string) {
+export function putTrendyolListingRoute(
+  deps: MarketplaceHandlerDeps,
+  request: Request,
+  storeId: string,
+  channel: CommerceChannelName = COMMERCE_CHANNEL,
+) {
   return withSession(deps, request, async (user) => {
     const body = await readBody(request);
     if (!body.ok) {
       return { ok: false, status: 400, error: body.error };
     }
-    return putTrendyolListing(deps.commerce(), deps.marketplace(), user.id, storeId, body.value);
+    return putTrendyolListing(deps.commerce(), deps.marketplace(), user.id, storeId, body.value, channel);
   });
 }
 
-export function deleteTrendyolListingRoute(deps: MarketplaceHandlerDeps, request: Request, storeId: string) {
+export function deleteTrendyolListingRoute(
+  deps: MarketplaceHandlerDeps,
+  request: Request,
+  storeId: string,
+  channel: CommerceChannelName = COMMERCE_CHANNEL,
+) {
   const variantId = new URL(request.url).searchParams.get("variantId") ?? "";
   return withSession(deps, request, (user) =>
-    deleteTrendyolListing(deps.commerce(), deps.marketplace(), user.id, storeId, variantId),
+    deleteTrendyolListing(deps.commerce(), deps.marketplace(), user.id, storeId, variantId, channel),
   );
 }
 
-export async function authenticateTrendyolWebhook(
-  ports: TrendyolPorts,
+function supplierShape(channel: CommerceChannelName, supplierId: string): boolean {
+  if (channel === "HEPSIBURADA") {
+    return /^[A-Za-z0-9]{4,40}$/.test(supplierId) && /\d{4}$/.test(supplierId);
+  }
+  return /^\d{4,20}$/.test(supplierId);
+}
+
+export async function authenticateChannelWebhook(
+  ports: Pick<TrendyolPorts, "commerce" | "marketplace" | "env">,
   request: Request,
   supplierId: string,
+  channel: CommerceChannelName,
 ): Promise<{ storeId: string; ownerUserId: string; supplierId: string } | null> {
   const apiKeyHeader = request.headers.get("x-api-key")?.trim() ?? "";
   const basic = apiKeyHeader ? null : readBasic(request.headers.get("authorization") ?? "");
@@ -144,19 +184,19 @@ export async function authenticateTrendyolWebhook(
       : basic
         ? { apiKey: basic.username, apiSecret: basic.password }
         : null;
-  if (!token || !/^\d{4,20}$/.test(supplierId)) {
+  if (!token || !supplierShape(channel, supplierId)) {
     return null;
   }
-  const rows = await ports.marketplace.listCredentialsByHint(supplierHint(supplierId));
+  const rows = await ports.marketplace.listCredentialsByHint(supplierHint(supplierId), channel);
   let match: MarketplaceCredentialRow | null = null;
   for (const row of rows) {
     let openedSupplier = "";
     let apiKey = "";
     let apiSecret = "";
     try {
-      openedSupplier = openCommerceCredential(row.supplierSeal, "supplier", row.storeId, ports.env);
-      apiKey = openCommerceCredential(row.apiKeySeal, "apiKey", row.storeId, ports.env);
-      apiSecret = openCommerceCredential(row.apiSecretSeal, "apiSecret", row.storeId, ports.env);
+      openedSupplier = openCommerceCredential(row.supplierSeal, "supplier", row.storeId, ports.env, channel);
+      apiKey = openCommerceCredential(row.apiKeySeal, "apiKey", row.storeId, ports.env, channel);
+      apiSecret = openCommerceCredential(row.apiSecretSeal, "apiSecret", row.storeId, ports.env, channel);
     } catch (error) {
       if (error instanceof CommerceCredentialSealError && /yok|32 bayt/.test(error.message)) {
         throw error;
@@ -180,6 +220,14 @@ export async function authenticateTrendyolWebhook(
   return { storeId: store.id, ownerUserId: store.ownerUserId, supplierId };
 }
 
+export function authenticateTrendyolWebhook(
+  ports: TrendyolPorts,
+  request: Request,
+  supplierId: string,
+) {
+  return authenticateChannelWebhook(ports, request, supplierId, COMMERCE_CHANNEL);
+}
+
 export async function postTrendyolWebhook(ports: TrendyolPorts, request: Request) {
   const requestId = resolveRequestId(request);
   let payload: unknown;
@@ -194,12 +242,44 @@ export async function postTrendyolWebhook(ports: TrendyolPorts, request: Request
     return jsonFail("İstek geçersiz.", 400, requestId, request);
   }
   try {
-    const matched = await authenticateTrendyolWebhook(ports, request, supplierId);
+    const matched = await authenticateChannelWebhook(ports, request, supplierId, COMMERCE_CHANNEL);
     if (!matched) {
       return jsonFail("Yetkisiz.", 401, requestId, request);
     }
     const own = packages.filter((pkg) => pkg.supplierId === matched.supplierId);
     const lines = await intakeTrendyolPackages(ports, matched.storeId, matched.ownerUserId, own);
+    if (lines.some((line) => line.outcome !== "skipped" && line.status === "STOCK_SHORT")) {
+      return jsonFail("STOCK_SHORT", 409, requestId, request);
+    }
+    return jsonOk({ accepted: true, lines: lines.length }, 200, requestId, request);
+  } catch (error) {
+    if (error instanceof CommerceCredentialSealError) {
+      return jsonFail("Kimlik kasası kapalı.", 503, requestId, request);
+    }
+    return jsonFromUnknown(error, 400, requestId, request);
+  }
+}
+
+export async function postHepsiburadaWebhook(ports: HepsiburadaPorts, request: Request) {
+  const requestId = resolveRequestId(request);
+  let payload: unknown;
+  try {
+    payload = await request.json();
+  } catch {
+    return jsonFail("İstek geçersiz.", 400, requestId, request);
+  }
+  const packages = readHepsiburadaOrderPackages(payload);
+  const merchantId = packages[0]?.merchantId ?? "";
+  if (!merchantId) {
+    return jsonFail("İstek geçersiz.", 400, requestId, request);
+  }
+  try {
+    const matched = await authenticateChannelWebhook(ports, request, merchantId, "HEPSIBURADA");
+    if (!matched) {
+      return jsonFail("Yetkisiz.", 401, requestId, request);
+    }
+    const own = packages.filter((pkg) => pkg.merchantId === matched.supplierId);
+    const lines = await intakeHepsiburadaPackages(ports, matched.storeId, matched.ownerUserId, own);
     if (lines.some((line) => line.outcome !== "skipped" && line.status === "STOCK_SHORT")) {
       return jsonFail("STOCK_SHORT", 409, requestId, request);
     }

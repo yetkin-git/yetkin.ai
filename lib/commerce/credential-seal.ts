@@ -1,4 +1,5 @@
 import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
+import type { CommerceChannelName } from "@/lib/commerce/marketplace-types";
 
 /** Kolon öneki. Düz satıcı numarası, API anahtarı ve sır bu önek olmadan yazılmaz. */
 export const COMMERCE_CREDENTIAL_SEAL_PREFIX = "ccred1:" as const;
@@ -14,9 +15,13 @@ export class CommerceCredentialSealError extends Error {
   }
 }
 
-/** AAD mağazaya ve alana bağlıdır. Başka mağazanın mührü açılmaz. */
-export function commerceCredentialAad(field: CommerceCredentialField, storeId: string): string {
-  return `${field}:${storeId}:TRENDYOL`;
+/** AAD mağazaya, alana ve kanala bağlıdır. Trendyol mührü `:TRENDYOL` ile açılır. */
+export function commerceCredentialAad(
+  field: CommerceCredentialField,
+  storeId: string,
+  channel: CommerceChannelName = "TRENDYOL",
+): string {
+  return `${field}:${storeId}:${channel}`;
 }
 
 function requireKey(env: NodeJS.ProcessEnv): Buffer {
@@ -36,10 +41,11 @@ export function sealCommerceCredential(
   field: CommerceCredentialField,
   storeId: string,
   env: NodeJS.ProcessEnv = process.env,
+  channel: CommerceChannelName = "TRENDYOL",
 ): string {
   const iv = randomBytes(12);
   const cipher = createCipheriv("aes-256-gcm", requireKey(env), iv);
-  cipher.setAAD(Buffer.from(commerceCredentialAad(field, storeId), "utf8"));
+  cipher.setAAD(Buffer.from(commerceCredentialAad(field, storeId, channel), "utf8"));
   const body = Buffer.concat([cipher.update(plain, "utf8"), cipher.final()]);
   const tag = cipher.getAuthTag();
   return COMMERCE_CREDENTIAL_SEAL_PREFIX + Buffer.concat([iv, tag, body]).toString("base64url");
@@ -50,6 +56,7 @@ export function openCommerceCredential(
   field: CommerceCredentialField,
   storeId: string,
   env: NodeJS.ProcessEnv = process.env,
+  channel: CommerceChannelName = "TRENDYOL",
 ): string {
   if (!stored.startsWith(COMMERCE_CREDENTIAL_SEAL_PREFIX)) {
     throw new CommerceCredentialSealError("Kimlik mührü tanınmadı.");
@@ -60,7 +67,7 @@ export function openCommerceCredential(
   }
   try {
     const decipher = createDecipheriv("aes-256-gcm", requireKey(env), packed.subarray(0, 12));
-    decipher.setAAD(Buffer.from(commerceCredentialAad(field, storeId), "utf8"));
+    decipher.setAAD(Buffer.from(commerceCredentialAad(field, storeId, channel), "utf8"));
     decipher.setAuthTag(packed.subarray(12, 28));
     return Buffer.concat([decipher.update(packed.subarray(28)), decipher.final()]).toString("utf8");
   } catch (error) {

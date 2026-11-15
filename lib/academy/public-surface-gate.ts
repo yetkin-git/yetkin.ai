@@ -66,6 +66,9 @@ export function certificateHashIsWellFormed(rawHash: string): boolean {
 const ACADEMY_STOREFRONT_RE = /^\/academy\/([^/]+)$/;
 const CERTIFICATE_VERIFY_RE = /^\/academy\/dogrula\/([^/]+)$/;
 const PUBLIC_TALENT_RE = /^\/vize\/([^/]+)$/;
+const MAGAZA_RE = /^\/magaza\/([^/]+)$/;
+/** `parseSlug` ile aynı desen. Kapı Commerce motorunu import etmez. */
+const MAGAZA_SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 /**
  * `/academy/<segment>` altında duran **statik** sayfalar. Bunlar dinamik slug değildir;
@@ -105,6 +108,12 @@ export function missingPublicSurfacePath(pathname: string): string | null {
   const talent = PUBLIC_TALENT_RE.exec(path);
   if (talent) {
     return publicTalentIdIsWellFormed(talent[1] ?? "") ? null : path;
+  }
+
+  const magaza = MAGAZA_RE.exec(path);
+  if (magaza) {
+    const slug = decodeSegment(magaza[1] ?? "");
+    return slug.length >= 1 && slug.length <= 48 && MAGAZA_SLUG_RE.test(slug) ? null : path;
   }
 
   return null;
