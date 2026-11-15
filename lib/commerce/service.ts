@@ -15,7 +15,6 @@ import {
   type StoreRow,
   type StoreStatus,
   type VariantRow,
-  type VariantStatus,
 } from "@/lib/commerce/types";
 import {
   createDraftSku,

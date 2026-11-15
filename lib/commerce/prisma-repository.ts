@@ -13,7 +13,6 @@ import type {
   CommerceMarket,
   InventoryDirection,
   InventoryType,
-  MoveCommand,
   MoveResult,
   MovementRow,
   ProductRow,

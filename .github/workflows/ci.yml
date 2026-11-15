@@ -62,7 +62,8 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: yetkin_rail_lab
         ports:
-          - 5432:5432
+          # YAML 5432:5432 değerini sayı sanabilir; IPv4 loopback açıkça yayınlanır.
+          - "127.0.0.1:5432:5432"
         options: >-
           --health-cmd pg_isready
           --health-interval 10s

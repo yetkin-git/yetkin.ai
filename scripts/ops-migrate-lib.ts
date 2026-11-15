@@ -91,7 +91,11 @@ export const ESCROW_HOLD_CHECKS_MIGRATION = "20260819040000_escrow_hold_checks";
 export const CERTIFICATE_REVOCATION_MIGRATION = "20260820010000_certificate_revocation";
 export const FROZEN_ROOM_DROP_MIGRATION = "20260822010000_drop_frozen_room_tables";
 
-/** P3 DROP — 23 donmuş oda tablosu. Post-apply bu isimler information_schema’da yok. */
+/**
+ * P3 DROP — 23 donmuş oda tablosu. `20260822010000` bu isimleri düşürür.
+ * `junior_profiles` o dosyada düşer ve `20261004183000_junior_closed_pilot` ile canlı tablo olarak geri gelir.
+ * Post-apply yokluk mührü bu yüzden `FROZEN_ROOM_ABSENT_TABLES` kullanır.
+ */
 export const FROZEN_ROOM_TABLES = [
   "proof_feed_interactions",
   "proof_feed_items",
@@ -117,6 +121,11 @@ export const FROZEN_ROOM_TABLES = [
   "devlabs_api_keys",
   "devlabs_projects",
 ] as const;
+
+/** Post-apply'de information_schema'da kalmaması gereken donmuş odalar. Canlı Junior profili hariç. */
+export const FROZEN_ROOM_ABSENT_TABLES = FROZEN_ROOM_TABLES.filter(
+  (table) => table !== "junior_profiles",
+);
 
 /**
  * Prisma migrasyon klasör adı. SQL mühürleri gibi diskten türer.
@@ -942,7 +951,7 @@ function studioDataBase64CheckDefMatches(def: string): boolean {
   ).test(def);
 }
 
-/** P3: 23 donmuş tablo information_schema’da yok. */
+/** P3: donmuş oda kalıntısı yok. Canlı `junior_profiles` bu listede değildir. */
 export async function assertFrozenRoomTablesDropped(query: OpsSealQuery): Promise<void> {
   const { rows } = await query(
     `-- p3-frozen-room-drop-seal
@@ -950,7 +959,7 @@ export async function assertFrozenRoomTablesDropped(query: OpsSealQuery): Promis
      FROM information_schema.tables
      WHERE table_schema = 'public'
        AND table_name = ANY($1::text[])`,
-    [FROZEN_ROOM_TABLES],
+    [FROZEN_ROOM_ABSENT_TABLES],
   );
   if (rows.length > 0) {
     const leftover = rows.map((row) => String(row.table_name ?? "")).filter(Boolean).join(", ");

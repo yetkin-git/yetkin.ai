@@ -4,8 +4,6 @@ import { generateDukkanPage } from "@/lib/tezgah/dukkan/engine";
 import { renderDukkanHtml } from "@/lib/tezgah/dukkan/render";
 import {
   dukkanGenerateRequestSchema,
-  normalizeDukkanWhatsapp,
-  parseDukkanServices,
   readDukkanDraft,
   type DukkanGenerateRequest,
 } from "@/lib/tezgah/dukkan/schema";
