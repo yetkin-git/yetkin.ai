@@ -173,6 +173,104 @@ export function GrantProjectReportView({ report }: { report: GrantProjectReport 
         <p className="mt-2 text-sm leading-6 text-[var(--foreground)]">{report.risk}</p>
       </section>
 
+      {report.dossier ? (
+        <section className="mt-8 border-t border-[var(--border)] pt-6" data-grant-dossier="">
+          <h3 className="text-lg font-semibold">Tam Proje Başvuru Dosyası</h3>
+          <p className="mt-2 text-sm leading-6 text-[var(--foreground)]">{report.dossier.disclaimer}</p>
+          <section className="mt-6">
+            <h3 className="text-base font-semibold">Hedeflenen program</h3>
+            <p className="mt-2 text-sm font-medium text-[var(--foreground)]">
+              {report.dossier.targetSourceLabel} — {report.dossier.targetTitle}
+            </p>
+            <p className="mt-1 break-all text-sm text-[var(--safir-deep)]">
+              {report.dossier.targetInfoUrl.startsWith("https://") ? report.dossier.targetInfoUrl : ""}
+            </p>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-6 text-[var(--foreground)]">
+              {report.dossier.criterionLabels.map((label, index) => (
+                <li key={`${index}-${label}`}>{label}</li>
+              ))}
+            </ul>
+          </section>
+          <section className="mt-6">
+            <h3 className="text-base font-semibold">Proje Özeti</h3>
+            <p className="mt-2 text-sm leading-6 text-[var(--foreground)]">{report.dossier.summary}</p>
+          </section>
+          <section className="mt-6">
+            <h3 className="text-base font-semibold">İş Paketleri Takvimi</h3>
+            <p className="mt-2 text-sm leading-6 text-[var(--foreground)]">{report.dossier.durationNote}</p>
+            <p className="mt-1 text-sm text-[var(--foreground)]">{report.dossier.durationMonths} ay</p>
+            <table className="mt-2 w-full border-collapse text-sm">
+              <thead>
+                <tr className="border-b border-[var(--border)] text-left">
+                  <th className="py-2 font-medium">İş paketi</th>
+                  <th className="py-2 font-medium">Ay aralığı</th>
+                </tr>
+              </thead>
+              <tbody>
+                {report.dossier.workPackages.map((row) => (
+                  <tr key={row.id} className="border-b border-[var(--border)] break-inside-avoid">
+                    <td className="py-2">{row.name}</td>
+                    <td className="py-2">{row.windowLabel}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+          <section className="mt-6">
+            <h3 className="text-base font-semibold">Bütçe Gerekçelendirme Tablosu</h3>
+            <p className="mt-2 text-sm leading-6 text-[var(--foreground)]">{report.dossier.budgetNote}</p>
+            <table className="mt-2 w-full border-collapse text-sm">
+              <thead>
+                <tr className="border-b border-[var(--border)] text-left">
+                  <th className="py-2 font-medium">Kalem</th>
+                  <th className="py-2 font-medium">Tahmini tutar</th>
+                </tr>
+              </thead>
+              <tbody>
+                {report.dossier.budgetRows.map((row) => (
+                  <tr key={row.category} className="border-b border-[var(--border)] break-inside-avoid">
+                    <td className="py-2">{row.label}</td>
+                    <td className="py-2">{row.amountLabel}</td>
+                  </tr>
+                ))}
+                <tr className="break-inside-avoid">
+                  <td className="py-2 font-medium">Toplam</td>
+                  <td className="py-2 font-medium">{report.dossier.budgetTotalLabel}</td>
+                </tr>
+              </tbody>
+            </table>
+            <p className="mt-2 text-sm leading-6 text-[var(--foreground)]">{report.dossier.budgetRationale}</p>
+          </section>
+          <section className="mt-6">
+            <h3 className="text-base font-semibold">Ekip Yetkinlik Matrisi</h3>
+            <table className="mt-2 w-full border-collapse text-sm">
+              <thead>
+                <tr className="border-b border-[var(--border)] text-left">
+                  <th className="py-2 font-medium">Yetkinlik alanı</th>
+                  <th className="py-2 font-medium">Kişi</th>
+                  <th className="py-2 font-medium">Not</th>
+                </tr>
+              </thead>
+              <tbody>
+                {report.dossier.teamRows.map((row, index) => (
+                  <tr key={`${index}-${row.area}`} className="border-b border-[var(--border)] break-inside-avoid">
+                    <td className="py-2">{row.area}</td>
+                    <td className="py-2">{row.headcountLabel ?? "—"}</td>
+                    <td className="py-2">{row.note}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="mt-2 text-sm leading-6 text-[var(--foreground)]">{report.dossier.competencyNote}</p>
+          </section>
+          <section className="mt-6">
+            <h3 className="text-base font-semibold">Ticarileşme Planı</h3>
+            <p className="mt-2 text-sm leading-6 text-[var(--foreground)]">{report.dossier.outputGoal}</p>
+            <p className="mt-2 text-sm leading-6 text-[var(--foreground)]">{report.dossier.commercialization}</p>
+          </section>
+        </section>
+      ) : null}
+
       <div className="mt-5 flex flex-wrap gap-2 print:hidden">
         <Button type="button" variant="secondary" onClick={() => window.print()}>
           Yazdır / PDF olarak kaydet

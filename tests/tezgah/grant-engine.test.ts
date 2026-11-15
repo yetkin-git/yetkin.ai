@@ -2,10 +2,18 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { InvokeLlmInput, LlmGatewayResult } from "@/lib/kernel/ai/types";
 import { GrantCatalogUnavailableError } from "@/lib/yetkinhibe/grant-catalog-core";
 import type { GrantBriefCall } from "@/lib/yetkinhibe/match-grant-programs-for-brief";
-import { GRANT_PROJECT_DISCLAIMER } from "@/lib/yetkinhibe/grant-project-notes";
+import { formatAmountMinorAsWholeTry } from "@/lib/yetkinhibe/format-amount";
+import {
+  GRANT_DOSSIER_DISCLAIMER,
+  GRANT_DOSSIER_NO_ELIGIBLE,
+  GRANT_DOSSIER_PROGRAM_MISSING,
+  GRANT_PROJECT_DISCLAIMER,
+} from "@/lib/yetkinhibe/grant-project-notes";
 import type { GrantEligibilityCriteria } from "@/lib/yetkinhibe/types";
 import { TEZGAH_FAIL_MESSAGE, TEZGAH_GUEST_QUOTA_MESSAGE } from "@/lib/tezgah/catalog";
-import { generateGrantProject, GRANT_MAX_OUTPUT_TOKENS, GRANT_MODEL_ROLE } from "@/lib/tezgah/grant/engine";
+import { GRANT_DETAILS_BUDGET_MISMATCH } from "@/lib/tezgah/grant/details";
+import { generateGrantProject, GRANT_DOSSIER_MAX_OUTPUT_TOKENS, GRANT_MAX_OUTPUT_TOKENS, GRANT_MODEL_ROLE } from "@/lib/tezgah/grant/engine";
+import { isGrantDossierPayload } from "@/lib/tezgah/grant/payload";
 import { renderGrantProjectText } from "@/lib/tezgah/grant/render";
 import { resetTezgahQuotaForTests } from "@/lib/tezgah/quota";
 
@@ -105,6 +113,7 @@ describe("hibe proje dosyası motoru", () => {
       return;
     }
     expect(result.disclaimer).toBe(GRANT_PROJECT_DISCLAIMER);
+    expect(result.dossier).toBeNull();
     expect(result.eligible).toEqual([]);
     expect(result.closed.map((row) => row.grantId)).toEqual(["kapali"]);
     expect(result.unverified.map((row) => row.grantId)).toEqual(["acik-ham"]);
@@ -251,5 +260,190 @@ describe("hibe proje dosyası motoru", () => {
     }
     expect(result.eligible[0]?.poolLabel).toBe("Havuz ilan edilmedi");
     expect(result.eligible[0]?.ceilingLabel).toContain("₺");
+  });
+
+  const DETAILS = {
+    targetGrantId: "acik-derin",
+    durationMonths: 18 as const,
+    totalBudgetLira: "180000",
+    personnelLira: "80000",
+    equipmentLira: "70000",
+    serviceLira: "30000",
+    teamHeadcount: "6",
+    teamExpertise: "Soğuk zincir 4\nSatış kanalı 2",
+    outputGoal: "Depo kendi satış kanalına bağlanır ve bölgesel dağıtım başlar.",
+  };
+
+  const DOSSIER_NARRATIVE = JSON.stringify({
+    purpose: "Depo, ürünün bozulmadan kendi kanala ulaşmasını sağlar.",
+    market: "Yakın çevredeki marketler soğuk ürün ister. Talep ölçümü bu taslakta yoktur.",
+    risk: "Enerji kesintisi akışı durdurabilir. Yedek plan işletmenin kendi kaynağıyla yazılır.",
+    summary: "Seçilen programın geçen koşulları proje özetine bağlanır. Yeni koşul eklenmez.",
+    budgetRationale: "Personel üretimi yürütür. Makine hattı kurulur. Yazılım kanalı bağlanır.",
+    competencyNote: "Ekip işletmenin kendi uzmanlık cümlesine dayanır. Yeni unvan eklenmez.",
+    commercialization: "Çıktı işletmenin yazdığı hedefe göre pazara taşınır. Rakam üretilmez.",
+  });
+
+  it("uyumsuz kalem toplamı hak düşürmez", async () => {
+    let loaded = false;
+    const broken = await generateGrantProject(
+      {
+        actorId: "guest:203.0.113.50",
+        guest: true,
+        request: {
+          ...REQUEST,
+          details: { ...DETAILS, totalBudgetLira: "1000" },
+        },
+      },
+      {
+        now: () => NOW,
+        loadCatalog: async () => {
+          loaded = true;
+          return [makeCall()];
+        },
+        invoke: async () => okText(DOSSIER_NARRATIVE),
+      },
+    );
+    expect(loaded).toBe(false);
+    expect(broken).toMatchObject({ ok: false, status: 400, error: GRANT_DETAILS_BUDGET_MISMATCH, remaining: 1 });
+  });
+
+  it("uygun listede olmayan program hakkı iade eder ve model çağırmaz", async () => {
+    let invoked = false;
+    const missing = await generateGrantProject(
+      {
+        actorId: "guest:203.0.113.51",
+        guest: true,
+        request: { ...REQUEST, details: { ...DETAILS, targetGrantId: "yok-boyle" } },
+      },
+      {
+        now: () => NOW,
+        loadCatalog: async () => [
+          makeCall({
+            id: "acik-derin",
+            title: "Doğrulanmış açık",
+            status: "ACTIVE",
+            remainingDays: 20,
+            sourceVerifiedAt: "2026-11-01T00:00:00.000Z",
+          }),
+        ],
+        invoke: async () => {
+          invoked = true;
+          return okText(DOSSIER_NARRATIVE);
+        },
+      },
+    );
+    expect(invoked).toBe(false);
+    expect(missing).toMatchObject({ ok: false, status: 400, error: GRANT_DOSSIER_PROGRAM_MISSING, remaining: 1 });
+
+    const empty = await generateGrantProject(
+      {
+        actorId: "guest:203.0.113.51",
+        guest: true,
+        request: { ...REQUEST, details: DETAILS },
+      },
+      {
+        now: () => NOW,
+        loadCatalog: async () => [makeCall({ id: "kapali", title: "Kapalı kayıt" })],
+        invoke: async () => {
+          invoked = true;
+          return okText(DOSSIER_NARRATIVE);
+        },
+      },
+    );
+    expect(invoked).toBe(false);
+    expect(empty).toMatchObject({ ok: false, status: 400, error: GRANT_DOSSIER_NO_ELIGIBLE, remaining: 1 });
+  });
+
+  it("seçilen programa göre tam dosyayı girilen tutar ve süreyle basar", async () => {
+    const seen: InvokeLlmInput[] = [];
+    const ceilingMinor = 888_800;
+    const result = await generateGrantProject(
+      { actorId: "guest:203.0.113.52", guest: true, request: { ...REQUEST, details: DETAILS } },
+      {
+        now: () => NOW,
+        loadCatalog: async () => [
+          makeCall({
+            id: "acik-derin",
+            title: "Doğrulanmış açık",
+            status: "ACTIVE",
+            remainingDays: 20,
+            sourceVerifiedAt: "2026-11-01T00:00:00.000Z",
+            poolAmountMinor: 999_900,
+            maxSupportMinor: ceilingMinor,
+            supportRatioBps: 5000,
+          }),
+        ],
+        invoke: async (input) => {
+          seen.push(input);
+          return okText(DOSSIER_NARRATIVE);
+        },
+      },
+    );
+    expect(result.ok).toBe(true);
+    if (!result.ok || !result.dossier) {
+      return;
+    }
+    const totalLabel = formatAmountMinorAsWholeTry(18_000_000);
+    expect(result.dossier.disclaimer).toBe(GRANT_DOSSIER_DISCLAIMER);
+    expect(result.dossier.durationMonths).toBe(18);
+    expect(result.dossier.workPackages.map((row) => row.windowLabel)).toEqual(["1-3", "4-12", "13-16", "17-18"]);
+    expect(result.dossier.budgetTotalLabel).toBe(totalLabel);
+    expect(result.dossier.budgetRows.map((row) => row.label)).toEqual([
+      "Personel",
+      "Makine-Teçhizat",
+      "Yazılım/Hizmet Alımı",
+    ]);
+    expect(result.dossier.teamHeadcount).toBe(6);
+    expect(result.dossier.summary).toContain("geçen koşullar");
+    expect("grantId" in result.dossier).toBe(false);
+    expect(isGrantDossierPayload(result.dossier)).toBe(true);
+    expect(isGrantDossierPayload({ ...result.dossier, callCode: "2026/9" })).toBe(false);
+    const rendered = renderGrantProjectText(result);
+    expect(rendered).toContain("Tam Proje Başvuru Dosyası");
+    expect(rendered).toContain("İş Paketleri Takvimi");
+    expect(rendered).toContain("Bütçe Gerekçelendirme Tablosu");
+    expect(rendered).toContain("Ekip Yetkinlik Matrisi");
+    expect(rendered).toContain("Ticarileşme Planı");
+    expect(rendered).toContain(totalLabel);
+    expect(rendered).not.toContain("acik-derin");
+    expect(rendered).not.toContain(String(ceilingMinor));
+    expect(seen[0]?.maxOutputTokens).toBe(GRANT_DOSSIER_MAX_OUTPUT_TOKENS);
+    expect(seen[0]?.system).toContain("çağrı kodu");
+    expect(seen[0]?.user).not.toContain("180000");
+    expect(seen[0]?.user).not.toContain("80000");
+    expect(seen[0]?.user).toContain("Soğuk zincir");
+    expect(seen[0]?.user).not.toContain(String(ceilingMinor));
+  });
+
+  it("tam dosyada uydurma onay veya tutar hakkı iade eder", async () => {
+    const leaked = await generateGrantProject(
+      { actorId: "guest:203.0.113.53", guest: true, request: { ...REQUEST, details: DETAILS } },
+      {
+        now: () => NOW,
+        loadCatalog: async () => [
+          makeCall({
+            id: "acik-derin",
+            title: "Doğrulanmış açık",
+            status: "ACTIVE",
+            remainingDays: 12,
+            sourceVerifiedAt: "2026-11-01T00:00:00.000Z",
+          }),
+        ],
+        invoke: async () =>
+          okText(
+            JSON.stringify({
+              purpose: "Depo, ürünün bozulmadan kendi kanala ulaşmasını sağlar.",
+              market: "Yakın çevredeki marketler soğuk ürün ister. Talep ölçümü bu taslakta yoktur.",
+              risk: "Enerji kesintisi akışı durdurabilir. Yedek plan işletmenin kendi kaynağıyla yazılır.",
+              summary: "Bu proje onaylanır ve çağrı kodu 2026/3 ile kesin destek alır.",
+              budgetRationale: "Personel üretimi yürütür. Makine hattı kurulur. Yazılım kanalı bağlanır.",
+              competencyNote: "Ekip işletmenin kendi uzmanlık cümlesine dayanır. Yeni unvan eklenmez.",
+              commercialization: "Çıktı işletmenin yazdığı hedefe göre pazara taşınır. Rakam üretilmez.",
+            }),
+          ),
+      },
+    );
+    expect(leaked).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 1 });
   });
 });

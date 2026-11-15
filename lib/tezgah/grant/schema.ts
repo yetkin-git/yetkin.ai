@@ -44,6 +44,25 @@ export const grantGenerateRequestSchema = z.strictObject({
   project: projectText,
   scheduleWindows: z.string().trim().min(2).max(500).optional(),
   investmentAmounts: z.string().trim().min(2).max(400).optional(),
+  /** İkinci aşama. Yoksa ön taslak üretilir. Yeni rota açılmaz. */
+  details: z
+    .strictObject({
+      targetGrantId: z
+        .string()
+        .trim()
+        .min(1)
+        .max(120)
+        .regex(/^[A-Za-z0-9][A-Za-z0-9._-]{0,119}$/),
+      durationMonths: z.union([z.literal(12), z.literal(18), z.literal(24)]),
+      totalBudgetLira: countText(10, 1_000_000_000),
+      personnelLira: countText(10, 1_000_000_000),
+      equipmentLira: countText(10, 1_000_000_000),
+      serviceLira: countText(10, 1_000_000_000),
+      teamHeadcount: countText(4, 5_000).refine((value) => Number(value) >= 1),
+      teamExpertise: z.string().trim().min(12).max(800),
+      outputGoal: z.string().trim().min(12).max(800),
+    })
+    .optional(),
 });
 
 export type GrantGenerateRequest = z.infer<typeof grantGenerateRequestSchema>;

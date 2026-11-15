@@ -16,17 +16,27 @@ import {
   type GrantBriefCall,
   type GrantEligibleProgramMatch,
 } from "@/lib/yetkinhibe/match-grant-programs-for-brief";
-import { GRANT_PROJECT_DISCLAIMER } from "@/lib/yetkinhibe/grant-project-notes";
+import {
+  GRANT_DOSSIER_BUDGET_NOTE,
+  GRANT_DOSSIER_DISCLAIMER,
+  GRANT_DOSSIER_NO_ELIGIBLE,
+  GRANT_DOSSIER_PROGRAM_MISSING,
+  GRANT_DOSSIER_SCHEDULE_NOTE,
+  GRANT_PROJECT_DISCLAIMER,
+} from "@/lib/yetkinhibe/grant-project-notes";
 import { TEZGAH_FAIL_MESSAGE, TEZGAH_GUEST_QUOTA_MESSAGE, TEZGAH_MEMBER_QUOTA_MESSAGE } from "@/lib/tezgah/catalog";
+import { readGrantDossierPlan } from "@/lib/tezgah/grant/details";
 import { readGrantDraft } from "@/lib/tezgah/grant/draft";
-import { readGrantNarrative } from "@/lib/tezgah/grant/narrative";
+import { readGrantDossierNarrative, readGrantNarrative } from "@/lib/tezgah/grant/narrative";
 import { grantSystemPrompt, grantUserPrompt } from "@/lib/tezgah/grant/prompts";
 import { grantGenerateRequestSchema, type GrantGenerateRequest } from "@/lib/tezgah/grant/schema";
-import type { GrantEligibleProgram, GrantProjectReport } from "@/lib/tezgah/grant/types";
+import type { GrantDossier, GrantEligibleProgram, GrantProjectReport } from "@/lib/tezgah/grant/types";
 import { consumeTezgahQuota, peekTezgahQuota, refundTezgahQuota } from "@/lib/tezgah/quota";
 
 /** Üç bölüm tek çağrıya sığar. Katalog tutarı bu tavandan geçmez; kod basar. */
 export const GRANT_MAX_OUTPUT_TOKENS = 900;
+/** Tam dosyanın yedi düz metin bölümü. Tutar ve ay aralığı bu tavandan geçmez. */
+export const GRANT_DOSSIER_MAX_OUTPUT_TOKENS = 1_800;
 export const GRANT_MODEL_ROLE = "LITE_STREAM" as const;
 
 export type GrantGenerateResult =
@@ -94,6 +104,8 @@ function toEligibleProgram(program: GrantEligibleProgramMatch): GrantEligiblePro
 /**
  * Hibe proje dosyası. Günlük hak tezgâh havuzundadır.
  * Katalog okunamazsa veya model bölümü boşsa hak geri yazılır.
+ * Ayrıntı isteğe bağlıdır. Tutar ve ay aralığı girilen değerden basılır.
+ * Seçilen program uygun listede yoksa hak geri yazılır.
  * Taslak tablosuna yazılmaz. Cüzdan yazılmaz. Oda kapısı açılmaz.
  */
 export async function generateGrantProject(
@@ -142,6 +154,19 @@ export async function generateGrantProject(
     return {
       ok: false,
       error: "Alanları kısa ve net doldur.",
+      status: 400,
+      remaining: quota.remaining,
+      limit: quota.limit,
+      guest: input.guest,
+    };
+  }
+
+  const dossierRead = parsed.data.details ? readGrantDossierPlan(parsed.data.details) : null;
+  if (dossierRead && !dossierRead.ok) {
+    const quota = open();
+    return {
+      ok: false,
+      error: dossierRead.error,
       status: 400,
       remaining: quota.remaining,
       limit: quota.limit,
@@ -199,11 +224,40 @@ export async function generateGrantProject(
     calls,
   );
 
+  let target: GrantEligibleProgramMatch | null = null;
+  if (dossierRead?.ok) {
+    target = matched.eligible.find((row) => row.grantId === dossierRead.plan.targetGrantId) ?? null;
+    if (!target) {
+      const restored = refundTezgahQuota(input.actorId, input.guest, now);
+      return {
+        ok: false,
+        error: matched.eligible.length === 0 ? GRANT_DOSSIER_NO_ELIGIBLE : GRANT_DOSSIER_PROGRAM_MISSING,
+        status: 400,
+        remaining: restored.remaining,
+        limit: restored.limit,
+        guest: input.guest,
+      };
+    }
+  }
+
+  const dossierContext = target
+    ? {
+        criterionLabels: target.criteria
+          .map((row) => plain(row.label, 80))
+          .filter((label) => label.length >= 2),
+        teamExpertise: dossierRead?.ok ? plain(dossierRead.plan.expertiseText, 800) : "",
+        outputGoal: dossierRead?.ok ? plain(dossierRead.plan.outputGoal, 800) : "",
+      }
+    : null;
+  if (dossierContext && dossierContext.criterionLabels.length === 0) {
+    return restore();
+  }
+
   const invoke = deps.invoke ?? invokeLlm;
   const llm = await invoke(
     {
       role: GRANT_MODEL_ROLE,
-      system: grantSystemPrompt(),
+      system: grantSystemPrompt(dossierContext !== null),
       user: grantUserPrompt({
         businessName: plain(draft.businessName, 80),
         provinceLabel,
@@ -211,11 +265,12 @@ export async function generateGrantProject(
         naceLabel,
         investmentLabel,
         project: plain(draft.project, 1500),
+        dossier: dossierContext ?? undefined,
       }),
       temperature: 0.2,
-      maxOutputTokens: GRANT_MAX_OUTPUT_TOKENS,
+      maxOutputTokens: dossierContext ? GRANT_DOSSIER_MAX_OUTPUT_TOKENS : GRANT_MAX_OUTPUT_TOKENS,
       maxAttempts: 1,
-      timeoutMs: 25_000,
+      timeoutMs: dossierContext ? 35_000 : 25_000,
       rateLimit: {
         identifier: input.actorId,
         scope: "tezgah",
@@ -231,8 +286,44 @@ export async function generateGrantProject(
     deps,
   );
 
-  const narrative = readGrantNarrative(llm?.text ?? "");
+  const briefNarrative = dossierContext ? null : readGrantNarrative(llm?.text ?? "");
+  const fullNarrative = dossierContext ? readGrantDossierNarrative(llm?.text ?? "") : null;
+  if (dossierContext ? !fullNarrative : !briefNarrative) {
+    return restore();
+  }
+  const narrative = fullNarrative ?? briefNarrative;
   if (!narrative) {
+    return restore();
+  }
+
+  let dossier: GrantDossier | null = null;
+  if (dossierContext && fullNarrative && target && dossierRead?.ok) {
+    dossier = {
+      disclaimer: GRANT_DOSSIER_DISCLAIMER,
+      targetTitle: plain(target.title, 180),
+      targetSourceLabel: plain(target.sourceLabel, 80),
+      targetInfoUrl: target.officialInfoUrl,
+      criterionLabels: dossierContext.criterionLabels,
+      durationMonths: dossierRead.plan.durationMonths,
+      durationNote: GRANT_DOSSIER_SCHEDULE_NOTE,
+      workPackages: dossierRead.plan.workPackages,
+      budgetNote: GRANT_DOSSIER_BUDGET_NOTE,
+      budgetTotalLabel: formatAmountMinorAsWholeTry(dossierRead.plan.totalMinor),
+      budgetRows: dossierRead.plan.budgetRows.map((row) => ({
+        category: row.category,
+        label: row.label,
+        amountLabel: formatAmountMinorAsWholeTry(row.amountMinor),
+      })),
+      budgetRationale: fullNarrative.budgetRationale,
+      teamHeadcount: dossierRead.plan.teamHeadcount,
+      teamRows: dossierRead.plan.teamRows,
+      competencyNote: fullNarrative.competencyNote,
+      outputGoal: dossierRead.plan.outputGoal,
+      commercialization: fullNarrative.commercialization,
+      summary: fullNarrative.summary,
+    };
+  }
+  if (dossierContext && !dossier) {
     return restore();
   }
 
@@ -268,6 +359,7 @@ export async function generateGrantProject(
       amountLabel: row.amountMinor === null ? null : formatAmountMinorAsWholeTry(row.amountMinor),
     })),
     risk: narrative.risk,
+    dossier,
   };
 
   return {

@@ -35,6 +35,49 @@ export function renderGrantProjectText(report: GrantProjectReport): string {
   const investments = report.investments
     .map((row) => `${row.label}: ${row.amountLabel ?? "—"}`)
     .join("\n");
+  const dossier = report.dossier;
+  const dossierParts = dossier
+    ? [
+        "Tam Proje Başvuru Dosyası",
+        dossier.disclaimer,
+        block(
+          "Hedeflenen program",
+          [
+            `${dossier.targetSourceLabel} — ${dossier.targetTitle}`,
+            dossier.targetInfoUrl,
+            ...dossier.criterionLabels,
+          ].join("\n"),
+        ),
+        block("Proje Özeti", dossier.summary),
+        block(
+          "İş Paketleri Takvimi",
+          [
+            dossier.durationNote,
+            `${dossier.durationMonths} ay`,
+            ...dossier.workPackages.map((row) => `${row.name}: ${row.windowLabel}`),
+          ].join("\n"),
+        ),
+        block(
+          "Bütçe Gerekçelendirme Tablosu",
+          [
+            dossier.budgetNote,
+            ...dossier.budgetRows.map((row) => `${row.label}: ${row.amountLabel}`),
+            `Toplam: ${dossier.budgetTotalLabel}`,
+            dossier.budgetRationale,
+          ].join("\n"),
+        ),
+        block(
+          "Ekip Yetkinlik Matrisi",
+          [
+            ...dossier.teamRows.map(
+              (row) => `${row.area}: ${row.headcountLabel ?? "—"} — ${row.note}`,
+            ),
+            dossier.competencyNote,
+          ].join("\n"),
+        ),
+        block("Ticarileşme Planı", `${dossier.outputGoal}\n${dossier.commercialization}`),
+      ]
+    : [];
 
   return [
     report.disclaimer,
@@ -50,6 +93,7 @@ export function renderGrantProjectText(report: GrantProjectReport): string {
     block("İş planı", schedule),
     block("Yatırım kalemleri", investments),
     block("Risk ve sürdürülebilirlik", report.risk),
+    ...dossierParts,
   ]
     .filter((part) => part.length > 0)
     .join("\n\n");

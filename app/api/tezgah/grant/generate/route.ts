@@ -10,6 +10,7 @@ import { grantGenerateRequestSchema } from "@/lib/tezgah/grant/schema";
  * Hibe proje dosyası. Kenar `public`; günlük hak handler'dadır.
  * Yol `/generate` ile bittiği için kenar ayrıca `llmIp` patlama kalkanını uygular.
  * Uygun program kodda eşleşir. Taslak tablosuna ve cüzdana yazılmaz.
+ * İsteğe bağlı `details` kuruma özel tam dosyayı aynı uçta üretir.
  * YetkinHibe odası bu rotayla açılmaz.
  */
 export const auth = "public" as const;
@@ -55,6 +56,7 @@ export async function POST(request: Request) {
         schedule: result.schedule,
         investments: result.investments,
         risk: result.risk,
+        dossier: result.dossier,
         remaining: result.remaining,
         limit: result.limit,
         guest: result.guest,

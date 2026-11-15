@@ -12,10 +12,13 @@ import { LinkButton } from "@/components/ui/link-button";
 import { Textarea } from "@/components/ui/textarea";
 import { DukkanPreview } from "@/components/tezgah/dukkan-preview";
 import { EcommerceDraftTransfer } from "@/components/tezgah/ecommerce-draft-transfer";
+import { GrantDetailWizard } from "@/components/tezgah/grant-detail-wizard";
 import { GrantProjectReportView } from "@/components/tezgah/grant-project-report";
 import { PazaryeriPreview } from "@/components/tezgah/pazaryeri-preview";
 import { TetkikReportView } from "@/components/tezgah/tetkik-report";
 import { DUKKAN_FILENAME } from "@/lib/tezgah/dukkan/copy";
+import type { GrantDetailsInput } from "@/lib/tezgah/grant/details-input";
+import { isGrantDossierPayload } from "@/lib/tezgah/grant/payload";
 import type { GrantProjectReport } from "@/lib/tezgah/grant/types";
 import { PAZARYERI_FILENAME } from "@/lib/tezgah/pazaryeri/copy";
 import { REKLAM_FILE_STEM } from "@/lib/tezgah/reklam/copy";
@@ -177,6 +180,35 @@ function FieldControl({
   );
 }
 
+function grantRequestBody(values: Record<string, string>, details?: GrantDetailsInput): Record<string, unknown> {
+  const payload: Record<string, unknown> = {
+    businessName: (values.businessName ?? "").trim(),
+    freelancerName: (values.freelancerName ?? "").trim(),
+    provinceCode: (values.provinceCode ?? "").trim(),
+    audience: (values.audience ?? "").trim(),
+    naceGroup: (values.naceGroup ?? "").trim(),
+    investmentFocus: (values.investmentFocus ?? "").trim(),
+    employeeCount: (values.employeeCount ?? "").trim(),
+    companyAgeYears: (values.companyAgeYears ?? "").trim(),
+    rdMaturityLevel: (values.rdMaturityLevel ?? "").trim(),
+    exportActive: (values.exportActive ?? "").trim(),
+    patent: (values.patent ?? "").trim(),
+    project: (values.project ?? "").trim(),
+  };
+  const scheduleWindows = (values.scheduleWindows ?? "").trim();
+  if (scheduleWindows.length >= 2) {
+    payload.scheduleWindows = scheduleWindows;
+  }
+  const investmentAmounts = (values.investmentAmounts ?? "").trim();
+  if (investmentAmounts.length >= 2) {
+    payload.investmentAmounts = investmentAmounts;
+  }
+  if (details) {
+    payload.details = details;
+  }
+  return payload;
+}
+
 function isGrantPayload(data: unknown): data is GrantProjectReport & QuotaBody {
   if (!data || typeof data !== "object") {
     return false;
@@ -218,6 +250,8 @@ function isGrantPayload(data: unknown): data is GrantProjectReport & QuotaBody {
     row.investments.every(
       (item) => !!item && (item.amountLabel === null || typeof item.amountLabel === "string"),
     ) &&
+    "dossier" in row &&
+    (row.dossier === null || isGrantDossierPayload(row.dossier)) &&
     typeof row.remaining === "number" &&
     typeof row.limit === "number"
   );
@@ -355,6 +389,7 @@ export function TezgahWorkbench({
   const [markdown, setMarkdown] = useState("");
   const [report, setReport] = useState<TetkikReport | null>(null);
   const [grantReport, setGrantReport] = useState<GrantProjectReport | null>(null);
+  const [detailError, setDetailError] = useState("");
   const [shop, setShop] = useState<{ html: string; score: number } | null>(null);
   const [catalog, setCatalog] = useState<CatalogPreview | null>(null);
   const [error, setError] = useState("");
@@ -366,6 +401,7 @@ export function TezgahWorkbench({
     setMarkdown("");
     setReport(null);
     setGrantReport(null);
+    setDetailError("");
     setShop(null);
     setCatalog(null);
     setError("");
@@ -455,6 +491,7 @@ export function TezgahWorkbench({
     }
     setPending(true);
     setError("");
+    setDetailError("");
     setCopied(false);
     try {
       if (tetkik) {
@@ -594,34 +631,12 @@ export function TezgahWorkbench({
       }
 
       if (grant) {
-        const payload: Record<string, string> = {
-          businessName: (values.businessName ?? "").trim(),
-          freelancerName: (values.freelancerName ?? "").trim(),
-          provinceCode: (values.provinceCode ?? "").trim(),
-          audience: (values.audience ?? "").trim(),
-          naceGroup: (values.naceGroup ?? "").trim(),
-          investmentFocus: (values.investmentFocus ?? "").trim(),
-          employeeCount: (values.employeeCount ?? "").trim(),
-          companyAgeYears: (values.companyAgeYears ?? "").trim(),
-          rdMaturityLevel: (values.rdMaturityLevel ?? "").trim(),
-          exportActive: (values.exportActive ?? "").trim(),
-          patent: (values.patent ?? "").trim(),
-          project: (values.project ?? "").trim(),
-        };
-        const scheduleWindows = (values.scheduleWindows ?? "").trim();
-        if (scheduleWindows.length >= 2) {
-          payload.scheduleWindows = scheduleWindows;
-        }
-        const investmentAmounts = (values.investmentAmounts ?? "").trim();
-        if (investmentAmounts.length >= 2) {
-          payload.investmentAmounts = investmentAmounts;
-        }
         const response = await fetch(
           "/api/tezgah/grant/generate",
           withRailApiVersion({
             method: "POST",
             headers: { "content-type": "application/json" },
-            body: JSON.stringify(payload),
+            body: JSON.stringify(grantRequestBody(values)),
           }),
         );
         const body = (await response.json()) as { ok?: boolean; error?: string; data?: unknown };
@@ -687,6 +702,40 @@ export function TezgahWorkbench({
       }
     } catch {
       setError("Bağlantı kurulamadı. Yeniden dene.");
+    } finally {
+      setPending(false);
+    }
+  }
+
+  async function onDeepen(details: GrantDetailsInput) {
+    if (!fieldsReady || pending || blocked) {
+      return;
+    }
+    setPending(true);
+    setDetailError("");
+    setCopied(false);
+    try {
+      const response = await fetch(
+        "/api/tezgah/grant/generate",
+        withRailApiVersion({
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(grantRequestBody(values, details)),
+        }),
+      );
+      const body = (await response.json()) as { ok?: boolean; error?: string; data?: unknown };
+      if (!response.ok || body.ok === false || !isGrantPayload(body.data) || body.data.dossier === null) {
+        setDetailError(typeof body.error === "string" ? body.error : "Çıktı üretilemedi.");
+        if (response.status === 429 && quota) {
+          setQuota({ ...quota, remaining: 0 });
+        }
+        return;
+      }
+      const data = body.data;
+      setGrantReport(data);
+      setQuota({ remaining: data.remaining, limit: data.limit, guest: data.guest === true });
+    } catch {
+      setDetailError("Bağlantı kurulamadı. Yeniden dene.");
     } finally {
       setPending(false);
     }
@@ -806,7 +855,20 @@ export function TezgahWorkbench({
 
         {grant ? (
           grantReport ? (
-            <div className="lg:col-span-2">
+            <div className="space-y-5 lg:col-span-2">
+              <GrantDetailWizard
+                key={grantReport.preparedAt}
+                programs={grantReport.eligible.map((program) => ({
+                  grantId: program.grantId,
+                  title: program.title,
+                  sourceLabel: program.sourceLabel,
+                }))}
+                pending={pending}
+                blocked={blocked}
+                briefReady={fieldsReady}
+                error={detailError}
+                onSubmit={(details) => void onDeepen(details)}
+              />
               <GrantProjectReportView report={grantReport} />
             </div>
           ) : (

@@ -37,6 +37,48 @@ export type GrantInvestmentRow = {
   amountLabel: string | null;
 };
 
+export type GrantDossierBudgetCategory = "PERSONEL" | "ALET_TECHIZAT" | "HIZMET_ALIMI";
+
+export type GrantDossierWorkPackage = {
+  id: string;
+  name: string;
+  windowLabel: string;
+};
+
+export type GrantDossierBudgetRow = {
+  category: GrantDossierBudgetCategory;
+  label: string;
+  amountLabel: string;
+};
+
+export type GrantDossierTeamRow = {
+  area: string;
+  headcountLabel: string | null;
+  note: string;
+};
+
+/** Kuruma özel tam dosya. Tutar ve ay aralığı başvuru sahibinin girdisidir. */
+export type GrantDossier = {
+  disclaimer: string;
+  targetTitle: string;
+  targetSourceLabel: string;
+  targetInfoUrl: string;
+  criterionLabels: readonly string[];
+  durationMonths: 12 | 18 | 24;
+  durationNote: string;
+  workPackages: readonly GrantDossierWorkPackage[];
+  budgetNote: string;
+  budgetTotalLabel: string;
+  budgetRows: readonly GrantDossierBudgetRow[];
+  budgetRationale: string;
+  teamHeadcount: number;
+  teamRows: readonly GrantDossierTeamRow[];
+  competencyNote: string;
+  outputGoal: string;
+  commercialization: string;
+  summary: string;
+};
+
 export type GrantProjectReport = {
   tool: "grant";
   disclaimer: string;
@@ -60,4 +102,5 @@ export type GrantProjectReport = {
   schedule: readonly GrantScheduleRow[];
   investments: readonly GrantInvestmentRow[];
   risk: string;
+  dossier: GrantDossier | null;
 };
