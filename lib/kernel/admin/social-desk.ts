@@ -25,7 +25,7 @@ export type SocialPostStatus = (typeof SOCIAL_POST_STATUSES)[number];
 
 export const SOCIAL_MODULE_LINKS: Record<SocialModule, string> = {
   AI_TEZGAH: `${SOCIAL_ORIGIN}/tezgah`,
-  COMMERCE: `${SOCIAL_ORIGIN}/magazam`,
+  COMMERCE: `${SOCIAL_ORIGIN}/e-ticaret`,
   TUBITAK_1507: `${SOCIAL_ORIGIN}/tezgah?tool=grant`,
   WEB_TETKIK: `${SOCIAL_ORIGIN}/tezgah?tool=tetkik`,
   CAREER_COACH: `${SOCIAL_ORIGIN}/career`,
@@ -140,15 +140,15 @@ const PACKS: Record<SocialModule, Pack> = {
   COMMERCE: {
     title: "Yetkin Commerce: tek stok, komisyonsuz vitrin",
     linkedin:
-      "Yetkin Commerce, KOBİ vitrinini komisyonsuz açar. Ürün, stok ve pazaryeri bağlantısı (Trendyol, Hepsiburada) aynı masadadır. Satılan ürünün stoğu düşünce kayıt düşer. Fiyatı işletme yazar; bu metin tutar uydurmaz.\n\nYetkin Commerce: https://yetkin.ai/magazam",
+      "Yetkin Commerce, KOBİ vitrinini komisyonsuz açar. Ürün, stok ve pazaryeri bağlantısı (Trendyol, Hepsiburada) aynı masadadır. Satılan ürünün stoğu düşünce kayıt düşer. Fiyatı işletme yazar; bu metin tutar uydurmaz.\n\nYetkin Commerce: https://yetkin.ai/e-ticaret",
     instagram:
-      "Komisyonsuz vitrin, tek stok. Trendyol ve Hepsiburada bağını aynı yerden kurarsın. Fiyatı sen yazarsın.\n\nhttps://yetkin.ai/magazam\n\n#KOBİ #esnaf #eticaret",
+      "Komisyonsuz vitrin, tek stok. Trendyol ve Hepsiburada bağını aynı yerden kurarsın. Fiyatı sen yazarsın.\n\nhttps://yetkin.ai/e-ticaret\n\n#KOBİ #esnaf #eticaret",
     facebook:
-      "Mağazanı aç, ürününü tek havuzda tut. Pazaryeri stoğu düşünce kayıt da düşer. Tutar alanı sendedir.\n\nhttps://yetkin.ai/magazam",
+      "Mağazanı aç, ürününü tek havuzda tut. Pazaryeri stoğu düşünce kayıt da düşer. Tutar alanı sendedir.\n\nhttps://yetkin.ai/e-ticaret",
     tweets: [
       "Komisyonsuz vitrin ve tek stok havuzu. Trendyol ile Hepsiburada aynı masada bağlanır.",
       "Satılan ürünün stoğu düşer. Tutarı sen yazarsın; biz fiyat uydurmayız.",
-      "Yetkin Commerce: https://yetkin.ai/magazam",
+      "Yetkin Commerce: https://yetkin.ai/e-ticaret",
     ],
     imagePrompt: "Küçük dükkân tezgâhı, sade ürün kutuları, açık mavi vitrin ekranı. Fiyat etiketi yok.",
   },

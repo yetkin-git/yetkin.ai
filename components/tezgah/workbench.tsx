@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type FormEvent } from "react";
+import { createPortal } from "react-dom";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { Route } from "next";
 import { GoogleContinueButton } from "@/components/auth/google-continue-button";
@@ -15,6 +16,7 @@ import { EcommerceDraftTransfer } from "@/components/tezgah/ecommerce-draft-tran
 import { GrantDetailWizard } from "@/components/tezgah/grant-detail-wizard";
 import { GrantProjectReportView } from "@/components/tezgah/grant-project-report";
 import { PazaryeriPreview } from "@/components/tezgah/pazaryeri-preview";
+import { ProStudioPreview } from "@/components/tezgah/pro-studio-preview";
 import { TetkikReportView } from "@/components/tezgah/tetkik-report";
 import { DUKKAN_FILENAME } from "@/lib/tezgah/dukkan/copy";
 import type { GrantDetailsInput } from "@/lib/tezgah/grant/details-input";
@@ -25,17 +27,22 @@ import { REKLAM_FILE_STEM } from "@/lib/tezgah/reklam/copy";
 import { GRANT_PROJECT_DISCLAIMER, isGrantWithheldNote } from "@/lib/yetkinhibe/grant-project-notes";
 import { buildCitizenRegisterHref } from "@/lib/kernel/auth/redirects";
 import {
+  ECOMMERCE_CATEGORY_CHIPS,
   TEZGAH_GUEST_QUOTA_MESSAGE,
   TEZGAH_MEMBER_QUOTA_MESSAGE,
   TEZGAH_TOOLS,
+  isProStudioTool,
   parseTezgahToolParam,
+  readDeskTaskId,
+  readTezgahPrefill,
+  tezgahDeskHref,
   tezgahQuotaLine,
   tezgahToolAnchorPath,
   tezgahToolById,
-  tezgahToolHref,
   type TezgahField,
   type TezgahToolId,
 } from "@/lib/tezgah/catalog";
+import { buildProStudio, type ProStudioPack } from "@/lib/tezgah/pro/build";
 import type { TetkikReport } from "@/lib/tezgah/tetkik/types";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
@@ -84,6 +91,9 @@ const REGISTER_HREF = buildCitizenRegisterHref("/tezgah") as Route;
 
 function fieldReady(field: TezgahField, values: Record<string, string>): boolean {
   const value = (values[field.name] ?? "").trim();
+  if (field.name === "category") {
+    return value.length <= 80;
+  }
   if (field.optional) {
     return value.length === 0 || value.length >= 2;
   }
@@ -115,6 +125,12 @@ function fieldReady(field: TezgahField, values: Record<string, string>): boolean
   }
   if (field.name === "companyAgeYears") {
     return /^\d{1,3}$/.test(value) && Number(value) <= 150;
+  }
+  if (field.name === "widthPx" || field.name === "heightPx") {
+    return /^\d{1,5}$/.test(value) && Number(value) >= 1 && Number(value) <= 8000;
+  }
+  if (field.name === "widthMm" || field.name === "heightMm" || field.name === "depthMm") {
+    return /^\d{1,5}$/.test(value) && Number(value) >= 1 && Number(value) <= 10000;
   }
   return value.length >= 2;
 }
@@ -179,10 +195,62 @@ function FieldControl({
       value={value}
       placeholder={field.placeholder}
       maxLength={
-        field.name === "whatsapp" ? 32 : field.name === "employeeCount" ? 6 : field.name === "companyAgeYears" ? 3 : undefined
+        field.name === "category"
+          ? 80
+          : field.name === "whatsapp"
+            ? 32
+            : field.name === "employeeCount"
+              ? 6
+              :         field.name === "companyAgeYears"
+          ? 3
+          : field.name === "widthPx" ||
+              field.name === "heightPx" ||
+              field.name === "widthMm" ||
+              field.name === "heightMm" ||
+              field.name === "depthMm"
+            ? 5
+            : undefined
       }
       onChange={(event) => onChange(event.target.value)}
     />
+  );
+}
+
+function EcommerceCategoryChips({
+  value,
+  onPick,
+}: {
+  value: string;
+  onPick: (next: string) => void;
+}) {
+  const current = value.trim();
+  return (
+    <div
+      className="mt-2 flex w-full min-w-0 flex-nowrap gap-1.5 overflow-x-auto"
+      data-ecommerce-category-chips=""
+      role="group"
+      aria-label="Hızlı kategori"
+    >
+      {ECOMMERCE_CATEGORY_CHIPS.map((chip) => {
+        const selected = current === chip;
+        return (
+          <button
+            key={chip}
+            type="button"
+            aria-pressed={selected}
+            className={cn(
+              "inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-2.5 py-1 text-xs font-medium",
+              selected
+                ? "border-[var(--safir)] bg-[var(--safir-soft)] text-[var(--safir-deep)]"
+                : "border-[var(--border)] bg-[var(--surface-muted)] text-[var(--foreground)] hover:border-[var(--safir)]",
+            )}
+            onClick={() => onPick(chip)}
+          >
+            {chip}
+          </button>
+        );
+      })}
+    </div>
   );
 }
 
@@ -389,7 +457,9 @@ export function TezgahWorkbench({
   );
   const [values, setValues] = useState<Record<string, string>>((): Record<string, string> => {
     const name = freelancerName.trim();
-    return name ? { freelancerName: name } : {};
+    const id = parseTezgahToolParam(toolParam) ?? "ecommerce";
+    const seeded = readTezgahPrefill(id, searchParams);
+    return { ...seeded, ...(name ? { freelancerName: name } : {}) };
   });
   const [quota, setQuota] = useState<QuotaBody | null>(null);
   const [markdown, setMarkdown] = useState("");
@@ -402,6 +472,9 @@ export function TezgahWorkbench({
   const [pending, setPending] = useState(false);
   const [copied, setCopied] = useState(false);
   const [handoff, setHandoff] = useState<TetkikHandoff | null>(null);
+  const [pro, setPro] = useState<ProStudioPack | null>(null);
+  const [quotaAnchor, setQuotaAnchor] = useState<HTMLElement | null>(null);
+  const deskTaskId = readDeskTaskId(searchParams.get("desk"));
   const tool = tezgahToolById(toolId);
 
   const resetDeliverable = useCallback(() => {
@@ -411,6 +484,7 @@ export function TezgahWorkbench({
     setDetailError("");
     setShop(null);
     setCatalog(null);
+    setPro(null);
     setError("");
     setCopied(false);
   }, []);
@@ -423,10 +497,14 @@ export function TezgahWorkbench({
       pendingTool.current = id;
       setToolId(id);
       resetDeliverable();
-      router.replace(tezgahToolHref(id) as Route, { scroll: false });
+      router.replace(tezgahDeskHref(id, deskTaskId) as Route, { scroll: false });
     },
-    [resetDeliverable, router],
+    [deskTaskId, resetDeliverable, router],
   );
+
+  useLayoutEffect(() => {
+    setQuotaAnchor(document.getElementById("tezgah-header-quota"));
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -500,10 +578,12 @@ export function TezgahWorkbench({
 
   const fieldsReady = active.fields.every((field) => fieldReady(field, values));
   const blocked = quota != null && quota.remaining <= 0;
+  const proStudio = isProStudioTool(active.id);
+  const quotaBlocked = blocked && !proStudio;
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
-    if (!fieldsReady || pending || blocked) {
+    if (!fieldsReady || pending || quotaBlocked) {
       return;
     }
     setPending(true);
@@ -511,6 +591,21 @@ export function TezgahWorkbench({
     setDetailError("");
     setCopied(false);
     try {
+      if (proStudio) {
+        const built = buildProStudio(active.id, values);
+        if (!built.ok) {
+          setPro(null);
+          setError(built.error);
+          return;
+        }
+        setPro(built.pack);
+        setMarkdown("");
+        setReport(null);
+        setGrantReport(null);
+        setShop(null);
+        setCatalog(null);
+        return;
+      }
       if (tetkik) {
         const payload: Record<string, string> = {
           url: (values.url ?? "").trim(),
@@ -777,10 +872,21 @@ export function TezgahWorkbench({
     !showGuestCard &&
     (error === TEZGAH_MEMBER_QUOTA_MESSAGE || (quota?.guest === false && quota.remaining === 0));
 
+  const quotaBadge = (
+    <p className="text-sm font-medium text-[var(--safir-deep)] print:hidden" data-tezgah-quota="">
+      {quota ? tezgahQuotaLine(quota.remaining, quota.limit) : "Bugünkü ücretsiz hakkınız yükleniyor"}
+    </p>
+  );
+
   return (
-    <div className="mt-6 space-y-5" data-tezgah-workbench="">
-      <div className="flex flex-col gap-3 print:hidden sm:flex-row sm:items-end sm:justify-between" data-tezgah-chrome="">
-        <div role="tablist" aria-label="Üretim araçları" className="flex flex-wrap gap-2">
+    <div className="space-y-3" data-tezgah-workbench="">
+      {quotaAnchor ? createPortal(quotaBadge, quotaAnchor) : null}
+      <div className="print:hidden" data-tezgah-chrome="">
+        <div
+          role="tablist"
+          aria-label="Üretim araçları"
+          className="flex flex-nowrap items-center gap-1 overflow-x-auto"
+        >
           {TEZGAH_TOOLS.map((item) => {
             const selected = item.id === active.id;
             return (
@@ -792,8 +898,8 @@ export function TezgahWorkbench({
                 onClick={() => selectTool(item.id)}
                 className={
                   selected
-                    ? "rounded-xl bg-[var(--safir)] px-3 py-2 text-sm font-semibold text-white"
-                    : "rounded-xl bg-[var(--surface-muted)] px-3 py-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--safir-soft)]"
+                    ? "whitespace-nowrap rounded-xl bg-[var(--safir)] px-3 py-1.5 text-xs font-semibold tracking-tight text-white"
+                    : "whitespace-nowrap rounded-xl bg-[var(--surface-muted)] px-3 py-1.5 text-xs font-semibold tracking-tight text-[var(--foreground)] hover:bg-[var(--safir-soft)]"
                 }
               >
                 {item.label}
@@ -801,9 +907,7 @@ export function TezgahWorkbench({
             );
           })}
         </div>
-        <p className="text-sm font-medium text-[var(--safir-deep)] print:hidden" data-tezgah-quota="">
-          {quota ? tezgahQuotaLine(quota.remaining, quota.limit) : "Bugünkü ücretsiz hakkınız yükleniyor"}
-        </p>
+        {quotaAnchor ? null : <div className="mt-2 flex justify-end">{quotaBadge}</div>}
       </div>
 
       {showGuestCard ? (
@@ -835,12 +939,12 @@ export function TezgahWorkbench({
         </div>
       ) : null}
 
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] print:block">
-        <div className="print:hidden">
-          <Card title={active.label} eyebrow="Girdi">
-            <p className="mb-4 text-sm leading-6 text-[var(--muted)]">{active.blurb}</p>
+      <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] print:block">
+        <div className="min-w-0 print:hidden">
+          <Card title={active.label} eyebrow="Girdi" snug bodyClassName="leading-5">
+            <p className="mb-2 text-sm leading-5 text-[var(--muted)]">{active.blurb}</p>
             {dukkan && handoff ? (
-              <p className="mb-4 text-sm leading-6 text-[var(--foreground)]" data-tetkik-handoff="">
+              <p className="mb-2 text-sm leading-5 text-[var(--foreground)]" data-tetkik-handoff="">
                 Tetkikten taşındı. İşletme adı forma yazıldı.
                 {handoff.pageTitle ? ` Ölçülen sayfa başlığı: ${handoff.pageTitle}.` : ""}
                 {handoff.url ? (
@@ -852,19 +956,27 @@ export function TezgahWorkbench({
                 Sektör, yer, WhatsApp ve hizmetleri tamamlayıp dükkanı üretin.
               </p>
             ) : null}
-            <form className="space-y-4" onSubmit={onSubmit}>
+            <form className="space-y-2" onSubmit={onSubmit}>
               {active.fields.map((field) => (
-                <label key={field.name} className="block text-sm font-medium text-[var(--foreground)]">
-                  {field.label}
-                  <FieldControl
-                    field={field}
-                    value={values[field.name] ?? ""}
-                    onChange={(next) => setValues((current) => ({ ...current, [field.name]: next }))}
-                  />
-                </label>
+                <div key={field.name} className="min-w-0">
+                  <label className="block text-sm font-medium text-[var(--foreground)]">
+                    {field.label}
+                    <FieldControl
+                      field={field}
+                      value={values[field.name] ?? ""}
+                      onChange={(next) => setValues((current) => ({ ...current, [field.name]: next }))}
+                    />
+                  </label>
+                  {active.id === "ecommerce" && field.name === "category" ? (
+                    <EcommerceCategoryChips
+                      value={values.category ?? ""}
+                      onPick={(next) => setValues((current) => ({ ...current, category: next }))}
+                    />
+                  ) : null}
+                </div>
               ))}
               {error ? <p className="text-sm text-[var(--rose)]">{error}</p> : null}
-              <Button type="submit" disabled={!fieldsReady || pending || blocked}>
+              <Button type="submit" disabled={!fieldsReady || pending || quotaBlocked}>
                 {pending
                   ? "Üretiliyor"
                   : grant
@@ -877,7 +989,13 @@ export function TezgahWorkbench({
                           ? "Reklamı Üret"
                           : pazaryeri
                             ? "Kataloğu Üret"
-                            : "Çıktıyı Üret"}
+                            : active.id === "studio-photo"
+                              ? "Stüdyoyu Üret"
+                              : active.id === "technical-drawing"
+                                ? "Şemayı Üret"
+                                : active.id === "saas-builder"
+                                  ? "Bileşeni Üret"
+                                  : "Çıktıyı Üret"}
               </Button>
             </form>
           </Card>
@@ -984,8 +1102,23 @@ export function TezgahWorkbench({
               </Card>
             </div>
           )
+        ) : proStudio ? (
+          pro ? (
+            <div className="lg:col-span-2">
+              <ProStudioPreview pack={pro} deskTaskId={deskTaskId} signedIn={signedIn} />
+            </div>
+          ) : (
+            <div className="print:hidden">
+              <Card title="Önizleme" eyebrow="Uzman tezgâhı">
+                <p className="text-sm leading-6 text-[var(--muted)]">
+                  Alanları doldurup üret. Çıktı burada önizlenir; kopyalanır, indirilir ve açık çalışma odası görevine
+                  teslim edilir.
+                </p>
+              </Card>
+            </div>
+          )
         ) : (
-          <Card title="Çıktı" eyebrow="Teslim" variant={markdown ? "featured" : "default"}>
+          <Card title="Çıktı" eyebrow="Teslim" snug bodyClassName="leading-5" variant={markdown ? "featured" : "default"}>
             {markdown ? (
               <>
                 <Deliverable markdown={markdown} />

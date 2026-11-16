@@ -3,7 +3,7 @@ import type { InvokeLlmInput, LlmGatewayResult } from "@/lib/kernel/ai/types";
 import { TEZGAH_FAIL_MESSAGE, TEZGAH_GUEST_QUOTA_MESSAGE, TEZGAH_MEMBER_QUOTA_MESSAGE } from "@/lib/tezgah/catalog";
 import { generateTezgahOutput, TEZGAH_MAX_OUTPUT_TOKENS, TEZGAH_MODEL_ROLE } from "@/lib/tezgah/engine";
 import { resetTezgahQuotaForTests } from "@/lib/tezgah/quota";
-import { tezgahSystemPrompt } from "@/lib/tezgah/prompts";
+import { ecommerceCategoryNeedsLeaf, tezgahSystemPrompt, tezgahUserPrompt } from "@/lib/tezgah/prompts";
 import { tezgahGenerateRequestSchema, type TezgahGenerateRequest } from "@/lib/tezgah/schema";
 
 const NOW = new Date("2026-11-14T12:00:00+03:00");
@@ -31,6 +31,7 @@ describe("tezgâh üretim motoru", () => {
 
   it("ürün kartı ve teklif sistem metnini taşır; hibe genel yoldan çıkmıştır", () => {
     expect(tezgahSystemPrompt(ecommerce)).toContain("## SEO anahtar kelimeleri");
+    expect(tezgahSystemPrompt(ecommerce)).toContain("ürün adından Trendyol ve Hepsiburada uyumlu alt kategoriyi belirle");
     expect(
       tezgahSystemPrompt({
         tool: "proposal",
@@ -115,5 +116,53 @@ describe("tezgâh üretim motoru", () => {
       { now: () => NOW, invoke: async () => okText("## Başlık\nOldu") },
     );
     expect(next.ok).toBe(true);
+  });
+
+  it("boş veya tek kelimelik kategori ürün adından alt kategori ister; hazır yolu korur", async () => {
+    expect(ecommerceCategoryNeedsLeaf("")).toBe(true);
+    expect(ecommerceCategoryNeedsLeaf("Giyim")).toBe(true);
+    expect(ecommerceCategoryNeedsLeaf("Anne & Bebek")).toBe(true);
+    expect(ecommerceCategoryNeedsLeaf("Anne ve Bebek > Bebek Tekstili > Bebek Battaniyesi")).toBe(false);
+
+    const empty = tezgahGenerateRequestSchema.safeParse({ ...ecommerce, category: "" });
+    const word = tezgahGenerateRequestSchema.safeParse({ ...ecommerce, category: "Battaniye" });
+    const path = tezgahGenerateRequestSchema.safeParse({
+      ...ecommerce,
+      category: "Anne ve Bebek > Bebek Tekstili > Bebek Battaniyesi",
+    });
+    const tooLong = tezgahGenerateRequestSchema.safeParse({ ...ecommerce, category: "K".repeat(81) });
+    expect(empty.success).toBe(true);
+    expect(word.success).toBe(true);
+    expect(path.success).toBe(true);
+    expect(tooLong.success).toBe(false);
+    if (!empty.success || !word.success || !path.success) {
+      return;
+    }
+
+    expect(tezgahUserPrompt(empty.data)).toContain("Kategori boş.");
+    expect(tezgahUserPrompt(empty.data)).toContain("Pamuklu battaniye");
+    expect(tezgahUserPrompt(empty.data)).toContain("Trendyol ve Hepsiburada uyumlu alt kategori yolunu belirle");
+    expect(tezgahUserPrompt(word.data)).toContain("Kategori ipucu (tek kelime): Battaniye");
+    expect(tezgahUserPrompt({ ...ecommerce, category: "Anne & Bebek" })).toContain(
+      "Kategori ipucu (ana kategori veya ürün türü): Anne & Bebek",
+    );
+    expect(tezgahUserPrompt(path.data)).toContain("Bu kategori yolunu olduğu gibi kullan.");
+    expect(tezgahUserPrompt(path.data)).not.toContain("Kategori boş.");
+    expect(tezgahSystemPrompt(path.data)).toContain("Verilen `>` kategori yolunu olduğu gibi kullan.");
+
+    const seen: InvokeLlmInput[] = [];
+    const result = await generateTezgahOutput(
+      { actorId: "guest:203.0.113.40", guest: true, request: empty.data },
+      {
+        now: () => NOW,
+        invoke: async (input) => {
+          seen.push(input);
+          return okText("Kategori: Anne ve Bebek > Bebek Tekstili > Bebek Battaniyesi\n## Başlık\nPamuklu battaniye");
+        },
+      },
+    );
+    expect(result.ok).toBe(true);
+    expect(seen[0]?.user).toContain("Kategori boş.");
+    expect(seen[0]?.system).toContain("tek kelimeyse");
   });
 });

@@ -9,14 +9,40 @@ import { statSync } from "node:fs";
 import { join } from "node:path";
 import { SITE_CONTENT_REVISED_AT } from "@/lib/copy/seo";
 
-const CONTENT_CLOCK_FILES = [
-  "lib/copy/seo.ts",
-  "lib/copy/legal-launch.ts",
-  "lib/copy/json-ld.ts",
-  "lib/junior/limits.ts",
-  "lib/academy/pilot-sku.ts",
-  "app/sitemap.ts",
-] as const;
+/**
+ * İçerik saati kaynakları. `statSync` argümanı dize sabiti olmak zorunda:
+ * döngü değişkeni veya fonksiyon parametresi `@vercel/nft` izini tüm projeye yayar
+ * («Dynamic filesystem access causes tracing of the whole project»).
+ */
+const CONTENT_CLOCK_IDS = ["seo", "legal", "json-ld", "limits", "pilot", "sitemap"] as const;
+
+type ContentClockId = (typeof CONTENT_CLOCK_IDS)[number];
+
+function contentClockMtimeMs(id: ContentClockId): number | null {
+  try {
+    switch (id) {
+      case "seo":
+        return statSync(join(process.cwd(), "lib/copy/seo.ts")).mtimeMs;
+      case "legal":
+        return statSync(join(process.cwd(), "lib/copy/legal-launch.ts")).mtimeMs;
+      case "json-ld":
+        return statSync(join(process.cwd(), "lib/copy/json-ld.ts")).mtimeMs;
+      case "limits":
+        return statSync(join(process.cwd(), "lib/junior/limits.ts")).mtimeMs;
+      case "pilot":
+        return statSync(join(process.cwd(), "lib/academy/pilot-sku.ts")).mtimeMs;
+      case "sitemap":
+        return statSync(join(process.cwd(), "app/sitemap.ts")).mtimeMs;
+      default: {
+        const unreachable: never = id;
+        return unreachable;
+      }
+    }
+  } catch {
+    // dosya yoksa bu saat kaynağı düşer
+    return null;
+  }
+}
 
 let cached: Date | null = null;
 
@@ -74,11 +100,10 @@ export function readSitemapLastModified(env: NodeJS.ProcessEnv = process.env): D
     return cached;
   }
   const fileMtimesMs: number[] = [];
-  for (const relative of CONTENT_CLOCK_FILES) {
-    try {
-      fileMtimesMs.push(statSync(join(process.cwd(), relative)).mtimeMs);
-    } catch {
-      // dosya yoksa bu saat kaynağı düşer
+  for (const id of CONTENT_CLOCK_IDS) {
+    const mtimeMs = contentClockMtimeMs(id);
+    if (mtimeMs !== null) {
+      fileMtimesMs.push(mtimeMs);
     }
   }
   const stamp = resolveSitemapLastModified({

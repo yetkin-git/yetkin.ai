@@ -9,6 +9,7 @@ import { isProtectedKernelPath, PROTECTED_KERNEL_PATHS } from "@/lib/kernel/secu
 const ROOT = process.cwd();
 
 const COCKPIT_PAGES = [
+  "app/(kernel)/e-ticaret/page.tsx",
   "app/(kernel)/magazam/page.tsx",
   "app/(kernel)/magazam/yeni/page.tsx",
   "app/(kernel)/magazam/[storeId]/page.tsx",
@@ -24,8 +25,8 @@ function read(relative: string): string {
 }
 
 describe("Yetkin Commerce kokpit yüzeyi", () => {
-  it("sekiz sayfa oturum ister ve vitrin ağacına ikinci dinamik segment açmaz", () => {
-    expect(COCKPIT_PAGES).toHaveLength(8);
+  it("kokpit sayfaları oturum ister ve vitrin ağacına ikinci dinamik segment açmaz", () => {
+    expect(COCKPIT_PAGES).toHaveLength(9);
     for (const file of COCKPIT_PAGES) {
       expect(read(file), file).toContain("requirePageSession");
     }
@@ -34,8 +35,10 @@ describe("Yetkin Commerce kokpit yüzeyi", () => {
     expect(readdirSync(join(ROOT, "app/(public)/magaza")).sort()).toEqual(["[slug]"]);
   });
 
-  it("Mağazam sol raydadır; hesap menüsü ve vitrin dönüşü karışmaz", () => {
-    expect(COMMERCE_NAV.path).toBe("/magazam");
+  it("E-Ticaret sol raydadır; hesap menüsü ve vitrin dönüşü karışmaz", () => {
+    expect(COMMERCE_NAV.path).toBe("/e-ticaret");
+    expect(COMMERCE_NAV.label).toBe("E-Ticaret");
+    expect(COMMERCE_NAV.blurb).toBe("Stok, kanal ve sipariş kokpiti");
     expect(KERNEL_SURFACES.map((surface) => surface.id)).not.toContain("magazam");
     const nav = read("components/shell/sidebar-nav.tsx");
     expect(nav).toContain("COMMERCE_NAV");
@@ -43,12 +46,15 @@ describe("Yetkin Commerce kokpit yüzeyi", () => {
     expect(read("components/ui/icons.tsx")).toContain("magazam: IconStore");
     expect(ROOM_ICONS.magazam).toBeTypeOf("function");
     expect(PROTECTED_KERNEL_PATHS).toContain("/magazam");
+    expect(PROTECTED_KERNEL_PATHS).toContain("/e-ticaret");
+    expect(isProtectedKernelPath("/e-ticaret")).toBe(true);
     expect(isProtectedKernelPath("/magazam/yeni")).toBe(true);
     expect(isProtectedKernelPath("/magaza/ornek")).toBe(false);
     expect(isSafeAuthNextPath("/magazam/yeni")).toBe(true);
+    expect(isSafeAuthNextPath("/e-ticaret")).toBe(true);
     expect(isSafeAuthNextPath("/magaza/ornek")).toBe(false);
     const transfer = read("components/tezgah/master-sku-transfer.tsx");
-    expect(transfer).toContain("/magazam/");
+    expect(transfer).toContain("/e-ticaret?sekme=havuz");
     expect(transfer).toContain("Taslakları düzenle");
   });
 });

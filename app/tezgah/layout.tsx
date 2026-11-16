@@ -22,7 +22,7 @@ export default function TezgahLayout({ children }: { children: ReactNode }) {
       `}</style>
       {children}
       <div className="print:hidden">
-        <LegalColophonStrip />
+        <LegalColophonStrip compact />
       </div>
     </AppShell>
   );

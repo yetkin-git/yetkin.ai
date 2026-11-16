@@ -155,6 +155,7 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
       "/career",
       "/admin",
       "/magazam",
+      "/e-ticaret",
     ]);
   });
 });

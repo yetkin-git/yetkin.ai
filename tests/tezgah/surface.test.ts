@@ -11,7 +11,7 @@ import { findPublishedHopId } from "@/lib/kernel/http/api-route-census";
 import { WEB_ONLY_WRITE_ROUTES } from "@/lib/kernel/http/web-only-write-routes";
 import { isLlmMutationPath } from "@/lib/kernel/security/http-rate-limit";
 import { ROUTE_AUTH_MAP } from "@/lib/kernel/security/route-auth-map";
-import { TEZGAH_TOOLS, tezgahQuotaLine } from "@/lib/tezgah/catalog";
+import { ECOMMERCE_CATEGORY_CHIPS, TEZGAH_TOOLS, tezgahQuotaLine } from "@/lib/tezgah/catalog";
 import { DUKKAN_FILENAME } from "@/lib/tezgah/dukkan/copy";
 
 const ROOT = process.cwd();
@@ -145,6 +145,9 @@ describe("AI Tezgâh kamu yüzeyi", () => {
       "dukkan",
       "reklam",
       "pazaryeri",
+      "studio-photo",
+      "technical-drawing",
+      "saas-builder",
     ]);
     const tetkik = TEZGAH_TOOLS.find((tool) => tool.id === "tetkik");
     expect(tetkik?.label).toBe("Web Sitesi Tetkik");
@@ -348,7 +351,7 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(workbench).toContain("useSearchParams");
     expect(workbench).toContain("GoogleContinueButton");
     expect(workbench).toContain("tezgahToolAnchorPath");
-    expect(workbench).toContain('router.replace(tezgahToolHref(id) as Route, { scroll: false })');
+    expect(workbench).toContain('router.replace(tezgahDeskHref(id, deskTaskId) as Route, { scroll: false })');
     expect(workbench).not.toContain("academyCheckoutHref");
     expect(workbench).not.toContain("Stüdyo Kotası Yükselt");
     expect(workbench).toContain("Kurs satın almak bugünkü üretim sayacını yükseltmez.");
@@ -365,6 +368,22 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(page.indexOf("<PageHeader")).toBeLessThan(page.indexOf("<Suspense"));
     expect(page).toContain('title="Dakikalar içinde kullanıma hazır çıktı"');
     expect(page).not.toContain("müşterine");
+    const ecommerce = TEZGAH_TOOLS.find((tool) => tool.id === "ecommerce");
+    const category = ecommerce?.fields.find((field) => field.name === "category");
+    expect(category?.label).toBe("Kategori (Ana kategori veya ürün türü)");
+    expect(category?.placeholder).toBe("Örn: Anne ve bebek (veya boş bırakın, ürün adından çıkarılır)");
+    expect(category?.optional).toBe(true);
+    expect(workbench).toContain("data-ecommerce-category-chips");
+    expect(workbench).toContain("ECOMMERCE_CATEGORY_CHIPS");
+    expect([...ECOMMERCE_CATEGORY_CHIPS]).toEqual([
+      "Anne & Bebek",
+      "Ev & Yaşam",
+      "Giyim",
+      "Elektronik",
+      "Kozmetik",
+      "Gıda",
+      "Aksesuar",
+    ]);
     expect(workbench).toContain(
       "Formu doldurup çıktıyı üret. Hazırlanan çıktı burada kart olarak görünür; doğrudan kopyalayabilir veya indirebilirsin.",
     );

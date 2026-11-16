@@ -41,3 +41,40 @@ model CareerPortfolioItem {
   @@index([userId, createdAt])
   @@map("career_portfolio_items")
 }
+
+/// Esnafın kendi çalışma odası. Freelancer kamu ilanı değildir.
+enum CareerDeskTaskKind {
+  PHOTO_STUDIO
+  MARKETPLACE_SEO
+  ADS_MANAGEMENT
+  SITE_EDIT
+}
+
+enum CareerDeskTaskStatus {
+  OPEN
+  IN_PROGRESS
+  DELIVERED
+}
+
+model CareerDeskTask {
+  id               String               @id @default(cuid())
+  userId           String               @map("user_id")
+  productId        String               @map("product_id")
+  inboxEntryId     String               @unique @map("inbox_entry_id")
+  kind             CareerDeskTaskKind
+  status           CareerDeskTaskStatus @default(OPEN)
+  title            String               @db.VarChar(120)
+  brief            String               @db.VarChar(2000)
+  deliveryTool     String               @default("") @map("delivery_tool") @db.VarChar(40)
+  deliveryFilename String               @default("") @map("delivery_filename") @db.VarChar(80)
+  deliverySummary  String               @default("") @map("delivery_summary") @db.VarChar(500)
+  deliveryBody     String               @default("") @map("delivery_body") @db.Text
+  createdAt        DateTime             @default(now()) @map("created_at")
+  updatedAt        DateTime             @default(now()) @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId, kind], map: "career_desk_tasks_owner_product_kind_uidx")
+  @@index([userId, createdAt])
+  @@map("career_desk_tasks")
+}

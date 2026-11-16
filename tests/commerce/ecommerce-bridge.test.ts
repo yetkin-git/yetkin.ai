@@ -72,10 +72,10 @@ describe("e-ticaret kartı taslak aktarımı", () => {
     expect(workbench).toContain("title={values.productName ?? \"\"}");
     expect(workbench).toContain("category={values.category ?? \"\"}");
     expect(workbench).toContain("description={markdown}");
-    expect(transfer).toContain("Mağazama Taslak Olarak Aktar");
-    expect(transfer).toContain("Taslağı düzenle");
-    expect(transfer).toContain("/api/commerce/stores/${target}/products");
-    expect(transfer).toContain('`/magazam/${target}/urunler/${result.data.product.id}`');
+    expect(transfer).toContain("E-Ticaret Havuzuna Aktar");
+    expect(transfer).toContain("Havuzu aç");
+    expect(transfer).toContain('"/api/commerce/os"');
+    expect(transfer).toContain('"/e-ticaret?sekme=havuz"');
     expect(transfer).toContain("data-ecommerce-draft-transfer");
     expect(transfer).not.toContain("/api/tezgah/");
   });

@@ -322,6 +322,18 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     // SEO Tedavi (P1) — sabit mühür yok; üretim anı dinamik basılır.
     expect(readSrc("app/sitemap.ts")).not.toContain('new Date("2026-09-05")');
     expect(readSrc("app/sitemap.ts")).not.toContain("new Date()");
+    const clock = readSrc("lib/copy/sitemap-lastmod.ts");
+    for (const literal of [
+      "lib/copy/seo.ts",
+      "lib/copy/legal-launch.ts",
+      "lib/copy/json-ld.ts",
+      "lib/junior/limits.ts",
+      "lib/academy/pilot-sku.ts",
+      "app/sitemap.ts",
+    ]) {
+      expect(clock).toContain(`statSync(join(process.cwd(), "${literal}"))`);
+    }
+    expect(clock).not.toMatch(/statSync\(join\(process\.cwd\(\),\s*[A-Za-z_][\w]*\s*\)\)/);
     const revised = readSitemapLastModified();
     expect(revised.getTime()).toBeGreaterThanOrEqual(SITE_CONTENT_REVISED_AT.getTime());
     expect(revised.getUTCHours()).toBe(0);

@@ -18,8 +18,8 @@ function readSrc(relative: string): string {
 const quotaDown = { live: false, remaining: 0, limit: TEZGAH_MEMBER_DAILY_LIMIT };
 
 describe("komuta merkezi projeksiyonu", () => {
-  it("katalog yedi araçtır; üye kotası 3'tür", () => {
-    expect(TEZGAH_TOOLS).toHaveLength(7);
+  it("katalog on araçtır; üye kotası 3'tür", () => {
+    expect(TEZGAH_TOOLS).toHaveLength(10);
     expect(TEZGAH_MEMBER_DAILY_LIMIT).toBe(3);
   });
 
@@ -35,10 +35,10 @@ describe("komuta merkezi projeksiyonu", () => {
     expect(tezgah.cta).toBe("Tezgâhı Aç");
     expect(tezgah.href).toBe("/tezgah");
     expect(tezgah.stats[0]?.value).toBe("—");
-    expect(tezgah.detail).toBe("7 araç hazır");
+    expect(tezgah.detail).toBe("10 araç hazır");
 
-    expect(commerce.cta).toBe("Mağazamı Yönet");
-    expect(commerce.href).toBe("/magazam");
+    expect(commerce.cta).toBe("Kokpiti Aç");
+    expect(commerce.href).toBe("/e-ticaret");
     expect(commerce.stats[0]?.value).toBe("—");
     expect(commerce.detail).toBe(SEN_VOICE.dashboard.pulse.unavailable);
     expect(commerce.detail).not.toBe(copy.commerceNone);
@@ -85,11 +85,12 @@ describe("komuta merkezi projeksiyonu", () => {
     });
 
     expect(tezgah.stats[0]?.value).toBe("2 / 3");
-    expect(tezgah.detail).toBe("7 araç hazır");
+    expect(tezgah.detail).toBe("10 araç hazır");
 
     expect(commerce.stats[0]?.value).toBe("0");
     expect(commerce.detail).toBe("Henüz mağaza açılmadı");
-    expect(commerce.cta).toBe("İlk Mağazanı Aç");
+    expect(commerce.cta).toBe("Kokpiti Aç");
+    expect(commerce.href).toBe("/e-ticaret");
 
     expect(academy.stats.map((item) => item.value)).toEqual(["2", "1"]);
     expect(academy.detail).toBe("Ofis AI");
@@ -125,7 +126,7 @@ describe("komuta merkezi projeksiyonu", () => {
 
     expect(commerce.stats.map((item) => item.value)).toEqual(["2", "1"]);
     expect(commerce.detail).toBeNull();
-    expect(commerce.cta).toBe("Mağazamı Yönet");
+    expect(commerce.cta).toBe("Kokpiti Aç");
     expect(career.stats[1]?.value).toBe(formatMinor(0, SETTLEMENT_CURRENCY));
     expect(career.detail).toBe("Doğrulanmış rozet yok. 30 günlük plan Kariyer'de kurulur.");
 
@@ -137,7 +138,7 @@ describe("komuta merkezi projeksiyonu", () => {
     })[1];
     expect(draftOnly.stats.map((item) => item.value)).toEqual(["1", "0"]);
     expect(draftOnly.detail).toBe("Vitrin taslak");
-    expect(draftOnly.cta).toBe("Mağazamı Yönet");
+    expect(draftOnly.cta).toBe("Kokpiti Aç");
   });
 
   it("sayfa dört okumayı Promise.all ile toplar; gövde cüzdan bandı açmaz", () => {

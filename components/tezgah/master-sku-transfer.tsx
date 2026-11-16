@@ -146,12 +146,7 @@ export function MasterSkuTransfer({
         setError(body.error);
         return;
       }
-      const firstId = data.products[0]?.id;
-      setEditPath(
-        data.products.length === 1 && typeof firstId === "string"
-          ? `/magazam/${target}/urunler/${firstId}`
-          : `/magazam/${target}/urunler`,
-      );
+      setEditPath("/e-ticaret?sekme=havuz");
       setMessage(`${data.products.length} kart Master SKU havuzuna taslak olarak yazıldı.`);
     } catch {
       setError("Aktarma tamamlanamadı.");

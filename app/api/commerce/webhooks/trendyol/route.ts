@@ -1,8 +1,25 @@
+import { liveChannelWebhookDeps } from "@/lib/commerce/channel-webhook-live";
+import { postCommerceChannelWebhook } from "@/lib/commerce/channel-webhook-handler";
+import { isOsChannelWebhookBody } from "@/lib/commerce/channel-webhook";
 import { postTrendyolWebhook } from "@/lib/commerce/marketplace-handlers";
 import { liveTrendyolPorts } from "@/lib/commerce/trendyol-live";
 
 export const auth = "webhook" as const;
 
+function replay(request: Request, raw: string): Request {
+  return new Request(request.url, { method: "POST", headers: request.headers, body: raw });
+}
+
 export async function POST(request: Request) {
-  return postTrendyolWebhook(liveTrendyolPorts(), request);
+  const raw = await request.text();
+  let parsed: unknown = null;
+  try {
+    parsed = JSON.parse(raw) as unknown;
+  } catch {
+    parsed = null;
+  }
+  if (isOsChannelWebhookBody(parsed)) {
+    return postCommerceChannelWebhook(liveChannelWebhookDeps(), replay(request, raw), "trendyol");
+  }
+  return postTrendyolWebhook(liveTrendyolPorts(), replay(request, raw));
 }

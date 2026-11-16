@@ -1,5 +1,6 @@
 import type { Metadata, Route } from "next";
 import { ActionPlanPanel } from "@/components/career/action-plan-panel";
+import { CareerDeskBoard } from "@/components/career/desk-board";
 import { AiCareerStudio } from "@/components/career/ai-career-studio";
 import { MeritSealBand } from "@/components/career/merit-seal-band";
 import { PublicCareerPanel } from "@/components/career/public-career-panel";
@@ -16,6 +17,7 @@ import {
   EMPTY_CAREER_ACTION_LIVE,
   type CareerActionStoreSignal,
 } from "@/lib/career/action-plan";
+import { loadCareerDeskTasks } from "@/lib/career/desk-load";
 import { loadCareerBoard } from "@/lib/career/load";
 import type { LiveCareerBoard } from "@/lib/career/live";
 import { loadAcademyActionPulse } from "@/lib/academy/load";
@@ -89,7 +91,10 @@ async function loadSignedInActionLive(userId: string, board: LiveCareerBoard | n
 
 async function SignedInCareerPage() {
   const session = await requirePageSession();
-  const board = await loadCareerBoard(session.id);
+  const [board, deskTasks] = await Promise.all([
+    loadCareerBoard(session.id),
+    loadCareerDeskTasks(session.id),
+  ]);
   const actionLive = await loadSignedInActionLive(session.id, board);
   const stamps = board?.stamps ?? [];
   const portfolio = board?.portfolio ?? [];
@@ -146,6 +151,7 @@ async function SignedInCareerPage() {
         proofCount={portfolio.length}
         publicTalentHref={publicTalentHref}
       />
+      <CareerDeskBoard tasks={deskTasks} />
       <AiCareerStudio verifiedBadges={verifiedBadges} />
       <div className="flex flex-wrap gap-2">
         <SealShareGuideButtons model={shareModel} />

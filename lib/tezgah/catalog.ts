@@ -12,6 +12,13 @@ import {
 } from "@/lib/yetkinhibe/grant-brief-axes";
 import { DUKKAN_SECTORS, DUKKAN_TONES } from "@/lib/tezgah/dukkan/copy";
 import { PAZARYERI_MARKETS } from "@/lib/tezgah/pazaryeri/copy";
+import {
+  SAAS_WIDGETS,
+  STUDIO_BACKGROUNDS,
+  STUDIO_GALLERY_COUNTS,
+  STUDIO_MARKETS,
+  STUDIO_OVERLAYS,
+} from "@/lib/tezgah/pro/options";
 import { REKLAM_AIMS, REKLAM_FILE_STEM } from "@/lib/tezgah/reklam/copy";
 
 const YES_NO = [
@@ -41,9 +48,20 @@ export const TEZGAH_TOOL_IDS = [
   "dukkan",
   "reklam",
   "pazaryeri",
+  "studio-photo",
+  "technical-drawing",
+  "saas-builder",
 ] as const;
 
 export type TezgahToolId = (typeof TEZGAH_TOOL_IDS)[number];
+
+export const PRO_STUDIO_TOOL_IDS = ["studio-photo", "technical-drawing", "saas-builder"] as const;
+
+export type ProStudioToolId = (typeof PRO_STUDIO_TOOL_IDS)[number];
+
+export function isProStudioTool(id: string): id is ProStudioToolId {
+  return (PRO_STUDIO_TOOL_IDS as readonly string[]).includes(id);
+}
 
 export type TezgahFieldKind = "text" | "textarea" | "select";
 
@@ -65,6 +83,16 @@ export type TezgahTool = {
   cta: { href: "/academy/02_ecommerce_ai" | "/academy/01_office_ai/seviye" | "/academy"; label: string } | null;
 };
 
+export const ECOMMERCE_CATEGORY_CHIPS = [
+  "Anne & Bebek",
+  "Ev & Yaşam",
+  "Giyim",
+  "Elektronik",
+  "Kozmetik",
+  "Gıda",
+  "Aksesuar",
+] as const;
+
 export const TEZGAH_TOOLS: readonly TezgahTool[] = [
   {
     id: "ecommerce",
@@ -80,9 +108,10 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
       },
       {
         name: "category",
-        label: "Kategori",
-        placeholder: "Anne ve bebek",
+        label: "Kategori (Ana kategori veya ürün türü)",
+        placeholder: "Örn: Anne ve bebek (veya boş bırakın, ürün adından çıkarılır)",
         kind: "text",
+        optional: true,
       },
       {
         name: "features",
@@ -369,6 +398,142 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
     ],
     cta: null,
   },
+  {
+    id: "studio-photo",
+    label: "Görsel & Ürün Stüdyosu",
+    blurb: "Düzenleme talimatı, pazaryeri fon ve çözünürlük denetimi, galeri sırası ve alt metin.",
+    fileStem: "gorsel-studyo",
+    fields: [
+      {
+        name: "productName",
+        label: "Ürün adı",
+        placeholder: "Pamuklu bebek battaniyesi",
+        kind: "text",
+      },
+      {
+        name: "features",
+        label: "Temel özellikler",
+        placeholder: "100×100 cm, yıkanabilir, ekru",
+        kind: "textarea",
+      },
+      {
+        name: "market",
+        label: "Pazaryeri",
+        placeholder: "Pazaryeri seç",
+        kind: "select",
+        options: STUDIO_MARKETS,
+      },
+      {
+        name: "widthPx",
+        label: "Genişlik (px)",
+        placeholder: "1200",
+        kind: "text",
+      },
+      {
+        name: "heightPx",
+        label: "Yükseklik (px)",
+        placeholder: "1800",
+        kind: "text",
+      },
+      {
+        name: "background",
+        label: "Ana kare fonu",
+        placeholder: "Fon seç",
+        kind: "select",
+        options: STUDIO_BACKGROUNDS,
+      },
+      {
+        name: "overlay",
+        label: "Ana karede yazı veya logo",
+        placeholder: "Seç",
+        kind: "select",
+        options: STUDIO_OVERLAYS,
+      },
+      {
+        name: "galleryCount",
+        label: "Galeri adedi",
+        placeholder: "Adet seç",
+        kind: "select",
+        options: STUDIO_GALLERY_COUNTS,
+      },
+    ],
+    cta: null,
+  },
+  {
+    id: "technical-drawing",
+    label: "Teknik Çizim & Ölçü Şeması",
+    blurb: "Milimetre ölçülerinden SVG ölçü şeması ve montaj listesi. Önizlenir, .svg iner.",
+    fileStem: "olcu-semasi",
+    fields: [
+      {
+        name: "productName",
+        label: "Ürün adı",
+        placeholder: "Meşe raf",
+        kind: "text",
+      },
+      {
+        name: "widthMm",
+        label: "Genişlik (mm)",
+        placeholder: "120",
+        kind: "text",
+      },
+      {
+        name: "heightMm",
+        label: "Yükseklik (mm)",
+        placeholder: "80",
+        kind: "text",
+      },
+      {
+        name: "depthMm",
+        label: "Derinlik (mm)",
+        placeholder: "40",
+        kind: "text",
+      },
+      {
+        name: "material",
+        label: "Malzeme (isteğe bağlı)",
+        placeholder: "Kayın kontraplak",
+        kind: "text",
+        optional: true,
+      },
+      {
+        name: "steps",
+        label: "Montaj adımları (isteğe bağlı)",
+        placeholder: "Ayağı yuvaya oturt\nVidayı sık",
+        kind: "textarea",
+        optional: true,
+      },
+    ],
+    cta: null,
+  },
+  {
+    id: "saas-builder",
+    label: "Mini SaaS & Kod Üretici",
+    blurb: "Kargo hesabı, sipariş formu, sayaç veya JSON betiği. Canlı önizleme, kopya ve zip.",
+    fileStem: "mini-saas",
+    fields: [
+      {
+        name: "widget",
+        label: "Bileşen",
+        placeholder: "Bileşen seç",
+        kind: "select",
+        options: SAAS_WIDGETS,
+      },
+      {
+        name: "title",
+        label: "Başlık",
+        placeholder: "Kargo desi hesabı",
+        kind: "text",
+      },
+      {
+        name: "detail",
+        label: "Açıklama veya bitiş / adres",
+        placeholder: "Sayaç için 2026-12-31, API için https://ornek.com/stok.json",
+        kind: "textarea",
+      },
+    ],
+    cta: null,
+  },
 ] as const;
 
 export function tezgahToolById(id: string): TezgahTool | null {
@@ -380,6 +545,22 @@ export function tezgahToolHref(id: TezgahToolId): string {
   return `${TEZGAH_PATH}?tool=${id}`;
 }
 
+/** Çalışma odası görev kimliği. Kısa veya yabancı değer düşer. */
+export function readDeskTaskId(raw: string | null | undefined): string {
+  const task = (raw ?? "").trim();
+  return /^[A-Za-z0-9_-]{8,80}$/.test(task) ? task : "";
+}
+
+/** Sekme adresi. Geçerli görev kimliği varsa teslimat köprüsü eklenir. */
+export function tezgahDeskHref(id: TezgahToolId, deskTaskId: string): string {
+  const href = tezgahToolHref(id);
+  const task = readDeskTaskId(deskTaskId);
+  if (!task) {
+    return href;
+  }
+  return `${href}&desk=${encodeURIComponent(task)}`;
+}
+
 /**
  * Google dönüş yolu. Auth `next` sorguyu düşürür; çapa allowlist’te kalır.
  * Örnek: `/tezgah#tetkik`.
@@ -388,11 +569,14 @@ export function tezgahToolAnchorPath(id: TezgahToolId): string {
   return `${TEZGAH_PATH}#${id}`;
 }
 
-/** Boş veya yabancı değer `null`. Sekme o zaman `ecommerce` kalır. */
+/** Boş veya yabancı değer `null`. Sekme o zaman `ecommerce` kalır. `hibe` hibe dosyasıdır. */
 export function parseTezgahToolParam(raw: string | null | undefined): TezgahToolId | null {
   const value = (raw ?? "").trim();
   if (!value) {
     return null;
+  }
+  if (value === "hibe") {
+    return "grant";
   }
   for (const id of TEZGAH_TOOL_IDS) {
     if (id === value) {
@@ -400,6 +584,37 @@ export function parseTezgahToolParam(raw: string | null | undefined): TezgahTool
     }
   }
   return null;
+}
+
+export function readTezgahPrefill(
+  toolId: TezgahToolId,
+  params: { get(name: string): string | null },
+): Record<string, string> {
+  const tool = tezgahToolById(toolId);
+  if (!tool) {
+    return {};
+  }
+  const next: Record<string, string> = {};
+  for (const field of tool.fields) {
+    const raw = params.get(field.name);
+    if (raw == null) {
+      continue;
+    }
+    const value = raw.trim().slice(0, 2000);
+    if (!value) {
+      continue;
+    }
+    if (field.kind === "select") {
+      if ((field.options ?? []).some((option) => option.value === value)) {
+        next[field.name] = value;
+      }
+      continue;
+    }
+    if (value.length >= 1) {
+      next[field.name] = value;
+    }
+  }
+  return next;
 }
 
 export function tezgahQuotaLine(remaining: number, limit: number): string {

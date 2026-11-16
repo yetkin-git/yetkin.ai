@@ -12,11 +12,15 @@ import {
  * Unvan / VKN / MERSİS / adres birincil görünümde yoktur; sözleşme katmanı
  * `/legal/*` metinlerindedir. Link SSOT'u `lib/copy/legal-launch.ts`'dir.
  */
-export function LegalColophonStrip() {
+export function LegalColophonStrip({ compact = false }: { compact?: boolean }) {
   return (
     <footer
       data-legal-colophon-strip=""
-      className="mx-auto mt-12 max-w-4xl border-t border-[var(--border)] px-2 pb-2 pt-4"
+      className={
+        compact
+          ? "mx-auto mt-4 max-w-4xl border-t border-[var(--border)] px-2 pb-2 pt-3"
+          : "mx-auto mt-12 max-w-4xl border-t border-[var(--border)] px-2 pb-2 pt-4"
+      }
     >
       <nav
         aria-label={LEGAL_PAGE_TITLE}

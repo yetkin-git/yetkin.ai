@@ -218,6 +218,7 @@ describe("30 günlük aksiyon planı", () => {
 
   it("kapalı kapı yabancı tezgâh, freelancer ve açık adresi reddeder", () => {
     expect(isClosedCareerActionHref("/tezgah?tool=ecommerce")).toBe(true);
+    expect(isClosedCareerActionHref("/tezgah?tool=studio-photo")).toBe(true);
     expect(isClosedCareerActionHref("/tezgah?tool=bilinmeyen")).toBe(false);
     expect(isClosedCareerActionHref("/freelancer")).toBe(false);
     expect(isClosedCareerActionHref("/freelancer/jobs")).toBe(false);

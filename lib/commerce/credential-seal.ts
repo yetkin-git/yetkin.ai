@@ -8,6 +8,9 @@ export const COMMERCE_CREDENTIAL_ENCRYPTION_ENV = "COMMERCE_CREDENTIAL_ENCRYPTIO
 
 export type CommerceCredentialField = "supplier" | "apiKey" | "apiSecret";
 
+/** Pazaryeri çifti ve kokpit kanalları. Düz anahtar bu birliğin dışında durmaz. */
+export type CommerceSealChannel = CommerceChannelName | "AMAZON" | "N11" | "OWN_STORE";
+
 export class CommerceCredentialSealError extends Error {
   constructor(message: string) {
     super(message);
@@ -19,7 +22,7 @@ export class CommerceCredentialSealError extends Error {
 export function commerceCredentialAad(
   field: CommerceCredentialField,
   storeId: string,
-  channel: CommerceChannelName = "TRENDYOL",
+  channel: CommerceSealChannel = "TRENDYOL",
 ): string {
   return `${field}:${storeId}:${channel}`;
 }
@@ -41,7 +44,7 @@ export function sealCommerceCredential(
   field: CommerceCredentialField,
   storeId: string,
   env: NodeJS.ProcessEnv = process.env,
-  channel: CommerceChannelName = "TRENDYOL",
+  channel: CommerceSealChannel = "TRENDYOL",
 ): string {
   const iv = randomBytes(12);
   const cipher = createCipheriv("aes-256-gcm", requireKey(env), iv);
@@ -56,7 +59,7 @@ export function openCommerceCredential(
   field: CommerceCredentialField,
   storeId: string,
   env: NodeJS.ProcessEnv = process.env,
-  channel: CommerceChannelName = "TRENDYOL",
+  channel: CommerceSealChannel = "TRENDYOL",
 ): string {
   if (!stored.startsWith(COMMERCE_CREDENTIAL_SEAL_PREFIX)) {
     throw new CommerceCredentialSealError("Kimlik mührü tanınmadı.");

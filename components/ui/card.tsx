@@ -20,6 +20,7 @@ export function Card({
   children,
   variant = "default",
   dense = false,
+  snug = false,
   className = "",
   bodyClassName = "",
 }: {
@@ -29,6 +30,8 @@ export function Card({
   children: ReactNode;
   variant?: CardVariant;
   dense?: boolean;
+  /** Tezgâh gibi tek ekran paneller — p-3 ve kısa başlık. */
+  snug?: boolean;
   className?: string;
   bodyClassName?: string;
 }) {
@@ -36,20 +39,22 @@ export function Card({
     <section
       className={cn(
         "room-card rounded-[var(--radius-card)] transition-[border-color,box-shadow] duration-200",
-        dense ? "p-4" : "p-6",
+        snug ? "p-3" : dense ? "p-4" : "p-6",
         VARIANT[variant],
         className,
       )}
     >
       {eyebrow || title || action ? (
-        <header className="mb-4 flex items-start justify-between gap-3">
+        <header className={cn("flex items-start justify-between gap-3", snug ? "mb-2" : "mb-4")}>
           <div className="min-w-0">
             {eyebrow ? (
               <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">
                 {eyebrow}
               </p>
             ) : null}
-            {title ? <h2 className="text-lg font-semibold tracking-tight">{title}</h2> : null}
+            {title ? (
+              <h2 className={cn("font-semibold tracking-tight", snug ? "text-base" : "text-lg")}>{title}</h2>
+            ) : null}
           </div>
           {action ? <div className="shrink-0">{action}</div> : null}
         </header>

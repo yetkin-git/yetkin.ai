@@ -43,6 +43,7 @@ const NEXT_PREFIXES = [
   "/junior",
   "/tezgah",
   "/magazam",
+  "/e-ticaret",
 ] as const;
 
 function stripTrailingSlash(origin: string): string {

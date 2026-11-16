@@ -47,6 +47,7 @@ export const PROTECTED_KERNEL_PATHS = [
   "/career",
   "/admin",
   "/magazam",
+  "/e-ticaret",
 ] as const;
 
 /**
@@ -131,6 +132,7 @@ export const AUTH_PATH_ALIASES = {
   "/profile": "/profil",
   "/passport": "/pasaport",
   "/genel-bakis": "/dashboard",
+  "/magazam": "/e-ticaret",
 } as const;
 
 export type EdgeDecision =

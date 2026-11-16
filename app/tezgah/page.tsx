@@ -15,16 +15,18 @@ export default async function TezgahPage() {
   const session = await getSession();
   const freelancerName = await loadTezgahFreelancerName(session);
   return (
-    <RoomFrame>
-      <div className="print:hidden">
+    <RoomFrame className="space-y-3">
+      <div className="flex items-end justify-between gap-3 print:hidden">
         <PageHeader
           eyebrow="AI Tezgâh"
           title="Dakikalar içinde kullanıma hazır çıktı"
-          description="Ürün kartı, teklif, hibe proje dosyası, site tetkiki, dijital dükkan, reklam paketi veya pazaryeri kataloğu. Misafire günde 1, ücretsiz kayıtla günde 3 üretim."
+          tight
+          className="min-w-0"
         />
+        <div id="tezgah-header-quota" className="shrink-0" />
       </div>
       <Suspense
-        fallback={<p className="mt-6 text-sm text-[var(--muted)] print:hidden">Tezgâh açılıyor</p>}
+        fallback={<p className="text-sm text-[var(--muted)] print:hidden">Tezgâh açılıyor</p>}
       >
         <TezgahWorkbench freelancerName={freelancerName} signedIn={session != null} />
       </Suspense>

@@ -61,6 +61,51 @@ enum CommerceWebhookReceiptStatus {
   STOCK_SHORT
 }
 
+/// Kokpit stok defteri. Taslak onaylanmadan `approved_stock_qty` değişmez.
+enum StockLedgerType {
+  INBOUND_DRAFT
+  INBOUND_APPROVED
+  CHANNEL_SALE
+  RETURN_RESTOCK
+}
+
+enum SalesChannelKind {
+  OWN_STORE
+  TRENDYOL
+  HEPSIBURADA
+  AMAZON
+  N11
+}
+
+enum SalesChannelStatus {
+  DISCONNECTED
+  CONNECTED
+  ERROR
+}
+
+enum CommerceInboxKind {
+  ORDER
+  QUESTION
+  EXPERT_TASK
+  STOCK_ALERT
+  CUSTOMER_QUESTION
+  PRODUCT_REVIEW
+}
+
+/// Gelen kutu yanıtı. `ANSWERED` yalnız kanalın kabul ettiği gönderimdir.
+enum CommerceInboxMessageStatus {
+  OPEN
+  DRAFT
+  ANSWERED
+  PENDING_CREDENTIALS
+}
+
+enum CommerceInboxOrderStatus {
+  OPEN
+  CANCELLED
+  RETURNED
+}
+
 model CommerceStore {
   id           String              @id @default(cuid())
   ownerUserId  String              @map("owner_user_id")
@@ -81,6 +126,9 @@ model CommerceStore {
   channelListings CommerceChannelListing[]
   webhookReceipts CommerceMarketplaceWebhookReceipt[]
   subscription    CommerceSubscription?
+  stockLedgers    StockLedger[]
+  salesChannels   SalesChannel[]
+  inboxEntries    CommerceInboxEntry[]
 
   @@index([ownerUserId, createdAt])
   @@map("commerce_stores")
@@ -95,13 +143,23 @@ model CommerceProduct {
   attributes    Json                  @default("[]")
   otherNote     String                @default("") @map("other_note") @db.VarChar(500)
   listingMarket String?               @map("listing_market") @db.VarChar(32)
-  source        CommerceCatalogSource
-  status        CommerceProductStatus @default(DRAFT)
-  createdAt     DateTime              @default(now()) @map("created_at")
-  updatedAt     DateTime              @updatedAt @map("updated_at")
+  /// Boş taslak, varyant SKU'sunu kopyalar. Uzak kanal bu kolonu yazmaz.
+  sku              String                @default("") @db.VarChar(64)
+  /// Baz fiyat, kuruş. 0 fiyat yok demektir.
+  basePriceMinor   Int                   @default(0) @map("base_price_minor")
+  /// Onaylı merkez stok. Taslak giriş bu sayıyı değiştirmez.
+  approvedStockQty Int                   @default(0) @map("approved_stock_qty")
+  /// Kritik eşik. 0 uyarıyı kapatır.
+  criticalStockQty Int                   @default(0) @map("critical_stock_qty")
+  source           CommerceCatalogSource
+  status           CommerceProductStatus @default(DRAFT)
+  createdAt        DateTime              @default(now()) @map("created_at")
+  updatedAt        DateTime              @updatedAt @map("updated_at")
 
-  store    CommerceStore     @relation(fields: [storeId], references: [id], onDelete: Restrict)
-  variants CommerceVariant[]
+  store        CommerceStore        @relation(fields: [storeId], references: [id], onDelete: Restrict)
+  variants     CommerceVariant[]
+  stockLedgers StockLedger[]
+  inboxEntries CommerceInboxEntry[]
 
   @@unique([id, storeId])
   @@index([storeId, status, createdAt])
@@ -238,4 +296,83 @@ model CommerceSubscription {
 
   @@index([ownerUserId, status], map: "commerce_subscriptions_owner_status_idx")
   @@map("commerce_subscriptions")
+}
+
+/// Append-only stok defteri. Taslak satırı onay satırı işaret edene kadar açıktır.
+/// `CHANNEL_SALE` miktarı negatiftir (istenen adet). Diğer girişler pozitiftir.
+/// İade satırı `0` olabilir: stok değişmeden durum mührü.
+model StockLedger {
+  id              String           @id @default(cuid())
+  storeId         String           @map("store_id")
+  productId       String           @map("product_id")
+  actorUserId     String           @map("actor_user_id")
+  type            StockLedgerType
+  channel         SalesChannelKind
+  quantity        Int
+  stockAfter      Int              @map("stock_after")
+  note            String           @default("") @db.VarChar(500)
+  idempotencyKey  String           @unique @map("idempotency_key")
+  externalOrderId String           @default("") @map("external_order_id") @db.VarChar(64)
+  settlesLedgerId String?          @unique @map("settles_ledger_id")
+  createdAt       DateTime         @default(now()) @map("created_at")
+
+  store     CommerceStore  @relation(fields: [storeId], references: [id], onDelete: Restrict)
+  product   CommerceProduct @relation(fields: [productId], references: [id], onDelete: Restrict)
+  actor     User           @relation(fields: [actorUserId], references: [id], onDelete: Restrict)
+  settles   StockLedger?   @relation("StockDraftSettlement", fields: [settlesLedgerId], references: [id], onDelete: Restrict)
+  settledBy StockLedger?   @relation("StockDraftSettlement")
+
+  @@index([productId, createdAt])
+  @@index([storeId, createdAt])
+  @@index([storeId, channel, externalOrderId])
+  @@map("stock_ledgers")
+}
+
+/// Bağlı satış kanalı. Düz API anahtarı yazılmaz; mühür `ccred1:` ile durur.
+model SalesChannel {
+  id           String             @id @default(cuid())
+  storeId      String             @map("store_id")
+  kind         SalesChannelKind
+  status       SalesChannelStatus @default(DISCONNECTED)
+  apiKeyHint   String             @default("") @map("api_key_hint") @db.VarChar(4)
+  apiKeySeal   String             @default("") @map("api_key_seal") @db.Text
+  lastError    String             @default("") @map("last_error") @db.VarChar(500)
+  lastSyncedAt DateTime?          @map("last_synced_at")
+  createdAt    DateTime           @default(now()) @map("created_at")
+  updatedAt    DateTime           @updatedAt @map("updated_at")
+
+  store CommerceStore @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  @@unique([storeId, kind])
+  @@index([storeId, status])
+  @@map("sales_channels")
+}
+
+/// Sipariş, müşteri sorusu ve uzman görev kısayolu. Sipariş satırı webhook fişinden de okunur.
+model CommerceInboxEntry {
+  id            String             @id @default(cuid())
+  storeId       String             @map("store_id")
+  productId     String?            @map("product_id")
+  channel       SalesChannelKind
+  kind          CommerceInboxKind
+  externalRef   String                    @default("") @map("external_ref") @db.VarChar(64)
+  customerLabel String                    @default("") @map("customer_label") @db.VarChar(80)
+  body          String                    @db.VarChar(2000)
+  priority      Int                       @default(0)
+  orderStatus   CommerceInboxOrderStatus? @map("order_status")
+  replyBody     String                    @default("") @map("reply_body") @db.VarChar(2000)
+  replySentAt   DateTime?          @map("reply_sent_at")
+  messageStatus CommerceInboxMessageStatus @default(OPEN) @map("message_status")
+  /// Uzman görevinin oda durumu. Diğer kutu türlerinde boştur.
+  expertStatus  String                     @default("") @map("expert_status") @db.VarChar(16)
+  expertNote    String                     @default("") @map("expert_note") @db.VarChar(240)
+  /// Webhook fişi. Boş satırlar birbirine çakışmaz.
+  idempotencyKey String?           @unique @map("idempotency_key")
+  createdAt     DateTime           @default(now()) @map("created_at")
+
+  store   CommerceStore    @relation(fields: [storeId], references: [id], onDelete: Restrict)
+  product CommerceProduct? @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@index([storeId, createdAt])
+  @@map("commerce_inbox_entries")
 }

@@ -153,7 +153,7 @@ export function SidebarNav({
                 blurb={COMMERCE_NAV.blurb}
                 accent={COMMERCE_NAV_ACCENT}
                 icon={CommerceIcon}
-                active={isActive(pathname, COMMERCE_NAV.path)}
+                active={isActive(pathname, COMMERCE_NAV.path) || isActive(pathname, "/magazam")}
                 collapsed={collapsed}
                 onNavigate={onNavigate}
               />

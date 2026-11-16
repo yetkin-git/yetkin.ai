@@ -338,6 +338,14 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
     "AI kariyer koçu. CV, SWOT ve diyalog. Oturum zorunlu. Kazanılmamış rozet doğrulanmış yazılmaz. Cüzdan yazılmaz. v1 hop satırı yoktur.",
   ),
   ...verbs(
+    "product-career-desk",
+    ["POST"],
+    "/api/career/desk",
+    "product-write",
+    true,
+    "Çalışma odası durum ve teslimat yazması. Oturum zorunlu. Kamu ilanı açılmaz. Cüzdan yazılmaz. v1 hop satırı yoktur.",
+  ),
+  ...verbs(
     "product-tezgah-generate",
     ["POST"],
     "/api/tezgah/generate",
@@ -498,6 +506,14 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
     "Commerce aylık lisans. PayTR niyeti commerce-license:monthly. Idempotency-Key zorunlu. Pazaryeri cirosu yazılmaz. v1 hop satırı yoktur.",
   ),
   ...verbs(
+    "product-commerce-os",
+    ["POST"],
+    "/api/commerce/os",
+    "product-write",
+    true,
+    "E-Ticaret kokpiti. Havuz, stok defteri, kanal ve gelen kutusu. Düz API anahtarı dönmez. Cüzdan yazılmaz. v1 hop satırı yoktur.",
+  ),
+  ...verbs(
     "hmac-hepsiburada",
     ["POST"],
     "/api/commerce/webhooks/hepsiburada",
@@ -512,6 +528,22 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
     "hmac",
     true,
     "Trendyol webhook. x-api-key veya Basic sır timingSafeEqual ile tutulmadan stok yazılmaz. v1 hop satırı yoktur.",
+  ),
+  ...verbs(
+    "hmac-commerce-channel",
+    ["POST"],
+    "/api/commerce/webhooks/[channel]",
+    "hmac",
+    true,
+    "Çok kanallı stok webhook'u. İmza veya ccred1: sırrı timingSafeEqual ile tutulmadan stok yazılmaz. Aynı externalOrderId ve olay ikinci kez stoğu düşürmez. v1 hop satırı yoktur.",
+  ),
+  ...verbs(
+    "hmac-commerce-channel-messages",
+    ["POST"],
+    "/api/commerce/webhooks/[channel]/messages",
+    "hmac",
+    true,
+    "Çok kanallı soru ve yorum webhook'u. İmza veya ccred1: sırrı timingSafeEqual ile tutulmadan gelen kutu yazılmaz. Aynı externalMessageId ikinci kez satır açmaz. v1 hop satırı yoktur.",
   ),
   ...verbs(
     "product-billing",

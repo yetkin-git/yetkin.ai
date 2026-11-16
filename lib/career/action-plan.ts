@@ -234,7 +234,7 @@ export function isClosedCareerActionHref(href: string): boolean {
   if (course) {
     return ACTION_ACADEMY_SLUGS.has(course[1] ?? "");
   }
-  const tool = /^\/tezgah\?tool=([a-z]+)$/.exec(href);
+  const tool = /^\/tezgah\?tool=([a-z]+(?:-[a-z]+)*)$/.exec(href);
   if (tool) {
     return (TEZGAH_TOOL_IDS as readonly string[]).includes(tool[1] ?? "");
   }

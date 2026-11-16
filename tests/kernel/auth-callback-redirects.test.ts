@@ -38,6 +38,7 @@ describe("Auth redirect sicili", () => {
     expect(resolvePostLoginPath("/admin/catalog")).toBe("/admin/catalog");
     expect(buildCitizenLoginHref("/admin")).toBe("/login");
     expect(isSafeAuthNextPath("/magazam")).toBe(true);
+    expect(isSafeAuthNextPath("/e-ticaret")).toBe(true);
     expect(isSafeAuthNextPath("/magazam/yeni")).toBe(true);
     expect(isSafeAuthNextPath("/magaza/ornek")).toBe(false);
     expect(buildCitizenLoginHref("/magazam/yeni")).toBe("/login?next=%2Fmagazam%2Fyeni");

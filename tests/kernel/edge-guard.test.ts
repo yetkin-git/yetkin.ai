@@ -209,6 +209,14 @@ describe("kenar kararları", () => {
     expect(decideEdgeAction("/genel-bakis", false)).toEqual({ kind: "alias-307", to: "/dashboard" });
     expect(decideEdgeAction("/genel-bakis", true)).toEqual({ kind: "alias-307", to: "/dashboard" });
     expect(decideEdgeAction("/genel-bakis/", true)).toEqual({ kind: "alias-307", to: "/dashboard" });
+    expect(decideEdgeAction("/magazam", false)).toEqual({
+      kind: "auth-307",
+      to: CITIZEN_LOGIN_PATH,
+      next: "/e-ticaret",
+    });
+    expect(decideEdgeAction("/magazam", true)).toEqual({ kind: "alias-307", to: "/e-ticaret" });
+    expect(decideEdgeAction("/magazam/", true)).toEqual({ kind: "alias-307", to: "/e-ticaret" });
+    expect(decideEdgeAction("/e-ticaret", false).kind).toBe("auth-307");
   });
 });
 

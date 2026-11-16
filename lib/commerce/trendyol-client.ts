@@ -174,7 +174,7 @@ export function trendyolLineConsumesStock(line: TrendyolOrderLine): boolean {
   return SALE_STATUSES.has(line.orderLineItemStatusName.toLowerCase());
 }
 
-function trendyolHeaders(supplierId: string, apiKey: string, apiSecret: string): Headers {
+export function trendyolHeaders(supplierId: string, apiKey: string, apiSecret: string): Headers {
   return new Headers({
     authorization: trendyolBasicAuthorization(apiKey, apiSecret),
     "user-agent": trendyolUserAgent(supplierId),

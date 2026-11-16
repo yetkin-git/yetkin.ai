@@ -88,7 +88,7 @@ function commerceCard(stores: CommandStoreRead): CommandCardModel {
       title: copy.commerceTitle,
       stats: [{ label: copy.commerceCount, value: copy.unknown }],
       detail: pulse.unavailable,
-      href: "/magazam",
+      href: "/e-ticaret",
       cta: copy.commerceManageCta,
     };
   }
@@ -101,7 +101,7 @@ function commerceCard(stores: CommandStoreRead): CommandCardModel {
       title: copy.commerceTitle,
       stats: [{ label: copy.commerceCount, value: "0" }],
       detail: copy.commerceNone,
-      href: "/magazam",
+      href: "/e-ticaret",
       cta: copy.commerceOpenCta,
     };
   }
@@ -114,7 +114,7 @@ function commerceCard(stores: CommandStoreRead): CommandCardModel {
       { label: copy.commerceActive, value: String(activeCount) },
     ],
     detail: activeCount === 0 ? copy.commerceDraft : null,
-    href: "/magazam",
+    href: "/e-ticaret",
     cta: copy.commerceManageCta,
   };
 }
