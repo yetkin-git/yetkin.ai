@@ -1,5 +1,6 @@
+import { attachTezgahOutputToPortfolio } from "@/lib/career/tezgah-portfolio";
 import { requireSession } from "@/lib/kernel/auth/session";
-import { jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
+import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import { requireRailV1IdempotencyKey } from "@/lib/kernel/http/v1-runtime-shield";
 import { hashIdempotencyPayload, settleHttpIdempotency } from "@/lib/kernel/http/idempotency";
@@ -41,6 +42,17 @@ export async function POST(request: Request) {
     if (!idempotency.ok) {
       return idempotency.response;
     }
+    const raw = await request.json().catch(() => ({}));
+    const tezgahOutputId =
+      raw &&
+      typeof raw === "object" &&
+      "tezgahOutputId" in raw &&
+      typeof (raw as { tezgahOutputId?: unknown }).tezgahOutputId === "string"
+        ? (raw as { tezgahOutputId: string }).tezgahOutputId.trim()
+        : "";
+    if (tezgahOutputId && !/^[A-Za-z0-9_-]{8,40}$/.test(tezgahOutputId)) {
+      return jsonFail("Çıktı bulunamadı.", 404, requestId, request);
+    }
     const ports = createPrismaCareerPorts();
     return settleHttpIdempotency(
       {
@@ -48,11 +60,19 @@ export async function POST(request: Request) {
         userId: user.id,
         route: "/api/career/portfolio",
         key: idempotency.key,
-        requestHash: hashIdempotencyPayload({ userId: user.id }),
+        requestHash: hashIdempotencyPayload(
+          tezgahOutputId ? { userId: user.id, tezgahOutputId } : { userId: user.id },
+        ),
         requestId,
         request,
       },
       async () => {
+        if (tezgahOutputId) {
+          const attached = await attachTezgahOutputToPortfolio(user.id, tezgahOutputId);
+          if (!attached) {
+            return { status: 404, body: { error: "Çıktı bulunamadı." } };
+          }
+        }
         const stamps = await syncCareerVisaStamps(ports, { userId: user.id });
         const board = await projectLiveCareerBoard(ports, user.id);
         return {

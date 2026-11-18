@@ -14,6 +14,22 @@ export function LegalSiteFooter() {
           aria-label={LEGAL_PAGE_TITLE}
           className="flex max-w-full items-center justify-center gap-x-0.5 overflow-x-auto sm:gap-x-1"
         >
+          <Link
+            href="/kurumsal"
+            title="Kurumsal teklif"
+            prefetch={false}
+            className="shrink-0 whitespace-nowrap rounded-md px-2 py-1 text-[11px] font-medium tracking-wide text-[var(--muted)] opacity-90 transition-opacity hover:opacity-100 hover:underline sm:px-2.5 sm:text-xs"
+          >
+            Kurumsal
+          </Link>
+          <Link
+            href="/fiyatlandirma"
+            title="Fiyatlar"
+            prefetch={false}
+            className="shrink-0 whitespace-nowrap rounded-md px-2 py-1 text-[11px] font-medium tracking-wide text-[var(--muted)] opacity-90 transition-opacity hover:opacity-100 hover:underline sm:px-2.5 sm:text-xs"
+          >
+            Fiyatlar
+          </Link>
           {LEGAL_FOOTER_LINKS.map((link) => {
             const className =
               "shrink-0 whitespace-nowrap rounded-md px-2 py-1 text-[11px] font-medium tracking-wide text-[var(--muted)] opacity-90 transition-opacity hover:opacity-100 hover:underline sm:px-2.5 sm:text-xs";

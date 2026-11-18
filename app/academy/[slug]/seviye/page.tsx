@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ExamStartGate } from "@/components/academy/exam-start-gate";
-import { ExemptionGuestCard } from "@/components/academy/exemption-guest-card";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { ACADEMY_EXAM_PASS_SCORE } from "@/lib/academy/exam";
 import { ACADEMY_EXAM_DURATION_MS } from "@/lib/academy/exam-duration";
@@ -24,7 +23,7 @@ export const metadata: Metadata = pageMetadata({
 
 /**
  * Ücretsiz seviye testi. Puanlama `off101-exemption` motorundadır.
- * Oturum yokken sonuç yazılmaz; kayıt dönüşü bu yola iner.
+ * Oturum yokken sınav çözülür ve puan ekranda kalır; mühür yazılmaz.
  */
 export default async function AcademyExemptionPage({
   params,
@@ -45,23 +44,20 @@ export default async function AcademyExemptionPage({
 
   return (
     <RoomFrame className="space-y-5">
-      <PageHeader eyebrow={copy.eyebrow} title={copy.guestTitle} description={copy.guestLead} />
-      {session ? (
-        <ExamStartGate
-          courseId={board.course.id}
-          courseTitle={board.course.title}
-          examTitle={OFF_101_EXEMPTION_ENTRY_LABEL}
-          passScore={ACADEMY_EXAM_PASS_SCORE}
-          durationMs={ACADEMY_EXAM_DURATION_MS}
-          holderName={holderName}
-          mode="exemption"
-        />
-      ) : (
-        <ExemptionGuestCard
-          registerHref={buildCitizenRegisterHref(OFF_101_EXEMPTION_PATH)}
-          loginHref={buildCitizenLoginHref(OFF_101_EXEMPTION_PATH)}
-        />
-      )}
+      <section className="rounded-2xl border border-blue-100 bg-gradient-to-br from-slate-50 via-blue-50/80 to-white p-6 shadow-sm">
+        <PageHeader eyebrow={copy.eyebrow} title={copy.guestTitle} description={copy.guestLead} />
+      </section>
+      <ExamStartGate
+        courseId={board.course.id}
+        courseTitle={board.course.title}
+        examTitle={OFF_101_EXEMPTION_ENTRY_LABEL}
+        passScore={ACADEMY_EXAM_PASS_SCORE}
+        durationMs={ACADEMY_EXAM_DURATION_MS}
+        holderName={holderName}
+        mode={session ? "exemption" : "exemption-guest"}
+        registerHref={buildCitizenRegisterHref(OFF_101_EXEMPTION_PATH)}
+        loginHref={buildCitizenLoginHref(OFF_101_EXEMPTION_PATH)}
+      />
     </RoomFrame>
   );
 }

@@ -3,23 +3,23 @@
 import Link from "next/link";
 import type { Route } from "next";
 import { usePathname } from "next/navigation";
-import { DronBayrakları, INDEPENDENT_ROOMS, type IndependentRoomId } from "@/lib/dronlar/kayit";
+import { DronBayrakları, DRON_KAYIT, type DronKayitId } from "@/lib/dronlar/kayit";
 import { ADMIN_SURFACE_PATH } from "@/lib/kernel/admin/types";
-import { COMMERCE_NAV, VERTICAL_ROOMS } from "@/lib/kernel/modules";
-import { isPhase1ShellNavRoom } from "@/lib/kernel/compliance/circuit-breakers";
+import { COMMERCE_NAV } from "@/lib/kernel/modules";
 import { isJuniorShellPath } from "@/lib/ui/junior-shell";
-import { ROOM_NAV_ACCENT } from "@/lib/ui/room-theme";
 import { cn } from "@/components/ui/cn";
 import { IconShield, ROOM_ICONS } from "@/components/ui/icons";
 
-const INDEPENDENT_NAV_ACCENT: Record<IndependentRoomId, string> = {
+const NAV_ACCENT: Partial<Record<DronKayitId | "magazam", string>> = {
+  dashboard: "bg-[var(--safir)] text-white",
+  career: "bg-[#1e3a5f] text-white",
   tezgah: "bg-[#5b4cdb] text-white",
   junior: "bg-[#0369a1] text-white",
-  young: "bg-[#4338ca] text-white",
-  yetkinhibe: "bg-[#854d0e] text-white",
+  yetkinhibe: "bg-gradient-to-br from-emerald-500 to-amber-500 text-white",
+  magazam: "bg-[#0f766e] text-white",
 };
 
-const COMMERCE_NAV_ACCENT = "bg-[#0f766e] text-white";
+const COMMERCE_NAV_ACCENT = NAV_ACCENT.magazam ?? "bg-[#0f766e] text-white";
 
 function NavLink({
   href,
@@ -29,6 +29,7 @@ function NavLink({
   icon: Icon,
   active,
   collapsed,
+  badge = false,
   onNavigate,
 }: {
   href: Route;
@@ -38,6 +39,7 @@ function NavLink({
   icon: (typeof ROOM_ICONS)[keyof typeof ROOM_ICONS];
   active: boolean;
   collapsed: boolean;
+  badge?: boolean;
   onNavigate?: () => void;
 }) {
   return (
@@ -56,11 +58,14 @@ function NavLink({
     >
       <span
         className={cn(
-          "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
-          active ? accent : "bg-white/5 text-white/70",
+          "relative inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
+          active ? accent : badge ? "bg-gradient-to-br from-emerald-500 to-amber-500 text-white" : "bg-white/5 text-white/70",
         )}
       >
         <Icon className="h-4 w-4" />
+        {badge ? (
+          <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-amber-300 ring-2 ring-emerald-700" />
+        ) : null}
       </span>
       <span className={cn("min-w-0 flex-1 overflow-hidden", collapsed && "sr-only")}>
         <span className="block truncate font-medium leading-snug">{label}</span>
@@ -92,27 +97,29 @@ export function SidebarNav({
   onNavigate?: () => void;
 }) {
   const pathname = usePathname();
-  const openIndependent = INDEPENDENT_ROOMS.filter((room) => !DronBayrakları.isKapali(room.id)).filter(
-    (room) => room.id !== "junior" || showJunior,
-  );
-  const tezgahFirst = openIndependent.filter((room) => room.id === "tezgah");
-  const otherIndependent = openIndependent.filter((room) => room.id !== "tezgah");
-  const adultRooms = [
-    ...tezgahFirst.map((room) => ({
-      ...room,
-      accent: INDEPENDENT_NAV_ACCENT[room.id],
-    })),
-    ...VERTICAL_ROOMS.filter((room) => isPhase1ShellNavRoom(room.id)).map((room) => ({
-      ...room,
-      accent: ROOM_NAV_ACCENT[room.id],
-    })),
-    ...otherIndependent.map((room) => ({
-      ...room,
-      accent: INDEPENDENT_NAV_ACCENT[room.id],
-    })),
-  ];
   const juniorShell = isJuniorShellPath(pathname);
-  const rooms = juniorShell ? adultRooms.filter((room) => room.id === "junior") : adultRooms;
+  const openRoom = (id: DronKayitId) => {
+    const row = DRON_KAYIT.find((room) => room.id === id);
+    if (!row || DronBayrakları.isKapali(row.id)) {
+      return null;
+    }
+    if (row.id === "junior" && !showJunior) {
+      return null;
+    }
+    return row;
+  };
+  const ordered = [
+    openRoom("dashboard"),
+    openRoom("yetkinhibe"),
+    openRoom("tezgah"),
+    openRoom("career"),
+    openRoom("junior"),
+  ].flatMap((room) => (room ? [room] : []));
+  const rooms = (juniorShell ? ordered.filter((room) => room.id === "junior") : ordered).map((room) => ({
+    ...room,
+    accent: NAV_ACCENT[room.id] ?? "bg-white/10 text-white",
+    badge: room.id === "yetkinhibe",
+  }));
 
   return (
     <nav className="flex h-full min-h-0 flex-col">
@@ -136,11 +143,12 @@ export function SidebarNav({
                 icon={ROOM_ICONS[room.id]}
                 active={isActive(pathname, room.path)}
                 collapsed={collapsed}
+                badge={room.badge}
                 onNavigate={onNavigate}
               />
             </li>
           );
-          if (juniorShell || room.id !== "tezgah") {
+          if (juniorShell || room.id !== "dashboard") {
             return [row];
           }
           const CommerceIcon = ROOM_ICONS.magazam;

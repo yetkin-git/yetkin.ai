@@ -31,6 +31,7 @@ export const HTTP_RATE_LIMITS = {
   authIp: { keyPrefix: "auth-ip", limit: 40, windowMs: TEN_MINUTES_MS },
   adminIp: { keyPrefix: "admin-ip", limit: 20, windowMs: TEN_MINUTES_MS },
   yetkinhibeMatchUser: { keyPrefix: "yetkinhibe-match-user", limit: 30, windowMs: TEN_MINUTES_MS },
+  tetkikPublicIp: { keyPrefix: "tetkik-public-ip", limit: 8, windowMs: TEN_MINUTES_MS },
 } as const;
 
 export const HTTP_RATE_LIMIT_ERROR = "Çok fazla istek. Biraz sonra yeniden dene.";

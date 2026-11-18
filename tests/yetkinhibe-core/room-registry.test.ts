@@ -31,11 +31,10 @@ describe("YetkinHibe oda sicili", () => {
   it("müstakil kapalı satır olarak kayıtlıdır; hop ve kamu vitrini yoktur", () => {
     const row = DRON_KAYIT.find((entry) => entry.id === "yetkinhibe");
     expect(row).toMatchObject({
-      path: "/yetkinhibe",
+      path: "/hibe",
       vitrin: false,
-      kapali: true,
+      kapali: false,
       hops: [],
-      bayrakEnv: ENV_KEY,
     });
     expect(INDEPENDENT_ROOMS.map((room) => room.id)).toContain("yetkinhibe");
     expect(VERTICAL_ROOMS.map((room) => room.id)).not.toContain("yetkinhibe");
@@ -47,18 +46,11 @@ describe("YetkinHibe oda sicili", () => {
     expect(DronBayrakları.isDonmus("yetkinhibe")).toBe(false);
   });
 
-  it("bayrak yokken kapalıdır; open ve closed değerleri kapıyı çevirir", () => {
-    expect(DronBayrakları.isKapali("yetkinhibe")).toBe(true);
-    process.env[ENV_KEY] = "open";
+  it("açık işletim sistemidir; eski donmuş /hibe yolu 410 yemez", () => {
     expect(DronBayrakları.isKapali("yetkinhibe")).toBe(false);
-    process.env[ENV_KEY] = "closed";
-    expect(DronBayrakları.isKapali("yetkinhibe")).toBe(true);
-  });
-
-  it("kapalıyken oda ve sihirbaz yolu kapalı yüzey yolu sayılır", () => {
-    expect(isFrozenShellPagePath("/yetkinhibe")).toBe(true);
+    expect(isFrozenShellPagePath("/hibe")).toBe(false);
+    expect(isFrozenShellPagePath("/hibe/arsiv")).toBe(false);
     const wizardPath = new URL(buildGrantWizardHref({ grantId: "g-1" }), "https://yetkin.ai").pathname;
     expect(wizardPath).toBe("/yetkinhibe/olustur");
-    expect(isFrozenShellPagePath(wizardPath)).toBe(true);
   });
 });

@@ -110,12 +110,14 @@ describe("proxy.ts kenar mühürleri", () => {
     expect(genelBakis.status).toBe(307);
     expect(genelBakis.headers.get("location")).toBe("http://localhost:3000/dashboard");
 
-    for (const path of ["/cuzdan", "/profil", "/pasaport", "/academy/certificates"]) {
+    for (const path of ["/cuzdan", "/profil", "/pasaport"]) {
       const response = await proxy(request(path));
       expect(response.status).toBe(307);
       expect(response.headers.get("location")).toBe(loginLocation(path));
       expectNonceCsp(response);
     }
+    const academyCertificates = await proxy(request("/academy/certificates"));
+    expect(academyCertificates.status).toBe(410);
     for (const path of ["/admin", "/admin/catalog"]) {
       const response = await proxy(request(path));
       expect(response.status).toBe(307);
@@ -161,7 +163,10 @@ describe("proxy.ts kenar mühürleri", () => {
     const html = await response.text();
     expect(html).toContain("Bu sayfa şu an kullanılmıyor.");
     expect(html).not.toContain("HTTP 410");
-    expect(html).toContain("Akademi");
+    expect(html).toContain("YetkinHibe");
+    expect(html).toContain("E-Ticaret");
+    expect(html).toContain("Kariyer");
+    expect(html).not.toContain(">Akademi<");
     expect(html).toContain("href=\"/\"");
     expectNonceCsp(response);
   });
@@ -403,10 +408,10 @@ describe("proxy.ts kenar mühürleri", () => {
 
     const certHash = "a".repeat(64);
     const certMissing = await proxy(request(`/api/v1/academy/certificates/${certHash}`));
-    expect(certMissing.status).toBe(400);
+    expect(certMissing.status).toBe(410);
     expect(await certMissing.json()).toMatchObject({
       ok: false,
-      error: "Sürüm başlığı gerekli.",
+      error: "Bu oda üretimde kapalı.",
       apiVersion: "1",
       data: null,
     });
@@ -416,11 +421,8 @@ describe("proxy.ts kenar mühürleri", () => {
         headers: { "x-rail-api-version": "1" },
       }),
     );
-    expect(certHop.status).toBe(200);
-    expect(certHop.headers.get("x-middleware-rewrite")).toBe(
-      `http://localhost:3000/api/academy/certificates/${certHash}`,
-    );
-    expect(certHop.headers.get("x-middleware-request-x-rail-api-version")).toBe("1");
+    expect(certHop.status).toBe(410);
+    expect(certHop.headers.get("x-middleware-rewrite")).toBeNull();
   });
 
   it("/api/v1 OPTIONS CORS yansıtır; joker yok; versiyonsuz CORS basmaz", async () => {

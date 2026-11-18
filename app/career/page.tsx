@@ -1,5 +1,8 @@
 import type { Metadata, Route } from "next";
 import { ActionPlanPanel } from "@/components/career/action-plan-panel";
+import { YetkinCvStation } from "@/components/career/yetkincv-station";
+import { CareerJobMatchPanel } from "@/components/career/job-match-panel";
+import { SwotRoadmapCard } from "@/components/career/swot-roadmap-card";
 import { CareerDeskBoard } from "@/components/career/desk-board";
 import { AiCareerStudio } from "@/components/career/ai-career-studio";
 import { MeritSealBand } from "@/components/career/merit-seal-band";
@@ -17,6 +20,12 @@ import {
   EMPTY_CAREER_ACTION_LIVE,
   type CareerActionStoreSignal,
 } from "@/lib/career/action-plan";
+import { loadCareerEvidence } from "@/lib/career/evidence";
+import { loadCareerJobMatchBoard } from "@/lib/career/job-match-load";
+import { UNREAD_CAREER_JOB_MATCH_BOARD, type CareerJobMatchBoard } from "@/lib/career/job-matcher";
+import { loadLatestYetkinCvCard } from "@/lib/career/yetkincv-store";
+import { buildCareerRoadmap } from "@/lib/career/roadmap";
+import { buildCareerSwot, type CareerEvidence } from "@/lib/career/swot";
 import { loadCareerDeskTasks } from "@/lib/career/desk-load";
 import { loadCareerBoard } from "@/lib/career/load";
 import type { LiveCareerBoard } from "@/lib/career/live";
@@ -36,16 +45,19 @@ import { LandingFaq } from "@/components/seo/landing-faq";
 import { faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
 import { CAREER_LANDING_FAQ } from "@/lib/copy/sem-keywords";
 
-const ACADEMY_CERTIFICATES_SURFACE_PATH = "/academy/certificates";
-
 export const metadata: Metadata = pageMetadata(PAGE_SEO.career);
 
-export default async function CareerPage() {
-  const session = await getSession();
+export default async function CareerPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ hedef?: string | string[] }>;
+}) {
+  const [session, query] = await Promise.all([getSession(), searchParams]);
   if (!session) {
     return <PublicCareerPanel plan={<ActionPlanPanel live={EMPTY_CAREER_ACTION_LIVE} />} />;
   }
-  return <SignedInCareerPage />;
+  const hedef = Array.isArray(query.hedef) ? query.hedef[0] : query.hedef;
+  return <SignedInCareerPage hedef={hedef ?? null} />;
 }
 
 async function loadCareerActionStores(userId: string): Promise<CareerActionStoreSignal[]> {
@@ -89,13 +101,42 @@ async function loadSignedInActionLive(userId: string, board: LiveCareerBoard | n
   });
 }
 
-async function SignedInCareerPage() {
+function coachTarget(board: CareerJobMatchBoard, hedef: string | null) {
+  if (!hedef || board.state !== "matches") {
+    return null;
+  }
+  const card = board.cards.find((row) => row.kind === "coach" && row.slug === hedef);
+  return card?.kind === "coach" ? card : null;
+}
+
+function careerPlan(evidence: CareerEvidence | null, board: CareerJobMatchBoard, hedef: string | null) {
+  const target = coachTarget(board, hedef);
+  const roadmap = target ? target.roadmap : evidence ? buildCareerRoadmap(evidence) : null;
+  if (!roadmap) {
+    return null;
+  }
+  const planNote = target
+    ? `${target.gapLine} Plan, ${target.companyName} — ${target.title} ilanına göre yazıldı.`
+    : null;
+  return (
+    <SwotRoadmapCard
+      swot={evidence ? buildCareerSwot(evidence) : null}
+      roadmap={roadmap}
+      planNote={planNote}
+    />
+  );
+}
+
+async function SignedInCareerPage({ hedef }: { hedef: string | null }) {
   const session = await requirePageSession();
-  const [board, deskTasks] = await Promise.all([
+  const [board, deskTasks, yetkinCard, matchBoard] = await Promise.all([
     loadCareerBoard(session.id),
     loadCareerDeskTasks(session.id),
+    loadLatestYetkinCvCard(session.id).catch(() => null),
+    loadCareerJobMatchBoard(session.id).catch(() => UNREAD_CAREER_JOB_MATCH_BOARD),
   ]);
   const actionLive = await loadSignedInActionLive(session.id, board);
+  const evidence = await loadCareerEvidence(session.id).catch(() => null);
   const stamps = board?.stamps ?? [];
   const portfolio = board?.portfolio ?? [];
   const copy = SEN_VOICE.career;
@@ -132,8 +173,8 @@ async function SignedInCareerPage() {
             <LinkButton href={PASSPORT_SURFACE_PATH} variant="secondary" size="sm">
               {copy.passportCta}
             </LinkButton>
-            <LinkButton href={ACADEMY_CERTIFICATES_SURFACE_PATH} variant="outline" size="sm">
-              {copy.certificatesCta}
+            <LinkButton href="/tezgah" variant="outline" size="sm">
+              {copy.footnoteAcademyCta}
             </LinkButton>
             {isFreelancerPublicSurfaceLocked() ? null : (
               <LinkButton href={FREELANCER_STAMP_SURFACE_PATH} variant="outline" size="sm">
@@ -146,11 +187,14 @@ async function SignedInCareerPage() {
       {board === null ? (
         <p className="text-sm text-[var(--muted)]">{copy.loadSoft}</p>
       ) : null}
+      <YetkinCvStation signedIn initialCard={yetkinCard} />
       <MeritSealBand
         stamps={stamps}
         proofCount={portfolio.length}
         publicTalentHref={publicTalentHref}
       />
+      <CareerJobMatchPanel board={matchBoard} activeSlug={coachTarget(matchBoard, hedef)?.slug ?? null} />
+      {careerPlan(evidence, matchBoard, hedef)}
       <CareerDeskBoard tasks={deskTasks} />
       <AiCareerStudio verifiedBadges={verifiedBadges} />
       <div className="flex flex-wrap gap-2">
@@ -166,11 +210,17 @@ async function SignedInCareerPage() {
           <LinkButton href={PASSPORT_SURFACE_PATH} variant="secondary" size="sm">
             {copy.footnotePassportCta}
           </LinkButton>
-          <LinkButton href="/academy/dogrula" variant="outline" size="sm">
+          <LinkButton href="/vize" variant="outline" size="sm">
             {copy.footnoteVerifyCta}
           </LinkButton>
-          <LinkButton href="/academy" variant="outline" size="sm">
+          <LinkButton href="/tezgah" variant="outline" size="sm">
             {copy.footnoteAcademyCta}
+          </LinkButton>
+          <LinkButton href="/e-ticaret" variant="outline" size="sm">
+            E-ticaret
+          </LinkButton>
+          <LinkButton href="/hibe" variant="outline" size="sm">
+            YetkinHibe
           </LinkButton>
         </div>
       </Card>

@@ -1,0 +1,75 @@
+// AI Tezgâh üretim arşivi. Bu tabloda para yoktur.
+// Günlük kota, abonelik ve kredi sayacı ayrı tablolardadır.
+// Kredi sayacı ikinci cüzdan değildir; tahsilat defter DEBIT satırındadır.
+// Oturumlu kullanıcının kendi satırı. Misafir üretimi buraya düşmez.
+
+model TezgahOutput {
+  id            String   @id @default(cuid())
+  userId        String   @map("user_id")
+  toolKey       String   @map("tool_key") @db.VarChar(40)
+  title         String   @db.VarChar(160)
+  inputSummary  String   @map("input_summary") @db.VarChar(500)
+  outputContent String   @map("output_content") @db.Text
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("tezgah_outputs")
+}
+
+/// Anonim, deterministik tetkik anlık görüntüsü. Üye yoktur. LLM metni yazılmaz.
+/// Paylaşım anahtarı tahmin edilemez. PostgREST okuması kapalıdır; sayfa Prisma'dan okur.
+model TetkikReport {
+  id          String   @id
+  host        String   @db.VarChar(253)
+  url         String   @db.VarChar(500)
+  score       Int
+  payloadJson String   @map("payload_json") @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([createdAt])
+  @@map("tetkik_reports")
+}
+
+/// Günlük üretim sayacı. Misafir anahtarı IP kovasıdır; üye anahtarı kullanıcı kimliğidir.
+/// Para, cüzdan ve defter bu tabloda yoktur. PostgREST okuması kapalıdır.
+model TezgahDailyQuota {
+  dateKey    String   @map("date_key") @db.VarChar(10)
+  subjectKey String   @map("subject_key") @db.VarChar(180)
+  usedCount  Int      @default(0) @map("used_count")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@id([dateKey, subjectKey])
+  @@map("tezgah_daily_quotas")
+}
+
+/// Tezgâh Pro süresi. Tutar katalog anlık görüntüsüdür; bakiye değildir.
+/// Açılış, CLEARED siparişin defter DEBIT'inden sonra yazılır.
+model TezgahSubscription {
+  userId              String    @id @map("user_id")
+  status              String    @db.VarChar(16)
+  listPriceMinor      Int       @map("list_price_minor")
+  expiresAt           DateTime? @map("expires_at")
+  appliedMerchantOids String    @default("") @map("applied_merchant_oids") @db.Text
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("tezgah_subscriptions")
+}
+
+/// Önceden alınan üretim hakkı sayısı. Para birimi değildir.
+/// Her harcama `tezgah.generate` rezervi ve defter DEBIT ile düşer.
+model TezgahCreditBalance {
+  userId              String   @id @map("user_id")
+  remaining           Int      @default(0)
+  unitMinor           Int      @default(0) @map("unit_minor")
+  appliedMerchantOids String   @default("") @map("applied_merchant_oids") @db.Text
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("tezgah_credit_balances")
+}

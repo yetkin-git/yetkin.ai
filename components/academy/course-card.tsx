@@ -1,8 +1,8 @@
 "use client";
 
 import type { Route } from "next";
-import { formatMinorCompact } from "@/lib/kernel/money/format";
 import { BeginCheckoutLink } from "@/components/academy/begin-checkout-link";
+import { LinkButton } from "@/components/ui/link-button";
 import type { AcademyCourseWithPrice } from "@/lib/academy/types";
 import { ListingCard } from "@/components/showcase/listing-card";
 import { IconBook, IconHeart, IconVolume } from "@/components/ui/icons";
@@ -25,9 +25,57 @@ import {
   ACADEMY_OFF201_STOREFRONT_SLUG,
   academyCourseHasSealedAudio,
   academyMediaSealedLessonKeys,
+  isAcademyVitrineShellSkuSlug,
 } from "@/lib/academy/pilot-sku";
 import { OFF_101_EXEMPTION_PATH } from "@/lib/academy/off101-exemption";
+import {
+  academyShowcasePrice,
+  PUBLIC_PRICE_PREPARING_LABEL,
+} from "@/lib/pricing/showcase-price";
 import { cn } from "@/components/ui/cn";
+
+function academyTrackTone(slug: string): { label: string; border: string; badge: string } {
+  if (slug.startsWith("01_office")) {
+    return {
+      label: "Ofis",
+      border: "!border-t-4 !border-t-blue-600",
+      badge: "bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-100",
+    };
+  }
+  if (slug.startsWith("02_ecommerce")) {
+    return {
+      label: "E-Ticaret",
+      border: "!border-t-4 !border-t-orange-500",
+      badge: "bg-orange-50 text-orange-700 ring-1 ring-inset ring-orange-100",
+    };
+  }
+  if (slug.startsWith("03_social")) {
+    return {
+      label: "Sosyal Medya",
+      border: "!border-t-4 !border-t-fuchsia-500",
+      badge: "bg-fuchsia-50 text-fuchsia-700 ring-1 ring-inset ring-fuchsia-100",
+    };
+  }
+  if (slug.startsWith("04_chatbot")) {
+    return {
+      label: "Chatbot",
+      border: "!border-t-4 !border-t-emerald-500",
+      badge: "bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-100",
+    };
+  }
+  if (slug.startsWith("05_prompt")) {
+    return {
+      label: "Prompt",
+      border: "!border-t-4 !border-t-indigo-500",
+      badge: "bg-indigo-50 text-indigo-700 ring-1 ring-inset ring-indigo-100",
+    };
+  }
+  return {
+    label: "Uzmanlık",
+    border: "!border-t-4 !border-t-slate-400",
+    badge: "bg-slate-100 text-slate-700 ring-1 ring-inset ring-slate-200",
+  };
+}
 
 export type CourseCardSurface = "catalog" | "library";
 
@@ -76,17 +124,22 @@ export function CourseCard({
     : levelLabel
       ? ACADEMY_SEN.catalog.badgeLevel(levelLabel)
       : undefined;
-  const moneyLabel = course.priceMinor
-    ? formatMinorCompact(course.priceMinor, course.currencyCode)
-    : ACADEMY_SEN.catalog.priceMissing;
-  const comingSoon = academyCourseIsComingSoon(course.slug);
+  const showcase = academyShowcasePrice({
+    slug: course.slug,
+    catalogAmountMinor: course.priceMinor,
+    isPublished: course.isPublished,
+  });
+  const moneyLabel =
+    showcase.honesty === "live" ? showcase.label : ACADEMY_SEN.catalog.priceMissing;
+  const freeGuide = isAcademyVitrineShellSkuSlug(course.slug);
+  const comingSoon = !freeGuide && academyCourseIsComingSoon(course.slug);
   const unpublished = !comingSoon && !course.isPublished;
   const saleClosed = !comingSoon && !unpublished && !owned && !course.purchasable;
   const storefront = resolveAcademyCatalogCardCta({
     slug: course.slug,
     owned,
     learnerStatus,
-    priceLabel: course.priceMinor ? moneyLabel : null,
+    priceLabel: showcase.honesty === "live" ? moneyLabel : null,
     purchasable: comingSoon || unpublished ? undefined : course.purchasable,
     isPublished: comingSoon ? undefined : course.isPublished,
     saleHold,
@@ -176,6 +229,12 @@ export function CourseCard({
         : hasAudio
           ? narrationMeta
           : ACADEMY_SEN.catalog.articleBadgeHint;
+  const track = academyTrackTone(course.slug);
+  const priceBadgeText = freeGuide
+    ? null
+    : showcase.honesty === "planned"
+      ? PUBLIC_PRICE_PREPARING_LABEL
+      : storefront.priceLabel || null;
   const favoriteButton =
     !isLibrary && onToggleFavorite ? (
       <button
@@ -197,12 +256,20 @@ export function CourseCard({
         <IconHeart filled={favorited} className="h-3.5 w-3.5" />
       </button>
     ) : null;
-  const chrome = audioBadge || favoriteButton ? (
+  const chrome = (
     <>
+      <span className={cn("inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[10px] font-semibold", track.badge)}>
+        {track.label}
+      </span>
+      {priceBadgeText ? (
+        <span className="inline-flex shrink-0 items-center rounded-full bg-slate-900 px-2.5 py-0.5 text-[11px] font-bold tracking-tight text-white shadow-sm">
+          {priceBadgeText}
+        </span>
+      ) : null}
       {audioBadge}
       {favoriteButton}
     </>
-  ) : null;
+  );
 
   return (
     <ListingCard
@@ -219,14 +286,24 @@ export function CourseCard({
       }
       hold={!owned && storefront.ctaDisabled ? saleHold : null}
       summaryClamp={featured ? 3 : 2}
-      price={storefront.priceLabel}
-      priceCaption={storefront.priceCaption ?? undefined}
+      price={
+        freeGuide
+          ? undefined
+          : showcase.honesty === "planned"
+            ? PUBLIC_PRICE_PREPARING_LABEL
+            : storefront.priceLabel
+      }
+      priceCaption={freeGuide ? undefined : (storefront.priceCaption ?? undefined)}
       badge={
-        unpublished
-          ? ACADEMY_SEN.catalog.unpublishedBadge
-          : saleClosed
-            ? ACADEMY_SEN.catalog.pricePending
-            : (statusBadge ?? (comingSoon ? undefined : ACADEMY_SEN.catalog.liveBadge))
+        freeGuide
+          ? ACADEMY_SEN.catalog.freeGuideBadge
+          : showcase.honesty === "planned"
+            ? PUBLIC_PRICE_PREPARING_LABEL
+            : unpublished
+              ? ACADEMY_SEN.catalog.unpublishedBadge
+              : saleClosed
+                ? ACADEMY_SEN.catalog.pricePending
+                : (statusBadge ?? (comingSoon ? undefined : ACADEMY_SEN.catalog.liveBadge))
       }
       lockLabel={undefined}
       meta={cardMeta}
@@ -235,7 +312,17 @@ export function CourseCard({
       navigateWhenDisabled={course.isPublished || !storefront.ctaDisabled}
       cardVariant={isLibrary ? "default" : "glass"}
       ctaSlot={
-        separateBuy && purchaseHref ? (
+        freeGuide ? (
+          <LinkButton
+            href={coursePlayerHref as Route}
+            size="md"
+            variant="primary"
+            className="pointer-events-auto relative z-10 h-auto min-h-10 w-full whitespace-normal px-3 py-2 text-center leading-5"
+            data-academy-catalog-cta=""
+          >
+            {storefront.cta}
+          </LinkButton>
+        ) : separateBuy && purchaseHref ? (
           <BeginCheckoutLink
             href={purchaseHref as Route}
             size="md"
@@ -253,16 +340,18 @@ export function CourseCard({
       }
       secondaryHref={storefront.secondaryHref || undefined}
       secondaryCta={storefront.secondaryCta || undefined}
-      tertiaryHref={!isLibrary ? OFF_101_EXEMPTION_PATH : undefined}
-      tertiaryCta={!isLibrary ? ACADEMY_SEN.exemption.cta : undefined}
-      ctaDisabled={storefront.ctaDisabled}
+      tertiaryHref={!isLibrary && !freeGuide ? OFF_101_EXEMPTION_PATH : undefined}
+      tertiaryCta={!isLibrary && !freeGuide ? ACADEMY_SEN.exemption.cta : undefined}
+      ctaDisabled={freeGuide ? false : storefront.ctaDisabled}
       ctaSize="md"
       ctaVariant={
-        storefront.ctaDisabled || comingSoon || unpublished
-          ? "outline"
-          : owned
-            ? "success"
-            : "primary"
+        freeGuide
+          ? "primary"
+          : storefront.ctaDisabled || comingSoon || unpublished
+            ? "outline"
+            : owned
+              ? "success"
+              : "primary"
       }
       coverSrc={cinemaCover}
       coverAlt={`${displayTitle} eğitim kapağı`}
@@ -276,7 +365,8 @@ export function CourseCard({
       hitAriaExtra={hitAriaExtra}
       footerLayout="stack"
       className={cn(
-        "flex h-full min-w-0 flex-col",
+        "flex h-full min-w-0 flex-col overflow-hidden",
+        track.border,
         featured && "ring-1 ring-[color-mix(in_srgb,var(--safir)_42%,transparent)]",
       )}
     />

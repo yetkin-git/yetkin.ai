@@ -131,15 +131,21 @@ describe("korumalı yazma yolları", () => {
     expect(isProtectedCitizenPath("/career/ek")).toBe(true);
     expect(isProtectedCitizenPath("/academy")).toBe(false);
     expect(isProtectedCitizenPath("/academy/dogrula")).toBe(false);
-    expect(decideEdgeAction("/academy/python-temel/oyna", false).kind).toBe("auth-307");
-    expect(decideEdgeAction("/academy/01_office_ai/oyna", false).kind).toBe("next");
-    expect(decideEdgeAction("/academy/03_social_media_ai/oyna", false).kind).toBe("next");
-    expect(decideEdgeAction("/academy/04_chatbot_nocode/oyna", false).kind).toBe("next");
-    expect(decideEdgeAction("/academy/05_prompt_practice/oyna", false).kind).toBe("next");
-    expect(decideEdgeAction("/academy/certificates", false).kind).toBe("auth-307");
+    expect(decideEdgeAction("/academy/python-temel/oyna", false).kind).toBe("frozen-410");
+    expect(decideEdgeAction("/academy/01_office_ai/oyna", false).kind).toBe("frozen-410");
+    expect(decideEdgeAction("/academy/03_social_media_ai/oyna", false).kind).toBe("frozen-410");
+    expect(decideEdgeAction("/academy/04_chatbot_nocode/oyna", false).kind).toBe("frozen-410");
+    expect(decideEdgeAction("/academy/05_prompt_practice/oyna", false).kind).toBe("frozen-410");
+    expect(decideEdgeAction("/academy/certificates", false).kind).toBe("frozen-410");
     expect(decideEdgeAction("/career", false).kind).toBe("next");
-    expect(decideEdgeAction("/academy/python-temel", false).kind).toBe("next");
-    expect(decideEdgeAction("/academy/dogrula", false).kind).toBe("next");
+    expect(decideEdgeAction("/academy/python-temel", false).kind).toBe("frozen-410");
+    expect(decideEdgeAction("/academy/dogrula", false).kind).toBe("frozen-410");
+    expect(decideEdgeAction("/academy/dogrula/gecersiz", false).kind).toBe("frozen-410");
+    const hash = "ab".repeat(32);
+    expect(decideEdgeAction(`/academy/dogrula/${hash}`, false)).toEqual({
+      kind: "verify-301",
+      to: `/vize/${hash}`,
+    });
     expect(decideEdgeAction("/vize", false).kind).toBe("next");
     expect(decideEdgeAction("/vize/stamp_1", false).kind).toBe("next");
     expect(decideEdgeAction("/p/stamp_1", false).kind).toBe("next");
@@ -154,7 +160,7 @@ describe("kenar kararları", () => {
     // P1 tedavi: kök 308 kilidi kalktı; `/` markayı anlatan indeksli iniş sayfasıdır.
     expect(decideEdgeAction("/", false)).toEqual({ kind: "next" });
     expect(decideEdgeAction("/", true)).toEqual({ kind: "next" });
-    expect(decideEdgeAction("/academy", false)).toEqual({ kind: "next" });
+    expect(decideEdgeAction("/academy", false)).toEqual({ kind: "frozen-410" });
     expect(decideEdgeAction("/dashboard", false)).toEqual({ kind: "next" });
     expect(VERTICAL_ROOMS.find((room) => room.id === "dashboard")?.label).toBe("Genel Bakış");
     expect(VERTICAL_ROOMS.find((room) => room.id === "dashboard")?.label).not.toBe("Anasayfa");
@@ -188,7 +194,7 @@ describe("kenar kararları", () => {
     });
     expect(decideEdgeAction("/pasaport/vize", false).kind).toBe("auth-307");
     expect(decideEdgeAction("/dashboard", true)).toEqual({ kind: "next" });
-    expect(decideEdgeAction("/academy", false)).toEqual({ kind: "next" });
+    expect(decideEdgeAction("/academy", false)).toEqual({ kind: "frozen-410" });
     expect(decideEdgeAction("/freelancer/new", false).kind).toBe("frozen-410");
     expect(decideEdgeAction("/studio", false).kind).toBe("frozen-410");
     expect(decideEdgeAction("/studio", true).kind).toBe("frozen-410");

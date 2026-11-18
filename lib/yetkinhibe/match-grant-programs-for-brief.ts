@@ -121,7 +121,10 @@ function amountsSafe(call: GrantBriefCall): boolean {
   );
 }
 
-function evaluate(brief: GrantProgramBrief, eligibility: GrantEligibilityCriteria): GrantBriefCriterion[] | null {
+export function grantBriefCriteria(
+  brief: GrantProgramBrief,
+  eligibility: GrantEligibilityCriteria,
+): GrantBriefCriterion[] {
   const sectorCodes = eligibility.eligibleSectorCodes;
   const sectorUnconstrained = sectorCodes == null;
   const sectorCode = sectorCodeForNace(brief.naceGroup);
@@ -212,6 +215,11 @@ function evaluate(brief: GrantProgramBrief, eligibility: GrantEligibilityCriteri
     },
   ];
 
+  return criteria;
+}
+
+function evaluate(brief: GrantProgramBrief, eligibility: GrantEligibilityCriteria): GrantBriefCriterion[] | null {
+  const criteria = grantBriefCriteria(brief, eligibility);
   if (criteria.some((row) => !row.passed)) {
     return null;
   }

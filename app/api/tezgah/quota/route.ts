@@ -13,13 +13,15 @@ export async function GET(request: Request) {
   try {
     const user = await requireSession(request).catch(() => null);
     const actor = assistantActorId(user?.id, resolveRequestIp(request));
-    const quota = peekTezgahQuota(actor.userId, actor.guest);
+    const quota = await peekTezgahQuota(actor.userId, actor.guest);
     return jsonOk(
       {
         remaining: quota.remaining,
         limit: quota.limit,
         used: quota.used,
         guest: quota.guest,
+        lane: quota.lane,
+        paywall: quota.paywall,
       },
       200,
       requestId,

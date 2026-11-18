@@ -64,7 +64,7 @@ const FAQ = {
   prompt: {
     question: "Prompt eğitimi hangi kursta?",
     answer:
-      "Prompt eğitimi Akademi vitrininde yayındadır. İlk ders ücretsiz izlenir. Sonraki dersler lisans ister.",
+      "Prompt rehberi Akademi vitrininde yayındadır. İlk ders ücretsiz izlenir. Diğer dersler ücretsiz kayıtla açılır.",
   },
   online: {
     question: "Online kurs mobilde işler mi?",
@@ -94,10 +94,28 @@ export const ACADEMY_LANDING_FAQ: readonly LandingFaqItem[] = [
   FAQ.online,
 ];
 
+const YETKINCV_FAQ = {
+  score: {
+    question: "YetkinCV puanı nasıl oluşur?",
+    answer:
+      "CV özetini yapıştırır, seçtiğin uzmanlıkta uygulamalı vaka testini çözersin. Puan 0–100 sunucuda hesaplanır. SHA-256 doğrulama kodu bu sonuçtan türer. Satın alma tek başına puan basmaz. İşe yerleşmeyi garanti etmez.",
+  },
+  verify: {
+    question: "İşveren YetkinCV puanını nasıl doğrular?",
+    answer:
+      "Paylaştığın /vize bağını açar. Sicilde kayıt varsa skor, beceri kırılımı ve SHA-256 kodu görünür. Sahte ilan veya sahte şirket logosu bu kartta yoktur.",
+  },
+  practice: {
+    question: "YetkinCV puanını nasıl yükseltirim?",
+    answer:
+      "30/60/90 planı pratik vakayı AI Tezgâh, e-ticaret kokpiti ve YetkinHibe üzerine yazar.",
+  },
+} as const satisfies Record<string, LandingFaqItem>;
+
 export const CAREER_LANDING_FAQ: readonly LandingFaqItem[] = [
-  FAQ.visa,
-  FAQ.certificate,
-  FAQ.aiTraining,
+  YETKINCV_FAQ.score,
+  YETKINCV_FAQ.verify,
+  YETKINCV_FAQ.practice,
 ];
 
 export const VIZE_LANDING_FAQ: readonly LandingFaqItem[] = [FAQ.visa, FAQ.certificate];

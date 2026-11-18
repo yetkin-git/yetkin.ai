@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/link-button";
+import { PublicHero } from "@/components/ui/public-hero";
 import { LegalEntityColophon, LegalHonestyCard, LegalSupportEmailLine } from "@/components/legal/legal-section-articles";
 import {
   LEGAL_ABOUT_LEAD,
@@ -20,9 +20,7 @@ export default function AboutPage() {
   return (
     <main className="relative mx-auto max-w-3xl px-6 pb-20 pt-16">
       <div className="relative space-y-6">
-        <Badge tone="safir">{LEGAL_ABOUT_TITLE}</Badge>
-        <h1 className="text-3xl font-semibold tracking-tight">{LEGAL_ABOUT_TITLE}</h1>
-        <p className="text-xs text-[var(--muted)]">{LEGAL_UPDATED_LABEL}</p>
+        <PublicHero eyebrow={LEGAL_ABOUT_TITLE} title={LEGAL_ABOUT_TITLE} description={LEGAL_UPDATED_LABEL} />
         <LegalHonestyCard />
         <Card title="Kurumsal kimlik">
           <p className="text-base leading-relaxed text-slate-700">{LEGAL_ABOUT_LEAD}</p>

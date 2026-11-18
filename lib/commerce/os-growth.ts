@@ -27,12 +27,11 @@ export function adPackageHref(input: {
 
 export function grantDossierHref(storeName: string): string {
   const params = new URLSearchParams({
-    tool: "hibe",
-    businessName: storeName.trim().slice(0, 80),
-    audience: "mevcut_kobi",
-    investmentFocus: "ihracat",
+    sekme: "proje",
+    ad: storeName.trim().slice(0, 80),
+    yatirim: "ihracat",
   });
-  return `/tezgah?${params.toString()}`;
+  return `/hibe?${params.toString()}`;
 }
 
 export type ExportSupportSummary = {

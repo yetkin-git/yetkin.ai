@@ -110,7 +110,7 @@ export async function runCareerCoach(
         billing: {
           userId: input.userId,
           source: AI_TOKEN_SOURCES.CAREER,
-          recordUsage: false,
+          recordUsage: true,
         },
       },
       deps,
@@ -159,7 +159,7 @@ export async function runCareerCoach(
       billing: {
         userId: input.userId,
         source: AI_TOKEN_SOURCES.CAREER,
-        recordUsage: false,
+        recordUsage: true,
       },
     },
     deps,

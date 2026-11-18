@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { JuniorLessonHeaderNav } from "@/components/junior/lesson-header-nav";
 import { HeaderBreadcrumb } from "@/components/shell/header-breadcrumb";
@@ -62,6 +63,24 @@ export function HeaderBar({
           data-shell-header-actions=""
         >
           {lessonKey ? <JuniorLessonHeaderNav lessonKey={lessonKey} /> : <NavHistoryControls />}
+          <Link
+            href="/uzmanlar"
+            className="inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
+          >
+            Uzmanlar
+          </Link>
+          <Link
+            href="/kurumsal"
+            className="inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
+          >
+            Kurumsal
+          </Link>
+          <Link
+            href="/fiyatlandirma"
+            className="inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
+          >
+            Fiyatlar
+          </Link>
           {userCluster}
         </div>
       </div>

@@ -94,9 +94,10 @@ export type CareerActionPlan = {
   steps: readonly [CareerActionStep, CareerActionStep, CareerActionStep, CareerActionStep];
 };
 
-const LEVEL_TEST_HREF = "/academy/01_office_ai/seviye" as const;
-const ACADEMY_HOME = "/academy" as const;
-const EXAM_HASH = "academy-exam-gate";
+const LEVEL_TEST_HREF = "/tezgah" as const;
+const ACADEMY_HOME = "/tezgah" as const;
+const HIBE_HOME = "/hibe" as const;
+const COMMERCE_HOME = "/e-ticaret" as const;
 const STORE_SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const LESSON_KEY_RE = /^[A-Za-z0-9_-]{1,40}$/;
 const PUBLIC_CARD_RE = /^\/vize\/[A-Za-z0-9_-]{6,64}$/;
@@ -184,16 +185,23 @@ function plainLabel(value: string | null | undefined): string | null {
   return text;
 }
 
+function operatingHref(slug: string): string {
+  if (slug === "02_ecommerce_ai") {
+    return COMMERCE_HOME;
+  }
+  return ACADEMY_HOME;
+}
+
 function playHref(slug: string): string {
-  return `/academy/${slug}/oyna`;
+  return operatingHref(slug);
 }
 
 function courseHref(slug: string): string {
-  return `/academy/${slug}`;
+  return operatingHref(slug);
 }
 
 function examHref(slug: string): string {
-  return `/academy/${slug}?gate=exam#${EXAM_HASH}`;
+  return operatingHref(slug);
 }
 
 function toolHref(id: TezgahToolId): string {
@@ -219,7 +227,7 @@ function focusForSlug(slug: string): CareerActionFocus | null {
 }
 
 export function isClosedCareerActionHref(href: string): boolean {
-  if (href === ACADEMY_HOME || href === LEVEL_TEST_HREF) {
+  if (href === ACADEMY_HOME || href === LEVEL_TEST_HREF || href === HIBE_HOME || href === COMMERCE_HOME) {
     return true;
   }
   const play = /^\/academy\/([a-z0-9_]+)\/oyna$/.exec(href);
@@ -379,10 +387,10 @@ function week1(live: CareerActionLive, focus: CareerActionFocus): Omit<CareerAct
   }
   if (focus === "grant") {
     return {
-      title: "Eğitim yolu",
-      body: "Katalogdan proje ve prompt yolunu aç. Dersler bitince sınav kapısı açılır.",
-      href: ACADEMY_HOME,
-      cta: "Eğitimi aç",
+      title: "Hibe dosyası",
+      body: "YetkinHibe uygunluk ve proje dosyasını açar. Resmî onay değildir.",
+      href: HIBE_HOME,
+      cta: "YetkinHibe’yi aç",
     };
   }
   const slug = FOCUS_COURSE[focus] ?? "01_office_ai";
@@ -426,7 +434,7 @@ function week3(live: CareerActionLive, focus: CareerActionFocus): Omit<CareerAct
   const slug = examSlug(live, focus);
   return {
     title: "Sınav kapısı",
-    body: "8 ders bitince sınav bu eğitimde açılır. Baraj 70. Satın alma tek başına rozet basmaz.",
+    body: "YetkinCV vaka testi bu odakta çözülür. Baraj 70. Satın alma tek başına rozet basmaz. Pratik çıktı Tezgâh, e-ticaret veya YetkinHibe üzerindedir.",
     href: sealHref(examHref(slug)),
     cta: "Sınav kapısını aç",
   };

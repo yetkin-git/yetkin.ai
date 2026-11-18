@@ -35,9 +35,9 @@ export function NextBestActionCard() {
   const personalized = nextBestCopy(action.kind, copy);
 
   return (
-    <Card variant="featured" className="!px-4 !py-3" bodyClassName="text-[var(--foreground)]">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
-        <div className="min-w-0 space-y-1">
+    <Card variant="featured" className="!px-3 !py-2" bodyClassName="text-[var(--foreground)]">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+        <div className="min-w-0 space-y-0.5">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--safir-deep)]">
             {copy.nextBestAction.eyebrow}
           </p>

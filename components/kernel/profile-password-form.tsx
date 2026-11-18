@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { IconArrow, IconLock } from "@/components/ui/icons";
 import { PasswordInput } from "@/components/auth/password-input";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { CITIZEN_PASSWORD_MIN_LENGTH } from "@/lib/kernel/auth/password";
@@ -66,10 +67,11 @@ export function ProfilePasswordForm() {
 
   return (
     <Card title={copy.title} eyebrow={copy.eyebrow}>
-      <p className="mb-4 text-sm text-[var(--muted)]">{copy.intro}</p>
-      <form onSubmit={onSubmit} className="space-y-3">
+      <p className="mb-4 border-l-4 border-amber-400 pl-3 text-sm text-[var(--muted)]">{copy.intro}</p>
+      <form onSubmit={onSubmit} className="grid grid-cols-1 gap-3 md:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium" htmlFor="profile-new-password">
+          <label className="inline-flex items-center gap-1.5 text-sm font-medium" htmlFor="profile-new-password">
+            <IconLock className="h-3.5 w-3.5 text-blue-600" />
             {copy.newPassword}
           </label>
           <PasswordInput
@@ -100,15 +102,18 @@ export function ProfilePasswordForm() {
             onRevealedChange={setRevealed}
           />
         </div>
-        {error ? <p className="text-sm text-[var(--rose)]">{error}</p> : null}
+        {error ? <p className="text-sm text-[var(--rose)] md:col-span-2">{error}</p> : null}
         {message ? (
-          <p className="text-sm text-[var(--safir)]" role="status">
+          <p className="text-sm text-[var(--safir)] md:col-span-2" role="status">
             {message}
           </p>
         ) : null}
-        <Button type="submit" size="sm" disabled={pending}>
-          {pending ? copy.pending : copy.submit}
-        </Button>
+        <div className="md:col-span-2">
+          <Button type="submit" size="sm" disabled={pending}>
+            {pending ? copy.pending : copy.submit}
+            <IconArrow className="h-3.5 w-3.5" />
+          </Button>
+        </div>
       </form>
     </Card>
   );

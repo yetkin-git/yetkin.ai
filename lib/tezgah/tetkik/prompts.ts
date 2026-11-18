@@ -39,12 +39,14 @@ export function tetkikUserPrompt(input: {
   actionTitle: string;
   actionBody: string;
 }): string {
+  const business = clip(input.businessName, 80);
+  const freelancer = clip(input.freelancerName, 80);
   return JSON.stringify({
     skor: `${input.score}/100`,
     adres: clip(input.url, 300),
-    isletme: clip(input.businessName, 80),
-    freelancer: clip(input.freelancerName, 80),
-    ajans: input.agencyName ? clip(input.agencyName, 80) : "",
+    ...(business ? { isletme: business } : {}),
+    ...(freelancer ? { freelancer } : {}),
+    ...(input.agencyName ? { ajans: clip(input.agencyName, 80) } : {}),
     sayfaBasligi: clip(input.pageTitle, 120),
     ilkBaytMs: input.ttfbMs,
     htmlBayt: input.htmlBytes,

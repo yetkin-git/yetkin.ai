@@ -37,6 +37,7 @@ export function CourseHeroActions({
   previewHref = null,
   catalogHref,
   catalogLabel,
+  tone = "default",
 }: {
   priceLabel: string;
   level: AcademyCourseLevel | null;
@@ -63,6 +64,8 @@ export function CourseHeroActions({
   previewHref?: string | null;
   catalogHref: Route;
   catalogLabel: string;
+  /** Koyu vitrin bandında fiyat ve alt yazı açık renkte kalır. */
+  tone?: "default" | "ink";
 }) {
   const identity = ACADEMY_SEN.catalog.heroLevelIdentity(level, moduleCode);
   const buyPriced = primaryAction === "buy";
@@ -158,7 +161,11 @@ export function CourseHeroActions({
       <div className="flex w-full min-w-[12rem] flex-col gap-2 sm:w-max sm:shrink-0">
         {buyPriced && priceLabel ? (
           <p
-            className="text-left text-2xl font-semibold tabular-nums tracking-tight text-[var(--foreground)] sm:text-right"
+            className={
+              tone === "ink"
+                ? "text-left text-2xl font-semibold tabular-nums tracking-tight text-white sm:text-right"
+                : "text-left text-2xl font-semibold tabular-nums tracking-tight text-[var(--foreground)] sm:text-right"
+            }
             data-academy-price-lead=""
           >
             {priceLabel}
@@ -171,7 +178,13 @@ export function CourseHeroActions({
           ) : null}
         </div>
         {previewHref ? (
-          <p className="text-left text-sm leading-5 text-[var(--muted)] sm:text-right">
+          <p
+            className={
+              tone === "ink"
+                ? "text-left text-sm leading-5 text-blue-100 sm:text-right"
+                : "text-left text-sm leading-5 text-[var(--muted)] sm:text-right"
+            }
+          >
             {ACADEMY_SEN.course.previewLead}
           </p>
         ) : null}

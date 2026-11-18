@@ -51,9 +51,9 @@ describe("30 günlük aksiyon planı", () => {
     });
     assertClosed(plan);
     expect(hrefs(plan)).toEqual([
-      "/academy/01_office_ai/seviye",
+      "/tezgah",
       "/tezgah?tool=tetkik",
-      "/academy/01_office_ai?gate=exam#academy-exam-gate",
+      "/tezgah",
       "/tezgah?tool=proposal",
     ]);
     expect(plan.overrideNote).toBeNull();
@@ -74,9 +74,9 @@ describe("30 günlük aksiyon planı", () => {
     assertClosed(shop);
     expect(shop.lead).toContain("3 saatin altında");
     expect(hrefs(shop)).toEqual([
-      "/academy/02_ecommerce_ai",
+      "/e-ticaret",
       "/tezgah?tool=ecommerce",
-      "/academy/02_ecommerce_ai?gate=exam#academy-exam-gate",
+      "/e-ticaret",
       "/tezgah?tool=dukkan",
     ]);
 
@@ -87,9 +87,9 @@ describe("30 günlük aksiyon planı", () => {
     });
     assertClosed(grant);
     expect(grant.lead).toContain("7 saatin üzerinde");
-    expect(hrefs(grant)[0]).toBe("/academy");
+    expect(hrefs(grant)[0]).toBe("/hibe");
     expect(hrefs(grant)[1]).toBe("/tezgah?tool=grant");
-    expect(hrefs(grant)[2]).toBe("/academy/05_prompt_practice?gate=exam#academy-exam-gate");
+    expect(hrefs(grant)[2]).toBe("/tezgah");
     expect(hrefs(grant)[3]).toBe("/tezgah?tool=proposal");
   });
 
@@ -103,7 +103,7 @@ describe("30 günlük aksiyon planı", () => {
     assertClosed(plan);
     expect(plan.overrideNote).toContain("rozet uydurmaz");
     expect(hrefs(plan).join(" ")).not.toContain("/vize/");
-    expect(hrefs(plan)[2]).toBe("/academy/03_social_media_ai?gate=exam#academy-exam-gate");
+    expect(hrefs(plan)[2]).toBe("/tezgah");
   });
 
   it("oturumlu yarım ders, form yeni dese de oynatıcıyı öne alır", () => {
@@ -127,10 +127,10 @@ describe("30 günlük aksiyon planı", () => {
     });
     assertClosed(plan);
     expect(plan.overrideNote).toContain("Canlı kayıt");
-    expect(hrefs(plan)[0]).toBe("/academy/02_ecommerce_ai/oyna");
+    expect(hrefs(plan)[0]).toBe("/e-ticaret");
     expect(plan.steps[0]?.body).toContain("l3");
-    expect(hrefs(plan)[0]).not.toBe("/academy/01_office_ai/seviye");
-    expect(hrefs(plan)[2]).toBe("/academy/02_ecommerce_ai?gate=exam#academy-exam-gate");
+    expect(hrefs(plan)[0]).not.toBe("/tezgah");
+    expect(hrefs(plan)[2]).toBe("/e-ticaret");
   });
 
   it("canlı rozet paylaşım kartını sınav kapısının önüne alır", () => {
@@ -159,7 +159,7 @@ describe("30 günlük aksiyon planı", () => {
     assertClosed(plan);
     expect(hrefs(plan)[2]).toBe("/vize/stamp_1");
     expect(plan.steps[2]?.title).toBe("Paylaşım kartı");
-    expect(hrefs(plan)[0]).toBe("/academy/01_office_ai");
+    expect(hrefs(plan)[0]).toBe("/tezgah");
     expect(hrefs(plan).join(" ")).not.toContain("/seviye");
   });
 
@@ -244,7 +244,7 @@ describe("30 günlük aksiyon planı", () => {
     expect(planner).not.toContain("invokeLlm");
     expect(planner).not.toContain("prisma");
     expect(planner).not.toContain("/freelancer");
-    expect(CAREER_SEN.title).toBe("Doğrulanmış Freelancer Rozeti");
+    expect(CAREER_SEN.title).toBe("YetkinCV — Test Edilmiş & Mühürlü Kariyer Merkezi");
     expect(CAREER_SEN.footnote).toContain(CAREER_ACTION_PLAN_DISCLAIMER);
     expect(CAREER_SEN.footnote).not.toContain("Hedef rol");
     expect(readSrc("lib/copy/sen-voice/career.ts")).not.toContain("SWOT");

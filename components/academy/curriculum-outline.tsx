@@ -66,7 +66,7 @@ export function CurriculumOutline({
                   return (
                     <li
                       key={lesson.key}
-                      className="flex flex-col gap-2 rounded-xl border border-[var(--border)] px-3 py-2.5 text-sm text-[var(--foreground)] sm:flex-row sm:items-center"
+                      className="flex flex-col gap-2 rounded-2xl border border-slate-200/80 bg-white px-3 py-3 text-sm text-[var(--foreground)] shadow-sm transition-all duration-200 hover:shadow-md sm:flex-row sm:items-center"
                       data-academy-lesson-row={previewOpen ? "preview" : freemium ? "licensed" : undefined}
                       data-academy-lesson-storage-key={lesson.key}
                     >

@@ -52,6 +52,7 @@ export function PurchaseButton({
   courseLevel,
   paymentsReady = true,
   renew = false,
+  sealOnly = false,
 }: {
   courseId: string;
   /** SKU slug — kasa özeti mühürlü ses vaadini yalnız ilgili kursta basar. */
@@ -69,6 +70,8 @@ export function PurchaseButton({
   paymentsReady?: boolean;
   /** Süresi dolmuş lisans. Aynı kasa, yenileme cümlesiyle açılır. */
   renew?: boolean;
+  /** Tahsilat cümlesi resmî sınav hakkıdır. Ödeme belge basmaz; yol hâlâ eğitim lisansıdır. */
+  sealOnly?: boolean;
 }) {
   const router = useRouter();
   const { push } = useActionBridge();
@@ -415,6 +418,9 @@ export function PurchaseButton({
       return ACADEMY_SEN.purchase.closed;
     }
     const display = priceLabel ? stripZeroKurusFromTryLabel(priceLabel) : null;
+    if (sealOnly) {
+      return ACADEMY_SEN.catalog.examSealCta;
+    }
     if (path === "exam") {
       return display ? ACADEMY_SEN.purchase.ctaExam(display) : ACADEMY_SEN.purchase.ctaExamIdle;
     }
@@ -468,7 +474,9 @@ export function PurchaseButton({
           {stripZeroKurusFromTryLabel(priceLabel)}
         </p>
       ) : null}
-      {offers[0] ? (
+      {sealOnly ? (
+        <p className="text-xs leading-relaxed text-[var(--muted)]">{ACADEMY_SEN.catalog.examSealBody}</p>
+      ) : offers[0] ? (
         <p className="text-xs leading-relaxed text-[var(--muted)]">{offers[0].summary}</p>
       ) : null}
       <CheckoutConsentFields
@@ -503,6 +511,9 @@ export function PurchaseButton({
       ))}
       <p className="text-center text-xs font-medium text-[var(--muted)]" data-academy-paytr-secure="">
         {ACADEMY_SEN.purchase.paytrSecure}
+      </p>
+      <p className="text-center text-xs leading-relaxed text-[var(--muted)]" data-academy-package-auto="">
+        {ACADEMY_SEN.purchase.autoOpen}
       </p>
       {courseSlug === "01_office_ai" ? (
         <LinkButton

@@ -182,15 +182,15 @@ describe("kenar JWT ihtiyaç kapısı", () => {
     expect(needsEdgeJwtVerification("/studio")).toBe(true);
     expect(needsEdgeJwtVerification("/api/studio/generate", "POST")).toBe(true);
     expect(needsEdgeJwtVerification("/api/v1/studio/generate", "POST")).toBe(true);
-    expect(needsEdgeJwtVerification("/academy")).toBe(false);
+    expect(needsEdgeJwtVerification("/academy")).toBe(true);
     expect(needsEdgeJwtVerification("/academy/certificates")).toBe(true);
     expect(needsEdgeJwtVerification("/career")).toBe(false);
     expect(needsEdgeJwtVerification("/career/ek")).toBe(true);
-    expect(needsEdgeJwtVerification("/academy/dogrula")).toBe(false);
+    expect(needsEdgeJwtVerification("/academy/dogrula")).toBe(true);
     expect(needsEdgeJwtVerification("/academy/python-temel/oyna")).toBe(true);
     expect(needsEdgeJwtVerification("/api/health")).toBe(false);
-    expect(needsEdgeJwtVerification("/api/academy/reviews", "POST")).toBe(false);
-    expect(needsEdgeJwtVerification("/api/academy/discussion", "GET")).toBe(false);
+    expect(needsEdgeJwtVerification("/api/academy/reviews", "POST")).toBe(true);
+    expect(needsEdgeJwtVerification("/api/academy/discussion", "GET")).toBe(true);
     expect(needsEdgeJwtVerification("/api/_gone/studio/generate", "POST")).toBe(false);
     expect(needsEdgeJwtVerification("/api/v1/health", "GET")).toBe(false);
     expect(needsEdgeJwtVerification("/api/academy/certificates", "GET")).toBe(true);
@@ -199,7 +199,7 @@ describe("kenar JWT ihtiyaç kapısı", () => {
         "/api/v1/academy/certificates/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "GET",
       ),
-    ).toBe(false);
+    ).toBe(true);
     expect(needsEdgeJwtVerification("/api/cron/paytr-reconcile", "GET")).toBe(false);
     expect(needsEdgeJwtVerification("/api/payments/webhooks/paytr", "POST")).toBe(false);
     expect(needsEdgeJwtVerification("/api/paytr/callback", "GET")).toBe(false);
@@ -247,7 +247,7 @@ describe("kenar JWT ihtiyaç kapısı", () => {
         cookies: [{ name: "sb-testref-auth-token", value: JSON.stringify({ access_token: token }) }],
         env: TEST_ENV,
       }),
-    ).toBe(false);
+    ).toBe(true);
 
     const canonicalTokenWithoutConfirmedAt = await new SignJWT({
       role: "authenticated",

@@ -9,7 +9,8 @@ import {
   type DukkanDraft,
   type DukkanGenerateRequest,
 } from "@/lib/tezgah/dukkan/schema";
-import { consumeTezgahQuota, peekTezgahQuota, refundTezgahQuota } from "@/lib/tezgah/quota";
+import { tezgahRequestHash } from "@/lib/tezgah/paid-lane";
+import { consumeTezgahQuota, peekTezgahQuota, refundTezgahQuota, settleTezgahSlot } from "@/lib/tezgah/quota";
 
 export type DukkanGenerateResult =
   | {
@@ -25,7 +26,7 @@ export type DukkanGenerateResult =
   | {
       ok: false;
       error: string;
-      status: 400 | 429 | 503;
+      status: 400 | 402 | 429 | 503;
       remaining: number;
       limit: number;
       guest: boolean;
@@ -46,6 +47,7 @@ export async function generateDukkanPage(
     actorId: string;
     guest: boolean;
     request: DukkanGenerateRequest;
+    commandKey?: string | null;
   },
   deps: GenerateDukkanDeps = {},
 ): Promise<DukkanGenerateResult> {
@@ -53,7 +55,7 @@ export async function generateDukkanPage(
   const now = deps.now?.() ?? new Date();
   const open = () => peekTezgahQuota(input.actorId, input.guest, now);
   if (!parsed.success) {
-    const quota = open();
+    const quota = await open();
     return {
       ok: false,
       error: "Alanları kısa ve net doldur.",
@@ -65,7 +67,7 @@ export async function generateDukkanPage(
   }
   const draft = readDukkanDraft(parsed.data);
   if (!draft) {
-    const quota = open();
+    const quota = await open();
     return {
       ok: false,
       error: "Alanları kısa ve net doldur.",
@@ -76,20 +78,25 @@ export async function generateDukkanPage(
     };
   }
 
-  const slot = consumeTezgahQuota(input.actorId, input.guest, now);
+  const slot = await consumeTezgahQuota(
+    input.actorId,
+    input.guest,
+    now,
+    input.commandKey ? { key: input.commandKey, requestHash: tezgahRequestHash(input.request) } : null,
+  );
   if (!slot.allowed) {
     return {
       ok: false,
-      error: input.guest ? TEZGAH_GUEST_QUOTA_MESSAGE : TEZGAH_MEMBER_QUOTA_MESSAGE,
-      status: 429,
+      error: slot.error ?? (input.guest ? TEZGAH_GUEST_QUOTA_MESSAGE : TEZGAH_MEMBER_QUOTA_MESSAGE),
+      status: slot.status ?? 429,
       remaining: 0,
       limit: slot.limit,
       guest: input.guest,
     };
   }
 
-  const restore = (): DukkanGenerateResult => {
-    const restored = refundTezgahQuota(input.actorId, input.guest, now);
+  const restore = async (): Promise<DukkanGenerateResult> => {
+    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane);
     return {
       ok: false,
       error: TEZGAH_FAIL_MESSAGE,
@@ -109,6 +116,18 @@ export async function generateDukkanPage(
   }
   if (!inspectDukkanDelivery(html).ok) {
     return restore();
+  }
+
+  const paid = await settleTezgahSlot(input.actorId, slot);
+  if (!paid.ok) {
+    return {
+      ok: false,
+      error: paid.error,
+      status: paid.status,
+      remaining: slot.remaining,
+      limit: slot.limit,
+      guest: input.guest,
+    };
   }
 
   return {

@@ -3,7 +3,9 @@ import "server-only";
 import { invokeLlm, type InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import { TEZGAH_FAIL_MESSAGE, TEZGAH_GUEST_QUOTA_MESSAGE, TEZGAH_MEMBER_QUOTA_MESSAGE } from "@/lib/tezgah/catalog";
-import { consumeTezgahQuota, peekTezgahQuota, refundTezgahQuota } from "@/lib/tezgah/quota";
+import { withTezgahDeliverySignature } from "@/lib/tezgah/delivery-signature";
+import { tezgahRequestHash } from "@/lib/tezgah/paid-lane";
+import { consumeTezgahQuota, peekTezgahQuota, refundTezgahQuota, settleTezgahSlot } from "@/lib/tezgah/quota";
 import { REKLAM_FILE_STEM } from "@/lib/tezgah/reklam/copy";
 import { sealReklamMarkdown } from "@/lib/tezgah/reklam/guard";
 import { reklamSystemPrompt, reklamUserPrompt } from "@/lib/tezgah/reklam/prompts";
@@ -30,7 +32,7 @@ export type ReklamGenerateResult =
   | {
       ok: false;
       error: string;
-      status: 400 | 429 | 503;
+      status: 400 | 402 | 429 | 503;
       remaining: number;
       limit: number;
       guest: boolean;
@@ -51,6 +53,7 @@ export async function generateReklamPackage(
     actorId: string;
     guest: boolean;
     request: ReklamGenerateRequest;
+    commandKey?: string | null;
   },
   deps: GenerateReklamDeps = {},
 ): Promise<ReklamGenerateResult> {
@@ -58,7 +61,7 @@ export async function generateReklamPackage(
   const now = deps.now?.() ?? new Date();
   const open = () => peekTezgahQuota(input.actorId, input.guest, now);
   if (!parsed.success) {
-    const quota = open();
+    const quota = await open();
     return {
       ok: false,
       error: "Alanları kısa ve net doldur.",
@@ -70,20 +73,25 @@ export async function generateReklamPackage(
   }
 
   const draft = readReklamDraft(parsed.data);
-  const slot = consumeTezgahQuota(input.actorId, input.guest, now);
+  const slot = await consumeTezgahQuota(
+    input.actorId,
+    input.guest,
+    now,
+    input.commandKey ? { key: input.commandKey, requestHash: tezgahRequestHash(input.request) } : null,
+  );
   if (!slot.allowed) {
     return {
       ok: false,
-      error: input.guest ? TEZGAH_GUEST_QUOTA_MESSAGE : TEZGAH_MEMBER_QUOTA_MESSAGE,
-      status: 429,
+      error: slot.error ?? (input.guest ? TEZGAH_GUEST_QUOTA_MESSAGE : TEZGAH_MEMBER_QUOTA_MESSAGE),
+      status: slot.status ?? 429,
       remaining: 0,
       limit: slot.limit,
       guest: input.guest,
     };
   }
 
-  const restore = (): ReklamGenerateResult => {
-    const restored = refundTezgahQuota(input.actorId, input.guest, now);
+  const restore = async (): Promise<ReklamGenerateResult> => {
+    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane);
     return {
       ok: false,
       error: TEZGAH_FAIL_MESSAGE,
@@ -113,15 +121,28 @@ export async function generateReklamPackage(
       billing: {
         userId: input.guest ? null : input.actorId,
         source: AI_TOKEN_SOURCES.TEZGAH,
-        recordUsage: false,
+        recordUsage: true,
       },
     },
     deps,
   );
 
-  const markdown = sealReklamMarkdown(llm?.text ?? "", draft);
+  const sealed = sealReklamMarkdown(llm?.text ?? "", draft);
+  const markdown = sealed ? withTezgahDeliverySignature(sealed) : null;
   if (!markdown) {
     return restore();
+  }
+
+  const paid = await settleTezgahSlot(input.actorId, slot);
+  if (!paid.ok) {
+    return {
+      ok: false,
+      error: paid.error,
+      status: paid.status,
+      remaining: slot.remaining,
+      limit: slot.limit,
+      guest: input.guest,
+    };
   }
 
   return {

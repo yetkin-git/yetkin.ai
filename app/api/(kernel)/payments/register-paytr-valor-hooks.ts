@@ -1,6 +1,7 @@
 import { registerPaytrAcademyLicenseHook } from "@/lib/academy/register-paytr-license-hook";
 import { registerPaytrCommerceLicenseHook } from "@/lib/commerce/register-paytr-license-hook";
 import { registerPaytrJuniorLicenseHook } from "@/lib/junior/register-paytr-license-hook";
+import { registerPaytrTezgahLicenseHook } from "@/lib/tezgah/register-paytr-license-hook";
 
 /**
  * CLEARED sonrası Akademi ve Junior lisansı.
@@ -12,4 +13,5 @@ export function registerPaytrValorLicenseHooks(): void {
   registerPaytrAcademyLicenseHook();
   registerPaytrJuniorLicenseHook();
   registerPaytrCommerceLicenseHook();
+  registerPaytrTezgahLicenseHook();
 }

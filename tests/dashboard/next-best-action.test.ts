@@ -15,7 +15,7 @@ describe("resolveNextBestAction", () => {
 
   it("boş nabızda varsayılan akademi eylemini seçer", () => {
     const action = resolveNextBestAction(EMPTY_DASHBOARD_PULSE);
-    expect(action).toEqual({ kind: "default", href: "/academy", room: "academy" });
+    expect(action).toEqual({ kind: "default", href: "/hibe", room: "academy" });
   });
 
   it("split kapalıyken fonlanmış işi Akademi'nin önüne koymaz", () => {
@@ -48,7 +48,7 @@ describe("resolveNextBestAction", () => {
     });
     expect(action.kind).toBe("default");
     expect(action.room).toBe("academy");
-    expect(action.href).toBe("/academy");
+    expect(action.href).toBe("/hibe");
   });
 
   it("aktif vizeyi kariyer eylemine yükseltir", () => {
@@ -98,15 +98,15 @@ describe("resolveNextBestAction", () => {
     });
     expect(incomplete).toEqual({
       kind: "academy_continue",
-      href: "/academy/01_office_ai/oyna",
+      href: "/tezgah",
       room: "academy",
     });
   });
 
   it("yarım kalan kursu ders oynatıcısına derin bağlar; slug yoksa katalog kalır", () => {
-    expect(academyContinueHref(null)).toBe("/academy");
-    expect(academyContinueHref("01_office_ai")).toBe("/academy/01_office_ai/oyna");
-    expect(academyContinueHref("../evil")).toBe("/academy");
+    expect(academyContinueHref(null)).toBe("/tezgah");
+    expect(academyContinueHref("01_office_ai")).toBe("/tezgah");
+    expect(academyContinueHref("../evil")).toBe("/tezgah");
 
     const resume = resolveNextBestAction({
       ...EMPTY_DASHBOARD_PULSE,
@@ -120,7 +120,7 @@ describe("resolveNextBestAction", () => {
     });
     expect(resume).toEqual({
       kind: "academy_continue",
-      href: "/academy/01_office_ai/oyna",
+      href: "/tezgah",
       room: "academy",
     });
 
@@ -135,7 +135,7 @@ describe("resolveNextBestAction", () => {
       },
     });
     expect(catalogOnly.kind).toBe("academy_continue");
-    expect(catalogOnly.href).toBe("/academy");
+    expect(catalogOnly.href).toBe("/tezgah");
   });
 
   it("birincil odayı featured sırasının başına alır", () => {

@@ -1,0 +1,238 @@
+{
+  "menu": {
+    "categories": [
+      {
+        "key": "mental-starters",
+        "title": "Zihinsel Başlangıçlar",
+        "summary": "Hafif, zihin açıcı analitik işler — mantığını ve gözlem gücünü uyandırır."
+      },
+      {
+        "key": "structural-foundations",
+        "title": "Yapısal Temeller",
+        "summary": "Isıtan, yapısal mantığı oturtan işler — süreç ve kaliteyi sağlamlaştırır."
+      },
+      {
+        "key": "primary-focus",
+        "title": "Ana Odaklar",
+        "summary": "Doyurucu, yüksek kuruş ödüllü büyük sorumluluklar — asıl gelişim yükünü taşır."
+      },
+      {
+        "key": "fluid-signals",
+        "title": "Akıcı Sinyaller",
+        "summary": "İletişimi pürüzsüzleştiren, ferahlatan akışlar — netlik ve ikna gücü kazandırır."
+      },
+      {
+        "key": "balanced-side-benefits",
+        "title": "Dengeli Yan Haklar",
+        "summary": "Dengeleyici, işbirliğini yeşerten işler — ekibin ritmini güçlendirir."
+      },
+      {
+        "key": "refined-closings",
+        "title": "Rafine Kapanışlar",
+        "summary": "Lüks, estetik ve rafine son dokunuşlar — ifade ve marka derinliği katar."
+      }
+    ]
+  },
+  "opportunities": [
+    {
+      "slug": "arastirma-notu",
+      "title": "Araştırma Notu Azaltımı",
+      "summary": "Belirli bir konuda üç güvenilir kaynak bul, tek sayfalık özet çıkar.",
+      "rewardHint": "₺120 – ₺200",
+      "durationHint": "2–4 gün",
+      "primaryAxis": "analytical",
+      "secondaryAxes": [],
+      "developmentCategory": "mental-starters"
+    },
+    {
+      "slug": "metrik-panosu-taslagi",
+      "title": "Metrik Panosu Taslağı Okuma",
+      "summary": "Bir ürün ekibinin takip etmesi gereken 5 göstergeyi seç ve sade bir pano öner.",
+      "rewardHint": "₺250 – ₺400",
+      "durationHint": "1 hafta",
+      "primaryAxis": "analytical",
+      "secondaryAxes": ["creative"],
+      "developmentCategory": "mental-starters"
+    },
+    {
+      "slug": "is-akisi-duzenleme",
+      "title": "İş Akışı Düzenleme",
+      "summary": "Tekrarlayan bir süreci haritala, gereksiz adımları çıkar ve net teslim planı yaz.",
+      "rewardHint": "₺180 – ₺280",
+      "durationHint": "4–6 gün",
+      "primaryAxis": "practical",
+      "secondaryAxes": ["collaborative"],
+      "developmentCategory": "structural-foundations"
+    },
+    {
+      "slug": "kod-inceleme-gorevi",
+      "title": "Kod İnceleme Görevi",
+      "summary": "Açık kaynak bir projede küçük bir değişikliği oku, riskleri ve iyileştirmeleri not et.",
+      "rewardHint": "₺200 – ₺350",
+      "durationHint": "1 hafta",
+      "primaryAxis": "analytical",
+      "secondaryAxes": ["practical"],
+      "developmentCategory": "structural-foundations"
+    },
+    {
+      "slug": "teslimat-kontrol",
+      "title": "Teslimat Kontrol Listesi",
+      "summary": "Bir projenin son teslimi için kontrol listesi oluştur ve eksikleri işaretle.",
+      "rewardHint": "₺150 – ₺220",
+      "durationHint": "2–3 gün",
+      "primaryAxis": "practical",
+      "secondaryAxes": [],
+      "developmentCategory": "structural-foundations"
+    },
+    {
+      "slug": "veri-ozet-mini",
+      "title": "Haftalık Veri Özetini Hazırla",
+      "summary": "Küçük bir ekibin haftalık sayılarını okuyup üç net çıkarım yaz — düzenli düşünme pratiği.",
+      "rewardHint": "₺150 – ₺250",
+      "durationHint": "3–5 gün",
+      "primaryAxis": "analytical",
+      "secondaryAxes": ["communicative"],
+      "developmentCategory": "primary-focus"
+    },
+    {
+      "slug": "hizli-prototip",
+      "title": "Hızlı Prototip Üretimi",
+      "summary": "Basit bir ihtiyaca yönelik çalışan küçük bir çözüm üret ve kısa demo hazırla.",
+      "rewardHint": "₺300 – ₺500",
+      "durationHint": "1 hafta",
+      "primaryAxis": "practical",
+      "secondaryAxes": ["analytical"],
+      "developmentCategory": "primary-focus"
+    },
+    {
+      "slug": "saha-denemesi",
+      "title": "Saha Denemesi Yönetimi",
+      "summary": "Küçük bir kullanıcı testi yap, gözlemlerini somut önerilere dönüştür.",
+      "rewardHint": "₺220 – ₺320",
+      "durationHint": "5–7 gün",
+      "primaryAxis": "practical",
+      "secondaryAxes": ["communicative"],
+      "developmentCategory": "primary-focus"
+    },
+    {
+      "slug": "ortak-proje-katki",
+      "title": "Ortak Proje Katkısı",
+      "summary": "Küçük bir ekip projesinde belirli bir parçayı üstlen ve teslim et.",
+      "rewardHint": "₺280 – ₺420",
+      "durationHint": "1–2 hafta",
+      "primaryAxis": "collaborative",
+      "secondaryAxes": ["practical"],
+      "developmentCategory": "primary-focus"
+    },
+    {
+      "slug": "musteri-cevabi",
+      "title": "Müşteri Cevabı Netleştirme",
+      "summary": "Gelen soruları sade bir dille yanıtla; belirsiz noktaları netleştir.",
+      "rewardHint": "₺140 – ₺220",
+      "durationHint": "2–4 gün",
+      "primaryAxis": "communicative",
+      "secondaryAxes": ["collaborative"],
+      "developmentCategory": "fluid-signals"
+    },
+    {
+      "slug": "ikna-metni",
+      "title": "İkna Metni Kurgusu",
+      "summary": "Bir teklifin değerini üç paragrafta anlat — net, sıcak, ikna edici.",
+      "rewardHint": "₺180 – ₺280",
+      "durationHint": "3–5 gün",
+      "primaryAxis": "communicative",
+      "secondaryAxes": ["analytical"],
+      "developmentCategory": "fluid-signals"
+    },
+    {
+      "slug": "sunum-metni",
+      "title": "Net Sunum Metni",
+      "summary": "Karmaşık bir konuyu üç dakikalık anlaşılır bir sunuma dönüştür.",
+      "rewardHint": "₺160 – ₺260",
+      "durationHint": "3–5 gün",
+      "primaryAxis": "communicative",
+      "secondaryAxes": ["creative"],
+      "developmentCategory": "fluid-signals"
+    },
+    {
+      "slug": "gorusme-ozeti",
+      "title": "Görüşme Özeti",
+      "summary": "Kısa bir toplantıdan kararları, sorumluları ve sonraki adımları çıkar.",
+      "rewardHint": "₺120 – ₺180",
+      "durationHint": "1–2 gün",
+      "primaryAxis": "communicative",
+      "secondaryAxes": [],
+      "developmentCategory": "fluid-signals"
+    },
+    {
+      "slug": "ekip-ritueli",
+      "title": "Ekip Ritüeli Tasarımı",
+      "summary": "Haftalık kısa bir ekip buluşması için basit, sürdürülebilir bir format öner.",
+      "rewardHint": "₺170 – ₺250",
+      "durationHint": "4–6 gün",
+      "primaryAxis": "collaborative",
+      "secondaryAxes": ["communicative"],
+      "developmentCategory": "balanced-side-benefits"
+    },
+    {
+      "slug": "paylasim-notu",
+      "title": "Paylaşım Notu Hazırlama",
+      "summary": "Öğrendiğin bir yöntemi ekibine aktar — kısa, uygulanabilir, anlaşılır.",
+      "rewardHint": "₺130 – ₺200",
+      "durationHint": "2–3 gün",
+      "primaryAxis": "collaborative",
+      "secondaryAxes": [],
+      "developmentCategory": "balanced-side-benefits"
+    },
+    {
+      "slug": "mentorluk-seans",
+      "title": "Kısa Mentorluk Seansı",
+      "summary": "Yeni başlayan birine tek konuda rehberlik et; net geri bildirim ver.",
+      "rewardHint": "₺200 – ₺300",
+      "durationHint": "1 hafta",
+      "primaryAxis": "collaborative",
+      "secondaryAxes": ["communicative"],
+      "developmentCategory": "balanced-side-benefits"
+    },
+    {
+      "slug": "gorsel-konsept",
+      "title": "Görsel Konsept Ürünü",
+      "summary": "Bir ürün veya kampanya için sade bir görsel yön ve renk paleti öner.",
+      "rewardHint": "₺220 – ₺340",
+      "durationHint": "5–7 gün",
+      "primaryAxis": "creative",
+      "secondaryAxes": ["communicative"],
+      "developmentCategory": "refined-closings"
+    },
+    {
+      "slug": "marka-hikayesi",
+      "title": "Marka Hikayesi Yazımı",
+      "summary": "Küçük bir girişimin hikâyesini sıcak ve otantik bir dille yaz.",
+      "rewardHint": "₺240 – ₺360",
+      "durationHint": "1 hafta",
+      "primaryAxis": "creative",
+      "secondaryAxes": ["communicative"],
+      "developmentCategory": "refined-closings"
+    },
+    {
+      "slug": "fikir-atolyesi",
+      "title": "Fikir Atölyesi Moderasyonu",
+      "summary": "Belirli bir problem için beş fikir üret, en güçlü ikisini detaylandır.",
+      "rewardHint": "₺160 – ₺240",
+      "durationHint": "3–4 gün",
+      "primaryAxis": "creative",
+      "secondaryAxes": ["analytical"],
+      "developmentCategory": "refined-closings"
+    },
+    {
+      "slug": "icerik-serisi",
+      "title": "Kısa İçerik Serisi",
+      "summary": "Tek bir temayı üç parçalık mini seri halinde anlat — tutarlı ton, net mesaj.",
+      "rewardHint": "₺190 – ₺290",
+      "durationHint": "1 hafta",
+      "primaryAxis": "creative",
+      "secondaryAxes": ["collaborative"],
+      "developmentCategory": "refined-closings"
+    }
+  ]
+}

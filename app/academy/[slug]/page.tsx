@@ -43,6 +43,7 @@ import { getSession } from "@/lib/kernel/auth/session";
 import { FUNNEL_VITRINE_VISIT_STEP } from "@/lib/kernel/admin/funnel-constants";
 import { recordFunnelDailyDocumentStep } from "@/lib/kernel/admin/funnel-document-hit";
 import { walletAvailableMinor } from "@/lib/kernel/ledger/load";
+import { IconArrow, IconBadge, IconBook, IconHash, IconLock } from "@/components/ui/icons";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { CourseHeroActions } from "@/components/academy/course-hero-actions";
 import { CourseDeliverables } from "@/components/academy/course-deliverables";
@@ -67,6 +68,7 @@ import {
   academyStorefrontStaticParams,
   ACADEMY_OFF201_STOREFRONT_SLUG,
   isAcademyStorefrontSlug,
+  isAcademyVitrineShellSkuSlug,
 } from "@/lib/academy/pilot-sku";
 import {
   academyFreePreviewPlayerPath,
@@ -218,6 +220,7 @@ export default async function AcademyCoursePage({
     : null;
   const level = academyCourseLevelBySlug(board.course.slug);
   const isOff201 = board.course.slug === ACADEMY_OFF201_STOREFRONT_SLUG;
+  const isGuide = isAcademyVitrineShellSkuSlug(board.course.slug);
   const eightLessonShield = board.course.slug === "01_office_ai";
   const seo = academyCourseSeoOverride(board.course.slug);
   const completedKeys = examGate?.certificate
@@ -311,7 +314,14 @@ export default async function AcademyCoursePage({
         ])}
       />
       <BreadcrumbPageLabel href={`/academy/${board.course.slug}`} label={board.course.title} />
+      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 px-5 py-6 text-white shadow-md sm:px-6 sm:py-7">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-12 -top-16 h-52 w-52 rounded-full bg-[radial-gradient(circle,rgba(96,165,250,0.35),transparent_68%)]"
+        />
+        <div className="relative">
       <PageHeader
+        tone="ink"
         eyebrow={copy.eyebrow}
         title={seo?.h1 ?? board.course.title}
         description={outcomeLead ?? board.course.summary}
@@ -330,7 +340,7 @@ export default async function AcademyCoursePage({
                   )
                 : undefined
             }
-            comingSoon={academyCourseIsComingSoon(board.course.slug)}
+            comingSoon={isGuide ? false : academyCourseIsComingSoon(board.course.slug)}
             audioPreview={academyCourseHasCinemaCover(board.course.slug)}
             primaryHref={hero.primaryHref}
             primaryLabel={hero.primaryLabel}
@@ -343,9 +353,33 @@ export default async function AcademyCoursePage({
             previewHref={previewHref}
             catalogHref={"/academy" as Route}
             catalogLabel={copy.catalogCta}
+            tone="ink"
           />
         }
       />
+          <ul className="mt-4 flex flex-wrap gap-2">
+            {syllabus.lessonCount > 0 ? (
+              <li className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white ring-1 ring-white/15">
+                <IconBook className="h-3.5 w-3.5" />
+                {syllabus.lessonCount} ders
+                {syllabus.durationMin > 0 ? ` · ${syllabus.durationMin} dk` : ""}
+              </li>
+            ) : null}
+            <li className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white ring-1 ring-white/15">
+              <IconBadge className="h-3.5 w-3.5" />
+              Baraj {ACADEMY_EXAM_PASS_SCORE}
+            </li>
+            <li className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white ring-1 ring-white/15">
+              <IconHash className="h-3.5 w-3.5" />
+              Sertifika SHA-256 özeti
+            </li>
+            <li className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white ring-1 ring-white/15">
+              <IconLock className="h-3.5 w-3.5" />
+              365 gün kütüphane
+            </li>
+          </ul>
+        </div>
+      </section>
       {board.course.slug === OFF_101_EXEMPTION_COURSE_SLUG ? (
         <Card title={SEN_VOICE.academy.exemption.guestTitle}>
           <p className="text-sm leading-6 text-[var(--muted)]">{SEN_VOICE.academy.exemption.courseLead}</p>
@@ -419,6 +453,7 @@ export default async function AcademyCoursePage({
             <div className="mt-4">
               <LinkButton href={`/academy/${board.course.slug}/oyna` as Route} size="sm">
                 {playLabel}
+                <IconArrow className="h-3.5 w-3.5" />
               </LinkButton>
             </div>
           </Card>
@@ -436,10 +471,17 @@ export default async function AcademyCoursePage({
         </Card>
       ) : board.course.purchasable ? (
         <AcademyCheckoutAnchor>
-          <Card title={copy.purchaseEyebrow}>
+          <Card
+            title={isGuide ? SEN_VOICE.academy.catalog.examSealEyebrow : copy.purchaseEyebrow}
+            className="border-blue-200/80 shadow-md ring-1 ring-blue-100"
+          >
             {access === "expired" ? <p>{playerCopy.licenseEnded}</p> : null}
             <p className={access === "expired" ? "mt-2" : undefined}>
-              {eightLessonShield ? copy.purchaseBody : copy.purchaseBodyPlain}
+              {isGuide
+                ? SEN_VOICE.academy.catalog.examSealBody
+                : eightLessonShield
+                  ? copy.purchaseBody
+                  : copy.purchaseBodyPlain}
             </p>
             {board.course.slug === ACADEMY_OFF201_STOREFRONT_SLUG ? (
               <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]" data-academy-advisory="">
@@ -476,6 +518,7 @@ export default async function AcademyCoursePage({
                   courseLevel={level}
                   paymentsReady={paymentsReady}
                   renew={access === "expired"}
+                  sealOnly={isGuide}
                 />
               </div>
             ) : (
@@ -489,17 +532,44 @@ export default async function AcademyCoursePage({
                     />
                   ) : null}
                   {hero.primaryHref && hero.primaryLabel ? (
+                    hero.action === "play" ? (
+                      <LinkButton
+                        href={hero.primaryHref as Route}
+                        size="lg"
+                        variant="success"
+                        className="w-full sm:w-auto"
+                        data-academy-checkout-cta={hero.action}
+                      >
+                        {hero.primaryLabel}
+                      </LinkButton>
+                    ) : (
+                      <BeginCheckoutLink
+                        href={hero.primaryHref as Route}
+                        size="lg"
+                        className="w-full sm:w-auto"
+                        data-academy-checkout-cta={hero.action}
+                        itemId={board.course.slug}
+                        itemName={board.course.title}
+                        valueMinor={board.course.priceMinor}
+                        currency={board.course.currencyCode}
+                      >
+                        {hero.primaryLabel}
+                      </BeginCheckoutLink>
+                    )
+                  ) : null}
+                  {isGuide && priceLabel ? (
                     <BeginCheckoutLink
-                      href={hero.primaryHref as Route}
+                      href={buildCitizenLoginHref(academyCheckoutHref(board.course.slug)) as Route}
                       size="lg"
+                      variant="outline"
                       className="w-full sm:w-auto"
-                      data-academy-checkout-cta={hero.action}
+                      data-academy-checkout-cta="buy"
                       itemId={board.course.slug}
                       itemName={board.course.title}
                       valueMinor={board.course.priceMinor}
                       currency={board.course.currencyCode}
                     >
-                      {hero.primaryLabel}
+                      {SEN_VOICE.academy.catalog.examSealCta}
                     </BeginCheckoutLink>
                   ) : null}
                 </div>
@@ -514,6 +584,15 @@ export default async function AcademyCoursePage({
             )}
           </Card>
         </AcademyCheckoutAnchor>
+      ) : isGuide ? (
+        <Card title={SEN_VOICE.academy.catalog.examSealEyebrow}>
+          <p>{SEN_VOICE.academy.catalog.examSealClosed}</p>
+          <div className="mt-4">
+            <LinkButton href={`/academy/${board.course.slug}/oyna` as Route} size="sm">
+              {SEN_VOICE.academy.catalog.cardCtaStartGuide}
+            </LinkButton>
+          </div>
+        </Card>
       ) : (
         <Card>{copy.notPurchasable}</Card>
       )}

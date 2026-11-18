@@ -57,8 +57,8 @@ export const CUZDAN_SEN = {
   kasaInvalid:
     "Bu ödeme bağlantısı geçersiz veya süresi doldu. Uygulamaya dönüp yeniden dene.",
   kasaInvalidCta: "Akademiye dön",
-  kasaReturnOk: "Ödemeniz Onaylanıyor, Akademiye Yönlendiriliyorsunuz...",
-  kasaReturnCta: "Akademiye Dön / Eğitimi Başlat",
-  kasaReturnFail: "Kart işlemi tamamlanmadı. Akademiye dönüp yeniden deneyebilirsin.",
-  kasaReturnFailCta: "Akademiye Dön",
+  kasaReturnOk: "Ödemeniz onaylanıyor. Çalışma masanıza yönlendiriliyorsunuz.",
+  kasaReturnCta: "Çalışma masasına dön",
+  kasaReturnFail: "Kart işlemi tamamlanmadı. Çalışma masasına dönüp yeniden deneyebilirsin.",
+  kasaReturnFailCta: "Çalışma masasına dön",
 } as const;

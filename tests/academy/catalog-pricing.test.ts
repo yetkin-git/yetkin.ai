@@ -6,7 +6,7 @@ import {
   academyPaytrTopUpMinor,
 } from "@/lib/academy/catalog-pricing";
 import { ACADEMY_COURSE_SEEDS } from "@/lib/academy/seed";
-import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
+import { ACADEMY_GROWTH_SKU_SLUGS, isAcademyVitrineShellSkuSlug } from "@/lib/academy/pilot-sku";
 import { resolveAcademyCatalogCardCta } from "@/lib/academy/storefront-cta";
 import { overlaySeedCatalogPrice, publishedCoursesFromSeed } from "@/lib/academy/published-catalog";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
@@ -59,27 +59,40 @@ describe("akademi katalog fiyat haritası — KDV dahil, PayTR hizası", () => {
         purchasable: true,
         isPublished: true,
       });
-      expect(locked.priceLabel).toBe(compact);
       expect(locked.priceLabel).not.toContain(",00");
       expect(locked.priceCaption).toBeNull();
       expect(locked.priceLabel).not.toContain("KDV dahil");
       expect(locked.priceLabel).not.toBe(ACADEMY_SEN.course.accessOpen);
-      // Faz 3, Adım 1: CTA sonuç odaklıdır (sertifika + kalan ders), jenerik «Satın Al» değil.
-      expect(locked.cta).toBe(ACADEMY_SEN.catalog.cardCtaOutcomeIdle);
-      expect(locked.cta).toContain("Sertifika");
       expect(locked.cta).not.toMatch(/₺/);
-      expect(locked.href).toBe(`/academy/${row.slug}#satin-al`);
-      expect(locked.secondaryCta).toBe(ACADEMY_SEN.catalog.cardCtaFreePreview);
-      expect(locked.secondaryHref).toBe(`/academy/${row.slug}/oyna`);
+      if (isAcademyVitrineShellSkuSlug(row.slug)) {
+        expect(locked.cta).toBe(ACADEMY_SEN.catalog.cardCtaStartGuide);
+        expect(locked.href).toBe(`/academy/${row.slug}/oyna`);
+        expect(locked.secondaryCta).toBe(ACADEMY_SEN.catalog.cardCtaExamBadge);
+        expect(locked.secondaryHref).toBe(`/academy/${row.slug}#satin-al`);
+        expect(locked.priceLabel).toBe("");
+      } else {
+        expect(locked.priceLabel).toBe(compact);
+        expect(locked.cta).toBe(ACADEMY_SEN.catalog.cardCtaOutcomeIdle);
+        expect(locked.cta).toContain("Sertifika");
+        expect(locked.href).toBe(`/academy/${row.slug}#satin-al`);
+        expect(locked.secondaryCta).toBe(ACADEMY_SEN.catalog.cardCtaFreePreview);
+        expect(locked.secondaryHref).toBe(`/academy/${row.slug}/oyna`);
+      }
 
       const owned = resolveAcademyCatalogCardCta({
         slug: row.slug,
         owned: true,
         priceLabel: money,
       });
-      expect(owned.priceLabel).toBe(ACADEMY_SEN.course.accessOpen);
       expect(owned.priceCaption).toBeNull();
-      expect(owned.cta).toBe(ACADEMY_SEN.player.openCta);
+      if (isAcademyVitrineShellSkuSlug(row.slug)) {
+        expect(owned.priceLabel).toBe("");
+        expect(owned.cta).toBe(ACADEMY_SEN.catalog.cardCtaStartGuide);
+        expect(owned.href).toBe(`/academy/${row.slug}/oyna`);
+      } else {
+        expect(owned.priceLabel).toBe(ACADEMY_SEN.course.accessOpen);
+        expect(owned.cta).toBe(ACADEMY_SEN.player.openCta);
+      }
     }
   });
 

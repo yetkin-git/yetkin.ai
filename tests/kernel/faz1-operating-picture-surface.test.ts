@@ -88,13 +88,14 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
     expect(isJuniorCheckoutLocked()).toBe(true);
     expect(MARKETPLACE_SPLIT_LIVE).toBe(false);
     expect(paymentsPort.id).toBe("merchant");
-    expect([...WORKING_SHELL_NAV_ROOM_IDS]).toEqual(["dashboard", "academy", "career"]);
+    expect([...WORKING_SHELL_NAV_ROOM_IDS]).toEqual(["dashboard", "career"]);
     expect(VERTICAL_ROOMS).toHaveLength(4);
     expect(FROZEN_DISK_ROOMS).not.toContain("junior");
     expect(DRON_KAYIT.map((row) => row.id)).toContain("junior");
     expect(isFrozenShellPagePath("/freelancer")).toBe(true);
     expect(isFrozenShellPagePath("/junior")).toBe(false);
-    expect(isFrozenShellPagePath("/academy")).toBe(false);
+    expect(isFrozenShellPagePath("/academy")).toBe(true);
+    expect(isFrozenShellPagePath("/hibe")).toBe(false);
     expect([...PRODUCT_ROOM_PATHS]).toEqual(["/academy", "/career"]);
   });
 

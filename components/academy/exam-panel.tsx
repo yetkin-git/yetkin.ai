@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { LinkButton } from "@/components/ui/link-button";
 import { useActionBridge } from "@/components/ui/action-bridge";
 import { CertificateSeal } from "@/components/academy/certificate-seal";
+import { ExemptionGuestCard } from "@/components/academy/exemption-guest-card";
 import { AcademyProgressionBridge } from "@/components/academy/progression-bridge";
 import { InteractiveTask } from "@/components/academy/interactive-task";
 import { VisaWaxSeal } from "@/components/kernel/visa-wax-seal";
@@ -35,6 +36,8 @@ export function ExamPanel({
   nextCourseHref,
   onAbandon,
   submitPath,
+  registerHref,
+  loginHref,
 }: {
   courseId: string;
   courseTitle?: string;
@@ -54,6 +57,8 @@ export function ExamPanel({
   onAbandon?: () => void;
   /** Varsayılan kurs sonu sınavı. Muafiyet yolu sertifika ve vize basmaz. */
   submitPath?: string;
+  registerHref?: string;
+  loginHref?: string;
 }) {
   const router = useRouter();
   const { push } = useActionBridge();
@@ -71,6 +76,7 @@ export function ExamPanel({
     score: number;
     certificateHash: string | null;
     visaIssued: boolean;
+    gaps: string[];
   } | null>(null);
 
   useEffect(() => {
@@ -140,6 +146,7 @@ export function ExamPanel({
     const parsed = parseRailClientJson<{
       passed?: boolean;
       score?: number;
+      gaps?: string[];
       certificate?: { certificateHash?: string | null; serialKey?: string };
       visaStamp?: { id?: string } | null;
       seal?: { title?: string; score?: number } | null;
@@ -153,13 +160,18 @@ export function ExamPanel({
       parsed.data.certificate?.certificateHash ?? parsed.data.certificate?.serialKey ?? null;
     const visaIssued = Boolean(parsed.data.visaStamp?.id);
     const exemption = Boolean(submitPath?.includes("/exemption"));
+    const guestPreview = Boolean(submitPath?.includes("/exemption-preview"));
+    const gaps = Array.isArray(parsed.data.gaps)
+      ? parsed.data.gaps.filter((gap): gap is string => typeof gap === "string" && gap.length > 0)
+      : [];
     setResult({
       passed: parsed.data.passed,
       score: parsed.data.score,
       certificateHash,
       visaIssued,
+      gaps,
     });
-    if (parsed.data.passed) {
+    if (parsed.data.passed && !guestPreview) {
       push(
         exemption
           ? {
@@ -188,6 +200,18 @@ export function ExamPanel({
   }
 
   const isExemption = Boolean(submitPath?.includes("/exemption"));
+  const isGuestPreview = Boolean(submitPath?.includes("/exemption-preview"));
+
+  if (result && isGuestPreview && registerHref && loginHref) {
+    return (
+      <ExemptionGuestCard
+        registerHref={registerHref}
+        loginHref={loginHref}
+        score={result.score}
+        gaps={result.gaps}
+      />
+    );
+  }
 
   if (result?.passed && isExemption) {
     return (
@@ -225,7 +249,9 @@ export function ExamPanel({
           {copy.chamberEyebrow}
         </p>
         <p className="font-serif text-2xl text-[var(--foreground)]">{copy.diplomaReveal}</p>
-        <p className="text-sm text-[var(--emerald)]">{copy.passed(result.score)}</p>
+        <p className="inline-flex items-center gap-2 rounded-2xl bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-700 ring-1 ring-emerald-200">
+          {copy.passed(result.score)}
+        </p>
         {result.visaIssued ? (
           <div className="flex items-center gap-3 rounded-2xl border border-[color-mix(in_srgb,var(--gold)_35%,var(--border))] bg-[color-mix(in_srgb,#fbf6eb_88%,white)] px-3 py-3">
             <VisaWaxSeal sourceKind="ACADEMY_CERTIFICATE" size="sm" />
@@ -323,6 +349,14 @@ export function ExamPanel({
 
       {timedOut ? <p className="text-xs text-[var(--amber)]">{copy.timedOut}</p> : null}
 
+      <div className="h-1.5 overflow-hidden rounded-full bg-slate-100" aria-hidden>
+        <div
+          className="h-full rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 transition-all duration-200"
+          style={{
+            width: `${questions.length === 0 ? 0 : Math.round((answeredCount / questions.length) * 100)}%`,
+          }}
+        />
+      </div>
       <ol className="flex flex-wrap gap-2" aria-label={copy.stepOf(stepIndex + 1, questions.length)}>
         {questions.map((question, index) => {
           const answered = choices[question.id] != null;
@@ -371,7 +405,7 @@ export function ExamPanel({
                 <label
                   key={`${activeQuestion.id}-${choiceIndex}`}
                   data-selected={selected ? "true" : "false"}
-                  className="academy-exam-choice flex cursor-pointer items-center gap-3 rounded-xl border border-[var(--border)] px-4 py-3 text-base font-medium transition-[border-color,background,box-shadow]"
+                  className="academy-exam-choice flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base font-medium shadow-sm transition-all duration-200 hover:border-blue-400 hover:bg-blue-50/60"
                 >
                   <input
                     type="radio"
@@ -437,7 +471,9 @@ export function ExamPanel({
       ) : null}
       {result && !result.passed ? (
         <div aria-live="polite" className="space-y-3">
-          <p className="text-sm text-[var(--rose)]">{copy.failed(result.score)}</p>
+          <p className="inline-flex items-center gap-2 rounded-2xl bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700 ring-1 ring-rose-200">
+            {copy.failed(result.score)}
+          </p>
           <Button type="button" onClick={() => void onSubmit()} disabled={pending} className="min-h-11">
             {pending ? copy.pending : copy.submit}
           </Button>

@@ -6,7 +6,9 @@ import { copyTextToClipboard } from "@/components/auth/copy-text";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { INPUT_SURFACE_CLASS } from "@/components/ui/input";
+import { IconArrow, IconBadge, IconBriefcase, IconMessage, IconSend, IconSpark } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/link-button";
+import { TipPanel } from "@/components/ui/public-hero";
 import type { CareerCoachDossier, CareerCoachGoal } from "@/lib/career/coach-contract";
 import { CAREER_SEN } from "@/lib/copy/sen-voice/career";
 import { CAREER_COACH_SEN } from "@/lib/copy/sen-voice/career-coach";
@@ -156,63 +158,98 @@ export function AiCareerStudio({ verifiedBadges }: { verifiedBadges: readonly st
 
   return (
     <section id="kariyer-kocu" data-career-coach="true" className="scroll-mt-24 space-y-4">
-      <Card eyebrow={copy.eyebrow} title={copy.title}>
-        <p className="text-[var(--foreground)]">{copy.lead}</p>
-        <p className="mt-3 text-[var(--foreground)]">
-          {verifiedBadges.length === 0 ? copy.emptyBadges : copy.badgeBound(verifiedBadges.length)}
-        </p>
-        {verifiedBadges.length === 0 ? (
-          <div className="mt-3">
-            <LinkButton href="/academy" variant="outline" size="sm">
-              {CAREER_SEN.academyCta}
-            </LinkButton>
-          </div>
-        ) : null}
-        <form className="mt-5 grid gap-3" onSubmit={onGenerate}>
-          <label className="block text-sm text-[var(--foreground)]">
-            {copy.targetRoleLabel}
-            <input
-              className={`mt-1 ${INPUT_SURFACE_CLASS}`}
-              value={targetRole}
-              maxLength={120}
-              required
-              placeholder={copy.targetRolePlaceholder}
-              onChange={(event) => setTargetRole(event.target.value)}
-            />
-          </label>
-          <label className="block text-sm text-[var(--foreground)]">
-            {copy.experienceLabel}
-            <textarea
-              className={`mt-1 min-h-28 ${INPUT_SURFACE_CLASS}`}
-              value={experience}
-              maxLength={2000}
-              required
-              placeholder={copy.experiencePlaceholder}
-              onChange={(event) => setExperience(event.target.value)}
-            />
-          </label>
-          <label className="block text-sm text-[var(--foreground)]">
-            {copy.goalLabel}
-            <select
-              className={`mt-1 ${INPUT_SURFACE_CLASS}`}
-              value={goal}
-              onChange={(event) => setGoal(event.target.value as CareerCoachGoal)}
-            >
-              {copy.goals.map((row) => (
-                <option key={row.id} value={row.id}>
-                  {row.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <div>
-            <Button type="submit" size="sm" disabled={pending !== null}>
-              {pending === "profile" ? copy.generating : copy.generateCta}
-            </Button>
-          </div>
-        </form>
-        {error ? <p className="mt-3 text-sm text-[var(--rose)]">{error}</p> : null}
-      </Card>
+      <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1.45fr)_minmax(16rem,0.7fr)]">
+        <Card eyebrow={copy.eyebrow} title={copy.title}>
+          <p className="border-l-4 border-blue-500 pl-3 text-[var(--foreground)]">{copy.lead}</p>
+          <p className="mt-3 text-[var(--foreground)]">
+            {verifiedBadges.length === 0 ? copy.emptyBadges : copy.badgeBound(verifiedBadges.length)}
+          </p>
+          {verifiedBadges.length === 0 ? (
+            <div className="mt-3">
+              <LinkButton href="#yetkincv" variant="outline" size="sm">
+                <IconSpark className="h-3.5 w-3.5" />
+                {CAREER_SEN.academyCta}
+              </LinkButton>
+            </div>
+          ) : null}
+          <form className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2" onSubmit={onGenerate}>
+            <label className="block text-sm font-medium text-[var(--foreground)]">
+              <span className="mb-1.5 inline-flex items-center gap-1.5">
+                <IconBriefcase className="h-3.5 w-3.5 text-blue-600" />
+                {copy.targetRoleLabel}
+              </span>
+              <input
+                className={`mt-1.5 ${INPUT_SURFACE_CLASS}`}
+                value={targetRole}
+                maxLength={120}
+                required
+                placeholder={copy.targetRolePlaceholder}
+                onChange={(event) => setTargetRole(event.target.value)}
+              />
+            </label>
+            <label className="block text-sm font-medium text-[var(--foreground)]">
+              <span className="mb-1.5 inline-flex items-center gap-1.5">
+                <IconBadge className="h-3.5 w-3.5 text-indigo-600" />
+                {copy.goalLabel}
+              </span>
+              <select
+                className={`mt-1.5 ${INPUT_SURFACE_CLASS}`}
+                value={goal}
+                onChange={(event) => setGoal(event.target.value as CareerCoachGoal)}
+              >
+                {copy.goals.map((row) => (
+                  <option key={row.id} value={row.id}>
+                    {row.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="block text-sm font-medium text-[var(--foreground)] md:col-span-2">
+              <span className="mb-1.5 inline-flex items-center gap-1.5">
+                <IconSpark className="h-3.5 w-3.5 text-amber-600" />
+                {copy.experienceLabel}
+              </span>
+              <textarea
+                className={`mt-1.5 min-h-28 ${INPUT_SURFACE_CLASS}`}
+                value={experience}
+                maxLength={2000}
+                required
+                placeholder={copy.experiencePlaceholder}
+                onChange={(event) => setExperience(event.target.value)}
+              />
+            </label>
+            <div className="md:col-span-2">
+              <Button type="submit" size="sm" disabled={pending !== null}>
+                {pending === "profile" ? copy.generating : copy.generateCta}
+                <IconArrow className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          </form>
+          {error ? <p className="mt-3 text-sm text-[var(--rose)]">{error}</p> : null}
+        </Card>
+        <TipPanel title="Nasıl çalışır">
+          <ol className="grid gap-3">
+            <li className="flex gap-2.5">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                <IconBriefcase className="h-4 w-4" />
+              </span>
+              <span>Rol, deneyim ve çalışma hedefini yaz. Koç bu üç alanı birlikte okur.</span>
+            </li>
+            <li className="flex gap-2.5">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                <IconBadge className="h-4 w-4" />
+              </span>
+              <span>Doğrulanmış rozetler sicilden bağlanır. Kazanılmamış belge doğrulanmış yazılmaz.</span>
+            </li>
+            <li className="flex gap-2.5">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-purple-50 text-purple-600">
+                <IconMessage className="h-4 w-4" />
+              </span>
+              <span>CV ve SWOT geldikten sonra aynı bağlamda koça soru sorabilirsin.</span>
+            </li>
+          </ol>
+        </TipPanel>
+      </div>
 
       {dossier ? (
         <div className="space-y-4">
@@ -244,7 +281,18 @@ export function AiCareerStudio({ verifiedBadges }: { verifiedBadges: readonly st
                   ["threats", copy.threats],
                 ] as const
               ).map(([key, label]) => (
-                <div key={key} className="rounded-xl border border-[var(--border)] p-3">
+                <div
+                key={key}
+                className={
+                  key === "strengths"
+                    ? "rounded-2xl border border-emerald-200/80 !border-t-4 !border-t-emerald-500 bg-emerald-50/40 p-3"
+                    : key === "weaknesses"
+                      ? "rounded-2xl border border-amber-200/80 !border-t-4 !border-t-amber-500 bg-amber-50/40 p-3"
+                      : key === "opportunities"
+                        ? "rounded-2xl border border-blue-200/80 !border-t-4 !border-t-blue-600 bg-blue-50/40 p-3"
+                        : "rounded-2xl border border-rose-200/80 !border-t-4 !border-t-rose-500 bg-rose-50/40 p-3"
+                }
+              >
                   <p className="text-xs font-semibold text-[var(--foreground)]">{label}</p>
                   <ul className="mt-2 list-disc space-y-1 pl-4">
                     {dossier.swot[key].map((item, index) => (
@@ -330,6 +378,7 @@ export function AiCareerStudio({ verifiedBadges }: { verifiedBadges: readonly st
                 onChange={(event) => setDraft(event.target.value)}
               />
               <Button type="submit" size="sm" disabled={pending !== null || draft.trim().length === 0}>
+                <IconSend className="h-3.5 w-3.5" />
                 {pending === "dialogue" ? copy.generating : copy.sendCta}
               </Button>
             </form>

@@ -229,7 +229,7 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(alias).not.toContain("AcademyCoursePage");
     expect(alias).not.toContain("baseGenerateMetadata");
     expect(config).toContain('source: "/verify/:hash"');
-    expect(config).toContain('destination: "https://yetkin.ai/academy/dogrula/:hash"');
+    expect(config).toContain('destination: "https://yetkin.ai/vize/:hash"');
   });
 
   it("amiral SKU cinema kapağı taşır; kardeş SKU Yakında şablonuna düşer", () => {
@@ -266,9 +266,11 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(PRODUCT_ROOM_PATHS).toEqual(["/academy", "/career"]);
     // Kök marka iniş sayfası artık indekslenebilir (P1 tedavi).
     expect(byPath.has("/")).toBe(true);
-    for (const path of ["/academy", "/academy/dogrula", "/vize", "/legal", "/iletisim", "/hakkimizda"]) {
+    for (const path of ["/vize", "/legal", "/iletisim", "/hakkimizda"]) {
       expect(byPath.has(path), path).toBe(true);
     }
+    expect(byPath.has("/academy")).toBe(false);
+    expect(byPath.has("/academy/dogrula")).toBe(false);
     expect(byPath.has("/career")).toBe(true);
     expect(byPath.get("/career")?.priority).toBe(0.9);
     expect(byPath.has("/junior")).toBe(false);
@@ -284,29 +286,17 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     for (const row of published) {
       const path = `/academy/${row.slug}`;
       const entry = byPath.get(path);
-      expect(entry, path).toBeDefined();
-      expect(entry?.priority).toBe(0.8);
-      expect(entry?.changeFrequency).toBe("weekly");
-      const cover = academyCourseCoverPath(row.slug);
-      if (cover) {
-        expect(entry?.images?.[0]).toBe(`https://yetkin.ai${cover}`);
-      } else {
-        expect(entry?.images).toBeUndefined();
-      }
+      expect(entry, path).toBeUndefined();
       expect(byPath.has(`/academy/courses/${row.slug}`), `/academy/courses/${row.slug}`).toBe(false);
     }
 
-    expect(byPath.get("/academy")?.priority).toBe(1);
+    expect(byPath.has("/academy")).toBe(false);
     expect(sitemapRoutePolicy("/career").priority).toBe(0.9);
-    expect(byPath.has("/academy/02_ecommerce_ai"), "/academy/02_ecommerce_ai").toBe(true);
-    expect(byPath.has("/academy/03_social_media_ai"), "/academy/03_social_media_ai").toBe(true);
-    expect(byPath.has("/academy/04_chatbot_nocode"), "/academy/04_chatbot_nocode").toBe(true);
-    expect(byPath.has("/academy/05_prompt_practice"), "/academy/05_prompt_practice").toBe(true);
-    expect(byPath.has("/academy/01_office_ai_ileri"), "/academy/01_office_ai_ileri").toBe(true);
-    expect(byPath.get("/academy/01_office_ai_ileri")?.priority).toBe(0.8);
-    expect(byPath.get("/academy/01_office_ai_ileri")?.images?.[0]).toBe(
-      "https://yetkin.ai/academy/covers/01_office_ai_ileri.jpg",
-    );
+    expect(byPath.has("/academy/02_ecommerce_ai"), "/academy/02_ecommerce_ai").toBe(false);
+    expect(byPath.has("/academy/03_social_media_ai"), "/academy/03_social_media_ai").toBe(false);
+    expect(byPath.has("/academy/04_chatbot_nocode"), "/academy/04_chatbot_nocode").toBe(false);
+    expect(byPath.has("/academy/05_prompt_practice"), "/academy/05_prompt_practice").toBe(false);
+    expect(byPath.has("/academy/01_office_ai_ileri"), "/academy/01_office_ai_ileri").toBe(false);
     expect(byPath.has("/freelancer")).toBe(false);
     expect(byPath.get("/hakkimizda")?.priority).toBe(0.5);
     expect(byPath.get("/legal")?.priority).toBe(0.5);
@@ -318,7 +308,7 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     });
 
     expect(entries).toHaveLength(byPath.size);
-    expect(entries.length).toBeGreaterThanOrEqual(7 + PRODUCT_ROOM_PATHS.length + published.length);
+    expect(entries.length).toBeGreaterThanOrEqual(7 + PRODUCT_ROOM_PATHS.length);
     // SEO Tedavi (P1) — sabit mühür yok; üretim anı dinamik basılır.
     expect(readSrc("app/sitemap.ts")).not.toContain('new Date("2026-09-05")');
     expect(readSrc("app/sitemap.ts")).not.toContain("new Date()");
@@ -400,23 +390,26 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
       // Kök marka iniş sayfası (P1 tedavi): 308 kilidi kalktı, index:true.
       "/",
       "/rehber",
-      "/academy",
-      "/academy/ileri",
       "/career",
       "/tezgah",
-      "/academy/dogrula",
+      "/fiyatlandirma",
+      "/kurumsal",
       "/vize",
+      "/uzmanlar",
+      "/sozluk",
+      "/tetkik",
     ]);
     expect(SITEMAP_STATIC_PATHS).toContain("/");
     expect(rule?.userAgent).toEqual(["*", "Googlebot"]);
     expect(rule?.allow).toEqual(expect.arrayContaining([...SITEMAP_STATIC_PATHS, "/legal"]));
-    expect(rule?.allow).toEqual(expect.arrayContaining(["/academy", "/career", "/vize"]));
+    expect(rule?.allow).toEqual(expect.arrayContaining(["/career", "/vize"]));
+    expect(rule?.disallow).toEqual(expect.arrayContaining(["/academy"]));
     expect(rule?.disallow).toEqual(expect.arrayContaining([...ROBOTS_DISALLOW_PATHS]));
     expect(rule?.disallow).toEqual(expect.arrayContaining([...ROBOTS_DISALLOW_AUTH_REDIRECTS]));
     expect(isRobotsDisallowedPath("/career")).toBe(false);
     expect(isRobotsDisallowedPath("/kariyer")).toBe(true);
     expect(isRobotsDisallowedPath("/academy/01_office_ai/oyna")).toBe(true);
-    expect(isRobotsDisallowedPath("/academy/01_office_ai")).toBe(false);
+    expect(isRobotsDisallowedPath("/academy/01_office_ai")).toBe(true);
     expect(isRobotsDisallowedPath("/profil")).toBe(true);
     expect(isRobotsDisallowedPath("/profile")).toBe(true);
     expect(rule?.disallow).toEqual(
@@ -427,26 +420,19 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(ROBOTS_DISALLOW_PATHS).toContain("/academy/*/cikis-paketi");
     expect(rule?.disallow).toEqual(expect.arrayContaining(["/academy/*/oyna"]));
     expect(rule?.disallow).toEqual(expect.arrayContaining(["/academy/*/cikis-paketi"]));
-    expect(ROBOTS_ALLOW_COURSE_PATHS).toEqual([
+    expect(ROBOTS_ALLOW_COURSE_PATHS).toEqual([]);
+    for (const coursePath of [
       "/academy/01_office_ai",
       "/academy/01_office_ai_ileri",
       "/academy/02_ecommerce_ai",
       "/academy/03_social_media_ai",
       "/academy/04_chatbot_nocode",
       "/academy/05_prompt_practice",
-    ]);
-    expect(rule?.allow).toEqual(
-      expect.arrayContaining([
-        "/academy/01_office_ai",
-        "/academy/01_office_ai_ileri",
-        "/academy/02_ecommerce_ai",
-        "/academy/03_social_media_ai",
-        "/academy/04_chatbot_nocode",
-        "/academy/05_prompt_practice",
-      ]),
-    );
-    expect(isRobotsDisallowedPath("/academy/02_ecommerce_ai")).toBe(false);
-    expect(isRobotsDisallowedPath("/academy/01_office_ai_ileri")).toBe(false);
+    ]) {
+      expect(rule?.allow ?? []).not.toContain(coursePath);
+    }
+    expect(isRobotsDisallowedPath("/academy/02_ecommerce_ai")).toBe(true);
+    expect(isRobotsDisallowedPath("/academy/01_office_ai_ileri")).toBe(true);
     expect(isRobotsDisallowedPath("/academy/01_office_ai_ileri/oyna")).toBe(true);
     expect(isRobotsDisallowedPath("/junior")).toBe(true);
     expect(isRobotsDisallowedPath("/junior/ders/jr_06_mat-1")).toBe(true);
@@ -816,14 +802,14 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
     expect(PAGE_SEO.home.title).toBe(PUBLIC_SEN.home.title);
     expect(PAGE_SEO.academy.title).toBe("Akademi eğitim kataloğu");
     expect(PAGE_SEO.academy.title).not.toBe(ACADEMY_SEN.catalog.title);
-    expect(PAGE_SEO.career.title.toLocaleLowerCase("tr")).toContain("doğrulanmış freelancer rozeti");
-    expect(ACADEMY_SEN.catalog.title).toBe("Yapay Zekâyı Öğren. Gerçek İşlerinde Kullan.");
+    expect(PAGE_SEO.career.title.toLocaleLowerCase("tr")).toContain("yetkincv");
+    expect(ACADEMY_SEN.catalog.title).toBe("Yetkin.ai Uygulama & Uzmanlık Rehberi");
     // P1 tedavi: anahtar kelime yığını vitrin gövdesinden çıktı. SEO niyeti meta
     // açıklamasında ve SSS'te durur; gövde paragrafı ürün cümlesidir.
     expect(PAGE_SEO.academy.description.toLocaleLowerCase("tr")).toContain("yapay zeka eğitimi");
     expect(PAGE_SEO.academy.description.toLocaleLowerCase("tr")).toContain("online kurs");
     expect(ACADEMY_SEN.catalog.description.toLocaleLowerCase("tr")).not.toContain("yayındadır");
-    expect(CAREER_SEN.title.toLocaleLowerCase("tr")).toBe("doğrulanmış freelancer rozeti");
+    expect(CAREER_SEN.title.toLocaleLowerCase("tr")).toContain("yetkincv");
     expect(PUBLIC_SEN.home.chainTitle.toLocaleLowerCase("tr")).toContain("dört adım");
     expect(readSrc("app/(public)/page.tsx")).toContain("<h2");
     expect(readSrc("app/(public)/page.tsx")).toContain("home-chain-heading");

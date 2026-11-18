@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/link-button";
 import { CertificateShareActions } from "@/components/academy/certificate-share-actions";
+import { SealShareQuickBar } from "@/components/career/seal-share-guides";
 import { VisaPageFrame, VisaWaxSeal } from "@/components/kernel/visa-wax-seal";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { UX_SEN } from "@/lib/copy/sen-voice/ux";
@@ -149,8 +150,12 @@ export function CertificateSeal({
         ) : null}
       </div>
       {shareAllowed ? (
-        <div className="mt-3">
+        <div className="mt-3 space-y-3">
           <CertificateShareActions hash={hash} courseTitle={courseTitle} showLead />
+          <SealShareQuickBar
+            url={verifyHref ?? `/academy/dogrula/${hash}`}
+            text={courseTitle?.trim() || copy.sealed}
+          />
         </div>
       ) : null}
     </VisaPageFrame>

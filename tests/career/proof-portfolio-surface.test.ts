@@ -96,12 +96,13 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     expect(page).toContain("SealShareGuides");
     expect(page).toContain("copy.publicTalentCta");
     expect(page).toContain("PASSPORT_SURFACE_PATH");
-    expect(page).toContain('"/academy/certificates"');
+    expect(page).toContain("YetkinCvStation");
     expect(page).toContain("FREELANCER_STAMP_SURFACE_PATH");
     expect(page).toContain("copy.passportCta");
-    expect(page).toContain("copy.certificatesCta");
+    expect(page).toContain('"/vize"');
     expect(page).toContain("copy.freelancerBoardCta");
-    expect(page).toContain("/academy/dogrula");
+    expect(page).not.toContain("/academy/dogrula");
+    expect(page).not.toContain('"/academy/certificates"');
     expect(SEN_VOICE.career.passportCta).toBe("Uzmanlık Portföyü");
     expect(SEN_VOICE.career.certificatesCta).toBe("Sertifikalarım");
     expect(SEN_VOICE.career.freelancerBoardCta).toBe("Freelancer İlan Panosu");
@@ -144,7 +145,7 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     expect(ledger).not.toContain("issueCareerVisaStamp");
     expect(SEN_VOICE.career.ledgerTitle).toBe("Doğrulanmış Freelancer Rozeti");
     expect(SEN_VOICE.career.proofsTitle).toBe("Doğrulanmış Freelancer Rozeti");
-    expect(SEN_VOICE.career.title).toBe("Doğrulanmış Freelancer Rozeti");
+    expect(SEN_VOICE.career.title).toBe("YetkinCV — Test Edilmiş & Mühürlü Kariyer Merkezi");
     expect(SEN_VOICE.career.verifyCta).toBe("Sertifikayı doğrula");
     expect(SEN_VOICE.career.sealed).toBe("Doğrulanmış Rozet");
     expect(SEN_VOICE.career.sealed).not.toBe("Onaylı");
@@ -184,7 +185,7 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
       sourceId: "cert_1",
       courseSlug: "sample-course",
     });
-    expect(careerStampCourseHref(academyStamp)).toBe("/academy/sample-course");
+    expect(careerStampCourseHref(academyStamp)).toBe("/career");
     expect(careerStampContractHref(academyStamp)).toBeNull();
     expect(careerStampPublicHref(academyStamp)).toBe("/vize/stamp_1");
 

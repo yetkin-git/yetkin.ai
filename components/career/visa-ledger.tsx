@@ -96,7 +96,7 @@ function EmptyLedger() {
     <div className="rounded-2xl border border-[color-mix(in_srgb,var(--foreground)_8%,transparent)] px-4 py-4">
       <p>{CAREER_SEN.proofEmpty}</p>
       <div className="mt-4 flex flex-wrap gap-2">
-        <LinkButton href="/academy" variant="outline" size="sm">
+        <LinkButton href="/tezgah" variant="outline" size="sm">
           {CAREER_SEN.academyCta}
         </LinkButton>
       </div>

@@ -11,7 +11,7 @@ export type NextBestActionKind =
 
 export type NextBestActionRoom = "academy" | "career" | "freelancer";
 
-export type NextBestActionHref = `/${NextBestActionRoom}` | `/academy/${string}/oyna`;
+export type NextBestActionHref = `/${NextBestActionRoom}` | "/hibe" | "/tezgah" | "/e-ticaret";
 
 export type NextBestAction = {
   kind: NextBestActionKind;
@@ -19,7 +19,7 @@ export type NextBestAction = {
   room: NextBestActionRoom;
 };
 
-const ACADEMY_DEFAULT: NextBestAction = { kind: "default", href: "/academy", room: "academy" };
+const ACADEMY_DEFAULT: NextBestAction = { kind: "default", href: "/hibe", room: "academy" };
 const CAREER_VISA_ACTION: NextBestAction = { kind: "career_visa", href: "/career", room: "career" };
 
 /** Satın alınmış yarım kurs → oynatıcı; yoksa katalog. */
@@ -33,9 +33,9 @@ export function academyContinueHref(slug: string | null | undefined): NextBestAc
     trimmed.includes("?") ||
     trimmed.includes("#")
   ) {
-    return "/academy";
+    return "/tezgah";
   }
-  return `/academy/${trimmed}/oyna`;
+  return "/tezgah";
 }
 
 /** Yarım eğitim: lastCourseSlug nabızda durur; sertifika basılınca slug düşer. */

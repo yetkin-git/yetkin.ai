@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import type { ProStudioPack } from "@/lib/tezgah/pro/build";
+import { SAAS_INSTALL_GUIDE_HEADING } from "@/lib/tezgah/pro/saas-builder";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
 function downloadText(filename: string, text: string, mime: string) {
@@ -101,6 +102,12 @@ export function ProStudioPreview({
           className="h-80 w-full rounded-xl border border-[var(--border)] bg-white"
           data-pro-svg=""
         />
+      ) : null}
+      {pack.installGuide ? (
+        <section className="mt-3 rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] p-4" data-pro-install-guide="">
+          <h3 className="text-sm font-semibold tracking-tight text-[var(--foreground)]">{SAAS_INSTALL_GUIDE_HEADING}</h3>
+          <pre className="mt-2 whitespace-pre-wrap text-sm leading-6 text-[var(--foreground)]">{pack.installGuide}</pre>
+        </section>
       ) : null}
       {pack.html ? (
         <iframe

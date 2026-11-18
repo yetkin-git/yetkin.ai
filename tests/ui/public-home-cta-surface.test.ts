@@ -14,8 +14,9 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
   it("misafire birincil Akademi CTA + header Giriş/Kayıt, oturumluya Panele geç basar", () => {
     const page = readSrc("app/(public)/page.tsx");
     const copy = SEN_VOICE.public.home;
-    expect(copy.academyCta).toBe("Uzmanlık Paketlerini İncele");
-    expect(copy.primaryCta).toBe("Ücretsiz Yetkinlik Testine Gir");
+    expect(copy.academyCta).toBe("YetkinHibe İşletim Sistemi");
+    expect(copy.primaryCta).toBe("AI Tezgâhını Ücretsiz Dene (Kayıtsız)");
+    expect(copy.levelCta).toBe("10 Dakikada Yetkinlik Testine Gir");
     expect(copy.freeLessonCta).toBe("Ücretsiz Dersi İzle");
     expect(copy.loginCta).toBe("Giriş Yap");
     expect(copy.registerCta).toBe("Kayıt Ol");
@@ -30,10 +31,10 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
     expect(nav).toContain("copy.loginCta");
     expect(nav).toContain("copy.registerCta");
     expect(nav).toContain("copy.cockpitCta");
-    expect(page).toContain('href="/academy"');
-    expect(page).toContain("OFF_101_EXEMPTION_PATH");
+    expect(page).toContain('href="/hibe"');
+    expect(page).toContain('href="/e-ticaret"');
     expect(page).toContain("{copy.primaryCta}");
-    expect(page).toMatch(/href="\/academy"[^>]*>\s*\{copy\.academyCta\}/);
+    expect(page).toMatch(/href="\/hibe"[^>]*>\s*\{copy\.academyCta\}/);
     expect(page).not.toContain("copy.freeLessonCta");
     expect(nav).toContain('href="/login"');
     expect(nav).toContain('href="/register"');
@@ -50,7 +51,7 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
     expect(page).not.toContain("copy.footnotes");
     expect(page).not.toContain("copy.journey");
     expect(page).not.toContain("/freelancer");
-    expect(page).not.toContain("/career");
+    expect(copy.tracks.some((track) => track.href === "/career")).toBe(true);
     expect(copy.chain).toHaveLength(4);
     expect(copy.tracks).toHaveLength(5);
     expect(copy).not.toHaveProperty("footnotes");

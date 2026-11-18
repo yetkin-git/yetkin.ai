@@ -94,11 +94,9 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
       courseSlug: "01_office_ai",
       loginHref,
     });
-    expect(hero.action).toBe("buy");
-    expect(hero.primaryHref).toBe(loginHref);
-    expect(hero.primaryHref).toContain("%23satin-al");
-    expect(hero.primaryLabel).not.toBe(ACADEMY_SEN.player.openCta);
-    expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺890"));
+    expect(hero.action).toBe("play");
+    expect(hero.primaryHref).toBe("/academy/01_office_ai/oyna");
+    expect(hero.primaryLabel).toBe(ACADEMY_SEN.catalog.cardCtaStartGuide);
     expect(academyCheckoutHref("01_office_ai")).toBe("/academy/01_office_ai#satin-al");
   });
 
@@ -112,10 +110,9 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
       courseSlug: "02_ecommerce_ai",
       loginHref,
     });
-    expect(hero.action).toBe("buy");
-    expect(hero.primaryHref).toBe(loginHref);
-    expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺990"));
-    expect(hero.primaryLabel).toBe("Uzmanlık Paketini Aç — ₺990");
+    expect(hero.action).toBe("play");
+    expect(hero.primaryHref).toBe("/academy/02_ecommerce_ai/oyna");
+    expect(hero.primaryLabel).toBe(ACADEMY_SEN.catalog.cardCtaStartGuide);
     expect(academyCheckoutHref("02_ecommerce_ai")).toBe("/academy/02_ecommerce_ai#satin-al");
   });
 
@@ -129,10 +126,9 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
       courseSlug: "03_social_media_ai",
       loginHref,
     });
-    expect(hero.action).toBe("buy");
-    expect(hero.primaryHref).toBe(loginHref);
-    expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺890"));
-    expect(hero.primaryLabel).toBe("Uzmanlık Paketini Aç — ₺890");
+    expect(hero.action).toBe("play");
+    expect(hero.primaryHref).toBe("/academy/03_social_media_ai/oyna");
+    expect(hero.primaryLabel).toBe(ACADEMY_SEN.catalog.cardCtaStartGuide);
     expect(academyCheckoutHref("03_social_media_ai")).toBe("/academy/03_social_media_ai#satin-al");
   });
 
@@ -146,10 +142,9 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
       courseSlug: "04_chatbot_nocode",
       loginHref,
     });
-    expect(hero.action).toBe("buy");
-    expect(hero.primaryHref).toBe(loginHref);
-    expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺1.290"));
-    expect(hero.primaryLabel).toBe("Uzmanlık Paketini Aç — ₺1.290");
+    expect(hero.action).toBe("play");
+    expect(hero.primaryHref).toBe("/academy/04_chatbot_nocode/oyna");
+    expect(hero.primaryLabel).toBe(ACADEMY_SEN.catalog.cardCtaStartGuide);
     expect(academyCheckoutHref("04_chatbot_nocode")).toBe("/academy/04_chatbot_nocode#satin-al");
   });
 
@@ -163,10 +158,9 @@ describe("Antre hero CTA — Satın Al vs Derse başla", () => {
       courseSlug: "05_prompt_practice",
       loginHref,
     });
-    expect(hero.action).toBe("buy");
-    expect(hero.primaryHref).toBe(loginHref);
-    expect(hero.primaryLabel).toBe(ACADEMY_SEN.course.heroBuyCta("₺1.290"));
-    expect(hero.primaryLabel).toBe("Uzmanlık Paketini Aç — ₺1.290");
+    expect(hero.action).toBe("play");
+    expect(hero.primaryHref).toBe("/academy/05_prompt_practice/oyna");
+    expect(hero.primaryLabel).toBe(ACADEMY_SEN.catalog.cardCtaStartGuide);
     expect(academyCheckoutHref("05_prompt_practice")).toBe("/academy/05_prompt_practice#satin-al");
   });
 
@@ -268,10 +262,10 @@ describe("vitrin kartı CTA", () => {
         purchasable: true,
         isPublished: true,
       });
-      expect(open.cta, slug).toBe(ACADEMY_SEN.catalog.cardCtaOutcomeIdle);
-      expect(open.href, slug).toBe(`/academy/${slug}#satin-al`);
-      expect(open.secondaryCta, slug).toBe(ACADEMY_SEN.catalog.cardCtaFreePreview);
-      expect(open.secondaryHref, slug).toBe(`/academy/${slug}/oyna`);
+      expect(open.cta, slug).toBe(ACADEMY_SEN.catalog.cardCtaStartGuide);
+      expect(open.href, slug).toBe(`/academy/${slug}/oyna`);
+      expect(open.secondaryCta, slug).toBe(ACADEMY_SEN.catalog.cardCtaExamBadge);
+      expect(open.secondaryHref, slug).toBe(`/academy/${slug}#satin-al`);
       expect(open.cta, slug).not.toBe(ACADEMY_SEN.catalog.pricePending);
       expect(open.ctaDisabled, slug).toBeUndefined();
     }
@@ -282,10 +276,10 @@ describe("vitrin kartı CTA", () => {
       purchasable: true,
       isPublished: true,
     });
-    expect(prompt.cta).toBe(ACADEMY_SEN.catalog.cardCtaOutcomeIdle);
-    expect(prompt.href).toBe("/academy/05_prompt_practice#satin-al");
-    expect(prompt.secondaryCta).toBe(ACADEMY_SEN.catalog.cardCtaFreePreview);
-    expect(prompt.secondaryHref).toBe("/academy/05_prompt_practice/oyna");
+    expect(prompt.cta).toBe(ACADEMY_SEN.catalog.cardCtaStartGuide);
+    expect(prompt.href).toBe("/academy/05_prompt_practice/oyna");
+    expect(prompt.secondaryCta).toBe(ACADEMY_SEN.catalog.cardCtaExamBadge);
+    expect(prompt.secondaryHref).toBe("/academy/05_prompt_practice#satin-al");
     const guestBuy = resolveAcademyCatalogCardCta({
       slug: "01_office_ai",
       owned: false,
@@ -294,10 +288,10 @@ describe("vitrin kartı CTA", () => {
       isPublished: true,
       buyHref: "/login?next=%2Facademy%2F01_office_ai%23satin-al",
     });
-    expect(guestBuy.href).toBe("/login?next=%2Facademy%2F01_office_ai%23satin-al");
-    expect(guestBuy.cta).toBe(ACADEMY_SEN.catalog.cardCtaOutcomeIdle);
-    expect(guestBuy.secondaryCta).toBe(ACADEMY_SEN.catalog.cardCtaFreePreview);
-    expect(guestBuy.secondaryHref).toBe("/academy/01_office_ai/oyna");
+    expect(guestBuy.href).toBe("/academy/01_office_ai/oyna");
+    expect(guestBuy.cta).toBe(ACADEMY_SEN.catalog.cardCtaStartGuide);
+    expect(guestBuy.secondaryCta).toBe(ACADEMY_SEN.catalog.cardCtaExamBadge);
+    expect(guestBuy.secondaryHref).toBe("/academy/01_office_ai#satin-al");
     const memberBuy = resolveAcademyCatalogCardCta({
       slug: "02_ecommerce_ai",
       owned: false,
@@ -306,20 +300,19 @@ describe("vitrin kartı CTA", () => {
       isPublished: true,
       buyHref: "/academy/02_ecommerce_ai#satin-al",
     });
-    expect(memberBuy.href).toBe("/academy/02_ecommerce_ai#satin-al");
-    expect(memberBuy.secondaryHref).toBe("/academy/02_ecommerce_ai/oyna");
+    expect(memberBuy.href).toBe("/academy/02_ecommerce_ai/oyna");
+    expect(memberBuy.secondaryHref).toBe("/academy/02_ecommerce_ai#satin-al");
     expect(prompt.priceCaption).toBeNull();
-    expect(prompt.priceLabel).toBe("₺1.290");
+    expect(prompt.priceLabel).toBe("");
     const off201NoPrice = resolveAcademyCatalogCardCta({
       slug: "01_office_ai_ileri",
       owned: false,
       priceLabel: null,
     });
-    expect(off201NoPrice.cta).toBe(ACADEMY_SEN.catalog.pricePending);
-    expect(off201NoPrice.cta).toBe("Kayıt Kapalı / Fiyat Bekleniyor");
-    expect(off201NoPrice.href).toBe("");
-    expect(off201NoPrice.ctaDisabled).toBe(true);
-    expect(off201NoPrice.priceLabel).toBe(ACADEMY_SEN.catalog.priceMissing);
+    expect(off201NoPrice.cta).toBe(ACADEMY_SEN.catalog.cardCtaStartGuide);
+    expect(off201NoPrice.href).toBe("/academy/01_office_ai_ileri/oyna");
+    expect(off201NoPrice.ctaDisabled).toBeUndefined();
+    expect(off201NoPrice.priceLabel).toBe("");
     const off201Priced = resolveAcademyCatalogCardCta({
       slug: "01_office_ai_ileri",
       owned: false,
@@ -327,12 +320,12 @@ describe("vitrin kartı CTA", () => {
       purchasable: true,
       isPublished: true,
     });
-    expect(off201Priced.cta).toBe(ACADEMY_SEN.catalog.cardCtaOutcomeIdle);
-    expect(off201Priced.href).toBe("/academy/01_office_ai_ileri#satin-al");
-    expect(off201Priced.secondaryCta).toBe(ACADEMY_SEN.catalog.cardCtaFreePreview);
-    expect(off201Priced.secondaryHref).toBe("/academy/01_office_ai_ileri/oyna");
+    expect(off201Priced.cta).toBe(ACADEMY_SEN.catalog.cardCtaStartGuide);
+    expect(off201Priced.href).toBe("/academy/01_office_ai_ileri/oyna");
+    expect(off201Priced.secondaryCta).toBe(ACADEMY_SEN.catalog.cardCtaExamBadge);
+    expect(off201Priced.secondaryHref).toBe("/academy/01_office_ai_ileri#satin-al");
     expect(off201Priced.ctaDisabled).toBeUndefined();
-    expect(off201Priced.priceLabel).toBe("₺1.290");
+    expect(off201Priced.priceLabel).toBe("");
     expect(off201Priced.priceCaption).toBeNull();
     const off201ClosedCitizen = resolveAcademyCatalogCardCta({
       slug: "01_office_ai_ileri",
@@ -340,9 +333,9 @@ describe("vitrin kartı CTA", () => {
       priceLabel: "₺1.290,00",
       purchasable: false,
     });
-    expect(off201ClosedCitizen.cta).toBe(ACADEMY_SEN.catalog.pricePending);
-    expect(off201ClosedCitizen.href).toBe("");
-    expect(off201ClosedCitizen.ctaDisabled).toBe(true);
+    expect(off201ClosedCitizen.cta).toBe(ACADEMY_SEN.catalog.cardCtaStartGuide);
+    expect(off201ClosedCitizen.href).toBe("/academy/01_office_ai_ileri/oyna");
+    expect(off201ClosedCitizen.ctaDisabled).toBeUndefined();
     const off201ClosedAdmin = resolveAcademyCatalogCardCta({
       slug: "01_office_ai_ileri",
       owned: false,
@@ -350,13 +343,12 @@ describe("vitrin kartı CTA", () => {
       purchasable: false,
       saleHold: "Kayıt kapalı: ses veya metin mührü eksik.",
     });
-    expect(off201ClosedAdmin.cta).toBe(ACADEMY_SEN.catalog.voiceSealMissing);
-    expect(off201ClosedAdmin.href).toBe("");
-    expect(off201ClosedAdmin.ctaDisabled).toBe(true);
-    expect(off201ClosedAdmin.priceLabel).toBe("₺1.290");
-    expect(off201ClosedAdmin.priceCaption).toBe("Kayıt kapalı: ses veya metin mührü eksik.");
+    expect(off201ClosedAdmin.cta).toBe(ACADEMY_SEN.catalog.cardCtaStartGuide);
+    expect(off201ClosedAdmin.href).toBe("/academy/01_office_ai_ileri/oyna");
+    expect(off201ClosedAdmin.ctaDisabled).toBeUndefined();
+    expect(off201ClosedAdmin.priceLabel).toBe("");
+    expect(off201ClosedAdmin.priceCaption).toBeNull();
     expect(off201ClosedAdmin.priceLabel).not.toBe(ACADEMY_SEN.course.accessOpen);
-    expect(off201ClosedAdmin.href).not.toBe("/academy/01_office_ai_ileri/oyna");
     const page = readFileSync(join(process.cwd(), "app/academy/page.tsx"), "utf8");
     const card = readFileSync(join(process.cwd(), "components/academy/course-card.tsx"), "utf8");
     const slugPage = readFileSync(join(process.cwd(), "app/academy/[slug]/page.tsx"), "utf8");

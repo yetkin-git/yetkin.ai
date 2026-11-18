@@ -365,10 +365,10 @@ describe("kenar /api/v1 hop allowlist kalkanı", () => {
         headers: { "X-Rail-Min-Version": "1" },
       }),
     );
-    expect(unknown.status).toBe(404);
+    expect(unknown.status).toBe(410);
     expect(await unknown.json()).toMatchObject({
       ok: false,
-      error: EDGE_API_NOT_FOUND_ERROR,
+      error: EDGE_API_FROZEN_ROOM_ERROR,
       apiVersion: "1",
       data: null,
     });

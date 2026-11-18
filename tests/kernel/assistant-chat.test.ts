@@ -293,7 +293,7 @@ describe("asistan yüzey mührü", () => {
     expect(widget).toContain("ASSISTANT_SEN.role");
     expect(widget).toContain("ASSISTANT_SEN.academyCta");
     expect(widget).toContain("ASSISTANT_SEN.careerCta");
-    expect(widget).toContain('href="/academy"');
+    expect(widget).toContain('href="/hibe"');
     expect(widget).toContain('href="/career"');
     expect(widget).toContain("bottom-6 right-6");
     expect(widget).toContain("z-50");

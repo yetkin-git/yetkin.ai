@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
+import { TEZGAH_DELIVERY_SIGNATURE } from "@/lib/tezgah/delivery-signature";
 import { Button } from "@/components/ui/button";
 import { renderGrantProjectText } from "@/lib/tezgah/grant/render";
 import type { GrantProjectReport } from "@/lib/tezgah/grant/types";
@@ -271,6 +272,11 @@ export function GrantProjectReportView({ report }: { report: GrantProjectReport 
         </section>
       ) : null}
 
+      <p className="mt-6 border-t border-[var(--border)] pt-4 text-xs leading-5 text-[var(--muted)]">
+        <a href="https://yetkin.ai/tezgah" className="underline underline-offset-4">
+          {TEZGAH_DELIVERY_SIGNATURE}
+        </a>
+      </p>
       <div className="mt-5 flex flex-wrap gap-2 print:hidden">
         <Button type="button" variant="secondary" onClick={() => window.print()}>
           Yazdır / PDF olarak kaydet

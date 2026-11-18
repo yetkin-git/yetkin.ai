@@ -4,14 +4,16 @@ import { YETKIN_BRAND } from "@/lib/copy/brand";
 export const PUBLIC_SEN = {
   home: {
     badge: YETKIN_BRAND,
-    title: "Yetkinliğini Mühürle. Yapay Zekâ Tezgâhıyla Üret. Rozet, Plan ve Canlı Vitrin.",
+    title: "E-Ticaret ve YetkinHibe. İki işletim sistemi, tek hesap.",
     description:
-      "E-ticaret, sosyal medya, otomasyon ve ofis süreçlerinde uzmanlığını kanıtla. Yapay zekâ tezgâhında teslimat üret, sunucu onaylı Doğrulanmış Rozetini kazan, 30 günlük kariyer planını kur ve canlı mağaza vitrinini aç.",
-    academyCta: "Uzmanlık Paketlerini İncele",
-    /** Kök iniş — ikincil eylem: canlı üretim tezgâhı. */
+      "E-Ticaret işletim sistemi stok, kanal ve siparişi toplar. YetkinHibe firma uygunluğunu ve proje dosyasını hazırlar. Tezgâhta teslim üret, sunucu onaylı Doğrulanmış Rozetini kazan, 30 günlük kariyer planını kur ve canlı mağaza vitrinini aç.",
+    academyCta: "YetkinHibe İşletim Sistemi",
+    /** Kök iniş — zincir bağlantısı. Kahraman birincil düğmesi `primaryCta`. */
     tezgahCta: "AI Tezgâhını Dene",
-    /** Kök iniş — birincil eylem: ücretsiz seviye testi. */
-    primaryCta: "Ücretsiz Yetkinlik Testine Gir",
+    /** Kök iniş — birincil eylem: kayıtsız tezgâh. */
+    primaryCta: "AI Tezgâhını Ücretsiz Dene (Kayıtsız)",
+    /** Kök iniş — ikincil eylem: kayıtsız seviye testi. */
+    levelCta: "10 Dakikada Yetkinlik Testine Gir",
     freeLessonCta: "Ücretsiz Dersi İzle",
     loginCta: "Giriş Yap",
     registerCta: "Kayıt Ol",
@@ -66,7 +68,7 @@ export const PUBLIC_SEN = {
         id: "grant",
         title: "Hibe Proje Dosyası",
         body: "İl ve yatırım odağından yazdırılabilir proje taslağı kurarsın.",
-        href: "/tezgah?tool=grant",
+        href: "/hibe",
       },
     ],
     chainKicker: "Değer zinciri",
@@ -80,8 +82,9 @@ export const PUBLIC_SEN = {
       },
       {
         step: "2",
-        title: "Uygulamalı Uzmanlık & Sınav",
-        body: "Seçtiğin alanda dersi bitir, barajı 70 ve üzeri ile geç.",
+        title: "YetkinHibe dosyası",
+        body: "Firma uygunluğunu ölç. Proje özeti, bütçe ve iş paketini dosyaya dök.",
+        href: "/hibe",
       },
       {
         step: "3",
@@ -90,38 +93,39 @@ export const PUBLIC_SEN = {
       },
       {
         step: "4",
-        title: "30 Günlük Plan ve Canlı Vitrin",
+        title: "E-Ticaret ve 30 günlük plan",
         body: "Kariyer planını kur. Açık mağaza canlı vitrinde görünür.",
+        href: "/e-ticaret",
       },
     ],
-    tracksKicker: "Beş uzmanlık",
-    tracksTitle: "Hangi işi üretiyorsan, o rozet",
+    tracksKicker: "Beş işletim sistemi",
+    tracksTitle: "Tek bakışta çalışan yüzey",
     tracksCta: "Ücretsiz Seviye Testine Gir",
     tracks: [
       {
-        title: "Ofis & Veri AI",
-        body: "Excel, e-posta ve yönetim özetini kısa talimatla toparlarsın.",
-        href: "/academy/01_office_ai",
+        title: "E-Ticaret",
+        body: "Stok, kanal ve sipariş kokpiti.",
+        href: "/e-ticaret",
       },
       {
-        title: "E-Ticaret AI",
-        body: "Ürün kartı ve mağaza metnini satışa hazır üretirsin.",
-        href: "/academy/02_ecommerce_ai",
+        title: "YetkinHibe",
+        body: "Uygunluk analizi ve tam proje dosyası.",
+        href: "/hibe",
       },
       {
-        title: "Sosyal Medya AI",
-        body: "İçerik takvimi ve paylaşım metnini düzene bağlarsın.",
-        href: "/academy/03_social_media_ai",
+        title: "AI Tezgâh",
+        body: "Hızlı üretim araçları ve teslim taslağı.",
+        href: "/tezgah",
       },
       {
-        title: "Kodsuz Chatbot & Otomasyon",
-        body: "Sohbet akışı ve otomasyon taslağını kurarsın.",
-        href: "/academy/04_chatbot_nocode",
+        title: "Kariyer",
+        body: "Kariyer koçu ve 30 günlük plan.",
+        href: "/career",
       },
       {
-        title: "Prompt Mühendisliği",
-        body: "Tekrarlanabilir talimat ve teslim şablonu yazarsın.",
-        href: "/academy/05_prompt_practice",
+        title: "Uzmanlar",
+        body: "Doğrulanmış uzman ve freelancer buluşma noktası.",
+        href: "/uzmanlar",
       },
     ],
     faqHeading: "Sık sorulanlar",
@@ -130,16 +134,16 @@ export const PUBLIC_SEN = {
     eyebrow: "Rehber",
     title: "Ofiste yapay zekâyı Excel ve e-postada kullan",
     description:
-      "İlk ders ücretsizdir ve kayıt istemez. Aşağıdaki sıra, ofis işinde kısa bir talimatın nasıl kurulduğunu gösterir. Sertifika, testi geçince doğar.",
+      "Uygulama rehberleri ücretsizdir. Üretim AI Tezgâh’tadır. Rozet, Kariyer kartında doğrulanır.",
     stepsTitle: "Dört adım",
     steps: [
-      "Ücretsiz dersi aç. Excel’de dağınık tabloyu düzenli tabloya çeviren ilk konu kayıt duvarının önündedir.",
+      "AI Tezgâh’ı aç. Excel’de dağınık tabloyu düzenli tabloya çeviren işi kendi cümlenle üret.",
       "Kendi dosyanla dene. Müşteri adı ve telefonu maskelenmeden yapay zekâya yüklenmez.",
-      "Testi 70 ve üzeri ile geç. Satın alma belge basmaz.",
-      "Sertifika Doğrulanmış Freelancer Rozetine işlenir. Doğrulama bağı herkese açıktır; kimlik gösterilmez.",
+      "Çıktıyı Kariyer kartına bağla. Satın alma belge basmaz.",
+      "Doğrulama bağı /vize adresindedir ve herkese açıktır; kimlik gösterilmez.",
     ],
-    cta: "Ücretsiz dersi aç",
-    catalogCta: "Eğitim kataloğu",
+    cta: "AI Tezgâhı aç",
+    catalogCta: "Kariyer kartını aç",
     faqHeading: "Rehber soruları",
   },
   error: {
@@ -159,9 +163,9 @@ export const PUBLIC_SEN = {
   gone: {
     eyebrow: "Kapalı",
     headline: "Bu sayfa şu an kullanılmıyor.",
-    description: "Bu bölüm şu an kapalı. Akademi’den devam edebilir, Kariyer’e göz atabilirsin.",
+    description: "Bu bölüm şu an kapalı. E-Ticaret, YetkinHibe veya Kariyer’den devam edebilirsin.",
     homeCta: "Ana sayfa",
-    academyCta: "Akademi",
+    academyCta: "YetkinHibe",
     careerCta: "Kariyer",
     freelancerCta: "Freelancer",
   },

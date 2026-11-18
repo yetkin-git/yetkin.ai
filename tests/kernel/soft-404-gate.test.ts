@@ -73,20 +73,19 @@ describe("soft 404 kapısı — dinamik kamu segmentleri", () => {
 
   it("kenar gerçek 404 basar; geçerli adres ve emekli SKU geçer", async () => {
     const bogus = await proxy(request("/academy/gecersiz-slug"));
-    expect(bogus.status).toBe(404);
-    expect(bogus.headers.get("x-robots-tag")).toBe("noindex");
+    expect(bogus.status).toBe(410);
     expect(bogus.headers.get("content-type")).toContain("text/html");
 
     const bogusTalent = await proxy(request("/vize/bad"));
     expect(bogusTalent.status).toBe(404);
 
     const bogusHash = await proxy(request("/academy/dogrula/gecersiz"));
-    expect(bogusHash.status).toBe(404);
+    expect(bogusHash.status).toBe(410);
 
-    // Gerçek sayfalar 404'e düşmez (regresyon kilidi).
-    expect((await proxy(request("/academy"))).status).toBe(200);
-    expect((await proxy(request("/academy/dogrula"))).status).toBe(200);
-    expect((await proxy(request("/academy/01_office_ai"))).status).toBe(200);
+    // Kapalı Akademi 410. Açık vize 404'e düşmez.
+    expect((await proxy(request("/academy"))).status).toBe(410);
+    expect((await proxy(request("/academy/dogrula"))).status).toBe(410);
+    expect((await proxy(request("/academy/01_office_ai"))).status).toBe(410);
     expect((await proxy(request("/vize"))).status).toBe(200);
     // Emekli SKU kenarda 404 yemez; 301'i next.config basar.
     expect(missingPublicSurfacePath("/academy/python-temel")).toBeNull();

@@ -31,7 +31,14 @@ import { readGrantDossierNarrative, readGrantNarrative } from "@/lib/tezgah/gran
 import { grantSystemPrompt, grantUserPrompt } from "@/lib/tezgah/grant/prompts";
 import { grantGenerateRequestSchema, type GrantGenerateRequest } from "@/lib/tezgah/grant/schema";
 import type { GrantDossier, GrantEligibleProgram, GrantProjectReport } from "@/lib/tezgah/grant/types";
-import { consumeTezgahQuota, peekTezgahQuota, refundTezgahQuota } from "@/lib/tezgah/quota";
+import { tezgahRequestHash } from "@/lib/tezgah/paid-lane";
+import {
+  consumeTezgahQuota,
+  peekTezgahQuota,
+  refundTezgahQuota,
+  settleTezgahSlot,
+  type TezgahQuotaSnapshot,
+} from "@/lib/tezgah/quota";
 
 /** Üç bölüm tek çağrıya sığar. Katalog tutarı bu tavandan geçmez; kod basar. */
 export const GRANT_MAX_OUTPUT_TOKENS = 900;
@@ -49,7 +56,7 @@ export type GrantGenerateResult =
   | {
       ok: false;
       error: string;
-      status: 400 | 429 | 503;
+      status: 400 | 402 | 429 | 503;
       remaining: number;
       limit: number;
       guest: boolean;
@@ -113,14 +120,18 @@ export async function generateGrantProject(
     actorId: string;
     guest: boolean;
     request: GrantGenerateRequest;
+    /** `prepaid` günlük kotayı düşürmez. Tahsilat çağıran rotadadır. */
+    quotaMode?: "daily" | "prepaid";
+    commandKey?: string | null;
   },
   deps: GenerateGrantDeps = {},
 ): Promise<GrantGenerateResult> {
   const parsed = grantGenerateRequestSchema.safeParse(input.request);
   const now = deps.now?.() ?? new Date();
   const open = () => peekTezgahQuota(input.actorId, input.guest, now);
+  const prepaid = input.quotaMode === "prepaid";
   if (!parsed.success) {
-    const quota = open();
+    const quota = await open();
     return {
       ok: false,
       error: "Alanları kısa ve net doldur.",
@@ -133,7 +144,7 @@ export async function generateGrantProject(
 
   const draft = readGrantDraft(parsed.data);
   if (!draft) {
-    const quota = open();
+    const quota = await open();
     return {
       ok: false,
       error: "Alanları kısa ve net doldur.",
@@ -150,7 +161,7 @@ export async function generateGrantProject(
   const investmentLabel = grantInvestmentLabel(draft.investmentFocus);
   const rdLabel = grantRdLabel(draft.rdMaturityLevel);
   if (!provinceLabel || !audienceLabel || !naceLabel || !investmentLabel || !rdLabel) {
-    const quota = open();
+    const quota = await open();
     return {
       ok: false,
       error: "Alanları kısa ve net doldur.",
@@ -163,7 +174,7 @@ export async function generateGrantProject(
 
   const dossierRead = parsed.data.details ? readGrantDossierPlan(parsed.data.details) : null;
   if (dossierRead && !dossierRead.ok) {
-    const quota = open();
+    const quota = await open();
     return {
       ok: false,
       error: dossierRead.error,
@@ -174,20 +185,51 @@ export async function generateGrantProject(
     };
   }
 
-  const slot = consumeTezgahQuota(input.actorId, input.guest, now);
+  if (prepaid && input.guest) {
+    const quota = await open();
+    return {
+      ok: false,
+      error: "Tam dosya oturum ister.",
+      status: 400,
+      remaining: quota.remaining,
+      limit: quota.limit,
+      guest: true,
+    };
+  }
+  const prepaidSlot: TezgahQuotaSnapshot = {
+    allowed: true,
+    remaining: 0,
+    limit: 0,
+    used: 0,
+    guest: false,
+    lane: "prepaid",
+    paywall: false,
+    commandKey: null,
+    hold: null,
+    error: null,
+    status: null,
+  };
+  const slot = prepaid
+    ? prepaidSlot
+    : await consumeTezgahQuota(
+        input.actorId,
+        input.guest,
+        now,
+        input.commandKey ? { key: input.commandKey, requestHash: tezgahRequestHash(input.request) } : null,
+      );
   if (!slot.allowed) {
     return {
       ok: false,
-      error: input.guest ? TEZGAH_GUEST_QUOTA_MESSAGE : TEZGAH_MEMBER_QUOTA_MESSAGE,
-      status: 429,
+      error: slot.error ?? (input.guest ? TEZGAH_GUEST_QUOTA_MESSAGE : TEZGAH_MEMBER_QUOTA_MESSAGE),
+      status: slot.status ?? 429,
       remaining: 0,
       limit: slot.limit,
       guest: input.guest,
     };
   }
 
-  const restore = (): GrantGenerateResult => {
-    const restored = refundTezgahQuota(input.actorId, input.guest, now);
+  const restore = async (): Promise<GrantGenerateResult> => {
+    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane);
     return {
       ok: false,
       error: TEZGAH_FAIL_MESSAGE,
@@ -228,7 +270,7 @@ export async function generateGrantProject(
   if (dossierRead?.ok) {
     target = matched.eligible.find((row) => row.grantId === dossierRead.plan.targetGrantId) ?? null;
     if (!target) {
-      const restored = refundTezgahQuota(input.actorId, input.guest, now);
+      const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane);
       return {
         ok: false,
         error: matched.eligible.length === 0 ? GRANT_DOSSIER_NO_ELIGIBLE : GRANT_DOSSIER_PROGRAM_MISSING,
@@ -280,7 +322,7 @@ export async function generateGrantProject(
       billing: {
         userId: input.guest ? null : input.actorId,
         source: AI_TOKEN_SOURCES.TEZGAH,
-        recordUsage: false,
+        recordUsage: true,
       },
     },
     deps,
@@ -361,6 +403,20 @@ export async function generateGrantProject(
     risk: narrative.risk,
     dossier,
   };
+
+  if (!prepaid) {
+    const paid = await settleTezgahSlot(input.actorId, slot);
+    if (!paid.ok) {
+      return {
+        ok: false,
+        error: paid.error,
+        status: paid.status,
+        remaining: slot.remaining,
+        limit: slot.limit,
+        guest: input.guest,
+      };
+    }
+  }
 
   return {
     ok: true,

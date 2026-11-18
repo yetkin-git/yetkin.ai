@@ -3,7 +3,7 @@ import { ACADEMY_COURSE_TITLES } from "@/lib/academy/course-titles";
 export const ACADEMY_SEN = {
   catalog: {
     eyebrow: "Akademi",
-    title: "Yapay Zekâyı Öğren. Gerçek İşlerinde Kullan.",
+    title: "Yetkin.ai Uygulama & Uzmanlık Rehberi",
     /**
      * 5 saniye testi: ne sunuluyor · ne kadar sürüyor · ne kazandırıyor. Üç satır.
      * Eski 9 satırlık anahtar kelime yığını (iç organizasyon dili + keyword dolgusu)
@@ -11,8 +11,8 @@ export const ACADEMY_SEN = {
      * SEO niyeti başlıkta ve SSS'te durur; gövde pazarlama metni değil ürün cümlesidir.
      */
     description:
-      "Ofiste yapay zekâyı gerçek dosyalarınla kullanmayı öğren: sekiz sesli ders, 74 dakika, kendi Excel–Word–e-posta işin üzerinden uygulama. İlk dersi ücretsiz izle; takıldığın yeri dersteki asistanına sor. Testi 70+ ile geçtiğinde sertifikan basılır ve Kariyer sayfanda doğrulanabilir olur.",
-    stats: "8 sesli ders · 74 dk · baraj 70+ · sertifika",
+      "AI Tezgâh ve E-Ticaret araçlarını gerçek işlerde nasıl kullanacağını adım adım öğren. Dersler ücretsiz; dilersen Resmî Uzmanlık Sınavına girip doğrulanmış rozetini al.",
+    stats: "Dersler ücretsiz · Baraj 70 · SHA-256 rozet",
     certificatesCta: "Sertifikalar",
     verifyCta: "Doğrula",
     /** Vitrin hero — birincil eylem. Ücretsiz ders herkese açık, kayıt istemez. */
@@ -24,7 +24,8 @@ export const ACADEMY_SEN = {
     heroStartCta: (priceLabel: string | null) =>
       priceLabel ? `Eğitime Başla (${priceLabel})` : "Eğitime Başla",
     /** Vitrin hero — ücretsiz dersin nerede açıldığını söyleyen tek satır. */
-    heroLead: "İlk ders ücretsiz ve kayıt istemez. Beğenirsen eğitime oradan devam edersin.",
+    heroLead:
+      "İlk ders kayıt istemez. Diğer dersler ücretsiz hesapla açılır. Rozet, sınavı 70 ve üzeri geçince basılır.",
     live: (count: number) => (count > 0 ? "Eğitimler — ders, test ve yetkinlik" : ""),
     unbound: "Liste henüz yüklenemedi.",
     empty: "Yeni eğitimler hazırlanıyor",
@@ -32,6 +33,17 @@ export const ACADEMY_SEN = {
     cardCtaOpen: "Eğitimi Gör",
     /** Vitrin kartı — satın alma yokken birincil eylem. Fiyat butonda yazılmaz. */
     cardCtaBuy: "Satın Al",
+    /** Altı hazır rehber — ders satışı yok. Birincil eylem oynatıcıdır. */
+    freeGuideBadge: "Ücretsiz Uygulama Rehberi",
+    cardCtaStartGuide: "Rehbere Başla (Ücretsiz) →",
+    cardCtaExamBadge: "Yetkinlik Sınavı & Rozet",
+    /** Katalogda sınav tutarı varken tek tahsilat cümlesi. Ödeme belge basmaz. */
+    examSealCta: "Resmî Sınav Hakkı & SHA-256 Rozet Mührü",
+    examSealEyebrow: "Resmî Uzmanlık Sınavı",
+    examSealBody:
+      "Dersler kayıtlı üyeye ücretsizdir. Bu ödeme resmî sınav hakkını açar. Rozet sunucuda 70 ve üzeri puanla mühürlenir; ödeme tek başına belge basmaz.",
+    examSealClosed:
+      "Resmî sınav hakkı, katalogda aktif tutar satırı açılınca burada tahsil edilir. Tutar yokken ödeme düğmesi basılmaz.",
     /** Vitrin kartı — fiyatlı kartın birincil eylemi. Ücretsiz ders yanında durur. */
     cardCtaJoin: "Hemen Katıl",
     /** Vitrin kartı — ilk ders herkese açık. Doğrudan oynatıcı. */
@@ -128,10 +140,10 @@ export const ACADEMY_SEN = {
     flagshipBadge: "Öne Çıkan / Temel Akademi Eğitimi",
     flagshipShelfTitle: "Öne Çıkan / Temel Akademi Eğitimi",
     flagshipShelfNote:
-      "Temel ofis eğitimi. İlk ders ücretsizdir. Alttaki kartlar kendi eğitimine gider.",
-    advancedShelfTitle: "İleri Düzey Modüller",
+      "Temel ofis rehberi. Dersler ücretsizdir. Rozet, resmî sınav hakkı ve 70 barajıyla gelir.",
+    advancedShelfTitle: "Uygulama rehberleri",
     advancedShelfNote:
-      "E-ticaret, sosyal medya, chatbot, prompt ve ileri ofis. Her kart kendi sayfasına gider.",
+      "E-ticaret, sosyal medya, chatbot, prompt ve ileri ofis. Her rehber ücretsizdir; sınav ve rozet kendi sayfasındadır.",
     /** Eski kapı metni. Ana vitrin bu cümleyi basmaz; ileri kartlar aynı sayfadadır. */
     advancedDoorCta: (count: number) => `${count} ileri modülü ayrı rafta gör`,
     advancedDoorLead:
@@ -253,7 +265,8 @@ export const ACADEMY_SEN = {
     previewBadge: "Ücretsiz / Önizleme",
     previewPlayCta: "İzle",
     licensed: "Lisanslı",
-    previewHint: "İlk ders ücretsiz açıktır. Sonraki dersler lisans ister.",
+    previewHint:
+      "İlk ders herkese açıktır. Diğer dersler ücretsiz kayıtla açılır. Resmî rozet sınav barajıyla basılır.",
     empty: "Bu eğitimin ders listesi henüz yok.",
     kindAudio: "Ses",
     kindVideo: "Video",
@@ -293,19 +306,20 @@ export const ACADEMY_SEN = {
       ] as const,
   },
   purchase: {
-    cta: (priceLabel: string) => `Uzmanlık Paketini Aç — ${priceLabel}`,
-    ctaIdle: "Uzmanlık Paketini Aç",
+    cta: (priceLabel: string) => `Uzmanlık Paketini Aç — PayTR Güvenli Kart Ödemesi (${priceLabel})`,
+    ctaIdle: "Uzmanlık Paketini Aç — PayTR Güvenli Kart Ödemesi",
     ctaExam: (priceLabel: string) => `Testi eğitim bitince aç (${priceLabel})`,
     ctaExamIdle: "Testi eğitim bitince aç",
     ctaTopUp: "PayTR Güvenli Kart Ödemesi",
     paytrSecure: "PayTR Güvenli Kart Ödemesi",
-    opening: "Ödemeniz doğrulandı, uzmanlık paketiniz açılıyor...",
+    opening: "Ödemeniz onaylandığında paketiniz otomatik olarak açılır.",
+    autoOpen: "Ödemeniz onaylandığında paketiniz otomatik olarak açılır.",
     closed: "Ödeme henüz bağlanmadı",
     closedBody:
       "Kart tahsilatı şu an kapalı. Kayıt açık kalır. Erişim, tahsilat bağlanınca açılır.",
     pendingCta: "Kaydediliyor…",
     locking: (lockMinutes: number) => `Fiyat onaylanıyor — ${lockMinutes} dakika geçerli.`,
-    settling: "Uzmanlık paketiniz açılıyor...",
+    settling: "Ödemeniz onaylandığında paketiniz otomatik olarak açılır.",
     lockFail: "Fiyat onayı alınamadı.",
     buyFail: "Satın alma tamamlanamadı.",
     licenseDuration: "365_DAYS",
@@ -313,7 +327,7 @@ export const ACADEMY_SEN = {
     refundFootnote: "Ders açılınca dijital içerik ifası başlar. Ayrıntı bu bağlantıdadır.",
     creditPending:
       "Ödeme bildirimi henüz işlenmedi. Bildirim düşünce uzmanlık paketi açılır. Erişim bu bildirime bağlıdır.",
-    creditConfirming: "Ödemeniz doğrulandı, uzmanlık paketiniz açılıyor...",
+    creditConfirming: "Ödemeniz onaylandığında paketiniz otomatik olarak açılır.",
     paytrBridgeTitle: "PayTR Güvenli Kart Ödemesi",
     paytrBridgeBalanceWait: "Ödeme bildirimi bekleniyor.",
     paytrBridgeBalanceDone: "Ödeme doğrulandı.",
@@ -377,13 +391,16 @@ export const ACADEMY_SEN = {
     cta: "Ücretsiz Seviye Testine Gir",
     guestTitle: "Ücretsiz yetkinlik testi",
     guestLead:
-      "On soru sunucuda puanlanır. Süre otuz dakikadır, baraj 70. Puanını ve rozet adaylığını kaydetmek için kayıt ol.",
+      "On soru sunucuda puanlanır. Kayıt olmadan puanını ve eksik konu başlıklarını görürsün. Süre otuz dakikadır, baraj 70.",
     courseLead:
       "Seviyeni ölç. 70 ve üzeri Temel Muafiyet Rozeti basar ve resmi uzmanlık paketine öncelikli geçiştir.",
-    registerCta: "Kayıt ol ve sonucu kaydet",
+    registerCta: "E-posta ile ücretsiz kayıt ol",
     loginCta: "Giriş yap",
-    guestNote:
-      "70 ve üzeri Temel Muafiyet Rozeti kayda geçer. Bu rozet, resmi uzmanlık paketine öncelikli geçiştir.",
+    guestNote: "Bu puan yalnız bu ekranda durur. Resmî kayda işlenmesi için ücretsiz hesap gerekir.",
+    guestResult: (score: number) =>
+      `Puanın: %${score}! Bu sonucu resmî kariyer profiline işlemek ve sertifika/muafiyet sürecini başlatmak için ücretsiz kayıt ol`,
+    gapsHeading: "Eksik konu başlıkları",
+    gapsEmpty: "Bu oturumda eksik konu başlığı yok.",
     passedTitle: "Temel Muafiyet Rozeti",
     passed: (score: number) => `Puanın ${score}. Temel Muafiyet Rozeti kayda geçti.`,
     passedBody:
@@ -402,6 +419,13 @@ export const ACADEMY_SEN = {
       `Eğitimin Tamamına Erişim Sağla ve Sertifika Al — Satın Al ${priceLabel}`,
     funnelDismiss: "Kapat",
     funnelLead: "İlk ders ücretsiz açık. Kalan dersler ve sertifika ödeme sonrası açılır.",
+    registerGateEyebrow: "Ücretsiz kayıt",
+    registerGateTitle: "Kayıt ol, rehberin tamamını aç",
+    registerGateLead:
+      "İlk ders herkese açık. Diğer dersler ve sesli anlatım ücretsiz Google veya e-posta kaydıyla açılır. Ödeme istenmez.",
+    registerGateCta: "Ücretsiz kayıt ol",
+    registerLock: "Ücretsiz kayıt",
+    guideNextCta: "Sonraki ders",
     progress: (done: number, total: number) => `${done} / ${total} ders tamam`,
     cardProgress: (current: number, total: number) => `${current} / ${total} Ders`,
     nextCardCta: "Sonraki",

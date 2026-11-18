@@ -3,7 +3,10 @@ import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import { resolveRequestIp } from "@/lib/kernel/security/http-rate-limit";
+import { readTezgahCommandKey } from "@/lib/tezgah/command-key";
 import { generateGrantProject } from "@/lib/tezgah/grant/engine";
+import { renderGrantProjectText } from "@/lib/tezgah/grant/render";
+import { recordSignedTezgahOutput } from "@/lib/tezgah/record-output";
 import { grantGenerateRequestSchema } from "@/lib/tezgah/grant/schema";
 
 /**
@@ -22,19 +25,33 @@ export async function POST(request: Request) {
     if (!parsed.success) {
       return jsonFail("Alanları kısa ve net doldur.", 400, requestId, request);
     }
+    const command = readTezgahCommandKey(request);
+    if (!command.ok) {
+      return jsonFail(command.error, 400, requestId, request);
+    }
     const user = await requireSession(request).catch(() => null);
     const actor = assistantActorId(user?.id, resolveRequestIp(request));
     const result = await generateGrantProject({
       actorId: actor.userId,
       guest: actor.guest,
       request: parsed.data,
+      commandKey: command.key,
     });
     if (!result.ok) {
       return jsonFail(result.error, result.status, requestId, request);
     }
+    const outputId = await recordSignedTezgahOutput({
+      userId: actor.userId,
+      guest: actor.guest,
+      toolKey: "grant",
+      title: result.businessName,
+      inputSummary: `${result.provinceLabel} · ${result.naceLabel}`,
+      outputContent: renderGrantProjectText(result),
+    });
     return jsonOk(
       {
         tool: result.tool,
+        outputId,
         disclaimer: result.disclaimer,
         preparedAt: result.preparedAt,
         businessName: result.businessName,

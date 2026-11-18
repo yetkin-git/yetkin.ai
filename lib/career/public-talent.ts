@@ -22,6 +22,8 @@ export type PublicTalentSeal = {
 export type PublicTalentProof = {
   title: string;
   visaStampId: string;
+  /** Tezgâh kanıtının kısa alıntısı. Mühür satırında yoktur. */
+  detail?: string;
 };
 
 export type PublicTalentCard = {

@@ -37,9 +37,9 @@ export const DASHBOARD_SEN = {
   description:
     "Eğitimlerin, kanıtlanmış uzmanlıkların ve çalışma süreçlerin tek bir güvenli panelde.",
   /** Karşılama başlığının yanında — dört odayı tek bakışta toplar. */
-  welcomeLead: "Üretim araçların, mağazaların, eğitimlerin ve kariyer adımların tek ekranda.",
+  welcomeLead: "E-Ticaret, YetkinHibe, AI Tezgâh ve kariyer adımların tek ekranda.",
   featured:
-    "Kariyer yolculuğuna başlamak için Akademi'den sana uygun eğitimi seçebilirsin. Bitirince sertifikan burada durur. Kariyer odasından hedefini de belirleyebilirsin.",
+    "Hibe dosyanı YetkinHibe’de açarsın. Kariyer odasından 30 günlük planını kurarsın.",
   /** Oturumsuz Anasayfa — kişisel nabız yok. */
   publicPanel: {
     eyebrow: "Öğrenci paneli",
@@ -50,8 +50,8 @@ export const DASHBOARD_SEN = {
       {
         title: "Akademi",
         body: "Dersi bitirirsin. Testi geçince sertifikan sunucuda mühürlenir.",
-        href: "/academy",
-        cta: "Eğitimleri incele",
+        href: "/tezgah",
+        cta: "Tezgâhı aç",
       },
       {
         title: "Kariyer Kartı",
@@ -62,7 +62,7 @@ export const DASHBOARD_SEN = {
       {
         title: "Sertifika doğrulama",
         body: "Paylaşılabilir bağ veya QR ile açık sicilden kontrol edersin. 64 karakterlik özet yedek yoldur. Oturum istenmez.",
-        href: "/academy/dogrula",
+        href: "/career",
         cta: "Sertifika doğrula",
       },
     ],

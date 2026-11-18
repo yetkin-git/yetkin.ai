@@ -4,7 +4,6 @@ import { describe, expect, it } from "vitest";
 import { academyCurriculumSealForSlug } from "@/lib/academy/curriculum";
 import { verifyAcademyCertificateHash } from "@/lib/academy/exam";
 import { LISTING_ACCESS_VISA_DENIED } from "@/lib/career/visa-gate";
-import { ACADEMY_STAMP_SURFACE_PATH } from "@/lib/kernel/passport/types";
 import { academyCourseSeedBySlug } from "@/lib/academy/seed";
 import {
   D3_CITIZEN_ID,
@@ -57,7 +56,7 @@ describe("D3 üç halka — tek vatandaş nakit/vize e2e", () => {
       ).toBe(true);
       expect(journey.proof.academyVisa?.stamp.userId).toBe(D3_CITIZEN_ID);
       expect(journey.proof.passportHref).toBe(
-        `${ACADEMY_STAMP_SURFACE_PATH}/dogrula/${journey.academy.certificate.certificateHash}`,
+        `/vize/${journey.academy.certificate.certificateHash}`,
       );
     } else {
       expect(journey.academy.curriculumSeal).toBeNull();

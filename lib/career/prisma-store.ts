@@ -29,11 +29,20 @@ function toStamp(row: {
 function toItem(row: {
   id: string;
   userId: string;
-  visaStampId: string;
+  visaStampId: string | null;
   title: string;
   createdAt: Date;
 }): CareerPortfolioItemRecord {
-  return { ...row };
+  if (!row.visaStampId) {
+    throw new Error("Mühürsüz portföy satırı vize defterine yazılmaz.");
+  }
+  return {
+    id: row.id,
+    userId: row.userId,
+    visaStampId: row.visaStampId,
+    title: row.title,
+    createdAt: row.createdAt,
+  };
 }
 
 type CareerWriteDb = Pick<PrismaClient, "careerVisaStamp" | "careerPortfolioItem">;
@@ -84,7 +93,7 @@ function bindCareerWrites(db: CareerWriteDb): CareerStampWriteClient {
     },
     async getPortfolioItemByStampId(visaStampId) {
       const row = await db.careerPortfolioItem.findUnique({ where: { visaStampId } });
-      return row ? toItem(row) : null;
+      return row?.visaStampId ? toItem(row) : null;
     },
   };
 }
@@ -99,10 +108,10 @@ export function createPrismaCareerStore(): CareerStore {
     },
     async listPortfolioForUser(userId) {
       const rows = await prisma.careerPortfolioItem.findMany({
-        where: { userId },
+        where: { userId, visaStampId: { not: null } },
         orderBy: { createdAt: "desc" },
       });
-      return rows.map(toItem);
+      return rows.flatMap((row) => (row.visaStampId ? [toItem(row)] : []));
     },
     async pulseForUser(userId) {
       const [stamps, portfolioCount] = await Promise.all([
@@ -112,7 +121,7 @@ export function createPrismaCareerStore(): CareerStore {
           select: { title: true },
           take: 100,
         }),
-        prisma.careerPortfolioItem.count({ where: { userId } }),
+        prisma.careerPortfolioItem.count({ where: { userId, visaStampId: { not: null } } }),
       ]);
       const pulse: CareerPulse = {
         visaCount: stamps.length,

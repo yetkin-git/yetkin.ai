@@ -15,7 +15,7 @@ describe("O8 akademi nakit E2E yüzeyi", () => {
 
     // Playwright: kamu katalog + oturumsuz BFF kenarı (401); donmuş oda 410 değildir.
     expect(spec).toContain("/academy");
-    expect(spec).toContain("Yapay Zekâyı Öğren");
+    expect(spec).toContain("Uygulama & Uzmanlık Rehberi");
     expect(spec).toContain("/academy/dogrula/");
     expect(spec).toContain('page.goto("/academy/dogrula")');
     expect(spec).toContain("/api/academy/certificates/");
@@ -35,7 +35,7 @@ describe("O8 akademi nakit E2E yüzeyi", () => {
     expect(spec).toContain("purchase.status()).toBe(401)");
     expect(spec).toContain("lock.status()).toBe(401)");
     expect(spec).toContain("curriculum.status()).toBe(401)");
-    expect(spec).toContain('page.url()).toContain("/login")');
+    expect(spec).toContain('page.url()).toContain("/academy/01_office_ai/oyna")');
     expect(spec).not.toContain("LOCAL_MOCK_AUTH");
     expect(spec).toContain("data-academy-hero-paytr");
     expect(spec).toContain("/api/wallet/top-up");

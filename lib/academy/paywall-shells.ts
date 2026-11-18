@@ -17,6 +17,25 @@ export type AcademyPaywallLockedLessonShell = {
  * Ödeme duvarı kabuğu.
  * Satış vitrini (ders 1) gövdesi açık kalır. Diğer derslerin gövdesi istemciye gitmez.
  */
+/**
+ * Kayıtlı üyenin ücretsiz rehberi.
+ * Gövde ve diyagram açık kalır. Satın alma satırı yazılmaz; sınav ve mühür bu kabuktan basılmaz.
+ */
+export function academyMemberGuideLessonShells(
+  courseSlug: string,
+): AcademyPaywallLockedLessonShell[] {
+  return curriculumForCourseSlug(courseSlug).map((lesson) => ({
+    key: lesson.key,
+    order: lesson.order,
+    title: lesson.title,
+    body: lesson.body,
+    completed: false,
+    open: true,
+    diagrams: lesson.diagrams,
+    microVideos: lesson.microVideos,
+  }));
+}
+
 export function academyPaywallLockedLessonShells(
   courseSlug: string,
 ): AcademyPaywallLockedLessonShell[] {

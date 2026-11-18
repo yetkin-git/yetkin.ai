@@ -37,6 +37,8 @@ export function ExamStartGate({
   nextCourseTitle,
   nextCourseHref,
   mode = "exam",
+  registerHref,
+  loginHref,
 }: {
   courseId: string;
   courseTitle?: string;
@@ -47,7 +49,9 @@ export function ExamStartGate({
   instructorName?: string;
   nextCourseTitle?: string | null;
   nextCourseHref?: string | null;
-  mode?: "exam" | "exemption";
+  mode?: "exam" | "exemption" | "exemption-guest";
+  registerHref?: string;
+  loginHref?: string;
 }) {
   const copy = ACADEMY_SEN.exam;
   const titleId = useId();
@@ -90,8 +94,10 @@ export function ExamStartGate({
   async function onStart() {
     setPending(true);
     setError(null);
+    const lane =
+      mode === "exemption-guest" ? "exemption-preview" : mode === "exemption" ? "exemption" : "exam";
     const response = await fetch(
-      `/api/academy/courses/${courseId}/${mode === "exemption" ? "exemption" : "exam"}`,
+      `/api/academy/courses/${courseId}/${lane}`,
       await withRailSession({ method: "GET" }),
     );
     const parsed = parseRailClientJson<{
@@ -114,7 +120,9 @@ export function ExamStartGate({
     }
     setSitting({
       examTitle:
-        mode === "exemption" ? ACADEMY_SEN.exemption.guestTitle : (parsed.data.exam?.title ?? examTitle),
+        mode === "exemption" || mode === "exemption-guest"
+          ? ACADEMY_SEN.exemption.guestTitle
+          : (parsed.data.exam?.title ?? examTitle),
       passScore: parsed.data.exam.passScore,
       questions: parsed.data.questions,
       sessionToken: parsed.data.sessionToken,
@@ -168,8 +176,14 @@ export function ExamStartGate({
             nextCourseTitle={nextCourseTitle}
             nextCourseHref={nextCourseHref}
             submitPath={
-              mode === "exemption" ? `/api/academy/courses/${courseId}/exemption` : undefined
+              mode === "exemption-guest"
+                ? `/api/academy/courses/${courseId}/exemption-preview`
+                : mode === "exemption"
+                  ? `/api/academy/courses/${courseId}/exemption`
+                  : undefined
             }
+            registerHref={registerHref}
+            loginHref={loginHref}
             onAbandon={abandonSitting}
           />
         </div>
@@ -187,6 +201,12 @@ export function ExamStartGate({
         {copy.chamberEyebrow}
       </p>
       <p className="text-base text-slate-600">{copy.startLead(minutes, passScore)}</p>
+      <ul className="flex flex-wrap gap-2">
+        <li className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">{minutes} dk</li>
+        <li className="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+          Baraj {passScore}
+        </li>
+      </ul>
       <Button type="button" onClick={() => void onStart()} disabled={pending} size="lg" className="min-h-11">
         {pending ? copy.starting : copy.startCta(minutes, passScore)}
       </Button>

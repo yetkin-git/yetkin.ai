@@ -583,10 +583,8 @@ describe("/api/v1 sözleşme mührü", () => {
         headers: { "X-Rail-Min-Version": "1" },
       }),
     );
-    expect(publicSeal.status).toBe(200);
-    expect(publicSeal.headers.get("x-middleware-rewrite")).toBe(
-      `http://localhost:3000${certificatePaths.canonical}`,
-    );
+    expect(publicSeal.status).toBe(410);
+    expect(publicSeal.headers.get("x-middleware-rewrite")).toBeNull();
     expect(publicSeal.headers.get("set-cookie")).toBeNull();
 
     const unauthenticated = await proxy(
@@ -594,10 +592,8 @@ describe("/api/v1 sözleşme mührü", () => {
         headers: { "X-Rail-Min-Version": "1" },
       }),
     );
-    expect(unauthenticated.status).toBe(200);
-    expect(unauthenticated.headers.get("x-middleware-rewrite")).toBe(
-      `http://localhost:3000${certificatePaths.canonical}`,
-    );
+    expect(unauthenticated.status).toBe(410);
+    expect(unauthenticated.headers.get("x-middleware-rewrite")).toBeNull();
 
     const cors = new Headers();
     applyRailV1Cors(

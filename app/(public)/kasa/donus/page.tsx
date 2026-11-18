@@ -19,8 +19,8 @@ export default async function DronKasaReturnPage({
   const raw = query.sonuc;
   const outcome = Array.isArray(raw) ? raw[0] : raw;
   const ok = outcome !== "fail";
-  const rawCourse = query.kurs;
-  const courseSlug = Array.isArray(rawCourse) ? rawCourse[0] : rawCourse;
+  const rawDesk = query.masa;
+  const desk = Array.isArray(rawDesk) ? rawDesk[0] : rawDesk;
 
   return (
     <main className="mx-auto max-w-xl px-4 py-10">
@@ -30,7 +30,7 @@ export default async function DronKasaReturnPage({
       <h1 className="mt-2 text-2xl font-semibold text-[var(--foreground)]" suppressHydrationWarning>
         {ok ? "Ödeme" : CUZDAN_SEN.kasaTitle}
       </h1>
-      <KasaReturnPanel ok={ok} courseSlug={courseSlug ?? null} />
+      <KasaReturnPanel ok={ok} desk={desk ?? null} />
     </main>
   );
 }

@@ -67,6 +67,16 @@ export type OsStoreLink = {
   slug: string;
 };
 
+export type EcommerceLicenseBand = {
+  /** Açık ve süresi dolmamış mağaza lisansı. */
+  active: boolean;
+  /** Lisanssız olduğu biliniyorsa pazaryeri «Bağla» kapısı açılır. Okunamadıysa kapı susar. */
+  gate: boolean;
+  /** Katalog `commerce / monthly` satırının kompakt tutarı, sonuna ` / Ay` eklenir. Satır yoksa null. */
+  priceLabel: string | null;
+  activateHref: string;
+};
+
 export type OsCockpitView = {
   products: OsProductView[];
   channels: OsChannelView[];

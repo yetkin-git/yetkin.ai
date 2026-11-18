@@ -68,7 +68,7 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
 
   it("kamu, profil ve kalan odalar siz kaçakları taşımaz; SEN_VOICE bağlar", () => {
     expect(SEN_VOICE.public.home.title).toBe(
-      "Yetkinliğini Mühürle. Yapay Zekâ Tezgâhıyla Üret. Rozet, Plan ve Canlı Vitrin.",
+      "E-Ticaret ve YetkinHibe. İki işletim sistemi, tek hesap.",
     );
     expect(SEN_VOICE.public.home.description).toContain("sunucu onaylı");
     expect(SEN_VOICE.public.home.description).toContain("30 günlük kariyer planını");
@@ -86,7 +86,7 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
     expect(readSrc("archived/lib/copy/sen-voice/arena.ts")).toContain("kazananı sen dağıt");
     expect(readSrc("archived/lib/copy/sen-voice/kurumsal.ts")).toContain("Şirket profilini kur");
     expect(readSrc("archived/lib/copy/sen-voice/hibe.ts")).toContain("Açık rehberlerin");
-    expect(SEN_VOICE.career.title).toBe("Doğrulanmış Freelancer Rozeti");
+    expect(SEN_VOICE.career.title).toBe("YetkinCV — Test Edilmiş & Mühürlü Kariyer Merkezi");
 
     for (const file of SEN_SURFACES) {
       const source = readSrc(file);

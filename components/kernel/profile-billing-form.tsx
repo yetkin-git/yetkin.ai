@@ -56,7 +56,7 @@ export function ProfileBillingForm({
 
   return (
     <Card title={copy.title} eyebrow={copy.eyebrow} bodyClassName="text-[var(--foreground)]">
-      <p className="mb-4 text-sm text-[var(--muted)]">{copy.intro}</p>
+      <p className="mb-4 border-l-4 border-blue-500 pl-3 text-sm text-[var(--muted)]">{copy.intro}</p>
       <form onSubmit={onSubmit} className="space-y-3">
         <CheckoutBillingFields value={form} onChange={setForm} hadSaved={hadSaved} />
         {error ? <p className="text-sm text-[var(--rose)]">{error}</p> : null}

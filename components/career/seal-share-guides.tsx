@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { copyTextToClipboard } from "@/components/auth/copy-text";
 import { Button, buttonClassName } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { IconCheck, IconCopy, IconLinkedIn } from "@/components/ui/icons";
+import { IconCheck, IconCopy, IconLinkedIn, IconX } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/link-button";
 import { absoluteAppUrl, linkedInAddCertificationUrl } from "@/lib/career/badge-share";
 import { CAREER_SEN } from "@/lib/copy/sen-voice/career";
@@ -48,6 +48,46 @@ function CopyRow({
   );
 }
 
+function whatsAppShareUrl(url: string, text: string): string {
+  return `https://wa.me/?text=${encodeURIComponent(`${text} ${url}`)}`;
+}
+
+function xShareUrl(url: string, text: string): string {
+  const params = new URLSearchParams({ text, url });
+  return `https://x.com/intent/tweet?${params.toString()}`;
+}
+
+export function SealShareQuickBar({ url, text }: { url: string; text: string }) {
+  const copy = CAREER_SEN.badge;
+  const [notice, setNotice] = useState<string | null>(null);
+  const absolute = useMemo(() => absoluteAppUrl(url), [url]);
+  const shareText = text.trim() || copy.shareLead;
+  const whatsAppHref = whatsAppShareUrl(absolute, shareText);
+  const twitterHref = xShareUrl(absolute, shareText);
+
+  async function onCopy() {
+    const ok = await copyTextToClipboard(absolute);
+    setNotice(ok ? copy.copied : copy.copyFail);
+    window.setTimeout(() => setNotice(null), 1800);
+  }
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      <a href={whatsAppHref} target="_blank" rel="noopener noreferrer" className={buttonClassName("outline", "sm")}>
+        {copy.shareWhatsApp}
+      </a>
+      <a href={twitterHref} target="_blank" rel="noopener noreferrer" className={buttonClassName("outline", "sm")}>
+        <IconX />
+        {copy.shareX}
+      </a>
+      <button type="button" onClick={() => void onCopy()} className={buttonClassName("ghost", "sm")}>
+        {notice === copy.copied ? <IconCheck /> : <IconCopy />}
+        {notice ?? copy.copyProfile}
+      </button>
+    </div>
+  );
+}
+
 export function SealShareGuides({ model }: { model: SealShareGuideModel | null }) {
   const copy = CAREER_SEN.badge;
   const talentUrl = useMemo(
@@ -80,7 +120,7 @@ export function SealShareGuides({ model }: { model: SealShareGuideModel | null }
       <Card variant="default" title={copy.cvTitle} className="shadow-sm">
         <p>{copy.locked}</p>
         <div className="mt-4">
-          <LinkButton href="/academy" variant="outline" size="sm">
+          <LinkButton href="#yetkincv" variant="outline" size="sm">
             {copy.lockedCta}
           </LinkButton>
         </div>
@@ -100,6 +140,7 @@ export function SealShareGuides({ model }: { model: SealShareGuideModel | null }
         <div className="mt-4 space-y-2">
           <CopyRow label={copy.copyTalent} value={talentUrl} />
           {verifyUrl ? <CopyRow label={copy.copyVerify} value={verifyUrl} /> : null}
+          <SealShareQuickBar url={talentUrl} text={`${model.courseTitle}. ${copy.shareLead}`} />
         </div>
       </Card>
       <Card eyebrow={copy.linkedInEyebrow} title={copy.linkedInTitle} className="shadow-sm">
@@ -131,7 +172,7 @@ export function SealShareGuideButtons({ model }: { model: SealShareGuideModel | 
   const copy = CAREER_SEN.badge;
   if (!model) {
     return (
-      <LinkButton href="/academy" variant="outline" size="sm">
+      <LinkButton href="#yetkincv" variant="outline" size="sm">
         {copy.lockedCta}
       </LinkButton>
     );

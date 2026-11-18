@@ -27,16 +27,20 @@ model CareerVisaStamp {
   @@map("career_visa_stamps")
 }
 
-/// Mühürlü portföy satırı — vizesiz serbest içerik Faz 3'te yok.
+/// Mühür satırı vizeye bağlıdır. Tezgâh kanıtı vize damgası olmadan durabilir;
+/// kamu kartı, sahibin canlı mühründe başlık ve kısa alıntı olarak görünür.
 model CareerPortfolioItem {
   id          String   @id @default(cuid())
   userId      String   @map("user_id")
-  visaStampId String   @unique @map("visa_stamp_id")
+  visaStampId String?  @unique @map("visa_stamp_id")
   title       String
+  body        String   @default("") @db.Text
+  toolKey     String   @default("") @map("tool_key") @db.VarChar(40)
+  sourceKey   String?  @unique @map("source_key") @db.VarChar(80)
   createdAt   DateTime @default(now()) @map("created_at")
 
-  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  visaStamp CareerVisaStamp @relation(fields: [visaStampId], references: [id], onDelete: Cascade)
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  visaStamp CareerVisaStamp? @relation(fields: [visaStampId], references: [id], onDelete: Cascade)
 
   @@index([userId, createdAt])
   @@map("career_portfolio_items")
@@ -77,4 +81,48 @@ model CareerDeskTask {
   @@unique([userId, productId, kind], map: "career_desk_tasks_owner_product_kind_uidx")
   @@index([userId, createdAt])
   @@map("career_desk_tasks")
+}
+
+/// YetkinCV oturumu. Doğru şık burada yoktur; soru kimliği bankadan okunur.
+/// CV metni yazılmaz. cv_digest metnin SHA-256 özetidir.
+model YetkinCvSitting {
+  id          String    @id @default(cuid())
+  userId      String    @map("user_id")
+  roleKey     String    @map("role_key") @db.VarChar(32)
+  verticalKey String    @map("vertical_key") @db.VarChar(32)
+  cvDigest    String    @map("cv_digest") @db.VarChar(64)
+  cvSignals   Json      @map("cv_signals")
+  questionIds Json      @map("question_ids")
+  expiresAt   DateTime  @map("expires_at")
+  consumedAt  DateTime? @map("consumed_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  user User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  seal YetkinCvSeal?
+  kurumsalApplication KurumsalJobApplication?
+
+  @@index([userId, createdAt])
+  @@map("yetkin_cv_sittings")
+}
+
+/// Sunucuda puanlanmış YetkinCV mührü. certificate_hash kamu /vize bağının anahtarıdır.
+model YetkinCvSeal {
+  id              String   @id @default(cuid())
+  userId          String   @map("user_id")
+  sittingId       String   @unique @map("sitting_id")
+  roleKey         String   @map("role_key") @db.VarChar(32)
+  verticalKey     String   @map("vertical_key") @db.VarChar(32)
+  score           Int
+  skillBreakdown  Json     @map("skill_breakdown")
+  cvDigest        String   @map("cv_digest") @db.VarChar(64)
+  cvSignals       Json     @map("cv_signals")
+  certificateHash String   @unique @map("certificate_hash") @db.VarChar(64)
+  issuedAt        DateTime @map("issued_at")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  user    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sitting YetkinCvSitting @relation(fields: [sittingId], references: [id], onDelete: Cascade)
+
+  @@index([userId, issuedAt])
+  @@map("yetkin_cv_seals")
 }

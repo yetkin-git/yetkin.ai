@@ -1,6 +1,5 @@
 import { parseSha256Hex } from "@/lib/kernel/crypto/sha256";
 import {
-  ACADEMY_STAMP_SURFACE_PATH,
   FREELANCER_CONTRACT_SURFACE_PATH,
   type PassportStampSourceKind,
   type SealedPassportStamp,
@@ -55,7 +54,7 @@ export function latestPassportStamp(
   return stamps[0] ?? null;
 }
 
-/** Akademi SHA256 mührü için kamu doğrulama yolu. Geçersiz hex'te null — uydurma link yok. */
+/** Sertifika SHA256 mührü. Kamu doğrulama `/vize/[hash]` merkezindedir. Geçersiz hex'te null. */
 export function passportAcademyVerifyHref(
   stamp: Pick<SealedPassportStamp, "sourceKind" | "certificateHash">,
 ): string | null {
@@ -66,7 +65,7 @@ export function passportAcademyVerifyHref(
   if (!hash) {
     return null;
   }
-  return `${ACADEMY_STAMP_SURFACE_PATH}/dogrula/${hash}`;
+  return `/vize/${hash}`;
 }
 
 /** Freelancer teslim damgası → sözleşme detayı. Boş sourceId'de null — uydurma link yok. */

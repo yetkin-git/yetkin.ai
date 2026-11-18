@@ -71,7 +71,7 @@ describe("profil kimlik yüzeyi", () => {
     expect(merit).toContain("WALLET_SURFACE_PATH");
     expect(merit).toContain("CAREER_STAMP_SURFACE_PATH");
     expect(merit).toContain("passportAcademyVerifyHref");
-    expect(merit).toContain("/academy/dogrula");
+    expect(readSrc("lib/kernel/passport/display.ts")).toContain("return `/vize/${hash}`");
     expect(merit).toContain("VisaWaxSeal");
     expect(sen).toContain("verifyCta");
     expect(sen).toContain("walletCta");

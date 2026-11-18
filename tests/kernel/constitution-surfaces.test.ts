@@ -58,15 +58,15 @@ describe("anayasa yüzey sözleşmeleri", () => {
     ]);
   });
 
-  it("anasayfa şeridi Anasayfa çipini düşürür; çalışan 3 oda kalır", () => {
-    expect(RIBBON_ROOMS).toHaveLength(2);
-    expect(RIBBON_ROOMS.map((room) => room.id)).toEqual(["academy", "career"]);
+  it("anasayfa şeridi Anasayfa çipini düşürür; kapalı Akademi şeritte durmaz", () => {
+    expect(RIBBON_ROOMS).toHaveLength(1);
+    expect(RIBBON_ROOMS.map((room) => room.id)).toEqual(["career"]);
     expect(RIBBON_ROOMS.map((room) => room.id)).not.toContain("dashboard");
     expect(RIBBON_ROOMS.map((room) => room.label)).not.toContain("Anasayfa");
     expect(RIBBON_ROOMS.map((room) => room.label)).not.toContain("Panel");
     expect(RIBBON_ROOMS.map((room) => room.label)).not.toContain("Pazaryeri");
     expect(VERTICAL_ROOMS.find((room) => room.id === "career")?.blurb).toBe(
-      "Doğrulanmış Freelancer Rozeti",
+      "YetkinCV & Kariyer Merkezi",
     );
     expect(VERTICAL_ROOMS.find((room) => room.id === "freelancer")?.blurb).toBe(
       "Arka plan · modül pasif",

@@ -1,3 +1,4 @@
+import { TEZGAH_DELIVERY_SIGNATURE } from "@/lib/tezgah/delivery-signature";
 import { DUKKAN_CTA_LABEL, dukkanSectorById, dukkanToneById } from "@/lib/tezgah/dukkan/copy";
 import { escapeHtml } from "@/lib/tezgah/dukkan/escape";
 import type { DukkanDraft } from "@/lib/tezgah/dukkan/schema";
@@ -131,6 +132,7 @@ textarea{width:100%;min-height:6rem;padding:0.7rem;border:1px solid var(--line);
 </label>
 <button type="submit">Mesaj gönder</button>
 </form>
+<p><a href="https://yetkin.ai/tezgah">${text(TEZGAH_DELIVERY_SIGNATURE)}</a></p>
 </main>
 <nav class="dock">
 <a class="cta" href="https://wa.me/${phone}" target="_blank" rel="noopener">WhatsApp</a>

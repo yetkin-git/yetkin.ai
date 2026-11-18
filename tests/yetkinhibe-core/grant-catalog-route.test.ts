@@ -1,8 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import {
-  EDGE_API_FROZEN_ROOM_ERROR,
-  decideEdgeApiAuth,
-} from "@/lib/kernel/security/edge-api-auth";
+import { decideEdgeApiAuth } from "@/lib/kernel/security/edge-api-auth";
 import { ROUTE_AUTH_MAP } from "@/lib/kernel/security/route-auth-map";
 import {
   GrantCatalogUnavailableError,
@@ -99,10 +96,10 @@ describe("YetkinHibe kapalı oda kenarı", () => {
     }
   });
 
-  it("oda kapalıyken katalog yolu kenarda 410 alır", () => {
+  it("oda açıkken katalog yolu kenara düşer", () => {
     expect(
       decideEdgeApiAuth({ pathname: CATALOG_PATH, method: "GET", sessionHint: false }),
-    ).toEqual({ kind: "deny", status: 410, error: EDGE_API_FROZEN_ROOM_ERROR });
+    ).toEqual({ kind: "next" });
   });
 
   it("katalog yolu kenar haritasında public olarak kayıtlı", () => {

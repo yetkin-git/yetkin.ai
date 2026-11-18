@@ -15,6 +15,7 @@ import {
   formatCatalogValue,
   groupCatalogEntriesByModule,
   isHoldBpsInCodeBand,
+  selectLiveCatalogEntries,
 } from "@/lib/kernel/admin/display";
 import type { SealedCatalogEntry } from "@/lib/kernel/admin/types";
 import {
@@ -113,6 +114,21 @@ describe("admin katalog yüzeyi", () => {
     expect(groups[0]?.entries).toHaveLength(2);
   });
 
+  it("tahta academy, tezgah, commerce, career ve kurumsal gruplarını bırakır", () => {
+    const frozen = ["devlabs", "freelancer", "pazaryeri", "yetkinilan", "studio", "junior"] as const;
+    const live = ["academy", "tezgah", "commerce", "career", "kurumsal"] as const;
+    const rows = [...frozen, ...live].map((moduleKey) => ({
+      ...SAMPLE,
+      id: `cat_${moduleKey}`,
+      moduleKey,
+      unitKey: `${moduleKey}:unit`,
+    }));
+    const visible = selectLiveCatalogEntries(rows);
+    expect(visible.map((row) => row.moduleKey)).toEqual([...live]);
+    const groups = groupCatalogEntriesByModule(visible);
+    expect(groups.map((group) => group.moduleKey)).toEqual([...live]);
+  });
+
   it("SUPER_ADMIN_USER_ID eşleşmezse reddeder; boş env kimseyi admin yapmaz", () => {
     const previous = process.env.SUPER_ADMIN_USER_ID;
     try {
@@ -174,10 +190,14 @@ describe("admin katalog yüzeyi", () => {
     expect(load).toContain("isSupabaseUserId(actor.id)");
     expect(load).toContain("isSuperAdminActor(actor)");
     expect(load).toContain("prisma.priceCatalogEntry.findMany");
+    expect(load).toContain("ADMIN_CATALOG_LIVE_MODULE_KEYS");
+    expect(load).toContain("moduleKey: { in: [...ADMIN_CATALOG_LIVE_MODULE_KEYS] }");
+    expect(load).not.toMatch(/priceCatalogEntry\.delete/);
     expect(load).toContain("prisma.priceCatalogDecisionLedger.findMany");
     expect(load).toContain("DATABASE_URL");
     expect(load).not.toContain("findActiveEntry");
     expect(load).not.toMatch(/\.(create|update|upsert)\(/);
+    expect(list).toContain("selectLiveCatalogEntries");
     expect(list).toContain("AdminCatalogAmountForm");
     expect(list).toContain("Fiyat değiştir");
     expect(list).toContain("ADMIN_SEN");

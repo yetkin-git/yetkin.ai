@@ -48,10 +48,14 @@ describe("dijital dükkan motoru", () => {
     }
     expect(first.score).toBe(100);
     expect(first.filename).toBe(DUKKAN_FILENAME);
-    expect(first.remaining).toBe(0);
-    expect(first.limit).toBe(1);
+    expect(first.remaining).toBe(2);
+    expect(first.limit).toBe(3);
     expect(first.html).toContain("https://wa.me/905321112233");
 
+    for (let extra = 0; extra < 2; extra += 1) {
+      const mid = await generateDukkanPage({ actorId, guest: true, request: REQUEST }, { now: () => NOW });
+      expect(mid.ok).toBe(true);
+    }
     const blocked = await generateDukkanPage(
       { actorId, guest: true, request: REQUEST },
       { now: () => NOW },
@@ -63,7 +67,7 @@ describe("dijital dükkan motoru", () => {
       { actorId: fresh, guest: true, request: REQUEST },
       { now: () => NOW, render: () => "<html><title>yok</title></html>" },
     );
-    expect(broken).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 1 });
+    expect(broken).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 3 });
 
     const built = readDukkanDraft(REQUEST);
     expect(built).not.toBeNull();
@@ -75,13 +79,13 @@ describe("dijital dükkan motoru", () => {
       { actorId: fresh, guest: true, request: REQUEST },
       { now: () => NOW, render: () => `${clean}<script>alert(1)</script>` },
     );
-    expect(poisoned).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 1 });
+    expect(poisoned).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 3 });
 
     const oversized = await generateDukkanPage(
       { actorId: fresh, guest: true, request: REQUEST },
       { now: () => NOW, render: () => `${clean}<!--${"x".repeat(520 * 1024)}-->` },
     );
-    expect(oversized).toMatchObject({ ok: false, status: 503, remaining: 1 });
+    expect(oversized).toMatchObject({ ok: false, status: 503, remaining: 3 });
 
     const thrown = await generateDukkanPage(
       { actorId: fresh, guest: true, request: REQUEST },
@@ -92,13 +96,13 @@ describe("dijital dükkan motoru", () => {
         },
       },
     );
-    expect(thrown).toMatchObject({ ok: false, status: 503, remaining: 1 });
+    expect(thrown).toMatchObject({ ok: false, status: 503, remaining: 3 });
 
     const invalid = await generateDukkanPage(
       { actorId: fresh, guest: true, request: { ...REQUEST, whatsapp: "0212 000 00 00" } },
       { now: () => NOW },
     );
-    expect(invalid).toMatchObject({ ok: false, status: 400, remaining: 1 });
+    expect(invalid).toMatchObject({ ok: false, status: 400, remaining: 3 });
 
     const again = await generateDukkanPage(
       { actorId: fresh, guest: true, request: REQUEST },
@@ -106,7 +110,7 @@ describe("dijital dükkan motoru", () => {
     );
     expect(again.ok).toBe(true);
     if (again.ok) {
-      expect(again.remaining).toBe(0);
+      expect(again.remaining).toBe(2);
     }
   });
 

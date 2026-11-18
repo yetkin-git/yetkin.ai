@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/link-button";
+import { PublicHero } from "@/components/ui/public-hero";
 import { LegalEntityColophon, LegalHonestyCard, LegalSupportEmailLine } from "@/components/legal/legal-section-articles";
 import {
   LEGAL_ACTIVITY_SCOPE_BODY,
@@ -18,9 +18,7 @@ export default function ContactPage() {
   return (
     <main className="relative mx-auto max-w-3xl px-6 pb-20 pt-16">
       <div className="relative space-y-6">
-        <Badge tone="safir">İletişim</Badge>
-        <h1 className="text-3xl font-semibold tracking-tight">İletişim</h1>
-        <p className="text-xs text-[var(--muted)]">{LEGAL_UPDATED_LABEL}</p>
+        <PublicHero eyebrow="İletişim" title="İletişim" description={LEGAL_UPDATED_LABEL} />
         <LegalHonestyCard />
         <Card title="Faaliyet konusu">
           <p className="text-base leading-relaxed text-slate-700">{LEGAL_ACTIVITY_SCOPE_BODY}</p>

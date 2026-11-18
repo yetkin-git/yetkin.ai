@@ -39,6 +39,13 @@ describe("Auth redirect sicili", () => {
     expect(buildCitizenLoginHref("/admin")).toBe("/login");
     expect(isSafeAuthNextPath("/magazam")).toBe(true);
     expect(isSafeAuthNextPath("/e-ticaret")).toBe(true);
+    expect(isSafeAuthNextPath("/hibe")).toBe(true);
+    expect(buildCitizenLoginHref("/hibe")).toBe("/login?next=%2Fhibe");
+    expect(resolvePostLoginPath("/hibe?sekme=analiz")).toBe("/hibe");
+    expect(isSafeAuthNextPath("/kurumsal")).toBe(true);
+    expect(isSafeAuthNextPath("/kurumsal/ilanlar")).toBe(true);
+    expect(isSafeAuthNextPath("/kurumsal/ilan/yeni")).toBe(false);
+    expect(isSafeAuthNextPath("/ilan/depo-sorumlusu")).toBe(true);
     expect(isSafeAuthNextPath("/magazam/yeni")).toBe(true);
     expect(isSafeAuthNextPath("/magaza/ornek")).toBe(false);
     expect(buildCitizenLoginHref("/magazam/yeni")).toBe("/login?next=%2Fmagazam%2Fyeni");

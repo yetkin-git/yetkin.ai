@@ -59,3 +59,101 @@ model B2bLeadCampaignItem {
   @@index([createdAt])
   @@map("b2b_lead_campaign_items")
 }
+
+/// Kamuya açık kurumsal teklif. Kurumsal oda değildir; gönderim kuyruğuna düşmez.
+/// Sahiplik kolonu yoktur. PostgREST okuması kapalıdır.
+model KurumsalOfferRequest {
+  id          String   @id @default(cuid())
+  companyName String   @map("company_name") @db.VarChar(120)
+  email       String   @db.VarChar(160)
+  packageKey  String   @map("package_key") @db.VarChar(40)
+  city        String   @db.VarChar(80)
+  note        String   @default("") @db.VarChar(500)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([createdAt])
+  @@map("kurumsal_offer_requests")
+}
+
+/// İlanın uzmanlık dikeyi. Soru bankası `YetkinCv` dikeyiyle aynı kimliktedir.
+enum KurumsalJobVertical {
+  ECOMMERCE
+  GRANT
+  MARKETING
+  OFFICE
+  SOFTWARE
+}
+
+/// Başvuru durumu. TESTED, puan yazıldıktan sonraki ara kayıttır.
+/// Kısa liste hesabı SHORTLISTED veya REJECTED olarak kapanır.
+enum KurumsalJobApplicationStatus {
+  PENDING_TEST
+  TESTED
+  SHORTLISTED
+  REJECTED
+}
+
+/// Şirketin açtığı ilan ve ağırlıklı eleme eşiği.
+/// criteria_weights, dikeyin gerçek vaka becerileridir. Tohum şirket ve sahte ilan yazılmaz.
+/// deadlineAt boşsa kapanış günü yoktur.
+model KurumsalJobPosting {
+  id              String              @id @default(cuid())
+  ownerUserId     String              @map("owner_user_id")
+  companyName     String              @map("company_name") @db.VarChar(120)
+  title           String              @db.VarChar(160)
+  slug            String              @unique @db.VarChar(80)
+  vertical        KurumsalJobVertical
+  description     String              @db.VarChar(4000)
+  criteriaWeights Json                @map("criteria_weights")
+  minScore        Int                 @default(70) @map("min_score")
+  shortlistLimit  Int                 @default(5) @map("shortlist_limit")
+  isActive        Boolean             @default(true) @map("is_active")
+  deadlineAt      DateTime?           @map("deadline_at")
+  createdAt       DateTime            @default(now()) @map("created_at")
+
+  owner        User                      @relation("KurumsalJobOwner", fields: [ownerUserId], references: [id], onDelete: Cascade)
+  applications KurumsalJobApplication[]
+
+  @@index([ownerUserId, createdAt])
+  @@index([isActive, deadlineAt])
+  @@map("kurumsal_job_postings")
+}
+
+/// Aday başvurusu. Alt puan ve ağırlıklı sonuç yalnız sunucudaki YetkinCV kırılımından yazılır.
+/// cv_summary kamu dizinine basılmaz; ilanı açan üye okur.
+model KurumsalJobApplication {
+  id              String                       @id @default(cuid())
+  jobId           String                       @map("job_id")
+  candidateUserId String?                      @map("candidate_user_id")
+  candidateName   String                       @map("candidate_name") @db.VarChar(120)
+  candidateEmail  String                       @map("candidate_email") @db.VarChar(160)
+  cvSummary       String                       @map("cv_summary") @db.VarChar(6000)
+  testScore       Int?                         @map("test_score")
+  skillScores     Json?                        @map("skill_scores")
+  weightedScore   Int?                         @map("weighted_score")
+  certificateCode String?                      @map("certificate_code") @db.VarChar(64)
+  status          KurumsalJobApplicationStatus @default(PENDING_TEST)
+  sittingId       String?                      @unique @map("sitting_id")
+  createdAt       DateTime                     @default(now()) @map("created_at")
+
+  job       KurumsalJobPosting @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  candidate User?              @relation("KurumsalJobCandidate", fields: [candidateUserId], references: [id], onDelete: SetNull)
+  sitting   YetkinCvSitting?   @relation(fields: [sittingId], references: [id], onDelete: SetNull)
+
+  @@unique([jobId, candidateUserId])
+  @@index([jobId, testScore])
+  @@index([jobId, weightedScore])
+  @@map("kurumsal_job_applications")
+}
+
+/// Haftalık fırsat radarı teslimatı. Aynı üye ve hafta ikinci kez yazılmaz.
+model WeeklyRadarDelivery {
+  userId  String   @map("user_id")
+  weekKey String   @map("week_key") @db.VarChar(10)
+  sentAt  DateTime @default(now()) @map("sent_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, weekKey])
+  @@map("weekly_radar_deliveries")
+}

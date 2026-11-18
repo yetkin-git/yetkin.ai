@@ -11,6 +11,7 @@ import {
 } from "@/lib/kernel/payments/clearing";
 import { notifyAcademyLicenseHook } from "@/lib/kernel/payments/academy-license-hook";
 import { notifyCommerceLicenseHook } from "@/lib/kernel/payments/commerce-license-hook";
+import { notifyTezgahLicenseHook } from "@/lib/kernel/payments/tezgah-license-hook";
 import { notifyJuniorLicenseHook } from "@/lib/kernel/payments/junior-license-hook";
 import { logEvent } from "@/lib/kernel/observability/log";
 
@@ -138,6 +139,46 @@ export async function settlePaytrWebhookSuccess(
   await notifyAcademyLicenseHook(cleared.order);
   await notifyJuniorLicenseHook(cleared.order);
   await notifyCommerceLicenseHook(cleared.order);
+  try {
+    await notifyTezgahLicenseHook(cleared.order);
+  } catch (error) {
+    const errorName = error instanceof Error ? error.name : "unknown";
+    try {
+      await recordPaymentAnomaly(ports.anomalies, {
+        kind: "license_gap",
+        merchantOid: input.merchantOid,
+        expectedMinor: cleared.order.amountMinor,
+        reportedMinor: input.amountMinor,
+        orderId: cleared.order.id,
+        requestId: input.requestId,
+        sourceIp: input.sourceIp,
+        detail: {
+          reason: "tezgah_license_hook",
+          errorName,
+          purpose: cleared.order.purpose ?? null,
+        },
+      });
+    } catch {
+      logEvent({
+        level: "error",
+        event: "paytr.webhook.tezgah_hook.anomaly_unwritten",
+        requestId: input.requestId,
+        merchantOid: input.merchantOid,
+        orderId: cleared.order.id,
+        errorName,
+        applied: false,
+      });
+    }
+    logEvent({
+      level: "error",
+      event: "paytr.webhook.tezgah_hook_failed",
+      requestId: input.requestId,
+      merchantOid: input.merchantOid,
+      orderId: cleared.order.id,
+      errorName,
+      applied: false,
+    });
+  }
   return {
     disposition: "cleared",
     ack: true,

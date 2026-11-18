@@ -29,7 +29,7 @@ describe("ana sayfa hibe hazırlığı bölümü (V1)", () => {
     expect(copy).not.toContain("offers:");
     expect(copy).not.toContain("Hazırlanıyor");
     expect(page).toContain("home-chain-heading");
-    expect(page).toContain("OFF_101_EXEMPTION_PATH");
+    expect(page).toContain("GrantEligibilityWidget");
     expect(page).not.toContain("/freelancer");
     expect(page).not.toContain("/career");
     expect(page).not.toMatch(/4\.900|14\.900/u);

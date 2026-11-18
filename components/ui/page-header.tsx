@@ -10,6 +10,7 @@ export function PageHeader({
   compact = false,
   tight = false,
   titleClassName,
+  tone = "default",
 }: {
   eyebrow?: string;
   title: string;
@@ -21,7 +22,10 @@ export function PageHeader({
   /** Katalog vb. — küçük başlık, altta tek satır açıklama, aksiyonlar başlık hizasında. */
   tight?: boolean;
   titleClassName?: string;
+  /** Koyu vitrin bandı. Başlık ve açıklama açık renkte kalır. */
+  tone?: "default" | "ink";
 }) {
+  const ink = tone === "ink";
   return (
     <div
       className={cn(
@@ -34,7 +38,9 @@ export function PageHeader({
         {eyebrow ? (
           <p
             className={cn(
-              "room-kicker text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--safir-deep)]",
+              ink
+                ? "text-[11px] font-semibold uppercase tracking-[0.18em] text-blue-200"
+                : "room-kicker text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--safir-deep)]",
               compact || tight ? "mb-1" : "mb-2",
             )}
           >
@@ -44,7 +50,9 @@ export function PageHeader({
         {compact && !tight ? (
           <h1
             className={cn(
-              "text-pretty text-xl font-semibold tracking-tight text-[var(--foreground)] sm:text-2xl",
+              ink
+                ? "text-pretty text-xl font-semibold tracking-tight text-white sm:text-2xl"
+                : "text-pretty text-xl font-semibold tracking-tight text-[var(--foreground)] sm:text-2xl",
               titleClassName,
             )}
           >
@@ -62,7 +70,9 @@ export function PageHeader({
           <>
             <h1
               className={cn(
-                "font-semibold tracking-tight text-[var(--foreground)]",
+                ink
+                  ? "font-semibold tracking-tight text-white"
+                  : "font-semibold tracking-tight text-[var(--foreground)]",
                 titleClassName ?? (tight ? "text-2xl" : "text-3xl"),
               )}
             >
@@ -73,8 +83,12 @@ export function PageHeader({
                 className={cn(
                   "max-w-2xl text-pretty",
                   tight
-                    ? "mt-1 text-sm leading-5 text-[var(--muted)]"
-                    : "mt-2 text-base leading-7 text-slate-600",
+                    ? ink
+                      ? "mt-1 text-sm leading-5 text-blue-100"
+                      : "mt-1 text-sm leading-5 text-[var(--muted)]"
+                    : ink
+                      ? "mt-2 text-base leading-7 text-blue-100"
+                      : "mt-2 text-base leading-7 text-slate-600",
                 )}
               >
                 {description}
@@ -107,7 +121,7 @@ export function RoomFrame({
   return (
     <div
       className={cn(
-        "mx-auto",
+        "mx-auto bg-[radial-gradient(ellipse_at_top,var(--safir-soft),transparent_46%)]",
         !widthOverride && "max-w-6xl",
         cinema && "max-w-none",
         !spacingOverride && "space-y-8",

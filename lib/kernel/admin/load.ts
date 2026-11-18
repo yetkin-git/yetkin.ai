@@ -6,6 +6,7 @@ import { isSupabaseUserId } from "@/lib/kernel/auth/ids";
 import { getPrisma } from "@/lib/kernel/db";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { parseCurrencyCode } from "@/lib/kernel/money/currency";
+import { ADMIN_CATALOG_LIVE_MODULE_KEYS } from "@/lib/kernel/admin/display";
 import type {
   AcademyCoursePublishRow,
   AdminCatalogBoard,
@@ -31,12 +32,14 @@ const CATALOG_SELECT = {
 } as const;
 
 /**
- * PriceCatalogEntry tek Prisma okuması — tüm satırlar (aktif + kapalı).
+ * PriceCatalogEntry tek Prisma okuması — canlı satış modülleri (aktif + kapalı).
+ * Donmuş oda satırları silinmez; `where` yalnız tahta görünümünü süzer.
  * Checkout tek-birim portu burayı çağırmaz; Super Admin tahtası çağırır.
  */
 async function findPriceCatalogEntries(): Promise<SealedCatalogEntry[]> {
   const prisma = getPrisma();
   const rows = await prisma.priceCatalogEntry.findMany({
+    where: { moduleKey: { in: [...ADMIN_CATALOG_LIVE_MODULE_KEYS] } },
     orderBy: [{ moduleKey: "asc" }, { unitKey: "asc" }],
     select: CATALOG_SELECT,
   });

@@ -36,13 +36,11 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     expect(SEN_VOICE.dashboard.description).not.toContain("yönetilir");
     expect(SEN_VOICE.dashboard.description).not.toContain("split");
     expect(SEN_VOICE.dashboard.welcomeLead).toBe(
-      "Üretim araçların, mağazaların, eğitimlerin ve kariyer adımların tek ekranda.",
+      "E-Ticaret, YetkinHibe, AI Tezgâh ve kariyer adımların tek ekranda.",
     );
     expect(SEN_VOICE.dashboard.publicPanel.eyebrow).toBe("Öğrenci paneli");
-    expect(SEN_VOICE.dashboard.featured).toContain("Kariyer yolculuğuna");
-    expect(SEN_VOICE.dashboard.featured).toContain("Akademi'den");
+    expect(SEN_VOICE.dashboard.featured).toContain("YetkinHibe");
     expect(SEN_VOICE.dashboard.featured).toContain("Kariyer odasından");
-    expect(SEN_VOICE.dashboard.featured).toContain("sertifikan burada durur");
     expect(SEN_VOICE.dashboard.featured).not.toContain("Öğren, sınav ol");
     expect(SEN_VOICE.dashboard.featured).not.toContain("mühürlen, vize al");
     expect(SEN_VOICE.dashboard.featured).not.toContain("kokpit");

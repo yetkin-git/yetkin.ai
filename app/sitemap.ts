@@ -1,14 +1,8 @@
 import type { MetadataRoute } from "next";
-import { academyCourseCoverPath } from "@/lib/academy/course-cover";
-import {
-  ACADEMY_GROWTH_SKU_SLUGS,
-  ACADEMY_OFF201_STOREFRONT_SLUG,
-  ACADEMY_PRODUCTION_LINE_SKU_SLUGS,
-  isAcademyStorefrontSlug,
-} from "@/lib/academy/pilot-sku";
 import { LEGAL_SITE_PATHS } from "@/lib/copy/legal-launch";
 import { JUNIOR_GUARDIAN_NOTICE_HREF } from "@/lib/copy/junior-guardian-notice";
-import { readPublishedAcademySlugs } from "@/lib/kernel/catalog/published-academy-slugs";
+import { GLOSSARY_TERMS, glossaryPath } from "@/lib/copy/glossary";
+import { guidePath, PUBLIC_GUIDES } from "@/lib/copy/guides";
 import {
   CANONICAL_SITE_ORIGIN,
   isRobotsDisallowedPath,
@@ -41,47 +35,6 @@ function sitemapEntry(
   };
 }
 
-/**
- * Yayın adayları — karttaki vitrin slug’ları.
- * İstek anında `is_published` satırı süzgeçtir. Okuma düşerse kart listesi kalır.
- */
-const SITEMAP_ACADEMY_COURSE_SLUGS = [
-  ...ACADEMY_GROWTH_SKU_SLUGS,
-  ACADEMY_OFF201_STOREFRONT_SLUG,
-  ...ACADEMY_PRODUCTION_LINE_SKU_SLUGS,
-] as const;
-
-export function sitemapCourseSlugs(
-  candidates: readonly string[],
-  publishedSlugs: ReadonlySet<string> | null,
-): string[] {
-  if (!publishedSlugs) {
-    return [...candidates];
-  }
-  return candidates.filter((slug) => publishedSlugs.has(slug));
-}
-
-function publishedAcademyCourseEntries(
-  lastModified: Date,
-  publishedSlugs: ReadonlySet<string> | null,
-): MetadataRoute.Sitemap {
-  try {
-    const candidates = SITEMAP_ACADEMY_COURSE_SLUGS.filter((slug) => isAcademyStorefrontSlug(slug));
-    return sitemapCourseSlugs(candidates, publishedSlugs).map((slug) => {
-      let images: string[] | undefined;
-      try {
-        const cover = academyCourseCoverPath(slug);
-        images = cover ? [absoluteSiteUrl(cover)] : undefined;
-      } catch {
-        images = undefined;
-      }
-      return sitemapEntry(`/academy/${slug}`, lastModified, images);
-    });
-  } catch {
-    return [];
-  }
-}
-
 function staticSitemapEntries(lastModified: Date): MetadataRoute.Sitemap {
   // `/legal/junior-veli` footer listesinde yoktur (veli onay ekranından açılır) ama
   // kamuya açık 200 dönen yasal bir yüzeydir; site haritasına ayrıca yazılır.
@@ -101,12 +54,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // `lastmod` istek anı değil. İçerik dosyasının UTC günü; taban editöryal mühür.
   const lastModified = readSitemapLastModified();
   try {
-    const publishedSlugs = await readPublishedAcademySlugs();
     const staticEntries = staticSitemapEntries(lastModified);
-    const courseEntries = publishedAcademyCourseEntries(lastModified, publishedSlugs);
+    const courseEntries: MetadataRoute.Sitemap = [];
+    const editorialEntries = [
+      ...GLOSSARY_TERMS.map((term) => sitemapEntry(glossaryPath(term.slug), lastModified)),
+      ...PUBLIC_GUIDES.map((guide) => sitemapEntry(guidePath(guide.slug), lastModified)),
+    ];
     const seen = new Set<string>();
     const merged: MetadataRoute.Sitemap = [];
-    for (const entry of [...staticEntries, ...courseEntries]) {
+    for (const entry of [...staticEntries, ...courseEntries, ...editorialEntries]) {
       if (seen.has(entry.url)) {
         continue;
       }

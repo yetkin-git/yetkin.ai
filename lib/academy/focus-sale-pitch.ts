@@ -34,7 +34,7 @@ const FOCUS_SALE_JOBS = {
     output:
       "Elinde temiz tablo, üç maddelik karar cümlesi, slayt başına tek fikir ve Cuma 30 kapanış listesi kalır.",
     preview:
-      "İlk ders herkese açık. Ödeme olmadan dağınık tabloyu A1 hücresinden düzenli tabloya nasıl çevirdiğini izle. Sonraki dersler lisans ister.",
+      "İlk ders herkese açık. Ödeme olmadan dağınık tabloyu A1 hücresinden düzenli tabloya nasıl çevirdiğini izle. Kayıtlı üye rehberin tamamını ücretsiz açar.",
   },
   "01_office_ai_ileri": {
     result:
@@ -42,7 +42,7 @@ const FOCUS_SALE_JOBS = {
     output:
       "Elinde dört parçalı istem, toplantı eylem listesi, formül ve grafik notu ve sayı denetim çizelgesi kalır.",
     preview:
-      "İlk ders herkese açık. Ödeme olmadan dört parçalı istemin nasıl kurulduğunu izle. Sonraki dersler lisans ister.",
+      "İlk ders herkese açık. Ödeme olmadan dört parçalı istemin nasıl kurulduğunu izle. Kayıtlı üye rehberin tamamını ücretsiz açar.",
   },
   "02_ecommerce_ai": {
     result:
@@ -50,7 +50,7 @@ const FOCUS_SALE_JOBS = {
     output:
       "Elinde ölçülü başlık, beyaz kare görsel, iade kök nedeni, maliyetin üstünde fiyat, toplu açıklama şablonu ve senin gönderdiğin müşteri taslağı kalır.",
     preview:
-      "İlk ders herkese açık. Ödeme olmadan ölçülü ürün başlığının nasıl kurulduğunu izle. Sonraki dersler lisans ister.",
+      "İlk ders herkese açık. Ödeme olmadan ölçülü ürün başlığının nasıl kurulduğunu izle. Kayıtlı üye rehberin tamamını ücretsiz açar.",
   },
   "03_social_media_ai": {
     result:
@@ -58,26 +58,26 @@ const FOCUS_SALE_JOBS = {
     output:
       "Elinde künye, tek stile bağlı beş kare, üç saniyelik kanca, altyazı notu ve haftalık akış çizgisi kalır.",
     preview:
-      "İlk ders herkese açık. Ödeme olmadan fikirden künyeye nasıl geçildiğini izle. Sonraki dersler lisans ister.",
+      "İlk ders herkese açık. Ödeme olmadan fikirden künyeye nasıl geçildiğini izle. Kayıtlı üye rehberin tamamını ücretsiz açar.",
   },
   "04_chatbot_nocode": {
     result:
       "Kaçan müşteri mesajını karşılama, soru ve randevu akışına bağlarsın; WhatsApp veya web sohbetinde kod yazmadan ilk denemeyi kurarsın.",
     output: "Elinde karşılama akışı, randevu adımı, yanlış anlama kuralı ve teslim listesi kalır.",
     preview:
-      "İlk ders herkese açık. Ödeme olmadan kaçan mesajın nasıl karşılandığını izle. Sonraki dersler lisans ister.",
+      "İlk ders herkese açık. Ödeme olmadan kaçan mesajın nasıl karşılandığını izle. Kayıtlı üye rehberin tamamını ücretsiz açar.",
   },
   "05_prompt_practice": {
     result:
       "Yapay zekâya rol, bağlam ve biçimle talimat verirsin; kaynakta olmayan cümleyi çıktıya almazsın.",
     output: "Elinde günlük istem seti, tablo ve plan şablonu ve kaynak sınırı kuralı kalır.",
     preview:
-      "İlk ders herkese açık. Ödeme olmadan istemin anatomisini izle. Sonraki dersler lisans ister.",
+      "İlk ders herkese açık. Ödeme olmadan istemin anatomisini izle. Kayıtlı üye rehberin tamamını ücretsiz açar.",
   },
 } as const;
 
 function trustText(name: string, title: string, lessons: number): string {
-  return `${name}, ${title}, bu ${lessons} dersi anlatır. İlk ders ücretsizdir; sonraki dersler ödeme sonrası açılır. Lisans 365 gündür. ${FOCUS_SALE_REFUND} Sertifika testi 70+ ile basılır; satın alma tek başına belge basmaz.`;
+  return `${name}, ${title}, bu ${lessons} dersi anlatır. Dersler kayıtlı üyeye ücretsizdir. Resmî sınav hakkı katalog tutarıyladır ve 365 gün sürer. ${FOCUS_SALE_REFUND} Rozet testi 70+ ile basılır; ödeme tek başına belge basmaz.`;
 }
 
 export function academyFocusSalePitch(slug: string): readonly FocusSalePitchRow[] | null {

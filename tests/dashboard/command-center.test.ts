@@ -24,7 +24,7 @@ describe("komuta merkezi projeksiyonu", () => {
   });
 
   it("okunamayan odalar tire basar; boş mağaza cümlesini iddia etmez", () => {
-    const [tezgah, commerce, academy, career] = projectCommandCenter({
+    const [commerce, hibe, tezgah, career] = projectCommandCenter({
       pulse: EMPTY_DASHBOARD_PULSE,
       stores: { kind: "down" },
       quota: quotaDown,
@@ -43,9 +43,9 @@ describe("komuta merkezi projeksiyonu", () => {
     expect(commerce.detail).toBe(SEN_VOICE.dashboard.pulse.unavailable);
     expect(commerce.detail).not.toBe(copy.commerceNone);
 
-    expect(academy.stats.map((item) => item.value)).toEqual(["—", "—"]);
-    expect(academy.href).toBe("/academy");
-    expect(academy.cta).toBe("Eğitimleri İncele");
+    expect(hibe.href).toBe("/hibe");
+    expect(hibe.cta).toBe("YetkinHibe’yi aç");
+    expect(hibe.stats[0]?.value).toBe("—");
 
     expect(career.title).toBe("Kariyer & Cüzdan");
     expect(career.cta).toBe("Kariyeri Aç");
@@ -56,7 +56,7 @@ describe("komuta merkezi projeksiyonu", () => {
 
   it("canlı kota, boş mağaza, akademi devamı ve cüzdan bakiyesini ayırır", () => {
     const amount = toAmountMinor(1_500);
-    const [tezgah, commerce, academy, career] = projectCommandCenter({
+    const [commerce, hibe, tezgah, career] = projectCommandCenter({
       pulse: {
         ...EMPTY_DASHBOARD_PULSE,
         academy: {
@@ -92,10 +92,8 @@ describe("komuta merkezi projeksiyonu", () => {
     expect(commerce.cta).toBe("Kokpiti Aç");
     expect(commerce.href).toBe("/e-ticaret");
 
-    expect(academy.stats.map((item) => item.value)).toEqual(["2", "1"]);
-    expect(academy.detail).toBe("Ofis AI");
-    expect(academy.href).toBe("/academy/01_office_ai/oyna");
-    expect(academy.cta).toBe("Eğitime dön");
+    expect(hibe.href).toBe("/hibe");
+    expect(hibe.stats[0]?.value).toBe("—");
 
     expect(career.stats[0]?.value).toBe("1");
     expect(career.stats[1]?.value).toBe(formatMinor(amount, SETTLEMENT_CURRENCY));
@@ -104,7 +102,7 @@ describe("komuta merkezi projeksiyonu", () => {
   });
 
   it("açık vitrin sayılır; rozetsiz planda kur cümlesi durur", () => {
-    const [, commerce, , career] = projectCommandCenter({
+    const [commerce, , , career] = projectCommandCenter({
       pulse: {
         ...EMPTY_DASHBOARD_PULSE,
         career: { ...EMPTY_DASHBOARD_PULSE.career, live: true, visaCount: 0 },
@@ -135,7 +133,7 @@ describe("komuta merkezi projeksiyonu", () => {
       stores: { kind: "ok", stores: [{ status: "DRAFT" }] },
       quota: quotaDown,
       toolCount: 7,
-    })[1];
+    })[0];
     expect(draftOnly.stats.map((item) => item.value)).toEqual(["1", "0"]);
     expect(draftOnly.detail).toBe("Vitrin taslak");
     expect(draftOnly.cta).toBe("Kokpiti Aç");
@@ -152,7 +150,8 @@ describe("komuta merkezi projeksiyonu", () => {
     expect(loader).toContain("peekTezgahQuota");
     expect(page).toContain("CommandCenter");
     expect(page).toContain("PublicHomePanel");
-    expect(view).toContain("lg:grid-cols-2");
+    expect(view).toContain("md:grid-cols-2");
+    expect(view).toContain("xl:grid-cols-4");
     expect(view).not.toContain('href="/cuzdan"');
     expect(view).not.toContain("WalletBalanceStrip");
     expect(page).not.toContain('href="/cuzdan"');

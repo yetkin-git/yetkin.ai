@@ -194,12 +194,17 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/verify",
-        destination: "https://yetkin.ai/academy/dogrula",
+        destination: "https://yetkin.ai/vize",
         statusCode: 301,
       },
       {
         source: "/verify/:hash",
-        destination: "https://yetkin.ai/academy/dogrula/:hash",
+        destination: "https://yetkin.ai/vize/:hash",
+        statusCode: 301,
+      },
+      {
+        source: "/academy/dogrula/:hash",
+        destination: "https://yetkin.ai/vize/:hash",
         statusCode: 301,
       },
       {

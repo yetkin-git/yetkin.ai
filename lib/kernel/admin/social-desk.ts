@@ -125,14 +125,14 @@ const PACKS: Record<SocialModule, Pack> = {
   AI_TEZGAH: {
     title: "AI Tezgâh ile aynı gün çıktı",
     linkedin:
-      "KOBİ ekipleri ürün kartı, teklif metni ve site tetkikini aynı tezgahta üretir. Çıktı dakikalar içinde hazırlanır. Misafir günde 1, ücretsiz kayıt günde 3 üretim alır. Kota sayfada yazar; bu metin rakam uydurmaz.\n\nTezgâh bir ajans sözleşmesi değildir. Metin senin ürünün ve senin onayındır.\n\nAI Tezgâh: https://yetkin.ai/tezgah",
+      "KOBİ ekipleri ürün kartı, teklif metni ve site tetkikini aynı tezgahta üretir. Çıktı dakikalar içinde hazırlanır. Misafir günde 3 üretim alır. Kota sayfada yazar; bu metin rakam uydurmaz.\n\nTezgâh bir ajans sözleşmesi değildir. Metin senin ürünün ve senin onayındır.\n\nAI Tezgâh: https://yetkin.ai/tezgah",
     instagram:
       "Esnafın ürün kartı ve teklif metni aynı tezgahta çıkar. Kota sayfada yazar; burada rakam uydurulmaz.\n\nhttps://yetkin.ai/tezgah\n\n#KOBİ #esnaf #yapayzeka",
     facebook:
       "Dükkânın için ürün metnini ve teklifi tek yerde hazırlarsın. Sonucu sen okur, sen paylaşırsın. Kota sayfada durur.\n\nhttps://yetkin.ai/tezgah",
     tweets: [
       "Ürün kartı, teklif ve site tetkiki tek tezgahta. Çıktı dakikalar sürer; sonuç uydurulmaz.",
-      "Misafir günde 1, ücretsiz kayıt günde 3 üretim alır. Kota sayfada yazar.",
+      "Misafir günde 3 üretim alır. Kota sayfada yazar.",
       "AI Tezgâh: https://yetkin.ai/tezgah",
     ],
     imagePrompt: "Açık mavi masa, sade dizüstü, yetkin.ai tezgâh ekranı. Abartısız, logo uydurma yok.",

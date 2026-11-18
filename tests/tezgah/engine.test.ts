@@ -64,14 +64,21 @@ describe("tezgâh üretim motoru", () => {
     expect(result.ok).toBe(true);
     if (result.ok) {
       expect(result.markdown).toContain("Pamuklu battaniye");
-      expect(result.remaining).toBe(0);
-      expect(result.limit).toBe(1);
+      expect(result.remaining).toBe(2);
+      expect(result.limit).toBe(3);
     }
     expect(seen[0]?.role).toBe(TEZGAH_MODEL_ROLE);
     expect(seen[0]?.maxOutputTokens).toBe(TEZGAH_MAX_OUTPUT_TOKENS);
-    expect(seen[0]?.billing).toMatchObject({ source: "tezgah", recordUsage: false, userId: null });
+    expect(seen[0]?.billing).toMatchObject({ source: "tezgah", recordUsage: true, userId: null });
     expect(seen[0]?.user).toContain("Pamuklu battaniye");
     expect(seen[0]?.rateLimit?.scope).toBe("tezgah");
+    for (let extra = 0; extra < 2; extra += 1) {
+      const mid = await generateTezgahOutput(
+        { actorId: "guest:203.0.113.9", guest: true, request: ecommerce },
+        { now: () => NOW, invoke: async () => okText("ara") },
+      );
+      expect(mid.ok).toBe(true);
+    }
     const again = await generateTezgahOutput(
       { actorId: "guest:203.0.113.9", guest: true, request: ecommerce },
       { now: () => NOW, invoke: async () => okText("ikinci") },
@@ -110,7 +117,7 @@ describe("tezgâh üretim motoru", () => {
       },
       { now: () => NOW, invoke: async () => okText("olmamalı") },
     );
-    expect(broken).toMatchObject({ ok: false, status: 400, remaining: 1 });
+    expect(broken).toMatchObject({ ok: false, status: 400, remaining: 3 });
     const next = await generateTezgahOutput(
       { actorId: "guest:203.0.113.10", guest: true, request: ecommerce },
       { now: () => NOW, invoke: async () => okText("## Başlık\nOldu") },

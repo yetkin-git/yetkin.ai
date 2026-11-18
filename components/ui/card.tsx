@@ -38,7 +38,7 @@ export function Card({
   return (
     <section
       className={cn(
-        "room-card rounded-[var(--radius-card)] transition-[border-color,box-shadow] duration-200",
+        "room-card rounded-[var(--radius-card)] shadow-sm transition-all duration-200 hover:shadow-md",
         snug ? "p-3" : dense ? "p-4" : "p-6",
         VARIANT[variant],
         className,

@@ -3,26 +3,92 @@
  * Ağ çağrısı yalnız üretilen API betiğinin kendi düğmesindedir.
  */
 
-import type { SaasWidgetId } from "@/lib/tezgah/pro/options";
+import type { SaasPlatformId, SaasWidgetId } from "@/lib/tezgah/pro/options";
 import { escapeHtml, oneLine } from "@/lib/tezgah/pro/text";
 import { buildStoreZip, type ZipTextFile } from "@/lib/tezgah/pro/zip";
 
 export const SAAS_ZIP_FILENAME = "mini-saas.zip";
+export const SAAS_INSTALL_GUIDE_HEADING = "Nereye ve Nasıl Eklenir? (3 Adımda Kurulum)";
 
 export type SaasBuilderInput = {
   widget: SaasWidgetId;
   title: string;
   detail: string;
+  feature: string;
+  platform: SaasPlatformId;
 };
 
 export type SaasBuilderPack = {
   filename: typeof SAAS_ZIP_FILENAME;
   html: string;
   react: string;
+  installGuide: string;
   files: ZipTextFile[];
   zip: Uint8Array;
   summary: string;
 };
+
+const WIDGET_LABELS: Record<SaasWidgetId, string> = {
+  cargo: "Kargo desi ve beden hesabı",
+  order: "Özel sipariş formu",
+  counter: "Kampanya sayacı",
+  api: "API entegrasyon betiği",
+};
+
+const PLATFORM_LABELS: Record<SaasPlatformId, string> = {
+  html: "Genel HTML / Hazır E-Ticaret",
+  wordpress: "WordPress",
+  react: "React / Next.js",
+};
+
+function installSteps(platform: SaasPlatformId): readonly [string, string, string] {
+  if (platform === "wordpress") {
+    return [
+      "Yönetim panelinde Sayfalar veya Yazılar bölümünü açın. Hedef sayfayı düzenleyin veya yeni sayfa oluşturun.",
+      "Özel HTML bloğu veya «HTML» eklentisi ile zip içindeki `index.html` gövdesini (form ve başlık kısmını) sayfaya ekleyin. `widget.js` içeriğini aynı sayfada ikinci bir HTML bloğunun sonuna `<script>…</script>` olarak yapıştırın; child tema veya kod snippet eklentisi kullanmanız önerilir.",
+      "Sayfayı yayınlayın, önbellek eklentisi varsa temizleyin ve canlı sayfada bileşenin çalıştığını doğrulayın.",
+    ];
+  }
+  if (platform === "react") {
+    return [
+      "Zip içindeki `App.jsx` dosyasını projenizin `components/` klasörüne kopyalayın (Next.js App Router için `app/` veya `components/`).",
+      "Hedef sayfa veya düzen dosyasında bileşeni `import` edin ve JSX içinde render edin. Gerekirse `'use client'` satırını üstte bırakın; sayaç ve form etkileşimi istemci tarafındadır.",
+      "`npm run dev` ile yerelde test edin; ardından `npm run build` ve deploy ile canlıya alın.",
+    ];
+  }
+  return [
+    "Zip dosyasını indirin ve içindeki `index.html` ile `widget.js` dosyalarını açın.",
+    "Statik sitede: `index.html` içeriğini sayfanıza uyarlayın veya gövde kısmını mevcut şablonunuza yapıştırın. `widget.js` betiğini sayfa sonunda `<script>` içinde çalıştırın. Hazır e-ticaret panellerinde «Özel HTML / kod alanı» varsa aynı iki parçayı sırayla ekleyin.",
+    "Dosyayı sunucuya yükleyin veya panelde kaydedip önizlemede formun ve sayacın çalıştığını kontrol edin.",
+  ];
+}
+
+export function buildSaasInstallGuide(input: {
+  platform: SaasPlatformId;
+  widget: SaasWidgetId;
+  title: string;
+  feature: string;
+}): string {
+  const [step1, step2, step3] = installSteps(input.platform);
+  return [
+    `**Altyapı:** ${PLATFORM_LABELS[input.platform]}`,
+    `**Bileşen:** ${WIDGET_LABELS[input.widget]}`,
+    `**Başlık:** ${input.title}`,
+    `**İstenen özellik:** ${input.feature}`,
+    "",
+    "## Adım 1",
+    step1,
+    "",
+    "## Adım 2",
+    step2,
+    "",
+    "## Adım 3",
+    step3,
+    "",
+    "Paketteki `index.html`, `widget.js` ve `App.jsx` aynı bileşenin farklı taşıma biçimleridir. Önce bu rehbere göre hedef altyapınızı seçin.",
+    "",
+  ].join("\n");
+}
 
 const PAGE_STYLE = [
   "body{font-family:system-ui,sans-serif;margin:24px;color:#142033;background:#fff}",
@@ -320,7 +386,8 @@ function apiSources(title: string, url: string): { html: string; react: string; 
 export function buildSaasWidget(input: SaasBuilderInput): SaasBuilderPack | null {
   const title = oneLine(input.title, 80);
   const detail = oneLine(input.detail, 300);
-  if (title.length < 2 || detail.length < 2) {
+  const feature = oneLine(input.feature, 300);
+  if (title.length < 2 || detail.length < 2 || feature.length < 2) {
     return null;
   }
   let sources: { html: string; react: string; script: string } | null = null;
@@ -344,19 +411,27 @@ export function buildSaasWidget(input: SaasBuilderInput): SaasBuilderPack | null
   if (!sources || sources.html.includes("<script src") || sources.html.length > 20000) {
     return null;
   }
+  const installGuide = buildSaasInstallGuide({
+    platform: input.platform,
+    widget: input.widget,
+    title,
+    feature,
+  });
   const files: ZipTextFile[] = [
     { name: "index.html", text: sources.html },
     { name: "widget.js", text: sources.script },
     { name: "App.jsx", text: sources.react },
+    { name: "KURULUM_REHBERI.md", text: `# ${SAAS_INSTALL_GUIDE_HEADING}\n\n${installGuide}` },
     {
       name: "README.txt",
-      text: "Bu paket index.html dosyasıyla tarayıcıda açılır. App.jsx aynı bileşenin React karşılığıdır. Fiyat yazılmaz.\n",
+      text: "Bu paket index.html dosyasıyla tarayıcıda açılır. App.jsx aynı bileşenin React karşılığıdır. Kurulum için KURULUM_REHBERI.md dosyasını okuyun. Fiyat yazılmaz.\n",
     },
   ];
   return {
     filename: SAAS_ZIP_FILENAME,
     html: sources.html,
     react: sources.react,
+    installGuide,
     files,
     zip: buildStoreZip(files),
     summary: `Mini SaaS: ${title}. ${SAAS_ZIP_FILENAME} hazır.`,

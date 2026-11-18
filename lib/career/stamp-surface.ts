@@ -8,8 +8,8 @@ import {
 import { ACADEMY_STAMP_SURFACE_PATH } from "@/lib/kernel/passport/types";
 
 /**
- * Liyakat defteri derin bağları — damga → Akademi dersi / Freelancer sözleşme.
- * Uydurma slug veya id üretmez; çözülemezse null.
+ * Liyakat defteri derin bağları — damga → kariyer masası / Freelancer sözleşme.
+ * Uydurma slug veya id üretmez; çözülemezse null. Akademi ders yolu kapalıdır.
  */
 export function careerStampCourseHref(
   stamp: Pick<CareerVisaStampRecord, "sourceKind" | "title"> & { courseSlug?: string | null },
@@ -24,7 +24,7 @@ export function careerStampCourseHref(
   if (!slug) {
     return null;
   }
-  return `${ACADEMY_STAMP_SURFACE_PATH}/${slug}`;
+  return ACADEMY_STAMP_SURFACE_PATH;
 }
 
 export function careerStampContractHref(

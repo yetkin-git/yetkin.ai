@@ -86,7 +86,7 @@ export function passportStampCourseHref(
   if (!slug) {
     return null;
   }
-  return `${ACADEMY_STAMP_SURFACE_PATH}/${slug}`;
+  return ACADEMY_STAMP_SURFACE_PATH;
 }
 
 function skuCodeForSlug(slug: string): string | null {
@@ -116,7 +116,7 @@ export function buildPassportGrowthCard(
       doorLabel: PASSPORT_GROWTH_DOOR_LABELS[slug],
       skuCode: skuCodeForSlug(slug),
       courseTitle: academyCourseTitleBySlug(slug) ?? slug,
-      href: `${ACADEMY_STAMP_SURFACE_PATH}/${slug}`,
+      href: ACADEMY_STAMP_SURFACE_PATH,
       held: stamp !== null,
       stampId: stamp?.id ?? null,
     };

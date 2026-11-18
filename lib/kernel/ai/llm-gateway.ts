@@ -1,11 +1,15 @@
 import "server-only";
 
+import { randomUUID } from "node:crypto";
 import {
   assertGatewayBudgetAllows,
   type BudgetShieldPort,
 } from "@/lib/kernel/ai/budget-shield";
 import { createPrismaBudgetShieldPort } from "@/lib/kernel/ai/prisma-budget-shield";
+import { createPrismaAiTokenUsageStore } from "@/lib/kernel/ai/prisma-usage-store";
 import { estimateLlmCostMinor } from "@/lib/kernel/ai/cost";
+import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
+import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import {
   ACADEMY_SEALED_MEDIA_MODEL,
   assertAcademySealedMediaModel,
@@ -151,7 +155,7 @@ const PROVIDERS: Record<LlmProviderId, LlmProviderAdapter> = {
 };
 
 export type UsageRecorder = (input: {
-  userId: string;
+  userId: string | null;
   source: string;
   provider: LlmProviderId;
   model: string;
@@ -159,6 +163,66 @@ export type UsageRecorder = (input: {
   usage: LlmUsage;
   costMinor: number;
 }) => Promise<void>;
+
+/**
+ * `recordUsage: true` AiTokenUsage satırı yazar. Misafir `userId` boş kalır; yazım hatası çağrıyı düşürmez.
+ * Bayrak yoksa yalnız enjekte edilmiş kayıtçı ve dolu kullanıcı kimliği yazılır.
+ */
+async function recordGatewayUsage(
+  billing: { userId?: string | null; source: string; recordUsage?: boolean } | undefined,
+  deps: InvokeLlmDeps,
+  row: {
+    provider: LlmProviderId;
+    model: string;
+    roleKey: string | null;
+    usage: LlmUsage;
+    costMinor: number;
+  },
+): Promise<void> {
+  if (!billing || billing.recordUsage === false) {
+    return;
+  }
+  const userId = billing.userId ?? null;
+  const explicit = billing.recordUsage === true;
+  const injected = Boolean(deps.recordUsage) && userId != null;
+  if (!explicit && !injected) {
+    return;
+  }
+  try {
+    if (deps.recordUsage && (userId != null || explicit)) {
+      await deps.recordUsage({
+        userId,
+        source: billing.source,
+        provider: row.provider,
+        model: row.model,
+        roleKey: row.roleKey,
+        usage: row.usage,
+        costMinor: row.costMinor,
+      });
+      return;
+    }
+    if (!explicit) {
+      return;
+    }
+    await createPrismaAiTokenUsageStore().insert({
+      id: randomUUID(),
+      userId,
+      source: billing.source,
+      provider: row.provider,
+      model: row.model,
+      roleKey: row.roleKey,
+      promptTokens: row.usage.promptTokens,
+      completionTokens: row.usage.completionTokens,
+      totalTokens: row.usage.totalTokens,
+      costMinor: toAmountMinor(row.costMinor),
+      currencyCode: SETTLEMENT_CURRENCY,
+      idempotencyKey: null,
+      createdAt: new Date(),
+    });
+  } catch {
+    // Muhasebe yazımı çağrıyı bloklamaz.
+  }
+}
 
 export type InvokeLlmDeps = {
   providers?: Partial<Record<LlmProviderId, LlmProviderAdapter>>;
@@ -288,22 +352,13 @@ export async function invokeLlm(
         throw new RetriableLlmError("Boş sağlayıcı yanıtı.");
       }
       const usage = normalizeUsage(completed.usage, input, text);
-      const billing = input.billing;
-      if (billing?.userId && billing.recordUsage !== false && deps.recordUsage) {
-        try {
-          await deps.recordUsage({
-            userId: billing.userId,
-            source: billing.source,
-            provider: providerId,
-            model,
-            roleKey: resolved.roleKey,
-            usage,
-            costMinor: estimateLlmCostMinor(usage),
-          });
-        } catch {
-          // Muhasebe yazımı çağrıyı bloklamaz.
-        }
-      }
+      await recordGatewayUsage(input.billing, deps, {
+        provider: providerId,
+        model,
+        roleKey: resolved.roleKey,
+        usage,
+        costMinor: estimateLlmCostMinor(usage),
+      });
       return { text, model, provider: providerId, usage };
     } catch (error) {
       lastError = error;
@@ -407,22 +462,13 @@ export async function generateImage(
                     Math.max(0, Math.trunc(completed.usage.completionTokens)),
             }
           : estimateImagePromptUsage(prompt);
-      const billing = input.billing;
-      if (billing?.userId && billing.recordUsage !== false && deps.recordUsage) {
-        try {
-          await deps.recordUsage({
-            userId: billing.userId,
-            source: billing.source,
-            provider: providerId,
-            model,
-            roleKey: "IMAGE_GEN",
-            usage,
-            costMinor: estimateLlmCostMinor(usage),
-          });
-        } catch {
-          // Muhasebe yazımı çağrıyı bloklamaz.
-        }
-      }
+      await recordGatewayUsage(input.billing, deps, {
+        provider: providerId,
+        model,
+        roleKey: "IMAGE_GEN",
+        usage,
+        costMinor: estimateLlmCostMinor(usage),
+      });
       return {
         mimeType: completed.mimeType.trim() || "image/png",
         dataBase64,
@@ -606,22 +652,13 @@ export async function generateSpeech(
               completionTokens: 1,
               totalTokens: Math.max(1, Math.trunc(text.length / 4)) + 1,
             };
-      const billing = input.billing;
-      if (billing?.userId && billing.recordUsage !== false && deps.recordUsage) {
-        try {
-          await deps.recordUsage({
-            userId: billing.userId,
-            source: billing.source,
-            provider: providerId,
-            model,
-            roleKey: "VOICE_TTS",
-            usage,
-            costMinor: estimateLlmCostMinor(usage),
-          });
-        } catch {
-          // Muhasebe yazımı çağrıyı bloklamaz.
-        }
-      }
+      await recordGatewayUsage(input.billing, deps, {
+        provider: providerId,
+        model,
+        roleKey: "VOICE_TTS",
+        usage,
+        costMinor: estimateLlmCostMinor(usage),
+      });
       return {
         mimeType: completed.mimeType.trim() || "audio/wav",
         dataBase64,

@@ -602,7 +602,13 @@ describe("Rail İş (Diyar B) /api/v1 lab sözleşmesi", () => {
           headers: { "X-Rail-Min-Version": "1" },
         }),
       );
-      expect(response.status, hop.v1).toBe(200);
+      const academyClosed = hop.canonical.startsWith("/api/academy") || hop.v1.includes("/academy/");
+      expect(response.status, hop.v1).toBe(academyClosed ? 410 : 200);
+      if (academyClosed) {
+        expect(response.headers.get("x-middleware-rewrite"), hop.v1).toBeNull();
+        expect(response.headers.get("set-cookie"), hop.v1).toBeNull();
+        continue;
+      }
       expect(response.headers.get("x-middleware-rewrite"), hop.v1).toBe(
         `http://localhost:3000${hop.canonical}`,
       );

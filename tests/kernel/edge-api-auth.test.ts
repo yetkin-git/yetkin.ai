@@ -9,6 +9,7 @@ import {
   EDGE_API_FROZEN_ROOM_ERROR,
   EDGE_API_NOT_FOUND_ERROR,
   EDGE_API_SESSION_ERROR,
+  isFrozenRoomApi,
 } from "@/lib/kernel/security/edge-api-auth";
 import { toPublicApiPath, matchApiAuthKind } from "@/lib/kernel/security/api-auth";
 import { ROUTE_AUTH_MAP } from "@/lib/kernel/security/route-auth-map";
@@ -48,20 +49,21 @@ describe("K6 kind eşlemesi", () => {
     expect(matchApiAuthKind("/api/health/live", MAP)).toBe("public");
     expect(matchApiAuthKind("/api/unknown", MAP)).toBeNull();
     expect(matchApiAuthKind("/api/_gone/studio/generate", ROUTE_AUTH_MAP)).toBe("closed");
+    const academyClosed = { kind: "deny", status: 410, error: "Bu oda üretimde kapalı." } as const;
     expect(
       decideEdgeApiAuth({
         pathname: "/api/academy/reviews",
         method: "POST",
         sessionHint: false,
       }),
-    ).toEqual({ kind: "next" });
+    ).toEqual(academyClosed);
     expect(
       decideEdgeApiAuth({
         pathname: "/api/academy/generateSpeech",
         method: "POST",
         sessionHint: false,
       }),
-    ).toEqual({ kind: "next" });
+    ).toEqual(academyClosed);
   });
 });
 
@@ -120,6 +122,50 @@ describe("K6 kenar kararı", () => {
         method: "POST",
         sessionHint: true,
         map: MAP,
+      }),
+    ).toEqual({ kind: "deny", status: 410, error: EDGE_API_FROZEN_ROOM_ERROR });
+  });
+
+  it("kurumsal ilan API'si donmuş oda 410'una düşmez; diğer kurumsal yollar kapalı kalır", () => {
+    expect(isFrozenRoomApi("/api/kurumsal/ilanlar")).toBe(false);
+    expect(isFrozenRoomApi("/api/kurumsal/ilanlar/")).toBe(false);
+    expect(isFrozenRoomApi("/api/v1/kurumsal/ilanlar")).toBe(false);
+    expect(isFrozenRoomApi("/api/kurumsal/ilanlar/ek")).toBe(false);
+    expect(isFrozenRoomApi("/api/kurumsal")).toBe(true);
+    expect(isFrozenRoomApi("/api/kurumsal/jobs/ilan_1/offers")).toBe(true);
+    expect(
+      decideEdgeApiAuth({
+        pathname: "/api/kurumsal/ilanlar",
+        method: "GET",
+        sessionHint: false,
+        map: ROUTE_AUTH_MAP,
+      }),
+    ).toEqual({ kind: "deny", status: 401, error: EDGE_API_SESSION_ERROR });
+    expect(
+      decideEdgeApiAuth({
+        pathname: "/api/kurumsal/ilanlar",
+        method: "POST",
+        sessionHint: true,
+        sessionUserId: "user-1",
+        map: ROUTE_AUTH_MAP,
+      }),
+    ).toEqual({ kind: "next" });
+    expect(
+      decideEdgeApiAuth({
+        pathname: "/api/v1/kurumsal/ilanlar",
+        method: "POST",
+        sessionHint: true,
+        sessionUserId: "user-1",
+        map: ROUTE_AUTH_MAP,
+      }),
+    ).toEqual({ kind: "next" });
+    expect(
+      decideEdgeApiAuth({
+        pathname: "/api/kurumsal/jobs/ilan_1/offers",
+        method: "POST",
+        sessionHint: true,
+        sessionUserId: "user-1",
+        map: ROUTE_AUTH_MAP,
       }),
     ).toEqual({ kind: "deny", status: 410, error: EDGE_API_FROZEN_ROOM_ERROR });
   });

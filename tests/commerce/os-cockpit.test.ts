@@ -58,5 +58,12 @@ describe("e-ticaret kokpit kuralları", () => {
     expect(ui).toContain("Örnek Müşteri Sorusu Simüle Et (Trendyol)");
     expect(ui).toContain("Otonom Reklam Paketi Oluştur");
     expect(ui).toContain("Örnek Kanal Siparişi Simüle Et (Trendyol -1 Adet)");
+    expect(ui).toContain("ProductCardStudio");
+    expect(ui).not.toContain('tezgahToolHref("ecommerce")');
+    const studio = readFileSync(join(ROOT, "components/commerce/product-card-studio.tsx"), "utf8");
+    expect(studio).toContain('"/api/tezgah/generate"');
+    expect(studio).toContain('tool: "ecommerce"');
+    expect(studio).toContain('action: "pool"');
+    expect(studio).toContain("Havuza kaydet");
   });
 });

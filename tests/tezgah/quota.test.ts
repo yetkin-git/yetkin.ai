@@ -17,47 +17,56 @@ describe("tezgâh günlük kota", () => {
     resetTezgahQuotaForTests();
   });
 
-  it("misafir günde 1 hak kullanır; bakmak hak düşürmez", () => {
-    expect(peekTezgahQuota(GUEST, true, AFTERNOON)).toMatchObject({
+  it("misafir günde 3 hak kullanır; bakmak hak düşürmez", async () => {
+    expect(await peekTezgahQuota(GUEST, true, AFTERNOON)).toMatchObject({
       allowed: true,
-      remaining: 1,
-      limit: 1,
+      remaining: 3,
+      limit: 3,
       used: 0,
       guest: true,
     });
-    expect(peekTezgahQuota(GUEST, true, AFTERNOON).remaining).toBe(1);
-    const taken = consumeTezgahQuota(GUEST, true, AFTERNOON);
-    expect(taken).toMatchObject({ allowed: true, remaining: 0, used: 1 });
-    expect(consumeTezgahQuota(GUEST, true, AFTERNOON)).toMatchObject({
+    expect((await peekTezgahQuota(GUEST, true, AFTERNOON)).remaining).toBe(3);
+    expect(await consumeTezgahQuota(GUEST, true, AFTERNOON)).toMatchObject({
+      allowed: true,
+      remaining: 2,
+      used: 1,
+    });
+    expect((await consumeTezgahQuota(GUEST, true, AFTERNOON)).remaining).toBe(1);
+    expect(await consumeTezgahQuota(GUEST, true, AFTERNOON)).toMatchObject({
+      allowed: true,
+      remaining: 0,
+      used: 3,
+    });
+    expect(await consumeTezgahQuota(GUEST, true, AFTERNOON)).toMatchObject({
       allowed: false,
       remaining: 0,
-      used: 1,
+      used: 3,
     });
   });
 
-  it("üyeye günde 3 hak verir ve aktörler birbirine karışmaz", () => {
-    expect(consumeTezgahQuota(MEMBER, false, AFTERNOON).remaining).toBe(2);
-    expect(consumeTezgahQuota(MEMBER, false, AFTERNOON).remaining).toBe(1);
-    expect(consumeTezgahQuota(MEMBER, false, AFTERNOON).remaining).toBe(0);
-    expect(consumeTezgahQuota(MEMBER, false, AFTERNOON).allowed).toBe(false);
-    expect(peekTezgahQuota(GUEST, true, AFTERNOON).remaining).toBe(1);
+  it("üyeye günde 3 hak verir ve aktörler birbirine karışmaz", async () => {
+    expect((await consumeTezgahQuota(MEMBER, false, AFTERNOON)).remaining).toBe(2);
+    expect((await consumeTezgahQuota(MEMBER, false, AFTERNOON)).remaining).toBe(1);
+    expect((await consumeTezgahQuota(MEMBER, false, AFTERNOON)).remaining).toBe(0);
+    expect((await consumeTezgahQuota(MEMBER, false, AFTERNOON)).allowed).toBe(false);
+    expect((await peekTezgahQuota(GUEST, true, AFTERNOON)).remaining).toBe(3);
   });
 
-  it("İstanbul gece yarısında sayaç sıfırlanır", () => {
-    consumeTezgahQuota(GUEST, true, AFTERNOON);
+  it("İstanbul gece yarısında sayaç sıfırlanır", async () => {
+    await consumeTezgahQuota(GUEST, true, AFTERNOON);
     expect(tezgahDayKey(AFTERNOON)).toBe("2026-11-14");
     expect(tezgahDayKey(NEXT_MORNING)).toBe("2026-11-15");
-    expect(peekTezgahQuota(GUEST, true, NEXT_MORNING)).toMatchObject({
+    expect(await peekTezgahQuota(GUEST, true, NEXT_MORNING)).toMatchObject({
       allowed: true,
-      remaining: 1,
+      remaining: 3,
       used: 0,
     });
   });
 
-  it("boş üretim hakkı geri yazar", () => {
-    consumeTezgahQuota(MEMBER, false, AFTERNOON);
-    const restored = refundTezgahQuota(MEMBER, false, AFTERNOON);
+  it("boş üretim hakkı geri yazar", async () => {
+    await consumeTezgahQuota(MEMBER, false, AFTERNOON);
+    const restored = await refundTezgahQuota(MEMBER, false, AFTERNOON);
     expect(restored.remaining).toBe(3);
-    expect(refundTezgahQuota(MEMBER, false, AFTERNOON).remaining).toBe(3);
+    expect((await refundTezgahQuota(MEMBER, false, AFTERNOON)).remaining).toBe(3);
   });
 });

@@ -7,8 +7,11 @@ import {
   TEZGAH_GUEST_QUOTA_MESSAGE,
   TEZGAH_MEMBER_QUOTA_MESSAGE,
 } from "@/lib/tezgah/catalog";
+import { withTezgahDeliverySignature } from "@/lib/tezgah/delivery-signature";
 import { tezgahSystemPrompt, tezgahUserPrompt } from "@/lib/tezgah/prompts";
-import { consumeTezgahQuota, peekTezgahQuota, refundTezgahQuota } from "@/lib/tezgah/quota";
+import { recordSignedTezgahOutput } from "@/lib/tezgah/record-output";
+import { tezgahRequestHash } from "@/lib/tezgah/paid-lane";
+import { consumeTezgahQuota, peekTezgahQuota, refundTezgahQuota, settleTezgahSlot } from "@/lib/tezgah/quota";
 import {
   tezgahGenerateRequestSchema,
   type TezgahGenerateRequest,
@@ -25,6 +28,7 @@ export type TezgahGenerateResult =
       ok: true;
       tool: TezgahGenerateRequest["tool"];
       markdown: string;
+      outputId: string | null;
       remaining: number;
       limit: number;
       guest: boolean;
@@ -32,7 +36,7 @@ export type TezgahGenerateResult =
   | {
       ok: false;
       error: string;
-      status: 400 | 429 | 503;
+      status: 400 | 402 | 429 | 503;
       remaining: number;
       limit: number;
       guest: boolean;
@@ -56,13 +60,14 @@ export async function generateTezgahOutput(
     actorId: string;
     guest: boolean;
     request: TezgahGenerateRequest;
+    commandKey?: string | null;
   },
   deps: GenerateTezgahDeps = {},
 ): Promise<TezgahGenerateResult> {
   const parsed = tezgahGenerateRequestSchema.safeParse(input.request);
   const now = deps.now?.() ?? new Date();
   if (!parsed.success) {
-    const open = peekTezgahQuota(input.actorId, input.guest, now);
+    const open = await peekTezgahQuota(input.actorId, input.guest, now);
     return {
       ok: false,
       error: "Alanları kısa ve net doldur.",
@@ -73,12 +78,17 @@ export async function generateTezgahOutput(
     };
   }
 
-  const slot = consumeTezgahQuota(input.actorId, input.guest, now);
+  const slot = await consumeTezgahQuota(
+    input.actorId,
+    input.guest,
+    now,
+    input.commandKey ? { key: input.commandKey, requestHash: tezgahRequestHash(input.request) } : null,
+  );
   if (!slot.allowed) {
     return {
       ok: false,
-      error: input.guest ? TEZGAH_GUEST_QUOTA_MESSAGE : TEZGAH_MEMBER_QUOTA_MESSAGE,
-      status: 429,
+      error: slot.error ?? (input.guest ? TEZGAH_GUEST_QUOTA_MESSAGE : TEZGAH_MEMBER_QUOTA_MESSAGE),
+      status: slot.status ?? 429,
       remaining: 0,
       limit: slot.limit,
       guest: input.guest,
@@ -104,7 +114,7 @@ export async function generateTezgahOutput(
       billing: {
         userId: input.guest ? null : input.actorId,
         source: AI_TOKEN_SOURCES.TEZGAH,
-        recordUsage: false,
+        recordUsage: true,
       },
     },
     deps,
@@ -112,7 +122,7 @@ export async function generateTezgahOutput(
 
   const markdown = clipMarkdown(llm?.text ?? "");
   if (!markdown) {
-    const restored = refundTezgahQuota(input.actorId, input.guest, now);
+    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane);
     return {
       ok: false,
       error: TEZGAH_FAIL_MESSAGE,
@@ -123,10 +133,36 @@ export async function generateTezgahOutput(
     };
   }
 
+  const paid = await settleTezgahSlot(input.actorId, slot);
+  if (!paid.ok) {
+    return {
+      ok: false,
+      error: paid.error,
+      status: paid.status,
+      remaining: slot.remaining,
+      limit: slot.limit,
+      guest: input.guest,
+    };
+  }
+
+  const delivered =
+    parsed.data.tool === "proposal" ? withTezgahDeliverySignature(markdown) : markdown;
+  const title =
+    parsed.data.tool === "ecommerce" ? parsed.data.productName : parsed.data.expertise || "Müşteri teklifi";
+  const outputId = await recordSignedTezgahOutput({
+    userId: input.actorId,
+    guest: input.guest,
+    toolKey: parsed.data.tool,
+    title,
+    inputSummary: tezgahUserPrompt(parsed.data),
+    outputContent: delivered,
+  });
+
   return {
     ok: true,
     tool: parsed.data.tool,
-    markdown,
+    markdown: delivered,
+    outputId,
     remaining: slot.remaining,
     limit: slot.limit,
     guest: input.guest,

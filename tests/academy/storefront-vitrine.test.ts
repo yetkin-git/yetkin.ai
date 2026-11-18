@@ -119,11 +119,11 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
       purchasable: ec102?.purchasable,
       isPublished: ec102?.isPublished,
     });
-    expect(card.cta).toBe(ACADEMY_SEN.catalog.cardCtaOutcomeIdle);
-    expect(card.cta).toContain("Sertifika");
-    expect(card.href).toBe("/academy/02_ecommerce_ai#satin-al");
-    expect(card.secondaryCta).toBe("► 1. Dersi Ücretsiz İzle");
-    expect(card.secondaryHref).toBe("/academy/02_ecommerce_ai/oyna");
+    expect(card.cta).toBe(ACADEMY_SEN.catalog.cardCtaStartGuide);
+    expect(card.cta).toContain("Ücretsiz");
+    expect(card.href).toBe("/academy/02_ecommerce_ai/oyna");
+    expect(card.secondaryCta).toBe(ACADEMY_SEN.catalog.cardCtaExamBadge);
+    expect(card.secondaryHref).toBe("/academy/02_ecommerce_ai#satin-al");
     expect(card.ctaDisabled).toBeUndefined();
     expect(open.find((row) => row.slug === "01_office_ai")?.purchasable).toBe(
       academyCourseSaleOpen("01_office_ai"),
@@ -142,11 +142,11 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
       purchasable: noPrice.find((row) => row.slug === "02_ecommerce_ai")?.purchasable,
       isPublished: true,
     });
-    expect(closedCard.secondaryCta).toBeUndefined();
-    expect(closedCard.secondaryHref).toBeUndefined();
+    expect(closedCard.secondaryCta).toBe(ACADEMY_SEN.catalog.cardCtaExamBadge);
+    expect(closedCard.cta).toBe(ACADEMY_SEN.catalog.cardCtaStartGuide);
     expect(closedCard.cta).not.toMatch(/Satın Al/);
-    expect(closedCard.href).not.toContain("#satin-al");
-    expect(closedCard.ctaDisabled).toBe(true);
+    expect(closedCard.href).toBe("/academy/02_ecommerce_ai/oyna");
+    expect(closedCard.ctaDisabled).toBeUndefined();
   });
 
   it("satın alma bayrağı yoksa veya yanlışsa kart satın alma aksiyonu basmaz", () => {
@@ -159,11 +159,11 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
           purchasable,
           isPublished: true,
         });
+        expect(card.cta, slug).toBe(ACADEMY_SEN.catalog.cardCtaStartGuide);
         expect(card.cta, slug).not.toMatch(/Satın Al/);
         expect(card.secondaryCta ?? "", slug).not.toMatch(/Satın Al/);
-        expect(card.href, slug).not.toContain("#satin-al");
-        expect(card.secondaryHref ?? "", slug).not.toContain("#satin-al");
-        expect(card.ctaDisabled, slug).toBe(true);
+        expect(card.href, slug).toBe(`/academy/${slug}/oyna`);
+        expect(card.ctaDisabled, slug).toBeUndefined();
       }
     }
   });
@@ -286,7 +286,7 @@ describe("akademi vitrin 011 — künye, tek raf, sert 404", () => {
       "Makale / Okuma Metni + Uygulamalı Senaryolar + Sınav + Sertifika",
     );
     // Vitrin gövdesi ürün cümlesidir (P1 tedavi): süre, kapsam, kazanç.
-    expect(ACADEMY_SEN.catalog.description).toContain("74 dakika");
+    expect(ACADEMY_SEN.catalog.description).toContain("Dersler ücretsiz");
     expect(ACADEMY_SEN.catalog.description).not.toContain("yayındadır");
     expect(ACADEMY_SEN.catalog.description).not.toContain("fırın");
     expect(ACADEMY_SEN.catalog.description).not.toContain("Çok Yakında / Hazırlanıyor");

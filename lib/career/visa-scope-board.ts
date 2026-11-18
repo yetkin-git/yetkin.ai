@@ -53,8 +53,8 @@ function courseTitle(slug: string): string {
   return academyCourseTitleBySlug(slug) ?? slug;
 }
 
-function courseHref(slug: string): string {
-  return `${ACADEMY_STAMP_SURFACE_PATH}/${slug}`;
+function courseHref(): string {
+  return ACADEMY_STAMP_SURFACE_PATH;
 }
 
 function stampHoldsSlug(stamp: VisaStampView, slug: string): boolean {
@@ -87,7 +87,7 @@ export function buildCareerVisaScopeBoard(
     const courses = qualifyingCourseSlugsForListingPathway(pathwayId).map((slug) => ({
       slug,
       title: courseTitle(slug),
-      href: courseHref(slug),
+      href: courseHref(),
       held: stamps.some((stamp) => stampHoldsSlug(stamp, slug)),
     }));
     const qualifyingStamps = stamps.filter((stamp) =>
@@ -130,7 +130,7 @@ export function listingVisaScopeSign(listing: ListingVisaSubject): ListingVisaSc
   const courses = qualifyingCourseSlugsForListingPathway(pathwayId).map((slug) => ({
     slug,
     title: courseTitle(slug),
-    href: courseHref(slug),
+    href: courseHref(),
   }));
   return {
     pathwayId,

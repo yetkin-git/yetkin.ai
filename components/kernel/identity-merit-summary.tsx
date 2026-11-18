@@ -11,6 +11,7 @@ import {
   PASSPORT_UNSET_LABEL,
 } from "@/lib/kernel/passport/display";
 import {
+  ACADEMY_CERTIFICATES_SURFACE_PATH,
   CAREER_STAMP_SURFACE_PATH,
   PASSPORT_SURFACE_PATH,
   type PassportStampSourceKind,
@@ -100,7 +101,7 @@ export function IdentityMeritSummary({
         <LinkButton href={CAREER_STAMP_SURFACE_PATH} variant="ghost" size="sm">
           {copy.careerCta}
         </LinkButton>
-        <LinkButton href="/academy/dogrula" variant="ghost" size="sm">
+        <LinkButton href={ACADEMY_CERTIFICATES_SURFACE_PATH} variant="ghost" size="sm">
           {copy.verifyCta}
         </LinkButton>
       </div>

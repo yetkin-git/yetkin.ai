@@ -4,7 +4,13 @@ import type { AmountMinor } from "@/lib/kernel/money/amount-minor";
 import type { CurrencyCode } from "@/lib/kernel/money/currency";
 import type { LlmProviderId, LlmUsage } from "@/lib/kernel/ai/types";
 
-export const PAID_COMMAND_SCOPES = ["studio.generate", "studio.image", "devlabs.generate"] as const;
+export const PAID_COMMAND_SCOPES = [
+  "studio.generate",
+  "studio.image",
+  "devlabs.generate",
+  "tezgah.generate",
+  "tezgah.grant-dossier",
+] as const;
 
 export type PaidCommandScope = (typeof PAID_COMMAND_SCOPES)[number];
 

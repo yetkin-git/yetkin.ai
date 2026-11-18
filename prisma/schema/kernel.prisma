@@ -72,6 +72,14 @@ model User {
   careerPortfolioItems CareerPortfolioItem[]
   careerVisaStamps     CareerVisaStamp[]
   careerDeskTasks      CareerDeskTask[]
+  yetkinCvSittings     YetkinCvSitting[]
+  yetkinCvSeals        YetkinCvSeal[]
+  kurumsalJobPostings  KurumsalJobPosting[]     @relation("KurumsalJobOwner")
+  kurumsalJobApplications KurumsalJobApplication[] @relation("KurumsalJobCandidate")
+  tezgahOutputs        TezgahOutput[]
+  tezgahSubscription   TezgahSubscription?
+  tezgahCreditBalance  TezgahCreditBalance?
+  weeklyRadarDeliveries WeeklyRadarDelivery[]
   httpIdempotencyRecords   HttpIdempotencyRecord[]
   paidCommandReservations  PaidCommandReservation[]
   userBillingInfo          UserBillingInfo?

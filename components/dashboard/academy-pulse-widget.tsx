@@ -22,7 +22,7 @@ export function AcademyPulseWidget() {
       title={copy.academyTitle}
       live={pulse.live}
       unavailableHint={copy.unavailable}
-      href="/academy"
+      href="/tezgah"
       hrefLabel={copy.academyHrefLabel}
       stats={stats}
       invite={invite}

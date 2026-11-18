@@ -93,12 +93,12 @@ describe("sertifika sosyal paylaşım yüzeyi", () => {
     const alias = readSrc("app/verify/[hash]/page.tsx");
     const landing = readSrc("app/verify/page.tsx");
     expect(config).toContain('source: "/verify"');
-    expect(config).toContain('destination: "https://yetkin.ai/academy/dogrula"');
+    expect(config).toContain('destination: "https://yetkin.ai/vize"');
     expect(config).toContain('source: "/verify/:hash"');
-    expect(config).toContain('destination: "https://yetkin.ai/academy/dogrula/:hash"');
+    expect(config).toContain('destination: "https://yetkin.ai/vize/:hash"');
     expect(config).toContain("statusCode: 301");
     expect(alias).toContain("permanentRedirect");
-    expect(alias).toContain("academyVerifyPath");
+    expect(alias).toContain("/vize/");
     expect(landing).toContain("permanentRedirect");
     expect(ACADEMY_SEN.certificates.shareLinkedIn).toBe("LinkedIn'de Paylaş");
     expect(ACADEMY_SEN.certificates.shareX).toBe("X'te Paylaş");

@@ -146,6 +146,8 @@ export const RAIL_CONTEXT_PRISMA_MODELS: Readonly<Record<string, RailBoundedCont
   academyAudioCache: "proof",
   careerVisaStamp: "proof",
   careerPortfolioItem: "proof",
+  yetkinCvSitting: "proof",
+  yetkinCvSeal: "proof",
   /** `/vize` kart sayacı. Kişisel satır yok; kanıt çıkışının hacmidir. */
   funnelDailyCounter: "proof",
   freelancerJob: "marketplace",

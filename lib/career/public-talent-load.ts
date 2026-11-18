@@ -52,18 +52,42 @@ export async function loadPublicTalentCard(rawId: string): Promise<PublicTalentR
     }
 
     const liveIds = live.map((stamp) => stamp.id);
-    const portfolio =
+    const [portfolio, tezgahProofs] = await Promise.all([
       liveIds.length === 0
-        ? []
-        : await prisma.careerPortfolioItem.findMany({
+        ? Promise.resolve([])
+        : prisma.careerPortfolioItem.findMany({
             where: { userId: featured.userId, visaStampId: { in: liveIds } },
             orderBy: { createdAt: "desc" },
             select: { title: true, visaStampId: true },
-          });
+          }),
+      prisma.careerPortfolioItem.findMany({
+        where: { userId: featured.userId, sourceKey: { startsWith: "tezgah:" } },
+        orderBy: { createdAt: "desc" },
+        take: 8,
+        select: { title: true, body: true },
+      }),
+    ]);
 
+    const card = toPublicTalentCard(
+      featuredLive,
+      live,
+      portfolio.flatMap((item) =>
+        item.visaStampId ? [{ title: item.title, visaStampId: item.visaStampId }] : [],
+      ),
+    );
     return {
       status: "found",
-      card: toPublicTalentCard(featuredLive, live, portfolio),
+      card: {
+        ...card,
+        proofs: [
+          ...card.proofs,
+          ...tezgahProofs.map((item) => ({
+            title: item.title,
+            visaStampId: featuredLive.id,
+            ...(item.body ? { detail: item.body } : {}),
+          })),
+        ],
+      },
     };
   } catch {
     return null;

@@ -5,6 +5,7 @@ import { useMemo, type ReactNode } from "react";
 import type { AcademyCourseWithPrice } from "@/lib/academy/types";
 import { CourseCard, type CourseCardSurface } from "@/components/academy/course-card";
 import { Card } from "@/components/ui/card";
+import { IconArrow } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/link-button";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { PUBLIC_SEN } from "@/lib/copy/sen-voice/public";
@@ -199,10 +200,10 @@ export function CourseList({
     >
       <div className="relative z-10 flex flex-col gap-3">
         <div
-          className="flex flex-wrap items-center justify-between gap-2"
+          className="relative flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-slate-200/80 bg-gradient-to-br from-slate-50 via-blue-50/80 to-white px-5 py-6 shadow-sm"
           data-academy-catalog-header=""
         >
-          <div className="min-w-0">
+          <div className="relative min-w-0">
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--safir-deep)]">
               {copy.eyebrow}
             </p>
@@ -239,6 +240,7 @@ export function CourseList({
                   data-academy-hero-browse-cta=""
                 >
                   {PUBLIC_SEN.home.academyCta}
+                  <IconArrow className="h-4 w-4" />
                 </LinkButton>
               </div>
             ) : null}
@@ -246,7 +248,7 @@ export function CourseList({
               <p className="mt-2 text-xs leading-6 text-[var(--muted)]">{copy.heroLead}</p>
             ) : null}
           </div>
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="relative flex flex-wrap items-center gap-2">
             <LinkButton href="/academy/certificates" variant="outline" className="shrink-0">
               {certificatesCta}
             </LinkButton>

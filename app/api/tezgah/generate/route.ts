@@ -3,13 +3,14 @@ import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import { resolveRequestIp } from "@/lib/kernel/security/http-rate-limit";
+import { readTezgahCommandKey } from "@/lib/tezgah/command-key";
 import { generateTezgahOutput } from "@/lib/tezgah/engine";
 import { tezgahGenerateRequestSchema } from "@/lib/tezgah/schema";
 
 /**
  * AI Tezgâh üretimi. Kenar `public`; günlük hak handler'dadır.
  * Yol `/generate` ile bittiği için kenar ayrıca `llmIp` patlama kalkanını uygular.
- * Cüzdan ve ledger yazılmaz (`recordUsage: false`).
+ * Cüzdan yazılmaz. Token maliyeti AiTokenUsage defterine düşer (`recordUsage: true`).
  */
 export const auth = "public" as const;
 
@@ -20,12 +21,17 @@ export async function POST(request: Request) {
     if (!parsed.success) {
       return jsonFail("Alanları kısa ve net doldur.", 400, requestId, request);
     }
+    const command = readTezgahCommandKey(request);
+    if (!command.ok) {
+      return jsonFail(command.error, 400, requestId, request);
+    }
     const user = await requireSession(request).catch(() => null);
     const actor = assistantActorId(user?.id, resolveRequestIp(request));
     const result = await generateTezgahOutput({
       actorId: actor.userId,
       guest: actor.guest,
       request: parsed.data,
+      commandKey: command.key,
     });
     if (!result.ok) {
       return jsonFail(result.error, result.status, requestId, request);
@@ -34,6 +40,7 @@ export async function POST(request: Request) {
       {
         tool: result.tool,
         markdown: result.markdown,
+        outputId: result.outputId,
         remaining: result.remaining,
         limit: result.limit,
         guest: result.guest,

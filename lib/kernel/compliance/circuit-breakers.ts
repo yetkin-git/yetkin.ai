@@ -48,6 +48,9 @@ export const FREELANCER_LOCKED_API_PREFIXES = ["/api/freelancer", "/api/client/j
 function isPublicVitrineVerticalRoom(
   room: (typeof VERTICAL_ROOMS)[number],
 ): boolean {
+  if (DronBayrakları.isKapali(room.id)) {
+    return false;
+  }
   return !(room.id === "freelancer" && isFreelancerPublicSurfaceLocked());
 }
 
@@ -69,6 +72,22 @@ export const FROZEN_SHELL_ROOM_IDS = FROZEN_DISK_ROOMS;
 
 export type FrozenShellRoomId = (typeof FROZEN_SHELL_ROOM_IDS)[number];
 
+/**
+ * Kurumsal satış sayfası ve İK eleme kokpiti. Donmuş oda değildir.
+ * Tam `/kurumsal` ve `/kurumsal/ilanlar` açıktır.
+ * `/kurumsal/ilan/yeni` ve diğer `/kurumsal/*` yolları 410 kalır.
+ */
+export const KURUMSAL_SALES_PAGE_PATH = "/kurumsal" as const;
+export const KURUMSAL_OPS_PAGE_PATH = "/kurumsal/ilanlar" as const;
+
+export function isKurumsalSalesPage(pathname: string): boolean {
+  return normalizeCircuitPathname(pathname) === KURUMSAL_SALES_PAGE_PATH;
+}
+
+export function isKurumsalOpsPage(pathname: string): boolean {
+  return normalizeCircuitPathname(pathname) === KURUMSAL_OPS_PAGE_PATH;
+}
+
 /** Marka alias — next.config canlı odaya rewrite etmez; kenar 410. */
 export const FROZEN_SHELL_PAGE_ALIASES = [
   "/yetkinx",
@@ -81,7 +100,7 @@ export const FROZEN_DISK_ROOM_CATALOG = [
   { id: "studio", path: "/studio", diskPath: "/studio", label: "Studio" },
   { id: "devlabs", path: "/devlabs", diskPath: "/devlabs", label: "DevLabs" },
   { id: "kurumsal", path: "/kurumsal", diskPath: "/kurumsal", label: "Kurumsal" },
-  { id: "hibe", path: "/hibe", diskPath: "/hibe", label: "Hibe" },
+  { id: "hibe", path: "/hibe-disk", diskPath: "/hibe-disk", label: "Hibe" },
   { id: "arena", path: "/arena", diskPath: "/arena", label: "Arena" },
   { id: "pazaryeri", path: "/yetkinilan", diskPath: "/pazaryeri", label: "Yetkinİlan" },
   { id: "social", path: "/social", diskPath: "/social", label: "YetkinX" },
@@ -178,6 +197,9 @@ export function isFrozenShellRoom(roomId: string): boolean {
 
 export function isFrozenShellPagePath(pathname: string): boolean {
   const path = normalizeCircuitPathname(pathname);
+  if (isKurumsalSalesPage(path) || isKurumsalOpsPage(path)) {
+    return false;
+  }
   if (path === "/junior/ebeveyn" || path.startsWith("/junior/ebeveyn/")) {
     return true;
   }

@@ -8,16 +8,20 @@ test.describe("Faz 1 kamu navigasyonu", () => {
     expect(home?.status()).toBeLessThan(400);
     await expect(
       page.getByRole("heading", {
-        name: "Yetkinliğini Mühürle. Yapay Zekâ Tezgâhıyla Üret. Rozet, Plan ve Canlı Vitrin.",
+        name: "E-Ticaret ve YetkinHibe. İki işletim sistemi, tek hesap.",
       }),
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: "Uzmanlık Paketlerini İncele" }).first()).toHaveAttribute(
+    await expect(page.getByRole("link", { name: "YetkinHibe İşletim Sistemi" }).first()).toHaveAttribute(
       "href",
-      "/academy",
+      "/hibe",
     );
-    await expect(page.getByRole("link", { name: "Ücretsiz Yetkinlik Testine Gir" })).toHaveAttribute(
+    await expect(page.getByRole("link", { name: "AI Tezgâhını Ücretsiz Dene (Kayıtsız)" })).toHaveAttribute(
       "href",
-      "/academy/01_office_ai/seviye",
+      "/tezgah",
+    );
+    await expect(page.getByRole("link", { name: "E-Ticaret İşletim Sistemi" })).toHaveAttribute(
+      "href",
+      "/e-ticaret",
     );
     await expect(page.getByRole("link", { name: "Giriş Yap" })).toHaveAttribute("href", "/login");
     await expect(page.getByRole("link", { name: "Kayıt Ol" })).toHaveAttribute("href", "/register");
@@ -25,7 +29,7 @@ test.describe("Faz 1 kamu navigasyonu", () => {
     await expect(page.getByRole("link", { name: "Anasayfaya geç" })).toHaveCount(0);
     await expect(page.getByRole("link", { name: "Anasayfaya gir" })).toHaveCount(0);
     await expect(page.getByText("Ücretsiz Test & Tezgâh")).toBeVisible();
-    await expect(page.getByText("Ofis & Veri AI")).toBeVisible();
+    await expect(page.getByText("YetkinHibe").first()).toBeVisible();
     await expect(page.getByText("Hazırlanıyor")).toHaveCount(0);
     await expect(page.getByText("İlan ver veya teklif et")).toHaveCount(0);
     await expect(page.getByText("Split pasifken")).toHaveCount(0);
@@ -33,7 +37,7 @@ test.describe("Faz 1 kamu navigasyonu", () => {
     await expect(page.getByText("Platform örneği · emanet kapalı")).toHaveCount(0);
     await expect(page.getByText("Junior", { exact: true })).toHaveCount(0);
     await expect(page.getByText("Kurumsal")).toHaveCount(0);
-    await expect(page.getByText("Hibe")).toHaveCount(0);
+    await expect(page.getByRole("link", { name: "YetkinHibe", exact: true })).toBeVisible();
     await expect(page.getByText("Arena")).toHaveCount(0);
     await expect(page.getByText("Yetkinİlan")).toHaveCount(0);
     await expect(page.getByText("YetkinX")).toHaveCount(0);
@@ -47,7 +51,7 @@ test.describe("Faz 1 kamu navigasyonu", () => {
     const followed = await page.goto("/career");
     expect(followed?.status()).toBeLessThan(400);
     await expect(page).toHaveURL(/\/career\/?$/);
-    await expect(page.getByRole("heading", { name: "Doğrulanmış Freelancer Rozeti" }).first()).toBeVisible();
+    await expect(page.getByRole("heading", { name: "YetkinCV — Test Edilmiş & Mühürlü Kariyer Merkezi" }).first()).toBeVisible();
     await expect(page.getByText("Örnek mühürlü sertifika")).toBeVisible();
     await expect(page.getByRole("heading", { name: "30 günlük aksiyon planı" })).toBeVisible();
     await expect(page.locator("[data-action-plan]")).toContainText(

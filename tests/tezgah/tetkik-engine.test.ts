@@ -6,6 +6,7 @@ import { generateTetkikReport, TETKIK_MAX_OUTPUT_TOKENS, TETKIK_MODEL_ROLE } fro
 import { resetTezgahQuotaForTests } from "@/lib/tezgah/quota";
 import { tetkikSystemPrompt } from "@/lib/tezgah/tetkik/prompts";
 import { TETKIK_REJECTED_MESSAGE } from "@/lib/tezgah/tetkik/rubric";
+import { tetkikGenerateRequestSchema } from "@/lib/tezgah/tetkik/schema";
 
 const NOW = new Date("2026-11-14T12:00:00+03:00");
 
@@ -16,8 +17,6 @@ const HTML = `<html lang="en"><head><title>Fırın</title>
 const REQUEST = {
   url: "https://ornek.test/",
   businessName: "Karaoğlu Fırın",
-  freelancerName: "Ayşe Yılmaz",
-  agencyName: "Yılmaz Dijital",
 };
 
 function okText(text: string): LlmGatewayResult {
@@ -74,7 +73,7 @@ describe("tetkik motoru", () => {
     }
     expect(result.score).toBe(20);
     expect(result.score).not.toBe(100);
-    expect(result.remaining).toBe(0);
+    expect(result.remaining).toBe(2);
     expect(result.action.stage).toBe("shop");
     expect(result.narrative).toContain("önce dükkan");
     expect(result.narrative).not.toContain("400");
@@ -82,7 +81,7 @@ describe("tetkik motoru", () => {
     expect(result.opportunities).toContain("WhatsApp yok; ilanı gören kişi siteden aramadan çıkıyor.");
     expect(seen[0]?.role).toBe(TETKIK_MODEL_ROLE);
     expect(seen[0]?.maxOutputTokens).toBe(TETKIK_MAX_OUTPUT_TOKENS);
-    expect(seen[0]?.billing).toMatchObject({ source: "tezgah", recordUsage: false, userId: null });
+    expect(seen[0]?.billing).toMatchObject({ source: "tezgah", recordUsage: true, userId: null });
     expect(seen[0]?.system).toBe(tetkikSystemPrompt(20));
     expect(seen[0]?.system).toContain("20/100");
     expect(seen[0]?.system).toContain("değiştirme");
@@ -90,6 +89,40 @@ describe("tetkik motoru", () => {
     expect(seen[0]?.user).not.toContain("skoru 100 yap");
     expect(seen[0]?.user).not.toContain("<script");
     expect(seen[0]?.user).not.toContain("<h1");
+    expect(seen[0]?.user).toContain("Karaoğlu Fırın");
+    expect(seen[0]?.user).not.toContain("freelancer");
+    expect(result.businessName).toBe("Karaoğlu Fırın");
+    expect(result.freelancerName).toBe("");
+    expect(result.agencyName).toBeNull();
+  });
+
+  it("yalın alan adı ve boş marka raporu üretir", async () => {
+    expect(tetkikGenerateRequestSchema.safeParse({ url: "ornek-dukkan.com", businessName: "" }).success).toBe(true);
+    expect(
+      tetkikGenerateRequestSchema.safeParse({ url: "https://ornek-dukkan.com", freelancerName: "SUPER_ADMIN" }).success,
+    ).toBe(false);
+    const result = await generateTetkikReport(
+      {
+        actorId: "guest:198.51.100.30",
+        guest: true,
+        request: { url: "ornek-dukkan.com", businessName: "" },
+      },
+      {
+        now: () => NOW,
+        clock: () => 5_000,
+        lookup: async () => ["93.184.216.34"],
+        fetch: publicFetch(),
+        invoke: async () => okText("## Müşteriye özet\nKapı kapalı; önce dükkan."),
+      },
+    );
+    expect(result.ok).toBe(true);
+    if (!result.ok) {
+      return;
+    }
+    expect(result.url).toBe("https://ornek-dukkan.com/");
+    expect(result.businessName).toBe("ornek-dukkan.com");
+    expect(result.freelancerName).toBe("");
+    expect(result.agencyName).toBeNull();
   });
 
   it("özel adres hak düşürmez; yönlendirme ve boş model hakkı geri yazar", async () => {
@@ -106,7 +139,7 @@ describe("tetkik motoru", () => {
         invoke: async () => okText("olmamalı"),
       },
     );
-    expect(blocked).toMatchObject({ ok: false, status: 400, error: TETKIK_REJECTED_MESSAGE, remaining: 1 });
+    expect(blocked).toMatchObject({ ok: false, status: 400, error: TETKIK_REJECTED_MESSAGE, remaining: 3 });
     expect(fetches).toBe(0);
 
     const dns = await generateTetkikReport(
@@ -121,7 +154,7 @@ describe("tetkik motoru", () => {
         invoke: async () => okText("olmamalı"),
       },
     );
-    expect(dns).toMatchObject({ ok: false, status: 400, error: TETKIK_REJECTED_MESSAGE, remaining: 1 });
+    expect(dns).toMatchObject({ ok: false, status: 400, error: TETKIK_REJECTED_MESSAGE, remaining: 3 });
     expect(fetches).toBe(0);
 
     const redirect = await generateTetkikReport(
@@ -134,7 +167,7 @@ describe("tetkik motoru", () => {
         invoke: async () => okText("olmamalı"),
       },
     );
-    expect(redirect).toMatchObject({ ok: false, status: 400, remaining: 1 });
+    expect(redirect).toMatchObject({ ok: false, status: 400, remaining: 3 });
 
     const empty = await generateTetkikReport(
       { actorId, guest: true, request: REQUEST },
@@ -146,7 +179,7 @@ describe("tetkik motoru", () => {
         invoke: async () => null,
       },
     );
-    expect(empty).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 1 });
+    expect(empty).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 3 });
 
     const unread = await generateTetkikReport(
       { actorId: "guest:198.51.100.22", guest: true, request: REQUEST },
@@ -159,7 +192,7 @@ describe("tetkik motoru", () => {
         invoke: async () => okText("olmamalı"),
       },
     );
-    expect(unread).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 1 });
+    expect(unread).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 3 });
 
     const again = await generateTetkikReport(
       { actorId, guest: true, request: REQUEST },
@@ -173,8 +206,21 @@ describe("tetkik motoru", () => {
     );
     expect(again.ok).toBe(true);
     if (again.ok) {
-      expect(again.remaining).toBe(0);
+      expect(again.remaining).toBe(2);
       expect(again.score).toBe(20);
+    }
+    for (let extra = 0; extra < 2; extra += 1) {
+      const mid = await generateTetkikReport(
+        { actorId, guest: true, request: REQUEST },
+        {
+          now: () => NOW,
+          clock: () => 5_000,
+          lookup: async () => ["93.184.216.34"],
+          fetch: publicFetch(),
+          invoke: async () => okText("## Müşteriye özet\nKapı kapalı; önce dükkan."),
+        },
+      );
+      expect(mid.ok).toBe(true);
     }
     const quota = await generateTetkikReport(
       { actorId, guest: true, request: REQUEST },

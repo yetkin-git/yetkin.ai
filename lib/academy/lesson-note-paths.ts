@@ -1,4 +1,3 @@
-import { ACADEMY_STAMP_SURFACE_PATH } from "@/lib/kernel/passport/types";
 import { ACADEMY_PROOF_OF_WORK_HASH_PATTERN } from "@/lib/academy/proof-of-work";
 
 export function academyLessonPdfFilename(lessonKey: string): string {
@@ -27,7 +26,7 @@ export function academyProofHashPreview(hash: string): string {
 
 export function academyVerifyPath(hash: string): string {
   const trimmed = hash.trim().toLowerCase();
-  return `${ACADEMY_STAMP_SURFACE_PATH}/dogrula/${trimmed}`;
+  return `/academy/dogrula/${trimmed}`;
 }
 
 export function academyVerifyUrl(hash: string, origin?: string): string {

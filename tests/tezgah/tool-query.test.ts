@@ -1,9 +1,12 @@
 import { describe, expect, it } from "vitest";
 import {
   TEZGAH_TOOL_IDS,
+  TEZGAH_DESK_TOOL_IDS,
   parseTezgahToolParam,
   readTezgahPrefill,
+  resolveTezgahDeskTool,
   tezgahDeskHref,
+  tezgahRelocatedOsHref,
   tezgahToolAnchorPath,
   tezgahToolHref,
 } from "@/lib/tezgah/catalog";
@@ -40,6 +43,22 @@ describe("tezgâh araç sorgusu", () => {
     expect(parseTezgahToolParam("tetkik&x=1")).toBeNull();
     expect(parseTezgahToolParam("hibe")).toBe("grant");
     expect(parseTezgahToolParam("studio-photo")).toBe("studio-photo");
+    expect(tezgahRelocatedOsHref("grant")).toBe("/hibe?sekme=proje");
+    expect(tezgahRelocatedOsHref("hibe")).toBe("/hibe?sekme=proje");
+    expect(tezgahRelocatedOsHref("ecommerce")).toBe("/e-ticaret?sekme=havuz");
+    expect(tezgahRelocatedOsHref("proposal")).toBeNull();
+    expect(resolveTezgahDeskTool("ecommerce")).toBe("proposal");
+    expect(resolveTezgahDeskTool(null)).toBe("proposal");
+    expect([...TEZGAH_DESK_TOOL_IDS]).toEqual([
+      "proposal",
+      "tetkik",
+      "dukkan",
+      "reklam",
+      "pazaryeri",
+      "studio-photo",
+      "technical-drawing",
+      "saas-builder",
+    ]);
     expect(tezgahDeskHref("studio-photo", "task-1234")).toBe("/tezgah?tool=studio-photo&desk=task-1234");
     expect(tezgahDeskHref("technical-drawing", "kısa")).toBe("/tezgah?tool=technical-drawing");
   });

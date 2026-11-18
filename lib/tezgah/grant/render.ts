@@ -1,3 +1,4 @@
+import { withTezgahDeliverySignature } from "@/lib/tezgah/delivery-signature";
 import { GRANT_EMPTY_ELIGIBLE_LINE } from "@/lib/yetkinhibe/grant-project-notes";
 import type { GrantProjectReport } from "@/lib/tezgah/grant/types";
 
@@ -79,7 +80,7 @@ export function renderGrantProjectText(report: GrantProjectReport): string {
       ]
     : [];
 
-  return [
+  const text = [
     report.disclaimer,
     report.businessName,
     report.freelancerName,
@@ -97,4 +98,5 @@ export function renderGrantProjectText(report: GrantProjectReport): string {
   ]
     .filter((part) => part.length > 0)
     .join("\n\n");
+  return withTezgahDeliverySignature(text);
 }

@@ -153,7 +153,7 @@ describe("pazaryeri katalog fabrikası", () => {
       return;
     }
     expect(result.filename).toBe(PAZARYERI_FILENAME);
-    expect(result.remaining).toBe(0);
+    expect(result.remaining).toBe(2);
     expect(result.rows).toHaveLength(2);
     expect(result.columns).toEqual([
       "Pazaryeri",
@@ -168,7 +168,8 @@ describe("pazaryeri katalog fabrikası", () => {
       "Stok",
     ]);
     const lines = csvLines(result.csv);
-    expect(lines).toHaveLength(3);
+    expect(lines).toHaveLength(4);
+    expect(lines.at(-1)).toContain("https://yetkin.ai/tezgah");
     expect(lines[1]?.split(",")[4]).toBe("Ekru");
     expect(lines[1]).toContain("Koku: vanilya");
     expect(lines[2]?.split(",")[4]).toBe("'=1+1");
@@ -179,13 +180,20 @@ describe("pazaryeri katalog fabrikası", () => {
     expect(seen[0]?.role).toBe(PAZARYERI_MODEL_ROLE);
     expect(seen[0]?.temperature).toBe(0.2);
     expect(seen[0]?.maxOutputTokens).toBe(PAZARYERI_MAX_OUTPUT_TOKENS);
-    expect(seen[0]?.billing).toMatchObject({ source: "tezgah", recordUsage: false, userId: null });
+    expect(seen[0]?.billing).toMatchObject({ source: "tezgah", recordUsage: true, userId: null });
     expect(seen[0]?.system).toBe(pazaryeriSystemPrompt(2, 100));
     expect(seen[0]?.system).not.toMatch(/resmi/i);
     expect(seen[0]?.user).not.toContain("1499");
     expect(seen[0]?.user).not.toContain("8690000000001");
     expect(seen[0]?.user).toContain("Renk: Ekru");
 
+    for (let extra = 0; extra < 2; extra += 1) {
+      const mid = await generatePazaryeriCatalog(
+        { actorId: "guest:pazaryeri-engine", guest: true, request: { market: "trendyol", products: PRODUCTS } },
+        { now: () => NOW, invoke: async () => okText(modelCopy("Pamuklu bebek battaniyesi")) },
+      );
+      expect(mid.ok).toBe(true);
+    }
     const blocked = await generatePazaryeriCatalog(
       { actorId: "guest:pazaryeri-engine", guest: true, request: { market: "trendyol", products: PRODUCTS } },
       { now: () => NOW, invoke: async () => okText(modelCopy("Pamuklu bebek battaniyesi")) },
@@ -199,7 +207,7 @@ describe("pazaryeri katalog fabrikası", () => {
       { actorId: "guest:pazaryeri-word", guest: true, request: { market: "trendyol", products: one } },
       { now: () => NOW, invoke: async () => okText(["## 1", `Başlık: ${"A".repeat(150)}`, "- Taze çıkar"].join("\n")) },
     );
-    expect(longWord).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 1 });
+    expect(longWord).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 3 });
 
     const clipped = await generatePazaryeriCatalog(
       { actorId: "guest:pazaryeri-clip", guest: true, request: { market: "hepsiburada", products: one } },
@@ -225,7 +233,7 @@ describe("pazaryeri katalog fabrikası", () => {
       { actorId: "guest:pazaryeri-mismatch", guest: true, request: { market: "amazon", products: PRODUCTS } },
       { now: () => NOW, invoke: async () => okText(["## 1", "Başlık: Tek satır", "- Yumuşak durur"].join("\n")) },
     );
-    expect(mismatch).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 1 });
+    expect(mismatch).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 3 });
 
     let calls = 0;
     const tooMany = await generatePazaryeriCatalog(
@@ -246,7 +254,7 @@ describe("pazaryeri katalog fabrikası", () => {
       },
     );
     expect(calls).toBe(0);
-    expect(tooMany).toMatchObject({ ok: false, status: 400, remaining: 1, limit: 1 });
+    expect(tooMany).toMatchObject({ ok: false, status: 400, remaining: 3, limit: 3 });
   });
 
   it("reklam ile aynı günlük hak havuzunu kullanır", async () => {
@@ -290,6 +298,40 @@ describe("pazaryeri katalog fabrikası", () => {
       },
     );
     expect(opened.ok).toBe(true);
+    for (let extra = 0; extra < 2; extra += 1) {
+      const mid = await generateReklamPackage(
+        { actorId, guest: true, request: reklam },
+        {
+          now: () => NOW,
+          invoke: async () =>
+            okText(
+              [
+                "## Kancalar",
+                "- Sabah taze çıkar",
+                "- İkinci poğaça bedava",
+                "- Mahallede aynı gün",
+                "## Meta başlık",
+                "Kadıköy fırını",
+                "## Meta metin",
+                "Taze ekmek ve poğaça için dükkana bekleriz.",
+                "## Google başlık",
+                "Taze ekmek",
+                "## Google açıklama",
+                "Kadıköy'de taze ekmek ve poğaça.",
+                "## Anahtar kelimeler",
+                "- kadıköy fırın",
+                "- taze ekmek",
+                "- poğaça",
+                "## Görsel brif",
+                "Kadraj: tezgah üstü ekmek",
+                "Görsel üstü yazı: Taze çıktı",
+                "Gösterilmeyecek: fiyat etiketi",
+              ].join("\n"),
+            ),
+        },
+      );
+      expect(mid.ok).toBe(true);
+    }
 
     let calls = 0;
     const next = await generatePazaryeriCatalog(

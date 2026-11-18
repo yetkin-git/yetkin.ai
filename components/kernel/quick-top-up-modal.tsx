@@ -273,7 +273,7 @@ function QuickTopUpDialog({
         <header className="mb-4 flex items-start justify-between gap-3">
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">
-              {packageCheckout ? copy.packageTitle : copy.eyebrow}
+              {packageCheckout ? copy.packageEyebrow : copy.eyebrow}
             </p>
             <h2 id={titleId} className="text-lg font-semibold tracking-tight text-[var(--foreground)]">
               {dialogTitle}

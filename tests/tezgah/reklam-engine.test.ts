@@ -127,8 +127,8 @@ describe("reklam paketi", () => {
     }
     expect(first.tool).toBe("reklam");
     expect(first.filename).toBe(REKLAM_FILE_STEM);
-    expect(first.remaining).toBe(0);
-    expect(first.limit).toBe(1);
+    expect(first.remaining).toBe(2);
+    expect(first.limit).toBe(3);
     expect(first.markdown).toContain(REKLAM_DISCLAIMER);
     expect(seen[0]?.role).toBe(REKLAM_MODEL_ROLE);
     expect(seen[0]?.temperature).toBe(0.4);
@@ -136,7 +136,7 @@ describe("reklam paketi", () => {
     expect(seen[0]?.maxAttempts).toBe(1);
     expect(seen[0]?.timeoutMs).toBe(25_000);
     expect(seen[0]?.rateLimit).toMatchObject({ scope: "tezgah", limit: 8, windowMs: 60_000 });
-    expect(seen[0]?.billing).toMatchObject({ source: "tezgah", recordUsage: false, userId: null });
+    expect(seen[0]?.billing).toMatchObject({ source: "tezgah", recordUsage: true, userId: null });
     expect(seen[0]?.system).toBe(reklamSystemPrompt());
     expect(seen[0]?.system).toContain(String(REKLAM_GOOGLE_TITLE_MAX));
     expect(seen[0]?.system).toContain(String(REKLAM_GOOGLE_DESCRIPTION_MAX));
@@ -144,6 +144,13 @@ describe("reklam paketi", () => {
     expect(seen[0]?.user).toContain("199 TL ile ikinci poğaça");
     expect(seen[0]?.user?.startsWith("{")).toBe(true);
 
+    for (let extra = 0; extra < 2; extra += 1) {
+      const mid = await generateReklamPackage(
+        { actorId, guest: true, request: REQUEST },
+        { now: () => NOW, invoke: async () => okText(modelPack(SHORT_TITLE, SHORT_DESCRIPTION)) },
+      );
+      expect(mid.ok).toBe(true);
+    }
     const blocked = await generateReklamPackage(
       { actorId, guest: true, request: REQUEST },
       { now: () => NOW, invoke: async () => okText(modelPack(SHORT_TITLE, SHORT_DESCRIPTION)) },
@@ -162,7 +169,7 @@ describe("reklam paketi", () => {
       },
     );
     expect(overflowCalls).toBe(1);
-    expect(overflow).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 1 });
+    expect(overflow).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 3 });
 
     let rejectedCalls = 0;
     const rejected = await generateReklamPackage(
@@ -180,6 +187,6 @@ describe("reklam paketi", () => {
       },
     );
     expect(rejectedCalls).toBe(0);
-    expect(rejected).toMatchObject({ ok: false, status: 400, remaining: 1, limit: 1 });
+    expect(rejected).toMatchObject({ ok: false, status: 400, remaining: 3, limit: 3 });
   });
 });

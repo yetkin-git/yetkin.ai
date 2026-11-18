@@ -1,17 +1,29 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { TezgahWorkbench } from "@/components/tezgah/workbench";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { getSession } from "@/lib/kernel/auth/session";
 import { loadIdentityBoard } from "@/lib/kernel/identity/load";
+import { tezgahRelocatedOsHref } from "@/lib/tezgah/catalog";
 
 export const metadata: Metadata = pageMetadata({
   ...PAGE_SEO.tezgah,
   robots: { index: true, follow: true },
 });
 
-export default async function TezgahPage() {
+export default async function TezgahPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tool?: string | string[] }>;
+}) {
+  const query = await searchParams;
+  const rawTool = Array.isArray(query.tool) ? query.tool[0] : query.tool;
+  const moved = tezgahRelocatedOsHref(rawTool);
+  if (moved) {
+    redirect(moved);
+  }
   const session = await getSession();
   const freelancerName = await loadTezgahFreelancerName(session);
   return (

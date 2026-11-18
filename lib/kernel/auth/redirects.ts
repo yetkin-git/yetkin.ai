@@ -29,6 +29,8 @@ const NEXT_EXACT = new Set([
   PASSWORD_RECOVERY_PATH,
   CITIZEN_LOGIN_PATH,
   "/register",
+  "/kurumsal",
+  "/kurumsal/ilanlar",
 ]);
 
 /** Vatandaş odaları + sığınaklar. `/admin` kökü dönüş değildir. Satış kataloğu ayrı durur. Donmuş oda next değil. Junior ders listesi dönüş yoludur. */
@@ -44,6 +46,8 @@ const NEXT_PREFIXES = [
   "/tezgah",
   "/magazam",
   "/e-ticaret",
+  "/hibe",
+  "/ilan",
 ] as const;
 
 function stripTrailingSlash(origin: string): string {

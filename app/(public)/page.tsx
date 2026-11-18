@@ -12,7 +12,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { LandingFaq } from "@/components/seo/landing-faq";
 import { faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
 import { HOME_LANDING_FAQ } from "@/lib/copy/sem-keywords";
-import { OFF_101_EXEMPTION_PATH } from "@/lib/academy/off101-exemption";
+import { GrantEligibilityWidget } from "@/components/hibe/grant-eligibility-widget";
 
 /**
  * Marka iniş katmanı — kök adres (`/`).
@@ -27,11 +27,27 @@ export const metadata: Metadata = pageMetadata({
 export default function PublicHomePage() {
   const copy = SEN_VOICE.public.home;
   return (
-    <main className="relative flex min-h-dvh flex-col overflow-x-hidden">
+    <main className="relative flex min-h-dvh flex-col overflow-x-hidden bg-gradient-to-b from-slate-50 via-blue-50/40 to-white">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[32rem] bg-[radial-gradient(ellipse_at_top,rgba(37,99,235,0.16),transparent_62%)]"
+      />
       <JsonLd data={jsonLdDocument([faqPageJsonLd(HOME_LANDING_FAQ)])} />
       <header className="relative flex shrink-0 items-center gap-2.5 px-6 pt-4">
         <BrandIcon width={32} height={32} className="h-8 w-8" />
         <p className="text-sm font-semibold tracking-tight text-[var(--foreground)]">{YETKIN_BRAND}</p>
+        <Link
+          href="/uzmanlar"
+          className="ml-1 inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
+        >
+          Uzmanlar
+        </Link>
+        <Link
+          href="/fiyatlandirma"
+          className="inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
+        >
+          Fiyatlar
+        </Link>
         <HomeAccountNav />
       </header>
       <div className="relative mx-auto flex min-h-0 w-full max-w-6xl flex-1 flex-col px-6 pb-12 pt-4">
@@ -45,13 +61,13 @@ export default function PublicHomePage() {
             </h1>
             <p className="mt-3 max-w-xl text-base leading-7 text-[var(--muted)]">{copy.description}</p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <LinkButton href={OFF_101_EXEMPTION_PATH} size="lg" variant="success">
+              <LinkButton href="/tezgah" size="lg" variant="success">
                 {copy.primaryCta}
               </LinkButton>
-              <LinkButton href="/tezgah" size="lg" variant="secondary">
-                {copy.tezgahCta}
+              <LinkButton href="/e-ticaret" size="lg" variant="secondary">
+                E-Ticaret İşletim Sistemi
               </LinkButton>
-              <LinkButton href="/academy" size="lg">
+              <LinkButton href="/hibe" size="lg">
                 {copy.academyCta}
               </LinkButton>
             </div>
@@ -96,31 +112,42 @@ export default function PublicHomePage() {
             ))}
           </ol>
         </section>
-        <section className="relative mt-8 min-h-0" aria-labelledby="home-bench-heading" data-home-bench="">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
-            {copy.benchKicker}
-          </p>
-          <h2
-            id="home-bench-heading"
-            className="mt-1.5 text-xl font-semibold tracking-tight text-[var(--foreground)] sm:text-2xl"
-          >
-            {copy.benchTitle}
-          </h2>
-          <ul className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {copy.bench.map((item) => (
-              <li key={item.href}>
-                <Card variant="default" className="flex h-full flex-col p-5">
-                  <h3 className="text-base font-semibold text-[var(--foreground)]">
-                    <Link href={item.href as Route} className="hover:underline">
-                      {item.title}
-                    </Link>
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm leading-6 text-[var(--muted)]">{item.body}</p>
-                </Card>
-              </li>
-            ))}
-          </ul>
+        <section
+          className="relative mt-10 w-screen bg-slate-950 px-6 py-12 text-white [margin-inline:calc(50%-50vw)]"
+          aria-labelledby="home-bench-heading"
+          data-home-bench=""
+        >
+          <div className="mx-auto w-full max-w-6xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-blue-200">
+              {copy.benchKicker}
+            </p>
+            <h2
+              id="home-bench-heading"
+              className="mt-1.5 text-xl font-semibold tracking-tight text-white sm:text-2xl"
+            >
+              {copy.benchTitle}
+            </h2>
+            <ul className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {copy.bench.map((item) => (
+                <li key={item.href}>
+                  <Card variant="default" className="flex h-full flex-col p-5">
+                    <h3 className="text-base font-semibold text-[var(--foreground)]">
+                      <Link href={item.href as Route} className="hover:underline">
+                        {item.title}
+                      </Link>
+                    </h3>
+                    <p className="mt-2 flex-1 text-sm leading-6 text-[var(--muted)]">{item.body}</p>
+                  </Card>
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
+        <div className="relative mt-0 w-screen bg-gradient-to-b from-indigo-50 via-white to-white px-6 py-2 [margin-inline:calc(50%-50vw)]">
+          <div className="mx-auto w-full max-w-6xl">
+            <GrantEligibilityWidget />
+          </div>
+        </div>
         <section className="relative mt-8 min-h-0" aria-labelledby="home-tracks-heading">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
             {copy.tracksKicker}
@@ -143,10 +170,10 @@ export default function PublicHomePage() {
                   <p className="mt-2 flex-1 text-sm leading-6 text-[var(--muted)]">{track.body}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     <LinkButton href={track.href} size="sm" variant="outline">
-                      {copy.academyCta}
+                      {track.title} sistemini aç
                     </LinkButton>
-                    <LinkButton href={OFF_101_EXEMPTION_PATH} size="sm" variant="success">
-                      {copy.tracksCta}
+                    <LinkButton href="/tezgah" size="sm" variant="success">
+                      {copy.tezgahCta}
                     </LinkButton>
                   </div>
                 </Card>

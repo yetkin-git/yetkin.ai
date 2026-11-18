@@ -13,6 +13,7 @@ import {
   formatCatalogValue,
   groupCatalogEntriesByModule,
   isHoldBpsInCodeBand,
+  selectLiveCatalogEntries,
 } from "@/lib/kernel/admin/display";
 import {
   ADMIN_ACADEMY_SHELTER_PATH,
@@ -152,7 +153,7 @@ export function AdminCatalogList({
   /** Soft yüklemede üst CTA zaten varsa çift şerit basılmaz. */
   showEmptyActions?: boolean;
 }) {
-  const groups = groupCatalogEntriesByModule(entries);
+  const groups = groupCatalogEntriesByModule(selectLiveCatalogEntries(entries));
   const copy = ADMIN_SEN;
 
   return (

@@ -1,11 +1,10 @@
 import { permanentRedirect } from "next/navigation";
-import { academyVerifyPath } from "@/lib/academy/lesson-note-paths";
 import { parseSha256Hex } from "@/lib/kernel/crypto/sha256";
 
 /**
  * Kısa paylaşım alias'ı `/verify/[hash]`.
  * HTTP 301 `next.config.ts` redirects'tedir; bu sayfa belge isteği kaçarsa
- * kanonik `/academy/dogrula/[hash]` adresine kalıcı yönlendirir.
+ * kanonik `/vize/[hash]` adresine kalıcı yönlendirir.
  */
 export default async function VerifyHashAliasPage({
   params,
@@ -14,8 +13,5 @@ export default async function VerifyHashAliasPage({
 }) {
   const { hash } = await params;
   const parsed = parseSha256Hex(hash);
-  if (!parsed) {
-    permanentRedirect("/academy/dogrula");
-  }
-  permanentRedirect(academyVerifyPath(parsed));
+  permanentRedirect(parsed ? `/vize/${parsed}` : "/vize");
 }

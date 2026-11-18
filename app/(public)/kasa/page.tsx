@@ -42,7 +42,7 @@ export default async function DronKasaPage({
       ) : (
         <div className="mt-4 space-y-4">
           <p className="text-sm text-[var(--foreground)]">{WALLET_CHECKOUT_PASSPORT_INVALID}</p>
-          <LinkButton href="/academy" variant="secondary" size="sm">
+          <LinkButton href="/tezgah" variant="secondary" size="sm">
             {CUZDAN_SEN.kasaInvalidCta}
           </LinkButton>
         </div>

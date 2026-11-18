@@ -1,8 +1,4 @@
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
-import {
-  academyContinueHref,
-  hasIncompleteAcademyPurchase,
-} from "@/lib/dashboard/next-best-action";
 import type { DashboardPulse } from "@/lib/dashboard/pulse";
 import { formatMinor } from "@/lib/kernel/money/format";
 
@@ -23,8 +19,14 @@ export type CommandStat = {
   value: string;
 };
 
+export type CommandHibeRead = {
+  live: boolean;
+  profiles: number;
+  dossiers: number;
+};
+
 export type CommandCardModel = {
-  key: "tezgah" | "commerce" | "academy" | "career";
+  key: "tezgah" | "commerce" | "hibe" | "career";
   eyebrow?: string;
   title: string;
   stats: readonly CommandStat[];
@@ -119,31 +121,30 @@ function commerceCard(stores: CommandStoreRead): CommandCardModel {
   };
 }
 
-function academyCard(pulse: DashboardPulse): CommandCardModel {
-  const copy = SEN_VOICE.dashboard;
-  const academy = pulse.academy;
-  const continueCourse = hasIncompleteAcademyPurchase(academy);
-  let detail: string | null = null;
-  if (!academy.live) {
-    detail = copy.pulse.unavailable;
-  } else if (academy.lastCertificateTitle) {
-    detail = academy.lastCertificateTitle;
-  } else if (academy.certificatesHeld === 0) {
-    detail = copy.pulse.academyEmpty;
+function hibeCard(hibe: CommandHibeRead | undefined): CommandCardModel {
+  const copy = SEN_VOICE.dashboard.command;
+  if (!hibe?.live) {
+    return {
+      key: "hibe",
+      eyebrow: "YetkinHibe",
+      title: "Hibe dosyası",
+      stats: [{ label: "Dosya", value: copy.unknown }],
+      detail: "Uygunluk ve proje dosyası YetkinHibe’de açılır.",
+      href: "/hibe",
+      cta: "YetkinHibe’yi aç",
+    };
   }
   return {
-    key: "academy",
-    title: copy.pulse.academyTitle,
+    key: "hibe",
+    eyebrow: "YetkinHibe",
+    title: "Hibe dosyası",
     stats: [
-      { label: copy.pulse.academyPurchase, value: shownCount(academy.live, academy.purchasesCount) },
-      {
-        label: copy.pulse.academyCertificate,
-        value: shownCount(academy.live, academy.certificatesHeld),
-      },
+      { label: "Analiz", value: String(countOf(hibe.profiles)) },
+      { label: "Dosya", value: String(countOf(hibe.dossiers)) },
     ],
-    detail,
-    href: continueCourse ? academyContinueHref(academy.lastCourseSlug) : "/academy",
-    cta: continueCourse ? copy.nextBestAction.academyContinue.cta : copy.pulse.academyEmptyCta,
+    detail: countOf(hibe.dossiers) === 0 ? "Henüz proje dosyası yok." : null,
+    href: "/hibe",
+    cta: "YetkinHibe’yi aç",
   };
 }
 
@@ -187,11 +188,12 @@ export function projectCommandCenter(input: {
   stores: CommandStoreRead;
   quota: CommandQuotaRead;
   toolCount: number;
+  hibe?: CommandHibeRead;
 }): CommandCenterModel {
   return [
-    tezgahCard(input.quota, input.toolCount),
     commerceCard(input.stores),
-    academyCard(input.pulse),
+    hibeCard(input.hibe),
+    tezgahCard(input.quota, input.toolCount),
     careerCard(input.pulse),
   ];
 }

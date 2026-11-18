@@ -3,7 +3,8 @@ import "server-only";
 import { invokeLlm, type InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import { TEZGAH_FAIL_MESSAGE, TEZGAH_GUEST_QUOTA_MESSAGE, TEZGAH_MEMBER_QUOTA_MESSAGE } from "@/lib/tezgah/catalog";
-import { consumeTezgahQuota, peekTezgahQuota, refundTezgahQuota } from "@/lib/tezgah/quota";
+import { tezgahRequestHash } from "@/lib/tezgah/paid-lane";
+import { consumeTezgahQuota, peekTezgahQuota, refundTezgahQuota, settleTezgahSlot } from "@/lib/tezgah/quota";
 import { fetchPublicHomepage, type FetchPublicHomepageDeps } from "@/lib/tezgah/tetkik/fetch-html";
 import { inspectTetkikUrl, TetkikAccessError } from "@/lib/tezgah/tetkik/guard";
 import { guardTetkikNarrative } from "@/lib/tezgah/tetkik/narrative";
@@ -12,6 +13,7 @@ import { clipTetkikNarrative, tetkikSystemPrompt, tetkikUserPrompt } from "@/lib
 import { TETKIK_REJECTED_MESSAGE } from "@/lib/tezgah/tetkik/rubric";
 import { tetkikGenerateRequestSchema, type TetkikGenerateRequest } from "@/lib/tezgah/tetkik/schema";
 import { scoreTetkik } from "@/lib/tezgah/tetkik/score";
+import { normalizeTetkikSiteAddress } from "@/lib/tezgah/tetkik/site-address";
 import type { TetkikReport } from "@/lib/tezgah/tetkik/types";
 
 /** Kapak raporu 900 tokena sığmaz. Skor yine kodda kalır. */
@@ -28,7 +30,7 @@ export type TetkikGenerateResult =
   | {
       ok: false;
       error: string;
-      status: 400 | 429 | 503;
+      status: 400 | 402 | 429 | 503;
       remaining: number;
       limit: number;
       guest: boolean;
@@ -45,11 +47,29 @@ function plain(value: string, max: number): string {
   return clean.length <= max ? clean : clean.slice(0, max);
 }
 
+function coverTitle(given: string, finalUrl: string): string {
+  const name = plain(given, 80);
+  if (name.length >= 2) {
+    return name;
+  }
+  try {
+    const host = new URL(finalUrl).hostname.replace(/\.$/, "").replace(/^www\./, "");
+    const label = plain(host, 80);
+    if (label.length >= 2) {
+      return label;
+    }
+  } catch {
+    // başlık yedeklenir
+  }
+  return "Web sitesi";
+}
+
 export async function generateTetkikReport(
   input: {
     actorId: string;
     guest: boolean;
     request: TetkikGenerateRequest;
+    commandKey?: string | null;
   },
   deps: GenerateTetkikDeps = {},
 ): Promise<TetkikGenerateResult> {
@@ -57,7 +77,7 @@ export async function generateTetkikReport(
   const now = deps.now?.() ?? new Date();
   const open = () => peekTezgahQuota(input.actorId, input.guest, now);
   if (!parsed.success) {
-    const quota = open();
+    const quota = await open();
     return {
       ok: false,
       error: "Alanları kısa ve net doldur.",
@@ -68,9 +88,9 @@ export async function generateTetkikReport(
     };
   }
 
-  const inspected = inspectTetkikUrl(parsed.data.url);
+  const inspected = inspectTetkikUrl(normalizeTetkikSiteAddress(parsed.data.url) ?? parsed.data.url);
   if (!inspected.ok) {
-    const quota = open();
+    const quota = await open();
     return {
       ok: false,
       error: TETKIK_REJECTED_MESSAGE,
@@ -81,20 +101,25 @@ export async function generateTetkikReport(
     };
   }
 
-  const slot = consumeTezgahQuota(input.actorId, input.guest, now);
+  const slot = await consumeTezgahQuota(
+    input.actorId,
+    input.guest,
+    now,
+    input.commandKey ? { key: input.commandKey, requestHash: tezgahRequestHash(input.request) } : null,
+  );
   if (!slot.allowed) {
     return {
       ok: false,
-      error: input.guest ? TEZGAH_GUEST_QUOTA_MESSAGE : TEZGAH_MEMBER_QUOTA_MESSAGE,
-      status: 429,
+      error: slot.error ?? (input.guest ? TEZGAH_GUEST_QUOTA_MESSAGE : TEZGAH_MEMBER_QUOTA_MESSAGE),
+      status: slot.status ?? 429,
       remaining: 0,
       limit: slot.limit,
       guest: input.guest,
     };
   }
 
-  const restore = (error: string, status: 400 | 503): TetkikGenerateResult => {
-    const restored = refundTezgahQuota(input.actorId, input.guest, now);
+  const restore = async (error: string, status: 400 | 503): Promise<TetkikGenerateResult> => {
+    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane);
     return {
       ok: false,
       error,
@@ -121,11 +146,10 @@ export async function generateTetkikReport(
     ttfbMs: page.ttfbMs,
     htmlBytes: page.htmlBytes,
   });
-  const agency = parsed.data.agencyName ? plain(parsed.data.agencyName, 80) : "";
   const cover = {
-    businessName: plain(parsed.data.businessName, 80),
-    freelancerName: plain(parsed.data.freelancerName, 80),
-    agencyName: agency.length >= 2 ? agency : null,
+    businessName: coverTitle(parsed.data.businessName ?? "", page.finalUrl),
+    freelancerName: "",
+    agencyName: null as string | null,
   };
   const pageTitle = plain(parsedHtml.title, 120);
   const invoke = deps.invoke ?? invokeLlm;
@@ -160,7 +184,7 @@ export async function generateTetkikReport(
       billing: {
         userId: input.guest ? null : input.actorId,
         source: AI_TOKEN_SOURCES.TEZGAH,
-        recordUsage: false,
+        recordUsage: true,
       },
     },
     deps,
@@ -169,6 +193,18 @@ export async function generateTetkikReport(
   const narrative = clipTetkikNarrative(guardTetkikNarrative(llm?.text ?? "", scored.score));
   if (narrative.length < 12) {
     return restore(TEZGAH_FAIL_MESSAGE, 503);
+  }
+
+  const paid = await settleTezgahSlot(input.actorId, slot);
+  if (!paid.ok) {
+    return {
+      ok: false,
+      error: paid.error,
+      status: paid.status,
+      remaining: slot.remaining,
+      limit: slot.limit,
+      guest: input.guest,
+    };
   }
 
   return {

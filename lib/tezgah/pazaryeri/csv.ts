@@ -1,3 +1,4 @@
+import { TEZGAH_DELIVERY_SIGNATURE } from "@/lib/tezgah/delivery-signature";
 import { PAZARYERI_DIGER, PAZARYERI_LEAD, PAZARYERI_TAIL } from "@/lib/tezgah/pazaryeri/copy";
 import type { PazaryeriField } from "@/lib/tezgah/pazaryeri/parse";
 
@@ -100,6 +101,6 @@ export function buildPazaryeriTable(input: {
   return {
     columns,
     rows,
-    csv: `\uFEFF${lines.join("\n")}`,
+    csv: `\uFEFF${lines.join("\n")}\n# ${TEZGAH_DELIVERY_SIGNATURE}`,
   };
 }

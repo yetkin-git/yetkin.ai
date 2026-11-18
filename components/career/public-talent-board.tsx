@@ -10,6 +10,7 @@ import {
   careerStampCourseHref,
   careerStampVerifyHref,
 } from "@/lib/career/stamp-surface";
+import { SealShareQuickBar } from "@/components/career/seal-share-guides";
 import { publicTalentPath, type PublicTalentCard, type PublicTalentSeal } from "@/lib/career/public-talent";
 import { formatPassportIssuedAt, passportSourceLabel } from "@/lib/kernel/passport/display";
 import { CAREER_SEN } from "@/lib/copy/sen-voice/career";
@@ -93,17 +94,23 @@ export function PublicTalentBoard({ card }: { card: PublicTalentCard }) {
           <p>{copy.proofEmpty}</p>
         ) : (
           <ul className="space-y-2">
-            {card.proofs.map((proof) => (
-              <li key={`${proof.visaStampId}:${proof.title}`} className="flex flex-wrap items-center gap-2">
-                <span className="text-sm text-[var(--foreground)]">{proof.title}</span>
-                <LinkButton href={publicTalentPath(proof.visaStampId) as Route} variant="outline" size="sm">
-                  {CAREER_SEN.scope.publicCardCta}
-                </LinkButton>
+            {card.proofs.map((proof, index) => (
+              <li key={`${proof.visaStampId}:${proof.title}:${index}`} className="space-y-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-sm text-[var(--foreground)]">{proof.title}</span>
+                  <LinkButton href={publicTalentPath(proof.visaStampId) as Route} variant="outline" size="sm">
+                    {CAREER_SEN.scope.publicCardCta}
+                  </LinkButton>
+                </div>
+                {proof.detail ? (
+                  <p className="text-sm leading-6 text-[var(--muted)]">{proof.detail}</p>
+                ) : null}
               </li>
             ))}
           </ul>
         )}
       </Card>
+      <SealShareQuickBar url={publicTalentPath(card.featured.id)} text={card.featured.title} />
       <p className="text-xs text-[var(--muted)]">{copy.privacy}</p>
     </div>
   );

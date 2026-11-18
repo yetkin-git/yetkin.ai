@@ -82,6 +82,11 @@ export function isFrozenRoomApi(pathname: string, actor: JuniorActor | null = nu
   ) {
     return true;
   }
+  // Sayfa yolu `/kurumsal/ilanlar` açıktır. Aynı kokpitin API'si donmuş `kurumsal`
+  // önekine takılıp 410 dönmesin. Diğer `/api/kurumsal/*` yolları kapalı kalır.
+  if (path === "/api/kurumsal/ilanlar" || path.startsWith("/api/kurumsal/ilanlar/")) {
+    return false;
+  }
   if (
     (FROZEN_SHELL_ROOM_IDS as readonly string[]).some(
       (id) => path === `/api/${id}` || path.startsWith(`/api/${id}/`),

@@ -27,7 +27,7 @@ describe("vize-ilan kapsama tabelası", () => {
     const sign = listingVisaScopeSign(YZ_LISTING_VISA_SUBJECT);
     expect(sign.pathwayId).toBe("chatbot-musteri-hizmetleri");
     expect(sign.courses.some((course) => course.slug === "04_chatbot_nocode")).toBe(true);
-    expect(sign.courses[0]?.href).toMatch(/^\/academy\//);
+    expect(sign.courses[0]?.href).toBe("/career");
     expect(sign.courses[0]?.title).toBeTruthy();
   });
 });

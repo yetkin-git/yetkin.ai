@@ -53,7 +53,8 @@ export function renderFrozenRoomGoneHtml(pathname: string): string {
       <p>${copy.description}</p>
       <nav>
         <a href="/">${copy.homeCta}</a>
-        <a href="/academy">${copy.academyCta}</a>
+        <a href="/hibe">${copy.academyCta}</a>
+        <a href="/e-ticaret">E-Ticaret</a>
         <a href="/career">${copy.careerCta}</a>
       </nav>
     </main>

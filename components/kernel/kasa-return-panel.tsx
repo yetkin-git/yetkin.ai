@@ -4,46 +4,67 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { Route } from "next";
-import { ACADEMY_FLAGSHIP_SKU_SLUG, isAcademyStorefrontSlug } from "@/lib/academy/pilot-sku";
 import { CUZDAN_SEN } from "@/lib/copy/sen-voice/cuzdan";
 import { emitPaytrIframeReturnIfEmbedded } from "@/lib/kernel/payments/paytr/iframe-embed";
 import { trackPurchase } from "@/lib/kernel/telemetry/funnel";
 import { buttonClassName } from "@/components/ui/button";
 
 const KASA_RETURN_REDIRECT_MS = 3_000;
-const KASA_RETURN_COURSE_HREF = `/academy/${ACADEMY_FLAGSHIP_SKU_SLUG}` as Route;
-const KASA_RETURN_ACADEMY_HREF = "/academy" as Route;
 
-export function kasaReturnCourseHref(courseSlug: string | null | undefined): Route {
-  const slug = courseSlug?.trim() ?? "";
-  if (isAcademyStorefrontSlug(slug)) {
-    return `/academy/${slug}` as Route;
+const KASA_RETURN_HREF = {
+  tezgah: "/tezgah",
+  "e-ticaret": "/e-ticaret",
+  hibe: "/hibe",
+} as const satisfies Record<string, Route>;
+
+export type KasaReturnDesk = keyof typeof KASA_RETURN_HREF;
+
+/**
+ * Ödeme dönüşü çalışma masasına iner.
+ * Pro ve kredi → tezgâh. Lisans → e-ticaret. Dosya → hibe.
+ * Tanınmayan işaret tezgâha düşer. Akademi adresi üretilmez.
+ */
+export function kasaReturnDesk(raw: string | null | undefined): KasaReturnDesk {
+  const value = raw?.trim().toLowerCase() ?? "";
+  if (value === "e-ticaret" || value === "eticaret" || value === "commerce" || value === "lisans") {
+    return "e-ticaret";
   }
-  return KASA_RETURN_COURSE_HREF;
+  if (value === "hibe" || value === "grant" || value === "dosya") {
+    return "hibe";
+  }
+  return "tezgah";
+}
+
+export function kasaReturnHref(desk: string | null | undefined): Route {
+  return KASA_RETURN_HREF[kasaReturnDesk(desk)];
+}
+
+/** Eski çağrı adı. Kurs slug'ı masa seçmez; dönüş çalışma masasına iner. */
+export function kasaReturnCourseHref(courseSlug: string | null | undefined): Route {
+  return kasaReturnHref(courseSlug);
 }
 
 export function KasaReturnPanel({
   ok,
-  courseSlug = null,
+  desk = null,
 }: {
   ok: boolean;
-  courseSlug?: string | null;
+  desk?: string | null;
 }) {
   const router = useRouter();
-  const href = ok ? kasaReturnCourseHref(courseSlug) : KASA_RETURN_ACADEMY_HREF;
+  const href = kasaReturnHref(desk);
 
   useEffect(() => {
     emitPaytrIframeReturnIfEmbedded(ok);
     if (!ok) {
       return;
     }
-    const slug = courseSlug?.trim() ?? "";
-    trackPurchase(isAcademyStorefrontSlug(slug) ? { itemId: slug } : {});
+    trackPurchase({ itemId: kasaReturnDesk(desk) });
     const timer = window.setTimeout(() => {
       router.push(href);
     }, KASA_RETURN_REDIRECT_MS);
     return () => window.clearTimeout(timer);
-  }, [courseSlug, href, ok, router]);
+  }, [desk, href, ok, router]);
 
   return (
     <div className="mt-6" suppressHydrationWarning>

@@ -94,16 +94,16 @@ export const PAGE_SEO = {
     image: DEFAULT_OG_IMAGE,
   },
   career: {
-    title: "Doğrulanmış Freelancer Rozeti",
+    title: "YetkinCV — Test Edilmiş & Mühürlü Kariyer Merkezi",
     description:
-      "Doğrulanmış Freelancer Rozeti: Akademi sınavından doğan yapay zeka sertifikası Kariyer Kartına işlenir. Eski arama adı kariyer vizesidir. İşveren ağına görünürlük ve mühürlü özgeçmiş açar.",
+      "CV'ni oluştur veya yükle, uygulamalı vaka testini geç. İşverenlere sunabileceğin SHA-256 mühürlü YetkinCV puanı sunucuda hesaplanır. Doğrulama bağı herkese açıktır.",
     path: "/career",
     image: DEFAULT_OG_IMAGE,
   },
   tezgah: {
     title: "AI Tezgâh — ürün kartı, teklif ve proje dosyası",
     description:
-      "Misafire günde 1, ücretsiz kayıtla günde 3 üretim: ürün kartı, müşteri teklifi ve yazdırılabilir hibe proje dosyası.",
+      "Misafire günde 3 üretim: ürün kartı, müşteri teklifi ve yazdırılabilir hibe proje dosyası. Çıktıyı kaydetmek için ücretsiz hesap.",
     path: "/tezgah",
     image: DEFAULT_OG_IMAGE,
     keywords: [
@@ -152,6 +152,41 @@ export const PAGE_SEO = {
     description:
       "yetkin.ai destek kanalları: e-posta, WhatsApp ve kayıtlı hesap bildirimi. KVKK m.11 talepleri ve ödeme itirazları bu kanallardan yürür.",
     path: "/iletisim",
+    image: DEFAULT_OG_IMAGE,
+  },
+  pricing: {
+    title: "Fiyatlar — ücretsiz tezgâh ve uzmanlık paketleri",
+    description:
+      "AI Tezgâh, uygulama rehberleri ve seviye testi ücretsizdir. AI Tezgâh Pro, e-ticaret lisansı ve kurumsal paketlerin tutarı katalogdan okunur.",
+    path: "/fiyatlandirma",
+    image: DEFAULT_OG_IMAGE,
+  },
+  kurumsal: {
+    title: "Kurumsal İK Eleme — ilan, YetkinCV testi ve kısa liste",
+    description:
+      "Şirket ilanı açar, yetkinlik ağırlığını yüzdeyle tanımlar, aday YetkinCV vaka testini sunucuda çözer. Kısa liste ağırlıklı puana göre sıralanır. CV metni kamu dizinine basılmaz.",
+    path: "/kurumsal",
+    image: DEFAULT_OG_IMAGE,
+  },
+  uzmanlar: {
+    title: "Uzman dizini — doğrulanmış rozet vitrini",
+    description:
+      "Doğrulanmış rozetli uzmanların kamu vitrini. Para platformdan geçmez. Liste, aynı kırılımda en az beş kişi varken açılır.",
+    path: "/uzmanlar",
+    image: DEFAULT_OG_IMAGE,
+  },
+  sozluk: {
+    title: "Yapay zekâ ve dijital ticaret sözlüğü",
+    description:
+      "Mühür, vize, KOSGEB, tezgâh ve vitrin. 30 terimin Türkçe tanımı, tezgâh örneği ve uzmanlık sınavı bağlantısı.",
+    path: "/sozluk",
+    image: DEFAULT_OG_IMAGE,
+  },
+  tetkik: {
+    title: "Web sitesi tetkiki — SEO ve dönüşüm skoru",
+    description:
+      "Adresini yaz, kayıt olmadan SEO, hız ve dönüşüm skorunu gör. Skor kodda hesaplanır. Rapor paylaşılabilir bağlantıda durur.",
+    path: "/tetkik",
     image: DEFAULT_OG_IMAGE,
   },
   about: {
@@ -235,12 +270,14 @@ export const SITEMAP_STATIC_PATHS = [
   // Kök marka iniş sayfası — 308 kilidi kalktı, `robots: index:true`.
   PAGE_SEO.home.path,
   PAGE_SEO.guide.path,
-  "/academy",
-  "/academy/ileri",
   PAGE_SEO.career.path,
   PAGE_SEO.tezgah.path,
-  PAGE_SEO.academyVerify.path,
+  PAGE_SEO.pricing.path,
+  PAGE_SEO.kurumsal.path,
   PAGE_SEO.publicTalent.path,
+  PAGE_SEO.uzmanlar.path,
+  PAGE_SEO.sozluk.path,
+  PAGE_SEO.tetkik.path,
 ] as const;
 
 /**
@@ -278,6 +315,7 @@ export const ROBOTS_DISALLOW_PATHS = [
   "/pasaport",
   "/api/",
   // SEO Tedavi (P1) — satın alma duvarı arkası oynatıcı; auth duvarı + sayfa noindex ile üç katmanlı kilit.
+  "/academy",
   "/academy/*/oyna",
   "/academy/*/cikis-paketi",
   ...ROBOTS_DISALLOW_AUTH_REDIRECTS,
@@ -475,17 +513,10 @@ export const OFFICE_AI_LESSON_TEASERS: Readonly<Record<string, string>> = {
     "Haftalık Cuma rutini: on dakika Excel, on dakika slayt, on dakika kutu; takvime yazılır.",
 };
 
-/** robots.txt Allow — mühürlü yayın antreleri (prefix `/academy` yedeğine ek kesin yol). */
+/** robots.txt Allow — Akademi kapalıdır (410). Kurs yolu allow listesi boştur. */
 export const ECOMMERCE_AI_PUBLIC_PATH = ECOMMERCE_AI_SEO.path;
 
-export const ROBOTS_ALLOW_COURSE_PATHS = [
-  OFFICE_AI_SEO.path,
-  OFFICE_AI_ILERI_SEO.path,
-  ECOMMERCE_AI_SEO.path,
-  "/academy/03_social_media_ai",
-  "/academy/04_chatbot_nocode",
-  "/academy/05_prompt_practice",
-] as const;
+export const ROBOTS_ALLOW_COURSE_PATHS = [] as const;
 
 export type SitemapChangeFrequency =
   | "always"
@@ -510,8 +541,14 @@ export function sitemapRoutePolicy(path: string): {
   if (path === "/career" || path === "/junior" || path === PAGE_SEO.tezgah.path) {
     return { changeFrequency: "weekly", priority: 0.9 };
   }
-  if (path === PAGE_SEO.guide.path) {
+  if (path === PAGE_SEO.guide.path || path.startsWith("/rehber/")) {
     return { changeFrequency: "monthly", priority: 0.8 };
+  }
+  if (path === "/uzmanlar" || path === "/sozluk" || path === "/tetkik") {
+    return { changeFrequency: "weekly", priority: 0.8 };
+  }
+  if (path.startsWith("/sozluk/")) {
+    return { changeFrequency: "monthly", priority: 0.6 };
   }
   if (path.startsWith("/junior/ders/")) {
     return { changeFrequency: "weekly", priority: 0.7 };

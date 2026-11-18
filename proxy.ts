@@ -165,6 +165,14 @@ export async function proxy(request: NextRequest) {
     return seal(NextResponse.redirect(url, 308));
   }
 
+  if (decision.kind === "verify-301") {
+    const url = request.nextUrl.clone();
+    url.pathname = decision.to;
+    url.search = "";
+    return seal(NextResponse.redirect(url, 301));
+  }
+
+  // Kapalı kayıt (`academy` dahil) ve donmuş disk `decideEdgeAction` içinde 410 olur.
   if (decision.kind === "frozen-410") {
     return seal(
       new NextResponse(renderFrozenRoomGoneHtml(pathname), {

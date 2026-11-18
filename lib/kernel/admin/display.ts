@@ -9,6 +9,27 @@ export const ADMIN_UNSET_LABEL = "—" as const;
 export const ADMIN_EMPTY_LABEL = "Henüz katalog satırı yok" as const;
 export const HOLD_BPS_BAND_LABEL = `${HOLD_BPS_MIN}–${HOLD_BPS_MAX} bps` as const;
 
+/**
+ * Super Admin fiyat tahtasında görünen moduleKey'ler.
+ * Donmuş odalar (devlabs, freelancer, pazaryeri, yetkinilan, studio, junior)
+ * `price_catalog_entries` satırında durur; tahta onları listelemez.
+ * `kurumsal` eleme paketi bu tahtadadır. Donmuş `/kurumsal/*` oda yolları ayrıdır.
+ */
+export const ADMIN_CATALOG_LIVE_MODULE_KEYS = ["academy", "tezgah", "commerce", "career", "kurumsal"] as const;
+
+const ADMIN_CATALOG_LIVE_MODULE_KEY_SET = new Set<string>(ADMIN_CATALOG_LIVE_MODULE_KEYS);
+
+export function isLiveCatalogModule(moduleKey: string): boolean {
+  return ADMIN_CATALOG_LIVE_MODULE_KEY_SET.has(moduleKey);
+}
+
+/** UI süzgeci. Kayıt silmez; donmuş oda grubunu tahtadan düşürür. */
+export function selectLiveCatalogEntries(
+  entries: readonly SealedCatalogEntry[],
+): SealedCatalogEntry[] {
+  return entries.filter((entry) => isLiveCatalogModule(entry.moduleKey));
+}
+
 const UNIT_TYPE_LABEL: Record<PriceCatalogUnitType, string> = {
   MINOR: "Minor",
   BPS: "Hold bps",

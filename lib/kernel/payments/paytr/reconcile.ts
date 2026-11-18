@@ -12,6 +12,7 @@ import {
 import { queryPaytrOrderStatus, type PaytrOrderStatusInquiry } from "@/lib/kernel/payments/paytr/status";
 import { notifyAcademyLicenseHook } from "@/lib/kernel/payments/academy-license-hook";
 import { notifyCommerceLicenseHook } from "@/lib/kernel/payments/commerce-license-hook";
+import { notifyTezgahLicenseHook } from "@/lib/kernel/payments/tezgah-license-hook";
 import { notifyJuniorLicenseHook } from "@/lib/kernel/payments/junior-license-hook";
 import { logEvent } from "@/lib/kernel/observability/log";
 
@@ -143,6 +144,7 @@ export async function reconcilePaytrPaymentOrder(
     await notifyAcademyLicenseHook(order);
     await notifyJuniorLicenseHook(order);
     await notifyCommerceLicenseHook(order);
+    await notifyTezgahLicenseHook(order);
     return { action: "cleared", applied: false, reason: "already_cleared", orderId: order.id };
   }
 
@@ -172,6 +174,7 @@ export async function reconcilePaytrPaymentOrder(
     await notifyAcademyLicenseHook(result.order);
     await notifyJuniorLicenseHook(result.order);
     await notifyCommerceLicenseHook(result.order);
+    await notifyTezgahLicenseHook(result.order);
     return {
       action: "cleared",
       applied: result.applied,

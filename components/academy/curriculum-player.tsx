@@ -97,6 +97,8 @@ export function CurriculumPlayer({
   workTasksComplete,
   paywallLocked = false,
   paywallPriceLabel = null,
+  registerGate = false,
+  memberGuide = false,
   freePreviewAudio = null,
   checkoutHref: checkoutHrefProp = null,
   viewerSignedIn = false,
@@ -114,6 +116,10 @@ export function CurriculumPlayer({
   paywallLocked?: boolean;
   /** Duvar düğmesindeki tutar. Yoksa fiyatsız başlık basılır. */
   paywallPriceLabel?: string | null;
+  /** Ziyaretçi duvarı ödeme değil, ücretsiz kayıt ister. */
+  registerGate?: boolean;
+  /** Kayıtlı üye rehberi. Dersler açık; tamamlama ve mühür yazılmaz. */
+  memberGuide?: boolean;
   /** Sayfanın gömdüğü imzalı ses. Vitrinde ilk ders. Tam oynatıcıda açık dersler. Doluysa grant kapısı çağrılmaz. */
   freePreviewAudio?: Readonly<Record<string, { src: string; bedSrc?: string | null }>> | null;
   /** Satın Al. Oturum varsa kasa çapası, yoksa giriş. Boşsa `#satin-al`. */
@@ -463,6 +469,17 @@ export function CurriculumPlayer({
     if (lessonPaywalled || !active.open) {
       return;
     }
+    if (memberGuide) {
+      endedLessonKeyRef.current = key;
+      if (nextLesson?.open) {
+        if (autoAdvanceEnabledRef.current) {
+          autoAdvanceNextLesson(key);
+        } else {
+          selectLesson(nextLesson.key, { autoStart: true });
+        }
+      }
+      return;
+    }
     if (
       paywallLocked &&
       nextLesson &&
@@ -519,6 +536,12 @@ export function CurriculumPlayer({
     if (!active) {
       return;
     }
+    if (memberGuide) {
+      if (nextLesson?.open) {
+        selectLesson(nextLesson.key, { autoStart: true });
+      }
+      return;
+    }
     if (isAcademyPlayerPaywallLessonLocked(courseSlug, active.key, paywallLocked)) {
       setFunnelOpen(true);
       return;
@@ -545,15 +568,23 @@ export function CurriculumPlayer({
     lessonRows.length,
     ACADEMY_EXAM_PASS_SCORE,
   );
+  const memberExamHref =
+    memberGuide && !prepActive && active && !nextLesson
+      ? (`/academy/${courseSlug}#satin-al` as Route)
+      : null;
   const primaryLabel = pending
     ? copy.completing
     : prepActive
       ? copy.prepCompleteCta
-      : examOpen
-        ? examLaunchLabel
-        : active && active.open && !activeCompleted
-          ? copy.completeCta
-          : copy.nextLessonCta;
+      : memberGuide
+        ? nextLesson
+          ? copy.guideNextCta
+          : ACADEMY_SEN.catalog.cardCtaExamBadge
+        : examOpen
+          ? examLaunchLabel
+          : active && active.open && !activeCompleted
+            ? copy.completeCta
+            : copy.nextLessonCta;
   const primaryDisabled =
     pending ||
     (!prepActive && !examOpen && !(active?.open && !activeCompleted) && !canGoNext);
@@ -719,7 +750,7 @@ export function CurriculumPlayer({
                   </span>
                   <span className={`block text-[11px] ${selected ? "text-white/70" : "text-[var(--muted)]"}`}>
                     {deliveryLabel}
-                    {rowLocked ? ` · ${outline.locked}` : ""}
+                    {rowLocked ? ` · ${registerGate ? copy.registerLock : outline.locked}` : ""}
                   </span>
                   {completed ? (
                     <>
@@ -823,10 +854,13 @@ export function CurriculumPlayer({
               <SalesFunnelModal
                 checkoutHref={checkoutHref}
                 lessonKey={lessonPaywalled ? active?.key : undefined}
-                priceLabel={paywallPriceLabel}
+                priceLabel={registerGate ? null : paywallPriceLabel}
+                registerGate={registerGate}
                 progressGate={progressGate.visible ? progressGate : null}
                 onBeginCheckout={() => {
-                  trackBeginCheckout({ itemId: courseSlug });
+                  if (!registerGate) {
+                    trackBeginCheckout({ itemId: courseSlug });
+                  }
                 }}
                 onClose={() => {
                   setFunnelOpen(false);
@@ -901,7 +935,9 @@ export function CurriculumPlayer({
                   <AcademyProgressGateCard gate={progressGate} checkoutHref={checkoutHref} />
                 ) : (
                   <div className="mx-1 flex flex-col gap-2 rounded-2xl border border-[color-mix(in_srgb,var(--safir)_35%,transparent)] bg-[var(--safir-soft)] px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-                    <p className="text-sm leading-6 text-[var(--foreground)]">{copy.funnelLead}</p>
+                    <p className="text-sm leading-6 text-[var(--foreground)]">
+                      {registerGate ? copy.registerGateLead : copy.funnelLead}
+                    </p>
                     <LinkButton
                       href={checkoutHref as Route}
                       size="sm"
@@ -909,10 +945,16 @@ export function CurriculumPlayer({
                       data-academy-paywall-cta=""
                       data-academy-sales-funnel-cta=""
                       onClick={() => {
-                        trackBeginCheckout({ itemId: courseSlug });
+                        if (!registerGate) {
+                          trackBeginCheckout({ itemId: courseSlug });
+                        }
                       }}
                     >
-                      {paywallPriceLabel ? copy.funnelCta(paywallPriceLabel) : copy.funnelTitle}
+                      {registerGate
+                        ? copy.registerGateCta
+                        : paywallPriceLabel
+                          ? copy.funnelCta(paywallPriceLabel)
+                          : copy.funnelTitle}
                     </LinkButton>
                   </div>
                 )}
@@ -978,7 +1020,17 @@ export function CurriculumPlayer({
                       {copy.exitKitCta}
                     </LinkButton>
                   ) : null}
-                  {lessonPaywalled || funnelOpen || previewUpsell ? (
+                  {memberExamHref ? (
+                    <LinkButton
+                      href={memberExamHref}
+                      size="sm"
+                      variant="success"
+                      className="min-h-10 rounded-full px-5 text-[13px]"
+                      data-academy-exam-badge-cta=""
+                    >
+                      {ACADEMY_SEN.catalog.cardCtaExamBadge}
+                    </LinkButton>
+                  ) : lessonPaywalled || funnelOpen || previewUpsell ? (
                     <LinkButton
                       href={checkoutHref as Route}
                       size="sm"
@@ -986,10 +1038,16 @@ export function CurriculumPlayer({
                       data-academy-paywall-cta=""
                       data-academy-sales-funnel-cta=""
                       onClick={() => {
-                        trackBeginCheckout({ itemId: courseSlug });
+                        if (!registerGate) {
+                          trackBeginCheckout({ itemId: courseSlug });
+                        }
                       }}
                     >
-                      {paywallPriceLabel ? copy.funnelCta(paywallPriceLabel) : copy.funnelTitle}
+                      {registerGate
+                        ? copy.registerGateCta
+                        : paywallPriceLabel
+                          ? copy.funnelCta(paywallPriceLabel)
+                          : copy.funnelTitle}
                     </LinkButton>
                   ) : examOpen && !prepActive ? (
                     <LinkButton
@@ -1036,6 +1094,7 @@ function SalesFunnelModal({
   checkoutHref,
   lessonKey,
   priceLabel,
+  registerGate = false,
   progressGate = null,
   onClose,
   onBeginCheckout,
@@ -1043,6 +1102,7 @@ function SalesFunnelModal({
   checkoutHref: string;
   lessonKey?: string;
   priceLabel?: string | null;
+  registerGate?: boolean;
   /** İlerleme kapısı — ders tamamlandıysa "kilitli" yerine kazanılan mesafe basılır. */
   progressGate?: AcademyProgressGate | null;
   onClose: () => void;
@@ -1052,9 +1112,11 @@ function SalesFunnelModal({
   const titleId = useId();
   const actionLabel = progressGate
     ? progressGate.copy.cta
-    : priceLabel
-      ? copy.funnelCta(priceLabel)
-      : copy.funnelTitle;
+    : registerGate
+      ? copy.registerGateCta
+      : priceLabel
+        ? copy.funnelCta(priceLabel)
+        : copy.funnelTitle;
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -1092,13 +1154,13 @@ function SalesFunnelModal({
         onClick={(event) => event.stopPropagation()}
       >
         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--safir-deep)]">
-          {progressGate ? progressGate.copy.eyebrow : copy.locked}
+          {progressGate ? progressGate.copy.eyebrow : registerGate ? copy.registerGateEyebrow : copy.locked}
         </p>
         <h3 id={titleId} className="mt-2 max-w-xl text-xl font-semibold tracking-tight text-slate-900">
-          {progressGate ? progressGate.copy.title : copy.funnelTitle}
+          {progressGate ? progressGate.copy.title : registerGate ? copy.registerGateTitle : copy.funnelTitle}
         </h3>
         <p className="mt-3 max-w-xl text-[15px] leading-7 text-slate-700" data-academy-paywall-body="">
-          {progressGate ? progressGate.copy.body : copy.funnelLead}
+          {progressGate ? progressGate.copy.body : registerGate ? copy.registerGateLead : copy.funnelLead}
         </p>
         {progressGate ? (
           <div className="mt-3" data-academy-paywall-meter="">

@@ -111,14 +111,14 @@ describe("Akademi vitrin rafları — açık katalog", () => {
       document
         .querySelector("[data-academy-catalog-series='02_ecommerce_ai'] [data-academy-catalog-secondary-cta]")
         ?.getAttribute("href"),
-    ).toBe("/academy/02_ecommerce_ai/oyna");
+    ).toBe("/academy/02_ecommerce_ai#satin-al");
 
     const preview = document.querySelector("[data-academy-hero-preview-cta]");
     const browse = document.querySelector("[data-academy-hero-browse-cta]");
     expect(preview?.getAttribute("href")).toBe("/academy/01_office_ai/oyna");
     expect(preview?.textContent).toContain(ACADEMY_SEN.catalog.heroPreviewCta);
     expect(browse?.getAttribute("href")).toBe("/academy");
-    expect(browse?.textContent).toContain("Uzmanlık Paketlerini İncele");
+    expect(browse?.textContent).toContain("YetkinHibe İşletim Sistemi");
 
     expect(document.body.textContent).toContain(ACADEMY_SEN.catalog.flagshipShelfTitle);
     expect(document.body.textContent).toContain(ACADEMY_SEN.catalog.advancedShelfTitle);

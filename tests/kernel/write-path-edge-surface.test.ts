@@ -39,7 +39,7 @@ describe("dikey yazma kenar yüzeyi", () => {
     expect(isProtectedWritePath("/devlabs")).toBe(false);
   });
 
-  it("oturumsuz canlı yazma /login 307; donmuş oda 410; akademi geçer", async () => {
+  it("oturumsuz canlı yazma /login 307; donmuş oda ve kapalı akademi 410", async () => {
     for (const path of [
       "/studio",
       "/junior/ebeveyn",
@@ -55,12 +55,14 @@ describe("dikey yazma kenar yüzeyi", () => {
       const response = await proxy(request(path));
       expect(response.status, path).toBe(410);
     }
-    expect((await proxy(request("/academy"))).status).toBe(200);
-    expect((await proxy(request("/academy/dogrula"))).status).toBe(200);
-    expect((await proxy(request("/academy/python-temel/oyna"))).status).toBe(307);
-    expect((await proxy(request("/academy/01_office_ai/oyna"))).status).toBe(200);
-    expect((await proxy(request("/academy/certificates"))).status).toBe(307);
+    expect((await proxy(request("/academy"))).status).toBe(410);
+    expect((await proxy(request("/academy/dogrula"))).status).toBe(410);
+    expect((await proxy(request("/academy/python-temel/oyna"))).status).toBe(410);
+    expect((await proxy(request("/academy/01_office_ai/oyna"))).status).toBe(410);
+    expect((await proxy(request("/academy/certificates"))).status).toBe(410);
     expect((await proxy(request("/career"))).status).toBe(200);
+    expect((await proxy(request("/kurumsal"))).status).toBe(200);
+    expect((await proxy(request("/kurumsal/ilanlar"))).status).toBe(200);
     expect((await proxy(request("/dashboard"))).status).toBe(200);
   });
 

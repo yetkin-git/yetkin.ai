@@ -2,7 +2,13 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { buildProStudio } from "@/lib/tezgah/pro/build";
-import { buildSaasWidget, readApiUrl, readCounterDeadline } from "@/lib/tezgah/pro/saas-builder";
+import {
+  buildSaasInstallGuide,
+  buildSaasWidget,
+  readApiUrl,
+  readCounterDeadline,
+  SAAS_INSTALL_GUIDE_HEADING,
+} from "@/lib/tezgah/pro/saas-builder";
 import { buildStudioPhoto } from "@/lib/tezgah/pro/studio-photo";
 import { buildTechnicalDrawing } from "@/lib/tezgah/pro/technical-drawing";
 import { readStoreZip } from "@/lib/tezgah/pro/zip";
@@ -75,8 +81,10 @@ describe("mini saas", () => {
   it("kargo hesabını html, react ve zip olarak basar", () => {
     const pack = buildSaasWidget({
       widget: "cargo",
+      platform: "html",
       title: "Kargo desi",
       detail: "Paket ölçüsü santimetredir.",
+      feature: "Ürün sayfasına desi hesaplayıcı",
     });
     expect(pack?.html).toContain("/ 3000");
     expect(pack?.html).toContain("<form");
@@ -86,9 +94,39 @@ describe("mini saas", () => {
     const zip = pack?.zip ?? new Uint8Array();
     expect([...zip.slice(-22, -18)]).toEqual([0x50, 0x4b, 0x05, 0x06]);
     const files = readStoreZip(zip);
-    expect(files.map((file) => file.name)).toEqual(["index.html", "widget.js", "App.jsx", "README.txt"]);
+    expect(files.map((file) => file.name)).toEqual([
+      "index.html",
+      "widget.js",
+      "App.jsx",
+      "KURULUM_REHBERI.md",
+      "README.txt",
+    ]);
+    const guide = files.find((file) => file.name === "KURULUM_REHBERI.md")?.text ?? "";
+    expect(guide).toContain(SAAS_INSTALL_GUIDE_HEADING);
+    expect(guide).toContain("## Adım 1");
+    expect(guide).toContain("Genel HTML");
+    expect(pack?.installGuide).toContain("Ürün sayfasına desi hesaplayıcı");
+    expect(pack?.installGuide).not.toContain(`# ${SAAS_INSTALL_GUIDE_HEADING}`);
     expect(files[0]?.text).toContain("Desi");
     expect(pack?.html).not.toMatch(/₺|\bTL\b/);
+  });
+
+  it("wordpress ve react kurulum rehberlerini ayırır", () => {
+    const wp = buildSaasInstallGuide({
+      platform: "wordpress",
+      widget: "order",
+      title: "Form",
+      feature: "İletişim",
+    });
+    expect(wp).toContain("Özel HTML bloğu");
+    const react = buildSaasInstallGuide({
+      platform: "react",
+      widget: "cargo",
+      title: "Desi",
+      feature: "Hesap",
+    });
+    expect(react).toContain("App.jsx");
+    expect(react).toContain("npm run dev");
   });
 
   it("sayaç ve api adresini kapıda tutar", () => {
@@ -99,6 +137,8 @@ describe("mini saas", () => {
     expect(readApiUrl("http://ornek.com/stok.json")).toBeNull();
     expect(readApiUrl("javascript:alert(1)")).toBeNull();
     const counter = buildProStudio("saas-builder", {
+      platform: "react",
+      feature: "Kampanya geri sayımı",
       widget: "counter",
       title: "Kış sayacı",
       detail: "2026-12-31",
@@ -109,6 +149,8 @@ describe("mini saas", () => {
       expect(counter.pack.filename).toBe("mini-saas.zip");
     }
     const rejected = buildProStudio("saas-builder", {
+      platform: "html",
+      feature: "Stok okuyucu",
       widget: "api",
       title: "Stok oku",
       detail: "http://ornek.com/stok.json",
@@ -118,6 +160,8 @@ describe("mini saas", () => {
 
   it("sipariş formu kanal gönderimi yazmaz", () => {
     const built = buildProStudio("saas-builder", {
+      platform: "wordpress",
+      feature: "Sipariş notu formu",
       widget: "order",
       title: "Özel sipariş",
       detail: "Atölye notu",
@@ -143,6 +187,10 @@ describe("uzman tezgâh yüzeyi", () => {
     expect(preview).toContain('sandbox="allow-scripts"');
     expect(preview).toContain(".svg İndir");
     expect(preview).toContain(".zip İndir");
+    expect(preview).toContain("data-pro-install-guide");
     expect(preview).toContain("/api/career/desk");
+    const saas = readFileSync(join(ROOT, "lib/tezgah/catalog.ts"), "utf8");
+    expect(saas).toContain("İstediğiniz Özellik / Bileşen");
+    expect(saas).toContain("SAAS_PLATFORMS");
   });
 });

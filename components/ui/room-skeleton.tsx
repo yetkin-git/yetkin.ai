@@ -103,16 +103,16 @@ export function RoomSkeleton({
 
   if (variant === "cockpit") {
     return (
-      <RoomFrame aria-hidden>
-        <div className="space-y-3">
+      <RoomFrame className="space-y-3" aria-hidden>
+        <div className="space-y-2">
           <HeaderPulses compact />
-          <SkeletonPulse className="h-16 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
+          <SkeletonPulse className="h-12 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]" />
         </div>
-        <div className="grid min-w-0 gap-4 lg:grid-cols-2">
+        <div className="grid min-w-0 gap-3 md:grid-cols-2 xl:grid-cols-4">
           {Array.from({ length: 4 }, (_, index) => (
             <SkeletonPulse
               key={index}
-              className="min-h-40 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]"
+              className="min-h-32 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]"
             />
           ))}
         </div>

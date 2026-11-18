@@ -17,7 +17,7 @@ describe("ana sayfa yedili tezgâh vitrini", () => {
     const page = readSrc("app/(public)/page.tsx");
     const copySrc = readSrc("lib/copy/sen-voice/public.ts");
     const home = SEN_VOICE.public.home;
-    const hrefs = BENCH_TOOLS.map((id) => tezgahToolHref(id));
+    const hrefs = BENCH_TOOLS.map((id) => (id === "grant" ? "/hibe" : tezgahToolHref(id)));
 
     expect(home.bench.map((item) => item.id)).toEqual([...BENCH_TOOLS]);
     expect(home.bench.map((item) => item.href)).toEqual(hrefs);
@@ -61,7 +61,7 @@ describe("ana sayfa yedili tezgâh vitrini", () => {
     expect(page).toContain("copy.chain");
     expect(page).not.toContain("HomeOfferSection");
     expect(page).not.toContain("Hazırlanıyor");
-    expect(home.chain[3]?.title).toBe("30 Günlük Plan ve Canlı Vitrin");
+    expect(home.chain[3]?.title).toBe("E-Ticaret ve 30 günlük plan");
     expect(home.title).not.toContain("İşverenlerle Buluş");
     expect(home.description).not.toContain("teklif ver");
   });

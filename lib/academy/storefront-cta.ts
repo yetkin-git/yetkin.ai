@@ -11,6 +11,7 @@ import {
   ACADEMY_OFF201_STOREFRONT_SLUG,
   academyCourseSaleListed,
   isAcademyProductionLineSkuSlug,
+  isAcademyVitrineShellSkuSlug,
 } from "@/lib/academy/pilot-sku";
 import { stripZeroKurusFromTryLabel } from "@/lib/kernel/money/format";
 import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
@@ -126,6 +127,15 @@ export function resolveAcademyAntreHeroCta(input: {
     };
   }
 
+  if (isAcademyVitrineShellSkuSlug(slug)) {
+    return {
+      priceLabel: copy.catalog.freeGuideBadge,
+      primaryLabel: copy.catalog.cardCtaStartGuide,
+      primaryHref: playHref,
+      action: "play",
+    };
+  }
+
   if (input.access === "expired") {
     if (!input.purchasable) {
       return {
@@ -188,6 +198,21 @@ export function resolveAcademyCatalogCardCta(input: {
   hero?: boolean;
 }): AcademyCatalogCardCta {
   const copy = ACADEMY_SEN;
+  if (isAcademyVitrineShellSkuSlug(input.slug)) {
+    const started = input.learnerStatus === "continue";
+    return {
+      priceLabel: "",
+      priceCaption: null,
+      cta: input.owned
+        ? started
+          ? copy.catalog.statusContinue
+          : copy.catalog.cardCtaStartGuide
+        : copy.catalog.cardCtaStartGuide,
+      href: `/academy/${input.slug}/oyna`,
+      secondaryCta: copy.catalog.cardCtaExamBadge,
+      secondaryHref: academyCheckoutHref(input.slug),
+    };
+  }
   if (input.owned) {
     const started = input.learnerStatus === "continue";
     return {

@@ -353,10 +353,8 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
         headers: { "X-Rail-Min-Version": "1" },
       }),
     );
-    expect(publicSeal.status).toBe(200);
-    expect(publicSeal.headers.get("x-middleware-rewrite")).toBe(
-      `http://localhost:3000${certificatePaths.canonical}`,
-    );
+    expect(publicSeal.status).toBe(410);
+    expect(publicSeal.headers.get("x-middleware-rewrite")).toBeNull();
     expect(publicSeal.headers.get("set-cookie")).toBeNull();
   });
 
@@ -501,10 +499,8 @@ describe("Diyar B v1 kimlik ve Idempotency runtime kalkanı", () => {
     const anonymous = await proxy(
       edgeRequest(paths.v1, { headers: { "X-Rail-Min-Version": "1" } }),
     );
-    expect(anonymous.status).toBe(200);
-    expect(anonymous.headers.get("x-middleware-rewrite")).toBe(
-      `http://localhost:3000${paths.canonical}`,
-    );
+    expect(anonymous.status).toBe(410);
+    expect(anonymous.headers.get("x-middleware-rewrite")).toBeNull();
     expect(anonymous.headers.get("set-cookie")).toBeNull();
 
     vi.spyOn(academyRuntime, "createPrismaAcademyPorts").mockReturnValue({ academy: {} } as never);

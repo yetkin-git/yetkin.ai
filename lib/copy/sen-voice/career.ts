@@ -1,15 +1,13 @@
-import { YETKIN_BRAND } from "@/lib/copy/brand";
-
 /** 30 günlük plan dipnotu. İş veya gelir vaadi taşımaz. */
 export const CAREER_ACTION_PLAN_DISCLAIMER =
   "Bu plan bir aksiyon listesidir. Sertifika haritası veya mülakat provası değildir. İşe yerleşmeyi veya gelir elde etmeyi garanti etmez." as const;
 
 /** Rail SEN aksı — kariyer odası. Doğrulanmış Rozetten türetilen salt okuma damga projeksiyonu. */
 export const CAREER_SEN = {
-  eyebrow: "Kariyer",
-  title: "Doğrulanmış Freelancer Rozeti",
+  eyebrow: "YetkinCV",
+  title: "YetkinCV — Test Edilmiş & Mühürlü Kariyer Merkezi",
   description:
-    "Doğrulanmış Freelancer Rozeti burada görünür: Doğrulanmış Rozet Kariyer Kartına işlenir. Yapay zeka sertifikası Akademi sınavından türer. Teklif Kapısı işveren ağına görünürlük, mühürlü özgeçmiş bağlantısı ve proje kanıt dosyasını açar. Rozetin doğrulama bağı herkese açıktır.",
+    "Yapay zekâ ile yazılmış sıradan CV'ler arasında kaybolma. CV'ni oluştur veya yükle, uygulamalı vaka testini geç; işverenlere ve şirketlere sunabileceğin SHA-256 mühürlü, taklit edilemez YetkinCV puanını al; doğrulama bağı herkese açıktır.",
   faqHeading: "Sık sorulanlar",
   auth: "Kariyer sayfasını görmek için giriş yap.",
   /** Sicil okunamadığında vatandaşa dürüst, gürültüsüz mesaj — geliştirici rozeti yok. */
@@ -18,8 +16,8 @@ export const CAREER_SEN = {
   proofsTitle: "Doğrulanmış Freelancer Rozeti",
   visasTitle: "Doğrulanmış Freelancer Rozetleri",
   proofEmpty:
-    "Henüz bir Doğrulanmış Freelancer Rozetin yok. Akademi'de 8 dersi bitir, testi 70+ ile geç; mühürlü sertifikan burada görünür. Satın alma tek başına rozet basmaz.",
-  academyCta: "Akademiye git",
+    "Henüz mühürlü YetkinCV puanın yok. CV özetini yapıştır, vaka testini sunucuda çöz; SHA-256 doğrulama bağı burada görünür. Satın alma tek başına rozet basmaz.",
+  academyCta: "Tezgâhta pratik üret",
   freelancerCta: "Freelancer'a git",
   passportCta: "Uzmanlık Portföyü",
   certificatesCta: "Sertifikalarım",
@@ -38,10 +36,10 @@ export const CAREER_SEN = {
   copied: "Kopyalandı",
   copyFail: "Kopyalanamadı",
   footnote:
-    `Doğrulanmış Freelancer Rozeti yalnız Akademi müfredat sınavından türer: 8 ders tamam + baraj 70. Rozet bu sınav sonucundan doğar. Uzmanlık Portföyü listeler; rozeti Kariyer basar. İptal edilmiş Akademi belgesi burada görünmez. ${CAREER_ACTION_PLAN_DISCLAIMER}`,
+    `YetkinCV puanı sunucudaki vaka testinden türer. Sahte ilan ve sahte şirket logosu basılmaz. Doğrulama bağı herkese açıktır. ${CAREER_ACTION_PLAN_DISCLAIMER}`,
   footnotePassportCta: "Uzmanlık Portföyünü aç",
   footnoteVerifyCta: "Sertifika doğrula",
-  footnoteAcademyCta: "Akademiye git",
+  footnoteAcademyCta: "AI Tezgâh",
   ledger: {
     eyebrow: "Doğrulanmış Freelancer Rozeti",
     title: "Doğrulanmış Freelancer Rozeti defteri",
@@ -76,14 +74,14 @@ export const CAREER_SEN = {
   },
   /** Oturumsuz Kariyer — kişisel vize defteri yok. */
   publicRoom: {
-    eyebrow: "Kariyer",
-    title: "Doğrulanmış Freelancer Rozeti",
-    lead: `${YETKIN_BRAND} sertifikası Akademi sınavından türer. Geçen sonuç burada Doğrulanmış Freelancer Rozetine dönüşür. Bu sayfa herkese açıktır. Giriş yapınca kendi rozetlerin açılır.`,
+    eyebrow: "YetkinCV",
+    title: "YetkinCV — Test Edilmiş & Mühürlü Kariyer Merkezi",
+    lead: "Yapay zekâ ile yazılmış sıradan CV'ler arasında kaybolma. CV'ni oluştur veya yükle, uygulamalı vaka testini geç; işverenlere ve şirketlere sunabileceğin SHA-256 mühürlü, taklit edilemez YetkinCV puanını al. Bu sayfa herkese açıktır. Giriş yapınca kendi puanın açılır.",
     sampleEyebrow: "Örnek mühür",
-    sampleTitle: "Örnek mühürlü sertifika",
+    sampleTitle: "Örnek YetkinCV kartı",
     sampleNote:
       "Bu kart örnektir. Canlı sicil kaydı değildir. Doğrulama sayfası bu örneği geçerli saymaz.",
-    sampleCourse: "Ofiste Yapay Zekâ",
+    sampleCourse: "E-Ticaret vakası",
     sampleHolderLabel: "Ad",
     sampleHolder: "Örnek ad",
     sampleScoreLabel: "Puan",
@@ -93,12 +91,12 @@ export const CAREER_SEN = {
     stepsLead:
       "Birincil yol paylaşılabilir bağ ve QR koddur. 64 karakterlik özet yedek yoldur. Bu bir kriptografik imza değildir; sicil bütünlük kaydıdır. İşe yerleşmeyi veya gelir elde etmeyi garanti etmez.",
     steps: [
-      "Sertifikadaki paylaşılabilir bağı aç veya QR kodu okut. Adres /academy/dogrula/özet biçimindedir.",
-      "Sicilde kayıt varsa mühür görünür. Kayıt yoksa sayfa bunu açıkça söyler.",
-      "Yedek yol: 64 karakterlik SHA-256 özetini kopyalayıp doğrulama formuna yapıştır.",
+      "Hedef pozisyonu ve uzmanlığı seç, CV özetini yapıştır.",
+      "Sunucunun verdiği vaka testini çöz. Puan 0–100 bu oturumda hesaplanır.",
+      "SHA-256 doğrulama kodu ve /vize bağı oluşur. Kayıt yoksa sayfa bunu açıkça söyler.",
     ],
     verifyCta: "Sertifika doğrula",
-    academyCta: "Akademiye git",
+    academyCta: "YetkinCV testini aç",
     loginCta: "Giriş yap",
     coachNote:
       "Giriş yapınca kariyer koçu açılır. CV taslağını, analizini ve koç diyaloğunu sicildeki doğrulanmış rozetlerinle kurarsın. Kazanmadığın belge doğrulanmış yazılmaz.",
@@ -160,7 +158,7 @@ export const CAREER_SEN = {
     verifyCta: "Sertifikayı doğrula",
     openCourseCta: "Eğitime git",
     careerCta: "Kariyer",
-    academyCta: "Akademiye git",
+    academyCta: "YetkinCV merkezine dön",
     homeCta: "Ana sayfa",
     faqHeading: "Sık sorulanlar",
     featured: "Öne çıkan mühür",
@@ -185,9 +183,13 @@ export const CAREER_SEN = {
     linkedInOpen: "LinkedIn formunu aç",
     copyTalent: "Özgeçmiş bağını kopyala",
     copyVerify: "Doğrulama bağını kopyala",
+    copyProfile: "Profil Linkini Kopyala",
+    shareWhatsApp: "WhatsApp'ta paylaş",
+    shareX: "X'te paylaş",
+    shareLead: "Doğrulanmış rozetimi paylaşıyorum.",
     copied: "Kopyalandı",
     copyFail: "Kopyalanamadı",
-    locked: "Önce Akademi'de bir Doğrulanmış Rozet kazan. Mühür olmadan bağ üretilmez.",
-    lockedCta: "Akademiye git",
+    locked: "Önce YetkinCV vaka testini geç. Mühür olmadan bağ üretilmez.",
+    lockedCta: "YetkinCV testine geç",
   },
 } as const;

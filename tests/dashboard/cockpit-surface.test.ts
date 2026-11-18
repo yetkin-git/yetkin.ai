@@ -10,9 +10,9 @@ function readSrc(relative: string): string {
 }
 
 describe("dashboard kokpit kompozisyonu", () => {
-  it("kamu şeridi Akademi + Kariyer taşır; freelancer vitrinden düşer", () => {
-    expect(RIBBON_ROOMS.map((room) => room.id)).toEqual(["academy", "career"]);
-    expect(RIBBON_ROOMS.map((room) => room.label)).toEqual(["Akademi", "Kariyer"]);
+  it("kapalı Akademi şeritten düşer; Kariyer kalır, freelancer vitrinde yoktur", () => {
+    expect(RIBBON_ROOMS.map((room) => room.id)).toEqual(["career"]);
+    expect(RIBBON_ROOMS.map((room) => room.label)).toEqual(["Kariyer"]);
   });
 
   it("üçüncü oda şeridi ve gövde cüzdan bandı yoktur", () => {
@@ -82,8 +82,8 @@ describe("dashboard kokpit kompozisyonu", () => {
     const loading = readSrc("app/dashboard/loading.tsx");
     expect(loading).toContain('variant="cockpit"');
     expect(skeleton).toContain("HeaderPulses compact");
-    expect(skeleton).toContain("h-16 rounded-[var(--radius-card)]");
-    expect(skeleton).toContain("lg:grid-cols-2");
+    expect(skeleton).toContain("h-12 rounded-[var(--radius-card)]");
+    expect(skeleton).toContain("md:grid-cols-2 xl:grid-cols-4");
     expect(skeleton).not.toContain("h-10 w-28 rounded-full");
   });
 });

@@ -11,7 +11,7 @@ import {
   mintWalletCheckoutPassport,
   verifyWalletCheckoutPassport,
 } from "@/lib/kernel/payments/wallet-checkout-passport";
-import { kasaReturnCourseHref } from "@/components/kernel/kasa-return-panel";
+import { kasaReturnCourseHref, kasaReturnHref } from "@/components/kernel/kasa-return-panel";
 import { decideEdgeAction } from "@/lib/kernel/security/edge-guard";
 
 const ROOT = process.cwd();
@@ -72,13 +72,18 @@ describe("Dron cüzdan HMAC kasa pasaportu", () => {
     expect(buildPaytrDronCheckoutReturnUrl("https://yetkin.ai", "fail", "01_office_ai_ileri")).toBe(
       "https://yetkin.ai/kasa/donus?sonuc=fail",
     );
-    expect(kasaReturnCourseHref("01_office_ai_ileri")).toBe("/academy/01_office_ai_ileri");
-    expect(kasaReturnCourseHref("01_office_ai")).toBe("/academy/01_office_ai");
-    expect(kasaReturnCourseHref("not-a-course")).toBe("/academy/01_office_ai");
+    expect(kasaReturnHref("tezgah")).toBe("/tezgah");
+    expect(kasaReturnHref("e-ticaret")).toBe("/e-ticaret");
+    expect(kasaReturnHref("lisans")).toBe("/e-ticaret");
+    expect(kasaReturnHref("hibe")).toBe("/hibe");
+    expect(kasaReturnHref("dosya")).toBe("/hibe");
+    expect(kasaReturnCourseHref("01_office_ai")).toBe("/tezgah");
+    expect(kasaReturnCourseHref(null)).toBe("/tezgah");
+    expect(readSrc("components/kernel/kasa-return-panel.tsx")).not.toContain("/academy");
     expect(existsSync(join(ROOT, "app/(public)/kasa/page.tsx"))).toBe(true);
     expect(existsSync(join(ROOT, "app/(public)/kasa/donus/page.tsx"))).toBe(true);
     expect(readSrc("app/(public)/kasa/page.tsx")).toContain("CUZDAN_SEN.kasaInvalidCta");
-    expect(readSrc("app/(public)/kasa/page.tsx")).toContain('href="/academy"');
+    expect(readSrc("app/(public)/kasa/page.tsx")).toContain('href="/tezgah"');
     expect(readSrc("lib/copy/sen-voice/cuzdan.ts")).toContain('kasaInvalidCta: "Akademiye dön"');
     expect(readSrc("app/(public)/kasa/page.tsx")).toContain("verifyWalletCheckoutPassport");
     expect(readSrc("app/(public)/kasa/page.tsx")).toContain("PaytrCheckoutIframe");

@@ -24,6 +24,8 @@ export const OFF_101_EXEMPTION_SEAL_TITLE = "OFF-101 Muafiyet Mührü" as const;
 export const OFF_101_EXEMPTION_ENTRY_LABEL = "Doğrudan Muafiyet / Seviye Tespit Sınavı" as const;
 /** Kayıt dönüşü query taşımadığı için sınav ayrı yoldadır. Motor aynıdır. */
 export const OFF_101_EXEMPTION_PATH = "/academy/01_office_ai/seviye" as const;
+/** Anonim önizleme jetonu. Kullanıcı satırı değildir; mühür yazılmaz. */
+export const OFF_101_GUEST_ACTOR = "guest:exemption" as const;
 
 export type Off101ExemptionPorts = {
   academy: AcademyStore;
@@ -189,4 +191,103 @@ export async function submitOff101ExemptionExam(
     createdAt: now,
   });
   return { passed: true, score, seal };
+}
+
+function gapHeading(prompt: string): string {
+  const line = prompt.replace(/\s+/g, " ").trim();
+  const stop = line.search(/[.?!]/u);
+  const sentence = stop > 0 ? line.slice(0, stop + 1) : line;
+  if (sentence.length <= 96) {
+    return sentence;
+  }
+  return `${sentence.slice(0, 93).trimEnd()}…`;
+}
+
+export type Off101ExemptionPreviewResult = {
+  passed: boolean;
+  score: number;
+  gaps: string[];
+};
+
+/**
+ * Kayıtsız oturum. Sınav oturumu ve muafiyet mührü yazılmaz.
+ * Puan HMAC jetonundan, sunucudaki havuzla hesaplanır.
+ */
+export async function loadOff101ExemptionPreview(
+  ports: Off101ExemptionPorts,
+  courseId: string,
+  now: Date = new Date(),
+): Promise<Omit<Off101ExemptionView, "seal">> {
+  const course = await requireOff101Course(ports.academy, courseId);
+  const exam = (await ports.academy.getExamByCourseId(course.id)) ?? resolveAcademyExamFromSeed(course.id);
+  if (!exam) {
+    throw new Error("Muafiyet sınavı henüz mühürlenmedi.");
+  }
+  const startedAt = now;
+  const expiresAt = new Date(startedAt.getTime() + ACADEMY_EXAM_DURATION_MS);
+  const drawn = drawAcademyExamQuestionsPinned(exam.questions, [], ACADEMY_EXAM_DRAW_COUNT);
+  const sessionToken = sealAcademyExamSitting({
+    userId: OFF_101_GUEST_ACTOR,
+    courseId: course.id,
+    examId: exam.id,
+    startedAt,
+    expiresAt,
+    jti: randomUUID(),
+    items: drawn.items,
+    proofLessonKey: null,
+  });
+  return {
+    exam: {
+      id: exam.id,
+      courseId: exam.courseId,
+      title: "OFF-101 Muafiyet / Seviye Tespit Sınavı",
+      passScore: ACADEMY_EXAM_PASS_SCORE,
+    },
+    questions: publicQuestionsFromSitting(drawn.questions),
+    sessionToken,
+    expiresAt,
+    durationMs: ACADEMY_EXAM_DURATION_MS,
+    drawCount: drawn.questions.length,
+  };
+}
+
+export async function gradeOff101ExemptionPreview(
+  ports: Off101ExemptionPorts,
+  command: {
+    courseId: string;
+    answers: AcademyExamAnswer[];
+    sessionToken: string;
+    timedOut?: boolean;
+    now?: Date;
+  },
+): Promise<Off101ExemptionPreviewResult> {
+  const course = await requireOff101Course(ports.academy, command.courseId);
+  const exam = (await ports.academy.getExamByCourseId(course.id)) ?? resolveAcademyExamFromSeed(course.id);
+  if (!exam) {
+    throw new Error("Muafiyet sınavı henüz mühürlenmedi.");
+  }
+  const now = command.now ?? new Date();
+  const sitting = openAcademyExamSitting(command.sessionToken.trim());
+  if (
+    !sitting ||
+    sitting.userId !== OFF_101_GUEST_ACTOR ||
+    sitting.courseId !== course.id ||
+    sitting.examId !== exam.id
+  ) {
+    throw new Error("Sınav oturumu geçersiz.");
+  }
+  const questions = materializeAcademyExamSitting(exam.questions, sitting.items);
+  const expired = command.timedOut === true || academyExamSittingExpired(sitting, now);
+  const graded = expired
+    ? { score: 0, correctCount: 0, total: questions.length }
+    : gradeAcademyExam(questions, command.answers);
+  const byId = new Map(command.answers.map((answer) => [answer.questionId, answer.choiceIndex]));
+  const gaps = (
+    expired ? questions : questions.filter((question) => byId.get(question.id) !== question.correctIndex)
+  ).map((question) => gapHeading(question.prompt));
+  return {
+    passed: graded.score >= ACADEMY_EXAM_PASS_SCORE,
+    score: graded.score,
+    gaps,
+  };
 }

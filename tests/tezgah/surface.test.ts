@@ -33,10 +33,12 @@ describe("AI Tezgâh kamu yüzeyi", () => {
 
   it("sol menüde en üstte durur ve ana sayfa ikincil CTA verir", () => {
     const nav = readSrc("components/shell/sidebar-nav.tsx");
-    const tezgahSlot = nav.indexOf("...tezgahFirst.map");
-    const verticalSlot = nav.indexOf("...VERTICAL_ROOMS.filter");
-    expect(tezgahSlot).toBeGreaterThan(-1);
-    expect(verticalSlot).toBeGreaterThan(tezgahSlot);
+    const dashboardSlot = nav.indexOf('openRoom("dashboard")');
+    const hibeSlot = nav.indexOf('openRoom("yetkinhibe")');
+    const tezgahSlot = nav.indexOf('openRoom("tezgah")');
+    expect(dashboardSlot).toBeGreaterThan(-1);
+    expect(hibeSlot).toBeGreaterThan(dashboardSlot);
+    expect(tezgahSlot).toBeGreaterThan(hibeSlot);
     const page = readSrc("app/(public)/page.tsx");
     expect(page).toContain('href="/tezgah"');
     expect(page).toContain("copy.tezgahCta");
@@ -91,14 +93,14 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(isLlmMutationPath("/api/tezgah/reklam/generate")).toBe(true);
     expect(isLlmMutationPath("/api/tezgah/pazaryeri/generate")).toBe(true);
     const engine = readSrc("lib/tezgah/engine.ts");
-    expect(engine).toContain("recordUsage: false");
+    expect(engine).toContain("recordUsage: true");
     expect(engine).toContain("TEZGAH_MAX_OUTPUT_TOKENS");
     expect(engine).not.toContain("getPrisma");
     expect(engine).not.toContain("Wallet");
     expect(engine).not.toContain("amountMinor");
     expect(engine).not.toContain("yetkinhibe");
     const tetkikEngine = readSrc("lib/tezgah/tetkik/engine.ts");
-    expect(tetkikEngine).toContain("recordUsage: false");
+    expect(tetkikEngine).toContain("recordUsage: true");
     expect(tetkikEngine).toContain("TETKIK_MAX_OUTPUT_TOKENS");
     expect(tetkikEngine).not.toContain("getPrisma");
     expect(tetkikEngine).not.toContain("amountMinor");
@@ -108,13 +110,13 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(dukkanEngine).not.toContain("amountMinor");
     expect(dukkanEngine).toContain("refundTezgahQuota");
     const reklamEngine = readSrc("lib/tezgah/reklam/engine.ts");
-    expect(reklamEngine).toContain("recordUsage: false");
+    expect(reklamEngine).toContain("recordUsage: true");
     expect(reklamEngine).toContain("REKLAM_MAX_OUTPUT_TOKENS");
     expect(reklamEngine).toContain("refundTezgahQuota");
     expect(reklamEngine).not.toContain("getPrisma");
     expect(reklamEngine).not.toContain("amountMinor");
     const pazaryeriEngine = readSrc("lib/tezgah/pazaryeri/engine.ts");
-    expect(pazaryeriEngine).toContain("recordUsage: false");
+    expect(pazaryeriEngine).toContain("recordUsage: true");
     expect(pazaryeriEngine).toContain("PAZARYERI_MAX_OUTPUT_TOKENS");
     expect(pazaryeriEngine).toContain("refundTezgahQuota");
     expect(pazaryeriEngine).not.toContain("getPrisma");
@@ -126,13 +128,14 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(workbench).toContain(".txt İndir");
     expect(workbench).toContain("TEZGAH_GUEST_QUOTA_MESSAGE");
     expect(readSrc("lib/tezgah/catalog.ts")).toContain(
-      "Günde 3 ücretsiz üretim hakkı için ücretsiz kayıt ol",
+      "Bugünkü 3 ücretsiz hakkın doldu. Yarın (İstanbul gece yarısı) yenilenir.",
     );
-    expect(tezgahQuotaLine(2, 3)).toBe("Bugünkü ücretsiz hakkınız: 2 / 3");
+    expect(tezgahQuotaLine(2, 3)).toBe("Kalan ücretsiz hakkınız: 2 / 3");
+    expect(readSrc("components/tezgah/workbench.tsx")).toContain("data-tezgah-quota-early");
     expect(TEZGAH_TOOLS.flatMap((tool) => (tool.cta ? [tool.cta.href] : []))).toEqual([
-      "/academy/02_ecommerce_ai",
-      "/academy/01_office_ai/seviye",
-      "/academy",
+      "/e-ticaret",
+      "/tezgah",
+      "/hibe",
     ]);
   });
 
@@ -152,12 +155,19 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     const tetkik = TEZGAH_TOOLS.find((tool) => tool.id === "tetkik");
     expect(tetkik?.label).toBe("Web Sitesi Tetkik");
     expect(tetkik?.cta).toBeNull();
-    expect(tetkik?.fields.map((field) => field.name)).toEqual([
-      "url",
-      "businessName",
-      "freelancerName",
-      "agencyName",
+    expect(tetkik?.fields.map((field) => field.name)).toEqual(["url", "businessName"]);
+    expect(tetkik?.fields.map((field) => field.label)).toEqual([
+      "Site adresi (Zorunlu)",
+      "İşletme veya marka adı (İsteğe bağlı)",
     ]);
+    expect(tetkik?.fields.map((field) => field.placeholder)).toEqual([
+      "https://ornek-dukkan.com",
+      "Örn: Karaoğlu Fırın (Rapor başlığı için)",
+    ]);
+    expect(tetkik?.fields.find((field) => field.name === "businessName")?.optional).toBe(true);
+    expect(tetkik?.fields.some((field) => field.name === "freelancerName" || field.name === "agencyName")).toBe(
+      false,
+    );
     const workbench = readSrc("components/tezgah/workbench.tsx");
     expect(workbench).toContain('role="tablist"');
     expect(workbench).toContain("/api/tezgah/tetkik/generate");
@@ -172,8 +182,13 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(report).toContain("Sıfırdan Yeniden İnşa Et (Dijital Dükkan)");
     expect(report).toContain("data-tetkik-revision");
     expect(report).toContain("data-tetkik-rebuild");
+    expect(report).toContain("data-tetkik-codepack");
+    expect(report).toContain("Eksikler İçin Kod Paketi Üret (Mini SaaS Tezgâhı)");
     expect(workbench).toContain("data-tetkik-handoff");
+    expect(workbench).toContain("data-tetkik-codepack-handoff");
     expect(workbench).toContain('selectTool("dukkan"');
+    expect(workbench).toContain('selectTool("saas-builder"');
+    expect(workbench).toContain("normalizeTetkikSiteAddress");
     expect(report).not.toContain("/academy");
     expect(report).not.toContain("fiyat");
     const page = readSrc("app/tezgah/page.tsx");
@@ -214,13 +229,13 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     ]);
     expect(grant?.fields.find((field) => field.name === "provinceCode")?.options).toHaveLength(81);
     expect(grant?.fields.find((field) => field.name === "scheduleWindows")?.optional).toBe(true);
-    expect(DronBayrakları.kayit("yetkinhibe")?.kapali).toBe(true);
-    expect(DronBayrakları.kayit("yetkinhibe")?.path).toBe("/yetkinhibe");
+    expect(DronBayrakları.kayit("yetkinhibe")?.kapali).toBe(false);
+    expect(DronBayrakları.kayit("yetkinhibe")?.path).toBe("/hibe");
     expect(readSrc("lib/tezgah/schema.ts")).not.toContain('literal("grant")');
     expect(readSrc("lib/tezgah/prompts.ts")).not.toContain("hibe ön uygunluk");
     expect(readSrc("lib/tezgah/engine.ts")).not.toContain("yetkinhibe");
     const grantEngine = readSrc("lib/tezgah/grant/engine.ts");
-    expect(grantEngine).toContain("recordUsage: false");
+    expect(grantEngine).toContain("recordUsage: true");
     expect(grantEngine).toContain("refundTezgahQuota");
     expect(grantEngine).toContain("GRANT_MAX_OUTPUT_TOKENS");
     expect(grantEngine).toContain("matchGrantProgramsForBrief");
@@ -355,8 +370,8 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(workbench).not.toContain("academyCheckoutHref");
     expect(workbench).not.toContain("Stüdyo Kotası Yükselt");
     expect(workbench).toContain("Kurs satın almak bugünkü üretim sayacını yükseltmez.");
-    expect(workbench).toContain('href="/academy"');
-    expect(workbench).toContain("Akademiye dön");
+    expect(workbench).toContain('href="/hibe"');
+    expect(workbench).toContain("YetkinHibe’yi aç");
     expect(workbench).toContain("TEZGAH_MEMBER_QUOTA_MESSAGE");
     expect(workbench).toContain("Ücretsiz kayıt ol");
     expect(workbench.indexOf("data-tezgah-guest-convert")).toBeLessThan(
@@ -365,6 +380,10 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(workbench).toContain("showGuestCard ? (");
     expect(page).toContain("<Suspense");
     expect(page).toContain("<TezgahWorkbench");
+    expect(page).toContain("tezgahRelocatedOsHref");
+    expect(page).toContain("redirect(");
+    expect(workbench).toContain("isTezgahDeskTool");
+    expect(workbench).toContain("resolveTezgahDeskTool");
     expect(page.indexOf("<PageHeader")).toBeLessThan(page.indexOf("<Suspense"));
     expect(page).toContain('title="Dakikalar içinde kullanıma hazır çıktı"');
     expect(page).not.toContain("müşterine");

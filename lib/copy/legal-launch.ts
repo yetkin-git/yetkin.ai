@@ -60,6 +60,13 @@ export const LEGAL_ACTIVITY_SCOPE_BODY =
 export const LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH =
   "Platform cüzdanına yüklenen bakiyeler yalnızca platform içi hizmetlerde kullanılabilir; farklı bir banka hesabına nakit transferi veya çekim yapılamaz. Kullanılmamış bakiye otomatik olarak karta dönmez. İade talepleri destek kanalından alınır ve henüz harcanmamış yükleme, ödeme kuruluşu takası ile değerlendirilir.";
 
+/**
+ * İade ve mesafeli satış aynı cümleyi taşır.
+ * Tahsilat, ilgili eğitim / uzmanlık paketine erişimi açar.
+ */
+export const LEGAL_DIRECT_PACKAGE_ACCESS =
+  "Ödeme, doğrudan ilgili eğitim ve uzmanlık paketine erişimi açar.";
+
 const LEGAL_TR_MONTHS = [
   "Ocak",
   "Şubat",
@@ -236,7 +243,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "akademi-cayma",
         heading: "1. Akademi dijital içerik — cayma istisnası",
         paragraphs: [
-          "Akademi uzmanlık paketi, elektronik ortamda ifa edilen dijital içerik / dijital hizmettir. Kart tahsilatı tamamlanınca ders erişimi aynı işlemde açılır ve hizmet ifası başlamış sayılır. Lisans 365 gündür. Sertifika satın alma ile basılmaz; 30 dakikalık sunucu sınavı ve baraj 70 şarttır.",
+          `${LEGAL_DIRECT_PACKAGE_ACCESS} Akademi uzmanlık paketi, elektronik ortamda ifa edilen dijital içerik / dijital hizmettir. Kart tahsilatı tamamlanınca ders erişimi aynı işlemde açılır ve hizmet ifası başlamış sayılır. Lisans 365 gündür. Sertifika satın alma ile basılmaz; 30 dakikalık sunucu sınavı ve baraj 70 şarttır.`,
           "6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği m.15 uyarınca, elektronik ortamda anında ifa edilen hizmetler ile maddi ortamda sunulmayan dijital içeriğe ilişkin sözleşmelerde, ifanın tüketicinin açık rızası ile başlaması halinde cayma hakkı istisna kapsamındadır. Kasa tikleri bu rızadır. Erişim açıldıktan sonra bedel iade edilmez; çifte iade yoktur.",
         ],
       },
@@ -271,7 +278,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
           `Satıcı / sağlayıcı: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}), marka: ${LEGAL_ENTITY.brandName}. Adres: ${LEGAL_ENTITY.address}. Destek: ${LEGAL_SUPPORT_EMAIL}, WhatsApp ${LEGAL_ENTITY.whatsappDisplay} ve /iletisim. ${LEGAL_AGE_POLICY_BODY} ${LEGAL_ACTIVITY_SCOPE_BODY}`,
           "Hizmetin niteliği: (1) Akademi — dijital eğitim içeriği (metin, diyagram, varsa ses/video), 365 gün lisans, sunucu sınavı, baraj 70, dijital sertifika kodu. Satın alma belge basmaz. (2) Kariyer — mühürden türetilen vize projeksiyonu; ücretli ilan tahtası değildir.",
           "Ödeme işlemleri Yetkili Ödeme Kuruluşu altyapısı üzerinden güvenle gerçekleştirilir. Kart tahsilatları ve cüzdan bakiyeleri Türk Lirası (TL) cinsinden işlenir. Kurs bedelleri kataloğumuzda ilan edilen güncel fiyatlar üzerinden tahsil edilir.",
-          "İfa: Akademi uzmanlık paketinde kart tahsilatı tamamlandığında ders gövdesi aynı işlemde açılır. Defter hareketi arka plandadır; ayrıca bir satın alma adımı yoktur. Bu, 6502 sayılı Kanun uyarınca elektronik ortamda anında ifa edilen hizmet / maddi ortamda sunulmayan dijital içeriktir. Teslimat adresi veya kargo yoktur.",
+          `${LEGAL_DIRECT_PACKAGE_ACCESS} İfa: Akademi uzmanlık paketinde kart tahsilatı tamamlandığında ders gövdesi aynı işlemde açılır. Defter hareketi arka plandadır; ayrıca bir satın alma adımı yoktur. Bu, 6502 sayılı Kanun uyarınca elektronik ortamda anında ifa edilen hizmet / maddi ortamda sunulmayan dijital içeriktir. Teslimat adresi veya kargo yoktur.`,
           "Cayma: Ön bilgi ve mesafeli sözleşme kasa tikleriyle kabul edilir. Akademi erişimi açılınca cayma hakkı istisna kapsamındadır (aşağıda B.5). Kullanılmamış cüzdan bakiyesi otomatik karta dönmez.",
         ],
       },
@@ -287,7 +294,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "dijital-ifa-istisnasi",
         heading: "B.5 Dijital içerik — anında ifa ve cayma istisnası",
         paragraphs: [
-          "Akademi uzmanlık paketinde kart tahsilatı tamamlanıp ders içeriklerine erişim açıldığı anda ifa başlamış olur. 6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği’nin «elektronik ortamda anında ifa edilen hizmetler» ile maddi ortamda sunulmayan dijital içeriğe ilişkin istisnası bu anda işler.",
+          `${LEGAL_DIRECT_PACKAGE_ACCESS} Akademi uzmanlık paketinde kart tahsilatı tamamlanıp ders içeriklerine erişim açıldığı anda ifa başlamış olur. 6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği’nin «elektronik ortamda anında ifa edilen hizmetler» ile maddi ortamda sunulmayan dijital içeriğe ilişkin istisnası bu anda işler.`,
           "Tüketici, kasa tikinde «Dijital içeriğin anında ifa edileceğini kabul ediyorum» ifadesiyle ifanın derhal başlayacağını ve bu durumda cayma hakkının istisna kapsamında sona ereceğini kabul eder. İfa başlamadan önce tik verilmezse satın alma ve kart tahsilatı reddedilir.",
           "Akademi uzmanlık paketinde tahsilat ile ders erişimi aynı işlemde açılır. Ayrı bir bakiye adımı dersi açmak için aranmaz. Erişim açılınca istisna işler. 14 günlük yasal cayma süresi dijital ifa istisnası ile birlikte okunur — çifte iade yoktur.",
         ],

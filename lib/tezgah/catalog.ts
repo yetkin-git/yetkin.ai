@@ -13,6 +13,7 @@ import {
 import { DUKKAN_SECTORS, DUKKAN_TONES } from "@/lib/tezgah/dukkan/copy";
 import { PAZARYERI_MARKETS } from "@/lib/tezgah/pazaryeri/copy";
 import {
+  SAAS_PLATFORMS,
   SAAS_WIDGETS,
   STUDIO_BACKGROUNDS,
   STUDIO_GALLERY_COUNTS,
@@ -28,14 +29,22 @@ const YES_NO = [
 
 export const TEZGAH_PATH = "/tezgah" as const;
 
-export const TEZGAH_GUEST_DAILY_LIMIT = 1;
+export const TEZGAH_GUEST_DAILY_LIMIT = 3;
 export const TEZGAH_MEMBER_DAILY_LIMIT = 3;
 
 export const TEZGAH_GUEST_QUOTA_MESSAGE =
-  "Günde 3 ücretsiz üretim hakkı için ücretsiz kayıt ol";
+  "Bugünkü 3 ücretsiz hakkın doldu. Yarın (İstanbul gece yarısı) yenilenir.";
 
 export const TEZGAH_MEMBER_QUOTA_MESSAGE =
   "Bugünkü ücretsiz hakkınız doldu. Yarın (İstanbul gece yarısı) yenilenir.";
+
+export const TEZGAH_MEMBER_PAID_MESSAGE =
+  "Günlük ücretsiz üretim hakkınız doldu. Tezgâh Pro aboneliğiyle veya tekil üretim kredisiyle kesintisiz devam edin.";
+
+export const TEZGAH_CATALOG_CLOSED_MESSAGE =
+  "Ücretli üretim katalogda açık değil. Ücretsiz hakkınız yarın (İstanbul gece yarısı) yenilenir.";
+
+export const TEZGAH_CREDIT_PACK_SIZE = 10;
 
 export const TEZGAH_FAIL_MESSAGE =
   "Üretim tamamlanamadı. Hakkınız duruyor; biraz sonra yeniden deneyin.";
@@ -54,6 +63,26 @@ export const TEZGAH_TOOL_IDS = [
 ] as const;
 
 export type TezgahToolId = (typeof TEZGAH_TOOL_IDS)[number];
+
+/** `/tezgah` sekme şeridi. Ürün kartı ve hibe dosyası kendi işletim sistemindedir. */
+export const TEZGAH_DESK_TOOL_IDS = [
+  "proposal",
+  "tetkik",
+  "dukkan",
+  "reklam",
+  "pazaryeri",
+  "studio-photo",
+  "technical-drawing",
+  "saas-builder",
+] as const satisfies readonly TezgahToolId[];
+
+export type TezgahDeskToolId = (typeof TEZGAH_DESK_TOOL_IDS)[number];
+
+export const TEZGAH_DESK_DEFAULT: TezgahDeskToolId = "proposal";
+
+export function isTezgahDeskTool(id: string): id is TezgahDeskToolId {
+  return (TEZGAH_DESK_TOOL_IDS as readonly string[]).includes(id);
+}
 
 export const PRO_STUDIO_TOOL_IDS = ["studio-photo", "technical-drawing", "saas-builder"] as const;
 
@@ -80,7 +109,7 @@ export type TezgahTool = {
   blurb: string;
   fileStem: string;
   fields: readonly TezgahField[];
-  cta: { href: "/academy/02_ecommerce_ai" | "/academy/01_office_ai/seviye" | "/academy"; label: string } | null;
+  cta: { href: "/e-ticaret" | "/tezgah" | "/hibe"; label: string } | null;
 };
 
 export const ECOMMERCE_CATEGORY_CHIPS = [
@@ -121,8 +150,8 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
       },
     ],
     cta: {
-      href: "/academy/02_ecommerce_ai",
-      label: "Bu alanda Doğrulanmış Uzman Rozeti alıp KOBİ ilanlarına teklif ver →",
+      href: "/e-ticaret",
+      label: "E-Ticaret işletim sistemini aç",
     },
   },
   {
@@ -145,8 +174,8 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
       },
     ],
     cta: {
-      href: "/academy/01_office_ai/seviye",
-      label: "Ücretsiz Yetkinlik Testine Gir, Uzmanlığını Mühürle →",
+      href: "/tezgah",
+      label: "Tezgâhta teslim taslağı üret",
     },
   },
   {
@@ -250,8 +279,8 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
       },
     ],
     cta: {
-      href: "/academy",
-      label: "Proje & Prompt Uzmanlık Paketini İncele →",
+      href: "/hibe",
+      label: "YetkinHibe proje dosyasını aç",
     },
   },
   {
@@ -262,26 +291,14 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
     fields: [
       {
         name: "url",
-        label: "Site adresi",
+        label: "Site adresi (Zorunlu)",
         placeholder: "https://ornek-dukkan.com",
         kind: "text",
       },
       {
         name: "businessName",
-        label: "Esnafın işletme adı",
-        placeholder: "Karaoğlu Fırın",
-        kind: "text",
-      },
-      {
-        name: "freelancerName",
-        label: "Freelancer adı",
-        placeholder: "Ayşe Yılmaz",
-        kind: "text",
-      },
-      {
-        name: "agencyName",
-        label: "Ajans adı (isteğe bağlı)",
-        placeholder: "Yılmaz Dijital",
+        label: "İşletme veya marka adı (İsteğe bağlı)",
+        placeholder: "Örn: Karaoğlu Fırın (Rapor başlığı için)",
         kind: "text",
         optional: true,
       },
@@ -513,6 +530,19 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
     fileStem: "mini-saas",
     fields: [
       {
+        name: "platform",
+        label: "Altyapı",
+        placeholder: "Kurulum hedefi seç",
+        kind: "select",
+        options: SAAS_PLATFORMS,
+      },
+      {
+        name: "feature",
+        label: "İstediğiniz Özellik / Bileşen",
+        placeholder: "Örn: Ürün sayfasına desi hesaplayıcı, sepet üstü kampanya sayacı",
+        kind: "textarea",
+      },
+      {
         name: "widget",
         label: "Bileşen",
         placeholder: "Bileşen seç",
@@ -569,7 +599,7 @@ export function tezgahToolAnchorPath(id: TezgahToolId): string {
   return `${TEZGAH_PATH}#${id}`;
 }
 
-/** Boş veya yabancı değer `null`. Sekme o zaman `ecommerce` kalır. `hibe` hibe dosyasıdır. */
+/** Boş veya yabancı değer `null`. `hibe` hibe dosyası kimliğidir. */
 export function parseTezgahToolParam(raw: string | null | undefined): TezgahToolId | null {
   const value = (raw ?? "").trim();
   if (!value) {
@@ -584,6 +614,29 @@ export function parseTezgahToolParam(raw: string | null | undefined): TezgahTool
     }
   }
   return null;
+}
+
+/** Eski tezgâh sekmeleri. Ürün kartı e-ticaret havuzuna, hibe dosyası proje sekmesine gider. */
+export function tezgahRelocatedOsHref(
+  raw: string | null | undefined,
+): "/hibe?sekme=proje" | "/e-ticaret?sekme=havuz" | null {
+  const parsed = parseTezgahToolParam(raw);
+  if (parsed === "grant") {
+    return "/hibe?sekme=proje";
+  }
+  if (parsed === "ecommerce") {
+    return "/e-ticaret?sekme=havuz";
+  }
+  return null;
+}
+
+/** Sekme şeridindeki araç. Taşınmış veya boş sorgu teklif yazıcıda kalır. */
+export function resolveTezgahDeskTool(raw: string | null | undefined): TezgahDeskToolId {
+  const parsed = parseTezgahToolParam(raw);
+  if (parsed && isTezgahDeskTool(parsed)) {
+    return parsed;
+  }
+  return TEZGAH_DESK_DEFAULT;
 }
 
 export function readTezgahPrefill(
@@ -618,5 +671,27 @@ export function readTezgahPrefill(
 }
 
 export function tezgahQuotaLine(remaining: number, limit: number): string {
-  return `Bugünkü ücretsiz hakkınız: ${remaining} / ${limit}`;
+  return `Kalan ücretsiz hakkınız: ${remaining} / ${limit}`;
+}
+
+export const TEZGAH_SEAL_LABEL = "Bu Yetkinliği YetkinCV ile Mühürle →" as const;
+
+const TEZGAH_SEAL_HREF = "/career#yetkincv" as const;
+
+const TEZGAH_SEAL_PATHS: Record<TezgahToolId, typeof TEZGAH_SEAL_HREF> = {
+  ecommerce: TEZGAH_SEAL_HREF,
+  proposal: TEZGAH_SEAL_HREF,
+  grant: TEZGAH_SEAL_HREF,
+  tetkik: TEZGAH_SEAL_HREF,
+  dukkan: TEZGAH_SEAL_HREF,
+  reklam: TEZGAH_SEAL_HREF,
+  pazaryeri: TEZGAH_SEAL_HREF,
+  "studio-photo": TEZGAH_SEAL_HREF,
+  "technical-drawing": TEZGAH_SEAL_HREF,
+  "saas-builder": TEZGAH_SEAL_HREF,
+};
+
+/** Çıktının YetkinCV mühür masası. Akademi sınav yolu kapalıdır. */
+export function tezgahSealPath(tool: TezgahToolId): string {
+  return TEZGAH_SEAL_PATHS[tool];
 }

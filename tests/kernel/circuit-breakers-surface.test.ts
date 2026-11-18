@@ -39,8 +39,8 @@ describe("üretim kilitleri ve donmuş oda yüzey mühürü", () => {
   });
 
   it("kamu vitrin nav üç oda basar; freelancer sicilde durur ama menüden düşer", () => {
-    expect([...WORKING_SHELL_NAV_ROOM_IDS]).toEqual(["dashboard", "academy", "career"]);
-    expect(WORKING_SHELL_NAV_ROOM_IDS).toHaveLength(3);
+    expect([...WORKING_SHELL_NAV_ROOM_IDS]).toEqual(["dashboard", "career"]);
+    expect(WORKING_SHELL_NAV_ROOM_IDS).toHaveLength(2);
     expect(VERTICAL_ROOMS.map((r) => r.id)).toEqual(["dashboard", "academy", "career", "freelancer"]);
   });
 
@@ -54,8 +54,12 @@ describe("üretim kilitleri ve donmuş oda yüzey mühürü", () => {
     expect(isFrozenShellPagePath("/pazaryeri/tezgah")).toBe(true);
     expect(isFrozenShellPagePath("/yetkinilan")).toBe(true);
     expect(isFrozenShellPagePath("/dashboard")).toBe(false);
-    expect(isFrozenShellPagePath("/academy")).toBe(false);
+    expect(isFrozenShellPagePath("/academy")).toBe(true);
+    expect(isFrozenShellPagePath("/hibe")).toBe(false);
     expect(isFrozenShellPagePath("/freelancer")).toBe(true);
+    expect(isFrozenShellPagePath("/kurumsal")).toBe(false);
+    expect(isFrozenShellPagePath("/kurumsal/ilanlar")).toBe(false);
+    expect(isFrozenShellPagePath("/kurumsal/ilan/yeni")).toBe(true);
     expect(isFrozenShellPagePath("/freelancer/jobs/fj_1")).toBe(true);
     expect(isFrozenShellPagePath("/junior")).toBe(false);
     expect(isFrozenShellPagePath("/junior/ders/jr_06_mat-1")).toBe(false);
@@ -66,7 +70,7 @@ describe("üretim kilitleri ve donmuş oda yüzey mühürü", () => {
   it("vitrin donu: çalışan olmayan oda + junior + kilitli freelancer kamu yüzeyi", () => {
     expect(isVitrineRoomFrozen("studio")).toBe(true);
     expect(isVitrineRoomFrozen("junior")).toBe(false);
-    expect(isVitrineRoomFrozen("academy")).toBe(false);
+    expect(isVitrineRoomFrozen("academy")).toBe(true);
     expect(isVitrineRoomFrozen("freelancer")).toBe(true);
   });
 
@@ -75,7 +79,7 @@ describe("üretim kilitleri ve donmuş oda yüzey mühürü", () => {
     expect(FROZEN_ROOM_GONE_HEADLINE).toBe(EDGE_API_FROZEN_ROOM_ERROR);
     expect(PUBLIC_SEN.gone.headline).toBe("Bu sayfa şu an kullanılmıyor.");
     expect(PUBLIC_SEN.gone.description).toBe(
-      "Bu bölüm şu an kapalı. Akademi’den devam edebilir, Kariyer’e göz atabilirsin.",
+      "Bu bölüm şu an kapalı. E-Ticaret, YetkinHibe veya Kariyer’den devam edebilirsin.",
     );
     const html = renderFrozenRoomGoneHtml("/studio");
     expect(html).toContain(PUBLIC_SEN.gone.eyebrow);

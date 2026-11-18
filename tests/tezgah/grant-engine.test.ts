@@ -119,7 +119,7 @@ describe("hibe proje dosyası motoru", () => {
     expect(result.unverified.map((row) => row.grantId)).toEqual(["acik-ham"]);
     expect(result.schedule.every((row) => row.draft && row.windowLabel === null)).toBe(true);
     expect(result.investments.every((row) => row.amountLabel === null)).toBe(true);
-    expect(result.remaining).toBe(0);
+    expect(result.remaining).toBe(2);
     const dumped = JSON.stringify(result);
     expect(dumped).not.toContain(String(closedPool));
     expect(dumped).not.toContain(String(openPool));
@@ -130,11 +130,22 @@ describe("hibe proje dosyası motoru", () => {
     expect(renderGrantProjectText(result)).not.toMatch(/₺|%/u);
     expect(seen[0]?.role).toBe(GRANT_MODEL_ROLE);
     expect(seen[0]?.maxOutputTokens).toBe(GRANT_MAX_OUTPUT_TOKENS);
-    expect(seen[0]?.billing).toMatchObject({ source: "tezgah", recordUsage: false, userId: null });
+    expect(seen[0]?.billing).toMatchObject({ source: "tezgah", recordUsage: true, userId: null });
     expect(seen[0]?.user).not.toContain(String(closedPool));
     expect(seen[0]?.user).not.toContain(String(openPool));
     expect(seen[0]?.system).not.toContain(String(closedPool));
 
+    for (let extra = 0; extra < 2; extra += 1) {
+      const mid = await generateGrantProject(
+        { actorId: "guest:203.0.113.40", guest: true, request: REQUEST },
+        {
+          now: () => NOW,
+          loadCatalog: async () => [makeCall()],
+          invoke: async () => okText(NARRATIVE),
+        },
+      );
+      expect(mid.ok).toBe(true);
+    }
     const again = await generateGrantProject(
       { actorId: "guest:203.0.113.40", guest: true, request: REQUEST },
       {
@@ -162,7 +173,7 @@ describe("hibe proje dosyası motoru", () => {
       },
     );
     expect(invoked).toBe(false);
-    expect(failedCatalog).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 1 });
+    expect(failedCatalog).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 3 });
 
     const leaked = await generateGrantProject(
       { actorId: "guest:203.0.113.41", guest: true, request: REQUEST },
@@ -179,7 +190,7 @@ describe("hibe proje dosyası motoru", () => {
           ),
       },
     );
-    expect(leaked).toMatchObject({ ok: false, status: 503, remaining: 1 });
+    expect(leaked).toMatchObject({ ok: false, status: 503, remaining: 3 });
   });
 
   it("bozuk takvim hak düşürmez; doğrulanmış çağrı katalog oranını basar", async () => {
@@ -199,7 +210,7 @@ describe("hibe proje dosyası motoru", () => {
         invoke: async () => okText(NARRATIVE),
       },
     );
-    expect(broken).toMatchObject({ ok: false, status: 400, remaining: 1 });
+    expect(broken).toMatchObject({ ok: false, status: 400, remaining: 3 });
     expect(loaded).toBe(false);
 
     const verified = await generateGrantProject(
@@ -305,7 +316,7 @@ describe("hibe proje dosyası motoru", () => {
       },
     );
     expect(loaded).toBe(false);
-    expect(broken).toMatchObject({ ok: false, status: 400, error: GRANT_DETAILS_BUDGET_MISMATCH, remaining: 1 });
+    expect(broken).toMatchObject({ ok: false, status: 400, error: GRANT_DETAILS_BUDGET_MISMATCH, remaining: 3 });
   });
 
   it("uygun listede olmayan program hakkı iade eder ve model çağırmaz", async () => {
@@ -334,7 +345,7 @@ describe("hibe proje dosyası motoru", () => {
       },
     );
     expect(invoked).toBe(false);
-    expect(missing).toMatchObject({ ok: false, status: 400, error: GRANT_DOSSIER_PROGRAM_MISSING, remaining: 1 });
+    expect(missing).toMatchObject({ ok: false, status: 400, error: GRANT_DOSSIER_PROGRAM_MISSING, remaining: 3 });
 
     const empty = await generateGrantProject(
       {
@@ -352,7 +363,7 @@ describe("hibe proje dosyası motoru", () => {
       },
     );
     expect(invoked).toBe(false);
-    expect(empty).toMatchObject({ ok: false, status: 400, error: GRANT_DOSSIER_NO_ELIGIBLE, remaining: 1 });
+    expect(empty).toMatchObject({ ok: false, status: 400, error: GRANT_DOSSIER_NO_ELIGIBLE, remaining: 3 });
   });
 
   it("seçilen programa göre tam dosyayı girilen tutar ve süreyle basar", async () => {
@@ -444,6 +455,6 @@ describe("hibe proje dosyası motoru", () => {
           ),
       },
     );
-    expect(leaked).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 1 });
+    expect(leaked).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 3 });
   });
 });

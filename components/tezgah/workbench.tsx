@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { Route } from "next";
@@ -8,10 +8,28 @@ import { GoogleContinueButton } from "@/components/auth/google-continue-button";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/components/ui/cn";
+import {
+  IconBadge,
+  IconBriefcase,
+  IconBuilding,
+  IconCode,
+  IconGrid,
+  IconImage,
+  IconMegaphone,
+  IconPulse,
+  IconSearch,
+  IconStore,
+} from "@/components/ui/icons";
 import { Input, INPUT_SURFACE_CLASS } from "@/components/ui/input";
 import { LinkButton } from "@/components/ui/link-button";
 import { Textarea } from "@/components/ui/textarea";
 import { DukkanPreview } from "@/components/tezgah/dukkan-preview";
+import { TezgahUpgradeCard } from "@/components/tezgah/upgrade-card";
+import {
+  TezgahHistoryDrawer,
+  TezgahOutputBridge,
+  type TezgahHistoryItem,
+} from "@/components/tezgah/output-portfolio";
 import { EcommerceDraftTransfer } from "@/components/tezgah/ecommerce-draft-transfer";
 import { GrantDetailWizard } from "@/components/tezgah/grant-detail-wizard";
 import { GrantProjectReportView } from "@/components/tezgah/grant-project-report";
@@ -28,21 +46,28 @@ import { GRANT_PROJECT_DISCLAIMER, isGrantWithheldNote } from "@/lib/yetkinhibe/
 import { buildCitizenRegisterHref } from "@/lib/kernel/auth/redirects";
 import {
   ECOMMERCE_CATEGORY_CHIPS,
+  TEZGAH_CATALOG_CLOSED_MESSAGE,
+  TEZGAH_DESK_DEFAULT,
   TEZGAH_GUEST_QUOTA_MESSAGE,
+  TEZGAH_MEMBER_PAID_MESSAGE,
   TEZGAH_MEMBER_QUOTA_MESSAGE,
   TEZGAH_TOOLS,
   isProStudioTool,
+  isTezgahDeskTool,
   parseTezgahToolParam,
   readDeskTaskId,
   readTezgahPrefill,
+  resolveTezgahDeskTool,
   tezgahDeskHref,
   tezgahQuotaLine,
+  tezgahRelocatedOsHref,
   tezgahToolAnchorPath,
   tezgahToolById,
   type TezgahField,
   type TezgahToolId,
 } from "@/lib/tezgah/catalog";
 import { buildProStudio, type ProStudioPack } from "@/lib/tezgah/pro/build";
+import { normalizeTetkikSiteAddress } from "@/lib/tezgah/tetkik/site-address";
 import type { TetkikReport } from "@/lib/tezgah/tetkik/types";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
@@ -50,6 +75,7 @@ type QuotaBody = {
   remaining: number;
   limit: number;
   guest: boolean;
+  lane?: string;
 };
 
 type TetkikPayload = TetkikReport & QuotaBody;
@@ -82,16 +108,49 @@ type CatalogPreview = {
 };
 
 type TetkikHandoff = {
+  kind: "dukkan" | "saas";
   businessName: string;
   pageTitle: string;
   url: string;
+  detail: string;
 };
 
 const REGISTER_HREF = buildCitizenRegisterHref("/tezgah") as Route;
 
+function toolMark(id: TezgahToolId): { Icon: (props: { className?: string }) => ReactNode; chip: string } {
+  switch (id) {
+    case "ecommerce":
+      return { Icon: IconStore, chip: "bg-orange-50 text-orange-600" };
+    case "proposal":
+      return { Icon: IconBriefcase, chip: "bg-blue-50 text-blue-700" };
+    case "grant":
+      return { Icon: IconBadge, chip: "bg-emerald-50 text-emerald-700" };
+    case "tetkik":
+      return { Icon: IconSearch, chip: "bg-slate-100 text-slate-700" };
+    case "dukkan":
+      return { Icon: IconBuilding, chip: "bg-amber-50 text-amber-700" };
+    case "reklam":
+      return { Icon: IconMegaphone, chip: "bg-rose-50 text-rose-700" };
+    case "pazaryeri":
+      return { Icon: IconGrid, chip: "bg-orange-50 text-orange-700" };
+    case "studio-photo":
+      return { Icon: IconImage, chip: "bg-pink-50 text-pink-700" };
+    case "technical-drawing":
+      return { Icon: IconPulse, chip: "bg-cyan-50 text-cyan-700" };
+    case "saas-builder":
+      return { Icon: IconCode, chip: "bg-indigo-50 text-indigo-700" };
+  }
+}
+
 function fieldReady(field: TezgahField, values: Record<string, string>): boolean {
   const value = (values[field.name] ?? "").trim();
   if (field.name === "category") {
+    return value.length <= 80;
+  }
+  if (field.name === "url") {
+    return normalizeTetkikSiteAddress(value) !== null;
+  }
+  if (field.optional && field.name === "businessName") {
     return value.length <= 80;
   }
   if (field.optional) {
@@ -111,9 +170,6 @@ function fieldReady(field: TezgahField, values: Record<string, string>): boolean
     const digits = value.replace(/\D/g, "");
     return digits.length >= 10 && digits.length <= 12;
   }
-  if (field.name === "url") {
-    return value.length >= 12;
-  }
   if (field.name === "products") {
     return value.length >= 2 && value.length <= 4000;
   }
@@ -131,6 +187,9 @@ function fieldReady(field: TezgahField, values: Record<string, string>): boolean
   }
   if (field.name === "widthMm" || field.name === "heightMm" || field.name === "depthMm") {
     return /^\d{1,5}$/.test(value) && Number(value) >= 1 && Number(value) <= 10000;
+  }
+  if (field.name === "feature") {
+    return value.length >= 2 && value.length <= 300;
   }
   return value.length >= 2;
 }
@@ -191,25 +250,28 @@ function FieldControl({
   return (
     <Input
       name={field.name}
-      type={field.name === "url" ? "url" : field.name === "whatsapp" ? "tel" : "text"}
+      type={field.name === "whatsapp" ? "tel" : "text"}
+      inputMode={field.name === "url" ? "url" : undefined}
       value={value}
       placeholder={field.placeholder}
       maxLength={
-        field.name === "category"
-          ? 80
-          : field.name === "whatsapp"
-            ? 32
-            : field.name === "employeeCount"
-              ? 6
-              :         field.name === "companyAgeYears"
-          ? 3
-          : field.name === "widthPx" ||
-              field.name === "heightPx" ||
-              field.name === "widthMm" ||
-              field.name === "heightMm" ||
-              field.name === "depthMm"
-            ? 5
-            : undefined
+        field.name === "url"
+          ? 300
+          : field.name === "businessName" || field.name === "category"
+            ? 80
+            : field.name === "whatsapp"
+              ? 32
+              : field.name === "employeeCount"
+                ? 6
+                : field.name === "companyAgeYears"
+                  ? 3
+                  : field.name === "widthPx" ||
+                      field.name === "heightPx" ||
+                      field.name === "widthMm" ||
+                      field.name === "heightMm" ||
+                      field.name === "depthMm"
+                    ? 5
+                    : undefined
       }
       onChange={(event) => onChange(event.target.value)}
     />
@@ -431,6 +493,14 @@ function Deliverable({ markdown }: { markdown: string }) {
   );
 }
 
+function readOutputId(data: unknown): string | null {
+  if (!data || typeof data !== "object" || !("outputId" in data)) {
+    return null;
+  }
+  const id = (data as { outputId?: unknown }).outputId;
+  return typeof id === "string" && id.length > 0 ? id : null;
+}
+
 function downloadText(filename: string, text: string, mime: string) {
   const blob = new Blob([text], { type: mime });
   const url = URL.createObjectURL(blob);
@@ -453,11 +523,11 @@ export function TezgahWorkbench({
   const toolParam = searchParams.get("tool");
   const pendingTool = useRef<TezgahToolId | null>(null);
   const [toolId, setToolId] = useState<TezgahToolId>(
-    () => parseTezgahToolParam(toolParam) ?? "ecommerce",
+    () => resolveTezgahDeskTool(toolParam),
   );
   const [values, setValues] = useState<Record<string, string>>((): Record<string, string> => {
     const name = freelancerName.trim();
-    const id = parseTezgahToolParam(toolParam) ?? "ecommerce";
+    const id = resolveTezgahDeskTool(toolParam);
     const seeded = readTezgahPrefill(id, searchParams);
     return { ...seeded, ...(name ? { freelancerName: name } : {}) };
   });
@@ -471,11 +541,42 @@ export function TezgahWorkbench({
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [outputId, setOutputId] = useState<string | null>(null);
+  const [history, setHistory] = useState<TezgahHistoryItem[]>([]);
   const [handoff, setHandoff] = useState<TetkikHandoff | null>(null);
   const [pro, setPro] = useState<ProStudioPack | null>(null);
   const [quotaAnchor, setQuotaAnchor] = useState<HTMLElement | null>(null);
   const deskTaskId = readDeskTaskId(searchParams.get("desk"));
+
+  useEffect(() => {
+    if (!signedIn) {
+      return;
+    }
+    let cancelled = false;
+    void fetch("/api/tezgah/outputs", withRailApiVersion({ method: "GET" }))
+      .then(async (response) => {
+        const body = (await response.json()) as {
+          ok?: boolean;
+          data?: { outputs?: TezgahHistoryItem[] };
+        };
+        if (!cancelled && response.ok && body.ok !== false && Array.isArray(body.data?.outputs)) {
+          setHistory(body.data.outputs);
+        }
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [signedIn, outputId]);
   const tool = tezgahToolById(toolId);
+
+  function productionHeaders(): HeadersInit {
+    const headers: Record<string, string> = { "content-type": "application/json" };
+    if (signedIn) {
+      headers["Idempotency-Key"] = crypto.randomUUID();
+    }
+    return headers;
+  }
 
   const resetDeliverable = useCallback(() => {
     setMarkdown("");
@@ -528,6 +629,11 @@ export function TezgahWorkbench({
   }, []);
 
   useEffect(() => {
+    const fromQuery = tezgahRelocatedOsHref(toolParam);
+    if (fromQuery) {
+      router.replace(fromQuery as Route);
+      return;
+    }
     if (toolParam !== null) {
       const next = parseTezgahToolParam(toolParam);
       if (pendingTool.current) {
@@ -536,8 +642,8 @@ export function TezgahWorkbench({
         }
         return;
       }
-      const resolved = next ?? "ecommerce";
-      if (resolved !== "dukkan") {
+      const resolved = next && isTezgahDeskTool(next) ? next : TEZGAH_DESK_DEFAULT;
+      if (resolved !== "dukkan" && resolved !== "saas-builder") {
         setHandoff(null);
       }
       if (resolved !== toolId) {
@@ -549,9 +655,15 @@ export function TezgahWorkbench({
     if (pendingTool.current) {
       return;
     }
-    const fromHash = parseTezgahToolParam(window.location.hash.replace(/^#/, ""));
-    if (fromHash) {
-      if (fromHash !== "dukkan") {
+    const hash = window.location.hash.replace(/^#/, "");
+    const fromHashMoved = tezgahRelocatedOsHref(hash);
+    if (fromHashMoved) {
+      router.replace(fromHashMoved as Route);
+      return;
+    }
+    const fromHash = parseTezgahToolParam(hash);
+    if (fromHash && isTezgahDeskTool(fromHash)) {
+      if (fromHash !== "dukkan" && fromHash !== "saas-builder") {
         setHandoff(null);
       }
       if (fromHash !== toolId) {
@@ -559,12 +671,12 @@ export function TezgahWorkbench({
       }
       return;
     }
-    if (toolId !== "ecommerce") {
+    if (toolId !== TEZGAH_DESK_DEFAULT) {
       setHandoff(null);
-      setToolId("ecommerce");
+      setToolId(TEZGAH_DESK_DEFAULT);
       resetDeliverable();
     }
-  }, [resetDeliverable, toolId, toolParam]);
+  }, [resetDeliverable, router, toolId, toolParam]);
 
   if (!tool) {
     return null;
@@ -590,6 +702,7 @@ export function TezgahWorkbench({
     setError("");
     setDetailError("");
     setCopied(false);
+    setOutputId(null);
     try {
       if (proStudio) {
         const built = buildProStudio(active.id, values);
@@ -604,23 +717,41 @@ export function TezgahWorkbench({
         setGrantReport(null);
         setShop(null);
         setCatalog(null);
+        if (signedIn) {
+          const response = await fetch(
+            "/api/tezgah/outputs",
+            withRailApiVersion({
+              method: "POST",
+              headers: productionHeaders(),
+              body: JSON.stringify({
+                toolKey: active.id,
+                title: built.pack.summary.slice(0, 160) || built.pack.filename,
+                inputSummary: built.pack.filename,
+                outputContent: (built.pack.markdown || built.pack.body || built.pack.summary).slice(0, 20_000),
+              }),
+            }),
+          );
+          const saved = (await response.json()) as { ok?: boolean; data?: { outputId?: string } };
+          setOutputId(response.ok && saved.ok !== false ? readOutputId(saved.data) : null);
+        }
         return;
       }
       if (tetkik) {
-        const payload: Record<string, string> = {
-          url: (values.url ?? "").trim(),
-          businessName: (values.businessName ?? "").trim(),
-          freelancerName: (values.freelancerName ?? "").trim(),
-        };
-        const agency = (values.agencyName ?? "").trim();
-        if (agency.length >= 2) {
-          payload.agencyName = agency;
+        const url = normalizeTetkikSiteAddress(values.url ?? "");
+        if (!url) {
+          setError("Site adresini https ile veya alan adı olarak yaz.");
+          return;
+        }
+        const payload: Record<string, string> = { url };
+        const business = (values.businessName ?? "").trim();
+        if (business.length >= 2) {
+          payload.businessName = business.slice(0, 80);
         }
         const response = await fetch(
           "/api/tezgah/tetkik/generate",
           withRailApiVersion({
             method: "POST",
-            headers: { "content-type": "application/json" },
+            headers: productionHeaders(),
             body: JSON.stringify(payload),
           }),
         );
@@ -634,6 +765,7 @@ export function TezgahWorkbench({
           return;
         }
         const data = body.data;
+        setOutputId(readOutputId(data));
         setReport(data);
         setMarkdown("");
         setShop(null);
@@ -655,7 +787,7 @@ export function TezgahWorkbench({
           "/api/tezgah/dukkan/generate",
           withRailApiVersion({
             method: "POST",
-            headers: { "content-type": "application/json" },
+            headers: productionHeaders(),
             body: JSON.stringify(payload),
           }),
         );
@@ -669,6 +801,7 @@ export function TezgahWorkbench({
           return;
         }
         const data = body.data;
+        setOutputId(readOutputId(data));
         setShop({ html: data.html, score: data.score });
         setMarkdown("");
         setReport(null);
@@ -689,7 +822,7 @@ export function TezgahWorkbench({
           "/api/tezgah/reklam/generate",
           withRailApiVersion({
             method: "POST",
-            headers: { "content-type": "application/json" },
+            headers: productionHeaders(),
             body: JSON.stringify(payload),
           }),
         );
@@ -703,6 +836,7 @@ export function TezgahWorkbench({
           return;
         }
         const data = body.data;
+        setOutputId(readOutputId(data));
         setMarkdown(data.markdown);
         setReport(null);
         setShop(null);
@@ -720,7 +854,7 @@ export function TezgahWorkbench({
           "/api/tezgah/pazaryeri/generate",
           withRailApiVersion({
             method: "POST",
-            headers: { "content-type": "application/json" },
+            headers: productionHeaders(),
             body: JSON.stringify(payload),
           }),
         );
@@ -734,6 +868,7 @@ export function TezgahWorkbench({
           return;
         }
         const data = body.data;
+        setOutputId(readOutputId(data));
         setCatalog({ columns: data.columns, rows: data.rows, csv: data.csv });
         setMarkdown("");
         setReport(null);
@@ -747,7 +882,7 @@ export function TezgahWorkbench({
           "/api/tezgah/grant/generate",
           withRailApiVersion({
             method: "POST",
-            headers: { "content-type": "application/json" },
+            headers: productionHeaders(),
             body: JSON.stringify(grantRequestBody(values)),
           }),
         );
@@ -761,6 +896,7 @@ export function TezgahWorkbench({
           return;
         }
         const data = body.data;
+        setOutputId(readOutputId(data));
         setGrantReport(data);
         setMarkdown("");
         setReport(null);
@@ -801,6 +937,7 @@ export function TezgahWorkbench({
         }
         return;
       }
+      setOutputId(readOutputId(body.data));
       setMarkdown(body.data.markdown);
       setReport(null);
       setShop(null);
@@ -820,7 +957,11 @@ export function TezgahWorkbench({
   }
 
   async function onDeepen(details: GrantDetailsInput) {
-    if (!fieldsReady || pending || blocked) {
+    if (!fieldsReady || pending) {
+      return;
+    }
+    if (!signedIn) {
+      setDetailError("Tam dosya için oturum gerekir.");
       return;
     }
     setPending(true);
@@ -828,10 +969,13 @@ export function TezgahWorkbench({
     setCopied(false);
     try {
       const response = await fetch(
-        "/api/tezgah/grant/generate",
+        "/api/tezgah/grant/dossier",
         withRailApiVersion({
           method: "POST",
-          headers: { "content-type": "application/json" },
+          headers: {
+            "content-type": "application/json",
+            "Idempotency-Key": crypto.randomUUID(),
+          },
           body: JSON.stringify(grantRequestBody(values, details)),
         }),
       );
@@ -844,6 +988,7 @@ export function TezgahWorkbench({
         return;
       }
       const data = body.data;
+      setOutputId(readOutputId(data));
       setGrantReport(data);
       setQuota({ remaining: data.remaining, limit: data.limit, guest: data.guest === true });
     } catch {
@@ -870,7 +1015,10 @@ export function TezgahWorkbench({
     error === TEZGAH_GUEST_QUOTA_MESSAGE || (quota?.guest === true && quota.remaining <= 0);
   const showMemberCard =
     !showGuestCard &&
-    (error === TEZGAH_MEMBER_QUOTA_MESSAGE || (quota?.guest === false && quota.remaining === 0));
+    (error === TEZGAH_MEMBER_QUOTA_MESSAGE ||
+      error === TEZGAH_MEMBER_PAID_MESSAGE ||
+      error === TEZGAH_CATALOG_CLOSED_MESSAGE ||
+      (quota?.guest === false && quota.remaining === 0 && quota.lane !== "pro" && quota.lane !== "credit"));
 
   const quotaBadge = (
     <p className="text-sm font-medium text-[var(--safir-deep)] print:hidden" data-tezgah-quota="">
@@ -885,10 +1033,12 @@ export function TezgahWorkbench({
         <div
           role="tablist"
           aria-label="Üretim araçları"
-          className="flex flex-nowrap items-center gap-1 overflow-x-auto"
+          className="flex flex-wrap gap-2"
         >
-          {TEZGAH_TOOLS.map((item) => {
+          {TEZGAH_TOOLS.filter((item) => isTezgahDeskTool(item.id)).map((item) => {
             const selected = item.id === active.id;
+            const mark = toolMark(item.id);
+            const MarkIcon = mark.Icon;
             return (
               <button
                 key={item.id}
@@ -898,10 +1048,18 @@ export function TezgahWorkbench({
                 onClick={() => selectTool(item.id)}
                 className={
                   selected
-                    ? "whitespace-nowrap rounded-xl bg-[var(--safir)] px-3 py-1.5 text-xs font-semibold tracking-tight text-white"
-                    : "whitespace-nowrap rounded-xl bg-[var(--surface-muted)] px-3 py-1.5 text-xs font-semibold tracking-tight text-[var(--foreground)] hover:bg-[var(--safir-soft)]"
+                    ? "inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-3 py-1.5 text-xs font-semibold tracking-tight text-white shadow-md ring-2 ring-blue-400/60"
+                    : "inline-flex items-center gap-1.5 rounded-xl bg-[var(--surface-muted)] px-3 py-1.5 text-xs font-semibold tracking-tight text-[var(--foreground)] hover:bg-[var(--safir-soft)]"
                 }
               >
+                <span
+                  className={cn(
+                    "inline-flex h-5 w-5 items-center justify-center rounded-md",
+                    selected ? "bg-white/15 text-white" : mark.chip,
+                  )}
+                >
+                  <MarkIcon className="h-3.5 w-3.5" />
+                </span>
                 {item.label}
               </button>
             );
@@ -909,12 +1067,14 @@ export function TezgahWorkbench({
         </div>
         {quotaAnchor ? null : <div className="mt-2 flex justify-end">{quotaBadge}</div>}
       </div>
+      {signedIn ? <TezgahHistoryDrawer items={history} /> : null}
 
       {showGuestCard ? (
         <div className="print:hidden" data-tezgah-guest-convert="">
           <Card variant="featured" title={TEZGAH_GUEST_QUOTA_MESSAGE} eyebrow="Kayıt">
             <p className="text-sm leading-6 text-[var(--muted)]">
-              Misafir hakkı bugün doldu. Ücretsiz hesap günde 3 üretime açılır ve her gece yenilenir.
+              Bugünkü ücretsiz hakkın doldu. Sayaç İstanbul gece yarısında yenilenir. Çıktıları portföyüne
+              yazmak için ücretsiz hesap aç.
             </p>
             <div className="mt-4 space-y-4">
               <GoogleContinueButton nextPath={tezgahToolAnchorPath(active.id)} />
@@ -924,26 +1084,41 @@ export function TezgahWorkbench({
             </div>
           </Card>
         </div>
-      ) : showMemberCard ? (
+      ) : null}
+      {showMemberCard && signedIn ? (
         <div className="print:hidden" data-tezgah-member-convert="">
-          <Card variant="featured" title={TEZGAH_MEMBER_QUOTA_MESSAGE} eyebrow="Günlük hak">
-            <p className="text-sm leading-6 text-[var(--muted)]">
-              Yarın yeni hakkın açılır. Kurs satın almak bugünkü üretim sayacını yükseltmez.
-            </p>
-            <div className="mt-4">
-              <LinkButton href="/academy" variant="outline">
-                Akademiye dön
-              </LinkButton>
-            </div>
-          </Card>
+          <TezgahUpgradeCard />
+          <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
+            Kurs satın almak bugünkü üretim sayacını yükseltmez.
+          </p>
+          <div className="mt-3">
+            <LinkButton href="/hibe" variant="outline">
+              YetkinHibe’yi aç
+            </LinkButton>
+          </div>
         </div>
       ) : null}
 
       <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] print:block">
         <div className="min-w-0 print:hidden">
           <Card title={active.label} eyebrow="Girdi" snug bodyClassName="leading-5">
+            <div
+              className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1"
+              data-tezgah-quota-early=""
+            >
+              <p className="text-sm font-medium text-[var(--safir-deep)]">
+                {quota
+                  ? tezgahQuotaLine(quota.remaining, quota.limit)
+                  : "Kalan ücretsiz hakkınız yükleniyor"}
+              </p>
+              {quota?.guest === false ? null : (
+                <LinkButton href={REGISTER_HREF} variant="outline" size="sm">
+                  Çıktılarını portföyüne kaydetmek için ücretsiz hesap aç
+                </LinkButton>
+              )}
+            </div>
             <p className="mb-2 text-sm leading-5 text-[var(--muted)]">{active.blurb}</p>
-            {dukkan && handoff ? (
+            {dukkan && handoff?.kind === "dukkan" ? (
               <p className="mb-2 text-sm leading-5 text-[var(--foreground)]" data-tetkik-handoff="">
                 Tetkikten taşındı. İşletme adı forma yazıldı.
                 {handoff.pageTitle ? ` Ölçülen sayfa başlığı: ${handoff.pageTitle}.` : ""}
@@ -954,6 +1129,17 @@ export function TezgahWorkbench({
                   </>
                 ) : null}{" "}
                 Sektör, yer, WhatsApp ve hizmetleri tamamlayıp dükkanı üretin.
+              </p>
+            ) : null}
+            {active.id === "saas-builder" && handoff?.kind === "saas" ? (
+              <p className="mb-2 text-sm leading-5 text-[var(--foreground)]" data-tetkik-codepack-handoff="">
+                Tetkikten taşındı. Tespit edilen eksikler açıklamaya yazıldı. Bileşeni seçip kod paketini üretin.
+                {handoff.url ? (
+                  <>
+                    {" "}
+                    Adres: <span className="break-all">{handoff.url}</span>.
+                  </>
+                ) : null}
               </p>
             ) : null}
             <form className="space-y-2" onSubmit={onSubmit}>
@@ -1047,12 +1233,34 @@ export function TezgahWorkbench({
                     return;
                   }
                   setHandoff({
+                    kind: "dukkan",
                     businessName,
                     pageTitle: report.pageTitle.trim(),
                     url: report.url.trim(),
+                    detail: "",
                   });
                   setValues((current) => ({ ...current, businessName }));
                   selectTool("dukkan", { keepHandoff: true });
+                }}
+                onCodePack={() => {
+                  const gaps = report.checks.filter((check) => !check.passed).map((check) => check.label);
+                  const title = report.businessName.trim().slice(0, 80);
+                  const detail = (
+                    gaps.length > 0 ? gaps.join(", ") : "Ölçülen sayfada açık madde kalmadı. Yine de bir bileşen üretilebilir."
+                  ).slice(0, 300);
+                  setHandoff({
+                    kind: "saas",
+                    businessName: title,
+                    pageTitle: report.pageTitle.trim(),
+                    url: report.url.trim(),
+                    detail,
+                  });
+                  setValues((current) => ({
+                    ...current,
+                    title: title.length >= 2 ? title : "Site eksikleri",
+                    detail,
+                  }));
+                  selectTool("saas-builder", { keepHandoff: true });
                 }}
               />
             </div>
@@ -1164,6 +1372,9 @@ export function TezgahWorkbench({
           </Card>
         )}
       </div>
+      {markdown || report || grantReport || shop || catalog || pro ? (
+        <TezgahOutputBridge toolId={active.id} outputId={outputId} signedIn={signedIn} />
+      ) : null}
     </div>
   );
 }

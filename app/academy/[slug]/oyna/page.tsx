@@ -16,10 +16,14 @@ import {
   academyReleasedProductionLineParams,
   academyStorefrontStaticParams,
   isAcademyStorefrontSlug,
+  isAcademyVitrineShellSkuSlug,
 } from "@/lib/academy/pilot-sku";
 import { academyCourseOffersFreePreview } from "@/lib/academy/purchase-path";
 import { sealClosedAcademyLessonPayload } from "@/lib/academy/preview-lock";
-import { academyPaywallLockedLessonShells } from "@/lib/academy/paywall-shells";
+import {
+  academyMemberGuideLessonShells,
+  academyPaywallLockedLessonShells,
+} from "@/lib/academy/paywall-shells";
 import { loadAcademyFreePreviewAudioGrants } from "@/lib/academy/free-preview-audio";
 import { loadAcademyOynaAudioGrants } from "@/lib/academy/lesson-audio-issue";
 import { loadAcademyLessonMediaPrime } from "@/lib/academy/lesson-media-prime";
@@ -37,9 +41,14 @@ function academyPlayerCheckoutHref(slug: string, signedIn: boolean): string {
   return signedIn ? checkout : buildCitizenLoginHref(checkout);
 }
 
-async function renderAcademyFreePreview(course: AcademyCourseWithPrice, signedIn: boolean) {
+async function renderAcademyFreePreview(
+  course: AcademyCourseWithPrice,
+  signedIn: boolean,
+  registerGate: boolean,
+) {
   await recordFunnelDailyDocumentStep(FUNNEL_FREE_LESSON_STEP);
   const freePreviewAudio = await loadAcademyFreePreviewAudioGrants(course.slug);
+  const playerPath = academyFreePreviewPlayerPath(course.slug);
   return (
     <RoomFrame cinema className="flex flex-col gap-0 space-y-0 px-4 py-0 sm:px-6">
       <div className="flex min-h-0 flex-1 flex-col">
@@ -50,13 +59,46 @@ async function renderAcademyFreePreview(course: AcademyCourseWithPrice, signedIn
           curriculumComplete={false}
           workTasksComplete={false}
           paywallLocked
-          paywallPriceLabel={academyPlayerPaywallPrice(course)}
+          registerGate={registerGate}
+          paywallPriceLabel={registerGate ? null : academyPlayerPaywallPrice(course)}
           freePreviewAudio={freePreviewAudio}
-          checkoutHref={academyPlayerCheckoutHref(course.slug, signedIn)}
+          checkoutHref={
+            registerGate
+              ? buildCitizenRegisterHref(playerPath)
+              : academyPlayerCheckoutHref(course.slug, signedIn)
+          }
           viewerSignedIn={signedIn}
-          workfileLoginHref={buildCitizenLoginHref(academyFreePreviewPlayerPath(course.slug))}
-          workfileRegisterHref={buildCitizenRegisterHref(academyFreePreviewPlayerPath(course.slug))}
+          workfileLoginHref={buildCitizenLoginHref(playerPath)}
+          workfileRegisterHref={buildCitizenRegisterHref(playerPath)}
           media={loadAcademyLessonMediaPrime(course.slug, { paywallLocked: true })}
+        />
+      </div>
+    </RoomFrame>
+  );
+}
+
+async function renderAcademyMemberGuide(course: AcademyCourseWithPrice) {
+  const lessons = academyMemberGuideLessonShells(course.slug);
+  const prepStrip = academyPrepStripForSlug(course.slug);
+  const lessonKeys = lessons.map((lesson) => lesson.key);
+  const audioLessonKeys =
+    prepStrip && isAcademyPrepStripAudioSealed(course.slug)
+      ? [...lessonKeys, prepStrip.key]
+      : lessonKeys;
+  const lessonAudio = await loadAcademyOynaAudioGrants(course.slug, audioLessonKeys);
+  return (
+    <RoomFrame cinema className="flex flex-col gap-0 space-y-0 px-4 py-0 sm:px-6">
+      <div className="flex min-h-0 flex-1 flex-col">
+        <CurriculumPlayer
+          courseId={course.id}
+          courseSlug={course.slug}
+          lessons={lessons}
+          curriculumComplete={false}
+          workTasksComplete={false}
+          memberGuide
+          viewerSignedIn
+          freePreviewAudio={lessonAudio}
+          media={loadAcademyLessonMediaPrime(course.slug, { paywallLocked: false })}
         />
       </div>
     </RoomFrame>
@@ -117,7 +159,7 @@ export default async function AcademyCurriculumPlayerPage({
     if (!board || (!board.course.isPublished && !offersPreview)) {
       notFound();
     }
-    return renderAcademyFreePreview(board.course, false);
+    return renderAcademyFreePreview(board.course, false, isAcademyVitrineShellSkuSlug(slug));
   }
   const userEmail = session.email;
   const board = await loadCourseBySlug(slug);
@@ -139,10 +181,13 @@ export default async function AcademyCurriculumPlayerPage({
   }
 
   if (!hasPurchased) {
+    if (isAcademyVitrineShellSkuSlug(board.course.slug)) {
+      return renderAcademyMemberGuide(board.course);
+    }
     if (!academyCourseOffersFreePreview(board.course.slug)) {
       redirect(`/academy/${board.course.slug}`);
     }
-    return renderAcademyFreePreview(board.course, true);
+    return renderAcademyFreePreview(board.course, true, false);
   }
 
   const player = await loadAcademyCurriculum(

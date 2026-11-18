@@ -43,7 +43,7 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
   it("/academy ve /cuzdan siz kaçakları taşımaz; SEN_VOICE bağlar", () => {
     expect(SEN_VOICE.cuzdan.closedLoopBody).toContain("Cüzdan Akademi eğitim tahsilatı içindir");
     expect(SEN_VOICE.cuzdan.closedLoopBody).not.toContain("Bakiyeniz");
-    expect(SEN_VOICE.academy.catalog.description).toContain("İlk dersi ücretsiz izle");
+    expect(SEN_VOICE.academy.catalog.description).toContain("Dersler ücretsiz");
     expect(PRICE_LOCK_GRACE_MINUTES).toBe(15);
     expect(PRICE_LOCK_GRACE_MS).toBe(PRICE_LOCK_GRACE_MINUTES * 60 * 1000);
 
@@ -75,16 +75,15 @@ describe("akademi vatandaş yüzeyi — vitrin, kasa, oynatıcı, dinle kapalı"
     const ledgerLeak = /SETTLED|amountMinor|CheckoutPriceLock|settlement|debit|escrow/i;
     // 5 saniye testi: ne sunuluyor · süre · kazanç. İç organizasyon dili ve keyword
     // dolgusu vitrin gövdesinden çıktı (P1 tedavi); SSS ve meta SEO niyetini taşır.
-    expect(copy.catalog.description).toContain("sekiz sesli ders");
-    expect(copy.catalog.description).toContain("74 dakika");
-    expect(copy.catalog.description).toContain("70+");
-    expect(copy.catalog.description).toContain("İlk dersi ücretsiz izle");
+    expect(copy.catalog.description).toContain("Dersler ücretsiz");
+    expect(copy.catalog.description).toContain("AI Tezgâh");
+    expect(copy.catalog.description).toContain("Resmî Uzmanlık Sınavına");
     expect(copy.catalog.description).not.toContain("yayındadır");
     expect(copy.catalog.description).not.toContain("ayrı rafta");
     expect(copy.catalog.description).not.toContain("Vitrinin merkezinde");
     expect(copy.catalog.description).not.toContain("fırın");
     // Vitrin istatistiği eğitim sayısını değil ürünü anlatır.
-    expect(copy.catalog.stats).toBe("8 sesli ders · 74 dk · baraj 70+ · sertifika");
+    expect(copy.catalog.stats).toBe("Dersler ücretsiz · Baraj 70 · SHA-256 rozet");
     expect(copy.catalog.stats).not.toContain("6 eğitim");
     expect(copy.catalog.description).not.toContain("13 eğitim");
     expect(copy.catalog.description).not.toMatch(ledgerLeak);

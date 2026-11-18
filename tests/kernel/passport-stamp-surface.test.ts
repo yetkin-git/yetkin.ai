@@ -72,7 +72,7 @@ describe("pasaport vize yüzeyi", () => {
     expect(latestPassportStamp([])).toBeNull();
     expect(latestPassportStamp([SAMPLE])?.title).toBe("Rail temeli");
     expect(passportAcademyVerifyHref(SAMPLE)).toBe(
-      "/academy/dogrula/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "/vize/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     );
     expect(
       passportAcademyVerifyHref({ sourceKind: "FREELANCER_RELEASE", certificateHash: SAMPLE.certificateHash }),
@@ -168,7 +168,7 @@ describe("pasaport vize yüzeyi", () => {
     expect(sen).not.toContain("Mühür Defteri");
     expect(sen).not.toContain("Mühürlü");
     expect(sen).not.toContain("Freelancer Nitelikli Teklif");
-    expect(readSrc("lib/kernel/passport/display.ts")).toContain("/dogrula/");
+    expect(readSrc("lib/kernel/passport/display.ts")).toContain("/vize/");
     expect(readSrc("lib/kernel/passport/display.ts")).toContain("passportFreelancerContractHref");
   });
 
@@ -233,7 +233,7 @@ describe("pasaport vize yüzeyi", () => {
     expect(card.find((slot) => slot.slug === "02_ecommerce_ai")?.held).toBe(false);
     expect(passportStampCourseSlug(office)).toBe("01_office_ai");
     expect(passportStampCourseSlug(RELEASE)).toBeNull();
-    expect(passportStampCourseHref(office)).toBe("/academy/01_office_ai");
+    expect(passportStampCourseHref(office)).toBe("/career");
     expect(passportStampCourseHref(RELEASE)).toBeNull();
     expect(passportFreelancerStamps([office, RELEASE])).toEqual([RELEASE]);
     expect(passportNonGrowthAcademyStamps([office, byTitle, RELEASE])).toEqual([]);

@@ -32,6 +32,13 @@ export const SAAS_WIDGETS = [
   { value: "api", label: "API entegrasyon betiği" },
 ] as const;
 
+export const SAAS_PLATFORMS = [
+  { value: "html", label: "Genel HTML / Hazır E-Ticaret" },
+  { value: "wordpress", label: "WordPress" },
+  { value: "react", label: "React / Next.js" },
+] as const;
+
 export type StudioMarketId = (typeof STUDIO_MARKETS)[number]["value"];
 export type StudioBackgroundId = (typeof STUDIO_BACKGROUNDS)[number]["value"];
 export type SaasWidgetId = (typeof SAAS_WIDGETS)[number]["value"];
+export type SaasPlatformId = (typeof SAAS_PLATFORMS)[number]["value"];

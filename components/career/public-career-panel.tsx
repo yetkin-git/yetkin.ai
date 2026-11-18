@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { YetkinCvStation } from "@/components/career/yetkincv-station";
 import { VisaPageFrame, VisaWaxSeal } from "@/components/kernel/visa-wax-seal";
 import { JsonLd } from "@/components/seo/json-ld";
 import { LandingFaq } from "@/components/seo/landing-faq";
@@ -22,10 +23,10 @@ export function PublicCareerPanel({ plan }: { plan?: ReactNode }) {
         description={copy.lead}
         actions={
           <div className="flex flex-wrap gap-2">
-            <LinkButton href="/academy/dogrula" size="sm">
+            <LinkButton href="/vize" size="sm">
               {copy.verifyCta}
             </LinkButton>
-            <LinkButton href="/academy" variant="outline" size="sm">
+            <LinkButton href="#yetkincv" variant="outline" size="sm">
               {copy.academyCta}
             </LinkButton>
             <LinkButton href="/login" variant="secondary" size="sm">
@@ -35,6 +36,7 @@ export function PublicCareerPanel({ plan }: { plan?: ReactNode }) {
         }
       />
       <p className="text-sm leading-6 text-[var(--foreground)]">{copy.coachNote}</p>
+      <YetkinCvStation signedIn={false} />
       {plan}
       <div className="grid min-w-0 items-start gap-4 lg:grid-cols-2">
         <SampleCertificate />
@@ -46,7 +48,7 @@ export function PublicCareerPanel({ plan }: { plan?: ReactNode }) {
             ))}
           </ol>
           <div className="mt-5">
-            <LinkButton href="/academy/dogrula" size="sm">
+            <LinkButton href="/vize" size="sm">
               {copy.verifyCta}
             </LinkButton>
           </div>

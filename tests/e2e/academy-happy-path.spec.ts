@@ -7,11 +7,11 @@ test.describe("O8 akademi nakit & sınav yolculuğu", () => {
   }) => {
     const response = await page.goto("/academy");
     expect(response?.status()).toBeLessThan(400);
-    await expect(page.getByRole("heading", { name: /Yapay Zekâyı Öğren\. Gerçek İşlerinde Kullan\./ })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Yetkin\.ai Uygulama & Uzmanlık Rehberi/ })).toBeVisible();
 
     await expect(page.locator("[data-academy-vitrine-mix]")).toBeVisible();
     await expect(page.locator("[data-academy-flagship-card]")).toBeVisible();
-    await expect(page.getByText("Yayında").first()).toBeVisible();
+    await expect(page.getByText("Ücretsiz Uygulama Rehberi").first()).toBeVisible();
     await expect(page.getByText("Çok Yakında / Hazırlanıyor")).toHaveCount(0);
     await expect(page.getByText("Ofiste Yapay Zekâ").first()).toBeVisible();
     await expect(page.getByText("Yapay Zekâ Prompt Mühendisliği").first()).toBeVisible();
@@ -38,8 +38,9 @@ test.describe("O8 akademi nakit & sınav yolculuğu", () => {
     await expect(page.getByText("Ders listesi")).toBeVisible();
     await expect(page.getByText(/Baraj 70/)).toBeVisible();
     await expect(page.getByText(/Kariyer'de vizeye/).first()).toBeVisible();
-    await expect(page.getByRole("link", { name: /Uzmanlık Paketini Aç —/ }).first()).toBeVisible();
-    await expect(page.locator('[data-academy-hero-cta="play"]')).toHaveCount(0);
+    await expect(page.getByRole("link", { name: /Rehbere Başla \(Ücretsiz\)/ }).first()).toBeVisible();
+    await expect(page.getByText("Resmî Sınav Hakkı & SHA-256 Rozet Mührü").first()).toBeVisible();
+    await expect(page.locator('[data-academy-hero-cta="play"]')).toBeVisible();
 
     const verify = await page.goto("/academy/dogrula/not-a-hash");
     expect(verify?.status()).toBeLessThan(400);
@@ -74,7 +75,7 @@ test.describe("O8 akademi nakit & sınav yolculuğu", () => {
     expect(curriculum.status()).toBe(401);
 
     await page.goto("/academy/01_office_ai/oyna");
-    expect(page.url()).toContain("/login");
+    expect(page.url()).toContain("/academy/01_office_ai/oyna");
   });
 
   test("oturumlu hero Eğitimi Satın Al PayTR iFrame modalını açar", async ({ page }) => {

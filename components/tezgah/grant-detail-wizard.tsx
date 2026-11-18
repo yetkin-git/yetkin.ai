@@ -64,6 +64,7 @@ export function GrantDetailWizard({
   blocked,
   briefReady,
   error,
+  initialGrantId = "",
   onSubmit,
 }: {
   programs: readonly GrantWizardProgram[];
@@ -71,9 +72,10 @@ export function GrantDetailWizard({
   blocked: boolean;
   briefReady: boolean;
   error: string;
+  initialGrantId?: string;
   onSubmit: (details: GrantDetailsInput) => void;
 }) {
-  const [targetGrantId, setTargetGrantId] = useState("");
+  const [targetGrantId, setTargetGrantId] = useState(initialGrantId);
   const [durationMonths, setDurationMonths] = useState("");
   const [totalBudgetLira, setTotalBudgetLira] = useState("");
   const [personnelLira, setPersonnelLira] = useState("");

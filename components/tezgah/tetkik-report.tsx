@@ -23,14 +23,19 @@ function formatMeasuredAt(iso: string): string {
 export function TetkikReportView({
   report,
   onRebuild,
+  onCodePack,
 }: {
   report: TetkikReport;
   onRebuild: () => void;
+  onCodePack: () => void;
 }) {
   const [copied, setCopied] = useState(false);
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const markdown = renderTetkikReportMarkdown(report);
   const revision = buildTetkikRevisionPack(report);
+  const byline = [formatMeasuredAt(report.measuredAt), report.freelancerName.trim(), report.agencyName?.trim() ?? ""]
+    .filter((part) => part.length > 0)
+    .join(" · ");
   const accent =
     report.action.stage === "ads"
       ? "border-[var(--emerald)]"
@@ -69,10 +74,7 @@ export function TetkikReportView({
       <p className="mt-3 text-sm leading-6 text-[var(--foreground)]">{report.disclaimer}</p>
       <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[var(--foreground)]">{report.businessName}</h2>
       <p className="mt-1 break-all text-sm text-[var(--safir-deep)]">{report.url}</p>
-      <p className="mt-2 text-sm text-[var(--muted)]">
-        {formatMeasuredAt(report.measuredAt)} · {report.freelancerName}
-        {report.agencyName ? ` · ${report.agencyName}` : ""}
-      </p>
+      <p className="mt-2 text-sm text-[var(--muted)]">{byline}</p>
       {report.pageTitle ? (
         <p className="mt-2 text-sm text-[var(--muted)]">Sayfa başlığı: {report.pageTitle}</p>
       ) : null}
@@ -210,6 +212,17 @@ export function TetkikReportView({
           </div>
         </div>
       </Card>
+    </div>
+    <div className="print:hidden" data-tetkik-codepack="">
+      <Button
+        type="button"
+        variant="secondary"
+        className="w-full whitespace-normal px-4 py-2 text-center"
+        style={{ height: "auto", minHeight: "2.5rem" }}
+        onClick={onCodePack}
+      >
+        Eksikler İçin Kod Paketi Üret (Mini SaaS Tezgâhı)
+      </Button>
     </div>
     </div>
   );

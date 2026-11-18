@@ -48,6 +48,7 @@ export const PROTECTED_KERNEL_PATHS = [
   "/admin",
   "/magazam",
   "/e-ticaret",
+  "/hibe",
 ] as const;
 
 /**
@@ -138,10 +139,24 @@ export const AUTH_PATH_ALIASES = {
 export type EdgeDecision =
   | { kind: "museum-404" }
   | { kind: "kayit-308" }
+  | { kind: "verify-301"; to: string }
   | { kind: "frozen-410" }
   | { kind: "auth-307"; to: typeof CITIZEN_LOGIN_PATH; next?: string }
   | { kind: "alias-307"; to: string }
   | { kind: "next" };
+
+const RETIRED_ACADEMY_VERIFY = /^\/academy\/dogrula\/([a-f0-9]{64})$/;
+
+/**
+ * Basılı sertifika adresi. Geçerli SHA-256 `/vize/:hash` adresine iner.
+ * Biçimsiz parça 410'da kalır; uydurma hash vizeye taşınmaz.
+ * `next.config` aynı çifti 301 yazar. Kenar önce çalışırsa 410 yutmasın.
+ */
+export function retiredAcademyVerifyPath(pathname: string): string | null {
+  const path = normalizePathname(pathname).toLowerCase();
+  const hash = RETIRED_ACADEMY_VERIFY.exec(path)?.[1];
+  return hash ? `/vize/${hash}` : null;
+}
 
 export function normalizePathname(pathname: string): string {
   if (pathname.length > 1 && pathname.endsWith("/")) {
@@ -289,6 +304,10 @@ export function decideEdgeAction(pathname: string, sessionVerified: boolean): Ed
   // Anayasa B6: liste ve ilk konu ziyaretçiye açık. 410 bütün adresi yutmaz.
   if (isJuniorRoomPath(pathname) && canEnterJunior(null, null, { intent: "vitrine" }).allow) {
     return { kind: "next" };
+  }
+  const retiredVerify = retiredAcademyVerifyPath(pathname);
+  if (retiredVerify) {
+    return { kind: "verify-301", to: retiredVerify };
   }
   if (isFrozenShellPagePath(pathname)) {
     return { kind: "frozen-410" };

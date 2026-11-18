@@ -3,7 +3,6 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { AuthRequiredError } from "@/lib/kernel/auth/require-session";
 import * as sessionApi from "@/lib/kernel/auth/session";
 import {
-  EDGE_API_FROZEN_ROOM_ERROR,
   EDGE_API_SESSION_ERROR,
   decideEdgeApiAuth,
 } from "@/lib/kernel/security/edge-api-auth";
@@ -208,7 +207,7 @@ describe("YetkinHibe eşleştirme kenarı ve yetki haritası", () => {
     }
   });
 
-  it("oda kapalıyken kenarda 410 alır, oturum ipucu olsa bile", () => {
+  it("oda açıkken oturum ipucu varsa kenar 410 basmaz", () => {
     expect(
       decideEdgeApiAuth({
         pathname: MATCH_PATH,
@@ -218,7 +217,7 @@ describe("YetkinHibe eşleştirme kenarı ve yetki haritası", () => {
         sessionEmail: SESSION_USER.email,
         sessionEmailConfirmedAt: SESSION_USER.emailConfirmedAt,
       }),
-    ).toEqual({ kind: "deny", status: 410, error: EDGE_API_FROZEN_ROOM_ERROR });
+    ).toEqual({ kind: "next" });
   });
 
   it("oda açıkken oturum ipucu yoksa kenarda 401 alır", () => {

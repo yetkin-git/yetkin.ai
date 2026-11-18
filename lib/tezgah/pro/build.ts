@@ -4,7 +4,7 @@
  */
 
 import type { ProStudioToolId } from "@/lib/tezgah/catalog";
-import type { SaasWidgetId, StudioBackgroundId, StudioMarketId } from "@/lib/tezgah/pro/options";
+import type { SaasPlatformId, SaasWidgetId, StudioBackgroundId, StudioMarketId } from "@/lib/tezgah/pro/options";
 import { buildSaasWidget, readApiUrl, readCounterDeadline, SAAS_ZIP_FILENAME } from "@/lib/tezgah/pro/saas-builder";
 import { buildStudioPhoto, STUDIO_PHOTO_FILENAME } from "@/lib/tezgah/pro/studio-photo";
 import { buildTechnicalDrawing, TECHNICAL_DRAWING_FILENAME } from "@/lib/tezgah/pro/technical-drawing";
@@ -19,6 +19,7 @@ export type ProStudioPack = {
   svg: string | null;
   html: string | null;
   react: string | null;
+  installGuide: string | null;
   zip: Uint8Array | null;
 };
 
@@ -27,6 +28,7 @@ export type ProStudioResult = { ok: true; pack: ProStudioPack } | { ok: false; e
 const MARKETS = new Set<StudioMarketId>(["trendyol", "amazon", "both"]);
 const BACKGROUNDS = new Set<StudioBackgroundId>(["white", "colored"]);
 const WIDGETS = new Set<SaasWidgetId>(["cargo", "order", "counter", "api"]);
+const SAAS_PLATFORMS = new Set<SaasPlatformId>(["html", "wordpress", "react"]);
 
 function text(values: Record<string, string>, name: string): string {
   return (values[name] ?? "").trim();
@@ -73,6 +75,7 @@ export function buildProStudio(tool: string, values: Record<string, string>): Pr
         svg: null,
         html: null,
         react: null,
+        installGuide: null,
         zip: null,
       },
     };
@@ -106,14 +109,16 @@ export function buildProStudio(tool: string, values: Record<string, string>): Pr
         svg: pack.svg,
         html: null,
         react: null,
+        installGuide: null,
         zip: null,
       },
     };
   }
   if (tool === "saas-builder") {
     const widget = text(values, "widget");
+    const platform = text(values, "platform");
     const detail = text(values, "detail");
-    if (!WIDGETS.has(widget as SaasWidgetId)) {
+    if (!WIDGETS.has(widget as SaasWidgetId) || !SAAS_PLATFORMS.has(platform as SaasPlatformId)) {
       return { ok: false, error: "Alanları kısa ve net doldur." };
     }
     if (widget === "counter" && !readCounterDeadline(detail)) {
@@ -124,8 +129,10 @@ export function buildProStudio(tool: string, values: Record<string, string>): Pr
     }
     const pack = buildSaasWidget({
       widget: widget as SaasWidgetId,
+      platform: platform as SaasPlatformId,
       title: text(values, "title"),
       detail,
+      feature: text(values, "feature"),
     });
     if (!pack || pack.html.length > 20000) {
       return { ok: false, error: "Alanları kısa ve net doldur." };
@@ -141,6 +148,7 @@ export function buildProStudio(tool: string, values: Record<string, string>): Pr
         svg: null,
         html: pack.html,
         react: pack.react,
+        installGuide: pack.installGuide,
         zip: pack.zip,
       },
     };

@@ -90,20 +90,20 @@ export function CheckoutBillingFields({
         </label>
       </div>
       {hadSaved ? <p className="text-[11px] leading-relaxed text-[var(--muted)]">{copy.savedHint}</p> : null}
-      {individual ? (
-        <Label>
-          {copy.fullName}
-          <Input
-            value={value.fullName}
-            onChange={(event) => patch({ fullName: event.target.value })}
-            autoComplete="name"
-            required
-            maxLength={120}
-          />
-        </Label>
-      ) : (
-        <>
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+        {individual ? (
           <Label>
+            {copy.fullName}
+            <Input
+              value={value.fullName}
+              onChange={(event) => patch({ fullName: event.target.value })}
+              autoComplete="name"
+              required
+              maxLength={120}
+            />
+          </Label>
+        ) : (
+          <Label className="md:col-span-2">
             {copy.companyTitle}
             <Input
               value={value.companyTitle}
@@ -113,6 +113,8 @@ export function CheckoutBillingFields({
               maxLength={200}
             />
           </Label>
+        )}
+        {individual ? null : (
           <Label>
             {copy.taxOffice}
             <Input
@@ -122,6 +124,8 @@ export function CheckoutBillingFields({
               maxLength={120}
             />
           </Label>
+        )}
+        {individual ? null : (
           <Label>
             {copy.vkn}
             <Input
@@ -135,47 +139,47 @@ export function CheckoutBillingFields({
             />
             <span className="mt-1 block text-[11px] font-normal text-[var(--muted)]">{copy.vknHint}</span>
           </Label>
-        </>
-      )}
-      <Label>
-        {copy.phone}
-        <Input
-          type="tel"
-          value={value.phone}
-          onChange={(event) => patch({ phone: event.target.value.replace(/[^\d+\s]/g, "").slice(0, 16) })}
-          autoComplete="tel"
-          inputMode="tel"
-          required
-          maxLength={16}
-        />
-        <span className="mt-1 block text-[11px] font-normal text-[var(--muted)]">{copy.phoneHint}</span>
-      </Label>
-      <Label>
-        {copy.address}
-        <Textarea
-          className="mt-1"
-          value={value.address}
-          onChange={(event) => patch({ address: event.target.value })}
-          autoComplete="street-address"
-          required
-          rows={2}
-          maxLength={500}
-        />
-      </Label>
-      {individual ? (
+        )}
         <Label>
-          {copy.tckn}
+          {copy.phone}
           <Input
-            value={value.tckn}
-            onChange={(event) => patch({ tckn: event.target.value.replace(/\D/g, "").slice(0, 11) })}
-            inputMode="numeric"
-            autoComplete="off"
-            maxLength={11}
-            data-checkout-tckn-optional=""
+            type="tel"
+            value={value.phone}
+            onChange={(event) => patch({ phone: event.target.value.replace(/[^\d+\s]/g, "").slice(0, 16) })}
+            autoComplete="tel"
+            inputMode="tel"
+            required
+            maxLength={16}
           />
-          <span className="mt-1 block text-[11px] font-normal text-[var(--muted)]">{copy.tcknHint}</span>
+          <span className="mt-1 block text-[11px] font-normal text-[var(--muted)]">{copy.phoneHint}</span>
         </Label>
-      ) : null}
+        {individual ? (
+          <Label>
+            {copy.tckn}
+            <Input
+              value={value.tckn}
+              onChange={(event) => patch({ tckn: event.target.value.replace(/\D/g, "").slice(0, 11) })}
+              inputMode="numeric"
+              autoComplete="off"
+              maxLength={11}
+              data-checkout-tckn-optional=""
+            />
+            <span className="mt-1 block text-[11px] font-normal text-[var(--muted)]">{copy.tcknHint}</span>
+          </Label>
+        ) : null}
+        <Label className="md:col-span-2">
+          {copy.address}
+          <Textarea
+            className="mt-1"
+            value={value.address}
+            onChange={(event) => patch({ address: event.target.value })}
+            autoComplete="street-address"
+            required
+            rows={2}
+            maxLength={500}
+          />
+        </Label>
+      </div>
     </fieldset>
   );
 }

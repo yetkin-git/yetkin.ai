@@ -489,6 +489,20 @@ export const hepsiburadaOrderPull = inngest.createFunction(
   },
 );
 
+export const weeklyOpportunityRadar = inngest.createFunction(
+  {
+    id: "weekly-opportunity-radar",
+    name: "Haftalık fırsat radarı",
+    triggers: [{ cron: "TZ=Europe/Istanbul 0 9 * * 1" }],
+  },
+  async ({ step }) => {
+    return step.run("send-weekly-radar", async () => {
+      const { runWeeklyOpportunityRadar } = await import("@/lib/jobs/weekly-radar");
+      return runWeeklyOpportunityRadar();
+    });
+  },
+);
+
 export const kernelInngestFunctions = [
   paytrClearingScan,
   paytrClearingSingle,
@@ -502,6 +516,7 @@ export const kernelInngestFunctions = [
   trendyolOrderPull,
   hepsiburadaStockPush,
   hepsiburadaOrderPull,
+  weeklyOpportunityRadar,
 ];
 
 export function inngestNotConfiguredResponse(requestId?: string) {

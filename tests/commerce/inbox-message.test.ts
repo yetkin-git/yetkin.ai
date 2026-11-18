@@ -247,7 +247,9 @@ describe("kariyer çalışma odası aktarımı", () => {
     expect(href).toContain("tool=reklam");
     expect(href).toContain("Bez");
     expect(href).not.toMatch(/tl|kuruş|₺/i);
-    expect(grantDossierHref("E-Ticaret Havuzu")).toContain("tool=hibe");
-    expect(grantDossierHref("E-Ticaret Havuzu")).toContain("investmentFocus=ihracat");
+    expect(grantDossierHref("E-Ticaret Havuzu")).toContain("/hibe?");
+    expect(grantDossierHref("E-Ticaret Havuzu")).toContain("sekme=proje");
+    expect(grantDossierHref("E-Ticaret Havuzu")).toContain("yatirim=ihracat");
+    expect(grantDossierHref("E-Ticaret Havuzu")).not.toContain("/tezgah");
   });
 });

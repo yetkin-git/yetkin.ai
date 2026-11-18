@@ -330,7 +330,7 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(readSrc("app/(public)/hakkimizda/page.tsx")).toContain("LEGAL_ABOUT_LEAD");
     expect(readSrc("app/(public)/hakkimizda/page.tsx")).toContain("LEGAL_ACTIVITY_SCOPE_BODY");
     expect(readSrc("app/(public)/hakkimizda/page.tsx")).toContain("LEGAL_ENTITY.tradeName");
-    expect(sitemap).toContain("ACADEMY_GROWTH_SKU_SLUGS");
+    expect(sitemap).not.toContain("ACADEMY_GROWTH_SKU_SLUGS");
     expect(sitemap).not.toContain("publishedCoursesFromSeed");
     expect(LEGAL_FOOTER_LINKS.map((link) => link.href)).toEqual([
       "/legal/gizlilik",
@@ -434,7 +434,7 @@ describe("lansman hukuk yüzeyi (O13)", () => {
       expect(urls).not.toContain(`https://yetkin.ai${source}`);
     }
     expect(urls.some((url) => new URL(url).pathname.startsWith("/en"))).toBe(false);
-    expect(urls).not.toContain("https://yetkin.ai/fiyatlandirma");
+    expect(urls).toContain("https://yetkin.ai/fiyatlandirma");
   });
 
   it("sitemap loc alanları https://yetkin.ai mutlak adresidir", async () => {
@@ -449,7 +449,7 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(urls).toContain("https://yetkin.ai/legal/cerez");
     expect(urls).toContain("https://yetkin.ai/legal/kullanim");
     expect(urls).toContain("https://yetkin.ai/iletisim");
-    expect(urls).toContain("https://yetkin.ai/academy");
+    expect(urls).not.toContain("https://yetkin.ai/academy");
     expect(urls).toContain("https://yetkin.ai/career");
     expect(urls).toContain("https://yetkin.ai/vize");
     expect(urls).toContain("https://yetkin.ai/hakkimizda");
@@ -465,8 +465,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     }
     expect(robots().sitemap).toBe("https://yetkin.ai/sitemap.xml");
     expect(robots().rules).toMatchObject({
-      allow: expect.arrayContaining(["/academy", "/career", "/vize", "/legal"]),
-      disallow: expect.arrayContaining(["/dashboard", "/freelancer", "/kariyer"]),
+      allow: expect.arrayContaining(["/career", "/vize", "/legal", "/fiyatlandirma"]),
+      disallow: expect.arrayContaining(["/dashboard", "/freelancer", "/kariyer", "/academy"]),
     });
     vi.unstubAllEnvs();
   });

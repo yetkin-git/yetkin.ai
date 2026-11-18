@@ -1,6 +1,7 @@
 import {
   projectCommandCenter,
   type CommandCenterModel,
+  type CommandHibeRead,
   type CommandQuotaRead,
   type CommandStoreRead,
 } from "@/lib/dashboard/command-center";
@@ -25,13 +26,13 @@ type StoreLoad =
   | { kind: "missing" };
 
 /** Üye kotası. Hak düşmez. Okunamazsa canlı sayı basılmaz. */
-export function readMemberTezgahQuota(userId: string): CommandQuotaRead {
+export async function readMemberTezgahQuota(userId: string): Promise<CommandQuotaRead> {
   const id = userId.trim();
   if (!id) {
     return QUOTA_DOWN;
   }
   try {
-    const quota = peekTezgahQuota(id, false);
+    const quota = await peekTezgahQuota(id, false);
     return { live: true, remaining: quota.remaining, limit: quota.limit };
   } catch {
     return QUOTA_DOWN;
@@ -43,6 +44,7 @@ export function assembleSignedInCommand(input: {
   pulse: DashboardPulse;
   stores: StoreLoad;
   quota: CommandQuotaRead;
+  hibe?: CommandHibeRead;
 }): SignedInCommand {
   const storeRead: CommandStoreRead =
     input.stores.kind === "ok"
@@ -55,6 +57,7 @@ export function assembleSignedInCommand(input: {
       stores: storeRead,
       quota: input.quota,
       toolCount: TEZGAH_TOOLS.length,
+      hibe: input.hibe,
     }),
   };
 }

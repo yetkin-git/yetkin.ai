@@ -5,6 +5,7 @@ import { DashboardPulseProvider } from "@/components/dashboard/dashboard-pulse-p
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { emptyDashboardPulse, loadDashboardPulse } from "@/app/api/dashboard/pulse/load";
 import { assembleSignedInCommand, readMemberTezgahQuota } from "@/app/dashboard/load-command";
+import { readHibeCommandCounts } from "@/lib/yetkinhibe/os-load";
 import { loadOwnerStores } from "@/lib/commerce/cockpit-load";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { getSession, requirePageSession } from "@/lib/kernel/auth/session";
@@ -24,13 +25,14 @@ export default async function DashboardPage() {
 async function SignedInDashboard() {
   const copy = SEN_VOICE.dashboard;
   const session = await requirePageSession();
-  const [board, pulse, stores, quota] = await Promise.all([
+  const [board, pulse, stores, quota, hibe] = await Promise.all([
     loadIdentityBoard(session.id),
     loadDashboardPulse(session.id).catch(() => emptyDashboardPulse()),
     loadOwnerStores(session.id).catch(() => ({ kind: "down" as const })),
     readMemberTezgahQuota(session.id),
+    readHibeCommandCounts(session.id),
   ]);
-  const command = assembleSignedInCommand({ pulse, stores, quota });
+  const command = assembleSignedInCommand({ pulse, stores, quota, hibe });
   const title = copy.welcomeTitle({
     signedIn: true,
     displayName: board?.user?.displayName,
@@ -38,8 +40,8 @@ async function SignedInDashboard() {
 
   return (
     <DashboardPulseProvider initialPulse={command.pulse}>
-      <RoomFrame>
-        <div className="space-y-3">
+      <RoomFrame className="space-y-3">
+        <div className="space-y-2">
           <PageHeader compact eyebrow={copy.eyebrow} title={title} description={copy.welcomeLead} />
           <NextBestActionCard />
         </div>

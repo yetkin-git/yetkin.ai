@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { IconArrow, IconCoin } from "@/components/ui/icons";
 import { Input } from "@/components/ui/input";
 import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
 import { fetchWalletStripClient } from "@/components/kernel/fetch-wallet-strip";
@@ -200,7 +201,10 @@ export function WalletTopUpForm({
       {!iframeUrl ? (
         <form onSubmit={onSubmit} className="space-y-3">
           <label className="block text-sm font-medium">
-            {copy.amountLabel}
+            <span className="inline-flex items-center gap-1.5">
+              <IconCoin className="h-3.5 w-3.5 text-amber-600" />
+              {copy.amountLabel}
+            </span>
             <Input value={amountMajor} onChange={(event) => setAmountMajor(event.target.value)} required />
           </label>
           <p className="text-xs text-slate-600">{CUZDAN_SEN.topUpBand(minLabel, maxLabel)}</p>
@@ -228,6 +232,7 @@ export function WalletTopUpForm({
           ) : null}
           <Button type="submit" disabled={pending || !distanceAccepted || !digitalAccepted || !billing.hydrated}>
             {pending ? copy.pending : copy.submit}
+            <IconArrow className="h-3.5 w-3.5" />
           </Button>
         </form>
       ) : (

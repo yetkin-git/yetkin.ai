@@ -32,9 +32,9 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
   it("sol ray Faz 1 odalarını ve Junior'u basar; vatandaş sığınakları yoktur, yönetici paneli yalnız showAdmin ile", () => {
     expect(VERTICAL_ROOMS).toHaveLength(4);
     const nav = readSrc("components/shell/sidebar-nav.tsx");
-    expect(nav).toContain("VERTICAL_ROOMS");
-    expect(nav).toContain("INDEPENDENT_ROOMS");
-    expect(nav).toContain("isPhase1ShellNavRoom");
+    expect(nav).toContain("DRON_KAYIT");
+    expect(nav).toContain('openRoom("yetkinhibe")');
+    expect(nav).toContain('openRoom("tezgah")');
     expect(nav).toContain("showAdmin");
     expect(nav).toContain("showJunior");
     expect(nav).toContain("ADMIN_SURFACE_PATH");
@@ -156,6 +156,7 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
       "/admin",
       "/magazam",
       "/e-ticaret",
+      "/hibe",
     ]);
   });
 });
