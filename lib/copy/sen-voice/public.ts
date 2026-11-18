@@ -4,9 +4,9 @@ import { YETKIN_BRAND } from "@/lib/copy/brand";
 export const PUBLIC_SEN = {
   home: {
     badge: YETKIN_BRAND,
-    title: "E-Ticaret ve YetkinHibe. İki işletim sistemi, tek hesap.",
+    title: "Beş modüllü birleşik AI işletim sistemi. Tek hesap.",
     description:
-      "E-Ticaret işletim sistemi stok, kanal ve siparişi toplar. YetkinHibe firma uygunluğunu ve proje dosyasını hazırlar. Tezgâhta teslim üret, sunucu onaylı Doğrulanmış Rozetini kazan, 30 günlük kariyer planını kur ve canlı mağaza vitrinini aç.",
+      "E-Ticaret OS stok, kanal ve siparişi toplar. YetkinHibe OS firma uygunluğunu ve proje dosyasını hazırlar. AI Tezgâh ücretsiz üretim kotasıyla teslim çıkarır. YetkinCV SHA-256 doğrulaması ve kurumsal ilan elemesi aynı hesapta durur.",
     academyCta: "YetkinHibe İşletim Sistemi",
     /** Kök iniş — zincir bağlantısı. Kahraman birincil düğmesi `primaryCta`. */
     tezgahCta: "AI Tezgâhını Dene",
@@ -98,34 +98,34 @@ export const PUBLIC_SEN = {
         href: "/e-ticaret",
       },
     ],
-    tracksKicker: "Beş işletim sistemi",
-    tracksTitle: "Tek bakışta çalışan yüzey",
+    tracksKicker: "Beş modül",
+    tracksTitle: "Tek işletim sistemi",
     tracksCta: "Ücretsiz Seviye Testine Gir",
     tracks: [
       {
-        title: "E-Ticaret",
+        title: "E-Ticaret OS",
         body: "Stok, kanal ve sipariş kokpiti.",
         href: "/e-ticaret",
       },
       {
-        title: "YetkinHibe",
+        title: "YetkinHibe OS",
         body: "Uygunluk analizi ve tam proje dosyası.",
         href: "/hibe",
       },
       {
         title: "AI Tezgâh",
-        body: "Hızlı üretim araçları ve teslim taslağı.",
+        body: "Ücretsiz üretim kotası ve teslim taslağı.",
         href: "/tezgah",
       },
       {
-        title: "Kariyer",
-        body: "Kariyer koçu ve 30 günlük plan.",
+        title: "YetkinCV & Kariyer",
+        body: "SHA-256 doğrulama ve 30 günlük plan.",
         href: "/career",
       },
       {
-        title: "Uzmanlar",
-        body: "Doğrulanmış uzman ve freelancer buluşma noktası.",
-        href: "/uzmanlar",
+        title: "Kurumsal İlan & Eleme",
+        body: "İlan, ağırlıklı puan ve kısa liste.",
+        href: "/kurumsal",
       },
     ],
     faqHeading: "Sık sorulanlar",

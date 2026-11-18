@@ -68,11 +68,13 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
 
   it("kamu, profil ve kalan odalar siz kaçakları taşımaz; SEN_VOICE bağlar", () => {
     expect(SEN_VOICE.public.home.title).toBe(
-      "E-Ticaret ve YetkinHibe. İki işletim sistemi, tek hesap.",
+      "Beş modüllü birleşik AI işletim sistemi. Tek hesap.",
     );
-    expect(SEN_VOICE.public.home.description).toContain("sunucu onaylı");
-    expect(SEN_VOICE.public.home.description).toContain("30 günlük kariyer planını");
-    expect(SEN_VOICE.public.home.description).toContain("canlı mağaza vitrinini");
+    expect(SEN_VOICE.public.home.description).toContain("E-Ticaret OS");
+    expect(SEN_VOICE.public.home.description).toContain("YetkinHibe OS");
+    expect(SEN_VOICE.public.home.description).toContain("SHA-256");
+    expect(SEN_VOICE.public.home.tracksKicker).toBe("Beş modül");
+    expect(SEN_VOICE.public.home.tracksTitle).toBe("Tek işletim sistemi");
     expect(SEN_VOICE.public.home.description).not.toContain("teklif ver");
     expect(SEN_VOICE.career.description).toContain("doğrulama bağı herkese açıktır");
     expect(SEN_VOICE.career.description).not.toContain("Sahte rozet");

@@ -16,7 +16,7 @@ import { GrantEligibilityWidget } from "@/components/hibe/grant-eligibility-widg
 
 /**
  * Marka iniş katmanı — kök adres (`/`).
- * Canlı vitrin: ücretsiz yetkinlik testi, dört adımlı zincir, yedi tezgâh aracı, beş uzmanlık.
+ * Canlı vitrin: beş modüllü birleşik AI işletim sistemi, dört adımlı zincir, yedi tezgâh aracı.
  * Kapalı oda önizlemesi bu sayfada basılmaz.
  */
 export const metadata: Metadata = pageMetadata({

@@ -238,9 +238,32 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(contact).not.toContain("PayTR");
     // Faaliyet konusu şeffaflığı — unvan/faaliyet hizası tek kaynaktan beslenir.
     expect(LEGAL_ACTIVITY_SCOPE_BODY).toContain(LEGAL_ENTITY.tradeName);
-    expect(LEGAL_ACTIVITY_SCOPE_BODY).toContain("dijital eğitim ve yetkinlik platformudur");
-    expect(LEGAL_ACTIVITY_SCOPE_BODY).toContain("dijital sertifikasyon hizmetidir (B2C)");
+    expect(LEGAL_ACTIVITY_SCOPE_BODY).toContain("AI tabanlı iş ve operasyon işletim platformudur");
+    expect(LEGAL_ACTIVITY_SCOPE_BODY).toContain("E-Ticaret OS, YetkinHibe OS, AI Tezgâh, YetkinCV");
+    expect(LEGAL_ACTIVITY_SCOPE_BODY).not.toContain("dijital eğitim ve yetkinlik platformudur");
+    expect(LEGAL_ACTIVITY_SCOPE_BODY).not.toContain("B2C");
     expect(LEGAL_ACTIVITY_SCOPE_BODY).not.toContain("freelancer");
+    const kvkkBody =
+      LEGAL_LAUNCH_SECTIONS.find((row) => row.slug === "gizlilik")
+        ?.articles.flatMap((article) => article.paragraphs)
+        .join("\n") ?? "";
+    expect(kvkkBody).toContain("mağaza ürün, stok ve pazaryeri entegrasyon verileri");
+    expect(kvkkBody).toContain("firma profil bilgileri ve proje taslak verileri");
+    expect(kvkkBody).toContain("oluşturulan çıktılar");
+    expect(kvkkBody).toContain("SHA-256 doğrulama özetleri");
+    expect(kvkkBody).toContain("yalnızca ilanı açan yetkili şirketle paylaşılan başvuru bilgileri");
+    expect(kvkkBody).toContain("Kredi kartı numaranız platform sunucularımızda asla tutulmaz");
+    const commerceBody = ["iade", "mesafeli-satis", "kullanim"]
+      .map(
+        (slug) =>
+          LEGAL_LAUNCH_SECTIONS.find((row) => row.slug === slug)
+            ?.articles.flatMap((article) => article.paragraphs)
+            .join("\n") ?? "",
+      )
+      .join("\n");
+    expect(commerceBody).toContain("AI Tezgâh Pro");
+    expect(commerceBody).toContain("E-Ticaret İşletme Lisansı");
+    expect(commerceBody).toContain("tek seferlik dijital");
     expect(copy).toContain("LEGAL_ACTIVITY_SCOPE_BODY");
     for (const slug of ["gizlilik", "mesafeli-satis", "kullanim"]) {
       const section = LEGAL_LAUNCH_SECTIONS.find((row) => row.slug === slug);

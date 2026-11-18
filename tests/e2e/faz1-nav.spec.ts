@@ -8,7 +8,7 @@ test.describe("Faz 1 kamu navigasyonu", () => {
     expect(home?.status()).toBeLessThan(400);
     await expect(
       page.getByRole("heading", {
-        name: "E-Ticaret ve YetkinHibe. İki işletim sistemi, tek hesap.",
+        name: "Beş modüllü birleşik AI işletim sistemi. Tek hesap.",
       }),
     ).toBeVisible();
     await expect(page.getByRole("link", { name: "YetkinHibe İşletim Sistemi" }).first()).toHaveAttribute(
@@ -36,8 +36,8 @@ test.describe("Faz 1 kamu navigasyonu", () => {
     await expect(page.getByText("Belgenin vitrini")).toHaveCount(0);
     await expect(page.getByText("Platform örneği · emanet kapalı")).toHaveCount(0);
     await expect(page.getByText("Junior", { exact: true })).toHaveCount(0);
-    await expect(page.getByText("Kurumsal")).toHaveCount(0);
-    await expect(page.getByRole("link", { name: "YetkinHibe", exact: true })).toBeVisible();
+    await expect(page.getByText("Kurumsal İlan & Eleme").first()).toBeVisible();
+    await expect(page.getByRole("link", { name: "YetkinHibe OS", exact: true })).toBeVisible();
     await expect(page.getByText("Arena")).toHaveCount(0);
     await expect(page.getByText("Yetkinİlan")).toHaveCount(0);
     await expect(page.getByText("YetkinX")).toHaveCount(0);

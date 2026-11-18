@@ -89,7 +89,7 @@ export const PAGE_SEO = {
     // SERP kesme sınırı ~155 karakter. Kuyruk cümlesi (KVKK/sınav vaadi) description'da
     // değil gövde H2'lerinde ve SSS'de durur; burada ilk iki niyet dizgisi öne alınır.
     description:
-      "Yapay zeka eğitimi ve online kurs: ofis, e-ticaret ve sosyal medyada uygulamalı dersler. İlk ders ücretsiz; testi 70+ ile geç, sertifikanı al.",
+      "E-Ticaret OS, YetkinHibe OS, AI Tezgâh, YetkinCV ve kurumsal ilan eleme. Beş modül, tek hesap, tek AI işletim sistemi.",
     path: "/",
     image: DEFAULT_OG_IMAGE,
   },
@@ -190,9 +190,9 @@ export const PAGE_SEO = {
     image: DEFAULT_OG_IMAGE,
   },
   about: {
-    title: "Hakkımızda — Yapınet bünyesinde dijital eğitim",
+    title: "Hakkımızda — Yapınet bünyesinde AI işletim platformu",
     description:
-      "yetkin.ai, Yapınet Gayrimenkul ve E-Ticaret Limited Şirketi bünyesinde dijital eğitim, sınav ve sertifikasyon sunar. Künye ve Akademi hikâyesi.",
+      "yetkin.ai, Yapınet Gayrimenkul ve E-Ticaret Limited Şirketi bünyesinde KOBİ, girişimci, danışman ve kurumsal şirketler için AI tabanlı iş ve operasyon işletim platformudur.",
     path: "/hakkimizda",
     image: DEFAULT_OG_IMAGE,
   },

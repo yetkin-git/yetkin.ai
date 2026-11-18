@@ -143,7 +143,7 @@ describe("yetkin.ai marka / favicon yüzeyi", () => {
     expect(readSrc("app/(public)/page.tsx")).not.toContain("data-academy-production-band");
     expect(readSrc("app/(public)/page.tsx")).not.toContain("preload(");
     expect(PUBLIC_SEN.home.title).toBe(
-      "E-Ticaret ve YetkinHibe. İki işletim sistemi, tek hesap.",
+      "Beş modüllü birleşik AI işletim sistemi. Tek hesap.",
     );
   });
 });

@@ -49,12 +49,12 @@ export const LEGAL_HONESTY_BODY =
 
 /**
  * Faaliyet konusu şeffaflığı — sicil unvanı «gayrimenkul ve e-ticaret» taşır;
- * platform ise dijital eğitim ve yetkinlik hizmeti sunar. NACE / unvan-faaliyet
+ * platform ise AI tabanlı iş ve operasyon işletim hizmeti sunar. NACE / unvan-faaliyet
  * uyumsuzluğu riski, uydurma unvan icat etmek yerine dürüst anlatımla bertaraf
  * edilir. /iletisim kartı ve yasal metinler tek kaynaktan okur.
  */
 export const LEGAL_ACTIVITY_SCOPE_BODY =
-  `${LEGAL_ENTITY.brandName}, ${LEGAL_ENTITY.tradeName} bünyesinde yürütülen dijital eğitim ve yetkinlik platformudur. Sunulan hizmetler elektronik ortamda ifa edilen eğitim içeriği, sunucu değerlendirmeli yetkinlik sınavı ve dijital sertifikasyon hizmetidir (B2C).`;
+  `${LEGAL_ENTITY.brandName}, ${LEGAL_ENTITY.tradeName} bünyesinde KOBİ'ler, girişimciler, danışmanlar ve kurumsal şirketler için yürütülen AI tabanlı iş ve operasyon işletim platformudur. Sunulan hizmetler E-Ticaret OS, YetkinHibe OS, AI Tezgâh, YetkinCV ve kurumsal ilan ile eleme modülleridir.`;
 
 /** Cüzdan iadesi — S43 dürüst metin. Otomatik karta dönüş vaadi yok. */
 export const LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH =
@@ -62,10 +62,10 @@ export const LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH =
 
 /**
  * İade ve mesafeli satış aynı cümleyi taşır.
- * Tahsilat, ilgili eğitim / uzmanlık paketine erişimi açar.
+ * Tahsilat, ilgili dijital aboneliğe, tek seferlik çıktıya veya uzmanlık paketine erişimi açar.
  */
 export const LEGAL_DIRECT_PACKAGE_ACCESS =
-  "Ödeme, doğrudan ilgili eğitim ve uzmanlık paketine erişimi açar.";
+  "Ödeme, doğrudan ilgili dijital aboneliğe, tek seferlik dijital çıktıya veya eğitim ve uzmanlık paketine erişimi açar.";
 
 const LEGAL_TR_MONTHS = [
   "Ocak",
@@ -164,6 +164,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         heading: "2. Gizlilik politikası — Ne toplanır, ne toplanmaz?",
         paragraphs: [
           "İşlenen başlıca veriler: Hesap e-postası, görünen ad, oturum çerezleri, bakiye bilgisi, değiştirilemez hesap hareketleri (işlem tutarları ve para birimi), akademi sınav oturumu/cevapları ve dijital olarak doğrulanabilir sertifika kodlarıdır.",
+          "Modül bazında işlenen veriler: (1) E-Ticaret OS — mağaza ürün, stok ve pazaryeri entegrasyon verileri. (2) YetkinHibe OS — firma profil bilgileri ve proje taslak verileri. (3) AI Tezgâh — kullanıcının üretim için girdiği metin ve ürün girdileri ile oluşturulan çıktılar. (4) YetkinCV ve kurumsal ilan — adayların sınav puanları, SHA-256 doğrulama özetleri ve yalnızca ilanı açan yetkili şirketle paylaşılan başvuru bilgileri.",
           "Kişiselleştirilmiş reklam takibi ve çerezle yeniden hedefleme yoktur. Sayfanın nasıl kullanıldığını ve satın alma adımının nerede kaldığını ölçmek için Google Analytics (GA4) kullanırız. Bu, birinci taraf dönüşüm ve performans ölçümüdür; reklam profili kurulmaz. Kredi kartı numaranız platform sunucularımızda asla tutulmaz; kart tahsilatları Yetkili Ödeme Kuruluşu altyapısı üzerinden güvenle yürütülür.",
         ],
       },
@@ -171,7 +172,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "amac-hukuki-sebep",
         heading: "3. Veriler neden işlenir?",
         paragraphs: [
-          "Verilerinizi şu amaçlarla işleriz: hesap açmak, satın aldığınız dijital eğitim içeriğini sunmak, akademi sınavını değerlendirmek, sertifika doğrulamasını sağlamak ve güvenliği (sahtecilik, mükerrer ödeme, oturum) korumak.",
+          "Verilerinizi şu amaçlarla işleriz: hesap açmak, satın alınan dijital aboneliği ve tek seferlik dijital çıktıyı sunmak, E-Ticaret OS, YetkinHibe OS, AI Tezgâh, YetkinCV ve kurumsal ilan modüllerini işletmek, sınav ve SHA-256 doğrulamasını sağlamak ve güvenliği (sahtecilik, mükerrer ödeme, oturum) korumak.",
           "Hukuki sebepler: sözleşmenin yerine getirilmesi (satın alma, sınav, sertifika), meşru menfaat (oturum ve sahtecilik önleme) ve kanuni yükümlülüktür. Pazarlama izni alınmaz; pazarlama e-postası gönderilmez.",
         ],
       },
@@ -181,6 +182,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         paragraphs: [
           "Hesap ve verileriniz, kimlik doğrulama ve veritabanı hizmetleri sağlayan bulut altyapısında tutulur. Sunucuların bulunduğu ülke, ilgili hizmet sağlayıcısının kayıtlarında yer alır.",
           "Kart ödemesinde Yetkili Ödeme Kuruluşuna e-posta adresiniz, bağlantı IP’niz, sipariş numarası ve sepet tutarı iletilir.",
+          "Kurumsal ilan başvurusu, sınav puanı ve SHA-256 doğrulama özeti yalnızca ilanı açan yetkili şirketle paylaşılır. Başvuru kamu dizinine basılmaz.",
           "Hesap bildirimleri e-posta ile gönderilebilir. E-posta altyapısı yoksa bildirim atlanır; ödeme işleminiz durmaz. Üçüncü taraf pazarlama e-posta hizmeti kullanılmaz.",
         ],
       },
@@ -197,7 +199,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "saklama-haklar",
         heading: "6. Saklama ve haklarınız",
         paragraphs: [
-          "Hesap hareketleri sonradan değiştirilemez; bakiyeniz bu kayıtlardan hesaplanır. Akademi sınavı sunucuda değerlendirilir. Herkese açık sertifika doğrulama sayfası kişisel bilgi (ad, e-posta) göstermez; yalnız dijital olarak doğrulanabilir sertifika kodu kontrol edilir.",
+          "Hesap hareketleri sonradan değiştirilemez; bakiyeniz bu kayıtlardan hesaplanır. Akademi sınavı sunucuda değerlendirilir. Herkese açık sertifika doğrulama sayfası kişisel bilgi (ad, e-posta) göstermez; yalnız dijital olarak doğrulanabilir sertifika kodu kontrol edilir. E-Ticaret, YetkinHibe, AI Tezgâh ve YetkinCV verisi ilgili hizmetin ifası ve doğrulama için saklanır.",
           `6698 sayılı Kanun’un 11. maddesindeki haklarınız (erişim, düzeltme, silme, itiraz) ${LEGAL_SUPPORT_EMAIL} ve hesap içi bildirim kanalından kullanılır.`,
         ],
       },
@@ -263,6 +265,15 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
           `Sağlayıcı künye: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}). İptal, iade ve ödeme itirazları ${LEGAL_SUPPORT_EMAIL}, WhatsApp (${LEGAL_ENTITY.whatsappDisplay}) ve /iletisim üzerinden yürür. Kart tahsilatı itirazı Yetkili Ödeme Kuruluşunun kendi kanalı ile birlikte okunur. Tebligat adresi: ${LEGAL_ENTITY.address}.`,
         ],
       },
+      {
+        id: "dijital-abonelik-cikti",
+        heading: "4. Dijital abonelik ve tek seferlik çıktı",
+        paragraphs: [
+          "AI Tezgâh Pro ve E-Ticaret İşletme Lisansı, elektronik ortamda ifa edilen aylık dijital aboneliktir. Tahsilat tamamlanınca ilgili modül erişimi açılır ve hizmet ifası başlamış sayılır. Erişim açıldıktan sonra dönem bedeli iade edilmez; çifte iade yoktur.",
+          "YetkinHibe proje dosyası ve AI Tezgâh üretim çıktısı tek seferlik dijital içeriktir. Çıktı elektronik ortamda teslim edilince ifa tamamlanır. Kargo veya fiziki teslim yoktur. İfa başladıktan sonra bedel iade edilmez.",
+          "Ücretsiz AI Tezgâh kotası satın alma değildir. Kota dolunca ücretli hat katalogda ilan edilen fiyattan açılır; tutar bu metinde yazılmaz.",
+        ],
+      },
     ],
   },
   {
@@ -276,8 +287,9 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         heading: "A. Ön Bilgilendirme Formu",
         paragraphs: [
           `Satıcı / sağlayıcı: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}), marka: ${LEGAL_ENTITY.brandName}. Adres: ${LEGAL_ENTITY.address}. Destek: ${LEGAL_SUPPORT_EMAIL}, WhatsApp ${LEGAL_ENTITY.whatsappDisplay} ve /iletisim. ${LEGAL_AGE_POLICY_BODY} ${LEGAL_ACTIVITY_SCOPE_BODY}`,
-          "Hizmetin niteliği: (1) Akademi — dijital eğitim içeriği (metin, diyagram, varsa ses/video), 365 gün lisans, sunucu sınavı, baraj 70, dijital sertifika kodu. Satın alma belge basmaz. (2) Kariyer — mühürden türetilen vize projeksiyonu; ücretli ilan tahtası değildir.",
+          "Hizmetin niteliği: (1) AI Tezgâh Pro — aylık dijital abonelik; üretim kotası ve müşteri teslim paketi. (2) E-Ticaret İşletme Lisansı — aylık dijital abonelik; stok, kanal ve sipariş kokpiti. (3) Tek seferlik dijital çıktı — YetkinHibe proje dosyası ile AI Tezgâh üretimleri; elektronik teslimdir, kargo yoktur. (4) Akademi — dijital eğitim içeriği (metin, diyagram, varsa ses/video), 365 gün lisans, sunucu sınavı, baraj 70, dijital sertifika kodu. Satın alma belge basmaz. (5) YetkinCV — SHA-256 doğrulama özeti; satın alma tek başına puan basmaz. Kurumsal ilan, başvuru bilgisini yalnız ilanı açan yetkili şirketle paylaşır; ücretli ilan tahtası değildir.",
           "Ödeme işlemleri Yetkili Ödeme Kuruluşu altyapısı üzerinden güvenle gerçekleştirilir. Kart tahsilatları ve cüzdan bakiyeleri Türk Lirası (TL) cinsinden işlenir. Kurs bedelleri kataloğumuzda ilan edilen güncel fiyatlar üzerinden tahsil edilir.",
+          "AI Tezgâh Pro, E-Ticaret İşletme Lisansı ve tek seferlik dijital çıktı bedelleri de katalogda ilan edilen güncel fiyatlardan tahsil edilir. Abonelik dönemi ve tek seferlik teslim, kasa ekranında ayrılır.",
           `${LEGAL_DIRECT_PACKAGE_ACCESS} İfa: Akademi uzmanlık paketinde kart tahsilatı tamamlandığında ders gövdesi aynı işlemde açılır. Defter hareketi arka plandadır; ayrıca bir satın alma adımı yoktur. Bu, 6502 sayılı Kanun uyarınca elektronik ortamda anında ifa edilen hizmet / maddi ortamda sunulmayan dijital içeriktir. Teslimat adresi veya kargo yoktur.`,
           "Cayma: Ön bilgi ve mesafeli sözleşme kasa tikleriyle kabul edilir. Akademi erişimi açılınca cayma hakkı istisna kapsamındadır (aşağıda B.5). Kullanılmamış cüzdan bakiyesi otomatik karta dönmez.",
         ],
@@ -286,7 +298,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "mesafeli-sozlesme",
         heading: "B. Mesafeli Satış Sözleşmesi",
         paragraphs: [
-          `Satıcı künye: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}). Adres: ${LEGAL_ENTITY.address}. Bu sözleşme, 6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği çerçevesinde dijital hizmet / dijital içerik ifasını anlatır. ${YETKIN_BRAND} dijital eğitim ve sertifikasyon hizmeti sunar; ödeme veya finans kuruluşu değildir. Akademide ifa elektronik teslimdir.`,
+          `Satıcı künye: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}). Adres: ${LEGAL_ENTITY.address}. Bu sözleşme, 6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği çerçevesinde dijital hizmet / dijital içerik ifasını anlatır. ${YETKIN_BRAND} AI tabanlı iş ve operasyon işletim hizmeti sunar; ödeme veya finans kuruluşu değildir. Dijital abonelik ve tek seferlik dijital çıktıda ifa elektronik teslimdir. Akademide ifa elektronik teslimdir.`,
           `Sözleşme, tüketicinin kasa ekranında Mesafeli Satış Sözleşmesi ile Ön Bilgilendirme Formunu kabul etmesi ve dijital içeriğin anında ifa edileceğine açık rıza vermesiyle kurulur. Rıza, ödeme isteğinde ${CHECKOUT_LEGAL_CONSENT_VERSION} sürümü ile doğrulanır. Tik yoksa kart tahsilatı durur.`,
         ],
       },
@@ -327,7 +339,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "kapsam",
         heading: "1. Kapsam ve odalar",
         paragraphs: [
-          `${LEGAL_ACTIVITY_SCOPE_BODY} Kamuya açık çalışan bölümler Genel Bakış, Akademi ve Kariyer'dir. Kapalı bölümler vitrinde yer almaz ve satışa sunulmaz. Tahsilatın tek kanalı Yetkili Ödeme Kuruluşudur. Platform bakiyesi banka hesabına çekilmez.`,
+          `${LEGAL_ACTIVITY_SCOPE_BODY} Çalışan modüller E-Ticaret OS, YetkinHibe OS, AI Tezgâh, YetkinCV ve kurumsal ilandır. Kapalı bölümler vitrinde yer almaz ve satışa sunulmaz. Tahsilatın tek kanalı Yetkili Ödeme Kuruluşudur. Platform bakiyesi banka hesabına çekilmez.`,
           "Vatandaş hesap e-posta ve şifre ile açılır; oturum çerezi kimlik ipucudur, para işlemi sunucuda JWT ile bağlanır. Native mağaza (IAP) akademi satmaz.",
         ],
       },
@@ -335,7 +347,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "hizmet-sorumluluk",
         heading: "2. Hizmet niteliği ve sorumluluk",
         paragraphs: [
-          `Platform dijital eğitim içeriği, sunucu değerlendirmeli yetkinlik sınavı ve dijital sertifika sunar. ${YETKIN_BRAND} bir ödeme veya finans kuruluşu değildir. Kariyer odası belge vitrinidir; ücretli ilan tahtası değildir. Platform, eğitimin işe yerleşmeyi veya gelir elde etmeyi garanti etmez.`,
+          `Platform E-Ticaret OS, YetkinHibe OS, AI Tezgâh, YetkinCV ve kurumsal ilan ile eleme hizmeti sunar. Dijital abonelikler AI Tezgâh Pro ve E-Ticaret İşletme Lisansıdır. Tek seferlik dijital çıktı, YetkinHibe proje dosyası ve AI Tezgâh üretimleridir. ${YETKIN_BRAND} bir ödeme veya finans kuruluşu değildir. Kurumsal ilan ücretli kamu ilan tahtası değildir. Platform, hibe alınmasını, işe yerleşmeyi veya ticari geliri garanti etmez.`,
           "Azami sorumluluk, ilgili dijital hizmet bedelinin net tutarı ve defter kaydı ile sınırlıdır; dolaylı, kâr kaybı veya manevi tazminat talep edilemez.",
         ],
       },
@@ -367,11 +379,11 @@ export const LEGAL_ABOUT_HREF = "/hakkimizda" as const;
 export const LEGAL_ABOUT_TITLE = "Hakkımızda" as const;
 
 export const LEGAL_ABOUT_LEAD =
-  `${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}) bünyesinde yürütülen ${LEGAL_ENTITY.brandName}, vatandaşa dijital eğitim, sunucu sınavı ve sertifikasyon sunan bir B2C yetkinlik platformudur.`;
+  `${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}) bünyesinde yürütülen ${LEGAL_ENTITY.brandName}, KOBİ'ler, girişimciler, danışmanlar ve kurumsal şirketler için geliştirilmiş AI tabanlı iş ve operasyon işletim platformudur.`;
 
 export const LEGAL_ABOUT_STORY = [
-  "Şirket sicil unvanı gayrimenkul ve e-ticaret faaliyetlerini taşır. yetkin.ai üzerindeki tek ve ana faaliyet konusu dijital eğitim, yetkinlik sınavı ve sertifikasyondur. Sicildeki unvan ile platformdaki faaliyet bu sayfada açıkça yazılır.",
-  "Kayıt olan kişi Akademi kataloğundan kursu tek işlemle satın alır, müfredatı tamamlar, sunucuda değerlendirilen sınavı geçer ve belgesini paylaşılabilir doğrulama bağı ile kontrol ettirir. Kariyer bölümü bu kayıttan türeyen belge vitrinidir; ücretli ilan tahtası değildir. Belge, işe yerleşmeyi veya gelir elde etmeyi garanti etmez.",
+  "Şirket sicil unvanı gayrimenkul ve e-ticaret faaliyetlerini taşır. yetkin.ai üzerindeki faaliyet, KOBİ'ler, girişimciler, danışmanlar ve kurumsal şirketler için AI tabanlı iş ve operasyon işletimidir: E-Ticaret OS, YetkinHibe OS, AI Tezgâh, YetkinCV ve kurumsal ilan ile eleme. Sicildeki unvan ile platformdaki faaliyet bu sayfada açıkça yazılır.",
+  "Kayıt olan kişi tek hesapla modülleri kullanır. E-Ticaret OS stok, kanal ve siparişi toplar. YetkinHibe OS firma uygunluğunu ve proje dosyasını hazırlar. AI Tezgâh üretim kotasıyla dijital çıktı üretir. YetkinCV SHA-256 doğrulama özeti sunar. Kurumsal ilan, başvuru bilgisini yalnız ilanı açan yetkili şirketle paylaşır. Platform, işe yerleşmeyi, hibe alınmasını veya ticari geliri garanti etmez.",
   `Platform bir ödeme veya finans kuruluşu değildir. Kart tahsilatı Yetkili Ödeme Kuruluşu altyapısı üzerinden yürür; kart numarası platform sunucularında tutulmaz. Platform bakiyesi banka hesabına çekilmez. ${LEGAL_AGE_POLICY_BODY}`,
 ] as const;
 

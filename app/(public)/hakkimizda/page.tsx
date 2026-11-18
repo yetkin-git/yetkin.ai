@@ -28,7 +28,7 @@ export default function AboutPage() {
         <Card title="Faaliyet konusu">
           <p className="text-base leading-relaxed text-slate-700">{LEGAL_ACTIVITY_SCOPE_BODY}</p>
         </Card>
-        <Card title="Akademi odaklı hikâye">
+        <Card title="Platform hikâyesi">
           <div className="space-y-3 text-base leading-relaxed text-slate-700">
             {LEGAL_ABOUT_STORY.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>

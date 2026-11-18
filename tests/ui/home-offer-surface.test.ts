@@ -45,10 +45,15 @@ describe("ana sayfa hibe hazırlığı bölümü (V1)", () => {
     );
   });
 
-  it("SSS ücretsiz yetkinlik testini kayıt ve barajla anlatır", () => {
-    expect(HOME_LANDING_FAQ).toHaveLength(6);
-    const row = HOME_LANDING_FAQ.find((item) => item.question === "Ücretsiz yetkinlik testi nasıl işler?");
-    expect(row?.answer).toContain("Temel Muafiyet Rozeti");
-    expect(row?.answer).not.toContain("Hazırlanıyor");
+  it("SSS beş modülü anlatır; online kurs sorusu kök inişte yoktur", () => {
+    expect(HOME_LANDING_FAQ).toHaveLength(5);
+    const joined = HOME_LANDING_FAQ.flatMap((row) => [row.question, row.answer]).join("\n");
+    expect(joined).toContain("E-Ticaret OS");
+    expect(joined).toContain("YetkinHibe OS");
+    expect(joined).toContain("günde 3 üretim");
+    expect(joined).toContain("SHA-256");
+    expect(joined).toContain("ilanı açan yetkili şirket");
+    expect(joined).not.toContain("online kurs");
+    expect(joined).not.toContain("Hazırlanıyor");
   });
 });

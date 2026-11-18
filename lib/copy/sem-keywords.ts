@@ -71,20 +71,35 @@ const FAQ = {
     answer:
       "Evet. Online kurs mobil tarayıcıda açılır. Kart tahsilatı PayTR iFrame + 3D Secure ile yürür.",
   },
-  offerStatus: {
-    question: "Ücretsiz yetkinlik testi nasıl işler?",
-    answer:
-      "Ücretsiz yetkinlik testine kayıttan sonra girersin. On soru sunucuda puanlanır. 70 ve üzeri Temel Muafiyet Rozeti basar ve resmi uzmanlık paketine öncelikli geçiştir.",
-  },
 } as const satisfies Record<string, LandingFaqItem>;
 
+/** Kök iniş SSS — beş modül. Akademi kataloğu `ACADEMY_LANDING_FAQ` ile ayrı kalır. */
 export const HOME_LANDING_FAQ: readonly LandingFaqItem[] = [
-  FAQ.aiTraining,
-  FAQ.certificate,
-  FAQ.visa,
-  FAQ.prompt,
-  FAQ.online,
-  FAQ.offerStatus,
+  {
+    question: "E-Ticaret OS kokpiti ne toplar?",
+    answer:
+      "E-Ticaret OS stok, kanal ve siparişi tek kokpitte toplar. Mağaza ürünü, stok ve pazaryeri entegrasyonu aynı hesapta durur. Lisans katalog fiyatıyla açılır.",
+  },
+  {
+    question: "YetkinHibe uygunluk analizi ve proje dosyası nasıl kurulur?",
+    answer:
+      "Firma profilini girersin. YetkinHibe OS uygunluğu ölçer; proje özeti, bütçe ve iş paketini dosyaya döker. Tam proje dosyası tek seferlik dijital çıktıdır.",
+  },
+  {
+    question: "AI Tezgâh ücretsiz üretim kotası nasıl işler?",
+    answer:
+      "Misafir ve üye günde 3 üretim alır. Kota İstanbul gününde sıfırlanır. AI Tezgâh Pro aylık dijital aboneliktir; ek kota katalogdan açılır.",
+  },
+  {
+    question: "YetkinCV SHA-256 doğrulaması ne gösterir?",
+    answer:
+      "Vaka testi sunucuda puanlanır. Paylaştığın /vize bağı skor, beceri kırılımı ve SHA-256 özetini gösterir. CV metni bu sayfada basılmaz. İşe yerleşmeyi garanti etmez.",
+  },
+  {
+    question: "Kurumsal ilan elemesinde başvuru kimle paylaşılır?",
+    answer:
+      "Başvuru bilgisi, sınav puanı ve SHA-256 özeti yalnız ilanı açan yetkili şirketle paylaşılır. Kısa liste ağırlıklı puana göre sıralanır. Kamu dizinine basılmaz.",
+  },
 ];
 
 export const ACADEMY_LANDING_FAQ: readonly LandingFaqItem[] = [

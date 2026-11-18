@@ -872,8 +872,13 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
       "kvkk maskeleme",
       "haftalık cuma rutini",
     ]);
+    expect(homeText).toContain("beş modül");
+    expect(homeText).toContain("e-ticaret os");
+    expect(homeText).not.toContain("iki işletim sistemi");
+    expect(homeText).not.toContain("online kurs");
+    expect(careerText).toContain("yetkincv");
+    expect(careerText).toContain("sha-256");
     for (const keyword of GLOBAL_SEM_KEYWORDS) {
-      expect(homeText, `home ← ${keyword}`).toContain(keyword);
       const onAcademy = academyText.includes(keyword);
       const onCareer = careerText.includes(keyword);
       expect(onAcademy || onCareer, `academy|career ← ${keyword}`).toBe(true);
