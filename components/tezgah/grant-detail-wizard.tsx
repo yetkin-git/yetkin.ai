@@ -2,8 +2,8 @@
 
 import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
-import { Input, INPUT_SURFACE_CLASS } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Input, INPUT_SURFACE_CLASS, selectValueTypoClass } from "@/components/ui/input";
+import { SmartTextarea } from "@/components/ui/smart-textarea";
 import { cn } from "@/components/ui/cn";
 import { GRANT_DETAIL_DURATIONS, type GrantDetailDuration, type GrantDetailsInput } from "@/lib/tezgah/grant/details-input";
 import {
@@ -146,7 +146,7 @@ export function GrantDetailWizard({
             <label className="block text-sm font-medium text-[var(--foreground)]">
               Hedeflenen Destek Programı Seçimi
               <select
-                className={cn("mt-1", INPUT_SURFACE_CLASS)}
+                className={cn("mt-1", INPUT_SURFACE_CLASS, selectValueTypoClass(targetGrantId))}
                 value={targetGrantId}
                 onChange={(event) => setTargetGrantId(event.target.value)}
               >
@@ -161,7 +161,7 @@ export function GrantDetailWizard({
             <label className="block text-sm font-medium text-[var(--foreground)]">
               Proje Süresi (Ay)
               <select
-                className={cn("mt-1", INPUT_SURFACE_CLASS)}
+                className={cn("mt-1", INPUT_SURFACE_CLASS, selectValueTypoClass(durationMonths))}
                 value={durationMonths}
                 onChange={(event) => setDurationMonths(event.target.value)}
               >
@@ -240,26 +240,32 @@ export function GrantDetailWizard({
               </label>
               <label className="block text-sm text-[var(--foreground)]">
                 Uzmanlıklar
-                <Textarea
-                  className="mt-1"
-                  rows={4}
-                  maxLength={800}
-                  value={teamExpertise}
-                  placeholder={"Soğuk zincir 4\nSatış kanalı 2"}
-                  onChange={(event) => setTeamExpertise(event.target.value)}
-                />
+                <div className="mt-1">
+                  <SmartTextarea
+                    context="hibe"
+                    rows={4}
+                    maxLength={800}
+                    value={teamExpertise}
+                    placeholder="Uzmanlıklarınızı buraya yazınız..."
+                    onChange={(event) => setTeamExpertise(event.target.value)}
+                    softHint="Biraz daha detay ekleyin (roller, deneyim, araçlar)…"
+                  />
+                </div>
               </label>
             </fieldset>
             <label className="block text-sm font-medium text-[var(--foreground)]">
               Beklenen Somut Çıktı & Ticarileşme / İhracat Hedefi
-              <Textarea
-                className="mt-1"
-                rows={4}
-                maxLength={800}
-                value={outputGoal}
-                placeholder="Depo kendi kanalına bağlanır ve bölgesel dağıtım başlar."
-                onChange={(event) => setOutputGoal(event.target.value)}
-              />
+              <div className="mt-1">
+                <SmartTextarea
+                  context="hibe"
+                  rows={4}
+                  maxLength={800}
+                  value={outputGoal}
+                  placeholder="Talebinizi buraya yazınız..."
+                  onChange={(event) => setOutputGoal(event.target.value)}
+                  softHint="Biraz daha detay ekleyin (çıktı, pazar, hedef)…"
+                />
+              </div>
             </label>
             {error ? <p className="text-sm text-[var(--rose)]">{error}</p> : null}
             <Button type="submit" disabled={!ready || pending || blocked || programs.length === 0}>

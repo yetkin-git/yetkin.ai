@@ -4,14 +4,17 @@ import { YETKIN_BRAND } from "@/lib/copy/brand";
 export const PUBLIC_SEN = {
   home: {
     badge: YETKIN_BRAND,
-    title: "Beş modüllü birleşik AI işletim sistemi. Tek hesap.",
+    title: "İşinizi Büyüten Yapay Zeka Araçları. Tek Hesap, Sıfır Karmaşa.",
     description:
-      "E-Ticaret OS stok, kanal ve siparişi toplar. YetkinHibe OS firma uygunluğunu ve proje dosyasını hazırlar. AI Tezgâh ücretsiz üretim kotasıyla teslim çıkarır. YetkinCV SHA-256 doğrulaması ve kurumsal ilan elemesi aynı hesapta durur.",
+      "Dakikalar içinde profesyonel belgeler üretin, e-ticaret stok ve siparişlerinizi tek yerden yönetin, işletmenize uygun hibeleri bulun ve yetkinliğinizi gerçek testlerle kanıtlayın.",
+    /** Kapalı Akademi yüzeyi hâlâ bu anahtarı okur; ana sayfa kullanmaz. */
     academyCta: "YetkinHibe İşletim Sistemi",
-    /** Kök iniş — zincir bağlantısı. Kahraman birincil düğmesi `primaryCta`. */
-    tezgahCta: "AI Tezgâhını Dene",
+    /** Kök iniş — zincir / tezgâh bağlantısı. */
+    tezgahCta: "Tezgâhı Aç",
     /** Kök iniş — birincil eylem: kayıtsız tezgâh. */
-    primaryCta: "AI Tezgâhını Ücretsiz Dene (Kayıtsız)",
+    primaryCta: "Ücretsiz Hemen Dene (Kayıt Gerekmez)",
+    /** Kök iniş — ikincil eylem: fiyatlandırma. */
+    secondaryCta: "Paketleri İncele",
     /** Kök iniş — ikincil eylem: kayıtsız seviye testi. */
     levelCta: "10 Dakikada Yetkinlik Testine Gir",
     freeLessonCta: "Ücretsiz Dersi İzle",
@@ -23,9 +26,9 @@ export const PUBLIC_SEN = {
     trust: [
       "Kimliğin güvenli oturumla korunur",
       "PayTR iFrame + 3D Secure. Kart numarası platformda tutulmaz",
-      "Sınav ve mühür sunucuda doğrulanır; ikna yerine kanıt",
+      "Yetkinlik testleri sunucuda puanlanır; sonuç paylaşılabilir",
     ],
-    benchKicker: "Tezgâh vitrini",
+    benchKicker: "Tezgâh araçları",
     benchTitle: "Yedi araç, bugün teslim",
     bench: [
       {
@@ -42,14 +45,14 @@ export const PUBLIC_SEN = {
       },
       {
         id: "tetkik",
-        title: "Web Sitesi Tetkik",
-        body: "Ana sayfadan dijital sağlık skoru ve yazdırılabilir rapor çıkarırsın.",
+        title: "Web Site Analizi",
+        body: "Sitenizin SEO, ikna ve dönüşüm performansını analiz eder; hazır çözümler sunar.",
         href: "/tezgah?tool=tetkik",
       },
       {
         id: "dukkan",
         title: "Sektörel Dijital Dükkan",
-        body: "Sektöre göre tek sayfalık vitrin kurar, önizler ve html olarak indirirsin.",
+        body: "Sektöre göre tek sayfalık site kurar, önizler ve html olarak indirirsin.",
         href: "/tezgah?tool=dukkan",
       },
       {
@@ -71,61 +74,60 @@ export const PUBLIC_SEN = {
         href: "/hibe",
       },
     ],
-    chainKicker: "Değer zinciri",
-    chainTitle: "Dört adımda sistem",
+    chainKicker: "Nasıl başlarsın",
+    chainTitle: "Dört adımda işe koyul",
     chain: [
       {
         step: "1",
-        title: "Ücretsiz Test & Tezgâh",
-        body: "Seviyeni ölç. Hazır şablonlarla teslimat taslağını kur.",
+        title: "Ücretsiz Tezgâh",
+        body: "Kayıt olmadan teklif, ürün kartı veya rapor taslağını dakikalar içinde çıkar.",
         href: "/tezgah",
       },
       {
         step: "2",
-        title: "YetkinHibe dosyası",
-        body: "Firma uygunluğunu ölç. Proje özeti, bütçe ve iş paketini dosyaya dök.",
+        title: "Hibe & teşvik",
+        body: "Firma profiline göre uygun destekleri gör; proje özetini dosyaya dök.",
         href: "/hibe",
       },
       {
         step: "3",
-        title: "Doğrulanmış Rozet",
-        body: "Sunucu onaylı Doğrulanmış Freelancer Rozetin Kariyer Kartına işlenir.",
+        title: "Yetkinliğini kanıtla",
+        body: "Uygulamalı testle skorunu al; paylaşılabilir Kariyer Kartına işle.",
       },
       {
         step: "4",
-        title: "E-Ticaret ve 30 günlük plan",
-        body: "Kariyer planını kur. Açık mağaza canlı vitrinde görünür.",
+        title: "E-ticareti yönet",
+        body: "Sipariş, stok ve kârlılığı tek ekranda takip et.",
         href: "/e-ticaret",
       },
     ],
-    tracksKicker: "Beş modül",
-    tracksTitle: "Tek işletim sistemi",
+    tracksKicker: "Çözümler",
+    tracksTitle: "İhtiyacına göre bir alan seç",
     tracksCta: "Ücretsiz Seviye Testine Gir",
     tracks: [
       {
-        title: "E-Ticaret OS",
-        body: "Stok, kanal ve sipariş kokpiti.",
-        href: "/e-ticaret",
-      },
-      {
-        title: "YetkinHibe OS",
-        body: "Uygunluk analizi ve tam proje dosyası.",
-        href: "/hibe",
-      },
-      {
         title: "AI Tezgâh",
-        body: "Ücretsiz üretim kotası ve teslim taslağı.",
+        body: "Teklif, sözleşme, e-posta ve raporlarınızı dakikalar içinde hazırlayın.",
         href: "/tezgah",
+        cta: "Tezgâhı Aç",
       },
       {
-        title: "YetkinCV & Kariyer",
-        body: "SHA-256 doğrulama ve 30 günlük plan.",
+        title: "E-Ticaret Yönetimi",
+        body: "Tüm pazaryeri siparişlerinizi, stoklarınızı ve kârlılığınızı tek ekranda toplayın.",
+        href: "/e-ticaret",
+        cta: "E-Ticareti İncele",
+      },
+      {
+        title: "Hibe & Teşvik Bulucu",
+        body: "İşletmenize uygun KOSGEB, TÜBİTAK ve devlet desteklerini anında görün.",
+        href: "/hibe",
+        cta: "Hibeleri Gör",
+      },
+      {
+        title: "YetkinCV & İK Eleme",
+        body: "Adayların gerçek becerisini uygulamalı testlerle ölçün, doğru ekibi kurun.",
         href: "/career",
-      },
-      {
-        title: "Kurumsal İlan & Eleme",
-        body: "İlan, ağırlıklı puan ve kısa liste.",
-        href: "/kurumsal",
+        cta: "Kariyer Merkezine Git",
       },
     ],
     faqHeading: "Sık sorulanlar",
@@ -134,16 +136,16 @@ export const PUBLIC_SEN = {
     eyebrow: "Rehber",
     title: "Ofiste yapay zekâyı Excel ve e-postada kullan",
     description:
-      "Uygulama rehberleri ücretsizdir. Üretim AI Tezgâh’tadır. Rozet, Kariyer kartında doğrulanır.",
+      "Uygulama rehberleri ücretsizdir. Aynı işi saniyeler içinde üretmek için AI Tezgâh’ı dene.",
     stepsTitle: "Dört adım",
     steps: [
       "AI Tezgâh’ı aç. Excel’de dağınık tabloyu düzenli tabloya çeviren işi kendi cümlenle üret.",
       "Kendi dosyanla dene. Müşteri adı ve telefonu maskelenmeden yapay zekâya yüklenmez.",
-      "Çıktıyı Kariyer kartına bağla. Satın alma belge basmaz.",
-      "Doğrulama bağı /vize adresindedir ve herkese açıktır; kimlik gösterilmez.",
+      "Çıktıyı kaydet veya doğrudan işinde kullan.",
+      "Yetkinliğini kanıtlamak istersen Kariyer’de uygulamalı vaka testini çöz.",
     ],
-    cta: "AI Tezgâhı aç",
-    catalogCta: "Kariyer kartını aç",
+    cta: "AI Tezgâhını Ücretsiz Dene",
+    catalogCta: "YetkinCV'yi İncele",
     faqHeading: "Rehber soruları",
   },
   error: {

@@ -16,6 +16,7 @@ import {
   assertLiveAiModelRole,
   getDefaultModelId,
   isGeminiModelUnavailableError,
+  normalizeGoogleModelId,
 } from "@/lib/kernel/ai/model-roles";
 import { logEvent } from "@/lib/kernel/observability/log";
 import { anthropicProvider } from "@/lib/kernel/ai/providers/anthropic";
@@ -255,15 +256,18 @@ function sleep(ms: number): Promise<void> {
 }
 
 function resolveModel(input: InvokeLlmInput): { model: string; roleKey: string | null } | null {
+  const explicit = input.model?.trim();
   if (input.role) {
     assertLiveAiModelRole(input.role);
-    return { model: getDefaultModelId(input.role), roleKey: input.role };
+    return {
+      model: explicit ? normalizeGoogleModelId(explicit) : getDefaultModelId(input.role),
+      roleKey: input.role,
+    };
   }
-  const explicit = input.model?.trim();
   if (!explicit) {
     return null;
   }
-  return { model: explicit, roleKey: null };
+  return { model: normalizeGoogleModelId(explicit), roleKey: null };
 }
 
 export function normalizeUsage(raw: LlmUsage, input: InvokeLlmInput, text: string): LlmUsage {

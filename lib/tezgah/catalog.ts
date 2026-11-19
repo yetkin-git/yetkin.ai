@@ -32,6 +32,21 @@ export const TEZGAH_PATH = "/tezgah" as const;
 export const TEZGAH_GUEST_DAILY_LIMIT = 3;
 export const TEZGAH_MEMBER_DAILY_LIMIT = 3;
 
+/** Web Site Analizi ömür boyu ücretsiz tavanı. Günlük yenilenmez. */
+export const TEZGAH_TETKIK_LIFETIME_LIMIT = 1;
+
+/** Tetkik sayaç satırı tarih anahtarı — İstanbul gününe bağlı değildir. */
+export const TEZGAH_TETKIK_DATE_KEY = "lifetime" as const;
+
+export const TEZGAH_POOL_KEYS = ["tetkik", "lite", "free_template"] as const;
+
+export type TezgahPoolKey = (typeof TEZGAH_POOL_KEYS)[number];
+
+/** Kota düşmeyen istemci Pro Studio araçları. */
+export type TezgahLocalPool = "local";
+
+export type TezgahToolPool = TezgahPoolKey | TezgahLocalPool;
+
 export const TEZGAH_GUEST_QUOTA_MESSAGE =
   "Bugünkü 3 ücretsiz hakkın doldu. Yarın (İstanbul gece yarısı) yenilenir.";
 
@@ -44,10 +59,21 @@ export const TEZGAH_MEMBER_PAID_MESSAGE =
 export const TEZGAH_CATALOG_CLOSED_MESSAGE =
   "Ücretli üretim katalogda açık değil. Ücretsiz hakkınız yarın (İstanbul gece yarısı) yenilenir.";
 
+export const TEZGAH_TETKIK_GUEST_QUOTA_MESSAGE =
+  "Ücretsiz web site analizi hakkınız kullanıldı. Giriş yapıp Pro abonelik veya kredi ile yeni analiz alın.";
+
+export const TEZGAH_TETKIK_MEMBER_QUOTA_MESSAGE =
+  "Ücretsiz web site analizi hakkınız (ömür boyu 1) kullanıldı.";
+
+export const TEZGAH_TETKIK_DOMAIN_CLAIMED_MESSAGE =
+  "Bu web sitesi için ücretsiz analiz hakkı daha önce kullanıldı. Yeni veya tekrar analiz için Pro pakete geçin veya kredi kullanın.";
+
 export const TEZGAH_CREDIT_PACK_SIZE = 10;
 
 export const TEZGAH_FAIL_MESSAGE =
   "Üretim tamamlanamadı. Hakkınız duruyor; biraz sonra yeniden deneyin.";
+
+export const TEZGAH_UNLIMITED_QUOTA_LINE = "Ücretsiz kullanım (Kota düşmez)" as const;
 
 export const TEZGAH_TOOL_IDS = [
   "ecommerce",
@@ -63,6 +89,31 @@ export const TEZGAH_TOOL_IDS = [
 ] as const;
 
 export type TezgahToolId = (typeof TEZGAH_TOOL_IDS)[number];
+
+export const TEZGAH_TOOL_POOL: Record<TezgahToolId, TezgahToolPool> = {
+  tetkik: "tetkik",
+  proposal: "lite",
+  reklam: "lite",
+  pazaryeri: "lite",
+  grant: "lite",
+  ecommerce: "lite",
+  dukkan: "free_template",
+  "studio-photo": "local",
+  "technical-drawing": "local",
+  "saas-builder": "local",
+};
+
+export function tezgahPoolForTool(toolId: TezgahToolId): TezgahToolPool {
+  return TEZGAH_TOOL_POOL[toolId];
+}
+
+export function isTezgahQuotaExemptPool(pool: TezgahToolPool): boolean {
+  return pool === "free_template" || pool === "local";
+}
+
+export function isTezgahPoolKey(value: string): value is TezgahPoolKey {
+  return (TEZGAH_POOL_KEYS as readonly string[]).includes(value);
+}
 
 /** `/tezgah` sekme şeridi. Ürün kartı ve hibe dosyası kendi işletim sistemindedir. */
 export const TEZGAH_DESK_TOOL_IDS = [
@@ -138,14 +189,14 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
       {
         name: "category",
         label: "Kategori (Ana kategori veya ürün türü)",
-        placeholder: "Örn: Anne ve bebek (veya boş bırakın, ürün adından çıkarılır)",
+        placeholder: "Kategoriyi yazınız (veya boş bırakın)...",
         kind: "text",
         optional: true,
       },
       {
         name: "features",
         label: "Temel özellikler",
-        placeholder: "100×100 cm, yıkanabilir, 0–3 yaş",
+        placeholder: "Ürün özelliklerinizi buraya yazınız...",
         kind: "textarea",
       },
     ],
@@ -163,13 +214,13 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
       {
         name: "jobPost",
         label: "Müşteri ilanı veya ihtiyacı",
-        placeholder: "Mağaza ürün kartları dağınık; 40 ürünü bu hafta toparlamak istiyoruz.",
+        placeholder: "Talebinizi buraya yazınız...",
         kind: "textarea",
       },
       {
         name: "expertise",
         label: "Senin uzmanlığın",
-        placeholder: "Pazaryeri ürün metni ve SEO",
+        placeholder: "Uzmanlığınızı yazınız...",
         kind: "text",
       },
     ],
@@ -187,80 +238,80 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
       {
         name: "businessName",
         label: "İşletme adı",
-        placeholder: "Karaoğlu Soğuk Zincir",
+        placeholder: "İşletme adınızı yazınız...",
         kind: "text",
       },
       {
         name: "freelancerName",
         label: "Freelancer adı",
-        placeholder: "Ayşe Yılmaz",
+        placeholder: "Adınızı yazınız...",
         kind: "text",
       },
       {
         name: "provinceCode",
         label: "İl",
-        placeholder: "İl seç",
+        placeholder: "İl seçiniz...",
         kind: "select",
-        options: GRANT_PROVINCES.map((row) => ({ value: row.code, label: `${row.code} ${row.name}` })),
+        options: GRANT_PROVINCES.map((row) => ({ value: row.code, label: row.name })),
       },
       {
         name: "audience",
         label: "İşletme türü",
-        placeholder: "Tür seç",
+        placeholder: "Tür seçiniz...",
         kind: "select",
         options: GRANT_AUDIENCES.map((row) => ({ value: row.id, label: row.label })),
       },
       {
         name: "naceGroup",
         label: "NACE grubu",
-        placeholder: "Grup seç",
+        placeholder: "Sektör seçiniz...",
         kind: "select",
         options: GRANT_NACE_GROUPS.map((row) => ({ value: row.id, label: row.label })),
       },
       {
         name: "investmentFocus",
         label: "Yatırım odağı",
-        placeholder: "Odak seç",
+        placeholder: "Odak seçiniz...",
         kind: "select",
         options: GRANT_INVESTMENT_FOCI.map((row) => ({ value: row.id, label: row.label })),
       },
       {
         name: "employeeCount",
         label: "Çalışan sayısı",
-        placeholder: "4",
+        placeholder: "Çalışan sayısını yazınız...",
         kind: "text",
       },
       {
         name: "companyAgeYears",
         label: "Şirket yaşı (yıl)",
-        placeholder: "2",
+        placeholder: "Şirket yaşını yazınız...",
         kind: "text",
       },
       {
         name: "rdMaturityLevel",
         label: "Ar-Ge olgunluğu",
-        placeholder: "Düzey seç",
+        placeholder: "Düzey seçiniz...",
         kind: "select",
         options: GRANT_RD_LEVELS.map((row) => ({ value: row.id, label: row.label })),
       },
       {
         name: "exportActive",
         label: "İhracat",
-        placeholder: "Seç",
+        placeholder: "Seçiniz...",
         kind: "select",
         options: YES_NO,
       },
       {
         name: "patent",
         label: "Patent veya faydalı model",
-        placeholder: "Seç",
+        placeholder: "Seçiniz...",
         kind: "select",
         options: YES_NO,
       },
       {
         name: "project",
         label: "Proje",
-        placeholder: "Soğuk zincir deposu ve kendi satış kanalı",
+        placeholder: "İş fikrinizi buraya yazınız...",
         kind: "textarea",
       },
       {
@@ -285,22 +336,16 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
   },
   {
     id: "tetkik",
-    label: "Web Sitesi Tetkik",
-    blurb: "Ana sayfanın ilk HTML’inden 100 puanlık dijital sağlık skoru ve yazdırılabilir rapor.",
+    label: "Web Site Analizi",
+    blurb:
+      "Sitenizin SEO uyumunu, ikna gücünü ve satışa dönüşüm performansını derinlemesine analiz eder; eksiklerinizi hazır çözümlerle sunar.",
     fileStem: "site-tetkik",
     fields: [
       {
         name: "url",
-        label: "Site adresi (Zorunlu)",
+        label: "Site adresi",
         placeholder: "https://ornek-dukkan.com",
         kind: "text",
-      },
-      {
-        name: "businessName",
-        label: "İşletme veya marka adı (İsteğe bağlı)",
-        placeholder: "Örn: Karaoğlu Fırın (Rapor başlığı için)",
-        kind: "text",
-        optional: true,
       },
     ],
     cta: null,
@@ -539,7 +584,7 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
       {
         name: "feature",
         label: "İstediğiniz Özellik / Bileşen",
-        placeholder: "Örn: Ürün sayfasına desi hesaplayıcı, sepet üstü kampanya sayacı",
+        placeholder: "İstediğiniz özelliği buraya yazınız...",
         kind: "textarea",
       },
       {
@@ -672,6 +717,32 @@ export function readTezgahPrefill(
 
 export function tezgahQuotaLine(remaining: number, limit: number): string {
   return `Kalan ücretsiz hakkınız: ${remaining} / ${limit}`;
+}
+
+/** Aktif sekmenin rozet metni. Kota dışı araçlarda sayaç gösterilmez. */
+export function tezgahPoolQuotaLine(
+  pool: TezgahToolPool,
+  remaining: number,
+  limit: number,
+): string {
+  if (isTezgahQuotaExemptPool(pool)) {
+    return TEZGAH_UNLIMITED_QUOTA_LINE;
+  }
+  if (pool === "tetkik") {
+    if (remaining <= 0) {
+      return "0 / 1 — Pro veya Kredi gerekli";
+    }
+    return `Kalan ücretsiz analiz hakkınız: ${remaining} / ${limit}`;
+  }
+  return `Günlük ücretsiz hakkınız: ${remaining} / ${limit}`;
+}
+
+export function tezgahToolQuotaLine(
+  toolId: TezgahToolId,
+  remaining: number,
+  limit: number,
+): string {
+  return tezgahPoolQuotaLine(tezgahPoolForTool(toolId), remaining, limit);
 }
 
 export const TEZGAH_SEAL_LABEL = "Bu Yetkinliği YetkinCV ile Mühürle →" as const;

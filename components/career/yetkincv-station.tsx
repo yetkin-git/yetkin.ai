@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { INPUT_SURFACE_CLASS } from "@/components/ui/input";
 import { LinkButton } from "@/components/ui/link-button";
+import { SmartTextarea } from "@/components/ui/smart-textarea";
 import {
   YETKINCV_ROLES,
   YETKINCV_VERTICALS,
@@ -166,13 +167,17 @@ export function YetkinCvStation({
           </div>
           <label className="mt-4 block text-sm">
             CV özeti
-            <textarea
-              className={`${INPUT_SURFACE_CLASS} mt-1 min-h-32`}
-              value={cvText}
-              maxLength={6000}
-              placeholder="Yaptığın işi, araçları ve ölçtüğün sonucu yaz. Şirket adı zorunlu değildir."
-              onChange={(event) => setCvText(event.target.value)}
-            />
+            <div className="mt-1">
+              <SmartTextarea
+                className="min-h-32"
+                context="career"
+                value={cvText}
+                maxLength={6000}
+                placeholder="Metninizi buraya yazınız..."
+                softHint="Biraz daha detay ekleyin (yaptığınız iş, araçlar, ölçülebilir sonuç)…"
+                onChange={(event) => setCvText(event.target.value)}
+              />
+            </div>
           </label>
           {error ? <p className="mt-3 text-sm text-rose-700">{error}</p> : null}
           <div className="mt-4 flex flex-wrap gap-2">

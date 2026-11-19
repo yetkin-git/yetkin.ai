@@ -21,21 +21,21 @@ export function KurumsalRoadmapCards({ offerHref }: { offerHref: string }) {
       <Card eyebrow="Faz 2" title="ISO ve Kalite Doküman Denetçisi">
         <p className="text-sm leading-6 text-[var(--foreground)]">
           Prosedür ve talimatlar arasındaki revizyon çelişkisini tarayacak doküman tutarlılık modülü.
-          Henüz işletimde değil. Ön talep, kurumsal teklif kaydına düşer.
+          Henüz işletimde değil. Talebinizi bırakın; kurumsal paneliniz tanımlanınca bu modül açılır.
         </p>
         <a href={offerHref} className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[var(--safir)]">
           <IconShield className="h-4 w-4" />
-          Teklif formuna geç
+          Talebinizi bırakın
         </a>
       </Card>
       <Card eyebrow="Faz 3" title="Şirket Beyni (Toplantı & Karar Hafızası)">
         <p className="text-sm leading-6 text-[var(--foreground)]">
           Şirket içi toplantı kayıt ve dökümlerini analiz ederek yönetici özeti, alınan kararlar ve kişi
-          bazlı aksiyon planı çıkaran kurumsal hafıza modülü. Henüz işletimde değil; ön talep kurumsal
-          teklif kaydına düşer.
+          bazlı aksiyon planı çıkaran kurumsal hafıza modülü. Henüz işletimde değil; talebinizi bırakın,
+          panel tanımlanınca açılır.
         </p>
         <a href={offerHref} className="mt-4 inline-flex text-sm font-semibold text-[var(--safir)]">
-          Teklif formuna geç
+          Talebinizi bırakın
         </a>
       </Card>
     </div>

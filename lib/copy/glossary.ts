@@ -48,23 +48,23 @@ export const GLOSSARY_TERMS: readonly GlossaryTerm[] = [
     definition:
       "Vizenin üzerindeki tek damga. İptal edilen sertifikanın mühürü kamu kartında durmaz.",
     tezgahExample:
-      "Tezgâh taslağı mühür değildir. Mühür, Akademi sınavı 70 ve üzeri geçilince sertifika satırından doğar.",
+      "Tezgâh taslağı mühür değildir. Mühür, uygulamalı testi geçtiğinde Kariyer Kartına işlenir.",
     toolHref: "/tezgah?tool=proposal",
     toolLabel: "Teklif taslağı üret",
     examHref: "/career",
-    examLabel: "Kariyer kartını aç",
+    examLabel: "YetkinCV'yi İncele",
   },
   {
     slug: "liyakat",
     term: "Liyakat",
     definition:
-      "İşin ölçüldüğü yetkinlik. Puan satın alınmaz; ders ve sınav kaydından okunur.",
+      "İşin ölçüldüğü yetkinlik. Puan satın alınmaz; uygulamalı test sonucundan okunur.",
     tezgahExample:
-      "Tezgâhta yazdığın metin pratiktir. Liyakat, aynı beceriyi sınavda gösterdiğinde rozete dönüşür.",
+      "Tezgâhta yazdığın metin pratiktir. Liyakat, aynı beceriyi YetkinCV testinde gösterdiğinde rozete dönüşür.",
     toolHref: "/tezgah",
     toolLabel: "Pratik üret",
     examHref: "/career",
-    examLabel: "Kariyer kartını aç",
+    examLabel: "YetkinCV'yi İncele",
   },
   {
     slug: "liyakat-pasaportu",
@@ -116,19 +116,19 @@ export const GLOSSARY_TERMS: readonly GlossaryTerm[] = [
   {
     slug: "baraj",
     term: "Baraj",
-    definition: "Sertifikanın açıldığı sınav eşiği. Canlı Akademi barajı 70 puandır. Altı belge basmaz.",
+    definition: "Yetkinlik testinin geçme eşiği. Altında kalan sonuç belgelenmez.",
     tezgahExample:
-      "Tezgâh pratiği barajı geçirmez. Baraj, aynı konunun sınavındaki sunucu puanıdır.",
+      "Tezgâh pratiği barajı geçirmez. Baraj, YetkinCV veya ilgili testteki sunucu puanıdır.",
     toolHref: "/tezgah",
-    toolLabel: "Sınavdan önce pratik yap",
+    toolLabel: "Tezgâhta pratik yap",
     examHref: "/career",
-    examLabel: "Kariyer kartını aç",
+    examLabel: "YetkinCV'yi İncele",
   },
   {
     slug: "tezgah",
     term: "Tezgâh",
     definition:
-      "AI Tezgâh, ürün kartı, teklif, hibe dosyası, reklam metni ve site tetkiki üreten çalışma masasıdır. Ücretli ilan tahtası değildir.",
+      "AI Tezgâh, ürün kartı, teklif, hibe dosyası, reklam metni ve web site analizi üreten çalışma masasıdır. Ücretli ilan tahtası değildir.",
     tezgahExample:
       "Misafir günde üç üretim yapar. Çıktıyı kaydetmek için ücretsiz hesap yeter. Cüzdan bu masada zorunlu değildir.",
     toolHref: "/tezgah",
@@ -342,9 +342,9 @@ export const GLOSSARY_TERMS: readonly GlossaryTerm[] = [
     term: "Güvenlik Sığınağı",
     definition: "Hesap güvenliğinin durduğu yer: şifre ve oturum. Kamu vitrini bu odaya açılmaz.",
     tezgahExample:
-      "Site tetkiki herkese açık ana sayfayı okur. Yönetici paneline, çereze ve şifreye girmez.",
+      "Web Site Analizi herkese açık ana sayfayı okur. Yönetici paneline, çereze ve şifreye girmez.",
     toolHref: "/tetkik",
-    toolLabel: "Açık sayfayı tetkik et",
+    toolLabel: "Açık sayfayı analiz et",
     examHref: "/tezgah",
     examLabel: "AI Tezgâh'ta devam et",
   },
@@ -354,7 +354,7 @@ export const GLOSSARY_TERMS: readonly GlossaryTerm[] = [
     definition:
       "Genç öğrenme odasının ilerleme özeti. Yetişkin uzmanlık rozetiyle aynı belge değildir.",
     tezgahExample:
-      "Yetişkin tezgâhı çırak karnesine puan yazmaz. Uzmanlık için Akademi sınavı ayrıdır.",
+      "Yetişkin tezgâhı çırak karnesine puan yazmaz. Yetkinlik için YetkinCV testi ayrıdır.",
     toolHref: "/tezgah",
     toolLabel: "Yetişkin tezgâhı aç",
     examHref: "/career",

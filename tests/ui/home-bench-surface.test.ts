@@ -24,13 +24,14 @@ describe("ana sayfa yedili tezgâh vitrini", () => {
     expect(home.bench.map((item) => item.title)).toEqual([
       "E-Ticaret Ürün Kartı",
       "Müşteri Teklif Yazıcı",
-      "Web Sitesi Tetkik",
+      "Web Site Analizi",
       "Sektörel Dijital Dükkan",
       "Pazaryeri Katalog Fabrikası",
       "Otonom Reklam Paketi",
       "Hibe Proje Dosyası",
     ]);
     expect(home.benchTitle).toBe("Yedi araç, bugün teslim");
+    expect(home.benchKicker).toBe("Tezgâh araçları");
 
     let cursor = copySrc.indexOf("bench:");
     expect(cursor).toBeGreaterThan(-1);
@@ -55,18 +56,18 @@ describe("ana sayfa yedili tezgâh vitrini", () => {
     expect(tracksAt).toBeGreaterThan(benchAt);
 
     expect(home.chain).toHaveLength(4);
-    expect(home.chainTitle).toBe("Dört adımda sistem");
-    expect(home.chain[0]).toMatchObject({ href: "/tezgah", title: "Ücretsiz Test & Tezgâh" });
+    expect(home.chainTitle).toBe("Dört adımda işe koyul");
+    expect(home.chain[0]).toMatchObject({ href: "/tezgah", title: "Ücretsiz Tezgâh" });
     expect(page).toContain('href="/tezgah"');
     expect(page).toContain("copy.chain");
     expect(page).not.toContain("HomeOfferSection");
     expect(page).not.toContain("Hazırlanıyor");
-    expect(home.chain[3]?.title).toBe("E-Ticaret ve 30 günlük plan");
+    expect(home.chain[3]?.title).toBe("E-ticareti yönet");
     expect(home.title).not.toContain("İşverenlerle Buluş");
     expect(home.description).not.toContain("teklif ver");
   });
 
-  it("vitrin metni fiyatsızdır; freelancer ve kariyer yolu yoktur", () => {
+  it("tezgâh araç metni fiyatsızdır; freelancer yolu yoktur", () => {
     const page = readSrc("app/(public)/page.tsx");
     const home = SEN_VOICE.public.home;
     const text = [home.benchKicker, home.benchTitle, ...home.bench.flatMap((item) => [item.title, item.body, item.href])].join(
@@ -77,7 +78,7 @@ describe("ana sayfa yedili tezgâh vitrini", () => {
     expect(home.bench.map((item) => item.href).join("\n")).not.toContain("/freelancer");
     expect(home.bench.map((item) => item.href).join("\n")).not.toContain("/career");
     expect(page).not.toContain("/freelancer");
-    expect(page).not.toContain("/career");
+    expect(home.tracks.some((track) => track.href === "/career")).toBe(true);
     const lower = text.toLocaleLowerCase("tr");
     expect(lower).not.toMatch(/(?<!\p{L})siz\p{L}*/u);
   });

@@ -16,8 +16,7 @@ import { GrantEligibilityWidget } from "@/components/hibe/grant-eligibility-widg
 
 /**
  * Marka iniş katmanı — kök adres (`/`).
- * Canlı vitrin: beş modüllü birleşik AI işletim sistemi, dört adımlı zincir, yedi tezgâh aracı.
- * Kapalı oda önizlemesi bu sayfada basılmaz.
+ * Ticari vitrin: AI Tezgâh, e-ticaret, hibe ve YetkinCV. Kapalı odalar (Akademi / Junior / Young) basılmaz.
  */
 export const metadata: Metadata = pageMetadata({
   ...PAGE_SEO.home,
@@ -33,20 +32,32 @@ export default function PublicHomePage() {
         className="pointer-events-none absolute inset-x-0 top-0 h-[32rem] bg-[radial-gradient(ellipse_at_top,rgba(37,99,235,0.16),transparent_62%)]"
       />
       <JsonLd data={jsonLdDocument([faqPageJsonLd(HOME_LANDING_FAQ)])} />
-      <header className="relative flex shrink-0 items-center gap-2.5 px-6 pt-4">
+      <header className="relative flex shrink-0 flex-wrap items-center gap-2.5 px-6 pt-4">
         <BrandIcon width={32} height={32} className="h-8 w-8" />
         <p className="text-sm font-semibold tracking-tight text-[var(--foreground)]">{YETKIN_BRAND}</p>
         <Link
-          href="/uzmanlar"
+          href="/tezgah"
           className="ml-1 inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
         >
-          Uzmanlar
+          AI Tezgâh
         </Link>
         <Link
           href="/fiyatlandirma"
           className="inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
         >
           Fiyatlar
+        </Link>
+        <Link
+          href="/kurumsal"
+          className="inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
+        >
+          Kurumsal
+        </Link>
+        <Link
+          href="/rehber"
+          className="inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
+        >
+          Rehber
         </Link>
         <HomeAccountNav />
       </header>
@@ -60,16 +71,16 @@ export default function PublicHomePage() {
               {copy.title}
             </h1>
             <p className="mt-3 max-w-xl text-base leading-7 text-[var(--muted)]">{copy.description}</p>
-            <div className="mt-4 flex flex-wrap gap-3">
+            <div className="mt-4 flex flex-wrap items-center gap-4">
               <LinkButton href="/tezgah" size="lg" variant="success">
                 {copy.primaryCta}
               </LinkButton>
-              <LinkButton href="/e-ticaret" size="lg" variant="secondary">
-                E-Ticaret İşletim Sistemi
-              </LinkButton>
-              <LinkButton href="/hibe" size="lg">
-                {copy.academyCta}
-              </LinkButton>
+              <Link
+                href="/fiyatlandirma"
+                className="inline-flex min-h-11 items-center text-sm font-semibold text-[var(--safir-deep)] underline-offset-4 hover:underline"
+              >
+                {copy.secondaryCta}
+              </Link>
             </div>
           </div>
           <Card variant="ink" title={copy.trustTitle} eyebrow={copy.trustEyebrow} bodyClassName="text-white/70">
@@ -158,7 +169,7 @@ export default function PublicHomePage() {
           >
             {copy.tracksTitle}
           </h2>
-          <ul className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {copy.tracks.map((track) => (
               <li key={track.href}>
                 <Card variant="default" className="flex h-full flex-col p-5">
@@ -168,12 +179,9 @@ export default function PublicHomePage() {
                     </Link>
                   </h3>
                   <p className="mt-2 flex-1 text-sm leading-6 text-[var(--muted)]">{track.body}</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <div className="mt-4">
                     <LinkButton href={track.href} size="sm" variant="outline">
-                      {track.title} sistemini aç
-                    </LinkButton>
-                    <LinkButton href="/tezgah" size="sm" variant="success">
-                      {copy.tezgahCta}
+                      {track.cta}
                     </LinkButton>
                   </div>
                 </Card>

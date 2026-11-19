@@ -36,8 +36,8 @@ export const DRON_KAYIT = [
   {
     id: "dashboard",
     path: "/dashboard",
-    label: "Genel Bakış",
-    blurb: "Komuta merkezi",
+    label: "Ana Panel",
+    blurb: "Özet ve ilerleme",
     hops: ["wallet-strip"],
     sahipEkip: "gövde",
     kapali: false,
@@ -64,8 +64,8 @@ export const DRON_KAYIT = [
   {
     id: "career",
     path: "/career",
-    label: "Kariyer",
-    blurb: "YetkinCV & Kariyer Merkezi",
+    label: "YetkinCV",
+    blurb: "Test ve doğrulanabilir puan",
     hops: ["career-pulse", "career-visas", "career-portfolio"],
     sahipEkip: "gövde",
     kapali: false,
@@ -134,8 +134,8 @@ export const DRON_KAYIT = [
   {
     id: "yetkinhibe",
     path: "/hibe",
-    label: "YetkinHibe",
-    blurb: "Hibe analiz ve proje işletim sistemi",
+    label: "Hibe Bulucu",
+    blurb: "Uygun destek ve proje dosyası",
     hops: [],
     sahipEkip: "gövde",
     kapali: false,

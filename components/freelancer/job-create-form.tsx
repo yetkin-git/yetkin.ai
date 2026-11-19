@@ -3,7 +3,8 @@
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { cn } from "@/components/ui/cn";
+import { Input, PLACEHOLDER_TYPO_CLASS, selectValueTypoClass } from "@/components/ui/input";
 import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
 import {
   FREELANCER_GUARANTEED_NEED_CATALOG,
@@ -70,7 +71,10 @@ export function JobCreateForm() {
       <label className="block text-sm font-medium">
         {copy.briefLabel}
         <textarea
-          className="mt-1 w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-base"
+          className={cn(
+            "mt-1 w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-base",
+            PLACEHOLDER_TYPO_CLASS,
+          )}
           value={brief}
           onChange={(event) => setBrief(event.target.value)}
           required
@@ -81,7 +85,10 @@ export function JobCreateForm() {
       <label className="block text-sm font-medium">
         {copy.pathwayLabel}
         <select
-          className="mt-1 w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-base"
+          className={cn(
+            "mt-1 w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-base",
+            selectValueTypoClass(visaPathwayId),
+          )}
           value={visaPathwayId}
           onChange={(event) => setVisaPathwayId(event.target.value as FreelancerNeedId)}
           required

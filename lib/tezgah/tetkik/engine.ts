@@ -1,10 +1,18 @@
 import "server-only";
 
 import { invokeLlm, type InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
+import { GEMINI_HYDROGEN_MODEL } from "@/lib/kernel/ai/model-roles";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
-import { TEZGAH_FAIL_MESSAGE, TEZGAH_GUEST_QUOTA_MESSAGE, TEZGAH_MEMBER_QUOTA_MESSAGE } from "@/lib/tezgah/catalog";
+import {
+  TEZGAH_FAIL_MESSAGE,
+  TEZGAH_TETKIK_DOMAIN_CLAIMED_MESSAGE,
+  TEZGAH_TETKIK_GUEST_QUOTA_MESSAGE,
+  TEZGAH_TETKIK_MEMBER_QUOTA_MESSAGE,
+} from "@/lib/tezgah/catalog";
 import { tezgahRequestHash } from "@/lib/tezgah/paid-lane";
 import { consumeTezgahQuota, peekTezgahQuota, refundTezgahQuota, settleTezgahSlot } from "@/lib/tezgah/quota";
+import { parseTetkikAnalysisCard } from "@/lib/tezgah/tetkik/analysis";
+import { claimTetkikDomain, isTetkikDomainClaimed } from "@/lib/tezgah/tetkik/domain-claim";
 import { fetchPublicHomepage, type FetchPublicHomepageDeps } from "@/lib/tezgah/tetkik/fetch-html";
 import { inspectTetkikUrl, TetkikAccessError } from "@/lib/tezgah/tetkik/guard";
 import { guardTetkikNarrative } from "@/lib/tezgah/tetkik/narrative";
@@ -13,12 +21,16 @@ import { clipTetkikNarrative, tetkikSystemPrompt, tetkikUserPrompt } from "@/lib
 import { TETKIK_REJECTED_MESSAGE } from "@/lib/tezgah/tetkik/rubric";
 import { tetkikGenerateRequestSchema, type TetkikGenerateRequest } from "@/lib/tezgah/tetkik/schema";
 import { scoreTetkik } from "@/lib/tezgah/tetkik/score";
-import { normalizeTetkikSiteAddress } from "@/lib/tezgah/tetkik/site-address";
+import { normalizeTetkikSiteAddress, tetkikHostKey } from "@/lib/tezgah/tetkik/site-address";
 import type { TetkikReport } from "@/lib/tezgah/tetkik/types";
 
-/** Kapak raporu 900 tokena sığmaz. Skor yine kodda kalır. */
-export const TETKIK_MAX_OUTPUT_TOKENS = 1_600;
-export const TETKIK_MODEL_ROLE = "LITE_STREAM" as const;
+/** Yönetici karnesi JSON'u 900 tokena sığmaz. Skor yine kodda kalır. */
+export const TETKIK_MAX_OUTPUT_TOKENS = 2_400;
+/** Derin analiz rolü; kimlik Hydrogen ile geçilir. */
+export const TETKIK_MODEL_ROLE = "DEEP_RESEARCH" as const;
+export const TETKIK_MODEL_ID = GEMINI_HYDROGEN_MODEL;
+
+const TETKIK_POOL = "tetkik" as const;
 
 export type TetkikGenerateResult =
   | ({
@@ -47,10 +59,15 @@ function plain(value: string, max: number): string {
   return clean.length <= max ? clean : clean.slice(0, max);
 }
 
-function coverTitle(given: string, finalUrl: string): string {
+/** Marka: isteğe bağlı girdi → `<title>` → alan adı. */
+function detectBrand(given: string, pageTitle: string, finalUrl: string): string {
   const name = plain(given, 80);
   if (name.length >= 2) {
     return name;
+  }
+  const title = plain(pageTitle, 80);
+  if (title.length >= 2) {
+    return title;
   }
   try {
     const host = new URL(finalUrl).hostname.replace(/\.$/, "").replace(/^www\./, "");
@@ -75,7 +92,7 @@ export async function generateTetkikReport(
 ): Promise<TetkikGenerateResult> {
   const parsed = tetkikGenerateRequestSchema.safeParse(input.request);
   const now = deps.now?.() ?? new Date();
-  const open = () => peekTezgahQuota(input.actorId, input.guest, now);
+  const open = () => peekTezgahQuota(input.actorId, input.guest, now, TETKIK_POOL);
   if (!parsed.success) {
     const quota = await open();
     return {
@@ -101,16 +118,59 @@ export async function generateTetkikReport(
     };
   }
 
+  const host = tetkikHostKey(inspected.url.toString()) ?? tetkikHostKey(parsed.data.url);
+  if (!host) {
+    const quota = await open();
+    return {
+      ok: false,
+      error: TETKIK_REJECTED_MESSAGE,
+      status: 400,
+      remaining: quota.remaining,
+      limit: quota.limit,
+      guest: input.guest,
+    };
+  }
+
+  // Kilit 1: ömür boyu hesap/IP hakkı (Pro/kredi peek'te aşılır).
+  const preview = await open();
+  if (!preview.allowed) {
+    return {
+      ok: false,
+      error:
+        preview.error ??
+        (input.guest ? TEZGAH_TETKIK_GUEST_QUOTA_MESSAGE : TEZGAH_TETKIK_MEMBER_QUOTA_MESSAGE),
+      status: preview.status ?? 429,
+      remaining: 0,
+      limit: preview.limit,
+      guest: input.guest,
+    };
+  }
+
+  // Kilit 2: global domain — yalnız ücretsiz hat.
+  if (preview.lane === "free" && (await isTetkikDomainClaimed(host))) {
+    return {
+      ok: false,
+      error: TEZGAH_TETKIK_DOMAIN_CLAIMED_MESSAGE,
+      status: 402,
+      remaining: preview.remaining,
+      limit: preview.limit,
+      guest: input.guest,
+    };
+  }
+
   const slot = await consumeTezgahQuota(
     input.actorId,
     input.guest,
     now,
     input.commandKey ? { key: input.commandKey, requestHash: tezgahRequestHash(input.request) } : null,
+    TETKIK_POOL,
   );
   if (!slot.allowed) {
     return {
       ok: false,
-      error: slot.error ?? (input.guest ? TEZGAH_GUEST_QUOTA_MESSAGE : TEZGAH_MEMBER_QUOTA_MESSAGE),
+      error:
+        slot.error ??
+        (input.guest ? TEZGAH_TETKIK_GUEST_QUOTA_MESSAGE : TEZGAH_TETKIK_MEMBER_QUOTA_MESSAGE),
       status: slot.status ?? 429,
       remaining: 0,
       limit: slot.limit,
@@ -118,8 +178,8 @@ export async function generateTetkikReport(
     };
   }
 
-  const restore = async (error: string, status: 400 | 503): Promise<TetkikGenerateResult> => {
-    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane);
+  const restore = async (error: string, status: 400 | 402 | 503): Promise<TetkikGenerateResult> => {
+    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, TETKIK_POOL);
     return {
       ok: false,
       error,
@@ -146,16 +206,17 @@ export async function generateTetkikReport(
     ttfbMs: page.ttfbMs,
     htmlBytes: page.htmlBytes,
   });
+  const pageTitle = plain(parsedHtml.title, 120);
   const cover = {
-    businessName: coverTitle(parsed.data.businessName ?? "", page.finalUrl),
+    businessName: detectBrand(parsed.data.businessName ?? "", pageTitle, page.finalUrl),
     freelancerName: "",
     agencyName: null as string | null,
   };
-  const pageTitle = plain(parsedHtml.title, 120);
   const invoke = deps.invoke ?? invokeLlm;
   const llm = await invoke(
     {
       role: TETKIK_MODEL_ROLE,
+      model: TETKIK_MODEL_ID,
       system: tetkikSystemPrompt(scored.score),
       user: tetkikUserPrompt({
         score: scored.score,
@@ -173,8 +234,9 @@ export async function generateTetkikReport(
       }),
       temperature: 0.2,
       maxOutputTokens: TETKIK_MAX_OUTPUT_TOKENS,
+      responseJson: true,
       maxAttempts: 1,
-      timeoutMs: 25_000,
+      timeoutMs: 45_000,
       rateLimit: {
         identifier: input.actorId,
         scope: "tezgah",
@@ -190,9 +252,23 @@ export async function generateTetkikReport(
     deps,
   );
 
-  const narrative = clipTetkikNarrative(guardTetkikNarrative(llm?.text ?? "", scored.score));
+  const rawText = llm?.text ?? "";
+  const analysis = parseTetkikAnalysisCard(rawText, scored.score);
+  const narrativeSource = analysis
+    ? [analysis.summary, ...analysis.findings.map((finding) => `${finding.title}: ${finding.actionFix}`)].join(
+        "\n",
+      )
+    : rawText;
+  const narrative = clipTetkikNarrative(guardTetkikNarrative(narrativeSource, scored.score));
   if (narrative.length < 12) {
     return restore(TEZGAH_FAIL_MESSAGE, 503);
+  }
+
+  if (slot.lane === "free") {
+    const claim = await claimTetkikDomain(host, input.actorId, now);
+    if (claim === "claimed") {
+      return restore(TEZGAH_TETKIK_DOMAIN_CLAIMED_MESSAGE, 402);
+    }
   }
 
   const paid = await settleTezgahSlot(input.actorId, slot);
@@ -207,6 +283,8 @@ export async function generateTetkikReport(
     };
   }
 
+  const brand = analysis?.detectedBrand?.trim() || cover.businessName;
+
   return {
     ok: true,
     tool: "tetkik",
@@ -215,7 +293,7 @@ export async function generateTetkikReport(
     disclaimer: scored.disclaimer,
     measuredAt: now.toISOString(),
     url: page.finalUrl,
-    businessName: cover.businessName,
+    businessName: brand,
     freelancerName: cover.freelancerName,
     agencyName: cover.agencyName,
     pageTitle,
@@ -224,7 +302,8 @@ export async function generateTetkikReport(
     checks: scored.checks,
     opportunities: scored.opportunities,
     action: scored.action,
-    narrative,
+    narrative: narrative.length >= 12 ? narrative : analysis?.summary ?? "",
+    analysis: analysis ?? null,
     remaining: slot.remaining,
     limit: slot.limit,
     guest: input.guest,

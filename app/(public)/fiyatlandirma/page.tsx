@@ -72,7 +72,7 @@ function VitrineCard({ item, cta }: { item: PublicVitrineItem; cta: string }) {
     >
       {featured ? (
         <span className="absolute -top-3 left-5 rounded-full bg-blue-500 px-3 py-1 text-[11px] font-bold tracking-wide text-white shadow-md">
-          En Çok Tercih Edilen
+          KOBİ&apos;ler İçin Önerilen
         </span>
       ) : null}
       <div className="flex items-start justify-between gap-3">
@@ -108,7 +108,7 @@ function VitrineCard({ item, cta }: { item: PublicVitrineItem; cta: string }) {
                 : "!w-full"
             }
           >
-            {planned ? "Ön talep bırak" : cta}
+            {planned ? "Talebinizi bırakın" : cta}
           </LinkButton>
         </div>
       ) : null}
@@ -131,8 +131,8 @@ export default async function PricingPage() {
         </h1>
         <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--muted)]">
           Uygulama rehberleri ücretsizdir. Tahsilat AI Tezgâh Pro, YetkinHibe dosyası ve e-ticaret lisansındadır.
-          Ekip rozeti, ajans lisansı, aday eleme ve YetkinCV sınavı ön taleptir; karttan çekilmez.
-          Tutar katalog satırından okunur. Satır yoksa fiyat basılmaz.
+          Ekip rozeti, ajans lisansı ve aday eleme için talebinizi bırakın; paneli kendiniz tanımlayın.
+          YetkinCV sınavı kariyer masasında açılır. Tutar katalog satırından okunur. Satır yoksa fiyat basılmaz.
         </p>
         <ul className="mt-5 flex flex-wrap gap-2">
           {TRUST_BADGES.map((badge) => (
@@ -164,13 +164,13 @@ export default async function PricingPage() {
             <VitrineCard item={vitrine.tezgahPro} cta="AI Tezgâh Pro’yu aç" />
           </li>
           <li className="pt-3">
-            <VitrineCard item={vitrine.commerce} cta="E-Ticaret Kokpitini Aç & Lisansla →" />
+            <VitrineCard item={vitrine.commerce} cta="E-Ticaret Paketini Aç →" />
           </li>
           <li>
             <VitrineCard item={vitrine.grantDossier} cta="YetkinHibe dosyasını aç" />
           </li>
           <li>
-            <VitrineCard item={vitrine.yetkinCv} cta="YetkinCV testine git" />
+            <VitrineCard item={vitrine.yetkinCv} cta="YetkinCV'yi İncele" />
           </li>
           <li>
             <VitrineCard item={vitrine.kurumsal} cta="Kurumsal teklife git" />

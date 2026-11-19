@@ -67,7 +67,7 @@ export async function generateTezgahOutput(
   const parsed = tezgahGenerateRequestSchema.safeParse(input.request);
   const now = deps.now?.() ?? new Date();
   if (!parsed.success) {
-    const open = await peekTezgahQuota(input.actorId, input.guest, now);
+    const open = await peekTezgahQuota(input.actorId, input.guest, now, "lite");
     return {
       ok: false,
       error: "Alanları kısa ve net doldur.",
@@ -83,6 +83,7 @@ export async function generateTezgahOutput(
     input.guest,
     now,
     input.commandKey ? { key: input.commandKey, requestHash: tezgahRequestHash(input.request) } : null,
+    "lite",
   );
   if (!slot.allowed) {
     return {
@@ -122,7 +123,7 @@ export async function generateTezgahOutput(
 
   const markdown = clipMarkdown(llm?.text ?? "");
   if (!markdown) {
-    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane);
+    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, "lite");
     return {
       ok: false,
       error: TEZGAH_FAIL_MESSAGE,

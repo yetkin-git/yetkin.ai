@@ -2,7 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { cn } from "@/components/ui/cn";
+import { Input, selectValueTypoClass } from "@/components/ui/input";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import {
   academyInteractiveTaskByKey,
@@ -99,7 +100,10 @@ export function InteractiveTask({
             <label key={slot.id} className="block text-sm font-medium text-[var(--foreground)]">
               {slot.label}
               <select
-                className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-base"
+                className={cn(
+                  "mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-base",
+                  selectValueTypoClass(slots[slot.id] ?? ""),
+                )}
                 value={slots[slot.id] ?? ""}
                 onChange={(event) =>
                   setSlots((current) => ({ ...current, [slot.id]: event.target.value }))

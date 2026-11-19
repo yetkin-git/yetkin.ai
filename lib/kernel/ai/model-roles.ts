@@ -74,6 +74,12 @@ export const AI_MODEL_ROLE_DEFAULTS: Record<AiLiveModelRoleKey, string> = {
   OPEN_LOCAL: "gemma-3-27b-it",
 };
 
+/**
+ * Web Site Analizi (Tezgâh tetkik) — Google AI Studio Hydrogen kimliği.
+ * Rol varsayılanını değiştirmez; çağrı `model` ile bu kimliği geçer.
+ */
+export const GEMINI_HYDROGEN_MODEL = "gemini-4-hydrogen" as const;
+
 /** Fırın ve gümrük sesi aynı kimliği okur. */
 export function academyBakeVoiceModelId(): typeof ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS {
   return ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS;

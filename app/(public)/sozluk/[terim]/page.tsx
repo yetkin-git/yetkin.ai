@@ -5,6 +5,7 @@ import { IconArrow } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/link-button";
 import { PublicHero } from "@/components/ui/public-hero";
 import { GLOSSARY_PATH, GLOSSARY_TERMS, glossaryPath, glossaryTerm } from "@/lib/copy/glossary";
+import { GUIDE_TEZGAH_CTA_HREF, GUIDE_TEZGAH_CTA_LABEL } from "@/lib/copy/guides";
 import { breadcrumbListJsonLd, guideArticleJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
 import { pageMetadata } from "@/lib/copy/seo";
 import type { Route } from "next";
@@ -80,8 +81,9 @@ export default async function SozlukTermPage({
           {term.toolLabel}
           <IconArrow className="h-3.5 w-3.5" />
         </LinkButton>
-        <LinkButton href={term.examHref as Route} variant="outline">
-          {term.examLabel}
+        <LinkButton href={GUIDE_TEZGAH_CTA_HREF as Route} variant="success">
+          {GUIDE_TEZGAH_CTA_LABEL}
+          <IconArrow className="h-3.5 w-3.5" />
         </LinkButton>
       </div>
     </main>

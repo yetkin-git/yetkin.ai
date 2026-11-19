@@ -17,8 +17,8 @@ export async function generateMetadata({
   const report = id ? await loadPublicTetkikReport(id) : null;
   const path = id ? publicTetkikPath(id) : "/tetkik";
   return pageMetadata({
-    title: report ? `${report.score}/100 site tetkiki` : "Tetkik raporu",
-    description: report?.disclaimer ?? "Paylaşılabilir site tetkiki. Skor kodda hesaplanır.",
+    title: report ? `${report.score}/100 web site analizi` : "Web Site Analizi raporu",
+    description: report?.disclaimer ?? "Paylaşılabilir web site analizi. Skor kodda hesaplanır.",
     path,
     robots: { index: false, follow: true },
   });
@@ -37,7 +37,7 @@ export default async function TetkikReportPage({
   return (
     <main className="mx-auto w-full max-w-3xl px-6 pb-16 pt-10">
       <PublicHero
-        eyebrow="Paylaşılabilir tetkik"
+        eyebrow="Paylaşılabilir Web Site Analizi"
         title={`${report.score} / ${report.maxScore}`}
         description={report.disclaimer}
       >

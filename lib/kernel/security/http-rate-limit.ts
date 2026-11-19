@@ -28,6 +28,10 @@ export const HTTP_RATE_LIMITS = {
   llmUser: { keyPrefix: "llm-user", limit: 12, windowMs: TEN_MINUTES_MS },
   aiChatUser: { keyPrefix: "ai-chat-user", limit: 5, windowMs: ONE_DAY_MS },
   careerCoachUser: { keyPrefix: "career-coach-user", limit: 20, windowMs: ONE_DAY_MS },
+  /** Form koçu — IP burst (misafir + üye ortak kenar). */
+  formCoachIp: { keyPrefix: "form-coach-ip", limit: 30, windowMs: TEN_MINUTES_MS },
+  /** Form koçu — oturum/guest kova (10 dk / 20). */
+  formCoachUser: { keyPrefix: "form-coach-user", limit: 20, windowMs: TEN_MINUTES_MS },
   authIp: { keyPrefix: "auth-ip", limit: 40, windowMs: TEN_MINUTES_MS },
   adminIp: { keyPrefix: "admin-ip", limit: 20, windowMs: TEN_MINUTES_MS },
   yetkinhibeMatchUser: { keyPrefix: "yetkinhibe-match-user", limit: 30, windowMs: TEN_MINUTES_MS },
@@ -53,6 +57,7 @@ const FINANCIAL_SUFFIXES = [
 
 const LLM_EXACT_PATHS = new Set([
   "/api/ai/chat",
+  "/api/ai/form-coach",
   "/api/career/coach",
 ]);
 

@@ -56,6 +56,13 @@ body {
   color: var(--foreground);
 }
 
+/* Placeholder tipografisi: label font-medium mirasını keser; yazılan metin italik olmaz. */
+input::placeholder,
+textarea::placeholder {
+  font-weight: 400;
+  font-style: italic;
+}
+
 .rail-glass {
   background: color-mix(in srgb, var(--surface) 82%, transparent);
   backdrop-filter: blur(18px) saturate(1.2);

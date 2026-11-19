@@ -338,7 +338,7 @@ export function AiChatWidget({
               maxLength={2000}
               disabled={pending || limitReached}
               data-assistant-composer=""
-              className="max-h-[120px] min-h-10 w-full resize-none overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] px-3 py-2 text-base outline-none transition placeholder:text-[var(--muted)] focus:border-[var(--safir)] focus:ring-4 focus:ring-[var(--safir-soft)] disabled:opacity-60"
+              className="max-h-[120px] min-h-10 w-full resize-none overflow-y-auto rounded-xl border border-[var(--border)] bg-[var(--surface-muted)] px-3 py-2 text-base outline-none transition not-italic placeholder:font-normal placeholder:italic placeholder:text-slate-400 focus:border-[var(--safir)] focus:ring-4 focus:ring-[var(--safir-soft)] disabled:opacity-60"
             />
             <button
               type="submit"

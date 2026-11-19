@@ -266,7 +266,7 @@ export function LiveTutorPanel({
             onKeyDown={onComposerKey}
             placeholder="Takıldığın yeri yaz…"
             data-junior-tutor-input=""
-            className="min-h-[2.75rem] w-full resize-none rounded-xl border border-sky-200 bg-sky-50/60 px-3 py-2 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 disabled:opacity-60"
+            className="min-h-[2.75rem] w-full resize-none rounded-xl border border-sky-200 bg-sky-50/60 px-3 py-2 text-sm text-slate-900 outline-none transition not-italic placeholder:font-normal placeholder:italic placeholder:text-slate-400 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 disabled:opacity-60"
           />
           <button
             type="submit"

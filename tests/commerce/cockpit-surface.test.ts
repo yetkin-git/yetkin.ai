@@ -38,7 +38,7 @@ describe("Yetkin Commerce kokpit yüzeyi", () => {
   it("E-Ticaret sol raydadır; hesap menüsü ve vitrin dönüşü karışmaz", () => {
     expect(COMMERCE_NAV.path).toBe("/e-ticaret");
     expect(COMMERCE_NAV.label).toBe("E-Ticaret");
-    expect(COMMERCE_NAV.blurb).toBe("Stok, kanal ve sipariş kokpiti");
+    expect(COMMERCE_NAV.blurb).toBe("Stok, kanal ve sipariş");
     expect(KERNEL_SURFACES.map((surface) => surface.id)).not.toContain("magazam");
     const nav = read("components/shell/sidebar-nav.tsx");
     expect(nav).toContain("COMMERCE_NAV");

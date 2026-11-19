@@ -14,8 +14,8 @@ export type PriceHonesty = "live" | "planned";
 
 export const PUBLIC_PRICE_PREPARING_LABEL = "Hazırlanıyor" as const;
 export const PUBLIC_COMMERCE_PLANNED_LABEL = "Yakında / Katalogda Açılıyor" as const;
-/** PayTR kasası bağlı olmayan katalog satırı. Tutar basılmaz; ön talep formu açıktır. */
-export const PUBLIC_PREORDER_LABEL = "Ön Talep / Kurumsal Başvuru" as const;
+/** Katalog tutarı henüz açık olmayan satır. Tutar basılmaz; self-servis talep formu açıktır. */
+export const PUBLIC_PREORDER_LABEL = "Kurumsal Tanımlama" as const;
 
 export type ShowcasePrice = {
   honesty: PriceHonesty;

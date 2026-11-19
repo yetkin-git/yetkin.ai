@@ -9,9 +9,9 @@ import { INPUT_SURFACE_CLASS } from "@/components/ui/input";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
 const CRITERIA = [
-  { label: "Sayfa başlığı", tone: "bg-blue-50 text-blue-700" },
-  { label: "İlk bayt hızı", tone: "bg-emerald-50 text-emerald-700" },
-  { label: "Dönüşüm kapısı", tone: "bg-amber-50 text-amber-700" },
+  { label: "SEO uyumu", tone: "bg-blue-50 text-blue-700" },
+  { label: "İkna gücü", tone: "bg-emerald-50 text-emerald-700" },
+  { label: "Dönüşüm", tone: "bg-amber-50 text-amber-700" },
 ] as const;
 
 export function PublicTetkikForm() {
@@ -56,7 +56,7 @@ export function PublicTetkikForm() {
       <label className="block text-sm font-medium" htmlFor="tetkik-url">
         <span className="inline-flex items-center gap-1.5">
           <IconSearch className="h-3.5 w-3.5 text-blue-600" />
-          Web sitesi adresi
+          Site adresi
         </span>
       </label>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -72,8 +72,13 @@ export function PublicTetkikForm() {
           onChange={(event) => setUrl(event.target.value)}
           className={`${INPUT_SURFACE_CLASS} min-h-14 px-4 text-lg`}
         />
-        <Button type="submit" disabled={pending} size="lg" className="min-h-14 shrink-0 px-6">
-          {pending ? "Ölçülüyor" : "Skoru gör"}
+        <Button
+          type="submit"
+          disabled={pending}
+          size="lg"
+          className="min-h-14 shrink-0 !bg-[var(--safir)] px-6 !text-white shadow-lg hover:!bg-[var(--safir-deep)] disabled:opacity-70"
+        >
+          {pending ? "Ölçülüyor" : "Analizi Başlat"}
           <IconArrow className="h-4 w-4" />
         </Button>
       </div>
@@ -88,8 +93,8 @@ export function PublicTetkikForm() {
         ))}
       </ul>
       <p className="text-sm leading-6 text-slate-600">
-        Skor, herkese açık ana sayfanın başlığı, ilk bayt süresi ve dönüşüm kapısından hesaplanır. Adres
-        okunamazsa puan yazılmaz.
+        Sitenizin SEO uyumunu, ikna gücünü ve satışa dönüşüm performansını derinlemesine analiz eder; eksiklerinizi
+        hazır çözümlerle sunar.
       </p>
       {error ? <p className="text-sm text-[var(--rose)]">{error}</p> : null}
     </form>

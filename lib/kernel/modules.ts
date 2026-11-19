@@ -28,5 +28,5 @@ export const COMMERCE_NAV = {
   id: "magazam",
   path: "/e-ticaret",
   label: "E-Ticaret",
-  blurb: "Stok, kanal ve sipariş kokpiti",
+  blurb: "Stok, kanal ve sipariş",
 } as const;

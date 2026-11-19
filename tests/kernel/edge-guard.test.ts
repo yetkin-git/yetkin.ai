@@ -162,7 +162,7 @@ describe("kenar kararları", () => {
     expect(decideEdgeAction("/", true)).toEqual({ kind: "next" });
     expect(decideEdgeAction("/academy", false)).toEqual({ kind: "frozen-410" });
     expect(decideEdgeAction("/dashboard", false)).toEqual({ kind: "next" });
-    expect(VERTICAL_ROOMS.find((room) => room.id === "dashboard")?.label).toBe("Genel Bakış");
+    expect(VERTICAL_ROOMS.find((room) => room.id === "dashboard")?.label).toBe("Ana Panel");
     expect(VERTICAL_ROOMS.find((room) => room.id === "dashboard")?.label).not.toBe("Anasayfa");
   });
 

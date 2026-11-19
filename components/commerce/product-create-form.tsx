@@ -6,9 +6,10 @@ import { commerceMutate } from "@/components/commerce/api";
 import { cockpitHref } from "@/components/commerce/href";
 import { barcodeOk, liraInputToMinor } from "@/components/commerce/money";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { cn } from "@/components/ui/cn";
+import { Input, selectValueTypoClass } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { SmartTextarea } from "@/components/ui/smart-textarea";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import type { CockpitAttribute } from "@/lib/commerce/cockpit-types";
 
@@ -105,14 +106,17 @@ export function ProductCreateForm({ storeId, storeActive }: { storeId: string; s
       </div>
       <div>
         <Label htmlFor="new-description">{copy.productDescription}</Label>
-        <Textarea
-          id="new-description"
-          className="mt-1"
-          value={description}
-          maxLength={4000}
-          rows={4}
-          onChange={(event) => setDescription(event.target.value)}
-        />
+        <div className="mt-1">
+          <SmartTextarea
+            id="new-description"
+            context="ecommerce"
+            value={description}
+            maxLength={4000}
+            rows={4}
+            placeholder="Ürün açıklamasını buraya yazınız..."
+            onChange={(event) => setDescription(event.target.value)}
+          />
+        </div>
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
@@ -132,7 +136,10 @@ export function ProductCreateForm({ storeId, storeActive }: { storeId: string; s
         <Label htmlFor="new-market">{copy.market}</Label>
         <select
           id="new-market"
-          className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-base"
+          className={cn(
+            "mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2.5 text-base",
+            selectValueTypoClass(market),
+          )}
           value={market}
           onChange={(event) => setMarket(event.target.value)}
         >

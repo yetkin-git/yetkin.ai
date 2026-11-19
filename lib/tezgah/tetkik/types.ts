@@ -1,3 +1,4 @@
+import type { TetkikAnalysisCard } from "@/lib/tezgah/tetkik/analysis";
 import type { TetkikCheckId } from "@/lib/tezgah/tetkik/rubric";
 
 export type TetkikCheck = {
@@ -34,7 +35,10 @@ export type TetkikReport = {
   checks: TetkikCheck[];
   opportunities: string[];
   action: TetkikAction;
+  /** Eski düz metin kayıtları ve kopyala yolu için özet. */
   narrative: string;
+  /** Hydrogen yönetici karnesi; eski kayıtlarda yok olabilir. */
+  analysis?: TetkikAnalysisCard | null;
 };
 
 export type ParsedHomepage = {

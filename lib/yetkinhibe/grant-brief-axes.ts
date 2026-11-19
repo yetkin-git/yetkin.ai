@@ -23,20 +23,20 @@ export const GRANT_RD_LEVELS = [
   { id: "ADVANCED", label: "İleri" },
 ] as const;
 
-/** İki haneli NACE grubu ve eski sektör etiketine köprü. */
+/** İki haneli NACE grubu ve eski sektör etiketine köprü. Arayüz etiketi kodsuzdur. */
 export const GRANT_NACE_GROUPS = [
-  { id: "01", label: "01 Tarım", sectorCode: "tarim" },
-  { id: "10", label: "10 Gıda üretimi", sectorCode: "uretim" },
-  { id: "13", label: "13 Tekstil", sectorCode: "uretim" },
-  { id: "25", label: "25 Metal eşya", sectorCode: "uretim" },
-  { id: "28", label: "28 Makine", sectorCode: "uretim" },
-  { id: "41", label: "41 İnşaat", sectorCode: "insaat" },
-  { id: "46", label: "46 Toptan ticaret", sectorCode: "ticaret" },
-  { id: "47", label: "47 Perakende", sectorCode: "ticaret" },
-  { id: "55", label: "55 Konaklama", sectorCode: "turizm" },
-  { id: "56", label: "56 Yiyecek hizmeti", sectorCode: "turizm" },
-  { id: "62", label: "62 Yazılım", sectorCode: "yazilim" },
-  { id: "72", label: "72 Bilimsel araştırma", sectorCode: "arge" },
+  { id: "01", label: "Tarım", sectorCode: "tarim" },
+  { id: "10", label: "Gıda üretimi", sectorCode: "uretim" },
+  { id: "13", label: "Tekstil", sectorCode: "uretim" },
+  { id: "25", label: "Metal eşya", sectorCode: "uretim" },
+  { id: "28", label: "Makine", sectorCode: "uretim" },
+  { id: "41", label: "İnşaat", sectorCode: "insaat" },
+  { id: "46", label: "Toptan ticaret", sectorCode: "ticaret" },
+  { id: "47", label: "Perakende", sectorCode: "ticaret" },
+  { id: "55", label: "Konaklama", sectorCode: "turizm" },
+  { id: "56", label: "Yiyecek hizmeti", sectorCode: "turizm" },
+  { id: "62", label: "Yazılım", sectorCode: "yazilim" },
+  { id: "72", label: "Bilimsel araştırma", sectorCode: "arge" },
 ] as const;
 
 /** Plaka kodu 01–81. İl adı serbest metin olarak kabul edilmez. */
@@ -154,8 +154,7 @@ export function sectorCodeForNace(id: string): string | null {
 }
 
 export function grantProvinceLabel(code: string): string | null {
-  const row = GRANT_PROVINCES.find((item) => item.code === code);
-  return row ? `${row.code} ${row.name}` : null;
+  return GRANT_PROVINCES.find((item) => item.code === code)?.name ?? null;
 }
 
 export function grantAudienceLabel(id: string): string | null {

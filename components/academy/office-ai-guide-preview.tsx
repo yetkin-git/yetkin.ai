@@ -208,21 +208,14 @@ export function OfficeAiGuidePreview() {
           Satın aldığın eğitim kütüphanende 365 gün kalır; dersleri kendi tempoda bitirir, hazır
           olduğunda testi başlatırsın. Barajın altında kalırsan belge basılmaz ama yeniden
           deneyebilirsin; kimseye sahte rozet eklenmez. Sertifikan doğrulandığında Doğrulanmış
-          Freelancer Rozetin de Uzmanlık Portföyüne işlenir. Hazırsan sayfadaki satın alma alanına dönüp eğitimi
-          başlatabilirsin; soruların için aşağıdaki sık sorulanlar bölümü ve doğrulama sayfası her
-          zaman açıktır.
+          Freelancer Rozetin de Uzmanlık Portföyüne işlenir. Aynı ofis işlerini pratikte denemek için
+          AI Tezgâh açıktır; soruların için aşağıdaki sık sorulanlar bölümü her zaman okunabilir.
         </p>
         <p className="text-sm leading-7">
-          <a href="#satin-al" className="font-semibold text-[var(--safir)] hover:underline">
-            Eğitimi başlatmak için satın alma alanına dön
-          </a>{" "}
-          <span className="text-[var(--muted)]">
-            veya{" "}
-            <Link href="/academy/dogrula" className="text-[var(--safir)] hover:underline">
-              sertifika doğrulama sicilini incele
-            </Link>
-            .
-          </span>
+          <Link href="/tezgah" className="font-semibold text-[var(--safir)] hover:underline">
+            Bu işlemleri saniyeler içinde yapmak için AI Tezgâhını ücretsiz dene
+          </Link>
+          .
         </p>
       </div>
     </section>

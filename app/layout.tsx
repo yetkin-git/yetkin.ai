@@ -26,7 +26,7 @@ function rootMetadata(): Metadata {
       default: YETKIN_BRAND,
       template: TITLE_TEMPLATE,
     },
-    description: `${YETKIN_BRAND} beş modüllü birleşik AI işletim sistemi.`,
+    description: `${YETKIN_BRAND} — KOBİ'ler, e-ticaret satıcıları ve profesyoneller için pratik yapay zeka iş araçları.`,
     keywords: [...SEM_LANDING_KEYWORDS],
     ...(google ? { verification: { google } } : {}),
     openGraph: {
@@ -34,12 +34,12 @@ function rootMetadata(): Metadata {
       locale: OG_LOCALE,
       siteName: YETKIN_BRAND,
       title: YETKIN_BRAND,
-      description: `${YETKIN_BRAND} beş modüllü birleşik AI işletim sistemi.`,
+      description: `${YETKIN_BRAND} — KOBİ'ler, e-ticaret satıcıları ve profesyoneller için pratik yapay zeka iş araçları.`,
     },
     twitter: {
       card: "summary_large_image",
       title: YETKIN_BRAND,
-      description: `${YETKIN_BRAND} beş modüllü birleşik AI işletim sistemi.`,
+      description: `${YETKIN_BRAND} — KOBİ'ler, e-ticaret satıcıları ve profesyoneller için pratik yapay zeka iş araçları.`,
     },
   };
 }

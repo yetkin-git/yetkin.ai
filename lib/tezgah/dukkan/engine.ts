@@ -1,6 +1,6 @@
 import "server-only";
 
-import { TEZGAH_FAIL_MESSAGE, TEZGAH_GUEST_QUOTA_MESSAGE, TEZGAH_MEMBER_QUOTA_MESSAGE } from "@/lib/tezgah/catalog";
+import { TEZGAH_FAIL_MESSAGE } from "@/lib/tezgah/catalog";
 import { DUKKAN_FILENAME } from "@/lib/tezgah/dukkan/copy";
 import { inspectDukkanDelivery, renderDukkanHtml } from "@/lib/tezgah/dukkan/render";
 import {
@@ -9,8 +9,6 @@ import {
   type DukkanDraft,
   type DukkanGenerateRequest,
 } from "@/lib/tezgah/dukkan/schema";
-import { tezgahRequestHash } from "@/lib/tezgah/paid-lane";
-import { consumeTezgahQuota, peekTezgahQuota, refundTezgahQuota, settleTezgahSlot } from "@/lib/tezgah/quota";
 
 export type DukkanGenerateResult =
   | {
@@ -38,8 +36,8 @@ export type GenerateDukkanDeps = {
 };
 
 /**
- * Şablon basımı. Günlük hak tetkikle aynı havuzdadır.
- * Öz-skor 100 değilse ya da sayfa 500 KB ve üstündeyse hak geri yazılır.
+ * Şablon basımı. AI maliyeti yoktur; ortak kota düşmez.
+ * Öz-skor 100 değilse ya da sayfa 500 KB ve üstündeyse üretim reddedilir.
  * Cüzdana yazılmaz.
  */
 export async function generateDukkanPage(
@@ -51,81 +49,54 @@ export async function generateDukkanPage(
   },
   deps: GenerateDukkanDeps = {},
 ): Promise<DukkanGenerateResult> {
+  void input.actorId;
+  void input.commandKey;
+  void deps.now;
+  const open = { remaining: 1, limit: 1 };
   const parsed = dukkanGenerateRequestSchema.safeParse(input.request);
-  const now = deps.now?.() ?? new Date();
-  const open = () => peekTezgahQuota(input.actorId, input.guest, now);
   if (!parsed.success) {
-    const quota = await open();
     return {
       ok: false,
       error: "Alanları kısa ve net doldur.",
       status: 400,
-      remaining: quota.remaining,
-      limit: quota.limit,
+      remaining: open.remaining,
+      limit: open.limit,
       guest: input.guest,
     };
   }
   const draft = readDukkanDraft(parsed.data);
   if (!draft) {
-    const quota = await open();
     return {
       ok: false,
       error: "Alanları kısa ve net doldur.",
       status: 400,
-      remaining: quota.remaining,
-      limit: quota.limit,
+      remaining: open.remaining,
+      limit: open.limit,
       guest: input.guest,
     };
   }
-
-  const slot = await consumeTezgahQuota(
-    input.actorId,
-    input.guest,
-    now,
-    input.commandKey ? { key: input.commandKey, requestHash: tezgahRequestHash(input.request) } : null,
-  );
-  if (!slot.allowed) {
-    return {
-      ok: false,
-      error: slot.error ?? (input.guest ? TEZGAH_GUEST_QUOTA_MESSAGE : TEZGAH_MEMBER_QUOTA_MESSAGE),
-      status: slot.status ?? 429,
-      remaining: 0,
-      limit: slot.limit,
-      guest: input.guest,
-    };
-  }
-
-  const restore = async (): Promise<DukkanGenerateResult> => {
-    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane);
-    return {
-      ok: false,
-      error: TEZGAH_FAIL_MESSAGE,
-      status: 503,
-      remaining: restored.remaining,
-      limit: restored.limit,
-      guest: input.guest,
-    };
-  };
 
   const render = deps.render ?? renderDukkanHtml;
   let html = "";
   try {
     html = render(draft);
   } catch {
-    return restore();
-  }
-  if (!inspectDukkanDelivery(html).ok) {
-    return restore();
-  }
-
-  const paid = await settleTezgahSlot(input.actorId, slot);
-  if (!paid.ok) {
     return {
       ok: false,
-      error: paid.error,
-      status: paid.status,
-      remaining: slot.remaining,
-      limit: slot.limit,
+      error: TEZGAH_FAIL_MESSAGE,
+      status: 503,
+      remaining: open.remaining,
+      limit: open.limit,
+      guest: input.guest,
+    };
+  }
+  if (!inspectDukkanDelivery(html).ok) {
+    return {
+      ok: false,
+      error: TEZGAH_FAIL_MESSAGE,
+      status: 503,
+      remaining: open.remaining,
+      limit: open.limit,
       guest: input.guest,
     };
   }
@@ -136,8 +107,8 @@ export async function generateDukkanPage(
     html,
     score: 100,
     filename: DUKKAN_FILENAME,
-    remaining: slot.remaining,
-    limit: slot.limit,
+    remaining: open.remaining,
+    limit: open.limit,
     guest: input.guest,
   };
 }

@@ -68,14 +68,16 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
 
   it("kamu, profil ve kalan odalar siz kaçakları taşımaz; SEN_VOICE bağlar", () => {
     expect(SEN_VOICE.public.home.title).toBe(
-      "Beş modüllü birleşik AI işletim sistemi. Tek hesap.",
+      "İşinizi Büyüten Yapay Zeka Araçları. Tek Hesap, Sıfır Karmaşa.",
     );
-    expect(SEN_VOICE.public.home.description).toContain("E-Ticaret OS");
-    expect(SEN_VOICE.public.home.description).toContain("YetkinHibe OS");
-    expect(SEN_VOICE.public.home.description).toContain("SHA-256");
-    expect(SEN_VOICE.public.home.tracksKicker).toBe("Beş modül");
-    expect(SEN_VOICE.public.home.tracksTitle).toBe("Tek işletim sistemi");
+    expect(SEN_VOICE.public.home.description).toContain("profesyonel belgeler");
+    expect(SEN_VOICE.public.home.description).toContain("e-ticaret");
+    expect(SEN_VOICE.public.home.description).toContain("hibeleri");
+    expect(SEN_VOICE.public.home.tracksKicker).toBe("Çözümler");
+    expect(SEN_VOICE.public.home.tracksTitle).toBe("İhtiyacına göre bir alan seç");
     expect(SEN_VOICE.public.home.description).not.toContain("teklif ver");
+    expect(SEN_VOICE.public.home.description).not.toContain("işletim sistemi");
+    expect(SEN_VOICE.public.home.description).not.toContain("SHA-256");
     expect(SEN_VOICE.career.description).toContain("doğrulama bağı herkese açıktır");
     expect(SEN_VOICE.career.description).not.toContain("Sahte rozet");
     expect(SEN_VOICE.career.proofEmpty).toContain("Satın alma tek başına rozet basmaz");
@@ -88,7 +90,7 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
     expect(readSrc("archived/lib/copy/sen-voice/arena.ts")).toContain("kazananı sen dağıt");
     expect(readSrc("archived/lib/copy/sen-voice/kurumsal.ts")).toContain("Şirket profilini kur");
     expect(readSrc("archived/lib/copy/sen-voice/hibe.ts")).toContain("Açık rehberlerin");
-    expect(SEN_VOICE.career.title).toBe("YetkinCV — Test Edilmiş & Mühürlü Kariyer Merkezi");
+    expect(SEN_VOICE.career.title).toBe("Yetkinliğini Gerçek Testle Kanıtla, Fark Yarat.");
 
     for (const file of SEN_SURFACES) {
       const source = readSrc(file);

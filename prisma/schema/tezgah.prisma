@@ -32,16 +32,29 @@ model TetkikReport {
   @@map("tetkik_reports")
 }
 
-/// Günlük üretim sayacı. Misafir anahtarı IP kovasıdır; üye anahtarı kullanıcı kimliğidir.
+/// Üretim sayacı. Misafir anahtarı IP kovasıdır; üye anahtarı kullanıcı kimliğidir.
+/// `poolKey`: lite (günlük), tetkik (ömür boyu), free_template sayılmaz.
+/// `dateKey` lite için İstanbul günü; tetkik için `"lifetime"`.
 /// Para, cüzdan ve defter bu tabloda yoktur. PostgREST okuması kapalıdır.
 model TezgahDailyQuota {
-  dateKey    String   @map("date_key") @db.VarChar(10)
+  dateKey    String   @map("date_key") @db.VarChar(16)
   subjectKey String   @map("subject_key") @db.VarChar(180)
+  poolKey    String   @default("lite") @map("pool_key") @db.VarChar(32)
   usedCount  Int      @default(0) @map("used_count")
   updatedAt  DateTime @updatedAt @map("updated_at")
 
-  @@id([dateKey, subjectKey])
+  @@id([dateKey, subjectKey, poolKey])
   @@map("tezgah_daily_quotas")
+}
+
+/// Global ücretsiz tetkik kilidi. Host başına bir ücretsiz analiz.
+/// Pro / kredi bu tabloyu aşar. PostgREST okuması kapalıdır.
+model TetkikDomainClaim {
+  host               String   @id @db.VarChar(253)
+  claimedBySubjectKey String  @map("claimed_by_subject_key") @db.VarChar(180)
+  createdAt          DateTime @default(now()) @map("created_at")
+
+  @@map("tetkik_domain_claims")
 }
 
 /// Tezgâh Pro süresi. Tutar katalog anlık görüntüsüdür; bakiye değildir.

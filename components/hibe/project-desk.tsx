@@ -4,8 +4,9 @@ import { useState } from "react";
 import { GrantDetailWizard, type GrantWizardProgram } from "@/components/tezgah/grant-detail-wizard";
 import { GrantProjectReportView } from "@/components/tezgah/grant-project-report";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/components/ui/cn";
+import { Input, selectValueTypoClass } from "@/components/ui/input";
+import { SmartTextarea } from "@/components/ui/smart-textarea";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 import type { GrantDetailsInput } from "@/lib/tezgah/grant/details-input";
 import type { GrantProjectReport } from "@/lib/tezgah/grant/types";
@@ -17,6 +18,8 @@ import {
   hibeBusinessAudience,
   type HibeAnalysisInput,
 } from "@/lib/yetkinhibe/os-brief";
+
+const EMPTY_BRIEF_MESSAGE = "Lütfen iş fikrinizi yazın, sektör ve il seçin.";
 
 const SECTIONS = [
   "1. Proje Özeti ve Hedefler",
@@ -50,8 +53,8 @@ export function HibeProjectDesk({
   const [businessName, setBusinessName] = useState(seed?.businessName || initialBusinessName);
   const [freelancerName, setFreelancerName] = useState("");
   const [businessKind, setBusinessKind] = useState(seed?.businessKind ?? "kobi");
-  const [provinceCode, setProvinceCode] = useState(seed?.provinceCode ?? "34");
-  const [naceGroup, setNaceGroup] = useState(seed?.naceGroup ?? "47");
+  const [provinceCode, setProvinceCode] = useState(seed?.provinceCode ?? "");
+  const [naceGroup, setNaceGroup] = useState(seed?.naceGroup ?? "");
   const [investmentFocus, setInvestmentFocus] = useState(
     seed?.investmentFocus ??
       (isGrantInvestmentFocus(initialInvestmentFocus) ? initialInvestmentFocus : "makine_techizat"),
@@ -94,11 +97,17 @@ export function HibeProjectDesk({
     businessName.trim().length >= 2 &&
     freelancerName.trim().length >= 2 &&
     project.trim().length >= 2 &&
+    Boolean(provinceCode) &&
+    Boolean(naceGroup) &&
     /^\d+$/.test(employeeCount.trim()) &&
     /^\d+$/.test(companyAgeYears.trim());
 
   async function produce(details?: GrantDetailsInput) {
-    if (!briefReady || pending) {
+    if (pending) {
+      return;
+    }
+    if (!briefReady) {
+      setError(EMPTY_BRIEF_MESSAGE);
       return;
     }
     setPending(true);
@@ -232,15 +241,31 @@ export function HibeProjectDesk({
           </label>
           <label className="text-sm font-medium">
             İl
-            <select className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm" value={provinceCode} onChange={(event) => setProvinceCode(event.target.value)}>
+            <select
+              className={cn(
+                "mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm",
+                selectValueTypoClass(provinceCode),
+              )}
+              value={provinceCode}
+              onChange={(event) => setProvinceCode(event.target.value)}
+            >
+              <option value="">İl seçiniz...</option>
               {HIBE_FORM_LISTS.provinces.map((row) => (
-                <option key={row.code} value={row.code}>{row.code} {row.name}</option>
+                <option key={row.code} value={row.code}>{row.name}</option>
               ))}
             </select>
           </label>
           <label className="text-sm font-medium">
             NACE
-            <select className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm" value={naceGroup} onChange={(event) => setNaceGroup(event.target.value)}>
+            <select
+              className={cn(
+                "mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm",
+                selectValueTypoClass(naceGroup),
+              )}
+              value={naceGroup}
+              onChange={(event) => setNaceGroup(event.target.value)}
+            >
+              <option value="">Sektör seçiniz...</option>
               {HIBE_FORM_LISTS.nace.map((row) => (
                 <option key={row.id} value={row.id}>{row.label}</option>
               ))}
@@ -287,9 +312,23 @@ export function HibeProjectDesk({
         </div>
         <label className="text-sm font-medium">
           Proje
-          <Textarea value={project} onChange={(event) => setProject(event.target.value)} required minLength={2} className="mt-1" />
+          <div className="mt-1">
+            <SmartTextarea
+              context="hibe"
+              value={project}
+              onChange={(event) => setProject(event.target.value)}
+              placeholder="İş fikrinizi buraya yazınız..."
+              maxLength={1500}
+              softHint="Daha doğru sonuç için ne yapacağınızı birkaç kelimeyle daha açın."
+              readyHint="✓ İş fikriniz analiz için hazır."
+            />
+          </div>
         </label>
-        <Button type="submit" disabled={pending || !briefReady}>
+        <Button
+          type="submit"
+          disabled={pending}
+          className="!bg-[var(--safir)] !text-white shadow-md hover:!bg-[var(--safir-deep)] disabled:opacity-70"
+        >
           {pending ? "Üretiliyor…" : "Taslak dosyayı üret"}
         </Button>
         {error ? <p className="text-sm text-[var(--rose)]">{error}</p> : null}

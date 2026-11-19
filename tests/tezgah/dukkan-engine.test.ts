@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { TEZGAH_FAIL_MESSAGE, TEZGAH_GUEST_QUOTA_MESSAGE, TEZGAH_MEMBER_QUOTA_MESSAGE } from "@/lib/tezgah/catalog";
+import { TEZGAH_FAIL_MESSAGE } from "@/lib/tezgah/catalog";
 import { DUKKAN_FILENAME } from "@/lib/tezgah/dukkan/copy";
 import { generateDukkanPage } from "@/lib/tezgah/dukkan/engine";
 import { renderDukkanHtml } from "@/lib/tezgah/dukkan/render";
@@ -9,7 +9,7 @@ import {
   readDukkanDraft,
   type DukkanGenerateRequest,
 } from "@/lib/tezgah/dukkan/schema";
-import { resetTezgahQuotaForTests } from "@/lib/tezgah/quota";
+import { peekTezgahQuota, resetTezgahQuotaForTests } from "@/lib/tezgah/quota";
 
 const NOW = new Date("2026-11-14T12:00:00+03:00");
 
@@ -36,38 +36,34 @@ describe("dijital dükkan motoru", () => {
     expect(parseDukkanServices("Ekmek\nPoğaça")).toBeNull();
   });
 
-  it("hak düşer, ikinci misafir çağrısı 429 olur, bozuk öz-skor hakkı geri yazar", async () => {
+  it("kota düşürmez; bozuk öz-skor üretimi reddeder", async () => {
     const actorId = "guest:dukkan-engine";
-    const first = await generateDukkanPage(
-      { actorId, guest: true, request: REQUEST },
-      { now: () => NOW },
-    );
-    expect(first.ok).toBe(true);
-    if (!first.ok) {
-      return;
+    for (let index = 0; index < 5; index += 1) {
+      const page = await generateDukkanPage(
+        { actorId, guest: true, request: REQUEST },
+        { now: () => NOW },
+      );
+      expect(page.ok).toBe(true);
+      if (!page.ok) {
+        return;
+      }
+      expect(page.score).toBe(100);
+      expect(page.filename).toBe(DUKKAN_FILENAME);
+      expect(page.remaining).toBe(1);
+      expect(page.limit).toBe(1);
+      expect(page.html).toContain("https://wa.me/905321112233");
     }
-    expect(first.score).toBe(100);
-    expect(first.filename).toBe(DUKKAN_FILENAME);
-    expect(first.remaining).toBe(2);
-    expect(first.limit).toBe(3);
-    expect(first.html).toContain("https://wa.me/905321112233");
-
-    for (let extra = 0; extra < 2; extra += 1) {
-      const mid = await generateDukkanPage({ actorId, guest: true, request: REQUEST }, { now: () => NOW });
-      expect(mid.ok).toBe(true);
-    }
-    const blocked = await generateDukkanPage(
-      { actorId, guest: true, request: REQUEST },
-      { now: () => NOW },
-    );
-    expect(blocked).toMatchObject({ ok: false, status: 429, error: TEZGAH_GUEST_QUOTA_MESSAGE, remaining: 0 });
+    expect(await peekTezgahQuota(actorId, true, NOW, "lite")).toMatchObject({
+      remaining: 3,
+      used: 0,
+    });
 
     const fresh = "guest:dukkan-refund";
     const broken = await generateDukkanPage(
       { actorId: fresh, guest: true, request: REQUEST },
       { now: () => NOW, render: () => "<html><title>yok</title></html>" },
     );
-    expect(broken).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 3 });
+    expect(broken).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 1 });
 
     const built = readDukkanDraft(REQUEST);
     expect(built).not.toBeNull();
@@ -79,13 +75,13 @@ describe("dijital dükkan motoru", () => {
       { actorId: fresh, guest: true, request: REQUEST },
       { now: () => NOW, render: () => `${clean}<script>alert(1)</script>` },
     );
-    expect(poisoned).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 3 });
+    expect(poisoned).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 1 });
 
     const oversized = await generateDukkanPage(
       { actorId: fresh, guest: true, request: REQUEST },
       { now: () => NOW, render: () => `${clean}<!--${"x".repeat(520 * 1024)}-->` },
     );
-    expect(oversized).toMatchObject({ ok: false, status: 503, remaining: 3 });
+    expect(oversized).toMatchObject({ ok: false, status: 503, remaining: 1 });
 
     const thrown = await generateDukkanPage(
       { actorId: fresh, guest: true, request: REQUEST },
@@ -96,13 +92,13 @@ describe("dijital dükkan motoru", () => {
         },
       },
     );
-    expect(thrown).toMatchObject({ ok: false, status: 503, remaining: 3 });
+    expect(thrown).toMatchObject({ ok: false, status: 503, remaining: 1 });
 
     const invalid = await generateDukkanPage(
       { actorId: fresh, guest: true, request: { ...REQUEST, whatsapp: "0212 000 00 00" } },
       { now: () => NOW },
     );
-    expect(invalid).toMatchObject({ ok: false, status: 400, remaining: 3 });
+    expect(invalid).toMatchObject({ ok: false, status: 400, remaining: 1 });
 
     const again = await generateDukkanPage(
       { actorId: fresh, guest: true, request: REQUEST },
@@ -110,33 +106,22 @@ describe("dijital dükkan motoru", () => {
     );
     expect(again.ok).toBe(true);
     if (again.ok) {
-      expect(again.remaining).toBe(2);
+      expect(again.remaining).toBe(1);
     }
   });
 
-  it("üyenin üç hakkından sonra 429 döner", async () => {
+  it("üye için de sınırsız şablon basımı yapar", async () => {
     const actorId = "user-dukkan";
-    for (let index = 0; index < 3; index += 1) {
+    for (let index = 0; index < 4; index += 1) {
       const result = await generateDukkanPage(
         { actorId, guest: false, request: REQUEST },
         { now: () => NOW },
       );
       expect(result.ok).toBe(true);
       if (result.ok) {
-        expect(result.remaining).toBe(2 - index);
-        expect(result.limit).toBe(3);
+        expect(result.remaining).toBe(1);
+        expect(result.limit).toBe(1);
       }
     }
-    const blocked = await generateDukkanPage(
-      { actorId, guest: false, request: REQUEST },
-      { now: () => NOW },
-    );
-    expect(blocked).toMatchObject({
-      ok: false,
-      status: 429,
-      error: TEZGAH_MEMBER_QUOTA_MESSAGE,
-      remaining: 0,
-      limit: 3,
-    });
   });
 });

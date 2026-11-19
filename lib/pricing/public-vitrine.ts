@@ -122,13 +122,14 @@ export async function loadPublicPricingVitrine(): Promise<PublicPricingVitrine> 
       id: "career:yetkincv-exam",
       code: "YETKINCV",
       title: "YetkinCV Uygulamalı Sınav",
-      summary: "SHA-256 mühürlü CV paketi. PayTR kasası bağlı değildir. Puan, satın almadan değil vaka testinden türer.",
+      summary:
+        "Uygulamalı vaka testi ile paylaşılabilir YetkinCV puanı. Puan satın almadan değil test sonucundan oluşur.",
       lines: [
         "Uygulamalı vaka testi",
-        "SHA-256 doğrulama kodu",
-        "Herkese açık /vize bağı",
+        "Doğrulanabilir puan kodu",
+        "Herkese açık doğrulama bağlantısı",
       ],
-      href: "/kurumsal",
+      href: "/career",
       honesty: "planned",
       amountMinor: null,
       priceLabel: PUBLIC_PREORDER_LABEL,
@@ -138,7 +139,7 @@ export async function loadPublicPricingVitrine(): Promise<PublicPricingVitrine> 
       id: "commerce:monthly",
       code: "COMMERCE",
       title: "E-Ticaret İşletme Lisansı",
-      summary: "Trendyol, Hepsiburada, Amazon ve N11 çok kanallı yönetim kokpiti.",
+      summary: "Trendyol, Hepsiburada, Amazon ve N11 çok kanallı yönetim paneli.",
       lines: [
         "Trendyol, Hepsiburada, Amazon ve N11 tek panelden stok ve sipariş",
         "AI Tezgâh ile ürün açıklaması aktarımı",
@@ -153,11 +154,11 @@ export async function loadPublicPricingVitrine(): Promise<PublicPricingVitrine> 
       code: "KURUMSAL",
       title: "Kurumsal & Ajans Paketleri",
       summary:
-        "Ekip rozeti, ajans lisansı ve aday eleme paketinin PayTR kasası yoktur. Tutar basılmaz; başvuru ön taleptir.",
+        "Ekip rozeti, ajans lisansı ve aday eleme. Talebinizi bırakın, kurumsal paneliniz tanımlansın.",
       lines: [
-        "academy/team-seat: ekip rozeti, ön talep",
-        "commerce/agency: ajans lisansı, ön talep",
-        "kurumsal/job-screening-pack: ilan ve aday eleme, ön talep",
+        "Ekip rozeti — self-servis talep",
+        "Ajans lisansı — self-servis talep",
+        "İlan ve aday eleme — paneli kendiniz açın",
       ],
       href: "/kurumsal",
       honesty: "planned",

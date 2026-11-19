@@ -134,7 +134,7 @@ export async function generatePazaryeriCatalog(
 ): Promise<PazaryeriGenerateResult> {
   const parsed = pazaryeriGenerateRequestSchema.safeParse(input.request);
   const now = deps.now?.() ?? new Date();
-  const open = () => peekTezgahQuota(input.actorId, input.guest, now);
+  const open = () => peekTezgahQuota(input.actorId, input.guest, now, "lite");
   if (!parsed.success) {
     const quota = await open();
     return {
@@ -164,6 +164,7 @@ export async function generatePazaryeriCatalog(
     input.guest,
     now,
     input.commandKey ? { key: input.commandKey, requestHash: tezgahRequestHash(input.request) } : null,
+    "lite",
   );
   if (!slot.allowed) {
     return {
@@ -177,7 +178,7 @@ export async function generatePazaryeriCatalog(
   }
 
   const restore = async (): Promise<PazaryeriGenerateResult> => {
-    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane);
+    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, "lite");
     return {
       ok: false,
       error: TEZGAH_FAIL_MESSAGE,

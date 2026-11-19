@@ -128,7 +128,7 @@ export async function generateGrantProject(
 ): Promise<GrantGenerateResult> {
   const parsed = grantGenerateRequestSchema.safeParse(input.request);
   const now = deps.now?.() ?? new Date();
-  const open = () => peekTezgahQuota(input.actorId, input.guest, now);
+  const open = () => peekTezgahQuota(input.actorId, input.guest, now, "lite");
   const prepaid = input.quotaMode === "prepaid";
   if (!parsed.success) {
     const quota = await open();
@@ -203,6 +203,8 @@ export async function generateGrantProject(
     used: 0,
     guest: false,
     lane: "prepaid",
+    poolKey: "lite",
+    unlimited: false,
     paywall: false,
     commandKey: null,
     hold: null,
@@ -216,6 +218,7 @@ export async function generateGrantProject(
         input.guest,
         now,
         input.commandKey ? { key: input.commandKey, requestHash: tezgahRequestHash(input.request) } : null,
+        "lite",
       );
   if (!slot.allowed) {
     return {
@@ -229,7 +232,7 @@ export async function generateGrantProject(
   }
 
   const restore = async (): Promise<GrantGenerateResult> => {
-    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane);
+    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, "lite");
     return {
       ok: false,
       error: TEZGAH_FAIL_MESSAGE,
@@ -270,7 +273,7 @@ export async function generateGrantProject(
   if (dossierRead?.ok) {
     target = matched.eligible.find((row) => row.grantId === dossierRead.plan.targetGrantId) ?? null;
     if (!target) {
-      const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane);
+      const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, "lite");
       return {
         ok: false,
         error: matched.eligible.length === 0 ? GRANT_DOSSIER_NO_ELIGIBLE : GRANT_DOSSIER_PROGRAM_MISSING,

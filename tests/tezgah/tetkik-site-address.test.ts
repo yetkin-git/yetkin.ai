@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { normalizeTetkikSiteAddress } from "@/lib/tezgah/tetkik/site-address";
+import { normalizeTetkikSiteAddress, tetkikHostKey } from "@/lib/tezgah/tetkik/site-address";
 
 describe("tetkik site adresi", () => {
   it("https adresini ve yalın alan adını kabul eder", () => {
@@ -16,5 +16,11 @@ describe("tetkik site adresi", () => {
     expect(normalizeTetkikSiteAddress("https://127.0.0.1/")).toBeNull();
     expect(normalizeTetkikSiteAddress("javascript:alert(1)")).toBeNull();
     expect(normalizeTetkikSiteAddress("https://user:pass@ornek-dukkan.com")).toBeNull();
+  });
+
+  it("domain kilidi anahtarında www ve büyük harfi temizler", () => {
+    expect(tetkikHostKey("https://www.Ornek-Dukkan.com/path")).toBe("ornek-dukkan.com");
+    expect(tetkikHostKey("ornek-dukkan.com")).toBe("ornek-dukkan.com");
+    expect(tetkikHostKey("https://ornek-dukkan.com.")).toBe("ornek-dukkan.com");
   });
 });

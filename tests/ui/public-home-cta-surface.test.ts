@@ -11,11 +11,12 @@ function readSrc(relative: string): string {
 }
 
 describe("ana sayfa Hero CTA oturum yüzeyi", () => {
-  it("misafire birincil Akademi CTA + header Giriş/Kayıt, oturumluya Panele geç basar", () => {
+  it("misafire birincil Tezgâh CTA + ikincil fiyat linki, oturumluya Panele geç basar", () => {
     const page = readSrc("app/(public)/page.tsx");
     const copy = SEN_VOICE.public.home;
-    expect(copy.academyCta).toBe("YetkinHibe İşletim Sistemi");
-    expect(copy.primaryCta).toBe("AI Tezgâhını Ücretsiz Dene (Kayıtsız)");
+    expect(copy.primaryCta).toBe("Ücretsiz Hemen Dene (Kayıt Gerekmez)");
+    expect(copy.secondaryCta).toBe("Paketleri İncele");
+    expect(copy.tezgahCta).toBe("Tezgâhı Aç");
     expect(copy.levelCta).toBe("10 Dakikada Yetkinlik Testine Gir");
     expect(copy.freeLessonCta).toBe("Ücretsiz Dersi İzle");
     expect(copy.loginCta).toBe("Giriş Yap");
@@ -27,15 +28,24 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
     expect(nav).toContain("getSession");
     expect(nav).toContain("Suspense");
     expect(page).toContain("copy.primaryCta");
-    expect(page).toContain("copy.academyCta");
+    expect(page).toContain("copy.secondaryCta");
+    expect(page).not.toContain("copy.academyCta");
     expect(nav).toContain("copy.loginCta");
     expect(nav).toContain("copy.registerCta");
     expect(nav).toContain("copy.cockpitCta");
-    expect(page).toContain('href="/hibe"');
-    expect(page).toContain('href="/e-ticaret"');
+    expect(page).toContain('href="/tezgah"');
+    expect(page).toContain('href="/fiyatlandirma"');
+    expect(page).toContain('href="/kurumsal"');
+    expect(page).toContain('href="/rehber"');
     expect(page).toContain("{copy.primaryCta}");
-    expect(page).toMatch(/href="\/hibe"[^>]*>\s*\{copy\.academyCta\}/);
+    expect(page).toContain("{copy.secondaryCta}");
+    expect(page).toContain("track.href");
+    expect(page).toContain("track.cta");
+    expect(page).not.toContain("E-Ticaret İşletim Sistemi");
     expect(page).not.toContain("copy.freeLessonCta");
+    expect(page).not.toContain("/academy");
+    expect(page).not.toContain("/junior");
+    expect(page).not.toContain("/young");
     expect(nav).toContain('href="/login"');
     expect(nav).toContain('href="/register"');
     expect(nav).toContain('href="/dashboard"');
@@ -51,9 +61,15 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
     expect(page).not.toContain("copy.footnotes");
     expect(page).not.toContain("copy.journey");
     expect(page).not.toContain("/freelancer");
-    expect(copy.tracks.some((track) => track.href === "/career")).toBe(true);
+    expect(copy.tracks.map((track) => track.href)).toEqual([
+      "/tezgah",
+      "/e-ticaret",
+      "/hibe",
+      "/career",
+    ]);
     expect(copy.chain).toHaveLength(4);
-    expect(copy.tracks).toHaveLength(5);
+    expect(copy.tracks).toHaveLength(4);
+    expect(copy.tracks.every((track) => typeof track.cta === "string")).toBe(true);
     expect(copy).not.toHaveProperty("footnotes");
     expect(copy).not.toHaveProperty("footnoteLead");
   });

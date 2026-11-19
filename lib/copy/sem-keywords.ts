@@ -7,18 +7,28 @@ import { ACADEMY_CHAT_MODEL_LIST } from "@/lib/academy/model-tendency-card";
  * Üçüncü taraf piksel buradan basılmaz (KVKK çerez metni).
  */
 
+/**
+ * Kök layout / Ads kalite puanı — aktif ticari ürün niyetleri.
+ * Kapalı Akademi kurs niyetleri `OFFICE_AI_SEM_KEYWORDS` içindedir.
+ */
 export const SEM_LANDING_KEYWORDS = [
-  "yapay zeka eğitimi",
-  "yapay zeka sertifikası",
-  "kariyer vizesi",
-  "prompt eğitimi",
-  "online kurs",
-  // SEO Tedavi (P0) — 01_office_ai amiral niyet kümesi. Antre H1/meta/FAQ/rehber bloğu bu dizgileri taşır.
+  "yapay zeka iş araçları",
+  "kobi yapay zeka",
+  "e-ticaret yönetim paneli",
+  "kosgeb hibe bulucu",
+  "yapay zeka belge oluşturucu",
+  "aday değerlendirme testi",
+] as const;
+
+/**
+ * Kapalı Akademi 01_office_ai antre SEM — kurs yüzeyi Ads/FAQ SSOT.
+ * Kök `app/layout.tsx` keywords bu listeyi basmaz.
+ */
+export const OFFICE_AI_SEM_KEYWORDS = [
   "excel yapay zeka eğitimi",
   "ofiste chatgpt",
   "word yapay zeka",
   "yapay zeka sertifikasi",
-  // T-01 — vatandaş lisanı kuyruk; Gemini yalnız Gmail yerleşik paneli olarak durur.
   "iş hayatında yapay zekâ",
   "excel'de temiz veri",
   "gmail'de yerleşik gemini",
@@ -73,32 +83,27 @@ const FAQ = {
   },
 } as const satisfies Record<string, LandingFaqItem>;
 
-/** Kök iniş SSS — beş modül. Akademi kataloğu `ACADEMY_LANDING_FAQ` ile ayrı kalır. */
+/** Kök iniş SSS — dört çözüm alanı. Akademi kataloğu `ACADEMY_LANDING_FAQ` ile ayrı kalır. */
 export const HOME_LANDING_FAQ: readonly LandingFaqItem[] = [
   {
-    question: "E-Ticaret OS kokpiti ne toplar?",
+    question: "AI Tezgâh ile ne üretebilirim?",
     answer:
-      "E-Ticaret OS stok, kanal ve siparişi tek kokpitte toplar. Mağaza ürünü, stok ve pazaryeri entegrasyonu aynı hesapta durur. Lisans katalog fiyatıyla açılır.",
+      "Misafir ve üye günde 3 üretim alır: teklif, ürün kartı, e-posta, rapor ve benzeri iş çıktıları. Kota İstanbul gününde sıfırlanır. AI Tezgâh Pro ile ek kota katalogdan açılır.",
   },
   {
-    question: "YetkinHibe uygunluk analizi ve proje dosyası nasıl kurulur?",
+    question: "E-ticaret yönetimi neyi tek ekranda toplar?",
     answer:
-      "Firma profilini girersin. YetkinHibe OS uygunluğu ölçer; proje özeti, bütçe ve iş paketini dosyaya döker. Tam proje dosyası tek seferlik dijital çıktıdır.",
+      "Pazaryeri siparişleri, stok ve kârlılık aynı hesapta izlenir. Mağaza ürünü ve kanal entegrasyonu lisansla açılır; tutar fiyatlandırma sayfasındadır.",
   },
   {
-    question: "AI Tezgâh ücretsiz üretim kotası nasıl işler?",
+    question: "Hibe ve teşvik bulucu nasıl çalışır?",
     answer:
-      "Misafir ve üye günde 3 üretim alır. Kota İstanbul gününde sıfırlanır. AI Tezgâh Pro aylık dijital aboneliktir; ek kota katalogdan açılır.",
+      "Firma profilini girersin. Uygun KOSGEB, TÜBİTAK ve devlet desteklerini görürsün; proje özeti, bütçe ve iş paketini dosyaya dökersin.",
   },
   {
-    question: "YetkinCV SHA-256 doğrulaması ne gösterir?",
+    question: "YetkinCV ve İK eleme işverene ne gösterir?",
     answer:
-      "Vaka testi sunucuda puanlanır. Paylaştığın /vize bağı skor, beceri kırılımı ve SHA-256 özetini gösterir. CV metni bu sayfada basılmaz. İşe yerleşmeyi garanti etmez.",
-  },
-  {
-    question: "Kurumsal ilan elemesinde başvuru kimle paylaşılır?",
-    answer:
-      "Başvuru bilgisi, sınav puanı ve SHA-256 özeti yalnız ilanı açan yetkili şirketle paylaşılır. Kısa liste ağırlıklı puana göre sıralanır. Kamu dizinine basılmaz.",
+      "Aday uygulamalı vaka testini sunucuda çözer. Paylaşılabilir skor ve beceri kırılımı oluşur; CV metni kamu sayfasında görünmez. İşe yerleşmeyi garanti etmez.",
   },
 ];
 
@@ -113,17 +118,17 @@ const YETKINCV_FAQ = {
   score: {
     question: "YetkinCV puanı nasıl oluşur?",
     answer:
-      "CV özetini yapıştırır, seçtiğin uzmanlıkta uygulamalı vaka testini çözersin. Puan 0–100 sunucuda hesaplanır. SHA-256 doğrulama kodu bu sonuçtan türer. Satın alma tek başına puan basmaz. İşe yerleşmeyi garanti etmez.",
+      "CV özetini yapıştırır, seçtiğin uzmanlıkta uygulamalı vaka testini çözersin. Puan 0–100 sunucuda hesaplanır. Satın alma tek başına puan basmaz. İşe yerleşmeyi garanti etmez.",
   },
   verify: {
     question: "İşveren YetkinCV puanını nasıl doğrular?",
     answer:
-      "Paylaştığın /vize bağını açar. Sicilde kayıt varsa skor, beceri kırılımı ve SHA-256 kodu görünür. Sahte ilan veya sahte şirket logosu bu kartta yoktur.",
+      "Paylaştığın /vize bağını açar. Kayıt varsa skor ve beceri kırılımı görünür. Sahte ilan veya sahte şirket logosu bu kartta yoktur.",
   },
   practice: {
     question: "YetkinCV puanını nasıl yükseltirim?",
     answer:
-      "30/60/90 planı pratik vakayı AI Tezgâh, e-ticaret kokpiti ve YetkinHibe üzerine yazar.",
+      "30/60/90 planı pratik vakayı AI Tezgâh, e-ticaret paneli ve YetkinHibe üzerine yazar.",
   },
 } as const satisfies Record<string, LandingFaqItem>;
 

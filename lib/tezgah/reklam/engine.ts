@@ -59,7 +59,7 @@ export async function generateReklamPackage(
 ): Promise<ReklamGenerateResult> {
   const parsed = reklamGenerateRequestSchema.safeParse(input.request);
   const now = deps.now?.() ?? new Date();
-  const open = () => peekTezgahQuota(input.actorId, input.guest, now);
+  const open = () => peekTezgahQuota(input.actorId, input.guest, now, "lite");
   if (!parsed.success) {
     const quota = await open();
     return {
@@ -78,6 +78,7 @@ export async function generateReklamPackage(
     input.guest,
     now,
     input.commandKey ? { key: input.commandKey, requestHash: tezgahRequestHash(input.request) } : null,
+    "lite",
   );
   if (!slot.allowed) {
     return {
@@ -91,7 +92,7 @@ export async function generateReklamPackage(
   }
 
   const restore = async (): Promise<ReklamGenerateResult> => {
-    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane);
+    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, "lite");
     return {
       ok: false,
       error: TEZGAH_FAIL_MESSAGE,

@@ -95,3 +95,18 @@ export function normalizeTetkikSiteAddress(raw: string): string | null {
   }
   return url.toString();
 }
+
+/** Global ücretsiz tetkik kilidi anahtarı. `www.` ve sondaki nokta düşer; küçük harf. */
+export function tetkikHostKey(rawUrl: string): string | null {
+  const normalized = normalizeTetkikSiteAddress(rawUrl) ?? rawUrl.trim();
+  if (!normalized) {
+    return null;
+  }
+  try {
+    const host = new URL(normalized.startsWith("http") ? normalized : `https://${normalized}`).hostname;
+    const key = host.replace(/\.$/, "").replace(/^www\./i, "").toLowerCase();
+    return key.length >= 1 && key.length <= 253 ? key : null;
+  } catch {
+    return null;
+  }
+}

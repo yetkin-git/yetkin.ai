@@ -10,17 +10,27 @@ import {
   LEGAL_ACTIVITY_SCOPE_BODY,
   LEGAL_ENTITY,
   LEGAL_ENTITY_VKN,
-  LEGAL_UPDATED_LABEL,
 } from "@/lib/copy/legal-launch";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 
 export const metadata: Metadata = pageMetadata(PAGE_SEO.about);
 
+const ABOUT_HERO_DESCRIPTION =
+  "yetkin.ai; KOBİ'lerin, e-ticaret satıcılarının ve profesyonellerin günlük operasyon yükünü azaltmak için kuruldu. Teklif hazırlama, pazaryeri yönetimi, hibe araştırması ve aday değerlendirme gibi karmaşık işleri tek ve pratik bir çatı altında topluyoruz.";
+
 export default function AboutPage() {
   return (
     <main className="relative mx-auto max-w-3xl px-6 pb-20 pt-16">
       <div className="relative space-y-6">
-        <PublicHero eyebrow={LEGAL_ABOUT_TITLE} title={LEGAL_ABOUT_TITLE} description={LEGAL_UPDATED_LABEL} />
+        <PublicHero
+          eyebrow={LEGAL_ABOUT_TITLE}
+          title={LEGAL_ABOUT_TITLE}
+          description={ABOUT_HERO_DESCRIPTION}
+        >
+          <LinkButton href="/tezgah" size="lg" variant="success">
+            AI Tezgâhını Ücretsiz Dene
+          </LinkButton>
+        </PublicHero>
         <LegalHonestyCard />
         <Card title="Kurumsal kimlik">
           <p className="text-base leading-relaxed text-slate-700">{LEGAL_ABOUT_LEAD}</p>
@@ -63,6 +73,9 @@ export default function AboutPage() {
         </Card>
         <LegalSupportEmailLine />
         <div className="flex flex-wrap gap-3">
+          <LinkButton href="/tezgah" variant="success" size="sm">
+            AI Tezgâhını Ücretsiz Dene
+          </LinkButton>
           <LinkButton href="/iletisim" variant="outline" size="sm">
             İletişim
           </LinkButton>

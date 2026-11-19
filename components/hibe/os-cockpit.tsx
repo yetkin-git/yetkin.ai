@@ -3,7 +3,9 @@ import type { Route } from "next";
 import { HibePrepPlanCard } from "@/components/hibe/prep-plan-card";
 import { HibeProjectDesk } from "@/components/hibe/project-desk";
 import { cn } from "@/components/ui/cn";
+import { EmptyAwareSelect } from "@/components/ui/empty-aware-select";
 import { IconLeaf, IconShield } from "@/components/ui/icons";
+import { PLACEHOLDER_TYPO_CLASS } from "@/components/ui/input";
 import {
   HIBE_BUSINESS_KINDS,
   HIBE_FORM_LISTS,
@@ -149,11 +151,18 @@ export function HibeOsCockpit({
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               <label className="text-sm font-medium">
                 Firma adı
-                <input name="ad" defaultValue={defaults.ad ?? ""} className="mt-1 w-full rounded-xl border border-[var(--border)] px-3 py-2 text-sm" />
+                <input
+                  name="ad"
+                  defaultValue={defaults.ad ?? ""}
+                  className={cn(
+                    "mt-1 w-full rounded-xl border border-[var(--border)] px-3 py-2 text-sm",
+                    PLACEHOLDER_TYPO_CLASS,
+                  )}
+                />
               </label>
               <label className="text-sm font-medium">
                 İşletme türü
-                <select name="isletme" defaultValue={defaults.isletme || "kobi"} className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm">
+                <select name="isletme" defaultValue={defaults.isletme || "kobi"} className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm not-italic font-medium text-slate-900">
                   {HIBE_BUSINESS_KINDS.map((row) => (
                     <option key={row.id} value={row.id}>{row.label}</option>
                   ))}
@@ -161,19 +170,29 @@ export function HibeOsCockpit({
               </label>
               <label className="text-sm font-medium">
                 Sektör / NACE
-                <select name="nace" defaultValue={defaults.nace || "47"} className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm">
+                <EmptyAwareSelect
+                  name="nace"
+                  defaultValue={defaults.nace || ""}
+                  className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm"
+                >
+                  <option value="">Sektör seçiniz...</option>
                   {HIBE_FORM_LISTS.nace.map((row) => (
                     <option key={row.id} value={row.id}>{row.label}</option>
                   ))}
-                </select>
+                </EmptyAwareSelect>
               </label>
               <label className="text-sm font-medium">
                 İl
-                <select name="il" defaultValue={defaults.il || "34"} className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm">
+                <EmptyAwareSelect
+                  name="il"
+                  defaultValue={defaults.il || ""}
+                  className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm"
+                >
+                  <option value="">İl seçiniz...</option>
                   {HIBE_FORM_LISTS.provinces.map((row) => (
-                    <option key={row.code} value={row.code}>{row.code} {row.name}</option>
+                    <option key={row.code} value={row.code}>{row.name}</option>
                   ))}
-                </select>
+                </EmptyAwareSelect>
               </label>
               <label className="text-sm font-medium">
                 Yatırım amacı
@@ -185,11 +204,29 @@ export function HibeOsCockpit({
               </label>
               <label className="text-sm font-medium">
                 Çalışan sayısı
-                <input name="calisan" required inputMode="numeric" defaultValue={defaults.calisan ?? ""} className="mt-1 w-full rounded-xl border border-[var(--border)] px-3 py-2 text-sm" />
+                <input
+                  name="calisan"
+                  required
+                  inputMode="numeric"
+                  defaultValue={defaults.calisan ?? ""}
+                  className={cn(
+                    "mt-1 w-full rounded-xl border border-[var(--border)] px-3 py-2 text-sm",
+                    PLACEHOLDER_TYPO_CLASS,
+                  )}
+                />
               </label>
               <label className="text-sm font-medium">
                 Şirket yaşı
-                <input name="yas" required inputMode="numeric" defaultValue={defaults.yas ?? ""} className="mt-1 w-full rounded-xl border border-[var(--border)] px-3 py-2 text-sm" />
+                <input
+                  name="yas"
+                  required
+                  inputMode="numeric"
+                  defaultValue={defaults.yas ?? ""}
+                  className={cn(
+                    "mt-1 w-full rounded-xl border border-[var(--border)] px-3 py-2 text-sm",
+                    PLACEHOLDER_TYPO_CLASS,
+                  )}
+                />
               </label>
               <label className="text-sm font-medium">
                 Ar-Ge

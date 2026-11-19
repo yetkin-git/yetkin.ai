@@ -95,6 +95,7 @@ import {
   OFFICE_AI_FAQ_HEADING,
   OFFICE_AI_SEAL_PROOF,
   OFFICE_AI_SEAL_PROOF_SHORT,
+  OFFICE_AI_SEM_KEYWORDS,
   SEM_LANDING_KEYWORDS,
   VIZE_LANDING_FAQ,
 } from "@/lib/copy/sem-keywords";
@@ -809,7 +810,8 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
     expect(PAGE_SEO.academy.description.toLocaleLowerCase("tr")).toContain("yapay zeka eğitimi");
     expect(PAGE_SEO.academy.description.toLocaleLowerCase("tr")).toContain("online kurs");
     expect(ACADEMY_SEN.catalog.description.toLocaleLowerCase("tr")).not.toContain("yayındadır");
-    expect(CAREER_SEN.title.toLocaleLowerCase("tr")).toContain("yetkincv");
+    expect(CAREER_SEN.eyebrow.toLocaleLowerCase("tr")).toContain("yetkincv");
+    expect(CAREER_SEN.title.toLocaleLowerCase("tr")).toContain("yetkinliğini");
     expect(PUBLIC_SEN.home.chainTitle.toLocaleLowerCase("tr")).toContain("dört adım");
     expect(readSrc("app/(public)/page.tsx")).toContain("<h2");
     expect(readSrc("app/(public)/page.tsx")).toContain("home-chain-heading");
@@ -857,9 +859,15 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
       ...CAREER_LANDING_FAQ.flatMap((row) => [row.question, row.answer]),
       ...VIZE_LANDING_FAQ.flatMap((row) => [row.question, row.answer]),
     ]);
-    // SEO Tedavi (P0) — ilk 5 küresel; kuyruk amiral antreye özeldir.
-    const GLOBAL_SEM_KEYWORDS = SEM_LANDING_KEYWORDS.slice(0, 5);
-    const OFFICE_AI_SEM_KEYWORDS = SEM_LANDING_KEYWORDS.slice(5);
+    // Kök layout aktif ürün niyetleri; kapalı Akademi antre ayrı SSOT.
+    expect(SEM_LANDING_KEYWORDS).toEqual([
+      "yapay zeka iş araçları",
+      "kobi yapay zeka",
+      "e-ticaret yönetim paneli",
+      "kosgeb hibe bulucu",
+      "yapay zeka belge oluşturucu",
+      "aday değerlendirme testi",
+    ]);
     expect(OFFICE_AI_SEM_KEYWORDS).toEqual([
       "excel yapay zeka eğitimi",
       "ofiste chatgpt",
@@ -872,17 +880,26 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
       "kvkk maskeleme",
       "haftalık cuma rutini",
     ]);
-    expect(homeText).toContain("beş modül");
-    expect(homeText).toContain("e-ticaret os");
-    expect(homeText).not.toContain("iki işletim sistemi");
+    expect(readSrc("app/layout.tsx")).toContain("SEM_LANDING_KEYWORDS");
+    expect(readSrc("app/layout.tsx")).not.toContain("OFFICE_AI_SEM_KEYWORDS");
+    expect(homeText).toContain("yapay zeka araçları");
+    // tr locale: "AI" → "aı"
+    expect(homeText).toContain("aı tezgâh");
+    expect(homeText).toContain("e-ticaret");
+    expect(homeText).not.toContain("beş modül");
+    expect(homeText).not.toContain("işletim sistemi");
+    expect(homeText).not.toContain("e-ticaret os");
     expect(homeText).not.toContain("online kurs");
     expect(careerText).toContain("yetkincv");
-    expect(careerText).toContain("sha-256");
-    for (const keyword of GLOBAL_SEM_KEYWORDS) {
-      const onAcademy = academyText.includes(keyword);
-      const onCareer = careerText.includes(keyword);
-      expect(onAcademy || onCareer, `academy|career ← ${keyword}`).toBe(true);
-    }
+    expect(careerText).toContain("doğrulanabilir");
+    expect(careerText).not.toContain("sha-256");
+    expect(CAREER_SEN.hashLabel.toLocaleLowerCase("tr")).toContain("sha-256");
+    expect(SEM_LANDING_KEYWORDS).not.toContain("yapay zeka eğitimi");
+    expect(SEM_LANDING_KEYWORDS).not.toContain("online kurs");
+    expect(SEM_LANDING_KEYWORDS).not.toContain("excel yapay zeka eğitimi");
+    // Kapalı Akademi meta kendi yüzeyinde kalır; kök keywords listesine sızmaz.
+    expect(academyText).toContain("yapay zeka eğitimi");
+    expect(academyText).toContain("online kurs");
     const officeAiText = haystack([
       OFFICE_AI_SEO.title,
       OFFICE_AI_SEO.description,

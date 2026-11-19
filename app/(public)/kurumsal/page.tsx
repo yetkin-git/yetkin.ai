@@ -46,7 +46,7 @@ function OfferCta({ featured }: { featured?: boolean }) {
           : "bg-[var(--safir)] text-white hover:bg-[var(--safir-deep)]",
       )}
     >
-      Teklif al
+      Talebinizi bırakın
     </a>
   );
 }
@@ -75,7 +75,7 @@ export default async function KurumsalSalesPage() {
         />
         <PageHeader
           eyebrow="Kurumsal İK"
-          title="Eleme ve işletim merkezi"
+          title="Doğru Adayı Günler Değil, Dakikalar İçinde Seçin."
           description="İlan aç, yetkinliklere yüzde ver, adaya o kriterlerin YetkinCV vaka testini uygula. Ağırlıklı puana göre ilk N aday mülakat listesine çıkar. CV metni kamu dizinine basılmaz."
         />
         <ul className="mt-5 flex flex-wrap gap-2">
@@ -107,7 +107,7 @@ export default async function KurumsalSalesPage() {
       <div className="grid items-stretch gap-4 pt-4 lg:grid-cols-2">
         <article className="relative flex h-full flex-col rounded-[var(--radius-card)] bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 p-6 text-white shadow-xl ring-2 ring-blue-500">
           <span className="absolute -top-3 left-5 rounded-full bg-blue-500 px-3 py-1 text-[11px] font-bold tracking-wide text-white shadow-md">
-            En Çok Tercih Edilen
+            Kurumsal Ekipler İçin
           </span>
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-blue-200">10 mağaza koltuğu</p>
           <h2 className="mt-2 text-lg font-semibold tracking-tight text-white">E-ticaret ajans paketi</h2>
@@ -116,8 +116,8 @@ export default async function KurumsalSalesPage() {
             lines={[
               "Çoklu mağaza yönetimi.",
               "Trendyol ile Hepsiburada senkronizasyonu.",
-              "Katalog birimi commerce:agency.",
-              "Pazaryeri split kapalıdır; ciro platformda bölünmez.",
+              "Ajans ekibi için ortak işletim paneli.",
+              "Ciro platformda bölünmez; tahsilat size özel teklifle yürür.",
             ]}
           />
           <p className="mt-5 text-3xl font-semibold tracking-tight text-white" data-price-honesty={agencyPrice.honesty}>
@@ -130,10 +130,10 @@ export default async function KurumsalSalesPage() {
           <h2 className="mt-2 text-lg font-semibold tracking-tight text-[var(--foreground)]">KOBİ ekip rozeti</h2>
           <OfferChecks
             lines={[
-              "Şirket çalışanları için toplu eğitim.",
+              "Şirket çalışanları için toplu yetkinlik ölçümü.",
               "Sunucu onaylı yetkinlik sertifikasyonu.",
               "Tek teklif, kurumsal fatura künyesi.",
-              "Katalog birimi academy:team-seat.",
+              "Ekip koltukları teklifle açılır.",
             ]}
           />
           <p className="mt-5 text-3xl font-semibold tracking-tight text-[var(--foreground)]" data-price-honesty={teamPrice.honesty}>
@@ -143,14 +143,20 @@ export default async function KurumsalSalesPage() {
         </article>
       </div>
       <div id="kurumsal-teklif" className="mt-4 grid scroll-mt-6 items-start gap-4 lg:grid-cols-[minmax(0,1.4fr)_minmax(16rem,0.7fr)]">
-        <Card title="Teklif al" eyebrow="Kayıt">
+        <Card title="Kurumsal talep" eyebrow="Self-servis">
           <KurumsalOfferForm />
         </Card>
-        <TipPanel title="Teklifte ne olur">
+        <TipPanel title="Self-serviste ne olur">
           <ul className="grid gap-2">
-            <li className="border-l-4 border-blue-500 pl-3">Kayıt satış ekibine gider. Tahsilat bu formda başlamaz.</li>
-            <li className="border-l-4 border-emerald-500 pl-3">PayTR kasası bu paketlerde bağlı değildir. Kayıt ön taleptir; karttan çekilmez.</li>
-            <li className="border-l-4 border-amber-500 pl-3">ISO denetçisi ve Şirket Beyni ön taleptir. İlan elemesi bu sayfadaki kokpittedir.</li>
+            <li className="border-l-4 border-blue-500 pl-3">
+              Talebinizi bırakın, kurumsal paneliniz tanımlansın. Bu formda kart çekilmez.
+            </li>
+            <li className="border-l-4 border-emerald-500 pl-3">
+              Hesabınızı şimdi oluşturun, kurulumunuzu dakikalar içinde kendiniz tamamlayın.
+            </li>
+            <li className="border-l-4 border-amber-500 pl-3">
+              İlan açma ve aday eleme bu sayfadaki panelden yürür; özel paketler talep formundan tanımlanır.
+            </li>
           </ul>
         </TipPanel>
       </div>

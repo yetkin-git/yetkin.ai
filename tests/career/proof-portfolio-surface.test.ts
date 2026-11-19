@@ -124,9 +124,9 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     expect(copy).toContain("Doğrulanmış Freelancer Rozeti");
     expect(copy).toContain("Erişim Hakkı");
     expect(copy).toContain("Doğrulanmış İşveren Ağına Görünürlük");
-    expect(copy).toContain("Liyakat Mühürlü Özgeçmiş Bağlantısı");
+    expect(copy).toContain("Paylaşılabilir Özgeçmiş Bağlantısı");
     expect(copy).toContain("Proje Kanıt Dosyası");
-    expect(copy).toContain("CV'ne Mühür Ekle");
+    expect(copy).toContain("CV'ne Doğrulama Bağı Ekle");
     expect(copy).toContain("LinkedIn Yetkinlik Onayına Bağla");
     expect(copy).not.toContain('"Onaylı"');
     expect(copy).not.toContain("Vize-ilan tabelası");
@@ -145,7 +145,7 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     expect(ledger).not.toContain("issueCareerVisaStamp");
     expect(SEN_VOICE.career.ledgerTitle).toBe("Doğrulanmış Freelancer Rozeti");
     expect(SEN_VOICE.career.proofsTitle).toBe("Doğrulanmış Freelancer Rozeti");
-    expect(SEN_VOICE.career.title).toBe("YetkinCV — Test Edilmiş & Mühürlü Kariyer Merkezi");
+    expect(SEN_VOICE.career.title).toBe("Yetkinliğini Gerçek Testle Kanıtla, Fark Yarat.");
     expect(SEN_VOICE.career.verifyCta).toBe("Sertifikayı doğrula");
     expect(SEN_VOICE.career.sealed).toBe("Doğrulanmış Rozet");
     expect(SEN_VOICE.career.sealed).not.toBe("Onaylı");
@@ -154,11 +154,11 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     expect(SEN_VOICE.career.scope.title).toBe("Teklif Kapısı");
     expect(SEN_VOICE.career.scope.open).toBe("Erişim Hakkı açık");
     expect(SEN_VOICE.career.scope.closed).toBe("Erişim Hakkı kapalı");
-    expect(SEN_VOICE.career.scope.held).toBe("Sınav mühürlü");
+    expect(SEN_VOICE.career.scope.held).toBe("Sınav tamam");
     expect(SEN_VOICE.career.scope.examGate).toBe("8 ders + baraj 70");
     expect(copy).not.toContain("Belge yok");
     expect(copy).not.toContain("Belgen var");
-    expect(copy).toContain("Sınav mühürlü");
+    expect(copy).toContain("Sınav tamam");
     expect(copy).toContain("8 ders + baraj 70");
     expect(copy).toContain("8 dersi bitir");
     expect(ledger).not.toContain('href="/freelancer"');

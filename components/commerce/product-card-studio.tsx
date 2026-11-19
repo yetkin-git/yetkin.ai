@@ -6,7 +6,7 @@ import { commerceMutate } from "@/components/commerce/api";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/components/ui/cn";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { SmartTextarea } from "@/components/ui/smart-textarea";
 import { ecommerceCardToDraftProduct } from "@/lib/commerce/ecommerce-bridge";
 import {
   ECOMMERCE_CATEGORY_CHIPS,
@@ -164,7 +164,7 @@ export function ProductCardStudio() {
             <Input
               value={category}
               maxLength={80}
-              placeholder="Örn: Anne ve bebek"
+              placeholder="Kategoriyi yazınız..."
               onChange={(event) => setCategory(event.target.value)}
             />
           </label>
@@ -192,13 +192,17 @@ export function ProductCardStudio() {
         </div>
         <label className="block text-sm font-medium">
           Temel özellikler
-          <Textarea
-            className="mt-1 min-h-24"
-            value={features}
-            maxLength={800}
-            placeholder="100×100 cm, yıkanabilir, 0–3 yaş"
-            onChange={(event) => setFeatures(event.target.value)}
-          />
+          <div className="mt-1">
+            <SmartTextarea
+              context="ecommerce"
+              className="min-h-24"
+              value={features}
+              maxLength={800}
+              placeholder="Ürün özelliklerinizi buraya yazınız..."
+              onChange={(event) => setFeatures(event.target.value)}
+              softHint="Biraz daha detay ekleyin (ölçü, malzeme, yaş/kullanım)…"
+            />
+          </div>
         </label>
         {error ? <p className="text-sm text-[var(--rose)]">{error}</p> : null}
         {markdown && !draft.ok ? <p className="text-sm text-[var(--rose)]">{draft.error}</p> : null}

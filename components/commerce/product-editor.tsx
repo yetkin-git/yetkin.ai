@@ -11,7 +11,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LinkButton } from "@/components/ui/link-button";
-import { Textarea } from "@/components/ui/textarea";
+import { SmartTextarea } from "@/components/ui/smart-textarea";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import type { CockpitAttribute, CockpitProduct, CockpitVariant } from "@/lib/commerce/cockpit-types";
 
@@ -75,14 +75,17 @@ export function ProductEditor({
           </div>
           <div>
             <Label htmlFor="edit-description">{copy.productDescription}</Label>
-            <Textarea
-              id="edit-description"
-              className="mt-1"
-              rows={5}
-              maxLength={4000}
-              value={description}
-              onChange={(event) => setDescription(event.target.value)}
-            />
+            <div className="mt-1">
+              <SmartTextarea
+                id="edit-description"
+                context="ecommerce"
+                rows={5}
+                maxLength={4000}
+                value={description}
+                placeholder="Ürün açıklamasını buraya yazınız..."
+                onChange={(event) => setDescription(event.target.value)}
+              />
+            </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>

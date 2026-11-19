@@ -31,7 +31,8 @@ describe("ana sayfa hibe hazırlığı bölümü (V1)", () => {
     expect(page).toContain("home-chain-heading");
     expect(page).toContain("GrantEligibilityWidget");
     expect(page).not.toContain("/freelancer");
-    expect(page).not.toContain("/career");
+    expect(page).toContain("track.href");
+    expect(copy).toContain('href: "/career"');
     expect(page).not.toMatch(/4\.900|14\.900/u);
   });
 
@@ -45,15 +46,17 @@ describe("ana sayfa hibe hazırlığı bölümü (V1)", () => {
     );
   });
 
-  it("SSS beş modülü anlatır; online kurs sorusu kök inişte yoktur", () => {
-    expect(HOME_LANDING_FAQ).toHaveLength(5);
+  it("SSS dört çözüm alanını anlatır; online kurs sorusu kök inişte yoktur", () => {
+    expect(HOME_LANDING_FAQ).toHaveLength(4);
     const joined = HOME_LANDING_FAQ.flatMap((row) => [row.question, row.answer]).join("\n");
-    expect(joined).toContain("E-Ticaret OS");
-    expect(joined).toContain("YetkinHibe OS");
+    expect(joined).toContain("AI Tezgâh");
+    expect(joined).toContain("E-ticaret");
     expect(joined).toContain("günde 3 üretim");
-    expect(joined).toContain("SHA-256");
-    expect(joined).toContain("ilanı açan yetkili şirket");
+    expect(joined).toContain("YetkinCV");
+    expect(joined).toContain("KOSGEB");
     expect(joined).not.toContain("online kurs");
     expect(joined).not.toContain("Hazırlanıyor");
+    expect(joined).not.toContain("SHA-256");
+    expect(joined).not.toContain("işletim sistemi");
   });
 });

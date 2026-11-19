@@ -32,7 +32,7 @@ export default function SozlukPage() {
       <PublicHero
         eyebrow="Sözlük"
         title="Yapay zekâ ve dijital ticaret"
-        description="Otuz terim. Her sayfada tanım, tezgâhta nasıl kullanılacağı ve ilgili sınav vardır. Kapalı iş odası bu sözlükte açılmaz."
+        description="Otuz terim. Her sayfada tanım ve AI Tezgâh örneği vardır. Kapalı iş odası bu sözlükte açılmaz."
       />
       <ul className="mt-8 grid gap-3 sm:grid-cols-2">
         {GLOSSARY_TERMS.map((term) => (

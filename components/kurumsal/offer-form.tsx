@@ -4,7 +4,7 @@ import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { IconArrow, IconBuilding, IconUser } from "@/components/ui/icons";
 import { INPUT_SURFACE_CLASS, Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { SmartTextarea } from "@/components/ui/smart-textarea";
 import { KURUMSAL_OFFER_PACKAGES, type KurumsalOfferPackageKey } from "@/lib/sales/kurumsal-offer-packages";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
@@ -37,7 +37,7 @@ export function KurumsalOfferForm() {
         setError(typeof body?.error === "string" ? body.error : "Teklif kaydedilemedi.");
         return;
       }
-      setMessage("Teklif kaydı alındı. Ekip e-posta adresinden döner.");
+      setMessage("Talebiniz alındı. Kurumsal paneliniz tanımlanınca e-posta ile bilgilendirilirsiniz.");
       setNote("");
     } catch {
       setError("Bağlantı kurulamadı. Yeniden dene.");
@@ -81,14 +81,23 @@ export function KurumsalOfferForm() {
         </select>
       </label>
       <label className="grid gap-1.5 text-sm font-medium md:col-span-2">
-        Not
-        <Textarea value={note} onChange={(event) => setNote(event.target.value)} maxLength={500} rows={4} />
+        Talebiniz
+        <SmartTextarea
+          context="kurumsal"
+          value={note}
+          onChange={(event) => setNote(event.target.value)}
+          maxLength={500}
+          rows={4}
+          placeholder="Talebinizi buraya yazınız..."
+          softHint="Biraz daha detay ekleyin (ekip büyüklüğü, ihtiyaç, zaman dilimi)…"
+          readyHint="✓ Temel detaylar yeterli"
+        />
       </label>
       {error ? <p className="text-sm text-[var(--rose)] md:col-span-2">{error}</p> : null}
       {message ? <p className="text-sm text-[var(--emerald)] md:col-span-2">{message}</p> : null}
       <div className="md:col-span-2">
         <Button type="submit" disabled={pending}>
-          {pending ? "Gönderiliyor" : "Teklif al"}
+          {pending ? "Gönderiliyor" : "Talebinizi bırakın"}
           <IconArrow className="h-3.5 w-3.5" />
         </Button>
       </div>

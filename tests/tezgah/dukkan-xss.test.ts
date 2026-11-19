@@ -56,6 +56,6 @@ describe("dijital dükkan kaçışı", () => {
     expect(result.filename).toBe(DUKKAN_FILENAME);
     expect(result.html).not.toMatch(/<script/i);
     expect(result.html).not.toMatch(/javascript\s*:/i);
-    expect(result.remaining).toBe(2);
+    expect(result.remaining).toBe(1);
   });
 });

@@ -39,6 +39,26 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
       "E-Ticaret, YetkinHibe, AI Tezgâh ve kariyer adımların tek ekranda.",
     );
     expect(SEN_VOICE.dashboard.publicPanel.eyebrow).toBe("Öğrenci paneli");
+    expect(SEN_VOICE.dashboard.publicPanel.features.map((row) => row.title)).toEqual([
+      "YetkinHibe",
+      "YetkinCV",
+      "Sertifika doğrulama",
+    ]);
+    expect(SEN_VOICE.dashboard.publicPanel.features[0]).toMatchObject({
+      href: "/hibe",
+      cta: "Hibeyi aç",
+    });
+    expect(SEN_VOICE.dashboard.publicPanel.features[1]).toMatchObject({
+      href: "/career",
+      cta: "YetkinCV'yi İncele",
+    });
+    expect(SEN_VOICE.dashboard.publicPanel.features.some((row) => row.title === "Akademi")).toBe(
+      false,
+    );
+    expect(SEN_VOICE.dashboard.publicPanel.features.some((row) => row.href === "/tezgah")).toBe(
+      false,
+    );
+    expect(SEN_VOICE.dashboard.publicPanel.summary.join(" ")).not.toContain("Akademi kataloğu");
     expect(SEN_VOICE.dashboard.featured).toContain("YetkinHibe");
     expect(SEN_VOICE.dashboard.featured).toContain("Kariyer odasından");
     expect(SEN_VOICE.dashboard.featured).not.toContain("Öğren, sınav ol");
@@ -145,13 +165,14 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     expect(widget).toContain("invisible");
   });
 
-  it("sol menü etiketi Genel Bakış'tır; kaldığın yer yoktur", () => {
+  it("sol menü etiketi Ana Panel'dir; kaldığın yer yoktur", () => {
     const dashboard = VERTICAL_ROOMS.find((room) => room.id === "dashboard");
-    expect(dashboard?.label).toBe("Genel Bakış");
-    expect(dashboard?.blurb).toBe("Komuta merkezi");
+    expect(dashboard?.label).toBe("Ana Panel");
+    expect(dashboard?.blurb).toBe("Özet ve ilerleme");
     expect(dashboard?.blurb).not.toContain("Kaldığın yer");
     expect(readSrc("lib/kernel/modules.ts")).not.toContain("Kaldığın yer");
     expect(existsSync(join(ROOT, "app/dashboard/error.tsx"))).toBe(true);
     expect(readSrc("app/dashboard/error.tsx")).toContain("retry");
   });
 });
+

@@ -7,18 +7,20 @@ import {
   LEGAL_ACTIVITY_SCOPE_BODY,
   LEGAL_ENTITY,
   LEGAL_ENTITY_VKN,
-  LEGAL_UPDATED_LABEL,
   LEGAL_WHATSAPP_HREF,
 } from "@/lib/copy/legal-launch";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 
 export const metadata: Metadata = pageMetadata(PAGE_SEO.contact);
 
+const CONTACT_HERO_DESCRIPTION =
+  "Merhaba — buradayız. Destek taleplerine ve kurumsal başvurulara genelde 1 iş günü içinde dönüş yapıyoruz. Aşağıdaki kanallardan yazman yeterli.";
+
 export default function ContactPage() {
   return (
     <main className="relative mx-auto max-w-3xl px-6 pb-20 pt-16">
       <div className="relative space-y-6">
-        <PublicHero eyebrow="İletişim" title="İletişim" description={LEGAL_UPDATED_LABEL} />
+        <PublicHero eyebrow="İletişim" title="İletişim" description={CONTACT_HERO_DESCRIPTION} />
         <LegalHonestyCard />
         <Card title="Faaliyet konusu">
           <p className="text-base leading-relaxed text-slate-700">{LEGAL_ACTIVITY_SCOPE_BODY}</p>
@@ -65,7 +67,10 @@ export default function ContactPage() {
         </Card>
         <Card title="Destek kanalları">
           <div className="space-y-3">
-            <p>Resmi destek ve KVKK m.11 talepleri bu kanallardan yürür.</p>
+            <p>
+              Resmi destek, kurumsal ön başvuru ve KVKK m.11 talepleri bu kanallardan yürür. Hedefimiz
+              1 iş günü içinde yanıt vermektir.
+            </p>
             <LegalSupportEmailLine />
             <p className="text-sm text-[var(--foreground)]">
               WhatsApp destek:{" "}
@@ -83,7 +88,7 @@ export default function ContactPage() {
             <p>
               Oturumlu hesapta bildirim ve kayıtlı e-posta aynı talebi taşır. Ödeme itirazları
               (kart tahsilatı) Yetkili Ödeme Kuruluşunun kendi kanalları ve platform iade
-              kurallarıyla birlikte okunur. Cüzdan bakiyesi Akademi eğitim tahsilatı içindir.
+              kurallarıyla birlikte okunur.
             </p>
           </div>
         </Card>

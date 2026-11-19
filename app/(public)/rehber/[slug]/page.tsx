@@ -4,7 +4,14 @@ import type { Route } from "next";
 import { JsonLd } from "@/components/seo/json-ld";
 import { LandingFaq } from "@/components/seo/landing-faq";
 import { LinkButton } from "@/components/ui/link-button";
-import { GUIDE_HUB_PATH, guidePath, PUBLIC_GUIDES, publicGuide } from "@/lib/copy/guides";
+import {
+  GUIDE_HUB_PATH,
+  GUIDE_TEZGAH_CTA_HREF,
+  GUIDE_TEZGAH_CTA_LABEL,
+  guidePath,
+  PUBLIC_GUIDES,
+  publicGuide,
+} from "@/lib/copy/guides";
 import { breadcrumbListJsonLd, faqPageJsonLd, guideArticleJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
 import { pageMetadata } from "@/lib/copy/seo";
 
@@ -90,8 +97,8 @@ export default async function GuideArticlePage({
       </section>
       <div className="mt-6 flex flex-wrap gap-3">
         <LinkButton href={guide.toolHref as Route}>{guide.toolLabel}</LinkButton>
-        <LinkButton href={guide.examHref as Route} variant="outline">
-          {guide.examLabel}
+        <LinkButton href={GUIDE_TEZGAH_CTA_HREF as Route} variant="success">
+          {GUIDE_TEZGAH_CTA_LABEL}
         </LinkButton>
       </div>
       <LandingFaq heading="Sık sorulanlar" items={guide.faqs} />

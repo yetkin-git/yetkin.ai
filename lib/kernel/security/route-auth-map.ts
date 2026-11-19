@@ -37,6 +37,7 @@ export const ROUTE_AUTH_MAP = {
   "/api/admin/social/publish": "admin",
   "/api/admin/social/reply": "admin",
   "/api/ai/chat": "public",
+  "/api/ai/form-coach": "public",
   "/api/auth/hooks/send-email": "webhook",
   "/api/auth/logout": "public",
   "/api/auth/password": "session",

@@ -42,7 +42,7 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     const page = readSrc("app/(public)/page.tsx");
     expect(page).toContain('href="/tezgah"');
     expect(page).toContain("copy.tezgahCta");
-    expect(SEN_VOICE.public.home.tezgahCta).toBe("AI Tezgâhını Dene");
+    expect(SEN_VOICE.public.home.tezgahCta).toBe("Tezgâhı Aç");
     expect(SEN_VOICE.public.home.chain[0]).toMatchObject({ href: "/tezgah" });
   });
 
@@ -108,7 +108,9 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     expect(dukkanEngine).not.toContain("invokeLlm");
     expect(dukkanEngine).not.toContain("getPrisma");
     expect(dukkanEngine).not.toContain("amountMinor");
-    expect(dukkanEngine).toContain("refundTezgahQuota");
+    expect(dukkanEngine).not.toContain("consumeTezgahQuota");
+    expect(dukkanEngine).not.toContain("refundTezgahQuota");
+    expect(dukkanEngine).toContain("AI maliyeti yoktur");
     const reklamEngine = readSrc("lib/tezgah/reklam/engine.ts");
     expect(reklamEngine).toContain("recordUsage: true");
     expect(reklamEngine).toContain("REKLAM_MAX_OUTPUT_TOKENS");
@@ -131,7 +133,13 @@ describe("AI Tezgâh kamu yüzeyi", () => {
       "Bugünkü 3 ücretsiz hakkın doldu. Yarın (İstanbul gece yarısı) yenilenir.",
     );
     expect(tezgahQuotaLine(2, 3)).toBe("Kalan ücretsiz hakkınız: 2 / 3");
-    expect(readSrc("components/tezgah/workbench.tsx")).toContain("data-tezgah-quota-early");
+    expect(readSrc("lib/tezgah/catalog.ts")).toContain("TEZGAH_TETKIK_DOMAIN_CLAIMED_MESSAGE");
+    expect(readSrc("lib/tezgah/tetkik/engine.ts")).toContain("claimTetkikDomain");
+    expect(readSrc("lib/tezgah/tetkik/engine.ts")).toContain("isTetkikDomainClaimed");
+    expect(readSrc("components/tezgah/workbench.tsx")).toContain("tezgahToolQuotaLine");
+    expect(readSrc("app/api/tezgah/quota/route.ts")).toContain('searchParams.get("tool")');
+    expect(readSrc("app/api/tezgah/quota/route.ts")).toContain("tezgahToolQuotaLine");
+    expect(readSrc("components/tezgah/workbench.tsx")).not.toContain("data-tezgah-quota-early");
     expect(TEZGAH_TOOLS.flatMap((tool) => (tool.cta ? [tool.cta.href] : []))).toEqual([
       "/e-ticaret",
       "/tezgah",
@@ -139,7 +147,7 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     ]);
   });
 
-  it("dördüncü sekme site tetkikidir; rapor yazdırılır, satın alma düğmesi yoktur", () => {
+  it("dördüncü sekme web site analizidir; rapor yazdırılır, satın alma düğmesi yoktur", () => {
     expect(TEZGAH_TOOLS.map((tool) => tool.id)).toEqual([
       "ecommerce",
       "proposal",
@@ -153,39 +161,40 @@ describe("AI Tezgâh kamu yüzeyi", () => {
       "saas-builder",
     ]);
     const tetkik = TEZGAH_TOOLS.find((tool) => tool.id === "tetkik");
-    expect(tetkik?.label).toBe("Web Sitesi Tetkik");
+    expect(tetkik?.label).toBe("Web Site Analizi");
     expect(tetkik?.cta).toBeNull();
-    expect(tetkik?.fields.map((field) => field.name)).toEqual(["url", "businessName"]);
-    expect(tetkik?.fields.map((field) => field.label)).toEqual([
-      "Site adresi (Zorunlu)",
-      "İşletme veya marka adı (İsteğe bağlı)",
-    ]);
-    expect(tetkik?.fields.map((field) => field.placeholder)).toEqual([
-      "https://ornek-dukkan.com",
-      "Örn: Karaoğlu Fırın (Rapor başlığı için)",
-    ]);
-    expect(tetkik?.fields.find((field) => field.name === "businessName")?.optional).toBe(true);
+    expect(tetkik?.fields.map((field) => field.name)).toEqual(["url"]);
+    expect(tetkik?.fields.map((field) => field.label)).toEqual(["Site adresi"]);
+    expect(tetkik?.fields.map((field) => field.placeholder)).toEqual(["https://ornek-dukkan.com"]);
+    expect(tetkik?.fields.some((field) => field.name === "businessName")).toBe(false);
     expect(tetkik?.fields.some((field) => field.name === "freelancerName" || field.name === "agencyName")).toBe(
       false,
     );
     const workbench = readSrc("components/tezgah/workbench.tsx");
     expect(workbench).toContain('role="tablist"');
     expect(workbench).toContain("/api/tezgah/tetkik/generate");
-    expect(workbench).toContain("Tetkiki Üret");
+    expect(workbench).toContain("Analizi Başlat");
     expect(workbench).toContain("data-tezgah-quota");
     expect(workbench).toContain("print:hidden");
     const report = readSrc("components/tezgah/tetkik-report.tsx");
     expect(report).toContain("data-tetkik-report");
+    expect(report).toContain("data-tetkik-analysis-card");
     expect(report).toContain("window.print()");
     expect(report).toContain("print:hidden");
-    expect(report).toContain("Mevcut Siteyi Düzenle (Revizyon Paketi)");
-    expect(report).toContain("Sıfırdan Yeniden İnşa Et (Dijital Dükkan)");
+    expect(report).toContain("Raporu Eyleme Dönüştürün (Kendi Başınıza Hemen Uygulayın)");
+    expect(report).toContain("Hazır Düzeltme & SEO Uygulama Paketi");
+    expect(report).toContain("Hazır Düzeltme Paketini Üret");
+    expect(report).toContain("Sıfırdan Satış Odaklı Yeni Vitrin Kur");
+    expect(report).toContain("Yeni Vitrinimi Otomatik Kur");
     expect(report).toContain("data-tetkik-revision");
     expect(report).toContain("data-tetkik-rebuild");
     expect(report).toContain("data-tetkik-codepack");
-    expect(report).toContain("Eksikler İçin Kod Paketi Üret (Mini SaaS Tezgâhı)");
+    expect(report).toContain("Sitenize Özel Hesaplayıcı veya Form Ekle");
+    expect(report).toContain("Özel Aracı Oluştur");
     expect(workbench).toContain("data-tetkik-handoff");
     expect(workbench).toContain("data-tetkik-codepack-handoff");
+    expect(workbench).toContain("Web Site Analizi bulgularınız otomatik aktarıldı; şimdi hazır çözümünüzü üretebilirsiniz.");
+    expect(workbench).not.toContain("Analizden taşındı");
     expect(workbench).toContain('selectTool("dukkan"');
     expect(workbench).toContain('selectTool("saas-builder"');
     expect(workbench).toContain("normalizeTetkikSiteAddress");
@@ -390,7 +399,7 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     const ecommerce = TEZGAH_TOOLS.find((tool) => tool.id === "ecommerce");
     const category = ecommerce?.fields.find((field) => field.name === "category");
     expect(category?.label).toBe("Kategori (Ana kategori veya ürün türü)");
-    expect(category?.placeholder).toBe("Örn: Anne ve bebek (veya boş bırakın, ürün adından çıkarılır)");
+    expect(category?.placeholder).toBe("Kategoriyi yazınız (veya boş bırakın)...");
     expect(category?.optional).toBe(true);
     expect(workbench).toContain("data-ecommerce-category-chips");
     expect(workbench).toContain("ECOMMERCE_CATEGORY_CHIPS");
@@ -408,10 +417,10 @@ describe("AI Tezgâh kamu yüzeyi", () => {
     );
     expect(workbench).not.toContain("müşterine");
     expect(TEZGAH_TOOLS.find((tool) => tool.id === "tetkik")?.blurb).toBe(
-      "Ana sayfanın ilk HTML’inden 100 puanlık dijital sağlık skoru ve yazdırılabilir rapor.",
+      "Sitenizin SEO uyumunu, ikna gücünü ve satışa dönüşüm performansını derinlemesine analiz eder; eksiklerinizi hazır çözümlerle sunar.",
     );
     expect(SEN_VOICE.public.home.bench.find((item) => item.id === "tetkik")?.body).toBe(
-      "Ana sayfadan dijital sağlık skoru ve yazdırılabilir rapor çıkarırsın.",
+      "Sitenizin SEO, ikna ve dönüşüm performansını analiz eder; hazır çözümler sunar.",
     );
   });
 });

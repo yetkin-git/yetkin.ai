@@ -68,9 +68,9 @@ const TEZGAH_TOOLS: readonly TezgahTool[] = [
   },
   {
     id: "tetkik",
-    label: "Web Sitesi Tetkik",
+    label: "Web Site Analizi",
     href: "/tezgah?tool=tetkik",
-    hints: ["web", "site", "tetkik"],
+    hints: ["web", "site", "tetkik", "analiz"],
   },
   {
     id: "dukkan",

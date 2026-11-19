@@ -3,17 +3,77 @@ import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import { resolveRequestIp } from "@/lib/kernel/security/http-rate-limit";
+import {
+  isTezgahPoolKey,
+  parseTezgahToolParam,
+  tezgahPoolForTool,
+  tezgahPoolQuotaLine,
+  tezgahToolQuotaLine,
+  type TezgahPoolKey,
+  type TezgahToolId,
+  type TezgahToolPool,
+} from "@/lib/tezgah/catalog";
 import { peekTezgahQuota } from "@/lib/tezgah/quota";
 
-/** Günlük hak okuması. Hak düşmez. Oturum yoksa misafir kovasıdır. */
+/** Aktif araç / havuz hak okuması. Hak düşmez. Oturum yoksa misafir kovasıdır. */
 export const auth = "public" as const;
+
+function resolveQuotaPool(request: Request): {
+  pool: TezgahToolPool;
+  poolKey: TezgahPoolKey | null;
+  toolId: TezgahToolId | null;
+} {
+  const url = new URL(request.url);
+  const toolRaw = url.searchParams.get("tool");
+  const poolRaw = url.searchParams.get("pool");
+  const toolId = parseTezgahToolParam(toolRaw);
+  if (toolId) {
+    const pool = tezgahPoolForTool(toolId);
+    return {
+      pool,
+      poolKey: isTezgahPoolKey(pool) ? pool : null,
+      toolId,
+    };
+  }
+  if (poolRaw && isTezgahPoolKey(poolRaw)) {
+    return { pool: poolRaw, poolKey: poolRaw, toolId: null };
+  }
+  return { pool: "lite", poolKey: "lite", toolId: null };
+}
 
 export async function GET(request: Request) {
   const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request).catch(() => null);
     const actor = assistantActorId(user?.id, resolveRequestIp(request));
-    const quota = await peekTezgahQuota(actor.userId, actor.guest);
+    const { pool, poolKey, toolId } = resolveQuotaPool(request);
+
+    if (pool === "local" || pool === "free_template") {
+      const line = tezgahPoolQuotaLine(pool, 1, 1);
+      return jsonOk(
+        {
+          remaining: 1,
+          limit: 1,
+          used: 0,
+          guest: actor.guest,
+          lane: "free",
+          paywall: false,
+          poolKey: pool === "free_template" ? "free_template" : "local",
+          unlimited: true,
+          tool: toolId,
+          line,
+        },
+        200,
+        requestId,
+        request,
+      );
+    }
+
+    const key = poolKey ?? "lite";
+    const quota = await peekTezgahQuota(actor.userId, actor.guest, new Date(), key);
+    const line = toolId
+      ? tezgahToolQuotaLine(toolId, quota.remaining, quota.limit)
+      : tezgahPoolQuotaLine(key, quota.remaining, quota.limit);
     return jsonOk(
       {
         remaining: quota.remaining,
@@ -22,6 +82,10 @@ export async function GET(request: Request) {
         guest: quota.guest,
         lane: quota.lane,
         paywall: quota.paywall,
+        poolKey: quota.poolKey,
+        unlimited: quota.unlimited,
+        tool: toolId,
+        line,
       },
       200,
       requestId,

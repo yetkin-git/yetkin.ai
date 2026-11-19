@@ -143,7 +143,7 @@ describe("yetkin.ai marka / favicon yüzeyi", () => {
     expect(readSrc("app/(public)/page.tsx")).not.toContain("data-academy-production-band");
     expect(readSrc("app/(public)/page.tsx")).not.toContain("preload(");
     expect(PUBLIC_SEN.home.title).toBe(
-      "Beş modüllü birleşik AI işletim sistemi. Tek hesap.",
+      "İşinizi Büyüten Yapay Zeka Araçları. Tek Hesap, Sıfır Karmaşa.",
     );
   });
 });

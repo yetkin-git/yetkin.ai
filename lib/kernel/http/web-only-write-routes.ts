@@ -391,7 +391,7 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
     "/api/tezgah/tetkik/generate",
     "product-write",
     true,
-    "Web sitesi tetkiki. Misafir günde 3, üye günde 3. Skor kodda. Cüzdan yazılmaz. v1 hop satırı yoktur.",
+    "Web Site Analizi. Misafir günde 3, üye günde 3. Skor kodda; karne Hydrogen. Cüzdan yazılmaz. v1 hop satırı yoktur.",
   ),
   ...verbs(
     "product-tezgah-tetkik-publish",

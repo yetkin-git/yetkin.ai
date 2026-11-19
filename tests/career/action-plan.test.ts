@@ -244,7 +244,7 @@ describe("30 günlük aksiyon planı", () => {
     expect(planner).not.toContain("invokeLlm");
     expect(planner).not.toContain("prisma");
     expect(planner).not.toContain("/freelancer");
-    expect(CAREER_SEN.title).toBe("YetkinCV — Test Edilmiş & Mühürlü Kariyer Merkezi");
+    expect(CAREER_SEN.title).toBe("Yetkinliğini Gerçek Testle Kanıtla, Fark Yarat.");
     expect(CAREER_SEN.footnote).toContain(CAREER_ACTION_PLAN_DISCLAIMER);
     expect(CAREER_SEN.footnote).not.toContain("Hedef rol");
     expect(readSrc("lib/copy/sen-voice/career.ts")).not.toContain("SWOT");

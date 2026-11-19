@@ -1,46 +1,56 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("Faz 1 kamu navigasyonu", () => {
-  test("iniş Akademi kahramanı basar; Freelancer/pazaryeri dipnotu yok; Junior yok", async ({
+  test("iniş tek birincil Tezgâh CTA basar; Freelancer/pazaryeri dipnotu yok; Junior yok", async ({
     page,
   }) => {
     const home = await page.goto("/");
     expect(home?.status()).toBeLessThan(400);
     await expect(
       page.getByRole("heading", {
-        name: "Beş modüllü birleşik AI işletim sistemi. Tek hesap.",
+        name: "İşinizi Büyüten Yapay Zeka Araçları. Tek Hesap, Sıfır Karmaşa.",
       }),
     ).toBeVisible();
-    await expect(page.getByRole("link", { name: "YetkinHibe İşletim Sistemi" }).first()).toHaveAttribute(
-      "href",
-      "/hibe",
-    );
-    await expect(page.getByRole("link", { name: "AI Tezgâhını Ücretsiz Dene (Kayıtsız)" })).toHaveAttribute(
+    await expect(page.getByRole("link", { name: "Ücretsiz Hemen Dene (Kayıt Gerekmez)" })).toHaveAttribute(
       "href",
       "/tezgah",
     );
-    await expect(page.getByRole("link", { name: "E-Ticaret İşletim Sistemi" })).toHaveAttribute(
+    await expect(page.getByRole("link", { name: "Paketleri İncele" })).toHaveAttribute(
       "href",
-      "/e-ticaret",
+      "/fiyatlandirma",
     );
+    await expect(page.getByRole("link", { name: "AI Tezgâh", exact: true })).toHaveAttribute(
+      "href",
+      "/tezgah",
+    );
+    await expect(page.getByRole("link", { name: "Fiyatlar" }).first()).toHaveAttribute(
+      "href",
+      "/fiyatlandirma",
+    );
+    await expect(page.getByRole("link", { name: "Kurumsal" }).first()).toHaveAttribute(
+      "href",
+      "/kurumsal",
+    );
+    await expect(page.getByRole("link", { name: "Rehber" }).first()).toHaveAttribute("href", "/rehber");
     await expect(page.getByRole("link", { name: "Giriş Yap" })).toHaveAttribute("href", "/login");
     await expect(page.getByRole("link", { name: "Kayıt Ol" })).toHaveAttribute("href", "/register");
     await expect(page.getByRole("link", { name: "Panele geç" })).toHaveCount(0);
     await expect(page.getByRole("link", { name: "Anasayfaya geç" })).toHaveCount(0);
     await expect(page.getByRole("link", { name: "Anasayfaya gir" })).toHaveCount(0);
-    await expect(page.getByText("Ücretsiz Test & Tezgâh")).toBeVisible();
-    await expect(page.getByText("YetkinHibe").first()).toBeVisible();
+    await expect(page.getByText("Ücretsiz Tezgâh")).toBeVisible();
+    await expect(page.getByRole("link", { name: "Hibeleri Gör" })).toBeVisible();
     await expect(page.getByText("Hazırlanıyor")).toHaveCount(0);
     await expect(page.getByText("İlan ver veya teklif et")).toHaveCount(0);
     await expect(page.getByText("Split pasifken")).toHaveCount(0);
     await expect(page.getByText("Belgenin vitrini")).toHaveCount(0);
     await expect(page.getByText("Platform örneği · emanet kapalı")).toHaveCount(0);
     await expect(page.getByText("Junior", { exact: true })).toHaveCount(0);
-    await expect(page.getByText("Kurumsal İlan & Eleme").first()).toBeVisible();
-    await expect(page.getByRole("link", { name: "YetkinHibe OS", exact: true })).toBeVisible();
+    await expect(page.getByText("YetkinCV & İK Eleme").first()).toBeVisible();
+    await expect(page.getByRole("link", { name: "E-Ticareti İncele" })).toBeVisible();
     await expect(page.getByText("Arena")).toHaveCount(0);
     await expect(page.getByText("Yetkinİlan")).toHaveCount(0);
     await expect(page.getByText("YetkinX")).toHaveCount(0);
+    await expect(page.getByText("Akademi", { exact: true })).toHaveCount(0);
   });
 
   test("kamu /career oturumsuz kendi sayfasında kalır", async ({ page, request }) => {
@@ -51,7 +61,7 @@ test.describe("Faz 1 kamu navigasyonu", () => {
     const followed = await page.goto("/career");
     expect(followed?.status()).toBeLessThan(400);
     await expect(page).toHaveURL(/\/career\/?$/);
-    await expect(page.getByRole("heading", { name: "YetkinCV — Test Edilmiş & Mühürlü Kariyer Merkezi" }).first()).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Yetkinliğini Gerçek Testle Kanıtla, Fark Yarat." }).first()).toBeVisible();
     await expect(page.getByText("Örnek mühürlü sertifika")).toBeVisible();
     await expect(page.getByRole("heading", { name: "30 günlük aksiyon planı" })).toBeVisible();
     await expect(page.locator("[data-action-plan]")).toContainText(

@@ -14,24 +14,24 @@ export default function TetkikPage() {
       <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1.5fr)_minmax(16rem,0.7fr)]">
         <div className="space-y-4">
           <PublicHero
-            eyebrow="Web sitesi tetkiki"
-            title="Siten kaç puan?"
-            description="Herkese açık ana sayfanın başlığı, hızı ve dönüşüm kapısı kodda ölçülür. Kayıt yoktur. Model anlatımı yoktur. Adres okunamazsa skor yazılmaz."
+            eyebrow="Web Site Analizi"
+            title="Siteniz kaç puan?"
+            description="Sitenizin SEO uyumunu, ikna gücünü ve satışa dönüşüm performansını derinlemesine analiz eder; eksiklerinizi hazır çözümlerle sunar."
           />
           <section className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm">
             <PublicTetkikForm />
           </section>
         </div>
-        <TipPanel title="Skor nasıl okunur">
+        <TipPanel title="Karnede ne görürsünüz">
           <ul className="grid gap-3">
             <li className="rounded-xl bg-blue-50 px-3 py-2 text-blue-800">
-              Başlık, sayfanın ne sattığını ilk bakışta söylüyor mu?
+              Genel sağlık puanı ve SEO / ikna / dönüşüm / güven alt skorları
             </li>
             <li className="rounded-xl bg-emerald-50 px-3 py-2 text-emerald-800">
-              İlk bayt gecikmesi ziyaretçiyi bekletiyor mu?
+              Öncelikli bulgular ve doğrudan uygulanabilir çözümler
             </li>
             <li className="rounded-xl bg-amber-50 px-3 py-2 text-amber-800">
-              Dönüşüm kapısı görünür mü, yoksa sayfa yalnız duruyor mu?
+              Zayıf başlık veya CTA için eski → yeni metin önerileri
             </li>
           </ul>
         </TipPanel>

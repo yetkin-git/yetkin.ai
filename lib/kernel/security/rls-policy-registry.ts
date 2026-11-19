@@ -84,6 +84,7 @@ export const RLS_FORCE_TABLES = [
   "tezgah_daily_quotas",
   "tezgah_outputs",
   "tezgah_subscriptions",
+  "tetkik_domain_claims",
   "tetkik_reports",
   "user_billing_info",
   "users",

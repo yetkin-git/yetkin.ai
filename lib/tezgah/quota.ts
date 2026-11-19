@@ -5,9 +5,15 @@ import { startOfEuropeIstanbulDay } from "@/lib/kernel/ai/budget-shield";
 import { getPrisma } from "@/lib/kernel/db";
 import {
   TEZGAH_GUEST_DAILY_LIMIT,
+  TEZGAH_GUEST_QUOTA_MESSAGE,
   TEZGAH_MEMBER_DAILY_LIMIT,
   TEZGAH_MEMBER_PAID_MESSAGE,
   TEZGAH_MEMBER_QUOTA_MESSAGE,
+  TEZGAH_TETKIK_DATE_KEY,
+  TEZGAH_TETKIK_GUEST_QUOTA_MESSAGE,
+  TEZGAH_TETKIK_LIFETIME_LIMIT,
+  TEZGAH_TETKIK_MEMBER_QUOTA_MESSAGE,
+  type TezgahPoolKey,
 } from "@/lib/tezgah/catalog";
 import {
   beginTezgahCreditHold,
@@ -19,10 +25,11 @@ import {
 } from "@/lib/tezgah/paid-lane";
 
 /**
- * Günlük üretim hakkı. Anahtar `guest:<ip>` veya kullanıcı kimliğidir.
- * Pencere Avrupa/İstanbul gece yarısında sıfırlanır.
- * Sayaç `tezgah_daily_quotas` satırındadır. Test süreci bellek store kullanır.
- * Cüzdan bu dosyada yazılmaz. Ücretli hat `paid-lane` içindedir.
+ * Üretim hakkı. Anahtar `guest:<ip>` veya kullanıcı kimliğidir.
+ * `lite` havuzu Avrupa/İstanbul gece yarısında sıfırlanır.
+ * `tetkik` havuzu ömür boyudur (`dateKey = lifetime`).
+ * `free_template` sayılmaz. Sayaç `tezgah_daily_quotas` satırındadır.
+ * Test süreci bellek store kullanır. Cüzdan bu dosyada yazılmaz.
  */
 
 export type TezgahLane = "free" | "pro" | "credit" | "prepaid" | "closed";
@@ -34,6 +41,8 @@ export type TezgahQuotaSnapshot = {
   used: number;
   guest: boolean;
   lane: TezgahLane;
+  poolKey: TezgahPoolKey;
+  unlimited: boolean;
   paywall: boolean;
   commandKey: string | null;
   hold: TezgahCreditHold | null;
@@ -47,24 +56,30 @@ export type TezgahQuotaCommand = {
 };
 
 type QuotaStore = {
-  read(dateKey: string, subjectKey: string): Promise<number>;
-  tryConsume(dateKey: string, subjectKey: string, limit: number, now: Date): Promise<number | null>;
-  refund(dateKey: string, subjectKey: string, now: Date): Promise<number>;
+  read(dateKey: string, subjectKey: string, poolKey: TezgahPoolKey): Promise<number>;
+  tryConsume(
+    dateKey: string,
+    subjectKey: string,
+    poolKey: TezgahPoolKey,
+    limit: number,
+    now: Date,
+  ): Promise<number | null>;
+  refund(dateKey: string, subjectKey: string, poolKey: TezgahPoolKey, now: Date): Promise<number>;
   reset(): void;
 };
 
 const memoryRows = new Map<string, number>();
 
-function memoryKey(dateKey: string, subjectKey: string): string {
-  return `${dateKey}\t${subjectKey}`;
+function memoryKey(dateKey: string, subjectKey: string, poolKey: TezgahPoolKey): string {
+  return `${dateKey}\t${subjectKey}\t${poolKey}`;
 }
 
 const memoryStore: QuotaStore = {
-  async read(dateKey, subjectKey) {
-    return memoryRows.get(memoryKey(dateKey, subjectKey)) ?? 0;
+  async read(dateKey, subjectKey, poolKey) {
+    return memoryRows.get(memoryKey(dateKey, subjectKey, poolKey)) ?? 0;
   },
-  async tryConsume(dateKey, subjectKey, limit) {
-    const key = memoryKey(dateKey, subjectKey);
+  async tryConsume(dateKey, subjectKey, poolKey, limit) {
+    const key = memoryKey(dateKey, subjectKey, poolKey);
     const used = memoryRows.get(key) ?? 0;
     if (used >= limit) {
       return null;
@@ -73,8 +88,8 @@ const memoryStore: QuotaStore = {
     memoryRows.set(key, next);
     return next;
   },
-  async refund(dateKey, subjectKey) {
-    const key = memoryKey(dateKey, subjectKey);
+  async refund(dateKey, subjectKey, poolKey) {
+    const key = memoryKey(dateKey, subjectKey, poolKey);
     const next = Math.max(0, (memoryRows.get(key) ?? 0) - 1);
     memoryRows.set(key, next);
     return next;
@@ -96,20 +111,20 @@ function isUniqueViolation(error: unknown): boolean {
 function prismaStore(): QuotaStore {
   const prisma = getPrisma();
   return {
-    async read(dateKey, subjectKey) {
+    async read(dateKey, subjectKey, poolKey) {
       const row = await prisma.tezgahDailyQuota.findUnique({
-        where: { dateKey_subjectKey: { dateKey, subjectKey } },
+        where: { dateKey_subjectKey_poolKey: { dateKey, subjectKey, poolKey } },
       });
       return row?.usedCount ?? 0;
     },
-    async tryConsume(dateKey, subjectKey, limit, now) {
+    async tryConsume(dateKey, subjectKey, poolKey, limit, now) {
       return prisma.$transaction(async (tx) => {
-        const where = { dateKey_subjectKey: { dateKey, subjectKey } };
+        const where = { dateKey_subjectKey_poolKey: { dateKey, subjectKey, poolKey } };
         const existing = await tx.tezgahDailyQuota.findUnique({ where });
         if (!existing) {
           try {
             await tx.tezgahDailyQuota.create({
-              data: { dateKey, subjectKey, usedCount: 1, updatedAt: now },
+              data: { dateKey, subjectKey, poolKey, usedCount: 1, updatedAt: now },
             });
             return 1;
           } catch (error) {
@@ -119,7 +134,7 @@ function prismaStore(): QuotaStore {
           }
         }
         const updated = await tx.tezgahDailyQuota.updateMany({
-          where: { dateKey, subjectKey, usedCount: { lt: limit } },
+          where: { dateKey, subjectKey, poolKey, usedCount: { lt: limit } },
           data: { usedCount: { increment: 1 }, updatedAt: now },
         });
         if (updated.count !== 1) {
@@ -129,10 +144,10 @@ function prismaStore(): QuotaStore {
         return next?.usedCount ?? null;
       });
     },
-    async refund(dateKey, subjectKey, now) {
-      const where = { dateKey_subjectKey: { dateKey, subjectKey } };
+    async refund(dateKey, subjectKey, poolKey, now) {
+      const where = { dateKey_subjectKey_poolKey: { dateKey, subjectKey, poolKey } };
       await prisma.tezgahDailyQuota.updateMany({
-        where: { dateKey, subjectKey, usedCount: { gt: 0 } },
+        where: { dateKey, subjectKey, poolKey, usedCount: { gt: 0 } },
         data: { usedCount: { decrement: 1 }, updatedAt: now },
       });
       const row = await prisma.tezgahDailyQuota.findUnique({ where });
@@ -169,8 +184,38 @@ export function tezgahDayKey(now = new Date()): string {
   return `${year}-${month}-${day}`;
 }
 
+export function tezgahQuotaDateKey(poolKey: TezgahPoolKey, now = new Date()): string {
+  if (poolKey === "tetkik") {
+    return TEZGAH_TETKIK_DATE_KEY;
+  }
+  return tezgahDayKey(now);
+}
+
 export function tezgahDailyLimit(guest: boolean): number {
   return guest ? TEZGAH_GUEST_DAILY_LIMIT : TEZGAH_MEMBER_DAILY_LIMIT;
+}
+
+export function tezgahPoolLimit(poolKey: TezgahPoolKey, guest: boolean): number {
+  if (poolKey === "tetkik") {
+    return TEZGAH_TETKIK_LIFETIME_LIMIT;
+  }
+  if (poolKey === "free_template") {
+    return 1;
+  }
+  return tezgahDailyLimit(guest);
+}
+
+function closedMessage(poolKey: TezgahPoolKey, guest: boolean, paywall: boolean): string | null {
+  if (poolKey === "tetkik") {
+    if (guest) {
+      return TEZGAH_TETKIK_GUEST_QUOTA_MESSAGE;
+    }
+    return paywall ? TEZGAH_MEMBER_PAID_MESSAGE : TEZGAH_TETKIK_MEMBER_QUOTA_MESSAGE;
+  }
+  if (guest) {
+    return TEZGAH_GUEST_QUOTA_MESSAGE;
+  }
+  return paywall ? TEZGAH_MEMBER_PAID_MESSAGE : TEZGAH_MEMBER_QUOTA_MESSAGE;
 }
 
 function snapshot(input: {
@@ -180,6 +225,8 @@ function snapshot(input: {
   used: number;
   guest: boolean;
   lane: TezgahLane;
+  poolKey: TezgahPoolKey;
+  unlimited?: boolean;
   paywall?: boolean;
   commandKey?: string | null;
   hold?: TezgahCreditHold | null;
@@ -193,6 +240,8 @@ function snapshot(input: {
     used: input.used,
     guest: input.guest,
     lane: input.lane,
+    poolKey: input.poolKey,
+    unlimited: input.unlimited ?? false,
     paywall: input.paywall ?? false,
     commandKey: input.commandKey ?? null,
     hold: input.hold ?? null,
@@ -201,12 +250,29 @@ function snapshot(input: {
   };
 }
 
+function unlimitedSnapshot(guest: boolean, poolKey: TezgahPoolKey): TezgahQuotaSnapshot {
+  return snapshot({
+    allowed: true,
+    remaining: 1,
+    limit: 1,
+    used: 0,
+    guest,
+    lane: "free",
+    poolKey,
+    unlimited: true,
+  });
+}
+
 export async function peekTezgahQuota(
   actorId: string,
   guest: boolean,
   now = new Date(),
+  poolKey: TezgahPoolKey = "lite",
 ): Promise<TezgahQuotaSnapshot> {
-  const limit = tezgahDailyLimit(guest);
+  if (poolKey === "free_template") {
+    return unlimitedSnapshot(guest, poolKey);
+  }
+  const limit = tezgahPoolLimit(poolKey, guest);
   if (!guest && (await readTezgahProActive(actorId, now))) {
     return snapshot({
       allowed: true,
@@ -215,11 +281,12 @@ export async function peekTezgahQuota(
       used: 0,
       guest: false,
       lane: "pro",
+      poolKey,
     });
   }
   let used = 0;
   try {
-    used = await activeStore().read(tezgahDayKey(now), actorId);
+    used = await activeStore().read(tezgahQuotaDateKey(poolKey, now), actorId, poolKey);
   } catch {
     return snapshot({
       allowed: false,
@@ -228,6 +295,7 @@ export async function peekTezgahQuota(
       used: 0,
       guest,
       lane: "closed",
+      poolKey,
       error: "Günlük hak okunamadı.",
       status: 429,
     });
@@ -241,6 +309,7 @@ export async function peekTezgahQuota(
       used,
       guest,
       lane: "free",
+      poolKey,
     });
   }
   if (!guest) {
@@ -253,6 +322,7 @@ export async function peekTezgahQuota(
         used: 0,
         guest: false,
         lane: "credit",
+        poolKey,
       });
     }
   }
@@ -264,8 +334,9 @@ export async function peekTezgahQuota(
     used,
     guest,
     lane: "closed",
+    poolKey,
     paywall: pack != null,
-    error: guest ? null : pack != null ? TEZGAH_MEMBER_PAID_MESSAGE : TEZGAH_MEMBER_QUOTA_MESSAGE,
+    error: closedMessage(poolKey, guest, pack != null),
     status: 429,
   });
 }
@@ -276,8 +347,12 @@ export async function consumeTezgahQuota(
   guest: boolean,
   now = new Date(),
   command: TezgahQuotaCommand | null = null,
+  poolKey: TezgahPoolKey = "lite",
 ): Promise<TezgahQuotaSnapshot> {
-  const limit = tezgahDailyLimit(guest);
+  if (poolKey === "free_template") {
+    return unlimitedSnapshot(guest, poolKey);
+  }
+  const limit = tezgahPoolLimit(poolKey, guest);
   if (!guest && (await readTezgahProActive(actorId, now))) {
     return snapshot({
       allowed: true,
@@ -286,12 +361,13 @@ export async function consumeTezgahQuota(
       used: 0,
       guest: false,
       lane: "pro",
+      poolKey,
     });
   }
-  const day = tezgahDayKey(now);
+  const day = tezgahQuotaDateKey(poolKey, now);
   let consumed: number | null = null;
   try {
-    consumed = await activeStore().tryConsume(day, actorId, limit, now);
+    consumed = await activeStore().tryConsume(day, actorId, poolKey, limit, now);
   } catch {
     return snapshot({
       allowed: false,
@@ -300,6 +376,7 @@ export async function consumeTezgahQuota(
       used: limit,
       guest,
       lane: "closed",
+      poolKey,
       error: "Günlük hak yazılamadı.",
       status: 429,
     });
@@ -312,6 +389,7 @@ export async function consumeTezgahQuota(
       used: consumed,
       guest,
       lane: "free",
+      poolKey,
     });
   }
   if (guest) {
@@ -322,6 +400,8 @@ export async function consumeTezgahQuota(
       used: limit,
       guest: true,
       lane: "closed",
+      poolKey,
+      error: closedMessage(poolKey, true, false),
       status: 429,
     });
   }
@@ -335,8 +415,9 @@ export async function consumeTezgahQuota(
       used: limit,
       guest: false,
       lane: "closed",
+      poolKey,
       paywall: pack != null,
-      error: pack != null ? TEZGAH_MEMBER_PAID_MESSAGE : TEZGAH_MEMBER_QUOTA_MESSAGE,
+      error: closedMessage(poolKey, false, pack != null),
       status: 429,
     });
   }
@@ -348,6 +429,7 @@ export async function consumeTezgahQuota(
       used: limit,
       guest: false,
       lane: "closed",
+      poolKey,
       paywall: true,
       error: "Ücretli üretim Idempotency-Key ister.",
       status: 400,
@@ -368,6 +450,7 @@ export async function consumeTezgahQuota(
       used: limit,
       guest: false,
       lane: "closed",
+      poolKey,
       paywall: true,
       error: hold.error,
       status: hold.status,
@@ -380,6 +463,7 @@ export async function consumeTezgahQuota(
     used: limit,
     guest: false,
     lane: "credit",
+    poolKey,
     commandKey: command.key,
     hold: hold.hold,
   });
@@ -391,13 +475,14 @@ export async function refundTezgahQuota(
   guest: boolean,
   now = new Date(),
   lane: TezgahLane = "free",
+  poolKey: TezgahPoolKey = "lite",
 ): Promise<TezgahQuotaSnapshot> {
-  if (lane !== "free") {
-    return peekTezgahQuota(actorId, guest, now);
+  if (poolKey === "free_template" || lane !== "free") {
+    return peekTezgahQuota(actorId, guest, now, poolKey);
   }
-  const day = tezgahDayKey(now);
-  const limit = tezgahDailyLimit(guest);
-  const used = await activeStore().refund(day, actorId, now);
+  const day = tezgahQuotaDateKey(poolKey, now);
+  const limit = tezgahPoolLimit(poolKey, guest);
+  const used = await activeStore().refund(day, actorId, poolKey, now);
   const remaining = Math.max(0, limit - used);
   return snapshot({
     allowed: remaining > 0,
@@ -406,6 +491,7 @@ export async function refundTezgahQuota(
     used,
     guest,
     lane: "free",
+    poolKey,
   });
 }
 

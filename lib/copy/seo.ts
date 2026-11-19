@@ -89,14 +89,14 @@ export const PAGE_SEO = {
     // SERP kesme sınırı ~155 karakter. Kuyruk cümlesi (KVKK/sınav vaadi) description'da
     // değil gövde H2'lerinde ve SSS'de durur; burada ilk iki niyet dizgisi öne alınır.
     description:
-      "E-Ticaret OS, YetkinHibe OS, AI Tezgâh, YetkinCV ve kurumsal ilan eleme. Beş modül, tek hesap, tek AI işletim sistemi.",
+      "KOBİ'ler, e-ticaret satıcıları ve profesyoneller için AI Tezgâh, e-ticaret yönetimi, hibe bulucu ve YetkinCV. Tek hesap, pratik iş araçları.",
     path: "/",
     image: DEFAULT_OG_IMAGE,
   },
   career: {
-    title: "YetkinCV — Test Edilmiş & Mühürlü Kariyer Merkezi",
+    title: "YetkinCV — Yetkinliğini Gerçek Testle Kanıtla",
     description:
-      "CV'ni oluştur veya yükle, uygulamalı vaka testini geç. İşverenlere sunabileceğin SHA-256 mühürlü YetkinCV puanı sunucuda hesaplanır. Doğrulama bağı herkese açıktır.",
+      "Uygulamalı vaka testini çöz, doğrulanabilir yetkinlik puanını CV'ne ve LinkedIn profiline ekle. Doğrulama bağı herkese açıktır.",
     path: "/career",
     image: DEFAULT_OG_IMAGE,
   },
@@ -116,7 +116,7 @@ export const PAGE_SEO = {
   publicTalent: {
     title: "Kariyer Kartı — doğrulanmış freelancer rozeti",
     description:
-      "Kamuya açık Kariyer Kartı: mühürler, yapay zeka sertifikası doğrulama bağı ve proje kanıtı. Oturum istenmez; vatandaş kimliği gösterilmez.",
+      "Kamuya açık Kariyer Kartı: doğrulanabilir yetkinlik puanı, doğrulama bağı ve proje kanıtı. Oturum istenmez; vatandaş kimliği gösterilmez.",
     path: "/vize",
     image: DEFAULT_OG_IMAGE,
   },
@@ -150,7 +150,7 @@ export const PAGE_SEO = {
   contact: {
     title: "İletişim ve destek",
     description:
-      "yetkin.ai destek kanalları: e-posta, WhatsApp ve kayıtlı hesap bildirimi. KVKK m.11 talepleri ve ödeme itirazları bu kanallardan yürür.",
+      "Destek taleplerine ve kurumsal başvurulara genelde 1 iş günü içinde dönüş yapıyoruz. E-posta, WhatsApp ve hesap içi bildirim aynı kanaldır.",
     path: "/iletisim",
     image: DEFAULT_OG_IMAGE,
   },
@@ -178,21 +178,21 @@ export const PAGE_SEO = {
   sozluk: {
     title: "Yapay zekâ ve dijital ticaret sözlüğü",
     description:
-      "Mühür, vize, KOSGEB, tezgâh ve vitrin. 30 terimin Türkçe tanımı, tezgâh örneği ve uzmanlık sınavı bağlantısı.",
+      "KOSGEB, tezgâh, YetkinCV ve e-ticaret terimleri. 30 terimin Türkçe tanımı ve AI Tezgâh örnekleri.",
     path: "/sozluk",
     image: DEFAULT_OG_IMAGE,
   },
   tetkik: {
-    title: "Web sitesi tetkiki — SEO ve dönüşüm skoru",
+    title: "Web Site Analizi — SEO, ikna ve dönüşüm karnesi",
     description:
-      "Adresini yaz, kayıt olmadan SEO, hız ve dönüşüm skorunu gör. Skor kodda hesaplanır. Rapor paylaşılabilir bağlantıda durur.",
+      "Site adresini yazın; SEO uyumu, ikna gücü ve satışa dönüşüm performansını analiz edin. Eksikler hazır çözümlerle gelir.",
     path: "/tetkik",
     image: DEFAULT_OG_IMAGE,
   },
   about: {
-    title: "Hakkımızda — Yapınet bünyesinde AI işletim platformu",
+    title: "Hakkımızda — günlük iş yükünü azaltan AI araçları",
     description:
-      "yetkin.ai, Yapınet Gayrimenkul ve E-Ticaret Limited Şirketi bünyesinde KOBİ, girişimci, danışman ve kurumsal şirketler için AI tabanlı iş ve operasyon işletim platformudur.",
+      "yetkin.ai; KOBİ'ler, e-ticaret satıcıları ve profesyoneller için teklif, pazaryeri, hibe ve aday değerlendirmesini tek çatıda pratikleştirir.",
     path: "/hakkimizda",
     image: DEFAULT_OG_IMAGE,
   },
@@ -228,19 +228,19 @@ export const PAGE_SEO = {
 /** `/rehber` SSS. Schema.org FAQ ile aynı dizidir. Konsol yolu burada yoktur. */
 export const GUIDE_FAQ = [
   {
-    question: "İlk ders için kayıt gerekir mi?",
+    question: "Rehberi okumak için kayıt gerekir mi?",
     answer:
-      "Hayır. Ofis eğitiminin ilk dersi kayıt duvarının önündedir. Kilitli dersler lisans ister.",
+      "Hayır. Rehber herkese açıktır. AI Tezgâh'ta denemek için de kayıt zorunlu değildir; misafir kotası yeter.",
   },
   {
-    question: "Rehberi bitirmek sertifika basar mı?",
+    question: "Rehberi bitirmek belge veya kurs satar mı?",
     answer:
-      "Hayır. Sertifika, eğitimin dersleri bitip test 70 ve üzeri geçilince sunucuda basılır. Satın alma belge basmaz.",
+      "Hayır. Rehber uygulama adımlarını anlatır. Aynı işi saniyeler içinde üretmek için AI Tezgâh'ı ücretsiz dene.",
   },
   {
     question: "Bu sayfa ödeme veya yönetici ekranı mıdır?",
     answer:
-      "Hayır. Rehber herkese açıktır. Ödeme kasada, operasyon konsolu oturum ve süper yönetici kilidinin arkasındadır.",
+      "Hayır. Rehber herkese açıktır. Ödeme kasada, operasyon paneli oturum ve yetki kilidinin arkasındadır.",
   },
 ] as const;
 

@@ -20,9 +20,9 @@ import {
   IconSearch,
   IconStore,
 } from "@/components/ui/icons";
-import { Input, INPUT_SURFACE_CLASS } from "@/components/ui/input";
+import { Input, INPUT_SURFACE_CLASS, selectValueTypoClass } from "@/components/ui/input";
 import { LinkButton } from "@/components/ui/link-button";
-import { Textarea } from "@/components/ui/textarea";
+import { SmartTextarea } from "@/components/ui/smart-textarea";
 import { DukkanPreview } from "@/components/tezgah/dukkan-preview";
 import { TezgahUpgradeCard } from "@/components/tezgah/upgrade-card";
 import {
@@ -51,18 +51,23 @@ import {
   TEZGAH_GUEST_QUOTA_MESSAGE,
   TEZGAH_MEMBER_PAID_MESSAGE,
   TEZGAH_MEMBER_QUOTA_MESSAGE,
+  TEZGAH_TETKIK_DOMAIN_CLAIMED_MESSAGE,
+  TEZGAH_TETKIK_GUEST_QUOTA_MESSAGE,
+  TEZGAH_TETKIK_MEMBER_QUOTA_MESSAGE,
   TEZGAH_TOOLS,
   isProStudioTool,
   isTezgahDeskTool,
+  isTezgahQuotaExemptPool,
   parseTezgahToolParam,
   readDeskTaskId,
   readTezgahPrefill,
   resolveTezgahDeskTool,
   tezgahDeskHref,
-  tezgahQuotaLine,
+  tezgahPoolForTool,
   tezgahRelocatedOsHref,
   tezgahToolAnchorPath,
   tezgahToolById,
+  tezgahToolQuotaLine,
   type TezgahField,
   type TezgahToolId,
 } from "@/lib/tezgah/catalog";
@@ -76,6 +81,9 @@ type QuotaBody = {
   limit: number;
   guest: boolean;
   lane?: string;
+  poolKey?: string;
+  unlimited?: boolean;
+  line?: string;
 };
 
 type TetkikPayload = TetkikReport & QuotaBody;
@@ -194,46 +202,69 @@ function fieldReady(field: TezgahField, values: Record<string, string>): boolean
   return value.length >= 2;
 }
 
+function tezgahCoachContext(toolId: TezgahToolId, fieldName: string): "hibe" | "ecommerce" | "tezgah" {
+  if (toolId === "grant" || fieldName === "project") {
+    return "hibe";
+  }
+  if (toolId === "ecommerce" || fieldName === "features" || fieldName === "products") {
+    return "ecommerce";
+  }
+  return "tezgah";
+}
+
 function FieldControl({
   field,
   value,
   onChange,
+  toolId,
 }: {
   field: TezgahField;
   value: string;
   onChange: (value: string) => void;
+  toolId: TezgahToolId;
 }) {
   if (field.kind === "textarea") {
+    const ideaField = field.name === "project";
     return (
-      <Textarea
-        className="mt-1"
-        name={field.name}
-        value={value}
-        placeholder={field.placeholder}
-        rows={field.name === "products" ? 8 : 5}
-        maxLength={
-          field.name === "services"
-            ? 450
-            : field.name === "offer"
-              ? 400
-              : field.name === "products"
-                ? 4000
-                : field.name === "project"
-                  ? 1500
-                  : field.name === "scheduleWindows"
-                    ? 500
-                    : field.name === "investmentAmounts"
-                      ? 400
-                      : undefined
-        }
-        onChange={(event) => onChange(event.target.value)}
-      />
+      <div className="mt-1">
+        <SmartTextarea
+          context={tezgahCoachContext(toolId, field.name)}
+          name={field.name}
+          value={value}
+          placeholder={field.placeholder}
+          rows={field.name === "products" ? 8 : 5}
+          maxLength={
+            field.name === "services"
+              ? 450
+              : field.name === "offer"
+                ? 400
+                : field.name === "products"
+                  ? 4000
+                  : field.name === "project"
+                    ? 1500
+                    : field.name === "scheduleWindows"
+                      ? 500
+                      : field.name === "investmentAmounts"
+                        ? 400
+                        : field.name === "feature"
+                          ? 300
+                          : undefined
+          }
+          softHint={
+            ideaField
+              ? "Daha doğru sonuç için ne yapacağınızı birkaç kelimeyle daha açın."
+              : "Biraz daha detay ekleyin…"
+          }
+          readyHint={ideaField ? "✓ İş fikriniz analiz için hazır." : "✓ Temel detaylar yeterli"}
+          onChange={(event) => onChange(event.target.value)}
+        />
+      </div>
     );
   }
   if (field.kind === "select") {
     return (
       <select
-        className={cn("mt-1", INPUT_SURFACE_CLASS)}
+        className={cn("mt-1", INPUT_SURFACE_CLASS, selectValueTypoClass(value))}
         name={field.name}
         value={value}
         onChange={(event) => onChange(event.target.value)}
@@ -611,7 +642,10 @@ export function TezgahWorkbench({
     let cancelled = false;
     async function loadQuota() {
       try {
-        const response = await fetch("/api/tezgah/quota", withRailApiVersion({ method: "GET" }));
+        const response = await fetch(
+          `/api/tezgah/quota?tool=${encodeURIComponent(toolId)}`,
+          withRailApiVersion({ method: "GET" }),
+        );
         const body = (await response.json()) as { ok?: boolean; data?: QuotaBody };
         if (!cancelled && body.ok && body.data) {
           setQuota(body.data);
@@ -626,7 +660,7 @@ export function TezgahWorkbench({
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [toolId]);
 
   useEffect(() => {
     const fromQuery = tezgahRelocatedOsHref(toolParam);
@@ -689,13 +723,20 @@ export function TezgahWorkbench({
   const pazaryeri = active.id === "pazaryeri";
 
   const fieldsReady = active.fields.every((field) => fieldReady(field, values));
-  const blocked = quota != null && quota.remaining <= 0;
   const proStudio = isProStudioTool(active.id);
-  const quotaBlocked = blocked && !proStudio;
+  const quotaExempt = isTezgahQuotaExemptPool(tezgahPoolForTool(active.id));
+  const blocked = quota != null && !quota.unlimited && quota.remaining <= 0;
+  const quotaBlocked = blocked && !quotaExempt;
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
-    if (!fieldsReady || pending || quotaBlocked) {
+    if (pending || quotaBlocked) {
+      return;
+    }
+    if (!fieldsReady) {
+      if (grant) {
+        setError("Lütfen iş fikrinizi yazın, sektör ve il seçin.");
+      }
       return;
     }
     setPending(true);
@@ -743,10 +784,6 @@ export function TezgahWorkbench({
           return;
         }
         const payload: Record<string, string> = { url };
-        const business = (values.businessName ?? "").trim();
-        if (business.length >= 2) {
-          payload.businessName = business.slice(0, 80);
-        }
         const response = await fetch(
           "/api/tezgah/tetkik/generate",
           withRailApiVersion({
@@ -1012,17 +1049,30 @@ export function TezgahWorkbench({
   }
 
   const showGuestCard =
-    error === TEZGAH_GUEST_QUOTA_MESSAGE || (quota?.guest === true && quota.remaining <= 0);
+    error === TEZGAH_GUEST_QUOTA_MESSAGE ||
+    error === TEZGAH_TETKIK_GUEST_QUOTA_MESSAGE ||
+    (error === TEZGAH_TETKIK_DOMAIN_CLAIMED_MESSAGE && quota?.guest === true) ||
+    (quota?.guest === true && !quotaExempt && quota.remaining <= 0);
   const showMemberCard =
     !showGuestCard &&
     (error === TEZGAH_MEMBER_QUOTA_MESSAGE ||
       error === TEZGAH_MEMBER_PAID_MESSAGE ||
       error === TEZGAH_CATALOG_CLOSED_MESSAGE ||
-      (quota?.guest === false && quota.remaining === 0 && quota.lane !== "pro" && quota.lane !== "credit"));
+      error === TEZGAH_TETKIK_MEMBER_QUOTA_MESSAGE ||
+      error === TEZGAH_TETKIK_DOMAIN_CLAIMED_MESSAGE ||
+      (quota?.guest === false &&
+        !quotaExempt &&
+        quota.remaining === 0 &&
+        quota.lane !== "pro" &&
+        quota.lane !== "credit"));
+
+  const quotaBadgeText = quota
+    ? (quota.line ?? tezgahToolQuotaLine(active.id, quota.remaining, quota.limit))
+    : "Ücretsiz hakkınız yükleniyor";
 
   const quotaBadge = (
     <p className="text-sm font-medium text-[var(--safir-deep)] print:hidden" data-tezgah-quota="">
-      {quota ? tezgahQuotaLine(quota.remaining, quota.limit) : "Bugünkü ücretsiz hakkınız yükleniyor"}
+      {quotaBadgeText}
     </p>
   );
 
@@ -1102,38 +1152,22 @@ export function TezgahWorkbench({
       <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] print:block">
         <div className="min-w-0 print:hidden">
           <Card title={active.label} eyebrow="Girdi" snug bodyClassName="leading-5">
-            <div
-              className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1"
-              data-tezgah-quota-early=""
-            >
-              <p className="text-sm font-medium text-[var(--safir-deep)]">
-                {quota
-                  ? tezgahQuotaLine(quota.remaining, quota.limit)
-                  : "Kalan ücretsiz hakkınız yükleniyor"}
-              </p>
-              {quota?.guest === false ? null : (
-                <LinkButton href={REGISTER_HREF} variant="outline" size="sm">
-                  Çıktılarını portföyüne kaydetmek için ücretsiz hesap aç
-                </LinkButton>
-              )}
-            </div>
             <p className="mb-2 text-sm leading-5 text-[var(--muted)]">{active.blurb}</p>
             {dukkan && handoff?.kind === "dukkan" ? (
               <p className="mb-2 text-sm leading-5 text-[var(--foreground)]" data-tetkik-handoff="">
-                Tetkikten taşındı. İşletme adı forma yazıldı.
+                Web Site Analizi bulgularınız otomatik aktarıldı; şimdi hazır çözümünüzü üretebilirsiniz.
                 {handoff.pageTitle ? ` Ölçülen sayfa başlığı: ${handoff.pageTitle}.` : ""}
                 {handoff.url ? (
                   <>
                     {" "}
                     Adres: <span className="break-all">{handoff.url}</span>.
                   </>
-                ) : null}{" "}
-                Sektör, yer, WhatsApp ve hizmetleri tamamlayıp dükkanı üretin.
+                ) : null}
               </p>
             ) : null}
             {active.id === "saas-builder" && handoff?.kind === "saas" ? (
               <p className="mb-2 text-sm leading-5 text-[var(--foreground)]" data-tetkik-codepack-handoff="">
-                Tetkikten taşındı. Tespit edilen eksikler açıklamaya yazıldı. Bileşeni seçip kod paketini üretin.
+                Web Site Analizi bulgularınız otomatik aktarıldı; şimdi hazır çözümünüzü üretebilirsiniz.
                 {handoff.url ? (
                   <>
                     {" "}
@@ -1149,6 +1183,7 @@ export function TezgahWorkbench({
                     {field.label}
                     <FieldControl
                       field={field}
+                      toolId={active.id}
                       value={values[field.name] ?? ""}
                       onChange={(next) => setValues((current) => ({ ...current, [field.name]: next }))}
                     />
@@ -1162,13 +1197,23 @@ export function TezgahWorkbench({
                 </div>
               ))}
               {error ? <p className="text-sm text-[var(--rose)]">{error}</p> : null}
-              <Button type="submit" disabled={!fieldsReady || pending || quotaBlocked}>
+              <Button
+                type="submit"
+                disabled={pending || quotaBlocked || (!grant && !fieldsReady)}
+                className={
+                  grant || tetkik
+                    ? "!bg-[var(--safir)] !text-white shadow-lg shadow-[color-mix(in_srgb,var(--safir)_28%,transparent)] hover:!bg-[var(--safir-deep)] disabled:opacity-70"
+                    : undefined
+                }
+              >
                 {pending
-                  ? "Üretiliyor"
+                  ? tetkik
+                    ? "Analiz ediliyor"
+                    : "Üretiliyor"
                   : grant
                     ? "Dosyayı Üret"
                     : tetkik
-                      ? "Tetkiki Üret"
+                      ? "Analizi Başlat"
                       : dukkan
                         ? "Dükkanı Üret"
                         : reklam
@@ -1266,10 +1311,10 @@ export function TezgahWorkbench({
             </div>
           ) : (
             <div className="print:hidden">
-              <Card title="Rapor" eyebrow="Tetkik">
+              <Card title="Yönetici karnesi" eyebrow="Web Site Analizi">
                 <p className="text-sm leading-6 text-[var(--muted)]">
-                  Adresi yazıp tetkiki üret. Skor kodda hesaplanır; rapor yazdırılır. Sonradan çizilen vitrin bu
-                  puana girmez.
+                  Site adresini yazıp analizi başlatın. SEO, ikna ve dönüşüm karnesi kartlarla açılır; eksikler hazır
+                  çözümlerle gelir.
                 </p>
               </Card>
             </div>

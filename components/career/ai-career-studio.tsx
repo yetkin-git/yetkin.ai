@@ -9,6 +9,7 @@ import { INPUT_SURFACE_CLASS } from "@/components/ui/input";
 import { IconArrow, IconBadge, IconBriefcase, IconMessage, IconSend, IconSpark } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/link-button";
 import { TipPanel } from "@/components/ui/public-hero";
+import { SmartTextarea } from "@/components/ui/smart-textarea";
 import type { CareerCoachDossier, CareerCoachGoal } from "@/lib/career/coach-contract";
 import { CAREER_SEN } from "@/lib/copy/sen-voice/career";
 import { CAREER_COACH_SEN } from "@/lib/copy/sen-voice/career-coach";
@@ -209,14 +210,18 @@ export function AiCareerStudio({ verifiedBadges }: { verifiedBadges: readonly st
                 <IconSpark className="h-3.5 w-3.5 text-amber-600" />
                 {copy.experienceLabel}
               </span>
-              <textarea
-                className={`mt-1.5 min-h-28 ${INPUT_SURFACE_CLASS}`}
-                value={experience}
-                maxLength={2000}
-                required
-                placeholder={copy.experiencePlaceholder}
-                onChange={(event) => setExperience(event.target.value)}
-              />
+              <div className="mt-1.5">
+                <SmartTextarea
+                  className="min-h-28"
+                  context="career"
+                  value={experience}
+                  maxLength={2000}
+                  required
+                  placeholder="Deneyiminizi buraya yazınız..."
+                  softHint="Biraz daha detay ekleyin (rol, araç, ölçülebilir sonuç)…"
+                  onChange={(event) => setExperience(event.target.value)}
+                />
+              </div>
             </label>
             <div className="md:col-span-2">
               <Button type="submit" size="sm" disabled={pending !== null}>

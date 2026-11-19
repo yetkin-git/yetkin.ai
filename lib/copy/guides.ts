@@ -5,6 +5,11 @@
 
 export const GUIDE_HUB_PATH = "/rehber" as const;
 
+/** Rehber / sözlük sonu — aktif ürün hunisi. Kapalı Akademi kursu satılmaz. */
+export const GUIDE_TEZGAH_CTA_LABEL =
+  "Bu işlemleri saniyeler içinde yapmak için AI Tezgâhını ücretsiz dene" as const;
+export const GUIDE_TEZGAH_CTA_HREF = "/tezgah" as const;
+
 export type PublicGuide = {
   slug: string;
   title: string;
@@ -47,7 +52,7 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
       "Ürünün ölçüsünü, malzemesini ve kime hitap ettiğini üç satır yaz.",
       "AI Tezgâh pazaryeri aracında Trendyol metnini üret.",
       "Başlığı 60 karakter civarında kırp, ilk cümleyi kendin oku.",
-      "Aynı işi e-ticaret sınavında göstererek rozete bağla.",
+      "Metni AI Tezgâh'ta yeniden üretip kendi sesinle düzelt.",
     ],
     faqs: [
       {
@@ -59,8 +64,8 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
         answer: "Hayır. Kendi ürününün ölçüsünü yaz. Kopya metin telif ve hesap riski taşır.",
       },
       {
-        question: "Bu rehber sertifika basar mı?",
-        answer: "Hayır. Sertifika, e-ticaret eğitiminin sınavı 70 ve üzeri geçilince basılır.",
+        question: "Bu rehber kurs satar mı?",
+        answer: "Hayır. Rehber uygulama adımlarını anlatır. Üretim AI Tezgâh'tadır.",
       },
     ],
     toolHref: "/tezgah?tool=pazaryeri",
@@ -88,7 +93,7 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
       "İş fikrini on iki satırda yaz: kim, hangi sorun, sen ne üreteceksin.",
       "Hibe aracında katalog eşleşmesini gör.",
       "Taslağı kendi evrakınla karşılaştır. Uymayan cümleyi sil.",
-      "Dosyayı anlatacak ofis sınavını ayrıca geç.",
+      "Taslağı AI Tezgâh hibe aracında yeniden üret.",
     ],
     faqs: [
       {
@@ -129,7 +134,7 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
       "En sık üç müşteri cümlesini yaz.",
       "Her cümleye bot cevabı ve devretme kuralı ekle.",
       "Tezgâh'ta karşılama metnini üret, kendi sesinle düzelt.",
-      "Chatbot sınavında aynı akışı göster.",
+      "Aynı akışı AI Tezgâh'ta metne döküp kendi sesinle düzelt.",
     ],
     faqs: [
       {
@@ -141,8 +146,8 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
         answer: "Söylemesin. Fiyat değişir. Bot insan devretsin.",
       },
       {
-        question: "Kurulum sertifika mıdır?",
-        answer: "Hayır. Sertifika chatbot eğitiminin sınavındadır.",
+        question: "Bu rehber kurs satar mı?",
+        answer: "Hayır. Karşılama ve akış metnini AI Tezgâh'ta üretirsin.",
       },
     ],
     toolHref: "/tezgah",
@@ -170,7 +175,7 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
       "Müşterinin cümlesini olduğu gibi alta yaz.",
       "Teklif aracında kapsam, süre ve teslimi üret.",
       "Fiyatı sen koy. Araç tutar uydurmasın.",
-      "Teklifi anlatan ofis sınavını geç, kartını paylaş.",
+      "Metni AI Tezgâh'ta yeniden üretip müşteriye gönder.",
     ],
     faqs: [
       {
@@ -178,8 +183,8 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
         answer: "Hayır. Metni sen müşteriye gönderirsin. Freelancer iş odası kapalıdır.",
       },
       {
-        question: "Rozet iş garanti eder mi?",
-        answer: "Hayır. Rozet sınavı geçtiğini gösterir. İş bulmayı vaat etmez.",
+        question: "Bu rehber iş garantisi verir mi?",
+        answer: "Hayır. Teklif metni üretir. İş bulmayı vaat etmez.",
       },
       {
         question: "Fiyatı araç mı yazar?",
@@ -222,8 +227,8 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
         answer: "Yazma. Stok değişir. Kart özellik taşır.",
       },
       {
-        question: "Rehber rozet basar mı?",
-        answer: "Hayır. Rozet e-ticaret sınavındadır.",
+        question: "Bu rehber kurs satar mı?",
+        answer: "Hayır. Kart metnini AI Tezgâh'ta üretirsin.",
       },
     ],
     toolHref: "/tezgah?tool=pazaryeri",
@@ -262,8 +267,8 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
         answer: "Yazılmaz. Uydurma sosyal kanıt yasaktır.",
       },
       {
-        question: "Hangi sınav bu işe bağlı?",
-        answer: "Sosyal medya eğitiminin sınavı.",
+        question: "Bu rehber kurs satar mı?",
+        answer: "Hayır. Kancayı AI Tezgâh'ta üretirsin; yayın senin hesabındadır.",
       },
     ],
     toolHref: "/tezgah?tool=reklam",
@@ -302,8 +307,8 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
         answer: "Olmasın. Tek çağrı yeter.",
       },
       {
-        question: "Sertifika bu sayfada mı?",
-        answer: "Hayır. Sosyal medya veya ofis sınavındadır.",
+        question: "Bu rehber kurs satar mı?",
+        answer: "Hayır. Arama metnini AI Tezgâh'ta üretirsin.",
       },
     ],
     toolHref: "/tezgah?tool=reklam",
@@ -315,7 +320,7 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
     slug: "e-ticaret-seo",
     title: "E-ticaret SEO rehberi",
     description:
-      "Ürün sayfasında başlık, meta açıklama ve tek H1. Tetkik skoru kodda hesaplanır; sıra vaadi yoktur.",
+      "Ürün sayfasında başlık, meta açıklama ve tek H1. Web Site Analizi skoru kodda hesaplanır; sıra vaadi yoktur.",
     h1: "E-ticaret sayfasında başlığı ve H1'i ayır",
     lead: "Başlık arama sonucudur. H1 sayfanın adıdır. İkisi aynı şişkin cümle olursa ikisi de zayıflar.",
     sections: [
@@ -328,7 +333,7 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
       },
     ],
     steps: [
-      "Canlı ürün adresini tetkik aracına yaz.",
+      "Canlı ürün adresini Web Site Analizi aracına yaz.",
       "Düşen maddeleri tek tek kapat.",
       "Yeni metni pazaryeri veya dükkân aracıyla üret.",
     ],
@@ -339,25 +344,25 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
       },
       {
         question: "JavaScript ile çizilen fiyat ölçülür mü?",
-        answer: "Hayır. Tetkik ilk HTML'i okur. Sonradan çizilen vitrin skora girmez.",
+        answer: "Hayır. Analiz ilk HTML'i okur. Sonradan çizilen vitrin skora girmez.",
       },
       {
-        question: "Hangi sınav?",
-        answer: "E-ticaret yapay zekâ sınavı.",
+        question: "Bu rehber kurs satar mı?",
+        answer: "Hayır. Skor /tetkik'te, metin üretimi AI Tezgâh'tadır.",
       },
     ],
     toolHref: "/tetkik",
-    toolLabel: "Sayfayı tetkik et",
+    toolLabel: "Sayfayı analiz et",
     examHref: "/tezgah",
     examLabel: "AI Tezgâh'ta devam et",
   },
   {
     slug: "web-sitesi-tetkik",
-    title: "Web sitesi tetkik rehberi",
+    title: "Web Site Analizi rehberi",
     description:
-      "Ana sayfanın SEO, hız ve dönüşüm skorunu kayıt olmadan ölç. Skor 13 kontrolün toplamıdır. Model anlatımı yoktur.",
-    h1: "Web sitenin açık sayfasını tetkik et",
-    lead: "Merak edilen soru “sitem kaç puan?”. Cevap, herkese açık ilk HTML'den kodla hesaplanır.",
+      "Ana sayfanın SEO, ikna ve dönüşüm karnesini kayıt olmadan alın. Skor kodda; yönetici özeti Hydrogen ile üretilir.",
+    h1: "Web sitenin açık sayfasını analiz et",
+    lead: "Merak edilen soru “sitem kaç puan?”. Cevap, herkese açık ilk HTML'den kodla hesaplanır; çözümler karnede gelir.",
     sections: [
       {
         heading: "Ne ölçülür",
@@ -388,7 +393,7 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
       },
     ],
     toolHref: "/tetkik",
-    toolLabel: "Tetkiki başlat",
+    toolLabel: "Analizi başlat",
     examHref: "/tezgah",
     examLabel: "AI Tezgâh'ta devam et",
   },
@@ -396,7 +401,7 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
     slug: "prompt-yazma",
     title: "Prompt yazma rehberi",
     description:
-      "Role, bağlam, biçim ve kaynak sınırı. Doğru talimat altı derstir. Tezgâh aynı iskeleti günlük işe taşır.",
+      "Role, bağlam, biçim ve kaynak sınırı. Tezgâh aynı iskeleti günlük işe taşır.",
     h1: "Yapay zekâya dört parçalı talimat ver",
     lead: "“Güzel yaz” talimat değildir. Rol, bağlam, biçim ve kaynak sınırı yoksa cevap rastgele uzar.",
     sections: [
@@ -412,7 +417,7 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
       "İşi tek cümle yaz.",
       "Dört parçayı alta ekle.",
       "Tezgâh'ta aynı iskeletle bir çıktı al.",
-      "Prompt sınavında iskeleti göster.",
+      "Aynı iskeleti AI Tezgâh'ta bir kez daha dene.",
     ],
     faqs: [
       {
@@ -424,8 +429,8 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
         answer: "Hayır. Ad ve telefonu maskele.",
       },
       {
-        question: "Sınav barajı nedir?",
-        answer: "70. Altı sertifika basmaz.",
+        question: "Bu rehber kurs satar mı?",
+        answer: "Hayır. Talimatı AI Tezgâh'ta pratikte dene.",
       },
     ],
     toolHref: "/tezgah",
@@ -437,7 +442,7 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
     slug: "excel-yapay-zeka",
     title: "Excel'de yapay zekâ rehberi",
     description:
-      "Dağınık tabloyu temizle, yönetim özetine indir, sayıyı kaynakla kilitle. İlk ofis dersi ücretsizdir.",
+      "Dağınık tabloyu temizle, yönetim özetine indir, sayıyı kaynakla kilitle. Üretimi AI Tezgâh'ta dene.",
     h1: "Excel tablosunu önce temizle, sonra özetle",
     lead: "Kirli sütun, güzel özet üretmez. Önce başlık satırı ve tek tip hücre, sonra üç maddelik yönetim özeti.",
     sections: [
@@ -451,18 +456,18 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
     ],
     steps: [
       "Başlık satırını tek satıra indir.",
-      "Tezgâh veya dersin Copilot adımıyla üç madde çıkart.",
+      "AI Tezgâh'ta üç maddelik yönetim özeti üret.",
       "Bir sayıyı kaynakla doğrula.",
-      "Ofis sınavını geç.",
+      "Maskelenmiş kendi dosyanla aynı adımı tekrarla.",
     ],
     faqs: [
       {
-        question: "İlk ders ücretli mi?",
-        answer: "Hayır. Ofis eğitiminin ilk dersi kayıt duvarının önündedir.",
+        question: "Kayıt gerekir mi?",
+        answer: "Hayır. AI Tezgâh misafir kotasıyla denenebilir.",
       },
       {
-        question: "Özet belge midir?",
-        answer: "Hayır. Belge, sınav 70 ve üzeri geçilince basılır.",
+        question: "Özet resmi belge midir?",
+        answer: "Hayır. İşinde kullanacağın taslaktır. Resmi belge senin evrakındır.",
       },
       {
         question: "Tablo müşteri verisi taşıyorsa?",
@@ -485,7 +490,7 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
       {
         heading: "Dürüst sınır",
         paragraphs: [
-          "Araç, mühürlü katalogdaki çağrıyı eşler. Kapanmış çağrıyı açık gibi yazmaz.",
+          "Araç, katalogdaki açık çağrıyı eşler. Kapanmış çağrıyı açık gibi yazmaz.",
           "Destek tutarını senin cümlen büyütmez.",
         ],
       },
@@ -546,8 +551,8 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
         answer: "Taslak senin hizmetinle yeniden yazılır. Olduğu gibi bırakma.",
       },
       {
-        question: "Hangi sınav?",
-        answer: "E-ticaret veya ofis sınavı, işine göre.",
+        question: "Bu rehber kurs satar mı?",
+        answer: "Hayır. Dükkân sayfasını AI Tezgâh'ta üretirsin.",
       },
     ],
     toolHref: "/tezgah?tool=dukkan",
@@ -575,7 +580,7 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
       "Son yirmi konuşmadan üç soruyu seç.",
       "Her soruya kısa cevap ve devretme cümlesi yaz.",
       "Tezgâh'ta karşılama metnini düzelt.",
-      "Chatbot sınavında akışı göster.",
+      "Aynı metni AI Tezgâh'ta yeniden üretip düzelt.",
     ],
     faqs: [
       {
@@ -587,8 +592,8 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
         answer: "Yazdığın karşılama evet. Karar vermesi hayır.",
       },
       {
-        question: "Sertifika?",
-        answer: "Chatbot eğitiminin sınavı 70 ve üzeri geçilince.",
+        question: "Bu rehber kurs satar mı?",
+        answer: "Hayır. Bot metnini AI Tezgâh'ta üretirsin.",
       },
     ],
     toolHref: "/tezgah",
@@ -616,7 +621,7 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
       "Haftanın tek mesajını yaz.",
       "Üç kanca üret, birini seç.",
       "Yayından önce ölçü ve fiyat var mı diye bak.",
-      "Sosyal medya sınavını geç.",
+      "Seçtiğin kancayı AI Tezgâh'ta yeniden üret.",
     ],
     faqs: [
       {
@@ -628,8 +633,8 @@ export const PUBLIC_GUIDES: readonly PublicGuide[] = [
         answer: "Hayır. Üç sağlam içerik, yedi zayıf içerikten iyidir.",
       },
       {
-        question: "Rozet ne işe yarar?",
-        answer: "Sınavı geçtiğini kamu kartında gösterir. İş garantisi değildir.",
+        question: "Bu rehber kurs satar mı?",
+        answer: "Hayır. Haftalık kancayı AI Tezgâh'ta üretirsin.",
       },
     ],
     toolHref: "/tezgah?tool=reklam",
