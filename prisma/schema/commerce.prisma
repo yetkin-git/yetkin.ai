@@ -47,7 +47,10 @@ enum CommerceChannel {
 
 enum CommerceSubscriptionStatus {
   PENDING
+  TRIALING
   ACTIVE
+  PAST_DUE
+  CANCELED
 }
 
 enum CommerceListingSyncStatus {
@@ -125,8 +128,9 @@ model CommerceStore {
   credentials     CommerceMarketplaceCredential[]
   channelListings CommerceChannelListing[]
   webhookReceipts CommerceMarketplaceWebhookReceipt[]
-  subscription    CommerceSubscription?
-  stockLedgers    StockLedger[]
+  subscription      CommerceSubscription?
+  trialConsumptions CommerceTrialConsumption[]
+  stockLedgers      StockLedger[]
   salesChannels   SalesChannel[]
   inboxEntries    CommerceInboxEntry[]
 
@@ -288,6 +292,19 @@ model CommerceSubscription {
   listPriceMinor      Int                          @map("list_price_minor")
   appliedMerchantOids String[]                     @default([]) @map("applied_merchant_oids")
   expiresAt           DateTime?                    @map("expires_at")
+  /// Deneme veya ücretli dönemin bittiği an. Yenileme bu alanı tarar.
+  trialEndsAt         DateTime?                    @map("trial_ends_at")
+  currentPeriodEnd    DateTime?                    @map("current_period_end")
+  /// true iken dönem bitene kadar hizmet sürer; yenileme çekimi yapılmaz.
+  cancelAtPeriodEnd   Boolean                      @default(false) @map("cancel_at_period_end")
+  paytrUtoken         String                       @default("") @map("paytr_utoken") @db.VarChar(128)
+  paytrCtoken         String                       @default("") @map("paytr_ctoken") @db.VarChar(128)
+  dunningAttempts     Int                          @default(0) @map("dunning_attempts")
+  lastDunningAt       DateTime?                    @map("last_dunning_at")
+  /// 1 TL kart doğrulama siparişi henüz CLEARED değil.
+  trialPending        Boolean                      @default(false) @map("trial_pending")
+  trialQuestionsUsed  Int                          @default(0) @map("trial_questions_used")
+  trialOptimizationsUsed Int                       @default(0) @map("trial_optimizations_used")
   createdAt           DateTime                     @default(now()) @map("created_at")
   updatedAt           DateTime                     @updatedAt @map("updated_at")
 
@@ -295,7 +312,24 @@ model CommerceSubscription {
   owner User          @relation(fields: [ownerUserId], references: [id], onDelete: Restrict)
 
   @@index([ownerUserId, status], map: "commerce_subscriptions_owner_status_idx")
+  @@index([status, currentPeriodEnd], map: "commerce_subscriptions_renewal_idx")
   @@map("commerce_subscriptions")
+}
+
+/// Satıcı vergi veya TCKN kimliği bir kez deneme tüketir. İkinci mağaza 1 TL deneme açamaz.
+/// `sealedAt` boşken satır yalnız ödeme penceresi kilididir (TTL'li); dolu olduğunda
+/// hak gerçekten tüketilmiştir (CLEARED) ve bir daha açılmaz.
+model CommerceTrialConsumption {
+  id          String    @id @default(cuid())
+  merchantKey String    @unique @map("merchant_key") @db.VarChar(11)
+  storeId     String    @map("store_id")
+  consumedAt  DateTime  @default(now()) @map("consumed_at")
+  sealedAt    DateTime? @map("sealed_at")
+
+  store CommerceStore @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  @@index([storeId], map: "commerce_trial_consumptions_store_idx")
+  @@map("commerce_trial_consumptions")
 }
 
 /// Append-only stok defteri. Taslak satırı onay satırı işaret edene kadar açıktır.

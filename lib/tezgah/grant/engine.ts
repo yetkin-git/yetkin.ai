@@ -1,6 +1,7 @@
 import "server-only";
 
 import { invokeLlm, type InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
+import { resolveProductModel } from "@/lib/kernel/ai/product-models";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import { formatAmountMinorAsWholeTry } from "@/lib/yetkinhibe/format-amount";
 import {
@@ -302,6 +303,7 @@ export async function generateGrantProject(
   const llm = await invoke(
     {
       role: GRANT_MODEL_ROLE,
+      model: await resolveProductModel("textEasy"),
       system: grantSystemPrompt(dossierContext !== null),
       user: grantUserPrompt({
         businessName: plain(draft.businessName, 80),

@@ -15,6 +15,7 @@ import {
   listCommerceStores,
 } from "@/lib/commerce/service";
 import { readCommerceMonthlyAmount } from "@/lib/commerce/paytr-license-bridge";
+import { readCommerceTrialOffer } from "@/lib/commerce/trial-reservation";
 import { commerceLicenseActive } from "@/lib/commerce/subscription";
 import { createPrismaCommerceSubscriptionStore } from "@/lib/commerce/subscription-prisma";
 import type {
@@ -343,13 +344,27 @@ export async function loadOwnerLicense(userId: string, storeId: string): Promise
     } else if (row) {
       phase = "pending";
     }
+    const openSeat =
+      row?.status === "ACTIVE" || row?.status === "TRIALING" || row?.status === "PAST_DUE";
+    const offer = await readCommerceTrialOffer({ billing, storeId, openSeat, now });
+    const trialEndsAt = row?.trialEndsAt ?? null;
+    const trialDaysLeft =
+      trialEndsAt == null
+        ? null
+        : Math.max(0, Math.ceil((trialEndsAt.getTime() - now.getTime()) / (24 * 60 * 60 * 1000)));
     return {
       kind: "ok",
       value: {
         phase,
-        expiresAt: row?.expiresAt ? row.expiresAt.toISOString() : null,
+        expiresAt: (row?.currentPeriodEnd ?? row?.expiresAt) ? (row?.currentPeriodEnd ?? row?.expiresAt)!.toISOString() : null,
         amountMinor,
         billingReady: billing != null,
+        cancelAtPeriodEnd: row?.cancelAtPeriodEnd === true,
+        status: row?.status ?? null,
+        trialEndsAt: trialEndsAt ? trialEndsAt.toISOString() : null,
+        trialDaysLeft,
+        trialEligible: offer.eligible,
+        trialBlockedReason: offer.blockedReason,
       },
     };
   });

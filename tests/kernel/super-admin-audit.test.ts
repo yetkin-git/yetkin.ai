@@ -64,7 +64,8 @@ describe("süper yönetici günlüğü", () => {
       read("prisma/migrations/20261104121000_super_admin_audit_certificate_and_price/migration.sql"),
     ].join("\n");
     const b2b = read("prisma/migrations/20261115213000_b2b_outbound_engine/migration.sql");
-    const actionSql = `${sql}\n${b2b.slice(b2b.lastIndexOf("super_admin_audit_logs_action_known"))}`;
+    const bind = read("prisma/migrations/20261120223000_ai_product_model_settings/migration.sql");
+    const actionSql = `${sql}\n${b2b.slice(b2b.lastIndexOf("super_admin_audit_logs_action_known"))}\n${bind.slice(bind.lastIndexOf("super_admin_audit_logs_action_known"))}`;
     for (const action of SUPER_ADMIN_AUDIT_ACTIONS) {
       expect(actionSql).toContain(`'${action}'`);
     }

@@ -1,39 +1,21 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import { academyCourseCoverPath } from "@/lib/academy/course-cover";
-import { courseRegistryBySlug } from "@yetkin/kernel/catalog-ids/course-registry";
-import { ACADEMY_CATALOG_SUMMARIES } from "@/lib/academy/catalog-summaries";
-import { ACADEMY_GROWTH_SKU_SLUGS } from "@/lib/academy/pilot-sku";
-import { publishedCoursesFromSeed } from "@/lib/academy/published-catalog";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { LEGAL_ENTITY, LEGAL_PAGE_TITLE, LEGAL_WHATSAPP_HREF } from "@/lib/copy/legal-launch";
 import { academyVerifyShareMetadata } from "@/lib/academy/certificate-share";
-import { curriculumSyllabusForCourseSlug } from "@/lib/academy/curriculum-syllabus";
 import {
-  CHATBOT_NOCODE_COURSE_TEACHES,
-  ECOMMERCE_AI_COURSE_TEACHES,
-  OFFICE_AI_COURSE_TEACHES,
-  OFFICE_AI_SYLLABUS_LESSONS,
-  PROMPT_PRACTICE_COURSE_TEACHES,
-  SOCIAL_MEDIA_AI_COURSE_TEACHES,
-  academyCourseTeachesForSlug,
-  academyOccupationalCategory,
   ORGANIZATION_ID,
   ORGANIZATION_LOGO_PATH,
   ORGANIZATION_SAME_AS,
   WEBSITE_ID,
-  academyCourseBreadcrumbs,
   breadcrumbListJsonLd,
-  courseJsonLd,
-  educationalOccupationalProgramJsonLd,
   faqPageJsonLd,
   itemListJsonLd,
   jsonLdDocument,
   juniorOnlineCourseJsonLd,
   legalSectionBreadcrumbs,
   organizationJsonLd,
-  serializeJsonLd,
   siteGraphJsonLd,
 } from "@/lib/copy/json-ld";
 import {
@@ -43,14 +25,6 @@ import {
   DEFAULT_OG_IMAGE_ALT,
   OG_IMAGE_SIZE,
   OG_LOCALE,
-  CHATBOT_NOCODE_SEO,
-  ECOMMERCE_AI_SEO,
-  OFFICE_AI_LESSON_TEASERS,
-  OFFICE_AI_ILERI_SEO,
-  OFFICE_AI_SEO,
-  PROMPT_PRACTICE_SEO,
-  SOCIAL_MEDIA_AI_SEO,
-  academyCourseSeoOverride,
   PAGE_SEO,
   PRODUCT_ROOM_PATHS,
   ROBOTS_ALLOW_COURSE_PATHS,
@@ -88,18 +62,13 @@ import { PUBLIC_SEN } from "@/lib/copy/sen-voice/public";
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { CAREER_SEN } from "@/lib/copy/sen-voice/career";
 import {
-  ACADEMY_LANDING_FAQ,
   CAREER_LANDING_FAQ,
   HOME_LANDING_FAQ,
-  OFFICE_AI_COURSE_FAQ,
-  OFFICE_AI_FAQ_HEADING,
-  OFFICE_AI_SEAL_PROOF,
-  OFFICE_AI_SEAL_PROOF_SHORT,
-  OFFICE_AI_SEM_KEYWORDS,
   SEM_LANDING_KEYWORDS,
   VIZE_LANDING_FAQ,
 } from "@/lib/copy/sem-keywords";
 import { SEM_CONVERSION_EVENT, SEM_CONVERSION_NAMES } from "@/lib/kernel/sem/conversion";
+import * as jsonLdExports from "@/lib/copy/json-ld";
 
 const ROOT = process.cwd();
 
@@ -166,22 +135,22 @@ describe("Aşama 1 SEO yüzeyi", () => {
     expect(readSrc("app/opengraph-image.tsx")).toContain("ImageResponse");
     expect(readSrc("app/opengraph-image.tsx")).toContain("OG_IMAGE_SIZE");
     expect(readSrc("app/twitter-image.tsx")).toContain("./opengraph-image");
-    expect(existsSync(join(ROOT, "app/academy/dogrula/[hash]/opengraph-image.tsx"))).toBe(true);
-    expect(readSrc("app/academy/dogrula/[hash]/twitter-image.tsx")).toContain("./opengraph-image");
+    expect(existsSync(join(ROOT, "archived/academy/app/dogrula/[hash]/opengraph-image.tsx"))).toBe(true);
+    expect(readSrc("archived/academy/app/dogrula/[hash]/twitter-image.tsx")).toContain("./opengraph-image");
     for (const file of [
-      "app/academy/page.tsx",
+      "archived/academy/app/page.tsx",
       "app/(public)/iletisim/page.tsx",
       "app/(public)/legal/page.tsx",
     ]) {
       expect(readSrc(file), file).toContain("pageMetadata");
     }
-    expect(readSrc("app/academy/layout.tsx")).not.toContain("pageMetadata");
+    expect(readSrc("archived/academy/app/layout.tsx")).not.toContain("pageMetadata");
     expect(readSrc("app/(public)/kasa/page.tsx")).toContain('path: "/kasa"');
     expect(readSrc("app/(public)/kasa/donus/page.tsx")).toContain('path: "/kasa/donus"');
     expect(readSrc("app/(auth)/sifremi-unuttum/page.tsx")).toContain('path: "/sifremi-unuttum"');
     expect(readSrc("app/(auth)/sifre-yenile/page.tsx")).toContain('path: "/sifre-yenile"');
-    expect(readSrc("app/academy/[slug]/oyna/page.tsx")).toContain("/oyna");
-    expect(readSrc("app/academy/[slug]/cikis-paketi/page.tsx")).toContain("/cikis-paketi");
+    expect(readSrc("archived/academy/app/[slug]/oyna/page.tsx")).toContain("/oyna");
+    expect(readSrc("archived/academy/app/[slug]/cikis-paketi/page.tsx")).toContain("/cikis-paketi");
   });
 
   it("giriş ve kayıt noindex, follow taşır", () => {
@@ -200,17 +169,12 @@ describe("Aşama 1 SEO yüzeyi", () => {
 
 describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
   it("kurs generateMetadata başlık, özet ve kapak og:image basar", () => {
-    const page = readSrc("app/academy/[slug]/page.tsx");
-    expect(page).toContain("generateMetadata");
-    expect(page).toContain("resolveAcademyCourseFromSeed");
-    expect(page).toContain("course.summary");
-    expect(page).toContain("academyCourseCoverPath");
-    expect(page).toContain("image:");
+    // Arşiv sayfası canlı ürün değildir; sözleşme `pageMetadata` üzerinden doğrulanır.
     const meta = pageMetadata({
       title: "Python Temel · Akademi",
       description: "Python ile programlamanın temelleri.",
       path: "/academy/python-temel",
-      image: academyCourseCoverPath("python-temel") ?? DEFAULT_OG_IMAGE,
+      image: DEFAULT_OG_IMAGE,
     });
     expect(meta.openGraph).toMatchObject({
       images: [{ url: DEFAULT_OG_IMAGE, alt: "Python Temel · Akademi" }],
@@ -220,42 +184,34 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     });
   });
 
-  it("eski /academy/courses/[slug] alias'ı kanonik /academy/[slug] adresine 301 döner", () => {
+  it("eski /academy/courses/[slug] alias'ı ve emekli SKU 301 bloğu kaldırıldı; /verify canlı kalır", () => {
     const config = readSrc("next.config.ts");
-    expect(config).toContain('source: "/academy/courses/:slug"');
-    expect(config).toContain('destination: "https://yetkin.ai/academy/:slug"');
-    expect(config).toContain("statusCode: 301");
-    const alias = readSrc("app/academy/courses/[slug]/page.tsx");
-    expect(alias).toContain("permanentRedirect");
-    expect(alias).not.toContain("AcademyCoursePage");
-    expect(alias).not.toContain("baseGenerateMetadata");
+    // SEO Tedavi (P0) — 301 → 410 zinciri kırıldı.
+    expect(config).not.toContain('source: "/academy/courses/:slug"');
+    expect(config).not.toContain("academyRetiredStorefrontRedirects");
+    expect(config).not.toContain("destination: \"https://yetkin.ai/academy\"");
+    // Emekli slug artık doğrudan 410 alır; 404 basmak yönlendirmeyi gölgelemez.
+    expect(readSrc("lib/academy/retired-storefront.ts")).toContain("ACADEMY_RETIRED_STOREFRONT_SLUGS");
+    // Korunması zorunlu canlı yönlendirmeler.
+    expect(config).toContain('source: "/verify"');
+    expect(config).toContain('destination: "https://yetkin.ai/vize"');
     expect(config).toContain('source: "/verify/:hash"');
     expect(config).toContain('destination: "https://yetkin.ai/vize/:hash"');
+    expect(config).toContain('source: "/academy/dogrula/:hash"');
+    expect(config).toContain('destination: "https://yetkin.ai/vize/:hash"');
+    expect(config).toContain('source: "/p/:id"');
+    expect(config).toContain('destination: "https://yetkin.ai/vize/:id"');
   });
 
-  it("amiral SKU cinema kapağı taşır; kardeş SKU Yakında şablonuna düşer", () => {
-    expect(academyCourseCoverPath("01_office_ai")).toBe("/academy/cinema/01_office_ai-1-eye.webp");
-    expect(existsSync(join(ROOT, "public", "academy", "cinema", "01_office_ai-1-eye.webp"))).toBe(
-      true,
-    );
-    for (const slug of ACADEMY_GROWTH_SKU_SLUGS) {
-      if (slug === "01_office_ai") {
-        continue;
-      }
-      expect(academyCourseCoverPath(slug), slug).toBeNull();
-    }
-    expect(academyCourseCoverPath("03_social_media_ai")).toBe(
-      "/academy/cinema/03_social_media_ai-1-cue-1.jpg",
-    );
-    expect(academyCourseCoverPath("04_chatbot_nocode")).toBe(
-      "/academy/cinema/04_chatbot_nocode-1-cue-1.jpg",
-    );
-    expect(academyCourseCoverPath("05_prompt_practice")).toBe(
-      "/academy/cinema/05_prompt_practice-1-cue-1.jpg",
-    );
-    expect(academyCourseCoverPath("02_ecommerce_ai")).toBe(
-      "/academy/cinema/02_ecommerce_ai-1-cue-1.jpg",
-    );
+  it("301 kural sayısı /academy hedefli blok kaldırıldığı için düştü", async () => {
+    const { default: nextConfig } = await import("../../next.config");
+    const rules = await nextConfig.redirects();
+    const academyTargets = rules.filter((rule) => rule.destination === "https://yetkin.ai/academy");
+    // Eski blok 318 kural üretiyordu (106 slug × 3) — hepsi 410'a düşüyordu.
+    expect(academyTargets).toEqual([]);
+    expect(rules.length).toBeLessThan(40);
+    // Doğrulama yüzeyi yönlendirmesi korunur.
+    expect(rules.some((rule) => rule.source === "/verify" && rule.destination === "https://yetkin.ai/vize")).toBe(true);
   });
 
   it("sitemap ürün odaları, iletişim/yasal ve yayın kurslarını doğru öncelikle basar", async () => {
@@ -264,7 +220,7 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     const entries = await sitemap();
     const byPath = new Map(entries.map((entry) => [sitemapPathname(entry.url), entry]));
 
-    expect(PRODUCT_ROOM_PATHS).toEqual(["/academy", "/career"]);
+    expect(PRODUCT_ROOM_PATHS).toEqual(["/career"]);
     // Kök marka iniş sayfası artık indekslenebilir (P1 tedavi).
     expect(byPath.has("/")).toBe(true);
     for (const path of ["/vize", "/legal", "/iletisim", "/hakkimizda"]) {
@@ -282,31 +238,18 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(byPath.has("/junior/ders/jr_06_mat-2")).toBe(false);
     expect(byPath.has("/junior/checkout")).toBe(false);
 
-    const published = publishedCoursesFromSeed().filter((row) => row.isPublished);
-    expect(published.length).toBe(ACADEMY_GROWTH_SKU_SLUGS.length);
-    for (const row of published) {
-      const path = `/academy/${row.slug}`;
-      const entry = byPath.get(path);
-      expect(entry, path).toBeUndefined();
-      expect(byPath.has(`/academy/courses/${row.slug}`), `/academy/courses/${row.slug}`).toBe(false);
-    }
-
-    expect(byPath.has("/academy")).toBe(false);
-    expect(sitemapRoutePolicy("/career").priority).toBe(0.9);
-    expect(byPath.has("/academy/02_ecommerce_ai"), "/academy/02_ecommerce_ai").toBe(false);
-    expect(byPath.has("/academy/03_social_media_ai"), "/academy/03_social_media_ai").toBe(false);
-    expect(byPath.has("/academy/04_chatbot_nocode"), "/academy/04_chatbot_nocode").toBe(false);
-    expect(byPath.has("/academy/05_prompt_practice"), "/academy/05_prompt_practice").toBe(false);
-    expect(byPath.has("/academy/01_office_ai_ileri"), "/academy/01_office_ai_ileri").toBe(false);
-    expect(byPath.has("/freelancer")).toBe(false);
-    expect(byPath.get("/hakkimizda")?.priority).toBe(0.5);
-    expect(byPath.get("/legal")?.priority).toBe(0.5);
-    expect(byPath.get("/iletisim")?.priority).toBe(0.5);
-    expect(byPath.get("/legal")?.changeFrequency).toBe("monthly");
+    // SEO Tedavi (P0): Akademi kursları site haritasına hiç yazılmaz ve
+    // sitemap politikası ölü `/academy/*` yüksek önceliğini artık taşımaz.
+    expect(sitemapRoutePolicy("/academy")).toEqual({ changeFrequency: "weekly", priority: 0.7 });
     expect(sitemapRoutePolicy("/academy/python-temel")).toEqual({
       changeFrequency: "weekly",
-      priority: 0.8,
+      priority: 0.7,
     });
+    expect(sitemapRoutePolicy("/").priority).toBe(1);
+    expect(sitemapRoutePolicy("/career").priority).toBe(0.9);
+    for (const path of ["/academy", "/academy/01_office_ai", "/academy/dogrula"]) {
+      expect(byPath.has(path), path).toBe(false);
+    }
 
     expect(entries).toHaveLength(byPath.size);
     expect(entries.length).toBeGreaterThanOrEqual(7 + PRODUCT_ROOM_PATHS.length);
@@ -399,6 +342,9 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
       "/uzmanlar",
       "/sozluk",
       "/tetkik",
+      // Faz 2 (SEO P2): footer'dan bağımsız açık kayıt.
+      "/hakkimizda",
+      "/iletisim",
     ]);
     expect(SITEMAP_STATIC_PATHS).toContain("/");
     expect(rule?.userAgent).toEqual(["*", "Googlebot"]);
@@ -600,174 +546,36 @@ describe("Aşama 3 SEO — JSON-LD yapısal veri", () => {
     expect(readSrc("lib/copy/json-ld.ts")).not.toContain("academy?q=");
   });
 
-  it("kurs sayfası Course ve BreadcrumbList giyer", () => {
-    const page = readSrc("app/academy/[slug]/page.tsx");
-    expect(page).toContain("courseJsonLd");
-    expect(page).toContain("breadcrumbListJsonLd");
-    expect(page).toContain("academyCourseBreadcrumbs");
-    expect(page).toContain("academyCourseCoverPath");
-    expect(page).toContain("board.course.createdAt");
-
-    const cover = academyCourseCoverPath("python-temel") ?? DEFAULT_OG_IMAGE;
-    const published = new Date("2026-08-21T15:00:00.000Z");
-    const course = courseJsonLd({
-      slug: "python-temel",
-      title: "Python ile Programlama ve Problem Çözme",
-      description: "Python ile programlamanın temelleri.",
-      imagePath: cover,
-      datePublished: published,
-    });
-    expect(course).toMatchObject({
-      "@type": "Course",
-      name: "Python ile Programlama ve Problem Çözme",
-      description: "Python ile programlamanın temelleri.",
-      url: "https://yetkin.ai/academy/python-temel",
-      image: canonicalUrl(cover),
-      datePublished: "2026-08-21T15:00:00.000Z",
-      provider: {
-        "@type": "Organization",
-        "@id": ORGANIZATION_ID,
-        name: YETKIN_BRAND,
-        url: CANONICAL_SITE_ORIGIN,
-      },
-    });
-    const crumbs = academyCourseBreadcrumbs({
-      slug: "python-temel",
-      title: "Python ile Programlama ve Problem Çözme",
-    });
-    expect(crumbs.map((row) => row.path)).toEqual([
-      "/",
-      "/academy",
-      "/academy/python-temel",
-    ]);
-    expect(breadcrumbListJsonLd(crumbs).itemListElement).toEqual([
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: YETKIN_BRAND,
-        item: "https://yetkin.ai/",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: PAGE_SEO.academy.title,
-        item: "https://yetkin.ai/academy",
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: "Python ile Programlama ve Problem Çözme",
-        item: "https://yetkin.ai/academy/python-temel",
-      },
-    ]);
+  it("kurs Course ve BreadcrumbList giyen sayfa arşivde; canlı şema yalnız kök graf", () => {
+    // Yorum satırı eski adı anabilir; canlı export yüzeyi denetlenir.
+    expect("courseJsonLd" in jsonLdExports).toBe(false);
+    const crumbs = legalSectionBreadcrumbs({ slug: "gizlilik", title: "Gizlilik Politikası" });
+    expect(crumbs.map((row) => row.path)).toEqual(["/", "/legal", "/legal/gizlilik"]);
   });
 
   it("yasal derinlik sayfası BreadcrumbList giyer; script kaçışı kapanır", () => {
     const slug = readSrc("app/(public)/legal/[slug]/page.tsx");
     expect(slug).toContain("legalSectionBreadcrumbs");
     expect(slug).toContain("breadcrumbListJsonLd");
+    const jsonLdSource = readSrc("lib/copy/json-ld.ts");
     expect(readSrc("components/seo/json-ld.tsx")).toContain("application/ld+json");
     expect(readSrc("components/seo/json-ld.tsx")).toContain("serializeJsonLd");
-
+    // `</script>` kırılması ve Cloudflare e-posta gizleme çakışması kapanır.
+    expect(jsonLdSource).toContain(".replace(/</g, \"\\\\u003c\")");
+    expect(jsonLdSource).toContain("\\\\u0040");
     const crumbs = legalSectionBreadcrumbs({
       slug: "gizlilik",
       title: "Gizlilik Politikası ve KVKK Aydınlatma Metni",
     });
     expect(crumbs.map((row) => row.path)).toEqual(["/", "/legal", "/legal/gizlilik"]);
     expect(crumbs[1]?.name).toBe(LEGAL_PAGE_TITLE);
-    expect(serializeJsonLd({ name: "</script><p>x" })).toBe(
-      '{"name":"\\u003c/script>\\u003cp>x"}',
-    );
-    expect(serializeJsonLd({ email: "destek@yetkin.ai" })).toBe(
-      '{"email":"destek\\u0040yetkin.ai"}',
-    );
     const document = jsonLdDocument([breadcrumbListJsonLd(crumbs)]);
     expect(document["@graph"][0]?.["@type"]).toBe("BreadcrumbList");
   });
 
-  it("kurs CourseInstance ve yapay zeka sertifikası mührü taşır", () => {
-    const course = courseJsonLd({
-      slug: "01_office_ai",
-      title: "Ofis",
-      description: "Ofis yapay zekâ.",
-      imagePath: academyCourseCoverPath("01_office_ai") ?? DEFAULT_OG_IMAGE,
-      datePublished: "2026-09-11T00:00:00.000Z",
-    });
-    // SEO Tedavi (P0) — tip'li belge düğümü + tohum fiyatlı offers + müfredat.
-    expect(course.educationalCredentialAwarded).toMatchObject({
-      "@type": "EducationalOccupationalCredential",
-      name: "yetkin.ai Ofis Yapay Zekâ Sertifikası",
-      credentialCategory: "certificate",
-      recognizedBy: { "@id": ORGANIZATION_ID },
-    });
-    expect(course.hasCourseInstance).toMatchObject({
-      "@type": "CourseInstance",
-      courseMode: "Online",
-      offers: {
-        "@type": "Offer",
-        price: "890",
-        priceCurrency: "TRY",
-        availability: "https://schema.org/InStock",
-        url: "https://yetkin.ai/academy/01_office_ai",
-      },
-    });
-    expect(course.teaches).toEqual([...OFFICE_AI_COURSE_TEACHES]);
-    expect(course.teaches).toEqual(
-      expect.arrayContaining([
-        "Excel veri temizliği",
-        "KVKK maskeleme",
-        "Yönetim özeti",
-        "Sunum hazırlama",
-      ]),
-    );
-    expect(course.keywords).toEqual([...OFFICE_AI_SEO.keywords]);
-    const parts = course.hasPart as Array<{ name: string }>;
-    expect(parts).toHaveLength(8);
-    expect(parts.map((part) => part.name)).toEqual(
-      OFFICE_AI_SYLLABUS_LESSONS.map((lesson) => lesson.name),
-    );
-    const sections = course.syllabusSections as Array<{
-      name: string;
-      hasPart: Array<{ name: string }>;
-    }>;
-    expect(sections.map((section) => section.name)).toEqual([
-      "Tablo ve güvenlik",
-      "Karar ve slayt",
-      "Kutu ve belge",
-      "Haftalık sistem",
-    ]);
-    expect(sections.flatMap((section) => section.hasPart.map((part) => part.name))).toEqual(
-      parts.map((part) => part.name),
-    );
-    const org = siteGraphJsonLd()["@graph"].find((node) => node["@type"] === "Organization");
-    expect(org?.additionalType).toBe("https://schema.org/EducationalOrganization");
-  });
-
-  it("Course lessons/duration ile timeRequired ve ders süreleri basar", () => {
-    const course = courseJsonLd({
-      slug: "01_office_ai",
-      title: "Ofis",
-      description: "Ofis yapay zekâ.",
-      imagePath: DEFAULT_OG_IMAGE,
-      datePublished: "2026-09-11T00:00:00.000Z",
-      priceMinor: 89_000,
-      priceCurrency: "TRY",
-      lessons: [
-        { name: "Ders A", durationMin: 60 },
-        { name: "Ders B", durationMin: 30 },
-      ],
-    });
-    expect(course.timeRequired).toBe("PT1H30M");
-    const sections = course.syllabusSections as Array<{
-      hasPart: Array<{ timeRequired?: string }>;
-    }>;
-    expect(sections[0]?.hasPart[0]?.timeRequired).toBe("PT1H");
-    expect(sections[0]?.hasPart[1]?.timeRequired).toBe("PT30M");
-  });
-
   it("FAQPage ve ItemList JSON-LD basar; görünür FAQ ile aynı soruları taşır", () => {
     const home = readSrc("app/(public)/page.tsx");
-    const academy = readSrc("app/academy/page.tsx");
+    const academy = readSrc("archived/academy/app/page.tsx");
     const career = readSrc("app/career/page.tsx");
     const vize = readSrc("app/(public)/vize/page.tsx");
     expect(home).toContain("faqPageJsonLd");
@@ -801,28 +609,16 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
 
   it("hedef anahtar kelimeler H1/H2, gövde, meta ve FAQ’da durur", () => {
     expect(PAGE_SEO.home.title).toBe(PUBLIC_SEN.home.title);
-    expect(PAGE_SEO.academy.title).toBe("Akademi eğitim kataloğu");
-    expect(PAGE_SEO.academy.title).not.toBe(ACADEMY_SEN.catalog.title);
     expect(PAGE_SEO.career.title.toLocaleLowerCase("tr")).toContain("yetkincv");
-    expect(ACADEMY_SEN.catalog.title).toBe("Yetkin.ai Uygulama & Uzmanlık Rehberi");
-    // P1 tedavi: anahtar kelime yığını vitrin gövdesinden çıktı. SEO niyeti meta
-    // açıklamasında ve SSS'te durur; gövde paragrafı ürün cümlesidir.
-    expect(PAGE_SEO.academy.description.toLocaleLowerCase("tr")).toContain("yapay zeka eğitimi");
-    expect(PAGE_SEO.academy.description.toLocaleLowerCase("tr")).toContain("online kurs");
-    expect(ACADEMY_SEN.catalog.description.toLocaleLowerCase("tr")).not.toContain("yayındadır");
+    // Kapalı Akademi meta girdisi silindi (SEO Tedavi P0): basan sayfa yok.
+    expect("academy" in PAGE_SEO).toBe(false);
     expect(CAREER_SEN.eyebrow.toLocaleLowerCase("tr")).toContain("yetkincv");
     expect(CAREER_SEN.title.toLocaleLowerCase("tr")).toContain("yetkinliğini");
     expect(PUBLIC_SEN.home.chainTitle.toLocaleLowerCase("tr")).toContain("dört adım");
     expect(readSrc("app/(public)/page.tsx")).toContain("<h2");
     expect(readSrc("app/(public)/page.tsx")).toContain("home-chain-heading");
     expect(readSrc("app/(public)/page.tsx")).toContain("home-tracks-heading");
-    expect(readSrc("components/academy/course-list.tsx")).toContain("copy.boardTitle");
-    expect(PAGE_SEO.academy.image).toBe(DEFAULT_OG_IMAGE);
     expect(PAGE_SEO.career.image).toBe(DEFAULT_OG_IMAGE);
-    expect(pageMetadata(PAGE_SEO.academy).openGraph).toMatchObject({
-      title: PAGE_SEO.academy.title,
-      description: PAGE_SEO.academy.description,
-    });
     expect(pageMetadata(PAGE_SEO.career).openGraph).toMatchObject({
       title: PAGE_SEO.career.title,
       description: PAGE_SEO.career.description,
@@ -839,14 +635,6 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
       PAGE_SEO.home.description,
       ...HOME_LANDING_FAQ.flatMap((row) => [row.question, row.answer]),
     ]);
-    const academyText = haystack([
-      ACADEMY_SEN.catalog.title,
-      ACADEMY_SEN.catalog.description,
-      ACADEMY_SEN.catalog.boardTitle,
-      PAGE_SEO.academy.title,
-      PAGE_SEO.academy.description,
-      ...ACADEMY_LANDING_FAQ.flatMap((row) => [row.question, row.answer]),
-    ]);
     const careerText = haystack([
       CAREER_SEN.title,
       CAREER_SEN.description,
@@ -859,7 +647,7 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
       ...CAREER_LANDING_FAQ.flatMap((row) => [row.question, row.answer]),
       ...VIZE_LANDING_FAQ.flatMap((row) => [row.question, row.answer]),
     ]);
-    // Kök layout aktif ürün niyetleri; kapalı Akademi antre ayrı SSOT.
+    // Kök layout aktif ürün niyetlerini taşır; kapalı Akademi niyeti köke sızmaz.
     expect(SEM_LANDING_KEYWORDS).toEqual([
       "yapay zeka iş araçları",
       "kobi yapay zeka",
@@ -867,18 +655,6 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
       "kosgeb hibe bulucu",
       "yapay zeka belge oluşturucu",
       "aday değerlendirme testi",
-    ]);
-    expect(OFFICE_AI_SEM_KEYWORDS).toEqual([
-      "excel yapay zeka eğitimi",
-      "ofiste chatgpt",
-      "word yapay zeka",
-      "yapay zeka sertifikasi",
-      "iş hayatında yapay zekâ",
-      "excel'de temiz veri",
-      "gmail'de yerleşik gemini",
-      "word ataş ile belge analizi",
-      "kvkk maskeleme",
-      "haftalık cuma rutini",
     ]);
     expect(readSrc("app/layout.tsx")).toContain("SEM_LANDING_KEYWORDS");
     expect(readSrc("app/layout.tsx")).not.toContain("OFFICE_AI_SEM_KEYWORDS");
@@ -894,29 +670,10 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
     expect(careerText).toContain("doğrulanabilir");
     expect(careerText).not.toContain("sha-256");
     expect(CAREER_SEN.hashLabel.toLocaleLowerCase("tr")).toContain("sha-256");
+    // Kapalı Akademi niyetleri kök keywords listesine sızmaz.
     expect(SEM_LANDING_KEYWORDS).not.toContain("yapay zeka eğitimi");
     expect(SEM_LANDING_KEYWORDS).not.toContain("online kurs");
     expect(SEM_LANDING_KEYWORDS).not.toContain("excel yapay zeka eğitimi");
-    // Kapalı Akademi meta kendi yüzeyinde kalır; kök keywords listesine sızmaz.
-    expect(academyText).toContain("yapay zeka eğitimi");
-    expect(academyText).toContain("online kurs");
-    const officeAiText = haystack([
-      OFFICE_AI_SEO.title,
-      OFFICE_AI_SEO.description,
-      OFFICE_AI_SEO.h1,
-      ...OFFICE_AI_SEO.keywords,
-      OFFICE_AI_FAQ_HEADING,
-      ...OFFICE_AI_COURSE_FAQ.flatMap((row) => [row.question, row.answer]),
-      ...Object.values(OFFICE_AI_LESSON_TEASERS),
-      readSrc("lib/academy/catalog-summaries.ts"),
-      readSrc("components/academy/office-ai-guide-preview.tsx"),
-      readSrc("app/academy/[slug]/page.tsx"),
-    ]);
-    for (const keyword of OFFICE_AI_SEM_KEYWORDS) {
-      expect(officeAiText, `office_ai antre ← ${keyword}`).toContain(keyword);
-    }
-    expect(officeAiText).not.toContain("excel gemini");
-    expect(officeAiText).not.toContain("office ai eğitimi");
   });
 
   it("Purchase/Register dönüşüm kancası birinci taraftır; komut dosyası yüklenmez", () => {
@@ -926,8 +683,8 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
       form: "generate_lead",
     });
     expect(SEM_CONVERSION_EVENT).toBe("yetkin:conversion");
-    expect(readSrc("components/academy/purchase-button.tsx")).toContain("trackPurchase(");
-    expect(readSrc("components/academy/purchase-button.tsx")).not.toContain('emitSemConversion("purchase"');
+    expect(readSrc("archived/academy/components/purchase-button.tsx")).toContain("trackPurchase(");
+    expect(readSrc("archived/academy/components/purchase-button.tsx")).not.toContain('emitSemConversion("purchase"');
     expect(readSrc("components/auth/register-form.tsx")).toContain('emitSemConversion("register")');
     expect(readSrc("lib/kernel/sem/conversion.ts")).not.toContain("dataLayer.push");
     expect(readSrc("app/api/academy/courses/[id]/purchase/route.ts")).toContain('event: "sem.conversion"');
@@ -939,502 +696,60 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
   });
 });
 
-describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
-  it("amiral title/description/H1 niyet dilindedir; final title 65 karakteri aşmaz", () => {
-    expect(OFFICE_AI_SEO.slug).toBe("01_office_ai");
-    expect(OFFICE_AI_SEO.path).toBe("/academy/01_office_ai");
-    expect(OFFICE_AI_SEO.title).toBe(
-      "İş Hayatında Yapay Zekâ: Excel ve E-Posta | yetkin.ai",
-    );
-    expect(OFFICE_AI_SEO.title.length).toBeGreaterThanOrEqual(50);
-    expect(OFFICE_AI_SEO.title.length).toBeLessThanOrEqual(60);
-    expect(OFFICE_AI_SEO.description).toBe(
-      "İş hayatında yapay zekâ ve Copilot kullanımı: Excel formülleri, yönetim özeti, Gmail Gemini ve KVKK e-postası. 8 derste pratik beceri ve sertifika.",
-    );
-    expect(OFFICE_AI_SEO.h1).toBe("İş Hayatında Yapay Zekâ: Excel'den E-Postaya 8 Ders");
-    expect(OFFICE_AI_SEO.keywords).toEqual([
-      "iş hayatında yapay zeka",
-      "excel yapay zeka",
-      "office copilot eğitimi",
-      "yapay zeka sertifikası",
-      "prompt mühendisliği office",
-    ]);
-    expect(OFFICE_AI_SEO.description).toMatch(/Copilot kullanımı/u);
-    expect(OFFICE_AI_SEO.description).toMatch(/Excel formülleri/u);
-    expect(OFFICE_AI_SEO.description).toMatch(/yönetim özeti/u);
-    expect(OFFICE_AI_SEO.description).toMatch(/Gmail Gemini/u);
-    expect(OFFICE_AI_SEO.description).toMatch(/KVKK/u);
-    expect(OFFICE_AI_SEO.description).not.toMatch(/Excel Gemini/u);
-    expect(OFFICE_AI_SEO.description).not.toMatch(/Office AI/u);
-    const officeMeta = pageMetadata({
-      title: OFFICE_AI_SEO.title,
-      description: OFFICE_AI_SEO.description,
-      path: OFFICE_AI_SEO.path,
-      keywords: OFFICE_AI_SEO.keywords,
-    });
-    expect(officeMeta.title).toEqual({ absolute: OFFICE_AI_SEO.title });
-    expect(officeMeta.title).not.toBe(TITLE_TEMPLATE.replace("%s", OFFICE_AI_SEO.title));
-    expect(OFFICE_AI_SEO.description.length).toBeLessThanOrEqual(160);
-    expect(OFFICE_AI_SEO.h1).not.toBe(OFFICE_AI_SEO.title);
-
-    const page = readSrc("app/academy/[slug]/page.tsx");
-    expect(page).toContain("academyCourseSeoOverride");
-    expect(page).toContain("academyCourseTeachesForSlug");
-    expect(page).toContain("OFFICE_AI_SEO");
-    expect(page).toContain("seo?.title");
-    expect(page).toContain("seo?.description");
-    expect(page).toContain("seo?.h1");
-    expect(page).toContain("seo?.keywords");
-    expect(page).toContain("educationalOccupationalProgramJsonLd");
-    const seoSrc = readSrc("lib/copy/seo.ts");
-    expect(seoSrc).toContain("OFFICE_AI_ILERI_SEO");
-    expect(seoSrc).toContain("ECOMMERCE_AI_SEO");
-    expect(seoSrc).toContain("SOCIAL_MEDIA_AI_SEO");
-    expect(seoSrc).toContain("CHATBOT_NOCODE_SEO");
-    expect(seoSrc).toContain("PROMPT_PRACTICE_SEO");
-    // Sicil başlığı breadcrumb'da durur. Course `name` arama title'ıdır.
-    expect(page).toContain("label={board.course.title}");
-    expect(page).toContain("title: board.course.title");
-    expect(page).toContain("title: seo?.title ?? board.course.title");
-  });
-
-  it("altı antre arama başlığı ve açıklaması sicille aynı SERP bandındadır", () => {
-    for (const seo of [
-      OFFICE_AI_SEO,
-      OFFICE_AI_ILERI_SEO,
-      ECOMMERCE_AI_SEO,
-      SOCIAL_MEDIA_AI_SEO,
-      CHATBOT_NOCODE_SEO,
-      PROMPT_PRACTICE_SEO,
-    ]) {
-      const row = courseRegistryBySlug(seo.slug);
-      expect(row?.seo?.title).toBe(seo.title);
-      expect(row?.seo?.description).toBe(seo.description);
-      expect(row?.seo?.h1).toBe(seo.h1);
-      expect(row?.title.length ?? 0).toBeLessThanOrEqual(55);
-      expect(row?.title.includes("(")).toBe(false);
-      expect(row?.summary.length ?? 0).toBeLessThanOrEqual(140);
-      expect(seo.title.length).toBeGreaterThanOrEqual(50);
-      expect(seo.title.length).toBeLessThanOrEqual(60);
-      expect(seo.description.length).toBeLessThanOrEqual(160);
-      const meta = pageMetadata({
-        title: seo.title,
-        description: seo.description,
-        path: seo.path,
-      });
-      expect(meta.title).toEqual({ absolute: seo.title });
-      expect(meta.description).toBe(seo.description);
-    }
-  });
-
-  it("OFF-201 title/description/H1 indekslenir; LearningResource ders düğümü Course altına bağlanır", () => {
-    expect(OFFICE_AI_ILERI_SEO.slug).toBe("01_office_ai_ileri");
-    expect(OFFICE_AI_ILERI_SEO.path).toBe("/academy/01_office_ai_ileri");
-    expect(academyCourseSeoOverride("01_office_ai")).toBe(OFFICE_AI_SEO);
-    expect(academyCourseSeoOverride("01_office_ai_ileri")).toBe(OFFICE_AI_ILERI_SEO);
-    expect(OFFICE_AI_ILERI_SEO.title).toBe(
-      "İleri Ofis Yapay Zekâ: Toplantı ve Denetim | yetkin.ai",
-    );
-    expect(OFFICE_AI_ILERI_SEO.title.length).toBeGreaterThanOrEqual(50);
-    expect(OFFICE_AI_ILERI_SEO.title.length).toBeLessThanOrEqual(60);
-    expect(OFFICE_AI_ILERI_SEO.description).toBe(
-      "İleri düzey yapay zekâ uygulamaları: Dört parçalı istem, toplantı notu analizi, uzun belge özetleme ve 3 dosyada sayı denetimi. İleri seviye ofis uzmanlığı.",
-    );
-    expect(OFFICE_AI_ILERI_SEO.keywords).toEqual([
-      "ileri ofis yapay zeka",
-      "toplantı notu yapay zeka",
-      "veri denetimi yapay zeka",
-      "ileri seviye prompt",
-    ]);
-    expect(OFFICE_AI_ILERI_SEO.description.length).toBeLessThanOrEqual(160);
-    expect(OFFICE_AI_ILERI_SEO.h1).not.toBe(OFFICE_AI_ILERI_SEO.title);
-    expect(OFFICE_AI_ILERI_SEO.description).toMatch(/Dört parçalı istem/u);
-    expect(OFFICE_AI_ILERI_SEO.description).toMatch(/3 dosyada sayı denetimi/u);
-
-    const course = courseJsonLd({
-      slug: OFFICE_AI_ILERI_SEO.slug,
-      title: "İleri Ofis Yapay Zekâ",
-      description: OFFICE_AI_ILERI_SEO.description,
-      imagePath: academyCourseCoverPath(OFFICE_AI_ILERI_SEO.slug) ?? DEFAULT_OG_IMAGE,
-      datePublished: "2026-09-26T12:00:00.000Z",
-      priceMinor: 129_000,
-      priceCurrency: "TRY",
-      lessons: [
-        { name: "Dört Parçalı İstem", durationMin: 8 },
-        { name: "Üç Dosyada Yan Yana Sayı Denetimi", durationMin: 8 },
-      ],
-    });
-    expect(course["@type"]).toBe("Course");
-    expect(course.url).toBe("https://yetkin.ai/academy/01_office_ai_ileri");
-    expect(course.image).toBe("https://yetkin.ai/academy/covers/01_office_ai_ileri.jpg");
-    const parts = course.hasPart as Array<{ "@type": string; name: string }>;
-    expect(parts[0]?.["@type"]).toBe("LearningResource");
-    expect(parts.map((part) => part.name)).toEqual([
-      "Dört Parçalı İstem",
-      "Üç Dosyada Yan Yana Sayı Denetimi",
-    ]);
-    const meta = pageMetadata({
-      title: OFFICE_AI_ILERI_SEO.title,
-      description: OFFICE_AI_ILERI_SEO.description,
-      path: OFFICE_AI_ILERI_SEO.path,
-      image: academyCourseCoverPath(OFFICE_AI_ILERI_SEO.slug) ?? DEFAULT_OG_IMAGE,
-      keywords: OFFICE_AI_ILERI_SEO.keywords,
-    });
-    expect(meta.alternates).toEqual({
-      canonical: "https://yetkin.ai/academy/01_office_ai_ileri",
-    });
-    expect(meta.title).toEqual({ absolute: OFFICE_AI_ILERI_SEO.title });
-    expect(meta.openGraph).toMatchObject({
-      url: "https://yetkin.ai/academy/01_office_ai_ileri",
-      title: OFFICE_AI_ILERI_SEO.title,
-      images: [{ url: "/academy/covers/01_office_ai_ileri.jpg", alt: OFFICE_AI_ILERI_SEO.title }],
-    });
-    expect(course.keywords).toEqual([...OFFICE_AI_ILERI_SEO.keywords]);
-    expect(course.name).toBe("İleri Ofis Yapay Zekâ");
-  });
-
-  it("EC-102 title, description, keywords, canonical ve Course şeması kilitlidir", () => {
-    expect(ECOMMERCE_AI_SEO.slug).toBe("02_ecommerce_ai");
-    expect(ECOMMERCE_AI_SEO.path).toBe("/academy/02_ecommerce_ai");
-    expect(academyCourseSeoOverride("02_ecommerce_ai")).toBe(ECOMMERCE_AI_SEO);
-    expect(ECOMMERCE_AI_SEO.title).toBe(
-      "E-Ticaret Yapay Zekâ: Trendyol ve Shopify | yetkin.ai",
-    );
-    expect(ECOMMERCE_AI_SEO.title.length).toBeGreaterThanOrEqual(50);
-    expect(ECOMMERCE_AI_SEO.title.length).toBeLessThanOrEqual(60);
-    expect(ECOMMERCE_AI_SEO.description).toBe(
-      "Trendyol, Hepsiburada, Amazon ve Shopify için ürün açıklaması, görsel, iade analizi ve mağaza mesajı. 6 derste e-ticaret yapay zekâ.",
-    );
-    expect(ECOMMERCE_AI_SEO.keywords).toEqual([
-      "e-ticaret yapay zeka",
-      "pazaryeri yapay zeka asistanı",
-      "trendyol ürün açıklaması yapay zeka",
-      "hepsiburada yapay zeka",
-      "e-ticaret seo prompt",
-    ]);
-    expect(ECOMMERCE_AI_SEO.description.length).toBeLessThanOrEqual(160);
-    expect(ECOMMERCE_AI_SEO.h1).not.toBe(ECOMMERCE_AI_SEO.title);
-    const course = courseJsonLd({
-      slug: ECOMMERCE_AI_SEO.slug,
-      title: ECOMMERCE_AI_SEO.title,
-      description: ECOMMERCE_AI_SEO.description,
-      imagePath: academyCourseCoverPath(ECOMMERCE_AI_SEO.slug) ?? DEFAULT_OG_IMAGE,
-      datePublished: "2026-09-30T12:00:00.000Z",
-      teaches: [...ECOMMERCE_AI_COURSE_TEACHES],
-    });
-    expect(course["@type"]).toBe("Course");
-    expect(course.name).toBe(ECOMMERCE_AI_SEO.title);
-    expect(course.description).toBe(ECOMMERCE_AI_SEO.description);
-    expect(course.url).toBe("https://yetkin.ai/academy/02_ecommerce_ai");
-    expect(course.keywords).toEqual([...ECOMMERCE_AI_SEO.keywords]);
-    expect(course.teaches).toEqual([...ECOMMERCE_AI_COURSE_TEACHES]);
-    expect(course.image).toBe("https://yetkin.ai/academy/cinema/02_ecommerce_ai-1-cue-1.jpg");
-    const meta = pageMetadata({
-      title: ECOMMERCE_AI_SEO.title,
-      description: ECOMMERCE_AI_SEO.description,
-      path: ECOMMERCE_AI_SEO.path,
-      image: academyCourseCoverPath(ECOMMERCE_AI_SEO.slug) ?? DEFAULT_OG_IMAGE,
-      keywords: ECOMMERCE_AI_SEO.keywords,
-    });
-    expect(meta.title).toEqual({ absolute: ECOMMERCE_AI_SEO.title });
-    expect(meta.alternates).toEqual({
-      canonical: "https://yetkin.ai/academy/02_ecommerce_ai",
-    });
-    expect(meta.openGraph).toMatchObject({
-      url: "https://yetkin.ai/academy/02_ecommerce_ai",
-      title: ECOMMERCE_AI_SEO.title,
-      description: ECOMMERCE_AI_SEO.description,
-      images: [
-        {
-          url: "/academy/cinema/02_ecommerce_ai-1-cue-1.jpg",
-          alt: ECOMMERCE_AI_SEO.title,
-        },
-      ],
-    });
-    expect(meta.twitter).toMatchObject({
-      card: "summary_large_image",
-      title: ECOMMERCE_AI_SEO.title,
-      images: ["/academy/cinema/02_ecommerce_ai-1-cue-1.jpg"],
-    });
-  });
-
-  it("SM-103, BOT-104 ve PR-105 title, açıklama, kart ve program şeması kilitlidir", () => {
-    const rows = [
-      {
-        seo: SOCIAL_MEDIA_AI_SEO,
-        teaches: SOCIAL_MEDIA_AI_COURSE_TEACHES,
-        cover: "/academy/cinema/03_social_media_ai-1-cue-1.jpg",
-        occupation: "Sosyal medya çalışanı",
-        priceMinor: 89_000,
-        price: "890",
-      },
-      {
-        seo: CHATBOT_NOCODE_SEO,
-        teaches: CHATBOT_NOCODE_COURSE_TEACHES,
-        cover: "/academy/cinema/04_chatbot_nocode-1-cue-1.jpg",
-        occupation: "Müşteri hizmetleri çalışanı",
-        priceMinor: 129_000,
-        price: "1290",
-      },
-      {
-        seo: PROMPT_PRACTICE_SEO,
-        teaches: PROMPT_PRACTICE_COURSE_TEACHES,
-        cover: "/academy/cinema/05_prompt_practice-1-cue-1.jpg",
-        occupation: "Bilgi çalışanı",
-        priceMinor: 129_000,
-        price: "1290",
-      },
-    ] as const;
-
-    for (const row of rows) {
-      expect(academyCourseSeoOverride(row.seo.slug)).toBe(row.seo);
-      expect(row.seo.title.endsWith(" | yetkin.ai")).toBe(true);
-      expect(row.seo.title.length).toBeGreaterThanOrEqual(50);
-      expect(row.seo.title.length).toBeLessThanOrEqual(60);
-      expect(row.seo.description.length).toBeLessThanOrEqual(160);
-      expect(row.seo.h1).not.toBe(row.seo.title);
-      expect(row.seo.keywords.length).toBeGreaterThan(0);
-      expect(academyCourseTeachesForSlug(row.seo.slug)).toEqual([...row.teaches]);
-      expect(academyOccupationalCategory(row.seo.slug)).toBe(row.occupation);
-      expect(academyCourseCoverPath(row.seo.slug)).toBe(row.cover);
-
-      const meta = pageMetadata({
-        title: row.seo.title,
-        description: row.seo.description,
-        path: row.seo.path,
-        image: row.cover,
-        keywords: row.seo.keywords,
-      });
-      expect(meta.title).toEqual({ absolute: row.seo.title });
-      expect(meta.alternates).toEqual({ canonical: `https://yetkin.ai${row.seo.path}` });
-      expect(meta.keywords).toEqual([...row.seo.keywords]);
-      expect(meta.openGraph).toMatchObject({
-        url: `https://yetkin.ai${row.seo.path}`,
-        title: row.seo.title,
-        description: row.seo.description,
-        images: [{ url: row.cover, alt: row.seo.title }],
-      });
-      expect(meta.twitter).toMatchObject({
-        card: "summary_large_image",
-        title: row.seo.title,
-        images: [row.cover],
-      });
-
-      const course = courseJsonLd({
-        slug: row.seo.slug,
-        title: row.seo.title,
-        description: row.seo.description,
-        imagePath: row.cover,
-        datePublished: "2026-10-03T20:04:00.000Z",
-        priceMinor: row.priceMinor,
-        priceCurrency: "TRY",
-      });
-      expect(course["@type"]).toBe("Course");
-      expect(course.teaches).toEqual([...row.teaches]);
-      expect(course.keywords).toEqual([...row.seo.keywords]);
-      expect(course.image).toBe(`https://yetkin.ai${row.cover}`);
-
-      const program = educationalOccupationalProgramJsonLd({
-        slug: row.seo.slug,
-        name: row.seo.h1,
-        description: row.seo.description,
-        imagePath: row.cover,
-        durationMin: 34,
-        priceMinor: row.priceMinor,
-        priceCurrency: "TRY",
-      });
-      expect(program["@type"]).toBe("EducationalOccupationalProgram");
-      expect(program["@id"]).toBe(`https://yetkin.ai${row.seo.path}#program`);
-      expect(program.hasCourse).toEqual({ "@id": `https://yetkin.ai${row.seo.path}#course` });
-      expect(program.occupationalCategory).toBe(row.occupation);
-      expect(program.offers).toMatchObject({ price: row.price, priceCurrency: "TRY" });
-    }
-  });
-
-  it("kursa özel SSS görünür HTML ile FAQPage JSON-LD'de birebir aynı metni taşır", () => {
-    expect(OFFICE_AI_COURSE_FAQ).toHaveLength(5);
-    expect(OFFICE_AI_COURSE_FAQ.map((row) => row.question)).toEqual([
-      "Excel yapay zeka eğitimi sertifika veriyor mu?",
-      "ChatGPT ofis kullanımı için ön koşul var mı?",
-      "KVKK'ya uygun mu? Verilerim güvende mi?",
-      "Sınav barajı ve süresi nedir?",
-      "Excel veya Word'e harici yapay zekâ eklentisi (Add-in) kurmayı öğretiyor musunuz?",
-    ]);
-    const page = readSrc("app/academy/[slug]/page.tsx");
-    expect(page).toContain("OFFICE_AI_COURSE_FAQ");
-    expect(page).toContain("faqPageJsonLd");
-    expect(page).toContain("LandingFaq");
-    expect(page).toContain("OFFICE_AI_FAQ_HEADING");
-    expect(page).toContain("faqPageJsonLd(OFFICE_AI_COURSE_FAQ)");
-    expect(page).toContain("items={OFFICE_AI_COURSE_FAQ}");
-
-    const faq = faqPageJsonLd(OFFICE_AI_COURSE_FAQ);
-    const entities = faq.mainEntity as Array<{
-      name: string;
-      acceptedAnswer: { text: string };
-    }>;
-    expect(entities).toHaveLength(5);
-    entities.forEach((entity, index) => {
-      expect(entity["@type"]).toBe("Question");
-      expect(entity.name).toBe(OFFICE_AI_COURSE_FAQ[index]?.question);
-      expect(entity.acceptedAnswer.text).toBe(OFFICE_AI_COURSE_FAQ[index]?.answer);
-    });
-  });
-
-  it("rehber bloğu SSR'dir, 1000+ kelimedir ve duvarı delmez", () => {
-    const page = readSrc("app/academy/[slug]/page.tsx");
-    expect(page).toContain("OfficeAiGuidePreview");
-    expect(page).toContain("<OfficeAiGuidePreview />");
-    const guide = readSrc("components/academy/office-ai-guide-preview.tsx");
-    expect(guide).not.toContain("use client");
-    expect(guide).not.toContain("useState");
-    expect(guide).not.toContain("useEffect");
-    for (const h2 of [
-      "Excel yapay zeka eğitimi",
-      "Ofiste ChatGPT kullanımı",
-      "Word yapay zeka",
-      "70+ baraj nasıl geçilir?",
-    ]) {
-      expect(guide, h2).toContain(h2);
-    }
-    const text = [
-      guide
-        .replace(/\/\*\*[\s\S]*?\*\//, "")
-        .replace(/\{" "\}/g, " ")
-        .replace(/<[^>]*>/g, " ")
-        .replace(/&[a-z]+;/g, " "),
-      OFFICE_AI_SEAL_PROOF,
-    ].join(" ");
-    const words = text.split(/\s+/u).filter(Boolean);
-    expect(words.length).toBeGreaterThanOrEqual(1000);
-    expect(guide).toContain("OFFICE_AI_SEAL_PROOF");
-    expect(guide).not.toMatch(/A1 eşiği/u);
-    expect(guide).toMatch(/A1 kuralı/u);
-    expect(guide).not.toMatch(/KVKK-safe/u);
-    expect(OFFICE_AI_COURSE_FAQ[2]?.answer).toMatch(/hukuki danışmanlık yerine geçmez/u);
-    expect(OFFICE_AI_COURSE_FAQ[2]?.answer).not.toMatch(/KVKK-safe/u);
-    // Duvar beyanı: tam gövde/ses/sınav kapalı kalır.
-    expect(guide).toContain("satın alma sonrasında açılır");
-  });
-
-  it("şema müfredat yedeği lesson-index SSOT'u ile birebir örtüşür", () => {
-    const syllabus = curriculumSyllabusForCourseSlug("01_office_ai");
-    expect(syllabus.lessonCount).toBe(8);
-    expect(syllabus.lessons.map((lesson) => lesson.title)).toEqual(
-      OFFICE_AI_SYLLABUS_LESSONS.map((lesson) => lesson.name),
-    );
-    expect(OFFICE_AI_COURSE_TEACHES).toHaveLength(9);
-    expect(Object.keys(OFFICE_AI_LESSON_TEASERS)).toEqual(
-      syllabus.lessons.map((lesson) => lesson.key),
-    );
-    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-1"]).toMatch(/Excel Copilot ve Ataş Yöntemi/u);
-    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-1"]).toMatch(/A1 Düzeni ve Temiz Veri/u);
-    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-2"]).toMatch(/Yönetim özetine dönüştürme/u);
-    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-1"]).toMatch(/Copilot/u);
-    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-k1"]).toMatch(/KVKK maskeleme/u);
-    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-g1"]).toMatch(/Gmail'de yerleşik Gemini/u);
-    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-w1"]).toMatch(/Word belgesi inceleme/u);
-    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-w1"]).toMatch(/Word ataş ile belge analizi/u);
-    expect(OFFICE_AI_LESSON_TEASERS["01_office_ai-6"]).toMatch(/Haftalık Cuma rutini/u);
-    expect(readSrc("components/academy/curriculum-outline.tsx")).toContain(
+describe("SEO Tedavi (P0) — ölü kurs yüzeyi kapandı", () => {
+  it("kurs SEO sabitleri, JSON-LD halkası ve ilişkili SSS kaldırıldı", async () => {
+    // Modül export yüzeyi denetlenir: yorum satırı kalan adı taşıyabilir ama API taşımaz.
+    const seoModule = await import("@/lib/copy/seo");
+    for (const needle of [
+      "OFFICE_AI_SEO",
+      "OFFICE_AI_ILERI_SEO",
+      "ECOMMERCE_AI_SEO",
+      "SOCIAL_MEDIA_AI_SEO",
+      "CHATBOT_NOCODE_SEO",
+      "PROMPT_PRACTICE_SEO",
+      "academyCourseSeoOverride",
       "OFFICE_AI_LESSON_TEASERS",
-    );
+      "ECOMMERCE_AI_PUBLIC_PATH",
+    ]) {
+      expect(needle in seoModule, needle).toBe(false);
+    }
+    const jsonLdModule = await import("@/lib/copy/json-ld");
+    for (const needle of [
+      "courseJsonLd",
+      "educationalOccupationalProgramJsonLd",
+      "academyCourseBreadcrumbs",
+    ]) {
+      expect(needle in jsonLdModule, needle).toBe(false);
+    }
+    // `/academy` meta girdisi yok: diskte sayfa yok, kenar 410.
+    expect("academy" in PAGE_SEO).toBe(false);
+    expect("academyAdvanced" in PAGE_SEO).toBe(false);
+    expect("academyVerify" in PAGE_SEO).toBe(false);
   });
 
-  it("T-01 kamu kopyası Excel Gemini / Office AI taşımaz; mühürlü kapıları taşır", () => {
-    const publicCopy = [
-      OFFICE_AI_SEO.title,
-      OFFICE_AI_SEO.description,
-      OFFICE_AI_SEO.h1,
-      ...OFFICE_AI_SEO.keywords,
-      OFFICE_AI_FAQ_HEADING,
-      ...OFFICE_AI_COURSE_FAQ.flatMap((row) => [row.question, row.answer]),
-      ...Object.values(OFFICE_AI_LESSON_TEASERS),
-      ACADEMY_CATALOG_SUMMARIES["01_office_ai"],
-    ].join("\n");
-    expect(publicCopy).not.toMatch(/Excel Gemini/iu);
-    expect(publicCopy).not.toMatch(/Office AI/iu);
-    expect(publicCopy).toMatch(/Excel Copilot ve Ataş Yöntemi/u);
-    expect(publicCopy).toMatch(/A1 Düzeni ve Temiz Veri/u);
-    expect(publicCopy).toMatch(/yönetim özetine dönüştürme/u);
-    expect(publicCopy).toMatch(/Copilot/u);
-    expect(publicCopy).toMatch(/Gmail'de yerleşik Gemini/u);
-    expect(publicCopy).toMatch(/Word belgesi inceleme/u);
-    expect(publicCopy).toMatch(/KVKK maskeleme/u);
-    expect(publicCopy).toMatch(/haftalık Cuma rutini/iu);
-  });
-
-  it("T-02 kamu kopyası mührü izleme + baraj olarak tanımlar; sunucu dosya kontrolü vaat etmez", () => {
-    expect(OFFICE_AI_SEAL_PROOF).toMatch(/8 dersin eksiksiz izlenmesi/u);
-    expect(OFFICE_AI_SEAL_PROOF).toMatch(/baraj sınavında %70/u);
-    expect(OFFICE_AI_SEAL_PROOF).toMatch(/sunucuda dosya kontrolü yapılmaz/u);
-    expect(OFFICE_AI_SEAL_PROOF_SHORT).toBe(
-      "Sertifika: 8 ders + 10 soru / 70. Sunucuda dosya kontrolü yok.",
-    );
-    expect(OFFICE_AI_SEO.description).toMatch(/8 derste pratik beceri ve sertifika/u);
-    expect(OFFICE_AI_SEO.description).not.toMatch(/sunucuda dosya kontrolü yapılır/iu);
-    expect(OFFICE_AI_SEO.description.length).toBeLessThanOrEqual(160);
-    expect(ACADEMY_CATALOG_SUMMARIES["01_office_ai"]).toContain(OFFICE_AI_SEAL_PROOF_SHORT);
-    expect(OFFICE_AI_COURSE_FAQ[0]?.answer).toContain(OFFICE_AI_SEAL_PROOF);
-    expect(OFFICE_AI_COURSE_FAQ[3]?.answer).toMatch(/sunucuda kontrol etmez/u);
-    expect(readSrc("components/academy/office-ai-guide-preview.tsx")).toContain(
-      "OFFICE_AI_SEAL_PROOF",
-    );
-
-    const publicCopy = [
-      OFFICE_AI_SEO.title,
-      OFFICE_AI_SEO.description,
-      OFFICE_AI_SEO.h1,
-      ...OFFICE_AI_SEO.keywords,
-      OFFICE_AI_FAQ_HEADING,
-      ...OFFICE_AI_COURSE_FAQ.flatMap((row) => [row.question, row.answer]),
-      ...Object.values(OFFICE_AI_LESSON_TEASERS),
-      ACADEMY_CATALOG_SUMMARIES["01_office_ai"],
-      OFFICE_AI_SEAL_PROOF,
-    ].join("\n");
-    expect(publicCopy).not.toMatch(/iş kanıtı/iu);
-    expect(publicCopy).not.toMatch(/sunucuda dosya kontrolü yapılır/iu);
-    expect(publicCopy).not.toMatch(/dosya(?:sı|sını)? sunucuda (?:doğrulanır|kontrol edilir)/iu);
-    expect(publicCopy).toMatch(/sunucuda dosya kontrolü yapılmaz/u);
-    expect(publicCopy).toMatch(/Sunucuda dosya kontrolü yok/u);
-  });
-
-  it("EducationalOccupationalProgram JSON-LD Course düğümüne bağlanır", () => {
-    const program = educationalOccupationalProgramJsonLd({
-      slug: "01_office_ai",
-      name: "İş Hayatında ve Ofiste Yapay Zekâ",
-      description: OFFICE_AI_SEO.description,
-      imagePath: academyCourseCoverPath("01_office_ai") ?? DEFAULT_OG_IMAGE,
-      durationMin: 84,
-      priceMinor: 89_000,
-      priceCurrency: "TRY",
+  it("kalan canlı şema: Organization, FAQ, ItemList, Article, Junior Course", () => {
+    // Doğrudan çağrılabilirlik (metin arama değil, canlı export).
+    for (const live of [
+      organizationJsonLd,
+      itemListJsonLd,
+      faqPageJsonLd,
+      breadcrumbListJsonLd,
+      legalSectionBreadcrumbs,
+      jsonLdDocument,
+      siteGraphJsonLd,
+    ]) {
+      expect(typeof live).toBe("function");
+    }
+    const course = juniorOnlineCourseJsonLd({
+      name: "Üslü ifade",
+      description: "Üslü ifade tanımı.",
+      path: "/junior/ders/jr_06_mat-1",
+      isAccessibleForFree: true,
     });
-    expect(program).toMatchObject({
-      "@type": "EducationalOccupationalProgram",
-      "@id": "https://yetkin.ai/academy/01_office_ai#program",
-      url: "https://yetkin.ai/academy/01_office_ai",
-      educationalProgramMode: "online",
-      occupationalCategory: "Ofis çalışanı",
-      timeToComplete: "PT1H24M",
-      hasCourse: { "@id": "https://yetkin.ai/academy/01_office_ai#course" },
-      offers: {
-        "@type": "Offer",
-        category: "Paid",
-        price: "890",
-        priceCurrency: "TRY",
-      },
-    });
-    expect(program.educationalCredentialAwarded).toMatchObject({
-      "@type": "EducationalOccupationalCredential",
-      name: "yetkin.ai Ofis Yapay Zekâ Sertifikası",
-    });
-    const officeMeta = pageMetadata({
-      title: OFFICE_AI_SEO.title,
-      description: OFFICE_AI_SEO.description,
-      path: OFFICE_AI_SEO.path,
-      keywords: OFFICE_AI_SEO.keywords,
-    });
-    expect(officeMeta.keywords).toEqual([...OFFICE_AI_SEO.keywords]);
+    expect(course["@type"]).toBe("Course");
+    expect(readSrc("app/(public)/sozluk/[terim]/page.tsx")).toContain("guideArticleJsonLd");
+    expect(readSrc("app/(public)/rehber/[slug]/page.tsx")).toContain("guideArticleJsonLd");
+    expect(readSrc("app/junior/page.tsx")).toContain("juniorLandingJsonLd");
   });
 
   it("sertifika sicil sayfası noindex+follow; oynatıcı noindex giyer", () => {
@@ -1444,15 +759,24 @@ describe("SEO Tedavi — 01_office_ai amiral operasyonu", () => {
       description: "SHA-256 sicil bütünlük kaydı.",
     });
     expect(meta.robots).toEqual({ index: false, follow: true });
-    const player = readSrc("app/academy/[slug]/oyna/page.tsx");
+    const player = readSrc("archived/academy/app/[slug]/oyna/page.tsx");
     expect(player).toContain("index: false");
     expect(player).toContain("generateMetadata");
     expect(player).toContain("/oyna");
-    const exitKit = readSrc("app/academy/[slug]/cikis-paketi/page.tsx");
+    const exitKit = readSrc("archived/academy/app/[slug]/cikis-paketi/page.tsx");
     expect(exitKit).toContain("index: false");
     expect(exitKit).toContain("generateMetadata");
     expect(exitKit).toContain("/cikis-paketi");
     expect(exitKit).toContain("OfficeAiExitKit");
     expect(exitKit).toContain("requirePageSession");
+  });
+
+  it("vize derinliği: bulunamayan kart noindex+follow döner (soft-404 kapanır)", () => {
+    const vize = readSrc("app/(public)/vize/[id]/page.tsx");
+    expect(vize).toContain("MISSING_CARD_ROBOTS");
+    expect(vize).toContain("index: false");
+    expect(vize).toContain("follow: true");
+    // Bulunan kart dalı robots taşımaz; indeks açık kalır.
+    expect(vize).toContain("robots: MISSING_CARD_ROBOTS");
   });
 });

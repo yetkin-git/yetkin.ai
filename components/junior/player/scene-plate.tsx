@@ -67,6 +67,13 @@ export function JuniorScenePlate({
         />
       ) : null}
       {mode === "image" && imageSrc ? (
+        /*
+          Öğretim karesi CDN'de ya da yerel `/public` altındadır; `next/image`
+          optimize kopyası üretmek yerine kaynağı doğrudan basarız — kare
+          `preload="auto"` videosuyla aynı kareyi taşır ve `onError` ile vektör
+          sahneye düşer (Next Image hata kancası bu davranışı vermez).
+        */
+        /* eslint-disable-next-line @next/next/no-img-element */
         <img
           key={imageSrc}
           src={imageSrc}

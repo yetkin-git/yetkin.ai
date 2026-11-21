@@ -36,9 +36,9 @@ export type PassportBoard = {
 /** Pasaport mühür motoru — yüzey `/pasaport`, tip İngilizce (S8-A). */
 export const PASSPORT_SURFACE_PATH = "/pasaport" as const;
 export const CAREER_STAMP_SURFACE_PATH = "/career" as const;
-/** Kapalı akademi antresi. Damga ve ders bağı kariyer masasına iner. */
+/** Canlı kanıt masası. Damga Kariyer (/career) üzerinden okunur. */
 export const ACADEMY_STAMP_SURFACE_PATH = "/career" as const;
-/** Kapalı sertifika rafı. Kamu doğrulama vize adresindedir. */
+/** Kamu kanıt dizini. Tekil kanıt `/vize/[id]` adresindedir. */
 export const ACADEMY_CERTIFICATES_SURFACE_PATH = "/vize" as const;
 export const FREELANCER_STAMP_SURFACE_PATH = "/freelancer" as const;
 export const FREELANCER_CONTRACT_SURFACE_PATH = "/freelancer/contracts" as const;

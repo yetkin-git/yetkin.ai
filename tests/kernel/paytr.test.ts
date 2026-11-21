@@ -349,6 +349,24 @@ describe("PayTR port", () => {
     expect(buildPaytrMerchantBrowserReturnUrl("https://yetkin.ai/")).toBe(
       "https://yetkin.ai/cuzdan",
     );
+    // CRO (P0): masa + merchant_oid dönüş adresine yazılır.
+    expect(buildPaytrMerchantBrowserReturnUrl("https://yetkin.ai/", "e-ticaret")).toBe(
+      "https://yetkin.ai/cuzdan?masa=e-ticaret",
+    );
+    expect(buildPaytrMerchantBrowserReturnUrl("https://yetkin.ai", "tezgah", "TZP0123456789AB")).toBe(
+      "https://yetkin.ai/cuzdan?masa=tezgah&merchant_oid=TZP0123456789AB",
+    );
+    // Nötr masa (`cuzdan`) sorgu yazmaz; tanınmayan masa da yazmaz.
+    expect(buildPaytrMerchantBrowserReturnUrl("https://yetkin.ai", "cuzdan")).toBe(
+      "https://yetkin.ai/cuzdan",
+    );
+    expect(buildPaytrMerchantBrowserReturnUrl("https://yetkin.ai", "uydurma")).toBe(
+      "https://yetkin.ai/cuzdan",
+    );
+    // Bozuk merchant_oid adrese sızmaz (açık parametre enjeksiyonu yok).
+    expect(buildPaytrMerchantBrowserReturnUrl("https://yetkin.ai", "tezgah", "kötü oid")).toBe(
+      "https://yetkin.ai/cuzdan?masa=tezgah",
+    );
     expect(buildPaytrIframeUrl("tok+en=")).toBe("https://www.paytr.com/odeme/guvenli/tok+en=");
     expect(buildPaytrIframeUrl("tok+en=")).not.toContain("%2B");
 

@@ -3,32 +3,32 @@ export const PASAPORT_SEN = {
   eyebrow: "Uzmanlık Portföyü",
   title: "Uzmanlık Portföyü",
   description:
-    "Doğrulanmış Freelancer Rozeti burada listelenir. Salt okunur — rozet eklenmez. Teklif Kapısı Kariyer’de açılır.",
+    "YetkinCV Onaylı Yetenek Rozeti burada listelenir. Salt okunur — rozet eklenmez. Teklif Kapısı Kariyer’de açılır.",
   auth: "Uzmanlık Portföyü oturum ister. Sahte rozet basılmaz.",
   /** Sicil okunamadığında vatandaşa dürüst, gürültüsüz mesaj — geliştirici rozeti yok. */
   loadSoft: "Sicil şu an okunamadı. Biraz sonra yenile; uydurma rozet basılmaz.",
   stats: {
-    totalLabel: "Doğrulanmış Freelancer Rozeti",
+    totalLabel: "YetkinCV Onaylı Yetenek Rozeti",
     totalHintLive: "Toplam rozet",
     totalHintPending: "Bağlanınca sicil dolar",
     guest: "Oturum yok",
     latestLabel: "Son rozet",
-    latestHintLive: "Son Doğrulanmış Freelancer Rozeti",
+    latestHintLive: "Son YetkinCV Onaylı Yetenek Rozeti",
     latestHintEmpty: "Uydurma başlık yok",
     sourceLabel: "Kaynak",
-    sourceHint: "Akademi sınavı kökeni",
+    sourceHint: "YetkinCV ve kamu kanıtı",
     waiting: "Bekleniyor",
   },
   honestyTitle: "Salt okunur portföy",
   honestyBody:
-    "Bu sayfada rozet ekleme veya düzenleme formu yoktur. Sertifika Akademi sınavından doğar; Kariyer rozeti basar. Uzmanlık Portföyü yalnız kanıt listesidir.",
+    "Bu sayfada rozet ekleme veya düzenleme formu yoktur. YetkinCV puanı Kariyer (/career) sayfasında oluşur. Kamu kanıtı /vize/[id] adresindedir. Uzmanlık Portföyü yalnız kanıt listesidir.",
   list: {
-    title: "Doğrulanmış Freelancer Rozeti",
+    title: "YetkinCV Onaylı Yetenek Rozeti",
     eyebrow: "Salt okunur sicil",
     intro:
-      "Akademi sertifikaları burada listelenir. Rozeti Kariyer basar; bu defter yalnız taşır.",
+      "YetkinCV puanı ve kamu kanıtı burada listelenir. Rozeti Kariyer basar; bu defter yalnız taşır.",
     empty:
-      "Henüz rozet yok. Akademi sertifikası Kariyer sayfasında Doğrulanmış Freelancer Rozetine dönüşür; uydurma rozet basılmaz.",
+      "Henüz rozet yok. YetkinCV puanı Kariyer (/career) sayfasında YetkinCV Onaylı Yetenek Rozetine dönüşür. Kamu kanıtı /vize adresindedir. Uydurma rozet basılmaz.",
     sealed: "Doğrulanmış Rozet",
     doorHint: "Teklif Kapısı",
     copyVisa: "Rozet anahtarını kopyala",
@@ -48,12 +48,12 @@ export const PASAPORT_SEN = {
   freelancerStrip: {
     title: "Sertifika rozeti",
     empty:
-      "Henüz teslim rozeti yok. Akademi belgesi Kariyer’de görünür; uydurma rozet basılmaz.",
+      "Henüz teslim rozeti yok. YetkinCV kanıtı Kariyer’de ve /vize adresinde görünür; uydurma rozet basılmaz.",
   },
   careerCta: "Kariyer",
-  academyCta: "Akademiye git",
+  academyCta: "YetkinCV'yi aç",
   freelancerCta: "Freelancer tezgâhı",
   certificatesCta: "Sertifikalarım",
   freelancerBoardCta: "Freelancer İlan Panosu",
-  verifyCta: "Sertifika doğrula",
+  verifyCta: "Kamu kanıtı",
 } as const;

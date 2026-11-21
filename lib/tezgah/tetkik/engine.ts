@@ -2,6 +2,7 @@ import "server-only";
 
 import { invokeLlm, type InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
 import { GEMINI_HYDROGEN_MODEL } from "@/lib/kernel/ai/model-roles";
+import { resolveProductModel } from "@/lib/kernel/ai/product-models";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import {
   TEZGAH_FAIL_MESSAGE,
@@ -26,8 +27,9 @@ import type { TetkikReport } from "@/lib/tezgah/tetkik/types";
 
 /** Yönetici karnesi JSON'u 900 tokena sığmaz. Skor yine kodda kalır. */
 export const TETKIK_MAX_OUTPUT_TOKENS = 2_400;
-/** Derin analiz rolü; kimlik Hydrogen ile geçilir. */
+/** Derin analiz rolü. Çağrı anı `resolveProductModel("textDeep")` okur. */
 export const TETKIK_MODEL_ROLE = "DEEP_RESEARCH" as const;
+/** Kod varsayılanı. Boş yuva bu kimliğe düşer. */
 export const TETKIK_MODEL_ID = GEMINI_HYDROGEN_MODEL;
 
 const TETKIK_POOL = "tetkik" as const;
@@ -216,7 +218,7 @@ export async function generateTetkikReport(
   const llm = await invoke(
     {
       role: TETKIK_MODEL_ROLE,
-      model: TETKIK_MODEL_ID,
+      model: await resolveProductModel("textDeep"),
       system: tetkikSystemPrompt(scored.score),
       user: tetkikUserPrompt({
         score: scored.score,

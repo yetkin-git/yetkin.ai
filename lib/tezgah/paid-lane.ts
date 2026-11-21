@@ -13,6 +13,7 @@ import { toAmountMinor, toPositiveAmountMinor } from "@/lib/kernel/money/amount-
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { isInsufficientBalanceError } from "@/lib/kernel/money/insufficient-balance";
 import { createPrismaPriceCatalogStore } from "@/lib/kernel/pricing/prisma-catalog-store";
+import { classifyPaymentOrderPurpose, PAYMENT_ORDER_PURPOSE } from "@/lib/kernel/payments/order-purpose";
 import { TEZGAH_CREDIT_PACK_SIZE } from "@/lib/tezgah/catalog";
 
 export const TEZGAH_PRO_MODULE = "tezgah" as const;
@@ -25,8 +26,12 @@ export const TEZGAH_PRO_PERIOD_MS = 30 * 24 * 60 * 60 * 1000;
 
 export const TEZGAH_PRO_ORDER_PURPOSE = "tezgah-license:pro" as const;
 export const TEZGAH_CREDIT_ORDER_PURPOSE = "tezgah-credit:pack" as const;
-/** Eski cüzdan amacı. Pro artık karttan tahsil edilir; bu anahtarla DEBIT yazılmaz. */
+/** Kart CREDIT'inin ürün tüketimi. Aktivasyonla aynı merchantOid bir kez düşer. */
 export const TEZGAH_PRO_DEBIT_PURPOSE = "tezgah-license" as const;
+
+export function tezgahProDebitIdempotencyKey(merchantOid: string): string {
+  return `${TEZGAH_PRO_DEBIT_PURPOSE}:${merchantOid}`;
+}
 export const TEZGAH_GENERATE_DEBIT_PURPOSE = "tezgah-generate" as const;
 export const TEZGAH_GRANT_DEBIT_PURPOSE = "tezgah-grant-dossier" as const;
 
@@ -359,17 +364,36 @@ export async function fulfillTezgahOrder(input: {
     return { applied: false, reason: "not_cleared" };
   }
   const now = input.now ?? new Date();
-  if (input.purpose === TEZGAH_PRO_ORDER_PURPOSE) {
+  if (
+    input.purpose === TEZGAH_PRO_ORDER_PURPOSE ||
+    classifyPaymentOrderPurpose(input.purpose) === PAYMENT_ORDER_PURPOSE.TEZGAH_PRO
+  ) {
     const catalog = await liveCatalogAmount(TEZGAH_PRO_MODULE, TEZGAH_PRO_UNIT);
     if (catalog == null || catalog !== input.amountMinor) {
       return { applied: false, reason: "catalog" };
     }
-    // Kart tahsilatı PayTR siparişindedir. İkinci kez cüzdan DEBIT yazılmaz.
     const prisma = getPrisma();
     const existing = await prisma.tezgahSubscription.findUnique({ where: { userId: input.userId } });
     const applied = readOidList(existing?.appliedMerchantOids ?? "");
     if (applied.includes(input.merchantOid)) {
       return { applied: false, reason: "already_settled" };
+    }
+    try {
+      await appendLedgerEntry(createPrismaLedgerStore(), {
+        userId: input.userId,
+        currencyCode: "TRY",
+        amountMinor: toPositiveAmountMinor(input.amountMinor),
+        direction: "DEBIT",
+        label: "Tezgâh Pro",
+        purpose: TEZGAH_PRO_DEBIT_PURPOSE,
+        idempotencyKey: tezgahProDebitIdempotencyKey(input.merchantOid),
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "";
+      if (isInsufficientBalanceError(message)) {
+        return { applied: false, reason: "balance" };
+      }
+      throw error;
     }
     const expiresAt = tezgahProExpiry(existing?.status === "ACTIVE" ? existing.expiresAt : null, now);
     await prisma.tezgahSubscription.upsert({
@@ -393,7 +417,10 @@ export async function fulfillTezgahOrder(input: {
     });
     return { applied: true, reason: "extended" };
   }
-  if (input.purpose === TEZGAH_CREDIT_ORDER_PURPOSE) {
+  if (
+    input.purpose === TEZGAH_CREDIT_ORDER_PURPOSE ||
+    classifyPaymentOrderPurpose(input.purpose) === PAYMENT_ORDER_PURPOSE.TEZGAH_CREDIT
+  ) {
     const unit = perCreditMinor(input.amountMinor);
     const catalog = await liveCatalogAmount(TEZGAH_PRO_MODULE, TEZGAH_CREDIT_UNIT);
     if (unit == null || catalog == null || catalog !== input.amountMinor) {

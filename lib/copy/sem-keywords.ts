@@ -67,9 +67,9 @@ const FAQ = {
       "Eğitimi bitir, testi 70+ ile geç. Yapay zeka sertifikan sunucuda basılır; sahte rozet eklenmez.",
   },
   visa: {
-    question: "Doğrulanmış Freelancer Rozeti nedir?",
+    question: "YetkinCV Onaylı Yetenek Rozeti nedir?",
     answer:
-      "Doğrulanmış Freelancer Rozeti, Akademi sınavından türer ve Kariyer Kartına işlenir. Eski adıyla kariyer vizesi bu rozettir. Elle basılmaz.",
+      "YetkinCV Onaylı Yetenek Rozeti, Kariyer (/career) vaka testinden türer ve kamu kanıt sayfasına (/vize) işlenir. Elle basılmaz.",
   },
   prompt: {
     question: "Prompt eğitimi hangi kursta?",
@@ -138,7 +138,7 @@ export const CAREER_LANDING_FAQ: readonly LandingFaqItem[] = [
   YETKINCV_FAQ.practice,
 ];
 
-export const VIZE_LANDING_FAQ: readonly LandingFaqItem[] = [FAQ.visa, FAQ.certificate];
+export const VIZE_LANDING_FAQ: readonly LandingFaqItem[] = [FAQ.visa, YETKINCV_FAQ.verify];
 
 /**
  * SEO Tedavi (P0) — 01_office_ai kursa özel SSS.
@@ -155,7 +155,7 @@ export const OFFICE_AI_COURSE_FAQ: readonly LandingFaqItem[] = [
   {
     question: "Excel yapay zeka eğitimi sertifika veriyor mu?",
     answer:
-      `Evet. Bu excel yapay zeka eğitimi mühürlü yapay zeka sertifikası basar; satın alma tek başına belge üretmez. ${OFFICE_AI_SEAL_PROOF} Sertifikan Kariyer sayfana işlenir ve /academy/dogrula sicilinden herkese açık doğrulanır. Arama dilindeki karşılığıyla: yapay zeka sertifikasi bu sınav barajından sonra mühürlenir.`,
+      `Evet. Bu excel yapay zeka eğitimi mühürlü yapay zeka sertifikası basar; satın alma tek başına belge üretmez. ${OFFICE_AI_SEAL_PROOF} Sertifikan Kariyer sayfana işlenir ve /career ile kamu kanıt sayfası /vize üzerinden doğrulanır. Arama dilindeki karşılığıyla: yapay zeka sertifikasi bu sınav barajından sonra mühürlenir.`,
   },
   {
     question: "ChatGPT ofis kullanımı için ön koşul var mı?",

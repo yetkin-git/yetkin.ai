@@ -1,9 +1,10 @@
 import { sha256Hex } from "@/lib/kernel/crypto/sha256";
+import { COMMERCE_GRACE_MS, commercePeriodEnd } from "@/lib/commerce/subscription-lifecycle";
 
 export const COMMERCE_MONTHLY_MODULE = "commerce" as const;
 export const COMMERCE_MONTHLY_UNIT = "monthly" as const;
 
-export type CommerceSubscriptionStatusName = "PENDING" | "ACTIVE";
+export type CommerceSubscriptionStatusName = "PENDING" | "TRIALING" | "ACTIVE" | "PAST_DUE" | "CANCELED";
 
 export type CommerceSubscriptionRow = {
   id: string;
@@ -13,6 +14,16 @@ export type CommerceSubscriptionRow = {
   listPriceMinor: number;
   appliedMerchantOids: string[];
   expiresAt: Date | null;
+  trialEndsAt?: Date | null;
+  currentPeriodEnd?: Date | null;
+  cancelAtPeriodEnd?: boolean;
+  paytrUtoken?: string;
+  paytrCtoken?: string;
+  dunningAttempts?: number;
+  lastDunningAt?: Date | null;
+  trialPending?: boolean;
+  trialQuestionsUsed?: number;
+  trialOptimizationsUsed?: number;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -23,10 +34,23 @@ export type CommerceSubscriptionStore = {
 };
 
 export function commerceLicenseActive(
-  row: Pick<CommerceSubscriptionRow, "status" | "expiresAt"> | null,
+  row: Pick<CommerceSubscriptionRow, "status" | "expiresAt" | "currentPeriodEnd" | "trialEndsAt"> | null,
   now: Date,
 ): boolean {
-  return Boolean(row && row.status === "ACTIVE" && row.expiresAt && row.expiresAt.getTime() > now.getTime());
+  if (!row) {
+    return false;
+  }
+  const end = commercePeriodEnd(row);
+  if (!end) {
+    return false;
+  }
+  if (row.status === "ACTIVE" || row.status === "TRIALING") {
+    return end.getTime() > now.getTime();
+  }
+  if (row.status === "PAST_DUE") {
+    return now.getTime() < end.getTime() + COMMERCE_GRACE_MS;
+  }
+  return false;
 }
 
 /** Bitmemiş sürenin üstüne bir takvim ayı. Taşma `setUTCMonth` kuralıdır. */

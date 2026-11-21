@@ -2,24 +2,18 @@ import type { ReactNode } from "react";
 import { LegalColophonStrip } from "@/components/legal/legal-colophon-strip";
 import { AppShell } from "@/components/shell/app-shell";
 
+/**
+ * Tezgâh kabuğu.
+ *
+ * SEO/performans tedavisi (Faz 2): burada 20 satırlık ham CSS bloğu React
+ * ağacında duruyordu ve her `/tezgah` isteğinde HTML gövdesine yeniden
+ * basılıyordu. Yazdırma kuralları artık `app/globals.css` içindeki
+ * `@media print` katmanındadır (`[data-tezgah-chrome]` seçicisi orada).
+ * Görsel davranış birebir korunur; kabuk yalnız içerik basar.
+ */
 export default function TezgahLayout({ children }: { children: ReactNode }) {
   return (
     <AppShell>
-      <style>{`
-        @media print {
-          [data-shell-header],
-          [data-shell-drawer],
-          [data-sidebar-collapsed],
-          [data-assistant-fab],
-          [data-legal-colophon-strip],
-          [data-tezgah-chrome] {
-            display: none !important;
-          }
-          [style*="--rail-sidebar-width"] {
-            padding-left: 0 !important;
-          }
-        }
-      `}</style>
       {children}
       <div className="print:hidden">
         <LegalColophonStrip compact />

@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { readStyleBundle } from "../helpers/style-bundle";
 
 const ROOT = process.cwd();
 
@@ -78,8 +79,8 @@ describe("amiral performans mühürleri — Gzip / cache / istek", () => {
     expect(footer).toContain('href={link.href.replace("@", "%40")}');
     expect(strip).toContain('href={link.href.replace("@", "%40")}');
     expect(readSrc("lib/copy/json-ld.ts")).toContain("u0040");
-    expect(readSrc("app/globals.css")).toContain('"Segoe UI"');
-    expect(readSrc("app/globals.css")).not.toContain("@font-face");
+    expect(readStyleBundle()).toContain('"Segoe UI"');
+    expect(readStyleBundle()).not.toContain("@font-face");
     expect(readSrc("app/layout.tsx")).not.toContain("next/font");
   });
 });

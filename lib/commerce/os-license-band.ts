@@ -8,7 +8,10 @@ import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { formatMinorCompact } from "@/lib/kernel/money/format";
 import { createPrismaPriceCatalogStore } from "@/lib/kernel/pricing/prisma-catalog-store";
 
-/** Kokpit şeridi. Katalog tutarını ve havuz mağazasının lisans fazını okur; yazmaz. */
+/**
+ * Kokpit şeridi. Katalog tutarını, havuz mağazasının lisans fazını ve deneme durumunu
+ * okur; yazmaz. `TRIALING` satırda şerit "Lisans açık" demez, kalan günü basar.
+ */
 export async function readEcommerceLicenseBand(
   userId: string,
   stores: readonly { id: string; name: string }[],
@@ -24,13 +27,39 @@ export async function readEcommerceLicenseBand(
   } catch {
     priceLabel = null;
   }
+  const emptyTrial = { active: false, daysLeft: null };
   if (!pool) {
-    return { active: false, gate: true, priceLabel, activateHref };
+    return {
+      active: false,
+      gate: true,
+      priceLabel,
+      activateHref,
+      trial: emptyTrial,
+      trialEligible: false,
+      trialBlockedReason: "no_key",
+    };
   }
   const license = await loadOwnerLicense(userId, pool.id);
   if (license.kind !== "ok") {
-    return { active: false, gate: false, priceLabel, activateHref };
+    return {
+      active: false,
+      gate: false,
+      priceLabel,
+      activateHref,
+      trial: emptyTrial,
+      trialEligible: false,
+      trialBlockedReason: "unknown",
+    };
   }
   const active = license.value.phase === "open";
-  return { active, gate: !active, priceLabel, activateHref };
+  const trialing = license.value.status === "TRIALING" && active;
+  return {
+    active,
+    gate: !active,
+    priceLabel,
+    activateHref,
+    trial: { active: trialing, daysLeft: license.value.trialDaysLeft },
+    trialEligible: license.value.trialEligible,
+    trialBlockedReason: license.value.trialBlockedReason,
+  };
 }

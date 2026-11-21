@@ -10,6 +10,7 @@ import type { LedgerStore } from "@/lib/kernel/ledger/types";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { logEvent } from "@/lib/kernel/observability/log";
 import { getPaytrCheckoutCredentials } from "@/lib/kernel/payments/paytr/checkout";
+import { tezgahCreditsToRevoke } from "@/lib/kernel/payments/wallet-card-refund";
 import {
   refundUnusedWalletBalance,
   warnWhenSuperAdminRefundAuditMissed,
@@ -49,17 +50,28 @@ export function bindWalletCardRefundStore(db: RefundSql): WalletCardRefundStore 
       return Number(rows[0]?.amount_minor ?? 0);
     },
     async listClearedOrders(userId) {
-      const rows = await db.$queryRaw<{ merchant_oid: string; amount_minor: number }[]>`
-        SELECT merchant_oid, amount_minor
+      const rows = await db.$queryRaw<{ merchant_oid: string; amount_minor: number; purpose: string }[]>`
+        SELECT merchant_oid, amount_minor, purpose
         FROM payment_orders
         WHERE user_id = ${userId}
           AND status = 'CLEARED'
           AND currency_code = ${SETTLEMENT_CURRENCY}
+          AND purpose NOT IN (
+            'TEZGAH_PRO',
+            'tezgah-license:pro',
+            'COMMERCE_LICENSE',
+            'commerce-license:monthly'
+          )
+          AND (
+            order_purpose IS NULL
+            OR order_purpose NOT IN ('TEZGAH_PRO', 'COMMERCE_LICENSE')
+          )
         ORDER BY cleared_at DESC NULLS LAST, created_at DESC
       `;
       return rows.map((row) => ({
         merchantOid: row.merchant_oid,
         amountMinor: Number(row.amount_minor),
+        purpose: row.purpose,
       }));
     },
     async sumReservedByOid(userId) {
@@ -140,6 +152,36 @@ export function bindWalletCardRefundStore(db: RefundSql): WalletCardRefundStore 
   };
 }
 
+async function revokeTezgahCreditsForCardRefund(
+  db: RefundSql,
+  input: { userId: string; refundedMinor: number },
+): Promise<void> {
+  const rows = await db.$queryRaw<{ remaining: number; unit_minor: number }[]>`
+    SELECT remaining, unit_minor
+    FROM tezgah_credit_balances
+    WHERE user_id = ${input.userId}
+    FOR UPDATE
+  `;
+  const row = rows[0];
+  if (!row) {
+    return;
+  }
+  const drop = tezgahCreditsToRevoke({
+    remaining: Number(row.remaining),
+    unitMinor: Number(row.unit_minor),
+    refundedMinor: input.refundedMinor,
+  });
+  if (drop <= 0) {
+    return;
+  }
+  await db.$executeRaw`
+    UPDATE tezgah_credit_balances
+    SET remaining = GREATEST(remaining - ${drop}, 0),
+        updated_at = NOW()
+    WHERE user_id = ${input.userId}
+  `;
+}
+
 export async function refundUnusedWalletBalanceForUser(userId: string): Promise<
   Awaited<ReturnType<typeof refundUnusedWalletBalance>>
 > {
@@ -150,6 +192,7 @@ export async function refundUnusedWalletBalanceForUser(userId: string): Promise<
         refunds: bindWalletCardRefundStore(tx),
         ledger: bindLedgerStore(tx) as LedgerStore,
         paytrConfigured: getPaytrCheckoutCredentials() != null,
+        adjustTezgahCreditBalance: (input) => revokeTezgahCreditsForCardRefund(tx, input),
       };
       return refundUnusedWalletBalance(ports, userId);
     },

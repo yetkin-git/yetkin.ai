@@ -31,7 +31,8 @@ const DIRECTORY_FAQ = [
   },
   {
     question: "Nasıl listelenirim?",
-    answer: "Akademi sınavını 70 ve üzeri geç. Doğrulanmış rozetin kamu kartı oluşur. Eşik dolunca dizin açılır.",
+    answer:
+      "YetkinCV vaka testini Kariyer (/career) sayfasında çöz. YetkinCV Onaylı Yetenek Rozetin kamu kanıtı /vize adresinde oluşur. Eşik dolunca dizin açılır.",
   },
 ] as const;
 
@@ -71,7 +72,7 @@ export default async function UzmanlarPage({
       <PublicHero
         eyebrow="Kamu vitrini"
         title="Doğrulanmış rozetli uzmanlar"
-        description="Dizin yalnız canlı akademi mührünü gösterir. Tahsilat, emanet ve iş ilanı bu sayfada yoktur. İletişim, kartın sahibiyle senin arandadır."
+        description="Dizin yalnız YetkinCV Onaylı Yetenek Rozetini gösterir. Doğrulama Kariyer (/career) ve kamu kanıt sayfası (/vize) üzerindedir. Tahsilat, emanet ve iş ilanı bu sayfada yoktur. İletişim, kartın sahibiyle senin arandadır."
       />
 
       <form method="get" action={TALENT_DIRECTORY_PATH} className="mt-8 grid grid-cols-1 items-end gap-4 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm md:grid-cols-2">

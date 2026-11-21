@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Suspense } from "react";
+import { cookies } from "next/headers";
 import { connection } from "next/server";
 import { Ga4Bootstrap } from "@/components/kernel/ga4-bootstrap";
+import { CookieConsentBanner } from "@/components/legal/cookie-consent-banner";
+import { COOKIE_CONSENT_COOKIE, parseCookieConsent } from "@/lib/kernel/telemetry/cookie-consent";
 import { JsonLd } from "@/components/seo/json-ld";
 import { NavigationProgressBar } from "@/components/shell/navigation-progress-bar";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
@@ -60,7 +63,8 @@ async function RequestBoundCsp() {
   return null;
 }
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const consent = parseCookieConsent((await cookies()).get(COOKIE_CONSENT_COOKIE)?.value);
   return (
     <html lang="tr">
       <body>
@@ -70,7 +74,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <JsonLd data={siteGraphJsonLd()} />
         <NavigationProgressBar />
         {children}
-        <Ga4Bootstrap />
+        <CookieConsentBanner initialChoice={consent} />
+        <Ga4Bootstrap initialChoice={consent} />
       </body>
     </html>
   );

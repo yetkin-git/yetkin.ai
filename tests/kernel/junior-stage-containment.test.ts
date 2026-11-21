@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { readStyleBundle } from "../helpers/style-bundle";
 
 /**
  * Junior sahne kapsayıcı sözleşmesi (invariant kapısı).
@@ -29,6 +30,11 @@ import { describe, expect, it } from "vitest";
 const root = process.cwd();
 
 function read(relativePath: string): string {
+  // Faz 2: stil katmanları ayrıldı (`app/styles/*.css`). `app/globals.css`
+  // okuması tek stil bütünü olarak birleşik metne döner.
+  if (relativePath === "app/globals.css") {
+    return readStyleBundle();
+  }
   return readFileSync(join(root, relativePath), "utf8");
 }
 

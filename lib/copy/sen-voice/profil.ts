@@ -29,7 +29,7 @@ export const PROFIL_SEN = {
   dashboardCta: "Panele dön",
   honestyTitle: "Kimlik dürüstlüğü",
   honestyBody:
-    "Görünen ad kimlik kartına yazılır; e-posta oturumla senkron kalır. Şifreni bu sayfadaki formdan güncellersin. KYC buraya eklenmez. Doğrulanmış Freelancer Rozetini Kariyer basar; burada yalnız özet okunur.",
+    "Görünen ad kimlik kartına yazılır; e-posta oturumla senkron kalır. Şifreni bu sayfadaki formdan güncellersin. KYC buraya eklenmez. YetkinCV Onaylı Yetenek Rozetini Kariyer basar; burada yalnız özet okunur.",
   card: {
     title: "Kimlik kartı",
     eyebrow: "Hesap",

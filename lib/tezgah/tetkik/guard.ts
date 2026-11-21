@@ -54,6 +54,11 @@ export class TetkikAccessError extends Error {
   }
 }
 
+/** Şekil normalizasyonu. Kare parantez, sonda nokta ve zone kimliği düşer. */
+export function normalizeHostForPin(hostname: string): string {
+  return normalizeHost(hostname);
+}
+
 function normalizeHost(hostname: string): string {
   let host = hostname.trim().toLowerCase();
   if (host.endsWith(".")) {
@@ -178,4 +183,45 @@ export async function resolveTetkikHost(
   } catch {
     return "dns";
   }
+}
+
+/**
+ * SSRF IP pinleme — DNS TOCTOU penceresini kapatır.
+ *
+ * **Sorun:** `resolveTetkikHost` bir `lookup` yapar, `fetch` ise adresi **ikinci kez**
+ * çözer. Aradaki pencerede DNS rebinding ile public görünen ad, fetch anında özel
+ * ağa dönebilir; `inspectTetkikUrl` yalnız adı görür, IP'yi görmez.
+ *
+ * **Tedavi:** Doğrulanan IP `fetch`'e **sabitlenir** (`dispatcher` / `Agent`
+ * `lookup` kancası). Böylece doğrulama ile bağlantı **aynı** IP üzerinde koşar.
+ *
+ * Bu modül sunucu-only'dir. `node:http`/`node:https` Agent'ı yerine `undici`
+ * dispatcher'ı enjekte edilebilir tutulur: test ortamında sahte dispatcher
+ * verilebilir, üretimde `createPinnedDispatcher` kullanılır.
+ *
+ * Fail-closed: dispatcher kurulamazsa istek **atılmaz**; `TetkikAccessError("rejected")`.
+ */
+export type PinnedFetchTarget = {
+  /** Doğrulanmış, özel ağda olmayan IP'ler. En az bir tane olmalı. */
+  addresses: readonly string[];
+  /** İsteğin hedefi. SNI/Host başlığı bu adresten gelir, IP sabittir. */
+  url: URL;
+};
+
+/**
+ * Dispatcher üreticisi. `fetch` implementasyonu `dispatcher` alanını desteklemiyorsa
+ * çağıran `null` döner ve istek atılmaz — DNS yeniden çözülmesine izin verilmez.
+ */
+export type PinnedDispatcherFactory = (target: PinnedFetchTarget) => unknown | null;
+
+/**
+ * Doğrulanmış adresleri süzer: hepsi public olmalı, en az bir tane kalmalı.
+ * Karışık yanıt (bir public + bir özel) zaten `resolveTetkikHost` tarafından
+ * reddedilir; burada savunma derinliği için tekrar süzülür.
+ */
+export function pinnableTetkikAddresses(addresses: readonly string[]): string[] {
+  const publicAddresses = addresses
+    .map((address) => normalizeHost(address))
+    .filter((address) => isIP(address) !== 0 && !isBlockedTetkikIp(address));
+  return [...new Set(publicAddresses)];
 }

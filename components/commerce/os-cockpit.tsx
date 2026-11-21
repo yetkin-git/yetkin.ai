@@ -79,15 +79,21 @@ function statusBadgeClass(status: OsChannelView["status"]): string {
 
 function LicenseStatusBand({ license }: { license: EcommerceLicenseBand }) {
   const open = license.active;
+  const trialing = license.trial.active;
+  const trialDays = license.trial.daysLeft;
+  const renewalSuffix = license.priceLabel ? `, ${license.priceLabel} yenileme` : "";
   return (
     <section
       id="eticaret-lisans"
       aria-labelledby="eticaret-lisans-heading"
       data-license-band={open ? "open" : "closed"}
+      data-license-band-trial={trialing ? "true" : "false"}
       className={cn(
         "mb-4 flex flex-col gap-4 rounded-2xl border p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between",
         open
-          ? "border-emerald-200 bg-emerald-50"
+          ? trialing
+            ? "border-amber-300 bg-gradient-to-r from-amber-50 via-emerald-50 to-white"
+            : "border-emerald-200 bg-emerald-50"
           : "border-blue-800/30 bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-950 text-white",
       )}
     >
@@ -95,7 +101,7 @@ function LicenseStatusBand({ license }: { license: EcommerceLicenseBand }) {
         <span
           className={cn(
             "mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
-            open ? "bg-emerald-600 text-white" : "bg-white/10 text-blue-100",
+            open ? (trialing ? "bg-amber-500 text-white" : "bg-emerald-600 text-white") : "bg-white/10 text-blue-100",
           )}
         >
           <IconShield className="h-4 w-4" />
@@ -105,15 +111,24 @@ function LicenseStatusBand({ license }: { license: EcommerceLicenseBand }) {
             id="eticaret-lisans-heading"
             className={cn(
               "text-[11px] font-semibold uppercase tracking-[0.16em]",
-              open ? "text-emerald-800" : "text-blue-200",
+              open ? (trialing ? "text-amber-800" : "text-emerald-800") : "text-blue-200",
             )}
           >
-            Lisans & Paket Durumu
+            {trialing ? "Ücretsiz Deneme" : "Lisans & Paket Durumu"}
           </p>
           <p className={cn("mt-1 text-sm leading-6", open ? "text-[var(--foreground)]" : "text-white")}>
-            {license.priceLabel ? (
+            {trialing ? (
               <>
-                {open ? "Çok Kanallı E-Ticaret Lisansı aktif: " : "Çok Kanallı E-Ticaret Lisansı: "}
+                <strong className="font-semibold">
+                  {trialDays != null && trialDays > 0
+                    ? `Ücretsiz Deneme Aktif — Kalan ${trialDays} Gün`
+                    : "Ücretsiz Deneme Aktif — son gün"}
+                </strong>
+                {renewalSuffix ? <> ({renewalSuffix.trim()})</> : null}
+              </>
+            ) : license.priceLabel ? (
+              <>
+                {open ? "Çok Kanallı E-Ticaret Lisansı aktif: " : "İlk 30 gün ücretsiz, ardından "}
                 <strong className="font-semibold">{license.priceLabel}</strong> (Trendyol, Hepsiburada, Amazon, N11
                 dahil)
               </>
@@ -124,11 +139,16 @@ function LicenseStatusBand({ license }: { license: EcommerceLicenseBand }) {
               </>
             )}
           </p>
+          {!open && license.trialEligible ? (
+            <p className="mt-1 text-xs font-medium text-blue-100">
+              Bugün yalnız 1,00 TL kart doğrulama bedeli tahsil edilir. Dönem sonu iptali tek tıkla mağaza panelinde.
+            </p>
+          ) : null}
         </div>
       </div>
       {open ? (
         <LinkButton href={cockpitHref(license.activateHref)} size="sm" variant="outline" className="shrink-0">
-          Lisans ayrıntısı
+          {trialing ? "Denemeyi yönet" : "Lisans ayrıntısı"}
         </LinkButton>
       ) : (
         <LinkButton
@@ -137,7 +157,7 @@ function LicenseStatusBand({ license }: { license: EcommerceLicenseBand }) {
           variant="secondary"
           className="!shrink-0 !bg-white !text-slate-950 shadow-md hover:!bg-blue-50"
         >
-          Lisansı Aktifleştir →
+          {license.trialEligible ? "30 Gün Ücretsiz Başlat →" : "Lisansı Aktifleştir →"}
         </LinkButton>
       )}
     </section>

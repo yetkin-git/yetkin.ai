@@ -43,7 +43,9 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
     expect(manifesto).toContain("ikincil katman");
     expect(manifesto).toContain("sunucu üzerinde canlı dosya doğrulaması kapsamaz");
     expect(manifesto).not.toMatch(/kriptografik olarak mühürlenen bir iş kanıtıdır/u);
-    expect(manifesto).toContain("Faz 1 çalışan vitrin 3 odadır");
+    expect(manifesto).toContain("2 aktif oda + askıdaki Akademi");
+    expect(manifesto).toContain("AI Tezgâh canlı");
+    expect(manifesto).not.toContain("Faz 1 çalışan vitrin 3 odadır");
     expect(manifesto).toContain("4. oda (Freelancer) kilitli motordur");
     expect(manifesto).toContain("/vize");
     expect(manifesto).not.toContain("donuk laboratuvar");
@@ -66,11 +68,14 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
     expect(pedagoji).not.toContain("18 yaş altı ürün yoktur");
   });
 
-  it("Runbook Motor 4 / Kamu Vitrini 3 Oda der; Akademi makbuzu SMTP env'ine bağlıdır", () => {
+  it("Runbook 2 aktif oda ve canlı Tezgâh der; Akademi makbuzu SMTP env'ine bağlıdır", () => {
     const runbook = readSystemDoc("OPS_RUNBOOK.md");
-    expect(runbook).toContain("Motor 4 / Kamu Vitrini 3 Oda (Panel, Akademi, Kariyer)");
+    expect(runbook).toContain("2 aktif oda + askıdaki Akademi");
+    expect(runbook).toContain("AI Tezgâh canlı");
+    expect(runbook).not.toContain("Motor 4 / Kamu Vitrini 3 Oda (Panel, Akademi, Kariyer)");
+    expect(runbook).not.toContain("Tezgâh donuk");
     expect(runbook).toContain("academy-receipt-mail.ts");
-    expect(runbook).toContain("Akademi mühürlü yayın **6** eğitimdir");
+    expect(runbook).not.toContain("Akademi mühürlü yayın **6** eğitimdir");
     expect(runbook).toContain("Faz 0: Akademi Canlı T3 Testi Prosedürü");
     expect(runbook).toContain("https://yetkin.ai/api/paytr/callback");
     expect(runbook).toContain("SMTP skipped");
@@ -96,7 +101,7 @@ describe("Faz 1 işletme resmi — belge zaman kipi ve kamu mühürü", () => {
     expect(isFrozenShellPagePath("/junior")).toBe(false);
     expect(isFrozenShellPagePath("/academy")).toBe(true);
     expect(isFrozenShellPagePath("/hibe")).toBe(false);
-    expect([...PRODUCT_ROOM_PATHS]).toEqual(["/academy", "/career"]);
+    expect([...PRODUCT_ROOM_PATHS]).toEqual(["/career"]);
   });
 
   it("OpenAPI kamu sözleşmesinde Marketplace tag'i ve freelancer path yoktur", () => {

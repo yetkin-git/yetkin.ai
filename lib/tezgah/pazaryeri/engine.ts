@@ -1,6 +1,7 @@
 import "server-only";
 
 import { invokeLlm, type InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
+import { resolveProductModel } from "@/lib/kernel/ai/product-models";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import { TEZGAH_FAIL_MESSAGE, TEZGAH_GUEST_QUOTA_MESSAGE, TEZGAH_MEMBER_QUOTA_MESSAGE } from "@/lib/tezgah/catalog";
 import { tezgahRequestHash } from "@/lib/tezgah/paid-lane";
@@ -194,6 +195,7 @@ export async function generatePazaryeriCatalog(
   const llm = await invoke(
     {
       role: PAZARYERI_MODEL_ROLE,
+      model: await resolveProductModel("textEasy"),
       system: pazaryeriSystemPrompt(products.length, market.titleCap),
       user: pazaryeriUserPrompt(parsed.data.market, products),
       temperature: 0.2,

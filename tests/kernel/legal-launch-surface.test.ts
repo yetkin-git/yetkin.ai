@@ -58,8 +58,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
       supportEmail: "destek@yetkin.ai",
       whatsappDisplay: "0551 675 16 74",
       whatsappE164: "905516751674",
-      iban: "TR82 0020 5000 0100 8852 4000 01",
     });
+    expect(LEGAL_ENTITY).not.toHaveProperty("iban");
     expect(LEGAL_ENTITY_COLOPHON).toContain(LEGAL_ENTITY.taxOffice);
     expect(LEGAL_ENTITY_VKN).toBe("Akhisar V.D. - 9370683361");
     expect(LEGAL_ENTITY_IDS).toBe(
@@ -97,26 +97,35 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(body).toContain("68. ve 73. maddeleri");
     expect(body).toContain("elektronik ortamda anında ifa edilen hizmet");
     expect(body).toContain("6502 sayılı Kanun");
-    expect(body).toContain("ders içeriklerine erişim açıldığı anda");
-    expect(body).toContain("Cüzdan Yükleme");
+    expect(body).toContain("erişim ya da çıktı açıldığı anda");
+    expect(body).toContain("self-servis kart iadesiyle");
+    expect(body).toContain("30 gün ücretsiz deneme ardından otomatik yenilenen aylık abonelik");
+    expect(body).toContain("1,00 TL sembolik kart doğrulama bedeli tahsil edilir");
+    expect(body).toContain("bu bedel bakiyeye yazılmaz");
+    expect(body).toContain("30 günlük erişim paketi");
+    expect(body).toContain("Tezgâh Üretim Kredisi");
+    expect(body).toContain("YetkinHibe Dosyası");
+    expect(body).not.toContain("(4) Akademi");
+    expect(body).not.toContain("365 gün");
     expect(body).toContain(LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH);
     expect(body).not.toContain("emanet zaman aşımı");
     expect(body).not.toContain("freelancer aracılık");
     expect(body).not.toContain("paylaştırmalı tahsilat");
     expect(body).not.toContain("usta IBAN");
     expect(body).toContain(
-      "Satın alınan hizmet ve eğitimlere ait faturalar yasal süreçlere uygun düzenlenir. Fatura, kayıtlı e-posta adresine iletilir; bu iletim otomatik e-Arşiv paneli veya anında GİB gönderimi anlamına gelmez. İlan edilen tüm fiyatlara KDV dahildir.",
+      "Satın alınan hizmetlere ait faturalar yasal süreçlere uygun düzenlenir. Fatura, kayıtlı e-posta adresine iletilir; bu iletim otomatik e-Arşiv paneli veya anında GİB gönderimi anlamına gelmez. İlan edilen tüm fiyatlara KDV dahildir.",
     );
     expect(body).not.toContain("Canlı e-arşiv");
     expect(body).not.toContain("ebeveyn onayına tabidir");
     expect(body).not.toContain("mükellefiyeti açık değildir");
     expect(body).toContain("Yetkili Ödeme Kuruluşu");
     expect(body).toContain(
-      "Ödeme işlemleri Yetkili Ödeme Kuruluşu altyapısı üzerinden güvenle gerçekleştirilir. Kart tahsilatları ve cüzdan bakiyeleri Türk Lirası (TL) cinsinden işlenir. Kurs bedelleri kataloğumuzda ilan edilen güncel fiyatlar üzerinden tahsil edilir.",
+      "Ödeme işlemleri Yetkili Ödeme Kuruluşu altyapısı üzerinden güvenle gerçekleştirilir. Kart tahsilatları ve cüzdan bakiyeleri Türk Lirası (TL) cinsinden işlenir. Tezgâh Pro, Tezgâh Üretim Kredisi, E-Ticaret İşletme Lisansı ve YetkinHibe Dosyası bedelleri kataloğumuzda ilan edilen güncel fiyatlar üzerinden tahsil edilir. Havale veya EFT ile tahsilat yapılmaz.",
     );
     expect(body).toContain("Junior bölümü");
     expect(body).toContain("velinin açık aydınlatma onayıyla");
-    expect(body).toContain("ikinci bir satın alma adımı istenmez");
+    expect(body).toContain("mağaza panelinden tek tıkla dönem sonu iptal edilebilir");
+    expect(body).not.toContain("ikinci bir satın alma adımı istenmez");
     expect(body).not.toContain("ayrıca satın alınması gerekir");
     expect(body).not.toContain("PayTR");
     expect(body).not.toContain("amountMinor");
@@ -195,7 +204,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(copy).toContain(LEGAL_ENTITY.mersis);
     expect(copy).toContain(LEGAL_ENTITY.address);
     expect(copy).toContain("Adres: ${LEGAL_ENTITY.address}");
-    expect(copy).toContain(LEGAL_ENTITY.iban);
+    expect(copy).not.toContain("iban:");
+    expect(copy).not.toContain("TR82");
     expect(copy).not.toContain("yapinet360@gmail.com");
     expect(copy).not.toContain("adminEmail");
     expect(copy).not.toContain("emanet zaman aşımı");
@@ -204,7 +214,7 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(copy).not.toMatch(/usta IBAN/);
     expect(copy).not.toContain("pazaryeri altyapısı");
     expect(copy).toContain(
-      "Satın alınan hizmet ve eğitimlere ait faturalar yasal süreçlere uygun düzenlenir. Fatura, kayıtlı e-posta adresine iletilir; bu iletim otomatik e-Arşiv paneli veya anında GİB gönderimi anlamına gelmez. İlan edilen tüm fiyatlara KDV dahildir.",
+      "Satın alınan hizmetlere ait faturalar yasal süreçlere uygun düzenlenir. Fatura, kayıtlı e-posta adresine iletilir; bu iletim otomatik e-Arşiv paneli veya anında GİB gönderimi anlamına gelmez. İlan edilen tüm fiyatlara KDV dahildir.",
     );
     expect(copy).not.toContain("Canlı e-arşiv");
     expect(copy).not.toContain("ebeveyn onayına tabidir");
@@ -221,7 +231,13 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(copy).toContain("Platform bakiyesi banka hesabına çekilmez");
     expect(copy).toContain("Junior bölümü");
     expect(copy).toContain("velinin açık aydınlatma onayıyla");
-    expect(copy).toContain("ikinci bir satın alma adımı istenmez");
+    expect(copy).toContain("30 gün ücretsiz deneme ardından otomatik yenilenen aylık abonelik");
+    expect(copy).toContain("1,00 TL sembolik kart doğrulama bedeli tahsil edilir");
+    expect(copy).toContain("self-servis kart iadesiyle");
+    expect(copy).toContain("LEGAL_RETENTION_SUMMARY");
+    expect(copy).not.toContain("ikinci bir satın alma adımı istenmez");
+    expect(copy).not.toContain("365 gün");
+    expect(copy).not.toContain("(4) Akademi");
     expect(copy).not.toContain("amountMinor");
     expect(copy).not.toContain("PriceCatalogEntry");
     expect(copy).not.toContain("hukuk@yetkin.ai");
@@ -233,6 +249,11 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(contact).toContain("LEGAL_ENTITY.mersis");
     expect(contact).toContain("LEGAL_ENTITY.address");
     expect(contact).toContain("LEGAL_ACTIVITY_SCOPE_BODY");
+    expect(contact).toContain("LEGAL_DATA_CONTROLLER_SUMMARY");
+    expect(contact).toContain("LEGAL_RETENTION_SUMMARY");
+    expect(contact).toContain("Tahsilatın tek kanalı Yetkili Ödeme Kuruluşudur");
+    expect(contact).not.toContain("IBAN");
+    expect(contact).not.toContain("LEGAL_ENTITY.iban");
     expect(contact).not.toContain("yapinet360@gmail.com");
     expect(contact).not.toContain("LEGAL_ADMIN_EMAIL");
     expect(contact).not.toContain("PayTR");
@@ -253,6 +274,9 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(kvkkBody).toContain("SHA-256 doğrulama özetleri");
     expect(kvkkBody).toContain("yalnızca ilanı açan yetkili şirketle paylaşılan başvuru bilgileri");
     expect(kvkkBody).toContain("Kredi kartı numaranız platform sunucularımızda asla tutulmaz");
+    expect(kvkkBody).toContain("Veri sorumlusu:");
+    expect(kvkkBody).toContain("Analitik Çerezleri Kabul Et");
+    expect(kvkkBody).toContain("Sadece Zorunlu");
     const commerceBody = ["iade", "mesafeli-satis", "kullanim"]
       .map(
         (slug) =>
@@ -292,7 +316,9 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     const home = readSrc("app/(public)/page.tsx");
     const robots = readSrc("app/robots.ts");
     const sitemap = readSrc("app/sitemap.ts");
-    expect(slug).toContain("legalSectionBySlug");
+    // Faz 2: sayfa kaydı artık önbellekli yükleyiciden okur; `legalSectionBySlug`
+    // doğrudan çağrılmaz (istek başına yeniden çözüm yerine süreç içi önbellek).
+    expect(slug).toContain("loadLegalSection");
     expect(slug).toContain("dynamicParams = false");
     expect(footer).toContain("LEGAL_FOOTER_LINKS");
     expect(footer).toContain("fixed");
@@ -327,15 +353,15 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(strip).not.toContain("opacity-70");
     expect(strip).not.toContain("fixed inset-x-0");
     for (const layout of [
-      "app/academy/layout.tsx",
+      "archived/academy/app/layout.tsx",
       "app/career/layout.tsx",
       "app/freelancer/layout.tsx",
     ]) {
       expect(readSrc(layout), layout).toContain("LegalColophonStrip");
     }
     expect(readSrc("app/(kernel)/pasaport/page.tsx")).toContain("LegalColophonStrip");
-    expect(readSrc("app/academy/page.tsx")).toContain("pageMetadata");
-    expect(readSrc("app/academy/layout.tsx")).not.toContain("pageMetadata");
+    expect(readSrc("archived/academy/app/page.tsx")).toContain("pageMetadata");
+    expect(readSrc("archived/academy/app/layout.tsx")).not.toContain("pageMetadata");
     expect(readSrc("app/dashboard/layout.tsx")).not.toContain("LegalSiteFooter");
     expect(readSrc("app/dashboard/layout.tsx")).not.toContain("LegalColophonStrip");
     expect(home).not.toContain("/legal/gizlilik");
@@ -441,7 +467,7 @@ describe("lansman hukuk yüzeyi (O13)", () => {
       ["/en/legal/mesafeli-satis-sozlesmesi", "https://yetkin.ai/legal/mesafeli-satis"],
       ["/en/legal/cerez-politikasi", "https://yetkin.ai/legal/cerez"],
       ["/en/legal/gizlilik-politikasi", "https://yetkin.ai/legal/gizlilik"],
-      ["/en/fiyatlandirma", "https://yetkin.ai/academy"],
+      ["/en/fiyatlandirma", "https://yetkin.ai/fiyatlandirma"],
     ] as const;
     const wwwIndex = rules.findIndex((rule) => rule.source === "/:path*");
     expect(wwwIndex).toBeGreaterThan(-1);
@@ -510,7 +536,7 @@ describe("lansman hukuk yüzeyi (O13)", () => {
   });
 
   it("satın alma ve cüzdan yükleme kasa tiklerini ve API rızasını taşır", () => {
-    const purchaseUi = readSrc("components/academy/purchase-button.tsx");
+    const purchaseUi = readSrc("archived/academy/components/purchase-button.tsx");
     const wallet = readSrc("components/kernel/wallet-top-up-form.tsx");
     const modal = readSrc("components/kernel/quick-top-up-modal.tsx");
     const purchaseApi = readSrc("app/api/academy/courses/[id]/purchase/route.ts");
@@ -558,7 +584,12 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(e2e).toContain("LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH");
     expect(e2e).not.toContain("orijinal kredi");
     expect(e2e).not.toContain("orijinal kredi/banka kartına");
-    expect(LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH).toContain("otomatik olarak karta dönmez");
+    expect(LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH).toContain("self-servis kart iadesiyle");
+    expect(LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH).toContain(
+      "Aktif edilmiş dijital abonelikler ve kullanılan üretim kredileri iade kapsamı dışındadır",
+    );
+    expect(LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH).not.toContain("otomatik olarak karta dönmez");
+    expect(LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH).not.toContain("destek kanalından alınır");
     expect(LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH).not.toContain("orijinal kredi");
   });
 

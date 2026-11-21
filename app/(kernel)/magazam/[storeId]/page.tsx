@@ -46,7 +46,11 @@ export default async function MagazamHomePage({ params }: { params: Promise<{ st
   const counts = productCounts(products.value);
   const licenseLabel =
     license.value.phase === "open"
-      ? copy.licenseOpen
+      ? license.value.status === "TRIALING"
+        ? license.value.trialDaysLeft != null
+          ? copy.trialRemaining(license.value.trialDaysLeft)
+          : copy.licenseTrial
+        : copy.licenseOpen
       : license.value.phase === "pending"
         ? copy.licensePending
         : license.value.phase === "closed"

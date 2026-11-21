@@ -146,6 +146,14 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
     "Sosyal yorum taslağı. Kendiliğinden gitmez. Native hop değildir.",
   ),
   ...verbs(
+    "admin-ai-models",
+    ["GET", "PATCH"],
+    "/api/admin/ai-models",
+    "admin",
+    true,
+    "Super Admin ürün model yuvaları. Anahtar tarayıcıya çıkmaz. Akademi mühür katmanlarını değiştirmez. Native hop değildir.",
+  ),
+  ...verbs(
     "admin-catalog",
     ["PATCH"],
     "/api/admin/catalog",
@@ -336,6 +344,14 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
     "product-write",
     true,
     "Sohbet yazması. Anonim ziyaretçi günde 5 soru. v1 hop satırı yoktur.",
+  ),
+  ...verbs(
+    "product-ai-form-coach",
+    ["POST"],
+    "/api/ai/form-coach",
+    "product-write",
+    true,
+    "Form koçu. Oturum yoksa misafir kovası. v1 hop satırı yoktur.",
   ),
   ...verbs(
     "product-career-coach",
@@ -539,7 +555,7 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
   ),
   ...verbs(
     "product-commerce-subscription",
-    ["POST"],
+    ["POST", "DELETE"],
     "/api/commerce/stores/[storeId]/subscription",
     "product-write",
     true,

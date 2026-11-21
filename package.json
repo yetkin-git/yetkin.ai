@@ -96,7 +96,7 @@
     "generate:v1-client": "tsx scripts/generate-rail-v1-dron-types.ts",
     "verify:v1-contract-artifacts": "tsx scripts/generate-openapi-v1.ts --check && tsx scripts/generate-rail-v1-dron-types.ts --check && tsx scripts/verify-kernel-package.ts",
     "verify:sen-axis": "tsx scripts/verify-sen-axis.ts",
-    "test:surface": "vitest run surface.test.ts tests/kernel/constitution-surfaces.test.ts",
+    "test:surface": "vitest run surface.test.ts tests/tezgah/surface.test.ts tests/kernel/constitution-surfaces.test.ts",
     "verify:junior-sync": "tsx scripts/verify-junior-sync.ts",
     "verify:junior-visual-ops": "tsx scripts/verify-junior-visual-ops.ts",
     "author:visual-ops": "tsx scripts/author-topic-visual-ops.ts",
@@ -110,7 +110,8 @@
     "verify:junior-audio-cdn": "tsx scripts/verify-junior-audio-manifest.ts --cdn-openers",
     "verify:junior-audio-cdn-full": "tsx scripts/verify-junior-audio-manifest.ts --cdn",
     "verify:prebuild": "npm run verify:no-secrets && npm run verify:amount-minor && npm run verify:rls-status && npm run verify:v1-contract-artifacts && npm run verify:idor-seals && npm run ops:runtime-readiness && tsx scripts/verify-api-auth.ts --check && npm run verify:public-size && npm run verify:academy-curriculum && npm run verify:junior-content && npm run verify:junior-audio-manifest && npm run verify:junior-sync",
-    "verify:nightly": "npm run verify:grep-seals && npm run verify:ai-gateway && npm run verify:web-security-seals && npm run verify:paytr-reconciliation-seals && npm run test:surface"
+    "verify:nightly": "npm run verify:grep-seals && npm run verify:ai-gateway && npm run verify:web-security-seals && npm run verify:paytr-reconciliation-seals && npm run test:surface",
+    "verify:all": "npm run lint && npx tsc --noEmit && npm run verify:api-auth -- --check && npm run verify:no-secrets && npm run verify:boundaries && npm test"
   },
   "engines": {
     "node": ">=20.19.0"
@@ -128,7 +129,7 @@
         "@yetkin/kernel": "*",
     "inngest": "^4.11.0",
     "jose": "^6.2.9",
-    "next": "^16.2.9",
+    "next": "^16.3.0",
     "pg": "^8.22.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

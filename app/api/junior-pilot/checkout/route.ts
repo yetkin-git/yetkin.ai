@@ -11,6 +11,11 @@ import { placeJuniorPaytrOrder } from "@/lib/junior/checkout-paytr";
 import { createPrismaJuniorStore } from "@/lib/junior/load";
 import { readJuniorYearlyPrice } from "@/lib/junior/price";
 import { juniorLockedResponse } from "@/lib/junior/surface-lock";
+import {
+  applyHttpRateLimit,
+  HTTP_RATE_LIMITS,
+  rateLimitedJsonResponse,
+} from "@/lib/kernel/security/http-rate-limit";
 
 export const auth = "session" as const;
 
@@ -20,6 +25,10 @@ export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
+    const limited = await applyHttpRateLimit(request, HTTP_RATE_LIMITS.checkoutUser, user.id);
+    if (!limited.allowed) {
+      return rateLimitedJsonResponse(limited, request);
+    }
     const hidden = juniorVisibilityDenied(request, user.email);
     if (hidden) {
       return hidden;

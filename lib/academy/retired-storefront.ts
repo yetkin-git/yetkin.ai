@@ -1,11 +1,16 @@
 /**
- * Yayından kalkan Akademi URL'leri — vitrin mühürlü amiral SKU; eski slug kataloga 301.
+ * Yayından kalkan Akademi URL'leri — vitrin mühürlü amiral SKU.
  * Lisans / mühür satırı silinmez; yeni satış ve vitrin kapanır.
  *
- * next.config bu modülü import eder: sunucu-only / Prisma / `@/` yok.
- * `@yetkin/kernel` paket export'u ile çözülür. tsconfig `paths` bu paketi
- * kök `./packages/...` diye yazar; Next config yükleyicisi o yolu bu dosyanın
- * klasöründen arar ve `course-slugs` modülünü kaçırır.
+ * SEO Tedavi (P0): bu modülün ürettiği 106 slug × 3 kural = 318 adet
+ * `/academy` hedefli 301 kuralı **kaldırıldı**. `/academy` diskte yok ve kenar onu
+ * `frozen-410` ile keser; 301 → 410 zinciri Google'da hem yönlendirme sinyalini
+ * hem hedefi düşürür. Emekli slug artık doğrudan temiz `410 Gone` alır.
+ * Slug sicili burada kalır: motor (`lib/academy/engine.ts`), kamu yüzey kapısı
+ * (`public-surface-gate.ts`) ve `/api/academy/courses/[id]` bu listeden 410 basar.
+ *
+ * next.config bu modülü import ETMEZ (yönlendirme üretmez).
+ * Sunucu-only / Prisma / `@/` yok.
  */
 
 import { ACADEMY_CANON_SKU_SLUGS } from "@yetkin/kernel/catalog-ids/course-slugs";
@@ -139,9 +144,12 @@ export const ACADEMY_RETIRED_STOREFRONT_SLUGS: readonly string[] = [
   ]),
 ];
 
-/** BFF 410 — tarayıcı 301 ile kataloga gider; API satış yüzeyi Gone basar. */
+/**
+ * BFF 410 — istemci 301 üretmez (SEO Tedavi P0); API satış yüzeyi Gone basar.
+ * Metin canlı ürün yüzeylerine yönlendirir: kapalı `/academy` adresi vaat edilmez.
+ */
 export const ACADEMY_RETIRED_COURSE_GONE_MESSAGE =
-  "Bu eğitim yayından kalktı. Güncel katalog /academy adresindedir.";
+  "Bu eğitim yayından kalktı. Güncel ürünler: AI Tezgâh (/tezgah) ve YetkinCV (/career).";
 
 export function isAcademyRetiredStorefrontSlug(slug: string): boolean {
   return ACADEMY_RETIRED_STOREFRONT_SLUGS.includes(slug);
@@ -153,7 +161,14 @@ export type AcademyRetiredRedirect = {
   statusCode: 301;
 };
 
-/** Eski antre + oynatıcı + `/academy/courses/` alias — 301 katalog. 410 API katmanındadır. */
+/**
+ * Eski slug → `/academy` 301 haritası. **Artık next.config tarafından tüketilmez.**
+ *
+ * SEO Tedavi (P0) ile yönlendirme bloğu kaldırıldı: hedef `/academy` diskte yok ve
+ * kenar 410 basıyor. 301→410 zinciri yerine emekli slug temiz `410 Gone` alır.
+ * Fonksiyon, slug sicilinin 301 biçimini belgeleyen tek yerdir ve arşiv testleri
+ * (`archived/academy/tests/storefront-vitrine.test.ts`) hâlâ haritayı doğrular.
+ */
 export function academyRetiredStorefrontRedirects(): AcademyRetiredRedirect[] {
   return ACADEMY_RETIRED_STOREFRONT_SLUGS.flatMap((slug) => [
     { source: `/academy/${slug}`, destination: "/academy", statusCode: 301 },

@@ -11,6 +11,7 @@ import {
   GRANT_NACE_GROUPS,
   GRANT_PROVINCES,
 } from "@/lib/yetkinhibe/grant-brief-axes";
+import { buildCitizenRegisterHref } from "@/lib/kernel/auth/redirects";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
 type MatchResult = {
@@ -182,9 +183,16 @@ export function GrantEligibilityWidget() {
             <p className="mt-1 text-sm text-[var(--muted)]">Yakın program: {result.programLabel}</p>
           ) : null}
           <div className="mt-4">
-            <LinkButton href={"/hibe" as Route} variant="success" size="sm">
-              YetkinHibe işletim sisteminde proje dosyasını aç
+            {/*
+              CRO: skoru gören ziyaretçi proje dosyası aşamasında kayıt olur.
+              Hedef `next=/hibe` ile korunur; çıplak `/login` duvarı yok.
+            */}
+            <LinkButton href={buildCitizenRegisterHref("/hibe") as Route} variant="success" size="sm">
+              Proje dosyasını aç (ücretsiz kayıt)
             </LinkButton>
+            <p className="mt-2 text-xs text-[var(--muted)]">
+              Kayıttan sonra doğrudan proje dosyası ekranına dönersiniz.
+            </p>
           </div>
         </div>
       ) : null}

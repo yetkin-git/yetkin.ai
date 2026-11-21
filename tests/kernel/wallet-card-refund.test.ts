@@ -24,7 +24,7 @@ const FINANCE_REVIEW_MINOR = 191_000;
 
 function memoryRefundPorts(
   startMinor: number,
-  orders: { merchantOid: string; amountMinor: number }[],
+  orders: { merchantOid: string; amountMinor: number; purpose?: string }[],
   callPaytr?: WalletCardRefundPorts["callPaytr"],
 ): {
   ports: WalletCardRefundPorts;
@@ -133,6 +133,33 @@ describe("cüzdan kart iadesi", () => {
       { merchantOid: "new", amountMinor: 1500 },
       { merchantOid: "old", amountMinor: 1000 },
     ]);
+  });
+
+  it("aktif Pro ve lisans siparişini iade dilimine koymaz", () => {
+    const slices = allocateUnusedBalanceRefund(
+      5_000,
+      [
+        { merchantOid: "pro", amountMinor: 2_000, purpose: "tezgah-license:pro" },
+        { merchantOid: "license", amountMinor: 3_000, purpose: "COMMERCE_LICENSE" },
+        { merchantOid: "topup", amountMinor: 1_500, purpose: "WALLET_TOPUP" },
+      ],
+      {},
+    );
+    expect(slices).toEqual([{ merchantOid: "topup", amountMinor: 1_500, purpose: "WALLET_TOPUP" }]);
+  });
+
+  it("kredi paketi iadesi sayaç düşümünü aynı akışta çağırır", async () => {
+    const drops: number[] = [];
+    const { ports, balance } = memoryRefundPorts(1_000, [
+      { merchantOid: "pack", amountMinor: 1_000, purpose: "tezgah-credit:pack" },
+    ]);
+    ports.adjustTezgahCreditBalance = async ({ refundedMinor }) => {
+      drops.push(refundedMinor);
+    };
+    const result = await refundUnusedWalletBalance(ports, "citizen-credit");
+    expect(result.refundedMinor).toBe(1_000);
+    expect(balance()).toBe(0);
+    expect(drops).toEqual([1_000]);
   });
 
   it("daha önce iade edilen kuruşu odadan düşer", () => {

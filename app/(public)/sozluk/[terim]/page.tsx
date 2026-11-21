@@ -4,10 +4,11 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { IconArrow } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/link-button";
 import { PublicHero } from "@/components/ui/public-hero";
-import { GLOSSARY_PATH, GLOSSARY_TERMS, glossaryPath, glossaryTerm } from "@/lib/copy/glossary";
+import { GLOSSARY_PATH, GLOSSARY_TERMS } from "@/lib/copy/glossary";
 import { GUIDE_TEZGAH_CTA_HREF, GUIDE_TEZGAH_CTA_LABEL } from "@/lib/copy/guides";
 import { breadcrumbListJsonLd, guideArticleJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
 import { pageMetadata } from "@/lib/copy/seo";
+import { glossaryEntryPath, loadGlossaryTerm } from "@/lib/content/public-content";
 import type { Route } from "next";
 
 export function generateStaticParams(): { terim: string }[] {
@@ -22,7 +23,7 @@ export async function generateMetadata({
   params: Promise<{ terim: string }>;
 }): Promise<Metadata> {
   const { terim } = await params;
-  const term = glossaryTerm(terim);
+  const term = await loadGlossaryTerm(terim);
   if (!term) {
     return pageMetadata({
       title: "Sözlük",
@@ -34,7 +35,7 @@ export async function generateMetadata({
   return pageMetadata({
     title: term.term,
     description: term.definition.slice(0, 160),
-    path: glossaryPath(term.slug),
+    path: glossaryEntryPath(term.slug),
     robots: { index: true, follow: true },
   });
 }
@@ -45,11 +46,11 @@ export default async function SozlukTermPage({
   params: Promise<{ terim: string }>;
 }) {
   const { terim } = await params;
-  const term = glossaryTerm(terim);
+  const term = await loadGlossaryTerm(terim);
   if (!term) {
     notFound();
   }
-  const path = glossaryPath(term.slug);
+  const path = glossaryEntryPath(term.slug);
   return (
     <main className="mx-auto w-full max-w-3xl px-6 pb-16 pt-10">
       <JsonLd

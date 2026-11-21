@@ -14,7 +14,6 @@ import {
 import {
   LEGAL_LAUNCH_SECTIONS,
   LEGAL_UPDATED_LABEL,
-  legalSectionBySlug,
   legalSectionLead,
 } from "@/lib/copy/legal-launch";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -24,6 +23,7 @@ import {
   legalSectionBreadcrumbs,
 } from "@/lib/copy/json-ld";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
+import { loadLegalSection } from "@/lib/content/public-content";
 
 export function generateStaticParams() {
   return LEGAL_LAUNCH_SECTIONS.map((section) => ({ slug: section.slug }));
@@ -38,7 +38,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const section = legalSectionBySlug(slug);
+  const section = await loadLegalSection(slug);
   if (!section) {
     return { title: "Yasal sayfa" };
   }
@@ -56,7 +56,7 @@ export default async function LegalSectionPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const section = legalSectionBySlug(slug);
+  const section = await loadLegalSection(slug);
   if (!section) {
     notFound();
   }

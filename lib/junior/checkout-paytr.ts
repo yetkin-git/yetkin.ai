@@ -181,7 +181,8 @@ export async function placeJuniorPaytrOrder(
 
   const paytrUser = paytrUserFromBilling(draft.billing);
   const origin = resolvePaytrMerchantAppOrigin();
-  const returnUrl = buildPaytrMerchantBrowserReturnUrl(origin);
+  // CRO: junior paket dönüşü `masa=junior` taşır.
+  const returnUrl = buildPaytrMerchantBrowserReturnUrl(origin, "junior", merchantOid);
   try {
     const checkout = await paytrPaymentProvider.beginCheckout({
       merchantOid,

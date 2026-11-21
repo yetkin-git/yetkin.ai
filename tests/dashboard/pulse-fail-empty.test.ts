@@ -36,11 +36,14 @@ describe("kokpit SEN sözlüğü", () => {
   it("kart başlığı oda adıdır; mühür/nabız vatandaş yüzüne sızmaz", () => {
     const pulse = SEN_VOICE.dashboard.pulse;
     const nba = SEN_VOICE.dashboard.nextBestAction;
-    expect(pulse.academyTitle).toBe("Akademi");
+    expect(pulse.academyTitle).toBe("AI Tezgâh");
+    expect(pulse.academyHrefLabel).toBe("Tezgâhı aç");
     expect(pulse.careerTitle).toBe("Kariyer");
     expect(pulse.freelancerTitle).toBe("Freelancer");
-    expect(pulse.academyEmpty).toBe("İlk eğitimini tamamla, sertifikanı kap!");
-    expect(pulse.academyEmptyCta).toBe("Eğitimleri İncele");
+    expect(pulse.academyEmpty).toBe(
+      "Misafir ve üye günde üç üretim alır. Pro, otuz günlük erişim paketidir.",
+    );
+    expect(pulse.academyEmptyCta).toBe("Tezgâhı aç");
     expect(pulse.careerEmpty).toBe("İlk etkinliğini yap, rozetini kazan!");
     expect(pulse.careerEmptyCta).toBe("Kariyerini aç");
     expect(pulse.academyTitle).not.toContain("nabzı");

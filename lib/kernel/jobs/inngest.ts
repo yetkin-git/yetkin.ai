@@ -489,6 +489,20 @@ export const hepsiburadaOrderPull = inngest.createFunction(
   },
 );
 
+export const commerceSubscriptionRenewal = inngest.createFunction(
+  {
+    id: "commerce-subscription-renewal",
+    name: "Commerce lisans yenileme",
+    triggers: [{ cron: "TZ=Europe/Istanbul 15 4 * * *" }],
+  },
+  async ({ step }) => {
+    return step.run("renew-commerce-subscriptions", async () => {
+      const { runCommerceSubscriptionRenewalScan } = await import("@/lib/commerce/subscription-renewal");
+      return runCommerceSubscriptionRenewalScan();
+    });
+  },
+);
+
 export const weeklyOpportunityRadar = inngest.createFunction(
   {
     id: "weekly-opportunity-radar",
@@ -516,6 +530,7 @@ export const kernelInngestFunctions = [
   trendyolOrderPull,
   hepsiburadaStockPush,
   hepsiburadaOrderPull,
+  commerceSubscriptionRenewal,
   weeklyOpportunityRadar,
 ];
 

@@ -75,6 +75,15 @@ export type EcommerceLicenseBand = {
   /** Katalog `commerce / monthly` satırının kompakt tutarı, sonuna ` / Ay` eklenir. Satır yoksa null. */
   priceLabel: string | null;
   activateHref: string;
+  /** Deneme açıkken "Lisans açık" değil kalan gün basılır. */
+  trial: {
+    active: boolean;
+    daysLeft: number | null;
+  };
+  /** Bu mağaza için 30 gün ücretsiz deneme açılabilir mi. */
+  trialEligible: boolean;
+  /** Deneme kapalıysa gerekçe: VKN/TCKN eksik, hak tüketilmiş, açık pencere, koltuk dolu. */
+  trialBlockedReason: "no_key" | "consumed" | "held" | "open_seat" | "unknown" | null;
 };
 
 export type OsCockpitView = {

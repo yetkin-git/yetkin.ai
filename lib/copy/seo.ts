@@ -77,12 +77,18 @@ export const SITE_CONTENT_REVISED_AT = new Date("2026-10-27T00:00:00.000Z");
  */
 export const PAGE_SEO = {
   guide: {
-    title: "Ofiste yapay zekâ rehberi: Excel ve e-posta",
+    // Makale değil: dört aktif modülün uçtan uca kurulum akışı (Görsel İş Akış Merkezi).
+    title: "İş Akışı ve Kurulum Merkezi — adım adım süreç şeması",
     description:
-      "Excel tablosu, e-posta taslağı ve kısa talimat. İlk ders ücretsiz; kayıt duvarı yok. Testi geçince sertifika Doğrulanmış Freelancer Rozetine işlenir.",
+      "E-ticaret, hibe, AI Tezgâh ve YetkinCV kurulumunu adım adım gör: süre, somut girdi → çıktı, kritik ipucu ve doğrudan ilgili ekrana giden buton.",
     path: "/rehber",
     image: DEFAULT_OG_IMAGE,
-    keywords: ["ofiste yapay zekâ", "excel yapay zeka eğitimi", "iş hayatında yapay zekâ"],
+    keywords: [
+      "e-ticaret kurulum rehberi",
+      "kosgeb hibe başvuru adımları",
+      "yapay zeka iş akışı",
+      "yetkincv yetenek rozeti",
+    ],
   },
   home: {
     title: PUBLIC_SEN.home.title,
@@ -114,39 +120,16 @@ export const PAGE_SEO = {
     ],
   },
   publicTalent: {
-    title: "Kariyer Kartı — doğrulanmış freelancer rozeti",
+    title: "Kariyer Kartı — YetkinCV Onaylı Yetenek Rozeti",
     description:
       "Kamuya açık Kariyer Kartı: doğrulanabilir yetkinlik puanı, doğrulama bağı ve proje kanıtı. Oturum istenmez; vatandaş kimliği gösterilmez.",
     path: "/vize",
     image: DEFAULT_OG_IMAGE,
   },
   // PayTR B2C (E7): 410 dönen /freelancer odasının SEO girdisi yoktur.
-  academy: {
-    title: "Akademi eğitim kataloğu",
-    // Vitrin kataloğunun arama niyeti: «yapay zeka eğitimi / online kurs». Sertifika ve
-    // kariyer vizesi vaadi korunur; tekrarlanan ders sayımı kırpılır (SERP ~155).
-    description:
-      "Yapay zeka eğitimi ve online kurs: ofis, e-ticaret, sosyal medya, chatbot ve prompt. İlk ders ücretsiz. Testi 70+ ile geç, sertifikan Kariyer sayfana işlenir.",
-    path: "/academy",
-    image: DEFAULT_OG_IMAGE,
-  },
-  academyAdvanced: {
-    // Mutlak başlık: `| yetkin.ai` soneki kök şablon yerine burada yazılır.
-    // 60 karakter tavanını tutmak için konu dizgisi kısaltıldı (`pageMetadata` bunu
-    // `absolute` olarak basar; şablon markayı ikinci kez eklemez).
-    title: "İleri Yapay Zekâ Modülleri: E-Ticaret, Chatbot | yetkin.ai",
-    description:
-      "Temel ofis eğitiminin üstüne binen beş ileri modül: e-ticaret pazaryeri, sosyal medya, kodsuz chatbot, prompt pratiği ve ileri ofis. Her biri ayrı iş.",
-    path: "/academy/ileri",
-    image: DEFAULT_OG_IMAGE,
-  },
-  academyVerify: {
-    title: "Sertifika doğrula — SHA-256 sicil kaydı",
-    description:
-      "Paylaşılabilir bağ ve QR birincil doğrulama yoludur. SHA-256 sicil bütünlük kaydını doğrula. Oturum istenmez; vatandaş kimliği gösterilmez. Müfredat özeti sicile bağlıdır. Kriptografik imza değildir. Uydurma geçerli damga basılmaz.",
-    path: "/academy/dogrula",
-    image: DEFAULT_OG_IMAGE,
-  },
+  // SEO Tedavi (P0): kapalı Akademi girdileri (`academy`, `academyAdvanced`,
+  // `academyVerify`) KALDIRILDI. `/academy` diskte yok ve kenar 410 basıyor;
+  // meta basan sayfa olmadığı için bu girdiler yalnız testte yaşıyordu.
   contact: {
     title: "İletişim ve destek",
     description:
@@ -157,7 +140,7 @@ export const PAGE_SEO = {
   pricing: {
     title: "Fiyatlar — ücretsiz tezgâh ve uzmanlık paketleri",
     description:
-      "AI Tezgâh, uygulama rehberleri ve seviye testi ücretsizdir. AI Tezgâh Pro, e-ticaret lisansı ve kurumsal paketlerin tutarı katalogdan okunur.",
+      "AI Tezgâh, uygulama rehberleri ve YetkinCV ücretsizdir. AI Tezgâh Pro, e-ticaret lisansı ve kurumsal paketlerin tutarı katalogdan okunur.",
     path: "/fiyatlandirma",
     image: DEFAULT_OG_IMAGE,
   },
@@ -255,12 +238,12 @@ type PageSeoInput = {
   keywords?: readonly string[];
 };
 
-export const PRODUCT_ROOM_PATHS = ["/academy", "/career"] as const;
+/** İndekslenen ürün odaları. Kapalı kayıt (`/academy`, `/freelancer`, `/young`) yazılmaz. */
+export const PRODUCT_ROOM_PATHS = ["/career"] as const;
 
 /**
  * Sitemap ve robots Allow — yalnız oturumsuz 200 dönen kamu yolları.
- * Kök `/` kalıcı 308 ile `/academy` kataloğuna iner; site haritasında durmaz
- * (Search Console «Yönlendirmeli sayfa»).
+ * Kök `/` marka iniş sayfasıdır ve indekslenir. `/academy` kapalıdır; site haritasında durmaz.
  * `/career` herkese açık kariyer vizesi sayfasıdır; site haritasındadır.
  * `/tezgah` herkese açık AI çalışma tezgâhıdır; site haritasındadır.
  * `/junior` izinli iki hesap dışına kapalıdır; site haritasına yazılmaz.
@@ -278,6 +261,11 @@ export const SITEMAP_STATIC_PATHS = [
   PAGE_SEO.uzmanlar.path,
   PAGE_SEO.sozluk.path,
   PAGE_SEO.tetkik.path,
+  // SEO Tedavi (Faz 2): `/hakkimizda` ve `/iletisim` önce yalnız yasal footer
+  // listesinden (`LEGAL_FOOTER_LINKS`) sızıyordu. Footer'dan bir satır çıkarsa
+  // iki kamu sayfası site haritasından sessizce düşerdi. Artık açık kayıt.
+  PAGE_SEO.about.path,
+  PAGE_SEO.contact.path,
 ] as const;
 
 /**
@@ -341,181 +329,16 @@ export function isRobotsDisallowedPath(pathname: string): boolean {
 }
 
 /**
- * Canlı yayın SEO — altı antre.
- * `course.title` sicil/sertifika başlığıdır; yalnız bu dal arama title / description / keywords basar.
- * Title dizesi `| yetkin.ai` ile biter. `pageMetadata` bunu mutlak başlık yapar;
- * kök `TITLE_TEMPLATE` markayı ikinci kez eklemez.
- * Description 160 karakter tavanındadır. Mühür cümlesi (izleme + baraj, sunucu dosya kontrolü yok)
- * katalog, SSS ve rehberde durur; snippet bu arama niyeti metnidir.
+ * SEO Tedavi (P0) — kurs SEO override bloğu (`OFFICE_AI_SEO`, `OFFICE_AI_ILERI_SEO`,
+ * `ECOMMERCE_AI_SEO`, `SOCIAL_MEDIA_AI_SEO`, `CHATBOT_NOCODE_SEO`,
+ * `PROMPT_PRACTICE_SEO`, `academyCourseSeoOverride`, `OFFICE_AI_LESSON_TEASERS`,
+ * `ECOMMERCE_AI_PUBLIC_PATH`) KALDIRILDI. Üretim ithalatçısı yoktu: `/academy/[slug]`
+ * sayfası arşivde, `courseJsonLd` ise hiçbir yerde basılmıyordu. Kapalı bir halkayı
+ * doğrulayan testler de silindi. Canlı Akademi kanıt yüzeyi (`/vize`, `lib/academy/load.ts`)
+ * bu sabitleri hiç okumuyordu.
  */
-export const OFFICE_AI_SEO = {
-  slug: "01_office_ai",
-  path: "/academy/01_office_ai",
-  title: "İş Hayatında Yapay Zekâ: Excel ve E-Posta | yetkin.ai",
-  description:
-    "İş hayatında yapay zekâ ve Copilot kullanımı: Excel formülleri, yönetim özeti, Gmail Gemini ve KVKK e-postası. 8 derste pratik beceri ve sertifika.",
-  /** Gövde H1 — kullanıcı dili; title (arama dili) ile ayrışır. */
-  h1: "İş Hayatında Yapay Zekâ: Excel'den E-Postaya 8 Ders",
-  keywords: [
-    "iş hayatında yapay zeka",
-    "excel yapay zeka",
-    "office copilot eğitimi",
-    "yapay zeka sertifikası",
-    "prompt mühendisliği office",
-  ],
-} as const;
-
-/**
- * OFF-201 (`01_office_ai_ileri`) kamu meta override.
- * Sicil başlığı durur; title / description / H1 / keywords bu daldadır.
- */
-export const OFFICE_AI_ILERI_SEO = {
-  slug: "01_office_ai_ileri",
-  path: "/academy/01_office_ai_ileri",
-  title: "İleri Ofis Yapay Zekâ: Toplantı ve Denetim | yetkin.ai",
-  description:
-    "İleri düzey yapay zekâ uygulamaları: Dört parçalı istem, toplantı notu analizi, uzun belge özetleme ve 3 dosyada sayı denetimi. İleri seviye ofis uzmanlığı.",
-  h1: "İleri Ofis Yapay Zekâ: Toplantı Notundan Sayı Denetimine",
-  keywords: [
-    "ileri ofis yapay zeka",
-    "toplantı notu yapay zeka",
-    "veri denetimi yapay zeka",
-    "ileri seviye prompt",
-  ],
-} as const;
-
-/**
- * EC-102 (`02_ecommerce_ai`) kamu meta override.
- * Sicil başlığı müfredat adıdır; arama title / description / keywords bu daldadır.
- */
-export const ECOMMERCE_AI_SEO = {
-  slug: "02_ecommerce_ai",
-  path: "/academy/02_ecommerce_ai",
-  title: "E-Ticaret Yapay Zekâ: Trendyol ve Shopify | yetkin.ai",
-  description:
-    "Trendyol, Hepsiburada, Amazon ve Shopify için ürün açıklaması, görsel, iade analizi ve mağaza mesajı. 6 derste e-ticaret yapay zekâ.",
-  h1: "E-Ticaret ve Pazaryeri Yapay Zekâ Asistanlığı",
-  keywords: [
-    "e-ticaret yapay zeka",
-    "pazaryeri yapay zeka asistanı",
-    "trendyol ürün açıklaması yapay zeka",
-    "hepsiburada yapay zeka",
-    "e-ticaret seo prompt",
-  ],
-} as const;
-
-/**
- * SM-103 (`03_social_media_ai`) kamu meta override.
- * Sicil başlığı müfredat adıdır; arama title / description / keywords bu daldadır.
- */
-export const SOCIAL_MEDIA_AI_SEO = {
-  slug: "03_social_media_ai",
-  path: "/academy/03_social_media_ai",
-  title: "Sosyal Medya Yapay Zekâ: Görsel ve Video | yetkin.ai",
-  description:
-    "Sosyal medya görseli ve kısa video: künye, tek stil, üç saniyelik kanca, altyazı ve yayından önce kontrol. 6 derste içerik üretimi ve sertifika.",
-  h1: "Yapay Zekâ ile Sosyal Medya: Künyeden Kısa Videoya",
-  keywords: [
-    "sosyal medya yapay zeka",
-    "kısa video yapay zeka",
-    "instagram içerik eğitimi",
-    "yapay zeka görsel üretimi",
-  ],
-} as const;
-
-/**
- * BOT-104 (`04_chatbot_nocode`) kamu meta override.
- * Sicil başlığı müfredat adıdır; arama title / description / keywords bu daldadır.
- */
-export const CHATBOT_NOCODE_SEO = {
-  slug: "04_chatbot_nocode",
-  path: "/academy/04_chatbot_nocode",
-  title: "Kodsuz WhatsApp ve Web Chatbot Eğitimi | yetkin.ai",
-  description:
-    "Voiceflow ve Botpress ile kodsuz WhatsApp ve web chatbot: karşılama, randevu, yanlış anlama ve teslim listesi. 6 derste sertifika.",
-  h1: "Kodsuz WhatsApp ve Web Chatbot: Karşılamadan Teslime",
-  keywords: [
-    "whatsapp chatbot",
-    "kodsuz chatbot kurulumu",
-    "müşteri hizmetleri chatbot",
-    "web chatbot eğitimi",
-  ],
-} as const;
-
-/**
- * PR-105 (`05_prompt_practice`) kamu meta override.
- * Sicil başlığı müfredat adıdır; arama title / description / keywords bu daldadır.
- */
-export const PROMPT_PRACTICE_SEO = {
-  slug: "05_prompt_practice",
-  path: "/academy/05_prompt_practice",
-  title: "Yapay Zekâ Prompt Eğitimi: Doğru Talimat | yetkin.ai",
-  description:
-    "Yapay zekâya doğru talimat: rol, bağlam, biçim, kaynak sınırı, tablo ve günlük istem seti. 6 derste prompt pratiği ve sertifika.",
-  h1: "Yapay Zekâya Doğru Talimat Verme: Altı Ders",
-  keywords: [
-    "prompt mühendisliği",
-    "yapay zeka prompt eğitimi",
-    "doğru talimat verme",
-    "istem yazma pratiği",
-  ],
-} as const;
-
-export type AcademyCourseSeo = {
-  slug: string;
-  path: string;
-  title: string;
-  description: string;
-  h1: string;
-  keywords: readonly string[];
-};
-
-/** Yayın antre meta override. Sicil başlığını ezmez. */
-export function academyCourseSeoOverride(slug: string): AcademyCourseSeo | null {
-  if (slug === OFFICE_AI_SEO.slug) {
-    return OFFICE_AI_SEO;
-  }
-  if (slug === OFFICE_AI_ILERI_SEO.slug) {
-    return OFFICE_AI_ILERI_SEO;
-  }
-  if (slug === ECOMMERCE_AI_SEO.slug) {
-    return ECOMMERCE_AI_SEO;
-  }
-  if (slug === SOCIAL_MEDIA_AI_SEO.slug) {
-    return SOCIAL_MEDIA_AI_SEO;
-  }
-  if (slug === CHATBOT_NOCODE_SEO.slug) {
-    return CHATBOT_NOCODE_SEO;
-  }
-  if (slug === PROMPT_PRACTICE_SEO.slug) {
-    return PROMPT_PRACTICE_SEO;
-  }
-  return null;
-}
-
-/** Kamuya açık antre ders özetleri — tam compact makale duvar arkasındadır. */
-export const OFFICE_AI_LESSON_TEASERS: Readonly<Record<string, string>> = {
-  "01_office_ai-1":
-    "Excel'de temiz veri: Excel Copilot ve Ataş Yöntemi ve A1 Düzeni ve Temiz Veri ile dağınık tabloyu düzenli tabloya çevirirsin.",
-  "01_office_ai-k1":
-    "KVKK maskeleme: müşteri adını ve telefonunu beş saniyede maskeler, sonra yapay zekâya yüklersin.",
-  "01_office_ai-2":
-    "Yönetim özetine dönüştürme: temiz tablodan üç madde ve bir karar cümlesi çıkarırsın.",
-  "01_office_ai-3":
-    "Metinden slayta: Copilot veya PowerPoint sunusu ataş ile sunum hazırlarsın.",
-  "01_office_ai-5":
-    "Yapay zekâ yanılınca TOPLA ve kaynak evrakla sayıyı kilitlersin.",
-  "01_office_ai-g1":
-    "Gmail'de yerleşik Gemini ve Outlook: etiket, taslak, onay, arşiv, sonra yerinde aksiyon listesi.",
-  "01_office_ai-w1":
-    "Word belgesi inceleme: Word ataş ile belge analizi; sözleşme, dilekçe ve raporu ayrı istemle çözersin.",
-  "01_office_ai-6":
-    "Haftalık Cuma rutini: on dakika Excel, on dakika slayt, on dakika kutu; takvime yazılır.",
-};
 
 /** robots.txt Allow — Akademi kapalıdır (410). Kurs yolu allow listesi boştur. */
-export const ECOMMERCE_AI_PUBLIC_PATH = ECOMMERCE_AI_SEO.path;
-
 export const ROBOTS_ALLOW_COURSE_PATHS = [] as const;
 
 export type SitemapChangeFrequency =
@@ -528,21 +351,24 @@ export type SitemapChangeFrequency =
   | "never";
 
 /**
- * Aşama 2 sitemap önceliği: akademi katalog 1.0, kurs 0.8, yasal/iletişim/hakkımızda 0.5.
- * Kariyer 0.9.
+ * Aşama 2 sitemap önceliği: kök 1.0, ürün odaları 0.9, vitrin 0.8, yasal 0.5.
+ *
+ * SEO Tedavi (P0): `/academy` ve `/academy/*` yüksek öncelik kuralları KALDIRILDI.
+ * Site haritasında `/academy` hiç yok (`SITEMAP_STATIC_PATHS` taşımaz) ve kenar 410
+ * basıyor; politikada 0.8 tutmak ölü bir yüzeyi canlı saymaktı.
  */
 export function sitemapRoutePolicy(path: string): {
   changeFrequency: SitemapChangeFrequency;
   priority: number;
 } {
-  if (path === "/" || path === "/academy") {
+  if (path === "/") {
     return { changeFrequency: "weekly", priority: 1 };
   }
   if (path === "/career" || path === "/junior" || path === PAGE_SEO.tezgah.path) {
     return { changeFrequency: "weekly", priority: 0.9 };
   }
   if (path === PAGE_SEO.guide.path || path.startsWith("/rehber/")) {
-    return { changeFrequency: "monthly", priority: 0.8 };
+    return { changeFrequency: "monthly", priority: 0.9 };
   }
   if (path === "/uzmanlar" || path === "/sozluk" || path === "/tetkik") {
     return { changeFrequency: "weekly", priority: 0.8 };
@@ -553,11 +379,13 @@ export function sitemapRoutePolicy(path: string): {
   if (path.startsWith("/junior/ders/")) {
     return { changeFrequency: "weekly", priority: 0.7 };
   }
-  if (path.startsWith("/academy/") && !path.startsWith("/academy/dogrula")) {
-    return { changeFrequency: "weekly", priority: 0.8 };
-  }
   if (path.startsWith("/legal") || path === "/iletisim" || path === "/hakkimizda") {
     return { changeFrequency: "monthly", priority: 0.5 };
+  }
+  // Kamu vitrinleri (`/magaza/[slug]`) sitemap'e Faz 2'de eklendi; düşük öncelik
+  // çünkü içerik sahibi satıcıya bağlı ve sık değişir.
+  if (path.startsWith("/magaza/")) {
+    return { changeFrequency: "weekly", priority: 0.4 };
   }
   return { changeFrequency: "weekly", priority: 0.7 };
 }

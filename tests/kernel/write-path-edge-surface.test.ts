@@ -72,7 +72,8 @@ describe("dikey yazma kenar yüzeyi", () => {
     expect(readSrc("archived/app/junior/ebeveyn/page.tsx")).toContain("FrozenRoomGonePage");
     expect(readSrc("archived/app/pazaryeri/tezgah/page.tsx")).toContain("FrozenRoomGonePage");
     expect(readSrc("archived/app/devlabs/projeler/[id]/page.tsx")).toContain("FrozenRoomGonePage");
-    expect(readSrc("app/academy/[slug]/oyna/page.tsx")).toContain("requirePageSession");
+    // Akademi oynatıcısı arşivde; oturum kalkanı oradaki kopyada da bağlar.
+    expect(readSrc("archived/academy/app/[slug]/oyna/page.tsx")).toContain("requirePageSession");
     const csp = readSrc("lib/kernel/security/edge-guard.ts");
     expect(csp).toContain("frame-src https://www.paytr.com https://*.paytr.com https://*.bkm.com.tr https:");
     expect(csp).toContain("style-src 'self' 'unsafe-inline'");

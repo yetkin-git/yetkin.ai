@@ -4,16 +4,33 @@ Yetkinliğini kanıtlayan yapay zekâ eğitimleri. Öğrendiğini mühürle. Mü
 
 Vatandaş ve dış dünya markası **yetkin.ai**. npm paketi `yetkin.ai`. Lab veritabanı (`yetkin_rail_lab`), Inngest app id (`yetkin-rail`) ve dizin yolu `apps/rail-is` operasyonel kimlik olarak durur.
 
-## Faz 1 kamu vitrini — 3 oda + kanıt URL’si
+## Oda kaydı
 
-| Oda / yüzey | Yol | Ne işe yarar |
-|-------------|-----|----------------|
-| Panel | `/dashboard` | Kabuk, cüzdan şeridi, pasaport |
-| Akademi | `/academy` | Kurs, müfredat, sınav, SHA-256 belge — **Faz 1 nakit** |
-| Kariyer | `/career` | Akademi mühründen vize; nakit taşımaz |
-| Kamu kanıt (oda değil) | `/vize` | Oturumsuz mühür kartı; huninin çıkışı |
+Tek kaynak `lib/dronlar/kayit.ts` (`DRON_KAYIT`). `kapali: true` olan yol kenarda **410** döner. Oda sayısı belgede ayrıca sabitlenmez; satır kayıttan okunur.
 
-**Motor 4 / Kamu Vitrini 3 Oda.** `/vize` 5. oda değildir. Freelancer (`/freelancer`) sicilde durur, kamu **410 Gone**; nakit iddiası taşımaz. Lisanslı Split bağlı değilken accept **503**. Junior (`/junior`) 18 yaş altı / veli odasıdır. Oda kapısı `lib/dronlar/kayit.ts` içinde `kapali: false`dır. Kasa `isJuniorCheckoutLocked` iken **410** kalır. Sahte bakiye veya sahte CREDIT yazılmaz (fail-closed). Faz 1 tek nakit kanalı **PayTR Merchant** (B2C eğitim satışı). Dron T3 Akademi halkası bağlıdır; Tezgâh izole durur. Saf sözleşmeler `@yetkin/kernel` paketindedir.
+| Oda | Yol | Kayıt | Yüzey |
+|-----|-----|-------|--------|
+| Panel | `/dashboard` | açık | kamu vitrin |
+| Akademi | `/academy` | kapalı / askıda | satır `vitrin: true`, kenar 410, satış vaadi değil |
+| YetkinCV | `/career` | açık | kamu vitrin, ücretsiz değerlendirme |
+| Freelancer | `/freelancer` | kapalı / askıda | satır `vitrin: true`, kenar 410, nakit iddiası yok |
+| AI Tezgâh | `/tezgah` | açık | müstakil oda (`vitrin: false`) |
+| Junior | `/junior` | açık | müstakil oda; satış ayrı kilit |
+| Young | `/young` | kapalı | müstakil oda, kenar 410 |
+| YetkinHibe | `/hibe` | açık (`yetkinhibe`) | müstakil oda |
+| E-Ticaret | `/e-ticaret` | kayıt dışı | kokpit `COMMERCE_NAV` |
+| Kurumsal | `/kurumsal` | sayfa açık | teklif; donmuş disk kimliği `kurumsal` bu yolu kapatmaz |
+| Kamu kanıt (oda değil) | `/vize` | — | oturumsuz mühür kartı |
+
+**Açık (`kapali: false`):** Panel, YetkinCV, AI Tezgâh, Junior, YetkinHibe.
+
+**Kapalı / askıda (`kapali: true`):** Akademi, Freelancer, Young.
+
+**Junior:** Oda açıktır. Satış `JUNIOR_CHECKOUT_OPEN` boşken `isJuniorCheckoutLocked` ile kilitlidir; kasa **410** kalır. Bu, oda kapısı değildir.
+
+**Kimlik tuzağı:** Donmuş disk kimliği `hibe` canlı oda değildir. Canlı kimlik `yetkinhibe`, yol `/hibe`. Donmuş disk kimliği `kurumsal`, `/kurumsal` ve `/kurumsal/ilanlar` sayfalarını kapatmaz.
+
+Freelancer’da lisanslı Split bağlı değilken accept **503**. Sahte bakiye veya sahte CREDIT yazılmaz (fail-closed). Tahsilat kanalı **PayTR Merchant**. Saf sözleşmeler `@yetkin/kernel` paketindedir.
 
 Kimlik Supabase Auth, nakit tek `amountMinor` defteri, dış sözleşme `/api/v1`. Gövde **Pragmatik Monolit + İnce Sözleşme Paketi + Tek Native İstemci**dir (Anayasa B1). İnce sözleşme paketi `@yetkin/kernel`dir. Tek native istemci `apps/rail-is`tir.
 

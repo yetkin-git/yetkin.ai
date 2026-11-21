@@ -148,12 +148,18 @@ export const MAGAZAM_SEN = {
   listingEmpty: "Bu kanalda eşleme yok.",
   lastError: "Son hata",
   licenseTitle: "Lisans",
-  licenseDescription: "Aylık tutar katalogdadır. Pazaryeri cirosu bu akışa girmez.",
+  licenseDescription:
+    "İlk 30 gün ücretsizdir (1,00 TL sembolik kart doğrulama bedeli). Ardından aylık tutar katalogdan yenilenir. Pazaryeri cirosu bu akışa girmez.",
   catalogClosed: "Aylık tutar katalogda açık değil.",
   billingMissing: "Fatura künyesi gerekli.",
+  billingMissingTrial:
+    "Ücretsiz deneme için fatura künyesinde VKN (kurumsal) veya TCKN (bireysel) dolu olmalı. Boşsa deneme açılmaz ve tam tutar çekilir.",
   billingLink: "Fatura künyesine git",
   pay: "Aylık lisansı aç",
   renew: "Bir ay uzat",
+  cancel: "Aboneliği İptal Et",
+  cancelPending: "İptal dönem sonunda işlenecek.",
+  cancelDone: "Yenileme durdu. Dönem bitene kadar hizmet açık.",
   windowFailed: "Ödeme penceresi açılmadı. Bir süre sonra yeniden dene.",
   retry: "Yeniden dene",
   settled: "Süre güncellendi.",
@@ -161,6 +167,24 @@ export const MAGAZAM_SEN = {
   amount: "Aylık tutar",
   iframeTitle: "Güvenli ödeme",
   network: "Bağlantı kurulamadı.",
+  /** Deneme teklifi — lisans ekranının üst şeridi. */
+  trialBadge: "İlk 30 Gün Ücretsiz",
+  trialTitle: "30 gün ücretsiz deneme",
+  trialBody:
+    "Bugün yalnız kart doğrulama bedeli tahsil edilir; 30 gün boyunca aylık ücret alınmaz. Dönem bitince katalogdaki aylık tutardan otomatik yenilenir.",
+  trialVerifyLabel: "Bugün çekilecek tutar (kart doğrulama)",
+  trialRenewalLabel: "30 gün sonra aylık yenileme",
+  trialCancelLine: "Dönem sonu iptali tek tıkla mağaza panelinden yapılır; erken iptal cezası yoktur.",
+  trialHonestyLine:
+    "1,00 TL doğrulama bedeli bakiyeye yazılmaz; iade taahhüdü değildir. Deneme vergi kimliği (VKN 10 hane / TCKN 11 hane) başına bir kez açılır.",
+  trialCta: "30 Gün Ücretsiz Başlat (1 TL Doğrulama)",
+  trialCtaPending: "Ödeme penceresi açılıyor…",
+  /** TRIALING durumu — "Lisans açık" yerine kalan gün. */
+  licenseTrial: "Ücretsiz Deneme Aktif",
+  trialRemaining: (days: number) => `Ücretsiz Deneme Aktif — Kalan ${days} Gün`,
+  trialEnded: "Ücretsiz Deneme Aktif — son gün",
+  trialKeepNote:
+    "Deneme sürerken erken dönem satın alırsan yeni dönem bugünden başlamaz; kalan deneme günlerinin üzerine eklenir.",
 } as const;
 
 export function magazamLabel(

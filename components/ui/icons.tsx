@@ -288,6 +288,16 @@ export function IconLinkedIn(props: IconProps) {
   );
 }
 
+/** WhatsApp — bağlantı paylaşımı (`wa.me`). Kamu kanıt kartı çubuğunda kullanılır. */
+export function IconWhatsApp(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="M20.5 11.6a8.4 8.4 0 0 1-12.3 7.5L3.5 20.5l1.5-4.6A8.4 8.4 0 1 1 20.5 11.6z" />
+      <path d="M8.8 8.6c.3-.6.7-.6 1-.6h.5c.2 0 .4 0 .5.4l.7 1.6c.1.3 0 .5-.1.7l-.5.6c-.1.1-.2.3 0 .6.4.7 1 1.3 1.8 1.7.3.1.5.1.6-.1l.6-.7c.2-.2.4-.2.6-.1l1.5.7c.4.2.4.4.4.6 0 .3-.2 1.1-.8 1.5-.6.4-1.3.5-1.9.4-.6-.1-1.5-.4-2.7-1.1-1.4-.9-2.4-2.2-2.9-3.2-.3-.7-.4-1.4-.3-2 .1-.5.3-.9.5-1.2z" />
+    </Svg>
+  );
+}
+
 export function IconX(props: IconProps) {
   return (
     <Svg {...props}>
@@ -357,6 +367,14 @@ export function IconArrow(props: IconProps) {
   return (
     <Svg {...props}>
       <path d="M5 12h14M13 6l6 6-6 6" />
+    </Svg>
+  );
+}
+
+export function IconArrowDown(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="M12 5v14M6 13l6 6 6-6" />
     </Svg>
   );
 }

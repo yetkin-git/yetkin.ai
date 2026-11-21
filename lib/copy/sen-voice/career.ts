@@ -12,9 +12,9 @@ export const CAREER_SEN = {
   auth: "Kariyer sayfasını görmek için giriş yap.",
   /** Sicil okunamadığında vatandaşa dürüst, gürültüsüz mesaj — geliştirici rozeti yok. */
   loadSoft: "Kariyer bilgilerin şu an yüklenemedi. Biraz sonra sayfayı yenile.",
-  ledgerTitle: "Doğrulanmış Freelancer Rozeti",
-  proofsTitle: "Doğrulanmış Freelancer Rozeti",
-  visasTitle: "Doğrulanmış Freelancer Rozetleri",
+  ledgerTitle: "YetkinCV Onaylı Yetenek Rozeti",
+  proofsTitle: "YetkinCV Onaylı Yetenek Rozeti",
+  visasTitle: "YetkinCV Onaylı Yetenek Rozetleri",
   proofEmpty:
     "Henüz YetkinCV puanın yok. CV özetini yapıştır, uygulamalı vaka testini çöz; doğrulama bağın burada görünür. Satın alma tek başına rozet basmaz.",
   academyCta: "Tezgâhta pratik üret",
@@ -42,9 +42,9 @@ export const CAREER_SEN = {
   footnoteVerifyCta: "Sertifika doğrula",
   footnoteAcademyCta: "AI Tezgâh",
   ledger: {
-    eyebrow: "Doğrulanmış Freelancer Rozeti",
-    title: "Doğrulanmış Freelancer Rozeti defteri",
-    lead: "Doğrulanmış Rozetin burada Doğrulanmış Freelancer Rozetine dönüşür. Paylaştığın Kariyer Kartı doğrulanabilir bir belgedir. Doğrulama bağı herkese açıktır.",
+    eyebrow: "YetkinCV Onaylı Yetenek Rozeti",
+    title: "YetkinCV Onaylı Yetenek Rozeti defteri",
+    lead: "Doğrulanmış Rozetin burada YetkinCV Onaylı Yetenek Rozetine dönüşür. Paylaştığın Kariyer Kartı doğrulanabilir bir belgedir. Doğrulama bağı herkese açıktır.",
   },
   scope: {
     eyebrow: "Teklif Kapısı",
@@ -148,7 +148,7 @@ export const CAREER_SEN = {
       "Doğrulama bağları ve proje kanıtları. Oturum istenmez; vatandaş kimliği ve e-posta gösterilmez.",
     landingTitle: "Kariyer Kartı",
     landingLead:
-      "Bu adres bir Kariyer Kartıdır (Doğrulanmış Freelancer Rozeti). Bağ, Kariyer sayfasından kopyalanır. Kart kayıttan okunur.",
+      "Bu adres bir Kariyer Kartıdır (YetkinCV Onaylı Yetenek Rozeti). Bağ, Kariyer sayfasından kopyalanır. Kart kayıttan okunur.",
     missing: "Kart bulunamadı",
     missingBody: "Bu bağlantıya ait canlı kayıt yok. İptal edilmiş belge burada görünmez.",
     invalidFormat: "Kart anahtarı geçersiz.",
@@ -163,6 +163,19 @@ export const CAREER_SEN = {
     homeCta: "Ana sayfa",
     faqHeading: "Sık sorulanlar",
     featured: "Öne çıkan rozet",
+    /**
+     * Viral büyüme döngüsü (Faz 2 / P4). Kartın üzerindeki paylaşım çubuğu bu
+     * metinleri basar. Uydurma yok: yalnız kartta görünen başlık ve adres paylaşılır.
+     */
+    shareBarTitle: "Doğrulanmış Kartı Paylaş",
+    shareBarLead: "Bağlantı herkese açıktır; oturum istemez. Doğrulama kartın kendisindedir.",
+    shareCopyLink: "Bağlantıyı Kopyala",
+    shareCopied: "Kopyalandı",
+    shareCopyFail: "Kopyalanamadı",
+    shareLinkedIn: "LinkedIn'e Ekle",
+    shareWhatsApp: "WhatsApp ile Paylaş",
+    shareText: "Yetkinliğimi yetkin.ai üzerinde doğrulanabilir kartla kanıtladım.",
+    shareTextNamed: (title: string) => `“${title}” mühürümü yetkin.ai üzerinde doğrulanabilir kartla kanıtladım.`,
   },
   badge: {
     cvCta: "CV'ne Doğrulama Bağı Ekle",

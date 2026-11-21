@@ -28,8 +28,8 @@ const SURFACES = [
   "components/kernel/quick-top-up-modal.tsx",
   "components/freelancer/delivery-hero-card.tsx",
   "components/freelancer/accept-bid-button.tsx",
-  "components/academy/purchase-button.tsx",
-  "components/academy/exam-panel.tsx",
+  "archived/academy/components/purchase-button.tsx",
+  "archived/academy/components/exam-panel.tsx",
   "archived/components/studio/generate-panel.tsx",
   "archived/components/devlabs/code-bench-panel.tsx",
   "components/shell/shell-chrome.tsx",
@@ -66,7 +66,7 @@ describe("UI/UX sürtünme giderme yüzeyi", () => {
   it("yetersiz bakiyede /cuzdan yönlendirmesi yerine modal açılır", () => {
     expect(readSrc("components/freelancer/accept-bid-button.tsx")).not.toContain("QuickTopUpModal");
     expect(readSrc("components/freelancer/accept-bid-button.tsx")).not.toContain("isInsufficientBalanceError");
-    expect(readSrc("components/academy/purchase-button.tsx")).toContain("QuickTopUpModal");
+    expect(readSrc("archived/academy/components/purchase-button.tsx")).toContain("QuickTopUpModal");
     expect(readSrc("archived/components/pazaryeri/purchase-button.tsx")).toContain("QuickTopUpModal");
     expect(readSrc("archived/components/studio/generate-panel.tsx")).toContain("QuickTopUpModal");
     expect(readSrc("archived/components/studio/image-generate-panel.tsx")).toContain("QuickTopUpModal");
@@ -75,15 +75,15 @@ describe("UI/UX sürtünme giderme yüzeyi", () => {
   });
 
   it("sınav geçişi belge ve kariyer köprüsünü ve teslim kahraman kartını bağlar", () => {
-    expect(readSrc("components/academy/exam-panel.tsx")).toContain("UX_SEN.bridge.examPassed");
-    expect(readSrc("components/academy/exam-panel.tsx")).toContain("UX_SEN.bridge.examHref");
-    expect(readSrc("components/academy/exam-panel.tsx")).toContain("UX_SEN.bridge.examCareerHref");
-    expect(readSrc("components/academy/exam-panel.tsx")).toContain("visaIssued");
-    expect(readSrc("components/academy/exam-panel.tsx")).toContain("UX_SEN.bridge.examCareerHref");
-    expect(readSrc("components/academy/exam-panel.tsx")).toContain("onAbandon");
-    expect(readSrc("components/academy/exam-panel.tsx")).toContain("visaStamp");
-    expect(readSrc("components/academy/exam-panel.tsx")).toContain("CertificateSeal");
-    expect(readSrc("components/academy/exam-start-gate.tsx")).toContain("data-academy-exam-exit");
+    expect(readSrc("archived/academy/components/exam-panel.tsx")).toContain("UX_SEN.bridge.examPassed");
+    expect(readSrc("archived/academy/components/exam-panel.tsx")).toContain("UX_SEN.bridge.examHref");
+    expect(readSrc("archived/academy/components/exam-panel.tsx")).toContain("UX_SEN.bridge.examCareerHref");
+    expect(readSrc("archived/academy/components/exam-panel.tsx")).toContain("visaIssued");
+    expect(readSrc("archived/academy/components/exam-panel.tsx")).toContain("UX_SEN.bridge.examCareerHref");
+    expect(readSrc("archived/academy/components/exam-panel.tsx")).toContain("onAbandon");
+    expect(readSrc("archived/academy/components/exam-panel.tsx")).toContain("visaStamp");
+    expect(readSrc("archived/academy/components/exam-panel.tsx")).toContain("CertificateSeal");
+    expect(readSrc("archived/academy/components/exam-start-gate.tsx")).toContain("data-academy-exam-exit");
     expect(readSrc("app/freelancer/contracts/[id]/page.tsx")).toContain("DeliveryHeroCard");
     expect(readSrc("app/freelancer/contracts/[id]/page.tsx")).toContain("pickLatestDeliveryMessage");
     expect(readSrc("components/freelancer/delivery-hero-card.tsx")).toContain("aria-live");
@@ -103,7 +103,7 @@ describe("UI/UX sürtünme giderme yüzeyi", () => {
       "Kariyer Vizesi",
     );
     expect(readSrc("components/ui/use-citizen-write-feedback.ts")).toContain("citizenHttpToastKind");
-    expect(readSrc("components/academy/purchase-button.tsx")).toContain("useCitizenWriteFeedback");
+    expect(readSrc("archived/academy/components/purchase-button.tsx")).toContain("useCitizenWriteFeedback");
     expect(readSrc("components/freelancer/accept-bid-button.tsx")).toContain("useCitizenWriteFeedback");
     expect(readSrc("components/freelancer/accept-bid-button.tsx")).toContain("isPaymentsUnconfiguredError");
     expect(readSrc("components/freelancer/accept-bid-button.tsx")).toContain("paymentsClosed");

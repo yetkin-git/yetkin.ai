@@ -9,6 +9,7 @@ import type { CheckoutLegalConsent } from "@/lib/kernel/legal/checkout-consent";
 import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { failPaymentOrder } from "@/lib/kernel/payments/clearing";
+import { classifyPaymentOrderPurpose } from "@/lib/kernel/payments/order-purpose";
 import { paytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
 import {
   assertPaytrLiveUserIp,
@@ -114,6 +115,7 @@ export async function placeTezgahCheckout(input: {
           provider: "paytr",
           merchantOid,
           purpose,
+          ...(classifyPaymentOrderPurpose(purpose) ? { orderPurpose: classifyPaymentOrderPurpose(purpose)! } : {}),
           amountMinor,
           currencyCode: SETTLEMENT_CURRENCY,
           status: "PENDING",
@@ -138,7 +140,13 @@ export async function placeTezgahCheckout(input: {
     return { ok: false, status: 400, error: "Ödeme adresi doğrulanamadı." };
   }
   const paytrUser = paytrUserFromBilling(billing);
-  const returnUrl = buildPaytrMerchantBrowserReturnUrl(resolvePaytrMerchantAppOrigin());
+  // CRO: dönüş adresi satın alınan masayı taşır. Tezgâh Pro ve kredi paketi
+  // `masa=tezgah` ile döner; cüzdan paneli kullanıcıyı doğru ekrana geçirir.
+  const returnUrl = buildPaytrMerchantBrowserReturnUrl(
+    resolvePaytrMerchantAppOrigin(),
+    "tezgah",
+    merchantOid,
+  );
   try {
     const checkout = await paytrPaymentProvider.beginCheckout({
       merchantOid,

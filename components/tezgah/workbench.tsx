@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { useRouter, useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
 import type { Route } from "next";
 import { GoogleContinueButton } from "@/components/auth/google-continue-button";
 import { Button } from "@/components/ui/button";
@@ -23,7 +24,6 @@ import {
 import { Input, INPUT_SURFACE_CLASS, selectValueTypoClass } from "@/components/ui/input";
 import { LinkButton } from "@/components/ui/link-button";
 import { SmartTextarea } from "@/components/ui/smart-textarea";
-import { DukkanPreview } from "@/components/tezgah/dukkan-preview";
 import { TezgahUpgradeCard } from "@/components/tezgah/upgrade-card";
 import {
   TezgahHistoryDrawer,
@@ -31,11 +31,8 @@ import {
   type TezgahHistoryItem,
 } from "@/components/tezgah/output-portfolio";
 import { EcommerceDraftTransfer } from "@/components/tezgah/ecommerce-draft-transfer";
+import { TezgahSurfaceSkeleton } from "@/components/tezgah/surface-skeleton";
 import { GrantDetailWizard } from "@/components/tezgah/grant-detail-wizard";
-import { GrantProjectReportView } from "@/components/tezgah/grant-project-report";
-import { PazaryeriPreview } from "@/components/tezgah/pazaryeri-preview";
-import { ProStudioPreview } from "@/components/tezgah/pro-studio-preview";
-import { TetkikReportView } from "@/components/tezgah/tetkik-report";
 import { DUKKAN_FILENAME } from "@/lib/tezgah/dukkan/copy";
 import type { GrantDetailsInput } from "@/lib/tezgah/grant/details-input";
 import { isGrantDossierPayload } from "@/lib/tezgah/grant/payload";
@@ -124,6 +121,46 @@ type TetkikHandoff = {
 };
 
 const REGISTER_HREF = buildCitizenRegisterHref("/tezgah") as Route;
+
+/**
+ * Ağır önizleme ve rapor yüzeyleri tembel yüklenir.
+ *
+ * Sorun (tespit §5.3): 1.400+ satırlık tek `"use client"` dosyası 10 aracı ve
+ * 4 ağır önizlemeyi aynı anda indiriyordu — tek sekme açan kullanıcı hepsini
+ * ödüyordu. Artık her yüzey kendi chunk'ında; indirme yalnız o araç seçilip
+ * çıktı üretildiğinde başlar.
+ *
+ * `ssr: false` bilinçlidir: bu bloklar yalnız istemci durumundan (`shop`,
+ * `catalog`, `pro`, `report`) doğar; sunucuda hiçbir zaman basılmaz. Sunucu
+ * ön-render'ı bu yüzden kaybedilmez, boşa chunk da inmez.
+ */
+const SURFACE_LOADING = <TezgahSurfaceSkeleton label="Önizleme hazırlanıyor" />;
+
+const DukkanPreview = dynamic(
+  () => import("@/components/tezgah/dukkan-preview").then((mod) => mod.DukkanPreview),
+  { ssr: false, loading: () => SURFACE_LOADING },
+);
+
+const PazaryeriPreview = dynamic(
+  () => import("@/components/tezgah/pazaryeri-preview").then((mod) => mod.PazaryeriPreview),
+  { ssr: false, loading: () => SURFACE_LOADING },
+);
+
+const ProStudioPreview = dynamic(
+  () => import("@/components/tezgah/pro-studio-preview").then((mod) => mod.ProStudioPreview),
+  { ssr: false, loading: () => SURFACE_LOADING },
+);
+
+const TetkikReportView = dynamic(
+  () => import("@/components/tezgah/tetkik-report").then((mod) => mod.TetkikReportView),
+  { ssr: false, loading: () => <TezgahSurfaceSkeleton label="Analiz karnesi hazırlanıyor" lines={5} /> },
+);
+
+const GrantProjectReportView = dynamic(
+  () => import("@/components/tezgah/grant-project-report").then((mod) => mod.GrantProjectReportView),
+  { ssr: false, loading: () => <TezgahSurfaceSkeleton label="Proje dosyası hazırlanıyor" lines={5} /> },
+);
+
 
 function toolMark(id: TezgahToolId): { Icon: (props: { className?: string }) => ReactNode; chip: string } {
   switch (id) {

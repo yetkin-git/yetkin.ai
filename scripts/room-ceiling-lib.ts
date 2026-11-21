@@ -13,6 +13,17 @@ export const LIB_SHARED_TOP_DIRS = [
   "jobs",
   "matchmaking",
   "sales",
+  /**
+   * Kamu rehber yüzeyi (`/rehber`). Oda değildir: vitrin, motor ve Prisma yoktur.
+   * Yalnız iş akışı verisi (`workflows.ts`) ve güvenli durum okuması (`progress.ts`) taşır.
+   */
+  "rehber",
+  /**
+   * Kamu içerik okuma katmanı (`/sozluk`, `/rehber`, `/legal`). Oda değildir:
+   * vitrin, motor ve Prisma yoktur. Yalnız süreç içi önbellekli kayıt çözümü
+   * (`cache.ts`) ve içerik yükleyicileri (`public-content.ts`) taşır.
+   */
+  "content",
 ] as const;
 
 /**

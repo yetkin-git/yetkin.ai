@@ -26,9 +26,11 @@ describe("shownPulseStat", () => {
   it("akademi ve kariyer kartı sıfırı shownPulseStat ile eler, davet cümlesini basar", () => {
     const academy = readSrc("components/dashboard/academy-pulse-widget.tsx");
     const career = readSrc("components/dashboard/career-pulse-widget.tsx");
-    expect(academy).toContain("shownPulseStat");
+    expect(academy).toContain('href="/tezgah"');
+    expect(academy).toContain("academyTitle");
     expect(academy).toContain("academyEmptyCta");
-    expect(academy).toContain("certificatesHeld === 0");
+    expect(academy).not.toContain("Akademi odası");
+    expect(academy).not.toContain("certificatesHeld");
     expect(academy).not.toContain('value: pulse.live ? pulse.purchasesCount : "—"');
     expect(career).toContain("shownPulseStat");
     expect(career).toContain("careerEmptyCta");
@@ -40,32 +42,32 @@ describe("shownPulseStat", () => {
   it("sıfır sayaçlı kart davet cümlesini basar, rakam 0 basmaz", () => {
     const empty = renderToStaticMarkup(
       createElement(PulseCard, {
-        title: "Akademi",
+        title: "AI Tezgâh",
         live: true,
         stats: [],
-        href: "/academy",
-        hrefLabel: "Akademi odası",
+        href: "/tezgah",
+        hrefLabel: "Tezgâhı aç",
         invite: {
-          message: "İlk eğitimini tamamla, sertifikanı kap!",
-          cta: "Eğitimleri İncele",
+          message: "Misafir ve üye günde üç üretim alır. Pro, otuz günlük erişim paketidir.",
+          cta: "Tezgâhı aç",
         },
       }),
     );
-    expect(empty).toContain("İlk eğitimini tamamla, sertifikanı kap!");
-    expect(empty).toContain("Eğitimleri İncele");
-    expect(empty).toContain('href="/academy"');
+    expect(empty).toContain("Misafir ve üye günde üç üretim alır. Pro, otuz günlük erişim paketidir.");
+    expect(empty).toContain("Tezgâhı aç");
+    expect(empty).toContain('href="/tezgah"');
     expect(empty).not.toContain(">0<");
 
     const mixed = renderToStaticMarkup(
       createElement(PulseCard, {
-        title: "Akademi",
+        title: "AI Tezgâh",
         live: true,
         stats: [shownPulseStat("Satın alma", 2, true)!],
-        href: "/academy",
-        hrefLabel: "Akademi odası",
+        href: "/tezgah",
+        hrefLabel: "Tezgâhı aç",
         invite: {
-          message: "İlk eğitimini tamamla, sertifikanı kap!",
-          cta: "Eğitimleri İncele",
+          message: "Misafir ve üye günde üç üretim alır. Pro, otuz günlük erişim paketidir.",
+          cta: "Tezgâhı aç",
         },
       }),
     );

@@ -8,6 +8,10 @@ import { JUNIOR_YEARLY_GA_ITEM_ID } from "@/lib/kernel/telemetry/junior-item";
 import { pollJuniorPlanActive } from "@/lib/kernel/telemetry/junior-plan-poll";
 import { readGaMeasurementId } from "@/lib/kernel/telemetry/measurement-id";
 import { emitSemConversion } from "@/lib/kernel/sem/conversion";
+import { COOKIE_CONSENT_COPY } from "@/lib/copy/legal-launch";
+import { markPurchaseEmitted } from "@/components/kernel/kasa-return-panel";
+import { buildPaytrMerchantBrowserReturnUrl } from "@/lib/kernel/payments/paytr/checkout";
+import { deskForPurpose } from "@/lib/kernel/payments/verified-purchase";
 
 const ROOT = process.cwd();
 
@@ -64,8 +68,9 @@ describe("GA4 kenar CSP", () => {
   it("kenar ve huni sayfaları etiket adresini kaynakta taşımaz", () => {
     const files = [
       "app/layout.tsx",
-      "app/academy/[slug]/page.tsx",
-      "app/academy/[slug]/oyna/page.tsx",
+      // Akademi sayfaları arşivde; GA4 etiket adresi yasağı orada da bağlayıcı.
+      "archived/academy/app/[slug]/page.tsx",
+      "archived/academy/app/[slug]/oyna/page.tsx",
       "lib/kernel/security/edge-guard.ts",
       "lib/kernel/sem/conversion.ts",
     ];
@@ -76,12 +81,22 @@ describe("GA4 kenar CSP", () => {
       expect(source, relative).not.toContain("google-analytics");
     }
     expect(readSrc("app/layout.tsx")).toContain("Ga4Bootstrap");
-    expect(readSrc("app/academy/[slug]/page.tsx")).toContain("AcademyViewItem");
-    expect(readSrc("components/academy/purchase-button.tsx")).toContain("trackBeginCheckout");
-    expect(readSrc("components/academy/curriculum-player.tsx")).toContain("trackPlayFreePreview");
+    expect(readSrc("app/layout.tsx")).toContain("CookieConsentBanner");
+    expect(readSrc("app/layout.tsx")).toContain("parseCookieConsent");
+    expect(readSrc("components/kernel/ga4-bootstrap.tsx")).toContain("initialAllowed");
+    expect(readSrc("components/kernel/ga4-bootstrap.tsx")).not.toContain("<Script");
+    expect(readSrc("components/kernel/ga4-consent-scripts.tsx")).toContain("if (!allowed)");
+    expect(COOKIE_CONSENT_COPY.accept).toBe("Analitik Çerezleri Kabul Et");
+    expect(COOKIE_CONSENT_COPY.necessaryOnly).toBe("Sadece Zorunlu");
+    expect(COOKIE_CONSENT_COPY.necessaryLegend).toBe("Zorunlu çerezler");
+    expect(readSrc("components/legal/cookie-consent-banner.tsx")).toContain("COOKIE_CONSENT_COPY.accept");
+    expect(readSrc("components/legal/cookie-consent-banner.tsx")).toContain("COOKIE_CONSENT_COPY.necessaryOnly");
+    expect(readSrc("archived/academy/app/[slug]/page.tsx")).toContain("AcademyViewItem");
+    expect(readSrc("archived/academy/components/purchase-button.tsx")).toContain("trackBeginCheckout");
+    expect(readSrc("archived/academy/components/curriculum-player.tsx")).toContain("trackPlayFreePreview");
     expect(readSrc("components/kernel/paytr-checkout-iframe.tsx")).toContain("trackPaytrIframeLoaded");
     expect(readSrc("components/kernel/kasa-return-panel.tsx")).toContain("trackPurchase");
-    expect(readSrc("components/academy/purchase-button.tsx")).toContain("trackPurchase");
+    expect(readSrc("archived/academy/components/purchase-button.tsx")).toContain("trackPurchase");
     expect(readSrc("lib/kernel/sem/conversion.ts")).toContain("emitSemConversion");
     expect(readSrc("lib/kernel/sem/conversion.ts")).not.toContain("dataLayer.push");
     expect(readSrc("components/kernel/ga4-bootstrap.tsx")).toContain("send_page_view");
@@ -92,6 +107,111 @@ describe("GA4 kenar CSP", () => {
     expect(readSrc("app/junior/checkout/page.tsx")).toContain("JuniorCheckoutBeacon");
     expect(readSrc("components/junior/checkout-form.tsx")).toContain("trackPurchase");
     expect(readSrc("lib/junior/price.ts")).toContain(`JUNIOR_YEARLY_CATALOG_ID = "${JUNIOR_YEARLY_GA_ITEM_ID}"`);
+  });
+});
+
+describe("GA4 purchase — /cuzdan dönüşü davranış testi", () => {
+  /**
+   * CRO/GA4 (P0): `purchase` olayının **gerçekten tetiklendiği** doğrulanır.
+   * Eski test yalnız `kasa-return-panel.tsx` içinde `trackPurchase` metnini arıyordu;
+   * `/cuzdan` dönüşünde olay hiç çalışmadığı hâlde test yeşildi.
+   */
+  function fakeWindow(pathname = "/cuzdan") {
+    const gtag = vi.fn();
+    const store = new Map<string, string>();
+    const sessionStorageStub = {
+      getItem: (key: string) => store.get(key) ?? null,
+      setItem: (key: string, value: string) => {
+        store.set(key, value);
+      },
+      removeItem: (key: string) => {
+        store.delete(key);
+      },
+      clear: () => store.clear(),
+      key: (index: number) => [...store.keys()][index] ?? null,
+      get length() {
+        return store.size;
+      },
+    };
+    vi.stubGlobal("window", {
+      location: { pathname, origin: "https://yetkin.ai" },
+      dataLayer: [],
+      gtag,
+    });
+    vi.stubGlobal("sessionStorage", sessionStorageStub);
+    return { gtag, store };
+  }
+
+  it("idempotans: aynı merchant_oid ikinci kez purchase basmaz", () => {
+    vi.stubEnv("NEXT_PUBLIC_GA_ID", "G-ABCDE123");
+    const { gtag } = fakeWindow();
+    expect(markPurchaseEmitted("TZP0123456789AB")).toBe(true);
+    expect(markPurchaseEmitted("TZP0123456789AB")).toBe(false);
+    trackPurchase({ itemId: "tezgah", transactionId: "TZP0123456789AB" });
+    // Aynı transaction_id GA4 tarafında da tekilleşir (DEDUPE_MS içinde).
+    trackPurchase({ itemId: "tezgah", transactionId: "TZP0123456789AB" });
+    expect(gtag).toHaveBeenCalledTimes(1);
+    expect(gtag.mock.calls[0]?.[1]).toBe("purchase");
+    const params = gtag.mock.calls[0]?.[2] as {
+      item_id?: string;
+      transaction_id?: string;
+      items?: Array<{ item_id?: string }>;
+    };
+    expect(params.item_id).toBe("tezgah");
+    expect(params.transaction_id).toBe("TZP0123456789AB");
+    expect(params.items?.[0]?.item_id).toBe("tezgah");
+  });
+
+  it("masa başına farklı merchant_oid ayrı dönüşüm üretir", () => {
+    vi.stubEnv("NEXT_PUBLIC_GA_ID", "G-ABCDE123");
+    const { gtag } = fakeWindow();
+    expect(markPurchaseEmitted("TZC0000000000001")).toBe(true);
+    trackPurchase({ itemId: "e-ticaret", valueMinor: 149_000, transactionId: "TZC0000000000001" });
+    expect(markPurchaseEmitted("TZC0000000000002")).toBe(true);
+    trackPurchase({ itemId: "tezgah", valueMinor: 59_000, transactionId: "TZC0000000000002" });
+    expect(gtag).toHaveBeenCalledTimes(2);
+    const rows = gtag.mock.calls.map((call) => call[2] as { item_id?: string; value?: number });
+    expect(rows.map((row) => row.item_id)).toEqual(["e-ticaret", "tezgah"]);
+    expect(rows.map((row) => row.value)).toEqual([1490, 590]);
+  });
+
+  it("depolama kapalıyken (gizli pencere) dönüşüm yine bir kez denenir", () => {
+    vi.stubGlobal("sessionStorage", undefined);
+    expect(markPurchaseEmitted("TZP0123456789AB")).toBe(true);
+  });
+
+  it("/cuzdan sayfası doğrulanmış ödemeyi purchase'a bağlar; ham `sonuc=ok` yetmez", () => {
+    const page = readSrc("app/(kernel)/cuzdan/page.tsx");
+    expect(page).toContain("CuzdanReturnSignal");
+    expect(page).toContain("loadVerifiedPurchase");
+    expect(page).toContain("deskForPurpose");
+    const signal = readSrc("components/kernel/cuzdan-return-signal.tsx");
+    expect(signal).toContain("trackPurchase");
+    expect(signal).toContain("markPurchaseEmitted");
+    expect(signal).toContain("valueMinor");
+    expect(signal).toContain("transactionId");
+    // Masa bağlamı korunur: satın alınan masaya geçiş butonu.
+    for (const desk of ["tezgah", "e-ticaret", "hibe", "junior", "cuzdan"] as const) {
+      expect(signal, desk).toContain(desk);
+    }
+  });
+
+  it("masa ve niyet eşlemesi: ödeme emri niyeti → GA4 masa kimliği", () => {
+    expect(deskForPurpose("tezgah-license:pro")).toBe("tezgah");
+    expect(deskForPurpose("TEZGAH_CREDIT")).toBe("tezgah");
+    expect(deskForPurpose("commerce-license:monthly")).toBe("e-ticaret");
+    expect(deskForPurpose("COMMERCE_LICENSE")).toBe("e-ticaret");
+    expect(deskForPurpose("junior-license:yearly")).toBe("junior");
+    expect(deskForPurpose("grant-dossier")).toBe("hibe");
+    expect(deskForPurpose("wallet-top-up")).toBe("cuzdan");
+    expect(deskForPurpose(null)).toBe("cuzdan");
+  });
+
+  it("açık yön / enjeksiyon: bozuk merchant_oid dönüş adresine yazılmaz", () => {
+    const ok = buildPaytrMerchantBrowserReturnUrl("https://yetkin.ai", "tezgah", "TZP0123456789AB");
+    expect(ok).toBe("https://yetkin.ai/cuzdan?masa=tezgah&merchant_oid=TZP0123456789AB");
+    const bad = buildPaytrMerchantBrowserReturnUrl("https://yetkin.ai", "tezgah", "bad oid &x=1");
+    expect(bad).toBe("https://yetkin.ai/cuzdan?masa=tezgah");
   });
 });
 

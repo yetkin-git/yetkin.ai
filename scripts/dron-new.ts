@@ -43,7 +43,20 @@ function runNpm(script: string): void {
   }
 }
 
-const id = parseId(process.argv.slice(2));
+const argv = process.argv.slice(2);
+if (argv.includes("--dry-run")) {
+  const hopCount = RAIL_V1_HOPS_META.length;
+  const needle = `**${hopCount} kayıt**`;
+  const runbook = read(".system_docs/OPS_RUNBOOK.md");
+  const opsDron = read(".system_docs/ops/ops-dron.md");
+  if (!runbook.includes(needle) || !opsDron.includes(needle)) {
+    fail(`kayıt sayısı bulunamadı: ${needle}`);
+  }
+  console.log(`dron:new dry-run OK — ${needle}`);
+  process.exit(0);
+}
+
+const id = parseId(argv);
 let files;
 try {
   files = planDronScaffold({

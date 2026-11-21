@@ -25,7 +25,7 @@
 > yetkin.ai; öğrenme, doğrulanabilir yetkinlik (verifiable credentials) ve güvenli iş teslimini tek deftere bağlayan modern bir dijital yetenek ve iş platformudur.
 
 **Gün 0 vitrin cümlesi:**
-> Yetkinliğini kanıtlayan yapay zekâ eğitimleri. Sınavı geç; mühür kamu vize kartında dursun. Kariyer belgesi dipnot değil kanıt URL’sidir. Freelancer emaneti ayrı fazdır; nakit Akademi’dedir.
+> Gün 0 kahramanı AI Tezgâh ve pratik KOBİ ile profesyonel iş araçlarıdır. Kayıt olmadan denersiniz; işiniz büyüdükçe paket alırsınız. Akademi askıya alınmış motordur: kod ve mühür durur, satış kapalıdır. Kariyer belgesi dipnot değil kanıt URL’sidir (`/vize`). Freelancer emaneti ayrı fazdır.
 
 ## 1.2 Pazar Fırsatı
 
@@ -61,7 +61,7 @@ Platformdaki her sertifika, sunucu tarafında SHA-256 içerik özetiyle sicile b
 Faz 1 kamu vitrini kilidi **Anayasa B2**’dedir; Manifesto o kilidi ikinci kez yazmaz.
 
 ### Kilit
-**Faz 1 çalışan vitrin 3 odadır** (Panel, Akademi, Kariyer); **4. oda (Freelancer) kilitli motordur.** Yetkin Junior bu üç vitrinin dördüncü odası değildir; müstakil odadır ve kapısı Anayasa B6’dadır. Young kayıt defterinde kapalıdır. Yeni oda, B2 checklist’i ve CEO + Super Admin çifti olmadan açılmaz.
+**2 aktif oda + askıdaki Akademi.** Çalışan kabuk Panel ve Kariyer’dir. AI Tezgâh canlıdır. **4. oda (Freelancer) kilitli motordur.** Yetkin Junior bu vitrinin ek odası değildir; müstakil odadır ve kapısı Anayasa B6’dadır. Young kayıt defterinde kapalıdır. Yeni oda, B2 checklist’i ve CEO + Super Admin çifti olmadan açılmaz.
 
 ### Kayıt kuralı
 **Oda tavanı esnektir** cümlesi Faz 2 checklist’idir, Faz 1 kilidini gevşetmez: yeni oda bu gövdede kayıt + bayrak + hop’tur. Ayrı repo, ayrı veritabanı veya ayrı kimlik açılmaz. Kamu kanıt URL’si (`/vize`) yeni oda açmaz.
@@ -94,13 +94,14 @@ Sahte bakiye, uydurma onay veya hayali veri gösterilemez. Entegrasyon hazır de
   ┌───────────┼───────────┬───────────┐
   ▼           ▼           ▼           ▼
 MOTOR 1     MOTOR 2     MOTOR 3     MOTOR 4
-Akademi     Kurumsal    Pazaryeri   Junior
-Satışları   Yetkinlik   İşlemleri   Veli paketi
-(B2C)       (B2B keşif) (Komisyon)  (B2C veli)
+AI Tezgâh   E-ticaret   Hibe        YetkinCV
+İş araçları ve abonelik  Ürün kartı  Proje dosyası  Doğrulama
 ```
 
-### Motor 1: B2C Akademi (Gün 0 kahramanı)
-Piyasada talep gören yapay zeka ve dijital beceri eğitimlerinin doğrudan satışı. Lisanslı sanal POS ile tahsilat.
+Akademi askıya alınmış motordur. Kod, müfredat ve mühür durur. Kamu sayfası 410 döner; satış cümlesi ve fiyat basılmaz. Junior veli paketi ayrı B2C hattıdır; kasa kilitliyken satış vaadi basılmaz.
+
+### Motor 1: AI Tezgâh (Gün 0 kahramanı)
+Küçük ve orta ölçekli işletmenin ve profesyonelin günlük işini hızlandıran araçlar. Web Site Analizi, teklif, reklam, pazaryeri, hibe dosyası, e-ticaret kartı ve dijital dükkân. Lisanslı üye işyeri ile abonelik ve üretim kredisi. Kota `.system_docs/TEZGAH_KOTA.md` içindedir.
 
 ### Motor 2: B2B Kurumsal Yetkinlik (keşif)
 Şirketlerin adaylarını test etmesi için kurumsal sınav ve mühür paketleri. **Keşif fazı:** müşteri profili ve bir pilot aranır. Arşivdeki kurumsal oda kamu vitrini değildir; manifesto bu motoru gelir haritasında keşif olarak tutar.
@@ -116,7 +117,7 @@ Velinin, çocuğu için aldığı yıllık okul paketi. Alıcı velidir; dersi �
 # BÖLÜM 4 — YOL HARİTASI İLKESİ
 
 1. **Mimari:** Anayasa B1. Bu belge mimariyi ikinci kez yazmaz. Yayın hedefi ve satış yüzeyi Anayasa B4’tedir. `punchcard`, `bake` ve `kaset` vatandaş cümlesine girmez. TTS bütçe tavanı vardır. Kurs tavanı `ACADEMY_MATCH_WHISTLE_MAX`, ders istek bandı `ACADEMY_TTS_LESSON_REQUEST_MIN` ve `ACADEMY_TTS_LESSON_REQUEST_MAX` adlarıyla durur. Süre için üst dakika dayatması yoktur. Sayıların evi `lib/academy/production-standard.ts` ve `lib/academy/tts-breath-chunks.ts` içindedir. Kilidi `tests/academy/production-standard.test.ts` dir. Model kimliği `lib/kernel/ai/model-roles.ts` içindedir. Bu madde o sayıları tekrarlamaz.
-2. **Gelir şimdi:** Merchant iFrame ile cüzdan yükleme + Akademi DEBIT. Kanıt dışarı `/vize` ile çıkar.
+2. **Gelir şimdi:** Merchant iFrame ile AI Tezgâh aboneliği ve üretim kredisi. Akademi DEBIT askıdadır. Kanıt dışarı `/vize` ile çıkar.
 3. **Ölçek sonra:** Split sözleşmesi, freelancer hop geri yazımı, dron kapalı testi. Kurumsal B2B ancak keşif + pilot sonrası.
 
 Operasyonel hop sayısı, SKU listesi ve env bayrakları bu belgede durmaz; haftalık gerçek `lib/academy/pilot-sku.ts` ve `lib/academy/curricula/lesson-index.ts` içindedir.
@@ -140,3 +141,16 @@ Alıcı velidir. Kullanan öğrencidir. Hesap veliye aittir. Çocuk profili veli
 **Dinle ve Anlat:** Çocuk dersi dinler, sonra kendi sözüyle anlatır. Anlatış seslidir. Mikrofon yoksa yazarak anlatır. Bu anlatış öğretir. Mühür ve iş vizesi üretmez. Web oynatıcısının tek kapısı Pedagoji Ek-J «Oynatıcı» maddesindedir. Bu ek o motoru ikinci kez yazmaz.
 
 **Çocuk güvenliği:** Sahte bakiye, harçlık ve kredi yoktur. Oyun puanı para değildir. Çocuğun sesi saklanmaz. Çocuk başkasıyla yazışamaz. Reklam ve paralı ödül yoktur. Ayrıntı Pedagoji Ek-J’dedir.
+
+---
+
+# BÖLÜM 6 — ORTA VE UZUN VADELİ AR-GE HEDEFLERİ
+
+**Yetkin.ai = Türkiye merkezli, AI destekli KOBİ ve kurumsal operasyon platformu.**
+
+## 1. Proje Künyesi & Ar-Ge Özeti
+
+* **Proje Adı:** KOBİ'ler İçin Otonom Mevzuat, Hibe ve İhracat Uyumluluk Karar Destek Motoru (*AI Compliance & Grant Engine*)
+* **Yürütücü Kuruluş:** Yapinet Ltd. (Mevcut Teknoloji Tabanı: `yetkin.ai` Modüler Monolit Mimarisi)
+* **Hedef Programlar:** TÜBİTAK 1507 (KOBİ Ar-Ge Başlangıç), TÜBİTAK 1512 (BİGG), KOSGEB Ar-Ge / Ür-Ge ve İnovasyon Programları, Ticaret Bakanlığı Bilişim/Yazılım Destekleri.
+* **Çözülen Temel Problem:** Türkiye'deki KOBİ'lerin %80'inden fazlasının karmaşık mevzuat ve kriter uyumsuzluğu nedeniyle kamu hibelerinden yararlanamaması ve e-ihracat / pazaryeri süreçlerinde cezai/operasyonel hatalar yapması.

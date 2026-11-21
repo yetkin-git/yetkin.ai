@@ -2,12 +2,36 @@ import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import type { DashboardPulse } from "@/lib/dashboard/pulse";
 import { formatMinor } from "@/lib/kernel/money/format";
 
-/** Kota okunamadıysa `live: false`. Sayı uydurulmaz. */
+/**
+ * Tezgâh kotasının panel dili.
+ * `FREE_DAILY` günlük ücretsiz haktır. `CREDIT_PACK` üretim kredisidir.
+ * `PRO` sınırsız erişimdir. `CLOSED` ücretsiz hak bitmiş, kredi ve Pro yoktur.
+ */
+export type CommandQuotaLane = "FREE_DAILY" | "CREDIT_PACK" | "PRO" | "CLOSED";
+
+/** Kota okunamadıysa `live: false`. Sayı uydurulmaz. `lane` düşmez. */
 export type CommandQuotaRead = {
   live: boolean;
   remaining: number;
   limit: number;
+  lane: CommandQuotaLane;
 };
+
+/** `peekTezgahQuota` şeridini panel etiketine çevirir. Kredi, günlük hak olmaz. */
+export function commandQuotaLane(
+  lane: "free" | "pro" | "credit" | "prepaid" | "closed",
+): CommandQuotaLane {
+  if (lane === "pro") {
+    return "PRO";
+  }
+  if (lane === "credit" || lane === "prepaid") {
+    return "CREDIT_PACK";
+  }
+  if (lane === "free") {
+    return "FREE_DAILY";
+  }
+  return "CLOSED";
+}
 
 /** Mağaza özeti. `down` hata veya boş bağdır; kayıtlı mağaza yoktur denmez. */
 export type CommandStoreRead =
@@ -57,14 +81,23 @@ function shownCount(live: boolean, value: number): string {
   return String(countOf(value));
 }
 
-function quotaValue(quota: CommandQuotaRead): string {
+function tezgahQuotaStat(quota: CommandQuotaRead): CommandStat {
   const copy = SEN_VOICE.dashboard.command;
+  if (!quota.live) {
+    return { label: copy.tezgahQuotaFree, value: copy.unknown };
+  }
+  if (quota.lane === "PRO") {
+    return { label: copy.tezgahQuotaPro, value: copy.tezgahQuotaUnlimited };
+  }
+  if (quota.lane === "CREDIT_PACK") {
+    return { label: copy.tezgahQuotaCredit, value: String(countOf(quota.remaining)) };
+  }
   const limit = countOf(quota.limit);
-  if (!quota.live || limit <= 0) {
-    return copy.unknown;
+  if (limit <= 0) {
+    return { label: copy.tezgahQuotaFree, value: copy.unknown };
   }
   const remaining = Math.min(countOf(quota.remaining), limit);
-  return `${remaining} / ${limit}`;
+  return { label: copy.tezgahQuotaFree, value: `${remaining}/${limit}` };
 }
 
 function tezgahCard(quota: CommandQuotaRead, toolCount: number): CommandCardModel {
@@ -73,7 +106,7 @@ function tezgahCard(quota: CommandQuotaRead, toolCount: number): CommandCardMode
   return {
     key: "tezgah",
     title: copy.tezgahTitle,
-    stats: [{ label: copy.tezgahQuota, value: quotaValue(quota) }],
+    stats: [tezgahQuotaStat(quota)],
     detail: copy.tezgahToolsReady(tools),
     href: "/tezgah",
     cta: copy.tezgahCta,

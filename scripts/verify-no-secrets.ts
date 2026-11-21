@@ -3,7 +3,7 @@
  * İnce sızıntı taraması — prebuild.
  * Canlı Postgres yok. Müze parmak izi listesi taşınmaz.
  *
- * Tarar: kaynak, prisma, docs, tests, scripts, .env.example
+ * Tarar: kaynak, prisma, docs, .system_docs, tests, scripts, .env.example
  * Yasak: PEM, service_role JWT, .env.example'da dolu yasaklı anahtar, git'te .env
  */
 
@@ -13,7 +13,7 @@ import { join, relative } from "node:path";
 
 const ROOT = process.cwd();
 
-const SCAN_DIRS = ["lib", "app", "components", "scripts", "prisma", "docs", "tests", "supabase", "apps"] as const;
+const SCAN_DIRS = ["lib", "app", "components", "scripts", "prisma", "docs", ".system_docs", "tests", "supabase", "apps"] as const;
 const ROOT_FILES = [".env.example", "package.json"] as const;
 
 const SKIP_DIR_NAMES = new Set(["node_modules", "yetkin_muze", "yetkin.ai", "generated", ".next", ".git"]);

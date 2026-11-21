@@ -15,7 +15,8 @@ const LOADING_MAP: { file: string; needle: string }[] = [
   { file: "app/(public)/legal/loading.tsx", needle: 'variant="legal"' },
   { file: "app/dashboard/loading.tsx", needle: 'variant="cockpit"' },
   { file: "app/career/loading.tsx", needle: 'variant="hub"' },
-  { file: "app/academy/loading.tsx", needle: 'variant="catalog"' },
+  // Akademi odası arşivde; iskelet sözleşmesi oradaki kopyada da aynı kalır.
+  { file: "archived/academy/app/loading.tsx", needle: 'variant="catalog"' },
   { file: "app/freelancer/loading.tsx", needle: 'variant="catalog"' },
 ];
 

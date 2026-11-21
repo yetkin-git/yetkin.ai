@@ -43,7 +43,7 @@ async function main(): Promise<void> {
   const sourceUrl = resolveLabUrl();
   if (!isLabLoopbackUrl(sourceUrl)) {
     fail(
-      "Yalnız loopback yetkin_rail_lab. Hosted dump bu betikte yok — Direct :5432 pg_dump --format=custom; restore ayrı proje. .system_docs/OPS_RUNBOOK.md §19.",
+      "Yalnız loopback yetkin_rail_lab. Hosted dump bu betikte yok — Direct :5432 pg_dump --format=custom; restore ayrı proje. .system_docs/OPS_RUNBOOK.md §12.",
     );
   }
   console.log("ops:pg-backup-restore — kaynak yetkin_rail_lab, hedef yetkin_rail_lab_restore.");

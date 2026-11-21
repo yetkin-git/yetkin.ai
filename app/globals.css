@@ -1,37 +1,13 @@
 @import "tailwindcss";
 
+/* Faz 2 modülerleştirme: token ve animasyon katmanları ayrı dosyada. */
+@import "./styles/tokens.css";
+@import "./styles/animations.css";
+
 @source "./**/*.{js,ts,jsx,tsx}";
 @source "../components/**/*.{js,ts,jsx,tsx}";
 @source "../lib/**/*.{js,ts,jsx,tsx}";
 
-:root {
-  --background: #eef2f7;
-  --foreground: #0f172a;
-  --surface: #ffffff;
-  --surface-muted: #f4f7fb;
-  --surface-ink: #0b1220;
-  --surface-ink-soft: #151d2e;
-  --border: rgba(15, 23, 42, 0.08);
-  --border-strong: rgba(15, 23, 42, 0.14);
-  --muted: #5b677a;
-  --safir: #1a8cff;
-  --safir-deep: #0b63c7;
-  --safir-soft: rgba(26, 140, 255, 0.12);
-  --gold: #b8860b;
-  --gold-soft: rgba(184, 134, 11, 0.14);
-  --emerald: #0f9d7a;
-  --emerald-soft: rgba(15, 157, 122, 0.12);
-  --rose: #e11d48;
-  --rose-soft: rgba(225, 29, 72, 0.1);
-  --amber: #d97706;
-  --amber-soft: rgba(217, 119, 6, 0.12);
-  --violet: #6d5cff;
-  --violet-soft: rgba(109, 92, 255, 0.12);
-  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 12px 32px rgba(15, 23, 42, 0.06);
-  --shadow-lift: 0 8px 28px rgba(15, 23, 42, 0.1);
-  --radius-card: 1.15rem;
-  --btn-on-accent: #ffffff;
-}
 
 html,
 body {
@@ -89,15 +65,6 @@ textarea::placeholder {
   /* ADIM 16: grid overlay kullanılmıyor */
 }
 
-@keyframes room-led {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.35;
-  }
-}
 
 .room-led {
   animation: room-led 2.4s ease-in-out infinite;
@@ -495,15 +462,6 @@ textarea::placeholder {
   }
 }
 
-@keyframes delivery-hero-glow {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--emerald) 32%, transparent), var(--shadow-lift);
-  }
-  50% {
-    box-shadow: 0 0 0 10px color-mix(in srgb, var(--emerald) 0%, transparent), var(--shadow-lift);
-  }
-}
 
 .delivery-hero-glow {
   animation: delivery-hero-glow 2.6s ease-in-out infinite;
@@ -1126,16 +1084,6 @@ textarea::placeholder {
   text-shadow: 0 0 28px rgba(80, 200, 255, 0.45);
 }
 
-@keyframes academy-intro-bloom {
-  from {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
 
 .academy-player-intro--outro {
   animation:
@@ -1143,15 +1091,6 @@ textarea::placeholder {
     academy-outro-peak 3s ease-in-out 0s both;
 }
 
-@keyframes academy-outro-peak {
-  0%,
-  100% {
-    filter: drop-shadow(0 0 18px rgba(80, 200, 255, 0.18));
-  }
-  45% {
-    filter: drop-shadow(0 0 34px rgba(124, 245, 200, 0.42));
-  }
-}
 
 .academy-player-outro-summary {
   display: flex;
@@ -3334,16 +3273,6 @@ textarea::placeholder {
   animation: academy-excel-mouse-click 0.42s ease-out;
 }
 
-@keyframes academy-excel-mouse-click {
-  0% {
-    opacity: 0.95;
-    transform: scale(0.35);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(2.6);
-  }
-}
 
 .academy-excel-col--active,
 .academy-excel-row--active {
@@ -3836,11 +3765,6 @@ textarea::placeholder {
   animation: academy-prompt-caret 0.9s steps(1) infinite;
 }
 
-@keyframes academy-prompt-caret {
-  50% {
-    opacity: 0;
-  }
-}
 
 .academy-howto-band {
   position: absolute;
@@ -4554,25 +4478,6 @@ textarea::placeholder {
   margin: 0 0 0.16rem;
 }
 
-@keyframes academy-ctrl-c-pulse {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.08);
-  }
-}
-
-@keyframes academy-copy-flight {
-  0% {
-    transform: translateX(-18%);
-    opacity: 0.35;
-  }
-  100% {
-    transform: translateX(12%);
-    opacity: 1;
-  }
-}
 
 .academy-excel-tabs {
   display: flex;
@@ -4943,53 +4848,6 @@ textarea::placeholder {
   opacity: 0.5;
 }
 
-@keyframes academy-eye-kenburns {
-  from {
-    transform: scale(1.01) translate3d(0, 2.4%, 0);
-  }
-  to {
-    transform: scale(1.07) translate3d(0, -1.1%, 0);
-  }
-}
-
-@keyframes academy-eye-scene-in {
-  from {
-    opacity: 0;
-    transform: scale(1.03);
-    filter: saturate(0.86) blur(8px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
-}
-
-@keyframes academy-compare-in {
-  from {
-    opacity: 0;
-    transform: scale(1.02);
-    filter: saturate(0.88) blur(6px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-    filter: none;
-  }
-}
-
-@keyframes academy-a1-glow {
-  from {
-    box-shadow:
-      inset 0 0 8px rgba(80, 255, 196, 0.35),
-      0 0 8px rgba(48, 180, 255, 0.32);
-  }
-  to {
-    box-shadow:
-      inset 0 0 16px rgba(80, 255, 196, 0.7),
-      0 0 18px rgba(48, 180, 255, 0.7);
-  }
-}
 
 @media (max-width: 640px) {
   .academy-player-media-card {
@@ -6475,15 +6333,6 @@ main:has([data-academy-catalog-colophon]) > [data-legal-colophon-strip] {
     0 0 28px color-mix(in srgb, var(--safir) 22%, transparent);
 }
 
-@keyframes academy-player-wave {
-  0%, 100% { transform: scaleY(0.42); }
-  50% { transform: scaleY(1); }
-}
-
-@keyframes academy-player-ring {
-  0% { opacity: 0.45; transform: scale(0.86); }
-  100% { opacity: 0; transform: scale(1.18); }
-}
 
 .academy-listen-waveform {
   display: inline-flex;
@@ -6512,15 +6361,6 @@ main:has([data-academy-catalog-colophon]) > [data-legal-colophon-strip] {
   opacity: 0.7;
 }
 
-@keyframes academy-listen-wave {
-  0%, 100% { transform: scaleY(0.45); }
-  50% { transform: scaleY(1); }
-}
-
-@keyframes academy-listen-shimmer {
-  0%, 100% { opacity: 0.35; transform: scaleY(0.55); }
-  50% { opacity: 1; transform: scaleY(1); }
-}
 
 .academy-exam-chamber {
   border-color: color-mix(in srgb, var(--safir) 35%, var(--border));
@@ -6547,16 +6387,6 @@ main:has([data-academy-catalog-colophon]) > [data-legal-colophon-strip] {
   animation: academy-diploma-in 0.7s ease-out both;
 }
 
-@keyframes academy-diploma-in {
-  from {
-    opacity: 0;
-    transform: translateY(12px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   .academy-listen-focus {
@@ -6652,14 +6482,6 @@ body[data-academy-listen-dock="1"] [data-assistant-fab] {
   animation: none;
 }
 
-@keyframes nav-progress-indeterminate {
-  0% {
-    transform: translateX(-120%);
-  }
-  100% {
-    transform: translateX(420%);
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   .nav-progress-root[data-state="running"] .nav-progress-fill {
@@ -6670,143 +6492,38 @@ body[data-academy-listen-dock="1"] [data-assistant-fab] {
   }
 }
 
-@keyframes junior-card-shake {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  20% {
-    transform: translateX(-6px);
-  }
-  40% {
-    transform: translateX(6px);
-  }
-  60% {
-    transform: translateX(-4px);
-  }
-  80% {
-    transform: translateX(4px);
-  }
-}
 
 .animate-shake {
   animation: junior-card-shake 0.48s ease-in-out;
 }
 
-@keyframes junior-badge-pop {
-  0% {
-    transform: scale(0.72);
-    opacity: 0;
-  }
-  60% {
-    transform: scale(1.08);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
 
 .animate-badge-pop {
   animation: junior-badge-pop 0.55s ease-out;
 }
 
-@keyframes junior-marble-bounce {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
-  }
-  25% {
-    transform: translateY(-18px) scale(1.08);
-  }
-  50% {
-    transform: translateY(0) scale(0.94);
-  }
-  75% {
-    transform: translateY(-8px) scale(1.04);
-  }
-}
 
 .animate-marble-bounce {
   animation: junior-marble-bounce 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@keyframes junior-scale-wobble {
-  0%,
-  100% {
-    transform: rotate(var(--junior-tilt, -8deg));
-  }
-  20% {
-    transform: rotate(calc(var(--junior-tilt, -8deg) + 4deg));
-  }
-  40% {
-    transform: rotate(calc(var(--junior-tilt, -8deg) - 5deg));
-  }
-  60% {
-    transform: rotate(calc(var(--junior-tilt, -8deg) + 3deg));
-  }
-  80% {
-    transform: rotate(calc(var(--junior-tilt, -8deg) - 2deg));
-  }
-}
 
 .animate-scale-wobble {
   animation: junior-scale-wobble 0.85s ease-in-out;
   transform-origin: 50% 18%;
 }
 
-@keyframes junior-scale-settle {
-  0% {
-    transform: rotate(var(--junior-from-tilt, 10deg));
-  }
-  60% {
-    transform: rotate(-2deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
 
 .animate-scale-settle {
   animation: junior-scale-settle 0.7s cubic-bezier(0.34, 1.4, 0.64, 1);
   transform-origin: 50% 18%;
 }
 
-@keyframes junior-chicken-hop {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  30% {
-    transform: translateY(-14px) rotate(-6deg);
-  }
-  55% {
-    transform: translateY(-4px) rotate(4deg);
-  }
-  75% {
-    transform: translateY(-10px) rotate(-3deg);
-  }
-}
 
 .animate-chicken-hop {
   animation: junior-chicken-hop 0.85s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@keyframes junior-egg-nestle {
-  0% {
-    transform: scale(0.6) translateY(-8px);
-    opacity: 0.4;
-  }
-  60% {
-    transform: scale(1.08) translateY(0);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-  }
-}
 
 .animate-egg-nestle {
   animation: junior-egg-nestle 0.55s cubic-bezier(0.34, 1.4, 0.64, 1);
@@ -6824,37 +6541,11 @@ body[data-academy-listen-dock="1"] [data-assistant-fab] {
   }
 }
 
-@keyframes junior-star-pulse {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    filter: drop-shadow(0 0 0 rgba(246, 217, 138, 0));
-  }
-  40% {
-    transform: translate(-50%, -50%) scale(1.45);
-    filter: drop-shadow(0 0 8px rgba(245, 180, 40, 0.95));
-  }
-  70% {
-    transform: translate(-50%, -50%) scale(1.12);
-    filter: drop-shadow(0 0 3px rgba(246, 217, 138, 0.65));
-  }
-}
 
 .junior-star-pulse {
   animation: junior-star-pulse 0.8s ease-in-out 5;
 }
 
-@keyframes junior-star-glow {
-  0%,
-  100% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 0 rgba(246, 217, 138, 0));
-  }
-  40% {
-    transform: scale(1.35);
-    filter: drop-shadow(0 0 8px rgba(245, 180, 40, 0.95));
-  }
-}
 
 .junior-star-glow {
   animation: junior-star-glow 0.8s ease-in-out 5;
@@ -6921,7 +6612,7 @@ body[data-academy-listen-dock="1"] [data-assistant-fab] {
  *   3. Metin: sahne içindeki her metin kutular arası taşmak yerine kendi
  *      kutusunun içinde sarar (`overflow-wrap: anywhere`).
  *
- * Birimler:
+ * Birimler (tanımlar `app/styles/tokens.css` içinde; Faz 2'de taşındı):
  *   --junior-page-chrome-h      : oynatıcının üstündeki sayfa kromu varsayılanı
  *   --junior-page-chrome-offset : aynı kromun ölçülmüş hâli (bileşen yazar)
  *   --player-chrome-min         : üst krom + altyazı rayı + kontrol şeridi tabanı
@@ -6930,11 +6621,6 @@ body[data-academy-listen-dock="1"] [data-assistant-fab] {
  * Kabuk, sinema tahtası ve sahne tuvali aynı tabanı ve `flex-shrink: 0` paylaşır.
  * Sinema tahtası `data-junior-step-art` de taşır; o sıfırlama tahtaya işlemez.
  */
-:root {
-  --junior-page-chrome-h: 7rem;
-  --player-chrome-min: 14rem;
-  --player-stage-min: 17.5rem;
-}
 
 [data-junior-player-shell] {
   /* Bütçe ölçümü durur. Yükseklik tabanı aşağıdaki ortak kuraldadır. */
@@ -6996,6 +6682,10 @@ body[data-academy-listen-dock="1"] [data-assistant-fab] {
 /*
  * Yazdırma: kabuk menüsü, sohbet balonu ve yasal şerit kâğıda basılmaz.
  * Rapor başlıkları (`Card` içindeki header) bu seçicilerin dışındadır.
+ *
+ * SEO/performans tedavisi (Faz 2): `/tezgah` kabuğundaki inline `<style>` bloğu
+ * buraya taşındı. Tek global bildirim: her tezgâh isteğinde gövdeye CSS
+ * basılmaz, tarayıcı tek dosyayı bir kez önbelleğe alır.
  */
 @media print {
   [data-shell-header],

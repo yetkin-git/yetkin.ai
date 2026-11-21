@@ -294,20 +294,16 @@ export function AiChatWidget({
 
         <form onSubmit={onSubmit} className="border-t border-[var(--border)] bg-[var(--surface)] p-3">
           <div className="mb-2 flex flex-wrap gap-1.5">
-            <Link
-              href="/hibe"
-              className="inline-flex min-h-8 items-center rounded-full border border-[var(--border)] bg-[var(--surface-muted)] px-2.5 text-[11px] font-medium text-[var(--foreground)] hover:border-[var(--safir)]"
-              onClick={() => setOpen(false)}
-            >
-              {ASSISTANT_SEN.academyCta}
-            </Link>
-            <Link
-              href="/career"
-              className="inline-flex min-h-8 items-center rounded-full border border-[var(--border)] bg-[var(--surface-muted)] px-2.5 text-[11px] font-medium text-[var(--foreground)] hover:border-[var(--safir)]"
-              onClick={() => setOpen(false)}
-            >
-              {ASSISTANT_SEN.careerCta}
-            </Link>
+            {ASSISTANT_SEN.roomLinks.map((room) => (
+              <Link
+                key={room.href}
+                href={room.href}
+                className="inline-flex min-h-8 items-center rounded-full border border-[var(--border)] bg-[var(--surface-muted)] px-2.5 text-[11px] font-medium text-[var(--foreground)] hover:border-[var(--safir)]"
+                onClick={() => setOpen(false)}
+              >
+                {room.label}
+              </Link>
+            ))}
           </div>
           <p className="mb-2 text-[11px] text-[var(--muted)]">
             {limitReached

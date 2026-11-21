@@ -6,7 +6,7 @@ Mağaza / vatandaş markası `yetkin.ai`. Native paket adı `yetkin.ai-is`; dizi
 
 Ürün kodu bu dosyayı import etmez.
 
-**Faz 2 hükmü:** T3 Akademi halkası tek native istemci arayüzündedir (`AcademyPlayerScreen` / `ExamScreen` / `CertificateScreen`). Native mağaza binary hattı `apps/rail-is/eas.json` (CI eas basmaz). Tezgâh hop'ları donuk; Closed Testing yüzeyi izole (`DRON_TEZGAH_STORE_ISOLATED`). Canlı mimari: Pragmatik Monolit + `@yetkin/kernel` + tek native istemci (`apps/rail-is`). Ayrı dağıtım, ayrı veritabanı ve ayrı kimlik yoktur.
+**Faz 2 hükmü:** T3 Akademi halkası tek native istemci arayüzündedir (`AcademyPlayerScreen` / `ExamScreen` / `CertificateScreen`). Native mağaza binary hattı `apps/rail-is/eas.json` (CI eas basmaz). AI Tezgâh (`/tezgah`) native v1 kapsamı dışındadır (web-only); v1 sicilinde Tezgâh hop'u yoktur. Closed Testing yüzeyi izole (`DRON_TEZGAH_STORE_ISOLATED`). Canlı mimari: Pragmatik Monolit + `@yetkin/kernel` + tek native istemci (`apps/rail-is`). Ayrı dağıtım, ayrı veritabanı ve ayrı kimlik yoktur.
 
 ---
 
@@ -98,13 +98,13 @@ Health (`GET /api/v1/health`) kamu ve başlıksız geçebilir. Kamu mühür otur
 
 Paket yayın kilidi T3 Akademi halkası (oynatıcı / sınav / mühür) tek native istemci arayüzü'ya bağlandığında açılır (`publishFrozenUntilFaz1Close: false`). Parse fail boş home değildir. Cüzdan yükleme native IAP değildir; `POST /api/v1/wallet/top-up` HMAC `/kasa` pasaportunu sistem tarayıcısında açar. Akademi hop'ları: müfredat GET/POST, sınav GET/POST, kamu sertifika.
 
-EAS profilleri `apps/rail-is/eas.json` içindedir — kök `eas.json` yoktur; CI `eas` / `expo publish` yasaktır. `extra.eas.projectId` uydurulmaz. Tezgâh hop'ları donuk; Closed Testing T3 B2C halkasıdır (`DRON_TEZGAH_STORE_ISOLATED`). 410 Tezgâh sürmez. İnceleme notu: `.system_docs/DRON_CLIENT_SPEC.md` + `.system_docs/ops/ops-dron.md`.
+EAS profilleri `apps/rail-is/eas.json` içindedir — kök `eas.json` yoktur; CI `eas` / `expo publish` yasaktır. `extra.eas.projectId` uydurulmaz. AI Tezgâh native v1 kapsamı dışındadır (web-only). Closed Testing T3 B2C halkasıdır (`DRON_TEZGAH_STORE_ISOLATED`). 410, web'deki AI Tezgâh'ı sürmez. İnceleme notu: `.system_docs/DRON_CLIENT_SPEC.md` + `.system_docs/ops/ops-dron.md`.
 
 HTTP 426 kilit cümlesi: `"Lütfen uygulamayı güncelleyiniz"`.
 
-### Faz 2 — Tezgâh
+### Faz 2 — Freelancer path’leri
 
-Açık işler, teklif, teslim, release **Split + hop geri yazımı** olmadan Dron bu path’leri çağırmaz. Closed Testing’e 410/404 basan binary sürmek yapılmaz. `DRON_TEZGAH_STORE_ISOLATED` açıkken sekme gizlenir; kaçak yüzey kilit kartıdır.
+Bu alt başlık AI Tezgâh değildir. AI Tezgâh native v1 kapsamı dışındadır (web-only). Açık işler, teklif, teslim, release **Split + hop geri yazımı** olmadan Dron bu path’leri çağırmaz. Closed Testing’e 410/404 basan binary sürmek yapılmaz. `DRON_TEZGAH_STORE_ISOLATED` açıkken sekme gizlenir; kaçak yüzey kilit kartıdır.
 
 ---
 

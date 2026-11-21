@@ -106,22 +106,33 @@ export function parsePaytrWebhookUrlEncoded(raw: string): PaytrWebhookPayload {
  * ile HTTP 400 basabilir; resmi Content-Type `request.text()` + URLSearchParams ile okunur.
  * Parse hatası boş yoklama payload'ı döner — handler HTTP 400 basmaz.
  */
-export async function readPaytrWebhookPayload(request: Request): Promise<PaytrWebhookPayload> {
+export type PaytrStoredCardTokens = { utoken: string; ctoken: string };
+
+export type PaytrWebhookRead = PaytrWebhookPayload & { cardTokens: PaytrStoredCardTokens };
+
+function readStoredCardTokens(get: (name: string) => string): PaytrStoredCardTokens {
+  return { utoken: get("utoken").trim(), ctoken: get("ctoken").trim() };
+}
+
+function attachCardTokens(payload: PaytrWebhookPayload, get: (name: string) => string): PaytrWebhookRead {
+  return Object.assign(payload, { cardTokens: readStoredCardTokens(get) });
+}
+
+export async function readPaytrWebhookPayload(request: Request): Promise<PaytrWebhookRead> {
   const contentType = (request.headers.get("content-type") ?? "").toLowerCase();
   try {
     if (contentType.includes("multipart/form-data")) {
-      return parsePaytrWebhookForm(await request.formData());
+      const form = await request.formData();
+      return attachCardTokens(parsePaytrWebhookForm(form), (name) => {
+        const value = form.get(name);
+        return typeof value === "string" ? value : "";
+      });
     }
-    if (contentType.includes("application/x-www-form-urlencoded") || contentType === "") {
-      return parsePaytrWebhookUrlEncoded(await request.text());
-    }
-    try {
-      return parsePaytrWebhookUrlEncoded(await request.text());
-    } catch {
-      return parsePaytrWebhookForm(await request.formData());
-    }
+    const raw = await request.text();
+    const params = new URLSearchParams(raw);
+    return attachCardTokens(parsePaytrWebhookUrlEncoded(raw), (name) => params.get(name) ?? "");
   } catch {
-    return parsePaytrWebhookUrlEncoded("");
+    return attachCardTokens(parsePaytrWebhookUrlEncoded(""), () => "");
   }
 }
 

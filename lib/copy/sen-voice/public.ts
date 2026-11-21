@@ -15,8 +15,6 @@ export const PUBLIC_SEN = {
     primaryCta: "Ücretsiz Hemen Dene (Kayıt Gerekmez)",
     /** Kök iniş — ikincil eylem: fiyatlandırma. */
     secondaryCta: "Paketleri İncele",
-    /** Kök iniş — ikincil eylem: kayıtsız seviye testi. */
-    levelCta: "10 Dakikada Yetkinlik Testine Gir",
     freeLessonCta: "Ücretsiz Dersi İzle",
     loginCta: "Giriş Yap",
     registerCta: "Kayıt Ol",
@@ -71,7 +69,9 @@ export const PUBLIC_SEN = {
         id: "grant",
         title: "Hibe Proje Dosyası",
         body: "İl ve yatırım odağından yazdırılabilir proje taslağı kurarsın.",
-        href: "/hibe",
+        // CRO: oturumsuz ziyaretçiyi korumalı `/hibe` duvarına değil, ana sayfadaki
+        // ücretsiz uygunluk testine (`#home-grant`) indir. Kayıt, dosya aşamasında istenir.
+        href: "#home-grant",
       },
     ],
     chainKicker: "Nasıl başlarsın",
@@ -87,7 +87,8 @@ export const PUBLIC_SEN = {
         step: "2",
         title: "Hibe & teşvik",
         body: "Firma profiline göre uygun destekleri gör; proje özetini dosyaya dök.",
-        href: "/hibe",
+        // CRO: ücretsiz uygunluk testi — `/hibe` korumalıdır, önce skor gösterilir.
+        href: "#home-grant",
       },
       {
         step: "3",
@@ -98,12 +99,13 @@ export const PUBLIC_SEN = {
         step: "4",
         title: "E-ticareti yönet",
         body: "Sipariş, stok ve kârlılığı tek ekranda takip et.",
+        // CRO: `/e-ticaret` korumalıdır. Ana sayfa bu adresi `next=/e-ticaret` ile
+        // kayıt/giriş yoluna bağlar (`buildCitizenRegisterHref`); çıplak `/login` yok.
         href: "/e-ticaret",
       },
     ],
     tracksKicker: "Çözümler",
     tracksTitle: "İhtiyacına göre bir alan seç",
-    tracksCta: "Ücretsiz Seviye Testine Gir",
     tracks: [
       {
         title: "AI Tezgâh",
@@ -120,8 +122,9 @@ export const PUBLIC_SEN = {
       {
         title: "Hibe & Teşvik Bulucu",
         body: "İşletmenize uygun KOSGEB, TÜBİTAK ve devlet desteklerini anında görün.",
-        href: "/hibe",
-        cta: "Hibeleri Gör",
+        // CRO: korumalı `/hibe` yerine ücretsiz uygunluk testi.
+        href: "#home-grant",
+        cta: "Ücretsiz Uygunluk Testi",
       },
       {
         title: "YetkinCV & İK Eleme",
@@ -131,28 +134,49 @@ export const PUBLIC_SEN = {
       },
     ],
     faqHeading: "Sık sorulanlar",
-  },
-  guide: {
-    eyebrow: "Rehber",
-    title: "Ofiste yapay zekâyı Excel ve e-postada kullan",
-    description:
-      "Uygulama rehberleri ücretsizdir. Aynı işi saniyeler içinde üretmek için AI Tezgâh’ı dene.",
-    stepsTitle: "Dört adım",
-    steps: [
-      "AI Tezgâh’ı aç. Excel’de dağınık tabloyu düzenli tabloya çeviren işi kendi cümlenle üret.",
-      "Kendi dosyanla dene. Müşteri adı ve telefonu maskelenmeden yapay zekâya yüklenmez.",
-      "Çıktıyı kaydet veya doğrudan işinde kullan.",
-      "Yetkinliğini kanıtlamak istersen Kariyer’de uygulamalı vaka testini çöz.",
+    /**
+     * SEO Tedavi (Faz 2): `/sozluk` ve `/tetkik` site haritasında 0.8 öncelikle
+     * duruyordu ama siteden **0 iç bağlantı** alıyordu (yetim sayfa). Bu bölüm
+     * yasal footer'dan bağımsız, semantik bir keşif şerididir; footer'dan bir
+     * satır çıksa da bağlar durur.
+     */
+    resourcesKicker: "Kaynaklar",
+    resourcesTitle: "Kaynaklar ve ücretsiz araçlar",
+    resourcesLead: "Kayıt istemeyen keşif yüzeyleri. Hepsi ücretsiz, hepsi tek tıkla açılır.",
+    resources: [
+      {
+        title: "Sözlük",
+        body: "Yapay zekâ ve dijital ticaretin 30 terimi, her biri AI Tezgâh uygulama örneğiyle.",
+        href: "/sozluk",
+        cta: "Sözlüğü aç",
+      },
+      {
+        title: "Web Site Analizi",
+        body: "Sitenizin SEO, ikna ve dönüşüm karnesini ölçün; eksikleri hazır çözümlerle görün.",
+        href: "/tetkik",
+        cta: "Analizi aç",
+      },
+      {
+        title: "Rehber",
+        body: "Adım adım uygulama rehberleri: ürün açıklaması, içerik planı, teklif akışı.",
+        href: "/rehber",
+        cta: "Rehbere git",
+      },
+      {
+        title: "Uzmanlar",
+        body: "Doğrulanmış yetkinlik rozeti taşıyan uzmanlar ve yetkinlik kapsamları.",
+        href: "/uzmanlar",
+        cta: "Uzmanları gör",
+      },
     ],
-    cta: "AI Tezgâhını Ücretsiz Dene",
-    catalogCta: "YetkinCV'yi İncele",
-    faqHeading: "Rehber soruları",
   },
   error: {
     eyebrow: YETKIN_BRAND,
     title: "Bir şeyler ters gitti",
     description: "Sayfa yüklenemedi. Tekrar dene veya ana sayfaya dön.",
     retry: "Tekrar dene",
+    panelRetry: "Yeniden Dene",
+    panelBack: "Panele Dön",
     homeCta: "Ana sayfa",
     codeLabel: "Kod:",
     rooms: {
@@ -160,6 +184,11 @@ export const PUBLIC_SEN = {
       career: "Kariyer sayfası yüklenemedi. Tekrar dene veya Kariyer'e dön.",
       freelancer: "Freelancer odası yüklenemedi. Tekrar dene veya Freelancer İlan Panosu'na dön.",
       dashboard: "Anasayfa yüklenemedi. Tekrar dene veya anasayfaya dön.",
+      fiyatlandirma: "Fiyatlar yüklenemedi. Yeniden dene veya panele dön.",
+      kasa: "Ödeme sayfası yüklenemedi. Yeniden dene veya panele dön.",
+      cuzdan: "Cüzdan yüklenemedi. Yeniden dene veya panele dön.",
+      tezgah: "Tezgâh yüklenemedi. Yeniden dene veya panele dön.",
+      junior: "Junior odası yüklenemedi. Yeniden dene veya panele dön.",
     },
   },
   gone: {

@@ -5,8 +5,10 @@ import { PublicHero } from "@/components/ui/public-hero";
 import { LegalEntityColophon, LegalHonestyCard, LegalSupportEmailLine } from "@/components/legal/legal-section-articles";
 import {
   LEGAL_ACTIVITY_SCOPE_BODY,
+  LEGAL_DATA_CONTROLLER_SUMMARY,
   LEGAL_ENTITY,
   LEGAL_ENTITY_VKN,
+  LEGAL_RETENTION_SUMMARY,
   LEGAL_WHATSAPP_HREF,
 } from "@/lib/copy/legal-launch";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
@@ -59,11 +61,18 @@ export default function ContactPage() {
               <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">Adres</dt>
               <dd>{LEGAL_ENTITY.address}</dd>
             </div>
-            <div>
-              <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">IBAN</dt>
-              <dd className="break-all">{LEGAL_ENTITY.iban}</dd>
-            </div>
           </dl>
+        </Card>
+        <Card title="Veri sorumlusu">
+          <div className="space-y-3 text-sm leading-6 text-[var(--foreground)]">
+            <p>{LEGAL_DATA_CONTROLLER_SUMMARY}</p>
+            <p>{LEGAL_RETENTION_SUMMARY}</p>
+          </div>
+        </Card>
+        <Card title="Tahsilat">
+          <p className="text-sm leading-6 text-[var(--foreground)]">
+            Tahsilatın tek kanalı Yetkili Ödeme Kuruluşudur. Havale veya EFT ile tahsilat yapılmaz.
+          </p>
         </Card>
         <Card title="Destek kanalları">
           <div className="space-y-3">

@@ -8,7 +8,7 @@ export class CommerceWriteConflict extends Error {
 }
 
 export class CommerceRollback extends Error {
-  constructor(readonly result: { ok: false; status: 400 | 404 | 409 | 422; error: string }) {
+  constructor(readonly result: { ok: false; status: 400 | 403 | 404 | 409 | 422; error: string }) {
     super(result.error);
     this.name = "CommerceRollback";
   }

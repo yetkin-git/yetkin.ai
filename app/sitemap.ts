@@ -10,6 +10,7 @@ import {
   sitemapRoutePolicy,
 } from "@/lib/copy/seo";
 import { readSitemapLastModified } from "@/lib/copy/sitemap-lastmod";
+import { listPublicStorefrontSlugs } from "@/lib/commerce/storefront-sitemap";
 
 /**
  * Google Search Console `<loc>` yalnız `https://yetkin.ai`.
@@ -38,6 +39,8 @@ function sitemapEntry(
 function staticSitemapEntries(lastModified: Date): MetadataRoute.Sitemap {
   // `/legal/junior-veli` footer listesinde yoktur (veli onay ekranından açılır) ama
   // kamuya açık 200 dönen yasal bir yüzeydir; site haritasına ayrıca yazılır.
+  // `/hakkimizda` ve `/iletisim` artık `SITEMAP_STATIC_PATHS` içinde açık kayıttır;
+  // footer bağı koparsa iki sayfa site haritasından düşmez (Faz 2 SEO tedavisi).
   const staticPaths = [
     ...SITEMAP_STATIC_PATHS,
     "/legal",
@@ -48,6 +51,17 @@ function staticSitemapEntries(lastModified: Date): MetadataRoute.Sitemap {
   return uniqueStatic.map((path) => sitemapEntry(path, lastModified));
 }
 
+/**
+ * Kamuya açık e-ticaret vitrinleri (`/magaza/[slug]`).
+ * `listPublicStorefrontSlugs` hata durumunda güvenli boş dizi döner; site haritası
+ * üretimi bu yüzden düşmez. Kural filtresi (`isRobotsDisallowedPath`) aşağıdaki
+ * ortak döngüde zaten uygulanır.
+ */
+async function storefrontSitemapEntries(lastModified: Date): Promise<MetadataRoute.Sitemap> {
+  const slugs = await listPublicStorefrontSlugs();
+  return slugs.map((slug) => sitemapEntry(`/magaza/${slug}`, lastModified));
+}
+
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -56,13 +70,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const staticEntries = staticSitemapEntries(lastModified);
     const courseEntries: MetadataRoute.Sitemap = [];
+    const storefrontEntries = await storefrontSitemapEntries(lastModified);
     const editorialEntries = [
       ...GLOSSARY_TERMS.map((term) => sitemapEntry(glossaryPath(term.slug), lastModified)),
       ...PUBLIC_GUIDES.map((guide) => sitemapEntry(guidePath(guide.slug), lastModified)),
     ];
     const seen = new Set<string>();
     const merged: MetadataRoute.Sitemap = [];
-    for (const entry of [...staticEntries, ...courseEntries, ...editorialEntries]) {
+    for (const entry of [...staticEntries, ...courseEntries, ...editorialEntries, ...storefrontEntries]) {
       if (seen.has(entry.url)) {
         continue;
       }

@@ -12,6 +12,8 @@ import { liveBroadcastDeps, liveChannelWebhookDeps } from "@/lib/commerce/channe
 import { signedChannelWebhookRequest, type ChannelWebhookPayload } from "@/lib/commerce/channel-webhook";
 import { composeCardReply, type ReplyAttribute, type ReplyCard } from "@/lib/commerce/reply-facts";
 import { sealCommerceCredential, CommerceCredentialSealError, openCommerceCredential } from "@/lib/commerce/credential-seal";
+import { commerceSimulationAllowed } from "@/lib/commerce/simulation-gate";
+import { consumeCommerceTrialQuota } from "@/lib/commerce/subscription-fair-use";
 import { ecommerceCardToDraftProduct } from "@/lib/commerce/ecommerce-bridge";
 import { postCommerceInventory, createCommerceProduct, createCommerceStore } from "@/lib/commerce/service";
 import type { CommerceRepository } from "@/lib/commerce/repository";
@@ -24,6 +26,7 @@ import {
 } from "@/lib/commerce/os-rules";
 import { commerceFail, type CommerceResult } from "@/lib/commerce/types";
 import { invokeLlm } from "@/lib/kernel/ai/llm-gateway";
+import { resolveProductModel } from "@/lib/kernel/ai/product-models";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import { getPrisma } from "@/lib/kernel/db";
 import { logEvent } from "@/lib/kernel/observability/log";
@@ -478,10 +481,15 @@ export async function suggestReply(
   if (entry.messageStatus === "ANSWERED" || entry.replySentAt) {
     return commerceFail(409, "Yanıt gönderildi.");
   }
+  const quota = await consumeCommerceTrialQuota(entry.storeId, "question");
+  if (!quota.ok) {
+    return commerceFail(422, quota.error);
+  }
   const card = replyCardOf(entry.product);
   const reply = await composeCardReply(card, entry.body, async (prompt) => {
     const llm = await invokeLlm({
       role: "LITE_STREAM",
+      model: await resolveProductModel("textEasy"),
       system: prompt.system,
       user: prompt.user,
       temperature: 0.2,
@@ -597,6 +605,9 @@ export async function simulateTrendyolUnitSale(
   userId: string,
   productId: string | null,
 ): Promise<CommerceResult<Record<string, unknown>>> {
+  if (!commerceSimulationAllowed()) {
+    return commerceFail(403, "Simülasyon bu ortamda kapalı.");
+  }
   const product = productId
     ? await ownedProduct(userId, productId)
     : await getPrisma().commerceProduct.findFirst({
@@ -656,7 +667,7 @@ export async function simulateTrendyolUnitSale(
 }
 
 async function trendyolWebhookSecret(
-  userId: string,
+  _userId: string,
   storeId: string,
 ): Promise<{ ok: true; secret: string; simOwner?: string } | Extract<CommerceResult<Record<string, unknown>>, { ok: false }>> {
   const channel = await getPrisma().salesChannel.findUnique({
@@ -682,12 +693,7 @@ async function trendyolWebhookSecret(
       process.env.COMMERCE_WEBHOOK_SECRET_TRENDYOL?.trim() || process.env.COMMERCE_OS_WEBHOOK_SECRET?.trim() || "";
   }
   if (!secret) {
-    const key = process.env.COMMERCE_CREDENTIAL_ENCRYPTION_KEY?.trim() ?? "";
-    if (!key) {
-      return commerceFail(422, "Webhook sırrı yok.");
-    }
-    secret = key;
-    simOwner = userId;
+    return commerceFail(403, "Webhook sırrı yok.");
   }
   return { ok: true, secret, simOwner };
 }
@@ -696,6 +702,9 @@ export async function simulateTrendyolQuestion(
   userId: string,
   productId: string | null,
 ): Promise<CommerceResult<Record<string, unknown>>> {
+  if (!commerceSimulationAllowed()) {
+    return commerceFail(403, "Simülasyon bu ortamda kapalı.");
+  }
   const product = productId
     ? await ownedProduct(userId, productId)
     : await getPrisma().commerceProduct.findFirst({

@@ -12,8 +12,14 @@ const SHELTER_PAGES = [
   "app/(kernel)/cuzdan/page.tsx",
   "app/(kernel)/pasaport/page.tsx",
   "app/(kernel)/profil/page.tsx",
-  "app/academy/certificates/page.tsx",
 ] as const;
+
+/**
+ * Akademi sığınağı `archived/academy/app/` altına taşındı (canlı derleme yükünden çıktı).
+ * Sayfa hâlâ `requirePageSession` bağlar; kontrol arşivdeki kopyaya bakar ki
+ * oda geri açılırsa kalkan yerinde olsun.
+ */
+const ARCHIVED_SHELTER_PAGES = ["archived/academy/app/certificates/page.tsx"] as const;
 
 const PUBLIC_VITRINE_PAGES = ["app/dashboard/page.tsx", "app/career/page.tsx"] as const;
 
@@ -24,6 +30,12 @@ describe("sığınak sayfa oturum kalkanı", () => {
       expect(source, file).toContain("requirePageSession");
       expect(source, file).not.toContain("getSession");
       expect(source, file).not.toContain("AuthNeeded");
+    }
+    // Arşiv kopyası da aynı kalkanı taşır (oda geri açılırsa hazır).
+    for (const file of ARCHIVED_SHELTER_PAGES) {
+      const source = readSrc(file);
+      expect(source, file).toContain("requirePageSession");
+      expect(source, file).not.toContain("getSession");
     }
   });
 
@@ -39,7 +51,8 @@ describe("sığınak sayfa oturum kalkanı", () => {
     expect(readSrc("components/dashboard/public-home-panel.tsx")).toContain('data-public-view="home"');
     expect(readSrc("components/career/public-career-panel.tsx")).toContain('data-public-view="career"');
     expect(readSrc("components/career/public-career-panel.tsx")).toContain("data-sample-certificate");
-    expect(readSrc("app/academy/page.tsx")).not.toContain("guestHold");
+    // Akademi vitrini arşivde; `guestHold` yasağı oradaki kopyada da geçerli.
+    expect(readSrc("archived/academy/app/page.tsx")).not.toContain("guestHold");
     expect(readSrc("lib/kernel/security/edge-guard.ts")).not.toContain("catalog-307");
   });
 

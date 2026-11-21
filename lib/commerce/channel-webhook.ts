@@ -90,7 +90,7 @@ export function collectChannelWebhookSecrets(input: {
   kind: OsChannelKind;
   simOwner: string;
   apiKeySeal: string;
-}): { ok: true; secrets: string[] } | { ok: false; closed: true } {
+}): { ok: true; secrets: string[] } | { ok: false; closed: boolean } {
   const secrets: string[] = [];
   if (input.apiKeySeal.startsWith("ccred1:")) {
     try {
@@ -114,10 +114,6 @@ export function collectChannelWebhookSecrets(input: {
   }
   if (shared) {
     secrets.push(shared);
-  }
-  const simKey = input.env.COMMERCE_CREDENTIAL_ENCRYPTION_KEY?.trim() ?? "";
-  if (simKey && input.simOwner && input.simOwner === input.ownerUserId) {
-    secrets.push(simKey);
   }
   return { ok: true, secrets };
 }

@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { ConflictError } from "@/lib/kernel/http/errors";
 import { WALLET_REFUND_PATH } from "@/lib/kernel/identity/types";
+import { PaytrMissingCredentialsError } from "@/lib/kernel/payments/paytr/checkout";
 import { WALLET_REFUND_NONE } from "@/lib/kernel/payments/wallet-card-refund";
 
 vi.mock("@/lib/kernel/auth/session", () => ({
@@ -85,6 +86,21 @@ describe("POST /api/wallet/refund", () => {
     const body = (await response.json()) as { ok: boolean; error: string };
     expect(body.ok).toBe(false);
     expect(body.error).toBe("İade kaydı henüz hazır değil.");
+  });
+
+  it("PayTR kimlik hatası ortam değişkeni adını istemciye yazmaz", async () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    refundUnusedWalletBalanceForUser.mockRejectedValue(new PaytrMissingCredentialsError("wallet.refund"));
+    const { POST } = await import("@/app/api/(kernel)/wallet/refund/route");
+    const response = await POST(refundRequest());
+    expect(response.status).toBe(503);
+    const body = (await response.json()) as { ok: boolean; error: string };
+    expect(body.ok).toBe(false);
+    expect(body.error).toBe("Kart iadesi şu an tamamlanamadı. Bir süre sonra yeniden dene.");
+    expect(body.error).not.toContain("PAYTR_MERCHANT_KEY");
+    expect(body.error).not.toContain("PAYTR_ALLOW_MOCK_CHECKOUT");
+    expect(errorSpy).toHaveBeenCalled();
+    errorSpy.mockRestore();
   });
 
   it("beklenmeyen hata JSON zarfı döner", async () => {

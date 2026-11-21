@@ -171,9 +171,11 @@ describe("admin B2C kazanım hunisi", () => {
       "app/(kernel)/admin/page.tsx",
       "lib/kernel/admin/funnel-counter.ts",
       "lib/kernel/admin/funnel-document-hit.ts",
-      "app/academy/page.tsx",
-      "app/academy/[slug]/page.tsx",
-      "app/academy/[slug]/oyna/page.tsx",
+      // Akademi sayfaları `archived/academy/app/` altına taşındı. GA yasağı orada
+      // da geçerli; canlı derleme bu ağacı yüklemez.
+      "archived/academy/app/page.tsx",
+      "archived/academy/app/[slug]/page.tsx",
+      "archived/academy/app/[slug]/oyna/page.tsx",
       "app/api/(kernel)/wallet/top-up/route.ts",
     ];
     for (const relative of files) {
@@ -465,19 +467,20 @@ describe("admin B2C kazanım hunisi", () => {
   });
 
   it("pazar adımları birinci taraf sayaçtır; metadata ve lisanslı oynatıcı yazmaz", () => {
-    const catalog = readSrc("app/academy/page.tsx");
+    // Akademi odası arşivde; huni sözleşmesi arşiv kopyasında da aynı kalır.
+    const catalog = readSrc("archived/academy/app/page.tsx");
     expect(catalog).toContain("recordFunnelDailyDocumentStep");
     expect(catalog).toContain("FUNNEL_VITRINE_VISIT_STEP");
     expect(catalog).not.toContain("gtag");
 
-    const antre = readSrc("app/academy/[slug]/page.tsx");
+    const antre = readSrc("archived/academy/app/[slug]/page.tsx");
     expect(antre).toContain("FocusSalePitch");
     expect(antre).toContain("eightLessonShield");
     expect(antre).toContain("FUNNEL_VITRINE_VISIT_STEP");
     const meta = antre.slice(antre.indexOf("export async function generateMetadata"), antre.indexOf("export default"));
     expect(meta).not.toContain("recordFunnelDailyDocumentStep");
 
-    const player = readSrc("app/academy/[slug]/oyna/page.tsx");
+    const player = readSrc("archived/academy/app/[slug]/oyna/page.tsx");
     expect(player).toContain("renderAcademyFreePreview");
     expect(player).toContain("FUNNEL_FREE_LESSON_STEP");
     const paid = player.slice(player.lastIndexOf("loadAcademyCurriculum"));

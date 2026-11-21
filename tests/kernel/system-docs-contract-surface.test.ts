@@ -3,17 +3,10 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { paytrMarketplaceSplitPort } from "@/lib/kernel/payments/marketplace-split";
+import { RETIRED_SYSTEM_DOC, SYSTEM_DOC_FILES } from "./system-docs-manifest";
 
 const ROOT = process.cwd();
 const SYSTEM_DOCS_DIR = ".system_docs";
-
-const SYSTEM_DOC_FILES = [
-  "ANAYASA.md",
-  "MANIFESTO.md",
-  "OPS_RUNBOOK.md",
-  "STORAGE_CONTRACT.md",
-  "README.md",
-] as const;
 
 function missingSystemDocMessage(file: string): string {
   return [
@@ -43,18 +36,15 @@ function walkFiles(dir: string): string[] {
 }
 
 describe("Sistem Belge Sözleşmesi", () => {
-  it("beş sistem dosyası durur (içerik uzunluğu fixture değildir)", () => {
-    expect([...SYSTEM_DOC_FILES]).toEqual([
-      "ANAYASA.md",
-      "MANIFESTO.md",
-      "OPS_RUNBOOK.md",
-      "STORAGE_CONTRACT.md",
-      "README.md",
-    ]);
-    for (const file of SYSTEM_DOC_FILES) {
+  it("yaşayan sistem dosyaları tek listeden durur (içerik uzunluğu fixture değildir)", () => {
+    const required = [...SYSTEM_DOC_FILES];
+    expect(required).toEqual([...SYSTEM_DOC_FILES]);
+    expect(new Set(required).size).toBe(required.length);
+    for (const file of required) {
       const full = join(ROOT, SYSTEM_DOCS_DIR, file);
       expect(existsSync(full), missingSystemDocMessage(file)).toBe(true);
     }
+    expect(existsSync(join(ROOT, SYSTEM_DOCS_DIR, RETIRED_SYSTEM_DOC))).toBe(false);
     expect(() => {
       const full = join(ROOT, SYSTEM_DOCS_DIR, "__yok__.md");
       if (!existsSync(full)) {

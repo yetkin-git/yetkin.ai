@@ -1,6 +1,7 @@
 /**
  * Kamu fiyat yüzeyi. Satış tutarı kod sabiti değildir.
- * Aktif tutar `PriceCatalogEntry.amountMinor`; satır yoksa `COURSE_REGISTRY.priceSeedMinor`.
+ * Canlı tutar yalnız aktif `PriceCatalogEntry.amountMinor` satırıdır.
+ * Katalog satırı yoksa tohum fiyat `honesty: "live"` olmaz.
  * Satışa kapalı kart tutar basmaz.
  */
 
@@ -16,6 +17,10 @@ export const PUBLIC_PRICE_PREPARING_LABEL = "Hazırlanıyor" as const;
 export const PUBLIC_COMMERCE_PLANNED_LABEL = "Yakında / Katalogda Açılıyor" as const;
 /** Katalog tutarı henüz açık olmayan satır. Tutar basılmaz; self-servis talep formu açıktır. */
 export const PUBLIC_PREORDER_LABEL = "Kurumsal Tanımlama" as const;
+/** Canlı YetkinCV kartı. Satın alma değildir. */
+export const PUBLIC_FREE_EVALUATION_LABEL = "Ücretsiz Değerlendirme" as const;
+/** Canlı kurumsal kart. Katalog tutarı değildir; teklif sayfasına gider. */
+export const PUBLIC_KURUMSAL_QUOTE_LABEL = "Kurumsal Teklif" as const;
 
 export type ShowcasePrice = {
   honesty: PriceHonesty;
@@ -41,7 +46,7 @@ export function publicAcademyProofCounts(): {
 
 /**
  * Akademi kartı. `lessonKeys` boş, yayın kapalı veya satış kapısı kapalıysa tutar yok.
- * Canlı tutar katalog satırı; satır yoksa kayıt defterindeki tohum.
+ * Canlı tutar yalnız katalog satırıdır. Satır yoksa tohum fiyat canlı etiketi almaz.
  */
 export function academyShowcasePrice(input: {
   slug: string;
@@ -49,34 +54,27 @@ export function academyShowcasePrice(input: {
   isPublished: boolean;
 }): ShowcasePrice {
   const card = COURSE_REGISTRY.find((row) => row.slug === input.slug);
-  const closed =
-    !card ||
-    card.audience !== "adult" ||
-    card.lessonKeys.length === 0 ||
-    !input.isPublished ||
-    !academyCourseSaleOpen(input.slug);
-  if (closed) {
-    return {
-      honesty: "planned",
-      amountMinor: null,
-      label: PUBLIC_PRICE_PREPARING_LABEL,
-    };
-  }
   const catalog =
     input.catalogAmountMinor != null &&
     Number.isInteger(input.catalogAmountMinor) &&
     input.catalogAmountMinor > 0
       ? input.catalogAmountMinor
       : null;
-  const raw = catalog ?? card.priceSeedMinor;
-  if (!Number.isInteger(raw) || raw <= 0) {
+  const closed =
+    !card ||
+    card.audience !== "adult" ||
+    card.lessonKeys.length === 0 ||
+    !input.isPublished ||
+    !academyCourseSaleOpen(input.slug) ||
+    catalog == null;
+  if (closed || catalog == null) {
     return {
       honesty: "planned",
       amountMinor: null,
       label: PUBLIC_PRICE_PREPARING_LABEL,
     };
   }
-  const amountMinor = toAmountMinor(raw);
+  const amountMinor = toAmountMinor(catalog);
   return {
     honesty: "live",
     amountMinor,

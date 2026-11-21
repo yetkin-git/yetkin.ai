@@ -17,7 +17,9 @@ describe("ana sayfa yedili tezgâh vitrini", () => {
     const page = readSrc("app/(public)/page.tsx");
     const copySrc = readSrc("lib/copy/sen-voice/public.ts");
     const home = SEN_VOICE.public.home;
-    const hrefs = BENCH_TOOLS.map((id) => (id === "grant" ? "/hibe" : tezgahToolHref(id)));
+    // CRO (P0): hibe aracı korumalı `/hibe` duvarına değil, ana sayfadaki ücretsiz
+    // uygunluk testine (`#home-grant`) iner. Kayıt dosya aşamasında istenir.
+    const hrefs = BENCH_TOOLS.map((id) => (id === "grant" ? "#home-grant" : tezgahToolHref(id)));
 
     expect(home.bench.map((item) => item.id)).toEqual([...BENCH_TOOLS]);
     expect(home.bench.map((item) => item.href)).toEqual(hrefs);
@@ -48,6 +50,8 @@ describe("ana sayfa yedili tezgâh vitrini", () => {
     for (const href of hrefs) {
       expect(copySrc).toContain(href);
     }
+    // Korumalı hedef ham basılmaz: hibe çapaya, e-ticaret next'li kayda iner.
+    expect(home.bench.map((item) => item.href)).not.toContain("/hibe");
     const chainAt = page.indexOf("data-home-value-chain");
     const benchAt = page.indexOf("data-home-bench");
     const tracksAt = page.indexOf("home-tracks-heading");

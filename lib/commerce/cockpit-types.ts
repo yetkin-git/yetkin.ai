@@ -60,6 +60,20 @@ export type CockpitLicense = {
   expiresAt: string | null;
   amountMinor: number | null;
   billingReady: boolean;
+  cancelAtPeriodEnd: boolean;
+  /**
+   * Abonelik durumu. `TRIALING` iken ekran "Lisans açık" değil
+   * "Ücretsiz Deneme Aktif — Kalan X Gün" basar.
+   */
+  status: "PENDING" | "TRIALING" | "ACTIVE" | "PAST_DUE" | "CANCELED" | null;
+  /** Deneme bitişi (ISO). Deneme yoksa null. */
+  trialEndsAt: string | null;
+  /** Denemede kalan tam gün; dönem sonu geçmişse 0. Deneme yoksa null. */
+  trialDaysLeft: number | null;
+  /** Bu mağaza için 30 gün ücretsiz deneme açılabilir mi (koltuk boş + hak tüketilmemiş). */
+  trialEligible: boolean;
+  /** Deneme kapalıysa gerekçe: VKN/TCKN eksik, hak tüketilmiş, açık pencere, koltuk dolu. */
+  trialBlockedReason: "no_key" | "consumed" | "held" | "open_seat" | "unknown" | null;
 };
 
 export type CockpitCredential = {

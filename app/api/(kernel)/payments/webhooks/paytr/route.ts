@@ -27,6 +27,7 @@ import {
   SITE_MAINTENANCE_RETRY_AFTER_SECONDS,
 } from "@/lib/kernel/http/site-maintenance";
 import { registerPaytrValorLicenseHooks } from "@/app/api/(kernel)/payments/register-paytr-valor-hooks";
+import { rememberCommercePaytrCardTokens } from "@/lib/commerce/subscription-card";
 import { logEvent } from "@/lib/kernel/observability/log";
 
 registerPaytrValorLicenseHooks();
@@ -205,6 +206,17 @@ export async function POST(request: Request) {
         requestId,
         sourceIp,
       });
+      if (settled.disposition === "cleared") {
+        await rememberCommercePaytrCardTokens(verified.merchantOid, payload.cardTokens).catch((error: unknown) => {
+          logEvent({
+            level: "warn",
+            event: "commerce.subscription.card_token_failed",
+            requestId,
+            merchantOid: verified.merchantOid,
+            errorName: error instanceof Error ? error.name : "Error",
+          });
+        });
+      }
       if (settled.disposition === "persist_failed") {
         return paytrRetry(requestId, "anomaly_unacked");
       }

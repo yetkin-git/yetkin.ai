@@ -14,6 +14,7 @@ export function RoomErrorView({
   description,
   backHref,
   backLabel,
+  retryLabel,
 }: {
   error: Error & { digest?: string };
   retry: () => void;
@@ -21,6 +22,7 @@ export function RoomErrorView({
   description: string;
   backHref: string;
   backLabel: string;
+  retryLabel?: string;
 }) {
   useEffect(() => {
     console.error(error);
@@ -32,7 +34,7 @@ export function RoomErrorView({
       <PageHeader eyebrow={eyebrow} title={copy.title} description={description} />
       <Card variant="glass">
         <div className="flex flex-wrap gap-3">
-          <Button onClick={() => retry()}>{copy.retry}</Button>
+          <Button onClick={() => retry()}>{retryLabel ?? copy.retry}</Button>
           <LinkButton href={backHref} variant="outline">
             {backLabel}
           </LinkButton>

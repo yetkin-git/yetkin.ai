@@ -95,9 +95,9 @@ describe("kernel catalog-ids — omurga kimliği", () => {
     }
   });
 
-  it("STORAGE_CONTRACT akademi lesson-audios istisnasını yazar; Studio 410 kalır", () => {
+  it("ops-db nesne depo kesiti akademi lesson-audios istisnasını yazar; Studio 410 kalır", () => {
     const systemDocs = join(ROOT, ".system_docs");
-    const contract = readFileSync(join(systemDocs, "STORAGE_CONTRACT.md"), "utf8");
+    const contract = readFileSync(join(systemDocs, "ops", "ops-db.md"), "utf8");
     expect(contract).toContain("lesson-audios");
     expect(contract).toContain("AcademyAudioCache");
     expect(contract).toContain("410");

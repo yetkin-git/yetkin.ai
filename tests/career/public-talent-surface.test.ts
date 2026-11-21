@@ -75,7 +75,7 @@ describe("kamu yetkinlik kartı ve mühür paylaşımı", () => {
     expect(url).toContain("Ofis");
     expect(url).toContain("organizationName=yetkin.ai");
     expect(url).not.toMatch(/userId|e-posta|holder/i);
-    expect(CAREER_SEN.badge.cvCta).toBe("CV'ne Mühür Ekle");
+    expect(CAREER_SEN.badge.cvCta).toBe("CV'ne Doğrulama Bağı Ekle");
     expect(CAREER_SEN.badge.linkedInCta).toBe("LinkedIn Yetkinlik Onayına Bağla");
   });
 

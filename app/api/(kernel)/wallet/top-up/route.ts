@@ -9,6 +9,7 @@ import { logEvent } from "@/lib/kernel/observability/log";
 import { getPrisma } from "@/lib/kernel/db";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { failPaymentOrder } from "@/lib/kernel/payments/clearing";
+import { classifyPaymentOrderPurpose } from "@/lib/kernel/payments/order-purpose";
 import { buildIdempotentMerchantOid } from "@/lib/kernel/payments/merchant-oid";
 import { paytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
 import {
@@ -273,6 +274,9 @@ export async function POST(request: Request) {
                 provider: "paytr",
                 merchantOid,
                 purpose: orderPurpose,
+                ...(classifyPaymentOrderPurpose(orderPurpose)
+                  ? { orderPurpose: classifyPaymentOrderPurpose(orderPurpose)! }
+                  : {}),
                 amountMinor,
                 currencyCode: SETTLEMENT_CURRENCY,
                 status: "PENDING",
@@ -310,12 +314,14 @@ export async function POST(request: Request) {
         }
 
         const dronCheckout = isV1JsonRequest(request);
+        // CRO (P0): cüzdan yüklemesi nötr masa taşımaz; dönüş `/cuzdan`. `merchant_oid`
+        // taşınır: dönüş sayfası ödemeyi sunucuda doğrular ve `purchase`ı tekilleştirir.
         const merchantReturnUrl = dronCheckout
           ? buildPaytrDronCheckoutReturnUrl(origin, "ok", courseSlug)
-          : buildPaytrMerchantBrowserReturnUrl(origin);
+          : buildPaytrMerchantBrowserReturnUrl(origin, "cuzdan", merchantOid);
         const merchantFailUrl = dronCheckout
           ? buildPaytrDronCheckoutReturnUrl(origin, "fail")
-          : buildPaytrMerchantBrowserReturnUrl(origin);
+          : buildPaytrMerchantBrowserReturnUrl(origin, "cuzdan", merchantOid);
 
         let checkout: Awaited<ReturnType<typeof paytrPaymentProvider.beginCheckout>>;
         const paytrUser = paytrUserFromBilling(parsed.data.billing);

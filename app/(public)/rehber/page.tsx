@@ -1,35 +1,53 @@
 import type { Metadata, Route } from "next";
 import { JsonLd } from "@/components/seo/json-ld";
 import { LandingFaq } from "@/components/seo/landing-faq";
-import { IconArrow } from "@/components/ui/icons";
+import { WorkflowFlowMap } from "@/components/rehber/workflow-flow-map";
+import { WorkflowModuleTabs, WorkflowStepper } from "@/components/rehber/workflow-stepper";
+import { IconArrow, IconBolt, IconCheck } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/link-button";
 import { PublicHero } from "@/components/ui/public-hero";
-import { guidePath, PUBLIC_GUIDES } from "@/lib/copy/guides";
-import { PUBLIC_SEN } from "@/lib/copy/sen-voice/public";
+import { PUBLIC_GUIDES, guidePath } from "@/lib/copy/guides";
+import { breadcrumbListJsonLd, faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
 import { GUIDE_FAQ, PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
+import { readWorkflowProgress } from "@/lib/rehber/progress";
 import {
-  breadcrumbListJsonLd,
-  faqPageJsonLd,
-  guideArticleJsonLd,
-  jsonLdDocument,
-} from "@/lib/copy/json-ld";
+  parseWorkflowModuleId,
+  WORKFLOW_MODULES,
+  workflowModule,
+  workflowStepHref,
+} from "@/lib/rehber/workflows";
+
+/**
+ * /rehber — Görsel İş Akış ve Kurulum Merkezi.
+ *
+ * Makale dizini değil: dört aktif ticari modülün uçtan uca kurulum akışı.
+ * Modül sekmesi sunucuda çözülür (`?modul=`); JS çalışmadan da akış okunur.
+ * Oturum açmış kullanıcıda tamamlanan adımlar rozetlenir; okuma fırlatmaz,
+ * hata olursa ziyaretçi görünümüne düşer (`lib/rehber/progress.ts`).
+ */
 
 export const metadata: Metadata = pageMetadata({
   ...PAGE_SEO.guide,
   robots: { index: true, follow: true },
 });
 
-export default function GuidePage() {
-  const copy = PUBLIC_SEN.guide;
+export default async function GuidePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ modul?: string }>;
+}) {
+  const params = await searchParams;
+  const activeId = parseWorkflowModuleId(params.modul);
+  const active = workflowModule(activeId) ?? WORKFLOW_MODULES[0]!;
+
+  // Sessiz okuma: hata fırlatmaz, ziyaretçide boş duruma düşer.
+  const progress = await readWorkflowProgress();
+  const activeProgress = progress[active.id] ?? { completed: [], note: null };
+
   return (
     <main className="relative mx-auto flex min-h-dvh w-full max-w-6xl flex-col bg-[radial-gradient(ellipse_at_top,rgba(37,99,235,0.08),transparent_46%)] px-6 pb-16 pt-12">
       <JsonLd
         data={jsonLdDocument([
-          guideArticleJsonLd({
-            headline: PAGE_SEO.guide.title,
-            description: PAGE_SEO.guide.description,
-            path: PAGE_SEO.guide.path,
-          }),
           faqPageJsonLd(GUIDE_FAQ),
           breadcrumbListJsonLd([
             { name: "Ana sayfa", path: "/" },
@@ -37,44 +55,58 @@ export default function GuidePage() {
           ]),
         ])}
       />
-      <PublicHero eyebrow={copy.eyebrow} title={copy.title} description={copy.description}>
+
+      <PublicHero
+        eyebrow="Rehber · İş akışı"
+        title="Hangi modülü kuruyorsun? Adım adım gör."
+        description="Dört aktif modülün uçtan uca kurulum akışı: her adımda süre, somut girdi → çıktı, kritik ipucu ve doğrudan ilgili ekrana giden buton. Makale değil, süreç şeması."
+      >
         <div className="flex flex-wrap gap-3">
           <LinkButton href="/tezgah" size="lg" variant="success">
-            {copy.cta}
+            <IconBolt className="h-4 w-4" />
+            Ücretsiz dene
+          </LinkButton>
+          <LinkButton href={workflowStepHref("/e-ticaret")} size="lg" variant="primary">
+            E-Ticaret denemesini başlat
             <IconArrow className="h-4 w-4" />
           </LinkButton>
-          <LinkButton href="/career" size="lg" variant="outline">
-            {copy.catalogCta}
+          <LinkButton href="/fiyatlandirma" size="lg" variant="outline">
+            Paketleri karşılaştır
+            <IconArrow className="h-4 w-4" />
           </LinkButton>
         </div>
       </PublicHero>
-      <section className="mt-8" aria-labelledby="guide-steps">
-        <h2 id="guide-steps" className="text-lg font-semibold tracking-tight">
-          {copy.stepsTitle}
+
+      <WorkflowFlowMap activeId={active.id} />
+
+      <WorkflowModuleTabs
+        modules={WORKFLOW_MODULES}
+        activeId={active.id}
+        basePath={PAGE_SEO.guide.path}
+      />
+
+      <WorkflowStepper
+        module={active}
+        completed={activeProgress.completed}
+        note={activeProgress.note}
+      />
+
+      <section className="mt-10" aria-labelledby="rehber-kisa-yol">
+        <h2 id="rehber-kisa-yol" className="text-lg font-semibold tracking-tight">
+          Tek iş için kısa yol
         </h2>
-        <ol className="mt-4 grid gap-3">
-          {copy.steps.map((step, index) => (
-            <li
-              key={step}
-              className="flex gap-3 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm"
-            >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-sm font-semibold text-blue-700">
-                {index + 1}
-              </span>
-              <span className="text-sm leading-6 text-slate-700">{step}</span>
-            </li>
-          ))}
-        </ol>
-      </section>
-      <LandingFaq heading={copy.faqHeading} items={GUIDE_FAQ} />
-      <section className="mt-10" aria-labelledby="rehber-makaleler">
-        <h2 id="rehber-makaleler" className="text-lg font-semibold tracking-tight">
-          Odaklı rehberler
-        </h2>
+        <p className="mt-1 max-w-2xl text-sm leading-6 text-[var(--muted)]">
+          Kurulum akışı yerine tek bir çıktı lazımsa aşağıdaki odaklı rehberler doğrudan ilgili araca gider.
+        </p>
         <ul className="mt-3 grid gap-3 sm:grid-cols-2">
           {PUBLIC_GUIDES.map((guide) => (
             <li key={guide.slug}>
-              <LinkButton href={guidePath(guide.slug) as Route} variant="outline" size="sm" className="w-full justify-between">
+              <LinkButton
+                href={guidePath(guide.slug) as Route}
+                variant="outline"
+                size="sm"
+                className="w-full justify-between"
+              >
                 {guide.title}
                 <IconArrow className="h-3.5 w-3.5" />
               </LinkButton>
@@ -82,6 +114,28 @@ export default function GuidePage() {
           ))}
         </ul>
       </section>
+
+      <section className="mt-10 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5">
+        <h2 className="flex items-center gap-2 text-base font-semibold">
+          <IconCheck className="h-4 w-4 text-[var(--emerald)]" />
+          Dürüstlük notu
+        </h2>
+        <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
+          Bu sayfa kurulum sırasını ve gerçek ekran bağlantılarını gösterir. Tahsilat, kabul ve onay
+          kararı ilgili kurumun veya ödeme sağlayıcısının kendi sistemindedir; burada tutar veya
+          sonuç vaat edilmez.
+        </p>
+        <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
+          E-Ticaret lisansında ilk 30 gün ücretsizdir.{" "}
+          <strong className="font-semibold text-[var(--foreground)]">
+            1,00 TL sembolik kart doğrulama bedeli tahsil edilir
+          </strong>{" "}
+          ve bu bedel bakiyeye yazılmaz; iade taahhüdü değildir. Deneme bitince aylık yenileme
+          katalogdaki tutardan başlar; dönem sonu iptali tek tıkla mağaza panelindedir.
+        </p>
+      </section>
+
+      <LandingFaq heading="Sık sorulanlar" items={GUIDE_FAQ} />
     </main>
   );
 }

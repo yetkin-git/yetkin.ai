@@ -33,7 +33,7 @@ const SEN_SURFACES = [
   "app/error.tsx",
   "app/not-found.tsx",
   "app/(kernel)/profil/page.tsx",
-  "app/academy/dogrula/page.tsx",
+  "archived/academy/app/dogrula/page.tsx",
   "app/career/page.tsx",
   "lib/copy/sen-voice/auth.ts",
   "lib/copy/sen-voice/profil.ts",

@@ -10,6 +10,7 @@ import {
 } from "@/lib/kernel/ai/form-coach-client";
 import { invokeLlm, type InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
 import { getDefaultModelId } from "@/lib/kernel/ai/model-roles";
+import { resolveProductModel } from "@/lib/kernel/ai/product-models";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import {
   consumeHttpRateLimit,
@@ -24,8 +25,9 @@ export {
   type FormCoachContext,
 };
 
-/** Form koçu. Model kimliği LITE_STREAM gümrük karşılığıdır. */
+/** Form koçu. Çağrı anı `resolveProductModel("textEasy")` okur. */
 export const FORM_COACH_ROLE = "LITE_STREAM" as const;
+/** Kod varsayılanı. Boş yuva bu kimliğe düşer. */
 export const FORM_COACH_MODEL_ID = getDefaultModelId(FORM_COACH_ROLE);
 export const FORM_COACH_MAX_OUTPUT_TOKENS = 120;
 
@@ -148,6 +150,7 @@ export async function coachFormField(
   const llm = await invoke(
     {
       role: FORM_COACH_ROLE,
+      model: await resolveProductModel("textEasy"),
       system: FORM_COACH_SYSTEM,
       user: `Bağlam: ${label}\nMetin:\n${parsed.data.text}`,
       temperature: 0.2,

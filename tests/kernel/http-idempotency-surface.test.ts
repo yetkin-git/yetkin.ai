@@ -64,9 +64,9 @@ describe("HTTP Idempotency-Key yazma yüzeyi", () => {
 
   it("istemci çift tıklamada aynı Idempotency-Key başlığını basar", () => {
     const walletForm = readSrc("components/kernel/wallet-top-up-form.tsx");
-    const purchase = readSrc("components/academy/purchase-button.tsx");
-    const curriculum = readSrc("components/academy/curriculum-player.tsx");
-    const examPanel = readSrc("components/academy/exam-panel.tsx");
+    const purchase = readSrc("archived/academy/components/purchase-button.tsx");
+    const curriculum = readSrc("archived/academy/components/curriculum-player.tsx");
+    const examPanel = readSrc("archived/academy/components/exam-panel.tsx");
     const profile = readSrc("components/kernel/display-name-form.tsx");
     const accept = readSrc("components/freelancer/accept-bid-button.tsx");
     const createJob = readSrc("components/freelancer/job-create-form.tsx");

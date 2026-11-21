@@ -5,6 +5,7 @@ import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { ASSISTANT_SEN } from "@/lib/copy/sen-voice/assistant";
 import { invokeLlm, type InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
 import { getDefaultModelId } from "@/lib/kernel/ai/model-roles";
+import { resolveProductModel } from "@/lib/kernel/ai/product-models";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import type { LlmChatTurn } from "@/lib/kernel/ai/types";
 import { ASSISTANT_CHAT_PATH } from "@/lib/kernel/ai/assistant-chat-client";
@@ -15,8 +16,9 @@ import {
 } from "@/lib/kernel/security/http-rate-limit";
 
 export { ASSISTANT_CHAT_PATH };
-/** Kariyer / Akademi asistanı. Model kimliği bu rolün gümrük karşılığıdır. */
+/** Kariyer / Akademi asistanı. Çağrı anı `resolveProductModel("textEasy")` okur. */
 export const ASSISTANT_CHAT_ROLE = "LITE_STREAM" as const;
+/** Kod varsayılanı. Boş yuva bu kimliğe düşer. */
 export const ASSISTANT_CHAT_MODEL_ID = getDefaultModelId(ASSISTANT_CHAT_ROLE);
 export const ASSISTANT_CHAT_MESSAGE_LIMIT = HTTP_RATE_LIMITS.aiChatUser.limit;
 export const ASSISTANT_CHAT_LIMIT_ERROR = ASSISTANT_SEN.limitReached;
@@ -188,6 +190,7 @@ export async function answerAssistantChat(
   const llm = await invoke(
     {
       role: ASSISTANT_CHAT_ROLE,
+      model: await resolveProductModel("textEasy"),
       system: ASSISTANT_SEN.system,
       user: parsed.data.message,
       history: normalizeHistory(parsed.data.history),

@@ -13,18 +13,37 @@ import { LandingFaq } from "@/components/seo/landing-faq";
 import { faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
 import { HOME_LANDING_FAQ } from "@/lib/copy/sem-keywords";
 import { GrantEligibilityWidget } from "@/components/hibe/grant-eligibility-widget";
+import { HomeSocialProofStrip } from "@/components/public/home-social-proof-strip";
+import { buildHomeProofLines, loadHomeSocialProof } from "@/lib/pricing/home-social-proof";
+import { buildCitizenRegisterHref } from "@/lib/kernel/auth/redirects";
+import { isProtectedCitizenPath } from "@/lib/kernel/security/edge-guard";
 
 /**
  * Marka iniş katmanı — kök adres (`/`).
  * Ticari vitrin: AI Tezgâh, e-ticaret, hibe ve YetkinCV. Kapalı odalar (Akademi / Junior / Young) basılmaz.
+ *
+ * CRO (SEO Tedavi P0): ana sayfa bağları artık giriş duvarına çarpmaz.
+ * Korumalı hedefler (`/e-ticaret`, `/hibe`) oturumsuz ziyaretçiye ham adresle
+ * verilmez; `next` parametreli kayıt yoluna çevrilir (`buildCitizenRegisterHref`,
+ * açık yön allowlist'i aynı fonksiyonda) veya sayfa içi çapaya indirilir.
  */
 export const metadata: Metadata = pageMetadata({
   ...PAGE_SEO.home,
   robots: { index: true, follow: true },
 });
 
-export default function PublicHomePage() {
+/** Korumalı iç hedef → `next` taşıyan kayıt yolu. Açık yön allowlist'i çağrıda uygulanır. */
+function homeCtaHref(href: string): string {
+  if (!href.startsWith("/")) {
+    return href;
+  }
+  return isProtectedCitizenPath(href) ? buildCitizenRegisterHref(href) : href;
+}
+
+export default async function PublicHomePage() {
   const copy = SEN_VOICE.public.home;
+  // Sosyal kanıt gerçek veriden gelir. DB yoksa veya eşik dolmazsa şerit hiç basılmaz.
+  const proofLines = buildHomeProofLines(await loadHomeSocialProof());
   return (
     <main className="relative flex min-h-dvh flex-col overflow-x-hidden bg-gradient-to-b from-slate-50 via-blue-50/40 to-white">
       <div
@@ -112,7 +131,7 @@ export default function PublicHomePage() {
                   <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{step.body}</p>
                   {"href" in step ? (
                     <Link
-                      href={step.href}
+                      href={homeCtaHref(step.href) as Route}
                       className="mt-3 inline-flex text-sm font-semibold text-[var(--safir-deep)] hover:underline"
                     >
                       {copy.tezgahCta}
@@ -143,7 +162,7 @@ export default function PublicHomePage() {
                 <li key={item.href}>
                   <Card variant="default" className="flex h-full flex-col p-5">
                     <h3 className="text-base font-semibold text-[var(--foreground)]">
-                      <Link href={item.href as Route} className="hover:underline">
+                      <Link href={homeCtaHref(item.href) as Route} className="hover:underline">
                         {item.title}
                       </Link>
                     </h3>
@@ -159,6 +178,7 @@ export default function PublicHomePage() {
             <GrantEligibilityWidget />
           </div>
         </div>
+        <HomeSocialProofStrip lines={proofLines} />
         <section className="relative mt-8 min-h-0" aria-labelledby="home-tracks-heading">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
             {copy.tracksKicker}
@@ -174,14 +194,45 @@ export default function PublicHomePage() {
               <li key={track.href}>
                 <Card variant="default" className="flex h-full flex-col p-5">
                   <h3 className="text-base font-semibold text-[var(--foreground)]">
-                    <Link href={track.href} className="hover:underline">
+                    <Link href={homeCtaHref(track.href) as Route} className="hover:underline">
                       {track.title}
                     </Link>
                   </h3>
                   <p className="mt-2 flex-1 text-sm leading-6 text-[var(--muted)]">{track.body}</p>
                   <div className="mt-4">
-                    <LinkButton href={track.href} size="sm" variant="outline">
+                    <LinkButton href={homeCtaHref(track.href) as Route} size="sm" variant="outline">
                       {track.cta}
+                    </LinkButton>
+                  </div>
+                </Card>
+              </li>
+            ))}
+          </ul>
+        </section>
+        <section className="relative mt-10 min-h-0" aria-labelledby="home-resources-heading" data-home-resources="">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">
+            {copy.resourcesKicker}
+          </p>
+          <h2
+            id="home-resources-heading"
+            className="mt-1.5 text-xl font-semibold tracking-tight text-[var(--foreground)] sm:text-2xl"
+          >
+            {copy.resourcesTitle}
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">{copy.resourcesLead}</p>
+          <ul className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {copy.resources.map((resource) => (
+              <li key={resource.href}>
+                <Card variant="default" className="flex h-full flex-col p-5">
+                  <h3 className="text-base font-semibold text-[var(--foreground)]">
+                    <Link href={resource.href as Route} className="hover:underline">
+                      {resource.title}
+                    </Link>
+                  </h3>
+                  <p className="mt-2 flex-1 text-sm leading-6 text-[var(--muted)]">{resource.body}</p>
+                  <div className="mt-4">
+                    <LinkButton href={resource.href as Route} size="sm" variant="outline">
+                      {resource.cta}
                     </LinkButton>
                   </div>
                 </Card>

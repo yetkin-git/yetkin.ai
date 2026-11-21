@@ -1,0 +1,317 @@
+/**
+ * Animasyon anahtar kareleri (`@keyframes`) — tek kaynak.
+ *
+ * SEO/performans tedavisi (Faz 2): 28 `@keyframes` bloğu `app/globals.css`
+ * içine serpiştirilmişti. Adlar, kare yüzdeleri ve değerler birebir korundu;
+ * yalnız dosya adresi değişti. `prefers-reduced-motion` muafiyetleri
+ * (`animation: none`) ilgili sınıfların yanında, `globals.css` içinde kalır.
+ *
+ * Anahtar kare sırası CSS açısından anlamsızdır (ad ile bağlanır); yine de
+ * okunabilirlik için kaynak sırası korunmuştur.
+ */
+
+@keyframes room-led {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes delivery-hero-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--emerald) 32%, transparent), var(--shadow-lift);
+  }
+  50% {
+    box-shadow: 0 0 0 10px color-mix(in srgb, var(--emerald) 0%, transparent), var(--shadow-lift);
+  }
+}
+
+@keyframes academy-intro-bloom {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes academy-outro-peak {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 18px rgba(80, 200, 255, 0.18));
+  }
+  45% {
+    filter: drop-shadow(0 0 34px rgba(124, 245, 200, 0.42));
+  }
+}
+
+@keyframes academy-excel-mouse-click {
+  0% {
+    opacity: 0.95;
+    transform: scale(0.35);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+
+@keyframes academy-prompt-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes academy-ctrl-c-pulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes academy-copy-flight {
+  0% {
+    transform: translateX(-18%);
+    opacity: 0.35;
+  }
+  100% {
+    transform: translateX(12%);
+    opacity: 1;
+  }
+}
+
+@keyframes academy-eye-kenburns {
+  from {
+    transform: scale(1.01) translate3d(0, 2.4%, 0);
+  }
+  to {
+    transform: scale(1.07) translate3d(0, -1.1%, 0);
+  }
+}
+
+@keyframes academy-eye-scene-in {
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+    filter: saturate(0.86) blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes academy-compare-in {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+    filter: saturate(0.88) blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes academy-a1-glow {
+  from {
+    box-shadow:
+      inset 0 0 8px rgba(80, 255, 196, 0.35),
+      0 0 8px rgba(48, 180, 255, 0.32);
+  }
+  to {
+    box-shadow:
+      inset 0 0 16px rgba(80, 255, 196, 0.7),
+      0 0 18px rgba(48, 180, 255, 0.7);
+  }
+}
+
+@keyframes academy-player-wave {
+  0%, 100% { transform: scaleY(0.42); }
+  50% { transform: scaleY(1); }
+}
+
+@keyframes academy-player-ring {
+  0% { opacity: 0.45; transform: scale(0.86); }
+  100% { opacity: 0; transform: scale(1.18); }
+}
+
+@keyframes academy-listen-wave {
+  0%, 100% { transform: scaleY(0.45); }
+  50% { transform: scaleY(1); }
+}
+
+@keyframes academy-listen-shimmer {
+  0%, 100% { opacity: 0.35; transform: scaleY(0.55); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+@keyframes academy-diploma-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes nav-progress-indeterminate {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(420%);
+  }
+}
+
+@keyframes junior-card-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(6px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes junior-badge-pop {
+  0% {
+    transform: scale(0.72);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes junior-marble-bounce {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  25% {
+    transform: translateY(-18px) scale(1.08);
+  }
+  50% {
+    transform: translateY(0) scale(0.94);
+  }
+  75% {
+    transform: translateY(-8px) scale(1.04);
+  }
+}
+
+@keyframes junior-scale-wobble {
+  0%,
+  100% {
+    transform: rotate(var(--junior-tilt, -8deg));
+  }
+  20% {
+    transform: rotate(calc(var(--junior-tilt, -8deg) + 4deg));
+  }
+  40% {
+    transform: rotate(calc(var(--junior-tilt, -8deg) - 5deg));
+  }
+  60% {
+    transform: rotate(calc(var(--junior-tilt, -8deg) + 3deg));
+  }
+  80% {
+    transform: rotate(calc(var(--junior-tilt, -8deg) - 2deg));
+  }
+}
+
+@keyframes junior-scale-settle {
+  0% {
+    transform: rotate(var(--junior-from-tilt, 10deg));
+  }
+  60% {
+    transform: rotate(-2deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes junior-chicken-hop {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  30% {
+    transform: translateY(-14px) rotate(-6deg);
+  }
+  55% {
+    transform: translateY(-4px) rotate(4deg);
+  }
+  75% {
+    transform: translateY(-10px) rotate(-3deg);
+  }
+}
+
+@keyframes junior-egg-nestle {
+  0% {
+    transform: scale(0.6) translateY(-8px);
+    opacity: 0.4;
+  }
+  60% {
+    transform: scale(1.08) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes junior-star-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    filter: drop-shadow(0 0 0 rgba(246, 217, 138, 0));
+  }
+  40% {
+    transform: translate(-50%, -50%) scale(1.45);
+    filter: drop-shadow(0 0 8px rgba(245, 180, 40, 0.95));
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(1.12);
+    filter: drop-shadow(0 0 3px rgba(246, 217, 138, 0.65));
+  }
+}
+
+@keyframes junior-star-glow {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0 rgba(246, 217, 138, 0));
+  }
+  40% {
+    transform: scale(1.35);
+    filter: drop-shadow(0 0 8px rgba(245, 180, 40, 0.95));
+  }
+}

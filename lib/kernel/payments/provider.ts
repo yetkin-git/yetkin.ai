@@ -22,6 +22,8 @@ export type BeginCheckoutInput = {
   userName?: string;
   userPhone?: string;
   userAddress?: string;
+  /** PayTR kart saklama. Hash'e girmez; yalnız deneme doğrulamasında açılır. */
+  storeCard?: boolean;
 };
 
 export type BeginCheckoutResult =

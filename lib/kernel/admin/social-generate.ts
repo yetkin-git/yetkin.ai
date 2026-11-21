@@ -1,6 +1,7 @@
 import "server-only";
 
 import { invokeLlm } from "@/lib/kernel/ai/llm-gateway";
+import { resolveProductModel } from "@/lib/kernel/ai/product-models";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import type { InvokeLlmInput } from "@/lib/kernel/ai/types";
 import { sanitizeGeminiApiKey } from "@/lib/kernel/ai/providers/gemini";
@@ -37,6 +38,7 @@ export async function generateSocialPackage(input: {
   try {
     const result = await invoke({
       role: "LITE_STREAM",
+      model: await resolveProductModel("textEasy"),
       system: [
         "yetkin.ai sosyal medya editörüsün. Türkçe yaz.",
         "Uydurma metrik, kesin hibe, garanti ve iş vaadi yazma.",
@@ -93,6 +95,7 @@ export async function generateSocialReply(input: {
   try {
     const result = await invoke({
       role: "LITE_STREAM",
+      model: await resolveProductModel("textEasy"),
       system: [
         "yetkin.ai yorum yanıt editörüsün. Kısa Türkçe taslak yaz.",
         "Uydurma fiyat, kesin hibe ve iş vaadi yazma.",

@@ -1,8 +1,20 @@
 /**
  * Bounded context sicili. Oda kapısı burada değil, kayıt defterindedir (`lib/dronlar/kayit.ts`).
- * Altı oda: Dashboard açık, Academy açık, Career açık, Freelancer kapalı,
- * Junior müstakil ve açık, Young kapalı. Freelancer ve Young kamu yüzeyi 410 döner.
- * Diskte tarihsel klasör pazarlanmaz. Kernel dikey engine import etmez.
+ * Bu dosya oda sayısını sabitlemez. Açık ve kapalı kesit kayıttaki `kapali` alanıdır.
+ *
+ * Açık (`kapali: false`): Panel (`dashboard`), YetkinCV (`career`), AI Tezgâh
+ * (`tezgah`, müstakil), Junior (`junior`, müstakil; satış `JUNIOR_CHECKOUT_OPEN`
+ * ile ayrı kilit — oda 410 değildir), YetkinHibe (`yetkinhibe`, yol `/hibe`).
+ * Kapalı / askıda (`kapali: true`, kenar 410): Akademi (`academy`), Freelancer
+ * (`freelancer`), Young (`young`).
+ *
+ * Kayıt dışı: E-Ticaret kokpiti (`/e-ticaret`) `COMMERCE_NAV` satırıdır, dron kaydı
+ * değildir. Kurumsal sayfa (`/kurumsal`, `/kurumsal/ilanlar`) açıktır. Donmuş disk
+ * kimliği `kurumsal` bu iki yolu kapatmaz. Donmuş disk kimliği `hibe` canlı
+ * YetkinHibe odası değildir; canlı kimlik `yetkinhibe`’dir.
+ *
+ * `RAIL_PHASE1_ROOM_CONTEXT` oda açıklığını söylemez. Academy satırı askıdayken de
+ * Proof sahibidir. Diskte tarihsel klasör pazarlanmaz. Kernel dikey engine import etmez.
  *
  * Proof: akademi değerlendirme + kariyer vizesi + pasaport projeksiyonu.
  * Kanıt okuma sözleşmesi `lib/kernel/proof` (`ProofReadPort`); müfredat kimliği

@@ -1,3 +1,4 @@
+import { AdminAiModelDesk } from "@/components/kernel/admin-ai-model-desk";
 import { AdminAuditChambers } from "@/components/kernel/admin-audit-chambers";
 import { AdminCatalogList } from "@/components/kernel/admin-catalog-list";
 import { AdminFunnelBoard } from "@/components/kernel/admin-funnel-board";
@@ -135,6 +136,7 @@ export default async function AdminPage({
         <Forbidden message={copy.forbidden} />
       ) : board?.access === "unavailable" ? (
         <div className="space-y-4">
+          <AdminAiModelDesk />
           <B2bEntry />
           <SocialEntry />
           <p className="text-sm text-[var(--muted)]">{copy.loadSoft}</p>
@@ -150,6 +152,7 @@ export default async function AdminPage({
         </div>
       ) : (
         <div className="space-y-4">
+          <AdminAiModelDesk />
           <B2bEntry />
           <SocialEntry />
           {off201PriceUnset ? (

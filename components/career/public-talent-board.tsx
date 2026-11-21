@@ -1,6 +1,7 @@
 import type { Route } from "next";
 import { CertificateShareActions } from "@/components/academy/certificate-share-actions";
 import { CertificateVerifyQr } from "@/components/academy/certificate-verify-qr";
+import { ProofShareBar } from "@/components/career/proof-share-bar";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
@@ -77,6 +78,8 @@ export function PublicTalentBoard({ card }: { card: PublicTalentCard }) {
   return (
     <div className="space-y-6">
       <SealRow seal={card.featured} featured />
+      {/* Viral büyüme döngüsü (Faz 2 / P4): kart başlığının hemen altında tek tıkla paylaşım. */}
+      <ProofShareBar path={publicTalentPath(card.featured.id)} title={card.featured.title} />
       {otherSeals.length > 0 ? (
         <section className="space-y-4">
           <h2 className="text-lg font-semibold tracking-tight text-[var(--foreground)]">{copy.sealsTitle}</h2>

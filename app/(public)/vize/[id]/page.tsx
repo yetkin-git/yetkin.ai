@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PublicTalentBoard } from "@/components/career/public-talent-board";
 import { YetkinCvCard } from "@/components/career/yetkincv-card";
+import { ProofShareBar } from "@/components/career/proof-share-bar";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
 import { LegalBackToHome } from "@/components/legal/legal-back-to-home";
@@ -61,6 +62,8 @@ function AcademySealOnVize({
             Kayıt sunucudadır. Oturum istenmez. Kimlik gösterilmez.
           </p>
         </Card>
+        {/* Viral büyüme döngüsü (Faz 2 / P4): mühür kartı tek tıkla paylaşılır. */}
+        <ProofShareBar path={`/vize/${seal.hash}`} title={seal.title} />
         <LinkButton href="/career" variant="outline" size="sm">
           Kariyer kartı
         </LinkButton>
@@ -70,6 +73,14 @@ function AcademySealOnVize({
 }
 
 const PUBLIC_META_DESCRIPTION = CAREER_SEN.publicPage.description;
+
+/**
+ * Bulunamayan kart `noindex, follow` döner.
+ * SEO Tedavi (P1): soft-404 riski. Kart yoksa sayfa 200 akar (varlık sızdırılmaz)
+ * ama `index` bırakılırsa Google "bulunamadı" gövdesini indeksleyebilir.
+ * `follow` korunur: sayfadaki `/career` ve `/vize` bağları taranır.
+ */
+const MISSING_CARD_ROBOTS = { index: false, follow: true } as const;
 
 export async function generateMetadata({
   params,
@@ -112,6 +123,7 @@ export async function generateMetadata({
     description: PUBLIC_META_DESCRIPTION,
     path: parsed ? publicTalentPath(parsed) : PAGE_SEO.publicTalent.path,
     image: PAGE_SEO.publicTalent.image,
+    robots: MISSING_CARD_ROBOTS,
   });
 }
 
@@ -130,6 +142,9 @@ export default async function PublicTalentPage({
           <div className="relative space-y-6">
             <LegalBackToHome />
             <YetkinCvCard card={seal} />
+            {/* Viral büyüme döngüsü (Faz 2 / P4): YetkinCV puan kartı paylaşılır.
+                `verifyPath` kanonik `/vize/<sha256>` yoludur (yetkinCvVerifyPath). */}
+            <ProofShareBar path={seal.verifyPath} title={`YetkinCV ${seal.score}/100`} />
             <p className="text-sm leading-6 text-[var(--muted)]">{copy.privacy}</p>
           </div>
         </main>

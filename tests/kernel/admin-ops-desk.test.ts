@@ -141,8 +141,13 @@ describe("operasyon masası", () => {
     expect(refundRoute).toContain("requireSuperAdmin");
     expect(refundRoute).toContain("refundLicenseGapExact");
     expect(read("lib/kernel/payments/license-gap-refund.ts")).toContain('action: "manual_refund"');
-    expect(read("app/(public)/rehber/page.tsx")).toContain("guideArticleJsonLd");
-    expect(read("app/(public)/rehber/page.tsx")).toContain("faqPageJsonLd");
+    // `/rehber` makale değil: Görsel İş Akış Merkezi. FAQ + breadcrumb şeması kalır,
+    // makale (`Article`) şeması basmaz; akış bileşeni ve veri SSOT'u sayfayı kurar.
+    const rehber = read("app/(public)/rehber/page.tsx");
+    expect(rehber).toContain("faqPageJsonLd");
+    expect(rehber).toContain("breadcrumbListJsonLd");
+    expect(rehber).toContain("WorkflowStepper");
+    expect(rehber).not.toContain("guideArticleJsonLd");
     expect(read("app/robots.ts")).toContain("ROBOTS_DISALLOW_PATHS");
     expect(read("app/sitemap.ts")).toContain("isRobotsDisallowedPath");
   });

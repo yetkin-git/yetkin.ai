@@ -716,7 +716,10 @@ export function AnimatedSimulationStudio({
   onSimSuccess?: () => void;
 }): ReactElement | null {
   const blueprint = getJuniorLessonBlueprint(lessonKey);
-  const tabs = blueprint?.simulations ?? [];
+  // `blueprint?.simulations ?? []` her render'da yeni dizi referansı üretiyordu;
+  // `useEffect` bağımlılığı her render'da değiştiği için efekt tekrar tekrar
+  // koşuyordu (CPU döngüsü + animasyon titremesi). Referans `useMemo` ile sabitlenir.
+  const tabs = useMemo(() => blueprint?.simulations ?? [], [blueprint]);
   const defaultMode: SimMode = tabs[0]?.id ?? "marble";
   const [mode, setMode] = useState<SimMode>(defaultMode);
 

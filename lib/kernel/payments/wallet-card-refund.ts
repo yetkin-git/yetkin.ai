@@ -5,6 +5,7 @@ import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { ConflictError } from "@/lib/kernel/http/errors";
 import { logEvent } from "@/lib/kernel/observability/log";
+import { isActivatedProductRefundBlocked, isTezgahCreditOrderPurpose } from "@/lib/kernel/payments/order-purpose";
 import {
   formatPaytrReturnAmount,
   requestPaytrRefund,
@@ -66,12 +67,36 @@ export type WalletCardRefundStatus = "PENDING" | "ACCEPTED" | "SUCCEEDED" | "FAI
 export type RefundableCardOrder = {
   merchantOid: string;
   amountMinor: number;
+  /** Boşsa eski çağıranlar etkilenmez. TEZGAH_PRO ve COMMERCE_LICENSE elenir. */
+  purpose?: string;
 };
 
 export type WalletCardRefundSlice = {
   merchantOid: string;
   amountMinor: number;
+  purpose?: string;
 };
+
+/**
+ * İade edilen kuruş, kredi paketi birimine bölünür.
+ * Birim yoksa veya iade kalan hakkın değerini kaplıyorsa sayaç sıfırlanır.
+ */
+export function tezgahCreditsToRevoke(input: {
+  remaining: number;
+  unitMinor: number;
+  refundedMinor: number;
+}): number {
+  if (!Number.isInteger(input.remaining) || input.remaining <= 0 || input.refundedMinor <= 0) {
+    return 0;
+  }
+  if (!Number.isInteger(input.unitMinor) || input.unitMinor <= 0) {
+    return input.remaining;
+  }
+  if (input.refundedMinor >= input.remaining * input.unitMinor) {
+    return input.remaining;
+  }
+  return Math.min(input.remaining, Math.floor(input.refundedMinor / input.unitMinor));
+}
 
 /**
  * Kullanılmamış bakiye, en yeni CLEARED siparişten geriye doğru karta bölünür.
@@ -88,13 +113,16 @@ export function allocateUnusedBalanceRefund(
     if (remaining <= 0) {
       break;
     }
+    if (isActivatedProductRefundBlocked(order.purpose)) {
+      continue;
+    }
     const reserved = alreadyReservedMinorByOid[order.merchantOid] ?? 0;
     const room = order.amountMinor - reserved;
     if (room <= 0) {
       continue;
     }
     const take = Math.min(room, remaining);
-    slices.push({ merchantOid: order.merchantOid, amountMinor: take });
+    slices.push({ merchantOid: order.merchantOid, amountMinor: take, purpose: order.purpose });
     remaining -= take;
   }
   return slices;
@@ -138,6 +166,8 @@ export type WalletCardRefundPorts = {
   ledger: LedgerStore;
   callPaytr?: (input: { merchantOid: string; amountMinor: number }) => Promise<PaytrRefundCallResult>;
   paytrConfigured?: boolean;
+  /** TEZGAH_CREDIT iadesi aynı transaction içinde kredi sayacını düşürür. */
+  adjustTezgahCreditBalance?: (input: { userId: string; refundedMinor: number }) => Promise<void>;
 };
 
 export type WalletCardRefundResult = {
@@ -261,6 +291,9 @@ export async function refundUnusedWalletBalance(
       { ...row, status: "ACCEPTED" },
       paytr.returnAmount,
     );
+    if (isTezgahCreditOrderPurpose(slice.purpose)) {
+      await ports.adjustTezgahCreditBalance?.({ userId, refundedMinor: slice.amountMinor });
+    }
     refundedMinor += slice.amountMinor;
   }
 

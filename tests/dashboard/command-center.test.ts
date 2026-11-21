@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { projectCommandCenter } from "@/lib/dashboard/command-center";
+import { commandQuotaLane, projectCommandCenter } from "@/lib/dashboard/command-center";
 import { EMPTY_DASHBOARD_PULSE } from "@/lib/dashboard/pulse";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
@@ -15,7 +15,12 @@ function readSrc(relative: string): string {
   return readFileSync(join(ROOT, relative), "utf8");
 }
 
-const quotaDown = { live: false, remaining: 0, limit: TEZGAH_MEMBER_DAILY_LIMIT };
+const quotaDown = {
+  live: false,
+  remaining: 0,
+  limit: TEZGAH_MEMBER_DAILY_LIMIT,
+  lane: "CLOSED" as const,
+};
 
 describe("komuta merkezi projeksiyonu", () => {
   it("katalog on araçtır; üye kotası 3'tür", () => {
@@ -34,6 +39,7 @@ describe("komuta merkezi projeksiyonu", () => {
 
     expect(tezgah.cta).toBe("Tezgâhı Aç");
     expect(tezgah.href).toBe("/tezgah");
+    expect(tezgah.stats[0]?.label).toBe("Bugünkü ücretsiz hak");
     expect(tezgah.stats[0]?.value).toBe("—");
     expect(tezgah.detail).toBe("10 araç hazır");
 
@@ -80,11 +86,15 @@ describe("komuta merkezi projeksiyonu", () => {
         },
       },
       stores: { kind: "ok", stores: [] },
-      quota: { live: true, remaining: 2, limit: 3 },
+      quota: { live: true, remaining: 2, limit: 3, lane: "FREE_DAILY" },
       toolCount: TEZGAH_TOOLS.length,
     });
 
-    expect(tezgah.stats[0]?.value).toBe("2 / 3");
+    expect(tezgah.stats[0]?.label).toBe("Bugünkü ücretsiz hak");
+    expect(tezgah.stats[0]?.value).toBe("2/3");
+    expect(`${tezgah.stats[0]?.label} (${tezgah.stats[0]?.value})`).toBe(
+      "Bugünkü ücretsiz hak (2/3)",
+    );
     expect(tezgah.detail).toBe("10 araç hazır");
 
     expect(commerce.stats[0]?.value).toBe("0");
@@ -118,7 +128,7 @@ describe("komuta merkezi projeksiyonu", () => {
           { status: "ACTIVE" },
         ],
       },
-      quota: { live: true, remaining: 0, limit: 3 },
+      quota: { live: true, remaining: 0, limit: 3, lane: "FREE_DAILY" },
       toolCount: 7,
     });
 
@@ -137,6 +147,48 @@ describe("komuta merkezi projeksiyonu", () => {
     expect(draftOnly.stats.map((item) => item.value)).toEqual(["1", "0"]);
     expect(draftOnly.detail).toBe("Vitrin taslak");
     expect(draftOnly.cta).toBe("Kokpiti Aç");
+  });
+
+  it("kredi bakiyesini bugünkü hak diye basmaz; Pro sınırsız erişimdir", () => {
+    const credit = projectCommandCenter({
+      pulse: EMPTY_DASHBOARD_PULSE,
+      stores: { kind: "ok", stores: [] },
+      quota: { live: true, remaining: 5, limit: 5, lane: "CREDIT_PACK" },
+      toolCount: TEZGAH_TOOLS.length,
+    })[2];
+    expect(credit.stats[0]).toEqual({ label: "Kalan üretim kredisi", value: "5" });
+    expect(`${credit.stats[0]?.label} (${credit.stats[0]?.value})`).toBe(
+      "Kalan üretim kredisi (5)",
+    );
+    expect(credit.stats[0]?.label).not.toContain("Bugünkü");
+
+    const spent = projectCommandCenter({
+      pulse: EMPTY_DASHBOARD_PULSE,
+      stores: { kind: "ok", stores: [] },
+      quota: { live: true, remaining: 0, limit: 3, lane: "CLOSED" },
+      toolCount: TEZGAH_TOOLS.length,
+    })[2];
+    expect(spent.stats[0]).toEqual({ label: "Bugünkü ücretsiz hak", value: "0/3" });
+
+    const pro = projectCommandCenter({
+      pulse: EMPTY_DASHBOARD_PULSE,
+      stores: { kind: "ok", stores: [] },
+      quota: { live: true, remaining: 3, limit: 3, lane: "PRO" },
+      toolCount: TEZGAH_TOOLS.length,
+    })[2];
+    expect(pro.stats[0]).toEqual({ label: "Tezgâh Pro", value: "Sınırsız Erişim" });
+    expect(`${pro.stats[0]?.label} (${pro.stats[0]?.value})`).toBe(
+      "Tezgâh Pro (Sınırsız Erişim)",
+    );
+    expect(pro.stats[0]?.value).not.toBe("3/3");
+
+    expect(commandQuotaLane("free")).toBe("FREE_DAILY");
+    expect(commandQuotaLane("credit")).toBe("CREDIT_PACK");
+    expect(commandQuotaLane("prepaid")).toBe("CREDIT_PACK");
+    expect(commandQuotaLane("pro")).toBe("PRO");
+    expect(commandQuotaLane("closed")).toBe("CLOSED");
+    expect(readSrc("app/dashboard/load-command.ts")).toContain("commandQuotaLane");
+    expect(readSrc("app/dashboard/load-command.ts")).toContain("quota.error");
   });
 
   it("sayfa dört okumayı Promise.all ile toplar; gövde cüzdan bandı açmaz", () => {

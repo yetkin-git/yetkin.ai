@@ -11,7 +11,7 @@ import {
   mintWalletCheckoutPassport,
   verifyWalletCheckoutPassport,
 } from "@/lib/kernel/payments/wallet-checkout-passport";
-import { kasaReturnCourseHref, kasaReturnHref } from "@/components/kernel/kasa-return-panel";
+import { kasaReturnCourseHref, kasaReturnHref, kasaReturnLabel } from "@/components/kernel/kasa-return-panel";
 import { decideEdgeAction } from "@/lib/kernel/security/edge-guard";
 
 const ROOT = process.cwd();
@@ -77,14 +77,23 @@ describe("Dron cüzdan HMAC kasa pasaportu", () => {
     expect(kasaReturnHref("lisans")).toBe("/e-ticaret");
     expect(kasaReturnHref("hibe")).toBe("/hibe");
     expect(kasaReturnHref("dosya")).toBe("/hibe");
+    // CRO: satın alınan masa tam olarak korunur; junior ve cüzdan ayrı yüzey.
+    expect(kasaReturnHref("junior")).toBe("/junior");
+    expect(kasaReturnHref("cuzdan")).toBe("/cuzdan");
+    expect(kasaReturnLabel("e-ticaret")).toBe("E-Ticaret Paneline Geç");
+    expect(kasaReturnLabel("tezgah")).toBe("Tezgâh Pro'ya Dön");
+    expect(kasaReturnLabel("junior")).toBe("Junior Derslerine Geç");
+    // Tanınmayan masa güvenli varsayılana düşer.
+    expect(kasaReturnHref("uydurma")).toBe("/tezgah");
     expect(kasaReturnCourseHref("01_office_ai")).toBe("/tezgah");
     expect(kasaReturnCourseHref(null)).toBe("/tezgah");
     expect(readSrc("components/kernel/kasa-return-panel.tsx")).not.toContain("/academy");
     expect(existsSync(join(ROOT, "app/(public)/kasa/page.tsx"))).toBe(true);
     expect(existsSync(join(ROOT, "app/(public)/kasa/donus/page.tsx"))).toBe(true);
     expect(readSrc("app/(public)/kasa/page.tsx")).toContain("CUZDAN_SEN.kasaInvalidCta");
-    expect(readSrc("app/(public)/kasa/page.tsx")).toContain('href="/tezgah"');
-    expect(readSrc("lib/copy/sen-voice/cuzdan.ts")).toContain('kasaInvalidCta: "Akademiye dön"');
+    expect(readSrc("app/(public)/kasa/page.tsx")).toContain('href="/dashboard"');
+    expect(readSrc("app/(public)/kasa/page.tsx")).not.toContain("Akademiye dön");
+    expect(readSrc("lib/copy/sen-voice/cuzdan.ts")).toContain('kasaInvalidCta: "Panele dön"');
     expect(readSrc("app/(public)/kasa/page.tsx")).toContain("verifyWalletCheckoutPassport");
     expect(readSrc("app/(public)/kasa/page.tsx")).toContain("PaytrCheckoutIframe");
     expect(readSrc("app/(public)/kasa/donus/page.tsx")).not.toContain("settlePaytrWebhookSuccess");

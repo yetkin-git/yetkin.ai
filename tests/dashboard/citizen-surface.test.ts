@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { WALLET_SURFACE_PATH } from "@/lib/kernel/identity/types";
 import { VERTICAL_ROOMS } from "@/lib/kernel/modules";
+import { readStyleBundle } from "../helpers/style-bundle";
 
 const ROOT = process.cwd();
 
@@ -66,8 +67,11 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     expect(SEN_VOICE.dashboard.featured).not.toContain("kokpit");
     expect(SEN_VOICE.dashboard.featured).not.toContain("sicilde");
     expect(SEN_VOICE.dashboard.featured).not.toContain("Çalışan odalar");
-    expect(SEN_VOICE.dashboard.walletStrip.body).toContain("Bakiye Akademi tahsilatı içindir");
-    expect(SEN_VOICE.dashboard.walletStrip.body).toContain("Eğitim satın alımı bu bakiyeden düşer");
+    expect(SEN_VOICE.dashboard.walletStrip.body).toBe(
+      "Cüzdan bakiyesi Tezgâh üretim kredileri, tek seferlik dosyalar ve platform içi hizmetler için kullanılır.",
+    );
+    expect(SEN_VOICE.dashboard.walletStrip.body).toBe(SEN_VOICE.cuzdan.description);
+    expect(SEN_VOICE.dashboard.walletStrip.body).not.toContain("Akademi");
     expect(SEN_VOICE.dashboard.walletStrip.body).not.toContain("Bakiyeniz");
     expect(SEN_VOICE.dashboard.walletStrip).not.toHaveProperty("modalTitle");
     expect(SEN_VOICE.dashboard.walletStrip).not.toHaveProperty("emptyLedger");
@@ -94,7 +98,7 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     expect(readSrc("components/dashboard/next-best-action-card.tsx")).toContain("text-pretty");
     expect(readSrc("components/ui/page-header.tsx")).toContain("text-pretty");
     expect(existsSync(join(ROOT, "components/dashboard/wallet-room-modal.tsx"))).toBe(false);
-    expect(readSrc("app/globals.css")).not.toContain("wallet-modal-overlay");
+    expect(readStyleBundle()).not.toContain("wallet-modal-overlay");
     expect(readSrc("app/dashboard/page.tsx")).not.toContain("DASHBOARD_WALLET_MODAL");
     expect(readSrc("app/dashboard/page.tsx")).not.toContain("searchParams");
     expect(readSrc("lib/dashboard/wallet-strip.ts")).not.toContain("/dashboard?modal=wallet");
@@ -130,13 +134,16 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     expect(SEN_VOICE.dashboard.pulse.freelancerEscrowInactive).toBe(
       "İlan ve teklif modülü pasiftir.",
     );
-    expect(SEN_VOICE.dashboard.pulse.academyTitle).toBe("Akademi");
+    expect(SEN_VOICE.dashboard.pulse.academyTitle).toBe("AI Tezgâh");
+    expect(SEN_VOICE.dashboard.pulse.academyHrefLabel).toBe("Tezgâhı aç");
     expect(SEN_VOICE.dashboard.pulse.careerTitle).toBe("Kariyer");
     expect(SEN_VOICE.dashboard.pulse.freelancerTitle).toBe("Freelancer");
     expect(SEN_VOICE.dashboard.pulse.academyEmpty).toBe(
-      "İlk eğitimini tamamla, sertifikanı kap!",
+      "Misafir ve üye günde üç üretim alır. Pro, otuz günlük erişim paketidir.",
     );
-    expect(SEN_VOICE.dashboard.pulse.academyEmptyCta).toBe("Eğitimleri İncele");
+    expect(SEN_VOICE.dashboard.pulse.academyEmptyCta).toBe("Tezgâhı aç");
+    expect(SEN_VOICE.dashboard.publicPanel.lead).toContain("YetkinCV Onaylı Yetenek Rozeti");
+    expect(SEN_VOICE.dashboard.publicPanel.summary.join(" ")).not.toContain("Doğrulanmış Freelancer Rozeti");
     expect(SEN_VOICE.dashboard.pulse.careerEmpty).toBe("İlk etkinliğini yap, rozetini kazan!");
     expect(SEN_VOICE.dashboard.pulse.careerEmptyCta).toBe("Kariyerini aç");
     expect(SEN_VOICE.dashboard.pulse.portfolioEmpty).toBe(

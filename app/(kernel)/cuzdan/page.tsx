@@ -1,5 +1,6 @@
 import { WalletRefundButton } from "@/components/kernel/wallet-refund-button";
 import { WalletTopUpForm } from "@/components/kernel/wallet-top-up-form";
+import { CuzdanReturnSignal } from "@/components/kernel/cuzdan-return-signal";
 import { LedgerHistory } from "@/components/kernel/ledger-history";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -14,10 +15,40 @@ import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { isPaytrMockCheckoutAllowed, isPaytrSandboxEnabled } from "@/lib/kernel/payments/paytr/checkout";
+import { deskForPurpose, loadVerifiedPurchase } from "@/lib/kernel/payments/verified-purchase";
 import { isPaymentsPortConfigured } from "@/lib/kernel/payments/port";
 
-export default async function WalletPage() {
+function firstQuery(value: string | string[] | undefined): string | null {
+  const raw = Array.isArray(value) ? value[0] : value;
+  const trimmed = raw?.trim() ?? "";
+  return trimmed.length > 0 ? trimmed : null;
+}
+
+export default async function WalletPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const session = await requirePageSession();
+  const query = await searchParams;
+  // PayTR tarayıcı dönüşü: `?sonuc=ok&masa=…&merchant_oid=…`.
+  // GA4 `purchase` yalnız sunucuda doğrulanmış ödeme emriyle basılır.
+  const sonuc = firstQuery(query.sonuc);
+  const masa = firstQuery(query.masa);
+  const merchantOid = firstQuery(query.merchant_oid);
+  const settled =
+    sonuc === "ok" || sonuc === "success"
+      ? await loadVerifiedPurchase({ userId: session.id, merchantOid })
+      : null;
+  const purchase = settled
+    ? {
+        merchantOid: settled.merchantOid,
+        // `masa` ürün bağlamıdır; yoksa ödeme emrinin niyetinden türetilir.
+        desk: masa ?? deskForPurpose(settled.purpose),
+        amountMinor: settled.amountMinor,
+        currencyCode: settled.currencyCode,
+      }
+    : null;
   const [board, identity] = await Promise.all([
     loadWalletBoard(session.id),
     loadIdentityBoard(session.id),
@@ -31,6 +62,7 @@ export default async function WalletPage() {
   return (
     <RoomFrame>
       <PageHeader eyebrow={copy.eyebrow} title={copy.title} description={copy.description} />
+      <CuzdanReturnSignal purchase={purchase} />
       <StatGrid
         columns={3}
         items={[

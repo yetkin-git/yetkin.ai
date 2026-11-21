@@ -17,6 +17,7 @@ export const INNGEST_KERNEL_CRON_FUNCTION_IDS = [
   "escrow-ttl-approaching-scan",
   "trendyol-order-pull",
   "hepsiburada-order-pull",
+  "commerce-subscription-renewal",
 ] as const;
 
 export type InngestServeMode = "cloud" | "dev" | "fail-closed";

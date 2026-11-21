@@ -35,6 +35,26 @@ export {
 /** PayTR panel dönüşü — `https://yetkin.ai/cuzdan` (trailing slash yok). */
 const PAYTR_MERCHANT_WALLET_RETURN_PATH = "/cuzdan";
 
+/**
+ * Ödeme dönüş masası — ürün bağlamı.
+ * `/cuzdan` dönüşünde `?masa=` bu değeri taşır; `/kasa/donus` paneli aynı sicili
+ * `kasaReturnDesk` ile okur. Tanınmayan değer tezgâha düşer.
+ *
+ * SEO/CRO (P0): parametreyi **hiçbir kod üretmiyordu** — tezgâh pro, kredi paketi,
+ * e-ticaret lisansı ve junior paketi ödemesi hep `/cuzdan`'a düşüp cüzdan
+ * yüzeyinde kalıyordu. `desk` artık get-token dönüş adresine yazılır.
+ */
+export const PAYTR_RETURN_DESKS = ["tezgah", "e-ticaret", "hibe", "junior", "cuzdan"] as const;
+export type PaytrReturnDesk = (typeof PAYTR_RETURN_DESKS)[number];
+
+/** Katalog satırı olmayan / tanınmayan masa → cüzdan (nötr dönüş). */
+export const PAYTR_DEFAULT_RETURN_DESK: PaytrReturnDesk = "cuzdan";
+
+export function isPaytrReturnDesk(value: string | null | undefined): value is PaytrReturnDesk {
+  const normalized = value?.trim().toLowerCase() ?? "";
+  return (PAYTR_RETURN_DESKS as readonly string[]).includes(normalized);
+}
+
 export const PAYTR_GET_TOKEN_URL = "https://www.paytr.com/odeme/api/get-token";
 /** Cüzdan yükleme tek çekim — vade farkı `total_amount` sapmasını kapatır. */
 export const PAYTR_IFRAME_NO_INSTALLMENT = "1" as const;
@@ -71,6 +91,7 @@ export type PaytrCheckoutTokenInput = {
   non3d?: "0" | "1";
   timeoutLimitMinutes?: number;
   debugOn?: boolean;
+  storeCard?: boolean;
 };
 
 export type PaytrCheckoutTokenResult =
@@ -381,9 +402,32 @@ export function normalizePaytrMerchantReturnUrl(url: string): string {
   }
 }
 
-export function buildPaytrMerchantBrowserReturnUrl(origin: string): string {
+/**
+ * Panel dönüş adresi. `desk` verilirse ürün bağlamı `?masa=` olarak korunur;
+ * masa yoksa adres masa parametresi taşımaz (nötr cüzdan dönüşü).
+ *
+ * `merchantOid` verilirse `merchant_oid=` eklenir: dönüş sayfası bunu sunucuda
+ * doğrular (oturum sahibi + PAID/CLEARED) ve `purchase` olayını tekilleştirir.
+ *
+ * Örnek: `buildPaytrMerchantBrowserReturnUrl("https://yetkin.ai", "e-ticaret")`
+ * → `https://yetkin.ai/cuzdan?masa=e-ticaret`
+ */
+export function buildPaytrMerchantBrowserReturnUrl(
+  origin: string,
+  desk?: string | null,
+  merchantOid?: string | null,
+): string {
   const base = origin.trim().replace(/\/+$/, "");
-  return normalizePaytrMerchantReturnUrl(`${base}${PAYTR_MERCHANT_WALLET_RETURN_PATH}`);
+  const url = new URL(`${base}${PAYTR_MERCHANT_WALLET_RETURN_PATH}`);
+  const normalized = desk?.trim().toLowerCase() ?? "";
+  if (isPaytrReturnDesk(normalized) && normalized !== PAYTR_DEFAULT_RETURN_DESK) {
+    url.searchParams.set("masa", normalized);
+  }
+  const oid = merchantOid?.trim() ?? "";
+  if (/^[A-Za-z0-9_-]{6,64}$/u.test(oid)) {
+    url.searchParams.set("merchant_oid", oid);
+  }
+  return normalizePaytrMerchantReturnUrl(url.toString());
 }
 
 /**
@@ -592,6 +636,9 @@ export async function requestPaytrCheckoutToken(
     user_phone: userPhone,
     timeout_limit: String(input.timeoutLimitMinutes ?? 30),
   });
+  if (input.storeCard) {
+    body.set("store_card", "1");
+  }
 
   let response: Response;
   try {

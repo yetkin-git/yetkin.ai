@@ -297,10 +297,9 @@ export function decideEdgeAction(pathname: string, sessionVerified: boolean): Ed
     return { kind: "kayit-308" };
   }
   // Kök adres markayı anlatan iniş sayfasıdır (`app/(public)/page.tsx`, index:true).
-  // Eski CEO kilidi (308 → /academy) kaldırıldı: marka aramasında ürün kataloğuna
-  // düşmek "yetkin.ai nedir?" sorusunu cevapsız bırakıyordu. Kilit açılışı ürün
-  // kararıdır; silinme gerekçesi `docs/Tedavi_Raporu.md` içindedir. Yönlendirme
-  // geri istenirse `edge-guard` ve `next.config` birlikte yazılmalıdır.
+  // Eski CEO kilidi (308 → /academy) kaldırıldı. `/academy` kayıtta kapalıdır
+  // (`lib/dronlar/kayit.ts`, kenar 410). Yönlendirme geri istenirse `edge-guard`
+  // ve `next.config` birlikte yazılmalıdır.
   // Anayasa B6: liste ve ilk konu ziyaretçiye açık. 410 bütün adresi yutmaz.
   if (isJuniorRoomPath(pathname) && canEnterJunior(null, null, { intent: "vitrine" }).allow) {
     return { kind: "next" };

@@ -1,7 +1,8 @@
 export const CUZDAN_SEN = {
   eyebrow: "Güvenli dijital cüzdan",
   title: "Cüzdan",
-  description: "Tek nakit defter: Akademi eğitim tahsilatı bu bakiyeden okunur.",
+  description:
+    "Cüzdan bakiyesi Tezgâh üretim kredileri, tek seferlik dosyalar ve platform içi hizmetler için kullanılır.",
   balanceLabel: "Ana Bakiye",
   balanceHintLive: "Canlı bakiye",
   balanceHintGuest: "Defter oturum ister",
@@ -23,7 +24,7 @@ export const CUZDAN_SEN = {
     `Aralık: ${min} – ${max}. Kart ödemesi güvenli ödeme altyapısıyla alınır.`,
   refundTitle: "Kullanılmamış bakiye",
   refundBody:
-    "Kurs alımında kullanılmayan bakiye, yüklendiği karta iade edilir. İade kartına işlenmeden defter düşmez.",
+    "Kullanılmayan bakiye, yüklendiği karta iade edilir. İade kartına işlenmeden defter düşmez.",
   refundCta: "Bakiyemi İade Et",
   refundConfirmEyebrow: "Cüzdan",
   refundConfirmTitle: "Cüzdan Bakiyesi İadesi",
@@ -42,9 +43,9 @@ export const CUZDAN_SEN = {
   refundFinanceHold: (amount: string) =>
     `${amount} tutarındaki iade talebiniz finans ekibimize iletilmiştir. İnceleme tamamlanıp bakiye sıfırlandığında 'Hesabımı Kapat' adımı aktifleşecektir.`,
   refundFail: "Kart iadesi tamamlanamadı.",
-  closedLoopTitle: "Akademi tahsilatı",
+  closedLoopTitle: "Cüzdan bakiyesi",
   closedLoopBody:
-    "Cüzdan Akademi eğitim tahsilatı içindir. Bu odada havale yüzeyi yoktur.",
+    "Cüzdan bakiyesi Tezgâh üretim kredileri, tek seferlik dosyalar ve platform içi hizmetler için kullanılır. Bu odada havale yüzeyi yoktur.",
   sandboxHint:
     "Deneme ödemesi: bakiye ancak banka bildirimi geldikten sonra görünür. Önizleme bakiyeyi artırmaz.",
   auth: "Defter dökümü oturum ister. Hareketler tahsilat kaydından okunur.",
@@ -56,7 +57,7 @@ export const CUZDAN_SEN = {
     "Kart bilgisi PayTR’nin güvenli ödeme penceresinde girilir. Bu sayfa oturum çerezi istemez; kısa ömürlü ödeme bağlantısı yeter.",
   kasaInvalid:
     "Bu ödeme bağlantısı geçersiz veya süresi doldu. Uygulamaya dönüp yeniden dene.",
-  kasaInvalidCta: "Akademiye dön",
+  kasaInvalidCta: "Panele dön",
   kasaReturnOk: "Ödemeniz onaylanıyor. Çalışma masanıza yönlendiriliyorsunuz.",
   kasaReturnCta: "Çalışma masasına dön",
   kasaReturnFail: "Kart işlemi tamamlanmadı. Çalışma masasına dönüp yeniden deneyebilirsin.",

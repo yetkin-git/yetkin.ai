@@ -9,8 +9,9 @@ export const CHECKOUT_BILLING_COPY = {
   individual: "Bireysel",
   corporate: "Kurumsal",
   fullName: "Ad Soyad",
-  tckn: "T.C. Kimlik No (isteğe bağlı)",
-  tcknHint: "Boş bırakabilirsin. Yazarsan 11 hane ve geçerli olmalıdır.",
+  tckn: "T.C. Kimlik No",
+  tcknHint:
+    "Bireysel faturada boş bırakılabilir. E-Ticaret ücretsiz denemesi için zorunludur: kimlik yoksa deneme açılmaz. Yazarsan 11 hane ve geçerli olmalıdır.",
   phone: "Cep telefonu",
   phoneHint: "05XX XXX XX XX. Ödeme kuruluşu tahsilatı için zorunludur.",
   address: "Kısa açık adres",

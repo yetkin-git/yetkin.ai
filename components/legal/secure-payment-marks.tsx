@@ -48,6 +48,13 @@ export function SecurePaymentMarks({ compact = false }: { compact?: boolean }) {
         title={PAYTR_MARK_CAPTION}
         className="inline-flex items-center gap-1.5 rounded-md border border-[var(--border)] bg-white px-2 py-1"
       >
+        {/*
+          Yerel SVG logo. `next/image` yerel `.svg` için `images.dangerouslyAllowSVG`
+          ister; bu bayrak CSP/XSS yüzeyini gevşetir. Dosya sabit boyutlu ve
+          `public/paytr-logo.svg`'den immutable cache ile servis edilir.
+          Aynı gerekçe `components/academy/course-cover-image.tsx` içinde de yazılıdır.
+        */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={PAYTR_LOGO_SRC} alt={PAYTR_MARK_ALT} width={72} height={20} className="h-5 w-auto" />
         <span className="sr-only">{PAYTR_MARK_LABEL}</span>
       </a>

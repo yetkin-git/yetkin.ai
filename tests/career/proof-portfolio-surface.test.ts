@@ -121,7 +121,8 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     expect(copy).toContain("openContractCta");
     expect(copy).toContain("Teklif Kapısı");
     expect(copy).toContain("Doğrulanmış Rozet");
-    expect(copy).toContain("Doğrulanmış Freelancer Rozeti");
+    expect(copy).toContain("YetkinCV Onaylı Yetenek Rozeti");
+    expect(copy).not.toContain("Doğrulanmış Freelancer Rozeti");
     expect(copy).toContain("Erişim Hakkı");
     expect(copy).toContain("Doğrulanmış İşveren Ağına Görünürlük");
     expect(copy).toContain("Paylaşılabilir Özgeçmiş Bağlantısı");
@@ -143,13 +144,13 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     expect(ledger).toContain("CertificateShareActions");
     expect(ledger).toContain("careerStampPublicHref");
     expect(ledger).not.toContain("issueCareerVisaStamp");
-    expect(SEN_VOICE.career.ledgerTitle).toBe("Doğrulanmış Freelancer Rozeti");
-    expect(SEN_VOICE.career.proofsTitle).toBe("Doğrulanmış Freelancer Rozeti");
+    expect(SEN_VOICE.career.ledgerTitle).toBe("YetkinCV Onaylı Yetenek Rozeti");
+    expect(SEN_VOICE.career.proofsTitle).toBe("YetkinCV Onaylı Yetenek Rozeti");
     expect(SEN_VOICE.career.title).toBe("Yetkinliğini Gerçek Testle Kanıtla, Fark Yarat.");
     expect(SEN_VOICE.career.verifyCta).toBe("Sertifikayı doğrula");
     expect(SEN_VOICE.career.sealed).toBe("Doğrulanmış Rozet");
     expect(SEN_VOICE.career.sealed).not.toBe("Onaylı");
-    expect(SEN_VOICE.career.ledger.eyebrow).toBe("Doğrulanmış Freelancer Rozeti");
+    expect(SEN_VOICE.career.ledger.eyebrow).toBe("YetkinCV Onaylı Yetenek Rozeti");
     expect(SEN_VOICE.career.scope.eyebrow).toBe("Teklif Kapısı");
     expect(SEN_VOICE.career.scope.title).toBe("Teklif Kapısı");
     expect(SEN_VOICE.career.scope.open).toBe("Erişim Hakkı açık");

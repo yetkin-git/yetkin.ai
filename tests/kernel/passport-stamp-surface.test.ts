@@ -159,7 +159,9 @@ describe("pasaport vize yüzeyi", () => {
     expect(list).not.toContain("örnek düzen");
     expect(sen).toContain("PASAPORT_SEN");
     expect(sen).toContain("openContractCta");
-    expect(sen).toContain("Doğrulanmış Freelancer Rozeti");
+    expect(sen).toContain("YetkinCV Onaylı Yetenek Rozeti");
+    expect(sen).not.toContain("Akademiye git");
+    expect(sen).not.toContain("Doğrulanmış Freelancer Rozeti");
     expect(sen).toContain("Doğrulanmış Rozet");
     expect(sen).toContain("Teklif Kapısı");
     expect(sen).toContain("Erişim Hakkı");

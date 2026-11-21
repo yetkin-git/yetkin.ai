@@ -1,5 +1,4 @@
 import type { NextConfig } from "next";
-import { academyRetiredStorefrontRedirects } from "./lib/academy/retired-storefront";
 import { edgeSecurityHeaderEntriesForPath } from "./lib/kernel/security/edge-security-headers";
 
 /**
@@ -110,14 +109,12 @@ const nextConfig: NextConfig = {
     // Hedefler mutlak apextir: www + alias tek hopta kanoniğe iner.
     // www yakalayıcısı en sonda durur; öndeyse host kuralı path alias'ından önce
     // aynı path'e iner, ikinci hop alias'ı taşırdı.
-    const retired = academyRetiredStorefrontRedirects().map((rule) => ({
-      ...rule,
-      destination: `https://yetkin.ai${rule.destination}`,
-    }));
     return [
       // `/kariyer`, `/profile`, `/passport` next.config'te yok: ara oda ikinci hop
       // üretirdi. Kenar tek hop basar (`AUTH_PATH_ALIASES`).
-      { source: "/ogren", destination: "https://yetkin.ai/academy", permanent: true },
+      // `/ogren` eski Akademi antresiydi. Hedef yüzey diskte yok ve kenar onu
+      // `frozen-410` ile kesiyordu; 301→410 zinciri Google'da kalıcı yönlendirme
+      // sinyalini ve hedefi birlikte düşürür. Kural kaldırıldı: kenar 410 basar.
       { source: "/giris", destination: "https://yetkin.ai/login", permanent: true },
       // §2.5 vatandaş çifti — CEO tedavi kilidi: 8 tavanına /kayit eklenir.
       { source: "/kayit", destination: "https://yetkin.ai/register", permanent: true },
@@ -173,25 +170,29 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/en/fiyatlandirma",
-        destination: "https://yetkin.ai/academy",
+        destination: "https://yetkin.ai/fiyatlandirma",
         statusCode: 301,
       },
-      // Eski 13+ vitrin SKU — 301 katalog (antre, oynatıcı, courses alias).
-      // SUPER ADMIN: gerçekleşmiş satın alma yok; lisans bekletmesi yok. API 410.
-      // Bu blok, genel `/academy/courses/:slug` alias'ından önce durur (tek hop).
-      ...retired,
+      // Eski 13+ vitrin SKU 301 bloğu KALDIRILDI (SEO Tedavi P0).
+      // SUPER ADMIN: gerçekleşmiş satın alma yok; lisans bekletmesi yok. API ve
+      // istemci yüzeyi 410 basar (`frozen-410`, `lib/academy/public-surface-gate.ts`).
+      //
+      // 106 emekli slug × 3 kural = 318 kural `/academy`'yi hedefliyordu; `/academy`
+      // diskte yok ve kenar onu `frozen-410` ile kesiyordu. Google 301 gördüğü URL'yi
+      // tarar, hedefte 410 bulur ve hem yönlendirme sinyalini hem hedefi düşürür.
+      // Emekli slug artık doğrudan temiz `410 Gone` alır (404'ten hızlı işlenir,
+      // yönlendirme sinyali üretmez). `/verify` → `/vize` ve `/vize/:hash`
+      // yönlendirmeleri AŞAĞIDA korunur; onlar canlı ve değerlidir.
+      //
       // Bake WAV kamu yolundan düştü; eski oynatıcı adresini yayın MP3'üne bağla.
       {
         source: "/media/academy/audio/:course/:file.wav",
         destination: "https://yetkin.ai/media/academy/audio/:course/:file.mp3",
         statusCode: 301,
       },
-      // Akademi antre kanonik yolu `/academy/[slug]`. Compact SKU alias duplicate içerik üretir.
-      {
-        source: "/academy/courses/:slug",
-        destination: "https://yetkin.ai/academy/:slug",
-        statusCode: 301,
-      },
+      // Eski `/academy/courses/:slug` alias'ı 301 ile `/academy/:slug`'a iniyordu.
+      // Hedef de 410 olduğu için alias tek başına zincir üretiyordu; kaldırıldı.
+      // `/academy/*` kenarda 410 kalır; `/verify*` ve `/p*` canlı vize yüzeyine iner.
       {
         source: "/verify",
         destination: "https://yetkin.ai/vize",

@@ -173,8 +173,9 @@ describe("dinamik ekmek kırıntısı", () => {
     expect(trail).toContain("BreadcrumbPageLabel");
     expect(trail).toContain("from \"next/link\"");
     expect(chrome).toContain("BreadcrumbOverrideProvider");
-    expect(readSrc("app/academy/[slug]/page.tsx")).toContain("BreadcrumbPageLabel");
-    expect(readSrc("app/academy/[slug]/oyna/page.tsx")).not.toContain("BreadcrumbPageLabel");
+    // Akademi sayfaları arşivde; breadcrumb sözleşmesi oradaki kopyada da sabittir.
+    expect(readSrc("archived/academy/app/[slug]/page.tsx")).toContain("BreadcrumbPageLabel");
+    expect(readSrc("archived/academy/app/[slug]/oyna/page.tsx")).not.toContain("BreadcrumbPageLabel");
     expect(readSrc("app/freelancer/jobs/[id]/page.tsx")).toContain("BreadcrumbPageLabel");
     expect(isAcademyCurriculumPlayerPath("/academy/python-temel/oyna")).toBe(true);
     expect(isAcademyCurriculumPlayerPath("/academy/python-temel")).toBe(false);

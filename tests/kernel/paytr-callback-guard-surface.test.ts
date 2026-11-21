@@ -58,7 +58,7 @@ describe("PayTR canlı callback yüzeyi", () => {
     expect(PAYTR_PANEL_WEBHOOK_PATH).toBe("/api/paytr/callback");
 
     const topUp = readSrc("app/api/(kernel)/wallet/top-up/route.ts");
-    expect(topUp).toContain("buildPaytrMerchantBrowserReturnUrl(origin)");
+    expect(topUp).toContain("buildPaytrMerchantBrowserReturnUrl(origin, \"cuzdan\", merchantOid)");
     expect(topUp).not.toContain("merchantOkUrl: `${origin}/api/payments/webhooks/paytr`");
     expect(topUp).not.toContain("merchantOkUrl: `${origin}/api/paytr/callback`");
   });

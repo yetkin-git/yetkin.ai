@@ -8,12 +8,11 @@ import {
   GUIDE_HUB_PATH,
   GUIDE_TEZGAH_CTA_HREF,
   GUIDE_TEZGAH_CTA_LABEL,
-  guidePath,
   PUBLIC_GUIDES,
-  publicGuide,
 } from "@/lib/copy/guides";
 import { breadcrumbListJsonLd, faqPageJsonLd, guideArticleJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
 import { pageMetadata } from "@/lib/copy/seo";
+import { guideEntryPath, loadPublicGuide } from "@/lib/content/public-content";
 
 export function generateStaticParams(): { slug: string }[] {
   return PUBLIC_GUIDES.map((guide) => ({ slug: guide.slug }));
@@ -27,7 +26,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const guide = publicGuide(slug);
+  const guide = await loadPublicGuide(slug);
   if (!guide) {
     return pageMetadata({
       title: "Rehber",
@@ -39,7 +38,7 @@ export async function generateMetadata({
   return pageMetadata({
     title: guide.title,
     description: guide.description,
-    path: guidePath(guide.slug),
+    path: guideEntryPath(guide.slug),
     robots: { index: true, follow: true },
   });
 }
@@ -50,11 +49,11 @@ export default async function GuideArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const guide = publicGuide(slug);
+  const guide = await loadPublicGuide(slug);
   if (!guide) {
     notFound();
   }
-  const path = guidePath(guide.slug);
+  const path = guideEntryPath(guide.slug);
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-3xl flex-col px-6 pb-16 pt-12">
       <JsonLd

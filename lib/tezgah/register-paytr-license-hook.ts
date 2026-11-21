@@ -1,17 +1,24 @@
 import { registerTezgahLicenseHook } from "@/lib/kernel/payments/tezgah-license-hook";
 import { logEvent } from "@/lib/kernel/observability/log";
+import { classifyPaymentOrderPurpose } from "@/lib/kernel/payments/order-purpose";
 import { fulfillTezgahOrder, TEZGAH_CREDIT_ORDER_PURPOSE, TEZGAH_PRO_ORDER_PURPOSE } from "@/lib/tezgah/paid-lane";
 
-/** PayTR CLEARED → Tezgâh Pro süresi veya kredi hakkı. Kart kasadadır; cüzdan DEBIT yazılmaz. */
+/** PayTR CLEARED → Tezgâh Pro süresi veya kredi hakkı. Pro bedeli aynı anda cüzdandan düşer. */
 export function registerPaytrTezgahLicenseHook(): void {
   registerTezgahLicenseHook(async (order) => {
-    if (order.purpose !== TEZGAH_PRO_ORDER_PURPOSE && order.purpose !== TEZGAH_CREDIT_ORDER_PURPOSE) {
+    const kind = classifyPaymentOrderPurpose(order.purpose);
+    if (
+      order.purpose !== TEZGAH_PRO_ORDER_PURPOSE &&
+      order.purpose !== TEZGAH_CREDIT_ORDER_PURPOSE &&
+      kind !== "TEZGAH_PRO" &&
+      kind !== "TEZGAH_CREDIT"
+    ) {
       return;
     }
     const result = await fulfillTezgahOrder({
       userId: order.userId,
       merchantOid: order.merchantOid,
-      purpose: order.purpose,
+      purpose: order.purpose ?? "",
       amountMinor: order.amountMinor,
       currencyCode: order.currencyCode,
       status: order.status,

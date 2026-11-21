@@ -117,6 +117,7 @@ describe("Inngest imza fail-closed", () => {
       "escrow-ttl-approaching-scan",
       "trendyol-order-pull",
       "hepsiburada-order-pull",
+      "commerce-subscription-renewal",
     ]);
     expect(
       resolveInngestServeMode({

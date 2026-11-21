@@ -14,6 +14,7 @@ export const SUPER_ADMIN_AUDIT_ACTIONS = [
   "room_flag",
   "b2b_switch",
   "b2b_send",
+  "ai_model_bind",
 ] as const;
 
 /** Mühür satırı açılmazsa yazma geri alınır. Sessiz geçiş yoktur. */

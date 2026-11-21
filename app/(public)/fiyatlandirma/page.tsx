@@ -6,7 +6,10 @@ import { LinkButton } from "@/components/ui/link-button";
 import { IconCheck, IconShield } from "@/components/ui/icons";
 import { cn } from "@/components/ui/cn";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
+import { buildCitizenRegisterHref } from "@/lib/kernel/auth/redirects";
+import { isProtectedCitizenPath } from "@/lib/kernel/security/edge-guard";
 import { loadPublicPricingVitrine, type PublicVitrineItem } from "@/lib/pricing/public-vitrine";
+import { TEZGAH_GUEST_DAILY_LIMIT } from "@/lib/tezgah/catalog";
 
 export const metadata: Metadata = pageMetadata(PAGE_SEO.pricing);
 
@@ -18,12 +21,83 @@ const TRUST_BADGES = [
   "Kapalı paket satın alınamaz",
 ] as const;
 
+type CompareCell = boolean | string;
+
+type CompareRow = {
+  id: string;
+  label: string;
+  /** Vitrin sırası: free, pro, commerce, grant, career, kurumsal. */
+  values: readonly [CompareCell, CompareCell, CompareCell, CompareCell, CompareCell, CompareCell];
+};
+
+const COMPARE_COLUMNS = [
+  { id: "free", label: "Ücretsiz" },
+  { id: "pro", label: "Tezgâh Pro" },
+  { id: "commerce", label: "E-Ticaret" },
+  { id: "grant", label: "Hibe Dosyası" },
+  { id: "career", label: "YetkinCV" },
+  { id: "kurumsal", label: "Kurumsal" },
+] as const;
+
+/**
+ * Karşılaştırma matrisi — satırlar ürünün gerçek sınırlarıdır.
+ * Değerler uydurulmaz: her hücre `lib/tezgah/catalog.ts`, `lib/pricing/public-vitrine.ts`
+ * ve `/career` sınav sözleşmesinden türetilmiştir. "—" = paket kapsamı dışında.
+ */
+const COMPARE_ROWS: readonly CompareRow[] = [
+  {
+    id: "quota",
+    label: "Günlük Tezgâh Kotası",
+    values: [`${TEZGAH_GUEST_DAILY_LIMIT} üretim`, "Yüksek kota", "—", "—", "—", "Ekip kotası"],
+  },
+  {
+    id: "download",
+    label: "DOCX / ZIP İndirme",
+    values: ["—", true, "—", true, true, true],
+  },
+  {
+    id: "marketplace",
+    label: "Pazaryeri Entegrasyonu",
+    values: ["—", "Ürün açıklaması", true, "—", "—", true],
+  },
+  {
+    id: "grant",
+    label: "Hibe Dosyası",
+    values: ["Ücretsiz uygunluk testi", "—", "—", true, "—", "Talep üzerine"],
+  },
+  {
+    id: "passport",
+    label: "YetkinCV Pasaportu",
+    values: [true, "—", "—", "—", true, "Aday eleme"],
+  },
+  {
+    id: "support",
+    label: "Öncelikli Destek",
+    values: ["—", true, true, true, "—", true],
+  },
+];
+
+function compareCell(cell: CompareCell): string {
+  return typeof cell === "string" ? cell : "Var";
+}
+
 function featureLines(summary: string): string[] {
   const lines = summary
     .split(/(?<=\.)\s+/)
     .map((line) => line.trim())
     .filter((line) => line.length > 0);
   return lines.length > 0 ? lines : [summary];
+}
+
+/**
+ * Vitrin CTA'sı korumalı hedefi ham basmaz: `/e-ticaret` oturumsuz ziyaretçiyi
+ * çıplak `/login` duvarına düşürmesin diye `next` parametreli kayıt yoluna çevrilir.
+ */
+function vitrineHref(href: string): Route {
+  if (!href.startsWith("/")) {
+    return href as Route;
+  }
+  return (isProtectedCitizenPath(href) ? buildCitizenRegisterHref(href) : href) as Route;
 }
 
 function PriceMark({ item, featured }: { item: PublicVitrineItem; featured?: boolean }) {
@@ -91,15 +165,39 @@ function VitrineCard({ item, cta }: { item: PublicVitrineItem; cta: string }) {
       </h3>
       <FeatureList lines={item.lines && item.lines.length > 0 ? item.lines : featureLines(item.summary)} featured={featured} />
       <div className="mt-5">
+        {item.trial ? (
+          <>
+            {/* Deneme teklifi önce: müşteri bugün ne ödeyeceğini bilir. */}
+            <p
+              className={cn(
+                "inline-flex rounded-full px-2.5 py-1 text-[11px] font-bold tracking-wide",
+                featured ? "bg-emerald-400/20 text-emerald-200" : "bg-emerald-100 text-emerald-800",
+              )}
+              data-vitrine-trial-headline={item.id}
+            >
+              {item.trial.headline}
+            </p>
+            <p className={cn("mt-2 text-sm font-medium", featured ? "text-blue-100" : "text-[var(--muted)]")}>
+              {item.trial.verifyLabel}
+            </p>
+          </>
+        ) : null}
         <PriceMark item={item} featured={featured} />
         {planned ? null : (
-          <p className={cn("mt-1 text-xs", featured ? "text-blue-100" : "text-[var(--muted)]")}>{item.statusLabel}</p>
+          <p className={cn("mt-1 text-xs", featured ? "text-blue-100" : "text-[var(--muted)]")}>
+            {item.trial?.renewalLabel ?? item.statusLabel}
+          </p>
         )}
+        {item.trial ? (
+          <p className={cn("mt-1 text-xs", featured ? "text-emerald-200" : "text-[var(--emerald)]")}>
+            {item.trial.cancelLine}
+          </p>
+        ) : null}
       </div>
       {item.href ? (
         <div className="mt-5">
           <LinkButton
-            href={item.href as Route}
+            href={vitrineHref(item.href)}
             size="md"
             variant={featured ? "secondary" : planned ? "outline" : "primary"}
             className={
@@ -131,8 +229,10 @@ export default async function PricingPage() {
         </h1>
         <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--muted)]">
           Uygulama rehberleri ücretsizdir. Tahsilat AI Tezgâh Pro, YetkinHibe dosyası ve e-ticaret lisansındadır.
-          Ekip rozeti, ajans lisansı ve aday eleme için talebinizi bırakın; paneli kendiniz tanımlayın.
-          YetkinCV sınavı kariyer masasında açılır. Tutar katalog satırından okunur. Satır yoksa fiyat basılmaz.
+          E-Ticaret lisansında ilk 30 gün ücretsizdir: bugün yalnız sembolik kart doğrulama bedeli tahsil edilir,
+          ardından aylık yenileme başlar. Ekip rozeti, ajans lisansı ve aday eleme için talebinizi bırakın; paneli
+          kendiniz tanımlayın. YetkinCV sınavı kariyer masasında açılır. Tutar katalog satırından okunur; satır yoksa
+          fiyat basılmaz.
         </p>
         <ul className="mt-5 flex flex-wrap gap-2">
           {TRUST_BADGES.map((badge) => (
@@ -164,7 +264,7 @@ export default async function PricingPage() {
             <VitrineCard item={vitrine.tezgahPro} cta="AI Tezgâh Pro’yu aç" />
           </li>
           <li className="pt-3">
-            <VitrineCard item={vitrine.commerce} cta="E-Ticaret Paketini Aç →" />
+            <VitrineCard item={vitrine.commerce} cta="30 Gün Ücretsiz Başlat (1 TL Doğrulama)" />
           </li>
           <li>
             <VitrineCard item={vitrine.grantDossier} cta="YetkinHibe dosyasını aç" />
@@ -178,11 +278,74 @@ export default async function PricingPage() {
         </ul>
       </section>
 
+      <section className="mt-12" aria-labelledby="pricing-compare-heading" data-pricing-compare="">
+        <h2 id="pricing-compare-heading" className="text-xl font-semibold tracking-tight">
+          Paketleri yan yana karşılaştır
+        </h2>
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">
+          Satırlar ürünün gerçek sınırlarıdır. “—” o paketin kapsamı dışında demektir.
+        </p>
+        <div className="mt-4 overflow-x-auto rounded-[var(--radius-card)] border border-[var(--border)]">
+          <table className="w-full min-w-[46rem] border-collapse text-left text-sm">
+            <caption className="sr-only">
+              Yetkin paketlerinin özellik karşılaştırması: günlük tezgâh kotası, DOCX/ZIP indirme,
+              pazaryeri entegrasyonu, hibe dosyası, YetkinCV pasaportu ve öncelikli destek.
+            </caption>
+            <thead>
+              <tr className="bg-[var(--surface-muted)]">
+                <th scope="col" className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">
+                  Özellik
+                </th>
+                {COMPARE_COLUMNS.map((column) => (
+                  <th
+                    key={column.id}
+                    scope="col"
+                    className="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-[var(--foreground)]"
+                  >
+                    {column.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {COMPARE_ROWS.map((row) => (
+                <tr key={row.id} className="border-t border-[var(--border)]">
+                  <th scope="row" className="px-4 py-3 font-medium text-[var(--foreground)]">
+                    {row.label}
+                  </th>
+                  {row.values.map((cell, index) => (
+                    <td
+                      key={COMPARE_COLUMNS[index]?.id ?? index}
+                      className={cn(
+                        "px-4 py-3",
+                        cell === true ? "text-emerald-700" : "text-[var(--muted)]",
+                      )}
+                    >
+                      {cell === true ? (
+                        <span className="inline-flex items-center gap-1.5">
+                          <IconCheck className="h-4 w-4 shrink-0 text-emerald-600" />
+                          <span className="sr-only">Kapsam içinde</span>
+                        </span>
+                      ) : (
+                        compareCell(cell)
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <section className="mt-12 max-w-3xl rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-5" data-pricing-honesty="">
         <h2 className="text-base font-semibold">Dürüstlük notu</h2>
         <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
-          Listelenen tutarlar KDV dahildir. Fatura, tahsilat sırasında kesilir. YetkinCV puanı katalog tutarıyla değil,
-          sunucudaki vaka testi sonucuyla yazılır. Satın alma tek başına puan basmaz.
+          Listelenen tutarlar KDV dahildir. Fatura, tahsilat sırasında kesilir. E-Ticaret lisansında ilk 30 gün
+          ücretsizdir; bu dönemde yalnız 1,00 TL sembolik kart doğrulama bedeli tahsil edilir ve bu bedel bakiyeye
+          yazılmaz, iade taahhüdü değildir. Deneme vergi kimliği (VKN veya TCKN) başına bir kez açılır. Deneme bitince
+          aylık yenileme katalogdaki tutardan başlar; dönem sonu iptali tek tıkla mağaza panelindedir. YetkinCV puanı
+          katalog tutarıyla değil, sunucudaki vaka testi sonucuyla yazılır. Satın alma tek başına puan basmaz.
         </p>
       </section>
     </main>

@@ -5,6 +5,9 @@ function clone(row: CommerceSubscriptionRow): CommerceSubscriptionRow {
     ...row,
     appliedMerchantOids: [...row.appliedMerchantOids],
     expiresAt: row.expiresAt ? new Date(row.expiresAt) : null,
+    trialEndsAt: row.trialEndsAt ? new Date(row.trialEndsAt) : row.trialEndsAt,
+    currentPeriodEnd: row.currentPeriodEnd ? new Date(row.currentPeriodEnd) : row.currentPeriodEnd,
+    lastDunningAt: row.lastDunningAt ? new Date(row.lastDunningAt) : row.lastDunningAt,
     createdAt: new Date(row.createdAt),
     updatedAt: new Date(row.updatedAt),
   };

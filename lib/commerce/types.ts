@@ -89,7 +89,7 @@ export type MoveResult =
 
 export type CommerceFailure = {
   ok: false;
-  status: 400 | 404 | 409 | 422;
+  status: 400 | 403 | 404 | 409 | 422;
   error: string;
 };
 

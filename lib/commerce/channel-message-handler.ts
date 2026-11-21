@@ -57,7 +57,13 @@ export async function postCommerceChannelMessage(deps: ChannelMessageDeps, reque
       apiKeySeal: channel?.apiKeySeal ?? "",
     });
     if (!secrets.ok) {
-      return jsonFail("Kimlik kasası kapalı.", 503, requestId, request);
+      if (secrets.closed) {
+        return jsonFail("Kimlik kasası kapalı.", 503, requestId, request);
+      }
+      return jsonFail("Yetkisiz.", 403, requestId, request);
+    }
+    if (secrets.secrets.length === 0) {
+      return jsonFail("Yetkisiz.", 401, requestId, request);
     }
     const allowed = channelWebhookAuthorized(
       secrets.secrets,

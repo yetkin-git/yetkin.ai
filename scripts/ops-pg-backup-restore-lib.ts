@@ -122,7 +122,7 @@ export function databaseUrlWithName(url: string, database: string): string {
 export function assertBackupSourceUrl(url: string): void {
   if (!isLabLoopbackUrl(url)) {
     throw new Error(
-      "ops:pg-backup-restore yalnız lab loopback yetkin_rail_lab. Hosted dump bu betikte yoktur (CREATE DATABASE yetkin_rail_lab_restore hosted'de yok). Direct :5432 pg_dump --format=custom; restore ayrı proje. .system_docs/OPS_RUNBOOK.md §19.",
+      "ops:pg-backup-restore yalnız lab loopback yetkin_rail_lab. Hosted dump bu betikte yoktur (CREATE DATABASE yetkin_rail_lab_restore hosted'de yok). Direct :5432 pg_dump --format=custom; restore ayrı proje. .system_docs/OPS_RUNBOOK.md §12.",
     );
   }
   if (labDatabaseName(url) !== LAB_POSTGRES_DATABASE) {

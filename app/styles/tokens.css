@@ -1,0 +1,45 @@
+/**
+ * Tasarım token'ları — tek kaynak.
+ *
+ * SEO/performans tedavisi (Faz 2): `app/globals.css` 7.000+ satırdı ve kök
+ * token'lar dosyanın iki ayrı yerinde duruyordu. Token'lar buraya taşındı;
+ * `globals.css` bu dosyayı `@import` ile ilk sırada dahil eder.
+ *
+ * Kural: bu dosyada yalnız özel değişken tanımı olur. Seçici, sınıf veya
+ * gölge kuralı yazılmaz — token değişikliği görsel regresyon üretmesin.
+ * Hiçbir token yeniden adlandırılmadı; değerler birebir korundu.
+ */
+:root {
+  --background: #eef2f7;
+  --foreground: #0f172a;
+  --surface: #ffffff;
+  --surface-muted: #f4f7fb;
+  --surface-ink: #0b1220;
+  --surface-ink-soft: #151d2e;
+  --border: rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(15, 23, 42, 0.14);
+  --muted: #5b677a;
+  --safir: #1a8cff;
+  --safir-deep: #0b63c7;
+  --safir-soft: rgba(26, 140, 255, 0.12);
+  --gold: #b8860b;
+  --gold-soft: rgba(184, 134, 11, 0.14);
+  --emerald: #0f9d7a;
+  --emerald-soft: rgba(15, 157, 122, 0.12);
+  --rose: #e11d48;
+  --rose-soft: rgba(225, 29, 72, 0.1);
+  --amber: #d97706;
+  --amber-soft: rgba(217, 119, 6, 0.12);
+  --violet: #6d5cff;
+  --violet-soft: rgba(109, 92, 255, 0.12);
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 12px 32px rgba(15, 23, 42, 0.06);
+  --shadow-lift: 0 8px 28px rgba(15, 23, 42, 0.1);
+  --radius-card: 1.15rem;
+  --btn-on-accent: #ffffff;
+}
+
+:root {
+  --junior-page-chrome-h: 7rem;
+  --player-chrome-min: 14rem;
+  --player-stage-min: 17.5rem;
+}

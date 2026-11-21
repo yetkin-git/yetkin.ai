@@ -113,6 +113,8 @@ describe("Faz 2 tamamlama — T3 yeşil halka yüzeyi", () => {
     expect(runtime).toContain("createRedisRestRateLimitPort");
     expect(runtime).toContain("createFailClosedRateLimitPort");
     expect(runtime).toContain("RATE_LIMIT_REDIS_REST_URL");
+    expect(runtime).toContain("KV_REST_API_URL");
+    expect(runtime).toContain("resolveRateLimitRedisRestCredentials");
     const http = readSrc("lib/kernel/security/http-rate-limit.ts");
     expect(http).toContain("resolveRateLimitPort");
     expect(http).not.toMatch(/ioredis|@upstash\/redis/);

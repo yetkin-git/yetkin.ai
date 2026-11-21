@@ -5,30 +5,22 @@ import { FROZEN_VITEST_ROOMS, railVitestAliases } from "./vitest.aliases";
 /**
  * Canlı ürün yeşili — 410 envanteri `vitest.frozen.config.ts` / `test:frozen`.
  * Arşiv modülünü import eden testler canlı suite'te koşmaz.
+ *
+ * Akademi odası `archived/academy/` altına taşındı (canlı derleme ve test yükünden
+ * çıktı). `tests/academy/**` artık diskte yok; dosya adları tek tek sayılmaz,
+ * arşiv ağacı bütün olarak dışlanır. Arşiv testleri geri koşulacaksa
+ * `npm run test:frozen` kullanılır.
  */
 const FROZEN_TEST_GLOBS = FROZEN_VITEST_ROOMS.map((id) => `tests/${id}/**`);
 
+/** Canlı suite dışında: arşivdeki hiçbir test koşmaz. */
+const ARCHIVED_TEST_GLOBS = ["archived/**"];
+
+/**
+ * Akademi motorunu import eden ama `tests/academy/` dışında duran canlı testler.
+ * Oda arşivde; bu iki e2e halkası arşiv modülüne bağlı olduğu için canlı yeşile girmez.
+ */
 const ARCHIVE_IMPORT_TESTS = [
-  "tests/academy/curriculum-content.test.ts",
-  "tests/academy/curriculum-revisions.test.ts",
-  "tests/academy/lesson-body.test.ts",
-  "tests/academy/lesson-code-lab.test.ts",
-  "tests/academy/lesson-discussion.test.ts",
-  "tests/academy/lesson-listen-courtesy.test.ts",
-  "tests/academy/lesson-listen-focus.test.ts",
-  "tests/academy/lesson-listen-script.test.ts",
-  "tests/academy/lesson-listen-web-speech.test.ts",
-  "tests/academy/lesson-media-surface.test.ts",
-  "tests/academy/lesson-note-pdf.test.ts",
-  "tests/academy/lesson-transcript-sync.test.ts",
-  "tests/academy/listen-audio-cache.test.ts",
-  "tests/academy/listen-fallback.test.ts",
-  "tests/academy/listen-reading-mode.test.ts",
-  "tests/academy/listen-soft-fallback.test.ts",
-  "tests/academy/moderator-bridge.test.ts",
-  "tests/academy/pedagogy-doctrine.test.ts",
-  "tests/academy/review-decision.test.ts",
-  "tests/academy/reviews.test.ts",
   "tests/kernel/three-ring-e2e-surface.test.ts",
   "tests/kernel/earnings-bridge.test.ts",
 ];
@@ -44,6 +36,7 @@ export default defineConfig({
       ".next/**",
       "tests/**/*.pg.test.ts",
       ...FROZEN_TEST_GLOBS,
+      ...ARCHIVED_TEST_GLOBS,
       ...ARCHIVE_IMPORT_TESTS,
     ],
   },

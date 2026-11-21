@@ -1,5 +1,6 @@
 import "server-only";
 
+import { isIP } from "node:net";
 import {
   TETKIK_MAX_HTML_BYTES,
   TETKIK_MAX_REDIRECTS,
@@ -9,10 +10,14 @@ import {
 import {
   defaultTetkikLookup,
   inspectTetkikUrl,
+  normalizeHostForPin,
+  pinnableTetkikAddresses,
   resolveTetkikHost,
   TetkikAccessError,
+  type PinnedDispatcherFactory,
   type TetkikLookup,
 } from "@/lib/tezgah/tetkik/guard";
+import { createPinnedTarget, fetchViaPinnedHttps } from "@/lib/tezgah/tetkik/pinned-dispatcher";
 
 export type TetkikFetchedPage = {
   finalUrl: string;
@@ -21,11 +26,18 @@ export type TetkikFetchedPage = {
   ttfbMs: number;
 };
 
+/**
+ * `pinnedDispatcher`: doğrulanmış IP → bağlantı sabitleyici. Verilmezse üretim
+ * yolu (`createPinnedTarget` + `fetchViaPinnedHttps`) kullanılır. Test kendi
+ * `fetch`'ini verirse `fetch` yolu tercih edilir (ağ yok) ama pinleme **yine**
+ * uygulanır: doğrulanmış IP yoksa istek atılmaz.
+ */
 export type FetchPublicHomepageDeps = {
   fetch?: typeof fetch;
   lookup?: TetkikLookup;
   clock?: () => number;
   timeoutMs?: number;
+  pinnedDispatcher?: PinnedDispatcherFactory;
 };
 
 function isRedirect(status: number): boolean {
@@ -79,16 +91,21 @@ async function readCappedBody(response: Response): Promise<Uint8Array> {
 /**
  * Tek https adresi. En fazla 3 yönlendirme. Her sıçramada özel ağ reddedilir.
  * Gövde 1,5 MB'da kesilir. Betik çalıştırılmaz.
+ *
+ * SSRF IP pinleme: her sıçramada DNS **bir kez** çözülür, sonuç doğrulanır ve
+ * `fetch`'e `dispatcher` olarak sabitlenir. Böylece doğrulama ile TCP bağlantısı
+ * aynı IP'ye gider; DNS rebinding ile aradaki pencerede özel ağa dönüş yapılamaz.
  */
 export async function fetchPublicHomepage(
   target: URL,
   deps: FetchPublicHomepageDeps = {},
 ): Promise<TetkikFetchedPage> {
-  const fetchImpl = deps.fetch ?? fetch;
+  const injectedFetch = deps.fetch;
   const lookup = deps.lookup ?? defaultTetkikLookup;
   const clock = deps.clock ?? Date.now;
   const timeoutMs = deps.timeoutMs ?? TETKIK_TIMEOUT_MS;
   const deadline = AbortSignal.timeout(timeoutMs);
+  const buildPinned = deps.pinnedDispatcher ?? (deps.fetch ? null : createPinnedTarget);
   let current = target;
   let followed = 0;
   const seen = new Set<string>();
@@ -104,28 +121,47 @@ export async function fetchPublicHomepage(
       throw new TetkikAccessError("unreadable");
     }
     seen.add(key);
-    const host = await resolveTetkikHost(current.hostname, lookup);
+    // DNS bir kez çözülür; hem doğrulama hem bağlantı bu IP'yi kullanır.
+    // IP literali zaten çözülmüş sayılır (DNS sorgusu yapılmaz).
+    const literal = isIP(normalizeHostForPin(current.hostname)) !== 0;
+    const addresses = literal
+      ? [normalizeHostForPin(current.hostname)]
+      : await lookup(current.hostname).catch(() => [] as string[]);
+    const host = await resolveTetkikHost(current.hostname, async () => addresses);
     if (host === "private") {
       throw new TetkikAccessError("rejected");
     }
     if (host === "dns") {
       throw new TetkikAccessError("unreadable");
     }
+    // Sabitlenebilir IP yoksa bağlantı açılmaz (DNS yeniden çözülmesin).
+    const pinned = pinnableTetkikAddresses(addresses);
+    if (pinned.length === 0) {
+      throw new TetkikAccessError("rejected");
+    }
+    const dispatcher = buildPinned?.({ addresses: pinned, url: current }) ?? null;
+    if (buildPinned && dispatcher == null) {
+      throw new TetkikAccessError("rejected");
+    }
 
     const started = clock();
     let response: Response;
+    const requestInit = {
+      method: "GET",
+      redirect: "manual",
+      cache: "no-store",
+      headers: {
+        accept: "text/html,application/xhtml+xml;q=0.9",
+        "accept-language": "tr",
+        "user-agent": TETKIK_USER_AGENT,
+      },
+      signal: deadline,
+    } as const;
     try {
-      response = await fetchImpl(current.href, {
-        method: "GET",
-        redirect: "manual",
-        cache: "no-store",
-        headers: {
-          accept: "text/html,application/xhtml+xml;q=0.9",
-          "accept-language": "tr",
-          "user-agent": TETKIK_USER_AGENT,
-        },
-        signal: deadline,
-      });
+      response = injectedFetch
+        ? await injectedFetch(current.href, requestInit)
+        : // Üretim yolu: doğrulanmış IP `lookup` kancasına sabitlenir.
+          await fetchViaPinnedHttps(current.href, { ...requestInit, dispatcher });
     } catch {
       throw new TetkikAccessError("unreadable");
     }

@@ -32,7 +32,7 @@ describe("fatura künyesi checkout yüzeyi", () => {
   });
 
   it("kasa ve satın alma formları fatura alanlarını taşır; API oturum id ile upsert eder", () => {
-    const purchaseUi = readSrc("components/academy/purchase-button.tsx");
+    const purchaseUi = readSrc("archived/academy/components/purchase-button.tsx");
     const wallet = readSrc("components/kernel/wallet-top-up-form.tsx");
     const modal = readSrc("components/kernel/quick-top-up-modal.tsx");
     const fields = readSrc("components/legal/checkout-billing-fields.tsx");

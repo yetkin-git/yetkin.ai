@@ -44,7 +44,7 @@ export const DASHBOARD_SEN = {
   publicPanel: {
     eyebrow: "Öğrenci paneli",
     title: OVERVIEW_TITLE,
-    lead: `${YETKIN_BRAND} YetkinHibe, YetkinCV ve Doğrulanmış Freelancer Rozetini bir arada tutar. Giriş yapmadan bu özeti görürsün. Giriş yapınca kişisel özetin açılır.`,
+    lead: `${YETKIN_BRAND} YetkinHibe, YetkinCV ve YetkinCV Onaylı Yetenek Rozetini bir arada tutar. Giriş yapmadan bu özeti görürsün. Giriş yapınca kişisel özetin açılır.`,
     featuresTitle: "Öne çıkanlar",
     features: [
       {
@@ -70,7 +70,7 @@ export const DASHBOARD_SEN = {
     summary: [
       "Hibe dosyası YetkinHibe’de açılır.",
       "YetkinCV puanı vaka testinden türer; satın alma tek başına puan basmaz.",
-      "Doğrulanmış Freelancer Rozeti Kariyer Kartında durur.",
+      "YetkinCV Onaylı Yetenek Rozeti Kariyer Kartında durur.",
       "Cüzdan, profil ve uzmanlık portföyü giriş ister.",
     ],
     loginCta: "Giriş yap",
@@ -102,7 +102,10 @@ export const DASHBOARD_SEN = {
   /** Girişli Genel Bakış — 2×2 komuta kartı. Misafir paneli bu sözlüğü okumaz. */
   command: {
     tezgahTitle: "AI Tezgâh",
-    tezgahQuota: "Bugünkü hak",
+    tezgahQuotaFree: "Bugünkü ücretsiz hak",
+    tezgahQuotaCredit: "Kalan üretim kredisi",
+    tezgahQuotaPro: "Tezgâh Pro",
+    tezgahQuotaUnlimited: "Sınırsız Erişim",
     tezgahToolsReady: (count: number) => `${count} araç hazır`,
     tezgahCta: "Tezgâhı Aç",
     commerceTitle: "E-Ticaret",
@@ -121,13 +124,13 @@ export const DASHBOARD_SEN = {
     unknown: "—",
   },
   pulse: {
-    academyTitle: "Akademi",
-    academyHrefLabel: "Akademi odası",
+    academyTitle: "AI Tezgâh",
+    academyHrefLabel: "Tezgâhı aç",
     academyPurchase: "Satın alma",
     academyCertificate: "Sertifika",
     unavailable: "Henüz yüklenemedi",
-    academyEmpty: "İlk eğitimini tamamla, sertifikanı kap!",
-    academyEmptyCta: "Eğitimleri İncele",
+    academyEmpty: "Misafir ve üye günde üç üretim alır. Pro, otuz günlük erişim paketidir.",
+    academyEmptyCta: "Tezgâhı aç",
     careerTitle: "Kariyer",
     careerHrefLabel: "Kariyer odası",
     careerVisa: "Rozet",
@@ -148,7 +151,7 @@ export const DASHBOARD_SEN = {
     title: "Ana Bakiye",
     live: "Canlı bakiye",
     unbound: "Bakiye henüz yüklenmedi",
-    body: "Bakiye Akademi tahsilatı içindir. Eğitim satın alımı bu bakiyeden düşer.",
+    body: "Cüzdan bakiyesi Tezgâh üretim kredileri, tek seferlik dosyalar ve platform içi hizmetler için kullanılır.",
     openCta: "Cüzdanı aç",
     escrowLabel: "Pasif kilit",
     escrowHint: "Freelancer kabulü bu bakiyeyi kullanmaz.",

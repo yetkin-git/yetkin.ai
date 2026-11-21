@@ -100,9 +100,9 @@ export default async function PassportPage() {
       </Card>
       <p className="flex flex-wrap gap-2">
         <LinkButton href={ACADEMY_STAMP_SURFACE_PATH} variant="ghost" size="sm">
-          {copy.academyCta}
+          {copy.careerCta}
         </LinkButton>
-        <LinkButton href="/academy/dogrula" variant="ghost" size="sm">
+        <LinkButton href={ACADEMY_CERTIFICATES_SURFACE_PATH} variant="ghost" size="sm">
           {copy.verifyCta}
         </LinkButton>
       </p>

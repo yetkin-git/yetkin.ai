@@ -1,4 +1,5 @@
 import {
+  commandQuotaLane,
   projectCommandCenter,
   type CommandCenterModel,
   type CommandHibeRead,
@@ -18,6 +19,7 @@ const QUOTA_DOWN: CommandQuotaRead = {
   live: false,
   remaining: 0,
   limit: TEZGAH_MEMBER_DAILY_LIMIT,
+  lane: "CLOSED",
 };
 
 type StoreLoad =
@@ -33,7 +35,15 @@ export async function readMemberTezgahQuota(userId: string): Promise<CommandQuot
   }
   try {
     const quota = await peekTezgahQuota(id, false);
-    return { live: true, remaining: quota.remaining, limit: quota.limit };
+    if (quota.error) {
+      return QUOTA_DOWN;
+    }
+    return {
+      live: true,
+      remaining: quota.remaining,
+      limit: quota.limit,
+      lane: commandQuotaLane(quota.lane),
+    };
   } catch {
     return QUOTA_DOWN;
   }

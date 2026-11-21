@@ -16,6 +16,15 @@ enum PaymentOrderStatus {
   CLEARED
 }
 
+/// Ticari sipariş niyeti. Akademi ve Junior kendi `purpose` dizgisini taşır; bu enum onlar için boş kalır.
+/// Eski dizgiler (`wallet-top-up`, `tezgah-license:pro`, `tezgah-credit:pack`, `commerce-license:monthly`) okunmaya devam eder.
+enum PaymentOrderPurpose {
+  WALLET_TOPUP
+  TEZGAH_PRO
+  TEZGAH_CREDIT
+  COMMERCE_LICENSE
+}
+
 enum LedgerDirection {
   CREDIT
   DEBIT
@@ -194,7 +203,10 @@ model PaymentOrder {
   userId                                String             @map("user_id")
   provider                              String
   merchantOid                           String             @unique @map("merchant_oid")
+  /// Ürün kancasının okuduğu niyet dizgisi. Dört ticari kod `orderPurpose` ile de mühürlenir.
   purpose                               String
+  /// WALLET_TOPUP kart bakiyesidir. TEZGAH_PRO ve COMMERCE_LICENSE self-servis iadeye kapalıdır.
+  orderPurpose                          PaymentOrderPurpose? @map("order_purpose")
   amountMinor                           Int                @map("amount_minor")
   currencyCode                          String             @db.Char(3) @map("currency_code")
   status                                PaymentOrderStatus @default(PENDING)
@@ -359,6 +371,22 @@ model AiTokenUsage {
   @@index([userId, createdAt])
   @@index([source, createdAt])
   @@map("ai_token_usages")
+}
+
+/// Ürün model yuvaları. Tek satır `id = product`. Akademi mühür katmanları bu satırı okumaz.
+/// Boş kolon kod varsayılanıdır. PostgREST `rls_deny_unscoped` alır.
+model AiProductModelSetting {
+  id               String   @id @default("product")
+  textEasyModelId  String?  @map("text_easy_model_id")
+  textDeepModelId  String?  @map("text_deep_model_id")
+  imageEasyModelId String?  @map("image_easy_model_id")
+  imageDeepModelId String?  @map("image_deep_model_id")
+  voiceEasyModelId String?  @map("voice_easy_model_id")
+  voiceDeepModelId String?  @map("voice_deep_model_id")
+  updatedBy        String?  @map("updated_by")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  @@map("ai_product_model_settings")
 }
 
 /// HTTP Idempotency-Key replay — çift tıklama ikinci finansal emir doğurmaz.

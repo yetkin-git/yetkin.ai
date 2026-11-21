@@ -18,6 +18,7 @@ import {
   syncCatalog,
 } from "@/lib/commerce/os-service";
 import type { CommerceResult } from "@/lib/commerce/types";
+import { commerceSimulationAllowed } from "@/lib/commerce/simulation-gate";
 
 const ROUTE = "/api/commerce/os";
 
@@ -102,13 +103,14 @@ async function runAction(
     }
     return sendChannelReply(userId, entryId);
   }
-  if (action === "simulate-sale") {
+  if (action === "simulate-sale" || action === "simulate-question") {
+    if (!commerceSimulationAllowed()) {
+      return { ok: false, status: 403, error: "Simülasyon bu ortamda kapalı." };
+    }
     const productId = typeof body.productId === "string" ? body.productId : "";
-    return simulateTrendyolUnitSale(userId, productId || null);
-  }
-  if (action === "simulate-question") {
-    const productId = typeof body.productId === "string" ? body.productId : "";
-    return simulateTrendyolQuestion(userId, productId || null);
+    return action === "simulate-sale"
+      ? simulateTrendyolUnitSale(userId, productId || null)
+      : simulateTrendyolQuestion(userId, productId || null);
   }
   if (action === "expert") {
     const productId = typeof body.productId === "string" ? body.productId : "";

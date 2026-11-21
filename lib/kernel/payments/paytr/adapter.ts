@@ -46,6 +46,7 @@ export class PaytrPaymentProvider implements PaymentProvider {
       userPhone: input.userPhone,
       userAddress: input.userAddress,
       currency: "TL",
+      storeCard: input.storeCard,
     });
 
     return result;

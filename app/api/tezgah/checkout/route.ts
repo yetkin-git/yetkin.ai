@@ -4,6 +4,11 @@ import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import { requireRailV1IdempotencyKey } from "@/lib/kernel/http/v1-runtime-shield";
 import { checkoutLegalConsentSchema } from "@/lib/kernel/legal/checkout-consent";
 import { resolvePaytrCheckoutUserIp } from "@/lib/kernel/payments/paytr/checkout";
+import {
+  applyHttpRateLimit,
+  HTTP_RATE_LIMITS,
+  rateLimitedJsonResponse,
+} from "@/lib/kernel/security/http-rate-limit";
 import { placeTezgahCheckout, type TezgahCheckoutKind } from "@/lib/tezgah/checkout";
 
 /** Tezgâh Pro veya 10 kredi. Katalog satırı yoksa 422. Tutar istekten okunmaz. */
@@ -20,6 +25,10 @@ export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
+    const limited = await applyHttpRateLimit(request, HTTP_RATE_LIMITS.checkoutUser, user.id);
+    if (!limited.allowed) {
+      return rateLimitedJsonResponse(limited, request);
+    }
     const idempotency = requireRailV1IdempotencyKey(request, requestId);
     if (!idempotency.ok) {
       return idempotency.response;

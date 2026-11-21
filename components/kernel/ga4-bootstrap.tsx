@@ -1,7 +1,6 @@
-import { Suspense } from "react";
-import Script from "next/script";
 import { headers } from "next/headers";
-import { Ga4RoutePageView } from "@/components/kernel/ga4-route-page-view";
+import { Ga4ConsentScripts } from "@/components/kernel/ga4-consent-scripts";
+import { type CookieConsentChoice } from "@/lib/kernel/telemetry/cookie-consent";
 import { readGaMeasurementId } from "@/lib/kernel/telemetry/measurement-id";
 
 /**
@@ -25,7 +24,11 @@ async function readRequestNonce(): Promise<string | undefined> {
   }
 }
 
-export async function Ga4Bootstrap() {
+export async function Ga4Bootstrap({
+  initialChoice = null,
+}: {
+  initialChoice?: CookieConsentChoice | null;
+}) {
   const gaId = readGaMeasurementId();
   if (!gaId) {
     return null;
@@ -39,19 +42,11 @@ export async function Ga4Bootstrap() {
   ].join("");
 
   return (
-    <>
-      <Script id="yetkin-ga4-config" strategy="afterInteractive" nonce={nonce}>
-        {config}
-      </Script>
-      <Script
-        id="yetkin-ga4-src"
-        strategy="afterInteractive"
-        nonce={nonce}
-        src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(gaId)}`}
-      />
-      <Suspense fallback={null}>
-        <Ga4RoutePageView />
-      </Suspense>
-    </>
+    <Ga4ConsentScripts
+      measurementId={gaId}
+      nonce={nonce}
+      config={config}
+      initialAllowed={initialChoice === "analytics"}
+    />
   );
 }

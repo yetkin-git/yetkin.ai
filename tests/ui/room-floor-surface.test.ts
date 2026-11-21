@@ -1,11 +1,17 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { readStyleBundle } from "../helpers/style-bundle";
 
 const ROOT = process.cwd();
 
 function readSrc(relative: string): string {
   return readFileSync(join(ROOT, relative), "utf8");
+}
+
+/** Faz 2: `app/globals.css` + `app/styles/*.css` tek stil bütünü olarak okunur. */
+function readCss(): string {
+  return readStyleBundle();
 }
 
 function sliceBetween(source: string, start: string, end: string): string {
@@ -19,7 +25,7 @@ function sliceBetween(source: string, start: string, end: string): string {
 describe("çalışan oda düz zemin", () => {
   it("kabuk grid overlay basmaz; freelancer çapraz tarama taşımaz", () => {
     const scope = readSrc("components/theme/room-scope.tsx");
-    const css = readSrc("app/globals.css");
+    const css = readCss();
     expect(scope).not.toContain("room-atmosphere-grid");
     expect(scope).toContain("room-atmosphere-wash");
 

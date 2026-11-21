@@ -4,6 +4,7 @@ import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import { requireRailV1IdempotencyKey } from "@/lib/kernel/http/v1-runtime-shield";
 import { hashIdempotencyPayload, settleHttpIdempotency } from "@/lib/kernel/http/idempotency";
 import { createPrismaHttpIdempotencyStore } from "@/lib/kernel/http/prisma-idempotency-store";
+import { logEvent } from "@/lib/kernel/observability/log";
 import { refundUnusedWalletBalanceForUser } from "@/lib/kernel/payments/prisma-wallet-card-refund";
 import {
   isPaytrMissingCredentialsError,
@@ -19,6 +20,7 @@ export const auth = "session" as const;
 
 const WALLET_REFUND_ROUTE = "/api/wallet/refund";
 const WALLET_REFUND_TABLE_MISSING = "İade kaydı henüz hazır değil.";
+const WALLET_REFUND_UNAVAILABLE = "Kart iadesi şu an tamamlanamadı. Bir süre sonra yeniden dene.";
 
 function isWalletRefundTableMissing(error: unknown): boolean {
   const message = error instanceof Error ? error.message : "";
@@ -27,7 +29,16 @@ function isWalletRefundTableMissing(error: unknown): boolean {
 
 function refundFailure(error: unknown, requestId: string, request: Request) {
   if (isPaytrProductionSafetyError(error) || isPaytrMissingCredentialsError(error)) {
-    return jsonFail(error.message, 503, requestId, request);
+    logEvent({
+      level: "error",
+      event: "wallet.refund.paytr_unavailable",
+      requestId,
+      route: WALLET_REFUND_ROUTE,
+      errorName: error.name,
+      reason: "paytr_unavailable",
+    });
+    console.error("wallet.refund.paytr_unavailable", error);
+    return jsonFail(WALLET_REFUND_UNAVAILABLE, 503, requestId, request);
   }
   if (isWalletRefundTableMissing(error)) {
     return jsonFail(WALLET_REFUND_TABLE_MISSING, 503, requestId, request);

@@ -1,6 +1,7 @@
 import "server-only";
 
 import { invokeLlm, type InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
+import { resolveProductModel } from "@/lib/kernel/ai/product-models";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import { TEZGAH_FAIL_MESSAGE, TEZGAH_GUEST_QUOTA_MESSAGE, TEZGAH_MEMBER_QUOTA_MESSAGE } from "@/lib/tezgah/catalog";
 import { withTezgahDeliverySignature } from "@/lib/tezgah/delivery-signature";
@@ -107,6 +108,7 @@ export async function generateReklamPackage(
   const llm = await invoke(
     {
       role: REKLAM_MODEL_ROLE,
+      model: await resolveProductModel("textEasy"),
       system: reklamSystemPrompt(),
       user: reklamUserPrompt(draft),
       temperature: 0.4,

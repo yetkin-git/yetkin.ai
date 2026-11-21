@@ -38,7 +38,11 @@ export default async function MagazamLicensePage({ params }: { params: Promise<{
   const copy = SEN_VOICE.magazam;
   const phase =
     license.value.phase === "open"
-      ? copy.licenseOpen
+      ? license.value.status === "TRIALING"
+        ? license.value.trialDaysLeft != null
+          ? copy.trialRemaining(license.value.trialDaysLeft)
+          : copy.licenseTrial
+        : copy.licenseOpen
       : license.value.phase === "pending"
         ? copy.licensePending
         : license.value.phase === "closed"

@@ -105,8 +105,11 @@ describe("yetkin.ai asistan sohbet kotası", () => {
       expect(result.source).toBe("local-fact");
       expect(result.reply).toBe(ASSISTANT_SEN.facts.contact);
       expect(result.reply).toContain(LEGAL_SUPPORT_EMAIL);
-      expect(result.reply).toContain("/academy");
+      expect(result.reply).toContain("/tezgah");
+      expect(result.reply).toContain("/hibe");
+      expect(result.reply).toContain("/e-ticaret");
       expect(result.reply).toContain("/career");
+      expect(result.reply).not.toContain("/academy");
     }
     expect(invoke).not.toHaveBeenCalled();
   });
@@ -188,8 +191,9 @@ describe("yetkin.ai asistan sohbet kotası", () => {
     });
     if (result.ok) {
       expect(result.reply).toContain(LEGAL_SUPPORT_EMAIL);
-      expect(result.reply).toContain("/academy");
+      expect(result.reply).toContain("/tezgah");
       expect(result.reply).toContain("/career");
+      expect(result.reply).not.toContain("/academy");
       expect(result.reply).not.toMatch(/emanet|escrow|bakiye kilit/i);
     }
   });
@@ -263,8 +267,13 @@ describe("asistan yüzey mührü", () => {
     expect(ASSISTANT_SEN.role).toBe("Kariyer Danışmanı");
     expect(ASSISTANT_CHAT_LIMIT_ERROR).toBe("Bugünlük soru limitine ulaştın.");
     expect(ASSISTANT_SEN.welcome).toContain(`${YETKIN_BRAND} kariyer danışmanınım`);
-    expect(ASSISTANT_SEN.welcome).toContain("Akademi veya Kariyer");
-    expect(ASSISTANT_SEN.system).toContain("/academy");
+    expect(ASSISTANT_SEN.welcome).toContain("AI Tezgâh");
+    expect(ASSISTANT_SEN.welcome).toContain("YetkinCV");
+    expect(ASSISTANT_SEN.system).not.toContain("/academy");
+    expect(ASSISTANT_SEN.system).not.toContain("Akademi odası");
+    expect(ASSISTANT_SEN.system).toContain("/tezgah");
+    expect(ASSISTANT_SEN.system).toContain("/hibe");
+    expect(ASSISTANT_SEN.system).toContain("/e-ticaret");
     expect(ASSISTANT_SEN.system).toContain("/career");
     expect(ASSISTANT_SEN.system).toContain("/iletisim");
     expect(ASSISTANT_SEN.system).toContain(LEGAL_SUPPORT_EMAIL);
@@ -291,10 +300,15 @@ describe("asistan yüzey mührü", () => {
     const engine = readSrc("lib/kernel/ai/assistant-chat.ts");
     expect(widget).toContain("ASSISTANT_SEN.title");
     expect(widget).toContain("ASSISTANT_SEN.role");
-    expect(widget).toContain("ASSISTANT_SEN.academyCta");
-    expect(widget).toContain("ASSISTANT_SEN.careerCta");
-    expect(widget).toContain('href="/hibe"');
-    expect(widget).toContain('href="/career"');
+    expect(widget).toContain("ASSISTANT_SEN.roomLinks");
+    expect(widget).not.toContain("academyCta");
+    expect(widget).not.toContain("/academy");
+    expect(ASSISTANT_SEN.roomLinks.map((room) => room.href)).toEqual([
+      "/tezgah",
+      "/hibe",
+      "/e-ticaret",
+      "/career",
+    ]);
     expect(widget).toContain("bottom-6 right-6");
     expect(widget).toContain("z-50");
     expect(widget).toContain("pointer-events-none fixed z-50");

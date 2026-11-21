@@ -1,14 +1,16 @@
 import "server-only";
 
+import { COMMERCE_TRIAL_VERIFY_MINOR } from "@/lib/commerce/subscription-lifecycle";
 import { toAmountMinor, type AmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
-import { formatMinorCompact } from "@/lib/kernel/money/format";
+import { formatMinor, formatMinorCompact } from "@/lib/kernel/money/format";
 import { createPrismaPriceCatalogStore } from "@/lib/kernel/pricing/prisma-catalog-store";
 import { TEZGAH_GUEST_DAILY_LIMIT, TEZGAH_PATH } from "@/lib/tezgah/catalog";
 import { TEZGAH_GRANT_UNIT, TEZGAH_PRO_MODULE } from "@/lib/tezgah/paid-lane";
 import {
   commerceMonthlyShowcase,
-  PUBLIC_PREORDER_LABEL,
+  PUBLIC_FREE_EVALUATION_LABEL,
+  PUBLIC_KURUMSAL_QUOTE_LABEL,
   type PriceHonesty,
 } from "@/lib/pricing/showcase-price";
 
@@ -24,6 +26,17 @@ export type PublicVitrineItem = {
   amountMinor: AmountMinor | null;
   priceLabel: string;
   statusLabel: string;
+  /**
+   * Deneme teklifi. Yalnız E-Ticaret kartında doludur: müşteri "İlk 30 Gün Ücretsiz
+   * (1 TL kart doğrulama)" teklifini, ardından aylık yenileme tutarını ve tek tıkla
+   * dönem sonu iptal hakkını görür. Tutar katalog satırından okunur; uydurulmaz.
+   */
+  trial?: {
+    headline: string;
+    verifyLabel: string;
+    renewalLabel: string | null;
+    cancelLine: string;
+  };
 };
 
 export type PublicPricingVitrine = {
@@ -36,6 +49,9 @@ export type PublicPricingVitrine = {
 };
 
 const ZERO = toAmountMinor(0);
+
+/** Sembolik kart doğrulama bedeli etiketi — tek SSOT `COMMERCE_TRIAL_VERIFY_MINOR`. */
+const TRIAL_VERIFY_LABEL = formatMinor(COMMERCE_TRIAL_VERIFY_MINOR, "TRY");
 
 function catalogItem(input: {
   id: string;
@@ -80,11 +96,12 @@ export async function loadPublicPricingVitrine(): Promise<PublicPricingVitrine> 
       id: "free-start",
       code: "BASLANGIC",
       title: "Ücretsiz Başlangıç",
-      summary: `AI Tezgâh günde ${TEZGAH_GUEST_DAILY_LIMIT} üretim. Uygulama rehberleri ve seviye testi ücretsizdir.`,
+      summary: `AI Tezgâh günde ${TEZGAH_GUEST_DAILY_LIMIT} üretim. Uygulama rehberleri ücretsizdir.`,
       lines: [
         `AI Tezgâh (günde ${TEZGAH_GUEST_DAILY_LIMIT} üretim)`,
         "Tüm Uygulama Rehberleri",
-        "Seviye Testi",
+        // CRO: katalogda karşılığı olmayan seviye testi vaadi yerine gerçek ürün.
+        "YetkinCV & Yetkinlik Pasaportu",
       ],
       href: TEZGAH_PATH,
       honesty: "live",
@@ -130,25 +147,38 @@ export async function loadPublicPricingVitrine(): Promise<PublicPricingVitrine> 
         "Herkese açık doğrulama bağlantısı",
       ],
       href: "/career",
-      honesty: "planned",
+      honesty: "live",
       amountMinor: null,
-      priceLabel: PUBLIC_PREORDER_LABEL,
-      statusLabel: PUBLIC_PREORDER_LABEL,
+      priceLabel: PUBLIC_FREE_EVALUATION_LABEL,
+      statusLabel: PUBLIC_FREE_EVALUATION_LABEL,
     },
-    commerce: catalogItem({
-      id: "commerce:monthly",
-      code: "COMMERCE",
-      title: "E-Ticaret İşletme Lisansı",
-      summary: "Trendyol, Hepsiburada, Amazon ve N11 çok kanallı yönetim paneli.",
-      lines: [
-        "Trendyol, Hepsiburada, Amazon ve N11 tek panelden stok ve sipariş",
-        "AI Tezgâh ile ürün açıklaması aktarımı",
-        "Müşteri sorusu gelen kutusu ve fatura/KDV uyumu",
-      ],
-      href: "/e-ticaret",
-      entry: commerceEntry,
-      monthly: true,
-    }),
+    commerce: {
+      ...catalogItem({
+        id: "commerce:monthly",
+        code: "COMMERCE",
+        title: "E-Ticaret İşletme Lisansı",
+        summary: "Trendyol, Hepsiburada, Amazon ve N11 çok kanallı yönetim paneli.",
+        lines: [
+          "İlk 30 gün ücretsiz (1 TL kart doğrulama)",
+          "Trendyol, Hepsiburada, Amazon ve N11 tek panelden stok ve sipariş",
+          "AI Tezgâh ile ürün açıklaması aktarımı",
+          "Müşteri sorusu gelen kutusu ve fatura/KDV uyumu",
+          "Dönem sonu iptali tek tıkla mağaza panelinde",
+        ],
+        href: "/e-ticaret",
+        entry: commerceEntry,
+        monthly: true,
+      }),
+      trial: {
+        headline: "İlk 30 Gün Ücretsiz (1 TL Kart Doğrulama ile)",
+        verifyLabel: `Bugün yalnız ${TRIAL_VERIFY_LABEL} kart doğrulama bedeli tahsil edilir`,
+        renewalLabel:
+          commerceEntry && commerceEntry.isActive && commerceEntry.amountMinor > 0
+            ? `30 gün sonra ${formatMinorCompact(commerceEntry.amountMinor, SETTLEMENT_CURRENCY)} / Ay otomatik yenilenir`
+            : null,
+        cancelLine: "Tek tıkla dönem sonu iptali; erken iptal cezası yok.",
+      },
+    },
     kurumsal: {
       id: "kurumsal",
       code: "KURUMSAL",
@@ -161,10 +191,10 @@ export async function loadPublicPricingVitrine(): Promise<PublicPricingVitrine> 
         "İlan ve aday eleme — paneli kendiniz açın",
       ],
       href: "/kurumsal",
-      honesty: "planned",
+      honesty: "live",
       amountMinor: null,
-      priceLabel: PUBLIC_PREORDER_LABEL,
-      statusLabel: PUBLIC_PREORDER_LABEL,
+      priceLabel: PUBLIC_KURUMSAL_QUOTE_LABEL,
+      statusLabel: PUBLIC_KURUMSAL_QUOTE_LABEL,
     },
   };
 }

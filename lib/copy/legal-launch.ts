@@ -17,7 +17,6 @@ export const LEGAL_ENTITY = {
   supportEmail: "destek@yetkin.ai",
   whatsappDisplay: "0551 675 16 74",
   whatsappE164: "905516751674",
-  iban: "TR82 0020 5000 0100 8852 4000 01",
 } as const;
 
 /** Kart / künye: «Akhisar V.D. - 9370683361» */
@@ -56,16 +55,51 @@ export const LEGAL_HONESTY_BODY =
 export const LEGAL_ACTIVITY_SCOPE_BODY =
   `${LEGAL_ENTITY.brandName}, ${LEGAL_ENTITY.tradeName} bünyesinde KOBİ'ler, girişimciler, danışmanlar ve kurumsal şirketler için yürütülen AI tabanlı iş ve operasyon işletim platformudur. Sunulan hizmetler E-Ticaret OS, YetkinHibe OS, AI Tezgâh, YetkinCV ve kurumsal ilan ile eleme modülleridir.`;
 
-/** Cüzdan iadesi — S43 dürüst metin. Otomatik karta dönüş vaadi yok. */
+/**
+ * Cüzdan iadesi. Kullanılmamış yükleme self-servistir.
+ * Aktif abonelik ve kullanılan üretim kredisi bu yolun dışındadır.
+ */
 export const LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH =
-  "Platform cüzdanına yüklenen bakiyeler yalnızca platform içi hizmetlerde kullanılabilir; farklı bir banka hesabına nakit transferi veya çekim yapılamaz. Kullanılmamış bakiye otomatik olarak karta dönmez. İade talepleri destek kanalından alınır ve henüz harcanmamış yükleme, ödeme kuruluşu takası ile değerlendirilir.";
+  "Platform cüzdanına yüklenen bakiyeler yalnızca platform içi hizmetlerde kullanılabilir; farklı bir banka hesabına nakit transferi veya çekim yapılamaz. Kullanılmamış cüzdan yükleme (top-up) bakiyeleri Cüzdan sayfasından self-servis kart iadesiyle talep edilebilir. Aktif edilmiş dijital abonelikler ve kullanılan üretim kredileri iade kapsamı dışındadır. İade, Yetkili Ödeme Kuruluşu takası ile yürür; valör bankaya bağlıdır.";
 
 /**
  * İade ve mesafeli satış aynı cümleyi taşır.
- * Tahsilat, ilgili dijital aboneliğe, tek seferlik çıktıya veya uzmanlık paketine erişimi açar.
+ * Tahsilat, satılan dijital erişim, lisans veya tek seferlik çıktıyı açar.
  */
 export const LEGAL_DIRECT_PACKAGE_ACCESS =
-  "Ödeme, doğrudan ilgili dijital aboneliğe, tek seferlik dijital çıktıya veya eğitim ve uzmanlık paketine erişimi açar.";
+  "Ödeme, doğrudan ilgili dijital erişim paketine, aylık işletme lisansına veya tek seferlik dijital çıktıya erişimi açar.";
+
+/** Gizlilik ve /iletisim — veri sorumlusu künyesi. Sicil numarası uydurulmaz. */
+export const LEGAL_DATA_CONTROLLER_SUMMARY =
+  `Veri sorumlusu: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}). Tebligat adresi: ${LEGAL_ENTITY.address}. KVKK m.11 talepleri ve destek: ${LEGAL_ENTITY.supportEmail}. WhatsApp: ${LEGAL_ENTITY.whatsappDisplay}.`;
+
+/**
+ * Saklama ve imha özeti. Yıl sayısı uydurulmaz; mali defter kanuni süreye bağlanır.
+ * Analitik ölçüm rıza kapısına bağlıdır.
+ */
+export const LEGAL_RETENTION_SUMMARY =
+  "Hesap ve hizmet verisi, ilgili hizmetin ifası sürdükçe saklanır. Hesap kapatılınca kişisel veriler anonimleştirilir. Cüzdan ve tahsilat kayıtları değiştirilemez defter olarak, vergi ve ticaret mevzuatının zorunlu kıldığı süre boyunca tutulur; süre dolunca veya kanuni istisna kalkınca silinir ya da anonimleştirilir. Zorunlu oturum çerezi hesabın açık kalması için kullanılır. Analitik çerez ancak «Analitik Çerezleri Kabul Et» tercihinden sonra yüklenir; «Sadece Zorunlu» seçilince Google Analytics yüklenmez ve yeni ölçüm başlamaz.";
+
+/** Çerez tercihi bandı — politika metni ile aynı tercih adları. */
+export const COOKIE_CONSENT_COPY = {
+  title: "Çerez tercihi",
+  body: "Zorunlu çerezler oturumu açık tutar. Analitik çerezler (Google Analytics) yalnız onay verirsen yüklenir.",
+  necessaryLegend: "Zorunlu çerezler",
+  accept: "Analitik Çerezleri Kabul Et",
+  necessaryOnly: "Sadece Zorunlu",
+  policyHref: "/legal/cerez",
+  policyLabel: "Çerez politikası",
+} as const;
+
+/** Satılan ürünler. Kapalı Akademi bu listede yoktur. */
+export const LEGAL_SOLD_PRODUCTS_BODY =
+  "Hizmetin niteliği: (1) AI Tezgâh Pro — 30 günlük erişim paketi; üretim kotası ve müşteri teslim paketi. Otomatik yenileme yoktur. (2) Tezgâh Üretim Kredisi — katalogdaki kredi paketi; kullanılan kredi iade kapsamı dışındadır. (3) E-Ticaret İşletme Lisansı — 30 gün ücretsiz deneme; deneme açılışında 1,00 TL sembolik kart doğrulama bedeli tahsil edilir ve bu bedel bakiyeye yazılmaz, iadesi taahhüt edilmez. Ardından otomatik yenilenen aylık abonelik başlar; mağaza panelinden tek tıkla dönem sonu iptal edilebilir. Stok, kanal ve sipariş kokpiti bu lisansla açılır. (4) YetkinHibe Dosyası — tek seferlik dijital proje dosyası; elektronik teslimdir, kargo yoktur. YetkinCV ücretsiz vaka testidir; satın alma tek başına puan basmaz. Kurumsal ilan, başvuru bilgisini yalnız ilanı açan yetkili şirketle paylaşır; ücretli ilan tahtası değildir.";
+
+export const LEGAL_COMMERCE_SUBSCRIPTION_BODY =
+  "E-Ticaret İşletme Lisansı, 30 gün ücretsiz deneme ardından otomatik yenilenen aylık aboneliktir. Deneme açılışında 1,00 TL sembolik kart doğrulama bedeli tahsil edilir; bu bedel bakiyeye yazılmaz, doğrulama işleminin karşılığıdır ve iadesi taahhüt edilmez. Deneme vergi kimliği (VKN veya TCKN) başına bir kez açılır. Deneme bitiminde lisans katalogdaki aylık tutardan yenilenir; mağaza panelinden tek tıkla dönem sonu iptal edilebilir. Deneme ve iptal işaretinden sonra erişim dönem sonuna kadar sürer. Deneme sürerken yapılan erken dönem satın alımında kalan deneme günleri yanmaz; yeni dönem deneme bitiminin üzerine eklenir.";
+
+export const LEGAL_TEZGAH_PRO_ACCESS_BODY =
+  "AI Tezgâh Pro, 30 günlük erişim paketidir. Aylık otomatik yenileme yoktur. Tahsilat tamamlanınca erişim açılır ve süre, tahsilat anından itibaren 30 gündür.";
 
 const LEGAL_TR_MONTHS = [
   "Ocak",
@@ -163,17 +197,17 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "gizlilik-politikasi",
         heading: "2. Gizlilik politikası — Ne toplanır, ne toplanmaz?",
         paragraphs: [
-          "İşlenen başlıca veriler: Hesap e-postası, görünen ad, oturum çerezleri, bakiye bilgisi, değiştirilemez hesap hareketleri (işlem tutarları ve para birimi), akademi sınav oturumu/cevapları ve dijital olarak doğrulanabilir sertifika kodlarıdır.",
+          "İşlenen başlıca veriler: Hesap e-postası, görünen ad, oturum çerezleri, bakiye bilgisi, değiştirilemez hesap hareketleri (işlem tutarları ve para birimi), YetkinCV vaka oturumu ve puanı ile kamu kanıt sayfasındaki doğrulama kodlarıdır.",
           "Modül bazında işlenen veriler: (1) E-Ticaret OS — mağaza ürün, stok ve pazaryeri entegrasyon verileri. (2) YetkinHibe OS — firma profil bilgileri ve proje taslak verileri. (3) AI Tezgâh — kullanıcının üretim için girdiği metin ve ürün girdileri ile oluşturulan çıktılar. (4) YetkinCV ve kurumsal ilan — adayların sınav puanları, SHA-256 doğrulama özetleri ve yalnızca ilanı açan yetkili şirketle paylaşılan başvuru bilgileri.",
-          "Kişiselleştirilmiş reklam takibi ve çerezle yeniden hedefleme yoktur. Sayfanın nasıl kullanıldığını ve satın alma adımının nerede kaldığını ölçmek için Google Analytics (GA4) kullanırız. Bu, birinci taraf dönüşüm ve performans ölçümüdür; reklam profili kurulmaz. Kredi kartı numaranız platform sunucularımızda asla tutulmaz; kart tahsilatları Yetkili Ödeme Kuruluşu altyapısı üzerinden güvenle yürütülür.",
+          "Kişiselleştirilmiş reklam takibi ve çerezle yeniden hedefleme yoktur. Google Analytics (GA4) yalnız «Analitik Çerezleri Kabul Et» tercihi verildiğinde yüklenir. «Sadece Zorunlu» seçilince analitik çerez yazılmaz. Bu ölçüm birinci taraf dönüşüm ve performans ölçümüdür; reklam profili kurulmaz. Kredi kartı numaranız platform sunucularımızda asla tutulmaz; kart tahsilatları Yetkili Ödeme Kuruluşu altyapısı üzerinden güvenle yürütülür.",
         ],
       },
       {
         id: "amac-hukuki-sebep",
         heading: "3. Veriler neden işlenir?",
         paragraphs: [
-          "Verilerinizi şu amaçlarla işleriz: hesap açmak, satın alınan dijital aboneliği ve tek seferlik dijital çıktıyı sunmak, E-Ticaret OS, YetkinHibe OS, AI Tezgâh, YetkinCV ve kurumsal ilan modüllerini işletmek, sınav ve SHA-256 doğrulamasını sağlamak ve güvenliği (sahtecilik, mükerrer ödeme, oturum) korumak.",
-          "Hukuki sebepler: sözleşmenin yerine getirilmesi (satın alma, sınav, sertifika), meşru menfaat (oturum ve sahtecilik önleme) ve kanuni yükümlülüktür. Pazarlama izni alınmaz; pazarlama e-postası gönderilmez.",
+          "Verilerinizi şu amaçlarla işleriz: hesap açmak, satın alınan dijital erişim paketini, aylık işletme lisansını ve tek seferlik dijital çıktıyı sunmak, E-Ticaret OS, YetkinHibe OS, AI Tezgâh, YetkinCV ve kurumsal ilan modüllerini işletmek, YetkinCV puanı ve SHA-256 doğrulamasını sağlamak ve güvenliği (sahtecilik, mükerrer ödeme, oturum) korumak.",
+          "Hukuki sebepler: sözleşmenin yerine getirilmesi (satın alma ve YetkinCV doğrulaması), meşru menfaat (oturum ve sahtecilik önleme), analitik çerez için açık rıza ve kanuni yükümlülüktür. Pazarlama izni alınmaz; pazarlama e-postası gönderilmez.",
         ],
       },
       {
@@ -190,8 +224,8 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "cerez",
         heading: "5. Çerez politikası",
         paragraphs: [
-          "Oturumunuzu açık tutmak için zorunlu kimlik çerezleri kullanılır. Reklam ve yeniden hedefleme çerezi yoktur. Dönüşüm ve sayfa performansını ölçmek için Google Analytics (GA4) kullanırız. Bu ölçüm birinci taraftır; reklam profili oluşturmaz.",
-          "Kart ödemesinde Yetkili Ödeme Kuruluşu kendi sayfasını açabilir; o çerezler sağlayıcının politikasına tabidir. Zorunlu oturum çerezi olmadan hesabına giriş yapılamaz. Pazarlama çerezi kullanılmadığı için bu konuda ayrı bir izin istenmez.",
+          "Oturumunuzu açık tutmak için zorunlu kimlik çerezleri kullanılır. Reklam ve yeniden hedefleme çerezi yoktur. Google Analytics (GA4) yalnız «Analitik Çerezleri Kabul Et» denilince yüklenir. «Sadece Zorunlu» analitik çerezi kapalı tutar. Tercih cihazında saklanır. Bu ölçüm birinci taraftır; reklam profili oluşturmaz.",
+          "Kart ödemesinde Yetkili Ödeme Kuruluşu kendi sayfasını açabilir; o çerezler sağlayıcının politikasına tabidir. Zorunlu oturum çerezi olmadan hesabına giriş yapılamaz. Analitik çerez için ayrı tercih sorulur; pazarlama çerezi yoktur.",
           `Çerez ve gizlilik talepleriniz ${LEGAL_SUPPORT_EMAIL} üzerinden alınır.`,
         ],
       },
@@ -199,7 +233,9 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "saklama-haklar",
         heading: "6. Saklama ve haklarınız",
         paragraphs: [
-          "Hesap hareketleri sonradan değiştirilemez; bakiyeniz bu kayıtlardan hesaplanır. Akademi sınavı sunucuda değerlendirilir. Herkese açık sertifika doğrulama sayfası kişisel bilgi (ad, e-posta) göstermez; yalnız dijital olarak doğrulanabilir sertifika kodu kontrol edilir. E-Ticaret, YetkinHibe, AI Tezgâh ve YetkinCV verisi ilgili hizmetin ifası ve doğrulama için saklanır.",
+          "Hesap hareketleri sonradan değiştirilemez; bakiyeniz bu kayıtlardan hesaplanır. YetkinCV puanı sunucuda hesaplanır. Herkese açık kanıt sayfası (/vize) kişisel bilgi (ad, e-posta) göstermez. E-Ticaret, YetkinHibe, AI Tezgâh ve YetkinCV verisi ilgili hizmetin ifası ve doğrulama için saklanır.",
+          LEGAL_DATA_CONTROLLER_SUMMARY,
+          LEGAL_RETENTION_SUMMARY,
           `6698 sayılı Kanun’un 11. maddesindeki haklarınız (erişim, düzeltme, silme, itiraz) ${LEGAL_SUPPORT_EMAIL} ve hesap içi bildirim kanalından kullanılır.`,
         ],
       },
@@ -216,14 +252,14 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         heading: "1. Hangi çerezler kullanılır?",
         paragraphs: [
           `Bu çerez politikası ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}) tarafından sunulan ${LEGAL_ENTITY.brandName} platformu içindir. Tebligat adresi: ${LEGAL_ENTITY.address}.`,
-          "Oturumunuzu açık tutmak için zorunlu kimlik çerezleri kullanılır. Reklam ve yeniden hedefleme çerezi yoktur. Dönüşüm ve sayfa performansını ölçmek için Google Analytics (GA4) kullanırız. Bu ölçüm birinci taraftır; reklam profili oluşturmaz.",
+          "Oturumunuzu açık tutmak için zorunlu kimlik çerezleri kullanılır. Reklam ve yeniden hedefleme çerezi yoktur. Google Analytics (GA4) yalnız «Analitik Çerezleri Kabul Et» denilince yüklenir. «Sadece Zorunlu» analitik çerezi kapalı tutar. Tercih cihazında saklanır. Bu ölçüm birinci taraftır; reklam profili oluşturmaz.",
         ],
       },
       {
         id: "odeme-cerez",
         heading: "2. Ödeme sayfası çerezleri",
         paragraphs: [
-          "Kart ödemesinde Yetkili Ödeme Kuruluşu kendi sayfasını açabilir; o çerezler sağlayıcının politikasına tabidir. Zorunlu oturum çerezi olmadan hesabına giriş yapılamaz. Pazarlama çerezi kullanılmadığı için bu konuda ayrı bir izin istenmez.",
+          "Kart ödemesinde Yetkili Ödeme Kuruluşu kendi sayfasını açabilir; o çerezler sağlayıcının politikasına tabidir. Zorunlu oturum çerezi olmadan hesabına giriş yapılamaz. Analitik çerez için sayfa altındaki çerez tercihi sorulur. Pazarlama çerezi yoktur.",
         ],
       },
       {
@@ -242,11 +278,11 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
     title: LEGAL_SECTION_TITLES.refund,
     articles: [
       {
-        id: "akademi-cayma",
-        heading: "1. Akademi dijital içerik — cayma istisnası",
+        id: "dijital-erisim-cayma",
+        heading: "1. Dijital erişim, abonelik ve cayma",
         paragraphs: [
-          `${LEGAL_DIRECT_PACKAGE_ACCESS} Akademi uzmanlık paketi, elektronik ortamda ifa edilen dijital içerik / dijital hizmettir. Kart tahsilatı tamamlanınca ders erişimi aynı işlemde açılır ve hizmet ifası başlamış sayılır. Lisans 365 gündür. Sertifika satın alma ile basılmaz; 30 dakikalık sunucu sınavı ve baraj 70 şarttır.`,
-          "6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği m.15 uyarınca, elektronik ortamda anında ifa edilen hizmetler ile maddi ortamda sunulmayan dijital içeriğe ilişkin sözleşmelerde, ifanın tüketicinin açık rızası ile başlaması halinde cayma hakkı istisna kapsamındadır. Kasa tikleri bu rızadır. Erişim açıldıktan sonra bedel iade edilmez; çifte iade yoktur.",
+          `${LEGAL_DIRECT_PACKAGE_ACCESS} ${LEGAL_TEZGAH_PRO_ACCESS_BODY} ${LEGAL_COMMERCE_SUBSCRIPTION_BODY}`,
+          "6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği m.15 uyarınca, elektronik ortamda anında ifa edilen hizmetler ile maddi ortamda sunulmayan dijital içeriğe ilişkin sözleşmelerde, ifanın tüketicinin açık rızası ile başlaması halinde cayma hakkı istisna kapsamındadır. Kasa tikleri bu rızadır. Erişim açıldıktan veya üretim kredisi kullanıldıktan sonra ilgili bedel iade edilmez; çifte iade yoktur.",
         ],
       },
       {
@@ -254,8 +290,7 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         heading: "2. Tahsilat ve kullanılmamış bakiye",
         paragraphs: [
           LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH,
-          "Akademi uzmanlık paketi tek işlemle açılır. Kart tutarı Yetkili Ödeme Kuruluşu üzerinden tahsil edilir; platform defteri bu tahsilatı arka planda yazar ve aynı tutarı lisans kaydına bağlar. Kullanıcıdan ikinci bir satın alma adımı istenmez. Ödeme dökümünde işlem 'Cüzdan Yükleme' olarak görünebilir; bu satır akademi lisansının defter karşılığıdır, ayrı bir satın alma değildir. Bakiyesi kurs bedelini karşılayan hesapta kart ekranı açılmaz ve lisans mevcut bakiyeden kapanır. Lisans yazılamazsa tahsil edilen tutar bakiyede kalır ve kendiliğinden karta dönmez.",
-          "Kullanılmamış bakiye kendiliğinden karta dönmez. Ödeme sağlayıcısı iadesi yalnız henüz harcanmamış yükleme ve sağlayıcı/operatör takası ile yürür; valör bankaya bağlıdır.",
+          "Tezgâh Üretim Kredisi ve YetkinHibe Dosyası ayrı ürünlerdir. Kullanılmamış cüzdan yükleme (top-up) bakiyesi Cüzdan sayfasından self-servis kart iadesiyle talep edilir. Aktif edilmiş Tezgâh Pro erişimi, aktif edilmiş E-Ticaret İşletme Lisansı ve kullanılan üretim kredileri bu iadenin dışındadır. Havale veya EFT ile tahsilat yapılmaz. Tahsilatın tek kanalı Yetkili Ödeme Kuruluşudur.",
         ],
       },
       {
@@ -269,8 +304,8 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "dijital-abonelik-cikti",
         heading: "4. Dijital abonelik ve tek seferlik çıktı",
         paragraphs: [
-          "AI Tezgâh Pro ve E-Ticaret İşletme Lisansı, elektronik ortamda ifa edilen aylık dijital aboneliktir. Tahsilat tamamlanınca ilgili modül erişimi açılır ve hizmet ifası başlamış sayılır. Erişim açıldıktan sonra dönem bedeli iade edilmez; çifte iade yoktur.",
-          "YetkinHibe proje dosyası ve AI Tezgâh üretim çıktısı tek seferlik dijital içeriktir. Çıktı elektronik ortamda teslim edilince ifa tamamlanır. Kargo veya fiziki teslim yoktur. İfa başladıktan sonra bedel iade edilmez.",
+          `${LEGAL_TEZGAH_PRO_ACCESS_BODY} ${LEGAL_COMMERCE_SUBSCRIPTION_BODY} Erişim açıldıktan sonra dönem bedeli iade edilmez; çifte iade yoktur.`,
+          "YetkinHibe Dosyası ve AI Tezgâh üretim çıktısı tek seferlik dijital içeriktir. Çıktı elektronik ortamda teslim edilince ifa tamamlanır. Kargo veya fiziki teslim yoktur. İfa başladıktan sonra bedel iade edilmez. Tezgâh Üretim Kredisi katalogdaki pakettir; kullanılan üretim kredisi iade kapsamı dışındadır.",
           "Ücretsiz AI Tezgâh kotası satın alma değildir. Kota dolunca ücretli hat katalogda ilan edilen fiyattan açılır; tutar bu metinde yazılmaz.",
         ],
       },
@@ -287,18 +322,18 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         heading: "A. Ön Bilgilendirme Formu",
         paragraphs: [
           `Satıcı / sağlayıcı: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}), marka: ${LEGAL_ENTITY.brandName}. Adres: ${LEGAL_ENTITY.address}. Destek: ${LEGAL_SUPPORT_EMAIL}, WhatsApp ${LEGAL_ENTITY.whatsappDisplay} ve /iletisim. ${LEGAL_AGE_POLICY_BODY} ${LEGAL_ACTIVITY_SCOPE_BODY}`,
-          "Hizmetin niteliği: (1) AI Tezgâh Pro — aylık dijital abonelik; üretim kotası ve müşteri teslim paketi. (2) E-Ticaret İşletme Lisansı — aylık dijital abonelik; stok, kanal ve sipariş kokpiti. (3) Tek seferlik dijital çıktı — YetkinHibe proje dosyası ile AI Tezgâh üretimleri; elektronik teslimdir, kargo yoktur. (4) Akademi — dijital eğitim içeriği (metin, diyagram, varsa ses/video), 365 gün lisans, sunucu sınavı, baraj 70, dijital sertifika kodu. Satın alma belge basmaz. (5) YetkinCV — SHA-256 doğrulama özeti; satın alma tek başına puan basmaz. Kurumsal ilan, başvuru bilgisini yalnız ilanı açan yetkili şirketle paylaşır; ücretli ilan tahtası değildir.",
-          "Ödeme işlemleri Yetkili Ödeme Kuruluşu altyapısı üzerinden güvenle gerçekleştirilir. Kart tahsilatları ve cüzdan bakiyeleri Türk Lirası (TL) cinsinden işlenir. Kurs bedelleri kataloğumuzda ilan edilen güncel fiyatlar üzerinden tahsil edilir.",
-          "AI Tezgâh Pro, E-Ticaret İşletme Lisansı ve tek seferlik dijital çıktı bedelleri de katalogda ilan edilen güncel fiyatlardan tahsil edilir. Abonelik dönemi ve tek seferlik teslim, kasa ekranında ayrılır.",
-          `${LEGAL_DIRECT_PACKAGE_ACCESS} İfa: Akademi uzmanlık paketinde kart tahsilatı tamamlandığında ders gövdesi aynı işlemde açılır. Defter hareketi arka plandadır; ayrıca bir satın alma adımı yoktur. Bu, 6502 sayılı Kanun uyarınca elektronik ortamda anında ifa edilen hizmet / maddi ortamda sunulmayan dijital içeriktir. Teslimat adresi veya kargo yoktur.`,
-          "Cayma: Ön bilgi ve mesafeli sözleşme kasa tikleriyle kabul edilir. Akademi erişimi açılınca cayma hakkı istisna kapsamındadır (aşağıda B.5). Kullanılmamış cüzdan bakiyesi otomatik karta dönmez.",
+          LEGAL_SOLD_PRODUCTS_BODY,
+          "Ödeme işlemleri Yetkili Ödeme Kuruluşu altyapısı üzerinden güvenle gerçekleştirilir. Kart tahsilatları ve cüzdan bakiyeleri Türk Lirası (TL) cinsinden işlenir. Tezgâh Pro, Tezgâh Üretim Kredisi, E-Ticaret İşletme Lisansı ve YetkinHibe Dosyası bedelleri kataloğumuzda ilan edilen güncel fiyatlar üzerinden tahsil edilir. Havale veya EFT ile tahsilat yapılmaz.",
+          "Tezgâh Pro 30 günlük erişim paketidir. E-Ticaret İşletme Lisansı aylık yenilenen aboneliktir. Tek seferlik teslim kasa ekranında bunlardan ayrı durur.",
+          `${LEGAL_DIRECT_PACKAGE_ACCESS} İfa: kart tahsilatı tamamlandığında ilgili dijital erişim, lisans veya tek seferlik çıktı aynı işlemde açılır. Bu, 6502 sayılı Kanun uyarınca elektronik ortamda anında ifa edilen hizmet / maddi ortamda sunulmayan dijital içeriktir. Teslimat adresi veya kargo yoktur.`,
+          "Cayma: Ön bilgi ve mesafeli sözleşme kasa tikleriyle kabul edilir. Tezgâh Pro erişimi, E-Ticaret İşletme Lisansı ve tek seferlik dijital çıktı açılınca cayma hakkı istisna kapsamındadır (aşağıda B.5). Kullanılmamış cüzdan yükleme (top-up) bakiyeleri Cüzdan sayfasından self-servis kart iadesiyle talep edilebilir. Aktif edilmiş dijital abonelikler ve kullanılan üretim kredileri iade kapsamı dışındadır.",
         ],
       },
       {
         id: "mesafeli-sozlesme",
         heading: "B. Mesafeli Satış Sözleşmesi",
         paragraphs: [
-          `Satıcı künye: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}). Adres: ${LEGAL_ENTITY.address}. Bu sözleşme, 6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği çerçevesinde dijital hizmet / dijital içerik ifasını anlatır. ${YETKIN_BRAND} AI tabanlı iş ve operasyon işletim hizmeti sunar; ödeme veya finans kuruluşu değildir. Dijital abonelik ve tek seferlik dijital çıktıda ifa elektronik teslimdir. Akademide ifa elektronik teslimdir.`,
+          `Satıcı künye: ${LEGAL_ENTITY.tradeName} (${LEGAL_ENTITY_IDS}). Adres: ${LEGAL_ENTITY.address}. Bu sözleşme, 6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği çerçevesinde dijital hizmet / dijital içerik ifasını anlatır. ${YETKIN_BRAND} AI tabanlı iş ve operasyon işletim hizmeti sunar; ödeme veya finans kuruluşu değildir. Tezgâh Pro, E-Ticaret İşletme Lisansı, Tezgâh Üretim Kredisi ve YetkinHibe Dosyasında ifa elektronik teslimdir.`,
           `Sözleşme, tüketicinin kasa ekranında Mesafeli Satış Sözleşmesi ile Ön Bilgilendirme Formunu kabul etmesi ve dijital içeriğin anında ifa edileceğine açık rıza vermesiyle kurulur. Rıza, ödeme isteğinde ${CHECKOUT_LEGAL_CONSENT_VERSION} sürümü ile doğrulanır. Tik yoksa kart tahsilatı durur.`,
         ],
       },
@@ -306,17 +341,17 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         id: "dijital-ifa-istisnasi",
         heading: "B.5 Dijital içerik — anında ifa ve cayma istisnası",
         paragraphs: [
-          `${LEGAL_DIRECT_PACKAGE_ACCESS} Akademi uzmanlık paketinde kart tahsilatı tamamlanıp ders içeriklerine erişim açıldığı anda ifa başlamış olur. 6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği’nin «elektronik ortamda anında ifa edilen hizmetler» ile maddi ortamda sunulmayan dijital içeriğe ilişkin istisnası bu anda işler.`,
+          `${LEGAL_DIRECT_PACKAGE_ACCESS} Tezgâh Pro, E-Ticaret İşletme Lisansı, Tezgâh Üretim Kredisi veya YetkinHibe Dosyasında kart tahsilatı tamamlanıp erişim ya da çıktı açıldığı anda ifa başlamış olur. 6502 sayılı Kanun ve Mesafeli Sözleşmeler Yönetmeliği’nin «elektronik ortamda anında ifa edilen hizmetler» ile maddi ortamda sunulmayan dijital içeriğe ilişkin istisnası bu anda işler.`,
           "Tüketici, kasa tikinde «Dijital içeriğin anında ifa edileceğini kabul ediyorum» ifadesiyle ifanın derhal başlayacağını ve bu durumda cayma hakkının istisna kapsamında sona ereceğini kabul eder. İfa başlamadan önce tik verilmezse satın alma ve kart tahsilatı reddedilir.",
-          "Akademi uzmanlık paketinde tahsilat ile ders erişimi aynı işlemde açılır. Ayrı bir bakiye adımı dersi açmak için aranmaz. Erişim açılınca istisna işler. 14 günlük yasal cayma süresi dijital ifa istisnası ile birlikte okunur — çifte iade yoktur.",
+          `${LEGAL_TEZGAH_PRO_ACCESS_BODY} ${LEGAL_COMMERCE_SUBSCRIPTION_BODY} Erişim açılınca istisna işler. 14 günlük yasal cayma süresi dijital ifa istisnası ile birlikte okunur — çifte iade yoktur. Kullanılmamış cüzdan yükleme bakiyesi bu istisnanın dışında, Cüzdan sayfasından self-servis kart iadesiyle talep edilebilir.`,
         ],
       },
       {
         id: "bedel-fatura",
         heading: "B.6 Bedel, fatura, süre",
         paragraphs: [
-          "Akademi listesi KDV dahildir; kasada «+KDV» eklenmez. Fiyat kilidi 15 dakikadır. Lisans, kart tahsilatının tamamlandığı andan itibaren 365 gündür. Süresi biten lisans ders gövdesini kapatır; satın alma kaydı durur.",
-          "Satın alınan hizmet ve eğitimlere ait faturalar yasal süreçlere uygun düzenlenir. Fatura, kayıtlı e-posta adresine iletilir; bu iletim otomatik e-Arşiv paneli veya anında GİB gönderimi anlamına gelmez. İlan edilen tüm fiyatlara KDV dahildir.",
+          "İlan edilen fiyatlar KDV dahildir; kasada «+KDV» eklenmez. Fiyat kilidi 15 dakikadır. Tezgâh Pro erişimi, kart tahsilatının tamamlandığı andan itibaren 30 gündür ve kendiliğinden yenilenmez. E-Ticaret İşletme Lisansı, deneme bitince aylık dönemlerle yenilenir; mağaza panelinden tek tıkla dönem sonu iptal edilebilir.",
+          "Satın alınan hizmetlere ait faturalar yasal süreçlere uygun düzenlenir. Fatura, kayıtlı e-posta adresine iletilir; bu iletim otomatik e-Arşiv paneli veya anında GİB gönderimi anlamına gelmez. İlan edilen tüm fiyatlara KDV dahildir.",
         ],
       },
       {
@@ -340,14 +375,14 @@ export const LEGAL_LAUNCH_SECTIONS: readonly LegalLaunchSection[] = [
         heading: "1. Kapsam ve odalar",
         paragraphs: [
           `${LEGAL_ACTIVITY_SCOPE_BODY} Çalışan modüller E-Ticaret OS, YetkinHibe OS, AI Tezgâh, YetkinCV ve kurumsal ilandır. Kapalı bölümler vitrinde yer almaz ve satışa sunulmaz. Tahsilatın tek kanalı Yetkili Ödeme Kuruluşudur. Platform bakiyesi banka hesabına çekilmez.`,
-          "Vatandaş hesap e-posta ve şifre ile açılır; oturum çerezi kimlik ipucudur, para işlemi sunucuda JWT ile bağlanır. Native mağaza (IAP) akademi satmaz.",
+          "Vatandaş hesap e-posta ve şifre ile açılır; oturum çerezi kimlik ipucudur, para işlemi sunucuda JWT ile bağlanır. Native mağaza (IAP) tahsilat kanalı değildir. Havale veya EFT ile tahsilat yapılmaz.",
         ],
       },
       {
         id: "hizmet-sorumluluk",
         heading: "2. Hizmet niteliği ve sorumluluk",
         paragraphs: [
-          `Platform E-Ticaret OS, YetkinHibe OS, AI Tezgâh, YetkinCV ve kurumsal ilan ile eleme hizmeti sunar. Dijital abonelikler AI Tezgâh Pro ve E-Ticaret İşletme Lisansıdır. Tek seferlik dijital çıktı, YetkinHibe proje dosyası ve AI Tezgâh üretimleridir. ${YETKIN_BRAND} bir ödeme veya finans kuruluşu değildir. Kurumsal ilan ücretli kamu ilan tahtası değildir. Platform, hibe alınmasını, işe yerleşmeyi veya ticari geliri garanti etmez.`,
+          `Platform E-Ticaret OS, YetkinHibe OS, AI Tezgâh, YetkinCV ve kurumsal ilan ile eleme hizmeti sunar. ${LEGAL_TEZGAH_PRO_ACCESS_BODY} ${LEGAL_COMMERCE_SUBSCRIPTION_BODY} Tek seferlik dijital çıktı, YetkinHibe Dosyası ve AI Tezgâh üretimleridir. Tezgâh Üretim Kredisi katalogdaki pakettir. ${YETKIN_BRAND} bir ödeme veya finans kuruluşu değildir. Kurumsal ilan ücretli kamu ilan tahtası değildir. Platform, hibe alınmasını, işe yerleşmeyi veya ticari geliri garanti etmez.`,
           "Azami sorumluluk, ilgili dijital hizmet bedelinin net tutarı ve defter kaydı ile sınırlıdır; dolaylı, kâr kaybı veya manevi tazminat talep edilemez.",
         ],
       },
@@ -426,5 +461,5 @@ export const LEGAL_CHECKOUT_CONSENT_COPY = {
   digitalHref: "/legal/mesafeli-satis#dijital-ifa-istisnasi",
   required: "Mesafeli Satış Sözleşmesi, Ön Bilgilendirme Formu ve dijital içeriğin anında ifası için açık rıza zorunludur.",
   walletHint:
-    "Uzmanlık paketi kasasında kart tahsilatı ile ders erişimi aynı işlemde açılır. Paket seçilmeden duran bakiye ders açmaz. Erişim açılınca cayma hakkı 6502 istisnasına tabidir.",
+    "Kullanılmamış cüzdan yükleme bakiyesi Cüzdan sayfasından self-servis kart iadesiyle talep edilebilir. Aktif edilmiş dijital abonelik ve kullanılan üretim kredisi iade kapsamı dışındadır. Erişim açılınca cayma hakkı 6502 istisnasına tabidir.",
 } as const;
