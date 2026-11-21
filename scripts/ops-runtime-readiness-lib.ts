@@ -125,6 +125,8 @@ export type SafeDefaultOps = {
   appUrlClass: AppUrlClass;
   llm: LlmProviderOps;
   rateLimitStore: RateLimitStoreMode;
+  /** Tek süreçli bilinçli kabul (yalnız Vercel dışı üretim). */
+  rateLimitSingleNodeAck: boolean;
   hosting: HostingClass;
   trustedProxyHops: number;
 };
@@ -295,6 +297,8 @@ export function inspectSafeDefaultOps(env: Record<string, string | undefined>): 
       anthropic: filled(env, "ANTHROPIC_API_KEY"),
     },
     rateLimitStore: classifyRateLimitStore(env),
+    rateLimitSingleNodeAck:
+      filled(env, "RATE_LIMIT_SINGLE_NODE_ACK") && env.VERCEL_ENV?.trim() !== "production",
     hosting: env.VERCEL?.trim() === "1" || filled(env, "VERCEL_ENV") ? "vercel" : "unspecified",
     trustedProxyHops: parseTrustedProxyHops(env as NodeJS.ProcessEnv),
   };
@@ -302,22 +306,26 @@ export function inspectSafeDefaultOps(env: Record<string, string | undefined>): 
 
 function rateLimitStoreLines(mode: RateLimitStoreMode, hosting: HostingClass): string[] {
   if (mode === "redis-rest") {
-    return ["  paylaşılan depo (Upstash REST). Çok instance aynı sayacı okur."];
+    return [
+      "  paylaşılan depo (Upstash REST). Çok instance aynı sayacı okur.",
+      "  Kaynak: RATE_LIMIT_REDIS_REST_* veya yedek KV_REST_API_* (ikisi birden dolu).",
+    ];
   }
   if (mode === "fail-closed-partial") {
     return [
-      "  UYARI: RATE_LIMIT_REDIS_REST_URL ve RATE_LIMIT_REDIS_REST_TOKEN birlikte dolu olmalı.",
-      "  Derleme düşmez (graceful fallback): kısmi çift build'i durdurmaz. Çalışma zamanı fail-closed kalır.",
+      "  UYARI: RATE_LIMIT_REDIS_REST_URL/_TOKEN veya KV_REST_API_URL/_TOKEN birlikte dolu olmalı.",
+      "  Çalışma zamanı fail-closed kalır. ÜRETİMDE BUILD DÜŞER (OPS-5, Faz 2): kısmi çift çıkış 1.",
     ];
   }
   if (hosting === "vercel") {
     return [
       "  UYARI: VERCEL algılandı — süreç-içi kota replica'lar arasında paylaşılmaz.",
-      "  RATE_LIMIT_REDIS_REST_URL + RATE_LIMIT_REDIS_REST_TOKEN eksik veya farklı isimde. Derleme düşmez (graceful fallback): paylaşılan depo atlanır, süreç-içi sayaç kalır. Çok instance sessiz delik: limit × örnek.",
+      "  RATE_LIMIT_REDIS_REST_* veya KV_REST_API_* eksik. Çok instance sessiz delik: limit × örnek. ÜRETİMDE BUILD DÜŞER (OPS-5, Faz 2).",
     ];
   }
   return [
     "  beklenen mod: tek süreç (in-process-single-node). Vercel öncesi paylaşılan depo ikisi birden dolu olmalı.",
+    "  ÜRETİMDE (NODE_ENV=production) bu mod BUILD DÜŞÜRÜR: RATE_LIMIT_REDIS_REST_* veya KV_REST_API_* zorunlu (OPS-5).",
   ];
 }
 
@@ -358,11 +366,70 @@ function superAdminUuidProductionBlocks(env: Record<string, string | undefined>)
   ];
 }
 
+/**
+ * OPS-5 hız tavanı üretim kapısı (Faz 2).
+ *
+ * Tespit §3.5: `RATE_LIMIT_REDIS_REST_URL` / `_TOKEN` boşken runtime sessizce
+ * `in-process-single-node` moduna düşüyordu. Vercel'de her serverless örnek
+ * kendi sayacını tuttuğu için gerçek limit **limit × örnek** oluyor; LLM maliyet
+ * koruması ve form/IP hız tavanı sessizce deliniyordu. Uyarı basılıyordu ama
+ * build düşmüyordu — yani yanlış yapılandırılmış dağıtım fark edilmiyordu.
+ *
+ * Kural (yalnız üretim):
+ *   - `RATE_LIMIT_*` çifti dolu → geçer (paylaşılan Upstash REST sayacı).
+ *   - `RATE_LIMIT_*` boş + `KV_REST_API_*` çifti dolu → geçer (Vercel KV yedeği).
+ *   - Her iki çift de boş **veya** herhangi biri kısmi → **engelleyici** (exit 1).
+ *   - Kısmi `RATE_LIMIT_*`, dolu `KV_*` ile tamamlanmaz.
+ *
+ * Tek süreçli bilinçli kurulum (kendi sunucusunda `next start`) için tek kaçış
+ * yolu `RATE_LIMIT_SINGLE_NODE_ACK=1` bayrağıdır: sessiz değil, **adı konmuş**
+ * bir kabuldür ve OPS-5 tablosunda `acknowledged-single-node` olarak basılır.
+ * Vercel Production'da bu bayrak **sayılmaz** — orada replica sayısı sabit
+ * değildir, süreç-içi sayaç mimari olarak yanlıştır.
+ *
+ * Test ve geliştirme ortamları etkilenmez: kapı yalnız `NODE_ENV=production`
+ * veya `VERCEL_ENV=production` altında çalışır. Bu iki bayrak bilinçli olarak
+ * `SUPER_ADMIN_USER_ID` kapısıyla aynıdır (Vercel build alt süreci `NODE_ENV`
+ * atamayabilir).
+ */
+function rateLimitProductionBlocks(env: Record<string, string | undefined>): string[] {
+  const production = env.NODE_ENV === "production" || env.VERCEL_ENV?.trim() === "production";
+  if (!production) {
+    return [];
+  }
+  const mode = classifyRateLimitStore({
+    RATE_LIMIT_REDIS_REST_URL: env.RATE_LIMIT_REDIS_REST_URL,
+    RATE_LIMIT_REDIS_REST_TOKEN: env.RATE_LIMIT_REDIS_REST_TOKEN,
+    KV_REST_API_URL: env.KV_REST_API_URL,
+    KV_REST_API_TOKEN: env.KV_REST_API_TOKEN,
+  });
+  if (mode === "redis-rest") {
+    return [];
+  }
+  if (mode === "fail-closed-partial") {
+    return [
+      "RATE_LIMIT_REDIS_REST_URL/_TOKEN veya KV_REST_API_URL/_TOKEN üretimde birlikte dolu olmalı (OPS-5). Kısmi çift çalışma zamanını fail-closed yapar: form, LLM ucu ve API hız tavanı 503 döner. Kısmi RATE_LIMIT çifti KV ile tamamlanmaz.",
+    ];
+  }
+  const vercelProduction = env.VERCEL_ENV?.trim() === "production";
+  const singleNodeAck = filled(env, "RATE_LIMIT_SINGLE_NODE_ACK") && !vercelProduction;
+  if (singleNodeAck) {
+    return [];
+  }
+  return [
+    "RATE_LIMIT_REDIS_REST_URL + RATE_LIMIT_REDIS_REST_TOKEN (veya KV_REST_API_URL + KV_REST_API_TOKEN) üretimde zorunlu (OPS-5). Boşken sayaç süreç-içidir ve her örnek kendi sayacını tutar: gerçek limit = limit × örnek. LLM maliyet koruması ve IP hız tavanı sessizce delinir. Tek süreçli bilinçli kurulumda RATE_LIMIT_SINGLE_NODE_ACK=1 yaz (Vercel Production'da sayılmaz).",
+  ];
+}
+
 export function extraProductionBlocks(
   env: Record<string, string | undefined>,
 ): readonly string[] {
   if (env.NODE_ENV !== "production") {
-    return [...superAdminUuidProductionBlocks(env), ...mediaCdnProductionBlocks(env)];
+    return [
+      ...superAdminUuidProductionBlocks(env),
+      ...mediaCdnProductionBlocks(env),
+      ...rateLimitProductionBlocks(env),
+    ];
   }
   const { database, direct } = inspectPostgresOps(env);
   const blocking: string[] = [];
@@ -416,9 +483,7 @@ export function extraProductionBlocks(
   }
   blocking.push(...superAdminUuidProductionBlocks(env));
   blocking.push(...mediaCdnProductionBlocks(env));
-  // Redis/rate-limit çifti üretim bloğu değildir. Eksik, kısmi veya farklı isimli
-  // RATE_LIMIT_REDIS_REST_* Vercel build'ini düşürmez; OPS-5 uyarısı basılır, çıkış 0.
-  // Çalışma zamanı: ikisi dolu = Upstash, ikisi boş = süreç-içi, kısmi = fail-closed.
+  blocking.push(...rateLimitProductionBlocks(env));
   return blocking;
 }
 
@@ -483,8 +548,8 @@ export function formatSafeDefaultLines(ops: SafeDefaultOps): string[] {
     `  superAdmin=${ops.superAdmin} (uuid-unset = SUPER_ADMIN_USER_ID boş; üretimde engelleyici, T-03 fail-closed)`,
     `  authRedirects=${ops.authRedirectPaths.join(" ")} originClass=${ops.appUrlClass} (Dashboard Redirect URLs; origin basılmaz)`,
     `  llm gemini=${yesNo(llm.gemini)} openai=${yesNo(llm.openai)} anthropic=${yesNo(llm.anthropic)}`,
-    "OPS-5 Hız tavanı (lansman kararı 19 Ağustos 2026):",
-    `  rateLimitStore=${ops.rateLimitStore} hosting=${ops.hosting}`,
+    "OPS-5 Hız tavanı (lansman kararı 19 Ağustos 2026; Faz 2 üretim kapısı):",
+    `  rateLimitStore=${ops.rateLimitStore} hosting=${ops.hosting} singleNodeAck=${ops.rateLimitSingleNodeAck ? "evet" : "hayır"}`,
   ];
   lines.push(...rateLimitStoreLines(ops.rateLimitStore, ops.hosting));
   if (ops.railDronOrigins === "allowlist-set") {

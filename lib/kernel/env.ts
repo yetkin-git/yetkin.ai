@@ -73,6 +73,7 @@ const envSchema = z.object({
   COMMERCE_CREDENTIAL_ENCRYPTION_KEY: z.string().optional(),
   COMMERCE_WEBHOOK_SECRET_TRENDYOL: z.string().optional(),
   COMMERCE_OS_WEBHOOK_SECRET: z.string().optional(),
+  COMMERCE_ALLOW_SIMULATION: z.string().optional(),
   ACADEMY_EXAM_SITTING_SECRET: z.string().optional(),
   ACADEMY_MEDIA_READ: z.string().optional(),
   ACADEMY_SEAL_DROP_MISSING: z.string().optional(),
@@ -102,6 +103,17 @@ const envSchema = z.object({
   TRUSTED_PROXY_HOPS: z.string().optional(),
   RATE_LIMIT_REDIS_REST_URL: z.string().optional(),
   RATE_LIMIT_REDIS_REST_TOKEN: z.string().optional(),
+  /**
+   * Vercel KV / Upstash REST. `RATE_LIMIT_REDIS_REST_*` boşken hız tavanı yedeği
+   * (`rate-limit-runtime`). İkisi birden dolu olmalı; kısmi fail-closed.
+   */
+  KV_REST_API_URL: z.string().optional(),
+  KV_REST_API_TOKEN: z.string().optional(),
+  /**
+   * OPS-5 (Faz 2) — tek süreçli bilinçli kabul. Boşsa üretimde Redis çifti zorunlu.
+   * Vercel Production'da sayılmaz (`ops:runtime-readiness`).
+   */
+  RATE_LIMIT_SINGLE_NODE_ACK: z.string().optional(),
   DASHBOARD_PULSE_ROOM_TIMEOUT_MS: z.string().optional(),
   DASHBOARD_PULSE_LOAD_BUDGET_MS: z.string().optional(),
   DASHBOARD_PULSE_ROOM_CONCURRENCY: z.string().optional(),

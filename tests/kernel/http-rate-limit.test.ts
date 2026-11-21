@@ -16,6 +16,7 @@ import {
 import {
   classifyRateLimitStore,
   resolveRateLimitPort,
+  resolveRateLimitRedisRestCredentials,
 } from "@/lib/kernel/security/rate-limit-runtime";
 import { createRedisRestRateLimitPort } from "@/lib/kernel/security/redis-rate-limit-port";
 import { UNKNOWN_REQUEST_IP } from "@/lib/kernel/security/trusted-proxy";
@@ -51,6 +52,21 @@ describe("HTTP hız tavanı", () => {
     );
     expect(matchEdgeRateLimit("/api/v1/auth/session", "GET")?.keyPrefix).toBe(
       HTTP_RATE_LIMITS.authIp.keyPrefix,
+    );
+    expect(matchEdgeRateLimit("/api/tezgah/checkout", "POST")?.keyPrefix).toBe(
+      HTTP_RATE_LIMITS.checkoutIp.keyPrefix,
+    );
+    expect(matchEdgeRateLimit("/api/junior-pilot/checkout", "POST")?.keyPrefix).toBe(
+      HTTP_RATE_LIMITS.checkoutIp.keyPrefix,
+    );
+    expect(matchEdgeRateLimit("/api/commerce/stores/store-1/subscription", "POST")?.keyPrefix).toBe(
+      HTTP_RATE_LIMITS.checkoutIp.keyPrefix,
+    );
+    expect(matchEdgeRateLimit("/api/commerce/stores/store-1/subscription", "DELETE")?.keyPrefix).toBe(
+      HTTP_RATE_LIMITS.checkoutIp.keyPrefix,
+    );
+    expect(matchEdgeRateLimit("/api/v1/tezgah/checkout", "POST")?.keyPrefix).toBe(
+      HTTP_RATE_LIMITS.checkoutIp.keyPrefix,
     );
     expect(matchEdgeRateLimit("/api/wallet/top-up", "GET")).toBeNull();
     expect(matchEdgeRateLimit("/api/auth/session", "GET")?.keyPrefix).toBe(
@@ -218,6 +234,65 @@ describe("RateLimitPort", () => {
     expect(
       classifyRateLimitStore({ RATE_LIMIT_REDIS_REST_TOKEN: "token" }),
     ).toBe("fail-closed-partial");
+  });
+
+  it("RATE_LIMIT boşken tam KV çifti dağıtık moda düşer; kısmi/karışık güvenli kalır", async () => {
+    const window = { keyPrefix: "kv-fb", limit: 8, windowMs: 60_000 };
+
+    expect(
+      classifyRateLimitStore({
+        KV_REST_API_URL: "https://kv.example.upstash.io",
+        KV_REST_API_TOKEN: "kv-token",
+      }),
+    ).toBe("redis-rest");
+    expect(
+      resolveRateLimitRedisRestCredentials({
+        KV_REST_API_URL: "https://kv.example.upstash.io",
+        KV_REST_API_TOKEN: "kv-token",
+      }),
+    ).toEqual({
+      restUrl: "https://kv.example.upstash.io",
+      token: "kv-token",
+      source: "kv",
+    });
+
+    // RATE_LIMIT tam dolu → KV yedek kullanılmaz.
+    expect(
+      resolveRateLimitRedisRestCredentials({
+        RATE_LIMIT_REDIS_REST_URL: "https://rate.example.upstash.io",
+        RATE_LIMIT_REDIS_REST_TOKEN: "rate-token",
+        KV_REST_API_URL: "https://kv.example.upstash.io",
+        KV_REST_API_TOKEN: "kv-token",
+      }),
+    ).toEqual({
+      restUrl: "https://rate.example.upstash.io",
+      token: "rate-token",
+      source: "rate-limit",
+    });
+
+    // Kısmi RATE_LIMIT, dolu KV ile tamamlanmaz (kaynak karıştırmak yasak).
+    expect(
+      classifyRateLimitStore({
+        RATE_LIMIT_REDIS_REST_URL: "https://rate.example.upstash.io",
+        KV_REST_API_URL: "https://kv.example.upstash.io",
+        KV_REST_API_TOKEN: "kv-token",
+      }),
+    ).toBe("fail-closed-partial");
+    const mixedPartial = resolveRateLimitPort({
+      RATE_LIMIT_REDIS_REST_TOKEN: "rate-token",
+      KV_REST_API_URL: "https://kv.example.upstash.io",
+      KV_REST_API_TOKEN: "kv-token",
+    });
+    expect((await mixedPartial.consume("a", window)).allowed).toBe(false);
+
+    // Kısmi KV de fail-closed.
+    expect(
+      classifyRateLimitStore({ KV_REST_API_URL: "https://kv.example.upstash.io" }),
+    ).toBe("fail-closed-partial");
+    const kvPartial = resolveRateLimitPort({
+      KV_REST_API_TOKEN: "kv-token",
+    });
+    expect((await kvPartial.consume("a", window)).allowed).toBe(false);
   });
 
   it("Redis REST 5xx veya ağ hatasında belleğe düşmez", async () => {

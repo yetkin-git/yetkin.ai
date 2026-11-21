@@ -246,12 +246,20 @@ describe("ops:runtime-readiness Direct / PayTR / health ek sicili", () => {
   });
 
   it("üretimde DIRECT_URL pooler / Vercel Direct DATABASE_URL ek bloğu basar; runtime pooler geçerlidir", () => {
+    // Faz 2 (OPS-5): paylaşılan hız tavanı olmadan üretim temiz çıkmaz; bu test
+    // DB sınıflandırmasını ölçer, bu yüzden Redis çifti dolu verilir.
+    const SHARED_RATE_LIMIT = {
+      RATE_LIMIT_REDIS_REST_URL: "https://example.upstash.io",
+      RATE_LIMIT_REDIS_REST_TOKEN: "token",
+    } as const;
+
     expect(
       extraProductionBlocks({
         NODE_ENV: "production",
         SUPER_ADMIN_USER_ID: "11111111-1111-4111-8111-111111111111",
         DATABASE_URL:
           "postgresql://postgres.abcdefgh:x@aws-0-eu-central-1.pooler.supabase.com:6543/postgres",
+        ...SHARED_RATE_LIMIT,
       }),
     ).toEqual([]);
 
@@ -343,6 +351,9 @@ describe("ops:runtime-readiness Direct / PayTR / health ek sicili", () => {
       NEXT_PUBLIC_SUPABASE_ANON_KEY: "anon",
       DEVLABS_KEY_PEPPER: "unit-test-pepper",
       PAYTR_WEBHOOK_IP_ALLOWLIST: "203.0.113.10",
+      // Faz 2 (OPS-5): üretimde paylaşılan hız tavanı zorunlu; aksi hâlde build düşer.
+      RATE_LIMIT_REDIS_REST_URL: "https://example.upstash.io",
+      RATE_LIMIT_REDIS_REST_TOKEN: "token",
     });
     expect(ready.report.productionBlocked).toBe(false);
     expect(ready.report.devlabsPepper).toBe("configured");
@@ -373,7 +384,7 @@ describe("ops:runtime-readiness Direct / PayTR / health ek sicili", () => {
     expect(vercelBody).not.toContain("smtp.example.test");
   });
 
-  it("paylaşılan hız tavanı Vercel uyarısını kapatır; eksik Redis derlemeyi düşürmez", () => {
+  it("paylaşılan hız tavanı Vercel uyarısını kapatır; eksik Redis üretimde derlemeyi düşürür", () => {
     const shared = inspectSafeDefaultOps({
       VERCEL: "1",
       RATE_LIMIT_REDIS_REST_URL: "https://example.upstash.io",
@@ -413,25 +424,35 @@ describe("ops:runtime-readiness Direct / PayTR / health ek sicili", () => {
       NEXT_PUBLIC_SUPABASE_ANON_KEY: "anon",
     };
 
+    // Faz 2 (OPS-5): üretimde eksik çift artık engelleyicidir. Sessiz süreç-içi
+    // sayaç, Vercel'de gerçek limiti "limit × örnek" yapıyordu.
     const missingRedis = formatFullRuntimeReadiness(vercelProdBase);
     expect(missingRedis.extraBlocking.some((row) => row.includes("RATE_LIMIT_REDIS_REST"))).toBe(
-      false,
+      true,
     );
-    expect(missingRedis.exitCode).toBe(0);
-    expect(missingRedis.body).toContain("Derleme düşmez");
+    expect(missingRedis.exitCode).toBe(1);
     expect(missingRedis.body).toContain("sessiz delik");
     expect(missingRedis.body).not.toContain("example.upstash.io");
 
+    // Kısmi çift: build düşer, çalışma zamanı fail-closed (503).
     const partialRedis = formatFullRuntimeReadiness({
       ...vercelProdBase,
       RATE_LIMIT_REDIS_REST_URL: "https://example.upstash.io",
     });
     expect(partialRedis.extraBlocking.some((row) => row.includes("RATE_LIMIT_REDIS_REST"))).toBe(
-      false,
+      true,
     );
-    expect(partialRedis.exitCode).toBe(0);
+    expect(partialRedis.exitCode).toBe(1);
     expect(partialRedis.body).toContain("birlikte dolu olmalı");
     expect(partialRedis.body).not.toContain("example.upstash.io");
+
+    // Kısmi çift kabul bayrağıyla da açılmaz: yalnız tam çift yeterlidir.
+    const partialAck = formatFullRuntimeReadiness({
+      ...vercelProdBase,
+      RATE_LIMIT_REDIS_REST_URL: "https://example.upstash.io",
+      RATE_LIMIT_SINGLE_NODE_ACK: "1",
+    });
+    expect(partialAck.exitCode).toBe(1);
 
     const open = extraProductionBlocks({
       ...vercelProdBase,
@@ -439,6 +460,102 @@ describe("ops:runtime-readiness Direct / PayTR / health ek sicili", () => {
       RATE_LIMIT_REDIS_REST_TOKEN: "token",
     });
     expect(open.some((row) => row.includes("RATE_LIMIT_REDIS_REST"))).toBe(false);
+
+    // Vercel KV entegrasyonu: RATE_LIMIT boşken tam KV çifti OPS-5'i açar.
+    const kvFallback = formatFullRuntimeReadiness({
+      ...vercelProdBase,
+      KV_REST_API_URL: "https://kv.example.upstash.io",
+      KV_REST_API_TOKEN: "kv-token",
+    });
+    expect(kvFallback.exitCode).toBe(0);
+    expect(kvFallback.extraBlocking.some((row) => row.includes("RATE_LIMIT_REDIS_REST"))).toBe(
+      false,
+    );
+    expect(inspectSafeDefaultOps({
+      ...vercelProdBase,
+      KV_REST_API_URL: "https://kv.example.upstash.io",
+      KV_REST_API_TOKEN: "kv-token",
+    }).rateLimitStore).toBe("redis-rest");
+
+    // Kısmi KV üretimde build düşürür; RATE_LIMIT kısmi + KV dolu da düşer.
+    const kvPartial = formatFullRuntimeReadiness({
+      ...vercelProdBase,
+      KV_REST_API_URL: "https://kv.example.upstash.io",
+    });
+    expect(kvPartial.exitCode).toBe(1);
+    const mixedPartial = formatFullRuntimeReadiness({
+      ...vercelProdBase,
+      RATE_LIMIT_REDIS_REST_URL: "https://example.upstash.io",
+      KV_REST_API_URL: "https://kv.example.upstash.io",
+      KV_REST_API_TOKEN: "kv-token",
+    });
+    expect(mixedPartial.exitCode).toBe(1);
+  });
+
+  it("OPS-5: tek süreç kabulü yalnız adı konmuş bayrakla ve Vercel dışında geçer", () => {
+    const singleNodeAck = (env: Record<string, string | undefined>): boolean =>
+      inspectSafeDefaultOps(env).rateLimitSingleNodeAck;
+
+    expect(singleNodeAck({})).toBe(false);
+    expect(singleNodeAck({ RATE_LIMIT_SINGLE_NODE_ACK: "1" })).toBe(true);
+    // Vercel Production'da replica sayısı sabit değildir; kabul sayılmaz.
+    expect(
+      singleNodeAck({ RATE_LIMIT_SINGLE_NODE_ACK: "1", VERCEL_ENV: "production" }),
+    ).toBe(false);
+
+    const selfHosted = extraProductionBlocks({
+      NODE_ENV: "production",
+      SUPER_ADMIN_USER_ID: "11111111-1111-4111-8111-111111111111",
+      DATABASE_URL: "postgresql://postgres:x@db.abcdefgh.supabase.co:5432/postgres",
+      DIRECT_URL: "postgresql://postgres:x@db.abcdefgh.supabase.co:5432/postgres",
+      INNGEST_EVENT_KEY: "evt",
+      INNGEST_SIGNING_KEY: "sign",
+      NEXT_PUBLIC_SUPABASE_URL: "https://x.supabase.co",
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: "anon",
+    });
+    expect(selfHosted.some((row) => row.includes("RATE_LIMIT_REDIS_REST"))).toBe(true);
+
+    const selfHostedAcked = extraProductionBlocks({
+      NODE_ENV: "production",
+      RATE_LIMIT_SINGLE_NODE_ACK: "1",
+      SUPER_ADMIN_USER_ID: "11111111-1111-4111-8111-111111111111",
+      DATABASE_URL: "postgresql://postgres:x@db.abcdefgh.supabase.co:5432/postgres",
+      DIRECT_URL: "postgresql://postgres:x@db.abcdefgh.supabase.co:5432/postgres",
+      INNGEST_EVENT_KEY: "evt",
+      INNGEST_SIGNING_KEY: "sign",
+      NEXT_PUBLIC_SUPABASE_URL: "https://x.supabase.co",
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: "anon",
+    });
+    expect(selfHostedAcked.some((row) => row.includes("RATE_LIMIT_REDIS_REST"))).toBe(false);
+
+    // Vercel Production'da bayrak bloklamayı açmaz.
+    const vercelAcked = extraProductionBlocks({
+      VERCEL_ENV: "production",
+      RATE_LIMIT_SINGLE_NODE_ACK: "1",
+      SUPER_ADMIN_USER_ID: "11111111-1111-4111-8111-111111111111",
+      NEXT_PUBLIC_MEDIA_BASE_URL: "https://cdn.yetkin.ai",
+      DATABASE_URL:
+        "postgresql://postgres.abcdefgh:x@aws-0-eu-central-1.pooler.supabase.com:6543/postgres",
+      DIRECT_URL: "postgresql://postgres:x@db.abcdefgh.supabase.co:5432/postgres",
+      INNGEST_EVENT_KEY: "evt",
+      INNGEST_SIGNING_KEY: "sign",
+      PAYTR_MERCHANT_ID: "id",
+      PAYTR_MERCHANT_KEY: "key",
+      PAYTR_MERCHANT_SALT: "salt",
+      NEXT_PUBLIC_APP_URL: "https://rail.example",
+      NEXT_PUBLIC_SUPABASE_URL: "https://x.supabase.co",
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: "anon",
+    });
+    expect(vercelAcked.some((row) => row.includes("RATE_LIMIT_REDIS_REST"))).toBe(true);
+  });
+
+  it("geliştirme ve test ortamları OPS-5 kapısından etkilenmez", () => {
+    for (const env of [{ NODE_ENV: "development" }, { NODE_ENV: "test" }, {}]) {
+      expect(
+        extraProductionBlocks(env).some((row) => row.includes("RATE_LIMIT_REDIS_REST")),
+      ).toBe(false);
+    }
+    expect(formatFullRuntimeReadiness({ NODE_ENV: "test" }).exitCode).toBe(0);
   });
 
   it("Vercel Production medya CDN kökü ister; Preview ve geçerli https kök bloklamaz", () => {

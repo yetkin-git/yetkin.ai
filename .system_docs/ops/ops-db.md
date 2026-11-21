@@ -22,7 +22,8 @@ Müze dizini (`yetkin_muze/`) OPS yasağıdır: `.env` kopyalanmaz; git, indeks,
 | `ACADEMY_EXAM_SITTING_SECRET` | sınav MAC | Üretimde ≥16 karakter. |
 | `RAIL_DRON_ORIGINS` | dron CORS | Üretimde boş = saf native. Ayrıntı `ops-dron.md`. |
 | `SHADOW_DATABASE_URL` | isteğe bağlı | Prisma migrate diff. |
-| `RATE_LIMIT_REDIS_REST_URL` / `_TOKEN` | kenar kota | İkisi dolu = Upstash REST. Kısmi = fail-closed. İkisi boş = süreç-içi bellek (lab). Müze `REDIS_URL` değildir. |
+| `RATE_LIMIT_REDIS_REST_URL` / `_TOKEN` | kenar kota | İkisi dolu = Upstash REST. Kısmi = fail-closed. İkisi boşsa `KV_REST_API_URL` / `_TOKEN` yedek (ikisi dolu). İkisi de boş = süreç-içi bellek (lab). Müze `REDIS_URL` değildir. |
+| `KV_REST_API_URL` / `_TOKEN` | kenar kota yedek | Vercel KV / Upstash entegrasyonu. Yalnız `RATE_LIMIT_*` boşken kullanılır; kısmi RATE_LIMIT ile karıştırılmaz. |
 
 PayTR ve Inngest anahtarları kendi parçalarındadır.
 
@@ -105,10 +106,11 @@ Supabase Redirect URLs, `lib/kernel/auth/redirects.ts` sicili ile birebir: `/aut
 `RateLimitPort` arayüzü (`lib/kernel/security/rate-limit-port.ts`). Bağlayıcı `rate-limit-runtime.ts`:
 
 - `RATE_LIMIT_REDIS_REST_URL` + `RATE_LIMIT_REDIS_REST_TOKEN` dolu → Upstash REST `INCR` + `EXPIRE NX`.
-- Yalnız biri dolu → **fail-closed** (tüm istek reddedilir; belleğe düşülmez).
-- İkisi boş → süreç-içi bellek (Vitest / tek süreç lab).
+- RATE_LIMIT ikisi boş + `KV_REST_API_URL` + `KV_REST_API_TOKEN` dolu → aynı REST yolu (Vercel KV yedeği).
+- Yalnız biri dolu (RATE_LIMIT veya KV) → **fail-closed** (tüm istek reddedilir; belleğe düşülmez). Kısmi RATE_LIMIT, KV ile tamamlanmaz.
+- Her iki çift de boş → süreç-içi bellek (Vitest / tek süreç lab).
 
-Redis 5xx veya ağ hatası belleğe düşmez. Müze `REDIS_URL` / `ioredis` bu yüzeye girmez. Çok instance üretimde REST çiftini doldur.
+Redis 5xx veya ağ hatası belleğe düşmez. Müze `REDIS_URL` / `ioredis` bu yüzeye girmez. Çok instance üretimde RATE_LIMIT veya KV REST çiftini doldur.
 
 ## 8. Sağlık
 
@@ -128,7 +130,7 @@ Kritik yazmalar `Idempotency-Key` (UUID) ister. Tablo `http_idempotency_records`
 
 ## 12. Odalar
 
-**Canlı mutlu yol:** `/academy`, `/career`, `/dashboard`, `/vize` + çekirdek yetenekler. Freelancer kamu 410. Junior 410. Dron T3 Akademi halkası bağlıdır; Tezgâh izole durur.
+**Canlı mutlu yol:** `/tezgah`, `/career`, `/dashboard`, `/vize` + çekirdek yetenekler. Akademi kamu 410 (askıda; kod ve mühür durur). Freelancer kamu 410. Junior açıktır; kenar `/junior` için 410 basmaz. AI Tezgâh canlıdır. Dron T3 Akademi halkası kodda durur.
 
 T3 akademi nakit döngüsü: `npm run ops:t3-academy-loop`. T4 kazanç halkası lab’dır; Split stub iken accept 503.
 
@@ -158,7 +160,7 @@ Reklam bu prosedür yeşil olmadan basılmaz.
 
 ## 14. Canlıya çıkış mührü
 
-Motor 4 / Kamu Vitrini 3 Oda. S43 çekim kapalıdır. Üretimde sandbox / boş Inngest anahtarı fail-closed. İkinci instance öncesi `RATE_LIMIT_REDIS_REST_*` dolu olmalı; kısmi config fail-closed.
+2 aktif oda + askıdaki Akademi. AI Tezgâh canlı. S43 çekim kapalıdır. Üretimde sandbox / boş Inngest anahtarı fail-closed. İkinci instance öncesi `RATE_LIMIT_REDIS_REST_*` dolu olmalı; kısmi config fail-closed.
 
 ## 14.1 GA4 ölçüm vanası
 
@@ -177,7 +179,7 @@ Sıra bozulmaz:
 
 ## 16. LLM rol tavanı ve SEN aksı
 
-8 kanonik rol tavanı kodda mühürlüdür. `VIDEO_GEN` fail-closed (video katmanı terk). `verify:sen-axis` prebuild’de yoktur.
+8 kanonik rol tavanı kodda mühürlüdür (`AI_MODEL_ROLE_KEYS`). `VIDEO_GEN` mühürlü-ölüdür; ısınma klibi yerel dosyadır. Ürün masasının 6 yuvası (`ai_product_model_settings`) bu tavanın yerine geçmez. Ayrıntı `AI_MODEL_YONETIMI.md`. `verify:sen-axis` prebuild’de yoktur.
 
 ## 18. KVKK m.11
 
@@ -185,10 +187,36 @@ Sıra bozulmaz:
 
 İstisna — Junior çocuk profili (5 Ekim 2026, SUPER_ADMIN imzası): hesabın sahibi, kendi `junior_profiles` alt ağacını silebilir. Silinen küme ilerleme satırları, `mode = quiz` konu denemeleri ve oyun puanıdır. Profil takma adı `Kapalı` olur, doğum yılı boşalır, seçim kapanır, rıza satırının profil bağı kopar. Rıza kanıtı (`guardian_user_id`, `notice_sha256`), `junior_subscriptions`, `user_billing_info`, `payment_orders` ve `ledger_entries` silinmez. Oda kilidi açık değilken silme rotası 503 döner. Kilitliyken talep yine `destek@yetkin.ai` üzerinden yürür.
 
-## 19. Akademi TTS bağları
+## 19. Akademi TTS bağları — ev değişti
 
-Pedagoji ilkedir. Bake kapısı: `lib/academy/production-standard.ts`. Yayın listesi `lib/academy/pilot-sku.ts` içindeki `ACADEMY_MEDIA_SEALED_AUDIO` nesnesindedir. `01_office_ai-4` sınav yolunda yoktur.
+TTS bağları `.system_docs/AKADEMI_URETIM_ANAYASASI.md` içindeki «Akademi TTS bağları» altındadır. Bu başlık operatörün eski yer imini boş bırakmamak için durur. İçerik orada.
+
+## 20. Tezgâh kota ve ürün modeli
+
+| Tablo | Ne |
+|-------|-----|
+| `tezgah_daily_quotas` | `poolKey`: `lite` (İstanbul günü), `tetkik` (`dateKey=lifetime`), `free_template` sayılmaz. Para yoktur. |
+| `tetkik_domain_claims` | Host başına bir ücretsiz Web Site Analizi. Pro ve kredi aşar. |
+| `ai_product_model_settings` | Tek satır `id=product`. Altı yuva. Akademi mührünü okumaz. |
+
+PostgREST bu üç tabloyu vatandaşa açmaz. Ayrıntı `TEZGAH_KOTA.md` ve `AI_MODEL_YONETIMI.md`.
+
+## 21. Nesne depo (dürüst kesit)
+
+**Durum:** Bu fazda **vatandaş ürün deposu yoktur.** Studio imzalı PUT, `studio-assets` bucket, Dashboard yükleme paneli ve Storage CORS canlı reçete değildir. Studio sayfa/API HTTP **410**; Prisma Studio tabloları DROP; motor `archived/lib/studio/storage.ts`.
+
+**Akademi ses gerçeği:** Mühür diskte durur; kamu sayfası 410 olduğu için ses teslimi vitrinde yoktur. OFF-101 (`01_office_ai`), OFF-201 (`01_office_ai_ileri`), EC-102 (`02_ecommerce_ai`), SM-103 (`03_social_media_ai`), BOT-104 (`04_chatbot_nocode`), PR-105 (`05_prompt_practice`) kasetleri silinmez. OFF-101 sınav yolu 8 derstir (`01_office_ai-1`, `k1`, `2`, `3`, `5`, `g1`, `w1`, `6`). `01_office_ai-4` yayın klasöründe MP3 durmaz. Fırın modeli `ACADEMY_SEALED_MEDIA_MODEL.VOICE_TTS` okur. Yayın dosyası `public/media/academy/audio/{slug}/{key}.mp3` yolundadır; kenar kısa ömürlü imza olmadan 403 döner. İzin `GET /api/academy/courses/[id]/audio-grant` ile verilir. Akademi sayfası 410 iken bu izin vitrin vaadi değildir. `generateSpeech` ve `listen` kapıları **410**. Prisma `AcademyAudioCache` şemada durabilir; locator yayın vaadi değildir. `lesson-audios` bucket provision yayın vaadi değildir. `lesson-audios.sql` migrate kilit listesinde değildir.
+
+| Madde | Bu faz |
+|-------|--------|
+| Vatandaş / Studio object store | Yok (410) |
+| `lesson-audios` / yayın yolu | MP3: `public/media/academy/audio/{slug}/{key}.mp3`. Oturumsuz indirme yok. |
+| Kör `data_base64` gövde | Yasak. Akademi sesi Base64 kolonunda durmaz. |
+| `service_role` JS anahtarı | Yok |
+| `ops:migrate` | Studio bucket SQL taşımaz. |
+
+Çapraz yollar: `archived/lib/studio/storage.ts`, `lib/academy/media-release-seal.ts`. Anayasa: `.system_docs/ANAYASA.md`. Ops: `.system_docs/OPS_RUNBOOK.md` §9.
 
 ## ARŞİV / 410 (GEÇERSİZ)
 
-Studio/DevLabs/Junior/Yetkinİlan HTTP **410**. Disk: `archived/` + kenar 410. Operatör bunları provision etmez.
+Studio, DevLabs ve Yetkinİlan HTTP **410**. Junior bu listede değildir; açık betadadır. Disk: `archived/` + kenar 410. Operatör donmuş odaları provision etmez.

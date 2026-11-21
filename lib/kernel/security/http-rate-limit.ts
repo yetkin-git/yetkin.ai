@@ -23,6 +23,8 @@ let httpRateLimitPort = resolveRateLimitPort();
 export const HTTP_RATE_LIMITS = {
   walletTopUpIp: { keyPrefix: "wallet-top-up-ip", limit: 8, windowMs: TEN_MINUTES_MS },
   walletTopUpUser: { keyPrefix: "wallet-top-up-user", limit: 4, windowMs: TEN_MINUTES_MS },
+  checkoutIp: { keyPrefix: "checkout-ip", limit: 30, windowMs: TEN_MINUTES_MS },
+  checkoutUser: { keyPrefix: "checkout-user", limit: 30, windowMs: TEN_MINUTES_MS },
   financialMutationIp: { keyPrefix: "financial-mutation-ip", limit: 30, windowMs: TEN_MINUTES_MS },
   llmIp: { keyPrefix: "llm-ip", limit: 20, windowMs: TEN_MINUTES_MS },
   llmUser: { keyPrefix: "llm-user", limit: 12, windowMs: TEN_MINUTES_MS },
@@ -103,6 +105,16 @@ export function isLlmMutationPath(pathname: string): boolean {
   return LLM_EXACT_PATHS.has(path) || path.endsWith("/generate");
 }
 
+const CHECKOUT_EXACT_PATHS = new Set(["/api/tezgah/checkout", "/api/junior-pilot/checkout"]);
+
+export function isCheckoutMutationPath(pathname: string): boolean {
+  const path = canonicalApiPathname(pathname);
+  if (CHECKOUT_EXACT_PATHS.has(path)) {
+    return true;
+  }
+  return /^\/api\/commerce\/stores\/[^/]+\/subscription$/.test(path);
+}
+
 export function isFinancialMutationPath(pathname: string): boolean {
   const path = canonicalApiPathname(pathname);
   if (FINANCIAL_EXACT_PATHS.has(path)) {
@@ -123,6 +135,9 @@ export function matchEdgeRateLimit(
   if (path === "/api/wallet/top-up" && verb === "POST") {
     return HTTP_RATE_LIMITS.walletTopUpIp;
   }
+  if (isCheckoutMutationPath(path) && verb !== "GET" && verb !== "HEAD") {
+    return HTTP_RATE_LIMITS.checkoutIp;
+  }
   if (isLlmMutationPath(path) && verb === "POST") {
     return HTTP_RATE_LIMITS.llmIp;
   }
@@ -132,7 +147,7 @@ export function matchEdgeRateLimit(
   if (path === "/api/auth" || path.startsWith("/api/auth/")) {
     return HTTP_RATE_LIMITS.authIp;
   }
-  if (path === "/api/admin/funnel") {
+  if (path === "/api/admin/funnel" || path === "/api/admin/ai-models") {
     return HTTP_RATE_LIMITS.adminIp;
   }
   return null;

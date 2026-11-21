@@ -80,4 +80,30 @@ export async function register() {
       route: "/api/academy/courses/[id]/exam",
     });
   }
+  // OPS-5 (Faz 2): paylaşılan hız tavanı yoksa her serverless örnek kendi sayacını
+  // tutar → gerçek limit = limit × örnek. Build kapısı bunu `verify:prebuild`
+  // içinde zaten düşürür; burada çalışma zamanı sicili bırakılır ki ölçüm ve
+  // alarm tarafı aynı olayı görsün. Vercel Production'da tek süreç kabulü sayılmaz.
+  const { classifyRateLimitStore } = await import("@/lib/kernel/security/rate-limit-runtime");
+  const rateLimitStore = classifyRateLimitStore({
+    RATE_LIMIT_REDIS_REST_URL: process.env.RATE_LIMIT_REDIS_REST_URL,
+    RATE_LIMIT_REDIS_REST_TOKEN: process.env.RATE_LIMIT_REDIS_REST_TOKEN,
+    KV_REST_API_URL: process.env.KV_REST_API_URL,
+    KV_REST_API_TOKEN: process.env.KV_REST_API_TOKEN,
+  });
+  if (rateLimitStore !== "redis-rest") {
+    const vercelProduction = process.env.VERCEL_ENV?.trim() === "production";
+    const acknowledged = Boolean(process.env.RATE_LIMIT_SINGLE_NODE_ACK?.trim()) && !vercelProduction;
+    if (!acknowledged) {
+      logEvent({
+        level: "warn",
+        event: "ops.rate_limit.store_not_shared",
+        reason:
+          rateLimitStore === "fail-closed-partial"
+            ? "RATE_LIMIT_REDIS_REST_*/KV_REST_API_* kismi; hiz tavani fail-closed, form ve LLM uclari 503"
+            : "RATE_LIMIT_REDIS_REST_* ve KV_REST_API_* bos; sayac surec-ici, cok ornekte limit x ornek",
+        status: rateLimitStore === "fail-closed-partial" ? 503 : 200,
+      });
+    }
+  }
 }
