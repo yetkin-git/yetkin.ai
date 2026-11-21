@@ -76,7 +76,7 @@ export default async function PublicHomePage() {
           href="/rehber"
           className="inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
         >
-          Rehber
+          Nasıl Çalışır?
         </Link>
         <HomeAccountNav />
       </header>
@@ -99,6 +99,12 @@ export default async function PublicHomePage() {
                 className="inline-flex min-h-11 items-center text-sm font-semibold text-[var(--safir-deep)] underline-offset-4 hover:underline"
               >
                 {copy.secondaryCta}
+              </Link>
+              <Link
+                href="/rehber"
+                className="inline-flex min-h-11 items-center text-sm font-semibold text-[var(--foreground)] underline-offset-4 hover:underline"
+              >
+                Nasıl Çalışır? (Süreç Şeması)
               </Link>
             </div>
           </div>

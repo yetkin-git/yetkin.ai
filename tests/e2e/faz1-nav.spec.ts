@@ -31,7 +31,13 @@ test.describe("Faz 1 kamu navigasyonu", () => {
       "href",
       "/kurumsal",
     );
-    await expect(page.getByRole("link", { name: "Rehber" }).first()).toHaveAttribute("href", "/rehber");
+    await expect(page.getByRole("link", { name: "Nasıl Çalışır?" }).first()).toHaveAttribute(
+      "href",
+      "/rehber",
+    );
+    await expect(
+      page.getByRole("link", { name: "Nasıl Çalışır? (Süreç Şeması)" }).first(),
+    ).toHaveAttribute("href", "/rehber");
     await expect(page.getByRole("link", { name: "Giriş Yap" })).toHaveAttribute("href", "/login");
     await expect(page.getByRole("link", { name: "Kayıt Ol" })).toHaveAttribute("href", "/register");
     await expect(page.getByRole("link", { name: "Panele geç" })).toHaveCount(0);

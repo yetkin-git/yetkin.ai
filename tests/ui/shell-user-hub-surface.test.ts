@@ -81,6 +81,8 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     const chip = readSrc("components/shell/header-wallet-chip.tsx");
     const sessionHub = readSrc("components/shell/app-shell-user-hub.tsx");
     expect(header).toContain("userCluster");
+    expect(header).toContain('href="/rehber"');
+    expect(header).toContain("Nasıl Çalışır?");
     expect(header).not.toContain("Mühürlü ray");
     expect(header).not.toContain("Badge");
     expect(header).not.toContain('href="/profil"');

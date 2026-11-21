@@ -64,6 +64,12 @@ export function HeaderBar({
         >
           {lessonKey ? <JuniorLessonHeaderNav lessonKey={lessonKey} /> : <NavHistoryControls />}
           <Link
+            href="/rehber"
+            className="inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
+          >
+            Nasıl Çalışır?
+          </Link>
+          <Link
             href="/uzmanlar"
             className="inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
           >

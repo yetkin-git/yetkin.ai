@@ -24,6 +24,10 @@ import {
   LEGAL_WALLET_UNUSED_BALANCE_PARAGRAPH,
 } from "@/lib/copy/legal-launch";
 import {
+  PLATFORM_DISCOVERY_LINKS,
+  PLATFORM_DISCOVERY_NAV_LABEL,
+} from "@/lib/copy/platform-discovery";
+import {
   CHECKOUT_LEGAL_CONSENT_PAYLOAD,
   CHECKOUT_LEGAL_CONSENT_VERSION,
   checkoutLegalConsentSchema,
@@ -321,6 +325,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(slug).toContain("loadLegalSection");
     expect(slug).toContain("dynamicParams = false");
     expect(footer).toContain("LEGAL_FOOTER_LINKS");
+    expect(footer).toContain("PLATFORM_DISCOVERY_LINKS");
+    expect(footer).toContain("PLATFORM_DISCOVERY_NAV_LABEL");
     expect(footer).toContain("fixed");
     expect(footer).toContain("bottom-0");
     expect(footer).not.toContain("opacity-55");
@@ -333,7 +339,7 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(footer).not.toContain("data-legal-entity-colophon");
     expect(footer).toContain("LEGAL_FOOTER_LINKS");
     expect(publicLayout).toContain("LegalSiteFooter");
-    expect(publicLayout).toContain("pb-16");
+    expect(publicLayout).toContain("pb-24");
     expect(publicLayout).not.toContain("pb-36");
     expect(authLayout).not.toContain("LegalSiteFooter");
     expect(authLayout).not.toContain("pb-36");
@@ -344,6 +350,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     // Fixed kamu tabanı AppShell sidebar'ı ile çakıştığı için şerit akış içidir.
     const strip = readSrc("components/legal/legal-colophon-strip.tsx");
     expect(strip).toContain("LEGAL_FOOTER_LINKS");
+    expect(strip).toContain("PLATFORM_DISCOVERY_LINKS");
+    expect(strip).toContain("PLATFORM_DISCOVERY_NAV_LABEL");
     expect(strip).not.toContain("LEGAL_ENTITY.tradeName");
     expect(strip).not.toContain("LEGAL_ENTITY.vkn");
     expect(strip).not.toContain("LEGAL_ENTITY.mersis");
@@ -402,6 +410,19 @@ describe("lansman hukuk yüzeyi (O13)", () => {
       "destek@yetkin.ai",
     ]);
     expect(LEGAL_SITE_PATHS).not.toContain("mailto:destek@yetkin.ai");
+    expect(PLATFORM_DISCOVERY_NAV_LABEL).toBe("Platform & Keşif");
+    expect(PLATFORM_DISCOVERY_LINKS.map((link) => link.href)).toEqual([
+      "/rehber",
+      "/fiyatlandirma",
+      "/tetkik",
+      "/sozluk",
+    ]);
+    expect(PLATFORM_DISCOVERY_LINKS.map((link) => link.label)).toEqual([
+      "Nasıl Çalışır?",
+      "Fiyatlandırma",
+      "Ücretsiz Site Tetkiki",
+      "Sözlük",
+    ]);
   });
 
   it("birincil kamu DOM şirket künyesi ve ödeme rozeti basmaz; JSON-LD ile /legal künyeyi taşır", () => {

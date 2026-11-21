@@ -42,6 +42,8 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
     expect(page).toContain('href="/fiyatlandirma"');
     expect(page).toContain('href="/kurumsal"');
     expect(page).toContain('href="/rehber"');
+    expect(page).toContain("Nasıl Çalışır?");
+    expect(page).toContain("Nasıl Çalışır? (Süreç Şeması)");
     expect(page).toContain("{copy.primaryCta}");
     expect(page).toContain("{copy.secondaryCta}");
     expect(page).toContain("track.href");
