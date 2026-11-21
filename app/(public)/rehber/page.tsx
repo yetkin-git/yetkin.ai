@@ -6,15 +6,16 @@ import { WorkflowModuleTabs, WorkflowStepper } from "@/components/rehber/workflo
 import { IconArrow, IconBolt, IconCheck } from "@/components/ui/icons";
 import { LinkButton } from "@/components/ui/link-button";
 import { PublicHero } from "@/components/ui/public-hero";
+import { getSession } from "@/lib/kernel/auth/session";
 import { PUBLIC_GUIDES, guidePath } from "@/lib/copy/guides";
 import { breadcrumbListJsonLd, faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
 import { GUIDE_FAQ, PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { readWorkflowProgress } from "@/lib/rehber/progress";
 import {
   parseWorkflowModuleId,
+  TRIAL_VERIFY_AMOUNT_LABEL,
   WORKFLOW_MODULES,
   workflowModule,
-  workflowStepHref,
 } from "@/lib/rehber/workflows";
 
 /**
@@ -24,6 +25,10 @@ import {
  * Modül sekmesi sunucuda çözülür (`?modul=`); JS çalışmadan da akış okunur.
  * Oturum açmış kullanıcıda tamamlanan adımlar rozetlenir; okuma fırlatmaz,
  * hata olursa ziyaretçi görünümüne düşer (`lib/rehber/progress.ts`).
+ *
+ * Oturumsuz ziyaretçi adım içinde `/register` duvarına zorlanmaz: korumalı
+ * adımda örnek ekran önizlemesi, açık araçta kayıt gerekmeyen bağ, en altta
+ * tek ana davet kartı vardır.
  */
 
 export const metadata: Metadata = pageMetadata({
@@ -41,11 +46,15 @@ export default async function GuidePage({
   const active = workflowModule(activeId) ?? WORKFLOW_MODULES[0]!;
 
   // Sessiz okuma: hata fırlatmaz, ziyaretçide boş duruma düşer.
-  const progress = await readWorkflowProgress();
+  const [progress, session] = await Promise.all([
+    readWorkflowProgress(),
+    getSession().catch(() => null),
+  ]);
+  const signedIn = Boolean(session?.id);
   const activeProgress = progress[active.id] ?? { completed: [], note: null };
 
   return (
-    <main className="relative mx-auto flex min-h-dvh w-full max-w-6xl flex-col bg-[radial-gradient(ellipse_at_top,rgba(37,99,235,0.08),transparent_46%)] px-6 pb-16 pt-12">
+    <main className="relative mx-auto flex min-h-dvh w-full max-w-6xl flex-col bg-[radial-gradient(ellipse_at_top,rgba(37,99,235,0.08),transparent_46%)] px-6 pb-8 pt-12">
       <JsonLd
         data={jsonLdDocument([
           faqPageJsonLd(GUIDE_FAQ),
@@ -59,16 +68,12 @@ export default async function GuidePage({
       <PublicHero
         eyebrow="Rehber · İş akışı"
         title="Hangi modülü kuruyorsun? Adım adım gör."
-        description="Dört aktif modülün uçtan uca kurulum akışı: her adımda süre, somut girdi → çıktı, kritik ipucu ve doğrudan ilgili ekrana giden buton. Makale değil, süreç şeması."
+        description="Dört aktif modülün uçtan uca kurulum akışı: her adımda süre, somut girdi → çıktı, kritik ipucu ve örnek ekran. Makale değil, süreç şeması — önce anlayın, sonra hesabınızı açın."
       >
         <div className="flex flex-wrap gap-3">
           <LinkButton href="/tezgah" size="lg" variant="success">
             <IconBolt className="h-4 w-4" />
             Ücretsiz dene
-          </LinkButton>
-          <LinkButton href={workflowStepHref("/e-ticaret")} size="lg" variant="primary">
-            E-Ticaret denemesini başlat
-            <IconArrow className="h-4 w-4" />
           </LinkButton>
           <LinkButton href="/fiyatlandirma" size="lg" variant="outline">
             Paketleri karşılaştır
@@ -89,6 +94,7 @@ export default async function GuidePage({
         module={active}
         completed={activeProgress.completed}
         note={activeProgress.note}
+        signedIn={signedIn}
       />
 
       <section className="mt-10" aria-labelledby="rehber-kisa-yol">
@@ -121,17 +127,17 @@ export default async function GuidePage({
           Dürüstlük notu
         </h2>
         <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
-          Bu sayfa kurulum sırasını ve gerçek ekran bağlantılarını gösterir. Tahsilat, kabul ve onay
-          kararı ilgili kurumun veya ödeme sağlayıcısının kendi sistemindedir; burada tutar veya
-          sonuç vaat edilmez.
+          Bu sayfa kurulum sırasını ve gerçek ekranları gösterir. Tahsilat, kabul ve onay kararı
+          ilgili kurumun veya ödeme sağlayıcısının kendi sistemindedir; burada tutar veya sonuç
+          vaat edilmez.
         </p>
         <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
-          E-Ticaret lisansında ilk 30 gün ücretsizdir.{" "}
+          E-Ticaret lisansında ilk 30 gün ücretsizdir. Kart doğrulaması için{" "}
           <strong className="font-semibold text-[var(--foreground)]">
-            1,00 TL sembolik kart doğrulama bedeli tahsil edilir
-          </strong>{" "}
-          ve bu bedel bakiyeye yazılmaz; iade taahhüdü değildir. Deneme bitince aylık yenileme
-          katalogdaki tutardan başlar; dönem sonu iptali tek tıkla mağaza panelindedir.
+            {TRIAL_VERIFY_AMOUNT_LABEL} alınır
+          </strong>
+          ; bu bedel bakiyenize yazılmaz ve iade taahhüdü değildir. Deneme bitince aylık yenileme
+          katalogdaki tutardan başlar. Beğenmezseniz dönem sonu iptali tek tıkla mağaza panelindedir.
         </p>
       </section>
 

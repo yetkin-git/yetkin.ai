@@ -2,7 +2,8 @@ import type { Route } from "next";
 import { IconArrow, IconCheck, IconPassport, IconSpark, IconStore, IconTrophy } from "@/components/ui/icons";
 import { cn } from "@/components/ui/cn";
 import type { WorkflowModuleId } from "@/lib/rehber/workflows";
-import { moduleTotalLabel, workflowModule, workflowStepHref } from "@/lib/rehber/workflows";
+import { moduleTotalLabel, workflowModule } from "@/lib/rehber/workflows";
+import { PAGE_SEO } from "@/lib/copy/seo";
 
 /**
  * Platformun uçtan uca çalışma mantığı — modüller arası akış şeması.
@@ -166,7 +167,7 @@ export function WorkflowFlowMap({ activeId }: { activeId: WorkflowModuleId }) {
                   </p>
                 ) : null}
                 <a
-                  href={workflowStepHref(node.href)}
+                  href={`${PAGE_SEO.guide.path}?modul=${node.id}`}
                   className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[var(--safir-deep)] hover:underline"
                 >
                   {active ? "Bu modülün adımları aşağıda" : "Bu modülü aç"}

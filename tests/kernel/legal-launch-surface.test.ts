@@ -339,7 +339,8 @@ describe("lansman hukuk yüzeyi (O13)", () => {
     expect(footer).not.toContain("data-legal-entity-colophon");
     expect(footer).toContain("LEGAL_FOOTER_LINKS");
     expect(publicLayout).toContain("LegalSiteFooter");
-    expect(publicLayout).toContain("pb-24");
+    // Sabit LegalSiteFooter içerik üzerine binmesin diye pb-32 (eski pb-24 yetersizdi).
+    expect(publicLayout).toContain("pb-32");
     expect(publicLayout).not.toContain("pb-36");
     expect(authLayout).not.toContain("LegalSiteFooter");
     expect(authLayout).not.toContain("pb-36");

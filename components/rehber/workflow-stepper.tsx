@@ -4,27 +4,41 @@ import { LinkButton } from "@/components/ui/link-button";
 import { IconArrow, IconArrowDown, IconCheck } from "@/components/ui/icons";
 import { cn } from "@/components/ui/cn";
 import type { WorkflowModule, WorkflowStep } from "@/lib/rehber/workflows";
-import { moduleTotalLabel, workflowStepHref } from "@/lib/rehber/workflows";
+import {
+  isOpenGuestTryPath,
+  moduleTotalLabel,
+  workflowInviteHref,
+} from "@/lib/rehber/workflows";
+import { isProtectedCitizenPath } from "@/lib/kernel/security/edge-guard";
 
 /**
  * Süreç akış şeması — tek modülün uçtan uca adımları.
  *
  * Gazete paragrafı değil: her adım bir karttır ve adımlar arasında dikey akış
  * çizgisi + gerçek yön oku (`IconArrowDown`) vardır. Kart sırası veri sırasıdır;
- * numara veriden gelir. Buton adresi korumalı rotada `next` parametreli kayıt
- * yoluna çevrilir (`workflowStepHref`), böylece oturumsuz ziyaretçi çıplak
- * `/login` duvarına düşmez.
+ * numara veriden gelir.
+ *
+ * Oturumsuz ziyaretçi: adım içinde `/register` duvarı yok. Açık araçta
+ * "Ücretsiz Dene (Kayıt Gerekmez)" bağı; korumalı adımda `samplePreview`.
+ * Tek ana davet kartı listenin en altında durur.
+ *
+ * Oturumlu kullanıcı: her adımda doğrudan ürün ekranına giden buton.
  */
 
 function StepCard({
   step,
   done,
   last,
+  signedIn,
 }: {
   step: WorkflowStep;
   done: boolean;
   last: boolean;
+  signedIn: boolean;
 }) {
+  const protectedTarget = isProtectedCitizenPath(step.href);
+  const openTry = isOpenGuestTryPath(step.href);
+
   return (
     <li
       className="relative pl-12 sm:pl-14"
@@ -95,18 +109,68 @@ function StepCard({
           {step.tip}
         </p>
 
-        <div className="mt-4">
-          <LinkButton
-            href={workflowStepHref(step.href)}
-            size="sm"
-            variant={step.emphasis === "outline" ? "outline" : "primary"}
+        {signedIn ? (
+          <div className="mt-4" data-workflow-step-action="signed-in">
+            <LinkButton
+              href={step.href}
+              size="sm"
+              variant={step.emphasis === "outline" ? "outline" : "primary"}
+            >
+              {step.cta}
+              <IconArrow className="h-3.5 w-3.5" />
+            </LinkButton>
+          </div>
+        ) : protectedTarget ? (
+          <p
+            className="mt-4 rounded-xl border border-dashed border-[var(--safir)]/35 bg-[var(--safir-soft)]/40 px-3 py-2.5 text-sm leading-6 text-[var(--foreground)]"
+            data-workflow-step-preview={step.order}
           >
-            {step.cta}
-            <IconArrow className="h-3.5 w-3.5" />
-          </LinkButton>
-        </div>
+            <span className="font-semibold text-[var(--safir-deep)]">Örnek ekran · </span>
+            {step.samplePreview}
+          </p>
+        ) : openTry ? (
+          <div className="mt-4" data-workflow-step-action="guest-open">
+            <LinkButton href={step.href} size="sm" variant="outline">
+              Ücretsiz Dene (Kayıt Gerekmez)
+              <IconArrow className="h-3.5 w-3.5" />
+            </LinkButton>
+          </div>
+        ) : (
+          <div className="mt-4" data-workflow-step-action="guest-open">
+            <LinkButton href={step.href} size="sm" variant="outline">
+              {step.cta}
+              <IconArrow className="h-3.5 w-3.5" />
+            </LinkButton>
+          </div>
+        )}
       </article>
     </li>
+  );
+}
+
+function ModuleInviteCard({
+  module,
+  signedIn,
+}: {
+  module: WorkflowModule;
+  signedIn: boolean;
+}) {
+  const href = (signedIn ? module.href : workflowInviteHref(module)) as Route;
+  return (
+    <aside
+      data-workflow-invite={module.id}
+      className="mt-6 rounded-2xl border border-[var(--safir)]/40 bg-gradient-to-br from-[var(--safir-soft)]/80 via-[var(--surface)] to-[var(--emerald-soft)]/40 p-5 shadow-sm sm:p-6"
+    >
+      <p className="max-w-2xl text-base font-medium leading-7 text-[var(--foreground)]">
+        {module.invite.headline}
+      </p>
+      <div className="mt-4">
+        <LinkButton href={href} size="lg" variant="primary" data-workflow-invite-cta={module.id}>
+          {signedIn ? `${module.label} paneline git` : module.invite.cta}
+          <IconArrow className="h-4 w-4" />
+        </LinkButton>
+      </div>
+    </aside>
   );
 }
 
@@ -114,10 +178,12 @@ export function WorkflowStepper({
   module,
   completed,
   note,
+  signedIn = false,
 }: {
   module: WorkflowModule;
   completed: readonly number[];
   note: string | null;
+  signedIn?: boolean;
 }) {
   const doneSet = new Set(completed);
   const doneCount = module.steps.filter((step) => doneSet.has(step.order)).length;
@@ -182,9 +248,12 @@ export function WorkflowStepper({
             step={step}
             done={doneSet.has(step.order)}
             last={index === module.steps.length - 1}
+            signedIn={signedIn}
           />
         ))}
       </ol>
+
+      <ModuleInviteCard module={module} signedIn={signedIn} />
     </section>
   );
 }

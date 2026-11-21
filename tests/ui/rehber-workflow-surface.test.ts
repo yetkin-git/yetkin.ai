@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
+  isOpenGuestTryPath,
   moduleTotalLabel,
   moduleTotalMinutes,
   parseWorkflowModuleId,
@@ -10,11 +11,13 @@ import {
   trialRenewalAmountLabel,
   WORKFLOW_CHAIN,
   WORKFLOW_MODULES,
+  workflowInviteHref,
   workflowModule,
   workflowStepHref,
 } from "@/lib/rehber/workflows";
 import { COMMERCE_TRIAL_VERIFY_MINOR } from "@/lib/commerce/subscription-lifecycle";
 import { formatMinor } from "@/lib/kernel/money/format";
+import { isProtectedCitizenPath } from "@/lib/kernel/security/edge-guard";
 
 const ROOT = process.cwd();
 
@@ -40,11 +43,13 @@ describe("/rehber — Görsel İş Akış ve Kurulum Merkezi", () => {
     for (const item of WORKFLOW_MODULES) {
       expect(item.label.length).toBeGreaterThan(0);
       expect(item.outcome.length).toBeGreaterThan(0);
+      expect(item.invite.headline.length).toBeGreaterThan(0);
+      expect(item.invite.cta.length).toBeGreaterThan(0);
       expect(item.steps.length).toBeGreaterThanOrEqual(3);
     }
   });
 
-  it("her adım numara, süre, girdi, çıktı, ipucu ve canlı aksiyon butonu taşır", () => {
+  it("her adım numara, süre, girdi, çıktı, ipucu, örnek önizleme ve canlı aksiyon taşır", () => {
     for (const item of WORKFLOW_MODULES) {
       item.steps.forEach((step, index) => {
         // Sıra numarası veriden gelir ve 1'den başlar; şerit sırası bozulmaz.
@@ -54,6 +59,7 @@ describe("/rehber — Görsel İş Akış ve Kurulum Merkezi", () => {
         expect(step.input.trim().length).toBeGreaterThan(0);
         expect(step.output.trim().length).toBeGreaterThan(0);
         expect(step.tip.trim().length).toBeGreaterThan(0);
+        expect(step.samplePreview.trim().length).toBeGreaterThan(0);
         expect(step.cta.trim().length).toBeGreaterThan(0);
         // Aksiyon butonu ölü adrese basmaz: kök iç yol olmalı.
         expect(step.href.startsWith("/"), `${item.id}#${step.order} href`).toBe(true);
@@ -62,14 +68,14 @@ describe("/rehber — Görsel İş Akış ve Kurulum Merkezi", () => {
     }
   });
 
-  it("E-Ticaret akışı dört adımı korur ve ilk adım deneme vaadini dürüstçe yazar", () => {
+  it("E-Ticaret akışı dört adımı korur ve ilk adım deneme vaadini vatandaş dilinde yazar", () => {
     const ecommerce = workflowModule("ecommerce");
     expect(ecommerce).not.toBeNull();
     expect(ecommerce!.steps.map((step) => step.title)).toEqual([
       "30 gün ücretsiz denemeyi başlat",
-      "Pazaryeri API bağlantısını kur",
-      "Ürün kataloğunu eşleştir, stoğu senkronla",
-      "AI müşteri soru yanıtlamayı aç",
+      "Pazaryeri bağlantısını kur",
+      "Ürünleri eşleştir, stoğu senkronla",
+      "Müşteri sorularına AI yanıtı aç",
     ]);
     expect(ecommerce!.steps[0]!.href).toBe("/e-ticaret");
     expect(ecommerce!.steps[1]!.href).toBe("/e-ticaret");
@@ -79,15 +85,22 @@ describe("/rehber — Görsel İş Akış ve Kurulum Merkezi", () => {
     // Parasal dürüstlük: 1 TL "iade edilir" iddiası yasak; tahsil edilen bedel denir.
     const first = ecommerce!.steps[0]!;
     expect(first.input).toContain(TRIAL_VERIFY_AMOUNT_LABEL);
-    expect(first.input).toContain("sembolik kart doğrulama bedeli tahsil edilir");
+    expect(first.input).toMatch(/sadece .+ çekilir/u);
+    expect(first.output).toContain("30 gün");
+    expect(first.output).toContain("tek tıkla iptal");
     for (const step of ecommerce!.steps) {
       expect(step.tip).not.toContain("iade edilir");
       expect(step.input).not.toContain("iade edilir");
       expect(step.tip).not.toContain("çekim değildir");
+      expect(step.samplePreview.length).toBeGreaterThan(20);
     }
     // VKN/TCKN zorunluluğu ve tek deneme kuralı metinde görünür.
     expect(first.tip).toContain("VKN veya TCKN");
-    expect(first.tip).toContain("İptal tek tıkla");
+    expect(first.tip).toContain("iade taahhüdü değildir");
+    expect(first.tip).toMatch(/tek tıkla iptal|İptal dönem sonunda/iu);
+    // Mekanik / hukuki dil yok.
+    expect(first.output).not.toContain("kart saklanır");
+    expect(ecommerce!.steps[1]!.tip).not.toContain("Secret tarayıcıya değil");
   });
 
   it("1 TL etiketi tek kaynaktan (COMMERCE_TRIAL_VERIFY_MINOR) türetilir", () => {
@@ -146,6 +159,25 @@ describe("/rehber — Görsel İş Akış ve Kurulum Merkezi", () => {
     expect(workflowStepHref("https://evil.example")).toBe("/register");
   });
 
+  it("modül davet kartı korumalı hedefte kayıt yoluna, açık araçta doğrudan ürüne gider", () => {
+    expect(workflowInviteHref(workflowModule("ecommerce")!)).toBe("/register?next=%2Fe-ticaret");
+    expect(workflowInviteHref(workflowModule("hibe")!)).toBe("/register?next=%2Fhibe");
+    expect(workflowInviteHref(workflowModule("tezgah")!)).toBe("/tezgah");
+    expect(workflowInviteHref(workflowModule("career")!)).toBe("/career");
+  });
+
+  it("açık misafir deneme yolları kayıt istemez", () => {
+    expect(isOpenGuestTryPath("/tezgah")).toBe(true);
+    expect(isOpenGuestTryPath("/career")).toBe(true);
+    expect(isOpenGuestTryPath("/tetkik")).toBe(true);
+    expect(isOpenGuestTryPath("/e-ticaret")).toBe(false);
+    expect(isOpenGuestTryPath("/hibe")).toBe(false);
+    expect(isOpenGuestTryPath("/pasaport")).toBe(false);
+    expect(isProtectedCitizenPath("/e-ticaret")).toBe(true);
+    expect(isProtectedCitizenPath("/tezgah")).toBe(false);
+    expect(isProtectedCitizenPath("/career")).toBe(false);
+  });
+
   it("adımlar arası toplam süre özeti okunabilir biçimde üretilir", () => {
     expect(stepMinutes("≈ 3 dk")).toBe(3);
     expect(stepMinutes("≈ 10 dk")).toBe(10);
@@ -179,16 +211,20 @@ describe("/rehber — Görsel İş Akış ve Kurulum Merkezi", () => {
     expect(page).toContain("WorkflowFlowMap");
     expect(page).toContain("readWorkflowProgress");
     expect(page).toContain("searchParams");
-    expect(page).toContain("workflowStepHref");
+    expect(page).toContain("signedIn");
+    expect(page).toContain("getSession");
     // Deneme dürüstlüğü sayfada yazılı.
-    expect(page).toContain("sembolik kart doğrulama bedeli tahsil edilir");
+    expect(page).toContain("TRIAL_VERIFY_AMOUNT_LABEL");
+    expect(page).toContain("iade taahhüdü değildir");
+    // Hero'da erken kayıt duvarı yok.
+    expect(page).not.toContain("workflowStepHref");
     // Eski makale dizini gövdesi sayfadan çıktı.
     expect(page).not.toContain("guide.sections");
     expect(page).not.toContain("copy.steps.map");
     expect(page).not.toContain("guideArticleJsonLd");
   });
 
-  it("akış haritası dört modülü sıralı liste + SVG okla bağlar", () => {
+  it("akış haritası dört modülü sıralı liste + SVG okla bağlar; kayıt duvarına atmaz", () => {
     const map = readSrc("components/rehber/workflow-flow-map.tsx");
     expect(map).toContain("data-workflow-flow-map");
     expect(map).toContain("data-workflow-flow-node");
@@ -202,12 +238,14 @@ describe("/rehber — Görsel İş Akış ve Kurulum Merkezi", () => {
     for (const title of ["AI Tezgâh", "E-Ticaret İşletme OS", "YetkinHibe", "YetkinCV & Vize"]) {
       expect(map, title).toContain(title);
     }
+    // Modül seçimi rehber sekmesine gider; /register duvarı yok.
+    expect(map).toContain("?modul=");
+    expect(map).not.toContain("workflowStepHref");
     // İstemci bileşeni değil: sunucuda basılır, JS gerekmez.
     expect(map).not.toContain("use client");
-    expect(map).toContain("workflowStepHref");
   });
 
-  it("stepper süreç şeması basar: dikey çizgi, adımlar arası ok, adım rozeti, toplam süre", () => {
+  it("stepper oturumsuz ziyaretçiyi adım içinde /register duvarına zorlamaz; tek ana CTA en altta", () => {
     const stepper = readSrc("components/rehber/workflow-stepper.tsx");
     // Adımlar arasında görsel bağlantı çizgisi.
     expect(stepper).toContain("bg-gradient-to-b");
@@ -215,12 +253,23 @@ describe("/rehber — Görsel İş Akış ve Kurulum Merkezi", () => {
     // Adımlar arasında gerçek yön oku (yalnız buton ikonu değil).
     expect(stepper).toContain("IconArrowDown");
     expect(stepper).toContain("data-workflow-step-arrow");
-    // Adım numarası ve aksiyon butonu bağı.
+    // Adım numarası.
     expect(stepper).toContain("step.order");
     expect(stepper).toContain("<LinkButton");
     expect(stepper).toContain("IconArrow");
-    // Korumalı hedef güvenli kayıt yoluna çevrilir.
-    expect(stepper).toContain("workflowStepHref");
+    // Misafir: korumalı adımda örnek önizleme, açık araçta kayıt gerekmez bağı.
+    expect(stepper).toContain("samplePreview");
+    expect(stepper).toContain("data-workflow-step-preview");
+    expect(stepper).toContain("Ücretsiz Dene (Kayıt Gerekmez)");
+    expect(stepper).toContain("isOpenGuestTryPath");
+    expect(stepper).toContain("isProtectedCitizenPath");
+    // Tek ana davet kartı listenin altında.
+    expect(stepper).toContain("data-workflow-invite");
+    expect(stepper).toContain("ModuleInviteCard");
+    expect(stepper).toContain("workflowInviteHref");
+    expect(stepper).toContain("module.invite");
+    // Adım kartı içinde misafiri doğrudan /register'a atan yol yok.
+    expect(stepper).not.toContain("workflowStepHref(step.href)");
     // Tamamlanan adım rozeti.
     expect(stepper).toContain("Tamamlandı ✓");
     // Modül toplam süre özeti.
@@ -230,6 +279,12 @@ describe("/rehber — Görsel İş Akış ve Kurulum Merkezi", () => {
     expect(stepper).toContain("?modul=");
     expect(stepper).toContain("aria-current");
     expect(stepper).not.toContain("use client");
+  });
+
+  it("sabit alt menü içerik üzerine binmesin diye kamu layout yeterli alt boşluk taşır", () => {
+    const layout = readSrc("app/(public)/layout.tsx");
+    expect(layout).toContain("LegalSiteFooter");
+    expect(layout).toMatch(/pb-3[02]/u);
   });
 
   it("canlı durum okuması güvenli: oturum/DB hatasında ziyaretçiye düşer, yazmaz", () => {
