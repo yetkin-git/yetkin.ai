@@ -88,12 +88,13 @@ Prisma tabloları (örnek set): `academy_*`, `career_*`, `commerce_*`, `escrow_h
 | Madde | Değer |
 |---|---|
 | Dal | `main` |
-| Push | `46f033f4..07742426` → `origin/main` |
+| Push (ürün) | `46f033f4..07742426` → `origin/main` |
 | Commit (ürün) | `07742426ffe0dde1a220521baea1d7f286d511b1` |
-| Mesaj | `feat(prod): tezgah/career/commerce/hibe mühürleri ve 6 bekleyen göçü canlıya hazırla` |
+| Mesaj (ürün) | `feat(prod): tezgah/career/commerce/hibe mühürleri ve 6 bekleyen göçü canlıya hazırla` |
+| Push (lint+checklist) | `07742426..fded9df9` → `origin/main` |
+| Commit (lint+checklist) | `fded9df9ccb85b55ed51b0a8e90f50cc58c94704` |
 | Gizli dosya | `.env` / `.env.local` / `.tmp` gitignore; stage taramasında sızma yok |
-| CI (`gh` yok) | GitHub API: run `45478644846` — **amiral lint FAIL**, rail-is PASS, pg-lab FAIL |
-| Lint düzeltmesi | Launch sırasında lint kırıkları kapatıldı (`.tmp` eslint ignore, workbench hooks, unused vars); takip commit bu checklist ile gidecek |
+| CI (`gh` yok) | İlk ürün commit’inde run `45478644846` — **amiral lint FAIL**, rail-is PASS, pg-lab FAIL; lint fix sonrası yeniden koşuluyor |
 
 **CI notu:** `amiral` job’ında `npm run lint` düşmüştü (22 hata). Kaynak düzeltildi. `pg-lab` ayrı lab job’ı; canlı migrate zaten uygulandı.
 
