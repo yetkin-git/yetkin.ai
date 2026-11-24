@@ -47,8 +47,10 @@ export const PROTECTED_KERNEL_PATHS = [
   "/career",
   "/admin",
   "/magazam",
-  "/e-ticaret",
-  "/hibe",
+  // E-Ticaret kokpiti panel altındadır. `/e-ticaret` kamu vitrinidir; korumalı değildir.
+  "/panel/e-ticaret",
+  // Hibe kokpiti panel altındadır. `/hibe` kamu vitrinidir; korumalı değildir.
+  "/panel/hibe",
 ] as const;
 
 /**
@@ -133,7 +135,7 @@ export const AUTH_PATH_ALIASES = {
   "/profile": "/profil",
   "/passport": "/pasaport",
   "/genel-bakis": "/dashboard",
-  "/magazam": "/e-ticaret",
+  "/magazam": "/panel/e-ticaret",
 } as const;
 
 export type EdgeDecision =

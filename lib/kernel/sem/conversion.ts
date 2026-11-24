@@ -2,6 +2,16 @@
  * Dönüşüm kancası. GTM düz nesnesi itilmez.
  * Olay `emitGa4Event` ile gider. Etiket yalnız ölçüm kimliği varken bootstrap'tan yüklenir.
  * Komut dosyası bu dosyadan çekilmez.
+ *
+ * 4.4 (B-03 / B-02 ölçümü): `purchase` vardı ama **huni** yoktu — "1000 geldi, 3
+ * ödedi" biliniyordu, "nerede kaybetti" bilinmiyordu. Eklenen olaylar:
+ *
+ * | Olay              | Nerede tetiklenir                                | Ne ölçer |
+ * |-------------------|--------------------------------------------------|----------|
+ * | `tezgah_first_output` | `lib/tezgah/engine.ts` (ilk kalıcı çıktı)      | Aktivasyon |
+ * | `tezgah_quota_wall`   | `components/tezgah/workbench.tsx` (kota duvarı)| Duvar→ödeme |
+ * | `pricing_view`        | `components/pricing/pricing-checkout-tracker`  | Fiyat niyeti |
+ * | `checkout_start`      | aynı bileşen (kart CTA tıklaması)             | Ödeme başlangıcı |
  */
 
 import { emitGa4Event, trackPurchase } from "@/lib/kernel/telemetry/funnel";
@@ -13,6 +23,14 @@ export const SEM_CONVERSION_NAMES = {
   purchase: "purchase",
   register: "sign_up",
   form: "generate_lead",
+  /** Aktivasyon: kullanıcının Tezgâh'taki ilk kalıcı çıktısı. */
+  tezgahFirstOutput: "tezgah_first_output",
+  /** Kota duvarı gösterildi (Pro'ya ya da krediye dönüşüm hunisinin başı). */
+  tezgahQuotaWall: "tezgah_quota_wall",
+  /** Fiyat sayfası görüntülendi. */
+  pricingView: "pricing_view",
+  /** Fiyat kartındaki satın alma CTA'sına tıklandı. */
+  checkoutStart: "checkout_start",
 } as const;
 
 export type SemConversionName = keyof typeof SEM_CONVERSION_NAMES;

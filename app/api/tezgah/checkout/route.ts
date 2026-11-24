@@ -15,7 +15,7 @@ import { placeTezgahCheckout, type TezgahCheckoutKind } from "@/lib/tezgah/check
 export const auth = "session" as const;
 
 function kindOf(value: unknown): TezgahCheckoutKind | null {
-  if (value === "pro" || value === "credit-pack") {
+  if (value === "pro" || value === "credit-pack" || value === "grant-dossier" || value === "hibe-agency") {
     return value;
   }
   return null;

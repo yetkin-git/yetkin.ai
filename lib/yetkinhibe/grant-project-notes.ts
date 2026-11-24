@@ -27,7 +27,7 @@ export const GRANT_DOSSIER_BUDGET_NOTE =
   "Tutarlar başvuru sahibinin girdiği tahmindir. Katalog tavanı veya hibe limiti değildir.";
 
 export const GRANT_DOSSIER_WIZARD_NOTE =
-  "Onay garantisi yoktur. Çağrı kodu ve destek tavanı üretilmez. Tutarlar sizin tahmininizdir.";
+  "Onay garantisi yoktur. Çağrı kodu ve destek tavanı üretilmez. Tutarlar senin tahminindir.";
 
 export const GRANT_DOSSIER_NO_ELIGIBLE =
   "Açık ve doğrulanmış çağrı yok. Kuruma özel dosya üretilemedi.";

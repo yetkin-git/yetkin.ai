@@ -59,7 +59,7 @@ function isUniqueViolation(error: unknown): boolean {
 
 function toSnapshot(order: {
   id: string;
-  userId: string;
+  userId: string | null;
   merchantOid: string;
   amountMinor: number;
   currencyCode: string;

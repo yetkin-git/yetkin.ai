@@ -81,6 +81,9 @@ function deps(repo: CommerceRepository, market = createMemoryMarketplaceReposito
     commerce: () => repo,
     marketplace: () => market,
     env: ENV,
+    // P0.4 — kimlik yazan yol lisans ister. Bu suite lisanslı satıcıyı taklit eder;
+    // lisanssız 403 kapısı `os-channel-license.test.ts` ve bu dosyanın sonunda sınanır.
+    license: { allowsOutgoing: async () => true },
   };
 }
 

@@ -11,10 +11,12 @@ import { Label } from "@/components/ui/label";
 import { LinkButton } from "@/components/ui/link-button";
 import { cn } from "@/components/ui/cn";
 import { IconMessage, IconPlug, IconShield, IconSpark, IconStore } from "@/components/ui/icons";
+import { FulfillmentDesk } from "@/components/commerce/fulfillment-desk";
 import { ProductCardStudio } from "@/components/commerce/product-card-studio";
+import { ProfitEnginesPanel } from "@/components/commerce/profit-engines-panel";
 import { CAREER_DESK_KINDS, careerDeskStatusLabel } from "@/lib/career/desk-brief";
 import { formatTryMinor } from "@/lib/commerce/storefront";
-import { adPackageHref, grantDossierHref } from "@/lib/commerce/os-growth";
+import { adPackageHref, grantDossierHrefForStore } from "@/lib/commerce/os-growth";
 import { OS_CHANNEL_CATALOG, pickPoolStore, type OsTab } from "@/lib/commerce/os-rules";
 import type {
   EcommerceLicenseBand,
@@ -28,7 +30,8 @@ const TABS: Array<{ id: OsTab; label: string }> = [
   { id: "havuz", label: "Ürün & Stok Havuzu" },
   { id: "kanallar", label: "Kanallar & Eşitleme" },
   { id: "siparis", label: "Sipariş & Gelen Kutusu" },
-  { id: "buyume", label: "Otonom Büyüme & Uzman" },
+  { id: "kargo", label: "Sipariş & Kargo" },
+  { id: "buyume", label: "Kâr & Büyüme" },
 ];
 
 function formatWhen(iso: string | null): string {
@@ -81,13 +84,15 @@ function LicenseStatusBand({ license }: { license: EcommerceLicenseBand }) {
   const open = license.active;
   const trialing = license.trial.active;
   const trialDays = license.trial.daysLeft;
-  const renewalSuffix = license.priceLabel ? `, ${license.priceLabel} yenileme` : "";
+  const planPrefix = license.activePlanTitle ? `Aktif plan: ${license.activePlanTitle}. ` : "";
+  const renewalSuffix = license.priceLabel ? `, ardından ${license.priceLabel}` : "";
   return (
     <section
       id="eticaret-lisans"
       aria-labelledby="eticaret-lisans-heading"
       data-license-band={open ? "open" : "closed"}
       data-license-band-trial={trialing ? "true" : "false"}
+      data-license-plan={license.activePlanTitle ?? ""}
       className={cn(
         "mb-4 flex flex-col gap-4 rounded-2xl border p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between",
         open
@@ -128,14 +133,23 @@ function LicenseStatusBand({ license }: { license: EcommerceLicenseBand }) {
               </>
             ) : license.priceLabel ? (
               <>
-                {open ? "Çok Kanallı E-Ticaret Lisansı aktif: " : "İlk 30 gün ücretsiz, ardından "}
-                <strong className="font-semibold">{license.priceLabel}</strong> (Trendyol, Hepsiburada, Amazon, N11
-                dahil)
+                {open ? (
+                  <>
+                    {planPrefix}Çok Kanallı E-Ticaret Lisansı aktif.{" "}
+                    <strong className="font-semibold">{license.priceLabel}</strong>
+                  </>
+                ) : (
+                  <>
+                    İlk 30 gün ücretsiz, ardından{" "}
+                    <strong className="font-semibold">{license.priceLabel}</strong>
+                  </>
+                )}{" "}
+                (Trendyol ve Hepsiburada dahil)
               </>
             ) : (
               <>
-                Çok Kanallı E-Ticaret Lisansı (Trendyol, Hepsiburada, Amazon, N11 dahil). Aylık tutar katalogda açık
-                değil.
+                Çok Kanallı E-Ticaret Lisansı (Trendyol ve Hepsiburada dahil). Paket tutarları katalogda
+                açık değil.
               </>
             )}
           </p>
@@ -156,6 +170,7 @@ function LicenseStatusBand({ license }: { license: EcommerceLicenseBand }) {
           size="md"
           variant="secondary"
           className="!shrink-0 !bg-white !text-slate-950 shadow-md hover:!bg-blue-50"
+          data-license-activate=""
         >
           {license.trialEligible ? "30 Gün Ücretsiz Başlat →" : "Lisansı Aktifleştir →"}
         </LinkButton>
@@ -238,10 +253,12 @@ export function EcommerceOsCockpit({
   initialTab,
   view,
   license,
+  prefill,
 }: {
   initialTab: OsTab;
   view: OsCockpitView;
   license: EcommerceLicenseBand;
+  prefill?: { title: string; category: string; targetPriceMinor: number | null };
 }) {
   const router = useRouter();
   const [tab, setTab] = useState<OsTab>(initialTab);
@@ -250,6 +267,8 @@ export function EcommerceOsCockpit({
   const [error, setError] = useState("");
   const [qty, setQty] = useState<Record<string, string>>({});
   const [keys, setKeys] = useState<Record<string, string>>({});
+  const [sellerIds, setSellerIds] = useState<Record<string, string>>({});
+  const [secrets, setSecrets] = useState<Record<string, string>>({});
   const [question, setQuestion] = useState("");
   const [questionProduct, setQuestionProduct] = useState(view.products[0]?.id ?? "");
   const [questionChannel, setQuestionChannel] = useState("OWN_STORE");
@@ -303,13 +322,45 @@ export function EcommerceOsCockpit({
       return;
     }
     setLicenseBlock(null);
-    void run({ action: "channel", kind, connect, ...(apiKey ? { apiKey } : {}) });
+    void run({
+      action: "channel",
+      kind,
+      connect,
+      // P0.3 — pazaryeri kimliği tek sözleşme: Satıcı ID + API Key + API Secret.
+      ...(apiKey ? { apiKey } : {}),
+      ...(sellerIds[kind] ? { supplierId: sellerIds[kind] } : {}),
+      ...(secrets[kind] ? { apiSecret: secrets[kind] } : {}),
+    });
   }
 
   return (
     <div className="mt-4" data-os-cockpit="">
       <LicenseStatusBand license={license} />
       <CockpitMetrics view={view} />
+      {view.stores.length > 0 ? (
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <label htmlFor="os-store" className="text-sm font-semibold">
+            Mağaza
+          </label>
+          <select
+            id="os-store"
+            data-store-switcher=""
+            className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-sm"
+            value={view.selectedStoreId ?? ""}
+            onChange={(event) => {
+              const url = new URL(window.location.href);
+              url.searchParams.set("magaza", event.target.value);
+              router.push(`${url.pathname}?${url.searchParams.toString()}`);
+            }}
+          >
+            {view.stores.map((store) => (
+              <option key={store.id} value={store.id}>
+                {store.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      ) : null}
       <div className="mt-4 flex flex-wrap gap-2" role="tablist" aria-label="E-Ticaret kokpiti">
         {TABS.map((item) => (
           <button
@@ -353,6 +404,7 @@ export function EcommerceOsCockpit({
           products={view.products}
           qty={qty}
           pending={pending}
+          prefill={prefill}
           onQty={(id, value) => setQty((current) => ({ ...current, [id]: value }))}
           onDraft={(productId, quantity) => void run({ action: "stock-draft", productId, quantity })}
           onApprove={(productId, draftId) => void run({ action: "stock-approve", productId, draftId })}
@@ -362,11 +414,15 @@ export function EcommerceOsCockpit({
         <ChannelTab
           channels={view.channels}
           keys={keys}
+          sellerIds={sellerIds}
+          secrets={secrets}
           pending={pending}
           canSimulate={view.products.length > 0}
           licenseBlock={licenseBlock}
           activateHref={license.activateHref}
           onKey={(kind, value) => setKeys((current) => ({ ...current, [kind]: value }))}
+          onSellerId={(kind, value) => setSellerIds((current) => ({ ...current, [kind]: value }))}
+          onSecret={(kind, value) => setSecrets((current) => ({ ...current, [kind]: value }))}
           onConnect={connectChannel}
           onSync={() => void run({ action: "sync" })}
           onSimulate={() =>
@@ -412,6 +468,7 @@ export function EcommerceOsCockpit({
           }
         />
       ) : null}
+      {tab === "kargo" ? <FulfillmentDesk storeId={view.selectedStoreId} /> : null}
       {tab === "buyume" ? (
         <GrowthTab
           view={view}
@@ -429,6 +486,7 @@ function PoolTab({
   products,
   qty,
   pending,
+  prefill,
   onQty,
   onDraft,
   onApprove,
@@ -436,13 +494,14 @@ function PoolTab({
   products: OsProductView[];
   qty: Record<string, string>;
   pending: boolean;
+  prefill?: { title: string; category: string; targetPriceMinor: number | null };
   onQty: (id: string, value: string) => void;
   onDraft: (productId: string, quantity: number) => void;
   onApprove: (productId: string, draftId: string) => void;
 }) {
   return (
     <div className="mt-3 space-y-4">
-      <ProductCardStudio />
+      <ProductCardStudio prefill={prefill} />
       {products.length === 0 ? (
         <EmptyPoolCard
           title="Ürün havuzu boş"
@@ -460,6 +519,7 @@ function PoolTab({
               <p className="truncate font-semibold">{product.title}</p>
               <p className="mt-0.5 truncate text-xs text-[var(--muted)]">
                 {product.sku || "SKU yok"} · {price}
+                {product.variantCount > 1 ? ` · ${product.variantCount} varyant` : ""}
                 {product.criticalStockQty > 0 ? ` · eşik ${product.criticalStockQty}` : ""}
               </p>
             </div>
@@ -511,6 +571,9 @@ function PoolTab({
   );
 }
 
+/** Üretimde her zaman 403 dönen örnek düğmeler gizlenir; yalnız geliştirme/testte görünür. */
+const SHOW_SIMULATION_CONTROLS = process.env.NODE_ENV !== "production";
+
 function SimulateSaleButton({
   pending,
   disabled,
@@ -520,6 +583,9 @@ function SimulateSaleButton({
   disabled: boolean;
   onSimulate: () => void;
 }) {
+  if (!SHOW_SIMULATION_CONTROLS) {
+    return null;
+  }
   return (
     <Button type="button" size="sm" variant="outline" disabled={pending || disabled} onClick={onSimulate}>
       Örnek Kanal Siparişi Simüle Et (Trendyol -1 Adet)
@@ -540,25 +606,84 @@ function orderStatusLabel(status: "OPEN" | "CANCELLED" | "RETURNED" | null): str
   return "";
 }
 
+function ChannelCredentialFields({
+  kind,
+  label,
+  apiKey,
+  sellerId,
+  secret,
+  onKey,
+  onSellerId,
+  onSecret,
+}: {
+  kind: string;
+  label: string;
+  apiKey: string;
+  sellerId: string;
+  secret: string;
+  onKey: (value: string) => void;
+  onSellerId: (value: string) => void;
+  onSecret: (value: string) => void;
+}) {
+  return (
+    <div className="mt-2 grid gap-2" data-channel-credential-fields={kind}>
+      <Input
+        aria-label={`${label} satıcı ID`}
+        autoComplete="off"
+        className="mt-0"
+        placeholder={kind === "HEPSIBURADA" ? "Satıcı ID (ör. HB00001234)" : "Satıcı ID (ör. 27380001)"}
+        value={sellerId}
+        onChange={(event) => onSellerId(event.target.value)}
+      />
+      <Input
+        aria-label={`${label} API anahtarı`}
+        type="password"
+        autoComplete="off"
+        className="mt-0"
+        placeholder="API Key"
+        value={apiKey}
+        onChange={(event) => onKey(event.target.value)}
+      />
+      <Input
+        aria-label={`${label} API sırrı`}
+        type="password"
+        autoComplete="off"
+        className="mt-0"
+        placeholder="API Secret"
+        value={secret}
+        onChange={(event) => onSecret(event.target.value)}
+      />
+    </div>
+  );
+}
+
 function ChannelTab({
   channels,
   keys,
+  sellerIds,
+  secrets,
   pending,
   canSimulate,
   licenseBlock,
   activateHref,
   onKey,
+  onSellerId,
+  onSecret,
   onConnect,
   onSync,
   onSimulate,
 }: {
   channels: OsChannelView[];
   keys: Record<string, string>;
+  sellerIds: Record<string, string>;
+  secrets: Record<string, string>;
   pending: boolean;
   canSimulate: boolean;
   licenseBlock: string | null;
   activateHref: string;
   onKey: (kind: string, value: string) => void;
+  onSellerId: (kind: string, value: string) => void;
+  onSecret: (kind: string, value: string) => void;
   onConnect: (kind: string, connect: boolean, apiKey?: string) => void;
   onSync: () => void;
   onSimulate: () => void;
@@ -582,12 +707,14 @@ function ChannelTab({
       ) : null}
       <div className="flex flex-wrap gap-2">
         <Button type="button" size="sm" disabled={pending} onClick={onSync}>
-          Tek Tıkla Tüm Kataloğu Eşitle
+          Bağlı Kanallara Kuyruk Yaz
         </Button>
         <SimulateSaleButton pending={pending} disabled={!canSimulate} onSimulate={onSimulate} />
       </div>
       <p className="mt-2 text-xs text-[var(--muted)]">
-        Eşitleme kaydı bağlı kanallara düşer. Trendyol stok itmesi onay sırasında gider.
+        Trendyol ve Hepsiburada için satıcı ID, API anahtarı ve API sırrı birlikte gerekir. Bağlanan kanal aynı kimlikle
+        sipariş çeker. İlan fiyatı ve stoğu pazaryeri eşitleme kuyruğuna alındı. Mağaza masasının kanal sayfası durur;
+        sipariş kimliği bu kayıttır.
       </p>
       <ul className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
         {channels.map((channel) => {
@@ -605,6 +732,9 @@ function ChannelTab({
                 <IconStore className="h-4 w-4" />
               </span>
               <p className="font-semibold">{channel.label}</p>
+              {channel.comingSoon ? (
+                <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-700">Yakında</span>
+              ) : null}
             </div>
             <p className="mt-2">
               <span
@@ -621,26 +751,47 @@ function ChannelTab({
             </p>
             <p className="mt-1 text-xs text-[var(--muted)]">{formatWhen(channel.lastSyncedAt)}</p>
             {channel.lastError ? <p className="mt-1 text-xs text-[var(--rose)]">{channel.lastError}</p> : null}
-            {channel.needsKey ? (
-              <Input
-                aria-label={`${channel.label} API anahtarı`}
-                type="password"
-                autoComplete="off"
-                className="mt-2"
-                placeholder="API anahtarı"
-                value={keys[channel.kind] ?? ""}
-                onChange={(event) => onKey(channel.kind, event.target.value)}
-              />
+            {channel.needsKey && !channel.comingSoon ? (
+              channel.kind === "TRENDYOL" || channel.kind === "HEPSIBURADA" ? (
+                <ChannelCredentialFields
+                  kind={channel.kind}
+                  label={channel.label}
+                  apiKey={keys[channel.kind] ?? ""}
+                  sellerId={sellerIds[channel.kind] ?? ""}
+                  secret={secrets[channel.kind] ?? ""}
+                  onKey={(value) => onKey(channel.kind, value)}
+                  onSellerId={(value) => onSellerId(channel.kind, value)}
+                  onSecret={(value) => onSecret(channel.kind, value)}
+                />
+              ) : (
+                <Input
+                  aria-label={`${channel.label} API anahtarı`}
+                  type="password"
+                  autoComplete="off"
+                  className="mt-2"
+                  placeholder="API anahtarı"
+                  value={keys[channel.kind] ?? ""}
+                  onChange={(event) => onKey(channel.kind, event.target.value)}
+                />
+              )
             ) : null}
             <div className="mt-2 flex flex-wrap gap-2">
               <Button
                 type="button"
                 size="sm"
                 variant="outline"
-                disabled={pending}
+                disabled={
+                  pending ||
+                  channel.comingSoon ||
+                  (channel.kind === "TRENDYOL" || channel.kind === "HEPSIBURADA"
+                    ? !(sellerIds[channel.kind] ?? "").trim() ||
+                      !(keys[channel.kind] ?? "").trim() ||
+                      !(secrets[channel.kind] ?? "").trim()
+                    : false)
+                }
                 onClick={() => onConnect(channel.kind, true, keys[channel.kind])}
               >
-                {channel.needsKey ? "Bağla" : "Vitrini bağla"}
+                {channel.comingSoon ? "Yakında" : channel.needsKey ? "Bağla" : "Vitrini bağla"}
               </Button>
               {channel.status === "CONNECTED" ? (
                 <Button
@@ -696,9 +847,11 @@ function InboxTab({
   return (
     <div className="mt-3 grid gap-3">
       <SimulateSaleButton pending={pending} disabled={!canSimulate} onSimulate={onSimulate} />
-      <Button type="button" size="sm" disabled={pending || !canSimulate} onClick={onSimulateQuestion}>
-        Örnek Müşteri Sorusu Simüle Et (Trendyol)
-      </Button>
+      {SHOW_SIMULATION_CONTROLS ? (
+        <Button type="button" size="sm" disabled={pending || !canSimulate} onClick={onSimulateQuestion}>
+          Örnek Müşteri Sorusu Simüle Et (Trendyol)
+        </Button>
+      ) : null}
       <div className="grid gap-2 rounded-2xl border border-[var(--border)] p-3 sm:grid-cols-2">
         <div>
           <Label htmlFor="os-question-product">Ürün</Label>
@@ -830,7 +983,10 @@ function GrowthTab({
   onExpert: (taskKind: string) => void;
 }) {
   const products = view.products;
-  const storeName = pickPoolStore(view.stores)?.name ?? "Mağaza";
+  const storeName =
+    view.stores.find((store) => store.id === view.selectedStoreId)?.name ??
+    pickPoolStore(view.stores)?.name ??
+    "Mağaza";
   const ads = products.filter((product) => product.adEligible);
   const support = view.exportSupport;
   return (
@@ -884,7 +1040,15 @@ function GrowthTab({
           </ul>
         ) : null}
         <Link
-          href={cockpitHref(grantDossierHref(storeName))}
+      href={cockpitHref(
+        grantDossierHrefForStore({
+          storeName,
+          storeId: view.selectedStoreId,
+          // Ş12 — odak mağaza durumundan: ihracat satırı varsa ihracat, ürün varsa yazılım.
+          exportActive: support.lines.length > 0,
+          hasProducts: products.length > 0,
+        }),
+      )}
           className="mt-2 inline-block text-sm font-semibold text-[var(--safir-deep)] hover:underline"
         >
           Proje dosyasını hazırla
@@ -893,7 +1057,7 @@ function GrowthTab({
       <section className="rounded-2xl border border-[var(--border)] p-3">
         <h2 className="text-sm font-semibold">Uzman Tezgâhı Köprüsü</h2>
         <p className="mt-1 text-xs text-[var(--muted)]">
-          Kamu ilanı açılmaz. Paket sizin Kariyer çalışma odanıza yazılır.
+          Kamu ilanı açılmaz. Paket senin Kariyer çalışma odana yazılır.
         </p>
         {products.length === 0 ? (
           <p className="mt-2 text-sm text-[var(--muted)]">Önce havuza ürün yaz.</p>
@@ -930,6 +1094,9 @@ function GrowthTab({
           </>
         )}
       </section>
+      <div className="lg:col-span-3">
+        <ProfitEnginesPanel view={view} />
+      </div>
     </div>
   );
 }

@@ -58,11 +58,45 @@ function copyFor(kind: CitizenNotice["kind"]): { subject: string; body: string }
       return NOTICE_SEN.escrowReleased;
     case "escrow_ttl_approaching":
       return NOTICE_SEN.escrowTtlApproaching;
+    case "commerce_daily_brief":
+      return NOTICE_SEN.commerceDailyBrief;
   }
 }
 
 function appOrigin(): string {
   return (process.env.NEXT_PUBLIC_APP_URL?.trim() || "http://localhost:3000").replace(/\/$/, "");
+}
+
+/** Bildirimin gideceği panel yolu. Diğer türler freelancer tezgâhına döner. */
+function panelPathOf(notice: CitizenNotice): string {
+  if (notice.kind === "commerce_daily_brief") {
+    const path = notice.commerceBrief?.panelPath?.trim();
+    return path && path.startsWith("/") ? path : "/panel/e-ticaret";
+  }
+  return "/freelancer";
+}
+
+/**
+ * Kâr özeti gövdesi. Yalnız koddan gelen sayılar basılır; e-posta AI metni taşımaz.
+ * Kayıp SKU sayısı, kritik stok ve panel bağlantısı tek bakışta görünür.
+ */
+export function commerceBriefMailBody(notice: CitizenNotice): string {
+  const brief = notice.commerceBrief;
+  const copy = NOTICE_SEN.commerceDailyBrief;
+  if (!brief) {
+    return copy.body;
+  }
+  const lines = [
+    copy.body,
+    "",
+    brief.summary.trim(),
+    "",
+    `Zarar eden SKU: ${brief.lossSkuCount}`,
+    `Kritik stok: ${brief.criticalStockCount}`,
+    "",
+    `${copy.panelLabel}: ${appOrigin()}${panelPathOf(notice)}`,
+  ];
+  return lines.join("\n").trim();
 }
 
 export async function deliverCitizenNoticeMail(notice: CitizenNotice): Promise<"sent" | "skipped"> {
@@ -99,7 +133,10 @@ export async function deliverCitizenNoticeMail(notice: CitizenNotice): Promise<"
     return "skipped";
   }
   const copy = copyFor(notice.kind);
-  const text = `${copy.body}\n\n${appOrigin()}/freelancer\n\n${NOTICE_SEN.footer}\n`;
+  const text =
+    notice.kind === "commerce_daily_brief"
+      ? `${commerceBriefMailBody(notice)}\n\n${NOTICE_SEN.footer}\n`
+      : `${copy.body}\n\n${appOrigin()}${panelPathOf(notice)}\n\n${NOTICE_SEN.footer}\n`;
   await sendNoticeSmtp(config, {
     to,
     subject: copy.subject,

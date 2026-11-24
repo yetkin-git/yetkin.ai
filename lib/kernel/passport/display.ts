@@ -12,11 +12,13 @@ export const PASSPORT_DEFAULT_TIME_ZONE = "Europe/Istanbul" as const;
 const SOURCE_LABEL: Record<PassportStampSourceKind, string> = {
   ACADEMY_CERTIFICATE: "Akademi sertifikası",
   FREELANCER_RELEASE: "Freelancer teslim damgası",
+  YETKINHIBE_PROJECT: "YetkinHibe proje kanıtı",
 };
 
 const MODULE_LABEL: Record<string, string> = {
   academy: "Akademi",
   freelancer: "Freelancer",
+  yetkinhibe: "YetkinHibe",
   career: "Kariyer",
 };
 

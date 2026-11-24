@@ -2,7 +2,8 @@
 /**
  * Canlı IDOR mühür zinciri — statik bağ. Canlı Postgres yok.
  * Prebuild: kernel authorize + freelancer iş tahtası + mesaj/tahkim
- * + akademi sınav/satın alma + kariyer portföy.
+ * + kariyer portföy.
+ * Akademi IDOR vitest'i kapalı oda yüzünden script'te yoktur (hayalet dosya sahte yeşil üretirdi).
  * Squad / direct-offer BFF 410. Donmuş Arena ihale tahtası 410 envanteridir; `test:frozen`.
  */
 
@@ -38,8 +39,10 @@ if (!idor.includes("tests/freelancer/idor-party-forbidden.test.ts")) {
 if (!idor.includes("tests/freelancer/idor-direct-offers.test.ts")) {
   issues.push("package.json verify:idor-seals: doğrudan teklif IDOR vitest yok");
 }
-if (!idor.includes("tests/academy/idor-exam-purchase.test.ts")) {
-  issues.push("package.json verify:idor-seals: akademi sınav/satın alma IDOR vitest yok");
+if (idor.includes("tests/academy/idor-exam-purchase.test.ts")) {
+  issues.push(
+    "package.json verify:idor-seals: akademi IDOR vitest hayalettir — kapalı oda, dosya yok",
+  );
 }
 if (!idor.includes("tests/career/idor-portfolio.test.ts")) {
   issues.push("package.json verify:idor-seals: kariyer portföy IDOR vitest yok");
@@ -121,5 +124,5 @@ if (issues.length > 0) {
 }
 
 console.log(
-  "verify:idor-seals OK — canlı zincir kernel authorize + freelancer (iş tahtası, mesaj, tahkim) + akademi exam/purchase + kariyer portföy; squad/direct-offer BFF 410; Arena 410 dışı.",
+  "verify:idor-seals OK — canlı zincir kernel authorize + freelancer (iş tahtası, mesaj, tahkim) + kariyer portföy; akademi IDOR hayaleti yok; squad/direct-offer BFF 410; Arena 410 dışı.",
 );

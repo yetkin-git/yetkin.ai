@@ -66,6 +66,7 @@ export function certificateHashIsWellFormed(rawHash: string): boolean {
 const ACADEMY_STOREFRONT_RE = /^\/academy\/([^/]+)$/;
 const CERTIFICATE_VERIFY_RE = /^\/academy\/dogrula\/([^/]+)$/;
 const PUBLIC_TALENT_RE = /^\/vize\/([^/]+)$/;
+const CLAIM_TOKEN_RE = /^\/claim\/([^/]+)$/;
 const MAGAZA_RE = /^\/magaza\/([^/]+)$/;
 /** `parseSlug` ile aynı desen. Kapı Commerce motorunu import etmez. */
 const MAGAZA_SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -114,6 +115,14 @@ export function missingPublicSurfacePath(pathname: string): string | null {
   if (magaza) {
     const slug = decodeSegment(magaza[1] ?? "");
     return slug.length >= 1 && slug.length <= 48 && MAGAZA_SLUG_RE.test(slug) ? null : path;
+  }
+
+  // Faz 3 / §4.1 — `/claim/[token]`. Token biçimi base64url 43 karakterdir;
+  // biçim bozuksa gövde akmadan 404. Geçerli biçimde kayıt yoksa sayfa
+  // "geçerli değil" der (varlık sızdırılmaz) ve 200 akar.
+  const claim = CLAIM_TOKEN_RE.exec(path);
+  if (claim) {
+    return /^[A-Za-z0-9_-]{43}$/u.test(decodeSegment(claim[1] ?? "")) ? null : path;
   }
 
   return null;

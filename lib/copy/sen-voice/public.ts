@@ -4,9 +4,17 @@ import { YETKIN_BRAND } from "@/lib/copy/brand";
 export const PUBLIC_SEN = {
   home: {
     badge: YETKIN_BRAND,
-    title: "İşinizi Büyüten Yapay Zeka Araçları. Tek Hesap, Sıfır Karmaşa.",
+    /**
+     * SEO-03 + M-01: H1/meta başlığı.
+     *
+     * Önce "İşini Büyüten… Tek Hesap, Sıfır Karmaşa." (74 karakterdi) hem "siz"
+     * aksında başlıyordu hem SERP'te `%s · yetkin.ai` şablonuyla ~86 karaktere
+     * çıkıp kırpılıyordu. Yeni başlık sen aksında ve şablonla birlikte ~45
+     * karakter — Google başlık sınırının (≈60) rahatça içinde.
+     */
+    title: "İşini Büyüten Yapay Zeka Araçları",
     description:
-      "Dakikalar içinde profesyonel belgeler üretin, e-ticaret stok ve siparişlerinizi tek yerden yönetin, işletmenize uygun hibeleri bulun ve yetkinliğinizi gerçek testlerle kanıtlayın.",
+      "Dakikalar içinde profesyonel belgeler üret, e-ticaret stok ve siparişlerini tek yerden yönet, işletmene uygun hibeleri bul ve yetkinliğini gerçek testlerle kanıtla.",
     /** Kapalı Akademi yüzeyi hâlâ bu anahtarı okur; ana sayfa kullanmaz. */
     academyCta: "YetkinHibe İşletim Sistemi",
     /** Kök iniş — zincir / tezgâh bağlantısı. */
@@ -99,8 +107,8 @@ export const PUBLIC_SEN = {
         step: "4",
         title: "E-ticareti yönet",
         body: "Sipariş, stok ve kârlılığı tek ekranda takip et.",
-        // CRO: `/e-ticaret` korumalıdır. Ana sayfa bu adresi `next=/e-ticaret` ile
-        // kayıt/giriş yoluna bağlar (`buildCitizenRegisterHref`); çıplak `/login` yok.
+        // CRO: `/e-ticaret` kamu vitrinidir; kayıt istemez. Kokpit `/panel/e-ticaret`
+        // korumalıdır ve kayıt/giriş yoluyla açılır (`buildCitizenRegisterHref`).
         href: "/e-ticaret",
       },
     ],
@@ -109,26 +117,26 @@ export const PUBLIC_SEN = {
     tracks: [
       {
         title: "AI Tezgâh",
-        body: "Teklif, sözleşme, e-posta ve raporlarınızı dakikalar içinde hazırlayın.",
+        body: "Teklif, sözleşme, e-posta ve raporlarını dakikalar içinde hazırla.",
         href: "/tezgah",
         cta: "Tezgâhı Aç",
       },
       {
         title: "E-Ticaret Yönetimi",
-        body: "Tüm pazaryeri siparişlerinizi, stoklarınızı ve kârlılığınızı tek ekranda toplayın.",
+        body: "Tüm pazaryeri siparişlerini, stoklarını ve kârlılığını tek ekranda topla.",
         href: "/e-ticaret",
         cta: "E-Ticareti İncele",
       },
       {
         title: "Hibe & Teşvik Bulucu",
-        body: "İşletmenize uygun KOSGEB, TÜBİTAK ve devlet desteklerini anında görün.",
+        body: "İşletmene uygun KOSGEB, TÜBİTAK ve devlet desteklerini anında gör.",
         // CRO: korumalı `/hibe` yerine ücretsiz uygunluk testi.
         href: "#home-grant",
         cta: "Ücretsiz Uygunluk Testi",
       },
       {
         title: "YetkinCV & İK Eleme",
-        body: "Adayların gerçek becerisini uygulamalı testlerle ölçün, doğru ekibi kurun.",
+        body: "Adayların gerçek becerisini uygulamalı testlerle ölç, doğru ekibi kur.",
         href: "/career",
         cta: "Kariyer Merkezine Git",
       },
@@ -152,7 +160,7 @@ export const PUBLIC_SEN = {
       },
       {
         title: "Web Site Analizi",
-        body: "Sitenizin SEO, ikna ve dönüşüm karnesini ölçün; eksikleri hazır çözümlerle görün.",
+        body: "Sitenin SEO, ikna ve dönüşüm karnesini ölç; eksikleri hazır çözümlerle gör.",
         href: "/tetkik",
         cta: "Analizi aç",
       },
@@ -189,6 +197,8 @@ export const PUBLIC_SEN = {
       cuzdan: "Cüzdan yüklenemedi. Yeniden dene veya panele dön.",
       tezgah: "Tezgâh yüklenemedi. Yeniden dene veya panele dön.",
       junior: "Junior odası yüklenemedi. Yeniden dene veya panele dön.",
+      eticaret: "E-Ticaret kokpiti yüklenemedi. Yeniden dene veya panele dön.",
+      magazam: "Mağaza sayfası yüklenemedi. Yeniden dene veya panele dön.",
     },
   },
   gone: {

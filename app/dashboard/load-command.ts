@@ -7,7 +7,7 @@ import {
   type CommandStoreRead,
 } from "@/lib/dashboard/command-center";
 import type { DashboardPulse } from "@/lib/dashboard/pulse";
-import { TEZGAH_MEMBER_DAILY_LIMIT, TEZGAH_TOOLS } from "@/lib/tezgah/catalog";
+import { TEZGAH_FREE_MONTHLY_CREDITS, TEZGAH_TOOLS } from "@/lib/tezgah/catalog";
 import { peekTezgahQuota } from "@/lib/tezgah/quota";
 
 export type SignedInCommand = {
@@ -18,7 +18,7 @@ export type SignedInCommand = {
 const QUOTA_DOWN: CommandQuotaRead = {
   live: false,
   remaining: 0,
-  limit: TEZGAH_MEMBER_DAILY_LIMIT,
+  limit: TEZGAH_FREE_MONTHLY_CREDITS,
   lane: "CLOSED",
 };
 

@@ -96,8 +96,8 @@ export type CareerActionPlan = {
 
 const LEVEL_TEST_HREF = "/tezgah" as const;
 const ACADEMY_HOME = "/tezgah" as const;
-const HIBE_HOME = "/hibe" as const;
-const COMMERCE_HOME = "/e-ticaret" as const;
+const HIBE_HOME = "/panel/hibe" as const;
+const COMMERCE_HOME = "/panel/e-ticaret" as const;
 const STORE_SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const LESSON_KEY_RE = /^[A-Za-z0-9_-]{1,40}$/;
 const PUBLIC_CARD_RE = /^\/vize\/[A-Za-z0-9_-]{6,64}$/;

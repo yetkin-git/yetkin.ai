@@ -88,16 +88,27 @@ export async function loadVerifiedPurchase(input: {
 /** Ödeme emri niyeti → GA4 masa kimliği. */
 export function deskForPurpose(purpose: string | null | undefined): string {
   const value = purpose?.trim() ?? "";
-  if (value.startsWith("tezgah-license") || value === "TEZGAH_PRO" || value === "TEZGAH_CREDIT") {
+  const folded = value.toLowerCase();
+  if (
+    folded.startsWith("tezgah-license") ||
+    value === "TEZGAH_PRO" ||
+    value === "TEZGAH_CREDIT"
+  ) {
     return "tezgah";
   }
-  if (value.startsWith("commerce-license") || value === "COMMERCE_LICENSE") {
+  if (folded.startsWith("commerce-license") || value === "COMMERCE_LICENSE") {
     return "e-ticaret";
   }
-  if (value.startsWith("junior")) {
+  if (folded.startsWith("junior")) {
     return "junior";
   }
-  if (value.startsWith("grant") || value === "grant-dossier") {
+  // Hibe: kanonik enum da legacy dizgi de hibe masasına düşer.
+  if (
+    folded.startsWith("grant") ||
+    folded.startsWith("hibe") ||
+    value === "GRANT_DOSSIER" ||
+    value === "HIBE_AGENCY"
+  ) {
     return "hibe";
   }
   return "cuzdan";

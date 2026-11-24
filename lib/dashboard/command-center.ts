@@ -123,7 +123,7 @@ function commerceCard(stores: CommandStoreRead): CommandCardModel {
       title: copy.commerceTitle,
       stats: [{ label: copy.commerceCount, value: copy.unknown }],
       detail: pulse.unavailable,
-      href: "/e-ticaret",
+      href: "/panel/e-ticaret",
       cta: copy.commerceManageCta,
     };
   }
@@ -136,7 +136,7 @@ function commerceCard(stores: CommandStoreRead): CommandCardModel {
       title: copy.commerceTitle,
       stats: [{ label: copy.commerceCount, value: "0" }],
       detail: copy.commerceNone,
-      href: "/e-ticaret",
+      href: "/panel/e-ticaret",
       cta: copy.commerceOpenCta,
     };
   }
@@ -149,7 +149,7 @@ function commerceCard(stores: CommandStoreRead): CommandCardModel {
       { label: copy.commerceActive, value: String(activeCount) },
     ],
     detail: activeCount === 0 ? copy.commerceDraft : null,
-    href: "/e-ticaret",
+    href: "/panel/e-ticaret",
     cta: copy.commerceManageCta,
   };
 }
@@ -163,7 +163,7 @@ function hibeCard(hibe: CommandHibeRead | undefined): CommandCardModel {
       title: "Hibe dosyası",
       stats: [{ label: "Dosya", value: copy.unknown }],
       detail: "Uygunluk ve proje dosyası YetkinHibe’de açılır.",
-      href: "/hibe",
+      href: "/panel/hibe",
       cta: "YetkinHibe’yi aç",
     };
   }
@@ -176,7 +176,7 @@ function hibeCard(hibe: CommandHibeRead | undefined): CommandCardModel {
       { label: "Dosya", value: String(countOf(hibe.dossiers)) },
     ],
     detail: countOf(hibe.dossiers) === 0 ? "Henüz proje dosyası yok." : null,
-    href: "/hibe",
+    href: "/panel/hibe",
     cta: "YetkinHibe’yi aç",
   };
 }

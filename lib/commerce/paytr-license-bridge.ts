@@ -5,7 +5,7 @@ import { appendLedgerEntry } from "@/lib/kernel/ledger/engine";
 import type { LedgerStore } from "@/lib/kernel/ledger/types";
 import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { isInsufficientBalanceError } from "@/lib/kernel/money/insufficient-balance";
-import type { PaymentOrderSnapshot } from "@/lib/kernel/payments/clearing";
+import { isOwnedPaymentOrder, type OrderPaymentSnapshot, type PaymentOrderSnapshot } from "@/lib/kernel/payments/clearing";
 import { classifyPaymentOrderPurpose, PAYMENT_ORDER_PURPOSE } from "@/lib/kernel/payments/order-purpose";
 import { logEvent } from "@/lib/kernel/observability/log";
 import type { PriceCatalogStore } from "@/lib/kernel/pricing/catalog";
@@ -92,7 +92,7 @@ export function commerceRenewalBase(
 
 async function fulfillCommerceTrial(
   subscriptions: CommerceSubscriptionStore,
-  order: PaymentOrderSnapshot,
+  order: OrderPaymentSnapshot,
   ledger: LedgerStore,
   existing: CommerceSubscriptionRow,
   already: boolean,
@@ -179,6 +179,10 @@ export async function fulfillCommerceLicenseFromClearedOrder(
   }
   if (order.currencyCode !== "TRY") {
     return { applied: false, expiresAt: null, reason: "currency" };
+  }
+  // Faz 3 / §4.1: misafir siparişi (userId null) mağaza lisansı doğuramaz.
+  if (!isOwnedPaymentOrder(order)) {
+    return { applied: false, expiresAt: null, reason: "store" };
   }
   if (!Number.isInteger(order.amountMinor) || order.amountMinor <= 0) {
     return { applied: false, expiresAt: null, reason: "amount" };

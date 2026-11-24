@@ -74,9 +74,9 @@ describe("30 günlük aksiyon planı", () => {
     assertClosed(shop);
     expect(shop.lead).toContain("3 saatin altında");
     expect(hrefs(shop)).toEqual([
-      "/e-ticaret",
+      "/panel/e-ticaret",
       "/tezgah?tool=ecommerce",
-      "/e-ticaret",
+      "/panel/e-ticaret",
       "/tezgah?tool=dukkan",
     ]);
 
@@ -87,7 +87,7 @@ describe("30 günlük aksiyon planı", () => {
     });
     assertClosed(grant);
     expect(grant.lead).toContain("7 saatin üzerinde");
-    expect(hrefs(grant)[0]).toBe("/hibe");
+    expect(hrefs(grant)[0]).toBe("/panel/hibe");
     expect(hrefs(grant)[1]).toBe("/tezgah?tool=grant");
     expect(hrefs(grant)[2]).toBe("/tezgah");
     expect(hrefs(grant)[3]).toBe("/tezgah?tool=proposal");
@@ -127,10 +127,10 @@ describe("30 günlük aksiyon planı", () => {
     });
     assertClosed(plan);
     expect(plan.overrideNote).toContain("Canlı kayıt");
-    expect(hrefs(plan)[0]).toBe("/e-ticaret");
+    expect(hrefs(plan)[0]).toBe("/panel/e-ticaret");
     expect(plan.steps[0]?.body).toContain("l3");
     expect(hrefs(plan)[0]).not.toBe("/tezgah");
-    expect(hrefs(plan)[2]).toBe("/e-ticaret");
+    expect(hrefs(plan)[2]).toBe("/panel/e-ticaret");
   });
 
   it("canlı rozet paylaşım kartını sınav kapısının önüne alır", () => {
@@ -244,7 +244,8 @@ describe("30 günlük aksiyon planı", () => {
     expect(planner).not.toContain("invokeLlm");
     expect(planner).not.toContain("prisma");
     expect(planner).not.toContain("/freelancer");
-    expect(CAREER_SEN.title).toBe("Yetkinliğini Gerçek Testle Kanıtla, Fark Yarat.");
+    expect(CAREER_SEN.title).toBe("Kariyer");
+    expect(CAREER_SEN.description).toBe("YetkinCV, vize ve açık ilanlar");
     expect(CAREER_SEN.footnote).toContain(CAREER_ACTION_PLAN_DISCLAIMER);
     expect(CAREER_SEN.footnote).not.toContain("Hedef rol");
     expect(readSrc("lib/copy/sen-voice/career.ts")).not.toContain("SWOT");

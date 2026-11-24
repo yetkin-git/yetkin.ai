@@ -73,7 +73,10 @@ async function withUniqueRetry<T>(work: () => Promise<T>): Promise<T> {
 }
 
 function sealedCertificateHash(proof: SealedCareerProof): string | null {
-  if (proof.sourceKind !== "ACADEMY_CERTIFICATE" || !proof.certificateHash) {
+  if (
+    (proof.sourceKind !== "ACADEMY_CERTIFICATE" && proof.sourceKind !== "YETKINHIBE_PROJECT") ||
+    !proof.certificateHash
+  ) {
     return null;
   }
   return parseSha256Hex(proof.certificateHash);

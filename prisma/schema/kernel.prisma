@@ -16,13 +16,25 @@ enum PaymentOrderStatus {
   CLEARED
 }
 
-/// Ticari sipariş niyeti. Akademi ve Junior kendi `purpose` dizgisini taşır; bu enum onlar için boş kalır.
-/// Eski dizgiler (`wallet-top-up`, `tezgah-license:pro`, `tezgah-credit:pack`, `commerce-license:monthly`) okunmaya devam eder.
+/// Ticari sipariş niyeti. Eski dizgiler (`wallet-top-up`, `tezgah-license:pro`,
+/// `academy-license:{slug}`, `junior-license:yearly`) `purpose` kolonunda durur;
+/// `order_purpose` kanonik kodu mühürler.
 enum PaymentOrderPurpose {
   WALLET_TOPUP
   TEZGAH_PRO
   TEZGAH_CREDIT
   COMMERCE_LICENSE
+  GRANT_DOSSIER
+  /// Ş6 / B-04 — YetkinHibe ajans paketi. Fiyatı `hibe/agency` katalog satırındadır.
+  HIBE_AGENCY
+  /// Faz 3 / §4.3 — YetkinCV kamuya açık yayın mührü. Cüzdan yüklemesi değildir; iadeye kapalıdır.
+  CAREER_PUBLICATION
+  /// Kurumsal ilan / otomatik aday eleme paketi. Lisans kapısı CLEARED sipariş arar.
+  KURUMSAL_SCREENING
+  /// Akademi kurs lisansı. PayTR `academy-license:{slug}` — iadeye kapalıdır.
+  ACADEMY_LICENSE
+  /// Junior yıllık paket. PayTR `junior-license:yearly` — iadeye kapalıdır.
+  JUNIOR_LICENSE
 }
 
 enum LedgerDirection {
@@ -81,6 +93,8 @@ model User {
   careerPortfolioItems CareerPortfolioItem[]
   careerVisaStamps     CareerVisaStamp[]
   careerDeskTasks      CareerDeskTask[]
+  careerCv             CareerCv?
+  careerContactRequests CareerContactRequest[]
   yetkinCvSittings     YetkinCvSitting[]
   yetkinCvSeals        YetkinCvSeal[]
   kurumsalJobPostings  KurumsalJobPosting[]     @relation("KurumsalJobOwner")
@@ -101,6 +115,13 @@ model User {
   commerceSubscriptions    CommerceSubscription[]
   inventoryTransactions    InventoryTransaction[]
   stockLedgers             StockLedger[]
+  hibeCompanyProfile       HibeCompanyProfile?
+  hibeDossiers             HibeDossier[]
+  hibeApplications         HibeApplication[]
+  hibeDocuments            HibeDocument[]
+  hibeClients              HibeClient[]
+  hibeAgencyPackage        HibeAgencyPackage?
+  hibeGrantRevisions       HibeGrantCallRevision[] @relation("HibeGrantRevisionActor")
 
   @@map("users")
 }
@@ -198,9 +219,13 @@ model EscrowHold {
 
 /// PSP siparişi. merchantOid idempotency evrenidir.
 /// Kasa rızası (consentVersion + iki tik) sipariş satırında mühürlenir; yalnız log değil.
+/// Faz 3 / §4.1 — misafir ödeme: `userId` opsiyoneldir. Misafir satırında `guestEmail`
+/// dolu, `claimToken` tek kullanımlık hesap bağlama anahtarıdır. `userId` null iken
+/// defter CREDIT'i yazılmaz (`appendLedgerEntry` sahipsiz kayıt kabul etmez); CLEARED
+/// sipariş bekler, `/claim/[token]` akışı `userId`yi bağlayınca defter işlenir.
 model PaymentOrder {
   id                                    String             @id @default(cuid())
-  userId                                String             @map("user_id")
+  userId                                String?            @map("user_id")
   provider                              String
   merchantOid                           String             @unique @map("merchant_oid")
   /// Ürün kancasının okuduğu niyet dizgisi. Dört ticari kod `orderPurpose` ile de mühürlenir.
@@ -215,15 +240,24 @@ model PaymentOrder {
   consentVersion                        String?            @map("consent_version")
   distanceContractAccepted              Boolean?           @map("distance_contract_accepted")
   digitalImmediatePerformanceAccepted   Boolean?           @map("digital_immediate_performance_accepted")
+  /// Misafir ödeme e-postası. Fatura künyesi `guestBillingJson`'dadır (şifre yok, TCKN/VKN var).
+  guestEmail                            String?            @map("guest_email") @db.VarChar(320)
+  /// Tek kullanımlık hesap bağlama anahtarı. Kriptografik rastgele; `/claim/[token]` okur.
+  claimToken                            String?            @unique @map("claim_token") @db.VarChar(64)
+  claimTokenExpiresAt                   DateTime?          @map("claim_token_expires_at")
+  claimTokenUsedAt                      DateTime?          @map("claim_token_used_at")
+  /// Misafir fatura künyesi (JSON). Claim anında `user_billing_info` satırına dönüşür.
+  guestBillingJson                      String?            @map("guest_billing_json") @db.Text
   createdAt                             DateTime           @default(now()) @map("created_at")
   updatedAt                             DateTime           @updatedAt @map("updated_at")
   paidAt                                DateTime?          @map("paid_at")
   clearedAt                             DateTime?          @map("cleared_at")
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
   cardRefunds WalletCardRefund[]
 
   @@index([userId, createdAt])
+  @@index([guestEmail, createdAt])
   @@index([status])
   @@map("payment_orders")
 }

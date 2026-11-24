@@ -5,6 +5,7 @@
 enum CareerVisaSourceKind {
   ACADEMY_CERTIFICATE
   FREELANCER_RELEASE
+  YETKINHIBE_PROJECT
 }
 
 model CareerVisaStamp {
@@ -37,6 +38,8 @@ model CareerPortfolioItem {
   body        String   @default("") @db.Text
   toolKey     String   @default("") @map("tool_key") @db.VarChar(40)
   sourceKey   String?  @unique @map("source_key") @db.VarChar(80)
+  /// Tezgâh çıktısının SHA-256 özeti. Vize damgası değildir.
+  outputHash  String?  @map("output_hash") @db.VarChar(64)
   createdAt   DateTime @default(now()) @map("created_at")
 
   user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -44,6 +47,55 @@ model CareerPortfolioItem {
 
   @@index([userId, createdAt])
   @@map("career_portfolio_items")
+}
+
+/// Yapılandırılmış CV. Sınav özeti değil; PDF/DOCX ve dizin il filtresi buradan okunur.
+model CareerCv {
+  id              String    @id @default(cuid())
+  userId          String    @unique @map("user_id")
+  fullName        String    @default("") @map("full_name") @db.VarChar(120)
+  headline        String    @default("") @db.VarChar(200)
+  city            String    @default("") @db.VarChar(40)
+  summary         String    @default("") @db.VarChar(4000)
+  experiences     Json      @default("[]")
+  educations      Json      @default("[]")
+  skills          Json      @default("[]")
+  languages       Json      @default("[]")
+  links           Json      @default("[]")
+  contactOptInAt  DateTime? @map("contact_opt_in_at")
+  updatedAt       DateTime  @default(now()) @updatedAt @map("updated_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([city])
+  @@map("career_cvs")
+}
+
+/// Görüşme daveti durumu. Para platformdan geçmez; aday e-postası HTML'e basılmaz.
+enum CareerContactRequestStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+/// Kamu vitrinden gelen iletişim / görüşme daveti. Aday e-postası HTML'e basılmaz.
+model CareerContactRequest {
+  id             String                     @id @default(cuid())
+  talentUserId   String                     @map("talent_user_id")
+  requesterName  String                     @map("requester_name") @db.VarChar(120)
+  requesterEmail String                     @map("requester_email") @db.VarChar(160)
+  message        String                     @db.VarChar(2000)
+  sealHash       String?                    @map("seal_hash") @db.VarChar(64)
+  status         CareerContactRequestStatus @default(PENDING)
+  respondedAt    DateTime?                  @map("responded_at")
+  createdAt      DateTime                   @default(now()) @map("created_at")
+
+  talent User @relation(fields: [talentUserId], references: [id], onDelete: Cascade)
+
+  @@index([talentUserId, createdAt])
+  @@index([talentUserId, status])
+  @@map("career_contact_requests")
 }
 
 /// Esnafın kendi çalışma odası. Freelancer kamu ilanı değildir.
@@ -85,6 +137,7 @@ model CareerDeskTask {
 
 /// YetkinCV oturumu. Doğru şık burada yoktur; soru kimliği bankadan okunur.
 /// CV metni yazılmaz. cv_digest metnin SHA-256 özetidir.
+/// choice_order: soru kimliği → şık permütasyonu (submit geri eşlemesi).
 model YetkinCvSitting {
   id          String    @id @default(cuid())
   userId      String    @map("user_id")
@@ -93,6 +146,7 @@ model YetkinCvSitting {
   cvDigest    String    @map("cv_digest") @db.VarChar(64)
   cvSignals   Json      @map("cv_signals")
   questionIds Json      @map("question_ids")
+  choiceOrder Json      @default("{}") @map("choice_order")
   expiresAt   DateTime  @map("expires_at")
   consumedAt  DateTime? @map("consumed_at")
   createdAt   DateTime  @default(now()) @map("created_at")
@@ -102,27 +156,44 @@ model YetkinCvSitting {
   kurumsalApplication KurumsalJobApplication?
 
   @@index([userId, createdAt])
+  @@index([userId, verticalKey, createdAt])
   @@map("yetkin_cv_sittings")
 }
 
 /// Sunucuda puanlanmış YetkinCV mührü. certificate_hash kamu /vize bağının anahtarıdır.
+///
+/// Faz 3 / §4.3 — ücretli yayın ayrımı:
+/// - Sınav, puan, SWOT ve 30/60/90 planı **her zaman ücretsizdir**.
+/// - `sealedPublication` yalnız **kamuya açık kartı ve uzman dizini görünürlüğünü** açar.
+///   Para puanı değil yayını satın alır: "puan satın almadan değil test sonucundan oluşur"
+///   dürüstlük ilkesi bozulmaz (`lib/pricing/public-vitrine.ts`).
+/// - `publicationPaidMerchantOid` hangi CLEARED siparişin yayını açtığını taşır; ikinci
+///   sipariş ikinci kez ücret almaz (idempotent). Null ise hiç ödeme yapılmamıştır.
 model YetkinCvSeal {
-  id              String   @id @default(cuid())
-  userId          String   @map("user_id")
-  sittingId       String   @unique @map("sitting_id")
-  roleKey         String   @map("role_key") @db.VarChar(32)
-  verticalKey     String   @map("vertical_key") @db.VarChar(32)
-  score           Int
-  skillBreakdown  Json     @map("skill_breakdown")
-  cvDigest        String   @map("cv_digest") @db.VarChar(64)
-  cvSignals       Json     @map("cv_signals")
-  certificateHash String   @unique @map("certificate_hash") @db.VarChar(64)
-  issuedAt        DateTime @map("issued_at")
-  createdAt       DateTime @default(now()) @map("created_at")
+  id                            String    @id @default(cuid())
+  userId                        String    @map("user_id")
+  sittingId                     String    @unique @map("sitting_id")
+  roleKey                       String    @map("role_key") @db.VarChar(32)
+  verticalKey                   String    @map("vertical_key") @db.VarChar(32)
+  score                         Int
+  skillBreakdown                Json      @map("skill_breakdown")
+  cvDigest                      String    @map("cv_digest") @db.VarChar(64)
+  cvSignals                     Json      @map("cv_signals")
+  certificateHash               String    @unique @map("certificate_hash") @db.VarChar(64)
+  /// HMAC-SHA256 mühür imzası. Null = Faz 2 öncesi imzasız satır (geriye dönük uyumlu).
+  hmacSignature                 String?   @map("hmac_signature") @db.VarChar(64)
+  /// Kamuya açık kariyer kartı + uzman dizini görünürlüğü açık mı? Ücretsiz mühürde false.
+  sealedPublication             Boolean   @default(false) @map("sealed_publication")
+  /// Yayını açan CLEARED sipariş numarası. Null = hiç ödenmemiş.
+  publicationPaidMerchantOid    String?   @map("publication_paid_merchant_oid") @db.VarChar(64)
+  publishedAt                   DateTime? @map("published_at")
+  issuedAt                      DateTime  @map("issued_at")
+  createdAt                     DateTime  @default(now()) @map("created_at")
 
   user    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   sitting YetkinCvSitting @relation(fields: [sittingId], references: [id], onDelete: Cascade)
 
   @@index([userId, issuedAt])
+  @@index([sealedPublication, publishedAt])
   @@map("yetkin_cv_seals")
 }

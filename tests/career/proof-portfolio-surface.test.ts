@@ -146,7 +146,8 @@ describe("kariyer kanıt portföyü yüzeyi", () => {
     expect(ledger).not.toContain("issueCareerVisaStamp");
     expect(SEN_VOICE.career.ledgerTitle).toBe("YetkinCV Onaylı Yetenek Rozeti");
     expect(SEN_VOICE.career.proofsTitle).toBe("YetkinCV Onaylı Yetenek Rozeti");
-    expect(SEN_VOICE.career.title).toBe("Yetkinliğini Gerçek Testle Kanıtla, Fark Yarat.");
+    expect(SEN_VOICE.career.title).toBe("Kariyer");
+    expect(SEN_VOICE.career.description).toBe("YetkinCV, vize ve açık ilanlar");
     expect(SEN_VOICE.career.verifyCta).toBe("Sertifikayı doğrula");
     expect(SEN_VOICE.career.sealed).toBe("Doğrulanmış Rozet");
     expect(SEN_VOICE.career.sealed).not.toBe("Onaylı");

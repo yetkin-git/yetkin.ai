@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { Suspense } from "react";
 import { cookies } from "next/headers";
@@ -51,6 +51,24 @@ function rootMetadata(): Metadata {
 export async function generateMetadata(): Promise<Metadata> {
   return rootMetadata();
 }
+
+/**
+ * S-04 — PWA / viewport kimliği.
+ *
+ * Önce `viewport` hiç yoktu: mobil tarayıcı çubuğu marka rengini almıyor,
+ * "ana ekrana ekle" akışı tanımsız kalıyordu. `themeColor` markanın zemin
+ * tokenı (`--background: #eef2f7`) ile aynıdır — çubuk ile sayfa dikişsiz.
+ *
+ * `viewportFit: "cover"` çentikli ekranlarda güvenli alanı açar; sabit footer
+ * zaten `env(safe-area-inset-bottom)` payı taşır.
+ */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#eef2f7",
+  colorScheme: "light",
+};
 
 /**
  * Nonce CSP istek anında basılır; statik kabuk nonce taşıyamaz.

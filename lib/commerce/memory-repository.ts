@@ -4,6 +4,7 @@ import {
   nextVariantStatus,
 } from "@/lib/commerce/inventory-gate";
 import { CommerceWriteConflict, type CommerceRepository } from "@/lib/commerce/repository";
+import { sumVariantOnHand } from "@/lib/commerce/stock-sync";
 import type {
   MoveCommand,
   MoveResult,
@@ -199,6 +200,20 @@ function bind(
   return repo;
 }
 
+/**
+ * Onaylı stoku aynı ürünün varyant toplamına çeker. Veritabanındaki `INVENTORY_MOVE_SQL`
+ * senkronuyla aynı kuraldır. Bellek deposu tek seferde çalıştığı için toplam her zaman güncel okunur.
+ */
+function syncMemoryApprovedStock(state: MemoryState, productId: string): void {
+  const index = state.products.findIndex((row) => row.id === productId);
+  const product = state.products[index];
+  if (!product) {
+    return;
+  }
+  const total = sumVariantOnHand(state.variants.filter((row) => row.productId === productId));
+  state.products[index] = { ...product, approvedStockQty: total, updatedAt: new Date() };
+}
+
 function applyMemoryMovement(state: MemoryState, command: MoveCommand): MoveResult {
   const existing = state.movements.find((row) => row.idempotencyKey === command.idempotencyKey);
   if (existing) {
@@ -245,6 +260,7 @@ function applyMemoryMovement(state: MemoryState, command: MoveCommand): MoveResu
     updatedAt: new Date(),
   };
   state.variants[index] = next;
+  syncMemoryApprovedStock(state, next.productId);
   const movement: MovementRow = {
     id: command.id,
     storeId: command.storeId,

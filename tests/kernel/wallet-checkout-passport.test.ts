@@ -73,10 +73,10 @@ describe("Dron cüzdan HMAC kasa pasaportu", () => {
       "https://yetkin.ai/kasa/donus?sonuc=fail",
     );
     expect(kasaReturnHref("tezgah")).toBe("/tezgah");
-    expect(kasaReturnHref("e-ticaret")).toBe("/e-ticaret");
-    expect(kasaReturnHref("lisans")).toBe("/e-ticaret");
-    expect(kasaReturnHref("hibe")).toBe("/hibe");
-    expect(kasaReturnHref("dosya")).toBe("/hibe");
+    expect(kasaReturnHref("e-ticaret")).toBe("/panel/e-ticaret");
+    expect(kasaReturnHref("lisans")).toBe("/panel/e-ticaret");
+    expect(kasaReturnHref("hibe")).toBe("/panel/hibe");
+    expect(kasaReturnHref("dosya")).toBe("/panel/hibe");
     // CRO: satın alınan masa tam olarak korunur; junior ve cüzdan ayrı yüzey.
     expect(kasaReturnHref("junior")).toBe("/junior");
     expect(kasaReturnHref("cuzdan")).toBe("/cuzdan");

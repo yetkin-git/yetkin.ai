@@ -12,8 +12,17 @@ function readSrc(relative: string): string {
 }
 
 describe("vatandaş bildirim asgarisi yüzeyi", () => {
-  it("beş olay, Resend yok, yeni Prisma modeli yok", () => {
-    expect([...CITIZEN_NOTICE_KINDS]).toHaveLength(5);
+  it("beş olay + ticaret özeti, Resend yok, yeni Prisma modeli yok", () => {
+    // Faz 1 asgarisi beş olaydı; P0.6 ticaret günlük özetini altıncı tür olarak ekledi.
+    // Yeni oda/model/sayfa açılmadı: aynı SMTP hattı (`deliverCitizenNoticeMail`) kullanılır.
+    expect([...CITIZEN_NOTICE_KINDS]).toEqual([
+      "bid_received",
+      "bid_accepted",
+      "delivery_posted",
+      "escrow_released",
+      "escrow_ttl_approaching",
+      "commerce_daily_brief",
+    ]);
     const emit = readSrc("lib/kernel/notice/emit.ts");
     expect(emit).toContain("citizen.notice.");
     expect(emit).toContain("NODE_ENV === \"test\"");

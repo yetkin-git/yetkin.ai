@@ -14,6 +14,16 @@ export class ForbiddenError extends Error {
   }
 }
 
+export class PaymentRequiredError extends Error {
+  readonly status = 402 as const;
+  readonly purchasePath: string;
+  constructor(message = "Bu işlem için aktif lisans gerekli.", purchasePath = "/kurumsal") {
+    super(message);
+    this.name = "PaymentRequiredError";
+    this.purchasePath = purchasePath;
+  }
+}
+
 export class NotFoundError extends Error {
   readonly status = 404 as const;
   constructor(message = "Kayıt bulunamadı.") {

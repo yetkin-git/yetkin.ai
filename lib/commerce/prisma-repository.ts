@@ -13,6 +13,7 @@ import type {
   CommerceMarket,
   InventoryDirection,
   InventoryType,
+  MoveCommand,
   MoveResult,
   MovementRow,
   ProductRow,
@@ -85,6 +86,7 @@ function productFrom(row: {
   listingMarket: string | null;
   source: CatalogSource;
   status: ProductStatus;
+  approvedStockQty: number;
   createdAt: Date;
   updatedAt: Date;
 }): ProductRow {
@@ -141,6 +143,68 @@ function rethrowConflict(error: unknown): never {
     throw new CommerceWriteConflict("sku");
   }
   throw error;
+}
+
+/** Hareketin ürün satırını kilitler. Kardeş varyant yazımları bu kilitte sıraya girer. */
+const PRODUCT_LOCK_SQL = `
+SELECT p.id
+FROM commerce_products p
+INNER JOIN commerce_variants v ON v.product_id = p.id
+WHERE v.id = $1
+FOR UPDATE OF p
+`;
+
+/**
+ * Tek stok hareketi. Ürün kilidi önce alınır, ardından `INVENTORY_MOVE_SQL` çalışır.
+ * SQL içindeki onaylı stok toplamı bu kilitten sonra okunur; kardeş yazımı kaybolmaz.
+ * Çağıran bir işlem içinde değilse `applyMovement` kendi işlemini açar.
+ */
+async function moveInventory(db: CommerceDb, command: MoveCommand): Promise<MoveResult> {
+  await db.$queryRawUnsafe(PRODUCT_LOCK_SQL, command.variantId);
+  const rows = await db.$queryRawUnsafe<InventoryMoveSqlRow[]>(
+    INVENTORY_MOVE_SQL,
+    command.idempotencyKey,
+    command.variantId,
+    command.storeId,
+    command.actorUserId,
+    command.direction,
+    command.type,
+    command.quantity,
+    command.note,
+    command.id,
+  );
+  const row = rows.find((item) => item.outcome === "applied" || item.outcome === "replay") ?? rows[0];
+  if (!row || row.outcome === "missing") {
+    return { outcome: "missing" };
+  }
+  if (row.outcome === "rejected" || !row.id || !row.variant_id || !row.store_id) {
+    return { outcome: "rejected" };
+  }
+  const variant = await db.commerceVariant.findFirst({
+    where: { id: row.variant_id, storeId: row.store_id },
+  });
+  if (!variant || row.type == null || row.direction == null || row.quantity == null || row.on_hand_after == null) {
+    return { outcome: "missing" };
+  }
+  const movement = movementFrom({
+    id: row.id,
+    storeId: row.store_id,
+    variantId: row.variant_id,
+    actorUserId: row.actor_user_id ?? command.actorUserId,
+    type: row.type as InventoryType,
+    direction: row.direction as InventoryDirection,
+    quantity: row.quantity,
+    onHandAfter: row.on_hand_after,
+    note: row.note ?? "",
+    idempotencyKey: row.idempotency_key ?? command.idempotencyKey,
+    createdAt: row.created_at ?? new Date(),
+  });
+  const result: MoveResult = {
+    outcome: row.outcome,
+    movement,
+    variant: variantFrom(variant),
+  };
+  return result;
 }
 
 function bindPrisma(db: CommerceDb, nested: boolean): CommerceRepository {
@@ -298,50 +362,10 @@ function bindPrisma(db: CommerceDb, nested: boolean): CommerceRepository {
       return row ? movementFrom(row) : null;
     },
     async applyMovement(command) {
-      const rows = await db.$queryRawUnsafe<InventoryMoveSqlRow[]>(
-        INVENTORY_MOVE_SQL,
-        command.idempotencyKey,
-        command.variantId,
-        command.storeId,
-        command.actorUserId,
-        command.direction,
-        command.type,
-        command.quantity,
-        command.note,
-        command.id,
-      );
-      const row = rows.find((item) => item.outcome === "applied" || item.outcome === "replay") ?? rows[0];
-      if (!row || row.outcome === "missing") {
-        return { outcome: "missing" };
+      if (nested || typeof db.$transaction !== "function") {
+        return moveInventory(db, command);
       }
-      if (row.outcome === "rejected" || !row.id || !row.variant_id || !row.store_id) {
-        return { outcome: "rejected" };
-      }
-      const variant = await db.commerceVariant.findFirst({
-        where: { id: row.variant_id, storeId: row.store_id },
-      });
-      if (!variant || row.type == null || row.direction == null || row.quantity == null || row.on_hand_after == null) {
-        return { outcome: "missing" };
-      }
-      const movement = movementFrom({
-        id: row.id,
-        storeId: row.store_id,
-        variantId: row.variant_id,
-        actorUserId: row.actor_user_id ?? command.actorUserId,
-        type: row.type as InventoryType,
-        direction: row.direction as InventoryDirection,
-        quantity: row.quantity,
-        onHandAfter: row.on_hand_after,
-        note: row.note ?? "",
-        idempotencyKey: row.idempotency_key ?? command.idempotencyKey,
-        createdAt: row.created_at ?? new Date(),
-      });
-      const result: MoveResult = {
-        outcome: row.outcome,
-        movement,
-        variant: variantFrom(variant),
-      };
-      return result;
+      return db.$transaction((tx) => moveInventory(tx as CommerceDb, command));
     },
   };
   return repo;

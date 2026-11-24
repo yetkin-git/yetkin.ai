@@ -5,7 +5,9 @@
  * Sahte ilan, sahte şirket ve sahte logo yoktur.
  */
 
+import { z } from "zod";
 import { parseSha256Hex, sha256Hex } from "@/lib/kernel/crypto/sha256";
+import { yetkinCvBankForVertical } from "@/lib/career/yetkincv-bank";
 import {
   YETKINCV_ROLES,
   YETKINCV_VERTICALS,
@@ -31,6 +33,22 @@ export const YETKINCV_CATALOG_UNIT = "yetkincv-exam" as const;
 export const YETKINCV_SITTING_MS = 45 * 60 * 1000;
 export const YETKINCV_CV_MIN = 40 as const;
 export const YETKINCV_CV_MAX = 6000 as const;
+/** Serbest kariyer oturumunda dikeyden seçilen soru sayısı. */
+export const YETKINCV_SESSION_SIZE = 8 as const;
+/** Aynı dikeyde 30 gün içinde azami deneme. */
+export const YETKINCV_MAX_ATTEMPTS = 3 as const;
+export const YETKINCV_ATTEMPT_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
+/** Dikey bankasında asgari soru. */
+export const YETKINCV_BANK_MIN = 12 as const;
+/**
+ * Tek teslimde kabul edilen azami cevap.
+ *
+ * Kurumsal yol, ilanın seçtiği **tüm** becerilerin sorularını sorar; bu sayı banka
+ * büyüklüğüne bağlıdır (bugün 12). Cap tam 12 iken bankaya bir soru eklemek
+ * teslimi sessizce "Cevap listesi geçersiz." ile kırardı. Başlık payı bırakılır ve
+ * `tests/career/reaudit-p0-seals.test.ts` bank ≤ cap ilişkisini kilitler.
+ */
+export const YETKINCV_SUBMIT_ANSWERS_MAX = 16 as const;
 
 export type YetkinCvQuestion = {
   id: string;
@@ -67,6 +85,9 @@ export type YetkinCvSwotInput = {
   cvSignals: readonly string[];
 };
 
+/** Soru kimliği → görüntülenen şık sırasının orijinal indeksleri. */
+export type YetkinCvChoiceOrder = Record<string, number[]>;
+
 type Axis = { id: string; label: string; needles: readonly string[] };
 
 const CV_AXES: readonly Axis[] = [
@@ -81,380 +102,107 @@ const CV_AXES: readonly Axis[] = [
   { id: "software", label: "yazılım", needles: ["api", "test", "prompt", "otomasyon", "yazılım", "yazilim"] },
 ];
 
-function q(
-  id: string,
-  kind: YetkinCvQuestion["kind"],
-  skillId: string,
-  skillLabel: string,
-  prompt: string,
-  choices: readonly string[],
-  correctIndex: number,
-): YetkinCvQuestion {
-  return { id, kind, skillId, skillLabel, prompt, choices, correctIndex };
+function fnv1a(seed: string): number {
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < seed.length; i += 1) {
+    hash ^= seed.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return hash >>> 0;
 }
 
-const BANK: Record<YetkinCvVerticalId, readonly YetkinCvQuestion[]> = {
-  ecommerce: [
-    q(
-      "ec-stock",
-      "choice",
-      "stock",
-      "Stok",
-      "Aynı ürün iki pazaryeri kanalında satılıyor. Bir kanalda 4 adet satış düştü, depo sayımı hâlâ 20. İlk doğru adım hangisidir?",
-      [
-        "İki kanalın stokunu da elle 20 yazmak",
-        "Satışı düşen kanalın stoğunu düşürmek ve diğer kanalı aynı depo adediyle hizalamak",
-        "Ürünü her iki kanalda da yayından kaldırmak",
-        "Fiyatı düşürüp stoğu yok saymak",
-      ],
-      1,
-    ),
-    q(
-      "ec-return",
-      "choice",
-      "returns",
-      "İade",
-      "Müşteri ürünü açmadan iade etti. Kanal iade kaydı var, depo ürünü henüz saymadı. Sipariş durumuna ne yazılır?",
-      [
-        "Teslim edildi, iade yok",
-        "İade yolda; depo sayımı gelmeden stok artmaz",
-        "Satış hiç olmamış gibi siparişi sil",
-        "Aynı gün yeni satış diye işlemek",
-      ],
-      1,
-    ),
-    q(
-      "ec-vat",
-      "choice",
-      "price",
-      "Fiyat",
-      "Ürün kartındaki satış fiyatı KDV dahil 120. KDV hariç tutarı kartta ayrıca göstermek istiyorsun. Hangisi dürüsttür?",
-      [
-        "120 yazıp KDV hariç diye etiketlemek",
-        "KDV oranını belirtip hariç tutarı oranla ayırmak",
-        "KDV satırını boş bırakıp 120'yi her iki yere yazmak",
-        "Kargo ücretini fiyata gizleyip KDV yok demek",
-      ],
-      1,
-    ),
-    q(
-      "ec-copy",
-      "choice",
-      "listing",
-      "Ürün kartı",
-      "Ürün açıklamasında ölçmediğin bir teslim süresi yazmak ne üretir?",
-      [
-        "Doğrulanmış operasyon kaydı",
-        "Kartta duran ama ölçülmemiş bir vaat",
-        "SHA-256 mühür",
-        "Kanal stoğunun kendiliğinden düzelmesi",
-      ],
-      1,
-    ),
-    q(
-      "ec-case",
-      "case",
-      "case",
-      "Vaka",
-      "Vaka: Sabah bir kanal 0 stok gösteriyor, depo rafında 6 kutu duruyor, diğer kanal hâlâ satışa açık. Müşteriye bugün kargolanacak sipariş var. Ne yaparsın?",
-      [
-        "Altı kutuyu da kapalı kanala ayırıp açık siparişi bekletirim",
-        "Açık siparişi depodan ayırır, kanal stoklarını sayılan 6 ile hizalar, 0 görünen kanalı sayım bitene kadar kapalı tutarım",
-        "Her iki kanalda da stok 99 yazar, siparişi yarına bırakırım",
-        "Ürün fotoğrafını değiştirip stoğu olduğu gibi bırakırım",
-      ],
-      1,
-    ),
-  ],
-  grant: [
-    q(
-      "gr-fit",
-      "choice",
-      "fit",
-      "Uygunluk",
-      "Destek programının çağrı metni yazılım giderini kapsamıyor. Dosyaya ne yazılır?",
-      [
-        "Yazılım giderini eğitim diye adlandırıp eklemek",
-        "Gideri kapsam dışı diye işaretleyip dosyadan çıkarmak",
-        "Toplam bütçeyi şişirip kalemi gizlemek",
-        "Çağrı metnini dosyaya koymamak",
-      ],
-      1,
-    ),
-    q(
-      "gr-budget",
-      "choice",
-      "budget",
-      "Bütçe",
-      "Bütçe tablosunda personel satırı teklif mektubundaki adam-ay ile uyuşmuyor. İlk düzeltme nedir?",
-      [
-        "Yalnız toplam hücreyi yuvarlamak",
-        "Adam-ay, birim ücret ve satır tutarını aynı kaynağa bağlamak",
-        "Personel satırını silip tutarı makine kalemine taşımak",
-        "Eski yılın bütçesini kopyalamak",
-      ],
-      1,
-    ),
-    q(
-      "gr-proof",
-      "choice",
-      "evidence",
-      "Kanıt",
-      "Proje dosyasında faaliyet yazıyorsun ama faturası yok. Satır nasıl durur?",
-      [
-        "Tamamlandı ve ödendi",
-        "Planlandı; ödeme kanıtı yok",
-        "Kurum onayladı",
-        "Hibe hesabına yattı",
-      ],
-      1,
-    ),
-    q(
-      "gr-claim",
-      "choice",
-      "claim",
-      "İddia",
-      "Henüz başvurmadığın bir program için CV'ye ne yazılmaz?",
-      [
-        "Başvuru taslağı hazırladığım",
-        "Desteği kazandım",
-        "Çağrı metnini okuduğum",
-        "Uygunluk kontrolü yaptığım",
-      ],
-      1,
-    ),
-    q(
-      "gr-case",
-      "case",
-      "case",
-      "Vaka",
-      "Vaka: KOBİ, yazılım lisansını hibe dosyasına koymak istiyor. Çağrı bu kalemi dışlıyor, eğitim kalemi ise açık. Ne yaparsın?",
-      [
-        "Lisans faturasını eğitim katılımı diye yeniden adlandırırım",
-        "Lisansı kapsam dışı bırakır, eğitim kalemini yalnız gerçek eğitim belgesiyle yazarım",
-        "Toplam bütçeyi ikiye böler, lisans satırını siler gibi gösteririm",
-        "Onay yazısı yokken «kurum kabul etti» satırı eklerim",
-      ],
-      1,
-    ),
-  ],
-  marketing: [
-    q(
-      "mk-claim",
-      "choice",
-      "claim",
-      "İddia",
-      "Reklam metninde ölçmediğin «3 günde satış ikiye katlanır» cümlesi ne işe yarar?",
-      [
-        "Kampanya hedefini kanıtlar",
-        "Ölçülmemiş vaattir; metinden çıkarılır",
-        "Dönüşüm oranı yerine geçer",
-        "SHA-256 kodu üretir",
-      ],
-      1,
-    ),
-    q(
-      "mk-audience",
-      "choice",
-      "audience",
-      "Kitle",
-      "Kampanya, satın almış müşteriye değil siteyi bir kez açmış herkese gidiyor. İlk düzeltme hangisidir?",
-      [
-        "Bütçeyi ikiye katlamak",
-        "Kitleyi ölçülen segmente daraltmak ve dışarıdakini ayrı tutmak",
-        "Aynı metni tüm ülkeye açmak",
-        "Tıklamayı satış diye yazmak",
-      ],
-      1,
-    ),
-    q(
-      "mk-measure",
-      "choice",
-      "measure",
-      "Ölçüm",
-      "Reklam paneli 400 tıklama, sipariş defteri 12 satış gösteriyor. Rapora hangisi yazılır?",
-      [
-        "400 satış",
-        "400 tıklama ve 12 kayıtlı satış; ikisi ayrı sayılır",
-        "412 dönüşüm",
-        "Satış yok, yalnız tıklama silinir",
-      ],
-      1,
-    ),
-    q(
-      "mk-proof",
-      "choice",
-      "proof",
-      "Kanıt",
-      "Müşteri yorumu ekran görüntüsü yok. Kampanya slaytına ne konmaz?",
-      [
-        "Yorum toplamadık",
-        "4,9 puan ve 200 yorum",
-        "Yorum isteği taslağı",
-        "Ölçüm boş",
-      ],
-      1,
-    ),
-    q(
-      "mk-case",
-      "case",
-      "case",
-      "Vaka",
-      "Vaka: Ajans, stokta olmayan ürün için «bugün kargoda» reklamı açmak istiyor. Depo sayımı 0. Ne yaparsın?",
-      [
-        "Reklamı açar, stok düşünce durdururum",
-        "Reklamı açmam; stok 0 iken teslim vaadi yazmam",
-        "Komşu ürünün stok adedini bu ürüne yazarım",
-        "Eski kampanyanın satışını bu ürünün satışı diye gösteririm",
-      ],
-      1,
-    ),
-  ],
-  office: [
-    q(
-      "of-sheet",
-      "choice",
-      "sheet",
-      "Tablo",
-      "Aylık raporda aynı sipariş iki satırda duruyor. Toplamı göndermeden önce ne yapılır?",
-      [
-        "Toplamı elle şişirmek",
-        "Çift satırı tek sipariş kaydına indirmek",
-        "Boş satırları satış saymak",
-        "Geçen ayın toplamını kopyalamak",
-      ],
-      1,
-    ),
-    q(
-      "of-mail",
-      "choice",
-      "mail",
-      "Yazışma",
-      "Müşteri listesini genel bir sohbet aracına yapıştırmadan önce ne kontrol edilir?",
-      [
-        "Listenin renkleri",
-        "Kişisel veri var mı ve araç bu veriyi işlemeye uygun mu",
-        "Listenin satır sayısı tek mi",
-        "İmza görseli yeterince büyük mü",
-      ],
-      1,
-    ),
-    q(
-      "of-brief",
-      "choice",
-      "brief",
-      "Talimat",
-      "Yazışma taslağı «yarın kesin onaylanır» diyor. Onay makamı henüz bakmadı. Cümle nasıl düzelir?",
-      [
-        "Onaylandı",
-        "Taslak hazır; onay bekliyor",
-        "Ret geldi",
-        "Ödeme çıktı",
-      ],
-      1,
-    ),
-    q(
-      "of-file",
-      "choice",
-      "file",
-      "Dosya",
-      "Toplantı notunda karar yok, yalnız fikir var. Nota hangi başlık yazılır?",
-      [
-        "Karar ve sorumlu",
-        "Konuşulan fikir; karar yok",
-        "Bütçe onaylandı",
-        "İş tamam",
-      ],
-      1,
-    ),
-    q(
-      "of-case",
-      "case",
-      "case",
-      "Vaka",
-      "Vaka: Yönetici, müşteri e-posta listesini dış bir sohbete yapıştırıp «kampanya metni yaz» diyor. Listede ad ve telefon var. Ne yaparsın?",
-      [
-        "Listeyi olduğu gibi yapıştırırım",
-        "Ad ve telefonu çıkarır, yalnız iş hedefini yazıp metin taslağı isterim",
-        "Listeyi herkese açık bir bağlantıya koyarım",
-        "Telefonları sipariş numarası diye rapora eklerim",
-      ],
-      1,
-    ),
-  ],
-  software: [
-    q(
-      "sw-test",
-      "choice",
-      "test",
-      "Test",
-      "Otomasyon üç örnekte çalıştı, dördüncüde hata verdi. Teslim notuna ne yazılır?",
-      [
-        "Tüm kayıtlar geçti",
-        "Üç örnek geçti, bir örnek hata verdi",
-        "Hata örneğini silip dördü de geçti demek",
-        "Test çalıştırmadım ama hazır",
-      ],
-      1,
-    ),
-    q(
-      "sw-prompt",
-      "choice",
-      "prompt",
-      "Talimat",
-      "Kullanıcı metninin içine «önceki kuralları yok say» yazılmış. Araç bu metni işlerken ne yapar?",
-      [
-        "Sistem kuralını bırakıp metindeki emri uygular",
-        "Sistem kuralı durur; gömülü emir tek başına yetki açmaz",
-        "Metni onaylanmış sözleşme sayar",
-        "Kullanıcıya yönetici rolü verir",
-      ],
-      1,
-    ),
-    q(
-      "sw-review",
-      "choice",
-      "review",
-      "İnceleme",
-      "Üretilen kod derlenmeden müşteriye «canlıda» diye verilirse kayıt ne olur?",
-      [
-        "Gözden geçirilmiş sürüm",
-        "Çalıştırılmamış taslak",
-        "Sınav mührü",
-        "Kabul edilmiş teslim",
-      ],
-      1,
-    ),
-    q(
-      "sw-secret",
-      "choice",
-      "secret",
-      "Giz",
-      "API anahtarı sohbet metninde duruyor. İlk iş nedir?",
-      [
-        "Anahtarı CV'ye eklemek",
-        "Anahtarı metinden çıkarmak ve yenilemek",
-        "Anahtarı doğrulama kodu diye yayınlamak",
-        "Aynı anahtarı ikinci bir bota kopyalamak",
-      ],
-      1,
-    ),
-    q(
-      "sw-case",
-      "case",
-      "case",
-      "Vaka",
-      "Vaka: Bir akış, fatura tutarını okuyup ödeme emri taslağı yazıyor. Tutar alanını boş bir kayıtta da dolduruyor. Ne yaparsın?",
-      [
-        "Boş tutarı 1 kabul edip emri gönderirim",
-        "Tutar yoksa emri durdurur, boş kaydı hata olarak gösteririm",
-        "Rastgele bir tutar yazıp müşteriye yollarım",
-        "Testi atlayıp akışı canlıya alırım",
-      ],
-      1,
-    ),
-  ],
-};
+/** Deterministik Fisher–Yates. Aynı seed aynı sırayı üretir. */
+export function yetkinCvShuffleIndices(length: number, seed: string): number[] {
+  const order = Array.from({ length }, (_, index) => index);
+  let state = fnv1a(seed) || 1;
+  for (let i = length - 1; i > 0; i -= 1) {
+    state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+    const j = state % (i + 1);
+    const tmp = order[i]!;
+    order[i] = order[j]!;
+    order[j] = tmp;
+  }
+  return order;
+}
+
+export function yetkinCvBuildChoiceOrder(
+  questions: readonly YetkinCvQuestion[],
+  sittingSeed: string,
+): YetkinCvChoiceOrder {
+  const order: YetkinCvChoiceOrder = {};
+  for (const question of questions) {
+    order[question.id] = yetkinCvShuffleIndices(
+      question.choices.length,
+      `${sittingSeed}:${question.id}:choices`,
+    );
+  }
+  return order;
+}
+
+export function yetkinCvApplyChoiceOrder(
+  choices: readonly string[],
+  order: readonly number[],
+): string[] {
+  return order.map((index) => choices[index] ?? "");
+}
+
+/** Görüntülenen şık indeksini bankadaki orijinal indekse çevirir. */
+export function yetkinCvRemapDisplayedChoice(
+  displayedIndex: number,
+  order: readonly number[] | undefined,
+): number | null {
+  if (!order || order.length === 0) {
+    return displayedIndex;
+  }
+  if (!Number.isInteger(displayedIndex) || displayedIndex < 0 || displayedIndex >= order.length) {
+    return null;
+  }
+  const original = order[displayedIndex];
+  return typeof original === "number" ? original : null;
+}
+
+export function yetkinCvRemapAnswers(
+  answers: readonly YetkinCvAnswer[],
+  choiceOrder: YetkinCvChoiceOrder,
+): YetkinCvAnswer[] | null {
+  const remapped: YetkinCvAnswer[] = [];
+  for (const answer of answers) {
+    const order = choiceOrder[answer.questionId];
+    const original = yetkinCvRemapDisplayedChoice(answer.choiceIndex, order);
+    if (original === null) {
+      return null;
+    }
+    remapped.push({ questionId: answer.questionId, choiceIndex: original });
+  }
+  return remapped;
+}
+
+export function yetkinCvPickSessionQuestions(
+  bank: readonly YetkinCvQuestion[],
+  count: number,
+  seed: string,
+): YetkinCvQuestion[] {
+  if (bank.length === 0 || count <= 0) {
+    return [];
+  }
+  const take = Math.min(count, bank.length);
+  const order = yetkinCvShuffleIndices(bank.length, `${seed}:pick`);
+  return order.slice(0, take).map((index) => bank[index]!);
+}
+
+export function yetkinCvCorrectIndexDistribution(
+  questions: readonly YetkinCvQuestion[],
+): { counts: number[]; maxShare: number } {
+  const counts = [0, 0, 0, 0];
+  for (const question of questions) {
+    const index = question.correctIndex;
+    if (index >= 0 && index <= 3) {
+      counts[index] = (counts[index] ?? 0) + 1;
+    }
+  }
+  const total = questions.length || 1;
+  return { counts, maxShare: Math.max(...counts) / total };
+}
 
 export function yetkinCvRole(id: string): (typeof YETKINCV_ROLES)[number] | null {
   return YETKINCV_ROLES.find((row) => row.id === id) ?? null;
@@ -473,19 +221,24 @@ export function yetkinCvQuestions(verticalId: string): readonly YetkinCvQuestion
   if (!vertical) {
     return null;
   }
-  return BANK[vertical.id];
+  const bank = yetkinCvBankForVertical(vertical.id);
+  return bank ?? null;
 }
 
 export function yetkinCvPublicQuestions(
   questions: readonly YetkinCvQuestion[],
+  choiceOrder?: YetkinCvChoiceOrder | null,
 ): YetkinCvPublicQuestion[] {
-  return questions.map((question) => ({
-    id: question.id,
-    kind: question.kind,
-    skillLabel: question.skillLabel,
-    prompt: question.prompt,
-    choices: question.choices,
-  }));
+  return questions.map((question) => {
+    const order = choiceOrder?.[question.id];
+    return {
+      id: question.id,
+      kind: question.kind,
+      skillLabel: question.skillLabel,
+      prompt: question.prompt,
+      choices: order ? yetkinCvApplyChoiceOrder(question.choices, order) : [...question.choices],
+    };
+  });
 }
 
 export function yetkinCvQuestionsByIds(
@@ -729,20 +482,52 @@ export type YetkinCvSubmitInput = {
   answers: YetkinCvAnswer[];
 };
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
-}
+const yetkinCvRoleIds = YETKINCV_ROLES.map((row) => row.id) as [YetkinCvRoleId, ...YetkinCvRoleId[]];
+const yetkinCvVerticalIds = YETKINCV_VERTICALS.map((row) => row.id) as [
+  YetkinCvVerticalId,
+  ...YetkinCvVerticalId[],
+];
+
+/**
+ * `action` yalnız yönlendirme anahtarıdır: rota onu okuyup `start`/`submit` dalına girer.
+ * Şema `strictObject` olduğu için anahtar burada **açıkça** kabul edilmezse istemcinin
+ * gönderdiği gövde tamamen reddedilir (sınav hiç açılmaz). Değeri doğrulanır, yok sayılmaz.
+ */
+export const yetkinCvStartSchema = z.strictObject({
+  action: z.literal("start").optional(),
+  roleId: z.enum(yetkinCvRoleIds),
+  verticalId: z.enum(yetkinCvVerticalIds),
+  cvText: z.string(),
+});
+
+export const yetkinCvSubmitSchema = z.strictObject({
+  action: z.literal("submit").optional(),
+  sittingId: z
+    .string()
+    .trim()
+    .regex(/^[a-z0-9_-]{8,40}$/i, "Sınav oturumu bulunamadı."),
+  answers: z
+    .array(
+      z.strictObject({
+        questionId: z.string().min(1),
+        choiceIndex: z.number().int().min(0).max(7),
+      }),
+    )
+    .min(1)
+    .max(YETKINCV_SUBMIT_ANSWERS_MAX),
+});
 
 export function parseYetkinCvStart(raw: unknown): { ok: true; value: YetkinCvStartInput } | { ok: false; error: string } {
-  if (!isRecord(raw)) {
-    return { ok: false, error: "İstek gövdesi okunamadı." };
+  const parsed = yetkinCvStartSchema.safeParse(raw);
+  if (!parsed.success) {
+    return { ok: false, error: "Hedef pozisyon ve uzmanlık listeden seçilir." };
   }
-  const role = yetkinCvRole(typeof raw.roleId === "string" ? raw.roleId : "");
-  const vertical = yetkinCvVertical(typeof raw.verticalId === "string" ? raw.verticalId : "");
+  const role = yetkinCvRole(parsed.data.roleId);
+  const vertical = yetkinCvVertical(parsed.data.verticalId);
   if (!role || !vertical) {
     return { ok: false, error: "Hedef pozisyon ve uzmanlık listeden seçilir." };
   }
-  const cvText = normalizeYetkinCvText(typeof raw.cvText === "string" ? raw.cvText : "");
+  const cvText = normalizeYetkinCvText(parsed.data.cvText);
   if (cvText.length < YETKINCV_CV_MIN) {
     return { ok: false, error: "CV özeti en az 40 karakter olmalı." };
   }
@@ -755,25 +540,45 @@ export function parseYetkinCvStart(raw: unknown): { ok: true; value: YetkinCvSta
 export function parseYetkinCvSubmit(
   raw: unknown,
 ): { ok: true; value: YetkinCvSubmitInput } | { ok: false; error: string } {
-  if (!isRecord(raw)) {
+  const parsed = yetkinCvSubmitSchema.safeParse(raw);
+  if (!parsed.success) {
+    const issue = parsed.error.issues[0];
+    if (issue?.path[0] === "sittingId") {
+      return { ok: false, error: "Sınav oturumu bulunamadı." };
+    }
+    if (issue?.path[0] === "answers") {
+      if (issue.path.length > 1) {
+        return { ok: false, error: issue.message.includes("choiceIndex") ? "Şık indeksi geçersiz." : "Cevap satırı geçersiz." };
+      }
+      return { ok: false, error: "Cevap listesi geçersiz." };
+    }
     return { ok: false, error: "İstek gövdesi okunamadı." };
   }
-  const sittingId = typeof raw.sittingId === "string" ? raw.sittingId.trim() : "";
-  if (!/^[a-z0-9_-]{8,40}$/i.test(sittingId)) {
-    return { ok: false, error: "Sınav oturumu bulunamadı." };
+  return {
+    ok: true,
+    value: {
+      sittingId: parsed.data.sittingId,
+      answers: parsed.data.answers.map((row) => ({
+        questionId: row.questionId,
+        choiceIndex: row.choiceIndex,
+      })),
+    },
+  };
+}
+
+export function readYetkinCvChoiceOrder(value: unknown): YetkinCvChoiceOrder {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return {};
   }
-  if (!Array.isArray(raw.answers) || raw.answers.length === 0 || raw.answers.length > 12) {
-    return { ok: false, error: "Cevap listesi geçersiz." };
-  }
-  const answers: YetkinCvAnswer[] = [];
-  for (const row of raw.answers) {
-    if (!isRecord(row) || typeof row.questionId !== "string" || typeof row.choiceIndex !== "number") {
-      return { ok: false, error: "Cevap satırı geçersiz." };
+  const order: YetkinCvChoiceOrder = {};
+  for (const [key, row] of Object.entries(value as Record<string, unknown>)) {
+    if (!Array.isArray(row) || row.length === 0) {
+      continue;
     }
-    if (!Number.isInteger(row.choiceIndex) || row.choiceIndex < 0 || row.choiceIndex > 7) {
-      return { ok: false, error: "Şık indeksi geçersiz." };
+    if (!row.every((item) => typeof item === "number" && Number.isInteger(item))) {
+      continue;
     }
-    answers.push({ questionId: row.questionId, choiceIndex: row.choiceIndex });
+    order[key] = row as number[];
   }
-  return { ok: true, value: { sittingId, answers } };
+  return order;
 }

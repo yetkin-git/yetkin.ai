@@ -6,14 +6,20 @@ import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import { TEZGAH_FAIL_MESSAGE, TEZGAH_GUEST_QUOTA_MESSAGE, TEZGAH_MEMBER_QUOTA_MESSAGE } from "@/lib/tezgah/catalog";
 import { tezgahRequestHash } from "@/lib/tezgah/paid-lane";
 import { consumeTezgahQuota, peekTezgahQuota, refundTezgahQuota, settleTezgahSlot } from "@/lib/tezgah/quota";
-import { PAZARYERI_FILENAME, pazaryeriMarket } from "@/lib/tezgah/pazaryeri/copy";
+import { PAZARYERI_FILENAME, pazaryeriMarket, type PazaryeriId } from "@/lib/tezgah/pazaryeri/copy";
 import { buildPazaryeriTable, clipPazaryeriTitle, type PazaryeriCsvInput } from "@/lib/tezgah/pazaryeri/csv";
-import { parsePazaryeriProducts, readPazaryeriCopy, type PazaryeriProduct } from "@/lib/tezgah/pazaryeri/parse";
+import {
+  formatPriceTlCell,
+  parsePazaryeriProducts,
+  readPazaryeriCopy,
+  type PazaryeriProduct,
+} from "@/lib/tezgah/pazaryeri/parse";
 import { pazaryeriSystemPrompt, pazaryeriUserPrompt } from "@/lib/tezgah/pazaryeri/prompts";
 import { pazaryeriGenerateRequestSchema, type PazaryeriGenerateRequest } from "@/lib/tezgah/pazaryeri/schema";
+import { matchPazaryeriTaxonomy } from "@/lib/tezgah/pazaryeri/taxonomy";
 
-/** Tek çağrı tavanı. En çok 8 ürün bu tavana sığsın diye kapıdadır. */
-export const PAZARYERI_MAX_OUTPUT_TOKENS = 900;
+/** Tek çağrı tavanı. En çok 25 ürün bu tavana sığsın diye kapıdadır. */
+export const PAZARYERI_MAX_OUTPUT_TOKENS = 3_200;
 export const PAZARYERI_MODEL_ROLE = "LITE_STREAM" as const;
 
 export type PazaryeriGenerateResult =
@@ -63,9 +69,19 @@ function inventsMoney(line: string, source: string): boolean {
 }
 
 function productSource(product: PazaryeriProduct): string {
-  return [product.name, product.category, ...product.fields.map((field) => `${field.column}: ${field.value}`), product.other]
-    .filter((part) => part.length > 0)
-    .join("\n");
+  const parts = [
+    product.name,
+    product.category,
+    ...product.fields.map((field) => `${field.column}: ${field.value}`),
+    product.other,
+  ];
+  if (product.priceMinor != null) {
+    parts.push(`Fiyat: ${formatPriceTlCell(product.priceMinor)} TL`);
+  }
+  if (product.stockQty != null) {
+    parts.push(`Stok: ${product.stockQty}`);
+  }
+  return parts.filter((part) => part.length > 0).join("\n");
 }
 
 function keptBullet(bullet: string, source: string): boolean {
@@ -79,7 +95,12 @@ function keptBullet(bullet: string, source: string): boolean {
   return digits.every((token) => source.includes(token));
 }
 
-function sealRows(products: readonly PazaryeriProduct[], raw: string, titleCap: number): PazaryeriCsvInput[] | null {
+function sealRows(
+  products: readonly PazaryeriProduct[],
+  raw: string,
+  titleCap: number,
+  market: PazaryeriId,
+): PazaryeriCsvInput[] | null {
   const copy = readPazaryeriCopy(raw);
   if (!copy) {
     return null;
@@ -108,12 +129,20 @@ function sealRows(products: readonly PazaryeriProduct[], raw: string, titleCap: 
     if (bullets.length === 0) {
       return null;
     }
+    const taxonomy = matchPazaryeriTaxonomy({
+      market,
+      category: product.category,
+      productName: product.name,
+    });
     rows.push({
       title,
       description: bullets.join(" · "),
       category: product.category,
+      taxonomyPath: taxonomy.path,
       fields: product.fields,
       other: product.other,
+      priceMinor: product.priceMinor,
+      stockQty: product.stockQty,
     });
   }
   return rows;
@@ -121,7 +150,7 @@ function sealRows(products: readonly PazaryeriProduct[], raw: string, titleCap: 
 
 /**
  * Katalog satırı. Ayrıştırma kodda biter; bozuk istek hak düşürmez.
- * Model yalnız başlık ve satış metnini yazar. CSV, tavan ve boş fiyat kodda kalır.
+ * Model yalnız başlık ve satış metnini yazar. CSV, tavan, taksonomi ve fiyat kodda kalır.
  * Cüzdana yazılmaz.
  */
 export async function generatePazaryeriCatalog(
@@ -179,7 +208,12 @@ export async function generatePazaryeriCatalog(
   }
 
   const restore = async (): Promise<PazaryeriGenerateResult> => {
-    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, "lite");
+    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, "lite", {
+      hold: slot.hold,
+      command: input.commandKey
+        ? { key: input.commandKey, requestHash: tezgahRequestHash(input.request) }
+        : null,
+    });
     return {
       ok: false,
       error: TEZGAH_FAIL_MESSAGE,
@@ -201,7 +235,7 @@ export async function generatePazaryeriCatalog(
       temperature: 0.2,
       maxOutputTokens: PAZARYERI_MAX_OUTPUT_TOKENS,
       maxAttempts: 1,
-      timeoutMs: 25_000,
+      timeoutMs: 45_000,
       rateLimit: {
         identifier: input.actorId,
         scope: "tezgah",
@@ -217,7 +251,7 @@ export async function generatePazaryeriCatalog(
     deps,
   );
 
-  const sealed = sealRows(products, llm?.text ?? "", market.titleCap);
+  const sealed = sealRows(products, llm?.text ?? "", market.titleCap, parsed.data.market);
   if (!sealed) {
     return restore();
   }

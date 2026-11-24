@@ -26,6 +26,8 @@ export type CommerceHandlerDeps = {
   requireSession: (request?: Request) => Promise<SessionUser>;
   repository: () => CommerceRepository;
   idempotency: () => HttpIdempotencyStore;
+  /** Canlı yol ikinci mağazayı plan sınırına sokar. Bellek testleri bu kapıyı taşımaz. */
+  guardNewStore?: (userId: string) => Promise<{ ok: true } | Extract<CommerceResult<Record<string, unknown>>, { ok: false }>>;
 };
 
 async function readBody(request: Request): Promise<{ ok: true; value: unknown } | { ok: false; error: string }> {
@@ -106,9 +108,15 @@ export function getStores(deps: CommerceHandlerDeps, request: Request) {
 }
 
 export function postStore(deps: CommerceHandlerDeps, request: Request) {
-  return withPost(deps, request, "/api/commerce/stores", (user, body) =>
-    createCommerceStore(deps.repository(), user.id, body),
-  );
+  return withPost(deps, request, "/api/commerce/stores", async (user, body) => {
+    if (deps.guardNewStore) {
+      const gate = await deps.guardNewStore(user.id);
+      if (!gate.ok) {
+        return gate;
+      }
+    }
+    return createCommerceStore(deps.repository(), user.id, body);
+  });
 }
 
 export function getStore(deps: CommerceHandlerDeps, request: Request, storeId: string) {

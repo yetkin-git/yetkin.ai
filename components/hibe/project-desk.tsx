@@ -19,7 +19,7 @@ import {
   type HibeAnalysisInput,
 } from "@/lib/yetkinhibe/os-brief";
 
-const EMPTY_BRIEF_MESSAGE = "Lütfen iş fikrinizi yazın, sektör ve il seçin.";
+const EMPTY_BRIEF_MESSAGE = "İş fikrini yaz, sektörü ve ili seç.";
 
 const SECTIONS = [
   "1. Proje Özeti ve Hedefler",
@@ -43,12 +43,19 @@ export function HibeProjectDesk({
   initialBusinessName = "",
   initialInvestmentFocus = "",
   planNote = null,
+  paymentCommandKey = null,
 }: {
   seed: HibeAnalysisInput | null;
   grantId: string;
   initialBusinessName?: string;
   initialInvestmentFocus?: string;
   planNote?: GrantPrepPlanNote | null;
+  /**
+   * Ş3 / B-03 — `/cuzdan` dönüşünden taşınan ödeme anahtarı. Ödeme ile dosya üretimi
+   * **aynı** `Idempotency-Key`e bağlanır; kullanıcı formu baştan doldurmaz, üretim
+   * ikinci kez tahsil etmez.
+   */
+  paymentCommandKey?: string | null;
 }) {
   const [businessName, setBusinessName] = useState(seed?.businessName || initialBusinessName);
   const [freelancerName, setFreelancerName] = useState("");
@@ -67,6 +74,8 @@ export function HibeProjectDesk({
   const [project, setProject] = useState("");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
+  const [walletShort, setWalletShort] = useState(false);
+  const generateKey = useState(() => crypto.randomUUID())[0];
   const [report, setReport] = useState<GrantProjectReport | null>(null);
   const [docx, setDocx] = useState<{ base64: string; filename: string } | null>(null);
   const [planCopied, setPlanCopied] = useState(false);
@@ -112,12 +121,17 @@ export function HibeProjectDesk({
     }
     setPending(true);
     setError("");
+    setWalletShort(false);
     try {
       const path = details ? "/api/tezgah/grant/dossier" : "/api/tezgah/grant/generate";
-      const headers: Record<string, string> = { "content-type": "application/json" };
-      if (details) {
-        headers["Idempotency-Key"] = crypto.randomUUID();
-      }
+      const headers: Record<string, string> = {
+        "content-type": "application/json",
+        // Tam dosyada ödeme anahtarı varsa o kullanılır: aynı anahtar rezervasyonu,
+        // defter DEBIT'ini ve `hibe_dossiers.command_key` satırını bağlar (Ş3).
+        "Idempotency-Key": details
+          ? (paymentCommandKey ?? crypto.randomUUID())
+          : generateKey,
+      };
       const response = await fetch(
         path,
         withRailApiVersion({
@@ -128,6 +142,9 @@ export function HibeProjectDesk({
       );
       const body = (await response.json()) as { ok?: boolean; error?: string; data?: unknown };
       if (!response.ok || body.ok === false || !isReport(body.data)) {
+        if (response.status === 402) {
+          setWalletShort(true);
+        }
         setError(typeof body.error === "string" ? body.error : "Dosya üretilemedi.");
         return;
       }
@@ -249,7 +266,7 @@ export function HibeProjectDesk({
               value={provinceCode}
               onChange={(event) => setProvinceCode(event.target.value)}
             >
-              <option value="">İl seçiniz...</option>
+              <option value="">İl seç</option>
               {HIBE_FORM_LISTS.provinces.map((row) => (
                 <option key={row.code} value={row.code}>{row.name}</option>
               ))}
@@ -265,7 +282,7 @@ export function HibeProjectDesk({
               value={naceGroup}
               onChange={(event) => setNaceGroup(event.target.value)}
             >
-              <option value="">Sektör seçiniz...</option>
+              <option value="">Sektör seç</option>
               {HIBE_FORM_LISTS.nace.map((row) => (
                 <option key={row.id} value={row.id}>{row.label}</option>
               ))}
@@ -317,10 +334,10 @@ export function HibeProjectDesk({
               context="hibe"
               value={project}
               onChange={(event) => setProject(event.target.value)}
-              placeholder="İş fikrinizi buraya yazınız..."
+              placeholder="İş fikrini buraya yaz…"
               maxLength={1500}
-              softHint="Daha doğru sonuç için ne yapacağınızı birkaç kelimeyle daha açın."
-              readyHint="✓ İş fikriniz analiz için hazır."
+              softHint="Daha doğru sonuç için ne yapacağını birkaç kelimeyle daha aç."
+              readyHint="✓ İş fikrin analiz için hazır."
             />
           </div>
         </label>
@@ -332,6 +349,11 @@ export function HibeProjectDesk({
           {pending ? "Üretiliyor…" : "Taslak dosyayı üret"}
         </Button>
         {error ? <p className="text-sm text-[var(--rose)]">{error}</p> : null}
+        {walletShort ? (
+          <a href="/cuzdan" className="inline-flex text-sm font-semibold text-emerald-800">
+            Cüzdana bakiye yükle
+          </a>
+        ) : null}
       </form>
       {report ? (
         <div className="space-y-4">

@@ -18,6 +18,9 @@ export const INNGEST_KERNEL_CRON_FUNCTION_IDS = [
   "trendyol-order-pull",
   "hepsiburada-order-pull",
   "commerce-subscription-renewal",
+  "tezgah-credit-rollover",
+  "grant-catalog-verify",
+  "grant-reservation-ttl",
 ] as const;
 
 export type InngestServeMode = "cloud" | "dev" | "fail-closed";

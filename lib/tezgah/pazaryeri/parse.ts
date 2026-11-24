@@ -15,7 +15,8 @@ const CANONICAL: Record<string, string> = {
   yas: "Yas",
 };
 
-const RESERVED = new Set(["barkod", "fiyat", "fiyati", "stok", "stokadedi"]);
+/** Barkod LLM/CSV'ye sızmaz. Fiyat ve stok kullanıcıdan doğrulanır. */
+const BARCODE_KEYS = new Set(["barkod", "barkodno"]);
 
 export type PazaryeriField = {
   column: string;
@@ -25,6 +26,11 @@ export type PazaryeriField = {
 export type PazaryeriProduct = {
   name: string;
   category: string;
+  brand: string | null;
+  /** Kullanıcı fiyatı kuruş. Yoksa null — LLM üretmez. */
+  priceMinor: number | null;
+  /** Kullanıcı stok adedi. Yoksa null — CSV boş kalır. */
+  stockQty: number | null;
   fields: PazaryeriField[];
   other: string;
 };
@@ -53,6 +59,103 @@ function splitBlocks(raw: string): string[] {
     .filter((block) => block.length > 0);
 }
 
+/** TL metnini kuruşa çevirir. Boş → null. Bozuk → undefined (parse fail). */
+export function parseTlToMinor(raw: string): number | null | undefined {
+  const cleaned = raw
+    .trim()
+    .replace(/₺/g, "")
+    .replace(/\s+/g, "")
+    .replace(/(tl|lira)$/i, "");
+  if (!cleaned) {
+    return null;
+  }
+  let normalized = cleaned;
+  if (/^\d{1,3}(?:\.\d{3})+(?:,\d{1,2})?$/.test(cleaned)) {
+    normalized = cleaned.replace(/\./g, "").replace(",", ".");
+  } else if (/^\d+,\d{1,2}$/.test(cleaned)) {
+    normalized = cleaned.replace(",", ".");
+  } else if (!/^\d+(?:\.\d{1,2})?$/.test(cleaned)) {
+    return undefined;
+  }
+  const amount = Number(normalized);
+  if (!Number.isFinite(amount) || amount < 0) {
+    return undefined;
+  }
+  const minor = Math.round(amount * 100);
+  if (!Number.isSafeInteger(minor) || minor > 2_147_483_647) {
+    return undefined;
+  }
+  return minor;
+}
+
+/** Stok adedi. Boş → null. Bozuk → undefined. */
+export function parseStockQty(raw: string): number | null | undefined {
+  const cleaned = raw.trim().replace(/\s+/g, "");
+  if (!cleaned) {
+    return null;
+  }
+  if (!/^\d+$/.test(cleaned)) {
+    return undefined;
+  }
+  const qty = Number.parseInt(cleaned, 10);
+  if (!Number.isSafeInteger(qty) || qty < 0 || qty > 2_147_483_647) {
+    return undefined;
+  }
+  return qty;
+}
+
+/** Kuruşu CSV Fiyat hücresine TL metni olarak yazar. */
+export function formatPriceTlCell(priceMinor: number): string {
+  const whole = Math.trunc(priceMinor / 100);
+  const frac = Math.abs(priceMinor % 100);
+  return frac === 0 ? String(whole) : `${whole},${String(frac).padStart(2, "0")}`;
+}
+
+/**
+ * İlk satır: düz ad veya `Ürün Adı | Marka | Fiyat (TL) | Stok`.
+ * Eksik sütunlar boş kabul edilir.
+ */
+export function parseProductHead(line: string): {
+  name: string;
+  brand: string | null;
+  priceMinor: number | null;
+  stockQty: number | null;
+} | null {
+  const parts = line.split("|").map((part) => part.trim());
+  if (parts.length === 1) {
+    const name = parts[0] ?? "";
+    if (name.length < 2 || name.length > PAZARYERI_MAX_NAME) {
+      return null;
+    }
+    return { name, brand: null, priceMinor: null, stockQty: null };
+  }
+  if (parts.length > 4) {
+    return null;
+  }
+  const name = parts[0] ?? "";
+  if (name.length < 2 || name.length > PAZARYERI_MAX_NAME) {
+    return null;
+  }
+  const brandRaw = parts[1] ?? "";
+  if (brandRaw.length > 80) {
+    return null;
+  }
+  const price = parts.length >= 3 ? parseTlToMinor(parts[2] ?? "") : null;
+  if (price === undefined) {
+    return null;
+  }
+  const stock = parts.length >= 4 ? parseStockQty(parts[3] ?? "") : null;
+  if (stock === undefined) {
+    return null;
+  }
+  return {
+    name,
+    brand: brandRaw.length > 0 ? brandRaw : null,
+    priceMinor: price,
+    stockQty: stock,
+  };
+}
+
 function parseBlock(block: string): PazaryeriProduct | null {
   if (block.length > PAZARYERI_MAX_BLOCK) {
     return null;
@@ -61,11 +164,17 @@ function parseBlock(block: string): PazaryeriProduct | null {
     .split("\n")
     .map((line) => line.trim())
     .filter((line) => line.length > 0);
-  const name = lines[0];
-  if (!name || name.length < 2 || name.length > PAZARYERI_MAX_NAME || lines.length < 2) {
+  if (lines.length < 2) {
+    return null;
+  }
+  const head = parseProductHead(lines[0] ?? "");
+  if (!head) {
     return null;
   }
   let category: string | null = null;
+  let brand = head.brand;
+  let priceMinor = head.priceMinor;
+  let stockQty = head.stockQty;
   const fields: PazaryeriField[] = [];
   const other: string[] = [];
   const seen = new Set<string>();
@@ -87,7 +196,30 @@ function parseBlock(block: string): PazaryeriProduct | null {
       category = value;
       continue;
     }
-    if (RESERVED.has(folded)) {
+    if (BARCODE_KEYS.has(folded)) {
+      continue;
+    }
+    if (folded === "fiyat" || folded === "fiyati") {
+      const parsed = parseTlToMinor(value);
+      if (parsed === undefined) {
+        return null;
+      }
+      priceMinor = parsed;
+      continue;
+    }
+    if (folded === "stok" || folded === "stokadedi") {
+      const parsed = parseStockQty(value);
+      if (parsed === undefined) {
+        return null;
+      }
+      stockQty = parsed;
+      continue;
+    }
+    if (folded === "marka") {
+      if (value.length < 1 || value.length > 80) {
+        return null;
+      }
+      brand = value;
       continue;
     }
     const column = CANONICAL[folded];
@@ -105,10 +237,21 @@ function parseBlock(block: string): PazaryeriProduct | null {
   if (!category) {
     return null;
   }
-  return { name, category, fields, other: other.join(" | ") };
+  if (brand) {
+    fields.unshift({ column: "Marka", value: brand });
+  }
+  return {
+    name: head.name,
+    category,
+    brand,
+    priceMinor,
+    stockQty,
+    fields,
+    other: other.join(" | "),
+  };
 }
 
-/** Boş satırla ayrılmış bloklar. Bozuk, taşan veya 8 üstü istek null döner; hak düşmez. */
+/** Boş satırla ayrılmış bloklar. Bozuk, taşan veya tavan üstü istek null döner; hak düşmez. */
 export function parsePazaryeriProducts(raw: string): PazaryeriProduct[] | null {
   const blocks = splitBlocks(raw);
   if (blocks.length === 0 || blocks.length > PAZARYERI_MAX_PRODUCTS) {

@@ -1,4 +1,4 @@
-import { assistantActorId } from "@/lib/kernel/ai/assistant-guest-quota";
+import { assistantActorId } from "@/lib/kernel/ai/assistant-guest-actor";
 import {
   answerAssistantChat,
   assistantChatRequestSchema,

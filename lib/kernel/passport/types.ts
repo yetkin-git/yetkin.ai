@@ -1,6 +1,7 @@
 export const PASSPORT_STAMP_SOURCE_KINDS = [
   "ACADEMY_CERTIFICATE",
   "FREELANCER_RELEASE",
+  "YETKINHIBE_PROJECT",
 ] as const;
 
 export type PassportStampSourceKind = (typeof PASSPORT_STAMP_SOURCE_KINDS)[number];

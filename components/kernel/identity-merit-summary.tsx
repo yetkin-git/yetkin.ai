@@ -18,9 +18,10 @@ import {
   type SealedPassportStamp,
 } from "@/lib/kernel/passport/types";
 
-const SOURCE_TONE: Record<PassportStampSourceKind, "safir" | "emerald"> = {
+const SOURCE_TONE: Record<PassportStampSourceKind, "safir" | "emerald" | "amber"> = {
   ACADEMY_CERTIFICATE: "safir",
   FREELANCER_RELEASE: "emerald",
+  YETKINHIBE_PROJECT: "amber",
 };
 
 export function IdentityMeritSummary({

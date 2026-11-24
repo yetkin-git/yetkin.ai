@@ -5,6 +5,8 @@ import {
   supplierHint,
 } from "@/lib/commerce/credential-seal";
 import { MarketplaceConflict, type MarketplaceRepository } from "@/lib/commerce/marketplace-repository";
+import { liveStoreLicense } from "@/lib/commerce/store-license";
+import { supplierIdShape } from "@/lib/commerce/channel-credentials";
 import {
   COMMERCE_CHANNEL,
   listingView,
@@ -29,10 +31,7 @@ function readSupplier(value: unknown, channel: CommerceChannelName): string | nu
   if (typeof value !== "string") {
     return null;
   }
-  if (channel === "HEPSIBURADA") {
-    return /^[A-Za-z0-9]{4,40}$/.test(value) && /\d{4}$/.test(value) ? value : null;
-  }
-  return /^\d{4,20}$/.test(value) ? value : null;
+  return supplierIdShape(channel, value) ? value : null;
 }
 
 function readSecret(value: unknown): string | null {
@@ -92,10 +91,18 @@ export async function putTrendyolCredential(
   storeId: string,
   raw: unknown,
   channel: CommerceChannelName = COMMERCE_CHANNEL,
+  license: { allowsOutgoing: (storeId: string, now: Date) => Promise<boolean> } = liveStoreLicense,
 ): Promise<CommerceResult<{ credential: MaskedTrendyolCredential }>> {
   const store = await commerce.findStoreForOwner(userId, storeId);
   if (!store) {
     return commerceFail(404, MISSING);
+  }
+  // P0.4 — çift taraflı lisans kapısı. Kokpit kapısı (`connectChannel`) 403 dönerken
+  // klasik kimlik masası açık kalırsa satıcı lisanssız kimlik yazar ve ekranında
+  // "kaydedildi" görür. Bu yüzden kimlik yazan **her** yol aynı kapıdan geçer.
+  const licensed = await license.allowsOutgoing(storeId, new Date());
+  if (!licensed) {
+    return commerceFail(403, "Kanal bağlamak için aktif lisans gerekir.");
   }
   const body = recordOf(raw);
   const supplierId = body ? readSupplier(body.supplierId, channel) : null;

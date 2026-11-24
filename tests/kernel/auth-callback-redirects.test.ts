@@ -1,14 +1,17 @@
 import { describe, expect, it } from "vitest";
 import { PASSWORD_RECOVERY_PATH } from "@/lib/kernel/auth/password";
 import {
+  AUTH_CALLBACK_DEFAULT_NEXT,
   AUTH_CALLBACK_PATH,
   AUTH_LOGOUT_API_PATH,
   AUTH_REGISTER_API_PATH,
   AUTH_RESET_PASSWORD_API_PATH,
+  AUTH_SIGNUP_FIRST_VALUE_NEXT,
   buildCitizenLoginHref,
   buildPasswordResetRedirectTo,
   buildSignupEmailRedirectTo,
   isSafeAuthNextPath,
+  markSignupFirstValueLanding,
   resolveAuthCallbackNext,
   resolvePostLoginPath,
   supabaseDashboardRedirectUrls,
@@ -39,6 +42,7 @@ describe("Auth redirect sicili", () => {
     expect(buildCitizenLoginHref("/admin")).toBe("/login");
     expect(isSafeAuthNextPath("/magazam")).toBe(true);
     expect(isSafeAuthNextPath("/e-ticaret")).toBe(true);
+    expect(isSafeAuthNextPath("/panel/e-ticaret")).toBe(true);
     expect(isSafeAuthNextPath("/hibe")).toBe(true);
     expect(buildCitizenLoginHref("/hibe")).toBe("/login?next=%2Fhibe");
     expect(resolvePostLoginPath("/hibe?sekme=analiz")).toBe("/hibe");
@@ -59,8 +63,7 @@ describe("Auth redirect sicili", () => {
     expect(buildPasswordResetRedirectTo("http://localhost:3000")).toContain("next=");
   });
 
-  it("akademi kasa çapasını next içinde taşır; güvenli olmayan hash düşer", () => {
-    expect(isSafeAuthNextPath("/academy/01_office_ai#satin-al")).toBe(true);
+  it("akademi kasa çapasını next içinde taşır; güvenli olmayan hash düşer", () => {    expect(isSafeAuthNextPath("/academy/01_office_ai#satin-al")).toBe(true);
     expect(buildCitizenLoginHref("/academy/01_office_ai#satin-al")).toBe(
       "/login?next=%2Facademy%2F01_office_ai%23satin-al",
     );
@@ -74,5 +77,46 @@ describe("Auth redirect sicili", () => {
       "/login?next=%2Facademy%2F01_office_ai",
     );
     expect(buildCitizenLoginHref("/admin#satin-al")).toBe("/login");
+  });
+
+  /**
+   * B-03 (Tedavi) — kayıt sonrası ilk değer anı.
+   *
+   * Giriş yapan mevcut kullanıcı kokpite döner; **yeni** kullanıcı (kayıt
+   * doğrulaması) Tezgâh'ta ilk çıktısını üretmeye iner. Özel `next` hedefi
+   * verilmişse ona dokunulmaz ve açık yön allowlist'i değişmez.
+   */
+  it("kayıt doğrulaması Tezgâh'a iner; giriş ve özel hedef korunur", () => {
+    expect(AUTH_CALLBACK_DEFAULT_NEXT).toBe("/dashboard");
+    expect(AUTH_SIGNUP_FIRST_VALUE_NEXT).toBe("/tezgah");
+
+    // Signup + varsayılan hedef → ilk değer anı.
+    expect(resolveAuthCallbackNext({ next: "/dashboard", type: "signup" })).toBe(
+      "/tezgah?tool=proposal&ilk=1",
+    );
+    expect(resolveAuthCallbackNext({ type: "signup" })).toBe("/tezgah?tool=proposal&ilk=1");
+    // Açık yön denemesi de güvenli hedefe düşer.
+    expect(resolveAuthCallbackNext({ next: "https://evil.example", type: "signup" })).toBe(
+      "/tezgah?tool=proposal&ilk=1",
+    );
+
+    // Özel hedef korunur (kullanıcı ne istediyse oraya gider).
+    expect(resolveAuthCallbackNext({ next: "/e-ticaret", type: "signup" })).toBe("/e-ticaret");
+    expect(resolveAuthCallbackNext({ next: "/tezgah" , type: "signup" })).toBe("/tezgah");
+    // Hash'li hedef de korunur; işaret eklenmez.
+    expect(resolveAuthCallbackNext({ next: "/dashboard#x", type: "signup" })).toBe("/dashboard#x");
+
+    // Signup değilse davranış değişmez.
+    expect(resolveAuthCallbackNext({ next: "/dashboard" })).toBe("/dashboard");
+    expect(resolveAuthCallbackNext({})).toBe("/dashboard");
+    expect(resolveAuthCallbackNext({ type: "recovery" })).toBe("/sifre-yenile");
+    expect(resolvePostLoginPath(undefined)).toBe("/dashboard");
+
+    // `ilk` işaretçisi yalnız varsayılan Tezgâh hedefinde eklenir.
+    expect(markSignupFirstValueLanding({ next: "/tezgah", type: "signup" })).toBe(
+      "/tezgah?tool=proposal&ilk=1",
+    );
+    expect(markSignupFirstValueLanding({ next: "/e-ticaret", type: "signup" })).toBe("/e-ticaret");
+    expect(markSignupFirstValueLanding({ next: "/tezgah" })).toBe("/tezgah");
   });
 });

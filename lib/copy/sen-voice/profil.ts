@@ -56,7 +56,7 @@ export const PROFIL_SEN = {
     modalEyebrow: "KVKK",
     modalTitle: "Hesabı kapat",
     modalBody:
-      "Hesabınızı kapatmak üzeresiniz. Kişisel verileriniz KVKK uyarınca anonimleştirilecek ve erişiminiz sonlandırılacaktır. Devam etmek için aşağıya 'KAPAT' yazın.",
+      "Hesabınızı kapatmak üzeresiniz. Kişisel verileriniz KVKK uyarınca anonimleştirilecek ve erişiminiz sonlandırılacaktır. Devam etmek için aşağıya 'KAPAT' yaz.",
     modalCancel: "Vazgeç",
     modalClose: "Pencereyi kapat",
     closedNotice: "Hesabınız başarıyla kapatılmıştır. Yönlendiriliyorsunuz...",

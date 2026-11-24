@@ -1,4 +1,4 @@
-import { assistantActorId } from "@/lib/kernel/ai/assistant-guest-quota";
+import { assistantActorId } from "@/lib/kernel/ai/assistant-guest-actor";
 import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
@@ -8,7 +8,8 @@ import {
   parseTezgahToolParam,
   tezgahPoolForTool,
   tezgahPoolQuotaLine,
-  tezgahToolQuotaLine,
+  tezgahPoolQuotaLineForLane,
+  tezgahToolQuotaLineForLane,
   type TezgahPoolKey,
   type TezgahToolId,
   type TezgahToolPool,
@@ -49,7 +50,7 @@ export async function GET(request: Request) {
     const { pool, poolKey, toolId } = resolveQuotaPool(request);
 
     if (pool === "local" || pool === "free_template") {
-      const line = tezgahPoolQuotaLine(pool, 1, 1);
+      const line = tezgahPoolQuotaLine(pool, 1, 1, actor.guest);
       return jsonOk(
         {
           remaining: 1,
@@ -71,9 +72,17 @@ export async function GET(request: Request) {
 
     const key = poolKey ?? "lite";
     const quota = await peekTezgahQuota(actor.userId, actor.guest, new Date(), key);
+    // B-02 / S-01: hat bilgisi satıra geçer. Pro kullanıcı "ücretsiz kredi" cümlesi görmez;
+    // misafir hattı günlük, üye hattı aylık kredi dilini basar.
     const line = toolId
-      ? tezgahToolQuotaLine(toolId, quota.remaining, quota.limit)
-      : tezgahPoolQuotaLine(key, quota.remaining, quota.limit);
+      ? tezgahToolQuotaLineForLane(
+          toolId,
+          quota.remaining,
+          quota.limit,
+          quota.lane,
+          quota.guest,
+        )
+      : tezgahPoolQuotaLineForLane(key, quota.remaining, quota.limit, quota.lane, quota.guest);
     return jsonOk(
       {
         remaining: quota.remaining,
@@ -84,6 +93,8 @@ export async function GET(request: Request) {
         paywall: quota.paywall,
         poolKey: quota.poolKey,
         unlimited: quota.unlimited,
+        rollover: quota.rollover,
+        periodKey: quota.periodKey,
         tool: toolId,
         line,
       },

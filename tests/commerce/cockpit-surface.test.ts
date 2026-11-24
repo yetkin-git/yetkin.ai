@@ -9,7 +9,7 @@ import { isProtectedKernelPath, PROTECTED_KERNEL_PATHS } from "@/lib/kernel/secu
 const ROOT = process.cwd();
 
 const COCKPIT_PAGES = [
-  "app/(kernel)/e-ticaret/page.tsx",
+  "app/(kernel)/panel/e-ticaret/page.tsx",
   "app/(kernel)/magazam/page.tsx",
   "app/(kernel)/magazam/yeni/page.tsx",
   "app/(kernel)/magazam/[storeId]/page.tsx",
@@ -36,7 +36,7 @@ describe("Yetkin Commerce kokpit yüzeyi", () => {
   });
 
   it("E-Ticaret sol raydadır; hesap menüsü ve vitrin dönüşü karışmaz", () => {
-    expect(COMMERCE_NAV.path).toBe("/e-ticaret");
+    expect(COMMERCE_NAV.path).toBe("/panel/e-ticaret");
     expect(COMMERCE_NAV.label).toBe("E-Ticaret");
     expect(COMMERCE_NAV.blurb).toBe("Stok, kanal ve sipariş");
     expect(KERNEL_SURFACES.map((surface) => surface.id)).not.toContain("magazam");
@@ -46,15 +46,25 @@ describe("Yetkin Commerce kokpit yüzeyi", () => {
     expect(read("components/ui/icons.tsx")).toContain("magazam: IconStore");
     expect(ROOM_ICONS.magazam).toBeTypeOf("function");
     expect(PROTECTED_KERNEL_PATHS).toContain("/magazam");
-    expect(PROTECTED_KERNEL_PATHS).toContain("/e-ticaret");
-    expect(isProtectedKernelPath("/e-ticaret")).toBe(true);
+    expect(PROTECTED_KERNEL_PATHS).toContain("/panel/e-ticaret");
+    expect(PROTECTED_KERNEL_PATHS).not.toContain("/e-ticaret");
+    expect(isProtectedKernelPath("/panel/e-ticaret")).toBe(true);
+    // Kamu vitrini korumasızdır; kokpit yalnız panel altında korunur.
+    expect(isProtectedKernelPath("/e-ticaret")).toBe(false);
     expect(isProtectedKernelPath("/magazam/yeni")).toBe(true);
     expect(isProtectedKernelPath("/magaza/ornek")).toBe(false);
     expect(isSafeAuthNextPath("/magazam/yeni")).toBe(true);
-    expect(isSafeAuthNextPath("/e-ticaret")).toBe(true);
+    expect(isSafeAuthNextPath("/panel/e-ticaret")).toBe(true);
     expect(isSafeAuthNextPath("/magaza/ornek")).toBe(false);
     const transfer = read("components/tezgah/master-sku-transfer.tsx");
-    expect(transfer).toContain("/e-ticaret?sekme=havuz");
+    expect(transfer).toContain("/panel/e-ticaret?sekme=havuz");
     expect(transfer).toContain("Taslakları düzenle");
+  });
+
+  it("kokpit ve mağaza odaları kendi hata sınırını taşır; vitrin ayrı bir kamu yüzeyidir", () => {
+    expect(existsSync(join(ROOT, "app/(kernel)/panel/e-ticaret/error.tsx"))).toBe(true);
+    expect(existsSync(join(ROOT, "app/(kernel)/magazam/error.tsx"))).toBe(true);
+    expect(existsSync(join(ROOT, "app/(public)/e-ticaret/page.tsx"))).toBe(true);
+    expect(existsSync(join(ROOT, "app/(kernel)/e-ticaret"))).toBe(false);
   });
 });

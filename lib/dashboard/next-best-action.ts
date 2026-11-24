@@ -7,11 +7,16 @@ export type NextBestActionKind =
   | "freelancer_open"
   | "career_visa"
   | "academy_continue"
+  | "tezgah_first"
   | "default";
 
 export type NextBestActionRoom = "academy" | "career" | "freelancer";
 
-export type NextBestActionHref = `/${NextBestActionRoom}` | "/hibe" | "/tezgah" | "/e-ticaret";
+export type NextBestActionHref =
+  | `/${NextBestActionRoom}`
+  | "/panel/hibe"
+  | "/tezgah"
+  | "/panel/e-ticaret";
 
 export type NextBestAction = {
   kind: NextBestActionKind;
@@ -19,8 +24,50 @@ export type NextBestAction = {
   room: NextBestActionRoom;
 };
 
-const ACADEMY_DEFAULT: NextBestAction = { kind: "default", href: "/hibe", room: "academy" };
+/**
+ * Yeni kullanıcının sıradaki eylemi (B-03).
+ *
+ * Önce fallback hibe odasına düşüyordu — **korumalı** bir oda. Yeni kullanıcı orada
+ * ikinci bir kayıt/onay duvarına çarpıyordu ve ürünün en güçlü anını hiç görmüyordu.
+ * Artık hiçbir üretimi olmayan kullanıcı doğrudan Tezgâh'a iner.
+ */
+const TEZGAH_FIRST_ACTION: NextBestAction = {
+  kind: "tezgah_first",
+  href: "/tezgah",
+  room: "academy",
+};
+
+const ACADEMY_DEFAULT: NextBestAction = {
+  kind: "default",
+  href: "/panel/hibe",
+  room: "academy",
+};
 const CAREER_VISA_ACTION: NextBestAction = { kind: "career_visa", href: "/career", room: "career" };
+
+/**
+ * Kullanıcının henüz hiçbir değer üretmediği durum.
+ *
+ * Sinyaller: cüzdan boş, Akademi satın alması yok, Kariyer vizesi yok, freelancer
+ * işi yok. Bu durumda "sıradaki adım" bir satın alma değil, **ilk çıktıdır**.
+ *
+ * `wallet.amountMinor === 0` tek başına yetmez (kredi yükleyip harcamamış olabilir);
+ * asıl ölçü `tezgahOutputCount`'tur. O sinyal nabızda yoksa Akademi/Kariyer
+ * sayımları sıfırken Tezgâh'a inmek güvenli varsayımdır — yanlış hedef kokpit
+ * kartından daha az zarar verir.
+ */
+function isFreshUser(pulse: DashboardPulse): boolean {
+  const { academy, career, freelancer, wallet } = pulse;
+  const academyUsed = academy.live && (academy.purchasesCount > 0 || academy.certificatesHeld > 0);
+  const careerUsed = career.live && (career.visaCount > 0 || career.portfolioCount > 0);
+  const freelancerUsed =
+    freelancer.live &&
+    (freelancer.openJobsPosted > 0 ||
+      freelancer.fundedAsClient > 0 ||
+      freelancer.fundedAsFreelancer > 0 ||
+      Number(freelancer.pendingEscrowMinor) > 0);
+  const walletUsed = wallet.live && Number(wallet.amountMinor) > 0;
+  return !academyUsed && !careerUsed && !freelancerUsed && !walletUsed;
+}
 
 /** Satın alınmış yarım kurs → oynatıcı; yoksa katalog. */
 export function academyContinueHref(slug: string | null | undefined): NextBestActionHref {
@@ -61,6 +108,11 @@ function academyOrVisaOrDefault(pulse: DashboardPulse): NextBestAction {
   }
   if (academy.live && academy.purchasesCount > 0) {
     return academyContinueAction(academy);
+  }
+  // B-03: hiçbir üretimi olmayan kullanıcı kilitli hibe odasına değil,
+  // ilk değer anına (Tezgâh) iner.
+  if (isFreshUser(pulse)) {
+    return TEZGAH_FIRST_ACTION;
   }
   return ACADEMY_DEFAULT;
 }

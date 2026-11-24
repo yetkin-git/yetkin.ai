@@ -2,13 +2,13 @@
  * Bounded context sicili. Oda kapısı burada değil, kayıt defterindedir (`lib/dronlar/kayit.ts`).
  * Bu dosya oda sayısını sabitlemez. Açık ve kapalı kesit kayıttaki `kapali` alanıdır.
  *
- * Açık (`kapali: false`): Panel (`dashboard`), YetkinCV (`career`), AI Tezgâh
+ * Açık (`kapali: false`): Panel (`dashboard`), Kariyer (`career`; içinde YetkinCV), AI Tezgâh
  * (`tezgah`, müstakil), Junior (`junior`, müstakil; satış `JUNIOR_CHECKOUT_OPEN`
- * ile ayrı kilit — oda 410 değildir), YetkinHibe (`yetkinhibe`, yol `/hibe`).
+ * ile ayrı kilit — oda 410 değildir), YetkinHibe (`yetkinhibe`, yol `/panel/hibe`).
  * Kapalı / askıda (`kapali: true`, kenar 410): Akademi (`academy`), Freelancer
  * (`freelancer`), Young (`young`).
  *
- * Kayıt dışı: E-Ticaret kokpiti (`/e-ticaret`) `COMMERCE_NAV` satırıdır, dron kaydı
+ * Kayıt dışı: E-Ticaret kokpiti (`/panel/e-ticaret`) `COMMERCE_NAV` satırıdır, dron kaydı
  * değildir. Kurumsal sayfa (`/kurumsal`, `/kurumsal/ilanlar`) açıktır. Donmuş disk
  * kimliği `kurumsal` bu iki yolu kapatmaz. Donmuş disk kimliği `hibe` canlı
  * YetkinHibe odası değildir; canlı kimlik `yetkinhibe`’dir.

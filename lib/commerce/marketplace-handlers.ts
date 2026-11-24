@@ -15,6 +15,7 @@ import {
   putTrendyolListing,
 } from "@/lib/commerce/marketplace-service";
 import type { CommerceResult } from "@/lib/commerce/types";
+import { liveStoreLicense } from "@/lib/commerce/store-license";
 import { readHepsiburadaOrderPackages } from "@/lib/commerce/hepsiburada-client";
 import { intakeHepsiburadaPackages, type HepsiburadaPorts } from "@/lib/commerce/hepsiburada-sync";
 import { readTrendyolOrderPackages } from "@/lib/commerce/trendyol-client";
@@ -25,6 +26,12 @@ export type MarketplaceHandlerDeps = {
   commerce: () => CommerceRepository;
   marketplace: () => MarketplaceRepository;
   env: NodeJS.ProcessEnv;
+  /**
+   * Lisans kapısı (P0.4). Klasik kimlik masası da kokpit kadar kapalıdır:
+   * lisansı olmayan kullanıcı kimlik yazamaz. Verilmezse `env` üzerinden
+   * varsayılan okuma yapılır.
+   */
+  license?: { allowsOutgoing: (storeId: string, now: Date) => Promise<boolean> };
 };
 
 function timingSafeTextEqual(left: string, right: string): boolean {
@@ -110,7 +117,16 @@ export function putTrendyolCredentialRoute(
     if (!body.ok) {
       return { ok: false, status: 400, error: body.error };
     }
-    return putTrendyolCredential(deps.commerce(), deps.marketplace(), deps.env, user.id, storeId, body.value, channel);
+    return putTrendyolCredential(
+      deps.commerce(),
+      deps.marketplace(),
+      deps.env,
+      user.id,
+      storeId,
+      body.value,
+      channel,
+      deps.license ?? liveStoreLicense,
+    );
   });
 }
 

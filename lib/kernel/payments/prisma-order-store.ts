@@ -15,7 +15,8 @@ export type PaymentOrderWriteDb = Pick<PrismaClient, "paymentOrder" | "$queryRaw
 
 type LockedPaymentOrderRow = {
   id: string;
-  user_id: string;
+  /** Faz 3 / §4.1: misafir ödemede NULL. */
+  user_id: string | null;
   merchant_oid: string;
   amount_minor: number;
   currency_code: string;
@@ -44,7 +45,7 @@ async function selectPaymentOrderForUpdate(
 
 function toOrder(row: {
   id: string;
-  userId: string;
+  userId: string | null;
   merchantOid: string;
   amountMinor: number;
   currencyCode: string;

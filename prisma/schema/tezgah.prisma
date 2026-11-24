@@ -33,8 +33,13 @@ model TetkikReport {
 }
 
 /// Üretim sayacı. Misafir anahtarı IP kovasıdır; üye anahtarı kullanıcı kimliğidir.
-/// `poolKey`: lite (günlük), tetkik (ömür boyu), free_template sayılmaz.
-/// `dateKey` lite için İstanbul günü; tetkik için `"lifetime"`.
+/// `poolKey`: lite (üyede aylık, misafirde günlük), tetkik (ömür boyu), free_template sayılmaz.
+///
+/// Faz 3 / S-01 — tablo adı **tarihsel** olarak `tezgah_daily_quotas` kalır (rename
+/// RLS mührünü ve FORCE RLS sicilini kırar). `dateKey` artık gerçekten bir *periyot*
+/// anahtarıdır: üye `lite` → `YYYY-MM` (aylık kredi havuzu), misafir `lite` →
+/// `YYYY-MM-DD` (günlük), `tetkik` → `"lifetime"`. Tek üretici:
+/// `lib/tezgah/quota.ts` → `tezgahQuotaPeriodKey(pool, now, guest)`.
 /// Para, cüzdan ve defter bu tabloda yoktur. PostgREST okuması kapalıdır.
 model TezgahDailyQuota {
   dateKey    String   @map("date_key") @db.VarChar(16)
@@ -45,6 +50,33 @@ model TezgahDailyQuota {
 
   @@id([dateKey, subjectKey, poolKey])
   @@map("tezgah_daily_quotas")
+}
+
+/// Y1 — kota Idempotency defteri (kalıcı).
+///
+/// Aynı `Idempotency-Key` + aynı istek gövdesi (requestHash) ikinci kez
+/// **sayılmaz**; farklı gövde `conflict` döner. Önceki sürüm bu eşlemeyi
+/// süreç içi `Map`'te tutuyordu: ikinci istek başka bir örneğe (serverless
+/// instance / çok pod) düşerse sayaç **ikinci kez** düşüyordu. Bu tablo kilidi
+/// veritabanına taşır; ücretsiz ve Pro hatları da artık gerçekten idempotenttir.
+///
+/// Satır anahtarı periyot + aktör + havuz + komuttur; böylece ay dönümünde
+/// eski anahtar yeni ayı kilitlemez. Kayıt üretim başarısızsa silinir
+/// (`forgetCommand`) — yeniden deneme yeni düşüm alır.
+///
+/// Para, cüzdan ve defter bu tabloda yoktur. PostgREST okuması kapalıdır.
+model TezgahQuotaCommand {
+  dateKey      String   @map("date_key") @db.VarChar(16)
+  subjectKey   String   @map("subject_key") @db.VarChar(180)
+  poolKey      String   @map("pool_key") @db.VarChar(32)
+  commandKey   String   @map("command_key") @db.VarChar(80)
+  requestHash  String   @map("request_hash") @db.VarChar(64)
+  usedAfter    Int      @map("used_after")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@id([dateKey, subjectKey, poolKey, commandKey])
+  @@index([createdAt])
+  @@map("tezgah_quota_commands")
 }
 
 /// Global ücretsiz tetkik kilidi. Host başına bir ücretsiz analiz.

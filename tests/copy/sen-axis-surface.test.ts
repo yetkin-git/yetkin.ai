@@ -59,6 +59,14 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
     expect(script).toContain("lib/copy");
     expect(script).toContain("hesabınız");
     expect(script).toContain("cüzdanınız");
+    // M-01: mühür kapsamı genişletildi — en görünür ihlali görmeyen kalıplar eklendi.
+    expect(script).toContain("SIZ_LEAK_WORDS");
+    for (const leak of ["İşinizi", "işletmenize", "siparişlerinizi", "stoklarınızı", "bakiyenize"]) {
+      expect(script, leak).toContain(leak);
+    }
+    // Mühürlü hukuki metin bilinçli istisna olarak sicildedir.
+    expect(script).toContain("FROZEN_LEGAL_SEN_EXCEPTIONS");
+    expect(script).toContain("junior-guardian-notice.ts");
     expect(script).toContain("canlı sen-voice donmuş oda");
     expect(script).not.toContain("quality-gate");
     expect(script).not.toContain("runSenAxisGate");
@@ -67,9 +75,8 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
   });
 
   it("kamu, profil ve kalan odalar siz kaçakları taşımaz; SEN_VOICE bağlar", () => {
-    expect(SEN_VOICE.public.home.title).toBe(
-      "İşinizi Büyüten Yapay Zeka Araçları. Tek Hesap, Sıfır Karmaşa.",
-    );
+    // SEO-03 + M-01: H1 sen aksına çevrildi ve SERP sınırına indirildi.
+    expect(SEN_VOICE.public.home.title).toBe("İşini Büyüten Yapay Zeka Araçları");
     expect(SEN_VOICE.public.home.description).toContain("profesyonel belgeler");
     expect(SEN_VOICE.public.home.description).toContain("e-ticaret");
     expect(SEN_VOICE.public.home.description).toContain("hibeleri");
@@ -78,7 +85,7 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
     expect(SEN_VOICE.public.home.description).not.toContain("teklif ver");
     expect(SEN_VOICE.public.home.description).not.toContain("işletim sistemi");
     expect(SEN_VOICE.public.home.description).not.toContain("SHA-256");
-    expect(SEN_VOICE.career.description).toContain("doğrulama bağı herkese açıktır");
+    expect(SEN_VOICE.career.description).toBe("YetkinCV, vize ve açık ilanlar");
     expect(SEN_VOICE.career.description).not.toContain("Sahte rozet");
     expect(SEN_VOICE.career.proofEmpty).toContain("Satın alma tek başına rozet basmaz");
     expect(SEN_VOICE.career.footnote).toContain("İşe yerleşmeyi veya gelir elde etmeyi garanti etmez");
@@ -90,7 +97,9 @@ describe("SEN yayılımı ve verify:sen-axis", () => {
     expect(readSrc("archived/lib/copy/sen-voice/arena.ts")).toContain("kazananı sen dağıt");
     expect(readSrc("archived/lib/copy/sen-voice/kurumsal.ts")).toContain("Şirket profilini kur");
     expect(readSrc("archived/lib/copy/sen-voice/hibe.ts")).toContain("Açık rehberlerin");
-    expect(SEN_VOICE.career.title).toBe("Yetkinliğini Gerçek Testle Kanıtla, Fark Yarat.");
+    expect(SEN_VOICE.career.title).toBe("Kariyer");
+    expect(SEN_VOICE.career.eyebrow).toBe("Kariyer");
+    expect(SEN_VOICE.career.description).toBe("YetkinCV, vize ve açık ilanlar");
 
     for (const file of SEN_SURFACES) {
       const source = readSrc(file);

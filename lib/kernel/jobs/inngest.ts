@@ -503,6 +503,57 @@ export const commerceSubscriptionRenewal = inngest.createFunction(
   },
 );
 
+/** Her 15 dakika — PENDING pazaryeri ilanlarını fiyat ve stokla eşitler. */
+export const commercePendingListingSync = inngest.createFunction(
+  {
+    id: "commerce-pending-listing-sync",
+    name: "Pazaryeri ilan eşitleme",
+    triggers: [{ cron: "TZ=Europe/Istanbul */15 * * * *" }],
+  },
+  async ({ step }) => {
+    return step.run("sync-pending-channel-listings", async () => {
+      if (!process.env.DATABASE_URL?.trim()) {
+        return { scanned: 0, synced: 0, pending: 0, failed: 0 };
+      }
+      const { runPendingChannelListingSync } = await import("@/lib/commerce/pending-listing-sync");
+      return runPendingChannelListingSync();
+    });
+  },
+);
+
+/** Her saat başı 20. dakika — kanal fiyatını son rakip beslemesine göre mühürler. */
+export const commerceRepricerSweep = inngest.createFunction(
+  {
+    id: "commerce-repricer-sweep",
+    name: "Kanal fiyat rekabet taraması",
+    triggers: [{ cron: "TZ=Europe/Istanbul 20 * * * *" }],
+  },
+  async ({ step }) => {
+    return step.run("sweep-channel-repricer", async () => {
+      if (!process.env.DATABASE_URL?.trim()) {
+        return { scanned: 0, applied: 0, alerts: 0 };
+      }
+      const { runRepricerSweep } = await import("@/lib/commerce/repricer-service");
+      return runRepricerSweep();
+    });
+  },
+);
+
+/** Sabah 07:00 Europe/Istanbul — zarar kalkanı ve günlük kâr özeti. */
+export const commerceDailyBrief = inngest.createFunction(
+  {
+    id: "commerce-daily-brief",
+    name: "Commerce günlük kâr özeti",
+    triggers: [{ cron: "TZ=Europe/Istanbul 0 7 * * *" }],
+  },
+  async ({ step }) => {
+    return step.run("build-commerce-daily-briefs", async () => {
+      const { runCommerceDailyBriefScan } = await import("@/lib/commerce/daily-brief");
+      return runCommerceDailyBriefScan();
+    });
+  },
+);
+
 export const weeklyOpportunityRadar = inngest.createFunction(
   {
     id: "weekly-opportunity-radar",
@@ -513,6 +564,127 @@ export const weeklyOpportunityRadar = inngest.createFunction(
     return step.run("send-weekly-radar", async () => {
       const { runWeeklyOpportunityRadar } = await import("@/lib/jobs/weekly-radar");
       return runWeeklyOpportunityRadar();
+    });
+  },
+);
+
+/**
+ * Faz 3 / S-01 — aylık kredi devri (her ayın 1'i 00:05 Europe/Istanbul).
+ *
+ * Devir **okuma anında** deterministik hesaplanır (`lib/tezgah/quota.ts` →
+ * `tezgahRolloverCredits`); bu iş ikinci bakiye yazmaz, `tezgah_daily_quotas`
+ * satırına kredi eklemez (aksi hâlde devir iki kez sayılırdı). Yalnız ölçüm,
+ * sıfır kullanımlı satır temizliği ve doygunluk alarmı yapar.
+ *
+ * Kernel dikeyi import etmez: gerçek tarama `tezgah-rollover-hook` üzerinden
+ * `lib/tezgah/credit-rollover` içindedir. Kanca bağlı değilse no-op döner.
+ */
+export const tezgahCreditRollover = inngest.createFunction(
+  {
+    id: "tezgah-credit-rollover",
+    name: "Tezgâh aylık kredi devri",
+    triggers: [{ cron: "TZ=Europe/Istanbul 5 0 1 * *" }],
+  },
+  async ({ step }) => {
+    return step.run("measure-credit-rollover", async () => {
+      const { notifyTezgahRolloverHook } = await import("@/lib/kernel/jobs/tezgah-rollover-hook");
+      const result = await notifyTezgahRolloverHook();
+      if (!result) {
+        const { logEvent } = await import("@/lib/kernel/observability/log");
+        logEvent({
+          level: "info",
+          event: "tezgah.credit.rollover.noop",
+          reason: "hook_unregistered",
+          applied: false,
+        });
+        return { skipped: true, reason: "hook_unregistered" };
+      }
+      return result;
+    });
+  },
+);
+
+/** Pazartesi 08:00 — süresi dolan ve 30 günden eski doğrulanan çağrı uyarısı. */
+export const grantCatalogVerify = inngest.createFunction(
+  {
+    id: "grant-catalog-verify",
+    name: "Hibe katalog doğrulama",
+    triggers: [{ cron: "TZ=Europe/Istanbul 0 8 * * 1" }],
+  },
+  async ({ step }) => {
+    return step.run("verify-grant-catalog", async () => {
+      const { notifyGrantCatalogVerifyHook } = await import("@/lib/kernel/jobs/grant-maintenance-hook");
+      const result = await notifyGrantCatalogVerifyHook();
+      if (!result) {
+        return { skipped: true, reason: "hook_unregistered" };
+      }
+      return result;
+    });
+  },
+);
+
+/** Her gün 08:30 — başvuru son tarihi 7, 3 ve 1 gün kala. */
+export const hibeLifecycleReminders = inngest.createFunction(
+  {
+    id: "hibe-lifecycle-reminders",
+    name: "Hibe yaşam döngüsü hatırlatması",
+    triggers: [{ cron: "TZ=Europe/Istanbul 30 8 * * *" }],
+  },
+  async ({ step }) => {
+    return step.run("remind-hibe-deadlines", async () => {
+      const { notifyHibeLifecycleReminderHook } = await import("@/lib/kernel/jobs/grant-maintenance-hook");
+      const result = await notifyHibeLifecycleReminderHook();
+      if (!result) {
+        return { skipped: true, reason: "hook_unregistered" };
+      }
+      return result;
+    });
+  },
+);
+
+/** 15 dakikada bir — süresi dolmuş hibe dosyası rezervini FAILED yapar. */
+export const grantReservationSweep = inngest.createFunction(
+  {
+    id: "grant-reservation-ttl",
+    name: "Hibe dosya rezervi süpürücü",
+    triggers: [{ cron: "TZ=Europe/Istanbul */15 * * * *" }],
+  },
+  async ({ step }) => {
+    return step.run("expire-grant-reservations", async () => {
+      const { notifyGrantReservationSweepHook } = await import("@/lib/kernel/jobs/grant-maintenance-hook");
+      const result = await notifyGrantReservationSweepHook();
+      if (!result) {
+        return { skipped: true, reason: "hook_unregistered" };
+      }
+      return result;
+    });
+  },
+);
+
+/**
+ * Her gün 03:40 — 90 günden eski anonim `tetkik_reports` satırlarını siler.
+ * Kernel dikeyi import etmez; gerçek silme `tetkik-cleanup-hook` üzerindedir.
+ */
+export const tetkikReportsCleanup = inngest.createFunction(
+  {
+    id: "tetkik-reports-cleanup",
+    name: "Tetkik anonim rapor TTL temizliği",
+    triggers: [{ cron: "TZ=Europe/Istanbul 40 3 * * *" }],
+  },
+  async ({ step }) => {
+    return step.run("purge-expired-tetkik-reports", async () => {
+      const { notifyTetkikReportsCleanupHook } = await import("@/lib/kernel/jobs/tetkik-cleanup-hook");
+      const result = await notifyTetkikReportsCleanupHook();
+      if (!result) {
+        const { logEvent } = await import("@/lib/kernel/observability/log");
+        logEvent({
+          level: "info",
+          event: "tetkik.reports.cleanup.noop",
+          reason: "hook_unregistered",
+        });
+        return { skipped: true, reason: "hook_unregistered" };
+      }
+      return result;
     });
   },
 );
@@ -531,7 +703,15 @@ export const kernelInngestFunctions = [
   hepsiburadaStockPush,
   hepsiburadaOrderPull,
   commerceSubscriptionRenewal,
+  commercePendingListingSync,
+  commerceRepricerSweep,
+  commerceDailyBrief,
   weeklyOpportunityRadar,
+  tezgahCreditRollover,
+  grantCatalogVerify,
+  grantReservationSweep,
+  hibeLifecycleReminders,
+  tetkikReportsCleanup,
 ];
 
 export function inngestNotConfiguredResponse(requestId?: string) {

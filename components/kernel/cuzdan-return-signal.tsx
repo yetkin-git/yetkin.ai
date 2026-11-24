@@ -25,8 +25,8 @@ import { markPurchaseEmitted } from "@/components/kernel/kasa-return-panel";
 
 const RETURN_HREF = {
   tezgah: "/tezgah",
-  "e-ticaret": "/e-ticaret",
-  hibe: "/hibe",
+  "e-ticaret": "/panel/e-ticaret",
+  hibe: "/panel/hibe",
   junior: "/junior",
   cuzdan: "/cuzdan",
 } as const satisfies Record<string, Route>;
@@ -99,6 +99,12 @@ export function CuzdanReturnSignal({ purchase }: { purchase: CuzdanVerifiedPurch
   }
 
   const desk = cuzdanReturnDesk(purchase.desk);
+  // Ş3 / B-03 — hibe dönüşünde ödeme anahtarı masaya taşınır: kullanıcı formu baştan
+  // doldurmaz, dosya üretimi aynı `commandKey` ile bağlanır.
+  const returnHref =
+    desk === "hibe"
+      ? (`${RETURN_HREF.hibe}?odeme=${encodeURIComponent(purchase.merchantOid)}` as Route)
+      : RETURN_HREF[desk];
   return (
     <div
       className="mt-4 rounded-2xl border border-emerald-300 bg-emerald-50/70 p-4"
@@ -113,7 +119,7 @@ export function CuzdanReturnSignal({ purchase }: { purchase: CuzdanVerifiedPurch
         {emitted ? " Dönüşüm ölçümü kaydedildi." : ""}
       </p>
       <div className="mt-3">
-        <Link href={RETURN_HREF[desk]} className={buttonClassName("primary", "md")}>
+        <Link href={returnHref} className={buttonClassName("primary", "md")}>
           {RETURN_LABEL[desk]}
         </Link>
       </div>

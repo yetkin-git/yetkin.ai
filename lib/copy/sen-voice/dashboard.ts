@@ -50,14 +50,14 @@ export const DASHBOARD_SEN = {
       {
         title: "YetkinHibe",
         body: "Firma profiline göre uygun hibeyi bulur, proje dosyasını adım adım hazırlarsın.",
-        href: "/hibe",
+        href: "/panel/hibe",
         cta: "Hibeyi aç",
       },
       {
-        title: "YetkinCV",
-        body: "Uygulamalı vaka testi ile paylaşılabilir puan alırsın. Doğrulama bağı herkese açıktır.",
+        title: "Kariyer",
+        body: "YetkinCV, vize ve açık ilanlar. Uygulamalı vaka testi ile paylaşılabilir puan alırsın.",
         href: "/career",
-        cta: "YetkinCV'yi İncele",
+        cta: "Kariyeri aç",
       },
       {
         title: "Sertifika doğrulama",
@@ -82,6 +82,11 @@ export const DASHBOARD_SEN = {
     fallback: {
       cta: "Eğitimleri İncele",
     },
+    /** B-03: yeni kullanıcının ilk değer anı. Kilitli odaya değil, üretime indirir. */
+    firstValue: {
+      body: "Henüz Tezgâh'ta çıktı üretmedin. Tek bir ihtiyaç yaz, 30 saniyede taslağını al — ücretsiz.",
+      cta: "İlk çıktını üret",
+    },
     freelancerWork: {
       body: "Açık örnek işin var. Tezgâhta devam et.",
       cta: "İşe dön",
@@ -102,7 +107,7 @@ export const DASHBOARD_SEN = {
   /** Girişli Genel Bakış — 2×2 komuta kartı. Misafir paneli bu sözlüğü okumaz. */
   command: {
     tezgahTitle: "AI Tezgâh",
-    tezgahQuotaFree: "Bugünkü ücretsiz hak",
+    tezgahQuotaFree: "Bu ayki kredi",
     tezgahQuotaCredit: "Kalan üretim kredisi",
     tezgahQuotaPro: "Tezgâh Pro",
     tezgahQuotaUnlimited: "Sınırsız Erişim",

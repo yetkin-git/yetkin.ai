@@ -107,11 +107,25 @@ export function createPrismaCareerStore(): CareerStore {
       return findPassportStampsForUser(userId);
     },
     async listPortfolioForUser(userId) {
+      // O7: tezgâh kanıtları da /career sayacında görünür (visaStampId null olabilir).
       const rows = await prisma.careerPortfolioItem.findMany({
-        where: { userId, visaStampId: { not: null } },
+        where: {
+          userId,
+          OR: [{ visaStampId: { not: null } }, { sourceKey: { startsWith: "tezgah:" } }],
+        },
         orderBy: { createdAt: "desc" },
       });
-      return rows.flatMap((row) => (row.visaStampId ? [toItem(row)] : []));
+      return rows.map((row) =>
+        row.visaStampId
+          ? toItem(row)
+          : {
+              id: row.id,
+              userId: row.userId,
+              visaStampId: "",
+              title: row.title,
+              createdAt: row.createdAt,
+            },
+      );
     },
     async pulseForUser(userId) {
       const [stamps, portfolioCount] = await Promise.all([
@@ -121,7 +135,12 @@ export function createPrismaCareerStore(): CareerStore {
           select: { title: true },
           take: 100,
         }),
-        prisma.careerPortfolioItem.count({ where: { userId, visaStampId: { not: null } } }),
+        prisma.careerPortfolioItem.count({
+          where: {
+            userId,
+            OR: [{ visaStampId: { not: null } }, { sourceKey: { startsWith: "tezgah:" } }],
+          },
+        }),
       ]);
       const pulse: CareerPulse = {
         visaCount: stamps.length,

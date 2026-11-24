@@ -1,6 +1,7 @@
 import "server-only";
 
 import { getPrisma } from "@/lib/kernel/db";
+import { sha256Hex } from "@/lib/kernel/crypto/sha256";
 import type { ProofReadPort, SealedProofRecord } from "@/lib/kernel/proof/port";
 
 /**
@@ -141,6 +142,66 @@ function sealedFromRelease(row: ReleasedWorkProofRow): SealedProofRecord {
   };
 }
 
+export type YetkinHibeProjectProofRow = {
+  sourceId: string;
+  userId: string;
+  title: string;
+  issuedAt: Date;
+  certificateHash: string | null;
+};
+
+function sealedFromHibe(row: YetkinHibeProjectProofRow): SealedProofRecord {
+  return {
+    sourceKind: "YETKINHIBE_PROJECT",
+    sourceId: row.sourceId,
+    userId: row.userId,
+    actorUserIds: [row.userId],
+    title: row.title,
+    issuedAt: row.issuedAt,
+    certificateHash: row.certificateHash,
+  };
+}
+
+/** YetkinHibe başvurusu — sahiplik user_id; iptal yok (satır silinirse damga düşer). */
+export async function getYetkinHibeProjectProofRow(
+  sourceId: string,
+): Promise<YetkinHibeProjectProofRow | null> {
+  const prisma = getPrisma();
+  const row = await prisma.hibeApplication.findUnique({
+    where: { id: sourceId },
+    select: { id: true, userId: true, title: true, createdAt: true, updatedAt: true },
+  });
+  if (!row) {
+    return null;
+  }
+  const certificateHash = sha256Hex(`yetkinhibe.project.v1\n${row.id}\n${row.userId}\n${row.title}`);
+  return {
+    sourceId: row.id,
+    userId: row.userId,
+    title: row.title,
+    issuedAt: row.updatedAt ?? row.createdAt,
+    certificateHash,
+  };
+}
+
+export async function listYetkinHibeProjectProofRows(
+  userId: string,
+): Promise<YetkinHibeProjectProofRow[]> {
+  const prisma = getPrisma();
+  const rows = await prisma.hibeApplication.findMany({
+    where: { userId },
+    orderBy: { createdAt: "asc" },
+    select: { id: true, userId: true, title: true, createdAt: true, updatedAt: true },
+  });
+  return rows.map((row) => ({
+    sourceId: row.id,
+    userId: row.userId,
+    title: row.title,
+    issuedAt: row.updatedAt ?? row.createdAt,
+    certificateHash: sha256Hex(`yetkinhibe.project.v1\n${row.id}\n${row.userId}\n${row.title}`),
+  }));
+}
+
 export function createPrismaProofReadPort(): ProofReadPort {
   return {
     async getSealedProof(sourceKind, sourceId) {
@@ -151,6 +212,13 @@ export function createPrismaProofReadPort(): ProofReadPort {
         }
         return sealedFromAcademy(row);
       }
+      if (sourceKind === "YETKINHIBE_PROJECT") {
+        const row = await getYetkinHibeProjectProofRow(sourceId);
+        if (!row) {
+          return null;
+        }
+        return sealedFromHibe(row);
+      }
       const contract = await getReleasedWorkProofRow(sourceId);
       if (!contract) {
         return null;
@@ -158,11 +226,16 @@ export function createPrismaProofReadPort(): ProofReadPort {
       return sealedFromRelease(contract);
     },
     async listSealedProofs(userId) {
-      const [certificates, contracts] = await Promise.all([
+      const [certificates, contracts, hibeProjects] = await Promise.all([
         listAcademyCertificateProofRows(userId),
         listReleasedWorkProofRows(userId),
+        listYetkinHibeProjectProofRows(userId),
       ]);
-      return [...certificates.map(sealedFromAcademy), ...contracts.map(sealedFromRelease)];
+      return [
+        ...certificates.map(sealedFromAcademy),
+        ...contracts.map(sealedFromRelease),
+        ...hibeProjects.map(sealedFromHibe),
+      ];
     },
   };
 }

@@ -5,6 +5,11 @@ import { requireSession } from "@/lib/kernel/auth/session";
 import { BadRequestError } from "@/lib/kernel/http/errors";
 import { jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
+import {
+  applyHttpRateLimit,
+  HTTP_RATE_LIMITS,
+  rateLimitedJsonResponse,
+} from "@/lib/kernel/security/http-rate-limit";
 
 /** YetkinCV vaka testi. Puan akademi sınav motorundan gelir. Cüzdan yazılmaz. */
 export const auth = "session" as const;
@@ -13,6 +18,10 @@ export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
+    const limited = await applyHttpRateLimit(request, HTTP_RATE_LIMITS.careerUser, user.id);
+    if (!limited.allowed) {
+      return rateLimitedJsonResponse(limited, request);
+    }
     const body: unknown = await request.json().catch(() => null);
     if (!body || typeof body !== "object" || Array.isArray(body)) {
       throw new BadRequestError("İstek gövdesi okunamadı.");
@@ -40,8 +49,8 @@ export async function POST(request: Request) {
         userId: user.id,
         sittingId: parsed.value.sittingId,
         answers: parsed.value.answers,
-        gradeWithEngine(questions) {
-          return gradeAcademyExam([...questions], parsed.value.answers);
+        gradeWithEngine(questions, answers) {
+          return gradeAcademyExam([...questions], [...answers]);
         },
       });
       return jsonOk({ card }, 200, requestId, request);

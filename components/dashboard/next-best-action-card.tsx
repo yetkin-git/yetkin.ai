@@ -23,6 +23,8 @@ function nextBestCopy(
       return { body: nba.careerVisa.body, cta: nba.careerVisa.cta };
     case "academy_continue":
       return { body: nba.academyContinue.body, cta: nba.academyContinue.cta };
+    case "tezgah_first":
+      return { body: nba.firstValue.body, cta: nba.firstValue.cta };
     default:
       return { body: copy.featured, cta: nba.fallback.cta };
   }

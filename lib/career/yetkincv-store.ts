@@ -3,27 +3,36 @@ import "server-only";
 import { getPrisma } from "@/lib/kernel/db";
 import { BadRequestError } from "@/lib/kernel/http/errors";
 import { parseSha256Hex } from "@/lib/kernel/crypto/sha256";
+import { signCareerSealHmac, verifyCareerSealHmac } from "@/lib/career/seal-hmac";
 import {
   computeYetkinCvHash,
   gradeYetkinCvExam,
+  readYetkinCvChoiceOrder,
   toYetkinCvCardView,
   toYetkinCvSwotInput,
+  yetkinCvBuildChoiceOrder,
   yetkinCvDigest,
+  yetkinCvPickSessionQuestions,
+  yetkinCvPublicQuestions,
   yetkinCvQuestions,
   yetkinCvQuestionsByIds,
   yetkinCvQuestionsForSkills,
+  yetkinCvRemapAnswers,
   yetkinCvSignals,
   yetkinCvSkillBreakdown,
   yetkinCvSkillSeal,
+  YETKINCV_ATTEMPT_WINDOW_MS,
+  YETKINCV_MAX_ATTEMPTS,
+  YETKINCV_SESSION_SIZE,
   YETKINCV_SITTING_MS,
   type YetkinCvAnswer,
   type YetkinCvCardView,
+  type YetkinCvChoiceOrder,
   type YetkinCvPublicQuestion,
   type YetkinCvSwotInput,
   type YetkinCvRoleId,
   type YetkinCvSkillScore,
   type YetkinCvVerticalId,
-  yetkinCvPublicQuestions,
 } from "@/lib/career/yetkincv";
 
 export type YetkinCvStartResult = {
@@ -31,6 +40,10 @@ export type YetkinCvStartResult = {
   expiresAt: string;
   questions: YetkinCvPublicQuestion[];
 };
+
+function isUniqueConflict(error: unknown): boolean {
+  return Boolean(error && typeof error === "object" && "code" in error && (error as { code?: string }).code === "P2002");
+}
 
 function readStringList(value: unknown): string[] {
   if (!Array.isArray(value)) {
@@ -107,14 +120,43 @@ export async function startYetkinCvSitting(input: {
   if (!bank) {
     throw new BadRequestError("Uzmanlık listeden seçilir.");
   }
+  const now = input.now ?? new Date();
+  const prisma = getPrisma();
+
+  // Serbest kariyer sınavında 30 gün / 3 deneme. Kurumsal `skillIds` yolu ayrıdır.
+  //
+  // Sayaç **yalnız serbest** oturumları sayar: kurumsal başvuru oturumları aynı
+  // `verticalKey` altında yazıldığı için eskiden kullanıcının ücretsiz sınav hakkını
+  // sessizce tüketiyordu (3 şirket başvurusu = ücretsiz sınav hakkı bitti). İlişkili
+  // kurumsal başvurusu olan satırlar bu kovaya girmez.
+  if (!input.skillIds) {
+    const since = new Date(now.getTime() - YETKINCV_ATTEMPT_WINDOW_MS);
+    const attempts = await prisma.yetkinCvSitting.count({
+      where: {
+        userId: input.userId,
+        verticalKey: input.verticalId,
+        createdAt: { gte: since },
+        kurumsalApplication: { is: null },
+      },
+    });
+    if (attempts >= YETKINCV_MAX_ATTEMPTS) {
+      throw new BadRequestError(
+        `Bu uzmanlıkta 30 gün içinde en fazla ${YETKINCV_MAX_ATTEMPTS} deneme yapılabilir.`,
+      );
+    }
+  }
+
   const questions = input.skillIds
     ? yetkinCvQuestionsForSkills(input.verticalId, input.skillIds)
-    : bank;
+    : yetkinCvPickSessionQuestions(
+        bank,
+        YETKINCV_SESSION_SIZE,
+        `${input.userId}:${input.verticalId}:${now.toISOString()}`,
+      );
   if (!questions || questions.length === 0) {
     throw new BadRequestError("Seçilen yetkinliğin vaka sorusu yok.");
   }
-  const now = input.now ?? new Date();
-  const prisma = getPrisma();
+
   const sitting = await prisma.yetkinCvSitting.create({
     data: {
       userId: input.userId,
@@ -123,14 +165,22 @@ export async function startYetkinCvSitting(input: {
       cvDigest: yetkinCvDigest(input.cvText),
       cvSignals: yetkinCvSignals(input.cvText),
       questionIds: questions.map((question) => question.id),
+      choiceOrder: {},
       expiresAt: new Date(now.getTime() + YETKINCV_SITTING_MS),
     },
     select: { id: true, expiresAt: true },
   });
+
+  const choiceOrder: YetkinCvChoiceOrder = yetkinCvBuildChoiceOrder(questions, sitting.id);
+  await prisma.yetkinCvSitting.update({
+    where: { id: sitting.id },
+    data: { choiceOrder },
+  });
+
   return {
     sittingId: sitting.id,
     expiresAt: sitting.expiresAt.toISOString(),
-    questions: yetkinCvPublicQuestions(questions),
+    questions: yetkinCvPublicQuestions(questions, choiceOrder),
   };
 }
 
@@ -138,8 +188,14 @@ export async function sealYetkinCvSitting(input: {
   userId: string;
   sittingId: string;
   answers: readonly YetkinCvAnswer[];
-  /** Akademi sınav motoru. Aynı soru listesinde yerel formülle uyuşmazsa mühür basılmaz. */
-  gradeWithEngine: (questions: readonly { id: string; prompt: string; choices: string[]; correctIndex: number }[]) => {
+  /**
+   * Akademi sınav motoru. Cevaplar şık sırasına göre orijinale eşlenmiş olmalıdır.
+   * Yerel formülle uyuşmazsa mühür basılmaz.
+   */
+  gradeWithEngine: (
+    questions: readonly { id: string; prompt: string; choices: string[]; correctIndex: number }[],
+    answers: readonly YetkinCvAnswer[],
+  ) => {
     score: number;
     correctCount: number;
   };
@@ -172,7 +228,12 @@ export async function sealYetkinCvSitting(input: {
   if (!questions) {
     throw new BadRequestError("Sınav soruları çözülemedi.");
   }
-  const graded = gradeYetkinCvExam(questions, input.answers);
+  const choiceOrder = readYetkinCvChoiceOrder(sitting.choiceOrder);
+  const remapped = yetkinCvRemapAnswers(input.answers, choiceOrder);
+  if (!remapped) {
+    throw new BadRequestError("Şık eşlemesi geçersiz.");
+  }
+  const graded = gradeYetkinCvExam(questions, remapped);
   const engine = input.gradeWithEngine(
     questions.map((question) => ({
       id: question.id,
@@ -180,11 +241,12 @@ export async function sealYetkinCvSitting(input: {
       choices: [...question.choices],
       correctIndex: question.correctIndex,
     })),
+    remapped,
   );
   if (graded.score !== engine.score || graded.correctCount !== engine.correctCount) {
     throw new BadRequestError("Sınav motoru puanı uyuşmadı.");
   }
-  const skills = yetkinCvSkillBreakdown(questions, input.answers);
+  const skills = yetkinCvSkillBreakdown(questions, remapped);
   const skillCorrect = skills.reduce((sum, row) => sum + row.correct, 0);
   if (skillCorrect !== graded.correctCount) {
     throw new BadRequestError("Beceri kırılımı puanla uyuşmadı.");
@@ -200,29 +262,58 @@ export async function sealYetkinCvSitting(input: {
     cvDigest: sitting.cvDigest.trim().toLowerCase(),
     skillSeal: yetkinCvSkillSeal(skills),
   });
-  const seal = await prisma.yetkinCvSeal.create({
-    data: {
-      userId: sitting.userId,
-      sittingId: sitting.id,
-      roleKey: sitting.roleKey,
-      verticalKey: sitting.verticalKey,
-      score: graded.score,
-      skillBreakdown: skills,
-      cvDigest: sitting.cvDigest,
-      cvSignals: sitting.cvSignals ?? [],
-      certificateHash,
-      issuedAt,
-    },
+  const hmacSignature = signCareerSealHmac({
+    certificateHash,
+    userId: sitting.userId,
+    sittingId: sitting.id,
+    roleKey: sitting.roleKey,
+    verticalKey: sitting.verticalKey,
+    score: graded.score,
+    issuedAt,
   });
-  await prisma.yetkinCvSitting.update({
-    where: { id: sitting.id },
-    data: { consumedAt: issuedAt },
-  });
-  const card = cardFromRow(seal);
-  if (!card) {
-    throw new BadRequestError("Mühür kaydı okunamadı.");
+
+  try {
+    const seal = await prisma.yetkinCvSeal.create({
+      data: {
+        userId: sitting.userId,
+        sittingId: sitting.id,
+        roleKey: sitting.roleKey,
+        verticalKey: sitting.verticalKey,
+        score: graded.score,
+        skillBreakdown: skills,
+        cvDigest: sitting.cvDigest,
+        cvSignals: sitting.cvSignals ?? [],
+        certificateHash,
+        hmacSignature,
+        issuedAt,
+      },
+    });
+    await prisma.yetkinCvSitting.update({
+      where: { id: sitting.id },
+      data: { consumedAt: issuedAt },
+    });
+    const card = cardFromRow(seal);
+    if (!card) {
+      throw new BadRequestError("Mühür kaydı okunamadı.");
+    }
+    return card;
+  } catch (error) {
+    // O5: paralel iki submit — P2002'de mevcut mührü idempotent döndür.
+    if (!isUniqueConflict(error)) {
+      throw error;
+    }
+    const existing = await prisma.yetkinCvSeal.findUnique({
+      where: { sittingId: sitting.id },
+    });
+    if (!existing) {
+      throw new BadRequestError("Mühür kaydı çakıştı. Yeniden dene.");
+    }
+    const card = cardFromRow(existing);
+    if (!card) {
+      throw new BadRequestError("Mühür kaydı okunamadı.");
+    }
+    return card;
   }
-  return card;
 }
 
 export async function loadLatestYetkinCvEvidence(userId: string): Promise<YetkinCvSwotInput | null> {
@@ -258,6 +349,19 @@ export async function loadLatestYetkinCvCard(userId: string): Promise<YetkinCvCa
 
 export type PublicYetkinCvSeal = YetkinCvCardView & {
   cvSignals: readonly string[];
+  /**
+   * Faz 3 / §4.3 — kamuya açık yayın mührü açık mı?
+   * `false` ise `/vize/[hash]` yalnız **özet** kart basar (puan + temel beceriler)
+   * ve 290 TL'lik yayın CTA'sını gösterir. `true` ise tam doğrulanabilir kart,
+   * paylaşım rozeti ve dizin görünürlüğü açılır.
+   */
+  published: boolean;
+  /** HMAC imzası (varsa). Eski satırlarda null. */
+  hmacSignature: string | null;
+  sittingId: string;
+  userId: string;
+  roleKey: string;
+  verticalKey: string;
 };
 
 export async function loadPublicYetkinCvByHash(rawHash: string): Promise<PublicYetkinCvSeal | null> {
@@ -276,5 +380,74 @@ export async function loadPublicYetkinCvByHash(rawHash: string): Promise<PublicY
   if (!card) {
     return null;
   }
-  return { ...card, cvSignals: readStringList(row.cvSignals) };
+  return {
+    ...card,
+    cvSignals: readStringList(row.cvSignals),
+    published: row.sealedPublication,
+    hmacSignature: row.hmacSignature,
+    sittingId: row.sittingId,
+    userId: row.userId,
+    roleKey: row.roleKey,
+    verticalKey: row.verticalKey,
+  };
+}
+
+export type CareerSealVerifyResult = {
+  /**
+   * Sözleşme: `valid` **yalnız** kriptografik bütünlük sağlandığında true'dur.
+   *
+   * Önceki sürüm "satır varsa valid" diyordu; bu, HMAC'i uyuşmayan (veya hiç
+   * imzalanmamış) bir kaydı üçüncü tarafa "geçerli mühür" diye sunuyordu. İşveren
+   * `valid: true` görüp imzayı hiç kontrol etmeyebilir. Artık:
+   * - `hmacValid: true`  → `valid: true`
+   * - HMAC var ama uyuşmuyor → `valid: false` (bozulmuş/oynanmış kayıt)
+   * - HMAC yok (Faz 2 öncesi satır) → `valid: false`, ayrı `signatureState: "legacy"`
+   *   ile dürüstçe raporlanır. `hmacSignature` alanı çağırana ayrıca döner.
+   */
+  valid: boolean;
+  issuedAt: string;
+  roleKey: string;
+  verticalKey: string;
+  score: number;
+  hmacValid: boolean;
+  /** `signed` = imza var ve geçerli, `unsigned` = Faz 2 öncesi satır, `tampered` = imza uyuşmuyor. */
+  signatureState: "signed" | "unsigned" | "tampered";
+  signature: string | null;
+  certificateHash: string;
+};
+
+export async function verifyYetkinCvSealByHash(rawHash: string): Promise<CareerSealVerifyResult | null> {
+  const seal = await loadPublicYetkinCvByHash(rawHash);
+  if (!seal) {
+    return null;
+  }
+  const hmac = verifyCareerSealHmac(
+    {
+      certificateHash: seal.certificateHash,
+      userId: seal.userId,
+      sittingId: seal.sittingId,
+      roleKey: seal.roleKey,
+      verticalKey: seal.verticalKey,
+      score: seal.score,
+      issuedAt: seal.issuedAt,
+    },
+    seal.hmacSignature,
+  );
+  const signatureState: CareerSealVerifyResult["signatureState"] = hmac.valid
+    ? "signed"
+    : hmac.present
+      ? "tampered"
+      : "unsigned";
+  return {
+    // Uydurma "doğrulandı" yok: geçerlilik imzaya bağlıdır.
+    valid: hmac.valid,
+    issuedAt: seal.issuedAt,
+    roleKey: seal.roleKey,
+    verticalKey: seal.verticalKey,
+    score: seal.score,
+    hmacValid: hmac.valid,
+    signatureState,
+    signature: seal.hmacSignature,
+    certificateHash: seal.certificateHash,
+  };
 }

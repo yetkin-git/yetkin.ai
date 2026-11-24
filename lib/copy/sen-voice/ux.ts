@@ -43,7 +43,8 @@ export const UX_SEN = {
       body: "Sertifikan ve yetkinliğin Kariyer sayfasına işlendi.",
       cta: "Kariyer sayfasında gör",
     },
-    examHref: "/academy/certificates",
+    /** Akademi kapalı (`410`); sertifika izi Kariyer yüzündedir. */
+    examHref: "/career",
     examCareerHref: "/career",
     purchaseAcademy: {
       title: "Eğitim kütüphanene eklendi",

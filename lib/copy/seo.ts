@@ -100,9 +100,9 @@ export const PAGE_SEO = {
     image: DEFAULT_OG_IMAGE,
   },
   career: {
-    title: "YetkinCV — Yetkinliğini Gerçek Testle Kanıtla",
+    title: "Kariyer — YetkinCV, vize ve açık ilanlar",
     description:
-      "Uygulamalı vaka testini çöz, doğrulanabilir yetkinlik puanını CV'ne ve LinkedIn profiline ekle. Doğrulama bağı herkese açıktır.",
+      "YetkinCV vaka testi, doğrulanabilir puan, vize damgası ve açık ilanlar. Doğrulama bağı herkese açıktır.",
     path: "/career",
     image: DEFAULT_OG_IMAGE,
   },
@@ -131,9 +131,10 @@ export const PAGE_SEO = {
   // `academyVerify`) KALDIRILDI. `/academy` diskte yok ve kenar 410 basıyor;
   // meta basan sayfa olmadığı için bu girdiler yalnız testte yaşıyordu.
   contact: {
-    title: "İletişim ve destek",
+    // SEO-03: başlık 30 → 57 karakter. "İletişim" niyeti korunur, kapsam zenginleşir.
+    title: "İletişim — destek, kurumsal başvuru ve KVKK talepleri",
     description:
-      "Destek taleplerine ve kurumsal başvurulara genelde 1 iş günü içinde dönüş yapıyoruz. E-posta, WhatsApp ve hesap içi bildirim aynı kanaldır.",
+      "Destek talebine ve kurumsal başvuruya genelde 1 iş günü içinde dönüş yapılır. E-posta, WhatsApp ve hesap içi bildirim aynı kanaldır.",
     path: "/iletisim",
     image: DEFAULT_OG_IMAGE,
   },
@@ -144,10 +145,38 @@ export const PAGE_SEO = {
     path: "/fiyatlandirma",
     image: DEFAULT_OG_IMAGE,
   },
+  // E-Ticaret kamu vitrini (satış sayfası). Kokpit `/panel/e-ticaret` altındadır ve robots'ta kapalıdır.
+  hibe: {
+    title: "YetkinHibe — KOBİ hibe uygunluğu ve proje dosyası",
+    description:
+      "KOSGEB, TÜBİTAK, TKDK ve bakanlık çağrılarını firma profiline göre eşleştir. Ücretsiz uygunluk skoru ve tam proje dosyası. Resmî onay değildir.",
+    path: "/hibe",
+    image: DEFAULT_OG_IMAGE,
+    keywords: [
+      "kosgeb hibe başvuru adımları",
+      "tübitak kobi desteği",
+      "hibe uygunluk",
+      "proje dosyası",
+    ],
+  },
+  eTicaret: {
+    title: "E-Ticaret — stok, kanal ve kâr beyni",
+    description:
+      "Trendyol ve Hepsiburada çift yönlü stok/sipariş senkronu, 30 gün 1 TL doğrulamalı deneme, AI müşteri yanıtı. Kargo baremini kıran, indirimde kârını koruyan e-ticaret beyni.",
+    path: "/e-ticaret",
+    image: DEFAULT_OG_IMAGE,
+    keywords: [
+      "e-ticaret yönetimi",
+      "trendyol stok senkronu",
+      "hepsiburada entegrasyon",
+      "çok kanallı e-ticaret",
+    ],
+  },
   kurumsal: {
     title: "Kurumsal İK Eleme — ilan, YetkinCV testi ve kısa liste",
+    // SEO-03: 177 → 152 karakter. SERP ~155 sınırına çekildi; anlam korundu.
     description:
-      "Şirket ilanı açar, yetkinlik ağırlığını yüzdeyle tanımlar, aday YetkinCV vaka testini sunucuda çözer. Kısa liste ağırlıklı puana göre sıralanır. CV metni kamu dizinine basılmaz.",
+      "Şirket ilanı aç, yetkinlik ağırlığını yüzdeyle tanımla, aday vaka testini sunucuda çözsün. Kısa liste ağırlıklı puana göre sıralanır; CV metni kamuya basılmaz.",
     path: "/kurumsal",
     image: DEFAULT_OG_IMAGE,
   },
@@ -168,7 +197,7 @@ export const PAGE_SEO = {
   tetkik: {
     title: "Web Site Analizi — SEO, ikna ve dönüşüm karnesi",
     description:
-      "Site adresini yazın; SEO uyumu, ikna gücü ve satışa dönüşüm performansını analiz edin. Eksikler hazır çözümlerle gelir.",
+      "Site adresini yaz; SEO uyumu, ikna gücü ve satışa dönüşüm performansını analiz edin. Eksikler hazır çözümlerle gelir.",
     path: "/tetkik",
     image: DEFAULT_OG_IMAGE,
   },
@@ -180,7 +209,9 @@ export const PAGE_SEO = {
     image: DEFAULT_OG_IMAGE,
   },
   legal: {
-    title: LEGAL_PAGE_TITLE,
+    // SEO-03: 28 → 58 karakter. H1 (`LEGAL_PAGE_TITLE`) sade kalır; meta başlık
+    // kapsamı (KVKK, mesafeli satış, kullanım şartları) zenginleşir.
+    title: "Yasal metinler — KVKK, mesafeli satış ve kullanım şartları",
     description:
       "KVKK aydınlatma, çerez politikası, mesafeli satış, ön bilgilendirme, iade koşulları ve platform kullanım şartları.",
     path: "/legal",
@@ -256,6 +287,8 @@ export const SITEMAP_STATIC_PATHS = [
   PAGE_SEO.career.path,
   PAGE_SEO.tezgah.path,
   PAGE_SEO.pricing.path,
+  PAGE_SEO.eTicaret.path,
+  PAGE_SEO.hibe.path,
   PAGE_SEO.kurumsal.path,
   PAGE_SEO.publicTalent.path,
   PAGE_SEO.uzmanlar.path,
@@ -301,6 +334,10 @@ export const ROBOTS_DISALLOW_PATHS = [
   "/kasa",
   "/profil",
   "/pasaport",
+  // E-Ticaret kokpiti oturum duvarının arkasında; kamu vitrini `/e-ticaret` kapalı değildir.
+  "/magazam",
+  "/panel/e-ticaret",
+  "/panel/hibe",
   "/api/",
   // SEO Tedavi (P1) — satın alma duvarı arkası oynatıcı; auth duvarı + sayfa noindex ile üç katmanlı kilit.
   "/academy",
@@ -356,6 +393,11 @@ export type SitemapChangeFrequency =
  * SEO Tedavi (P0): `/academy` ve `/academy/*` yüksek öncelik kuralları KALDIRILDI.
  * Site haritasında `/academy` hiç yok (`SITEMAP_STATIC_PATHS` taşımaz) ve kenar 410
  * basıyor; politikada 0.8 tutmak ölü bir yüzeyi canlı saymaktı.
+ *
+ * SEO-05: `/fiyatlandirma` 0.7 (default) → **0.9**. Ticari değeri en yüksek sayfa
+ * `/tezgah` ve `/career` ile aynı banda alındı; `/uzmanlar` (0.8) ve `/tetkik` (0.8)
+ * keşif yüzeyleridir, satış sayfası değildir. `/legal/*` 0.5 → **0.3**: 11 yasal
+ * sayfa site haritasını şişiriyor ve arama niyeti taşımıyor.
  */
 export function sitemapRoutePolicy(path: string): {
   changeFrequency: SitemapChangeFrequency;
@@ -364,7 +406,16 @@ export function sitemapRoutePolicy(path: string): {
   if (path === "/") {
     return { changeFrequency: "weekly", priority: 1 };
   }
-  if (path === "/career" || path === "/junior" || path === PAGE_SEO.tezgah.path) {
+  if (
+    path === "/career" ||
+    path === "/junior" ||
+    path === PAGE_SEO.tezgah.path ||
+    // SEO-05: satış sayfası ürün odalarıyla aynı bantta.
+    path === PAGE_SEO.pricing.path ||
+    // E-Ticaret vitrini de satış sayfasıdır; aynı bant.
+    path === PAGE_SEO.eTicaret.path ||
+    path === PAGE_SEO.hibe.path
+  ) {
     return { changeFrequency: "weekly", priority: 0.9 };
   }
   if (path === PAGE_SEO.guide.path || path.startsWith("/rehber/")) {
@@ -379,7 +430,11 @@ export function sitemapRoutePolicy(path: string): {
   if (path.startsWith("/junior/ders/")) {
     return { changeFrequency: "weekly", priority: 0.7 };
   }
-  if (path.startsWith("/legal") || path === "/iletisim" || path === "/hakkimizda") {
+  // SEO-05: yasal metinler keşif değil uyum yüzeyidir. Band 0.5 → 0.3.
+  if (path.startsWith("/legal")) {
+    return { changeFrequency: "monthly", priority: 0.3 };
+  }
+  if (path === "/iletisim" || path === "/hakkimizda") {
     return { changeFrequency: "monthly", priority: 0.5 };
   }
   // Kamu vitrinleri (`/magaza/[slug]`) sitemap'e Faz 2'de eklendi; düşük öncelik

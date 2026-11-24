@@ -135,6 +135,8 @@ function deps(repo: CommerceRepository, market = createMemoryMarketplaceReposito
     commerce: () => repo,
     marketplace: () => market,
     env: ENV,
+    // P0.4 — kimlik masası lisans ister; bu suite lisanslı satıcıyı taklit eder.
+    license: { allowsOutgoing: async () => true },
   };
 }
 

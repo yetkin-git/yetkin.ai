@@ -21,9 +21,12 @@ export const GRANT_PROFILE_MODE_STORAGE_KEY = "yetkin-hibe-profile-mode";
 
 const VALID_MODES: readonly GrantProfileMode[] = ["individual", "agency", "freelancer"];
 
+export function isGrantProfileMode(value: string): value is GrantProfileMode {
+  return (VALID_MODES as readonly string[]).includes(value);
+}
+
 export function parseGrantProfileModeParam(raw: string | undefined): GrantProfileMode {
-  if (raw === "agency") return "agency";
-  if (raw === "freelancer") return "freelancer";
+  if (raw && isGrantProfileMode(raw)) return raw;
   return "individual";
 }
 

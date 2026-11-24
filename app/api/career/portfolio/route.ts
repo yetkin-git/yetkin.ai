@@ -8,6 +8,11 @@ import { createPrismaHttpIdempotencyStore } from "@/lib/kernel/http/prisma-idemp
 import { createPrismaCareerPorts } from "@/lib/career/runtime";
 import { syncCareerVisaStamps } from "@/lib/career/engine";
 import { projectLiveCareerBoard } from "@/lib/career/live";
+import {
+  applyHttpRateLimit,
+  HTTP_RATE_LIMITS,
+  rateLimitedJsonResponse,
+} from "@/lib/kernel/security/http-rate-limit";
 
 export const auth = "session" as const;
 
@@ -23,14 +28,19 @@ function publicPortfolio(
 }
 
 export async function GET(request: Request) {
+  const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
+    const limited = await applyHttpRateLimit(request, HTTP_RATE_LIMITS.careerUser, user.id);
+    if (!limited.allowed) {
+      return rateLimitedJsonResponse(limited, request);
+    }
     const ports = createPrismaCareerPorts();
     await syncCareerVisaStamps(ports, { userId: user.id });
     const board = await projectLiveCareerBoard(ports, user.id);
-    return jsonOk({ portfolio: board.portfolio });
+    return jsonOk({ portfolio: board.portfolio }, 200, requestId, request);
   } catch (error) {
-    return jsonFromUnknown(error);
+    return jsonFromUnknown(error, 400, requestId, request);
   }
 }
 
@@ -38,6 +48,10 @@ export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
+    const limited = await applyHttpRateLimit(request, HTTP_RATE_LIMITS.careerUser, user.id);
+    if (!limited.allowed) {
+      return rateLimitedJsonResponse(limited, request);
+    }
     const idempotency = requireRailV1IdempotencyKey(request, requestId);
     if (!idempotency.ok) {
       return idempotency.response;
@@ -85,6 +99,6 @@ export async function POST(request: Request) {
       },
     );
   } catch (error) {
-    return jsonFromUnknown(error);
+    return jsonFromUnknown(error, 400, requestId, request);
   }
 }

@@ -18,9 +18,8 @@ describe("prebuild güvenlik kapısı ve nightly grep kovası — yazma yüzeyi"
     expect(build).toContain("verify:prebuild");
     expect(pkg.scripts["verify:atomic-seals"]).toBe("tsx scripts/verify-atomic-seals.ts");
     expect(pkg.scripts["verify:idor-seals"]).toContain("tsx scripts/verify-idor-seals.ts");
-    expect(pkg.scripts["verify:academy-pedagogy-seals"]).toBe(
-      "vitest run tests/academy/pedagogy-seals-retired.test.ts",
-    );
+    expect(pkg.scripts["verify:academy-pedagogy-seals"]).toBe("npm run verify:academy-curriculum");
+    expect(pkg.scripts["verify:academy-pedagogy-seals"]).not.toContain("pedagogy-seals-retired");
     expect(pkg.scripts["verify:academy-pedagogy-seals"]).not.toContain("pedagogy-doctrine");
     expect(pkg.scripts["verify:academy-pedagogy-seals"]).not.toContain("proof-of-work.test.ts");
     expect(pkg.scripts["verify:sen-axis"]).toBe("tsx scripts/verify-sen-axis.ts");

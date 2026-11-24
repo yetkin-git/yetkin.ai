@@ -43,8 +43,11 @@ function bandLabel(job: OwnerJobView, band: OwnerJobView["applicants"][number]["
   if (band === "SHORTLISTED") {
     return `Mülakata Uygun (Top ${job.shortlistLimit})`;
   }
-  if (band === "REJECTED") {
-    return "Elendi";
+  if (band === "QUALIFIED_NOT_SHORTLISTED") {
+    return "Barajı geçti — yedek liste";
+  }
+  if (band === "BELOW_THRESHOLD") {
+    return "Baraj altı";
   }
   return "Test bekleniyor";
 }
@@ -66,6 +69,7 @@ export function KurumsalScreeningCockpit({
 }) {
   const router = useRouter();
   const [companyName, setCompanyName] = useState("");
+  const [taxNumber, setTaxNumber] = useState("");
   const [title, setTitle] = useState("");
   const [vertical, setVertical] = useState<KurumsalJobVerticalId>("ECOMMERCE");
   const [description, setDescription] = useState("");
@@ -132,6 +136,7 @@ export function KurumsalScreeningCockpit({
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
             companyName,
+            taxNumber,
             title,
             vertical,
             description,
@@ -149,6 +154,7 @@ export function KurumsalScreeningCockpit({
       }
       setTitle("");
       setDescription("");
+      setTaxNumber("");
       setDeadlineAt("");
       router.refresh();
     } catch {
@@ -187,6 +193,20 @@ export function KurumsalScreeningCockpit({
                 Şirket adı
                 <Input value={companyName} onChange={(event) => setCompanyName(event.target.value)} required maxLength={120} />
               </label>
+              <label className="grid gap-1.5 text-sm font-medium">
+                Vergi / MERSİS no
+                <Input
+                  value={taxNumber}
+                  onChange={(event) => setTaxNumber(event.target.value)}
+                  inputMode="numeric"
+                  maxLength={20}
+                  placeholder="10 veya 11 rakam"
+                />
+              </label>
+              <p className="text-xs text-[var(--muted)]">
+                Numara kaydedilir; kurumsal kimlik doğrulaması ayrı mühürdür. Doğrulanmamış ilan arama motorunda
+                indekslenmez.
+              </p>
               <label className="grid gap-1.5 text-sm font-medium">
                 Pozisyon adı
                 <Input value={title} onChange={(event) => setTitle(event.target.value)} required maxLength={160} />
@@ -301,6 +321,7 @@ export function KurumsalScreeningCockpit({
                     <span className="block text-sm font-semibold">{job.title}</span>
                     <span className="block text-xs text-[var(--muted)]">
                       {job.companyName} · {job.verticalLabel} · {job.isActive ? "Açık" : "Kapalı"}
+                      {job.employerVerified ? " · Doğrulanmış İşveren ✓" : " · Kimlik doğrulaması beklemede"}
                     </span>
                     {job.deadlineLabel ? (
                       <span className="mt-1 block text-xs text-[var(--muted)]">Son başvuru {job.deadlineLabel}</span>
@@ -375,6 +396,12 @@ export function KurumsalScreeningCockpit({
                             <span className="block text-xs text-[var(--muted)]">{row.candidateEmail}</span>
                             <details className="mt-1">
                               <summary className="cursor-pointer text-xs text-[var(--safir)]">CV özeti</summary>
+                              <p
+                                className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-800"
+                                data-candidate-claim-label="unverified"
+                              >
+                                Aday beyanı (doğrulanmamış metin)
+                              </p>
                               <p className="mt-1 max-w-md whitespace-pre-wrap text-xs leading-5">{row.cvSummary}</p>
                             </details>
                           </td>
@@ -393,9 +420,11 @@ export function KurumsalScreeningCockpit({
                               className={
                                 row.band === "SHORTLISTED"
                                   ? "inline-flex rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-800"
-                                  : row.band === "REJECTED"
-                                    ? "inline-flex rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600"
-                                    : "inline-flex rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-800"
+                                  : row.band === "QUALIFIED_NOT_SHORTLISTED"
+                                    ? "inline-flex rounded-full bg-sky-50 px-2 py-0.5 text-xs font-semibold text-sky-800"
+                                    : row.band === "BELOW_THRESHOLD"
+                                      ? "inline-flex rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600"
+                                      : "inline-flex rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-800"
                               }
                             >
                               {bandLabel(selected, row.band)}

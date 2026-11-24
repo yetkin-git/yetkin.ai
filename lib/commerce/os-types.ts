@@ -1,5 +1,25 @@
 import type { OsChannelKind } from "@/lib/commerce/os-rules";
 
+export type OsVariantView = {
+  id: string;
+  sku: string;
+  barcode: string | null;
+  amountMinor: number | null;
+  onHandQty: number;
+  safetyBuffer: number;
+  status: "DRAFT" | "ACTIVE" | "PASSIVE";
+  /** Satılabilir adet (eldeli − güvenlik payı). */
+  sellableQty: number;
+  /** Birim maliyet kaydedilmiş mi (kâr motorunun ön koşulu). */
+  hasEconomics: boolean;
+  /** Kayıtlı birim maliyet. Yoksa null; form bu değeri yükler. */
+  costMinor: number | null;
+  desiGrams: number | null;
+  vatBps: number | null;
+  /** Maliyet KDV dahil kaydedildiyse true. */
+  costIncludesVat: boolean;
+};
+
 export type OsProductView = {
   id: string;
   storeId: string;
@@ -13,6 +33,10 @@ export type OsProductView = {
   highStock: boolean;
   adEligible: boolean;
   variantId: string | null;
+  /** Üründeki varyant sayısı. Onaylı stok bu varyantların toplamıdır. */
+  variantCount: number;
+  /** Tüm varyantlar — kâr motoru maliyet/desi girişi bunları listeler. */
+  variants: OsVariantView[];
   pendingDraft: { id: string; quantity: number } | null;
 };
 
@@ -20,6 +44,8 @@ export type OsChannelView = {
   kind: OsChannelKind;
   label: string;
   needsKey: boolean;
+  /** Kanal henüz açılmadı. Bağlama düğmesi kapalı, sunucu 422 döner. */
+  comingSoon: boolean;
   status: "DISCONNECTED" | "CONNECTED" | "ERROR";
   hint: string;
   lastError: string;
@@ -65,6 +91,9 @@ export type OsStoreLink = {
   id: string;
   name: string;
   slug: string;
+  /** Mağazanın seçili planı (STARTER / GROWTH / SCALE). */
+  planCode: "STARTER" | "GROWTH" | "SCALE";
+  planTitle: string;
 };
 
 export type EcommerceLicenseBand = {
@@ -72,8 +101,15 @@ export type EcommerceLicenseBand = {
   active: boolean;
   /** Lisanssız olduğu biliniyorsa pazaryeri «Bağla» kapısı açılır. Okunamadıysa kapı susar. */
   gate: boolean;
-  /** Katalog `commerce / monthly` satırının kompakt tutarı, sonuna ` / Ay` eklenir. Satır yoksa null. */
+  /**
+   * Üç kademeli güncel fiyat şeridi.
+   * Örnek: `Başlangıç ₺1.990 • Büyüme ₺3.990 • Kurumsal ₺7.990 / Ay`
+   * Eski `commerce / monthly` (₺1.490) satırı kullanılmaz.
+   */
   priceLabel: string | null;
+  /** Seçili / havuz mağazasının plan adı (Başlangıç, Büyüme, Kurumsal). */
+  activePlanTitle: string | null;
+  /** Paket seçimi / lisans ekranı. */
   activateHref: string;
   /** Deneme açıkken "Lisans açık" değil kalan gün basılır. */
   trial: {
@@ -86,11 +122,22 @@ export type EcommerceLicenseBand = {
   trialBlockedReason: "no_key" | "consumed" | "held" | "open_seat" | "unknown" | null;
 };
 
+export type OsChannelEconomicsView = {
+  commissionBps: number;
+  cargoMinorPerOrder: number;
+  returnRateBps: number;
+  adCostMinorPerOrder: number;
+};
+
 export type OsCockpitView = {
   products: OsProductView[];
   channels: OsChannelView[];
   inbox: OsInboxView[];
   stores: OsStoreLink[];
+  /** Kokpitin öznesi. `?magaza=` ile seçilir. */
+  selectedStoreId: string | null;
   grants: { ok: true; lines: OsGrantLine[] } | { ok: false; message: string };
   exportSupport: OsExportSupport;
+  /** Sunucu kampanya simülasyonunun Trendyol kanal girdileri. */
+  trendyolEconomics: OsChannelEconomicsView;
 };

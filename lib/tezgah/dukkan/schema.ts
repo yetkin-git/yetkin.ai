@@ -7,6 +7,7 @@ import {
 } from "@/lib/tezgah/dukkan/copy";
 
 const shortText = z.string().trim().min(2).max(80);
+const optionalWindow = z.string().trim().max(450).optional().default("");
 
 function enumIds<T extends string>(ids: readonly T[]): [T, ...T[]] {
   const [first, ...rest] = ids;
@@ -27,6 +28,9 @@ export const dukkanGenerateRequestSchema = z
     whatsapp: z.string().trim().min(10).max(32),
     services: z.string().trim().min(2).max(450),
     tone: z.enum(toneIds),
+    packages: optionalWindow,
+    hours: z.string().trim().max(120).optional().default(""),
+    faq: optionalWindow,
   })
   .superRefine((value, ctx) => {
     if (!normalizeDukkanWhatsapp(value.whatsapp)) {
@@ -35,9 +39,29 @@ export const dukkanGenerateRequestSchema = z
     if (!parseDukkanServices(value.services)) {
       ctx.addIssue({ code: "custom", path: ["services"], message: "hizmet" });
     }
+    if (value.packages.trim() && !parseDukkanPackages(value.packages)) {
+      ctx.addIssue({ code: "custom", path: ["packages"], message: "paket" });
+    }
+    if (value.hours.trim() && (value.hours.trim().length < 2 || value.hours.trim().length > 120)) {
+      ctx.addIssue({ code: "custom", path: ["hours"], message: "saat" });
+    }
+    if (value.faq.trim() && !parseDukkanFaq(value.faq)) {
+      ctx.addIssue({ code: "custom", path: ["faq"], message: "sss" });
+    }
   });
 
 export type DukkanGenerateRequest = z.infer<typeof dukkanGenerateRequestSchema>;
+
+export type DukkanPackage = {
+  name: string;
+  description: string;
+  priceLabel: string;
+};
+
+export type DukkanFaqItem = {
+  question: string;
+  answer: string;
+};
 
 export type DukkanDraft = {
   businessName: string;
@@ -46,6 +70,9 @@ export type DukkanDraft = {
   whatsapp: string;
   services: string[];
   tone: DukkanToneId;
+  packages: DukkanPackage[];
+  hours: string | null;
+  faq: DukkanFaqItem[];
 };
 
 /** `05xx`, `5xx` ve `90…` biçimleri `90` + 10 haneli cep numarasına iner. */
@@ -86,10 +113,89 @@ export function parseDukkanServices(raw: string): string[] | null {
   return lines;
 }
 
+/**
+ * İsteğe bağlı vitrin paketleri. Satır: `Ad | Kısa açıklama | Fiyat etiketi`.
+ * En çok 6 satır. Boş girdi `[]`.
+ */
+export function parseDukkanPackages(raw: string): DukkanPackage[] | null {
+  const trimmed = raw.trim();
+  if (!trimmed) {
+    return [];
+  }
+  const lines = trimmed
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
+  if (lines.length > 6) {
+    return null;
+  }
+  const packages: DukkanPackage[] = [];
+  for (const line of lines) {
+    const parts = line.split("|").map((part) => part.trim());
+    if (parts.length !== 3) {
+      return null;
+    }
+    const [name, description, priceLabel] = parts;
+    if (!name || !description || !priceLabel) {
+      return null;
+    }
+    if (name.length > 60 || description.length > 120 || priceLabel.length > 40) {
+      return null;
+    }
+    if (name.length < 2 || description.length < 2 || priceLabel.length < 1) {
+      return null;
+    }
+    packages.push({ name, description, priceLabel });
+  }
+  return packages;
+}
+
+/**
+ * İsteğe bağlı SSS. Satır: `Soru | Cevap`. En çok 5 satır. Boş girdi `[]`.
+ */
+export function parseDukkanFaq(raw: string): DukkanFaqItem[] | null {
+  const trimmed = raw.trim();
+  if (!trimmed) {
+    return [];
+  }
+  const lines = trimmed
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
+  if (lines.length > 5) {
+    return null;
+  }
+  const items: DukkanFaqItem[] = [];
+  for (const line of lines) {
+    const parts = line.split("|").map((part) => part.trim());
+    if (parts.length !== 2) {
+      return null;
+    }
+    const [question, answer] = parts;
+    if (!question || !answer) {
+      return null;
+    }
+    if (question.length > 120 || answer.length > 200) {
+      return null;
+    }
+    if (question.length < 2 || answer.length < 2) {
+      return null;
+    }
+    items.push({ question, answer });
+  }
+  return items;
+}
+
 export function readDukkanDraft(input: DukkanGenerateRequest): DukkanDraft | null {
   const whatsapp = normalizeDukkanWhatsapp(input.whatsapp);
   const services = parseDukkanServices(input.services);
-  if (!whatsapp || !services) {
+  const packages = parseDukkanPackages(input.packages ?? "");
+  const faq = parseDukkanFaq(input.faq ?? "");
+  if (!whatsapp || !services || !packages || !faq) {
+    return null;
+  }
+  const hoursRaw = (input.hours ?? "").trim();
+  if (hoursRaw && (hoursRaw.length < 2 || hoursRaw.length > 120)) {
     return null;
   }
   return {
@@ -99,5 +205,8 @@ export function readDukkanDraft(input: DukkanGenerateRequest): DukkanDraft | nul
     whatsapp,
     services,
     tone: input.tone,
+    packages,
+    hours: hoursRaw.length >= 2 ? hoursRaw : null,
+    faq,
   };
 }

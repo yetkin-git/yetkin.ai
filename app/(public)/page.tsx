@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
 import type { Route } from "next";
 import Link from "next/link";
-import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
-import { BrandIcon } from "@/components/ui/brand-icon";
-import { HomeAccountNav } from "@/components/public/home-account-nav";
 import { JsonLd } from "@/components/seo/json-ld";
 import { LandingFaq } from "@/components/seo/landing-faq";
 import { faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
@@ -22,8 +19,11 @@ import { isProtectedCitizenPath } from "@/lib/kernel/security/edge-guard";
  * Marka iniş katmanı — kök adres (`/`).
  * Ticari vitrin: AI Tezgâh, e-ticaret, hibe ve YetkinCV. Kapalı odalar (Akademi / Junior / Young) basılmaz.
  *
+ * M-03: üst menü `app/(public)/layout.tsx` → `PublicTopBar` bileşenindedir.
+ * Bu sayfa kendi header öğesini **basmaz**; iki menü üst üste binmez.
+ *
  * CRO (SEO Tedavi P0): ana sayfa bağları artık giriş duvarına çarpmaz.
- * Korumalı hedefler (`/e-ticaret`, `/hibe`) oturumsuz ziyaretçiye ham adresle
+ * Korumalı hedefler (`/panel/e-ticaret`, `/hibe`) oturumsuz ziyaretçiye ham adresle
  * verilmez; `next` parametreli kayıt yoluna çevrilir (`buildCitizenRegisterHref`,
  * açık yön allowlist'i aynı fonksiyonda) veya sayfa içi çapaya indirilir.
  */
@@ -51,35 +51,6 @@ export default async function PublicHomePage() {
         className="pointer-events-none absolute inset-x-0 top-0 h-[32rem] bg-[radial-gradient(ellipse_at_top,rgba(37,99,235,0.16),transparent_62%)]"
       />
       <JsonLd data={jsonLdDocument([faqPageJsonLd(HOME_LANDING_FAQ)])} />
-      <header className="relative flex shrink-0 flex-wrap items-center gap-2.5 px-6 pt-4">
-        <BrandIcon width={32} height={32} className="h-8 w-8" />
-        <p className="text-sm font-semibold tracking-tight text-[var(--foreground)]">{YETKIN_BRAND}</p>
-        <Link
-          href="/tezgah"
-          className="ml-1 inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
-        >
-          AI Tezgâh
-        </Link>
-        <Link
-          href="/fiyatlandirma"
-          className="inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
-        >
-          Fiyatlar
-        </Link>
-        <Link
-          href="/kurumsal"
-          className="inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
-        >
-          Kurumsal
-        </Link>
-        <Link
-          href="/rehber"
-          className="inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
-        >
-          Nasıl Çalışır?
-        </Link>
-        <HomeAccountNav />
-      </header>
       <div className="relative mx-auto flex min-h-0 w-full max-w-6xl flex-1 flex-col px-6 pb-12 pt-4">
         <div className="grid shrink-0 items-start gap-6 lg:grid-cols-2">
           <div>
@@ -149,7 +120,7 @@ export default async function PublicHomePage() {
           </ol>
         </section>
         <section
-          className="relative mt-10 w-screen bg-slate-950 px-6 py-12 text-white [margin-inline:calc(50%-50vw)]"
+          className="relative mt-10 w-full overflow-hidden rounded-[var(--radius-card)] bg-slate-950 px-6 py-12 text-white"
           aria-labelledby="home-bench-heading"
           data-home-bench=""
         >
@@ -179,7 +150,7 @@ export default async function PublicHomePage() {
             </ul>
           </div>
         </section>
-        <div className="relative mt-0 w-screen bg-gradient-to-b from-indigo-50 via-white to-white px-6 py-2 [margin-inline:calc(50%-50vw)]">
+        <div className="relative mt-0 w-full rounded-[var(--radius-card)] bg-gradient-to-b from-indigo-50 via-white to-white px-6 py-2">
           <div className="mx-auto w-full max-w-6xl">
             <GrantEligibilityWidget />
           </div>

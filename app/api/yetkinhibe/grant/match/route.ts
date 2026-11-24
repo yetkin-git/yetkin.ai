@@ -9,20 +9,17 @@ import {
 } from "@/lib/kernel/security/http-rate-limit";
 import { YETKINHIBE_COPY } from "@/lib/yetkinhibe/copy";
 import { GrantCatalogUnavailableError } from "@/lib/yetkinhibe/grant-catalog-core";
-import { loadYetkinhibeGrantCatalog } from "@/lib/yetkinhibe/grant-catalog-live";
 import {
-  grantMatchRequestSchema,
+  grantBriefMatchRequestSchema,
   readGrantMatchBodyText,
-  toGrantMatchWire,
-} from "@/lib/yetkinhibe/grant-match-api";
-import { matchGrantsForProfile } from "@/lib/yetkinhibe/match-grants-for-profile";
+  toGrantBriefMatchWire,
+} from "@/lib/yetkinhibe/grant-brief-match";
+import { loadYetkinhibeGrantCatalog } from "@/lib/yetkinhibe/grant-catalog-live";
+import { matchGrantProgramsForBrief } from "@/lib/yetkinhibe/match-grant-programs-for-brief";
 
 /**
- * YetkinHibe ücretsiz eşleştirme (F3b, D-11, D-12). Web-only: dış v1 sözleşmesinde yer almaz.
- * Oturum zorunludur. Canlıda `Company` yoktur; kapı kullanıcı oturumudur (K-3, R13).
- * Profil yalnız bu istekte okunur. Veritabanına yazılmaz ve günlüğe alınmaz.
- * Oda kapalıyken kenar 410 döner (`yetkinhibe` kaydı, bayrak DRON_YETKINHIBE_OPEN).
- * Ücretli adım yoktur: AI, `Idempotency-Key` ve ödeme kapsamı F4'tedir.
+ * YetkinHibe ücretsiz eşleştirme. Tek motor `matchGrantProgramsForBrief`.
+ * İl, kitle, NACE ve yatırım odağı zorunludur. Profil yazılmaz.
  */
 export const auth = "session" as const;
 
@@ -54,18 +51,34 @@ export async function POST(request: Request) {
       return jsonFail(YETKINHIBE_COPY.errors.invalidMatchProfile, 400, requestId, request);
     }
 
-    const parsed = grantMatchRequestSchema.safeParse(raw);
+    const parsed = grantBriefMatchRequestSchema.safeParse(raw);
     if (!parsed.success) {
       return jsonFail(YETKINHIBE_COPY.errors.invalidMatchProfile, 400, requestId, request);
     }
 
     const now = new Date();
     const calls = await loadYetkinhibeGrantCatalog(now);
-    const matches = matchGrantsForProfile(parsed.data, calls);
+    const matched = matchGrantProgramsForBrief(
+      parsed.data,
+      calls.map((call) => ({
+        id: call.id,
+        title: call.title,
+        sourceLabel: call.sourceLabel,
+        officialInfoUrl: call.officialInfoUrl,
+        status: call.status,
+        remainingDays: call.remainingDays,
+        poolAmountMinor: call.poolAmountMinor,
+        maxSupportMinor: call.maxSupportMinor,
+        supportRatioBps: call.supportRatioBps,
+        sourceVerifiedAt: call.sourceVerifiedAt,
+        eligibility: call.eligibility,
+      })),
+      now,
+    );
 
     return jsonOk(
       {
-        matches: matches.map(toGrantMatchWire),
+        matches: matched.eligible.map((row) => toGrantBriefMatchWire(row)),
         generatedAt: now.toISOString(),
       },
       200,

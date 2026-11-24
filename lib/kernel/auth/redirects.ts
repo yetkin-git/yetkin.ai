@@ -8,7 +8,53 @@ import { ADMIN_CATALOG_LOGIN_NEXT, CITIZEN_LOGIN_PATH } from "@/lib/kernel/secur
 
 export const AUTH_CALLBACK_PATH = "/auth/callback";
 export const AUTH_CALLBACK_ERROR_PATH = "/login";
+
+/**
+ * Oturum açma / genel dönüş varsayılanı. `/dashboard` allowlist'te kalır.
+ * Mevcut kullanıcı için kokpit doğru hedeftir — bu değer **kayıt** akışı için değil,
+ * giriş ve sığınak dönüşleri için geçerlidir.
+ */
 export const AUTH_CALLBACK_DEFAULT_NEXT = "/dashboard";
+
+/**
+ * B-03 — yeni kullanıcının ilk değer anı.
+ *
+ * Önce kayıt sonrası kullanıcı `/dashboard`'a düşüyordu: dört boş kartlı kokpit.
+ * Ürünün en güçlü anı (Tezgâh'ta 30 saniyede belge üretmek) tam burada kayboluyordu.
+ *
+ * Yeni hesap artık doğrudan Tezgâh'a iner. `AUTH_CALLBACK_DEFAULT_NEXT`'ten ayrı
+ * durur: giriş yapan mevcut kullanıcı kokpite döner, **yeni** kullanıcı üretime girer.
+ *
+ * Neden sorgu dizesi burada yok: `next` ayrıştırıcısı (doğru biçimde) sorguyu
+ * düşürür — açık yön savunması query'yi taşımaz. `/tezgah` zaten varsayılan olarak
+ * teklif aracını açar (`TEZGAH_DESK_DEFAULT = "proposal"`), yani hedef birebir
+ * aynı ekrandır. `ilk=1` işareti doğrulama dönüşünde eklenir
+ * (`markSignupFirstValueLanding`).
+ */
+export const AUTH_SIGNUP_FIRST_VALUE_NEXT = "/tezgah" as const;
+
+/**
+ * Kayıt doğrulaması dönüşünde `?tool=proposal&ilk=1` işaretini ekler.
+ *
+ * Yalnız iki koşul birlikteyse: `type=signup` (e-posta doğrulaması) **ve** hedef
+ * varsayılan Tezgâh yoludur. Kullanıcı özel bir `next` verdiyse ona dokunulmaz;
+ * açık yön allowlist'i değişmez.
+ */
+export function markSignupFirstValueLanding(input: {
+  next: string;
+  type?: string | null;
+}): string {
+  if (input.type?.trim() !== "signup") {
+    return input.next;
+  }
+  if (input.next !== AUTH_SIGNUP_FIRST_VALUE_NEXT) {
+    return input.next;
+  }
+  return `${AUTH_SIGNUP_FIRST_VALUE_NEXT}?tool=proposal&${SIGNUP_FIRST_VALUE_PARAM}=1`;
+}
+
+/** Kayıt sonrası "ilk değer" işareti. Sorgu parametresi adı — tek yerde. */
+export const SIGNUP_FIRST_VALUE_PARAM = "ilk" as const;
 /** POST — çerezleri siler, 303 ile girişe döner. Kenar kind: public. */
 export const AUTH_LOGOUT_API_PATH = "/api/auth/logout";
 /** POST — vatandaş kaydı. Kenar kind: public. Doğrulama zorunlu değilse oturum çerezi yazar. */
@@ -32,7 +78,6 @@ const NEXT_EXACT = new Set([
   "/kurumsal",
   "/kurumsal/ilanlar",
 ]);
-
 /** Vatandaş odaları + sığınaklar. `/admin` kökü dönüş değildir. Satış kataloğu ayrı durur. Donmuş oda next değil. Junior ders listesi dönüş yoludur. */
 const NEXT_PREFIXES = [
   "/dashboard",
@@ -46,6 +91,8 @@ const NEXT_PREFIXES = [
   "/tezgah",
   "/magazam",
   "/e-ticaret",
+  "/panel/e-ticaret",
+  "/panel/hibe",
   "/hibe",
   "/ilan",
 ] as const;
@@ -143,7 +190,25 @@ export function resolveAuthCallbackNext(input: {
   }
   const parsed = parseSafeAuthNext(input.next);
   if (parsed && isSafeAuthNextPath(parsed.pathname)) {
+    // B-03: hedef açıkça `/dashboard` (yani "varsayılan") ve dönüş türü kayıt
+    // doğrulamasıysa kullanıcıyı boş kokpite değil ilk üretim ekranına indir.
+    if (
+      input.type?.trim() === "signup" &&
+      parsed.pathname === AUTH_CALLBACK_DEFAULT_NEXT &&
+      !parsed.hash
+    ) {
+      return markSignupFirstValueLanding({
+        next: AUTH_SIGNUP_FIRST_VALUE_NEXT,
+        type: input.type,
+      });
+    }
     return `${parsed.pathname}${parsed.hash}`;
+  }
+  if (input.type?.trim() === "signup") {
+    return markSignupFirstValueLanding({
+      next: AUTH_SIGNUP_FIRST_VALUE_NEXT,
+      type: input.type,
+    });
   }
   return AUTH_CALLBACK_DEFAULT_NEXT;
 }

@@ -1,6 +1,6 @@
-import { toAmountMinor, type AmountMinor } from "@/lib/kernel/money/amount-minor";
+import type { AmountMinor } from "@/lib/kernel/money/amount-minor";
 import { formatAmountMinorAsWholeTry } from "@/lib/yetkinhibe/format-amount";
-import { isMatchableGrantCall } from "@/lib/yetkinhibe/match-grants-for-profile";
+import { isMatchableGrantCall } from "@/lib/yetkinhibe/grant-catalog-core";
 import { buildPreviewMatchScoresByGrantId } from "@/lib/yetkinhibe/preview-match-score";
 import type { GrantCallWithMeta } from "@/lib/yetkinhibe/types";
 
@@ -131,16 +131,8 @@ function scoreForCall(
   return Math.min(baseScore + boost + lengthBonus, 98);
 }
 
-/**
- * Tahmini destek = maxSupport × (0,45 + skor × 0,55) → (4500 + 55·skor) / 10000.
- * Tam sayı aritmetiği (A1): kesir yalnızca tek `Math.round` ile tam minor birime iner.
- */
-function estimateSupportMinor(maxSupportMinor: AmountMinor, scorePct: number): AmountMinor {
-  return toAmountMinor(Math.round((maxSupportMinor * (4500 + 55 * scorePct)) / 10_000));
-}
-
 function buildEstimatedSupportLabel(amountMinor: AmountMinor): string {
-  return `${formatAmountMinorAsWholeTry(amountMinor)} TL'ye kadar`;
+  return `Program üst limiti: ${formatAmountMinorAsWholeTry(amountMinor)}`;
 }
 
 /**
@@ -182,9 +174,7 @@ export function validatePreviewIdea(
     grantId: best.call.id,
     programLabel,
     matchScorePct: best.score,
-    estimatedSupportLabel: buildEstimatedSupportLabel(
-      estimateSupportMinor(best.call.maxSupportMinor, best.score),
-    ),
+    estimatedSupportLabel: buildEstimatedSupportLabel(best.call.maxSupportMinor),
   };
 }
 
@@ -211,8 +201,6 @@ export function getPreviewIdeaValidatorFallback(
     grantId: tubitak.id,
     programLabel,
     matchScorePct,
-    estimatedSupportLabel: buildEstimatedSupportLabel(
-      toAmountMinor(Math.round(tubitak.maxSupportMinor * 0.5)),
-    ),
+    estimatedSupportLabel: buildEstimatedSupportLabel(tubitak.maxSupportMinor),
   };
 }

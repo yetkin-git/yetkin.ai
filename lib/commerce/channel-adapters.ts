@@ -23,7 +23,15 @@ export type ChannelStockPush = {
   quantity: number;
   apiKey: string | null;
   fetchImpl: ChannelFetch;
+  /** Pazaryeri barkodu. Doluysa stok/fiyat bu kodla gider; yoksa sku. */
+  barcode?: string | null;
 };
+
+/** İlana giden kod: barkod (uzaktaki veya yerel) varsa o, yoksa sku. */
+export function channelItemCode(input: Pick<ChannelStockPush, "sku" | "barcode">): string {
+  const barcode = input.barcode?.trim() ?? "";
+  return barcode || input.sku;
+}
 
 export type ChannelReplyPush = {
   externalMessageId: string;
@@ -142,7 +150,7 @@ export class TrendyolAdapter implements ChannelStockAdapter, ChannelReplyAdapter
       this.kind,
       url,
       input.apiKey,
-      { items: [{ barcode: input.sku, quantity: input.quantity }] },
+      { items: [{ barcode: channelItemCode(input), quantity: input.quantity }] },
       input.fetchImpl,
       headers,
     );
@@ -187,7 +195,7 @@ export class HepsiburadaAdapter implements ChannelStockAdapter, ChannelReplyAdap
       this.kind,
       url,
       input.apiKey,
-      { merchantSku: input.sku, availableStock: input.quantity },
+      { merchantSku: channelItemCode(input), availableStock: input.quantity },
       input.fetchImpl,
       headers,
     );

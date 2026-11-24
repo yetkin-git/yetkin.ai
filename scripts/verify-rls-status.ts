@@ -2,11 +2,14 @@
 /**
  * Faz 1.1 — RLS süreklilik mührü (statik).
  * Canlı DB yoksa yalnızca SQL + sicil + Prisma tabloları doğrulanır.
+ * `--live` + DATABASE_URL: pg_class / pg_policies üzerinden relrowsecurity kanıtı.
  */
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { RLS_FORCE_TABLES, RLS_OWNERSHIP_COLUMNS, RLS_UNSCOPED_DENY_POLICY } from "@/lib/kernel/security/rls-policy-registry";
+
+const LIVE_FLAG = process.argv.includes("--live");
 
 const ROOT = process.cwd();
 const SCHEMA_DIR = join(ROOT, "prisma", "schema");
@@ -175,6 +178,67 @@ if (tables.length === 0) {
   }
 }
 
+async function verifyLiveRls(): Promise<void> {
+  const databaseUrl = process.env.DATABASE_URL?.trim() ?? "";
+  if (!databaseUrl) {
+    console.log("verify:rls-status SKIP (canlı DB bağlantısı yok) — DATABASE_URL boş; yalnız statik sicil doğrulandı.");
+    return;
+  }
+  const { Client } = await import("pg");
+  const client = new Client({ connectionString: databaseUrl });
+  try {
+    await client.connect();
+    const result = await client.query<{
+      relname: string;
+      relrowsecurity: boolean;
+      relforcerowsecurity: boolean;
+      policy_count: string;
+    }>(
+      `SELECT c.relname,
+              c.relrowsecurity,
+              c.relforcerowsecurity,
+              COALESCE(p.cnt, 0)::text AS policy_count
+       FROM pg_class c
+       JOIN pg_namespace n ON n.oid = c.relnamespace
+       LEFT JOIN (
+         SELECT tablename, COUNT(*)::int AS cnt
+         FROM pg_policies
+         WHERE schemaname = 'public'
+         GROUP BY tablename
+       ) p ON p.tablename = c.relname
+       WHERE n.nspname = 'public'
+         AND c.relkind = 'r'
+         AND c.relname = ANY($1::text[])
+       ORDER BY c.relname`,
+      [[...RLS_FORCE_TABLES]],
+    );
+    const byName = new Map(result.rows.map((row) => [row.relname, row]));
+    const liveIssues: string[] = [];
+    for (const table of RLS_FORCE_TABLES) {
+      const row = byName.get(table);
+      if (!row) {
+        liveIssues.push(`${table}: pg_class satırı yok`);
+        continue;
+      }
+      if (!row.relrowsecurity) {
+        liveIssues.push(`${table}: relrowsecurity=false`);
+      }
+      if (!row.relforcerowsecurity) {
+        liveIssues.push(`${table}: relforcerowsecurity=false`);
+      }
+    }
+    if (liveIssues.length > 0) {
+      console.error(["verify:rls-status --live BAŞARISIZ:", ...liveIssues.map((row) => `  ✗ ${row}`)].join("\n"));
+      process.exit(1);
+    }
+    console.log(
+      `verify:rls-status --live OK — ${result.rows.length} tablo relrowsecurity+relforcerowsecurity; pg_policies sayıldı.`,
+    );
+  } finally {
+    await client.end().catch(() => undefined);
+  }
+}
+
 if (issues.length > 0) {
   console.error(["verify:rls-status BAŞARISIZ:", ...issues.map((row) => `  ✗ ${row}`)].join("\n"));
   process.exit(1);
@@ -183,3 +247,17 @@ if (issues.length > 0) {
 console.log(
   `verify:rls-status OK — Auth sync + e-posta senkronu + FORCE RLS + owner SELECT + kapsamsız deny. Prisma tabloları: ${tables.join(", ")}.`,
 );
+
+function finish(code: number): never {
+  process.exit(code);
+}
+
+if (LIVE_FLAG) {
+  verifyLiveRls()
+    .then(() => finish(0))
+    .catch((error: unknown) => {
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(`verify:rls-status --live BAŞARISIZ: ${message}`);
+      finish(1);
+    });
+}

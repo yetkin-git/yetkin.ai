@@ -20,6 +20,13 @@ const SEAL: Record<
     fillTo: "#065f46",
     ring: "#34d399",
   },
+  YETKINHIBE_PROJECT: {
+    label: "Amber · Hibe",
+    metal: "#fff7e6",
+    fillFrom: "#fbbf24",
+    fillTo: "#92400e",
+    ring: "#f59e0b",
+  },
 };
 
 const SIZE: Record<"sm" | "md" | "lg", string> = {
@@ -62,7 +69,8 @@ export function VisaWaxSeal({
   const uid = useId().replace(/:/gu, "");
   const fillId = `wax-fill-${uid}`;
   const sheenId = `wax-sheen-${uid}`;
-  const mark = sourceKind === "ACADEMY_CERTIFICATE" ? "AKA" : "FLN";
+  const mark =
+    sourceKind === "ACADEMY_CERTIFICATE" ? "AKA" : sourceKind === "YETKINHIBE_PROJECT" ? "HIB" : "FLN";
 
   return (
     <div

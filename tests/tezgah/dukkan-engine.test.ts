@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { TEZGAH_FAIL_MESSAGE } from "@/lib/tezgah/catalog";
-import { DUKKAN_FILENAME } from "@/lib/tezgah/dukkan/copy";
+import { DUKKAN_FILENAME, DUKKAN_ZIP_FILENAME } from "@/lib/tezgah/dukkan/copy";
 import { generateDukkanPage } from "@/lib/tezgah/dukkan/engine";
-import { renderDukkanHtml } from "@/lib/tezgah/dukkan/render";
+import { buildDukkanPack, renderDukkanHtml } from "@/lib/tezgah/dukkan/render";
 import {
   normalizeDukkanWhatsapp,
   parseDukkanServices,
@@ -20,6 +20,9 @@ const REQUEST: DukkanGenerateRequest = {
   whatsapp: "5321112233",
   services: "Taze ekmek\nPoğaça\nSimit",
   tone: "dogal",
+  packages: "",
+  hours: "",
+  faq: "",
 };
 
 describe("dijital dükkan motoru", () => {
@@ -36,7 +39,7 @@ describe("dijital dükkan motoru", () => {
     expect(parseDukkanServices("Ekmek\nPoğaça")).toBeNull();
   });
 
-  it("kota düşürmez; bozuk öz-skor üretimi reddeder", async () => {
+  it("kota düşürmez; bozuk mühür üretimi reddeder", async () => {
     const actorId = "guest:dukkan-engine";
     for (let index = 0; index < 5; index += 1) {
       const page = await generateDukkanPage(
@@ -47,11 +50,14 @@ describe("dijital dükkan motoru", () => {
       if (!page.ok) {
         return;
       }
-      expect(page.score).toBe(100);
+      expect(page.seals.every((seal) => seal.passed)).toBe(true);
       expect(page.filename).toBe(DUKKAN_FILENAME);
+      expect(page.zipFilename).toBe(DUKKAN_ZIP_FILENAME);
+      expect(page.zipBase64.length).toBeGreaterThan(20);
       expect(page.remaining).toBe(1);
       expect(page.limit).toBe(1);
       expect(page.html).toContain("https://wa.me/905321112233");
+      expect(page.html).not.toMatch(/100\s*\/\s*100/);
     }
     expect(await peekTezgahQuota(actorId, true, NOW, "lite")).toMatchObject({
       remaining: 3,
@@ -61,7 +67,15 @@ describe("dijital dükkan motoru", () => {
     const fresh = "guest:dukkan-refund";
     const broken = await generateDukkanPage(
       { actorId: fresh, guest: true, request: REQUEST },
-      { now: () => NOW, render: () => "<html><title>yok</title></html>" },
+      {
+        now: () => NOW,
+        renderPack: () => ({
+          html: "<html><title>yok</title></html>",
+          guide: "",
+          zip: new Uint8Array([1]),
+          zipFilename: DUKKAN_ZIP_FILENAME,
+        }),
+      },
     );
     expect(broken).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 1 });
 
@@ -73,13 +87,29 @@ describe("dijital dükkan motoru", () => {
     const clean = renderDukkanHtml(built);
     const poisoned = await generateDukkanPage(
       { actorId: fresh, guest: true, request: REQUEST },
-      { now: () => NOW, render: () => `${clean}<script>alert(1)</script>` },
+      {
+        now: () => NOW,
+        renderPack: () => ({
+          html: `${clean}<script>alert(1)</script>`,
+          guide: "",
+          zip: new Uint8Array([1]),
+          zipFilename: DUKKAN_ZIP_FILENAME,
+        }),
+      },
     );
     expect(poisoned).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 1 });
 
     const oversized = await generateDukkanPage(
       { actorId: fresh, guest: true, request: REQUEST },
-      { now: () => NOW, render: () => `${clean}<!--${"x".repeat(520 * 1024)}-->` },
+      {
+        now: () => NOW,
+        renderPack: () => ({
+          html: `${clean}<!--${"x".repeat(520 * 1024)}-->`,
+          guide: "",
+          zip: new Uint8Array([1]),
+          zipFilename: DUKKAN_ZIP_FILENAME,
+        }),
+      },
     );
     expect(oversized).toMatchObject({ ok: false, status: 503, remaining: 1 });
 
@@ -87,7 +117,7 @@ describe("dijital dükkan motoru", () => {
       { actorId: fresh, guest: true, request: REQUEST },
       {
         now: () => NOW,
-        render: () => {
+        renderPack: () => {
           throw new Error("basım");
         },
       },
@@ -107,6 +137,7 @@ describe("dijital dükkan motoru", () => {
     expect(again.ok).toBe(true);
     if (again.ok) {
       expect(again.remaining).toBe(1);
+      expect(buildDukkanPack(built).zip.length).toBeGreaterThan(100);
     }
   });
 

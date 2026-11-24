@@ -15,6 +15,8 @@ export const SUPER_ADMIN_AUDIT_ACTIONS = [
   "b2b_switch",
   "b2b_send",
   "ai_model_bind",
+  /** Kurumsal işveren kimliği doğrulaması — kamu ilanının index kilidini açar. */
+  "employer_verify",
 ] as const;
 
 /** Mühür satırı açılmazsa yazma geri alınır. Sessiz geçiş yoktur. */

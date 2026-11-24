@@ -2,12 +2,24 @@ import { randomUUID } from "node:crypto";
 import { CRITICAL_STOCK_ALERT, OVERSELL_ALERT, type ChannelOrderEvent } from "@/lib/commerce/channel-webhook";
 import { isCriticalStock, type OsChannelKind } from "@/lib/commerce/os-rules";
 
+/** Kanal satışının yazılacağı **spesifik** varyant. Ürün seviyesinde dağıtım yoktur. */
+export type StockVariantLock = {
+  id: string;
+  sku: string;
+  barcode: string | null;
+  onHandQty: number;
+  safetyBuffer: number;
+  status: string;
+  amountMinor: number | null;
+};
+
 export type StockProductLock = {
   id: string;
   storeId: string;
   sku: string;
-  approvedStockQty: number;
   criticalStockQty: number;
+  /** SKU / barkod ile eşleşen varyant. Ürün bulundu ama varyant çözülemediyse null. */
+  variant: StockVariantLock | null;
 };
 
 export type StockLedgerSnap = {
@@ -37,8 +49,44 @@ export type StockInboxInsert = {
   orderStatus: "OPEN" | "CANCELLED" | "RETURNED" | null;
 };
 
+export type VariantMovementInput = {
+  storeId: string;
+  productId: string;
+  variantId: string;
+  actorUserId: string;
+  type: "SALE" | "RETURN" | "ADJUSTMENT";
+  direction: "IN" | "OUT";
+  quantity: number;
+  note: string;
+  idempotencyKey: string;
+};
+
+export type VariantStockPush = {
+  variantId: string;
+  onHandAfter: number;
+  amountMinor: number | null;
+  variantAmountMinor?: number | null;
+};
+
+export type VariantMovementResult = {
+  outcome: "applied" | "replay" | "rejected" | "missing";
+  /** Varyantın hareket sonrası eldeki adedi. */
+  onHandAfter: number;
+  /** Ürünün tüm varyantlar toplamı — `approved_stock_qty` ile senkron. */
+  productStockAfter: number;
+  /** Varyantta elde kalan satılabilir adet (eldeli − güvenlik payı). */
+  sellableAfter: number;
+  /** Stoğu değişen varyantlar (satılan kart ve set üyeleri). */
+  pushes?: VariantStockPush[];
+};
+
 export interface StockUnitOfWork {
-  lockProductBySku(storeId: string, sku: string): Promise<StockProductLock | null>;
+  /** Ürün satırını kilitler ve SKU / barkod ile **spesifik varyantı** çözer. */
+  lockProductBySku(
+    storeId: string,
+    sku: string,
+    barcode?: string | null,
+  ): Promise<StockProductLock | null>;
   findByIdempotency(key: string): Promise<StockLedgerSnap | null>;
   findSale(storeId: string, channel: OsChannelKind, externalOrderId: string): Promise<StockLedgerSnap | null>;
   sumRestocked(storeId: string, channel: OsChannelKind, externalOrderId: string): Promise<number>;
@@ -54,7 +102,11 @@ export interface StockUnitOfWork {
     idempotencyKey: string;
     externalOrderId: string;
   }): Promise<StockLedgerSnap>;
-  setApprovedStock(productId: string, quantity: number): Promise<void>;
+  /**
+   * Varyant bazlı stok hareketi. Ürünün `approved_stock_qty` değeri hareketten
+   * sonra **tüm varyantların toplamına** senkronize edilir. İlk varyanta dağıtım yoktur.
+   */
+  applyVariantMovement(input: VariantMovementInput): Promise<VariantMovementResult>;
   insertInbox(row: StockInboxInsert): Promise<void>;
   findOrder(storeId: string, channel: OsChannelKind, externalOrderId: string): Promise<StockOrderSnap | null>;
   updateOrder(id: string, status: "CANCELLED" | "RETURNED"): Promise<void>;
@@ -69,6 +121,8 @@ export type ChannelCommitInput = {
   quantity: number;
   externalOrderId: string;
   customerLabel: string;
+  /** Pazaryeri barkodu. Verilirse SKU'dan önce denenir: barkod varyantı belirler. */
+  barcode?: string | null;
 };
 
 export type ChannelCommitOk = {
@@ -76,11 +130,16 @@ export type ChannelCommitOk = {
   replayed: boolean;
   ledgerId: string;
   productId: string;
+  /** Stoktan düşülen varyant. Ürün seviyesi değil, satılan **beden/barkod**. */
+  variantId: string;
+  variantSku: string;
   externalOrderId: string;
   eventType: ChannelOrderEvent;
   stockAfter: number;
   oversell: boolean;
   orderStatus: "OPEN" | "CANCELLED" | "RETURNED";
+  /** Pazaryeri ilanı PENDING olan varyantlar. Boşsa alan yazılmaz. */
+  queuedPushes?: VariantStockPush[];
 };
 
 export type ChannelCommitResult =
@@ -98,8 +157,15 @@ export function channelEventKey(
   return `os-wh:${storeId}:${channel}:${externalOrderId}:${eventType}`;
 }
 
-export function stockNote(eventType: ChannelOrderEvent, requested: number, applied: number): string {
-  return `event=${eventType} requested=${requested} applied=${applied}`;
+/** Defter notu. Varyant kimliği notta durur; iade aynı varyanta geri yazar. */
+export function stockNote(
+  eventType: ChannelOrderEvent,
+  requested: number,
+  applied: number,
+  variantId = "",
+): string {
+  const base = `event=${eventType} requested=${requested} applied=${applied}`;
+  return variantId ? `${base} variant=${variantId}` : base;
 }
 
 export function readApplied(note: string, saleQuantity: number): number {
@@ -110,7 +176,34 @@ export function readApplied(note: string, saleQuantity: number): number {
   return saleQuantity < 0 ? Math.abs(saleQuantity) : 0;
 }
 
-/** Satış istenen adedi negatife yazar. Onaylı stok 0'ın altına inmez. */
+/** Defter notundaki varyant kimliği. Eski fişlerde yoksa boş metin. */
+export function readVariantId(note: string): string {
+  const match = /(?:^|\s)variant=([A-Za-z0-9_-]{1,64})(?:\s|$)/.exec(note);
+  return match?.[1] ?? "";
+}
+
+/**
+ * Satış planı — **varyantın** eldeki adedi ve güvenlik payı üzerinden.
+ * `planChannelSale` ürün toplamı içindir; kanal satışı bu fonksiyonu kullanır.
+ */
+export function planVariantSale(
+  onHandQty: number,
+  safetyBuffer: number,
+  requested: number,
+): { applied: number; onHandAfter: number; sellableAfter: number; exhausted: boolean; short: boolean } {
+  const sellable = Math.max(0, onHandQty - Math.max(0, safetyBuffer));
+  const applied = Math.max(0, Math.min(sellable, requested));
+  const onHandAfter = onHandQty - applied;
+  return {
+    applied,
+    onHandAfter,
+    sellableAfter: Math.max(0, onHandAfter - Math.max(0, safetyBuffer)),
+    exhausted: applied < requested || onHandAfter <= 0,
+    short: requested > sellable,
+  };
+}
+
+/** Ürün toplamı üzerinden satış planı (eski sözleşme; ürün seviyesi çağrılar için). */
 export function planChannelSale(
   current: number,
   critical: number,
@@ -134,6 +227,8 @@ function replay(row: StockLedgerSnap, eventType: ChannelOrderEvent): ChannelComm
     replayed: true,
     ledgerId: row.id,
     productId: "",
+    variantId: readVariantId(row.note),
+    variantSku: "",
     externalOrderId: row.externalOrderId,
     eventType,
     stockAfter: row.stockAfter,
@@ -147,9 +242,14 @@ function clip(value: string, max: number): string {
 }
 
 export async function commitChannelEvent(uow: StockUnitOfWork, input: ChannelCommitInput): Promise<ChannelCommitResult> {
-  const product = await uow.lockProductBySku(input.storeId, input.sku);
+  const product = await uow.lockProductBySku(input.storeId, input.sku, input.barcode ?? null);
   if (!product || product.storeId !== input.storeId) {
     return { ok: false, status: 404, error: "Ürün bulunamadı." };
+  }
+  const variant = product.variant;
+  if (!variant) {
+    // Ürün var, satılan beden yok. Rastgele bir varyanta yazmak aşırı satış demektir.
+    return { ok: false, status: 422, error: "Varyant kimliği eşleşmedi." };
   }
   const key = channelEventKey(input.storeId, input.channel, input.externalOrderId, input.eventType);
   const existing = await uow.findByIdempotency(key);
@@ -158,34 +258,9 @@ export async function commitChannelEvent(uow: StockUnitOfWork, input: ChannelCom
   }
 
   if (input.eventType === "ORDER_CREATED") {
-    const plan = planChannelSale(product.approvedStockQty, product.criticalStockQty, input.quantity);
-    const ledger = await uow.insertLedger({
-      storeId: input.storeId,
-      productId: product.id,
-      actorUserId: input.actorUserId,
-      type: "CHANNEL_SALE",
-      channel: input.channel,
-      quantity: -input.quantity,
-      stockAfter: plan.stockAfter,
-      note: stockNote(input.eventType, input.quantity, plan.applied),
-      idempotencyKey: key,
-      externalOrderId: input.externalOrderId,
-    });
-    await uow.setApprovedStock(product.id, plan.stockAfter);
-    await uow.insertInbox({
-      storeId: input.storeId,
-      productId: product.id,
-      channel: input.channel,
-      kind: "ORDER",
-      externalRef: input.externalOrderId,
-      customerLabel: input.customerLabel,
-      body: clip(`${input.quantity} adet. ${product.sku || input.sku}.`, 2000),
-      priority: 0,
-      orderStatus: "OPEN",
-    });
-    if (plan.exhausted) {
-      const criticalLine =
-        product.criticalStockQty > 0 ? " Kritik stok eşiği aşıldı." : "";
+    const plan = planVariantSale(variant.onHandQty, variant.safetyBuffer, input.quantity);
+    if (plan.applied < 1) {
+      // Hiç düşülemeyecek satışta defter yazılmaz; aşırı satış uyarısı düşer.
       await uow.insertInbox({
         storeId: input.storeId,
         productId: product.id,
@@ -194,13 +269,66 @@ export async function commitChannelEvent(uow: StockUnitOfWork, input: ChannelCom
         externalRef: input.externalOrderId,
         customerLabel: OVERSELL_ALERT,
         body: clip(
-          `${OVERSELL_ALERT}.${criticalLine} İstenen ${input.quantity}, düşülen ${plan.applied}, kalan ${plan.stockAfter}.`,
+          `${OVERSELL_ALERT}. ${variant.sku} için istenen ${input.quantity}, satılabilir ${Math.max(0, variant.onHandQty - variant.safetyBuffer)}.`,
           2000,
         ),
         priority: 100,
         orderStatus: null,
       });
-    } else if (plan.critical) {
+      return { ok: false, status: 409, error: OVERSELL_ALERT };
+    }
+    const moved = await uow.applyVariantMovement({
+      storeId: input.storeId,
+      productId: product.id,
+      variantId: variant.id,
+      actorUserId: input.actorUserId,
+      type: "SALE",
+      direction: "OUT",
+      quantity: plan.applied,
+      note: stockNote(input.eventType, input.quantity, plan.applied, variant.id),
+      idempotencyKey: key,
+    });
+    const ledger = await uow.insertLedger({
+      storeId: input.storeId,
+      productId: product.id,
+      actorUserId: input.actorUserId,
+      type: "CHANNEL_SALE",
+      channel: input.channel,
+      quantity: -plan.applied,
+      stockAfter: moved.productStockAfter,
+      note: stockNote(input.eventType, input.quantity, plan.applied, variant.id),
+      idempotencyKey: key,
+      externalOrderId: input.externalOrderId,
+    });
+    await uow.insertInbox({
+      storeId: input.storeId,
+      productId: product.id,
+      channel: input.channel,
+      kind: "ORDER",
+      externalRef: input.externalOrderId,
+      customerLabel: input.customerLabel,
+      body: clip(`${input.quantity} adet. ${variant.sku || input.sku}.`, 2000),
+      priority: 0,
+      orderStatus: "OPEN",
+    });
+    const critical = isCriticalStock(moved.productStockAfter, product.criticalStockQty);
+    if (plan.short || moved.outcome === "rejected") {
+      const criticalLine = product.criticalStockQty > 0 ? " Kritik stok eşiği aşıldı." : "";
+      await uow.insertInbox({
+        storeId: input.storeId,
+        productId: product.id,
+        channel: input.channel,
+        kind: "STOCK_ALERT",
+        externalRef: input.externalOrderId,
+        customerLabel: OVERSELL_ALERT,
+        body: clip(
+          `${OVERSELL_ALERT}.${criticalLine} İstenen ${input.quantity}, düşülen ${plan.applied}, ${variant.sku} kalan ${moved.onHandAfter}.`,
+          2000,
+        ),
+        priority: 100,
+        orderStatus: null,
+      });
+    } else if (critical) {
       await uow.insertInbox({
         storeId: input.storeId,
         productId: product.id,
@@ -208,22 +336,30 @@ export async function commitChannelEvent(uow: StockUnitOfWork, input: ChannelCom
         kind: "STOCK_ALERT",
         externalRef: input.externalOrderId,
         customerLabel: CRITICAL_STOCK_ALERT,
-        body: clip(`${CRITICAL_STOCK_ALERT}. Kalan ${plan.stockAfter}, eşik ${product.criticalStockQty}.`, 2000),
+        body: clip(
+          `${CRITICAL_STOCK_ALERT}. Kalan ${moved.productStockAfter}, eşik ${product.criticalStockQty}.`,
+          2000,
+        ),
         priority: 80,
         orderStatus: null,
       });
     }
-    return {
-      ok: true,
-      replayed: false,
-      ledgerId: ledger.id,
-      productId: product.id,
-      externalOrderId: input.externalOrderId,
-      eventType: input.eventType,
-      stockAfter: plan.stockAfter,
-      oversell: plan.exhausted,
-      orderStatus: "OPEN",
-    };
+    return attachQueue(
+      {
+        ok: true,
+        replayed: false,
+        ledgerId: ledger.id,
+        productId: product.id,
+        variantId: variant.id,
+        variantSku: variant.sku,
+        externalOrderId: input.externalOrderId,
+        eventType: input.eventType,
+        stockAfter: moved.productStockAfter,
+        oversell: plan.short,
+        orderStatus: "OPEN",
+      },
+      moved.pushes,
+    );
   }
 
   const sale = await uow.findSale(input.storeId, input.channel, input.externalOrderId);
@@ -234,9 +370,30 @@ export async function commitChannelEvent(uow: StockUnitOfWork, input: ChannelCom
   const already = await uow.sumRestocked(input.storeId, input.channel, input.externalOrderId);
   const room = Math.max(0, applied - already);
   const restock = Math.min(input.quantity, room);
-  const stockAfter = product.approvedStockQty + restock;
-  if (stockAfter > INT_MAX) {
-    return { ok: false, status: 422, error: "Stok tavanı aşıldı." };
+  let productStockAfter = 0;
+  let variantOnHandAfter = variant.onHandQty;
+  let movedPushes: VariantStockPush[] | undefined;
+  if (restock > 0) {
+    const moved = await uow.applyVariantMovement({
+      storeId: input.storeId,
+      productId: product.id,
+      variantId: variant.id,
+      actorUserId: input.actorUserId,
+      type: "RETURN",
+      direction: "IN",
+      quantity: restock,
+      note: stockNote(input.eventType, input.quantity, restock, variant.id),
+      idempotencyKey: key,
+    });
+    if (moved.outcome === "rejected" || moved.outcome === "missing") {
+      return { ok: false, status: 422, error: "İade stoğu yazılamadı." };
+    }
+    productStockAfter = moved.productStockAfter;
+    variantOnHandAfter = moved.onHandAfter;
+    movedPushes = moved.pushes;
+    if (productStockAfter > INT_MAX) {
+      return { ok: false, status: 422, error: "Stok tavanı aşıldı." };
+    }
   }
   const orderStatus = input.eventType === "ORDER_CANCELLED" ? "CANCELLED" : "RETURNED";
   const ledger = await uow.insertLedger({
@@ -246,14 +403,11 @@ export async function commitChannelEvent(uow: StockUnitOfWork, input: ChannelCom
     type: "RETURN_RESTOCK",
     channel: input.channel,
     quantity: restock,
-    stockAfter,
-    note: stockNote(input.eventType, input.quantity, restock),
+    stockAfter: productStockAfter,
+    note: stockNote(input.eventType, input.quantity, restock, variant.id),
     idempotencyKey: key,
     externalOrderId: input.externalOrderId,
   });
-  if (restock > 0) {
-    await uow.setApprovedStock(product.id, stockAfter);
-  }
   const order = await uow.findOrder(input.storeId, input.channel, input.externalOrderId);
   if (order) {
     await uow.updateOrder(order.id, orderStatus);
@@ -270,17 +424,29 @@ export async function commitChannelEvent(uow: StockUnitOfWork, input: ChannelCom
       orderStatus,
     });
   }
-  return {
-    ok: true,
-    replayed: false,
-    ledgerId: ledger.id,
-    productId: product.id,
-    externalOrderId: input.externalOrderId,
-    eventType: input.eventType,
-    stockAfter,
-    oversell: false,
-    orderStatus,
-  };
+  return attachQueue(
+    {
+      ok: true,
+      replayed: false,
+      ledgerId: ledger.id,
+      productId: product.id,
+      variantId: variant.id,
+      variantSku: variant.sku,
+      externalOrderId: input.externalOrderId,
+      eventType: input.eventType,
+      stockAfter: productStockAfter || variantOnHandAfter,
+      oversell: false,
+      orderStatus,
+    },
+    restock > 0 ? movedPushes : undefined,
+  );
+}
+
+function attachQueue(row: ChannelCommitOk, pushes: VariantStockPush[] | undefined): ChannelCommitOk {
+  if (!pushes || pushes.length === 0) {
+    return row;
+  }
+  return { ...row, queuedPushes: pushes };
 }
 
 export function newLedgerId(): string {

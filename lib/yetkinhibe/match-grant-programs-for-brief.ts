@@ -9,13 +9,14 @@ import {
   type GrantInvestmentFocus,
   type GrantRdLevel,
 } from "@/lib/yetkinhibe/grant-brief-axes";
-import { isMatchableGrantCall } from "@/lib/yetkinhibe/match-grants-for-profile";
+import { isGrantVerificationFresh, isMatchableGrantCall } from "@/lib/yetkinhibe/grant-catalog-core";
 import {
   GRANT_CLOSED_WINDOW_NOTE,
   GRANT_UNVERIFIED_NOTE,
   GRANT_UPCOMING_WINDOW_NOTE,
 } from "@/lib/yetkinhibe/grant-project-notes";
-import type { GrantCallStatus, GrantEligibilityCriteria } from "@/lib/yetkinhibe/types";
+import { readSpecificationRules } from "@/lib/yetkinhibe/spec-rag";
+import type { GrantCallStatus, GrantEligibilityCriteria, GrantProgramSource, GrantSpecificationRules } from "@/lib/yetkinhibe/types";
 
 /**
  * Proje dosyası uygunluk matrisi. Skor ve resmî onay oranı üretmez.
@@ -28,7 +29,12 @@ export type GrantProgramBrief = {
   provinceCode: string;
   audience: GrantAudience;
   naceGroup: string;
-  investmentFocus: GrantInvestmentFocus;
+  /**
+   * Yatırım odağı. `null` = profil bu eksende **beyan vermedi**.
+   * Beyan yokken yatırım odağı kısıtlı çağrı "uygun" sayılmaz; çağıran onu
+   * «eksik eksen» notuna düşürür (Ş7). Sessiz varsayılan odak yazılmaz.
+   */
+  investmentFocus: GrantInvestmentFocus | null;
   employeeCount: number;
   companyAgeYears: number;
   rdMaturityLevel: GrantRdLevel;
@@ -48,6 +54,10 @@ export type GrantBriefCall = {
   supportRatioBps: number;
   sourceVerifiedAt: string | null;
   eligibility: GrantEligibilityCriteria;
+  source?: GrantProgramSource | null;
+  dataVersion?: number | null;
+  specificationText?: string | null;
+  rulesJson?: GrantSpecificationRules | null;
 };
 
 export type GrantBriefCriterion = {
@@ -67,6 +77,11 @@ export type GrantEligibleProgramMatch = {
   poolAmountMinor: number | null;
   maxSupportMinor: number;
   supportRatioBps: number;
+  sourceVerifiedAt: string;
+  dataVersion: number | null;
+  source: GrantProgramSource | null;
+  specificationText: string | null;
+  rulesJson: GrantSpecificationRules | null;
 };
 
 export type GrantWithheldProgramMatch = {
@@ -89,7 +104,7 @@ function briefClosed(brief: GrantProgramBrief): boolean {
     isProvinceCode(brief.provinceCode) &&
     isGrantAudience(brief.audience) &&
     isGrantNaceGroup(brief.naceGroup) &&
-    isGrantInvestmentFocus(brief.investmentFocus) &&
+    (brief.investmentFocus === null || isGrantInvestmentFocus(brief.investmentFocus)) &&
     isGrantRdLevel(brief.rdMaturityLevel) &&
     Number.isInteger(brief.employeeCount) &&
     brief.employeeCount >= 0 &&
@@ -210,7 +225,10 @@ export function grantBriefCriteria(
     {
       key: "investment",
       label: focusUnconstrained ? "Yatırım odağı kısıtı yok" : "Yatırım odağı",
-      passed: focusUnconstrained || (foci?.includes(brief.investmentFocus) ?? false),
+      // Beyan yoksa (`null`) kısıtlı çağrı geçmez: eksik eksen "uygun" sayılmaz (Ş7).
+      passed:
+        focusUnconstrained ||
+        (brief.investmentFocus !== null && (foci?.includes(brief.investmentFocus) ?? false)),
       unconstrained: focusUnconstrained,
     },
   ];
@@ -243,9 +261,54 @@ function text(value: unknown): string | null {
   return trimmed.length > 0 ? trimmed : null;
 }
 
+const SOURCE_KEYS = new Set<GrantProgramSource>([
+  "KOSGEB",
+  "TUBITAK",
+  "TICARET_BAKANLIGI",
+  "KALKINMA_AJANSI",
+  "TKDK_IPARD",
+  "TARIM_BAKANLIGI",
+  "SANAYI_BAKANLIGI",
+  "ISKUR",
+  "AB_FONLARI",
+]);
+
+function readSource(value: unknown): GrantProgramSource | null {
+  return typeof value === "string" && SOURCE_KEYS.has(value as GrantProgramSource) ? (value as GrantProgramSource) : null;
+}
+
+function readVersion(value: unknown): number | null {
+  if (typeof value !== "number" || !Number.isInteger(value) || value < 1 || value > 1_000_000) {
+    return null;
+  }
+  return value;
+}
+
+function readSpec(value: unknown): string | null {
+  if (typeof value !== "string") {
+    return null;
+  }
+  const clean = value.replace(/\u0000/g, "").trim();
+  if (clean.length < 12) {
+    return null;
+  }
+  return clean.slice(0, 200_000);
+}
+
+function readRules(value: unknown): GrantSpecificationRules | null {
+  const parsed = readSpecificationRules(value);
+  return parsed.ok ? parsed.rules : null;
+}
+
+/**
+ * `now` zorunludur. Opsiyonel bırakıldığında doğrulama tazeliği atlanıyordu ve ücretli
+ * dosya hattı süresi dolmuş satırı "uygun" sayıyordu (B-02). Varsayılan `new Date()`
+ * yalnız çağıran saati vermezse devreye girer; tazelik kapısı her koşulda çalışır.
+ */
 export function matchGrantProgramsForBrief(
   brief: GrantProgramBrief,
   calls: readonly GrantBriefCall[],
+  now: Date = new Date(),
 ): GrantProgramMatch {
   if (!briefClosed(brief)) {
     return EMPTY_MATCH;
@@ -267,8 +330,9 @@ export function matchGrantProgramsForBrief(
       continue;
     }
     const open = isMatchableGrantCall(call);
-    const verified = text(call.sourceVerifiedAt) !== null;
-    if (open && verified) {
+    const verifiedAt = text(call.sourceVerifiedAt);
+    const verified = isGrantVerificationFresh(verifiedAt, now);
+    if (open && verified && verifiedAt) {
       const url = text(call.officialInfoUrl);
       if (
         !url ||
@@ -289,6 +353,11 @@ export function matchGrantProgramsForBrief(
         poolAmountMinor: call.poolAmountMinor,
         maxSupportMinor: call.maxSupportMinor,
         supportRatioBps: call.supportRatioBps,
+        sourceVerifiedAt: verifiedAt,
+        dataVersion: readVersion(call.dataVersion),
+        source: readSource(call.source),
+        specificationText: readSpec(call.specificationText),
+        rulesJson: readRules(call.rulesJson),
       });
       continue;
     }

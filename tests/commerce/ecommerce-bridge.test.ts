@@ -64,19 +64,17 @@ describe("e-ticaret kartı taslak aktarımı", () => {
     }
   });
 
-  it("köprü oturum açmış e-ticaret çıktısında durur ve yeni rota açmaz", () => {
+  it("köprü gerçek e-ticaret kartı stüdyosunda durur ve yeni tezgâh rotası açmaz", () => {
     const workbench = readFileSync(join(ROOT, "components/tezgah/workbench.tsx"), "utf8");
-    const transfer = readFileSync(join(ROOT, "components/tezgah/ecommerce-draft-transfer.tsx"), "utf8");
-    expect(workbench).toContain('active.id === "ecommerce" && signedIn');
-    expect(workbench).toContain("<EcommerceDraftTransfer");
-    expect(workbench).toContain("title={values.productName ?? \"\"}");
-    expect(workbench).toContain("category={values.category ?? \"\"}");
-    expect(workbench).toContain("description={markdown}");
-    expect(transfer).toContain("E-Ticaret Havuzuna Aktar");
-    expect(transfer).toContain("Havuzu aç");
-    expect(transfer).toContain('"/api/commerce/os"');
-    expect(transfer).toContain('"/e-ticaret?sekme=havuz"');
-    expect(transfer).toContain("data-ecommerce-draft-transfer");
-    expect(transfer).not.toContain("/api/tezgah/");
+    const studio = readFileSync(join(ROOT, "components/commerce/product-card-studio.tsx"), "utf8");
+    // Y4: workbench'teki ölü e-ticaret dalı ve transfer bileşeni kaldırıldı.
+    expect(workbench).not.toContain("<EcommerceDraftTransfer");
+    expect(workbench).not.toContain('active.id === "ecommerce" && signedIn');
+    // Köprü hâlâ vardır — ama sahibi e-ticaret işletim sistemi kokpitidir.
+    expect(studio).toContain('"/api/commerce/os"');
+    expect(studio).toContain('action: "pool"');
+    expect(studio).toContain('"/api/tezgah/generate"');
+    expect(studio).toContain('tool: "ecommerce"');
+    expect(studio).toContain("Havuza kaydet");
   });
 });

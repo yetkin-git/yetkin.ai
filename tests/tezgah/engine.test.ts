@@ -37,8 +37,9 @@ describe("tezgâh üretim motoru", () => {
         tool: "proposal",
         jobPost: "Kırk ürün kartı toparlanacak.",
         expertise: "Pazaryeri metni",
+        deliveryMode: "standard",
       }),
-    ).toContain("## Teslimat adımları");
+    ).toContain("## Kapsam & Teslimat Adımları");
     expect(
       tezgahGenerateRequestSchema.safeParse({
         tool: "grant",
@@ -86,15 +87,15 @@ describe("tezgâh üretim motoru", () => {
     expect(again).toMatchObject({ ok: false, status: 429, error: TEZGAH_GUEST_QUOTA_MESSAGE });
   });
 
-  it("üye 3 hak kullanır; boş model yanıtı hakkı geri yazar", async () => {
+  it("üye aylık krediyi kullanır; boş model yanıtı krediyi geri yazar", async () => {
     const actorId = "user_engine_1";
     const invokeEmpty = async () => null;
     const failed = await generateTezgahOutput(
       { actorId, guest: false, request: ecommerce },
       { now: () => NOW, invoke: invokeEmpty },
     );
-    expect(failed).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 3 });
-    for (let index = 0; index < 3; index += 1) {
+    expect(failed).toMatchObject({ ok: false, status: 503, error: TEZGAH_FAIL_MESSAGE, remaining: 30 });
+    for (let index = 0; index < 30; index += 1) {
       const row = await generateTezgahOutput(
         { actorId, guest: false, request: ecommerce },
         { now: () => NOW, invoke: async () => okText(`## Teklif\n${index}`) },

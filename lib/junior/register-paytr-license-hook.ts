@@ -18,7 +18,7 @@ export function registerPaytrJuniorLicenseHook(): void {
     logEvent({
       level: "info",
       event: "junior.license.hook",
-      userId: order.userId,
+      userId: order.userId ?? undefined,
       merchantOid: order.merchantOid,
       orderId: order.id,
       purpose: order.purpose,

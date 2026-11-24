@@ -9,7 +9,7 @@ import {
   readCareerDeskCommand,
   type CareerDeskMemory,
 } from "@/lib/career/desk-brief";
-import { buildProStudio } from "@/lib/tezgah/pro/build";
+import { buildStudioPhoto } from "@/lib/tezgah/pro/studio-photo";
 
 const ROOT = process.cwd();
 
@@ -60,18 +60,14 @@ describe("çalışma odası teslimatı", () => {
       command: { type: "status", status: "IN_PROGRESS" },
     });
     expect(again).toMatchObject({ ok: true, replayed: true });
-    const built = buildProStudio("studio-photo", {
+    const pack = buildStudioPhoto({
       productName: "Bez çanta",
       features: "Yıkanabilir kanvas",
-      market: "trendyol",
-      widthPx: "1200",
-      heightPx: "1800",
-      background: "white",
-      overlay: "hayir",
-      galleryCount: "3",
+      scene: "trendyol-white",
+      galleryCount: 3,
     });
-    expect(built.ok).toBe(true);
-    if (!built.ok) {
+    expect(pack).not.toBeNull();
+    if (!pack) {
       return;
     }
     const delivered = applyCareerDeskMemory(memory, {
@@ -80,10 +76,10 @@ describe("çalışma odası teslimatı", () => {
       command: {
         type: "deliver",
         delivery: {
-          tool: built.pack.tool,
-          filename: built.pack.filename,
-          summary: built.pack.summary,
-          body: built.pack.body,
+          tool: "studio-photo",
+          filename: pack.filename,
+          summary: pack.summary,
+          body: pack.markdown,
         },
       },
     });

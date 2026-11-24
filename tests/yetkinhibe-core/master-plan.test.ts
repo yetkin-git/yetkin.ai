@@ -89,9 +89,9 @@ describe("hibe hazırlık master planı", () => {
     };
     const row = plan({ eligibility });
     expect(row.currentScore).toBe(fitOf(eligibility).fitPct);
-    expect(row.currentScore).toBe(73);
-    expect(row.targetScore).toBe(91);
-    expect(row.closable.map((gap) => gap.points)).toEqual([9, 9]);
+    expect(row.currentScore).toBe(0);
+    expect(row.targetScore).toBe(67);
+    expect(row.closable.map((gap) => gap.points)).toEqual([34, 33]);
     expect(row.closable.reduce((sum, gap) => sum + gap.points, 0)).toBe(row.targetScore - row.currentScore);
     expect(row.closable.map((gap) => gap.label)).toEqual([
       "Ar-Ge / Yazılım Personel İstihdam Planı",
@@ -119,8 +119,8 @@ describe("hibe hazırlık master planı", () => {
     const row = plan({
       requiredDocuments: ["Kapasite Raporu / Sanayi Sicil Belgesi", "  ", "Kapasite Raporu / Sanayi Sicil Belgesi"],
     });
-    expect(row.currentScore).toBe(100);
-    expect(row.targetScore).toBe(100);
+    expect(row.currentScore).toBe(0);
+    expect(row.targetScore).toBe(0);
     expect(row.closable).toEqual([]);
     expect(row.documents).toEqual(["Kapasite Raporu / Sanayi Sicil Belgesi"]);
     const text = renderGrantPrepMasterPlan(row);
@@ -178,7 +178,7 @@ describe("hibe hazırlık master planı", () => {
     expect(text).toContain("1. Ay: Evrak & Altyapı");
     expect(text).toContain("2. Ay: Teknik & Finansal Kurgu");
     expect(text).toContain("3. Ay: Başvuru Dosyası & Sunum");
-    expect(text).toContain("Firma: Ar-Ge / Yazılım Personel İstihdam Planı (+9 puan)");
+    expect(text).toContain("Firma: Ar-Ge / Yazılım Personel İstihdam Planı (+100 puan)");
     expect(text).toContain("YetkinHibe: Tam proje dosyası taslağını Proje Dosyası sekmesinde üretir.");
     expect(text).toContain("Firma: Örnek Sanayi");
   });
@@ -210,7 +210,7 @@ describe("hibe hazırlık yüzeyi", () => {
     expect(cockpit).toContain('hesap: "1"');
     expect(desk).toContain("Master plan notu");
     expect(kurumsal).toContain("Şirketine Özel Hibe & Destek Fırsatı");
-    expect(kurumsal).toContain('href="/hibe?sekme=analiz"');
+    expect(kurumsal).toContain('href="/panel/hibe?sekme=analiz"');
     expect(kurumsal).toContain("kriter karşılama puanıdır");
   });
 });

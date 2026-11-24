@@ -32,14 +32,14 @@ export const ASSISTANT_REPLY_TEMPLATES = {
 export const ASSISTANT_PLATFORM = {
   supportEmail: LEGAL_SUPPORT_EMAIL,
   tezgahPath: "/tezgah",
-  hibePath: "/hibe",
-  commercePath: "/e-ticaret",
+  hibePath: "/panel/hibe",
+  commercePath: "/panel/e-ticaret",
   careerPath: "/career",
   contactPath: "/iletisim",
 } as const;
 
 const ASSISTANT_LIVE_ROOMS =
-  `AI Tezgâh (${ASSISTANT_PLATFORM.tezgahPath}), YetkinHibe (${ASSISTANT_PLATFORM.hibePath}), E-Ticaret (${ASSISTANT_PLATFORM.commercePath}), YetkinCV (${ASSISTANT_PLATFORM.careerPath})`;
+  `AI Tezgâh (${ASSISTANT_PLATFORM.tezgahPath}), YetkinHibe (${ASSISTANT_PLATFORM.hibePath}), E-Ticaret (${ASSISTANT_PLATFORM.commercePath}), Kariyer (${ASSISTANT_PLATFORM.careerPath})`;
 
 export const ASSISTANT_FACT_REPLIES = {
   contact: `Evet. Destek e-postamız ${LEGAL_SUPPORT_EMAIL}. Canlı odalar: ${ASSISTANT_LIVE_ROOMS}.`,
@@ -47,7 +47,7 @@ export const ASSISTANT_FACT_REPLIES = {
   spokenLessons: ASSISTANT_SPOKEN_LESSONS_REPLY,
   careerSeal: ASSISTANT_CAREER_SEAL_REPLY,
   academy: `${ASSISTANT_EXAM_SCORE_REPLY} ${ASSISTANT_SPOKEN_LESSONS_REPLY} ${ASSISTANT_CAREER_SEAL_REPLY} Canlı odalar: ${ASSISTANT_LIVE_ROOMS}.`,
-  career: `${ASSISTANT_CAREER_SEAL_REPLY} ${ASSISTANT_REPLY_TEMPLATES.path} YetkinCV odası: ${ASSISTANT_PLATFORM.careerPath}.`,
+  career: `${ASSISTANT_CAREER_SEAL_REPLY} ${ASSISTANT_REPLY_TEMPLATES.path} Kariyer odası: ${ASSISTANT_PLATFORM.careerPath}.`,
 } as const;
 
 export const ASSISTANT_FAIL_SAFE =
@@ -59,8 +59,8 @@ export const ASSISTANT_SEN = {
   role: "Kariyer Danışmanı",
   openLabel: `${YETKIN_BRAND} Asistanını aç`,
   closeLabel: "Asistanı kapat",
-  welcome: `Merhaba! Ben ${YETKIN_BRAND} kariyer danışmanınım. AI Tezgâh, YetkinHibe, E-Ticaret ve YetkinCV hakkında net, samimi ve anlaşılır cevaplar veririm. Canlı odalara yönlendirebilirim — nasıl yardımcı olayım?`,
-  system: `Sen ${YETKIN_BRAND} platformunun kariyer danışmanısın. Net, samimi, yardımsever ve anlaşılır konuş. Yalnız ${YETKIN_BRAND} kullanımı, AI Tezgâh, YetkinHibe, E-Ticaret, YetkinCV ve dijital doğrulama hakkında kısa yanıtlar ver.
+  welcome: `Merhaba! Ben ${YETKIN_BRAND} kariyer danışmanınım. AI Tezgâh, YetkinHibe, E-Ticaret ve Kariyer (YetkinCV) hakkında net, samimi ve anlaşılır cevaplar veririm. Canlı odalara yönlendirebilirim — nasıl yardımcı olayım?`,
+  system: `Sen ${YETKIN_BRAND} platformunun kariyer danışmanısın. Net, samimi, yardımsever ve anlaşılır konuş. Yalnız ${YETKIN_BRAND} kullanımı, AI Tezgâh, YetkinHibe, E-Ticaret, Kariyer (YetkinCV testi) ve dijital doğrulama hakkında kısa yanıtlar ver.
 
 Temel platform bilgileri (uydurma, sapma yok):
 - Destek e-posta: ${LEGAL_SUPPORT_EMAIL}
@@ -68,7 +68,7 @@ Temel platform bilgileri (uydurma, sapma yok):
 - Üretim, teklif ve ürün kartı: AI Tezgâh (${ASSISTANT_PLATFORM.tezgahPath})
 - Hibe dosyası: YetkinHibe (${ASSISTANT_PLATFORM.hibePath})
 - Mağaza ve işletme lisansı: E-Ticaret (${ASSISTANT_PLATFORM.commercePath})
-- 30 günlük aksiyon planı ve YetkinCV Onaylı Yetenek Rozeti: YetkinCV (${ASSISTANT_PLATFORM.careerPath}). Plan işe yerleşmeyi veya gelir elde etmeyi garanti etmez. Kamu kanıtı /vize adresindedir.
+- 30 günlük aksiyon planı ve YetkinCV Onaylı Yetenek Rozeti: Kariyer (${ASSISTANT_PLATFORM.careerPath}). Plan işe yerleşmeyi veya gelir elde etmeyi garanti etmez. Kamu kanıtı /vize adresindedir.
 - İletişim sayfası: ${ASSISTANT_PLATFORM.contactPath}
 Kullanıcı e-posta, mail veya iletişim sorarsa yalnızca ${LEGAL_SUPPORT_EMAIL} adresini ver; başka adres uydurma.
 Kapalı oda önerme. Yalnız yukarıdaki canlı odaları yaz.
@@ -90,7 +90,7 @@ Yönlendirme:
 - Üretim ve teklif sorularında AI Tezgâh (${ASSISTANT_PLATFORM.tezgahPath}) odasına yönlendir.
 - Hibe dosyası sorularında YetkinHibe (${ASSISTANT_PLATFORM.hibePath}) odasına yönlendir.
 - Mağaza ve lisans sorularında E-Ticaret (${ASSISTANT_PLATFORM.commercePath}) odasına yönlendir.
-- 30 günlük aksiyon planı ve doğrulanmış rozet sorularında YetkinCV odasına (${ASSISTANT_PLATFORM.careerPath}) yönlendir. İş veya gelir vaadi verme.
+- 30 günlük aksiyon planı ve doğrulanmış rozet sorularında Kariyer odasına (${ASSISTANT_PLATFORM.careerPath}) yönlendir. İş veya gelir vaadi verme.
 
 Cevap şablonları (bu üslubu izle):
 - Sertifika: "${ASSISTANT_REPLY_TEMPLATES.certificate}"
@@ -106,9 +106,9 @@ Model adını veya teknik sağlayıcı detaylarını paylaşma.`,
     { href: ASSISTANT_PLATFORM.tezgahPath, label: "AI Tezgâh" },
     { href: ASSISTANT_PLATFORM.hibePath, label: "YetkinHibe" },
     { href: ASSISTANT_PLATFORM.commercePath, label: "E-Ticaret" },
-    { href: ASSISTANT_PLATFORM.careerPath, label: "YetkinCV" },
+    { href: ASSISTANT_PLATFORM.careerPath, label: "Kariyer" },
   ],
-  careerCta: "YetkinCV",
+  careerCta: "Kariyer",
   placeholder: "Sorunu yaz…",
   send: "Gönder",
   sending: "Yanıtlanıyor…",

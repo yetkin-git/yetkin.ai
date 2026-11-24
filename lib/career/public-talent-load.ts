@@ -79,14 +79,12 @@ export async function loadPublicTalentCard(rawId: string): Promise<PublicTalentR
       status: "found",
       card: {
         ...card,
-        proofs: [
-          ...card.proofs,
-          ...tezgahProofs.map((item) => ({
-            title: item.title,
-            visaStampId: featuredLive.id,
-            ...(item.body ? { detail: item.body } : {}),
-          })),
-        ],
+        // Y2: tezgâh kanıtı sahte visaStampId bağlamaz; ayrı dürüst bölüm.
+        tezgahProofs: tezgahProofs.map((item) => ({
+          title: item.title,
+          kind: "tezgah" as const,
+          ...(item.body ? { detail: item.body } : {}),
+        })),
       },
     };
   } catch {

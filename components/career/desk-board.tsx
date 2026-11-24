@@ -9,7 +9,7 @@ export function CareerDeskBoard({ tasks }: { tasks: readonly CareerDeskTaskView[
     <section id="calisma-odasi" className="scroll-mt-24">
       <Card eyebrow="Çalışma odası" title="E-ticaret görev paketleri">
         <p className="text-sm text-[var(--foreground)]">
-          Bu paketler yalnız sizin odanızdadır. Kamu ilanı açılmaz. Kısayol ilgili teknik tezgâhı açar.
+          Bu paketler yalnız senin odandadır. Kamu ilanı açılmaz. Kısayol ilgili teknik tezgâhı açar.
         </p>
         {tasks.length === 0 ? (
           <p className="mt-3 text-sm text-[var(--muted)]">Aktarılmış görev paketi yok.</p>

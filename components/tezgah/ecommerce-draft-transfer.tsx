@@ -47,7 +47,7 @@ export function EcommerceDraftTransfer({
         setError(result.error);
         return;
       }
-      setEditPath("/e-ticaret?sekme=havuz");
+      setEditPath("/panel/e-ticaret?sekme=havuz");
       setMessage(
         typeof result.data.message === "string"
           ? result.data.message

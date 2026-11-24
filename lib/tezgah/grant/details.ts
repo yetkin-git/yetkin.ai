@@ -1,5 +1,6 @@
 import { toAmountMinor, type AmountMinor } from "@/lib/kernel/money/amount-minor";
 import { GRANT_SCHEDULE_STEPS } from "@/lib/yetkinhibe/grant-investment-skeleton";
+import { templateForGrant } from "@/lib/yetkinhibe/templates";
 import {
   GRANT_DETAIL_BUDGET_LINES,
   type GrantDetailDuration,
@@ -33,6 +34,9 @@ export type GrantDossierPlan = {
   teamRows: readonly GrantDossierTeamRow[];
   expertiseText: string;
   outputGoal: string;
+  templateId: string;
+  templateTitle: string;
+  sectionTitles: readonly string[];
 };
 
 type GrantDossierTeamBudget = (typeof GRANT_DETAIL_BUDGET_LINES)[number]["category"];
@@ -174,6 +178,7 @@ export function readGrantDossierPlan(input: GrantDetailsInput): GrantDossierRead
     label: line.label,
     amountMinor: toAmountMinor((lines[index] ?? 0) * 100),
   }));
+  const template = templateForGrant({ grantId: input.targetGrantId.trim() });
   return {
     ok: true,
     plan: {
@@ -186,6 +191,9 @@ export function readGrantDossierPlan(input: GrantDetailsInput): GrantDossierRead
       teamRows: team.rows,
       expertiseText: team.text,
       outputGoal,
+      templateId: template.id,
+      templateTitle: template.title,
+      sectionTitles: template.sections.map((section) => section.title),
     },
   };
 }

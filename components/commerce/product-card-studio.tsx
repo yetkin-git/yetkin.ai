@@ -16,12 +16,26 @@ import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
 const tool = tezgahToolById("ecommerce");
 
-export function ProductCardStudio() {
+/** Kuruş → "85,00" (TL giriş biçimi). */
+function minorToTryText(minor: number): string {
+  const abs = Math.abs(Math.trunc(minor));
+  return `${Math.trunc(abs / 100)},${String(abs % 100).padStart(2, "0")}`;
+}
+
+export function ProductCardStudio({
+  prefill,
+}: {
+  /** Radar önerisinden gelen ön-doldurma (P1.5). Boşsa normal boş form. */
+  prefill?: { title: string; category: string; targetPriceMinor: number | null };
+} = {}) {
   const router = useRouter();
   const busy = useRef(false);
-  const [productName, setProductName] = useState("");
-  const [category, setCategory] = useState("");
+  const [productName, setProductName] = useState(prefill?.title ?? "");
+  const [category, setCategory] = useState(prefill?.category ?? "");
   const [features, setFeatures] = useState("");
+  const [targetPrice, setTargetPrice] = useState(
+    prefill?.targetPriceMinor != null ? minorToTryText(prefill.targetPriceMinor) : "",
+  );
   const [markdown, setMarkdown] = useState("");
   const [pending, setPending] = useState<"generate" | "save" | null>(null);
   const [error, setError] = useState("");
@@ -78,7 +92,7 @@ export function ProductCardStudio() {
       }
       setMarkdown(body.data.markdown);
       if (typeof body.data.remaining === "number" && typeof body.data.limit === "number") {
-        setQuota(`Kalan ücretsiz hakkınız: ${body.data.remaining} / ${body.data.limit}`);
+        setQuota(`Kalan ücretsiz hakkın: ${body.data.remaining} / ${body.data.limit}`);
       }
     } catch {
       setError("Bağlantı kurulamadı. Yeniden dene.");
@@ -122,6 +136,7 @@ export function ProductCardStudio() {
       setProductName("");
       setCategory("");
       setFeatures("");
+      setTargetPrice("");
       router.refresh();
     } catch {
       setError("Havuza kayıt tamamlanamadı.");
@@ -142,6 +157,12 @@ export function ProductCardStudio() {
     >
       <h2 className="text-sm font-semibold">{tool.label}</h2>
       <p className="mt-1 text-sm leading-6 text-[var(--muted)]">{tool.blurb}</p>
+      {prefill?.title ? (
+        <p className="mt-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-900">
+          Radar önerisi forma yazıldı{targetPrice ? ` · hedef ${targetPrice} TL` : ""}. Özellikleri tamamlayıp kartı
+          üret.
+        </p>
+      ) : null}
       <form
         className="mt-3 space-y-3"
         onSubmit={(event) => {
@@ -164,7 +185,7 @@ export function ProductCardStudio() {
             <Input
               value={category}
               maxLength={80}
-              placeholder="Kategoriyi yazınız..."
+              placeholder="Kategoriyi yaz…"
               onChange={(event) => setCategory(event.target.value)}
             />
           </label>
@@ -191,6 +212,15 @@ export function ProductCardStudio() {
           </div>
         </div>
         <label className="block text-sm font-medium">
+          Hedef satış fiyatı (TL)
+          <Input
+            value={targetPrice}
+            inputMode="decimal"
+            placeholder="85,00"
+            onChange={(event) => setTargetPrice(event.target.value)}
+          />
+        </label>
+        <label className="block text-sm font-medium">
           Temel özellikler
           <div className="mt-1">
             <SmartTextarea
@@ -198,7 +228,7 @@ export function ProductCardStudio() {
               className="min-h-24"
               value={features}
               maxLength={800}
-              placeholder="Ürün özelliklerinizi buraya yazınız..."
+              placeholder="Ürün özelliklerini buraya yaz…"
               onChange={(event) => setFeatures(event.target.value)}
               softHint="Biraz daha detay ekleyin (ölçü, malzeme, yaş/kullanım)…"
             />

@@ -25,7 +25,7 @@ describe("kariyer SWOT ve yol", () => {
       tezgahToolCounts: {},
     });
     expect(roadmap.map((row) => row.id)).toEqual(["d30", "d60", "d90"]);
-    expect(roadmap[2]?.href).toBe("/hibe");
+    expect(roadmap[2]?.href).toBe("/panel/hibe");
   });
 });
 

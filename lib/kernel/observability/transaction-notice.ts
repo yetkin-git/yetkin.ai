@@ -1,9 +1,10 @@
 import { logEvent } from "@/lib/kernel/observability/log";
 
-export type TransactionNoticeKind = "wallet_cleared" | "escrow_refunded";
+export type TransactionNoticeKind = "wallet_cleared" | "escrow_refunded" | "product_paid";
 
 export type TransactionNotice = {
   kind: TransactionNoticeKind;
+  /** Faz 3 / §4.1: misafir CLEARED siparişinde bakiye yazılmaz; bildirim de yoktur. */
   userId: string;
   amountMinor: number;
   reference: string;

@@ -31,7 +31,7 @@ describe("dinamik ekmek kırıntısı", () => {
     expect(hrefs("/dashboard")).toEqual(["/dashboard"]);
     expect(labels("/academy")).toEqual(["Genel Bakış", "Akademi"]);
     expect(hrefs("/academy")).toEqual(["/dashboard", "/academy"]);
-    expect(labels("/career")).toEqual(["Genel Bakış", "YetkinCV"]);
+    expect(labels("/career")).toEqual(["Genel Bakış", "Kariyer"]);
     expect(labels("/freelancer")).toEqual(["Genel Bakış", "Freelancer"]);
     expect(labels("/profil")).toEqual(["Genel Bakış", "Profil"]);
     expect(labels("/cuzdan")).toEqual(["Genel Bakış", "Cüzdan"]);

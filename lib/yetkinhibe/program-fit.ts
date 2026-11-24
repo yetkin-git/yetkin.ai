@@ -1,5 +1,5 @@
 import { formatAmountMinorAsWholeTry } from "@/lib/yetkinhibe/format-amount";
-import { isMatchableGrantCall } from "@/lib/yetkinhibe/match-grants-for-profile";
+import { isGrantVerificationFresh, isMatchableGrantCall } from "@/lib/yetkinhibe/grant-catalog-core";
 import {
   grantBriefCriteria,
   matchGrantProgramsForBrief,
@@ -22,7 +22,13 @@ export type GrantProgramFit = {
   title: string;
   sourceLabel: string;
   officialInfoUrl: string | null;
-  fitPct: number;
+  fitPct: number | null;
+  /** Kısıtlı kriter yoksa dürüst etiket. Yüzde üretilmez. */
+  scopeLabel: string | null;
+  constrainedCount: number;
+  passedConstrained: number;
+  /** Kısıtsız kriter yüzdeye eklenmez. */
+  unconstrainedCount: number;
   reasons: readonly string[];
   eligible: boolean;
   maxSupportMinor: number | null;
@@ -47,8 +53,9 @@ function ceilingLabel(amount: number | null): string | null {
 export function rankGrantProgramFits(
   brief: GrantProgramBrief,
   calls: readonly GrantBriefCall[],
+  now: Date = new Date(),
 ): readonly GrantProgramFit[] {
-  const matched = matchGrantProgramsForBrief(brief, calls);
+  const matched = matchGrantProgramsForBrief(brief, calls, now);
   const eligibleIds = new Set(matched.eligible.map((row) => row.grantId));
   const rows: GrantProgramFit[] = [];
 
@@ -63,12 +70,15 @@ export function rankGrantProgramFits(
     if (criteria.length === 0) {
       continue;
     }
-    const passed = criteria.filter((row) => row.passed).length;
-    const fitPct = Math.round((passed / criteria.length) * 100);
-    const failed = criteria.filter((row) => !row.passed).map((row) => row.label);
+    const constrained = criteria.filter((row) => !row.unconstrained);
+    const passed = constrained.filter((row) => row.passed).length;
+    const fitPct = constrained.length === 0 ? null : Math.round((passed / constrained.length) * 100);
+    const scopeLabel = constrained.length === 0 ? "Genel kapsam — özel kısıt yok" : null;
+    const unconstrainedCount = criteria.length - constrained.length;
+    const failed = constrained.filter((row) => !row.passed).map((row) => row.label);
     const reasons = [...failed];
     const open = isMatchableGrantCall(call);
-    const verified = text(call.sourceVerifiedAt) !== null;
+    const verified = isGrantVerificationFresh(text(call.sourceVerifiedAt), now);
     if (!open) {
       reasons.push(call.status === "UPCOMING" ? GRANT_UPCOMING_WINDOW_NOTE : GRANT_CLOSED_WINDOW_NOTE);
     } else if (!verified) {
@@ -83,8 +93,12 @@ export function rankGrantProgramFits(
       title,
       sourceLabel,
       officialInfoUrl,
-      fitPct: Number.isInteger(fitPct) ? fitPct : 0,
-      reasons: reasons.length > 0 ? reasons : ["Kriterlerin tamamı geçti."],
+      fitPct: fitPct !== null && Number.isInteger(fitPct) ? fitPct : null,
+      scopeLabel,
+      constrainedCount: constrained.length,
+      passedConstrained: passed,
+      unconstrainedCount,
+      reasons: reasons.length > 0 ? reasons : scopeLabel ? [scopeLabel] : ["Kısıtlı kriterlerin tamamı geçti."],
       eligible: eligibleIds.has(id),
       maxSupportMinor: amount,
       ceilingLabel: ceilingLabel(amount),
@@ -95,20 +109,20 @@ export function rankGrantProgramFits(
     if (left.eligible !== right.eligible) {
       return left.eligible ? -1 : 1;
     }
-    return right.fitPct - left.fitPct || left.title.localeCompare(right.title, "tr");
+    return (right.fitPct ?? -1) - (left.fitPct ?? -1) || left.title.localeCompare(right.title, "tr");
   });
 }
 
-export function sumEligibleCeilingMinor(rows: readonly GrantProgramFit[]): number | null {
-  let total = 0;
+/** Uygun programlar arasında en yüksek tek tavan. Tutarlar toplanmaz. */
+export function highestEligibleCeilingMinor(rows: readonly GrantProgramFit[]): number | null {
+  let best: number | null = null;
   for (const row of rows) {
     if (!row.eligible || row.maxSupportMinor === null) {
       continue;
     }
-    if (!Number.isSafeInteger(total + row.maxSupportMinor)) {
-      return null;
+    if (best === null || row.maxSupportMinor > best) {
+      best = row.maxSupportMinor;
     }
-    total += row.maxSupportMinor;
   }
-  return total > 0 ? total : null;
+  return best;
 }

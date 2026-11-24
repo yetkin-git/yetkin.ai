@@ -25,7 +25,12 @@ export const KURUMSAL_JOB_VERTICALS = [
 ] as const;
 
 export type KurumsalJobVerticalId = (typeof KURUMSAL_JOB_VERTICALS)[number]["id"];
-export type KurumsalApplicationBand = "PENDING_TEST" | "SHORTLISTED" | "REJECTED";
+/** Eleme bandı. REJECTED DB'de baraj altı için kalır; yüzey BELOW_THRESHOLD okur. */
+export type KurumsalApplicationBand =
+  | "PENDING_TEST"
+  | "SHORTLISTED"
+  | "QUALIFIED_NOT_SHORTLISTED"
+  | "BELOW_THRESHOLD";
 
 export type KurumsalSkillOption = {
   key: string;
@@ -51,6 +56,12 @@ export type PublicKurumsalJobView = {
   minScore: number;
   shortlistLimit: number;
   deadlineLabel: string | null;
+  /** Kurumsal kimlik doğrulanmış mı? False → noindex + uyarı şeridi. */
+  employerVerified: boolean;
+  /** ISO — JobPosting datePosted. */
+  datePosted: string;
+  /** ISO veya null — JobPosting validThrough. */
+  validThrough: string | null;
 };
 
 export type OwnerApplicantView = {
@@ -290,13 +301,18 @@ export function rankJobApplications<T extends RankableApplication>(
   let taken = 0;
   const ranked: RankedApplication<T>[] = tested.map((row, index) => {
     const score = row.weightedScore ?? 0;
-    const shortlisted = score >= bar && taken < limit;
-    if (shortlisted) {
+    let band: KurumsalApplicationBand;
+    if (score < bar) {
+      band = "BELOW_THRESHOLD";
+    } else if (taken < limit) {
       taken += 1;
+      band = "SHORTLISTED";
+    } else {
+      band = "QUALIFIED_NOT_SHORTLISTED";
     }
     return {
       ...row,
-      band: shortlisted ? "SHORTLISTED" : "REJECTED",
+      band,
       rank: index + 1,
     };
   });
@@ -317,7 +333,19 @@ export type KurumsalJobDraft = {
   minScore: number;
   shortlistLimit: number;
   deadlineAt: Date | null;
+  /** Vergi / MERSİS. Doğrulama ayrı mühürdür; bu alan yalnız kimlik kaydıdır. */
+  taxNumber: string;
 };
+
+const TAX_NUMBER_RE = /^[0-9]{10,11}$/;
+
+export function normalizeTaxNumber(raw: string): string {
+  return raw.replace(/\s+/g, "").replace(/[^0-9]/g, "").slice(0, 20);
+}
+
+export function isKurumsalTaxNumber(value: string): boolean {
+  return TAX_NUMBER_RE.test(value);
+}
 
 export function isKurumsalJobOpen(
   job: { isActive: boolean; deadlineAt: Date | null },
@@ -393,6 +421,7 @@ export function parseKurumsalJobDraft(
   const title = normalizeScreeningText(typeof raw.title === "string" ? raw.title : "");
   const vertical = kurumsalJobVertical(typeof raw.vertical === "string" ? raw.vertical : "");
   const description = normalizeScreeningText(typeof raw.description === "string" ? raw.description : "");
+  const taxNumber = normalizeTaxNumber(typeof raw.taxNumber === "string" ? raw.taxNumber : "");
   const minScore = raw.minScore;
   const shortlistLimit = raw.shortlistLimit;
   if (companyName.length < 2 || companyName.length > 120) {
@@ -414,6 +443,9 @@ export function parseKurumsalJobDraft(
   }
   if (description.length < 40 || description.length > 4000) {
     return { ok: false, error: "İş tanımı 40 ile 4000 karakter arasında olmalı." };
+  }
+  if (taxNumber.length > 0 && !isKurumsalTaxNumber(taxNumber)) {
+    return { ok: false, error: "Vergi / MERSİS numarası 10 veya 11 rakam olmalı." };
   }
   if (typeof minScore !== "number" || !Number.isInteger(minScore) || minScore < 0 || minScore > 100) {
     return { ok: false, error: "Baraj puanı 0 ile 100 arasında tam sayı olmalı." };
@@ -441,6 +473,7 @@ export function parseKurumsalJobDraft(
       minScore,
       shortlistLimit,
       deadlineAt: deadline.value,
+      taxNumber,
     },
   };
 }

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { KurumsalJobApplyGate } from "@/components/kurumsal/job-apply-gate";
+import { JsonLd } from "@/components/seo/json-ld";
 import { Card } from "@/components/ui/card";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 import { getSession } from "@/lib/kernel/auth/session";
+import { buildJobPostingJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
 import { pageMetadata } from "@/lib/copy/seo";
 import { isKurumsalJobSlug, type PublicKurumsalJobView } from "@/lib/sales/kurumsal-screening";
 import { loadPublicKurumsalJob } from "@/lib/sales/kurumsal-screening-load";
@@ -40,7 +42,10 @@ export async function generateMetadata({
     title: `${job.title} — ${job.companyName}`,
     description: job.description.slice(0, 160),
     path: `/ilan/${job.slug}`,
-    robots: { index: true, follow: true },
+    // Y1: doğrulanmamış işveren — noindex.
+    robots: job.employerVerified
+      ? { index: true, follow: true }
+      : { index: false, follow: false },
   });
 }
 
@@ -83,6 +88,33 @@ export default async function KurumsalJobApplyPage({
 
   return (
     <RoomFrame className="px-6 pb-16 pt-10">
+      <JsonLd
+        data={jsonLdDocument([
+          buildJobPostingJsonLd({
+            title: job.title,
+            description: job.description,
+            slug: job.slug,
+            companyName: job.companyName,
+            datePosted: job.datePosted,
+            validThrough: job.validThrough,
+          }),
+        ])}
+      />
+      {!job.employerVerified ? (
+        <p
+          className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-950"
+          data-employer-banner="pending"
+        >
+          Kurumsal kimlik doğrulaması beklemede
+        </p>
+      ) : (
+        <p
+          className="mb-4 inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800"
+          data-employer-badge="verified"
+        >
+          Doğrulanmış İşveren ✓
+        </p>
+      )}
       <PageHeader
         eyebrow={job.companyName}
         title={job.title}

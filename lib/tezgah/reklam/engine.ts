@@ -7,17 +7,23 @@ import { TEZGAH_FAIL_MESSAGE, TEZGAH_GUEST_QUOTA_MESSAGE, TEZGAH_MEMBER_QUOTA_ME
 import { withTezgahDeliverySignature } from "@/lib/tezgah/delivery-signature";
 import { tezgahRequestHash } from "@/lib/tezgah/paid-lane";
 import { consumeTezgahQuota, peekTezgahQuota, refundTezgahQuota, settleTezgahSlot } from "@/lib/tezgah/quota";
-import { REKLAM_FILE_STEM } from "@/lib/tezgah/reklam/copy";
-import { sealReklamMarkdown } from "@/lib/tezgah/reklam/guard";
+import {
+  REKLAM_FILE_STEM,
+  REKLAM_GOOGLE_CSV_FILENAME,
+  REKLAM_META_CSV_FILENAME,
+} from "@/lib/tezgah/reklam/copy";
+import { buildGoogleAdsCsv, buildMetaAdsCsv } from "@/lib/tezgah/reklam/csv";
+import { renderReklamMarkdown, sealReklamPackage } from "@/lib/tezgah/reklam/guard";
 import { reklamSystemPrompt, reklamUserPrompt } from "@/lib/tezgah/reklam/prompts";
 import {
   readReklamDraft,
   reklamGenerateRequestSchema,
   type ReklamGenerateRequest,
 } from "@/lib/tezgah/reklam/schema";
+import type { ReklamPackage } from "@/lib/tezgah/reklam/types";
 
-/** Tek çağrı tavanı. Google karakter sınırı bu tavanın dışında, kodda mühürlenir. */
-export const REKLAM_MAX_OUTPUT_TOKENS = 900;
+/** Üç varyantlı matris için tavan. Karakter sınırı kodda mühürlenir. */
+export const REKLAM_MAX_OUTPUT_TOKENS = 2_400;
 export const REKLAM_MODEL_ROLE = "LITE_STREAM" as const;
 
 export type ReklamGenerateResult =
@@ -25,7 +31,12 @@ export type ReklamGenerateResult =
       ok: true;
       tool: "reklam";
       markdown: string;
+      pack: ReklamPackage;
+      googleCsv: string;
+      metaCsv: string;
       filename: typeof REKLAM_FILE_STEM;
+      googleCsvFilename: typeof REKLAM_GOOGLE_CSV_FILENAME;
+      metaCsvFilename: typeof REKLAM_META_CSV_FILENAME;
       remaining: number;
       limit: number;
       guest: boolean;
@@ -45,9 +56,9 @@ export type GenerateReklamDeps = InvokeLlmDeps & {
 };
 
 /**
- * Reklam metni. Günlük hak tezgâh havuzundadır.
- * Google başlığı veya açıklaması sınırı aşarsa, ya da mühür bozulursa hak geri yazılır.
- * Cüzdana yazılmaz.
+ * Reklam A/B kampanya matrisi. Günlük hak tezgâh havuzundadır.
+ * Zorunlu parça eksikse veya kalkan kırılırsa hak geri yazılır.
+ * Cüzdana yazılmaz. ROAS/CTR/CPC vaadi üretilmez.
  */
 export async function generateReklamPackage(
   input: {
@@ -93,7 +104,12 @@ export async function generateReklamPackage(
   }
 
   const restore = async (): Promise<ReklamGenerateResult> => {
-    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, "lite");
+    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, "lite", {
+      hold: slot.hold,
+      command: input.commandKey
+        ? { key: input.commandKey, requestHash: tezgahRequestHash(input.request) }
+        : null,
+    });
     return {
       ok: false,
       error: TEZGAH_FAIL_MESSAGE,
@@ -114,7 +130,7 @@ export async function generateReklamPackage(
       temperature: 0.4,
       maxOutputTokens: REKLAM_MAX_OUTPUT_TOKENS,
       maxAttempts: 1,
-      timeoutMs: 25_000,
+      timeoutMs: 45_000,
       rateLimit: {
         identifier: input.actorId,
         scope: "tezgah",
@@ -130,9 +146,10 @@ export async function generateReklamPackage(
     deps,
   );
 
-  const sealed = sealReklamMarkdown(llm?.text ?? "", draft);
+  const pack = sealReklamPackage(llm?.text ?? "", draft);
+  const sealed = pack ? renderReklamMarkdown(pack) : null;
   const markdown = sealed ? withTezgahDeliverySignature(sealed) : null;
-  if (!markdown) {
+  if (!pack || !markdown) {
     return restore();
   }
 
@@ -152,7 +169,12 @@ export async function generateReklamPackage(
     ok: true,
     tool: "reklam",
     markdown,
+    pack,
+    googleCsv: buildGoogleAdsCsv(pack),
+    metaCsv: buildMetaAdsCsv(pack),
     filename: REKLAM_FILE_STEM,
+    googleCsvFilename: REKLAM_GOOGLE_CSV_FILENAME,
+    metaCsvFilename: REKLAM_META_CSV_FILENAME,
     remaining: slot.remaining,
     limit: slot.limit,
     guest: input.guest,

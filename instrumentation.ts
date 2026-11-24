@@ -15,15 +15,73 @@ export async function register() {
   await import("@/lib/junior/pilot-engine/acoustic-timeline-disk");
   const { preferIpv6ForDirectHost } = await import("@/lib/kernel/dns-ipv6-first");
   preferIpv6ForDirectHost();
+  /**
+   * M-04 / S-02 — env şeması artık **çalışma zamanında** devrede.
+   *
+   * Önce `lib/kernel/env.ts` içinde 39 anahtarlık tam bir Zod şeması vardı ama
+   * hiçbir üretim dosyası `getEnv()` çağırmıyordu: eksik/yanlış env sessizce
+   * `undefined` ile devam ediyordu. Somut sonucu: `PAYTR_SANDBOX` veya
+   * `PAYTR_ALLOW_MOCK_CHECKOUT` üretimde doluysa `placeTezgahCheckout` **ilk
+   * ödeme denemesinde** throw ediyordu.
+   *
+   * Tasarım kararı — "build'i kırmadan yakala":
+   * - Şema tüm anahtarları `optional()` tutuyor; eksik opsiyonel değişken
+   *   başlangıcı **düşürmez** (mevcut davranış korunur).
+   * - Ama şema ihlali (yanlış `NODE_ENV` gibi tip hatası) sessiz geçmez: log yazılır.
+   * - Ödeme yapılandırması üretimde `unconfigured` ise bu bir **hata**dır, uyarı
+   *   değil: `ops.env.payments_unconfigured` olarak critical seviyede yazılır.
+   * - Burada süreç düşürülmez (exit/throw yok): ödeme dışı yüzeyler (kamu HTML,
+   *   rehber, sözlük) env eksikliği yüzünden ayakta kalmaya devam eder.
+   */
+  const { logEvent } = await import("@/lib/kernel/observability/log");
+  try {
+    const { getEnv } = await import("@/lib/kernel/env");
+    const env = getEnv();
+    if (env.NODE_ENV === "production") {
+      const required = {
+        PAYTR_MERCHANT_ID: env.PAYTR_MERCHANT_ID,
+        PAYTR_MERCHANT_KEY: env.PAYTR_MERCHANT_KEY,
+        PAYTR_MERCHANT_SALT: env.PAYTR_MERCHANT_SALT,
+      };
+      const missing = Object.entries(required)
+        .filter(([, value]) => !value?.trim())
+        .map(([key]) => key);
+      if (missing.length > 0) {
+        logEvent({
+          level: "error",
+          event: "ops.env.payments_unconfigured",
+          reason: `${missing.join(",")} bos; checkout throw eder, site ayakta`,
+          status: 503,
+        });
+      }
+      // Sandbox/mock anahtarları üretimde doluysa ödeme kapalıdır — sessiz geçmez.
+      for (const key of ["PAYTR_SANDBOX", "PAYTR_ALLOW_MOCK_CHECKOUT"] as const) {
+        const raw = env[key];
+        if (typeof raw === "string" && raw.trim() !== "" && raw.trim() !== "0") {
+          logEvent({
+            level: "error",
+            event: "ops.env.payment_sandbox_in_production",
+            reason: `${key}=${raw.trim()}; placeTezgahCheckout throw eder`,
+            status: 503,
+          });
+        }
+      }
+    }
+  } catch (error) {
+    // Şema ihlali: eksik opsiyonel değer değil, tip/format hatası. Log + devam.
+    logEvent({
+      level: "error",
+      event: "ops.env.invalid",
+      reason: error instanceof Error ? error.message.slice(0, 240) : "env semasi okunamadi",
+    });
+  }
   if (process.env.NODE_ENV !== "production") {
     return;
   }
   const { evaluateRuntimeReadiness } = await import("@/lib/kernel/jobs/runtime-readiness");
-  const { logEvent } = await import("@/lib/kernel/observability/log");
   const { isLiveBroadcastShutdownEnvActive } = await import(
     "@/lib/kernel/http/live-broadcast-shutdown"
-  );
-  if (isLiveBroadcastShutdownEnvActive()) {
+  );  if (isLiveBroadcastShutdownEnvActive()) {
     logEvent({
       level: "warn",
       event: "ops.live_broadcast.shutdown",

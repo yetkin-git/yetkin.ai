@@ -13,8 +13,12 @@
  */
 
 import type { Route } from "next";
-import { COMMERCE_TRIAL_VERIFY_MINOR } from "@/lib/commerce/subscription-lifecycle";
-import { formatMinor, formatMinorCompact } from "@/lib/kernel/money/format";
+import {
+  TRIAL_HONESTY_LINE,
+  TRIAL_INPUT_LINE,
+  TRIAL_VERIFY_AMOUNT_LABEL as TRIAL_VERIFY_AMOUNT_LABEL_SSOT,
+} from "@/lib/pricing/trial-copy";
+import { formatMinorCompact } from "@/lib/kernel/money/format";
 import { buildCitizenRegisterHref } from "@/lib/kernel/auth/redirects";
 import { isProtectedCitizenPath } from "@/lib/kernel/security/edge-guard";
 import { TEZGAH_GUEST_DAILY_LIMIT } from "@/lib/tezgah/catalog";
@@ -67,10 +71,10 @@ export type WorkflowModule = {
 };
 
 /**
- * Sembolik kart doğrulama bedeli — katalog değildir, iade vaadi de yoktur.
- * Tek SSOT: `COMMERCE_TRIAL_VERIFY_MINOR` (100 kuruş = 1,00 TL).
+ * Sembolik kart doğrulama bedeli — tek SSOT `lib/pricing/trial-copy.ts`.
+ * Bu dosya tutar hesaplamaz, yalnız SSOT etiketini yeniden dışa açar.
  */
-export const TRIAL_VERIFY_AMOUNT_LABEL = formatMinor(COMMERCE_TRIAL_VERIFY_MINOR, "TRY");
+export const TRIAL_VERIFY_AMOUNT_LABEL = TRIAL_VERIFY_AMOUNT_LABEL_SSOT;
 
 /**
  * Deneme sonrası yenileme etiketi katalogdan okunur; satır yoksa `null`.
@@ -110,12 +114,12 @@ export const WORKFLOW_MODULES: readonly WorkflowModule[] = [
     id: "ecommerce",
     label: "E-Ticaret İşletme OS",
     blurb: "Trendyol ve Hepsiburada siparişleriniz, stok ve müşteri soruları tek panelde.",
-    href: "/e-ticaret",
+    href: "/panel/e-ticaret",
     outcome:
       "Mağazanız bağlı; sipariş, stok ve fiyat tek ekranda. Müşteri sorularına markanızın diliyle yanıt taslağı hazırlanır.",
     invite: {
       headline:
-        "Bu kadar basit. Ortalama 20 dakikada mağazanızı bağlayabilirsiniz — hesabınızı ücretsiz açın, 30 gün boyunca tam paneli deneyin.",
+        "Bu kadar basit. Ortalama 20 dakikada mağazanı bağlarsın — hesabını ücretsiz aç, 30 gün boyunca tam paneli dene.",
       cta: "Ücretsiz Hesabını Aç ve 30 Gün Dene",
     },
     steps: [
@@ -123,13 +127,13 @@ export const WORKFLOW_MODULES: readonly WorkflowModule[] = [
         order: 1,
         title: "30 gün ücretsiz denemeyi başlat",
         duration: "≈ 3 dk",
-        input: `Kart doğrulaması için sadece ${TRIAL_VERIFY_AMOUNT_LABEL} çekilir; 30 gün boyunca başka hiçbir ücret alınmaz.`,
+        input: TRIAL_INPUT_LINE,
         output:
-          "Tüm pazaryeri paneliniz 30 gün boyunca tam yetkiyle açılır. Memnun kalmazsanız tek tıkla iptal edebilirsiniz; iptal etmezseniz 30 gün sonunda aylık aboneliğiniz devam eder.",
-        tip: `Deneme vergi kimliğinizle (VKN veya TCKN) açılır — her kimlikte bir deneme hakkı vardır. ${TRIAL_VERIFY_AMOUNT_LABEL} kart doğrulama bedelidir; bakiyenize yazılmaz ve iade taahhüdü değildir. İptal dönem sonunda işler.`,
+          "Tüm pazaryeri panelin 30 gün boyunca tam yetkiyle açılır. Memnun kalmazsan tek tıkla iptal edersin; iptal etmezsen 30 gün sonunda aylık aboneliğin devam eder.",
+        tip: TRIAL_HONESTY_LINE,
         samplePreview:
-          "Üye olduğunuzda karşınıza çıkacak ekran: «30 gün ücretsiz deneme aktif · kalan 30 gün» şeridi ve «Mağaza ekle» düğmesi.",
-        href: "/e-ticaret",
+          "Üye olduğunda karşına çıkacak ekran: «30 gün ücretsiz deneme aktif · kalan 30 gün» şeridi ve «Mağaza ekle» düğmesi.",
+        href: "/panel/e-ticaret",
         cta: "Denemeyi başlat",
       },
       {
@@ -142,7 +146,7 @@ export const WORKFLOW_MODULES: readonly WorkflowModule[] = [
         tip: "Trendyol veya Hepsiburada satıcı panelinizden aldığınız API anahtarını yapıştırın. Bilgileriniz şifrelenerek güvenle korunur, kimseyle paylaşılmaz. Anahtar panelde çoğu zaman bir kez gösterilir; kaybetmeden kopyalayın.",
         samplePreview:
           "Üye olduğunuzda karşınıza çıkacak ekran: Trendyol / Hepsiburada kartlarında yeşil «Bağlı» rozeti ve son senkron saati.",
-        href: "/e-ticaret",
+        href: "/panel/e-ticaret",
         cta: "Kanalları bağla",
       },
       {
@@ -154,7 +158,7 @@ export const WORKFLOW_MODULES: readonly WorkflowModule[] = [
         tip: "Önce 5–10 ürünle eşleştirip stok düşümünü kontrol edin; tüm kataloğu bir kerede açmayın.",
         samplePreview:
           "Üye olduğunuzda karşınıza çıkacak ekran: «12 ürün eşleşti · stok güncel» özeti ve ürün satırlarında stok/fiyat sütunları.",
-        href: "/e-ticaret",
+        href: "/panel/e-ticaret",
         cta: "Kataloğu aç",
       },
       {
@@ -166,7 +170,7 @@ export const WORKFLOW_MODULES: readonly WorkflowModule[] = [
         tip: "Fiyat, iade ve özel ölçü sorularını insana bıraktırın. Taslak otomatik gönderilmez; siz onayladıktan sonra gider.",
         samplePreview:
           "Üye olduğunuzda karşınıza çıkacak ekran: bekleyen soru listesi, yan yana AI taslağı ve «Onayla & gönder» düğmesi.",
-        href: "/e-ticaret",
+        href: "/panel/e-ticaret",
         cta: "Otomasyonu ayarla",
       },
     ],
@@ -175,7 +179,7 @@ export const WORKFLOW_MODULES: readonly WorkflowModule[] = [
     id: "hibe",
     label: "YetkinHibe",
     blurb: "İşletmenizi tanıtın; size uyan KOSGEB / TÜBİTAK çağrısını ve proje taslağını görün.",
-    href: "/hibe",
+    href: "/panel/hibe",
     outcome: "Sektörünüze uyan açık destek çağrıları ve kuruma taşıyabileceğiniz proje dosyası taslağı.",
     invite: {
       headline:
@@ -192,7 +196,7 @@ export const WORKFLOW_MODULES: readonly WorkflowModule[] = [
         tip: "NACE kodunu vergi levhanızdakiyle aynı yazın. Yanlış kod, size uyan çağrıyı kaçırmanıza yol açar.",
         samplePreview:
           "Üye olduğunuzda karşınıza çıkacak ekran: sektör, il ve ölçek alanları dolu bir «İşletme profili» kartı.",
-        href: "/hibe",
+        href: "/panel/hibe",
         cta: "Profili oluştur",
       },
       {
@@ -204,7 +208,7 @@ export const WORKFLOW_MODULES: readonly WorkflowModule[] = [
         tip: "Eşleşme katalog şartına bakar; kabul kararı kurumundur. Kapanmış çağrı açık gibi gösterilmez.",
         samplePreview:
           "Üye olduğunuzda karşınıza çıkacak ekran: «3 açık çağrı size uyuyor» listesi; her satırda kurum, son başvuru tarihi ve uygunluk özeti.",
-        href: "/hibe",
+        href: "/panel/hibe",
         cta: "Çağrıları eşleştir",
       },
       {
@@ -216,7 +220,7 @@ export const WORKFLOW_MODULES: readonly WorkflowModule[] = [
         tip: "Taslak, kurumun sistemine sizin taşıyacağınız metindir; başvurunun yerine geçmez. Destek tutarını cümleleriniz büyütmez.",
         samplePreview:
           "Üye olduğunuzda karşınıza çıkacak ekran: bölüm bölüm başvuru taslağı, eksik belge kontrol listesi ve «İndir / kopyala» düğmeleri.",
-        href: "/hibe",
+        href: "/panel/hibe",
         cta: "Dosyayı oluştur",
       },
     ],
@@ -335,7 +339,7 @@ export function parseWorkflowModuleId(value: string | null | undefined): Workflo
 /**
  * Butona basılan gerçek adres.
  *
- * Korumalı hedef (`/e-ticaret`, `/hibe`, `/pasaport`, `/magazam`) oturumsuz ziyaretçiyi
+ * Korumalı hedef (`/panel/e-ticaret`, `/panel/hibe`, `/pasaport`, `/magazam`) oturumsuz ziyaretçiyi
  * çıplak `/login` duvarına düşürmez: `next` parametreli kayıt yoluna çevrilir ve
  * giriş sonrası kullanıcı doğrudan ilgili adıma iner (`lib/kernel/auth/redirects.ts`).
  *

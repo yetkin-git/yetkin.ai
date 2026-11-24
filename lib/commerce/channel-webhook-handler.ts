@@ -26,6 +26,9 @@ function wire(result: ChannelCommitResult, broadcast: ChannelPushOutcome[]) {
   return {
     replayed: result.replayed,
     ledgerId: result.ledgerId,
+    productId: result.productId,
+    variantId: result.variantId,
+    variantSku: result.variantSku,
     externalOrderId: result.externalOrderId,
     eventType: result.eventType,
     stockAfter: result.stockAfter,
@@ -101,6 +104,7 @@ export async function postCommerceChannelWebhook(deps: ChannelWebhookDeps, reque
       quantity: parsed.payload.quantity,
       externalOrderId: parsed.payload.externalOrderId,
       customerLabel: parsed.payload.customerLabel,
+      barcode: parsed.payload.barcode ?? null,
     });
     if (!committed.ok) {
       return jsonFail(committed.error, committed.status, requestId, request);

@@ -59,9 +59,18 @@ export function careerVisaKey(sourceKind: CareerVisaSourceKind, sourceId: string
   if (sourceKind === "ACADEMY_CERTIFICATE") {
     return `academy.certificate:${sourceId}`;
   }
+  if (sourceKind === "YETKINHIBE_PROJECT") {
+    return `yetkinhibe.project:${sourceId}`;
+  }
   return `freelancer.release:${sourceId}`;
 }
 
 export function careerSourceModuleId(sourceKind: CareerVisaSourceKind): string {
-  return sourceKind === "ACADEMY_CERTIFICATE" ? "academy" : "freelancer";
+  if (sourceKind === "ACADEMY_CERTIFICATE") {
+    return "academy";
+  }
+  if (sourceKind === "YETKINHIBE_PROJECT") {
+    return "yetkinhibe";
+  }
+  return "freelancer";
 }

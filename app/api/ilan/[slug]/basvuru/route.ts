@@ -24,7 +24,12 @@ export async function POST(
     const user = await requireSession(request);
     const { slug } = await context.params;
     const body: unknown = await request.json().catch(() => null);
-    const started = await startKurumsalJobExam({ slug, userId: user.id, body });
+    const started = await startKurumsalJobExam({
+      slug,
+      userId: user.id,
+      sessionEmail: user.email,
+      body,
+    });
     return jsonOk(started, 200, requestId, request);
   } catch (error) {
     return jsonFromUnknown(error, 400, requestId, request);

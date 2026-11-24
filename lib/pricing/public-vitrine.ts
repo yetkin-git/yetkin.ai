@@ -1,11 +1,17 @@
 import "server-only";
 
-import { COMMERCE_TRIAL_VERIFY_MINOR } from "@/lib/commerce/subscription-lifecycle";
 import { toAmountMinor, type AmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { formatMinor, formatMinorCompact } from "@/lib/kernel/money/format";
 import { createPrismaPriceCatalogStore } from "@/lib/kernel/pricing/prisma-catalog-store";
-import { TEZGAH_GUEST_DAILY_LIMIT, TEZGAH_PATH } from "@/lib/tezgah/catalog";
+import {
+  TRIAL_CANCEL_LINE,
+  TRIAL_HEADLINE,
+  TRIAL_VERIFY_LINE,
+  trialRenewalLine,
+} from "@/lib/pricing/trial-copy";
+import { COMMERCE_PLANS } from "@/lib/commerce/os-rules";
+import { TEZGAH_FREE_MONTHLY_CREDITS, TEZGAH_GUEST_DAILY_LIMIT, TEZGAH_PATH, TEZGAH_PRO_MONTHLY_CREDITS } from "@/lib/tezgah/catalog";
 import { TEZGAH_GRANT_UNIT, TEZGAH_PRO_MODULE } from "@/lib/tezgah/paid-lane";
 import {
   commerceMonthlyShowcase,
@@ -43,15 +49,14 @@ export type PublicPricingVitrine = {
   freeStart: PublicVitrineItem;
   tezgahPro: PublicVitrineItem;
   commerce: PublicVitrineItem;
+  /** Başlangıç, Büyüme, Kurumsal. Tutar katalog satırı; satır yoksa plan açılış tutarı. */
+  commercePlans: readonly PublicVitrineItem[];
   grantDossier: PublicVitrineItem;
   yetkinCv: PublicVitrineItem;
   kurumsal: PublicVitrineItem;
 };
 
 const ZERO = toAmountMinor(0);
-
-/** Sembolik kart doğrulama bedeli etiketi — tek SSOT `COMMERCE_TRIAL_VERIFY_MINOR`. */
-const TRIAL_VERIFY_LABEL = formatMinor(COMMERCE_TRIAL_VERIFY_MINOR, "TRY");
 
 function catalogItem(input: {
   id: string;
@@ -85,20 +90,55 @@ function catalogItem(input: {
  */
 export async function loadPublicPricingVitrine(): Promise<PublicPricingVitrine> {
   const catalog = createPrismaPriceCatalogStore();
-  const [tezgahPro, commerceEntry, grantDossier] = await Promise.all([
-    catalog.findActiveEntry("tezgah", "pro"),
-    catalog.findActiveEntry("commerce", "monthly"),
-    catalog.findActiveEntry(TEZGAH_PRO_MODULE, TEZGAH_GRANT_UNIT),
-  ]);
+  const [tezgahPro, commerceEntry, grantDossier, yetkinCvPublicationEntry, starterEntry, growthEntry, scaleEntry] =
+    await Promise.all([
+      catalog.findActiveEntry("tezgah", "pro"),
+      catalog.findActiveEntry("commerce", "monthly"),
+      catalog.findActiveEntry(TEZGAH_PRO_MODULE, TEZGAH_GRANT_UNIT),
+      catalog.findActiveEntry("career", "yetkincv-exam"),
+      catalog.findActiveEntry("commerce", "starter"),
+      catalog.findActiveEntry("commerce", "growth"),
+      catalog.findActiveEntry("commerce", "scale"),
+    ]);
+  const planCatalog = [starterEntry, growthEntry, scaleEntry];
+  const commercePlans: PublicVitrineItem[] = COMMERCE_PLANS.map((plan, index) => {
+    const catalogRow = planCatalog[index];
+    const amountMinor = catalogRow?.isActive ? catalogRow.amountMinor : toAmountMinor(plan.listPriceMinor);
+    const item = catalogItem({
+      id: `commerce:${plan.unit}`,
+      code: plan.code,
+      title: plan.title,
+      summary: plan.summary,
+      lines: [TRIAL_HEADLINE, ...plan.lines],
+      href: "/e-ticaret",
+      entry: { amountMinor, isActive: true },
+      monthly: true,
+    });
+    return {
+      ...item,
+      trial: {
+        headline: TRIAL_HEADLINE,
+        verifyLabel: TRIAL_VERIFY_LINE,
+        renewalLabel: trialRenewalLine(amountMinor),
+        cancelLine: TRIAL_CANCEL_LINE,
+      },
+    };
+  });
+  const yetkinCvPublicationLine = yetkinCvPublicationEntry?.isActive
+    ? `Kamuya açık kariyer kartı + uzman dizini görünürlüğü — tek seferlik ${formatMinorCompact(
+        yetkinCvPublicationEntry.amountMinor,
+        SETTLEMENT_CURRENCY,
+      )}`
+    : "Kamuya açık yayın katalogda henüz açılmadı; sınav şimdilik tamamen ücretsiz";
 
   return {
     freeStart: {
       id: "free-start",
       code: "BASLANGIC",
       title: "Ücretsiz Başlangıç",
-      summary: `AI Tezgâh günde ${TEZGAH_GUEST_DAILY_LIMIT} üretim. Uygulama rehberleri ücretsizdir.`,
+      summary: `AI Tezgâh ayda ${TEZGAH_FREE_MONTHLY_CREDITS} kredi. Uygulama rehberleri ücretsizdir.`,
       lines: [
-        `AI Tezgâh (günde ${TEZGAH_GUEST_DAILY_LIMIT} üretim)`,
+        `AI Tezgâh (ayda ${TEZGAH_FREE_MONTHLY_CREDITS} kredi)`,
         "Tüm Uygulama Rehberleri",
         // CRO: katalogda karşılığı olmayan seviye testi vaadi yerine gerçek ürün.
         "YetkinCV & Yetkinlik Pasaportu",
@@ -113,9 +153,11 @@ export async function loadPublicPricingVitrine(): Promise<PublicPricingVitrine> 
       id: "tezgah:pro",
       code: "TEZGAH-PRO",
       title: "AI Tezgâh Pro",
-      summary: "Aylık yüksek üretim kotası ve DOCX/ZIP müşteri teslim paketleri.",
+      summary: "Aylık 500 kredi havuzu ve DOCX/ZIP müşteri teslim paketleri.",
       lines: [
-        "Aylık yüksek üretim kotası",
+        // B-02 / S-01: kredi metni sabitten okunur; elle yazılan rakam yok.
+        `Ayda ${TEZGAH_PRO_MONTHLY_CREDITS} kredi (ücretsiz ${TEZGAH_FREE_MONTHLY_CREDITS})`,
+        "Kullanılmayan kredinin %50'si sonraki aya devreder",
         "DOCX/ZIP müşteri teslim paketleri",
       ],
       href: TEZGAH_PATH,
@@ -132,7 +174,7 @@ export async function loadPublicPricingVitrine(): Promise<PublicPricingVitrine> 
         "KOSGEB/TÜBİTAK/İhracat Proje Dosyası",
         "Bütçe ve İş Paketi Tabloları",
       ],
-      href: "/hibe",
+      href: "/panel/hibe",
       entry: grantDossier,
     }),
     yetkinCv: {
@@ -140,27 +182,37 @@ export async function loadPublicPricingVitrine(): Promise<PublicPricingVitrine> 
       code: "YETKINCV",
       title: "YetkinCV Uygulamalı Sınav",
       summary:
-        "Uygulamalı vaka testi ile paylaşılabilir YetkinCV puanı. Puan satın almadan değil test sonucundan oluşur.",
+        "Sınav, puan, SWOT ve 30/60/90 planı ücretsizdir. Puan satın almadan değil test sonucundan oluşur.",
       lines: [
-        "Uygulamalı vaka testi",
-        "Doğrulanabilir puan kodu",
-        "Herkese açık doğrulama bağlantısı",
+        "Uygulamalı vaka testi — ücretsiz",
+        "Puan, SWOT ve 30/60/90 planı — ücretsiz",
+        "SHA-256 doğrulanabilir puan kodu — ücretsiz",
+        yetkinCvPublicationLine,
       ],
       href: "/career",
+      // Faz 3 / §4.3: kart **canlıdır** ama tutarı değerlendirme değil **yayın** satırıdır.
+      // Para puanı değil kamuya açık kartı satın alır; dürüstlük ilkesi korunur.
       honesty: "live",
-      amountMinor: null,
-      priceLabel: PUBLIC_FREE_EVALUATION_LABEL,
-      statusLabel: PUBLIC_FREE_EVALUATION_LABEL,
+      amountMinor: yetkinCvPublicationEntry?.isActive
+        ? yetkinCvPublicationEntry.amountMinor
+        : null,
+      priceLabel: yetkinCvPublicationEntry?.isActive
+        ? formatMinorCompact(yetkinCvPublicationEntry.amountMinor, SETTLEMENT_CURRENCY)
+        : PUBLIC_FREE_EVALUATION_LABEL,
+      statusLabel: yetkinCvPublicationEntry?.isActive
+        ? "Sınav ücretsiz · yayın tek seferlik"
+        : PUBLIC_FREE_EVALUATION_LABEL,
     },
     commerce: {
       ...catalogItem({
         id: "commerce:monthly",
         code: "COMMERCE",
         title: "E-Ticaret İşletme Lisansı",
-        summary: "Trendyol, Hepsiburada, Amazon ve N11 çok kanallı yönetim paneli.",
+        // Y-01: yalnız bugün canlı kanallar yazılır (Trendyol, Hepsiburada).
+        summary: "Trendyol ve Hepsiburada çift yönlü stok ve sipariş yönetimi.",
         lines: [
-          "İlk 30 gün ücretsiz (1 TL kart doğrulama)",
-          "Trendyol, Hepsiburada, Amazon ve N11 tek panelden stok ve sipariş",
+          TRIAL_HEADLINE,
+          "Trendyol ve Hepsiburada tek panelden stok ve sipariş",
           "AI Tezgâh ile ürün açıklaması aktarımı",
           "Müşteri sorusu gelen kutusu ve fatura/KDV uyumu",
           "Dönem sonu iptali tek tıkla mağaza panelinde",
@@ -169,16 +221,15 @@ export async function loadPublicPricingVitrine(): Promise<PublicPricingVitrine> 
         entry: commerceEntry,
         monthly: true,
       }),
+      // B-05: deneme metni tek SSOT'tan (`lib/pricing/trial-copy.ts`) okunur.
       trial: {
-        headline: "İlk 30 Gün Ücretsiz (1 TL Kart Doğrulama ile)",
-        verifyLabel: `Bugün yalnız ${TRIAL_VERIFY_LABEL} kart doğrulama bedeli tahsil edilir`,
-        renewalLabel:
-          commerceEntry && commerceEntry.isActive && commerceEntry.amountMinor > 0
-            ? `30 gün sonra ${formatMinorCompact(commerceEntry.amountMinor, SETTLEMENT_CURRENCY)} / Ay otomatik yenilenir`
-            : null,
-        cancelLine: "Tek tıkla dönem sonu iptali; erken iptal cezası yok.",
+        headline: TRIAL_HEADLINE,
+        verifyLabel: TRIAL_VERIFY_LINE,
+        renewalLabel: trialRenewalLine(commerceEntry?.isActive ? commerceEntry.amountMinor : null),
+        cancelLine: TRIAL_CANCEL_LINE,
       },
     },
+    commercePlans,
     kurumsal: {
       id: "kurumsal",
       code: "KURUMSAL",

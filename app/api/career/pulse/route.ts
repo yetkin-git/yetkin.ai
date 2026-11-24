@@ -1,12 +1,21 @@
 import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { loadCareerLivePulse } from "@/lib/career/load";
+import {
+  applyHttpRateLimit,
+  HTTP_RATE_LIMITS,
+  rateLimitedJsonResponse,
+} from "@/lib/kernel/security/http-rate-limit";
 
 export const auth = "session" as const;
 
 export async function GET(request: Request) {
   try {
     const user = await requireSession(request);
+    const limited = await applyHttpRateLimit(request, HTTP_RATE_LIMITS.careerUser, user.id);
+    if (!limited.allowed) {
+      return rateLimitedJsonResponse(limited, request);
+    }
     const pulse = await loadCareerLivePulse(user.id);
     if (!pulse) {
       return jsonOk(

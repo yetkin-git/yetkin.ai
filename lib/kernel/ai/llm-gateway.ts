@@ -444,8 +444,9 @@ export async function generateImage(
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
+      const aspectRatio = input.aspectRatio?.trim() || undefined;
       const completed = await generate(
-        { model, prompt },
+        { model, prompt, aspectRatio },
         controller.signal,
       );
       const dataBase64 = completed.dataBase64?.trim() ?? "";

@@ -1,5 +1,10 @@
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { logEvent } from "@/lib/kernel/observability/log";
+import {
+  applyHttpRateLimit,
+  HTTP_RATE_LIMITS,
+  rateLimitedJsonResponse,
+} from "@/lib/kernel/security/http-rate-limit";
 import { YETKINHIBE_COPY } from "@/lib/yetkinhibe/copy";
 import { GrantCatalogUnavailableError } from "@/lib/yetkinhibe/grant-catalog-core";
 import { loadYetkinhibeGrantCatalog } from "@/lib/yetkinhibe/grant-catalog-live";
@@ -16,6 +21,10 @@ const ROUTE = "/api/yetkinhibe/grant/catalog";
 
 export async function GET(request: Request) {
   try {
+    const limited = await applyHttpRateLimit(request, HTTP_RATE_LIMITS.yetkinhibeCatalogIp);
+    if (!limited.allowed) {
+      return rateLimitedJsonResponse(limited, request);
+    }
     const calls = await loadYetkinhibeGrantCatalog();
     return jsonOk({ calls }, 200, undefined, request);
   } catch (error) {

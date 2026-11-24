@@ -4,6 +4,8 @@
  */
 
 export const DUKKAN_FILENAME = "dijital-dukkan.html" as const;
+export const DUKKAN_ZIP_FILENAME = "dijital-dukkan.zip" as const;
+export const DUKKAN_PUBLISH_GUIDE_FILENAME = "YAYINLAMA_REHBERI.md" as const;
 
 export const DUKKAN_CTA_LABEL = {
   siparis: "Sipariş ver",
@@ -13,10 +15,42 @@ export const DUKKAN_CTA_LABEL = {
 
 export type DukkanCtaId = keyof typeof DUKKAN_CTA_LABEL;
 
+/** Dürüst yapısal kontrol rozetleri — sahte hız/100 skoru yoktur. */
+export const DUKKAN_STRUCTURAL_SEALS = [
+  { id: "viewport", label: "Mobil Uyumlu (Viewport)" },
+  { id: "xss", label: "Sıfır Script / XSS Korumalı" },
+  { id: "conversion", label: "WhatsApp & Telefon Dönüşüm Hattı" },
+  { id: "seo", label: "Semantik SEO Başlık Yapısı" },
+] as const;
+
+export type DukkanSealId = (typeof DUKKAN_STRUCTURAL_SEALS)[number]["id"];
+
 export const DUKKAN_SECTORS = [
   {
+    id: "eticaret",
+    label: "E-Ticaret / Butik",
+    title: "Butik ve e-ticaret vitrin sayfası",
+    description: "Butik ve e-ticaret için vitrin listesi, sipariş notu ve iletişim kapısı bu sayfada durur.",
+    lead: "Vitrin listesi ve sipariş kapısı bu sayfada durur.",
+    heading: "Vitrin ve sipariş",
+    body: "Listedeki hizmetler vitrinde durur. Sipariş WhatsApp ile tamamlanır.",
+    hours: "Gündüz vitrin saati mahalleye göre yürür.",
+    cta: "siparis",
+  },
+  {
+    id: "klinik",
+    label: "Klinik / Sağlık",
+    title: "Klinik ve sağlık randevu sayfası",
+    description: "Klinik ve sağlık için randevu saati ve hizmet adları bu sayfada durur.",
+    lead: "Randevu ve çalışma saati bu sayfada durur.",
+    heading: "Randevu ve saat",
+    body: "Randevu saati WhatsApp ile netleşir. Aşağıdaki liste hizmet adıdır.",
+    hours: "Saat, yazılan randevu notuna göre konuşulur.",
+    cta: "randevu",
+  },
+  {
     id: "restoran",
-    label: "Restoran/Kafe",
+    label: "Kafe / Restoran",
     title: "Mahalle restoranı ve kafe vitrini",
     description: "Mahalle restoranı ve kafe için menü, servis saati ve sipariş kapısı bu sayfada durur.",
     lead: "Menüden seçilen hizmetler ve sipariş kapısı bu sayfada.",
@@ -26,15 +60,70 @@ export const DUKKAN_SECTORS = [
     cta: "siparis",
   },
   {
-    id: "kuafor",
-    label: "Kuaför/Güzellik",
-    title: "Kuaför ve güzellik randevu vitrini",
-    description: "Kuaför ve güzellik için randevu, bakım listesi ve çalışma saati bu sayfada durur.",
+    id: "hukuk",
+    label: "Mali Müşavir / Hukuk",
+    title: "Mali müşavir ve hukuk görüşme notu",
+    description: "Mali müşavir ve hukuk için görüşme, dosya notu ve teklif kapısı bu sayfada durur.",
+    lead: "Görüşme notu ve teklif kapısı bu sayfada durur.",
+    heading: "Görüşme ve dosya",
+    body: "Görüşme konusu listedeki hizmetlere göre yazılır. Teklif WhatsApp ile konuşulur.",
+    hours: "Görüşme günü WhatsApp ile netleşir.",
+    cta: "teklif",
+  },
+  {
+    id: "insaat",
+    label: "İnşaat / Mimarlık",
+    title: "İnşaat ve mimarlık keşif sayfası",
+    description: "İnşaat ve mimarlık için keşif, proje notu ve teklif kapısı bu sayfada durur.",
+    lead: "Keşif notu ve teklif kapısı bu sayfada durur.",
+    heading: "Keşif ve proje",
+    body: "Yerinde keşif ve teklif, listedeki hizmetlere göre konuşulur.",
+    hours: "Keşif günü WhatsApp ile ayarlanır.",
+    cta: "teklif",
+  },
+  {
+    id: "egitim",
+    label: "Eğitim / Akademi",
+    title: "Eğitim ve akademi kayıt vitrini",
+    description: "Eğitim ve akademi için program listesi, kayıt notu ve iletişim kapısı bu sayfada durur.",
+    lead: "Program listesi ve kayıt kapısı bu sayfada durur.",
+    heading: "Program ve kayıt",
+    body: "Kayıt ve program seçimi WhatsApp ile yazılır.",
+    hours: "Ders saati kayıt mesajında netleşir.",
+    cta: "randevu",
+  },
+  {
+    id: "guzellik",
+    label: "Güzellik / Bakım",
+    title: "Güzellik ve bakım randevu vitrini",
+    description: "Güzellik ve bakım için randevu, bakım listesi ve çalışma saati bu sayfada durur.",
     lead: "Bakım listesi ve randevu kapısı bu sayfada durur.",
     heading: "Randevu ve bakım",
     body: "Kesim ve bakım randevusu WhatsApp ile yazılır.",
     hours: "Saat, randevu mesajında netleşir.",
     cta: "randevu",
+  },
+  {
+    id: "oto",
+    label: "Oto Servis",
+    title: "Oto servis randevu ve teklif notu",
+    description: "Oto servis için randevu, bakım listesi ve teklif kapısı bu sayfada durur.",
+    lead: "Bakım listesi ve randevu kapısı bu sayfada durur.",
+    heading: "Bakım ve randevu",
+    body: "Servis randevusu WhatsApp ile yazılır. Teklif listedeki işlere göre konuşulur.",
+    hours: "Randevu saati mesajda netleşir.",
+    cta: "randevu",
+  },
+  {
+    id: "emlak",
+    label: "Emlak",
+    title: "Emlak görüşme ve portföy vitrini",
+    description: "Emlak için görüşme, portföy notu ve teklif kapısı bu sayfada durur.",
+    lead: "Görüşme notu ve teklif kapısı bu sayfada durur.",
+    heading: "İlan ve görüşme",
+    body: "Portföy görüşmesi ve teklif, yer ve hizmet listesine göre yazılır.",
+    hours: "Görüşme gün içinde WhatsApp ile ayarlanır.",
+    cta: "teklif",
   },
   {
     id: "servis",
@@ -48,37 +137,26 @@ export const DUKKAN_SECTORS = [
     cta: "teklif",
   },
   {
-    id: "klinik",
-    label: "Diş/Sağlık Kliniği",
-    title: "Diş ve sağlık kliniği randevu sayfası",
-    description: "Diş ve sağlık kliniği için randevu saati ve hizmet adları bu sayfada durur.",
-    lead: "Randevu ve çalışma saati bu sayfada durur.",
-    heading: "Randevu ve saat",
-    body: "Randevu saati WhatsApp ile netleşir. Aşağıdaki liste hizmet adıdır.",
-    hours: "Saat, yazılan randevu notuna göre konuşulur.",
-    cta: "randevu",
-  },
-  {
-    id: "emlak",
-    label: "Emlak/Danışmanlık",
-    title: "Emlak ve danışmanlık görüşme vitrini",
-    description: "Emlak ve danışmanlık için görüşme, portföy notu ve teklif kapısı bu sayfada durur.",
-    lead: "Görüşme notu ve teklif kapısı bu sayfada durur.",
-    heading: "İlan ve görüşme",
-    body: "Portföy görüşmesi ve teklif, yer ve hizmet listesine göre yazılır.",
-    hours: "Görüşme gün içinde WhatsApp ile ayarlanır.",
+    id: "lojistik",
+    label: "Lojistik / Nakliye",
+    title: "Lojistik ve nakliye teklif sayfası",
+    description: "Lojistik ve nakliye için rota notu, sevkiyat listesi ve teklif kapısı bu sayfada durur.",
+    lead: "Sevkiyat notu ve teklif kapısı bu sayfada durur.",
+    heading: "Sevkiyat ve rota",
+    body: "Sevkiyat ve teklif, listedeki hizmetlere göre WhatsApp ile yazılır.",
+    hours: "Sevkiyat saati mesajda netleşir.",
     cta: "teklif",
   },
   {
-    id: "magaza",
-    label: "Yerel Mağaza",
-    title: "Yerel mağaza vitrini ve sipariş notu",
-    description: "Yerel mağaza için vitrin, ürün notu ve sipariş kapısı bu sayfada durur.",
-    lead: "Vitrin listesi ve sipariş kapısı bu sayfada durur.",
-    heading: "Vitrin ve sipariş",
-    body: "Listedeki hizmetler vitrinde durur. Sipariş WhatsApp ile tamamlanır.",
-    hours: "Gündüz vitrin saati mahalleye göre yürür.",
-    cta: "siparis",
+    id: "yazilim",
+    label: "Yazılım / Ajans",
+    title: "Yazılım ve ajans teklif vitrini",
+    description: "Yazılım ve ajans için hizmet listesi, brif notu ve teklif kapısı bu sayfada durur.",
+    lead: "Hizmet listesi ve teklif kapısı bu sayfada durur.",
+    heading: "Brif ve teklif",
+    body: "Brif ve teklif, listedeki hizmetlere göre WhatsApp ile konuşulur.",
+    hours: "Görüşme saati mesajda netleşir.",
+    cta: "teklif",
   },
 ] as const;
 

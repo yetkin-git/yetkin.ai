@@ -57,13 +57,14 @@ function listingFrom(row: {
   barcode: string;
   remoteBarcode: string;
   remoteProductId: string | null;
+  priceMinor?: number | null;
   syncStatus: ListingSyncStatus;
   lastError: string;
   lastSyncedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 }): ChannelListingRow {
-  return row;
+  return { ...row, priceMinor: row.priceMinor ?? null };
 }
 
 function receiptFrom(row: {

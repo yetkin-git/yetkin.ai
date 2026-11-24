@@ -90,7 +90,8 @@ describe("yetkin.ai marka / favicon yüzeyi", () => {
     expect(PUBLIC_SEN.home.badge).toBe(YETKIN_BRAND);
     expect(PUBLIC_SEN.home).not.toHaveProperty("versionBadge");
     expect(YETKIN_RELEASE_LABEL).toBe("v1.0.0 Beta");
-    expect(readSrc("app/(public)/page.tsx")).toContain("YETKIN_BRAND");
+    // M-03: marka adı artık ortak üst menüde (ana sayfa kendi header'ını basmaz).
+    expect(readSrc("components/public/public-top-bar.tsx")).toContain("YETKIN_BRAND");
     expect(readSrc("app/(public)/page.tsx")).not.toContain("copy.versionBadge");
     expect(readSrc("app/(public)/page.tsx")).not.toContain("v1.0.0 Beta");
     expect(PUBLIC_SEN.error.eyebrow).toBe(YETKIN_BRAND);
@@ -142,8 +143,8 @@ describe("yetkin.ai marka / favicon yüzeyi", () => {
     expect(readSrc("app/(public)/page.tsx")).toContain("data-home-value-chain");
     expect(readSrc("app/(public)/page.tsx")).not.toContain("data-academy-production-band");
     expect(readSrc("app/(public)/page.tsx")).not.toContain("preload(");
-    expect(PUBLIC_SEN.home.title).toBe(
-      "İşinizi Büyüten Yapay Zeka Araçları. Tek Hesap, Sıfır Karmaşa.",
-    );
+    // SEO-03 + M-01: H1 sen aksında ve SERP sınırında.
+    expect(PUBLIC_SEN.home.title).toBe("İşini Büyüten Yapay Zeka Araçları");
+    expect(`${PUBLIC_SEN.home.title} · yetkin.ai`.length).toBeLessThanOrEqual(60);
   });
 });

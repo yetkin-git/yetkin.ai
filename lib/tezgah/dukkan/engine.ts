@@ -1,8 +1,17 @@
 import "server-only";
 
 import { TEZGAH_FAIL_MESSAGE } from "@/lib/tezgah/catalog";
-import { DUKKAN_FILENAME } from "@/lib/tezgah/dukkan/copy";
-import { inspectDukkanDelivery, renderDukkanHtml } from "@/lib/tezgah/dukkan/render";
+import {
+  DUKKAN_FILENAME,
+  DUKKAN_STRUCTURAL_SEALS,
+  DUKKAN_ZIP_FILENAME,
+  type DukkanSealId,
+} from "@/lib/tezgah/dukkan/copy";
+import {
+  buildDukkanPack,
+  inspectDukkanDelivery,
+  type DukkanSealResult,
+} from "@/lib/tezgah/dukkan/render";
 import {
   dukkanGenerateRequestSchema,
   readDukkanDraft,
@@ -15,8 +24,11 @@ export type DukkanGenerateResult =
       ok: true;
       tool: "dukkan";
       html: string;
-      score: 100;
+      guide: string;
+      zipBase64: string;
+      seals: DukkanSealResult[];
       filename: typeof DUKKAN_FILENAME;
+      zipFilename: typeof DUKKAN_ZIP_FILENAME;
       remaining: number;
       limit: number;
       guest: boolean;
@@ -32,13 +44,26 @@ export type DukkanGenerateResult =
 
 export type GenerateDukkanDeps = {
   now?: () => Date;
-  render?: (draft: DukkanDraft) => string;
+  renderPack?: (draft: DukkanDraft) => {
+    html: string;
+    guide: string;
+    zip: Uint8Array;
+    zipFilename: typeof DUKKAN_ZIP_FILENAME;
+  };
 };
+
+function bytesToBase64(bytes: Uint8Array): string {
+  let binary = "";
+  for (const byte of bytes) {
+    binary += String.fromCharCode(byte);
+  }
+  return btoa(binary);
+}
 
 /**
  * Şablon basımı. AI maliyeti yoktur; ortak kota düşmez.
- * Öz-skor 100 değilse ya da sayfa 500 KB ve üstündeyse üretim reddedilir.
- * Cüzdana yazılmaz.
+ * Yapısal mühürler geçmezse ya da sayfa 500 KB ve üstündeyse üretim reddedilir.
+ * Sahte 100/100 hız skoru yoktur. Cüzdana yazılmaz.
  */
 export async function generateDukkanPage(
   input: {
@@ -76,10 +101,15 @@ export async function generateDukkanPage(
     };
   }
 
-  const render = deps.render ?? renderDukkanHtml;
-  let html = "";
+  const renderPack = deps.renderPack ?? buildDukkanPack;
+  let pack: {
+    html: string;
+    guide: string;
+    zip: Uint8Array;
+    zipFilename: typeof DUKKAN_ZIP_FILENAME;
+  };
   try {
-    html = render(draft);
+    pack = renderPack(draft);
   } catch {
     return {
       ok: false,
@@ -90,7 +120,8 @@ export async function generateDukkanPage(
       guest: input.guest,
     };
   }
-  if (!inspectDukkanDelivery(html).ok) {
+  const inspected = inspectDukkanDelivery(pack.html);
+  if (!inspected.ok) {
     return {
       ok: false,
       error: TEZGAH_FAIL_MESSAGE,
@@ -104,11 +135,18 @@ export async function generateDukkanPage(
   return {
     ok: true,
     tool: "dukkan",
-    html,
-    score: 100,
+    html: pack.html,
+    guide: pack.guide,
+    zipBase64: bytesToBase64(pack.zip),
+    seals: inspected.seals,
     filename: DUKKAN_FILENAME,
+    zipFilename: pack.zipFilename,
     remaining: open.remaining,
     limit: open.limit,
     guest: input.guest,
   };
+}
+
+export function dukkanSealLabels(): readonly { id: DukkanSealId; label: string }[] {
+  return DUKKAN_STRUCTURAL_SEALS;
 }

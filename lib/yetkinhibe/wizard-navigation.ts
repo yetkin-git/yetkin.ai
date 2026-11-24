@@ -1,11 +1,10 @@
-import { DEFAULT_CONSULTING_CAP_TRY } from "@/lib/yetkinhibe/calculate-grant-budget";
 import type { GrantProfileMode } from "@/lib/yetkinhibe/grant-profile-mode";
 
-/**
- * Sihirbaz kök yolu oda kökünün altındadır (`/yetkinhibe`, `DRON_KAYIT`).
- * `/hibe/*` dondurulmuş `hibe` kimliğine aittir (`circuit-breakers` FROZEN_DISK_ROOM_CATALOG); bu yola bağlanmaz.
- */
-const WIZARD_PATH = "/yetkinhibe/olustur";
+/** Eski bütçe hesaplayıcısının varsayılan danışmanlık tavanı — tam lira. Faz 2'ye kadar yalnız URL okur. */
+export const DEFAULT_CONSULTING_CAP_TRY = 100_000;
+
+/** Korunan kokpitteki proje sekmesi. */
+const WIZARD_PATH = "/panel/hibe";
 
 export function buildGrantWizardHref(params: {
   grantId?: string;
@@ -14,6 +13,7 @@ export function buildGrantWizardHref(params: {
   idea?: string;
 }): string {
   const search = new URLSearchParams();
+  search.set("sekme", "proje");
   if (params.grantId) search.set("grantId", params.grantId);
   if (params.consultingCap !== undefined) {
     search.set("consultingCap", String(params.consultingCap));

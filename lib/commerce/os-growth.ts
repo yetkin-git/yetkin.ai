@@ -18,20 +18,60 @@ export function adPackageHref(input: {
   const params = new URLSearchParams({
     tool: "reklam",
     businessName: input.storeName.trim().slice(0, 80),
-    sector: "magaza",
+    sector: "eticaret",
     aim: "whatsapp",
     offer: offer.slice(0, 500),
   });
   return `/tezgah?${params.toString()}`;
 }
 
-export function grantDossierHref(storeName: string): string {
-  const params = new URLSearchParams({
-    sekme: "proje",
-    ad: storeName.trim().slice(0, 80),
-    yatirim: "ihracat",
+/**
+ * E-Ticaret → hibe masası köprüsü.
+ *
+ * Ş12 / F2.8 — `hesap=1` analizi otomatik çalıştırır; yatırım odağı mağazanın
+ * durumundan gelir (sabit `"ihracat"` yazılmaz). Mağaza yoksa proje sekmesi açılır.
+ */
+export function grantDossierHref(storeName: string, storeId?: string | null): string {
+  return grantDossierHrefForStore({
+    storeName,
+    storeId,
+    exportActive: false,
+    hasProducts: false,
   });
-  return `/hibe?${params.toString()}`;
+}
+
+/** Mağaza durumuna göre odak: ihracat varsa ihracat, çok ürün varsa yazılım/dijital. */
+export function grantFocusForStore(input: {
+  exportActive?: boolean;
+  hasProducts?: boolean;
+}): "ihracat" | "yazilim_dijital" | "makine_techizat" {
+  if (input.exportActive === true) {
+    return "ihracat";
+  }
+  if (input.hasProducts === true) {
+    return "yazilim_dijital";
+  }
+  return "makine_techizat";
+}
+
+export function grantDossierHrefForStore(input: {
+  storeName: string;
+  storeId?: string | null;
+  exportActive?: boolean;
+  hasProducts?: boolean;
+}): string {
+  const store = input.storeId?.trim() ?? "";
+  const params = new URLSearchParams({
+    sekme: store ? "analiz" : "proje",
+    // Analizi otomatik çalıştırır; kullanıcı formu baştan doldurmaz.
+    hesap: "1",
+    ad: input.storeName.trim().slice(0, 80),
+    yatirim: grantFocusForStore(input),
+  });
+  if (store) {
+    params.set("store", store);
+  }
+  return `/panel/hibe?${params.toString()}`;
 }
 
 export type ExportSupportSummary = {

@@ -113,7 +113,7 @@ export function ProductCreateForm({ storeId, storeActive }: { storeId: string; s
             value={description}
             maxLength={4000}
             rows={4}
-            placeholder="Ürün açıklamasını buraya yazınız..."
+            placeholder="Ürün açıklamasını buraya yaz…"
             onChange={(event) => setDescription(event.target.value)}
           />
         </div>

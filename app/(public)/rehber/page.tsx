@@ -68,7 +68,7 @@ export default async function GuidePage({
       <PublicHero
         eyebrow="Rehber · İş akışı"
         title="Hangi modülü kuruyorsun? Adım adım gör."
-        description="Dört aktif modülün uçtan uca kurulum akışı: her adımda süre, somut girdi → çıktı, kritik ipucu ve örnek ekran. Makale değil, süreç şeması — önce anlayın, sonra hesabınızı açın."
+        description="Dört aktif modülün uçtan uca kurulum akışı: her adımda süre, somut girdi → çıktı, kritik ipucu ve örnek ekran. Makale değil, süreç şeması — önce anla, sonra hesabını aç."
       >
         <div className="flex flex-wrap gap-3">
           <LinkButton href="/tezgah" size="lg" variant="success">
@@ -136,8 +136,8 @@ export default async function GuidePage({
           <strong className="font-semibold text-[var(--foreground)]">
             {TRIAL_VERIFY_AMOUNT_LABEL} alınır
           </strong>
-          ; bu bedel bakiyenize yazılmaz ve iade taahhüdü değildir. Deneme bitince aylık yenileme
-          katalogdaki tutardan başlar. Beğenmezseniz dönem sonu iptali tek tıkla mağaza panelindedir.
+          ; bu bedel bakiyene yazılmaz ve iade taahhüdü değildir. Deneme bitince aylık yenileme
+          katalogdaki tutardan başlar. Beğenmezsen dönem sonu iptali tek tıkla mağaza panelindedir.
         </p>
       </section>
 

@@ -3,6 +3,11 @@ import { commitCareerDeskCommand } from "@/lib/career/desk-sync";
 import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
+import {
+  applyHttpRateLimit,
+  HTTP_RATE_LIMITS,
+  rateLimitedJsonResponse,
+} from "@/lib/kernel/security/http-rate-limit";
 
 export const auth = "session" as const;
 
@@ -10,6 +15,10 @@ export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
   try {
     const user = await requireSession(request);
+    const limited = await applyHttpRateLimit(request, HTTP_RATE_LIMITS.careerUser, user.id);
+    if (!limited.allowed) {
+      return rateLimitedJsonResponse(limited, request);
+    }
     const command = readCareerDeskCommand(await request.json().catch(() => null));
     if (!command) {
       return jsonFail("Görev veya teslimat eksik.", 400, requestId, request);

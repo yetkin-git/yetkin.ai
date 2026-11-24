@@ -15,7 +15,12 @@ import {
   parseTalentCity,
   parseTalentVertical,
 } from "@/lib/career/talent-directory";
-import { breadcrumbListJsonLd, faqPageJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
+import {
+  breadcrumbListJsonLd,
+  buildTalentDirectoryJsonLd,
+  faqPageJsonLd,
+  jsonLdDocument,
+} from "@/lib/copy/json-ld";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 
 const DIRECTORY_FAQ = [
@@ -39,10 +44,10 @@ const DIRECTORY_FAQ = [
 export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: Promise<{ dikey?: string; il?: string }>;
+  searchParams: Promise<{ dikey?: string; il?: string; page?: string; pageSize?: string }>;
 }): Promise<Metadata> {
   const query = await searchParams;
-  const filtered = Boolean(query.dikey?.trim() || query.il?.trim());
+  const filtered = Boolean(query.dikey?.trim() || query.il?.trim() || query.page?.trim());
   return pageMetadata({
     ...PAGE_SEO.uzmanlar,
     robots: filtered ? { index: false, follow: true } : { index: true, follow: true },
@@ -52,12 +57,32 @@ export async function generateMetadata({
 export default async function UzmanlarPage({
   searchParams,
 }: {
-  searchParams: Promise<{ dikey?: string; il?: string }>;
+  searchParams: Promise<{ dikey?: string; il?: string; page?: string; pageSize?: string }>;
 }) {
   const query = await searchParams;
   const vertical = parseTalentVertical(query.dikey);
   const city = parseTalentCity(query.il);
-  const directory = await loadTalentDirectory({ dikey: query.dikey, il: query.il });
+  const directory = await loadTalentDirectory({
+    dikey: query.dikey,
+    il: query.il,
+    page: query.page,
+    pageSize: query.pageSize,
+  });
+  const directoryNodes =
+    directory.status === "listed"
+      ? [
+          buildTalentDirectoryJsonLd({
+            name: "Doğrulanmış rozetli uzmanlar",
+            path: TALENT_DIRECTORY_PATH,
+            experts: directory.experts.map((expert) => ({
+              name: expert.displayName,
+              path: expert.href,
+              credentialName: expert.title,
+              credentialUrl: expert.href,
+            })),
+          }),
+        ]
+      : [];
   return (
     <main className="mx-auto w-full max-w-6xl px-6 pb-16 pt-10">
       <JsonLd
@@ -67,6 +92,7 @@ export default async function UzmanlarPage({
             { name: "Ana sayfa", path: "/" },
             { name: "Uzmanlar", path: TALENT_DIRECTORY_PATH },
           ]),
+          ...directoryNodes,
         ])}
       />
       <PublicHero

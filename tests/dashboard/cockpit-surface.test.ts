@@ -12,7 +12,7 @@ function readSrc(relative: string): string {
 describe("dashboard kokpit kompozisyonu", () => {
   it("kapalı Akademi şeritten düşer; Kariyer kalır, freelancer vitrinde yoktur", () => {
     expect(RIBBON_ROOMS.map((room) => room.id)).toEqual(["career"]);
-    expect(RIBBON_ROOMS.map((room) => room.label)).toEqual(["YetkinCV"]);
+    expect(RIBBON_ROOMS.map((room) => room.label)).toEqual(["Kariyer"]);
   });
 
   it("üçüncü oda şeridi ve gövde cüzdan bandı yoktur", () => {

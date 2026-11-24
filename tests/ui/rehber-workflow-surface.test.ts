@@ -35,8 +35,8 @@ describe("/rehber — Görsel İş Akış ve Kurulum Merkezi", () => {
     ]);
     expect(new Set(WORKFLOW_MODULES.map((item) => item.id)).size).toBe(4);
     expect(WORKFLOW_MODULES.map((item) => item.href)).toEqual([
-      "/e-ticaret",
-      "/hibe",
+      "/panel/e-ticaret",
+      "/panel/hibe",
       "/tezgah",
       "/career",
     ]);
@@ -77,8 +77,12 @@ describe("/rehber — Görsel İş Akış ve Kurulum Merkezi", () => {
       "Ürünleri eşleştir, stoğu senkronla",
       "Müşteri sorularına AI yanıtı aç",
     ]);
-    expect(ecommerce!.steps[0]!.href).toBe("/e-ticaret");
-    expect(ecommerce!.steps[1]!.href).toBe("/e-ticaret");
+    expect(ecommerce!.steps.map((step) => step.href)).toEqual([
+      "/panel/e-ticaret",
+      "/panel/e-ticaret",
+      "/panel/e-ticaret",
+      "/panel/e-ticaret",
+    ]);
     expect(ecommerce!.steps[1]!.input).toContain("Trendyol");
     expect(ecommerce!.steps[1]!.input).toContain("Hepsiburada");
 
@@ -118,7 +122,7 @@ describe("/rehber — Görsel İş Akış ve Kurulum Merkezi", () => {
     expect(hibe!.steps[0]!.input).toContain("NACE");
     expect(hibe!.steps[1]!.output).toContain("KOSGEB");
     expect(hibe!.steps[2]!.output).toContain("kontrol listesi");
-    expect(hibe!.steps.every((step) => step.href === "/hibe")).toBe(true);
+    expect(hibe!.steps.every((step) => step.href === "/panel/hibe")).toBe(true);
   });
 
   it("AI Tezgâh akışı ücretsiz haktan pakete, paketten üretime gider", () => {
@@ -148,9 +152,12 @@ describe("/rehber — Görsel İş Akış ve Kurulum Merkezi", () => {
   });
 
   it("korumalı CTA ham adrese basmaz: next parametreli kayıt yoluna çevrilir", () => {
-    // `/e-ticaret`, `/hibe`, `/pasaport` kenarda korumalıdır (auth-307).
-    expect(workflowStepHref("/e-ticaret")).toBe("/register?next=%2Fe-ticaret");
-    expect(workflowStepHref("/hibe")).toBe("/register?next=%2Fhibe");
+    // `/panel/e-ticaret`, `/panel/hibe`, `/pasaport` kenarda korumalıdır (auth-307).
+    expect(workflowStepHref("/panel/e-ticaret")).toBe("/register?next=%2Fpanel%2Fe-ticaret");
+    // Kamu vitrini `/e-ticaret` ve `/hibe` korumasızdır; adım adresi olduğu gibi kalır.
+    expect(workflowStepHref("/e-ticaret")).toBe("/e-ticaret");
+    expect(workflowStepHref("/hibe")).toBe("/hibe");
+    expect(workflowStepHref("/panel/hibe")).toBe("/register?next=%2Fpanel%2Fhibe");
     expect(workflowStepHref("/pasaport")).toBe("/register?next=%2Fpasaport");
     // Kamu yolu olduğu gibi kalır.
     expect(workflowStepHref("/tezgah")).toBe("/tezgah");
@@ -160,8 +167,8 @@ describe("/rehber — Görsel İş Akış ve Kurulum Merkezi", () => {
   });
 
   it("modül davet kartı korumalı hedefte kayıt yoluna, açık araçta doğrudan ürüne gider", () => {
-    expect(workflowInviteHref(workflowModule("ecommerce")!)).toBe("/register?next=%2Fe-ticaret");
-    expect(workflowInviteHref(workflowModule("hibe")!)).toBe("/register?next=%2Fhibe");
+    expect(workflowInviteHref(workflowModule("ecommerce")!)).toBe("/register?next=%2Fpanel%2Fe-ticaret");
+    expect(workflowInviteHref(workflowModule("hibe")!)).toBe("/register?next=%2Fpanel%2Fhibe");
     expect(workflowInviteHref(workflowModule("tezgah")!)).toBe("/tezgah");
     expect(workflowInviteHref(workflowModule("career")!)).toBe("/career");
   });
@@ -173,7 +180,8 @@ describe("/rehber — Görsel İş Akış ve Kurulum Merkezi", () => {
     expect(isOpenGuestTryPath("/e-ticaret")).toBe(false);
     expect(isOpenGuestTryPath("/hibe")).toBe(false);
     expect(isOpenGuestTryPath("/pasaport")).toBe(false);
-    expect(isProtectedCitizenPath("/e-ticaret")).toBe(true);
+    expect(isProtectedCitizenPath("/e-ticaret")).toBe(false);
+    expect(isProtectedCitizenPath("/panel/e-ticaret")).toBe(true);
     expect(isProtectedCitizenPath("/tezgah")).toBe(false);
     expect(isProtectedCitizenPath("/career")).toBe(false);
   });

@@ -189,7 +189,7 @@ export function KurumsalOfferForm() {
           onChange={(event) => setNote(event.target.value)}
           maxLength={OFFER_FORM_LIMITS.note}
           rows={4}
-          placeholder="Talebinizi buraya yazınız..."
+          placeholder="Talebini buraya yaz…"
           softHint="Biraz daha detay ekleyin (ekip büyüklüğü, ihtiyaç, zaman dilimi)…"
           readyHint="✓ Temel detaylar yeterli"
         />

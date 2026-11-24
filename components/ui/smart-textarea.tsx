@@ -48,7 +48,7 @@ export function SmartTextarea({
   defaultValue,
   onChange,
   onBlur,
-  placeholder = "Metninizi buraya yazınız...",
+  placeholder = "Metnini buraya yaz…",
   ...props
 }: SmartTextareaProps) {
   const [uncontrolled, setUncontrolled] = useState(

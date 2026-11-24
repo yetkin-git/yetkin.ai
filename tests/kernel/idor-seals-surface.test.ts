@@ -17,7 +17,7 @@ describe("IDOR mühür zinciri yüzeyi", () => {
     expect(pkg.scripts["verify:idor-seals"]).toContain("tests/freelancer/idor-job-board.test.ts");
     expect(pkg.scripts["verify:idor-seals"]).toContain("tests/freelancer/idor-party-forbidden.test.ts");
     expect(pkg.scripts["verify:idor-seals"]).toContain("tests/freelancer/idor-direct-offers.test.ts");
-    expect(pkg.scripts["verify:idor-seals"]).toContain("tests/academy/idor-exam-purchase.test.ts");
+    expect(pkg.scripts["verify:idor-seals"]).not.toContain("tests/academy/idor-exam-purchase.test.ts");
     expect(pkg.scripts["verify:idor-seals"]).toContain("tests/career/idor-portfolio.test.ts");
     expect(pkg.scripts["verify:idor-seals"]).not.toContain("tests/arena/idor-tender-board.test.ts");
     expect(pkg.scripts["verify:idor-seals"]).toContain("tests/kernel/authorize.test.ts");

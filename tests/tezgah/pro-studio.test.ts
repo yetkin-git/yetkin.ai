@@ -16,43 +16,50 @@ import { readStoreZip } from "@/lib/tezgah/pro/zip";
 const ROOT = process.cwd();
 
 describe("görsel stüdyo", () => {
-  it("trendyol beyaz 2:3 kareyi geçirir ve alt metin paketini sıralar", () => {
+  it("trendyol beyaz 2:3 hedefini basar ve alt metin paketini sıralar", () => {
     const pack = buildStudioPhoto({
       productName: "Bez çanta",
       features: "Yıkanabilir kanvas, 30 cm sap",
-      market: "trendyol",
-      widthPx: 1200,
-      heightPx: 1800,
-      background: "white",
-      overlay: false,
+      scene: "trendyol-white",
       galleryCount: 4,
     });
     expect(pack).not.toBeNull();
     expect(pack?.rules.every((rule) => rule.pass)).toBe(true);
-    expect(pack?.rules.map((rule) => rule.market)).toEqual(["Trendyol", "Trendyol", "Trendyol", "Trendyol"]);
+    expect(pack?.standardLabel).toContain("Hedef Pazaryeri Standardı");
+    expect(pack?.targetWidthPx).toBe(1200);
+    expect(pack?.targetHeightPx).toBe(1800);
     expect(pack?.gallery.map((slot) => slot.role)[0]).toBe("Ana görsel");
     expect(pack?.altTexts).toHaveLength(4);
-    expect(pack?.markdown).toContain("Beyaz fon: geçti");
-    expect(pack?.prompt).toContain("1200×1800");
+    expect(pack?.markdown).toContain("Hedef Pazaryeri Standardı");
+    expect(pack?.markdown).not.toContain("Ölçülen kare");
+    expect(pack?.prompt).toContain("2:3");
     expect(pack?.markdown).not.toMatch(/₺|\bTL\b/);
   });
 
-  it("renkli ve yazılı kareyi amazon kurallarında bırakır", () => {
+  it("amazon sahnesi 1:1 hedef standardını taşır", () => {
     const pack = buildStudioPhoto({
       productName: "Bez çanta",
       features: "Ham keten",
-      market: "amazon",
-      widthPx: 640,
-      heightPx: 900,
-      background: "colored",
-      overlay: true,
+      scene: "amazon-white",
       galleryCount: 3,
     });
-    expect(pack?.rules.find((rule) => rule.label === "Saf beyaz fon")?.pass).toBe(false);
-    expect(pack?.rules.find((rule) => rule.label === "Kare oran")?.pass).toBe(false);
-    expect(pack?.rules.find((rule) => rule.label === "Zoom eşiği")?.pass).toBe(false);
-    expect(pack?.rules.find((rule) => rule.label === "Yazısız ana kare")?.pass).toBe(false);
-    expect(pack?.markdown).toContain("kaldı");
+    expect(pack?.aspectRatio).toBe("1:1");
+    expect(pack?.targetWidthPx).toBe(1600);
+    expect(pack?.standardLabel).toContain("Amazon 1:1");
+    expect(pack?.markdown).not.toContain("Ölçülen kare");
+  });
+
+  it("tarayıcı-içi buildProStudio studio-photo'yu sunucuya yönlendirir", () => {
+    const rejected = buildProStudio("studio-photo", {
+      productName: "Bez çanta",
+      features: "Kanvas",
+      scene: "trendyol-white",
+      galleryCount: "4",
+    });
+    expect(rejected.ok).toBe(false);
+    if (!rejected.ok) {
+      expect(rejected.error).toContain("sunucuda");
+    }
   });
 });
 
@@ -69,7 +76,10 @@ describe("teknik çizim", () => {
     expect(pack?.svg).toContain("120 mm");
     expect(pack?.svg).toContain("80 mm");
     expect(pack?.svg).toContain("40 mm");
-    expect(pack?.svg).toContain("Montaj ve kullanım");
+    expect(pack?.svg).toContain("Ön Görünüş");
+    expect(pack?.svg).toContain("Yan Görünüş");
+    expect(pack?.svg).toContain("Üst Görünüş");
+    expect(pack?.svg).toContain("Montaj / İşlem Adımları");
     expect(pack?.svg).toContain("1. Ayağı yuvaya oturt");
     expect(pack?.svg).toContain("&lt;script&gt;");
     expect(pack?.svg.includes("<script")).toBe(false);
@@ -170,7 +180,9 @@ describe("mini saas", () => {
     if (built.ok) {
       expect(built.pack.html).toContain('id="siparis"');
       expect(built.pack.html).toContain("Kanal gönderimi bu sayfada yok");
-      expect(built.pack.body.length).toBeLessThanOrEqual(20000);
+      expect(built.pack.html?.length ?? 0).toBeLessThanOrEqual(20000);
+      expect(built.pack.body).toContain("saas-builder-v1");
+      expect(built.pack.widgetJs).toContain("FEATURE");
     }
   });
 });
@@ -183,6 +195,7 @@ describe("uzman tezgâh yüzeyi", () => {
     expect(workbench).toContain("Stüdyoyu Üret");
     expect(workbench).toContain("Şemayı Üret");
     expect(workbench).toContain("Bileşeni Üret");
+    expect(workbench).toContain("/api/tezgah/studio-photo");
     expect(preview).toContain("Teslimat Olarak Ekle");
     expect(preview).toContain('sandbox="allow-scripts"');
     expect(preview).toContain(".svg İndir");
@@ -190,7 +203,7 @@ describe("uzman tezgâh yüzeyi", () => {
     expect(preview).toContain("data-pro-install-guide");
     expect(preview).toContain("/api/career/desk");
     const saas = readFileSync(join(ROOT, "lib/tezgah/catalog.ts"), "utf8");
-    expect(saas).toContain("İstediğiniz Özellik / Bileşen");
+    expect(saas).toContain("İstediğin özellik / bileşen");
     expect(saas).toContain("SAAS_PLATFORMS");
   });
 });

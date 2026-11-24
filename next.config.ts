@@ -73,7 +73,11 @@ const nextConfig: NextConfig = {
       "./node_modules/@prisma/client/runtime/**",
       "./node_modules/@prisma/adapter-pg/**",
       "./generated/prisma/**",
-      "./node_modules/@digabi/noto-sans/WOFF/NotoSans-Regular.woff",
+      // P-01: `@digabi/noto-sans` WOFF trace'ten ÇIKARILDI. Hiçbir canlı kod
+      // bu fontu yüklemiyordu (yalnız `archived/lib/academy-studio/pdf-unicode-font.ts`
+      // okuyordu); font yığını sistem fontlarına dayanıyor (`app/globals.css`).
+      // Paket `serverExternalPackages` içinde kalır: arşiv kodu geri alınırsa
+      // modül çözümü kırılmaz, ama her fonksiyonun soğuk başlangıcına 200 KB+ girmez.
       "./lib/academy/production-seal-manifest.ts",
       "./packages/junior-content/topics/**",
       "./packages/junior-content/quiz/**",

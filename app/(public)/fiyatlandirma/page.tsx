@@ -5,15 +5,24 @@ import { Badge } from "@/components/ui/badge";
 import { LinkButton } from "@/components/ui/link-button";
 import { IconCheck, IconShield } from "@/components/ui/icons";
 import { cn } from "@/components/ui/cn";
+import { JsonLd } from "@/components/seo/json-ld";
+import { PricingCheckoutTracker } from "@/components/pricing/pricing-checkout-tracker";
+import { TezgahGuestCheckoutCard } from "@/components/tezgah/guest-checkout-card";
+import { breadcrumbListJsonLd, jsonLdDocument, productsJsonLd } from "@/lib/copy/json-ld";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { buildCitizenRegisterHref } from "@/lib/kernel/auth/redirects";
 import { isProtectedCitizenPath } from "@/lib/kernel/security/edge-guard";
 import { loadPublicPricingVitrine, type PublicVitrineItem } from "@/lib/pricing/public-vitrine";
-import { TEZGAH_GUEST_DAILY_LIMIT } from "@/lib/tezgah/catalog";
+import { TRIAL_COPY, TRIAL_HONESTY_NOTE } from "@/lib/pricing/trial-copy";
+import {
+  TEZGAH_FREE_MONTHLY_CREDITS,
+  TEZGAH_GUEST_DAILY_LIMIT,
+  TEZGAH_PRO_MONTHLY_CREDITS,
+} from "@/lib/tezgah/catalog";
 
 export const metadata: Metadata = pageMetadata(PAGE_SEO.pricing);
 
-const FEATURED_VITRINE_ID = "commerce:monthly";
+const FEATURED_VITRINE_ID = "commerce:growth";
 
 const TRUST_BADGES = [
   "PayTR 3D Secure güvencesi",
@@ -43,12 +52,20 @@ const COMPARE_COLUMNS = [
  * Karşılaştırma matrisi — satırlar ürünün gerçek sınırlarıdır.
  * Değerler uydurulmaz: her hücre `lib/tezgah/catalog.ts`, `lib/pricing/public-vitrine.ts`
  * ve `/career` sınav sözleşmesinden türetilmiştir. "—" = paket kapsamı dışında.
+ * S-01: kredi rakamları elle yazılmaz; `TEZGAH_*_MONTHLY_CREDITS` sabitinden okunur.
  */
 const COMPARE_ROWS: readonly CompareRow[] = [
   {
     id: "quota",
-    label: "Günlük Tezgâh Kotası",
-    values: [`${TEZGAH_GUEST_DAILY_LIMIT} üretim`, "Yüksek kota", "—", "—", "—", "Ekip kotası"],
+    label: "Aylık Tezgâh Kredisi",
+    values: [
+      `Ayda ${TEZGAH_FREE_MONTHLY_CREDITS} kredi (misafir günde ${TEZGAH_GUEST_DAILY_LIMIT})`,
+      `Ayda ${TEZGAH_PRO_MONTHLY_CREDITS} kredi`,
+      "—",
+      "—",
+      "—",
+      "Ekip kotası",
+    ],
   },
   {
     id: "download",
@@ -68,7 +85,7 @@ const COMPARE_ROWS: readonly CompareRow[] = [
   {
     id: "passport",
     label: "YetkinCV Pasaportu",
-    values: [true, "—", "—", "—", true, "Aday eleme"],
+    values: ["Sınav ücretsiz", "—", "—", "—", "Sınav ücretsiz · yayın tek seferlik", "Aday eleme"],
   },
   {
     id: "support",
@@ -90,7 +107,21 @@ function featureLines(summary: string): string[] {
 }
 
 /**
- * Vitrin CTA'sı korumalı hedefi ham basmaz: `/e-ticaret` oturumsuz ziyaretçiyi
+ * SEO-01: `Offer.price` için tam lira metni.
+ * `amountMinor` null ise `null` döner ve ürün şemaya girmez — fiyat uydurulmaz.
+ * Kuruş hanesi varsa `"590.50"`, yoksa `"590.00"` biçiminde yazılır (schema.org ondalık ister).
+ */
+function priceMajorOf(item: PublicVitrineItem): string | null {
+  if (item.amountMinor == null || !Number.isInteger(item.amountMinor) || item.amountMinor <= 0) {
+    return null;
+  }
+  const whole = Math.floor(item.amountMinor / 100);
+  const kurus = item.amountMinor % 100;
+  return `${whole}.${String(kurus).padStart(2, "0")}`;
+}
+
+/**
+ * Vitrin CTA'sı korumalı hedefi ham basmaz: `/panel/e-ticaret` oturumsuz ziyaretçiyi
  * çıplak `/login` duvarına düşürmesin diye `next` parametreli kayıt yoluna çevrilir.
  */
 function vitrineHref(href: string): Route {
@@ -200,6 +231,7 @@ function VitrineCard({ item, cta }: { item: PublicVitrineItem; cta: string }) {
             href={vitrineHref(item.href)}
             size="md"
             variant={featured ? "secondary" : planned ? "outline" : "primary"}
+            data-pricing-cta={item.id}
             className={
               featured
                 ? "!h-auto !min-h-10 !w-full !whitespace-normal !bg-white !px-3 !py-2.5 !text-center !leading-snug !text-slate-950 shadow-md hover:!bg-blue-50"
@@ -216,8 +248,54 @@ function VitrineCard({ item, cta }: { item: PublicVitrineItem; cta: string }) {
 
 export default async function PricingPage() {
   const vitrine = await loadPublicPricingVitrine();
+  // SEO-01: Product/Offer yalnız canlı katalog tutarı olan satırlardan üretilir.
+  const productNodes = productsJsonLd({
+    name: "yetkin.ai paketleri",
+    path: PAGE_SEO.pricing.path,
+    items: [
+      {
+        id: vitrine.tezgahPro.id,
+        name: vitrine.tezgahPro.title,
+        description: vitrine.tezgahPro.summary,
+        priceMajor: priceMajorOf(vitrine.tezgahPro),
+        path: PAGE_SEO.pricing.path,
+        monthly: true,
+      },
+      ...vitrine.commercePlans.map((plan) => ({
+        id: plan.id,
+        name: plan.title,
+        description: plan.summary,
+        priceMajor: priceMajorOf(plan),
+        path: PAGE_SEO.pricing.path,
+        monthly: true,
+      })),
+      {
+        id: vitrine.grantDossier.id,
+        name: vitrine.grantDossier.title,
+        description: vitrine.grantDossier.summary,
+        priceMajor: priceMajorOf(vitrine.grantDossier),
+        path: PAGE_SEO.pricing.path,
+      },
+    ],
+  });
   return (
     <main className="mx-auto w-full max-w-6xl px-6 pb-16 pt-10">
+      <JsonLd
+        data={jsonLdDocument([
+          ...productNodes,
+          breadcrumbListJsonLd([
+            { name: "Ana sayfa", path: "/" },
+            { name: "Fiyatlar", path: PAGE_SEO.pricing.path },
+          ]),
+        ])}
+      />
+      <PricingCheckoutTracker
+        items={[vitrine.tezgahPro, ...vitrine.commercePlans, vitrine.grantDossier].map((item) => ({
+          id: item.id,
+          title: item.title,
+          amountMinor: item.amountMinor,
+        }))}
+      />
       <section className="relative overflow-hidden rounded-[var(--radius-card)] bg-gradient-to-br from-slate-50 via-blue-50/80 to-white px-6 py-8 ring-1 ring-blue-100">
         <div
           aria-hidden
@@ -225,14 +303,16 @@ export default async function PricingPage() {
         />
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--safir-deep)]">Fiyatlar</p>
         <h1 className="mt-2 max-w-3xl text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-4xl">
-          Ücretsiz başla. Üretim ve işletme lisansını katalogdaki tutarla aç.
+          Ücretsiz başla. Kredi ve işletme lisansını katalogdaki tutarla aç.
         </h1>
         <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--muted)]">
           Uygulama rehberleri ücretsizdir. Tahsilat AI Tezgâh Pro, YetkinHibe dosyası ve e-ticaret lisansındadır.
+          Tezgâh artık aylık kredi havuzuyla çalışır: ayda {TEZGAH_FREE_MONTHLY_CREDITS} ücretsiz kredi, Pro'da{" "}
+          {TEZGAH_PRO_MONTHLY_CREDITS} kredi. Kullanılmayan kredinin yarısı sonraki aya devreder.
           E-Ticaret lisansında ilk 30 gün ücretsizdir: bugün yalnız sembolik kart doğrulama bedeli tahsil edilir,
-          ardından aylık yenileme başlar. Ekip rozeti, ajans lisansı ve aday eleme için talebinizi bırakın; paneli
-          kendiniz tanımlayın. YetkinCV sınavı kariyer masasında açılır. Tutar katalog satırından okunur; satır yoksa
-          fiyat basılmaz.
+          ardından aylık yenileme başlar. Ekip rozeti, ajans lisansı ve aday eleme için talebini bırak; paneli
+          kendin tanımla. YetkinCV sınavı, puanı, SWOT'u ve 30/60/90 planı ücretsizdir; yalnız kamuya açık yayın
+          tek seferlik ücretlidir. Tutar katalog satırından okunur; satır yoksa fiyat basılmaz.
         </p>
         <ul className="mt-5 flex flex-wrap gap-2">
           {TRUST_BADGES.map((badge) => (
@@ -263,9 +343,11 @@ export default async function PricingPage() {
           <li>
             <VitrineCard item={vitrine.tezgahPro} cta="AI Tezgâh Pro’yu aç" />
           </li>
-          <li className="pt-3">
-            <VitrineCard item={vitrine.commerce} cta="30 Gün Ücretsiz Başlat (1 TL Doğrulama)" />
-          </li>
+          {vitrine.commercePlans.map((plan) => (
+            <li key={plan.id} className={plan.id === FEATURED_VITRINE_ID ? "pt-3" : undefined}>
+              <VitrineCard item={plan} cta={TRIAL_COPY.cta} />
+            </li>
+          ))}
           <li>
             <VitrineCard item={vitrine.grantDossier} cta="YetkinHibe dosyasını aç" />
           </li>
@@ -276,6 +358,20 @@ export default async function PricingPage() {
             <VitrineCard item={vitrine.kurumsal} cta="Kurumsal teklife git" />
           </li>
         </ul>
+      </section>
+
+      <section className="mt-12" aria-labelledby="guest-checkout-heading" data-pricing-guest="">
+        <h2 id="guest-checkout-heading" className="text-xl font-semibold tracking-tight">
+          Kayıt olmadan Pro'ya geç
+        </h2>
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">
+          Tezgâh zaten kayıtsız üretim yapıyor; ödemesi de kayıtsız olabilir. E-posta ve fatura künyeni ver,
+          ödemeyi yap. Hesabın ödeme onayından sonra e-postandaki tek kullanımlık bağlantıyla açılır. Ödemeden
+          önce hesap açılmaz; para, hesabın açıldığı anda cüzdanına ve Pro aboneliğine yazılır.
+        </p>
+        <div className="mt-4">
+          <TezgahGuestCheckoutCard />
+        </div>
       </section>
 
       <section className="mt-12" aria-labelledby="pricing-compare-heading" data-pricing-compare="">
@@ -341,11 +437,9 @@ export default async function PricingPage() {
       <section className="mt-12 max-w-3xl rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-5" data-pricing-honesty="">
         <h2 className="text-base font-semibold">Dürüstlük notu</h2>
         <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
-          Listelenen tutarlar KDV dahildir. Fatura, tahsilat sırasında kesilir. E-Ticaret lisansında ilk 30 gün
-          ücretsizdir; bu dönemde yalnız 1,00 TL sembolik kart doğrulama bedeli tahsil edilir ve bu bedel bakiyeye
-          yazılmaz, iade taahhüdü değildir. Deneme vergi kimliği (VKN veya TCKN) başına bir kez açılır. Deneme bitince
-          aylık yenileme katalogdaki tutardan başlar; dönem sonu iptali tek tıkla mağaza panelindedir. YetkinCV puanı
-          katalog tutarıyla değil, sunucudaki vaka testi sonucuyla yazılır. Satın alma tek başına puan basmaz.
+          Listelenen tutarlar KDV dahildir. Fatura, tahsilat sırasında kesilir. {TRIAL_HONESTY_NOTE}{" "}
+          YetkinCV puanı katalog tutarıyla değil, sunucudaki vaka testi sonucuyla yazılır. Satın alma tek başına
+          puan basmaz; yalnız kamuya açık kart yayınını açar.
         </p>
       </section>
     </main>

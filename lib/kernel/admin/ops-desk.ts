@@ -208,6 +208,34 @@ export function selectLicenseGap(gaps: readonly LicenseGap[], merchantOid: strin
   return gaps.find((row) => row.merchantOid === merchantOid) ?? null;
 }
 
+/**
+ * İşveren kimlik doğrulaması. Kamu ilanının `noindex` kilidini açan tek yol;
+ * `KurumsalJobPosting.verifiedEmployerAt` başka hiçbir yerde yazılmaz.
+ *
+ * Kural: vergi/MERSİS numarası dolu olmalı. Operatör numarayı resmî sicille
+ * karşılaştırdığını gerekçede yazar; numara boşken "doğrulanmış" rozeti basılamaz.
+ */
+export function parseKurumsalEmployerVerifyBody(
+  body: unknown,
+): { jobId: string; reason: string } | { error: string } {
+  if (!isPlainRecord(body)) {
+    return { error: "Doğrulama gövdesi geçersiz." };
+  }
+  const keys = Object.keys(body);
+  if (keys.some((key) => key !== "jobId" && key !== "reason")) {
+    return { error: "Doğrulama gövdesi geçersiz." };
+  }
+  const jobId = typeof body.jobId === "string" ? body.jobId.trim() : "";
+  if (!/^[A-Za-z0-9_-]{8,40}$/u.test(jobId)) {
+    return { error: "İlan kimliği geçersiz." };
+  }
+  const reason = readReason(body.reason);
+  if (!reason) {
+    return { error: "Doğrulama gerekçesi 8–500 karakter ister." };
+  }
+  return { jobId, reason };
+}
+
 export function projectAdminOpsBoard(input: {
   readout: OpsReadout;
   snapshot: LicenseGapSnapshot | null;

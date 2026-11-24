@@ -42,13 +42,14 @@ describe("vatandaş bildirim asgarisi", () => {
     setCitizenNoticeSink(null);
   });
 
-  it("beş olay vardır; replay ikinci bildirim basmaz; hazine atlanır", () => {
+  it("beş olay + ticaret özeti vardır; replay ikinci bildirim basmaz; hazine atlanır", () => {
     expect([...CITIZEN_NOTICE_KINDS]).toEqual([
       "bid_received",
       "bid_accepted",
       "delivery_posted",
       "escrow_released",
       "escrow_ttl_approaching",
+      "commerce_daily_brief",
     ]);
     const seen: CitizenNotice[] = [];
     setCitizenNoticeSink((notice) => seen.push(notice));

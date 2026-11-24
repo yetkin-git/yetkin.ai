@@ -25,7 +25,7 @@ export function registerPaytrCommerceLicenseHook(): void {
     logEvent({
       level: "info",
       event: "commerce.license.hook",
-      userId: order.userId,
+      userId: order.userId ?? undefined,
       merchantOid: order.merchantOid,
       orderId: order.id,
       purpose: order.purpose,

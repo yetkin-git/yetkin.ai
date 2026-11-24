@@ -98,7 +98,7 @@ export function TezgahUpgradeCard() {
   return (
     <div className="print:hidden">
       <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-4">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">Günlük hak</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">Aylık kredi</p>
         <h2 className="mt-1 text-lg font-semibold text-[var(--foreground)]">
           {paywall ? TEZGAH_MEMBER_PAID_MESSAGE : TEZGAH_CATALOG_CLOSED_MESSAGE}
         </h2>
@@ -135,7 +135,7 @@ export function TezgahUpgradeCard() {
           </div>
         ) : (
           <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
-            Ücretsiz hakkınız İstanbul gece yarısında yenilenir. Katalogda fiyat satırı olmadığı için satın alma kapalıdır.
+            Aylık kredi • Her ayın 1&apos;inde yenilenir. Katalogda fiyat satırı olmadığı için satın alma kapalıdır.
           </p>
         )}
       </div>

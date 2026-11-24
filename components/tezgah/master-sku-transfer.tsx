@@ -146,7 +146,7 @@ export function MasterSkuTransfer({
         setError(body.error);
         return;
       }
-      setEditPath("/e-ticaret?sekme=havuz");
+      setEditPath("/panel/e-ticaret?sekme=havuz");
       setMessage(`${data.products.length} kart Master SKU havuzuna taslak olarak yazıldı.`);
     } catch {
       setError("Aktarma tamamlanamadı.");

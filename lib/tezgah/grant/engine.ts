@@ -4,6 +4,8 @@ import { invokeLlm, type InvokeLlmDeps } from "@/lib/kernel/ai/llm-gateway";
 import { resolveProductModel } from "@/lib/kernel/ai/product-models";
 import { AI_TOKEN_SOURCES } from "@/lib/kernel/ai/sources";
 import { formatAmountMinorAsWholeTry } from "@/lib/yetkinhibe/format-amount";
+import { citeTemplateSections, specificationHintNeedles } from "@/lib/yetkinhibe/spec-rag";
+import { templateForGrant } from "@/lib/yetkinhibe/templates";
 import {
   grantAudienceLabel,
   grantInvestmentLabel,
@@ -91,6 +93,22 @@ function catalogRatioLabel(bps: number): string {
 }
 
 function toEligibleProgram(program: GrantEligibleProgramMatch): GrantEligibleProgram {
+  // Ş5 — her uygun satır kendi şartnamesinden madde atıflarını taşır.
+  // Şablon seçilemezse atıf üretilmez (uydurma madde yazılmaz).
+  const template = templateForGrant({
+    grantId: program.grantId,
+    source: program.source,
+    title: program.title,
+  });
+  const cited =
+    program.specificationText == null
+      ? []
+      : citeTemplateSections(
+          template.sections,
+          program.specificationText,
+          specificationHintNeedles(program.rulesJson),
+        );
+  const articles = [...new Set(cited.map((section) => section.article).filter((id): id is string => id != null))];
   return {
     grantId: program.grantId,
     title: program.title,
@@ -106,6 +124,12 @@ function toEligibleProgram(program: GrantEligibleProgramMatch): GrantEligiblePro
     poolLabel: catalogPoolLabel(program.poolAmountMinor),
     ceilingLabel: `Katalog tavanı ${formatAmountMinorAsWholeTry(program.maxSupportMinor)}`,
     ratioLabel: catalogRatioLabel(program.supportRatioBps),
+    sourceVerifiedAt: program.sourceVerifiedAt,
+    dataVersion: program.dataVersion,
+    madde: articles.length > 0 ? articles.join(", ") : null,
+    sectionArticles: cited
+      .filter((section) => section.article != null)
+      .map((section) => ({ title: section.title, article: section.article as string })),
   };
 }
 
@@ -232,8 +256,14 @@ export async function generateGrantProject(
     };
   }
 
+  const refundOpts = {
+    hold: slot.hold,
+    command: input.commandKey
+      ? { key: input.commandKey, requestHash: tezgahRequestHash(input.request) }
+      : null,
+  };
   const restore = async (): Promise<GrantGenerateResult> => {
-    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, "lite");
+    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, "lite", refundOpts);
     return {
       ok: false,
       error: TEZGAH_FAIL_MESSAGE,
@@ -268,13 +298,14 @@ export async function generateGrantProject(
       hasPatentOrUtilityModel: draft.hasPatentOrUtilityModel,
     },
     calls,
+    now,
   );
 
   let target: GrantEligibleProgramMatch | null = null;
   if (dossierRead?.ok) {
     target = matched.eligible.find((row) => row.grantId === dossierRead.plan.targetGrantId) ?? null;
     if (!target) {
-      const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, "lite");
+      const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, "lite", refundOpts);
       return {
         ok: false,
         error: matched.eligible.length === 0 ? GRANT_DOSSIER_NO_ELIGIBLE : GRANT_DOSSIER_PROGRAM_MISSING,
@@ -326,7 +357,7 @@ export async function generateGrantProject(
       },
       billing: {
         userId: input.guest ? null : input.actorId,
-        source: AI_TOKEN_SOURCES.TEZGAH,
+        source: AI_TOKEN_SOURCES.GRANT,
         recordUsage: true,
       },
     },
@@ -344,8 +375,19 @@ export async function generateGrantProject(
   }
 
   let dossier: GrantDossier | null = null;
+  let targetArticle: string | null = null;
   if (dossierContext && fullNarrative && target && dossierRead?.ok) {
-    dossier = {
+    const template = templateForGrant({
+      grantId: dossierRead.plan.targetGrantId,
+      source: target.source,
+      title: target.title,
+    });
+    const cited = citeTemplateSections(
+      template.sections,
+      target.specificationText,
+      specificationHintNeedles(target.rulesJson),
+    );
+    targetArticle = cited.find((section) => section.article)?.article ?? null;    dossier = {
       disclaimer: GRANT_DOSSIER_DISCLAIMER,
       targetTitle: plain(target.title, 180),
       targetSourceLabel: plain(target.sourceLabel, 80),
@@ -368,6 +410,12 @@ export async function generateGrantProject(
       outputGoal: dossierRead.plan.outputGoal,
       commercialization: fullNarrative.commercialization,
       summary: fullNarrative.summary,
+      templateId: template.id,
+      templateTitle: template.title,
+      templateSections: cited.map((section) => ({ title: section.title, body: section.body })),
+      sectionArticles: cited
+        .filter((section) => section.article != null)
+        .map((section) => ({ title: section.title, article: section.article as string })),
     };
   }
   if (dossierContext && !dossier) {
@@ -389,7 +437,14 @@ export async function generateGrantProject(
     rdLabel,
     exportLabel: draft.exportActive ? "İhracat var" : "İhracat yok",
     patentLabel: draft.hasPatentOrUtilityModel ? "Patent veya faydalı model var" : "Patent yok",
-    eligible: matched.eligible.map(toEligibleProgram),
+    eligible: matched.eligible.map((program) => {
+      const row = toEligibleProgram(program);
+      if (target && program.grantId === target.grantId && targetArticle) {
+        // Hedef dosyada şablon dosyası zaten aynı atıfları taşır; satır yine tümünü yazar.
+        return { ...row, madde: row.madde ?? targetArticle };
+      }
+      return row;
+    }),
     closed: matched.closed.map((row) => ({ ...row })),
     unverified: matched.unverified.map((row) => ({ ...row })),
     purpose: narrative.purpose,

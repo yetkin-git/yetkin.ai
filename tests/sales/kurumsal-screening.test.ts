@@ -39,8 +39,8 @@ describe("kurumsal ilan eleme", () => {
     expect(ranked.map((row) => [row.id, row.band, row.rank])).toEqual([
       ["a", "SHORTLISTED", 1],
       ["b", "SHORTLISTED", 2],
-      ["c", "REJECTED", 3],
-      ["d", "REJECTED", 4],
+      ["c", "QUALIFIED_NOT_SHORTLISTED", 3],
+      ["d", "BELOW_THRESHOLD", 4],
       ["e", "PENDING_TEST", null],
     ]);
   });
@@ -56,7 +56,7 @@ describe("kurumsal ilan eleme", () => {
     );
     expect(ranked[0]?.id).toBe("early");
     expect(ranked[0]?.band).toBe("SHORTLISTED");
-    expect(ranked[1]?.band).toBe("REJECTED");
+    expect(ranked[1]?.band).toBe("QUALIFIED_NOT_SHORTLISTED");
   });
 
   it("dikeyler YetkinCV bankasıyla ve CV bandı sınav motoruyla aynıdır", () => {
@@ -154,11 +154,12 @@ describe("kurumsal ilan eleme", () => {
     );
     expect(questions).not.toBeNull();
     const bank = questions ?? [];
-    const answers = bank.map((question, index) => {
+    const firstSkill = criteria[0]?.key;
+    const answers = bank.map((question) => {
       const wrong = question.correctIndex === 0 ? 1 : 0;
       return {
         questionId: question.id,
-        choiceIndex: index === 0 ? question.correctIndex : wrong,
+        choiceIndex: question.skillId === firstSkill ? question.correctIndex : wrong,
       };
     });
     const breakdown = yetkinCvSkillBreakdown(bank, answers);

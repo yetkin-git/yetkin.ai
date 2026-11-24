@@ -22,11 +22,12 @@ export const KERNEL_SURFACES = [
 /**
  * Yetkin Commerce kokpiti. Hub siciline ve dron kaydına girmez.
  * Canlı vitrin `/magaza/[slug]` olarak kalır.
- * `/magazam` kenarda `/e-ticaret`e iner. Mağaza alt yolları durur.
+ * Kokpit `/panel/e-ticaret` altındadır; `/e-ticaret` kamu vitrinidir.
+ * `/magazam` kenarda `/panel/e-ticaret`e iner. Mağaza alt yolları durur.
  */
 export const COMMERCE_NAV = {
   id: "magazam",
-  path: "/e-ticaret",
+  path: "/panel/e-ticaret",
   label: "E-Ticaret",
   blurb: "Stok, kanal ve sipariş",
 } as const;

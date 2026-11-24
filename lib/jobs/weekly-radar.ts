@@ -7,9 +7,15 @@ import { sendNoticeSmtp } from "@/lib/kernel/notice/smtp";
 import { logEvent } from "@/lib/kernel/observability/log";
 import {
   opportunityForInstant,
-  opportunityToolKey,
   opportunityWeekKey,
 } from "@/lib/matchmaking/opportunity-pool";
+import { loadYetkinhibeGrantCatalog } from "@/lib/yetkinhibe/grant-catalog-live";
+import {
+  catalogEntryToBriefCall,
+  HIBE_PANEL_PATH,
+  radarGrantText,
+  type RadarCompanyProfile,
+} from "@/lib/yetkinhibe/radar-profile";
 
 export type WeeklyRadarResult = {
   weekKey: string;
@@ -21,14 +27,6 @@ export type WeeklyRadarResult = {
 
 function origin(): string {
   return (process.env.NEXT_PUBLIC_APP_URL?.trim() || "https://yetkin.ai").replace(/\/$/, "");
-}
-
-function formatDay(value: Date): string {
-  return new Intl.DateTimeFormat("tr-TR", {
-    timeZone: "Europe/Istanbul",
-    day: "numeric",
-    month: "long",
-  }).format(value);
 }
 
 /**
@@ -49,35 +47,35 @@ export async function runWeeklyOpportunityRadar(now = new Date()): Promise<Weekl
   }
   const prisma = getPrisma();
   const opportunity = opportunityForInstant(now);
-  const tool = opportunityToolKey(opportunity);
-  const link = `${origin()}/tezgah?tool=${tool}`;
-  const grants = await prisma.yetkinhibeGrantCall.findMany({
-    where: {
-      isPublished: true,
-      sourceVerifiedAt: { not: null },
-      applicationDeadline: { gt: now },
-    },
-    orderBy: { sourceVerifiedAt: "desc" },
-    take: 3,
-    select: { title: true, officialInfoUrl: true, applicationDeadline: true },
-  });
-  const grantLines =
-    grants.length === 0
-      ? "Bu hafta doğrulanmış açık hibe çağrısı yok."
-      : grants
-          .map(
-            (row) =>
-              `- ${row.title} — son gün ${formatDay(row.applicationDeadline)} — ${row.officialInfoUrl}`,
-          )
-          .join("\n");
+  const link = `${origin()}${HIBE_PANEL_PATH}`;
+  let briefCalls: ReturnType<typeof catalogEntryToBriefCall>[] = [];
+  try {
+    const catalog = await loadYetkinhibeGrantCatalog(now);
+    briefCalls = catalog.map(catalogEntryToBriefCall);
+  } catch {
+    briefCalls = [];
+  }
   const members = await prisma.user.findMany({
     where: {
-      OR: [{ tezgahOutputs: { some: {} } }, { academyCertificates: { some: {} } }, { commerceStores: { some: {} } }],
+      OR: [
+        { tezgahOutputs: { some: {} } },
+        { academyCertificates: { some: {} } },
+        { commerceStores: { some: {} } },
+        // Ş10 / B-10 — hibe profili doldurmuş üye bu modülün tam hedef kitlesidir.
+        // Yalnız bu ürünü kullanan KOBİ radarı hiç almıyordu; kitle artık profili olandır.
+        { hibeCompanyProfile: { isNot: null } },
+      ],
     },
     orderBy: { updatedAt: "desc" },
     take: 200,
     select: { id: true },
   });
+  const profiles = members.length
+    ? await prisma.hibeCompanyProfile.findMany({
+        where: { userId: { in: members.map((member) => member.id) } },
+      })
+    : [];
+  const profileByUser = new Map(profiles.map((row) => [row.userId, row]));
   let sent = 0;
   let skipped = 0;
   for (const member of members) {
@@ -94,17 +92,35 @@ export async function runWeeklyOpportunityRadar(now = new Date()): Promise<Weekl
       skipped += 1;
       continue;
     }
+    const stored = profileByUser.get(member.id);
+    const profile: RadarCompanyProfile | null = stored
+      ? {
+          provinceCode: stored.provinceCode,
+          audience: stored.audience,
+          naceGroup: stored.naceGroup,
+          investmentFocus: stored.investmentFocus,
+          employeeCount: stored.employeeCount,
+          companyAgeYears: stored.companyAgeYears,
+          rdMaturityLevel: stored.rdMaturityLevel,
+          exportActive: stored.exportActive,
+          hasPatentOrUtilityModel: stored.hasPatentOrUtilityModel,
+        }
+      : null;
+    const grantLines =
+      briefCalls.length === 0 && profile
+        ? "Hibe kataloğu okunamadı. Uydurma çağrı yazılmaz."
+        : radarGrantText(profile, stored != null, briefCalls, now);
     const text = [
       "Haftalık fırsat radarı",
       "",
-      "Doğrulanmış açık hibe çağrıları:",
+      "Profiline uyan doğrulanmış açık hibe çağrıları:",
       grantLines,
       "",
       `Haftanın proje fırsatı: ${opportunity.title}`,
       opportunity.summary,
       `Süre ipucu: ${opportunity.durationHint}. Ödül ipucu: ${opportunity.rewardHint}.`,
       "",
-      `Bu fırsatı AI Tezgâh'ta üret: ${link}`,
+      `Hibe masası: ${link}`,
       "",
       "Bu ileti bilgilendirmedir. Hibe sonucu veya iş garantisi değildir.",
     ].join("\n");

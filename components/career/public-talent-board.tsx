@@ -2,6 +2,7 @@ import type { Route } from "next";
 import { CertificateShareActions } from "@/components/academy/certificate-share-actions";
 import { CertificateVerifyQr } from "@/components/academy/certificate-verify-qr";
 import { ProofShareBar } from "@/components/career/proof-share-bar";
+import { TalentContactForm } from "@/components/career/talent-contact-form";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
@@ -71,14 +72,22 @@ function SealRow({ seal, featured }: { seal: PublicTalentSeal; featured: boolean
   );
 }
 
-export function PublicTalentBoard({ card }: { card: PublicTalentCard }) {
+export function PublicTalentBoard({
+  card,
+  contactEnabled = false,
+  sealHash = null,
+}: {
+  card: PublicTalentCard;
+  contactEnabled?: boolean;
+  sealHash?: string | null;
+}) {
   const copy = CAREER_SEN.publicPage;
   const otherSeals = card.seals.filter((seal) => seal.id !== card.featured.id);
+  const tezgahProofs = card.tezgahProofs ?? [];
 
   return (
     <div className="space-y-6">
       <SealRow seal={card.featured} featured />
-      {/* Viral büyüme döngüsü (Faz 2 / P4): kart başlığının hemen altında tek tıkla paylaşım. */}
       <ProofShareBar path={publicTalentPath(card.featured.id)} title={card.featured.title} />
       {otherSeals.length > 0 ? (
         <section className="space-y-4">
@@ -98,12 +107,14 @@ export function PublicTalentBoard({ card }: { card: PublicTalentCard }) {
         ) : (
           <ul className="space-y-2">
             {card.proofs.map((proof, index) => (
-              <li key={`${proof.visaStampId}:${proof.title}:${index}`} className="space-y-1">
+              <li key={`visa:${proof.visaStampId ?? "x"}:${proof.title}:${index}`} className="space-y-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="text-sm text-[var(--foreground)]">{proof.title}</span>
-                  <LinkButton href={publicTalentPath(proof.visaStampId) as Route} variant="outline" size="sm">
-                    {CAREER_SEN.scope.publicCardCta}
-                  </LinkButton>
+                  {proof.visaStampId ? (
+                    <LinkButton href={publicTalentPath(proof.visaStampId) as Route} variant="outline" size="sm">
+                      {CAREER_SEN.scope.publicCardCta}
+                    </LinkButton>
+                  ) : null}
                 </div>
                 {proof.detail ? (
                   <p className="text-sm leading-6 text-[var(--muted)]">{proof.detail}</p>
@@ -113,6 +124,23 @@ export function PublicTalentBoard({ card }: { card: PublicTalentCard }) {
           </ul>
         )}
       </Card>
+      <Card title={copy.tezgahProofsTitle}>
+        {tezgahProofs.length === 0 ? (
+          <p>{copy.tezgahProofEmpty}</p>
+        ) : (
+          <ul className="space-y-2">
+            {tezgahProofs.map((proof, index) => (
+              <li key={`tezgah:${proof.title}:${index}`} className="space-y-1">
+                <span className="text-sm text-[var(--foreground)]">{proof.title}</span>
+                {proof.detail ? (
+                  <p className="text-sm leading-6 text-[var(--muted)]">{proof.detail}</p>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        )}
+      </Card>
+      {contactEnabled && sealHash ? <TalentContactForm sealHash={sealHash} /> : null}
       <SealShareQuickBar url={publicTalentPath(card.featured.id)} text={card.featured.title} />
       <p className="text-xs text-[var(--muted)]">{copy.privacy}</p>
     </div>

@@ -1,5 +1,5 @@
 import { coachFormField, formCoachRequestSchema } from "@/lib/kernel/ai/form-coach";
-import { assistantActorId } from "@/lib/kernel/ai/assistant-guest-quota";
+import { assistantActorId } from "@/lib/kernel/ai/assistant-guest-actor";
 import { getSession } from "@/lib/kernel/auth/session";
 import { isStaleRefreshTokenError } from "@/lib/kernel/auth/stale-refresh-token";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";

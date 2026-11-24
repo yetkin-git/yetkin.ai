@@ -1,19 +1,39 @@
 # Tezgâh kota — çift kilit
 
-AI Tezgâh ücretsiz hakkı maliyet sınıfına göredir. Para bu sayaçta durmaz. Tahsilat defter DEBIT satırıdır. Tablo `tezgah_daily_quotas`.
+AI Tezgâh ücretsiz hakkı maliyet sınıfına göredir. Para bu sayaçta durmaz. Tahsilat defter DEBIT satırıdır. Tablo `tezgah_daily_quotas` (adı tarihsel; `date_key` bir **periyot** anahtarıdır).
 
 Kod evi `lib/tezgah/catalog.ts` ve `lib/tezgah/quota.ts`.
 
-## Havuzlar
+## Havuzlar ve periyotlar (Faz 3 / S-01)
 
-| Havuz | Sayaç | Kim kullanır |
-|-------|-------|----------------|
-| `tetkik` | Ömür boyu 1. `dateKey` değeri `lifetime` dir. Günlük yenilenmez. | Web Site Analizi |
-| `lite` | Günlük 3. Gün İstanbul gece yarısında döner. | Teklif, reklam, pazaryeri, hibe, e-ticaret |
-| `free_template` | Sayılmaz. Sınırsız. | Dijital dükkân |
-| `local` | İstemci. Sunucu sayacı yok. | Pro Studio: görsel, teknik çizim, mini SaaS |
+| Havuz | Periyot anahtarı | Tavan | Kim kullanır |
+|-------|------------------|-------|----------------|
+| `tetkik` | `lifetime` | Ömür boyu 1 | Web Site Analizi |
+| `lite` (misafir) | `YYYY-MM-DD` (İstanbul günü) | Günde 3 | Teklif, reklam, pazaryeri, hibe, e-ticaret |
+| `lite` (üye) | `YYYY-MM` (İstanbul ayı) | Ayda 30 | Aynı araçlar, oturumlu |
+| `lite` (Pro) | `YYYY-MM` | Ayda 500 | Tezgâh Pro aboneliği |
+| `free_template` | — | Sayılmaz | Dijital dükkân |
+| `local` | — | Sunucu sayacı yok | Pro Studio: görsel, teknik çizim, mini SaaS |
 
-Misafir ve üye `lite` tavanı aynıdır: günde 3 (`TEZGAH_GUEST_DAILY_LIMIT`, `TEZGAH_MEMBER_DAILY_LIMIT`). Tetkik tavanı `TEZGAH_TETKIK_LIFETIME_LIMIT = 1`.
+Tek üretici: `tezgahQuotaPeriodKey(pool, now, guest)`. Eski ad `tezgahQuotaDateKey(pool, now)` üye hattıyla aynıdır (geriye dönük uyum).
+
+**Misafir neden günlük kalır:** misafir kovası `guest:<ip>`'dir. Bir çıkış IP'sini (CGNAT, kurumsal NAT, kafe) yüzlerce kişi paylaşır; aylık 30 kredi bu kovaya verilseydi tek kişi 30 kredi kazanır, maliyet kalkanı delinirdi.
+
+## Aylık devir (Faz 3 / S-01)
+
+Kullanılmayan aylık kredinin **%50'si** sonraki aya taşınır, taban havuzun **%50'siyle** sınırlıdır.
+
+| Önceki ay | Taban | Artık | Devir |
+|---|---:|---:|---:|
+| 0 kullanıldı | 30 | 30 | **15** (tavan) |
+| 1 kullanıldı | 30 | 29 | 14 |
+| 30 kullanıldı | 30 | 0 | 0 |
+| Hiç satır yok | 30 | — | **0** (bedava kredi yok) |
+
+- Devir **okuma anında deterministik** hesaplanır (`tezgahRolloverCredits`). Cron beklenmez.
+- Devir **zincirleme birikmez**: önceki ayın *kendi* tabanı okunur, devredilen kredi "kullanılmamış" sayılmaz.
+- `tetkik` ömür boyudur; devir yoktur.
+- Inngest `tezgah-credit-rollover` (ayın 1'i 00:05 İstanbul) **ikinci bakiye yazmaz**: ölçüm yapar, sıfır kullanımlı satırı temizler ve doygunluk alarmı basar (`lib/tezgah/credit-rollover.ts`).
 
 ## Kilit 1 — ömür boyu hak
 
@@ -37,14 +57,29 @@ Web Site Analizi (`lib/tezgah/tetkik/engine.ts`):
 
 Yarışta claim kapanırsa `refund` çalışır ve domain mesajı 402 döner: «Bu web sitesi için ücretsiz analiz hakkı daha önce kullanıldı.»
 
-Ücretli hat (`pro` / `credit`) `Idempotency-Key` ister. Anahtar UUID’dir. Aynı anahtar aynı gövdeyi tekrar tahsil etmez. Ücretsiz sayaç bu anahtarı zorunlu tutmaz; ücretli üretim tutar.
+Ücretli hat (`pro` / `credit`) `Idempotency-Key` ister. Anahtar UUID'dir. Aynı anahtar aynı gövdeyi tekrar tahsil etmez.
+
+Ücretsiz sayaç da **idempotenttir**: istemci anahtar gönderirse aynı `Idempotency-Key` + aynı gövde ikinci kez **sayılmaz**, farklı gövde `400` çakışma döner. Eşleme süreç belleğinde değil, veritabanında (`tezgah_quota_commands`) tutulur — bu yüzden ikinci istek başka bir örneğe düşse bile çift düşüm olmaz (`lib/tezgah/quota.ts` → `prismaStore.tryConsume`). Üretim başarısız olursa `refund` komut anahtarını siler; aynı niyet yeniden denenebilir.
+
+## Hız tavanı (Faz 3 / S-01)
+
+Kenar `llmIp` (20/10dk) **IP başına** sayar; bir çıkış IP'sini paylaşan yüzlerce kullanıcı aynı kovayı tüketir. Bu yüzden üretim rotaları ayrıca **aktör başına** `tezgahGenerateUser` (30/10dk) kapısına girer (`lib/tezgah/generate-guard.ts`).
+
+İki kapı birbirinin yerine geçmez:
+
+| Kapı | Ölçtüğü | Koruduğu |
+|---|---|---|
+| `consumeTezgahQuota` | kullanım/kredi | ürün adaleti ve gelir |
+| `tezgahGenerateUser` | hız | `AI_PLATFORM_DAILY_CAP_MINOR` maliyet kalkanı, CGNAT adaleti |
 
 ## Rozet
 
-Sekmeye göre (`tezgahPoolQuotaLine`):
+Sekmeye ve hatta göre (`tezgahPoolQuotaLine` / `...ForLane`):
 
-* Tetkik: `Kalan ücretsiz analiz hakkınız: 1 / 1`
-* Lite: `Günlük ücretsiz hakkınız: X / 3`
-* Kota düşmeyen araç: `Ücretsiz kullanım (Kota düşmez)`
+- Tetkik: `Kalan ücretsiz analiz hakkın: 1 / 1`
+- Lite (üye): `Kalan kredi: 27 / 30`
+- Lite (Pro): `Pro — aylık 500 kredi · kalan 487`
+- Lite (misafir): `Bugünkü ücretsiz hakkın: 2 / 3`
+- Kota düşmeyen araç: `Ücretsiz kullanım (Kota düşmez)`
 
-Hak bitince tetkik rozeti `0 / 1 — Pro veya Kredi gerekli` der.
+Hak bitince tetkik rozeti `0 / 1 — Pro veya Kredi gerekli` der. Üye hattı "yeni krediler ayın 1'inde" cümlesini basar; Pro hattı "ücretsiz kredi" cümlesini **hiç** basmaz.

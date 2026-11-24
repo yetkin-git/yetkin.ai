@@ -16,7 +16,7 @@ import {
   type YetkinhibeGrantCatalogEntry,
 } from "@/lib/yetkinhibe/grant-catalog-core";
 import { loadYetkinhibeGrantCatalog } from "@/lib/yetkinhibe/grant-catalog-live";
-import { GRANT_MATCH_MAX_BODY_BYTES } from "@/lib/yetkinhibe/grant-match-api";
+import { GRANT_MATCH_MAX_BODY_BYTES } from "@/lib/yetkinhibe/grant-brief-match";
 import { POST } from "@/app/api/yetkinhibe/grant/match/route";
 
 import { makeGrantCall } from "./fixtures";
@@ -35,12 +35,14 @@ const SESSION_USER = {
 };
 
 const VALID_PROFILE = {
-  sectorCode: "uretim",
-  employeeCount: 25,
-  companyAgeYears: 3,
-  rdMaturityLevel: "EARLY",
+  provinceCode: "34",
+  audience: "mevcut_kobi",
+  naceGroup: "28",
+  investmentFocus: "makine_techizat",
+  employeeCount: 12,
+  companyAgeYears: 4,
+  rdMaturityLevel: "NONE",
   exportActive: false,
-  isKobi: true,
   hasPatentOrUtilityModel: false,
 };
 
@@ -48,7 +50,7 @@ function catalog(): YetkinhibeGrantCatalogEntry[] {
   return [
     {
       ...makeGrantCall({ id: "route-match-a", title: "Rota eşleşme çağrısı", remainingDays: 40 }),
-      sourceVerifiedAt: null,
+      sourceVerifiedAt: "2026-11-20T00:00:00.000Z",
     },
     {
       ...makeGrantCall({ id: "route-closed", status: "CLOSED", remainingDays: 0 }),
@@ -90,10 +92,12 @@ describe("YetkinHibe ücretsiz eşleştirme rotası (POST)", () => {
     expect(body.data.matches).toHaveLength(1);
     expect(body.data.matches[0]).toMatchObject({
       grantId: "route-match-a",
-      matchScorePct: 100,
-      band: "READY",
+      fitPct: null,
+      scopeLabel: "Genel kapsam — özel kısıt yok",
     });
-    expect(body.data.matches[0]).not.toHaveProperty("recommendedNextStep");
+    expect(body.data.matches[0].criteria).toHaveLength(11);
+    expect(body.data.matches[0]).not.toHaveProperty("matchScorePct");
+    expect(body.data.matches[0]).not.toHaveProperty("band");
     expect(typeof body.data.generatedAt).toBe("string");
   });
 

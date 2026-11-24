@@ -1,9 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { DUKKAN_CTA_LABEL, DUKKAN_SECTORS, DUKKAN_TONES } from "@/lib/tezgah/dukkan/copy";
-import { renderDukkanHtml } from "@/lib/tezgah/dukkan/render";
+import { inspectDukkanDelivery, renderDukkanHtml } from "@/lib/tezgah/dukkan/render";
 import { readDukkanDraft, type DukkanDraft, type DukkanGenerateRequest } from "@/lib/tezgah/dukkan/schema";
 import { parseHomepageHtml } from "@/lib/tezgah/tetkik/parse-html";
-import { scoreHomepageHtml } from "@/lib/tezgah/tetkik/score";
 
 const BASE: DukkanGenerateRequest = {
   businessName: "Karaoğlu Fırın",
@@ -12,6 +11,9 @@ const BASE: DukkanGenerateRequest = {
   whatsapp: "0532 111 22 33",
   services: "Taze ekmek\nPoğaça\nSimit",
   tone: "sicak",
+  packages: "",
+  hours: "",
+  faq: "",
 };
 
 function draft(overrides: Partial<DukkanGenerateRequest> = {}): DukkanDraft {
@@ -22,37 +24,36 @@ function draft(overrides: Partial<DukkanGenerateRequest> = {}): DukkanDraft {
   return read;
 }
 
-function scoreOf(html: string) {
-  return scoreHomepageHtml(html, {
-    https: true,
-    ttfbMs: 1,
-    htmlBytes: new TextEncoder().encode(html).length,
-  });
-}
-
-describe("sektörel dijital dükkan öz-skoru", () => {
-  it("altı sektörde ve beş tonda 100 puan basar", () => {
+describe("sektörel dijital dükkan yapısal mühürleri", () => {
+  it("on iki sektörde ve beş tonda yapısal mühürleri geçer", () => {
+    expect(DUKKAN_SECTORS).toHaveLength(12);
     for (const sector of DUKKAN_SECTORS) {
       const html = renderDukkanHtml(draft({ sector: sector.id }));
-      const scored = scoreOf(html);
-      const failed = scored.checks.filter((check) => !check.passed).map((check) => check.id);
-      expect(failed, sector.id).toEqual([]);
-      expect(scored.score, sector.id).toBe(100);
+      const inspected = inspectDukkanDelivery(html);
+      expect(inspected.ok, sector.id).toBe(true);
+      if (!inspected.ok) {
+        return;
+      }
+      expect(
+        inspected.seals.filter((seal) => !seal.passed).map((seal) => seal.id),
+        sector.id,
+      ).toEqual([]);
       expect(html).toContain(DUKKAN_CTA_LABEL[sector.cta]);
       expect(html).toContain("https://wa.me/905321112233");
       expect(html).toContain("tel:+905321112233");
       expect(html).toContain('action="https://api.whatsapp.com/send"');
       expect(html).not.toMatch(/<img\b/i);
       expect(html).not.toMatch(/fonts\.google|cdn\.tailwind|<script/i);
+      expect(html).not.toMatch(/100\s*\/\s*100|Öz-skor|ttfbMs/);
     }
     for (const tone of DUKKAN_TONES) {
       const html = renderDukkanHtml(draft({ tone: tone.id }));
-      expect(scoreOf(html).score, tone.id).toBe(100);
+      expect(inspectDukkanDelivery(html).ok, tone.id).toBe(true);
       expect(html).toContain(tone.paper);
     }
   });
 
-  it("başlık ve açıklama penceresi kısa, uzun ve güvenli adla da 100 kalır", () => {
+  it("başlık ve açıklama penceresi kısa, uzun ve güvenli adla da mühürlü kalır", () => {
     const cases: Partial<DukkanGenerateRequest>[] = [
       { businessName: "Ab", place: "Kk" },
       {
@@ -60,7 +61,7 @@ describe("sektörel dijital dükkan öz-skoru", () => {
         place: "B".repeat(80),
         services: ["Ekmek cesidi", "Pogaca", "Simit", "Acma", "C"].map((line) => line.padEnd(80, "x")).join("\n"),
         tone: "gece",
-        sector: "magaza",
+        sector: "eticaret",
       },
       { businessName: "A & B Fırın", place: "Kadıköy, İstanbul", sector: "emlak", tone: "net" },
     ];
@@ -79,7 +80,7 @@ describe("sektörel dijital dükkan öz-skoru", () => {
       expect(parsed.form).toBe(true);
       expect(parsed.cta).toBe(true);
       expect(parsed.images).toEqual([]);
-      expect(scoreOf(html).score).toBe(100);
+      expect(inspectDukkanDelivery(html).ok).toBe(true);
     }
     const ampersand = renderDukkanHtml(draft({ businessName: "A & B Fırın" }));
     expect(ampersand).toContain("A &amp; B");

@@ -3335,7 +3335,8 @@
                                 "type": "string",
                                 "enum": [
                                   "ACADEMY_CERTIFICATE",
-                                  "FREELANCER_RELEASE"
+                                  "FREELANCER_RELEASE",
+                                  "YETKINHIBE_PROJECT"
                                 ]
                               },
                               "sourceId": {
@@ -10350,7 +10351,8 @@
             "type": "string",
             "enum": [
               "ACADEMY_CERTIFICATE",
-              "FREELANCER_RELEASE"
+              "FREELANCER_RELEASE",
+              "YETKINHIBE_PROJECT"
             ]
           },
           "sourceId": {
@@ -10530,7 +10532,8 @@
                 "type": "string",
                 "enum": [
                   "ACADEMY_CERTIFICATE",
-                  "FREELANCER_RELEASE"
+                  "FREELANCER_RELEASE",
+                  "YETKINHIBE_PROJECT"
                 ]
               },
               "sourceId": {
@@ -11030,7 +11033,8 @@
                   "type": "string",
                   "enum": [
                     "ACADEMY_CERTIFICATE",
-                    "FREELANCER_RELEASE"
+                    "FREELANCER_RELEASE",
+                    "YETKINHIBE_PROJECT"
                   ]
                 },
                 "sourceId": {

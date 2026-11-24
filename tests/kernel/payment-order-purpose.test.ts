@@ -18,7 +18,12 @@ describe("ödeme siparişi amacı", () => {
     expect(classifyPaymentOrderPurpose("tezgah-credit:pack")).toBe(PAYMENT_ORDER_PURPOSE.TEZGAH_CREDIT);
     expect(classifyPaymentOrderPurpose("commerce-license:monthly")).toBe(PAYMENT_ORDER_PURPOSE.COMMERCE_LICENSE);
     expect(classifyPaymentOrderPurpose("WALLET_TOPUP")).toBe("WALLET_TOPUP");
-    expect(classifyPaymentOrderPurpose("academy-license:ofis")).toBeNull();
+    expect(classifyPaymentOrderPurpose("academy-license:ofis")).toBe(
+      PAYMENT_ORDER_PURPOSE.ACADEMY_LICENSE,
+    );
+    expect(classifyPaymentOrderPurpose("junior-license:yearly")).toBe(
+      PAYMENT_ORDER_PURPOSE.JUNIOR_LICENSE,
+    );
   });
 
   it("yalnız aktif ürün bedelini self-servis iadeden keser", () => {

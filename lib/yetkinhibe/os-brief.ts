@@ -13,7 +13,7 @@ import {
 } from "@/lib/yetkinhibe/grant-brief-axes";
 import type { GrantProgramBrief } from "@/lib/yetkinhibe/match-grant-programs-for-brief";
 
-export const HIBE_TABS = ["analiz", "programlar", "proje", "arsiv"] as const;
+export const HIBE_TABS = ["analiz", "programlar", "proje", "arsiv", "basvuru", "ajans"] as const;
 
 export type HibeTab = (typeof HIBE_TABS)[number];
 

@@ -186,12 +186,13 @@ export const geminiProvider: LlmProviderAdapter = {
   },
   async generateImage(input, signal): Promise<ProviderGenerateImageResult> {
     const client = requireGeminiClient();
+    const aspectRatio = input.aspectRatio?.trim() || "16:9";
     const response = await client.models.generateContent({
       model: input.model,
       contents: input.prompt,
       config: {
         responseModalities: ["IMAGE"],
-        imageConfig: { aspectRatio: "16:9" },
+        imageConfig: { aspectRatio },
         abortSignal: signal,
         httpOptions: GEMINI_FAST_FAIL_HTTP_OPTIONS,
       },

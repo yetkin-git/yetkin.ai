@@ -1,4 +1,4 @@
-import type { ParsedHomepage } from "@/lib/tezgah/tetkik/types";
+import type { ParsedHomepage, TetkikPageSnippet } from "@/lib/tezgah/tetkik/types";
 
 const CTA_PHRASES = [
   "whatsapp",
@@ -154,11 +154,25 @@ export function parseHomepageHtml(source: string): ParsedHomepage {
   }
 
   const headingLevels = [...html.matchAll(/<h([1-6])\b[^>]*>/gi)].map((match) => Number(match[1]));
+  const h1Elements = collectElements(html, "h1");
+  const h1Text = h1Elements.length > 0 ? visibleText(h1Elements[0]?.text ?? "").slice(0, 160) : "";
 
   let whatsapp = false;
   let phone = false;
   let email = false;
   let cta = false;
+  const ctaTexts: string[] = [];
+  const pushCta = (raw: string) => {
+    const text = visibleText(raw).slice(0, 80);
+    if (!text || ctaTexts.includes(text)) {
+      return;
+    }
+    if (ctaTexts.length >= 6) {
+      return;
+    }
+    ctaTexts.push(text);
+  };
+
   for (const raw of collectOpenTags(html, "a")) {
     const href = readAttrs(raw).get("href") ?? "";
     if (hrefHasWhatsapp(href)) {
@@ -177,13 +191,16 @@ export function parseHomepageHtml(source: string): ParsedHomepage {
     }
     if (isCtaText(element.text)) {
       cta = true;
+      pushCta(element.text);
     }
   }
   for (const raw of collectOpenTags(html, "input")) {
     const attrs = readAttrs(raw);
     const type = (attrs.get("type") ?? "").toLowerCase();
-    if ((type === "submit" || type === "button") && isCtaText(attrs.get("value") ?? "")) {
+    const value = attrs.get("value") ?? "";
+    if ((type === "submit" || type === "button") && isCtaText(value)) {
       cta = true;
+      pushCta(value);
     }
   }
 
@@ -195,6 +212,8 @@ export function parseHomepageHtml(source: string): ParsedHomepage {
   return {
     title: titleMatch ? visibleText(titleMatch[1] ?? "") : "",
     metaDescription,
+    h1Text,
+    ctaTexts,
     headingLevels,
     viewport,
     lang,
@@ -207,5 +226,15 @@ export function parseHomepageHtml(source: string): ParsedHomepage {
     canonical,
     robots,
     openGraph,
+  };
+}
+
+/** Modele ve mühüre giden temiz snippet. Ham HTML etiketi taşımaz. */
+export function pageSnippetFromParsed(parsed: ParsedHomepage): TetkikPageSnippet {
+  return {
+    title: parsed.title.slice(0, 120),
+    metaDescription: parsed.metaDescription.slice(0, 200),
+    h1: parsed.h1Text.slice(0, 160),
+    ctaTexts: parsed.ctaTexts.slice(0, 6),
   };
 }

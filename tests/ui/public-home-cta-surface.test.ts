@@ -9,6 +9,7 @@ import {
   buildCitizenRegisterHref,
   resolvePostLoginPath,
 } from "@/lib/kernel/auth/redirects";
+import { isProtectedCitizenPath } from "@/lib/kernel/security/edge-guard";
 
 const ROOT = process.cwd();
 
@@ -28,7 +29,10 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
     expect(copy.registerCta).toBe("Kayıt Ol");
     expect(copy.cockpitCta).toBe("Panele geç");
     const nav = readSrc("components/public/home-account-nav.tsx");
-    expect(page).toContain("HomeAccountNav");
+    // M-03: üst menü ortak bileşende; ana sayfa `HomeAccountNav`'ı doğrudan basmaz.
+    const topBar = readSrc("components/public/public-top-bar.tsx");
+    expect(page).not.toContain("HomeAccountNav");
+    expect(topBar).toContain("HomeAccountNav");
     expect(page).not.toContain("getSession");
     expect(nav).toContain("getSession");
     expect(nav).toContain("Suspense");
@@ -40,10 +44,17 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
     expect(nav).toContain("copy.cockpitCta");
     expect(page).toContain('href="/tezgah"');
     expect(page).toContain('href="/fiyatlandirma"');
-    expect(page).toContain('href="/kurumsal"');
-    expect(page).toContain('href="/rehber"');
-    expect(page).toContain("Nasıl Çalışır?");
-    expect(page).toContain("Nasıl Çalışır? (Süreç Şeması)");
+    // M-03: üst menü artık ortak bileşende. Ana sayfa kendi `<header>`'ını basmaz,
+    // böylece çift header doğmaz; bağlar `PublicTopBar`'dan gelir.
+    expect(page).not.toContain("<header");
+    // Bağlar `PUBLIC_TOP_BAR_PATHS` sicilinden gelir (tek liste, kopya metin yok).
+    expect(topBar).toContain('href: "/e-ticaret", label: "E-Ticaret"');
+    expect(topBar).toContain('href: "/hibe", label: "Hibe Bulucu"');
+    expect(topBar).toContain('href: "/tezgah", label: "AI Tezgâh"');
+    expect(topBar).toContain('href: "/fiyatlandirma", label: "Fiyatlandırma"');
+    expect(topBar).toContain('href: "/kurumsal", label: "Kurumsal"');
+    expect(topBar).toContain('href: "/rehber", label: "Rehber"');
+    expect(readSrc("app/(public)/layout.tsx")).toContain("PublicTopBar");
     expect(page).toContain("{copy.primaryCta}");
     expect(page).toContain("{copy.secondaryCta}");
     expect(page).toContain("track.href");
@@ -81,7 +92,7 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
     expect(copy).not.toHaveProperty("footnoteLead");
   });
 
-  it("korumalı CTA'lar giriş duvarına çarpmaz: hibe çapaya, e-ticaret next'li kayda iner", () => {
+  it("korumalı CTA'lar giriş duvarına çarpmaz: hibe çapaya, e-ticaret kamu vitrinine iner", () => {
     const copy = SEN_VOICE.public.home;
     const page = readSrc("app/(public)/page.tsx");
     // Hibe: sayfa içi ücretsiz uygunluk testi (korumalı `/hibe` değil).
@@ -92,14 +103,18 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
     ];
     expect(grantHrefs).not.toContain("/hibe");
     expect(grantHrefs.filter((href) => href === "#home-grant").length).toBeGreaterThanOrEqual(3);
-    // E-ticaret: hedef korunur, ham `/e-ticaret` basılmaz.
+    // E-ticaret: kamu vitrinidir, korumasız; ana sayfa ham `/e-ticaret` basar.
+    // Kokpit `/panel/e-ticaret` korumalıdır ve ana sayfada doğrudan bağlanmaz.
     expect(grantHrefs).toContain("/e-ticaret");
+    expect(grantHrefs).not.toContain("/panel/e-ticaret");
+    expect(isProtectedCitizenPath("/e-ticaret")).toBe(false);
+    expect(isProtectedCitizenPath("/panel/e-ticaret")).toBe(true);
     expect(page).toContain("homeCtaHref");
     expect(page).toContain("buildCitizenRegisterHref");
     expect(page).toContain("isProtectedCitizenPath");
-    // Oturumsuz ziyaretçi `next=/e-ticaret` ile kayda gider, `/login` çıplak kalmaz.
-    expect(buildCitizenRegisterHref("/e-ticaret")).toBe("/register?next=%2Fe-ticaret");
-    expect(buildCitizenLoginHref("/e-ticaret")).toBe("/login?next=%2Fe-ticaret");
+    // Oturumsuz ziyaretçi kokpite `next=/panel/e-ticaret` ile kayda gider; `/login` çıplak kalmaz.
+    expect(buildCitizenRegisterHref("/panel/e-ticaret")).toBe("/register?next=%2Fpanel%2Fe-ticaret");
+    expect(buildCitizenLoginHref("/panel/e-ticaret")).toBe("/login?next=%2Fpanel%2Fe-ticaret");
     // Açık yön (open redirect) kapalı: dış adres ve protokol-göreli yol reddedilir.
     expect(buildCitizenRegisterHref("https://evil.example")).toBe("/register");
     expect(buildCitizenRegisterHref("//evil.example")).toBe("/register");
@@ -109,6 +124,7 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
   it("`next` güvenli iç yola çözülür; dış hedef panele düşer", () => {
     // Güvenli iç yol korunur.
     expect(resolvePostLoginPath("/e-ticaret")).toBe("/e-ticaret");
+    expect(resolvePostLoginPath("/panel/e-ticaret")).toBe("/panel/e-ticaret");
     expect(resolvePostLoginPath("/hibe")).toBe("/hibe");
     // Açık yön denemeleri varsayılana düşer.
     expect(resolvePostLoginPath("https://evil.example/x")).toBe("/dashboard");
@@ -143,9 +159,11 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
     expect(page).not.toContain("v1.0.0 Beta");
     expect(page).not.toContain("hover:-translate-y");
     expect(page).toContain("pt-4");
-    expect(page).toContain("YETKIN_BRAND");
-    expect(page).toContain("<header");
-    expect(page).toContain("BrandIcon");
+    // M-03: marka ve hesap nav'ı ortak üst menüde; ana sayfa kendi header'ını basmaz.
+    const topBar = readSrc("components/public/public-top-bar.tsx");
+    expect(topBar).toContain("YETKIN_BRAND");
+    expect(topBar).toContain("BrandIcon");
+    expect(topBar).toContain("<header");
     expect(nav).toContain("ml-auto");
     expect(page).not.toContain("pt-16");
     expect(page).not.toContain("pb-20");

@@ -17,12 +17,13 @@ import { claimTetkikDomain, isTetkikDomainClaimed } from "@/lib/tezgah/tetkik/do
 import { fetchPublicHomepage, type FetchPublicHomepageDeps } from "@/lib/tezgah/tetkik/fetch-html";
 import { inspectTetkikUrl, TetkikAccessError } from "@/lib/tezgah/tetkik/guard";
 import { guardTetkikNarrative } from "@/lib/tezgah/tetkik/narrative";
-import { parseHomepageHtml } from "@/lib/tezgah/tetkik/parse-html";
+import { parseHomepageHtml, pageSnippetFromParsed } from "@/lib/tezgah/tetkik/parse-html";
 import { clipTetkikNarrative, tetkikSystemPrompt, tetkikUserPrompt } from "@/lib/tezgah/tetkik/prompts";
 import { TETKIK_REJECTED_MESSAGE } from "@/lib/tezgah/tetkik/rubric";
 import { tetkikGenerateRequestSchema, type TetkikGenerateRequest } from "@/lib/tezgah/tetkik/schema";
 import { scoreTetkik } from "@/lib/tezgah/tetkik/score";
 import { normalizeTetkikSiteAddress, tetkikHostKey } from "@/lib/tezgah/tetkik/site-address";
+import { probeTechSeoFiles } from "@/lib/tezgah/tetkik/tech-seo";
 import type { TetkikReport } from "@/lib/tezgah/tetkik/types";
 
 /** Yönetici karnesi JSON'u 900 tokena sığmaz. Skor yine kodda kalır. */
@@ -181,7 +182,12 @@ export async function generateTetkikReport(
   }
 
   const restore = async (error: string, status: 400 | 402 | 503): Promise<TetkikGenerateResult> => {
-    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, TETKIK_POOL);
+    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, TETKIK_POOL, {
+      hold: slot.hold,
+      command: input.commandKey
+        ? { key: input.commandKey, requestHash: tezgahRequestHash(input.request) }
+        : null,
+    });
     return {
       ok: false,
       error,
@@ -203,10 +209,13 @@ export async function generateTetkikReport(
   }
 
   const parsedHtml = parseHomepageHtml(page.html);
+  const pageSnippet = pageSnippetFromParsed(parsedHtml);
+  const techSeoProbes = await probeTechSeoFiles(page.finalUrl, deps);
   const scored = scoreTetkik(parsedHtml, {
     https: page.finalUrl.startsWith("https:"),
     ttfbMs: page.ttfbMs,
     htmlBytes: page.htmlBytes,
+    techSeo: techSeoProbes,
   });
   const pageTitle = plain(parsedHtml.title, 120);
   const cover = {
@@ -233,6 +242,8 @@ export async function generateTetkikReport(
         opportunities: scored.opportunities,
         actionTitle: scored.action.title,
         actionBody: scored.action.body,
+        pageSnippet,
+        techSeo: scored.techSeo,
       }),
       temperature: 0.2,
       maxOutputTokens: TETKIK_MAX_OUTPUT_TOKENS,
@@ -255,7 +266,7 @@ export async function generateTetkikReport(
   );
 
   const rawText = llm?.text ?? "";
-  const analysis = parseTetkikAnalysisCard(rawText, scored.score);
+  const analysis = parseTetkikAnalysisCard(rawText, scored.score, pageSnippet);
   const narrativeSource = analysis
     ? [analysis.summary, ...analysis.findings.map((finding) => `${finding.title}: ${finding.actionFix}`)].join(
         "\n",
@@ -304,6 +315,8 @@ export async function generateTetkikReport(
     checks: scored.checks,
     opportunities: scored.opportunities,
     action: scored.action,
+    techSeo: scored.techSeo,
+    pageSnippet,
     narrative: narrative.length >= 12 ? narrative : analysis?.summary ?? "",
     analysis: analysis ?? null,
     remaining: slot.remaining,

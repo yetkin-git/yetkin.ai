@@ -10,7 +10,7 @@ import { deliverChannelReply } from "@/lib/commerce/channel-adapters";
 import { signedChannelMessageRequest, type ChannelMessagePayload } from "@/lib/commerce/channel-message";
 import { postCommerceChannelMessage, type ChannelMessageDeps } from "@/lib/commerce/channel-message-handler";
 import type { ChannelMessageInsert, ChannelMessageRow, ChannelMessageUnit } from "@/lib/commerce/channel-message-engine";
-import { adPackageHref, grantDossierHref, isAdEligibleStock } from "@/lib/commerce/os-growth";
+import { adPackageHref, grantDossierHref, grantDossierHrefForStore, isAdEligibleStock } from "@/lib/commerce/os-growth";
 import { composeCardReply, replyPrompt, type ReplyCard } from "@/lib/commerce/reply-facts";
 import { ROUTE_AUTH_MAP } from "@/lib/kernel/security/route-auth-map";
 import { WEB_ONLY_WRITE_ROUTES } from "@/lib/kernel/http/web-only-write-routes";
@@ -249,7 +249,16 @@ describe("kariyer çalışma odası aktarımı", () => {
     expect(href).not.toMatch(/tl|kuruş|₺/i);
     expect(grantDossierHref("E-Ticaret Havuzu")).toContain("/hibe?");
     expect(grantDossierHref("E-Ticaret Havuzu")).toContain("sekme=proje");
-    expect(grantDossierHref("E-Ticaret Havuzu")).toContain("yatirim=ihracat");
+    // Ş12 — odak mağaza durumundan gelir; sabit "ihracat" yazılmaz.
+    expect(grantDossierHref("E-Ticaret Havuzu")).not.toContain("yatirim=ihracat");
+    expect(grantDossierHref("E-Ticaret Havuzu")).toContain("yatirim=makine_techizat");
+    expect(grantDossierHref("E-Ticaret Havuzu")).toContain("hesap=1");
+    expect(
+      grantDossierHrefForStore({ storeName: "E-Ticaret Havuzu", exportActive: true }),
+    ).toContain("yatirim=ihracat");
+    expect(
+      grantDossierHrefForStore({ storeName: "E-Ticaret Havuzu", hasProducts: true }),
+    ).toContain("yatirim=yazilim_dijital");
     expect(grantDossierHref("E-Ticaret Havuzu")).not.toContain("/tezgah");
   });
 });

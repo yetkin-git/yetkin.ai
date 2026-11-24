@@ -42,16 +42,16 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     expect(SEN_VOICE.dashboard.publicPanel.eyebrow).toBe("Öğrenci paneli");
     expect(SEN_VOICE.dashboard.publicPanel.features.map((row) => row.title)).toEqual([
       "YetkinHibe",
-      "YetkinCV",
+      "Kariyer",
       "Sertifika doğrulama",
     ]);
     expect(SEN_VOICE.dashboard.publicPanel.features[0]).toMatchObject({
-      href: "/hibe",
+      href: "/panel/hibe",
       cta: "Hibeyi aç",
     });
     expect(SEN_VOICE.dashboard.publicPanel.features[1]).toMatchObject({
       href: "/career",
-      cta: "YetkinCV'yi İncele",
+      cta: "Kariyeri aç",
     });
     expect(SEN_VOICE.dashboard.publicPanel.features.some((row) => row.title === "Akademi")).toBe(
       false,

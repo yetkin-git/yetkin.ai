@@ -1,14 +1,23 @@
 import { serve } from "inngest/next";
 import type { NextRequest } from "next/server";
 import { licenseGapScan } from "@/app/api/(kernel)/jobs/license-gap-scan";
+import { registerGrantMaintenanceHooks } from "@/app/api/(kernel)/jobs/register-grant-hooks";
+import { registerTezgahRolloverHooks } from "@/app/api/(kernel)/jobs/register-rollover-hooks";
+import { registerTetkikMaintenanceHooks } from "@/app/api/(kernel)/jobs/register-tetkik-hooks";
 import { inngest, kernelInngestFunctions, inngestNotConfiguredResponse } from "@/lib/kernel/jobs/inngest";
 import { canInvokeInngestServe, shouldFailClosedInngestServe } from "@/lib/kernel/jobs/inngest-guard";
 import { registerPaytrValorLicenseHooks } from "@/app/api/(kernel)/payments/register-paytr-valor-hooks";
 import { registerVerticalEscrowRefundHooks } from "../register-escrow-hooks";
+import { registerHibePlatformPort } from "@/lib/yetkinhibe/platform-grant-port";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 
 registerVerticalEscrowRefundHooks();
 registerPaytrValorLicenseHooks();
+registerTezgahRolloverHooks();
+registerGrantMaintenanceHooks();
+registerTetkikMaintenanceHooks();
+// Ş12 — platform talep portu: kernel tabloyu doğrudan okumaz, hibe kataloğu üzerinden okur.
+registerHibePlatformPort();
 
 export const auth = "webhook" as const;
 

@@ -1,5 +1,8 @@
 import Link from "next/link";
 import type { Route } from "next";
+import { HibeAgencyDesk } from "@/components/hibe/agency-desk";
+import { HibeGrantDossierBuy } from "@/components/hibe/grant-dossier-buy";
+import { HibeLifecycleDesk } from "@/components/hibe/lifecycle-desk";
 import { HibePrepPlanCard } from "@/components/hibe/prep-plan-card";
 import { HibeProjectDesk } from "@/components/hibe/project-desk";
 import { cn } from "@/components/ui/cn";
@@ -21,6 +24,8 @@ const TAB_LABEL: Record<HibeTab, string> = {
   programlar: "Destek ve Kredi Rehberi",
   proje: "Proje Dosyası",
   arsiv: "Proje Dosyalarım",
+  basvuru: "Başvurularım & Evraklar",
+  ajans: "Ajans Modu",
 };
 
 const ORIENTATION = [
@@ -44,7 +49,10 @@ const ORIENTATION = [
 
 function tabHref(tab: HibeTab, extra?: Record<string, string>): Route {
   const search = new URLSearchParams({ sekme: tab, ...extra });
-  return `/hibe?${search.toString()}` as Route;
+  if (tab === "ajans" && !search.get("mod")) {
+    search.set("mod", "agency");
+  }
+  return `/panel/hibe?${search.toString()}` as Route;
 }
 
 function projectHref(grantId: string, defaults: Record<string, string>): Route {
@@ -79,12 +87,17 @@ export function HibeOsCockpit({
   seed,
   grantId,
   defaults,
+  storeNote,
+  paymentCommandKey = null,
 }: {
   tab: HibeTab;
   data: HibeCockpitData;
   seed: HibeAnalysisInput | null;
   grantId: string;
   defaults: Record<string, string>;
+  storeNote?: string | null;
+  /** `/cuzdan?odeme=…` dönüşünde taşınan ödeme anahtarı (Ş3). */
+  paymentCommandKey?: string | null;
 }) {
   const price = data.price;
   const matchedPlan = data.analysis?.find((row) => row.grantId === grantId)?.masterPlan ?? null;
@@ -110,6 +123,10 @@ export function HibeOsCockpit({
               {price.priceLabel ? <strong>{price.priceLabel}</strong> : "Katalog satırı açık değil. Tutar uydurulmaz."}
               {price.proActive ? " AI Tezgâh Pro aktif. Tam dosya yine katalog tutarıyla tahsil edilir." : ""}
             </p>
+            {price.dossierCatalogLabel ? (
+              <p className="mt-1 text-xs text-[var(--muted)]">Dosya kataloğu: {price.dossierCatalogLabel}</p>
+            ) : null}
+            <HibeGrantDossierBuy priceLabel={price.priceLabel} />
           </div>
         </div>
         <span className="inline-flex items-center gap-1 text-xs text-[var(--muted)]">
@@ -122,7 +139,7 @@ export function HibeOsCockpit({
         <Kpi label="Analiz edilen firma profili" value={data.kpis.profiles} />
         <Kpi label="Eşleşen destek programı" value={data.kpis.matched} />
         <Kpi label="Hazırlanan proje dosyası" value={data.kpis.dossiers} />
-        <Kpi label="Toplam potansiyel destek kapsamı" value={data.kpis.scopeLabel} />
+        <Kpi label="En yüksek tek program tavanı" value={data.kpis.scopeLabel} />
       </section>
 
       <nav className="flex gap-2 overflow-x-auto" aria-label="Hibe sekmeleri">
@@ -145,7 +162,12 @@ export function HibeOsCockpit({
 
       {tab === "analiz" ? (
         <section className="space-y-4">
-          <form className="grid gap-3 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4" action="/hibe" method="get">
+          {storeNote ? (
+            <p className="text-sm" data-hibe-store-prefill="">
+              {storeNote}
+            </p>
+          ) : null}
+          <form className="grid gap-3 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4" action="/panel/hibe" method="get">
             <input type="hidden" name="sekme" value="analiz" />
             <input type="hidden" name="hesap" value="1" />
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -175,7 +197,7 @@ export function HibeOsCockpit({
                   defaultValue={defaults.nace || ""}
                   className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm"
                 >
-                  <option value="">Sektör seçiniz...</option>
+                  <option value="">Sektör seç</option>
                   {HIBE_FORM_LISTS.nace.map((row) => (
                     <option key={row.id} value={row.id}>{row.label}</option>
                   ))}
@@ -188,7 +210,7 @@ export function HibeOsCockpit({
                   defaultValue={defaults.il || ""}
                   className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm"
                 >
-                  <option value="">İl seçiniz...</option>
+                  <option value="">İl seç</option>
                   {HIBE_FORM_LISTS.provinces.map((row) => (
                     <option key={row.code} value={row.code}>{row.name}</option>
                   ))}
@@ -270,9 +292,21 @@ export function HibeOsCockpit({
                           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-emerald-800">{row.sourceLabel}</p>
                           <h3 className="mt-1 text-base font-semibold">{row.title}</h3>
                         </div>
-                        <p className="text-2xl font-semibold tabular-nums">%{row.fitPct}</p>
+                        <div className="text-right">
+                          <p className="text-2xl font-semibold tabular-nums">
+                            {row.fitPct === null ? "—" : `%${row.fitPct}`}
+                          </p>
+                          <p className="text-xs text-[var(--muted)]">
+                            {row.constrainedCount === 0
+                              ? "Kısıtlı kriter yok"
+                              : `Kısıtlı kriter ${row.passedConstrained}/${row.constrainedCount}`}
+                          </p>
+                          <p className="text-xs text-[var(--muted)]">Kısıt yok: {row.unconstrainedCount}</p>
+                        </div>
                       </div>
-                      <p className="mt-1 text-xs text-[var(--muted)]">Kriter uyumu. Resmî onay oranı değildir.</p>
+                      <p className="mt-1 text-xs text-[var(--muted)]">
+                        Kısıtlı kriter uyumu. Kısıtsız kriter yüzdeye eklenmez. Resmî onay oranı değildir.
+                      </p>
                       {row.ceilingLabel ? <p className="mt-2 text-sm">Katalog tavanı: {row.ceilingLabel}</p> : null}
                       <ul className="mt-2 space-y-1 text-sm leading-6">
                         {row.reasons.map((reason) => (
@@ -338,6 +372,24 @@ export function HibeOsCockpit({
           initialBusinessName={defaults.ad}
           initialInvestmentFocus={defaults.yatirim}
           planNote={planNote}
+          paymentCommandKey={paymentCommandKey}
+        />
+      ) : null}
+
+      {tab === "basvuru" ? (
+        <HibeLifecycleDesk
+          applications={data.applications}
+          programs={data.programs.map((program) => ({ id: program.id, title: program.title }))}
+          clients={data.clients.map((client) => ({ id: client.id, companyName: client.companyName }))}
+        />
+      ) : null}
+
+      {tab === "ajans" ? (
+        <HibeAgencyDesk
+          clients={data.clients}
+          matrix={data.agencyMatrix}
+          agencyPriceLabel={data.price.agencyPriceLabel}
+          agencyActive={data.price.agencyActive}
         />
       ) : null}
 
@@ -349,17 +401,20 @@ export function HibeOsCockpit({
             <ul className="space-y-3">
               {data.archive.map((row) => (
                 <li key={row.id} className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
-                  <p className="text-xs uppercase tracking-[0.14em] text-[var(--muted)]">
-                    {row.toolKey === "grant" ? "Proje dosyası" : "Uygunluk analizi"}
-                  </p>
+                  <p className="text-xs uppercase tracking-[0.14em] text-[var(--muted)]">Proje dosyası</p>
                   <h3 className="mt-1 font-semibold">{row.title}</h3>
                   <p className="mt-1 text-xs text-[var(--muted)]">
                     {new Date(row.createdAt).toLocaleString("tr-TR", { dateStyle: "short", timeStyle: "short" })}
                   </p>
-                  <pre className="mt-3 whitespace-pre-wrap text-sm leading-6">{row.preview}</pre>
-                  <Link href={"/hibe?sekme=proje" as Route} className="mt-3 inline-flex text-sm font-semibold text-emerald-800">
-                    Proje istasyonunda aç
-                  </Link>
+                  <details className="mt-3">
+                    <summary className="cursor-pointer text-sm font-semibold text-emerald-800">Tam dosyayı aç</summary>
+                    <pre className="mt-3 whitespace-pre-wrap text-sm leading-6">{row.markdown}</pre>
+                  </details>
+                  <p className="mt-3 flex flex-wrap gap-3 text-sm font-semibold text-emerald-800">
+                    <a href={`/api/yetkinhibe/dossier/${row.id}/export?format=docx`}>Word (.docx) İndir</a>
+                    <a href={`/api/yetkinhibe/dossier/${row.id}/export?format=pdf`}>PDF İndir</a>
+                    <a href={`/api/yetkinhibe/dossier/${row.id}/export?format=md`}>Markdown (.md) İndir</a>
+                  </p>
                 </li>
               ))}
             </ul>

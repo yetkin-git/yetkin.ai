@@ -13,8 +13,8 @@ const KASA_RETURN_REDIRECT_MS = 3_000;
 
 const KASA_RETURN_HREF = {
   tezgah: "/tezgah",
-  "e-ticaret": "/e-ticaret",
-  hibe: "/hibe",
+  "e-ticaret": "/panel/e-ticaret",
+  hibe: "/panel/hibe",
   junior: "/junior",
   cuzdan: "/cuzdan",
 } as const satisfies Record<string, Route>;

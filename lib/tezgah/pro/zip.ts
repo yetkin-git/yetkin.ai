@@ -20,7 +20,16 @@ export function crc32(bytes: Uint8Array): number {
 export type ZipTextFile = {
   name: string;
   text: string;
+  bytes?: never;
 };
+
+export type ZipBinaryFile = {
+  name: string;
+  bytes: Uint8Array;
+  text?: never;
+};
+
+export type ZipFile = ZipTextFile | ZipBinaryFile;
 
 function u16(value: number): number[] {
   return [value & 0xff, (value >> 8) & 0xff];
@@ -45,17 +54,24 @@ function bytesOf(text: string): number[] {
   return [...new TextEncoder().encode(text)];
 }
 
+function fileData(file: ZipFile): Uint8Array {
+  if ("bytes" in file && file.bytes) {
+    return file.bytes;
+  }
+  return new TextEncoder().encode(file.text ?? "");
+}
+
 /** 16 Kasım 2026 12:00. Çıktı her çağrıda aynı bayttır. */
 const ZIP_TIME = (12 << 11) | (0 << 5);
 const ZIP_DATE = ((2026 - 1980) << 9) | (11 << 5) | 16;
 
-export function buildStoreZip(files: readonly ZipTextFile[]): Uint8Array {
+export function buildStoreZip(files: readonly ZipFile[]): Uint8Array {
   const locals: number[][] = [];
   const centrals: number[][] = [];
   let offset = 0;
   for (const file of files) {
     const name = bytesOf(file.name);
-    const data = bytesOf(file.text);
+    const data = [...fileData(file)];
     const crc = crc32(Uint8Array.from(data));
     const local = [
       ...u32(0x04034b50),
@@ -131,6 +147,37 @@ export function readStoreZip(bytes: Uint8Array): ZipTextFile[] {
     files.push({
       name: new TextDecoder().decode(bytes.slice(nameStart, nameStart + nameLength)),
       text: new TextDecoder().decode(data),
+    });
+    offset = dataStart + size;
+  }
+  return files;
+}
+
+/** İkili (PNG vb.) girişleri de okur. */
+export function readStoreZipEntries(
+  bytes: Uint8Array,
+): { name: string; data: Uint8Array }[] {
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  const files: { name: string; data: Uint8Array }[] = [];
+  let offset = 0;
+  while (offset + 30 <= bytes.length) {
+    if (view.getUint32(offset, true) !== 0x04034b50) {
+      break;
+    }
+    const method = view.getUint16(offset + 8, true);
+    const crc = view.getUint32(offset + 14, true);
+    const size = view.getUint32(offset + 18, true);
+    const nameLength = view.getUint16(offset + 26, true);
+    const extraLength = view.getUint16(offset + 28, true);
+    const nameStart = offset + 30;
+    const dataStart = nameStart + nameLength + extraLength;
+    const data = bytes.slice(dataStart, dataStart + size);
+    if (method !== 0 || crc32(data) !== crc) {
+      throw new Error("Zip kaydı okunamadı.");
+    }
+    files.push({
+      name: new TextDecoder().decode(bytes.slice(nameStart, nameStart + nameLength)),
+      data,
     });
     offset = dataStart + size;
   }

@@ -50,6 +50,11 @@ export function bindWalletCardRefundStore(db: RefundSql): WalletCardRefundStore 
       return Number(rows[0]?.amount_minor ?? 0);
     },
     async listClearedOrders(userId) {
+      // Karta iade yalnız **kullanılmamış cüzdan yüklemesi** için. Aktif ürün bedeli
+      // (Pro, Commerce, YetkinCV yayını, kurumsal paket, Akademi/Junior lisansı) buraya hiç gelmez.
+      // Bu filtre `isActivatedProductRefundBlocked` ile aynı listeyi taşımak zorundadır;
+      // eksik bir niyet satırı ürünü nakit iadeye açar.
+      // Akademi/Junior slug'lı dizgiler `NOT LIKE` ile elenir (`academy-license:%`, `junior-license:%`).
       const rows = await db.$queryRaw<{ merchant_oid: string; amount_minor: number; purpose: string }[]>`
         SELECT merchant_oid, amount_minor, purpose
         FROM payment_orders
@@ -60,11 +65,26 @@ export function bindWalletCardRefundStore(db: RefundSql): WalletCardRefundStore 
             'TEZGAH_PRO',
             'tezgah-license:pro',
             'COMMERCE_LICENSE',
-            'commerce-license:monthly'
+            'commerce-license:monthly',
+            'CAREER_PUBLICATION',
+            'career-license:yetkincv-publication',
+            'KURUMSAL_SCREENING',
+            'kurumsal-license:job-screening-pack',
+            'ACADEMY_LICENSE',
+            'JUNIOR_LICENSE'
           )
+          AND purpose NOT LIKE 'academy-license:%'
+          AND purpose NOT LIKE 'junior-license:%'
           AND (
             order_purpose IS NULL
-            OR order_purpose NOT IN ('TEZGAH_PRO', 'COMMERCE_LICENSE')
+            OR order_purpose NOT IN (
+              'TEZGAH_PRO',
+              'COMMERCE_LICENSE',
+              'CAREER_PUBLICATION',
+              'KURUMSAL_SCREENING',
+              'ACADEMY_LICENSE',
+              'JUNIOR_LICENSE'
+            )
           )
         ORDER BY cleared_at DESC NULLS LAST, created_at DESC
       `;

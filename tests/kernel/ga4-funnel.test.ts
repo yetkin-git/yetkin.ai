@@ -203,6 +203,9 @@ describe("GA4 purchase — /cuzdan dönüşü davranış testi", () => {
     expect(deskForPurpose("COMMERCE_LICENSE")).toBe("e-ticaret");
     expect(deskForPurpose("junior-license:yearly")).toBe("junior");
     expect(deskForPurpose("grant-dossier")).toBe("hibe");
+    expect(deskForPurpose("GRANT_DOSSIER")).toBe("hibe");
+    expect(deskForPurpose("HIBE_AGENCY")).toBe("hibe");
+    expect(deskForPurpose("hibe-agency")).toBe("hibe");
     expect(deskForPurpose("wallet-top-up")).toBe("cuzdan");
     expect(deskForPurpose(null)).toBe("cuzdan");
   });

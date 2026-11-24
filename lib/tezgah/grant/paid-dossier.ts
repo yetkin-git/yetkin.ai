@@ -7,8 +7,9 @@ import { toAmountMinor, toPositiveAmountMinor } from "@/lib/kernel/money/amount-
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { isInsufficientBalanceError } from "@/lib/kernel/money/insufficient-balance";
 import { classifyExistingPaidCommand } from "@/lib/kernel/ai/paid-command";
-import { grantDossierDocxBase64 } from "@/lib/tezgah/grant/docx";
+import { grantReportDocxBase64 } from "@/lib/tezgah/grant/docx";
 import { generateGrantProject } from "@/lib/tezgah/grant/engine";
+import { grantReservationExpired } from "@/lib/tezgah/grant/reservation-ttl";
 import { renderGrantProjectText } from "@/lib/tezgah/grant/render";
 import type { GrantGenerateRequest } from "@/lib/tezgah/grant/schema";
 import type { GrantProjectReport } from "@/lib/tezgah/grant/types";
@@ -16,7 +17,6 @@ import {
   readTezgahCatalogAmount,
   TEZGAH_GRANT_DEBIT_PURPOSE,
   TEZGAH_GRANT_SCOPE,
-  TEZGAH_GRANT_UNIT,
   tezgahRequestHash,
 } from "@/lib/tezgah/paid-lane";
 
@@ -44,6 +44,11 @@ function filename(): string {
 /**
  * Tam hibe dosyası. Katalog satırı yoksa üretilmez.
  * Idempotency-Key aynı gövdeyle ikinci kez tahsil etmez.
+ *
+ * Ş3 / B-03 — **tek komut bağı**. Ödeme başlatılırken üretilen `commandKey`
+ * (`Idempotency-Key`) buraya taşınır: aynı anahtar hem rezervasyonu hem defter
+ * DEBIT'ini hem `hibe_dossiers.command_key` satırını bağlar. Kullanıcı ödedikten
+ * sonra formu baştan doldurmaz; dosya üretimi ilk çağrıda kaldığı yerden sürer.
  */
 export async function generatePaidGrantDossier(input: {
   userId: string;
@@ -51,7 +56,7 @@ export async function generatePaidGrantDossier(input: {
   request: GrantGenerateRequest;
   now?: Date;
 }): Promise<PaidGrantDossierResult> {
-  const amount = await readTezgahCatalogAmount(TEZGAH_GRANT_UNIT);
+  const amount = await readTezgahCatalogAmount("hibe/dossier");
   if (amount == null) {
     return { ok: false, error: TEZGAH_GRANT_DOSSIER_CLOSED, status: 422 };
   }
@@ -68,33 +73,11 @@ export async function generatePaidGrantDossier(input: {
       commandKey: input.commandKey,
     },
   };
-  try {
-    await prisma.paidCommandReservation.create({
-      data: {
-        userId: input.userId,
-        scope: TEZGAH_GRANT_SCOPE,
-        commandKey: input.commandKey,
-        requestHash,
-        status: "RESERVED",
-        estimatedMinor: amount,
-        currencyCode: SETTLEMENT_CURRENCY,
-        createdAt: now,
-        updatedAt: now,
-      },
-    });
-  } catch (error) {
-    if (!isUniqueViolation(error)) {
-      return { ok: false, error: "Dosya rezervi yazılamadı.", status: 503 };
-    }
-  }
-  const existing = await prisma.paidCommandReservation.findUnique({ where });
-  if (!existing) {
-    return { ok: false, error: "Dosya rezervi kilitlenemedi.", status: 503 };
-  }
-  if (existing.requestHash !== requestHash) {
+  let existing = await prisma.paidCommandReservation.findUnique({ where });
+  if (existing && existing.requestHash !== requestHash) {
     return { ok: false, error: "Bu Idempotency-Key başka bir dosyada.", status: 409 };
   }
-  if (existing.status === "SETTLED" && existing.providerJson) {
+  if (existing?.status === "SETTLED" && existing.providerJson) {
     const stored = JSON.parse(existing.providerJson) as {
       markdown?: string;
       report?: GrantProjectReport;
@@ -104,10 +87,61 @@ export async function generatePaidGrantDossier(input: {
         ok: true,
         report: stored.report,
         markdown: stored.markdown,
-        docxBase64: grantDossierDocxBase64(stored.markdown),
+        docxBase64: grantReportDocxBase64(stored.report),
         filename: filename(),
       };
     }
+  }
+  if (existing?.status === "RESERVED" && grantReservationExpired(existing.createdAt, now)) {
+    existing = await prisma.paidCommandReservation.update({
+      where,
+      data: { status: "FAILED", updatedAt: now },
+    });
+  }
+  if (existing?.status === "RESERVED") {
+    return { ok: false, error: "Bu dosya hazırlanıyor.", status: 409 };
+  }
+  const wallet = await prisma.wallet.findUnique({
+    where: { userId_currencyCode: { userId: input.userId, currencyCode: SETTLEMENT_CURRENCY } },
+    select: { amountMinor: true },
+  });
+  if (!wallet || wallet.amountMinor < amount) {
+    return { ok: false, error: "Cüzdan bakiyesi bu dosya için yetmiyor.", status: 402 };
+  }
+  if (!existing) {
+    try {
+      existing = await prisma.paidCommandReservation.create({
+        data: {
+          userId: input.userId,
+          scope: TEZGAH_GRANT_SCOPE,
+          commandKey: input.commandKey,
+          requestHash,
+          status: "RESERVED",
+          estimatedMinor: amount,
+          currencyCode: SETTLEMENT_CURRENCY,
+          createdAt: now,
+          updatedAt: now,
+        },
+      });
+    } catch (error) {
+      if (!isUniqueViolation(error)) {
+        return { ok: false, error: "Dosya rezervi yazılamadı.", status: 503 };
+      }
+      return { ok: false, error: "Bu dosya hazırlanıyor.", status: 409 };
+    }
+  } else {
+    existing = await prisma.paidCommandReservation.update({
+      where,
+      data: {
+        status: "RESERVED",
+        requestHash,
+        estimatedMinor: amount,
+        createdAt: now,
+        updatedAt: now,
+        providerJson: null,
+        settledAt: null,
+      },
+    });
   }
   const classified = classifyExistingPaidCommand(
     {
@@ -137,6 +171,10 @@ export async function generatePaidGrantDossier(input: {
     quotaMode: "prepaid",
   });
   if (!generated.ok) {
+    await prisma.paidCommandReservation.update({
+      where,
+      data: { status: "FAILED", updatedAt: now },
+    });
     return { ok: false, error: generated.error, status: generated.status };
   }
   const { remaining: _remaining, limit: _limit, guest: _guest, ok: _ok, ...report } = generated;
@@ -154,6 +192,10 @@ export async function generatePaidGrantDossier(input: {
   } catch (error) {
     const message = error instanceof Error ? error.message : "";
     if (isInsufficientBalanceError(message)) {
+      await prisma.paidCommandReservation.update({
+        where,
+        data: { status: "FAILED", updatedAt: now },
+      });
       return { ok: false, error: "Cüzdan bakiyesi bu dosya için yetmiyor.", status: 402 };
     }
     throw error;
@@ -167,11 +209,29 @@ export async function generatePaidGrantDossier(input: {
       updatedAt: now,
     },
   });
+  await prisma.hibeDossier.upsert({
+    where: { userId_commandKey: { userId: input.userId, commandKey: input.commandKey } },
+    create: {
+      userId: input.userId,
+      grantId: report.eligible[0]?.grantId ?? null,
+      title: report.businessName,
+      markdown,
+      reportJson: JSON.parse(JSON.stringify(report)) as object,
+      commandKey: input.commandKey,
+      createdAt: now,
+    },
+    update: {
+      grantId: report.eligible[0]?.grantId ?? null,
+      title: report.businessName,
+      markdown,
+      reportJson: JSON.parse(JSON.stringify(report)) as object,
+    },
+  });
   return {
     ok: true,
     report,
     markdown,
-    docxBase64: grantDossierDocxBase64(markdown),
+    docxBase64: grantReportDocxBase64(report),
     filename: filename(),
   };
 }

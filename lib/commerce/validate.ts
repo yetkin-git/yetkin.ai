@@ -14,7 +14,7 @@ const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const BARCODE_LENGTHS = new Set([8, 12, 13, 14]);
 const DRAFT_SKU_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-export const PAZARYERI_IMPORT_MAX_ROWS = 8;
+export const PAZARYERI_IMPORT_MAX_ROWS = 25;
 export const CSV_IMPORT_MAX_ROWS = 100;
 
 export function parseSku(value: string): string | null {
@@ -170,10 +170,20 @@ function parseStockFields(
     if (typeof skuRaw === "string" && skuRaw.trim() && !sku) {
       return fail("SKU büyük harf, rakam ve . _ - içerir. En çok 64 karakter.");
     }
-    if (barcodeRaw != null || amountRaw != null || onHand !== 0 || buffer !== 0) {
-      return fail("Taslak kartta barkod, fiyat ve stok boş kalır.");
+    if (barcodeRaw != null) {
+      return fail("Taslak kartta barkod boş kalır.");
     }
-    return { ok: true, value: { sku, barcode: null, amountMinor: null, onHandQty: 0, safetyBuffer: 0 } };
+    if (buffer !== 0) {
+      return fail("Taslak kartta emniyet tamponu 0 olmalıdır.");
+    }
+    let amountMinor: number | null = null;
+    if (amountRaw != null) {
+      amountMinor = readInt(amountRaw, 0, COMMERCE_INT_MAX);
+      if (amountMinor == null) {
+        return fail("Fiyat kuruş tam sayısı olmalıdır.");
+      }
+    }
+    return { ok: true, value: { sku, barcode: null, amountMinor, onHandQty: onHand, safetyBuffer: 0 } };
   }
   if (typeof skuRaw !== "string" || !parseSku(skuRaw)) {
     return fail("Aktif kartta SKU zorunludur.");

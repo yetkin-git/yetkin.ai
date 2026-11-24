@@ -10,8 +10,10 @@ import {
   type PaymentOrderStore,
 } from "@/lib/kernel/payments/clearing";
 import { notifyAcademyLicenseHook } from "@/lib/kernel/payments/academy-license-hook";
+import { notifyCareerLicenseHook } from "@/lib/kernel/payments/career-license-hook";
 import { notifyCommerceLicenseHook } from "@/lib/kernel/payments/commerce-license-hook";
 import { notifyTezgahLicenseHook } from "@/lib/kernel/payments/tezgah-license-hook";
+import { notifyGuestClaimHook } from "@/lib/kernel/payments/guest-claim-hook";
 import { notifyJuniorLicenseHook } from "@/lib/kernel/payments/junior-license-hook";
 import { logEvent } from "@/lib/kernel/observability/log";
 
@@ -33,6 +35,8 @@ export type PaytrWebhookSettleResult =
       applied: boolean;
       orderId: string;
       creditApplied: boolean;
+      /** Faz 3 / §4.1: misafir sipariş. Defter sahiplik bağlanınca yazılır. */
+      awaitingClaim: boolean;
     }
   | {
       disposition: "anomaly";
@@ -139,6 +143,7 @@ export async function settlePaytrWebhookSuccess(
   await notifyAcademyLicenseHook(cleared.order);
   await notifyJuniorLicenseHook(cleared.order);
   await notifyCommerceLicenseHook(cleared.order);
+  await notifyCareerLicenseHook(cleared.order);
   try {
     await notifyTezgahLicenseHook(cleared.order);
   } catch (error) {
@@ -179,12 +184,28 @@ export async function settlePaytrWebhookSuccess(
       applied: false,
     });
   }
+  // Faz 3 / §4.1 — misafir sipariş: hesap sahiplenme bağlantısı postalanır.
+  // Dekont (defter CREDIT) burada yazılmaz; `awaitingClaim` bunu çağırana söyler.
+  try {
+    await notifyGuestClaimHook(cleared.order);
+  } catch (error) {
+    logEvent({
+      level: "error",
+      event: "paytr.webhook.guest_claim_hook_failed",
+      requestId: input.requestId,
+      merchantOid: input.merchantOid,
+      orderId: cleared.order.id,
+      errorName: error instanceof Error ? error.name : "unknown",
+      applied: false,
+    });
+  }
   return {
     disposition: "cleared",
     ack: true,
     applied: cleared.applied,
     orderId: cleared.order.id,
     creditApplied: cleared.applied,
+    awaitingClaim: cleared.awaitingClaim,
   };
 }
 

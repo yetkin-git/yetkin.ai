@@ -11,8 +11,11 @@ export type GrantProgramSource =
   | "TUBITAK"
   | "TICARET_BAKANLIGI"
   | "KALKINMA_AJANSI"
-  | "RESMI_GAZETE"
-  | "BOLGESEL_AJANS";
+  | "TKDK_IPARD"
+  | "TARIM_BAKANLIGI"
+  | "SANAYI_BAKANLIGI"
+  | "ISKUR"
+  | "AB_FONLARI";
 
 export type GrantCallStatus = "ACTIVE" | "UPCOMING" | "CLOSING_SOON" | "CLOSED";
 
@@ -68,6 +71,8 @@ export type GrantCall = {
   requiredDocuments: readonly string[];
   tags: readonly string[];
   officialInfoUrl: string;
+  /** Resmî Gazete veya tebliğ bağlantısı. Kaynak kurumu değildir. */
+  publicationUrl?: string | null;
   /** Mühürlü şartname / uygulama esasları metni (RAG Knowledge Base). */
   specificationText?: string | null;
   /** Yapılandırılmış şartname ipuçları. */
@@ -78,6 +83,8 @@ export type GrantCall = {
 export type GrantCallWithMeta = GrantCall & {
   status: GrantCallStatus;
   remainingDays: number;
+  /** Resmî kaynak doğrulaması. Yoksa satır açık çağrı sayılmaz. */
+  sourceVerifiedAt?: string | null;
 };
 
 export type CompanyGrantProfile = {

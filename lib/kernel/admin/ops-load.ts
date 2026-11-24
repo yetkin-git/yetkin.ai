@@ -108,7 +108,8 @@ export async function loadAdminOpsReadout(
       amountMinor: row.amountMinor,
       currencyCode: row.currencyCode,
       createdAt: row.createdAt,
-      userId: row.userId,
+      // Faz 3 / §4.1: misafir PENDING satırı sahipsizdir; ops listesinde boş gösterilir.
+      userId: row.userId ?? "",
     }));
     const auditRows: OpsAuditRow[] = audits.map((row) => ({
       action: row.action,

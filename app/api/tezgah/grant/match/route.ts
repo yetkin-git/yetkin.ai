@@ -9,7 +9,7 @@ import {
 import { isGrantNaceGroup, isProvinceCode } from "@/lib/yetkinhibe/grant-brief-axes";
 import { GrantCatalogUnavailableError } from "@/lib/yetkinhibe/grant-catalog-core";
 import { loadYetkinhibeGrantCatalog } from "@/lib/yetkinhibe/grant-catalog-live";
-import { readGrantMatchBodyText } from "@/lib/yetkinhibe/grant-match-api";
+import { readGrantMatchBodyText } from "@/lib/yetkinhibe/grant-brief-match";
 import { YETKINHIBE_COPY } from "@/lib/yetkinhibe/copy";
 import { matchPublicGrantEligibility } from "@/lib/yetkinhibe/public-eligibility";
 import { z } from "zod";
@@ -27,6 +27,10 @@ const bodySchema = z.strictObject({
   idea: z.string().trim().min(12).max(600),
   provinceCode: z.string().trim(),
   sectorCode: z.string().trim(),
+  audience: z.enum(["yeni_girisimci", "mevcut_kobi"]),
+  /** Ş4 — ziyaretçiden gelen ölçek. Boşsa uygulama ölçek varsayılanını yazar. */
+  employeeCount: z.string().trim().max(6).optional(),
+  companyAgeYears: z.string().trim().max(3).optional(),
 });
 
 export async function POST(request: Request) {
@@ -52,15 +56,20 @@ export async function POST(request: Request) {
       return jsonFail("İş fikrini, sektörü ve ili seç.", 400, requestId, request);
     }
     if (!isProvinceCode(parsed.data.provinceCode) || !isGrantNaceGroup(parsed.data.sectorCode)) {
-      return jsonFail("İş fikrini, sektörü ve ili seç.", 400, requestId, request);
+      return jsonFail("İş fikrini, sektörü, ili ve ölçeği seç.", 400, requestId, request);
     }
 
-    const calls = await loadYetkinhibeGrantCatalog(new Date());
+    const now = new Date();
+    const calls = await loadYetkinhibeGrantCatalog(now);
     const match = matchPublicGrantEligibility({
       idea: parsed.data.idea,
       provinceCode: parsed.data.provinceCode,
       sectorCode: parsed.data.sectorCode,
+      audience: parsed.data.audience,
       calls,
+      now,
+      employeeCount: parsed.data.employeeCount ?? null,
+      companyAgeYears: parsed.data.companyAgeYears ?? null,
     });
     return jsonOk(match, 200, requestId, request);
   } catch (error) {

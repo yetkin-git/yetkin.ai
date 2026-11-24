@@ -75,10 +75,12 @@ describe("pazaryeri katalog fabrikası", () => {
     expect(clipPazaryeriTitle("kısa başlık", 100)).toBe("kısa başlık");
     expect(clipPazaryeriTitle("A".repeat(120), 100)).toBeNull();
 
-    const eight = Array.from({ length: PAZARYERI_MAX_PRODUCTS }, (_, index) => block(`Ürün ${index + 1}`)).join("\n\n");
-    const nine = `${eight}\n\n${block("Ürün 9")}`;
-    expect(parsePazaryeriProducts(eight)?.length).toBe(8);
-    expect(parsePazaryeriProducts(nine)).toBeNull();
+    const maxed = Array.from({ length: PAZARYERI_MAX_PRODUCTS }, (_, index) => block(`Ürün ${index + 1}`)).join(
+      "\n\n",
+    );
+    const overflow = `${maxed}\n\n${block("Ürün fazla")}`;
+    expect(parsePazaryeriProducts(maxed)?.length).toBe(25);
+    expect(parsePazaryeriProducts(overflow)).toBeNull();
     expect(parsePazaryeriProducts(`${"A".repeat(81)}\nKategori: Gıda`)).toBeNull();
     const fat = ["Ekmek", "Kategori: Gıda", ...Array.from({ length: 6 }, (_, index) => `Not${index}: ${"a".repeat(80)}`)].join(
       "\n",
@@ -94,11 +96,12 @@ describe("pazaryeri katalog fabrikası", () => {
     }
     expect(parsed[0]?.fields).toEqual([{ column: "Renk", value: "Ekru" }]);
     expect(parsed[0]?.other).toBe("Koku: vanilya");
+    expect(parsed[0]?.priceMinor).toBe(149_900);
+    expect(parsed[0]?.stockQty).toBeNull();
     expect(parsed[1]?.fields).toEqual([
       { column: "Beden", value: "0-3 ay" },
       { column: "Renk", value: "=1+1" },
     ]);
-    expect(JSON.stringify(parsed)).not.toContain("1499");
     expect(JSON.stringify(parsed)).not.toContain("8690000000001");
 
     const duplicate = parsePazaryeriProducts("Ürün\nKategori: Gıda\nRenk: Beyaz\nRenk: Siyah");
@@ -112,15 +115,21 @@ describe("pazaryeri katalog fabrikası", () => {
           title: "=CMD",
           description: "yumuşak, yıkanır",
           category: "-gizli",
+          taxonomyPath: "Ev & Yaşam > Mutfak Gereçleri",
           fields: [{ column: "Renk", value: "@SUM" }],
           other: "\t=1",
+          priceMinor: null,
+          stockQty: null,
         },
         {
           title: "+yol",
           description: '5" tabak',
           category: "Mutfak",
+          taxonomyPath: "",
           fields: [],
           other: "",
+          priceMinor: 12_500,
+          stockQty: 3,
         },
       ],
     });
@@ -134,9 +143,10 @@ describe("pazaryeri katalog fabrikası", () => {
     expect(lines[2]).toContain('"5"" tabak"');
     expect(lines[0]?.endsWith("Barkod,Fiyat,Stok")).toBe(true);
     expect(lines[1]?.endsWith(",,,")).toBe(true);
+    expect(lines[2]?.endsWith(",,125,3")).toBe(true);
   });
 
-  it("satır sayısı blok sayısıyla örtüşür; fiyat ve barkod boş kalır", async () => {
+  it("satır sayısı blok sayısıyla örtüşür; kullanıcı fiyatı dolar, barkod boş kalır", async () => {
     const seen: InvokeLlmInput[] = [];
     const result = await generatePazaryeriCatalog(
       { actorId: "guest:pazaryeri-engine", guest: true, request: { market: "trendyol", products: PRODUCTS } },
@@ -160,6 +170,7 @@ describe("pazaryeri katalog fabrikası", () => {
       "Urun Adi",
       "Aciklama",
       "Kategori",
+      "Pazaryeri Kategori",
       "Renk",
       "Beden",
       "Diger",
@@ -170,12 +181,10 @@ describe("pazaryeri katalog fabrikası", () => {
     const lines = csvLines(result.csv);
     expect(lines).toHaveLength(4);
     expect(lines.at(-1)).toContain("https://yetkin.ai/tezgah");
-    expect(lines[1]?.split(",")[4]).toBe("Ekru");
-    expect(lines[1]).toContain("Koku: vanilya");
-    expect(lines[2]?.split(",")[4]).toBe("'=1+1");
-    expect(result.csv).not.toContain("1499");
+    expect(result.rows[0]?.[4]).toContain("Anne");
+    expect(result.csv).toContain("1499");
     expect(result.csv).not.toContain("8690000000001");
-    expect(result.rows[0]?.slice(-3)).toEqual(["", "", ""]);
+    expect(result.rows[0]?.slice(-3)).toEqual(["", "1499", ""]);
     expect(result.rows[1]?.slice(-3)).toEqual(["", "", ""]);
     expect(seen[0]?.role).toBe(PAZARYERI_MODEL_ROLE);
     expect(seen[0]?.temperature).toBe(0.2);
@@ -183,7 +192,6 @@ describe("pazaryeri katalog fabrikası", () => {
     expect(seen[0]?.billing).toMatchObject({ source: "tezgah", recordUsage: true, userId: null });
     expect(seen[0]?.system).toBe(pazaryeriSystemPrompt(2, 100));
     expect(seen[0]?.system).not.toMatch(/resmi/i);
-    expect(seen[0]?.user).not.toContain("1499");
     expect(seen[0]?.user).not.toContain("8690000000001");
     expect(seen[0]?.user).toContain("Renk: Ekru");
 
@@ -201,7 +209,7 @@ describe("pazaryeri katalog fabrikası", () => {
     expect(blocked).toMatchObject({ ok: false, status: 429, error: TEZGAH_GUEST_QUOTA_MESSAGE, remaining: 0 });
   });
 
-  it("taşan tek kelime, eksik satır ve 9 ürün hakkı ya geri yazar ya da hiç düşürmez", async () => {
+  it("taşan tek kelime, eksik satır ve tavan üstü ürün hakkı ya geri yazar ya da hiç düşürmez", async () => {
     const one = "Ekmek\nKategori: Gıda\nRenk: Beyaz";
     const longWord = await generatePazaryeriCatalog(
       { actorId: "guest:pazaryeri-word", guest: true, request: { market: "trendyol", products: one } },
@@ -238,11 +246,13 @@ describe("pazaryeri katalog fabrikası", () => {
     let calls = 0;
     const tooMany = await generatePazaryeriCatalog(
       {
-        actorId: "guest:pazaryeri-nine",
+        actorId: "guest:pazaryeri-overflow",
         guest: true,
         request: {
           market: "trendyol",
-          products: Array.from({ length: 9 }, (_, index) => block(`Ürün ${index + 1}`)).join("\n\n"),
+          products: Array.from({ length: PAZARYERI_MAX_PRODUCTS + 1 }, (_, index) => block(`Ürün ${index + 1}`)).join(
+            "\n\n",
+          ),
         },
       },
       {
@@ -266,35 +276,82 @@ describe("pazaryeri katalog fabrikası", () => {
       aim: "call",
       offer: "İkinci poğaça bedava",
     };
+    const reklamMatrix = [
+      "## Varyant A — Sorun & Çözüm",
+      "### Google başlıklar",
+      "- Sabah taze çıkar",
+      "- İkinci poğaça",
+      "- Mahalle fırını",
+      "### Google açıklamalar",
+      "- Kadıköy'de taze ekmek ve poğaça.",
+      "- İkinci poğaça bedava, hemen arayın.",
+      "### Meta başlık",
+      "Kadıköy fırını",
+      "### Meta metin",
+      "Taze ekmek ve poğaça için dükkana bekleriz.",
+      "### Anahtar kelimeler",
+      "- kadıköy fırın",
+      "- taze ekmek",
+      "- poğaça",
+      "### Negatif anahtar kelimeler",
+      "- ucuz fırın",
+      "- toptan un",
+      "### Görsel brif",
+      "Kadraj: tezgah üstü ekmek",
+      "Görsel üstü yazı: Taze çıktı",
+      "Gösterilmeyecek: fiyat etiketi",
+      "## Varyant B — Güven & Uzmanlık",
+      "### Google başlıklar",
+      "- Mahalle ustası",
+      "- Günlük taze un",
+      "- Kadıköy fırını",
+      "### Google açıklamalar",
+      "- Yerel fırından taze ekmek.",
+      "- İkinci poğaça bedava kampanyası.",
+      "### Meta başlık",
+      "Güvenilir fırın",
+      "### Meta metin",
+      "Mahallede yıllardır aynı kalite.",
+      "### Anahtar kelimeler",
+      "- kadıköy fırın",
+      "- taze ekmek",
+      "- poğaça",
+      "### Negatif anahtar kelimeler",
+      "- ucuz fırın",
+      "- toptan un",
+      "### Görsel brif",
+      "Kadraj: tezgah üstü ekmek",
+      "Görsel üstü yazı: Taze çıktı",
+      "Gösterilmeyecek: fiyat etiketi",
+      "## Varyant C — Net Teklif & Hızlı Aksiyon",
+      "### Google başlıklar",
+      "- Bugün yazın",
+      "- İkinci poğaça",
+      "- Hemen arayın",
+      "### Google açıklamalar",
+      "- İkinci poğaça bedava. Hemen arayın.",
+      "- Kadıköy tezgahına bugün uğrayın.",
+      "### Meta başlık",
+      "Hemen arayın",
+      "### Meta metin",
+      "İkinci poğaça bedava için hemen arayın.",
+      "### Anahtar kelimeler",
+      "- kadıköy fırın",
+      "- taze ekmek",
+      "- poğaça",
+      "### Negatif anahtar kelimeler",
+      "- ucuz fırın",
+      "- toptan un",
+      "### Görsel brif",
+      "Kadraj: tezgah üstü ekmek",
+      "Görsel üstü yazı: Taze çıktı",
+      "Gösterilmeyecek: fiyat etiketi",
+    ].join("\n");
     const opened = await generateReklamPackage(
       { actorId, guest: true, request: reklam },
       {
         now: () => NOW,
-        invoke: async () =>
-          okText(
-            [
-              "## Kancalar",
-              "- Sabah taze çıkar",
-              "- İkinci poğaça bedava",
-              "- Mahallede aynı gün",
-              "## Meta başlık",
-              "Kadıköy fırını",
-              "## Meta metin",
-              "Taze ekmek ve poğaça için dükkana bekleriz.",
-              "## Google başlık",
-              "Taze ekmek",
-              "## Google açıklama",
-              "Kadıköy'de taze ekmek ve poğaça.",
-              "## Anahtar kelimeler",
-              "- kadıköy fırın",
-              "- taze ekmek",
-              "- poğaça",
-              "## Görsel brif",
-              "Kadraj: tezgah üstü ekmek",
-              "Görsel üstü yazı: Taze çıktı",
-              "Gösterilmeyecek: fiyat etiketi",
-            ].join("\n"),
-          ),
+        invoke: async () => okText(reklamMatrix),
       },
     );
     expect(opened.ok).toBe(true);
@@ -303,31 +360,7 @@ describe("pazaryeri katalog fabrikası", () => {
         { actorId, guest: true, request: reklam },
         {
           now: () => NOW,
-          invoke: async () =>
-            okText(
-              [
-                "## Kancalar",
-                "- Sabah taze çıkar",
-                "- İkinci poğaça bedava",
-                "- Mahallede aynı gün",
-                "## Meta başlık",
-                "Kadıköy fırını",
-                "## Meta metin",
-                "Taze ekmek ve poğaça için dükkana bekleriz.",
-                "## Google başlık",
-                "Taze ekmek",
-                "## Google açıklama",
-                "Kadıköy'de taze ekmek ve poğaça.",
-                "## Anahtar kelimeler",
-                "- kadıköy fırın",
-                "- taze ekmek",
-                "- poğaça",
-                "## Görsel brif",
-                "Kadraj: tezgah üstü ekmek",
-                "Görsel üstü yazı: Taze çıktı",
-                "Gösterilmeyecek: fiyat etiketi",
-              ].join("\n"),
-            ),
+          invoke: async () => okText(reklamMatrix),
         },
       );
       expect(mid.ok).toBe(true);

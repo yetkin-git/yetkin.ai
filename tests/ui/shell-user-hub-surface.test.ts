@@ -33,10 +33,15 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     expect(VERTICAL_ROOMS).toHaveLength(4);
     const nav = readSrc("components/shell/sidebar-nav.tsx");
     expect(nav).toContain("DRON_KAYIT");
+    expect(nav).toContain('openRoom("dashboard")');
     expect(nav).toContain('openRoom("yetkinhibe")');
     expect(nav).toContain('openRoom("tezgah")');
+    expect(nav).toContain('openRoom("career")');
+    expect(nav).toContain('openRoom("junior")');
+    expect(nav).toContain("COMMERCE_NAV");
     expect(nav).toContain("showAdmin");
     expect(nav).toContain("showJunior");
+    expect(nav).toContain('row.id === "junior" && !showJunior');
     expect(nav).toContain("ADMIN_SURFACE_PATH");
     expect(nav).toContain("Yönetici Paneli");
     expect(nav).not.toContain("KERNEL_SURFACES");
@@ -45,6 +50,18 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     expect(nav).not.toContain("/cuzdan");
     expect(nav).not.toContain("/pasaport");
     expect(nav).not.toContain("Pasif");
+    const shell = readSrc("components/shell/app-shell.tsx");
+    expect(shell).toContain("canAccessJunior(session?.email)");
+    expect(shell).toContain("showJunior={showJunior}");
+    const rooms = [
+      readSrc("lib/dronlar/kayit.ts"),
+      readSrc("lib/kernel/modules.ts"),
+    ].join("\n");
+    expect(rooms).toContain('label: "Ana Panel"');
+    expect(rooms).toContain('label: "E-Ticaret"');
+    expect(rooms).toContain('label: "Hibe Bulucu"');
+    expect(rooms).toContain('label: "AI Tezgâh"');
+    expect(rooms).toContain('label: "Kariyer"');
   });
 
   it("sol ray 4 oda ritmi ferahdır; alt şerit daraltma tutamacıdır, dipnot kalabalığı yoktur", () => {
@@ -157,8 +174,8 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
       "/career",
       "/admin",
       "/magazam",
-      "/e-ticaret",
-      "/hibe",
+      "/panel/e-ticaret",
+      "/panel/hibe",
     ]);
   });
 });

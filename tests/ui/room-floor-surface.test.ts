@@ -34,15 +34,19 @@ describe("çalışan oda düz zemin", () => {
     expect(freelancer).not.toContain("repeating-linear-gradient");
     expect(freelancer).not.toContain("135deg");
 
-    const academy = sliceBetween(css, '[data-room="academy"]', '[data-room="career"]');
-    expect(academy).toContain("background: var(--background)");
-    expect(academy).not.toContain("repeating-linear-gradient");
-    expect(academy).not.toContain("radial-gradient");
-
+    // M-02 (Tedavi): `[data-room="academy"]` canlı katmandan çıktı. Akademi odası
+    // diskte yok ve kenar 410 basıyor; kural `archived-academy.css`'e taşındı.
+    // Yaşayan oda olduğu için aynı düz zemin sözleşmesi artık `/career` üzerinden
+    // doğrulanır — arşiv ise ayrıca denetlenir (gradyan sızmamış).
     const career = sliceBetween(css, '[data-room="career"]', '[data-room="social"]');
     expect(career).toContain("background: var(--background)");
     expect(career).not.toContain("repeating-linear-gradient");
     expect(career).not.toContain("radial-gradient");
+
+    // Arşiv dosyası da aynı düz zemin sözleşmesini taşır (geri alınırsa temiz kalsın).
+    const archived = readSrc("app/styles/archived-academy.css");
+    expect(archived).toContain('[data-room="academy"]');
+    expect(archived).toContain("background: var(--background)");
 
     const dashboard = sliceBetween(css, '[data-room="dashboard"]', ".action-bridge-stack");
     expect(dashboard).toContain("background: var(--background)");

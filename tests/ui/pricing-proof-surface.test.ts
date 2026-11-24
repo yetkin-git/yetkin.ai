@@ -101,7 +101,7 @@ describe("fiyatlandırma karşılaştırma matrisi", () => {
     expect(page).toContain("scope=\"col\"");
     expect(page).toContain("scope=\"row\"");
     for (const feature of [
-      "Günlük Tezgâh Kotası",
+      "Aylık Tezgâh Kredisi",
       "DOCX / ZIP İndirme",
       "Pazaryeri Entegrasyonu",
       "Hibe Dosyası",
@@ -119,6 +119,7 @@ describe("fiyatlandırma karşılaştırma matrisi", () => {
   it("kota satırı gerçek misafir limitini koddan okur", () => {
     const page = readSrc("app/(public)/fiyatlandirma/page.tsx");
     expect(page).toContain("TEZGAH_GUEST_DAILY_LIMIT");
+    expect(page).toContain("TEZGAH_FREE_MONTHLY_CREDITS");
     expect(page).toContain("from \"@/lib/tezgah/catalog\"");
   });
 

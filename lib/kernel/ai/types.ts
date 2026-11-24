@@ -58,6 +58,8 @@ export type InvokeImageInput = {
   role?: "IMAGE_GEN";
   model?: string;
   prompt: string;
+  /** Gemini imageConfig.aspectRatio — örn. "1:1", "2:3", "16:9". */
+  aspectRatio?: string;
   timeoutMs?: number;
   maxAttempts?: number;
   rateLimit?: {
@@ -188,6 +190,7 @@ export type ProviderCompleteResult = {
 export type ProviderGenerateImageInput = {
   model: string;
   prompt: string;
+  aspectRatio?: string;
 };
 
 export type ProviderGenerateImageResult = {

@@ -7,7 +7,7 @@ import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
-import { TEZGAH_MEMBER_DAILY_LIMIT, TEZGAH_TOOLS } from "@/lib/tezgah/catalog";
+import { TEZGAH_FREE_MONTHLY_CREDITS, TEZGAH_TOOLS } from "@/lib/tezgah/catalog";
 
 const ROOT = process.cwd();
 
@@ -18,14 +18,14 @@ function readSrc(relative: string): string {
 const quotaDown = {
   live: false,
   remaining: 0,
-  limit: TEZGAH_MEMBER_DAILY_LIMIT,
+  limit: TEZGAH_FREE_MONTHLY_CREDITS,
   lane: "CLOSED" as const,
 };
 
 describe("komuta merkezi projeksiyonu", () => {
-  it("katalog on araçtır; üye kotası 3'tür", () => {
+  it("katalog on araçtır; üye aylık kredisi 30'dur", () => {
     expect(TEZGAH_TOOLS).toHaveLength(10);
-    expect(TEZGAH_MEMBER_DAILY_LIMIT).toBe(3);
+    expect(TEZGAH_FREE_MONTHLY_CREDITS).toBe(30);
   });
 
   it("okunamayan odalar tire basar; boş mağaza cümlesini iddia etmez", () => {
@@ -39,17 +39,17 @@ describe("komuta merkezi projeksiyonu", () => {
 
     expect(tezgah.cta).toBe("Tezgâhı Aç");
     expect(tezgah.href).toBe("/tezgah");
-    expect(tezgah.stats[0]?.label).toBe("Bugünkü ücretsiz hak");
+    expect(tezgah.stats[0]?.label).toBe("Bu ayki kredi");
     expect(tezgah.stats[0]?.value).toBe("—");
     expect(tezgah.detail).toBe("10 araç hazır");
 
     expect(commerce.cta).toBe("Kokpiti Aç");
-    expect(commerce.href).toBe("/e-ticaret");
+    expect(commerce.href).toBe("/panel/e-ticaret");
     expect(commerce.stats[0]?.value).toBe("—");
     expect(commerce.detail).toBe(SEN_VOICE.dashboard.pulse.unavailable);
     expect(commerce.detail).not.toBe(copy.commerceNone);
 
-    expect(hibe.href).toBe("/hibe");
+    expect(hibe.href).toBe("/panel/hibe");
     expect(hibe.cta).toBe("YetkinHibe’yi aç");
     expect(hibe.stats[0]?.value).toBe("—");
 
@@ -90,19 +90,19 @@ describe("komuta merkezi projeksiyonu", () => {
       toolCount: TEZGAH_TOOLS.length,
     });
 
-    expect(tezgah.stats[0]?.label).toBe("Bugünkü ücretsiz hak");
+    expect(tezgah.stats[0]?.label).toBe("Bu ayki kredi");
     expect(tezgah.stats[0]?.value).toBe("2/3");
     expect(`${tezgah.stats[0]?.label} (${tezgah.stats[0]?.value})`).toBe(
-      "Bugünkü ücretsiz hak (2/3)",
+      "Bu ayki kredi (2/3)",
     );
     expect(tezgah.detail).toBe("10 araç hazır");
 
     expect(commerce.stats[0]?.value).toBe("0");
     expect(commerce.detail).toBe("Henüz mağaza açılmadı");
     expect(commerce.cta).toBe("Kokpiti Aç");
-    expect(commerce.href).toBe("/e-ticaret");
+    expect(commerce.href).toBe("/panel/e-ticaret");
 
-    expect(hibe.href).toBe("/hibe");
+    expect(hibe.href).toBe("/panel/hibe");
     expect(hibe.stats[0]?.value).toBe("—");
 
     expect(career.stats[0]?.value).toBe("1");
@@ -160,7 +160,7 @@ describe("komuta merkezi projeksiyonu", () => {
     expect(`${credit.stats[0]?.label} (${credit.stats[0]?.value})`).toBe(
       "Kalan üretim kredisi (5)",
     );
-    expect(credit.stats[0]?.label).not.toContain("Bugünkü");
+    expect(credit.stats[0]?.label).not.toContain("ayki kredi");
 
     const spent = projectCommandCenter({
       pulse: EMPTY_DASHBOARD_PULSE,
@@ -168,7 +168,7 @@ describe("komuta merkezi projeksiyonu", () => {
       quota: { live: true, remaining: 0, limit: 3, lane: "CLOSED" },
       toolCount: TEZGAH_TOOLS.length,
     })[2];
-    expect(spent.stats[0]).toEqual({ label: "Bugünkü ücretsiz hak", value: "0/3" });
+    expect(spent.stats[0]).toEqual({ label: "Bu ayki kredi", value: "0/3" });
 
     const pro = projectCommandCenter({
       pulse: EMPTY_DASHBOARD_PULSE,

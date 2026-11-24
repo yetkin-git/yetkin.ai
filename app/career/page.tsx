@@ -1,6 +1,8 @@
 import type { Metadata, Route } from "next";
 import { ActionPlanPanel } from "@/components/career/action-plan-panel";
 import { YetkinCvStation } from "@/components/career/yetkincv-station";
+import { CareerCvEditor } from "@/components/career/career-cv-editor";
+import { CareerPrivacyPanel } from "@/components/career/career-privacy-panel";
 import { CareerJobMatchPanel } from "@/components/career/job-match-panel";
 import { SwotRoadmapCard } from "@/components/career/swot-roadmap-card";
 import { CareerDeskBoard } from "@/components/career/desk-board";
@@ -8,6 +10,12 @@ import { AiCareerStudio } from "@/components/career/ai-career-studio";
 import { MeritSealBand } from "@/components/career/merit-seal-band";
 import { PublicCareerPanel } from "@/components/career/public-career-panel";
 import { SealShareGuideButtons, SealShareGuides } from "@/components/career/seal-share-guides";
+import { ApplicationStatusCards } from "@/components/career/application-status-cards";
+import { InterviewInvitePanel } from "@/components/career/interview-invite-panel";
+import { loadCareerCv } from "@/lib/career/cv-store";
+import { listTezgahPortfolioForUser } from "@/lib/career/tezgah-portfolio";
+import { loadCandidateApplicationStatuses } from "@/lib/career/application-status";
+import { listInterviewInvitesForTalent } from "@/lib/career/interview-invite";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
@@ -129,12 +137,17 @@ function careerPlan(evidence: CareerEvidence | null, board: CareerJobMatchBoard,
 
 async function SignedInCareerPage({ hedef }: { hedef: string | null }) {
   const session = await requirePageSession();
-  const [board, deskTasks, yetkinCard, matchBoard] = await Promise.all([
-    loadCareerBoard(session.id),
-    loadCareerDeskTasks(session.id),
-    loadLatestYetkinCvCard(session.id).catch(() => null),
-    loadCareerJobMatchBoard(session.id).catch(() => UNREAD_CAREER_JOB_MATCH_BOARD),
-  ]);
+  const [board, deskTasks, yetkinCard, matchBoard, careerCv, tezgahProofs, applicationStatuses, interviewInvites] =
+    await Promise.all([
+      loadCareerBoard(session.id),
+      loadCareerDeskTasks(session.id),
+      loadLatestYetkinCvCard(session.id).catch(() => null),
+      loadCareerJobMatchBoard(session.id).catch(() => UNREAD_CAREER_JOB_MATCH_BOARD),
+      loadCareerCv(session.id).catch(() => null),
+      listTezgahPortfolioForUser(session.id).catch(() => []),
+      loadCandidateApplicationStatuses(session.id).catch(() => []),
+      listInterviewInvitesForTalent(session.id).catch(() => []),
+    ]);
   const actionLive = await loadSignedInActionLive(session.id, board);
   const evidence = await loadCareerEvidence(session.id).catch(() => null);
   const stamps = board?.stamps ?? [];
@@ -188,15 +201,31 @@ async function SignedInCareerPage({ hedef }: { hedef: string | null }) {
         <p className="text-sm text-[var(--muted)]">{copy.loadSoft}</p>
       ) : null}
       <YetkinCvStation signedIn initialCard={yetkinCard} />
+      <CareerCvEditor initialCv={careerCv} />
+      <ApplicationStatusCards cards={applicationStatuses} />
+      <InterviewInvitePanel initialInvites={interviewInvites} />
       <MeritSealBand
         stamps={stamps}
         proofCount={portfolio.length}
         publicTalentHref={publicTalentHref}
       />
+      {tezgahProofs.length > 0 ? (
+        <Card title="Portföy Çıktıları (AI Tezgâh Kayıtlı)">
+          <ul className="space-y-2">
+            {tezgahProofs.map((item) => (
+              <li key={item.id} className="space-y-1">
+                <p className="text-sm font-medium text-[var(--foreground)]">{item.title}</p>
+                {item.body ? <p className="text-sm text-[var(--muted)]">{item.body}</p> : null}
+              </li>
+            ))}
+          </ul>
+        </Card>
+      ) : null}
       <CareerJobMatchPanel board={matchBoard} activeSlug={coachTarget(matchBoard, hedef)?.slug ?? null} />
       {careerPlan(evidence, matchBoard, hedef)}
       <CareerDeskBoard tasks={deskTasks} />
       <AiCareerStudio verifiedBadges={verifiedBadges} />
+      <CareerPrivacyPanel />
       <div className="flex flex-wrap gap-2">
         <SealShareGuideButtons model={shareModel} />
       </div>
@@ -216,10 +245,10 @@ async function SignedInCareerPage({ hedef }: { hedef: string | null }) {
           <LinkButton href="/tezgah" variant="outline" size="sm">
             {copy.footnoteAcademyCta}
           </LinkButton>
-          <LinkButton href="/e-ticaret" variant="outline" size="sm">
+          <LinkButton href="/panel/e-ticaret" variant="outline" size="sm">
             E-ticaret
           </LinkButton>
-          <LinkButton href="/hibe" variant="outline" size="sm">
+          <LinkButton href="/panel/hibe" variant="outline" size="sm">
             YetkinHibe
           </LinkButton>
         </div>

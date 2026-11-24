@@ -67,7 +67,8 @@ test.describe("Faz 1 kamu navigasyonu", () => {
     const followed = await page.goto("/career");
     expect(followed?.status()).toBeLessThan(400);
     await expect(page).toHaveURL(/\/career\/?$/);
-    await expect(page.getByRole("heading", { name: "Yetkinliğini Gerçek Testle Kanıtla, Fark Yarat." }).first()).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Kariyer" }).first()).toBeVisible();
+    await expect(page.getByText("YetkinCV, vize ve açık ilanlar").first()).toBeVisible();
     await expect(page.getByText("Örnek mühürlü sertifika")).toBeVisible();
     await expect(page.getByRole("heading", { name: "30 günlük aksiyon planı" })).toBeVisible();
     await expect(page.locator("[data-action-plan]")).toContainText(

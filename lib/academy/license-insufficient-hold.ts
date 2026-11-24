@@ -39,6 +39,10 @@ export function planAcademyUnlicensedCreditRefund(
   if (order.status !== "CLEARED" || !parseAcademyLicenseSlug(order.purpose)) {
     return null;
   }
+  // Faz 3 / §4.1: misafir siparişi (userId null) lisans niyeti taşımaz.
+  if (!order.userId) {
+    return null;
+  }
   const merchantOid = order.merchantOid.trim();
   if (!merchantOid || !Number.isInteger(order.amountMinor) || order.amountMinor <= 0) {
     return null;

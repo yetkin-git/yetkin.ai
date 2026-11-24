@@ -17,10 +17,10 @@ import {
   scrubAssistantProviderLeak,
   type AssistantChatQuotaPort,
 } from "@/lib/kernel/ai/assistant-chat";
+import { assistantActorId } from "@/lib/kernel/ai/assistant-guest-actor";
 import {
   ASSISTANT_GUEST_QUESTION_LIMIT,
   GUEST_QUESTION_COUNT_KEY,
-  assistantActorId,
   createMirroredGuestCountStorage,
   ensureGuestQuestionCount,
   formatGuestQuestionCookie,
@@ -107,7 +107,7 @@ describe("yetkin.ai asistan sohbet kotası", () => {
       expect(result.reply).toContain(LEGAL_SUPPORT_EMAIL);
       expect(result.reply).toContain("/tezgah");
       expect(result.reply).toContain("/hibe");
-      expect(result.reply).toContain("/e-ticaret");
+      expect(result.reply).toContain("/panel/e-ticaret");
       expect(result.reply).toContain("/career");
       expect(result.reply).not.toContain("/academy");
     }
@@ -273,7 +273,7 @@ describe("asistan yüzey mührü", () => {
     expect(ASSISTANT_SEN.system).not.toContain("Akademi odası");
     expect(ASSISTANT_SEN.system).toContain("/tezgah");
     expect(ASSISTANT_SEN.system).toContain("/hibe");
-    expect(ASSISTANT_SEN.system).toContain("/e-ticaret");
+    expect(ASSISTANT_SEN.system).toContain("/panel/e-ticaret");
     expect(ASSISTANT_SEN.system).toContain("/career");
     expect(ASSISTANT_SEN.system).toContain("/iletisim");
     expect(ASSISTANT_SEN.system).toContain(LEGAL_SUPPORT_EMAIL);
@@ -305,8 +305,8 @@ describe("asistan yüzey mührü", () => {
     expect(widget).not.toContain("/academy");
     expect(ASSISTANT_SEN.roomLinks.map((room) => room.href)).toEqual([
       "/tezgah",
-      "/hibe",
-      "/e-ticaret",
+      "/panel/hibe",
+      "/panel/e-ticaret",
       "/career",
     ]);
     expect(widget).toContain("bottom-6 right-6");
@@ -429,10 +429,10 @@ describe("anonim asistan sayacı", () => {
   });
 
   it("ölü oturum anonim kovaya düşer; geçerli üye kendi kimliğinde kalır", () => {
-    expect(assistantActorId(null, "203.0.113.7")).toEqual({
-      userId: "guest:203.0.113.7",
-      guest: true,
-    });
+    const guest = assistantActorId(null, "203.0.113.7");
+    expect(guest.guest).toBe(true);
+    expect(guest.userId).toMatch(/^guest:[a-f0-9]{64}$/);
+    expect(guest.userId).not.toContain("203.0.113.7");
     expect(assistantActorId("   ", "203.0.113.7").guest).toBe(true);
     expect(assistantActorId("user-1", "203.0.113.7")).toEqual({
       userId: "user-1",

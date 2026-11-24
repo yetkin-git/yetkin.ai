@@ -247,6 +247,7 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     });
     expect(sitemapRoutePolicy("/").priority).toBe(1);
     expect(sitemapRoutePolicy("/career").priority).toBe(0.9);
+    expect(sitemapRoutePolicy("/e-ticaret").priority).toBe(0.9);
     for (const path of ["/academy", "/academy/01_office_ai", "/academy/dogrula"]) {
       expect(byPath.has(path), path).toBe(false);
     }
@@ -337,6 +338,9 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
       "/career",
       "/tezgah",
       "/fiyatlandirma",
+      "/e-ticaret",
+      // YetkinHibe kamu odası (`app/(public)/hibe`) — site haritası kaydı.
+      "/hibe",
       "/kurumsal",
       "/vize",
       "/uzmanlar",
@@ -359,6 +363,10 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(isRobotsDisallowedPath("/academy/01_office_ai")).toBe(true);
     expect(isRobotsDisallowedPath("/profil")).toBe(true);
     expect(isRobotsDisallowedPath("/profile")).toBe(true);
+    // E-ticaret kokpiti robots'ta kapalı; kamu vitrini `/e-ticaret` açık kalır.
+    expect(isRobotsDisallowedPath("/panel/e-ticaret")).toBe(true);
+    expect(isRobotsDisallowedPath("/magazam/yeni")).toBe(true);
+    expect(isRobotsDisallowedPath("/e-ticaret")).toBe(false);
     expect(rule?.disallow).toEqual(
       expect.arrayContaining(["/dashboard", "/freelancer", "/login", "/api/"]),
     );
@@ -609,11 +617,13 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
 
   it("hedef anahtar kelimeler H1/H2, gövde, meta ve FAQ’da durur", () => {
     expect(PAGE_SEO.home.title).toBe(PUBLIC_SEN.home.title);
+    expect(PAGE_SEO.career.title.toLocaleLowerCase("tr")).toContain("kariyer");
     expect(PAGE_SEO.career.title.toLocaleLowerCase("tr")).toContain("yetkincv");
     // Kapalı Akademi meta girdisi silindi (SEO Tedavi P0): basan sayfa yok.
     expect("academy" in PAGE_SEO).toBe(false);
-    expect(CAREER_SEN.eyebrow.toLocaleLowerCase("tr")).toContain("yetkincv");
-    expect(CAREER_SEN.title.toLocaleLowerCase("tr")).toContain("yetkinliğini");
+    expect(CAREER_SEN.eyebrow.toLocaleLowerCase("tr")).toBe("kariyer");
+    expect(CAREER_SEN.title.toLocaleLowerCase("tr")).toBe("kariyer");
+    expect(CAREER_SEN.description.toLocaleLowerCase("tr")).toContain("yetkincv");
     expect(PUBLIC_SEN.home.chainTitle.toLocaleLowerCase("tr")).toContain("dört adım");
     expect(readSrc("app/(public)/page.tsx")).toContain("<h2");
     expect(readSrc("app/(public)/page.tsx")).toContain("home-chain-heading");
@@ -677,10 +687,16 @@ describe("Aşama 4 SEM — Kalite Puanı anahtar kelime ve dönüşüm kancası"
   });
 
   it("Purchase/Register dönüşüm kancası birinci taraftır; komut dosyası yüklenmez", () => {
+    // 4.4 (Tedavi): huni olayları eklendi. `purchase` vardı ama "nerede kaybettik"
+    // bilinmiyordu; dört yeni olay o boşluğu kapatıyor.
     expect(SEM_CONVERSION_NAMES).toEqual({
       purchase: "purchase",
       register: "sign_up",
       form: "generate_lead",
+      tezgahFirstOutput: "tezgah_first_output",
+      tezgahQuotaWall: "tezgah_quota_wall",
+      pricingView: "pricing_view",
+      checkoutStart: "checkout_start",
     });
     expect(SEM_CONVERSION_EVENT).toBe("yetkin:conversion");
     expect(readSrc("archived/academy/components/purchase-button.tsx")).toContain("trackPurchase(");

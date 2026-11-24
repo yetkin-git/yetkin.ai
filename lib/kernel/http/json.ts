@@ -17,6 +17,7 @@ import {
   BadRequestError,
   ConflictError,
   ForbiddenError,
+  PaymentRequiredError,
   NotFoundError,
   PayloadTooLargeError,
   ServiceUnavailableError,
@@ -152,6 +153,9 @@ export function jsonFromUnknown(
 ) {
   if (error instanceof AuthRequiredError) {
     return jsonFail(error.message, 401, requestId, request);
+  }
+  if (error instanceof PaymentRequiredError) {
+    return jsonFail(error.message, 402, requestId, request);
   }
   if (error instanceof ForbiddenError) {
     return jsonFail(error.message, 403, requestId, request);

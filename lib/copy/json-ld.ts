@@ -226,3 +226,193 @@ export function legalSectionBreadcrumbs(input: {
     { name: input.title, path: `/legal/${input.slug}` },
   ];
 }
+
+/**
+ * SEO-01 — fiyatlandırma sayfası `Product` + `Offer` grafiği.
+ *
+ * Tutar **çağırandan** gelir; bu fonksiyon fiyat uydurmaz ve hesaplamaz. Yalnız
+ * canlı vitrin satırı (`loadPublicPricingVitrine`) tutar taşır; katalogda satırı
+ * olmayan ürün (`amountMinor === null`) şemaya **girmez** — Google'a "fiyatı var"
+ * demek dürüstlük ilkesini bozar.
+ *
+ * `ItemList` sarmalayıcı, zengin sonuç tarayıcısına ürün kümesini tek nesne
+ * olarak verir; her `Product` kendi `@id`'siyle durur.
+ */
+export type PricingProductInput = {
+  /** Vitrin kimliği (`tezgah:pro` gibi). `@id` çapası buradan türetilir. */
+  id: string;
+  name: string;
+  description: string;
+  /** Tam lira tutarı metin olarak (`"590.00"`). `null` → şemaya girmez. */
+  priceMajor: string | null;
+  path: string;
+  /** Aylık yenilenen ürün mü — `offer` açıklaması için. */
+  monthly?: boolean;
+};
+
+function productAnchor(id: string): string {
+  return id.replace(/[^a-z0-9]+/giu, "-");
+}
+
+export function pricingProductJsonLd(input: PricingProductInput): JsonLdObject | null {
+  if (!input.priceMajor) {
+    return null;
+  }
+  const url = `${canonicalUrl(input.path)}#${productAnchor(input.id)}`;
+  return {
+    "@type": "Product",
+    "@id": `${url}#product`,
+    name: input.name,
+    description: input.description,
+    url,
+    brand: { "@type": "Brand", name: YETKIN_BRAND },
+    offers: {
+      "@type": "Offer",
+      price: input.priceMajor,
+      priceCurrency: "TRY",
+      availability: "https://schema.org/InStock",
+      url,
+      seller: { "@id": ORGANIZATION_ID },
+      ...(input.monthly
+        ? {
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: input.priceMajor,
+              priceCurrency: "TRY",
+              unitText: "AY",
+              billingDuration: 1,
+              billingIncrement: 1,
+            },
+          }
+        : {}),
+    },
+  };
+}
+
+/** Fiyat sayfası ürün kümesi. Tutarsız (null) satırlar sessizce düşer. */
+export function productsJsonLd(input: {
+  name: string;
+  path: string;
+  items: readonly PricingProductInput[];
+}): JsonLdObject[] {
+  const products = input.items
+    .map((item) => pricingProductJsonLd(item))
+    .filter((row): row is JsonLdObject => row !== null);
+  if (products.length === 0) {
+    return [];
+  }
+  const list: JsonLdObject = {
+    "@type": "ItemList",
+    name: input.name,
+    url: canonicalUrl(input.path),
+    numberOfItems: products.length,
+    itemListElement: products.map((product, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: { "@id": product["@id"] },
+    })),
+  };
+  return [list, ...products];
+}
+
+/** Kurumsal ilan — JobPosting. Uydurma maaş/şirket yazılmaz. */
+export function buildJobPostingJsonLd(input: {
+  title: string;
+  description: string;
+  slug: string;
+  companyName: string;
+  datePosted: string;
+  validThrough?: string | null;
+  hiringOrganizationUrl?: string;
+}): JsonLdObject {
+  const url = canonicalUrl(`/ilan/${input.slug}`);
+  return {
+    "@type": "JobPosting",
+    "@id": `${url}#job`,
+    title: input.title,
+    description: input.description,
+    datePosted: input.datePosted,
+    ...(input.validThrough ? { validThrough: input.validThrough } : {}),
+    hiringOrganization: {
+      "@type": "Organization",
+      name: input.companyName,
+      ...(input.hiringOrganizationUrl ? { sameAs: input.hiringOrganizationUrl } : {}),
+    },
+    jobLocation: {
+      "@type": "Place",
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "TR",
+      },
+    },
+    url,
+    identifier: {
+      "@type": "PropertyValue",
+      name: YETKIN_BRAND,
+      value: input.slug,
+    },
+  };
+}
+
+/** Uzmanlar dizini — ItemList + Person (yalnız hasCredential). E-posta yazılmaz. */
+export function buildTalentDirectoryJsonLd(input: {
+  name: string;
+  path: string;
+  experts: readonly {
+    name: string;
+    path: string;
+    credentialName: string;
+    credentialUrl: string;
+  }[];
+}): JsonLdObject {
+  return {
+    "@type": "ItemList",
+    name: input.name,
+    url: canonicalUrl(input.path),
+    numberOfItems: input.experts.length,
+    itemListElement: input.experts.map((expert, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Person",
+        name: expert.name,
+        url: canonicalUrl(expert.path),
+        hasCredential: {
+          "@type": "EducationalOccupationalCredential",
+          name: expert.credentialName,
+          url: canonicalUrl(expert.credentialUrl),
+          credentialCategory: "certificate",
+        },
+      },
+    })),
+  };
+}
+
+/** YetkinCV / akademi mührü — EducationalOccupationalCredential. */
+export function buildCredentialJsonLd(input: {
+  name: string;
+  description: string;
+  path: string;
+  issuedAt: string;
+  score?: number | null;
+}): JsonLdObject {
+  const url = canonicalUrl(input.path);
+  return {
+    "@type": "EducationalOccupationalCredential",
+    "@id": `${url}#credential`,
+    name: input.name,
+    description: input.description,
+    url,
+    dateCreated: input.issuedAt,
+    credentialCategory: "certificate",
+    recognizedBy: { "@id": ORGANIZATION_ID },
+    ...(typeof input.score === "number"
+      ? {
+          competencyRequired: {
+            "@type": "DefinedTerm",
+            name: `YetkinCV ${input.score}/100`,
+          },
+        }
+      : {}),
+  };
+}

@@ -8,17 +8,16 @@ const ROOT = process.cwd();
 const PURE_FILES = [
   "copy.ts",
   "format-amount.ts",
-  "grant-fail-closed.ts",
-  "match-grants-for-profile.ts",
-  "analyze-grant-eligibility-gap.ts",
   "preview-match-score.ts",
   "preview-idea-validator.ts",
-  "build-preview-gap-from-criteria.ts",
   "grant-catalog-core.ts",
   "grant-brief-axes.ts",
   "grant-investment-skeleton.ts",
   "grant-project-notes.ts",
   "match-grant-programs-for-brief.ts",
+  "program-fit.ts",
+  "public-eligibility.ts",
+  "os-brief.ts",
   "types.ts",
 ] as const;
 

@@ -5,7 +5,7 @@ import { appendLedgerEntry } from "@/lib/kernel/ledger/engine";
 import type { LedgerStore } from "@/lib/kernel/ledger/types";
 import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { isInsufficientBalanceError } from "@/lib/kernel/money/insufficient-balance";
-import type { PaymentOrderSnapshot } from "@/lib/kernel/payments/clearing";
+import { isOwnedPaymentOrder, type PaymentOrderSnapshot } from "@/lib/kernel/payments/clearing";
 import { logEvent } from "@/lib/kernel/observability/log";
 import { JUNIOR_INVOICE_WITHHELD } from "@/lib/junior/invoice-seal";
 import {
@@ -81,6 +81,10 @@ export async function fulfillJuniorLicenseFromClearedOrder(
   }
   if (!Number.isInteger(order.amountMinor) || order.amountMinor <= 0) {
     return { applied: false, expiresAt: null, reason: "amount" };
+  }
+  // Faz 3 / §4.1: misafir siparişi (userId null) abonelik doğuramaz.
+  if (!isOwnedPaymentOrder(order)) {
+    return { applied: false, expiresAt: null, reason: "not_junior" };
   }
 
   const existing = await store.getSubscription(order.userId);

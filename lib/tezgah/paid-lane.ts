@@ -138,8 +138,34 @@ export async function readTezgahPackAmount(): Promise<number | null> {
   return amount;
 }
 
+/**
+ * Tek fiyat okuma kapısı. `unitKey` iki biçim kabul eder:
+ * - `"pro"`, `"credit-pack"` → `tezgah` modülü.
+ * - `"hibe/agency"`, `"hibe/dossier"` → ilk parça modül, kalanı birim.
+ *
+ * `hibe/dossier` satırı yoksa eski `tezgah/grant-dossier` satırına düşer (geriye dönük uyum).
+ * Böylece vitrin, kokpit ve checkout **tek** kaynaktan beslenir (Ş6 / B-09).
+ */
 export async function readTezgahCatalogAmount(unitKey: string): Promise<number | null> {
-  return readers.catalogAmount(TEZGAH_PRO_MODULE, unitKey);
+  const slash = unitKey.indexOf("/");
+  if (slash <= 0) {
+    return readers.catalogAmount(TEZGAH_PRO_MODULE, unitKey);
+  }
+  const moduleKey = unitKey.slice(0, slash);
+  const unit = unitKey.slice(slash + 1);
+  const live = await readers.catalogAmount(moduleKey, unit);
+  if (live != null) {
+    return live;
+  }
+  if (moduleKey === "hibe" && unit === "dossier") {
+    return readers.catalogAmount(TEZGAH_PRO_MODULE, TEZGAH_GRANT_UNIT);
+  }
+  return null;
+}
+
+/** Hibe ürün fiyatı — tek kaynak (Ş6). Satır yoksa `null`; tutar uydurulmaz. */
+export async function readHibeCatalogAmount(unit: "dossier" | "agency"): Promise<number | null> {
+  return readTezgahCatalogAmount(`hibe/${unit}`);
 }
 
 function isUniqueViolation(error: unknown): boolean {
@@ -242,6 +268,39 @@ export async function beginTezgahCreditHold(input: {
       replay: classified.kind === "replay",
     },
   };
+}
+
+/**
+ * Başarısız üretimde kredi hold'unu serbest bırakır.
+ * `RESERVED` → `FAILED`. Bakiye henüz düşmediği için sayaç yazılmaz.
+ */
+export async function releaseTezgahCredit(input: {
+  userId: string;
+  hold: TezgahCreditHold;
+  now?: Date;
+}): Promise<{ ok: true } | { ok: false; error: string }> {
+  if (input.hold.replay) {
+    return { ok: true };
+  }
+  if (testRuntime()) {
+    return { ok: true };
+  }
+  const now = input.now ?? new Date();
+  const prisma = getPrisma();
+  try {
+    await prisma.paidCommandReservation.updateMany({
+      where: {
+        userId: input.userId,
+        scope: TEZGAH_GENERATE_SCOPE,
+        commandKey: input.hold.commandKey,
+        status: { in: ["RESERVED", "PROVIDER_DONE"] },
+      },
+      data: { status: "FAILED", updatedAt: now },
+    });
+    return { ok: true };
+  } catch {
+    return { ok: false, error: "Üretim rezervi serbest bırakılamadı." };
+  }
 }
 
 export async function commitTezgahCredit(input: {
@@ -416,6 +475,55 @@ export async function fulfillTezgahOrder(input: {
       },
     });
     return { applied: true, reason: "extended" };
+  }
+  if (
+    input.purpose === PAYMENT_ORDER_PURPOSE.GRANT_DOSSIER ||
+    classifyPaymentOrderPurpose(input.purpose) === PAYMENT_ORDER_PURPOSE.GRANT_DOSSIER
+  ) {
+    const catalog = await readTezgahCatalogAmount("hibe/dossier");
+    if (catalog == null || catalog !== input.amountMinor) {
+      return { applied: false, reason: "catalog" };
+    }
+    // Dosya bedeli cüzdana yazılmıştır (`clearSuccessfulPaymentOrder` / claim).
+    // Dosya üretimi ayrı komuttur: `generatePaidGrantDossier` DEBIT yazar.
+    // Burada ikinci bir defter satırı açılmaz; iade kararı teslimata bağlıdır (Ş3).
+    return { applied: true, reason: "clearing_credited" };
+  }
+  if (
+    input.purpose === PAYMENT_ORDER_PURPOSE.HIBE_AGENCY ||
+    classifyPaymentOrderPurpose(input.purpose) === PAYMENT_ORDER_PURPOSE.HIBE_AGENCY
+  ) {
+    const catalog = await readTezgahCatalogAmount("hibe/agency");
+    if (catalog == null || catalog !== input.amountMinor) {
+      return { applied: false, reason: "catalog" };
+    }
+    const prisma = getPrisma();
+    const existing = await prisma.hibeAgencyPackage.findUnique({ where: { userId: input.userId } });
+    const applied = readOidList(existing?.appliedMerchantOids ?? "");
+    if (applied.includes(input.merchantOid)) {
+      return { applied: false, reason: "already_settled" };
+    }
+    // Ajans paketi cüzdan bakiyesinden düşmez: `clearing` zaten CREDIT yazdı.
+    // Burada yalnız paket hakkı açılır; ikinci CREDIT üretilmez.
+    await prisma.hibeAgencyPackage.upsert({
+      where: { userId: input.userId },
+      create: {
+        userId: input.userId,
+        status: "ACTIVE",
+        listPriceMinor: input.amountMinor,
+        appliedMerchantOids: JSON.stringify([input.merchantOid]),
+        activatedAt: now,
+        updatedAt: now,
+      },
+      update: {
+        status: "ACTIVE",
+        listPriceMinor: input.amountMinor,
+        appliedMerchantOids: JSON.stringify([...applied, input.merchantOid]),
+        activatedAt: now,
+        updatedAt: now,
+      },
+    });
+    return { applied: true, reason: "agency_activated" };
   }
   if (
     input.purpose === TEZGAH_CREDIT_ORDER_PURPOSE ||

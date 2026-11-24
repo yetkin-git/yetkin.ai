@@ -7,6 +7,7 @@ import {
   type GrantAudience,
   type GrantInvestmentFocus,
 } from "@/lib/yetkinhibe/grant-brief-axes";
+import { readSpecificationRules } from "@/lib/yetkinhibe/spec-rag";
 import type {
   GrantCallStatus,
   GrantCallWithMeta,
@@ -22,16 +23,135 @@ import type {
 /** Son başvuruya bu gün sayısı kadar kalındığında durum CLOSING_SOON olur. */
 export const GRANT_CLOSING_SOON_DAYS = 14;
 
+/** Bu süreden eski `sourceVerifiedAt` açık çağrı sayılmaz. */
+export const GRANT_VERIFICATION_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000;
+
+/**
+ * Bakım eşiği. Doğrulama bu günden eskiyse satır yeniden doğrulama kuyruğuna girer.
+ * Haftalık bakım işi bu eşikle çalıştığında 30 günlük pencere hiçbir zaman kırılmaz:
+ * en kötü sapma bir haftadır (`GRANT_VERIFICATION_MAX_AGE_MS` − 25 gün).
+ */
+export const GRANT_REVERIFY_AFTER_DAYS = 25;
+
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
-const PROGRAM_SOURCES: readonly GrantProgramSource[] = [
+/** Doğrulama yaşı gün cinsinden. Tarih okunamazsa `null` (satır kuyruğa girer). */
+export function grantVerificationAgeDays(
+  sourceVerifiedAt: string | Date | null,
+  now: Date,
+): number | null {
+  if (sourceVerifiedAt == null) {
+    return null;
+  }
+  const at = sourceVerifiedAt instanceof Date ? sourceVerifiedAt : new Date(sourceVerifiedAt);
+  if (Number.isNaN(at.getTime())) {
+    return null;
+  }
+  return (now.getTime() - at.getTime()) / MS_PER_DAY;
+}
+
+export type GrantMaintenanceRow = {
+  id: string;
+  applicationOpensAt: Date;
+  applicationDeadline: Date;
+  sourceVerifiedAt: Date | null;
+};
+
+export type GrantMaintenancePlan = {
+  /** Hâlâ açık ve doğrulaması eşiği aşan satırlar. Yeniden doğrulanır. */
+  refresh: readonly GrantMaintenanceRow[];
+  /** Açık ama doğrulaması okunamayan satırlar. Admin kuyruğuna düşer. */
+  unverified: readonly GrantMaintenanceRow[];
+  /** Penceresi kapanmış satırlar. Doğrulama damgası tazelenmez. */
+  closed: readonly GrantMaintenanceRow[];
+};
+
+/**
+ * Saf bakım planı. Veritabanı, saat veya yazma yoktur; çağıran `now` verir.
+ * Kapalı pencere tazelenmez: süresi geçmiş çağrı "açık" diye damgalanmaz.
+ */
+export function planGrantMaintenance(
+  rows: readonly GrantMaintenanceRow[],
+  now: Date,
+  thresholdDays: number = GRANT_REVERIFY_AFTER_DAYS,
+): GrantMaintenancePlan {
+  const refresh: GrantMaintenanceRow[] = [];
+  const unverified: GrantMaintenanceRow[] = [];
+  const closed: GrantMaintenanceRow[] = [];
+  for (const row of rows) {
+    const status = computeGrantCallStatus(row.applicationOpensAt, row.applicationDeadline, now);
+    if (status === "CLOSED") {
+      closed.push(row);
+      continue;
+    }
+    const age = grantVerificationAgeDays(row.sourceVerifiedAt, now);
+    if (age == null) {
+      unverified.push(row);
+      continue;
+    }
+    if (age >= thresholdDays) {
+      refresh.push(row);
+    }
+  }
+  return { refresh, unverified, closed };
+}
+
+/**
+ * Bakım planını satırlara uygular. Saf: yeni dizi döner, girdiyi değiştirmez.
+ * `refresh` ve `unverified` satırların doğrulama damgası `now` olur; kapanan satır dokunulmaz.
+ * Canlı iş (`grant-catalog-verify.ts`) aynı semantiği `verifyGrantCall` ile yazar.
+ */
+export function applyGrantMaintenance<T extends GrantMaintenanceRow>(
+  rows: readonly T[],
+  plan: GrantMaintenancePlan,
+  now: Date,
+): T[] {
+  const stamp = new Set<string>([...plan.refresh.map((row) => row.id), ...plan.unverified.map((row) => row.id)]);
+  return rows.map((row) => (stamp.has(row.id) ? { ...row, sourceVerifiedAt: now } : row));
+}
+
+/**
+ * Haftalık bakımı `from`–`to` aralığında adım adım uygular. Yalnız test ve simülasyon.
+ * Üretimde tek adım cron'dur; burada amaç tazelik penceresinin kırılmadığını kanıtlamaktır.
+ */
+export function runGrantMaintenanceSimulation<T extends GrantMaintenanceRow>(
+  rows: readonly T[],
+  from: Date,
+  to: Date,
+  stepDays = 7,
+  thresholdDays: number = GRANT_REVERIFY_AFTER_DAYS,
+): { rows: readonly T[]; sweeps: number; reverified: number } {
+  let current = [...rows];
+  let sweeps = 0;
+  let reverified = 0;
+  const stepMs = stepDays * MS_PER_DAY;
+  const end = to.getTime();
+  for (let at = from.getTime() + stepMs; at <= end; at += stepMs) {
+    const now = new Date(at);
+    const plan = planGrantMaintenance(current, now, thresholdDays);
+    reverified += plan.refresh.length + plan.unverified.length;
+    current = applyGrantMaintenance(current, plan, now);
+    sweeps += 1;
+  }
+  return { rows: current, sweeps, reverified };
+}
+
+export const PROGRAM_SOURCES: readonly GrantProgramSource[] = [
   "KOSGEB",
   "TUBITAK",
   "TICARET_BAKANLIGI",
   "KALKINMA_AJANSI",
-  "RESMI_GAZETE",
-  "BOLGESEL_AJANS",
+  "TKDK_IPARD",
+  "TARIM_BAKANLIGI",
+  "SANAYI_BAKANLIGI",
+  "ISKUR",
+  "AB_FONLARI",
 ];
+
+/** Eski anahtarlar okunur, kanonik kaynağa iner. Resmî Gazete kaynak değildir. */
+const LEGACY_PROGRAM_SOURCES: Readonly<Record<string, GrantProgramSource>> = {
+  BOLGESEL_AJANS: "KALKINMA_AJANSI",
+};
 
 export type GrantCatalogUnavailableReason = "read_failed" | "empty" | "invalid_row";
 
@@ -75,12 +195,17 @@ export type GrantCatalogRowInput = {
   requiredDocuments: readonly string[];
   tags: readonly string[];
   officialInfoUrl: string;
+  publicationUrl?: string | null;
   sourceVerifiedAt: Date | null;
+  specificationText?: string | null;
+  rulesJson?: unknown;
+  dataVersion?: number | null;
 };
 
 /** API'ye giden çağrı. `sourceVerifiedAt` null ise resmî kaynakla doğrulanmamıştır; arayüz bunu dürüstçe gösterir. */
 export type YetkinhibeGrantCatalogEntry = GrantCallWithMeta & {
   sourceVerifiedAt: string | null;
+  dataVersion?: number | null;
 };
 
 /** Kalan gün sayısı, yukarı yuvarlanır. Son tarih geçmişse 0 (negatif sızdırılmaz). */
@@ -90,6 +215,27 @@ export function computeRemainingDays(deadline: Date, now: Date): number {
     return 0;
   }
   return Math.ceil(diffMs / MS_PER_DAY);
+}
+
+/** Yalnız ACTIVE ve CLOSING_SOON çağrılar eşleşmeye girer. */
+export function isMatchableGrantCall(call: Pick<GrantCallWithMeta, "status">): boolean {
+  return call.status === "ACTIVE" || call.status === "CLOSING_SOON";
+}
+
+/** Doğrulama zamanı yoksa veya 30 günden eskiyse satır açık sayılmaz. */
+export function isGrantVerificationFresh(
+  sourceVerifiedAt: string | Date | null,
+  now: Date,
+): boolean {
+  if (sourceVerifiedAt == null) {
+    return false;
+  }
+  const at = sourceVerifiedAt instanceof Date ? sourceVerifiedAt : new Date(sourceVerifiedAt);
+  if (Number.isNaN(at.getTime())) {
+    return false;
+  }
+  const age = now.getTime() - at.getTime();
+  return age >= 0 && age <= GRANT_VERIFICATION_MAX_AGE_MS;
 }
 
 /** Durum: açılıştan önce UPCOMING, son tarihten sonra CLOSED, son 14 gün CLOSING_SOON, aksi ACTIVE. */
@@ -133,6 +279,13 @@ export function mapGrantCallRow(row: GrantCatalogRowInput, now: Date): Yetkinhib
   if (!/^https:\/\//.test(row.officialInfoUrl)) {
     throw new GrantCatalogRowError(`${id}: resmî bağlantı https değil`);
   }
+  const publicationUrl = parsePublicationUrl(row.publicationUrl, id);
+  const specificationText = parseSpecificationText(row.specificationText, id);
+  const rules = readSpecificationRules(row.rulesJson);
+  if (!rules.ok) {
+    throw new GrantCatalogRowError(`${id}: rulesJson geçersiz`);
+  }
+  const dataVersion = parseDataVersion(row.dataVersion, id);
 
   return {
     id,
@@ -150,13 +303,77 @@ export function mapGrantCallRow(row: GrantCatalogRowInput, now: Date): Yetkinhib
     requiredDocuments: [...row.requiredDocuments],
     tags: [...row.tags],
     officialInfoUrl: row.officialInfoUrl,
+    publicationUrl,
     status: computeGrantCallStatus(opensAt, deadline, now),
     remainingDays: computeRemainingDays(deadline, now),
     sourceVerifiedAt:
       row.sourceVerifiedAt === null
         ? null
         : parseInstant(row.sourceVerifiedAt, "sourceVerifiedAt", id).toISOString(),
+    specificationText,
+    rulesJson: rules.rules,
+    dataVersion,
   };
+}
+
+function parseSpecificationText(value: string | null | undefined, id: string): string | null {
+  if (value == null) {
+    return null;
+  }
+  if (typeof value !== "string") {
+    throw new GrantCatalogRowError(`${id}: specificationText metin değil`);
+  }
+  const clean = value.replace(/\u0000/g, "").trim();
+  if (clean.length === 0) {
+    return null;
+  }
+  if (clean.length > 200_000) {
+    throw new GrantCatalogRowError(`${id}: specificationText sınırı aşıldı`);
+  }
+  return clean;
+}
+
+function parseDataVersion(value: number | null | undefined, id: string): number | null {
+  if (value == null) {
+    return null;
+  }
+  if (!Number.isInteger(value) || value < 1 || value > 1_000_000) {
+    throw new GrantCatalogRowError(`${id}: dataVersion geçersiz`);
+  }
+  return value;
+}
+
+/**
+ * Bozuk satır tüm kataloğu düşürmez. Geçerli satırlar servis edilir, bozuk kimlikler karantinaya gider.
+ */
+export function partitionGrantCatalogRows(
+  rows: readonly GrantCatalogRowInput[],
+  now: Date,
+): { served: YetkinhibeGrantCatalogEntry[]; invalidIds: string[] } {
+  const served: YetkinhibeGrantCatalogEntry[] = [];
+  const invalidIds: string[] = [];
+  for (const row of rows) {
+    try {
+      served.push(mapGrantCallRow(row, now));
+    } catch (error) {
+      if (error instanceof GrantCatalogRowError) {
+        invalidIds.push(isNonEmptyText(row.id) ? row.id : "unknown");
+        continue;
+      }
+      throw error;
+    }
+  }
+  return { served, invalidIds };
+}
+
+function parsePublicationUrl(value: string | null | undefined, id: string): string | null {
+  if (value == null || value.trim().length === 0) {
+    return null;
+  }
+  if (!/^https:\/\//.test(value)) {
+    throw new GrantCatalogRowError(`${id}: yayın bağlantısı https değil`);
+  }
+  return value;
 }
 
 function isNonEmptyText(value: string): boolean {
@@ -168,8 +385,9 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function parseProgramSource(key: string, id: string): GrantProgramSource {
-  if ((PROGRAM_SOURCES as readonly string[]).includes(key)) {
-    return key as GrantProgramSource;
+  const mapped = LEGACY_PROGRAM_SOURCES[key] ?? key;
+  if ((PROGRAM_SOURCES as readonly string[]).includes(mapped)) {
+    return mapped as GrantProgramSource;
   }
   throw new GrantCatalogRowError(`${id}: bilinmeyen kaynak anahtarı`);
 }

@@ -96,6 +96,43 @@ export function AiCareerStudio({ verifiedBadges }: { verifiedBadges: readonly st
     return parsed.data;
   }
 
+  async function onImportToCareerCv(cvText: string) {
+    setPending("profile");
+    setError(null);
+    setCopyNotice(null);
+    try {
+      const response = await fetch(
+        "/api/career/cv",
+        withRailApiVersion({
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fullName: targetRole.trim() || "Ad Soyad",
+            headline: targetRole.trim(),
+            city: "",
+            summary: cvText.slice(0, 4000),
+            experiences: [],
+            educations: [],
+            skills: [],
+            languages: [],
+            links: [],
+            contactOptIn: false,
+          }),
+        }),
+      );
+      const parsed = parseRailClientJson(await response.json().catch(() => null));
+      if (!parsed.ok) {
+        setError(parsed.error || copy.error);
+        return;
+      }
+      setCopyNotice("CV editörüne aktarıldı.");
+    } catch {
+      setError(copy.error);
+    } finally {
+      setPending(null);
+    }
+  }
+
   async function onGenerate(event: FormEvent) {
     event.preventDefault();
     setError(null);
@@ -217,7 +254,7 @@ export function AiCareerStudio({ verifiedBadges }: { verifiedBadges: readonly st
                   value={experience}
                   maxLength={2000}
                   required
-                  placeholder="Deneyiminizi buraya yazınız..."
+                  placeholder="Deneyimini buraya yaz…"
                   softHint="Biraz daha detay ekleyin (rol, araç, ölçülebilir sonuç)…"
                   onChange={(event) => setExperience(event.target.value)}
                 />
@@ -269,6 +306,14 @@ export function AiCareerStudio({ verifiedBadges }: { verifiedBadges: readonly st
               </Button>
               <Button type="button" variant="outline" size="sm" onClick={() => printCv(dossier.cv)}>
                 {copy.printCta}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => void onImportToCareerCv(dossier.cv)}
+              >
+                CV Editörüne Aktar
               </Button>
               {copyNotice ? <span className="self-center text-xs">{copyNotice}</span> : null}
             </div>

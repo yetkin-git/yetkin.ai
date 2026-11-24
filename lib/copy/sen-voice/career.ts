@@ -4,10 +4,9 @@ export const CAREER_ACTION_PLAN_DISCLAIMER =
 
 /** Rail SEN aksı — kariyer odası. Doğrulanmış Rozetten türetilen salt okuma damga projeksiyonu. */
 export const CAREER_SEN = {
-  eyebrow: "YetkinCV",
-  title: "Yetkinliğini Gerçek Testle Kanıtla, Fark Yarat.",
-  description:
-    "Uygulamalı vaka testini çöz, doğrulanabilir yetkinlik puanını CV'ne ve LinkedIn profiline ekle; doğrulama bağı herkese açıktır.",
+  eyebrow: "Kariyer",
+  title: "Kariyer",
+  description: "YetkinCV, vize ve açık ilanlar",
   faqHeading: "Sık sorulanlar",
   auth: "Kariyer sayfasını görmek için giriş yap.",
   /** Sicil okunamadığında vatandaşa dürüst, gürültüsüz mesaj — geliştirici rozeti yok. */
@@ -75,9 +74,9 @@ export const CAREER_SEN = {
   },
   /** Oturumsuz Kariyer — kişisel vize defteri yok. */
   publicRoom: {
-    eyebrow: "YetkinCV",
-    title: "Yetkinliğini Gerçek Testle Kanıtla, Fark Yarat.",
-    lead: "Uygulamalı vaka testini çöz, doğrulanabilir yetkinlik puanını CV'ne ve LinkedIn profiline ekle. Bu sayfa herkese açıktır; giriş yapınca kendi puanın açılır.",
+    eyebrow: "Kariyer",
+    title: "Kariyer",
+    lead: "YetkinCV, vize ve açık ilanlar. Uygulamalı vaka testini çöz, doğrulanabilir puanını CV'ne ekle. Bu sayfa herkese açıktır; giriş yapınca kendi puanın açılır.",
     sampleEyebrow: "Örnek kart",
     sampleTitle: "Örnek YetkinCV kartı",
     sampleNote:
@@ -153,9 +152,11 @@ export const CAREER_SEN = {
     missingBody: "Bu bağlantıya ait canlı kayıt yok. İptal edilmiş belge burada görünmez.",
     invalidFormat: "Kart anahtarı geçersiz.",
     privacy: "Vatandaş kimliği, e-posta ve sözleşme numarası bu kartta yoktur.",
-    sealsTitle: "Doğrulanmış rozetler",
-    proofsTitle: "Proje kanıt dosyası",
+    sealsTitle: "Doğrulanmış Yetkinlik Rozetleri",
+    proofsTitle: "Mühüre bağlı proje kanıtları",
+    tezgahProofsTitle: "Portföy Çıktıları (AI Tezgâh Kayıtlı)",
     proofEmpty: "Bu karta bağlı proje kanıt satırı yok.",
+    tezgahProofEmpty: "AI Tezgâh kayıtlı portföy çıktısı yok.",
     verifyCta: "Sertifikayı doğrula",
     openCourseCta: "Eğitime git",
     careerCta: "Kariyer",

@@ -4,6 +4,21 @@ import { parseRailClientJson } from "@/lib/ui/parse-rail-json";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 
+export async function commerceRead<T extends Record<string, unknown>>(
+  url: string,
+): Promise<{ ok: true; data: T } | { ok: false; error: string }> {
+  try {
+    const response = await fetch(url, withRailApiVersion({ method: "GET" }));
+    const parsed = parseRailClientJson<T>(await response.json().catch(() => null));
+    if (!parsed.ok) {
+      return { ok: false, error: parsed.error };
+    }
+    return { ok: true, data: parsed.data };
+  } catch {
+    return { ok: false, error: SEN_VOICE.magazam.network };
+  }
+}
+
 export async function commerceMutate<T extends Record<string, unknown>>(
   url: string,
   method: "POST" | "PATCH" | "PUT" | "DELETE",

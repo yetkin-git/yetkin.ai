@@ -19,6 +19,23 @@ export type TetkikAction = {
   body: string;
 };
 
+export type TetkikTechSeoStatus = "found" | "missing" | "unchecked";
+
+export type TetkikTechSeoSignal = {
+  id: "robotsTxt" | "sitemapXml";
+  label: string;
+  status: TetkikTechSeoStatus;
+  detail: string;
+};
+
+/** Modele verilen temiz metin parçası. Ham HTML değildir. */
+export type TetkikPageSnippet = {
+  title: string;
+  metaDescription: string;
+  h1: string;
+  ctaTexts: string[];
+};
+
 export type TetkikReport = {
   tool: "tetkik";
   score: number;
@@ -35,6 +52,10 @@ export type TetkikReport = {
   checks: TetkikCheck[];
   opportunities: string[];
   action: TetkikAction;
+  /** robots.txt / sitemap.xml — ana 100 puana ek teknik SEO sinyali. */
+  techSeo?: TetkikTechSeoSignal[];
+  /** Taranan sayfadan çıkarılan güvenli metin parçası. */
+  pageSnippet?: TetkikPageSnippet;
   /** Eski düz metin kayıtları ve kopyala yolu için özet. */
   narrative: string;
   /** Hydrogen yönetici karnesi; eski kayıtlarda yok olabilir. */
@@ -44,6 +65,10 @@ export type TetkikReport = {
 export type ParsedHomepage = {
   title: string;
   metaDescription: string;
+  /** İlk H1'in görünür metni (yoksa boş). */
+  h1Text: string;
+  /** Tespit edilen CTA bağlantı/düğme metinleri (kırpılmış, en çok 6). */
+  ctaTexts: string[];
   headingLevels: number[];
   viewport: string;
   lang: string;

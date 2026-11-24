@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { webhookSecretFromBroadcastKey } from "@/lib/commerce/channel-credentials";
 import { CommerceCredentialSealError, openCommerceCredential } from "@/lib/commerce/credential-seal";
 import type { OsChannelKind } from "@/lib/commerce/os-rules";
 
@@ -26,6 +27,8 @@ export type ChannelWebhookPayload = {
   eventType: ChannelOrderEvent;
   quantity: number;
   customerLabel: string;
+  /** Pazaryeri barkodu (varsa). Stok düşümü bu varyantı hedefler — ürün toplamı değil. */
+  barcode?: string;
 };
 
 const ORDER_ID = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,63}$/;
@@ -95,8 +98,9 @@ export function collectChannelWebhookSecrets(input: {
   if (input.apiKeySeal.startsWith("ccred1:")) {
     try {
       const opened = openCommerceCredential(input.apiKeySeal, "apiKey", input.storeId, input.env, input.kind);
-      if (opened.trim()) {
-        secrets.push(opened);
+      const secret = webhookSecretFromBroadcastKey(opened).trim();
+      if (secret) {
+        secrets.push(secret);
       }
     } catch (error) {
       if (!(error instanceof CommerceCredentialSealError)) {
@@ -151,9 +155,18 @@ export function parseChannelWebhookPayload(
     return { ok: false, error: "Adet 1 ile 1000000 arasında olmalıdır." };
   }
   const label = text(row.customerLabel, 80) ?? "Kanal siparişi";
+  const barcode = typeof row.barcode === "string" ? text(row.barcode, 40) : null;
   return {
     ok: true,
-    payload: { storeId, sku, externalOrderId, eventType, quantity, customerLabel: label },
+    payload: {
+      storeId,
+      sku,
+      externalOrderId,
+      eventType,
+      quantity,
+      customerLabel: label,
+      ...(barcode ? { barcode } : {}),
+    },
   };
 }
 

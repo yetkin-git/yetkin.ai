@@ -2,8 +2,10 @@
 /// Sahiplik kolonu `owner_user_id` kasıtlıdır: canlı RLS sahiplik sicilinde yoktur.
 /// PostgREST `rls_deny_unscoped` (SELECT USING false) alır. Yazma politikası üretilmez.
 /// Fiyat `amount_minor`. Para birimi mağazada yalnız TRY.
-/// Uzak stok `on_hand_qty` üzerine yazılmaz. Kargo etiketi bu şemada yoktur.
+/// Uzak stok `on_hand_qty` üzerine yazılmaz.
+/// Kargo operasyonu `commerce_fulfillment_orders` satırıdır. Etiket metni mağaza gönderici alanlarındadır.
 /// Aylık lisans `commerce_subscriptions` satırıdır. Pazaryeri satışı bu tabloya ciro yazmaz.
+/// Kâr / komisyon / kargo / kampanya ekonomi katmanı ayrı tablolardadır; `stock_ledgers`'a ciro yazılmaz.
 
 enum CommerceStoreStatus {
   DRAFT
@@ -109,6 +111,27 @@ enum CommerceInboxOrderStatus {
   RETURNED
 }
 
+/// Açılış planı. Mevcut mağazalar `GROWTH` kalır; kapı bu kodu okur.
+enum CommercePlanCode {
+  STARTER
+  GROWTH
+  SCALE
+}
+
+enum CommerceFulfillmentChannel {
+  TRENDYOL
+  HEPSIBURADA
+  OWN_STORE
+}
+
+enum CommerceFulfillmentStatus {
+  NEW
+  PREPARED
+  SHIPPED
+  DELIVERED
+  CANCELED
+}
+
 model CommerceStore {
   id           String              @id @default(cuid())
   ownerUserId  String              @map("owner_user_id")
@@ -118,6 +141,13 @@ model CommerceStore {
   currencyCode String              @default("TRY") @db.Char(3) @map("currency_code")
   /// `905` ile başlayan 12 hane. Boşsa vitrin sipariş bağlantısı basılmaz.
   whatsappE164 String?             @map("whatsapp_e164") @db.VarChar(12)
+  /// Kargo etiketindeki logo. Yalnız https adresi. Boşsa unvan rozeti basılır.
+  logoUrl      String?             @map("logo_url") @db.VarChar(500)
+  senderTitle  String?             @map("sender_title") @db.VarChar(120)
+  senderPhone  String?             @map("sender_phone") @db.VarChar(20)
+  senderAddress String?            @map("sender_address") @db.VarChar(400)
+  /// Plan kapısı. Eski satırlar büyüme paketinde kalır.
+  planCode     CommercePlanCode    @default(GROWTH) @map("plan_code")
   createdAt    DateTime            @default(now()) @map("created_at")
   updatedAt    DateTime            @updatedAt @map("updated_at")
 
@@ -133,9 +163,50 @@ model CommerceStore {
   stockLedgers      StockLedger[]
   salesChannels   SalesChannel[]
   inboxEntries    CommerceInboxEntry[]
+  unitEconomics     CommerceUnitEconomics[]
+  shippingTariffs   CommerceShippingTariff[]
+  channelEconomics  CommerceChannelEconomics[]
+  campaignSims      CommerceCampaignSimulation[]
+  bundleProposals   CommerceBundleProposal[]
+  dailyBriefs       CommerceDailyBrief[]
+  profitActions     CommerceProfitAction[]
+  catalogGapSignals CommerceCatalogGapSignal[]
+  productSuggestions CommerceProductSuggestion[]
+  demandFeeds       CommerceDemandFeed[]
+  channelPriceRules CommerceChannelPriceRule[]
+  competitorQuotes  CommerceCompetitorQuote[]
+  repriceLogs       CommerceRepriceLog[]
+  fulfillmentOrders CommerceFulfillmentOrder[]
 
   @@index([ownerUserId, createdAt])
   @@map("commerce_stores")
+}
+
+/// Sipariş operasyon masası. Stok defterine ciro yazılmaz. Etiket bu satırdan basılır.
+model CommerceFulfillmentOrder {
+  id                String                     @id @default(cuid())
+  storeId           String                     @map("store_id")
+  channel           CommerceFulfillmentChannel
+  externalOrderNo   String                     @map("external_order_no") @db.VarChar(64)
+  customerName      String                     @default("") @map("customer_name") @db.VarChar(120)
+  customerPhone     String                     @default("") @map("customer_phone") @db.VarChar(20)
+  shippingAddress   String                     @default("") @map("shipping_address") @db.VarChar(500)
+  cargoCompany      String                     @default("") @map("cargo_company") @db.VarChar(40)
+  cargoTrackingCode String                     @default("") @map("cargo_tracking_code") @db.VarChar(64)
+  itemsJson         Json                       @map("items_json")
+  totalMinor        Int                        @default(0) @map("total_minor")
+  status            CommerceFulfillmentStatus  @default(NEW)
+  labelPrintedAt    DateTime?                  @map("label_printed_at")
+  shippedAt         DateTime?                  @map("shipped_at")
+  slaDeadlineAt     DateTime?                  @map("sla_deadline_at")
+  createdAt         DateTime                   @default(now()) @map("created_at")
+  updatedAt         DateTime                   @updatedAt @map("updated_at")
+
+  store CommerceStore @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  @@unique([storeId, channel, externalOrderNo])
+  @@index([storeId, status, createdAt])
+  @@map("commerce_fulfillment_orders")
 }
 
 model CommerceProduct {
@@ -188,6 +259,10 @@ model CommerceVariant {
   movements       InventoryTransaction[]
   channelListings CommerceChannelListing[]
   webhookReceipts CommerceMarketplaceWebhookReceipt[]
+  unitEconomics   CommerceUnitEconomics?
+  channelPriceRules CommerceChannelPriceRule[]
+  competitorQuotes  CommerceCompetitorQuote[]
+  repriceLogs       CommerceRepriceLog[]
 
   @@unique([storeId, sku])
   @@unique([id, storeId])
@@ -247,6 +322,8 @@ model CommerceChannelListing {
   barcode         String                     @db.VarChar(14)
   remoteBarcode   String                     @map("remote_barcode") @db.VarChar(40)
   remoteProductId String?                    @map("remote_product_id") @db.VarChar(64)
+  /// Kanal satış fiyatı, kuruş. Boşsa varyant fiyatı geçerlidir.
+  priceMinor      Int?                       @map("price_minor")
   syncStatus      CommerceListingSyncStatus  @default(PENDING) @map("sync_status")
   lastError       String                     @default("") @map("last_error") @db.VarChar(500)
   lastSyncedAt    DateTime?                  @map("last_synced_at")
@@ -409,4 +486,330 @@ model CommerceInboxEntry {
 
   @@index([storeId, createdAt])
   @@map("commerce_inbox_entries")
+}
+
+// ---------------------------------------------------------------------------
+// Ekonomi katmanı — stok defterinden ayrı. Ciro/kâr stock_ledgers'a yazılmaz.
+// ---------------------------------------------------------------------------
+
+enum CommerceCampaignVerdict {
+  SAFE
+  THIN
+  LOSS
+}
+
+enum CommerceBundleType {
+  TWO
+  THREE
+}
+
+enum CommerceBundleStatus {
+  PROPOSED
+  ACCEPTED
+  DISMISSED
+}
+
+enum CommerceActionKind {
+  REPRICE
+  BUNDLE
+  RESTOCK
+  LOWER_AD
+  PAUSE_SKU
+}
+
+enum CommerceActionStatus {
+  SUGGESTED
+  APPLIED
+  DISMISSED
+}
+
+enum CommerceGapSource {
+  OWN_CATALOG
+  GRANT_CALL
+  TETKIK
+  MARKETPLACE_TREND
+}
+
+enum CommerceSuggestionStatus {
+  NEW
+  SEEN
+  DISMISSED
+  CONVERTED
+}
+
+/// Varyant başına maliyet gerçeği. Satıcı girer; kâr motoru hesaplar.
+model CommerceUnitEconomics {
+  id        String   @id @default(cuid())
+  storeId   String   @map("store_id")
+  variantId String   @map("variant_id")
+  /// COGS (alış + nakliye + gümrük), kuruş.
+  costMinor Int      @map("cost_minor")
+  /// Hacimsel ağırlık (gram). Desi × 1000.
+  desiGrams Int      @map("desi_grams")
+  /// KDV baz puan. Varsayılan %20 = 2000.
+  vatBps    Int      @default(2000) @map("vat_bps")
+  /// `true` ise costMinor alış KDV'sini içerir; kâr motoru girdi KDV'sini mahsup eder.
+  costIncludesVat Boolean @default(false) @map("cost_includes_vat")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  store   CommerceStore   @relation(fields: [storeId], references: [id], onDelete: Restrict)
+  variant CommerceVariant @relation(fields: [variantId, storeId], references: [id, storeId], onDelete: Restrict)
+
+  @@unique([variantId, storeId])
+  @@map("commerce_unit_economics")
+}
+
+/// Kargo tarifesi baremi. Paket mimarının kalbi.
+model CommerceShippingTariff {
+  id            String   @id @default(cuid())
+  storeId       String   @map("store_id")
+  carrier       String   @db.VarChar(40)
+  bandMinGrams  Int      @map("band_min_grams")
+  bandMaxGrams  Int      @map("band_max_grams")
+  priceMinor    Int      @map("price_minor")
+  effectiveFrom DateTime @map("effective_from")
+
+  store CommerceStore @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  @@unique([storeId, carrier, bandMinGrams, bandMaxGrams], map: "commerce_shipping_tariff_band_uidx")
+  @@index([storeId, carrier, effectiveFrom])
+  @@map("commerce_shipping_tariffs")
+}
+
+/// Kanal maliyet gerçeği. Satıcı girer; varsayılan sektör ortalaması kodda.
+model CommerceChannelEconomics {
+  id                  String           @id @default(cuid())
+  storeId             String           @map("store_id")
+  channel             SalesChannelKind
+  commissionBps       Int              @map("commission_bps")
+  cargoMinorPerOrder  Int              @map("cargo_minor_per_order")
+  returnRateBps       Int              @default(0) @map("return_rate_bps")
+  adCostMinorPerOrder Int              @default(0) @map("ad_cost_minor_per_order")
+  updatedAt           DateTime         @updatedAt @map("updated_at")
+
+  store CommerceStore @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  @@unique([storeId, channel])
+  @@map("commerce_channel_economics")
+}
+
+/// İndirim simülasyonu kaydı. Sayılar kodda; AI yalnız metin yazar.
+model CommerceCampaignSimulation {
+  id             String                  @id @default(cuid())
+  storeId        String                  @map("store_id")
+  variantId      String                  @map("variant_id")
+  channel        SalesChannelKind
+  listPriceMinor Int                     @map("list_price_minor")
+  discountBps    Int                     @map("discount_bps")
+  netMinor       Int                     @map("net_minor")
+  marginBps      Int                     @map("margin_bps")
+  breakEvenBps   Int                     @map("break_even_bps")
+  verdict        CommerceCampaignVerdict
+  title          String                  @default("") @db.VarChar(120)
+  body           String                  @default("") @db.VarChar(500)
+  createdAt      DateTime                @default(now()) @map("created_at")
+
+  store CommerceStore @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  @@index([storeId, createdAt])
+  @@map("commerce_campaign_simulations")
+}
+
+/// Barem kırıcı paket önerisi. Kabul edilince gerçek CommerceProduct doğar.
+model CommerceBundleProposal {
+  id                  String               @id @default(cuid())
+  storeId             String               @map("store_id")
+  type                CommerceBundleType
+  memberVariantIds    String[]             @map("member_variant_ids")
+  singlePriceMinor    Int                  @map("single_price_minor")
+  suggestedPriceMinor Int                  @map("suggested_price_minor")
+  netMinor            Int                  @map("net_minor")
+  marginBps           Int                  @map("margin_bps")
+  cargoSavedMinor     Int                  @map("cargo_saved_minor")
+  rationale           String               @db.VarChar(500)
+  status              CommerceBundleStatus @default(PROPOSED)
+  computedAt          DateTime             @default(now()) @map("computed_at")
+  acceptedProductId   String?              @map("accepted_product_id")
+  salesCopy           String               @default("") @map("sales_copy") @db.VarChar(1000)
+
+  store CommerceStore @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  @@index([storeId, status, computedAt])
+  @@map("commerce_bundle_proposals")
+}
+
+/// Günlük kâr özeti. dayKey Europe/Istanbul YYYY-MM-DD.
+model CommerceDailyBrief {
+  id           String   @id @default(cuid())
+  storeId      String   @map("store_id")
+  dayKey       String   @map("day_key") @db.VarChar(10)
+  payloadJson  String   @map("payload_json") @db.Text
+  netMinor     Int      @map("net_minor")
+  lossSkuCount Int      @map("loss_sku_count")
+  summaryText  String   @default("") @map("summary_text") @db.VarChar(800)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  store   CommerceStore          @relation(fields: [storeId], references: [id], onDelete: Restrict)
+  actions CommerceProfitAction[]
+
+  @@unique([storeId, dayKey])
+  @@map("commerce_daily_briefs")
+}
+
+/// Tek tıkla kâr aksiyonu sicili. Para yazmaz; fiyat/paket önerisi uygular.
+model CommerceProfitAction {
+  id                String                @id @default(cuid())
+  storeId           String                @map("store_id")
+  briefId           String                @map("brief_id")
+  kind              CommerceActionKind
+  variantId         String?               @map("variant_id")
+  paramsJson        String                @map("params_json") @db.Text
+  expectedGainMinor Int                   @map("expected_gain_minor")
+  status            CommerceActionStatus  @default(SUGGESTED)
+  appliedAt         DateTime?             @map("applied_at")
+  rationale         String                @default("") @db.VarChar(300)
+
+  store CommerceStore      @relation(fields: [storeId], references: [id], onDelete: Restrict)
+  brief CommerceDailyBrief @relation(fields: [briefId], references: [id], onDelete: Restrict)
+
+  @@index([storeId, status])
+  @@map("commerce_profit_actions")
+}
+
+/// Katalog boşluk sinyali. Sayı buradan gelir; LLM sayı üretmez.
+model CommerceCatalogGapSignal {
+  id             String            @id @default(cuid())
+  storeId        String            @map("store_id")
+  category       String            @db.VarChar(80)
+  priceBandMinor Int               @map("price_band_minor")
+  demandIndex    Int               @map("demand_index")
+  supplyGap      Int               @map("supply_gap")
+  source         CommerceGapSource
+  evidenceJson   String            @map("evidence_json") @db.Text
+  computedAt     DateTime          @default(now()) @map("computed_at")
+
+  store CommerceStore @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  @@index([storeId, computedAt])
+  @@map("commerce_catalog_gap_signals")
+}
+
+/// Dış veya platform içi talep kanıtı. Tarama bu satırı silmez; skor yeniden hesaplanır.
+/// İstemci talep endeksi yazamaz. `OWN_CATALOG` bu tabloya alınmaz.
+model CommerceDemandFeed {
+  id          String            @id @default(cuid())
+  storeId     String            @map("store_id")
+  source      CommerceGapSource
+  category    String            @db.VarChar(80)
+  payloadJson String            @map("payload_json") @db.Text
+  createdAt   DateTime          @default(now()) @map("created_at")
+
+  store CommerceStore @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  @@index([storeId, source, createdAt])
+  @@map("commerce_demand_feeds")
+}
+
+/// "Ne satılır?" önerisi. Kanıt zinciri signalIds ile bağlıdır.
+model CommerceProductSuggestion {
+  id               String                   @id @default(cuid())
+  storeId          String                   @map("store_id")
+  title            String                   @db.VarChar(200)
+  category         String                   @db.VarChar(80)
+  targetPriceMinor Int                      @map("target_price_minor")
+  rationale        String                   @db.VarChar(500)
+  signalIds        String[]                 @map("signal_ids")
+  status           CommerceSuggestionStatus @default(NEW)
+  createdAt        DateTime                 @default(now()) @map("created_at")
+
+  store CommerceStore @relation(fields: [storeId], references: [id], onDelete: Restrict)
+
+  @@index([storeId, status, createdAt])
+  @@map("commerce_product_suggestions")
+}
+
+enum CommercePriceChannel {
+  TRENDYOL
+  HEPSIBURADA
+  OWN_STORE
+  AKAKCE
+  CIMRI
+}
+
+enum CommerceRepriceStrategy {
+  FIXED
+  UNDERCUT_STEP
+  MATCH_LOWEST
+}
+
+enum CommerceRepriceDecision {
+  UNDERCUT
+  MATCHED
+  HOLD_AT_FLOOR
+  COMPETITOR_BELOW_FLOOR_ALERT
+  REVERT_TO_BASE
+}
+
+/// Kanal bazlı baz fiyat, hedef marj ve rekabet stratejisi.
+model CommerceChannelPriceRule {
+  id                 String                  @id @default(cuid())
+  storeId            String                  @map("store_id")
+  variantId          String                  @map("variant_id")
+  channel            CommercePriceChannel
+  basePriceMinor     Int                     @map("base_price_minor")
+  minMarginBps       Int                     @default(800) @map("min_margin_bps")
+  manualFloorMinor   Int?                    @map("manual_floor_minor")
+  strategy           CommerceRepriceStrategy @default(FIXED)
+  stepMinor          Int                     @default(100) @map("step_minor")
+  autoApply          Boolean                 @default(false) @map("auto_apply")
+  activePriceMinor   Int                     @map("active_price_minor")
+  computedFloorMinor Int?                    @map("computed_floor_minor")
+  lastRepricedAt     DateTime?               @map("last_repriced_at")
+  updatedAt          DateTime                @updatedAt @map("updated_at")
+
+  store   CommerceStore   @relation(fields: [storeId], references: [id], onDelete: Restrict)
+  variant CommerceVariant @relation(fields: [variantId, storeId], references: [id, storeId], onDelete: Restrict)
+
+  @@unique([storeId, variantId, channel])
+  @@index([storeId, autoApply])
+  @@map("commerce_channel_price_rules")
+}
+
+/// Satıcının veya entegrasyonun beslediği rakip fiyatı. Dış site kazıması yazılmaz.
+model CommerceCompetitorQuote {
+  id                   String               @id @default(cuid())
+  storeId              String               @map("store_id")
+  variantId            String               @map("variant_id")
+  channel              CommercePriceChannel
+  competitorName       String               @map("competitor_name") @db.VarChar(120)
+  competitorUrl        String               @default("") @map("competitor_url") @db.VarChar(500)
+  competitorPriceMinor Int                  @map("competitor_price_minor")
+  observedAt           DateTime             @map("observed_at")
+  createdAt            DateTime             @default(now()) @map("created_at")
+
+  store   CommerceStore   @relation(fields: [storeId], references: [id], onDelete: Restrict)
+  variant CommerceVariant @relation(fields: [variantId, storeId], references: [id, storeId], onDelete: Restrict)
+
+  @@index([storeId, variantId, channel, observedAt])
+  @@map("commerce_competitor_quotes")
+}
+
+/// Rekabet kararı günlüğü. Fiyat tabanın altına yazılmaz.
+model CommerceRepriceLog {
+  id                   String                  @id @default(cuid())
+  storeId              String                  @map("store_id")
+  variantId            String                  @map("variant_id")
+  channel              CommercePriceChannel
+  previousPriceMinor   Int                     @map("previous_price_minor")
+  competitorPriceMinor Int?                    @map("competitor_price_minor")
+  floorPriceMinor      Int                     @map("floor_price_minor")
+  newPriceMinor        Int                     @map("new_price_minor")
+  decision             CommerceRepriceDecision
+  createdAt            DateTime                @default(now()) @map("created_at")
+
+  store   CommerceStore   @relation(fields: [storeId], references: [id], onDelete: Restrict)
+  variant CommerceVariant @relation(fields: [variantId, storeId], references: [id, storeId], onDelete: Restrict)
+
+  @@index([storeId, createdAt])
+  @@map("commerce_reprice_logs")
 }

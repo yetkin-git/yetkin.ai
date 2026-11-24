@@ -7,7 +7,8 @@
  * Son tarih yalnız çağıranın verdiği katalog anıdır.
  */
 
-import { buildStoreZip } from "@/lib/tezgah/pro/zip";
+import { buildDocxDocument } from "@/lib/yetkinhibe/docx-document";
+import type { DocumentBlock } from "@/lib/yetkinhibe/document-block";
 import { grantInvestmentLabel } from "@/lib/yetkinhibe/grant-brief-axes";
 import {
   grantBriefCriteria,
@@ -413,17 +414,28 @@ function businessNameOf(value: string | null | undefined): string | null {
 export function buildGrantPrepMasterPlan(input: GrantPrepMasterPlanInput): GrantPrepMasterPlan {
   const documents = cleanDocuments(input.requiredDocuments);
   const window = buildWindow(input);
-  const focusLabel = grantInvestmentLabel(input.brief.investmentFocus) ?? input.brief.investmentFocus;
+  const focusLabel =
+    (input.brief.investmentFocus ? grantInvestmentLabel(input.brief.investmentFocus) : null) ??
+    input.brief.investmentFocus ??
+    "Odak belirtilmedi";
   const eligibility = input.eligibility ?? null;
   const criteria = eligibility ? grantBriefCriteria(input.brief, eligibility) : null;
-  const passed = criteria ? criteria.filter((row) => row.passed).length : 0;
-  const currentScore = criteria ? scorePct(passed, criteria.length) : clampScore(input.fitPct);
+  const constrained = criteria ? criteria.filter((row) => !row.unconstrained) : null;
+  const passed = constrained ? constrained.filter((row) => row.passed).length : 0;
+  const currentScore = !criteria
+    ? clampScore(input.fitPct)
+    : !constrained || constrained.length === 0
+      ? 0
+      : scorePct(passed, constrained.length);
   const rdRow = criteria?.find((row) => row.key === "requiresRdActivity");
   const investmentRow = criteria?.find((row) => row.key === "investment");
   const failedClosable = (criteria ?? []).filter(
     (row) => !row.passed && !row.unconstrained && CLOSABLE_KEYS.has(row.key),
   );
-  const rawTarget = criteria ? scorePct(passed + failedClosable.length, criteria.length) : currentScore;
+  const rawTarget =
+    constrained && constrained.length > 0
+      ? scorePct(passed + failedClosable.length, constrained.length)
+      : currentScore;
   const targetScore = Math.min(100, Math.max(currentScore, rawTarget));
   const shares = splitPoints(failedClosable.length, targetScore - currentScore);
   const allowed = eligibility ? allowedFocusLabel(eligibility) : null;
@@ -543,35 +555,50 @@ export function renderGrantPrepMasterPlan(plan: GrantPrepMasterPlan): string {
   return lines.join("\n");
 }
 
-function escapeXml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+function masterPlanBlocks(plan: GrantPrepMasterPlan): DocumentBlock[] {
+  const blocks: DocumentBlock[] = [
+    { kind: "h1", text: "Hibe Hazırlık Master Planı" },
+    { kind: "p", text: `${plan.sourceLabel} — ${plan.title}` },
+    { kind: "p", text: plan.disclaimer },
+    { kind: "p", text: plan.scoreLine },
+    { kind: "h2", text: plan.window.title },
+    { kind: "p", text: plan.window.detail },
+    { kind: "h2", text: "Kapatılabilir eksikler" },
+    {
+      kind: "table",
+      headers: ["Eksik", "Puan"],
+      rows:
+        plan.closable.length === 0
+          ? [["Kapatılabilir kriter eksik yok.", "0"]]
+          : plan.closable.map((gap) => [gap.label, String(gap.points)]),
+    },
+    { kind: "h2", text: "Belge planıyla kapanmayan şartlar" },
+    {
+      kind: "table",
+      headers: ["Şart", "Not"],
+      rows:
+        plan.blockers.length === 0
+          ? [["Belge planıyla kapanmayan şart yok.", "—"]]
+          : plan.blockers.map((row) => [row.label, row.note]),
+    },
+  ];
+  for (const stage of plan.stages) {
+    blocks.push({
+      kind: "h2",
+      text: stage.title,
+    });
+    blocks.push({
+      kind: "table",
+      headers: ["Kim", "Görev"],
+      rows: stage.tasks.map((task) => [task.actor === "firma" ? "Firma" : "YetkinHibe", task.text]),
+    });
+  }
+  return blocks;
 }
 
-/** Sıkıştırmasız DOCX. Metin `renderGrantPrepMasterPlan` çıktısıdır. */
+/** Sıkıştırmasız DOCX. Başlık stili ve görev tablosu taşır. */
 export function grantPrepMasterPlanDocx(plan: GrantPrepMasterPlan): Uint8Array {
-  const paragraphs = renderGrantPrepMasterPlan(plan)
-    .split(/\r?\n/)
-    .map((line) => `<w:p><w:r><w:t xml:space="preserve">${escapeXml(line)}</w:t></w:r></w:p>`)
-    .join("");
-  const document = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>${paragraphs}<w:sectPr/></w:body></w:document>`;
-  return buildStoreZip([
-    {
-      name: "[Content_Types].xml",
-      text: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>`,
-    },
-    {
-      name: "_rels/.rels",
-      text: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`,
-    },
-    { name: "word/document.xml", text: document },
-  ]);
+  return buildDocxDocument(masterPlanBlocks(plan));
 }
 
 export function grantPrepDocxFilename(grantId: string): string {

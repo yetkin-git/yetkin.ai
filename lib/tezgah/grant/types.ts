@@ -15,6 +15,16 @@ export type GrantEligibleProgram = {
   poolLabel: string;
   ceilingLabel: string;
   ratioLabel: string;
+  /** Katalog doğrulama anı. Yoksa tutar ve oran basılmaz. */
+  sourceVerifiedAt?: string | null;
+  dataVersion?: number | null;
+  /**
+   * Şartname madde numaraları (virgülle, artan). Ş5 — satır kendi şartnamesinden
+   * eşleşen **tüm** maddeleri taşır; tek maddeye indirgenmez.
+   */
+  madde?: string | null;
+  /** Bölüm başlığı → madde. Mevzuat izi tablosunu besler. */
+  sectionArticles?: readonly { title: string; article: string }[];
 };
 
 export type GrantWithheldProgram = {
@@ -77,6 +87,11 @@ export type GrantDossier = {
   outputGoal: string;
   commercialization: string;
   summary: string;
+  templateId?: string;
+  templateTitle?: string;
+  templateSections?: readonly { title: string; body: string }[];
+  /** Bölüm başlığı → madde numarası (Ş5/Ş8). Adam-ay hücresi bu atfı basar. */
+  sectionArticles?: readonly { title: string; article: string }[];
 };
 
 export type GrantProjectReport = {

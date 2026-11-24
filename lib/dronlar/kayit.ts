@@ -64,8 +64,8 @@ export const DRON_KAYIT = [
   {
     id: "career",
     path: "/career",
-    label: "YetkinCV",
-    blurb: "Test ve doğrulanabilir puan",
+    label: "Kariyer",
+    blurb: "YetkinCV, vize ve açık ilanlar",
     hops: ["career-pulse", "career-visas", "career-portfolio"],
     sahipEkip: "gövde",
     kapali: false,
@@ -133,7 +133,7 @@ export const DRON_KAYIT = [
   },
   {
     id: "yetkinhibe",
-    path: "/hibe",
+    path: "/panel/hibe",
     label: "Hibe Bulucu",
     blurb: "Uygun destek ve proje dosyası",
     hops: [],

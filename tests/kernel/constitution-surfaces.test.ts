@@ -65,8 +65,10 @@ describe("anayasa yüzey sözleşmeleri", () => {
     expect(RIBBON_ROOMS.map((room) => room.label)).not.toContain("Anasayfa");
     expect(RIBBON_ROOMS.map((room) => room.label)).not.toContain("Panel");
     expect(RIBBON_ROOMS.map((room) => room.label)).not.toContain("Pazaryeri");
+    // Kariyer → YetkinCV çatı hiyerarşisi: oda adı "Kariyer", ürün adı altında.
+    expect(VERTICAL_ROOMS.find((room) => room.id === "career")?.label).toBe("Kariyer");
     expect(VERTICAL_ROOMS.find((room) => room.id === "career")?.blurb).toBe(
-      "Test ve doğrulanabilir puan",
+      "YetkinCV, vize ve açık ilanlar",
     );
     expect(VERTICAL_ROOMS.find((room) => room.id === "freelancer")?.blurb).toBe(
       "Arka plan · modül pasif",

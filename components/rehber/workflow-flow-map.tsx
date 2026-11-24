@@ -50,7 +50,7 @@ const CHAIN_NODES: readonly ChainNode[] = [
     step: "3 · Finanse et",
     title: "YetkinHibe",
     body: "Sektörüne uyan açık çağrıyı eşleştir, kurum şablonuna proje dosyası taslağı üret.",
-    href: "/hibe",
+    href: "/panel/hibe",
     icon: IconTrophy,
     tone: "bg-[var(--amber-soft)] text-[var(--amber)]",
   },

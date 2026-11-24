@@ -30,6 +30,12 @@ export const HTTP_RATE_LIMITS = {
   llmUser: { keyPrefix: "llm-user", limit: 12, windowMs: TEN_MINUTES_MS },
   aiChatUser: { keyPrefix: "ai-chat-user", limit: 5, windowMs: ONE_DAY_MS },
   careerCoachUser: { keyPrefix: "career-coach-user", limit: 20, windowMs: ONE_DAY_MS },
+  /** Kariyer sınav / SWOT / pulse / desk / vize — oturum bazlı burst. */
+  careerUser: { keyPrefix: "career-user", limit: 40, windowMs: TEN_MINUTES_MS },
+  /** Kamu vitrinden iletişim talebi. */
+  careerContactIp: { keyPrefix: "career-contact-ip", limit: 8, windowMs: TEN_MINUTES_MS },
+  /** Kamuya açık mühür doğrulama (HMAC / hash). */
+  careerVerifyIp: { keyPrefix: "career-verify-ip", limit: 60, windowMs: TEN_MINUTES_MS },
   /** Form koçu — IP burst (misafir + üye ortak kenar). */
   formCoachIp: { keyPrefix: "form-coach-ip", limit: 30, windowMs: TEN_MINUTES_MS },
   /** Form koçu — oturum/guest kova (10 dk / 20). */
@@ -37,7 +43,22 @@ export const HTTP_RATE_LIMITS = {
   authIp: { keyPrefix: "auth-ip", limit: 40, windowMs: TEN_MINUTES_MS },
   adminIp: { keyPrefix: "admin-ip", limit: 20, windowMs: TEN_MINUTES_MS },
   yetkinhibeMatchUser: { keyPrefix: "yetkinhibe-match-user", limit: 30, windowMs: TEN_MINUTES_MS },
+  yetkinhibeCatalogIp: { keyPrefix: "yetkinhibe-catalog-ip", limit: 60, windowMs: TEN_MINUTES_MS },
+  yetkinhibeExportUser: { keyPrefix: "yetkinhibe-export-user", limit: 30, windowMs: TEN_MINUTES_MS },
   tetkikPublicIp: { keyPrefix: "tetkik-public-ip", limit: 8, windowMs: TEN_MINUTES_MS },
+  /**
+   * S-01 — Tezgâh üretim hattı kullanıcı bazlı tavan.
+   *
+   * Kenar `llmIp` (20/10dk) **IP başına** çalışır; bir çıkış IP'sini paylaşan yüzlerce
+   * kullanıcı (CGNAT, kurumsal NAT) aynı kovayı paylaşır. Bu tavan kullanıcı/guest
+   * kimliği başına sayılır: paylaşılan IP adaletsizliği kapanır ve `AI_PLATFORM_DAILY_CAP_MINOR`
+   * tek kalkanının tek IP'den tüketilmesi engellenir.
+   */
+  tezgahGenerateUser: { keyPrefix: "tezgah-generate-user", limit: 30, windowMs: TEN_MINUTES_MS },
+  /** Misafir checkout — kart denemesi patlamasını keser. E-posta tekilliği handler'da. */
+  guestCheckoutIp: { keyPrefix: "guest-checkout-ip", limit: 5, windowMs: TEN_MINUTES_MS },
+  /** `/claim/[token]` şifre belirleme — kaba kuvvet ve token denemesi. */
+  claimOrderIp: { keyPrefix: "claim-order-ip", limit: 10, windowMs: TEN_MINUTES_MS },
 } as const;
 
 export const HTTP_RATE_LIMIT_ERROR = "Çok fazla istek. Biraz sonra yeniden dene.";
@@ -61,8 +82,8 @@ const LLM_EXACT_PATHS = new Set([
   "/api/ai/chat",
   "/api/ai/form-coach",
   "/api/career/coach",
+  "/api/tezgah/studio-photo",
 ]);
-
 function withRateLimitHeaders(decision: RateLimitDecision): HttpRateLimitResult {
   const headers: Record<string, string> = {
     "X-RateLimit-Limit": String(decision.limit),

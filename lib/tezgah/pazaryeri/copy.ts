@@ -1,15 +1,17 @@
 /**
  * Pazaryeri katalog mühürü. Başlık tavanı bizim sınırımızdır;
  * pazaryerinin o anki resmi limiti diye yazılmaz.
- * Barkod, fiyat ve stok sütunları durur, hücreleri boş kalır.
+ * Barkod boş kalır. Fiyat ve stok yalnız kullanıcı girdiyse dolar; LLM uydurmaz.
  */
 
 export const PAZARYERI_FILENAME = "pazaryeri-katalog.csv" as const;
+export const PAZARYERI_DOCX_FILENAME = "pazaryeri-katalog.docx" as const;
+export const PAZARYERI_PDF_FILENAME = "pazaryeri-katalog.pdf" as const;
 
-export const PAZARYERI_MAX_PRODUCTS = 8;
+export const PAZARYERI_MAX_PRODUCTS = 25;
 export const PAZARYERI_MAX_NAME = 80;
 export const PAZARYERI_MAX_BLOCK = 500;
-export const PAZARYERI_MAX_INPUT = 4_000;
+export const PAZARYERI_MAX_INPUT = 14_000;
 
 export const PAZARYERI_MARKETS = [
   { id: "trendyol", label: "Trendyol", titleCap: 100 },
@@ -20,6 +22,7 @@ export const PAZARYERI_MARKETS = [
 export type PazaryeriId = (typeof PAZARYERI_MARKETS)[number]["id"];
 
 export const PAZARYERI_LEAD = ["Pazaryeri", "Urun Adi", "Aciklama", "Kategori"] as const;
+export const PAZARYERI_TAXONOMY_COLUMN = "Pazaryeri Kategori" as const;
 export const PAZARYERI_TAIL = ["Barkod", "Fiyat", "Stok"] as const;
 export const PAZARYERI_DIGER = "Diger";
 

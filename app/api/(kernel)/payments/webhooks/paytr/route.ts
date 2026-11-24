@@ -231,6 +231,7 @@ export async function POST(request: Request) {
         orderId: settled.orderId,
         amountMinor: verified.amountMinor,
         applied: settled.applied,
+        reason: settled.awaitingClaim ? "awaiting_claim" : undefined,
         route,
       });
       return paytrOk(requestId);

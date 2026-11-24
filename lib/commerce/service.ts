@@ -2,6 +2,8 @@ import { randomUUID } from "node:crypto";
 import { inventoryDirectionMatches, movementAllowed, sellableQty } from "@/lib/commerce/inventory-gate";
 import { isInventoryIdempotencyRace } from "@/lib/commerce/inventory-sql";
 import { CommerceRollback, CommerceWriteConflict, type CommerceRepository } from "@/lib/commerce/repository";
+import { applyBundleMemberPlans } from "@/lib/commerce/set-stock";
+import { channelListingSaleMinor } from "@/lib/commerce/listing-price";
 import { logTrendyolEnqueueFailure, publishAppliedTrendyolStock } from "@/lib/commerce/trendyol-publish";
 import {
   commerceFail,
@@ -189,7 +191,8 @@ async function placeVariant(
     sku,
     barcode: input.barcode,
     amountMinor: input.amountMinor,
-    onHandQty: 0,
+    // Taslakta stok fişi açılmaz; kullanıcı adedi varsa doğrudan yazılır.
+    onHandQty: input.mode === "draft" ? input.onHandQty : 0,
     safetyBuffer: input.safetyBuffer,
     status: input.mode === "active" ? "ACTIVE" : "DRAFT",
     createdAt: now,
@@ -402,6 +405,7 @@ async function writeProduct(
     listingMarket: input.listingMarket,
     source: input.source,
     status: input.mode === "active" ? "ACTIVE" : "DRAFT",
+    approvedStockQty: 0,
     createdAt: now,
     updatedAt: now,
   });
@@ -748,20 +752,58 @@ export async function postCommerceInventory(
           onHandAfter: moved.variant.onHandQty,
           amountMinor: moved.variant.amountMinor,
         });
+        // Set satışı üyelerin stokundan **da** düşer. Aynı işlem; kısa stokta geri alınır.
+        if (parsed.value.type === "SALE" || parsed.value.type === "RETURN") {
+          const owner = await tx.findProduct(storeId, variant.productId);
+          const expanded = await applyBundleMemberPlans({
+            attributes: owner?.product.attributes ?? [],
+            quantity: parsed.value.quantity,
+            idempotencyKey: key,
+            note: parsed.value.note,
+            apply: async (draw) => {
+              const memberMoved = await tx.applyMovement({
+                id: draw.idempotencyKey,
+                storeId,
+                variantId: draw.variantId,
+                actorUserId: userId,
+                type: parsed.value.type,
+                direction: parsed.value.direction,
+                quantity: draw.quantity,
+                note: draw.note,
+                idempotencyKey: draw.idempotencyKey,
+              });
+              if (memberMoved.outcome === "applied") {
+                appliedPushes.push({
+                  variantId: memberMoved.variant.id,
+                  onHandAfter: memberMoved.variant.onHandQty,
+                  amountMinor: memberMoved.variant.amountMinor,
+                });
+              }
+              return memberMoved.outcome;
+            },
+          });
+          if (!expanded.ok) {
+            const status = expanded.status === 404 ? 404 : expanded.status === 422 ? 422 : 409;
+            rollback(status, expanded.error);
+          }
+        }
       }
       return { ok: true, data: { movement: movementJson(moved.movement, moved.variant) } };
     });
-    const push = appliedPushes[0];
-    if (result.ok && push) {
-      try {
-        await publishAppliedTrendyolStock({
-          storeId,
-          variantId: push.variantId,
-          onHandAfter: push.onHandAfter,
-          amountMinor: push.amountMinor,
-        });
-      } catch (error) {
-        logTrendyolEnqueueFailure(error);
+    if (result.ok) {
+      for (const push of appliedPushes) {
+        const salePriceMinor = channelListingSaleMinor({ priceMinor: null }, push.amountMinor);
+        try {
+          await publishAppliedTrendyolStock({
+            storeId,
+            variantId: push.variantId,
+            onHandAfter: push.onHandAfter,
+            amountMinor: salePriceMinor,
+            variantAmountMinor: push.amountMinor,
+          });
+        } catch (error) {
+          logTrendyolEnqueueFailure(error);
+        }
       }
     }
     return result;

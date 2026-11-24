@@ -322,21 +322,43 @@ describe("e-ticaret abonelik yaşam döngüsü", () => {
 });
 
 describe("e-ticaret deneme ürün yüzeyi", () => {
-  it("vitrin kartı 30 gün ücretsiz + 1 TL doğrulama + aylık yenileme + iptal hakkını basar", () => {
+  /**
+   * B-05 (Tedavi): aynı teklifin dört yüzeyde dört farklı tonu vardı. Artık tek
+   * doğruluk kaynağı var: `lib/pricing/trial-copy.ts`. Test bu yüzden **dizgi
+   * dondurmaz**, SSOT bağını doğrular: yüzeyler metni kendileri yazmaz, okur.
+   */
+  it("vitrin kartı ve lisans ekranı deneme metnini tek SSOT'tan okur", () => {
+    const trial = readSrc("lib/pricing/trial-copy.ts");
+    // SSOT sözleşmesi: süre, doğrulama etiketi, yenileme, iptal, dürüstlük.
+    expect(trial).toContain("TRIAL_PERIOD_DAYS = 30");
+    expect(trial).toContain("TRIAL_HEADLINE");
+    expect(trial).toContain("TRIAL_VERIFY_LINE");
+    expect(trial).toContain("trialRenewalLine");
+    expect(trial).toContain("TRIAL_CANCEL_LINE");
+    expect(trial).toContain("TRIAL_HONESTY_LINE");
+    expect(trial).toContain("otomatik yenilenir");
+    expect(trial).toContain("Dönem sonu iptali tek tıkla");
+
     const vitrine = readSrc("lib/pricing/public-vitrine.ts");
-    expect(vitrine).toContain("İlk 30 Gün Ücretsiz (1 TL Kart Doğrulama ile)");
-    expect(vitrine).toContain("TRIAL_VERIFY_LABEL");
-    expect(vitrine).toContain("COMMERCE_TRIAL_VERIFY_MINOR");
-    expect(vitrine).toContain("otomatik yenilenir");
-    expect(vitrine).toContain("Tek tıkla dönem sonu iptali");
+    // Vitrin metni kendi yazmaz; SSOT'tan okur.
+    expect(vitrine).toContain("TRIAL_HEADLINE");
+    expect(vitrine).toContain("TRIAL_VERIFY_LINE");
+    expect(vitrine).toContain("TRIAL_CANCEL_LINE");
+    expect(vitrine).toContain("trialRenewalLine");
     // Satır ücreti katalogdan okunur, sabit yazılmaz.
-    expect(vitrine).toContain("commerceEntry.amountMinor");
+    expect(vitrine).toContain("commerceEntry");
+
     const page = readSrc("app/(public)/fiyatlandirma/page.tsx");
     expect(page).toContain("data-vitrine-trial-headline");
-    expect(page).toContain("30 Gün Ücretsiz Başlat (1 TL Doğrulama)");
+    expect(page).toContain("TRIAL_HONESTY_NOTE");
     expect(page).toContain("buildCitizenRegisterHref");
     expect(page).toContain("isProtectedCitizenPath");
     expect(page).toContain("vitrineHref");
+
+    // Rehber de aynı SSOT'tan beslenir.
+    const workflows = readSrc("lib/rehber/workflows.ts");
+    expect(workflows).toContain("lib/pricing/trial-copy");
+    expect(workflows).toContain("TRIAL_HONESTY_LINE");
   });
 
   it("lisans ekranı çekilecek gerçek tutarı ve dürüst buton metnini gösterir", () => {
@@ -344,8 +366,11 @@ describe("e-ticaret deneme ürün yüzeyi", () => {
     expect(ui).toContain("data-license-trial-offer");
     expect(ui).toContain("data-license-trial-amount");
     expect(ui).toContain("COMMERCE_TRIAL_VERIFY_MINOR");
+    // B-05: deneme metni SSOT'tan gelir; ekran kendi cümlesini yazmaz.
+    expect(ui).toContain("from \"@/lib/pricing/trial-copy\"");
+    expect(ui).toContain("TRIAL_VERIFY_LINE");
+    expect(ui).toContain("TRIAL_HONESTY_LINE");
     expect(ui).toContain("copy.trialCta");
-    expect(ui).toContain("copy.trialVerifyLabel");
     expect(ui).toContain("copy.trialRenewalLabel");
     // TRIALING: "Lisans açık" değil kalan gün.
     expect(ui).toContain("data-license-trial-state");

@@ -43,9 +43,9 @@ describe("tezgâh araç sorgusu", () => {
     expect(parseTezgahToolParam("tetkik&x=1")).toBeNull();
     expect(parseTezgahToolParam("hibe")).toBe("grant");
     expect(parseTezgahToolParam("studio-photo")).toBe("studio-photo");
-    expect(tezgahRelocatedOsHref("grant")).toBe("/hibe?sekme=proje");
-    expect(tezgahRelocatedOsHref("hibe")).toBe("/hibe?sekme=proje");
-    expect(tezgahRelocatedOsHref("ecommerce")).toBe("/e-ticaret?sekme=havuz");
+    expect(tezgahRelocatedOsHref("grant")).toBe("/panel/hibe?sekme=proje");
+    expect(tezgahRelocatedOsHref("hibe")).toBe("/panel/hibe?sekme=proje");
+    expect(tezgahRelocatedOsHref("ecommerce")).toBe("/panel/e-ticaret?sekme=havuz");
     expect(tezgahRelocatedOsHref("proposal")).toBeNull();
     expect(resolveTezgahDeskTool("ecommerce")).toBe("proposal");
     expect(resolveTezgahDeskTool(null)).toBe("proposal");

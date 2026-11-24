@@ -58,13 +58,12 @@ describe("validatePreviewIdea — fikir önizlemesi", () => {
       [kosgebArgeCall(), tubitakCall()],
     );
 
-    // Taban 80 + 4 anahtar kelime (24) + uzunluk (4) = 108 → üst sınır 98.
-    // Tahmin: 1.500.000 TL × (0,45 + 0,98 × 0,55) = 1.483.500 TL.
+    // İhracat kısıtı geçilmez (taban 0). Dört anahtar kelime 24, uzunluk 4. Tutar katalog tavanıdır.
     expect(result).toEqual({
       grantId: TUBITAK_ID,
       programLabel: "TÜBİTAK 1501",
-      matchScorePct: 98,
-      estimatedSupportLabel: "₺1.483.500 TL'ye kadar",
+      matchScorePct: 28,
+      estimatedSupportLabel: "Program üst limiti: ₺1.500.000",
     });
   });
 
@@ -85,10 +84,9 @@ describe("validatePreviewIdea — fikir önizlemesi", () => {
       eligibility: EXPORT_REQUIRED,
     });
 
-    // Taban 80 + 3 eşleşme (18) + uzunluk (2) = 100 → üst sınır 98.
-    expect(validatePreviewIdea("DİJİTAL DÖNÜŞÜM VE KOBİ", [kobigel])?.matchScorePct).toBe(98);
-    // Taban 80 + eşleşme yok + uzunluk (2) = 82.
-    expect(validatePreviewIdea("genel bir plan metni hazirlandi", [kobigel])?.matchScorePct).toBe(82);
+    // İhracat kısıtı 0. Üç anahtar kelime 18, kısa metin uzunluk payı 2.
+    expect(validatePreviewIdea("DİJİTAL DÖNÜŞÜM VE KOBİ", [kobigel])?.matchScorePct).toBe(20);
+    expect(validatePreviewIdea("genel bir plan metni hazirlandi", [kobigel])?.matchScorePct).toBe(2);
   });
 });
 
@@ -99,8 +97,8 @@ describe("getPreviewIdeaValidatorFallback — vitrin yedeği", () => {
     expect(result).toEqual({
       grantId: TUBITAK_ID,
       programLabel: "TÜBİTAK 1501 / KOSGEB Ar-Ge ve İnovasyon",
-      matchScorePct: 80,
-      estimatedSupportLabel: "₺750.000 TL'ye kadar",
+      matchScorePct: 0,
+      estimatedSupportLabel: "Program üst limiti: ₺1.500.000",
     });
   });
 

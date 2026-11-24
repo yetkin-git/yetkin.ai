@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { PublicTalentBoard } from "@/components/career/public-talent-board";
+import { TalentContactForm } from "@/components/career/talent-contact-form";
 import { YetkinCvCard } from "@/components/career/yetkincv-card";
+import { YetkinCvSummaryCard } from "@/components/career/yetkincv-summary-card";
+import { YetkinCvPublicationCta } from "@/components/career/yetkincv-publication-cta";
 import { ProofShareBar } from "@/components/career/proof-share-bar";
 import { Card } from "@/components/ui/card";
 import { LinkButton } from "@/components/ui/link-button";
@@ -14,6 +17,14 @@ import { Badge } from "@/components/ui/badge";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { CAREER_SEN } from "@/lib/copy/sen-voice/career";
 import { parseSha256Hex } from "@/lib/kernel/crypto/sha256";
+import { getSession } from "@/lib/kernel/auth/session";
+import {
+  readYetkinCvPublicationAmount,
+} from "@/lib/career/yetkincv-publication";
+import { loadContactOptInForSealHash } from "@/lib/career/cv-store";
+import { JsonLd } from "@/components/seo/json-ld";
+import { buildCredentialJsonLd, jsonLdDocument } from "@/lib/copy/json-ld";
+import { verifyCareerSealHmac } from "@/lib/career/seal-hmac";
 
 function academySealFace(resolution: Extract<AcademyPublicVerifyResolution, { status: "found" }>): {
   title: string;
@@ -96,6 +107,8 @@ export async function generateMetadata({
         description: PUBLIC_META_DESCRIPTION,
         path: seal.verifyPath,
         image: PAGE_SEO.publicTalent.image,
+        // K4: ücretsiz (yayınlanmamış) mühür sayfaları indeks dışı.
+        ...(seal.published ? {} : { robots: MISSING_CARD_ROBOTS }),
       });
     }
     const academy = await loadPublicAcademyVerifyByHash(id).catch(() => null);
@@ -134,18 +147,78 @@ export default async function PublicTalentPage({
 }) {
   const { id } = await params;
   const copy = CAREER_SEN.publicPage;
+  // Yayın CTA'sı oturum sahibini doğrudan kariyer masasına gönderir; misafir kayda gider.
+  const signedInViewer = (await getSession().catch(() => null)) != null;
   if (parseSha256Hex(id)) {
     const seal = await loadPublicYetkinCvByHash(id).catch(() => null);
     if (seal) {
+      // Faz 3 / §4.3 — yayın CTA'sı için katalog tutarı. Satır yoksa `null` (fiyat basılmaz).
+      const publicationAmount = seal.published ? null : await readYetkinCvPublicationAmount();
+      const hmac = verifyCareerSealHmac(
+        {
+          certificateHash: seal.certificateHash,
+          userId: seal.userId,
+          sittingId: seal.sittingId,
+          roleKey: seal.roleKey,
+          verticalKey: seal.verticalKey,
+          score: seal.score,
+          issuedAt: seal.issuedAt,
+        },
+        seal.hmacSignature,
+      );
       return (
         <main className="relative mx-auto max-w-3xl px-6 pb-20 pt-16">
+          <JsonLd
+            data={jsonLdDocument([
+              buildCredentialJsonLd({
+                name: `YetkinCV ${seal.score}/100`,
+                description: `${seal.roleLabel} · ${seal.verticalLabel}`,
+                path: seal.verifyPath,
+                issuedAt: seal.issuedAt,
+                score: seal.score,
+              }),
+            ])}
+          />
           <div className="relative space-y-6">
             <LegalBackToHome />
-            <YetkinCvCard card={seal} />
-            {/* Viral büyüme döngüsü (Faz 2 / P4): YetkinCV puan kartı paylaşılır.
-                `verifyPath` kanonik `/vize/<sha256>` yoludur (yetkinCvVerifyPath). */}
-            <ProofShareBar path={seal.verifyPath} title={`YetkinCV ${seal.score}/100`} />
-            <p className="text-sm leading-6 text-[var(--muted)]">{copy.privacy}</p>
+            {/* Faz 3 / §4.3 — ücretli **yayın** ayrımı.
+                Puan, SWOT ve 30/60/90 planı her zaman ücretsizdir. `sealedPublication`
+                yalnız kamuya açık kartı ve uzman dizini görünürlüğünü açar.
+                Ücretsiz mühürde özet kart basılır; tam kart + paylaşım rozeti ödenince açılır. */}
+            {seal.published ? (
+              <>
+                <YetkinCvCard card={seal} />
+                <Card>
+                  <p className="text-sm font-medium" data-seal-hmac={hmac.valid ? "valid" : hmac.present ? "invalid" : "legacy"}>
+                    {hmac.valid
+                      ? "HMAC imzası geçerli."
+                      : hmac.present
+                        ? "HMAC imzası uyuşmuyor."
+                        : "Bu mühür Faz 2 öncesi imzasız kayıttır. Sicil hash'i geçerlidir."}
+                  </p>
+                  <p className="mt-2 break-all font-mono text-xs text-[var(--muted)]">
+                    Doğrulama ucu: /api/career/verify/{seal.certificateHash}
+                  </p>
+                </Card>
+                {/* Viral büyüme döngüsü (Faz 2 / P4): YetkinCV puan kartı paylaşılır.
+                    `verifyPath` kanonik `/vize/<sha256>` yoludur (yetkinCvVerifyPath). */}
+                <ProofShareBar path={seal.verifyPath} title={`YetkinCV ${seal.score}/100`} />
+                {signedInViewer && (await loadContactOptInForSealHash(seal.certificateHash)) ? (
+                  <TalentContactForm sealHash={seal.certificateHash} />
+                ) : null}
+                <p className="text-sm leading-6 text-[var(--muted)]">{copy.privacy}</p>
+              </>
+            ) : (
+              <>
+                <YetkinCvSummaryCard card={seal} />
+                <YetkinCvPublicationCta
+                  certificateHash={seal.certificateHash}
+                  amountMinor={publicationAmount}
+                  signedIn={signedInViewer}
+                  published={seal.published}
+                />
+              </>
+            )}
           </div>
         </main>
       );

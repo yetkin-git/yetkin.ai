@@ -30,7 +30,7 @@ describe("Faz 2 performans — workbench kod bölme", () => {
       { name: "PazaryeriPreview", module: "@/components/tezgah/pazaryeri-preview" },
       { name: "ProStudioPreview", module: "@/components/tezgah/pro-studio-preview" },
       { name: "TetkikReportView", module: "@/components/tezgah/tetkik-report" },
-      { name: "GrantProjectReportView", module: "@/components/tezgah/grant-project-report" },
+      { name: "ReklamPreview", module: "@/components/tezgah/reklam-preview" },
     ] as const;
 
     for (const row of heavy) {
@@ -40,6 +40,11 @@ describe("Faz 2 performans — workbench kod bölme", () => {
       expect(workbench, row.name).toContain(`import("${row.module}")`);
       expect(workbench, row.name).toContain(`const ${row.name} = dynamic(`);
     }
+
+    // Y4: `grant` masası `/panel/hibe` işletim sistemine taşındı. Workbench'te
+    // ölü `GrantProjectReportView` dalı yaşamaz; tezgâh 8 sekmeyi taşır.
+    expect(workbench).not.toContain("grant-project-report");
+    expect(workbench).not.toContain("GrantDetailWizard");
 
     // Her dinamik yükleme bir iskelet taşır (boş kutu / CLS yok).
     const dynamicCalls = workbench.match(/dynamic\(/g) ?? [];
@@ -95,13 +100,16 @@ describe("Faz 2 performans — globals.css modülerleştirme", () => {
       "room-led",
       "nav-progress-indeterminate",
       "junior-card-shake",
-      "academy-intro-bloom",
       "delivery-hero-glow",
       "junior-star-glow",
     ];
     for (const name of names) {
       expect(animations, name).toContain(`@keyframes ${name}`);
     }
+    // M-02 (Tedavi): `@keyframes academy-*` blokları canlı katmandan çıkarıldı;
+    // hiçbir bileşen onları kullanmıyordu. Arşivde durur, import edilmez.
+    expect(animations).not.toContain("academy");
+    expect(readSrc("app/styles/archived-academy.css")).toContain("@keyframes academy-intro-bloom");
     // Adlar korunur: hiçbir tüketici sınıfı kırılmaz.
     expect(globals).toContain("animation: room-led 2.4s ease-in-out infinite");
     expect(globals).toContain("animation: nav-progress-indeterminate 1.05s ease-in-out infinite");
@@ -126,11 +134,22 @@ describe("Faz 2 performans — globals.css modülerleştirme", () => {
     expect(readSrc("app/styles/animations.css")).not.toContain("--safir:");
   });
 
-  it("ana dosya küçüldü ve tek parça dev dosya değil", () => {
+  /**
+   * M-02 (Tedavi): `academy-*` ve `[data-room="academy"]` blokları canlı CSS'ten
+   * çıkarıldı ve `app/styles/archived-academy.css` dosyasına taşındı. Canlı dosya
+   * 151 KB → ~18 KB'ye indi. Bu test artık **üst sınır** doğrular, alt sınır değil:
+   * alt sınır "dosya yine şişsin" demek olurdu.
+   */
+  it("ana dosya küçüldü ve ölü arşiv CSS'i taşımaz", () => {
     const globals = readSrc("app/globals.css");
     const lineCount = globals.split(/\r?\n/).length;
-    // Önce 7.013 satırdı; token (33) + 27 @keyframes (≈285) satırı çıktı.
-    expect(lineCount).toBeLessThan(6_800);
-    expect(lineCount).toBeGreaterThan(6_000);
+    // M-02 öncesi 6.703 satırdı; ölü Akademi blokları (~6.000 satır) çıktı.
+    expect(lineCount).toBeLessThan(1_200);
+    expect(lineCount).toBeGreaterThan(200);
+    // Canlı katmanda tek bir `academy` kuralı kalmaz.
+    expect(globals).not.toContain("academy");
+    // Arşiv dosyası diskte durur ama canlı ağaca import edilmez.
+    expect(existsSync(join(ROOT, "app/styles/archived-academy.css"))).toBe(true);
+    expect(globals).not.toContain("archived-academy");
   });
 });

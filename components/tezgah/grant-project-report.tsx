@@ -4,8 +4,11 @@ import { useState } from "react";
 import { YETKIN_BRAND } from "@/lib/copy/brand";
 import { TEZGAH_DELIVERY_SIGNATURE } from "@/lib/tezgah/delivery-signature";
 import { Button } from "@/components/ui/button";
+import { grantReportBlocks } from "@/lib/tezgah/grant/document";
 import { renderGrantProjectText } from "@/lib/tezgah/grant/render";
 import type { GrantProjectReport } from "@/lib/tezgah/grant/types";
+import { buildDocxDocument } from "@/lib/yetkinhibe/docx-document";
+import { buildPlainPdf } from "@/lib/yetkinhibe/plain-pdf";
 import {
   GRANT_EMPTY_ELIGIBLE_LINE,
   GRANT_PROJECT_DISCLAIMER,
@@ -36,6 +39,17 @@ export function GrantProjectReportView({ report }: { report: GrantProjectReport 
     } catch {
       setCopied(false);
     }
+  }
+
+  function download(filename: string, bytes: Uint8Array, mime: string) {
+    const copy = new Uint8Array(bytes);
+    const blob = new Blob([copy.buffer], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(url);
   }
 
   return (
@@ -278,8 +292,20 @@ export function GrantProjectReportView({ report }: { report: GrantProjectReport 
         </a>
       </p>
       <div className="mt-5 flex flex-wrap gap-2 print:hidden">
-        <Button type="button" variant="secondary" onClick={() => window.print()}>
-          Yazdır / PDF olarak kaydet
+        <Button type="button" variant="secondary" onClick={() => download("hibe-proje-dosyasi.docx", buildDocxDocument(grantReportBlocks(report)), "application/vnd.openxmlformats-officedocument.wordprocessingml.document")}>
+          Word (.docx) İndir
+        </Button>
+        <Button type="button" variant="secondary" onClick={() => download("hibe-proje-dosyasi.pdf", buildPlainPdf(grantReportBlocks(report)), "application/pdf")}>
+          PDF İndir
+        </Button>
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={() =>
+            download("hibe-proje-dosyasi.md", new TextEncoder().encode(renderGrantProjectText(report)), "text/markdown")
+          }
+        >
+          Markdown (.md) İndir
         </Button>
         <Button type="button" variant="outline" onClick={() => void copyReport()}>
           {copied ? "Kopyalandı" : "Dosyayı kopyala"}

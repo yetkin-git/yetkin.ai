@@ -21,15 +21,20 @@ export type PublicTalentSeal = {
 
 export type PublicTalentProof = {
   title: string;
-  visaStampId: string;
+  /** Damgaya bağlı kanıtta dolu; tezgâh kaydında yoktur (sahte bağ yok). */
+  visaStampId?: string | null;
   /** Tezgâh kanıtının kısa alıntısı. Mühür satırında yoktur. */
   detail?: string;
+  /** visa = mühür bağlı; tezgah = AI Tezgâh kayıtlı portföy. */
+  kind?: "visa" | "tezgah";
 };
 
 export type PublicTalentCard = {
   featured: PublicTalentSeal;
   seals: PublicTalentSeal[];
   proofs: PublicTalentProof[];
+  /** Ayrı etiket: AI Tezgâh kayıtlı portföy çıktıları. */
+  tezgahProofs: PublicTalentProof[];
 };
 
 export type PublicTalentResolution =
@@ -94,7 +99,8 @@ export function toPublicTalentCard(
     seals,
     proofs: portfolio
       .filter((item) => liveIds.has(item.visaStampId))
-      .map((item) => ({ title: item.title, visaStampId: item.visaStampId })),
+      .map((item) => ({ title: item.title, visaStampId: item.visaStampId, kind: "visa" as const })),
+    tezgahProofs: [],
   };
 }
 

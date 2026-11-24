@@ -108,6 +108,24 @@ export const CATALOG_OPENABLE_UNITS = [
     description: "Tam hibe proje dosyası. Tutar Super Admin satırındadır. Satır yoksa dosya üretilmez.",
   },
   {
+    moduleKey: "hibe",
+    unitKey: "dossier",
+    unitType: "MINOR" as const,
+    currencyCode: SETTLEMENT_CURRENCY,
+    minMinor: 1,
+    maxMinor: 50_000_000,
+    description: "YetkinHibe dosya satırı. Tutar Super Admin satırındadır. Satır yoksa tutar uydurulmaz.",
+  },
+  {
+    moduleKey: "hibe",
+    unitKey: "agency",
+    unitType: "MINOR" as const,
+    currencyCode: SETTLEMENT_CURRENCY,
+    minMinor: 1,
+    maxMinor: 50_000_000,
+    description: "YetkinHibe ajans satırı. Tutar Super Admin satırındadır. Satır yoksa tutar uydurulmaz.",
+  },
+  {
     moduleKey: "academy",
     unitKey: "team-seat",
     unitType: "MINOR" as const,
@@ -125,6 +143,15 @@ export const CATALOG_OPENABLE_UNITS = [
     maxMinor: 50_000_000,
     description: "E-ticaret ajans paketi, 10 mağaza koltuğu. Tutar Super Admin satırındadır.",
   },
+  // Faz 3 / §4.3 — `career/yetkincv-exam` GERİ EKLENDİ.
+  //
+  // B-01'de bu satır çıkarılmıştı: katalog açılabiliyordu ama hiçbir ödeme rotası
+  // onu tüketmiyordu (sessiz yalan). Sıra artık doğru:
+  //   1. `POST /api/career/yetkincv/purchase` yazıldı (katalog tutarı + PayTR + rıza),
+  //   2. CLEARED → `fulfillYetkinCvPublication` → `sealedPublication = true`,
+  //   3. bu satır geri eklendi,
+  //   4. vitrin kartı katalogdan tutar okur (sınav ücretsiz, yayın tek seferlik).
+  // Ürün sözleşmesi: sınav/puan/SWOT/plan ücretsiz; para yalnız yayını açar.
   {
     moduleKey: "career",
     unitKey: "yetkincv-exam",
@@ -133,7 +160,7 @@ export const CATALOG_OPENABLE_UNITS = [
     minMinor: 1,
     maxMinor: 50_000_000,
     description:
-      "YetkinCV Uygulamalı Sınav ve SHA-256 mühürlü CV paketi. Tutar Super Admin satırındadır. Satın alma tek başına puan basmaz.",
+      "YetkinCV kamuya açık yayın mührü (tek seferlik). Sınav, puan, SWOT ve 30/60/90 ücretsizdir; bu satır yalnız kamuya açık kart + uzman dizini görünürlüğünü açar. Satın alma tek başına puan basmaz.",
   },
   {
     moduleKey: "kurumsal",

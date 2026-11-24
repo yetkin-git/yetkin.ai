@@ -118,6 +118,9 @@ describe("Inngest imza fail-closed", () => {
       "trendyol-order-pull",
       "hepsiburada-order-pull",
       "commerce-subscription-renewal",
+      "tezgah-credit-rollover",
+      "grant-catalog-verify",
+      "grant-reservation-ttl",
     ]);
     expect(
       resolveInngestServeMode({

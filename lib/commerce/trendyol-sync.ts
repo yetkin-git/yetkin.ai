@@ -1,7 +1,11 @@
 import { randomUUID } from "node:crypto";
 import type { CommerceRepository } from "@/lib/commerce/repository";
+import { moveWithSetMembers } from "@/lib/commerce/set-stock";
 import { openCommerceCredential } from "@/lib/commerce/credential-seal";
 import type { MarketplaceRepository } from "@/lib/commerce/marketplace-repository";
+import { channelListingSaleMinor } from "@/lib/commerce/listing-price";
+import { enqueueMovedStock } from "@/lib/commerce/listing-queue";
+import { draftFromMarketplacePackage, type FulfillmentDraft } from "@/lib/commerce/fulfillment-rules";
 import { COMMERCE_CHANNEL, type WebhookReceiptRow } from "@/lib/commerce/marketplace-types";
 import { COMMERCE_LICENSE_ABSENT, outgoingSyncAllowed, type CommerceOutgoingLicense } from "@/lib/commerce/sync-license";
 import {
@@ -27,6 +31,8 @@ export type TrendyolPorts = {
   now?: () => Date;
   baseUrl?: string;
   license?: CommerceOutgoingLicense;
+  /** Sipariş masası. Yoksa stok çekimi yalnız deftere yazar. */
+  recordFulfillment?: (draft: FulfillmentDraft) => Promise<void>;
 };
 
 export type TrendyolStockPushEvent = {
@@ -101,7 +107,7 @@ async function intakeLine(
     return { outcome: "skipped", reason: "missing" };
   }
   const note = trendyolMovementNote(input.orderNumber);
-  const moved = await ports.commerce.applyMovement({
+  const moved = await moveWithSetMembers(ports.commerce, {
     id: randomUUID(),
     storeId: input.storeId,
     variantId: variant.id,
@@ -114,6 +120,21 @@ async function intakeLine(
   });
   if (moved.outcome === "missing") {
     return { outcome: "skipped", reason: "missing" };
+  }
+  if (moved.outcome === "applied") {
+    const salePriceMinor = channelListingSaleMinor(listing, moved.variant.amountMinor);
+    await enqueueMovedStock(ports.marketplace, input.storeId, [
+      {
+        variantId: moved.variant.id,
+        onHandAfter: moved.variant.onHandQty,
+        amountMinor: salePriceMinor,
+        variantAmountMinor: moved.variant.amountMinor,
+      },
+      ...(moved.memberPushes ?? []).map((row) => ({
+        ...row,
+        variantAmountMinor: row.amountMinor,
+      })),
+    ]);
   }
   const status = moved.outcome === "rejected" ? "STOCK_SHORT" : "APPLIED";
   const receipt: WebhookReceiptRow = {
@@ -171,6 +192,18 @@ export async function intakeTrendyolPackages(
         }),
       );
     }
+    if (ports.recordFulfillment && pkg.lines.length > 0) {
+      await ports.recordFulfillment(
+        draftFromMarketplacePackage({
+          storeId,
+          channel: "TRENDYOL",
+          externalOrderNo: pkg.orderNumber,
+          statusText: pkg.status ?? pkg.shipmentPackageStatus,
+          lines: pkg.lines,
+          now: ports.now?.() ?? new Date(),
+        }),
+      );
+    }
   }
   return results;
 }
@@ -184,10 +217,11 @@ export async function pushTrendyolListingStock(
     throw new TrendyolRemoteError("Trendyol ilanı yok.");
   }
   const variant = await ports.commerce.findVariant(listing.storeId, listing.variantId);
-  if (!variant || variant.amountMinor == null) {
+  const saleMinor = channelListingSaleMinor(listing, variant?.amountMinor);
+  if (!variant || saleMinor == null) {
     throw new TrendyolRemoteError("Trendyol ilan fiyatı yok.");
   }
-  if (variant.onHandQty !== data.onHandAfter || variant.amountMinor !== data.amountMinor) {
+  if (variant.onHandQty !== data.onHandAfter || saleMinor !== data.amountMinor) {
     return { syncStatus: "PENDING" };
   }
   const allowed = await outgoingSyncAllowed(ports.license, listing.storeId, ports.now?.() ?? new Date());
@@ -205,7 +239,7 @@ export async function pushTrendyolListingStock(
   }
   const opened = openStored(credential, ports.env);
   const quantity = trendyolPushQuantity(variant.onHandQty, variant.safetyBuffer);
-  const price = amountMinorToTry(variant.amountMinor);
+  const price = amountMinorToTry(saleMinor);
   await pushTrendyolPriceAndStock({
     supplierId: opened.supplierId,
     apiKey: opened.apiKey,
@@ -218,7 +252,9 @@ export async function pushTrendyolListingStock(
     baseUrl: ports.baseUrl,
   });
   const fresh = await ports.commerce.findVariant(listing.storeId, listing.variantId);
-  if (!fresh || fresh.onHandQty !== data.onHandAfter || fresh.amountMinor !== data.amountMinor) {
+  const freshListing = await ports.marketplace.findListingById(listing.id);
+  const freshSale = channelListingSaleMinor(freshListing ?? listing, fresh?.amountMinor);
+  if (!fresh || fresh.onHandQty !== data.onHandAfter || freshSale !== data.amountMinor) {
     return { syncStatus: "PENDING" };
   }
   await ports.marketplace.markListing(listing.id, {
@@ -238,7 +274,8 @@ export async function markTrendyolListingFailed(
     return "skipped";
   }
   const variant = await ports.commerce.findVariant(listing.storeId, listing.variantId);
-  if (!variant || variant.onHandQty !== input.onHandAfter || variant.amountMinor !== input.amountMinor) {
+  const saleMinor = channelListingSaleMinor(listing, variant?.amountMinor);
+  if (!variant || variant.onHandQty !== input.onHandAfter || saleMinor !== input.amountMinor) {
     return "skipped";
   }
   const lastError = input.message.replace(/\s+/g, " ").trim().slice(0, 500) || "Trendyol stok itme başarısız.";

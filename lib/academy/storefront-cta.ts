@@ -1,6 +1,9 @@
 /**
  * Akademi vitrin + Antre birincil CTA — satın alma durumunun tek çözücüsü.
  * Client-safe.
+ *
+ * Stratejik ürün kararı: Akademi odası `kapali: true` ve kenar `410 Gone`.
+ * Kapalıyken `/academy/*` CTA üretilmez — ölü link vitrin/kariyer/panel'e sızmaz.
  */
 
 import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
@@ -13,12 +16,18 @@ import {
   isAcademyProductionLineSkuSlug,
   isAcademyVitrineShellSkuSlug,
 } from "@/lib/academy/pilot-sku";
+import { DronBayrakları } from "@/lib/dronlar/kayit";
 import { stripZeroKurusFromTryLabel } from "@/lib/kernel/money/format";
 import { COURSE_REGISTRY } from "@yetkin/kernel/catalog-ids/course-registry";
 
 function academyEmptyCanonShell(slug: string): boolean {
   const row = COURSE_REGISTRY.find((item) => item.slug === slug);
   return Boolean(row && row.canon && row.lessonKeys.length === 0);
+}
+
+/** Kapalı oda: CTA üreticisi `/academy/*` bağ basmaz. */
+function academySurfaceClosed(): boolean {
+  return DronBayrakları.isKapali("academy");
 }
 
 /** Kapalı düğmenin nedeni. Yayın, fiyat ve ses mührü aynı cümleye düşmez. */
@@ -44,6 +53,9 @@ export const ACADEMY_CHECKOUT_HASH = "satin-al";
 export const ACADEMY_HERO_PAYTR_EVENT = "yetkin:academy-hero-paytr";
 
 export function academyCheckoutHref(courseSlug: string): string {
+  if (academySurfaceClosed()) {
+    return "";
+  }
   return `/academy/${courseSlug.trim()}#${ACADEMY_CHECKOUT_HASH}`;
 }
 
@@ -104,6 +116,14 @@ export function resolveAcademyAntreHeroCta(input: {
   loginHref: string;
 }): AcademyAntreHeroCta {
   const copy = ACADEMY_SEN;
+  if (academySurfaceClosed()) {
+    return {
+      priceLabel: copy.catalog.comingSoonMeta,
+      primaryLabel: null,
+      primaryHref: null,
+      action: "none",
+    };
+  }
   const slug = input.courseSlug.trim();
   const courseHref = `/academy/${slug}`;
   const playHref = `${courseHref}/oyna`;
@@ -198,6 +218,15 @@ export function resolveAcademyCatalogCardCta(input: {
   hero?: boolean;
 }): AcademyCatalogCardCta {
   const copy = ACADEMY_SEN;
+  if (academySurfaceClosed()) {
+    return {
+      priceLabel: copy.catalog.comingSoonMeta,
+      priceCaption: copy.catalog.comingSoonMeta,
+      cta: copy.catalog.cardCtaComingSoon,
+      href: "",
+      ctaDisabled: true,
+    };
+  }
   if (isAcademyVitrineShellSkuSlug(input.slug)) {
     const started = input.learnerStatus === "continue";
     return {

@@ -82,7 +82,7 @@ export function ProductEditor({
                 rows={5}
                 maxLength={4000}
                 value={description}
-                placeholder="Ürün açıklamasını buraya yazınız..."
+                placeholder="Ürün açıklamasını buraya yaz…"
                 onChange={(event) => setDescription(event.target.value)}
               />
             </div>

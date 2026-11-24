@@ -1,8 +1,9 @@
-import { assistantActorId } from "@/lib/kernel/ai/assistant-guest-quota";
+import { assistantActorId } from "@/lib/kernel/ai/assistant-guest-actor";
 import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
-import { resolveRequestIp } from "@/lib/kernel/security/http-rate-limit";
+import { resolveRequestIp, rateLimitedJsonResponse } from "@/lib/kernel/security/http-rate-limit";
+import { guardTezgahGenerateRate } from "@/lib/tezgah/generate-guard";
 import { readTezgahCommandKey } from "@/lib/tezgah/command-key";
 import { generateDukkanPage } from "@/lib/tezgah/dukkan/engine";
 import { recordSignedTezgahOutput } from "@/lib/tezgah/record-output";
@@ -28,6 +29,10 @@ export async function POST(request: Request) {
     }
     const user = await requireSession(request).catch(() => null);
     const actor = assistantActorId(user?.id, resolveRequestIp(request));
+    const limited = await guardTezgahGenerateRate(request, actor.userId);
+    if (!limited.allowed) {
+      return rateLimitedJsonResponse(limited, request);
+    }
     const result = await generateDukkanPage({
       actorId: actor.userId,
       guest: actor.guest,
@@ -49,9 +54,12 @@ export async function POST(request: Request) {
       {
         tool: result.tool,
         html: result.html,
+        guide: result.guide,
+        zipBase64: result.zipBase64,
         outputId,
-        score: result.score,
+        seals: result.seals,
         filename: result.filename,
+        zipFilename: result.zipFilename,
         remaining: result.remaining,
         limit: result.limit,
         guest: result.guest,

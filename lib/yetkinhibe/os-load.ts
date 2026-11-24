@@ -5,23 +5,40 @@ import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { formatMinorCompact } from "@/lib/kernel/money/format";
 import { toAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { createPrismaPriceCatalogStore } from "@/lib/kernel/pricing/prisma-catalog-store";
-import { TEZGAH_GRANT_UNIT, TEZGAH_PRO_MODULE } from "@/lib/tezgah/paid-lane";
-import { recordSignedTezgahOutput } from "@/lib/tezgah/record-output";
+import { TEZGAH_GRANT_UNIT, TEZGAH_PRO_MODULE, readHibeCatalogAmount } from "@/lib/tezgah/paid-lane";
+import { matchAgencyClientsToCatalog, type AgencyCatalogMatch, type AgencyClientCard } from "@/lib/yetkinhibe/agency-match";
+import { listHibeApplications, listHibeClients } from "@/lib/yetkinhibe/application-service";
+import type { HibeApplicationView } from "@/lib/yetkinhibe/lifecycle-view";
 import { GrantCatalogUnavailableError } from "@/lib/yetkinhibe/grant-catalog-core";
 import { loadYetkinhibeGrantCatalog } from "@/lib/yetkinhibe/grant-catalog-live";
 import type { YetkinhibeGrantCatalogEntry } from "@/lib/yetkinhibe/grant-catalog-core";
 import {
   hibeAnalysisToBrief,
+  HIBE_BUSINESS_KINDS,
   parseHibeAnalysis,
   type HibeAnalysisInput,
 } from "@/lib/yetkinhibe/os-brief";
+import {
+  isGrantAudience,
+  isGrantInvestmentFocus,
+  isGrantNaceGroup,
+  isGrantRdLevel,
+  isProvinceCode,
+} from "@/lib/yetkinhibe/grant-brief-axes";
 import { buildGrantPrepMasterPlan, type GrantPrepMasterPlan } from "@/lib/yetkinhibe/master-plan";
-import { rankGrantProgramFits, sumEligibleCeilingMinor, type GrantProgramFit } from "@/lib/yetkinhibe/program-fit";
+import {
+  highestEligibleCeilingMinor,
+  rankGrantProgramFits,
+  type GrantProgramFit,
+} from "@/lib/yetkinhibe/program-fit";
 import type { GrantBriefCall } from "@/lib/yetkinhibe/match-grant-programs-for-brief";
 import type { GrantProgramSource } from "@/lib/yetkinhibe/types";
 
 export type HibePriceBand = {
   priceLabel: string | null;
+  dossierCatalogLabel: string | null;
+  agencyPriceLabel: string | null;
+  agencyActive: boolean;
   proActive: boolean;
 };
 
@@ -45,13 +62,14 @@ export type HibeProgramCard = {
   windowLabel: string;
 };
 
+export type HibeSavedProfile = HibeAnalysisInput;
+
 export type HibeArchiveRow = {
   id: string;
-  toolKey: string;
   title: string;
-  inputSummary: string;
   createdAt: string;
-  preview: string;
+  markdown: string;
+  grantId: string | null;
 };
 
 export type HibeAnalysisRow = GrantProgramFit & {
@@ -64,8 +82,12 @@ export type HibeCockpitData = {
   programs: readonly HibeProgramCard[];
   programsNote: string | null;
   archive: readonly HibeArchiveRow[];
+  savedProfile: HibeSavedProfile | null;
   analysis: readonly HibeAnalysisRow[] | null;
   analysisNote: string | null;
+  applications: readonly HibeApplicationView[];
+  clients: readonly AgencyClientCard[];
+  agencyMatrix: readonly AgencyCatalogMatch[];
 };
 
 const AGENCY_ORDER: readonly GrantProgramSource[] = [
@@ -73,8 +95,11 @@ const AGENCY_ORDER: readonly GrantProgramSource[] = [
   "TUBITAK",
   "TICARET_BAKANLIGI",
   "KALKINMA_AJANSI",
-  "BOLGESEL_AJANS",
-  "RESMI_GAZETE",
+  "TKDK_IPARD",
+  "TARIM_BAKANLIGI",
+  "SANAYI_BAKANLIGI",
+  "ISKUR",
+  "AB_FONLARI",
 ];
 
 function toBriefCall(entry: YetkinhibeGrantCatalogEntry): GrantBriefCall {
@@ -90,6 +115,10 @@ function toBriefCall(entry: YetkinhibeGrantCatalogEntry): GrantBriefCall {
     supportRatioBps: entry.supportRatioBps,
     sourceVerifiedAt: entry.sourceVerifiedAt,
     eligibility: entry.eligibility,
+    source: entry.source,
+    dataVersion: entry.dataVersion,
+    specificationText: entry.specificationText,
+    rulesJson: entry.rulesJson,
   };
 }
 
@@ -133,24 +162,56 @@ function programCards(entries: readonly YetkinhibeGrantCatalogEntry[]): HibeProg
     }));
 }
 
-async function readPrice(userId: string): Promise<HibePriceBand> {
-  let priceLabel: string | null = null;
-  let proActive = false;
+async function catalogLabel(moduleKey: string, unitKey: string, suffix: string): Promise<string | null> {
   try {
-    const entry = await createPrismaPriceCatalogStore().findActiveEntry(TEZGAH_PRO_MODULE, TEZGAH_GRANT_UNIT);
+    const entry = await createPrismaPriceCatalogStore().findActiveEntry(moduleKey, unitKey);
     if (entry && entry.unitType === "MINOR" && entry.currencyCode === "TRY" && entry.amountMinor > 0) {
-      priceLabel = `${formatMinorCompact(entry.amountMinor, SETTLEMENT_CURRENCY)} / Tam Proje Dosyası`;
+      return `${formatMinorCompact(entry.amountMinor, SETTLEMENT_CURRENCY)} / ${suffix}`;
     }
   } catch {
-    priceLabel = null;
+    return null;
   }
+  return null;
+}
+
+/** Katalog tutarı (kuruş). Satır yoksa `null`; tutar uydurulmaz. */
+async function catalogAmount(moduleKey: string, unitKey: string): Promise<number | null> {
   try {
-    const row = await getPrisma().tezgahSubscription.findUnique({ where: { userId } });
+    const entry = await createPrismaPriceCatalogStore().findActiveEntry(moduleKey, unitKey);
+    if (entry && entry.unitType === "MINOR" && entry.currencyCode === "TRY" && entry.amountMinor > 0) {
+      return entry.amountMinor;
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
+
+async function readPrice(userId: string): Promise<HibePriceBand> {
+  // Ş6 / B-09 — tek fiyat kaynağı. `hibe/dossier` satırı varsa o kazanır; yoksa eski
+  // `tezgah/grant-dossier` satırına düşer. Vitrin, kokpit ve checkout aynı satırı okur.
+  const dossierAmount = await readHibeCatalogAmount("dossier");
+  const agencyAmount = await readHibeCatalogAmount("agency");
+  const label = (amount: number | null, suffix: string): string | null =>
+    amount == null ? null : `${formatMinorCompact(toAmountMinor(amount), SETTLEMENT_CURRENCY)} / ${suffix}`;
+  const priceLabel = label(dossierAmount ?? (await catalogAmount(TEZGAH_PRO_MODULE, TEZGAH_GRANT_UNIT)), "Tam Proje Dosyası");
+  const dossierCatalogLabel = label(dossierAmount, "YetkinHibe dosya");
+  const agencyPriceLabel = label(agencyAmount, "YetkinHibe ajans");
+  let proActive = false;
+  let agencyActive = false;
+  try {
+    const prisma = getPrisma();
+    const [row, agency] = await Promise.all([
+      prisma.tezgahSubscription.findUnique({ where: { userId } }),
+      prisma.hibeAgencyPackage.findUnique({ where: { userId } }),
+    ]);
     proActive = row?.status === "ACTIVE" && row.expiresAt != null && row.expiresAt.getTime() > Date.now();
+    agencyActive = agency?.status === "ACTIVE";
   } catch {
     proActive = false;
+    agencyActive = false;
   }
-  return { priceLabel, proActive };
+  return { priceLabel, dossierCatalogLabel, agencyPriceLabel, agencyActive, proActive };
 }
 
 function shownCount(live: boolean, value: number): string {
@@ -160,83 +221,85 @@ function shownCount(live: boolean, value: number): string {
   return String(value);
 }
 
+function savedProfileFromRow(profile: {
+  businessName: string;
+  audience: string;
+  provinceCode: string;
+  naceGroup: string;
+  investmentFocus: string;
+  employeeCount: number;
+  companyAgeYears: number;
+  rdMaturityLevel: string;
+  exportActive: boolean;
+  hasPatentOrUtilityModel: boolean;
+} | null): HibeSavedProfile | null {
+  if (!profile) {
+    return null;
+  }
+  if (
+    !isGrantAudience(profile.audience) ||
+    !isProvinceCode(profile.provinceCode) ||
+    !isGrantNaceGroup(profile.naceGroup) ||
+    !isGrantInvestmentFocus(profile.investmentFocus) ||
+    !isGrantRdLevel(profile.rdMaturityLevel)
+  ) {
+    return null;
+  }
+  const businessKind = profile.audience === "yeni_girisimci" ? "startup" : "kobi";
+  const kind = HIBE_BUSINESS_KINDS.find((row) => row.id === businessKind);
+  if (!kind) {
+    return null;
+  }
+  return {
+    businessName: profile.businessName,
+    businessKind: kind.id,
+    audience: profile.audience,
+    provinceCode: profile.provinceCode,
+    naceGroup: profile.naceGroup,
+    investmentFocus: profile.investmentFocus,
+    employeeCount: profile.employeeCount,
+    companyAgeYears: profile.companyAgeYears,
+    rdMaturityLevel: profile.rdMaturityLevel,
+    exportActive: profile.exportActive,
+    hasPatentOrUtilityModel: profile.hasPatentOrUtilityModel,
+  };
+}
+
 async function readArchive(userId: string): Promise<{
   live: boolean;
   profiles: number;
   dossiers: number;
   rows: HibeArchiveRow[];
+  savedProfile: HibeSavedProfile | null;
 }> {
   try {
     const prisma = getPrisma();
-    const where = { userId, toolKey: { in: ["grant", "grant-brief"] } };
-    const [profiles, dossiers, rows] = await Promise.all([
-      prisma.tezgahOutput.count({ where: { userId, toolKey: "grant-brief" } }),
-      prisma.tezgahOutput.count({ where: { userId, toolKey: "grant" } }),
-      prisma.tezgahOutput.findMany({
-        where,
+    const [profile, dossiers, rows] = await Promise.all([
+      prisma.hibeCompanyProfile.findUnique({ where: { userId } }),
+      prisma.hibeDossier.count({ where: { userId } }),
+      prisma.hibeDossier.findMany({
+        where: { userId },
         orderBy: { createdAt: "desc" },
         take: 20,
-        select: {
-          id: true,
-          toolKey: true,
-          title: true,
-          inputSummary: true,
-          outputContent: true,
-          createdAt: true,
-        },
+        select: { id: true, title: true, markdown: true, grantId: true, createdAt: true },
       }),
     ]);
     return {
       live: true,
-      profiles,
+      profiles: profile ? 1 : 0,
       dossiers,
+      savedProfile: savedProfileFromRow(profile),
       rows: rows.map((row) => ({
         id: row.id,
-        toolKey: row.toolKey,
         title: row.title,
-        inputSummary: row.inputSummary,
         createdAt: row.createdAt.toISOString(),
-        preview: row.outputContent.slice(0, 1_200),
+        markdown: row.markdown,
+        grantId: row.grantId,
       })),
     };
   } catch {
-    return { live: false, profiles: 0, dossiers: 0, rows: [] };
+    return { live: false, profiles: 0, dossiers: 0, rows: [], savedProfile: null };
   }
-}
-
-async function rememberAnalysis(userId: string, input: HibeAnalysisInput, fits: readonly GrantProgramFit[]) {
-  const fingerprint = [
-    input.businessKind,
-    input.provinceCode,
-    input.naceGroup,
-    input.investmentFocus,
-    input.employeeCount,
-    input.companyAgeYears,
-  ].join("|");
-  try {
-    const latest = await getPrisma().tezgahOutput.findFirst({
-      where: { userId, toolKey: "grant-brief" },
-      orderBy: { createdAt: "desc" },
-      select: { inputSummary: true },
-    });
-    if (latest?.inputSummary === fingerprint) {
-      return;
-    }
-  } catch {
-    return;
-  }
-  const lines = fits.slice(0, 8).map((row) => {
-    const ceiling = row.ceilingLabel ? ` Katalog tavanı ${row.ceilingLabel}.` : "";
-    return `${row.sourceLabel} — ${row.title}. Kriter uyumu %${row.fitPct}.${ceiling} ${row.reasons.join(" ")}`;
-  });
-  await recordSignedTezgahOutput({
-    userId,
-    guest: false,
-    toolKey: "grant-brief",
-    title: input.businessName,
-    inputSummary: fingerprint,
-    outputContent: lines.join("\n") || "Bu profilde katalog çağrısı listelenmedi.",
-  });
 }
 
 export async function readHibeCommandCounts(userId: string): Promise<{
@@ -269,13 +332,14 @@ export async function loadHibeCockpit(
   },
 ): Promise<HibeCockpitData> {
   const price = await readPrice(userId);
-  let archive = await readArchive(userId);
+  const archive = await readArchive(userId);
+  const now = new Date();
   let programs: HibeProgramCard[] = [];
   let programsNote: string | null = null;
   let calls: GrantBriefCall[] = [];
   let catalogEntries: readonly YetkinhibeGrantCatalogEntry[] = [];
   try {
-    const catalog = await loadYetkinhibeGrantCatalog(new Date());
+    const catalog = await loadYetkinhibeGrantCatalog(now);
     catalogEntries = catalog;
     programs = programCards(catalog);
     calls = catalog.map(toBriefCall);
@@ -286,7 +350,7 @@ export async function loadHibeCockpit(
         : "Hibe kataloğu okunamadı. Tutar, tarih ve belge listesi uydurulmaz.";
   }
 
-  const parsed = parseHibeAnalysis(params);
+  const parsed = parseHibeAnalysis(params) ?? (params.hesap === "1" ? null : archive.savedProfile);
   let analysis: HibeAnalysisRow[] | null = null;
   let analysisNote: string | null = null;
   if (params.hesap === "1" && !parsed) {
@@ -296,7 +360,7 @@ export async function loadHibeCockpit(
   } else if (parsed) {
     const brief = hibeAnalysisToBrief(parsed);
     const byId = new Map(catalogEntries.map((entry) => [entry.id, entry]));
-    analysis = rankGrantProgramFits(brief, calls)
+    analysis = rankGrantProgramFits(brief, calls, now)
       .slice(0, 8)
       .map((fit) => {
         const entry = byId.get(fit.grantId);
@@ -313,15 +377,27 @@ export async function loadHibeCockpit(
             applicationDeadline: entry?.applicationDeadline ?? null,
             remainingDays: entry?.remainingDays ?? null,
             status: entry?.status ?? null,
-            fitPct: fit.fitPct,
+            fitPct: fit.fitPct ?? 0,
           }),
         };
       });
-    await rememberAnalysis(userId, parsed, analysis);
-    archive = await readArchive(userId);
   }
 
-  const ceiling = analysis ? sumEligibleCeilingMinor(analysis) : null;
+  let applications: HibeApplicationView[] = [];
+  let clients: AgencyClientCard[] = [];
+  try {
+    applications = await listHibeApplications(userId, now);
+  } catch {
+    applications = [];
+  }
+  try {
+    clients = await listHibeClients(userId);
+  } catch {
+    clients = [];
+  }
+  const agencyMatrix = matchAgencyClientsToCatalog(clients, calls, now);
+
+  const ceiling = analysis ? highestEligibleCeilingMinor(analysis) : null;
   const matchedCount = analysis ? analysis.filter((row) => row.eligible).length : null;
   const kpis: HibeKpis = {
     live: archive.live,
@@ -337,7 +413,11 @@ export async function loadHibeCockpit(
     programs,
     programsNote,
     archive: archive.rows,
+    savedProfile: archive.savedProfile,
     analysis,
     analysisNote,
+    applications,
+    clients,
+    agencyMatrix,
   };
 }

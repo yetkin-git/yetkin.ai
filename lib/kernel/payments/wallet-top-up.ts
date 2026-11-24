@@ -20,13 +20,14 @@ export type WalletTopUpReuseDecision =
   | { action: "conflict"; reason: "amount_mismatch" | "foreign_order" | "failed_oid" };
 
 export function decideWalletTopUpReuse(
-  existing: { userId: string; amountMinor: number; status: string } | null,
+  existing: { userId: string | null; amountMinor: number; status: string } | null,
   actorUserId: string,
   amountMinor: number,
 ): WalletTopUpReuseDecision {
   if (!existing) {
     return { action: "create" };
   }
+  // Faz 3 / §4.1: misafir satırı (userId null) bu anahtarı tutuyorsa yabancı sayılır.
   if (existing.userId !== actorUserId) {
     return { action: "conflict", reason: "foreign_order" };
   }

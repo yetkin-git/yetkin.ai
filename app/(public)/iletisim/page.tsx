@@ -16,7 +16,7 @@ import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 export const metadata: Metadata = pageMetadata(PAGE_SEO.contact);
 
 const CONTACT_HERO_DESCRIPTION =
-  "Merhaba — buradayız. Destek taleplerine ve kurumsal başvurulara genelde 1 iş günü içinde dönüş yapıyoruz. Aşağıdaki kanallardan yazman yeterli.";
+  "Merhaba — buradayız. Destek talebine ve kurumsal başvuruya genelde 1 iş günü içinde dönüş yapılır. Aşağıdaki kanallardan yazman yeterli.";
 
 export default function ContactPage() {
   return (

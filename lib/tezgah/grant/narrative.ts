@@ -8,8 +8,57 @@ const narrativeSchema = z.object({
   risk: section,
 });
 
-const BANNED =
-  /₺|\b(?:tl|try|usd|eur)\b|%|\b(?:onay|destek|uygunluk)\s+oran\w*|\bpazar\s+pay\w*|\b(?:milyon|milyar)\b|\d{4,}|resm[iî]\s+onay|hibe\s+tutar/iu;
+const MONEY_WORD =
+  /₺|\b(?:tl|try|usd|eur|lira)\b|%|resm[iî]\s+onay|hibe\s+tutar|\bpazar\s+pay\w*/iu;
+/**
+ * "yüzde 75", "yüzde altmış" gibi oran cümleleri. `RATE_WORD` (`oran`) yalnız
+ * "oran" kelimesini görüyordu; "yüzde 75 destek alır" kaçıyordu (F1.9).
+ */
+const WRITTEN_PERCENT = /yüzde\s+(?:\d+|[a-zçğıöşü]+)/iu;
+/**
+ * Büyüklük kelimeleri. **Para/oran bağlamında** aranır: "iki yüz metrekare" veya
+ * "iki bin adet" gibi fiziksel kapasite ifadeleri silinmez.
+ */
+const MAGNITUDE = /\b(?:bin|milyon|milyar)\b/iu;
+/** Fiziksel kapasite birimi. Yanındaysa büyüklük/sayı ifadesi para/oran sayılmaz. */
+const PHYSICAL_UNIT =
+  /(?:metrekare|m2|m²|adet|birim|kişi|kisi|personel|ay|gün|gun|ton|kg|litre|kw|ürün|urun|işletme|isletme|şube|sube|müşteri|musteri|istihdam)\b/iu;
+/** Para/oran bağlamı. Büyüklük yalnız bu bağlamda yasaklanır. */
+const MONEY_OR_RATE_CONTEXT =
+  /₺|\b(?:tl|try|lira|liraya|bütçe|butce|fon|kredi|tutar|oran|faiz|kâr|kar|ciro|hasılat|gelir|harcama|maliyet|fiyat)\b|%/iu;
+/**
+ * Yazıyla verilmiş tutar. "iki yüz metrekare" gibi fiziksel kapasite ifadeleri
+ * yanlışlıkla silinmesin diye para birimi bağlamı aranır (Ş4 / F1.9).
+ */
+const WRITTEN_AMOUNT =
+  /\b(?:bir|iki|üç|uc|dört|dort|beş|bes|altı|alti|yedi|sekiz|dokuz|on|yirmi|otuz|kırk|kirk|elli|altmış|altmis|yetmiş|yetmis|seksen|doksan|yüz|yuz)\s+(?:yüz|yuz)?\s*(?:bin|milyon|milyar)?\s*(?:lira|tl)\b/iu;
+const RATE_WORD = /oran\w*/iu;
+const MONEY_DIGITS = /(?:₺|\b(?:tl|try|lira|bütçe|butce|oran)\b)\s*\d{4,}|\d{4,}\s*(?:₺|\b(?:tl|try|lira)\b)/iu;
+
+/**
+ * Büyüklük kelimesi para/oran bağlamında mı? "iki yüz metrekare" hayır,
+ * "iki yüz bin lira" evet. Yalnız para/oran bağlamı yasaklanır; fiziksel kapasite korunur.
+ */
+export function magnitudeIsMoneyContext(line: string): boolean {
+  if (!MAGNITUDE.test(line)) {
+    return false;
+  }
+  if (PHYSICAL_UNIT.test(line) && !/₺|%|\b(?:tl|try|lira|oran)\b/iu.test(line)) {
+    return false;
+  }
+  return MONEY_OR_RATE_CONTEXT.test(line);
+}
+
+function lineBanned(line: string): boolean {
+  return (
+    MONEY_WORD.test(line) ||
+    WRITTEN_PERCENT.test(line) ||
+    magnitudeIsMoneyContext(line) ||
+    WRITTEN_AMOUNT.test(line) ||
+    RATE_WORD.test(line) ||
+    MONEY_DIGITS.test(line)
+  );
+}
 
 export type GrantNarrative = {
   purpose: string;
@@ -36,7 +85,7 @@ function cleanSection(value: string): string | null {
     .replace(/\u0000/g, "")
     .split("\n")
     .map((line) => line.trim())
-    .filter((line) => line.length > 0 && !BANNED.test(line))
+    .filter((line) => line.length > 0 && !lineBanned(line))
     .join("\n")
     .trim();
   if (cleaned.length < 12 || cleaned.length > 1200) {
@@ -81,7 +130,7 @@ function cleanDossierSection(value: string): string | null {
     .replace(/\u0000/g, "")
     .split("\n")
     .map((line) => line.trim())
-    .filter((line) => line.length > 0 && !BANNED.test(line) && !DOSSIER_PROMISE.test(line))
+    .filter((line) => line.length > 0 && !lineBanned(line) && !DOSSIER_PROMISE.test(line))
     .join("\n")
     .trim();
   if (cleaned.length < 12 || cleaned.length > 1200) {

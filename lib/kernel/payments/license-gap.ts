@@ -20,7 +20,10 @@ export const JUNIOR_LICENSE_PURPOSE = "junior-license:yearly" as const;
 /** PayTR Commerce aylık mağaza lisansı. */
 export const COMMERCE_LICENSE_PURPOSE = "commerce-license:monthly" as const;
 
-export type LicenseGapProduct = "academy" | "junior" | "commerce";
+/** Faz 3 / §4.3 — YetkinCV kamuya açık yayın mührü (tek seferlik 290 TL). */
+export const CAREER_PUBLICATION_PURPOSE = "career-license:yetkincv-publication" as const;
+
+export type LicenseGapProduct = "academy" | "junior" | "commerce" | "career";
 
 export type LicenseGapReason =
   | "missing_purchase"
@@ -53,11 +56,18 @@ export type CommerceLicenseSeat = {
   appliedMerchantOids: readonly string[];
 };
 
+/** Faz 3 / §4.3 — yayını açan siparişin merchantOid'i. `sealedPublication` true olan satır. */
+export type CareerPublicationSeat = {
+  merchantOid: string;
+};
+
 export type LicenseGapSnapshot = {
   orders: readonly LicenseGapOrder[];
   academySeats: readonly AcademyLicenseSeat[];
   juniorSeats: readonly JuniorLicenseSeat[];
   commerceSeats: readonly CommerceLicenseSeat[];
+  /** Opsiyonel: verilmezse kariyer siparişleri taranmaz (eski çağıranlar bozulmaz). */
+  careerPublicationSeats?: readonly CareerPublicationSeat[];
   /** SUCCEEDED kart iadesi. Lisans yok ama para geri dönmüşse alarm sayılmaz. */
   refundedMerchantOids: readonly string[];
 };
@@ -93,7 +103,8 @@ export function isClearedLicensePurpose(purpose: string): boolean {
   return (
     purpose.startsWith(ACADEMY_LICENSE_PURPOSE_PREFIX) ||
     purpose === JUNIOR_LICENSE_PURPOSE ||
-    purpose === COMMERCE_LICENSE_PURPOSE
+    purpose === COMMERCE_LICENSE_PURPOSE ||
+    purpose === CAREER_PUBLICATION_PURPOSE
   );
 }
 
@@ -117,6 +128,7 @@ function classifyOrder(
   academySeats: ReadonlySet<string>,
   juniorByUser: ReadonlyMap<string, readonly JuniorLicenseSeat[]>,
   commerceByOwner: ReadonlyMap<string, readonly CommerceLicenseSeat[]>,
+  careerPublishedOids: ReadonlySet<string>,
 ): LicenseGap | null {
   if (order.purpose.startsWith(ACADEMY_LICENSE_PURPOSE_PREFIX)) {
     const slug = academyLicenseSlugFromPurpose(order.purpose);
@@ -130,6 +142,12 @@ function classifyOrder(
   }
   if (order.purpose === COMMERCE_LICENSE_PURPOSE) {
     return classifyCommerce(order, commerceByOwner);
+  }
+  if (order.purpose === CAREER_PUBLICATION_PURPOSE) {
+    // Para alındı ama `sealedPublication` hiç açılmadı: operatör müdahalesi gerekir.
+    return careerPublishedOids.has(order.merchantOid)
+      ? null
+      : gap(order, "career", "missing_purchase");
   }
   if (order.purpose !== JUNIOR_LICENSE_PURPOSE) {
     return null;
@@ -199,13 +217,24 @@ export function evaluateClearedLicenseGaps(snapshot: LicenseGapSnapshot): Licens
   const refunded = new Set(
     snapshot.refundedMerchantOids.map((oid) => oid.trim()).filter((oid) => oid.length > 0),
   );
+  const careerPublishedOids = new Set(
+    (snapshot.careerPublicationSeats ?? [])
+      .map((seat) => seat.merchantOid.trim())
+      .filter((oid) => oid.length > 0),
+  );
   const gaps: LicenseGap[] = [];
   const compensated: LicenseGap[] = [];
   for (const order of snapshot.orders) {
     if (!isClearedLicensePurpose(order.purpose)) {
       continue;
     }
-    const missing = classifyOrder(order, academySeats, juniorByUser, commerceByOwner);
+    const missing = classifyOrder(
+      order,
+      academySeats,
+      juniorByUser,
+      commerceByOwner,
+      careerPublishedOids,
+    );
     if (!missing) {
       continue;
     }

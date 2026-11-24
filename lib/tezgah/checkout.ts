@@ -9,7 +9,7 @@ import type { CheckoutLegalConsent } from "@/lib/kernel/legal/checkout-consent";
 import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { failPaymentOrder } from "@/lib/kernel/payments/clearing";
-import { classifyPaymentOrderPurpose } from "@/lib/kernel/payments/order-purpose";
+import { classifyPaymentOrderPurpose, PAYMENT_ORDER_PURPOSE } from "@/lib/kernel/payments/order-purpose";
 import { paytrPaymentProvider } from "@/lib/kernel/payments/paytr/adapter";
 import {
   assertPaytrLiveUserIp,
@@ -22,6 +22,7 @@ import { createPrismaPaymentOrderStore } from "@/lib/kernel/payments/prisma-orde
 import { logEvent } from "@/lib/kernel/observability/log";
 import {
   fulfillTezgahOrder,
+  readHibeCatalogAmount,
   readTezgahCatalogAmount,
   TEZGAH_CREDIT_ORDER_PURPOSE,
   TEZGAH_CREDIT_UNIT,
@@ -31,7 +32,7 @@ import {
 
 const PAYTR_MESSAGE = "Ödeme penceresi açılmadı. Bir süre sonra yeniden dene.";
 
-export type TezgahCheckoutKind = "pro" | "credit-pack";
+export type TezgahCheckoutKind = "pro" | "credit-pack" | "grant-dossier" | "hibe-agency";
 
 export type TezgahCheckoutResult =
   | { ok: true; kind: "iframe"; merchantOid: string; iframeUrl: string }
@@ -39,21 +40,59 @@ export type TezgahCheckoutResult =
   | { ok: false; status: 400 | 409 | 422 | 503; error: string };
 
 export function tezgahMerchantOid(kind: TezgahCheckoutKind, userId: string, idempotencyKey: string): string {
-  const mark = kind === "pro" ? "P" : "C";
+  const mark = kind === "pro" ? "P" : kind === "grant-dossier" ? "G" : kind === "hibe-agency" ? "A" : "C";
   const digest = sha256Hex(`tezgah:${kind}:${userId}:${idempotencyKey}`).slice(0, 24).toUpperCase();
   return `TZ${mark}${digest}`;
 }
 
 function purposeFor(kind: TezgahCheckoutKind): string {
-  return kind === "pro" ? TEZGAH_PRO_ORDER_PURPOSE : TEZGAH_CREDIT_ORDER_PURPOSE;
+  if (kind === "pro") {
+    return TEZGAH_PRO_ORDER_PURPOSE;
+  }
+  if (kind === "grant-dossier") {
+    return PAYMENT_ORDER_PURPOSE.GRANT_DOSSIER;
+  }
+  if (kind === "hibe-agency") {
+    return PAYMENT_ORDER_PURPOSE.HIBE_AGENCY;
+  }
+  return TEZGAH_CREDIT_ORDER_PURPOSE;
 }
 
-function unitFor(kind: TezgahCheckoutKind): string {
-  return kind === "pro" ? TEZGAH_PRO_UNIT : TEZGAH_CREDIT_UNIT;
+/**
+ * Katalog satırı anahtarı. Fiyat **tek kaynaktan** okunur (`PriceCatalogEntry`).
+ *
+ * Ş6 / B-09 — hibe ürünü `hibe/*` birimlerinden fiyatlanır. Dosya satışı eski
+ * `tezgah/grant-dossier` satırına geri düşer (geriye dönük uyum); yeni `hibe/dossier`
+ * satırı varsa **o** kazanır, böylece vitrin ve kokpit aynı tutarı basar.
+ */
+async function amountFor(kind: TezgahCheckoutKind): Promise<number | null> {
+  if (kind === "pro") {
+    return readTezgahCatalogAmount(TEZGAH_PRO_UNIT);
+  }
+  if (kind === "credit-pack") {
+    return readTezgahCatalogAmount(TEZGAH_CREDIT_UNIT);
+  }
+  if (kind === "hibe-agency") {
+    return readHibeCatalogAmount("agency");
+  }
+  return readHibeCatalogAmount("dossier");
 }
 
 function basketName(kind: TezgahCheckoutKind): string {
-  return kind === "pro" ? "Tezgâh Pro aylık abonelik" : "Tezgâh 10 üretim kredisi";
+  if (kind === "pro") {
+    return "Tezgâh Pro aylık abonelik";
+  }
+  if (kind === "grant-dossier") {
+    return "YetkinHibe tam proje dosyası";
+  }
+  if (kind === "hibe-agency") {
+    return "YetkinHibe ajans paketi";
+  }
+  return "Tezgâh 10 üretim kredisi";
+}
+
+function returnDesk(kind: TezgahCheckoutKind): "tezgah" | "hibe" {
+  return kind === "grant-dossier" || kind === "hibe-agency" ? "hibe" : "tezgah";
 }
 
 function isUniqueViolation(error: unknown): boolean {
@@ -74,7 +113,7 @@ export async function placeTezgahCheckout(input: {
   now?: Date;
 }): Promise<TezgahCheckoutResult> {
   const now = input.now ?? new Date();
-  const amountMinor = await readTezgahCatalogAmount(unitFor(input.kind));
+  const amountMinor = await amountFor(input.kind);
   if (amountMinor == null) {
     return { ok: false, status: 422, error: "Katalogda aktif fiyat yok." };
   }
@@ -96,6 +135,11 @@ export async function placeTezgahCheckout(input: {
     return { ok: false, status: 409, error: "Bu ödeme denemesi kapandı. Sayfayı yenileyip yeniden dene." };
   }
   if (order?.status === "CLEARED") {
+    // Faz 3 / §4.1: misafir satırı (userId null) bu üye checkout'unda görünmez; yine de
+    // tip daralması için kapı burada. Sahipsiz satır ürün açmaz.
+    if (!order.userId) {
+      return { ok: false, status: 409, error: "Bu ödeme anahtarı başka bir işe bağlı." };
+    }
     await fulfillTezgahOrder({
       userId: order.userId,
       merchantOid,
@@ -144,7 +188,7 @@ export async function placeTezgahCheckout(input: {
   // `masa=tezgah` ile döner; cüzdan paneli kullanıcıyı doğru ekrana geçirir.
   const returnUrl = buildPaytrMerchantBrowserReturnUrl(
     resolvePaytrMerchantAppOrigin(),
-    "tezgah",
+    returnDesk(input.kind),
     merchantOid,
   );
   try {

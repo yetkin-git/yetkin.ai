@@ -121,7 +121,7 @@ export const ADMIN_SEN = {
   publishOff: "Pasif",
   publishColumn: "Yayın",
   publishFail: "Yayın güncellenemedi.",
-  publishReasonPlaceholder: "Neden açıp kapattığınızı yazın",
+  publishReasonPlaceholder: "Neden açıp kapattığını yaz",
   off201PriceUnset: {
     title: "OFF-201 fiyat satırı yok",
     body: "Sınav havuzu hazır. Ön koşul zorunlu değildir. Birim academy / course:01_office_ai_ileri. Tutar kodda durmaz. Bu birimi PriceCatalogEntry satırı olarak açınca satın alma kilidi o tutarı okur. Satır açılmadan fiyat basılmaz.",
@@ -152,7 +152,7 @@ export const ADMIN_SEN = {
   reasonLabel: "Güncelleme gerekçesi",
   reasonCodeLabel: "Gerekçe kodu",
   reasonNoteLabel: "Açıklama",
-  reasonNotePlaceholder: "Neden güncellendiğini yazın",
+  reasonNotePlaceholder: "Neden güncellendiğini yaz",
   reasonFail: "Gerekçe kodu ve açıklama zorunludur.",
   reasonCodes: {
     ADMIN_MANUAL: "Yönetici kararı",

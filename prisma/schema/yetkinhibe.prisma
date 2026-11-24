@@ -1,8 +1,9 @@
-/// YetkinHibe F2 — hibe çağrı kataloğu ve kaynak sicili. Oda kapalıdır (D-9).
-/// Okuma yalnız sunucuda Prisma ile yapılır. Sahiplik kolonu yoktur: RLS_FORCE_TABLES'ta kayıtlıdır,
-/// PostgREST için rls_deny_unscoped (SELECT USING false) uygulanır. Yazma politikası yoktur.
-/// Tutarlar kuruş cinsinden tamsayıdır (A1). Havuz tutarı int32 sınırını aşar; BIGINT kullanılır.
+/// YetkinHibe katalog, şirket profili ve dosya arşivi.
+/// Katalog tablolarında sahiplik kolonu yoktur: RLS_FORCE_TABLES + rls_deny_unscoped.
+/// Profil ve dosya `user_id` taşır; bu kolon RLS_OWNERSHIP_COLUMNS içindedir (authenticated SELECT).
+/// Yazma politikası üretilmez. Tutarlar kuruş cinsinden tamsayıdır (A1). Havuz BIGINT.
 /// Durum (ACTIVE, CLOSING_SOON, CLOSED, UPCOMING) saklanmaz; okuma anında hesaplanır.
+/// Resmî Gazete bir kaynak kurumu değildir; tebliğ adresi `publication_url` alanındadır.
 
 /// Kaynak kurum. `key`, GrantProgramSource ile birebir aynıdır.
 model YetkinhibeGrantSource {
@@ -34,12 +35,171 @@ model YetkinhibeGrantCall {
   requiredDocuments   String[]              @default([]) @map("required_documents")
   tags                String[]              @default([])
   officialInfoUrl     String                @map("official_info_url") @db.VarChar(500)
+  /// Tebliğ veya Resmî Gazete adresi. Kaynak anahtarı değildir.
+  publicationUrl      String?               @map("publication_url") @db.VarChar(500)
   sourceVerifiedAt    DateTime?             @map("source_verified_at") @db.Timestamptz(6)
+  /// Şartname veya uygulama esasları. Yoksa dosya madde atıfı kurmaz.
+  specificationText   String?               @map("specification_text") @db.Text
+  /// Yapılandırılmış şartname ipuçları. Tutar taşımaz.
+  rulesJson           Json?                 @map("rules_json")
   isPublished         Boolean               @default(true) @map("is_published")
   dataVersion         Int                   @default(1) @map("data_version")
   createdAt           DateTime              @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt           DateTime              @updatedAt @map("updated_at") @db.Timestamptz(6)
+  revisions           HibeGrantCallRevision[]
+  applications        HibeApplication[]
 
   @@index([isPublished, applicationDeadline])
   @@map("yetkinhibe_grant_calls")
+}
+
+/// Append-only katalog değişiklik sicili. Sahiplik kolonu yoktur; PostgREST deny.
+model HibeGrantCallRevision {
+  id           String              @id @default(cuid())
+  callId       String              @map("call_id") @db.VarChar(120)
+  dataVersion  Int                 @map("data_version")
+  action       String              @db.VarChar(40)
+  actorUserId  String?             @map("actor_user_id")
+  snapshotJson Json                @map("snapshot_json")
+  createdAt    DateTime            @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  call  YetkinhibeGrantCall @relation(fields: [callId], references: [id], onDelete: Restrict)
+  actor User?               @relation("HibeGrantRevisionActor", fields: [actorUserId], references: [id], onDelete: SetNull)
+
+  @@index([callId, dataVersion])
+  @@map("hibe_grant_call_revisions")
+}
+
+/// Kullanıcı başına tek şirket profili. Sahiplik `user_id`.
+model HibeCompanyProfile {
+  id                      String   @id @default(cuid())
+  userId                  String   @unique @map("user_id")
+  businessName            String   @map("business_name") @db.VarChar(160)
+  audience                String   @db.VarChar(40)
+  provinceCode            String   @map("province_code") @db.VarChar(8)
+  naceGroup               String   @map("nace_group") @db.VarChar(8)
+  investmentFocus         String   @map("investment_focus") @db.VarChar(40)
+  employeeCount           Int      @map("employee_count")
+  companyAgeYears         Int      @map("company_age_years")
+  rdMaturityLevel         String   @map("rd_maturity_level") @db.VarChar(20)
+  exportActive            Boolean  @map("export_active")
+  hasPatentOrUtilityModel Boolean  @map("has_patent_or_utility_model")
+  createdAt               DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt               DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("hibe_company_profiles")
+}
+
+/// Üretilen tam proje dosyası. Sahiplik `user_id`. Yeniden açılır ve indirilir.
+model HibeDossier {
+  id         String   @id @default(cuid())
+  userId     String   @map("user_id")
+  grantId    String?  @map("grant_id") @db.VarChar(120)
+  title      String   @db.VarChar(300)
+  markdown   String   @db.Text
+  reportJson Json     @map("report_json")
+  commandKey String   @map("command_key") @db.VarChar(80)
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  applications HibeApplication[]
+
+  @@unique([userId, commandKey])
+  @@index([userId, createdAt])
+  @@map("hibe_dossiers")
+}
+
+/// Başvuru sonrası izleme. Sahiplik `user_id`.
+/// `hibe_client_id` müşteri kartıdır. RLS sicilindeki `client_id` kullanıcı kimliğidir;
+/// bu yüzden sütun adı `client_id` değildir.
+model HibeApplication {
+  id               String    @id @default(cuid())
+  userId           String    @map("user_id")
+  clientId         String?   @map("hibe_client_id")
+  grantCallId      String    @map("grant_call_id") @db.VarChar(120)
+  dossierId        String?   @map("dossier_id")
+  title            String    @db.VarChar(300)
+  phase            String    @db.VarChar(40)
+  nextDeadlineAt   DateTime? @map("next_deadline_at") @db.Timestamptz(6)
+  notes            String?   @db.VarChar(2000)
+  /// 7, 3 veya 1. Aynı bant ikinci kez mektup açmaz.
+  lastReminderDays Int?      @map("last_reminder_days")
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  client    HibeClient?         @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  grantCall YetkinhibeGrantCall @relation(fields: [grantCallId], references: [id], onDelete: Restrict)
+  dossier   HibeDossier?        @relation(fields: [dossierId], references: [id], onDelete: SetNull)
+  documents HibeDocument[]
+
+  @@index([userId, updatedAt])
+  @@index([nextDeadlineAt])
+  @@map("hibe_applications")
+}
+
+/// Evrak kasası. Sahiplik `user_id`. Durum sahibi kaydıdır; kurum kararı değildir.
+model HibeDocument {
+  id            String   @id @default(cuid())
+  userId        String   @map("user_id")
+  applicationId String   @map("application_id")
+  title         String   @db.VarChar(200)
+  category      String   @db.VarChar(40)
+  status        String   @db.VarChar(20)
+  fileUrl       String?  @map("file_url") @db.VarChar(500)
+  referenceCode String?  @map("reference_code") @db.VarChar(80)
+  reviewerNote  String?  @map("reviewer_note") @db.VarChar(1000)
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  application HibeApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@index([userId, updatedAt])
+  @@index([applicationId, updatedAt])
+  @@map("hibe_documents")
+}
+
+/// Ajans portföyündeki müşteri. Sahiplik `user_id` (ajans hesabı).
+/// `investment_focus` kartın yatırım odağıdır (Ş7 / F2.6). Yoksa `"genel"` durur ve
+/// yatırım odağı kısıtlı çağrı eşleşmez; matris bu eksende kör kalmaz.
+model HibeClient {
+  id              String   @id @default(cuid())
+  userId          String   @map("user_id")
+  companyName     String   @map("company_name") @db.VarChar(160)
+  naceGroup       String   @map("nace_group") @db.VarChar(8)
+  provinceCode    String   @map("province_code") @db.VarChar(8)
+  audience        String   @db.VarChar(40)
+  employeeCount   Int      @map("employee_count")
+  companyAgeYears Int      @map("company_age_years")
+  rdMaturityLevel String   @map("rd_maturity_level") @db.VarChar(20)
+  exportActive    Boolean  @map("export_active")
+  /// Yatırım odağı. `genel` = kart bu eksende beyan vermedi.
+  investmentFocus String   @default("genel") @map("investment_focus") @db.VarChar(40)
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  applications HibeApplication[]
+
+  @@index([userId, createdAt])
+  @@map("hibe_clients")
+}
+
+/// Ajans paketi hakkı (Ş6 / B-04). Sahiplik `user_id`. Ödeme CLEARED olduğunda açılır.
+/// Paket cüzdan bakiyesinden düşmez; cüzdan yüklemesi ayrı defter satırıdır.
+model HibeAgencyPackage {
+  id                 String   @id @default(cuid())
+  userId             String   @unique @map("user_id")
+  status             String   @db.VarChar(20)
+  listPriceMinor     Int      @map("list_price_minor")
+  /// Bu hakkı açan CLEARED siparişler. Aynı merchantOid ikinci kez sayılmaz.
+  appliedMerchantOids String  @default("[]") @map("applied_merchant_oids") @db.Text
+  activatedAt        DateTime @map("activated_at") @db.Timestamptz(6)
+  updatedAt          DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("hibe_agency_packages")
 }

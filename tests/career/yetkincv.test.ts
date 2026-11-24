@@ -90,7 +90,7 @@ describe("YetkinCV sınavı", () => {
     });
     const blob = JSON.stringify({ swot, roadmap });
     expect(blob).not.toContain("/academy");
-    expect(roadmap[0]?.href).toBe("/e-ticaret");
+    expect(roadmap[0]?.href).toBe("/panel/e-ticaret");
     expect(roadmap[2]?.href).toBe("/career#yetkincv");
     expect(swot.weaknesses.some((row) => row.label.includes("Stok"))).toBe(true);
   });

@@ -1,13 +1,30 @@
 /**
- * Üç uzman tezgâhının tek kapısı. Kota ve cüzdan yoktur.
- * Çıktı tarayıcıda üretilir.
+ * Tarayıcı-içi uzman tezgâhlar. Kota ve cüzdan yoktur.
+ * `studio-photo` sunucu motorundadır (`studio-photo-engine.ts`).
  */
 
 import type { ProStudioToolId } from "@/lib/tezgah/catalog";
-import type { SaasPlatformId, SaasWidgetId, StudioBackgroundId, StudioMarketId } from "@/lib/tezgah/pro/options";
-import { buildSaasWidget, readApiUrl, readCounterDeadline, SAAS_ZIP_FILENAME } from "@/lib/tezgah/pro/saas-builder";
-import { buildStudioPhoto, STUDIO_PHOTO_FILENAME } from "@/lib/tezgah/pro/studio-photo";
-import { buildTechnicalDrawing, TECHNICAL_DRAWING_FILENAME } from "@/lib/tezgah/pro/technical-drawing";
+import type { SaasPlatformId, SaasWidgetId } from "@/lib/tezgah/pro/options";
+import { SAAS_WIDGETS } from "@/lib/tezgah/pro/options";
+import {
+  buildSaasWidget,
+  encodeSaasBuilderArchive,
+  readApiUrl,
+  readCounterDeadline,
+  resolveSaasWidgetId,
+  SAAS_ZIP_FILENAME,
+} from "@/lib/tezgah/pro/saas-builder";
+import {
+  buildTechnicalDrawing,
+  TECHNICAL_DRAWING_FILENAME,
+  TECHNICAL_DRAWING_ZIP_FILENAME,
+} from "@/lib/tezgah/pro/technical-drawing";
+import {
+  buildTechnicalDrawingDxf,
+  buildTechnicalDrawingPdf,
+  buildTechnicalDrawingZip,
+  encodeTechnicalDrawingArchive,
+} from "@/lib/tezgah/pro/technical-drawing-export";
 import { readWholeNumber } from "@/lib/tezgah/pro/text";
 
 export type ProStudioPack = {
@@ -17,17 +34,24 @@ export type ProStudioPack = {
   body: string;
   markdown: string;
   svg: string | null;
+  dxf: string | null;
+  pdf: Uint8Array | null;
   html: string | null;
+  widgetJs: string | null;
   react: string | null;
   installGuide: string | null;
   zip: Uint8Array | null;
+  zipFilename: string | null;
+  /** saas-builder köprüleri için. */
+  saasTitle?: string;
+  saasFeature?: string;
+  saasDetail?: string;
+  saasWidget?: SaasWidgetId;
 };
 
 export type ProStudioResult = { ok: true; pack: ProStudioPack } | { ok: false; error: string };
 
-const MARKETS = new Set<StudioMarketId>(["trendyol", "amazon", "both"]);
-const BACKGROUNDS = new Set<StudioBackgroundId>(["white", "colored"]);
-const WIDGETS = new Set<SaasWidgetId>(["cargo", "order", "counter", "api"]);
+const WIDGETS = new Set<SaasWidgetId>(SAAS_WIDGETS.map((row) => row.value));
 const SAAS_PLATFORMS = new Set<SaasPlatformId>(["html", "wordpress", "react"]);
 
 function text(values: Record<string, string>, name: string): string {
@@ -36,48 +60,9 @@ function text(values: Record<string, string>, name: string): string {
 
 export function buildProStudio(tool: string, values: Record<string, string>): ProStudioResult {
   if (tool === "studio-photo") {
-    const widthPx = readWholeNumber(text(values, "widthPx"), 8000);
-    const heightPx = readWholeNumber(text(values, "heightPx"), 8000);
-    const market = text(values, "market");
-    const background = text(values, "background");
-    const galleryCount = readWholeNumber(text(values, "galleryCount"), 8);
-    if (
-      widthPx === null ||
-      heightPx === null ||
-      galleryCount === null ||
-      galleryCount < 3 ||
-      !MARKETS.has(market as StudioMarketId) ||
-      !BACKGROUNDS.has(background as StudioBackgroundId)
-    ) {
-      return { ok: false, error: "Piksel ölçüleri 1 ile 8000 arasında tam sayı olmalı." };
-    }
-    const pack = buildStudioPhoto({
-      productName: text(values, "productName"),
-      features: text(values, "features"),
-      market: market as StudioMarketId,
-      widthPx,
-      heightPx,
-      background: background as StudioBackgroundId,
-      overlay: text(values, "overlay") === "evet",
-      galleryCount,
-    });
-    if (!pack) {
-      return { ok: false, error: "Alanları kısa ve net doldur." };
-    }
     return {
-      ok: true,
-      pack: {
-        tool: "studio-photo",
-        filename: STUDIO_PHOTO_FILENAME,
-        summary: pack.summary,
-        body: pack.markdown,
-        markdown: pack.markdown,
-        svg: null,
-        html: null,
-        react: null,
-        installGuide: null,
-        zip: null,
-      },
+      ok: false,
+      error: "Görsel stüdyo sunucuda üretilir. Oturum açıp Stüdyoyu Üret’e bas.",
     };
   }
   if (tool === "technical-drawing") {
@@ -94,62 +79,83 @@ export function buildProStudio(tool: string, values: Record<string, string>): Pr
       depthMm,
       material: text(values, "material"),
       steps: values.steps ?? "",
+      tolerance: text(values, "tolerance"),
     });
     if (!pack) {
       return { ok: false, error: "Alanları kısa ve net doldur." };
     }
+    const dxf = buildTechnicalDrawingDxf(pack);
+    const pdf = buildTechnicalDrawingPdf(pack);
+    const zip = buildTechnicalDrawingZip({ pack, dxf, pdf });
+    const archive = encodeTechnicalDrawingArchive({ pack, dxf });
     return {
       ok: true,
       pack: {
         tool: "technical-drawing",
         filename: TECHNICAL_DRAWING_FILENAME,
         summary: pack.summary,
-        body: pack.svg,
+        /** Y3: arşive özet değil asıl çizim zarfı. */
+        body: archive,
         markdown: pack.summary,
         svg: pack.svg,
+        dxf,
+        pdf,
         html: null,
+        widgetJs: null,
         react: null,
         installGuide: null,
-        zip: null,
+        zip,
+        zipFilename: TECHNICAL_DRAWING_ZIP_FILENAME,
       },
     };
   }
   if (tool === "saas-builder") {
-    const widget = text(values, "widget");
+    const feature = text(values, "feature");
+    const resolvedWidget = resolveSaasWidgetId(text(values, "widget"), feature);
     const platform = text(values, "platform");
     const detail = text(values, "detail");
-    if (!WIDGETS.has(widget as SaasWidgetId) || !SAAS_PLATFORMS.has(platform as SaasPlatformId)) {
+    if (!resolvedWidget || !WIDGETS.has(resolvedWidget) || !SAAS_PLATFORMS.has(platform as SaasPlatformId)) {
       return { ok: false, error: "Alanları kısa ve net doldur." };
     }
-    if (widget === "counter" && !readCounterDeadline(detail)) {
+    if (resolvedWidget === "counter" && !readCounterDeadline(detail)) {
       return { ok: false, error: "Bitiş tarihini YYYY-AA-GG olarak yaz." };
     }
-    if (widget === "api" && !readApiUrl(detail)) {
+    if (resolvedWidget === "api" && !readApiUrl(detail)) {
       return { ok: false, error: "Betik adresi https ile başlamalı." };
     }
     const pack = buildSaasWidget({
-      widget: widget as SaasWidgetId,
+      widget: resolvedWidget,
       platform: platform as SaasPlatformId,
       title: text(values, "title"),
       detail,
-      feature: text(values, "feature"),
+      feature,
     });
     if (!pack || pack.html.length > 20000) {
       return { ok: false, error: "Alanları kısa ve net doldur." };
     }
+    const archive = encodeSaasBuilderArchive(pack);
     return {
       ok: true,
       pack: {
         tool: "saas-builder",
         filename: SAAS_ZIP_FILENAME,
         summary: pack.summary,
-        body: pack.html,
+        /** Y3/K2: arşive özet değil saas-builder-v1 tam kod zarfı. */
+        body: archive,
         markdown: pack.summary,
         svg: null,
+        dxf: null,
+        pdf: null,
         html: pack.html,
+        widgetJs: pack.widgetJs,
         react: pack.react,
         installGuide: pack.installGuide,
         zip: pack.zip,
+        zipFilename: SAAS_ZIP_FILENAME,
+        saasTitle: pack.title,
+        saasFeature: pack.feature,
+        saasDetail: pack.detail,
+        saasWidget: pack.widget,
       },
     };
   }

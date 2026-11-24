@@ -11,9 +11,64 @@ import {
   type TetkikAnalysisCard,
   type TetkikCategoryKey,
 } from "@/lib/tezgah/tetkik/analysis";
+import { buildTetkikPdf, tetkikPdfFileName } from "@/lib/tezgah/tetkik/document";
 import { renderTetkikReportMarkdown } from "@/lib/tezgah/tetkik/prompts";
 import { buildTetkikRevisionPack } from "@/lib/tezgah/tetkik/revision";
-import type { TetkikReport } from "@/lib/tezgah/tetkik/types";
+import type { TetkikReport, TetkikTechSeoSignal } from "@/lib/tezgah/tetkik/types";
+
+const TECH_SEO_STATUS_LABEL: Record<TetkikTechSeoSignal["status"], string> = {
+  found: "Var",
+  missing: "Yok",
+  unchecked: "Ölçülemedi",
+};
+
+function downloadPdf(filename: string, bytes: Uint8Array) {
+  const copy = new Uint8Array(bytes);
+  const blob = new Blob([copy.buffer], { type: "application/pdf" });
+  const href = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = href;
+  anchor.download = filename;
+  anchor.click();
+  URL.revokeObjectURL(href);
+}
+
+function TechSeoPanel({ signals }: { signals: readonly TetkikTechSeoSignal[] }) {
+  if (signals.length === 0) {
+    return null;
+  }
+  return (
+    <section className="mt-8" data-tetkik-tech-seo="">
+      <h3 className="mb-3 text-base font-semibold">Teknik SEO sinyalleri</h3>
+      <ul className="grid gap-3 sm:grid-cols-2">
+        {signals.map((row) => (
+          <li
+            key={row.id}
+            className="rounded-2xl border border-[var(--border)] bg-white/90 p-4"
+            data-tetkik-tech-seo-signal={row.id}
+            data-status={row.status}
+          >
+            <div className="flex items-baseline justify-between gap-2">
+              <h4 className="text-sm font-semibold text-[var(--foreground)]">{row.label}</h4>
+              <span
+                className={
+                  row.status === "found"
+                    ? "text-xs font-semibold text-[var(--emerald)]"
+                    : row.status === "missing"
+                      ? "text-xs font-semibold text-[var(--rose)]"
+                      : "text-xs font-semibold text-[var(--muted)]"
+                }
+              >
+                {TECH_SEO_STATUS_LABEL[row.status]}
+              </span>
+            </div>
+            <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{row.detail}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
 
 function formatMeasuredAt(iso: string): string {
   const date = new Date(iso);
@@ -139,6 +194,8 @@ function AnalysisCardView({ report, analysis }: { report: TetkikReport; analysis
         <CategoryBars categories={analysis.categories} />
       </section>
 
+      <TechSeoPanel signals={report.techSeo ?? []} />
+
       <section className="mt-8" data-tetkik-findings="">
         <h3 className="mb-3 text-base font-semibold">Bulgular ve çözümler</h3>
         <ul className="space-y-3">
@@ -241,6 +298,8 @@ function LegacyNarrativeView({ report }: { report: TetkikReport }) {
         ))}
       </ul>
 
+      <TechSeoPanel signals={report.techSeo ?? []} />
+
       {report.opportunities.length > 0 ? (
         <section className="mt-6">
           <h3 className="text-base font-semibold">Fırsatlar</h3>
@@ -284,10 +343,12 @@ export function TetkikReportView({
   report,
   onRebuild,
   onCodePack,
+  onAdsPack,
 }: {
   report: TetkikReport;
   onRebuild: () => void;
   onCodePack: () => void;
+  onAdsPack: () => void;
 }) {
   const [copied, setCopied] = useState(false);
   const [copiedField, setCopiedField] = useState<string | null>(null);
@@ -318,8 +379,16 @@ export function TetkikReportView({
       {analysis ? <AnalysisCardView report={report} analysis={analysis} /> : <LegacyNarrativeView report={report} />}
 
       <div className="flex flex-wrap gap-2 print:hidden">
-        <Button type="button" variant="secondary" onClick={() => window.print()}>
-          Yazdır / PDF olarak kaydet
+        <Button
+          type="button"
+          variant="secondary"
+          data-tetkik-pdf=""
+          onClick={() => downloadPdf(tetkikPdfFileName(report), buildTetkikPdf(report))}
+        >
+          PDF İndir
+        </Button>
+        <Button type="button" variant="outline" onClick={() => window.print()}>
+          Yazdır
         </Button>
         <Button type="button" variant="outline" onClick={() => void copyReport()}>
           {copied ? "Kopyalandı" : "Raporu kopyala"}
@@ -411,6 +480,26 @@ export function TetkikReportView({
                 onClick={onCodePack}
               >
                 Özel Aracı Oluştur
+              </Button>
+            </div>
+          </div>
+        </Card>
+        <Card eyebrow="Seçenek 4" title="Otonom Reklam Paketi Oluştur" className="print:hidden">
+          <div data-tetkik-ads="">
+            <p className="text-sm leading-6 text-[var(--muted)]">
+              Site özeti ve hedefiniz reklam masasına aktarılır. Üç kanca, Meta ve Google arama metni kod mührüyle
+              üretilir; erişim veya satış vaadi yoktur.
+            </p>
+            <div className="mt-4">
+              <Button
+                type="button"
+                variant="secondary"
+                className="w-full whitespace-normal px-4 py-2 text-center"
+                style={{ height: "auto", minHeight: "2.5rem" }}
+                data-tetkik-ads-handoff=""
+                onClick={onAdsPack}
+              >
+                Otonom Reklam Paketi Oluştur
               </Button>
             </div>
           </div>

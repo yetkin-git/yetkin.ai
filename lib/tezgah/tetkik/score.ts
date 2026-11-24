@@ -1,4 +1,4 @@
-import { parseHomepageHtml } from "@/lib/tezgah/tetkik/parse-html";
+import { parseHomepageHtml, pageSnippetFromParsed } from "@/lib/tezgah/tetkik/parse-html";
 import {
   TETKIK_CHECK_ORDER,
   TETKIK_CONVERSION,
@@ -13,12 +13,28 @@ import {
   TETKIK_WEIGHTS,
   type TetkikCheckId,
 } from "@/lib/tezgah/tetkik/rubric";
-import type { ParsedHomepage, TetkikAction, TetkikCheck } from "@/lib/tezgah/tetkik/types";
+import {
+  techSeoSignalsFromProbes,
+  uncheckedTechSeoSignals,
+  type TechSeoProbe,
+} from "@/lib/tezgah/tetkik/tech-seo";
+import type {
+  ParsedHomepage,
+  TetkikAction,
+  TetkikCheck,
+  TetkikPageSnippet,
+  TetkikTechSeoSignal,
+} from "@/lib/tezgah/tetkik/types";
 
 export type TetkikMeasures = {
   https: boolean;
   ttfbMs: number;
   htmlBytes: number;
+  /** Yoksa teknik SEO sinyalleri `unchecked` kalır; ana 100 puan değişmez. */
+  techSeo?: {
+    robotsTxt: TechSeoProbe;
+    sitemapXml: TechSeoProbe;
+  };
 };
 
 export type TetkikScore = {
@@ -28,6 +44,9 @@ export type TetkikScore = {
   checks: TetkikCheck[];
   opportunities: string[];
   action: TetkikAction;
+  /** Ana skora ek teknik SEO sinyali (robots.txt / sitemap.xml). */
+  techSeo: TetkikTechSeoSignal[];
+  pageSnippet: TetkikPageSnippet;
 };
 
 function inRange(length: number, min: number, max: number): boolean {
@@ -157,6 +176,9 @@ export function scoreTetkik(parsed: ParsedHomepage, measures: TetkikMeasures): T
     return check;
   });
   const score = ordered.reduce((sum, check) => sum + check.earned, 0);
+  const techSeo = measures.techSeo
+    ? techSeoSignalsFromProbes(measures.techSeo)
+    : uncheckedTechSeoSignals("Ana sayfa skoru; kök SEO dosyası bu çağrıda ölçülmedi.");
   return {
     score,
     maxScore: TETKIK_MAX_SCORE,
@@ -164,6 +186,8 @@ export function scoreTetkik(parsed: ParsedHomepage, measures: TetkikMeasures): T
     checks: ordered,
     opportunities: ordered.map((check) => check.opportunity).filter((line) => line.length > 0),
     action: actionFor(ordered),
+    techSeo,
+    pageSnippet: pageSnippetFromParsed(parsed),
   };
 }
 

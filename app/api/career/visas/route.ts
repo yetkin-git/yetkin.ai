@@ -3,13 +3,18 @@ import { jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { createPrismaCareerPorts } from "@/lib/career/runtime";
 import { syncCareerVisaStamps } from "@/lib/career/engine";
 import { projectLiveCareerBoard } from "@/lib/career/live";
+import {
+  applyHttpRateLimit,
+  HTTP_RATE_LIMITS,
+  rateLimitedJsonResponse,
+} from "@/lib/kernel/security/http-rate-limit";
 
 export const auth = "session" as const;
 
 function toVisaStampWire(stamp: {
   id: string;
   userId: string;
-  sourceKind: "ACADEMY_CERTIFICATE" | "FREELANCER_RELEASE";
+  sourceKind: "ACADEMY_CERTIFICATE" | "FREELANCER_RELEASE" | "YETKINHIBE_PROJECT";
   sourceId: string;
   visaKey: string;
   moduleId: string;
@@ -35,6 +40,10 @@ function toVisaStampWire(stamp: {
 export async function GET(request: Request) {
   try {
     const user = await requireSession(request);
+    const limited = await applyHttpRateLimit(request, HTTP_RATE_LIMITS.careerUser, user.id);
+    if (!limited.allowed) {
+      return rateLimitedJsonResponse(limited, request);
+    }
     const ports = createPrismaCareerPorts();
     await syncCareerVisaStamps(ports, { userId: user.id });
     const board = await projectLiveCareerBoard(ports, user.id);
@@ -47,6 +56,10 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const user = await requireSession(request);
+    const limited = await applyHttpRateLimit(request, HTTP_RATE_LIMITS.careerUser, user.id);
+    if (!limited.allowed) {
+      return rateLimitedJsonResponse(limited, request);
+    }
     const ports = createPrismaCareerPorts();
     await syncCareerVisaStamps(ports, { userId: user.id });
     const board = await projectLiveCareerBoard(ports, user.id);

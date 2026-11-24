@@ -31,7 +31,7 @@ describe("YetkinHibe oda sicili", () => {
   it("müstakil kapalı satır olarak kayıtlıdır; hop ve kamu vitrini yoktur", () => {
     const row = DRON_KAYIT.find((entry) => entry.id === "yetkinhibe");
     expect(row).toMatchObject({
-      path: "/hibe",
+      path: "/panel/hibe",
       vitrin: false,
       kapali: false,
       hops: [],
@@ -51,6 +51,6 @@ describe("YetkinHibe oda sicili", () => {
     expect(isFrozenShellPagePath("/hibe")).toBe(false);
     expect(isFrozenShellPagePath("/hibe/arsiv")).toBe(false);
     const wizardPath = new URL(buildGrantWizardHref({ grantId: "g-1" }), "https://yetkin.ai").pathname;
-    expect(wizardPath).toBe("/yetkinhibe/olustur");
+    expect(wizardPath).toBe("/panel/hibe");
   });
 });

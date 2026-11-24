@@ -7,7 +7,7 @@ import {
   type CheckoutLegalConsent,
 } from "@/lib/kernel/legal/checkout-consent";
 import { isInsufficientBalanceError } from "@/lib/kernel/money/insufficient-balance";
-import type { PaymentOrderSnapshot } from "@/lib/kernel/payments/clearing";
+import { isOwnedPaymentOrder, type PaymentOrderSnapshot } from "@/lib/kernel/payments/clearing";
 import { logEvent } from "@/lib/kernel/observability/log";
 
 /** PayTR sipariş niyeti — düz cüzdan yüklemesinden ayrı. */
@@ -95,6 +95,10 @@ export async function fulfillAcademyLicenseFromClearedOrder(
   }
   if (order.status !== "CLEARED") {
     return { applied: false, purchaseId: null, reason: "not_cleared" };
+  }
+  // Faz 3 / §4.1: misafir siparişi (userId null) lisans satırı doğuramaz.
+  if (!isOwnedPaymentOrder(order)) {
+    return { applied: false, purchaseId: null, reason: "not_academy" };
   }
 
   const course = await ports.academy.getCourseBySlug(slug);

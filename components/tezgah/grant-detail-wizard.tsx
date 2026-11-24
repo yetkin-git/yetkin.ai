@@ -246,7 +246,7 @@ export function GrantDetailWizard({
                     rows={4}
                     maxLength={800}
                     value={teamExpertise}
-                    placeholder="Uzmanlıklarınızı buraya yazınız..."
+                    placeholder="Uzmanlıklarını buraya yaz…"
                     onChange={(event) => setTeamExpertise(event.target.value)}
                     softHint="Biraz daha detay ekleyin (roller, deneyim, araçlar)…"
                   />
@@ -261,7 +261,7 @@ export function GrantDetailWizard({
                   rows={4}
                   maxLength={800}
                   value={outputGoal}
-                  placeholder="Talebinizi buraya yazınız..."
+                  placeholder="Talebini buraya yaz…"
                   onChange={(event) => setOutputGoal(event.target.value)}
                   softHint="Biraz daha detay ekleyin (çıktı, pazar, hedef)…"
                 />

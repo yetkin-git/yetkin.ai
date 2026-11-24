@@ -2,9 +2,19 @@ import "server-only";
 
 import { getPrisma } from "@/lib/kernel/db";
 import { isPrismaClientError, isPrismaUnavailableError } from "@/lib/kernel/db-errors";
+import { defaultsForChannel } from "@/lib/commerce/economics-defaults";
 import { isAdEligibleStock, summarizeExportSupport } from "@/lib/commerce/os-growth";
-import { OS_CHANNEL_CATALOG, isCriticalStock, isHighStock, pickPoolStore } from "@/lib/commerce/os-rules";
+import {
+  OS_CHANNEL_CATALOG,
+  commercePlanTitle,
+  isCriticalStock,
+  isHighStock,
+  normalizeCommercePlan,
+  selectCockpitStore,
+} from "@/lib/commerce/os-rules";
 import type { OsChannelView, OsCockpitView, OsGrantLine, OsInboxView, OsProductView } from "@/lib/commerce/os-types";
+import { effectiveApprovedQty, effectiveSku } from "@/lib/commerce/stock-sync";
+import { selectVerifiedGrantRibbon } from "@/lib/commerce/grant-ribbon";
 import { loadYetkinhibeGrantCatalog } from "@/lib/yetkinhibe/grant-catalog-live";
 
 export type OsLoad = { kind: "ok"; view: OsCockpitView } | { kind: "down" };
@@ -66,46 +76,39 @@ function orderStatusOf(value: string | null): OsInboxView["orderStatus"] {
 
 async function readGrants(): Promise<OsCockpitView["grants"]> {
   try {
-    const catalog = await loadYetkinhibeGrantCatalog();
-    const lines: OsGrantLine[] = [];
-    for (const row of catalog) {
-      if (row.status !== "ACTIVE" && row.status !== "CLOSING_SOON") {
-        continue;
-      }
-      lines.push({
-        title: row.title,
-        source: row.sourceLabel,
-        remainingDays: row.remainingDays,
-        statusLabel: row.status === "CLOSING_SOON" ? "Son günler" : "Açık",
-      });
-      if (lines.length === 3) {
-        break;
-      }
-    }
+    const now = new Date();
+    const catalog = await loadYetkinhibeGrantCatalog(now);
+    const lines: OsGrantLine[] = selectVerifiedGrantRibbon(catalog, now);
     return { ok: true, lines };
   } catch {
     return { ok: false, message: "Hibe taraması şu an okunamadı." };
   }
 }
 
-export async function loadOsCockpit(userId: string): Promise<OsLoad> {
+export async function loadOsCockpit(userId: string, preferredStoreId?: string | null): Promise<OsLoad> {
   try {
     const db = getPrisma();
     const stores = await db.commerceStore.findMany({
       where: { ownerUserId: userId },
       orderBy: { createdAt: "desc" },
-      select: { id: true, name: true, slug: true },
+      select: { id: true, name: true, slug: true, planCode: true },
     });
-    const storeIds = stores.map((store) => store.id);
-    const pool = pickPoolStore(stores);
-    const [products, channelRows, entries, receipts] = await Promise.all([
-      storeIds.length === 0
+    const pool = selectCockpitStore(stores, preferredStoreId);
+    const [products, channelRows, entries, receipts, channelEconomics] = await Promise.all([
+      pool == null
         ? Promise.resolve([])
         : db.commerceProduct.findMany({
-            where: { storeId: { in: storeIds } },
+            where: { storeId: pool.id },
             orderBy: { createdAt: "desc" },
             include: {
-              variants: { orderBy: { createdAt: "asc" }, take: 1 },
+              variants: {
+                orderBy: { createdAt: "asc" },
+                include: {
+                  unitEconomics: {
+                    select: { costMinor: true, desiGrams: true, vatBps: true, costIncludesVat: true },
+                  },
+                },
+              },
               stockLedgers: {
                 where: { type: "INBOUND_DRAFT", settledBy: { is: null } },
                 orderBy: { createdAt: "desc" },
@@ -116,37 +119,70 @@ export async function loadOsCockpit(userId: string): Promise<OsLoad> {
       pool
         ? db.salesChannel.findMany({ where: { storeId: pool.id } })
         : Promise.resolve([]),
-      db.commerceInboxEntry.findMany({
-        where: { store: { ownerUserId: userId } },
-        orderBy: { createdAt: "desc" },
-        take: 40,
-        include: { product: { select: { id: true, title: true } } },
-      }),
-      db.commerceMarketplaceWebhookReceipt.findMany({
-        where: { store: { ownerUserId: userId } },
-        orderBy: { createdAt: "desc" },
-        take: 20,
-        include: { variant: { select: { product: { select: { id: true, title: true } } } } },
-      }),
+      pool
+        ? db.commerceInboxEntry.findMany({
+            where: { storeId: pool.id },
+            orderBy: { createdAt: "desc" },
+            take: 40,
+            include: { product: { select: { id: true, title: true } } },
+          })
+        : Promise.resolve([]),
+      pool
+        ? db.commerceMarketplaceWebhookReceipt.findMany({
+            where: { storeId: pool.id },
+            orderBy: { createdAt: "desc" },
+            take: 20,
+            include: { variant: { select: { product: { select: { id: true, title: true } } } } },
+          })
+        : Promise.resolve([]),
+      pool
+        ? db.commerceChannelEconomics.findUnique({
+            where: { storeId_channel: { storeId: pool.id, channel: "TRENDYOL" } },
+            select: {
+              commissionBps: true,
+              cargoMinorPerOrder: true,
+              returnRateBps: true,
+              adCostMinorPerOrder: true,
+            },
+          })
+        : Promise.resolve(null),
     ]);
 
     const productViews: OsProductView[] = products.map((product) => {
       const variant = product.variants[0] ?? null;
       const draft = product.stockLedgers[0] ?? null;
       const priceMinor = product.basePriceMinor > 0 ? product.basePriceMinor : (variant?.amountMinor ?? 0);
+      // Gösterilen onaylı adet: alan doluysa o, sıfırsa varyant toplamı. Eşik ve reklam kararları bu sayıdan okunur.
+      const approved = effectiveApprovedQty(product.approvedStockQty, product.variants);
       return {
         id: product.id,
         storeId: product.storeId,
         title: product.title,
-        sku: product.sku || variant?.sku || "",
+        sku: effectiveSku(product.sku, product.variants),
         category: product.category,
         priceMinor,
-        approvedStockQty: product.approvedStockQty,
+        approvedStockQty: approved,
         criticalStockQty: product.criticalStockQty,
-        critical: isCriticalStock(product.approvedStockQty, product.criticalStockQty),
-        highStock: isHighStock(product.approvedStockQty, product.criticalStockQty),
-        adEligible: isAdEligibleStock(product.approvedStockQty, product.criticalStockQty),
+        critical: isCriticalStock(approved, product.criticalStockQty),
+        highStock: isHighStock(approved, product.criticalStockQty),
+        adEligible: isAdEligibleStock(approved, product.criticalStockQty),
         variantId: variant?.id ?? null,
+        variantCount: product.variants.length,
+        variants: product.variants.map((row) => ({
+          id: row.id,
+          sku: row.sku,
+          barcode: row.barcode,
+          amountMinor: row.amountMinor,
+          onHandQty: row.onHandQty,
+          safetyBuffer: row.safetyBuffer,
+          status: row.status,
+          sellableQty: Math.max(0, row.onHandQty - row.safetyBuffer),
+          hasEconomics: row.unitEconomics != null,
+          costMinor: row.unitEconomics?.costMinor ?? null,
+          desiGrams: row.unitEconomics?.desiGrams ?? null,
+          vatBps: row.unitEconomics?.vatBps ?? null,
+          costIncludesVat: row.unitEconomics?.costIncludesVat === true,
+        })),
         pendingDraft: draft ? { id: draft.id, quantity: draft.quantity } : null,
       };
     });
@@ -157,6 +193,7 @@ export async function loadOsCockpit(userId: string): Promise<OsLoad> {
         kind: item.kind,
         label: item.label,
         needsKey: item.needsKey,
+        comingSoon: item.comingSoon,
         status: row?.status ?? "DISCONNECTED",
         hint: row?.apiKeyHint ?? "",
         lastError: row?.lastError ?? "",
@@ -240,9 +277,27 @@ export async function loadOsCockpit(userId: string): Promise<OsLoad> {
         products: productViews,
         channels,
         inbox,
-        stores: stores.map((store) => ({ id: store.id, name: store.name, slug: store.slug })),
+        stores: stores.map((store) => {
+          const planCode = normalizeCommercePlan(store.planCode);
+          return {
+            id: store.id,
+            name: store.name,
+            slug: store.slug,
+            planCode,
+            planTitle: commercePlanTitle(planCode),
+          };
+        }),
+        selectedStoreId: pool?.id ?? null,
         grants,
         exportSupport,
+        trendyolEconomics: channelEconomics
+          ? {
+              commissionBps: channelEconomics.commissionBps,
+              cargoMinorPerOrder: channelEconomics.cargoMinorPerOrder,
+              returnRateBps: channelEconomics.returnRateBps,
+              adCostMinorPerOrder: channelEconomics.adCostMinorPerOrder,
+            }
+          : defaultsForChannel("TRENDYOL"),
       },
     };
   } catch (error) {

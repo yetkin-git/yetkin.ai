@@ -57,7 +57,8 @@ describe("kamu yetkinlik kartı ve mühür paylaşımı", () => {
       { title: "Proje kanıtı", visaStampId: STAMP_ID },
     ]);
     expect(card.featured.title).toBe("Ofis Yapay Zekâ");
-    expect(card.proofs).toEqual([{ title: "Proje kanıtı", visaStampId: STAMP_ID }]);
+    expect(card.proofs).toEqual([{ title: "Proje kanıtı", visaStampId: STAMP_ID, kind: "visa" }]);
+    expect(card.tezgahProofs).toEqual([]);
     expect(publicTalentCardHasIdentityLeak(card)).toBe(false);
     expect(JSON.stringify(card)).not.toContain("user_secret");
     expect(JSON.stringify(card)).not.toContain("cert_secret");

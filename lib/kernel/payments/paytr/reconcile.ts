@@ -11,8 +11,10 @@ import {
 } from "@/lib/kernel/payments/clearing";
 import { queryPaytrOrderStatus, type PaytrOrderStatusInquiry } from "@/lib/kernel/payments/paytr/status";
 import { notifyAcademyLicenseHook } from "@/lib/kernel/payments/academy-license-hook";
+import { notifyCareerLicenseHook } from "@/lib/kernel/payments/career-license-hook";
 import { notifyCommerceLicenseHook } from "@/lib/kernel/payments/commerce-license-hook";
 import { notifyTezgahLicenseHook } from "@/lib/kernel/payments/tezgah-license-hook";
+import { notifyGuestClaimHook } from "@/lib/kernel/payments/guest-claim-hook";
 import { notifyJuniorLicenseHook } from "@/lib/kernel/payments/junior-license-hook";
 import { logEvent } from "@/lib/kernel/observability/log";
 
@@ -75,7 +77,7 @@ function logPaytrPendingDiagnosis(
   logEvent({
     level: code === "webhook_pending_within_window" ? "info" : "warn",
     event: "paytr.pending.diagnosis",
-    userId: order?.userId,
+    userId: order?.userId ?? undefined,
     merchantOid: order?.merchantOid ?? merchantOid,
     orderId: order?.id,
     amountMinor: order?.amountMinor,
@@ -144,7 +146,9 @@ export async function reconcilePaytrPaymentOrder(
     await notifyAcademyLicenseHook(order);
     await notifyJuniorLicenseHook(order);
     await notifyCommerceLicenseHook(order);
+    await notifyCareerLicenseHook(order);
     await notifyTezgahLicenseHook(order);
+    await notifyGuestClaimHook(order);
     return { action: "cleared", applied: false, reason: "already_cleared", orderId: order.id };
   }
 
@@ -174,7 +178,9 @@ export async function reconcilePaytrPaymentOrder(
     await notifyAcademyLicenseHook(result.order);
     await notifyJuniorLicenseHook(result.order);
     await notifyCommerceLicenseHook(result.order);
+    await notifyCareerLicenseHook(result.order);
     await notifyTezgahLicenseHook(result.order);
+    await notifyGuestClaimHook(result.order);
     return {
       action: "cleared",
       applied: result.applied,

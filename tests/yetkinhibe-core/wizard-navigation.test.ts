@@ -1,16 +1,16 @@
 import { describe, expect, it } from "vitest";
 
-import { DEFAULT_CONSULTING_CAP_TRY } from "@/lib/yetkinhibe/calculate-grant-budget";
 import { parseGrantProfileModeParam } from "@/lib/yetkinhibe/grant-profile-mode";
 import {
   buildGrantWizardHref,
+  DEFAULT_CONSULTING_CAP_TRY,
   parseConsultingCapParam,
   parseIdeaParam,
 } from "@/lib/yetkinhibe/wizard-navigation";
 
 describe("YetkinHibe sihirbaz yönlendirmesi", () => {
-  it("parametresiz href oda kökünün altındaki sihirbaza gider", () => {
-    expect(buildGrantWizardHref({})).toBe("/yetkinhibe/olustur");
+  it("parametresiz href kokpitteki proje sekmesine gider", () => {
+    expect(buildGrantWizardHref({})).toBe("/panel/hibe?sekme=proje");
   });
 
   it("hibe, bütçe, mod ve fikir parametrelerini sırayla yazar", () => {
@@ -21,15 +21,16 @@ describe("YetkinHibe sihirbaz yönlendirmesi", () => {
         mode: "agency",
         idea: "  Test fikri  ",
       }),
-    ).toBe("/yetkinhibe/olustur?grantId=g-1&consultingCap=50000&mode=agency&idea=Test+fikri");
+    ).toBe("/panel/hibe?sekme=proje&grantId=g-1&consultingCap=50000&mode=agency&idea=Test+fikri");
   });
 
   it("bireysel mod URL'e yazılmaz (varsayılan)", () => {
-    expect(buildGrantWizardHref({ mode: "individual" })).toBe("/yetkinhibe/olustur");
+    expect(buildGrantWizardHref({ mode: "individual" })).toBe("/panel/hibe?sekme=proje");
   });
 
-  it("dondurulmuş /hibe yolunu üretmez", () => {
-    expect(buildGrantWizardHref({ grantId: "g-1" })).not.toContain("/hibe/");
+  it("var olmayan /yetkinhibe/olustur yolunu üretmez", () => {
+    expect(buildGrantWizardHref({ grantId: "g-1" })).not.toContain("/yetkinhibe/olustur");
+    expect(buildGrantWizardHref({ grantId: "g-1" })).toContain("/panel/hibe");
   });
 
   it("geçersiz consultingCap değerinde varsayılana döner", () => {

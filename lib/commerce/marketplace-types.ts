@@ -30,6 +30,8 @@ export type ChannelListingRow = {
   barcode: string;
   remoteBarcode: string;
   remoteProductId: string | null;
+  /** Kanal satış fiyatı. Boşsa varyant fiyatı geçerlidir. */
+  priceMinor?: number | null;
   syncStatus: ListingSyncStatus;
   lastError: string;
   lastSyncedAt: Date | null;

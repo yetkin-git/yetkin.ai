@@ -38,6 +38,8 @@ export type ProductRow = {
   listingMarket: CommerceMarket | null;
   source: CatalogSource;
   status: ProductStatus;
+  /** Ürün onaylı stoğu (`approved_stock_qty`) = varyant toplamı. Tek gerçek okuma. */
+  approvedStockQty: number;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -81,9 +83,14 @@ export type MoveCommand = {
   note: string;
   idempotencyKey: string;
 };
-
 export type MoveResult =
-  | { outcome: "applied" | "replay"; movement: MovementRow; variant: VariantRow }
+  | {
+      outcome: "applied" | "replay";
+      movement: MovementRow;
+      variant: VariantRow;
+      /** Set satışında stoğu değişen üye varyantlar. Tekil kartta boş kalır. */
+      memberPushes?: Array<{ variantId: string; onHandAfter: number; amountMinor: number | null }>;
+    }
   | { outcome: "rejected" }
   | { outcome: "missing" };
 

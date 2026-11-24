@@ -92,7 +92,7 @@ export const MAGAZAM_SEN = {
   modeDraft: "Taslak kaydet",
   modeActive: "Açık kart kaydet",
   modeActiveBlocked: "Açık kart için önce mağazayı aç.",
-  draftStockHint: "Taslakta barkod, fiyat ve stok boş kalır.",
+  draftStockHint: "Taslakta barkod boş kalır; fiyat ve stok sen yazarsan kayda geçer.",
   market: "Pazaryeri etiketi",
   marketNone: "Yok",
   attributes: "Özellikler",

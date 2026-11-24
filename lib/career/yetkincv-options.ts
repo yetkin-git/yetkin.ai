@@ -7,8 +7,8 @@ export const YETKINCV_ROLES = [
 ] as const;
 
 export const YETKINCV_VERTICALS = [
-  { id: "ecommerce", label: "E-Ticaret", practiceHref: "/e-ticaret" },
-  { id: "grant", label: "Hibe & Proje Yönetimi", practiceHref: "/hibe" },
+  { id: "ecommerce", label: "E-Ticaret", practiceHref: "/panel/e-ticaret" },
+  { id: "grant", label: "Hibe & Proje Yönetimi", practiceHref: "/panel/hibe" },
   { id: "marketing", label: "Dijital Pazarlama", practiceHref: "/tezgah?tool=reklam" },
   { id: "office", label: "Ofis & Operasyon", practiceHref: "/tezgah?tool=tetkik" },
   { id: "software", label: "Yazılım/AI", practiceHref: "/tezgah" },

@@ -18,7 +18,7 @@ Tek kaynak `lib/dronlar/kayit.ts` (`DRON_KAYIT`). `kapali: true` olan yol kenard
 | Junior | `/junior` | açık | müstakil oda; satış ayrı kilit |
 | Young | `/young` | kapalı | müstakil oda, kenar 410 |
 | YetkinHibe | `/hibe` | açık (`yetkinhibe`) | müstakil oda |
-| E-Ticaret | `/e-ticaret` | kayıt dışı | kokpit `COMMERCE_NAV` |
+| E-Ticaret | `/e-ticaret` (kamu vitrini); kokpit `/panel/e-ticaret` | kayıt dışı | kokpit `COMMERCE_NAV` |
 | Kurumsal | `/kurumsal` | sayfa açık | teklif; donmuş disk kimliği `kurumsal` bu yolu kapatmaz |
 | Kamu kanıt (oda değil) | `/vize` | — | oturumsuz mühür kartı |
 

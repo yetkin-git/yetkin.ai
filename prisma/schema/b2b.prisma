@@ -85,11 +85,12 @@ enum KurumsalJobVertical {
 }
 
 /// Başvuru durumu. TESTED, puan yazıldıktan sonraki ara kayıttır.
-/// Kısa liste hesabı SHORTLISTED veya REJECTED olarak kapanır.
+/// SHORTLISTED / QUALIFIED_NOT_SHORTLISTED / REJECTED (baraj altı) olarak kapanır.
 enum KurumsalJobApplicationStatus {
   PENDING_TEST
   TESTED
   SHORTLISTED
+  QUALIFIED_NOT_SHORTLISTED
   REJECTED
 }
 
@@ -97,19 +98,23 @@ enum KurumsalJobApplicationStatus {
 /// criteria_weights, dikeyin gerçek vaka becerileridir. Tohum şirket ve sahte ilan yazılmaz.
 /// deadlineAt boşsa kapanış günü yoktur.
 model KurumsalJobPosting {
-  id              String              @id @default(cuid())
-  ownerUserId     String              @map("owner_user_id")
-  companyName     String              @map("company_name") @db.VarChar(120)
-  title           String              @db.VarChar(160)
-  slug            String              @unique @db.VarChar(80)
-  vertical        KurumsalJobVertical
-  description     String              @db.VarChar(4000)
-  criteriaWeights Json                @map("criteria_weights")
-  minScore        Int                 @default(70) @map("min_score")
-  shortlistLimit  Int                 @default(5) @map("shortlist_limit")
-  isActive        Boolean             @default(true) @map("is_active")
-  deadlineAt      DateTime?           @map("deadline_at")
-  createdAt       DateTime            @default(now()) @map("created_at")
+  id                  String              @id @default(cuid())
+  ownerUserId         String              @map("owner_user_id")
+  companyName         String              @map("company_name") @db.VarChar(120)
+  title               String              @db.VarChar(160)
+  slug                String              @unique @db.VarChar(80)
+  vertical            KurumsalJobVertical
+  description         String              @db.VarChar(4000)
+  criteriaWeights     Json                @map("criteria_weights")
+  minScore            Int                 @default(70) @map("min_score")
+  shortlistLimit      Int                 @default(5) @map("shortlist_limit")
+  isActive            Boolean             @default(true) @map("is_active")
+  /// Vergi veya MERSİS numarası. Kamuya basılmaz; doğrulama verifiedEmployerAt ile mühürlenir.
+  taxNumber           String              @default("") @map("tax_number") @db.VarChar(20)
+  /// Null = kurumsal kimlik doğrulanmamış; kamu ilan noindex.
+  verifiedEmployerAt  DateTime?           @map("verified_employer_at")
+  deadlineAt          DateTime?           @map("deadline_at")
+  createdAt           DateTime            @default(now()) @map("created_at")
 
   owner        User                      @relation("KurumsalJobOwner", fields: [ownerUserId], references: [id], onDelete: Cascade)
   applications KurumsalJobApplication[]

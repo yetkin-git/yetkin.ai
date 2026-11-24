@@ -9,10 +9,13 @@ import { parseHomepageHtml } from "@/lib/tezgah/tetkik/parse-html";
 import { TETKIK_REJECTED_MESSAGE } from "@/lib/tezgah/tetkik/rubric";
 import { scoreTetkik } from "@/lib/tezgah/tetkik/score";
 import { normalizeTetkikSiteAddress } from "@/lib/tezgah/tetkik/site-address";
+import { probeTechSeoFiles } from "@/lib/tezgah/tetkik/tech-seo";
 
 export const TETKIK_PUBLIC_PATH = "/tetkik" as const;
 export const TETKIK_PUBLIC_READ_FAIL = "Site okunamadı. Skor uydurulmadı.";
 export const TETKIK_PUBLIC_STORE_FAIL = "Rapor saklanamadı. Skor uydurulmadı.";
+/** Anonim kamu raporlarının saklama süresi. */
+export const TETKIK_REPORT_TTL_DAYS = 90;
 
 const HASH_PATTERN = /^[A-Za-z0-9_-]{22}$/;
 
@@ -42,6 +45,17 @@ const snapshotSchema = z.object({
     title: z.string().min(1).max(120),
     body: z.string().min(1).max(800),
   }),
+  techSeo: z
+    .array(
+      z.object({
+        id: z.enum(["robotsTxt", "sitemapXml"]),
+        label: z.string().min(1).max(40),
+        status: z.enum(["found", "missing", "unchecked"]),
+        detail: z.string().max(240),
+      }),
+    )
+    .max(4)
+    .optional(),
 });
 
 export type PublicTetkikSnapshot = z.infer<typeof snapshotSchema>;
@@ -85,10 +99,12 @@ export async function measureDeterministicTetkik(
   try {
     const page = await fetchPublicHomepage(inspected.url, deps);
     const parsed = parseHomepageHtml(page.html);
+    const techSeoProbes = await probeTechSeoFiles(page.finalUrl, deps);
     const scored = scoreTetkik(parsed, {
       https: page.finalUrl.startsWith("https:"),
       ttfbMs: page.ttfbMs,
       htmlBytes: page.htmlBytes,
+      techSeo: techSeoProbes,
     });
     const snapshot: PublicTetkikSnapshot = {
       score: scored.score,
@@ -110,6 +126,12 @@ export async function measureDeterministicTetkik(
       })),
       opportunities: scored.opportunities.map((line) => plain(line, 400)).filter((line) => line.length > 0),
       action: scored.action,
+      techSeo: scored.techSeo.map((row) => ({
+        id: row.id,
+        label: row.label,
+        status: row.status,
+        detail: plain(row.detail, 240),
+      })),
     };
     const parsedSnapshot = snapshotSchema.safeParse(snapshot);
     if (!parsedSnapshot.success) {
@@ -189,5 +211,33 @@ export async function loadPublicTetkikReport(rawId: string): Promise<PublicTetki
     return parsed.data;
   } catch {
     return null;
+  }
+}
+
+export type TetkikReportsCleanupView = {
+  ttlDays: typeof TETKIK_REPORT_TTL_DAYS;
+  deleted: number;
+  cutoffIso: string;
+};
+
+/**
+ * 90 günden eski anonim `tetkik_reports` satırlarını siler.
+ * Ana analizi bloklamaz; DB yoksa 0 döner.
+ */
+export async function cleanupExpiredTetkikReports(
+  now: Date = new Date(),
+): Promise<TetkikReportsCleanupView> {
+  const cutoff = new Date(now.getTime() - TETKIK_REPORT_TTL_DAYS * 24 * 60 * 60 * 1000);
+  const cutoffIso = cutoff.toISOString();
+  if (!process.env.DATABASE_URL?.trim()) {
+    return { ttlDays: TETKIK_REPORT_TTL_DAYS, deleted: 0, cutoffIso };
+  }
+  try {
+    const result = await getPrisma().tetkikReport.deleteMany({
+      where: { createdAt: { lt: cutoff } },
+    });
+    return { ttlDays: TETKIK_REPORT_TTL_DAYS, deleted: result.count, cutoffIso };
+  } catch {
+    return { ttlDays: TETKIK_REPORT_TTL_DAYS, deleted: 0, cutoffIso };
   }
 }

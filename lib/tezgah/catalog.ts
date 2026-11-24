@@ -15,10 +15,8 @@ import { PAZARYERI_MARKETS } from "@/lib/tezgah/pazaryeri/copy";
 import {
   SAAS_PLATFORMS,
   SAAS_WIDGETS,
-  STUDIO_BACKGROUNDS,
   STUDIO_GALLERY_COUNTS,
-  STUDIO_MARKETS,
-  STUDIO_OVERLAYS,
+  STUDIO_SCENES,
 } from "@/lib/tezgah/pro/options";
 import { REKLAM_AIMS, REKLAM_FILE_STEM } from "@/lib/tezgah/reklam/copy";
 
@@ -29,8 +27,44 @@ const YES_NO = [
 
 export const TEZGAH_PATH = "/tezgah" as const;
 
+/**
+ * Misafir günlük tavanı (Faz 3 / S-01).
+ *
+ * Misafir kovası `guest:<ip>` anahtarıdır: aynı çıkış IP'sini (kafe, CGNAT, kurumsal
+ * NAT) yüzlerce kişi paylaşabilir. Aylık havuza geçmek bu kovayı tek kişiye 30 kredi
+ * verirdi; bu yüzden misafir hattı **günlük** kalır ve İstanbul gece yarısında döner.
+ * Üyelik hattı aylık kredi havuzudur (`TEZGAH_FREE_MONTHLY_CREDITS`).
+ */
 export const TEZGAH_GUEST_DAILY_LIMIT = 3;
-export const TEZGAH_MEMBER_DAILY_LIMIT = 3;
+
+/**
+ * Üye ücretsiz kredi havuzu (Faz 3 / S-01) — aylık 30 kredi.
+ *
+ * Eskiden günde 3 hak vardı. Günlük tavan kullanım **yoğunluğunu** cezalandırıyordu:
+ * pazartesi 20 teklif yazmak isteyen serbest çalışan cuma boş oturuyordu. Aylık havuz
+ * aynı toplamı esnek dağıtır. Dönem anahtarı `YYYY-MM`'dir (`tezgahQuotaPeriodKey`).
+ */
+export const TEZGAH_FREE_MONTHLY_CREDITS = 30;
+
+/**
+ * Tezgâh Pro aylık kredi havuzu — 500 kredi (Faz 3 / S-01).
+ *
+ * Önce Pro hattı ücretsiz tavanı (3) döndürüyordu: aylık 590 TL ödeyen kullanıcı
+ * ürünün kendi ekranında "3 / 3 ücretsiz hak" görüyordu (B-02). Tedavi günlük 100
+ * ile bu algıyı düzeltti; Faz 3 aynı faydayı **aylık kredi** diline çevirir
+ * (500 ÷ 30 ≈ 16.6× ücretsiz havuz). Rakam tek yerde durur: fiyat tablosu, kota
+ * rozeti, panel kartı ve `llms.txt` bu sabitten okur.
+ */
+export const TEZGAH_PRO_MONTHLY_CREDITS = 500;
+
+/**
+ * Aylık devir oranı (Faz 3 / S-01). Kullanılmayan kredinin yarısı sonraki aya taşınır.
+ * Devir tek aylıktır (zincirleme birikmez) ve taban havuzun yarısıyla sınırlıdır.
+ */
+export const TEZGAH_ROLLOVER_BPS = 5_000;
+
+/** Devir tavanı — taban havuzun yarısı. `%50` devir + `%50` tavan aynı sayıdır. */
+export const TEZGAH_ROLLOVER_CAP_BPS = 5_000;
 
 /** Web Site Analizi ömür boyu ücretsiz tavanı. Günlük yenilenmez. */
 export const TEZGAH_TETKIK_LIFETIME_LIMIT = 1;
@@ -51,22 +85,29 @@ export const TEZGAH_GUEST_QUOTA_MESSAGE =
   "Bugünkü 3 ücretsiz hakkın doldu. Yarın (İstanbul gece yarısı) yenilenir.";
 
 export const TEZGAH_MEMBER_QUOTA_MESSAGE =
-  "Bugünkü ücretsiz hakkınız doldu. Yarın (İstanbul gece yarısı) yenilenir.";
+  "Bu ayki ücretsiz kredin doldu. Yeni krediler ayın 1'inde (İstanbul saatiyle) tanımlanır; kalan kredinin yarısı o gün devreder.";
 
 export const TEZGAH_MEMBER_PAID_MESSAGE =
-  "Günlük ücretsiz üretim hakkınız doldu. Tezgâh Pro aboneliğiyle veya tekil üretim kredisiyle kesintisiz devam edin.";
+  "Aylık ücretsiz kredin doldu. Tezgâh Pro aboneliğiyle veya tekil üretim kredisiyle kesintisiz devam et.";
 
 export const TEZGAH_CATALOG_CLOSED_MESSAGE =
-  "Ücretli üretim katalogda açık değil. Ücretsiz hakkınız yarın (İstanbul gece yarısı) yenilenir.";
+  "Ücretli üretim katalogda açık değil. Ücretsiz kredin ayın 1'inde (İstanbul saatiyle) yenilenir.";
+
+/**
+ * B-02 / S-01: Pro hattı tükendiğinde ücretsiz hat mesajı basılmaz.
+ * Kullanıcı aylık ödeme yapıyor; "ücretsiz kredi doldu" cümlesi yanlış bilgi olur.
+ */
+export const TEZGAH_PRO_QUOTA_MESSAGE =
+  "Aylık Pro kredin doldu. Yeni kredi ayın 1'inde (İstanbul saatiyle) tanımlanır; acele işin varsa tekil üretim kredisi kullanabilirsin.";
 
 export const TEZGAH_TETKIK_GUEST_QUOTA_MESSAGE =
-  "Ücretsiz web site analizi hakkınız kullanıldı. Giriş yapıp Pro abonelik veya kredi ile yeni analiz alın.";
+  "Ücretsiz web site analizi hakkın kullanıldı. Giriş yapıp Pro abonelik veya kredi ile yeni analiz al.";
 
 export const TEZGAH_TETKIK_MEMBER_QUOTA_MESSAGE =
-  "Ücretsiz web site analizi hakkınız (ömür boyu 1) kullanıldı.";
+  "Ücretsiz web site analizi hakkın (ömür boyu 1) kullanıldı.";
 
 export const TEZGAH_TETKIK_DOMAIN_CLAIMED_MESSAGE =
-  "Bu web sitesi için ücretsiz analiz hakkı daha önce kullanıldı. Yeni veya tekrar analiz için Pro pakete geçin veya kredi kullanın.";
+  "Bu web sitesi için ücretsiz analiz hakkı daha önce kullanıldı. Yeni veya tekrar analiz için Pro pakete geç veya kredi kullan.";
 
 export const TEZGAH_CREDIT_PACK_SIZE = 10;
 
@@ -98,7 +139,7 @@ export const TEZGAH_TOOL_POOL: Record<TezgahToolId, TezgahToolPool> = {
   grant: "lite",
   ecommerce: "lite",
   dukkan: "free_template",
-  "studio-photo": "local",
+  "studio-photo": "lite",
   "technical-drawing": "local",
   "saas-builder": "local",
 };
@@ -135,7 +176,8 @@ export function isTezgahDeskTool(id: string): id is TezgahDeskToolId {
   return (TEZGAH_DESK_TOOL_IDS as readonly string[]).includes(id);
 }
 
-export const PRO_STUDIO_TOOL_IDS = ["studio-photo", "technical-drawing", "saas-builder"] as const;
+/** Tarayıcı-içi uzman tezgâhlar. `studio-photo` sunucu `generateImage` hattındadır. */
+export const PRO_STUDIO_TOOL_IDS = ["technical-drawing", "saas-builder"] as const;
 
 export type ProStudioToolId = (typeof PRO_STUDIO_TOOL_IDS)[number];
 
@@ -160,7 +202,7 @@ export type TezgahTool = {
   blurb: string;
   fileStem: string;
   fields: readonly TezgahField[];
-  cta: { href: "/e-ticaret" | "/tezgah" | "/hibe"; label: string } | null;
+  cta: { href: "/panel/e-ticaret" | "/tezgah" | "/panel/hibe"; label: string } | null;
 };
 
 export const ECOMMERCE_CATEGORY_CHIPS = [
@@ -189,19 +231,19 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
       {
         name: "category",
         label: "Kategori (Ana kategori veya ürün türü)",
-        placeholder: "Kategoriyi yazınız (veya boş bırakın)...",
+        placeholder: "Kategoriyi yaz (veya boş bırak)...",
         kind: "text",
         optional: true,
       },
       {
         name: "features",
         label: "Temel özellikler",
-        placeholder: "Ürün özelliklerinizi buraya yazınız...",
+        placeholder: "Ürünün temel özelliklerini buraya yaz...",
         kind: "textarea",
       },
     ],
     cta: {
-      href: "/e-ticaret",
+      href: "/panel/e-ticaret",
       label: "E-Ticaret işletim sistemini aç",
     },
   },
@@ -214,20 +256,28 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
       {
         name: "jobPost",
         label: "Müşteri ilanı veya ihtiyacı",
-        placeholder: "Talebinizi buraya yazınız...",
+        placeholder: "Talebi buraya yaz...",
         kind: "textarea",
       },
       {
         name: "expertise",
         label: "Senin uzmanlığın",
-        placeholder: "Uzmanlığınızı yazınız...",
+        placeholder: "Uzmanlığını yaz...",
         kind: "text",
       },
+      {
+        name: "deliveryMode",
+        label: "Teslimat Modu",
+        placeholder: "Mod seç...",
+        kind: "select",
+        options: [
+          { value: "standard", label: "Hizmet & Proje Teklifi (Standart)" },
+          { value: "b2b", label: "Sözleşme Eki & Teknik Şartname (B2B)" },
+          { value: "summary", label: "Hızlı Fiyat / Kapsam Özeti (Tek Sayfa)" },
+        ],
+      },
     ],
-    cta: {
-      href: "/tezgah",
-      label: "Tezgâhta teslim taslağı üret",
-    },
+    cta: null,
   },
   {
     id: "grant",
@@ -238,80 +288,80 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
       {
         name: "businessName",
         label: "İşletme adı",
-        placeholder: "İşletme adınızı yazınız...",
+        placeholder: "İşletme adını yaz...",
         kind: "text",
       },
       {
         name: "freelancerName",
-        label: "Freelancer adı",
-        placeholder: "Adınızı yazınız...",
+        label: "Yetkili / girişimci adı",
+        placeholder: "Adını yaz...",
         kind: "text",
       },
       {
         name: "provinceCode",
         label: "İl",
-        placeholder: "İl seçiniz...",
+        placeholder: "İl seç...",
         kind: "select",
         options: GRANT_PROVINCES.map((row) => ({ value: row.code, label: row.name })),
       },
       {
         name: "audience",
         label: "İşletme türü",
-        placeholder: "Tür seçiniz...",
+        placeholder: "Tür seç...",
         kind: "select",
         options: GRANT_AUDIENCES.map((row) => ({ value: row.id, label: row.label })),
       },
       {
         name: "naceGroup",
         label: "NACE grubu",
-        placeholder: "Sektör seçiniz...",
+        placeholder: "Sektör seç...",
         kind: "select",
         options: GRANT_NACE_GROUPS.map((row) => ({ value: row.id, label: row.label })),
       },
       {
         name: "investmentFocus",
         label: "Yatırım odağı",
-        placeholder: "Odak seçiniz...",
+        placeholder: "Odak seç...",
         kind: "select",
         options: GRANT_INVESTMENT_FOCI.map((row) => ({ value: row.id, label: row.label })),
       },
       {
         name: "employeeCount",
         label: "Çalışan sayısı",
-        placeholder: "Çalışan sayısını yazınız...",
+        placeholder: "Çalışan sayısını yaz...",
         kind: "text",
       },
       {
         name: "companyAgeYears",
         label: "Şirket yaşı (yıl)",
-        placeholder: "Şirket yaşını yazınız...",
+        placeholder: "Şirket yaşını yaz...",
         kind: "text",
       },
       {
         name: "rdMaturityLevel",
         label: "Ar-Ge olgunluğu",
-        placeholder: "Düzey seçiniz...",
+        placeholder: "Düzey seç...",
         kind: "select",
         options: GRANT_RD_LEVELS.map((row) => ({ value: row.id, label: row.label })),
       },
       {
         name: "exportActive",
         label: "İhracat",
-        placeholder: "Seçiniz...",
+        placeholder: "Seç...",
         kind: "select",
         options: YES_NO,
       },
       {
         name: "patent",
         label: "Patent veya faydalı model",
-        placeholder: "Seçiniz...",
+        placeholder: "Seç...",
         kind: "select",
         options: YES_NO,
       },
       {
         name: "project",
         label: "Proje",
-        placeholder: "İş fikrinizi buraya yazınız...",
+        placeholder: "İş fikrini buraya yaz...",
         kind: "textarea",
       },
       {
@@ -330,7 +380,7 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
       },
     ],
     cta: {
-      href: "/hibe",
+      href: "/panel/hibe",
       label: "YetkinHibe proje dosyasını aç",
     },
   },
@@ -353,7 +403,7 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
   {
     id: "dukkan",
     label: "Sektörel Dijital Dükkan",
-    blurb: "Sektöre göre tek sayfalık vitrin. Önizle, dijital-dukkan.html olarak indir.",
+    blurb: "12 sektöre göre tek sayfalık vitrin. Paket kartı ve SSS isteğe bağlı; html ve zip iner.",
     fileStem: "dijital-dukkan",
     fields: [
       {
@@ -388,6 +438,27 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
         kind: "textarea",
       },
       {
+        name: "packages",
+        label: "Vitrin paketleri (isteğe bağlı)",
+        placeholder: "Sabah Paketi | Poğaça + çay | 120 TL\nÖğle Menü | Çorba + ana yemek | 280 TL",
+        kind: "textarea",
+        optional: true,
+      },
+      {
+        name: "hours",
+        label: "Çalışma saatleri (isteğe bağlı)",
+        placeholder: "Hafta içi 08:00–20:00",
+        kind: "text",
+        optional: true,
+      },
+      {
+        name: "faq",
+        label: "Kısa SSS (isteğe bağlı)",
+        placeholder: "Teslimat var mı? | Aynı gün mahalle içi.\nPark yeri? | Cadde üzerinde.",
+        kind: "textarea",
+        optional: true,
+      },
+      {
         name: "tone",
         label: "Ton",
         placeholder: "Ton seç",
@@ -395,12 +466,13 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
         options: DUKKAN_TONES.map((tone) => ({ value: tone.id, label: tone.label })),
       },
     ],
-    cta: null,
+    cta: { href: "/panel/e-ticaret", label: "E-Ticaret Mağazası Aç" },
   },
   {
     id: "reklam",
     label: "Otonom Reklam Paketi",
-    blurb: "Üç kanca, Meta ve Google arama metni, görsel brif. Karakter sınırı ve amaç çağrısı kodda mühürlenir.",
+    blurb:
+      "Üç A/B varyantı, Google/Meta CSV, bütçe dağılımı. Karakter sınırı ve sahte metrik kalkanı kodda mühürlenir.",
     fileStem: REKLAM_FILE_STEM,
     fields: [
       {
@@ -435,13 +507,21 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
         placeholder: "İkinci poğaça bedava",
         kind: "textarea",
       },
+      {
+        name: "budgetTl",
+        label: "Aylık bütçe (TL, isteğe bağlı)",
+        placeholder: "1000",
+        kind: "text",
+        optional: true,
+      },
     ],
     cta: null,
   },
   {
     id: "pazaryeri",
     label: "Pazaryeri Katalog Fabrikası",
-    blurb: "En çok 8 ürün. Blokları boş satırla ayır. Tablo önizlenir, pazaryeri-katalog.csv iner.",
+    blurb:
+      "En çok 25 ürün. Blokları boş satırla ayır; isteğe bağlı `Ad | Marka | Fiyat | Stok`. CSV, Word ve PDF iner.",
     fileStem: "pazaryeri-katalog",
     fields: [
       {
@@ -454,7 +534,8 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
       {
         name: "products",
         label: "Ürün blokları",
-        placeholder: "Pamuklu battaniye\nKategori: Anne ve bebek\nRenk: Ekru",
+        placeholder:
+          "Pamuklu battaniye | SoftHome | 1499 | 25\nKategori: Anne ve bebek\nRenk: Ekru",
         kind: "textarea",
       },
     ],
@@ -463,7 +544,7 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
   {
     id: "studio-photo",
     label: "Görsel & Ürün Stüdyosu",
-    blurb: "Düzenleme talimatı, pazaryeri fon ve çözünürlük denetimi, galeri sırası ve alt metin.",
+    blurb: "Pazaryeri standardına gerçek ürün görseli, SEO alt metni ve stüdyo paketi (.png / .zip).",
     fileStem: "gorsel-studyo",
     fields: [
       {
@@ -479,37 +560,11 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
         kind: "textarea",
       },
       {
-        name: "market",
-        label: "Pazaryeri",
-        placeholder: "Pazaryeri seç",
+        name: "scene",
+        label: "Hedef Pazaryeri Standardı",
+        placeholder: "Sahne seç",
         kind: "select",
-        options: STUDIO_MARKETS,
-      },
-      {
-        name: "widthPx",
-        label: "Genişlik (px)",
-        placeholder: "1200",
-        kind: "text",
-      },
-      {
-        name: "heightPx",
-        label: "Yükseklik (px)",
-        placeholder: "1800",
-        kind: "text",
-      },
-      {
-        name: "background",
-        label: "Ana kare fonu",
-        placeholder: "Fon seç",
-        kind: "select",
-        options: STUDIO_BACKGROUNDS,
-      },
-      {
-        name: "overlay",
-        label: "Ana karede yazı veya logo",
-        placeholder: "Seç",
-        kind: "select",
-        options: STUDIO_OVERLAYS,
+        options: STUDIO_SCENES.map((scene) => ({ value: scene.value, label: scene.label })),
       },
       {
         name: "galleryCount",
@@ -524,7 +579,8 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
   {
     id: "technical-drawing",
     label: "Teknik Çizim & Ölçü Şeması",
-    blurb: "Milimetre ölçülerinden SVG ölçü şeması ve montaj listesi. Önizlenir, .svg iner.",
+    blurb:
+      "Ön/yan/üst ortografik SVG, DXF, teknik föy PDF ve üretim zip. Ölçek, tolerans, desi.",
     fileStem: "olcu-semasi",
     fields: [
       {
@@ -553,14 +609,21 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
       },
       {
         name: "material",
-        label: "Malzeme (isteğe bağlı)",
-        placeholder: "Kayın kontraplak",
+        label: "Malzeme & kalınlık (isteğe bağlı)",
+        placeholder: "Kayın kontraplak 18 mm",
+        kind: "text",
+        optional: true,
+      },
+      {
+        name: "tolerance",
+        label: "Genel tolerans (isteğe bağlı)",
+        placeholder: "±0.5 mm",
         kind: "text",
         optional: true,
       },
       {
         name: "steps",
-        label: "Montaj adımları (isteğe bağlı)",
+        label: "Montaj / işlem adımları (isteğe bağlı)",
         placeholder: "Ayağı yuvaya oturt\nVidayı sık",
         kind: "textarea",
         optional: true,
@@ -571,7 +634,8 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
   {
     id: "saas-builder",
     label: "Mini SaaS & Kod Üretici",
-    blurb: "Kargo hesabı, sipariş formu, sayaç veya JSON betiği. Canlı önizleme, kopya ve zip.",
+    blurb:
+      "8 iş aracı: kargo, marj, fiyat, sipariş, randevu, sayaç, SSS, JSON kartı. Özellik metni kodu yönlendirir; canlı önizleme ve zip.",
     fileStem: "mini-saas",
     fields: [
       {
@@ -583,14 +647,14 @@ export const TEZGAH_TOOLS: readonly TezgahTool[] = [
       },
       {
         name: "feature",
-        label: "İstediğiniz Özellik / Bileşen",
-        placeholder: "İstediğiniz özelliği buraya yazınız...",
+        label: "İstediğin özellik / bileşen",
+        placeholder: "Örn. kargo desi, kâr marjı, randevu formu, SSS asistanı…",
         kind: "textarea",
       },
       {
         name: "widget",
         label: "Bileşen",
-        placeholder: "Bileşen seç",
+        placeholder: "Bileşen seç (boş bırakırsan özellikten seçilir)",
         kind: "select",
         options: SAAS_WIDGETS,
       },
@@ -664,13 +728,13 @@ export function parseTezgahToolParam(raw: string | null | undefined): TezgahTool
 /** Eski tezgâh sekmeleri. Ürün kartı e-ticaret havuzuna, hibe dosyası proje sekmesine gider. */
 export function tezgahRelocatedOsHref(
   raw: string | null | undefined,
-): "/hibe?sekme=proje" | "/e-ticaret?sekme=havuz" | null {
+): "/panel/hibe?sekme=proje" | "/panel/e-ticaret?sekme=havuz" | null {
   const parsed = parseTezgahToolParam(raw);
   if (parsed === "grant") {
-    return "/hibe?sekme=proje";
+    return "/panel/hibe?sekme=proje";
   }
   if (parsed === "ecommerce") {
-    return "/e-ticaret?sekme=havuz";
+    return "/panel/e-ticaret?sekme=havuz";
   }
   return null;
 }
@@ -715,15 +779,39 @@ export function readTezgahPrefill(
   return next;
 }
 
+/**
+ * Faz 3 / S-01 — kredi dili.
+ *
+ * Misafir hattı günlük kalır (`"Bugünkü ücretsiz hakkın: 2 / 3"`), üye hattı aylık
+ * kredi havuzudur (`"Kalan kredi: 27 / 30"`). İki dil ayrı basılır: misafire
+ * "aylık kredi" demek yanlış olur (kovası IP'dir, sözleşmesi günlüktür).
+ */
 export function tezgahQuotaLine(remaining: number, limit: number): string {
-  return `Kalan ücretsiz hakkınız: ${remaining} / ${limit}`;
+  return `Kalan kredi: ${remaining} / ${limit}`;
 }
 
-/** Aktif sekmenin rozet metni. Kota dışı araçlarda sayaç gösterilmez. */
+/**
+ * B-02 / S-01: Pro hattı satırı. Ücretsiz sayaç dili burada basılmaz;
+ * kullanıcı aylık ödeme yapıyor. Rakam `TEZGAH_PRO_MONTHLY_CREDITS`'ten gelir.
+ */
+export function tezgahProQuotaLine(remaining: number, limit: number): string {
+  return `Pro — aylık ${limit} kredi · kalan ${remaining}`;
+}
+
+/** Misafir hattı satırı. Günlük tavan gerçekten günlüktür; aylık denmez. */
+export function tezgahGuestQuotaLine(remaining: number, limit: number): string {
+  return `Bugünkü ücretsiz hakkın: ${remaining} / ${limit}`;
+}
+
+/**
+ * Aktif sekmenin rozet metni. Kota dışı araçlarda sayaç gösterilmez.
+ * `guest` verilmezse üye/dolaşım satırı basılır (eski çağrılar için güvenli varsayılan).
+ */
 export function tezgahPoolQuotaLine(
   pool: TezgahToolPool,
   remaining: number,
   limit: number,
+  guest = false,
 ): string {
   if (isTezgahQuotaExemptPool(pool)) {
     return TEZGAH_UNLIMITED_QUOTA_LINE;
@@ -732,17 +820,49 @@ export function tezgahPoolQuotaLine(
     if (remaining <= 0) {
       return "0 / 1 — Pro veya Kredi gerekli";
     }
-    return `Kalan ücretsiz analiz hakkınız: ${remaining} / ${limit}`;
+    return `Kalan ücretsiz analiz hakkın: ${remaining} / ${limit}`;
   }
-  return `Günlük ücretsiz hakkınız: ${remaining} / ${limit}`;
+  return guest ? tezgahGuestQuotaLine(remaining, limit) : tezgahQuotaLine(remaining, limit);
+}
+
+/**
+ * Havuz satırı + hat bilgisi. `lane` verildiğinde Pro hattı kendi dilini basar;
+ * `lane` yoksa (eski çağrılar) üye kredi satırı korunur.
+ */
+export function tezgahPoolQuotaLineForLane(
+  pool: TezgahToolPool,
+  remaining: number,
+  limit: number,
+  lane?: string,
+  guest = false,
+): string {
+  if (lane === "pro" && !isTezgahQuotaExemptPool(pool)) {
+    if (pool === "tetkik") {
+      return `Pro — ömür boyu analiz hakkı · kalan ${remaining}`;
+    }
+    return tezgahProQuotaLine(remaining, limit);
+  }
+  return tezgahPoolQuotaLine(pool, remaining, limit, guest);
 }
 
 export function tezgahToolQuotaLine(
   toolId: TezgahToolId,
   remaining: number,
   limit: number,
+  guest = false,
 ): string {
-  return tezgahPoolQuotaLine(tezgahPoolForTool(toolId), remaining, limit);
+  return tezgahPoolQuotaLine(tezgahPoolForTool(toolId), remaining, limit, guest);
+}
+
+/** Araç satırı + hat. Pro hattı ücretsiz sayaç dilini basmaz (B-02). */
+export function tezgahToolQuotaLineForLane(
+  toolId: TezgahToolId,
+  remaining: number,
+  limit: number,
+  lane?: string,
+  guest = false,
+): string {
+  return tezgahPoolQuotaLineForLane(tezgahPoolForTool(toolId), remaining, limit, lane, guest);
 }
 
 export const TEZGAH_SEAL_LABEL = "Bu Yetkinliği YetkinCV ile Mühürle →" as const;

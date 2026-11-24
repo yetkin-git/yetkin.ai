@@ -6,6 +6,7 @@ import type { MarketplaceHandlerDeps } from "@/lib/commerce/marketplace-handlers
 import { createPrismaCommerceSubscriptionStore } from "@/lib/commerce/subscription-prisma";
 import { commerceLicenseActive } from "@/lib/commerce/subscription";
 import type { CommerceOutgoingLicense } from "@/lib/commerce/sync-license";
+import { recordFulfillmentQuiet } from "@/lib/commerce/fulfillment-service";
 import type { TrendyolPorts } from "@/lib/commerce/trendyol-sync";
 import { requireSession } from "@/lib/kernel/auth/session";
 
@@ -35,5 +36,6 @@ export function liveTrendyolPorts(): TrendyolPorts {
     env: process.env,
     now: () => new Date(),
     license: liveCommerceOutgoingLicense(),
+    recordFulfillment: recordFulfillmentQuiet,
   };
 }

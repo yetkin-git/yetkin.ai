@@ -10,7 +10,7 @@ export function KurumsalRoadmapCards({ offerHref }: { offerHref: string }) {
           hazırlık planı açılır. Yüzde kriter karşılama puanıdır. Son tarih katalog satırında varsa oradan okunur.
         </p>
         <a
-          href="/hibe?sekme=analiz"
+          href="/panel/hibe?sekme=analiz"
           className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-emerald-800"
           data-kurumsal-hibe=""
         >

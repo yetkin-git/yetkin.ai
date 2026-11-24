@@ -218,11 +218,13 @@ describe("kenar kararları", () => {
     expect(decideEdgeAction("/magazam", false)).toEqual({
       kind: "auth-307",
       to: CITIZEN_LOGIN_PATH,
-      next: "/e-ticaret",
+      next: "/panel/e-ticaret",
     });
-    expect(decideEdgeAction("/magazam", true)).toEqual({ kind: "alias-307", to: "/e-ticaret" });
-    expect(decideEdgeAction("/magazam/", true)).toEqual({ kind: "alias-307", to: "/e-ticaret" });
-    expect(decideEdgeAction("/e-ticaret", false).kind).toBe("auth-307");
+    expect(decideEdgeAction("/magazam", true)).toEqual({ kind: "alias-307", to: "/panel/e-ticaret" });
+    expect(decideEdgeAction("/magazam/", true)).toEqual({ kind: "alias-307", to: "/panel/e-ticaret" });
+    // Kokpit korumalıdır; kamu vitrini `/e-ticaret` oturumsuz ziyaretçiye açıktır.
+    expect(decideEdgeAction("/panel/e-ticaret", false).kind).toBe("auth-307");
+    expect(decideEdgeAction("/e-ticaret", false).kind).toBe("next");
   });
 });
 

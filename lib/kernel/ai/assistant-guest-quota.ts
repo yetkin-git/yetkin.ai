@@ -1,8 +1,11 @@
 /**
  * Anonim asistan sayacı. İlk giriş 0; her başarılı yanıt +1.
  * localStorage ve `guest_question_count` çerezi aynı değeri taşır.
- * Sunucu kotası ayrıca `guest:<ip>` kovasıdır; bu sayaç istemci kapısıdır.
- * Üye oturumu bu sayacı okumaz.
+ * Sunucu kotası `guest:<sha256(tuz:ip)>` kovasıdır (`assistant-guest-actor.ts`);
+ * bu sayaç istemci kapısıdır. Üye oturumu bu sayacı okumaz.
+ *
+ * `assistantActorId` buradan taşındı — istemci demetine `node:crypto` sızmasın diye
+ * `lib/kernel/ai/assistant-guest-actor.ts` (server-only).
  */
 
 export const GUEST_QUESTION_COUNT_KEY = "guest_question_count";
@@ -90,22 +93,6 @@ export function guestQuotaExhausted(
   limit: number = ASSISTANT_GUEST_QUESTION_LIMIT,
 ): boolean {
   return count >= limit;
-}
-
-/**
- * Oturum yoksa veya ölü yenileme jetonu oturumu null bıraktıysa anonim kova.
- * Geçerli üye kimliği kendi kotasında kalır.
- */
-export function assistantActorId(
-  sessionUserId: string | null | undefined,
-  guestIp: string,
-): { userId: string; guest: boolean } {
-  const id = sessionUserId?.trim() ?? "";
-  if (id.length > 0) {
-    return { userId: id, guest: false };
-  }
-  const ip = guestIp.trim() || "unknown";
-  return { userId: `guest:${ip}`, guest: true };
 }
 
 export function readGuestQuestionCookieValue(cookieHeader: string): string | null {

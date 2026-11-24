@@ -4,6 +4,9 @@
  * Diğer `OUT`: on_hand_qty >= quantity.
  * `IN` her zaman geçer. Kapı tutmazsa satır yazılmaz.
  * Aynı idempotency_key varsa stok ikinci kez değişmez.
+ * Varyant değişince ürünün onaylı stoğu aynı ifadede eşitlenir (tek stok gerçeği).
+ * Set satışı bu ifadeyi üye başına, aynı işlem içinde bir kez daha çalıştırır
+ * (`moveWithSetMembers` / kanal `applyVariantMovement`). Üye kısa stokta işlem geri alınır.
  */
 export const INVENTORY_MOVE_SQL = `
 WITH existing AS (
@@ -28,6 +31,7 @@ locked AS (
   SELECT
     v.id,
     v.store_id,
+    v.product_id,
     v.on_hand_qty,
     v.safety_buffer,
     v.status::text AS status,
@@ -121,6 +125,26 @@ inserted AS (
     note,
     idempotency_key,
     created_at
+),
+-- Ürünün onaylı stoğu, aynı işlemde, tüm varyantların eldeki toplamına çekilir.
+-- Bu ifadenin anlık görüntüsünde güncellenen varyantın eski değeri görünür; bu yüzden
+-- yeni değer (g.next_on_hand) ayrıca eklenir, kardeşler (id <> g.id) toplamdan okunur.
+-- Eşzamanlı kardeş yazımı için çağıran ürün satırını bu ifadeden ÖNCE kilitler
+-- (prisma-repository applyMovement). Yalnız varyant gerçekten güncellendiyse çalışır.
+synced AS (
+  UPDATE commerce_products p
+  SET
+    approved_stock_qty = (
+      SELECT COALESCE(SUM(sib.on_hand_qty), 0)::int
+      FROM commerce_variants sib
+      WHERE sib.product_id = g.product_id
+        AND sib.id <> g.id
+    ) + g.next_on_hand,
+    updated_at = CURRENT_TIMESTAMP
+  FROM gated g
+  INNER JOIN updated u ON u.id = g.id
+  WHERE p.id = g.product_id
+  RETURNING p.id
 )
 SELECT
   'replay'::text AS outcome,

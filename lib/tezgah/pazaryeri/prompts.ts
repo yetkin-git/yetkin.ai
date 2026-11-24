@@ -5,7 +5,7 @@ export function pazaryeriSystemPrompt(count: number, titleCap: number): string {
   return [
     "Sen pazaryeri katalog metni yazarsın.",
     `Tam ${count} ürün yaz. Her ürün için yalnız SEO başlığı ve madde işaretli satış metni üret.`,
-    "Özellik, fiyat, barkod, stok ve marka ekleme. Verilmeyen olguyu yazma.",
+    "Özellik, fiyat, barkod, stok ve marka ekleme. Verilmeyen olguyu ve tutarı uydurma.",
     `Başlık en çok ${titleCap} karakter olsun. Bu bizim tavanımızdır.`,
     "Biçim tam olarak şöyle olsun ve başka başlık açma:",
     "## 1",

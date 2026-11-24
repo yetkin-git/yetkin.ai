@@ -14,7 +14,7 @@ export function registerPaytrAcademyLicenseHook(): void {
     logEvent({
       level: result.reason === "insufficient" || result.reason === "closed" ? "warn" : "info",
       event: "academy.license.hook",
-      userId: order.userId,
+      userId: order.userId ?? undefined,
       merchantOid: order.merchantOid,
       orderId: order.id,
       amountMinor: order.amountMinor,
@@ -31,7 +31,7 @@ export function registerPaytrAcademyLicenseHook(): void {
       logEvent({
         level: "error",
         event: "academy.license.unlicensed_credit",
-        userId: order.userId,
+        userId: order.userId ?? undefined,
         merchantOid: order.merchantOid,
         orderId: order.id,
         amountMinor: order.amountMinor,

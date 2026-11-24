@@ -76,7 +76,7 @@ async function runAction(
   }
   if (action === "channel") {
     const kind = typeof body.kind === "string" ? body.kind : "";
-    return connectChannel(repo, userId, kind, body.connect === true, body.apiKey);
+    return connectChannel(repo, userId, kind, body.connect === true, body.apiKey, body.supplierId, body.apiSecret);
   }
   if (action === "sync") {
     return syncCatalog(userId);

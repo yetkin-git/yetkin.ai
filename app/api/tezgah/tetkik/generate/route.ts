@@ -1,10 +1,12 @@
-import { assistantActorId } from "@/lib/kernel/ai/assistant-guest-quota";
+import { assistantActorId } from "@/lib/kernel/ai/assistant-guest-actor";
 import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
-import { resolveRequestIp } from "@/lib/kernel/security/http-rate-limit";
+import { resolveRequestIp, rateLimitedJsonResponse } from "@/lib/kernel/security/http-rate-limit";
+import { guardTezgahGenerateRate } from "@/lib/tezgah/generate-guard";
 import { readTezgahCommandKey } from "@/lib/tezgah/command-key";
 import { generateTetkikReport } from "@/lib/tezgah/tetkik/engine";
+import { encodeTetkikArchive } from "@/lib/tezgah/tetkik/archive";
 import { recordSignedTezgahOutput } from "@/lib/tezgah/record-output";
 import { tetkikGenerateRequestSchema } from "@/lib/tezgah/tetkik/schema";
 
@@ -28,6 +30,10 @@ export async function POST(request: Request) {
     }
     const user = await requireSession(request).catch(() => null);
     const actor = assistantActorId(user?.id, resolveRequestIp(request));
+    const limited = await guardTezgahGenerateRate(request, actor.userId);
+    if (!limited.allowed) {
+      return rateLimitedJsonResponse(limited, request);
+    }
     const result = await generateTetkikReport({
       actorId: actor.userId,
       guest: actor.guest,
@@ -43,7 +49,9 @@ export async function POST(request: Request) {
       toolKey: "tetkik",
       title: result.pageTitle || result.url,
       inputSummary: result.url,
-      outputContent: `${result.url}\nSkor: ${result.score}\n${result.narrative}`,
+      // Y3: arşive özet değil raporun tamamı yazılır (`tetkik-v1` zarfı).
+      // Aksi hâlde çekmeceden açılan kayıt rapor değil üç satır olurdu.
+      outputContent: encodeTetkikArchive(result),
     });
     return jsonOk(
       {

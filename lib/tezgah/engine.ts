@@ -9,8 +9,9 @@ import {
   TEZGAH_MEMBER_QUOTA_MESSAGE,
 } from "@/lib/tezgah/catalog";
 import { withTezgahDeliverySignature } from "@/lib/tezgah/delivery-signature";
+import { applyPriceShield } from "@/lib/tezgah/guard/price-shield";
 import { tezgahSystemPrompt, tezgahUserPrompt } from "@/lib/tezgah/prompts";
-import { recordSignedTezgahOutput } from "@/lib/tezgah/record-output";
+import { recordSignedTezgahOutputWithMeta } from "@/lib/tezgah/record-output";
 import { tezgahRequestHash } from "@/lib/tezgah/paid-lane";
 import { consumeTezgahQuota, peekTezgahQuota, refundTezgahQuota, settleTezgahSlot } from "@/lib/tezgah/quota";
 import {
@@ -18,11 +19,14 @@ import {
   type TezgahGenerateRequest,
 } from "@/lib/tezgah/schema";
 
-/** Bütçe kalkanına sığan tek çağrı tavanı. */
+/** Bütçe kalkanına sığan tek çağrı tavanı (e-ticaret / genel). */
 export const TEZGAH_MAX_OUTPUT_TOKENS = 900;
+/** Teklif masası: uzun yapısal çıktı için yükseltilmiş tavan. */
+export const TEZGAH_PROPOSAL_MAX_OUTPUT_TOKENS = 1_600;
 export const TEZGAH_MODEL_ROLE = "LITE_STREAM" as const;
 
-const TEZGAH_MARKDOWN_CAP = 6000;
+const TEZGAH_MARKDOWN_CAP = 6_000;
+const TEZGAH_PROPOSAL_MARKDOWN_CAP = 12_000;
 
 export type TezgahGenerateResult =
   | {
@@ -30,6 +34,8 @@ export type TezgahGenerateResult =
       tool: TezgahGenerateRequest["tool"];
       markdown: string;
       outputId: string | null;
+      /** 4.4: oturumlu kullanıcının ilk kalıcı çıktısı. Misafirde her zaman false. */
+      firstOutput: boolean;
       remaining: number;
       limit: number;
       guest: boolean;
@@ -48,12 +54,16 @@ export type GenerateTezgahDeps = InvokeLlmDeps & {
   invoke?: typeof invokeLlm;
 };
 
-function clipMarkdown(text: string): string {
+function clipMarkdown(text: string, cap: number): string {
   const trimmed = text.replace(/\u0000/g, "").trim();
-  if (trimmed.length <= TEZGAH_MARKDOWN_CAP) {
+  if (trimmed.length <= cap) {
     return trimmed;
   }
-  return trimmed.slice(0, TEZGAH_MARKDOWN_CAP).trim();
+  return trimmed.slice(0, cap).trim();
+}
+
+function proposalAllowedSource(request: Extract<TezgahGenerateRequest, { tool: "proposal" }>): string {
+  return `${request.jobPost}\n${request.expertise}`;
 }
 
 export async function generateTezgahOutput(
@@ -79,13 +89,11 @@ export async function generateTezgahOutput(
     };
   }
 
-  const slot = await consumeTezgahQuota(
-    input.actorId,
-    input.guest,
-    now,
-    input.commandKey ? { key: input.commandKey, requestHash: tezgahRequestHash(input.request) } : null,
-    "lite",
-  );
+  const command =
+    input.commandKey != null && input.commandKey.length > 0
+      ? { key: input.commandKey, requestHash: tezgahRequestHash(input.request) }
+      : null;
+  const slot = await consumeTezgahQuota(input.actorId, input.guest, now, command, "lite");
   if (!slot.allowed) {
     return {
       ok: false,
@@ -97,6 +105,10 @@ export async function generateTezgahOutput(
     };
   }
 
+  const isProposal = parsed.data.tool === "proposal";
+  const maxOutputTokens = isProposal ? TEZGAH_PROPOSAL_MAX_OUTPUT_TOKENS : TEZGAH_MAX_OUTPUT_TOKENS;
+  const markdownCap = isProposal ? TEZGAH_PROPOSAL_MARKDOWN_CAP : TEZGAH_MARKDOWN_CAP;
+
   const invoke = deps.invoke ?? invokeLlm;
   const llm = await invoke(
     {
@@ -105,7 +117,7 @@ export async function generateTezgahOutput(
       system: tezgahSystemPrompt(parsed.data),
       user: tezgahUserPrompt(parsed.data),
       temperature: 0.4,
-      maxOutputTokens: TEZGAH_MAX_OUTPUT_TOKENS,
+      maxOutputTokens,
       maxAttempts: 1,
       timeoutMs: 25_000,
       rateLimit: {
@@ -123,9 +135,16 @@ export async function generateTezgahOutput(
     deps,
   );
 
-  const markdown = clipMarkdown(llm?.text ?? "");
+  let markdown = clipMarkdown(llm?.text ?? "", markdownCap);
+  if (parsed.data.tool === "proposal" && markdown) {
+    markdown = applyPriceShield(markdown, proposalAllowedSource(parsed.data));
+    markdown = clipMarkdown(markdown, markdownCap);
+  }
   if (!markdown) {
-    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, "lite");
+    const restored = await refundTezgahQuota(input.actorId, input.guest, now, slot.lane, "lite", {
+      hold: slot.hold,
+      command,
+    });
     return {
       ok: false,
       error: TEZGAH_FAIL_MESSAGE,
@@ -148,11 +167,10 @@ export async function generateTezgahOutput(
     };
   }
 
-  const delivered =
-    parsed.data.tool === "proposal" ? withTezgahDeliverySignature(markdown) : markdown;
+  const delivered = isProposal ? withTezgahDeliverySignature(markdown) : markdown;
   const title =
     parsed.data.tool === "ecommerce" ? parsed.data.productName : parsed.data.expertise || "Müşteri teklifi";
-  const outputId = await recordSignedTezgahOutput({
+  const recorded = await recordSignedTezgahOutputWithMeta({
     userId: input.actorId,
     guest: input.guest,
     toolKey: parsed.data.tool,
@@ -160,12 +178,19 @@ export async function generateTezgahOutput(
     inputSummary: tezgahUserPrompt(parsed.data),
     outputContent: delivered,
   });
+  const outputId = recorded.id;
 
   return {
     ok: true,
     tool: parsed.data.tool,
     markdown: delivered,
     outputId,
+    /**
+     * 4.4 — aktivasyon sinyali. `true` yalnız oturumlu kullanıcının **ilk**
+     * kalıcı Tezgâh çıktısında döner; istemci bunu `tezgah_first_output`
+     * olayına çevirir (`components/tezgah/workbench.tsx`).
+     */
+    firstOutput: recorded.firstForUser,
     remaining: slot.remaining,
     limit: slot.limit,
     guest: input.guest,

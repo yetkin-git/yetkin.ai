@@ -75,7 +75,7 @@ const WINDOW_FACE: Record<
 };
 
 const INTERNAL_HREF =
-  /(?:^|[\s—–-])(\/(?:tezgah|e-ticaret|hibe|career|uzmanlar|vize)(?:\/[A-Za-z0-9._~-]*)?(?:\?[A-Za-z0-9._~%=&-]*)?(?:#[A-Za-z0-9_-]*)?)/;
+  /(?:^|[\s—–-])(\/(?:tezgah|panel\/e-ticaret|e-ticaret|hibe|career|uzmanlar|vize)(?:\/[A-Za-z0-9._~-]*)?(?:\?[A-Za-z0-9._~%=&-]*)?(?:#[A-Za-z0-9_-]*)?)/;
 
 export function SwotRoadmapCard({
   swot,
@@ -234,10 +234,14 @@ function careerRoute(href: string): Route | null {
     href === "/tezgah" ||
     href.startsWith("/tezgah?") ||
     href.startsWith("/tezgah#") ||
+    href === "/panel/e-ticaret" ||
+    href.startsWith("/panel/e-ticaret?") ||
     href === "/e-ticaret" ||
     href.startsWith("/e-ticaret?") ||
     href === "/hibe" ||
     href.startsWith("/hibe?") ||
+    href === "/panel/hibe" ||
+    href.startsWith("/panel/hibe?") ||
     href === "/career" ||
     href.startsWith("/career#") ||
     href === "/uzmanlar" ||

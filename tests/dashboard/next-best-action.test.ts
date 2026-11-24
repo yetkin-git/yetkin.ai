@@ -13,9 +13,27 @@ describe("resolveNextBestAction", () => {
     expect(MARKETPLACE_SPLIT_LIVE).toBe(false);
   });
 
-  it("boş nabızda varsayılan akademi eylemini seçer", () => {
+  /**
+   * B-03 (Tedavi): boş nabız artık kilitli `/hibe` odasına değil, ilk değer anına
+   * (Tezgâh) iner. `/hibe` korumalı bir odadır; yeni kullanıcı orada ikinci bir
+   * kayıt duvarına çarpıyordu.
+   */
+  it("boş nabızda ilk değer anına (Tezgâh) iner; kilitli hibe odasına değil", () => {
     const action = resolveNextBestAction(EMPTY_DASHBOARD_PULSE);
-    expect(action).toEqual({ kind: "default", href: "/hibe", room: "academy" });
+    expect(action).toEqual({ kind: "tezgah_first", href: "/tezgah", room: "academy" });
+  });
+
+  it("cüzdanı veya üretimi olan kullanıcı hibe odasına yönlenir", () => {
+    // Bakiye yüklenmiş ama harcanmamış kullanıcı "yeni" sayılmaz.
+    const funded = resolveNextBestAction({
+      ...EMPTY_DASHBOARD_PULSE,
+      wallet: {
+        ...EMPTY_DASHBOARD_PULSE.wallet,
+        live: true,
+        amountMinor: toAmountMinor(50_000),
+      },
+    });
+    expect(funded).toEqual({ kind: "default", href: "/panel/hibe", room: "academy" });
   });
 
   it("split kapalıyken fonlanmış işi Akademi'nin önüne koymaz", () => {
@@ -46,9 +64,11 @@ describe("resolveNextBestAction", () => {
         openJobsPosted: 2,
       },
     });
+    // Freelancer yüzeyi kilitli; açık ilan "split" işine dönüşmez ve Tezgâh'ın
+    // önüne geçmez. İlanı olan kullanıcı artık "yeni" değildir → hibe odası.
     expect(action.kind).toBe("default");
     expect(action.room).toBe("academy");
-    expect(action.href).toBe("/hibe");
+    expect(action.href).toBe("/panel/hibe");
   });
 
   it("aktif vizeyi kariyer eylemine yükseltir", () => {

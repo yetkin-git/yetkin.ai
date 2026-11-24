@@ -113,10 +113,10 @@ export function YetkinCvStation({
 
   return (
     <section id="yetkincv" data-yetkincv-station="true" className="scroll-mt-24 space-y-4">
-      <Card eyebrow="YetkinCV" title="YetkinCV Oluştur ve Canlı Test Et">
+      <Card eyebrow="YetkinCV" title="YetkinCV — yetkinlik testi">
         <p className="text-sm leading-6 text-[var(--foreground)]">
-          Üç adım sunucuda yürür. Puan ve SHA-256 kodu bu oturumun hesabıdır. Sahte ilan ve şirket logosu basılmaz.
-          İşe yerleşmeyi garanti etmez.
+          Kariyer odasının ana yetkinlik testidir. Üç adım sunucuda yürür. Puan ve SHA-256 kodu bu oturumun hesabıdır.
+          Sahte ilan ve şirket logosu basılmaz. İşe yerleşmeyi garanti etmez.
         </p>
         <ol className="mt-4 grid gap-2 text-sm sm:grid-cols-3">
           {["CV girişi", "Vaka testi", "Mühürlü kart"].map((label, index) => (
@@ -173,7 +173,7 @@ export function YetkinCvStation({
                 context="career"
                 value={cvText}
                 maxLength={6000}
-                placeholder="Metninizi buraya yazınız..."
+                placeholder="Metnini buraya yaz…"
                 softHint="Biraz daha detay ekleyin (yaptığınız iş, araçlar, ölçülebilir sonuç)…"
                 onChange={(event) => setCvText(event.target.value)}
               />

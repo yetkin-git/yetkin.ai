@@ -5,7 +5,7 @@ import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
 import { ConflictError } from "@/lib/kernel/http/errors";
 import { logEvent } from "@/lib/kernel/observability/log";
-import { isActivatedProductRefundBlocked, isTezgahCreditOrderPurpose } from "@/lib/kernel/payments/order-purpose";
+import { isCardRefundBlockedForOrder, isTezgahCreditOrderPurpose } from "@/lib/kernel/payments/order-purpose";
 import {
   formatPaytrReturnAmount,
   requestPaytrRefund,
@@ -69,6 +69,11 @@ export type RefundableCardOrder = {
   amountMinor: number;
   /** Boşsa eski çağıranlar etkilenmez. TEZGAH_PRO ve COMMERCE_LICENSE elenir. */
   purpose?: string;
+  /**
+   * Hibe ürününde teslim durumu (Ş3). `false` = dosya/slot hiç üretilmedi → para iade edilebilir.
+   * `undefined` = bilinmiyor → hibe satırı iadeye **açılmaz** (fail-closed).
+   */
+  grantProduced?: boolean | null;
 };
 
 export type WalletCardRefundSlice = {
@@ -101,6 +106,10 @@ export function tezgahCreditsToRevoke(input: {
 /**
  * Kullanılmamış bakiye, en yeni CLEARED siparişten geriye doğru karta bölünür.
  * Siparişte daha önce iade edilmiş kuruş oda bırakmaz.
+ *
+ * Hibe ürünü (`GRANT_DOSSIER`, `HIBE_AGENCY`) burada **koşullu** elenir: dosya/slot hiç
+ * üretilmediyse (`grantProduced === false`) para karta dönebilir; üretildiyse veya durum
+ * bilinmiyorsa iade dışıdır (fail-closed).
  */
 export function allocateUnusedBalanceRefund(
   balanceMinor: number,
@@ -113,7 +122,7 @@ export function allocateUnusedBalanceRefund(
     if (remaining <= 0) {
       break;
     }
-    if (isActivatedProductRefundBlocked(order.purpose)) {
+    if (isCardRefundBlockedForOrder({ purpose: order.purpose, produced: order.grantProduced })) {
       continue;
     }
     const reserved = alreadyReservedMinorByOid[order.merchantOid] ?? 0;

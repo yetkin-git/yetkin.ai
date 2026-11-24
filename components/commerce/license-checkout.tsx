@@ -12,6 +12,14 @@ import { CHECKOUT_LEGAL_CONSENT_PAYLOAD } from "@/lib/kernel/legal/checkout-cons
 import { readPaytrIframeSrcFromCheckout } from "@/lib/kernel/payments/paytr/iframe-embed";
 import { formatMinor } from "@/lib/kernel/money/format";
 import { COMMERCE_TRIAL_VERIFY_MINOR } from "@/lib/commerce/subscription-lifecycle";
+import {
+  TRIAL_BADGE,
+  TRIAL_CANCEL_LINE,
+  TRIAL_HONESTY_LINE,
+  TRIAL_TITLE,
+  TRIAL_VERIFY_FIELD_LABEL,
+  TRIAL_VERIFY_LINE,
+} from "@/lib/pricing/trial-copy";
 import type { CockpitLicense } from "@/lib/commerce/cockpit-types";
 
 /**
@@ -104,16 +112,16 @@ export function LicenseCheckout({
           className="rounded-2xl border border-emerald-300 bg-gradient-to-br from-emerald-50 via-white to-blue-50 p-4"
         >
           <p className="inline-flex items-center rounded-full bg-emerald-600 px-2.5 py-0.5 text-[11px] font-bold tracking-wide text-white">
-            {copy.trialBadge}
+            {TRIAL_BADGE}
           </p>
           <h3 className="mt-2 text-base font-semibold tracking-tight text-[var(--foreground)]">
-            {copy.trialTitle}
+            {TRIAL_TITLE}
           </h3>
-          <p className="mt-1 text-sm leading-6 text-[var(--muted)]">{copy.trialBody}</p>
+          <p className="mt-1 text-sm leading-6 text-[var(--muted)]">{TRIAL_VERIFY_LINE}</p>
           <dl className="mt-3 grid gap-2 sm:grid-cols-2">
             <div className="rounded-xl bg-white/80 p-3 ring-1 ring-emerald-200">
               <dt className="text-[11px] font-semibold uppercase tracking-wide text-[var(--muted)]">
-                {copy.trialVerifyLabel}
+                {TRIAL_VERIFY_FIELD_LABEL}
               </dt>
               <dd
                 className="mt-1 text-2xl font-bold tabular-nums text-[var(--emerald)]"
@@ -131,8 +139,8 @@ export function LicenseCheckout({
               </dd>
             </div>
           </dl>
-          <p className="mt-2 text-xs font-medium text-[var(--emerald)]">{copy.trialCancelLine}</p>
-          <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{copy.trialHonestyLine}</p>
+          <p className="mt-2 text-xs font-medium text-[var(--emerald)]">{TRIAL_CANCEL_LINE}</p>
+          <p className="mt-1 text-xs leading-5 text-[var(--muted)]">{TRIAL_HONESTY_LINE}</p>
         </section>
       ) : null}
 

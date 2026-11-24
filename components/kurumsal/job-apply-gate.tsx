@@ -231,14 +231,8 @@ export function KurumsalJobApplyGate({
           <Input value={candidateName} onChange={(event) => setCandidateName(event.target.value)} required maxLength={120} />
         </label>
         <label className="grid gap-1.5 text-sm font-medium">
-          E-posta
-          <Input
-            type="email"
-            value={candidateEmail}
-            onChange={(event) => setCandidateEmail(event.target.value)}
-            required
-            maxLength={160}
-          />
+          E-posta (oturumundaki doğrulanmış adres)
+          <Input type="email" value={candidateEmail} readOnly required maxLength={160} />
         </label>
         <label className="grid gap-1.5 text-sm font-medium">
           CV özeti

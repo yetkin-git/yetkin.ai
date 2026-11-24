@@ -36,8 +36,8 @@ export async function POST(
       userId: user.id,
       sittingId: parsed.value.sittingId,
       answers: parsed.value.answers,
-      gradeWithEngine(questions) {
-        return gradeAcademyExam([...questions], parsed.value.answers);
+      gradeWithEngine(questions, answers) {
+        return gradeAcademyExam([...questions], [...answers]);
       },
     });
     return jsonOk(result, 200, requestId, request);

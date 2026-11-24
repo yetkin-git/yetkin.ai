@@ -7,13 +7,18 @@ import {
   type YetkinCvStartResult,
 } from "@/lib/career/yetkincv-store";
 import {
+  readYetkinCvChoiceOrder,
   yetkinCvPublicQuestions,
   yetkinCvQuestionsByIds,
   yetkinCvSkillCatalog,
   type YetkinCvAnswer,
 } from "@/lib/career/yetkincv";
 import { getPrisma } from "@/lib/kernel/db";
-import { BadRequestError, NotFoundError } from "@/lib/kernel/http/errors";
+import { BadRequestError, NotFoundError, PaymentRequiredError } from "@/lib/kernel/http/errors";
+import {
+  assertKurumsalScreeningEntitlement,
+  KURUMSAL_SCREENING_PURCHASE_PATH,
+} from "@/lib/sales/kurumsal-screening-entitlement";
 import {
   formatCriteriaWeightLine,
   formatIstanbulDate,
@@ -45,7 +50,10 @@ import {
 
 const SCREENING_ROLE = "corporate" as const;
 
-type GradeWithEngine = (questions: readonly { id: string; prompt: string; choices: string[]; correctIndex: number }[]) => {
+type GradeWithEngine = (
+  questions: readonly { id: string; prompt: string; choices: string[]; correctIndex: number }[],
+  answers: readonly YetkinCvAnswer[],
+) => {
   score: number;
   correctCount: number;
 };
@@ -85,7 +93,12 @@ function readQuestionIds(value: unknown): string[] {
   return value.filter((row): row is string => typeof row === "string" && row.trim().length > 0);
 }
 
-function statusForBand(band: KurumsalApplicationBand): "PENDING_TEST" | "SHORTLISTED" | "REJECTED" {
+function statusForBand(
+  band: KurumsalApplicationBand,
+): "PENDING_TEST" | "SHORTLISTED" | "QUALIFIED_NOT_SHORTLISTED" | "REJECTED" {
+  if (band === "BELOW_THRESHOLD") {
+    return "REJECTED";
+  }
   return band;
 }
 
@@ -106,6 +119,15 @@ export async function createKurumsalJobPosting(input: {
   ownerUserId: string;
   body: unknown;
 }): Promise<{ id: string; slug: string; applyPath: string }> {
+  const entitlement = await assertKurumsalScreeningEntitlement(input.ownerUserId);
+  if (!entitlement.ok) {
+    throw new PaymentRequiredError(
+      entitlement.reason === "catalog-inactive"
+        ? "Kurumsal ilan paketi katalogda aktif değil. Satın alma / tanımlama için kurumsal sayfaya git."
+        : "Aktif kurumsal ilan lisansı yok. Önce job-screening-pack paketini tanımla veya satın al.",
+      entitlement.purchasePath || KURUMSAL_SCREENING_PURCHASE_PATH,
+    );
+  }
   const parsed = parseKurumsalJobDraft(
     input.body,
     (vertical) => {
@@ -131,6 +153,9 @@ export async function createKurumsalJobPosting(input: {
       minScore: parsed.value.minScore,
       shortlistLimit: parsed.value.shortlistLimit,
       deadlineAt: parsed.value.deadlineAt,
+      taxNumber: parsed.value.taxNumber,
+      // Doğrulama ops mühürüdür; ilan açılışında otomatik doğrulanmaz.
+      verifiedEmployerAt: null,
       isActive: true,
     },
     select: { id: true, slug: true },
@@ -180,6 +205,8 @@ function publicJobFields(job: {
   minScore: number;
   shortlistLimit: number;
   deadlineAt: Date | null;
+  createdAt?: Date;
+  verifiedEmployerAt?: Date | null;
 }): PublicKurumsalJobView {
   const criteria = criteriaForVertical(job.vertical, job.criteriaWeights);
   return {
@@ -193,6 +220,9 @@ function publicJobFields(job: {
     minScore: job.minScore,
     shortlistLimit: job.shortlistLimit,
     deadlineLabel: job.deadlineAt ? formatIstanbulDate(job.deadlineAt) : null,
+    employerVerified: Boolean(job.verifiedEmployerAt),
+    datePosted: (job.createdAt ?? new Date(0)).toISOString(),
+    validThrough: job.deadlineAt ? job.deadlineAt.toISOString() : null,
   };
 }
 
@@ -238,6 +268,8 @@ export async function loadPublicKurumsalJob(slug: string): Promise<PublicKurumsa
       shortlistLimit: true,
       isActive: true,
       deadlineAt: true,
+      createdAt: true,
+      verifiedEmployerAt: true,
     },
   });
   if (!job || !isKurumsalJobOpen(job, new Date())) {
@@ -274,7 +306,13 @@ async function persistBands(jobId: string): Promise<void> {
   }
 }
 
-function sittingPayload(sitting: { id: string; expiresAt: Date; verticalKey: string; questionIds: unknown }): YetkinCvStartResult {
+function sittingPayload(sitting: {
+  id: string;
+  expiresAt: Date;
+  verticalKey: string;
+  questionIds: unknown;
+  choiceOrder?: unknown;
+}): YetkinCvStartResult {
   const questions = yetkinCvQuestionsByIds(sitting.verticalKey, readQuestionIds(sitting.questionIds));
   if (!questions) {
     throw new BadRequestError("Sınav soruları çözülemedi.");
@@ -282,7 +320,7 @@ function sittingPayload(sitting: { id: string; expiresAt: Date; verticalKey: str
   return {
     sittingId: sitting.id,
     expiresAt: sitting.expiresAt.toISOString(),
-    questions: yetkinCvPublicQuestions(questions),
+    questions: yetkinCvPublicQuestions(questions, readYetkinCvChoiceOrder(sitting.choiceOrder)),
   };
 }
 
@@ -300,12 +338,20 @@ export type KurumsalExamStart = ({ kind: "sitting" } & YetkinCvStartResult) | ({
 export async function startKurumsalJobExam(input: {
   slug: string;
   userId: string;
+  /** Oturumdaki doğrulanmış e-posta. Form e-postası bunu geçemez (Y1). */
+  sessionEmail: string;
   body: unknown;
   now?: Date;
 }): Promise<KurumsalExamStart> {
   const parsed = parseKurumsalApplyDraft(input.body);
   if (!parsed.ok) {
     throw new BadRequestError(parsed.error);
+  }
+  const sessionEmail = input.sessionEmail.trim().toLowerCase();
+  if (!sessionEmail || parsed.value.candidateEmail !== sessionEmail) {
+    throw new BadRequestError(
+      "Başvuru e-postası oturumundaki doğrulanmış e-posta ile aynı olmalıdır.",
+    );
   }
   if (!isKurumsalJobSlug(input.slug)) {
     throw new NotFoundError("İlan bulunamadı.");

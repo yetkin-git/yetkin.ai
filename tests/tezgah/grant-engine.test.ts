@@ -130,7 +130,7 @@ describe("hibe proje dosyası motoru", () => {
     expect(renderGrantProjectText(result)).not.toMatch(/₺|%/u);
     expect(seen[0]?.role).toBe(GRANT_MODEL_ROLE);
     expect(seen[0]?.maxOutputTokens).toBe(GRANT_MAX_OUTPUT_TOKENS);
-    expect(seen[0]?.billing).toMatchObject({ source: "tezgah", recordUsage: true, userId: null });
+    expect(seen[0]?.billing).toMatchObject({ source: "grant", recordUsage: true, userId: null });
     expect(seen[0]?.user).not.toContain(String(closedPool));
     expect(seen[0]?.user).not.toContain(String(openPool));
     expect(seen[0]?.system).not.toContain(String(closedPool));

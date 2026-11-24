@@ -25,4 +25,13 @@ export const NOTICE_SEN = {
     subject: "Süre yaklaşıyor",
     body: "Süre dolmak üzere. Teslimi tamamla veya iade yolunu tezgâhta aç.",
   },
+  /**
+   * Commerce günlük kâr özeti (P0.6). Konu satırı sabittir; gövdeye özet cümlesi
+   * ve bağlantı `mail.ts` içinde eklenir. Burada rakam yok — rakam koddan gelir.
+   */
+  commerceDailyBrief: {
+    subject: "Sabah kâr özetin hazır",
+    body: "Dünkü fiyat, stok ve kâr tablon hazır.",
+    panelLabel: "E-Ticaret paneline git",
+  },
 } as const;

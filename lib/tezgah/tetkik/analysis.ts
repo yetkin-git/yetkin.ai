@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { guardTetkikNarrative } from "@/lib/tezgah/tetkik/narrative";
+import { TETKIK_COPY_UNDEFINED } from "@/lib/tezgah/tetkik/prompts";
+import type { TetkikPageSnippet } from "@/lib/tezgah/tetkik/types";
 
 const scoreSchema = z.number().int().min(0).max(100);
 
@@ -64,13 +66,38 @@ function stripJsonFence(raw: string): string {
   return body ? body.trim() : trimmed;
 }
 
+/** Snippet allowlist'inde yoksa uydurma metni reddeder. */
+export function sealRewriteCurrent(current: string, snippet: TetkikPageSnippet | null | undefined): string {
+  const clean = plain(current, 300);
+  if (!clean || clean === TETKIK_COPY_UNDEFINED) {
+    return TETKIK_COPY_UNDEFINED;
+  }
+  if (!snippet) {
+    return TETKIK_COPY_UNDEFINED;
+  }
+  const allowed = [snippet.title, snippet.metaDescription, snippet.h1, ...snippet.ctaTexts]
+    .map((line) => plain(line, 300))
+    .filter((line) => line.length > 0);
+  const fold = (value: string) => value.toLocaleLowerCase("tr-TR");
+  const needle = fold(clean);
+  for (const line of allowed) {
+    const hay = fold(line);
+    if (hay === needle || hay.includes(needle) || needle.includes(hay)) {
+      return line.length <= clean.length + 8 ? line : clean;
+    }
+  }
+  return TETKIK_COPY_UNDEFINED;
+}
+
 /**
  * Hydrogen JSON kartını doğrular. overallScore kod skoruna kilitlenir.
  * Trafik/fiyat iddiası taşıyan bulgu satırları ayıklanır.
+ * copyRewrites.current yalnız gerçek snippet'ten alıntı olabilir.
  */
 export function parseTetkikAnalysisCard(
   raw: string,
   frozenScore: number,
+  snippet?: TetkikPageSnippet | null,
 ): TetkikAnalysisCard | null {
   let parsed: unknown;
   try {
@@ -109,7 +136,7 @@ export function parseTetkikAnalysisCard(
     })),
     copyRewrites: rewrites.slice(0, 4).map((row) => ({
       ...row,
-      current: plain(row.current, 300),
+      current: sealRewriteCurrent(row.current, snippet),
       suggested: plain(row.suggested, 300),
     })),
     categories: {

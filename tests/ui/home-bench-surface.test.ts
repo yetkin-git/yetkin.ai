@@ -50,7 +50,7 @@ describe("ana sayfa yedili tezgâh vitrini", () => {
     for (const href of hrefs) {
       expect(copySrc).toContain(href);
     }
-    // Korumalı hedef ham basılmaz: hibe çapaya, e-ticaret next'li kayda iner.
+    // Korumalı hedef ham basılmaz: hibe çapaya iner. E-ticaret kamu vitrinidir; ham adresle açılır.
     expect(home.bench.map((item) => item.href)).not.toContain("/hibe");
     const chainAt = page.indexOf("data-home-value-chain");
     const benchAt = page.indexOf("data-home-bench");
