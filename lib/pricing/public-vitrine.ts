@@ -2,7 +2,7 @@ import "server-only";
 
 import { toAmountMinor, type AmountMinor } from "@/lib/kernel/money/amount-minor";
 import { SETTLEMENT_CURRENCY } from "@/lib/kernel/money/currency";
-import { formatMinor, formatMinorCompact } from "@/lib/kernel/money/format";
+import { formatMinorCompact } from "@/lib/kernel/money/format";
 import { createPrismaPriceCatalogStore } from "@/lib/kernel/pricing/prisma-catalog-store";
 import {
   TRIAL_CANCEL_LINE,
@@ -11,7 +11,7 @@ import {
   trialRenewalLine,
 } from "@/lib/pricing/trial-copy";
 import { COMMERCE_PLANS } from "@/lib/commerce/os-rules";
-import { TEZGAH_FREE_MONTHLY_CREDITS, TEZGAH_GUEST_DAILY_LIMIT, TEZGAH_PATH, TEZGAH_PRO_MONTHLY_CREDITS } from "@/lib/tezgah/catalog";
+import { TEZGAH_FREE_MONTHLY_CREDITS, TEZGAH_PATH, TEZGAH_PRO_MONTHLY_CREDITS } from "@/lib/tezgah/catalog";
 import { TEZGAH_GRANT_UNIT, TEZGAH_PRO_MODULE } from "@/lib/tezgah/paid-lane";
 import {
   commerceMonthlyShowcase,

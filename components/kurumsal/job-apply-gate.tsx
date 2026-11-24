@@ -55,7 +55,7 @@ export function KurumsalJobApplyGate({
   minScore: number;
 }) {
   const [candidateName, setCandidateName] = useState(defaultName);
-  const [candidateEmail, setCandidateEmail] = useState(defaultEmail);
+  const [candidateEmail] = useState(defaultEmail);
   const [cvSummary, setCvSummary] = useState("");
   const [sitting, setSitting] = useState<SittingData | null>(null);
   const [choices, setChoices] = useState<Record<string, number>>({});

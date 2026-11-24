@@ -162,18 +162,6 @@ function programCards(entries: readonly YetkinhibeGrantCatalogEntry[]): HibeProg
     }));
 }
 
-async function catalogLabel(moduleKey: string, unitKey: string, suffix: string): Promise<string | null> {
-  try {
-    const entry = await createPrismaPriceCatalogStore().findActiveEntry(moduleKey, unitKey);
-    if (entry && entry.unitType === "MINOR" && entry.currencyCode === "TRY" && entry.amountMinor > 0) {
-      return `${formatMinorCompact(entry.amountMinor, SETTLEMENT_CURRENCY)} / ${suffix}`;
-    }
-  } catch {
-    return null;
-  }
-  return null;
-}
-
 /** Katalog tutarı (kuruş). Satır yoksa `null`; tutar uydurulmaz. */
 async function catalogAmount(moduleKey: string, unitKey: string): Promise<number | null> {
   try {

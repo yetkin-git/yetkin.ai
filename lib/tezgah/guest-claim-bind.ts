@@ -9,7 +9,6 @@ import {
 import { appendLedgerEntry } from "@/lib/kernel/ledger/engine";
 import { createPrismaLedgerStore } from "@/lib/kernel/ledger/prisma-store";
 import { toPositiveAmountMinor } from "@/lib/kernel/money/amount-minor";
-import { WALLET_TOP_UP_PURPOSE } from "@/lib/kernel/payments/clearing";
 import { ledgerCreditLineForOrder } from "@/lib/kernel/payments/order-purpose";
 import { logEvent } from "@/lib/kernel/observability/log";
 import {

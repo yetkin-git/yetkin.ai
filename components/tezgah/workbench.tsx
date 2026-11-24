@@ -703,7 +703,7 @@ export function TezgahWorkbench({
       resetDeliverable();
       router.replace(tezgahDeskHref(id, deskTaskId) as Route, { scroll: false });
     },
-    [deskTaskId, resetDeliverable, router],
+    [deskTaskId, resetDeliverable, router, setHandoff],
   );
 
   useLayoutEffect(() => {
@@ -783,6 +783,46 @@ export function TezgahWorkbench({
       resetDeliverable();
     }
   }, [resetDeliverable, router, toolId, toolParam]);
+
+  const quotaExemptPreview = isTezgahQuotaExemptPool(tezgahPoolForTool(toolId));
+  const showGuestCard =
+    error === TEZGAH_GUEST_QUOTA_MESSAGE ||
+    error === TEZGAH_TETKIK_GUEST_QUOTA_MESSAGE ||
+    (error === TEZGAH_TETKIK_DOMAIN_CLAIMED_MESSAGE && quota?.guest === true) ||
+    (quota?.guest === true && !quotaExemptPreview && quota.remaining <= 0);
+  const showMemberCard =
+    !showGuestCard &&
+    (error === TEZGAH_MEMBER_QUOTA_MESSAGE ||
+      error === TEZGAH_MEMBER_PAID_MESSAGE ||
+      error === TEZGAH_CATALOG_CLOSED_MESSAGE ||
+      error === TEZGAH_TETKIK_MEMBER_QUOTA_MESSAGE ||
+      error === TEZGAH_TETKIK_DOMAIN_CLAIMED_MESSAGE ||
+      (quota?.guest === false &&
+        !quotaExemptPreview &&
+        quota.remaining === 0 &&
+        // B-02: Pro hattı artık tükenebilir (günlük 100). Tavanı dolan Pro
+        // kullanıcı kredi paketi teklifini görür; kredi hattında kart basılmaz.
+        quota.lane !== "credit"));
+
+  /**
+   * 4.4 — kota duvarı olayı. Duvar **göründüğünde** bir kez basılır; her render'da
+   * değil. Aynı araçta duvar açık kaldığı sürece tekrar sayılmaz, araç değişince
+   * yeniden ölçülür (farklı araç = farklı dönüşüm niyeti).
+   * Hook, erken `return null` öncesinde kalır (rules-of-hooks).
+   */
+  const wallShown = showGuestCard || showMemberCard;
+  const wallKey = `${toolId}:${showGuestCard ? "guest" : "member"}`;
+  useEffect(() => {
+    if (!wallShown) {
+      return;
+    }
+    emitSemConversion("tezgahQuotaWall", {
+      tool: toolId,
+      wall: showGuestCard ? "guest_register" : "member_upgrade",
+      lane: quota?.lane ?? "unknown",
+    });
+    // `wallKey` bağımlılığı: duvar aynı araçta kalırsa yeniden basılmaz.
+  }, [wallShown, wallKey, toolId, showGuestCard, quota?.lane]);
 
   if (!tool) {
     return null;
@@ -1165,25 +1205,6 @@ export function TezgahWorkbench({
     }
   }
 
-  const showGuestCard =
-    error === TEZGAH_GUEST_QUOTA_MESSAGE ||
-    error === TEZGAH_TETKIK_GUEST_QUOTA_MESSAGE ||
-    (error === TEZGAH_TETKIK_DOMAIN_CLAIMED_MESSAGE && quota?.guest === true) ||
-    (quota?.guest === true && !quotaExempt && quota.remaining <= 0);
-  const showMemberCard =
-    !showGuestCard &&
-    (error === TEZGAH_MEMBER_QUOTA_MESSAGE ||
-      error === TEZGAH_MEMBER_PAID_MESSAGE ||
-      error === TEZGAH_CATALOG_CLOSED_MESSAGE ||
-      error === TEZGAH_TETKIK_MEMBER_QUOTA_MESSAGE ||
-      error === TEZGAH_TETKIK_DOMAIN_CLAIMED_MESSAGE ||
-      (quota?.guest === false &&
-        !quotaExempt &&
-        quota.remaining === 0 &&
-        // B-02: Pro hattı artık tükenebilir (günlük 100). Tavanı dolan Pro
-        // kullanıcı kredi paketi teklifini görür; kredi hattında kart basılmaz.
-        quota.lane !== "credit"));
-
   const quotaBadgeText = quota
     ? (quota.line ??
       tezgahToolQuotaLineForLane(
@@ -1195,24 +1216,6 @@ export function TezgahWorkbench({
       ))
     : "Kredin yükleniyor";
 
-  /**
-   * 4.4 — kota duvarı olayı. Duvar **göründüğünde** bir kez basılır; her render'da
-   * değil. Aynı araçta duvar açık kaldığı sürece tekrar sayılmaz, araç değişince
-   * yeniden ölçülür (farklı araç = farklı dönüşüm niyeti).
-   */
-  const wallShown = showGuestCard || showMemberCard;
-  const wallKey = `${active.id}:${showGuestCard ? "guest" : "member"}`;
-  useEffect(() => {
-    if (!wallShown) {
-      return;
-    }
-    emitSemConversion("tezgahQuotaWall", {
-      tool: active.id,
-      wall: showGuestCard ? "guest_register" : "member_upgrade",
-      lane: quota?.lane ?? "unknown",
-    });
-    // `wallKey` bağımlılığı: duvar aynı araçta kalırsa yeniden basılmaz.
-  }, [wallShown, wallKey, active.id, showGuestCard, quota?.lane]);
   const quotaBadge = (
     <p className="text-sm font-medium text-[var(--safir-deep)] print:hidden" data-tezgah-quota="">
       {quotaBadgeText}

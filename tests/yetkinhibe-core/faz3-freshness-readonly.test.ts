@@ -9,9 +9,8 @@ import {
   planGrantMaintenance,
   runGrantMaintenanceSimulation,
   type GrantCatalogRowInput,
-  type YetkinhibeGrantCatalogEntry,
 } from "@/lib/yetkinhibe/grant-catalog-core";
-import { loadYetkinhibeGrantCatalog, quarantineGrantCalls } from "@/lib/yetkinhibe/grant-catalog-live";
+import { loadYetkinhibeGrantCatalog } from "@/lib/yetkinhibe/grant-catalog-live";
 import {
   GRANT_CALL_SEEDS_2027,
   GRANT_SEED_VERIFIED_AT,
@@ -83,27 +82,6 @@ function seedRow(seed: GrantCallSeed): GrantCatalogRowInput {
     sourceVerifiedAt: new Date(GRANT_SEED_VERIFIED_AT),
     specificationText: seed.specificationText ?? null,
     rulesJson: seed.rulesJson ?? null,
-  };
-}
-
-function toBriefCall(entry: YetkinhibeGrantCatalogEntry, overrides: Partial<GrantBriefCall> = {}): GrantBriefCall {
-  return {
-    id: entry.id,
-    title: entry.title,
-    sourceLabel: entry.sourceLabel,
-    officialInfoUrl: entry.officialInfoUrl,
-    status: entry.status,
-    remainingDays: entry.remainingDays,
-    poolAmountMinor: entry.poolAmountMinor,
-    maxSupportMinor: entry.maxSupportMinor,
-    supportRatioBps: entry.supportRatioBps,
-    sourceVerifiedAt: entry.sourceVerifiedAt,
-    eligibility: entry.eligibility,
-    source: entry.source,
-    dataVersion: entry.dataVersion ?? null,
-    specificationText: entry.specificationText ?? null,
-    rulesJson: entry.rulesJson ?? null,
-    ...overrides,
   };
 }
 

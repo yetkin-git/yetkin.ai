@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     return rateLimitedJsonResponse(limited, request);
   }
   try {
-    const user = await requireSession(request);
+    await requireSession(request);
     const body: unknown = await request.json().catch(() => null);
     if (!isRecord(body)) {
       throw new BadRequestError("İstek gövdesi okunamadı.");

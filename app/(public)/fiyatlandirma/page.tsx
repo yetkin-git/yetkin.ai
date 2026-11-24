@@ -307,11 +307,11 @@ export default async function PricingPage() {
         </h1>
         <p className="mt-3 max-w-2xl text-base leading-7 text-[var(--muted)]">
           Uygulama rehberleri ücretsizdir. Tahsilat AI Tezgâh Pro, YetkinHibe dosyası ve e-ticaret lisansındadır.
-          Tezgâh artık aylık kredi havuzuyla çalışır: ayda {TEZGAH_FREE_MONTHLY_CREDITS} ücretsiz kredi, Pro'da{" "}
+          Tezgâh artık aylık kredi havuzuyla çalışır: ayda {TEZGAH_FREE_MONTHLY_CREDITS} ücretsiz kredi, Pro&apos;da{" "}
           {TEZGAH_PRO_MONTHLY_CREDITS} kredi. Kullanılmayan kredinin yarısı sonraki aya devreder.
           E-Ticaret lisansında ilk 30 gün ücretsizdir: bugün yalnız sembolik kart doğrulama bedeli tahsil edilir,
           ardından aylık yenileme başlar. Ekip rozeti, ajans lisansı ve aday eleme için talebini bırak; paneli
-          kendin tanımla. YetkinCV sınavı, puanı, SWOT'u ve 30/60/90 planı ücretsizdir; yalnız kamuya açık yayın
+          kendin tanımla. YetkinCV sınavı, puanı, SWOT&apos;u ve 30/60/90 planı ücretsizdir; yalnız kamuya açık yayın
           tek seferlik ücretlidir. Tutar katalog satırından okunur; satır yoksa fiyat basılmaz.
         </p>
         <ul className="mt-5 flex flex-wrap gap-2">
@@ -362,7 +362,7 @@ export default async function PricingPage() {
 
       <section className="mt-12" aria-labelledby="guest-checkout-heading" data-pricing-guest="">
         <h2 id="guest-checkout-heading" className="text-xl font-semibold tracking-tight">
-          Kayıt olmadan Pro'ya geç
+          Kayıt olmadan Pro&apos;ya geç
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">
           Tezgâh zaten kayıtsız üretim yapıyor; ödemesi de kayıtsız olabilir. E-posta ve fatura künyeni ver,

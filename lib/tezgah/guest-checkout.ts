@@ -108,7 +108,7 @@ export function parseGuestBilling(raw: unknown): CheckoutBillingInfo | null {
 export async function placeTezgahGuestCheckout(
   input: TezgahGuestCheckoutInput,
 ): Promise<TezgahGuestCheckoutResult> {
-  const now = input.now ?? new Date();
+  void input.now;
   const email = normalizeGuestEmail(input.email);
   if (!email) {
     return { ok: false, status: 400, error: "Geçerli bir e-posta adresi gerekli." };

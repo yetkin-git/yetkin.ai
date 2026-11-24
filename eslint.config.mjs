@@ -288,6 +288,7 @@ const eslintConfig = defineConfig([
     "apps/**",
     "archived/**",
     "packages/kernel/src/generated/**",
+    ".tmp/**",
   ]),
 ]);
 

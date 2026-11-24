@@ -3,7 +3,7 @@ import { createPrismaCareerPorts } from "@/lib/career/runtime";
 import { syncCareerVisaStamps } from "@/lib/career/engine";
 import { requireSession } from "@/lib/kernel/auth/session";
 import { BadRequestError } from "@/lib/kernel/http/errors";
-import { jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
+import { jsonFromUnknown } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import { requireRailV1IdempotencyKey } from "@/lib/kernel/http/v1-runtime-shield";
 import { hashIdempotencyPayload, settleHttpIdempotency } from "@/lib/kernel/http/idempotency";

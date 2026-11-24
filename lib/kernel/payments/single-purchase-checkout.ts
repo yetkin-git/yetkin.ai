@@ -110,7 +110,7 @@ async function readActiveCatalogAmount(moduleKey: string, unitKey: string): Prom
 export async function placeSingleCatalogPurchase(
   input: SinglePurchaseInput,
 ): Promise<SinglePurchaseResult> {
-  const now = input.now ?? new Date();
+  void input.now;
   const amountMinor = await readActiveCatalogAmount(input.moduleKey, input.unitKey);
   if (amountMinor == null) {
     return { ok: false, status: 422, error: "Katalogda aktif fiyat yok." };
