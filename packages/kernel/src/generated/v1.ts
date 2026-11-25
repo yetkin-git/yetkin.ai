@@ -239,7 +239,7 @@ export type RailV1DeliveryMessage = {
 export type RailV1VisaStamp = {
   "id": string;
   "userId": string;
-  "sourceKind": "ACADEMY_CERTIFICATE" | "FREELANCER_RELEASE";
+  "sourceKind": "ACADEMY_CERTIFICATE" | "FREELANCER_RELEASE" | "YETKINHIBE_PROJECT";
   "sourceId": string;
   "visaKey": string;
   "moduleId": string;
@@ -272,7 +272,7 @@ export type RailV1ReleaseData = {
   "visaStamp": {
     "id": string;
     "userId": string;
-    "sourceKind": "ACADEMY_CERTIFICATE" | "FREELANCER_RELEASE";
+    "sourceKind": "ACADEMY_CERTIFICATE" | "FREELANCER_RELEASE" | "YETKINHIBE_PROJECT";
     "sourceId": string;
     "visaKey": string;
     "moduleId": string;
@@ -365,7 +365,7 @@ export type RailV1CareerVisasData = {
   "stamps": Array<{
     "id": string;
     "userId": string;
-    "sourceKind": "ACADEMY_CERTIFICATE" | "FREELANCER_RELEASE";
+    "sourceKind": "ACADEMY_CERTIFICATE" | "FREELANCER_RELEASE" | "YETKINHIBE_PROJECT";
     "sourceId": string;
     "visaKey": string;
     "moduleId": string;
