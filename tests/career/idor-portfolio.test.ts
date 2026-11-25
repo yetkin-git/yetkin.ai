@@ -1,14 +1,22 @@
+import { randomInt, randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { GET as getPortfolio } from "@/app/api/career/portfolio/route";
 import { issueCareerVisaStamp } from "@/lib/career/engine";
 import * as sessionApi from "@/lib/kernel/auth/session";
 import * as careerRuntime from "@/lib/career/runtime";
+import { resetHttpRateLimitBucketsForTests } from "@/lib/kernel/security/http-rate-limit";
 import { createMemoryCareerProofStore, createMemoryCareerStore } from "../helpers/memory-career";
 import { assertWireContains, assertWireOmits } from "../helpers/idor-leak";
 
-const ALICE = "career-idor-alice";
-const BOB = "career-idor-bob";
+/**
+ * Vercel build KV / Redis sayacını paylaşır. Sabit `career-idor-alice` kovası
+ * 40 istekten sonra 429 döner; kısmi Redis env ise fail-closed 429 üretir.
+ * Her koşu benzersiz aktör + taze bellek sayacı kullanır.
+ */
+const runId = randomUUID();
+const ALICE = `career-idor-alice-${runId}`;
+const BOB = `career-idor-bob-${runId}`;
 const ALICE_TITLE = "IDOR_PORTFOLIO_ALICE_SECRET";
 const BOB_TITLE = "IDOR_PORTFOLIO_BOB_SECRET";
 const ALICE_CERT =
@@ -41,9 +49,32 @@ function world() {
   return { career, proofs, ports: { career, proofs } };
 }
 
+function isolateCareerRateLimit(): void {
+  vi.stubEnv("RATE_LIMIT_REDIS_REST_URL", "");
+  vi.stubEnv("RATE_LIMIT_REDIS_REST_TOKEN", "");
+  vi.stubEnv("KV_REST_API_URL", "");
+  vi.stubEnv("KV_REST_API_TOKEN", "");
+  resetHttpRateLimitBucketsForTests();
+}
+
+/** hops=0 XFF'yi yok sayar; aktör zaten benzersiz. hops≥1 için kova IP'ye de ayrılır. */
+function portfolioRequest(url: string): Request {
+  const third = randomInt(0, 256);
+  const fourth = randomInt(1, 255);
+  return new Request(url, {
+    headers: { "x-forwarded-for": `203.0.${third}.${fourth}` },
+  });
+}
+
 describe("kariyer portföy IDOR", () => {
+  beforeEach(() => {
+    isolateCareerRateLimit();
+  });
+
   afterEach(() => {
     vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+    resetHttpRateLimitBucketsForTests();
   });
 
   it("portföy listesi yalnız oturum sahibine aittir; rakip başlık/hash sızmaz", async () => {
@@ -102,7 +133,7 @@ describe("kariyer portföy IDOR", () => {
       email: "alice@yetkin.rail",
     } as never);
     const aliceRes = await getPortfolio(
-      new Request("http://localhost/api/career/portfolio?userId=career-idor-bob"),
+      portfolioRequest(`http://localhost/api/career/portfolio?userId=${encodeURIComponent(BOB)}`),
     );
     expect(aliceRes.status).toBe(200);
     const aliceBody = await aliceRes.json();
@@ -113,7 +144,9 @@ describe("kariyer portföy IDOR", () => {
       id: BOB,
       email: "bob@yetkin.rail",
     } as never);
-    const bobRes = await getPortfolio(new Request("http://localhost/api/career/portfolio"));
+    const bobRes = await getPortfolio(
+      portfolioRequest("http://localhost/api/career/portfolio"),
+    );
     expect(bobRes.status).toBe(200);
     const bobBody = await bobRes.json();
     assertWireContains(bobBody, [BOB_TITLE]);
