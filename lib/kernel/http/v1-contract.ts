@@ -1063,7 +1063,11 @@ export const railV1AcademyCatalogCourseSchema = z
     saleHold: z.string().nullable(),
     owned: z.boolean(),
     learnerStatus: z.enum(["continue", "completed"]).nullable(),
-    checkoutPath: z.string().min(1),
+    /**
+     * Kapalı Akademi odası boş dize basar (`academyCheckoutHref`).
+     * Ölü `/academy/...` linki hop'a yazılmaz.
+     */
+    checkoutPath: z.string(),
     outcomeLead: z.string().min(1).nullable(),
     outputLead: z.string().min(1).nullable(),
   })

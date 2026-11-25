@@ -7962,8 +7962,7 @@
                                 ]
                               },
                               "checkoutPath": {
-                                "type": "string",
-                                "minLength": 1
+                                "type": "string"
                               },
                               "outcomeLead": {
                                 "nullable": true,
@@ -14136,8 +14135,7 @@
                   ]
                 },
                 "checkoutPath": {
-                  "type": "string",
-                  "minLength": 1
+                  "type": "string"
                 },
                 "outcomeLead": {
                   "nullable": true,
@@ -14319,8 +14317,7 @@
             ]
           },
           "checkoutPath": {
-            "type": "string",
-            "minLength": 1
+            "type": "string"
           },
           "outcomeLead": {
             "nullable": true,
