@@ -31,3 +31,15 @@ export const COMMERCE_NAV = {
   label: "E-Ticaret",
   blurb: "Stok, kanal ve sipariş",
 } as const;
+
+/**
+ * Kurumsal B2B İK & ilan eleme odası. Hub siciline ve dron kaydına girmez.
+ * `/kurumsal` satış + işletim merkezi, `/kurumsal/ilanlar` İK kokpitidir.
+ * Kamu aday vitrini `/ilan` ayrıdır (üst çubuk).
+ */
+export const KURUMSAL_NAV = {
+  id: "kurumsal",
+  path: "/kurumsal",
+  label: "Kurumsal",
+  blurb: "İlan, eleme ve İK kokpiti",
+} as const;

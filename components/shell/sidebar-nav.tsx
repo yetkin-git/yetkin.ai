@@ -5,21 +5,24 @@ import type { Route } from "next";
 import { usePathname } from "next/navigation";
 import { DronBayrakları, DRON_KAYIT, type DronKayitId } from "@/lib/dronlar/kayit";
 import { ADMIN_SURFACE_PATH } from "@/lib/kernel/admin/types";
-import { COMMERCE_NAV } from "@/lib/kernel/modules";
+import { COMMERCE_NAV, KURUMSAL_NAV } from "@/lib/kernel/modules";
 import { isJuniorShellPath } from "@/lib/ui/junior-shell";
+import { isSidebarNavActive } from "@/lib/ui/sidebar-nav-active";
 import { cn } from "@/components/ui/cn";
 import { IconShield, ROOM_ICONS } from "@/components/ui/icons";
 
-const NAV_ACCENT: Partial<Record<DronKayitId | "magazam", string>> = {
+const NAV_ACCENT: Partial<Record<DronKayitId | "magazam" | "kurumsal", string>> = {
   dashboard: "bg-[var(--safir)] text-white",
   career: "bg-[#1e3a5f] text-white",
   tezgah: "bg-[#5b4cdb] text-white",
   junior: "bg-[#0369a1] text-white",
   yetkinhibe: "bg-gradient-to-br from-emerald-500 to-amber-500 text-white",
   magazam: "bg-[#0f766e] text-white",
+  kurumsal: "bg-[#334155] text-white",
 };
 
 const COMMERCE_NAV_ACCENT = NAV_ACCENT.magazam ?? "bg-[#0f766e] text-white";
+const KURUMSAL_NAV_ACCENT = NAV_ACCENT.kurumsal ?? "bg-[#334155] text-white";
 
 function NavLink({
   href,
@@ -73,16 +76,6 @@ function NavLink({
       </span>
     </Link>
   );
-}
-
-function isActive(pathname: string | null, path: string): boolean {
-  if (!pathname) {
-    return false;
-  }
-  if (path === "/dashboard") {
-    return pathname === "/dashboard";
-  }
-  return pathname === path || pathname.startsWith(`${path}/`);
 }
 
 export function SidebarNav({
@@ -141,32 +134,56 @@ export function SidebarNav({
                 blurb={room.blurb}
                 accent={room.accent}
                 icon={ROOM_ICONS[room.id]}
-                active={isActive(pathname, room.path)}
+                active={isSidebarNavActive(pathname, room.path)}
                 collapsed={collapsed}
                 badge={room.badge}
                 onNavigate={onNavigate}
               />
             </li>
           );
-          if (juniorShell || room.id !== "dashboard") {
+          if (juniorShell) {
             return [row];
           }
-          const CommerceIcon = ROOM_ICONS.magazam;
-          return [
-            row,
-            <li key={COMMERCE_NAV.id}>
-              <NavLink
-                href={COMMERCE_NAV.path}
-                label={COMMERCE_NAV.label}
-                blurb={COMMERCE_NAV.blurb}
-                accent={COMMERCE_NAV_ACCENT}
-                icon={CommerceIcon}
-                active={isActive(pathname, COMMERCE_NAV.path) || isActive(pathname, "/magazam")}
-                collapsed={collapsed}
-                onNavigate={onNavigate}
-              />
-            </li>,
-          ];
+          if (room.id === "dashboard") {
+            const CommerceIcon = ROOM_ICONS.magazam;
+            return [
+              row,
+              <li key={COMMERCE_NAV.id}>
+                <NavLink
+                  href={COMMERCE_NAV.path}
+                  label={COMMERCE_NAV.label}
+                  blurb={COMMERCE_NAV.blurb}
+                  accent={COMMERCE_NAV_ACCENT}
+                  icon={CommerceIcon}
+                  active={
+                    isSidebarNavActive(pathname, COMMERCE_NAV.path) ||
+                    isSidebarNavActive(pathname, "/magazam")
+                  }
+                  collapsed={collapsed}
+                  onNavigate={onNavigate}
+                />
+              </li>,
+            ];
+          }
+          if (room.id === "career") {
+            const KurumsalIcon = ROOM_ICONS.kurumsal;
+            return [
+              row,
+              <li key={KURUMSAL_NAV.id}>
+                <NavLink
+                  href={KURUMSAL_NAV.path}
+                  label={KURUMSAL_NAV.label}
+                  blurb={KURUMSAL_NAV.blurb}
+                  accent={KURUMSAL_NAV_ACCENT}
+                  icon={KurumsalIcon}
+                  active={isSidebarNavActive(pathname, KURUMSAL_NAV.path)}
+                  collapsed={collapsed}
+                  onNavigate={onNavigate}
+                />
+              </li>,
+            ];
+          }
+          return [row];
         })}
       </ul>
       {showAdmin ? (
@@ -181,7 +198,7 @@ export function SidebarNav({
                 className={cn(
                   "group flex items-center rounded-2xl text-sm leading-snug transition",
                   collapsed ? "justify-center px-0 py-2.5" : "gap-3 px-3 py-2.5",
-                  isActive(pathname, ADMIN_SURFACE_PATH)
+                  isSidebarNavActive(pathname, ADMIN_SURFACE_PATH)
                     ? "bg-white/10 text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]"
                     : "text-white/65 hover:bg-white/5 hover:text-white",
                 )}
@@ -189,7 +206,7 @@ export function SidebarNav({
                 <span
                   className={cn(
                     "inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
-                    isActive(pathname, ADMIN_SURFACE_PATH)
+                    isSidebarNavActive(pathname, ADMIN_SURFACE_PATH)
                       ? "bg-[var(--safir)] text-white"
                       : "bg-white/5 text-white/70",
                   )}

@@ -50,7 +50,7 @@ export type CommandHibeRead = {
 };
 
 export type CommandCardModel = {
-  key: "tezgah" | "commerce" | "hibe" | "career";
+  key: "tezgah" | "commerce" | "hibe" | "career" | "kurumsal";
   eyebrow?: string;
   title: string;
   stats: readonly CommandStat[];
@@ -60,6 +60,7 @@ export type CommandCardModel = {
 };
 
 export type CommandCenterModel = readonly [
+  CommandCardModel,
   CommandCardModel,
   CommandCardModel,
   CommandCardModel,
@@ -212,8 +213,21 @@ function careerCard(pulse: DashboardPulse): CommandCardModel {
   };
 }
 
+function kurumsalCard(): CommandCardModel {
+  const copy = SEN_VOICE.dashboard.command;
+  return {
+    key: "kurumsal",
+    eyebrow: copy.kurumsalEyebrow,
+    title: copy.kurumsalTitle,
+    stats: [{ label: copy.kurumsalStat, value: copy.kurumsalStatValue }],
+    detail: copy.kurumsalDetail,
+    href: "/kurumsal",
+    cta: copy.kurumsalCta,
+  };
+}
+
 /**
- * Dört kartın görünen hali. Yazma yok.
+ * Beş kartın görünen hali. Yazma yok.
  * Okunamayan oda "—" ve yüklenemedi der; bilinen boşluk 0 ve boş cümledir.
  */
 export function projectCommandCenter(input: {
@@ -228,5 +242,6 @@ export function projectCommandCenter(input: {
     hibeCard(input.hibe),
     tezgahCard(input.quota, input.toolCount),
     careerCard(input.pulse),
+    kurumsalCard(),
   ];
 }

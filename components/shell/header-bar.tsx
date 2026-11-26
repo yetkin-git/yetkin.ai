@@ -76,10 +76,10 @@ export function HeaderBar({
             Yetenek Vitrini
           </Link>
           <Link
-            href="/kurumsal"
+            href="/ilan"
             className="inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
           >
-            Kurumsal
+            Açık İlanlar
           </Link>
           <Link
             href="/fiyatlandirma"

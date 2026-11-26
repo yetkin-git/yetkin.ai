@@ -29,7 +29,7 @@ describe("komuta merkezi projeksiyonu", () => {
   });
 
   it("okunamayan odalar tire basar; boş mağaza cümlesini iddia etmez", () => {
-    const [commerce, hibe, tezgah, career] = projectCommandCenter({
+    const [commerce, hibe, tezgah, career, kurumsal] = projectCommandCenter({
       pulse: EMPTY_DASHBOARD_PULSE,
       stores: { kind: "down" },
       quota: quotaDown,
@@ -58,6 +58,11 @@ describe("komuta merkezi projeksiyonu", () => {
     expect(career.href).toBe("/career");
     expect(career.stats.map((item) => item.value)).toEqual(["—", "—"]);
     expect(career.detail).toBe(SEN_VOICE.dashboard.pulse.unavailable);
+
+    expect(kurumsal.key).toBe("kurumsal");
+    expect(kurumsal.title).toBe("Kurumsal");
+    expect(kurumsal.href).toBe("/kurumsal");
+    expect(kurumsal.cta).toBe("Kurumsal’ı Aç");
   });
 
   it("canlı kota, boş mağaza, akademi devamı ve cüzdan bakiyesini ayırır", () => {
@@ -203,7 +208,7 @@ describe("komuta merkezi projeksiyonu", () => {
     expect(page).toContain("CommandCenter");
     expect(page).toContain("PublicHomePanel");
     expect(view).toContain("md:grid-cols-2");
-    expect(view).toContain("xl:grid-cols-4");
+    expect(view).toContain("xl:grid-cols-5");
     expect(view).not.toContain('href="/cuzdan"');
     expect(view).not.toContain("WalletBalanceStrip");
     expect(page).not.toContain('href="/cuzdan"');

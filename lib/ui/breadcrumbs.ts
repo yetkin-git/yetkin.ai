@@ -1,7 +1,7 @@
 import type { Route } from "next";
 import { academyCourseTitleBySlug } from "@/lib/academy/course-titles";
 import { INDEPENDENT_ROOMS } from "@/lib/dronlar/kayit";
-import { COMMERCE_NAV, KERNEL_SURFACES, VERTICAL_ROOMS } from "@/lib/kernel/modules";
+import { COMMERCE_NAV, KERNEL_SURFACES, KURUMSAL_NAV, VERTICAL_ROOMS } from "@/lib/kernel/modules";
 import { FROZEN_DISK_ROOM_CATALOG } from "@/lib/kernel/compliance/circuit-breakers";
 import { PAZARYERI_DISK_PATH, YETKINILAN_PATH } from "@/lib/kernel/yetkinilan";
 import {
@@ -79,9 +79,20 @@ const COMMERCE_MATCHES: readonly SurfaceMatch[] = [
   },
 ];
 
-const SURFACES_BY_HREF_LENGTH = [...ROOM_SURFACES, ...KERNEL_MATCHES, ...COMMERCE_MATCHES].sort(
-  (a, b) => b.href.length - a.href.length,
-);
+const KURUMSAL_MATCHES: readonly SurfaceMatch[] = [
+  {
+    id: KURUMSAL_NAV.id,
+    href: KURUMSAL_NAV.path as Route,
+    label: KURUMSAL_NAV.label,
+  },
+];
+
+const SURFACES_BY_HREF_LENGTH = [
+  ...ROOM_SURFACES,
+  ...KERNEL_MATCHES,
+  ...COMMERCE_MATCHES,
+  ...KURUMSAL_MATCHES,
+].sort((a, b) => b.href.length - a.href.length);
 
 export function normalizeBreadcrumbPath(pathname: string | null | undefined): string {
   if (!pathname || pathname === "/") {

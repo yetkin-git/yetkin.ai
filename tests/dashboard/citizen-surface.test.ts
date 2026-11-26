@@ -37,7 +37,7 @@ describe("Dashboard vatandaş yüzeyi ve SEN aksı", () => {
     expect(SEN_VOICE.dashboard.description).not.toContain("yönetilir");
     expect(SEN_VOICE.dashboard.description).not.toContain("split");
     expect(SEN_VOICE.dashboard.welcomeLead).toBe(
-      "E-Ticaret, YetkinHibe, AI Tezgâh ve kariyer adımların tek ekranda.",
+      "E-Ticaret, YetkinHibe, AI Tezgâh, kariyer ve kurumsal İK adımların tek ekranda.",
     );
     expect(SEN_VOICE.dashboard.publicPanel.eyebrow).toBe("Öğrenci paneli");
     expect(SEN_VOICE.dashboard.publicPanel.features.map((row) => row.title)).toEqual([

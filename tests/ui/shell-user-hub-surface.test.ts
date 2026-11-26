@@ -1,11 +1,12 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { KERNEL_SURFACES, VERTICAL_ROOMS } from "@/lib/kernel/modules";
+import { KERNEL_SURFACES, KURUMSAL_NAV, VERTICAL_ROOMS } from "@/lib/kernel/modules";
 import { PROTECTED_KERNEL_PATHS } from "@/lib/kernel/security/edge-guard";
 import { ADMIN_SURFACE_PATH } from "@/lib/kernel/admin/types";
 import { PROFILE_SURFACE_PATH, WALLET_SURFACE_PATH } from "@/lib/kernel/identity/types";
 import { PASSPORT_SURFACE_PATH } from "@/lib/kernel/passport/types";
+import { isSidebarNavActive } from "@/lib/ui/sidebar-nav-active";
 
 const ROOT = process.cwd();
 
@@ -29,6 +30,15 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     ]);
   });
 
+  it("Kurumsal aktif vurgusu /kurumsal ve /kurumsal/ilanlar yollarını kapsar", () => {
+    expect(KURUMSAL_NAV.path).toBe("/kurumsal");
+    expect(KURUMSAL_NAV.blurb).toBe("İlan, eleme ve İK kokpiti");
+    expect(isSidebarNavActive("/kurumsal", KURUMSAL_NAV.path)).toBe(true);
+    expect(isSidebarNavActive("/kurumsal/ilanlar", KURUMSAL_NAV.path)).toBe(true);
+    expect(isSidebarNavActive("/ilan", KURUMSAL_NAV.path)).toBe(false);
+    expect(isSidebarNavActive("/career", KURUMSAL_NAV.path)).toBe(false);
+  });
+
   it("sol ray Faz 1 odalarını ve Junior'u basar; vatandaş sığınakları yoktur, yönetici paneli yalnız showAdmin ile", () => {
     expect(VERTICAL_ROOMS).toHaveLength(4);
     const nav = readSrc("components/shell/sidebar-nav.tsx");
@@ -39,6 +49,9 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     expect(nav).toContain('openRoom("career")');
     expect(nav).toContain('openRoom("junior")');
     expect(nav).toContain("COMMERCE_NAV");
+    expect(nav).toContain("KURUMSAL_NAV");
+    expect(nav).toContain('room.id === "career"');
+    expect(nav).toContain("isSidebarNavActive(pathname, KURUMSAL_NAV.path)");
     expect(nav).toContain("showAdmin");
     expect(nav).toContain("showJunior");
     expect(nav).toContain('row.id === "junior" && !showJunior');
@@ -62,6 +75,8 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     expect(rooms).toContain('label: "Hibe Bulucu"');
     expect(rooms).toContain('label: "AI Tezgâh"');
     expect(rooms).toContain('label: "Kariyer"');
+    expect(rooms).toContain('label: "Kurumsal"');
+    expect(rooms).toContain('blurb: "İlan, eleme ve İK kokpiti"');
   });
 
   it("sol ray 4 oda ritmi ferahdır; alt şerit daraltma tutamacıdır, dipnot kalabalığı yoktur", () => {
@@ -100,6 +115,9 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     expect(header).toContain("userCluster");
     expect(header).toContain('href="/rehber"');
     expect(header).toContain("Nasıl Çalışır?");
+    expect(header).toContain('href="/ilan"');
+    expect(header).toContain("Açık İlanlar");
+    expect(header).not.toContain('href="/kurumsal"');
     expect(header).not.toContain("Mühürlü ray");
     expect(header).not.toContain("Badge");
     expect(header).not.toContain('href="/profil"');

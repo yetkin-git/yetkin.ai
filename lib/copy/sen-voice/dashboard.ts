@@ -36,8 +36,8 @@ export const DASHBOARD_SEN = {
   welcomeTitle: dashboardWelcomeTitle,
   description:
     "Eğitimlerin, kanıtlanmış uzmanlıkların ve çalışma süreçlerin tek bir güvenli panelde.",
-  /** Karşılama başlığının yanında — dört odayı tek bakışta toplar. */
-  welcomeLead: "E-Ticaret, YetkinHibe, AI Tezgâh ve kariyer adımların tek ekranda.",
+  /** Karşılama başlığının yanında — açık odaları tek bakışta toplar. */
+  welcomeLead: "E-Ticaret, YetkinHibe, AI Tezgâh, kariyer ve kurumsal İK adımların tek ekranda.",
   featured:
     "Hibe dosyanı YetkinHibe’de açarsın. Kariyer odasından 30 günlük planını kurarsın.",
   /** Oturumsuz Anasayfa — kişisel nabız yok. */
@@ -126,6 +126,12 @@ export const DASHBOARD_SEN = {
     careerPlanReady: "Doğrulanmış rozetin hazır. 30 günlük plan Kariyer'de açılır.",
     careerPlanEmpty: "Doğrulanmış rozet yok. 30 günlük plan Kariyer'de kurulur.",
     careerCta: "Kariyeri Aç",
+    kurumsalTitle: "Kurumsal",
+    kurumsalEyebrow: "B2B İK",
+    kurumsalStat: "Oda",
+    kurumsalStatValue: "İlan & eleme",
+    kurumsalDetail: "İlan aç, YetkinCV ile ele, kısa listeyi dışa aktar.",
+    kurumsalCta: "Kurumsal’ı Aç",
     unknown: "—",
   },
   pulse: {

@@ -39,12 +39,12 @@ function CommandCard({ card }: { card: CommandCardModel }) {
   );
 }
 
-/** Girişli Genel Bakış gövdesi. Dar ekranda iki, geniş ekranda dört sütun. */
+/** Girişli Genel Bakış gövdesi. Dar ekranda iki, geniş ekranda beş sütun. */
 export function CommandCenter({ model }: { model: CommandCenterModel }) {
   return (
     <section
       aria-label="Komuta merkezi"
-      className="grid min-w-0 items-stretch gap-3 md:grid-cols-2 xl:grid-cols-4"
+      className="grid min-w-0 items-stretch gap-3 md:grid-cols-2 xl:grid-cols-5"
     >
       {model.map((card) => (
         <CommandCard key={card.key} card={card} />
