@@ -136,8 +136,8 @@ export const DRON_KAYIT = [
   {
     id: "yetkinhibe",
     path: "/panel/hibe",
-    label: "Hibe Bulucu",
-    blurb: "Uygun destek ve proje dosyası",
+    label: "YetkinHibe",
+    blurb: "Hibe eşleştirme ve proje dosyası",
     hops: [],
     sahipEkip: "gövde",
     kapali: false,

@@ -23,7 +23,7 @@ import { YETKIN_BRAND } from "@/lib/copy/brand";
 
 export const PUBLIC_TOP_BAR_PATHS = [
   { href: "/e-ticaret", label: "E-Ticaret" },
-  { href: "/hibe", label: "Hibe Bulucu" },
+  { href: "/hibe", label: "YetkinHibe" },
   { href: "/tezgah", label: "AI Tezgâh" },
   { href: "/fiyatlandirma", label: "Fiyatlandırma" },
   { href: "/kurumsal", label: "Kurumsal" },

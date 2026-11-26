@@ -72,7 +72,7 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     ].join("\n");
     expect(rooms).toContain('label: "Ana Panel"');
     expect(rooms).toContain('label: "E-Ticaret"');
-    expect(rooms).toContain('label: "Hibe Bulucu"');
+    expect(rooms).toContain('label: "YetkinHibe"');
     expect(rooms).toContain('label: "AI Tezgâh"');
     expect(rooms).toContain('label: "Kariyer"');
     expect(rooms).toContain('label: "Kurumsal"');

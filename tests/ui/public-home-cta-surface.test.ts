@@ -49,7 +49,7 @@ describe("ana sayfa Hero CTA oturum yüzeyi", () => {
     expect(page).not.toContain("<header");
     // Bağlar `PUBLIC_TOP_BAR_PATHS` sicilinden gelir (tek liste, kopya metin yok).
     expect(topBar).toContain('href: "/e-ticaret", label: "E-Ticaret"');
-    expect(topBar).toContain('href: "/hibe", label: "Hibe Bulucu"');
+    expect(topBar).toContain('href: "/hibe", label: "YetkinHibe"');
     expect(topBar).toContain('href: "/tezgah", label: "AI Tezgâh"');
     expect(topBar).toContain('href: "/fiyatlandirma", label: "Fiyatlandırma"');
     expect(topBar).toContain('href: "/kurumsal", label: "Kurumsal"');
