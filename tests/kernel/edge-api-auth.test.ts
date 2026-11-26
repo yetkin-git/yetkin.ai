@@ -126,13 +126,14 @@ describe("K6 kenar kararı", () => {
     ).toEqual({ kind: "deny", status: 410, error: EDGE_API_FROZEN_ROOM_ERROR });
   });
 
-  it("kurumsal ilan API'si donmuş oda 410'una düşmez; diğer kurumsal yollar kapalı kalır", () => {
+  it("kurumsal tahsilat ve ilan API'si donmuş oda 410'una düşmez (F1.1)", () => {
     expect(isFrozenRoomApi("/api/kurumsal/ilanlar")).toBe(false);
     expect(isFrozenRoomApi("/api/kurumsal/ilanlar/")).toBe(false);
     expect(isFrozenRoomApi("/api/v1/kurumsal/ilanlar")).toBe(false);
     expect(isFrozenRoomApi("/api/kurumsal/ilanlar/ek")).toBe(false);
-    expect(isFrozenRoomApi("/api/kurumsal")).toBe(true);
-    expect(isFrozenRoomApi("/api/kurumsal/jobs/ilan_1/offers")).toBe(true);
+    expect(isFrozenRoomApi("/api/kurumsal/satin-al")).toBe(false);
+    expect(isFrozenRoomApi("/api/kurumsal")).toBe(false);
+    expect(isFrozenRoomApi("/api/kurumsal/jobs/ilan_1/offers")).toBe(false);
     expect(
       decideEdgeApiAuth({
         pathname: "/api/kurumsal/ilanlar",
@@ -161,13 +162,23 @@ describe("K6 kenar kararı", () => {
     ).toEqual({ kind: "next" });
     expect(
       decideEdgeApiAuth({
+        pathname: "/api/kurumsal/satin-al",
+        method: "POST",
+        sessionHint: true,
+        sessionUserId: "user-1",
+        map: ROUTE_AUTH_MAP,
+      }),
+    ).toEqual({ kind: "next" });
+    // Arşiv emanet rotası haritada yok → 404; donmuş oda 410 değil.
+    expect(
+      decideEdgeApiAuth({
         pathname: "/api/kurumsal/jobs/ilan_1/offers",
         method: "POST",
         sessionHint: true,
         sessionUserId: "user-1",
         map: ROUTE_AUTH_MAP,
       }),
-    ).toEqual({ kind: "deny", status: 410, error: EDGE_API_FROZEN_ROOM_ERROR });
+    ).toEqual({ kind: "deny", status: 404, error: EDGE_API_NOT_FOUND_ERROR });
   });
 
   it("donmuş oda yazması ve okuması 410; freelancer kabulü durur", () => {

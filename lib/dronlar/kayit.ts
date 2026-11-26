@@ -6,11 +6,13 @@
  * Kapalı doğar: `DronBayrakları.isKapali(id)` true iken kamu yüzeyi 410.
  */
 
-/** Donmuş oda yolları. Junior bu listede değildir; müstakil oda `DRON_KAYIT` satırıdır. */
+/**
+ * Donmuş oda yolları. Junior bu listede değildir; müstakil oda `DRON_KAYIT` satırıdır.
+ * `kurumsal` canlı B2B satış + İK eleme yüzeyidir; burada değildir (F1.1 / O-07).
+ */
 export const FROZEN_DISK_ROOMS = [
   "studio",
   "devlabs",
-  "kurumsal",
   "hibe",
   "arena",
   "pazaryeri",

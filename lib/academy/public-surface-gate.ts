@@ -72,6 +72,20 @@ const MAGAZA_RE = /^\/magaza\/([^/]+)$/;
 const MAGAZA_SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 /**
+ * Kurumsal satış/İK yüzeyinin **kapalı** çocuk listesi.
+ *
+ * `/kurumsal` Faz 1'de donmuş odadan çıktı; artık canlı vitrin + kokpit. Ama
+ * oda kapısı kalkarken **adres kapısı** gelmedi: `/kurumsal/ilan/yeni`,
+ * `/kurumsal/herhangi-bir-sey` gibi hiç var olmamış alt yollar Next'in kendi
+ * 404'üne düşüyor ve kök `app/loading.tsx` akışı yüzünden **HTTP 200** ile
+ * gövde basıyor (soft 404 — ölçüldü: `/kurumsal/ilan/yeni` → 200).
+ *
+ * Kapı **kapalı beyaz liste**dir: yalnız burada sayılan çocuklar geçer. Yeni bir
+ * kurumsal alt sayfa eklenirse buraya da yazılmalıdır; yoksa gerçek 404 döner.
+ */
+const KURUMSAL_ALLOWED_CHILDREN = new Set(["ilanlar"]);
+
+/**
  * `/academy/<segment>` altında duran **statik** sayfalar. Bunlar dinamik slug değildir;
  * kapıya takılırsa gerçek sayfalar 404 olur (ölçüldü: `/academy/dogrula` → 404 regresyonu).
  */
@@ -123,6 +137,13 @@ export function missingPublicSurfacePath(pathname: string): string | null {
   const claim = CLAIM_TOKEN_RE.exec(path);
   if (claim) {
     return /^[A-Za-z0-9_-]{43}$/u.test(decodeSegment(claim[1] ?? "")) ? null : path;
+  }
+
+  // Kurumsal yüzeyi: `/kurumsal` ve `/kurumsal/ilanlar` açık; diğer alt yollar
+  // hiç var olmamıştır → gerçek 404 (soft 404 kapanır).
+  if (path.startsWith("/kurumsal/")) {
+    const child = path.slice("/kurumsal/".length).split("/")[0] ?? "";
+    return KURUMSAL_ALLOWED_CHILDREN.has(child) ? null : path;
   }
 
   return null;

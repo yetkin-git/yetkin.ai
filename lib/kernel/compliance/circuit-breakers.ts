@@ -73,9 +73,8 @@ export const FROZEN_SHELL_ROOM_IDS = FROZEN_DISK_ROOMS;
 export type FrozenShellRoomId = (typeof FROZEN_SHELL_ROOM_IDS)[number];
 
 /**
- * Kurumsal satış sayfası ve İK eleme kokpiti. Donmuş oda değildir.
- * Tam `/kurumsal` ve `/kurumsal/ilanlar` açıktır.
- * `/kurumsal/ilan/yeni` ve diğer `/kurumsal/*` yolları 410 kalır.
+ * Kurumsal satış sayfası ve İK eleme kokpiti. Canlı B2B ürün yüzeyi;
+ * `FROZEN_DISK_ROOMS` içinde değildir. `/kurumsal` ve `/kurumsal/ilanlar` açıktır.
  */
 export const KURUMSAL_SALES_PAGE_PATH = "/kurumsal" as const;
 export const KURUMSAL_OPS_PAGE_PATH = "/kurumsal/ilanlar" as const;
@@ -95,11 +94,10 @@ export const FROZEN_SHELL_PAGE_ALIASES = [
   "/market",
 ] as const;
 
-/** 410 sayfası / breadcrumb etiketi. Nav ve VERTICAL_ROOMS taşımaz. */
+/** 410 sayfası / breadcrumb etiketi. Nav ve VERTICAL_ROOMS taşımaz. Kurumsal canlıdır. */
 export const FROZEN_DISK_ROOM_CATALOG = [
   { id: "studio", path: "/studio", diskPath: "/studio", label: "Studio" },
   { id: "devlabs", path: "/devlabs", diskPath: "/devlabs", label: "DevLabs" },
-  { id: "kurumsal", path: "/kurumsal", diskPath: "/kurumsal", label: "Kurumsal" },
   { id: "hibe", path: "/hibe-disk", diskPath: "/hibe-disk", label: "Hibe" },
   { id: "arena", path: "/arena", diskPath: "/arena", label: "Arena" },
   { id: "pazaryeri", path: "/yetkinilan", diskPath: "/pazaryeri", label: "Yetkinİlan" },

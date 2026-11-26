@@ -47,7 +47,7 @@ describe("uzman dizini k-anonimlik", () => {
       return;
     }
     expect(view.ctaLabel).toBe(TALENT_DIRECTORY_EXAM_CTA);
-    expect(view.ctaHref).toBe("/career#yetkincv");
+    expect(view.ctaHref).toBe("/career");
     const raw = JSON.stringify(view);
     expect(raw).not.toContain("user-secret");
     expect(raw).not.toContain("Gizli");

@@ -11,6 +11,7 @@ import {
 } from "@/lib/copy/seo";
 import { readSitemapLastModified } from "@/lib/copy/sitemap-lastmod";
 import { listPublicStorefrontSlugs } from "@/lib/commerce/storefront-sitemap";
+import { listSitemapKurumsalJobSlugs } from "@/lib/sales/kurumsal-screening-load";
 
 /**
  * Google Search Console `<loc>` yalnız `https://yetkin.ai`.
@@ -62,6 +63,20 @@ async function storefrontSitemapEntries(lastModified: Date): Promise<MetadataRou
   return slugs.map((slug) => sitemapEntry(`/magaza/${slug}`, lastModified));
 }
 
+/**
+ * Kurumsal kamu ilanları. Yalnız aktif + süresi geçmemiş + `verifiedEmployerAt != null`.
+ * Doğrulanmamış işveren noindex kalır ve site haritasına asla girmez (F1.3 / K-03).
+ */
+async function kurumsalJobSitemapEntries(
+  fallbackLastModified: Date,
+): Promise<MetadataRoute.Sitemap> {
+  const rows = await listSitemapKurumsalJobSlugs();
+  return [
+    sitemapEntry("/ilan", fallbackLastModified),
+    ...rows.map((row) => sitemapEntry(`/ilan/${row.slug}`, row.updatedAt)),
+  ];
+}
+
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -71,13 +86,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const staticEntries = staticSitemapEntries(lastModified);
     const courseEntries: MetadataRoute.Sitemap = [];
     const storefrontEntries = await storefrontSitemapEntries(lastModified);
+    const kurumsalEntries = await kurumsalJobSitemapEntries(lastModified);
     const editorialEntries = [
       ...GLOSSARY_TERMS.map((term) => sitemapEntry(glossaryPath(term.slug), lastModified)),
       ...PUBLIC_GUIDES.map((guide) => sitemapEntry(guidePath(guide.slug), lastModified)),
     ];
     const seen = new Set<string>();
     const merged: MetadataRoute.Sitemap = [];
-    for (const entry of [...staticEntries, ...courseEntries, ...editorialEntries, ...storefrontEntries]) {
+    for (const entry of [
+      ...staticEntries,
+      ...courseEntries,
+      ...editorialEntries,
+      ...storefrontEntries,
+      ...kurumsalEntries,
+    ]) {
       if (seen.has(entry.url)) {
         continue;
       }

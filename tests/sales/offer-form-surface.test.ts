@@ -32,7 +32,8 @@ describe("Faz 2 kurumsal teklif formu — sınır uyumu", () => {
     const server = serverClipLimits();
     expect(server.companyName).toBe(OFFER_FORM_LIMITS.companyName);
     expect(server.email).toBe(OFFER_FORM_LIMITS.email);
-    expect(server.city).toBe(OFFER_FORM_LIMITS.city);
+    // İl artık 81 il select + sunucu normalize; ham metin clip(cityRaw, 80).
+    expect(server.cityRaw).toBe(OFFER_FORM_LIMITS.city);
     expect(server.note).toBe(OFFER_FORM_LIMITS.note);
     expect(OFFER_FORM_LIMITS).toEqual({ companyName: 120, email: 160, city: 80, note: 500 });
   });
@@ -41,7 +42,7 @@ describe("Faz 2 kurumsal teklif formu — sınır uyumu", () => {
     const form = readSrc("components/kurumsal/offer-form.tsx");
     expect(form).toContain("maxLength={OFFER_FORM_LIMITS.companyName}");
     expect(form).toContain("maxLength={OFFER_FORM_LIMITS.email}");
-    expect(form).toContain("maxLength={OFFER_FORM_LIMITS.city}");
+    expect(form).toContain("KURUMSAL_LEAD_PROVINCES");
     expect(form).toContain("maxLength={OFFER_FORM_LIMITS.note}");
     expect(form).toContain("aria-invalid");
     expect(form).toContain('role="alert"');

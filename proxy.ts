@@ -38,6 +38,10 @@ import { decideWebOriginGuard } from "./lib/kernel/security/origin-guard";
 import { renderFrozenRoomGoneHtml } from "./lib/kernel/http/frozen-410-html";
 import { renderNotFoundHtml } from "./lib/kernel/http/not-found-html";
 import { missingPublicSurfacePath } from "./lib/academy/public-surface-gate";
+import {
+  kurumsalJobSlugFromPath,
+  resolveKurumsalJobEdgeVerdict,
+} from "./lib/sales/kurumsal-job-edge-gate";
 import { juniorLegacyLessonRedirectPath } from "./lib/junior/lesson-key-alias";
 import { isUnknownJuniorLessonPath } from "./lib/junior/lesson-index";
 import {
@@ -215,6 +219,27 @@ export async function proxy(request: NextRequest) {
         },
       }),
     );
+  }
+
+  // F1.4 / Y-05 — kapalı, süresi dolmuş veya hiç var olmamış ilan gerçek **HTTP 404**.
+  // `missingPublicSurfacePath` yalnız adres **biçimini** bilir; biçimi geçerli ama
+  // kaydı olmayan/kapanmış ilan oraya takılmaz ve sayfaya düşer. Sayfadaki
+  // `notFound()` ise kök `app/loading.tsx` sınırı yüzünden 200 akar (ölçüldü).
+  // Varlık burada, gövde akmadan kesilir. DB okunamazsa `unknown` → fail-open.
+  const ilanSlug = kurumsalJobSlugFromPath(pathname);
+  if (ilanSlug !== null) {
+    const verdict = await resolveKurumsalJobEdgeVerdict(ilanSlug);
+    if (verdict === "missing") {
+      return seal(
+        new NextResponse(renderNotFoundHtml(), {
+          status: 404,
+          headers: {
+            "content-type": "text/html; charset=utf-8",
+            "x-robots-tag": "noindex",
+          },
+        }),
+      );
+    }
   }
 
   const juniorActor = session.verified

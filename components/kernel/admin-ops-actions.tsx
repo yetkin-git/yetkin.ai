@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { INPUT_SURFACE_CLASS } from "@/components/ui/input";
 import { ADMIN_SEN } from "@/lib/copy/sen-voice/admin";
 import {
+  ADMIN_OPS_EMPLOYER_VERIFY_PATH,
   ADMIN_OPS_GAP_REFUND_PATH,
   ADMIN_OPS_GRANT_PATH,
   ADMIN_OPS_REVOKE_PATH,
@@ -15,7 +16,7 @@ import type { AdminOpsGapRow } from "@/lib/kernel/admin/ops-desk";
 import { parseRailClientJson } from "@/lib/ui/parse-rail-json";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
-type ActionKind = "grant" | "revoke" | "refund";
+type ActionKind = "grant" | "revoke" | "refund" | "employerVerify";
 
 export function AdminOpsActions({
   slugs,
@@ -33,6 +34,8 @@ export function AdminOpsActions({
   const [revokeReason, setRevokeReason] = useState("");
   const [refundReason, setRefundReason] = useState("");
   const [refundOid, setRefundOid] = useState<string | null>(null);
+  const [jobId, setJobId] = useState("");
+  const [employerReason, setEmployerReason] = useState("");
   const [pending, setPending] = useState<ActionKind | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -62,6 +65,7 @@ export function AdminOpsActions({
       setGrantReason("");
       setRevokeReason("");
       setRefundReason("");
+      setEmployerReason("");
       router.refresh();
     } catch {
       setPending(null);
@@ -83,6 +87,14 @@ export function AdminOpsActions({
         ADMIN_OPS_GAP_REFUND_PATH,
         { merchantOid: refundOid, reason: refundReason.trim() },
         "refund",
+      );
+      return;
+    }
+    if (confirm === "employerVerify") {
+      void post(
+        ADMIN_OPS_EMPLOYER_VERIFY_PATH,
+        { jobId: jobId.trim(), reason: employerReason.trim() },
+        "employerVerify",
       );
     }
   }
@@ -185,13 +197,50 @@ export function AdminOpsActions({
         )}
         <ReasonField label={copy.reasonLabel} value={refundReason} onChange={setRefundReason} />
       </section>
+      <section className="space-y-3" aria-labelledby="ops-employer-verify">
+        <h3 id="ops-employer-verify" className="text-sm font-semibold">
+          {copy.employerVerifyTitle}
+        </h3>
+        <p className="text-sm text-[var(--muted)]">{copy.employerVerifyHint}</p>
+        <label className="block text-xs font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
+          {copy.jobIdLabel}
+          <input
+            className={INPUT_SURFACE_CLASS}
+            value={jobId}
+            autoComplete="off"
+            spellCheck={false}
+            onChange={(event) => setJobId(event.target.value)}
+          />
+        </label>
+        <ReasonField label={copy.reasonLabel} value={employerReason} onChange={setEmployerReason} />
+        <Button
+          type="button"
+          size="sm"
+          onClick={() => setConfirm("employerVerify")}
+          disabled={pending !== null}
+        >
+          {copy.submitEmployerVerify}
+        </Button>
+      </section>
       <AdminConfirmDialog
         open={confirm !== null}
         eyebrow={ADMIN_SEN.confirm.eyebrow}
         title={
-          confirm === "grant" ? copy.grantTitle : confirm === "revoke" ? copy.revokeTitle : copy.refundTitle
+          confirm === "grant"
+            ? copy.grantTitle
+            : confirm === "revoke"
+              ? copy.revokeTitle
+              : confirm === "employerVerify"
+                ? copy.employerVerifyTitle
+                : copy.refundTitle
         }
-        body={confirm === "refund" ? `${refundOid ?? ""} · ${copy.refundHint}` : copy.actionsBody}
+        body={
+          confirm === "refund"
+            ? `${refundOid ?? ""} · ${copy.refundHint}`
+            : confirm === "employerVerify"
+              ? copy.employerVerifyHint
+              : copy.actionsBody
+        }
         confirmLabel={ADMIN_SEN.confirm.publishConfirm}
         cancelLabel={ADMIN_SEN.confirm.amountCancel}
         closeLabel={ADMIN_SEN.confirm.closeLabel}

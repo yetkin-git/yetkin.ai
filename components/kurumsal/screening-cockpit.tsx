@@ -2,11 +2,22 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { PaytrCheckoutIframe } from "@/components/kernel/paytr-checkout-iframe";
+import { CheckoutBillingFields } from "@/components/legal/checkout-billing-fields";
+import { CheckoutConsentFields } from "@/components/legal/checkout-consent-fields";
 import { Button, buttonClassName } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { IconCopy } from "@/components/ui/icons";
 import { INPUT_SURFACE_CLASS, Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { CHECKOUT_LEGAL_CONSENT_PAYLOAD } from "@/lib/kernel/legal/checkout-consent";
+import {
+  EMPTY_CHECKOUT_BILLING_FORM,
+  isCheckoutBillingComplete,
+  normalizeBillingInput,
+  type CheckoutBillingFormState,
+} from "@/lib/kernel/identity/billing-info";
+import { readPaytrIframeSrcFromCheckout } from "@/lib/kernel/payments/paytr/iframe-embed";
 import {
   KURUMSAL_CRITERIA_MAX,
   KURUMSAL_CRITERIA_MIN,
@@ -79,6 +90,16 @@ export function KurumsalScreeningCockpit({
   const [included, setIncluded] = useState<string[]>(() => openingKeys(skills.ECOMMERCE));
   const [weights, setWeights] = useState<Record<string, string>>(() => presetWeights(skills.ECOMMERCE));
   const [pending, setPending] = useState(false);
+  const [jobActionPending, setJobActionPending] = useState(false);
+  const [buyPending, setBuyPending] = useState(false);
+  const [distanceAccepted, setDistanceAccepted] = useState(false);
+  const [digitalAccepted, setDigitalAccepted] = useState(false);
+  /**
+   * F2.12 — fatura künyesi. Sunucu `billing` alanını zorunlu tutar; burada
+   * toplanmazsa satın alma düğmesi her zaman 422 alırdı ("Fatura künyesi gerekli").
+   */
+  const [billing, setBilling] = useState<CheckoutBillingFormState>(EMPTY_CHECKOUT_BILLING_FORM);
+  const [iframeUrl, setIframeUrl] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState("");
   const [selectedId, setSelectedId] = useState(jobs[0]?.id ?? "");
@@ -101,6 +122,9 @@ export function KurumsalScreeningCockpit({
     chosen.every((row) => Number.isInteger(row.weight) && row.weight >= 1 && row.weight <= 100) &&
     weightTotal === 100;
   const weightLine = chosen.map((row) => `${row.label} %${Number.isInteger(row.weight) ? row.weight : "—"}`).join(" + ");
+  const purchaseLive = screeningPrice.honesty === "live" && screeningPrice.amountMinor != null;
+  const billingReady = isCheckoutBillingComplete(billing);
+  const purchaseReady = purchaseLive && billingReady && distanceAccepted && digitalAccepted && !buyPending;
 
   function selectVertical(next: KurumsalJobVerticalId) {
     setVertical(next);
@@ -118,6 +142,59 @@ export function KurumsalScreeningCockpit({
       }
       return [...current, key];
     });
+  }
+
+  async function onPurchase() {
+    if (!purchaseReady) {
+      return;
+    }
+    const normalized = normalizeBillingInput(billing);
+    if (!normalized.ok) {
+      setError(normalized.error);
+      return;
+    }
+    setBuyPending(true);
+    setError("");
+    setIframeUrl(null);
+    try {
+      const response = await fetch(
+        "/api/kurumsal/satin-al",
+        withRailApiVersion({
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            "Idempotency-Key": crypto.randomUUID(),
+          },
+          body: JSON.stringify({
+            ...CHECKOUT_LEGAL_CONSENT_PAYLOAD,
+            billing: normalized.billing,
+          }),
+        }),
+      );
+      const body = (await response.json().catch(() => null)) as {
+        ok?: boolean;
+        error?: string;
+        data?: Record<string, unknown>;
+      } | null;
+      if (!response.ok || body?.ok === false || !body?.data) {
+        setError(typeof body?.error === "string" ? body.error : "Ödeme penceresi açılmadı.");
+        return;
+      }
+      if (body.data.kind === "settled") {
+        router.refresh();
+        return;
+      }
+      const iframe = readPaytrIframeSrcFromCheckout(body.data);
+      if (!iframe) {
+        setError("Ödeme penceresi açılmadı.");
+        return;
+      }
+      setIframeUrl(iframe);
+    } catch {
+      setError("Bağlantı kurulamadı. Yeniden dene.");
+    } finally {
+      setBuyPending(false);
+    }
   }
 
   async function onCreate(event: FormEvent) {
@@ -164,6 +241,35 @@ export function KurumsalScreeningCockpit({
     }
   }
 
+  async function toggleJobActive(job: OwnerJobView) {
+    setJobActionPending(true);
+    setError("");
+    try {
+      const response = await fetch(
+        `/api/kurumsal/ilanlar/${job.id}`,
+        withRailApiVersion({
+          method: "PATCH",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ isActive: !job.isActive }),
+        }),
+      );
+      const parsed = parseRailClientJson<{ job?: { id?: string } }>(await response.json().catch(() => null));
+      if (!parsed.ok) {
+        setError(parsed.error);
+        return;
+      }
+      router.refresh();
+    } catch {
+      setError("İlan durumu güncellenemedi. Yeniden dene.");
+    } finally {
+      setJobActionPending(false);
+    }
+  }
+
+  function downloadCsv(job: OwnerJobView) {
+    window.location.assign(`/api/kurumsal/ilanlar/${job.id}/export?format=csv`);
+  }
+
   async function copyLink(path: string) {
     const url = `${window.location.origin}${path}`;
     try {
@@ -186,7 +292,34 @@ export function KurumsalScreeningCockpit({
           <p className="mt-3 text-2xl font-semibold tracking-tight" data-price-honesty={screeningPrice.honesty}>
             {screeningPrice.label}
           </p>
-          <p className="mt-1 text-xs text-[var(--muted)]">Kurumsal İlan ve Otomatik Aday Eleme Paketi. Bu form tahsilat başlatmaz.</p>
+          <p className="mt-1 text-xs text-[var(--muted)]">
+            Kurumsal İlan ve Otomatik Aday Eleme Paketi. Lisans ilan açma hakkı verir; puan satın alınmaz.
+          </p>
+          {signedIn && purchaseLive ? (
+            <div className="mt-4 grid gap-3" data-kurumsal-purchase="">
+              <CheckoutBillingFields value={billing} onChange={setBilling} />
+              <CheckoutConsentFields
+                distanceAccepted={distanceAccepted}
+                digitalAccepted={digitalAccepted}
+                onDistanceChange={setDistanceAccepted}
+                onDigitalChange={setDigitalAccepted}
+              />
+              <Button type="button" disabled={!purchaseReady} onClick={() => void onPurchase()}>
+                {buyPending ? "Ödeme açılıyor…" : `Paketi satın al — ${screeningPrice.label}`}
+              </Button>
+              {!billingReady ? (
+                <p className="text-xs text-[var(--muted)]">
+                  Fatura künyesi olmadan tahsilat açılmaz. Ad, adres ve telefon zorunludur.
+                </p>
+              ) : null}
+              {iframeUrl ? <PaytrCheckoutIframe src={iframeUrl} title="Kurumsal paket ödemesi" /> : null}
+            </div>
+          ) : null}
+          {signedIn && !purchaseLive ? (
+            <p className="mt-3 text-sm text-[var(--muted)]">
+              Paket katalogda henüz satışa açık değil. Ön talep formundan yazabilirsin.
+            </p>
+          ) : null}
           {signedIn ? (
             <form className="mt-4 grid gap-3" onSubmit={(event) => void onCreate(event)}>
               <label className="grid gap-1.5 text-sm font-medium">
@@ -194,12 +327,14 @@ export function KurumsalScreeningCockpit({
                 <Input value={companyName} onChange={(event) => setCompanyName(event.target.value)} required maxLength={120} />
               </label>
               <label className="grid gap-1.5 text-sm font-medium">
-                Vergi / MERSİS no
+                Vergi / TCKN no
                 <Input
                   value={taxNumber}
                   onChange={(event) => setTaxNumber(event.target.value)}
                   inputMode="numeric"
-                  maxLength={20}
+                  required
+                  minLength={10}
+                  maxLength={11}
                   placeholder="10 veya 11 rakam"
                 />
               </label>
@@ -328,14 +463,31 @@ export function KurumsalScreeningCockpit({
                     ) : null}
                     {job.criteriaLine ? <span className="mt-1 block text-xs leading-5">{job.criteriaLine}</span> : null}
                   </button>
-                  <button
-                    type="button"
-                    className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[var(--safir)]"
-                    onClick={() => void copyLink(job.applyPath)}
-                  >
-                    <IconCopy className="h-3.5 w-3.5" />
-                    {copied === job.applyPath ? "Kopyalandı" : "Başvuru bağlantısını kopyala"}
-                  </button>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-[var(--safir)]"
+                      onClick={() => void copyLink(job.applyPath)}
+                    >
+                      <IconCopy className="h-3.5 w-3.5" />
+                      {copied === job.applyPath ? "Kopyalandı" : "Başvuru bağlantısını kopyala"}
+                    </button>
+                    <button
+                      type="button"
+                      className="text-xs font-semibold text-[var(--foreground)] underline-offset-2 hover:underline"
+                      disabled={jobActionPending}
+                      onClick={() => void toggleJobActive(job)}
+                    >
+                      {job.isActive ? "İlanı kapat" : "Yeniden aç"}
+                    </button>
+                    <button
+                      type="button"
+                      className="text-xs font-semibold text-[var(--foreground)] underline-offset-2 hover:underline"
+                      onClick={() => downloadCsv(job)}
+                    >
+                      Kısa listeyi CSV indir
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>

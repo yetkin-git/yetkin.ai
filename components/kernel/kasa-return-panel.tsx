@@ -16,6 +16,8 @@ const KASA_RETURN_HREF = {
   "e-ticaret": "/panel/e-ticaret",
   hibe: "/panel/hibe",
   junior: "/junior",
+  kurumsal: "/kurumsal/ilanlar",
+  career: "/career",
   cuzdan: "/cuzdan",
 } as const satisfies Record<string, Route>;
 
@@ -25,6 +27,8 @@ const KASA_RETURN_LABEL = {
   "e-ticaret": "E-Ticaret Paneline Geç",
   hibe: "Hibe Proje Dosyasına Geç",
   junior: "Junior Derslerine Geç",
+  kurumsal: "İlanlar ve Kısa Listeye Geç",
+  career: "Kariyer Masasına Geç",
   cuzdan: "Cüzdana Dön",
 } as const satisfies Record<keyof typeof KASA_RETURN_HREF, string>;
 
@@ -33,7 +37,8 @@ export type KasaReturnDesk = keyof typeof KASA_RETURN_HREF;
 /**
  * Ödeme dönüşü çalışma masasına iner.
  * Tezgâh Pro ve kredi → tezgâh. Lisans → e-ticaret. Dosya → hibe.
- * Junior paketi → junior. Cüzdan yüklemesi → cüzdan.
+ * Junior paketi → junior. Kurumsal ilan paketi → kurumsal.
+ * YetkinCV yayını → career. Cüzdan yüklemesi → cüzdan.
  * Tanınmayan işaret tezgâha düşer. Akademi adresi üretilmez.
  */
 export function kasaReturnDesk(raw: string | null | undefined): KasaReturnDesk {
@@ -46,6 +51,13 @@ export function kasaReturnDesk(raw: string | null | undefined): KasaReturnDesk {
   }
   if (value === "junior") {
     return "junior";
+  }
+  // F2.13 — B2B ilan paketi ve YetkinCV yayını kendi masasına döner.
+  if (value === "kurumsal" || value === "ik" || value === "b2b") {
+    return "kurumsal";
+  }
+  if (value === "career" || value === "kariyer" || value === "yetkincv") {
+    return "career";
   }
   if (value === "cuzdan") {
     return "cuzdan";

@@ -343,7 +343,7 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
       "/hibe",
       "/kurumsal",
       "/vize",
-      "/uzmanlar",
+      "/career/vitrin",
       "/sozluk",
       "/tetkik",
       // Faz 2 (SEO P2): footer'dan bağımsız açık kayıt.

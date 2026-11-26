@@ -79,8 +79,8 @@ export function buildCareerRoadmap(input: CareerEvidence): readonly [RoadmapWind
       body: stamped
         ? "Üçüncü pencerede kamu vizesini paylaş. Dizin satırı, aynı kırılımda beş kişi şartına bağlıdır."
         : "Üçüncü pencerede test kanıtı olmadan dizin satırı açılmaz. Pratik vaka Tezgâh, e-ticaret veya YetkinHibe üzerindedir.",
-      href: stamped ? "/uzmanlar" : "/panel/hibe",
-      cta: stamped ? "Uzman dizinine bak" : "YetkinHibe’yi aç",
+      href: stamped ? "/career/vitrin" : "/panel/hibe",
+      cta: stamped ? "Yetenek vitrinine bak" : "YetkinHibe’yi aç",
     },
   ];
 }

@@ -43,8 +43,25 @@ const PAYTR_MERCHANT_WALLET_RETURN_PATH = "/cuzdan";
  * SEO/CRO (P0): parametreyi **hiçbir kod üretmiyordu** — tezgâh pro, kredi paketi,
  * e-ticaret lisansı ve junior paketi ödemesi hep `/cuzdan`'a düşüp cüzdan
  * yüzeyinde kalıyordu. `desk` artık get-token dönüş adresine yazılır.
+ *
+ * **F2.13 — kurumsal ve kariyer masaları.** Bu liste `tezgah|e-ticaret|hibe|junior|
+ * cuzdan` ile sınırlıydı. `POST /api/kurumsal/satin-al` `returnDesk: "kurumsal"`,
+ * `POST /api/career/yetkincv/purchase` ise `YETKINCV_PUBLICATION_RETURN_DESK = "career"`
+ * gönderiyor; ikisi de listede olmadığı için `buildPaytrMerchantBrowserReturnUrl`
+ * `?masa=` parametresini **sessizce düşürüyordu**. Sonuç: 2.900 TL'lik kurumsal
+ * paketi satın alan işveren ödeme sonrası cüzdan sayfasına düşüyor, "ne satın
+ * aldım?" sorusuna cevap bulamıyordu. İki masa eklendi; dönüş paneli de
+ * (`kasaReturnDesk` / `KASA_RETURN_HREF`) bu iki masayı kendi yüzeyine indirir.
  */
-export const PAYTR_RETURN_DESKS = ["tezgah", "e-ticaret", "hibe", "junior", "cuzdan"] as const;
+export const PAYTR_RETURN_DESKS = [
+  "tezgah",
+  "e-ticaret",
+  "hibe",
+  "junior",
+  "kurumsal",
+  "career",
+  "cuzdan",
+] as const;
 export type PaytrReturnDesk = (typeof PAYTR_RETURN_DESKS)[number];
 
 /** Katalog satırı olmayan / tanınmayan masa → cüzdan (nötr dönüş). */

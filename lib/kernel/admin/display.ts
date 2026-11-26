@@ -11,13 +11,18 @@ export const HOLD_BPS_BAND_LABEL = `${HOLD_BPS_MIN}–${HOLD_BPS_MAX} bps` as co
 
 /**
  * Super Admin fiyat tahtasında görünen moduleKey'ler.
- * Donmuş odalar (devlabs, freelancer, pazaryeri, yetkinilan, studio, junior)
+ * Donmuş odalar (devlabs, freelancer, pazaryeri, yetkinilan, studio)
  * `price_catalog_entries` satırında durur; tahta onları listelemez.
- * `kurumsal` eleme paketi bu tahtadadır. Donmuş `/kurumsal/*` oda yolları ayrıdır.
+ * `kurumsal` canlı B2B eleme paketidir; tahtada "Kurumsal" etiketiyle durur.
  */
 export const ADMIN_CATALOG_LIVE_MODULE_KEYS = ["academy", "tezgah", "commerce", "career", "kurumsal"] as const;
 
 const ADMIN_CATALOG_LIVE_MODULE_KEY_SET = new Set<string>(ADMIN_CATALOG_LIVE_MODULE_KEYS);
+
+/** Dron kaydı / donmuş katalog dışı canlı modul etiketi (kurumsal satış yüzeyi). */
+const ADMIN_LIVE_MODULE_LABELS: Record<string, string> = {
+  kurumsal: "Kurumsal",
+};
 
 export function isLiveCatalogModule(moduleKey: string): boolean {
   return ADMIN_CATALOG_LIVE_MODULE_KEY_SET.has(moduleKey);
@@ -39,7 +44,7 @@ export function catalogModuleLabel(moduleKey: string): string {
   const room =
     VERTICAL_ROOMS.find((row) => row.id === moduleKey) ??
     FROZEN_DISK_ROOM_CATALOG.find((row) => row.id === moduleKey);
-  return room?.label ?? moduleKey;
+  return room?.label ?? ADMIN_LIVE_MODULE_LABELS[moduleKey] ?? moduleKey;
 }
 
 export function catalogUnitTypeLabel(unitType: PriceCatalogUnitType): string {

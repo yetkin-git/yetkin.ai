@@ -3,6 +3,12 @@ import { jsonFail, jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
 import { requireRailV1IdempotencyKey } from "@/lib/kernel/http/v1-runtime-shield";
 import { checkoutLegalConsentSchema } from "@/lib/kernel/legal/checkout-consent";
+import {
+  checkoutBillingInfoSchema,
+  isCheckoutBillingIssue,
+} from "@/lib/kernel/identity/billing-info";
+import { persistCheckoutBilling } from "@/lib/kernel/identity/billing-info-write";
+import { createPrismaBillingInfoStore } from "@/lib/kernel/identity/prisma-billing-info-store";
 import { placeSingleCatalogPurchase } from "@/lib/kernel/payments/single-purchase-checkout";
 import { resolvePaytrCheckoutUserIp } from "@/lib/kernel/payments/paytr/checkout";
 import {
@@ -28,12 +34,23 @@ import {
  * üretilmemişti: ürün pratikte satılamıyordu. Bu rota katalog birimini
  * (`kurumsal/job-screening-pack`) gerçek tahsilata bağlar.
  *
+ * **F2.12 — fatura künyesi.** `placeSingleCatalogPurchase` künyeyi veritabanından
+ * okuyor; künye yoksa `422 Fatura künyesi gerekli.` dönüyordu. Kokpitte künye
+ * toplanmadığı için **taze bir işveren satın alma düğmesine bastığında her zaman
+ * 422** alıyordu — düğme vardı, akış ölüydü. Rota artık istekteki `billing`
+ * alanını zorunlu tutar, PayTR sözleşmesinin istediği künyeyi yazar ve tahsilata
+ * o künyeyle girer.
+ *
  * Dürüstlük sınırları:
  * - Tutar istekten okunmaz; yalnız aktif katalog satırından gelir (A1).
  * - Katalog satırı yoksa/pasifse tahsilat **başlamaz** (422).
  * - Satın alma tek başına aday puanı basmaz; yalnız ilan açma hakkını verir.
  */
 export const auth = "session" as const;
+
+const bodySchema = checkoutLegalConsentSchema.extend({
+  billing: checkoutBillingInfoSchema,
+});
 
 export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
@@ -48,11 +65,22 @@ export async function POST(request: Request) {
       return idempotency.response;
     }
     const body: unknown = await request.json().catch(() => null);
-    const record = body != null && typeof body === "object" && !Array.isArray(body) ? body : null;
-    const consent = checkoutLegalConsentSchema.safeParse(record);
-    if (!consent.success) {
-      return jsonFail("Kasa rızası zorunludur.", 422, requestId, request);
+    const parsed = bodySchema.safeParse(body);
+    if (!parsed.success) {
+      // Fatura sorunu ile rıza sorunu ayrı mesaj taşır; sessiz 422 yok.
+      const billingIssue = isCheckoutBillingIssue(parsed.error);
+      return jsonFail(
+        billingIssue
+          ? "Fatura künyesi eksik ya da geçersiz. Tahsilat başlamadı."
+          : "Kasa rızası zorunludur.",
+        422,
+        requestId,
+        request,
+      );
     }
+    const { billing, ...consent } = parsed.data;
+    // Künye tahsilattan **önce** yazılır: PayTR dönüşünde ve tekrar denemede hazır.
+    await persistCheckoutBilling(createPrismaBillingInfoStore(), user.id, billing);
     const placed = await placeSingleCatalogPurchase({
       userId: user.id,
       email: user.email,
@@ -63,7 +91,8 @@ export async function POST(request: Request) {
       returnDesk: "kurumsal",
       idempotencyKey: idempotency.key,
       userIp: resolvePaytrCheckoutUserIp(request.headers),
-      consent: consent.data,
+      consent,
+      billing,
     });
     if (!placed.ok) {
       // Katalog kapalıysa dürüst yönlendirme: self-servis kasa yok, ön talep var.

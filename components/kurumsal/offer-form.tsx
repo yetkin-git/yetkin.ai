@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { IconArrow, IconBuilding, IconUser } from "@/components/ui/icons";
 import { INPUT_SURFACE_CLASS, Input } from "@/components/ui/input";
 import { SmartTextarea } from "@/components/ui/smart-textarea";
+import { KURUMSAL_LEAD_PROVINCES } from "@/lib/sales/kurumsal-lead-city";
 import { KURUMSAL_OFFER_PACKAGES, type KurumsalOfferPackageKey } from "@/lib/sales/kurumsal-offer-packages";
 import { withRailApiVersion } from "@/lib/ui/rail-client-fetch";
 
@@ -76,9 +77,11 @@ export function validateOfferForm(input: {
 export function KurumsalOfferForm() {
   const [companyName, setCompanyName] = useState("");
   const [email, setEmail] = useState("");
-  const [city, setCity] = useState("");
-  const [packageKey, setPackageKey] = useState<KurumsalOfferPackageKey>("team-seat");
+  const [city, setCity] = useState<(typeof KURUMSAL_LEAD_PROVINCES)[number] | "">("");
+  const [packageKey, setPackageKey] = useState<KurumsalOfferPackageKey>("job-screening-pack");
   const [note, setNote] = useState("");
+  /** Honeypot — botlar doldurur; sunucu sessizce reddeder. */
+  const [website, setWebsite] = useState("");
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -101,7 +104,7 @@ export function KurumsalOfferForm() {
         withRailApiVersion({
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ companyName, email, city, packageKey, note }),
+          body: JSON.stringify({ companyName, email, city, packageKey, note, website }),
         }),
       );
       const body = (await response.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
@@ -156,16 +159,34 @@ export function KurumsalOfferForm() {
       </label>
       <label className="grid gap-1.5 text-sm font-medium">
         <span className="inline-flex items-center gap-1.5">İl</span>
-        <Input
+        <select
+          className={INPUT_SURFACE_CLASS}
           value={city}
-          onChange={(event) => setCity(event.target.value)}
           required
-          maxLength={OFFER_FORM_LIMITS.city}
           aria-invalid={fieldErrors.city ? true : undefined}
-        />
+          onChange={(event) =>
+            setCity(event.target.value as (typeof KURUMSAL_LEAD_PROVINCES)[number] | "")
+          }
+        >
+          <option value="">İl seçin</option>
+          {KURUMSAL_LEAD_PROVINCES.map((name) => (
+            <option key={name} value={name}>
+              {name}
+            </option>
+          ))}
+        </select>
         {fieldErrors.city ? (
           <span className="text-xs font-normal text-[var(--rose)]">{fieldErrors.city}</span>
         ) : null}
+      </label>
+      <label className="sr-only" aria-hidden="true">
+        Website
+        <input
+          tabIndex={-1}
+          autoComplete="off"
+          value={website}
+          onChange={(event) => setWebsite(event.target.value)}
+        />
       </label>
       <label className="grid gap-1.5 text-sm font-medium">
         Paket

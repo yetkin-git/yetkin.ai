@@ -23,6 +23,7 @@ import {
   academyShowcasePrice,
   PUBLIC_FREE_EVALUATION_LABEL,
   PUBLIC_KURUMSAL_QUOTE_LABEL,
+  PUBLIC_PREORDER_LABEL,
 } from "@/lib/pricing/showcase-price";
 
 const ROOT = process.cwd();
@@ -157,7 +158,10 @@ describe("vitrin etiketi ve katalog dürüstlüğü", () => {
   it("canlı YetkinCV ve Kurumsal kartı ön talep etiketini taşımaz", () => {
     const vitrine = readSrc("lib/pricing/public-vitrine.ts");
     expect(PUBLIC_FREE_EVALUATION_LABEL).toBe("Ücretsiz Değerlendirme");
-    expect(PUBLIC_KURUMSAL_QUOTE_LABEL).toBe("Kurumsal Teklif");
+    // F2.10 — fiyat slotunda uydurma tutar yerine "Özel Teklif Al" basılır.
+    // Sabit addır; iki etiket aynı metni taşır, ayrı kimlik olarak durur.
+    expect(PUBLIC_KURUMSAL_QUOTE_LABEL).toBe("Özel Teklif Al");
+    expect(PUBLIC_KURUMSAL_QUOTE_LABEL).toBe(PUBLIC_PREORDER_LABEL);
     expect(vitrine).toContain("PUBLIC_FREE_EVALUATION_LABEL");
     expect(vitrine).toContain("PUBLIC_KURUMSAL_QUOTE_LABEL");
     expect(vitrine).not.toContain("PUBLIC_PREORDER_LABEL");

@@ -8,7 +8,7 @@ import { LegalSiteFooter } from "@/components/legal/legal-site-footer";
  * Üst menü **tek yerde**: `PublicTopBar`. Ana sayfa bu bileşeni kullanır ve kendi
  * `<header>`'ını basmaz — böylece çift header doğmaz. Diğer kamu sayfaları
  * (`/fiyatlandirma`, `/kurumsal`, `/rehber`, `/legal`, `/iletisim`, `/hakkimizda`,
- * `/sozluk`, `/tetkik`, `/uzmanlar`) da aynı navigasyonu görür.
+ * `/sozluk`, `/tetkik`, `/career/vitrin`) da aynı navigasyonu görür.
  *
  * Üst menü `sticky` değildir: sabit footer zaten var; ikinci sabit katman mobilde
  * içeriği yer. Menü sayfayla kayar, içerik arama motoru için normal akışta kalır.

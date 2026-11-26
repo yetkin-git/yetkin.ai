@@ -447,10 +447,10 @@ for (const sqlFile of CATALOG_SQL) {
         ruleId: "room.sicil",
       });
     }
-    if (!frozenIds || frozenIds.length !== 7) {
+    if (!frozenIds || frozenIds.length !== 6) {
       violations.push({
         file: ROOMS_SSOT_REL,
-        spec: "FROZEN_DISK_ROOMS bloğu parse edilemedi veya 7 oda değil",
+        spec: "FROZEN_DISK_ROOMS bloğu parse edilemedi veya 6 oda değil",
         ruleId: "room.sicil",
       });
     }
@@ -458,6 +458,14 @@ for (const sqlFile of CATALOG_SQL) {
       violations.push({
         file: ROOMS_SSOT_REL,
         spec: "junior donmuş disk listesinde",
+        ruleId: "room.sicil",
+      });
+    }
+    // Canlı B2B satış + İK eleme yüzeyi; donmuş disk listesinde olamaz (F1.1 / O-07).
+    if (frozenIds?.includes("kurumsal")) {
+      violations.push({
+        file: ROOMS_SSOT_REL,
+        spec: "kurumsal donmuş disk listesinde (canlı B2B yüzeyi)",
         ruleId: "room.sicil",
       });
     }

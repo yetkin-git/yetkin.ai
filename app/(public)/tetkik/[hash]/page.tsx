@@ -89,8 +89,8 @@ export default async function TetkikReportPage({
           Bu eksikleri AI Tezgâh ile kendin düzelt
           <IconArrow className="h-3.5 w-3.5" />
         </LinkButton>
-        <LinkButton href={"/uzmanlar" as Route} variant="outline">
-          Onaylı bir uzmana devret
+        <LinkButton href={"/career/vitrin" as Route} variant="outline">
+          Onaylı yetenek vitrinine bak
         </LinkButton>
       </div>
     </main>

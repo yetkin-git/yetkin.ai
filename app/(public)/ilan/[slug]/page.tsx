@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { KurumsalJobApplyGate } from "@/components/kurumsal/job-apply-gate";
 import { JsonLd } from "@/components/seo/json-ld";
 import { Card } from "@/components/ui/card";
@@ -73,16 +74,9 @@ export default async function KurumsalJobApplyPage({
       </RoomFrame>
     );
   }
+  // Soft 404 yasak: kapalı / süresi dolmuş / bilinmeyen slug → gerçek HTTP 404 (F1.4 / Y-05).
   if (!job) {
-    return (
-      <RoomFrame className="px-6 pb-16 pt-10">
-        <PageHeader
-          eyebrow="Başvuru"
-          title="İlan bulunamadı"
-          description="Bu başvuru adresi açık bir ilana bağlı değil. Sahte ilan basılmaz."
-        />
-      </RoomFrame>
-    );
+    notFound();
   }
   const session = await getSession();
 

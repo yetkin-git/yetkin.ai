@@ -46,7 +46,6 @@ describe("dikey yazma kenar yüzeyi", () => {
       "/pazaryeri/tezgah",
       "/yetkinilan/tezgah",
       "/arena/yeni",
-      "/kurumsal/ilan/yeni",
       "/devlabs/projeler/e2e",
       "/freelancer",
       "/freelancer/new",
@@ -55,6 +54,10 @@ describe("dikey yazma kenar yüzeyi", () => {
       const response = await proxy(request(path));
       expect(response.status, path).toBe(410);
     }
+    // F1.1 — `kurumsal` canlı B2B yüzeyidir, 410 almaz. Var olmayan alt yol ise
+    // 410 değil **404** olmalıdır: canlı odanın adres kapısı soft 404 üretmez.
+    expect((await proxy(request("/kurumsal/ilan/yeni"))).status).toBe(404);
+    expect((await proxy(request("/kurumsal/olmayan-sayfa"))).status).toBe(404);
     expect((await proxy(request("/academy"))).status).toBe(410);
     expect((await proxy(request("/academy/dogrula"))).status).toBe(410);
     expect((await proxy(request("/academy/python-temel/oyna"))).status).toBe(410);

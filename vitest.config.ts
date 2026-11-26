@@ -23,6 +23,8 @@ const ARCHIVED_TEST_GLOBS = ["archived/**"];
 const ARCHIVE_IMPORT_TESTS = [
   "tests/kernel/three-ring-e2e-surface.test.ts",
   "tests/kernel/earnings-bridge.test.ts",
+  // Arşiv emanet motoru (`@/lib/kurumsal/engine`). Canlı eleme `lib/sales/kurumsal-screening*`.
+  "tests/kurumsal/job-posting.test.ts",
 ];
 
 export default defineConfig({

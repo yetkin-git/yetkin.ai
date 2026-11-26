@@ -689,6 +689,29 @@ export const tetkikReportsCleanup = inngest.createFunction(
   },
 );
 
+/**
+ * Her gün 04:10 — süresi 90 günü geçmiş kurumsal ilan başvurularını anonimleştirir (F1.6).
+ * PII sabitleri `lib/sales/kurumsal-retention.ts` içindedir; puan/band satırı bozulmaz.
+ */
+export const kurumsalApplicationRetention = inngest.createFunction(
+  {
+    id: "kurumsal-application-retention",
+    name: "Kurumsal başvuru 90 gün anonimleştirme",
+    triggers: [{ cron: "TZ=Europe/Istanbul 10 4 * * *" }],
+  },
+  async ({ step }) => {
+    return step.run("anonymize-expired-kurumsal-applications", async () => {
+      if (!process.env.DATABASE_URL?.trim()) {
+        return { skipped: true, reason: "database_unconfigured" };
+      }
+      const { anonymizeExpiredKurumsalApplications } = await import(
+        "@/lib/sales/kurumsal-retention"
+      );
+      return anonymizeExpiredKurumsalApplications();
+    });
+  },
+);
+
 export const kernelInngestFunctions = [
   paytrClearingScan,
   paytrClearingSingle,
@@ -712,6 +735,7 @@ export const kernelInngestFunctions = [
   grantReservationSweep,
   hibeLifecycleReminders,
   tetkikReportsCleanup,
+  kurumsalApplicationRetention,
 ];
 
 export function inngestNotConfiguredResponse(requestId?: string) {

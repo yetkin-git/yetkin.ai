@@ -246,12 +246,13 @@ export function isAcademyCertificatesPath(pathname: string): boolean {
 }
 
 /**
- * Anasayfa ve Kariyer herkese açıktır. Alt yollar sığınak kalır.
- * Kenar bu iki adresi kataloğa veya girişe düşürmez.
+ * Anasayfa ve Kariyer herkese açıktır. Alt yollar sığınak kalır —
+ * tek istisna: YetkinCV kamu yetenek vitrini (`/career/vitrin`).
+ * Kenar bu adresleri kataloğa veya girişe düşürmez.
  */
 export function isPublicKernelVitrinePath(pathname: string): boolean {
   const path = normalizePathname(pathname);
-  return path === "/dashboard" || path === "/career";
+  return path === "/dashboard" || path === "/career" || path === "/career/vitrin";
 }
 
 export function isProtectedCitizenPath(pathname: string): boolean {

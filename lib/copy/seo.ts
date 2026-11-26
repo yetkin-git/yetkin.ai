@@ -180,10 +180,10 @@ export const PAGE_SEO = {
     image: DEFAULT_OG_IMAGE,
   },
   uzmanlar: {
-    title: "Uzman dizini — doğrulanmış rozet vitrini",
+    title: "YetkinCV Onaylı Yetenek Vitrini",
     description:
-      "Doğrulanmış rozetli uzmanların kamu vitrini. Para platformdan geçmez. Liste, aynı kırılımda en az beş kişi varken açılır.",
-    path: "/uzmanlar",
+      "60 soruluk sınavı geçip YetkinCV mührü kazanmış yeteneklerin kamu doğrulama dizini. Freelancer pazarı, teklif ve emanet burada yoktur. Liste en az beş onaylı profilde açılır.",
+    path: "/career/vitrin",
     image: DEFAULT_OG_IMAGE,
   },
   sozluk: {
@@ -394,7 +394,7 @@ export type SitemapChangeFrequency =
  * basıyor; politikada 0.8 tutmak ölü bir yüzeyi canlı saymaktı.
  *
  * SEO-05: `/fiyatlandirma` 0.7 (default) → **0.9**. Ticari değeri en yüksek sayfa
- * `/tezgah` ve `/career` ile aynı banda alındı; `/uzmanlar` (0.8) ve `/tetkik` (0.8)
+ * `/tezgah` ve `/career` ile aynı banda alındı; `/career/vitrin` (0.8) ve `/tetkik` (0.8)
  * keşif yüzeyleridir, satış sayfası değildir. `/legal/*` 0.5 → **0.3**: 11 yasal
  * sayfa site haritasını şişiriyor ve arama niyeti taşımıyor.
  */
@@ -420,7 +420,7 @@ export function sitemapRoutePolicy(path: string): {
   if (path === PAGE_SEO.guide.path || path.startsWith("/rehber/")) {
     return { changeFrequency: "monthly", priority: 0.9 };
   }
-  if (path === "/uzmanlar" || path === "/sozluk" || path === "/tetkik") {
+  if (path === "/career/vitrin" || path === "/sozluk" || path === "/tetkik") {
     return { changeFrequency: "weekly", priority: 0.8 };
   }
   if (path.startsWith("/sozluk/")) {

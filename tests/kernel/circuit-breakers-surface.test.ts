@@ -46,7 +46,8 @@ describe("üretim kilitleri ve donmuş oda yüzey mühürü", () => {
 
   it("donmuş disk odaları SSOT FROZEN_DISK_ROOMS ile hizalıdır", () => {
     expect([...FROZEN_SHELL_ROOM_IDS]).toEqual([...FROZEN_DISK_ROOMS]);
-    expect(FROZEN_SHELL_ROOM_IDS).toHaveLength(7);
+    expect(FROZEN_SHELL_ROOM_IDS).toHaveLength(6);
+    expect(FROZEN_DISK_ROOMS).not.toContain("kurumsal");
   });
 
   it("donmuş sayfa yolları ve marka aliasları 410 yüzeyi taşır", () => {
@@ -59,7 +60,8 @@ describe("üretim kilitleri ve donmuş oda yüzey mühürü", () => {
     expect(isFrozenShellPagePath("/freelancer")).toBe(true);
     expect(isFrozenShellPagePath("/kurumsal")).toBe(false);
     expect(isFrozenShellPagePath("/kurumsal/ilanlar")).toBe(false);
-    expect(isFrozenShellPagePath("/kurumsal/ilan/yeni")).toBe(true);
+    // Kurumsal canlıdır; arşiv `/kurumsal/ilan/yeni` yolu kenarda 410 üretmez.
+    expect(isFrozenShellPagePath("/kurumsal/ilan/yeni")).toBe(false);
     expect(isFrozenShellPagePath("/freelancer/jobs/fj_1")).toBe(true);
     expect(isFrozenShellPagePath("/junior")).toBe(false);
     expect(isFrozenShellPagePath("/junior/ders/jr_06_mat-1")).toBe(false);

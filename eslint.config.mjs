@@ -48,7 +48,7 @@ function parseSsotIds(exportName, idPattern) {
 const VERTICAL_ROOMS = parseSsotIds("VERTICAL_ROOMS", /\bid:\s*"([a-z0-9-]+)"/g);
 const FROZEN_DISK_ROOMS = parseSsotIds("FROZEN_DISK_ROOMS", /"([a-z0-9-]+)"/g);
 const INDEPENDENT_ROOMS = parseSsotIds("INDEPENDENT_ROOMS", /\bid:\s*"([a-z0-9-]+)"/g);
-/** Canlı oda duvarı yalnız 4 çalışan oda. Donmuş 7 oda ve müstakil Junior sicil/denylist; lib/kernel onları import etmez. */
+/** Canlı oda duvarı yalnız 4 çalışan oda. Donmuş 6 oda ve müstakil Junior sicil/denylist; lib/kernel onları import etmez. */
 const LIVE_ROOMS = VERTICAL_ROOMS;
 
 const MUSEUM_MSG =

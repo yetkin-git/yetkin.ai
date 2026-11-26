@@ -70,10 +70,10 @@ export function HeaderBar({
             Nasıl Çalışır?
           </Link>
           <Link
-            href="/uzmanlar"
+            href="/career/vitrin"
             className="inline-flex min-h-11 items-center rounded-xl px-2 text-sm font-semibold text-[var(--foreground)] hover:bg-[var(--surface-muted)]"
           >
-            Uzmanlar
+            Yetenek Vitrini
           </Link>
           <Link
             href="/kurumsal"

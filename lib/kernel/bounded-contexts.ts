@@ -9,8 +9,8 @@
  * (`freelancer`), Young (`young`).
  *
  * Kayıt dışı: E-Ticaret kokpiti (`/panel/e-ticaret`) `COMMERCE_NAV` satırıdır, dron kaydı
- * değildir. Kurumsal sayfa (`/kurumsal`, `/kurumsal/ilanlar`) açıktır. Donmuş disk
- * kimliği `kurumsal` bu iki yolu kapatmaz. Donmuş disk kimliği `hibe` canlı
+ * değildir. Kurumsal (`/kurumsal`, `/kurumsal/ilanlar`, `/api/kurumsal/*`) canlı B2B
+ * yüzeyidir; `FROZEN_DISK_ROOMS` içinde değildir. Donmuş disk kimliği `hibe` canlı
  * YetkinHibe odası değildir; canlı kimlik `yetkinhibe`’dir.
  *
  * `RAIL_PHASE1_ROOM_CONTEXT` oda açıklığını söylemez. Academy satırı askıdayken de

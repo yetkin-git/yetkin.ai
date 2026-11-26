@@ -17,6 +17,8 @@ export const SUPER_ADMIN_AUDIT_ACTIONS = [
   "ai_model_bind",
   /** Kurumsal işveren kimliği doğrulaması — kamu ilanının index kilidini açar. */
   "employer_verify",
+  /** Kurumsal teklif talebi durum geçişi (F2.4) — gelir hattı iz kaydı. */
+  "offer_request_status",
 ] as const;
 
 /** Mühür satırı açılmazsa yazma geri alınır. Sessiz geçiş yoktur. */

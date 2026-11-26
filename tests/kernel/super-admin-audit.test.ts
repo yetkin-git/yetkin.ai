@@ -69,7 +69,11 @@ describe("süper yönetici günlüğü", () => {
     const employer = read(
       "prisma/migrations/20261124190000_super_admin_audit_employer_verify/migration.sql",
     );
-    const actionSql = `${sql}\n${b2b.slice(b2b.lastIndexOf("super_admin_audit_logs_action_known"))}\n${bind.slice(bind.lastIndexOf("super_admin_audit_logs_action_known"))}\n${employer}`;
+    // Faz 2 lead iş akışı `offer_request_status` eylemini ekler.
+    const offerStatus = read(
+      "prisma/migrations/20261126020000_super_admin_audit_offer_request_status/migration.sql",
+    );
+    const actionSql = `${sql}\n${b2b.slice(b2b.lastIndexOf("super_admin_audit_logs_action_known"))}\n${bind.slice(bind.lastIndexOf("super_admin_audit_logs_action_known"))}\n${employer}\n${offerStatus}`;
     for (const action of SUPER_ADMIN_AUDIT_ACTIONS) {
       expect(actionSql).toContain(`'${action}'`);
     }

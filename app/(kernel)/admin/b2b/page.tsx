@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AdminB2bDesk } from "@/components/kernel/admin-b2b-desk";
+import { AdminKurumsalOffers } from "@/components/kernel/admin-kurumsal-offers";
 import { AuthNeeded } from "@/components/ui/auth-needed";
 import { Card } from "@/components/ui/card";
 import { Forbidden } from "@/components/ui/forbidden";
@@ -7,7 +8,10 @@ import { LinkButton } from "@/components/ui/link-button";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { ADMIN_SEN } from "@/lib/copy/sen-voice/admin";
 import { loadB2bBoard } from "@/lib/kernel/admin/b2b-load";
-import { loadKurumsalOfferBoard } from "@/lib/kernel/admin/kurumsal-offer-load";
+import {
+  loadKurumsalOfferBoard,
+  parseKurumsalOfferStatusFilter,
+} from "@/lib/kernel/admin/kurumsal-offer-load";
 import { ADMIN_SURFACE_PATH } from "@/lib/kernel/admin/types";
 import { resolveSuperAdminAccess } from "@/lib/kernel/auth/session";
 
@@ -16,13 +20,26 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function AdminB2bPage() {
+export default async function AdminB2bPage({
+  searchParams,
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const access = await resolveSuperAdminAccess();
   const signedIn = access.kind !== "unauthenticated";
   const isAdmin = access.kind === "ok";
   const copy = ADMIN_SEN.b2b;
+  const params = (await searchParams) ?? {};
+  const pageRaw = typeof params.page === "string" ? Number(params.page) : 1;
+  const page = Number.isFinite(pageRaw) && pageRaw > 0 ? Math.floor(pageRaw) : 1;
+  const status = parseKurumsalOfferStatusFilter(
+    typeof params.status === "string" ? params.status : "ALL",
+  );
   const board = access.kind === "ok" ? await loadB2bBoard(access.user) : null;
-  const offers = access.kind === "ok" ? await loadKurumsalOfferBoard(access.user) : null;
+  const offers =
+    access.kind === "ok"
+      ? await loadKurumsalOfferBoard(access.user, { page, status })
+      : null;
 
   return (
     <RoomFrame>
@@ -48,28 +65,16 @@ export default async function AdminB2bPage() {
             <p className="text-sm text-[var(--muted)]">{copy.offersBody}</p>
             {offers?.access === "unavailable" ? (
               <p className="mt-3 text-sm text-[var(--muted)]">{copy.offersUnavailable}</p>
-            ) : offers?.access === "ok" && offers.rows.length === 0 ? (
-              <p className="mt-3 text-sm text-[var(--muted)]">{copy.offersEmpty}</p>
             ) : offers?.access === "ok" ? (
-              <ul className="mt-4 divide-y divide-[var(--border)]">
-                {offers.rows.map((row) => (
-                  <li key={row.id} className="py-3 text-sm">
-                    <p className="font-medium text-[var(--foreground)]">
-                      {row.companyName}
-                      <span className="ml-2 font-normal text-[var(--muted)]">{row.city}</span>
-                    </p>
-                    <p className="mt-1 text-[var(--muted)]">
-                      {copy.offersPackage}: {row.packageLabel}
-                      <span className="mx-2">·</span>
-                      {row.email}
-                    </p>
-                    <p className="mt-1 text-xs text-[var(--muted)]">
-                      {copy.offersWhen}: {row.createdAt.slice(0, 16).replace("T", " ")}
-                    </p>
-                    {row.note ? <p className="mt-1 text-[var(--foreground)]">{row.note}</p> : null}
-                  </li>
-                ))}
-              </ul>
+              <div className="mt-4">
+                <AdminKurumsalOffers
+                  rows={offers.rows}
+                  page={offers.page}
+                  pageSize={offers.pageSize}
+                  total={offers.total}
+                  status={offers.status}
+                />
+              </div>
             ) : null}
           </Card>
           <AdminB2bDesk board={board.board} />

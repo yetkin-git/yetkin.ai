@@ -116,6 +116,7 @@ describe("korumalı yazma yolları", () => {
     expect(isProtectedCitizenPath("/studio")).toBe(false);
     expect(isPublicKernelVitrinePath("/dashboard")).toBe(true);
     expect(isPublicKernelVitrinePath("/career")).toBe(true);
+    expect(isPublicKernelVitrinePath("/career/vitrin")).toBe(true);
     expect(isPublicKernelVitrinePath("/dashboard/ek")).toBe(false);
     expect(isProtectedCitizenPath("/dashboard")).toBe(false);
     expect(isProtectedCitizenPath("/dashboard/ek")).toBe(true);
@@ -128,6 +129,7 @@ describe("korumalı yazma yolları", () => {
     expect(isProtectedCitizenPath("/academy/05_prompt_practice/oyna")).toBe(false);
     expect(isProtectedCitizenPath("/academy/certificates")).toBe(true);
     expect(isProtectedCitizenPath("/career")).toBe(false);
+    expect(isProtectedCitizenPath("/career/vitrin")).toBe(false);
     expect(isProtectedCitizenPath("/career/ek")).toBe(true);
     expect(isProtectedCitizenPath("/academy")).toBe(false);
     expect(isProtectedCitizenPath("/academy/dogrula")).toBe(false);
@@ -188,6 +190,7 @@ describe("kenar kararları", () => {
       to: CITIZEN_LOGIN_PATH,
     });
     expect(decideEdgeAction("/career", false)).toEqual({ kind: "next" });
+    expect(decideEdgeAction("/career/vitrin", false)).toEqual({ kind: "next" });
     expect(decideEdgeAction("/career/ek", false)).toEqual({
       kind: "auth-307",
       to: CITIZEN_LOGIN_PATH,

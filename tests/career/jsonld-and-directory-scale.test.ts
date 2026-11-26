@@ -29,8 +29,8 @@ describe("Y8 / F2.3 — JSON-LD yardımcıları", () => {
 
   it("ItemList + Person hasCredential üretir", () => {
     const node = buildTalentDirectoryJsonLd({
-      name: "Uzmanlar",
-      path: "/uzmanlar",
+      name: "YetkinCV Onaylı Yetenek Vitrini",
+      path: "/career/vitrin",
       experts: [
         {
           name: "Rozet sahibi",

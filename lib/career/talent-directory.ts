@@ -7,14 +7,16 @@ import {
 } from "@/lib/career/k-anonymity";
 import { parsePublicTalentId, publicTalentPath } from "@/lib/career/public-talent";
 
-/** Kamuya açık dizin. Para ve ilan tahtası yoktur. */
-export const TALENT_DIRECTORY_PATH = "/uzmanlar" as const;
-export const TALENT_DIRECTORY_EXAM_HREF = "/career#yetkincv" as const;
-export const TALENT_DIRECTORY_EXAM_CTA = "İlk Onaylı Uzmanlardan Biri Ol → Sınava Gir" as const;
+/** Kamuya açık YetkinCV yetenek vitrini. Freelancer pazarı, emanet ve teklif burada yoktur. */
+export const TALENT_DIRECTORY_PATH = "/career/vitrin" as const;
+export const TALENT_DIRECTORY_EXAM_HREF = "/career" as const;
+export const TALENT_DIRECTORY_EXAM_CTA = "YetkinCV Sınavına Gir" as const;
+export const TALENT_DIRECTORY_JOBS_HREF = "/ilan" as const;
+export const TALENT_DIRECTORY_JOBS_CTA = "Açık Kurumsal İlanları İncele" as const;
 export const TALENT_DIRECTORY_EMPTY_MESSAGE =
-  "Bu filtrede kamuya açılabilecek uzman listesi yok. Aynı kırılımda en az 5 kişi olmadan liste basılmaz. Sahte profil üretilmez." as const;
+  "Henüz kamuya açılabilecek onaylı profil yok. Aynı kırılımda en az 5 YetkinCV mührü olmadan liste basılmaz. Sahte profil üretilmez." as const;
 export const TALENT_DIRECTORY_UNAVAILABLE_MESSAGE =
-  "Dizin şu an okunamadı. Liste uydurulmadı." as const;
+  "Vitrin şu an okunamadı. Liste uydurulmadı." as const;
 
 export const TALENT_DIRECTORY_VERTICALS = [
   { id: "eticaret", label: "E-Ticaret", slugs: ["02_ecommerce_ai", "ecommerce"] },

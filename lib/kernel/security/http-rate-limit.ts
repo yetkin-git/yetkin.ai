@@ -59,6 +59,14 @@ export const HTTP_RATE_LIMITS = {
   guestCheckoutIp: { keyPrefix: "guest-checkout-ip", limit: 5, windowMs: TEN_MINUTES_MS },
   /** `/claim/[token]` şifre belirleme — kaba kuvvet ve token denemesi. */
   claimOrderIp: { keyPrefix: "claim-order-ip", limit: 10, windowMs: TEN_MINUTES_MS },
+  /** Kurumsal teklif formu — IP başına (lead). */
+  leadIp: { keyPrefix: "kurumsal-lead", limit: 5, windowMs: TEN_MINUTES_MS },
+  /** Kurumsal ilan oluşturma — IP+userId (O-03 / F2.8). */
+  kurumsalIlanUser: { keyPrefix: "kurumsal-ilan-user", limit: 8, windowMs: TEN_MINUTES_MS },
+  /** Kurumsal başvuru — IP+userId (O-03 / F2.8). */
+  kurumsalApplyUser: { keyPrefix: "kurumsal-apply-user", limit: 8, windowMs: TEN_MINUTES_MS },
+  /** Kenar: kurumsal mutasyon yolları IP burst. */
+  kurumsalMutationIp: { keyPrefix: "kurumsal-mutation-ip", limit: 20, windowMs: TEN_MINUTES_MS },
 } as const;
 
 export const HTTP_RATE_LIMIT_ERROR = "Çok fazla istek. Biraz sonra yeniden dene.";
@@ -144,6 +152,21 @@ export function isFinancialMutationPath(pathname: string): boolean {
   return FINANCIAL_SUFFIXES.some((suffix) => path.endsWith(suffix));
 }
 
+/** Kurumsal ilan / başvuru / lead mutasyon yolları — kenar IP tavanı (O-03 / F2.8). */
+export function isKurumsalMutationPath(pathname: string): boolean {
+  const path = canonicalApiPathname(pathname);
+  if (path === "/api/lead" || path === "/api/kurumsal/ilanlar" || path === "/api/kurumsal/satin-al") {
+    return true;
+  }
+  if (path.startsWith("/api/kurumsal/ilanlar/")) {
+    return true;
+  }
+  if (/^\/api\/ilan\/[^/]+\/basvuru(?:\/teslim)?$/.test(path)) {
+    return true;
+  }
+  return false;
+}
+
 export function matchEdgeRateLimit(
   pathname: string,
   method: string,
@@ -164,6 +187,12 @@ export function matchEdgeRateLimit(
   }
   if (isFinancialMutationPath(path) && verb !== "GET" && verb !== "HEAD") {
     return HTTP_RATE_LIMITS.financialMutationIp;
+  }
+  if (isKurumsalMutationPath(path) && verb !== "GET" && verb !== "HEAD") {
+    if (path === "/api/lead") {
+      return HTTP_RATE_LIMITS.leadIp;
+    }
+    return HTTP_RATE_LIMITS.kurumsalMutationIp;
   }
   if (path === "/api/auth" || path.startsWith("/api/auth/")) {
     return HTTP_RATE_LIMITS.authIp;

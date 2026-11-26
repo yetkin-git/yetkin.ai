@@ -82,11 +82,8 @@ export function isFrozenRoomApi(pathname: string, actor: JuniorActor | null = nu
   ) {
     return true;
   }
-  // Sayfa yolu `/kurumsal/ilanlar` açıktır. Aynı kokpitin API'si donmuş `kurumsal`
-  // önekine takılıp 410 dönmesin. Diğer `/api/kurumsal/*` yolları kapalı kalır.
-  if (path === "/api/kurumsal/ilanlar" || path.startsWith("/api/kurumsal/ilanlar/")) {
-    return false;
-  }
+  // `kurumsal` canlı B2B yüzeyidir; `FROZEN_SHELL_ROOM_IDS` içinde değildir.
+  // `/api/kurumsal/satin-al` ve `/api/kurumsal/ilanlar*` kenarda 410 yemez (F1.1).
   if (
     (FROZEN_SHELL_ROOM_IDS as readonly string[]).some(
       (id) => path === `/api/${id}` || path.startsWith(`/api/${id}/`),

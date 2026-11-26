@@ -11,6 +11,7 @@ describe("Y1 / F2.1 — işveren doğrulama noindex + rozet", () => {
     expect(page).toContain("Kurumsal kimlik doğrulaması beklemede");
     expect(page).toContain("Doğrulanmış İşveren ✓");
     expect(page).toContain("buildJobPostingJsonLd");
+    expect(page).toContain("notFound()");
     expect(page).not.toContain("dangerouslySetInnerHTML");
   });
 

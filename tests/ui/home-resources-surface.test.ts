@@ -47,10 +47,10 @@ describe("Faz 2 SEO — yetim sayfa kapanışı ve sitemap kapsamı", () => {
     expect(page).not.toContain("LegalSiteFooter");
   });
 
-  it("dört keşif yüzeyi (/sozluk, /tetkik, /rehber, /uzmanlar) doğrudan bağ alır", () => {
+  it("dört keşif yüzeyi (/sozluk, /tetkik, /rehber, /career/vitrin) doğrudan bağ alır", () => {
     const copy = SEN_VOICE.public.home;
     const hrefs = copy.resources.map((row) => row.href);
-    expect(hrefs).toEqual(["/sozluk", "/tetkik", "/rehber", "/uzmanlar"]);
+    expect(hrefs).toEqual(["/sozluk", "/tetkik", "/rehber", "/career/vitrin"]);
 
     // Her satır başlık + gövde + CTA taşır; boş kart basılmaz.
     for (const row of copy.resources) {
@@ -158,5 +158,6 @@ describe("Faz 2 SEO — sözlük ve rehber yollarının SSOT'u", () => {
     expect(existsSync(join(ROOT, "app/(public)/sozluk/page.tsx"))).toBe(true);
     expect(existsSync(join(ROOT, "app/(public)/tetkik/page.tsx"))).toBe(true);
     expect(existsSync(join(ROOT, "app/(public)/uzmanlar/page.tsx"))).toBe(true);
+    expect(existsSync(join(ROOT, "app/(public)/career/vitrin/page.tsx"))).toBe(true);
   });
 });

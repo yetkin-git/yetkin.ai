@@ -1,7 +1,11 @@
 import { requireSession } from "@/lib/kernel/auth/session";
 import { jsonFromUnknown, jsonOk } from "@/lib/kernel/http/json";
 import { resolveRequestId } from "@/lib/kernel/http/request-id";
-import { applyHttpRateLimit, rateLimitedJsonResponse } from "@/lib/kernel/security/http-rate-limit";
+import {
+  applyHttpRateLimit,
+  HTTP_RATE_LIMITS,
+  rateLimitedJsonResponse,
+} from "@/lib/kernel/security/http-rate-limit";
 import { createKurumsalJobPosting, loadOwnerKurumsalBoard } from "@/lib/sales/kurumsal-screening-load";
 
 /** İlan sahibi kokpiti. Başka üyenin adayı ve CV özeti okunmaz. */
@@ -20,16 +24,16 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const requestId = resolveRequestId(request);
-  const limit = await applyHttpRateLimit(request, {
-    keyPrefix: "kurumsal-ilan-create",
-    limit: 8,
-    windowMs: 10 * 60_000,
-  });
-  if (!limit.allowed) {
-    return rateLimitedJsonResponse(limit, request);
-  }
   try {
     const user = await requireSession(request);
+    const limit = await applyHttpRateLimit(
+      request,
+      HTTP_RATE_LIMITS.kurumsalIlanUser,
+      user.id,
+    );
+    if (!limit.allowed) {
+      return rateLimitedJsonResponse(limit, request);
+    }
     const body: unknown = await request.json().catch(() => null);
     const job = await createKurumsalJobPosting({ ownerUserId: user.id, body });
     return jsonOk({ job }, 200, requestId, request);

@@ -8,6 +8,7 @@ import { BadRequestError } from "@/lib/kernel/http/errors";
 import { closeCitizenAccount } from "@/lib/kernel/identity/close-account";
 import { ACCOUNT_CLOSE_CONFIRM } from "@/lib/kernel/identity/close-account-gate";
 import { registerJuniorAccountCloseGuard } from "@/lib/junior/register-account-close-guard";
+import { registerKurumsalAccountCloseGuard } from "@/lib/sales/register-kurumsal-close-guard";
 import {
   applyHttpRateLimit,
   HTTP_RATE_LIMITS,
@@ -17,8 +18,9 @@ import { z } from "zod";
 
 export const auth = "session" as const;
 
-/** Junior kapısı (T-02) hesap silinmeden önce çalışır. Kayıt route modülü yüklenince yapılır. */
+/** Junior + kurumsal kapıları hesap silinmeden önce çalışır. Kayıt route yüklenince yapılır. */
 registerJuniorAccountCloseGuard();
+registerKurumsalAccountCloseGuard();
 
 const PROFILE_CLOSE_ROUTE = "/api/profile/close";
 

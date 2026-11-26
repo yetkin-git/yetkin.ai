@@ -71,6 +71,8 @@ export const ADMIN_AI_MODELS_PATH = "/api/admin/ai-models" as const;
 export const ADMIN_B2B_PATH = "/api/admin/b2b" as const;
 export const ADMIN_B2B_SEND_PATH = "/api/admin/b2b/send" as const;
 export const ADMIN_B2B_REPLY_PATH = "/api/admin/b2b/reply" as const;
+export const ADMIN_B2B_OFFER_PATH = "/api/admin/b2b" as const;
+export const ADMIN_OPS_EMPLOYER_VERIFY_PATH = "/api/admin/ops/employer-verify" as const;
 /** Sosyal yayın masası. Yeni oda değildir; `/admin` sığınağının altıdır. */
 export const ADMIN_SOCIAL_SURFACE_PATH = "/admin/social" as const;
 export const ADMIN_SOCIAL_PATH = "/api/admin/social" as const;

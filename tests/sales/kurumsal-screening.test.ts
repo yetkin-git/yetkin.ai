@@ -188,6 +188,7 @@ describe("kurumsal ilan eleme", () => {
         title: "Depo sorumlusu",
         vertical: "ECOMMERCE",
         description: "Depo sayımı, iade ve kanal stoğu aynı kaynaktan yürür. Ölçülmeyen vaat yazılmaz.",
+        taxNumber: "1111111114",
         criteriaWeights: [
           { key: skills[0]?.key, weight: 50 },
           { key: skills[1]?.key, weight: 30 },

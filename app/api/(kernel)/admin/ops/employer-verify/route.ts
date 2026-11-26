@@ -19,6 +19,9 @@ import { isKurumsalTaxNumber } from "@/lib/sales/kurumsal-screening";
  * Dürüstlük sınırı: otomatik sicil sorgusu yoktur. Operatör vergi/MERSİS numarasını
  * resmî kaynaktan karşılaştırır ve gerekçeyi yazar; gerekçe denetim kaydına düşer.
  * Numara biçimsel olarak geçersizse doğrulama **yapılmaz** (uydurma rozet basılmaz).
+ *
+ * Faz 2 (Y-03): mühür basıldığında aynı `ownerUserId` + `taxNumber` altındaki
+ * tüm aktif ilanlar da doğrulanır (işveren seviyesi miras).
  */
 export const auth = "admin" as const;
 
@@ -31,10 +34,17 @@ export async function POST(request: Request) {
       return jsonFail(parsed.error, 400, undefined, request);
     }
     const prisma = getPrisma();
-    const verifiedAt = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx) => {
       const job = await tx.kurumsalJobPosting.findUnique({
         where: { id: parsed.jobId },
-        select: { id: true, taxNumber: true, verifiedEmployerAt: true, companyName: true },
+        select: {
+          id: true,
+          taxNumber: true,
+          verifiedEmployerAt: true,
+          companyName: true,
+          ownerUserId: true,
+          isActive: true,
+        },
       });
       if (!job) {
         throw new NotFoundError("İlan yok.");
@@ -50,24 +60,36 @@ export async function POST(request: Request) {
         throw new ConflictError("İşveren zaten doğrulanmış.");
       }
       const at = new Date();
-      await tx.kurumsalJobPosting.update({
-        where: { id: job.id },
+      const peerUpdate = await tx.kurumsalJobPosting.updateMany({
+        where: {
+          ownerUserId: job.ownerUserId,
+          taxNumber: job.taxNumber,
+          verifiedEmployerAt: null,
+        },
         data: { verifiedEmployerAt: at },
-        select: { id: true },
       });
       const sealed = await writeSuperAdminAudit(bindSuperAdminAuditWriter(tx), {
         actorUserId: session.id,
         action: "employer_verify",
         target: job.id,
-        detail: `${job.companyName} · ${job.taxNumber} · ${parsed.reason}`,
+        detail: `${job.companyName} · ${job.taxNumber} · peers=${peerUpdate.count} · ${parsed.reason}`,
       });
       // Denetim mührü yazılamazsa doğrulama geri alınır (fail-closed).
       if (!sealed) {
         throw new ConflictError(SUPER_ADMIN_AUDIT_SEAL_MISSED);
       }
-      return at;
+      return { at, verifiedCount: peerUpdate.count };
     });
-    return jsonOk({ applied: true, verifiedEmployerAt: verifiedAt.toISOString() }, 200, undefined, request);
+    return jsonOk(
+      {
+        applied: true,
+        verifiedEmployerAt: result.at.toISOString(),
+        verifiedCount: result.verifiedCount,
+      },
+      200,
+      undefined,
+      request,
+    );
   } catch (error) {
     return jsonFromUnknown(error, 400, undefined, request);
   }

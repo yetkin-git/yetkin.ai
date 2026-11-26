@@ -343,8 +343,63 @@ export function normalizeTaxNumber(raw: string): string {
   return raw.replace(/\s+/g, "").replace(/[^0-9]/g, "").slice(0, 20);
 }
 
+/** Ascending/descending veya tek rakam tekrarı — checksum geçse bile sahte sayılır. */
+export function isSyntheticTaxNumberPattern(value: string): boolean {
+  if (!/^\d{10,11}$/.test(value)) {
+    return true;
+  }
+  if (/^(\d)\1+$/.test(value)) {
+    return true;
+  }
+  const ascending = "012345678901";
+  const descending = "987654321098";
+  return ascending.includes(value) || descending.includes(value);
+}
+
+/** 10 haneli Türkiye VKN checksum (mod-9 güç tablosu). */
+export function isValidTurkishVkn(value: string): boolean {
+  if (!/^\d{10}$/.test(value) || isSyntheticTaxNumberPattern(value)) {
+    return false;
+  }
+  const digits = [...value].map((ch) => Number(ch));
+  let sum = 0;
+  for (let i = 0; i < 9; i += 1) {
+    const tmp = (digits[i]! + (9 - i)) % 10;
+    let calc = (tmp * 2 ** (9 - i)) % 9;
+    if (tmp !== 0 && calc === 0) {
+      calc = 9;
+    }
+    sum += tmp === 0 ? 0 : calc;
+  }
+  const check = (10 - (sum % 10)) % 10;
+  return check === digits[9];
+}
+
+/** 11 haneli TCKN checksum (10. ve 11. hane). */
+export function isValidTurkishTckn(value: string): boolean {
+  if (!/^[1-9]\d{10}$/.test(value) || isSyntheticTaxNumberPattern(value)) {
+    return false;
+  }
+  const d = [...value].map((ch) => Number(ch));
+  const odd = d[0]! + d[2]! + d[4]! + d[6]! + d[8]!;
+  const even = d[1]! + d[3]! + d[5]! + d[7]!;
+  const dig10 = ((((odd * 7) - even) % 10) + 10) % 10;
+  if (dig10 !== d[9]) {
+    return false;
+  }
+  const dig11 = (odd + even + dig10) % 10;
+  return dig11 === d[10];
+}
+
+/** Vergi / TCKN: biçim + checksum + sentetik dizi reddi (Y-07 / F2.3). */
 export function isKurumsalTaxNumber(value: string): boolean {
-  return TAX_NUMBER_RE.test(value);
+  if (!TAX_NUMBER_RE.test(value)) {
+    return false;
+  }
+  if (value.length === 10) {
+    return isValidTurkishVkn(value);
+  }
+  return isValidTurkishTckn(value);
 }
 
 export function isKurumsalJobOpen(
@@ -444,8 +499,14 @@ export function parseKurumsalJobDraft(
   if (description.length < 40 || description.length > 4000) {
     return { ok: false, error: "İş tanımı 40 ile 4000 karakter arasında olmalı." };
   }
-  if (taxNumber.length > 0 && !isKurumsalTaxNumber(taxNumber)) {
-    return { ok: false, error: "Vergi / MERSİS numarası 10 veya 11 rakam olmalı." };
+  if (taxNumber.length === 0) {
+    return { ok: false, error: "Vergi / TCKN numarası zorunludur." };
+  }
+  if (!isKurumsalTaxNumber(taxNumber)) {
+    return {
+      ok: false,
+      error: "Vergi / TCKN numarası geçersiz. 10 haneli VKN veya 11 haneli TCKN checksum’ı tutmalı.",
+    };
   }
   if (typeof minScore !== "number" || !Number.isInteger(minScore) || minScore < 0 || minScore > 100) {
     return { ok: false, error: "Baraj puanı 0 ile 100 arasında tam sayı olmalı." };

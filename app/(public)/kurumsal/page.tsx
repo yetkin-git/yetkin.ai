@@ -64,7 +64,7 @@ export default async function KurumsalSalesPage() {
     }
   }
   const teamPrice = prices.teamSeat;
-  const agencyPrice = prices.agency;
+  const screeningPrice = prices.jobScreening;
 
   return (
     <RoomFrame className="px-6 pb-16 pt-10">
@@ -74,7 +74,7 @@ export default async function KurumsalSalesPage() {
           className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(37,99,235,0.22),transparent_68%)]"
         />
         <PageHeader
-          eyebrow="Kurumsal İK"
+          eyebrow="Kurumsal İK & Yetenek Seçme"
           title="Doğru Adayı Günler Değil, Dakikalar İçinde Seçin."
           description="İlan aç, yetkinliklere yüzde ver, adaya o kriterlerin YetkinCV vaka testini uygula. Ağırlıklı puana göre ilk N aday mülakat listesine çıkar. CV metni kamu dizinine basılmaz."
         />
@@ -107,27 +107,38 @@ export default async function KurumsalSalesPage() {
       <div className="grid items-stretch gap-4 pt-4 lg:grid-cols-2">
         <article className="relative flex h-full flex-col rounded-[var(--radius-card)] bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 p-6 text-white shadow-xl ring-2 ring-blue-500">
           <span className="absolute -top-3 left-5 rounded-full bg-blue-500 px-3 py-1 text-[11px] font-bold tracking-wide text-white shadow-md">
-            Kurumsal Ekipler İçin
+            İK Paketi
           </span>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-blue-200">10 mağaza koltuğu</p>
-          <h2 className="mt-2 text-lg font-semibold tracking-tight text-white">E-ticaret ajans paketi</h2>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-blue-200">
+            İlan + otomatik eleme
+          </p>
+          <h2 className="mt-2 text-lg font-semibold tracking-tight text-white">
+            Kurumsal ilan ve aday eleme
+          </h2>
           <OfferChecks
             featured
             lines={[
-              "Çoklu mağaza yönetimi.",
-              "Trendyol ile Hepsiburada senkronizasyonu.",
-              "Ajans ekibi için ortak işletim paneli.",
-              "Ciro platformda bölünmez; tahsilat size özel teklifle yürür.",
+              "Ağırlıklı YetkinCV vaka testi ile kısa liste.",
+              "Her paket 3 ilan hakkı; kota dolunca yeni paket.",
+              "Doğrulanmış işveren rozeti ve kamu dizininde görünürlük.",
+              "CSV dışa aktarma; ham CV metni dışarı yazılmaz.",
             ]}
           />
-          <p className="mt-5 text-3xl font-semibold tracking-tight text-white" data-price-honesty={agencyPrice.honesty}>
-            {agencyPrice.label}
+          <p
+            className="mt-5 text-3xl font-semibold tracking-tight text-white"
+            data-price-honesty={screeningPrice.honesty}
+          >
+            {screeningPrice.label}
           </p>
           <OfferCta featured />
         </article>
         <article className="flex h-full flex-col rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">5+ koltuk</p>
-          <h2 className="mt-2 text-lg font-semibold tracking-tight text-[var(--foreground)]">KOBİ ekip rozeti</h2>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--muted)]">
+            Ekip yetkinliği
+          </p>
+          <h2 className="mt-2 text-lg font-semibold tracking-tight text-[var(--foreground)]">
+            KOBİ ekip rozeti
+          </h2>
           <OfferChecks
             lines={[
               "Şirket çalışanları için toplu yetkinlik ölçümü.",
@@ -136,13 +147,19 @@ export default async function KurumsalSalesPage() {
               "Ekip koltukları teklifle açılır.",
             ]}
           />
-          <p className="mt-5 text-3xl font-semibold tracking-tight text-[var(--foreground)]" data-price-honesty={teamPrice.honesty}>
+          <p
+            className="mt-5 text-3xl font-semibold tracking-tight text-[var(--foreground)]"
+            data-price-honesty={teamPrice.honesty}
+          >
             {teamPrice.label}
           </p>
           <OfferCta />
         </article>
       </div>
-      <div id="kurumsal-teklif" className="mt-4 grid scroll-mt-6 items-start gap-4 lg:grid-cols-[minmax(0,1.4fr)_minmax(16rem,0.7fr)]">
+      <div
+        id="kurumsal-teklif"
+        className="mt-4 grid scroll-mt-6 items-start gap-4 lg:grid-cols-[minmax(0,1.4fr)_minmax(16rem,0.7fr)]"
+      >
         <Card title="Kurumsal talep" eyebrow="Self-servis">
           <KurumsalOfferForm />
         </Card>

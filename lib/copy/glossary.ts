@@ -142,7 +142,7 @@ export const GLOSSARY_TERMS: readonly GlossaryTerm[] = [
     definition:
       "Herkese açık ürün veya uzman yüzü. Uzman vitrini rozet kartıdır. Mağaza vitrini dijital dükkân sayfasıdır. İkisi de ödeme kasası değildir.",
     tezgahExample:
-      "Dijital dükkân aracı tek sayfalık vitrin basar. Uzman vitrini ise /uzmanlar dizininde, en az beş kişi varken açılır.",
+      "Dijital dükkân aracı tek sayfalık vitrin basar. YetkinCV yetenek vitrini ise /career/vitrin dizininde, en az beş kişi varken açılır.",
     toolHref: "/tezgah?tool=dukkan",
     toolLabel: "Dükkân vitrini üret",
     examHref: "/career",

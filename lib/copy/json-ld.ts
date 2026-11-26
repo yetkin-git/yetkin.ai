@@ -354,7 +354,7 @@ export function buildJobPostingJsonLd(input: {
   };
 }
 
-/** Uzmanlar dizini — ItemList + Person (yalnız hasCredential). E-posta yazılmaz. */
+/** YetkinCV yetenek vitrini — ItemList + Person (yalnız hasCredential). E-posta yazılmaz. */
 export function buildTalentDirectoryJsonLd(input: {
   name: string;
   path: string;

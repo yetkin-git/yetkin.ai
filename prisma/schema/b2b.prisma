@@ -60,18 +60,35 @@ model B2bLeadCampaignItem {
   @@map("b2b_lead_campaign_items")
 }
 
+/// Kurumsal teklif talebi durumu. NEW → CONTACTED → QUALIFIED → WON | LOST.
+enum KurumsalOfferRequestStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  WON
+  LOST
+}
+
 /// Kamuya açık kurumsal teklif. Kurumsal oda değildir; gönderim kuyruğuna düşmez.
 /// Sahiplik kolonu yoktur. PostgREST okuması kapalıdır.
 model KurumsalOfferRequest {
-  id          String   @id @default(cuid())
-  companyName String   @map("company_name") @db.VarChar(120)
-  email       String   @db.VarChar(160)
-  packageKey  String   @map("package_key") @db.VarChar(40)
-  city        String   @db.VarChar(80)
-  note        String   @default("") @db.VarChar(500)
-  createdAt   DateTime @default(now()) @map("created_at")
+  id                 String                     @id @default(cuid())
+  companyName        String                     @map("company_name") @db.VarChar(120)
+  email              String                     @db.VarChar(160)
+  packageKey         String                     @map("package_key") @db.VarChar(40)
+  city               String                     @db.VarChar(80)
+  note               String                     @default("") @db.VarChar(500)
+  status             KurumsalOfferRequestStatus @default(NEW)
+  handledAt          DateTime?                  @map("handled_at")
+  handledBy          String?                    @map("handled_by") @db.VarChar(64)
+  adminNote          String                     @default("") @map("admin_note") @db.VarChar(1000)
+  /// Talep anındaki katalog tutarı (kuruş). Katalog yoksa null.
+  quotedAmountMinor  Int?                       @map("quoted_amount_minor")
+  createdAt          DateTime                   @default(now()) @map("created_at")
 
   @@index([createdAt])
+  @@index([status, createdAt])
+  @@index([email, packageKey, createdAt])
   @@map("kurumsal_offer_requests")
 }
 
@@ -109,7 +126,7 @@ model KurumsalJobPosting {
   minScore            Int                 @default(70) @map("min_score")
   shortlistLimit      Int                 @default(5) @map("shortlist_limit")
   isActive            Boolean             @default(true) @map("is_active")
-  /// Vergi veya MERSİS numarası. Kamuya basılmaz; doğrulama verifiedEmployerAt ile mühürlenir.
+  /// Vergi veya TCKN. Kamuya basılmaz; doğrulama verifiedEmployerAt ile mühürlenir.
   taxNumber           String              @default("") @map("tax_number") @db.VarChar(20)
   /// Null = kurumsal kimlik doğrulanmamış; kamu ilan noindex.
   verifiedEmployerAt  DateTime?           @map("verified_employer_at")
@@ -120,6 +137,8 @@ model KurumsalJobPosting {
   applications KurumsalJobApplication[]
 
   @@index([ownerUserId, createdAt])
+  @@index([ownerUserId, taxNumber])
+  @@index([taxNumber])
   @@index([isActive, deadlineAt])
   @@map("kurumsal_job_postings")
 }

@@ -6,12 +6,12 @@ import { getPrisma } from "@/lib/kernel/db";
 /**
  * Ana sayfa sosyal kanıt — **gerçek veri, sıfır uydurma**.
  *
- * İlke: proje "sahte veri üretilmez" kültürünü kodla zorlar (`/uzmanlar`
+ * İlke: proje "sahte veri üretilmez" kültürünü kodla zorlar (`/career/vitrin`
  * boş durumu, fiyat dürüstlüğü). Bu yüzden her sayaç veritabanından okunur ve
  * **anlamlı eşiği aşmadan** yayımlanmaz. Veri yoksa bölüm hiç basılmaz;
  * "0 kullanıcı" veya uydurma referans görünmez.
  *
- * K-anonimlik: uzman sayacı `/uzmanlar` diziniyle aynı eşiği (`kMin = 5`) kullanır.
+ * K-anonimlik: uzman sayacı `/career/vitrin` diziniyle aynı eşiği (`kMin = 5`) kullanır.
  * Kişisel veri okunmaz; yalnız `count()` çağrılır.
  */
 

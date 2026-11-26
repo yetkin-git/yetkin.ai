@@ -13,12 +13,24 @@ import {
   yetkinCvSkillCatalog,
   type YetkinCvAnswer,
 } from "@/lib/career/yetkincv";
+import { isConfirmedAccountEmail } from "@/lib/kernel/auth/super-admin";
 import { getPrisma } from "@/lib/kernel/db";
-import { BadRequestError, NotFoundError, PaymentRequiredError } from "@/lib/kernel/http/errors";
+import {
+  BadRequestError,
+  ConflictError,
+  ForbiddenError,
+  NotFoundError,
+  PaymentRequiredError,
+} from "@/lib/kernel/http/errors";
 import {
   assertKurumsalScreeningEntitlement,
   KURUMSAL_SCREENING_PURCHASE_PATH,
+  readKurumsalScreeningCatalogGate,
 } from "@/lib/sales/kurumsal-screening-entitlement";
+import {
+  KURUMSAL_QUOTA_LOCK_NAMESPACE,
+  KURUMSAL_TAX_LOCK_NAMESPACE,
+} from "@/lib/sales/kurumsal-screening-purpose";
 import {
   formatCriteriaWeightLine,
   formatIstanbulDate,
@@ -50,6 +62,15 @@ import {
 
 const SCREENING_ROLE = "corporate" as const;
 
+/** Kokpit hafif yük tavanları (O-01 / F2.6). */
+export const KURUMSAL_COCKPIT_JOB_TAKE = 40 as const;
+export const KURUMSAL_COCKPIT_APPLICANT_TAKE = 80 as const;
+/** Liste yüzeyinde CV gövdesi kısaltması; ayrıntı için satır açılır. */
+export const KURUMSAL_COCKPIT_CV_PREVIEW_CHARS = 200 as const;
+
+export const KURUMSAL_EMAIL_CONFIRM_REQUIRED =
+  "Başvurmadan önce e-posta adresini doğrula." as const;
+
 type GradeWithEngine = (
   questions: readonly { id: string; prompt: string; choices: string[]; correctIndex: number }[],
   answers: readonly YetkinCvAnswer[],
@@ -57,6 +78,13 @@ type GradeWithEngine = (
   score: number;
   correctCount: number;
 };
+
+function previewCvSummary(raw: string): string {
+  if (raw.length <= KURUMSAL_COCKPIT_CV_PREVIEW_CHARS) {
+    return raw;
+  }
+  return `${raw.slice(0, KURUMSAL_COCKPIT_CV_PREVIEW_CHARS)}…`;
+}
 
 function isUniqueConflict(error: unknown): boolean {
   return Boolean(error && typeof error === "object" && "code" in error && (error as { code?: string }).code === "P2002");
@@ -115,19 +143,46 @@ async function uniqueSlug(title: string): Promise<string> {
   throw new BadRequestError("Başvuru adresi üretilemedi. Pozisyon adını değiştirip yeniden dene.");
 }
 
+/**
+ * Aynı sahibin kota sayımı + ilan yazımı tek advisory kilit altında yapılır.
+ * `count` ile `insert` arasında kilit yoksa eşzamanlı iki istek de kotayı boş görür
+ * ve ikisi de satır açar (kota aşımı). Kilit `ownerUserId`'ye bağlıdır ve
+ * transaction bitince kendiliğinden düşer (`_xact_`).
+ */
+export type KurumsalQuotaLockDb = {
+  $executeRaw(query: TemplateStringsArray, ...values: readonly unknown[]): Promise<number>;
+};
+
+export async function lockKurumsalQuotaForOwner(
+  db: KurumsalQuotaLockDb,
+  ownerUserId: string,
+): Promise<void> {
+  await db.$executeRaw`
+    SELECT pg_advisory_xact_lock(${KURUMSAL_QUOTA_LOCK_NAMESPACE}::int, hashtext(${ownerUserId})::int)
+  `;
+}
+
+/**
+ * Vergi numarası sahipliği kilidi (Y-07 / F2.3 yarışı).
+ *
+ * Kotadan **sonra**, numaradan önce alınır: sıra `sahip → numara` olduğu sürece
+ * iki işveren birbirini beklemez, yalnız **aynı numarayı** aynı anda deneyen
+ * ikinci istek sıraya girer. Sıra tersine çevrilirse (numara → sahip) iki istek
+ * farklı numaralarla birbirinin kilidini bekleyip kilitlenebilir.
+ */
+export async function lockKurumsalTaxNumber(
+  db: KurumsalQuotaLockDb,
+  taxNumber: string,
+): Promise<void> {
+  await db.$executeRaw`
+    SELECT pg_advisory_xact_lock(${KURUMSAL_TAX_LOCK_NAMESPACE}::int, hashtext(${taxNumber})::int)
+  `;
+}
+
 export async function createKurumsalJobPosting(input: {
   ownerUserId: string;
   body: unknown;
 }): Promise<{ id: string; slug: string; applyPath: string }> {
-  const entitlement = await assertKurumsalScreeningEntitlement(input.ownerUserId);
-  if (!entitlement.ok) {
-    throw new PaymentRequiredError(
-      entitlement.reason === "catalog-inactive"
-        ? "Kurumsal ilan paketi katalogda aktif değil. Satın alma / tanımlama için kurumsal sayfaya git."
-        : "Aktif kurumsal ilan lisansı yok. Önce job-screening-pack paketini tanımla veya satın al.",
-      entitlement.purchasePath || KURUMSAL_SCREENING_PURCHASE_PATH,
-    );
-  }
   const parsed = parseKurumsalJobDraft(
     input.body,
     (vertical) => {
@@ -141,24 +196,79 @@ export async function createKurumsalJobPosting(input: {
   }
   const slug = await uniqueSlug(parsed.value.title);
   const prisma = getPrisma();
-  const row = await prisma.kurumsalJobPosting.create({
-    data: {
-      ownerUserId: input.ownerUserId,
-      companyName: parsed.value.companyName,
-      title: parsed.value.title,
-      slug,
-      vertical: parsed.value.vertical,
-      description: parsed.value.description,
-      criteriaWeights: parsed.value.criteriaWeights,
-      minScore: parsed.value.minScore,
-      shortlistLimit: parsed.value.shortlistLimit,
-      deadlineAt: parsed.value.deadlineAt,
-      taxNumber: parsed.value.taxNumber,
-      // Doğrulama ops mühürüdür; ilan açılışında otomatik doğrulanmaz.
-      verifiedEmployerAt: null,
-      isActive: true,
-    },
-    select: { id: true, slug: true },
+  /**
+   * Katalog kapısı **transaction'dan önce** okunur. Sebep: katalog okuması global
+   * `getPrisma()` istemcisini kullanır. Açık bir `$transaction` bloğunun içinde
+   * çağrılırsa ikinci bağlantı ister; Vercel serverless havuzu `max: 1` olduğu için
+   * bağlantı hiç açılmaz ve istek `pool_timeout` ile 500'e düşer (ölçüldü:
+   * `POST /api/kurumsal/ilanlar` üretimde her seferinde başarısız oluyordu).
+   * Paket satışta mı sorusu ilan sayımıyla aynı anlık görüntüde olmak zorunda değil.
+   */
+  const catalog = await readKurumsalScreeningCatalogGate();
+  /**
+   * Kota sayımı, sahiplik/numara kontrolü ve ilan yazımı **tek** transaction'da ve
+   * advisory kilit altındadır. Kilit olmadan iki eşzamanlı `POST /api/kurumsal/ilanlar`
+   * isteği de kotayı boş görüp iki satır açardı (F2.1 yarışı).
+   */
+  const row = await prisma.$transaction(async (tx) => {
+    await lockKurumsalQuotaForOwner(tx, input.ownerUserId);
+    const entitlement = await assertKurumsalScreeningEntitlement(input.ownerUserId, tx, catalog);
+    if (!entitlement.ok) {
+      const message =
+        entitlement.reason === "catalog-inactive"
+          ? "Kurumsal ilan paketi katalogda aktif değil. Satın alma / tanımlama için kurumsal sayfaya git."
+          : entitlement.reason === "quota-exhausted"
+            ? `İlan kotası doldu (${entitlement.jobCount}/${entitlement.jobQuota}). Yeni paket satın al.`
+            : "Aktif kurumsal ilan lisansı yok. Önce job-screening-pack paketini tanımla veya satın al.";
+      throw new PaymentRequiredError(
+        message,
+        entitlement.purchasePath || KURUMSAL_SCREENING_PURCHASE_PATH,
+      );
+    }
+    // Hesap düzeyinde vergi/TCKN sahipliği: başka owner aynı numarayı kullanamaz (Y-07).
+    // Numara kilidi iki **farklı** işverenin aynı anda aynı numarayı açmasını sıraya sokar;
+    // owner kilidi yalnız aynı sahibin isteklerini sıralar. Sıra sahip → numara.
+    await lockKurumsalTaxNumber(tx, parsed.value.taxNumber);
+    const foreignClaim = await tx.kurumsalJobPosting.findFirst({
+      where: {
+        taxNumber: parsed.value.taxNumber,
+        ownerUserId: { not: input.ownerUserId },
+      },
+      select: { id: true },
+    });
+    if (foreignClaim) {
+      throw new ConflictError(
+        "Bu vergi / TCKN numarası başka bir işveren hesabına bağlı. Farklı numara kullan veya hesabını birleştir.",
+      );
+    }
+    // Doğrulama mirası: aynı owner + taxNumber için daha önce mühürlenmiş ilan varsa taşı (Y-03).
+    const priorVerified = await tx.kurumsalJobPosting.findFirst({
+      where: {
+        ownerUserId: input.ownerUserId,
+        taxNumber: parsed.value.taxNumber,
+        verifiedEmployerAt: { not: null },
+      },
+      orderBy: { verifiedEmployerAt: "desc" },
+      select: { verifiedEmployerAt: true },
+    });
+    return tx.kurumsalJobPosting.create({
+      data: {
+        ownerUserId: input.ownerUserId,
+        companyName: parsed.value.companyName,
+        title: parsed.value.title,
+        slug,
+        vertical: parsed.value.vertical,
+        description: parsed.value.description,
+        criteriaWeights: parsed.value.criteriaWeights,
+        minScore: parsed.value.minScore,
+        shortlistLimit: parsed.value.shortlistLimit,
+        deadlineAt: parsed.value.deadlineAt,
+        taxNumber: parsed.value.taxNumber,
+        verifiedEmployerAt: priorVerified?.verifiedEmployerAt ?? null,
+        isActive: true,
+      },
+      select: { id: true, slug: true },
+    });
   });
   return { id: row.id, slug: row.slug, applyPath: `/ilan/${row.slug}` };
 }
@@ -231,9 +341,36 @@ export async function loadOwnerKurumsalBoard(ownerUserId: string): Promise<Owner
   const jobs = await prisma.kurumsalJobPosting.findMany({
     where: { ownerUserId },
     orderBy: { createdAt: "desc" },
-    include: {
+    take: KURUMSAL_COCKPIT_JOB_TAKE,
+    select: {
+      id: true,
+      companyName: true,
+      title: true,
+      slug: true,
+      vertical: true,
+      description: true,
+      criteriaWeights: true,
+      minScore: true,
+      shortlistLimit: true,
+      isActive: true,
+      deadlineAt: true,
+      createdAt: true,
+      verifiedEmployerAt: true,
       applications: {
         orderBy: { createdAt: "asc" },
+        take: KURUMSAL_COCKPIT_APPLICANT_TAKE,
+        select: {
+          id: true,
+          candidateName: true,
+          candidateEmail: true,
+          // Liste hafif: tam gövde yerine önizleme (O-01).
+          cvSummary: true,
+          testScore: true,
+          skillScores: true,
+          weightedScore: true,
+          certificateCode: true,
+          createdAt: true,
+        },
       },
     },
   });
@@ -245,7 +382,14 @@ export async function loadOwnerKurumsalBoard(ownerUserId: string): Promise<Owner
       id: job.id,
       isActive: job.isActive,
       applyPath: `/ilan/${job.slug}`,
-      applicants: ranked.map((row) => toApplicant(row, criteria, row.band, row.rank)),
+      applicants: ranked.map((row) =>
+        toApplicant(
+          { ...row, cvSummary: previewCvSummary(row.cvSummary) },
+          criteria,
+          row.band,
+          row.rank,
+        ),
+      ),
     };
   });
 }
@@ -280,30 +424,48 @@ export async function loadPublicKurumsalJob(slug: string): Promise<PublicKurumsa
 
 async function persistBands(jobId: string): Promise<void> {
   const prisma = getPrisma();
-  const job = await prisma.kurumsalJobPosting.findUnique({
-    where: { id: jobId },
-    include: { applications: true },
-  });
-  if (!job) {
-    return;
-  }
-  const ranked = rankJobApplications(job.applications, job.minScore, job.shortlistLimit);
-  const writes = ranked.flatMap((row) => {
-    const status = statusForBand(row.band);
-    const current = job.applications.find((item) => item.id === row.id);
-    if (!current || current.status === status) {
-      return [];
+  await prisma.$transaction(async (tx) => {
+    const job = await tx.kurumsalJobPosting.findUnique({
+      where: { id: jobId },
+      select: {
+        id: true,
+        minScore: true,
+        shortlistLimit: true,
+        applications: {
+          select: {
+            id: true,
+            status: true,
+            weightedScore: true,
+            createdAt: true,
+          },
+        },
+      },
+    });
+    if (!job) {
+      return;
     }
-    return [
-      prisma.kurumsalJobApplication.update({
-        where: { id: row.id },
+    const ranked = rankJobApplications(job.applications, job.minScore, job.shortlistLimit);
+    const byStatus = new Map<ReturnType<typeof statusForBand>, string[]>();
+    for (const row of ranked) {
+      const status = statusForBand(row.band);
+      const current = job.applications.find((item) => item.id === row.id);
+      if (!current || current.status === status) {
+        continue;
+      }
+      const bucket = byStatus.get(status) ?? [];
+      bucket.push(row.id);
+      byStatus.set(status, bucket);
+    }
+    for (const [status, ids] of byStatus) {
+      if (ids.length === 0) {
+        continue;
+      }
+      await tx.kurumsalJobApplication.updateMany({
+        where: { id: { in: ids }, jobId },
         data: { status },
-      }),
-    ];
+      });
+    }
   });
-  if (writes.length > 0) {
-    await prisma.$transaction(writes);
-  }
 }
 
 function sittingPayload(sitting: {
@@ -340,9 +502,14 @@ export async function startKurumsalJobExam(input: {
   userId: string;
   /** Oturumdaki doğrulanmış e-posta. Form e-postası bunu geçemez (Y1). */
   sessionEmail: string;
+  /** Supabase `email_confirmed_at` — yoksa başvuru 403 (O-02 / F2.7). */
+  emailConfirmedAt?: string | null;
   body: unknown;
   now?: Date;
 }): Promise<KurumsalExamStart> {
+  if (!isConfirmedAccountEmail(input.emailConfirmedAt)) {
+    throw new ForbiddenError(KURUMSAL_EMAIL_CONFIRM_REQUIRED);
+  }
   const parsed = parseKurumsalApplyDraft(input.body);
   if (!parsed.ok) {
     throw new BadRequestError(parsed.error);
@@ -516,5 +683,205 @@ export async function submitKurumsalJobExam(input: {
     certificateCode: card.certificateHash,
     verifyPath: kurumsalVerifyPath(card.certificateHash),
     passedBar: weightedScore >= application.job.minScore,
+  };
+}
+
+export type PublicKurumsalDirectoryJob = {
+  slug: string;
+  title: string;
+  companyName: string;
+  verticalLabel: string;
+  deadlineLabel: string | null;
+  employerVerified: boolean;
+  applyPath: string;
+};
+
+/**
+ * Kamu ilan dizini. Yalnız aktif ve süresi geçmemiş ilanlar.
+ * Doğrulanmamış işveren listelenir ama sitemap'e girmez (noindex ayrı yüzeyde).
+ */
+export async function listPublicOpenKurumsalJobs(input?: {
+  query?: string;
+  vertical?: string;
+}): Promise<PublicKurumsalDirectoryJob[]> {
+  const prisma = getPrisma();
+  const now = new Date();
+  const q = input?.query?.trim().toLocaleLowerCase("tr-TR") ?? "";
+  const vertical = input?.vertical?.trim().toUpperCase() ?? "";
+  const verticalOk = vertical.length > 0 && Boolean(kurumsalJobVertical(vertical));
+  const rows = await prisma.kurumsalJobPosting.findMany({
+    where: {
+      isActive: true,
+      OR: [{ deadlineAt: null }, { deadlineAt: { gt: now } }],
+      ...(verticalOk ? { vertical: vertical as KurumsalJobVerticalId } : {}),
+    },
+    orderBy: { createdAt: "desc" },
+    take: 200,
+    select: {
+      slug: true,
+      title: true,
+      companyName: true,
+      vertical: true,
+      description: true,
+      deadlineAt: true,
+      verifiedEmployerAt: true,
+    },
+  });
+  return rows
+    .filter((row) => {
+      if (!q) {
+        return true;
+      }
+      const haystack = `${row.title} ${row.companyName} ${row.description}`.toLocaleLowerCase("tr-TR");
+      return haystack.includes(q);
+    })
+    .map((row) => ({
+      slug: row.slug,
+      title: row.title,
+      companyName: row.companyName,
+      verticalLabel: kurumsalVerticalLabel(row.vertical),
+      deadlineLabel: row.deadlineAt ? formatIstanbulDate(row.deadlineAt) : null,
+      employerVerified: Boolean(row.verifiedEmployerAt),
+      applyPath: `/ilan/${row.slug}`,
+    }));
+}
+
+/** Sitemap: yalnız doğrulanmış + aktif + süresi geçmemiş ilanlar. */
+export async function listSitemapKurumsalJobSlugs(): Promise<
+  { slug: string; updatedAt: Date }[]
+> {
+  try {
+    const prisma = getPrisma();
+    const now = new Date();
+    const rows = await prisma.kurumsalJobPosting.findMany({
+      where: {
+        isActive: true,
+        verifiedEmployerAt: { not: null },
+        OR: [{ deadlineAt: null }, { deadlineAt: { gt: now } }],
+      },
+      orderBy: { createdAt: "desc" },
+      take: 2_000,
+      select: { slug: true, createdAt: true, verifiedEmployerAt: true },
+    });
+    return rows.map((row) => ({
+      slug: row.slug,
+      updatedAt: row.verifiedEmployerAt ?? row.createdAt,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * İlan sahibinin kendi ilanını kapatması / yeniden açması.
+ * Yeniden açma yalnız son başvuru tarihi geçmemişse (veya deadline yoksa) mümkündür.
+ *
+ * `db` enjekte edilebilir: çapraz işveren reddi (IDOR) gerçek birim testiyle
+ * **çalıştırılarak** doğrulanır, kaynak metni aranarak değil.
+ */
+export type KurumsalJobMutationDb = {
+  kurumsalJobPosting: {
+    findFirst(args: {
+      where: { id: string; ownerUserId: string };
+      select: { id: true; slug: true; isActive: true; deadlineAt: true };
+    }): Promise<{ id: string; slug: string; isActive: boolean; deadlineAt: Date | null } | null>;
+    update(args: {
+      where: { id: string };
+      data: { isActive: boolean };
+      select: { id: true; isActive: true; slug: true };
+    }): Promise<{ id: string; isActive: boolean; slug: string }>;
+  };
+};
+
+export async function setKurumsalJobActive(
+  input: {
+    ownerUserId: string;
+    jobId: string;
+    isActive: boolean;
+  },
+  db: KurumsalJobMutationDb = getPrisma(),
+): Promise<{ id: string; isActive: boolean; applyPath: string }> {
+  const job = await db.kurumsalJobPosting.findFirst({
+    where: { id: input.jobId, ownerUserId: input.ownerUserId },
+    select: { id: true, slug: true, isActive: true, deadlineAt: true },
+  });
+  if (!job) {
+    throw new NotFoundError("İlan bulunamadı.");
+  }
+  if (input.isActive) {
+    if (job.deadlineAt && job.deadlineAt.getTime() <= Date.now()) {
+      throw new BadRequestError("Son başvuru tarihi geçmiş ilan yeniden açılamaz.");
+    }
+  }
+  const updated = await db.kurumsalJobPosting.update({
+    where: { id: job.id },
+    data: { isActive: input.isActive },
+    select: { id: true, isActive: true, slug: true },
+  });
+  return {
+    id: updated.id,
+    isActive: updated.isActive,
+    applyPath: `/ilan/${updated.slug}`,
+  };
+}
+
+export type KurumsalShortlistCsvRow = {
+  candidateName: string;
+  candidateEmail: string;
+  weightedScore: number | null;
+  band: KurumsalApplicationBand;
+  certificateCode: string | null;
+  appliedAt: Date;
+};
+
+/**
+ * Kısa liste CSV satırları. Ham `cvSummary` **dahil edilmez** (dürüstlük / KVKK).
+ * Çapraz işveren: sahip filtresi yoksa satır dönmez.
+ *
+ * `db` enjekte edilebilir — çapraz işveren reddi gerçek birim testinde çalıştırılır.
+ */
+export type KurumsalShortlistDb = {
+  kurumsalJobPosting: {
+    findFirst(args: {
+      where: { id: string; ownerUserId: string };
+      include: { applications: { orderBy: { createdAt: "asc" } } };
+    }): Promise<{
+      title: string;
+      minScore: number;
+      shortlistLimit: number;
+      applications: {
+        id: string;
+        candidateName: string;
+        candidateEmail: string;
+        weightedScore: number | null;
+        createdAt: Date;
+        certificateCode: string | null;
+      }[];
+    } | null>;
+  };
+};
+
+export async function loadKurumsalShortlistCsvRows(
+  input: { ownerUserId: string; jobId: string },
+  db: KurumsalShortlistDb = getPrisma(),
+): Promise<{ title: string; rows: KurumsalShortlistCsvRow[] }> {
+  const job = await db.kurumsalJobPosting.findFirst({
+    where: { id: input.jobId, ownerUserId: input.ownerUserId },
+    include: { applications: { orderBy: { createdAt: "asc" } } },
+  });
+  if (!job) {
+    throw new NotFoundError("İlan bulunamadı.");
+  }
+  const ranked = rankJobApplications(job.applications, job.minScore, job.shortlistLimit);
+  return {
+    title: job.title,
+    rows: ranked.map((row) => ({
+      candidateName: row.candidateName,
+      candidateEmail: row.candidateEmail,
+      weightedScore: row.weightedScore,
+      band: row.band,
+      certificateCode: row.certificateCode,
+      appliedAt: row.createdAt,
+    })),
   };
 }

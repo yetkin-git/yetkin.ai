@@ -16,11 +16,11 @@ export type PriceHonesty = "live" | "planned";
 export const PUBLIC_PRICE_PREPARING_LABEL = "Hazırlanıyor" as const;
 export const PUBLIC_COMMERCE_PLANNED_LABEL = "Yakında / Katalogda Açılıyor" as const;
 /** Katalog tutarı henüz açık olmayan satır. Tutar basılmaz; self-servis talep formu açıktır. */
-export const PUBLIC_PREORDER_LABEL = "Kurumsal Tanımlama" as const;
+export const PUBLIC_PREORDER_LABEL = "Özel Teklif Al" as const;
 /** Canlı YetkinCV kartı. Satın alma değildir. */
 export const PUBLIC_FREE_EVALUATION_LABEL = "Ücretsiz Değerlendirme" as const;
 /** Canlı kurumsal kart. Katalog tutarı değildir; teklif sayfasına gider. */
-export const PUBLIC_KURUMSAL_QUOTE_LABEL = "Kurumsal Teklif" as const;
+export const PUBLIC_KURUMSAL_QUOTE_LABEL = "Özel Teklif Al" as const;
 
 export type ShowcasePrice = {
   honesty: PriceHonesty;

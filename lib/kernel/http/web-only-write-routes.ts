@@ -107,6 +107,14 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
     "B2B fırsat motoru. Super Admin. Günlük 15 firma. Native hop değildir.",
   ),
   ...verbs(
+    "admin-b2b-offer",
+    ["PATCH"],
+    "/api/admin/b2b/[id]",
+    "admin",
+    true,
+    "Kurumsal teklif talebi durum güncellemesi. Super Admin. Native hop değildir.",
+  ),
+  ...verbs(
     "admin-b2b-send",
     ["POST"],
     "/api/admin/b2b/send",
@@ -1179,6 +1187,14 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
     true,
     "Kurumsal ilan açılışı. Oturum zorunlu. Sahte şirket yazılmaz. Cüzdan yazılmaz. v1 hop satırı yoktur.",
   ),
+  ...verbs(
+    "product-kurumsal-ilan-patch",
+    ["PATCH"],
+    "/api/kurumsal/ilanlar/[id]",
+    "product-write",
+    true,
+    "İlan sahibi kapatma/yeniden açma. Sahiplik filtresi. Cüzdan yazılmaz. v1 hop satırı yoktur.",
+  ),
   route(
     "read-kurumsal-ilanlar",
     "GET",
@@ -1186,6 +1202,14 @@ const NAMED_ROUTES: readonly WebBffRouteRecord[] = [
     "web-read",
     false,
     "İlan sahibinin kısa listesi. CV özeti başka üyeye açılmaz. v1 hop satırı yoktur.",
+  ),
+  route(
+    "read-kurumsal-ilan-export",
+    "GET",
+    "/api/kurumsal/ilanlar/[id]/export",
+    "web-read",
+    false,
+    "Kısa liste CSV. Ham cvSummary sızmaz. Sahiplik filtresi. v1 hop satırı yoktur.",
   ),
   ...verbs(
     "product-ilan-basvuru",
