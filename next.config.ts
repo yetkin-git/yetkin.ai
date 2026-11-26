@@ -122,6 +122,8 @@ const nextConfig: NextConfig = {
       { source: "/giris", destination: "https://yetkin.ai/login", permanent: true },
       // §2.5 vatandaş çifti — CEO tedavi kilidi: 8 tavanına /kayit eklenir.
       { source: "/kayit", destination: "https://yetkin.ai/register", permanent: true },
+      // Eski kamu dizini — soft RSC redirect 200 akar; hard 308 kenarda basılır.
+      { source: "/uzmanlar", destination: "https://yetkin.ai/career/vitrin", permanent: true },
       {
         source: "/legal/gizlilik-politikasi",
         destination: "https://yetkin.ai/legal/gizlilik",
