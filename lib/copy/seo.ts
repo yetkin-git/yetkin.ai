@@ -182,7 +182,7 @@ export const PAGE_SEO = {
   uzmanlar: {
     title: "YetkinCV Onaylı Yetenek Vitrini",
     description:
-      "60 soruluk sınavı geçip YetkinCV mührü kazanmış yeteneklerin kamu doğrulama dizini. Freelancer pazarı, teklif ve emanet burada yoktur. Liste en az beş onaylı profilde açılır.",
+      "60 soruluk sınavı geçip YetkinCV mührü kazanmış yeteneklerin kamu doğrulama dizini. Bağımsız iş pazarı, teklif ve emanet burada yoktur. Liste en az beş onaylı profilde açılır.",
     path: "/career/vitrin",
     image: DEFAULT_OG_IMAGE,
   },

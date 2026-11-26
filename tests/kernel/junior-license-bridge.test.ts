@@ -12,6 +12,7 @@ import {
   juniorLicenseDebitIdempotencyKey,
   juniorLicenseMerchantOid,
 } from "@/lib/junior/paytr-license-bridge";
+import { JUNIOR_LICENSE_LEDGER_PURPOSE } from "@/lib/kernel/payments/order-purpose";
 import { juniorPlanExpiry } from "@/lib/junior/plan";
 import { createMemoryLedgerStore } from "../helpers/memory-money";
 import { createMemoryPaymentAnomalyStore } from "../helpers/memory-payment-anomaly";
@@ -154,7 +155,7 @@ describe("PayTR CLEARED → Junior yıllık paket", () => {
     expect(ledger.snapshot(PARENT).amountMinor).toBe(0);
     const entries = ledger.listEntries(PARENT);
     expect(entries.map((entry) => `${entry.direction}:${entry.purpose}:${entry.amountMinor}`).sort()).toEqual(
-      [`CREDIT:wallet-top-up:${PRICE}`, `DEBIT:${JUNIOR_LICENSE_DEBIT_PURPOSE}:${PRICE}`].sort(),
+      [`CREDIT:${JUNIOR_LICENSE_LEDGER_PURPOSE}:${PRICE}`, `DEBIT:${JUNIOR_LICENSE_DEBIT_PURPOSE}:${PRICE}`].sort(),
     );
   });
 

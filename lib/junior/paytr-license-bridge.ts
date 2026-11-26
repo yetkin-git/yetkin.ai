@@ -28,13 +28,15 @@ export function isJuniorLicenseOrder(purpose: string | undefined): boolean {
 }
 
 /**
- * Lisans düşümü. PayTR clearing dış parayı `wallet-top-up` CREDIT olarak yazar;
- * bu satır aynı tutarı harcanabilir bakiyeden çıkarır. İkinci kez bakiyeyi değiştirmez.
+ * Lisans düşümü. PayTR clearing ürün CREDIT'ini `junior-license:{oid}` yazar;
+ * bu satır aynı tutarı harcanabilir bakiyeden çıkarır. Anahtar CREDIT ile
+ * çakışmasın diye `junior-license-debit:` öneki kullanılır (akademi
+ * `academy-purchase-debit:` ile aynı ayrım). İkinci kez bakiyeyi değiştirmez.
  */
 export const JUNIOR_LICENSE_DEBIT_PURPOSE = "junior-license" as const;
 
 export function juniorLicenseDebitIdempotencyKey(merchantOid: string): string {
-  return `${JUNIOR_LICENSE_DEBIT_PURPOSE}:${merchantOid}`;
+  return `junior-license-debit:${merchantOid}`;
 }
 
 /** Aynı kullanıcı ve aynı idempotency anahtarı aynı sipariş numarasını üretir. */
@@ -58,7 +60,7 @@ function yearlyExpiry(existingExpiresAt: Date | null, now: Date): Date {
 
 /**
  * CLEARED `junior-license:yearly` siparişi yıllık paketi yazar ve aynı tutarı cüzdandan düşer.
- * Clearing'in `wallet-top-up` CREDIT satırı durur; harcanabilir bakiye lisansın yanında kalmaz.
+ * Clearing'in ürün CREDIT satırı (`junior-license`) durur; harcanabilir bakiye lisansın yanında kalmaz.
  * Aynı merchant_oid ikinci kez süreyi uzatmaz ve ikinci kez düşmez.
  * Yeni sipariş, bitmemiş sürenin üstüne bir yıl ekler.
  * TCKN, telefon ve adres siparişte yoktur; satıra düz kimlik yazılmaz.
