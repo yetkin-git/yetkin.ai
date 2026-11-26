@@ -227,6 +227,12 @@ describe("kenar kararları", () => {
     expect(decideEdgeAction("/magazam/", true)).toEqual({ kind: "alias-307", to: "/panel/e-ticaret" });
     // Kokpit korumalıdır; kamu vitrini `/e-ticaret` oturumsuz ziyaretçiye açıktır.
     expect(decideEdgeAction("/panel/e-ticaret", false).kind).toBe("auth-307");
+    expect(decideEdgeAction("/kurumsal/ilanlar", false).kind).toBe("auth-307");
+    expect(decideEdgeAction("/kurumsal", false).kind).toBe("next");
+    expect(isProtectedKernelPath("/kurumsal/ilanlar")).toBe(true);
+    expect(isProtectedKernelPath("/kurumsal")).toBe(false);
+    expect(isProtectedCitizenPath("/kurumsal/ilanlar")).toBe(true);
+    expect(isProtectedCitizenPath("/kurumsal")).toBe(false);
     expect(decideEdgeAction("/e-ticaret", false).kind).toBe("next");
   });
 });

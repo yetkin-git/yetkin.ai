@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { KurumsalOpsDeck } from "@/components/kurumsal/ops-deck";
-import { PageHeader, RoomFrame } from "@/components/ui/page-header";
+import { PageHeader } from "@/components/ui/page-header";
 import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
-import { getSession } from "@/lib/kernel/auth/session";
+import { requirePageSession } from "@/lib/kernel/auth/session";
 import { pageMetadata } from "@/lib/copy/seo";
 import { loadKurumsalOfferPrices } from "@/lib/sales/kurumsal-offers";
 import type { OwnerJobView } from "@/lib/sales/kurumsal-screening";
@@ -19,39 +19,37 @@ export const metadata: Metadata = pageMetadata({
 export const dynamic = "force-dynamic";
 
 export default async function KurumsalJobsPage() {
+  const session = await requirePageSession();
   const skills = kurumsalSkillCatalog();
-  const [prices, session] = await Promise.all([loadKurumsalOfferPrices(), getSession()]);
+  const prices = await loadKurumsalOfferPrices();
   let jobs: OwnerJobView[] = [];
   let boardUnavailable = false;
-  if (session) {
-    try {
-      jobs = await loadOwnerKurumsalBoard(session.id);
-    } catch {
-      boardUnavailable = true;
-    }
+  try {
+    jobs = await loadOwnerKurumsalBoard(session.id);
+  } catch {
+    boardUnavailable = true;
   }
 
   return (
-    <RoomFrame className="px-6 pb-16 pt-10">
+    <div className="mx-auto w-full max-w-6xl space-y-4 px-4 py-4 sm:px-6">
       <PageHeader
+        compact
         eyebrow="Kurumsal İK"
         title="İlanlar ve kısa liste"
         description="Açtığın ilanların başvuru bağlantısı ve ağırlıklı puana göre mülakat sırası burada durur."
       />
-      <a href="/kurumsal" className="mt-3 inline-flex text-sm font-semibold text-[var(--safir)]">
-        İşletim merkezine dön
+      <a href="/kurumsal" className="inline-flex text-sm font-semibold text-[var(--safir)]">
+        Satış vitrinine dön
       </a>
-      <div className="pt-4">
-        <KurumsalOpsDeck
-          jobs={jobs}
-          skills={skills}
-          boardUnavailable={boardUnavailable}
-          signedIn={Boolean(session)}
-          loginHref={buildCitizenLoginHref("/kurumsal/ilanlar")}
-          screeningPrice={prices.jobScreening}
-          offerHref="/kurumsal#kurumsal-teklif"
-        />
-      </div>
-    </RoomFrame>
+      <KurumsalOpsDeck
+        jobs={jobs}
+        skills={skills}
+        boardUnavailable={boardUnavailable}
+        signedIn
+        loginHref={buildCitizenLoginHref("/kurumsal/ilanlar")}
+        screeningPrice={prices.jobScreening}
+        offerHref="/kurumsal#kurumsal-teklif"
+      />
+    </div>
   );
 }

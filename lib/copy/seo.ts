@@ -337,6 +337,8 @@ export const ROBOTS_DISALLOW_PATHS = [
   "/magazam",
   "/panel/e-ticaret",
   "/panel/hibe",
+  // Kurumsal İK kokpiti oturum duvarının arkasında; kamu vitrini `/kurumsal` kapalı değildir.
+  "/kurumsal/ilanlar",
   "/api/",
   // SEO Tedavi (P1) — satın alma duvarı arkası oynatıcı; auth duvarı + sayfa noindex ile üç katmanlı kilit.
   "/academy",

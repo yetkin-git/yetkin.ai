@@ -12,6 +12,7 @@ const SHELTER_PAGES = [
   "app/(kernel)/cuzdan/page.tsx",
   "app/(kernel)/pasaport/page.tsx",
   "app/(kernel)/profil/page.tsx",
+  "app/(kernel)/kurumsal/ilanlar/page.tsx",
 ] as const;
 
 /**

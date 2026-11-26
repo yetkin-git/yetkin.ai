@@ -90,7 +90,7 @@ export default async function KurumsalSalesPage() {
           ))}
         </ul>
         <a href="/kurumsal/ilanlar" className="mt-4 inline-flex text-sm font-semibold text-[var(--safir)]">
-          İlanlar ve kısa liste
+          İlan & Eleme Kokpitini Aç
         </a>
       </section>
       <div className="pt-4">

@@ -221,7 +221,7 @@ function kurumsalCard(): CommandCardModel {
     title: copy.kurumsalTitle,
     stats: [{ label: copy.kurumsalStat, value: copy.kurumsalStatValue }],
     detail: copy.kurumsalDetail,
-    href: "/kurumsal",
+    href: "/kurumsal/ilanlar",
     cta: copy.kurumsalCta,
   };
 }

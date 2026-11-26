@@ -367,6 +367,9 @@ describe("Aşama 2 SEO — ürün odaları ve dinamik sitemap", () => {
     expect(isRobotsDisallowedPath("/panel/e-ticaret")).toBe(true);
     expect(isRobotsDisallowedPath("/magazam/yeni")).toBe(true);
     expect(isRobotsDisallowedPath("/e-ticaret")).toBe(false);
+    // Kurumsal İK kokpiti robots'ta kapalı; kamu vitrini `/kurumsal` açık kalır.
+    expect(isRobotsDisallowedPath("/kurumsal/ilanlar")).toBe(true);
+    expect(isRobotsDisallowedPath("/kurumsal")).toBe(false);
     expect(rule?.disallow).toEqual(
       expect.arrayContaining(["/dashboard", "/freelancer", "/login", "/api/"]),
     );

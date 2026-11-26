@@ -61,7 +61,7 @@ describe("komuta merkezi projeksiyonu", () => {
 
     expect(kurumsal.key).toBe("kurumsal");
     expect(kurumsal.title).toBe("Kurumsal");
-    expect(kurumsal.href).toBe("/kurumsal");
+    expect(kurumsal.href).toBe("/kurumsal/ilanlar");
     expect(kurumsal.cta).toBe("Kurumsal’ı Aç");
   });
 

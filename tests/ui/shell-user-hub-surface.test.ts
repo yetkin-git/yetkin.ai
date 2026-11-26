@@ -30,11 +30,11 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
     ]);
   });
 
-  it("Kurumsal aktif vurgusu /kurumsal ve /kurumsal/ilanlar yollarını kapsar", () => {
-    expect(KURUMSAL_NAV.path).toBe("/kurumsal");
+  it("Kurumsal aktif vurgusu çalışma odası /kurumsal/ilanlar yolunu kapsar", () => {
+    expect(KURUMSAL_NAV.path).toBe("/kurumsal/ilanlar");
     expect(KURUMSAL_NAV.blurb).toBe("İlan, eleme ve İK kokpiti");
-    expect(isSidebarNavActive("/kurumsal", KURUMSAL_NAV.path)).toBe(true);
     expect(isSidebarNavActive("/kurumsal/ilanlar", KURUMSAL_NAV.path)).toBe(true);
+    expect(isSidebarNavActive("/kurumsal", KURUMSAL_NAV.path)).toBe(false);
     expect(isSidebarNavActive("/ilan", KURUMSAL_NAV.path)).toBe(false);
     expect(isSidebarNavActive("/career", KURUMSAL_NAV.path)).toBe(false);
   });
@@ -194,6 +194,7 @@ describe("kabuk kullanıcı hub yüzeyi", () => {
       "/magazam",
       "/panel/e-ticaret",
       "/panel/hibe",
+      "/kurumsal/ilanlar",
     ]);
   });
 });

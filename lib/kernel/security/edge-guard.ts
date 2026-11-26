@@ -51,6 +51,8 @@ export const PROTECTED_KERNEL_PATHS = [
   "/panel/e-ticaret",
   // Hibe kokpiti panel altındadır. `/hibe` kamu vitrinidir; korumalı değildir.
   "/panel/hibe",
+  // Kurumsal İK kokpiti. `/kurumsal` kamu satış vitrinidir; korumalı değildir.
+  "/kurumsal/ilanlar",
 ] as const;
 
 /**

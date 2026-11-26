@@ -65,12 +65,13 @@ describe("dikey yazma kenar yüzeyi", () => {
     expect((await proxy(request("/academy/certificates"))).status).toBe(410);
     expect((await proxy(request("/career"))).status).toBe(200);
     expect((await proxy(request("/kurumsal"))).status).toBe(200);
-    expect((await proxy(request("/kurumsal/ilanlar"))).status).toBe(200);
+    expect((await proxy(request("/kurumsal/ilanlar"))).status).toBe(307);
     expect((await proxy(request("/dashboard"))).status).toBe(200);
   });
 
   it("yazma sayfaları requirePageSession bağlar; CSP PayTR frame-src taşır", () => {
     expect(readSrc("app/freelancer/new/page.tsx")).toContain("requirePageSession");
+    expect(readSrc("app/(kernel)/kurumsal/ilanlar/page.tsx")).toContain("requirePageSession");
     expect(readSrc("archived/app/studio/page.tsx")).toContain("FrozenRoomGonePage");
     expect(readSrc("archived/app/junior/ebeveyn/page.tsx")).toContain("FrozenRoomGonePage");
     expect(readSrc("archived/app/pazaryeri/tezgah/page.tsx")).toContain("FrozenRoomGonePage");
