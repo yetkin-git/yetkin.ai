@@ -466,4 +466,43 @@ describe("proxy.ts kenar mühürleri", () => {
     expect(emptyOrigins.headers.get("Access-Control-Allow-Origin")).toBeNull();
     expect(emptyOrigins.headers.get("Access-Control-Allow-Credentials")).not.toBe("true");
   });
+
+  /**
+   * Denetim (443363f4): kenar `auth-307`'de `next`'e yalnız yolu yazıyordu.
+   * `/kurumsal/ilanlar?pozisyon=…` köprüsüyle gelen oturumsuz kullanıcı giriş
+   * yaptıktan sonra boş forma dönüyordu. Artık sorgu da (allowlist'li hâlde)
+   * taşınır.
+   */
+  it("oturumsuz köprü hedefi login next'ine sorguyu taşır", async () => {
+    const response = await proxy(
+      request("/kurumsal/ilanlar?pozisyon=E-Ticaret+Operasyon+Sorumlusu"),
+    );
+    expect(response.status).toBe(307);
+    const location = response.headers.get("location") ?? "";
+    expect(location.startsWith("http://localhost:3000/login?next=")).toBe(true);
+    const next = new URL(location).searchParams.get("next") ?? "";
+    expect(new URL(`http://x${next}`).searchParams.get("pozisyon")).toBe(
+      "E-Ticaret Operasyon Sorumlusu",
+    );
+    expectNonceCsp(response);
+  });
+
+  it("oturumsuz köprü hedefinde PII ve izinsiz anahtar taşınmaz", async () => {
+    const response = await proxy(
+      request(
+        "/kurumsal/ilanlar?pozisyon=Satış+Müdürü&tckn=12345678901&utm_source=x&redirect=https://evil.example",
+      ),
+    );
+    const location = response.headers.get("location") ?? "";
+    expect(location).not.toContain("evil");
+    expect(location).not.toContain("tckn");
+    expect(location).not.toContain("utm_source");
+    const next = new URL(location).searchParams.get("next") ?? "";
+    expect(new URL(`http://x${next}`).searchParams.get("pozisyon")).toBe("Satış Müdürü");
+  });
+
+  it("oturumsuz düz yol sorgusuz login'e düşer", async () => {
+    const response = await proxy(request("/panel/hibe"));
+    expect(response.headers.get("location")).toBe(loginLocation("/panel/hibe"));
+  });
 });

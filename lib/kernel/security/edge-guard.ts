@@ -38,6 +38,14 @@ export const ADMIN_CATALOG_LOGIN_NEXT = "/admin/catalog";
 /** Kenarın yazdığı istek yolu — istemci başlığı güvenilmez, proxy üzerine yazar. */
 export const RAIL_PATHNAME_HEADER = "x-rail-pathname";
 export const RAIL_REQUEST_METHOD_HEADER = "x-rail-request-method";
+/**
+ * Kenarın yazdığı **sorgu dizesi** (`?` dahil, yoksa boş). `requirePageSession`
+ * gibi sunucu tarafı oturum kapıları dönüş adresini kurarken köprü
+ * ön-doldurmasını (`?pozisyon=…`) kaybetmesin diye taşınır. İstemci başlığı
+ * güvenilmez: proxy değeri silip yeniden yazar, ve `buildCitizenLoginHref`
+ * yalnız allowlist'li köprü anahtarlarını geçirir.
+ */
+export const RAIL_SEARCH_HEADER = "x-rail-search";
 
 export const PROTECTED_KERNEL_PATHS = [
   "/dashboard",

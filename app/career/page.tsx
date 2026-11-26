@@ -13,6 +13,7 @@ import { SealShareGuideButtons, SealShareGuides } from "@/components/career/seal
 import { ApplicationStatusCards } from "@/components/career/application-status-cards";
 import { InterviewInvitePanel } from "@/components/career/interview-invite-panel";
 import { CareerContextualBridges } from "@/components/kernel/contextual-bridge-presets";
+import { parseBridgeKaynak, type BridgeKaynak } from "@/lib/kernel/contextual-bridge-params";
 import { loadCareerCv } from "@/lib/career/cv-store";
 import { listTezgahPortfolioForUser } from "@/lib/career/tezgah-portfolio";
 import { loadCandidateApplicationStatuses } from "@/lib/career/application-status";
@@ -59,14 +60,23 @@ export const metadata: Metadata = pageMetadata(PAGE_SEO.career);
 export default async function CareerPage({
   searchParams,
 }: {
-  searchParams: Promise<{ hedef?: string | string[] }>;
+  searchParams: Promise<{ hedef?: string | string[]; kaynak?: string | string[] }>;
 }) {
   const [session, query] = await Promise.all([getSession(), searchParams]);
   if (!session) {
     return <PublicCareerPanel plan={<ActionPlanPanel live={EMPTY_CAREER_ACTION_LIVE} />} />;
   }
   const hedef = Array.isArray(query.hedef) ? query.hedef[0] : query.hedef;
-  return <SignedInCareerPage hedef={hedef ?? null} />;
+  /**
+   * Köprü döngüsü: `/career?kaynak=hibe` ile gelen kullanıcıya "YetkinHibe'ye
+   * dön" köprüsü basılmaz. Şerit hedefleri bugün `ilan` + `e-ticaret` olsa da
+   * kural tek yerde (`selectBridgeTargets`) durur; preset değişirse koruma
+   * kendiliğinden devreye girer.
+   */
+  const bridgeCameFrom = parseBridgeKaynak(
+    Array.isArray(query.kaynak) ? query.kaynak[0] : query.kaynak,
+  );
+  return <SignedInCareerPage hedef={hedef ?? null} bridgeCameFrom={bridgeCameFrom} />;
 }
 
 async function loadCareerActionStores(userId: string): Promise<CareerActionStoreSignal[]> {
@@ -136,7 +146,13 @@ function careerPlan(evidence: CareerEvidence | null, board: CareerJobMatchBoard,
   );
 }
 
-async function SignedInCareerPage({ hedef }: { hedef: string | null }) {
+async function SignedInCareerPage({
+  hedef,
+  bridgeCameFrom = null,
+}: {
+  hedef: string | null;
+  bridgeCameFrom?: BridgeKaynak | null;
+}) {
   const session = await requirePageSession();
   const [board, deskTasks, yetkinCard, matchBoard, careerCv, tezgahProofs, applicationStatuses, interviewInvites] =
     await Promise.all([
@@ -210,7 +226,7 @@ async function SignedInCareerPage({ hedef }: { hedef: string | null }) {
         proofCount={portfolio.length}
         publicTalentHref={publicTalentHref}
       />
-      <CareerContextualBridges />
+      <CareerContextualBridges cameFrom={bridgeCameFrom} />
       {tezgahProofs.length > 0 ? (
         <Card title="Portföy Çıktıları (AI Tezgâh Kayıtlı)">
           <ul className="space-y-2">

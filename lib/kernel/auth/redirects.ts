@@ -3,6 +3,7 @@
  * PKCE `?code=` `/auth/callback` üzerinden; açık yön (open redirect) yok.
  */
 
+import { sanitizeBridgeSearch } from "@/lib/kernel/contextual-bridge-params";
 import { PASSWORD_RECOVERY_PATH } from "@/lib/kernel/auth/password";
 import { ADMIN_CATALOG_LOGIN_NEXT, CITIZEN_LOGIN_PATH } from "@/lib/kernel/security/edge-guard";
 
@@ -105,25 +106,65 @@ function sanitizeNextPathname(raw: string | null | undefined): string | null {
   return parseSafeAuthNext(raw)?.pathname ?? null;
 }
 
-/** Allowlist path + isteğe bağlı güvenli çapa (`#satin-al`). Query ve açık yön yok. */
+/**
+ * Allowlist path + isteğe bağlı güvenli çapa (`#satin-al`) + isteğe bağlı
+ * **sanitize edilmiş köprü sorgusu** (`?kaynak=…&pozisyon=…`).
+ *
+ * Neden sorgu tamamen düşürülmüyor: `/kurumsal/ilanlar?pozisyon=…` gibi bir
+ * köprü hedefine oturumsuz gelen kullanıcı giriş yaptığında ön-doldurma
+ * kayboluyordu. Açık yön savunması **serbest sorguyu** taşımamalıdır; ama
+ * allowlist'teki üç köprü anahtarı, değeri sanitizer'dan geçmiş hâlde
+ * taşınabilir. `utm_*`, `redirect`, `next` gibi anahtarlar yine düşer.
+ */
 const SAFE_NEXT_HASH = /^[a-z][a-z0-9-]{0,47}$/;
 
 function parseSafeAuthNext(
   raw: string | null | undefined,
-): { pathname: string; hash: string } | null {
+): { pathname: string; hash: string; query: string } | null {
   const path = raw?.trim() ?? "";
-  if (!path.startsWith("/") || path.startsWith("//") || path.includes("\\") || path.includes("://")) {
+  /**
+   * Açık yön kontrolleri **yalnız yol** üzerinde koşar. Sorgu zaten allowlist +
+   * sanitizer'dan geçiyor (`sanitizeBridgeSearch` yalnız üç anahtar döndürür),
+   * yani `?utm_source=https://…` gibi bir değer kaçış yüzeyi değildir. Kontrolü
+   * tüm dizeye uygulamak geçerli bir köprü ön-doldurmasını da düşürüyordu
+   * (`/kurumsal/ilanlar?pozisyon=…&utm=…` → `/login`).
+   */
+  /**
+   * Sıra önemlidir: önce **çapa**, sonra **sorgu**. Ters sırada
+   * `/tezgah?kaynak=hibe#tetkik` adresinde çapa sorgunun içinde kalıyor ve
+   * hem çapa hem ön-doldurma düşüyordu.
+   */
+  const hashIndex = path.indexOf("#");
+  const withoutHash = hashIndex >= 0 ? path.slice(0, hashIndex) : path;
+  const hashRaw = hashIndex >= 0 ? path.slice(hashIndex + 1) : "";
+  const queryIndex = withoutHash.indexOf("?");
+  const pathname = queryIndex >= 0 ? withoutHash.slice(0, queryIndex) : withoutHash;
+  const rawQuery = queryIndex >= 0 ? withoutHash.slice(queryIndex + 1) : "";
+  if (!pathname.startsWith("/") || pathname.startsWith("//") || pathname.includes("\\")) {
     return null;
   }
-  const withoutQuery = path.split("?")[0] ?? "";
-  const hashIndex = withoutQuery.indexOf("#");
-  const pathname = hashIndex >= 0 ? withoutQuery.slice(0, hashIndex) : withoutQuery;
-  const hashRaw = hashIndex >= 0 ? withoutQuery.slice(hashIndex + 1) : "";
   if (!pathname || pathname.includes("..")) {
     return null;
   }
+  /**
+   * Şema kontrolü **yalnız yol üzerinde**. Çapa (`#javascript:…`) kendi
+   * allowlist'ine (`SAFE_NEXT_HASH`) takılır ve düşer; ama yol geçerliyse
+   * hedef korunur. Kontrolü tüm dizeye uygulamak `#javascript:alert(1)` taşıyan
+   * bir `/academy/...` hedefini tümden `/login`'e düşürüyordu (regresyon).
+   */
+  if (pathname.includes(":")) {
+    // `https://…`, `javascript:…` ve `/%2F%2F` çözümü sonrası şemalar buraya düşer.
+    return null;
+  }
   const hash = hashRaw && SAFE_NEXT_HASH.test(hashRaw) ? `#${hashRaw}` : "";
-  return { pathname, hash };
+  // Yalnız izinli köprü anahtarları; değer sanitizer'dan geçer.
+  const query = rawQuery ? sanitizeBridgeSearch(rawQuery) : "";
+  return { pathname, hash, query };
+}
+
+/** `pathname` + sanitize edilmiş köprü sorgusu + güvenli çapa. */
+function composeNextPath(parsed: { pathname: string; hash: string; query: string }): string {
+  return `${parsed.pathname}${parsed.query ? `?${parsed.query}` : ""}${parsed.hash}`;
 }
 
 export function isSafeAuthNextPath(raw: string | null | undefined): boolean {
@@ -142,8 +183,7 @@ export function buildCitizenLoginHref(nextPath?: string | null): string {
   if (!parsed || !isSafeAuthNextPath(parsed.pathname)) {
     return CITIZEN_LOGIN_PATH;
   }
-  const next = `${parsed.pathname}${parsed.hash}`;
-  return `${CITIZEN_LOGIN_PATH}?next=${encodeURIComponent(next)}`;
+  return `${CITIZEN_LOGIN_PATH}?next=${encodeURIComponent(composeNextPath(parsed))}`;
 }
 
 /** Kayıt formu `next` okur. Allowlist giriş ile aynıdır. */
@@ -152,8 +192,7 @@ export function buildCitizenRegisterHref(nextPath?: string | null): string {
   if (!parsed || !isSafeAuthNextPath(parsed.pathname)) {
     return "/register";
   }
-  const next = `${parsed.pathname}${parsed.hash}`;
-  return `/register?next=${encodeURIComponent(next)}`;
+  return `/register?next=${encodeURIComponent(composeNextPath(parsed))}`;
 }
 
 export function resolvePostLoginPath(rawNext?: string | null): string {
@@ -164,7 +203,7 @@ export function resolvePostLoginPath(rawNext?: string | null): string {
     parsed.pathname !== CITIZEN_LOGIN_PATH &&
     parsed.pathname !== "/register"
   ) {
-    return `${parsed.pathname}${parsed.hash}`;
+    return composeNextPath(parsed);
   }
   return AUTH_CALLBACK_DEFAULT_NEXT;
 }
@@ -195,14 +234,15 @@ export function resolveAuthCallbackNext(input: {
     if (
       input.type?.trim() === "signup" &&
       parsed.pathname === AUTH_CALLBACK_DEFAULT_NEXT &&
-      !parsed.hash
+      !parsed.hash &&
+      !parsed.query
     ) {
       return markSignupFirstValueLanding({
         next: AUTH_SIGNUP_FIRST_VALUE_NEXT,
         type: input.type,
       });
     }
-    return `${parsed.pathname}${parsed.hash}`;
+    return composeNextPath(parsed);
   }
   if (input.type?.trim() === "signup") {
     return markSignupFirstValueLanding({
@@ -219,7 +259,7 @@ export function buildAuthCallbackRedirectTo(origin: string, next?: string): stri
   if (next && isSafeAuthNextPath(next)) {
     const parsed = parseSafeAuthNext(next);
     if (parsed) {
-      url.searchParams.set("next", `${parsed.pathname}${parsed.hash}`);
+      url.searchParams.set("next", composeNextPath(parsed));
     }
   }
   return url.toString();

@@ -4,6 +4,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { KurumsalContextualBridges } from "@/components/kernel/contextual-bridge-presets";
 import { PaytrCheckoutIframe } from "@/components/kernel/paytr-checkout-iframe";
+import type { BridgeKaynak } from "@/lib/kernel/contextual-bridge-params";
 import { CheckoutBillingFields } from "@/components/legal/checkout-billing-fields";
 import { CheckoutConsentFields } from "@/components/legal/checkout-consent-fields";
 import { Button, buttonClassName } from "@/components/ui/button";
@@ -72,6 +73,7 @@ export function KurumsalScreeningCockpit({
   loginHref,
   screeningPrice,
   initialTitle = "",
+  bridgeCameFrom = null,
 }: {
   jobs: OwnerJobView[];
   skills: KurumsalSkillCatalog;
@@ -81,6 +83,8 @@ export function KurumsalScreeningCockpit({
   screeningPrice: KurumsalOfferQuote;
   /** `?pozisyon=` — sanitize edilmiş, PII'siz ön-doldurma. */
   initialTitle?: string;
+  /** `?kaynak=` — köprü döngüsünü kırmak için gelinen merkez. */
+  bridgeCameFrom?: BridgeKaynak | null;
 }) {
   const router = useRouter();
   const [companyName, setCompanyName] = useState("");
@@ -288,7 +292,7 @@ export function KurumsalScreeningCockpit({
   return (
     <>
       <section className="min-w-0" data-kurumsal-cockpit="create" data-kurumsal-column="compose">
-        <KurumsalContextualBridges className="mb-4" />
+        <KurumsalContextualBridges className="mb-4" cameFrom={bridgeCameFrom} />
         <Card eyebrow="Ana sütun" title="İş ilanı ve yetkinlik ağırlığı">
           <p className="text-sm leading-6 text-[var(--foreground)]">
             İlan, paylaştığın adresten başvuru alır. Aday, seçtiğin yetkinliklerin YetkinCV vaka testini sunucuda çözer.

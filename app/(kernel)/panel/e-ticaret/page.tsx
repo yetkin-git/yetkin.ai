@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { readEcommerceLicenseBand } from "@/lib/commerce/os-license-band";
 import { loadOsCockpit } from "@/lib/commerce/os-load";
 import { parseOsTab, readPoolPrefill } from "@/lib/commerce/os-rules";
+import { parseBridgeKaynak } from "@/lib/kernel/contextual-bridge-params";
 import { requirePageSession } from "@/lib/kernel/auth/session";
 
 export default async function EcommerceOsPage({
@@ -46,6 +47,9 @@ export default async function EcommerceOsPage({
         prefill={prefill}
         view={loaded.view}
         license={license}
+        bridgeCameFrom={parseBridgeKaynak(
+          Array.isArray(params.kaynak) ? params.kaynak[0] : params.kaynak,
+        )}
       />
     </CommerceFrame>
   );

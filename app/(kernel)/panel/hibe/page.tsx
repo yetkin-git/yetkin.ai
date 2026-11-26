@@ -1,6 +1,11 @@
 import { HibeOsCockpit } from "@/components/hibe/os-cockpit";
 import { PageHeader } from "@/components/ui/page-header";
 import { requirePageSession } from "@/lib/kernel/auth/session";
+import { parseBridgeKaynak } from "@/lib/kernel/contextual-bridge-params";
+import {
+  applyHibeBridgeDefaults,
+  hibeBridgeContext,
+} from "@/lib/kernel/contextual-bridge-seed";
 import { saveHibeCompanyProfile } from "@/lib/yetkinhibe/company-profile";
 import { parseHibeAnalysis, parseHibeTab } from "@/lib/yetkinhibe/os-brief";
 import { loadHibeCockpit } from "@/lib/yetkinhibe/os-load";
@@ -41,6 +46,28 @@ export default async function HibeOsPage({
   const saved = data.savedProfile;
   // Ş3 — `/cuzdan` dönüşü ödeme anahtarını taşır: dosya üretimi aynı komuta bağlanır.
   const paymentCommandKey = one("odeme") ?? null;
+  /**
+   * Denetim (443363f4): `/panel/hibe?kaynak=e-ticaret|kurumsal` köprüsü
+   * geliyordu ama sayfa `kaynak`'ı **hiç okumuyordu** — parametre sessizce
+   * yutuluyor, kullanıcı boş formla baş başa kalıyordu. Artık tanınan köprü
+   * forma başlangıç bağlamı yazar; kullanıcının açık girdisi ezilmez.
+   */
+  const bridgeKaynak = parseBridgeKaynak(one("kaynak"));
+  const bridge = hibeBridgeContext(bridgeKaynak);
+  const defaults = applyHibeBridgeDefaults(    {
+      ad: params.ad ?? storeSeed?.ad ?? saved?.businessName ?? "",
+      isletme: params.isletme ?? (storeSeed?.isletme || saved?.businessKind) ?? "",
+      nace: params.nace ?? (storeSeed?.nace || saved?.naceGroup) ?? "",
+      il: params.il ?? saved?.provinceCode ?? "",
+      yatirim: params.yatirim ?? storeSeed?.yatirim ?? saved?.investmentFocus ?? "",
+      calisan: params.calisan ?? (saved ? String(saved.employeeCount) : ""),
+      yas: params.yas ?? (saved ? String(saved.companyAgeYears) : ""),
+      arge: params.arge ?? saved?.rdMaturityLevel ?? "",
+      ihracat: params.ihracat ?? (saved ? (saved.exportActive ? "evet" : "hayir") : ""),
+      patent: params.patent ?? (saved ? (saved.hasPatentOrUtilityModel ? "evet" : "hayir") : ""),
+    },
+    bridge,
+  );
 
   return (
     <div className="mx-auto w-full max-w-6xl space-y-4 px-4 py-4 sm:px-6">
@@ -57,18 +84,9 @@ export default async function HibeOsPage({
         grantId={one("grantId") ?? ""}
         storeNote={storeSeed?.scaleLabel ?? null}
         paymentCommandKey={paymentCommandKey}
-        defaults={{
-          ad: params.ad ?? storeSeed?.ad ?? saved?.businessName ?? "",
-          isletme: params.isletme ?? (storeSeed?.isletme || saved?.businessKind) ?? "",
-          nace: params.nace ?? (storeSeed?.nace || saved?.naceGroup) ?? "",
-          il: params.il ?? saved?.provinceCode ?? "",
-          yatirim: params.yatirim ?? storeSeed?.yatirim ?? saved?.investmentFocus ?? "",
-          calisan: params.calisan ?? (saved ? String(saved.employeeCount) : ""),
-          yas: params.yas ?? (saved ? String(saved.companyAgeYears) : ""),
-          arge: params.arge ?? saved?.rdMaturityLevel ?? "",
-          ihracat: params.ihracat ?? (saved ? (saved.exportActive ? "evet" : "hayir") : ""),
-          patent: params.patent ?? (saved ? (saved.hasPatentOrUtilityModel ? "evet" : "hayir") : ""),
-        }}
+        bridgeNoteKey={bridge?.noteKey ?? null}
+        bridgeCameFrom={bridgeKaynak}
+        defaults={defaults}
       />
     </div>
   );

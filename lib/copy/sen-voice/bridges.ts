@@ -74,4 +74,22 @@ export const BRIDGES_SEN = {
       expertiseSeed: "İK / mülakat tasarımı",
     },
   },
+  /**
+   * Denetim (443363f4): `/panel/hibe?kaynak=…` hedefi parametreyi yutuyordu.
+   * Formun üstünde basılan bağlam notu burada durur — kopya sahipliği
+   * `lib/copy`'dadır ve `verify:sen-axis` bu klasörü tarar.
+   *
+   * Not **bağlantı içermez**. Kaynağa geri link vermek köprüyü döngüye
+   * çevirirdi (E-Ticaret → Hibe → E-Ticaret).
+   */
+  hibeContext: {
+    ecommerce: {
+      eyebrow: "E-Ticaret köprüsü",
+      body: "Perakende (NACE 47) ve ihracat odağı önceden seçildi. Çalışan sayısı ve şirket yaşını yazınca eşleşen çağrılar çıkar.",
+    },
+    kurumsal: {
+      eyebrow: "Kurumsal köprüsü",
+      body: "Ar-Ge yatırım odağı önceden seçildi. Sektör, il ve ölçek alanlarını doldurunca istihdam ve Ar-Ge destekleri eşleşir.",
+    },
+  },
 } as const;

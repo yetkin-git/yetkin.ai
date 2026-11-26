@@ -10,6 +10,7 @@ import { cn } from "@/components/ui/cn";
 import { EmptyAwareSelect } from "@/components/ui/empty-aware-select";
 import { IconLeaf, IconShield } from "@/components/ui/icons";
 import { PLACEHOLDER_TYPO_CLASS } from "@/components/ui/input";
+import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import {
   HIBE_BUSINESS_KINDS,
   HIBE_FORM_LISTS,
@@ -17,6 +18,7 @@ import {
   type HibeTab,
 } from "@/lib/yetkinhibe/os-brief";
 import type { HibeAnalysisInput } from "@/lib/yetkinhibe/os-brief";
+import type { BridgeKaynak } from "@/lib/kernel/contextual-bridge-params";
 import { grantPrepPlanNote } from "@/lib/yetkinhibe/master-plan";
 import type { HibeCockpitData } from "@/lib/yetkinhibe/os-load";
 
@@ -90,6 +92,8 @@ export function HibeOsCockpit({
   defaults,
   storeNote,
   paymentCommandKey = null,
+  bridgeNoteKey = null,
+  bridgeCameFrom = null,
 }: {
   tab: HibeTab;
   data: HibeCockpitData;
@@ -99,6 +103,15 @@ export function HibeOsCockpit({
   storeNote?: string | null;
   /** `/cuzdan?odeme=…` dönüşünde taşınan ödeme anahtarı (Ş3). */
   paymentCommandKey?: string | null;
+  /**
+   * Köprü bağlamı (`?kaynak=e-ticaret|kurumsal`). Yalnız analiz sekmesinde,
+   * formun üstünde basılır. Metin `SEN_VOICE.bridges.hibeContext`'ten çözülür.
+   * Bilinçli olarak **bağlantısızdır**: kaynağa geri link vermek köprüyü
+   * döngüye çevirirdi.
+   */
+  bridgeNoteKey?: "ecommerce" | "kurumsal" | null;
+  /** `?kaynak=` — köprü döngüsünü kırmak için gelinen merkez. */
+  bridgeCameFrom?: BridgeKaynak | null;
 }) {
   const price = data.price;
   const matchedPlan = data.analysis?.find((row) => row.grantId === grantId)?.masterPlan ?? null;
@@ -143,7 +156,7 @@ export function HibeOsCockpit({
         <Kpi label="En yüksek tek program tavanı" value={data.kpis.scopeLabel} />
       </section>
 
-      <HibeContextualBridges />
+      <HibeContextualBridges cameFrom={bridgeCameFrom} />
 
       <nav className="flex gap-2 overflow-x-auto" aria-label="Hibe sekmeleri">
         {HIBE_TABS.map((id) => (
@@ -165,6 +178,15 @@ export function HibeOsCockpit({
 
       {tab === "analiz" ? (
         <section className="space-y-4">
+          {bridgeNoteKey ? (
+            <p
+              data-hibe-bridge-note={bridgeNoteKey}
+              className="rounded-[var(--radius-card)] border border-[color-mix(in_srgb,var(--safir)_28%,transparent)] bg-[color-mix(in_srgb,var(--safir-soft)_55%,white)] px-3 py-2 text-sm leading-6 text-[var(--foreground)]"
+            >
+              <span className="font-semibold">{SEN_VOICE.bridges.hibeContext[bridgeNoteKey].eyebrow}. </span>
+              {SEN_VOICE.bridges.hibeContext[bridgeNoteKey].body}
+            </p>
+          ) : null}
           {storeNote ? (
             <p className="text-sm" data-hibe-store-prefill="">
               {storeNote}

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { KurumsalOpsDeck } from "@/components/kurumsal/ops-deck";
 import { PageHeader } from "@/components/ui/page-header";
-import { parseBridgePozisyon } from "@/lib/kernel/contextual-bridge-params";
+import { parseBridgePozisyon, parseBridgeKaynak } from "@/lib/kernel/contextual-bridge-params";
 import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 import { requirePageSession } from "@/lib/kernel/auth/session";
 import { pageMetadata } from "@/lib/copy/seo";
@@ -22,11 +22,17 @@ export const dynamic = "force-dynamic";
 export default async function KurumsalJobsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ pozisyon?: string | string[] }>;
+  searchParams: Promise<{ pozisyon?: string | string[]; kaynak?: string | string[] }>;
 }) {
   const session = await requirePageSession();
   const query = await searchParams;
   const initialTitle = parseBridgePozisyon(query.pozisyon);
+  /**
+   * Denetim (443363f4): `kaynak` burada hiç okunmuyordu. E-Ticaret'ten gelen
+   * kullanıcıya aynı ekranda "E-Ticaret'e dön" köprüsü basılıyordu. Artık
+   * gelinen merkez şeride geçer ve o hedef düşürülür.
+   */
+  const bridgeCameFrom = parseBridgeKaynak(query.kaynak);
   const skills = kurumsalSkillCatalog();
   const prices = await loadKurumsalOfferPrices();
   let jobs: OwnerJobView[] = [];
@@ -57,6 +63,7 @@ export default async function KurumsalJobsPage({
         screeningPrice={prices.jobScreening}
         offerHref="/kurumsal#kurumsal-teklif"
         initialTitle={initialTitle}
+        bridgeCameFrom={bridgeCameFrom}
       />
     </div>
   );

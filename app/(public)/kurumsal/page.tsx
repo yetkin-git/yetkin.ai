@@ -7,6 +7,7 @@ import { TipPanel } from "@/components/ui/public-hero";
 import { PageHeader, RoomFrame } from "@/components/ui/page-header";
 import { cn } from "@/components/ui/cn";
 import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
+import { parseBridgeKaynak } from "@/lib/kernel/contextual-bridge-params";
 import { getSession } from "@/lib/kernel/auth/session";
 import { PAGE_SEO, pageMetadata } from "@/lib/copy/seo";
 import { loadKurumsalOfferPrices } from "@/lib/sales/kurumsal-offers";
@@ -51,7 +52,15 @@ function OfferCta({ featured }: { featured?: boolean }) {
   );
 }
 
-export default async function KurumsalSalesPage() {
+export default async function KurumsalSalesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ kaynak?: string | string[] }>;
+}) {
+  const query = await searchParams;
+  const bridgeCameFrom = parseBridgeKaynak(
+    Array.isArray(query.kaynak) ? query.kaynak[0] : query.kaynak,
+  );
   const skills = kurumsalSkillCatalog();
   const [prices, session] = await Promise.all([loadKurumsalOfferPrices(), getSession()]);
   let jobs: OwnerJobView[] = [];
@@ -102,6 +111,7 @@ export default async function KurumsalSalesPage() {
           loginHref={buildCitizenLoginHref("/kurumsal")}
           screeningPrice={prices.jobScreening}
           offerHref="#kurumsal-teklif"
+          bridgeCameFrom={bridgeCameFrom}
         />
       </div>
       <div className="grid items-stretch gap-4 pt-4 lg:grid-cols-2">

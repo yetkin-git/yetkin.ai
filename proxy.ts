@@ -27,6 +27,7 @@ import {
   decideEdgeAction,
   RAIL_PATHNAME_HEADER,
   RAIL_REQUEST_METHOD_HEADER,
+  RAIL_SEARCH_HEADER,
 } from "./lib/kernel/security/edge-guard";
 import { resolveEdgeSessionState } from "./lib/kernel/security/edge-jwt";
 import {
@@ -129,6 +130,7 @@ export async function proxy(request: NextRequest) {
     requestHeaders.delete(RAIL_PATHNAME_HEADER);
     requestHeaders.set(RAIL_PATHNAME_HEADER, pathname);
     requestHeaders.set(RAIL_REQUEST_METHOD_HEADER, request.method);
+    requestHeaders.delete(RAIL_SEARCH_HEADER);
     attachEdgeNonceRequestHeaders(requestHeaders, nonce);
     const response = NextResponse.next({
       request: { headers: requestHeaders },
@@ -325,7 +327,14 @@ export async function proxy(request: NextRequest) {
 
   if (decision.kind === "auth-307") {
     const url = request.nextUrl.clone();
-    const login = new URL(buildCitizenLoginHref(decision.next ?? pathname), url.origin);
+    /**
+     * Köprü ön-doldurması: kenar `next`'e yalnız yolu değil **sanitize edilmiş
+     * köprü sorgusunu** da taşır. `buildCitizenLoginHref` serbest sorguyu
+     * taşımaz (açık yön savunması); yalnız `kaynak` / `pozisyon` / `konu`
+     * anahtarları allowlist'li değerleriyle geçer.
+     */
+    const target = decision.next ?? `${pathname}${request.nextUrl.search}`;
+    const login = new URL(buildCitizenLoginHref(target), url.origin);
     url.pathname = login.pathname;
     url.search = login.search;
     return seal(NextResponse.redirect(url, 307));
@@ -335,6 +344,16 @@ export async function proxy(request: NextRequest) {
   requestHeaders.delete(RAIL_PATHNAME_HEADER);
   requestHeaders.set(RAIL_PATHNAME_HEADER, pathname);
   requestHeaders.set(RAIL_REQUEST_METHOD_HEADER, request.method);
+  /**
+   * Sayfa oturum kapısı (`requirePageSession`) dönüş adresini kurarken köprü
+   * ön-doldurmasını taşısın diye sorgu mühürlü başlıkla yazılır. İstemcinin
+   * gönderdiği değer önce silinir; sonra yalnız `nextUrl.search` yazılır.
+   * Değerin kendisi sanitize edilmez — `buildCitizenLoginHref` allowlist +
+   * `sanitizeBridgeSearch` uygular. Burada ham taşınması güvenli, çünkü başlık
+   * yalnız sunucu içinde okunur ve asla istemciye geri yazılmaz.
+   */
+  requestHeaders.delete(RAIL_SEARCH_HEADER);
+  requestHeaders.set(RAIL_SEARCH_HEADER, request.nextUrl.search);
   attachEdgeNonceRequestHeaders(requestHeaders, nonce);
   if (v1) {
     requestHeaders.set(RAIL_API_VERSION_REQUEST_HEADER, RAIL_API_VERSION_LABEL);

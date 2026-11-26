@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/components/ui/cn";
 import { parseBridgeKaynak } from "@/lib/kernel/contextual-bridge-params";
+import { applyTezgahBridgeSeed, tezgahBridgeHintFor } from "@/lib/kernel/contextual-bridge-seed";
 import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import {
   IconBriefcase,
@@ -593,33 +594,16 @@ export function TezgahWorkbench({
       seeded.widget = guessSaasWidgetFromFeature(seeded.feature);
     }
     // Bağlamsal köprü: `kaynak=hibe|kurumsal` → teklif yazıcıya şablon/ipucu.
-    if (id === "proposal") {
-      const hint = SEN_VOICE.bridges.tezgahHint;
-      if (bridgeKaynak === "hibe") {
-        if (!seeded.jobPost) {
-          seeded.jobPost = hint.hibe.jobPostSeed;
-        }
-        if (!seeded.expertise) {
-          seeded.expertise = hint.hibe.expertiseSeed;
-        }
-        if (!seeded.deliveryMode) {
-          seeded.deliveryMode = "summary";
-        }
-      } else if (bridgeKaynak === "kurumsal") {
-        if (!seeded.jobPost) {
-          seeded.jobPost = hint.kurumsal.jobPostSeed;
-        }
-        if (!seeded.expertise) {
-          seeded.expertise = hint.kurumsal.expertiseSeed;
-        }
-        if (!seeded.deliveryMode) {
-          seeded.deliveryMode = "summary";
-        }
-      }
-    }
+    // Kural saf modülde: yalnız `proposal` aracı, yalnız boş alanlar dolar.
+    const bridged = applyTezgahBridgeSeed({
+      toolId: id,
+      kaynak: bridgeKaynak,
+      values: seeded,
+      hints: SEN_VOICE.bridges.tezgahHint,
+    });
     return {
       deliveryMode: "standard",
-      ...seeded,
+      ...bridged,
       ...(name ? { freelancerName: name } : {}),
     };
   });
@@ -1250,12 +1234,17 @@ export function TezgahWorkbench({
     </p>
   );
 
-  const bridgeHint =
-    bridgeKaynak === "hibe"
-      ? SEN_VOICE.bridges.tezgahHint.hibe
-      : bridgeKaynak === "kurumsal"
-        ? SEN_VOICE.bridges.tezgahHint.kurumsal
-        : null;
+  /**
+   * Denetim (443363f4): şerit yalnız `kaynak` değerine bakıyordu. Kullanıcı
+   * `/tezgah?kaynak=hibe&tool=tetkik` ile gelince "teklif yazıcı hazır" diyordu,
+   * ama şablon yalnız `proposal` aracına uygulanır — vaat ile davranış
+   * ayrışıyordu. Artık ikisi de aynı saf kuraldan geçer: yalnız teklif aracında.
+   */
+  const bridgeHint = tezgahBridgeHintFor({
+    toolId: active.id,
+    kaynak: bridgeKaynak,
+    hints: SEN_VOICE.bridges.tezgahHint,
+  });
 
   return (
     <div className="space-y-3" data-tezgah-workbench="">
