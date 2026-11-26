@@ -12,6 +12,7 @@ import { PublicCareerPanel } from "@/components/career/public-career-panel";
 import { SealShareGuideButtons, SealShareGuides } from "@/components/career/seal-share-guides";
 import { ApplicationStatusCards } from "@/components/career/application-status-cards";
 import { InterviewInvitePanel } from "@/components/career/interview-invite-panel";
+import { CareerContextualBridges } from "@/components/kernel/contextual-bridge-presets";
 import { loadCareerCv } from "@/lib/career/cv-store";
 import { listTezgahPortfolioForUser } from "@/lib/career/tezgah-portfolio";
 import { loadCandidateApplicationStatuses } from "@/lib/career/application-status";
@@ -209,6 +210,7 @@ async function SignedInCareerPage({ hedef }: { hedef: string | null }) {
         proofCount={portfolio.length}
         publicTalentHref={publicTalentHref}
       />
+      <CareerContextualBridges />
       {tezgahProofs.length > 0 ? (
         <Card title="Portföy Çıktıları (AI Tezgâh Kayıtlı)">
           <ul className="space-y-2">

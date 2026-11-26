@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { commerceMutate } from "@/components/commerce/api";
 import { cockpitHref } from "@/components/commerce/href";
+import { EcommerceContextualBridges } from "@/components/kernel/contextual-bridge-presets";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -337,6 +338,7 @@ export function EcommerceOsCockpit({
     <div className="mt-4" data-os-cockpit="">
       <LicenseStatusBand license={license} />
       <CockpitMetrics view={view} />
+      <EcommerceContextualBridges />
       {view.stores.length > 0 ? (
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <label htmlFor="os-store" className="text-sm font-semibold">

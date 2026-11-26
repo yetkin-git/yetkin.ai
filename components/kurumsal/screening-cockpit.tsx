@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { KurumsalContextualBridges } from "@/components/kernel/contextual-bridge-presets";
 import { PaytrCheckoutIframe } from "@/components/kernel/paytr-checkout-iframe";
 import { CheckoutBillingFields } from "@/components/legal/checkout-billing-fields";
 import { CheckoutConsentFields } from "@/components/legal/checkout-consent-fields";
@@ -70,6 +71,7 @@ export function KurumsalScreeningCockpit({
   signedIn,
   loginHref,
   screeningPrice,
+  initialTitle = "",
 }: {
   jobs: OwnerJobView[];
   skills: KurumsalSkillCatalog;
@@ -77,11 +79,13 @@ export function KurumsalScreeningCockpit({
   signedIn: boolean;
   loginHref: string;
   screeningPrice: KurumsalOfferQuote;
+  /** `?pozisyon=` — sanitize edilmiş, PII'siz ön-doldurma. */
+  initialTitle?: string;
 }) {
   const router = useRouter();
   const [companyName, setCompanyName] = useState("");
   const [taxNumber, setTaxNumber] = useState("");
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(initialTitle);
   const [vertical, setVertical] = useState<KurumsalJobVerticalId>("ECOMMERCE");
   const [description, setDescription] = useState("");
   const [minScore, setMinScore] = useState(String(KURUMSAL_DEFAULT_MIN_SCORE));
@@ -284,6 +288,7 @@ export function KurumsalScreeningCockpit({
   return (
     <>
       <section className="min-w-0" data-kurumsal-cockpit="create" data-kurumsal-column="compose">
+        <KurumsalContextualBridges className="mb-4" />
         <Card eyebrow="Ana sütun" title="İş ilanı ve yetkinlik ağırlığı">
           <p className="text-sm leading-6 text-[var(--foreground)]">
             İlan, paylaştığın adresten başvuru alır. Aday, seçtiğin yetkinliklerin YetkinCV vaka testini sunucuda çözer.

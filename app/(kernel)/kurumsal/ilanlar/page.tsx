@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { KurumsalOpsDeck } from "@/components/kurumsal/ops-deck";
 import { PageHeader } from "@/components/ui/page-header";
+import { parseBridgePozisyon } from "@/lib/kernel/contextual-bridge-params";
 import { buildCitizenLoginHref } from "@/lib/kernel/auth/redirects";
 import { requirePageSession } from "@/lib/kernel/auth/session";
 import { pageMetadata } from "@/lib/copy/seo";
@@ -18,8 +19,14 @@ export const metadata: Metadata = pageMetadata({
 
 export const dynamic = "force-dynamic";
 
-export default async function KurumsalJobsPage() {
+export default async function KurumsalJobsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ pozisyon?: string | string[] }>;
+}) {
   const session = await requirePageSession();
+  const query = await searchParams;
+  const initialTitle = parseBridgePozisyon(query.pozisyon);
   const skills = kurumsalSkillCatalog();
   const prices = await loadKurumsalOfferPrices();
   let jobs: OwnerJobView[] = [];
@@ -49,6 +56,7 @@ export default async function KurumsalJobsPage() {
         loginHref={buildCitizenLoginHref("/kurumsal/ilanlar")}
         screeningPrice={prices.jobScreening}
         offerHref="/kurumsal#kurumsal-teklif"
+        initialTitle={initialTitle}
       />
     </div>
   );

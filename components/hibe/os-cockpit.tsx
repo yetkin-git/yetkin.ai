@@ -5,6 +5,7 @@ import { HibeGrantDossierBuy } from "@/components/hibe/grant-dossier-buy";
 import { HibeLifecycleDesk } from "@/components/hibe/lifecycle-desk";
 import { HibePrepPlanCard } from "@/components/hibe/prep-plan-card";
 import { HibeProjectDesk } from "@/components/hibe/project-desk";
+import { HibeContextualBridges } from "@/components/kernel/contextual-bridge-presets";
 import { cn } from "@/components/ui/cn";
 import { EmptyAwareSelect } from "@/components/ui/empty-aware-select";
 import { IconLeaf, IconShield } from "@/components/ui/icons";
@@ -141,6 +142,8 @@ export function HibeOsCockpit({
         <Kpi label="Hazırlanan proje dosyası" value={data.kpis.dossiers} />
         <Kpi label="En yüksek tek program tavanı" value={data.kpis.scopeLabel} />
       </section>
+
+      <HibeContextualBridges />
 
       <nav className="flex gap-2 overflow-x-auto" aria-label="Hibe sekmeleri">
         {HIBE_TABS.map((id) => (

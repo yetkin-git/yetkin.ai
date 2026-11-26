@@ -10,6 +10,8 @@ import { useIdempotencyKey } from "@/components/kernel/use-idempotency-key";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/components/ui/cn";
+import { parseBridgeKaynak } from "@/lib/kernel/contextual-bridge-params";
+import { SEN_VOICE } from "@/lib/copy/sen-voice";
 import {
   IconBriefcase,
   IconBuilding,
@@ -557,6 +559,7 @@ export function TezgahWorkbench({
   const router = useRouter();
   const searchParams = useSearchParams();
   const toolParam = searchParams.get("tool");
+  const bridgeKaynak = parseBridgeKaynak(searchParams.get("kaynak"));
   const pendingTool = useRef<TezgahToolId | null>(null);
   const productionIdempotency = useIdempotencyKey();
   /**
@@ -588,6 +591,31 @@ export function TezgahWorkbench({
     }
     if (id === "saas-builder" && !seeded.widget && seeded.feature && seeded.feature.trim().length >= 2) {
       seeded.widget = guessSaasWidgetFromFeature(seeded.feature);
+    }
+    // Bağlamsal köprü: `kaynak=hibe|kurumsal` → teklif yazıcıya şablon/ipucu.
+    if (id === "proposal") {
+      const hint = SEN_VOICE.bridges.tezgahHint;
+      if (bridgeKaynak === "hibe") {
+        if (!seeded.jobPost) {
+          seeded.jobPost = hint.hibe.jobPostSeed;
+        }
+        if (!seeded.expertise) {
+          seeded.expertise = hint.hibe.expertiseSeed;
+        }
+        if (!seeded.deliveryMode) {
+          seeded.deliveryMode = "summary";
+        }
+      } else if (bridgeKaynak === "kurumsal") {
+        if (!seeded.jobPost) {
+          seeded.jobPost = hint.kurumsal.jobPostSeed;
+        }
+        if (!seeded.expertise) {
+          seeded.expertise = hint.kurumsal.expertiseSeed;
+        }
+        if (!seeded.deliveryMode) {
+          seeded.deliveryMode = "summary";
+        }
+      }
     }
     return {
       deliveryMode: "standard",
@@ -1222,9 +1250,25 @@ export function TezgahWorkbench({
     </p>
   );
 
+  const bridgeHint =
+    bridgeKaynak === "hibe"
+      ? SEN_VOICE.bridges.tezgahHint.hibe
+      : bridgeKaynak === "kurumsal"
+        ? SEN_VOICE.bridges.tezgahHint.kurumsal
+        : null;
+
   return (
     <div className="space-y-3" data-tezgah-workbench="">
       {quotaAnchor ? createPortal(quotaBadge, quotaAnchor) : null}
+      {bridgeHint ? (
+        <p
+          data-tezgah-bridge-hint={bridgeKaynak ?? undefined}
+          className="rounded-[var(--radius-card)] border border-[color-mix(in_srgb,var(--safir)_28%,transparent)] bg-[color-mix(in_srgb,var(--safir-soft)_55%,white)] px-3 py-2 text-sm leading-6 text-[var(--foreground)] print:hidden"
+        >
+          <span className="font-semibold">{bridgeHint.title}. </span>
+          {bridgeHint.body}
+        </p>
+      ) : null}
       <div className="print:hidden" data-tezgah-chrome="">
         <div
           role="tablist"

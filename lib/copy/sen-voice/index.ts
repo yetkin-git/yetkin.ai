@@ -2,6 +2,7 @@ import { ACADEMY_SEN } from "@/lib/copy/sen-voice/academy";
 import { ADMIN_SEN } from "@/lib/copy/sen-voice/admin";
 import { ASSISTANT_SEN } from "@/lib/copy/sen-voice/assistant";
 import { AUTH_SEN } from "@/lib/copy/sen-voice/auth";
+import { BRIDGES_SEN } from "@/lib/copy/sen-voice/bridges";
 import { CAREER_SEN } from "@/lib/copy/sen-voice/career";
 import { CUZDAN_SEN } from "@/lib/copy/sen-voice/cuzdan";
 import { DASHBOARD_SEN, dashboardWelcomeTitle } from "@/lib/copy/sen-voice/dashboard";
@@ -23,6 +24,7 @@ export const SEN_VOICE = {
   admin: ADMIN_SEN,
   assistant: ASSISTANT_SEN,
   auth: AUTH_SEN,
+  bridges: BRIDGES_SEN,
   career: CAREER_SEN,
   cuzdan: CUZDAN_SEN,
   dashboard: DASHBOARD_SEN,
@@ -40,6 +42,7 @@ export {
   ADMIN_SEN,
   ASSISTANT_SEN,
   AUTH_SEN,
+  BRIDGES_SEN,
   CAREER_SEN,
   CUZDAN_SEN,
   DASHBOARD_SEN,

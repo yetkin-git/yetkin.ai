@@ -11,6 +11,7 @@ export function KurumsalOpsDeck({
   loginHref,
   screeningPrice,
   offerHref,
+  initialTitle = "",
 }: {
   jobs: OwnerJobView[];
   skills: KurumsalSkillCatalog;
@@ -19,6 +20,7 @@ export function KurumsalOpsDeck({
   loginHref: string;
   screeningPrice: KurumsalOfferQuote;
   offerHref: string;
+  initialTitle?: string;
 }) {
   return (
     <div className="grid items-start gap-4 xl:grid-cols-3" data-kurumsal-ops="center">
@@ -29,6 +31,7 @@ export function KurumsalOpsDeck({
         signedIn={signedIn}
         loginHref={loginHref}
         screeningPrice={screeningPrice}
+        initialTitle={initialTitle}
       />
       <KurumsalRoadmapCards offerHref={offerHref} />
     </div>
