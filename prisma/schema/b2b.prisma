@@ -170,6 +170,71 @@ model KurumsalJobApplication {
   @@map("kurumsal_job_applications")
 }
 
+/// Yeni nesil otonom outreach dikeyi. Değerler ASCII'dir; başlık/gövde metni Türkçedir.
+enum OutreachVertical {
+  KURUMSAL
+  ETICARET
+  HIBE
+}
+
+/// Onay kuyruğu durumu. `SENT` yalnız gerçek gönderimden sonra yazılır.
+enum OutreachDraftStatus {
+  PENDING_APPROVAL
+  APPROVED
+  SENT
+  REJECTED
+  FAILED
+}
+
+/// Tek satır. Anahtar `OUTREACH_ENGINE_ENABLED`. Günlük tavan 15–20 bandındadır.
+/// Gönderen alan adı burada değil `OUTREACH_FROM_EMAIL` çevre değişkenindedir.
+model OutreachSettings {
+  id          String   @id
+  key         String   @unique
+  isEnabled   Boolean  @default(false) @map("is_enabled")
+  dailyLimit  Int      @default(15) @map("daily_limit")
+  sendHourTrt Int      @default(9) @map("send_hour_trt")
+  updatedBy   String?  @map("updated_by")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("outreach_settings")
+}
+
+/// AI taslak kuyruğu. Gövde altbilgisi (RET + tek tıkla çıkış) gönderim anında koddan eklenir.
+/// `body_text` yalnız modele ait metindir; imzalı bağlantı satırı burada durmaz.
+model OutreachCampaignDraft {
+  id             String              @id @default(cuid())
+  companyName    String              @map("company_name") @db.VarChar(120)
+  recipientEmail String              @map("recipient_email") @db.VarChar(160)
+  sector         String              @db.VarChar(80)
+  vertical       OutreachVertical
+  sourceUrl      String?             @map("source_url") @db.VarChar(300)
+  subject        String              @db.VarChar(180)
+  bodyText       String              @map("body_text") @db.Text
+  status         OutreachDraftStatus @default(PENDING_APPROVAL)
+  approvedBy     String?             @map("approved_by")
+  approvedAt     DateTime?           @map("approved_at")
+  sentAt         DateTime?           @map("sent_at")
+  errorMessage   String              @default("") @map("error_message") @db.VarChar(500)
+  createdAt      DateTime            @default(now()) @map("created_at")
+  updatedAt      DateTime            @updatedAt @map("updated_at")
+
+  @@index([status, createdAt])
+  @@index([recipientEmail, status])
+  @@map("outreach_campaign_drafts")
+}
+
+/// RET / şikâyet kara listesi. Adres tekildir; satır silinmez (kanıt).
+/// Taslak üretimi ve gönderim aynı listeyi okur.
+model OutreachSuppression {
+  id        String   @id @default(cuid())
+  email     String   @unique @db.VarChar(160)
+  reason    String   @default("unsubscribe") @db.VarChar(40)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("outreach_suppressions")
+}
+
 /// Haftalık fırsat radarı teslimatı. Aynı üye ve hafta ikinci kez yazılmaz.
 model WeeklyRadarDelivery {
   userId  String   @map("user_id")

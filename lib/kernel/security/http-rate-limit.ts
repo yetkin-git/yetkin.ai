@@ -67,6 +67,11 @@ export const HTTP_RATE_LIMITS = {
   kurumsalApplyUser: { keyPrefix: "kurumsal-apply-user", limit: 8, windowMs: TEN_MINUTES_MS },
   /** Kenar: kurumsal mutasyon yolları IP burst. */
   kurumsalMutationIp: { keyPrefix: "kurumsal-mutation-ip", limit: 20, windowMs: TEN_MINUTES_MS },
+  /**
+   * Tek tıkla RET. Oturumsuz uç; jeton imzalı olsa da uç noktayı yoklamak için
+   * saniyede yüzlerce istek atılabilir. Dakikada 20 yeterli, kötüye kullanımı keser.
+   */
+  outreachUnsubscribeIp: { keyPrefix: "outreach-unsubscribe-ip", limit: 20, windowMs: TEN_MINUTES_MS },
 } as const;
 
 export const HTTP_RATE_LIMIT_ERROR = "Çok fazla istek. Biraz sonra yeniden dene.";
@@ -196,6 +201,9 @@ export function matchEdgeRateLimit(
   }
   if (path === "/api/auth" || path.startsWith("/api/auth/")) {
     return HTTP_RATE_LIMITS.authIp;
+  }
+  if (path === "/api/outreach/unsubscribe") {
+    return HTTP_RATE_LIMITS.outreachUnsubscribeIp;
   }
   if (path === "/api/admin/funnel" || path === "/api/admin/ai-models") {
     return HTTP_RATE_LIMITS.adminIp;

@@ -73,7 +73,11 @@ describe("süper yönetici günlüğü", () => {
     const offerStatus = read(
       "prisma/migrations/20261126020000_super_admin_audit_offer_request_status/migration.sql",
     );
-    const actionSql = `${sql}\n${b2b.slice(b2b.lastIndexOf("super_admin_audit_logs_action_known"))}\n${bind.slice(bind.lastIndexOf("super_admin_audit_logs_action_known"))}\n${employer}\n${offerStatus}`;
+    // Otonom outreach motoru `outreach_switch`, `outreach_draft`, `outreach_send` ekler.
+    const outreach = read("prisma/migrations/20261127210000_outreach_engine/migration.sql");
+    // Hedef listesi içe aktarma `outreach_import` eylemini ekler.
+    const outreachImport = read("prisma/migrations/20261127223000_outreach_import_audit/migration.sql");
+    const actionSql = `${sql}\n${b2b.slice(b2b.lastIndexOf("super_admin_audit_logs_action_known"))}\n${bind.slice(bind.lastIndexOf("super_admin_audit_logs_action_known"))}\n${employer}\n${offerStatus}\n${outreach.slice(outreach.lastIndexOf("super_admin_audit_logs_action_known"))}\n${outreachImport}`;
     for (const action of SUPER_ADMIN_AUDIT_ACTIONS) {
       expect(actionSql).toContain(`'${action}'`);
     }

@@ -21,7 +21,7 @@ import { loadAdminCatalogBoard } from "@/lib/kernel/admin/load";
 import { loadAdminFunnelBoard } from "@/lib/kernel/admin/funnel-load";
 import { loadAdminGa4Board } from "@/lib/kernel/telemetry/ga4-data-client";
 import { coerceFunnelRange } from "@/lib/kernel/admin/funnel-window";
-import { ADMIN_B2B_SURFACE_PATH, ADMIN_OPS_SURFACE_PATH, ADMIN_SOCIAL_SURFACE_PATH } from "@/lib/kernel/admin/types";
+import { ADMIN_B2B_SURFACE_PATH, ADMIN_OPS_SURFACE_PATH, ADMIN_OUTREACH_SURFACE_PATH, ADMIN_SOCIAL_SURFACE_PATH } from "@/lib/kernel/admin/types";
 import { resolveSuperAdminAccess } from "@/lib/kernel/auth/session";
 import { REQUIRED_CATALOG_DEFINITIONS } from "@/lib/kernel/pricing/catalog-definitions";
 import { AdminCatalogAmountForm } from "@/components/kernel/admin-catalog-amount-form";
@@ -81,6 +81,9 @@ export default async function AdminPage({
             <LinkButton href={ADMIN_B2B_SURFACE_PATH} variant="outline" size="sm">
               {copy.b2b.link}
             </LinkButton>
+            <LinkButton href={ADMIN_OUTREACH_SURFACE_PATH} variant="outline" size="sm">
+              {copy.outreach.link}
+            </LinkButton>
             <LinkButton href={ADMIN_SOCIAL_SURFACE_PATH} variant="outline" size="sm">
               {copy.social.link}
             </LinkButton>
@@ -138,6 +141,7 @@ export default async function AdminPage({
         <div className="space-y-4">
           <AdminAiModelDesk />
           <B2bEntry />
+          <OutreachEntry />
           <SocialEntry />
           <p className="text-sm text-[var(--muted)]">{copy.loadSoft}</p>
           <AdminShelterActions soft />
@@ -154,6 +158,7 @@ export default async function AdminPage({
         <div className="space-y-4">
           <AdminAiModelDesk />
           <B2bEntry />
+          <OutreachEntry />
           <SocialEntry />
           {off201PriceUnset ? (
             <Card title={copy.off201PriceUnset.title} eyebrow="OFF-201">
@@ -193,6 +198,20 @@ function B2bEntry() {
       <p className="text-sm text-[var(--muted)]">{copy.cardBody}</p>
       <div className="mt-3">
         <LinkButton href={ADMIN_B2B_SURFACE_PATH} variant="primary" size="sm">
+          {copy.link}
+        </LinkButton>
+      </div>
+    </Card>
+  );
+}
+
+function OutreachEntry() {
+  const copy = SEN_VOICE.admin.outreach;
+  return (
+    <Card eyebrow={copy.eyebrow} title={copy.title}>
+      <p className="text-sm text-[var(--muted)]">{copy.cardBody}</p>
+      <div className="mt-3">
+        <LinkButton href={ADMIN_OUTREACH_SURFACE_PATH} variant="primary" size="sm">
           {copy.link}
         </LinkButton>
       </div>

@@ -19,6 +19,14 @@ export const SUPER_ADMIN_AUDIT_ACTIONS = [
   "employer_verify",
   /** Kurumsal teklif talebi durum geçişi (F2.4) — gelir hattı iz kaydı. */
   "offer_request_status",
+  /** Otonom outreach motoru şalteri ve günlük tavanı. */
+  "outreach_switch",
+  /** Outreach taslağı üretimi, onayı, reddi ve kara listesi. */
+  "outreach_draft",
+  /** Outreach gönderimi — teslim edilebilirlik iz kaydı. */
+  "outreach_send",
+  /** Kurumsal hedef listesi içe aktarma. Adres dökümü yazılmaz; sayaç yazılır. */
+  "outreach_import",
 ] as const;
 
 /** Mühür satırı açılmazsa yazma geri alınır. Sessiz geçiş yoktur. */

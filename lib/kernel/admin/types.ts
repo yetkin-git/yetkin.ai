@@ -67,6 +67,12 @@ export const ADMIN_OPS_REVOKE_PATH = "/api/admin/ops/certificate-revoke" as cons
 export const ADMIN_OPS_GAP_REFUND_PATH = "/api/admin/ops/license-gap-refund" as const;
 /** B2B fırsat motoru. Yeni oda değildir; `/admin` sığınağının altıdır. */
 export const ADMIN_B2B_SURFACE_PATH = "/admin/b2b" as const;
+/** Otonom outreach kokpiti. Yeni oda değildir; `/admin` sığınağının altıdır. */
+export const ADMIN_OUTREACH_SURFACE_PATH = "/admin/outreach" as const;
+export const ADMIN_OUTREACH_PATH = "/api/admin/outreach" as const;
+export const ADMIN_OUTREACH_DRAFT_PATH = "/api/admin/outreach/[id]" as const;
+export const ADMIN_OUTREACH_IMPORT_PATH = "/api/admin/outreach/import" as const;
+export const ADMIN_OUTREACH_SEND_PATH = "/api/admin/outreach/send" as const;
 export const ADMIN_AI_MODELS_PATH = "/api/admin/ai-models" as const;
 export const ADMIN_B2B_PATH = "/api/admin/b2b" as const;
 export const ADMIN_B2B_SEND_PATH = "/api/admin/b2b/send" as const;

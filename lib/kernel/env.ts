@@ -101,6 +101,13 @@ const envSchema = z.object({
   AUTH_MAIL_FROM: z.string().optional(),
   AUTH_RESEND_API_KEY: z.string().optional(),
   AUTH_EMAIL_HOOK_SECRET: z.string().optional(),
+  /**
+   * B2B outreach gönderen adresi. Transactional alan adından AYRIDIR
+   * (ör. `ekip@iletisim.yetkin.ai`). Boşsa outreach gönderimi fail-closed durur.
+   */
+  OUTREACH_FROM_EMAIL: z.string().optional(),
+  /** Tek tıkla RET bağlantısının HMAC anahtarı. Boşsa RET bağlantısı üretilmez. */
+  OUTREACH_UNSUBSCRIBE_SECRET: z.string().optional(),
   RAIL_DRON_ORIGINS: z.string().optional(),
   TRUSTED_PROXY_HOPS: z.string().optional(),
   RATE_LIMIT_REDIS_REST_URL: z.string().optional(),

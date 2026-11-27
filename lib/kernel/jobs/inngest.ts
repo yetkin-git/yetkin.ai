@@ -14,6 +14,13 @@ import { runEscrowTimeoutRefunds } from "@/lib/kernel/jobs/escrow-timeout-scan";
 /** HTTP + Inngest Cloud — S18-A: PayTR valör + emanet timeout. Arena olayı sicilde yoktur. */
 export const inngest = new Inngest({ id: "yetkin-rail" });
 
+/**
+ * Outreach adımları arası bekleme. 45 sn × 20 = 15 dakika; sağlayıcı hız tavanına
+ * ve "insan gibi" gönderim ritmine sığar. Testte `step.sleep` sanal olduğu için
+ * gerçek bekleme yoktur.
+ */
+export const OUTREACH_STEP_GAP = "45s";
+
 export const INNGEST_EVENTS = {
   PAYTR_CLEARING_REQUESTED: "payments/paytr.clearing-requested",
   ESCROW_TIMEOUT_REQUESTED: "escrow/timeout-requested",
@@ -712,6 +719,119 @@ export const kurumsalApplicationRetention = inngest.createFunction(
   },
 );
 
+/**
+ * Her gün 09:00 TRT — otonom B2B outreach kuyruğu.
+ *
+ * Saat bilinçli olarak **UTC** ifadesiyle yazılmıştır (`0 6 * * *` = 09:00 TRT).
+ * Türkiye 2016'dan beri yaz saati uygulamıyor; UTC+3 sabittir. Diğer cron'lar
+ * `TZ=Europe/Istanbul` kullanır; bu iş panelde `sendHourTrt` ile aynı saati
+ * gösterebilmek için UTC tabanını açıkça taşır.
+ *
+ * Davranış:
+ * - `OUTREACH_ENGINE_ENABLED` kapalıysa **tek mail atmadan** temiz çıkar.
+ * - Açıksa `APPROVED` taslaklardan en fazla `dailyLimit` (15–20) tanesini alır.
+ * - Kara liste ve kurumsal adres kapısı her satırda yeniden çalışır.
+ * - Adımlar arasında `step.sleep` vardır: tek saatte 20 mail birden basmak
+ *   sağlayıcı hız tavanını ve insan gibi görünme sınırını bozar.
+ * - Gönderen alan adı (`OUTREACH_FROM_EMAIL`) yoksa hiç denenmez.
+ */
+export const outreachDailySend = inngest.createFunction(
+  {
+    id: "outreach-daily-send",
+    name: "Otonom B2B outreach gönderimi",
+    triggers: [{ cron: "TZ=UTC 0 6 * * *" }],
+  },
+  async ({ step }) => {
+    const gate = await step.run("read-outreach-gate", async () => {
+      if (!process.env.DATABASE_URL?.trim()) {
+        return { skip: true as const, reason: "database_unconfigured" };
+      }
+      const { readOutreachSettings } = await import("@/lib/kernel/outreach/load");
+      const { readOutreachSender } = await import("@/lib/kernel/outreach/sender");
+      const { readOutreachUnsubscribeSecret } = await import("@/lib/kernel/outreach/token");
+      const settings = await readOutreachSettings();
+      if (!settings.isEnabled) {
+        return { skip: true as const, reason: "engine_disabled" };
+      }
+      const sender = readOutreachSender();
+      if (!sender.ready) {
+        return { skip: true as const, reason: "sender_unconfigured" };
+      }
+      if (!readOutreachUnsubscribeSecret()) {
+        return { skip: true as const, reason: "unsubscribe_secret_missing" };
+      }
+      // Kalan kota: panelden saat içinde elle gönderim yapıldıysa tavan aşılmaz.
+      const { getPrisma } = await import("@/lib/kernel/db");
+      const { outreachDayStartUtc } = await import("@/lib/kernel/outreach/policy");
+      const sentToday = await getPrisma().outreachCampaignDraft.count({
+        where: { status: "SENT", sentAt: { gte: outreachDayStartUtc() } },
+      });
+      const remaining = Math.max(0, settings.dailyLimit - sentToday);
+      if (remaining === 0) {
+        return { skip: true as const, reason: "daily_limit_reached" };
+      }
+      return { skip: false as const, dailyLimit: settings.dailyLimit, remaining };
+    });
+
+    if (gate.skip) {
+      const { logEvent } = await import("@/lib/kernel/observability/log");
+      logEvent({
+        level: "info",
+        event: "outreach.cron.skipped",
+        reason: gate.reason,
+        applied: false,
+      });
+      return { skipped: true, reason: gate.reason, sent: 0 };
+    }
+
+    const ids = await step.run("list-approved-outreach", async () => {
+      const { listApprovedOutreachIds } = await import("@/lib/kernel/outreach/write");
+      // Kalan kota ile tavan daralır; hiçbir koşulda 20'yi aşmaz.
+      return listApprovedOutreachIds(Math.min(gate.remaining, 20));
+    });
+
+    if (ids.length === 0) {
+      const { logEvent } = await import("@/lib/kernel/observability/log");
+      logEvent({
+        level: "info",
+        event: "outreach.cron.skipped",
+        reason: "no_approved_drafts",
+        applied: false,
+      });
+      return { skipped: true, reason: "no_approved_drafts", sent: 0 };
+    }
+
+    const actorUserId = process.env.SUPER_ADMIN_USER_ID?.trim() ?? "";
+    let sent = 0;
+    let failed = 0;
+
+    for (const [index, id] of ids.entries()) {
+      if (index > 0) {
+        // Sağlayıcı hız tavanı ve teslim edilebilirlik: adımlar arasında doğal gecikme.
+        await step.sleep(`outreach-gap-${index}`, OUTREACH_STEP_GAP);
+      }
+      const outcome = await step.run(`send-outreach-${id}`, async () => {
+        const { sendOneApprovedOutreach } = await import("@/lib/kernel/outreach/write");
+        return sendOneApprovedOutreach({ id, actorUserId });
+      });
+      if (outcome.sent) {
+        sent += 1;
+      } else {
+        failed += 1;
+      }
+    }
+
+    const { logEvent } = await import("@/lib/kernel/observability/log");
+    logEvent({
+      level: sent > 0 ? "info" : "warn",
+      event: "outreach.cron.done",
+      reason: `sent=${sent} failed=${failed}`,
+      applied: sent > 0,
+    });
+    return { skipped: false, considered: ids.length, sent, failed };
+  },
+);
+
 export const kernelInngestFunctions = [
   paytrClearingScan,
   paytrClearingSingle,
@@ -736,6 +856,7 @@ export const kernelInngestFunctions = [
   hibeLifecycleReminders,
   tetkikReportsCleanup,
   kurumsalApplicationRetention,
+  outreachDailySend,
 ];
 
 export function inngestNotConfiguredResponse(requestId?: string) {
