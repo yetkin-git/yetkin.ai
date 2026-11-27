@@ -3,10 +3,9 @@ import "server-only";
 import { isSupabaseUserId } from "@/lib/kernel/auth/ids";
 import { isSuperAdminActor, type SuperAdminActor } from "@/lib/kernel/auth/super-admin";
 import { getPrisma } from "@/lib/kernel/db";
-import {
-  parseKurumsalOfferStatusFilter,
-  type KurumsalOfferRow,
-  type KurumsalOfferStatusFilter,
+import type {
+  KurumsalOfferRow,
+  KurumsalOfferStatusFilter,
 } from "@/lib/kernel/admin/kurumsal-offer-parse";
 
 export {

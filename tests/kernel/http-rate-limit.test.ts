@@ -314,6 +314,84 @@ describe("RateLimitPort", () => {
     expect((await boom.consume("a", window)).allowed).toBe(false);
   });
 
+  it("Upstash pipeline {result} sayacını okur; nesneyi dizi sanıp reddetmez", async () => {
+    const window = { keyPrefix: "redis-obj", limit: 1, windowMs: 60_000 };
+    let calls = 0;
+    const port = createRedisRestRateLimitPort({
+      restUrl: "https://example.upstash.io",
+      token: "lab-token",
+      fetchImpl: async () => {
+        calls += 1;
+        return new Response(JSON.stringify([{ result: calls }, { result: 1 }]), {
+          status: 200,
+          headers: { "content-type": "application/json" },
+        });
+      },
+    });
+    const first = await port.consume("a", window);
+    expect(first.allowed).toBe(true);
+    expect(first.remaining).toBe(0);
+    const denied = await port.consume("a", window);
+    expect(denied.allowed).toBe(false);
+    expect(denied.remaining).toBe(0);
+    expect(denied.retryAfterSec).toBe(60);
+  });
+
+  it("RET kovası Redis ağ/5xx yolunda süreç-içi pencereye düşer", async () => {
+    const unsub = HTTP_RATE_LIMITS.outreachUnsubscribeIp;
+    const boom = createRedisRestRateLimitPort({
+      restUrl: "https://example.upstash.io",
+      token: "lab-token",
+      fetchImpl: async () => {
+        throw new Error("network");
+      },
+    });
+    expect((await boom.consume("person", unsub, 1_000)).allowed).toBe(true);
+    for (let i = 1; i < unsub.limit; i += 1) {
+      expect((await boom.consume("person", unsub, 1_000 + i)).allowed).toBe(true);
+    }
+    const denied = await boom.consume("person", unsub, 2_000);
+    expect(denied.allowed).toBe(false);
+    expect(denied.limit).toBe(unsub.limit);
+
+    const down = createRedisRestRateLimitPort({
+      restUrl: "https://example.upstash.io",
+      token: "lab-token",
+      fetchImpl: async () => new Response("down", { status: 503 }),
+    });
+    expect((await down.consume("person", unsub, 5_000)).allowed).toBe(true);
+    expect((await down.consume("other", unsub, 5_000)).allowed).toBe(true);
+  });
+
+  it("RET kovası Redis sayacı doluysa belleğe kaçmaz", async () => {
+    const window = { ...HTTP_RATE_LIMITS.outreachUnsubscribeIp, limit: 1 };
+    const port = createRedisRestRateLimitPort({
+      restUrl: "https://example.upstash.io",
+      token: "lab-token",
+      fetchImpl: async () =>
+        new Response(JSON.stringify([{ result: 5 }, { result: 1 }]), {
+          status: 200,
+          headers: { "content-type": "application/json" },
+        }),
+    });
+    const denied = await port.consume("a", window);
+    expect(denied.allowed).toBe(false);
+    expect(denied.remaining).toBe(0);
+    expect(denied.retryAfterSec).toBe(600);
+  });
+
+  it("kısmi Redis env RET kovasını süreç-içi pencereye indirir", async () => {
+    const partial = resolveRateLimitPort({
+      RATE_LIMIT_REDIS_REST_URL: "https://example.upstash.io",
+    });
+    const unsub = HTTP_RATE_LIMITS.outreachUnsubscribeIp;
+    expect((await partial.consume("a", { keyPrefix: "fc", limit: 8, windowMs: 60_000 })).allowed).toBe(
+      false,
+    );
+    expect((await partial.consume("person", unsub, 1_000)).allowed).toBe(true);
+    expect(matchEdgeRateLimit("/api/outreach/unsubscribe", "GET")?.keyPrefix).toBe(unsub.keyPrefix);
+  });
+
   it("Redis REST INCR sayacı limiti uygular", async () => {
     const window = { keyPrefix: "redis-ok", limit: 1, windowMs: 60_000 };
     let calls = 0;

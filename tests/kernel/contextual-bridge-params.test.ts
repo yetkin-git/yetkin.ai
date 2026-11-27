@@ -211,11 +211,6 @@ describe("sanitizeBridgeSearch — yalnız izinli anahtarlar", () => {
 });
 
 describe("selectBridgeTargets — döngü ve gürültü reddi", () => {
-  const targets = [
-    { id: "hibe", href: "/panel/hibe?kaynak=e-ticaret" },
-    { id: "kurumsal", href: "/kurumsal/ilanlar?pozisyon=X" },
-  ];
-
   it("en fazla 2 köprü basar", () => {
     const many = [
       { id: "hibe", href: "/a" },

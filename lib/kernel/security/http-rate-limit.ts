@@ -3,6 +3,7 @@ import { buildV1FailBody, canonicalApiPathname } from "@/lib/kernel/http/api-v1"
 import { v1EnvelopeHeaders } from "@/lib/kernel/http/unversioned-sunset";
 import { REQUEST_ID_HEADER, resolveRequestId } from "@/lib/kernel/http/request-id";
 import {
+  OUTREACH_UNSUBSCRIBE_RATE_PREFIX,
   type RateLimitDecision,
   type RateLimitWindow,
 } from "@/lib/kernel/security/rate-limit-port";
@@ -69,9 +70,15 @@ export const HTTP_RATE_LIMITS = {
   kurumsalMutationIp: { keyPrefix: "kurumsal-mutation-ip", limit: 20, windowMs: TEN_MINUTES_MS },
   /**
    * Tek tıkla RET. Oturumsuz uç; jeton imzalı olsa da uç noktayı yoklamak için
-   * saniyede yüzlerce istek atılabilir. Dakikada 20 yeterli, kötüye kullanımı keser.
+   * saniyede yüzlerce istek atılabilir. 10 dakikada 20 yeterli, kötüye kullanımı keser.
+   * Redis erişilemezse veya gövde okunamazsa bu kova süreç-içi pencereye iner
+   * (`redis-rate-limit-port`); gerçek sayaç doluysa yine 429 döner.
    */
-  outreachUnsubscribeIp: { keyPrefix: "outreach-unsubscribe-ip", limit: 20, windowMs: TEN_MINUTES_MS },
+  outreachUnsubscribeIp: {
+    keyPrefix: OUTREACH_UNSUBSCRIBE_RATE_PREFIX,
+    limit: 20,
+    windowMs: TEN_MINUTES_MS,
+  },
 } as const;
 
 export const HTTP_RATE_LIMIT_ERROR = "Çok fazla istek. Biraz sonra yeniden dene.";

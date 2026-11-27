@@ -13,6 +13,13 @@ export type RateLimitWindow = {
   windowMs: number;
 };
 
+/**
+ * Tek tıkla RET sayaç öneki. Eski `outreach-unsubscribe-ip` anahtarı, pipeline
+ * gövdesi yanlış okunurken her istekte INCR yediği için pencere boyunca doluydu.
+ * Yeni önek temiz sayaçla açılır.
+ */
+export const OUTREACH_UNSUBSCRIBE_RATE_PREFIX = "outreach-unsubscribe-click";
+
 export type RateLimitDecision = {
   allowed: boolean;
   remaining: number;
@@ -42,6 +49,26 @@ export function createFailClosedRateLimitPort(): RateLimitPort {
       };
     },
     resetForTests() {},
+  };
+}
+
+/**
+ * Kısmi Redis env fail-closed kalır. Tek tıkla RET kovası bu yolda süreç-içi
+ * pencereye iner: alıcı, depo eksik diye 429 duvarına çarpmaz.
+ */
+export function createDegradedUnsubscribeRateLimitPort(inner: RateLimitPort): RateLimitPort {
+  const memory = createInMemoryRateLimitPort();
+  return {
+    async consume(identityKey, window, now = Date.now()) {
+      if (window.keyPrefix === OUTREACH_UNSUBSCRIBE_RATE_PREFIX) {
+        return memory.consume(identityKey, window, now);
+      }
+      return inner.consume(identityKey, window, now);
+    },
+    resetForTests() {
+      memory.resetForTests();
+      inner.resetForTests();
+    },
   };
 }
 

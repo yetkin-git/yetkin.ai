@@ -10,6 +10,7 @@
  */
 
 import {
+  createDegradedUnsubscribeRateLimitPort,
   createFailClosedRateLimitPort,
   createInMemoryRateLimitPort,
   type RateLimitPort,
@@ -108,7 +109,7 @@ export function resolveRateLimitPort(
     });
   }
   if (resolved.source === "partial") {
-    return createFailClosedRateLimitPort();
+    return createDegradedUnsubscribeRateLimitPort(createFailClosedRateLimitPort());
   }
   return createInMemoryRateLimitPort();
 }

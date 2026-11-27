@@ -11,10 +11,9 @@ import {
   ForbiddenError,
   NotFoundError,
 } from "@/lib/kernel/http/errors";
-import {
-  parseKurumsalOfferPatchBody,
-  type KurumsalOfferRequestStatusValue,
-  type KurumsalOfferRow,
+import type {
+  KurumsalOfferRequestStatusValue,
+  KurumsalOfferRow,
 } from "@/lib/kernel/admin/kurumsal-offer-parse";
 
 export { parseKurumsalOfferPatchBody } from "@/lib/kernel/admin/kurumsal-offer-parse";

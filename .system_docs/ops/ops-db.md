@@ -110,7 +110,7 @@ Supabase Redirect URLs, `lib/kernel/auth/redirects.ts` sicili ile birebir: `/aut
 - Yalnız biri dolu (RATE_LIMIT veya KV) → **fail-closed** (tüm istek reddedilir; belleğe düşülmez). Kısmi RATE_LIMIT, KV ile tamamlanmaz.
 - Her iki çift de boş → süreç-içi bellek (Vitest / tek süreç lab).
 
-Redis 5xx veya ağ hatası belleğe düşmez. Müze `REDIS_URL` / `ioredis` bu yüzeye girmez. Çok instance üretimde RATE_LIMIT veya KV REST çiftini doldur.
+Redis 5xx veya ağ hatası belleğe düşmez; tek istisna tek tıkla RET kovası (`outreach-unsubscribe-click`) — o kova süreç-içi pencereye iner, gerçek Redis sayacı doluysa yine reddedilir. Müze `REDIS_URL` / `UPSTASH_REDIS_REST_*` / `ioredis` bu yüzeye girmez. Çok instance üretimde RATE_LIMIT veya KV REST çiftini doldur.
 
 ## 8. Sağlık
 
